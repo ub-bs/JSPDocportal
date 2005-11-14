@@ -34,7 +34,8 @@ public class NavEntry {
     }
 
     public String getLink() {
-        if(!extern) {
+    	
+        if("node".equals(type) && !extern) {
             return "nav?path="+path;
         } else {
             return page;
