@@ -1,14 +1,17 @@
 # paths
 
-MCR.XML.XSLPath=D:/eclipsews/mediaTUM-head/sources
-MCR.XML.TempPath=D:/sample-mcrjsp/tmp
+MCR.XML.TempPath=C:/sample-mcrjsp/tmp
 
-MCR.Editor.FileUpload.TempStoragePath=D:/sample-mcrjsp/export/upload
-MCR.editor_document_directory=D:/sample-mcrjsp/export/document
-MCR.editor_institution_directory=D:/sample-mcrjsp/export/institution
-MCR.editor_author_directory=D:/sample-mcrjsp/export/author
-MCR.IFS.ContentStore.FS.BaseDirectory=D:/sample-mcrjsp/tmp
-MCR.LogFile=D:/sample-mcrjsp/tmp/mcrjsp.log
+MCR.Editor.FileUpload.TempStoragePath=C:/sample-mcrjsp/export/upload
+MCR.editor_document_directory=C:/sample-mcrjsp/export/document
+MCR.editor_institution_directory=C:/sample-mcrjsp/export/institution
+MCR.editor_author_directory=C:/sample-mcrjsp/export/author
+MCR.IFS.ContentStore.FS.BaseDirectory=C:/sample-mcrjsp/tmp
+MCR.IFS.ContentStore.Lucene.IndexDirectory=C:/sample-mcrjsp/lucene-index
+MCR.IFS.ContentStore.Lucene.BaseDirectory=C:sample-mcrjsp/lucene-base
+MCR.LogFile=C:/sample-mcrjsp/tmp/mcrjsp.log
+
+MCR.Save.FileSystem=C:/sample-mcrjsp/save
 
 MCR.editor_page_error_formular=editor/error-formular.jsp
 #MCR.JDBCStore.Type=mysql
@@ -121,30 +124,30 @@ MCR.persistence_sql_driver=org.hsqldb.jdbcDriver
 MCR.persistence_sql_database_userid=sa
 MCR.persistence_sql_database_passwd=
 # needed for starting and stopping the hsqldb-database via ant
-MCR.persistence_sql_data_directory=D:/sample-mcrjsp/hsqldb-data
+MCR.persistence_sql_data_directory=C:/sample-mcrjsp/hsqldb-data
 MCR.persistence_sql_database_name=mycore
 MCR.persistence_sql_init_connections=1
 MCR.persistence_sql_max_connections=5
 
-#MCR.xml_store_sql_table_author=TUMXMLAUTH
-#MCR.xml_store_sql_table_derivate=TUMXMLDER
-#MCR.xml_store_sql_table_document=TUMXMLDIS
-#MCR.xml_store_sql_table_disshab=TUMXMLDIS
-#MCR.xml_store_sql_table_institution=TUMXMLINST
+#MCR.xml_store_sql_table_author=MCRXMLAUTH
+#MCR.xml_store_sql_table_derivate=MCRXMLDER
+#MCR.xml_store_sql_table_document=MCRXMLDIS
+#MCR.xml_store_sql_table_disshab=MCRXMLDIS
+#MCR.xml_store_sql_table_institution=MCRXMLINST
 #MCR.xml_store_sql_table_person=MCRXMLPERS
-MCR.classifications_store_sql_table_class=TUMCLASS
-MCR.classifications_store_sql_table_classlabel=TUMCLASSLABEL
-MCR.classifications_store_sql_table_categ=TUMCATEG
-MCR.classifications_store_sql_table_categlabel=TUMCATEGLABEL
-MCR.linktable_store_sql_table_class=TUMLINKCLASS
-MCR.linktable_store_sql_table_href=TUMLINKHREF
-MCR.IFS.FileMetadataStore.SQL.TableName=TUMFSNODES
-MCR.users_store_sql_table_users=TUMUSERS
-MCR.users_store_sql_table_groups=TUMGROUPS
-MCR.users_store_sql_table_group_members=TUMGROUPMEMBERS
-MCR.users_store_sql_table_group_admins=TUMGROUPADMINS
-MCR.users_store_sql_table_privileges=TUMPRIVS
-MCR.users_store_sql_table_privs_lookup=TUMPRIVSLOOKUP
+MCR.classifications_store_sql_table_class=MCRCLASS
+MCR.classifications_store_sql_table_classlabel=MCRCLASSLABEL
+MCR.classifications_store_sql_table_categ=MCRCATEG
+MCR.classifications_store_sql_table_categlabel=MCRCATEGLABEL
+MCR.linktable_store_sql_table_class=MCRLINKCLASS
+MCR.linktable_store_sql_table_href=MCRLINKHREF
+MCR.IFS.FileMetadataStore.SQL.TableName=MCRFSNODES
+MCR.users_store_sql_table_users=MCRUSERS
+MCR.users_store_sql_table_groups=MCRGROUPS
+MCR.users_store_sql_table_group_members=MCRGROUPMEMBERS
+MCR.users_store_sql_table_group_admins=MCRGROUPADMINS
+MCR.users_store_sql_table_privileges=MCRPRIVS
+MCR.users_store_sql_table_privs_lookup=MCRPRIVSLOOKUP
 
 
 MCR.userstore_class_name=org.mycore.backend.hibernate.MCRHIBUserStore
@@ -249,7 +252,7 @@ MCR.editor_workflow_page_dir=editor/workflow/
 
 MCR.Editor.FileUpload.Handler=org.mycore.frontend.fileupload.MCRUploadHandlerMyCoRe
 
-MCR.mail.urnadmin=helmbrecht@ub.tum.de
+MCR.mail.urnadmin=admin@mycore.de
 
 ##############################################################################
 # Applet JAR signing Parameters                                              #
@@ -259,7 +262,7 @@ MCR.mail.urnadmin=helmbrecht@ub.tum.de
 SIGN.Alias=mycore
 
 # File where the keys are stored in
-SIGN.KeyStore=D:/sample-mcrjsp/keystore
+SIGN.KeyStore=C:/sample-mcrjsp/keystore
 
 # Password for keystore and key pair
 # SET IN PRIVATE.PROPERTIES: SIGN.Password
@@ -290,7 +293,7 @@ MCR.log4j.appender.stdlog.layout.ConversionPattern=%d [%t] %-5p (%F:%L) - %m%n
 
 # define the R appender
 MCR.log4j.appender.R=org.apache.log4j.RollingFileAppender
-MCR.log4j.appender.R.File=D:/sample-mcrjsp/tmp/mcr2jsp.log
+MCR.log4j.appender.R.File=C:/sample-mcrjsp/tmp/mcr2jsp.log
 MCR.log4j.appender.R.MaxFileSize=10000KB
 MCR.log4j.appender.R.MaxBackupIndex=2
 MCR.log4j.appender.R.layout=org.apache.log4j.PatternLayout
@@ -343,7 +346,7 @@ MCR.EventHandler.MCRObject.1.class=org.mycore.backend.query.MCRQueryManager
 #
 ############################################################################
 ##
-#MCR.Lucene.LockDir=D:/MyData/mcr/lockdir
+#MCR.Lucene.LockDir=C:/MyData/mcr/lockdir
 
 #MCR.Searcher.lucenem.Index=metadata
 #MCR.Searcher.lucenec.Index=content
@@ -354,12 +357,12 @@ MCR.EventHandler.MCRObject.1.class=org.mycore.backend.query.MCRQueryManager
 #MCR.Searcher.lucenem.Class=org.mycore.backend.lucene.MCRLuceneSearcher
 
 # Directory used by lucene to store text search index for metadata
-#MCR.Searcher.lucenem.IndexDir=D:/java/data/lucene
+#MCR.Searcher.lucenem.IndexDir=C:/java/data/lucene
 
 #MCR.Searcher.lucenec.Class=org.mycore.backend.lucene.MCRLuceneSearcher
 
 # Directory used by lucene to store text search index for fulltext (content)
-#MCR.Searcher.lucenec.IndexDir=D:/java/data/lucene
+#MCR.Searcher.lucenec.IndexDir=C:/java/data/lucene
 
 
 ########
@@ -400,7 +403,7 @@ MCR.oai.resumptiontoken.store=org.mycore.backend.hibernate.MCRHIBResumptionToken
 #MCR.oai.resumptiontoken.hibernate.mapping=MCRRESUMPTIONTOKEN.hbm.xml,MCRRESUMPTIONTOKEN_HIT.hbm.xml
 ## instance independent settings
 # the email address of the oai admin
-MCR.oai.adminemail=mediatum@ub.tum.de
+MCR.oai.adminemail=admin@mycore.de
 # A temporary directory to store the resumption tokens
 #MCR.oai.resumptiontoken.dir=/export/DissApplication/tmp
 # timeout, after which the resumption tokens will be deleted (in hours)
@@ -424,7 +427,7 @@ MCR.oai.metadata.transformer.oai_dc=MyCoReOAI-mycore2dc.xsl
 #MCR.oai.metadata.namespace.epicur=urn:nbn:dC:1111-2004033116
 #MCR.oai.metadata.schema.epicur=urn:nbn:dC:1111-2004033116 http://nbn-resolving.de/urn/resolver.pl?urn=urn:nbn:dC:1111-2004033116
 
-## instance dependent settings for instance OAIDataProviderUBTUM
+## instance dependent settings for instance OAIDataProvider
 MCR.oai.querytype.MCROAIDataProvider=document
 
 MCR.oai.repositoryname.MCROAIDataProvider=Repository fuer Online Hochschulschriften
@@ -433,51 +436,6 @@ MCR.oai.setscheme.field.MCROAIDataProvider=format type
 MCR.oai.setscheme.classid.MCROAIDataProvider=DocPortal_class_00000006 DocPortal_class_00000005 
 #MCR.oai.setscheme.MCROAIDataProvider=subject format language
 
-MCR.oai.dini-mapping.ddc.000=000
-MCR.oai.dini-mapping.ddc.020=020
-MCR.oai.dini-mapping.ddc.100=100
-MCR.oai.dini-mapping.ddc.150=150
-MCR.oai.dini-mapping.ddc.200=200
-MCR.oai.dini-mapping.ddc.300=300
-MCR.oai.dini-mapping.ddc.320=320
-MCR.oai.dini-mapping.ddc.330=330
-MCR.oai.dini-mapping.ddc.340=340
-MCR.oai.dini-mapping.ddc.370=370
-MCR.oai.dini-mapping.ddc.400=400
-MCR.oai.dini-mapping.ddc.500=500
-MCR.oai.dini-mapping.ddc.510=510
-MCR.oai.dini-mapping.ddc.530=530
-MCR.oai.dini-mapping.ddc.540=540
-MCR.oai.dini-mapping.ddc.550=550
-MCR.oai.dini-mapping.ddc.570=570
-MCR.oai.dini-mapping.ddc.600=600
-MCR.oai.dini-mapping.ddc.610=610
-MCR.oai.dini-mapping.ddc.620=620
-MCR.oai.dini-mapping.ddc.630=630
-MCR.oai.dini-mapping.ddc.640=640
-MCR.oai.dini-mapping.ddc.650=650
-MCR.oai.dini-mapping.ddc.660=660
-MCR.oai.dini-mapping.ddc.670=670
-MCR.oai.dini-mapping.ddc.680=680
-MCR.oai.dini-mapping.ddc.700=700
-MCR.oai.dini-mapping.ddc.710=710
-MCR.oai.dini-mapping.ddc.720=720
-MCR.oai.dini-mapping.ddc.790=790
-MCR.oai.dini-mapping.ddc.800=800
-MCR.oai.dini-mapping.ddc.900=900
-
-MCR.oai.dini-mapping.pubtype.dissertation=TYPE0005:TYPE0005.001 TYPE0005:TYPE0005.003
-MCR.oai.dini-mapping.pubtype.masterthesis=TYPE0005:TYPE0005.002 TYPE0005:TYPE0005.004
-
 MCR.oai.dini-mapping.doc-type.text=FORMAT0001
 MCR.oai.dini-mapping.doc-type.image=FORMAT0002
 MCR.oai.dini-mapping.doc-type.data=FORMAT0000
-
-
-
-
-## instance dependent settings for instance MCROAIDataProvider
-#MCR.oai.repositoryname.MCROAIDataProvider=Test-Repository fuer MyCoRe-Sample
-#MCR.oai.repositoryidentifier.MCROAIDataProvider=mycore.de
-#MCR.oai.setscheme.MCROAIDataProvider=MyCoReDemoDC_class_1
-#MCR.oai.friends.MCROAIDataProvider=miless.uni-essen.de/servlets/OAIDataProvider:mycoresample.dl.uni-leipzig.de/servlets/MCROAIDataProvider20
