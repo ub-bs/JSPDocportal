@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO_8859-1"?>
+<mycoregroup 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:xlink="http://www.w3.org/1999/xlink" 
+  xsi:noNamespaceSchemaLocation="MCRGroup.xsd">
+
+<!-- ******************************************************************* -->
+
+  <group ID="authorgroup2">
+    <group.description>Die Gruppe von Autoren der Gruppe 2</group.description>
+    <group.privileges>
+      <privileges.privilege>create-author</privileges.privilege>
+      <privileges.privilege>create-document</privileges.privilege>
+      <privileges.privilege>create-institution</privileges.privilege>
+      <privileges.privilege>modify-author</privileges.privilege>
+      <privileges.privilege>modify-document</privileges.privilege>
+      <privileges.privilege>modify-institution</privileges.privilege>
+      <privileges.privilege>delete-author</privileges.privilege>
+      <privileges.privilege>delete-document</privileges.privilege>
+      <privileges.privilege>delete-institution</privileges.privilege>
+      <privileges.privilege>commit-author</privileges.privilege>
+      <privileges.privilege>commit-document</privileges.privilege>
+      <privileges.privilege>commit-institution</privileges.privilege>
+      <privileges.privilege>remove-document</privileges.privilege>
+    </group.privileges>
+  </group>
+
+<!-- ******************************************************************* -->
+
+</mycoregroup>
+

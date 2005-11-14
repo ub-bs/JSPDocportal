@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE MyCoReWebPage>
+<MyCoReWebPage>
+<section title="Searchmask for all Documents" xml:lang="de">
+<editor id="SearchMask_Alldocs">
+
+<!-- <target type="debug" /> -->
+
+<target type="servlet" url="/searchresult" method="post" format="xml" />
+
+<components root="SearchMask_Alldocs" var="/query">
+
+  <include uri="webapp:editor/searchmasks/imports-searchmasks-common.xml" />
+  
+  
+  <panel id="SearchMask_Alldocs">
+  
+    <hidden var="@resultType" default="~searchresult-simple" />
+    <hidden var="@maxResults" default="100" />
+    
+    <hidden var="types/type/@field" default="alldocs" />
+    <hidden var="types/type[2]/@field" default="allpers" />
+    
+    <hidden var="conditions/@format" default="xml" />
+
+
+    <cell col="1" row="1" anchor="NORTHWEST" ref="LTitles" />
+    <cell col="2" row="1" anchor="NORTHWEST" ref="DTitles" var="conditions/and/condition" />
+    <cell col="3" row="1" anchor="NORTHWEST" >
+      <space width="20" height="0" />
+    </cell>
+    <cell col="4" row="1" anchor="WEST" ref="HTitles" />
+
+    <cell col="1" row="2" anchor="NORTHWEST" ref="LCreators" />
+    <cell col="2" row="2" anchor="NORTHWEST" ref="DCreators" var="conditions/and/condition[2]" />
+    <cell col="3" row="2" anchor="NORTHWEST" >
+      <space width="20" height="0" />
+    </cell>
+    <cell col="4" row="2" anchor="WEST" ref="HCreators" />        
+    
+    <cell col="1" row="3" anchor="NORTHWEST" ref="LOrigins" />
+    <cell col="2" row="3" anchor="NORTHWEST" ref="DOrigins" var="conditions/and/condition[3]" />
+    <cell col="3" row="3" anchor="NORTHWEST" >
+      <space width="20" height="0" />
+    </cell>
+    <cell col="4" row="3" anchor="WEST" ref="HOrigins" />    
+
+    <cell col="1" row="4" anchor="NORTHWEST" ref="LTypes" />
+    <cell col="2" row="4" anchor="NORTHWEST" ref="DTypes" var="conditions/and/condition[4]" />
+    <cell col="3" row="4" anchor="NORTHWEST" >
+      <space width="20" height="0" />
+    </cell>
+    <cell col="4" row="4" anchor="WEST" ref="HTypes" /> 
+    
+    <cell col="1" row="5" anchor="NORTHWEST" ref="LMetadata" />
+    <cell col="2" row="5" anchor="NORTHWEST" ref="DMetadata" var="conditions/and/condition[5]" />
+    <cell col="3" row="5" anchor="NORTHWEST" >
+      <space width="20" height="0" />
+    </cell>
+    <cell col="4" row="5" anchor="WEST" ref="HMetadata" /> 
+    
+    <cell col="1" row="6" anchor="NORTHWEST" ref="LContents" />
+    <cell col="2" row="6" anchor="NORTHWEST" ref="DContents" var="conditions/and/condition[6]" />
+    <cell col="3" row="6" anchor="NORTHWEST" >
+      <space width="20" height="0" />
+    </cell>
+    <cell col="4" row="6" anchor="WEST" ref="HContents" />         
+
+    <cell col="1" row="50" anchor="NORTHWEST" ref="LInstances" />
+    <cell col="2" row="50" anchor="NORTHWEST" ref="DInstances" />
+    <cell col="3" row="50" anchor="NORTHWEST" >
+      <space width="20" height="0" />
+    </cell>
+    <cell col="4" row="50" anchor="WEST" ref="HInstances" />
+    <cell col="1" colspan="4" row="51" anchor="WEST"><hr /></cell>
+    <cell col="1" row="100"  />
+    <cell col="2" row="100" anchor="EAST"      ref="SearchTwoButtons"  />
+  </panel>
+
+ </components>
+</editor>
+</section>
+</MyCoReWebPage>

@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<imports>
+      <!-- *** Text fields *** -->
+      <textfield id="TFzeile10" width="10" maxlength="10" />
+      <textfield id="TFzeile32" width="32" maxlength="32" />
+      <textfield id="TFzeile64" width="48" maxlength="64" />
+      <textfield id="TFzeile128" width="64" maxlength="128" />
+      <textfield id="TFzeile1024" width="64" maxlength="1024" />
+      <!-- *** Text area *** -->
+      <textarea id="TFarea4096" width="62" height="3" maxlength="4096" />
+      <!-- *** Language List *** -->
+      <list id="Slang" width="60" type="dropdown">
+            <item value="de">
+                  <label xml:lang="de">de</label>
+            </item>
+            <item value="en">
+                  <label xml:lang="de">en</label>
+            </item>
+      </list>
+      <!-- *** Data for the buttons ** -->
+      <submitButton id="BSubmit" width="150px" >
+            <label xml:lang="de">Suche starten &gt;&gt;</label>
+            <label xml:lang="en">Start search &gt;&gt;</label>
+      </submitButton>
+      <cancelButton id="BCancel" width="150px" >
+            <label xml:lang="de">Eingabe löschen &lt;&lt;</label>
+            <label xml:lang="en">Cancel &lt;&lt;</label>
+      </cancelButton>
+      <panel id="SearchTwoButtons">
+            <cell col="1" row="1" anchor="WEST" ref="BCancel" />
+            <cell col="2" row="1" anchor="WEST" ref="BSubmit" var="search" />
+      </panel>
+      <panel id="SearchButton">
+            <cell col="2" row="1" anchor="WEST" ref="BSubmit" var="search" />
+      </panel>      
+      <!-- *** Data for the hosts ** -->
+      <text id="LInstances">
+            <label xml:lang="de">
+                  <span class="editorlabel">&#160;&#160;&#160;Instanzen&#160;&#160;&#160;</span>
+            </label>
+            <label xml:lang="en">
+                  <span class="editorlabel">&#160;&#160;&#160;Instances&#160;&#160;&#160;</span>
+            </label>
+      </text>
+      <panel id="DInstances">
+            <cell col="1" row="1" anchor="NORTHWEST" var="hosts/host[1]/@field">
+                  <checkbox value="local" checked="true" label="local" />
+            </cell>
+            <cell col="2" row="1" anchor="NORTHWEST" var="hosts/host[2]/@field">
+                  <checkbox value="selfremote" checked="false" label="entfernt" />
+            </cell>            
+      </panel>
+      <helpPopup id="HInstances" width="400px" height="250px">
+            <label xml:lang="de">  Hier können Sie festlegen, 
+                                   über welche Dokumenten-Server gesucht werden soll. 
+                                   Jeder Server muss explizit ausgewählt werden. 
+            </label>
+            <label xml:lang="en">  The parameter fixes all instances they should search. 
+                                   You must select each instance explicit. 
+            </label>
+      </helpPopup>
+      <!-- *** Data for the Institution ** -->
+      <text id="LInstitution">
+            <label xml:lang="de">
+                  <span class="editorlabel">&#160;&#160;&#160;Einrichtung</span>
+            </label>
+            <label xml:lang="en">
+                  <span class="editorlabel">&#160;&#160;&#160;Institution</span>
+            </label>
+      </text>
+      <panel id="DInstitution">
+            <hidden var="@field" default="institution" />
+            <hidden var="@operator" default="like" />            
+            <cell col="1" row="1" anchor="NORTHWEST" ref="CInstitution" var="@value" />
+      </panel>
+      <helpPopup id="HInstitution" width="400px" height="250px">
+            <label xml:lang="de">   Es ist die Fakultät des Objektes einzugeben.
+            </label>
+            <label xml:lang="en">   Input the faculty of this object. 
+            </label>
+      </helpPopup>
+      <list id="CInstitution" width="300" type="dropdown">
+            <item value="">
+                  <label xml:lang="de">(bitte wählen)</label>
+            </item>
+            <include uri="request:content/classifications-to-items.jspx?classid=DocPortal_class_00000002" />
+      </list>       
+      <!-- *** Data for the Surname ** -->
+      <text id="LSurName">
+            <label xml:lang="de">
+                  <span class="editorlabel">&#160;&#160;&#160;Nachname&#160;&#160;&#160;</span>
+            </label>
+            <label xml:lang="en">
+                  <span class="editorlabel">&#160;&#160;&#160;Surname&#160;&#160;&#160;</span>
+            </label>
+      </text>
+      <panel id="DSurName">
+            <hidden var="@field" default="surname" />
+            <hidden var="@operator" default="like" />            
+            <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="@value" />
+      </panel>
+      <helpPopup id="HSurName" width="400px" height="250px">
+            <label xml:lang="de">   Es ist der Nachname der Person einzugeben.
+            </label>
+            <label xml:lang="en">   Input the surname of this person. 
+            </label>
+      </helpPopup>      
+      <!-- *** Data for the First Name ** -->
+      <text id="LFirstName">
+            <label xml:lang="de">
+                  <span class="editorlabel">&#160;&#160;&#160;Vorname&#160;&#160;&#160;</span>
+            </label>
+            <label xml:lang="en">
+                  <span class="editorlabel">&#160;&#160;&#160;First name&#160;&#160;&#160;</span>
+            </label>
+      </text>
+      <panel id="DFirstName">
+            <hidden var="@field" default="firstname" />
+            <hidden var="@operator" default="like" />            
+            <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="@value" />
+      </panel>
+      <helpPopup id="HFirstName" width="400px" height="250px">
+            <label xml:lang="de">   Es ist der Vorname der Person einzugeben.
+            </label>
+            <label xml:lang="en">   Input the first name of this person. 
+            </label>
+      </helpPopup>      
+      <!-- *** Data for the Titles ** -->
+      <text id="LTitles">
+            <label xml:lang="de">
+                  <span class="editorlabel">&#160;&#160;&#160;Titel&#160;&#160;&#160;</span>
+            </label>
+            <label xml:lang="en">
+                  <span class="editorlabel">&#160;&#160;&#160;Title&#160;&#160;&#160;</span>
+            </label>
+      </text>
+      <panel id="DTitles">
+            <hidden var="@field" default="title" />
+            <hidden var="@operator" default="like" />            
+            <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="@value" />
+      </panel>
+      <helpPopup id="HTitles" width="400px" height="250px">
+            <label xml:lang="de">   Es ist der Titel des Objektes einzugeben.
+            </label>
+            <label xml:lang="en">   Input the title of this object. 
+            </label>
+      </helpPopup>
+      <!-- *** Data for the Creator ** -->
+      <text id="LCreators">
+            <label xml:lang="de">
+                  <span class="editorlabel">&#160;&#160;&#160;Autor</span>
+            </label>
+            <label xml:lang="en">
+                  <span class="editorlabel">&#160;&#160;&#160;Author</span>
+            </label>
+      </text>
+      <panel id="DCreators">
+            <hidden var="@field" default="creator" />
+            <hidden var="@operator" default="like" />            
+            <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="@value" />
+      </panel>
+      <helpPopup id="HCreators" width="400px" height="250px">
+            <label xml:lang="de">   Es ist der Autor des Objektes einzugeben.
+            </label>
+            <label xml:lang="en">   Input the author of this object. 
+            </label>
+      </helpPopup>
+      <!-- *** Data for the Origins ** -->
+      <text id="LOrigins">
+            <label xml:lang="de">
+                  <span class="editorlabel">&#160;&#160;&#160;Fakultät</span>
+            </label>
+            <label xml:lang="en">
+                  <span class="editorlabel">&#160;&#160;&#160;Faculty</span>
+            </label>
+      </text>
+      <panel id="DOrigins">
+            <hidden var="@field" default="origin" />
+            <hidden var="@operator" default="like" />            
+            <cell col="1" row="1" anchor="NORTHWEST" ref="COrigins" var="@value" />
+      </panel>
+      <helpPopup id="HOrigins" width="400px" height="250px">
+            <label xml:lang="de">   Es ist die Fakultät des Objektes einzugeben.
+            </label>
+            <label xml:lang="en">   Input the faculty of this object. 
+            </label>
+      </helpPopup>
+      <list id="COrigins" width="300" type="dropdown">
+            <item value="">
+                  <label xml:lang="de">(bitte wählen)</label>
+            </item>
+            <include uri="request:content/classifications-to-items.jspx?classid=DocPortal_class_00000003" />
+      </list>      
+      <!-- *** Data for the Types ** -->
+      <text id="LTypes">
+            <label xml:lang="de">
+                  <span class="editorlabel">&#160;&#160;&#160;Typ</span>
+            </label>
+            <label xml:lang="en">
+                  <span class="editorlabel">&#160;&#160;&#160;Type</span>
+            </label>
+      </text>
+      <panel id="DTypes">
+            <hidden var="@field" default="type" />
+            <hidden var="@operator" default="like" />            
+            <cell col="1" row="1" anchor="NORTHWEST" ref="CTypes" var="@value" />
+      </panel>
+      <helpPopup id="HTypes" width="400px" height="250px">
+            <label xml:lang="de">   Es ist der Typ des Objektes einzugeben.
+            </label>
+            <label xml:lang="en">   Input the type of this object. 
+            </label>
+      </helpPopup>
+      <list id="CTypes" width="300" type="dropdown">
+            <item value="">
+                  <label xml:lang="de">(bitte wählen)</label>
+            </item>
+            <include uri="request:content/classifications-to-items.jspx?classid=DocPortal_class_00000005" />
+      </list>       
+      <!-- *** Data for the Metadata ** -->
+      <text id="LMetadata">
+            <label xml:lang="de">
+                  <span class="editorlabel">&#160;&#160;&#160;Volltext in den Metadaten</span>
+            </label>
+            <label xml:lang="en">
+                  <span class="editorlabel">&#160;&#160;&#160;Freetext in the metadata</span>
+            </label>
+      </text>
+      <text id="LMetadataFastSearch">
+            <label xml:lang="de">
+                  <span class="editorlabel">&#160;&#160;&#160;Schnellsuche&#160;&#160;&#160;</span>
+            </label>
+            <label xml:lang="en">
+                  <span class="editorlabel">&#160;&#160;&#160;Fast Search&#160;&#160;&#160;</span>
+            </label>
+      </text>      
+      <panel id="DMetadata">
+            <hidden var="@field" default="allMeta" />
+            <hidden var="@operator" default="like" />            
+            <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="@value" />
+      </panel>
+      <helpPopup id="HMetadata" width="400px" height="250px">
+            <label xml:lang="de">    Hier können Sie einfach Begriffe eingeben, 
+                                     die im gesamten Metadatensatz gesucht werden. 
+                                     Achtung, dieser Begriff wird nicht im 
+                                     eigentlichen Dokument gesucht!
+            </label>
+            <label xml:lang="en">    Enter a word that the system should find 
+                                     in the metadata set.
+            </label>
+      </helpPopup>
+      <!-- *** Data for the Content ** -->
+      <text id="LContents">
+            <label xml:lang="de">
+                  <span class="editorlabel">&#160;&#160;&#160;Volltext in den Dokumenten</span>
+            </label>
+            <label xml:lang="en">
+                  <span class="editorlabel">&#160;&#160;&#160;Freetext in the documents</span>
+            </label>
+      </text>
+      <panel id="DContents">
+            <hidden var="@field" default="content" />
+            <hidden var="@operator" default="like" />            
+            <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="@value" />
+      </panel>
+      <helpPopup id="HContents" width="400px" height="250px">
+            <label xml:lang="de">   Es ist der Titel des Objektes einzugeben.
+            </label>
+            <label xml:lang="en">    Enter a word that the system should find 
+                                     in the full text of the document.
+            </label>
+      </helpPopup>            
+</imports>

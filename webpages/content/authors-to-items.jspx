@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
+       xmlns:c="http://java.sun.com/jsp/jstl/core"
+       xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+       xmlns:x="http://java.sun.com/jsp/jstl/xml"
+       xmlns:fn="http://java.sun.com/jsp/jstl/function"
+>
+<jsp:directive.page import="org.mycore.common.JSPUtils" />
+<jsp:directive.page import="org.mycore.datamodel.metadata.MCRObject"/>
+<jsp:directive.page import="org.mycore.services.fieldquery.MCRResults"/>
+<jsp:directive.page import="org.jdom.Document"/>
+<jsp:directive.page import="org.mycore.backend.query.MCRQueryManager"/>
+<jsp:directive.page import="org.apache.log4j.Logger"/>
+<jsp:directive.page import="org.jdom.Element"/>
+<jsp:directive.page import="org.jdom.xpath.XPath"/> 
+<items>
+<jsp:scriptlet>
+    MCRResults result = null;
+    MCRObject mcr_obj = new MCRObject();
+    Document jdomQuery = JSPUtils.getAllAuthorsQuery();
+    //Logger.getLogger("author-to-items.jspx").debug(JSPUtils.getPrettyString(jdomQuery));
+    result = MCRQueryManager.getInstance().search(jdomQuery);
+    if (result != null) {
+        result.setComplete();
+        Logger.getLogger("content/authors-to-items.jspx").debug("found hits:" + result.getNumHits());
+        for (int i = 0; i &lt; result.getNumHits(); i ++){
+            String hitID = result.getHit(i).getID();
+            Document hit =  mcr_obj.receiveJDOMFromDatastore(hitID);
+            String surname = ((Element) XPath.selectSingleNode(hit,"/mycoreobject/metadata/names/name/surname")).getText();
+            String firstname = ((Element) XPath.selectSingleNode(hit,"/mycoreobject/metadata/names/name/firstname")).getText();
+</jsp:scriptlet>  
+    <jsp:element name="item">
+        <jsp:attribute name="value"><jsp:expression>hitID</jsp:expression></jsp:attribute>
+        <label xml:lang="de">
+            <jsp:expression>new StringBuffer(surname).append(",").append(firstname)</jsp:expression>
+        </label>        
+    </jsp:element>
+<jsp:scriptlet>
+        }
+    }
+</jsp:scriptlet>
+</items>
+</jsp:root>

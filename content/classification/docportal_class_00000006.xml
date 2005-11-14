@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mycoreclass
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="MCRClassification.xsd"
+  ID="DocPortal_class_00000006" >
+<label
+  xml:lang="de"
+  text="DocPortal Formate"
+  description="DocPortal Klassifikation der Formate" />
+<categories>
+ <category ID="FORMAT0000">
+  <label xml:lang="de" text="unbekannt" />
+ </category>
+ <category ID="FORMAT0001">
+  <label xml:lang="de" text="text" />
+ </category>
+ <category ID="FORMAT0002">
+  <label xml:lang="de" text="image" />
+ </category>
+ <category ID="FORMAT0003">
+  <label xml:lang="de" text="collection" />
+ </category>
+ <category ID="FORMAT0004">
+  <label xml:lang="de" text="dataset" />
+ </category>
+ <category ID="FORMAT0005">
+  <label xml:lang="de" text="event" />
+ </category>
+ <category ID="FORMAT0006">
+  <label xml:lang="de" text="interactive_resource" />
+ </category>
+ <category ID="FORMAT0007">
+  <label xml:lang="de" text="service" />
+ </category>
+ <category ID="FORMAT0008">
+  <label xml:lang="de" text="software" />
+ </category>
+ <category ID="FORMAT0009">
+  <label xml:lang="de" text="sound" />
+ </category>
+ <category ID="FORMAT0010">
+  <label xml:lang="de" text="video" />
+ </category>
+</categories>
+</mycoreclass>
+

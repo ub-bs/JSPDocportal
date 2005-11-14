@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO_8859-1"?>
+<mycoregroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:noNamespaceSchemaLocation="MCRGroup.xsd">
+  <group ID="gastgroup">
+    <group.creator>root</group.creator>
+    <group.creation_date>2004-04-20 12:11:09.0</group.creation_date>
+    <group.last_modified>2004-04-20 12:11:09.0</group.last_modified>
+    <group.description>The guest group</group.description>
+    <group.admins>
+      <admins.userID>root</admins.userID>
+      <admins.groupID>rootgroup</admins.groupID>
+    </group.admins>
+    <group.members>
+      <members.userID>gast</members.userID>
+      <members.userID>root</members.userID>
+      <members.groupID>rootgroup</members.groupID>
+    </group.members>
+    <group.groups />
+    <group.privileges>
+      <privileges.privilege>public</privileges.privilege>
+      <privileges.privilege>list all users</privileges.privilege>
+    </group.privileges>
+  </group>
+</mycoregroup>
+

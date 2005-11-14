@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+     version="2.4">
+
+    <display-name>navigation</display-name>
+    <description></description>
+
+    <listener>
+	<listener-class>org.mycore.frontend.jsp.ContextListener</listener-class>
+    </listener>
+    
+    <!-- servlets -->
+    <servlet>
+         <servlet-name>MCRJSPObjectServlet</servlet-name>
+         <servlet-class>org.mycore.frontend.servlets.MCRJSPObjectServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>NavServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.jsp.NavServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>HandleXMLServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.servlets.MCRStaticXMLFileServlet</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>MCRLayoutServlet</servlet-name>
+        <servlet-class>org.mycore.common.xml.MCRLayoutServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>MCREditorServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.editor.MCREditorServlet</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.jsp.LoginServlet</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.jsp.LogoutServlet</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>EditorServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.jsp.EditorServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>PassThroughServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.jsp.PassThroughServlet</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>EditorSubmitted</servlet-name>
+        <servlet-class>org.mycore.frontend.jsp.DebugServlet</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>DebugServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.jsp.DebugServlet</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>MCRUserPrivServlet</servlet-name>
+        <servlet-class>org.mycore.user.MCRUserPrivServlet</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>MCRCheckQueryServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.jsp.query.MCRCheckQueryServlet</servlet-class>
+    </servlet>    
+    
+    <servlet>
+        <servlet-name>MCRResortQueryServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.jsp.query.MCRResortQueryServlet</servlet-class>
+    </servlet>   
+    
+    <servlet id="Zip">
+         <servlet-name>MCRZipServlet</servlet-name>
+         <servlet-class>org.mycore.services.zipper.MCRZipServlet</servlet-class>
+    </servlet>  
+    
+      <servlet id="OAIDataProvider">
+            <servlet-name>MCROAIDataProvider</servlet-name>
+            <servlet-class>org.mycore.services.oai.MCROAIDataProvider</servlet-class>
+      </servlet>        
+      
+    <!-- mycore servlets -->
+    
+    <servlet>
+        <servlet-name>MCRQueryServlet</servlet-name>
+        <servlet-class>org.mycore.services.query.MCRQueryServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+	<servlet-name>MCRCheckNewDataServlet</servlet-name>
+	<servlet-class>org.mycore.frontend.servlets.MCRCheckNewDataServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+	<servlet-name>MCRCheckEditDataServlet</servlet-name>
+	<servlet-class>org.mycore.frontend.servlets.MCRCheckEditDataServlet</servlet-class>
+    </servlet>    
+    
+    <servlet>
+	<servlet-name>MCRStartEditorServlet</servlet-name>
+	<servlet-class>org.mycore.frontend.servlets.MCRStartEditorServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>MCRFileNodeServlet</servlet-name>
+        <servlet-class>org.mycore.datamodel.ifs.MCRFileNodeServlet</servlet-class>
+    </servlet>
+    
+    <servlet>
+	<servlet-name>MCRListWorkflowServlet</servlet-name>
+	<servlet-class>org.mycore.frontend.servlets.MCRListWorkflowServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>MCRUploadServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.fileupload.MCRUploadServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+	<servlet-name>MCRCheckNewFileServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.servlets.MCRCheckNewFileServlet</servlet-class>
+    </servlet>
+    
+    <servlet id="MCRFileViewWorkflowServlet">
+         <servlet-name>MCRFileViewWorkflowServlet</servlet-name>
+         <servlet-class>org.mycore.frontend.servlets.MCRFileViewWorkflowServlet</servlet-class>
+    </servlet>
+
+    <servlet id="MCRAccessCheckServlet">
+         <servlet-name>MCRAccessCheckServlet</servlet-name>
+         <servlet-class>org.mycore.access.MCRAccessCheckServlet</servlet-class>
+    </servlet>    
+
+    <!-- servlet mappings -->
+
+    <servlet-mapping>
+    
+	<servlet-name>NavServlet</servlet-name>
+	<url-pattern>/nav</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+         <servlet-name>MCRJSPObjectServlet</servlet-name>
+         <url-pattern>/receive/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+		<servlet-name>MCREditorServlet</servlet-name>
+		<url-pattern>/editor</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+		<servlet-name>MCREditorServlet</servlet-name>
+		<url-pattern>/servlets/XMLEditor</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+		<servlet-name>EditorServlet</servlet-name>
+		<url-pattern>/edit</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+		<servlet-name>PassThroughServlet</servlet-name>
+		<url-pattern>/pass</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+		<servlet-name>LoginServlet</servlet-name>
+		<url-pattern>/login</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+		<servlet-name>LogoutServlet</servlet-name>
+		<url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+		<servlet-name>MCRCheckNewDataServlet</servlet-name>
+		<url-pattern>/servlets/MCRCheckNewDataServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+		<servlet-name>MCRCheckEditDataServlet</servlet-name>
+		<url-pattern>/servlets/MCRCheckEditDataServlet</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+		<servlet-name>MCRStartEditorServlet</servlet-name>
+		<url-pattern>/start_edit</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+		<servlet-name>MCREditorServlet</servlet-name>
+		<url-pattern>/upload</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+		<servlet-name>MCRListWorkflowServlet</servlet-name>
+		<url-pattern>/servlets/MCRListWorkflowServlet</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+         <servlet-name>MCRFileViewWorkflowServlet</servlet-name>
+         <url-pattern>/servlets/MCRFileViewWorkflowServlet/*</url-pattern>
+    </servlet-mapping>    
+
+    <servlet-mapping>
+               <servlet-name>HandleXMLServlet</servlet-name>
+               <url-pattern>*.xml</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+               <servlet-name>EditorSubmitted</servlet-name>
+               <url-pattern>/submitted</url-pattern>
+    </servlet-mapping>
+        
+    <servlet-mapping>
+               <servlet-name>MCRFileNodeServlet</servlet-name>
+               <url-pattern>/file/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+               <servlet-name>MCRZipServlet</servlet-name>
+               <url-pattern>/zip</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+               <servlet-name>DebugServlet</servlet-name>
+               <url-pattern>/debug</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+               <servlet-name>MCRUploadServlet</servlet-name>
+               <url-pattern>/servlets/MCRUploadServlet</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+               <servlet-name>MCRUserPrivServlet</servlet-name>
+               <url-pattern>/servlets/MCRUserPrivServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+               <servlet-name>MCRCheckQueryServlet</servlet-name>
+               <url-pattern>/searchresult</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+               <servlet-name>MCRResortQueryServlet</servlet-name>
+               <url-pattern>/resortresult</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+   	       <servlet-name>MCROAIDataProvider</servlet-name>
+           <url-pattern>/servlets/MCROAIDataProvider</url-pattern>
+    </servlet-mapping>      
+      
+    <servlet-mapping>
+            <servlet-name>MCRAccessCheckServlet</servlet-name>
+            <url-pattern>/servlets/MCRAccessCheckServlet</url-pattern>
+    </servlet-mapping>        
+
+    <!-- specific servlets -->
+
+    <welcome-file-list>
+	<welcome-file>nav</welcome-file>
+    </welcome-file-list>
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/error.jsp</location>
+    </error-page>
+    
+  <jsp-config>
+    <jsp-property-group>
+      <url-pattern>*.jsp</url-pattern>
+    </jsp-property-group>
+    <jsp-property-group>
+      <description>Indicate that the files with 'xjsp' extension are JSP documents</description>
+      <url-pattern>*.jspx</url-pattern>
+      <is-xml>true</is-xml>
+    </jsp-property-group>    
+  </jsp-config>    
+
+</web-app>

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mycoreclass
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="MCRClassification.xsd"
+  ID="ArchNachl_class_001">
+<label
+  xml:lang="de"
+  text="DokTyp"
+  description="Dokumententyp"/>
+<categories>
+ <category ID="DTYPAKTENNOTIZ">
+  <label xml:lang="de" text="Aktennotiz"
+    description="Aktennotiz"/>
+ </category>
+ <category ID="DTYPBEFEHL">
+  <label xml:lang="de" text="Befehl"
+    description="Befehl"/>
+ </category> 
+ <category ID="DTYPBEKANNTENT">
+  <label xml:lang="de" text="Bekanntmachung (Entwurf)"
+    description="Bekanntmachung (Entwurf)"/>
+ </category>
+ <category ID="DTYPBERICHT">
+  <label xml:lang="de" text="Bericht"
+    description="Bericht"/>
+ </category>
+ <category ID="DTYPBERICHTENT">
+  <label xml:lang="de" text="Bericht (Entwurf)"
+    description="Bericht (Entwurf)"/>
+ </category>
+ <category ID="DTYPBERICHTAUS">
+  <label xml:lang="de" text="Bericht (Ausfertigung)"
+    description="Bericht (Ausfertigung)"/>
+ </category>
+ <category ID="DTYPBRIEF">
+  <label xml:lang="de" text="Brief"
+    description="Brief"/>
+ </category> 
+ <category ID="DTYPCIRCENT">
+  <label xml:lang="de" text="Circulare (Entwurf)"
+    description="Circulare (Entwurf)"/>
+ </category>
+ <category ID="DTYPCIRCAUSF">
+  <label xml:lang="de" text="Circulare (Ausfertigung)"
+    description="Circulare (Ausfertigung)"/>
+ </category>
+ <category ID="DTYPDENKSCHRIFT">
+  <label xml:lang="de" text="Denkschrift"
+    description="Denkschrift"/>
+ </category>
+ <category ID="DTYPDRUCK">
+  <label xml:lang="de" text="Druck"
+    description="Druck"/>
+ </category>
+ <category ID="DTYPFEHLT">
+  <label xml:lang="de" text="fehlt (vorläufig)"
+    description="fehlt (vorläufig)"/>
+ </category>
+ <category ID="DTYPGESUCH">
+  <label xml:lang="de" text="Gesuch"
+    description="Gesuch"/>
+ </category>
+ <category ID="DTYPLISTE">
+  <label xml:lang="de" text="Liste"
+    description="Liste"/>
+ </category>
+ <category ID="DTYPMEMORIAENT">
+  <label xml:lang="de" text="Memoria (Entwurf)"
+    description="Memoria (Entwurf)"/>
+ </category>
+ <category ID="DTYPMEMORIAAUS">
+  <label xml:lang="de" text="Memoria (Ausfertigung)"
+    description="Memoria (Ausfertigung)"/>
+ </category>
+ <category ID="DTYPMINISTERIAL">
+  <label xml:lang="de" text="Ministerialschreiben"
+    description="Ministerialschreiben"/>
+ </category>
+ <category ID="DTYPMITTEILUNG">
+  <label xml:lang="de" text="Mitteilungsschreiben"
+    description="Mitteilungsschreiben"/>
+ </category>
+ <category ID="DTYPMITTEILUNGENT">
+  <label xml:lang="de" text="Mitteilungsschreiben (Entwurf)"
+    description="Mitteilungsschreiben (Entwurf)"/>
+ </category>
+ <category ID="DTYPMITTEILUNGKOPIE">
+  <label xml:lang="de" text="Mitteilungsschreiben (Kopie)"
+    description="Mitteilungsschreiben (Kopie)"/>
+ </category>
+ <category ID="DTYPMITTEILUNGAUS">
+  <label xml:lang="de" text="Mitteilungsschreiben (Ausfertigung)"
+    description="Mitteilungsschreiben (Ausfertigung)"/>
+ </category>
+ <category ID="DTYPMISSIV">
+  <label xml:lang="de" text="Missiv"
+    description="Missiv"/>
+ </category>
+ <category ID="DTYPNOTA">
+  <label xml:lang="de" text="Nota"
+    description="Nota"/>
+ </category>
+ <category ID="DTYPNOTIZ">
+  <label xml:lang="de" text="Notiz"
+    description="Notiz"/>
+ </category>
+ <category ID="DTYPPRONOTA">
+  <label xml:lang="de" text="Pro Nota"
+    description="Pro Nota"/>
+ </category>
+ <category ID="DTYPPROMEMORIA">
+  <label xml:lang="de" text="Promemoria"
+    description="Promemoria"/>
+ </category>
+ <category ID="DTYPPRTKLL">
+  <label xml:lang="de" text="Protokoll"
+    description="Protokoll"/>
+ </category>
+ <category ID="DTYPPROTOKOLLAUS">
+  <label xml:lang="de" text="Protokoll (Auszug)"
+    description="Protokoll (Auszug)"/>
+ </category>
+ <category ID="DTYPQUITTUNG">
+  <label xml:lang="de" text="Quittung"
+    description="Quittung"/>
+ </category>
+ <category ID="DTYPRESKRIPT">
+  <label xml:lang="de" text="Reskript"
+    description="Reskript"/>
+ </category>
+ <category ID="DTYPRESCRIPTAUS">
+  <label xml:lang="de" text="Reskript (Ausfertigung)"
+    description="Reskript (Ausfertigung)"/>
+ </category>
+ <category ID="DTYPSPEC">
+  <label xml:lang="de" text="Spezifikation"
+    description="Spezifikation"/>
+ </category>
+ <category ID="DTYPSPECVERZ">
+  <label xml:lang="de" text="Spezifikation (Verzeichnis)"
+    description="Spezifikation (Verzeichnis)"/>
+ </category>
+ <category ID="DTYPSUPPLIKENT">
+  <label xml:lang="de" text="Supplik (Entwurf)"
+    description="Supplik (Entwurf)"/>
+ </category>
+ <category ID="DTYPSUPPLIK">
+  <label xml:lang="de" text="Supplik"
+    description="Supplik"/>
+ </category> 
+ <category ID="DTYPLEER">
+  <label xml:lang="de" text="vermutlich leere Seiten"
+    description="vermutlich leere Seiten"/>
+ </category> 
+ <category ID="DTYPVOTUM">
+  <label xml:lang="de" text="Votum"
+    description="Votum"/>
+ </category>
+ <category ID="DTYPWEISUNG">
+  <label xml:lang="de" text="Weisung"
+    description="Weisung"/>
+ </category> 
+ <category ID="DTYPWEISUNGENT">
+  <label xml:lang="de" text="Weisung (Entwurf)"
+    description="Weisung (Entwurf)"/>
+ </category>
+ <category ID="DTYPWEISUNGAUS">
+  <label xml:lang="de" text="Weisung (Ausfertigung)"
+    description="Weisung (Ausfertigung)"/>
+ </category>
+ <category ID="DTYPZIRKBRIEF">
+  <label xml:lang="de" text="Zirkularbrief"
+    description="Zirkularbrief"/>
+ </category>
+</categories>
+</mycoreclass>
