@@ -79,7 +79,7 @@ org.jdom.Document jdomQuery = (org.jdom.Document) request.getAttribute("query");
 String resultlistType = (String) request.getAttribute("resultlistType");
 if ((jdomQuery != null) && (resultlistType != null)) {
    mcrsession.put(navPath + "-jdomQuery", jdomQuery);
-   mcrsession.put(navPath + "-resultlistType", resultlistType);   
+   mcrsession.put(navPath + "-resultlistType", resultlistType); 
 }else {
    jdomQuery = (org.jdom.Document) mcrsession.get(navPath + "-jdomQuery");
    resultlistType = (String) mcrsession.get(navPath + "-resultlistType");
@@ -97,7 +97,11 @@ org.jdom.Element sortby = jdomQuery.getRootElement().getChild("sortby");
 if (result != null) {
 		len = result.getNumHits();
 }		
-
+if (len <= 100) {
+	mcrsession.put("lastMCRResults",result);
+}else {
+	mcrsession.put("lastMCRResults",null);
+}
 org.jdom.output.XMLOutputter output = new org.jdom.output.XMLOutputter(org.jdom.output.Format.getPrettyFormat());
 String strQuery = output.escapeAttributeEntities(output.escapeElementEntities(output.outputString(jdomQuery)));
 
@@ -144,7 +148,8 @@ String strQuery = output.escapeAttributeEntities(output.escapeElementEntities(ou
         Element mycoreobject = hit.getRootElement();
         Element metadata = mycoreobject.getChild("metadata");
         StringBuffer doclink = new StringBuffer(NavServlet.getNavigationBaseURL())
-            .append("nav?path=~docdetail&id=").append(hitID);
+            .append("nav?path=~docdetail&id=").append(hitID)
+            .append("&offset=").append(k);
         String mcrID = mycoreobject.getAttributeValue("ID");
         String docType = mcrID.substring(mcrID.indexOf("_")+1,mcrID.lastIndexOf("_"));
         if (JSPUtils.isDocument(docType)) {

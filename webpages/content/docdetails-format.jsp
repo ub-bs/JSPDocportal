@@ -1,7 +1,11 @@
 <%@ page import="org.jdom.Document" %>
 <%@ page import="org.jdom.Element" %>
 <%@ page import="java.util.Iterator" %>
-<%@ page import="java.util.List" %>
+<%@ page import="java.util.List,
+				 org.mycore.services.fieldquery.*,
+                 org.mycore.datamodel.metadata.MCRObject,
+                 org.mycore.frontend.servlets.MCRServlet,
+                 org.mycore.common.MCRSession" %>
 <%@ page import="org.mycore.frontend.jsp.query.MCRResultFormatter" %>
 <%@ page import="javax.servlet.jsp.PageContext" %>
 <%@ page import="org.jdom.filter.ElementFilter" %>
@@ -13,6 +17,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/xml"  prefix="x" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <% 
+MCRSession mcrsession = MCRServlet.getSession(request);
 Document doc = (Document) request.getAttribute("doc");
 String docID = doc.getRootElement().getAttributeValue("ID");
 //TODO foreign hosts
@@ -22,6 +27,9 @@ String WebApplicationBaseURL = (String) request.getAttribute("WebApplicationBase
 Element mycoreobject = doc.getRootElement();
 String lang = (String) request.getAttribute("lang");
 String langBundle = "messages";
+String strOffset = request.getParameter("offset");
+if (strOffset == null) strOffset = "0";
+int offset = new Integer(strOffset).intValue();
 XMLOutputter xmloutput = new XMLOutputter();
 
 MCRResultFormatter formatter = new MCRResultFormatter(); 
@@ -36,11 +44,30 @@ MCRResultFormatter formatter = new MCRResultFormatter();
       <td class="titles"><%= formatter.getSingleXPathValue(mycoreobject,"/mycoreobject/metadata/titles/title[@xml:lang='" + lang + "']") %>
       </td>
       <td class="browseCtrl">
-         <c:if test="${requestScope.query != null}">
-            <a href="http://mycoresamplelinux.dl.uni-leipzig.de/servlets/MCRQueryServlet?mode=CachedResultList&type=alldocs">^</a>
-  &nbsp;&nbsp;
-  <a href="http://mycoresamplelinux.dl.uni-leipzig.de/servlets/MCRQueryServlet?mode=CachedResultList&type=alldocs&ref=DocPortal_document_00774701@local&view=next">&gt;&gt;</a>
-         </c:if>
+         <%
+         MCRResults hits =  (MCRResults) mcrsession.get("lastMCRResults");
+         if ( hits != null) {
+				int numHits = hits.getNumHits(); 
+                if (offset > 0) {
+                	String previewHitID = hits.getHit(offset -1).getID();
+                	String previewLink = new StringBuffer(WebApplicationBaseURL)
+			            .append("nav?path=~docdetail&id=").append(previewHitID)
+			            .append("&offset=").append(offset -1).toString();
+                	%>
+                	<a href="<%= previewLink %>">&lt;&lt;</a>
+                	<%
+                }
+                if (offset < numHits -1) {
+                	String nextHitID = hits.getHit(offset +1).getID();
+                	String nextLink = new StringBuffer(WebApplicationBaseURL)
+			            .append("nav?path=~docdetail&id=").append(nextHitID)
+			            .append("&offset=").append(offset +1).toString();
+                	%>
+                	<a href="<%= nextLink %>">&gt;&gt;</a>
+                	<%
+                }                
+           }
+         %>
       </td>
 </tr>
 </table>
