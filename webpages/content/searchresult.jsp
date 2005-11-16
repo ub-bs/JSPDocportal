@@ -50,13 +50,21 @@
         } 
         return sbRet.toString();
      }
-     
-     MCRObject mcr_obj = new MCRObject();
-	 int offset = 0;
-	 int size = 2;
-	 int len = 0;    
 %>
 <%
+int offset = 0;
+int size = 10;
+MCRObject mcr_obj = new MCRObject();
+String sOffset = request.getParameter("offset");
+String sSize = request.getParameter("size");
+if (sOffset != null) {
+    offset = Integer.parseInt(sOffset);
+}
+if (sSize != null) {
+    int tmp = Integer.parseInt(sSize);
+    if (tmp < 21) size = tmp;
+}
+int len = 0; 
 MCRSession mcrsession = MCRServlet.getSession(request);
 String lang = (String) request.getAttribute("lang");
 String path = (String) request.getParameter("path");
@@ -64,14 +72,6 @@ String path = (String) request.getParameter("path");
 
 Enumeration paramNames = request.getParameterNames();
 MCRResultFormatter formatter = new MCRResultFormatter();
-while(paramNames.hasMoreElements()) {
-   String parm = (String)paramNames.nextElement();
-   if (parm.equals("offset"))
-      offset = Integer.parseInt(request.getParameter(parm));
-   if (parm.equals("size"))
-      size = Integer.parseInt(request.getParameter(parm));    	
-}
-
 
 String navPath = (String) request.getAttribute("path");
 MCRResults result = null;
