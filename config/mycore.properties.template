@@ -332,8 +332,7 @@ MCR.QueryIndexer_class_name=org.mycore.backend.hibernate.MCRHIBIndexer
 #MCR.QuerySearcher_class_name=org.mycore.backend.sql.MCRSQLSearcher
 MCR.QuerySearcher_class_name=org.mycore.backend.hibernate.MCRHIBSearcher
 
-#MCR.QuerySearcher_class_name=org.mycore.backend.lucene.MCRLuceneQuerySearch
-er
+#MCR.QuerySearcher_class_name=org.mycore.backend.lucene.MCRLuceneQuerySearcher
 
 MCR.Searcher.sql.Index=metadata
 MCR.Searcher.sql.Class=org.mycore.backend.query.MCRQueryManager
