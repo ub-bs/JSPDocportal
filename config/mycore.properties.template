@@ -118,6 +118,13 @@ MCR.IFS.FileMetadataStore.Class=org.mycore.backend.hibernate.MCRHIBFileMetadataS
 MCR.IFS.ContentStore.SQLDB.Class=org.mycore.backend.hibernate.MCRHIBCStore
 
 
+
+# JDBC parameters for connecting to MySQL
+#MCR.persistence_sql_database_url=jdbc:mysql://127.0.0.1/mycore?user=mcradmin&autoReconnect=true
+#MCR.persistence_sql_driver=org.gjt.mm.mysql.Driver
+#MCR.persistence_sql_database_userid=mcradmin
+#MCR.persistence_sql_database_passwd=
+
 # JDBC parameters for connecting to HSQLDB
 MCR.persistence_sql_database_url=jdbc:hsqldb:hsql://localhost:9001
 MCR.persistence_sql_driver=org.hsqldb.jdbcDriver
