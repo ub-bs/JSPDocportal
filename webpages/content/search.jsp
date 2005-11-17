@@ -12,7 +12,7 @@
 <center>
 <c:import url="<%= new StringBuffer((String)request.getAttribute("WebApplicationBaseURL"))
                 .append("editor/searchmasks/SearchMask_AllMetadataFields.xml?XSL.editor.source.new=true")
-                .append("&XSL.editor.cancel.url=").append((String)request.getAttribute("WebApplicationBaseURL")
+                .append("&XSL.editor.cancel.url=").append((String)request.getAttribute("WebApplicationBaseURL"))
                 .append(request.getAttribute("lang")).toString() %>" />
 </center>
 <p><c:import url="content/node.jsp" /></p>
