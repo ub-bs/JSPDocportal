@@ -34,6 +34,7 @@ MCR.users_guestuser_groupname=gastgroup
 MCR.users_use_password_encryption=true
 
 # ---------------------------------------------------------------------
+MCR.metadata_default_lang=de
 
 # The class for the XML Store
 MCR.xml_store_class=org.mycore.backend.hibernate.MCRHIBXMLStore
