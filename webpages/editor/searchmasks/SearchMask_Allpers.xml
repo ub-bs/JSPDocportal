@@ -14,7 +14,7 @@
   
   <panel id="SearchMask_Allpers">
   
-    <hidden var="@resultlistType" default="~searchresult-simple" />
+    <hidden var="@resultlistType" default="simple" />
     <hidden var="@maxResults" default="100" />
     
     <hidden var="types/type/@field" default="alldocs" />
