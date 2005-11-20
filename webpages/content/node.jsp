@@ -16,7 +16,7 @@
     %>
     <fmt:setLocale value="<%= lang %>" />
     <fmt:setBundle basename='messages'/>
-    <img title="" alt="" src="img/greenArrow.gif">
+    <img title="" alt="" src="images/greenArrow.gif">
     <a target="_self" href="<%= eLink %>"><fmt:message key="<%=e.getDescription()%>" /></a>
     <br/>
     <%

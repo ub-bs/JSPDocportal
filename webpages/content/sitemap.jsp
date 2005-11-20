@@ -33,9 +33,9 @@
 	          NavEntry e2 = n2.getValue();
 		  boolean last = !i2.hasNext();
 		  if(last) {
-		      %><img src="img/line-with-element_end.gif"/><%
+		      %><img src="images/line-with-element_end.gif"/><%
 		  } else {
-		      %><img src="img/line-with-element.gif"/><%
+		      %><img src="images/line-with-element.gif"/><%
 		  }
                   %>
 		  <a target="_self" href="<%=e2.getLink()%>"><%=e2.getDescription()%></a><br/>

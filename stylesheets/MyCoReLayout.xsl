@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!-- ============================================== -->
-<!-- $Revision: 1.1 $ $Date: 2005-11-14 12:51:03 $ -->
+<!-- $Revision: 1.2 $ $Date: 2005-11-20 20:13:15 $ -->
 <!-- ============================================== -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink" 
    exclude-result-prefixes="xlink">
@@ -90,7 +90,7 @@
             <xsl:otherwise>
                 <xsl:variable xmlns:encoder="xalan://java.net.URLEncoder" name="LoginURL" select="concat( $ServletsBaseURL, 'MCRLoginServlet',$HttpSession,'?url=', encoder:encode( string( $RequestURL ) ) )" />
                 <xsl:apply-templates select="document($personlink)/mcr_results/mcr_result/mycoreobject/metadata/names" />&#160;<a href="{$LoginURL}">
-                    <img src="{concat($WebApplicationBaseURL,'img/paper_lock.gif')}" />
+                    <img src="{concat($WebApplicationBaseURL,'images/paper_lock.gif')}" />
                 </a>
             </xsl:otherwise>
         </xsl:choose>

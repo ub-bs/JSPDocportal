@@ -79,13 +79,13 @@
 		  		.append("&searchType=").append(searchType)
 		  		.toString();
 		  	String img1 = new StringBuffer(WebApplicationBaseURL)
-		  		.append("img/").append(col1.getAttributeValue("folder1")).append(".gif")
+		  		.append("images/").append(col1.getAttributeValue("folder1")).append(".gif")
 		  		.toString();
 		  	String img2 = new StringBuffer(WebApplicationBaseURL)
-		  		.append("img/").append(col1.getAttributeValue("folder2")).append(".gif")
+		  		.append("images/").append(col1.getAttributeValue("folder2")).append(".gif")
 		  		.toString();
 		  	String img3 = new StringBuffer(WebApplicationBaseURL)
-		  		.append("img/folder_blank.gif")
+		  		.append("images/folder_blank.gif")
 		  		.toString();
 		  	
 		  	int lineLevel = Integer.valueOf(col1.getAttributeValue("lineLevel")).intValue();

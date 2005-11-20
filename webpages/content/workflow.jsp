@@ -71,7 +71,7 @@
                                     <input value="${param.type}" name="type" type="hidden">
                                     <input value="${param.step}" name="step" type="hidden">
                                     <input value="wnewder" name="todo" type="hidden">
-                                    <input title="<fmt:message key="Derivate.AddDerivate" />" src="${requestScope.WebApplicationBaseURL}img/workflow_deradd.gif" type="image">
+                                    <input title="<fmt:message key="Derivate.AddDerivate" />" src="${requestScope.WebApplicationBaseURL}images/workflow_deradd.gif" type="image">
                                 </form>
                             </td>                            
                         </c:if>
@@ -85,7 +85,7 @@
                                 <input value="${param.type}" name="type" type="hidden">
                                 <input value="${param.step}" name="step" type="hidden">
                                 <input value="weditobj" name="todo" type="hidden">
-                                <input title="<fmt:message key="Object.EditObject" />" src="${requestScope.WebApplicationBaseURL}img/workflow_objedit.gif" type="image">
+                                <input title="<fmt:message key="Object.EditObject" />" src="${requestScope.WebApplicationBaseURL}images/workflow_objedit.gif" type="image">
                             </form>
                         </td>
                         <td width="10">
@@ -97,7 +97,7 @@
                                 <input value="${param.type}" name="type" type="hidden">
                                 <input value="${param.step}" name="step" type="hidden">
                                 <input value="wcommit" name="todo" type="hidden">
-                                <input title="<fmt:message key="Object.CommitObject" />" src="${requestScope.WebApplicationBaseURL}img/workflow_objcommit.gif" type="image">
+                                <input title="<fmt:message key="Object.CommitObject" />" src="${requestScope.WebApplicationBaseURL}images/workflow_objcommit.gif" type="image">
                             </form>
                         </td>
                         <td width="10"></td>
@@ -108,7 +108,7 @@
                                 <input value="${param.type}" name="type" type="hidden">
                                 <input value="${requestScope.lang}" name="step" type="hidden">
                                 <input value="wdelobj" name="todo" type="hidden">
-                                <input title="<fmt:message key="Object.DelObject" />" src="${requestScope.WebApplicationBaseURL}img/workflow_objdelete.gif" type="image">
+                                <input title="<fmt:message key="Object.DelObject" />" src="${requestScope.WebApplicationBaseURL}images/workflow_objdelete.gif" type="image">
                             </form>
                         </td>
                     </tr>
@@ -132,7 +132,7 @@
 												<input value="${param.type}" name="type" type="hidden">
 												<input value="${param.step}" name="step" type="hidden">
 												<input value="waddfile" name="todo" type="hidden">
-												<input title="<fmt:message key="Derivate.AddFile" />" src="${requestScope.WebAppliationBaseURL}img/workflow_deradd.gif" type="image">
+												<input title="<fmt:message key="Derivate.AddFile" />" src="${requestScope.WebAppliationBaseURL}images/workflow_deradd.gif" type="image">
 											</form>
 										</td><td width="10"></td>
 										<td valign="top" width="30">
@@ -144,7 +144,7 @@
 												<input value="${param.type}" name="type" type="hidden">
 												<input value="${param.step}" name="step" type="hidden">
 												<input value="weditder" name="todo" type="hidden">
-												<input title="<fmt:message key="Derivate.EditDerivate" />" src="${requestScope.WebAppliationBaseURL}img/workflow_deredit.gif" type="image">
+												<input title="<fmt:message key="Derivate.EditDerivate" />" src="${requestScope.WebAppliationBaseURL}images/workflow_deredit.gif" type="image">
 											</form>
 										</td>
 										<td width="10"></td>
@@ -156,7 +156,7 @@
 												<input value="${param.type}" name="type" type="hidden">
 												<input value="${param.step}" name="step" type="hidden">												
 												<input value="wdelder" name="todo" type="hidden">
-												<input title="<fmt:message key="Derivate.DelDerivate" />" src="${requestScope.WebAppliationBaseURL}img/workflow_derdelete.gif" type="image">
+												<input title="<fmt:message key="Derivate.DelDerivate" />" src="${requestScope.WebAppliationBaseURL}images/workflow_derdelete.gif" type="image">
 											</form>
 										</td>
 										<td width="10"></td>
@@ -177,7 +177,7 @@
 		                        <td class="metavalue" align="left" valign="top">
 									<table cellpadding="0" cellspacing="0" width="100%">
 										<tr>
-											<td valign="top"><img src="${requestScope.WebApplicationBaseURL}/img/button_green.gif"></td>
+											<td valign="top"><img src="${requestScope.WebApplicationBaseURL}/images/button_green.gif"></td>
 											<td valign="top"><a class="linkButton" href="${requestScope.WebApplicationBaseURL}servlets/MCRFileViewWorkflowServlet/<%= fileName %>?type=${param.type}" target="_blank"><%= fileName %></a> [<%= fileSize %>] </td>
 											<td valign="top">
 												<c:if test="${pageScope.numFiles gt 1}">
@@ -189,7 +189,7 @@
 														<input value="${param.step}" name="step" type="hidden">
 														<input value="wdelfile" name="todo" type="hidden">
 														<input name="extparm" value="####nrall####2####nrthe####1####filename####<%= fileName %>" type="hidden">
-														<input title="Löschen dieser Datei" src="${requestScope.WebApplicationBaseURL}img/button_delete.gif" type="image">
+														<input title="Löschen dieser Datei" src="${requestScope.WebApplicationBaseURL}images/button_delete.gif" type="image">
 													</form>											
 												</c:if>
 											</td>

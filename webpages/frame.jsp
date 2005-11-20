@@ -66,15 +66,15 @@
     <table id="maintable" cellpadding="0" cellspacing="0">
         <tr class="max">
             <td id="mainLeftColumn">
-                <a href="<%= WebApplicationBaseURL %>"><img id="logo" alt="Logo" src="<%= WebApplicationBaseURL %>img/logo.gif"></a>
+                <a href="<%= WebApplicationBaseURL %>"><img id="logo" alt="Logo" src="<%= WebApplicationBaseURL %>images/logo.gif"></a>
                 <!-- Navigation Left Start -->
                 <div class="navi_main">
                     <table class="navi_main" cellpadding="0" cellspacing="0">
                         <tr>
-                            <td style="height: 1px; width: 7%;"><img title="" alt="" style="width: 1px; height: 1px;" src="<%= WebApplicationBaseURL %>img/emtyDot1Pix.gif"></td>
-                            <td style="width: 9%;"><img title="" alt="" style="width: 1px; height: 1px;" src="<%= WebApplicationBaseURL %>img/emtyDot1Pix.gif"></td>
-                            <td style=""><img title="" alt="" style="width: 1px; height: 1px;" src="<%= WebApplicationBaseURL %>img/emtyDot1Pix.gif"></td>
-                            <td style="width: 7%;"><img title="" alt="" style="width: 1px; height: 1px;" src="<%= WebApplicationBaseURL %>img/emtyDot1Pix.gif"></td>  
+                            <td style="height: 1px; width: 7%;"><img title="" alt="" style="width: 1px; height: 1px;" src="<%= WebApplicationBaseURL %>images/emtyDot1Pix.gif"></td>
+                            <td style="width: 9%;"><img title="" alt="" style="width: 1px; height: 1px;" src="<%= WebApplicationBaseURL %>images/emtyDot1Pix.gif"></td>
+                            <td style=""><img title="" alt="" style="width: 1px; height: 1px;" src="<%= WebApplicationBaseURL %>images/emtyDot1Pix.gif"></td>
+                            <td style="width: 7%;"><img title="" alt="" style="width: 1px; height: 1px;" src="<%= WebApplicationBaseURL %>images/emtyDot1Pix.gif"></td>  
                         </tr>
                         <% {
                             NavNode n3 = tree.getChild("left");
@@ -85,7 +85,7 @@
                                 String eLink = (e.isExtern()) ? e.getLink() : (WebApplicationBaseURL + e.getLink()) ;
                             %>
                             <tr>
-                                <td style="height:17px;"><img title="" alt="" style="width:1px; height:1px" src="<%= WebApplicationBaseURL %>img/emtyDot1Pix.gif"></td>
+                                <td style="height:17px;"><img title="" alt="" style="width:1px; height:1px" src="<%= WebApplicationBaseURL %>images/emtyDot1Pix.gif"></td>
                                 <th align="left" colspan="4"><a target="_self" href="<%= eLink %>"><fmt:message key="<%=e.getDescription()%>" /></a></th>
                             </tr>
                             <%  if(n.isOpened()) {
@@ -96,13 +96,13 @@
                                         String e2Link = (e2.isExtern())? e2.getLink() : (WebApplicationBaseURL + e2.getLink()) ;
                                         String selected = n2.isOpened() ? "-selected":"";
                                         StringBuffer imgSB = new StringBuffer(WebApplicationBaseURL)
-                                            .append("img/line-with-element").append(selected);
+                                            .append("images/line-with-element").append(selected);
                                         if (!i2.hasNext())
                                            imgSB.append("_end");
                                         imgSB.append(".gif");
                                     %>
                                     <tr>
-                                        <td style="height:17px;"><img title="" alt="" style="width:1px; height:17px;" src="<%= WebApplicationBaseURL %>img/emtyDot1Pix.gif"></td>
+                                        <td style="height:17px;"><img title="" alt="" style="width:1px; height:17px;" src="<%= WebApplicationBaseURL %>images/emtyDot1Pix.gif"></td>
                                         <td align="center"><img title="" alt="" src="<%= imgSB.toString() %>"></td>
                                         <td colspan="2">
                                         <%  if(n2.isOpened()) {
@@ -123,7 +123,7 @@
                             <% if(i.hasNext()) {
                             %>
                                 <tr>
-                                    <td colspan="5" style="height:10px;"><img title="" alt="" style="width:1px; height:1px" src="<%= WebApplicationBaseURL %>img/emtyDot1Pix.gif"></td>
+                                    <td colspan="5" style="height:10px;"><img title="" alt="" style="width:1px; height:1px" src="<%= WebApplicationBaseURL %>images/emtyDot1Pix.gif"></td>
                                 </tr>
                                 <%
                             }
@@ -131,7 +131,7 @@
                         }
                         %>
                         <tr>
-                            <td colspan="5" style="height:15px;"><img title="" alt="" style="width:1px; height:1px" src="<%= WebApplicationBaseURL %>img/emtyDot1Pix.gif"></td></tr>
+                            <td colspan="5" style="height:15px;"><img title="" alt="" style="width:1px; height:1px" src="<%= WebApplicationBaseURL %>images/emtyDot1Pix.gif"></td></tr>
                     </table>
                 </div>
                 <!-- NAVIGATION LEFT END -->
@@ -162,18 +162,18 @@
                                     </td>
                                     <% if(i.hasNext()) {
                                        %>
-                                       <td><img alt="" style="width:6px; height:1px;" src="<%= WebApplicationBaseURL %>img/emtyDot1Pix.gif"></td>
+                                       <td><img alt="" style="width:6px; height:1px;" src="<%= WebApplicationBaseURL %>images/emtyDot1Pix.gif"></td>
                                        <td>|</td>
-                                       <td><img alt="" style="width:6px; height:1px;" src="<%= WebApplicationBaseURL %>img/emtyDot1Pix.gif"></td>
+                                       <td><img alt="" style="width:6px; height:1px;" src="<%= WebApplicationBaseURL %>images/emtyDot1Pix.gif"></td>
                                        <%
                                        }
                                        first = false;
                                     }
                                 }
                                 %>
-                                <td style="width:10px;"><img alt="" style="width:10px; height:1px;" src="<%= WebApplicationBaseURL %>img/emtyDot1Pix.gif"></td>
-                                <td><a href="<%= WebApplicationBaseURL %>nav?path=<%= path %>&lang=<%= translateLang %>"><img style="border-style: none; width: 24px; height: 12px; vertical-align: bottom;" alt="<fmt:message key="secondLanguage" />" src="<%= WebApplicationBaseURL %>img/lang-<%= translateLang %>.gif"></a></td>           
-                                <td style="width:10px;"><img alt="" style="width:10px; height:1px;" src="<%= WebApplicationBaseURL %>img/emtyDot1Pix.gif"></td>
+                                <td style="width:10px;"><img alt="" style="width:10px; height:1px;" src="<%= WebApplicationBaseURL %>images/emtyDot1Pix.gif"></td>
+                                <td><a href="<%= WebApplicationBaseURL %>nav?path=<%= path %>&lang=<%= translateLang %>"><img style="border-style: none; width: 24px; height: 12px; vertical-align: bottom;" alt="<fmt:message key="secondLanguage" />" src="<%= WebApplicationBaseURL %>images/lang-<%= translateLang %>.gif"></a></td>           
+                                <td style="width:10px;"><img alt="" style="width:10px; height:1px;" src="<%= WebApplicationBaseURL %>images/emtyDot1Pix.gif"></td>
                             </tr>
                         </table>
                         <!-- NAVIGATION TOP RIGHT -->
