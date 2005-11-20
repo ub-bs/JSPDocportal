@@ -121,7 +121,7 @@ MCR.IFS.ContentStore.SQLDB.Class=org.mycore.backend.hibernate.MCRHIBCStore
 
 # JDBC parameters for connecting to HSQLDB
 MCR.hibernate.dialect=org.hibernate.dialect.HSQLDialect
-MCR.hibernate.connection.driver_class=org.gjt.mm.mysql.Driver
+MCR.hibernate.connection.driver_class=org.hsqldb.jdbcDriver
 MCR.hibernate.connection.url=jdbc:hsqldb:hsql://localhost:9001
 MCR.hibernate.connection.username=sa
 MCR.hibernate.connection.password=
