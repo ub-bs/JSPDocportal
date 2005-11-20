@@ -15,7 +15,7 @@
   
   <panel id="SearchMask_Alldocs">
   
-    <hidden var="@resultType" default="~searchresult-simple" />
+    <hidden var="@resultlistType" default="~searchresult-simple" />
     <hidden var="@maxResults" default="100" />
     
     <hidden var="types/type/@field" default="alldocs" />
