@@ -44,15 +44,6 @@ abstract public class MCRCheckBase extends MCRServlet {
 	String NL = System.getProperty("file.separator");
 
 	/**
-	 * The method check the privileg of this action.
-	 * 
-	 * @param privs
-	 *            the ArrayList of privilegs
-	 * @return true if the privileg exist, else return false
-	 */
-	abstract public boolean hasPrivileg(ArrayList privs, String type);
-
-	/**
 	 * The method is a dummy or works with the data and return an URL with the
 	 * next working step.
 	 * 

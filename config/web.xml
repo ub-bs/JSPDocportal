@@ -48,8 +48,8 @@
     </servlet>
     
     <servlet>
-        <servlet-name>EditorServlet</servlet-name>
-        <servlet-class>org.mycore.frontend.jsp.EditorServlet</servlet-class>
+        <servlet-name>MCREditorForwardServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.servlets.MCREditorForwardServlet</servlet-class>
     </servlet>
 
     <servlet>
@@ -76,6 +76,11 @@
         <servlet-name>MCRCheckQueryServlet</servlet-name>
         <servlet-class>org.mycore.frontend.jsp.query.MCRCheckQueryServlet</servlet-class>
     </servlet>    
+	
+    <servlet>
+        <servlet-name>MCRCheckQueryForUserServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.jsp.query.MCRCheckQueryForUserServlet</servlet-class>
+    </servlet>	
     
     <servlet>
         <servlet-name>MCRResortQueryServlet</servlet-name>
@@ -168,13 +173,8 @@
     </servlet-mapping>
     
     <servlet-mapping>
-		<servlet-name>EditorServlet</servlet-name>
-		<url-pattern>/edit</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-		<servlet-name>PassThroughServlet</servlet-name>
-		<url-pattern>/pass</url-pattern>
+		<servlet-name>MCREditorForwardServlet</servlet-name>
+		<url-pattern>/editor-forward/*</url-pattern>
     </servlet-mapping>
     
     <servlet-mapping>
@@ -256,7 +256,12 @@
                <servlet-name>MCRCheckQueryServlet</servlet-name>
                <url-pattern>/searchresult</url-pattern>
     </servlet-mapping>
-    
+
+    <servlet-mapping>
+               <servlet-name>MCRCheckQueryForUserServlet</servlet-name>
+               <url-pattern>/searchUsersDocuments</url-pattern>
+    </servlet-mapping>
+	    
     <servlet-mapping>
                <servlet-name>MCRResortQueryServlet</servlet-name>
                <url-pattern>/resortresult</url-pattern>
@@ -270,7 +275,12 @@
     <servlet-mapping>
             <servlet-name>MCRAccessCheckServlet</servlet-name>
             <url-pattern>/servlets/MCRAccessCheckServlet</url-pattern>
-    </servlet-mapping>        
+    </servlet-mapping> 
+	
+    <servlet-mapping>
+            <servlet-name>MCRLayoutServlet</servlet-name>
+            <url-pattern>/servlets/MCRLayoutServlet</url-pattern>
+    </servlet-mapping> 	       
 
     <!-- specific servlets -->
 

@@ -119,25 +119,16 @@ public class MCRListWorkflowServlet extends MCRServlet {
 		String lang = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
 		LOGGER.debug("MCRListWorkflowServlet : lang = " + lang);
 
-		// check the privileg
-		boolean haspriv = false;
 		MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
 		String userid = mcrSession.getCurrentUserID();
 		//userid = "administrator";
 		LOGGER.debug("Curren user for list workflow = " + userid);
-		ArrayList privs = MCRUserMgr.instance().retrieveAllPrivsOfTheUser(
-				userid);
-		if (privs.contains("create-" + type)) {
-			haspriv = true;
-		}
 
 		// read directory
 		ArrayList workfiles = new ArrayList();
 		ArrayList derifiles = new ArrayList();
-		if (haspriv) {
-			workfiles = WFM.getAllObjectFileNames(type);
-			derifiles = WFM.getAllDerivateFileNames(type);
-		}
+		workfiles = WFM.getAllObjectFileNames(type);
+		derifiles = WFM.getAllDerivateFileNames(type);
 		String dirname = WFM.getDirectoryPath(type);
 
 		// read the derivate XML files
@@ -248,12 +239,9 @@ public class MCRListWorkflowServlet extends MCRServlet {
 			}
 			String ID = elm.getAttributeValue("ID");
 			// check the modify-access rights
-	LOGGER.debug("check for object: " + ID);		
             if( ! MCRAccessManager.checkAccess("modify",ID,MCRSessionMgr.getCurrentSession())){
-LOGGER.debug("object " + ID + " is not allowed");            	
             	continue ;
             }
-    LOGGER.debug("object " + ID + " is allowed");            
 			try {
 				for (int j = 0; j < derifiles.size(); j++) {
 					if (ID.equals((String) derobjid.get(j))) {

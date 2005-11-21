@@ -33,10 +33,12 @@ import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.jdom.Element;
 import org.jdom.Namespace;
 
+import org.mycore.access.MCRAccessManager;
 import org.mycore.access.MCRAccessStore;
 import org.mycore.common.MCRConfigurationException;
 import org.mycore.common.MCRDefaults;
@@ -78,16 +80,17 @@ abstract public class MCRCheckDataBase extends MCRCheckBase {
 	 * This method overrides doGetPost of MCRServlet. <br />
 	 */
 	public void doGetPost(MCRServletJob job) throws Exception {
+		HttpServletRequest request = job.getRequest();
+		HttpServletResponse response = job.getResponse();
 		// read the XML data
-		MCREditorSubmission sub = (MCREditorSubmission) (job.getRequest()
+		MCREditorSubmission sub = (MCREditorSubmission) (request
 				.getAttribute("MCREditorSubmission"));
 		org.jdom.Document indoc = sub.getXML();
-		List files = sub.getFiles();
 
 		// read the parameter
 		MCRRequestParameters parms;
 		if (sub == null)
-			parms = new MCRRequestParameters(job.getRequest());
+			parms = new MCRRequestParameters(request);
 		else
 			parms = sub.getParameters();
 		String oldmcrid = parms.getParameter("mcrid");
@@ -100,22 +103,16 @@ abstract public class MCRCheckDataBase extends MCRCheckBase {
 		// get the MCRSession object for the current thread from the session
 		// manager.
 		MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
+		String lang = mcrSession.getCurrentLanguage();
+		logger.info("LANG = " + lang);		
 		String userid = mcrSession.getCurrentUserID();
 		//userid = "administrator";
 		logger.debug("Current user for edit check = " + userid);
-		String usererrorpage = CONFIG.getString("MCR.editor_page_dir", "")
-				+ CONFIG.getString("MCR.editor_page_error_user",
-						"editor_error_user.xml");
-		ArrayList privs = MCRUserMgr.instance().retrieveAllPrivsOfTheUser(
-				userid);
-		if (!hasPrivileg(privs, oldtype)) {
-			job.getResponse().sendRedirect(
-					job.getResponse().encodeRedirectURL(
-							getBaseURL() + usererrorpage));
+		String usererrorpage = "mycore-error.jsp?messageKey=SWF.PrivilegesError&lang=" + lang;
+		if (!MCRAccessManager.checkAccess("create", oldmcrid, mcrSession )) {
+			response.sendRedirect(getBaseURL() + usererrorpage);
 			return;
-		}
-		String lang = mcrSession.getCurrentLanguage();
-		logger.info("LANG = " + lang);
+		}		
 
 		// prepare the MCRObjectID's for the Metadata
 		String mmcrid = "";
@@ -159,8 +156,8 @@ abstract public class MCRCheckDataBase extends MCRCheckBase {
 		// call the getNextURL and sendMail methods
 		String url = getNextURL(ID);
 		sendMail(ID);
-		job.getResponse().sendRedirect(
-				job.getResponse().encodeRedirectURL(getBaseURL() + url));
+		response.sendRedirect(
+				response.encodeRedirectURL(getBaseURL() + url));
 	}
 
 	/**

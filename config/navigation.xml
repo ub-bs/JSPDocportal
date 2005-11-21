@@ -86,7 +86,10 @@
                </navitem>
                <navitem name="workflow-edit" label="Nav.WorkflowEdit" href="content/workflow-editor.jsp" hidden="true">
                   <refitem name="~workflow-edit" label="" />
-               </navitem>               
+               </navitem> 
+			   <navitem name="editor-include" label="Nav.WorkflowEdit" href="content/editor-include.jsp" hidden="true">
+			      <refitem name="~editor-include" label="" />							
+			   </navitem>			                 
             </navitem>
             <navitem name="manuals" label="Nav.Manuals" href="content/manuals.jsp">
             	<navitem name="technics" label="Nav.TechnicalBackground" href="content/docu/general.jsp" />
