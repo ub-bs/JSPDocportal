@@ -134,23 +134,6 @@
     </rules>
   </type>  
   
-  <type ID="tablename">
-    <label>SQLDB</label>
-    <mime>text/xml</mime>
-    <rules>
-      <pattern score="1.0" offset="-2" format="text">doctype</pattern>
-    </rules>
-  </type>  
-  
-  <type ID="tablename">
-    <label>SQLDB</label>
-    <mime>text/xml</mime>
-    <rules>
-      <extension score="0.8">xml</extension>
-      <pattern score="1.0" offset="-1" format="text">&lt;roottag</pattern>
-    </rules>
-  </type>  
-  
   <type ID="xml">
     <label>XML</label>
     <mime>text/xml</mime>
