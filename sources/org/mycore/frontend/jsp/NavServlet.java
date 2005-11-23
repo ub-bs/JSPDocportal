@@ -173,8 +173,7 @@ public class NavServlet extends HttpServlet
         log.debug("Processing navigation path "+path);
         
         if (e.isExtern()) {
-log.debug("HH:link auf " + e.getPage());        	
-        	response.sendRedirect(e.getPage());
+       		response.sendRedirect(e.getPage());
         	return;
         }
         
