@@ -8,7 +8,7 @@ MCR.editor_institution_directory=C:/sample-mcrjsp/export/institution
 MCR.editor_author_directory=C:/sample-mcrjsp/export/author
 MCR.IFS.ContentStore.FS.BaseDirectory=C:/sample-mcrjsp/tmp
 MCR.IFS.ContentStore.Lucene.IndexDirectory=C:/sample-mcrjsp/lucene-index
-MCR.IFS.ContentStore.Lucene.BaseDirectory=C:sample-mcrjsp/lucene-base
+MCR.IFS.ContentStore.Lucene.BaseDirectory=C:/sample-mcrjsp/lucene-base
 MCR.LogFile=C:/sample-mcrjsp/tmp/mcrjsp.log
 
 MCR.Save.FileSystem=C:/sample-mcrjsp/save
