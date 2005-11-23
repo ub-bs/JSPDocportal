@@ -95,7 +95,12 @@
       <servlet id="OAIDataProvider">
             <servlet-name>MCROAIDataProvider</servlet-name>
             <servlet-class>org.mycore.services.oai.MCROAIDataProvider</servlet-class>
-      </servlet>        
+      </servlet>
+      
+      <servlet id="MCRAdminServlet">
+        <servlet-name>MCRAdminServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.servlets.MCRAdminServlet</servlet-class>
+      </servlet>
       
     <!-- mycore servlets -->
     
@@ -280,7 +285,12 @@
     <servlet-mapping>
             <servlet-name>MCRLayoutServlet</servlet-name>
             <url-pattern>/servlets/MCRLayoutServlet</url-pattern>
-    </servlet-mapping> 	       
+    </servlet-mapping> 	  
+
+    <servlet-mapping>
+        <servlet-name>MCRAdminServlet</servlet-name>
+        <url-pattern>/admin</url-pattern>
+    </servlet-mapping>
 
     <!-- specific servlets -->
 

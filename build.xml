@@ -2,7 +2,7 @@
 
 <!-- =================================================================== -->
 <!-- MyCoRe sample application build file for use with Apache Ant        -->
-<!-- $Revision: 1.5 $ $Date: 2005-11-21 13:04:27 $                      -->
+<!-- $Revision: 1.6 $ $Date: 2005-11-23 08:55:27 $                      -->
 <!-- =================================================================== -->
 
 <project default="usage" basedir=".">
@@ -127,7 +127,7 @@
 	    <echo>Operating system   : ${os.name} Version ${os.version} on ${os.arch} </echo>
 	    <echo>Java version       : JDK ${ant.java.version} Version ${java.version} from ${java.vendor}</echo>
 	    <echo>Java home          : ${env.JAVA_HOME}</echo>
-	    <echo>Ant build file     : $Revision: 1.5 $ $Date: 2005-11-21 13:04:27 $</echo>
+	    <echo>Ant build file     : $Revision: 1.6 $ $Date: 2005-11-23 08:55:27 $</echo>
 	    <echo>Ant version        : ${ant.version}</echo>
 	    <echo>Ant home           : ${env.ANT_HOME}</echo>
 	    <echo>XML Store type     : ${MCR.XMLStore.Type}</echo>
@@ -702,7 +702,7 @@
     <!-- =================================================================== -->
 
     <target name="webapps"
-        depends="init,webapps.base,webapps.swf,webapps.useradmin,webapps.jsp">
+        depends="init,webapps.base,webapps.swf,webapps.useradmin,webapps.accessadmin, webapps.jsp">
         <echo>
             Creating web application in directory ${docportal.webapps}
         </echo>
@@ -741,23 +741,38 @@
         </copy>
     </target>
 
-    <target name="webapps.useradmin">
+	  <target name="webapps.useradmin">
 
-        <!-- Create necessary directories  -->
-        <mkdir dir="${docportal.webapps}" />
-        <mkdir dir="${docportal.webapps}/editor" />
+	    <!-- Create necessary directories  -->
+	    <mkdir dir="${docportal.webapps}"/>
+	    <mkdir dir="${docportal.webapps}/editor"/>
 
-        <!-- Copy files  -->
-        <copy todir="${docportal.webapps}">
-            <fileset
-                file="${env.MYCORE_HOME}/modules/module-useradmin/webapps/*.xml" />
-        </copy>
-        <copy todir="${docportal.webapps}/editor">
-            <fileset
-                file="${env.MYCORE_HOME}/modules/module-useradmin/webapps/editor/*.xml" />
-        </copy>
-    </target>
+	    <!-- Copy files  -->
+	    <copy todir="${docportal.webapps}">
+	      <fileset file="${env.MYCORE_HOME}/modules/module-useradmin/webapps/*.xml"/>
+	    </copy>
+	    <copy todir="${docportal.webapps}/editor">
+	      <fileset file="${env.MYCORE_HOME}/modules/module-useradmin/webapps/editor/*.xml"/>
+	    </copy>
+	  </target>
+		
+	  <target name="webapps.accessadmin">
 
+	    <!-- Create necessary directories  -->
+	    <mkdir dir="${docportal.webapps}"/>
+
+	    <!-- Copy files  -->
+	    <copy todir="${docportal.webapps}/admin">
+	      <fileset file="${env.MYCORE_HOME}/modules/module-accessadmin/webapps/content/*.*"/>
+	    </copy>
+	    <copy todir="${docportal.webapps}/admin/css">
+	      <fileset file="${env.MYCORE_HOME}/modules/module-accessadmin/webapps/stylesheets/*.*"/>
+	    </copy>
+	    <copy todir="${docportal.webapps}/admin/images">
+	      <fileset file="${env.MYCORE_HOME}/modules/module-accessadmin/webapps/images/*.*"/>
+	    </copy>
+	  </target>	
+	
     <target name="webapps.base">
 
         <!-- Create necessary directories  -->
@@ -971,6 +986,7 @@
             <arg line="/c dir *.*" />
         </exec>
     </target>
+	
 
     <target name="copy.webapp.jdbc" if="MCR.JDBCStore.BaseDir">
         <copy todir="${docportal.webapps}/WEB-INF/lib/tmp"

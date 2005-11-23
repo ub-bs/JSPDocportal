@@ -91,6 +91,8 @@
 			      <refitem name="~editor-include" label="" />							
 			   </navitem>			                 
             </navitem>
+            <navitem name="admin" label="Nav.Admin" href="admin" extern="true">
+            </navitem>            
             <navitem name="manuals" label="Nav.Manuals" href="content/manuals.jsp">
             	<navitem name="technics" label="Nav.TechnicalBackground" href="content/docu/general.jsp" />
             	<navitem name="mycore" label="Nav.MyCoRe" href="http://www.mycore.de/" extern="true" />
