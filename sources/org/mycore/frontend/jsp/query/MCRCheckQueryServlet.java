@@ -43,11 +43,8 @@ import org.mycore.frontend.servlets.MCRServletJob;
 import org.mycore.services.fieldquery.MCRResults;
 
 /**
- * The servlet store the MCREditorServlet output XML in a file of a MCR type
- * dependencies directory, check it dependence of the MCR type and store the XML
- * in a file in this directory or if an error was occured start the editor again
- * with <b>todo </b> <em>repair</em>.
- * 
+ * This servlet is checking the incoming query for sorted fields and
+ *  is adding some default fields
  * @author Heiko Helmbrecht
  * @version $Revision$ $Date$
  */
