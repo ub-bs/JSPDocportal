@@ -21,6 +21,7 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.Namespace;
+import org.jdom.filter.ElementFilter;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.DOMOutputter;
 import org.jdom.output.Format;
@@ -28,10 +29,12 @@ import org.jdom.output.XMLOutputter;
 import org.jdom.transform.XSLTransformException;
 import org.jdom.transform.XSLTransformer;
 import org.jdom.xpath.XPath;
+import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRDefaults;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRUsageException;
+import org.mycore.common.xml.MCRURIResolver;
 import org.mycore.common.xml.MCRXMLHelper;
 import org.mycore.datamodel.classifications.MCRCategoryItem;
 import org.mycore.datamodel.ifs.MCRDirectory;
@@ -114,36 +117,16 @@ public class MCRResultFormatter {
     	return "";
     }
 	
-//	/**
-//	 * returns the attributes-value of a given jdom-Content and the relative xpath expression
-//	 * @param jdom a jdom Element
-//	 * @param xpath xpath-expression, leading to an attribute, namespaces includable
-//	 * @return String
-//	 */
-//    public static String getAttributeValue(org.jdom.Content jdom,String xpath) {
-//    	try {
-//			return ((org.jdom.Attribute) XPath.selectSingleNode( jdom, xpath)).getValue();
-//		} catch (Exception e) {
-//		   logger.debug("wrong xpath expression: " + xpath);
-//		}
-//    	return "";
-//    }
-//
-//	/**
-//	 * returns the text of a given jdom-Content and the relative xpath expression
-//	 * @param jdom a jdom Element
-//	 * @param xpath xpath-expression, leading to an element, namespaces includable
-//	 * @return String
-//	 */    
-//    public static String getElementText(org.jdom.Content jdom,String xpath) {
-//    	try {
-//			return ((org.jdom.Element) XPath.selectSingleNode( jdom, xpath)).getText();
-//		} catch (Exception e) {
-//		   logger.debug("wrong xpath expression: " + xpath);
-//		}
-//    	return "";
-//    }   
-    
+	/**
+	 * returns the value of a given jdom-Document and the relative xpath expression
+	 * @param jdom a jdom Element
+	 * @param xpath xpath-expression, namespaces includable
+	 * @return String
+	 */
+    public static String getSingleXPathValue(org.jdom.Document jdom,String xpath) {
+    	return getSingleXPathValue(jdom.getRootElement(), xpath);
+    }    
+   
     /**
      * returns the MyCoRe-Category-Text of an given MyCoRe-Classification and language
      * @param jdom a jdom element
@@ -288,7 +271,7 @@ public class MCRResultFormatter {
 			    MCRObjectID person_id = new MCRObjectID(personlink
 			        .getAttributeValue("href",Namespace.getNamespace("xlink",MCRDefaults.XLINK_URL)));
 			    try{
-			        mcr_obj.receiveFromDatastore(person_id);
+			        mcr_obj.receiveFromDatastore(person_id); 
 			        Element creator_root = mcr_obj.createXML().getRootElement();
 			        String creatorName = (String) XPath.selectSingleNode(creator_root,
 			            "concat(metadata/names/name/callname,' ',metadata/names/name/surname)");
@@ -574,9 +557,65 @@ public class MCRResultFormatter {
     		return getAuthorJoinValues(doc,xpath,separator,terminator,lang,introkey,escapeXml);    	
     	
     	return null;
+    }
+    
+    public static Document getFormattedDocDetails(Document doc, String lang) {
+    	Element mycoreobject = doc.getRootElement();
+    	String mcrObjId = mycoreobject.getAttributeValue("ID");
+    	MCRObjectID mcrid = new MCRObjectID(mcrObjId);
+		String docType = mcrid.getTypeId();
+        String docDetailResource = new StringBuffer("resource:docdetails-").append(docType).append(".xml").toString();
+        Element docFields = MCRURIResolver.instance().resolve(docDetailResource);       
 
-
-	
+        Element allMetaValuesRoot = new Element("all-metavalues");
+        allMetaValuesRoot.setAttribute("ID",mcrObjId);
+        Document allMetaValues = new Document(allMetaValuesRoot);
+        
+        for (Iterator it = docFields.getDescendants(new ElementFilter("MCRDocDetail")); it.hasNext();) {
+            Element field = (Element) it.next();
+            Element metaname = new Element("metaname");
+            if (field.getAttributeValue("rowtype").equals("standard")) {
+            			metaname.setAttribute("name", field.getAttributeValue("labelkey"));
+            			metaname.setAttribute("type","standard");
+                        List lContent = field.getChildren("MCRDocDetailContent");
+                        for(Iterator it2 = lContent.iterator(); it2.hasNext();) {
+                        	                        	
+                            Element content = (Element) it2.next();
+                            String languageRequired = content.getAttributeValue("languageRequired");
+                            String paramLang = languageRequired.equals("no") ? "":lang;
+                            String templatetype = content.getAttributeValue("templatetype");
+                            String xpath = content.getAttributeValue("xpath");
+                            String contentSeparator = content.getAttributeValue("separator"); 
+                            String contentTerminator = content.getAttributeValue("terminator"); 
+                            String introkey = content.getAttributeValue("introkey");
+                            String escapeXml = content.getAttributeValue("escapeXml");                        
+                            if (introkey == null) introkey = "";
+                            if (contentSeparator == null) contentSeparator = ", ";
+                            if (contentTerminator == null) contentTerminator = ", ";                        
+                            if (escapeXml == null) escapeXml = "true";
+                            Element metaValues = getFormattedMCRDocDetailContent(doc, xpath, 
+                                    contentSeparator, contentTerminator, paramLang, templatetype, introkey, escapeXml);
+                            if ((metaValues != null) && (metaValues.getChildren().size() > 0))
+                                metaname.addContent(metaValues);
+                        }
+                        if (metaname.getChildren() != null && metaname.getChildren().size() > 0) {
+                        	allMetaValuesRoot.addContent(metaname);
+                        }
+            }else if(field.getAttributeValue("rowtype").equals("space")){
+            	metaname.setAttribute("type","space");
+            	allMetaValuesRoot.addContent(metaname);
+            }
+            
+        }
+        return allMetaValues ;
+    }
+  
+    public static void main(String[] args) {
+    	Document neu = getFormattedDocDetails((new MCRObject()).receiveJDOMFromDatastore("DocPortal_document_00410903"),"de");
+    	if (neu == null) System.out.println("is null");
+        System.out.println(JSPUtils.getPrettyString(neu));
+        
+        System.out.println(getSingleXPathValue(neu.getRootElement(),"/all-metavalues/metaname/@name"));
     }
 	
-}	
+}
