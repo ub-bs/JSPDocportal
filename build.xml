@@ -2,7 +2,7 @@
 
 <!-- =================================================================== -->
 <!-- MyCoRe sample application build file for use with Apache Ant        -->
-<!-- $Revision: 1.6 $ $Date: 2005-11-23 08:55:27 $                      -->
+<!-- $Revision: 1.7 $ $Date: 2005-11-25 14:05:15 $                      -->
 <!-- =================================================================== -->
 
 <project default="usage" basedir=".">
@@ -127,7 +127,7 @@
 	    <echo>Operating system   : ${os.name} Version ${os.version} on ${os.arch} </echo>
 	    <echo>Java version       : JDK ${ant.java.version} Version ${java.version} from ${java.vendor}</echo>
 	    <echo>Java home          : ${env.JAVA_HOME}</echo>
-	    <echo>Ant build file     : $Revision: 1.6 $ $Date: 2005-11-23 08:55:27 $</echo>
+	    <echo>Ant build file     : $Revision: 1.7 $ $Date: 2005-11-25 14:05:15 $</echo>
 	    <echo>Ant version        : ${ant.version}</echo>
 	    <echo>Ant home           : ${env.ANT_HOME}</echo>
 	    <echo>XML Store type     : ${MCR.XMLStore.Type}</echo>
@@ -451,7 +451,7 @@
     </target>
 
     <target name="compile"
-        depends="compile_base,compile_services_nbn,compile_common, compile_common_xml, compile_frontend_jsp, compile_servlets, compile_workflow, compile_backend_query, compile_backend_hibernate, compile_services_oai" />
+        depends="compile_base,compile_services_nbn,compile_common, compile_common_xml, compile_frontend_jsp, compile_frontend_jsp_nav, compile_frontend_jsp_query, compile_servlets, compile_workflow, compile_backend_query, compile_backend_hibernate, compile_services_oai" />
 
     <target name="compile_base">
         <mkdir dir="${docportal.classes}" />
@@ -464,11 +464,23 @@
         </antcall>
     </target>
     <target name="compile_frontend_jsp">
-        <echo>Compiling the frontend jsp package</echo>
+        <echo>Compiling the frontend jsp navigation package</echo>
         <antcall target="javac">
-            <param name="packages" value="org/mycore/frontend/jsp/**" />
+            <param name="packages" value="org/mycore/frontend/jsp/*" />
+        </antcall>
+    </target>	
+    <target name="compile_frontend_jsp_nav">
+        <echo>Compiling the frontend jsp navigation package</echo>
+        <antcall target="javac">
+            <param name="packages" value="org/mycore/frontend/jsp/navigation/**" />
         </antcall>
     </target>
+    <target name="compile_frontend_jsp_query">
+        <echo>Compiling the frontend jsp query package</echo>
+        <antcall target="javac">
+            <param name="packages" value="org/mycore/frontend/jsp/query/**" />
+        </antcall>
+    </target>	
     <target name="compile_common_xml">
         <echo>Compiling the common xml package</echo>
         <antcall target="javac">
@@ -785,8 +797,10 @@
         <mkdir dir="${docportal.webapps}/WEB-INF/stylesheets" />
 
         <!-- Copy editor stylesheets from MyCoRe and the DocPortal Application -->
+    	<!--
         <copy file="${env.MYCORE_HOME}/stylesheets/MCRJDOMSearch.xsl"
             todir="${docportal.webapps}/WEB-INF/classes" />
+        -->            
         <copy file="${env.MYCORE_HOME}/stylesheets/editor/editor.xsl"
             todir="${docportal.webapps}/WEB-INF/stylesheets" />
         <copy
@@ -849,12 +863,12 @@
                 includes="web.xml ibm*.xmi" />
         </copy>
         <copy todir="${docportal.webapps}/WEB-INF/lib">
-            <fileset dir="${env.DOCPORTAL_HOME}/lib" includes="*.jar" />
+            <fileset dir="${env.DOCPORTAL_HOME}/lib" includes="*.jar" excludes="jsp-api*.jar" />
             <fileset dir="${env.MYCORE_HOME}/lib" includes="*.jar"
                 excludes="servlet-api*" />
         </copy>
         <copy todir="${docportal.webapps}/WEB-INF/classes">
-            <fileset dir="${docportal.classes}" />
+            <!-- <fileset dir="${docportal.classes}" /> -->
             <fileset dir="${docportal.config}" excludes="user/*" />
             <fileset dir="${docportal.schema}" />
             <fileset dir="${docportal.stylesheets}"
@@ -1008,7 +1022,7 @@
     <!-- Build a web application archive                                     -->
     <!-- =================================================================== -->
 
-    <target name="war" depends="clean, create.schema, jar, webapps">
+    <target name="war" depends="clean, create.schema, jar, create.taglib, webapps">
         <jar jarfile="mycoresample.war" basedir="${docportal.webapps}" />
     </target>
 
@@ -1030,6 +1044,7 @@
         <delete file="${docportal.stylesheets}/MCRMetadataSchema.xsl" />
         <delete includeEmptyDirs="true">
             <fileset dir="${docportal.lib}" includes="docportal*.jar" />
+                <fileset dir="${docportal.lib}" includes="mycore-taglibs.jar" />        	
         </delete>
     </target>
 
@@ -1293,7 +1308,29 @@
             <arg value="${docportal.sources}/org/mycore/backend/query" />
         </java>
     </target>
-
+	
+    <!-- =================================================================== -->
+    <!-- Generate mcr-taglib.jar                                 -->
+    <!-- =================================================================== -->	
+	
+	<target name="compile-mcr-taglib"
+		description="generation of a taglib.jar for mycore">
+		<echo message="Generation of the MyCoRe-Taglib: mcr-taglib.jar" />
+        <antcall target="javac">
+            <param name="packages" value="org/mycore/frontend/jsp/taglibs/**" />
+        </antcall>		
+	</target>
+	
+	<target name="create.taglib" depends="compile-mcr-taglib">
+		<mkdir dir="${docportal.config}/tmp-tld" />
+		<copy file="${docportal.config}/mycore-taglibs.tld" tofile="${docportal.config}/tmp-tld/taglib.tld" />
+        <jar
+            destfile="${docportal.lib}/mycore-taglibs.jar">
+            <fileset dir="${docportal.classes}" includes="org/mycore/frontend/jsp/taglibs/*.class" />
+        	<metainf file="${docportal.config}/tmp-tld/taglib.tld" />
+        </jar>	
+        <delete dir="${docportal.config}/tmp-tld" />
+	</target>
 </project>
 
 <!-- ======================== End of file ======================== -->
