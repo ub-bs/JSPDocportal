@@ -138,11 +138,9 @@ public class JSPUtils {
         else
            return false;
      }
-     public static boolean isDocument(String docType) {
-        if (docType.equals("document"))
-           return true;
-        else
-           return false;
+   	 public static boolean isDocument(String docType) {
+   	   String searchTypes = MCRConfiguration.instance().getString("MCR.type_alldocs", "alldocs");
+ 	   return (searchTypes.indexOf(docType) > 0);
      }    
      public static boolean isInstitution(String docType) {
         if (docType.equals("institution"))
