@@ -627,7 +627,12 @@ LOGGER.debug("WFM has ended");
 						}
 					}
 					sb = new StringBuffer("nav?path=~docdetail&id=").append(mysemcrid);
-					myfile = sb.toString();
+					if ( mypage != null) {
+						myfile = mypage;
+					} else {
+						myfile = sb.toString();
+					}
+					
 				} else {
 					myfile = storeerrorpage;
 				}
