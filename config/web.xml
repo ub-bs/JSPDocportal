@@ -8,7 +8,7 @@
     <description></description>
 
     <listener>
-	<listener-class>org.mycore.frontend.jsp.ContextListener</listener-class>
+    <listener-class>org.mycore.frontend.jsp.ContextListener</listener-class>
     </listener>
     
     <!-- servlets -->
@@ -76,11 +76,11 @@
         <servlet-name>MCRCheckQueryServlet</servlet-name>
         <servlet-class>org.mycore.frontend.jsp.query.MCRCheckQueryServlet</servlet-class>
     </servlet>    
-	
+    
     <servlet>
         <servlet-name>MCRCheckQueryForUserServlet</servlet-name>
         <servlet-class>org.mycore.frontend.jsp.query.MCRCheckQueryForUserServlet</servlet-class>
-    </servlet>	
+    </servlet>  
     
     <servlet>
         <servlet-name>MCRResortQueryServlet</servlet-name>
@@ -110,18 +110,18 @@
     </servlet>
 
     <servlet>
-	<servlet-name>MCRCheckNewDataServlet</servlet-name>
-	<servlet-class>org.mycore.frontend.servlets.MCRCheckNewDataServlet</servlet-class>
+    <servlet-name>MCRCheckNewDataServlet</servlet-name>
+    <servlet-class>org.mycore.frontend.servlets.MCRCheckNewDataServlet</servlet-class>
     </servlet>
 
     <servlet>
-	<servlet-name>MCRCheckEditDataServlet</servlet-name>
-	<servlet-class>org.mycore.frontend.servlets.MCRCheckEditDataServlet</servlet-class>
+    <servlet-name>MCRCheckEditDataServlet</servlet-name>
+    <servlet-class>org.mycore.frontend.servlets.MCRCheckEditDataServlet</servlet-class>
     </servlet>    
     
     <servlet>
-	<servlet-name>MCRStartEditorServlet</servlet-name>
-	<servlet-class>org.mycore.frontend.servlets.MCRStartEditorServlet</servlet-class>
+    <servlet-name>MCRStartEditorServlet</servlet-name>
+    <servlet-class>org.mycore.frontend.servlets.MCRStartEditorServlet</servlet-class>
     </servlet>
 
     <servlet>
@@ -130,8 +130,8 @@
     </servlet>
     
     <servlet>
-	<servlet-name>MCRListWorkflowServlet</servlet-name>
-	<servlet-class>org.mycore.frontend.servlets.MCRListWorkflowServlet</servlet-class>
+    <servlet-name>MCRListWorkflowServlet</servlet-name>
+    <servlet-class>org.mycore.frontend.servlets.MCRListWorkflowServlet</servlet-class>
     </servlet>
 
     <servlet>
@@ -140,7 +140,7 @@
     </servlet>
 
     <servlet>
-	<servlet-name>MCRCheckNewFileServlet</servlet-name>
+    <servlet-name>MCRCheckNewFileServlet</servlet-name>
         <servlet-class>org.mycore.frontend.servlets.MCRCheckNewFileServlet</servlet-class>
     </servlet>
     
@@ -158,8 +158,8 @@
 
     <servlet-mapping>
     
-	<servlet-name>NavServlet</servlet-name>
-	<url-pattern>/nav</url-pattern>
+    <servlet-name>NavServlet</servlet-name>
+    <url-pattern>/nav</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -168,53 +168,53 @@
     </servlet-mapping>
 
     <servlet-mapping>
-		<servlet-name>MCREditorServlet</servlet-name>
-		<url-pattern>/editor</url-pattern>
+        <servlet-name>MCREditorServlet</servlet-name>
+        <url-pattern>/editor</url-pattern>
     </servlet-mapping>
     
     <servlet-mapping>
-		<servlet-name>MCREditorServlet</servlet-name>
-		<url-pattern>/servlets/XMLEditor</url-pattern>
+        <servlet-name>MCREditorServlet</servlet-name>
+        <url-pattern>/servlets/XMLEditor</url-pattern>
     </servlet-mapping>
     
     <servlet-mapping>
-		<servlet-name>MCREditorForwardServlet</servlet-name>
-		<url-pattern>/editor-forward/*</url-pattern>
+        <servlet-name>MCREditorForwardServlet</servlet-name>
+        <url-pattern>/editor-forward/*</url-pattern>
     </servlet-mapping>
     
     <servlet-mapping>
-		<servlet-name>LoginServlet</servlet-name>
-		<url-pattern>/login</url-pattern>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/login</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
-		<servlet-name>LogoutServlet</servlet-name>
-		<url-pattern>/logout</url-pattern>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/logout</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
-		<servlet-name>MCRCheckNewDataServlet</servlet-name>
-		<url-pattern>/servlets/MCRCheckNewDataServlet</url-pattern>
+        <servlet-name>MCRCheckNewDataServlet</servlet-name>
+        <url-pattern>/servlets/MCRCheckNewDataServlet</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
-		<servlet-name>MCRCheckEditDataServlet</servlet-name>
-		<url-pattern>/servlets/MCRCheckEditDataServlet</url-pattern>
+        <servlet-name>MCRCheckEditDataServlet</servlet-name>
+        <url-pattern>/servlets/MCRCheckEditDataServlet</url-pattern>
     </servlet-mapping>
     
     <servlet-mapping>
-		<servlet-name>MCRStartEditorServlet</servlet-name>
-		<url-pattern>/start_edit</url-pattern>
+        <servlet-name>MCRStartEditorServlet</servlet-name>
+        <url-pattern>/start_edit</url-pattern>
     </servlet-mapping>
     
     <servlet-mapping>
-		<servlet-name>MCREditorServlet</servlet-name>
-		<url-pattern>/upload</url-pattern>
+        <servlet-name>MCREditorServlet</servlet-name>
+        <url-pattern>/upload</url-pattern>
     </servlet-mapping>
     
     <servlet-mapping>
-		<servlet-name>MCRListWorkflowServlet</servlet-name>
-		<url-pattern>/servlets/MCRListWorkflowServlet</url-pattern>
+        <servlet-name>MCRListWorkflowServlet</servlet-name>
+        <url-pattern>/servlets/MCRListWorkflowServlet</url-pattern>
     </servlet-mapping>
     
     <servlet-mapping>
@@ -266,14 +266,14 @@
                <servlet-name>MCRCheckQueryForUserServlet</servlet-name>
                <url-pattern>/searchUsersDocuments</url-pattern>
     </servlet-mapping>
-	    
+        
     <servlet-mapping>
                <servlet-name>MCRResortQueryServlet</servlet-name>
                <url-pattern>/resortresult</url-pattern>
     </servlet-mapping>
     
     <servlet-mapping>
-   	       <servlet-name>MCROAIDataProvider</servlet-name>
+           <servlet-name>MCROAIDataProvider</servlet-name>
            <url-pattern>/servlets/MCROAIDataProvider</url-pattern>
     </servlet-mapping>      
       
@@ -281,11 +281,11 @@
             <servlet-name>MCRAccessCheckServlet</servlet-name>
             <url-pattern>/servlets/MCRAccessCheckServlet</url-pattern>
     </servlet-mapping> 
-	
+    
     <servlet-mapping>
             <servlet-name>MCRLayoutServlet</servlet-name>
             <url-pattern>/servlets/MCRLayoutServlet</url-pattern>
-    </servlet-mapping> 	  
+    </servlet-mapping>    
 
     <servlet-mapping>
         <servlet-name>MCRAdminServlet</servlet-name>
@@ -295,13 +295,13 @@
     <!-- specific servlets -->
 
     <welcome-file-list>
-	<welcome-file>nav</welcome-file>
+    <welcome-file>nav</welcome-file>
     </welcome-file-list>
     <error-page>
         <exception-type>java.lang.Throwable</exception-type>
         <location>/error.jsp</location>
     </error-page>
-    
+
   <jsp-config>
     <jsp-property-group>
       <url-pattern>*.jsp</url-pattern>
@@ -311,6 +311,10 @@
       <url-pattern>*.jspx</url-pattern>
       <is-xml>true</is-xml>
     </jsp-property-group>    
-  </jsp-config>    
-
+    <taglib>
+        <taglib-uri>/WEB-INF/lib/mycore-taglibs.jar</taglib-uri>
+        <taglib-location>/WEB-INF/lib/mycore-taglibs.jar</taglib-location>
+    </taglib>     
+  </jsp-config>  
+  
 </web-app>
