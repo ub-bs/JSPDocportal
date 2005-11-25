@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN"
+ "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+ 
+<taglib>
+    <tlibversion>1.0</tlibversion>
+    <jspversion>1.1</jspversion>
+    <shortname>mcr</shortname>
+    <uri>/WEB-INF/lib/mycore-taglibs.jar</uri>
+    <info>MyCoRe Sample Tag library</info>
+<!--    <tag>-->
+<!--        <name>helloWorld</name>-->
+<!--        <tagclass>org.mycore.frontend.jsp.taglibs.HelloWorldTag</tagclass>-->
+<!--        <bodycontent>empty</bodycontent>-->
+<!--        <info>A Hello World tag</info>-->
+<!--    </tag>    -->
+        <tag>
+            <name>docDetails</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRDocDetailsTag</tagclass>
+            <bodycontent>scriptless</bodycontent>
+            <attribute>
+                <description>
+                    The jdom-Document of an MyCoRe-Object
+                </description>
+                <name>mcrObj</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>
+                    The current language
+                </description>
+                <name>lang</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <info>A Tag, that parses the single-result-config-file, uses templates and builds a dom-object of the metadata for easy jstl-formatting</info>
+        </tag>
+        <tag>
+            <name>receiveMcrObjAsJdom</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRReceiveMcrObjAsJdomTag</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <description>
+                    the name of the variable that is set
+                </description>
+                <name>var</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>
+                    The String ID of the requested MCR Object
+                </description>
+                <name>mcrid</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <info>A Tag, that sets a pageContext variable with an MyCoRe-Object as jdom Document</info>
+        </tag>    
+        <tag>
+            <name>simpleXpath</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRSimpleXpathTag</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <description>
+                    the name of the jdom-Document
+                </description>
+                <name>jdom</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>
+                    The xpath-expression as String
+                </description>
+                <name>xpath</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <info>A Tag, that delivers a single xpath-value in a given jdom-Document</info>
+        </tag>
+        <tag>
+            <name>browseCtrl</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRBrowseCtrlTag</tagclass>
+            <bodycontent>scriptless</bodycontent>
+            <attribute>
+                <description>
+                    The MCRResults-Hitlist
+                </description>
+                <name>results</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>
+                    The offset of the current hit
+                </description>
+                <name>offset</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <info>A Tag, that sets the IDs of the last and next MCRResult.hit: lastHitID, nextHitID</info>
+        </tag>            
+</taglib>   
