@@ -24,36 +24,11 @@ public class ContextListener implements ServletContextListener
 {
     public void contextInitialized(ServletContextEvent event)
     {
-    	
-    	
+ 	
         MCRConfiguration.class.getName();
 
         ServletContext context = event.getServletContext();
         try {context.removeAttribute("startup_done");} catch(Throwable nevermind) {}
-
-//        final Properties p = new Properties();
-//        String level = "DEBUG";
-//        //String pattern = "%d{yyyy-MM-dd HH:mm:ss} %t %-5p %29.29c - %m%n";
-//        String pattern = "%d{yyyy-MM-dd HH:mm:ss} %t %-5p %c - %m%n";
-//        boolean append = false;
-//        String logFileName = MCRConfiguration.instance().getString("MCR.LogFile", "mcrjsp.log");
-//
-//        p.setProperty("log4j.rootLogger", level+", logger");
-//        p.setProperty("log4j.appender.logger", "org.apache.log4j.DailyRollingFileAppender");
-//        p.setProperty("log4j.appender.logger.DatePattern", "'.'yyyyMMdd");
-//        p.setProperty("log4j.appender.logger.DatePattern", "'.'yyyyMMdd");
-//        p.setProperty("log4j.appender.logger.layout", "org.apache.log4j.PatternLayout");
-//        p.setProperty("log4j.appender.logger.layout.ConversionPattern", pattern);
-//        p.setProperty("log4j.appender.logger.Append", ""+append);
-//        p.setProperty("log4j.appender.logger.File", logFileName);
-//        p.setProperty("log4j.logger.org.apache", "WARN, stdout");
-//        p.setProperty("log4j.appender.stdout", "org.apache.log4j.ConsoleAppender");
-//        p.setProperty("log4j.appender.stdout.layout", "org.apache.log4j.PatternLayout");
-//        p.setProperty("log4j.appender.stdout.layout.ConversionPattern", pattern);
-//        p.setProperty("log4j.logger.org.mycore.backend.hibernate", "ERROR");
-//        p.setProperty("log4j.logger.org.hibernate", "ERROR");        
-//        
-//        PropertyConfigurator.configure(p);
 
         Map map = new HashMap();
         new MyMCRServlet("jspkey", map);
@@ -66,11 +41,6 @@ public class ContextListener implements ServletContextListener
         
         MCRURIResolver.init(context,NavServlet.getNavigationBaseURL());  
         JSPUtils.initialize();
-//Logger.getLogger(ContextListener.class).debug((new GregorianCalendar()).toString());
-//        SearchMaskServlet.initialize();
-//Logger.getLogger(ContextListener.class).debug((new GregorianCalendar()).toString());
-        //NavServlet.initialize();
-        
 
         context.setAttribute("startup_done", "yes");
     }
