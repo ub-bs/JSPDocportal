@@ -148,11 +148,11 @@ String strQuery = output.escapeAttributeEntities(output.escapeElementEntities(ou
 
         Element mycoreobject = hit.getRootElement();
         Element metadata = mycoreobject.getChild("metadata");
-        StringBuffer doclink = new StringBuffer(NavServlet.getNavigationBaseURL())
-            .append("nav?path=~docdetail&id=").append(hitID)
-            .append("&offset=").append(k);
         String mcrID = mycoreobject.getAttributeValue("ID");
         String docType = mcrID.substring(mcrID.indexOf("_")+1,mcrID.lastIndexOf("_"));
+        StringBuffer doclink = new StringBuffer(NavServlet.getNavigationBaseURL())
+            .append("nav?path=~docdetail&id=").append(hitID)
+            .append("&offset=").append(k).append("&doctype=").append(docType);
         if (JSPUtils.isDocument(docType)) {
         %>
            <tr>
