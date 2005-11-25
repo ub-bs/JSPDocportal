@@ -98,10 +98,11 @@ if (result != null) {
 		len = result.getNumHits();
 }		
 if (len <= 100) {
-	mcrsession.put("lastMCRResults",result);
+    session.setAttribute("lastMCRResults",result);
 }else {
-	mcrsession.put("lastMCRResults",null);
+    session.setAttribute("lastMCRResults",null);
 }
+session.setAttribute("lastSearchListPath",navPath);
 org.jdom.output.XMLOutputter output = new org.jdom.output.XMLOutputter(org.jdom.output.Format.getPrettyFormat());
 String strQuery = output.escapeAttributeEntities(output.escapeElementEntities(output.outputString(jdomQuery)));
 
