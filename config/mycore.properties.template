@@ -382,8 +382,6 @@ MCR.rulestore_class_name=org.mycore.backend.hibernate.MCRHIBRuleStore
 # additional hibernate-mapping-files
 #########################
 MCR.hibernate.hbm.xml.MCRRESUMPTIONTOKEN=MCRRESUMPTIONTOKEN.hbm.xml
-MCR.hibernate.hbm.xml.MCRRESUMPTIONTOKEN_HIT=MCRRESUMPTIONTOKEN_HIT.hbm.xml
-
 
 ###################################
 #OAI
