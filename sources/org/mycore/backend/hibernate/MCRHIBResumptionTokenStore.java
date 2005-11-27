@@ -55,8 +55,10 @@ public class MCRHIBResumptionTokenStore implements MCROAIResumptionTokenStore
     static Logger logger=Logger.getLogger(MCRHIBResumptionTokenStore.class);
 
     private static final String STR_OAI_RESUMPTIONTOKEN_TIMEOUT = "MCR.oai.resumptiontoken.timeout";
-    private static final String STR_OAI_MAXRETURNS = "MCR.oai.maxreturns"; //maximum   
-    private static final String STR_OAI_REPOSITORY_IDENTIFIER = "MCR.oai.repositoryidentifier"; // Identifier    
+    private static final String STR_OAI_MAXRETURNS = "MCR.oai.maxreturns"; //maximum
+    private static final String STR_OAI_REPOSITORY_IDENTIFIER = "MCR.oai.repositoryidentifier"; // Identifier
+    private static final String STR_OAI_SEPARATOR_OAIHIT = "MCR.oai.separator.oaihit"; // A String not allowed in MCROBJIDs
+    private static final String STR_OAI_SEPARATOR_SPEC = "MCR.oai.separator.spec"; // A String not allowed in SPECS and SPECDESCRIPTIONS
 
     static MCRConfiguration config;
 
@@ -67,16 +69,7 @@ public class MCRHIBResumptionTokenStore implements MCROAIResumptionTokenStore
     public MCRHIBResumptionTokenStore()
     {
         config = MCRConfiguration.instance();
-        
-    }
 
-    public final void dropTables()
-    {
-    }
-
-    public Session getSession()
-    {
-	return MCRHIBConnection.instance().getSession();
     }
 
     public void deleteOutdatedTokens() {
@@ -94,7 +87,7 @@ public class MCRHIBResumptionTokenStore implements MCROAIResumptionTokenStore
         }
         long outdateTime = new Date().getTime() - (timeout_h * 60 * 60 * 1000);
 
-        Session session = getSession();
+        Session session = MCRHIBConnection.instance().getSession();;
         Transaction tx = session.beginTransaction();
 
         List delList = session.createCriteria(MCRRESUMPTIONTOKEN.class)
@@ -110,225 +103,142 @@ public class MCRHIBResumptionTokenStore implements MCROAIResumptionTokenStore
     }
 
     public final List getResumptionTokenHits(String resumptionTokenID, int requestedSize, int maxResults) {
-        Session session = getSession();
+
+	String sepOAIHIT = config.getString(STR_OAI_SEPARATOR_OAIHIT,";");
+	String sepSpec = config.getString(STR_OAI_SEPARATOR_SPEC,"###");
+
+        Session session = MCRHIBConnection.instance().getSession();;
         Transaction tx = session.beginTransaction();
 
-        int totalSize = ( (Long) session.createQuery("select completeSize from " +
-        		"MCRRESUMPTIONTOKEN " +
-        		"where  resumptionTokenID like '" + resumptionTokenID + "'").uniqueResult() ).intValue();
+        MCRRESUMPTIONTOKEN resumptionToken = (MCRRESUMPTIONTOKEN) session.createCriteria(MCRRESUMPTIONTOKEN.class)
+           .add(Restrictions.eq("resumptionTokenID", resumptionTokenID)).uniqueResult();
+        String prefix = resumptionToken.getPrefix();
+        String instance = resumptionToken.getInstance();
+        String repositoryID = config.getString(STR_OAI_REPOSITORY_IDENTIFIER + "." + instance);
+
+        int totalSize = (new Long(resumptionToken.getCompleteSize())).intValue();
         int hitNrFrom = totalSize - requestedSize;
-        boolean isNextTokenPartReady = false;
-        int persistedHitsSize = ( (Integer) session.createQuery("select count(*) from " +
-        		"MCRRESUMPTIONTOKEN_HIT " +
-        		"where  resumptionToken like '" + resumptionTokenID + "'").uniqueResult() ).intValue();
-        if( (persistedHitsSize - hitNrFrom > maxResults) ||(totalSize - persistedHitsSize == 0) ) isNextTokenPartReady = true;
-        int count = 0;
-        while (!isNextTokenPartReady) {
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            persistedHitsSize = ( (Integer) session.createQuery("select count(*) from " +
-            		"MCRRESUMPTIONTOKEN_HIT " +
-            		"where  resumptionToken like '" + resumptionTokenID + "'").uniqueResult() ).intValue();            
-            if( (persistedHitsSize - hitNrFrom > maxResults) ||(totalSize - persistedHitsSize == 0) ) isNextTokenPartReady = true;
-            count++;
-            if (count > 100) throw new MCRException("while-loop is not ending," +
-                    "hibernate is too slow, or the maxResults-Size to high," + 
-                    "persistedHitsSize=" + persistedHitsSize + 
-                    " / hitNrFrom=" + hitNrFrom + 
-                    " / maxResults=" + maxResults + 
-                    " / totalSize=" + totalSize) ;
-        }
-        
-//        List helpList = session.createQuery(
-//                "select MCRRESUMPTIONTOKEN_HIT from " +
-//        		"MCRRESUMPTIONTOKEN_HIT " +
-//        		"where  resumptionTokenID like '" + resumptionTokenID + "' " +
-//        		"and hitNr > " + hitNrFrom + " ").setMaxResults(maxResults).list();
+        int maxLoop = Math.min(totalSize -1, hitNrFrom + maxResults -1);
 
-        List helpList = session.createCriteria(MCRRESUMPTIONTOKEN_HIT.class)
-        	.add( Expression.like("resumptionToken.resumptionTokenID",resumptionTokenID))
-        	.addOrder(Order.asc("hitNr"))
-        	.setFirstResult(hitNrFrom)
-        	.setMaxResults(maxResults).list() 	;
+        byte[] byteHitBlob = resumptionToken.getHitByteArray();
 
+        tx.commit();
+        session.close();
+
+        String[] arHitBlob = (new String(byteHitBlob)).split(sepOAIHIT);
+
+        MCRObject object = new MCRObject();
     	List resultList = new ArrayList();
 
-        for (Iterator it = helpList.iterator(); it.hasNext();) {
-            MCRRESUMPTIONTOKEN_HIT hit = (MCRRESUMPTIONTOKEN_HIT) it.next();
-            String[] identifier = new String[6];
-            identifier[0] = hit.getOaiID();
-            identifier[1] = hit.getDatestamp();
-            identifier[2] = hit.getSpec();
-            identifier[3] = hit.getMcrobjID();
-            identifier[4] = hit.getSpecName();
-            identifier[5] = hit.getSpecDescription();
-            resultList.add(identifier);
+        for (int i = hitNrFrom; i <= maxLoop; i++) {
+           String oaiID = "";
+           String datestamp = "";
+           String spec = "";
+           String mcrobjID = "";
+           String specDescription = "";
+           String specName = "";
+           if (!prefix.equals("set")) {
+              String objectId = arHitBlob[i];
+              object.receiveFromDatastore(objectId);
+              String[] header = MCROAIQueryService.getHeader(object, objectId, repositoryID,
+                               instance);
+              oaiID = header[0];
+              datestamp = header[1];
+              spec = header[2] ;
+              mcrobjID = header[3];
+           } else {
+              String[] specArray = arHitBlob[i].split(sepSpec);
+              spec = specArray[0];
+              if ((specArray[1] != null) && (specArray[1].length() > 0)) {
+                 specName = specArray[1];
+              }
+              if ((specArray[2] != null) && (specArray[2].length() > 0)) {
+                 specDescription = specArray[2];
+              }
+           }
+           String[] identifier = new String[6];
+           identifier[0] = oaiID;
+           identifier[1] = datestamp;
+           identifier[2] = spec;
+           identifier[3] = mcrobjID;
+           identifier[4] = specName;
+           identifier[5] = specDescription;
+           resultList.add(identifier);
         }
-
-
-    	tx.commit();
-    	session.close();
 
     	return resultList;
-    }
-
-    /**
-     * The method create a new MCRResumptionToken in the datastore.
-     *
-     * @param classification an instance of a MCRClassificationItem
-     **/
-    public final void createResumptionToken(String id, String prefix, 
-            String instance, List resultList)
-    {
-        int maxreturns = config.getInt(STR_OAI_MAXRETURNS, 10);       
-        MCRRESUMPTIONTOKEN tok = new MCRRESUMPTIONTOKEN();
-        try{
-		    Session session = getSession();
-			Transaction tx = session.beginTransaction();
-		
-			List resumptionTokList = new ArrayList();
-		
-			tok.setResumptionTokenID(id);
-			tok.setPrefix(prefix);
-			tok.setCreated(new Date());
-			tok.setCompleted(false);
-			tok.setCompleteSize(resultList.size());
-			tok.setInstance(instance);
-			tok.setResultList(resumptionTokList);
-			session.saveOrUpdate(tok);
-			tx.commit();
-			session.close();
-
-        } catch(Exception ex) {
-            ex.printStackTrace();
-        }
-        String repositoryID = config.getString(STR_OAI_REPOSITORY_IDENTIFIER + "."
-                + instance);
-        Thread t = new ResumptionTokenResultListThread(tok,resultList, 
-                maxreturns, prefix, repositoryID, instance);
-        return;
-    }
-
-    private void delete(Session session, String query)
-    {
-        List l = session.createQuery(query).list();
-        for(int t=0;t<l.size();t++) {
-	    session.delete(l.get(t));
-        }
     }
 
     /* (non-Javadoc)
      * @see org.mycore.services.oai.MCROAIResumptionTokenStore#getPrefix(java.lang.String)
      */
     public String getPrefix(String token) {
-        Session session = getSession();
+        Session session = MCRHIBConnection.instance().getSession();
         Transaction tx = session.beginTransaction();
 
         String prefix =  (String) session.createQuery("select prefix from " +
-        		"MCRRESUMPTIONTOKEN " +
-        		"where resumptionTokenID like '" + token + "'" ).uniqueResult() ;
-    	tx.commit();
-    	session.close();
+                        "MCRRESUMPTIONTOKEN " +
+                        "where resumptionTokenID like '" + token + "'" ).uniqueResult() ;
+        tx.commit();
+        session.close();
         return prefix;
     }
-    
-    private class ResumptionTokenResultListThread extends Thread {
-        
-        private MCRRESUMPTIONTOKEN tok;
-        private List resultList;
-        private int maxreturns;
-        private String prefix;
-        private String repositoryID;
-        private String instance;
-        
-        public ResumptionTokenResultListThread(MCRRESUMPTIONTOKEN tok, 
-                List resultList, int maxreturns, String prefix, 
-                String repositoryID, String instance) {
-            this.tok = tok;
-            this.resultList = resultList;
-            this.maxreturns = maxreturns;
-            this.prefix = prefix;
-            this.repositoryID = repositoryID;
-            this.instance = instance;
 
-            start();
+    /**
+     * The method create a new MCRResumptionToken in the datastore.
+     *
+     * @param id: the id of an ResumptionToken
+     * @param prefix: prefix of resumptionToken type, fg. "set"
+     * @param instance: String of OAI-instance
+     * @param resultList: List delivered of OAIQueryService for the new resumptionToken
+     **/
+    public final void createResumptionToken(String id, String prefix,
+            String instance, List resultList)
+    {
+	String sepOAIHIT = config.getString(STR_OAI_SEPARATOR_OAIHIT,";");
+	String sepSpec = config.getString(STR_OAI_SEPARATOR_SPEC,"###");
+        StringBuffer sbHitBlob = new StringBuffer("");
+        for(Iterator it = resultList.iterator(); it.hasNext();){
+           if (!prefix.equals("set")) {
+              sbHitBlob.append((String) it.next());
+              sbHitBlob.append(sepOAIHIT);
+           }else {
+              String[] arSpec = (String[]) it.next();
+              String spec = arSpec[0];
+              String specName = (arSpec[1] != null) ? arSpec[1] : "";
+              String specDescription = (arSpec[2] != null) ? arSpec[2] : "";
+              sbHitBlob.append(spec)
+                       .append(sepSpec)
+                       .append(specName)
+                       .append(sepSpec)
+                       .append(specDescription)
+                       .append(sepSpec)
+                       .append("dummyForSplit");
+              sbHitBlob.append(sepOAIHIT);
+           }
         }
 
-        /* (non-Javadoc)
-         * @see java.lang.Runnable#run()
-         */
-        public void run() {
-        	try {
-                Session session = getSession();
-                Transaction tx = session.beginTransaction();
+        byte[] hitBlob = sbHitBlob.toString().getBytes();
 
-                List resumptionTokList = new ArrayList();
-                int count = 0;
-                
-                for (Iterator it = resultList.iterator(); it.hasNext();) {
-                    count++ ;
-                    String oaiID = "";
-                    String datestamp = "";
-                    String spec = "";
-                    String mcrobjID = "";
-                    String specDescription = "";
-                    String specName = "";
-                    
-                    if (!prefix.equals("set")) {
-                        String objectId = (String) it.next();
-                        MCRObject object = new MCRObject();
-                        object.receiveFromDatastore(objectId);
-                       String[] array = MCROAIQueryService.getHeader(object, objectId, repositoryID,
-                               instance);                        
-                        oaiID = array[0];
-                        datestamp = array[1];
-                        spec = array[2] ;
-                        mcrobjID = array[3];
-                    } else {
-                        String[] array = (String[]) it.next();
-                        spec = array[0];
-                        if ((array[1] != null) && (array[1].length() > 0)) {
-                            specName = array[1];
-                        }                        
-                        if ((array[2] != null) && (array[2].length() > 0)) {
-                            specDescription = array[2];
-                        }
-                    }
-                    
-                    MCRRESUMPTIONTOKEN_HIT hit = 
-                        new MCRRESUMPTIONTOKEN_HIT(count,
-            	            mcrobjID,oaiID,spec,specName,
-            	            specDescription,datestamp,tok);;
+        MCRRESUMPTIONTOKEN tok = new MCRRESUMPTIONTOKEN();
+        try{
+		    Session session = MCRHIBConnection.instance().getSession();
+			Transaction tx = session.beginTransaction();
 
-                	session.saveOrUpdate(hit);
-                	resumptionTokList.add(hit);
-                	
-                	// jdbc-batch-size = 25 recommended
-                	if((count % 25 == 0)) {
-                	    session.flush();
-                	    session.clear();
-                	    
-                	    if( count % ((maxreturns/25 +1)*25) == 0)
-                	        sleep(250);
-                	}
-               	
-                }
-                
-                
-                tok.setCompleted(true);
-                tok.setResultList(resumptionTokList);
-                
-                session.saveOrUpdate(tok);
+			tok.setResumptionTokenID(id);
+			tok.setPrefix(prefix);
+			tok.setCreated(new Date());
+			tok.setCompleteSize(resultList.size());
+			tok.setInstance(instance);
+			tok.setHitByteArray(hitBlob);
+			session.saveOrUpdate(tok);
+			tx.commit();
+			session.close();
 
-                tx.commit();
-                session.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        } catch(Exception ex) {
+            Logger.getLogger(MCRHIBResumptionTokenStore.class).error("catched error: ", ex);
         }
-        
-    }    
+        return;
+    }
+
 }
