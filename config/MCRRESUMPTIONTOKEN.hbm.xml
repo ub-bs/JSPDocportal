@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC 
+<!DOCTYPE hibernate-mapping PUBLIC
 	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
@@ -9,14 +9,9 @@
          <generator class="assigned" />
       </id>
       <property name="prefix" type="string" column="PREFIX" length="64" not-null="false" unique="false" />
-      <property name="completeSize" type="long" column="COMPLETESIZE" not-null="false" unique="false" />                  
-      <property name="completed" type="boolean" column="COMPLETED" not-null="false" unique="false" />            
+      <property name="completeSize" type="long" column="COMPLETESIZE" not-null="false" unique="false" />
       <property name="created" type="timestamp" column="CREATED" not-null="false" unique="false" />
       <property name="instance" type="string" column="INSTANCE" length="128" not-null="false" unique="false" />
-      <list name="resultList" inverse="true" lazy="true" cascade="all">
-         <key column="RESUMPTIONTOKENID" />
-         <index column="HITNR" />
-         <one-to-many class="org.mycore.backend.hibernate.tables.MCRRESUMPTIONTOKEN_HIT" />
-      </list>
+      <property name="hitBlob" type="blob" column="HITBLOB" length="7000000" not-null="false" unique="false" />
    </class>
 </hibernate-mapping>

@@ -2,7 +2,7 @@ package org.mycore.backend.hibernate.tables;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import java.sql.Blob;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -20,26 +20,22 @@ public class MCRRESUMPTIONTOKEN implements Serializable {
     private long completeSize;
 
     /** nullable persistent field */
-    private boolean completed;
-
-    /** nullable persistent field */
     private Date created;
 
     /** nullable persistent field */
     private String instance;
 
-    /** persistent field */
-    private List resultList;
+    /** nullable persistent field */
+    private Blob hitBlob;
 
     /** full constructor */
-    public MCRRESUMPTIONTOKEN(String resumptionTokenID, String prefix, long completeSize, boolean completed, Date created, String instance, List resultList) {
+    public MCRRESUMPTIONTOKEN(String resumptionTokenID, String prefix, long completeSize, Date created, String instance, Blob hitBlob) {
         this.resumptionTokenID = resumptionTokenID;
         this.prefix = prefix;
         this.completeSize = completeSize;
-        this.completed = completed;
         this.created = created;
         this.instance = instance;
-        this.resultList = resultList;
+        this.hitBlob = hitBlob;
     }
 
     /** default constructor */
@@ -47,9 +43,9 @@ public class MCRRESUMPTIONTOKEN implements Serializable {
     }
 
     /** minimal constructor */
-    public MCRRESUMPTIONTOKEN(String resumptionTokenID, List resultList) {
+    public MCRRESUMPTIONTOKEN(String resumptionTokenID, Blob hitBlob) {
         this.resumptionTokenID = resumptionTokenID;
-        this.resultList = resultList;
+        this.hitBlob = hitBlob;
     }
 
     public String getResumptionTokenID() {
@@ -76,14 +72,6 @@ public class MCRRESUMPTIONTOKEN implements Serializable {
         this.completeSize = completeSize;
     }
 
-    public boolean isCompleted() {
-        return this.completed;
-    }
-
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
-    }
-
     public Date getCreated() {
         return this.created;
     }
@@ -100,12 +88,19 @@ public class MCRRESUMPTIONTOKEN implements Serializable {
         this.instance = instance;
     }
 
-    public List getResultList() {
-        return this.resultList;
+    public Blob getHitBlob() {
+        return this.hitBlob;
     }
 
-    public void setResultList(List resultList) {
-        this.resultList = resultList;
+    public void setHitBlob(Blob hitBlob) {
+        this.hitBlob = hitBlob;
+    }
+    public byte[] getHitByteArray(){
+       return MCRBlob.getBytes(this.hitBlob);
+    }
+
+    public void setHitByteArray(byte[] hitByte) {
+       this.hitBlob = new MCRBlob(hitByte);
     }
 
     public String toString() {
