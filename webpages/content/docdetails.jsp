@@ -1,13 +1,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/xml"  prefix="x" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
 <%@ page import="org.apache.log4j.Logger" %>
 <c:catch var="e">
 <fmt:setLocale value='${requestScope.lang}'/>
 <fmt:setBundle basename='messages'/>
 <c:set var="WebApplicationBaseURL" value="${requestScope.WebApplicationBaseURL}" />
-<c:set var="mcrid" value="${param.id}" />
+<c:set var="mcrid" value="${param.id}" /> 
+<c:set var="debug" value="${param.debug}" />
 <mcr:receiveMcrObjAsJdom var="mycoreobject" mcrid="${mcrid}" />
 <c:choose>
    <c:when test="${requestScope.host}">
@@ -55,7 +57,7 @@
 
 
 <table cellspacing="0" cellpadding="0" id="metaData">
-    <mcr:docDetails mcrObj="${mycoreobject}" lang="${requestScope.lang}">
+    <mcr:docDetails var="docDetails" mcrObj="${mycoreobject}" lang="${requestScope.lang}">
        <x:forEach select="$docDetails//metaname">
           <x:choose>
              <x:when select="./@type = 'space'">
