@@ -20,6 +20,14 @@
             <bodycontent>scriptless</bodycontent>
             <attribute>
                 <description>
+                    The name of the var used in the body
+                </description>
+                <name>var</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>
                     The jdom-Document of an MyCoRe-Object
                 </description>
                 <name>mcrObj</name>
