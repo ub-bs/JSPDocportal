@@ -140,7 +140,7 @@ public class JSPUtils {
      }
    	 public static boolean isDocument(String docType) {
    	   String searchTypes = MCRConfiguration.instance().getString("MCR.type_alldocs", "alldocs");
- 	   return (searchTypes.indexOf(docType) > 0);
+ 	   return (searchTypes.indexOf(docType) >= 0);
      }    
      public static boolean isInstitution(String docType) {
         if (docType.equals("institution"))
@@ -182,7 +182,7 @@ public class JSPUtils {
      
      public static void main(String[] args) {
     	 initialize();
-System.out.println(new StringBuffer("").append("heiko").append("&lang=").append("de").toString());
+    	 //just for testing
      }
    
 }	
