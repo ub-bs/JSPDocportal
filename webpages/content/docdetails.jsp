@@ -43,11 +43,11 @@
       </td>
       <td class="titles">
          <mcr:browseCtrl results="${sessionScope.lastMCRResults}" offset="${offset}" >
-            <c:if test="${lastHitID != 'null'}">
+            <c:if test="${!empty(lastHitID)}">
                 <a href="${WebApplicationBaseURL}nav?path=~docdetail&id=${lastHitID}&offset=${offset -1}">&lt;&lt;</a>&#160;&#160;
             </c:if>
             <a href="${WebApplicationBaseURL}nav?path=${sessionScope.lastSearchListPath}">^</a>&#160;&#160;
-            <c:if test="${nextHitID != 'null'}">
+            <c:if test="${!empty(nextHitID)}">
                 <a href="${WebApplicationBaseURL}nav?path=~docdetail&id=${nextHitID}&offset=${offset +1}">&gt;&gt;</a>                        
             </c:if>
          </mcr:browseCtrl>
