@@ -195,16 +195,23 @@ public class MCRResultFormatter {
     }    
 
     
-    public static Element getXPathValues(Document doc, String xpath, String separator, String terminator, String lang, String introkey, String escapeXml) {
+    public static Element getXPathValues(Document doc, String xpath, String separator, String terminator, String lang, String introkey, String escapeXml, String Start) {
     	Element metaValues = new Element("metavalues");
     	metaValues.setAttribute("type","linkedCategory");
     	metaValues.setAttribute("separator",separator);
     	metaValues.setAttribute("terminator",terminator);    	
     	metaValues.setAttribute("introkey", introkey); 
-    	metaValues.setAttribute("escapeXml", escapeXml);    	
+    	metaValues.setAttribute("escapeXml", escapeXml);
+    	metaValues.setAttribute("start", Start);
     	try {
+    		int cnt =1;
+    		int start = 1; 
+    		try { start = Integer.parseInt(Start);}
+    		catch (Exception parameterfailes) { start=1; }
+    		
 			for(Iterator it = XPath.selectNodes(doc,xpath).iterator(); it.hasNext(); ) {
 				Object obj = (Object) it.next();
+				cnt++;
 				String text = "";
 				if (obj instanceof org.jdom.Element) {
 				    Element el = (Element) obj;
@@ -216,7 +223,7 @@ public class MCRResultFormatter {
 					org.jdom.Attribute at = (org.jdom.Attribute) obj;
 					text = at.getValue();
 				}
-				if ( (text != null) && (!text.equals(""))) {
+				if ( (text != null) && (!text.equals("")) && cnt >= start) {
 					Element metaValue = new Element("metavalue");
 					metaValue.setAttribute("href","");
 					metaValue.setAttribute("text", text);
@@ -233,7 +240,7 @@ public class MCRResultFormatter {
 		
     	return metaValues;
     }    
-    
+     
 //    public static Element getTextValues(Document doc, String xpath, String separator, String lang, String introkey) {
 //    	Element metaValues = new Element("metavalues");
 //    	metaValues.setAttribute("type","linkedCategory");
@@ -348,9 +355,9 @@ public class MCRResultFormatter {
     	return metaValues;
     }    
     
-    public static Element getDigitalObjectsValues(Document doc, String xpath, String separator, String terminator, String lang, String introkey, String escapeXml) {
-    	Element digitalObjects = new Element("digitalobjects");
-    	digitalObjects.setAttribute("type","digitalObject");
+    public static Element getImagesFromObject(Document doc, String xpath, String separator, String terminator, String lang, String introkey, String escapeXml) {
+    	Element digitalObjects = new Element("images");
+    	digitalObjects.setAttribute("type","image");
     	digitalObjects.setAttribute("separator",separator);
     	digitalObjects.setAttribute("terminator",terminator);    	
     	digitalObjects.setAttribute("introkey", introkey);
@@ -360,38 +367,86 @@ public class MCRResultFormatter {
 			for(Iterator it = XPath.selectNodes(doc,xpath).iterator(); it.hasNext(); ) {
 			    String derivateID = ((Element) it.next()).getAttributeValue("href",Namespace.getNamespace("xlink",MCRDefaults.XLINK_URL));
 			    mcr_der.receiveFromDatastore(derivateID);
-			    String derivlabel = mcr_der.getLabel();
-			    String derivmain = mcr_der.getDerivate().getInternals().getMainDoc();
-			    
+
 			    MCRDirectory root;
 			    root = MCRDirectory.getRootDirectory(derivateID);
-			    MCRFile mainFile = (MCRFile) root.getChildByPath(derivmain);
-			    if (mainFile == null) {
-			    	logger.error("SEEMS TO EXIST A DERIVATE WITHOUT A DIGITAL OBJECT. REVIEW DERIVATE WITH ID: " + derivateID);
-			    	continue;
-			    }
-			    String size = String.valueOf(mainFile.getSize());
-			    String lastModified = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(mainFile.getLastModified().getTime());
-			    String contentType = mainFile.getContentTypeID();
-			    String md5 = mainFile.getMD5();
-
-			    Element digitalObject = new Element("digitalobject");
-			    digitalObject.setAttribute("derivid",derivateID);
-			    digitalObject.setAttribute("derivlabel",derivlabel);
-			    digitalObject.setAttribute("derivmain",derivmain);
-			    digitalObject.setAttribute("size",size);
-			    digitalObject.setAttribute("lastModified",lastModified);
-			    digitalObject.setAttribute("contentType",contentType);
-			    digitalObject.setAttribute("md5",md5);
-			    digitalObjects.addContent(digitalObject);
+			    MCRFilesystemNode[] myfiles = root.getChildren();
+			    for ( int i=0; i< myfiles.length; i++) {
+			    	MCRFile theFile = (MCRFile) myfiles[i];
+			    	if ( theFile.getContentTypeID().indexOf("jpeg")>= 0 ) {
+					    Element digitalObject = new Element("image");			    		
+			    		digitalObject.setAttribute("derivid",derivateID);
+			    		digitalObject.setAttribute("path",myfiles[i].getPath());
+			    		digitalObject.setAttribute("name",myfiles[i].getName());
+					    digitalObjects.addContent(digitalObject);
+			    	}
+			    }	
 			}
-		} catch (Exception e) {
-			logger.debug("error occured", e);
-			return digitalObjects;
-		} 
-    	return digitalObjects;
+    	} catch (Exception e) {
+    		logger.debug("error occured", e);
+    		return digitalObjects;
+    	} 
+		return digitalObjects;
     }
-
+    
+    public static Element getDigitalObjectsValues(Document doc, 
+        	String xpath, String separator, String terminator, String lang, String introkey, String escapeXml, boolean all) {
+        	Element digitalObjects = new Element("digitalobjects");
+        	digitalObjects.setAttribute("type","digitalObject");
+        	digitalObjects.setAttribute("separator",separator);
+        	digitalObjects.setAttribute("terminator",terminator);    	
+        	digitalObjects.setAttribute("introkey", introkey);
+        	digitalObjects.setAttribute("escapeXml", escapeXml);    	
+        	MCRDerivate mcr_der = new MCRDerivate();
+        	try {
+    			for(Iterator it = XPath.selectNodes(doc,xpath).iterator(); it.hasNext(); ) {
+    			    String derivateID = ((Element) it.next()).getAttributeValue("href",Namespace.getNamespace("xlink",MCRDefaults.XLINK_URL));
+    			    mcr_der.receiveFromDatastore(derivateID);
+    			    String derivlabel = mcr_der.getLabel();
+    			    String derivmain = mcr_der.getDerivate().getInternals().getMainDoc();
+    			    
+    			    MCRDirectory root;
+    			    root = MCRDirectory.getRootDirectory(derivateID);
+    			    MCRFilesystemNode[] myfiles = root.getChildren();
+    			    Element digitalObject = new Element("digitalobject");
+    			    
+    			    int fileCnt = 0;
+    			    
+    			    if (all) {  //all data objects 
+    			    	fileCnt = myfiles.length;
+    			    } else { 	//only the maindoc
+    			    	fileCnt = 1; 
+    			    	myfiles[0] = (MCRFile) root.getChildByPath(derivmain);
+    			    	if (myfiles[0] == null) {
+    				    	logger.error("SEEMS TO EXIST A DERIVATE WITHOUT A DIGITAL OBJECT. REVIEW DERIVATE WITH ID: " + derivateID);
+    				    	continue;
+    				    }
+    			    }
+    				for ( int i=0; i< fileCnt; i++) {
+    			    	    MCRFile theFile = (MCRFile) myfiles[i];					    
+    					    String size = String.valueOf(theFile.getSize());
+    					    String lastModified = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format( theFile.getLastModified().getTime());
+    					    String contentType = theFile.getContentTypeID();
+    					    String md5 = theFile.getMD5();
+    					    
+    					    digitalObject = new Element("digitalobject");
+    					    digitalObject.setAttribute("derivid",derivateID);
+    					    digitalObject.setAttribute("derivlabel",derivlabel);
+    				    	digitalObject.setAttribute("derivmain",theFile.getName());
+    					    digitalObject.setAttribute("size",size);
+    					    digitalObject.setAttribute("lastModified",lastModified);
+    					    digitalObject.setAttribute("contentType",contentType);
+    					    digitalObject.setAttribute("md5",md5);
+    					    digitalObjects.addContent(digitalObject);
+    			    }	
+    			}
+    		} catch (Exception e) {
+    			logger.debug("error occured", e);
+    			return digitalObjects;
+    		} 
+        	return digitalObjects;
+        }
+    
     public static Element getMailValues(Document doc, String xpath, String separator, String terminator, String lang, String introkey, String escapeXml) {
     	Element metaValues = new Element("metavalues");
     	metaValues.setAttribute("type","MailValues");
@@ -420,6 +475,30 @@ public class MCRResultFormatter {
 		} 
     	return metaValues;
     }
+    
+    public static Element getChildsFromObject(Document doc, String xpath, String separator, String terminator, String lang, String introkey, String escapeXml) {
+    	Element childObjects = new Element("childs");
+    	childObjects.setAttribute("type","child");
+    	childObjects.setAttribute("separator",separator);
+    	childObjects.setAttribute("terminator",terminator);    	
+    	childObjects.setAttribute("introkey", introkey);
+    	childObjects.setAttribute("escapeXml", escapeXml);    	
+    	//MCRObject mcr_obj = new MCRObject();
+    	try {
+			for(Iterator it = XPath.selectNodes(doc,xpath).iterator(); it.hasNext(); ) {
+			    String childID = ((Element) it.next()).getAttributeValue("href",Namespace.getNamespace("xlink",MCRDefaults.XLINK_URL));
+			    //mcr_obj.receiveFromDatastore(childID);
+			    Element childObject = new Element("child");			    		
+			    childObject.setAttribute("childID",childID);
+			    childObjects.addContent(childObject);
+			}
+    	} catch (Exception e) {
+    		logger.debug("error occured", e);
+    		return childObjects;
+    	} 
+		return childObjects;
+    }
+    
 
     /**
      * returns the metavalues-Element for 
@@ -534,19 +613,22 @@ public class MCRResultFormatter {
     
     public static Element getFormattedMCRDocDetailContent(org.jdom.Document doc, String xpath, 
     		String separator, String terminator, String lang, 
-    		String templatetype, String introkey, String escapeXml) {
+    		String templatetype, String introkey, String escapeXml, String start) {
     	
 
     	if (templatetype.equals("tpl-author_links"))
     		return getConcatenatedPersons(doc,xpath,separator,terminator,introkey,escapeXml);
     	if (templatetype.equals("tpl-text-values"))
-    		return getXPathValues(doc,xpath,separator,terminator,lang,introkey,escapeXml);
+    		return getXPathValues(doc,xpath,separator,terminator,lang,introkey,escapeXml,start);
     	if (templatetype.equals("tpl-classification"))
     		return getLinkedCategoryTexts(doc,xpath,separator,terminator,lang,escapeXml);
     	if (templatetype.equals("tpl-date-values"))
     		return getDateValues(doc,xpath,separator,terminator,lang,introkey,escapeXml);
     	if (templatetype.equals("tpl-document"))
-    		return getDigitalObjectsValues(doc,xpath,separator,terminator,lang,introkey,escapeXml);     	
+    		return getDigitalObjectsValues(doc,xpath,separator,terminator,lang,introkey,escapeXml,false);
+    	if (templatetype.equals("tpl-alldocument"))
+    		return getDigitalObjectsValues(doc,xpath,separator,terminator,lang,introkey,escapeXml,true);     	
+
     	if (templatetype.equals("tpl-boolean"))
     		return getBooleanValues(doc,xpath,separator,terminator,lang,introkey,escapeXml);
     	if (templatetype.equals("tpl-address"))
@@ -556,8 +638,14 @@ public class MCRResultFormatter {
     	if (templatetype.equals("tpl-authorjoin"))
     		return getAuthorJoinValues(doc,xpath,separator,terminator,lang,introkey,escapeXml);    	
     	
+    	if (templatetype.equals("tpl-image"))
+    		return getImagesFromObject(doc,xpath,separator,terminator,lang,introkey,escapeXml);    	
+    	if (templatetype.equals("tpl-child"))
+    		return getChildsFromObject(doc,xpath,separator,terminator,lang,introkey,escapeXml);    	
+
     	return null;
     }
+    
     
     public static Document getFormattedDocDetails(Document doc, String lang) {
     	Element mycoreobject = doc.getRootElement();
@@ -574,9 +662,11 @@ public class MCRResultFormatter {
         for (Iterator it = docFields.getDescendants(new ElementFilter("MCRDocDetail")); it.hasNext();) {
             Element field = (Element) it.next();
             Element metaname = new Element("metaname");
-            if (field.getAttributeValue("rowtype").equals("standard")) {
+            if (	field.getAttributeValue("rowtype").equals("standard") 
+            	 || field.getAttributeValue("rowtype").equals("image") 
+            	 || field.getAttributeValue("rowtype").equals("children") ) {
             			metaname.setAttribute("name", field.getAttributeValue("labelkey"));
-            			metaname.setAttribute("type","standard");
+            			metaname.setAttribute("type",field.getAttributeValue("rowtype"));
                         List lContent = field.getChildren("MCRDocDetailContent");
                         for(Iterator it2 = lContent.iterator(); it2.hasNext();) {
                         	                        	
@@ -589,12 +679,14 @@ public class MCRResultFormatter {
                             String contentTerminator = content.getAttributeValue("terminator"); 
                             String introkey = content.getAttributeValue("introkey");
                             String escapeXml = content.getAttributeValue("escapeXml");                        
+                            String start = content.getAttributeValue("start");
                             if (introkey == null) introkey = "";
                             if (contentSeparator == null) contentSeparator = ", ";
                             if (contentTerminator == null) contentTerminator = ", ";                        
                             if (escapeXml == null) escapeXml = "true";
+                            if (start == null) start = "1";
                             Element metaValues = getFormattedMCRDocDetailContent(doc, xpath, 
-                                    contentSeparator, contentTerminator, paramLang, templatetype, introkey, escapeXml);
+                                    contentSeparator, contentTerminator, paramLang, templatetype, introkey, escapeXml, start);
                             if ((metaValues != null) && (metaValues.getChildren().size() > 0))
                                 metaname.addContent(metaValues);
                         }
@@ -604,9 +696,15 @@ public class MCRResultFormatter {
             }else if(field.getAttributeValue("rowtype").equals("space")){
             	metaname.setAttribute("type","space");
             	allMetaValuesRoot.addContent(metaname);
-            }
             
-        }
+        	}else if(field.getAttributeValue("rowtype").equals("line")){
+        		metaname.setAttribute("type","line");
+        		allMetaValuesRoot.addContent(metaname);
+        	}
+            
+        }  	
+        logger.debug(JSPUtils.getPrettyString(allMetaValuesRoot));
+
         return allMetaValues ;
     }
   
