@@ -17,7 +17,7 @@
         <tag>
             <name>docDetails</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRDocDetailsTag</tagclass>
-            <bodycontent>scriptless</bodycontent>
+            <bodycontent>empty</bodycontent>
             <attribute>
                 <description>
                     The name of the var used in the body
@@ -109,5 +109,5 @@
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
             <info>A Tag, that sets the IDs of the last and next MCRResult.hit: lastHitID, nextHitID</info>
-        </tag>            
+        </tag>
 </taglib>   

@@ -41,7 +41,6 @@ public class MCRDocDetailsTag extends SimpleTagSupport
 		}
 		PageContext pageContext = (PageContext) getJspContext();		
 		pageContext.setAttribute(var, domDoc);
-        JspFragment body = getJspBody();
         JspWriter out = pageContext.getOut();
 		if(pageContext.getAttribute("debug") != null && pageContext.getAttribute("debug").equals("true")) {
 			StringBuffer debugSB = new StringBuffer("<textarea cols=\"80\" rows=\"30\">")
@@ -52,14 +51,15 @@ public class MCRDocDetailsTag extends SimpleTagSupport
 				.append("</textarea>");
 			out.println(debugSB.toString());
 		}        
-        try {
-            StringWriter stringWriter = new StringWriter();
-            body.invoke(stringWriter);
-            out.println(stringWriter);
-            
-        } catch (Exception e) {
-        	Logger.getLogger(MCRDocDetailsTag.class).error("catched error: ", e);
-        } 		
+//        try {
+//            JspFragment body = getJspBody();
+//            StringWriter stringWriter = new StringWriter();
+//            body.invoke(stringWriter);
+//            out.println(stringWriter);
+//            
+//        } catch (Exception e) {
+//        	Logger.getLogger(MCRDocDetailsTag.class).error("catched error: ", e);
+//        } 		
 		return;
 	}	
 
