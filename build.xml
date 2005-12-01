@@ -2,7 +2,7 @@
 
 <!-- =================================================================== -->
 <!-- MyCoRe sample application build file for use with Apache Ant        -->
-<!-- $Revision: 1.7 $ $Date: 2005-11-25 14:05:15 $                      -->
+<!-- $Revision: 1.8 $ $Date: 2005-12-01 14:45:32 $                      -->
 <!-- =================================================================== -->
 
 <project default="usage" basedir=".">
@@ -127,7 +127,7 @@
 	    <echo>Operating system   : ${os.name} Version ${os.version} on ${os.arch} </echo>
 	    <echo>Java version       : JDK ${ant.java.version} Version ${java.version} from ${java.vendor}</echo>
 	    <echo>Java home          : ${env.JAVA_HOME}</echo>
-	    <echo>Ant build file     : $Revision: 1.7 $ $Date: 2005-11-25 14:05:15 $</echo>
+	    <echo>Ant build file     : $Revision: 1.8 $ $Date: 2005-12-01 14:45:32 $</echo>
 	    <echo>Ant version        : ${ant.version}</echo>
 	    <echo>Ant home           : ${env.ANT_HOME}</echo>
 	    <echo>XML Store type     : ${MCR.XMLStore.Type}</echo>
@@ -451,7 +451,7 @@
     </target>
 
     <target name="compile"
-        depends="compile_base,compile_services_nbn,compile_common, compile_common_xml, compile_frontend_jsp, compile_frontend_jsp_nav, compile_frontend_jsp_query, compile_servlets, compile_workflow, compile_backend_query, compile_backend_hibernate, compile_services_oai" />
+        depends="compile_base,compile_services_nbn,compile_common, compile_common_xml, compile_frontend_jsp_format, compile_frontend_jsp, compile_frontend_jsp_nav, compile_frontend_jsp_query, compile_servlets, compile_workflow, compile_backend_query, compile_backend_hibernate, compile_services_oai" />
 
     <target name="compile_base">
         <mkdir dir="${docportal.classes}" />
@@ -463,6 +463,12 @@
             <param name="packages" value="org/mycore/services/oai/*" />
         </antcall>
     </target>
+    <target name="compile_frontend_jsp_format">
+        <echo>Compiling the frontend jsp navigation package</echo>
+        <antcall target="javac">
+            <param name="packages" value="org/mycore/frontend/jsp/format/*" />
+        </antcall>
+    </target>		
     <target name="compile_frontend_jsp">
         <echo>Compiling the frontend jsp navigation package</echo>
         <antcall target="javac">
@@ -874,7 +880,7 @@
             <fileset dir="${docportal.stylesheets}"
                 includes="mycoreobject-*-to-workflow.xsl" />
             <fileset
-                dir="${docportal.webpages}/content/docdetails-config"
+                dir="${docportal.webpages}/content/results-config"
                 includes="*.xml" />
             <fileset dir="${docportal.languages}"
                 includes="*.properties" />
