@@ -142,12 +142,15 @@
 </x:forEach>    
 <mcr:browsePageCtrl var="browseControl" totalSize="${totalhits}" size="${size}" offset="${offset}" maxDisplayedPages="10" path="${navPath}" />
 <x:forEach select="$browseControl/mcr_resultpages/mcr_resultpage">
+    <x:if select="generate-id(../mcr_resultpage[1]) = generate-id(.)">
+        <fmt:message key="SR.hitlists" />
+    </x:if>
     <x:choose>
-        <x:when select="( (contains(../@cutted-left,'true')) and (generate-id(../mcr_resultpage[position() = 1]) = generate-id(.)) )">
-            [<a href="<x:out select="./@href" />">&lt;&lt;&lt;</a>]&#160;
+        <x:when select="( (contains(../@cutted-left,'true')) and (generate-id(../mcr_resultpage[1]) = generate-id(.)) )">
+            <a href="<x:out select="./@href" />">&lt;&lt;&lt;</a>&#160;
         </x:when>
-        <x:when select="( (contains(../@cutted-right,'true')) and (generate-id(../mcr_resultpage[position() = last()]) = generate-id(.)) )">
-            [<a href="<x:out select="./@href" />">&gt;&gt;&gt;</a>]&#160;
+        <x:when select="( (contains(../@cutted-right,'true')) and (generate-id(../mcr_resultpage[last()]) = generate-id(.)) )">
+            <a href="<x:out select="./@href" />">&gt;&gt;&gt;</a>&#160;
         </x:when>        
         <x:otherwise>
             <x:choose>
