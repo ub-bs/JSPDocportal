@@ -9,7 +9,7 @@ import javax.servlet.jsp.*;
 import org.apache.log4j.Logger;
 import org.jdom.JDOMException;
 import org.jdom.output.DOMOutputter;
-import org.mycore.frontend.jsp.query.MCRResultFormatter;
+import org.mycore.frontend.jsp.format.MCRResultFormatter;
 
 
 public class MCRReceiveMcrObjAsJdomTag extends SimpleTagSupport

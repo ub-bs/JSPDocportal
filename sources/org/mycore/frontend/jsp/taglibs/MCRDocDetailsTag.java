@@ -10,11 +10,13 @@ import org.apache.log4j.Logger;
 import org.jdom.JDOMException;
 import org.jdom.output.DOMOutputter;
 import org.mycore.common.JSPUtils;
-import org.mycore.frontend.jsp.query.MCRResultFormatter;
+import org.mycore.common.MCRConfiguration;
+import org.mycore.frontend.jsp.format.MCRResultFormatter;
 
 
 public class MCRDocDetailsTag extends SimpleTagSupport
 {
+	private static MCRResultFormatter formatter;
 	private org.jdom.Document mcrObj;
 	private String var;
 	private String lang;
@@ -31,8 +33,13 @@ public class MCRDocDetailsTag extends SimpleTagSupport
 		var = inputVar;
 		return;
 	}	
+	public void initialize() {
+		formatter = (MCRResultFormatter) MCRConfiguration.instance().getSingleInstanceOf("MCR.ResultFormatter_class_name","org.mycore.frontend.jsp.format.MCRResultFormatter");
+	}
 	public void doTag() throws JspException, IOException {
-		org.jdom.Document allMetaValues = MCRResultFormatter.getFormattedDocDetails(mcrObj,lang);
+		if (formatter == null) initialize();
+		
+		org.jdom.Document allMetaValues = formatter.getFormattedDocDetails(mcrObj,lang);
 		org.w3c.dom.Document domDoc = null;
 		try {
 			domDoc = new DOMOutputter().output(allMetaValues);

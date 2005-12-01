@@ -9,7 +9,7 @@ import javax.servlet.jsp.*;
 import org.apache.log4j.Logger;
 import org.jdom.JDOMException;
 import org.jdom.output.DOMOutputter;
-import org.mycore.frontend.jsp.query.MCRResultFormatter;
+import org.mycore.frontend.jsp.format.MCRResultFormatter;
 import org.mycore.services.fieldquery.MCRResults;
 
 
@@ -36,17 +36,17 @@ public class MCRBrowseCtrlTag extends SimpleTagSupport
         	if (offset < numHits - 1) {
         		pageContext.setAttribute("nextHitID", results.getHit(offset + 1).getID());
         	}
+            JspFragment body = getJspBody();
+            JspWriter out = pageContext.getOut();
+            try {
+                StringWriter stringWriter = new StringWriter();
+                body.invoke(stringWriter);
+                out.println(stringWriter);
+                
+            } catch (Exception e) {
+            	Logger.getLogger(MCRBrowseCtrlTag.class).error("catched error: ", e);
+            }        	
         }
-        JspFragment body = getJspBody();
-        JspWriter out = pageContext.getOut();
-        try {
-            StringWriter stringWriter = new StringWriter();
-            body.invoke(stringWriter);
-            out.println(stringWriter);
-            
-        } catch (Exception e) {
-        	Logger.getLogger(MCRBrowseCtrlTag.class).error("catched error: ", e);
-        } 		
 		return;
 	}	
 
