@@ -112,7 +112,7 @@
                                     <div class="derivateHeading"><x:out select="./@derivlabel" /></div>
                                     <div class="derivate">
                                        <x:set var="mainFileURL" select="concat($WebApplicationBaseURL,'file/',./@derivid,'/',./@derivmain,'?hosts=',$host)" />
-                                       <x:set var="contentType" select="./@contentType" />
+                                       <x:set var="contentType" select="string(./@contentType)" />
                                        <table>
                                           <tr>
                                              <td><a href="<x:out select="$mainFileURL" />" target="_self"><x:out select="./@derivmain" /></a>&#160;
@@ -124,7 +124,7 @@
                                              <td>
                                                 <a href="<x:out select="concat($WebApplicationBaseURL,'nav?path=~derivatedetails&derID=',./@derivid,'&docID=',$mcrid,'&hosts=',$host)" />" target="_self"><fmt:message key="details" />&gt;&gt;</a>&#160;&#160; 
                                              </td>
-                                             <c:if test="${fn:contains('gif-jpeg-png',$contentType)}">
+                                             <c:if test="${fn:contains('gif-jpeg-png', contentType)}">
                                                 <td class="imageInResult"><a href="${mainFileURL}"><img src="${mainFileURL}" width="100"></a></td>
                                              </c:if>                                                 
                                           </tr>

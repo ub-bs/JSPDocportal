@@ -1,204 +1,164 @@
-<%@ page import="org.mycore.services.fieldquery.*,
-                 org.mycore.datamodel.metadata.MCRObject,
-                 org.mycore.common.MCRSession,
-                 org.mycore.frontend.jsp.query.MCRResultFormatter,
-                 org.jdom.Element,
-                 org.jdom.Document,
-                 org.jdom.xpath.XPath,
-                 org.mycore.frontend.jsp.NavServlet,
-                 org.mycore.frontend.jsp.*,
-                 org.mycore.frontend.servlets.MCRServlet,
-                 org.apache.log4j.Logger,
-                 java.util.*" %>
-<%@ page import="com.sun.net.ssl.internal.ssl.JS_ConvertBigInteger" %>
-<%@ page import="org.mycore.common.JSPUtils" %>
-<%@ page import="org.mycore.backend.query.MCRQueryManager" %>
-<%@ page import="org.jdom.output.XMLOutputter" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/xml"  prefix="x" %>
-<%!
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
+<c:set var="WebApplicationBaseURL" value="${requestScope.WebApplicationBaseURL}" />
+<c:choose>
+   <c:when test="${param.offset > 0}">
+      <c:set var="offset" value="${param.offset}" />
+   </c:when>
+   <c:otherwise>
+      <c:set var="offset" value="0" />
+   </c:otherwise>
+</c:choose>
+<c:choose>
+   <c:when test="${param.size < 25}">
+      <c:set var="size" value="${param.size}" />
+   </c:when>
+   <c:otherwise>
+     <c:set var="size" value="10" />
+   </c:otherwise>
+</c:choose>
+<c:choose>
+   <c:when test="${requestScope.host}">
+      <c:set var="host" value="${requestScope.host}" />
+   </c:when>
+   <c:otherwise>
+      <c:set var="host" value="local" />   
+   </c:otherwise>
+</c:choose>
+<c:set var="len" value="0" />
+<c:set var="lang" value="${requestScope.lang}" />
+<c:set var="navPath" value="${requestScope.path}" />
+<c:set var="query" value="${requestScope.query}" />
+<c:set var="resultlistType" value="${requestScope.resultlistType}" />
 
-    public String buildHitLists(int ressize, int size, int offset, String path) {
-        StringBuffer sbRet = new StringBuffer();
-        int totalNumPages= (ressize % size == 0)? ressize / size : ressize / size + 1;
-        int currentPage = offset / size +1 ;
-        String baseResultURL = new StringBuffer(NavServlet.getNavigationBaseURL()).append("nav?path=")
-        	  .append(path).toString();
-        int start = Math.max(1,currentPage -5);
-        int end = Math.min(start + 9,totalNumPages);
-        if (start > 1) {
-        	sbRet.append("<a href=\"").append(baseResultURL)
-        		.append("&size=").append(size).append("&offset=")
-        		.append((start - 1)*size).append("\">...</a>&nbsp;&nbsp;");
-        }
-        for (int i = start; i <= end ; i++) {
-           if( i == currentPage) {
-        	   sbRet.append("[<a href=\"").append(baseResultURL)
-        		.append("&size=").append(size).append("&offset=")
-        		.append((i-1)*size).append("\">").append(i).append("</a>]&nbsp;");
-           }else {
-        	   sbRet.append("<a href=\"").append(baseResultURL)
-       		.append("&size=").append(size).append("&offset=")
-       		.append((i-1)*size).append("\">").append(i).append("</a>&nbsp;");
-           }
-        }
-        if (end < totalNumPages) {
-        	sbRet.append("<a href=\"").append(baseResultURL)
-        		.append("&size=").append(size).append("&offset=")
-        		.append((end + 1)*size).append("\">...</a>&nbsp;&nbsp;");
-        } 
-        return sbRet.toString();
-     }
-%>
-<%
-int offset = 0;
-int size = 10;
-MCRObject mcr_obj = new MCRObject();
-String sOffset = request.getParameter("offset");
-String sSize = request.getParameter("size");
-if (sOffset != null) {
-    offset = Integer.parseInt(sOffset);
-}
-if (sSize != null) {
-    int tmp = Integer.parseInt(sSize);
-    if (tmp < 21) size = tmp;
-}
-int len = 0; 
-MCRSession mcrsession = MCRServlet.getSession(request);
-String lang = (String) request.getAttribute("lang");
-String path = (String) request.getParameter("path");
+<mcr:setResultList var="resultList" query="${query}" navPath="${navPath}" resultlistType="${resultlistType}" from="${offset}" until="${offset + size}" lang="${lang}" />
+<mcr:setQueryAsString var="strQuery" jdom="${query}" />
 
+<c:choose>
+    <c:when test="${fn:startsWith(resultlistType,'class')}">
+        <c:set var="headlineKey" value="SR.result-document-browse" />
+    </c:when>
+    <c:otherwise>
+        <c:set var="headlineKey" value="SR.result-document-search" />
+    </c:otherwise>
+</c:choose>
+<c:set var="debug" value="false" />
 
-Enumeration paramNames = request.getParameterNames();
-MCRResultFormatter formatter = new MCRResultFormatter();
-
-String navPath = (String) request.getAttribute("path");
-MCRResults result = null;
-org.jdom.Document jdomQuery = (org.jdom.Document) request.getAttribute("query");
-String resultlistType = (String) request.getAttribute("resultlistType");
-if ((jdomQuery != null) && (resultlistType != null)) {
-   mcrsession.put(navPath + "-jdomQuery", jdomQuery);
-   mcrsession.put(navPath + "-resultlistType", resultlistType); 
-}else {
-   jdomQuery = (org.jdom.Document) mcrsession.get(navPath + "-jdomQuery");
-   resultlistType = (String) mcrsession.get(navPath + "-resultlistType");
-}
-String headlineKey = (resultlistType.startsWith("class"))? "SR.result-document-browse" : "SR.result-document-search";
-if ((jdomQuery != null) && (resultlistType != null)) {
-
-    result = MCRQueryManager.getInstance().search(jdomQuery);
-    result.setComplete();
-    Logger.getLogger("content/searchresult.jsp").debug("found hits:" + result.getNumHits());
-}
-
-org.jdom.Element sortby = jdomQuery.getRootElement().getChild("sortby");
-
-if (result != null) {
-		len = result.getNumHits();
-}		
-if (len <= 100) {
-    session.setAttribute("lastMCRResults",result);
-}else {
-    session.setAttribute("lastMCRResults",null);
-}
-session.setAttribute("lastSearchListPath",navPath);
-org.jdom.output.XMLOutputter output = new org.jdom.output.XMLOutputter(org.jdom.output.Format.getPrettyFormat());
-String strQuery = output.escapeAttributeEntities(output.escapeElementEntities(output.outputString(jdomQuery)));
-
-
-//for (Enumeration e = request.getAttributeNames(); e.hasMoreElements() ;) {
-//	         out.println("vorhandenes attribut: " + e.nextElement() + "<br>");
-//}
-%>
-<fmt:setLocale value='<%= lang %>'/>
+<fmt:setLocale value='${lang}'/>
 <fmt:setBundle basename='messages'/>
-<div class="headline"><fmt:message key="<%= headlineKey %>" /></div>
-<form action="<%= NavServlet.getNavigationBaseURL() %>resortresult" method="get" id="resortForm">
-<input type="hidden" name="resultlistType" value="<%= resultlistType %>">
-<table cellspacing="0" cellpadding="0">
-<tr>
-<td class="resort">
-	<input type="hidden" name="query" value="<%= strQuery %>">
-	<select name="field1">
-        <option value="modified" <%= formatter.isSorted(sortby,1,"field","modified")? "selected ":"" %> ><fmt:message key="SR.sort-modified" /></option>    
-		<option value="title" <%= formatter.isSorted(sortby,1,"field","title")? "selected ":"" %> ><fmt:message key="SR.sort-title" /></option>
-		<option value="author" <%= formatter.isSorted(sortby,1,"field","author")? "selected ":"" %> ><fmt:message key="SR.sort-author" /></option>
-	</select>
-	<select name="order1">
-		<option value="ascending" <%= formatter.isSorted(sortby,1,"order","ascending")? "selected ":"" %> ><fmt:message key="SR.ascending" /></option>
-		<option value="descending" <%= formatter.isSorted(sortby,1,"order","descending")? "selected ":"" %> ><fmt:message key="SR.descending" /></option>
-	</select>
-	<input value="Sortiere Ergebnisliste neu" class="resort" type="submit">
-</td>
-<td class="resultCount"><strong><%= len %> <fmt:message key="SR.foundMCRObjects" /></strong></td>
-</tr>
-</table>
-</form>
+<x:forEach select="$resultList/mcr_results">
+    <x:set var="totalhits" select="string(./@total-hitsize)" scope="page" />
+    <div class="headline"><fmt:message key="${headlineKey}" /></div>
+    <form action="${WebApplicationBaseURL}resortresult" method="get" id="resortForm">
+        <input type="hidden" name="resultlistType" value="${resultlistType}">
+        <table cellspacing="0" cellpadding="0">
+            <tr>
+                <td class="resort">
+                    <input type="hidden" name="query" value="${strQuery}">
+                        <select name="field1">
+                            <option value="modified" <mcr:ifSorted query="${query}" attributeName="field" attributeValue="modified">selected</mcr:ifSorted> ><fmt:message key="SR.sort-modified" /></option>    
+                            <option value="title" <mcr:ifSorted query="${query}" attributeName="field" attributeValue="title">selected</mcr:ifSorted> ><fmt:message key="SR.sort-title" /></option>
+                            <option value="author" <mcr:ifSorted query="${query}" attributeName="field" attributeValue="author">selected</mcr:ifSorted> ><fmt:message key="SR.sort-author" /></option>
+                        </select>
+                        <select name="order1">
+                            <option value="ascending" <mcr:ifSorted query="${query}" attributeName="field" attributeValue="ascending">selected</mcr:ifSorted> ><fmt:message key="SR.ascending" /></option>
+                            <option value="descending" <mcr:ifSorted query="${query}" attributeName="field" attributeValue="descending">selected</mcr:ifSorted> ><fmt:message key="SR.descending" /></option>
+                        </select>
+                    <input value="Sortiere Ergebnisliste neu" class="resort" type="submit">
+                </td>
+                <td class="resultCount"><strong>${totalhits} <fmt:message key="SR.foundMCRObjects" /></strong></td>
+            </tr>
+        </table>
+    </form>
+    <table id="resultList" cellpadding="0" cellspacing="0">
+        <tbody>
+            <x:if select="./mcr_result">
+                <x:forEach select="./mcr_result/all-metavalues">
+                    <x:set var="resultlistLink" select="string(./metaname[1]/resultlistLink/@href)" />
+                    <tr>
+                        <td class="resultTitle">
+                            <a href="${resultlistLink}"><x:out select="./metaname[1]/metavalues/metavalue/@text" escapeXml="./metaname[1]/metavalues/@escapeXml" /></a>
+                        </td>
+                        <td class="author">
+                            <x:if select="not(contains(./metaname[2]/@name,'dummy'))">
+                                <x:forEach select="./metaname[2]/metavalues">
+                                    <x:if select="generate-id(../metavalues[position() = 1]) != generate-id(.)">
+                                       <x:out select="../metavalues/@separator" escapeXml="false" />
+                                    </x:if>                    
+                                    <x:choose>
+                                        <x:when select="./metavalue/@href != '' ">
+                                            <a href="<x:out select="./metavalue/@href" />"><x:out select="./metavalue/@text" escapeXml="./@escapeXml" /></a>
+                                        </x:when>
+                                        <x:otherwise>
+                                            <x:out select="./metavalue/@text" />
+                                        </x:otherwise>
+                                    </x:choose>
+                                </x:forEach>
+                            </x:if>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="description" colspan="2">
+                            <table>
+                                <tr>
+                                    <td class="imageInResultlist">
+                                        <x:set var="contentType" select="string(.//digitalobject/@contentType)" />
+                                        <x:set var="mainFileURL" select="concat($WebApplicationBaseURL,'file/',.//digitalobject/@derivid,'/',.//digitalobject/@derivmain,'?hosts=',$host)" />
+                                        <c:choose>
+                                            <c:when test="${fn:contains('gif-jpeg-png', contentType)}">
+                                                <a href="${resultlistLink}"><img src="${mainFileURL}" width="100"></a>
+                                            </c:when>
+                                            <c:otherwise>
+                                                &#160;
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
+                                    <td>
+                                        <x:if select="not(contains(./metaname[3]/@name,'dummy'))">                                    
+                                            <div class="description">
+                                                <x:out select="./metaname[3]/metavalues/metavalue/@text" escapeXml="./metaname[3]/metavalues/@escapeXml" />
+                                            </div>
+                                        </x:if>
+                                        <span>
+                                            <x:forEach select="./metaname[position() >= 4]/metavalues">
+                                                <x:if select="generate-id(../../metaname[position() = 4]/metavalues) != generate-id(.)">
+                                                   ,&#160;
+                                                </x:if> 
+                                                <x:out select="./metavalue/@text" />
+                                            </x:forEach>
+                                        <span>                                
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </x:forEach>
+            </x:if>
+         </tbody>
+    </table>
+</x:forEach>    
+<mcr:browsePageCtrl var="browseControl" totalSize="${totalhits}" size="${size}" offset="${offset}" maxDisplayedPages="10" path="${navPath}" />
+<x:forEach select="$browseControl/mcr_resultpages/mcr_resultpage">
+    <x:choose>
+        <x:when select="( (contains(../@cutted-left,'true')) and (generate-id(../mcr_resultpage[position() = 1]) = generate-id(.)) )">
+            [<a href="<x:out select="./@href" />">&lt;&lt;&lt;</a>]&#160;
+        </x:when>
+        <x:when select="( (contains(../@cutted-right,'true')) and (generate-id(../mcr_resultpage[position() = last()]) = generate-id(.)) )">
+            [<a href="<x:out select="./@href" />">&gt;&gt;&gt;</a>]&#160;
+        </x:when>        
+        <x:otherwise>
+            <x:choose>
+                <x:when select="contains(./@current,'true')">
+                    [<x:out select="./@pageNr" />]
+                </x:when>
+                <x:otherwise>
+                    [<a href="<x:out select="./@href" />"><x:out select="./@pageNr" /></a>]                
+                </x:otherwise>
+            </x:choose>
+        </x:otherwise>
+    </x:choose>
+</x:forEach>  
 
-<table cellspacing="0" cellpadding="0" id="resultList">
-<%
-	int max = offset + size;
-	if (max > len)
-		max = len;
-
-	for (int k = offset; k < max; k++){
-        String hitID = result.getHit(k).getID();
-        org.jdom.Document hit = mcr_obj.receiveJDOMFromDatastore(hitID);
-
-        Element mycoreobject = hit.getRootElement();
-        Element metadata = mycoreobject.getChild("metadata");
-        String mcrID = mycoreobject.getAttributeValue("ID");
-        String docType = mcrID.substring(mcrID.indexOf("_")+1,mcrID.lastIndexOf("_"));
-        StringBuffer doclink = new StringBuffer(NavServlet.getNavigationBaseURL())
-            .append("nav?path=~docdetail&id=").append(hitID)
-            .append("&offset=").append(k).append("&doctype=").append(docType);
-        if (JSPUtils.isDocument(docType)) {
-        %>
-           <tr>
-             <td class="resultTitle">
-                <a href="<%= doclink.toString() %>"><%= formatter.getSingleXPathValue(metadata,"titles/title[@xml:lang = '" + lang +"']") %></a>
-             </td>
-             <td class="author">
-                <a href="TODOLINKAUTHOR"> <%= !formatter.getSingleXPathValue(metadata,"creatorlinks/creatorlink/@xlink:title").equals("") ?
-                                                 formatter.getSingleXPathValue(metadata,"creatorlinks/creatorlink/@xlink:title"):
-                                                 formatter.getSingleXPathValue(metadata,"creators/creator")   %>&gt;&gt;</a>
-             </td>
-           </tr>
-           <tr>
-              <td class="description" colspan="2">
-                 <div class="description"><%= formatter.getSingleXPathValue(metadata,"descriptions/description[@xml:lang = '" + lang +"']") %></div>
-                 <span>
-                    <%= formatter.getCategoryText(metadata,"formats/format",lang) %>,
-                    <%= formatter.getCategoryText(metadata,"types/type",lang) %>,
-                    <%= formatter.getSingleXPathValue(mycoreobject,"@ID") %>,    
-                    <fmt:message key="SR.changedat" /> <%= formatter.getSingleXPathValue(mycoreobject,"service/servdates/servdate[@type='modifydate']") %>
-                 </span>
-              </td>
-           </tr>        
-        <%
-        }else if (JSPUtils.isAuthor(docType) || JSPUtils.isInstitution(docType)) {
-        %>
-           <tr>
-             <td colspan="2" class="resultTitle">
-                <a href="<%= doclink.toString() %>"><%= formatter.getSingleXPathValue(metadata,"names/name/fullname") %></a>
-             </td>
-           </tr>
-           <tr>
-              <td class="description" colspan="2">
-                 <span>
-                    <%= mcrID %>,
-                    <fmt:message key="SR.changedat" /> <%= formatter.getSingleXPathValue(mycoreobject,"service/servdates/servdate[@type='modifydate']") %>
-                 </span>
-              </td>
-           </tr>                
-        <%
-        }
-	}
-%>
-</table>
-
-	<br>&nbsp;<br>
-	<div id="pageSelection">
-		<strong><fmt:message key="SR.hitlists" />:  <%= buildHitLists(len, size, offset, path) %> </strong>
-	</div>
