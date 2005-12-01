@@ -4,16 +4,70 @@
  
 <taglib>
     <tlibversion>1.0</tlibversion>
-    <jspversion>1.1</jspversion>
+    <jspversion>2.0</jspversion>
     <shortname>mcr</shortname>
     <uri>/WEB-INF/lib/mycore-taglibs.jar</uri>
     <info>MyCoRe Sample Tag library</info>
-<!--    <tag>-->
-<!--        <name>helloWorld</name>-->
-<!--        <tagclass>org.mycore.frontend.jsp.taglibs.HelloWorldTag</tagclass>-->
-<!--        <bodycontent>empty</bodycontent>-->
-<!--        <info>A Hello World tag</info>-->
-<!--    </tag>    -->
+        <tag>
+            <name>ifSorted</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRIfSortedTag</tagclass>
+            <bodycontent>scriptless</bodycontent>
+            <attribute>
+                <description>
+                    a MyCoRe Query as JDOM Document
+                </description>
+                <name>query</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>
+                    the attribute name of a /query/sortby/field
+                </description>
+                <name>attributeName</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute> 
+            <attribute>
+                <description>
+                    the attribute value of a /query/sortby/field/@attributeName
+                </description>
+                <name>attributeValue</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <attribute>
+                <description>
+                    if a resultlist is sorted for several fields, you can specify the requested order-priority with this variable
+                </description>
+                <name>sortorder</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <info>A Tag, that evaluates whether a query-result was sorted by a given field or a given order. an example is given below. (needed for sort form)</info>
+        </tag> 
+        <tag>
+            <name>setQueryAsString</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRSetQueryAsStringTag</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <description>
+                    a MyCoRe Query as JDOM Document
+                </description>
+                <name>jdom</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>
+                    the variable name, the String is set to
+                </description>
+                <name>var</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <info>A Tag, that converts a MyCoRe Jdom-Query to the String-Representation and sets the String to a given Variable</info>
+        </tag>    
         <tag>
             <name>docDetails</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRDocDetailsTag</tagclass>
@@ -110,4 +164,120 @@
             </attribute>            
             <info>A Tag, that sets the IDs of the last and next MCRResult.hit: lastHitID, nextHitID</info>
         </tag>
+        <tag>
+            <name>setResultList</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRSetResultListTag</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <description>
+                    name of the variable containing the requested result-list of MCRResults
+                </description>
+                <name>var</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>
+                    the query delivers a list, and this is the index the shown results begin
+                </description>
+                <name>from</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>
+                    the query delivers a list, and this is the index the shown results end
+                </description>
+                <name>until</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>              
+            <attribute>
+                <description>
+                    the navigation-path (needed for the building of the session-parameter the query is saved in)
+                </description>
+                <name>navPath</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <attribute>
+                <description>
+                    the resultlist-Type (needed for the building of the session-parameter the query is saved in and the navigation management)
+                </description>
+                <name>resultlistType</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>             
+            <attribute>
+                <description>
+                    the requested language
+                </description>
+                <name>lang</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>             
+            <attribute>
+                <description>
+                    the Query as Jdom, that will be executed, if is null, it is taken of the session
+                </description>
+                <name>query</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>             
+            <info>A Tag, that sets the current resultList to a given Variable, for a Query either from the Session or from a request-Attribute</info>
+        </tag>
+        <tag>
+            <name>browsePageCtrl</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRBrowsePageCtrlTag</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <description>
+                    name of the variable containing the browse-control-jdom
+                </description>
+                <name>var</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>
+                    the number of total hits
+                </description>
+                <name>totalSize</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>
+                    the number of results displayed in one (1) page
+                </description>
+                <name>size</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>              
+            <attribute>
+                <description>
+                    the hit-number of the first hits of the current page
+                </description>
+                <name>offset</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>
+                    how many pages are displayed in the browse control?
+                </description>
+                <name>maxDisplayedPages</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <attribute>
+                <description>
+                    the navigation-path (needed for the building the urls)
+                </description>
+                <name>path</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <info>A Tag, that set a simple DOM object for the resultlist-pages browse control</info>
+        </tag>          
 </taglib>   
