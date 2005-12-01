@@ -36,6 +36,7 @@ import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
 import org.jdom.output.XMLOutputter;
 import org.mycore.backend.query.MCRQueryManager;
+import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRSession;
 import org.mycore.frontend.editor.MCREditorSubmission;
 import org.mycore.frontend.servlets.MCRServlet;
@@ -55,8 +56,6 @@ public class MCRCheckQueryServlet extends MCRServlet {
 
 	public void doGetPost(MCRServletJob job) throws Exception {
 		
-		XMLOutputter out = new XMLOutputter(org.jdom.output.Format.getPrettyFormat());
-		
 		HttpServletRequest request = job.getRequest();
 		
 		// read the XML data
@@ -66,7 +65,7 @@ public class MCRCheckQueryServlet extends MCRServlet {
 		
 		Element root = jdomQuery.getRootElement();
 		
-	    logger.debug("unchecked query: \n" + out.outputString(jdomQuery));		
+	    logger.debug("unchecked query: \n" + JSPUtils.getPrettyString(jdomQuery));		
 
 	    // eliminate <condition> without value
 	    Iterator it = jdomQuery.getDescendants(new ElementFilter("condition"));
@@ -114,7 +113,7 @@ public class MCRCheckQueryServlet extends MCRServlet {
 	    	root.removeAttribute("resultlistType") ;
 	    }
 	    
-	    logger.debug("checked query: \n" + out.outputString(jdomQuery));
+	    logger.debug("checked query: \n" + JSPUtils.getPrettyString(jdomQuery));
 
         request.setAttribute("query", jdomQuery);
         request.setAttribute("resultlistType",resultlistType);
