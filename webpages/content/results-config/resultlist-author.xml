@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<MCRDocDetails name="field definition for resultlist of author" >
+    <MCRDocDetail rowtype="standard" labelkey="resultlist-title" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/names/name/surname" templatetype="tpl-text-values" separator=" " languageRequired="no" withResultlistLink="true"/>
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/names/name/callname" templatetype="tpl-text-values" separator=" " languageRequired="no" withResultlistLink="true"/>        
+    </MCRDocDetail>
+    <MCRDocDetail rowtype="standard" labelkey="resultlist-dummy" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/names/name/surname" templatetype="tpl-text-values" separator=" " languageRequired="no" withResultlistLink="true"/>    
+    </MCRDocDetail>
+    <MCRDocDetail rowtype="standard" labelkey="resultlist-dummy" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/names/name/surname" templatetype="tpl-text-values" separator=" " languageRequired="no" withResultlistLink="true"/>    
+    </MCRDocDetail>     
+    <MCRDocDetail rowtype="standard" labelkey="resultlist-profession" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/professions/profession[@type='job']" templatetype="tpl-text-values" separator="&lt;br&gt;" languageRequired="yes" />
+    </MCRDocDetail>     
+    <MCRDocDetail rowtype="standard" labelkey="resultlist-nationality" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/nationals/national" templatetype="tpl-classification" separator=", " languageRequired="yes" />
+    </MCRDocDetail>    
+    <MCRDocDetail rowtype="standard" labelkey="resultlist-email" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/emails/email" templatetype="tpl-email" separator=", " languageRequired="yes" />
+    </MCRDocDetail>
+    <MCRDocDetail rowtype="standard" labelkey="resultlist-ID" >
+        <MCRDocDetailContent xpath="/mycoreobject/@ID" templatetype="tpl-text-values" separator=", " languageRequired="no" />
+    </MCRDocDetail>    
+</MCRDocDetails>
+
+
+
