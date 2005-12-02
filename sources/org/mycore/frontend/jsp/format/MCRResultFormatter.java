@@ -62,6 +62,7 @@ public class MCRResultFormatter {
 	protected static String WebApplicationBaseURL ;
 
 	protected static Map resultlistMap;
+	protected static Map docdetailsMap;
 	
     static {
         logger=Logger.getLogger(MCRResultFormatter.class);
@@ -86,6 +87,9 @@ public class MCRResultFormatter {
     	if (resultlistMap == null) {
     		resultlistMap = new HashMap();
     	}
+    	if (docdetailsMap == null) {
+    		docdetailsMap = new HashMap();
+    	}    	
     }
 
 	/**
@@ -650,8 +654,8 @@ public class MCRResultFormatter {
     public Document getFormattedDocDetails(Document doc, String lang) {
     	MCRObjectID mcrid = new MCRObjectID(doc.getRootElement().getAttributeValue("ID"));
 		String docType = mcrid.getTypeId();
-        String docDetailResource = new StringBuffer("resource:docdetails-").append(docType).append(".xml").toString();
-        Element definition = MCRURIResolver.instance().resolve(docDetailResource);
+        Element definition = (docdetailsMap.containsKey(docType)) ?
+        		(Element)docdetailsMap.get(docType) : addDocType2DocdetailsMap(docType);		
         Element allmetavalues = processDocDetails(doc, definition, lang, "");
         Document allMetaValues = new Document(allmetavalues);
         return allMetaValues;
@@ -748,6 +752,13 @@ public class MCRResultFormatter {
     	resultlistMap.put(docType,resultlistElement);
 		return resultlistElement;
 	}
+    
+    protected Element addDocType2DocdetailsMap(String docType) {
+    	String docdetailsResource = new StringBuffer("resource:docdetails-").append(docType).append(".xml").toString();
+    	Element docdetailsElement = MCRURIResolver.instance().resolve(docdetailsResource);
+    	docdetailsMap.put(docType,docdetailsElement);
+		return docdetailsElement;
+	}    
 
 	public static void main(String[] args) {
     	MCRResultFormatter formatter = new MCRResultFormatter();
