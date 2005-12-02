@@ -9,7 +9,7 @@
 				 org.jdom.Document,
                  org.apache.log4j.Logger"%>
 <%@ page import="org.jdom.Document" %>
-<%@ page import="org.mycore.frontend.jsp.query.MCRResultFormatter" %>
+<%@ page import="org.mycore.frontend.jsp.format.MCRResultFormatter" %>
 <%@ page import="org.mycore.frontend.jsp.query.MCRDerivateComparator" %>
 <%@ page import="org.mycore.datamodel.metadata.MCRObject" %>
 <%@ page import="org.mycore.datamodel.metadata.MCRDerivate" %>
@@ -26,7 +26,7 @@
 <%
     MCRSession mcrSession = MCRServlet.getSession(request);
     MCRResultFormatter formatter = new MCRResultFormatter();
-    String WebApplicationBaseURL = (String) request.getAttribute("WebApplicationBaseURL");
+    String WebApplicationBaseURL = (String) getServletContext().getAttribute("WebApplicationBaseURL");
     String referer = request.getHeader("referer");
     if (referer == null) referer = "";
     pageContext.setAttribute("referer",referer);
@@ -61,7 +61,7 @@
 
     String xpTitle = new StringBuffer("/mycoreobject/metadata/titles/title[@xml:lang='")
         .append(lang).append("']").toString();
-    String docTitle = MCRResultFormatter.getSingleXPathValue(doc.getRootElement(),xpTitle);
+    String docTitle = MCRResultFormatter.getInstance().getSingleXPathValue(doc.getRootElement(),xpTitle);
     
     
     StringBuffer fileNodeServletURI = new StringBuffer(WebApplicationBaseURL).append("file/")
