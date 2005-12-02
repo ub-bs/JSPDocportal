@@ -88,7 +88,6 @@ public class MCRSetResultListTag extends SimpleTagSupport
     		} catch (JDOMException e) {
     			Logger.getLogger(MCRSetResultListTag.class).error("Domoutput failed: ", e);
     		}
-    		pageContext.setAttribute(var, domDoc);
     		if(pageContext.getAttribute("debug") != null && pageContext.getAttribute("debug").equals("true")) {
     			JspWriter out = pageContext.getOut();
     			StringBuffer debugSB = new StringBuffer("<textarea cols=\"80\" rows=\"30\">")
@@ -98,7 +97,8 @@ public class MCRSetResultListTag extends SimpleTagSupport
     				.append(JSPUtils.getPrettyString(query))
     				.append("</textarea>");
     			out.println(debugSB.toString());
-    		}       		
+    		}
+    		pageContext.setAttribute(var, domDoc);
         }
 		return;
 	}	
