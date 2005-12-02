@@ -309,6 +309,7 @@ MCR.log4j.rootLogger=DEBUG, stdout, R
 #MCR.log4j.logger.org.mycore.user=INFO, stdout
 MCR.log4j.logger.org.mycore.backend.hibernate=ERROR, stdout, R
 MCR.log4j.logger.org.hibernate=ERROR, stdout, R
+MCR.log4j.logger.org.apache.commons.digester.Digester=ERROR, stdout, R
 
 ##############################################################################
 # zip
@@ -336,6 +337,7 @@ MCR.Searcher.sql.Index=metadata
 MCR.Searcher.sql.Class=org.mycore.backend.query.MCRQueryManager
 MCR.EventHandler.MCRObject.1.Indexer=sql
 MCR.EventHandler.MCRObject.1.class=org.mycore.backend.query.MCRQueryManager
+MCR.EventHandler.MCRObject.2.class=org.mycore.datamodel.metadata.MCRLinkTableEventHandler
 
 ############################################################################
 ##
