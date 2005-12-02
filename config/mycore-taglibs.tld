@@ -9,6 +9,45 @@
     <uri>/WEB-INF/lib/mycore-taglibs.jar</uri>
     <info>MyCoRe Sample Tag library</info>
         <tag>
+            <name>session</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRSessionTag</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <description>
+                    "get" or "set" a session variable.
+                </description>
+                <name>method</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute> 
+            <attribute>           
+                <description>
+                    Name of the pageContext variable that hold the value
+specified in the action.
+                </description>
+                <name>var</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>
+                    String that is indicating the type of the requested session information
+                </description>
+                <name>type</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute> 
+            <attribute>
+                <description>
+                    String, that is the key for getting an Object of the session via get(key)
+                </description>
+                <name>key</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <info>A Tag, that gets Information of the current mcrSession</info>
+        </tag>     
+        <tag>
             <name>ifSorted</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRIfSortedTag</tagclass>
             <bodycontent>scriptless</bodycontent>
