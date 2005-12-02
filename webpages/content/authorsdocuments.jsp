@@ -8,7 +8,7 @@
                  org.apache.log4j.Logger"%>
 <%@ page import="org.jdom.Document" %>
 <%@ page import="org.jdom.output.XMLOutputter" %>
-<%@ page import="org.mycore.frontend.jsp.query.MCRResultFormatter" %>
+<%@ page import="org.mycore.frontend.jsp.format.MCRResultFormatter" %>
 <%@ page import="org.mycore.datamodel.metadata.MCRObject" %>
 <%@ page import="org.mycore.common.MCRConfiguration" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -24,7 +24,7 @@
         if (creatorName == null) creatorName = "";
         
         Element query = new Element("query");
-        query.setAttribute("resultType","~searchresult-" + resultlistType");
+        query.setAttribute("resultType","~searchresult-" + resultlistType);
         query.setAttribute("maxResults","100");
         
         Element conditions = new Element("conditions");
