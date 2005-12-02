@@ -7,7 +7,7 @@
 <c:catch var="e">
 <fmt:setLocale value='${requestScope.lang}'/>
 <fmt:setBundle basename='messages'/>
-<c:set var="WebApplicationBaseURL" value="${requestScope.WebApplicationBaseURL}" />
+<c:set var="WebApplicationBaseURL" value="${applicationScope.WebApplicationBaseURL}" />
 <c:set var="mcrid" value="${param.id}" /> 
 <c:set var="debug" value="${param.debug}" />
 <mcr:receiveMcrObjAsJdom var="mycoreobject" mcrid="${mcrid}" />

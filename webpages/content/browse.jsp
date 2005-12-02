@@ -33,7 +33,7 @@
     Document doc = mcrSession.BData.createXmlTree(lang);
     
 	String path = request.getParameter("path");
-	String WebApplicationBaseURL = (String) request.getAttribute("WebApplicationBaseURL");
+	String WebApplicationBaseURL = (String) getServletContext().getAttribute("WebApplicationBaseURL");
     Element browser = doc.getRootElement();
     Element navigationTree = browser.getChild("navigationtree");
     String searchType = navigationTree.getAttributeValue("doctype");
