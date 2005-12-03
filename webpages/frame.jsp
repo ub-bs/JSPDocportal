@@ -26,10 +26,10 @@
 </c:choose>
 <c:choose>
     <c:when test="${fn:contains('de',lang)}">
-        <c:set var="translateLang" value="de" />
+        <c:set var="translateLang" value="en" />
     </c:when>
     <c:otherwise>
-        <c:set var="translateLang" value="en" />    
+        <c:set var="translateLang" value="de" />    
     </c:otherwise>
 </c:choose>
 <c:set var="lang" value="${pageScope.lang}" scope="request" />
