@@ -3,7 +3,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
-<c:set var="WebApplicationBaseURL" value="${requestScope.WebApplicationBaseURL}" />
+<c:set var="debug" value="false" />
+<c:set var="WebApplicationBaseURL" value="${applicationScope.WebApplicationBaseURL}" />
 <c:choose>
    <c:when test="${param.offset > 0}">
       <c:set var="offset" value="${param.offset}" />
@@ -45,8 +46,6 @@
         <c:set var="headlineKey" value="SR.result-document-search" />
     </c:otherwise>
 </c:choose>
-<c:set var="debug" value="false" />
-
 <fmt:setLocale value='${lang}'/>
 <fmt:setBundle basename='messages'/>
 <x:forEach select="$resultList/mcr_results">
@@ -108,7 +107,7 @@
                                         <x:set var="contentType" select="string(.//digitalobject/@contentType)" />
                                         <x:set var="mainFileURL" select="concat($WebApplicationBaseURL,'file/',.//digitalobject/@derivid,'/',.//digitalobject/@derivmain,'?hosts=',$host)" />
                                         <c:choose>
-                                            <c:when test="${fn:contains('gif-jpeg-png', contentType)}">
+                                            <c:when test="${!empty(contentType) and fn:contains('gif-jpeg-png', contentType)}">
                                                 <a href="${resultlistLink}"><img src="${mainFileURL}" width="100"></a>
                                             </c:when>
                                             <c:otherwise>

@@ -14,7 +14,7 @@
 <%
     Map map = request.getParameterMap();
     String sessionID = ((MCRSession)MCRServlet.getSession(request)).getID();
-    StringBuffer sbURL = new StringBuffer((String)request.getAttribute("WebApplicationBaseURL"))
+    StringBuffer sbURL = new StringBuffer((String)getServletContext().getAttribute("WebApplicationBaseURL"))
         .append("start_edit");
 
     boolean first = true;
