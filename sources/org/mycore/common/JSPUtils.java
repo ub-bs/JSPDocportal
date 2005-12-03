@@ -52,7 +52,7 @@ public class JSPUtils {
 
 	public static void initialize() {
 		uniqueNumber = 0;
-		allAuthorsQuery = createAllAuthorsQuery();
+		allAuthorsQuery = createAllAuthorsQuery("DocPortal_author");
 	}
 	
 	public static void deinitialize() {
@@ -86,7 +86,7 @@ public class JSPUtils {
 	    return map;
 	}
 	
-	private static Document createAllAuthorsQuery() {
+	private static Document createAllAuthorsQuery(String prefix) {
 		
         Element query = new Element("query");
         query.setAttribute("maxResults","1000");
@@ -98,7 +98,7 @@ public class JSPUtils {
         
         Element personCondition = new Element("condition");
         personCondition.setAttribute("field","id");
-        personCondition.setAttribute("value","_author_");
+        personCondition.setAttribute("value",prefix + "*");
         personCondition.setAttribute("operator","like");
         
         Element hosts = new Element("hosts");
