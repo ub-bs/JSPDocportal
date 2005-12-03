@@ -33,7 +33,6 @@
     </c:otherwise>
 </c:choose>
 <c:set var="lang" value="${pageScope.lang}" scope="request" />
-<c:set var="currentNode" value="${requestScope.node}" />
 <c:import var="includePage" url='${contentPage}' />
 <html>
     <head>
@@ -44,7 +43,8 @@
         <title>
         <c:choose>
             <c:when test="${fn:startsWith(pageTitle,'???')}">
-                <fmt:message key="${currentNode.value.description}" />
+            	<x:set var="altTitle" select="string($youAreHere//navitem[last()]/@label)" />
+                <fmt:message key="${altTitle}" />
             </c:when>
             <c:otherwise>
                 <c:out value="${pageTitle}" />
