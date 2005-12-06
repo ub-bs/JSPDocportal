@@ -239,7 +239,6 @@ public class MCRResultFormatter {
     		
 			for(Iterator it = XPath.selectNodes(doc,xpath).iterator(); it.hasNext(); ) {
 				Object obj = (Object) it.next();
-				cnt++;
 				String text = "";
 				if (obj instanceof org.jdom.Element) {
 				    Element el = (Element) obj;
@@ -257,6 +256,7 @@ public class MCRResultFormatter {
 					metaValue.setAttribute("text", text);
 					metaValues.addContent(metaValue);					
 				}
+				cnt++;
 			}
 		} catch (JDOMException e) {
 			logger.debug("error occured", e);
