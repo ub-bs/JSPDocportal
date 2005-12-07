@@ -64,9 +64,13 @@ public class MCRResultFormatter {
 	protected static Map resultlistMap;
 	protected static Map docdetailsMap;
 	
+	protected static org.jdom.Namespace xlinkNamespace;
+	
     static {
         logger=Logger.getLogger(MCRResultFormatter.class);
         WebApplicationBaseURL = NavServlet.getNavigationBaseURL();
+        xlinkNamespace = org.jdom.Namespace.getNamespace("xlink",
+    			MCRDefaults.XLINK_URL);
     }	
     
     private static MCRResultFormatter singleton;
@@ -207,8 +211,8 @@ public class MCRResultFormatter {
     	try {
 			for(Iterator it = XPath.selectNodes(doc,xpath).iterator(); it.hasNext(); ) {
 			    Element el = (Element) it.next();
-			    if ( lang.equals("") || 
-			    	 el.getAttributeValue("lang",Namespace.XML_NAMESPACE).equals(lang)) {
+			    String attrLang = el.getAttributeValue("lang",Namespace.XML_NAMESPACE); 
+			    if ( lang.equals("") || attrLang == null || attrLang.equals(lang) ) {
 						Element metaValue = new Element("metavalue");
 						metaValue.setAttribute("href","");
 						metaValue.setAttribute("text",el.getText());
@@ -242,8 +246,8 @@ public class MCRResultFormatter {
 				String text = "";
 				if (obj instanceof org.jdom.Element) {
 				    Element el = (Element) obj;
-				    if ( lang.equals("") || 
-				    	 el.getAttributeValue("lang",Namespace.XML_NAMESPACE).equals(lang)) {
+				    String attrLang = el.getAttributeValue("lang",Namespace.XML_NAMESPACE); 
+				    if ( lang.equals("") || attrLang == null || attrLang.equals(lang) ) {
 				    		text = el.getText();
 				    }
 				} else if (obj instanceof org.jdom.Attribute) {
@@ -462,8 +466,8 @@ public class MCRResultFormatter {
     	try {
 			for(Iterator it = XPath.selectNodes(doc,xpath).iterator(); it.hasNext(); ) {
 			    Element el = (Element) it.next();
-			    if ( lang.equals("") || 
-			    	 el.getAttributeValue("lang",Namespace.XML_NAMESPACE).equals(lang)) {
+			    String attrLang = el.getAttributeValue("lang",Namespace.XML_NAMESPACE); 
+			    if ( lang.equals("") || attrLang == null || attrLang.equals(lang) ) {
 						Element metaValue = new Element("metavalue");
 						String emailaddress = el.getText();
 						if (emailaddress == null)
@@ -480,6 +484,37 @@ public class MCRResultFormatter {
 		} 
     	return metaValues;
     }
+    
+    public Element getLinkValues(Document doc, String xpath, String separator, String terminator, String lang, String introkey, String escapeXml) {
+    	Element metaValues = new Element("metavalues");
+    	metaValues.setAttribute("type","LinkValues");
+    	metaValues.setAttribute("separator",separator);   
+    	metaValues.setAttribute("terminator",terminator);    	
+    	metaValues.setAttribute("introkey", introkey);
+    	metaValues.setAttribute("escapeXml", escapeXml);    	
+    	try {
+			for(Iterator it = XPath.selectNodes(doc,xpath).iterator(); it.hasNext(); ) {
+			    Element el = (Element) it.next();
+			    String attrLang = el.getAttributeValue("lang",Namespace.XML_NAMESPACE); 
+			    if ( lang.equals("") || attrLang == null || attrLang.equals(lang) ) {
+						Element metaValue = new Element("metavalue");
+						String href = el.getAttributeValue("href", xlinkNamespace);
+						String title = el.getAttributeValue("title", xlinkNamespace);
+						if (href == null) 
+							continue;
+						if (title == null) title = href;
+						metaValue.setAttribute("href", href);
+						metaValue.setAttribute("type",el.getName());
+						metaValue.setAttribute("text",title);
+						metaValues.addContent(metaValue);			    	
+			    }
+			}
+		} catch (JDOMException e) {
+			logger.debug("error occured", e);
+			return metaValues;
+		} 
+    	return metaValues;
+    }    
 
     /**
      * returns the metavalues-Element for 
@@ -531,8 +566,8 @@ public class MCRResultFormatter {
     	try {
 			for(Iterator it = XPath.selectNodes(doc,xpath).iterator(); it.hasNext(); ) {
 			    Element el = (Element) it.next();
-			    if ( lang.equals("") || 
-			    	 el.getAttributeValue("lang",Namespace.XML_NAMESPACE).equals(lang)) {
+			    String attrLang = el.getAttributeValue("lang",Namespace.XML_NAMESPACE); 
+			    if ( lang.equals("") || attrLang == null || attrLang.equals(lang) ) {
 						Element metaValue = new Element("metavalue");
 						metaValue.setAttribute("href","");
 						metaValue.setAttribute("type",el.getName());
@@ -557,8 +592,8 @@ public class MCRResultFormatter {
     	try {
 			for(Iterator it = XPath.selectNodes(doc,xpath).iterator(); it.hasNext(); ) {
 			    Element address = (Element) it.next();
-			    if ( lang.equals("") || 
-			    	 address.getAttributeValue("lang",Namespace.XML_NAMESPACE).equals(lang)) {
+			    String attrLang = address.getAttributeValue("lang",Namespace.XML_NAMESPACE); 
+			    if ( lang.equals("") || attrLang == null || attrLang.equals(lang) ) {
 						Element street = new Element("metavalue");
 						street.setAttribute("href","");
 						StringBuffer sb = new StringBuffer(address.getChildText("street"))
@@ -639,6 +674,8 @@ public class MCRResultFormatter {
     		return getAddressValues(doc,xpath,separator,terminator,lang,introkey,escapeXml);    	
     	if (templatetype.equals("tpl-email"))
     		return getMailValues(doc,xpath,separator,terminator,lang,introkey,escapeXml);
+    	if (templatetype.equals("tpl-metalink"))
+    		return getLinkValues(doc,xpath,separator,terminator,lang,introkey,escapeXml);    	
     	if (templatetype.equals("tpl-authorjoin"))
     		return getAuthorJoinValues(doc,xpath,separator,terminator,lang,introkey,escapeXml);    	
     	
