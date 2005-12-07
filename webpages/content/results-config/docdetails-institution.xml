@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<MCRDocDetails name="field definition for institutiondetails" >
+    <MCRDocDetail rowtype="standard" labelkey="OMD.name" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/names/name/fullname" templatetype="tpl-text-values" separator=", " languageRequired="no" />
+    </MCRDocDetail>     
+    <MCRDocDetail rowtype="standard" labelkey="OMD.nickname" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/names/name/nickname" templatetype="tpl-text-values" separator=", " languageRequired="no" />
+    </MCRDocDetail>         
+    <MCRDocDetail rowtype="standard" labelkey="OMD.webpage" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/urls/url" templatetype="tpl-metalink" separator=", " languageRequired="yes" />
+    </MCRDocDetail>     
+    <MCRDocDetail rowtype="standard" labelkey="OMD.addressofficial">
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/addresses/address" templatetype="tpl-address" separator="&lt;br&gt;&#160;&#160;&#160;" languageRequired="yes" introkey="three-spaces" escapeXml="true"/>
+    </MCRDocDetail>  
+    <MCRDocDetail rowtype="standard" labelkey="OMD.phone" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/phones/phone[@type='phone']" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
+    </MCRDocDetail>           
+    <MCRDocDetail rowtype="standard" labelkey="OMD.fax" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/phones/phone[@type='fax']" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
+    </MCRDocDetail>     
+    <MCRDocDetail rowtype="standard" labelkey="OMD.ID" >
+        <MCRDocDetailContent xpath="/mycoreobject/@ID" templatetype="tpl-text-values" separator=", " languageRequired="no" />
+    </MCRDocDetail> 
+</MCRDocDetails>
