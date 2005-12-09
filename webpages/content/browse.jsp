@@ -24,7 +24,7 @@
     try {
 		searchField = MCRConfiguration.instance().getString("MCR.ClassificationBrowser." + browserClass + ".SearchField"); 
 		searchClass = MCRConfiguration.instance().getString("MCR.ClassificationBrowser." + browserClass + ".Classification"); 
-        mcrSession.BData = new MCRClassificationBrowserData(actUriPath);
+        mcrSession.BData = new MCRClassificationBrowserData(actUriPath,"","","");
     } catch (MCRConfigurationException cErr) {
     	request.setAttribute("message",cErr.getMessage());
    	    getServletContext().getRequestDispatcher("/nav?path=~mycore-error").forward(request,response);
@@ -37,14 +37,19 @@
     Element browser = doc.getRootElement();
     Element navigationTree = browser.getChild("navigationtree");
     String searchType = navigationTree.getAttributeValue("doctype");
-    //org.jdom.output.XMLOutputter xmlout = new org.jdom.output.XMLOutputter(org.jdom.output.Format.getPrettyFormat());
-    //out.print(xmlout.outputString(doc));
+    org.jdom.output.XMLOutputter xmlout = new org.jdom.output.XMLOutputter(org.jdom.output.Format.getPrettyFormat());
+    //System.out.print(xmlout.outputString(doc));
     String hrefStart = new StringBuffer(WebApplicationBaseURL)
     	.append("nav?path=").append(path)
     	.append("&actUriPath=").append(request.getParameter("startUriPath"))
     	.toString();
-    
-
+    	
+    if ( searchField.equals("codice") ) {
+    	hrefStart="http://www.uni-rostock.de/ub/son.htm"; 
+    	
+    } else  if ( searchField.equals("archive") ) {
+    	hrefStart="http://www.uni-rostock.de/"; 
+	}
 %>
 	<fmt:setBundle basename='messages'/>
 	<div class="headline"><fmt:message key="browse.generalTitle" /></div>
@@ -60,7 +65,9 @@
 	</table>
  	<!-- IE Fix for padding and border -->
  	<hr/>
-	<table id="browseClass" cellspacing="0" cellpadding="0">
+	<table cellspacing="0" cellpadding="3" width="100%" >
+	<tr><td valign="top">
+ 	  <table id="browseClass" cellspacing="0" cellpadding="3">
 		<%
 		for(Iterator it = navigationTree.getChildren("row").iterator(); it.hasNext();) {
         	Element row = (Element) it.next();
@@ -118,25 +125,36 @@
         	      [<%= displayedNumber %> <fmt:message key="browse.doc" />]
         	   </td>
         	   <td class="descr">
-        	      <%
-        	         if(numDocs > 0) {
-        	         %>
+        	      <% if(numDocs > 0) {   %>
         	            <a href="<%= href2 %>"><%= col2.getText() %></a>
-        	         <%
-        	         }else{
-        	         %>
+        	      <% }else{    %>
         	         	<%= col2.getText() %>
-        	         <%
-        	         }
-        	         if ( (col2.getChildText("comment") != null) && !(col2.getChildText("comment").equals(""))) {
-        	         %>
-        	            <%= col2.getChildText("comment") %>
-        	         <%
-        	         }
-        	      %>
+        	      <% } %>
+       	             
         	   </td>
+        	      <% if ( (col2.getChildText("comment") != null) && !(col2.getChildText("comment").equals(""))) {   %>
+        	      <td>
+        	         <%= col2.getChildText("comment") %>
+        	      <td>
+       	          <% }    %>
         	</tr>
-        	<%
-        }
- 		%>
+        	<% } %>        
+	 </table>	
+	 </td>
+	 	<% if ( searchField.equals("archive") || searchField.equals("codices")) { %>
+ 		 	<td align="right"><img src="http://www.uni-rostock.de/ub/SON300.gif" border="0" /></td> 		 	
+ 		 	<td width="10">&nbsp;</td>
+	 	<% } %> 	
+	 </tr>	
+	 	<% if ( searchField.equals("codices")) { %>
+ 		 	<tr><td>
+ 		 	  <div class="textblock2">
+ 		 	  		<p><fmt:message key="Codice.Hinweis1" /></p>
+					<p><fmt:message key="Codice.Hinweis2" /></p>
+			  </div>		
+ 		 	  </td>
+ 		 	 </tr>
+	 	<% } %> 	
+	 	
  	</table>
+ 	
