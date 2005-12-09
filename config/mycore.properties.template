@@ -372,6 +372,18 @@ MCR.QueryTableName=MCRQuery
 MCR.QueryTypes=document,derivate,author
 
 
+
+##############################################################################
+# Configuration details for IndexServlet
+##############################################################################
+MCR.IndexBrowser.creators.Table=allpers
+MCR.IndexBrowser.creators.Searchfield=surname
+MCR.IndexBrowser.creators.ExtraOutputFields=id,firstname
+MCR.IndexBrowser.creators.FieldsToSort=surname
+MCR.IndexBrowser.creators.Style=creators
+MCR.IndexBrowser.creators.MaxPerPage=30
+
+
 ########################
 # ACCESS
 MCR.AccessPools=READ,WRITE
