@@ -1,0 +1,29 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
+       xmlns:c="http://java.sun.com/jsp/jstl/core"
+       xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+       xmlns:x="http://java.sun.com/jsp/jstl/xml"
+       xmlns:fn="http://java.sun.com/jsp/jstl/function"
+>
+<jsp:directive.page import="org.mycore.frontend.indexbrowser.MCRIndexData" /> 
+<jsp:directive.page import="org.mycore.common.MCRUtils" />   
+<jsp:directive.page import="org.mycore.common.MCRSessionMgr" />
+<jsp:directive.page import="javax.xml.transform.Source"/>
+<jsp:directive.page import="org.jdom.Document" />
+<jsp:directive.page import="org.mycore.common.xml.MCRURIResolver"/> 
+<jsp:scriptlet>
+   String search = request.getParameter("search");
+   	String mode = request.getParameter("mode");		
+   	String searchclass = request.getParameter("searchclass");		  	
+   	String fromTo = request.getParameter("fromTo");		  	
+    MCRIndexData id = new MCRIndexData(search, mode, searchclass, fromTo);
+    
+    Document pageContent = id.getXMLContent();
+    byte[] xml = MCRUtils.getByteArray(pageContent);
+    String contentString = new String(xml,"UTF-8");
+    String resolver="webapp:WEB-INF/stylesheets/indexpage-"+searchclass+".xsl";
+    Source xsl = MCRURIResolver.instance().resolve(resolver,"indexSearch.jspx");
+    pageContext.setAttribute("contentString",contentString);
+    pageContext.setAttribute("xsl",xsl);
+</jsp:scriptlet>  
+<x:transform xml="${contentString}" xslt="${xsl}" />
+</jsp:root>
