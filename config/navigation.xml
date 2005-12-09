@@ -21,15 +21,16 @@
                </navitem>
                <navitem name="extended" label="Nav.ExtendedDocumentSearch" href="content/searchmask-editor.jsp?editor=editor/searchmasks/SearchMask_Alldocs.xml">
                </navitem>
-               <navitem name="persons" label="Nav.PersonSearch" href="content/searchmask-editor.jsp?editor=editor/searchmasks/SearchMask_Allpers.xml">
-                  <navitem name="documents" label="Nav.PersonsDocuments" href="content/searchresult.jsp" >
-                     <refitem name="~searchresult-authorjoin" label="" />
-                     <navitem name="resortresult-authorjoin" label="Nav.sorted" href="content/searchresult.jsp" >
-                        <refitem name="~resortresult-authorjoin" label="" />
-                     </navitem>                     
-                  </navitem>
-               </navitem>
-               <navitem name="institution" label="Nav.InstitutionSearch" href="searchMask?layout=institution">
+			  <navitem name="persons" label="Nav.PersonSearch" href="content/indexSearch.jspx?searchclass=creators">
+			  <refitem name="~indexSearchCreators" label="" />				
+              <navitem name="documents" label="Nav.PersonsDocuments" href="content/searchresult.jsp" >
+                <refitem name="~searchresult-authorjoin" label="" />
+                <navitem name="resortresult-authorjoin" label="Nav.sorted" href="content/searchresult.jsp" >
+                  <refitem name="~resortresult-authorjoin" label="" />
+                </navitem>
+              </navitem>
+            </navitem>
+			   <navitem name="institution" label="Nav.InstitutionSearch" href="searchMask?layout=institution">
                </navitem>                              
             </navitem>
             <navitem name="browse" label="Nav.ClassificationsSearch" href="content/node.jsp">
