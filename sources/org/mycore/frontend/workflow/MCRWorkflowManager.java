@@ -406,11 +406,14 @@ public class MCRWorkflowManager {
 	public final boolean commitMetadataObject(String type, String ID) {
 		// commit metadata
 		String fn = getDirectoryPath(type) + SLASH + ID + ".xml";
-		if (MCRObject.existInDatastore(ID)) {
-			MCRObjectCommands.updateFromFile(fn);
-		} else {
-			MCRObjectCommands.loadFromFile(fn);
-		}
+		try { 
+			if (MCRObject.existInDatastore(ID)) {
+				MCRObjectCommands.updateFromFile(fn);
+			} else {
+				MCRObjectCommands.loadFromFile(fn);
+			}
+		} catch (Exception ig){;}
+		
 		logger.info("The metadata object was " + fn + " loaded.");
 		// commit derivates
 		if (!MCRObject.existInDatastore(ID)) {
