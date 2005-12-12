@@ -7,16 +7,31 @@
 <jsp:directive.page import="org.mycore.frontend.indexbrowser.MCRIndexData" /> 
 <jsp:directive.page import="org.mycore.common.MCRUtils" />   
 <jsp:directive.page import="org.mycore.common.MCRSessionMgr" />
+<jsp:directive.page import="org.mycore.common.MCRSession" />
+<jsp:directive.page import="org.mycore.frontend.servlets.MCRServlet" />
+<jsp:directive.page import="org.mycore.services.fieldquery.MCRResults" />
 <jsp:directive.page import="javax.xml.transform.Source"/>
 <jsp:directive.page import="org.jdom.Document" />
 <jsp:directive.page import="org.mycore.common.xml.MCRURIResolver"/> 
 <jsp:scriptlet>
-   String search = request.getParameter("search");
+    String search = request.getParameter("search");
    	String mode = request.getParameter("mode");		
    	String searchclass = request.getParameter("searchclass");		  	
    	String fromTo = request.getParameter("fromTo");		  	
+    MCRSession mcrsession = MCRServlet.getSession(request);
+    String navPath = (String) request.getAttribute("path");
+
+        
     MCRIndexData id = new MCRIndexData(search, mode, searchclass, fromTo);
+    Document jQuery =  id.getQuery();
+    MCRResults mcrResult =  id.getResultList();
     
+   
+    mcrsession.put(navPath + "-jdomQuery", jQuery);
+    //?? mcrsession.put(navPath + "-resultlistType", resultlistType); 
+    session.setAttribute("lastSearchListPath",navPath);
+    session.setAttribute("lastMCRResults",mcrResult);
+   
     Document pageContent = id.getXMLContent();
     byte[] xml = MCRUtils.getByteArray(pageContent);
     String contentString = new String(xml,"UTF-8");
