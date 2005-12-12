@@ -2,7 +2,7 @@
 
 <!-- =================================================================== -->
 <!-- MyCoRe sample application build file for use with Apache Ant        -->
-<!-- $Revision: 1.8 $ $Date: 2005-12-01 14:45:32 $                      -->
+<!-- $Revision: 1.9 $ $Date: 2005-12-12 00:34:12 $                      -->
 <!-- =================================================================== -->
 
 <project default="usage" basedir=".">
@@ -25,11 +25,16 @@
     <!-- Read in environment variables -->
     <property environment="env" />
 
-    <!-- Provide a default value for MYCORE_HOME if not set in env -->
+    
+		
+	
+	<!-- Provide a default value for MYCORE_HOME if not set in env -->
     <property name="env.MYCORE_HOME" value="../mycore" />
 
     <!-- Read in properties from config/build.properties -->
     <property file="${env.MYCORE_HOME}/config/build.properties" />
+	
+	
 
     <!-- Provide a default value for DOCPORTAL_HOME if not set in env -->
     <property name="env.DOCPORTAL_HOME" value="${basedir}" />
@@ -71,7 +76,7 @@
     <property name="docportal.webpages"
         value="${env.DOCPORTAL_HOME}/webpages" />
     <property name="docportal.webapps"
-        value="${env.DOCPORTAL_HOME}/webapps" />
+        value="${env.DOCPORTAL_HOME}/webapps/mycoresample" />
     <property name="docportal.workflow"
         value="${MCR.editor_base_directory}" />
 
@@ -127,7 +132,7 @@
 	    <echo>Operating system   : ${os.name} Version ${os.version} on ${os.arch} </echo>
 	    <echo>Java version       : JDK ${ant.java.version} Version ${java.version} from ${java.vendor}</echo>
 	    <echo>Java home          : ${env.JAVA_HOME}</echo>
-	    <echo>Ant build file     : $Revision: 1.8 $ $Date: 2005-12-01 14:45:32 $</echo>
+	    <echo>Ant build file     : $Revision: 1.9 $ $Date: 2005-12-12 00:34:12 $</echo>
 	    <echo>Ant version        : ${ant.version}</echo>
 	    <echo>Ant home           : ${env.ANT_HOME}</echo>
 	    <echo>XML Store type     : ${MCR.XMLStore.Type}</echo>
@@ -155,7 +160,7 @@
 
         <!-- Copy stylesheets from MyCoRe to MyCoRe Sample Application -->
         <copy todir="${docportal.stylesheets}">
-            <fileset dir="${env.MYCORE_HOME}/stylesheets">
+            <fileset dir="${env.MYCORE_HOME}/stylesheets" excludes="MCRJdom*.xsl">
                 <include name="MCR*.xsl" />
             </fileset>
         </copy>
@@ -899,7 +904,7 @@
 
             Building the upload applet used for file uploads...
         </echo>
-        <jar jarfile="webapps/applet/unsigned.jar">
+        <jar jarfile="${docportal.webapps}/applet/unsigned.jar">
             <fileset dir="${env.MYCORE_HOME}/classes">
                 <include
                     name="org/mycore/frontend/fileupload/MCRUploadAppl*.class" />
@@ -919,12 +924,12 @@
                 </linecontains>
             </filterchain>
         </loadproperties>
-        <signjar jar="webapps/applet/unsigned.jar"
-            signedjar="webapps/applet/upload.jar" alias="${SIGN.Alias}"
+        <signjar jar="${docportal.webapps}/applet/unsigned.jar"
+            signedjar="${docportal.webapps}/applet/upload.jar" alias="${SIGN.Alias}"
             keystore="${SIGN.KeyStore}/keys"
             storepass="${SIGN.Password}" keypass="${SIGN.Password}" />
-        <delete file="webapps/applet/unsigned.jar" />
-        <chmod dir="webapps/applet" perm="ugo+r" />
+        <delete file="${docportal.webapps}/applet/unsigned.jar" />
+        <chmod dir="${docportal.webapps}/applet" perm="ugo+r" />
 
         <antcall target="copy.webapp.shared.jars" />
         <antcall target="webapp.info.shared.jars" />
@@ -1336,6 +1341,87 @@
         	<metainf file="${docportal.config}/tmp-tld/taglib.tld" />
         </jar>	
         <delete dir="${docportal.config}/tmp-tld" />
+	</target>
+	
+	<target name="compile-mcr-installationgui"
+		description="generation of a installationgui.jar for mycore">
+		<echo message="Generation of the MyCoRe-Installation GUI: mycore-installationgui.jar" />
+		<mkdir dir="${docportal.classes}" />
+        <antcall target="javac">
+            <param name="packages" value="org/mycore/frontend/installationgui/**" />
+        </antcall>	
+	</target>	
+
+	<target name="zip-mycore"
+		description="generation of a zip-file with all necessary mycore-data">
+		<echo message="Generation of a zip-file with all necessary mycore-data" />
+		<mkdir dir="${env.DOCPORTAL_HOME}/tmp-mycore-zip" />
+		<copy todir="${env.DOCPORTAL_HOME}/tmp-mycore-zip">
+			<fileset dir="${env.MYCORE_HOME}" >
+				<include name="*.xml" />
+				<include name="*.txt" />
+				<include name="modules/**" />
+				<include name="config/**" />
+				<include name="documentation/**" />
+				<include name="lib/**" />
+				<include name="modules/**" />
+				<include name="stylesheets/**" />				
+				<include name="schema/**" />				
+				<exclude name="config/build.properties" />
+				<exclude name="lib/mycore-for*.jar" />				
+			</fileset>
+		</copy>
+		<zip destfile="mycore-installation.zip">
+			<zipfileset dir="${env.DOCPORTAL_HOME}/tmp-mycore-zip" prefix="mycore"/>
+		</zip>
+		<delete dir="${env.DOCPORTAL_HOME}/tmp-mycore-zip" />
+	</target>
+	
+	<target name="zip-jspdocportal"
+		description="generation of a zip-file with all necessary jspdocportal-data">
+		<echo message="Generation of a zip-file with all necessary jspdocportal-data" />
+		<mkdir dir="${env.DOCPORTAL_HOME}/tmp-jspdocportal-zip" />
+		<copy todir="${env.DOCPORTAL_HOME}/tmp-jspdocportal-zip">
+			<fileset dir="${env.DOCPORTAL_HOME}" >
+				<include name="*.xml" />
+				<include name="*.txt" />
+				<include name="config/**" />
+				<include name="content/**" />
+				<include name="gui-installation/**" />
+				<include name="languages/**" />
+				<include name="lib/**" />
+				<include name="stylesheets/**" />				
+				<include name="webpages/**" />				
+				<exclude name="config/mycore.properties" />
+				<exclude name="lib/docportal-for*.jar" />
+				<exclude name="lib/mycore*taglibs.jar" />
+				<exclude name="stylesheets/MCRJDOMSearch.xsl" />
+				<exclude name="stylesheets/MCRMetadataCoreTemplates.xsl" />
+				<exclude name="stylesheets/MCRMetadataCoreTypes.xsl" />
+				<exclude name="stylesheets/MCRMetadataSchema.xsl" />				
+			</fileset>
+		</copy>
+		<zip destfile="jspdocportal-installation.zip" >
+			<zipfileset dir="${env.DOCPORTAL_HOME}/tmp-jspdocportal-zip" prefix="jspdocportal"/>
+		</zip>
+		<delete dir="${env.DOCPORTAL_HOME}/tmp-jspdocportal-zip" />
+	</target>	
+	
+	<target name="create.installationgui" depends="clean, compile-mcr-installationgui,zip-mycore,zip-jspdocportal">
+		<jar jarfile="mycore-installationgui.jar">
+			<!--
+		     <manifest>
+		     	<attribute name="Class-Path" value="lib/XuiALL-2.0.jar resources/*properties" /> 
+		        <attribute name="Main-Class" value="net.xoetrope.swing.XApplet" /> 
+		     </manifest>			
+			<fileset dir="${env.DOCPORTAL_HOME}" includes="lib/XuiALL-2.0.jar"/>			
+			<fileset dir="${env.DOCPORTAL_HOME}/gui-installation/resources" />
+			<fileset dir="${env.DOCPORTAL_HOME}/gui-installation/pages" />
+			<fileset dir="${env.DOCPORTAL_HOME}/gui-installation/images" />
+			<fileset dir="${env.DOCPORTAL_HOME}/classes" includes="org/mycore/frontend/installationgui/*.class" />			
+			-->
+			<fileset dir="${env.DOCPORTAL_HOME}" includes="*.zip" />
+		</jar>
 	</target>
 </project>
 
