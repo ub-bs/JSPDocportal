@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.jdom.*;
 import org.jdom.output.XMLOutputter;
 import org.mycore.common.MCRConfiguration;
+import org.mycore.common.MCRSession;
 import org.mycore.backend.query.MCRQueryManager;
 import org.mycore.services.fieldquery.MCRResults;
 
@@ -27,7 +28,9 @@ public class MCRIndexData {
     private MyIndexConfiguration ic = new MyIndexConfiguration(); 
 	private XMLOutputter out = new XMLOutputter(org.jdom.output.Format.getPrettyFormat());
     private Element page;
-    
+    private Document jResult;
+    private Document jQuery;
+    private MCRResults mcrResult;
     
     class MyRangeDelim {
         int pos;
@@ -58,6 +61,8 @@ public class MCRIndexData {
             		String to = fromTo.substring(fromTo.indexOf("-")+1);
                 	this.addRange(from, to);
             	}
+                
+                
 
         }
 
@@ -184,6 +189,14 @@ public class MCRIndexData {
         }         
     }
 
+    public MCRResults getResultList() {    	    	
+        return mcrResult;
+    }
+
+    public Document getQuery() {    	    	
+        return jQuery;
+    }
+    
     public Document getXMLContent() {
     	logger.debug("Results: \n" + out.outputString(page));    	
         return new Document(page);
@@ -306,7 +319,7 @@ public class MCRIndexData {
 
     //**************************************************************************
 
-    private Document buildQuery() {
+    private void  buildQuery() {
         /* 
          * <?xml version="1.0" encoding="UTF-8"?>
          * <query maxResults="100">
@@ -380,10 +393,10 @@ public class MCRIndexData {
 	    	field.setAttribute("order" ,ic.order);
     	}
     	
-    	logger.debug("generated query: \n" + out.outputString(query));	
-    	Document jquery = new Document(query);
+    	logger.debug("generated query: \n" + out.outputString(query));	    	
+    	jQuery = new Document(query);    	
+    	mcrResult = MCRQueryManager.getInstance().search(jQuery);
     	
-    	MCRResults result = MCRQueryManager.getInstance().search(jquery);
     	/**
     	 * <mcrresults sorted="true">
 			  <mcrhit mcrid="atlibri_professorum_000000000441">
@@ -403,11 +416,10 @@ public class MCRIndexData {
 			  </mcrhit>
 			...  
     	 */
-    	result.setComplete();
-    	logger.debug("Results found hits:" + result.getNumHits());    	
-    	Document jresult = result.buildXML();
+    	mcrResult.setComplete();
+    	logger.debug("Results found hits:" + mcrResult.getNumHits());    	    	
+    	jResult = mcrResult.buildXML();
     	
-    	return jresult;
     }
     
     //**************************************************************************
@@ -421,14 +433,16 @@ public class MCRIndexData {
                 return (int) (Math.floor(dNum / root));
         }
     }
+    
     private int fillmyLinkedList() {
 	    
     	if (ic.table.equals(this.selectedtype))
     	    return this.ll1.size();
     	else this.ll1.clear();
 
-    	Document allXml = buildQuery();   	
-	    List mcrHit = allXml.getRootElement().getChildren();
+    	buildQuery();
+    	
+	    List mcrHit = jResult.getRootElement().getChildren();
 	    /**
     	 * <mcrresults sorted="true">
 			  <mcrhit mcrid="atlibri_professorum_000000000441">
