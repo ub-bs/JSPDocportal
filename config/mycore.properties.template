@@ -246,6 +246,15 @@ MCR.ClassificationBrowser.ddc_sub.Style=subselect
 MCR.ClassificationBrowser.ddc_sub.EmptyLeafs=yes
 MCR.ClassificationBrowser.ddc_sub.View=tree
 
+# default für neue Klassifikationen
+MCR.ClassificationBrowser.default.EmbeddingPage=mcr_doc_browse.xml
+MCR.ClassificationBrowser.default.Style=search
+MCR.ClassificationBrowser.default.EmptyLeafs=yes
+MCR.ClassificationBrowser.default.View=tree
+MCR.ClassificationBrowser.default.Comments=true
+MCR.ClassificationBrowser.default.Doctype=alldocs
+MCR.ClassificationBrowser.default.searchField=cltype1
+
 MCR.editor_workflow_page_dir=editor/workflow/
 
 MCR.Editor.FileUpload.Handler=org.mycore.frontend.fileupload.MCRUploadHandlerMyCoRe
