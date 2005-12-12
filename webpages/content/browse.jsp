@@ -27,7 +27,7 @@
         mcrSession.BData = new MCRClassificationBrowserData(actUriPath,"","","");
     } catch (MCRConfigurationException cErr) {
     	request.setAttribute("message",cErr.getMessage());
-   	    getServletContext().getRequestDispatcher("/nav?path=~mycore-error").forward(request,response);
+   	    getServletContext().getRequestDispatcher("/mycore-error.jsp").forward(request,response);
     }
 
     Document doc = mcrSession.BData.createXmlTree(lang);
