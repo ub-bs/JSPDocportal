@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.1 $ $Date: 2005-12-09 15:51:29 $ -->
+<!-- $Revision: 1.2 $ $Date: 2005-12-12 16:39:19 $ -->
 <!-- ============================================== -->
 
 <xsl:stylesheet
@@ -159,18 +159,24 @@
     <xsl:value-of select="col[@name='id']" />
   </xsl:variable>
 
+  <xsl:variable name="offset">
+   <xsl:text>&amp;offset=</xsl:text>
+   <xsl:value-of select="@pos" />
+  </xsl:variable>
+	
     <tr>
       <td class="td1" valign="top">
         <img border="0" src="images/folder_plain.gif"/>
       </td>
       <td class="td1" valign="top" style="padding-right:5px;">
-		<xsl:value-of select="sort" />
+		<xsl:value-of select="sort" />, 
+		<xsl:value-of select="col[@name='firstname']" />	  
 	  </td>
       <td class="td1" valign="top" style="padding-right:5px;">
-        <a href="{$urlAuthor}" ><xsl:text>[Detailansicht]</xsl:text></a>
+        <a href="{$urlAuthor}{$offset}" ><xsl:text> [Detailansicht] </xsl:text></a>
       </td>
-	  
-    </tr>
+	</tr>
+		
 </xsl:template>
 
 <!-- ========== range ========== -->
