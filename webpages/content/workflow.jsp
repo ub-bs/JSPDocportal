@@ -189,7 +189,7 @@
 														<input value="${param.step}" name="step" type="hidden">
 														<input value="wdelfile" name="todo" type="hidden">
 														<input name="extparm" value="####nrall####2####nrthe####1####filename####<%= fileName %>" type="hidden">
-														<input title="Löschen dieser Datei" src="${requestScope.WebApplicationBaseURL}images/button_delete.gif" type="image">
+														<input title="Löschen dieser Datei" src="${requestScope.WebApplicationBaseURL}images/workflow_derdelete.gif" type="image">
 													</form>											
 												</c:if>
 											</td>
