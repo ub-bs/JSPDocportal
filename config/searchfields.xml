@@ -34,12 +34,13 @@
 	<field name="identifier" type="identifier" xpath="/mycoreobject/metadata/identifiers/identifier" value="normalize-space(text())" />
 	
 	<!-- Search for category IDs of classifications -->
-	<field name="ddc" type="identifier" xpath="/mycoreobject/metadata/subjects/subject[@classid='DocPortal_class_00000009']" value="@categid" />	
-	<field name="origin" type="identifier" xpath="/mycoreobject/metadata/origins/origin[@classid='DocPortal_class_00000003']" value="@categid" />
-	<field name="subject" type="identifier" xpath="/mycoreobject/metadata/subjects/subject[@classid='DocPortal_class_00000007']" value="@categid" />
-	<field name="format" type="identifier" xpath="/mycoreobject/metadata/formats/format[@classid='DocPortal_class_00000006']" value="@categid" />
-	<field name="language" type="identifier" xpath="/mycoreobject/metadata/languages/language[@classid='DocPortal_class_00000004']" value="@categid" />
-	<field name="type" type="identifier" xpath="/mycoreobject/metadata/types/type[@classid='DocPortal_class_00000005']" value="@categid" />
+	<field name="ddc" type="name" xpath="/mycoreobject/metadata/subjects/subject[@classid='DocPortal_class_00000009']" value="@categid" />	
+	<field name="origin" type="name" xpath="/mycoreobject/metadata/origins/origin[@classid='DocPortal_class_00000003']" value="@categid" />
+	<field name="subject" type="name" xpath="/mycoreobject/metadata/subjects/subject[@classid='DocPortal_class_00000007']" value="@categid" />
+	<field name="format" type="name" xpath="/mycoreobject/metadata/formats/format[@classid='DocPortal_class_00000006']" value="@categid" />
+	<field name="language" type="name" xpath="/mycoreobject/metadata/languages/language[@classid='DocPortal_class_00000004']" value="@categid" />
+	<field name="type" type="name" xpath="/mycoreobject/metadata/types/type[@classid='DocPortal_class_00000005']" value="@categid" />
+    <field name="institution" type="name" xpath="/mycoreobject/metadata/institutions/institution[@classid='DocPortal_class_00000002']" value="@categid" />      
 	
 	<field name="description" type="text" xpath="/mycoreobject/metadata/descriptions/description"  value="normalize-space(text())">
 	  <attribute name="type" value="@type" />
@@ -67,9 +68,9 @@
 	<!-- Search for zip code if object is author or institution -->
 	<field name="zip" type="integer" xpath="/mycoreobject/metadata/addresses/address/zipcode" value="text()" objects="author institution"/>
     
+
     <field name="firstname" type="text" xpath="/mycoreobject/metadata/names/name/callname" value="text()" objects="author"/>    
-    <field name="surname" type="text" xpath="/mycoreobject/metadata/names/name/surname" value="text()" objects="author"/>        
-    <field name="institution" type="identifier" xpath="/mycoreobject/metadata/institutions/institution[@classid='DocPortal_class_00000002']" value="@categid" />      
+    <field name="surname" type="identifier" xpath="/mycoreobject/metadata/names/name/surname" value="text()" objects="author"/>        
 	
 	<!-- Search in all metadata fields that contain text -->
 	<field name="allMeta" xpath="/mycoreobject/metadata/*/*[@xml:lang]" type="text" value="normalize-space(text())" />
