@@ -190,8 +190,8 @@ MCR.ClassificationBrowser.dissertationen.EmbeddingPage=mcr_doc_browse.xml
 MCR.ClassificationBrowser.dissertationen.Style=search
 MCR.ClassificationBrowser.dissertationen.EmptyLeafs=yes
 MCR.ClassificationBrowser.dissertationen.Comments=true
-MCR.ClassificationBrowser.dissertationen.View=flat
-
+MCR.ClassificationBrowser.dissertationen.View=tree
+MCR.ClassificationBrowser.dissertationen.SearchField=ddc
 ##Beispiel - ist in MyCoReSample nicht moeglich
 
 ##MCR.ClassificationBrowser.dissertationen.Doctype=alldisshabs
@@ -235,7 +235,7 @@ MCR.ClassificationBrowser.ddc.Classification=DocPortal_class_00000009
 MCR.ClassificationBrowser.ddc.EmbeddingPage=mcr_doc_browse.xml
 MCR.ClassificationBrowser.ddc.Style=search
 MCR.ClassificationBrowser.ddc.EmptyLeafs=yes
-MCR.ClassificationBrowser.ddc.View=flat
+MCR.ClassificationBrowser.ddc.View=tree
 MCR.ClassificationBrowser.ddc.Comments=true
 MCR.ClassificationBrowser.ddc.SearchField=ddc
 
@@ -245,6 +245,7 @@ MCR.ClassificationBrowser.ddc_sub.EmbeddingPage=mcr_doc_browse.xml
 MCR.ClassificationBrowser.ddc_sub.Style=subselect
 MCR.ClassificationBrowser.ddc_sub.EmptyLeafs=yes
 MCR.ClassificationBrowser.ddc_sub.View=tree
+MCR.ClassificationBrowser.ddc_sub.SearchField=ddc
 
 # default für neue Klassifikationen
 MCR.ClassificationBrowser.default.EmbeddingPage=mcr_doc_browse.xml
