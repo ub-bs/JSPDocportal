@@ -393,9 +393,8 @@ public class MCRStartEditorServlet extends MCRServlet {
 		sb.append(".xml");
 		
 		String myfile = (mypage == "") ? sb.toString() : mypage;
-		String cancelpage = pagedir
-				+ CONFIG.getString("MCR.editor_page_cancel",
-						"editor_cancel.xml");
+		String cancelpage = "nav?path=left.myatlibri.myworksheet.workflow-" + mytype;
+			// pagedir	+ CONFIG.getString("MCR.editor_page_cancel","editor_cancel.xml");
 
 		String deletepage = pagedir
 				+ CONFIG.getString("MCR.editor_page_delete",
@@ -588,17 +587,12 @@ LOGGER.debug("WFM has ended");
 
 		// action WCOMMIT - commit a object from the workflow to the server
 		if (mytodo.equals("wcommit")) {
-			if (!MCRAccessManager.checkAccess("commit", mysemcrid, mcrSession )) {
-			
-				response.sendRedirect(
-						response.encodeRedirectURL(
-								getBaseURL() + usererrorpage));
+			if (!MCRAccessManager.checkAccess("commit", mysemcrid, mcrSession )) {		
+				response.sendRedirect(response.encodeRedirectURL(getBaseURL() + usererrorpage));
 				return;
 			}
 			if (mysemcrid.length() == 0) {
-				response.sendRedirect(
-						response.encodeRedirectURL(
-								getBaseURL() + mcriderrorpage));
+				response.sendRedirect(response.encodeRedirectURL(getBaseURL() + mcriderrorpage));
 				return;
 			}
 			try {
@@ -616,8 +610,7 @@ LOGGER.debug("WFM has ended");
 								.append(mytype)
 								.append(" mit der ID ")
 								.append(mysemcrid)
-								.append(
-										" aus dem Workflow in das System geladen.");
+								.append(" aus dem Workflow in das System geladen.");
 						LOGGER.info(text.toString());
 						try {
 							MCRMailer.send(sender, addr, subject, text
@@ -640,8 +633,7 @@ LOGGER.debug("WFM has ended");
 				myfile = storeerrorpage;
 			}
 
-			response.sendRedirect(
-					response.encodeRedirectURL(getBaseURL() + myfile));
+			response.sendRedirect(	response.encodeRedirectURL(getBaseURL() + myfile));
 			return;
 		}
 
