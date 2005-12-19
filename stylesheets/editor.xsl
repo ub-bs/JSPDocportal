@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.1 $ $Date: 2005-11-21 13:24:24 $ -->
+<!-- $Revision: 1.2 $ $Date: 2005-12-19 15:39:40 $ -->
 <!-- ============================================== --> 
 
 <xsl:stylesheet 
@@ -104,6 +104,13 @@
   <xsl:attribute name="action">
     <xsl:value-of select="concat($ServletsBaseURL,'XMLEditor',$HttpSession)"/>
   </xsl:attribute>
+  
+  <!-- ======== js Action for this form ======== -->
+  <xsl:if test="../target/@jsaction">
+     <xsl:attribute name="onSubmit">
+        <xsl:value-of select="../target/@jsaction" />
+     </xsl:attribute>
+  </xsl:if>
 
   <!-- ======== method ======== -->
   <xsl:attribute name="method">
@@ -855,9 +862,13 @@
   </xsl:variable>
   
   <xsl:if test="local-name() = 'textfield'">
-    <input type="text" size="{@width}" name="{$var}" value="{$value}">
-      <xsl:copy-of select="@maxlength" />
+    <input type="text" size="{@width}" name="{$var}" value="{$value}" >
+      <xsl:copy-of select="@maxlength" />		
+      <xsl:if test="@class">
+        <xsl:attribute name="class"><xsl:value-of select="@class"/></xsl:attribute>
+      </xsl:if>
     </input>
+	
   </xsl:if>
   <xsl:if test="local-name() = 'textarea'">
     <xsl:variable name="wrap" select="''" />
@@ -867,6 +878,10 @@
       <xsl:text>rows="</xsl:text><xsl:value-of select="@height"/><xsl:text>" </xsl:text>
       <xsl:text>wrap="</xsl:text><xsl:value-of select="$wrap"/><xsl:text>" </xsl:text>
       <xsl:text>name="</xsl:text><xsl:value-of select="$var"/><xsl:text>" </xsl:text>
+      <xsl:if test="@class">
+          <xsl:text>class="></xsl:text><xsl:value-of select="@class"/><xsl:text>" </xsl:text>
+      </xsl:if>
+	  
       <xsl:text disable-output-escaping="yes">&gt;</xsl:text>
 
       <xsl:value-of select="$value" disable-output-escaping="yes" />
@@ -902,6 +917,10 @@
     <xsl:if test="@maxlength">
       <xsl:attribute name="maxlength"><xsl:value-of select="@maxlength"/></xsl:attribute>
     </xsl:if>
+    <xsl:if test="@class">
+        <xsl:attribute name="class"><xsl:value-of select="@class"/></xsl:attribute>
+    </xsl:if>	  
+	
   </input>
 </xsl:template>
 
@@ -914,7 +933,12 @@
     <xsl:value-of select="ancestor::editor/input/var[@name=$var]/@value" />  
   </xsl:variable>
 
-  <input type="password" size="{@width}" value="{$source}" name="{$var}" />
+  <input type="password" size="{@width}" value="{$source}" name="{$var}"   >
+    <!-- class attribute optional for example for mandatory fields	-->
+    <xsl:if test="@class">
+       <xsl:attribute name="class"><xsl:value-of select="@class"/></xsl:attribute>
+    </xsl:if>
+  </input>
 </xsl:template>
 
 <!-- ======== subselect ======== -->
@@ -988,6 +1012,12 @@
     <xsl:if test="@width">
       <xsl:attribute name="style">width:<xsl:value-of select="@width" /></xsl:attribute>
     </xsl:if>
+    <!-- ======== js Action for this button ======== -->
+    <xsl:if test="@jsaction">
+     <xsl:attribute name="onClick">
+        <xsl:value-of select="@jsaction" />
+     </xsl:attribute>
+    </xsl:if>	
   </input>
 </xsl:template>
 
@@ -1195,7 +1225,10 @@
     <xsl:if test="$multi = 'true'">
       <xsl:attribute name="multiple">multiple</xsl:attribute>
     </xsl:if>
-
+    <!-- class attribute optional for example for mandatory fields	-->
+    <xsl:if test="@class">
+       <xsl:attribute name="class"><xsl:value-of select="@class"/></xsl:attribute>
+    </xsl:if>
     <xsl:if test="@width">
       <xsl:attribute name="style">
         <xsl:value-of select="concat('width:',@width)"/>
