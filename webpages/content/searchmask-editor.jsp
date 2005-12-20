@@ -5,4 +5,15 @@
 <fmt:setLocale value="${requestScope.lang}" />
 <fmt:setBundle basename='messages'/>
 <div class="headline"><fmt:message key="EditorPageTitle.${fn:replace(param.editor,'/','.')}" /></div>
-<c:import url="${applicationScope.WebApplicationBaseURL}${param.editor}?XSL.editor.source.new=true&XSL.editor.cancel.url=${applicationScope.WebApplicationBaseURL}content/editor-cancel.jsp" />
+<table >
+ <tr>
+    <td valign="top">
+     <c:import url="${applicationScope.WebApplicationBaseURL}${param.editor}?XSL.editor.source.new=true&XSL.editor.cancel.url=${applicationScope.WebApplicationBaseURL}nav?path=${requestScope.path}" />
+    </td>
+ </tr>  
+ <tr>
+   <td>
+   	<!--  Comments for using -->
+   </td>
+ </tr>
+</table>
