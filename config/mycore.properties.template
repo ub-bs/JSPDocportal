@@ -11,6 +11,8 @@ MCR.IFS.ContentStore.Lucene.IndexDirectory=C:/sample-mcrjsp/lucene-index
 MCR.IFS.ContentStore.Lucene.BaseDirectory=C:/sample-mcrjsp/lucene-base
 MCR.LogFile=C:/sample-mcrjsp/tmp/mcrjsp.log
 
+MCR.dtd.directory=C:/sample-mcrjsp/dtd
+
 MCR.Save.FileSystem=C:/sample-mcrjsp/save
 
 MCR.editor_page_error_formular=editor/error-formular.jsp
