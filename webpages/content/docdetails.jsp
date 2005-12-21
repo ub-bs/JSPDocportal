@@ -40,6 +40,7 @@
    <tr>
       <td class="titles">
          <mcr:simpleXpath jdom="${mycoreobject}" xpath="/mycoreobject/metadata/titles/title[@xml:lang='${requestScope.lang}']" />
+         <mcr:simpleXpath jdom="${mycoreobject}" xpath="/mycoreobject/metadata/names/name/fullname" />
       </td>
       <td class="titles">
          <mcr:browseCtrl results="${sessionScope.lastMCRResults}" offset="${offset}" >
