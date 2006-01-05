@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mycoreobject 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="datamodel-author.xsd"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:xml="http://www.w3.org/XML/1998/namespace"
+  ID="DocPortal_author_00774301"
+  label="Ulrike Krönert">
+ <structure/>
+ <metadata>
+  <names class="MCRMetaPersonName" textsearch="true">
+   <name type="latest" xml:lang="de">
+    <callname>Ulrike</callname>
+    <surname>Krönert</surname>
+    <fullname>Ulrike Krönert</fullname>
+    <academic>Dipl. Math.</academic>
+   </name>
+  </names>
+  <females class="MCRMetaBoolean">
+   <female xml:lang="en">true</female>
+  </females>
+  <institutions class="MCRMetaClassification" parasearch="true">
+   <institution categid="Unis.Jena" classid="DocPortal_class_00000002" />
+  </institutions>
+  <addresses class="MCRMetaAddress">
+   <address type="office" xml:lang="de">
+    <country>Deutschland</country>
+    <state>Thüringen</state>
+    <zipcode>07743</zipcode>
+    <city>Jena</city>
+    <street>Am Johannisfriedhof</street>
+    <number>2</number>
+   </address>
+   <address type="office" xml:lang="en">
+    <country>Germany</country>
+    <state>Thüringen</state>
+    <zipcode>07743</zipcode>
+    <city>Jena</city>
+    <street>Am Johannisfriedhof</street>
+    <number>2</number>
+   </address>
+  </addresses>
+  <phones class="MCRMetaLangText">
+   <phone type="phone" xml:lang="de">03641 940534</phone>
+   <phone type="phone" xml:lang="en">+49 (0)3641 940534</phone>
+  </phones>
+  <professions class="MCRMetaLangText" textsearch="true">
+   <profession type="job" xml:lang="de">System-Administrator</profession>
+   <profession type="job" xml:lang="de">System-Designer</profession>
+   <profession type="profession" xml:lang="de">Diplom-Mathematikerin</profession>
+  </professions>
+  <nationals class="MCRMetaClassification" parasearch="false">
+   <national classid="DocPortal_class_00000001" categid="NAT0001" />
+  </nationals>
+  <emails class="MCRMetaLangText" parasearch="false">
+   <email>
+    Ulrike.Kroenert@uni-jena.de
+   </email>
+  </emails>
+  <references class="MCRMetaLink" parasearch="false">
+   <reference xlink:type="locator" xlink:href="http://www.mycore.de" xlink:title="URL von MyCoRe" />
+  </references>
+  <notes class="MCRMetaLangText" parasearch="false">
+   <note>
+    Ulrike Krönert ist eine der Architekten von MyCoRe.
+   </note>
+  </notes>
+  <publications class="MCRMetaLangText" parasearch="false">
+   <publication xml:lang="de">
+    Dokumentationen für MyCoRe
+   </publication>
+  </publications>
+ </metadata>
+ <service>
+  <servflags class="MCRMetaLangText">
+   <servflag>Access:public</servflag>
+   <servflag>State:commited</servflag>
+   <servflag>User:administrator</servflag>
+  </servflags>
+ </service>
+</mycoreobject>

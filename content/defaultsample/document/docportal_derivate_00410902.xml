@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mycorederivate
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="datamodel-derivate.xsd"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:xml="http://www.w3.org/XML/1998/namespace"
+  ID="DocPortal_derivate_00410902"
+  label="Derivate to sample document 2">
+<derivate>
+<linkmetas class="MCRMetaLinkID">
+ <linkmeta xlink:type="locator" xlink:href="DocPortal_document_00410902" />
+</linkmetas>
+<internals class="MCRMetaIFS">
+ <internal
+  sourcepath="docportal_derivate_00410902"
+  maindoc="Jens_Bertsdorf.jpg" />
+</internals>
+</derivate>
+<service>
+</service>
+</mycorederivate>

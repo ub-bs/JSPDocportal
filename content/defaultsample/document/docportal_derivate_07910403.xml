@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mycorederivate 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:noNamespaceSchemaLocation="datamodel-derivate.xsd"
+  xmlns:xlink="http://www.w3.org/1999/xlink" 
+  xmlns:xml="http://www.w3.org/XML/1998/namespace"
+  ID="DocPortal_derivate_07910403" 
+  label="Datenobjekte zu DocPortal_document_07910403">
+<derivate>
+  <linkmetas class="MCRMetaLinkID" heritable="false" parasearch="true" textsearch="false">
+    <linkmeta inherited="0" xlink:type="locator" xlink:href="DocPortal_document_07910403"/>
+  </linkmetas>
+  <internals class="MCRMetaIFS" heritable="false" notinherit="true" parasearch="false" textsearch="false">
+    <internal 
+      sourcepath="docportal_derivate_07910403" 
+      maindoc="Detlev_Alaska2002.ppt" />
+  </internals>
+</derivate>
+<service>
+</service>
+</mycorederivate>

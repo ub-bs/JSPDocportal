@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mycoreobject 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="datamodel-author.xsd"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:xml="http://www.w3.org/XML/1998/namespace"
+  ID="DocPortal_author_08033301"
+  label="Heiko Helmbrecht">
+ <structure/>
+ <metadata>
+  <names class="MCRMetaPersonName" textsearch="true">
+   <name type="latest" xml:lang="de">
+    <callname>Heiko</callname>
+    <surname>Helmbrecht</surname>
+    <fullname>Heiko Helmbrecht</fullname>
+   </name>
+  </names>
+  <females class="MCRMetaBoolean">
+   <female xml:lang="en">false</female>
+  </females>
+  <institutions class="MCRMetaClassification" parasearch="true">
+   <institution categid="Unis.TUMuenchen" classid="DocPortal_class_00000002" />
+  </institutions>
+  <addresses class="MCRMetaAddress">
+   <address type="office" xml:lang="de">
+    <country>Deutschland</country>
+    <state>Bayern</state>
+    <zipcode>80333</zipcode>
+    <city>München</city>
+    <street>Arcisstr.</street>
+    <number>21</number>
+   </address>
+   <address type="office" xml:lang="en">
+    <country>Germany</country>
+    <state>Bavaria</state>
+    <zipcode>80333</zipcode>
+    <city>Munich</city>
+    <street>Arcisstr.</street>
+    <number>21</number>
+   </address>
+  </addresses>
+  <phones class="MCRMetaLangText">
+   <phone type="phone" xml:lang="de">089-289-23934</phone>
+   <phone type="phone" xml:lang="en">+49 (0)89-289-23934</phone>
+  </phones>
+  <professions class="MCRMetaLangText" textsearch="true">
+   <profession type="job" xml:lang="de">System-Administrator</profession>
+   <profession type="job" xml:lang="de">System-Designer</profession>
+  </professions>
+  <nationals class="MCRMetaClassification" parasearch="false">
+   <national classid="DocPortal_class_00000001" categid="NAT0001" />
+  </nationals>
+  <emails class="MCRMetaLangText" parasearch="false">
+   <email>
+    helmbrecht@ub.tum.de
+   </email>
+  </emails>
+  <notes class="MCRMetaLangText" parasearch="false">
+   <note>
+    Heiko Helmbrecht ist einer der Architekten von MyCoRe.
+   </note>
+  </notes>
+ </metadata>
+ <service>
+  <servflags class="MCRMetaLangText">
+   <servflag>Access:public</servflag>
+   <servflag>State:commited</servflag>
+   <servflag>User:administrator</servflag>
+  </servflags>
+ </service>
+</mycoreobject>
