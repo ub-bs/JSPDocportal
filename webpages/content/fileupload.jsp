@@ -11,7 +11,7 @@
 <fmt:setBundle basename='messages'/>
 <div class="headline"><fmt:message key="Editor.FileuploadPageTitle" /></div>
 Sie können einzelne Dateien bis 50 MB Größe direkt mittels des folgenden Formulares hochladen.
-<c:url var="url" value="${requestScope.WebApplicationBaseURL}editor/workflow/editor-author-addfile.xml">
+<c:url var="url" value="${applicationScope.WebApplicationBaseURL}editor/workflow/editor-author-addfile.xml">
 	<c:param name="XSL.UploadID" value="${param['XSL.UploadID']}" />
 	<c:param name="XSL.editor.source.new" value="${param['XSL.editor.source.new']}" />
 	<c:param name="XSL.editor.cancel.url" value="${param['XSL.editor.cancel.url']}" />
