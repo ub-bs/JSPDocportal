@@ -381,12 +381,14 @@ public class MCRResultFormatter {
 				Element elClass = (Element) it.next();
 				String classID = elClass.getAttributeValue("classid");
 				String categID = elClass.getAttributeValue("categid");
-				MCRCategoryItem categItem = MCRCategoryItem.getCategoryItem(classID,categID);
-				Element metaValue = new Element("metavalue");
-				metaValue.setAttribute("href",categItem.getURL());
-				metaValue.setAttribute("target","new");
-				metaValue.setAttribute("text",categItem.getText(lang));
-				metaValues.addContent(metaValue);
+				if ( classID != null ) {
+					MCRCategoryItem categItem = MCRCategoryItem.getCategoryItem(classID,categID);
+					Element metaValue = new Element("metavalue");
+					metaValue.setAttribute("href",categItem.getURL());
+					metaValue.setAttribute("target","new");
+					metaValue.setAttribute("text",categItem.getText(lang));
+					metaValues.addContent(metaValue);
+				}
 			}
 		} catch (MCRUsageException e) {
 			logger.debug("error occured", e);
@@ -446,6 +448,9 @@ public class MCRResultFormatter {
     					    digitalObject.setAttribute("lastModified",lastModified);
     					    digitalObject.setAttribute("contentType",contentType);
     					    digitalObject.setAttribute("md5",md5);
+    					    if ( i==0) 	digitalObject.setAttribute("pos", "first");
+    					    else if ( i+1 == fileCnt ) 	digitalObject.setAttribute("pos", "last");
+    					    else     	digitalObject.setAttribute("pos", String.valueOf(i));
     					    digitalObjects.addContent(digitalObject);
     			    }	
     			}
@@ -648,7 +653,6 @@ public class MCRResultFormatter {
     	} 
 		return childObjects;
     }    
-    
 
     public Element getFormattedMCRDocDetailContent(org.jdom.Document doc, String xpath, 
     		String separator, String terminator, String lang, 
@@ -693,16 +697,18 @@ public class MCRResultFormatter {
 		String docType = mcrid.getTypeId();
         Element definition = (docdetailsMap.containsKey(docType)) ?
         		(Element)docdetailsMap.get(docType) : addDocType2DocdetailsMap(docType);		
-        Element allmetavalues = processDocDetails(doc, definition, lang, "");
+        Element allmetavalues = processDocDetails(doc, definition, lang, "", docType);
         Document allMetaValues = new Document(allmetavalues);
+        logger.debug("getFormattedDocDetails delivers:" + JSPUtils.getPrettyString(allMetaValues));
         return allMetaValues;
     }
     
-    public Element processDocDetails(Document doc, Element definition, String lang, String resultlistLink ) {
+    public Element processDocDetails(Document doc, Element definition, String lang, String resultlistLink, String docType ) {
     	Element mycoreobject = doc.getRootElement();
     	String mcrObjId = mycoreobject.getAttributeValue("ID");
     	Element allMetaValuesRoot = new Element("all-metavalues");
         allMetaValuesRoot.setAttribute("ID",mcrObjId);
+        allMetaValuesRoot.setAttribute("docType",docType);
         
         for (Iterator it = definition.getDescendants(new ElementFilter("MCRDocDetail")); it.hasNext();) {
         	
@@ -775,7 +781,7 @@ public class MCRResultFormatter {
 		            .append("&offset=").append(k).append("&doctype=").append(docType);
 	        Element definition = (resultlistMap.containsKey(docType)) ?
 	        		(Element)resultlistMap.get(docType) : addDocType2ResultlistMap(docType);
-	        Element containerHit = processDocDetails(hit,definition,lang,doclink.toString());
+	        Element containerHit = processDocDetails(hit,definition,lang,doclink.toString(), docType);
 	        Element mcr_result = new Element("mcr_result");
 	        mcr_result.addContent(containerHit);
 	        mcr_results.addContent(mcr_result);
