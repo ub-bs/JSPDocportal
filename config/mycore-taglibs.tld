@@ -266,6 +266,68 @@ specified in the action.
             <info>A Tag, that sets the current resultList to a given Variable, for a Query either from the Session or from a request-Attribute</info>
         </tag>
         <tag>
+            <name>setMyResultList</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRSetMyResultListTag</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <description>
+                    name of the variable containing the requested result-list of MCRResults of my own Objects
+                </description>
+                <name>var</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>
+                    the query delivers a list, and this is the index the shown results begin
+                </description>
+                <name>from</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>
+                    the query delivers a list, and this is the index the shown results end
+                </description>
+                <name>until</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>              
+            <attribute>
+                <description>
+                    the navigation-path (needed for the building of the session-parameter the query is saved in)
+                </description>
+                <name>navPath</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <attribute>
+                <description>
+                    the resultlist-Type (needed for the building of the session-parameter the query is saved in and the navigation management)
+                </description>
+                <name>resultlistType</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>             
+            <attribute>
+                <description>
+                    the requested language
+                </description>
+                <name>lang</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>             
+            <attribute>
+                <description>
+                    the Query as Jdom, that will be executed, if is null, it is taken of the session
+                </description>
+                <name>query</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>             
+            <info>A Tag, that sets the current resultList for the Objects, the current user is allowed to modify, to a given Variable, for a Query either from the Session or from a request-Attribute</info>
+        </tag>        
+        <tag>
             <name>browsePageCtrl</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRBrowsePageCtrlTag</tagclass>
             <bodycontent>empty</bodycontent>
