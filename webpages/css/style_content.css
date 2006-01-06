@@ -6,22 +6,49 @@
 /* =================================================================== */
 /* content area                                                        */
 /* =================================================================== */
-.mandatory {
-   border-color: rgb(255,0, 0);   
-   color: rgb(0,0, 255);   
+.flags {
+   color: rgb(0,0, 0);
    }
-.imagebutton
-{
+.mandatory {
+   border-color: rgb(255,0, 0);
+   color: rgb(0,0, 255);
+   }
+.imagebutton {
 	border-style: none;
 	border-width: 1px;
 	border-color: #9A5B11;		
 }
-
-#contentArea {
-    vertical-align: top;
-    height: 85%;
-    padding-top: 1em;
+.adminheadline {
+    font-weight : bold;
+    padding: 3px;
+    border-style: none none solid none;
+    border-width: 1px;
+    border-color: red;
+    margin-bottom: 1.5em;
+    color: red;
+    background-color: rgb(255,240,240);
 }
+
+.actrow {
+   border-width: 3px;
+   border-color: #FFEFDE;    
+   background-color: rgb(245, 255, 255);
+}   
+ 
+.classeditor {
+    vertical-align: top;
+    border-style: none none solid none;
+    border-width: 3px;
+    border-color:  rgb(245, 255, 255);
+    background-color: white; 
+}   
+.headtable {
+	padding: 3px; 
+	color: #9A5B11; 
+	background-color:#FFEFDE; 
+	line-height: 14px; 
+	padding-right: 5px; 
+	}
 /*IE Fix to have content inside the table: stupid browser*/
 #contentWrapper {
     width: 90%;
@@ -29,6 +56,9 @@
 }
 
 #contentArea {
+    vertical-align: top;
+    height: 85%;
+    padding-top: 1em;	
     color: #041B26;
     background-color: #EFF4F6;
     font-size: 12px;
