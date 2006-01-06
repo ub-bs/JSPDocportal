@@ -63,10 +63,10 @@
         types.addContent(type);
         hosts.addContent(host);
         
-        if (!creatorName.equals("")) 
-            or.addContent(creatorCondition);
         if (!creatorID.equals(""))
             or.addContent(creatorIDCondition);
+        if (!creatorName.equals("")) 
+            or.addContent(creatorCondition);
         conditions.addContent(or);
         query.addContent(conditions);
         query.addContent(hosts);
@@ -78,7 +78,7 @@
         Logger.getLogger("authorsdocuments.jsp").debug("selfcreated query: \n" + xmlout.outputString(queryDoc));
         
         request.setAttribute("query", queryDoc);
-        request.setAttribute("resultlistType",searchType);
+        //request.setAttribute("resultlistType",searchType);  //gibt es nicht ?
 
         getServletContext().getRequestDispatcher("/nav?path=~searchresult-" + resultlistType).forward(request, response);
 %>        
