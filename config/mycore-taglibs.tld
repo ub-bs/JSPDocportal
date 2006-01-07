@@ -9,6 +9,37 @@
     <uri>/WEB-INF/lib/mycore-taglibs.jar</uri>
     <info>MyCoRe Sample Tag library</info>
         <tag>
+            <name>checkAccess</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRCheckAccessTag</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <description>
+                    String, that represents the access-pool, that is checked.
+                </description>
+                <name>pool</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute> 
+            <attribute>           
+                <description>
+                    Name of the pageContext variable that hold the value
+specified in the action (true or false).
+                </description>
+                <name>var</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>
+                    String, that represents the objID of a given Object, whose access-rights are requested
+                </description>
+                <name>key</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <info>A Tag, that checks via MCRAccessManager the access rights of a given objID and a given Access-Pool</info>
+        </tag>     
+        <tag>
             <name>session</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRSessionTag</tagclass>
             <bodycontent>empty</bodycontent>
