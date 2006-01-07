@@ -2,7 +2,7 @@
 
 <!-- =================================================================== -->
 <!-- MyCoRe sample application build file for use with Apache Ant        -->
-<!-- $Revision: 1.11 $ $Date: 2005-12-20 18:30:09 $                      -->
+<!-- $Revision: 1.12 $ $Date: 2006-01-07 00:34:19 $                      -->
 <!-- =================================================================== -->
 
 <project default="usage" basedir=".">
@@ -132,11 +132,10 @@
 	    <echo>Operating system   : ${os.name} Version ${os.version} on ${os.arch} </echo>
 	    <echo>Java version       : JDK ${ant.java.version} Version ${java.version} from ${java.vendor}</echo>
 	    <echo>Java home          : ${env.JAVA_HOME}</echo>
-	    <echo>Ant build file     : $Revision: 1.11 $ $Date: 2005-12-20 18:30:09 $</echo>
+	    <echo>Ant build file     : $Revision: 1.12 $ $Date: 2006-01-07 00:34:19 $</echo>
 	    <echo>Ant version        : ${ant.version}</echo>
 	    <echo>Ant home           : ${env.ANT_HOME}</echo>
 	    <echo>XML Store type     : ${MCR.XMLStore.Type}</echo>
-	    <echo>JDBC Store type    : ${MCR.JDBCStore.Type}</echo>
 	    <echo>System CLASSPATH   : ${build.sysclasspath}</echo>
 	    <echo>Active CLASSPATH   : ${docportal.classpath.translated}</echo>
 	    <echo>Active LIBPATH     : ${docportal.libpath.translated}</echo>
@@ -199,15 +198,6 @@
         </condition>
         <condition property="os.is.windows">
             <os family="dos" />
-        </condition>
-
-        <condition property="db.is.hibernate">
-            <equals arg1="${MCR.JDBCStore.Type}" arg2="hibernate" />
-        </condition>
-        <condition property="db.is.sql">
-            <not>
-                <equals arg1="${MCR.JDBCStore.Type}" arg2="hibernate" />
-            </not>
         </condition>
 
         <condition property="store.is.cm8">
@@ -334,6 +324,7 @@
         <mkdir dir="${MCR.editor_author_directory}" />
         <mkdir dir="${MCR.editor_document_directory}" />
         <mkdir dir="${MCR.editor_institution_directory}" />
+    	<mkdir dir="${MCR.editor_deleted_directory}" />
     </target>
 
     <!-- =================================================================== -->
@@ -439,12 +430,16 @@
     <target name="javac" depends="init">
         <echo>Compiling ${packages}</echo>
         <javac srcdir="${docportal.sources}"
-            destdir="${docportal.classes}" includes="${packages}"
-            classpathref="docportal.classpath" debug="${debug}"
-            optimize="${optimize}" target="${javatarget}"
-            source="${sourcerelease}" encoding="${sourceencoding}"
-            deprecation="${deprecation}" />
-
+               destdir="${docportal.classes}" 
+        	   includes="${packages}"
+               classpathref="docportal.classpath" 
+        	   debug="${debug}"
+               optimize="${optimize}" 
+        	   target="${javatarget}"
+               source="${sourcerelease}" 
+        	   encoding="${sourceencoding}"
+               fork="yes"        	   
+               deprecation="${deprecation}" />
         <echo>
             ---------------------------------------------------------
         </echo>
@@ -456,7 +451,7 @@
     </target>
 
     <target name="compile"
-        depends="compile_base,compile_services_nbn,compile_common, compile_common_xml, compile_frontend_jsp_format, compile_frontend_jsp, compile_frontend_jsp_nav, compile_frontend_jsp_query, compile_servlets, compile_workflow, compile_backend_query, compile_backend_hibernate, compile_services_oai" />
+        depends="compile_base,compile_services_nbn,compile_common, compile_common_xml, compile_frontend_jsp_format, compile_frontend_jsp, compile_frontend_jsp_nav, compile_frontend_jsp_query, compile_servlets, compile_workflow, compile_backend_query, compile_backend_hibernate, compile_services_oai, compile_demo" />
 
     <target name="compile_base">
         <mkdir dir="${docportal.classes}" />
@@ -537,6 +532,12 @@
                 value="org/mycore/backend/hibernate/tables/**" />
         </antcall>
     </target>
+    <target name="compile_demo">
+        <echo>Compiling the start class for the demo out of the box</echo>
+        <antcall target="javac">
+            <param name="packages" value="org/mycore/start/demo/*" />
+        </antcall>
+    </target>	
 
 
     <!-- =================================================================== -->
@@ -553,6 +554,7 @@
             destfile="${docportal.lib}/docportal-for-${MCR.XMLStore.Type}.jar">
             <fileset dir="${docportal.classes}" includes="**/*.class" />
             <fileset dir="${docportal.schema}" includes="*.xsd *.dtd" />
+        	<fileset dir="${env.MYCORE_HOME}/lib" includes="*.dtd" />
         </jar>
         <echo>
             ---------------------------------------------------------
@@ -564,82 +566,18 @@
     <!-- =================================================================== -->
 
     <target name="create.metastore"
-        depends="init,create.hibernate,create.sql,create.metastore.author,create.metastore.document,create.metastore.institution,create.metastore.derivate" />
+        depends="init,create.hibernate,create.metastore.author,create.metastore.document,create.metastore.institution,create.metastore.derivate" >
+    	<echo>	create.metastore finished </echo>
+    </target>
 
-    <target name="create.hibernate" depends="init"
-        if="db.is.hibernate">
+    <target name="create.hibernate" depends="init">
         <antcall target="invoke.cli">
             <param name="cli.directory" value="${basedir}" />
             <param name="cli.command" value="init hibernate" />
         </antcall>
     </target>
 
-    <target name="create.sql"
-        depends="init, create.directories, create.sql.classification, create.sql.author, create.sql.document, create.sql.institution,create.sql.derivate, create.sql.linktables, create.sql.ifsstore" />
-
-    <target name="create.sql.classification" depends="init"
-        if="db.is.sql">
-        <antcall target="invoke.cli">
-            <param name="cli.directory" value="${basedir}" />
-            <param name="cli.command"
-                value="create SQL classification tables" />
-        </antcall>
-        <antcall target="invoke.cli">
-            <param name="cli.directory" value="${basedir}" />
-            <param name="cli.command"
-                value="create SQL table for type class" />
-        </antcall>
-    </target>
-
-    <target name="create.sql.author" depends="init" if="db.is.sql">
-        <antcall target="invoke.cli">
-            <param name="cli.directory" value="${basedir}" />
-            <param name="cli.command"
-                value="create SQL table for type author" />
-        </antcall>
-    </target>
-
-    <target name="create.sql.document" depends="init" if="db.is.sql">
-        <antcall target="invoke.cli">
-            <param name="cli.directory" value="${basedir}" />
-            <param name="cli.command"
-                value="create SQL table for type document" />
-        </antcall>
-    </target>
-
-    <target name="create.sql.institution" depends="init"
-        if="db.is.sql">
-        <antcall target="invoke.cli">
-            <param name="cli.directory" value="${basedir}" />
-            <param name="cli.command"
-                value="create SQL table for type institution" />
-        </antcall>
-    </target>
-
-    <target name="create.sql.derivate" depends="init" if="db.is.sql">
-        <antcall target="invoke.cli">
-            <param name="cli.directory" value="${basedir}" />
-            <param name="cli.command"
-                value="create SQL table for type derivate" />
-        </antcall>
-    </target>
-
-    <target name="create.sql.linktables" depends="init"
-        if="db.is.sql">
-        <antcall target="invoke.cli">
-            <param name="cli.directory" value="${basedir}" />
-            <param name="cli.command" value="create SQL link tables" />
-        </antcall>
-    </target>
-
-    <target name="create.sql.ifsstore" depends="init" if="db.is.sql">
-        <antcall target="invoke.cli">
-            <param name="cli.directory" value="${basedir}" />
-            <param name="cli.command" value="create SQL IFS tables" />
-        </antcall>
-    </target>
-
-    <target name="create.metastore.author" depends="init">
+	<target name="create.metastore.author" depends="init">
         <antcall target="invoke.cli">
             <param name="cli.directory" value="${basedir}" />
             <param name="cli.command"
@@ -1280,12 +1218,46 @@
     <target name="hsqldbstop" depends="init">
         <echo message="Stopping HSQLDB Server" />
         <java dir="${docportal.hsqldb-datadir}"
-            classname="org.hsqldb.util.ShutdownServer" fork="true"
+            classname="org.hsqldb.util.ShutdownServer" fork="yes"
             classpathref="docportal.classpath">
             <arg value="-url" />
             <arg value="${MCR.hibernate.connection.url}" />
         </java>
     </target>
+	
+	<target name="jettystart" depends="init">
+		<echo message="Starting Jetty Server" />
+		<java jar="${docportal.lib}/jetty/start.jar" fork="yes">
+			<jvmarg value="-Djetty.home=${docportal.lib}/jetty"/>
+			<jvmarg value="-Djava.home=${env.JAVA_HOME}"/>
+		</java>
+	</target>
+	
+	<target name="jettystop" depends="init">
+		<java jar="${docportal.lib}/jetty/stop.jar" fork="yes">
+			<jvmarg value="-Djetty.home=${docportal.lib}/jetty"/>
+		</java>		
+	</target>
+
+	<target name="jettypreparelib">
+		<move file="${docportal.webapps}/WEB-INF/lib/xercesImpl_2_7_1.jar" tofile="${docportal.webapps}/WEB-INF/lib/xercesImpl_2_7_1.jar.notallowedinjetty"/>
+		<move file="${docportal.webapps}/WEB-INF/lib/xml-apis.jar" tofile="${docportal.webapps}/WEB-INF/lib/xml-apis.jar.notallowedinjetty"/>		
+	</target>
+	
+	<target name="jettyrepairlib">
+		<move file="${docportal.webapps}/WEB-INF/lib/xercesImpl_2_7_1.jar.notallowedinjetty" tofile="${docportal.webapps}/WEB-INF/lib/xercesImpl_2_7_1.jar"/>
+		<move file="${docportal.webapps}/WEB-INF/lib/xml-apis.jar.notallowedinjetty" tofile="${docportal.webapps}/WEB-INF/lib/xml-apis.jar"/>					
+	</target>
+	
+	<target name="demo.jar">
+	    <jar jarfile="../demo.jar"  >
+	       <manifest>
+	         <attribute name="Main-Class" value="org.mycore.start.demo.Main"/>
+	         <attribute name="Class-Path" value="mycore/lib/BrowserLauncher2.jar"/>
+	       </manifest>
+           <fileset dir="${docportal.classes}" includes="org/mycore/start/demo/**" />
+	    </jar>
+    </target>	
 
     <target name="checkXMLFiles"
         description="check wether xml files are valid">
@@ -1344,15 +1316,6 @@
         <delete dir="${docportal.config}/tmp-tld" />
 	</target>
 	
-	<target name="compile-mcr-installationgui"
-		description="generation of a installationgui.jar for mycore">
-		<echo message="Generation of the MyCoRe-Installation GUI: mycore-installationgui.jar" />
-		<mkdir dir="${docportal.classes}" />
-        <antcall target="javac">
-            <param name="packages" value="org/mycore/frontend/installationgui/**" />
-        </antcall>	
-	</target>	
-
 	<target name="zip-mycore"
 		description="generation of a zip-file with all necessary mycore-data">
 		<echo message="Generation of a zip-file with all necessary mycore-data" />
@@ -1410,22 +1373,6 @@
 		<delete dir="${env.DOCPORTAL_HOME}/tmp-jspdocportal-zip" />
 	</target>	
 	
-	<target name="create.installationgui" depends="clean, compile-mcr-installationgui,zip-mycore,zip-jspdocportal">
-		<jar jarfile="mycore-installationgui.jar">
-			<!--
-		     <manifest>
-		     	<attribute name="Class-Path" value="lib/XuiALL-2.0.jar resources/*properties" /> 
-		        <attribute name="Main-Class" value="net.xoetrope.swing.XApplet" /> 
-		     </manifest>			
-			<fileset dir="${env.DOCPORTAL_HOME}" includes="lib/XuiALL-2.0.jar"/>			
-			<fileset dir="${env.DOCPORTAL_HOME}/gui-installation/resources" />
-			<fileset dir="${env.DOCPORTAL_HOME}/gui-installation/pages" />
-			<fileset dir="${env.DOCPORTAL_HOME}/gui-installation/images" />
-			<fileset dir="${env.DOCPORTAL_HOME}/classes" includes="org/mycore/frontend/installationgui/*.class" />			
-			-->
-			<fileset dir="${env.DOCPORTAL_HOME}" includes="*.zip" />
-		</jar>
-	</target>
 </project>
 
 <!-- ======================== End of file ======================== -->
