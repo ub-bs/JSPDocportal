@@ -88,9 +88,19 @@
       </servlet>
       
       <servlet id="MCRAdminServlet">
-        <servlet-name>MCRAdminServlet</servlet-name>
-        <servlet-class>org.mycore.frontend.servlets.MCRAdminServlet</servlet-class>
+      		<servlet-name>MCRAdminServlet</servlet-name>
+      		<servlet-class>org.mycore.frontend.servlets.MCRAdminServlet</servlet-class>
       </servlet>
+      
+      <servlet>
+      		<servlet-name>MCRPutDocumenttoWorkflow</servlet-name>
+      		<servlet-class>org.mycore.frontend.servlets.MCRPutDocumentToWorkflow</servlet-class>
+      </servlet>
+
+      <servlet id="IndexBrowser">
+            <servlet-name>MCRIndexServlet</servlet-name>
+            <servlet-class>org.mycore.frontend.indexbrowser.MCRIndexServlet</servlet-class>
+      </servlet>      
       
     <!-- mycore servlets -->
     
@@ -276,6 +286,20 @@
         <servlet-name>MCRAdminServlet</servlet-name>
         <url-pattern>/admin</url-pattern>
     </servlet-mapping>
+    
+    <servlet-mapping>
+    	<servlet-name>MCRPutDocumenttoWorkflow</servlet-name>
+		<url-pattern>/servlets/MCRPutDocumenttoWorkflow/*</url-pattern>
+    </servlet-mapping> 
+
+    <servlet-mapping>
+    	<servlet-name>MCRIndexServlet</servlet-name>
+        <url-pattern>/servlets/IndexServlet/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+    	<servlet-name>MCRIndexServlet</servlet-name>
+        <url-pattern>/index/*</url-pattern>
+    </servlet-mapping>    
 
     <!-- specific servlets -->
 
