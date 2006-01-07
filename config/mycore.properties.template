@@ -6,6 +6,7 @@ MCR.Editor.FileUpload.TempStoragePath=C:/sample-mcrjsp/export/upload
 MCR.editor_document_directory=C:/sample-mcrjsp/export/document
 MCR.editor_institution_directory=C:/sample-mcrjsp/export/institution
 MCR.editor_author_directory=C:/sample-mcrjsp/export/author
+MCR.editor_deleted_directory=C:/sample-mcrjsp/export/deleted
 MCR.IFS.ContentStore.FS.BaseDirectory=C:/sample-mcrjsp/tmp
 MCR.IFS.ContentStore.Lucene.IndexDirectory=C:/sample-mcrjsp/lucene-index
 MCR.IFS.ContentStore.Lucene.BaseDirectory=C:/sample-mcrjsp/lucene-base
@@ -17,6 +18,10 @@ MCR.Save.FileSystem=C:/sample-mcrjsp/save
 
 MCR.editor_page_error_formular=editor/error-formular.jsp
 #MCR.JDBCStore.Type=mysql
+
+# Workflow-Default-Accessrules
+MCR.AccessRule.STANDARD-WORKFLOW-RULE=((group editorgroup1) or (group editorgroup2))
+MCR.AccessRule.STANDARD-RULE-ALL-EDITORS=((group editorgroup1) or (group editorgroup2))
 
 #MCR.internal_command_classes=org.mycore.frontend.cli.MCRObjectCommands,org.mycore.frontend.cli.MCRQueryCommands,org.mycore.frontend.cli.MCRDerivateCommands,org.mycore.frontend.cli.MCRClassificationCommands,org.mycore.backend.hibernate.MCRHIBCtrlCommands
 MCR.internal_command_classes=org.mycore.frontend.cli.MCRUserCommands,org.mycore.frontend.cli.MCRClassificationCommands,org.mycore.frontend.cli.MCRObjectCommands,org.mycore.frontend.cli.MCRDerivateCommands,org.mycore.frontend.cli.MCRQueryCommands,org.mycore.backend.hibernate.MCRHIBCtrlCommands,org.mycore.backend.query.MCRQueryCommands,org.mycore.access.MCRAccessCtrlCommands
@@ -192,7 +197,7 @@ MCR.ClassificationBrowser.dissertationen.EmbeddingPage=mcr_doc_browse.xml
 MCR.ClassificationBrowser.dissertationen.Style=search
 MCR.ClassificationBrowser.dissertationen.EmptyLeafs=yes
 MCR.ClassificationBrowser.dissertationen.Comments=true
-MCR.ClassificationBrowser.dissertationen.View=tree
+MCR.ClassificationBrowser.dissertationen.View=flat
 MCR.ClassificationBrowser.dissertationen.SearchField=ddc
 ##Beispiel - ist in MyCoReSample nicht moeglich
 
