@@ -30,7 +30,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -38,6 +40,7 @@ import java.util.StringTokenizer;
 import org.apache.log4j.Logger;
 
 import org.mycore.access.MCRAccessCheckServlet;
+import org.mycore.access.MCRAccessManager;
 import org.mycore.access.MCRAccessRule;
 import org.mycore.access.MCRAccessStore;
 import org.mycore.access.MCRRuleMapping;
@@ -52,6 +55,7 @@ import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.datamodel.metadata.MCRObjectService;
+import org.mycore.datamodel.metadata.MCRObjectStructure;
 import org.mycore.frontend.cli.MCRDerivateCommands;
 import org.mycore.frontend.cli.MCRObjectCommands;
 import org.mycore.parsers.bool.MCRParseException;
@@ -59,37 +63,24 @@ import org.mycore.parsers.bool.MCRParseException;
 /**
  * This class holds methods to manage the workflow file system of MyCoRe.
  * 
- * @author Jens Kupferschmidt
+ * @author Heiko Helmbrecht, Anja Schaar
  * @version $Revision$ $Date$
  */
 
 public class MCRWorkflowManager {
 	
+	protected static MCRWorkflowManager singleton;
 	// the Access Store
 	private static MCRAccessStore accessStore;		
 	private static MCRRuleStore ruleStore;
-	/** New line */
-	static String NL = System.getProperty("file.separator");
-
-	/** The link table manager singleton */
-	protected static MCRWorkflowManager singleton;
-
-	// Configuration
+	private static String NL = File.separator;
 	private static MCRConfiguration config = null;
-
-	// logger
-	static Logger logger = Logger.getLogger(MCRWorkflowManager.class.getName());
-
-	// The mail sender address
-	static String sender = "";
-
-	// table of workflow directories mail addresses
+	private static Logger logger = Logger.getLogger(MCRWorkflowManager.class.getName());
+	private static String sender = "";
+	private static String standardrule = "";
+	private static String editorrule = "";
 	private Hashtable ht = null;
-
 	private Hashtable mt = null;
-
-	// The file slash
-	private static String SLASH = System.getProperty("file.separator");;
 
 	/**
 	 * Returns the workflow manager singleton.
@@ -111,9 +102,9 @@ public class MCRWorkflowManager {
 	 */
 	protected MCRWorkflowManager() throws Exception {
 		config = MCRConfiguration.instance();
-		// read mail sender address
-		sender = config.getString("MCR.editor_mail_sender",
-				"mcradmin@localhost");
+		sender = config.getString("MCR.editor_mail_sender",	"mcradmin@localhost");
+		standardrule = config.getString("MCR.AccessRule.STANDARD-WORKFLOW-RULE","((group editorgroup1) or (group editorgroup2))");
+		editorrule = config.getString("MCR.AccessRule.STANDARD-RULE-ALL-EDITORS","((group editorgroup1) or (group editorgroup2))");
 		accessStore = (MCRAccessStore) Class.forName(config.getString("MCR.accessstore_class_name")).newInstance();
 		ruleStore = (MCRRuleStore) Class.forName(config.getString("MCR.rulestore_class_name")).newInstance();
 		// int tables
@@ -125,9 +116,8 @@ public class MCRWorkflowManager {
 	 * The method return the workflow directory path for a given MCRObjectID
 	 * type.
 	 * 
-	 * @param type
-	 *            the MCRObjectID type
-	 * @return the string of the workflow directory path
+	 * @param  type the MCRObjectID type
+	 * @return the  string of the workflow directory path
 	 */
 	public String getDirectoryPath(String type) {
 		if (ht.containsKey(type)) {
@@ -137,8 +127,7 @@ public class MCRWorkflowManager {
 				null);
 		if (dirname == null) {
 			ht.put(type, ".");
-			logger.warn("No workflow directory path of " + type
-					+ " is in the configuration.");
+			logger.warn("No workflow directory path of " + type		+ " is in the configuration.");
 			return ".";
 		}
 		ht.put(type, dirname);
@@ -156,22 +145,21 @@ public class MCRWorkflowManager {
 	 * @return the List of the information mail addresses
 	 */
 	public List getMailAddress(String type, String todo) {
-		if ((type == null) || ((type = type.trim()).length() == 0)) {
+		if ((type == null) || ((type = type.trim()).length() == 0)
+				||
+			(todo == null) || ((todo = todo.trim()).length() == 0)				
+				) {
 			return new ArrayList();
 		}
-		if ((todo == null) || ((todo = todo.trim()).length() == 0)) {
-			return new ArrayList();
-		}
+
 		if (mt.containsKey(type + "_" + todo)) {
 			return (List) mt.get(type + "_" + todo);
 		}
-		String mailaddr = config.getString("MCR.editor_" + type + "_" + todo
-				+ "_mail", "");
+		String mailaddr = config.getString("MCR.editor_" + type + "_" + todo + "_mail", "");
 		ArrayList li = new ArrayList();
 		if ((mailaddr == null) || ((mailaddr = mailaddr.trim()).length() == 0)) {
 			mt.put(type, li);
-			logger.warn("No mail address for " + type + "_" + todo
-					+ " is in the configuration.");
+			logger.warn("No mail address for " + type + "_" + todo	+ " is in the configuration.");
 			return li;
 		}
 		StringTokenizer st = new StringTokenizer(mailaddr, ",");
@@ -184,7 +172,6 @@ public class MCRWorkflowManager {
 
 	/**
 	 * The method return the mail sender adress form the configuration.
-	 * 
 	 * @return the mail sender adress
 	 */
 	public String getMailSender() {
@@ -194,9 +181,7 @@ public class MCRWorkflowManager {
 	/**
 	 * The method return a ArrayList of file names from objects they are under
 	 * .../workflow/ <em>type/...type...</em>.
-	 * 
-	 * @param type
-	 *            the MCRObjectID type attribute
+	 * @param  type the MCRObjectID type attribute
 	 * @return an ArrayList of file names
 	 */
 	public final ArrayList getAllObjectFileNames(String type) {
@@ -268,7 +253,7 @@ public class MCRWorkflowManager {
 	public final boolean isDerivateOfObject(String type, String filename,
 			String ID) {
 		String dirname = getDirectoryPath(type);
-		String fname = dirname + SLASH + filename;
+		String fname = dirname + NL + filename;
 		org.jdom.Document workflow_in = null;
 		try {
 			workflow_in = MCRXMLHelper.parseURI(fname);
@@ -307,10 +292,10 @@ public class MCRWorkflowManager {
 	 */
 	public final void deleteMetadataObject(String type, String ID) {
 		// remove metadate
-		String fn = getDirectoryPath(type) + SLASH + ID + ".xml";
+		String fn = getDirectoryPath(type) + "/" + ID + ".xml";
 		try {
 			File fi = new File(fn);
-			if (fi.isFile() && fi.canWrite()) {
+			if (fi.isFile() && fi.canWrite()) {				
 				fi.delete();
 				logger.debug("File " + fn + " removed.");
 			} else {
@@ -325,8 +310,7 @@ public class MCRWorkflowManager {
 			String dername = (String) derifiles.get(i);
 			logger.debug("Check the derivate file " + dername);
 			if (isDerivateOfObject(type, dername, ID)) {
-				deleteDerivateObject(type, dername.substring(0, dername
-						.length() - 4));
+				deleteDerivateObject(type, dername.substring(0, dername	.length() - 4));
 			}
 		}
 	}
@@ -342,7 +326,7 @@ public class MCRWorkflowManager {
 	public final void deleteDerivateObject(String type, String DD) {
 		logger.debug("Delete the derivate " + DD);
 		// remove the XML file
-		String fn = getDirectoryPath(type) + SLASH + DD;
+		String fn = getDirectoryPath(type) + NL + DD;
 		try {
 			File fi = new File(fn + ".xml");
 			if (fi.isFile() && fi.canWrite()) {
@@ -354,6 +338,8 @@ public class MCRWorkflowManager {
 		} catch (Exception ex) {
 			logger.error("Can't remove file " + fn + ".xml");
 		}
+		
+		String fail = "Can't remove directory ";
 		// remove all derivate objects
 		try {
 			File fi = new File(fn);
@@ -362,7 +348,7 @@ public class MCRWorkflowManager {
 				ArrayList dellist = MCRUtils.getAllFileNames(fi);
 				for (int j = 0; j < dellist.size(); j++) {
 					String na = (String) dellist.get(j);
-					File fl = new File(fn + SLASH + na);
+					File fl = new File(fn + NL + na);
 					if (fl.delete()) {
 						logger.debug("File " + na + " removed.");
 					} else {
@@ -373,24 +359,23 @@ public class MCRWorkflowManager {
 				dellist = MCRUtils.getAllDirectoryNames(fi);
 				for (int j = dellist.size() - 1; j > -1; j--) {
 					String na = (String) dellist.get(j);
-					File fl = new File(fn + SLASH + na);
+					File fl = new File(fn + NL + na);
 					if (fl.delete()) {
 						logger.debug("Directory " + na + " removed.");
 					} else {
-						logger.error("Can't remove directory " + na);
+						logger.error(fail + na);
 					}
 				}
 				if (fi.delete()) {
 					logger.debug("Directory " + fn + " removed.");
 				} else {
-					logger.error("Can't remove directory " + fn);
+					logger.error(fail + fn);
 				}
 			} else {
-				logger.error("Can't remove directory " + fn);
+				logger.error(fail + fn);
 			}
 		} catch (Exception ex) {
-			logger.error("Can't remove directory "
-					+ fn.substring(0, fn.length() - 4));
+			logger.error(fail + fn.substring(0, fn.length() - 4));
 		}
 	}
 
@@ -405,15 +390,15 @@ public class MCRWorkflowManager {
 	 */
 	public final boolean commitMetadataObject(String type, String ID) {
 		// commit metadata
-		String fn = getDirectoryPath(type) + SLASH + ID + ".xml";
+		String fn = getDirectoryPath(type) + NL + ID + ".xml";
 		try { 
 			if (MCRObject.existInDatastore(ID)) {
-				MCRObjectCommands.updateFromFile(fn);
-			} else {
-				MCRObjectCommands.loadFromFile(fn);
+				MCRObject mcr_obj = new MCRObject();
+				mcr_obj.deleteFromDatastore(ID);
 			}
-		} catch (Exception ig){;}
-		
+			MCRObjectCommands.loadFromFile(fn);
+		} catch (Exception ig){ logger.error("catched error: ", ig);}
+			
 		logger.info("The metadata object was " + fn + " loaded.");
 		// commit derivates
 		if (!MCRObject.existInDatastore(ID)) {
@@ -424,7 +409,7 @@ public class MCRWorkflowManager {
 			String dername = (String) derifiles.get(i);
 			logger.debug("Check the derivate file " + dername);
 			if (isDerivateOfObject(type, dername, ID)) {
-				fn = getDirectoryPath(type) + SLASH + dername;
+				fn = getDirectoryPath(type) + NL + dername;
 				if (!loadDerivate(ID, fn)) {
 					return false;
 				}
@@ -443,7 +428,7 @@ public class MCRWorkflowManager {
 	 *            the ID as String of the derivate object
 	 */
 	public final boolean commitDerivateObject(String type, String ID) {
-		String fn = getDirectoryPath(type) + SLASH + ID + ".xml";
+		String fn = getDirectoryPath(type) + NL + ID + ".xml";
 		return loadDerivate(ID, fn);
 	}
 
@@ -473,7 +458,6 @@ public class MCRWorkflowManager {
 	 * @return the MCRObjectID of the derivate
 	 */
 	public String createDerivate(String objmcrid, boolean server) {
-logger.debug("HH HAS COME HERE");		
 		// prepare the derivate MCRObjectID
 		MCRObjectID ID = new MCRObjectID(objmcrid);
 		String myproject = ID.getProjectId() + "_derivate";
@@ -489,8 +473,7 @@ logger.debug("HH HAS COME HERE");
 				if (!list[i].endsWith(".xml"))
 					continue;
 				try {
-					MCRObjectID dmcriddir = new MCRObjectID(list[i].substring(
-							0, list[i].length() - 4));
+					MCRObjectID dmcriddir = new MCRObjectID(list[i].substring(0, list[i].length() - 4));
 					if (dmcridnext.getNumberAsInteger() <= dmcriddir
 							.getNumberAsInteger()) {
 						dmcriddir.setNumber(dmcriddir.getNumberAsInteger() + 1);
@@ -517,8 +500,7 @@ logger.debug("HH HAS COME HERE");
 		MCRMetaLinkID link = new MCRMetaLinkID("linkmetas", "linkmeta", "de", 0);
 		link.setReference(ID.getId(), "", "");
 		der.getDerivate().setLinkMeta(link);
-		MCRMetaIFS internal = new MCRMetaIFS("internals", "internal", "de", DD
-				.getId());
+		MCRMetaIFS internal = new MCRMetaIFS("internals", "internal", "de", DD.getId());
 		internal.setMainDoc("#####");
 		der.getDerivate().setInternals(internal);
 		MCRObject obj = new MCRObject();
@@ -536,8 +518,7 @@ logger.debug("HH HAS COME HERE");
 				MCRObjectService serv = obj.getService();
 				der.setService(serv);
 			} catch (Exception e2) {
-				logger.warn("Read error of " + workdir + NL + ID.getId()
-						+ ".xml");
+				logger.warn("Read error of " + workdir + NL + ID.getId()+ ".xml");
 			}
 		}
 		byte[] outxml = MCRUtils.getByteArray(der.createXML());
@@ -553,8 +534,7 @@ logger.debug("HH HAS COME HERE");
 			logger.error("Exception while store to file " + fullname);
 			return "";
 		}
-		logger.info("Derivate " + DD.getId() + " stored under " + fullname
-				+ ".");
+		logger.info("Derivate " + DD.getId() + " stored under " + fullname	+ ".");
 		return DD.getId();
 	}
 	
@@ -567,19 +547,17 @@ logger.debug("HH HAS COME HERE");
 	 */
 	public static boolean createWorkflowDefaultRule(String objid, String userid) {
 		try {
+			// first rule - for creating
 			String ruleID = "STANDARD-WORKFLOW-RULE-" + userid ;
 			MCRAccessRule rule = ruleStore.getRule(ruleID);
 			if (rule == null || rule.equals("")) {
 				StringBuffer ruleExpression = new StringBuffer("(user ")
-					.append(userid).append(") or (group editorgroup1)")
-					.append(" or (group editorgroup2)");		
-				rule = new MCRAccessRule(ruleID, userid, 
-						new Date(),ruleExpression.toString(),
-						"PoolRight only for the user '" + userid + "' and the groups 'editorgroup1' and 'editorgroup2'");
+					.append(userid).append(" ) or  ( ").append(standardrule ).append( ")");
+				rule = new MCRAccessRule(ruleID, userid, new Date(),ruleExpression.toString(),"PoolRight only for the user '" + userid + "' and " + standardrule);
 				ruleStore.createRule(rule);	
-				logger.info("Rule created: " + ruleID);
+				logger.info("New Rule created: " + ruleID);
 			}
-
+			// set the created or existing rulemapping for this object	
 			MCRRuleMapping ruleMapping = new MCRRuleMapping();
 			ruleMapping.setCreator(userid);
 			ruleMapping.setCreationdate(new Date());
@@ -587,65 +565,38 @@ logger.debug("HH HAS COME HERE");
 			ruleMapping.setRuleId(ruleID);
 			ruleMapping.setObjId(objid);
 			
-			String anotherRuleID = accessStore.getRuleID(objid,"modify");
-			if(anotherRuleID == null || anotherRuleID.equals("")) {
+			// set the rule for modifying access
+			String givenRuleID = accessStore.getRuleID(objid,"modify");
+			if(givenRuleID == null || givenRuleID.equals("")) {
 				accessStore.createAccessDefinition(ruleMapping);
-				logger.info("Following rule was created for StringID " + objid 
-						+ " in the pool 'modify': " + ruleID);
+				logger.info("Following rule was created for StringID " + objid	+ " in the pool 'modify': " + ruleID);
 			}
 			
 			// and now the rules for the commit, delete and remove-pools these rules can be used more often
 			String editorRule = "STANDARD-RULE-ALL-EDITORS";
 			MCRAccessRule rule2 = ruleStore.getRule(editorRule);
 			if (rule2 == null || rule2.equals("")) {
-				StringBuffer ruleExpression = new StringBuffer("(group editorgroup1)")
-					.append(" or (group editorgroup2)");		
-				rule2 = new MCRAccessRule(editorRule, "administrator", 
-						new Date(),ruleExpression.toString(),
-						"PoolRight only for the groups: editor1 and editor2");
+				rule2 = new MCRAccessRule(editorRule, "administrator", 	new Date(), editorrule,	"PoolRight only for " + editorrule);
 				ruleStore.createRule(rule2);	
 				logger.info("New rule created: " + editorRule);
 			}
-
-			ruleMapping = new MCRRuleMapping();
-			ruleMapping.setCreator(userid);
-			ruleMapping.setCreationdate(new Date());
-			ruleMapping.setPool("commit");
-			ruleMapping.setRuleId(editorRule);
-			ruleMapping.setObjId(objid);
 			
-			String anotherRule = accessStore.getRuleID(objid,"commit");
-			if(anotherRuleID == null || anotherRuleID.equals("")) {
-				accessStore.createAccessDefinition(ruleMapping);
-				logger.info("Following rule was created for StringID " + objid 
-						+ " in the pool 'commit': " + editorRule);
-			}
+			String[] ops = {"commit" , "remove", "delete"};
+			for ( int i=0; i< ops.length; i++){
+				// 	set the created or existing rulemapping for this object	and the op commit
+				ruleMapping = new MCRRuleMapping();
+				ruleMapping.setCreator(userid);
+				ruleMapping.setCreationdate(new Date());
+				ruleMapping.setPool(ops[i]);
+				ruleMapping.setRuleId(editorRule);
+				ruleMapping.setObjId(objid);
 			
-			ruleMapping = new MCRRuleMapping();
-			ruleMapping.setCreator(userid);
-			ruleMapping.setCreationdate(new Date());
-			ruleMapping.setPool("remove");
-			ruleMapping.setRuleId(editorRule);
-			ruleMapping.setObjId(objid);
-			
-			anotherRule = accessStore.getRuleID(objid,"remove");
-			if(anotherRuleID == null || anotherRuleID.equals("")) {
-				accessStore.createAccessDefinition(ruleMapping);
-				logger.info("Following rule was created for StringID " + objid 
-						+ " in the pool 'remove': " + editorRule);
-			}
-			ruleMapping = new MCRRuleMapping();
-			ruleMapping.setCreator(userid);
-			ruleMapping.setCreationdate(new Date());
-			ruleMapping.setPool("delete");
-			ruleMapping.setRuleId(editorRule);
-			ruleMapping.setObjId(objid);
-			
-			anotherRule = accessStore.getRuleID(objid,"delete");
-			if(anotherRuleID == null || anotherRuleID.equals("")) {
-				accessStore.createAccessDefinition(ruleMapping);
-				logger.info("Following rule was created for StringID " + objid 
-						+ " in the pool 'delete': " + editorRule);
+				// set the rule for  access in the string ops[i]			
+				givenRuleID = accessStore.getRuleID(objid,ops[i]);
+				if(givenRuleID == null || givenRuleID.equals("")) {
+					accessStore.createAccessDefinition(ruleMapping);
+					logger.info("Following rule was created for StringID " + objid + " in the pool '" + ops[i] + "' "+ editorRule);
+				}
 			}
 		} catch (Exception e) {
 			return false;
