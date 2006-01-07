@@ -52,6 +52,7 @@
         </c:choose> @ <fmt:message key="Title.DocPortalTrailer" />
         </title>
 
+		<script src="${WebApplicationBaseURL}javascript/jspdocportal.js" type="text/javascript"></script>
         <link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_general.css">
         <link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_navigation.css">
         <link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_content.css">
