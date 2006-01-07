@@ -106,18 +106,15 @@
 	                </td>
 	                <td width="10">&nbsp;</td>
 	                <td>
-	                 <form method="get" action="${WebApplicationBaseURL}nav" class="resort">
-	    				<input name="path" value="nav?path=~workflow-${docType}" type="hidden" />
-	    				<input name="lang" value="${requestScope.lang}" type="hidden" />
-						<input name="step" value="author" type="hidden" />
-						<input name="todo" value="sdelobj" type="hidden" />
-						<input name="type" value="${docType}" type="hidden" />
-						<input name="tf_mcrid" value="${mcrID}" type="hidden"/>
-	                    <input name="se_mcrid" value="${mcrID}" type="hidden"/>
-	                    <input name="re_mcrid" value="${mcrID}" type="hidden"/>
+					<form method="get" onSubmit="return reallyDeletefromDB();" action="${WebApplicationBaseURL}start_edit" >
+						<input value="${requestScope.lang}" name="lang" type="hidden">
+						<input name="mcrid" value="${mcrID}" type="hidden">
+						<input value="${docType}" name="type" type="hidden">
+						<input value="author" name="step" type="hidden">
+						<input value="sdelobj" name="todo" type="hidden">
 	                    <input value="nav?path=left.myatlibri.mydocs.searchMyResult-mydocs" name="page" type="hidden">                                       
-	                    <input title="Löschen des gesamten Dokuments" border="0" src="${WebApplicationBaseURL}images/object_delete.gif" type="image" class="imagebutton" />
-	                </form> 
+						<input onClick="return reallyDeletefromDB();" title="<fmt:message key="Object.DelObject" />" src="${WebApplicationBaseURL}images/object_delete.gif" type="image" class="imagebutton">
+					</form>
 	                </td>
 	              </tr></table>  
 	              </td>

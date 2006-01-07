@@ -77,6 +77,8 @@
             <x:if select="./mcr_result">
                 <x:forEach select="./mcr_result/all-metavalues">
                     <x:set var="resultlistLink" select="string(./metaname[1]/resultlistLink/@href)" />
+                    <x:set var="mcrID" select="string(@ID)" />
+                    <x:set var="docType" select="string(@docType)" />
                     <tr>
                         <td class="resultTitle">
                             <a href="${resultlistLink}"><x:out select="./metaname[1]/metavalues/metavalue/@text" escapeXml="./metaname[1]/metavalues/@escapeXml" /></a>
@@ -98,6 +100,7 @@
                                 </x:forEach>
                             </x:if>
                         </td>
+                        <td>&nbsp;</td>
                     </tr>
                     <tr>
                         <td class="description" colspan="2">
@@ -130,6 +133,34 @@
                                             </x:forEach>
                                         <span>                                
                                     </td>
+                                    <td rowspan="2" align="right" valign="top" class="description">
+                                     <mcr:checkAccess var="modifyAllowed" pool="modify" key="${mcrID}" />
+                                     <c:if test="${modifyAllowed eq 'true'}">
+							             <!--  Editbutton -->
+							             <table><tr>
+							                <td width="10">&nbsp;</td>	             
+							                <td>
+							                 <form method="get" action="${WebApplicationBaseURL}/servlets/MCRPutDocumenttoWorkflow" class="resort">                 
+						    				    <input name="page" value="nav?path=~workflow-${docType}" type="hidden" />
+							                    <input name="mcrid" value="${mcrID}" type="hidden"/>
+												<input title="<fmt:message key="Object.EditObject" />" border="0" src="${WebApplicationBaseURL}images/workflow.gif" type="image"  class="imagebutton" />
+							                </form> 
+							                </td>
+							                <td width="10">&nbsp;</td>
+							                <td>
+											<form method="get" onSubmit="return reallyDeletefromDB();" action="${WebApplicationBaseURL}start_edit" >
+												<input value="${requestScope.lang}" name="lang" type="hidden">
+												<input name="mcrid" value="${mcrID}" type="hidden">
+												<input value="${docType}" name="type" type="hidden">
+												<input value="author" name="step" type="hidden">
+												<input value="sdelobj" name="todo" type="hidden">
+							                    <input value="nav?path=${navPath}" name="page" type="hidden">                                       
+												<input onClick="return reallyDeletefromDB();" title="<fmt:message key="Object.DelObject" />" src="${WebApplicationBaseURL}images/object_delete.gif" type="image" class="imagebutton">
+											</form>
+							                </td>
+							             </tr></table>  
+							         </c:if>
+						            </td>
                                 </tr>
                             </table>
                         </td>
