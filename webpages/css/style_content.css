@@ -221,7 +221,6 @@ div.submitButton{
 }
 #resultList td.resultTitle, #resultList td.author{
     font-weight: bold;
-    background-color: white;
 }
 #resultList td.resultTitle a, #resultList td.author a{
     font-weight: bold;
@@ -231,7 +230,6 @@ div.submitButton{
 }
 #resultList td.description{
     padding: 3px;
-    background-color: white;
     border-bottom-width: 8px;
     border-bottom-style: solid;
     border-bottom-color: #EFF4F6; /* same as background */
