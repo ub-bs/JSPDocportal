@@ -88,9 +88,12 @@ public class MCRCheckQueryServlet extends MCRServlet {
 	    // add the objecttypes from the type declaration if exist  as a search criteria in the query conditions 
 	    if(root.getChild("types") != null) {
   	        Element conditions = jdomQuery.getRootElement().getChild("conditions");
-	  	    Element and = conditions.getChild("and");
-      	    Element or  = new Element("or");
+	  	    Element and = conditions.getChild("boolean");
+
+      	    Element or  = new Element("boolean");
+        	or.setAttribute("operator", "OR");
       	    and.addContent(or);
+      	    
 	    	Iterator ittype = jdomQuery.getDescendants(new ElementFilter("type"));
 		    while ( ittype.hasNext() )
 		    {
