@@ -21,24 +21,25 @@
     <hidden var="types/type[2]/@field" default="allpers" />
     
     <hidden var="conditions/@format" default="xml" />
+    <hidden var="conditions/boolean/@operator" default="AND" />
 
 
     <cell col="1" row="1" anchor="NORTHWEST" ref="LFirstName" />
-    <cell col="2" row="1" anchor="NORTHWEST" ref="DFirstName" var="conditions/and/condition" />
+    <cell col="2" row="1" anchor="NORTHWEST" ref="DFirstName" var="conditions/boolean/condition" />
     <cell col="3" row="1" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
     <cell col="4" row="1" anchor="WEST" ref="HFirstName" />
 
     <cell col="1" row="2" anchor="NORTHWEST" ref="LSurName" />
-    <cell col="2" row="2" anchor="NORTHWEST" ref="DSurName" var="conditions/and/condition[2]" />
+    <cell col="2" row="2" anchor="NORTHWEST" ref="DSurName" var="conditions/boolean/condition[2]" />
     <cell col="3" row="2" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
     <cell col="4" row="2" anchor="WEST" ref="HSurName" />        
     
     <cell col="1" row="3" anchor="NORTHWEST" ref="LInstitution" />
-    <cell col="2" row="3" anchor="NORTHWEST" ref="DInstitution" var="conditions/and/condition[3]" />
+    <cell col="2" row="3" anchor="NORTHWEST" ref="DInstitution" var="conditions/boolean/condition[3]" />
     <cell col="3" row="3" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>

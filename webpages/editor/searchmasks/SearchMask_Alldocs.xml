@@ -22,45 +22,46 @@
     <hidden var="types/type[2]/@field" default="allpers" />
     
     <hidden var="conditions/@format" default="xml" />
+    <hidden var="conditions/boolean/@operator" default="AND" />
 
 
     <cell col="1" row="1" anchor="NORTHWEST" ref="LTitles" />
-    <cell col="2" row="1" anchor="NORTHWEST" ref="DTitles" var="conditions/and/condition" />
+    <cell col="2" row="1" anchor="NORTHWEST" ref="DTitles" var="conditions/boolean/condition" />
     <cell col="3" row="1" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
     <cell col="4" row="1" anchor="WEST" ref="HTitles" />
 
     <cell col="1" row="2" anchor="NORTHWEST" ref="LCreators" />
-    <cell col="2" row="2" anchor="NORTHWEST" ref="DCreators" var="conditions/and/condition[2]" />
+    <cell col="2" row="2" anchor="NORTHWEST" ref="DCreators" var="conditions/boolean/condition[2]" />
     <cell col="3" row="2" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
     <cell col="4" row="2" anchor="WEST" ref="HCreators" />        
     
     <cell col="1" row="3" anchor="NORTHWEST" ref="LOrigins" />
-    <cell col="2" row="3" anchor="NORTHWEST" ref="DOrigins" var="conditions/and/condition[3]" />
+    <cell col="2" row="3" anchor="NORTHWEST" ref="DOrigins" var="conditions/boolean/condition[3]" />
     <cell col="3" row="3" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
     <cell col="4" row="3" anchor="WEST" ref="HOrigins" />    
 
     <cell col="1" row="4" anchor="NORTHWEST" ref="LTypes" />
-    <cell col="2" row="4" anchor="NORTHWEST" ref="DTypes" var="conditions/and/condition[4]" />
+    <cell col="2" row="4" anchor="NORTHWEST" ref="DTypes" var="conditions/boolean/condition[4]" />
     <cell col="3" row="4" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
     <cell col="4" row="4" anchor="WEST" ref="HTypes" /> 
     
     <cell col="1" row="5" anchor="NORTHWEST" ref="LMetadata" />
-    <cell col="2" row="5" anchor="NORTHWEST" ref="DMetadata" var="conditions/and/condition[5]" />
+    <cell col="2" row="5" anchor="NORTHWEST" ref="DMetadata" var="conditions/boolean/condition[5]" />
     <cell col="3" row="5" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
     <cell col="4" row="5" anchor="WEST" ref="HMetadata" /> 
     
     <cell col="1" row="6" anchor="NORTHWEST" ref="LContents" />
-    <cell col="2" row="6" anchor="NORTHWEST" ref="DContents" var="conditions/and/condition[6]" />
+    <cell col="2" row="6" anchor="NORTHWEST" ref="DContents" var="conditions/boolean/condition[6]" />
     <cell col="3" row="6" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>

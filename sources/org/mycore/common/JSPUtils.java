@@ -94,7 +94,8 @@ public class JSPUtils {
         Element conditions = new Element("conditions");
         conditions.setAttribute("format","xml");
         
-        Element or = new Element("or");
+        Element or = new Element("boolean");
+        or.setAttribute("operator", "OR");
         
         Element personCondition = new Element("condition");
         personCondition.setAttribute("field","id");
