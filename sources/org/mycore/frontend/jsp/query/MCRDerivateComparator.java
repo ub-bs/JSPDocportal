@@ -1,9 +1,8 @@
 package org.mycore.frontend.jsp.query;
 
 import java.util.Comparator;
-
-import org.apache.log4j.Logger;
 import org.jdom.Element;
+import org.apache.log4j.Logger;
 
 
 public class MCRDerivateComparator implements Comparator
@@ -28,5 +27,5 @@ public class MCRDerivateComparator implements Comparator
 		  Logger.getLogger(MCRDerivateComparator.class).debug("no sorting possible, error is catched, but must be checked", e);
 		  return 0;
 	  }
-  }
+   }
 }
