@@ -76,7 +76,7 @@ public class MCRSetResultListTag extends SimpleTagSupport
         if (query != null && resultlistType != null) {
         	result = MCRQueryManager.getInstance().search(query);
             result.setComplete();
-            if (result.getNumHits() <= 100) {
+            if (result.getNumHits() <= 1000) {
                 session.setAttribute("lastMCRResults",result);
             }else {
                 session.setAttribute("lastMCRResults",null);
