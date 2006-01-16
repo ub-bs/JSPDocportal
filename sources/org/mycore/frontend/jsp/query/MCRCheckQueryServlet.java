@@ -37,6 +37,7 @@ import org.jdom.filter.ElementFilter;
 import org.jdom.output.XMLOutputter;
 import org.mycore.backend.query.MCRQueryManager;
 import org.mycore.common.JSPUtils;
+import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRSession;
 import org.mycore.frontend.editor.MCREditorSubmission;
 import org.mycore.frontend.servlets.MCRServlet;
@@ -53,14 +54,15 @@ import org.mycore.services.fieldquery.MCRResults;
 public class MCRCheckQueryServlet extends MCRServlet {
 	
 	protected static Logger logger = Logger.getLogger(MCRCheckQueryServlet.class);
+	private static MCRConfiguration config = null; 
 
 	public void doGetPost(MCRServletJob job) throws Exception {
 		
 		HttpServletRequest request = job.getRequest();
+		config = MCRConfiguration.instance();
 		
 		// read the XML data
-		MCREditorSubmission sub = (MCREditorSubmission) (job.getRequest()
-				.getAttribute("MCREditorSubmission"));
+		MCREditorSubmission sub = (MCREditorSubmission) (job.getRequest().getAttribute("MCREditorSubmission"));
 		Document jdomQuery = sub.getXML();
 		
 		Element root = jdomQuery.getRootElement();
@@ -83,23 +85,46 @@ public class MCRCheckQueryServlet extends MCRServlet {
 			el.getParent().removeContent(el);
 		}
 	    
+	    // add the objecttypes from the type declaration if exist  as a search criteria in the query conditions 
+	    if(root.getChild("types") != null) {
+  	        Element conditions = jdomQuery.getRootElement().getChild("conditions");
+	  	    Element and = conditions.getChild("and");
+      	    Element or  = new Element("or");
+      	    and.addContent(or);
+	    	Iterator ittype = jdomQuery.getDescendants(new ElementFilter("type"));
+		    while ( ittype.hasNext() )
+		    {
+		      Element el = (Element) ittype.next();
+	          String value  = el.getAttributeValue("field");
+	          String [] valuetypes  = config.getString("MCR.type_"+value,"document").split(",");
+	          for ( int x=0; x < valuetypes.length; x++){
+	      	    Element typecondition = new Element("condition");
+	      	    typecondition.setAttribute("field","objectType");
+	      	    typecondition.setAttribute("value",valuetypes[x]);
+	      	    typecondition.setAttribute("operator","like");
+	      	    or.addContent(typecondition);
+	          }
+		    }
+		    root.removeChild("types");
+	    }
+	    
 	    if(root.getChild("sortby") == null) {
 	    	Element sortby = new Element("sortby");
 	    	
-
+	    	
 	    	Element sortfield1 = new Element("field");
-	    	sortfield1.setAttribute("field","modified");
-	    	sortfield1.setAttribute("order","descending");	    	
-	    	sortby.addContent(sortfield1);
+	    	sortfield1.setAttribute("field","title");
+	    	sortfield1.setAttribute("order","ascending");
 	    	
-	    	Element sortfield2 = new Element("field");
-	    	sortfield2.setAttribute("field","title");
+	    	Element sortfield2 = new Element("field");	    	
+	    	sortfield2.setAttribute("field","author");
 	    	sortfield2.setAttribute("order","ascending");
-	    	Element sortfield3 = new Element("field");
-	    	sortfield3.setAttribute("field","author");
-	    	sortfield3.setAttribute("order","ascending");
 	    	
+	    	Element sortfield3 = new Element("field");
+	    	sortfield3.setAttribute("field","modified");
+	    	sortfield3.setAttribute("order","descending");	    	
 
+	    	sortby.addContent(sortfield1);
 	    	sortby.addContent(sortfield2);
 	    	sortby.addContent(sortfield3);	    	
 	    	
