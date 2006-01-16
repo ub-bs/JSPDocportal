@@ -1,7 +1,7 @@
 package org.mycore.frontend.indexbrowser;
 
+import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.StringTokenizer;
 import java.util.Vector;
 import java.util.LinkedList;
@@ -9,9 +9,10 @@ import java.util.LinkedList;
 
 import org.apache.log4j.Logger;
 import org.jdom.*;
+import org.jdom.filter.ElementFilter;
 import org.jdom.output.XMLOutputter;
 import org.mycore.common.MCRConfiguration;
-import org.mycore.common.MCRSession;
+import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.backend.query.MCRQueryManager;
 import org.mycore.services.fieldquery.MCRResults;
 
@@ -87,10 +88,11 @@ public class MCRIndexData {
         String[] sortFields;
         String order;
         String filter;
-        String style;  
+        String style;
         int maxPerPage;
 
         public void set (String ID) {
+
             MCRConfiguration config = MCRConfiguration.instance();
             String prefix = "MCR.IndexBrowser." + ID + ".";
             table = config.getString(prefix + "Table");
@@ -126,7 +128,7 @@ public class MCRIndexData {
     	br.set(search, mode, path, fromTo);
         ic.set(br.index);
         
-        Element results = buildPageElement();     	
+        Element results = buildPageElement();
         
 		int numRows = fillmyLinkedList( );						
 		results.setAttribute("numHits", String.valueOf(numRows) );
@@ -222,6 +224,7 @@ public class MCRIndexData {
         for (int j = 0; j < Fields.length; j++) {
         	String   value = "";
     	    String   sField= Fields[j];
+    	    
     	    /* mcrHit - 
 	    	 * <mcrhit mcrid="atlibri_professorum_000000000441">
 			 *   <sortData>
@@ -230,21 +233,24 @@ public class MCRIndexData {
 			 * </mcrhit>
 	    	 */
     	    
+    	    
+    	    //* über die ID die darzustellenden Daten holen 
         	Element  child1 = (Element) child.clone();
+    	    
             // Eintrag der ID
         	if ( sField.equals("id")) {
         		value = child1.getAttributeValue("mcrid");
-        	} else {
-        	    List   ldata =   child1.getChild("sortData").getChildren();
-        	    ListIterator iterator =  ldata.listIterator(); 
-            
-        	    while (iterator.hasNext()) {
-        	    	Element data = (Element) iterator.next();
-        	    	if ( data.getAttributeValue("name").equals(sField))
-        	    		value = data.getText();
-        	    }
-        	}
         		
+        	} else {
+        	    MCRObject oo = new MCRObject();
+        	    Document od =  oo.receiveJDOMFromDatastore(child1.getAttributeValue("mcrid"));
+        	    Iterator it = od.getDescendants(new ElementFilter(sField));
+        	    while ( it.hasNext() )
+        	    {
+        	      Element el = (Element) it.next();
+                  value = el.getText();
+        	    }  	
+        	}        		
        		if ( append) {
                 if ( j==0)  listelm[startindex]  = value;
                 else    	listelm[startindex] +=", "+ value;
@@ -345,13 +351,14 @@ public class MCRIndexData {
     	
     	
     	Element query = new Element("query"); 
-    	query.setAttribute("maxResults", "100");
+    	query.setAttribute("maxResults", "1000");
     	
     	Element conditions = new Element("conditions");
     	conditions.setAttribute("format", "xml");
     	query.addContent(conditions);
     	
-    	Element op = new Element("and");
+    	Element op = new Element("boolean");
+    	op.setAttribute("operator", "AND");
     	conditions.addContent(op);
     	
     	Element condition = new Element("condition");
@@ -469,17 +476,17 @@ public class MCRIndexData {
             for (int i = 0; i< numRows; i++) {
             	
                 String[] listelm = new String[2 + ( (ic.extraFields !=null)?ic.extraFields.length:0 ) ];                
-            	Element child = (Element)( (Element)(mcrHit.get( i )) ).clone();                  	
+            	Element child = (Element)(mcrHit.get( i ));                  	
             	
             	String[] brFields = new String[1];
-            	brFields[0]=  ic.browseField;
+            	brFields[0]=  ic.sortFields[0];
+            	           	
+            	if ( ic.sortFields != null ) 
+            			setListeElm(child, ic.sortFields ,0, listelm, true);
             	
-            	
-            	if ( ic.sortFields != null ) setListeElm(child, ic.sortFields ,0, listelm, true);
-           		setListeElm(child, brFields, 1, listelm, false);
-           		
+           		setListeElm(child, brFields, 1, listelm, false);           		
            		if (ic.extraFields !=null)
-           			setListeElm(child, ic.extraFields ,2, listelm, false);
+           			setListeElm(child, ic.extraFields, 2, listelm, false);
            		
                 this.ll1.add(listelm);
             }            
