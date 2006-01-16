@@ -53,7 +53,7 @@ import org.mycore.datamodel.metadata.MCRMetaElement;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.services.fieldquery.MCRResults;
 import org.mycore.services.query.MCRQueryCollector;
-import org.mycore.services.query.MCRQueryCache;
+
 
 /**
  * @author Werner Gresshoff
@@ -307,8 +307,6 @@ public class MCROAIQueryService implements MCROAIQuery {
         List classifications = Arrays.asList(getClassifications(STR_OAI_SETSCHEME_FIELD, instance));
 
         for (int j = 0; j < object.getMetadata().size(); j++) {
-            MCRMetaElement meta = object.getMetadata().getMetadataElement(j);
-            //logger.debug("Metaelement: " + meta.getTag());
             if (object.getMetadata().getMetadataElement(j).getClassName()
                     .equals("MCRMetaClassification")) {
                 MCRMetaElement element = object.getMetadata()
@@ -404,32 +402,6 @@ public class MCROAIQueryService implements MCROAIQuery {
                 instance, true);
     }
 
-//    /**
-//     * @param instance
-//     * @return all classification id's from configuration file
-//     * @throws MCRConfigurationException
-//     */
-//    public static String[] getClassifications(String instance)
-//            throws MCRConfigurationException {
-//        String classification[];
-//        String id = config.getString(STR_OAI_SETSCHEME + "." + instance);
-//
-//        if (id.length() == 0) {
-//            logger.debug("Suche in allen Klassifikationen");
-//            classification = MCRClassification.getAllClassificationID();
-//        } else {
-//            logger.debug("Suche in Klassifikationen: " + id);
-//            StringTokenizer tokenizer = new StringTokenizer(id, " ");
-//            classification = new String[tokenizer.countTokens()];
-//            int i = 0;
-//            while (tokenizer.hasMoreTokens()) {
-//                classification[i++] = tokenizer.nextToken();
-//            }
-//        }
-//
-//        return classification;
-//    }
-    
     /**
      * @param instance
      * @return all classification fields from configuration file
@@ -456,23 +428,6 @@ public class MCROAIQueryService implements MCROAIQuery {
 
         return classification;
     }    
-
-    private Collection doQuery(String query, String querytype) {
-        List results = new ArrayList();
-
-        try {
-            MCRXMLContainer qra = new MCRXMLContainer();
-	    qra.importElements(MCRQueryCache.getResultList("local", query, querytype, MCRConfiguration.instance().getInt("MCR.query_max_results", 10)));
-
-            for (int j = 0; j < qra.size(); j++) {
-                results.add(qra.getId(j));
-            }
-        } catch (Exception mcrx) {
-            logger.error("Die Query ist fehlgeschlagen.");
-        }
-
-        return results;
-    }
 
     private List listRecordsOrIdentifiers(String[] set, String[] from,
             String[] until, String metadataPrefix, String instance,
@@ -504,7 +459,8 @@ public class MCROAIQueryService implements MCROAIQuery {
         Element conditions = new Element("conditions");
         conditions.setAttribute("format","xml");
         
-        Element and = new Element("and");
+        Element and = new Element("boolean");
+        and.setAttribute("operator","AND");
  
         Element hosts = new Element("hosts");
         
@@ -541,14 +497,7 @@ public class MCROAIQueryService implements MCROAIQuery {
             condition.setAttribute("value",restrictionCategory);
             condition.setAttribute("operator","like");            
             and.addContent(condition);
-            
-//            StringBuffer query = new StringBuffer("");
-//
-//            query.append("/mycoreobject[metadata/*/*[@classid=\"").append(
-//                    restrictionClassification).append("\" and @categid=\"")
-//                    .append(restrictionCategory).append("\"] ]");
-//
-//            restrictionQueries.add(query.toString());
+
         } catch (MCRConfigurationException mcrx) {
         }
 
@@ -559,7 +508,8 @@ public class MCROAIQueryService implements MCROAIQuery {
         	logger.error("Configuration Error",mcrx);
             return list;
         }
-        Element or = new Element("or");
+        Element or = new Element("boolean");
+        or.setAttribute("operator", "OR");
         for (int i = 0; i < classification.length; i++) {
         	
             if (set == null) {
@@ -568,8 +518,6 @@ public class MCROAIQueryService implements MCROAIQuery {
                 condition.setAttribute("value","");
                 condition.setAttribute("operator","like");
                 or.addContent(condition); 
-//                query.append("/mycoreobject[metadata/*/*[@classid=\"").append(
-//                        classification[i]).append("\"] ]");
             } else {
                 String categoryId = set[0]
                         .substring(set[0].lastIndexOf(':') + 1);
@@ -578,12 +526,7 @@ public class MCROAIQueryService implements MCROAIQuery {
                 condition.setAttribute("value",categoryId);
                 condition.setAttribute("operator","like");            
                 or.addContent(condition);                
-//                query.append("/mycoreobject[metadata/*/*[@classid=\"").append(
-//                        classification[i]).append("\" and @categid=\"").append(
-//                        categoryId).append("\"] ]");
             }
-
-            //queries.add(query.toString());
         }
         if ( or.getChildren() != null) {
         	and.addContent(or);
@@ -595,11 +538,6 @@ public class MCROAIQueryService implements MCROAIQuery {
             condition.setAttribute("value",date);
             condition.setAttribute("operator",">=");            
             and.addContent(condition);         	
-            
-//            query.append("/mycoreobject[service/servdates/servdate[text()>=\"")
-//            .append(date).append("\" and @type=\"modifydate\"] ]");
-//
-//            restrictionQueries.add(query.toString());
         }
 
         if (until != null) {
@@ -609,10 +547,6 @@ public class MCROAIQueryService implements MCROAIQuery {
             condition.setAttribute("value",date);
             condition.setAttribute("operator","<=");            
             and.addContent(condition);             
-//            query.append("/mycoreobject[service/servdates/servdate[text()<=\"")
-//                    .append(date).append("\" and @type=\"modifydate\"] ]");
-//
-//            restrictionQueries.add(query.toString());
         }
 
         conditions.addContent(and);
@@ -623,16 +557,16 @@ public class MCROAIQueryService implements MCROAIQuery {
         
         Document jdomQuery = new Document(query);
 
-XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
-logger.debug(out.outputString(jdomQuery));
+        XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
+        logger.debug("OAI-QUERY:" + out.outputString(jdomQuery));
         MCRResults results = MCRQueryManager.getInstance().search(jdomQuery);
         results.setComplete();
        
         numResults = results.getNumHits();
         resultArray = new Object[numResults];
-logger.debug("OAIQuery found:" + numResults + " hits")   ;     
+        logger.debug("OAIQuery found:" + numResults + " hits")   ;     
         deliveredResults = Math.min(maxReturns, numResults);
-logger.debug("deliveredResults:" + deliveredResults)   ;  
+        logger.debug("deliveredResults:" + deliveredResults)   ;  
 		for (int i = 0; i < numResults; i++) {
 			resultArray[i] = results.getHit(i).getID();
 		}
