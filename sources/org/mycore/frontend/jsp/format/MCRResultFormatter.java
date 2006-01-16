@@ -215,7 +215,9 @@ public class MCRResultFormatter {
 			    if ( lang.equals("") || attrLang == null || attrLang.equals(lang) ) {
 						Element metaValue = new Element("metavalue");
 						metaValue.setAttribute("href","");
-						metaValue.setAttribute("text",el.getText());
+						String dateString = el.getText();
+						dateString = formateDate(dateString, attrLang); 
+						metaValue.setAttribute("text",dateString);
 						metaValues.addContent(metaValue);			    	
 			    }
 			}
@@ -699,7 +701,7 @@ public class MCRResultFormatter {
         		(Element)docdetailsMap.get(docType) : addDocType2DocdetailsMap(docType);		
         Element allmetavalues = processDocDetails(doc, definition, lang, "", docType);
         Document allMetaValues = new Document(allmetavalues);
-        logger.debug("getFormattedDocDetails delivers:" + JSPUtils.getPrettyString(allMetaValues));
+        //System.out.println(JSPUtils.getPrettyString(allMetaValues));
         return allMetaValues;
     }
     
@@ -803,6 +805,21 @@ public class MCRResultFormatter {
 		return docdetailsElement;
 	}    
 
+    private String  formateDate(String dateString, String attrLang){
+    	String newDate = dateString;
+    	if ( "de".equalsIgnoreCase(attrLang) ) {
+    		String[] ymd = dateString.split("-");
+    		if ( ymd != null && ymd.length == 3) {
+    			newDate = ymd[2]+"."+ymd[1]+"."+ymd[0]; 
+    		} 
+    	} else {
+    		String[] ymd = dateString.split(".");
+    		if ( ymd != null && ymd.length == 3) {
+    			newDate = ymd[2]+"-"+ymd[1]+"-"+ymd[0]; 
+    		}     		
+    	}
+    	return newDate;
+    }
 	public static void main(String[] args) {
     	MCRResultFormatter formatter = new MCRResultFormatter();
     	Document neu = formatter.getFormattedDocDetails((new MCRObject()).receiveJDOMFromDatastore("DocPortal_document_00410903"),"de");
