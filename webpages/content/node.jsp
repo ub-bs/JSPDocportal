@@ -7,10 +7,13 @@
 <c:set var="lang" value="${requestScope.lang}" />
 <fmt:setLocale value="${lang}" />
 <fmt:setBundle basename='messages'/>
-<x:forEach select="$Navigation//navitem[@systemID = $nodeID]/navitem[not(@hidden = 'true')]">
+<x:forEach select="$Navigation//navitem[@systemID = $nodeID]/navitem">
+  <x:set var="hidden" select="string(./@hidden)" />
+  <c:if  test="${hidden != true}">
     <x:set var="href1" select="string(./@path)" />
     <x:set var="labelKey1" select="string(./@label)" />
     <img title="" alt="" src="images/greenArrow.gif">
     <a target="_self" href="${href1}"><fmt:message key="${labelKey1}" /></a>
     <br/>    
+  </c:if>
 </x:forEach>
