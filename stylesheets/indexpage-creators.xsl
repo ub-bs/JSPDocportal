@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.2 $ $Date: 2005-12-12 16:39:19 $ -->
+<!-- $Revision: 1.3 $ $Date: 2006-01-17 11:18:19 $ -->
 <!-- ============================================== -->
 
 <xsl:stylesheet
@@ -16,10 +16,6 @@
 <xsl:variable name="MainTitle" select="'Indexsuche '"/>
 <xsl:variable name="PageTitle" select="'Autorenindex'"/>
 <xsl:param name="WebApplicationBaseURL" />
-
-<!-- ========== Navigation ========== -->
-<xsl:variable name="page.title" select="Autorenindex" />
-<xsl:variable name="PageID"     select="concat('index.', /indexpage/index/@id)" />
 
 <!-- ========== Variablen ========== -->
 <xsl:variable name="search"  select="/indexpage/results/@search" />
@@ -51,7 +47,7 @@
     <td>
       <table border="0" cellpadding="0" cellspacing="0"><tr>
         <td class="metavalue">
-          <form action="{$WebApplicationBaseURL}nav?path=~indexSearchCreators&amp;searchclass=creators" method="post">
+          <form action="nav?path=~indexSearchCreators" method="post">
             <b>Index </b>
             <select name="mode" size="1" class="button">
               <option value="prefix">
@@ -69,7 +65,7 @@
         </td>
         <xsl:if test="string-length($search) &gt; 0 ">
           <td class="metavalue">
-            <form action="{$WebApplicationBaseURL}nav?path=~indexSearchCreators&amp;searchclass=creators" method="post">
+            <form action="nav?path=~indexSearchCreators" method="post">
               <b>
                 <xsl:text> </xsl:text>
                 <xsl:value-of select="results/@numHits"/>
@@ -95,7 +91,7 @@
 </xsl:template>
 
 <xsl:variable name="up.url">
-  <xsl:text>{$WebApplicationBaseURL}nav?path=~indexSearchCreators&amp;searchclass=creators</xsl:text>
+  <xsl:text>nav?path=~indexSearchCreators</xsl:text>
   <xsl:text>&amp;</xsl:text>
   <xsl:if test="string-length($search) &gt; 0">
     <xsl:text>search=</xsl:text>
@@ -153,7 +149,6 @@
 <xsl:template match="value">
   
   <xsl:variable name="urlAuthor">
-    <xsl:value-of select="$WebApplicationBaseURL" />
     <xsl:text>nav?path=~docdetail</xsl:text>
 	<xsl:text>&amp;id=</xsl:text>
     <xsl:value-of select="col[@name='id']" />
@@ -182,7 +177,7 @@
 <!-- ========== range ========== -->
 <xsl:template match="range">
   <xsl:variable name="url">
-    <xsl:value-of select="concat($WebApplicationBaseURL,'nav?path=~indexSearchCreators&amp;searchclass=creators&amp;fromTo=', from/@pos,'-', to/@pos )" />	
+    <xsl:value-of select="concat($WebApplicationBaseURL,'nav?path=~indexSearchCreators&amp;fromTo=', from/@pos,'-', to/@pos )" />	
     <xsl:if test="string-length($search) &gt; 0">
       <xsl:text>&amp;search=</xsl:text>		
       <xsl:value-of select="$search" />
@@ -206,11 +201,11 @@
 
 <!-- ========== Einleitender Text ========== -->
 <xsl:template name="IntroText">
-Dieser Index enthält die Namen der Autoren, die Dokumente in @libri publiziert haben
+Dieser Index enthält die Namen der Autoren, die Dokumente in @libri publiziert haben.
 <br/><br/>
 <xsl:text> | </xsl:text>
 <xsl:for-each select="xalan:nodeset($AtoZ)/search">
-  <a href="{$WebApplicationBaseURL}nav?path=~indexSearchCreators&amp;searchclass=creators&amp;search={@prefix}">
+  <a href="{$WebApplicationBaseURL}nav?path=~indexSearchCreators&amp;search={@prefix}">
   <!-- a href="{$WebApplicationBaseURL}index/{$IndexID}/index.html?mode=prefix&amp;search={@prefix}" -->
     <xsl:value-of select="@prefix" />
   </a>
