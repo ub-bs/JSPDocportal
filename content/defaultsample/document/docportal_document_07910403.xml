@@ -68,9 +68,9 @@
   </sizes>
 </metadata>
 <service>
-  <servdates class="MCRMetaDate" heritable="false" notinherit="false" parasearch="true" textsearch="false">
-    <servdate xml:lang="de" inherited="0" type="createdate">2004-06-03</servdate>
-    <servdate xml:lang="de" inherited="0" type="modifydate">2004-06-04</servdate>
+  <servdates class="MCRMetaISO8601Date" heritable="false" notinherit="false" parasearch="true" textsearch="false">
+    <servdate xml:lang="de" inherited="0" type="createdate">2004-09-22T18:00:00</servdate>
+    <servdate xml:lang="de" inherited="0" type="modifydate">2004-09-22T18:00:00</servdate>
   </servdates>
   <servflags class="MCRMetaLangText" heritable="false" notinherit="false" parasearch="true" textsearch="false">
     <servflag xml:lang="de" inherited="0" form="plain">Access:public</servflag>

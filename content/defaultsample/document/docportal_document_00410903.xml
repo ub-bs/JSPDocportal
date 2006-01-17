@@ -88,9 +88,9 @@
   </sizes>
  </metadata>
  <service>
-  <servdates class="MCRMetaDate">
-   <servdate type="validfromdate">22.09.2001</servdate>
-   <servdate type="validtodate">22.09.2002</servdate>
+  <servdates class="MCRMetaISO8601Date">
+   <servdate type="validfromdate">2001-09-22T18:00:00</servdate>
+   <servdate type="validtodate">2010-09-22T18:00:00</servdate>
   </servdates>
   <servflags class="MCRMetaLangText">
    <servflag>Access:public</servflag>
