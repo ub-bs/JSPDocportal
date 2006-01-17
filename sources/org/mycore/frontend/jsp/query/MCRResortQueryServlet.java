@@ -102,8 +102,6 @@ public class MCRResortQueryServlet extends MCRServlet {
         request.setAttribute("query", jdomQuery);
         request.setAttribute("resultlistType",resultlistType);
 
-        logger.debug("HH:next navpath=~resortresult-" + resultlistType );
-
 		this.getServletContext().getRequestDispatcher("/nav?path=~resortresult-" + resultlistType).forward(request, job.getResponse());
 	}
 	
