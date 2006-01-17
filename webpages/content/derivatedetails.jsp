@@ -87,7 +87,7 @@
           </td>
           <td class="browseCtrl">
              <x:if select="string-length($referer) != 0">
-                <a class="textboldbigger" href="{$referer}">
+                <a class="textboldbigger" href="<%= referer %>">
                    <fmt:message key="IFS.return" />
                 </a>
              </x:if>
@@ -157,29 +157,13 @@
             String type = child.getAttributeValue("type");
             String fileName = child.getChildText("name");
          %>
-           <tr>
-              <td class="metavalue">         
+           <tr valign="top" >
+              <td class="metavalue" >         
               <%
                  if(mainDoc.equals(child.getChildText("name"))) {
                  %>
-                    <img src"<%= WebApplicationBaseURL %>images/button_green.gif" alt="Main file" border="0" />
+                    <img src"<%= WebApplicationBaseURL %>images/darkblueBox.gif" alt="Main file" border="0" />
                  <%
-                 }else {
-                    if (MCRAccessManager.checkAccess("write",derID,mcrSession) && type.equals("file")) {
-                    %>
-                       <form action="<%= WebApplicationBaseURL %>nav" method="get">
-                          <input name="path" type="hidden" value="~workflow-<%= docType %>" >
-                          <input name="lang" type="hidden" value="<%= lang %>" >
-                          <input name="se_mcrid" type="hidden" value="<%= derID %>">
-                          <input name="re_mcrid" type="hidden" value="<%= docID %>">
-                          <input name="type" type="hidden" value="<%= docType %>" >
-                          <input name="step" type="hidden" value="commit" />
-                          <input name="todo" type="hidden" value="ssetfile" />
-                          <input name="extparm" type="hidden" value="<%= fileName %>">
-                          <input type="image" src="<%= WebApplicationBaseURL %>images/button_light.gif" title="<fmt:message key="IFS.mainbutton" />" border="0" >
-                       </form>                    
-                    <%   
-                    }
                  }
               %>
               </td>
@@ -215,25 +199,6 @@
                 }
              %> 
              <td class="metavalue"><%= child.getChildText("date") %></td>
-             <td class="metavalue">
-             <%
-                if( MCRAccessManager.checkAccess("write",derID,mcrSession)) {
-                %>
-                       <form action="<%= WebApplicationBaseURL %>nav" method="get">
-                          <input name="path" type="hidden" value="~workflow-<%= docType %>" >
-                          <input name="lang" type="hidden" value="<%= lang %>" />
-                          <input name="se_mcrid" type="hidden" value="<%= derID %>">
-                          <input name="re_mcrid" type="hidden" value="<%= docID %>">
-                          <input name="type" type="hidden" value="<%= docType %>" >
-                          <input name="step" type="hidden" value="commit" >
-                          <input name="todo" type="hidden" value="sdelfile" >
-                          <input name="extparm" type="hidden" value="####nrall####<%= allFiles %>####nrthe####1####filename####<%= derPath.replaceFirst(derOwnerID,"") %><%= fileName %>">
-                          <input type="image" src="<%= WebApplicationBaseURL %>images/button_delete.gif" title="<fmt:message key="IFS.delbutton" />" border="0" >
-                       </form>  
-                <%
-                }
-             %>
-             </td>             
            </tr>
          <%
          }        
