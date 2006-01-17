@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -290,11 +291,11 @@ public class MCROAIQueryService implements MCROAIQuery {
      */
     public static String[] getHeader(MCRObject object, String objectId,
             String repositoryId, String instance) {
-        Calendar calendar = object.getService().getDate("modifydate");
+        Date date = object.getService().getDate("modifydate");
         // Format the date.
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        formatter.setCalendar(calendar);
-        String datestamp = formatter.format(calendar.getTime());
+
+        String datestamp = formatter.format(date);
 
         StringBuffer setSpec = new StringBuffer("");
         String[] identifier = new String[5];
