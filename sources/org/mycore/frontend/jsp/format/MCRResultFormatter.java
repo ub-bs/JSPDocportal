@@ -807,17 +807,25 @@ public class MCRResultFormatter {
 
     private String  formateDate(String dateString, String attrLang){
     	String newDate = dateString;
-    	if ( "de".equalsIgnoreCase(attrLang) ) {
-    		String[] ymd = dateString.split("-");
+		String sTime = "";
+		if ( dateString.indexOf(("T")) > 0) {
+			sTime = dateString.substring(				
+					dateString.indexOf("T")+1,
+					dateString.indexOf(".") );
+			newDate = dateString.substring(0,dateString.indexOf(("T")) ) ;
+		}
+    	if ( "de".equalsIgnoreCase(attrLang) || attrLang == null) {
+    		String[] ymd = newDate.split("-");
     		if ( ymd != null && ymd.length == 3) {
     			newDate = ymd[2]+"."+ymd[1]+"."+ymd[0]; 
-    		} 
+    		}     		
     	} else {
-    		String[] ymd = dateString.split(".");
+    		String[] ymd = newDate.split(".");
     		if ( ymd != null && ymd.length == 3) {
     			newDate = ymd[2]+"-"+ymd[1]+"-"+ymd[0]; 
     		}     		
     	}
+    	newDate += " " + sTime;
     	return newDate;
     }
 	public static void main(String[] args) {
