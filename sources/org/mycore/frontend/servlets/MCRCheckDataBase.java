@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -51,6 +52,7 @@ import org.mycore.datamodel.metadata.MCRMetaBoolean;
 import org.mycore.datamodel.metadata.MCRMetaClassification;
 import org.mycore.datamodel.metadata.MCRMetaDate;
 import org.mycore.datamodel.metadata.MCRMetaHistoryDate;
+import org.mycore.datamodel.metadata.MCRMetaISO8601Date;
 import org.mycore.datamodel.metadata.MCRMetaInstitutionName;
 import org.mycore.datamodel.metadata.MCRMetaLangText;
 import org.mycore.datamodel.metadata.MCRMetaLink;
@@ -714,32 +716,42 @@ abstract public class MCRCheckDataBase extends MCRCheckBase {
 					}
 					continue;
 				}
+				/**
 				// MCRMetaDate
 				if (mcrclass.equals("MCRMetaDate")) {
+				**/
+				// MCRMetaISO8601Date
+				if (mcrclass.equals("MCRMetaISO8601Date")) {
 					String text = datasubtag.getTextNormalize();
+
 					if ((text == null) || ((text = text.trim()).length() == 0)) {
 						datatag.removeContent(datasubtag);
 						k--;
 						datataglistlen--;
+
 						continue;
 					}
+
 					if (datasubtag.getAttribute("lang") != null) {
-						datasubtag.getAttribute("lang").setNamespace(
-								Namespace.XML_NAMESPACE);
+						datasubtag.getAttribute("lang").setNamespace(Namespace.XML_NAMESPACE);
 					}
+
 					try {
-						MCRMetaDate test = new MCRMetaDate();
+						MCRMetaISO8601Date test = new MCRMetaISO8601Date();
 						test.setFromDOM(datasubtag);
-						if (!test.isValid())
+
+						if (!test.isValid()) {
 							throw new MCRException("");
+						}
 					} catch (Exception e) {
-						errorlog.add("Element " + datasubtag.getName()
-								+ " is not valid.");
+						errorlog.add("Element " + datasubtag.getName() + " is not valid.");
 						datatag.removeContent(datasubtag);
 						k--;
 						datataglistlen--;
+
 						continue;
 					}
+
 					continue;
 				}
 			}
@@ -757,6 +769,9 @@ abstract public class MCRCheckDataBase extends MCRCheckBase {
 			// load the JODM object
 			byte[] xml = MCRUtils.getByteArray(jdom_in);
 			obj.setFromXML(xml, true);
+			Date curTime=new Date();
+	        obj.getService().setDate("createdate",curTime);
+	        obj.getService().setDate("modifydate",curTime);
 			// return the XML tree
 			jdom_out = obj.createXML();
 		} catch (MCRException e) {
