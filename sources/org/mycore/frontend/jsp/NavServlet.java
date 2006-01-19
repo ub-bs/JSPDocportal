@@ -119,6 +119,7 @@ public class NavServlet extends MCRServlet
     {
     	HttpServletRequest request = job.getRequest();
     	HttpServletResponse response = job.getResponse();
+    	
     	ServletContext context = this.getServletContext();
     	if ((baseURL == null) || baseURL.equals("") || (navJdom == null) || (navDom == null))  {
     		initializeParameters(request);
@@ -126,7 +127,7 @@ public class NavServlet extends MCRServlet
         MCRSession session = MCRServlet.getSession(request);
         if(!"yes".equals(context.getAttribute("startup_done"))) {
             PrintWriter out = response.getWriter();
-            out.write("<html><body><h1>Application offline</h1>The application is curerntly offline. Probably it's still starting up, or has been shut down.</body></html>");
+            out.write("<html><body><h1>Application offline</h1>The application is currently offline. Probably it's still starting up, or has been shut down.</body></html>");
             return;
         }
 
@@ -195,6 +196,10 @@ public class NavServlet extends MCRServlet
         request.setAttribute("pathID", pathID.toString());
         request.setAttribute("youAreHere",domYouAreHere);
         
+        String requestURL = request.getRequestURL().append("?").append(request.getQueryString()).toString();
+        requestURL = requestURL.replaceAll("&lang=[^&]*","");
+        
+        request.setAttribute("langfreeRequestURL", requestURL);
         if(contentPage == null || contentPage.equals("")) {
             request.setAttribute("content", "content/dummy.jsp");
         } else {
