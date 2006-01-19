@@ -13,6 +13,7 @@
 <c:set var="nodeID" value="${requestScope.nodeID}" />
 <c:set var="pathID" value="${requestScope.pathID}" />
 <c:set var="youAreHere" value="${requestScope.youAreHere}" />
+<c:set var="langfreeRequestURL" value="${langfreeRequestURL}" />
 <c:choose>
    <c:when test="${!empty(param.lang)}">
       <c:set var="lang" value="${param.lang}" />
@@ -144,7 +145,8 @@
                                     </x:choose>                                    
                                 </x:forEach>
                                 <td style="width:10px;"><img alt="" style="width:10px; height:1px;" src="${WebApplicationBaseURL}images/emtyDot1Pix.gif"></td>
-                                <td><a href="${WebApplicationBaseURL}nav?path=${path}&lang=${translateLang}"><img style="border-style: none; width: 24px; height: 12px; vertical-align: bottom;" alt="<fmt:message key="secondLanguage" />" src="${WebApplicationBaseURL}images/lang-${translateLang}.gif"></a></td>           
+<!--                                 <td><a href="${WebApplicationBaseURL}nav?path=${path}&lang=${translateLang}"><img style="border-style: none; width: 24px; height: 12px; vertical-align: bottom;" alt="<fmt:message key="secondLanguage" />" src="${WebApplicationBaseURL}images/lang-${translateLang}.gif"></a></td>            -->
+                                <td><a href="${langfreeRequestURL}&lang=${translateLang}"><img style="border-style: none; width: 24px; height: 12px; vertical-align: bottom;" alt="<fmt:message key="secondLanguage" />" src="${WebApplicationBaseURL}images/lang-${translateLang}.gif"></a></td>           
                                 <td style="width:10px;"><img alt="" style="width:10px; height:1px;" src="${WebApplicationBaseURL}images/emtyDot1Pix.gif"></td>
                             </tr>
                         </table>
