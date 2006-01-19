@@ -90,7 +90,7 @@
   <!-- 12 - DC Date -->
   <element name="dates" minOccurs='1' maxOccurs='1' parasearch="true"
    textsearch="false">
-   <mcrmetadate name="date" class="MCRMetaDate" minOccurs='1'
+   <mcrmetaiso8601date name="date" class="MCRMetaISO8601Date" minOccurs='1'
     maxOccurs='unbounded' />
   </element>
   <!-- 13 - DC Type -->
@@ -150,7 +150,7 @@
   <!-- 22 - CoverageDate -->
   <element name="coveragedates" minOccurs='0' maxOccurs='1' parasearch="true"
    textsearch="false">
-   <mcrmetadate name="coveragedate" class="MCRMetaDate" minOccurs='1'
+   <mcrmetaiso8601date name="coveragedate" class="MCRMetaISO8601Date" minOccurs='1'
     maxOccurs='unbounded' />
   </element>
   <!-- 23 - DC Relation -->
@@ -231,13 +231,7 @@
    <mcrmetalangtext name="citation" class="MCRMetaLangText" minOccurs='1'
     maxOccurs='unbounded' length="4096" />
   </element>
-  <!-- 36 TUM Kollektionen bei Bilder zB Landmaschinen - DC Type -->
-  <element name="collections" minOccurs='1' maxOccurs='1' parasearch="true"
-   textsearch="false">
-   <mcrmetaclassification name="collection" class="MCRMetaClassification"
-    minOccurs='1' maxOccurs='unbounded' />
-  </element>
-  <!-- 37 TUM: provisorisch: alte URL -->
+  <!-- 36 for different URLs -->
   <element name="urls" minOccurs='0' maxOccurs='1' parasearch="false"
 	textsearch="false">
 	<mcrmetalangtext name="url" class="MCRMetaLangText" minOccurs='1'
@@ -248,7 +242,7 @@
   <!-- Service Dates -->
   <element name="servdates" minOccurs='0' maxOccurs='1' parasearch="true"
    textsearch="false">
-   <mcrmetadate name="servdate" class="MCRMetaDate" minOccurs='1'
+   <mcrmetaiso8601date name="servdate" class="MCRMetaISO8601Date" minOccurs='1'
     maxOccurs='unbounded'/>
   </element>
   <!-- Service Flags -->

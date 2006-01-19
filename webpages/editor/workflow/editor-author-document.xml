@@ -297,7 +297,7 @@
             </panel>
             <!-- *** Data for the Date ** -->
             <panel id="DDate">
-                  <hidden var="metadata/dates/@class" default="MCRMetaDate" />
+                  <hidden var="metadata/dates/@class" default="MCRMetaISO8601Date" />
                   <hidden var="metadata/dates/@parasearch" default="true" />
                   <hidden var="metadata/dates/@textsearch" default="false" />
                   <hidden var="metadata/dates/@notinherit" default="false" />

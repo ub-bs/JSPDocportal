@@ -54,7 +54,7 @@
   <!-- 06 - Dates -->
   <element name="dates" minOccurs='0' maxOccurs='1' parasearch="true"
    textsearch="false">
-   <mcrmetadate name="date" class="MCRMetaDate" minOccurs='1'
+   <mcrmetaiso8601date name="date" class="MCRMetaISO8601Date" minOccurs='1'
     maxOccurs='unbounded'/>
   </element>
   <!-- 07 - Profession -->
@@ -116,7 +116,7 @@
   <!-- Service Dates -->
   <element name="servdates" minOccurs='0' maxOccurs='1' parasearch="true"
    textsearch="false">
-   <mcrmetadate name="servdate" class="MCRMetaDate" minOccurs='1'
+   <mcrmetaiso8601date name="servdate" class="MCRMetaISO8601Date" minOccurs='1'
     maxOccurs='unbounded'/>
   </element>
   <!-- Service Flags -->

@@ -173,7 +173,7 @@
 <!-- ** Data for the FLAGS *** -->
 
   <panel id="DFlags">
-    <hidden var="service/servdates/@class" default="MCRMetaDate" />
+    <hidden var="service/servdates/@class" default="MCRMetaISO8601Date" />
     <hidden var="service/servdates/@parasearch" default="true" />
     <hidden var="service/servdates/@textsearch" default="false" />
     <hidden var="service/servdates/@notinherit" default="false" />
