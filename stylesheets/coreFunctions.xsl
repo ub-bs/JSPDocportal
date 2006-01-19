@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!-- ============================================== -->
-<!-- $Revision: 1.1 $ $Date: 2005-11-14 12:51:03 $ -->
+<!-- $Revision: 1.2 $ $Date: 2006-01-19 10:09:11 $ -->
 <!-- ============================================== -->
 <!-- Authors: Thomas Scheffler (yagee) -->
 <!-- Authors: Andreas Trappe (lezard) -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink" 
       exclude-result-prefixes="xlink">
+      <xsl:include href="coreFunctions_encode.xsl" />
+      <xsl:include href="coreFunctions_decode.xsl" />       
     <!--
     Template: UrlSetParam
-    synopsis: It inserts a $HttpSession to an url
+    synopsis: Inserts a $HttpSession to an URL
     param:
 
-    url: the url to include the session
+    url: URL to include the session
     -->
     <xsl:template name="UrlAddSession">
         <xsl:param name="url"/>
-        <!-- There are two possibility for a parameter to appear in an url:
+        <!-- There are two possibility for a parameter to appear in an URL:
             1.) after a ? sign
             2.) after a & sign
             In both cases the value is either limited by a & sign or the string end
@@ -45,10 +47,10 @@
     </xsl:template>
     <!--
     Template: UrlSetParam
-    synopsis: It replaces parameter value or adds a parameter to an url
+    synopsis: Replaces a parameter value or adds a parameter to an URL
     param:
 
-    url: the url to hold the parameter and value
+    url: URL to contain the parameter and value
     par: name of the parameter
     value: new value
     -->
@@ -56,7 +58,7 @@
         <xsl:param name="url"/>
         <xsl:param name="par"/>
         <xsl:param name="value"/>
-        <!-- There are two possibility for a parameter to appear in an url:
+        <!-- There are two possibility for a parameter to appear in an URL:
             1.) after a ? sign
             2.) after a & sign
             In both cases the value is either limited by a & sign or the string end
@@ -87,7 +89,7 @@
                     <xsl:value-of select="$asParam"/>
                     <xsl:value-of select="$value"/>
                     <xsl:if test="contains(substring-after($url,$asParam),'&amp;')">
-                        <!--OK now we know that there are parameter left //-->
+                        <!--OK now we know that there are parameters left //-->
                         <xsl:value-of select="concat('&amp;',substring-after(substring-after($url,$asParam),'&amp;'))"/>
                     </xsl:if>
                 </xsl:variable>
@@ -97,30 +99,30 @@
                 <!-- The parameter is not yet specified //-->
                 <xsl:choose>
                     <xsl:when test="contains($url,'?')">
-                        <!-- Other parameters a present //-->
+                        <!-- Other parameters are present //-->
                         <xsl:value-of select="concat($url,'&amp;',$par,'=',$value)"/>
                     </xsl:when>
                     <xsl:otherwise>
-                        <!-- No other parameter presen //-->
+                        <!-- No other parameter are present //-->
                         <xsl:value-of select="concat($url,'?',$par,'=',$value)"/>
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-    
+
     <!--
     Template: UrlGetParam
-    synopsis: Gets the value of a given parameter from a specific url
+    synopsis: Gets the value of a given parameter from a specific URL
     param:
 
-    url: the url to hold the parameter and value
+    url: URL containing the parameter and value
     par: name of the parameter
     -->
     <xsl:template name="UrlGetParam">
         <xsl:param name="url"/>
         <xsl:param name="par"/>
-        <!-- There are two possibility for a parameter to appear in an url:
+        <!-- There are two possibility for a parameter to appear in an URL:
         1.) after a ? sign
         2.) after a & sign
         In both cases the value is either limited by a & sign or the string end
@@ -153,9 +155,9 @@
     
     <!--
     Template: UrlDelParam
-    synopsis: Removes the parameter and value of a given parameter from a specific url
+    synopsis: Removes the parameter and value of a given parameter from a specific URL
 
-    url: the url to hold the parameter and value
+    url: URL containing the parameter and value
     par: name of the parameter
     -->
     <xsl:template name="UrlDelParam">
@@ -183,14 +185,14 @@
                             <xsl:value-of select="substring-before($valueBlured,'&amp;')" />
                         </xsl:when>
                         <xsl:otherwise>
-                            <xsl:value-of select="$valueBlured"/>                              
+                            <xsl:value-of select="$valueBlured"/>
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:variable>              
                 <xsl:variable name="parAndVal">
                     <xsl:value-of select="concat($par,'=',$valueOfPar)"/>
                 </xsl:variable>
-                          
+
                 <xsl:choose>
                     <!-- more params append afterwards -->                              
                     <xsl:when test="contains(substring-after($url,$parAndVal),'&amp;')">
@@ -253,7 +255,7 @@
         <xsl:param name="classid"/>
         <xsl:param name="categid"/>
         <xsl:param name="host"/>
-        <xsl:value-of select="concat($ServletsBaseURL,'MCRQueryServlet',$JSessionID,'?XSL.Style=xml&amp;type=class&amp;hosts=',$host,'&amp;query=%2Fmycoreclass%5B%40ID%3D%27',$classid,'%27%20and%20*%2Fcategory%2F%40ID%3D%27',$categid,'%27%5D')" />
+        <xsl:value-of select="concat('query:type=class&amp;hosts=',$host,'&amp;query=%2Fmycoreclass%5B%40ID%3D%27',$classid,'%27%20and%20*%2Fcategory%2F%40ID%3D%27',$categid,'%27%5D')" />
     </xsl:template>
     
     <!--
@@ -267,7 +269,7 @@
     <xsl:template name="ClassLink">
         <xsl:param name="classid"/>
         <xsl:param name="host"/>
-        <xsl:value-of select="concat($ServletsBaseURL,'MCRQueryServlet',$JSessionID,'?XSL.Style=xml&amp;type=class&amp;hosts=',$host,'&amp;query=%2Fmycoreclass%5B%40ID%3D%27',$classid,'%27%5D')" />
+        <xsl:value-of select="concat('query:type=class&amp;hosts=',$host,'&amp;query=%2Fmycoreclass%5B%40ID%3D%27',$classid,'%27%5D')" />
     </xsl:template>
     <!--
     Template: PrivLink
@@ -289,7 +291,98 @@
         </xsl:variable>
         <xsl:copy-of select="document($link)/mycoreuserpriv/user" />
     </xsl:template>
-
+    <!--
+    Tamplate: PageGen
+    synopsis: returns a list of links to access other pages of a result list
+    
+    parameters:
+        i: running indicator - leave untouched
+        type: document type
+        href: baselink to access resultlists
+        size: howmany results per page
+        offset: start at which result offset
+        currentpage: what is the current page displayed?
+        totalpage: how many pages exist?
+    -->
+    <xsl:template name="PageGen">
+        <xsl:param name="i" select="1" />
+        <xsl:param name="type"                   />
+        <xsl:param name="href" select="concat($WebApplicationBaseURL, 'servlets/MCRQueryServlet',$JSessionID,'?mode=CachedResultList&amp;type=', $type)" />
+        <xsl:param name="size"                   />
+        <xsl:param name="currentpage"            />
+        <xsl:param name="totalpage"              />
+        <xsl:variable name="PageWindowSize" select="10" />
+        <!-- jumpSize is to determine the pages to be skipped -->
+        <xsl:variable name="jumpSize">
+            <xsl:choose>
+                <!-- current printed page number is smaller than current displayed page -->
+                <xsl:when test="$i &lt; $currentpage"> 
+                    <xsl:choose>
+                        <!-- This is to support a bigger PageWindow at the end of page listing and
+                        to skip a jump of 2 -->
+                        <xsl:when test="(($totalpage - $PageWindowSize - 1) &lt;= $i) or
+                        (($currentpage - floor(($PageWindowSize -1) div 2) - 1) = 2)">
+                            <xsl:value-of select="1"/>
+                        </xsl:when>
+                        <!-- This is to support a bigger PageWindow at the begin of page listing -->
+                        <xsl:when test="($totalpage - $currentpage) &lt; $PageWindowSize">
+                            <xsl:value-of select="($totalpage - $PageWindowSize - 1)"/>
+                        </xsl:when>
+                        <xsl:when test="(($currentpage - $i) &lt;= floor(($PageWindowSize -1) div 2))">
+                            <xsl:value-of select="1"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:value-of select="($currentpage - floor(($PageWindowSize -1) div 2) - 1)"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:when>
+                <xsl:when test="$i &gt; $currentpage"> 
+                    <xsl:choose>
+                        <!-- jump only one if your near currentpage,
+                        or at last page 
+                        or to support bigger window at beginning
+                        or to skip a jump of 2 -->
+                        <xsl:when test="( (($i - $currentpage) &lt; round(($PageWindowSize -1) div 2)) or ($i = $totalpage) or ($currentpage &lt;=$PageWindowSize and $i &lt;= $PageWindowSize) or ($totalpage - $i = 2))">
+                            <xsl:value-of select="1"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:value-of select="($totalpage - $i)"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="1"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <xsl:variable name="running">
+            <xsl:if test="$i &lt;= $totalpage">
+                <xsl:text>true</xsl:text>
+            </xsl:if>
+        </xsl:variable>
+        <xsl:variable name="offset" select="($i - 1) * $size"/>
+        <xsl:if test="$running='true'">
+            <xsl:if test="$i=$currentpage"><xsl:text>[</xsl:text></xsl:if>
+            <a href="{concat($href, '&amp;offset=', $offset, '&amp;size=', $size)}">
+                <xsl:value-of select="$i"/>
+            </a>
+            <xsl:if test="$i=$currentpage"><xsl:text>]</xsl:text></xsl:if>
+            <xsl:if test="$jumpSize &gt; 1"><xsl:text>&#160;...</xsl:text></xsl:if>
+            <xsl:text>&#160;</xsl:text><!--
+                <xsl:comment>
+                    <xsl:value-of select="concat('$i=',$i,                                       ' $totalpage=',$totalpage,' $jumpSize=',$jumpSize,' floor=',floor(($PageWindowSize -1) div 2),' round=',round(($PageWindowSize -1) div 2))"/>
+                </xsl:comment>
+                <xsl:text>
+                </xsl:text>  -->
+            <xsl:call-template name="PageGen">
+                <xsl:with-param name="i"           select="$i + $jumpSize"/>
+                <xsl:with-param name="href"        select="$href"         />
+                <xsl:with-param name="size"        select="$size"         />
+                <xsl:with-param name="currentpage" select="$currentpage"  />
+                <xsl:with-param name="totalpage"   select="$totalpage"    />
+            </xsl:call-template>
+        </xsl:if>
+    </xsl:template>
     <!-- Template typeOfObjectID
     synopsis: returns the type of the ObjectID submitted usally the second part of the ID
     
@@ -319,7 +412,7 @@
             <xsl:call-template name="getValue">
                 <xsl:with-param name="pairs" select="$TypeMapping"/>
                 <xsl:with-param name="name" select="$type"/>
-            </xsl:call-template>         
+            </xsl:call-template>
         </xsl:variable>
         <!-- the mapping -->
         <xsl:choose>
@@ -346,10 +439,10 @@
             <xsl:value-of select="substring-before(substring-after($pairs,concat($name,':')),';')"/>
         </xsl:if>
     </xsl:template>
-        
+
     <!-- Template selectLang
-    synopsis: returns $CurrentLang id $nodes[lang($CurrentLang)] is not empty, else $DefaultLang
-    
+    synopsis: returns $CurrentLang if $nodes[lang($CurrentLang)] is not empty, else $DefaultLang
+
     parameters:
     nodes: the nodeset to check
     -->
@@ -363,5 +456,190 @@
                 <xsl:value-of select="$DefaultLang"/>
             </xsl:otherwise>
         </xsl:choose>
+    </xsl:template>
+
+    <!-- Template selectPresentLang
+    synopsis: returns the result of selectLang if nodes for that language are present, else returns a language for which nodes a present
+
+    parameters:
+    nodes: the nodeset to check
+    -->
+    <xsl:template name="selectPresentLang">
+        <xsl:param name="nodes" />
+        <xsl:variable name="check">
+            <xsl:call-template name="selectLang">
+                <xsl:with-param name="nodes" select="$nodes"/>
+            </xsl:call-template>
+        </xsl:variable>
+        <xsl:choose>
+            <xsl:when test="$nodes[lang($check)]">
+                <xsl:value-of select="$check"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="$nodes[1]/@xml:lang"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+      <!-- =================================================================================================== -->    
+<!--
+Template: wcms.getBrowserAddress
+synopsis: The template will be used to identify the currently selected menu entry and the belonging element item/@href in the navigationBase
+These strategies are embarked on:
+1. RequestURL - lang ?= @href - lang
+2. RequestURL - $WebApplicationBaseURL - lang ?= @href - lang
+3. Root element ?= item//dynamicContentBinding/rootTag
+-->
+  
+      <xsl:template name="getBrowserAddress">
+        <!--remove lastPage-->
+            <xsl:variable name="RequestURL.lastPageDel" >
+            <xsl:call-template name="UrlDelParam"> 
+                  <xsl:with-param name="url" select="$RequestURL"  />
+                      <xsl:with-param name="par" select="'XSL.lastPage.SESSION'" /> 
+                  </xsl:call-template>
+            </xsl:variable> 
+            <xsl:variable name="WebApplicationBaseURL.lastPageDel" >
+            <xsl:call-template name="UrlDelParam"> 
+                  <xsl:with-param name="url" select="$WebApplicationBaseURL"  />
+                      <xsl:with-param name="par" select="'XSL.lastPage.SESSION'" /> 
+                  </xsl:call-template>
+            </xsl:variable> 
+        <!--end: remove lastPage-->
+                                
+            <xsl:variable name="RequestURL.langDel" >
+            <xsl:call-template name="UrlDelParam"> 
+                  <xsl:with-param name="url" select="$RequestURL.lastPageDel"  />
+                      <xsl:with-param name="par" select="'lang'" /> 
+                  </xsl:call-template>
+            </xsl:variable>
+            <xsl:variable name="RequestURL.WebURLDel" >
+            <xsl:value-of select="concat('/',substring-after($RequestURL.lastPageDel,$WebApplicationBaseURL.lastPageDel))" />
+            </xsl:variable>
+            <xsl:variable name="RequestURL.WebURLDel.langDel" >
+            <xsl:call-template name="UrlDelParam"> 
+                  <xsl:with-param name="url" select="$RequestURL.WebURLDel"  />
+                      <xsl:with-param name="par" select="'lang'" /> 
+                  </xsl:call-template>
+            </xsl:variable>
+            
+            <!-- test if navigation.xml contains the current browser address -->
+            <!--look for $browserAddress_href-->
+            <xsl:variable name="browserAddress_href" >
+                  <!-- verify each item  -->
+                  <xsl:for-each select="$loaded_navigation_xml//item[@href]" >
+                        <!-- remove par lang from @href -->
+                        <xsl:variable name="href.langDel">
+                    <xsl:call-template name="UrlDelParam"> 
+                          <xsl:with-param name="url" select="current()/@href"  />
+                              <xsl:with-param name="par" select="'lang'" /> 
+                          </xsl:call-template>                              
+                        </xsl:variable>
+
+                      <xsl:if test="( $RequestURL.langDel = $href.langDel )
+                              or
+                              ($RequestURL.WebURLDel.langDel = $href.langDel) ">
+                              <xsl:value-of select="@href" />
+                        </xsl:if>
+                        
+                </xsl:for-each>
+                  <!-- END OF: verify each item -->
+            </xsl:variable>
+            <!-- end: look for $browserAddress_href-->            
+
+            <!-- look for $browserAddress_dynamicContentBinding -->
+            <xsl:variable name="browserAddress_dynamicContentBinding" >
+                  <xsl:if test="  ($browserAddress_href = '') " >
+                        <!-- assign name of rootTag -> $rootTag -->
+                        <xsl:variable name="rootTag" select="name(*)" />
+                        <xsl:for-each select="$loaded_navigation_xml//dynamicContentBinding/rootTag" >
+                              <xsl:if test=" current() = $rootTag " >
+                                    <xsl:for-each select="ancestor-or-self::*[@href]">
+                                          <xsl:if test="position()=last()" >
+                                                <xsl:value-of select="@href" />
+                                          </xsl:if>
+                                    </xsl:for-each>
+                              </xsl:if>
+                        </xsl:for-each>
+                  </xsl:if>
+            </xsl:variable>
+            <!-- END OF: look $browserAddress_dynamicContentBinding -->
+            
+            <!-- look for $lastPage -->
+            <xsl:variable name="browserAddress_lastPage" >
+                  <xsl:if test=" ($browserAddress_href = '') and ($browserAddress_dynamicContentBinding = '') " >
+                <xsl:variable name="lastPage_decoded">
+                    <xsl:call-template name="decode">
+                        <xsl:with-param name="encoded" select="$lastPage"/>
+                    </xsl:call-template>                      
+                </xsl:variable>
+                        <xsl:value-of select="$lastPage_decoded"/>
+                  </xsl:if>
+            </xsl:variable>
+            <!-- END OF: look $browserAddress_lastPage -->                        
+            
+
+            <!-- END OF: test if navigation.xml contains the current browser address -->
+            <!-- assign right browser address -->
+            <xsl:choose>
+                  <xsl:when test=" $browserAddress_href != '' " >
+                        <xsl:value-of select="$browserAddress_href" />
+                  </xsl:when>
+                  <xsl:when test=" $browserAddress_dynamicContentBinding != '' " >
+                        <xsl:value-of select="$browserAddress_dynamicContentBinding" />
+                  </xsl:when>                  
+                  <xsl:when test=" $browserAddress_lastPage != '' " >
+                        <xsl:value-of select="$browserAddress_lastPage" />
+                  </xsl:when>                  
+            </xsl:choose>
+            <!-- END OF: assign right browser address -->
+
+      </xsl:template>
+      <!-- =================================================================================================== -->
+      <xsl:template name="getTemplate">
+            <xsl:param name="browserAddress" />            
+            <xsl:param name="navigationBase" />                        
+           
+           <xsl:variable name="template_tmp">
+                <!-- point to rigth item -->
+                <xsl:for-each select="$loaded_navigation_xml//item[@href = $browserAddress]" >
+                      <!-- collect @template !='' entries along the choosen axis -->
+                      <xsl:for-each select="ancestor-or-self::*[  @template != '' ]">
+                            <xsl:if test="position()=last()" >
+                                  <xsl:value-of select="@template" />
+                            </xsl:if>
+                      </xsl:for-each>
+                      <!-- END OF: collect @template !='' entries along the choosen axis -->
+                </xsl:for-each>
+                <!-- END OF: point to rigth item -->
+            </xsl:variable>
+                
+        <xsl:choose>
+                  <!-- assign appropriate template -->
+                  <xsl:when test="$template_tmp != ''">
+                    <xsl:value-of select="$template_tmp" />                        
+                  </xsl:when>
+                  <!-- default template -->
+                  <xsl:otherwise>
+                        <xsl:value-of select="$loaded_navigation_xml/@template" />
+                  </xsl:otherwise>
+            </xsl:choose>
+            
+      </xsl:template>
+      <!-- =================================================================================================== -->  
+    <!--
+    Template: formatISODate
+    synopsis: formates the given date (ISO 8601) to the defined local format
+    param:
+
+    date: date in ISO 8601 format
+    format: target format (must suit to SimpleDateFormat)
+    locale: use local, e.g. "de" "en"
+    -->
+    <xsl:template name="formatISODate">
+        <xsl:param name="date"/>
+        <xsl:param name="isoFormat" select="'YYYY-MM-DDThh:mm:ss.sTZD'"/>
+        <xsl:param name="format"/>
+        <xsl:param name="locale" select="$CurrentLang"/>
+        <xsl:value-of xmlns:mcrxml="xalan://org.mycore.common.xml.MCRXMLFunctions" select="mcrxml:formatISODate( string( $date ),string( $isoFormat ),string( $format ),string( $locale ) )" />
     </xsl:template>
 </xsl:stylesheet>
