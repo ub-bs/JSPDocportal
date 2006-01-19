@@ -15,7 +15,10 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.MissingResourceException;
+import java.util.PropertyResourceBundle;
 
 import org.apache.log4j.Logger;
 
@@ -44,6 +47,7 @@ import org.mycore.datamodel.ifs.MCRDirectory;
 import org.mycore.datamodel.ifs.MCRFile;
 import org.mycore.datamodel.ifs.MCRFilesystemNode;
 import org.mycore.datamodel.metadata.MCRDerivate;
+import org.mycore.datamodel.metadata.MCRMetaISO8601Date;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.jsp.NavServlet;
@@ -59,6 +63,8 @@ import org.mycore.services.fieldquery.MCRResults;
 public class MCRResultFormatter {
 
 	protected static Logger logger;
+	protected static MCRConfiguration CONFIG = MCRConfiguration.instance();
+	protected static String languageBundleBase = CONFIG.getString("MCR.languageResourceBundleBase","messages");
 	protected static String WebApplicationBaseURL ;
 
 	protected static Map resultlistMap;
@@ -201,7 +207,7 @@ public class MCRResultFormatter {
         return document;
     } 
 
-    public Element getDateValues(Document doc, String xpath, String separator, String terminator, String lang, String introkey,String escapeXml) {
+    public Element getDateValues(Document doc, String xpath, String separator, String terminator, String lang, String introkey,String escapeXml, String datePatternType) {
     	Element metaValues = new Element("metavalues");
     	metaValues.setAttribute("type","linkedCategory");
     	metaValues.setAttribute("separator",separator);
@@ -210,16 +216,24 @@ public class MCRResultFormatter {
     	metaValues.setAttribute("escapeXml", escapeXml);    	
     	try {
 			for(Iterator it = XPath.selectNodes(doc,xpath).iterator(); it.hasNext(); ) {
+				// ignore the lang-tags, in every lang-tag, if availabe, must be the same date
 			    Element el = (Element) it.next();
-			    String attrLang = el.getAttributeValue("lang",Namespace.XML_NAMESPACE); 
-			    if ( lang.equals("") || attrLang == null || attrLang.equals(lang) ) {
-						Element metaValue = new Element("metavalue");
-						metaValue.setAttribute("href","");
-						String dateString = el.getText();
-						dateString = formateDate(dateString, attrLang); 
-						metaValue.setAttribute("text",dateString);
-						metaValues.addContent(metaValue);			    	
-			    }
+			    Element metaValue = new Element("metavalue");
+				metaValue.setAttribute("href","");
+				String dateString = el.getText();
+				if (lang.equals("")) lang = "de";
+				if (datePatternType == null || datePatternType.equals("")) 
+					datePatternType = "Standard";
+				String datePattern;
+				try {
+					datePattern = PropertyResourceBundle.getBundle(languageBundleBase, new Locale(lang)).getString("MCR.Dateformat." + datePatternType);	
+				}catch(MissingResourceException m) {
+					datePattern = "EEEE, d MMMM yyyy HH:mm:ss";
+				}
+				dateString = formateDate(dateString, datePattern, lang); 
+				metaValue.setAttribute("text",dateString);
+				metaValues.addContent(metaValue);			    
+			    break;
 			}
 		} catch (JDOMException e) {
 			logger.debug("error occured", e);
@@ -667,8 +681,8 @@ public class MCRResultFormatter {
     		return getXPathValues(doc,xpath,separator,terminator,lang,introkey,escapeXml,start);
     	if (templatetype.equals("tpl-classification"))
     		return getLinkedCategoryTexts(doc,xpath,separator,terminator,lang,escapeXml);
-    	if (templatetype.equals("tpl-date-values"))
-    		return getDateValues(doc,xpath,separator,terminator,lang,introkey,escapeXml);
+    	if (templatetype.startsWith("tpl-date-values"))
+    		return getDateValues(doc,xpath,separator,terminator,lang,introkey,escapeXml, templatetype.substring("tpl-date-values".length()));
     	if (templatetype.equals("tpl-document"))
     		return getDigitalObjectsValues(doc,xpath,separator,terminator,lang,introkey,escapeXml,false);
     	if (templatetype.equals("tpl-alldocument"))
@@ -805,28 +819,11 @@ public class MCRResultFormatter {
 		return docdetailsElement;
 	}    
 
-    private String  formateDate(String dateString, String attrLang){
-    	String newDate = dateString;
-		String sTime = "";
-		if ( dateString.indexOf(("T")) > 0) {
-			sTime = dateString.substring(				
-					dateString.indexOf("T")+1,
-					dateString.indexOf(".") );
-			newDate = dateString.substring(0,dateString.indexOf(("T")) ) ;
-		}
-    	if ( "de".equalsIgnoreCase(attrLang) || attrLang == null) {
-    		String[] ymd = newDate.split("-");
-    		if ( ymd != null && ymd.length == 3) {
-    			newDate = ymd[2]+"."+ymd[1]+"."+ymd[0]; 
-    		}     		
-    	} else {
-    		String[] ymd = newDate.split(".");
-    		if ( ymd != null && ymd.length == 3) {
-    			newDate = ymd[2]+"-"+ymd[1]+"-"+ymd[0]; 
-    		}     		
-    	}
-    	newDate += " " + sTime;
-    	return newDate;
+    private String formateDate(String dateString, String datePattern, String iso639Lang){
+    	SimpleDateFormat fmt = new SimpleDateFormat( datePattern, new Locale(iso639Lang));
+        MCRMetaISO8601Date date = new MCRMetaISO8601Date();
+    	date.setDate(dateString);
+    	return fmt.format(date.getDate()) ;
     }
 	public static void main(String[] args) {
     	MCRResultFormatter formatter = new MCRResultFormatter();
