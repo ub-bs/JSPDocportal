@@ -1,3 +1,5 @@
+# required for MCRResultFormatter
+MCR.languageResourceBundleBase=messages
 # paths
 
 MCR.XML.TempPath=C:/sample-mcrjsp/tmp
@@ -352,9 +354,13 @@ MCR.QuerySearcher_class_name=org.mycore.backend.hibernate.MCRHIBSearcher
 
 MCR.Searcher.sql.Index=metadata
 MCR.Searcher.sql.Class=org.mycore.backend.query.MCRQueryManager
-MCR.EventHandler.MCRObject.1.Indexer=sql
-MCR.EventHandler.MCRObject.1.class=org.mycore.backend.query.MCRQueryManager
+#MCR.EventHandler.MCRObject.1.class=org.mycore.access.MCRSimpleWorkflowAccessEventHandler
+MCR.EventHandler.MCRObject.1.class=org.mycore.datamodel.metadata.MCRXMLTableEventHandler
 MCR.EventHandler.MCRObject.2.class=org.mycore.datamodel.metadata.MCRLinkTableEventHandler
+MCR.EventHandler.MCRObject.3.Indexer=sql
+MCR.EventHandler.MCRObject.3.class=org.mycore.backend.query.MCRQueryManager
+#MCR.EventHandler.MCRDerivate.1.class=org.mycore.access.MCRSimpleWorkflowAccessEventHandler
+MCR.EventHandler.MCRDerivate.1.class=org.mycore.datamodel.metadata.MCRXMLTableEventHandler
 
 ############################################################################
 ##
