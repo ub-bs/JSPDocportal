@@ -41,6 +41,7 @@ import org.jdom.Namespace;
 
 import org.mycore.access.MCRAccessManager;
 import org.mycore.access.MCRAccessStore;
+import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfigurationException;
 import org.mycore.common.MCRDefaults;
 import org.mycore.common.MCRException;
@@ -492,42 +493,20 @@ abstract public class MCRCheckDataBase extends MCRCheckBase {
 					}
 					continue;
 				}
-				// MCRMetaDate
-				if (mcrclass.equals("MCRMetaDate")) {
-					String text = datasubtag.getTextNormalize();
+				// MCRMetaISO8601Date
+				if (mcrclass.equals("MCRMetaISO8601Date")) {
+					String oldtext = datasubtag.getTextNormalize();
+					String text = JSPUtils.convertToISO8601String(oldtext);					
+					datasubtag.setText(text);
+					logger.debug("convert date '" + text + "' to MCRMetaISO8601Date '" + text + "'");
 					if ((text == null) || ((text = text.trim()).length() == 0)) {
 						datatag.removeContent(datasubtag);
 						k--;
 						datataglistlen--;
 						continue;
 					}
-					if (datasubtag.getAttribute("lang") != null) {
-						datasubtag.getAttribute("lang").setNamespace(
-								Namespace.XML_NAMESPACE);
-					}
 					try {
-						MCRMetaDate test = new MCRMetaDate();
-						test.setFromDOM(datasubtag);
-						if (!test.isValid())
-							throw new MCRException("");
-					} catch (Exception e) {
-						errorlog.add("Element " + datasubtag.getName()
-								+ " is not valid.");
-						datatag.removeContent(datasubtag);
-						k--;
-						datataglistlen--;
-						continue;
-					}
-					continue;
-				}
-				// MCRMetaHistoryDate
-				if (mcrclass.equals("MCRMetaHistoryDate")) {
-					if (datasubtag.getAttribute("lang") != null) {
-						datasubtag.getAttribute("lang").setNamespace(
-								Namespace.XML_NAMESPACE);
-					}
-					try {
-						MCRMetaHistoryDate test = new MCRMetaHistoryDate();
+						MCRMetaISO8601Date test = new MCRMetaISO8601Date();
 						test.setFromDOM(datasubtag);
 						if (!test.isValid())
 							throw new MCRException("");
@@ -807,5 +786,7 @@ abstract public class MCRCheckDataBase extends MCRCheckBase {
 		rd.forward(request, job.getResponse());
 		return false;
 	}
+	
+
 
 }
