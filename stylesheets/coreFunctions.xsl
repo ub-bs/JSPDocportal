@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!-- ============================================== -->
-<!-- $Revision: 1.3 $ $Date: 2006-01-19 13:27:53 $ -->
+<!-- $Revision: 1.4 $ $Date: 2006-01-23 18:13:51 $ -->
 <!-- ============================================== -->
 <!-- Authors: Thomas Scheffler (yagee) -->
 <!-- Authors: Andreas Trappe (lezard) -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink" 
       exclude-result-prefixes="xlink">
+	  <!--
       <xsl:include href="coreFunctions_encode.xsl" />
       <xsl:include href="coreFunctions_decode.xsl" />       
+	  -->
     <!--
     Template: UrlSetParam
     synopsis: Inserts a $HttpSession to an URL
