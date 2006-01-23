@@ -21,7 +21,7 @@
         <MCRDocDetailContent xpath="/mycoreobject/@ID" templatetype="tpl-text-values" separator=", " languageRequired="no" />
     </MCRDocDetail>     
     <MCRDocDetail rowtype="standard" labelkey="resultlist-Changed" >
-        <MCRDocDetailContent xpath="/mycoreobject/service/servdates/servdate[@type='modifydate']" templatetype="tpl-text-values" separator=", " languageRequired="no" />
+        <MCRDocDetailContent xpath="/mycoreobject/service/servdates/servdate[@type='modifydate']" templatetype="tpl-date-valuesMinimal" separator=", " languageRequired="yes" />
     </MCRDocDetail>
     <MCRDocDetail rowtype="standard" labelkey="resultlist-documents" >    
        <MCRDocDetailContent xpath="/mycoreobject/structure/derobjects/derobject" type="document" templatetype="tpl-document" separator="br" languageRequired="no" />    
