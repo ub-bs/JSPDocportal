@@ -819,7 +819,7 @@ public class MCRResultFormatter {
 		return docdetailsElement;
 	}    
 
-    private String formateDate(String dateString, String datePattern, String iso639Lang){
+    public static String formateDate(String dateString, String datePattern, String iso639Lang){
     	SimpleDateFormat fmt = new SimpleDateFormat( datePattern, new Locale(iso639Lang));
         MCRMetaISO8601Date date = new MCRMetaISO8601Date();
     	date.setDate(dateString);
