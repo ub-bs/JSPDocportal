@@ -12,6 +12,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -49,6 +52,13 @@ public class JSPUtils {
 	protected static Logger logger=Logger.getLogger(JSPUtils.class);
 	private static int uniqueNumber ;
 	private static Document allAuthorsQuery;
+	
+	// "dd.MM.YYYY" 
+	private static Pattern germanDatePattern = Pattern.compile("(\\d{1,2})\\.(\\d{1,2})\\.(\\d{4})");
+	private static Pattern englishDatePattern1 = Pattern.compile("(\\d{4})-(\\d{1,2})-(\\d{1,2})");
+	private static Pattern englishDatePattern2 = Pattern.compile("(\\d{4})/(\\d{1,2})/(\\d{1,2})");
+	private static GregorianCalendar cal = new GregorianCalendar();
+	
 
 	public static void initialize() {
 		uniqueNumber = 0;
@@ -181,9 +191,64 @@ public class JSPUtils {
     	 return allAuthorsQuery ;
      }
      
+	public static String convertToISO8601String(String date) {
+		int length = date.length();
+		String isoString;
+		if (length > 10) return date;
+		else if(length >= 8){
+			isoString = convertToISO8601String(germanDatePattern.matcher(date), 3, 2, 1);
+			if (!isoString.equals("")) return isoString;
+			isoString = convertToISO8601String(englishDatePattern1.matcher(date), 1, 2, 3);
+			if (!isoString.equals("")) return isoString;
+			isoString = convertToISO8601String(englishDatePattern2.matcher(date), 1, 2, 3);
+			if (!isoString.equals("")) return isoString;
+		}else if (length == 4) {
+			cal.set(Integer.parseInt(date),0,1);
+			isoString = new StringBuffer(date).append("-").append("01").append("-").append("01")
+				.append("T12:00:00.00Z").toString();
+			return isoString;
+		} 
+		return date;
+	} 
+
+	private static String convertToISO8601String(Matcher m, int yeargroup, int monthgroup, int daygroup){
+		StringBuffer sb = new StringBuffer("");
+		while(m.find()) {
+			int year = Integer.parseInt(m.group(yeargroup));
+			int month = Integer.parseInt(m.group(monthgroup)) ;
+			int day = Integer.parseInt(m.group(daygroup));
+			String date = new StringBuffer(String.valueOf(year))
+				.append("-")
+				.append(fillToConstantLength(String.valueOf(month),"0",2))
+				.append("-")
+				.append(fillToConstantLength(String.valueOf(day),"0",2)).toString();
+			sb.append(date)
+				.append("T")
+				.append("12:00:00.00Z");
+			// problems with UTC
+			// cal.set(year, month -1, day);
+			// sb.append(getISO8601TimeOffset(cal));
+		}
+		return sb.toString();
+	}
+	
+    public static String getISO8601TimeOffset(Calendar inputCal) {
+    	int timeOffset_h = (((inputCal.get(Calendar.ZONE_OFFSET) + inputCal.get(Calendar.DST_OFFSET)) / 1000 ) / 60) / 60 ;
+		StringBuffer sb = new StringBuffer("");
+		if (timeOffset_h >= 0) sb.append("+");
+		else sb.append("-");
+		sb.append(fillToConstantLength(String.valueOf(timeOffset_h),"0",2));
+		sb.append(":00");
+		return sb.toString();
+	}	
+     
      public static void main(String[] args) {
     	 initialize();
     	 //just for testing
+    	 System.out.println(convertToISO8601String("2003"));
+    	 System.out.println(convertToISO8601String("2003-3-28"));
+    	 System.out.println(convertToISO8601String("2003/03/30"));
+    	 System.out.println(convertToISO8601String("12.5.2003"));
      }
    
 }	
