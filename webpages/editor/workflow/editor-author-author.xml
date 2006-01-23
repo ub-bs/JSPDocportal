@@ -230,7 +230,6 @@
     <hidden var="metadata/dates/@heritable" default="true" />
     <hidden var="metadata/dates/date/@inherited" default="0" />
     <hidden var="metadata/dates/date/@type" default="birth" />
-    <cell col="1" row="1" anchor="NORTHWEST" ref="Slang" var="metadata/dates/date/@lang" ordernr="6" default="de" />
     <cell col="2" row="1" anchor="WEST" ref="TFzeile10" var="metadata/dates/date" ordernr="6" />
   </panel>
 

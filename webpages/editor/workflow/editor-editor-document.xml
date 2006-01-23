@@ -306,8 +306,6 @@
                   <hidden var="metadata/dates/@notinherit" default="false" />
                   <hidden var="metadata/dates/@heritable" default="true" />
                   <hidden var="metadata/dates/date/@inherited" default="0" />
-                  <cell col="1" row="1" anchor="NORTHWEST" ref="Slang" var="metadata/dates/date/@lang" ordernr="11" default="de" 
-                        />
                   <cell col="2" row="1" anchor="WEST" ref="TFzeile10" var="metadata/dates/date" ordernr="11" />
                   <cell col="3" row="1" anchor="WEST" ref="SDateType" var="metadata/dates/date/@type" ordernr="11" />
             </panel>
