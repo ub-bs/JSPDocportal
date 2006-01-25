@@ -9,6 +9,24 @@
     <uri>/WEB-INF/lib/mycore-taglibs.jar</uri>
     <info>MyCoRe Sample Tag library</info>
         <tag>
+            <name>listWorkflow</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRListWorkflowTag</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <description>The name of the var used in the jsp body</description>
+                <name>var</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>The Document Type of the MyCoRe-Objects in the wf directory </description>
+                <name>docType</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <info>A Tag, that lists the wf-files and format it with the result-config-files, uses templates and builds a dom-object of the objects in jstl-formatting</info>
+        </tag>    
+        <tag>
             <name>checkAccess</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRCheckAccessTag</tagclass>
             <bodycontent>empty</bodycontent>
