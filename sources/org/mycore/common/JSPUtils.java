@@ -6,40 +6,17 @@
  */
 package org.mycore.common;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-import java.util.Random;
-import java.util.StringTokenizer;
 import java.util.regex.*;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 import org.apache.log4j.Logger;
-
-import org.jdom.Content;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
-import org.mycore.access.MCRAccessManager;
-import org.mycore.access.MCRAccessStore;
-import org.mycore.access.MCRIPAddress;
-import org.mycore.datamodel.classifications.MCRClassification;
-import org.mycore.user.MCRUser;
 
 /**
  * @author mycore
