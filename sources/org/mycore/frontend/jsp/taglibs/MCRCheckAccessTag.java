@@ -16,7 +16,7 @@ public class MCRCheckAccessTag extends SimpleTagSupport
 	private String var;
 	private String key;
 	
-	private static MCRAccessManagerBase AI = (MCRAccessManagerBase) MCRConfiguration.instance().getInstanceOf("MCR.Access_class_name");
+	private static MCRAccessManagerBase AM = (MCRAccessManagerBase) MCRConfiguration.instance().getInstanceOf("MCR.Access_class_name");
 
 	public void setPool(String inputPool) {
 		pool = inputPool;
@@ -33,7 +33,7 @@ public class MCRCheckAccessTag extends SimpleTagSupport
 	public void doTag() throws JspException, IOException {
 		PageContext pageContext = (PageContext) getJspContext();
 		MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)pageContext.getRequest());
-		boolean accessAllowed = AI.checkAccess(pool, key, mcrSession);
+		boolean accessAllowed = AM.checkAccess(pool, key, mcrSession);
 		if(accessAllowed)
 			pageContext.setAttribute(var, "true");
 		else
