@@ -39,12 +39,8 @@ import java.util.StringTokenizer;
 
 import org.apache.log4j.Logger;
 
-import org.mycore.access.MCRAccessCheckServlet;
-import org.mycore.access.MCRAccessManager;
-import org.mycore.access.MCRAccessRule;
-import org.mycore.access.MCRAccessStore;
-import org.mycore.access.MCRRuleMapping;
-import org.mycore.access.MCRRuleStore;
+import org.jdom.Element;
+import org.mycore.access.MCRAccessManagerBase;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRDefaults;
 import org.mycore.common.MCRUtils;
@@ -70,15 +66,14 @@ import org.mycore.parsers.bool.MCRParseException;
 public class MCRWorkflowManager {
 	
 	protected static MCRWorkflowManager singleton;
+	private static MCRAccessManagerBase AM = (MCRAccessManagerBase) MCRConfiguration.instance().getInstanceOf("MCR.Access_class_name");
 	// the Access Store
-	private static MCRAccessStore accessStore;		
-	private static MCRRuleStore ruleStore;
 	private static String NL = File.separator;
 	private static MCRConfiguration config = null;
 	private static Logger logger = Logger.getLogger(MCRWorkflowManager.class.getName());
 	private static String sender = "";
-	private static String standardrule = "";
-	private static String editorrule = "";
+	private static Element standardrule ;
+	private static Element editorrule ;
 	private Hashtable ht = null;
 	private Hashtable mt = null;
 
@@ -103,10 +98,10 @@ public class MCRWorkflowManager {
 	protected MCRWorkflowManager() throws Exception {
 		config = MCRConfiguration.instance();
 		sender = config.getString("MCR.editor_mail_sender",	"mcradmin@localhost");
-		standardrule = config.getString("MCR.AccessRule.STANDARD-WORKFLOW-RULE","((group editorgroup1) or (group editorgroup2))");
-		editorrule = config.getString("MCR.AccessRule.STANDARD-RULE-ALL-EDITORS","((group editorgroup1) or (group editorgroup2))");
-		accessStore = (MCRAccessStore) Class.forName(config.getString("MCR.accessstore_class_name")).newInstance();
-		ruleStore = (MCRRuleStore) Class.forName(config.getString("MCR.rulestore_class_name")).newInstance();
+		String strStandardrule = config.getString("MCR.AccessRule.STANDARD-WORKFLOW-RULE","<condition format=\"xml\"><boolean operator=\"or\"><condition field=\"group\" operator=\"=\" value=\"editorgroup1\" /><condition field=\"group\" operator=\"=\" value=\"editorgroup1\" /></boolean></condition>");
+		String strEditorrule = config.getString("MCR.AccessRule.STANDARD-RULE-ALL-EDITORS","<condition format=\"xml\"><boolean operator=\"or\"><condition field=\"group\" operator=\"=\" value=\"editorgroup1\" /><condition field=\"group\" operator=\"=\" value=\"editorgroup1\" /></boolean></condition>");
+		standardrule = (Element)MCRXMLHelper.parseXML(strStandardrule).getRootElement().detach();
+		editorrule = (Element)MCRXMLHelper.parseXML(strEditorrule).getRootElement().detach();
 		// int tables
 		ht = new Hashtable();
 		mt = new Hashtable();
@@ -548,56 +543,32 @@ public class MCRWorkflowManager {
 	public static boolean createWorkflowDefaultRule(String objid, String userid) {
 		try {
 			// first rule - for creating
-			String ruleID = "STANDARD-WORKFLOW-RULE-" + userid ;
-			MCRAccessRule rule = ruleStore.getRule(ruleID);
-			if (rule == null || rule.equals("")) {
-				StringBuffer ruleExpression = new StringBuffer("(user ")
-					.append(userid).append(" ) or  ( ").append(standardrule ).append( ")");
-				rule = new MCRAccessRule(ruleID, userid, new Date(),ruleExpression.toString(),"PoolRight only for the user '" + userid + "' and " + standardrule);
-				ruleStore.createRule(rule);	
-				logger.info("New Rule created: " + ruleID);
-			}
-			// set the created or existing rulemapping for this object	
-			MCRRuleMapping ruleMapping = new MCRRuleMapping();
-			ruleMapping.setCreator(userid);
-			ruleMapping.setCreationdate(new Date());
-			ruleMapping.setPool("modify");
-			ruleMapping.setRuleId(ruleID);
-			ruleMapping.setObjId(objid);
+			Element userStandardRule = new Element("condition");
+			userStandardRule.setAttribute("format", "xml");
 			
-			// set the rule for modifying access
-			String givenRuleID = accessStore.getRuleID(objid,"modify");
-			if(givenRuleID == null || givenRuleID.equals("")) {
-				accessStore.createAccessDefinition(ruleMapping);
-				logger.info("Following rule was created for StringID " + objid	+ " in the pool 'modify': " + ruleID);
-			}
+			Element or = new Element("boolean");
+			or.setAttribute("operator", "or");
 			
-			// and now the rules for the commit, delete and remove-pools these rules can be used more often
-			String editorRule = "STANDARD-RULE-ALL-EDITORS";
-			MCRAccessRule rule2 = ruleStore.getRule(editorRule);
-			if (rule2 == null || rule2.equals("")) {
-				rule2 = new MCRAccessRule(editorRule, "administrator", 	new Date(), editorrule,	"PoolRight only for " + editorrule);
-				ruleStore.createRule(rule2);	
-				logger.info("New rule created: " + editorRule);
-			}
+			Element condition = new Element("condition");
+			condition.setAttribute("field", "user");
+			condition.setAttribute("operator", "=");
+			condition.setAttribute("value", userid);
 			
-			String[] ops = {"commit" , "remove", "delete"};
-			for ( int i=0; i< ops.length; i++){
-				// 	set the created or existing rulemapping for this object	and the op commit
-				ruleMapping = new MCRRuleMapping();
-				ruleMapping.setCreator(userid);
-				ruleMapping.setCreationdate(new Date());
-				ruleMapping.setPool(ops[i]);
-				ruleMapping.setRuleId(editorRule);
-				ruleMapping.setObjId(objid);
+			or.addContent(condition);
 			
-				// set the rule for  access in the string ops[i]			
-				givenRuleID = accessStore.getRuleID(objid,ops[i]);
-				if(givenRuleID == null || givenRuleID.equals("")) {
-					accessStore.createAccessDefinition(ruleMapping);
-					logger.info("Following rule was created for StringID " + objid + " in the pool '" + ops[i] + "' "+ editorRule);
-				}
+			List children = ((Element)standardrule.clone()).getChildren();
+			if(children != null && children.size() > 0) {
+				Element standardFragment = (Element)((Element)children.get(0)).detach();
+				or.addContent(standardFragment);
 			}
+
+			userStandardRule.addContent(or);
+			
+			AM.addRule(objid, "modify", userStandardRule);
+			AM.addRule(objid, "commit", editorrule);
+			AM.addRule(objid, "remove", editorrule);
+			AM.addRule(objid, "delete", editorrule);
+
 		} catch (Exception e) {
 			return false;
 		}				

@@ -47,9 +47,9 @@ import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 import org.jdom.xpath.XPath;
 
-import org.mycore.access.MCRAccessManager;
-import org.mycore.access.MCRAccessStore;
+import org.mycore.access.MCRAccessManagerBase;
 import org.mycore.backend.query.MCRQueryManager;
+import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRConfigurationException;
 import org.mycore.common.MCRDefaults;
 import org.mycore.common.MCRException;
@@ -114,7 +114,7 @@ public class MCRPutDocumentToWorkflow extends MCRCheckBase {
 		String lang   = mcrSession.getCurrentLanguage();
 		String userid = mcrSession.getCurrentUserID();
 		String usererrorpage = "mycore-error.jsp?messageKey=SWF.PrivilegesError&lang=" + lang;
-		if (!MCRAccessManager.checkAccess("create", mcrid, mcrSession )) {
+		if (!AM.checkAccess(mcrid, "create", mcrSession )) {
 			logger.debug("Access denied for Current user for create = " + userid);				
 			response.sendRedirect(getBaseURL() + usererrorpage);
 			return;

@@ -39,8 +39,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.jdom.Element;
 import org.jdom.Namespace;
 
-import org.mycore.access.MCRAccessManager;
-import org.mycore.access.MCRAccessStore;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfigurationException;
 import org.mycore.common.MCRDefaults;
@@ -112,7 +110,7 @@ abstract public class MCRCheckDataBase extends MCRCheckBase {
 		//userid = "administrator";
 		logger.debug("Current user for edit check = " + userid);
 		String usererrorpage = "mycore-error.jsp?messageKey=SWF.PrivilegesError&lang=" + lang;
-		if (!MCRAccessManager.checkAccess("create", oldmcrid, mcrSession )) {
+		if (!AM.checkAccess(oldmcrid, "create", mcrSession )) {
 			response.sendRedirect(getBaseURL() + usererrorpage);
 			return;
 		}		

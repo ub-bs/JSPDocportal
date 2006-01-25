@@ -33,7 +33,6 @@ import java.util.List;
 
 import org.apache.commons.fileupload.FileItem;
 
-import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.MCRUtils;
@@ -99,7 +98,7 @@ abstract public class MCRCheckFileBase extends MCRCheckBase {
 		MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
 		String lang = mcrSession.getCurrentLanguage();
 
-		if (!MCRAccessManager.checkAccess("modify",re_mcrid,mcrSession)) {
+		if (!AM.checkAccess(re_mcrid, "modify" ,mcrSession)) {
 			String usererrorpage = "mycore-error.jsp?messageKey=SWF.PrivilegesError&lang=" + lang;
 			job.getResponse().sendRedirect(
 					job.getResponse().encodeRedirectURL(
