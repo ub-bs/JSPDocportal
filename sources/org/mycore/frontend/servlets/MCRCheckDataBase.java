@@ -110,7 +110,7 @@ abstract public class MCRCheckDataBase extends MCRCheckBase {
 		//userid = "administrator";
 		logger.debug("Current user for edit check = " + userid);
 		String usererrorpage = "mycore-error.jsp?messageKey=SWF.PrivilegesError&lang=" + lang;
-		if (!AM.checkAccess(oldmcrid, "create", mcrSession )) {
+		if (!AI.checkPermission(oldmcrid, "create" )) {
 			response.sendRedirect(getBaseURL() + usererrorpage);
 			return;
 		}		
@@ -747,7 +747,7 @@ abstract public class MCRCheckDataBase extends MCRCheckBase {
 			byte[] xml = MCRUtils.getByteArray(jdom_in);
 			obj.setFromXML(xml, true);
 			Date curTime=new Date();
-	        obj.getService().setDate("createdate",curTime);
+	        // obj.getService().setDate("createdate",curTime);
 	        obj.getService().setDate("modifydate",curTime);
 			// return the XML tree
 			jdom_out = obj.createXML();

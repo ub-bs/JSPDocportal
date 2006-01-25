@@ -40,7 +40,8 @@ import org.apache.log4j.Logger;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.output.DOMOutputter;
-import org.mycore.access.MCRAccessManagerBase;
+import org.mycore.access.MCRAccessInterface;
+import org.mycore.access.MCRAccessManager;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRDefaults;
@@ -60,7 +61,7 @@ import org.mycore.frontend.workflow.MCRWorkflowManager;
 
 public class MCRListWorkflowTag extends SimpleTagSupport {
 	private static Logger LOGGER = Logger.getLogger(MCRListWorkflowTag.class.getName());
-	private static MCRAccessManagerBase AM = (MCRAccessManagerBase) MCRConfiguration.instance().getInstanceOf("MCR.Access_class_name");
+	private static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
 	private static MCRWorkflowManager WFM = null;
 	private static String SLASH = File.separator;
 	private static MCRResultFormatter formatter;
@@ -184,7 +185,7 @@ public class MCRListWorkflowTag extends SimpleTagSupport {
 			String ID = workflow_in.getRootElement().getAttributeValue("ID");
 			
 			// check the modify-access rights
-            if( ! AM.checkAccess(ID, "modify", MCRSessionMgr.getCurrentSession())){
+            if( ! AI.checkPermission(ID, "modify")){
             	continue ;
             }
 			try {

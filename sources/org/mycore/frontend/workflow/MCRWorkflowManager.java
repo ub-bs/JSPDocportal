@@ -40,7 +40,8 @@ import java.util.StringTokenizer;
 import org.apache.log4j.Logger;
 
 import org.jdom.Element;
-import org.mycore.access.MCRAccessManagerBase;
+import org.mycore.access.MCRAccessInterface;
+import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRDefaults;
 import org.mycore.common.MCRUtils;
@@ -66,7 +67,7 @@ import org.mycore.parsers.bool.MCRParseException;
 public class MCRWorkflowManager {
 	
 	protected static MCRWorkflowManager singleton;
-	private static MCRAccessManagerBase AM = (MCRAccessManagerBase) MCRConfiguration.instance().getInstanceOf("MCR.Access_class_name");
+	private static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
 	// the Access Store
 	private static String NL = File.separator;
 	private static MCRConfiguration config = null;
@@ -564,10 +565,10 @@ public class MCRWorkflowManager {
 
 			userStandardRule.addContent(or);
 			
-			AM.addRule(objid, "modify", userStandardRule);
-			AM.addRule(objid, "commit", editorrule);
-			AM.addRule(objid, "remove", editorrule);
-			AM.addRule(objid, "delete", editorrule);
+			AI.addRule(objid, "modify", userStandardRule);
+			AI.addRule(objid, "commit", editorrule);
+			AI.addRule(objid, "remove", editorrule);
+			AI.addRule(objid, "delete", editorrule);
 
 		} catch (Exception e) {
 			return false;

@@ -40,7 +40,8 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
-import org.mycore.access.MCRAccessManagerBase;
+import org.mycore.access.MCRAccessInterface;
+import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRMailer;
@@ -84,7 +85,7 @@ import org.mycore.frontend.workflow.MCRWorkflowManager;
 public class MCRStartEditorServlet extends MCRServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger LOGGER = Logger.getLogger(MCRStartEditorServlet.class);
-	private static MCRAccessManagerBase AM = (MCRAccessManagerBase) MCRConfiguration.instance().getInstanceOf("MCR.Access_class_name");
+	private static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
 	private static MCRWorkflowManager WFM = null;
 	private static String SLASH = File.separator;
 	
@@ -376,7 +377,7 @@ public class MCRStartEditorServlet extends MCRServlet {
 
 		// action WADDFILE - create a new file in the derivate
 		if (mytodo.equals("waddfile")) {
-			if (!AM.checkAccess(mymcrid, "create", mcrSession )) {
+			if (!AI.checkPermission(mymcrid, "create")) {
 				response.sendRedirect(getBaseURL() + usererrorpage);
 				return;
 			}
@@ -401,7 +402,7 @@ public class MCRStartEditorServlet extends MCRServlet {
 
 		// action WEDITOBJ - change the object in the workflow	
 		if (mytodo.equals("weditobj")) {
-			if (!AM.checkAccess(mymcrid, "modify", mcrSession )) {
+			if (!AI.checkPermission(mymcrid, "modify")) {
 				response.sendRedirect(response.encodeRedirectURL(getBaseURL() + usererrorpage));
 				return;
 			}
@@ -420,7 +421,7 @@ public class MCRStartEditorServlet extends MCRServlet {
 
 		// action WDELOBJ - delete an object from the workflow
 		if (mytodo.equals("wdelobj")) {
-			if (!AM.checkAccess(mymcrid, "delete", mcrSession )) {
+			if (!AI.checkPermission(mymcrid, "delete")) {
 				response.sendRedirect(response.encodeRedirectURL(getBaseURL() + usererrorpage));
 				return;
 			}
@@ -435,7 +436,7 @@ public class MCRStartEditorServlet extends MCRServlet {
 
 		// action WDELDER - delete a derivate from the workflow
 		if (mytodo.equals("wdelder")) {
-			if (!AM.checkAccess(mymcrid, "delete", mcrSession )) {
+			if (!AI.checkPermission(mymcrid, "delete")) {
 				response.sendRedirect(	response.encodeRedirectURL(	getBaseURL() + usererrorpage));
 				return;
 			}
@@ -450,7 +451,7 @@ public class MCRStartEditorServlet extends MCRServlet {
 
 		// action WCOMMIT - commit a object from the workflow to the server
 		if (mytodo.equals("wcommit")) {
-			if (!AM.checkAccess(mymcrid, "commit", mcrSession )) {		
+			if (!AI.checkPermission(mymcrid, "commit")) {		
 				response.sendRedirect(response.encodeRedirectURL(getBaseURL() + usererrorpage));
 				return;
 			}
@@ -479,7 +480,7 @@ public class MCRStartEditorServlet extends MCRServlet {
 
 		// action WEDITDER in the database
 		if (mytodo.equals("weditder")) {
-			if (!AM.checkAccess(mymcrid, "modify", mcrSession )) {
+			if (!AI.checkPermission(mymcrid, "modify")) {
 				response.sendRedirect(response.encodeRedirectURL(getBaseURL() + usererrorpage));
 				return;
 			}
@@ -513,7 +514,7 @@ public class MCRStartEditorServlet extends MCRServlet {
 
 		// action WSETFILE in the database
 		if (mytodo.equals("wsetfile")) {
-			if (!AM.checkAccess(mymcrid, "modify", mcrSession )) {
+			if (!AI.checkPermission(mymcrid, "modify")) {
 				response.sendRedirect(	response.encodeRedirectURL(	getBaseURL() + usererrorpage));
 				return;
 			}
@@ -542,7 +543,7 @@ public class MCRStartEditorServlet extends MCRServlet {
 
 		// action WDELFILE in the database
 		if (mytodo.equals("wdelfile")) {
-			if (!AM.checkAccess(mymcrid, "delete", mcrSession )) {
+			if (!AI.checkPermission(mymcrid, "delete")) {
 				response.sendRedirect(response.encodeRedirectURL(getBaseURL() + usererrorpage));
 				return;
 			}
@@ -573,7 +574,7 @@ public class MCRStartEditorServlet extends MCRServlet {
 
 		// action SDELOBJ from the database
 		if (mytodo.equals("sdelobj")) {
-			if (!AM.checkAccess(mymcrid, "remove", mcrSession )) {
+			if (!AI.checkPermission(mymcrid, "remove")) {
 				response.sendRedirect(	response.encodeRedirectURL(	getBaseURL() + usererrorpage));
 				return;
 			}

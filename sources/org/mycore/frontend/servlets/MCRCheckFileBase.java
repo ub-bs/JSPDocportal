@@ -98,7 +98,7 @@ abstract public class MCRCheckFileBase extends MCRCheckBase {
 		MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
 		String lang = mcrSession.getCurrentLanguage();
 
-		if (!AM.checkAccess(re_mcrid, "modify" ,mcrSession)) {
+		if (!AI.checkPermission(re_mcrid, "modify" )) {
 			String usererrorpage = "mycore-error.jsp?messageKey=SWF.PrivilegesError&lang=" + lang;
 			job.getResponse().sendRedirect(
 					job.getResponse().encodeRedirectURL(

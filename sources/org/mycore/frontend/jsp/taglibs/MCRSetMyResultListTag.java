@@ -10,8 +10,8 @@ import javax.servlet.jsp.*;
 import org.apache.log4j.Logger;
 import org.jdom.JDOMException;
 import org.jdom.output.DOMOutputter;
-import org.mycore.access.MCRAccessManagerBase;
-import org.mycore.access.MCRAccessManagerBase;
+import org.mycore.access.MCRAccessInterface;
+import org.mycore.access.MCRAccessManager;
 import org.mycore.backend.query.MCRQueryManager;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
@@ -25,7 +25,7 @@ import org.mycore.services.fieldquery.MCRResults;
 public class MCRSetMyResultListTag extends SimpleTagSupport
 {
 	private static MCRResultFormatter formatter;
-	private static MCRAccessManagerBase AM = (MCRAccessManagerBase) MCRConfiguration.instance().getInstanceOf("MCR.Access_class_name");
+	private static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
 	private int from;
 	private int until;
 	private String var;
@@ -86,8 +86,11 @@ public class MCRSetMyResultListTag extends SimpleTagSupport
             result = new MCRResults();
             MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
             for (int i=0; i< allresult.getNumHits(); i++){
-            	MCRHit myhit = allresult.getHit(i);            	
-    			if (AM.checkAccess(myhit.getID(), "modify", mcrSession  )) {
+            	MCRHit myhit = allresult.getHit(i);
+//    			if (AI.checkPermission(myhit.getID(), "modify", mcrSession  )) {
+//    				result.addHit(myhit);    				
+//    			}    			            	
+    			if (AI.checkPermission(myhit.getID(), "modify" )) {
     				result.addHit(myhit);    				
     			}    			
             }
