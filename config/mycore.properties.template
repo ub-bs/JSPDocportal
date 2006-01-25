@@ -22,12 +22,13 @@ MCR.editor_page_error_formular=editor/error-formular.jsp
 #MCR.JDBCStore.Type=mysql
 
 # Workflow-Default-Accessrules
-MCR.AccessRule.STANDARD-WORKFLOW-RULE=((group editorgroup1) or (group editorgroup2))
-MCR.AccessRule.STANDARD-RULE-ALL-EDITORS=((group editorgroup1) or (group editorgroup2))
+MCR.AccessRule.STANDARD-WORKFLOW-RULE=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="group" operator="=" value="editorgroup1" /></boolean></condition>
+MCR.AccessRule.STANDARD-RULE-ALL-EDITORS=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="group" operator="=" value="editorgroup1" /></boolean></condition>
 
 #MCR.internal_command_classes=org.mycore.frontend.cli.MCRObjectCommands,org.mycore.frontend.cli.MCRQueryCommands,org.mycore.frontend.cli.MCRDerivateCommands,org.mycore.frontend.cli.MCRClassificationCommands,org.mycore.backend.hibernate.MCRHIBCtrlCommands
 MCR.internal_command_classes=org.mycore.frontend.cli.MCRUserCommands,org.mycore.frontend.cli.MCRClassificationCommands,org.mycore.frontend.cli.MCRObjectCommands,org.mycore.frontend.cli.MCRDerivateCommands,org.mycore.frontend.cli.MCRQueryCommands,org.mycore.backend.hibernate.MCRHIBCtrlCommands,org.mycore.backend.query.MCRQueryCommands,org.mycore.access.MCRAccessCtrlCommands
 
+MCR.Access_class_name=org.mycore.access.mcrimpl.MCRAccessManager
 MCR.AccessPools=read,write,commit,modify,pay
 MCR.AccessPool.CacheSize=4096
 
