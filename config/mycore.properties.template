@@ -28,7 +28,7 @@ MCR.AccessRule.STANDARD-RULE-ALL-EDITORS=<condition format="xml"><boolean operat
 #MCR.internal_command_classes=org.mycore.frontend.cli.MCRObjectCommands,org.mycore.frontend.cli.MCRQueryCommands,org.mycore.frontend.cli.MCRDerivateCommands,org.mycore.frontend.cli.MCRClassificationCommands,org.mycore.backend.hibernate.MCRHIBCtrlCommands
 MCR.internal_command_classes=org.mycore.frontend.cli.MCRUserCommands,org.mycore.frontend.cli.MCRClassificationCommands,org.mycore.frontend.cli.MCRObjectCommands,org.mycore.frontend.cli.MCRDerivateCommands,org.mycore.frontend.cli.MCRQueryCommands,org.mycore.backend.hibernate.MCRHIBCtrlCommands,org.mycore.backend.query.MCRQueryCommands,org.mycore.access.mcrimpl.MCRAccessCtrlCommands
 
-MCR.Access_class_name=org.mycore.access.mcrimpl.MCRAccessManager
+MCR.Access_class_name=org.mycore.access.mcrimpl.MCRAccessControlSystem
 MCR.AccessPools=read,write,commit,modify,pay
 MCR.AccessPool.CacheSize=4096
 
