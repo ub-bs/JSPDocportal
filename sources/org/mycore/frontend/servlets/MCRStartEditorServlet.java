@@ -202,19 +202,21 @@ public class MCRStartEditorServlet extends MCRServlet {
 		HttpSession session = request.getSession(false);
 		MCRSession mcrSession = null;
 		
-		String sessionID =request.getParameter("HttpSessionID");
+		String sessionID = request.getParameter("HttpSessionID");
 		if ( sessionID != null ) {			
 			LOGGER.debug("submitted sessionID = " + sessionID);
 			mcrSession = MCRSession.getSession(sessionID);
+			MCRSessionMgr.setCurrentSession(mcrSession);
 		}
 		if ( mcrSession == null ) {
 			mcrSession = MCRSessionMgr.getCurrentSession();
 		}
+
 		
 		// get the current user
 		String userid = mcrSession.getCurrentUserID();
 		LOGGER.debug("current user for editor actions = " + userid);
-
+		
 		// get the current language
 		String mylang = mcrSession.getCurrentLanguage();
 		LOGGER.info("LANG = " + mylang);
