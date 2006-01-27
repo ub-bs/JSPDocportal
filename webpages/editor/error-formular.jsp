@@ -33,11 +33,11 @@
     <p></p>
     <br />
     <p></p>
-    <form action="${requestScope.WebApplicationBaseURL}nav" method="post">
+    <form action="${applicationScope.WebApplicationBaseURL}nav" method="post">
     	<input type="hidden" name="path" value="~workflow-edit" />
         <input type="hidden" name="start" value="withdata"/>
         <input name="lang" type="hidden" value="${requestScope.lang}" />
-        <input name="se_mcrid" type="hidden" value="${requestScope.mcrID}" />
+        <input name="mcrid" type="hidden" value="${requestScope.mcrID}" />
         <input name="type" type="hidden" value="${requestScope.type}" />
         <input name="step" type="hidden" value="editor" />
         <input name="todo" type="hidden" value="weditobj" />
