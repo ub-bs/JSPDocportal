@@ -192,6 +192,7 @@ public class MCRListWorkflowTag extends SimpleTagSupport {
 				// formatting only the files with access!!
 		        Element containerHit = formatter.processDocDetails(workflow_in,resultlistElement,lang,"", docType);
 		        Element mcr_result = new Element("mcr_result");
+		        mcr_result.setAttribute("filename", sb.toString()); 
 		        mcr_result.addContent(containerHit);
 		        root.addContent(mcr_result);
 		        
@@ -258,3 +259,4 @@ public class MCRListWorkflowTag extends SimpleTagSupport {
 	}
 
 }
+
