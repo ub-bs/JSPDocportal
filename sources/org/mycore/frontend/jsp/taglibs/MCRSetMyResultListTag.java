@@ -12,7 +12,7 @@ import org.jdom.JDOMException;
 import org.jdom.output.DOMOutputter;
 import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
-import org.mycore.backend.query.MCRQueryManager;
+import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRSession;
@@ -81,20 +81,14 @@ public class MCRSetMyResultListTag extends SimpleTagSupport
         
         if (query != null && resultlistType != null) {
             MCRResults allresult = null;            
-        	allresult = MCRQueryManager.getInstance().search(query);
-            allresult.setComplete();            
+        	allresult = MCRQueryManager.search(query);
             result = new MCRResults();
-            MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
             for (int i=0; i< allresult.getNumHits(); i++){
             	MCRHit myhit = allresult.getHit(i);
-//    			if (AI.checkPermission(myhit.getID(), "modify", mcrSession  )) {
-//    				result.addHit(myhit);    				
-//    			}    			            	
     			if (AI.checkPermission(myhit.getID(), "modify" )) {
     				result.addHit(myhit);    				
     			}    			
             }
-            result.setComplete();
             if (result.getNumHits() <= 100) {
                 session.setAttribute("lastMCRResults",result);
             }else {

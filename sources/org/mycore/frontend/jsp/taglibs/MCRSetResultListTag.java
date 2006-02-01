@@ -1,7 +1,6 @@
 package org.mycore.frontend.jsp.taglibs;
 
 import java.io.IOException;
-import java.io.StringWriter;
 
 import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.tagext.*;
@@ -10,7 +9,7 @@ import javax.servlet.jsp.*;
 import org.apache.log4j.Logger;
 import org.jdom.JDOMException;
 import org.jdom.output.DOMOutputter;
-import org.mycore.backend.query.MCRQueryManager;
+import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.frontend.jsp.format.MCRResultFormatter;
@@ -74,8 +73,7 @@ public class MCRSetResultListTag extends SimpleTagSupport
         session.setAttribute("lastSearchListPath",navPath);        
         
         if (query != null && resultlistType != null) {
-        	result = MCRQueryManager.getInstance().search(query);
-            result.setComplete();
+        	result = MCRQueryManager.search(query);
             if (result.getNumHits() <= 1000) {
                 session.setAttribute("lastMCRResults",result);
             }else {

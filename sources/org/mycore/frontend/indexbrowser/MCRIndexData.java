@@ -13,7 +13,7 @@ import org.jdom.filter.ElementFilter;
 import org.jdom.output.XMLOutputter;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.datamodel.metadata.MCRObject;
-import org.mycore.backend.query.MCRQueryManager;
+import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.services.fieldquery.MCRResults;
 
 
@@ -341,11 +341,11 @@ public class MCRIndexData {
 		 * <host>
 		 *   <host field="local" />
 		 * </host>
-		 * <sortby>
+		 * <sortBy>
 		 *   <field field="modified" order="descending" />
 		 *   <field field="title" order="ascending" />
 		 *   <field field="author" order="ascending" />
-		 * </sortby>
+		 * </sortBy>
 		 * </query>
         **/
     	
@@ -385,24 +385,24 @@ public class MCRIndexData {
     	hosts.addContent(host);
     	host.setAttribute("field", "local");
     	
-    	Element sortby = new Element("sortby");
-    	query.addContent(sortby);
+    	Element sortBy = new Element("sortBy");
+    	query.addContent(sortBy);
     	
     	Element field = new Element("field");
-    	sortby.addContent(field);
+    	sortBy.addContent(field);
     	field.setAttribute("field", ic.browseField);
     	field.setAttribute("order" ,ic.order);
     	
     	for ( int i=0; ic.extraFields != null && i< ic.extraFields.length; i++){    	
 	        field = new Element("field");
-	    	sortby.addContent(field);
+	    	sortBy.addContent(field);
 	    	field.setAttribute("field", ic.extraFields[i]);
 	    	field.setAttribute("order" ,ic.order);
     	}
     	
     	logger.debug("generated query: \n" + out.outputString(query));	    	
     	jQuery = new Document(query);    	
-    	mcrResult = MCRQueryManager.getInstance().search(jQuery);
+    	mcrResult = MCRQueryManager.search(jQuery);
     	
     	/**
     	 * <mcrresults sorted="true">
@@ -423,9 +423,8 @@ public class MCRIndexData {
 			  </mcrhit>
 			...  
     	 */
-    	mcrResult.setComplete();
     	logger.debug("Results found hits:" + mcrResult.getNumHits());    	    	
-    	jResult = mcrResult.buildXML();
+    	jResult = new Document(mcrResult.buildXML());
     	
     }
     

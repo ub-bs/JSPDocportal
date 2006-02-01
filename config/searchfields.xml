@@ -11,7 +11,7 @@
     <!-- Search for type of object, like document, author, institution -->
     <field name="objectType" type="identifier" source="objectMetadata" xpath="/mycoreobject" value="substring-before(substring-after(@ID,'_'),'_')" />
     
-    <field name="title" type="text" source="objectMetadata" xpath="/mycoreobject/metadata/titles/title" value="normalize-space(text())"  />
+    <field name="title" type="text" source="objectMetadata" xpath="/mycoreobject/metadata/titles/title | /mycoreobject/metadata/names/name/fullname" value="normalize-space(text())"  />
     
     <!-- Search for creator and/or publisher by name or ID -->
     <field name="author" type="name" source="objectMetadata" xpath="/mycoreobject/metadata/names/name/surname | /mycoreobject/metadata/creators/creator | /mycoreobject/metadata/publishers/publisher" value="normalize-space(text())" />
@@ -72,7 +72,7 @@
     <field name="surname" type="text" source="objectMetadata" xpath="/mycoreobject/metadata/names/name/surname" value="text()" objects="author" />    
     
     <!-- Search in all metadata fields that contain text -->
-    <field name="allMeta" type="txt" source="objectMetadata" xpath="/mycoreobject/metadata/*/*[xml:lang]" value="normalize-space(text())" />
+    <field name="allMeta" type="text" source="objectMetadata" xpath="/mycoreobject/metadata/*/*[@xml:lang]" value="normalize-space(text())" />
   </index>
 
   <!-- This index contains the fulltext of files and their technical metadata like file size, duration of audio/video files etc. -->  

@@ -24,28 +24,15 @@
 
 package org.mycore.frontend.jsp.query;
 
-import java.io.IOException;
 import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
-import org.jdom.Document;
 import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.filter.ElementFilter;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.XMLOutputter;
-import org.mycore.backend.query.MCRQueryManager;
-import org.mycore.datamodel.classifications.MCRClassification;
-import org.mycore.frontend.editor.MCREditorSubmission;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
-import org.mycore.services.fieldquery.MCRResults;
 import org.xml.sax.InputSource;
 
 /**
@@ -60,19 +47,18 @@ import org.xml.sax.InputSource;
 
 public class MCRResortQueryServlet extends MCRServlet {
 	
+	private static final long serialVersionUID = 1L;
 	protected static Logger logger = Logger.getLogger(MCRResortQueryServlet.class);
 
 	public void doGetPost(MCRServletJob job) throws Exception {
 		
-		XMLOutputter out = new XMLOutputter(org.jdom.output.Format.getPrettyFormat());
 		HttpServletRequest request = job.getRequest();
 		
-
-		// read the incoming query parametes and build the sortby-element
+		// read the incoming query parametes and build the sortBy-element
 		String query = request.getParameter("query");
 		String resultlistType = request.getParameter("resultlistType");
 		
-		Element sortby = new Element("sortby");
+		Element sortBy = new Element("sortBy");
 		int i = 1;
 		for ( i = 1; i < 4; i++) {
 			if (request.getParameter("field" + i) != null && !request.getParameter("field" + i).equals("")) {
@@ -81,7 +67,7 @@ public class MCRResortQueryServlet extends MCRServlet {
 				String order = (request.getParameter("order" + i) != null) ?
 						request.getParameter("order" + i) : "ascending" ;
 				sortField.setAttribute("order",order);
-				sortby.addContent(sortField);
+				sortBy.addContent(sortField);
 			} else {break;}
 		}
 		
@@ -95,8 +81,8 @@ public class MCRResortQueryServlet extends MCRServlet {
         org.jdom.Document jdomQuery = builder.build(new InputSource(new StringReader(query)));
 
 		if ( i != 1) {
-			jdomQuery.getRootElement().removeChild("sortby");
-			jdomQuery.getRootElement().addContent(sortby);
+			jdomQuery.getRootElement().removeChild("sortBy");
+			jdomQuery.getRootElement().addContent(sortBy);
 		}
 		
         request.setAttribute("query", jdomQuery);

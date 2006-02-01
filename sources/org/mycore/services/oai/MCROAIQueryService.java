@@ -40,7 +40,7 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
-import org.mycore.backend.query.MCRQueryManager;
+import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRConfigurationException;
 import org.mycore.common.MCRException;
@@ -473,13 +473,13 @@ public class MCROAIQueryService implements MCROAIQuery {
         Element type = new Element("type");
         type.setAttribute("field",querytype);
         
-        Element sortby = new Element("sortby");
+        Element sortBy = new Element("sortBy");
         
         Element sortfield = new Element("field");
         sortfield.setAttribute("field","id");
         sortfield.setAttribute("order","ascending");
 
-        sortby.addContent(sortfield);
+        sortBy.addContent(sortfield);
         
         types.addContent(type);
         hosts.addContent(host);
@@ -554,14 +554,13 @@ public class MCROAIQueryService implements MCROAIQuery {
         query.addContent(conditions);
         query.addContent(hosts);
         query.addContent(types);
-        query.addContent(sortby);        
+        query.addContent(sortBy);        
         
         Document jdomQuery = new Document(query);
 
         XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
         logger.debug("OAI-QUERY:" + out.outputString(jdomQuery));
-        MCRResults results = MCRQueryManager.getInstance().search(jdomQuery);
-        results.setComplete();
+        MCRResults results = MCRQueryManager.search(jdomQuery);
        
         numResults = results.getNumHits();
         resultArray = new Object[numResults];

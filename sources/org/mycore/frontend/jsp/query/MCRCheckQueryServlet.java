@@ -34,15 +34,11 @@ import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
-import org.jdom.output.XMLOutputter;
-import org.mycore.backend.query.MCRQueryManager;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
-import org.mycore.common.MCRSession;
 import org.mycore.frontend.editor.MCREditorSubmission;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
-import org.mycore.services.fieldquery.MCRResults;
 
 /**
  * This servlet is checking the incoming query for sorted fields and
@@ -53,6 +49,10 @@ import org.mycore.services.fieldquery.MCRResults;
 
 public class MCRCheckQueryServlet extends MCRServlet {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected static Logger logger = Logger.getLogger(MCRCheckQueryServlet.class);
 	private static MCRConfiguration config = null; 
 
@@ -111,8 +111,8 @@ public class MCRCheckQueryServlet extends MCRServlet {
 		    root.removeChild("types");
 	    }
 	    
-	    if(root.getChild("sortby") == null) {
-	    	Element sortby = new Element("sortby");
+	    if(root.getChild("sortBy") == null) {
+	    	Element sortBy = new Element("sortBy");
 	    	
 	    	
 	    	Element sortfield1 = new Element("field");
@@ -127,12 +127,12 @@ public class MCRCheckQueryServlet extends MCRServlet {
 	    	sortfield3.setAttribute("field","modified");
 	    	sortfield3.setAttribute("order","descending");	    	
 
-	    	sortby.addContent(sortfield1);
-	    	sortby.addContent(sortfield2);
-	    	sortby.addContent(sortfield3);	    	
+	    	sortBy.addContent(sortfield1);
+	    	sortBy.addContent(sortfield2);
+	    	sortBy.addContent(sortfield3);	    	
 	    	
-	    	root.removeChild("sortby");
-	    	root.addContent(sortby);
+	    	root.removeChild("sortBy");
+	    	root.addContent(sortBy);
 	    }
 	    
 	    String resultlistType = "simple";

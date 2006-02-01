@@ -7,11 +7,8 @@
 package org.mycore.frontend.jsp.format;
 
 
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -28,20 +25,13 @@ import org.jdom.JDOMException;
 import org.jdom.Namespace;
 import org.jdom.filter.ElementFilter;
 import org.jdom.input.SAXBuilder;
-import org.jdom.output.DOMOutputter;
-import org.jdom.output.Format;
-import org.jdom.output.XMLOutputter;
-import org.jdom.transform.XSLTransformException;
-import org.jdom.transform.XSLTransformer;
 import org.jdom.xpath.XPath;
-import org.mycore.backend.query.MCRQueryManager;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRDefaults;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRUsageException;
 import org.mycore.common.xml.MCRURIResolver;
-import org.mycore.common.xml.MCRXMLHelper;
 import org.mycore.datamodel.classifications.MCRCategoryItem;
 import org.mycore.datamodel.ifs.MCRDirectory;
 import org.mycore.datamodel.ifs.MCRFile;
@@ -51,7 +41,6 @@ import org.mycore.datamodel.metadata.MCRMetaISO8601Date;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.jsp.NavServlet;
-import org.mycore.services.fieldquery.MCRHit;
 import org.mycore.services.fieldquery.MCRResults;
 
 /**
@@ -107,7 +96,7 @@ public class MCRResultFormatter {
 	 * or a given order. an example is given below. (needed for sort form)
 	 *
 	 * 
-	 * @param sortby jdom-Elemen &lt;sortby&gt;
+	 * @param sortBy jdom-Elemen &lt;sortBy&gt;
 	 * @param sortprio order-priority of a sortfield 
 	 * @param attributeName attributename of the field-element
 	 * @param attributeValue attribute-value of the given element
@@ -115,18 +104,18 @@ public class MCRResultFormatter {
 	 * @return boolean
 	 * <br>&nbsp;<br>
 	 * <b>Example</b><br>
-	 * sortby=<br>
-	 * &lt;sortby&gt;<br>
+	 * sortBy=<br>
+	 * &lt;sortBy&gt;<br>
 	 *    &lt;field field="title" order="ascending" /&gt;<br>
 	 *    &lt;field field="author" order="decending" /&gt;<br>
-	 * &lt;/sortby&gt;<br>
+	 * &lt;/sortBy&gt;<br>
 	 * <br>
-	 * isSorted(sortby,1,"order","ascending") = *true*<br>
-	 * isSorted(sortby,2,"field","author") = *true*<br>
-	 * isSorted(sortby,2,"order","ascending") = *false*<br> 
+	 * isSorted(sortBy,1,"order","ascending") = *true*<br>
+	 * isSorted(sortBy,2,"field","author") = *true*<br>
+	 * isSorted(sortBy,2,"order","ascending") = *false*<br> 
 	 */
-	public boolean isSorted(org.jdom.Element sortby, int sortprio, String attributeName, String attributeValue) {
-	    org.jdom.Element sortField = (Element) sortby.getChildren("field").get(sortprio - 1);
+	public boolean isSorted(org.jdom.Element sortBy, int sortprio, String attributeName, String attributeValue) {
+	    org.jdom.Element sortField = (Element) sortBy.getChildren("field").get(sortprio - 1);
 		if (sortField != null) {
 			if (sortField.getAttributeValue(attributeName) != null &&
 				sortField.getAttributeValue(attributeName).equals(attributeValue) ) {

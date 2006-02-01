@@ -11,8 +11,6 @@ MCR.editor_author_directory=C:/sample-mcrjsp/export/author
 MCR.editor_user_directory=C:/sample-mcrjsp/export/user
 MCR.editor_deleted_directory=C:/sample-mcrjsp/export/deleted
 MCR.IFS.ContentStore.FS.BaseDirectory=C:/sample-mcrjsp/tmp
-MCR.IFS.ContentStore.Lucene.IndexDirectory=C:/sample-mcrjsp/lucene-index
-MCR.IFS.ContentStore.Lucene.BaseDirectory=C:/sample-mcrjsp/lucene-base
 MCR.LogFile=C:/sample-mcrjsp/tmp/mcrjsp.log
 
 MCR.dtd.directory=C:/sample-mcrjsp/dtd
@@ -27,8 +25,7 @@ MCR.AccessRule.STANDARD-WORKFLOW-RULE=<condition format="xml"><boolean operator=
 MCR.AccessRule.STANDARD-RULE-ALL-EDITORS=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="group" operator="=" value="editorgroup1" /></boolean></condition>
 MCR.AccessRule.ADMININTERFACE-DEFAULTRULE=<condition format="xml"><condition field="user" operator="=" value="administrator" /></condition>
 
-#MCR.internal_command_classes=org.mycore.frontend.cli.MCRObjectCommands,org.mycore.frontend.cli.MCRQueryCommands,org.mycore.frontend.cli.MCRDerivateCommands,org.mycore.frontend.cli.MCRClassificationCommands,org.mycore.backend.hibernate.MCRHIBCtrlCommands
-MCR.internal_command_classes=org.mycore.frontend.cli.MCRUserCommands,org.mycore.frontend.cli.MCRClassificationCommands,org.mycore.frontend.cli.MCRObjectCommands,org.mycore.frontend.cli.MCRDerivateCommands,org.mycore.frontend.cli.MCRQueryCommands,org.mycore.backend.hibernate.MCRHIBCtrlCommands,org.mycore.backend.query.MCRQueryCommands,org.mycore.access.mcrimpl.MCRAccessCtrlCommands
+MCR.internal_command_classes=org.mycore.frontend.cli.MCRUserCommands,org.mycore.frontend.cli.MCRClassificationCommands,org.mycore.frontend.cli.MCRObjectCommands,org.mycore.frontend.cli.MCRDerivateCommands,org.mycore.backend.hibernate.MCRHIBCtrlCommands,org.mycore.access.mcrimpl.MCRAccessCtrlCommands,org.mycore.services.fieldquery.MCRQueryCommands
 
 MCR.Access_class_name=org.mycore.access.mcrimpl.MCRAccessControlSystem
 MCR.AccessPools=read,commit,modify,pay
@@ -342,52 +339,27 @@ MCR.zip.metadata.transformer=MyCoReZip2dc.xsl
 
 ############################################################################
 ##
-# Query Management
-#
-############################################################################
+# Event Handler
 ##
+# Index and Search Management 
+############################################################################
 
-# The name of the Java classes for Queries
-#MCR.QueryIndexer_class_name=org.mycore.backend.sql.MCRSQLIndexer
-MCR.QueryIndexer_class_name=org.mycore.backend.hibernate.MCRHIBIndexer
-#MCR.QuerySearcher_class_name=org.mycore.backend.sql.MCRSQLSearcher
-MCR.QuerySearcher_class_name=org.mycore.backend.hibernate.MCRHIBSearcher
 
-#MCR.QuerySearcher_class_name=org.mycore.backend.lucene.MCRLuceneQuerySearcher
-
-MCR.Searcher.sql.Index=metadata
-MCR.Searcher.sql.Class=org.mycore.backend.query.MCRQueryManager
 #MCR.EventHandler.MCRObject.1.class=org.mycore.access.MCRSimpleWorkflowAccessEventHandler
 MCR.EventHandler.MCRObject.1.class=org.mycore.datamodel.metadata.MCRXMLTableEventHandler
 MCR.EventHandler.MCRObject.2.class=org.mycore.datamodel.metadata.MCRLinkTableEventHandler
-MCR.EventHandler.MCRObject.3.Indexer=sql
-MCR.EventHandler.MCRObject.3.class=org.mycore.backend.query.MCRQueryManager
+MCR.EventHandler.MCRObject.3.Indexer=hibernate
 #MCR.EventHandler.MCRDerivate.1.class=org.mycore.access.MCRSimpleWorkflowAccessEventHandler
 MCR.EventHandler.MCRDerivate.1.class=org.mycore.datamodel.metadata.MCRXMLTableEventHandler
+MCR.EventHandler.MCRDerivate.2.Indexer=lucene
 
-############################################################################
-##
-# Index and Search Management (new Version 09/05)
-#
-############################################################################
-##
-#MCR.Lucene.LockDir=C:/MyData/mcr/lockdir
+MCR.Searcher.hibernate.Index=metadata
+MCR.Searcher.hibernate.Class=org.mycore.backend.hibernate.MCRHIBSearcher
+MCR.Searcher.lucene.Index=content
+MCR.Searcher.lucene.Class=org.mycore.backend.lucene.MCRLuceneSearcher
 
-#MCR.Searcher.lucenem.Index=metadata
-#MCR.Searcher.lucenec.Index=content
-
-#MCR.EventHandler.MCRObject.1.Indexer=lucenem
-#MCR.EventHandler.MCRFile.1.Indexer=lucenec
-
-#MCR.Searcher.lucenem.Class=org.mycore.backend.lucene.MCRLuceneSearcher
-
-# Directory used by lucene to store text search index for metadata
-#MCR.Searcher.lucenem.IndexDir=C:/java/data/lucene
-
-#MCR.Searcher.lucenec.Class=org.mycore.backend.lucene.MCRLuceneSearcher
-
-# Directory used by lucene to store text search index for fulltext (content)
-#MCR.Searcher.lucenec.IndexDir=C:/java/data/lucene
+MCR.Searcher.lucene.IndexDir=C:/sample-mcrjsp/indexer/lucene-index
+MCR.Lucene.LockDir=C:/sample-mcrjsp/indexer/lucene-lock
 
 
 ########
