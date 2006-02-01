@@ -1,21 +1,8 @@
-<%@ page import="org.mycore.access.mcrimpl.MCRAccessStore,
-		org.mycore.access.mcrimpl.MCRAccessDefinition,
-		org.mycore.common.MCRConfiguration,
-		java.util.ArrayList,
-		java.util.Hashtable,
-		java.util.List,
-		java.util.Set,
-		java.util.Iterator,
-		org.mycore.datamodel.metadata.MCRXMLTableManager"%>
-<%@ page import="org.mycore.frontend.servlets.MCRServlet" %>
-<%!
-	List pool=null;
-%>
-<%
-	pool = MCRAccessStore.getPools();
-    String WebApplicationBaseURL = MCRServlet.getBaseURL();
-%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/xml" prefix="x"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
 <script>
 	function setValue(obj){
 		if (obj.checked==true){
@@ -32,6 +19,11 @@
 		document.getElementById("ids").value = document.getElementById("ids").value.replace(val + " ","");
 		document.getElementById("ids").value += val + " ";
 	}
+    
+    function setIDFromInputField(val){
+        selectAll(false);
+        document.getElementById("ids").value = document.getElementById("objID").value;
+    }    
 
 	function selectAll(val){
 		var theForm = document.getElementById("overview"), z=0;
@@ -68,10 +60,30 @@
 	}
 	
 </script>
+<c:set var="debug" value="true" />
+<c:choose>
+   <c:when test="${param.step > 0}">
+      <c:set var="step" value="${param.step}" />
+   </c:when>
+   <c:otherwise>
+      <c:set var="step" value="50" />
+   </c:otherwise>
+</c:choose>
+<c:choose>
+   <c:when test="${param.start > 0}">
+      <c:set var="start" value="${param.start}" />
+   </c:when>
+   <c:otherwise>
+      <c:set var="start" value="0" />
+   </c:otherwise>
+</c:choose>
+<mcr:setAccessRuleEditorData var="index" docType="${param.docType}" start="${start}" step="${step}" />
+<c:set var="WebApplicationBaseURL" value="${applicationScope.WebApplicationBaseURL}" />
 
 
-<h4>Regelzuweisung</h4>
-<form method=post action="<%= WebApplicationBaseURL %>/admin/access_validate.jsp" id="overview">
+<h4><fmt:message key="Access.AssignRule" /></h4>
+
+<form method=post action="${WebApplicationBaseURL}admin/access_validate.jsp" id="overview">
 <table border="0">
 <tr>
 <td>
@@ -79,51 +91,37 @@
 <table class="access" cellspacing="1" cellpadding="0">
 	<tr>
 		<td rowspan=2">
-			Vorhandene MyCoRe Objekte
+			<fmt:message key="Access.AvailableStringIDs" />
 		</td>
-
-		<td class="pool" colspan="<%=pool.size()%>">
-			Pools
+        <x:set var="poolNum" select="$index/accessrule-index/permissions/@numHits + 0" />
+		<td class="pool" colspan="${poolNum}">
+			<fmt:message key="Access.Permissions" />
 		</td>
 		<td rowspan="2">
 			&nbsp;
 		</td>
 	</tr>
 	<tr>
-		<%
-			for(int i=0; i< pool.size(); i++){
-				out.println("<td class=\"pool\">"+(String) pool.get(i)+"</td>");
-			}
-		%>
-
+       <x:forEach select="$index/accessrule-index/permissions/permission">
+          <td class="pool"><x:out select="." /></td>
+       </x:forEach>
 	</tr>
-<%
-
-	List table = MCRAccessStore.getInstance().getTypes();
-	Iterator it = table.iterator();
-        
-        while (it.hasNext()){
-			String key= (String) it.next();
-			List l1 = MCRAccessStore.getInstance().getDefinition(key);
-			out.print("<tr><th colspan=\""+(pool.size()+1)+"\">" + key + "</th><th align=\"left\"><input type=\"checkbox\" name=\""+key+"\" onclick=\"selectAllType(this)\"></th></tr>");
-			for(int i=0; i< l1.size(); i++){
-				MCRAccessDefinition element = (MCRAccessDefinition) l1.get(i);
-				out.print("<tr><td>" + element.getObjID()+"</td>");
-
-				for (int j=0; j<pool.size(); j++){
-					String val = (String)element.getPool().get((String) pool.get(j));
-					if (val.equals(" ")){
-						val="&nbsp;";
-					}
-					out.print("<td class=\"pool\">"+val+ "</td>");
-				}
-				out.print("<td><input type=\"checkbox\" name=\""+element.getObjID()+"\" onclick=\"setValue(this)\">&nbsp;&nbsp;<input type=\"image\" src=\"./admin/images/edit.png\" onclick=\"setID('"+element.getObjID()+"')\"></td>");
-			}
-			out.print("</tr>");
-        }
-
-%>
-
+    <x:forEach select="$index/accessrule-index/result/value">
+       <tr>
+          <td><x:out select="./idx" /></td>
+          <x:forEach select="./permission">
+             <td class="pool"><x:out select="./@value" />&nbsp;</td>
+          </x:forEach>
+          <td><input type="checkbox" name="<x:out select="./idx" />" onclick="setValue(this)">&nbsp;&nbsp;<input type="image" src="./admin/images/edit.png" onclick="setID('<x:out select="./idx" />')" /></td>
+       </tr>
+    </x:forEach>
+    <tr>
+       <td><input type="text" name="objID" id="objID" size="25"></td>
+       <td colspan="${poolNum + 1}">
+        &nbsp;&nbsp;<input type="image" src="./admin/images/edit.png" onclick="setIDFromInputField()" />&nbsp;&nbsp;
+        <fmt:message key="Access.EnterObjIDDirectly" />
+       </td>
+    </tr>    
 </table>
 <input type="hidden" value="detail" name="operation">
 <input type="hidden" id="ids" name="ids" style="width:500px">
@@ -131,7 +129,12 @@
 </tr>
 <tr>
 <td align="right">
-<a href="#" onclick="selectAll(true)">Alle auswählen</a> | <a href="#" onclick="selectAll(false)">Auswahl aufheben</a>
+<a href="#" onclick="selectAll(true)"><fmt:message key="Access.SelectAll" /></a> | <a href="#" onclick="selectAll(false)"><fmt:message key="Access.DeselectAll" /></a>
+<x:set var="maxPos" select="$index/accessrule-index/result/value[last()]/@pos +1" />
+<x:set var="numHits" select="$index/accessrule-index/result/@numHits + 0" />
+<c:if test="${maxPos < numHits}">
+ | <a href="${WebApplicationBaseURL}admin?path=${param.path}&start=${fn:substringBefore(maxPos,'.')}&step=${step}&docType=${param.docType}"><fmt:message key="Access.NextIDs" /></a>
+</c:if>
 </td>
 </tr>
 </table>
