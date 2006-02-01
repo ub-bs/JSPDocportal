@@ -6,97 +6,96 @@
   <index id="metadata">
   
     <!-- Search for MCRObjectID -->
-	<field name="id" type="identifier" xpath="/mycoreobject" value="@ID" />
-	
-	<!-- Search for type of object, like document, author, institution -->
-	<field name="objectType" type="identifier" xpath="/mycoreobject" value="substring-before(substring-after(@ID,'_'),'_')" />
-	
-	<field name="title" type="text" xpath="/mycoreobject/metadata/titles/title | /mycoreobject/metadata/names/name/fullname " value="normalize-space(text())"  />
-	
-	<!-- Search for creator and/or publisher by name or ID -->
-	<field name="author" type="name" xpath="/mycoreobject/metadata/names/name/surname | /mycoreobject/metadata/creators/creator | /mycoreobject/metadata/publishers/publisher" value="normalize-space(text())" />
-	<field name="authorID" type="identifier" xpath="/mycoreobject/metadata/creatorlinks/creatorlink | /mycoreobject/metadata/publisherlinks/publisherlink" value="@xlink:href" />
-	<field name="creator" type="name" xpath="/mycoreobject/metadata/creators/creator" value="normalize-space(text())" />
-	<field name="creatorID" type="identifier" xpath="/mycoreobject/metadata/creatorlinks/creatorlink" value="@xlink:href" />
-	<field name="publisher" type="name" xpath="/mycoreobject/metadata/publishers/publisher" value="normalize-space(text())" />
-	<field name="publisherID" type="identifier" xpath="/mycoreobject/metadata/publisherlinks/publisherlink" value="@xlink:href" />
-	<field name="contributor" type="name" xpath="/mycoreobject/metadata/contributors/contributor" value="normalize-space(text())">
-	  <attribute name="type" value="@type" />
-	</field>
-	<field name="contributorID" type="identifier" xpath="/mycoreobject/metadata/contributorlinks/contributorlink" value="@xlink:href" />
-
-    <!-- Search for link ID, so we can find all MCRObject that link to another MCRObject -->	
-	<field name="link" type="identifier" xpath="/mycoreobject/descendant::*[@xlink:href]" value="@xlink:href" />
-	
-	<!-- Search for parent ID, so we can find all children of an MCRObject using a query -->
-	<field name="parent" type="identifier" xpath="/mycoreobject/structure/parents/parent" value="@xlink:href" />
-	
-	<field name="identifier" type="identifier" xpath="/mycoreobject/metadata/identifiers/identifier" value="normalize-space(text())" />
-	
-	<!-- Search for category IDs of classifications -->
-	<field name="ddc" type="name" xpath="/mycoreobject/metadata/subjects/subject[@classid='DocPortal_class_00000009']" value="@categid" />	
-	<field name="origin" type="name" xpath="/mycoreobject/metadata/origins/origin[@classid='DocPortal_class_00000003']" value="@categid" />
-	<field name="subject" type="name" xpath="/mycoreobject/metadata/subjects/subject[@classid='DocPortal_class_00000007']" value="@categid" />
-	<field name="format" type="name" xpath="/mycoreobject/metadata/formats/format[@classid='DocPortal_class_00000006']" value="@categid" />
-	<field name="language" type="name" xpath="/mycoreobject/metadata/languages/language[@classid='DocPortal_class_00000004']" value="@categid" />
-	<field name="type" type="name" xpath="/mycoreobject/metadata/types/type[@classid='DocPortal_class_00000005']" value="@categid" />
-    <field name="institution" type="name" xpath="/mycoreobject/metadata/institutions/institution[@classid='DocPortal_class_00000002']" value="@categid" />      
-	
-	<field name="description" type="text" xpath="/mycoreobject/metadata/descriptions/description"  value="normalize-space(text())">
-	  <attribute name="type" value="@type" />
-	  <attribute name="lang" value="@xml:lang" />
-	</field>
-	
-	<field name="date" type="date" xpath="/mycoreobject/metadata/dates/date" value="ext:normalizeDate(string(normalize-space(text())),string(@xml:lang))">
-	  <attribute name="type" value="@type" />
-	</field>
+    <field name="id" type="identifier" source="objectMetadata" xpath="/mycoreobject" value="@ID" />
     
-    <field name="modified" type="date" xpath="/mycoreobject/service/servdates/servdate[@type='modifydate']" value="ext:normalizeDate(string(normalize-space(text())),string(@xml:lang))">
+    <!-- Search for type of object, like document, author, institution -->
+    <field name="objectType" type="identifier" source="objectMetadata" xpath="/mycoreobject" value="substring-before(substring-after(@ID,'_'),'_')" />
+    
+    <field name="title" type="text" source="objectMetadata" xpath="/mycoreobject/metadata/titles/title" value="normalize-space(text())"  />
+    
+    <!-- Search for creator and/or publisher by name or ID -->
+    <field name="author" type="name" source="objectMetadata" xpath="/mycoreobject/metadata/names/name/surname | /mycoreobject/metadata/creators/creator | /mycoreobject/metadata/publishers/publisher" value="normalize-space(text())" />
+    <field name="authorID" type="identifier" source="objectMetadata" xpath="/mycoreobject/metadata/creatorlinks/creatorlink | /mycoreobject/metadata/publisherlinks/publisherlink" value="@xlink:href" />
+    <field name="creator" type="name" source="objectMetadata" xpath="/mycoreobject/metadata/creators/creator" value="normalize-space(text())" />
+    <field name="creatorID" type="identifier" source="objectMetadata" xpath="/mycoreobject/metadata/creatorlinks/creatorlink" value="@xlink:href" />
+    <field name="publisher" type="name" source="objectMetadata" xpath="/mycoreobject/metadata/publishers/publisher" value="normalize-space(text())" />
+    <field name="publisherID" type="identifier" source="objectMetadata" xpath="/mycoreobject/metadata/publisherlinks/publisherlink" value="@xlink:href" />
+    <field name="contributor" type="name" source="objectMetadata" xpath="/mycoreobject/metadata/contributors/contributor" value="normalize-space(text())">
       <attribute name="type" value="@type" />
-    </field>    
-	
-    <field name="keywords" type="text" xpath="/mycoreobject/metadata/keywords/keyword" value="normalize-space(text())">
-	  <attribute name="lang" value="@xml:lang" />
-	</field>
-	<field name="source" type="text" xpath="/mycoreobject/metadata/sources/source"  value="normalize-space(text())">
-	  <attribute name="lang" value="@xml:lang" />
-	</field>
-	<field name="coverage" type="text" xpath="/mycoreobject/metadata/coverages/coverage"  value="normalize-space(text())">
-	  <attribute name="lang" value="@xml:lang" />
-	</field>
-	
-	<!-- Search for zip code if object is author or institution -->
-	<field name="zip" type="integer" xpath="/mycoreobject/metadata/addresses/address/zipcode" value="text()" objects="author institution"/>
-    
+    </field>
+    <field name="contributorID" type="identifier" source="objectMetadata" xpath="/mycoreobject/metadata/contributorlinks/contributorlink" value="@xlink:href" />
 
-    <field name="firstname" type="text" xpath="/mycoreobject/metadata/names/name/callname" value="text()" objects="author"/>    
-    <field name="surname" type="identifier" xpath="/mycoreobject/metadata/names/name/surname" value="text()" objects="author"/>        
-	
-	<!-- Search in all metadata fields that contain text -->
-	<field name="allMeta" xpath="/mycoreobject/metadata/*/*[@xml:lang]" type="text" value="normalize-space(text())" />
+    <!-- Search for link ID, so we can find all MCRObject that link to another MCRObject -->    
+    <field name="link" type="identifier" source="objectMetadata" xpath="/mycoreobject/descendant::*[@xlink:href]" value="@xlink:href" />
+    
+    <!-- Search for parent ID, so we can find all children of an MCRObject using a query -->
+    <field name="parent" type="identifier" source="objectMetadata" xpath="/mycoreobject/structure/parents/parent" value="@xlink:href" />
+    
+    <field name="identifier" type="identifier" xpath="/mycoreobject/metadata/identifiers/identifier" value="normalize-space(text())" />
+    
+    <!-- Search for category IDs of classifications -->
+    <field name="ddc" type="name" source="objectMetadata" xpath="/mycoreobject/metadata/subjects/subject[@classid='DocPortal_class_00000009']" value="@categid" />
+    <field name="origin" type="name" source="objectMetadata" xpath="/mycoreobject/metadata/origins/origin[@classid='DocPortal_class_00000003']" value="@categid" />
+    <field name="subject" type="name" source="objectMetadata" xpath="/mycoreobject/metadata/subjects/subject[@classid='DocPortal_class_00000007']" value="@categid" />
+    <field name="format" type="name" source="objectMetadata" xpath="/mycoreobject/metadata/formats/format[@classid='DocPortal_class_00000006']" value="@categid" />
+    <field name="language" type="name" source="objectMetadata" xpath="/mycoreobject/metadata/languages/language[@classid='DocPortal_class_00000004']" value="@categid" />
+    <field name="type" type="name" source="objectMetadata" xpath="/mycoreobject/metadata/types/type[@classid='DocPortal_class_00000005']" value="@categid" />
+    <field name="institution" type="name" source="objectMetadata" xpath="/mycoreobject/metadata/institutions/institution[@classid='DocPortal_class_00000002']" value="@categid" />    
+    
+    <field name="description" type="text" source="objectMetadata" xpath="/mycoreobject/metadata/descriptions/description"  value="normalize-space(text())">
+      <attribute name="type" value="@type" />
+      <attribute name="lang" value="@xml:lang" />
+    </field>
+    
+    <field name="date" type="date" source="objectMetadata" xpath="/mycoreobject/metadata/dates/date" value="ext:normalizeDate(string(normalize-space(text())),string(@xml:lang))">
+      <attribute name="type" value="@type" />
+    </field>
+
+    <field name="modified" type="date" source="objectMetadata" xpath="/mycoreobject/services/servdates/servdate[@type='modifydate']" value="ext:normalizeDate(string(normalize-space(text())),string(@xml:lang))">
+      <attribute name="type" value="@type" />
+    </field>
+    
+    <field name="keywords" type="text" source="objectMetadata" xpath="/mycoreobject/metadata/keywords/keyword" value="normalize-space(text())">
+      <attribute name="lang" value="@xml:lang" />
+    </field>
+    <field name="source" type="text" source="objectMetadata" xpath="/mycoreobject/metadata/sources/source"  value="normalize-space(text())">
+      <attribute name="lang" value="@xml:lang" />
+    </field>
+    <field name="coverage" type="text" source="objectMetadata" xpath="/mycoreobject/metadata/coverages/coverage"  value="normalize-space(text())">
+      <attribute name="lang" value="@xml:lang" />
+    </field>
+    
+    <!-- Search for zip code if object is author or institution -->
+    <field name="zip" type="integer" source="objectMetadata" xpath="/mycoreobject/metadata/addresses/address/zipcode" value="text()" objects="author institution"/>
+    
+    <field name="firstname" type="text" source="objectMetadata" xpath="/mycoreobject/metadata/names/name/callname" value="text()" objects="author" />
+    <field name="surname" type="text" source="objectMetadata" xpath="/mycoreobject/metadata/names/name/surname" value="text()" objects="author" />    
+    
+    <!-- Search in all metadata fields that contain text -->
+    <field name="allMeta" type="txt" source="objectMetadata" xpath="/mycoreobject/metadata/*/*[xml:lang]" value="normalize-space(text())" />
   </index>
 
   <!-- This index contains the fulltext of files and their technical metadata like file size, duration of audio/video files etc. -->  
   <index id="content">
   
      <!-- Index fulltext of files if they are pdf or txt (add more types if you like) -->
-	<field name="fulltext" type="text" source="file.textfilter" objects="pdf txt" />
-	
-	<!-- Index technical metadata for every file -->
-    <field name="fileID" type="identifier" xpath="file/@id" value="." />
-    <field name="fileName" type="identifier" xpath="file/@name" value="." />
-    <field name="filePath" type="identifier" xpath="file/@path" value="." />
-    <field name="fileSize" type="integer" xpath="file/@size" value="." />
-    <field name="fileExtension" type="identifier" xpath="file/@extension" value="." />
-    <field name="fileContentTypeID" type="identifier" xpath="file/contentTypeID" value="." />
-    <field name="fileContentType" type="text" xpath="file/@contentType" value="." />
-    <field name="fileDateModified" type="date" xpath="file/@modified" value="." />
+    <field name="fulltext" type="text" source="fileTextContent" objects="pdf txt" />
+    
+    <!-- Index technical metadata for every file -->
+    <field name="fileID" type="identifier" source="fileMetadata" xpath="file/@id" value="." />
+    <field name="fileName" type="identifier" source="fileMetadata" xpath="file/@name" value="." />
+    <field name="filePath" type="identifier" source="fileMetadata" xpath="file/@path" value="." />
+    <field name="fileSize" type="integer" source="fileMetadata" xpath="file/@size" value="." />
+    <field name="fileExtension" type="identifier" source="fileMetadata" xpath="file/@extension" value="." />
+    <field name="fileContentTypeID" type="identifier" source="fileMetadata" xpath="file/contentTypeID" value="." />
+    <field name="fileContentType" type="text" source="fileMetadata" xpath="file/@contentType" value="." />
+    <field name="fileDateModified" type="date" source="fileMetadata" xpath="file/@modified" value="." />
     
     <!-- For audio/video files stored in Helix Server or Videocharger, even more: -->
-    <field name="avBitRate" type="integer" xpath="file/@bitRate" value="." />
-    <field name="avFrameRate" type="decimal" xpath="file/@frameRate" value="." />
-    <field name="avDuration" type="time" xpath="file/@duration" value="." />
-    <field name="avMediaType" type="identifier" xpath="file/@mediaType" value="." />
+    <field name="avBitRate" type="integer" source="fileMetadata" xpath="file/@bitRate" value="." />
+    <field name="avFrameRate" type="decimal" source="fileMetadata" xpath="file/@frameRate" value="." />
+    <field name="avDuration" type="time" source="fileMetadata" xpath="file/@duration" value="." />
+    <field name="avMediaType" type="identifier" source="fileMetadata" xpath="file/@mediaType" value="." />
   </index>
   
 </searchfields>
