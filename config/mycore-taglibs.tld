@@ -9,6 +9,36 @@
     <uri>/WEB-INF/lib/mycore-taglibs.jar</uri>
     <info>MyCoRe Sample Tag library</info>
         <tag>
+            <name>setAccessRuleEditorData</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRSetAccessRuleEditorDataTag</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <description>The name of the var used in the jsp body</description>
+                <name>var</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>Start position of the displayed String IDs</description>
+                <name>start</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>Step width, how many String IDs are displayes</description>
+                <name>step</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <attribute>
+                <description>The Document Type of the MyCoRe-Objects in the wf directory </description>
+                <name>docType</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <info>A Tag, that sets a DOM Object with all needed data for assigning accessrules to objects to a given variable name</info>
+        </tag>        
+        <tag>
             <name>listWorkflow</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRListWorkflowTag</tagclass>
             <bodycontent>empty</bodycontent>

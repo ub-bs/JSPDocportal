@@ -8,6 +8,7 @@ MCR.Editor.FileUpload.TempStoragePath=C:/sample-mcrjsp/export/upload
 MCR.editor_document_directory=C:/sample-mcrjsp/export/document
 MCR.editor_institution_directory=C:/sample-mcrjsp/export/institution
 MCR.editor_author_directory=C:/sample-mcrjsp/export/author
+MCR.editor_user_directory=C:/sample-mcrjsp/export/user
 MCR.editor_deleted_directory=C:/sample-mcrjsp/export/deleted
 MCR.IFS.ContentStore.FS.BaseDirectory=C:/sample-mcrjsp/tmp
 MCR.IFS.ContentStore.Lucene.IndexDirectory=C:/sample-mcrjsp/lucene-index
@@ -30,7 +31,7 @@ MCR.AccessRule.ADMININTERFACE-DEFAULTRULE=<condition format="xml"><condition fie
 MCR.internal_command_classes=org.mycore.frontend.cli.MCRUserCommands,org.mycore.frontend.cli.MCRClassificationCommands,org.mycore.frontend.cli.MCRObjectCommands,org.mycore.frontend.cli.MCRDerivateCommands,org.mycore.frontend.cli.MCRQueryCommands,org.mycore.backend.hibernate.MCRHIBCtrlCommands,org.mycore.backend.query.MCRQueryCommands,org.mycore.access.mcrimpl.MCRAccessCtrlCommands
 
 MCR.Access_class_name=org.mycore.access.mcrimpl.MCRAccessControlSystem
-MCR.AccessPools=read,write,commit,modify,pay
+MCR.AccessPools=read,commit,modify,pay
 MCR.AccessPool.CacheSize=4096
 
 # The configuration for the superuser
