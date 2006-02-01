@@ -11,7 +11,7 @@
 <table  class="bg_background" >
  <tr>
   <td>
-	<div class="subtitle" >Autorenberechtigung für @libri </div>
+	<div class="subtitle" ><fmt:message key="SWF.User.Register.AuthorAuthorization" /></div>
 	<br/>
 	<p>	<fmt:message key="SWF.User.Registered1" />	</p>
 	<p>	<fmt:message key="SWF.User.Registered2" />	</p>
