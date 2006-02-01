@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE MyCoReWebPage>
+<MyCoReWebPage>
+<section title="Registering for a user" xml:lang="de">
+
+<editor id="register-user">
+	<!-- target type="debug" / -->
+    <target type="servlet" name="MCRPutUserRegistrationToWorkflow" method="post" format="xml" />
+    <components root="register-user" var="/mycoreuser">
+        <include uri="webapp:editor/workflow/imports-common.xml" />		
+        <headline anchor="CENTER">
+            <text>
+                <label xml:lang="de">Die mit * gekennzeichneten Felder sind Plichtfelder.<p/></label>
+                <label xml:lang="en">Required fields are labeled with a star (*).<p/></label>
+            </text>
+        </headline>
+
+        <panel id="register-user" lines="off">
+            <!-- *** ID enabled? *** -->
+		    <hidden var="user/@id_enabled" default="false" />
+            <!-- *** Update allowed? *** -->
+			<hidden var="user/@update_allowed" default="true" />
+            <!-- *** Password *** -->
+		    <hidden var="user/password" default="dummy"  />
+            <!-- *** Primary group = gastgroup *** -->
+            <hidden var="user/user.primary_group" default="gastgroup" /> 
+			
+            <hidden var="user/user.creator" default="administrator" />
+			
+            <cell row="1" col="1" ref="VSpace5" anchor="EAST" />
+
+            <!-- *** User account data *** -->
+            <cell row="2" col="1" anchor="EAST">
+                <text id="LAccount">
+                    <label xml:lang="de">
+                        <span class="editorlabel">&#160;&#160;Bibliothekskennung&#160;(*):</span>
+                    </label>
+                    <label xml:lang="en">
+                        <span class="editorlabel">&#160;&#160;User&#160;account&#160;(*):</span>
+                    </label>
+                </text>
+            </cell>
+            <cell row="2" col="2" anchor="WEST" ref="TFzeile64" var="user/@ID" sortnr="1" />
+            <cell row="2" col="3" anchor="EAST" >
+                <helpPopup id="HAccount" width="400px" height="200px">
+                    <label xml:lang="de">
+                        In diesem Feld geben Sie bitte die Benutzerkennung also Ihre Bibliothekskennung 						
+                    </label>
+                    <label xml:lang="en">
+                        Please specify the account - this ist your library Account.
+                    </label>
+                </helpPopup>
+            </cell>
+				
+			<!-- wird zunächst nicht gesetzt 
+            <cell row="3" col="1" anchor="EAST">
+                <text id="LPassword">
+                    <label xml:lang="de">
+                        <span class="editorlabel">Bibliothekspasswort&#160;(*):</span>
+                    </label>
+                    <label xml:lang="en">
+                        <span class="editorlabel">Library Password&#160;(*):</span>
+                    </label>
+                </text>
+            </cell>
+            <cell row="3" col="2" anchor="WEST" var="user/user.password" sortnr="2">
+                <password width="20" maxlength="128" />
+            </cell>
+            -->
+			
+            <!-- *** Description *** -->
+            <cell row="7" col="1" anchor="EAST">
+                <text id="LDescription">
+                    <label xml:lang="de">
+                        <span class="editorlabel">Vorhaben:</span>
+                    </label>
+                    <label xml:lang="en">
+                        <span class="editorlabel">Description:</span>
+                    </label>
+                </text>
+            </cell>
+            <cell row="7" col="2" anchor="WEST" ref="TFarea4096" var="user/user.description" sortnr="2"/>
+            <!-- cell row="4" col="3" anchor="EAST">
+                <helpPopup id="HDescription" width="400px" height="200px">
+                    <label xml:lang="de">
+                        In diesem Feld können Sie einen Text zur Beschreibung Ihres Vorhabens
+						eingeben.
+                    </label>
+                    <label xml:lang="en">
+                        Here you can specify a description of your work.
+                    </label>
+                </helpPopup>
+            </cell -->
+
+            <!-- *** Contact information *** -->
+            <cell row="9" col="1" ref="VSpace50" anchor="EAST" />
+            <cell row="9" col="2" anchor="WEST">
+                <text id="LContactInfo">
+                    <label xml:lang="de">
+                        <span class="editorlabel"><b>Kontaktinformationen:</b></span>
+                    </label>
+                    <label xml:lang="en">
+                        <span class="editorlabel"><b>Contact&#160;information:</b></span>
+                    </label>
+                </text>
+            </cell>
+
+            <!-- *** Salutation *** -->
+            <cell row="10" col="1" anchor="EAST">
+                <text id="LSalutation">
+                    <label xml:lang="de">
+                        <span class="editorlabel">Anrede&#160;/&#160;Titel:</span>
+                    </label>
+                    <label xml:lang="en">
+                        <span class="editorlabel">Salutation:</span>
+                    </label>
+                </text>
+            </cell>
+            <cell row="10" col="2" anchor="WEST" ref="TFzeile32" var="user/user.contact/contact.salutation" sortnr="5" />
+
+            <!-- *** First name *** -->
+            <cell row="11" col="1" anchor="EAST">
+                <text id="LFirstName">
+                    <label xml:lang="de">
+                        <span class="editorlabel">Vorname&#160;(*):</span>
+                    </label>
+                    <label xml:lang="en">
+                        <span class="editorlabel">First&#160;name&#160;(*):</span>
+                    </label>
+                </text>
+            </cell>
+            <cell row="11" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.firstname" sortnr="6" />
+
+            <!-- *** Last name *** -->
+            <cell row="12" col="1" anchor="EAST">
+                <text id="LLastName">
+                    <label xml:lang="de">
+                        <span class="editorlabel">Nachname&#160;(*):</span>
+                    </label>
+                    <label xml:lang="en">
+                        <span class="editorlabel">Last&#160;name&#160;(*):</span>
+                    </label>
+                </text>
+            </cell>
+            <cell row="12" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.lastname" sortnr="7" />
+
+            <!-- *** Street *** -->
+            <cell row="13" col="1" anchor="EAST">
+                <text id="LStreet">
+                    <label xml:lang="de">
+                        <span class="editorlabel">Strasse:</span>
+                    </label>
+                    <label xml:lang="en">
+                        <span class="editorlabel">Street:</span>
+                    </label>
+                </text>
+            </cell>
+            <cell row="13" col="2" anchor="WEST" ref="TFzeile128" var="user/user.contact/contact.street" sortnr="8" />
+
+            <!-- *** City *** -->
+            <cell row="14" col="1" anchor="EAST">
+                <text id="LCity">
+                    <label xml:lang="de">
+                        <span class="editorlabel">Stadt:</span>
+                    </label>
+                    <label xml:lang="en">
+                        <span class="editorlabel">City:</span>
+                    </label>
+                </text>
+            </cell>
+            <cell row="14" col="2" anchor="WEST" ref="TFzeile128" var="user/user.contact/contact.city" sortnr="9" />
+
+            <!-- *** Postal code *** -->
+            <cell row="15" col="1" anchor="EAST">
+                <text id="LPostalCode">
+                    <label xml:lang="de">
+                        <span class="editorlabel">Postleitzahl:</span>
+                    </label>
+                    <label xml:lang="en">
+                        <span class="editorlabel">Postal code:</span>
+                    </label>
+                </text>
+            </cell>
+            <cell row="15" col="2" anchor="WEST" ref="TFzeile32" var="user/user.contact/contact.postalcode" sortnr="10" />
+
+            <!-- *** Country *** -->
+            <cell row="16" col="1" anchor="EAST">
+                <text id="LCountry">
+                    <label xml:lang="de">
+                        <span class="editorlabel">Land:</span>
+                    </label>
+                    <label xml:lang="en">
+                        <span class="editorlabel">Country:</span>
+                    </label>
+                </text>
+            </cell>
+            <cell row="16" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.country" sortnr="11" />
+
+            <!-- *** Institution *** -->
+            <cell row="17" col="1" anchor="EAST">
+                <text id="LInstitution">
+                    <label xml:lang="de">
+                        <span class="editorlabel">Institution:(*)</span>
+                    </label>
+                    <label xml:lang="en">
+                        <span class="editorlabel">Institution:(*)</span>
+                    </label>
+                </text>
+            </cell>
+            <cell row="17" col="2" anchor="WEST" ref="TFzeile128" var="user/user.contact/contact.institution" sortnr="12" />
+
+            <!-- *** Faculty *** -->
+            <cell row="18" col="1" anchor="EAST">
+                <text id="LFaculty">
+                    <label xml:lang="de">
+                        <span class="editorlabel">Fakultät/Fachbereich:(*)</span>
+                    </label>
+                    <label xml:lang="en">
+                        <span class="editorlabel">Faculty:(*)</span>
+                    </label>
+                </text>
+            </cell>
+            <cell row="18" col="2" anchor="WEST" ref="TFzeile128" var="user/user.contact/contact.faculty" sortnr="13" />
+
+            <!-- *** Email *** -->
+            <cell row="21" col="1" anchor="EAST">
+                <text id="LEmail">
+                    <label xml:lang="de">
+                        <span class="editorlabel">Email:(*)</span>
+                    </label>
+                    <label xml:lang="en">
+                        <span class="editorlabel">Email:(*)</span>
+                    </label>
+                </text>
+            </cell>
+            <cell row="21" col="2" anchor="WEST" ref="TFzeile128" var="user/user.contact/contact.email" sortnr="16" />
+
+            <!-- *** Telephone *** -->
+            <cell row="22" col="1" anchor="EAST">
+                <text id="LTelephone">
+                    <label xml:lang="de">
+                        <span class="editorlabel">Telefon:</span>
+                    </label>
+                    <label xml:lang="en">
+                        <span class="editorlabel">Telephone:</span>
+                    </label>
+                </text>
+            </cell>
+            <cell row="22" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.telephone" sortnr="17" />
+
+            <!-- *** Fax *** -->
+            <cell row="23" col="1" anchor="EAST">
+                <text id="LFax">
+                    <label xml:lang="de">
+                        <span class="editorlabel">FAX-Nummer:</span>
+                    </label>
+                    <label xml:lang="en">
+                        <span class="editorlabel">FAX&#160;number:</span>
+                    </label>
+                </text>
+            </cell>
+            <cell row="23" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.fax" sortnr="18" />
+
+            <!-- *** Cellphone *** -->
+            <cell row="24" col="1" anchor="EAST">
+                <text id="LCellPhone">
+                    <label xml:lang="de">
+                        <span class="editorlabel">Mobiles&#160;Telefon:</span>
+                    </label>
+                    <label xml:lang="en">
+                        <span class="editorlabel">Cellular&#160;phone:</span>
+                    </label>
+                </text>
+            </cell>
+            <cell row="24" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.cellphone" sortnr="19" />
+
+            <!-- *** Cellphone *** -->
+            <cell row="34" col="1" anchor="EAST">
+                <text id="LAccountRights">
+                    <label xml:lang="de">
+                        <span class="editorlabel">rechtliche Regelungen:(*)</span>
+                    </label>
+                    <label xml:lang="en">
+                        <span class="editorlabel">Account&#160;Rights:</span>
+                    </label>
+                </text>
+            </cell>
+            <cell row="34" col="2" anchor="WEST" var="user/accept">
+                <checkbox value="false" checked="false" class="mandatory" > 
+                    <label xml:lang="de">&#160;&#160;Ich erkenne die Regelungen	von jspdocportal an.</label>
+                    <label xml:lang="en">&#160;&#160;i accept the  jspdocportal licencse rights. </label>
+                </checkbox>
+            </cell>
+			<cell row="34" col="3" anchor="EAST">
+                <helpPopup id="HAccountRights" width="400px" height="200px">
+                    <label xml:lang="de">
+                        Mit dem Antrag auf Benutzungsberechtigung gestatte ich der Universitätsbibliothek XY	die von mir eingebrachten Dokumente im Internet	zu publizieren, zu vervielfältigen und zu	verbreiten sowie gegebenenfalls eine Konvertierung des Datenformates vorzunehmen. <br />Davon unberührt bleibt das Recht zur	Publikation in anderer körperlicher Form, z.B. 	einem Verlag. Ich versichere, dass ich allein berechtigt bin, über die urheberrechtlichen Nutzungsrechte aller von mir in jspdocportal eingebrachten Dokumente zu verfügen. Gleiches gilt auch für die von mir gelieferten Text und	Bildvorlagen, deren Nutzungsrechte bei mir 	liegen. <br />Ich übernehme für die von mir eingestellten Inhalte die volle Verantwortung	und versichere, dass die von mir verbreiteten	Dokumente wissenschaftlichen Charakter haben, insbesondere keine pornografischen und 	rechtsextremistischen Inhalte aufweisen und das Persönlichkeitsrecht Dritter nicht verletzen. <br />Mir ist bekannt, dass für den Fall einer späteren kommerziellen Verwertung der von mir eingebrachten Inhalte auf eine ggf. vorhandene elektronische Publikation in jspdocportal hinzuweisen	ist. <br /> <b>Ich erkenne die o.g. Regelungen	von jspdocportal an.</b>
+                    </label>
+                    <label xml:lang="en">
+						Mit dem Antrag auf Benutzungsberechtigung gestatte ich der Universitätsbibliothek XY	die von mir eingebrachten Dokumente im Internet	zu publizieren, zu vervielfältigen und zu	verbreiten sowie gegebenenfalls eine Konvertierung des Datenformates vorzunehmen. <br />Davon unberührt bleibt das Recht zur	Publikation in anderer körperlicher Form, z.B. 	einem Verlag. Ich versichere, dass ich allein berechtigt bin, über die urheberrechtlichen Nutzungsrechte aller von mir in jspdocportal eingebrachten Dokumente zu verfügen. Gleiches gilt auch für die von mir gelieferten Text und	Bildvorlagen, deren Nutzungsrechte bei mir 	liegen. <br />Ich übernehme für die von mir eingestellten Inhalte die volle Verantwortung	und versichere, dass die von mir verbreiteten	Dokumente wissenschaftlichen Charakter haben, insbesondere keine pornografischen und 	rechtsextremistischen Inhalte aufweisen und das Persönlichkeitsrecht Dritter nicht verletzen. <br />Mir ist bekannt, dass für den Fall einer späteren kommerziellen Verwertung der von mir eingebrachten Inhalte auf eine ggf. vorhandene elektronische Publikation in jspdocportal hinzuweisen	ist. <br /> <b>Ich erkenne die o.g. Regelungen	von jspdocportal an.</b>
+                    </label>
+                </helpPopup>
+            </cell>			
+			
+            <!-- *** Buttons *** -->
+            <cell row="99"  col="1" ref="VSpace25" anchor="WEST" />
+            <cell row="100" col="1"  anchor="EAST" >
+			  <submitButton id="BSubmitRights" width="100px"  jsaction="return checkMyFormUser()" >
+				 <label xml:lang="de">[Speichern]</label>
+				 <label xml:lang="en">[Save]</label>
+			  </submitButton>
+			</cell>
+            <cell row="100" col="2" ref="BCancel"  anchor="WEST" />
+            <cell row="101" col="1" ref="VSpace5"  anchor="WEST" />
+        </panel>
+    </components>
+ </editor>
+</section>
+</MyCoReWebPage>

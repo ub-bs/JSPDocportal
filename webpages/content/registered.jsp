@@ -13,11 +13,11 @@
   <td>
 	<div class="subtitle" >Autorenberechtigung für @libri </div>
 	<br/>
-	<p>	<fmt:message key="SWF.User.Registered" />	</p>
+	<p>	<fmt:message key="SWF.User.Registered1" />	</p>
 	<p>	<fmt:message key="SWF.User.Registered2" />	</p>
 	<hr/>
 	<p><fmt:message key="Nav.Service.Text1" /></p>
-	<p><a href="mailto:atlibri@uni-rostock.de">atlibri@uni-rostock.de</a></p>
+	<p><a href="mailto:jspdocportal@mycore.de">jspdocportal@mycore.de</a></p>
  </td>
 </tr>
 </table>
