@@ -94,6 +94,12 @@
       		<servlet-class>org.mycore.frontend.servlets.MCRPutDocumentToWorkflow</servlet-class>
       </servlet>
 
+      <servlet>
+            <servlet-name>MCRPutUserRegistrationToWorkflow</servlet-name>
+            <servlet-class>org.mycore.frontend.servlets.MCRPutUserRegistrationToWorkflow</servlet-class>
+      </servlet>      
+      
+
       <servlet id="IndexBrowser">
             <servlet-name>MCRIndexServlet</servlet-name>
             <servlet-class>org.mycore.frontend.indexbrowser.MCRIndexServlet</servlet-class>
@@ -288,6 +294,11 @@
     	<servlet-name>MCRPutDocumenttoWorkflow</servlet-name>
 		<url-pattern>/servlets/MCRPutDocumenttoWorkflow/*</url-pattern>
     </servlet-mapping> 
+    
+    <servlet-mapping>
+        <servlet-name>MCRPutUserRegistrationToWorkflow</servlet-name>
+        <url-pattern>/servlets/MCRPutUserRegistrationToWorkflow/*</url-pattern>
+    </servlet-mapping>     
 
     <servlet-mapping>
     	<servlet-name>MCRIndexServlet</servlet-name>

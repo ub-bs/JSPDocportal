@@ -1,34 +1,75 @@
-<%@ page import="org.mycore.access.mcrimpl.MCRRuleStore,
-	org.mycore.user.MCRUser,
+<%@ page import="org.mycore.user.MCRUser,
 	org.mycore.user.MCRUserContact,
 	org.mycore.user.MCRUserMgr,
 	org.mycore.common.MCRSession,
-	org.mycore.frontend.servlets.MCRServlet,
+    org.mycore.common.xml.MCRXMLHelper,	
+    org.jdom.filter.ElementFilter,
+    org.jdom.Document,
+    org.jdom.Element,
 	java.text.SimpleDateFormat,
 	java.text.DateFormat,
 	java.util.ArrayList,
-	java.util.Date,
-	java.util.Collections,
+	java.util.Date, java.util.Iterator,
+	java.util.Collections,java.util.Enumeration,
 	java.lang.Exception"%>
 <%@ page import="org.mycore.frontend.servlets.MCRServlet" %>
-<%
-	
-
+<%@ page import="java.io.File" %>
+<%	
     String WebApplicationBaseURL = MCRServlet.getBaseURL();
 	DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	MCRUser user = null;
 	MCRUserContact contact = null;
 	ArrayList grouplist = MCRUserMgr.instance().getAllGroupIDs();
 	Collections.sort(grouplist);
+    String uid_orig = "";
+    
+    Enumeration paramNames = request.getParameterNames();
+	while(paramNames.hasMoreElements()) {
+	      String paramName = (String)paramNames.nextElement();
+	      //System.out.println("PARAM:" + paramName );
+	}
+	
+try {
 
 	if (request.getParameter("id")==null){
+	    // create from empty Editor
 		user = new MCRUser(0,null, MCRServlet.getSession(request).getCurrentUserID(), null,null, true, true, null, null, null, null, null, null, null, null, null, null, null, null, null,null,null,null,null,null,null,null);
-
 		contact = user.getUserContact();
 	}else{
-		user = MCRUserMgr.instance().retrieveUser(request.getParameter("id"));
+		if (request.getParameter("step") ==null) {
+		    // update from database
+			user = MCRUserMgr.instance().retrieveUser(request.getParameter("id"));
+			uid_orig = user.getID();
+		} else {
+		    // create from registration file - no database entry 
+			String filename = request.getParameter("filename");
+			System.out.println("File is: " + filename);
+			System.out.println("Step: >" + request.getParameter("step")+"<");
+			
+			if ( request.getParameter("step").equalsIgnoreCase("register") ) {				
+			
+	            org.jdom.Document doc = MCRXMLHelper.parseURI(filename,false);
+           		Iterator it = doc.getDescendants(new ElementFilter("user"));
+				if (it.hasNext()) {
+					org.jdom.Element uElm =  (org.jdom.Element) it.next();
+//org.jdom.output.XMLOutputter xmlout = new org.jdom.output.XMLOutputter(org.jdom.output.Format.getPrettyFormat());
+//System.out.print(xmlout.outputString(uElm));
+		            user = new MCRUser(uElm, true);
+		            user.setPassword("dummy");
+				}	            
+	            
+	        } else if ( request.getParameter("step").equalsIgnoreCase("delete" )) {
+	        	// delete the Workflow file
+				File file = new File(filename);
+				System.out.println("File deleted from filesystem: " + filename);
+				if ( file.exists())			file.delete();
+				response.sendRedirect(WebApplicationBaseURL + "admin?path=user_registration");
+				return;
+			}			
+		}
 		contact = user.getUserContact();
 	}
+
 
 %>
 
@@ -62,7 +103,7 @@
 			<td>Benutzerkennung <sup class="required">*</sup>:</td>
 			<td>
 				<input type="text" name="uid" id="uid" value="<%=user.getID()%>" maxlength="20" size="30" style="width:209px" onchange="validatePresent(this);">
-				<input type="hidden" name="uid_orig" value="<%=user.getID()%>">
+				<input type="hidden" name="uid_orig" value="<%=uid_orig%>">
 			</td>
 		</tr>
 		<tr>
@@ -72,9 +113,9 @@
 			</td>
 		</tr>
 		<tr>
-			<td>Beschreibung:</td>
+			<td>Beschreibung/Vorhaben:</td>
 			<td>
-				<input type="text" name="udescr" value="<%=user.getDescription()%>" maxlength="200" size="30" style="width:209px">
+				<textarea name="udescr" cols="40" rows="4" ><%=user.getDescription()%></textarea>
 			</td>
 		</tr>
 		<tr>
@@ -244,9 +285,15 @@
 			<td>
 				<input type="reset">
 				&nbsp;
-				<input type="submit" onclick=return validateOnSubmit()  value="Speichern">
+				<input type="submit" onclick="return validateOnSubmit()"  value="Speichern">
 			</td>
 		</tr>
 	</table>
 
 </form>
+
+<% } catch ( Exception uErr ) {
+	response.sendRedirect(WebApplicationBaseURL + "admin?path=user_error&message=" + uErr.getMessage());
+	return;
+   }
+%>

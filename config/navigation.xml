@@ -69,6 +69,12 @@
             </navitem>
             <navitem name="publish" label="Nav.DocumentManagement" href="content/documentmanagement.jsp">
                <refitem name="~documentmanagement" label="" />
+               <navitem name="register" label="Nav.RegisterAsAuthor" href="content/register.jsp">
+                  <refitem name="~register" label="" />
+                  <navitem name="register" label="Nav.RegisteredAsAuthor" href="content/registered.jsp" hidden="true" >
+                      <refitem name="~registered" label="" />
+                  </navitem>
+               </navitem>
 <!--                <navitem name="author" label="Nav.CreatePerson" href="edit?start=true&amp;type=author" /> -->
                <navitem name="author" label="Nav.CreatePerson" href="content/workflow-editor.jsp?type=author&amp;step=author&amp;todo=wnewobj" />
                <navitem name="institution" label="Nav.CreateInstitution" href="content/workflow-editor.jsp?type=institution&amp;step=author&amp;todo=wnewobj" />

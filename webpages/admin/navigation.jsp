@@ -14,7 +14,6 @@
 	}
 %>
 
-
 <span>
 	<ul class="nav">
 		<li class="<%=get("")%>"><a href="<%= WebApplicationBaseURL %>admin">Home</a></li>
@@ -25,6 +24,9 @@
 		<li class="<%=get("usergroup")%>"><a href="<%= WebApplicationBaseURL %>admin?path=usergroup">Benutzergruppen</a></li> 
 		<li class="<%=get("user")%>"><a href="<%= WebApplicationBaseURL %>admin?path=user">Benutzerverwaltung</a></li>
 	</ul>
+	<ul class="nav">
+		<li class="<%=get("registeruser")%>"><a href="<%= WebApplicationBaseURL %>admin?path=user_registration">Nutzer Neuregistrierung</a></li>
+	</ul>		
 </span>
 
 

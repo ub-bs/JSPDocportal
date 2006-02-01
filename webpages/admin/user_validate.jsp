@@ -6,18 +6,21 @@
 		java.text.SimpleDateFormat,
 		java.text.DateFormat,
 		java.util.Date" %>
-<%@ page import="org.mycore.frontend.servlets.MCRServlet" %>        
+<%@ page import="org.mycore.frontend.servlets.MCRServlet" %>
+<%@ page import="org.apache.taglibs.standard.lang.jstl.ValueSuffix" %>      
+   
 <%
     String WebApplicationBaseURL = MCRServlet.getBaseURL();
 	String operation = request.getParameter("operation");
 	String paramName = "";
-
 	DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+try {
 	if(operation.equals("detail")){
 		Enumeration paramNames = request.getParameterNames();
 		while(paramNames.hasMoreElements()) {
 	      paramName = (String)paramNames.nextElement();
+	        //System.out.println("PARAM:" + paramName );
 			if(paramName.indexOf(".x")!=-1){
 				 break;
 			}
@@ -28,6 +31,12 @@
 		if (op.equals("e")){
 			// edit userdata
 			response.sendRedirect(WebApplicationBaseURL + "admin?path=user_edit&id=" + val.substring(1));
+		}else if (op.equals("r")){
+			String fn = request.getParameter("filename");
+			response.sendRedirect(WebApplicationBaseURL + "admin?path=user_edit&id=" +  val.substring(1)+"&filename="+fn+"&step=register");
+		}else if (op.equals("y")){
+			String fn = request.getParameter("filename");
+			response.sendRedirect(WebApplicationBaseURL + "admin?path=user_edit&id=" +  val.substring(1)+"&filename="+fn+"&step=delete");
 		}else if (op.equals("d")){
 			MCRUserMgr.instance().deleteUser(val.substring(1));
 			response.sendRedirect(WebApplicationBaseURL + "admin?path=user");
@@ -48,7 +57,7 @@
 			for(int i=0; i< values.length; i++){
 				l.add(values[i]);
 			}
-		}
+		} else l.add("gastgroup");
 
 		if(request.getParameter("uenabled")!=null)
 			idEnabled=true;
@@ -98,14 +107,20 @@
 			request.getParameter("umobile"));
 
 		MCRUserMgr manager = MCRUserMgr.instance();
-
+		
 		if (request.getParameter("uid_orig").equals("")){
 			// create new user
-			manager.createUser(user);
+				manager.createUser(user);
 		}else{
 			// update user
 			manager.updateUser(user);
 		}
 		response.sendRedirect(WebApplicationBaseURL + "admin?path=user");
 	}
+	
+  } catch ( Exception uErr ) {
+	response.sendRedirect(WebApplicationBaseURL + "admin?path=user_error&message=" + uErr.getMessage());
+	return;
+}
+	
 %>
