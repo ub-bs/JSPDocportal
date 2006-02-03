@@ -28,7 +28,7 @@ MCR.AccessRule.ADMININTERFACE-DEFAULTRULE=<condition format="xml"><condition fie
 MCR.internal_command_classes=org.mycore.frontend.cli.MCRUserCommands,org.mycore.frontend.cli.MCRClassificationCommands,org.mycore.frontend.cli.MCRObjectCommands,org.mycore.frontend.cli.MCRDerivateCommands,org.mycore.backend.hibernate.MCRHIBCtrlCommands,org.mycore.access.mcrimpl.MCRAccessCtrlCommands,org.mycore.services.fieldquery.MCRQueryCommands
 
 MCR.Access_class_name=org.mycore.access.mcrimpl.MCRAccessControlSystem
-MCR.AccessPools=read,commit,modify,pay
+MCR.AccessPermissions=read,commit,modify,pay
 MCR.AccessPool.CacheSize=4096
 
 # The configuration for the superuser
