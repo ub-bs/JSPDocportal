@@ -362,15 +362,6 @@ MCR.Searcher.lucene.IndexDir=C:/sample-mcrjsp/indexer/lucene-index
 MCR.Lucene.LockDir=C:/sample-mcrjsp/indexer/lucene-lock
 
 
-########
-# Parameter
-
-MCR.QuerySearchFields=searchfields.xml
-MCR.QueryTableName=MCRQuery
-MCR.QueryTypes=document,derivate,author
-
-
-
 ##############################################################################
 # Configuration details for IndexServlet
 ##############################################################################
