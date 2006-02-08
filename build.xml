@@ -2,7 +2,7 @@
 
 <!-- =================================================================== -->
 <!-- MyCoRe sample application build file for use with Apache Ant        -->
-<!-- $Revision: 1.14 $ $Date: 2006-01-27 08:33:57 $                      -->
+<!-- $Revision: 1.15 $ $Date: 2006-02-08 11:32:05 $                      -->
 <!-- =================================================================== -->
 
 <project default="usage" basedir=".">
@@ -135,7 +135,7 @@
 	    <echo>Operating system   : ${os.name} Version ${os.version} on ${os.arch} </echo>
 	    <echo>Java version       : JDK ${ant.java.version} Version ${java.version} from ${java.vendor}</echo>
 	    <echo>Java home          : ${env.JAVA_HOME}</echo>
-	    <echo>Ant build file     : $Revision: 1.14 $ $Date: 2006-01-27 08:33:57 $</echo>
+	    <echo>Ant build file     : $Revision: 1.15 $ $Date: 2006-02-08 11:32:05 $</echo>
 	    <echo>Ant version        : ${ant.version}</echo>
 	    <echo>Ant home           : ${env.ANT_HOME}</echo>
 	    <echo>XML Store type     : ${MCR.XMLStore.Type}</echo>
@@ -1300,12 +1300,8 @@
         <!-- <property file="${DOCPORTAL_HOME}/config/mycore.properties.query" /> -->
         <mkdir dir="${docportal.sources}/org/mycore/backend/query" />
         <java classname="org.mycore.backend.query.helper.GenClasses"
+        	classpathref="docportal.classpath"
             fork="true">
-            <classpath>
-                <fileset dir="${MYCORE_HOME}/lib" includes="*.jar" />
-            </classpath>
-            <arg
-                value="${DOCPORTAL_HOME}/config/${MCR.QuerySearchFields}" />
             <arg value="${docportal.sources}/org/mycore/backend/query" />
         </java>
     </target>
