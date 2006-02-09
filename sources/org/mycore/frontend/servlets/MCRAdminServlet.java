@@ -88,7 +88,7 @@ public class MCRAdminServlet extends MCRServlet{
 			String strStandardrule = MCRConfiguration.instance().getString("MCR.AccessRule.ADMININTERFACE-DEFAULTRULE","<condition format=\"xml\"><condition field=\"user\" operator=\"=\" value=\"administrator\" /></condition>");
 			Element standardrule = (Element)MCRXMLHelper.parseXML(strStandardrule).getRootElement().detach();
 			MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
-			AI.addRule("use-admininterface", standardrule);
+			AI.addRule("use-admininterface", standardrule, "defaultrule for using the admin interface");
 		} catch (MCRException e) {
 			LOGGER.debug("catched error", e);
 			return false;

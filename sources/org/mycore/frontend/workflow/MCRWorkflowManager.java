@@ -30,9 +30,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -52,10 +49,8 @@ import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.datamodel.metadata.MCRObjectService;
-import org.mycore.datamodel.metadata.MCRObjectStructure;
 import org.mycore.frontend.cli.MCRDerivateCommands;
 import org.mycore.frontend.cli.MCRObjectCommands;
-import org.mycore.parsers.bool.MCRParseException;
 
 /**
  * This class holds methods to manage the workflow file system of MyCoRe.
@@ -565,10 +560,10 @@ public class MCRWorkflowManager {
 
 			userStandardRule.addContent(or);
 			
-			AI.addRule(objid, "modify", userStandardRule);
-			AI.addRule(objid, "commit", editorrule);
-			AI.addRule(objid, "remove", editorrule);
-			AI.addRule(objid, "delete", editorrule);
+			AI.addRule(objid, "modify", userStandardRule, "Editor-Standard-Regel + " + userid);
+			AI.addRule(objid, "commit", editorrule, "Editor-Standard-Regel");
+			AI.addRule(objid, "remove", editorrule, "Editor-Standard-Regel");
+			AI.addRule(objid, "delete", editorrule, "Editor-Standard-Regel");
 
 		} catch (Exception e) {
 			return false;
