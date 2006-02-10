@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mcrpermissions
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="MCRPermissions.xsd"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:xml="http://www.w3.org/XML/1998/namespace"
+>
+  <mcrpermission name="create-user" description="Anlegen von Benutzern">
+   <condition format="xml">
+    <boolean operator="or">
+     <condition value="admingroup" operator="=" field="group"/>
+    </boolean>
+   </condition>
+  </mcrpermission>
+  <mcrpermission name="create-group" description="Anlegen von Gruppen">
+   <condition format="xml">
+    <boolean operator="or">
+     <condition value="admingroup" operator="=" field="group"/>
+    </boolean>
+   </condition>
+  </mcrpermission>
+  <mcrpermission name="create-classification" description="Erzeugen einer Klassifikation">
+   <condition format="xml">
+    <boolean operator="or">
+     <condition value="admingroup" operator="=" field="group"/>
+     <condition value="editorgroup1" operator="=" field="group"/>
+     <condition value="editorgroup2" operator="=" field="group"/>
+    </boolean>
+   </condition>
+  </mcrpermission>
+  <mcrpermission name="create-author" description="Erzeugen eines Autors">
+   <condition format="xml">
+    <boolean operator="or">
+     <condition value="admingroup" operator="=" field="group"/>
+     <condition value="authorgroup1" operator="=" field="group"/>
+     <condition value="authorgroup2" operator="=" field="group"/>
+    </boolean>
+   </condition>
+  </mcrpermission>
+  <mcrpermission name="create-document" description="Erzeugen eines Dokuments">
+   <condition format="xml">
+    <boolean operator="or">
+     <condition value="admingroup" operator="=" field="group"/>
+     <condition value="authorgroup1" operator="=" field="group"/>
+     <condition value="authorgroup2" operator="=" field="group"/>
+    </boolean>
+   </condition>
+  </mcrpermission>
+  <mcrpermission name="create-institution" description="Erzeugen einer Institution">
+   <condition format="xml">
+    <boolean operator="or">
+     <condition value="admingroup" operator="=" field="group"/>
+     <condition value="authorgroup1" operator="=" field="group"/>
+     <condition value="authorgroup2" operator="=" field="group"/>
+    </boolean>
+   </condition>
+  </mcrpermission>  
+</mcrpermissions>

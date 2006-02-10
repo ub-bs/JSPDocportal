@@ -2,7 +2,7 @@
 
 <!-- =================================================================== -->
 <!-- MyCoRe sample application build file for use with Apache Ant        -->
-<!-- $Revision: 1.15 $ $Date: 2006-02-08 11:32:05 $                      -->
+<!-- $Revision: 1.16 $ $Date: 2006-02-10 10:36:04 $                      -->
 <!-- =================================================================== -->
 
 <project default="usage" basedir=".">
@@ -135,7 +135,7 @@
 	    <echo>Operating system   : ${os.name} Version ${os.version} on ${os.arch} </echo>
 	    <echo>Java version       : JDK ${ant.java.version} Version ${java.version} from ${java.vendor}</echo>
 	    <echo>Java home          : ${env.JAVA_HOME}</echo>
-	    <echo>Ant build file     : $Revision: 1.15 $ $Date: 2006-02-08 11:32:05 $</echo>
+	    <echo>Ant build file     : $Revision: 1.16 $ $Date: 2006-02-10 10:36:04 $</echo>
 	    <echo>Ant version        : ${ant.version}</echo>
 	    <echo>Ant home           : ${env.ANT_HOME}</echo>
 	    <echo>XML Store type     : ${MCR.XMLStore.Type}</echo>
@@ -1190,6 +1190,7 @@
             create user data from file user_editor2A.xml
             create user data from file user_editor2B.xml
 
+            load permissions data from file permissions.xml
             check user data consistency
         </echo>
         <antcall target="invoke.cli">
