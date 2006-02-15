@@ -721,7 +721,9 @@ public class MCRResultFormatter {
             Element metaname = new Element("metaname");
             if (field.getAttributeValue("rowtype").equals("standard")
 	            || field.getAttributeValue("rowtype").equals("image")
-	            || field.getAttributeValue("rowtype").equals("children") ) {
+	            || field.getAttributeValue("rowtype").equals("children") 
+	            || field.getAttributeValue("rowtype").equals("table") ) {
+            	
             			metaname.setAttribute("name", field.getAttributeValue("labelkey"));
             			metaname.setAttribute("type",field.getAttributeValue("rowtype"));
                         List lContent = field.getChildren("MCRDocDetailContent");
