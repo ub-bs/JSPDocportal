@@ -357,6 +357,10 @@ public class MCRStartEditorServlet extends MCRServlet {
 
 		// action WNEWOBJ - create a new object
 		if (mytodo.equals("wnewobj")) {
+			if (!AI.checkPermission("create-" + mytype)) {
+				response.sendRedirect(getBaseURL() + usererrorpage);
+				return;
+			}			
 			String base = getBaseURL() + myfile;
 			Properties params = new Properties();
 			params.put("XSL.editor.source.new", "true");
@@ -376,7 +380,7 @@ public class MCRStartEditorServlet extends MCRServlet {
 
 		// action WADDFILE - create a new file in the derivate
 		if (mytodo.equals("waddfile")) {
-			if (!AI.checkPermission(mymcrid, "create")) {
+			if (!AI.checkPermission(mymcrid, "writedb")) {
 				response.sendRedirect(getBaseURL() + usererrorpage);
 				return;
 			}
@@ -401,7 +405,7 @@ public class MCRStartEditorServlet extends MCRServlet {
 
 		// action WEDITOBJ - change the object in the workflow	
 		if (mytodo.equals("weditobj")) {
-			if (!AI.checkPermission(mymcrid, "modify")) {
+			if (!AI.checkPermission(mymcrid, "writedb")) {
 				response.sendRedirect(response.encodeRedirectURL(getBaseURL() + usererrorpage));
 				return;
 			}
@@ -420,7 +424,7 @@ public class MCRStartEditorServlet extends MCRServlet {
 
 		// action WDELOBJ - delete an object from the workflow
 		if (mytodo.equals("wdelobj")) {
-			if (!AI.checkPermission(mymcrid, "delete")) {
+			if (!AI.checkPermission(mymcrid, "deletewf") && !AI.checkPermission(mymcrid, "deletedb")) {
 				response.sendRedirect(response.encodeRedirectURL(getBaseURL() + usererrorpage));
 				return;
 			}
@@ -435,7 +439,7 @@ public class MCRStartEditorServlet extends MCRServlet {
 
 		// action WDELDER - delete a derivate from the workflow
 		if (mytodo.equals("wdelder")) {
-			if (!AI.checkPermission(mymcrid, "delete")) {
+			if (!AI.checkPermission(mymcrid, "deletewf") && !AI.checkPermission(mymcrid, "deletedb") && !AI.checkPermission(mymcrid2, "deletewf")) {
 				response.sendRedirect(	response.encodeRedirectURL(	getBaseURL() + usererrorpage));
 				return;
 			}
@@ -450,7 +454,7 @@ public class MCRStartEditorServlet extends MCRServlet {
 
 		// action WCOMMIT - commit a object from the workflow to the server
 		if (mytodo.equals("wcommit")) {
-			if (!AI.checkPermission(mymcrid, "commit")) {		
+			if (!AI.checkPermission(mymcrid, "commitdb")) {		
 				response.sendRedirect(response.encodeRedirectURL(getBaseURL() + usererrorpage));
 				return;
 			}
@@ -479,7 +483,7 @@ public class MCRStartEditorServlet extends MCRServlet {
 
 		// action WEDITDER in the database
 		if (mytodo.equals("weditder")) {
-			if (!AI.checkPermission(mymcrid, "modify")) {
+			if (!AI.checkPermission(mymcrid, "writedb")) {
 				response.sendRedirect(response.encodeRedirectURL(getBaseURL() + usererrorpage));
 				return;
 			}
@@ -513,7 +517,7 @@ public class MCRStartEditorServlet extends MCRServlet {
 
 		// action WSETFILE in the database
 		if (mytodo.equals("wsetfile")) {
-			if (!AI.checkPermission(mymcrid, "modify")) {
+			if (!AI.checkPermission(mymcrid, "writedb")) {
 				response.sendRedirect(	response.encodeRedirectURL(	getBaseURL() + usererrorpage));
 				return;
 			}
@@ -542,7 +546,7 @@ public class MCRStartEditorServlet extends MCRServlet {
 
 		// action WDELFILE in the database
 		if (mytodo.equals("wdelfile")) {
-			if (!AI.checkPermission(mymcrid, "delete")) {
+			if (!AI.checkPermission(mymcrid, "deletewf")) {
 				response.sendRedirect(response.encodeRedirectURL(getBaseURL() + usererrorpage));
 				return;
 			}
@@ -573,7 +577,7 @@ public class MCRStartEditorServlet extends MCRServlet {
 
 		// action SDELOBJ from the database
 		if (mytodo.equals("sdelobj")) {
-			if (!AI.checkPermission(mymcrid, "remove")) {
+			if (!AI.checkPermission(mymcrid, "deletedb")) {
 				response.sendRedirect(	response.encodeRedirectURL(	getBaseURL() + usererrorpage));
 				return;
 			}

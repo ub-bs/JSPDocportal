@@ -62,9 +62,9 @@
             <bodycontent>empty</bodycontent>
             <attribute>
                 <description>
-                    String, that represents the access-pool, that is checked.
+                    String, that represents the access-permission, that is checked.
                 </description>
-                <name>pool</name>
+                <name>permission</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute> 
@@ -85,7 +85,7 @@ specified in the action (true or false).
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
-            <info>A Tag, that checks via MCRAccessManager the access rights of a given objID and a given Access-Pool</info>
+            <info>A Tag, that checks via MCRAccessManager the access rights of a given objID and a given Access-Permission</info>
         </tag>     
         <tag>
             <name>session</name>

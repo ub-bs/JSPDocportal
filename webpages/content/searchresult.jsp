@@ -134,7 +134,7 @@
                                         <span>                                
                                     </td>
                                     <td rowspan="2" align="right" valign="top" class="description">
-                                     <mcr:checkAccess var="modifyAllowed" pool="modify" key="${mcrID}" />
+                                     <mcr:checkAccess var="modifyAllowed" permission="writedb" key="${mcrID}" />
                                      <c:if test="${modifyAllowed eq 'true'}">
 							             <!--  Editbutton -->
 							             <table><tr>

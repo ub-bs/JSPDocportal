@@ -70,7 +70,7 @@ public class MCRPutDocumentToWorkflow extends MCRCheckBase {
 		String lang   = mcrSession.getCurrentLanguage();
 		String userid = mcrSession.getCurrentUserID();
 		String usererrorpage = "mycore-error.jsp?messageKey=SWF.PrivilegesError&lang=" + lang;
-		if (!AI.checkPermission(mcrid, "create" )) {
+		if (!AI.checkPermission(mcrid, "writedb" )) {
 			logger.debug("Access denied for Current user for create = " + userid);				
 			response.sendRedirect(getBaseURL() + usererrorpage);
 			return;

@@ -70,6 +70,7 @@ public class MCRWorkflowManager {
 	private static String sender = "";
 	private static Element standardrule ;
 	private static Element editorrule ;
+	private static Element readrule ;
 	private Hashtable ht = null;
 	private Hashtable mt = null;
 
@@ -96,8 +97,10 @@ public class MCRWorkflowManager {
 		sender = config.getString("MCR.editor_mail_sender",	"mcradmin@localhost");
 		String strStandardrule = config.getString("MCR.AccessRule.STANDARD-WORKFLOW-RULE","<condition format=\"xml\"><boolean operator=\"or\"><condition field=\"group\" operator=\"=\" value=\"editorgroup1\" /><condition field=\"group\" operator=\"=\" value=\"editorgroup1\" /></boolean></condition>");
 		String strEditorrule = config.getString("MCR.AccessRule.STANDARD-RULE-ALL-EDITORS","<condition format=\"xml\"><boolean operator=\"or\"><condition field=\"group\" operator=\"=\" value=\"editorgroup1\" /><condition field=\"group\" operator=\"=\" value=\"editorgroup1\" /></boolean></condition>");
+		String strReadrule = config.getString("MCR.AccessRule.STANDARD-READ-RULE","<condition format=\"xml\"><boolean operator=\"true\"/></condition>");
 		standardrule = (Element)MCRXMLHelper.parseXML(strStandardrule).getRootElement().detach();
 		editorrule = (Element)MCRXMLHelper.parseXML(strEditorrule).getRootElement().detach();
+		editorrule = (Element)MCRXMLHelper.parseXML(strReadrule).getRootElement().detach();
 		// int tables
 		ht = new Hashtable();
 		mt = new Hashtable();
@@ -560,10 +563,11 @@ public class MCRWorkflowManager {
 
 			userStandardRule.addContent(or);
 			
-			AI.addRule(objid, "modify", userStandardRule, "Editor-Standard-Regel + " + userid);
-			AI.addRule(objid, "commit", editorrule, "Editor-Standard-Regel");
-			AI.addRule(objid, "remove", editorrule, "Editor-Standard-Regel");
-			AI.addRule(objid, "delete", editorrule, "Editor-Standard-Regel");
+			AI.addRule(objid, "read", userStandardRule, "Editor-Standard-Regel + " + userid);
+			AI.addRule(objid, "writedb", userStandardRule, "Editor-Standard-Regel + " + userid);
+			AI.addRule(objid, "deletewf", userStandardRule, "Editor-Standard-Regel + " + userid);			
+			AI.addRule(objid, "commitdb", editorrule, "Editor-Standard-Regel");
+			AI.addRule(objid, "deletedb", editorrule, "Editor-Standard-Regel");
 
 		} catch (Exception e) {
 			return false;

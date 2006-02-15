@@ -85,7 +85,7 @@ public class MCRSetMyResultListTag extends SimpleTagSupport
             result = new MCRResults();
             for (int i=0; i< allresult.getNumHits(); i++){
             	MCRHit myhit = allresult.getHit(i);
-    			if (AI.checkPermission(myhit.getID(), "modify" )) {
+    			if (AI.checkPermission(myhit.getID(), "writedb" )) {
     				result.addHit(myhit);    				
     			}    			
             }

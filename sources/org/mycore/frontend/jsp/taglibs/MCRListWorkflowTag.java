@@ -185,7 +185,7 @@ public class MCRListWorkflowTag extends SimpleTagSupport {
 			String ID = workflow_in.getRootElement().getAttributeValue("ID");
 			
 			// check the modify-access rights
-            if( ! AI.checkPermission(ID, "modify")){
+            if( ! AI.checkPermission(ID, "writedb")){
             	continue ;
             }
 			try {

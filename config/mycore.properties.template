@@ -24,11 +24,12 @@ MCR.editor_page_error_formular=editor/error-formular.jsp
 MCR.AccessRule.STANDARD-WORKFLOW-RULE=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="group" operator="=" value="editorgroup1" /></boolean></condition>
 MCR.AccessRule.STANDARD-RULE-ALL-EDITORS=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="group" operator="=" value="editorgroup1" /></boolean></condition>
 MCR.AccessRule.ADMININTERFACE-DEFAULTRULE=<condition format="xml"><condition field="user" operator="=" value="administrator" /></condition>
+MCR.AccessRule.STANDARD-READ-RULE=<condition format="xml"><boolean operator="true" /></condition>"
 
 MCR.internal_command_classes=org.mycore.frontend.cli.MCRUserCommands2,org.mycore.frontend.cli.MCRClassificationCommands,org.mycore.frontend.cli.MCRObjectCommands,org.mycore.frontend.cli.MCRAccessCommands,org.mycore.frontend.cli.MCRDerivateCommands,org.mycore.backend.hibernate.MCRHIBCtrlCommands,org.mycore.access.mcrimpl.MCRAccessCtrlCommands,org.mycore.services.fieldquery.MCRQueryCommands
 
 MCR.Access_class_name=org.mycore.access.mcrimpl.MCRAccessControlSystem
-MCR.AccessPermissions=MCR.AccessPermissions=read,commitdb,writedb,deletedb
+MCR.AccessPermissions=MCR.AccessPermissions=read,commitdb,writedb,deletedb,deletewf
 MCR.AccessPool.CacheSize=4096
 
 # The configuration for the superuser
@@ -342,14 +343,14 @@ MCR.zip.metadata.transformer=MyCoReZip2dc.xsl
 # Index and Search Management 
 ############################################################################
 
+MCR.EventHandler.MCRObject.1.class=org.mycore.access.MCRAccessEventHandler
+MCR.EventHandler.MCRObject.2.class=org.mycore.datamodel.metadata.MCRXMLTableEventHandler
+MCR.EventHandler.MCRObject.3.class=org.mycore.datamodel.metadata.MCRLinkTableEventHandler
+MCR.EventHandler.MCRObject.4.Indexer=hibernate
 
-#MCR.EventHandler.MCRObject.1.class=org.mycore.access.MCRSimpleWorkflowAccessEventHandler
-MCR.EventHandler.MCRObject.1.class=org.mycore.datamodel.metadata.MCRXMLTableEventHandler
-MCR.EventHandler.MCRObject.2.class=org.mycore.datamodel.metadata.MCRLinkTableEventHandler
-MCR.EventHandler.MCRObject.3.Indexer=hibernate
-#MCR.EventHandler.MCRDerivate.1.class=org.mycore.access.MCRSimpleWorkflowAccessEventHandler
-MCR.EventHandler.MCRDerivate.1.class=org.mycore.datamodel.metadata.MCRXMLTableEventHandler
-MCR.EventHandler.MCRDerivate.2.Indexer=lucene
+MCR.EventHandler.MCRDerivate.1.class=org.mycore.access.MCRAccessEventHandler
+MCR.EventHandler.MCRDerivate.2.class=org.mycore.datamodel.metadata.MCRXMLTableEventHandler
+MCR.EventHandler.MCRDerivate.3.Indexer=lucene
 
 MCR.Searcher.hibernate.Index=metadata
 MCR.Searcher.hibernate.Class=org.mycore.backend.hibernate.MCRHIBSearcher

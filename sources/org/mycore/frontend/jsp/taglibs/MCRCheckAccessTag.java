@@ -1,27 +1,22 @@
 package org.mycore.frontend.jsp.taglibs;
 
 import java.io.IOException;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.tagext.*;
 import javax.servlet.jsp.*;
 
 import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
-import org.mycore.common.MCRConfiguration;
-import org.mycore.common.MCRSession;
-import org.mycore.frontend.servlets.MCRServlet;
-
 
 public class MCRCheckAccessTag extends SimpleTagSupport
 {
-	private String pool;
+	private String permission;
 	private String var;
 	private String key;
 	
 	private static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
 
-	public void setPool(String inputPool) {
-		pool = inputPool;
+	public void setPermission(String inputPermission) {
+		permission = inputPermission;
 		return;
 	}
 	public void setVar(String inputVar) {
@@ -34,7 +29,7 @@ public class MCRCheckAccessTag extends SimpleTagSupport
 	}	
 	public void doTag() throws JspException, IOException {
 		PageContext pageContext = (PageContext) getJspContext();
-		boolean accessAllowed = AI.checkPermission(key, pool);
+		boolean accessAllowed = AI.checkPermission(key, permission);
 		if(accessAllowed)
 			pageContext.setAttribute(var, "true");
 		else
