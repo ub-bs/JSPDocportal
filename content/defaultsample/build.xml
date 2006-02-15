@@ -2,7 +2,7 @@
 
 <!-- =================================================================== -->
 <!-- MyCoRe Default Sample Content for the MyCoReSample Application      -->
-<!-- $Revision: 1.1 $ $Date: 2006-01-05 20:20:31 $                       -->
+<!-- $Revision: 1.2 $ $Date: 2006-02-15 18:41:29 $                       -->
 <!-- =================================================================== -->
 
 <project default="usage" basedir=".">
@@ -138,7 +138,7 @@
     <echo>Operating system   : ${os.name} Version ${os.version} on ${os.arch} </echo>
     <echo>Java version       : JDK ${ant.java.version} Version ${java.version} from ${java.vendor}</echo>
     <echo>Java home          : ${env.JAVA_HOME}</echo>
-    <echo>Ant build file     : $Revision: 1.1 $ $Date: 2006-01-05 20:20:31 $</echo>
+    <echo>Ant build file     : $Revision: 1.2 $ $Date: 2006-02-15 18:41:29 $</echo>
     <echo>Ant version        : ${ant.version}</echo>
     <echo>Ant home           : ${env.ANT_HOME}</echo>
     <echo>System CLASSPATH   : ${build.sysclasspath}</echo>
@@ -188,18 +188,18 @@
   <target name="load.document">
     <property name="commands.file" value="${basedir}/commands.txt"/>
     <echo file="${commands.file}" append="false">
-        update object from file docportal_document_00410901.xml
-        update derivate from file docportal_derivate_00410901.xml
-        update object from file docportal_document_00410902.xml
-        update derivate from file docportal_derivate_00410902.xml
-        update object from file docportal_document_00410903.xml
-        update derivate from file docportal_derivate_00410903.xml
-        update object from file docportal_document_00410904.xml
-        update derivate from file docportal_derivate_00410904.xml
-        update object from file docportal_document_07111101.xml
-        update derivate from file docportal_derivate_07111101.xml
-        update object from file docportal_document_07910403.xml    	
-        update derivate from file docportal_derivate_07910403.xml
+        load object from file docportal_document_0041090.xml
+        load derivate from file docportal_derivate_00410901.xml
+        load object from file docportal_document_00410902.xml
+        load derivate from file docportal_derivate_00410902.xml
+        load object from file docportal_document_00410903.xml
+        load derivate from file docportal_derivate_00410903.xml
+        load object from file docportal_document_00410904.xml
+        load derivate from file docportal_derivate_00410904.xml
+        load object from file docportal_document_07111101.xml
+        load derivate from file docportal_derivate_07111101.xml
+        load object from file docportal_document_07910403.xml    	
+        load derivate from file docportal_derivate_07910403.xml    	
       quit
     </echo>
     <antcall target="invoke.cli">
@@ -213,7 +213,7 @@
   <!-- Remove the data of this content tree from the MyCoReSample          -->
   <!-- =================================================================== -->
 
-  <target name="remove" depends="remove.institution,remove.author,remove.document" />
+  <target name="remove" depends="remove.document,remove.author,remove.institution" />
   
   <target name="remove.institution">
     <property name="commands.file" value="${basedir}/commands.txt"/>

@@ -44,9 +44,7 @@
    <phone type="phone" xml:lang="en">+49 (0)3641 9470024</phone>
   </phones>
   <dates class="MCRMetaDate">
-   <date xml:lang="de" type="birth">
-    26.11.1978
-   </date>
+   <date type="birth">11/26/1978</date>
   </dates>
   <professions class="MCRMetaLangText" textsearch="true">
    <profession type="job" xml:lang="de">Student</profession>
@@ -75,10 +73,36 @@
   </publications>
  </metadata>
  <service>
+  <servacls class="MCRMetaAccessRule">
+   <servacl permission="read">
+    <condition format="xml">
+     <boolean operator="true" />
+    </condition>
+   </servacl>
+   <servacl permission="writedb">
+    <condition format="xml">
+     <boolean operator="or">
+      <condition value="admingroup" operator="=" field="group"/>
+     </boolean>
+    </condition>
+   </servacl>
+   <servacl permission="deletedb">
+    <condition format="xml">
+     <boolean operator="or">
+      <condition value="admingroup" operator="=" field="group"/>
+     </boolean>
+    </condition>
+   </servacl>
+   <servacl permission="commitdb">
+    <condition format="xml">
+     <boolean operator="or">
+      <condition value="admingroup" operator="=" field="group"/>
+     </boolean>
+    </condition>
+   </servacl>
+  </servacls>
   <servflags class="MCRMetaLangText">
-   <servflag>Access:public</servflag>
-   <servflag>State:commited</servflag>
-   <servflag>User:administrator</servflag>
+   <servflag>State:original sample</servflag>
   </servflags>
  </service>
 </mycoreobject>

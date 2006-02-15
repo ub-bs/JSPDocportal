@@ -3,36 +3,29 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
   xsi:noNamespaceSchemaLocation="datamodel-document.xsd"
   xmlns:xlink="http://www.w3.org/1999/xlink" 
-  ID="DocPortal_document_07910403" 
-  label="DocPortal_document_07910403">
+  ID="DocPortal_document_07910406" 
+  label="DocPortal_document_07910406">
 <structure/>
 <metadata xml:lang="de">
   <titles class="MCRMetaLangText" heritable="true" notinherit="false" parasearch="true" textsearch="true">
     <title xml:lang="de" inherited="0" form="plain" type="main">
-      Eindrücke aus Alaska
+      Kośny reist durch Österreich und die Türkei: „Gore ot uma“
     </title>
     <title xml:lang="en" inherited="0" form="plain" type="main">
-      Impressions of Alaska
+      Kośny reist durch Österreich und die Türkei
     </title>
   </titles>
   <creators class="MCRMetaLangText" heritable="true" notinherit="false" parasearch="true" textsearch="true">
     <creator xml:lang="de" inherited="0" form="plain">
-      Detlev Degenhardt
+      Sören Kośny
     </creator>
   </creators>
-  <creatorlinks class="MCRMetaLinkID" heritable="true" notinherit="false" parasearch="true" textsearch="false">
-    <creatorlink inherited="0" 
-      xlink:type="locator" 
-      xlink:href="DocPortal_author_07910401" 
-      xlink:label="Author"
-      xlink:title="Detlev Degenhardt"/>
-  </creatorlinks>
   <origins class="MCRMetaClassification" heritable="true" notinherit="false" parasearch="true" textsearch="false">
     <origin inherited="0" classid="DocPortal_class_00000003" categid="Unis.Freiburg"/>
   </origins>
   <descriptions class="MCRMetaLangText" heritable="true" notinherit="false" parasearch="true" textsearch="true">
     <description xml:lang="de" inherited="0" form="plain" type="abstract">
-      Bilder vom Urlaub im Spätsommer 2002 in Alaska.
+      just a little utf-8 test: Die zeitgenössische Rezeption seiner Komödie „Gore ot uma“ (1824 - 1832). Berlin 1985.
     </description>
   </descriptions>
   <contributors class="MCRMetaLangText" heritable="true" notinherit="false" parasearch="true" textsearch="true">
@@ -60,7 +53,7 @@
   </coverages>
   <rights class="MCRMetaLangText" heritable="true" notinherit="false" parasearch="true" textsearch="true">
     <right xml:lang="de" inherited="0" form="plain">
-      Alle Rechte an dem Dokument hält Detlev Degenhardt.
+      Alle Rechte an dem Dokument hält HH..
     </right>
   </rights>
   <sizes class="MCRMetaLangText" heritable="true" notinherit="false" parasearch="true" textsearch="false">
@@ -68,36 +61,14 @@
   </sizes>
 </metadata>
 <service>
-  <servacls class="MCRMetaAccessRule">
-   <servacl permission="read">
-    <condition format="xml">
-     <boolean operator="true" />
-    </condition>
-   </servacl>
-   <servacl permission="writedb">
-    <condition format="xml">
-     <boolean operator="or">
-      <condition value="admingroup" operator="=" field="group"/>
-     </boolean>
-    </condition>
-   </servacl>
-   <servacl permission="deletedb">
-    <condition format="xml">
-     <boolean operator="or">
-      <condition value="admingroup" operator="=" field="group"/>
-     </boolean>
-    </condition>
-   </servacl>
-   <servacl permission="commitdb">
-    <condition format="xml">
-     <boolean operator="or">
-      <condition value="admingroup" operator="=" field="group"/>
-     </boolean>
-    </condition>
-   </servacl>
-  </servacls>
-  <servflags class="MCRMetaLangText">
-   <servflag>State:original sample</servflag>
+  <servdates class="MCRMetaDate" heritable="false" notinherit="false" parasearch="true" textsearch="false">
+    <servdate xml:lang="de" inherited="0" type="createdate">2004-06-03</servdate>
+    <servdate xml:lang="de" inherited="0" type="modifydate">2004-06-04</servdate>
+  </servdates>
+  <servflags class="MCRMetaLangText" heritable="false" notinherit="false" parasearch="true" textsearch="false">
+    <servflag xml:lang="de" inherited="0" form="plain">Access:public</servflag>
+    <servflag xml:lang="de" inherited="0" form="plain">State:commited</servflag>
+    <servflag xml:lang="de" inherited="0" form="plain">User:gast</servflag>
   </servflags>
 </service>
 </mycoreobject>

@@ -17,6 +17,41 @@
 </nationals>
 <emails class="MCRMetaLangText" heritable="true" notinherit="false" parasearch="false" textsearch="false"><email xml:lang="de" inherited="0" form="plain">Detlev.Degenhardt@rz.uni-freiburg.de</email>
 </emails>
-<notes class="MCRMetaLangText" heritable="true" notinherit="false" parasearch="false" textsearch="false"><note xml:lang="de" inherited="0" form="plain">Detlev Degenhardt ist einer der MyCoRe Autoren.</note>
-</notes>
-</metadata><service><servdates class="MCRMetaISO8601Date" heritable="false" notinherit="false" parasearch="true" textsearch="false"><servdate xml:lang="de" inherited="0" type="createdate">2004-06-02T18:00:00</servdate><servdate xml:lang="de" inherited="0" type="modifydate">2004-06-02T18:00:00</servdate></servdates><servflags class="MCRMetaLangText" heritable="false" notinherit="false" parasearch="true" textsearch="false"><servflag xml:lang="de" inherited="0" form="plain">Access:public</servflag><servflag xml:lang="de" inherited="0" form="plain">State:commited</servflag><servflag xml:lang="de" inherited="0" form="plain">User:gast</servflag><servflag xml:lang="de" inherited="0" form="plain">User:gast</servflag><servflag xml:lang="de" inherited="0" form="plain">User:gast</servflag></servflags></service></mycoreobject>
+  <notes class="MCRMetaLangText" heritable="true" notinherit="false" parasearch="false" textsearch="false">
+   <note xml:lang="de" inherited="0" form="plain">Detlev Degenhardt ist einer der MyCoRe Autoren.</note>
+  </notes>
+ </metadata>
+ <service>
+  <servacls class="MCRMetaAccessRule">
+   <servacl permission="read">
+    <condition format="xml">
+     <boolean operator="true" />
+    </condition>
+   </servacl>
+   <servacl permission="writedb">
+    <condition format="xml">
+     <boolean operator="or">
+      <condition value="admingroup" operator="=" field="group"/>
+     </boolean>
+    </condition>
+   </servacl>
+   <servacl permission="deletedb">
+    <condition format="xml">
+     <boolean operator="or">
+      <condition value="admingroup" operator="=" field="group"/>
+     </boolean>
+    </condition>
+   </servacl>
+   <servacl permission="commitdb">
+    <condition format="xml">
+     <boolean operator="or">
+      <condition value="admingroup" operator="=" field="group"/>
+     </boolean>
+    </condition>
+   </servacl>
+  </servacls>
+  <servflags class="MCRMetaLangText">
+   <servflag>State:original sample</servflag>
+  </servflags>
+ </service>
+</mycoreobject>
