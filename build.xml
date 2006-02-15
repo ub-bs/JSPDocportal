@@ -2,7 +2,7 @@
 
 <!-- =================================================================== -->
 <!-- MyCoRe sample application build file for use with Apache Ant        -->
-<!-- $Revision: 1.16 $ $Date: 2006-02-10 10:36:04 $                      -->
+<!-- $Revision: 1.17 $ $Date: 2006-02-15 18:40:13 $                      -->
 <!-- =================================================================== -->
 
 <project default="usage" basedir=".">
@@ -135,7 +135,7 @@
 	    <echo>Operating system   : ${os.name} Version ${os.version} on ${os.arch} </echo>
 	    <echo>Java version       : JDK ${ant.java.version} Version ${java.version} from ${java.vendor}</echo>
 	    <echo>Java home          : ${env.JAVA_HOME}</echo>
-	    <echo>Ant build file     : $Revision: 1.16 $ $Date: 2006-02-10 10:36:04 $</echo>
+	    <echo>Ant build file     : $Revision: 1.17 $ $Date: 2006-02-15 18:40:13 $</echo>
 	    <echo>Ant version        : ${ant.version}</echo>
 	    <echo>Ant home           : ${env.ANT_HOME}</echo>
 	    <echo>XML Store type     : ${MCR.XMLStore.Type}</echo>
@@ -1152,17 +1152,16 @@
         <property name="commands.file" value="${basedir}/commands.txt" />
         <echo file="${commands.file}" append="false">
 
+            load permissions data from file permissions.xml        	
             init superuser
 
             change to user root with alleswirdgut
-            update privileges data from file privileges.xml
             update group data from file group_gastgroup.xml
 
             create group data from file group_admingroup.xml
             create user data from file user_administrator.xml
             change to user administrator with alleswirdgut
 
-            update privileges data from file privileges_group1.xml
             create group data from file group_readergroup1.xml
             add group readergroup1 as member to group gastgroup
             create group data from file group_authorgroup1.xml
@@ -1176,7 +1175,6 @@
             create user data from file user_editor1A.xml
             create user data from file user_editor1B.xml
 
-            update privileges data from file privileges_group2.xml
             create group data from file group_readergroup2.xml
             add group readergroup2 as member to group gastgroup
             create group data from file group_authorgroup2.xml
@@ -1190,7 +1188,6 @@
             create user data from file user_editor2A.xml
             create user data from file user_editor2B.xml
 
-            load permissions data from file permissions.xml
             check user data consistency
         </echo>
         <antcall target="invoke.cli">
