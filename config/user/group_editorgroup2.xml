@@ -8,11 +8,6 @@
 
   <group ID="editorgroup2">
     <group.description>Die Gruppe von Bearbeitern der Gruppe 2</group.description>
-    <group.privileges>
-      <privileges.privilege>editor</privileges.privilege>
-      <privileges.privilege>remove-author</privileges.privilege>
-      <privileges.privilege>remove-institution</privileges.privilege>
-    </group.privileges>
   </group>
 
 <!-- ******************************************************************* -->

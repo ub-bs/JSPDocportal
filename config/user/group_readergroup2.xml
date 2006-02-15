@@ -8,9 +8,6 @@
 
   <group ID="readergroup2">
     <group.description>Die Gruppe von Lesern geschützter Dokumente der Gruppe 2</group.description>
-    <group.privileges>
-      <privileges.privilege>hidden-group2</privileges.privilege>
-    </group.privileges>
   </group>
 
 <!-- ******************************************************************* -->

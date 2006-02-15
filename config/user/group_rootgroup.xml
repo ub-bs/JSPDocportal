@@ -5,11 +5,6 @@
     <group.admins>
       <admins.userID>root</admins.userID>
     </group.admins>
-    <group.privileges>
-      <privileges.privilege>user administrator</privileges.privilege>
-      <privileges.privilege>change owner of object</privileges.privilege>
-      <privileges.privilege>modify privileges</privileges.privilege>
-    </group.privileges>
   </group>
 </mycoregroup>
 

@@ -8,21 +8,6 @@
 
   <group ID="authorgroup1">
     <group.description>Die Gruppe von Autoren der Gruppe 1</group.description>
-    <group.privileges>
-      <privileges.privilege>create-author</privileges.privilege>
-      <privileges.privilege>create-document</privileges.privilege>
-      <privileges.privilege>create-institution</privileges.privilege>
-      <privileges.privilege>modify-author</privileges.privilege>
-      <privileges.privilege>modify-document</privileges.privilege>
-      <privileges.privilege>modify-institution</privileges.privilege>
-      <privileges.privilege>delete-author</privileges.privilege>
-      <privileges.privilege>delete-document</privileges.privilege>
-      <privileges.privilege>delete-institution</privileges.privilege>
-      <privileges.privilege>commit-author</privileges.privilege>
-      <privileges.privilege>commit-document</privileges.privilege>
-      <privileges.privilege>commit-institution</privileges.privilege>
-      <privileges.privilege>remove-document</privileges.privilege>
-    </group.privileges>
   </group>
 
 <!-- ******************************************************************* -->

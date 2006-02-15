@@ -15,10 +15,6 @@
       <members.groupID>rootgroup</members.groupID>
     </group.members>
     <group.groups />
-    <group.privileges>
-      <privileges.privilege>public</privileges.privilege>
-      <privileges.privilege>list all users</privileges.privilege>
-    </group.privileges>
   </group>
 </mycoregroup>
 

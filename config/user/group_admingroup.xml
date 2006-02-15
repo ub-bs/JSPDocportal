@@ -2,20 +2,6 @@
 <mycoregroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:noNamespaceSchemaLocation="MCRGroup.xsd">
   <group ID="admingroup">
     <group.description>The administration group</group.description>
-    <group.privileges>
-      <privileges.privilege>user administrator</privileges.privilege>
-      <privileges.privilege>create user</privileges.privilege>
-      <privileges.privilege>delete user</privileges.privilege>
-      <privileges.privilege>modify user</privileges.privilege>
-      <privileges.privilege>create group</privileges.privilege>
-      <privileges.privilege>delete group</privileges.privilege>
-      <privileges.privilege>modify group</privileges.privilege>
-      <privileges.privilege>list all users</privileges.privilege>
-      <privileges.privilege>list all privileges</privileges.privilege>
-      <privileges.privilege>create-classification</privileges.privilege>
-      <privileges.privilege>delete-classification</privileges.privilege>
-      <privileges.privilege>modify-classification</privileges.privilege>
-    </group.privileges>
   </group>
 </mycoregroup>
 
