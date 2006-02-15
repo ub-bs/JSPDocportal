@@ -24,7 +24,6 @@
 
 package org.mycore.frontend.servlets;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.mycore.common.MCRMailer;
@@ -42,6 +41,8 @@ import org.mycore.frontend.workflow.MCRWorkflowManager;
  */
 
 public class MCRCheckNewDataServlet extends MCRCheckDataBase {
+
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * The method is a dummy and return an URL with the next working step.

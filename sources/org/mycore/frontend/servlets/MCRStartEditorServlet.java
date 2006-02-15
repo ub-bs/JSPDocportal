@@ -36,20 +36,16 @@ import java.util.Properties;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
 import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
-import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRMailer;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.MCRUtils;
-import org.mycore.datamodel.ifs.MCRDirectory;
-import org.mycore.datamodel.ifs.MCRFileImportExport;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
@@ -199,7 +195,6 @@ public class MCRStartEditorServlet extends MCRServlet {
 		HttpServletRequest request = job.getRequest();
 		HttpServletResponse response = job.getResponse();
 		
-		HttpSession session = request.getSession(false);
 		MCRSession mcrSession = null;
 		
 		String sessionID = request.getParameter("HttpSessionID");
@@ -267,7 +262,8 @@ public class MCRStartEditorServlet extends MCRServlet {
 		String mymcrid = getProperty(request, "mcrid");
 		
 		try {
-			MCRObjectID testid = new MCRObjectID(mymcrid);
+			// test id
+			new MCRObjectID(mymcrid);
 		} catch (Exception e) {
 			mymcrid = "";
 		}
@@ -309,7 +305,8 @@ public class MCRStartEditorServlet extends MCRServlet {
 			mymcrid2 = "";
 		} else {
 			try {
-				MCRObjectID testid = new MCRObjectID(mymcrid2);
+				// test id
+				new MCRObjectID(mymcrid2);
 			} catch (Exception e) {
 				mymcrid2 = "";
 			}

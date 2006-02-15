@@ -23,24 +23,12 @@
 
 package org.mycore.frontend.servlets;
 
-import java.io.OutputStream;
-import java.util.StringTokenizer;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.jdom.Document;
 import org.mycore.common.MCRConfiguration;
-import org.mycore.common.MCRException;
-import org.mycore.common.MCRSession;
-import org.mycore.common.MCRSessionMgr;
-import org.mycore.common.xml.MCRXMLContainer;
-import org.mycore.datamodel.metadata.MCRObject;
-import org.mycore.datamodel.metadata.MCRObjectID;
-import org.mycore.datamodel.metadata.MCRXMLTableManager;
 
 /**
  * This servlet forwards the Editor Redirect Pages 
@@ -48,10 +36,10 @@ import org.mycore.datamodel.metadata.MCRXMLTableManager;
  * 
  */
 public class MCREditorForwardServlet extends MCRServlet {
-    private static Logger LOGGER = Logger.getLogger(MCREditorForwardServlet.class);
 
-    private static MCRConfiguration CONFIG = null;
+	private static final long serialVersionUID = 1L;
 
+	private static Logger LOGGER = Logger.getLogger(MCREditorForwardServlet.class);
 
     /**
      * The initalization of the servlet.

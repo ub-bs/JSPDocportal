@@ -24,13 +24,7 @@
 
 package org.mycore.frontend.servlets;
 
-import java.util.ArrayList;
-
 import org.apache.log4j.Logger;
-
-import org.mycore.access.MCRAccessInterface;
-import org.mycore.access.MCRAccessManager;
-import org.mycore.common.MCRConfiguration;
 import org.mycore.datamodel.metadata.MCRObjectID;
 
 /**
@@ -43,8 +37,6 @@ import org.mycore.datamodel.metadata.MCRObjectID;
 
 abstract public class MCRCheckBase extends MCRServlet {
 	protected static Logger logger = Logger.getLogger(MCRCheckBase.class);
-	protected static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
-
 	String NL = System.getProperty("file.separator");
 
 	/**

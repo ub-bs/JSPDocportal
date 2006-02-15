@@ -42,6 +42,8 @@ import org.mycore.frontend.workflow.MCRWorkflowManager;
  */
 
 public class MCRCheckEditDataServlet extends MCRCheckDataBase {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * The method check the privileg of this action.
 	 * 

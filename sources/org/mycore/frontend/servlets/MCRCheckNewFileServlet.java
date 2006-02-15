@@ -39,6 +39,8 @@ import org.mycore.datamodel.metadata.MCRObjectID;
 
 public class MCRCheckNewFileServlet extends MCRCheckFileBase {
 
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * The method check the privileg of this action.
 	 * 

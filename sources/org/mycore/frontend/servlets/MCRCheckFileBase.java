@@ -28,7 +28,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 
 import org.apache.commons.fileupload.FileItem;
@@ -40,7 +39,6 @@ import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.editor.MCREditorSubmission;
 import org.mycore.frontend.editor.MCRRequestParameters;
-import org.mycore.user.MCRUserMgr;
 
 /**
  * This class is the superclass of servlets which checks the MCREditorServlet
@@ -75,7 +73,7 @@ abstract public class MCRCheckFileBase extends MCRCheckBase {
 		// read the XML data
 		MCREditorSubmission sub = (MCREditorSubmission) (job.getRequest()
 				.getAttribute("MCREditorSubmission"));
-		org.jdom.Document indoc = sub.getXML();
+
 		List files = sub.getFiles();
 
 		// read the parameter
@@ -116,7 +114,7 @@ abstract public class MCRCheckFileBase extends MCRCheckBase {
 		String dirname = workdir + NL + se_mcrid;
 
 		// save the files
-		File dir = new File(dirname);
+
 		ArrayList ffname = new ArrayList();
 		String mainfile = "";
 		for (int i = 0; i < files.size(); i++) {

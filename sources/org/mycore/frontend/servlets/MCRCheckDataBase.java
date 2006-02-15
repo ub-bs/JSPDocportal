@@ -26,8 +26,6 @@ package org.mycore.frontend.servlets;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -40,7 +38,6 @@ import org.jdom.Element;
 import org.jdom.Namespace;
 
 import org.mycore.common.JSPUtils;
-import org.mycore.common.MCRConfigurationException;
 import org.mycore.common.MCRDefaults;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRSession;
@@ -49,8 +46,6 @@ import org.mycore.common.MCRUtils;
 import org.mycore.datamodel.metadata.MCRMetaAddress;
 import org.mycore.datamodel.metadata.MCRMetaBoolean;
 import org.mycore.datamodel.metadata.MCRMetaClassification;
-import org.mycore.datamodel.metadata.MCRMetaDate;
-import org.mycore.datamodel.metadata.MCRMetaHistoryDate;
 import org.mycore.datamodel.metadata.MCRMetaISO8601Date;
 import org.mycore.datamodel.metadata.MCRMetaInstitutionName;
 import org.mycore.datamodel.metadata.MCRMetaLangText;
@@ -60,11 +55,10 @@ import org.mycore.datamodel.metadata.MCRMetaNumber;
 import org.mycore.datamodel.metadata.MCRMetaPersonName;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
-import org.mycore.datamodel.metadata.MCRXMLTableManager;
 import org.mycore.frontend.editor.MCREditorSubmission;
 import org.mycore.frontend.editor.MCRRequestParameters;
 import org.mycore.frontend.workflow.MCRWorkflowManager;
-import org.mycore.user.MCRUserMgr;
+
 
 /**
  * This class is the superclass of servlets which checks the MCREditorServlet

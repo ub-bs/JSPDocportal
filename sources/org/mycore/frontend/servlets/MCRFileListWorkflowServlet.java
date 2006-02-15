@@ -35,10 +35,7 @@ import org.apache.log4j.Logger;
 import org.jdom.Namespace;
 
 import org.mycore.common.MCRDefaults;
-import org.mycore.common.MCRSession;
-import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.xml.MCRXMLContainer;
-import org.mycore.user.MCRUserMgr;
 
 /**
  * This servlet create a MyCoRe classification JDOM tree based of a content in a
@@ -59,6 +56,7 @@ import org.mycore.user.MCRUserMgr;
  */
 
 public class MCRFileListWorkflowServlet extends MCRServlet {
+	private static final long serialVersionUID = 1L;
 	private static Logger LOGGER = Logger
 			.getLogger(MCRFileListWorkflowServlet.class.getName());
 
@@ -71,23 +69,11 @@ public class MCRFileListWorkflowServlet extends MCRServlet {
 		String type = getProperty(job.getRequest(), "type").trim();
 		LOGGER.debug("MCRFileListWorkflowServlet : type = " + type);
 
-		// check the privileg
-		boolean haspriv = false;
-		MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
-		String userid = mcrSession.getCurrentUserID();
-		//userid = "administrator";
-		LOGGER.debug("Curren user for list workflow = " + userid);
-		ArrayList privs = MCRUserMgr.instance().retrieveAllPrivsOfTheUser(
-				userid);
-		if (privs.contains("modify-" + type)) {
-			haspriv = true;
-		}
-
 		// read directory
 		String dirname = CONFIG.getString("MCR.editor_" + type + "_directory",
 				null);
 		ArrayList workfiles = new ArrayList();
-		if ((dirname != null) && haspriv) {
+		if ((dirname != null)) {
 			File dir = new File(dirname);
 			String[] dirl = null;
 			if (dir.isDirectory()) {
@@ -121,14 +107,17 @@ public class MCRFileListWorkflowServlet extends MCRServlet {
 		org.jdom.Element categories = new org.jdom.Element("categories");
 		for (int i = 0; i < workfiles.size(); i++) {
 			String fname = (String) workfiles.get(i);
-			org.jdom.Element category = new org.jdom.Element("category");
-			category.setAttribute("ID", fname.substring(0, fname.length() - 4));
-			org.jdom.Element label = new org.jdom.Element("label");
-			label.setAttribute("lang", "en", Namespace.XML_NAMESPACE);
-			label.setAttribute("text", fname.substring(0, fname.length() - 4));
-			label.setAttribute("description", "");
-			category.addContent(label);
-			categories.addContent(category);
+			String objid = fname.substring(0, fname.length() - 4);
+			if(AI.checkPermission(objid, "writedb")){
+				org.jdom.Element category = new org.jdom.Element("category");
+				category.setAttribute("ID", objid);
+				org.jdom.Element label = new org.jdom.Element("label");
+				label.setAttribute("lang", "en", Namespace.XML_NAMESPACE);
+				label.setAttribute("text", objid);
+				label.setAttribute("description", "");
+				category.addContent(label);
+				categories.addContent(category);				
+			}
 		}
 		elm.addContent(categories);
 
