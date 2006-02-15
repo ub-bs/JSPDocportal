@@ -199,12 +199,7 @@ public class JSPUtils {
 				.append(fillToConstantLength(String.valueOf(month),"0",2))
 				.append("-")
 				.append(fillToConstantLength(String.valueOf(day),"0",2)).toString();
-			sb.append(date)
-				.append("T")
-				.append("12:00:00.00Z");
-			// problems with UTC
-			// cal.set(year, month -1, day);
-			// sb.append(getISO8601TimeOffset(cal));
+			sb.append(date);
 		}
 		return sb.toString();
 	}
