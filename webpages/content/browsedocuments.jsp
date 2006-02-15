@@ -39,7 +39,8 @@
         Element conditions = new Element("conditions");
         conditions.setAttribute("format","xml");
         
-        Element or = new Element("or");
+        Element or = new Element("boolean");
+        or.setAttribute("operator", "or");
        
         for(Iterator it=doc.getDescendants(new ElementFilter("category"));it.hasNext();) {
             // categoryIDs like "Unis" and "Unis.Freiburg" for the children are not required anymore
@@ -75,7 +76,7 @@
         Element type = new Element("type");
         type.setAttribute("field",searchType);
         
-        Element sortby = new Element("sortby");
+        Element sortby = new Element("sortBy");
         
         Element sortfield = new Element("field");
         sortfield.setAttribute("field","title");
