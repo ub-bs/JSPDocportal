@@ -1,24 +1,20 @@
 package org.mycore.frontend.jsp;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
-import javax.servlet.ServletException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpServlet;
 import org.apache.log4j.Logger;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
-import org.mycore.user.MCRUserMgr;
-import org.mycore.user.MCRUser;
+import org.mycore.user2.MCRUserMgr;
+import org.mycore.user2.MCRUser;
 
 public class LoginServlet extends MCRServlet {
-    // The configuration
+
+	private static final long serialVersionUID = 1L;
+	// The configuration
     private static Logger LOGGER = Logger.getLogger(LoginServlet.class);
 
     protected void doGetPost(MCRServletJob job) throws Exception
