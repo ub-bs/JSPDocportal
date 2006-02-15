@@ -5,13 +5,34 @@
   xmlns:xlink="http://www.w3.org/1999/xlink"
   xmlns:xml="http://www.w3.org/XML/1998/namespace"
 >
-  <mcrpermission name="create-user" description="Anlegen von Benutzern">
+  <mcrpermission name="administrate-user" description="Verwalten von Usern (needed in MCRUserMgr)" ruledescription="Nur für Administratoren">
    <condition format="xml">
     <boolean operator="or">
      <condition value="admingroup" operator="=" field="group"/>
     </boolean>
    </condition>
   </mcrpermission>
+  <mcrpermission name="create-user" description="Anlegen von Benutzern" ruledescription="Nur für Administratoren">
+   <condition format="xml">
+    <boolean operator="or">
+     <condition value="admingroup" operator="=" field="group"/>
+    </boolean>
+   </condition>
+  </mcrpermission>
+  <mcrpermission name="modify-user" description="Verändern von Benutzern" ruledescription="Nur für Administratoren">
+   <condition format="xml">
+    <boolean operator="or">
+     <condition value="admingroup" operator="=" field="group"/>
+    </boolean>
+   </condition>
+  </mcrpermission>    
+  <mcrpermission name="delete-user" description="Löschen von Benutzern" ruledescription="Nur für Administratoren">
+   <condition format="xml">
+    <boolean operator="or">
+     <condition value="admingroup" operator="=" field="group"/>
+    </boolean>
+   </condition>
+  </mcrpermission>  
   <mcrpermission name="create-group" description="Anlegen von Gruppen">
    <condition format="xml">
     <boolean operator="or">
@@ -19,6 +40,20 @@
     </boolean>
    </condition>
   </mcrpermission>
+  <mcrpermission name="modify-group" description="Verändern von Gruppen">
+   <condition format="xml">
+    <boolean operator="or">
+     <condition value="admingroup" operator="=" field="group"/>
+    </boolean>
+   </condition>
+  </mcrpermission>  
+  <mcrpermission name="delete-group" description="Löschen von Gruppen">
+   <condition format="xml">
+    <boolean operator="or">
+     <condition value="admingroup" operator="=" field="group"/>
+    </boolean>
+   </condition> 
+  </mcrpermission> 
   <mcrpermission name="create-classification" description="Erzeugen einer Klassifikation">
    <condition format="xml">
     <boolean operator="or">
