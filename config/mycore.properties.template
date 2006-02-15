@@ -153,8 +153,6 @@ MCR.users_store_sql_table_users=MCRUSERS
 MCR.users_store_sql_table_groups=MCRGROUPS
 MCR.users_store_sql_table_group_members=MCRGROUPMEMBERS
 MCR.users_store_sql_table_group_admins=MCRGROUPADMINS
-MCR.users_store_sql_table_privileges=MCRPRIVS
-MCR.users_store_sql_table_privs_lookup=MCRPRIVSLOOKUP
 
 
 MCR.userstore_class_name=org.mycore.backend.hibernate.MCRHIBUserStore
