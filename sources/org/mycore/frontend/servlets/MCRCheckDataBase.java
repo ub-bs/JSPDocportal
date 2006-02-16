@@ -104,7 +104,7 @@ abstract public class MCRCheckDataBase extends MCRCheckBase {
 		//userid = "administrator";
 		logger.debug("Current user for edit check = " + userid);
 		String usererrorpage = "mycore-error.jsp?messageKey=SWF.PrivilegesError&lang=" + lang;
-		if (!AI.checkPermission(oldmcrid, "createdb" )) {
+		if (!AI.checkPermission("create-" + oldtype )) {
 			response.sendRedirect(getBaseURL() + usererrorpage);
 			return;
 		}		
