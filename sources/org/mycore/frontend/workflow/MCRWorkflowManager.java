@@ -100,7 +100,7 @@ public class MCRWorkflowManager {
 		String strReadrule = config.getString("MCR.AccessRule.STANDARD-READ-RULE","<condition format=\"xml\"><boolean operator=\"true\"/></condition>");
 		standardrule = (Element)MCRXMLHelper.parseXML(strStandardrule).getRootElement().detach();
 		editorrule = (Element)MCRXMLHelper.parseXML(strEditorrule).getRootElement().detach();
-		editorrule = (Element)MCRXMLHelper.parseXML(strReadrule).getRootElement().detach();
+		readrule = (Element)MCRXMLHelper.parseXML(strReadrule).getRootElement().detach();
 		// int tables
 		ht = new Hashtable();
 		mt = new Hashtable();
@@ -563,7 +563,7 @@ public class MCRWorkflowManager {
 
 			userStandardRule.addContent(or);
 			
-			AI.addRule(objid, "read", userStandardRule, "Editor-Standard-Regel + " + userid);
+			AI.addRule(objid, "read", readrule, "Standard Read Rule" );
 			AI.addRule(objid, "writedb", userStandardRule, "Editor-Standard-Regel + " + userid);
 			AI.addRule(objid, "deletewf", userStandardRule, "Editor-Standard-Regel + " + userid);			
 			AI.addRule(objid, "commitdb", editorrule, "Editor-Standard-Regel");

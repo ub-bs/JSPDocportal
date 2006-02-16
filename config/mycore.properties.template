@@ -24,7 +24,7 @@ MCR.editor_page_error_formular=editor/error-formular.jsp
 MCR.AccessRule.STANDARD-WORKFLOW-RULE=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="group" operator="=" value="editorgroup1" /></boolean></condition>
 MCR.AccessRule.STANDARD-RULE-ALL-EDITORS=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="group" operator="=" value="editorgroup1" /></boolean></condition>
 MCR.AccessRule.ADMININTERFACE-DEFAULTRULE=<condition format="xml"><condition field="user" operator="=" value="administrator" /></condition>
-MCR.AccessRule.STANDARD-READ-RULE=<condition format="xml"><boolean operator="true" /></condition>"
+MCR.AccessRule.STANDARD-READ-RULE=<condition format="xml"><boolean operator="true" /></condition>
 
 MCR.internal_command_classes=org.mycore.frontend.cli.MCRUserCommands2,org.mycore.frontend.cli.MCRClassificationCommands,org.mycore.frontend.cli.MCRObjectCommands,org.mycore.frontend.cli.MCRAccessCommands,org.mycore.frontend.cli.MCRDerivateCommands,org.mycore.backend.hibernate.MCRHIBCtrlCommands,org.mycore.access.mcrimpl.MCRAccessCtrlCommands,org.mycore.services.fieldquery.MCRQueryCommands
 
