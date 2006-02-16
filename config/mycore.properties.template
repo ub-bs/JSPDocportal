@@ -343,22 +343,35 @@ MCR.zip.metadata.transformer=MyCoReZip2dc.xsl
 # Index and Search Management 
 ############################################################################
 
+
 MCR.EventHandler.MCRObject.1.class=org.mycore.access.MCRAccessEventHandler
 MCR.EventHandler.MCRObject.2.class=org.mycore.datamodel.metadata.MCRXMLTableEventHandler
 MCR.EventHandler.MCRObject.3.class=org.mycore.datamodel.metadata.MCRLinkTableEventHandler
-MCR.EventHandler.MCRObject.4.Indexer=hibernate
+MCR.EventHandler.MCRObject.4.Indexer=lucenem
+
 
 MCR.EventHandler.MCRDerivate.1.class=org.mycore.access.MCRAccessEventHandler
 MCR.EventHandler.MCRDerivate.2.class=org.mycore.datamodel.metadata.MCRXMLTableEventHandler
-MCR.EventHandler.MCRDerivate.3.Indexer=lucene
+MCR.EventHandler.MCRDerivate.3.Indexer=lucenec
 
-MCR.Searcher.hibernate.Index=metadata
-MCR.Searcher.hibernate.Class=org.mycore.backend.hibernate.MCRHIBSearcher
-MCR.Searcher.lucene.Index=content
-MCR.Searcher.lucene.Class=org.mycore.backend.lucene.MCRLuceneSearcher
 
-MCR.Searcher.lucene.IndexDir=C:/sample-mcrjsp/indexer/lucene-index
-MCR.Lucene.LockDir=C:/sample-mcrjsp/indexer/lucene-lock
+#MCR.Searcher.hibernate.Index=metadata
+#MCR.Searcher.hibernate.Class=org.mycore.backend.hibernate.MCRHIBSearcher
+#MCR.Searcher.hibernate.TableName=MCRQueryTable
+
+#MCR.Searcher.hibernate2.Index=metadata2
+#MCR.Searcher.hibernate2.Class=org.mycore.backend.hibernate.MCRHIBSearcher
+#MCR.Searcher.hibernate2.TableName=MCRQueryTableII
+
+MCR.Searcher.lucenec.Index=content
+MCR.Searcher.lucenec.Class=org.mycore.backend.lucene.MCRLuceneSearcher
+MCR.Searcher.lucenec.IndexDir=E:/sample-mcrjsp/indexer/lucenec-index
+
+MCR.Searcher.lucenem.Index=metadata
+MCR.Searcher.lucenem.Class=org.mycore.backend.lucene.MCRLuceneSearcher
+MCR.Searcher.lucenem.IndexDir=E:/sample-mcrjsp/indexer/lucenem-index
+
+MCR.Lucene.LockDir=E:/sample-mcrjsp/indexer/lucene-lock
 
 
 ##############################################################################
