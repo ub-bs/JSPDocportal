@@ -66,13 +66,6 @@
    </cell>
    <cell col="4" row="6" anchor="WEST" ref="HNote" />
 
-   <cell col="1" row="7" anchor="NORTHWEST" ref="LFlagsP" />
-   <cell col="2" row="7" anchor="NORTHWEST" ref="DFlags" />
-   <cell col="3" row="7" anchor="NORTHWEST" >
-     <space width="20" height="0" />
-   </cell>
-   <cell col="4" row="7" anchor="WEST" ref="HFlags" />
-
    <cell col="1" row="8" />
    <cell col="2" row="8" anchor="WEST" ref="TwoButtons"  />
   </panel>
@@ -169,53 +162,6 @@
     <cell col="1" row="1" anchor="NORTHWEST" ref="Slang" var="metadata/notes/note/@lang" ordernr="6" default="de" />
     <cell col="2" row="1" anchor="NORTHWEST" ref="TFarea4096" var="metadata/notes/note" ordernr="6" default=""/>
   </panel>
-
-<!-- ** Data for the FLAGS *** -->
-
-  <panel id="DFlags">
-    <hidden var="service/servdates/@class" default="MCRMetaISO8601Date" />
-    <hidden var="service/servdates/@parasearch" default="true" />
-    <hidden var="service/servdates/@textsearch" default="false" />
-    <hidden var="service/servdates/@notinherit" default="false" />
-    <hidden var="service/servdates/@heritable" default="false" />
-    <hidden var="service/servdates/servdate/@type" />
-    <hidden var="service/servdates/servdate" />
-    <hidden var="service/servdates/servdate[2]/@type" />
-    <hidden var="service/servdates/servdate[2]" />
-    <hidden var="service/servdates/servdate[3]/@type" />
-    <hidden var="service/servdates/servdate[3]" />
-    <hidden var="service/servdates/servdate[4]/@type" />
-    <hidden var="service/servdates/servdate[4]" />
-
-    <hidden var="service/servflags/@class" default="MCRMetaLangText" />
-    <hidden var="service/servflags/@parasearch" default="true" />
-    <hidden var="service/servflags/@textsearch" default="false" />
-    <hidden var="service/servflags/@notinherit" default="false" />
-    <hidden var="service/servflags/@heritable" default="false" />
-    <hidden var="service/servflags/servflag/@inherited" default="0" />
-    <hidden var="service/servflags/servflag/@lang" default="de" />
-    <cell col="1" row="1" anchor="WEST" ref="SAccess" var="service/servflags/servflag" ordernr="7" />
-<cell col="2" row="1" anchor="NORTHWEST" ref="AFlagsAccess" />
-    <hidden var="service/servflags/servflag[2]/@inherited" default="0" />
-    <hidden var="service/servflags/servflag[2]/@lang" default="de" />
-    <cell col="1" row="2" anchor="WEST" ref="SState" var="service/servflags/servflag[2]" ordernr="7" />
-    <hidden var="service/servflags/servflag[3]/@inherited" default="0" />
-    <hidden var="service/servflags/servflag[3]/@lang" default="de" />
-    <cell col="1" row="3" anchor="WEST" var="service/servflags/servflag[3]" ordernr="7" >
-     <textfield id="TFzeile1024" width="64" maxlength="1024" default="IP:" />
-    </cell>
-    <cell col="2" row="3" anchor="NORTHWEST" ref="AFlagsIP" />
-    <hidden var="service/servflags/servflag[4]/@inherited" default="0" />
-    <hidden var="service/servflags/servflag[4]/@lang" default="de" />
-    <hidden var="service/servflags/servflag[4]" />
-    <hidden var="service/servflags/servflag[5]/@inherited" default="0" />
-    <hidden var="service/servflags/servflag[5]/@lang" default="de" />
-    <hidden var="service/servflags/servflag[5]" />
-    <hidden var="service/servflags/servflag[6]/@inherited" default="0" />
-    <hidden var="service/servflags/servflag[6]/@lang" default="de" />
-    <hidden var="service/servflags/servflag[6]" />
-  </panel>
-
  </components>
 </editor>
 

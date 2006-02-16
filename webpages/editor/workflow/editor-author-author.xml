@@ -115,13 +115,6 @@
     </cell>
     <cell col="4" row="13" anchor="WEST" ref="HPublication" />
 
-    <cell col="1" row="14" anchor="NORTHWEST" ref="LFlagsP" />
-    <cell col="2" row="14" anchor="NORTHWEST" ref="DFlags" />
-    <cell col="3" row="14" anchor="NORTHWEST" >
-      <space width="20" height="0" />
-    </cell>
-    <cell col="4" row="14" anchor="WEST" ref="HFlags" />
-
     <cell col="1" row="15"  />
     <cell col="2" row="15" anchor="EAST"      ref="TwoButtons"  />
   </panel>
@@ -343,30 +336,6 @@
     <hidden var="metadata/publications/publication[2]/@inherited" default="0" />
     <cell col="1" row="2" anchor="NORTHWEST" ref="Slang" var="metadata/publications/publication[2]/@lang" ordernr="14" default="de" />
     <cell col="2" row="2" anchor="NORTHWEST" ref="TFarea4096" var="metadata/publications/publication[2]" ordernr="14" default=""/>
-  </panel>
-
-<!-- ** Data for the FLAGS *** -->
-
-  <panel id="DFlags">
-   <hidden var="service/servflags/@class" default="MCRMetaLangText" />
-   <hidden var="service/servflags/@parasearch" default="true" />
-   <hidden var="service/servflags/@textsearch" default="false" />
-   <hidden var="service/servflags/@notinherit" default="false" />
-   <hidden var="service/servflags/@heritable" default="false" />
-   <hidden var="service/servflags/servflag/@inherited" default="0" />
-   <hidden var="service/servflags/servflag/@lang" default="de" />
-   <cell col="1" row="1" anchor="WEST" ref="SAccess" var="service/servflags/servflag" ordernr="2" />
-   <cell col="2" row="1" anchor="NORTHWEST" ref="AFlagsAccess" />
-   <hidden var="service/servflags/servflag[2]/@inherited" default="0" />
-   <hidden var="service/servflags/servflag[2]/@lang" default="de" />
-    <cell col="1" row="2" anchor="WEST" ref="SState" var="service/servflags/servflag[2]" ordernr="2" />
-   <cell col="2" row="2" anchor="NORTHWEST" ref="AFlagsState" />
-   <hidden var="service/servflags/servflag[3]/@inherited" default="0" />
-   <hidden var="service/servflags/servflag[3]/@lang" default="de" />
-   <cell col="1" row="3" anchor="WEST" var="service/servflags/servflag[3]" ordernr="2" >
-      <textfield id="TFzeile1024" width="64" maxlength="1024" default="IP:" />
-   </cell>
-   <cell col="2" row="3" anchor="NORTHWEST" ref="AFlagsIP" />
   </panel>
 
 <!-- *** End *** -->
