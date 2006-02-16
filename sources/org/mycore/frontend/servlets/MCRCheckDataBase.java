@@ -627,6 +627,10 @@ abstract public class MCRCheckDataBase extends MCRCheckBase {
 		}
 		// service
 		org.jdom.Element service = root.getChild("service");
+		if (service == null) {
+			service = new Element("service");
+			root.addContent(service);
+		}
 		List servicelist = service.getChildren();
 		int servicelistlen = servicelist.size();
 		for (int j = 0; j < servicelistlen; j++) {
