@@ -38,9 +38,8 @@ Der Zug mit der Lok 99 582 steht in Schönheide zur Abfahrt bereit.
     The picture was taken Whitsuntide 2000.
    </description>
   </descriptions>
-  <dates class="MCRMetaDate">
-   <date type="create" xml:lang="de">21.05.2000</date>
-   <date type="create" xml:lang="en">05/21/2000</date>
+  <dates class="MCRMetaISO8601Date">
+   <date type="create">2000-05-21</date>
   </dates>
   <types class="MCRMetaClassification">
    <type classid="DocPortal_class_00000005" categid="TYPE0004"/>

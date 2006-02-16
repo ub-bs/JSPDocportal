@@ -40,8 +40,8 @@
       Detlev Degenhardt
     </contributor>
   </contributors>
-  <dates class="MCRMetaDate" heritable="true" notinherit="false" parasearch="true" textsearch="false">
-    <date xml:lang="de" inherited="0" type="submitted">2002-10-08</date>
+  <dates class="MCRMetaISO8601Date" heritable="true" notinherit="false" parasearch="true" textsearch="false">
+    <date type="submitted">2002-10-08</date>
   </dates>
   <types class="MCRMetaClassification" heritable="true" notinherit="false" parasearch="true" textsearch="false">
     <type inherited="0" classid="DocPortal_class_00000005" categid="TYPE0018"/>

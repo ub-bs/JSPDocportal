@@ -37,9 +37,8 @@
      This is a short description for a kit bashing.
    </description>
   </descriptions>
-  <dates class="MCRMetaDate">
-   <date type="create" xml:lang="de">11.03.2001</date>
-   <date type="create" xml:lang="en">03/11/2001</date>
+  <dates class="MCRMetaISO8601Date">
+   <date type="create">2001-03-11</date>
   </dates>
   <types class="MCRMetaClassification">
    <type classid="DocPortal_class_00000005" categid="TYPE0003"/>

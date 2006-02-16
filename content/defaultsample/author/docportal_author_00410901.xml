@@ -46,8 +46,8 @@
    <phone type="phone" xml:lang="en">+49 (0)341 9733348</phone>
    <phone type="fax" xml:lang="en">+49 (0)341 9733399</phone>
   </phones>
-  <dates class="MCRMetaDate">
-   <date type="birth">24.02.1964</date>
+  <dates class="MCRMetaISO8601Date">
+   <date type="birth">1964-02-24</date>
   </dates>
   <professions class="MCRMetaLangText" textsearch="true">
    <profession type="job" xml:lang="de">System-Administrator</profession>

@@ -37,9 +37,8 @@ Dieses Bild wurde im Januar 1995 aufgenommen.
 The picture was shoot in Januar 1995.
    </description>
   </descriptions>
-  <dates class="MCRMetaDate">
-   <date type="create" xml:lang="de">27.02.1995</date>
-   <date type="create" xml:lang="en">02/27/1995</date>
+  <dates class="MCRMetaISO8601Date">
+   <date type="create">1995-02-27</date>
   </dates>
   <types class="MCRMetaClassification">
    <type classid="DocPortal_class_00000005" categid="TYPE0004"/>

@@ -36,9 +36,8 @@ Abendaufnahme im August mit dem Sonnunenuntergang im Rücken im Jachthafen
 Schilksee - Olympiazentrum 1972.
    </description>
   </descriptions>
-  <dates class="MCRMetaDate">
-   <date type="create" xml:lang="de">24.08.2004</date>
-   <date type="create" xml:lang="en">08/24/2004</date>
+  <dates class="MCRMetaISO8601Date">
+   <date type="create">2004-08-24</date>
   </dates>
   <types class="MCRMetaClassification">
    <type classid="DocPortal_class_00000005" categid="TYPE0004"/>

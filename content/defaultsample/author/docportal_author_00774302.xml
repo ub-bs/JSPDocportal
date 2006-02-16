@@ -43,7 +43,7 @@
    <phone type="phone" xml:lang="de">+49 (0)3641 9470024</phone>
    <phone type="phone" xml:lang="en">+49 (0)3641 9470024</phone>
   </phones>
-  <dates class="MCRMetaDate">
+  <dates class="MCRMetaISO8601Date">
    <date type="birth">11/26/1978</date>
   </dates>
   <professions class="MCRMetaLangText" textsearch="true">
