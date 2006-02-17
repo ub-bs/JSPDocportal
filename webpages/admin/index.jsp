@@ -1,29 +1,22 @@
-<%@ page import="org.mycore.user.MCRUserMgr,
-    org.mycore.user.MCRUser,
-    org.mycore.user.MCRGroup,
+<%@ page import="org.mycore.user2.MCRUserMgr,
+    org.mycore.user2.MCRUser,
+    org.mycore.user2.MCRGroup,
     org.mycore.common.MCRSession,
     org.mycore.frontend.servlets.MCRServlet"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
-<%@ page import="org.mycore.user.MCRGroup" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/xml" prefix="x"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
 <fmt:setLocale value="${requestScope.lang}" />
 <fmt:setBundle basename='messages' />
-
-<%
-    MCRSession mcrSession = MCRServlet.getSession(request);
-    MCRUser user = MCRUserMgr.instance().retrieveUser(mcrSession.getCurrentUserID());
-    String WebApplicationBaseURL = MCRServlet.getBaseURL();
-    String pageurl = (String) request.getAttribute("page");
-
-    if(! user.isMemberOf(new MCRGroup("admingroup"))){
-        pageurl="error.jsp";
-    }
-
-%>
-
+<mcr:session method="get" var="username" type="userID" />
+<c:set var="pageurl" value="${requestScope.page}" />
+<mcr:checkAccess var="hasAccess" permission="use-admininterface" />
+<c:if test="${hasAccess eq 'false'}">
+   <c:set var="pageurl" value="error.jsp" />
+</c:if>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
     <head>
@@ -33,14 +26,11 @@
         <link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}admin/css/admin.css" />
     </head>
     <body>
-<%
-    if (((String) request.getAttribute("page")).equals("rules_editor.jsp")){
-%>
-        <jsp:include page="<%=pageurl%>"/>
-
-<%  // normal page
-    }else{
-%>
+    <c:choose>
+       <c:when test="${pageurl eq 'rules_editor_jsp'}">
+          <c:import url="${pageurl}"/>
+       </c:when>
+       <c:otherwise>
         <table cellpadding="0" cellspacing="0" id="mytable" border="0">
             <tr valign="bottom"  >
                 <td class="adminheadline">
@@ -63,7 +53,7 @@
                                 <table width="100%" height="100%" cellpadding="0" cellspacing="0">
                                     <tr>
                                         <td valign="top" style="padding:5px">
-                                            <jsp:include page="<%=pageurl%>"/>
+                                            <c:import url="${pageurl}"/>
                                         </td>
                                     </tr>
                                 </table>
@@ -73,11 +63,10 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="2" valign="bottom"><div id="footer"><small>User: <%=mcrSession.getCurrentUserID()%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ver. 0.3</small></div></td>
+                <td colspan="2" valign="bottom"><div id="footer"><small>User: ${username}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ver. 0.3</small></div></td>
             </tr>
-        </table>
-<%
-    }
-%>
+        </table>       
+       </c:otherwise>
+    </c:choose>
     </body>
 </html>

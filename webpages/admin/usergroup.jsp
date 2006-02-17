@@ -1,5 +1,5 @@
-<%@ page import="org.mycore.user.MCRUserMgr,
-	org.mycore.user.MCRGroup,
+<%@ page import="org.mycore.user2.MCRUserMgr,
+	org.mycore.user2.MCRGroup,
 	java.util.ArrayList"%>
 <%@ page import="org.mycore.frontend.servlets.MCRServlet" %>
 <%

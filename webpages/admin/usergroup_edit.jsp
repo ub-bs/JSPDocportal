@@ -1,8 +1,7 @@
 <%@ page import="org.mycore.common.MCRSession,
 	org.mycore.frontend.servlets.MCRServlet,
-	org.mycore.user.MCRGroup,
-	org.mycore.user.MCRUserMgr,
-	org.mycore.user.MCRPrivilege,
+	org.mycore.user2.MCRGroup,
+	org.mycore.user2.MCRUserMgr,
 	java.text.SimpleDateFormat,
 	java.text.DateFormat,
 	java.util.Date,
@@ -18,7 +17,6 @@
 
 	ArrayList userlist = MCRUserMgr.instance().getAllUserIDs();
 	ArrayList grouplist = MCRUserMgr.instance().getAllGroupIDs();
-	ArrayList privilegelist = MCRUserMgr.instance().getAllPrivileges();
 
 	Collections.sort(userlist);
 	Collections.sort(grouplist);
@@ -31,7 +29,7 @@
 
 	if(request.getParameter("id") == null){
 		//new
-		group =  new MCRGroup("-", "root", null, null, "",l,l,l,l,l,l);
+		group =  new MCRGroup("-", "root", null, null, "",l,l,l,l,l);
 		operation = "new";
 	}else{
 		//edit
@@ -173,34 +171,6 @@
 							<small>
 								<a href="#" onclick="deselectall('memberuser')">Auswahl aufheben</a> |
 								<a href="#" onclick="selectall('memberuser')">alle wählen</a>
-							</small>
-						</td>
-					</tr>
-				</table>
-			</td>
-		</tr>
-		<tr>
-			<td valign="top">Privilegien</td>
-			<td>
-				<table class="access">
-					<tr>
-						<td width="200px">
-							<select multiple size="5" name="privs" id="privs" style="width:200px">
-							<%
-								if (!operation.equals("new"))
-									l = group.getPrivileges();
-								for(int i=0; i<privilegelist.size(); i++){
-									String priv = ((MCRPrivilege) privilegelist.get(i)).getName();
-									if (l!=null && l.contains(priv))
-										out.println("<option selected value=\""+priv+"\">"+priv+"</option>");
-									else
-										out.println("<option value=\""+priv+"\">"+priv+"</option>");
-								}
-							%>
-							</select>
-							<small>
-								<a href="#" onclick="deselectall('privs')">Auswahl aufheben</a> |
-								<a href="#" onclick="selectall('privs')">alle wählen</a>
 							</small>
 						</td>
 					</tr>

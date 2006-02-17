@@ -1,6 +1,6 @@
 <%@ page import="java.util.Enumeration,
-		org.mycore.user.MCRUserMgr, 
-		org.mycore.user.MCRUser, 
+		org.mycore.user2.MCRUserMgr, 
+		org.mycore.user2.MCRUser, 
 		java.util.ArrayList,
 		java.sql.Timestamp,
 		java.text.SimpleDateFormat,

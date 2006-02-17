@@ -1,7 +1,6 @@
 <%@ page import="java.util.Enumeration,
-			org.mycore.user.MCRGroup,
-			org.mycore.user.MCRUserMgr,
-			org.mycore.user.MCRPrivilege,
+			org.mycore.user2.MCRGroup,
+			org.mycore.user2.MCRUserMgr,
 			java.util.ArrayList,
 			java.lang.Exception"%>
 <%@ page import="org.mycore.frontend.servlets.MCRServlet" %>
@@ -20,7 +19,7 @@
 try{
 	if (groupid.equals("-")){
 		// create new group
-		group =  new MCRGroup(request.getParameter("gid"), request.getParameter("creator"), null, null, request.getParameter("description"), new ArrayList(), new ArrayList(), new ArrayList(), new ArrayList(), new ArrayList(), new ArrayList());
+		group =  new MCRGroup(request.getParameter("gid"), request.getParameter("creator"), null, null, request.getParameter("description"), new ArrayList(), new ArrayList(), new ArrayList(), new ArrayList(), new ArrayList());
 		MCRUserMgr.instance().createGroup(group);
 		operation="detail";
 		groupid=request.getParameter("gid");
@@ -112,20 +111,6 @@ try{
 				}
 			}
 			
-			// privs
-			out.println(" save privs");
-			templ = group.getAllPrivileges();
-			for (int i=0; i< templ.size(); i++){
-				group.removePrivilege((String) templ.get(i));
-			}
-			if (request.getParameterValues("privs")!=null){
-
-				values = request.getParameterValues("privs");
-				for(int i=0; i< values.length; i++){
-					group.addPrivilege(values[i]);
-				}
-			}
-
 			//TODO: add changes of name and description
 
 
