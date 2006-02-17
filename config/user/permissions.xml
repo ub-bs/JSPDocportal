@@ -90,4 +90,25 @@
     </boolean>
    </condition>
   </mcrpermission>  
+  <mcrpermission name="admininterface-access" description="Zugang zum Admininterface">
+   <condition format="xml">
+    <boolean operator="or">
+     <condition value="admingroup" operator="=" field="group"/>
+    </boolean>
+   </condition>
+  </mcrpermission>    
+  <mcrpermission name="admininterface-user" description="Zugang zur Benutzerverwaltung">
+   <condition format="xml">
+    <boolean operator="or">
+     <condition value="admingroup" operator="=" field="group"/>
+    </boolean>
+   </condition>
+  </mcrpermission>    
+  <mcrpermission name="admininterface-accessrule" description="Zugang zum Regeleditor">
+   <condition format="xml">
+    <boolean operator="or">
+     <condition value="admingroup" operator="=" field="group"/>
+    </boolean>
+   </condition>
+  </mcrpermission>        
 </mcrpermissions>

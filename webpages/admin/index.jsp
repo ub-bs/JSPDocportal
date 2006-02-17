@@ -13,7 +13,7 @@
 <fmt:setBundle basename='messages' />
 <mcr:session method="get" var="username" type="userID" />
 <c:set var="pageurl" value="${requestScope.page}" />
-<mcr:checkAccess var="hasAccess" permission="use-admininterface" />
+<mcr:checkAccess var="hasAccess" permission="admininterface-access" />
 <c:if test="${hasAccess eq 'false'}">
    <c:set var="pageurl" value="error.jsp" />
 </c:if>
