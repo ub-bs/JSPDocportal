@@ -29,7 +29,11 @@ public class MCRCheckAccessTag extends SimpleTagSupport
 	}	
 	public void doTag() throws JspException, IOException {
 		PageContext pageContext = (PageContext) getJspContext();
-		boolean accessAllowed = AI.checkPermission(key, permission);
+		boolean accessAllowed = false;
+		if(key != null && !key.equals(""))
+			accessAllowed = AI.checkPermission(key, permission);
+		else
+			accessAllowed = AI.checkPermission(permission);
 		if(accessAllowed)
 			pageContext.setAttribute(var, "true");
 		else

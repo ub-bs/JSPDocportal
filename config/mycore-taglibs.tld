@@ -82,7 +82,7 @@ specified in the action (true or false).
                     String, that represents the objID of a given Object, whose access-rights are requested
                 </description>
                 <name>key</name>
-                <required>true</required>
+                <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
             <info>A Tag, that checks via MCRAccessManager the access rights of a given objID and a given Access-Permission</info>
