@@ -1,6 +1,9 @@
 package org.mycore.frontend.servlets;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -8,29 +11,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.jdom.Element;
-import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
-import org.mycore.common.xml.MCRXMLHelper;
 import org.mycore.frontend.servlets.MCRServlet;
 
 public class MCRAdminServlet extends MCRServlet{
 	
 	private static final long serialVersionUID = 1L;
-	private static boolean isDefaultAccessRuleCreated ;
+	private static boolean permissionsAreSet = false;
 	protected final static Logger LOGGER = Logger.getLogger(MCRAdminServlet.class);
 
-	public void init() throws ServletException {
-		super.init();
-		isDefaultAccessRuleCreated = createAdminDefaultRule();
-	}
-    
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         try{
-        	if(!isDefaultAccessRuleCreated) createAdminDefaultRule();
+        	if(!permissionsAreSet) createNonExistingAdminPermissions();
         	
             ServletContext context = this.getServletContext();
             
@@ -83,16 +78,20 @@ public class MCRAdminServlet extends MCRServlet{
 	 * @param userid
 	 * @return boolean  false if there was an Exception
 	 */
-	public static boolean createAdminDefaultRule() {
-		try {
-			String strStandardrule = MCRConfiguration.instance().getString("MCR.AccessRule.ADMININTERFACE-DEFAULTRULE","<condition format=\"xml\"><condition field=\"user\" operator=\"=\" value=\"administrator\" /></condition>");
-			Element standardrule = (Element)MCRXMLHelper.parseXML(strStandardrule).getRootElement().detach();
-			MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
-			AI.addRule("use-admininterface", standardrule, "defaultrule for using the admin interface");
-		} catch (MCRException e) {
-			LOGGER.debug("catched error", e);
+	public static boolean createNonExistingAdminPermissions() {
+		try{
+			List savedPermissions = AI.getPermissions();
+			String permissions = MCRConfiguration.instance().getString("MCR.AccessAdminInterfacePermissions","admininterface-access,admininterface-user,admininterface-accessrules");
+			for (Iterator it = Arrays.asList(permissions.split(",")).iterator(); it.hasNext();) {
+				String permission = ((String) it.next()).trim().toLowerCase();
+				if(!permission.equals("") && !savedPermissions.contains(permission)) {
+					AI.addRule(permission, MCRAccessManager.getFalseRule(), "");
+				}
+			}
+		}catch(MCRException e) {
+			LOGGER.error("could not create admin interface permissions", e);
 			return false;
-		}				
+		}
 		return true;
-	}    
+	} 
 }
