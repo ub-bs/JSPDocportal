@@ -51,7 +51,8 @@
       <attribute name="type" value="@type" />
     </field>
 
-    <field name="modified" type="date" source="objectMetadata" xpath="/mycoreobject/services/servdates/servdate[@type='modifydate']" value="ext:normalizeDate(string(normalize-space(text())),string(@xml:lang))">
+    <!--  important search field for OAI Queries -->
+    <field name="modified" type="timestamp" source="objectMetadata" xpath="/mycoreobject/service/servdates/servdate[@type='modifydate']" value="concat(substring(.,1,10),' ',substring(.,12,8))">
       <attribute name="type" value="@type" />
     </field>
     
