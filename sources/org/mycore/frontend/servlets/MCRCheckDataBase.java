@@ -36,6 +36,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.jdom.Element;
 import org.jdom.Namespace;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRDefaults;
@@ -57,6 +59,7 @@ import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.editor.MCREditorSubmission;
 import org.mycore.frontend.editor.MCRRequestParameters;
+import org.mycore.frontend.servlets.MCRServletJob;
 import org.mycore.frontend.workflow.MCRWorkflowManager;
 
 
@@ -132,21 +135,19 @@ abstract public class MCRCheckDataBase extends MCRCheckBase {
 		}
 
 		// Save the incoming to a file
-		byte[] outxml = MCRUtils.getByteArray(indoc);
-		String savedir = CONFIG.getString("MCR.editor_" + ID.getTypeId()
-				+ "_directory");
+		String savedir = CONFIG.getString("MCR.editor_" + ID.getTypeId() + "_directory");
 		String NL = System.getProperty("file.separator");
 		String fullname = savedir + NL + ID.getId() + ".xml";
-		storeMetadata(outxml, job, ID, fullname, lang, userid);
+		
+		storeMetadata(indoc, job, ID, fullname, lang, userid);
 
 		// create a metadata object and prepare it
 		org.jdom.Document outdoc = prepareMetadata((org.jdom.Document) indoc
 				.clone(), ID, job, oldstep, lang);
 		if (outdoc == null) return;
-		outxml = MCRUtils.getByteArray(outdoc);
 
 		// Save the prepared metadata object
-		storeMetadata(outxml, job, ID, fullname, lang, userid);
+		storeMetadata(outdoc, job, ID, fullname, lang, userid);
 
 		// call the getNextURL and sendMail methods
 		String url = getNextURL(ID);
@@ -170,14 +171,14 @@ abstract public class MCRCheckDataBase extends MCRCheckBase {
 	 * @param lang
 	 *            the current langauge
 	 */
-	public final void storeMetadata(byte[] outxml, MCRServletJob job,
-			MCRObjectID ID, String fullname, String lang, String userid) throws Exception {
-		if (outxml == null)
+	public final void storeMetadata(org.jdom.Document outdoc, MCRServletJob job,
+		MCRObjectID ID, String fullname, String lang, String userid) throws Exception {
+		if (outdoc == null)
 			return;
 		// Save the prepared MCRObject/MCRDerivate to a file
 		try {
 			FileOutputStream out = new FileOutputStream(fullname);
-			out.write(outxml);
+			(new XMLOutputter(Format.getPrettyFormat())).output(outdoc,out);
 			out.flush();
 		} catch (IOException ex) {
 			logger.error(ex.getMessage());
