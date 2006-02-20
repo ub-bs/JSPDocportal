@@ -28,16 +28,14 @@ public class MCRCheckAccessTag extends SimpleTagSupport
 		return;
 	}	
 	public void doTag() throws JspException, IOException {
+		boolean accessAllowed=false;
 		PageContext pageContext = (PageContext) getJspContext();
-		boolean accessAllowed = false;
-		if(key != null && !key.equals(""))
-			accessAllowed = AI.checkPermission(key, permission);
-		else
+		if ( key == null || "".equals(key)) // allgemeiner check des aktuellen Users
 			accessAllowed = AI.checkPermission(permission);
-		if(accessAllowed)
-			pageContext.setAttribute(var, "true");
-		else
-			pageContext.setAttribute(var, "false");
+		else 
+			accessAllowed = AI.checkPermission(key, permission);
+		
+		pageContext.setAttribute(var, Boolean.toString(accessAllowed));
 		return;
 	}	
 
