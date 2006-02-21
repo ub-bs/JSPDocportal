@@ -110,11 +110,15 @@ try {
 		
 		if (request.getParameter("uid_orig").equals("")){
 			// create new user
-				manager.createUser(user);
+			manager.createUser(user);
 		}else{
 			// update user
 			manager.updateUser(user);
 		}
+		
+		// encrypt the passwort if propertiy is set
+		manager.setPassword(user.getID(), user.getPassword());
+		
 		response.sendRedirect(WebApplicationBaseURL + "admin?path=user");
 	}
 	
