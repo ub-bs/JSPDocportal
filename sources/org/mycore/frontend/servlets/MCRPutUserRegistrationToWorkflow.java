@@ -40,12 +40,18 @@ import org.jdom.output.XMLOutputter;
 
 import org.mycore.common.MCRConfigurationException;
 import org.mycore.common.MCRMailer;
+import org.mycore.common.MCRSession;
+import org.mycore.common.MCRSessionMgr;
+import org.mycore.common.xml.MCRXMLHelper;
 
+import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.editor.MCREditorSubmission;
 import org.mycore.frontend.editor.MCRRequestParameters;
 
 import org.mycore.frontend.workflow.MCRWorkflowManager;
+import org.mycore.user2.MCRUser;
+import org.mycore.user2.MCRUserMgr;
 
 
 /**
@@ -54,17 +60,20 @@ import org.mycore.frontend.workflow.MCRWorkflowManager;
  * @version $Revision$ $Date$
  */
 
-public class MCRPutUserRegistrationToWorkflow extends MCRCheckBase {
+public class MCRPutUserRegistrationToWorkflow extends MCRCheckDataBase {
 	protected static Logger LOGGER = Logger.getLogger(MCRPutUserRegistrationToWorkflow.class);
 	private static final long serialVersionUID = 1L;
 	private static MCRWorkflowManager WFM = null;
-	private static String SLASH = File.separator;
+	private static String SLASH = "/";
+	private org.jdom.Element userElement = null;
+	private String savedir = "";
+	private String url = "";
 	
-
 	/** Initialisation of the servlet */
 	public void init() throws ServletException {
 		super.init();
 		try {
+			savedir = CONFIG.getString("MCR.editor_user_directory" );
 			WFM = MCRWorkflowManager.instance();
 		} catch (Exception e) {
 			LOGGER.error("WFM-Error",e);
@@ -75,12 +84,40 @@ public class MCRPutUserRegistrationToWorkflow extends MCRCheckBase {
 	/**
 	 * This method overrides doGetPost of MCRServlet. <br />
 	 */
-	public void doGetPost(MCRServletJob job) throws Exception {	
-		getEditorSubmission(job);		
+	public void doGetPost(MCRServletJob job) throws Exception {
+		MCRSession mcrSession = MCRSessionMgr.getCurrentSession();  
+
+		if ( job.getRequest().getParameter("newUserID") != null ){
+			// Neue ID verwenden, da erste ID schon existiert
+			url = job.getRequest().getParameter("page");
+			String ID = job.getRequest().getParameter("userID");
+	        String fullname = savedir + SLASH + "user_" + ID + ".xml";    
+			setNewUserIDforUser(job.getRequest().getParameter("newUserID"), ID, fullname, job, mcrSession.getCurrentLanguage());
+		} else {       
+        	getEditorSubmission(job);
+		}
+
+		if ( userElement != null ) {
+			String ID = userElement.getAttributeValue("ID");	
+			MCRUser testuser = MCRUserMgr.instance().retrieveUser(userElement.getAttributeValue("ID"));
+			if ( testuser != null && testuser.getID().equals(ID)) { 
+				// user with that ID exist in datastore
+	            logger.warn("User registration - duplicate IDs");
+    			url = "nav?path=~registerChangeID&userid="+ID;
+	        } else {
+				MCRWorkflowManager.createWorkflowDefaultRule(ID, ID);
+	        }
+			
+	        String fullname = savedir + SLASH + "user_" + ID + ".xml";    
+	        org.jdom.Document outDoc =  new org.jdom.Document (userElement);	        
+	        storeUserMetadata( outDoc, job, ID, fullname, mcrSession.getCurrentLanguage());
+	        
+			job.getResponse().sendRedirect(job.getResponse().encodeRedirectURL(getBaseURL() + url));
+		}
 	}
 	
 	private void getEditorSubmission(MCRServletJob job) throws IOException, ServletException {
-        // Read the XML data sent by the editor
+        // Read the XML data sent by the editor		
         MCREditorSubmission sub = (MCREditorSubmission) (job.getRequest().getAttribute("MCREditorSubmission"));
         org.jdom.Document jdomDoc = sub.getXML();
 
@@ -92,32 +129,58 @@ public class MCRPutUserRegistrationToWorkflow extends MCRCheckBase {
         } else {
             parms = sub.getParameters();
         }
-
-        String useCase = parms.getParameter("usecase");
-		String url = parms.getParameter("page");
-		String savedir = ""; 
-        org.jdom.Element userElement = null;
         
+        String useCase = parms.getParameter("usecase");		 
+		url = parms.getParameter("page");
+				       
         // Determine the use case
         if ( useCase.equals("register-user")  && jdomDoc.getRootElement().getName().equals("mycoreuser")) {
-            try {
-    			savedir = CONFIG.getString("MCR.editor_user_directory" );
-            } catch (MCRConfigurationException noDir) {
-            	String errorparms = "?messageKey=SWF.User.ErrorConfigurationKey&message=SWF.User.ErrorConfigurationMessage";
-    			job.getResponse().sendRedirect(job.getResponse().encodeRedirectURL(getBaseURL() + "mycore-error.jsp" + errorparms));            	
-            }
-            userElement = jdomDoc.getRootElement().getChild("user");
+            userElement = (Element) jdomDoc.getRootElement().getChild("user").clone();
         }
-		if ( saveToDirectory(userElement, savedir)) {
-			job.getResponse().sendRedirect(job.getResponse().encodeRedirectURL(getBaseURL() + url));
-        } else {
-            // TODO: error message
-        	String errorparms = "?messageKey=SWF.User.ErrorKey&message=SWF.User.ErrorMessage";
-			job.getResponse().sendRedirect(job.getResponse().encodeRedirectURL(getBaseURL() + "mycore-error.jsp" + errorparms));            	
-        }
+        
     }
 
 
+	public final void storeUserMetadata(org.jdom.Document outdoc, MCRServletJob job,
+			String ID, String fullname, String lang) throws Exception {
+			try {
+				FileOutputStream out = new FileOutputStream(fullname);
+				(new XMLOutputter(Format.getPrettyFormat())).output(outdoc,out);
+				out.flush();
+			} catch (IOException ex) {
+				logger.error(ex.getMessage());
+				logger.error("Exception while store to file " + fullname);
+				errorHandlerIO(job, lang);
+				return;
+			}
+			logger.info("User " + ID + " stored under " + fullname + ".");
+	}
+	
+	public final void setNewUserIDforUser(String newID, String userID, String fullname, 
+			MCRServletJob job,String lang ) throws Exception {
+        try {
+            org.jdom.Document doc = MCRXMLHelper.parseURI(fullname, false);
+            userElement = (Element) doc.getRootElement().clone();
+            userElement.setAttribute("ID",newID);
+            // delete OldFile
+            try {
+    			File fi = new File(fullname);
+    			if (fi.isFile() && fi.canWrite()) {				
+    				fi.delete();
+    				logger.debug("File " + fullname + " removed.");
+    			} else {
+    				logger.error("Can't remove file " + fullname);
+    			}
+    		} catch (Exception ex) {
+    			logger.error("Can't remove file " + fullname);
+    		}
+        } catch (Exception ex) {
+			logger.error(ex.getMessage());
+			logger.error("Exception while loading the file " + fullname);			
+			errorHandlerIO(job, lang);
+			return;
+		}					
+	}
 	public String getNextURL(MCRObjectID ID) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
@@ -153,35 +216,7 @@ public class MCRPutUserRegistrationToWorkflow extends MCRCheckBase {
 			LOGGER.warn("No mail address for user to register is in the configuration.");
 		}
 	}
-	
-	// static method to save any Document Object to an give directory - uses to put it into
-	// the workflow directory 
-	public  boolean	saveToDirectory(Element userElement , String savedir){	
-		FileOutputStream fos =null;
-		boolean bret = true;
-		if ( userElement != null ) {
-			String userid = userElement.getAttributeValue("ID");
-			try {
-				fos = new FileOutputStream(savedir + "/user_" + userid + ".xml");
-				(new XMLOutputter(Format.getPrettyFormat())).output(userElement,fos);
-				fos.close();
-				sendMail(userid);
-				logger.info("Object: /user_"+ userid +".xml  saved to directory " + savedir);
-			} catch (Exception ex){
-				logger.debug(ex);
-				logger.info("Cant save Object: /user_"+ userid +".xml  to directory " + savedir);
-			    bret = false;
-			} finally{
-				if ( fos != null ){
-					try {		fos.close(); }			
-					catch ( IOException io ) {; 
-					    // can't close the fos
-					}
-				}
-			}
-		}
-		return bret;
-	 }
+
 
 }
 
