@@ -44,7 +44,7 @@
    <phone type="phone" xml:lang="en">+49 (0)3641 9470024</phone>
   </phones>
   <dates class="MCRMetaISO8601Date">
-   <date type="birth">11/26/1978</date>
+   <date type="birth">1978-11-26</date>
   </dates>
   <professions class="MCRMetaLangText" textsearch="true">
    <profession type="job" xml:lang="de">Student</profession>
