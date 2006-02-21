@@ -8,6 +8,30 @@
     <shortname>mcr</shortname>
     <uri>/WEB-INF/lib/mycore-taglibs.jar</uri>
     <info>MyCoRe Sample Tag library</info>
+       <tag>
+            <name>getFreeUserIDs</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRGetFreeUserIDs</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <description>The name of the var used in the jsp body</description>
+                <name>var</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>The count of proposed ID's </description>
+                <name>count</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>The StartString for the of proposed userID's </description>
+                <name>userid</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <info>A Tag, that returns a list of proposals for free UserIDs</info>
+        </tag>    	
         <tag>
             <name>setAccessRuleEditorData</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRSetAccessRuleEditorDataTag</tagclass>
