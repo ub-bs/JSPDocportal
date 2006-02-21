@@ -31,7 +31,7 @@ MCR.internal_command_classes=org.mycore.frontend.cli.MCRUserCommands2,org.mycore
 MCR.Access_class_name=org.mycore.access.mcrimpl.MCRAccessControlSystem
 MCR.AccessPermissions=MCR.AccessPermissions=read,commitdb,writedb,deletedb,deletewf
 MCR.AccessAdminInterfacePermissions=admininterface-access,admininterface-user,admininterface-accessrules
-MCR.AccessErrorPage=error_access.jsp
+MCR.AccessErrorPage=error-access.jsp
 
 MCR.AccessPool.CacheSize=4096
 
