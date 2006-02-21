@@ -81,7 +81,6 @@ import org.mycore.frontend.workflow.MCRWorkflowManager;
 public class MCRStartEditorServlet extends MCRServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger LOGGER = Logger.getLogger(MCRStartEditorServlet.class);
-	private static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
 	private static MCRWorkflowManager WFM = null;
 	private static String SLASH = File.separator;
 	
