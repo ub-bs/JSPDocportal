@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.3 $ $Date: 2006-01-07 00:38:01 $ -->
+<!-- $Revision: 1.4 $ $Date: 2006-02-23 08:20:51 $ -->
 <!-- ============================================== --> 
 
 <xsl:stylesheet 
@@ -34,7 +34,10 @@
 </xsl:variable>
 
 <!-- ========================================================================= -->
-
+<!-- ======== FCK Editor JavaScript laden ======== -->
+<xsl:variable name="head.additional">
+  <script type="text/javascript" src="{$WebApplicationBaseURL}fck/fckeditor.js" />
+</xsl:variable>
 <!-- ======== handles editor ======== -->
 
 <xsl:template match="editor">
@@ -313,7 +316,7 @@
     <xsl:if test="@lines='on'">
       <tr>
         <td width="100%" colspan="2" class="editorHLine">
-          <img src="" height="1" width="1" alt=" "/>
+          <img src="{$WebApplicationBaseURL}images/pmud-blank.png" border="0" height="1" width="1" alt=" "/>
         </td>
       </tr>
     </xsl:if>
@@ -871,6 +874,28 @@
 	
   </xsl:if>
   <xsl:if test="local-name() = 'textarea'">
+    <!-- ======== Use the WYSIWYG HTML Editor? ======== -->
+    <xsl:if test="@wysiwygEditor='true'">
+      <script type="text/javascript"><xsl:text>
+        window.onload = function()
+        {
+      	  var oFCKeditor = new FCKeditor( '</xsl:text>
+      	  <xsl:value-of select="$var" />
+      	  <xsl:text>' ) ;
+      	  oFCKeditor.BasePath	= '</xsl:text>
+      	  <xsl:value-of select="concat($WebApplicationBaseURL,'fck/')" />
+      	  <xsl:text>' ;
+      	  oFCKeditor.Height = </xsl:text>
+      	  <xsl:value-of select="@editorHeight" />
+      	  <xsl:text> ;
+      	  oFCKeditor.Width = </xsl:text>
+      	  <xsl:value-of select="@editorWidth" />
+      	  <xsl:text> ;
+          oFCKeditor.ToolbarSet = 'mcr' ;
+      	  oFCKeditor.ReplaceTextarea() ;
+        }
+        </xsl:text></script>
+    </xsl:if>	
     <xsl:variable name="wrap" select="''" />
  
     <xsl:text disable-output-escaping="yes">&lt;textarea </xsl:text>
