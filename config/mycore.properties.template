@@ -368,13 +368,13 @@ MCR.EventHandler.MCRDerivate.3.Indexer=lucenec
 
 MCR.Searcher.lucenec.Index=content
 MCR.Searcher.lucenec.Class=org.mycore.backend.lucene.MCRLuceneSearcher
-MCR.Searcher.lucenec.IndexDir=E:/sample-mcrjsp/indexer/lucenec-index
+MCR.Searcher.lucenec.IndexDir=C:/sample-mcrjsp/indexer/lucenec-index
 
 MCR.Searcher.lucenem.Index=metadata
 MCR.Searcher.lucenem.Class=org.mycore.backend.lucene.MCRLuceneSearcher
-MCR.Searcher.lucenem.IndexDir=E:/sample-mcrjsp/indexer/lucenem-index
+MCR.Searcher.lucenem.IndexDir=C:/sample-mcrjsp/indexer/lucenem-index
 
-MCR.Lucene.LockDir=E:/sample-mcrjsp/indexer/lucene-lock
+MCR.Lucene.LockDir=C:/sample-mcrjsp/indexer/lucene-lock
 
 
 ##############################################################################
