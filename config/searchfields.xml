@@ -8,6 +8,9 @@
     <!-- Search for MCRObjectID -->
     <field name="id" type="identifier" source="objectMetadata" xpath="/mycoreobject" value="@ID" />
     
+    <!-- Search for user of the disshab author in the authorobject -->
+	<field name="userid" source="objectMetadata" type="identifier" xpath="/mycoreobject/metadata/userids/userid"  value="text()" />
+	  
     <!-- Search for type of object, like document, author, institution -->
     <field name="objectType" type="identifier" source="objectMetadata" xpath="/mycoreobject" value="substring-before(substring-after(@ID,'_'),'_')" />
     
