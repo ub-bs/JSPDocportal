@@ -105,6 +105,12 @@
    <mcrmetalangtext name="publication" class="MCRMetaLangText" minOccurs='1'
     maxOccurs='unbounded' length="4096"/>
   </element>
+	 
+  <!-- 15 - the userid, from the user who has created its own author -->
+  <element name="userids" minOccurs='0' maxOccurs='1' parasearch="false"   textsearch="false">
+   <mcrmetalangtext name="userid" class="MCRMetaLangText" minOccurs='0'  maxOccurs='1' length="128"/>
+  </element>	  	 
+	 
  </metadata>
  <service>
   <!-- Service Dates -->
