@@ -10,7 +10,7 @@ MCR.editor_institution_directory=C:/sample-mcrjsp/export/institution
 MCR.editor_author_directory=C:/sample-mcrjsp/export/author
 MCR.editor_user_directory=C:/sample-mcrjsp/export/user
 MCR.editor_deleted_directory=C:/sample-mcrjsp/export/deleted
-MCR.IFS.ContentStore.FS.BaseDirectory=C:/sample-mcrjsp/tmp
+MCR.IFS.ContentStore.FS.BaseDirectory=C:/sample-mcrjsp/filestore
 MCR.LogFile=C:/sample-mcrjsp/tmp/mcrjsp.log
 
 MCR.dtd.directory=C:/sample-mcrjsp/dtd
