@@ -4,77 +4,59 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
 
-<%@ page import="org.mycore.common.MCRConfiguration"%>
-<%@ page import="org.mycore.common.MCRSession"%>
-<%@ page import="org.mycore.frontend.servlets.MCRServlet"%>
-<%@ page import="org.mycore.datamodel.metadata.MCRObject"%>
-<%@ page import="org.mycore.frontend.workflow.MCRDisshabWorkflowManager"%>
 <%@ page import="org.jdom.Document"%>
 
 <mcr:session method="get" var="username" type="userID" />
 <c:set var="WebApplicationBaseURL" value="${applicationScope.WebApplicationBaseURL}" />
 <fmt:setLocale value="${requestScope.lang}" />
 <fmt:setBundle basename='messages'/>
-<div class="headline"><fmt:message key="Nav.Application.mydiss" /> - <fmt:message key="Nav.Application.mydiss.begin" /></div>
+<mcr:getAuthorFromUser userid="${username}" var="authorobject" status="status"  />
 
-<table  class="bg_background" >
- <tr><td><div class="subtitle" >Hiermit möchte ich meine Dissertation anmelden.</div> </td> </tr>
- <tr><td> 	
-    <br/>
-<%
-	String guest = MCRConfiguration.instance().getString("MCR.users_guestuser_username");
-	MCRSession mcrSession = MCRServlet.getSession(request);
-    String sessionID = mcrSession.getID();
-    StringBuffer sbURL = new StringBuffer(	MCRServlet.getBaseURL()).append("start_edit");
 
- 	if( mcrSession.getCurrentUserID().equals(guest) ) {
-%> 	
-	<p class="error"><fmt:message key="Login.GuestAccount" /></p>
-	<br/>
-	<br/>	
-<%  } else {	
-		MCRDisshabWorkflowManager dhwf = MCRDisshabWorkflowManager.instance();
-		String authorID = "";
-		String userid = mcrSession.getCurrentUserID();
-		try {
-	    	authorID = dhwf.getDisshabAuthor(userid);
-	    } catch (Exception ex ) {
-			request.setAttribute("message", ex.getMessage());
-   	    	getServletContext().getRequestDispatcher("/mycore-error.jsp").forward(request,response);	    	    
-	    }
-	    if ( authorID.length() > 0 ) {
-	    	// hat schon Autorendaten!
-%>    	
-			<p class="error"><fmt:message key="SWF.Dissertation.AuthorExist" /></p>
-			<br/>
-			<br/>
-<% 	
-    	} else {
-    		authorID = dhwf.createAuthorforDisshab(userid);
-    		 
-%>   	    
-   	    <p> Es wurden Autorendaten aus Ihren Nutzerdaten angelegt. Wenn sie diese noch anpassen oder ändern 
-   	        wollen, können sie das über den Menüpunkt  'meine Autoren' </p>
-<% 		}
-%>   	 
- 
-	    <c:set var="mcrid" value="${authorID}" />
-   	    <table class="editor" >
-   	    <tr><td>ID: <c:out value="${mcrid}" /></td> </tr>
-        <tr><td>   	        
-			<c:import url="content/docdetails.jsp" >
-    	   		<c:param name="mcrid" value="${mcrid}" />
-     		</c:import>
-     	</td></tr>
-     	</table>	
-     	<p>&#160;</p>
-   	    <p> Ihre Dissertation wird mit Ihren Autorendaten angelegt. </p>    
-<%
-	}
-%>    
-	<hr/>
-	<p><fmt:message key="Nav.Service.Text1" /></p>
-	<p><a href="mailto:atlibri@uni-rostock.de">atlibri@uni-rostock.de</a></p>  	
-  </td>
-</tr>
+
+<div class="headline">
+   <fmt:message key="Nav.Application.mydiss" /> - 
+   <fmt:message key="Nav.Application.mydiss.begin" />
+</div>
+
+<table cellspacing="3" cellpadding="3" >
+ <c:if test="${!empty(authorobject)}">
+   <tr valign="top">
+      <td class="metaname"><fmt:message key="SWF.Dissertation.Author" /> </td>
+      <td class="metavalue">  
+         <mcr:simpleXpath jdom="${authorobject}" xpath="/mycoreobject/metadata/names/name/fullname" />      
+	  </td>
+   </tr>  
+   <tr valign="top" >
+      <td class="metaname"><fmt:message key="SWF.Dissertation.Author.ID" /> </td>
+      <td class="metavalue">  
+         <mcr:simpleXpath jdom="${authorobject}" xpath="/mycoreobject/@ID" />
+	  </td>
+   </tr>  
+   <tr valign="top">
+        <!--  x:set var="mcrid" select="string($authorobject/mycoreobject/@ID)" / -->
+        <td class="metaname"><fmt:message key="SWF.Dissertation.URN" /> </td>
+        <td class="metavalue">  
+         TESTID!!!<br/>
+         <mcr:getURNForAuthor authorid="atlibri_author_000000000001" status="status2"  urn="urn" />
+         <c:out value="${urn}" />
+         <br/>
+         <i><fmt:message key="SWF.Dissertation.URN.Hinweis" /></i>
+	  </td>
+   </tr>  
+ </c:if>
+   <tr>   
+      <td class="metaname" >Ergebnis:</td>
+      <td class="metavalue"><fmt:message key="SWF.Dissertation.${status}" /> </td>       
+   </tr>    
+   <tr>
+      <td class="metaname" >Nächste Aktionen:</td>
+      <td class="metavalue"><fmt:message key="SWF.Dissertation.next.${status}" /> </td>       
+   </tr>    
+   <tr><td colspan="2">
+ 	 <hr/>
+	 <p><fmt:message key="Dissertation.Service.Hinweis1" /></p>
+	 <p><fmt:message key="Dissertation.Service.Hinweis2" /></p>
+     </td>
+    </tr>
 </table>
