@@ -27,8 +27,11 @@ package org.mycore.frontend.workflow;
 
 // Imported java classes
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import org.apache.log4j.Logger;
@@ -48,6 +51,8 @@ import org.mycore.datamodel.metadata.MCRMetaPersonName;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.services.fieldquery.MCRResults;
+import org.mycore.services.nbn.MCRNBN;
+import org.mycore.services.nbn.MCRNBNManager;
 import org.mycore.user2.MCRUser;
 import org.mycore.user2.MCRUserMgr;
 
@@ -64,6 +69,8 @@ public class MCRDisshabWorkflowManager {
 	private static MCRConfiguration config = null;
 	private static Logger logger = Logger.getLogger(MCRDisshabWorkflowManager.class.getName());
 	private static String sender = "";
+	private static MCRNBNManager nbnmgr=null;
+	
 	private Hashtable ht = null;
 	private Hashtable mt = null;
 	private XMLOutputter out = new XMLOutputter(org.jdom.output.Format.getPrettyFormat());
@@ -89,7 +96,7 @@ public class MCRDisshabWorkflowManager {
 	protected MCRDisshabWorkflowManager() throws Exception {
 		config = MCRConfiguration.instance();
 		sender = config.getString("MCR.editor_mail_sender",	"mcradmin@localhost");
-
+		nbnmgr = (MCRNBNManager) config.getInstanceOf("MCR.NBN.ManagerImplementation");
 		// int tables
 		ht = new Hashtable();
 		mt = new Hashtable();
@@ -151,8 +158,38 @@ public class MCRDisshabWorkflowManager {
 		return "";
 	 }
 	
+	public String getURNReservationForAuthor(String authorid){
+		Set urnset = new HashSet();
+		String nissAusWorkflow = "123456788";
+		urnset = nbnmgr.listReservedURNs();
+		String urn = ""; 
+		if ( urnset.contains(nissAusWorkflow) ){
+			String prefix = config.getString("MCR.NBN.NamespacePrefix");
+			urn =  prefix+"-"+nissAusWorkflow;
+		}else {
+			urn = createUrnReservationForAuthor(authorid);		    
+		}
+		return urn;			
+	}
+		
+	public String createUrnReservationForAuthor(String authorid){
+		MCRNBN mcrurn = new MCRNBN(authorid,"URN for Dissertation");
+		nbnmgr.reserveURN(mcrurn);
+		return mcrurn.getURN();
+	}
+	
+	
 	public String createAuthorforDisshab(String userid){
-		MCRUser user = MCRUserMgr.instance().retrieveUser(userid);
+		MCRUser user = null;
+
+		try {
+			user = MCRUserMgr.instance().retrieveUser(userid);
+		} catch (Exception noUser) {
+			//TODO Fehlermeldung
+			logger.warn("user dos'nt exist userid=" + userid);
+			return "";			
+		}
+		
 		MCRObject author = new MCRObject();
 		MCRMetaPersonName pname = new MCRMetaPersonName();
 		String fullname = user.getUserContact().getFirstName() + " " + user.getUserContact().getLastName();
