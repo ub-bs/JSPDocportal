@@ -8,6 +8,66 @@
     <shortname>mcr</shortname>
     <uri>/WEB-INF/lib/mycore-taglibs.jar</uri>
     <info>MyCoRe Sample Tag library</info>
+        <tag>
+            <name>includeEditor</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRIncludeEditorTag</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <description>Target-Servlet-Name of the editor file</description>
+                <name>target</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>Value of Editor parameter: XSL.editor.source.new</description>
+                <name>isNewEditorSource</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>Value of Editor parameter: mcrid</description>
+                <name>mcrid</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>Value of Editor parameter: type</description>
+                <name>type</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <attribute>
+                <description>Value of Editor parameter: step</description>
+                <name>step</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <attribute>
+                <description>Value of Editor parameter: mcrid2</description>
+                <name>mcrid2</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>Relative Path of the included Editor Definition file: editorPath</description>
+                <name>editorPath</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <attribute>
+                <description>Value of Editor parameter: cancelURL</description>
+                <name>cancelURL</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>Value of Editor parameter: uploadID</description>
+                <name>uploadID</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <info>A Tag, that includes MyCoRe-Editor-Pages</info>
+       </tag>        
        <tag>
             <name>getURNForAuthor</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRGetURNForAuthor</tagclass>
