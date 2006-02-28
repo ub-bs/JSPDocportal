@@ -9,6 +9,54 @@
     <uri>/WEB-INF/lib/mycore-taglibs.jar</uri>
     <info>MyCoRe Sample Tag library</info>
        <tag>
+            <name>getURNForAuthor</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRGetURNForAuthor</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <description>Output - the urn reserved for the author </description>
+                <name>urn</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>Output - the status from this operation </description>
+                <name>status</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>The authorid, musst exist in database</description>
+                <name>authorid</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <info>A Tag, that returns a new or reserved URN for a author </info>
+        </tag>    		
+        <tag>
+            <name>getAuthorFromUser</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRGetAuthorFromUser</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <description>Output - the name of the var - the jdom-author object used in the jsp body</description>
+                <name>var</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>Output - the status from this operation </description>
+                <name>status</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>The userid, musst exist in database</description>
+                <name>userid</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <info>A Tag, that returns a new or existing author for a user, generated from the user </info>
+        </tag>    		
+        <tag>
             <name>getFreeUserIDs</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRGetFreeUserIDs</tagclass>
             <bodycontent>empty</bodycontent>
