@@ -69,12 +69,20 @@
             </navitem>
             <navitem name="publish" label="Nav.DocumentManagement" href="content/documentmanagement.jsp">
                <refitem name="~documentmanagement" label="" />
-               <navitem name="register" label="Nav.RegisterAsAuthor" href="content/register.jsp">
+               <navitem name="register" label="Nav.RegisterAsAuthor" href="content/registerUser.jsp">
                   <refitem name="~register" label="" />
-                  <navitem name="register" label="Nav.RegisteredAsAuthor" href="content/registered.jsp" hidden="true" >
+                  <navitem name="register" label="Nav.RegisteredAsAuthor" href="content/registerUserOK.jsp" hidden="true" >
                       <refitem name="~registered" label="" />
-                  </navitem>
+                  </navitem>				   
                </navitem>
+				<navitem name="mydiss" label="Nav.Application.dissertation" href="content/dissertation.jsp" >
+				  <refitem name="~mydiss" label="" />
+				  <navitem name="begin" label="Nav.Application.dissertation.begin" href="content/registerDisshabAuthor.jsp" >
+					 <refitem name="~dissertationbegin" label="" />
+				  </navitem>   
+				  <navitem name="edit"  label="Nav.Application.dissertation.edit"  href="" />
+				  <navitem name="end"   label="Nav.Application.dissertation.end"  href="" />
+				</navitem>			
 <!--                <navitem name="author" label="Nav.CreatePerson" href="edit?start=true&amp;type=author" /> -->
                <navitem name="author" label="Nav.CreatePerson" href="content/workflow-editor.jsp?type=author&amp;step=author&amp;todo=wnewobj" />
                <navitem name="institution" label="Nav.CreateInstitution" href="content/workflow-editor.jsp?type=institution&amp;step=author&amp;todo=wnewobj" />
