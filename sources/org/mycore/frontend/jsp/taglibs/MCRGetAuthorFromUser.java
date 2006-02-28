@@ -71,7 +71,13 @@ public class MCRGetAuthorFromUser extends SimpleTagSupport
 	    if ( ID.length() > 0 ) {
 	    	org.mycore.datamodel.metadata.MCRObject mcr_obj = new org.mycore.datamodel.metadata.MCRObject();
 	    	mcr_obj.receiveFromDatastore(ID);		
-	    	pageContext.setAttribute(var, mcr_obj.createXML());
+	    	org.w3c.dom.Document domDoc = null;
+	    	try {
+	    		domDoc =  new DOMOutputter().output( mcr_obj.createXML());
+	    		pageContext.setAttribute(var,domDoc);
+	    	} catch (JDOMException e) {
+	    		pageContext.setAttribute(status, "errorJDOMAuthor");
+	    	}
 	    } else { 
     		pageContext.setAttribute(status, "errorNoAuthor");
 	    }	    
