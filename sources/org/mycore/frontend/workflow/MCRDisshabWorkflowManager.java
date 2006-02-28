@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -38,6 +39,7 @@ import org.apache.log4j.Logger;
 
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.filter.ElementFilter;
 import org.jdom.output.XMLOutputter;
 import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.common.MCRConfiguration;
@@ -47,6 +49,7 @@ import org.mycore.common.MCRSessionMgr;
 import org.mycore.datamodel.metadata.MCRMetaAddress;
 import org.mycore.datamodel.metadata.MCRMetaBoolean;
 import org.mycore.datamodel.metadata.MCRMetaLangText;
+import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRMetaPersonName;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
@@ -70,10 +73,12 @@ public class MCRDisshabWorkflowManager {
 	private static Logger logger = Logger.getLogger(MCRDisshabWorkflowManager.class.getName());
 	private static String sender = "";
 	private static MCRNBNManager nbnmgr=null;
-	
-	private Hashtable ht = null;
+	private static MCRWFObject myDisshabWF = null;
+	private static String GUEST_ID = "gast";
+    	
 	private Hashtable mt = null;
 	private XMLOutputter out = new XMLOutputter(org.jdom.output.Format.getPrettyFormat());
+	
 
 	/**
 	 * Returns the disshab workflow manager singleton.
@@ -87,6 +92,7 @@ public class MCRDisshabWorkflowManager {
 		return singleton;
 	}
 
+	
 	/**
 	 * The constructor of this class.
 	 * @throws ClassNotFoundException 
@@ -94,12 +100,13 @@ public class MCRDisshabWorkflowManager {
 	 * @throws InstantiationException 
 	 */
 	protected MCRDisshabWorkflowManager() throws Exception {
+		String sWFType = "disshab";
 		config = MCRConfiguration.instance();
 		sender = config.getString("MCR.editor_mail_sender",	"mcradmin@localhost");
 		nbnmgr = (MCRNBNManager) config.getInstanceOf("MCR.NBN.ManagerImplementation");
-		// int tables
-		ht = new Hashtable();
-		mt = new Hashtable();
+		mt = new Hashtable();		
+		myDisshabWF = new MCRWFObject(sWFType);
+		GUEST_ID = config.getString("MCR.users_guestuser_username","gast");
 	}
 
 
@@ -147,41 +154,176 @@ public class MCRDisshabWorkflowManager {
 		return sender;
 	}
 
-	public String getDisshabAuthor(String userid){
+	public String getActualStatus() {
+		return myDisshabWF.getSStatus();		
+	} 
+
+	public String getDisshabAuthor(String userid){		
+		if ( ! isUserValid(userid))
+			return "";
+		
+		if ( myDisshabWF.hasAuthor(userid)){
+			myDisshabWF.setSStatus("existingAuthor");
+			return myDisshabWF.getSAuthorID();
+		}
+		
+		// im WF kein Autor vorhanden, - Direkt aus MyCore Holen	
+		// - kann nachher weg - da ja dann die AuthorID immmer im WF steht, dann nur noch create zweig	
 		Element query = buildQueryforAuthor(userid);
 		Document jQuery = new Document(query);    	
     	MCRResults mcrResult =  MCRQueryManager.search(jQuery);
     	logger.debug("Results found hits:" + mcrResult.getNumHits());    
-    	if ( mcrResult.getNumHits() > 0 ) {    			
-    		return mcrResult.getHit(0).getID();
+    	if ( mcrResult.getNumHits() > 0 ) {
+    		String Author = mcrResult.getHit(0).getID();
+    		myDisshabWF.setSStatus("existingAuthor");
+    		myDisshabWF.setSAuthorID(Author);
+    		return Author;
+    	} else {
+    		String Author = createAuthorforDisshab(userid);
+    		myDisshabWF.setSStatus("newAuthor");
+    		myDisshabWF.setSAuthorID(Author);
+    		return Author;
     	}
-		return "";
-	 }
+	}
 	
-	public String getURNReservationForAuthor(String authorid){
-		Set urnset = new HashSet();
-		String nissAusWorkflow = "123456788";
-		urnset = nbnmgr.listReservedURNs();
-		String urn = ""; 
-		if ( urnset.contains(nissAusWorkflow) ){
-			String prefix = config.getString("MCR.NBN.NamespacePrefix");
-			urn =  prefix+"-"+nissAusWorkflow;
-		}else {
-			urn = createUrnReservationForAuthor(authorid);		    
+	public String getURNDisshabReservation(String userid){
+		if ( ! isUserValid(userid))
+			return "";
+		if ( myDisshabWF.hasUrn(userid)) {
+			myDisshabWF.setSStatus("urnExist");
+			return myDisshabWF.getSUrn();
 		}
-		return urn;			
+		// im WF keine URN vorhanden, - Direkt aus MyCore Holen	
+		String Author = getDisshabAuthor(userid);
+		String Urn = createUrnReservationForAuthor(Author);
+		myDisshabWF.setSStatus("urnCreated");
+		myDisshabWF.setSUrn(Urn);
+		return Urn;					
 	}
 		
-	public String createUrnReservationForAuthor(String authorid){
+	public String getDisshab(String userid){
+		if ( ! isUserValid(userid)) 
+			return "";
+
+		if ( myDisshabWF.hasDocID(userid)) {
+			myDisshabWF.setSStatus("disshabExist");
+			return myDisshabWF.getSDocID();			
+		}
+		String Author = getDisshabAuthor(userid);
+		String Urn = getURNDisshabReservation(userid);
+		// im WF noch keine DocID für userid vorhanden - in myCoRe kreieren	
+		String DocID = createDisshab(Author, Urn);
+		myDisshabWF.setSStatus("disshabCreated");
+		myDisshabWF.setSDocID(DocID);
+		return DocID;					
+	}
+
+	private boolean isUserValid(String userid){
+		boolean isValid= !GUEST_ID.equals(userid);				
+		try {
+			MCRUser user = MCRUserMgr.instance().retrieveUser(userid);
+			isValid &= user.isEnabled();
+			isValid &= user.isValid();
+		} catch (Exception noUser) {
+			//TODO Fehlermeldung
+			logger.warn("user dos'nt exist userid=" + userid);
+			isValid &= false;			
+		}
+		myDisshabWF.setSStatus("errorUserGuest");
+		return isValid;
+	}
+	
+	
+	private String createUrnReservationForAuthor(String authorid){
 		MCRNBN mcrurn = new MCRNBN(authorid,"URN for Dissertation");
 		nbnmgr.reserveURN(mcrurn);
 		return mcrurn.getURN();
 	}
 	
 	
-	public String createAuthorforDisshab(String userid){
-		MCRUser user = null;
+	private String createDisshab(String sAuthorID, String sUrn){		
+		if ( !(sAuthorID.length()>0 && sUrn.length()>0)  ){
+			logger.warn("Could not create disshab object because empty parameters,  sAuthorID=" + sAuthorID + ", sUrn=" + sUrn);
+			return "";
+		}
+		Element mycoreobject = new Element ("mycoreobject");
+		MCRObjectID ID = new MCRObjectID();
+ 	    String base = config.getString("MCR.default_project_id","DocPortal")+"_disshab";
+		ID.setNextFreeId(base);
+		mycoreobject.addNamespaceDeclaration(org.jdom.Namespace.getNamespace("xsi", MCRDefaults.XSI_URL));
+		mycoreobject.setAttribute("noNamespaceSchemaLocation", "datamodel-disshab.xsd", org.jdom.Namespace.getNamespace("xsi", MCRDefaults.XSI_URL));
+		mycoreobject.setAttribute("ID", ID.toString());	 
+		mycoreobject.setAttribute("label", ID.toString());
+		
+		Element structure = new Element ("structure");			
+		Element metadata = new Element ("metadata");	
+		Element service = new Element ("service");
 
+		if ( sAuthorID != null ) {
+			//MCRObject Author = new MCRObject();
+			Document jAuthor =  new MCRObject().receiveJDOMFromDatastore(sAuthorID);
+			String sAuthorName = sAuthorID;
+			if ( jAuthor != null ) {
+			    Iterator it = jAuthor.getDescendants(new ElementFilter("fullname"));
+	        	if ( it.hasNext() )    {
+	        	      Element el = (Element) it.next();
+	        	      sAuthorName = el.getText();
+	        	}
+			}
+			MCRMetaLangText creator = new MCRMetaLangText();
+			creator.setSubTag("creator");
+			creator.setLang("de");
+			creator.setText(sAuthorName);
+
+			MCRMetaLinkID creatorlink = new MCRMetaLinkID();
+			creatorlink.setSubTag("creatorlink");
+			creatorlink.setLang("de");
+			creatorlink.setReference(sAuthorID,sAuthorID,sAuthorName);
+
+			MCRMetaLangText urn = new MCRMetaLangText();
+			urn.setSubTag("urn");
+			urn.setLang("de");
+			urn.setText(sUrn);
+			
+			Element eCreator = creator.createXML();
+			Element eCreators = new Element("creators");
+			eCreators.setAttribute("class","MCRMetaLangText");	
+			eCreators.addContent(eCreator);
+			
+			Element eCreatorLink = creatorlink.createXML();
+			Element eCreatorLinks = new Element("creatorlinks");			
+			eCreatorLinks.setAttribute("class","MCRMetaLinkID");	
+			eCreatorLinks.addContent(eCreatorLink);
+			
+			Element eUrn = urn.createXML();
+			Element eUrns = new Element("urns");
+			eUrns.setAttribute("class","MCRMetaLangText");	
+			eUrns.addContent(eUrn);
+
+			metadata.addContent(eCreators);
+			metadata.addContent(eCreatorLinks);
+			metadata.addContent(eUrns);
+		}
+	      
+		mycoreobject.addContent(structure);
+		mycoreobject.addContent(metadata);
+		mycoreobject.addContent(service);
+	    
+		Document mycoreobjectdoc = new Document(mycoreobject);
+		MCRObject disshab = new MCRObject();
+		disshab.setFromJDOM(mycoreobjectdoc);
+		try {
+			disshab.createInDatastore();
+		} catch ( Exception ex){
+			//TODO Fehlermeldung
+			logger.warn("Could not create disshab object " + ID.toString());
+			return "";
+		}	
+   	    return disshab.getId().getId();		
+	}
+
+	private String createAuthorforDisshab(String userid){
+		MCRUser user = null;
 		try {
 			user = MCRUserMgr.instance().retrieveUser(userid);
 		} catch (Exception noUser) {

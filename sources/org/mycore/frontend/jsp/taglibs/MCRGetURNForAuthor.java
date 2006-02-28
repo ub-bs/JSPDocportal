@@ -26,14 +26,14 @@ import org.mycore.user2.MCRUserMgr;
 
 public class MCRGetURNForAuthor extends SimpleTagSupport
 {
-	private String authorid;	
+	private String userid;	
 	private String urn;
 	private String status;
-	private static MCRConfiguration CONFIG = MCRConfiguration.instance();
+	
 	private static MCRDisshabWorkflowManager dhwf; 
 
-	public void setAuthorid(String inputAuthorid){
-		authorid = inputAuthorid;
+	public void setUserid(String inputUserid){
+		userid = inputUserid;
 	}
 	public void setStatus(String inputStatus){
 		status = inputStatus;
@@ -52,14 +52,13 @@ public class MCRGetURNForAuthor extends SimpleTagSupport
 		} catch (Exception noWfM) {
 			pageContext.setAttribute(status, "errorWfM");
 			return;
-		}			
-	    if ( authorid.length() > 0 ) {
-		    String surn = dhwf.getURNReservationForAuthor(authorid);
-		    pageContext.setAttribute(urn, surn);
-		    pageContext.setAttribute(status, "urnCreated");
-	    } else { 
+		}
+		String surn = dhwf.getURNDisshabReservation(userid);
+	    pageContext.setAttribute(urn, surn);
+	    if ( surn.length() <= 0 ) 
     		pageContext.setAttribute(status, "errorNoAuthor");
-	    }	    	    	    
+	    else 
+			pageContext.setAttribute(status,dhwf.getActualStatus());
 		return;
 	}	  
 

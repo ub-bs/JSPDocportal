@@ -61,13 +61,9 @@ public class MCRGetAuthorFromUser extends SimpleTagSupport
 			pageContext.setAttribute(status, "errorUserGuest");
 			return;
 		}									
-    	String ID = dhwf.getDisshabAuthor(userid);
-	    if ( ID.length() > 0 ) {
-			pageContext.setAttribute(status, "existingAuthor");
-    	} else {
-    		pageContext.setAttribute(status, "newAuthor");
-    		ID = dhwf.createAuthorforDisshab(userid);
-    	}
+    	String ID = dhwf.getDisshabAuthor(userid);   	
+		pageContext.setAttribute(status,dhwf.getActualStatus());
+		
 	    if ( ID.length() > 0 ) {
 	    	org.mycore.datamodel.metadata.MCRObject mcr_obj = new org.mycore.datamodel.metadata.MCRObject();
 	    	mcr_obj.receiveFromDatastore(ID);		
