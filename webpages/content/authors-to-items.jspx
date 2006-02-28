@@ -9,7 +9,7 @@
 <jsp:directive.page import="org.mycore.datamodel.metadata.MCRObject"/>
 <jsp:directive.page import="org.mycore.services.fieldquery.MCRResults"/>
 <jsp:directive.page import="org.jdom.Document"/>
-<jsp:directive.page import="org.mycore.backend.query.MCRQueryManager"/>
+<jsp:directive.page import="org.mycore.services.fieldquery.MCRQueryManager"/>
 <jsp:directive.page import="org.apache.log4j.Logger"/>
 <jsp:directive.page import="org.jdom.Element"/>
 <jsp:directive.page import="org.jdom.xpath.XPath"/> 
@@ -19,9 +19,8 @@
     MCRObject mcr_obj = new MCRObject();
     Document jdomQuery = JSPUtils.getAllAuthorsQuery();
     //Logger.getLogger("author-to-items.jspx").debug(JSPUtils.getPrettyString(jdomQuery));
-    result = MCRQueryManager.getInstance().search(jdomQuery);
+    result = MCRQueryManager.search(jdomQuery);
     if (result != null) {
-        result.setComplete();
         Logger.getLogger("content/authors-to-items.jspx").debug("found hits:" + result.getNumHits());
         for (int i = 0; i &lt; result.getNumHits(); i ++){
             String hitID = result.getHit(i).getID();
