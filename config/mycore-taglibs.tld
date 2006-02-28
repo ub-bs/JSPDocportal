@@ -25,8 +25,8 @@
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>The authorid, musst exist in database</description>
-                <name>authorid</name>
+                <description>The userid, musst exist in database</description>
+                <name>userid</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
