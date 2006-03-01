@@ -74,6 +74,21 @@
         <servlet-class>org.mycore.frontend.jsp.query.MCRResortQueryServlet</servlet-class>
     </servlet>   
     
+    <servlet>
+        <servlet-name>MCRPassToTargetServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.workflowengine.jbpm.MCRPassToTargetServlet</servlet-class>
+    </servlet>     
+    
+    <servlet>
+        <servlet-name>MCRCheckMetadataServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.workflowengine.jbpm.MCRCheckMetadataServlet</servlet-class>
+    </servlet>      
+    
+    <servlet>
+        <servlet-name>MCRWorkflowEngineDoorServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineDoorServlet</servlet-class>
+    </servlet>      
+    
     <servlet id="Zip">
          <servlet-name>MCRZipServlet</servlet-name>
          <servlet-class>org.mycore.services.zipper.MCRZipServlet</servlet-class>
@@ -298,8 +313,23 @@
     <servlet-mapping>
         <servlet-name>MCRPutUserRegistrationToWorkflow</servlet-name>
         <url-pattern>/servlets/MCRPutUserRegistrationToWorkflow/*</url-pattern>
-    </servlet-mapping>     
+    </servlet-mapping> 
 
+    <servlet-mapping>
+        <servlet-name>MCRPassToTargetServlet</servlet-name>
+        <url-pattern>/servlets/MCRPassToTargetServlet/*</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>MCRCheckMetadataServlet</servlet-name>
+        <url-pattern>/servlets/MCRCheckMetadataServlet/*</url-pattern>
+    </servlet-mapping>    
+    
+    <servlet-mapping>
+        <servlet-name>MCRWorkflowEngineDoorServlet</servlet-name>
+        <url-pattern>/workflowengine</url-pattern>
+    </servlet-mapping>     
+        
     <servlet-mapping>
     	<servlet-name>MCRIndexServlet</servlet-name>
         <url-pattern>/servlets/IndexServlet/*</url-pattern>
