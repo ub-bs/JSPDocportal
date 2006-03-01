@@ -2,7 +2,7 @@
 <!DOCTYPE editor>
 
 <editor>
- <target type="servlet" name="MCRCheckNewDataServlet" method="post" format="xml" />
+ <target type="servlet" name="MCRPassToTargetServlet" method="post" format="xml" />
 
  <components root="author-institution" var="/mycoreobject">
 

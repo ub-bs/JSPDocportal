@@ -5,7 +5,7 @@
 <!--
  <target type="servlet" name="MCRCheckCommitDataServlet" method="post" format="xml" />
 -->
- <target type="servlet" name="MCRCheckEditDataServlet" method="post" format="xml" />
+ <target type="servlet" name="MCRPassToTargetServlet" method="post" format="xml" />
 
  <components root="editor-institution" var="/mycoreobject">
 

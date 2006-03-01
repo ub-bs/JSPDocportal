@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE editor>
 <editor>
-      <target type="servlet" name="MCRCheckNewDataServlet" method="post" format="xml" />
+      <target type="servlet" name="MCRPassToTargetServlet" method="post" format="xml" />
       <components root="author-document" var="/mycoreobject">
             <include uri="webapp:editor/workflow/imports-common.xml" />
             <headline anchor="CENTER">
