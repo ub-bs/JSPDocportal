@@ -2,7 +2,7 @@
 
 <!-- =================================================================== -->
 <!-- MyCoRe sample application build file for use with Apache Ant        -->
-<!-- $Revision: 1.19 $ $Date: 2006-02-24 12:13:02 $                      -->
+<!-- $Revision: 1.20 $ $Date: 2006-03-01 15:27:48 $                      -->
 <!-- =================================================================== -->
 
 <project default="usage" basedir=".">
@@ -135,7 +135,7 @@
 	    <echo>Operating system   : ${os.name} Version ${os.version} on ${os.arch} </echo>
 	    <echo>Java version       : JDK ${ant.java.version} Version ${java.version} from ${java.vendor}</echo>
 	    <echo>Java home          : ${env.JAVA_HOME}</echo>
-	    <echo>Ant build file     : $Revision: 1.19 $ $Date: 2006-02-24 12:13:02 $</echo>
+	    <echo>Ant build file     : $Revision: 1.20 $ $Date: 2006-03-01 15:27:48 $</echo>
 	    <echo>Ant version        : ${ant.version}</echo>
 	    <echo>Ant home           : ${env.ANT_HOME}</echo>
 	    <echo>XML Store type     : ${MCR.XMLStore.Type}</echo>
@@ -452,7 +452,7 @@
     </target>
 
     <target name="compile"
-        depends="compile_base,compile_services_nbn,compile_common, compile_common_xml, compile_frontend_jsp_format, compile_frontend_jsp, compile_frontend_jsp_nav, compile_frontend_jsp_query, compile_servlets, compile_workflow, compile_backend_query, compile_backend_hibernate, compile_services_oai, compile_demo" />
+        depends="compile_base,compile_services_nbn,compile_common, compile_common_xml, compile_frontend_jsp_format, compile_frontend_jsp, compile_frontend_jsp_nav, compile_frontend_jsp_query, compile_servlets, compile_workflow, compile_backend_query, compile_backend_hibernate, compile_services_oai, compile_demo, compile_workflowengine" />
 
     <target name="compile_base">
         <mkdir dir="${docportal.classes}" />
@@ -539,6 +539,12 @@
             <param name="packages" value="org/mycore/start/demo/*" />
         </antcall>
     </target>	
+    <target name="compile_workflowengine">
+        <echo>Compiling the classes for the workflowengine</echo>
+        <antcall target="javac">
+            <param name="packages" value="org/mycore/frontend/workflowengine/**" />
+        </antcall>
+    </target>		
 
 
     <!-- =================================================================== -->
@@ -1220,8 +1226,14 @@
         <java dir="${docportal.hsqldb-datadir}"
             classname="org.hsqldb.Server"
             classpathref="docportal.classpath" fork="yes">
-            <arg value="-database" />
+            <arg value="-database.0" />
+            <arg value="${MCR.persistence_sql_data_directory}/${MCR.persistence_sql_database_name}" />
+        	<arg value="-dbname.0" />
             <arg value="${MCR.persistence_sql_database_name}" />
+        	<arg value="-database.1" />
+        	<arg value="${MCR.persistence_sql_data_directory}/${MCR.persistence_workflow_sql_database_name}" />
+            <arg value="-dbname.1" />
+            <arg value="${MCR.persistence_workflow_sql_database_name}" />        	
             <arg value="-port" />
             <arg value="${hsqlport}" />
         </java>
@@ -1381,6 +1393,32 @@
 			<zipfileset dir="${DOCPORTAL_HOME}/tmp-jspdocportal-zip" prefix="jspdocportal"/>
 		</zip>
 		<delete dir="${DOCPORTAL_HOME}/tmp-jspdocportal-zip" />
+	</target>	
+	
+	<target name="create.workflowengine.database">
+        <property name="commands.file" value="${basedir}/commands.txt" />
+        <echo file="${commands.file}" append="false">
+        	create jbpm database schema       	
+        </echo>
+        <antcall target="invoke.cli">
+            <param name="cli.directory"
+                value="${docportal.config}" />
+            <param name="cli.command" value="process ${commands.file}" />
+        </antcall>
+        <delete file="${commands.file}" />		
+	</target>
+	
+	<target name="deploy.processdefinition.xmetadiss">
+        <property name="commands.file" value="${basedir}/commands.txt" />
+        <echo file="${commands.file}" append="false">
+        	deploy jbpm processdefinition from file /workfow/xmetadiss.par/processdefinition.xml      	
+        </echo>
+        <antcall target="invoke.cli">
+            <param name="cli.directory"
+                value="${docportal.config}" />
+            <param name="cli.command" value="process ${commands.file}" />
+        </antcall>
+        <delete file="${commands.file}" />		
 	</target>	
 	
 </project>
