@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition
+  xmlns="urn:jbpm.org:jpdl-3.1"  name="xmetadiss">
+
+  <!-- SWIMLANES (= process roles) -->
+
+  <swimlane name="author" />
+  
+  <swimlane name="editor">
+    <!--   <assignment expression="user(ernie)" /> -->
+  </swimlane>
+  
+  <swimlane name="subjectExpert">
+    <!--   <assignment expression="user(ernie)" /> -->
+  </swimlane>  
+
+  
+  <start-state name="publishMyDissertation">
+    <task swimlane="author">
+      <controller>
+        <variable name="userid"/>
+        <variable name="workflowType"/>
+      </controller>
+    </task>
+    <transition to="end" />
+  </start-state>
+<!--   
+  <task-node name="createMetadata">
+    <task swimlane="author">
+      <controller>
+        <variable name="metadataFilename"/>
+        <variable name="isMetadataCorrect" />
+      </controller>
+    </task>
+    <transition name="ok" to="uploadFiles" />
+    <transition name="correctMetadata" to="correctMetadata" />
+  </task-node>  
+  
+  <task-node name="uploadFiles">
+    <task swimlane="author">
+      <controller>
+        <variable name="derivateFilename"/>
+      </controller>
+    </task>
+    <transition to="end" />
+  </task-node>    
+  
+  <task-node name="correctMetadata">
+    <task swimlane="author">
+      <controller>
+        <variable name="metadataFilename"/>
+        <variable name="isMetadataCorrect" />
+      </controller>
+    </task>
+    <transition name="ok" to="uploadFiles" />
+  </task-node>   
+-->
+  <end-state name="end" />
+  
+</process-definition>
