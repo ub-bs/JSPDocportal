@@ -74,6 +74,7 @@ public class MCRJbpmWorkflowBase {
 				ids = (List)initiatorMap.get(initiator);
 			}
 			ids.add(new Long(processID));
+			initiatorMap.put(initiator, ids);
 		}		
 	}
 	

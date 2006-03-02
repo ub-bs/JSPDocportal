@@ -20,10 +20,6 @@ import org.mycore.common.MCRException;
 public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 	
 	private static Logger logger = Logger.getLogger(MCRJbpmWorkflowObject.class);
-	ProcessDefinition processDefinition = null;
-	ProcessInstance processInstance = null;
-	ContextInstance contextInstance = null;
-	TaskMgmtInstance taskMgmtInstance = null;
 	long processInstanceID = -1;
 
 	public MCRJbpmWorkflowObject(String processType) {
@@ -33,12 +29,8 @@ public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 	public MCRJbpmWorkflowObject(long processID){
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try{
-			GraphSession graphSession = jbpmContext.getGraphSession();
-			processInstance = graphSession.loadProcessInstance(processID);
-			processDefinition = processInstance.getProcessDefinition();
-			contextInstance = processInstance.getContextInstance();
-			taskMgmtInstance = processInstance.getTaskMgmtInstance();
-			processInstanceID = processInstance.getId();
+			jbpmContext.getGraphSession().loadProcessInstance(processID);
+			processInstanceID = processID;
 		}catch(MCRException e){
 			logger.error("workflow error",e);
 		}finally{
@@ -50,10 +42,8 @@ public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try {
 			GraphSession graphSession = jbpmContext.getGraphSession();
-		    processDefinition = graphSession.findLatestProcessDefinition(processType);
-		    processInstance = new ProcessInstance(processDefinition);
-		    contextInstance = processInstance.getContextInstance();
-		    taskMgmtInstance = processInstance.getTaskMgmtInstance();
+		    ProcessDefinition processDefinition = graphSession.findLatestProcessDefinition(processType);
+		    ProcessInstance processInstance = new ProcessInstance(processDefinition);
 		    processInstanceID = processInstance.getId();
 		    jbpmContext.save(processInstance);
 		}catch(MCRException e){
@@ -69,13 +59,24 @@ public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 	}
 	
 	public String getStringVariableValue(String varName) {
-		String value = (String)contextInstance.getVariable(varName);
-		return value;
+		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+		try {
+			ContextInstance contextInstance = jbpmContext.getGraphSession().loadProcessInstance(processInstanceID).getContextInstance();
+			String value = (String)contextInstance.getVariable(varName);
+			return value;
+		}catch(MCRException e){
+			logger.error("could not set variable '", e);
+			return "";
+		}finally {
+			jbpmContext.close();
+		}		
 	}
 	
 	public void setStringVariableValue(String varName, String value) {
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try {
+			ProcessInstance processInstance = jbpmContext.getGraphSession().loadProcessInstance(processInstanceID);
+			ContextInstance contextInstance = processInstance.getContextInstance();
 			contextInstance.setVariable(varName, value);
 			jbpmContext.save(processInstance);
 		}catch(MCRException e){
@@ -90,6 +91,7 @@ public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 		boolean statusIsSet = false;
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try {
+			ProcessInstance processInstance = jbpmContext.getGraphSession().loadProcessInstance(processInstanceID);
 			Node curNode = processInstance.getRootToken().getNode();
 			if(curNode.getName().equals(newStatus)){
 				logger.debug("status is already set to " + newStatus);
@@ -116,27 +118,27 @@ public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 	public void testFunction() {
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try {
-		   TaskInstance taskInstance = null;
-		    
-		    jbpmContext.setActorId("heiko");
-		    // create a task to start the xmetadiss
-		    taskInstance = taskMgmtInstance.createStartTaskInstance();
-		    
-
-		    Map taskVariables = new HashMap();
-		    taskVariables.put("item", "cookies");
-		    taskVariables.put("quantity", "lots of them");
-		    taskVariables.put("address", "sesamestreet 46");
-		    
-		    taskInstance.addVariables(taskVariables);
-		    System.out.println(taskInstance.getActorId());
-		    
-		    taskInstance.end();
-		    jbpmContext.save(taskInstance);
-		    System.out.println("saved");
-		    
-		    System.out.println(taskInstance.getVariable("processOwner"));
-		    SwimlaneInstance swi = taskMgmtInstance.getSwimlaneInstance("author");
+//		   TaskInstance taskInstance = null;
+//		    
+//		    jbpmContext.setActorId("heiko");
+//		    // create a task to start the xmetadiss
+//		    taskInstance = taskMgmtInstance.createStartTaskInstance();
+//		    
+//
+//		    Map taskVariables = new HashMap();
+//		    taskVariables.put("item", "cookies");
+//		    taskVariables.put("quantity", "lots of them");
+//		    taskVariables.put("address", "sesamestreet 46");
+//		    
+//		    taskInstance.addVariables(taskVariables);
+//		    System.out.println(taskInstance.getActorId());
+//		    
+//		    taskInstance.end();
+//		    jbpmContext.save(taskInstance);
+//		    System.out.println("saved");
+//		    
+//		    System.out.println(taskInstance.getVariable("processOwner"));
+//		    SwimlaneInstance swi = taskMgmtInstance.getSwimlaneInstance("author");
 
 		}catch(MCRException e){
 			logger.error("error:", e);
