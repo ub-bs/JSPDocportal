@@ -9,7 +9,9 @@
 <fmt:setBundle basename='messages'/>
 <c:set var="WebApplicationBaseURL" value="${applicationScope.WebApplicationBaseURL}" />
 <c:set var="mcrid" value="${param.id}" /> 
+<c:set var="from"  value="${param.fromWForDB}" /> 
 <c:set var="debug" value="${param.debug}" />
+
 <mcr:receiveMcrObjAsJdom var="mycoreobject" mcrid="${mcrid}" />
 <c:choose>
    <c:when test="${requestScope.host}">
@@ -36,7 +38,17 @@
    </c:otherwise>
 </c:choose>
 
-<table cellspacing="0" cellpadding="0" id="metaHeading">
+<c:choose>
+ <c:when test="${fn:contains(from,'workflow')}" >
+     <c:set var="layout" value="preview" />
+ </c:when>
+ <c:otherwise>
+     <c:set var="layout" value="normal" />
+ </c:otherwise> 
+</c:choose>
+
+<table class="${layout}" ><tr valign="top"><td>
+ <table cellspacing="0" cellpadding="0" id="metaHeading">
    <tr>
       <td class="titles">
          <mcr:simpleXpath jdom="${mycoreobject}" xpath="/mycoreobject/metadata/titles/title[@xml:lang='${requestScope.lang}']" />
@@ -143,7 +155,10 @@
          </x:when>
       </x:choose>
     </x:forEach>
-</table>
+  </table>
+
+</td></tr></table>
+
 </c:catch>
 <c:if test="${e!=null}">
 An error occured, hava a look in the logFiles!
