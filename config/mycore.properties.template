@@ -115,7 +115,14 @@ MCR.searchmask_config_disshab=SearchMask_Disshab.xml
 
 # ---------------------------------------------------------------------
 
-MCR.NBN.NamespacePrefix=s
+
+
+# The prefix of all local NBN URLs, e. g. "urn:nbn:de:hbz:465-"
+MCR.NBN.NamespacePrefix=urn:dummyprefix-
+# you can have urns like 'urn:nbn:de:s124352334124'
+# or you can have urns with information like 'urn:nbn:de:diss20050512-1712185553'
+# then you have to set up a nissprefix, that follows the namespace-prefix
+MCR.nbn.nissprefix.disshab=diss   
 MCR.NBN.ManagerImplementation=org.mycore.backend.hibernate.MCRHIBNBNManager
 MCR.NBN.PersistenceStore.TableName=MCRNBN
 # ---------------------------------------------------------------------

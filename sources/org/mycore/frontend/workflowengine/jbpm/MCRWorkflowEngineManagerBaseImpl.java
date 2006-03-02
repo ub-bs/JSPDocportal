@@ -19,7 +19,6 @@ import org.mycore.datamodel.metadata.MCRMetaPersonName;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.services.nbn.MCRNBN;
-import org.mycore.services.nbn.MCRNBNManager;
 import org.mycore.user2.MCRUser;
 import org.mycore.user2.MCRUserMgr;
 
@@ -29,7 +28,6 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	protected static MCRConfiguration config = null;
 	
 	private static String sender = "";
-	private static MCRNBNManager nbnmgr=null;
 	private static String GUEST_ID = "gast";
     	
 	private Hashtable mt = null;
@@ -56,7 +54,6 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	protected MCRWorkflowEngineManagerBaseImpl() throws Exception {
 		config = MCRConfiguration.instance();
 		sender = config.getString("MCR.editor_mail_sender",	"mcradmin@localhost");
-		nbnmgr = (MCRNBNManager) config.getInstanceOf("MCR.NBN.ManagerImplementation");
 		mt = new Hashtable();		
 		GUEST_ID = config.getString("MCR.users_guestuser_username","gast");
 	}	
@@ -143,9 +140,10 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		return isValid;
 	}
 	
-	protected String createUrnReservationForAuthor(String authorid, String comment){
-		MCRNBN mcrurn = new MCRNBN(authorid, comment);
-		nbnmgr.reserveURN(mcrurn);
+	protected String createUrnReservationForAuthor(String authorid, String comment, String workflowProcessType){
+		String nissprefix = config.getString("MCR.nbn.nissprefix." + workflowProcessType, "diss");
+		//MCRNBN mcrurn = new MCRNBN(authorid, comment);
+		MCRNBN mcrurn = new MCRNBN(authorid, comment, nissprefix);  
 		return mcrurn.getURN();
 	}
 

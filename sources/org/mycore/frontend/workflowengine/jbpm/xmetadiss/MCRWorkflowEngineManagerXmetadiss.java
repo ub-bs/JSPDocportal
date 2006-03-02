@@ -149,7 +149,7 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 
 		// im WF keine URN vorhanden, - also in MyCoRe anlegen	
 		String authorID = getAuthorFromUniqueWorkflow(userid);
-		urn = createUrnReservationForAuthor(authorID, "URN for dissertation");
+		urn = createUrnReservationForAuthor(authorID, "URN for dissertation", processType);
 		wfo.setStringVariableValue("reservatedURN", urn);
 		wfo.setWorkflowStatus("urnCreated");
 		return urn;					
