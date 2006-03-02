@@ -57,6 +57,7 @@ import org.mycore.frontend.cli.MCRObjectCommands;
  * 
  * @author Heiko Helmbrecht, Anja Schaar
  * @version $Revision$ $Date$
+ * @deprecated
  */
 
 public class MCRWorkflowManager {
