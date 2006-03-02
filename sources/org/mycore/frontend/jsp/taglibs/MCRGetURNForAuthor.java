@@ -1,64 +1,58 @@
 package org.mycore.frontend.jsp.taglibs;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import javax.servlet.jsp.tagext.*;
 import javax.servlet.jsp.*;
 
 import org.apache.log4j.Logger;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.output.DOMOutputter;
-import org.mycore.access.MCRAccessInterface;
-import org.mycore.access.MCRAccessManager;
-import org.mycore.common.JSPUtils;
-import org.mycore.common.MCRConfiguration;
-import org.mycore.common.MCRException;
-import org.mycore.datamodel.metadata.MCRXMLTableManager;
-import org.mycore.frontend.workflow.MCRDisshabWorkflowManager;
-import org.mycore.services.nbn.MCRNBN;
-import org.mycore.user2.MCRUser;
-import org.mycore.user2.MCRUserMgr;
-
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerFactory;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
 
 public class MCRGetURNForAuthor extends SimpleTagSupport
 {
 	private String userid;	
+	private String workflowProcessType;	
 	private String urn;
 	private String status;
 	
-	private static MCRDisshabWorkflowManager dhwf; 
+	private static Logger logger = Logger.getLogger(MCRGetAuthorFromUser.class); 
 
-	public void setUserid(String inputUserid){
-		userid = inputUserid;
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
-	public void setStatus(String inputStatus){
-		status = inputStatus;
+
+	public void setUrn(String urn) {
+		this.urn = urn;
 	}
-	public void setUrn(String inputUrn){
-		urn = inputUrn;
+
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
-	
+
+	public void setWorkflowProcessType(String workfowProcessType){
+		this.workflowProcessType = workfowProcessType;
+	}	
 	
 	public void doTag() throws JspException, IOException {		
 		PageContext pageContext = (PageContext) getJspContext();
     	pageContext.setAttribute(urn, "");
     	
+    	MCRWorkflowEngineManagerInterface WFM = null;
 		try {
-			dhwf = MCRDisshabWorkflowManager.instance();
-		} catch (Exception noWfM) {
+			 WFM = MCRWorkflowEngineManagerFactory.getImpl(workflowProcessType);
+		} catch (Exception noWFM) {
+			logger.error("could not build workflow interface", noWFM);
 			pageContext.setAttribute(status, "errorWfM");
 			return;
 		}
-		String surn = dhwf.getURNDisshabReservation(userid);
+		String surn = WFM.getURNReservation(userid);
 	    pageContext.setAttribute(urn, surn);
 	    if ( surn.length() <= 0 ) 
     		pageContext.setAttribute(status, "errorNoAuthor");
 	    else 
-			pageContext.setAttribute(status,dhwf.getActualStatus());
+			pageContext.setAttribute(status, WFM.getStatus(userid));
 		return;
 	}	  
 

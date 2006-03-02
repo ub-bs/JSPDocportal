@@ -8,6 +8,30 @@
     <shortname>mcr</shortname>
     <uri>/WEB-INF/lib/mycore-taglibs.jar</uri>
     <info>MyCoRe Sample Tag library</info>
+       <tag>
+            <name>initWorkflowProcess</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRInitWorkflowProcessTag</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <description>the workflow-defintion-type, a new process instance is created for</description>
+                <name>workflowProcessType</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>The userid, must exist in database</description>
+                <name>userid</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>Output - the status from this operation </description>
+                <name>status</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <info>A Tag, that initializes a new workflow process in the workflow engine</info>
+        </tag>     
         <tag>
             <name>includeEditor</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRIncludeEditorTag</tagclass>
@@ -90,7 +114,13 @@
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
-            <info>A Tag, that returns a new or reserved URN for a author </info>
+            <attribute>
+                <description>The workflow-processType, this tag is used for</description>
+                <name>workflowProcessType</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <info>A Tag, that returns a new or reserved URN for a author in a given Workflow Process</info>
         </tag>    		
         <tag>
             <name>getAuthorFromUser</name>
@@ -114,7 +144,13 @@
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
-            <info>A Tag, that returns a new or existing author for a user, generated from the user </info>
+            <attribute>
+                <description>The workflow-processType, this tag is used for</description>
+                <name>workflowProcessType</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>             
+            <info>A Tag, that returns a new or existing author for a user, generated from the user in a given Workflow Process</info>
         </tag>    		
         <tag>
             <name>getFreeUserIDs</name>
