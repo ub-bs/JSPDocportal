@@ -14,13 +14,14 @@
 	background-image:url(/mycoresample/images/hg_preview.png);	
 	background-repeat:repeat-y;
     background-position:bottom right;
-    width: 100%;
+    width:98%;
     height: 450px;	
  }
-	 
+
 .normal {
     background-color: white;
     color: rgb(10, 80, 161);
+    width:98%;
 }   
 .mandatory {
    border-color: rgb(255,0, 0);
