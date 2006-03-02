@@ -16,15 +16,36 @@
   </swimlane>  
 
   
-  <start-state name="publishMyDissertation">
+  <start-state name="start">
     <task swimlane="author">
       <controller>
         <variable name="userid"/>
-        <variable name="workflowType"/>
       </controller>
     </task>
-    <transition to="end" />
+    <transition to="existingAuthor" />
+    <transition to="newAuthor" />
   </start-state>
+
+  <state name="newAuthor">
+  	<transition name="creating author" to="existingAuthor" />
+  </state>
+    
+  <state name="existingAuthor">
+  	<transition name="create urn" to="urnCreated" />
+  </state>
+  
+  <state name="urnCreated">
+  	<transition name="createDisshab" to="disshabCreated" />
+  </state>
+  
+  <state name="disshabCreated">
+     <transition name="todo next" to="todonext" />
+  </state>
+  
+  <state name="todonext">
+    <transition to="end" />
+  </state>
+  
 <!--   
   <task-node name="createMetadata">
     <task swimlane="author">
