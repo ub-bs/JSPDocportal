@@ -105,6 +105,10 @@
 			   <navitem name="editor-include" label="Nav.WorkflowEdit" href="content/editor-include.jsp" hidden="true">
 			      <refitem name="~editor-include" label="" />							
 			   </navitem>			                 
+               <navitem name="workflow-preview" label="Nav.WorkflowPreview" href="content/docdetails.jsp"  hidden="true">
+                  <refitem name="~workflow-preview" label="" />
+               </navitem>				
+				
             </navitem>
             <navitem name="admin" label="Nav.Admin" href="admin" extern="true">
             </navitem>            
