@@ -1,12 +1,16 @@
 package org.mycore.frontend.workflowengine.jbpm;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.jbpm.JbpmConfiguration;
+import org.jbpm.JbpmContext;
 import org.jbpm.context.exe.ContextInstance;
+import org.jbpm.db.GraphSession;
+import org.jbpm.graph.def.Node;
 import org.jbpm.graph.def.ProcessDefinition;
+import org.jbpm.graph.def.Transition;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.taskmgmt.exe.SwimlaneInstance;
 import org.jbpm.taskmgmt.exe.TaskInstance;
@@ -16,26 +20,101 @@ import org.mycore.common.MCRException;
 public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 	
 	private static Logger logger = Logger.getLogger(MCRJbpmWorkflowObject.class);
-	JbpmConfiguration jbpmConfiguration = null;
 	ProcessDefinition processDefinition = null;
 	ProcessInstance processInstance = null;
 	ContextInstance contextInstance = null;
 	TaskMgmtInstance taskMgmtInstance = null;
-	long processInstanceId = -1;
+	long processInstanceID = -1;
 
 	public MCRJbpmWorkflowObject(String processType) {
 		createNewProcessInstance(processType);
 	}
 	
+	public MCRJbpmWorkflowObject(long processID){
+		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+		try{
+			GraphSession graphSession = jbpmContext.getGraphSession();
+			processInstance = graphSession.loadProcessInstance(processID);
+			processDefinition = processInstance.getProcessDefinition();
+			contextInstance = processInstance.getContextInstance();
+			taskMgmtInstance = processInstance.getTaskMgmtInstance();
+			processInstanceID = processInstance.getId();
+		}catch(MCRException e){
+			logger.error("workflow error",e);
+		}finally{
+			jbpmContext.close();
+		}
+	}
+	
 	private void createNewProcessInstance(String processType) {
-	    processDefinition = graphSession.findLatestProcessDefinition(processType);
-	    processInstance = new ProcessInstance(processDefinition);
-	    contextInstance = processInstance.getContextInstance();
-	    taskMgmtInstance = processInstance.getTaskMgmtInstance();
+		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+		try {
+			GraphSession graphSession = jbpmContext.getGraphSession();
+		    processDefinition = graphSession.findLatestProcessDefinition(processType);
+		    processInstance = new ProcessInstance(processDefinition);
+		    contextInstance = processInstance.getContextInstance();
+		    taskMgmtInstance = processInstance.getTaskMgmtInstance();
+		    processInstanceID = processInstance.getId();
+		    jbpmContext.save(processInstance);
+		}catch(MCRException e){
+			logger.error("could not create new processIinstance '", e);
+		}finally {
+			jbpmContext.close();
+		}		
 	} 
 	
+	public void setInitiator(String initiator){
+		setStringVariableValue("initiator", initiator);
+		addToInitiatorMap(initiator, processInstanceID);
+	}
+	
+	public String getStringVariableValue(String varName) {
+		String value = (String)contextInstance.getVariable(varName);
+		return value;
+	}
+	
+	public void setStringVariableValue(String varName, String value) {
+		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+		try {
+			contextInstance.setVariable(varName, value);
+			jbpmContext.save(processInstance);
+		}catch(MCRException e){
+			logger.error("could not set variable '" + varName + 
+					"' to the value [" + value + "]", e);
+		}finally {
+			jbpmContext.close();
+		}		
+	}	
+	
+	public boolean setWorkflowStatus(String newStatus){
+		boolean statusIsSet = false;
+		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+		try {
+			Node curNode = processInstance.getRootToken().getNode();
+			if(curNode.getName().equals(newStatus)){
+				logger.debug("status is already set to " + newStatus);
+				statusIsSet = true;
+			}
+			for (Iterator it = curNode.getLeavingTransitions().iterator(); it.hasNext();) {
+				Transition transition = (Transition) it.next();
+				if(transition.getTo().getName().equals(newStatus)) {
+					processInstance.getRootToken().signal(transition);
+					jbpmContext.save(processInstance);
+					statusIsSet = true;
+					break;
+				}
+				
+			}
+		}catch(MCRException e){
+			logger.error("could not set workflow status [" + newStatus + "]", e);
+		}finally {
+			jbpmContext.close();
+		}		
+		return statusIsSet;
+	}
+
 	public void testFunction() {
-		createJbpmContext();
+		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try {
 		   TaskInstance taskInstance = null;
 		    
@@ -62,7 +141,7 @@ public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 		}catch(MCRException e){
 			logger.error("error:", e);
 		}finally {
-			closeJbpmContext();
+			jbpmContext.close();
 		}
 		
 	}
