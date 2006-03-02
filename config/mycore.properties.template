@@ -139,14 +139,15 @@ MCR.IFS.ContentStore.SQLDB.Class=org.mycore.backend.hibernate.MCRHIBCStore
 # JDBC parameters for connecting to HSQLDB
 MCR.hibernate.dialect=org.hibernate.dialect.HSQLDialect
 MCR.hibernate.connection.driver_class=org.hsqldb.jdbcDriver
-MCR.hibernate.connection.url=jdbc:hsqldb:hsql://localhost:9001
+MCR.hibernate.connection.url=jdbc:hsqldb:hsql://localhost:9001/mycore
 MCR.hibernate.connection.username=sa
 MCR.hibernate.connection.password=
 MCR.hibernate.connection.pool_size=5
 
 # needed for starting and stopping the hsqldb-database via ant
-MCR.persistence_sql_data_directory=C:/sample-mcrjsp/hsqldb-data
+MCR.persistence_sql_data_directory=E:/sample-mcrjsp/hsqldb-data
 MCR.persistence_sql_database_name=mycore
+MCR.persistence_workflow_sql_database_name=mycore-workflow
 
 
 MCR.classifications_store_sql_table_class=MCRCLASS
