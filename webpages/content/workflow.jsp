@@ -81,6 +81,15 @@
                                                 <input value="nav?path=~workflow-${param.type}" name="page" type="hidden">
                                                 <input title="<fmt:message key="Object.DelObject" />" src="${requestScope.WebApplicationBaseURL}images/workflow_delete.gif" type="image" class="imagebutton">
                                             </form>
+                                        </td>
+										<td align="center" valign="top" width="30">
+											<form method="get" action="${requestScope.WebApplicationBaseURL}nav">
+												<input value="~workflow-preview" name="path" type="hidden">
+												<input name="id" value="${itemID}" type="hidden">
+												<input name="fromWForDB" value="workflow" type="hidden">
+												<input title="<fmt:message key="Object.Preview" />" src="${requestScope.WebApplicationBaseURL}images/workflow_preview.gif" type="image" class="imagebutton">
+											</form>
+                                            
                                 </td>
                             </tr>
                         </table>
