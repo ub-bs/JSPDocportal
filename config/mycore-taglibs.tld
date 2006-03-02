@@ -368,6 +368,14 @@ specified in the action.
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
+			<attribute>
+                <description>
+                    The String From where the Object should be loaded, either workflow or database 
+                </description>
+                <name>fromWForDB</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>   			
             <info>A Tag, that sets a pageContext variable with an MyCoRe-Object as jdom Document</info>
         </tag>    
         <tag>
