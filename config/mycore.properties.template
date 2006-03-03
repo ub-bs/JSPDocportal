@@ -29,6 +29,8 @@ MCR.languageResourceBundleBase=messages
 MCR.XML.TempPath=C:/sample-mcrjsp/tmp
 
 MCR.Editor.FileUpload.TempStoragePath=C:/sample-mcrjsp/export/upload
+
+MCR.editor_disshab_directory=C:/sample-mcrjsp/export/disshab
 MCR.editor_document_directory=C:/sample-mcrjsp/export/document
 MCR.editor_institution_directory=C:/sample-mcrjsp/export/institution
 MCR.editor_author_directory=C:/sample-mcrjsp/export/author
