@@ -6,6 +6,8 @@
  */
 package org.mycore.common;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Map;
@@ -17,6 +19,9 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
+import org.mycore.datamodel.metadata.MCRObject;
+import org.mycore.datamodel.metadata.MCRObjectStructure;
+import org.mycore.frontend.cli.MCRDerivateCommands;
 
 /**
  * @author mycore
@@ -213,6 +218,42 @@ public class JSPUtils {
 		sb.append(":00");
 		return sb.toString();
 	}	
+
+    //  static method to save any Document Object to an give directory - uses to put idt into
+	// the workflow directory or to save it before deleteing - look to MCRStartEditorServlet - sdelobj
+	public static void	saveToDirectory(MCRObject mob, String savedir){
+	
+		MCRObjectStructure structure = mob.getStructure();
+		String mcrid = mob.getId().getId();
+		int derSize = structure.getDerivateSize();
+		FileOutputStream fos =null;
+		
+		for(int i = 0; i < derSize; i++) {
+			String derivateID = structure.getDerivate(i).getXLinkHref();
+	        String derDir  = savedir ;
+	        if ( derivateID != null && MCRObject.existInDatastore(derivateID) ) {
+		        MCRDerivateCommands.show(derivateID, derDir);
+	        }				
+		}
+		for(int i = 0; i < derSize; i++) {
+			structure.removeDerivate(0);
+		}	
+		try {
+			fos = new FileOutputStream(savedir + "/" + mcrid + ".xml");
+			(new XMLOutputter(Format.getPrettyFormat())).output(mob.createXML(),fos);
+			fos.close();
+		} catch (Exception ex){
+			logger.debug(ex);
+			logger.info("Cant save Object" + mcrid + " to directory " + savedir);
+		} finally{
+			if ( fos != null ){
+				try {		fos.close(); }			
+				catch ( IOException io ) {; // cant clos the fos 
+				}
+			}
+		}
+	}
+	 
      
      public static void main(String[] args) {
     	 initialize();
