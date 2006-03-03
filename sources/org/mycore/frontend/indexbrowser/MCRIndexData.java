@@ -226,7 +226,7 @@ public class MCRIndexData {
     	    String   sField= Fields[j];
     	    
     	    /* mcrHit - 
-	    	 * <mcrhit mcrid="atlibri_professorum_000000000441">
+	    	 * <mcrhit id="atlibri_professorum_000000000441">
 			 *   <sortData>
 			 *     <data name="title">Aepinus</data>
 			 *   </sortData>
@@ -239,11 +239,11 @@ public class MCRIndexData {
     	    
             // Eintrag der ID
         	if ( sField.equals("id")) {
-        		value = child1.getAttributeValue("mcrid");
+        		value = child1.getAttributeValue("id");
         		
         	} else {
         	    MCRObject oo = new MCRObject();
-        	    Document od =  oo.receiveJDOMFromDatastore(child1.getAttributeValue("mcrid"));
+        	    Document od =  oo.receiveJDOMFromDatastore(child1.getAttributeValue("id"));
         	    Iterator it = od.getDescendants(new ElementFilter(sField));
         	    while ( it.hasNext() )
         	    {
@@ -363,7 +363,7 @@ public class MCRIndexData {
     	
     	Element condition = new Element("condition");
     	
-       	condition.setAttribute("operator", "=");
+       	condition.setAttribute("operator", "like");
    		condition.setAttribute("field", ic.browseField);
        	if (br.search != null) {
     		condition.setAttribute("value", br.search+"*");
