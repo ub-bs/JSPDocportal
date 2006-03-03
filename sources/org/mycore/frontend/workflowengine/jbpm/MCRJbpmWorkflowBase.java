@@ -28,6 +28,37 @@ public class MCRJbpmWorkflowBase {
 	}
 	
 	
+	protected void deleteProcessInstance(long procID){
+		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+		try{
+			GraphSession graphSession = jbpmContext.getGraphSession();
+			ProcessInstance processInstance = graphSession.loadProcessInstance(procID);
+			String initiator = (String)processInstance.getContextInstance().getVariable("initiator");
+			
+			graphSession.deleteProcessInstance(procID);
+
+			// also delete id from initiatorMap
+			List oldList = (List)initiatorMap.get(initiator);
+			List newList = new ArrayList();
+			for (Iterator it = oldList.iterator(); it.hasNext();) {
+				Long objProcessID = (Long) it.next();
+				if(procID != objProcessID.longValue()) {
+					newList.add(new Long(procID));
+				}
+			}
+			if(newList.size() > 0) {
+				initiatorMap.put(initiator, newList);
+			}else{
+				initiatorMap.remove(initiator);
+			}
+			
+			
+		}catch(MCRException e){
+			logger.error("could not delete process [" + procID + "]",e);
+		}finally{
+			jbpmContext.close();
+		}
+	}
 
 	/**
 	 * initializes the initiator-map

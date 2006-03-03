@@ -35,8 +35,10 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
 import org.mycore.services.fieldquery.MCRQueryManager;
+import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRDefaults;
 import org.mycore.common.MCRException;
+import org.mycore.common.xml.MCRXMLHelper;
 import org.mycore.datamodel.metadata.MCRMetaLangText;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRObject;
@@ -130,7 +132,7 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
     		wfo.setWorkflowStatus("existingAuthor");
     		return authorID;
     	} else {
-    		authorID = createAuthor(userid);
+    		authorID = createAuthor(userid, processType);
     		wfo.setStringVariableValue("authorID", authorID);
     		wfo.setWorkflowStatus("existingAuthor");
     		return authorID;

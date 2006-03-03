@@ -1,3 +1,23 @@
+####################################################################
+# semantics of the acl-properties
+####################################################################
+# |*******prefix****************|doctype*|permission|workflowType|
+# |MCR.WorkflowEngin.defaultACL.|disshab.|modify.   |xmetadiss   |
+# $user will be replaces with the current user
+####################################################################
+MCR.WorkflowEngine.defaultACL.author.writedb.xmetadiss=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></condition>
+MCR.WorkflowEngine.defaultACL.author.read.xmetadiss=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></condition>
+MCR.WorkflowEngine.defaultACL.author.commitdb.xmetadiss=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></condition>
+MCR.WorkflowEngine.defaultACL.author.deletewf.xmetadiss=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></condition>
+MCR.WorkflowEngine.defaultACL.author.deletedb.xmetadiss=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></condition>
+MCR.WorkflowEngine.defaultACL.disshab.writedb.xmetadiss=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></condition>
+MCR.WorkflowEngine.defaultACL.disshab.read.xmetadiss=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></condition>
+MCR.WorkflowEngine.defaultACL.disshab.commitdb.xmetadiss=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></condition>
+MCR.WorkflowEngine.defaultACL.disshab.deletewf.xmetadiss=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></condition>
+MCR.WorkflowEngine.defaultACL.disshab.deletedb.xmetadiss=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></condition>
+
+
+
 MCR.WorkflowEngine.ManagerImpl.xmetadiss=org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRWorkflowEngineManagerXmetadiss
 # Default-Start-URL vor the WorkflowEngine
 #MCR.WorkflowEngine.StartURL.Relative=~workflowengine

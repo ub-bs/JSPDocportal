@@ -9,15 +9,19 @@ import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.XMLOutputter;
+import org.mycore.access.MCRAccessInterface;
+import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRDefaults;
 import org.mycore.common.MCRException;
+import org.mycore.common.xml.MCRXMLHelper;
 import org.mycore.datamodel.metadata.MCRMetaAddress;
 import org.mycore.datamodel.metadata.MCRMetaBoolean;
 import org.mycore.datamodel.metadata.MCRMetaLangText;
 import org.mycore.datamodel.metadata.MCRMetaPersonName;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.frontend.workflow.MCREditorOutValidator;
 import org.mycore.services.nbn.MCRNBN;
 import org.mycore.user2.MCRUser;
 import org.mycore.user2.MCRUserMgr;
@@ -25,10 +29,16 @@ import org.mycore.user2.MCRUserMgr;
 public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManagerInterface{
 	private static Logger logger = Logger.getLogger(MCRWorkflowEngineManagerBaseImpl.class.getName());
 	private static MCRWorkflowEngineManagerInterface singleton;
-	protected static MCRConfiguration config = null;
+	protected static MCRConfiguration config = MCRConfiguration.instance();
+	protected static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
 	
-	private static String sender = "";
-	private static String GUEST_ID = "gast";
+	private static String sender ;
+	private static String GUEST_ID ;
+	
+	static{
+		sender = config.getString("MCR.editor_mail_sender",	"mcradmin@localhost");
+		GUEST_ID = config.getString("MCR.users_guestuser_username","gast");
+	}
     	
 	private Hashtable mt = null;
 	private XMLOutputter out = new XMLOutputter(org.jdom.output.Format.getPrettyFormat());	
@@ -52,10 +62,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	 * @throws InstantiationException 
 	 */
 	protected MCRWorkflowEngineManagerBaseImpl() throws Exception {
-		config = MCRConfiguration.instance();
-		sender = config.getString("MCR.editor_mail_sender",	"mcradmin@localhost");
 		mt = new Hashtable();		
-		GUEST_ID = config.getString("MCR.users_guestuser_username","gast");
 	}	
 	
 
@@ -181,7 +188,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
     	return query;
     }
 	
-	protected String createAuthor(String userid){
+	protected String createAuthor(String userid, String workflowProcessType){
 		MCRUser user = null;
 		try {
 			user = MCRUserMgr.instance().retrieveUser(userid);
@@ -290,13 +297,30 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 			logger.warn("Could not Create authors object from the user object " + user.getID());
 			return "";
 		}
-		
+		setDefaultACL(author.getId(), workflowProcessType, user.getID());
    	    return author.getId().getId();
 	}
+	
+	
 	/*
 	 *    DUMMY IMPLEMENTATION, MUST BE EXTENDED BY REAL WORKFLOW-IMPLEMENTATIONS
 	 *    IF NEEDED THERE
 	 */
+	
+	public static void setDefaultACL(MCRObjectID objID, String workflowProcessType, String userID){
+		String[] permissions = {"read","commitdb","writedb","deletedb","deletewf"};
+		for (int i = 0; i < permissions.length; i++) {
+			String propName = new StringBuffer("MCR.WorkflowEngine.defaultACL.")
+				.append(objID.getTypeId()).append(".").append(permissions[i]).append(".")
+				.append(workflowProcessType).toString();
+System.out.println(propName);			
+			String strRule = config.getString(propName,"<condition format=\"xml\"><boolean operator=\"false\" /></condition>");
+			strRule = strRule.replaceAll("\\$\\{user\\}",userID);
+System.out.println("parsed rule:" + strRule);			
+			Element rule = (Element)MCRXMLHelper.parseXML(strRule).getRootElement().detach();
+			AI.addRule(objID.getId(), permissions[i], rule, "");
+		}
+	}	
 
 	public String getAuthorFromUniqueWorkflow(String userid){
 		return "";
