@@ -32,6 +32,7 @@ import org.apache.log4j.Logger;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
+import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.datamodel.metadata.MCRObject;
@@ -82,7 +83,7 @@ public class MCRPutDocumentToWorkflow extends MCRCheckBase {
 			mob.receiveFromDatastore(mcrid);
 			String type = mob.getId().getTypeId();
 			String savedir = CONFIG.getString("MCR.editor_" + type + "_directory");
-			MCRPutDocumentToWorkflow.saveToDirectory(mob, savedir);			
+			JSPUtils.saveToDirectory(mob, savedir);			
 		}		
 		response.sendRedirect(response.encodeRedirectURL(getBaseURL() + url));
 	}
@@ -97,39 +98,4 @@ public class MCRPutDocumentToWorkflow extends MCRCheckBase {
 		
 	}
 	
-	// static method to save any Document Object to an give directory - uses to put idt into
-	// the workflow directory or to save it before deleteing - look to MCRStartEditorServlet - sdelobj
-	public static void	saveToDirectory(MCRObject mob, String savedir){
-	
-		MCRObjectStructure structure = mob.getStructure();
-		String mcrid = mob.getId().getId();
-		int derSize = structure.getDerivateSize();
-		FileOutputStream fos =null;
-		
-		for(int i = 0; i < derSize; i++) {
-			String derivateID = structure.getDerivate(i).getXLinkHref();
-	        String derDir  = savedir ;
-	        if ( derivateID != null && MCRObject.existInDatastore(derivateID) ) {
-		        MCRDerivateCommands.show(derivateID, derDir);
-	        }				
-		}
-		for(int i = 0; i < derSize; i++) {
-			structure.removeDerivate(0);
-		}	
-		try {
-			fos = new FileOutputStream(savedir + "/" + mcrid + ".xml");
-			(new XMLOutputter(Format.getPrettyFormat())).output(mob.createXML(),fos);
-			fos.close();
-		} catch (Exception ex){
-			logger.debug(ex);
-			logger.info("Cant save Object" + mcrid + " to directory " + savedir);
-			;
-		} finally{
-			if ( fos != null ){
-				try {		fos.close(); }			
-				catch ( IOException io ) {; // cant clos the fos
-				}
-			}
-		}
-	 }
-}
+}	
