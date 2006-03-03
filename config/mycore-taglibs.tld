@@ -8,6 +8,36 @@
     <shortname>mcr</shortname>
     <uri>/WEB-INF/lib/mycore-taglibs.jar</uri>
     <info>MyCoRe Sample Tag library</info>
+      <tag>
+            <name>getWorkflowDocumentID</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRGetWorkflowDocumentID</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <description>Output - the document ID from the active workflow, for this workflowtype, 	first time it will be createt automaticly in MyCoRe, next takes the id from  the WF process </description>
+                <name>mcrid</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>Output - the status from this operation </description>
+                <name>status</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>The userid, musst exist in database</description>
+                <name>userid</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>The workflow-processType, this tag is used for</description>
+                <name>workflowProcessType</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <info>A Tag, that returns a new or reserved id for a document in a given Workflow Process</info>
+        </tag>    			
        <tag>
             <name>initWorkflowProcess</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRInitWorkflowProcessTag</tagclass>
