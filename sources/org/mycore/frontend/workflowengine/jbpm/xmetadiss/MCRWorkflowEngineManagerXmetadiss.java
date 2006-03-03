@@ -47,6 +47,7 @@ import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowObject;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerBaseImpl;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
 import org.mycore.services.fieldquery.MCRResults;
+import org.mycore.common.JSPUtils;
 
 /**
  * This class holds methods to manage the workflow file system of MyCoRe.
@@ -177,20 +178,16 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 	}
 
 	
-	
 	private String createDisshab(String sAuthorID, String sUrn){		
 		if ( !(sAuthorID.length()>0 && sUrn.length()>0)  ){
 			logger.warn("Could not create disshab object because empty parameters,  sAuthorID=" + sAuthorID + ", sUrn=" + sUrn);
 			return "";
 		}
-		Element mycoreobject = new Element ("mycoreobject");
-		MCRObjectID ID = new MCRObjectID();
- 	    String base = config.getString("MCR.default_project_id","DocPortal")+"_disshab";
-		ID.setNextFreeId(base);
+		
+
+		Element mycoreobject = new Element ("mycoreobject");				
 		mycoreobject.addNamespaceDeclaration(org.jdom.Namespace.getNamespace("xsi", MCRDefaults.XSI_URL));
-		mycoreobject.setAttribute("noNamespaceSchemaLocation", "datamodel-disshab.xsd", org.jdom.Namespace.getNamespace("xsi", MCRDefaults.XSI_URL));
-		mycoreobject.setAttribute("ID", ID.toString());	 
-		mycoreobject.setAttribute("label", ID.toString());
+		mycoreobject.setAttribute("noNamespaceSchemaLocation", "datamodel-disshab.xsd", org.jdom.Namespace.getNamespace("xsi", MCRDefaults.XSI_URL));		
 		
 		Element structure = new Element ("structure");			
 		Element metadata = new Element ("metadata");	
@@ -246,14 +243,21 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 		mycoreobject.addContent(metadata);
 		mycoreobject.addContent(service);
 	    
+		// ID Setzen
+		String nextID = JSPUtils.getNextFreeID("disshab");
+		mycoreobject.setAttribute("ID", nextID);	 
+		mycoreobject.setAttribute("label", nextID);
+
 		Document mycoreobjectdoc = new Document(mycoreobject);
 		MCRObject disshab = new MCRObject();
 		disshab.setFromJDOM(mycoreobjectdoc);
 		try {
-			disshab.createInDatastore();
+			String type = disshab.getId().getTypeId();
+			String savedir = config.getString("MCR.editor_" + type + "_directory");
+			JSPUtils.saveToDirectory(disshab, savedir);		
 		} catch ( Exception ex){
 			//TODO Fehlermeldung
-			logger.warn("Could not create disshab object " + ID.toString());
+			logger.warn("Could not create disshab object " +  nextID );
 			return "";
 		}	
    	    return disshab.getId().getId();		
