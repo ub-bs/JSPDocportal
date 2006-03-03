@@ -51,10 +51,34 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
         command.add(com);
         
         com = new MCRCommand("deploy jbpm processdefinition from file {0}", "org.mycore.frontend.workflowengine.jbpm.MCRJbpmCommands.deployProcessDefinition String", "The command deploys a process definition to the database from the file {0}");
-        command.add(com);        
+        command.add(com);
+        
+        com = new MCRCommand("delete jbpm process {0}", "org.mycore.frontend.workflowengine.jbpm.MCRJbpmCommands.deleteProcess String", "The command deletes a processinstance of the jbpm workflow engine {0}");
+        command.add(com);         
 
     }
 
+    /**
+     * The command deletes a process instance of the workflow engine
+     * 	if you've got to do this, you must restart your application server
+     * 	for reinitializing your caches
+     * @param strProcessID
+     *        		String processId as String
+     * @throws MCRException
+     */
+    public static final void deleteProcess(String strProcessID) throws MCRException{
+    	try{
+    		long processID = Long.valueOf(strProcessID).longValue();
+    		MCRJbpmWorkflowBase wfb = new MCRJbpmWorkflowBase();
+    		wfb.deleteProcessInstance(processID);
+    	}catch(Exception e){
+    		LOGGER.error("could not delete process " + strProcessID, e);
+    		throw new MCRException("Error in deleting a process from workflow engine");
+    	}
+    	
+    	
+    }
+    
     /**
      * The command deploys a process definition to the database from a given file
      * 
