@@ -7,15 +7,9 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import org.hibernate.Session;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
-import org.jbpm.db.ContextSession;
 import org.jbpm.db.GraphSession;
-import org.jbpm.db.LoggingSession;
-import org.jbpm.db.MessagingSession;
-import org.jbpm.db.SchedulerSession;
-import org.jbpm.db.TaskMgmtSession;
 import org.jbpm.graph.def.Node;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
@@ -28,17 +22,13 @@ public class MCRJbpmWorkflowBase {
         JbpmConfiguration.parseResource("jbpm.cfg.xml");
 	// help cache for finding the workflow-processes of a given user
 	// not yet implemented in jbpm, can be removed one day
-	protected static HashMap initiatorMap = null;
+	private static HashMap initiatorMap = null;
 
-	static{
-		initializeInitiators();
-	}
-	
 	public MCRJbpmWorkflowBase(){
 	}
 	
 	
-	
+
 	/**
 	 * initializes the initiator-map
 	 * that contains for each userid a list
@@ -68,6 +58,9 @@ public class MCRJbpmWorkflowBase {
 	}
 	
 	protected static synchronized void addToInitiatorMap(String initiator, long processID) {
+		if(initiatorMap == null){
+			initializeInitiators();
+		}
 		if(initiator != null && !initiator.equals("")){
 			List ids = new ArrayList();
 			if(initiatorMap.containsKey(initiator)) {
@@ -79,6 +72,9 @@ public class MCRJbpmWorkflowBase {
 	}
 	
 	public static List getCurrentProcessIDs(String initiator, String processType) {
+		if(initiatorMap == null){
+			initializeInitiators();
+		}
 		List ret = new ArrayList();
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try{
@@ -100,6 +96,9 @@ public class MCRJbpmWorkflowBase {
 	}
 	
 	public static List getCurrentProcessIDs(String initiator) {
+		if(initiatorMap == null){
+			initializeInitiators();
+		}
 		List ret = new ArrayList();
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try{
@@ -140,7 +139,7 @@ public class MCRJbpmWorkflowBase {
 		return jbpmConfiguration;
 	}
 	
-	void createSchema() {
+	static void createSchema() {
 		getJbpmConfiguration().createSchema();
 	}	
 	

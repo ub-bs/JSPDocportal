@@ -79,8 +79,7 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
      */
     public static final void createSchema() throws MCRException{
     	try{
-    		MCRJbpmWorkflowBase wfb = new MCRJbpmWorkflowBase();
-    		wfb.createSchema();
+    		MCRJbpmWorkflowBase.createSchema();
         } catch (Exception e) {
         	LOGGER.error("Error in creating the schema for the workflow database", e);
             throw new MCRException("Error in creating the schema for the workflow database", e);

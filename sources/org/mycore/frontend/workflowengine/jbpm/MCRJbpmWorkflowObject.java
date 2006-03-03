@@ -1,8 +1,6 @@
 package org.mycore.frontend.workflowengine.jbpm;
 
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.jbpm.JbpmContext;
@@ -12,9 +10,6 @@ import org.jbpm.graph.def.Node;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.def.Transition;
 import org.jbpm.graph.exe.ProcessInstance;
-import org.jbpm.taskmgmt.exe.SwimlaneInstance;
-import org.jbpm.taskmgmt.exe.TaskInstance;
-import org.jbpm.taskmgmt.exe.TaskMgmtInstance;
 import org.mycore.common.MCRException;
 
 public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
