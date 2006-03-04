@@ -2,7 +2,7 @@
 
 <!-- =================================================================== -->
 <!-- MyCoRe sample application build file for use with Apache Ant        -->
-<!-- $Revision: 1.20 $ $Date: 2006-03-01 15:27:48 $                      -->
+<!-- $Revision: 1.21 $ $Date: 2006-03-04 06:54:09 $                      -->
 <!-- =================================================================== -->
 
 <project default="usage" basedir=".">
@@ -135,7 +135,7 @@
 	    <echo>Operating system   : ${os.name} Version ${os.version} on ${os.arch} </echo>
 	    <echo>Java version       : JDK ${ant.java.version} Version ${java.version} from ${java.vendor}</echo>
 	    <echo>Java home          : ${env.JAVA_HOME}</echo>
-	    <echo>Ant build file     : $Revision: 1.20 $ $Date: 2006-03-01 15:27:48 $</echo>
+	    <echo>Ant build file     : $Revision: 1.21 $ $Date: 2006-03-04 06:54:09 $</echo>
 	    <echo>Ant version        : ${ant.version}</echo>
 	    <echo>Ant home           : ${env.ANT_HOME}</echo>
 	    <echo>XML Store type     : ${MCR.XMLStore.Type}</echo>
@@ -900,6 +900,10 @@
         <subant target="webapps" inheritall="true" inheritrefs="true">
             <fileset dir="." includes="modules/module-*/build.xml" />
         </subant>
+    	
+        <!-- Copy / Unpack fckEditor files (WYSIWYG HTML Editor) -->
+        <unzip src="${MYCORE_HOME}/lib/fckEditor.zip" dest="${docportal.webapps}" />
+        <copy file="${MYCORE_HOME}/config/fckconfig.js" todir="${docportal.webapps}/fck" />
 
     </target>
 
@@ -1156,24 +1160,19 @@
     <target name="create.users" depends="init">
         <property name="commands.file" value="${basedir}/commands.txt" />
         <echo file="${commands.file}" append="false">
+            load permissions data from file permissions.xml
 
-            load permissions data from file permissions.xml        	
-            init superuser
+      	    init superuser
 
             change to user root with alleswirdgut
-            update group data from file group_gastgroup.xml
-
+      			
             create group data from file group_admingroup.xml
             create user data from file user_administrator.xml
             change to user administrator with alleswirdgut
 
             create group data from file group_readergroup1.xml
-            add group readergroup1 as member to group gastgroup
             create group data from file group_authorgroup1.xml
-            add group authorgroup1 as member to group readergroup1
             create group data from file group_editorgroup1.xml
-            add group editorgroup1 as member to group authorgroup1
-            add group admingroup as member to group editorgroup1
             create user data from file user_reader1A.xml
             create user data from file user_author1A.xml
             create user data from file user_author1B.xml
@@ -1181,12 +1180,8 @@
             create user data from file user_editor1B.xml
 
             create group data from file group_readergroup2.xml
-            add group readergroup2 as member to group gastgroup
             create group data from file group_authorgroup2.xml
-            add group authorgroup2 as member to group readergroup2
             create group data from file group_editorgroup2.xml
-            add group editorgroup2 as member to group authorgroup2
-            add group admingroup as member to group editorgroup2
             create user data from file user_reader2A.xml
             create user data from file user_author2A.xml
             create user data from file user_author2B.xml
