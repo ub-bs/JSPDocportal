@@ -41,6 +41,7 @@ import org.apache.log4j.Logger;
 
 import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
+import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRMailer;
 import org.mycore.common.MCRSession;
@@ -660,7 +661,7 @@ public class MCRStartEditorServlet extends MCRServlet {
 		mob.receiveFromDatastore(mymcrid);
 		String savedir = CONFIG.getString("MCR.editor_deleted_directory");
 		if ( savedir != null ) {
-			MCRPutDocumentToWorkflow.saveToDirectory(mob, savedir);
+			JSPUtils.saveToDirectory(mob, savedir);
 		} else {
 			LOGGER.info(" MCR.editor_deleted_directory - ist in mycore.properties nicht gesetzt");
 			LOGGER.info(" Es wurde keine Sicherheitskopie des gelöschten Objects angelegt!!");
