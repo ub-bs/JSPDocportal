@@ -28,14 +28,16 @@ MCR.languageResourceBundleBase=messages
 
 MCR.XML.TempPath=C:/sample-mcrjsp/tmp
 
-MCR.Editor.FileUpload.TempStoragePath=C:/sample-mcrjsp/export/upload
+MCR.WorkflowEngine.EditDirectory.author=E:/sample-mcrjsp/export/author
+MCR.WorkflowEngine.EditDirectory.institution=E:/sample-mcrjsp/export/institution
+MCR.WorkflowEngine.EditDirectory.document=E:/sample-mcrjsp/export/document
+MCR.WorkflowEngine.EditDirectory.disshab=E:/sample-mcrjsp/export/disshab
 
-MCR.editor_disshab_directory=C:/sample-mcrjsp/export/disshab
-MCR.editor_document_directory=C:/sample-mcrjsp/export/document
-MCR.editor_institution_directory=C:/sample-mcrjsp/export/institution
-MCR.editor_author_directory=C:/sample-mcrjsp/export/author
-MCR.editor_user_directory=C:/sample-mcrjsp/export/user
-MCR.editor_deleted_directory=C:/sample-mcrjsp/export/deleted
+MCR.Editor.FileUpload.TempStoragePath=E:/sample-mcrjsp/export/upload
+MCR.WorkflowEngine.EditDirectory.user=E:/sample-mcrjsp/export/user
+MCR.WorkflowEngine.DeleteDirectory.deleted=E:/sample-mcrjsp/export/deleted
+
+
 MCR.IFS.ContentStore.FS.BaseDirectory=C:/sample-mcrjsp/filestore
 MCR.LogFile=C:/sample-mcrjsp/tmp/mcrjsp.log
 

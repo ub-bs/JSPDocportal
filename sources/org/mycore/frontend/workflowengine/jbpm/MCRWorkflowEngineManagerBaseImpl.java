@@ -2,8 +2,11 @@ package org.mycore.frontend.workflowengine.jbpm;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Properties;
 import java.util.StringTokenizer;
 
 import org.apache.log4j.Logger;
@@ -32,6 +35,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	private static MCRWorkflowEngineManagerInterface singleton;
 	protected static MCRConfiguration config = MCRConfiguration.instance();
 	protected static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
+	protected static HashMap editWorkflowDirectories ;
 	
 	private static String sender ;
 	private static String GUEST_ID ;
@@ -39,6 +43,13 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	static{
 		sender = config.getString("MCR.editor_mail_sender",	"mcradmin@localhost");
 		GUEST_ID = config.getString("MCR.users_guestuser_username","gast");
+		editWorkflowDirectories = new HashMap();
+		Properties props = config.getProperties("MCR.WorkflowEngine.EditDirectory.");
+		for(Enumeration e = props.keys(); e.hasMoreElements();){
+			String propKey = (String)e.nextElement();
+			String hashKey = propKey.substring("MCR.WorkflowEngine.EditDirectory.".length());
+			editWorkflowDirectories.put(hashKey,props.getProperty(propKey));
+		}
 	}
     	
 	private Hashtable mt = null;
@@ -75,7 +86,9 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		return MCRJbpmWorkflowBase.getCurrentProcessIDs(userid, workflowProcessType);
 	}	
 	
-
+	public String getWorkflowDirectory(String documentType){
+		return (String)editWorkflowDirectories.get(documentType);
+	}
 	
 	public String getStatus(String userid){
 		long processID = getUniqueCurrentProcessID(userid);
@@ -310,14 +323,14 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	 *      String of documentType for which a ID is required
 	 * @return
 	 */
-	public static String getNextFreeID(String objtype) {
+	public String getNextFreeID(String objtype) {
 		String defaproject 	= MCRConfiguration.instance().getString("MCR.default_project_id",	"MCR");
 		String myproject 	= MCRConfiguration.instance().getString("MCR." + objtype + "_project_id", "MCR");
 		if (myproject.equals("MCR")) {
 			myproject = defaproject;
 		}
 		myproject = myproject + "_" + objtype;		
-		String workingDirectoryPath = MCRConfiguration.instance().getString("MCR.editor_" + objtype + "_directory");
+		String workingDirectoryPath = getWorkflowDirectory(objtype);
 		
 		MCRObjectID IDMax = new MCRObjectID();
 		IDMax.setNextFreeId(myproject);
@@ -353,10 +366,8 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 			String propName = new StringBuffer("MCR.WorkflowEngine.defaultACL.")
 				.append(objID.getTypeId()).append(".").append(permissions[i]).append(".")
 				.append(workflowProcessType).toString();
-System.out.println(propName);			
 			String strRule = config.getString(propName,"<condition format=\"xml\"><boolean operator=\"false\" /></condition>");
 			strRule = strRule.replaceAll("\\$\\{user\\}",userID);
-System.out.println("parsed rule:" + strRule);			
 			Element rule = (Element)MCRXMLHelper.parseXML(strRule).getRootElement().detach();
 			AI.addRule(objID.getId(), permissions[i], rule, "");
 		}

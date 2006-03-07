@@ -1,1104 +1,1945 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+
 <imports>
-      <include uri="webapp:editor/workflow/imports-application.xml" />
-      <!-- *** Text fields *** -->
-      <textfield id="TFzeile10" width="10" maxlength="10" />
-      <textfield id="TFzeile32" width="32" maxlength="32" />
-      <textfield id="TFzeile64" width="48" maxlength="64" />
-      <textfield id="TFzeile128" width="64" maxlength="128" />
-      <textfield id="TFzeile1024" width="64" maxlength="1024" />
-      <!-- *** Text area *** -->
-      <textarea id="TFarea4096" width="62" height="3" maxlength="4096" />
-      <!-- *** Language List *** -->
-      <list id="Slang" width="60" type="dropdown">
-            <item value="de">
-                  <label xml:lang="de">de</label>
-            </item>
-            <item value="en">
-                  <label xml:lang="de">en</label>
-            </item>
-      </list>
-      <!-- *** Data for the buttons ** -->
-      <submitButton id="BSubmit" width="100px" >
-            <label xml:lang="de">[Speichern]</label>
-            <label xml:lang="en">[Save]</label>
-      </submitButton>
-      <cancelButton id="BCancel" width="100px" >
-            <label xml:lang="de">[Abbrechen]</label>
-            <label xml:lang="en">[Cancel]</label>
-      </cancelButton>
-      <panel id="TwoButtons">
-            <cell col="1" row="1" anchor="WEST" ref="BCancel" />
-            <cell col="2" row="1" anchor="WEST" ref="BSubmit" var="save" />
-      </panel>
-      <!-- *** Data for the flags *** -->
-      <text id="LFlagsP">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Schalter (*)&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Flags (*)&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <helpPopup id="HFlags" width="400px" height="250px">
-            <label xml:lang="de"> Hier können nun Leserechte vergeben werden. Weiterhin können Host- oder Domainnamen angegeben 
-                  werden, welche Zugriffsberechtigung haben.<p/>Beispiel: myhost.mynet.com oder .mynet.com . </label>
-            <label xml:lang="en"> Here you can add the read access of the object. Also you can add a host or domain name for the 
-                  access host.<p/>Example: myhost.mynet.com or .mynet.com . </label>
-      </helpPopup>
-      <text id="AFlagsAccess">
-            <label xml:lang="de">
-                  <span class="editorhints">&#160;&#160;&#160;Zugriff&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorhints">&#160;&#160;&#160;Access&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <text id="AFlagsState">
-            <label xml:lang="de">
-                  <span class="editorhints">&#160;&#160;&#160;Status&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorhints">&#160;&#160;&#160;State&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <text id="AFlagsIP">
-            <label xml:lang="de">
-                  <span class="editorhints">&#160;&#160;&#160;Rechnername oder Domäne&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorhints">&#160;&#160;&#160;Hostname od Domain&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <!-- *** Data for the TITLE *** -->
-      <text id="LTitleP">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Titel (*)&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Title (*)&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <helpPopup id="HTitle" width="400px" height="250px">
-            <label xml:lang="de"> Es ist der Titel des Objektes einzugeben. Dieser erhält das Attribut Haupttitel. Weiterhin kann 
-                  ein alternativer Titel eingetragen werden. </label>
-            <label xml:lang="en"> Input the title of this object. This title available the attribute main title. Also you can add 
-                  a alternative title. </label>
-      </helpPopup>
-      <helpPopup id="SMTitle" width="400px" height="250px">
-            <label xml:lang="de"> Es ist der Titel des Objektes einzugeben. </label>
-            <label xml:lang="en"> Input the title of this object. </label>
-      </helpPopup>
-      <list id="STitleType" width="120" type="dropdown">
-            <item value="main">
-                  <label xml:lang="de">Haupttitel</label>
-                  <label xml:lang="en">Main title</label>
-            </item>
-            <item value="alternate">
-                  <label xml:lang="de">alt. Titel</label>
-                  <label xml:lang="en">Alt. title</label>
-            </item>
-      </list>
-      <!-- *** Data for the Creator ** -->
-      <text id="LCreatorP">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Autor(en) (*)&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Author(s) (*)&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <text id="ACreator">
-            <label xml:lang="de">
-                  <span class="editorhints">&#160;&#160;&#160;Personenname&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorhints">&#160;&#160;&#160;Person name&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <text id="ACreatorLink">
-            <label xml:lang="de">
-                  <span class="editorhints">&#160;&#160;&#160;Personen-ID&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorhints">&#160;&#160;&#160;Person-ID&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <text id="BCreator">
-            <label xml:lang="de">
-                  <span class="editorhints">&#160;&#160;&#160;Institutions- /<br 
-                        />&#160;&#160;&#160;Personenname&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorhints">&#160;&#160;&#160;Institution- /<br />&#160;&#160;&#160;Person 
-                        name&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <text id="BCreatorLink">
-            <label xml:lang="de">
-                  <span class="editorhints">&#160;&#160;&#160;Institutions- /<br 
-                        />&#160;&#160;&#160;Personen-ID&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorhints">&#160;&#160;&#160;Institution- /<br 
-                        />&#160;&#160;&#160;Person-ID&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <helpPopup id="HCreator" width="400px" height="250px">
-            <label xml:lang="de"> Es ist/sind der/die Autoren des Objektes in der Form Nachname1, Vorname1[; Nachname2, 
-                  Vorname2[;...]] einzugeben. </label>
-            <label xml:lang="en"> Input the authors of the object in this form surname1, firstname1[; surname2, 
-                  firstname2[;...]]. </label>
-      </helpPopup>
-      <helpPopup id="SMCreator" width="400px" height="250px">
-            <label xml:lang="de"> An dieser Stelle können die Namen (Vor- und/oder Nachname) von Autoren oder Publizisten 
-                  eingetragen werden. </label>
-            <label xml:lang="en"> At this position you can add the name (first- and/or surname) of authors or publisher. </label>
-      </helpPopup>
-      <!-- *** Data for the Subject ** -->
-      <text id="LSubjectP">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Subjekt (*)&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Subject (*)&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <text id="LSubject">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Subjekt&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Subject&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <helpPopup id="HSubject" width="400px" height="250px">
-            <label xml:lang="de"> Wählen Sie aus der Liste ein oder mehrere Subjekte des digitalen Objektes aus. </label>
-            <label xml:lang="en"> You to choose from the list one or more subjects for the digital objects. </label>
-      </helpPopup>
-      <helpPopup id="SMSubject" width="400px" height="250px">
-            <label xml:lang="de"> Wählen Sie aus der Liste einen Subjekt-Begriff aus. </label>
-            <label xml:lang="en"> You to choose from the list a subject-notion. </label>
-      </helpPopup>
-      <!-- *** Data for the Origin ** -->
-      <text id="LOriginP">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Herkunft (*)&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Origin (*)&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <helpPopup id="HOrigin" width="400px" height="250px">
-            <label xml:lang="de"> Wählen Sie aus der Liste die Herkunft des digitalen Objektes aus. </label>
-            <label xml:lang="en"> You to choose from the list the origin from the digital objects. </label>
-      </helpPopup>
-      <helpPopup id="SMOrigin" width="400px" height="250px">
-            <label xml:lang="de"> Wählen Sie aus der Liste die Herkunft des digitalen Objektes aus. </label>
-            <label xml:lang="en"> You to choose from the list the origin from the digital objects. </label>
-      </helpPopup>
-      <!-- *** Data for the Description ** -->
-      <text id="LDescriptionP">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Beschreibung (*)&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Description (*)&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <text id="LDescription">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Beschreibung&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Description&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <helpPopup id="HDescription" width="400px" height="250px">
-            <label xml:lang="de"> In den angegebenen Feldern können Sie Beschreibungen zum Objekt oder Dokument eintragen. 
-                  Vorgesehen sind die Typen <b>Beschreibung</b>, <b>Abstrakt</b> und <b>Inhalt</b>. </label>
-            <label xml:lang="en"> You can write the description for the object or document in the declare arrays. Is designed for 
-                  this types <b>description</b>, <b>abstract</b> and <b>content</b>. </label>
-      </helpPopup>
-      <list id="SDescriptType" width="60" type="dropdown">
-            <item value="abstract">
-                  <label xml:lang="de">Abstrakt</label>
-                  <label xml:lang="en">Abstract</label>
-            </item>
-            <item value="description">
-                  <label xml:lang="de">beschreibung</label>
-                  <label xml:lang="en">Description</label>
-            </item>
-            <item value="content">
-                  <label xml:lang="de">Inhalt</label>
-                  <label xml:lang="en">Content</label>
-            </item>
-      </list>
-      <helpPopup id="SMDescription" width="400px" height="250px">
-            <label xml:lang="de"> Hier können Sie Begriffe eintragen, welche in der Objekt-Beschreibung vorkommen sollen. </label>
-            <label xml:lang="en"> In this array you can write keywords from the object desciption. </label>
-      </helpPopup>
-      <!-- *** Data for the Publisher ** -->
-      <text id="LPublisher">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Publizist&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Publisher&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <helpPopup id="HPublisher" width="400px" height="250px">
-            <label xml:lang="de"> In diesem Feld können Sie Publizierer des Objektes oder Dokumentes eintragen. Vorgesehen sind 
-                  die Rollen <b>Herausgeber</b> und <b>Verleger</b>. </label>
-            <label xml:lang="en"> In this array you can write the publisher of the object or document. Is designed for this types 
-                  <b>publication</b> and <b>publisher</b> </label>
-      </helpPopup>
-      <list id="SPublisherType" width="60" type="dropdown">
-            <item value="publisher">
-                  <label xml:lang="de">Verlag</label>
-            </item>
-            <item value="publication">
-                  <label xml:lang="de">Herausgeber</label>
-            </item>
-      </list>
-      <!-- *** Data for the Contributor ** -->
-      <text id="LContributor">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Beteiligter&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Contributor&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <helpPopup id="HContributor" width="400px" height="250px">
-            <label xml:lang="de"> In diesem Felder können Sie Beteiligte am Objekt oder Dokument eintragen. Vorgesehen sind die 
-                  Rollen <b>Berater</b> und <b>Zeichner</b>. </label>
-            <label xml:lang="en"> In this array you can write the person involved in the object or document. Is designed for this 
-                  types <b>advisor</b> and <b>drawer</b>. </label>
-      </helpPopup>
-      <list id="SContributorType" width="60" type="dropdown">
-            <item value="advisor">
-                  <label xml:lang="de">Berater</label>
-                  <label xml:lang="en">Advisor</label>
-            </item>
-            <item value="mentor">
-                  <label xml:lang="de">Mentor</label>
-                  <label xml:lang="en">Mentor</label>
-            </item>
-            <item value="drawer">
-                  <label xml:lang="de">Zeichner</label>
-                  <label xml:lang="en">Drawer</label>
-            </item>
-      </list>
-      <!-- *** Data for the Date ** -->
-      <text id="LDate">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Datum&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Date&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <text id="LDateP">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Datum (*)&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Date (*)&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <text id="LBirthDate">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Geburtsdatum&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Birthday&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <helpPopup id="HDate" width="400px" height="250px">
-            <label xml:lang="de"> In diese Felder können Sie verschiedene Datumsangaben zum Objekt oder Dokument verzeichnen. 
-                  Vorgesehen sind die Datumstypen <b>Erscheinungsdatum</b>, <b>Datum der Abgabe</b> und <b>Datum der Annahme</b>. 
-                  </label>
-            <label xml:lang="en"> You can write some different dates of the object or the document in this text area. Some 
-                  special types of data are given: <b>date of publish</b>, <b>date of submit</b> and <b>date of accept</b>. 
-                  </label>
-      </helpPopup>
-      <helpPopup id="HDateP" width="400px" height="250px">
-            <label xml:lang="de"> Zur Verarbeitung von Personen in Bibliothekskatalogen ist die Angabe des Geburtsdatums dieser 
-                  Person erforderlich. </label>
-            <label xml:lang="en"> For the processing of persons in library catalogs you must give the date of birth from this 
-                  person. </label>
-      </helpPopup>
-      <list id="SDateType" width="60" type="dropdown">
-            <item value="submitted">
-                  <label xml:lang="de">Datum der Abgabe</label>
-                  <label xml:lang="en">Submit date</label>
-            </item>
-            <item value="accepted">
-                  <label xml:lang="de">Datum der Abnahme</label>
-                  <label xml:lang="en">Accept date</label>
-            </item>
-            <item value="published">
-                  <label xml:lang="de">Erscheinungsdatum</label>
-                  <label xml:lang="en">Publish date</label>
-            </item>
-      </list>
-      <helpPopup id="SMDate" width="400px" height="250px">
-            <label xml:lang="de"> Hier können Sie ein Datum eintragen, welches in den Objekt-Metadaten vorkommen soll. </label>
-            <label xml:lang="en"> You can write a date in this area, which appears in the object metadata. </label>
-      </helpPopup>
-      <!-- *** Data for the TYPE ** -->
-      <text id="LTypeP">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Typ (*)&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Type (*)&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <helpPopup id="HType" width="400px" height="250px">
-            <label xml:lang="de"> Wählen Sie aus der Liste den Typ des digitalen Objektes aus. </label>
-            <label xml:lang="en"> You can select the type of the digital objects from the list. </label>
-      </helpPopup>
-      <helpPopup id="SMType" width="400px" height="250px">
-            <label xml:lang="de"> Wählen Sie aus der Liste einen Typ-Begriff aus. </label>
-            <label xml:lang="en"> You can select the type of notion from the list. </label>
-      </helpPopup>
-      <!-- *** Data for the Format ** -->
-      <text id="LFormatP">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Format (*)&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Format (*)&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <helpPopup id="HFormat" width="400px" height="250px">
-            <label xml:lang="de"> Wählen Sie aus der Liste das Format des digitalen Objektes aus. </label>
-            <label xml:lang="en"> You can select the format of the digital object from the list. </label>
-      </helpPopup>
-      <helpPopup id="SMFormat" width="400px" height="250px">
-            <label xml:lang="de"> Wählen Sie aus der Liste einen Format-Begriff aus. </label>
-            <label xml:lang="en"> You can select the format of notion from the list. </label>
-      </helpPopup>
-      <!-- *** Data for the Identifier ** -->
-      <text id="LIdentifierP">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Identifikator (*)&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Identifier (*)&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <text id="LIdentifier">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Identifikator&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Identifier&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <helpPopup id="HIdentifier" width="400px" height="250px">
-            <label xml:lang="de"> Hier können Sie einen Identifikator eintragen, welcher Ihnen das Auffinden des Objektes 
-                  erleichtern kann. </label>
-            <label xml:lang="en"> You can write a identificator in this area, which help you find the object. </label>
-      </helpPopup>
-      <helpPopup id="SMIdentifier" width="400px" height="250px">
-            <label xml:lang="de"> Hier können Sie einen Identifikator (ID) eintragen, welcher zum Auffinden des Objektes dient. 
-                  </label>
-            <label xml:lang="en"> You can write a identificator-ID in this area, which help you find the object. </label>
-      </helpPopup>
-      <!-- *** Data for the Source ** -->
-      <text id="LSourceP">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Quelle (*)&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Source (*)&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <text id="LSource">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Quelle&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Source&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <helpPopup id="HSource" width="400px" height="250px">
-            <label xml:lang="de"> Hier können Sie Verweise zu Quellen eintragen, auf welche sich das Objekt bezieht. </label>
-            <label xml:lang="en"> You can write a reference of source in this area, which object refer to. </label>
-      </helpPopup>
-      <helpPopup id="SMSource" width="400px" height="250px">
-            <label xml:lang="de"> Hier können Sie Quellen angeben, nach denen gesucht werden soll. </label>
-            <label xml:lang="en"> You can write a source in this area, search for this. </label>
-      </helpPopup>
-      <!-- *** Data for the Language ** -->
-      <text id="LLanguageP">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Sprache (*)&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Language (*)&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <helpPopup id="HLanguage" width="400px" height="250px">
-            <label xml:lang="de"> Wählen Sie die Sprache aus, in der das Objekt erstellt wurde. </label>
-            <label xml:lang="en"> You can select the language of the object. </label>
-      </helpPopup>
-      <helpPopup id="SMLanguage" width="400px" height="250px">
-            <label xml:lang="de"> Wählen Sie aus der Liste eine Sprache aus. </label>
-            <label xml:lang="en"> You can select a language from the list. </label>
-      </helpPopup>
-      <!-- *** Data for the Keywords ** -->
-      <text id="LKeywordsP">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Schlüsselworte (*)&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Keywords (*)&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <text id="LKeywords">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Schlüsselworte&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Keywords&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <helpPopup id="HKeywords" width="400px" height="250px">
-            <label xml:lang="de"> Hier können Schlüsselworte zum leichteren Auffinden des Objektes eingetragen werden. </label>
-            <label xml:lang="en"> You can write keywords in this area for to be found the object faster. </label>
-      </helpPopup>
-      <helpPopup id="SMKeywords" width="400px" height="250px">
-            <label xml:lang="de"> Hier können Sie Schlüsselworte eintragen, welche in den Objekt-Metadaten vorkommen sollen. 
-                  </label>
-            <label xml:lang="en"> You can write keywords in this area, which are find in the object metadata. </label>
-      </helpPopup>
-      <!-- *** Data for the Coverage ** -->
-      <text id="LCoverage">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Erstreckung&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Coverage&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <helpPopup id="HCoverage" width="400px" height="250px">
-            <label xml:lang="de"> Hier können Sie Hinweise zur Erstreckung des Objektes über einen bestimmten Zeitraum, eine 
-                  Region oder einen Zusammenhang angegeben werden. </label>
-            <label xml:lang="en"> You can write a tip of extend the object over a certain period,a region or a connection. 
-                  </label>
-      </helpPopup>
-      <helpPopup id="SMCoverage" width="400px" height="250px">
-            <label xml:lang="de"> Hier können Sie Einträge zur Erstreckung machen, nach denen gesucht werden soll. </label>
-            <label xml:lang="en"> You can write entrys of extend for the search. </label>
-      </helpPopup>
-      <!-- *** Data for the Relation ** -->
-      <text id="LRelation">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Relation&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Relation&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <helpPopup id="HRelation" width="400px" height="250px">
-            <label xml:lang="de"> Hier können Sie Hinweise zur Beziehung des Objektes zu anderen Objekten eingetragen werden. 
-                  </label>
-            <label xml:lang="en"> You can write a tip to the relation of object to other objects. </label>
-      </helpPopup>
-      <!-- *** Data for the Rights ** -->
-      <text id="LRightsP">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Rechte (*)&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Rights (*)&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <text id="LRights">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Rechte&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Rights&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <helpPopup id="HRights" width="400px" height="250px">
-            <label xml:lang="de"> Hier können Sie die Rechte eintragen, welchen das Objekt unterliegt. </label>
-            <label xml:lang="en"> You can write the right of the object. </label>
-      </helpPopup>
-      <!-- *** Data for the Size ** -->
-      <text id="LSizeP">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Umfang (*)&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Size (*)&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <text id="LSize">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Umfang&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Size&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <helpPopup id="HSize" width="400px" height="250px">
-            <label xml:lang="de"> Hier können Sie den Umfang der Arbeit mit Seiten, Bildern usw. eintragen. </label>
-            <label xml:lang="en"> You can write the size of publication with sides, images etc. . </label>
-      </helpPopup>
-      <!-- *** Data for the Place ** -->
-      <text id="LPlaceP">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Erscheinungsort (*)&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Place (*)&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <text id="LPlace">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Erscheinungsort&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Place&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <helpPopup id="HPlace" width="400px" height="250px">
-            <label xml:lang="de"> Hier können Sie Erscheinungsort der Arbeit eintragen. </label>
-            <label xml:lang="en"> You can write the place of publication. </label>
-      </helpPopup>
-      <!-- *** Data for the Contact ** -->
-      <text id="LContact">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Kontakt&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Contact&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <text id="LContactP">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Kontakt (*)&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Contact (*)&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <helpPopup id="HContact" width="400px" height="250px">
-            <label xml:lang="de"> Für Arbeiten, die langfristig aufbewahrt werden sollen, ist hier die Kontaktadresse 
-                  einzutragen. Dies kann eine Telefonnummer oder eine eMail-Adresse sein. </label>
-            <label xml:lang="en"> You write in this area the contact address, when the publication keep a long term. This can be 
-                  a telefon number or a email address. </label>
-      </helpPopup>
-      <!-- *** Data for the Citation ** -->
-      <text id="LCitation">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Zitierweise&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Citation&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <text id="LCitationP">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Zitierweise (*)&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Citation (*)&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <helpPopup id="HCitation" width="400px" height="250px">
-            <label xml:lang="de"> Hier können Sie festlegen, wie Ihre Arbeit zitiert werden soll. </label>
-            <label xml:lang="en"> In this area you can write, how quote your publication. </label>
-      </helpPopup>
-      <!-- *** Data for the PName ** -->
-      <text id="LPNameP">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Name (*)&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Name (*)&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <text id="APNameFirstName">
-            <label xml:lang="de">
-                  <span class="editorhints">&#160;&#160;&#160;Vorname</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorhints">&#160;&#160;&#160;Firstname</span>
-            </label>
-      </text>
-      <text id="APNameSurname">
-            <label xml:lang="de">
-                  <span class="editorhints">&#160;&#160;&#160;Nachname</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorhints">&#160;&#160;&#160;Surname</span>
-            </label>
-      </text>
-      <text id="APNameAcademic">
-            <label xml:lang="de">
-                  <span class="editorhints">&#160;&#160;&#160;Akademischer Titel</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorhints">&#160;&#160;&#160;Academic title</span>
-            </label>
-      </text>
-      <text id="APNamePrefix">
-            <label xml:lang="de">
-                  <span class="editorhints">&#160;&#160;&#160;Prefixe vor dem Namen</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorhints">&#160;&#160;&#160;Prefixe of the Name</span>
-            </label>
-      </text>
-      <text id="APNamePeerage">
-            <label xml:lang="de">
-                  <span class="editorhints">&#160;&#160;&#160;Adelstitel</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorhints">&#160;&#160;&#160;Peerage title</span>
-            </label>
-      </text>
-      <helpPopup id="HPName" width="400px" height="250px">
-            <label xml:lang="de"> In diesem Feld tragen Sie bitte den vollständigen Namen der Person ein. Pflicht sind dabei die 
-                  Felder Nachname und Vorname. Alle anderen Felder sind optional. Akademische Titel könnten sein 'Dr.' oder 
-                  'Prof. Dr.' usw. Adelstitel sind z. B. 'Freiherr' oder 'Graf'. Als Prefixe kommen in Frage 'de', 'von' usw. 
-                  </label>
-            <label xml:lang="en"> In this area you write please the complete name of the person. Duty area are last name and 
-                  first name. Other area you can write. Academic title are 'dr.' or 'prof. dr.' etc. . Nobility title are 'baron 
-                  or baroness' or 'Count or Countess'. Prefixe are 'de', 'of' etc.. </label>
-      </helpPopup>
-      <helpPopup id="SMPNameFirstName" width="400px" height="250px">
-            <label xml:lang="de"> Vorname, nach dem gesucht werden soll. </label>
-            <label xml:lang="en"> Search for the first name. </label>
-      </helpPopup>
-      <helpPopup id="SMPNameSurname" width="400px" height="250px">
-            <label xml:lang="de"> Familienname, nach dem gesucht werden soll. </label>
-            <label xml:lang="en"> Search for the last name. </label>
-      </helpPopup>
-      <!-- *** Data for the Female ** -->
-      <text id="LFemaleP">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Geschlecht&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Sex&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <helpPopup id="HFemale" width="400px" height="250px">
-            <label xml:lang="de"> Wählen Sie bitte das Geschlecht der Person. </label>
-            <label xml:lang="en"> Select the sex of the person, please. </label>
-      </helpPopup>
-      <list id="SFemale" width="400" type="radio" cols="2" default="true">
-            <item value="true" default="true">
-                  <label xml:lang="de">Frau</label>
-                  <label xml:lang="en">Lady</label>
-            </item>
-            <item value="false">
-                  <label xml:lang="de">Herr</label>
-                  <label xml:lang="en">Sir</label>
-            </item>
-      </list>
-      <!-- *** Data for the Profession ** -->
-      <text id="LProfession">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Beruf/Tätigkeit&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Profession / Job&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <helpPopup id="HProfession" width="400px" height="250px">
-            <label xml:lang="de"> Tragen Sie hier bitte den Beruf bzw. die Tätigkeit ein. </label>
-            <label xml:lang="en"> You write in this area the profession or the occupation. </label>
-      </helpPopup>
-      <list id="SProfession" width="80" type="dropdown">
-            <item value="job">
-                  <label xml:lang="de">Tätigkeit</label>
-            </item>
-            <item value="profession">
-                  <label xml:lang="de">Beruf</label>
-            </item>
-      </list>
-      <!-- *** Data for the ProfClass ** -->
-      <text id="LProfClass">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Beruf/Tätigkeit&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Profession / Job&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <helpPopup id="HProfClass" width="400px" height="250px">
-            <label xml:lang="de"> Wählen Sie hier bitte den Beruf aus der SWB Klassifikation aus. </label>
-            <label xml:lang="en"> Select you the profession from the SWB classification. </label>
-      </helpPopup>
-      <!-- *** Data for the National ** -->
-      <text id="LNational">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Nationalität&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Nationality&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <helpPopup id="HNational" width="400px" height="250px">
-            <label xml:lang="de"> Bitte wählen Sie die Nationalität der Person aus. </label>
-            <label xml:lang="en"> The choice is yours the national from person. </label>
-      </helpPopup>
-      <!-- *** Data for the Reference *** -->
-      <text id="LReference">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Referenz&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;References&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <helpPopup id="HReference" width="400px" height="250px">
-            <label xml:lang="de"> Bitte tragen Sie hier Referenzen zur Person in Form der URL und eines Titels ein. Dies können 
-                  z. B. Veröffentlichungen im Internet oder Projektadressen sein. </label>
-            <label xml:lang="en"> You write in this area the reference of person in form URL an a title. This can be publication 
-                  in the internet or project address. </label>
-      </helpPopup>
-      <!-- *** Data for the Publication *** -->
-      <text id="LPublication">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Publikationen&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Publications&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <helpPopup id="HPublication" width="400px" height="250px">
-            <label xml:lang="de"> Hier ist Platz für den Verweis auf Publikationen. </label>
-            <label xml:lang="en"> Here is the place for the refer to publications. </label>
-      </helpPopup>
-      <!-- *** Data for the IName ** -->
-      <text id="LINameP">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Name der Institution (*)&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Name of the Institution (*)&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <text id="AINameName">
-            <label xml:lang="de">
-                  <span class="editorhints">&#160;&#160;&#160;voller Name</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorhints">&#160;&#160;&#160;Full name</span>
-            </label>
-      </text>
-      <text id="AINameNick">
-            <label xml:lang="de">
-                  <span class="editorhints">&#160;&#160;&#160;Kurzform</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorhints">&#160;&#160;&#160;Short name</span>
-            </label>
-      </text>
-      <text id="AINameProp">
-            <label xml:lang="de">
-                  <span class="editorhints">&#160;&#160;&#160;Rechtsform</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorhints">&#160;&#160;&#160;State</span>
-            </label>
-      </text>
-      <helpPopup id="HIName" width="400px" height="250px">
-            <label xml:lang="de"> In diesem Feld tragen Sie bitte den Namen der Einrichtung oder Institution ein. </label>
-      </helpPopup>
-      <helpPopup id="SMIName" width="400px" height="250px">
-            <label xml:lang="de"> In diesem Feld tragen Sie bitte den Namen der Einrichtung oder Institution ein, nach der 
-                  gesucht werden soll. </label>
-            <label xml:lang="en"> You write in this area the name of organization or institution for the search. </label>
-      </helpPopup>
-      <!-- *** Data for the Address ** -->
-      <text id="LAddress">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Adresse&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Address&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <text id="AAddressCountry">
-            <label xml:lang="de">
-                  <span class="editorhints">&#160;&#160;&#160;Staat</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorhints">&#160;&#160;&#160;Country</span>
-            </label>
-      </text>
-      <text id="AAddressState">
-            <label xml:lang="de">
-                  <span class="editorhints">&#160;&#160;&#160;Bundesland</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorhints">&#160;&#160;&#160;State</span>
-            </label>
-      </text>
-      <text id="AAddressZIP">
-            <label xml:lang="de">
-                  <span class="editorhints">&#160;&#160;&#160;Postleitzahl</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorhints">&#160;&#160;&#160;ZIP Code</span>
-            </label>
-      </text>
-      <text id="AAddressCity">
-            <label xml:lang="de">
-                  <span class="editorhints">&#160;&#160;&#160;Ort</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorhints">&#160;&#160;&#160;City</span>
-            </label>
-      </text>
-      <text id="AAddressStreet">
-            <label xml:lang="de">
-                  <span class="editorhints">&#160;&#160;&#160;Straße</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorhints">&#160;&#160;&#160;Street</span>
-            </label>
-      </text>
-      <text id="AAddressNumber">
-            <label xml:lang="de">
-                  <span class="editorhints">&#160;&#160;&#160;Nummer</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorhints">&#160;&#160;&#160;Number</span>
-            </label>
-      </text>
-      <list id="Scountry" width="160" type="dropdown">
-            <item value="">
-                  <label xml:lang="de">
-                  </label>
-            </item>
-            <include uri="request:content/classifications-to-items.jspx?classid=DocPortal_class_00000011" />
-      </list>
-      <list id="Sstate" width="160" type="dropdown">
-            <item value="">
-                  <label xml:lang="de">Bundesländer in Deutschland</label>
-            </item>
-            <item value="Baden-Württemberg">
-                  <label xml:lang="de">Baden-Würtemberg</label>
-            </item>
-            <item value="Bayern">
-                  <label xml:lang="de">Bayern</label>
-            </item>
-            <item value="Brandenburg">
-                  <label xml:lang="de">Brandenburg</label>
-            </item>
-            <item value="Bremen">
-                  <label xml:lang="de">Bremen</label>
-            </item>
-            <item value="Hamburg">
-                  <label xml:lang="de">Hamburg</label>
-            </item>
-            <item value="Hessen">
-                  <label xml:lang="de">Hessen</label>
-            </item>
-            <item value="Mecklenburg-Vorpommern">
-                  <label xml:lang="de">Mecklenburg-Vorpommern</label>
-            </item>
-            <item value="Niedersachsen">
-                  <label xml:lang="de">Niedersachsen</label>
-            </item>
-            <item value="Nordrhein-Westfalen">
-                  <label xml:lang="de">Nordrhein-Westfalen</label>
-            </item>
-            <item value="Saarland">
-                  <label xml:lang="de">Saarland</label>
-            </item>
-            <item value="Sachsen">
-                  <label xml:lang="de">Sachsen</label>
-            </item>
-            <item value="Sachsen-Anhalt">
-                  <label xml:lang="de">Sachsen-Anhalt</label>
-            </item>
-            <item value="Schleswig-Hollstein">
-                  <label xml:lang="de">Schleswig-Holstein</label>
-            </item>
-            <item value="Thüringen">
-                  <label xml:lang="de">Thüringen</label>
-            </item>
-      </list>
-      <helpPopup id="HAddress" width="400px" height="250px">
-            <label xml:lang="de"> In dieses Feld tragen Sie bitte eine gültige Adresse ein. </label>
-            <label xml:lang="en"> You write in this area a valid address. </label>
-      </helpPopup>
-      <!-- *** Data for the Phone ** -->
-      <text id="LPhone">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Telefon&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Phone&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <list id="Sphone" width="160" type="dropdown">
-            <item value="Telefon">
-                  <label xml:lang="de">Telefon</label>
-                  <label xml:lang="en">phone</label>
-            </item>
-            <item value="Fax">
-                  <label xml:lang="de">Fax</label>
-                  <label xml:lang="en">fax</label>
-            </item>
-            <item value="Mobil">
-                  <label xml:lang="de">Mobil</label>
-                  <label xml:lang="en">mobil</label>
-            </item>
-      </list>
-      <helpPopup id="HPhone" width="400px" height="250px">
-            <label xml:lang="de"> In dieses Feld tragen Sie bitte die Telefonnummern ein. Vergessen Sie nicht ggf. Orts- und 
-                  Landesvorwahl anzugeben. Zur Unterscheidung von Inlands- und Auslandsnummern kann ggf. die Sprachauswahl 
-                  genutzt werden. Die Telefonnummer sollte so aussehen +49 (0)341 97-33348. </label>
-            <label xml:lang="en"> You write in this area the telephon number. You not forgetting the place dialling and the 
-                  country dialling. For the differentiation from the home number and the abroad number you can use the language 
-                  choice. The telephon number has the form +49 (0)341 97-33348. </label>
-      </helpPopup>
-      <!-- *** Data for the URL ** -->
-      <text id="LURL">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;URL&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;URL&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <text id="AURLTitle">
-            <label xml:lang="de">
-                  <span class="editorhints">&#160;&#160;&#160;Titel</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorhints">&#160;&#160;&#160;Title</span>
-            </label>
-      </text>
-      <text id="AURLReference">
-            <label xml:lang="de">
-                  <span class="editorhints">&#160;&#160;&#160;Referenz</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorhints">&#160;&#160;&#160;References</span>
-            </label>
-      </text>
-      <helpPopup id="HURL" width="400px" height="250px">
-            <label xml:lang="de"> Tragen Sie in dieses Feld eine gültige URL , z. B. die Adresse der Homepage ein. Vergeben Sie 
-                  für den Eintrag auch einen Titel. </label>
-            <label xml:lang="en"> You write in this area a valid URL, example the address of the homepage. You give the entry a 
-                  title. </label>
-      </helpPopup>
-      <!-- *** Data for the EMAIL ** -->
-      <text id="LEmail">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;e-Mail&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;e-Mail&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <helpPopup id="HEmail" width="400px" height="250px">
-            <label xml:lang="de"> Tragen Sie in dieses Feld eine gültige e-Mail Adresse ein. </label>
-            <label xml:lang="en"> You write in this area a valid e-mail address. </label>
-      </helpPopup>
-      <!-- *** Data for the Note ** -->
-      <text id="LNote">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Anmerkungen&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Note&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <helpPopup id="HNote" width="400px" height="250px">
-            <label xml:lang="de"> Dieses Feld ist optional. Hier können Sie zusätzliche Anmerkungen eintragen. </label>
-            <label xml:lang="en"> This area is optional. You can write additional remark. </label>
-      </helpPopup>
-      <!-- *** Data for the file upload *** -->
-      <text id="LFileP">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Digitale Objekte (*)&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Digital objects (*)&#160;&#160;&#160;</span>
-            </label>
-      </text>
-      <text id="AFilePPDF">
-            <label xml:lang="de">
-                  <span class="editorhints">&#160;&#160;&#160;PDF</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorhints">&#160;&#160;&#160;PDF</span>
-            </label>
-      </text>
-      <text id="AFilePOther">
-            <label xml:lang="de">
-                  <span class="editorhints">&#160;&#160;&#160;anderes Format</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorhints">&#160;&#160;&#160;Other format</span>
-            </label>
-      </text>
-      <helpPopup id="HFile" width="400px" height="250px">
-            <label xml:lang="de"> Hier wird der Dateiname des digitalen Objektes ausgewählt, welches eingestellt werden soll. 
-                  <p>Die erste angegebene Datei wird für die Präsentation die Primärdatei.</p> <p>Die Datei muss auf einem 
-                  Laufwerk liegen, das <b>von Ihrem Rechner aus direkt erreichbar ist.</b></p> <p>Bitte geben Sie den 
-                  <b>vollständigen Pfad</b> an oder verwenden Sie den <b>Durchsuchen-Knopf</b>.</p> <p>Ihre Datei sollte 
-                  <b>maximal 5 MB gross</b> sein, da ansonsten der Download für die Studenten sehr lange dauern kann. Bitte 
-                  <b>haben Sie etwas Geduld</b>: Nach dem Abschicken des Formulars wird die gewählte Datei automatisch zum 
-                  DocPortal System hochgeladen, was je nach Dateigrösse und Übertragungsgeschwindigkeit Ihres Netzanschlusses 
-                  durchaus längere Zeit beanspruchen kann. Brechen Sie die Übertragung möglichst nicht ab!</p> </label>
-            <label xml:lang="en"> You select here the filename of the digital object, which you will put in. <p>The first 
-                  filename is the primary file for the presentation.</p> <p>The file must lies on a drive, which <b>accessible 
-                  from your computer.</b></p> <p>Pleace, give you the <b>complete path</b> or you use the 
-                  <b>search-button</b>.</p> <p>The file does not be <b>extent 5 MB</b>. The download for students is to long. 
-                  Pleace <b>have you patience</b>: after the submit from the formular add the select file automatically to the 
-                  DocPortal system. If the file size is big you can get higher upload time. Don't cancel the commit!</p> </label>
-      </helpPopup>
-      <text id="DFileUploadHint">
-            <label xml:lang="de">
-                  <span class="editorhints">Achtung! Beim Ansenden größerer Datendateien kann die Übertragung dieser ggf. einige 
-                        Sekunden länger dauern. Die Dateigröße darf 5MB nicht überschreiten!</span>
-            </label>
-            <label xml:lang="en"> Attention, if the file size is big you can get higher upload time. Don't cancel the commit! 
-                  Don't send files higher than 5 MB. </label>
-      </text>
-      <!-- *** Help Search *** -->
-      <helpPopup id="SMFreetextM" width="400px" height="250px">
-            <label xml:lang="de"> Hier können Sie einfach Begriffe eingeben, die im gesamten Metadatensatz gesucht werden. 
-                  Achtung, dieser Begriff wird nicht im eigentlichen Dokument gesucht! </label>
-            <label xml:lang="en"> Enter a word that the system should find in the metadata set. </label>
-      </helpPopup>
-      <helpPopup id="SMFreetextF" width="400px" height="250px">
-            <label xml:lang="de"> Hier können Sie einfach Begriffe eingeben, die im gesamten Dokument gesucht werden. </label>
-            <label xml:lang="en"> Enter a word that the system should find in the full text of the document. </label>
-      </helpPopup>
-      <helpPopup id="SMInstance" width="400px" height="250px">
-            <label xml:lang="de"> Hier können Sie festlegen, über welche Dokumenten-Server gesucht werden soll. Jeder Server muss 
-                  explizit ausgewählt werden. </label>
-            <label xml:lang="en"> The parameter fixes all instances they should search. You must select each instance explicit. 
-                  </label>
-      </helpPopup>
-      <helpPopup id="SMMaxResult" width="400px" height="250px">
-            <label xml:lang="de"> Hier können Sie die maximale Anzahl von Treffern, welche Angezeigt werden sollen, auswählen. 
-                  Wenn sie den Parameter <b>AUS</b> benutzen, wird automatisch das Ergebnis auf die maximale Resultatszahl der 
-                  jeweiligen Instanzen begrenzt. I. d. R. ist das 100. </label>
-            <label xml:lang="en"> This parameter set the maximum of hits, which should present in the result table. If you use 
-                  <b>OUT</b> the maximum of hits is defined in the configuration of each instance. </label>
-      </helpPopup>
-      <helpPopup id="SMMaxPerPage" width="400px" height="250px">
-            <label xml:lang="de"> Hier können Sie festlegen, wieviel Treffer auf einer WEB-Seite erscheinen sollen. </label>
-            <label xml:lang="en"> This parameter set the number of results per one page. </label>
-      </helpPopup>
-      <!-- *** End *** -->
+
+  <include uri="webapp:editor/workflow/imports-application.xml" />
+
+<!-- *** Text fields *** -->
+
+  <textfield id="TFzeile10"   width="10" maxlength="10"  />
+  <textfield id="TFzeile32"   width="15" maxlength="32"  />
+  <textfield id="TFzeile64"   width="20" maxlength="64"  />
+  <textfield id="TFzeile128"  width="30" maxlength="128"  />
+  <textfield id="TFzeile1024" width="60" maxlength="1024"  />
+<!-- ** mandatory Input fields *** -->
+  <textfield id="TFzeile10M"   width="10" maxlength="10"   class="mandatory" />
+  <textfield id="TFzeile32M"   width="15" maxlength="32"   class="mandatory" />
+  <textfield id="TFzeile64M"   width="20" maxlength="64"   class="mandatory" />
+  <textfield id="TFzeile128M"  width="30" maxlength="128"  class="mandatory" />
+  <textfield id="TFzeile1024M" width="60" maxlength="1024" class="mandatory" />
+
+	
+<!-- *** Text area *** -->
+
+  <textarea id="TFarea4096"  width="48" height="4" maxlength="4096" default="" />
+  <textarea id="TFarea4096x10"  width="48" height="10" maxlength="4096" default="" />
+	
+<!-- *** mandatory Text area *** -->
+  <textarea id="TFarea4096M"  width="48" height="4" maxlength="4096" default=" " class="mandatory"  />
+  <textarea id="TFarea4096x10M"  width="48" height="10" maxlength="4096" default=" " class="mandatory"  />
+
+ <!-- *** Definitions of Spaces  *** -->
+
+  <space id="VSpace5"   width="0px" height="5px" />
+  <space id="VSpace10"  width="0px" height="10px" />
+  <space id="VSpace25"  width="0px" height="25px" />
+  <space id="VSpace50"  width="0px" height="50px" />
+  <space id="VSpace100" width="0px" height="100px" />
+	
+<!-- *** An Empty Cell *** -->
+  <text id="EMPTYCELL">
+    <label xml:lang="de">  &#160;   </label>
+  </text>
+
+<!-- *** AdressType List *** -->	
+  <list id="SAdrType"  type="dropdown">
+    <item value="office"><label xml:lang="de">Office</label></item>
+    <item value="home"><label xml:lang="de">Privat</label></item>
+  </list>	
+
+ <list id="SAdrTypeEN" type="dropdown">
+    <item value="office"><label xml:lang="de">Office</label></item>
+    <item value="home"><label xml:lang="de">Privat</label></item>
+  </list>	
+
+<!-- *** Language List *** -->
+
+  <list id="Slang" width="60" type="dropdown">
+    <item value="de"><label xml:lang="de">de</label></item>
+    <item value="en"><label xml:lang="de">en</label></item>
+    <item value="fr"><label xml:lang="de">fr</label></item>
+    <item value="es"><label xml:lang="de">es</label></item>
+    <item value="it"><label xml:lang="de">it</label></item>
+    <item value="nl"><label xml:lang="de">nl</label></item>
+    <item value="no"><label xml:lang="de">no</label></item>
+    <item value="sv"><label xml:lang="de">sv</label></item>
+    <item value="ru"><label xml:lang="de">ru</label></item>
+    <item value="iw"><label xml:lang="de">iw</label></item>
+    <item value="ar"><label xml:lang="de">ar</label></item>
+    <item value="da"><label xml:lang="de">da</label></item>
+  </list>
+
+  <list id="SlangEN" width="60" type="dropdown">
+    <item value="en"><label xml:lang="de">en</label></item>
+    <item value="de"><label xml:lang="de">de</label></item>
+    <item value="fr"><label xml:lang="de">fr</label></item>
+    <item value="es"><label xml:lang="de">es</label></item>
+    <item value="it"><label xml:lang="de">it</label></item>
+    <item value="nl"><label xml:lang="de">nl</label></item>
+    <item value="no"><label xml:lang="de">no</label></item>
+    <item value="sv"><label xml:lang="de">sv</label></item>
+    <item value="ru"><label xml:lang="de">ru</label></item>
+    <item value="iw"><label xml:lang="de">iw</label></item>
+    <item value="ar"><label xml:lang="de">ar</label></item>
+    <item value="da"><label xml:lang="de">da</label></item>
+  </list>
+
+<!-- *** Data for the buttons ** -->
+  <submitButton id="BSubmitDoc" width="100px"  jsaction="return checkMyFormDocument()" >
+	 <label xml:lang="de">[Speichern]</label>
+	 <label xml:lang="en">[Save]</label>
+  </submitButton>
+
+  <panel id="CheckButtonDoc" >
+	 <cell col="1" row="1" anchor="EAST" ref="BCancel" />
+	 <cell col="2" row="1" anchor="WEST" ref="BSubmitDoc" />
+  </panel>		
+		
+  <submitButton id="BSubmitAuthor" width="100px"  jsaction="return checkMyFormAuthor()" >
+	 <label xml:lang="de">[Speichern]</label>
+	 <label xml:lang="en">[Save]</label>
+  </submitButton>
+
+  <panel id="CheckButtonDoc" >
+	 <cell col="1" row="1" anchor="EAST" ref="BCancel" />
+	 <cell col="2" row="1" anchor="WEST" ref="BSubmitAuthor" />
+  </panel>		
+
+  <submitButton id="BSubmit" width="100px" jsaction="return checkMyForm()" >
+    <label xml:lang="de">[Speichern]</label>
+    <label xml:lang="en">[Save]</label>
+  </submitButton>
+  <cancelButton id="BCancel" width="100px" >
+    <label xml:lang="de">[Abbrechen]</label>
+    <label xml:lang="en">[Cancel]</label>
+  </cancelButton>
+
+  <panel id="TwoButtons">
+    <cell col="1" row="1" anchor="WEST" ref="BCancel"            />
+    <cell col="2" row="1" anchor="WEST" ref="BSubmit" var="save" />
+  </panel>
+
+<!-- *** Data for the flags *** -->
+
+  <text id="LFlagsP">
+    <label xml:lang="de">
+      <span class="editorlabel">Schalter (*)</span>
+    </label>
+  </text>
+
+  <helpPopup id="HFlags" width="400px" height="250px">
+    <label xml:lang="de">
+Hier können nun Leserechte vergeben werden. Weiterhin können Host- oder Domainnamen angegeben werden, welche Zugriffsberechtigung haben.<p/>Beispiel: myhost.mynet.com oder .mynet.com .
+    </label>
+   <label xml:lang="en">
+Here you can add the read access of the object. Also you can add a host or domain name for the access host.<p/>Example: myhost.mynet.com or .mynet.com .
+    </label>
+  </helpPopup>
+
+  <text id="AFlagsAccess">
+    <label xml:lang="de">
+      <span class="editorhints">Zugriff</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorhints">Access</span>
+    </label>
+  </text>
+
+  <text id="AFlagsState">
+    <label xml:lang="de">
+      <span class="editorhints">Status</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorhints">State</span>
+    </label>
+  </text>
+
+  <text id="AFlagsIP">
+    <label xml:lang="de">
+      <span class="editorhints">Rechnername oder Domäne</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorhints">Hostname od Domain</span>
+    </label>
+  </text>
+
+<!-- *** Data for the TITLE *** -->
+
+  <text id="LTitleP">
+    <label xml:lang="de">
+      <span class="editorlabel">Titel (*)</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Title (*)</span>
+    </label>
+  </text>
+
+  <helpPopup id="HTitle" width="550px" height="400px">
+   <label xml:lang="de">
+      TITEL<br />Bitte tragen Sie den Titel Ihrer Publikation in der Originalsprache
+      in das Pflichtfeld &#8222;Haupttitel&#8220; ein. Wählen Sie die Sprache des Titels
+      aus dem Auswahlmenü.<br />
+      Wenn Ihre Publikation über einen Untertitel verfügt, können Sie im Auswahlmenü 
+      &#8222;Untertitel&#8220; wählen und diesen in einem gesonderten Feld eintragen.<br />
+      Es ist notwendig, Titel und Untertitel Ihrer Publikation in deutscher sowie in 
+      englischer Sprache anzugeben. Sie können den Titel Ihrer Publikation in beliebigen
+      weiteren Sprachen angeben, indem Sie mit dem Plus-Button zusätzliche Felder erzeugen.<br />
+      Mit dem Minus-Button können Sie diese Felder wieder löschen und mit den Pfeil-Buttons
+      vertauschen Sie die Reihenfolge.
+   </label>
+   <label xml:lang="en">
+      TITLE<br />
+Input the title of this object. This title available the attribute main title. Also you can add a alternative title.
+   </label>
+  </helpPopup>
+
+  <helpPopup id="SMTitle" width="400px" height="250px">
+    <label xml:lang="de">
+Es ist der Titel des Objektes einzugeben.
+    </label>
+    <label xml:lang="en">
+Input the title of this object.
+    </label>
+  </helpPopup>
+
+  <text id="ATitleMain">
+    <label xml:lang="de">
+      <span class="editorlabel">Haupttitel (*)</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Main Title (*)</span>
+    </label>
+  </text>
+
+  <text id="ATitleSub">
+    <label xml:lang="de">
+      <span class="editorlabel">Untertitel</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Subtitle</span>
+    </label>
+  </text>
+
+
+  <list id="STitleType" width="120" type="dropdown">
+    <item value="original-main">
+      <label xml:lang="de">Original-Titel</label>
+      <label xml:lang="en">Original Main Title</label>
+    </item>
+    <item value="translated-main">
+      <label xml:lang="de">Übersetzter Titel</label>
+      <label xml:lang="en">Translated Main Title</label>
+    </item>    
+    <item value="original-sub">
+      <label xml:lang="de">Original-Untertitel</label>
+      <label xml:lang="en">Original Subtitle</label>
+    </item>
+    <item value="translated-sub">
+      <label xml:lang="de">Übersetzter Untertitel</label>
+      <label xml:lang="en">Translated Subtitle</label>
+    </item>    
+  </list>
+
+<!-- *** Data for the Creator/Creatorlink ** -->
+
+  <text id="LCreatorP">
+    <label xml:lang="de">
+      <span class="editorlabel">Autor(en) (*)</span>
+    </label>
+  </text>
+
+  <text id="LCreatorLinkP">
+    <label xml:lang="de">
+      <span class="editorlabel">Autor (*)</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Author (*)</span>
+    </label>
+  </text>
+
+  <text id="ACreatorLinkID">
+    <label xml:lang="de">
+      <span class="editorhints">ID Autorendaten</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorhints">ID author data</span>
+    </label>
+  </text>
+
+  <text id="ACreatorLinkTitle">
+    <label xml:lang="de">
+      <span class="editorhints">Nachname,Vorname</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorhints">Surname,Firstname</span>
+    </label>
+  </text>
+
+  <helpPopup id="HCreator" width="450px" height="250px">
+    <label xml:lang="de">
+Es ist/sind der/die Autoren des Objektes  in der Form Nachname1, Vorname1[; Nachname2, Vorname2[;...]] einzugeben.
+    </label>
+    <label xml:lang="en">
+Input the authors of the object in this form surname1, firstname1[; surname2, firstname2[;...]].
+    </label>
+  </helpPopup>
+
+  <helpPopup id="SMCreator" width="450px" height="250px">
+    <label xml:lang="de">
+An dieser Stelle können die Namen (Vor- und/oder Nachname) von Autoren oder Publizisten eingetragen werden.
+    </label>
+    <label xml:lang="en">
+At this position you can add the name (first- and/or surname) of authors or publisher.
+    </label>
+  </helpPopup>
+
+  <helpPopup id="HCreatorLink" width="450px" height="300px">
+    <label xml:lang="de">
+      VERWEIS AUF AUTOR<br />Durch Anklicken des Auswahlmenüs erhalten Sie eine Liste. 
+      Bitte wählen Sie Ihren &#8222;Familiennamen, Vornamen&#8220; sowie die mediaTUM-ID
+      aus, die Ihnen beim Abspeichern Ihrer Autorendaten genannt wurde. <br />
+      Beispiel: Meier Franz (mediaTUM_author_000000000000027)
+    </label>
+    <label xml:lang="en">
+At this position you can add the mediaTUM-ID of the author's data, additionally you must insert in the second field his name in the form: surname,firstname
+    </label>
+  </helpPopup>
+
+  <list id="SRegularAuthors" width="150" type="dropdown">
+    <item value="true">
+       <label xml:lang="de">Stammautor</label>
+       <label xml:lang="en">Permanent Author</label>
+    </item>
+    <item value="">
+       <label xml:lang="de">Kein Stammautor</label>
+       <label xml:lang="en">Not a Permanent Author.</label>
+    </item>
+  </list>
+
+
+  <text id="LRegularAuthors">
+    <label xml:lang="de">
+      <span class="editorlabel">Stammautor-Status</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Permanent Author Status</span>
+    </label>
+  </text>
+
+  <helpPopup id="HRegularAuthors" width="450px" height="250px">
+    <label xml:lang="de">
+Es ist einzugeben, ob der Autor öfters schreibt (=Stammautor) oder ob es sich um eine Ausnahme handelt.
+    </label>
+    <label xml:lang="en">
+Input the status of the author. Is he publishing often in mediaTUM or is it a single try.
+    </label>
+  </helpPopup>
+
+<!-- *** Data for the Subject ** -->
+
+  <text id="LSubjectP">
+    <label xml:lang="de">
+      <span class="editorlabel">Sachgebiet (*)</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Subjekt (*)</span>
+    </label>
+  </text>
+
+  <text id="LSubject">
+    <label xml:lang="de">
+      <span class="editorlabel">Sachgebiet</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Subject</span>
+    </label>
+  </text>
+
+  <helpPopup id="HSubject" width="450px" height="250px">
+    <label xml:lang="de">
+      SACHGEBIET<br /> Durch Anklicken des Auswahlmenüs erhalten Sie eine Liste 
+      verschiedener Sachgebiete. Bitte wählen Sie daraus das Sachgebiet aus, dem Ihre 
+      Publikation fachlich zugeordnet werden kann.<br />
+      Um mehrere Sachgebiete auszuwählen, können Sie mit dem Plus-Button weitere 
+      Felder erzeugen.
+    </label>
+    <label xml:lang="en">
+You to choose from the list one or more subjects for the digital objects.
+    </label>
+  </helpPopup>
+
+<!-- *** Data for the Origin ** -->
+
+  <text id="LOriginP">
+    <label xml:lang="de">
+      <span class="editorlabel">Fakultät (*)</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Faculty (*)</span>
+    </label>
+  </text>
+
+  <text id="LOrigin">
+    <label xml:lang="de">
+      <span class="editorlabel">Herkunft</span>
+    </label>
+  </text>
+
+  <helpPopup id="HOrigin" width="400px" height="250px">
+    <label xml:lang="de">
+      FAKULTÄT<br />Durch Anklicken des Auswahlmenüs erhalten Sie eine Liste 
+      der Fakultäten der Technischen Universität München. Bitte wählen Sie daraus
+      die Fakultät aus, an der Sie Ihre Publikation eingereicht haben.
+    </label>
+    <label xml:lang="en">
+You to choose from the list the origin from the digital objects.
+    </label>
+  </helpPopup>
+
+
+  <helpPopup id="SMOrigin" width="400px" height="250px">
+    <label xml:lang="de">
+Wählen Sie aus der Liste die Herkunft des digitalen Objektes aus.
+    </label>
+    <label xml:lang="en">
+You to choose from the list the origin from the digital objects.
+    </label>
+  </helpPopup>
+
+<!-- *** Data for the institution -->
+
+  <text id="LInstitutionP">
+    <label xml:lang="de">
+      <span class="editorlabel">Fakultät (*)</span>
+    </label>
+  </text>
+
+  <text id="LInstitution">
+    <label xml:lang="de">
+      <span class="editorlabel">Fakultät</span>
+    </label>
+  </text>
+
+  <helpPopup id="HInstitution" width="400px" height="250px">
+    <label xml:lang="de">
+Wählen Sie aus der Liste Ihre Fakultät aus.
+    </label>
+    <label xml:lang="en">
+You to choose from the list your faculty.
+    </label>
+  </helpPopup>
+
+<!-- *** Data for the Description ** -->
+
+  <text id="LDescriptionP">
+    <label xml:lang="de">
+      <span class="editorlabel">Beschreibung (*)</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Desciption (*)</span>
+    </label>
+  </text>
+
+  <text id="LDescription">
+    <label xml:lang="de">
+      <span class="editorlabel">Beschreibung</span>
+    </label>
+    <label xml:lang="de">
+      <span class="editorlabel">Description</span>
+    </label>
+  </text>
+
+  <text id="LDescriptionAbstractP">
+    <label xml:lang="de">
+      <span class="editorlabel">Abstract (*)</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Abstract (*)</span>
+    </label>
+  </text>
+
+  <helpPopup id="HDescription" width="400px" height="250px">
+    <label xml:lang="de">
+In den angegebenen Feldern können Sie Beschreibungen zum Objekt oder Dokument eintragen.
+Vorgesehen sind die Typen <b>Beschreibung</b>, <b>Abstrakt</b> und <b>Inhalt</b>.
+    </label>
+    <label xml:lang="en">
+You can write the description for the object or document in the declare arrays.
+Is designed for this types <b>description</b>, <b>abstract</b> and <b>content</b>.
+    </label>
+  </helpPopup>
+
+  <helpPopup id="HDescriptionAbstract" width="550px" height="450px">
+    <label xml:lang="de">
+      ABSTRACT<br />Bitte geben Sie in diese Felder eine Zusammenfassung Ihrer Publikation
+      in deutscher und englischer Sprache (§19 Promotionsordnung der TUM) in einfachen 
+      Fließtext ein. Die Zusammenfassung sollte nicht länger als 50 Zeilen sein. Sie können
+      weitere Zusammenfassungen in beliebigen Sprachen eingeben, indem Sie mit dem Plus-Button
+      zusätzliche Felder erzeugen. Mit dem Minus-Button können Sie diese wieder löschen 
+      und mit den Pfeil-Buttons die Reihenfolge vertauschen.<br />&#160;<br />
+      Bitte benutzen Sie für Formatierungen im Text html-Tags.<br />
+      Erlaubte nützliche Tags:<br />
+      <table>
+         <tr>
+            <td>&lt;i&gt; ... &lt;/i&gt;</td>
+            <td>&#160;</td>
+            <td>formatiert eingeschlossenen Text kursiv</td>
+         </tr>
+         <tr>
+            <td>&lt;sub&gt; ... &lt;/sub&gt;</td>
+            <td>&#160;</td>
+            <td>formatiert eingeschlossenen Text tiefgestellt</td>
+         </tr>         
+         <tr>
+            <td>&lt;sup&gt; ... &lt;/sup&gt;</td>
+            <td>&#160;</td>
+            <td>formatiert eingeschlossenen Text hochgestellt</td>
+         </tr>
+         <tr>
+            <td>&lt;br&gt;</td>
+            <td>&#160;</td>
+            <td>Zeilenumbruch</td>
+         </tr>                  
+      </table>
+    </label>
+    <label xml:lang="en">
+You can write the abstract for your object or document in the declare arrays.
+Both in Englisch and in German.
+    </label>
+  </helpPopup>
+
+  <list id="SDescriptType" width="60" type="dropdown">
+    <item value="abstract">
+      <label xml:lang="de">Abstrakt</label>
+      <label xml:lang="en">Abstract</label>
+    </item>
+    <item value="description">
+      <label xml:lang="de">Beschreibung</label>
+      <label xml:lang="en">Description</label>
+    </item>
+    <item value="content">
+      <label xml:lang="de">Inhalt</label>
+      <label xml:lang="en">Content</label>
+    </item>
+  </list>
+
+<!-- *** Data for the Publisher ** -->
+
+  <text id="LPublisher">
+    <label xml:lang="de">
+      <span class="editorlabel">Herausgeber</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Publisher</span>
+    </label>
+  </text>
+
+  <helpPopup id="HPublisher" width="400px" height="250px">
+    <label xml:lang="de">
+In diesem Feld können Sie die publizierende Institution des Objektes oder Dokumentes eintragen.
+Vorgesehen sind die Rollen <b>Herausgeber</b> und <b>Verleger</b>.
+    </label>
+    <label xml:lang="en">
+In this array you can write the publisher of the object or document.
+Is designed for this types <b>publication</b> and <b>publisher</b>
+    </label>
+  </helpPopup>
+
+  <list id="SPublisherType" width="60" type="dropdown">
+    <item value="publisher"><label xml:lang="de">Verlag</label></item>
+    <item value="publication"><label xml:lang="de">Herausgeber</label></item>
+  </list>
+
+  <text id="LPublishLink">
+    <label xml:lang="de">
+      <span class="editorlabel">Verweis auf Herausgeber</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Link to Publisher</span>
+    </label>
+  </text>
+
+  <text id="APublishLinkID">
+    <label xml:lang="de">
+      <span class="editorhints">ID Herausgeberdaten</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorhints">ID Publisher Data</span>
+    </label>
+  </text>
+
+  <text id="APublishLinkTitle">
+    <label xml:lang="de">
+      <span class="editorhints">Name</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorhints">Name</span>
+    </label>
+  </text>
+
+  <helpPopup id="HPublishLink" width="400px" height="250px">
+    <label xml:lang="de">
+Es ist die mediaTUM-ID der Herausgeberdaten einzugeben, im zweiten Feld muß der Name des Herausgebers eingegeben werden.
+Die mediaTUM-ID der Universitätsbibliothek der TU München lautet: mediaTUM_institution_000000000000014 (Cut and Paste)
+    </label>
+    <label xml:lang="en">
+At this position you can add the mediaTUM-ID of the publisher's data, additionally you must insert in the second field his name.
+The mediaTUM-ID of the University Library of the TU Munich is: mediaTUM_institution_000000000000014 (Cut and Paste)
+    </label>
+  </helpPopup>
+
+<!-- *** Data for the Contributor ** -->
+
+  <text id="LContributor">
+    <label xml:lang="de">
+      <span class="editorlabel">Beteiligte</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Contributors</span>
+    </label>
+  </text>
+
+  <text id="LContributorP">
+    <label xml:lang="de">
+      <span class="editorlabel">Beteiligte (*)</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Contributors (*)</span>
+    </label>
+  </text>
+
+  <helpPopup id="HContributor" width="500px" height="250px">
+    <label xml:lang="de">
+      BETEILIGTE<br />Bitte gebe Sie hier mindestens einen Betreuer und einen oder mehrere Gutachter
+      Ihrer Publikation an. Tragen Sie Namen, Vornamen sowie Akademische Titel der Personen
+      in die entprechenden Felder ein. Durch Betätigen des Plus-/Minus-Buttons können 
+      Sie weitere Felder hinzufügen bzw. wieder entfernen. Mit den Pfeil-Buttons können
+      Sie die Reihenfolge der genannten Personen vertauschen.
+    </label>
+    <label xml:lang="en">
+In this array you can write the person involved in the object or document.
+Is designed for this types <b>advisor</b> and <b>referee</b>. <br />
+    </label>
+  </helpPopup>
+
+  <list id="SContributorTypeReferee" width="60" type="dropdown">
+    <item value="">
+       <label xml:lang="de">(Bitte Typ auswählen)</label>
+       <label xml:lang="en">(Please choose type)</label>
+    </item>   
+    <item value="referee">
+       <label xml:lang="de">Gutachter</label>
+       <label xml:lang="en">Referee</label>
+    </item>
+    <item value="advisor">
+       <label xml:lang="de">Betreuer</label>
+       <label xml:lang="en">Advisor</label>
+    </item>
+  </list>
+
+  <list id="SContributorTypeAdvisor" width="60" type="dropdown">
+    <item value="advisor">
+       <label xml:lang="de">Betreuer</label>
+       <label xml:lang="en">Advisor</label>
+    </item>
+    <item value="referee">
+       <label xml:lang="de">Gutachter</label>
+       <label xml:lang="en">Referee</label>
+    </item>
+  </list>
+
+<!-- *** Data for the Date ** -->
+
+  <text id="LDate">
+    <label xml:lang="de">
+      <span class="editorlabel">Datum</span>
+    </label>
+  </text>
+
+  <text id="LDateP">
+    <label xml:lang="de">
+      <span class="editorlabel">Datum (*)</span>
+    </label>
+  </text>
+
+  <text id="LBirthDate">
+    <label xml:lang="de">
+      <span class="editorlabel">Geburtsdatum</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Date of Birth</span>
+    </label>
+  </text>
+
+  <text id="LBirthDateP">
+    <label xml:lang="de">
+      <span class="editorlabel">Geburtsdatum (*)</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Date of Birth (*)</span>
+    </label>
+  </text>
+
+  <text id="ADateSubmitted">
+    <label xml:lang="de">
+      <span class="editorhints">Tag der Einreichung</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorhints">Day of Submission</span>
+    </label>
+  </text>
+
+  <text id="ADateAccepted">
+    <label xml:lang="de">
+      <span class="editorhints">Tag der mündlichen Prüfung</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorhints">Day of Oral Examination</span>
+    </label>
+  </text>
+
+  <text id="ADateFormat">
+    <label xml:lang="de">
+      <span class="editorhints">&#160;&#160;(DD.MM.YYYY&#160;oder&#160;YYYY-MM-DD)</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorhints">&#160;&#160;(YYYY-MM-DD&#160;or&#160;DD.MM.YYYY)</span>
+    </label>
+  </text>
+
+  <helpPopup id="HDate" width="450px" height="300px">
+    <label xml:lang="de">
+      DATUM<br />
+      Tag der Einreichung<br />Bitte geben Sie hier das Datum der 
+      Einreichung Ihrer Publikation bei der Fakultät an.<br />
+      Mündlche Prüfung<br />Bitte geben Sie hier das Datum Ihrer Mündlichen
+      Prüfung an.<br />
+      Benutzen Sie dabei bitte eines der beiden folgenden Formate: DD.MM.YYYY oder
+      YYYY-MM-dd<br />
+      Beispiel: 14.03.2005 oder 2005-02-05
+    </label>
+    <label xml:lang="en">
+You can write the dates of your oral examination and of the submission of your dissertation in this text area.
+Use this date format <b>DD.MM.YYYY</b>.
+    </label>
+  </helpPopup>
+
+  <helpPopup id="HDateBirthP" width="400px" height="250px">
+    <label xml:lang="de">
+      GEBURTSDATUM<br />Bitte geben Sie hier Ihr Geburtsdatum ein. 
+      Benutzen Sie dabei bitte eines der folgenden Formate: DD.MM.YYYY oder 
+      YYYY-MM-DD<br />Beispiel: 16.04.1984 oder 1980-02-08
+    </label>
+    <label xml:lang="en">
+      BIRTH OF DATE<br />
+For the processing of persons in library catalogs you must give the date of birth from this person.
+Use this date format <b>YYYY-MM-DD</b> or <b>DD.MM.YYYY</b>, for example: 1984-04-16
+    </label>
+  </helpPopup>
+
+  <helpPopup id="HDateP" width="400px" height="250px">
+    <label xml:lang="de">
+Benutzen Sie folgendes Datumsformat: <b>DD.MM.YYYY</b> oder <b>YYYY-MM-DD</b>, Beispiel: 16.04.1984
+    </label>
+    <label xml:lang="en">
+Use this date format <b>YYYY-MM-DD</b> or <b>DD.MM.YYYY</b>, for example: 1984-04-16
+    </label>
+  </helpPopup>
+
+  <list id="SDateType" width="60" type="dropdown">
+    <item value="submitted">
+      <label xml:lang="de">Abgabe</label>
+      <label xml:lang="en">Submission</label>
+    </item>
+    <item value="accepted">
+      <label xml:lang="de">Prüfung</label>
+      <label xml:lang="en">Examination</label>
+    </item>
+  </list>
+
+  <helpPopup id="SMDate" width="400px" height="250px">
+    <label xml:lang="de">
+Hier können Sie ein Datum eintragen, welches in den Objekt-Metadaten vorkommen soll.
+    </label>
+    <label xml:lang="en">
+You can write a date in this area, which appears in the object metadata.
+    </label>
+  </helpPopup>
+
+<!-- *** Data for the Type ** -->
+
+  <text id="LTypeP">
+    <label xml:lang="de">
+      <span class="editorlabel">Typ (*)</span>
+    </label>
+  </text>
+
+  <helpPopup id="HType" width="400px" height="250px">
+    <label xml:lang="de">
+      TYP<br />Durch Anklicken des Auswahlmenüs erhalten Sie eine Liste. Bitte wählen
+      Sie hier die Art Ihrer Publikation aus.
+    </label>
+    <label xml:lang="en">
+You can select the type of the digital objects from the list.
+    </label>
+  </helpPopup>
+
+  <helpPopup id="SMType" width="400px" height="250px">
+    <label xml:lang="de">
+Wählen Sie aus der Liste einen Typ-Begriff aus.
+    </label>
+    <label xml:lang="en">
+You can select the type of notion from the list.
+    </label>
+  </helpPopup>
+
+<!-- *** Data for the Format ** -->
+
+  <text id="LFormatP">
+    <label xml:lang="de">
+      <span class="editorlabel">Format (*)</span>
+    </label>
+  </text>
+
+  <helpPopup id="HFormat" width="400px" height="250px">
+    <label xml:lang="de">
+Wählen Sie aus der Liste das Format des digitalen Objektes aus.
+    </label>
+    <label xml:lang="en">
+You can select the format of the digital object from the list.
+    </label>
+  </helpPopup>
+
+  <helpPopup id="SMFormat" width="400px" height="250px">
+    <label xml:lang="de">
+Wählen Sie aus der Liste einen Format-Begriff aus.
+    </label>
+    <label xml:lang="en">
+You can select the format of notion from the list.
+    </label>
+  </helpPopup>
+
+<!-- *** Data for the Identifier ** -->
+
+  <text id="LIdentifierP">
+    <label xml:lang="de">
+      <span class="editorlabel">Identifikator (*)</span>
+    </label>
+  </text>
+
+  <text id="LIdentifier">
+    <label xml:lang="de">
+      <span class="editorlabel">Identifikator</span>
+    </label>
+  </text>
+
+  <helpPopup id="HIdentifier" width="400px" height="250px">
+    <label xml:lang="de">
+Hier können Sie einen Identifikator eintragen, welcher Ihnen das Auffinden des Objektes erleichtern kann.
+    </label>
+    <label xml:lang="en">
+You can write a identificator in this area, which help you find the object.
+    </label>
+  </helpPopup>
+
+  <helpPopup id="SMIdentifier" width="400px" height="250px">
+    <label xml:lang="de">
+Hier können Sie einen Identifikator (ID) eintragen, welcher zum Auffinden des Objektes dient.
+    </label>
+    <label xml:lang="en">
+You can write a identificator-ID in this area, which help you find the object.
+    </label>
+  </helpPopup>
+
+<!-- *** Data for the Source ** -->
+
+  <text id="LSourceP">
+    <label xml:lang="de">
+      <span class="editorlabel">Quelle (*)</span>
+    </label>
+  </text>
+
+  <text id="LSource">
+    <label xml:lang="de">
+      <span class="editorlabel">Quelle</span>
+    </label>
+  </text>
+
+  <helpPopup id="HSource" width="400px" height="250px">
+    <label xml:lang="de">
+Hier können Sie Verweise zu Quellen eintragen, auf welche sich das Objekt bezieht.
+    </label>
+    <label xml:lang="en">
+You can write a reference of source in this area, which object refer to.
+    </label>
+  </helpPopup>
+
+  <helpPopup id="SMSource" width="400px" height="250px">
+    <label xml:lang="de">
+Hier können Sie Quellen angeben, nach denen gesucht werden soll.
+    </label>
+    <label xml:lang="en">
+You can write a source in this area, search for this.
+    </label>
+  </helpPopup>
+
+<!-- *** Data for the Language ** -->
+
+  <text id="LLanguageP">
+    <label xml:lang="de">
+      <span class="editorlabel">Sprache (*)</span>
+    </label>
+  </text>
+
+  <helpPopup id="HLanguage" width="400px" height="250px">
+    <label xml:lang="de">
+      SPRACHE<br />Durch Anklicken des Auswahlmenüs erhalten 
+      Sie eine Liste. Bitte wählen Sie hier die Sprache aus, in
+      der Ihre Publikation verfasst wurde.
+    </label>
+    <label xml:lang="en">
+You can select the language of the object.
+    </label>
+  </helpPopup>
+
+  <helpPopup id="SMLanguage" width="400px" height="250px">
+    <label xml:lang="de">
+Wählen Sie aus der Liste eine Sprache aus.
+    </label>
+    <label xml:lang="en">
+You can select a language from the list.
+    </label>
+  </helpPopup>
+
+<!-- *** Data for the Keywords ** -->
+
+  <text id="LKeywordsP">
+    <label xml:lang="de">
+      <span class="editorlabel">Beschlagwortung (*)</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Enter Headwords (*)</span>
+    </label>
+  </text>
+
+  <text id="LKeywords">
+    <label xml:lang="de">
+      <span class="editorlabel">Beschlagwortung</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Subject Headings</span>
+    </label>
+  </text>
+
+  <text id="AKeywordsFreetext">
+    <label xml:lang="de">
+      <span class="editorlabel">Stichworte in Deutsch und Englisch </span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Keywords in German and English </span>
+    </label>
+  </text>
+
+  <text id="AKeywordsSWD">
+    <label xml:lang="de">
+      <span class="editorlabel">Schlagwortnormdatei (SWD)</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Standardised controlled German Thesaurus (SWD)</span>
+    </label>
+  </text>
+
+  <text id="AKeywordsTUBSystematik">
+    <label xml:lang="de">
+      <span class="editorlabel">TUB-Systematik (*)</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">TUB-Systematics (*)</span>
+    </label>
+  </text>
+
+  <text id="AKeywordsClassifications">
+    <label xml:lang="de">
+      <span class="editorlabel">Spezielles Schlagwort-Klassifikationssystem</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Special Subject Classification System</span>
+    </label>
+  </text>
+
+  <text id="AKeywordsClassificationsCode">
+    <label xml:lang="de">
+      <span class="editorlabel">Codierung</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Code</span>
+    </label>
+  </text>
+
+  <list id="SKeywordsClassifications" width="450px" type="dropdown">
+    <item value="">
+      <label xml:lang="de">(bitte wählen)</label>
+      <label xml:lang="en">(please choose)</label>
+    </item>
+    <item value="ccs1998">
+      <label xml:lang="de">ACM Computing Classification System </label>
+      <label xml:lang="en">ACM Computing Classification System </label>
+    </item>
+    <item value="msc2000">
+      <label xml:lang="de">Mathematics Subject Classification Scheme (MSC)</label>
+      <label xml:lang="en">Mathematics Subject Classification Scheme (MSC)</label>
+    </item>
+    <item value="ZDM">
+      <label xml:lang="de">Zentralblatt für Didaktik der Mathematik (Subject Classification Scheme)</label>
+      <label xml:lang="en">Internat. Reviews on Mathematica Education (Subj. Classific. Scheme)</label>
+    </item>
+    <item value="UMLS">
+      <label xml:lang="de">Unified Medical Language System (UMLS)</label>
+      <label xml:lang="en">Unified Medical Language System (UMLS)</label>
+    </item>
+    <item value="PACS2003">
+      <label xml:lang="de">Physics and Astronomy Classification Scheme (PACS)</label>
+      <label xml:lang="en">Physics and Astronomy Classification Scheme (PACS)</label>
+    </item>
+  </list>
+
+  <helpPopup id="HKeywords" width="550px" height="350px">
+    <label xml:lang="de">
+      BESCHLAGWORTUNG<br />
+      Bitte tragen Sie hier die zentralen Begriffe Ihrer Publikation
+      in deutscher und englischer Sprache ein. Bitte wählen Sie die 
+      entsprechende Sprache im Auswahlmenü aus. <br />
+      Trennen Sie die einzelnen Stichworte per Komma.<br />
+      Beispiel: Stichwort1, Stichwort2, Stichwort3<br />
+      Die Schlüsselwörter dienen dazu, Ihre Publikation über 
+      Suchmaschinen im WWW besser auffindbar zu machen. Sie sollten daher 
+      möglichst aussagekräftig sein. Sie können weitere Stichworte in
+      beliebigen Sprachen eingeben. Bitte erzeugen Sie dazu mit dem 
+      Plus-Button zusätzliche Felder und geben Sie die Sprache im Auswahlmenü an.
+    </label>
+    <label xml:lang="en">
+You can write keywords in this area for to be found the object faster. Separate single keywords with a comma! <br />
+Example: keyword1,keyword2,keyword3
+     </label>
+  </helpPopup>
+
+  <helpPopup id="HKeywordsClassifications" width="550px" height="500px">
+    <label xml:lang="de">
+      CODIERUNG<br />
+      Hier können Sie ein spezielles Schlagwort-Klassifikationssystem für 
+      das zu Ihrer Publikation zugehörige Sachgebiet auswählen und Ihr 
+      Dokument entsprechend des Klassifikationssystems codieren. Die
+      ausführliche Darstellung der Schlagwort-Klassifikationssysteme finden
+      Sie unter den folgenden Links:<br />
+		<b>Informatik</b><br />
+      <a style="color:#000000;" href="http://www.acm.org/class/1998/" target="new" title="Link zum ACM Computing Classification System">ACM Computing Classification System [1998 Version]</a>
+      <b>Mathematik</b><br />
+      <a style="color:#000000;" href="http://www.zblmath.fiz-karlsruhe.de/MATH/msc/index/" target="new" title="Link zum Mathematics Subject Classification Scheme  (MSC)">Mathematics Subject Classification Scheme (MSC)</a><br />
+      <a style="color:#000000;" href="http://www.mathematik.uni-osnabrueck.de/projects/zdm/" target="new" title="Link zum Subject Classification Scheme des Zentralblatt für Didaktik der Mathematik">Zentralblatt für Didaktik der Mathematik: Subject Classification Scheme</a><br />
+      <b>Medizin</b><br />
+      <a style="color:#000000;" href="http://www.nlm.nih.gov/research/umls/umlsmain.html" target="new" title="Link zum Unified Medical Language System">Unified Medical Language System (UMLS)</a><br />
+      <b>Physik</b><a style="color:#000000;" href="http://publish.aps.org/PACS/pacsgen.html" target="new" title="Link zum Physics and Astronomy Classification Scheme (PACS)">Physics and Astronomy Classification Scheme (PACS 2003)</a>
+		<br />&#160;<br />
+    </label>
+    <label xml:lang="en">
+Find the codes of the wished classification on the following webpages.
+<br />&#160;<br />
+Informatics
+<ul>
+   <li><a style="color:#000000;" href="http://www.acm.org/class/1998/" target="new" title="link to ACM Computing Classification System">ACM Computing Classification System [1998 Version]</a></li>
+</ul>
+Mathematics
+<ul>
+   <li><a style="color:#000000;" href="http://www.zblmath.fiz-karlsruhe.de/MATH/msc/index/" target="new" title="link to Mathematics Subject Classification Scheme  (MSC)">Mathematics Subject Classification Scheme (MSC)</a></li>
+   <li><a style="color:#000000;" href="http://www.mathematik.uni-osnabrueck.de/projects/zdm/" target="new" title="link to Subject Classification Scheme of International Reviews on Mathematica Education">International Reviews on Mathematical Education: Subject Classification Scheme</a></li>
+</ul>
+Medizin
+<ul>
+   <li><a style="color:#000000;" href="http://www.nlm.nih.gov/research/umls/umlsmain.html" target="new" title="link to Unified Medical Language System">Unified Medical Language System (UMLS)</a></li>
+</ul>
+Physik
+<ul>
+   <li><a style="color:#000000;" href="http://publish.aps.org/PACS/pacsgen.html" target="new" title="link to Physics and Astronomy Classification Scheme (PACS)">Physics and Astronomy Classification Scheme (PACS 2003)</a></li>
+</ul>
+<br />&#160;<br />
+    </label>
+  </helpPopup>
+
+  <helpPopup id="SMKeywords" width="400px" height="250px">
+    <label xml:lang="de">
+Hier können Sie Schlüsselworte eintragen, welche in den Objekt-Metadaten vorkommen sollen.
+    </label>
+    <label xml:lang="en">
+You can write keywords in this area, which are find in the object metadata.
+    </label>
+  </helpPopup>
+<!-- *** Data for the Coverage ** -->
+
+  <text id="LCoverage">
+    <label xml:lang="de">
+      <span class="editorlabel">Erstreckung</span>
+    </label>
+  </text>
+
+  <helpPopup id="HCoverage" width="400px" height="250px">
+    <label xml:lang="de">
+Hier können Sie Hinweise zur Erstreckung des Objektes über einen bestimmten Zeitraum, eine Region oder einen Zusammenhang angegeben werden.
+    </label>
+    <label xml:lang="en">
+You can write a tip of extend the object over a certain period,a region or a connection.
+    </label>
+  </helpPopup>
+
+  <helpPopup id="SMCoverage" width="400px" height="250px">
+    <label xml:lang="de">
+Hier können Sie Einträge zur Erstreckung machen, nach denen gesucht werden soll.
+    </label>
+    <label xml:lang="en">
+You can write entrys of extend for the search.
+    </label>
+  </helpPopup>
+
+<!-- *** Data for the Relation ** -->
+
+  <text id="LRelation">
+    <label xml:lang="de">
+      <span class="editorlabel">Relation</span>
+    </label>
+  </text>
+
+  <helpPopup id="HRelation" width="400px" height="250px">
+    <label xml:lang="de">
+Hier können Sie Hinweise zur Beziehung des Objektes  zu anderen Objekten eingetragen werden.
+    </label>
+    <label xml:lang="en">
+You can write a tip to the relation of object to other objects.
+    </label>
+  </helpPopup>
+
+
+<!-- *** Data for the Rights ** -->
+
+  <text id="LRightP">
+    <label xml:lang="de">
+      <span class="editorlabel">Rechte (*)</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Rights (*)</span>
+    </label>
+  </text>
+
+  <text id="LRightsLinkP">
+    <label xml:lang="de">
+      <span class="editorlabel">Rechte (Link)</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Rights (link)</span>
+    </label>
+  </text>
+
+  <text id="LRight">
+    <label xml:lang="de">
+      <span class="editorlabel">Rechte</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Rights</span>
+    </label>
+  </text>
+
+
+
+  <helpPopup id="HRight" width="400px" height="250px">
+    <label xml:lang="de">
+Hier können Sie die Rechte eintragen, welchen das Objekt unterliegt.
+    </label>
+    <label xml:lang="en">
+You can write the right of the object.
+    </label>
+  </helpPopup>
+
+  <helpPopup id="HRightsLink" width="400px" height="250px">
+    <label xml:lang="de">
+Hier können Sie einen Link anbringen zu einer Seite, die Auskunft gibt, welchen Rechten das Objekt unterliegt.
+    </label>
+    <label xml:lang="en">
+You can write a link to the rights of the object.
+    </label>
+  </helpPopup>
+
+<!-- *** Data for the Size ** -->
+
+  <text id="LSizeP">
+    <label xml:lang="de">
+      <span class="editorlabel">Umfang (*)</span>
+    </label>
+  </text>
+
+  <text id="LSize">
+    <label xml:lang="de">
+      <span class="editorlabel">Umfang</span>
+    </label>
+  </text>
+
+  <helpPopup id="HSize" width="400px" height="250px">
+    <label xml:lang="de">
+      UMFANG<br />
+      Bitte geben Sie hier den Umfang Ihrer Publikation in deutscher und 
+      englischer Sprache mit Seitenanzahl, Bildern etc. an.<br />
+      <table>
+         <tr>
+            <td>Beispiel</td>
+            <td>&#160;</td>
+            <td>110 S., 20 Abb.</td>
+         </tr>
+         <tr>
+            <td>&#160;</td>
+            <td>&#160;</td>
+            <td>110 p., 20 fig.</td>
+         </tr>         
+      </table>
+    </label>
+    <label xml:lang="en">
+You can write the size of publication with sides, images etc. .
+    </label>
+  </helpPopup>
+
+<!-- *** Data for the Place ** -->
+
+  <text id="LPlaceP">
+    <label xml:lang="de">
+      <span class="editorlabel">Erscheinungsort (*)</span>
+    </label>
+  </text>
+
+  <text id="LPlace">
+    <label xml:lang="de">
+      <span class="editorlabel">Erscheinungsort</span>
+    </label>
+  </text>
+
+  <helpPopup id="HPlace" width="400px" height="250px">
+    <label xml:lang="de">
+Hier können Sie Erscheinungsort der Arbeit eintragen.
+    </label>
+    <label xml:lang="en">
+You can write the place of publication.
+    </label>
+  </helpPopup>
+
+  <textfield id="TFzeile1024PlaceMucDE" width="48" maxlength="1024" default="München" />
+  <textfield id="TFzeile1024PlaceMucEN" width="48" maxlength="1024" default="Munich" />
+
+<!-- *** Data for the URN ** -->
+  <text id="LUrnP">
+    <label xml:lang="de">
+      <span class="editorlabel">URN (*)</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">urn (*)</span>
+    </label>
+  </text>
+
+  <text id="LUrn">
+    <label xml:lang="de">
+      <span class="editorlabel">URN</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">urn</span>
+    </label>
+  </text>
+
+  <helpPopup id="HUrn" width="400px" height="250px">
+    <label xml:lang="de">
+Hier können Sie die URN (=&#160;uniform resource locator) des Objekts angeben.
+    </label>
+    <label xml:lang="en">
+You can write the URN (=&#160;uniform resource locator) of the object here.
+    </label>
+  </helpPopup>
+
+
+<!-- *** Data for the Contact ** -->
+
+  <text id="LContact">
+    <label xml:lang="de">
+      <span class="editorlabel">Kontakt</span>
+    </label>
+  </text>
+
+  <text id="LContactP">
+    <label xml:lang="de">
+      <span class="editorlabel">Kontakt (*)</span>
+    </label>
+  </text>
+
+  <helpPopup id="HContact" width="400px" height="250px">
+    <label xml:lang="de">
+Für Arbeiten, die langfristig aufbewahrt werden sollen, ist hier die Kontaktadresse einzutragen.
+    </label>
+    <label xml:lang="en">
+You write in this area the contact address, when the publication keep a long term.
+    </label>
+  </helpPopup>
+<!-- *** Data for the Citation ** -->
+
+  <text id="LCitation">
+    <label xml:lang="de">
+      <span class="editorlabel">Zitierweise</span>
+    </label>
+  </text>
+
+  <text id="LCitationP">
+    <label xml:lang="de">
+      <span class="editorlabel">Zitierweise (*)</span>
+    </label>
+  </text>
+
+  <helpPopup id="HCitation" width="400px" height="250px">
+    <label xml:lang="de">
+Hier können Sie festlegen, wie Ihre Arbeit zitiert werden soll.
+    </label>
+    <label xml:lang="en">
+In this area you can write, how quote your publication.
+    </label>
+  </helpPopup>
+<!-- *** Data for the Collection ** -->
+
+  <text id="LCollectionP">
+    <label xml:lang="de">
+      <span class="editorlabel">TU-Kollektion (*)</span>
+    </label>
+  </text>
+
+  <helpPopup id="HCollection" width="400px" height="250px">
+    <label xml:lang="de">
+Wählen Sie aus der Liste die TU-Kollektion des digitalen Objektes aus.
+    </label>
+    <label xml:lang="en">
+Here you can choose the TU-Collection of the digital object.
+    </label>
+  </helpPopup>
+
+<!-- *** Data for the URL ** -->
+  <text id="LUrl">
+    <label xml:lang="de">
+      <span class="editorlabel">URL (deprecated)</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">url (deprecated)</span>
+    </label>
+  </text>
+
+  <helpPopup id="HUrl" width="400px" height="250px">
+    <label xml:lang="de">
+Hier können Sie die URL (=&#160;uniform resource locator) des Objekts angeben.
+    </label>
+    <label xml:lang="en">
+You can write the URL (=&#160;uniform resource locator) of the object here.
+    </label>
+  </helpPopup>
+
+<!-- *** Data for the PName ** -->
+
+  <text id="LPName">
+    <label xml:lang="de">
+      <span class="editorlabel">Name</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Name</span>
+    </label>
+  </text>
+
+  <text id="LPNameP">
+    <label xml:lang="de">
+      <span class="editorlabel">Name (*)</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Name (*)</span>
+    </label>
+  </text>
+
+  <text id="APNameFirstName">
+    <label xml:lang="de">
+      <span class="editorhints">Vorname</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorhints">Firstname</span>
+    </label>
+  </text>
+  <text id="APNameSurName">
+    <label xml:lang="de">
+      <span class="editorhints">Nachname</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorhints">Surname</span>
+    </label>
+  </text>
+  <text id="APNameFirstNameP">
+    <label xml:lang="de">
+      <span class="editorhints">Vorname (*)</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorhints">Firstname (*)</span>
+    </label>
+  </text>
+  <text id="APNameSurNameP">
+    <label xml:lang="de">
+      <span class="editorhints">Nachname (*)</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorhints">Surname (*)</span>
+    </label>
+  </text>  
+  <text id="APNameAcademic">
+    <label xml:lang="de">
+      <span class="editorhints">Akademischer Titel</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorhints">Academic title</span>
+    </label>
+  </text>
+  <text id="APNamePrefix">
+    <label xml:lang="de">
+      <span class="editorhints">Präfix vor dem Namen</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorhints">prefix before name</span>
+    </label>
+  </text>
+  <text id="APNamePeerage">
+    <label xml:lang="de">
+      <span class="editorhints">Adelstitel</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorhints">Peerage</span>
+    </label>
+  </text>
+
+  <helpPopup id="HPName" width="400px" height="250px">
+    <label xml:lang="de">
+		NAME<br />Bitte tragen Sie in die Pflichtfelder Ihren Namen 
+      sowie Ihre(n) Vornamen hinsichtlich Anzahl und Reihenfolge genau so ein, 
+      wie Sie ihn auf dem Titelblatt Ihrer Publikation angegeben haben.<br />
+      Das Ausfüllen der Felder <i>Akademischer Titel, Adelstitel</i> sowie 
+      <i>Präfixe</i> ist optional.
+    </label>
+    <label xml:lang="en">
+      NAME<br />In this area you write please the complete name of the person. Duty area are last name and first name. Other area you can write. Academic title are 'dr.' or 'prof. dr.' etc. . Nobility title are 'baron or baroness' or 'Count or Countess'. Prefixe are 'de', 'of' etc..
+    </label>
+  </helpPopup>
+
+  <helpPopup id="SMPNameFirstName" width="400px" height="250px">
+    <label xml:lang="de">
+Vorname, nach dem gesucht werden soll.
+    </label>
+    <label xml:lang="en">
+Search for the first name.
+    </label>
+  </helpPopup>
+
+  <helpPopup id="SMPNameSurname" width="400px" height="250px">
+    <label xml:lang="de">
+Familienname, nach dem gesucht werden soll.
+    </label>
+    <label xml:lang="en">
+Search for the last name.
+    </label>
+  </helpPopup>
+
+<!-- *** Data for the Female ** -->
+
+  <text id="LFemaleP">
+    <label xml:lang="de">
+      <span class="editorlabel">Geschlecht</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Gender</span>
+    </label>
+  </text>
+
+  <helpPopup id="HFemale" width="400px" height="250px">
+    <label xml:lang="de">
+      ANREDE<br />Bitte wählen Sie mit Hilfe der Optionsschaltflächen die zutreffende Anrede aus.
+    </label>
+    <label xml:lang="en">
+      Select the sex of the person, please.
+    </label>
+  </helpPopup>
+
+  <list id="SFemale" width="400" type="radio" cols="2" default="false">
+    <item value="true">
+      <label xml:lang="de">Frau</label>
+      <label xml:lang="en">female</label>
+    </item>
+    <item value="false">
+      <label xml:lang="de">Herr</label>
+      <label xml:lang="en">male</label>
+    </item>
+  </list>
+
+<!-- *** Data for the Profession ** -->
+
+  <text id="LProfession">
+    <label xml:lang="de">
+      <span class="editorlabel">Beruf / Tätigkeit</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Profession</span>
+    </label>
+  </text>
+
+  <helpPopup id="HProfession" width="400px" height="250px">
+    <label xml:lang="de">
+Tragen Sie hier bitte den Beruf bzw. die Tätigkeit ein.
+    </label>
+    <label xml:lang="en">
+You write in this area the profession or the occupation.
+    </label>
+  </helpPopup>
+
+   <list id="SProfession" width="80" type="dropdown">
+     <item value="job">
+        <label xml:lang="de">Tätigkeit</label>
+        <label xml:lang="en">Job</label>
+     </item>
+     <item value="profession">
+        <label xml:lang="de">Beruf</label>
+        <label xml:lang="en">Profession</label>
+     </item>
+   </list>
+
+<!-- *** Data for the ProfClass ** -->
+
+  <text id="LProfClass">
+    <label xml:lang="de">
+      <span class="editorlabel">Beruf nach SWB</span>
+    </label>
+  </text>
+
+  <helpPopup id="HProfClass" width="400px" height="250px">
+    <label xml:lang="de">
+Wählen Sie hier bitte den Beruf aus der SWB Klassifikation aus.
+    </label>
+    <label xml:lang="en">
+Select you the profession from the SWB classification.
+    </label>
+  </helpPopup>
+
+
+
+<!-- *** Data for the National ** -->
+
+  <text id="LNational">
+    <label xml:lang="de">
+      <span class="editorlabel">Nationalität</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Nationality</span>
+    </label>
+  </text>
+
+  <helpPopup id="HNational" width="400px" height="250px">
+    <label xml:lang="de">
+Bitte wählen Sie die Nationalität der Person aus.
+    </label>
+    <label xml:lang="en">
+The choice is yours the national from person.
+    </label>
+  </helpPopup>
+
+<!-- *** Data for the Reference *** -->
+
+  <text id="LReference">
+    <label xml:lang="de">
+      <span class="editorlabel">Referenz</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Reference</span>
+    </label>
+  </text>
+
+  <helpPopup id="HReference" width="400px" height="250px">
+    <label xml:lang="de">
+Bitte tragen Sie hier Referenzen zur Person in Form der URL und eines Titels ein. Dies können z. B. Veröffentlichungen im Internet oder Projektadressen sein.
+    </label>
+    <label xml:lang="en">
+You write in this area the reference of person in form URL an a title. This can be publication in the internet or project address.
+    </label>
+  </helpPopup>
+
+<!-- *** Data for the Publication *** -->
+
+  <text id="LPublication">
+    <label xml:lang="de">
+      <span class="editorlabel">Publikationen</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Publications</span>
+    </label>
+  </text>
+
+  <helpPopup id="HPublication" width="400px" height="250px">
+    <label xml:lang="de">
+Hier ist Platz für den Verweis auf Publikationen.
+    </label>
+    <label xml:lang="en">
+Here is the place for the refer to publications.
+    </label>
+  </helpPopup>
+
+<!-- *** Data for the place of Birth (City) *** -->
+
+  <text id="LPlaceBirthP">
+    <label xml:lang="de">
+      <span class="editorlabel">Geburtsort (*)</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Place of Birth (*)</span>
+    </label>
+  </text>
+
+  <helpPopup id="HPlaceBirth" width="400px" height="250px">
+    <label xml:lang="de">
+      GEBURTSORT<br />
+      Bitte tragen Sie in diese Felder Ihren Geburtsort und Ihr Geburtsland ein.
+    </label>
+    <label xml:lang="en">
+      PLACE OF BIRTH<br />
+You write in this area your place of birth.
+    </label>
+  </helpPopup>
+
+<!-- *** Data for the IName ** -->
+
+  <text id="LINameP">
+    <label xml:lang="de">
+      <span class="editorlabel">Name der Institution (*)</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Name of the institution (*)</span>
+    </label>
+  </text>
+
+  <text id="AINameName">
+    <label xml:lang="de">
+      <span class="editorhints">voller Name</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorhints">full name</span>
+    </label>
+  </text>
+  <text id="AINameNick">
+    <label xml:lang="de">
+      <span class="editorhints">Kurzform</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorhints">Nickname</span>
+    </label>
+  </text>
+  <text id="AINameProp">
+    <label xml:lang="de">
+      <span class="editorhints">Rechtsform</span>
+    </label>
+  </text>
+
+  <helpPopup id="SMInstitution" width="400px" height="250px">
+    <label xml:lang="de">
+       Einrichtung, die die Erstellung des gesuchten Dokuments veranlaßt hat
+    </label>
+    <label xml:lang="en">
+       Institution, who has initiated the searched Document
+    </label>
+  </helpPopup>
+
+  <helpPopup id="HIName" width="400px" height="250px">
+    <label xml:lang="de">
+In diesem Feld tragen Sie bitte den Namen der Einrichtung oder Institution ein.
+    </label>
+    <label xml:lang="en">
+You write in this area the name of the institution.
+    </label>
+  </helpPopup>
+
+<!-- *** Data for the Address ** -->
+
+  <text id="LAddress">
+    <label xml:lang="de">
+      <span class="editorlabel">Adresse</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Address</span>
+    </label>
+  </text>
+
+  <text id="AAddressCountry">
+    <label xml:lang="de">
+      <span class="editorhints">Staat</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorhints">Country</span>
+    </label>
+  </text>
+  <text id="AAddressState">
+    <label xml:lang="de">
+      <span class="editorhints">Bundesland</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorhints">State</span>
+    </label>
+  </text>
+  <text id="AAddressZIP">
+    <label xml:lang="de">
+      <span class="editorhints">Postleitzahl</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorhints">Zip Code</span>
+    </label>
+  </text>
+  <text id="AAddressCity">
+    <label xml:lang="de">
+      <span class="editorhints">Ort</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorhints">City</span>
+    </label>
+  </text>
+  <text id="AAddressStreet">
+    <label xml:lang="de">
+      <span class="editorhints">Straße</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorhints">Street</span>
+    </label>
+  </text>
+  <text id="AAddressNumber">
+    <label xml:lang="de">
+      <span class="editorhints">Nummer</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorhints">Number</span>
+    </label>
+  </text>
+
+  <list id="Scountry" width="160" type="dropdown">
+    <item value="">
+      <label xml:lang="de">(bitte wählen)</label>
+      <label xml:lang="en">(please choose)</label>
+    </item>
+    <item value="Deutschland">
+       <label xml:lang="de">Deutschland</label>
+       <label xml:lang="en">Germany</label>
+    </item>
+    <item value="Österreich">
+       <label xml:lang="de">Österreich</label>
+       <label xml:lang="en">Austria</label>
+    </item>
+    <item value="Schweiz">
+       <label xml:lang="de">Schweiz</label>
+       <label xml:lang="en">Suisse</label>
+    </item>
+  </list>
+
+  <list id="SAddressState" width="160" type="dropdown">
+    <item value="">
+      <label xml:lang="de">(bitte wählen)</label>
+      <label xml:lang="en">(please choose)</label>
+    </item>
+    <item value="Baden-Würtemberg">
+      <label xml:lang="de">Baden-Würtemberg</label>
+    </item>
+    <item value="Bayern">
+      <label xml:lang="de">Bayern</label>
+    </item>
+    <item value="Brandenburg">
+      <label xml:lang="de">Brandenburg</label>
+    </item>
+    <item value="Bremen">
+      <label xml:lang="de">Bremen</label>
+    </item>
+    <item value="Hessen">
+      <label xml:lang="de">Hessen</label>
+    </item>
+    <item value="Mecklenburg-Vorpommern">
+      <label xml:lang="de">Mecklenburg-Vorpommern</label>
+    </item>
+    <item value="Niedersachsen">
+      <label xml:lang="de">Niedersachsen</label>
+    </item>
+    <item value="Nordrhein-Westfalen">
+      <label xml:lang="de">Nordrhein-Westfalen</label>
+    </item>
+    <item value="Saarland">
+      <label xml:lang="de">Saarland</label>
+    </item>
+    <item value="Sachsen">
+      <label xml:lang="de">Sachsen</label>
+    </item>
+    <item value="Sachsen-Anhalt">
+      <label xml:lang="de">Sachsen-Anhalt</label>
+    </item>
+    <item value="Schleswig-Holstein">
+      <label xml:lang="de">Schleswig-Hollstein</label>
+    </item>
+    <item value="Thüringen">
+      <label xml:lang="de">Thüringen</label>
+    </item>
+  </list>
+
+  <helpPopup id="HAddress" width="400px" height="250px">
+    <label xml:lang="de">
+In dieses Feld tragen Sie bitte eine gültige Adresse ein.
+    </label>
+    <label xml:lang="en">
+You write in this area a valid address.
+    </label>
+  </helpPopup>
+
+<!-- *** Data for the Phone ** -->
+
+  <text id="LPhone">
+    <label xml:lang="de">
+      <span class="editorlabel">Telefon</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Phone</span>
+    </label>
+  </text>
+
+  <list id="Sphone" width="160" type="dropdown">
+    <item value="Telefon"><label xml:lang="de">phone</label></item>
+    <item value="Fax"><label xml:lang="de">fax</label></item>
+    <item value="Mobil"><label xml:lang="de">mobil</label></item>
+  </list>
+
+  <helpPopup id="HPhone" width="400px" height="250px">
+    <label xml:lang="de">
+In dieses Feld tragen Sie bitte die Telefonnummern ein. Vergessen Sie nicht ggf. Orts- und Landesvorwahl anzugeben. Zur Unterscheidung von Inlands- und Auslandsnummern kann ggf. die Sprachauswahl genutzt werden. Die Telefonnummer sollte
+so aussehen +49 (0)341 97-33348.
+    </label>
+    <label xml:lang="en">
+You write in this area the telephon number. You not forgetting the place dialling and the country dialling. For the differentiation from the home number and the abroad number you can use the language choice. The telephon number has the form +49 (0)341 97-33348.
+    </label>
+  </helpPopup>
+
+<!-- *** Data for the URL ** -->
+
+  <text id="LURL">
+    <label xml:lang="de">
+      <span class="editorlabel">URL</span>
+    </label>
+  </text>
+
+  <text id="AURLTitle">
+    <label xml:lang="de">
+      <span class="editorhints">Linktitel</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorhints">Link title</span>
+    </label>
+  </text>
+  <text id="AURLReference">
+    <label xml:lang="de">
+      <span class="editorhints">Link</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorhints">Link</span>
+    </label>
+  </text>
+
+  <helpPopup id="HURL" width="400px" height="250px">
+    <label xml:lang="de">
+Tragen Sie in dieses Feld eine gültige URL , z. B. die Adresse der Homepage ein. Vergeben Sie für den Eintrag auch einen Titel.
+    </label>
+    <label xml:lang="en">
+You write in this area a valid URL, example the address of the homepage. You give the entry a title.
+    </label>
+  </helpPopup>
+
+<!-- *** Data for the EMAIL ** -->
+
+  <text id="LEmail">
+    <label xml:lang="de">
+      <span class="editorlabel">E-Mail</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">e-Mail</span>
+    </label>
+  </text>
+
+  <helpPopup id="HEmail" width="400px" height="250px">
+    <label xml:lang="de">
+      E-MAIL<br />In dieses Feld können Sie eine gültige e-Mail-Adresse
+      eingeben, welche auf der Frontpage zu Ihrer Publikation veröffentlicht
+      wird. Bitte informieren Sie uns bei Wegfall oder Änderung Ihrer 
+      e-Mail-Adresse, damit wir eine Korrektur vornehmen können. Wenn Sie eine 
+      Veröffentlichung Ihrer e-Mail-Adresse nicht wünschen, lassen Sie dieses
+      Feld bitte frei.
+    </label>
+    <label xml:lang="en">
+You write in this area a valid e-mail address.
+    </label>
+  </helpPopup>
+
+
+<!-- *** Data for the Note ** -->
+
+  <text id="LNote">
+    <label xml:lang="de">
+      <span class="editorlabel">Anmerkungen</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Notes</span>
+    </label>
+  </text>
+
+  <helpPopup id="HNote" width="400px" height="250px">
+    <label xml:lang="de">
+Dieses Feld ist optional. Hier können Sie zusätzliche Anmerkungen eintragen.
+    </label>
+    <label xml:lang="en">
+This area is optional. You can write additional remark.
+    </label>
+  </helpPopup>
+
+<!-- *** Data for the file upload *** -->
+
+  <text id="LFileP">
+    <label xml:lang="de">
+      <span class="editorlabel">Digitale Objekte (*)</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Digital Objects (*)</span>
+    </label>
+  </text>
+
+  <text id="AFilePPDF">
+    <label xml:lang="de">
+      <span class="editorhints">PDF</span>
+    </label>
+  </text>
+  <text id="AFilePOther">
+    <label xml:lang="de">
+      <span class="editorhints">anderes Format</span>
+    </label>
+  </text>
+
+  <helpPopup id="HFile" width="400px" height="250px">
+    <label xml:lang="de">
+Hier wird der Dateiname des digitalen Objektes ausgewählt, welches eingestellt werden soll.
+<p>Die erste angegebene Datei wird für die Präsentation die Primärdatei.</p>
+<p>Die Datei muss auf einem Laufwerk liegen, das <b>von Ihrem Rechner aus direkt erreichbar ist.</b></p>
+<p>Bitte geben Sie den <b>vollständigen Pfad</b> an oder verwenden Sie den <b>Durchsuchen-Knopf</b>.</p>
+<p>Ihre Datei sollte <b>maximal 5 MB gross</b> sein, da ansonsten der Download für die Studenten sehr lange dauern kann.  Bitte <b>haben Sie etwas Geduld</b>: Nach dem Abschicken des Formulars wird die gewählte Datei automatisch zum mediaTUM System hochgeladen, was je nach Dateigrösse und Übertragungsgeschwindigkeit Ihres Netzanschlusses durchaus längere Zeit beanspruchen kann. Brechen Sie die Übertragung möglichst nicht ab!</p>
+    </label>
+    <label xml:lang="en">
+You select here the filename of the digital object, which you will put in.
+<p>The first filename is the primary file for the presentation.</p>
+<p>The file must lies on a drive, which <b>accessible from your computer.</b></p>
+<p>Pleace, give you the <b>complete path</b> or you use the <b>search-button</b>.</p>
+<p>The file does not be <b>extent 5 MB</b>. The download for students is to long. Pleace <b>have you patience</b>: after the submit from the formular add the select file automatically to the mediaTUM system. If the file size is big you can get higher upload time. Don't cancel the commit!</p>
+    </label>
+  </helpPopup>
+
+<!-- *** End *** -->
+
 </imports>

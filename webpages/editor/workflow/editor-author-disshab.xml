@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE editor>
+
+<editor>
+
+<!--
+ <target type="debug" />
+-->
+
+ <target type="servlet" name="MCRPassToTargetServlet" method="post" format="xml" />
+
+ <components root="author-disshab" var="/mycoreobject">
+
+  <include uri="webapp:editor/workflow/imports-common-disshab.xml" />    
+
+  <headline anchor="CENTER">
+   <text>
+    <label xml:lang="de">Die mit * gekennzeichneten Daten sind Plichtfelder.<p/></label>
+    <label xml:lang="en">The fields with * are duty.<p/></label>    
+   </text>
+  </headline>
+
+  <panel id="author-disshab">
+    <hidden var="ID" />
+    <hidden var="label" />
+
+    <hidden var="metadata/@lang" default="de" />
+
+    <cell col="1" row="1" anchor="NORTHWEST" ref="LTitleDissP" />
+    <cell col="2" row="1" anchor="NORTHEAST" ref="HTitle" />
+
+    <cell col="1" row="2" colspan="2" anchor="NORTHWEST" ref="DTitle" />
+
+<!-- creator fehlt -->
+
+    <cell col="1" row="31" anchor="NORTHWEST" ref="LCreatorLinks" />
+    <cell col="2" row="31" anchor="NORTHEAST" ref="HCreatorLink" />
+
+    <cell col="1" row="32" colspan="2" anchor="NORTHWEST" ref="DCreatorLinks" />
+
+    <cell col="1" row="41" anchor="NORTHWEST" ref="LSubjects" />
+    <cell col="2" row="41" anchor="NORTHEAST" ref="HSubject" />
+
+    <cell col="1" row="42" colspan="2" anchor="NORTHWEST" ref="DSubjects" />    
+
+    <cell col="1" row="51" anchor="NORTHWEST" ref="LOriginP" />
+    <cell col="2" row="51" anchor="NORTHEAST" ref="HOrigin" />
+
+    <cell col="1" row="52" colspan="2" anchor="NORTHWEST" ref="DOrigin" />
+
+    <cell col="1" row="61" anchor="NORTHWEST" ref="LDescriptionAbstractP" />
+    <cell col="2" row="61"  anchor="NORTHEAST" ref="HDescriptionAbstract" />
+
+    <cell col="1" row="62" colspan="2" anchor="NORTHWEST" ref="DDescription" />    
+
+    <cell col="1" row="71" colspan="2" anchor="NORTHWEST" ref="DPublisher" />
+    
+    <cell col="1" row="81" colspan="2" anchor="NORTHWEST" ref="DPublishLink" />    
+
+    <cell col="1" row="101" anchor="NORTHWEST" ref="LContributorP" />
+    <cell col="2" row="101" anchor="NORTHEAST" ref="HContributor" />
+
+    <cell col="1" row="102" colspan="2" anchor="NORTHWEST" ref="DContributor" />   
+
+    <cell col="1" row="121" anchor="NORTHWEST" ref="LDateP" />
+    <cell col="2" row="121" anchor="NORTHEAST" ref="HDate" />
+
+    <cell col="1" row="122" colspan="2" anchor="NORTHWEST" ref="DDate" />
+
+    <cell col="1" row="131" anchor="NORTHWEST" ref="LTypeP" />
+    <cell col="2" row="131" anchor="NORTHEAST" ref="HType" />
+    
+    <cell col="1" row="132" colspan="2" anchor="NORTHWEST" ref="DType" />
+
+    <cell col="1" row="141" anchor="NORTHWEST" ref="DFormat" />
+    
+    <cell col="1" row="181" anchor="NORTHWEST" ref="LLanguageP" />
+    <cell col="2" row="181" anchor="NORTHEAST" ref="HLanguage" />
+    
+    <cell col="1" row="182" colspan="2" anchor="NORTHWEST" ref="DLanguage" />
+  
+    <cell col="1" row="191" anchor="NORTHWEST" ref="LKeywords" />
+    <cell col="2" row="191" anchor="NORTHEAST" ref="HKeywords" />
+
+    <cell col="1" row="192" colspan="2" anchor="NORTHWEST" ref="DKeywords" />
+
+    <cell col="1" row="202" anchor="NORTHWEST" ref="DHiddenFields" />
+    
+ 
+    <cell col="1" row="205" anchor="EAST" >
+      <space width="10" height="40" />
+    </cell>
+    <cell col="1" row="210" anchor="EAST" ref="BCancel"            />
+    <cell col="2" row="210" anchor="WEST" ref="BSubmitDisshab" var="save" />
+    
+  </panel>
+
+<!-- für Dissertationen STANDARD AUSSCHLIESSLICH CREATORLINK -->
+   <text id="LCreatorLinks">
+        <label xml:lang="de">
+          <span class="editorlabel">Autorenlink</span>
+        </label>
+   </text>
+   <panel id="DCreatorLinks">
+        <hidden var="metadata/creatorlinks/@class" default="MCRMetaLinkID" sortnr="3" />
+	    <cell col="1" row="1" anchor="EAST" var="metadata/creatorlinks/creatorlink" sortnr="3" >
+         <repeater min="1" max="10">
+           <panel lines="off">
+			 <hidden var="@inherited" default="0" />
+			 <hidden var="@type" default="locator" />
+			 <hidden var="@title" />
+			 <hidden var="@href" />			
+             <cell row="1" col="1" width="100%">
+		       <output var="@title" default="aus Autorenindex"/>
+               <text   label=" " />
+			   <output var="@href" />
+             </cell>
+			 <cell row="1" col="2" >
+               <subselect label="Auswählen" id="sub.select" type="webpage" href="nav?path=~indexSearchCreatorsSub" />
+             </cell>			   
+           </panel>
+         </repeater>
+       </cell>	  
+	  </panel>
+	 
+
+
+<!-- ** Data for the SUBJECT *** -->
+
+     <text id="LSubjects">
+        <label xml:lang="de">
+          <span class="editorlabel">
+            Klassifikation
+          </span>
+        </label>
+     </text>
+	 <panel id="DSubjects" >
+		<hidden var="metadata/subjects/@class" default="MCRMetaClassification" />
+		<cell row="1" col="1" anchor="NORTHWEST" ordernr="4" var="metadata/subjects/subject">
+		   <repeater min="1" max="5" >  
+				<panel lines="off">
+				 <hidden var="@inherited" default="0" />
+				 <hidden var="@type" default="locator" />
+				 <hidden var="@title" />
+				 <hidden var="@href" />
+				 <cell row="1" col="1" width="100%">
+			       <output var="@title" default="DDC Klassifikation"/>
+		           <text   label=" " />
+				   <output var="@href" />
+				 </cell>
+				 <cell row="1" col="2">
+				   <subselect label="Auswählen" id="sub.select2" type="webpage" href="nav?path=~browse_subDDC" />
+				 </cell>
+			   </panel>
+			</repeater>
+		</cell>
+	  </panel>
+
+
+
+<!-- *** Data for the Publisher ** -->
+
+  <panel id="DPublisher">
+    <hidden var="metadata/publishers/@class" default="MCRMetaLangText" />
+    <hidden var="metadata/publishers/@textsearch" default="true" />
+    <hidden var="metadata/publishers/publisher/@lang" default="de" />
+    <!-- hidden var="metadata/publishers/publisher" default="Universitätsbibliothek der Technischen Universität München" / -->    
+    <!-- hidden var="metadata/publishers/publisher" default="Universitätsbibliothek der Universität Rostock" / -->    
+    <hidden var="metadata/publishers/publisher" default="Universitätsbibliothek der Universität Rostock" />    
+    <hidden var="metadata/publishers/publisher/@type" default="publication" />
+    <hidden var="metadata/publishers/publisher[2]/@inherited" default="0" />
+    <hidden var="metadata/publishers/publisher[2]/@lang" default="en" />
+    <!-- hidden var="metadata/publishers/publisher[2]" default="University library of the Munich University of Technology" / -->    
+    <!-- hidden var="metadata/publishers/publisher" default="University library of the  University of  Rostock" / -->    
+    <hidden var="metadata/publishers/publisher" default="University library of the  University of  Rostock" />    
+    <hidden var="metadata/publishers/publisher[2]/@type" default="publication" />            
+  </panel>
+
+<!-- *** Data for the PublishLinks ** -->
+  <panel id="DPublishLink">
+    <hidden var="metadata/publishlinks/@class" default="MCRMetaLinkID" />
+    <hidden var="metadata/publishlinks/publishlink/@label" default="publication" />
+    <hidden var="metadata/publishlinks/publishlink/@type" default="locator" />      
+    <!-- hidden var="metadata/publishlinks/publishlink/@href" default="mediaTUM_institution_000000000000014" / -->           
+    <!-- hidden var="metadata/publishlinks/publishlink/@href" default="atlibri_institution_0000000001" / -->           
+    <hidden var="metadata/publishlinks/publishlink/@href" default="atlibri_institution_0000000001" />           
+    <!-- hidden var="metadata/publishlinks/publishlink/@title" default="Universitätsbibliothek der Technischen Universität München" / -->           
+    <hidden var="metadata/publishlinks/publishlink/@title" default="Universitätsbibliothek der Universität Rostock" />           
+  </panel>
+
+<!-- ** Data for the FORMAT *** -->
+
+  <panel id="DFormat">
+    <hidden var="metadata/formats/@class" default="MCRMetaClassification" />
+    <hidden var="metadata/formats/format/@inherited" default="0" />
+    <!-- hidden var="metadata/formats/format/@classid" default="mediaTUM_class_000000000000006" / -->
+    <!-- hidden var="metadata/formats/format/@classid" default="atlibri_class_00000006" / -->
+    <hidden var="metadata/formats/format/@classid" default="atlibri_class_00000006" />
+    <hidden var="metadata/formats/format/@categid" default="FORMAT0001" />
+  </panel>
+
+<!-- *** Data for the KEYWORDS ** -->
+
+  <panel id="DKeywords">
+    <hidden var="metadata/keywords/@class" default="MCRMetaLangText" />
+    <hidden var="metadata/keywords/@textsearch" default="true" />    
+    <hidden var="metadata/keywords/keyword/@inherited" default="0" />
+    
+    <cell col="1" row="1" colspan="3" anchor="NORTHWEST" ref="AKeywordsFreetext" />
+    
+    <hidden var="metadata/keywords/keyword/@type" default="freetext" />
+    <cell col="1" row="2" anchor="WEST" ref="TFzeile1024" var="metadata/keywords/keyword" />
+    <cell col="2" row="2" anchor="NORTHWEST" ref="Slang" var="metadata/keywords/keyword/@lang" default="de" />    
+  
+    <hidden var="metadata/keywords/keyword[2]/@type" default="freetext" />    
+    <cell col="1" row="3" anchor="WEST" ref="TFzeile1024" var="metadata/keywords/keyword[2]" />
+    <cell col="2" row="3" anchor="NORTHWEST" ref="SlangEN" var="metadata/keywords/keyword[2]/@lang" default="en" />    
+
+    <cell col="1" row="8" colspan="3" anchor="NORTHEAST" ref="AKeywordsClassifications" /> 
+    <cell col="1" row="9" colspan="3" anchor="NORTWEST" ref="SKeywordsClassifications" var="metadata/keywords/keyword[3]/@type" />
+    <hidden var="metadata/keywords/keyword[3]/@lang" default="de" /> 
+    <cell col="1" row="10" anchor="WEST" ref="TFzeile1024" var="metadata/keywords/keyword[3]" />     
+    <cell col="2" row="10" anchor="NORTHEAST" ref="AKeywordsClassificationsCode" />
+    <cell col="3" row="10" width="150" anchor="NORTHEAST" ref="HKeywordsClassifications" />
+
+    <cell col="1" row="11" colspan="3" /> 
+
+    <cell col="1" row="12" colspan="3" anchor="NORTHEAST" ref="AKeywordsClassifications" /> 
+    <cell col="1" row="13" colspan="3" anchor="NORTWEST" ref="SKeywordsClassifications" var="metadata/keywords/keyword[4]/@type" />
+    <hidden var="metadata/keywords/keyword[4]/@lang" default="de" /> 
+    <cell col="1" row="14" anchor="WEST" ref="TFzeile1024" var="metadata/keywords/keyword[4]" />
+    <cell col="2" row="14" anchor="NORTHEAST" ref="AKeywordsClassificationsCode" />
+    <cell col="3" row="14" width="150" anchor="NORTHEAST" ref="HKeywordsClassifications" />     
+    
+    <cell col="1" row="15" colspan="3" />       
+  </panel>
+
+
+  <panel id="DHiddenFields">
+    <!-- *** Data for the COVERAGE ** -->
+    <hidden var="metadata/coverages/@class" default="MCRMetaLangText" />
+    <hidden var="metadata/coverages/coverage" />
+    <hidden var="metadata/coverages/coverage/@lang" />
+    <hidden var="metadata/coverages/coverage[2]" />
+    <hidden var="metadata/coverages/coverage[2]/@lang" />
+
+<!-- *** Data for the Relation ** -->
+
+    <hidden var="metadata/relations/@class" default="MCRMetaLangText" />
+    <hidden var="metadata/relations/relation" />
+    <hidden var="metadata/relations/relation/@lang" default="de" />  
+    <hidden var="metadata/relations/relation[2]" />
+    <hidden var="metadata/relations/relation[2]/@lang" default="de" />  
+
+<!-- *** Data for the Rights ** -->
+
+    <hidden var="metadata/rights/@class" default="MCRMetaLangText" />
+    <hidden var="metadata/rights/right" default="Dissertation /Copyrightbestimmungen" />
+    <hidden var="metadata/rights/right/@lang"  default="de" />
+
+    <hidden var="metadata/rights/right[2]" default="Dissertation /Copyright Terms" />
+    <hidden var="metadata/rights/right[2]/@lang"  default="de" />
+
+<!-- *** Data for the RightsLinks ** -->
+
+    <hidden var="metadata/rightslinks/@class" default="MCRMetaLink" />
+    <hidden var="metadata/rightslinks/rightslink/@type" default="locator" />
+    <hidden var="metadata/rightslinks/rightslink/@href" default="http://www.uni-rostock.de/ub/ediss/copyright_terms.html" />
+    <!-- hidden var="metadata/rightslinks/rightslink/@href" default="http://www.ub.tum.de/medien/ediss/copyright_terms.html" / -->
+    <!-- hidden var="metadata/rightslinks/rightslink/@href" default="http://www.uni-rostock.de/ub/ediss/copyright_terms.html" / -->
+
+<!-- *** Data for the Size ** -->
+
+    <hidden var="metadata/sizes/@class" default="MCRMetaLangText" />   
+    <hidden var="metadata/sizes/size" />
+    <hidden var="metadata/sizes/size/@lang" />  
+    
+    <hidden var="metadata/sizes/size[2]" />
+    <hidden var="metadata/sizes/size[2]/@lang" />        
+
+<!-- *** Data for the Place ** -->
+
+    <hidden var="metadata/places/@class" default="MCRMetaLangText" />
+    <hidden var="metadata/places/place" default="Rostock" />    
+    <!-- hidden var="metadata/places/place" default="München" / -->    
+    <hidden var="metadata/places/place/@lang" default="de" />    
+    
+    <hidden var="metadata/places/place[2]" default="Rostock" />    
+    <!-- hidden var="metadata/places/place[2]" default="Munich" / -->    
+    <hidden var="metadata/places/place[2]/@lang" default="en" />    
+
+
+    <!-- *** Data for the URN ** -->
+    <hidden var="metadata/urns/@class" default="MCRMetaLangText" />
+    <hidden var="metadata/urns/urn" />
+  
+    <hidden var="metadata/urls/@class" default="MCRMetaLangText" />
+    <hidden var="metadata/urls/url" />
+    <hidden var="metadata/urls/url/@lang" default="de" />
+	
+  </panel>
+
+
+<!-- *** End *** -->
+
+ </components>
+</editor>
+

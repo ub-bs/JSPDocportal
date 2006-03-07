@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<imports>
+
+  <include uri="webapp:editor/workflow/imports-common.xml" />
+
+
+  <submitButton id="BSubmitDisshab" width="100px" jsaction="return checkMyForm();">
+    <label xml:lang="de">[Speichern]</label>
+    <label xml:lang="en">[Save]</label>
+  </submitButton>
+
+<!-- *** Data for the TITLE *** -->
+
+  <text id="LTitleDissP">
+    <label xml:lang="de">
+      <span class="editorlabel">Titel der Arbeit (*)</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Paper Title (*)</span>
+    </label>
+  </text>
+
+<!-- *** Data for the TITLE ** -->
+
+  <panel id="RTitle">
+    <hidden var="@inherited" default="0" />
+    <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile1024M" />
+    <cell col="2" row="1" anchor="NORTHWEST" ref="Slang" var="@lang" default="de" />
+    <cell col="3" row="1" anchor="NORTHWEST" ref="STitleType" var="@type" default="main" />
+  </panel>
+
+  <panel id="DTitle">
+    <hidden var="metadata/titles/@class" default="MCRMetaLangText" />
+    <hidden var="metadata/titles/@parasearch" default="true" />
+    <hidden var="metadata/titles/@textsearch" default="true" />
+    <hidden var="metadata/titles/@notinherit" default="false" />
+    <hidden var="metadata/titles/@heritable" default="true" />
+
+    <cell col="1" row="1" var="metadata/titles/title" >
+       <repeater min="4" max="15" ref="RTitle" />
+    </cell>
+
+  </panel>
+
+<!-- *** Data for the CREATOR ** -->
+<!--
+  <panel id="DCreator">
+    <hidden var="metadata/creator/@class" default="MCRMetaLangText" />
+    <hidden var="metadata/creators/@parasearch" default="true" />
+    <hidden var="metadata/creators/@textsearch" default="true" />
+    <hidden var="metadata/creators/@notinherit" default="false" />
+    <hidden var="metadata/creators/@heritable" default="true" />
+    <hidden var="metadata/creators/creator/@inherited" default="0" />
+    <cell col="1" row="1" anchor="NORTHWEST" ref="Slang" var="metadata/creators/creator/@lang" ordernr="2" default="de" />
+    <cell col="2" row="1" anchor="WEST" ref="TFzeile128" var="metadata/creators/creator" ordernr="2" />
+  </panel>
+-->
+
+<!-- CREATORLINK is in the MASKS itself -->
+
+<!-- SUBJECTS are in the MASKS itself -->
+
+<!-- ** Data for the ORIGIN *** -->
+
+  <list id="COrigin" width="425px" type="dropdown" class="mandatory">
+    <item value="">
+      <label xml:lang="de">(bitte wählen)</label>
+      <label xml:lang="en">(please choose)</label>
+    </item>
+    <include uri="request:content/classifications-to-items.jspx?classid=DocPortal_class_00000002" />	  
+    <!-- include uri="request:content/classifications-to-items.jspx?classid=mediaTUM_class_000000000000009" / -->	  
+    <!-- include uri="request:content/classifications-to-items.jspx?classid=atlibri_class_00000002" / -->	  
+	
+  </list>
+
+  <panel id="DOrigin">
+    <hidden var="metadata/origins/@class" default="MCRMetaClassification" />
+    <hidden var="metadata/origins/@parasearch" default="true" />
+    <hidden var="metadata/origins/@textsearch" default="false" />
+    <hidden var="metadata/origins/@notinherit" default="false" />
+    <hidden var="metadata/origins/@heritable" default="true" />
+    <hidden var="metadata/origins/origin/@inherited" default="0" />
+    <hidden var="metadata/origins/origin/@classid" default="Docportal_class_00000002" />	  
+    <!-- hidden var="metadata/origins/origin/@classid" default="mediaTUM_class_000000000000009" / -->
+    <!-- hidden var="metadata/origins/origin/@classid" default="atlibri_class_00000002" / -->	  
+	
+    <cell col="1" row="1" anchor="WEST" ref="COrigin" var="metadata/origins/origin/@categid" ordernr="5" />
+  </panel>
+
+<!-- *** Data for the Description ** -->
+
+  <panel id="RDescription">
+    <hidden var="@inherited" default="0" />
+    <cell col="1" row="1" anchor="WEST" ref="TFarea4096x10M" />
+    <cell col="2" row="1" anchor="NORTHWEST" ref="Slang" var="@lang" default="de" />
+    <hidden var="@type" default="abstract" />
+  </panel>
+
+  <panel id="DDescription">
+    <hidden var="metadata/descriptions/@class" default="MCRMetaLangText" />
+    <hidden var="metadata/descriptions/@parasearch" default="true" />
+    <hidden var="metadata/descriptions/@textsearch" default="true" />
+    <hidden var="metadata/descriptions/@notinherit" default="false" />
+    <hidden var="metadata/descriptions/@heritable" default="true" />
+
+    <cell col="1" row="1" var="metadata/descriptions/description">
+       <repeater min="2" max="5" ref="RDescription" />
+    </cell>
+
+  </panel>
+
+<!-- desripturls fehlen -->
+
+<!-- *** Data for the Contributor ** -->
+
+  <panel id="DContributor">
+    <hidden var="metadata/contributors/@class" default="MCRMetaPersonName" />
+    <hidden var="metadata/contributors/@parasearch" default="true" />
+    <hidden var="metadata/contributors/@textsearch" default="true" />
+    <hidden var="metadata/contributors/@notinherit" default="false" />
+    <hidden var="metadata/contributors/@heritable" default="true" />
+    <cell row="1" col="1" anchor="NORTHWEST" var="metadata/contributors/contributor">
+       <repeater min="3" max="8" ref="RContributorReferee" />
+    </cell>
+  </panel>
+
+  <panel id="RContributorReferee">
+    <hidden var="@lang" default="de" />
+    <hidden var="@inherited" default="0" />
+    <cell col="1" row="1" anchor="WEST" ref="SContributorTypeReferee" var="@type" />
+    <cell col="1" row="2" anchor="WEST" ref="TFzeile1024M" var="surname" />
+    <cell col="2" row="2" anchor="NORTHWEST" ref="APNameSurName" />
+    <cell col="1" row="3" anchor="WEST" ref="TFzeile1024" var="firstname" />
+    <cell col="2" row="3" anchor="NORTHWEST" ref="APNameFirstName" />
+    <cell col="1" row="4" anchor="WEST" ref="TFzeile1024" var="academic" />
+    <cell col="2" row="4" anchor="NORTHWEST" ref="APNameAcademic" />
+  </panel>
+
+<!-- contributorlink fehlt -->
+
+<!-- *** Data for the Date ** -->
+
+  <panel id="DDate">
+    <hidden var="metadata/dates/@class" default="MCRMetaISO8601Date" />
+    <hidden var="metadata/dates/date/@type" default="submitted" />
+    <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128M" var="metadata/dates/date" />
+    <cell col="2" row="1" anchor="NORTHEAST" ref="ADateSubmitted" />
+    <hidden var="metadata/dates/date[2]/@type" default="accepted" />
+    <cell col="1" row="2" anchor="NORTHWEST" ref="TFzeile128M" var="metadata/dates/date[2]" />
+    <cell col="2" row="2" anchor="NORTHEAST" ref="ADateAccepted" />
+  </panel>
+
+<!-- ** Data for the TYPE *** -->
+
+  <list id="CType" width="425px" type="dropdown" class="mandatory">	  
+    <item value="">
+      <label xml:lang="de">(bitte wählen)</label>
+      <label xml:lang="en">(please choose)</label>
+    </item>
+    <item value="TYPE0005.001">
+       <label xml:lang="de">Dissertation</label>
+       <label xml:lang="en">Ph.D. Thesis</label>
+    </item>
+    <item value="TYPE0005.002">
+       <label xml:lang="de">Diplomarbeit</label>
+       <label xml:lang="en">diploma thesis</label>
+    </item>
+    <item value="TYPE0005.003">
+       <label xml:lang="de">Habilitation</label>
+       <label xml:lang="en">habilitation</label>
+    </item>
+    <item value="TYPE0005.004">
+       <label xml:lang="de">Bachelorarbeit</label>
+       <label xml:lang="en">bachelor thesis</label>
+    </item>
+  </list>
+
+  <panel id="DType">
+    <hidden var="metadata/types/@class" default="MCRMetaClassification" />
+    <hidden var="metadata/types/@parasearch" default="true" />
+    <hidden var="metadata/types/@textsearch" default="false" />
+    <hidden var="metadata/types/@notinherit" default="false" />
+    <hidden var="metadata/types/@heritable" default="true" />
+    <hidden var="metadata/types/type/@inherited" default="0" />
+    <!-- hidden var="metadata/types/type/@classid" default="atlibri_class_00000005" / -->
+    <!-- hidden var="metadata/types/type/@classid" default="mediaTUM_class_000000000000005" / -->
+    <hidden var="metadata/types/type/@classid" default="DocPortal_class_00000005" />
+    <cell col="1" row="1" anchor="WEST" ref="CType" var="metadata/types/type/@categid" ordernr="13" />
+  </panel>
+
+<!-- *** only select list for formats -->
+  <list id="SFormat" width="250px" type="dropdown">
+    <item value="">
+      <label xml:lang="de">(bitte wählen)</label>
+      <label xml:lang="en">(please choose)</label>
+    </item>
+    <include uri="request:content/classifications-to-items.jspx?classid=DocPortal_class_00000006" />	  	  
+    <!-- include uri="request:content/classifications-to-items.jspx?classid=mediaTUM_class_000000000000006" / -->	  	  
+    <!-- include uri="request:content/classifications-to-items.jspx?classid=atlibri_class_00000006" / -->	  	  
+  </list>
+
+<!-- IDENTIFIER fehlt -->
+<!-- SOURCE fehlt -->
+<!-- SOURCELINK fehlt -->
+
+<!-- ** Data for the LANGUAGE *** -->
+
+  <list id="CLanguage" width="425px" type="dropdown" class="mandatory">
+    <item value="LANG0001">
+      <label xml:lang="de">Deutsch</label>
+      <label xml:lang="en">German</label>
+    </item>
+    <item value="LANG0002">
+      <label xml:lang="de">Englisch</label>
+      <label xml:lang="en">English</label>
+    </item>
+  </list>
+
+  <panel id="DLanguage">
+    <hidden var="metadata/languages/@class" default="MCRMetaClassification" />
+    <hidden var="metadata/languages/@parasearch" default="true" />
+    <hidden var="metadata/languages/@textsearch" default="false" />
+    <hidden var="metadata/languages/@notinherit" default="false" />
+    <hidden var="metadata/languages/@heritable" default="true" />
+    <hidden var="metadata/languages/language/@inherited" default="0" />
+    <hidden var="metadata/languages/language/@classid" default="DocPortal_class_00000004" />
+    <!-- hidden var="metadata/languages/language/@classid" default="mediaTUM_class_000000000000004" / -->
+    <!-- hidden var="metadata/languages/language/@classid" default="atlibri_class_00000004" / -->
+    <cell col="1" row="1" anchor="WEST" ref="CLanguage" var="metadata/languages/language/@categid" ordernr="18" />
+  </panel>
+
+<!-- coveragelink fehlt -->
+<!-- coveragedate fehlt -->
+<!-- relationlink fehlt -->
+<!-- relationisbn fehlt -->
+
+<!-- size fehlt -->
+
+<!-- isbn fehlt -->
+<!-- nbn fehlt -->
+<!-- ddb:contact fehlt, geht übers stylesheet -->
+<!-- notes fehlt -->
+<!-- citations fehlt -->
+
+<!-- ** MÜNCHEN -  Data for the COLLECTION *** 
+
+  <list id="CCollection" width="300" type="dropdown">
+    <item value="">
+      <label xml:lang="de">(bitte wählen)</label>
+      <label xml:lang="en">(please choose)</label>
+    </item>
+    <include uri="request:content/classifications-to-items.jspx?classid=mediaTUM_class_000000000000010" />	  	  	  
+  </list>
+
+  <panel id="DCollection">
+    <hidden var="metadata/collections/@class" default="MCRMetaClassification" />
+    <hidden var="metadata/collections/@parasearch" default="true" />
+    <hidden var="metadata/collections/@textsearch" default="false" />
+    <hidden var="metadata/collections/@notinherit" default="false" />
+    <hidden var="metadata/collections/@heritable" default="true" />
+    <hidden var="metadata/collections/collection/@inherited" default="0" />
+    <hidden var="metadata/collections/collection/@classid" default="mediaTUM_class_000000000000010" />
+    <hidden var="metadata/collections/collection/@categid" default="Kollektion.Dissertation" />
+  </panel>
+-->
+
+</imports>
+

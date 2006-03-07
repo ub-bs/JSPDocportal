@@ -1,6 +1,7 @@
 package org.mycore.frontend.jsp.taglibs;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -16,15 +17,20 @@ import javax.servlet.jsp.*;
 
 import org.apache.log4j.Logger;
 import org.mycore.frontend.jsp.NavServlet;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerFactory;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
 
 
 public class MCRIncludeEditorTag extends SimpleTagSupport
 {
 	private String isNewEditorSource;
+	private String editorSource;
 	private String mcrid;
 	private String step;
 	private String type;
 	private String target;
+	
+	private String nextPath;
 	
 	private String mcrid2;
 	private String uploadID;
@@ -32,9 +38,18 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 	private String cancelPage;
 
 	private static Logger logger = Logger.getLogger("MCRIncludeEditorTag.class");
-
+	private static MCRWorkflowEngineManagerInterface WFI = MCRWorkflowEngineManagerFactory.getDefaultImpl();
+	
 	public void setIsNewEditorSource(String isNewEditorSource) {
 		this.isNewEditorSource = isNewEditorSource;
+	}
+	
+	public void setEditorSource(String editorSource){
+		this.editorSource = editorSource;
+	}
+	
+	public void setNextPath(String nextPath){
+		this.nextPath = nextPath;
 	}
 
 	public void setMcrid(String mcrid) {
@@ -120,6 +135,17 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 		}
 		if(uploadID != null && !uploadID.equals("")){
 			params.put("XSL.UploadID", uploadID);
+		}
+		if(editorSource != null && !editorSource.equals("")){
+			params.put("XSL.editor.source.url", "file://" + editorSource );
+		}else if(!isNewEditorSource.equals("true") && mcrid != null && !mcrid.equals("") && type != null && !type.equals("")){
+			StringBuffer sb = new StringBuffer("file://").append(WFI.getWorkflowDirectory(type))
+				.append(File.separator).append(mcrid).append(".xml");
+			params.put("XSL.editor.source.url", sb.toString());
+		}
+		
+		if(nextPath != null && !nextPath.equals("")){
+			params.put("nextPath", nextPath);
 		}
 
 		return params;

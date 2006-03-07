@@ -67,6 +67,12 @@
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRIncludeEditorTag</tagclass>
             <bodycontent>empty</bodycontent>
             <attribute>
+                <description>NavServlet-Path of the next Page, if the metadataCheck was successful</description>
+                <name>nextPath</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <attribute>
                 <description>Target-Servlet-Name of the editor file</description>
                 <name>target</name>
                 <required>true</required>
@@ -78,6 +84,12 @@
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
+            <attribute>
+                <description>Value of Editor parameter: XSL.editor.source.url</description>
+                <name>editorSource</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
             <attribute>
                 <description>Value of Editor parameter: mcrid</description>
                 <name>mcrid</name>

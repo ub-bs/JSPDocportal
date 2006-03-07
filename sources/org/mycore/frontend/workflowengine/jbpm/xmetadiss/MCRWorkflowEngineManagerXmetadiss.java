@@ -26,6 +26,7 @@
 package org.mycore.frontend.workflowengine.jbpm.xmetadiss;
 
 // Imported java classes
+import java.io.FileOutputStream;
 import java.util.Iterator;
 import java.util.List;
 
@@ -34,6 +35,8 @@ import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRDefaults;
@@ -62,7 +65,6 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 	private static MCRWorkflowEngineManagerInterface singleton;
 	
 	protected MCRWorkflowEngineManagerXmetadiss() throws Exception {
-		super();
 	}
 
 	
@@ -253,8 +255,10 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 		disshab.setFromJDOM(mycoreobjectdoc);
 		try {
 			String type = disshab.getId().getTypeId();
-			String savedir = config.getString("MCR.editor_" + type + "_directory");
-			JSPUtils.saveToDirectory(disshab, savedir);		
+			String savedir = getWorkflowDirectory(type);
+			FileOutputStream fos = new FileOutputStream(savedir + "/" + nextID + ".xml");
+			(new XMLOutputter(Format.getPrettyFormat())).output(mycoreobject,fos);
+			fos.close();
 		} catch ( Exception ex){
 			//TODO Fehlermeldung
 			logger.warn("Could not create disshab object " +  nextID );

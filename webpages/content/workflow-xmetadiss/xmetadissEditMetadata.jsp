@@ -22,7 +22,7 @@
 <div class="headline">
    <fmt:message key="Nav.Application.dissertation" /> - 
    <fmt:message key="Nav.Application.dissertation.edit" />
-   | ID: <c:out value="${mcrid}">
+   | ID: <c:out value="${mcrid}" />
 </div>
 
 
@@ -40,6 +40,6 @@
 <c:if test="${!empty(documentid)}">
    <mcr:includeEditor 
 		isNewEditorSource="false" 
-		mcrid="${documentid}" type="disshab" step="author" target="MCRCheckMetadataServlet" />
+		mcrid="${documentid}" type="disshab" step="author" target="MCRCheckMetadataServlet" nextPath="~mydiss"/>
 </c:if>
    

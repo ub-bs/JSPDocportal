@@ -10,6 +10,7 @@ import org.mycore.common.MCRConfiguration;
 
 public class MCRWorkflowEngineManagerFactory {
 
+	private static final String defaultImpl = "org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerBaseImpl";
 	private static HashMap workflowManagerImpls;
 	static{
 		workflowManagerImpls = new HashMap();
@@ -18,7 +19,7 @@ public class MCRWorkflowEngineManagerFactory {
 		for (Enumeration e = props.keys(); e.hasMoreElements();) {
 			String prop = (String) e.nextElement();
 			String workflowProcessType = prop.substring("MCR.WorkflowEngine.ManagerImpl.".length());
-			workflowManagerImpls.put(workflowProcessType, config.getInstanceOf(prop, "org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerBaseImpl"));
+			workflowManagerImpls.put(workflowProcessType, config.getInstanceOf(prop, defaultImpl));
 		}
 	}
 
@@ -26,5 +27,11 @@ public class MCRWorkflowEngineManagerFactory {
     public static MCRWorkflowEngineManagerInterface getImpl(String workflowType) {
     	return (MCRWorkflowEngineManagerInterface) workflowManagerImpls.get(workflowType);
     }
+    
+    public static MCRWorkflowEngineManagerInterface getDefaultImpl() {
+    	return (MCRWorkflowEngineManagerInterface) MCRConfiguration.instance().getInstanceOf("MCR.WorkflowEngine.ManagerDefaultImpl", defaultImpl);
+    }       
+    
+
 
 }

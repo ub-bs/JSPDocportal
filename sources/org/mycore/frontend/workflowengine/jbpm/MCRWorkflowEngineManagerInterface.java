@@ -7,6 +7,15 @@ import org.mycore.common.MCRException;
 public interface MCRWorkflowEngineManagerInterface {
 
 	/**
+	 * returns the directory, where the workflow-data of a given
+	 *    documentType are saved
+	 *    
+	 * @param documentType
+	 *    String a MyCoRe document type like author, document, institution
+	 * @return
+	 */
+	public String getWorkflowDirectory(String documentType);
+	/**
 	 * initializes and starts a new workflow process instance
 	 * @param initiator
 	 */

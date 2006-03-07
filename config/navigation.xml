@@ -77,10 +77,12 @@
                </navitem>
 				<navitem name="mydiss" label="Nav.Application.dissertation" href="content/dissertation.jsp" >
 				  <refitem name="~mydiss" label="" />
-				  <navitem name="begin" label="Nav.Application.dissertation.begin" href="content/registerDisshabAuthor.jsp" >
+				  <navitem name="begin" label="Nav.Application.dissertation.begin" href="content/workflow-xmetadiss/xmetadissRegisterAuthor.jsp" >
 					 <refitem name="~dissertationbegin" label="" />
 				  </navitem>   
-				  <navitem name="edit"  label="Nav.Application.dissertation.edit"  href="" />
+				  <navitem name="edit"  label="Nav.Application.dissertation.edit"  href="content/workflow-xmetadiss/xmetadissEditMetadata.jsp" >
+                     <refitem name="~dissertationEdit" />
+                  </navitem>
 				  <navitem name="end"   label="Nav.Application.dissertation.end"  href="" />
 				</navitem>			
 <!--                <navitem name="author" label="Nav.CreatePerson" href="edit?start=true&amp;type=author" /> -->

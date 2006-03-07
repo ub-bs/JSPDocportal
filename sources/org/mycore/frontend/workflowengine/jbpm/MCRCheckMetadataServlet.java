@@ -23,6 +23,7 @@
 
 package org.mycore.frontend.workflowengine.jbpm;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -60,7 +61,8 @@ import org.mycore.frontend.workflow.MCREditorOutValidator;
 public class MCRCheckMetadataServlet extends MCRServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger LOGGER = Logger.getLogger(MCRCheckMetadataServlet.class);
-	private static String workflowEngineStartURL = MCRConfiguration.instance().getString("MCR.WorkflowEngine.StartURL.Relative", "~workflowengine");
+	private static String workflowEngineStartURL = MCRConfiguration.instance().getString("MCR.WorkflowEngine.StartURL", "~workflowengine");
+	private static MCRWorkflowEngineManagerInterface WFI = MCRWorkflowEngineManagerFactory.getDefaultImpl();
 	
     /**
      * This method overrides doGetPost of MCRServlet. <br />
@@ -86,13 +88,13 @@ public class MCRCheckMetadataServlet extends MCRServlet {
         String oldtype = parms.getParameter("type");
         String oldstep = parms.getParameter("step");
         String oldmcrid2 = parms.getParameter("mcrid2");
-        String oldworkflowtype = parms.getParameter("workflowtype");
+        String nextPath = parms.getParameter("nextPath");
         LOGGER.debug("mcrid1 = " + oldmcrid1);
         LOGGER.debug("type = " + oldtype);
         LOGGER.debug("step = " + oldstep);
         LOGGER.debug("mcrid2 = " + oldmcrid2);
-        LOGGER.debug("workflowtype = " + oldworkflowtype);
-
+        LOGGER.debug("nextPath = " + nextPath);
+        
         // get the MCRSession object for the current thread from the session
         // manager.
         MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
@@ -127,26 +129,22 @@ public class MCRCheckMetadataServlet extends MCRServlet {
         }
 
         // create a metadata object and prepare it
-        org.jdom.Document outdoc = prepareMetadata((org.jdom.Document) indoc.clone(), ID, job, lang);
-        request.setAttribute("unsavedJdom", outdoc);
-        
+        org.jdom.Document outdoc;
+        StringBuffer storePath = new StringBuffer(WFI.getWorkflowDirectory(ID.getTypeId()))
+			.append(File.separator).append(ID.getId()).append(".xml");
         try{
-        	request.getRequestDispatcher("/nav?path=" + workflowEngineStartURL).forward(request, response);
-        }catch(MCRException ex) {
-            // Save the incoming to a file
-            byte[] outxml = MCRUtils.getByteArray(indoc);
-            String savedir = CONFIG.getString("MCR.editor_" + ID.getTypeId() + "_directory");
-            String NL = System.getProperty("file.separator");
-            String fullname = savedir + NL + ID.getId() + ".xml";
-            storeMetadata(outxml, job, ID, fullname);
-            //TODO sendMail in WFE
-            //sendMail(ID);
-            String dispatcher = new StringBuffer("/nav?workflowtype=")
-            	.append(oldworkflowtype).append("&path=").append(workflowEngineStartURL).toString();
-            request.getRequestDispatcher(dispatcher).forward(request, response);        	
+        	outdoc = prepareMetadata((org.jdom.Document) indoc.clone(), ID, job, lang);
+        	storeMetadata(MCRUtils.getByteArray(outdoc),job, ID, storePath.toString());
+        }catch(Exception e){
+        	
+        	storeMetadata(MCRUtils.getByteArray(indoc),job, ID, storePath.toString());
         }
-
+        //TODO sendMail in WFE
+        //sendMail(ID);
+        //TODO errorhandling forwarding
+        request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
     }
+    
 
     /**
      * The method stores the data in a working directory dependenced of the
