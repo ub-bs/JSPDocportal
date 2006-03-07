@@ -302,12 +302,25 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
    	    return author.getId().getId();
 	}
 	
+	/**
+	 * returns the next free document id for a given document tpye
+	 * ! if documents are saved in another workflow engines than this one
+	 * ! you can't use this function to create the next free id
+	 * @param objtype
+	 *      String of documentType for which a ID is required
+	 * @return
+	 */
 	public static String getNextFreeID(String objtype) {
- 	    String base = MCRConfiguration.instance().getString("MCR.default_project_id","DocPortal")+ "_" + objtype; 	    
+		String defaproject 	= MCRConfiguration.instance().getString("MCR.default_project_id",	"MCR");
+		String myproject 	= MCRConfiguration.instance().getString("MCR." + objtype + "_project_id", "MCR");
+		if (myproject.equals("MCR")) {
+			myproject = defaproject;
+		}
+		myproject = myproject + "_" + objtype;		
 		String workingDirectoryPath = MCRConfiguration.instance().getString("MCR.editor_" + objtype + "_directory");
 		
 		MCRObjectID IDMax = new MCRObjectID();
-		IDMax.setNextFreeId(base);
+		IDMax.setNextFreeId(myproject);
 		
 		File workingDirectory = new File(workingDirectoryPath);
 		if (workingDirectory.isDirectory()) {
