@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO_8859-1"?>
+<!DOCTYPE MyCoReWebPage>
+
+<MyCoReWebPage>
+
+<section title="Neueingabe einer Dissertation/Habilitation " xml:lang="de">
+<p></p>
+<br />
+<p></p>
+<editor id="author-disshab-de"><include uri="webapp:editor/workflow/editor-author-disshab.xml"/></editor>
+<p></p>
+<br />
+<p></p>
+</section>
+
+<section title="Create a new dissertation/habilitation " xml:lang="en">
+<p></p>
+<br />
+<p></p>
+<editor id="author-disshab-en"><include uri="webapp:editor/workflow/editor-author-disshab.xml"/></editor>
+<p></p>
+<br />
+<p></p>
+</section>
+
+</MyCoReWebPage>
+
+
