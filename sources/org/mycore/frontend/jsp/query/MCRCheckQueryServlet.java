@@ -104,7 +104,7 @@ public class MCRCheckQueryServlet extends MCRServlet {
 	      	    Element typecondition = new Element("condition");
 	      	    typecondition.setAttribute("field","objectType");
 	      	    typecondition.setAttribute("value",valuetypes[x]);
-	      	    typecondition.setAttribute("operator","like");
+	      	    typecondition.setAttribute("operator","=");
 	      	    or.addContent(typecondition);
 	          }
 		    }
