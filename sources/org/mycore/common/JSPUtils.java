@@ -6,6 +6,7 @@
  */
 package org.mycore.common;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
@@ -20,6 +21,7 @@ import org.jdom.Element;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 import org.mycore.datamodel.metadata.MCRObject;
+import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.datamodel.metadata.MCRObjectStructure;
 import org.mycore.frontend.cli.MCRDerivateCommands;
 
@@ -218,7 +220,7 @@ public class JSPUtils {
 		sb.append(":00");
 		return sb.toString();
 	}	
-
+     
     //  static method to save any Document Object to an give directory - uses to put idt into
 	// the workflow directory or to save it before deleteing - look to MCRStartEditorServlet - sdelobj
 	public static void	saveToDirectory(MCRObject mob, String savedir){
@@ -254,7 +256,32 @@ public class JSPUtils {
 		}
 	}
 	 
-     
+	public static String getNextFreeID(String objtype) {
+ 	    String base = MCRConfiguration.instance().getString("MCR.default_project_id","DocPortal")+ "_" + objtype; 	    
+		String workingDirectoryPath = MCRConfiguration.instance().getString("MCR.editor_" + objtype + "_directory");
+		
+		MCRObjectID IDMax = new MCRObjectID();
+		IDMax.setNextFreeId(base);
+		
+		File workingDirectory = new File(workingDirectoryPath);
+		if (workingDirectory.isDirectory()) {
+			String[] list = workingDirectory.list();
+			for (int i = 0; i < list.length; i++) {
+				try {
+					MCRObjectID IDinWF = new MCRObjectID(list[i].substring(0, list[i].length() - 4));
+					if (IDMax.getNumberAsInteger() <= IDinWF.getNumberAsInteger()) {
+						IDinWF.setNumber(IDinWF.getNumberAsInteger() + 1);
+						IDMax = IDinWF;
+					}
+				} catch (Exception e) {
+					;   //other files can be ignored
+				}
+			}
+		}		
+		logger.debug("New ID is" + IDMax.getId());
+		return IDMax.getId();
+	}
+	
      public static void main(String[] args) {
     	 initialize();
     	 //just for testing
