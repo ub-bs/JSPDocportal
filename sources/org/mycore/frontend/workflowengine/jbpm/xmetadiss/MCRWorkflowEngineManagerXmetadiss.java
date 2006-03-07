@@ -244,7 +244,7 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 		mycoreobject.addContent(service);
 	    
 		// ID Setzen
-		String nextID = JSPUtils.getNextFreeID("disshab");
+		String nextID = getNextFreeID("disshab");
 		mycoreobject.setAttribute("ID", nextID);	 
 		mycoreobject.setAttribute("label", nextID);
 
