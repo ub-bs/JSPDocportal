@@ -2,7 +2,18 @@
   function reallyDeletefromDB() {
 	return confirm("Achtung! \n Das gesamte Dokument wird damit aus der Digitalen Bibliothek gelöscht!");
   }
+
+  function showHelp(ID) {
+     Ereignis = window.event;
+     var out = document.getElementById(ID);
+     out.style.visibility = "visible";
+  }
   
+  function hideHelp(ID) {
+     var out = document.getElementById(ID);
+     out.style.visibility = "hidden";
+  }
+    
   function checkMyForm()	{
     var prefix="/mycoreobject/metadata/"
     var elAnz = document.forms[0].length;	
