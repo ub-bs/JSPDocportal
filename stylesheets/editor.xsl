@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.4 $ $Date: 2006-02-23 08:20:51 $ -->
+<!-- $Revision: 1.5 $ $Date: 2006-03-07 16:33:27 $ -->
 <!-- ============================================== --> 
 
 <xsl:stylesheet 
@@ -699,6 +699,7 @@
 <!-- ========================================================================= -->
 
 <!-- ======== helpPopup ======== -->
+
 <xsl:template match="helpPopup">
   <xsl:variable name="url" select="concat($ServletsBaseURL,'XMLEditor',$HttpSession,'?_action=show.popup&amp;_session=',ancestor::editor/@session,'&amp;_ref=',@id)" />
 
@@ -732,10 +733,23 @@
       </input>
     </xsl:when>
     <xsl:otherwise>
-      <input type="button" value=" ? " onClick="window.open('{$url}','help','{$properties}');" class="editorButton" />
+	  <xsl:choose>
+		<xsl:when test="@id">
+		  <xsl:variable name="ID"><xsl:value-of select="@id" /></xsl:variable>
+		  <input type="button" value=" ? " onMouseOver="showHelp('{$ID}')" onMouseOut="hideHelp('{$ID}')" class="editorButton" />		
+		  <div class="helpdiv"  >
+           <xsl:attribute name="id"><xsl:value-of select="$ID"/></xsl:attribute>
+				<xsl:call-template name="output.label" />
+		  </div>
+		</xsl:when>
+		<xsl:otherwise>
+	      <input type="button" value=" ? " onClick="window.open('{$url}','help','{$properties}');" class="editorButton" />			
+		</xsl:otherwise>
+	   </xsl:choose>
     </xsl:otherwise>
   </xsl:choose>
 </xsl:template>
+
 
 <!-- ======== hidden ======== -->
 <xsl:template match="hidden">
