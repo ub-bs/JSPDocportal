@@ -107,7 +107,7 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 					errorSB.append("[").append(processID.longValue()).append("] ");
 				}
 				logger.error(errorSB.toString());
-				return 0;
+				return -1;
 			}else{
 				return ((Long)li.get(0)).longValue();
 			}

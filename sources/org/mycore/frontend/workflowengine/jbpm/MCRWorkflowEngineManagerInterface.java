@@ -88,16 +88,17 @@ public interface MCRWorkflowEngineManagerInterface {
 	public List getCurrentProcessIDs(String userid, String workflowProcessType);
 	
 	/**
-	 * a method that returns the processID for a given author
-	 * for the author of a dissertation, not for the editor
-	 * for an author just one active workflow for dissertation is 
-	 * allowed, if there are existing older ones, they must be
-	 * deleted, 
+	 * a method that returns the processID for a given userid
+	 * for the initiator of a workflow process, not for the editor
+	 * 
+	 *  
 	 * 
 	 * @param userid
 	 *           String userid of a mycore user who wants to publish his dissertation
 	 * @return
-	 *           long the jbpm process id
+	 *           long the jbpm process id if there exists exactly one process id
+	 *           0 if there exists no processInstance for given author
+	 *           -1 if there are existing more than one processInstances
 	 */
 	public long getUniqueCurrentProcessID(String userid);
 	
