@@ -84,6 +84,13 @@
                      <refitem name="~dissertationEdit" />
                   </navitem>
 				  <navitem name="end"   label="Nav.Application.dissertation.end"  href="" />
+				  <navitem name="workflow-disshab" label="Nav.WorkflowDisshab" href="content/workflowProcess.jsp?type=disshab&amp;step=author&amp;workflowProcessType=xmetadiss"  >
+					<refitem name="~workflow-disshab" label="" />
+					<navitem name="workflow-fileupload" label="Nav.WorkflowFileupload" href="content/fileupload.jsp" hidden="true" >
+					  <refitem name="~workflow-fileupload" label="" />
+					</navitem>
+				  </navitem>			  
+				  
 				</navitem>			
 <!--                <navitem name="author" label="Nav.CreatePerson" href="edit?start=true&amp;type=author" /> -->
                <navitem name="author" label="Nav.CreatePerson" href="content/workflow-editor.jsp?type=author&amp;step=author&amp;todo=wnewobj" />
