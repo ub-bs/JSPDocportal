@@ -261,6 +261,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		Element ePname = pname.createXML();
 		Element ePnames = new Element("names");
 		ePnames.setAttribute("class","MCRMetaPersonName");
+		ePnames.setAttribute("textsearch","true");		
 		ePnames.addContent(ePname);
 
 		
