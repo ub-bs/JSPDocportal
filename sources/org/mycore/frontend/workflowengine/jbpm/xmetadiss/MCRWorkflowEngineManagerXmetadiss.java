@@ -79,7 +79,7 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 			singleton = new MCRWorkflowEngineManagerXmetadiss();
 		return singleton;
 	}
-
+	
 	public void initWorkflowProcess(String initiator) throws MCRException {
 		long processID = getUniqueCurrentProcessID(initiator);
 		if(processID != 0){
@@ -89,6 +89,10 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 		}
 		MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(processType);
 		wfo.setInitiator(initiator);
+	}
+	
+	public Document getListWorkflowProcess(String userid, String workflowProcessType ){
+		return super.getListWorkflowProcess( userid,  workflowProcessType, "disshab");
 	}
 	
 	public long getUniqueCurrentProcessID(String userid) {

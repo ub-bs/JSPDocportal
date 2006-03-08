@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
@@ -12,12 +13,16 @@ import java.util.StringTokenizer;
 import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.filter.ElementFilter;
 import org.jdom.output.XMLOutputter;
 import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRDefaults;
 import org.mycore.common.MCRException;
+import org.mycore.common.MCRSessionMgr;
+import org.mycore.common.MCRUtils;
+import org.mycore.common.xml.MCRURIResolver;
 import org.mycore.common.xml.MCRXMLHelper;
 import org.mycore.datamodel.metadata.MCRMetaAddress;
 import org.mycore.datamodel.metadata.MCRMetaBoolean;
@@ -25,12 +30,14 @@ import org.mycore.datamodel.metadata.MCRMetaLangText;
 import org.mycore.datamodel.metadata.MCRMetaPersonName;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.frontend.jsp.format.MCRResultFormatter;
 import org.mycore.frontend.workflow.MCREditorOutValidator;
 import org.mycore.services.nbn.MCRNBN;
 import org.mycore.user2.MCRUser;
 import org.mycore.user2.MCRUserMgr;
 
 public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManagerInterface{
+	
 	private static Logger logger = Logger.getLogger(MCRWorkflowEngineManagerBaseImpl.class.getName());
 	private static MCRWorkflowEngineManagerInterface singleton;
 	protected static MCRConfiguration config = MCRConfiguration.instance();
@@ -325,17 +332,12 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	 * @return
 	 */
 	public String getNextFreeID(String objtype) {
-		String defaproject 	= MCRConfiguration.instance().getString("MCR.default_project_id",	"MCR");
-		String myproject 	= MCRConfiguration.instance().getString("MCR." + objtype + "_project_id", "MCR");
-		if (myproject.equals("MCR")) {
-			myproject = defaproject;
-		}
-		myproject = myproject + "_" + objtype;		
-		String workingDirectoryPath = getWorkflowDirectory(objtype);
+	    String base = MCRConfiguration.instance().getString("MCR.default_project_id","DocPortal")+ "_" + objtype; 	    
+		String workingDirectoryPath = MCRConfiguration.instance().getString("MCR.editor_" + objtype + "_directory");
 		
 		MCRObjectID IDMax = new MCRObjectID();
-		IDMax.setNextFreeId(myproject);
-		
+		IDMax.setNextFreeId(base);
+				
 		File workingDirectory = new File(workingDirectoryPath);
 		if (workingDirectory.isDirectory()) {
 			String[] list = workingDirectory.list();
@@ -354,6 +356,131 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		logger.debug("New ID is" + IDMax.getId());
 		return IDMax.getId();
 	}	
+	
+	public  Document getListWorkflowProcess(String userid, String workflowProcessType, String  documentType ){
+		StringBuffer sb = null;
+		
+		List lpids = getCurrentProcessIDs(userid, workflowProcessType);		
+		
+		String lang = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
+        Element mcr_result = new Element("mcr_result");
+		
+		org.jdom.Element root = new org.jdom.Element("mcr_workflow");
+		root.addNamespaceDeclaration(org.jdom.Namespace.getNamespace("xsi",	MCRDefaults.XSI_URL));
+		root.setAttribute("type", documentType);
+		root.setAttribute("step", "editor");
+			
+		MCRResultFormatter formatter = (MCRResultFormatter) MCRConfiguration.instance().getSingleInstanceOf("MCR.ResultFormatter_class_name","org.mycore.frontend.jsp.format.MCRResultFormatter");
+		String resultlistResource = new StringBuffer("resource:resultlist-").append(documentType).append(".xml").toString();
+		Element resultlistElement = MCRURIResolver.instance().resolve(resultlistResource);
+		
+		ArrayList derivateDataArray = getAllDerivateDataFromWorkflow(documentType);
+		
+		String dirname = getWorkflowDirectory(documentType);
+		
+		for (Iterator iter = lpids.iterator(); iter.hasNext();) {
+			Long  pid  = (Long) iter.next();
+			MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(pid.longValue());
+			String docID = wfo.getStringVariableValue("createdDocID");
+			
+		    try {
+			    String wfile = docID + ".xml";
+			    sb = (new StringBuffer(dirname)).append(File.separator).append(	wfile);
+			    Document workflow_in = MCRXMLHelper.parseURI(sb.toString(), false);
+			    logger.debug("Workflow file "+wfile+" was readed.");
+			    
+			    Element containerHit = new Element ("all-metavalues");
+	        	mcr_result.setAttribute("filename", sb.toString()); 
+		        try {
+			        containerHit = formatter.processDocDetails(workflow_in,resultlistElement,lang,"", documentType);
+		        } catch (Exception formattingEx ){
+		        	//ignore this, maybee the document is not valid
+		        	; 
+		        } finally {
+		        	mcr_result.addContent(containerHit);
+		        }
+		        root.addContent(mcr_result);
+		        
+			} catch (Exception ex) {
+			    logger.warn("Can't parse workflow file for Document " + docID);
+				continue;
+			}	
+				
+			for (int j = 0; j < derivateDataArray.size(); j++) {
+			  try {				   			        
+					Element derivate =  (Element) derivateDataArray.get(j);
+					if ( docID == derivate.getAttributeValue("href")) {
+						String derivatePath = derivate.getAttributeValue("ID");
+						File dir = new File(dirname, derivatePath);
+						logger.debug("Derivate under " + dir.getName());
+						
+						if (dir.isDirectory()) {
+							ArrayList dirlist = MCRUtils.getAllFileNames(dir);
+							for (int k = 0; k < dirlist.size(); k++) {
+								org.jdom.Element file = new org.jdom.Element("file");
+								file.setText(derivatePath +derivatePath + File.separator + (String) dirlist.get(k));
+								File thisfile = new File(dir, (String) dirlist.get(k));
+								file.setAttribute("size", String.valueOf(thisfile.length()));
+								file.setAttribute("main", "false");
+								if (derivate.getAttributeValue("mainfile").equals((String) dirlist.get(k))) {
+									file.setAttribute("main", "true");
+								}
+								derivate.addContent(file);
+								derivateDataArray.remove(j);
+								j--;
+							}
+							mcr_result.addContent(derivate);
+						}
+					}
+				  } catch (Exception ex) {
+						logger.error("Error while read derivates for XML workflow file " + docID);
+						logger.error(ex.getMessage());
+				  }
+		    }
+		}		
+		return new org.jdom.Document(root);
+	}
+	
+	protected final ArrayList getAllDerivateDataFromWorkflow(String documentType) {
+			String dirname = getWorkflowDirectory(documentType);
+			ArrayList workfiles = new ArrayList();
+			if (!dirname.equals(".")) {
+				File dir = new File(dirname);
+				String[] dirl = null;
+				if (dir.isDirectory()) {
+					dirl = dir.list();
+				}
+				if (dirl != null) {
+					for (int i = 0; i < dirl.length; i++) {
+						if ((dirl[i].indexOf("_derivate_") != -1) && (dirl[i].endsWith(".xml"))) {
+							Element derivateData = getDerivateMetaData(dirl[i]);
+							workfiles.add(derivateData);						
+						}
+					}
+				}
+			}
+			return workfiles;
+	}
+	
+	protected final Element getDerivateMetaData( String filename){
+		Element derivateData = new Element("derivate");
+		Element derivate = MCRXMLHelper.parseURI(filename, false).getRootElement();		
+		derivateData.setAttribute("label", derivate.getAttributeValue("label") );
+		derivateData.setAttribute("ID", derivate.getAttributeValue("ID") );
+		
+		Iterator it = derivate.getDescendants(new ElementFilter("linkmeta"));
+		if ( it.hasNext() ) {
+	      Element el = (Element) it.next();
+          derivateData.setAttribute("href",el.getAttributeValue("href",org.jdom.Namespace.getNamespace("xlink",MCRDefaults.XLINK_URL)) );
+	    } 
+		
+		it = derivate.getDescendants(new ElementFilter("internals"));		
+	    if ( it.hasNext() )	    {
+	      Element el = (Element) it.next();
+	      derivateData.setAttribute("maindoc", el.getAttributeValue("maindoc"));          
+	    }
+	    return derivateData;		
+	}
 	
 	
 	/*
@@ -389,7 +516,12 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	public long getUniqueCurrentProcessID(String userid) {
 		return 0;
 	}
-
+	
+	public Document getListWorkflowProcess(String userid, String workflowProcessType) {
+		logger.warn("no document type is initialized, must be implemented in subclass, if needed");
+		return null;
+	}
+	
 	public void initWorkflowProcess(String initiator) throws MCRException {
 		logger.warn("no workflow process is initialized, must be implemented in subclass, if needed");
 	}
