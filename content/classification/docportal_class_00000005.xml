@@ -124,6 +124,14 @@
   <label xml:lang="de" text="Universitäre Veröffentlichungen"/>
   <label xml:lang="en" text="University publishing"/>
  </category>
+ <category ID="TYPE0029">
+  <label xml:lang="de" text="Masterarbeit"/>
+  <label xml:lang="en" text="Master Thesis"/>
+ </category> 
+ <category ID="TYPE0030">
+  <label xml:lang="de" text="Bachelorarbeit"/>
+  <label xml:lang="en" text="Bachelor Thesis"/>
+ </category>  
 </categories>
 </mycoreclass>
 
