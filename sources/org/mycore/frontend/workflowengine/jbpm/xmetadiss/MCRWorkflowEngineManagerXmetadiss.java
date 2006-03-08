@@ -82,13 +82,16 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 	
 	public void initWorkflowProcess(String initiator) throws MCRException {
 		long processID = getUniqueCurrentProcessID(initiator);
-		if(processID != 0){
+		if(processID < 0){
 			String errMsg = "there exists another workflow process of " + processType + " for initiator " + initiator;
 			logger.warn(errMsg);
 			throw new MCRException(errMsg);
+		}else if (processID == 0) {
+			MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(processType);
+			wfo.setInitiator(initiator);	
 		}
-		MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(processType);
-		wfo.setInitiator(initiator);
+		//else the workflow is initialized yet
+		
 	}
 	
 	public Document getListWorkflowProcess(String userid, String workflowProcessType ){
@@ -237,7 +240,9 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 			
 			Element eUrn = urn.createXML();
 			Element eUrns = new Element("urns");
-			eUrns.setAttribute("class","MCRMetaLangText");	
+			eUrns.setAttribute("class","MCRMetaLangText");
+			eUrns.setAttribute("textsearch", "true");
+			eUrns.setAttribute("type", "urn_new");
 			eUrns.addContent(eUrn);
 
 			metadata.addContent(eCreators);
