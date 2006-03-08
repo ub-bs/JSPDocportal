@@ -2,7 +2,7 @@
 
 <!-- =================================================================== -->
 <!-- MyCoRe sample application build file for use with Apache Ant        -->
-<!-- $Revision: 1.22 $ $Date: 2006-03-07 11:21:47 $                      -->
+<!-- $Revision: 1.23 $ $Date: 2006-03-08 10:41:55 $                      -->
 <!-- =================================================================== -->
 
 <project default="usage" basedir=".">
@@ -135,7 +135,7 @@
 	    <echo>Operating system   : ${os.name} Version ${os.version} on ${os.arch} </echo>
 	    <echo>Java version       : JDK ${ant.java.version} Version ${java.version} from ${java.vendor}</echo>
 	    <echo>Java home          : ${env.JAVA_HOME}</echo>
-	    <echo>Ant build file     : $Revision: 1.22 $ $Date: 2006-03-07 11:21:47 $</echo>
+	    <echo>Ant build file     : $Revision: 1.23 $ $Date: 2006-03-08 10:41:55 $</echo>
 	    <echo>Ant version        : ${ant.version}</echo>
 	    <echo>Ant home           : ${env.ANT_HOME}</echo>
 	    <echo>XML Store type     : ${MCR.XMLStore.Type}</echo>
@@ -296,7 +296,7 @@
 
         <move todir="${docportal.schema}">
             <fileset dir="${docportal.schema}"
-                includes="${MCR.persistence_config_document} ${MCR.persistence_config_derivate} ${MCR.persistence_config_author} ${MCR.persistence_config_institution}" />
+                includes="${MCR.persistence_config_document} ${MCR.persistence_config_disshab} ${MCR.persistence_config_derivate} ${MCR.persistence_config_author} ${MCR.persistence_config_institution}" />
             <mapper type="glob" from="*.xml" to="*.xsd" />
         </move>
     </target>
