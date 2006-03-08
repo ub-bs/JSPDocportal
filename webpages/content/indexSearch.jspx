@@ -12,33 +12,57 @@
 <jsp:directive.page import="org.mycore.services.fieldquery.MCRResults" />
 <jsp:directive.page import="javax.xml.transform.Source"/>
 <jsp:directive.page import="org.jdom.Document" />
+<jsp:directive.page import="java.util.Enumeration" />
 <jsp:directive.page import="org.mycore.common.xml.MCRURIResolver"/> 
 <jsp:scriptlet>
+
+   /** Enumeration ee = request.getParameterNames();
+    while ( ee.hasMoreElements() ) {
+         String param = (String) ee.nextElement();
+    	System.out.println("PARAM: " + param + " VALUE: "  + 	request.getParameter(param) );
+    }**/
+     
     String search = request.getParameter("search");
    	String mode = request.getParameter("mode");		
    	String searchclass = request.getParameter("searchclass");		  	
    	String fromTo = request.getParameter("fromTo");		  	
     MCRSession mcrsession = MCRServlet.getSession(request);
     String navPath = (String) request.getAttribute("path");
-
+    
         
     MCRIndexData id = new MCRIndexData(search, mode, searchclass, fromTo);
     Document jQuery =  id.getQuery();
     MCRResults mcrResult =  id.getResultList();
-    
-   
+
     mcrsession.put(navPath + "-jdomQuery", jQuery);
-    //?? mcrsession.put(navPath + "-resultlistType", resultlistType); 
     session.setAttribute("lastSearchListPath",navPath);
     session.setAttribute("lastMCRResults",mcrResult);
    
-    Document pageContent = id.getXMLContent();
+    //EditorParameter
+	String WebApplicationBaseURL = (String) getServletContext().getAttribute("WebApplicationBaseURL");
+	
+    String ServletsBaseURL = WebApplicationBaseURL+"servlets/";
+    Document pageContent = id.getXMLContent();   
     byte[] xml = MCRUtils.getByteArray(pageContent);
     String contentString = new String(xml,"UTF-8");
     String resolver="webapp:WEB-INF/stylesheets/indexpage-"+searchclass+".xsl";
     Source xsl = MCRURIResolver.instance().resolve(resolver,"indexSearch.jspx");
     pageContext.setAttribute("contentString",contentString);
-    pageContext.setAttribute("xsl",xsl);
+    pageContext.setAttribute("xsl",xsl);        
+        
+    pageContext.setAttribute("ServletsBaseURL",ServletsBaseURL);
+    pageContext.setAttribute("XSLSubselectVarpath",request.getParameter("XSL.subselect.varpath"));
+    pageContext.setAttribute("XSLSubselectSession",request.getParameter("XSL.subselect.session"));
+    pageContext.setAttribute("XSLSubselectWebpage",request.getParameter("XSL.subselect.webpage"));    
+    
 </jsp:scriptlet>  
-<x:transform xml="${contentString}" xslt="${xsl}" />
+   
+    <x:transform xml="${contentString}" xslt="${xsl}" >   
+    	<x:param name="ServletsBaseURL">${ServletsBaseURL}</x:param>
+    	<x:param name="WebApplicationBaseURL">${WebApplicationBaseURL}</x:param>    	
+    	<x:param name="subselect.varpath">${XSLSubselectVarpath}</x:param>
+    	<x:param name="subselect.session">${XSLSubselectSession}</x:param>
+    	<x:param name="subselect.webpage">${XSLSubselectWebpage}</x:param>
+    </x:transform>
+    
 </jsp:root>
