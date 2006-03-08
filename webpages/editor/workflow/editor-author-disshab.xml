@@ -109,7 +109,7 @@
 			 <hidden var="@inherited" default="0" />
 			 <hidden var="@type" default="locator" />
 			 <hidden var="@title" />
-			 <hidden var="@href" />			
+			 <hidden var="@categid" />			
              <cell row="1" col="1" width="100%">
 		       <output var="@title" default="aus Autorenindex"/>
                <text   label=" " />
@@ -141,10 +141,10 @@
 				<panel lines="off">
 				 <hidden var="@inherited" default="0" />
 				 <hidden var="@type" default="locator" />
-				 <hidden var="@title" />
-				 <hidden var="@href" />
+				 <hidden var="@classid" default="DocPortal_class_00000009" />
+				 <hidden var="@categid" />
 				 <cell row="1" col="1" width="100%">
-			       <output var="@title" default="DDC Klassifikation"/>
+			       <output var="@title" default="DDC Klassifikation"/> (<output var="@categid" default=" " />)
 		           <text   label=" " />
 				   <output var="@href" />
 				 </cell>
@@ -183,7 +183,7 @@
     <hidden var="metadata/publishlinks/publishlink/@type" default="locator" />      
     <!-- hidden var="metadata/publishlinks/publishlink/@href" default="mediaTUM_institution_000000000000014" / -->           
     <!-- hidden var="metadata/publishlinks/publishlink/@href" default="atlibri_institution_0000000001" / -->           
-    <hidden var="metadata/publishlinks/publishlink/@href" default="atlibri_institution_0000000001" />           
+    <hidden var="metadata/publishlinks/publishlink/@href" default="DocPortal_institution_0000000001" />           
     <!-- hidden var="metadata/publishlinks/publishlink/@title" default="Universitätsbibliothek der Technischen Universität München" / -->           
     <hidden var="metadata/publishlinks/publishlink/@title" default="Universitätsbibliothek der Universität Rostock" />           
   </panel>
@@ -195,7 +195,7 @@
     <hidden var="metadata/formats/format/@inherited" default="0" />
     <!-- hidden var="metadata/formats/format/@classid" default="mediaTUM_class_000000000000006" / -->
     <!-- hidden var="metadata/formats/format/@classid" default="atlibri_class_00000006" / -->
-    <hidden var="metadata/formats/format/@classid" default="atlibri_class_00000006" />
+    <hidden var="metadata/formats/format/@classid" default="DocPortal_class_00000006" />
     <hidden var="metadata/formats/format/@categid" default="FORMAT0001" />
   </panel>
 

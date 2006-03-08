@@ -81,11 +81,11 @@
     <hidden var="metadata/origins/@notinherit" default="false" />
     <hidden var="metadata/origins/@heritable" default="true" />
     <hidden var="metadata/origins/origin/@inherited" default="0" />
-    <hidden var="metadata/origins/origin/@classid" default="Docportal_class_00000002" />	  
+    <hidden var="metadata/origins/origin/@classid" default="DocPortal_class_00000002" />	  
     <!-- hidden var="metadata/origins/origin/@classid" default="mediaTUM_class_000000000000009" / -->
     <!-- hidden var="metadata/origins/origin/@classid" default="atlibri_class_00000002" / -->	  
 	
-    <cell col="1" row="1" anchor="WEST" ref="COrigin" var="metadata/origins/origin/@categid" ordernr="5" />
+    <cell col="1" row="1" anchor="WEST" ref="COrigin" var="metadata/origins/origin/@categid" />
   </panel>
 
 <!-- *** Data for the Description ** -->
@@ -158,19 +158,23 @@
       <label xml:lang="de">(bitte wählen)</label>
       <label xml:lang="en">(please choose)</label>
     </item>
-    <item value="TYPE0005.001">
+    <item value="TYPE0008">
        <label xml:lang="de">Dissertation</label>
        <label xml:lang="en">Ph.D. Thesis</label>
     </item>
-    <item value="TYPE0005.002">
+    <item value="TYPE0007">
        <label xml:lang="de">Diplomarbeit</label>
        <label xml:lang="en">diploma thesis</label>
     </item>
-    <item value="TYPE0005.003">
+    <item value="TYPE0009">
        <label xml:lang="de">Habilitation</label>
        <label xml:lang="en">habilitation</label>
     </item>
-    <item value="TYPE0005.004">
+    <item value="TYPE0029">
+       <label xml:lang="de">Masterarbeit</label>
+       <label xml:lang="en">master thesis</label>
+    </item>    
+    <item value="TYPE0030">
        <label xml:lang="de">Bachelorarbeit</label>
        <label xml:lang="en">bachelor thesis</label>
     </item>
