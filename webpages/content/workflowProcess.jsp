@@ -52,7 +52,7 @@
 													<input value="${param.type}" name="type" type="hidden">
 													<input value="${param.step}" name="step" type="hidden">
 													<input value="wnewder" name="todo" type="hidden">
-												    <input value="nav?path=~workflow-${param.type}" name="nextPath" type="hidden">																									
+												    <input value="~workflow-${param.type}" name="nextPath" type="hidden">																									
 													<input title="<fmt:message key="Derivate.AddDerivate" />" src="${requestScope.WebApplicationBaseURL}images/workflow_add.gif" type="image" class="imagebutton">
 												</form>
 											</td>
@@ -65,7 +65,7 @@
 												<input name="mcrid" value="${itemID}" type="hidden">
 												<input value="${param.type}" name="type" type="hidden">
 												<input value="${param.step}" name="step" type="hidden">
-											    <input value="nav?path=~workflow-${param.type}" name="nextPath" type="hidden">																									
+											    <input value="~workflow-${param.type}" name="nextPath" type="hidden">																									
 												<input value="weditobj" name="todo" type="hidden">
 												<input title="<fmt:message key="Object.EditObject" />" src="${requestScope.WebApplicationBaseURL}images/workflow_edit.gif" type="image" class="imagebutton">
 											</form>
@@ -77,7 +77,7 @@
 												<input value="${param.type}" name="type" type="hidden">
 												<input value="${param.step}" name="step" type="hidden">
 												<input value="wcommit" name="todo" type="hidden">
-												<input value="nav?path=~workflow-${param.type}" name="nextPath" type="hidden">												
+												<input value="~workflow-${param.type}" name="nextPath" type="hidden">												
 												<input title="<fmt:message key="Object.CommitObject" />" src="${requestScope.WebApplicationBaseURL}images/workflow_commit.gif" type="image" class="imagebutton">
 											</form>
 										</td>
@@ -88,7 +88,7 @@
 												<input value="${param.type}" name="type" type="hidden">
 												<input value="${param.step}" name="step" type="hidden">
 												<input value="wdelobj" name="todo" type="hidden">
-												<input value="nav?path=~workflow-${param.type}" name="page" type="hidden">
+												<input value="~workflow-${param.type}" name="page" type="hidden">
 												<input title="<fmt:message key="Object.DelObject" />" src="${requestScope.WebApplicationBaseURL}images/workflow_delete.gif" type="image" class="imagebutton">
 											</form>
 										<td align="center" valign="top" width="30">
