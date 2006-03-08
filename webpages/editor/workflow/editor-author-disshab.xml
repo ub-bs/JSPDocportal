@@ -292,6 +292,7 @@
 
     <!-- *** Data for the URN ** -->
     <hidden var="metadata/urns/@class" default="MCRMetaLangText" />
+    <hidden var="metadata/urns/@textsearch" default="true" />
     <hidden var="metadata/urns/urn" />
   
     <hidden var="metadata/urls/@class" default="MCRMetaLangText" />
