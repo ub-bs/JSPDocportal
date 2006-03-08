@@ -161,5 +161,15 @@
          <navitem name="error" label="Error" hidden="true" href="mycore-error.jsp">
             <refitem name="~mycore-error" label="" />
          </navitem>           
+         <navitem name="error-editor" label="Error" hidden="true" href="content/editor-validating-errors.jsp">
+            <refitem name="~editor-validating-errors" label="" />
+         </navitem> 
+         <!--  hidden subselects -->
+         <navitem name="subselectDDC" label="Nav.DDC" href="content/browse_sub.jsp?browserClass=ddc_sub" hidden="true">
+            <refitem name="~browse_subDDC" label="" />
+         </navitem>
+         <navitem name="subSelectPerson" label="Nav.PersonSearch" href="content/indexSearch.jspx?searchclass=creators_sub" hidden="true">
+             <refitem name="~indexSearchCreatorsSub" label="" />
+         </navitem>         
       </navigation>
    </navigations>
