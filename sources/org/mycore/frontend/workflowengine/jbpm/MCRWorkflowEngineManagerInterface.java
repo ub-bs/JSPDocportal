@@ -2,6 +2,7 @@ package org.mycore.frontend.workflowengine.jbpm;
 
 import java.util.List;
 
+import org.jdom.Document;
 import org.mycore.common.MCRException;
 
 public interface MCRWorkflowEngineManagerInterface {
@@ -98,5 +99,20 @@ public interface MCRWorkflowEngineManagerInterface {
 	 * @return
 	 *           long the jbpm process id
 	 */
-	public long getUniqueCurrentProcessID(String userid) ;	
+	public long getUniqueCurrentProcessID(String userid);
+	
+	/**
+	 * a method that returns a jdom document for a given user
+	 * and the processtype, containing the list of all editable documents 
+	 * which are in the active  workflow
+	 * 
+	 * @param userid
+	 *           String userid of a mycore user 
+	 * @param workflowProcessType
+	 *           String the workflow Process Type 
+	 * @return
+	 *           Document jdom a list of all documents plus there derivate id's
+	 */
+	abstract Document getListWorkflowProcess(String userid, String workflowProcessType);
+	
 }
