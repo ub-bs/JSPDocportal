@@ -36,7 +36,6 @@
 			<td><fmt:message key="Dissertation.P4" /></td>
 		</tr>
    </table>
-  </ul>
 </td>
 </tr>
 </table>
