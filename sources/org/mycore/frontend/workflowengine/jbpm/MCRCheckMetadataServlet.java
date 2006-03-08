@@ -133,16 +133,17 @@ public class MCRCheckMetadataServlet extends MCRServlet {
         StringBuffer storePath = new StringBuffer(WFI.getWorkflowDirectory(ID.getTypeId()))
 			.append(File.separator).append(ID.getId()).append(".xml");
         try{
-        	outdoc = prepareMetadata((org.jdom.Document) indoc.clone(), ID, job, lang);
-        	storeMetadata(MCRUtils.getByteArray(outdoc),job, ID, storePath.toString());
-        }catch(Exception e){
-        	
         	storeMetadata(MCRUtils.getByteArray(indoc),job, ID, storePath.toString());
+        	outdoc = prepareMetadata((org.jdom.Document) indoc.clone(), ID, job, lang, oldstep, nextPath, storePath.toString());
+        	storeMetadata(MCRUtils.getByteArray(outdoc),job, ID, storePath.toString());
+        	request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
+        }catch(java.lang.IllegalStateException ill){
+        	LOGGER.debug("because of error, forwarding to success page could not be executed [" + ill.getMessage() + "]");        	
+        }catch(Exception e){
+        	LOGGER.error("catched error:" , e);
         }
         //TODO sendMail in WFE
         //sendMail(ID);
-        //TODO errorhandling forwarding
-        request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
     }
     
 
@@ -197,17 +198,25 @@ public class MCRCheckMetadataServlet extends MCRServlet {
      * @param lang
      *            the current language
      */
-    protected org.jdom.Document prepareMetadata(org.jdom.Document jdom_in, MCRObjectID ID, MCRServletJob job, String lang) throws Exception {
-        EditorValidator ev = new EditorValidator(jdom_in, ID);
-        Document jdom_out = ev.generateValidMyCoReObject();
-        errorHandlerValid(job, ev.getErrorLog(), ID, lang);
-        return jdom_out;
+    protected org.jdom.Document prepareMetadata(org.jdom.Document jdom_in, MCRObjectID ID, MCRServletJob job, 
+    		String lang, String step, String nextPath, String storePath) throws Exception {
+        try{
+        	EditorValidator ev = new EditorValidator(jdom_in, ID);
+        	errorHandlerValid(job, ev.getErrorLog(), ID, lang, step, nextPath, storePath);        	
+        	Document jdom_out = ev.generateValidMyCoReObject();
+        	return jdom_out;
+        }catch(Exception e){
+        	
+        }
+        
+        return null;
     }
 
     /**
      * A method to handle valid errors.
      */
-    private final void errorHandlerValid(MCRServletJob job, List logtext, MCRObjectID ID, String lang) throws Exception {
+    private final void errorHandlerValid(MCRServletJob job, List logtext, MCRObjectID ID, 
+    		String lang, String step, String nextPath, String storePath) throws Exception {
         if (logtext.size() == 0) {
             return;
         }
@@ -217,87 +226,19 @@ public class MCRCheckMetadataServlet extends MCRServlet {
             LOGGER.error(logtext.get(i));
         }
 
-        // prepare editor with error messages
-        String pagedir = CONFIG.getString("MCR.editor_page_dir", "");
-        String myfile = pagedir + CONFIG.getString("MCR.editor_page_error_formular", "editor_error_formular.xml");
-        org.jdom.Document jdom = null;
-
-        try {
-            InputStream in = (new URL(getBaseURL() + myfile + "?XSL.Style=xml")).openStream();
-
-            if (in == null) {
-                throw new MCRConfigurationException("Can't read editor file " + myfile);
-            }
-
-            jdom = new org.jdom.input.SAXBuilder().build(in);
-
-            org.jdom.Element root = jdom.getRootElement();
-            List sectionlist = root.getChildren("section");
-
-            for (int i = 0; i < sectionlist.size(); i++) {
-                org.jdom.Element section = (org.jdom.Element) sectionlist.get(i);
-
-                if (!section.getAttributeValue("lang", org.jdom.Namespace.XML_NAMESPACE).equals(lang.toLowerCase())) {
-                    continue;
-                }
-
-                org.jdom.Element p = new org.jdom.Element("p");
-                section.addContent(0, p);
-
-                org.jdom.Element center = new org.jdom.Element("center");
-
-                // the error message
-                org.jdom.Element table = new org.jdom.Element("table");
-                table.setAttribute("width", "80%");
-
-                for (int j = 0; j < logtext.size(); j++) {
-                    org.jdom.Element tr = new org.jdom.Element("tr");
-                    org.jdom.Element td = new org.jdom.Element("td");
-                    org.jdom.Element el = new org.jdom.Element("font");
-                    el.setAttribute("color", "red");
-                    el.addContent((String) logtext.get(j));
-                    td.addContent(el);
-                    tr.addContent(td);
-                    table.addContent(tr);
-                }
-
-                center.addContent(table);
-                section.addContent(1, center);
-                p = new org.jdom.Element("p");
-                section.addContent(2, p);
-
-                // the edit button
-                org.jdom.Element form = section.getChild("form");
-                form.setAttribute("action", job.getResponse().encodeRedirectURL(getBaseURL() + "servlets/MCRStartEditorServlet"));
-
-                org.jdom.Element input1 = new org.jdom.Element("input");
-                input1.setAttribute("name", "lang");
-                input1.setAttribute("type", "hidden");
-                input1.setAttribute("value", lang);
-                form.addContent(input1);
-
-                org.jdom.Element input2 = new org.jdom.Element("input");
-                input2.setAttribute("name", "se_mcrid");
-                input2.setAttribute("type", "hidden");
-                input2.setAttribute("value", ID.getId());
-                form.addContent(input2);
-
-                org.jdom.Element input3 = new org.jdom.Element("input");
-                input3.setAttribute("name", "type");
-                input3.setAttribute("type", "hidden");
-                input3.setAttribute("value", ID.getTypeId());
-                form.addContent(input3);
-            }
-        } catch (org.jdom.JDOMException e) {
-            throw new MCRException("Can't read editor file " + myfile + " or it has a parse error.", e);
+        if(logtext != null && logtext.size() > 0) {
+	        // redirect to editor
+	        HttpServletRequest request = job.getRequest();
+	        request.setAttribute("errorList", logtext);
+	        request.setAttribute("mcrid", ID.getId());
+	        request.setAttribute("type", ID.getTypeId());
+	        request.setAttribute("step", step);
+	        request.setAttribute("nextPath", nextPath);
+	        request.setAttribute("target", "MCRCheckMetadataServlet");
+	        request.setAttribute("editorSource", storePath.toString().replaceAll("\\\\","/"));
+	
+	        getServletContext().getRequestDispatcher("/nav?path=~editor-validating-errors").forward(request, job.getResponse());
         }
-
-        // restart editor
-        job.getRequest().setAttribute("MCRLayoutServlet.Input.JDOM", jdom);
-        job.getRequest().setAttribute("XSL.Style", lang);
-
-        RequestDispatcher rd = getServletContext().getNamedDispatcher("MCRLayoutServlet");
-        rd.forward(job.getRequest(), job.getResponse());
     }
     
     /**
