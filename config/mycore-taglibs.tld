@@ -8,6 +8,37 @@
     <shortname>mcr</shortname>
     <uri>/WEB-INF/lib/mycore-taglibs.jar</uri>
     <info>MyCoRe Sample Tag library</info>
+	 <tag>
+            <name>listWorkflowProcess</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRListWorkflowProcessTag</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <description>Output w3c Document - the Workflow Document List used in the jsp body</description>
+                <name>var</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>the workflow-defintion-type, a new process instance is created for</description>
+                <name>workflowProcessType</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>The userid, must exist in database</description>
+                <name>userid</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>Output - the status from this operation </description>
+                <name>status</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>      
+			      
+            <info>A Tag, that initializes a new workflow process in the workflow engine</info>
+        </tag>     
       <tag>
             <name>getWorkflowDocumentID</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRGetWorkflowDocumentID</tagclass>
