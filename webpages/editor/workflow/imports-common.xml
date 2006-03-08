@@ -100,12 +100,7 @@
 	 <label xml:lang="en">[Save]</label>
   </submitButton>
 
-  <panel id="CheckButtonDoc" >
-	 <cell col="1" row="1" anchor="EAST" ref="BCancel" />
-	 <cell col="2" row="1" anchor="WEST" ref="BSubmitAuthor" />
-  </panel>		
-
-  <submitButton id="BSubmit" width="100px" jsaction="return checkMyForm()" >
+   <submitButton id="BSubmit" width="100px" jsaction="return checkMyForm()" >
     <label xml:lang="de">[Speichern]</label>
     <label xml:lang="en">[Save]</label>
   </submitButton>
