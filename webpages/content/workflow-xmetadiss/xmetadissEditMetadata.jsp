@@ -4,7 +4,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
 <mcr:session method="get" var="username" type="userID" />
+
 <c:set var="WebApplicationBaseURL" value="${applicationScope.WebApplicationBaseURL}" />
+
 <fmt:setLocale value="${requestScope.lang}" />
 <fmt:setBundle basename='messages'/>
 <c:choose>
@@ -17,12 +19,11 @@
 </c:choose>
 <mcr:getWorkflowDocumentID userid="${username}" mcrid="mcrid" status="status"  workflowProcessType="${workflowType}"/>
 
-<c:set var="documentid" value="${mcrid}" />
 
 <div class="headline">
    <fmt:message key="Nav.Application.dissertation" /> - 
    <fmt:message key="Nav.Application.dissertation.edit" />
-   | ID: <c:out value="${mcrid}" />
+   | ID: <c:out value="${mcrid}" /> | <c:out value="${status}" />
 </div>
 
 
@@ -37,9 +38,19 @@
    </tr>    
 </table>
 
-<c:if test="${!empty(documentid)}">
-   <mcr:includeEditor 
+<c:if test="${!empty(mcrid)}">
+  <c:choose>
+	<c:when test="${fn:contains(status,'disshabCreated')}" >
+     <mcr:includeEditor 
 		isNewEditorSource="false" 
-		mcrid="${documentid}" type="disshab" step="author" target="MCRCheckMetadataServlet" nextPath="~mydiss"/>
+		mcrid="${mcrid}" type="disshab" step="author" target="MCRCheckMetadataServlet" nextPath="~workflow-disshab"/>	
+    </c:when>
+    <c:otherwise>
+		<c:import url="/content/workflowProcess.jsp?type=disshab&step=author&workflowProcessType=${workflowType}" />
+    </c:otherwise>
+  </c:choose>   		
 </c:if>
+
+
+   
    
