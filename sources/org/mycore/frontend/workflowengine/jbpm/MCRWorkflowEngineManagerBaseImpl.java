@@ -333,7 +333,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	 */
 	public String getNextFreeID(String objtype) {
 	    String base = MCRConfiguration.instance().getString("MCR.default_project_id","DocPortal")+ "_" + objtype; 	    
-		String workingDirectoryPath = MCRConfiguration.instance().getString("MCR.editor_" + objtype + "_directory");
+		String workingDirectoryPath = getWorkflowDirectory(objtype);
 		
 		MCRObjectID IDMax = new MCRObjectID();
 		IDMax.setNextFreeId(base);
