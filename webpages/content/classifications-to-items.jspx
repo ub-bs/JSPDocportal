@@ -7,10 +7,18 @@
 >
 <jsp:directive.page import="org.mycore.datamodel.classifications.MCRClassification" />   
 <jsp:directive.page import="org.mycore.common.MCRSessionMgr" />
+<jsp:directive.page import="org.mycore.common.MCRConfiguration" />
 <jsp:directive.page import="javax.xml.transform.Source"/><jsp:directive.page import="org.mycore.common.xml.MCRURIResolver"/> 
 <jsp:scriptlet>
         String classid = request.getParameter("classid");
-        if (classid == null) classid = "DocPortal_class_1" ;
+        if(classid == null || classid.equals("")){
+            String prop = request.getParameter("prop");
+            if(prop != null &amp;&amp; !prop.equals("")) {
+                classid = MCRConfiguration.instance().getString(prop, "DocPortal_class_1");
+            }else{
+                classid = "DocPortal_class_1" ;
+            }
+        }
         MCRClassification mcr_class = new MCRClassification();
         String classString = new String(mcr_class.receiveClassificationAsXML(classid),"UTF-8");
         Source xsl = MCRURIResolver.instance().resolve("webapp:WEB-INF/stylesheets/classifications-to-items.xsl","classifications-to-items.jspx");

@@ -715,4 +715,34 @@ specified in the action.
             </attribute>            
             <info>A Tag, that set a simple DOM object for the resultlist-pages browse control</info>
         </tag>          
+        <tag>
+            <name>getConfigProperty</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRGetConfigPropertyTag</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <description>
+                    the property name
+                </description>
+                <name>prop</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>
+                    Name of the pageContext variable that hold the value specified in the action.
+                </description>
+                <name>var</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>        
+            <attribute>
+                <description>
+                    Default value, if property is not set
+                </description>
+                <name>defaultValue</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <info>A Tag, that sets the value of a Configuration Property to a specific value</info>
+        </tag>        
 </taglib>   

@@ -5,7 +5,7 @@
   <include uri="webapp:editor/workflow/imports-common.xml" />
 
 
-  <submitButton id="BSubmitDisshab" width="100px" jsaction="return checkMyForm();">
+  <submitButton id="BSubmitDisshab" width="100px" jsaction="return checkMyFormDisshab();">
     <label xml:lang="de">[Speichern]</label>
     <label xml:lang="en">[Save]</label>
   </submitButton>
@@ -199,9 +199,7 @@
       <label xml:lang="de">(bitte wählen)</label>
       <label xml:lang="en">(please choose)</label>
     </item>
-    <include uri="request:content/classifications-to-items.jspx?classid=DocPortal_class_00000006" />	  	  
-    <!-- include uri="request:content/classifications-to-items.jspx?classid=mediaTUM_class_000000000000006" / -->	  	  
-    <!-- include uri="request:content/classifications-to-items.jspx?classid=atlibri_class_00000006" / -->	  	  
+    <include uri="request:content/classifications-to-items.jspx?prop=MCR.WorkflowEngine.ClassificationID.Format.xmetadiss" />	  	  
   </list>
 
 <!-- IDENTIFIER fehlt -->

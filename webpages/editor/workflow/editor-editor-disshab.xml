@@ -109,21 +109,25 @@
           <span class="editorlabel">Autor</span>
         </label>
    </text>
-   
    <panel id="DCreatorLinks">
-        <hidden var="metadata/creatorlinks/@class" default="MCRMetaLinkID" />
-	    <hidden var="metadata/creatorlinks/creatorlink" />
-   	    <hidden var="metadata/creatorlinks/creatorlink/@inherited" default="0" />
-   	    <hidden var="metadata/creatorlinks/creatorlink/@type" default="locator" />
-   	    <hidden var="metadata/creatorlinks/creatorlink/@title" />
-   	    <hidden var="metadata/creatorlinks/creatorlink/@label" />
-   	    <hidden var="metadata/creatorlinks/creatorlink/@href" />   	       	       	       	    
-        <cell row="1" col="1" anchor="NORTHWEST">
-	        <output var="metadata/creatorlinks/creatorlink/@title" />
-	        <text label=" (" />
-	         <output var="metadata/creatorlinks/creatorlink/@href" />
-	        <text label=")" />
-        </cell>   	    
+        <hidden var="metadata/creatorlinks/@class" default="MCRMetaLinkID" sortnr="3" />
+	    <cell col="1" row="1" anchor="EAST" var="metadata/creatorlinks/creatorlink" sortnr="3" >
+         <repeater min="1" max="10">
+           <panel lines="off">
+			 <hidden var="@inherited" default="0" />
+			 <hidden var="@type" default="locator" />
+			 <hidden var="@title" />
+			 <hidden var="@href" />			
+             <cell row="1" col="1" width="100%">
+               <output var="@title" default="Autor"/>
+               <text   label=" (" /><output var="@href" /><text   label=")" />
+             </cell>
+			 <cell row="1" col="2" >
+               <subselect label="Auswählen" id="sub.select" type="webpage" href="nav?path=~indexSearchCreatorsSub" />
+             </cell>			   
+           </panel>
+         </repeater>
+       </cell>	  
    </panel>
 	 
 
@@ -137,29 +141,29 @@
           </span>
         </label>
      </text>
-	 <panel id="DSubjects" >
-		<hidden var="metadata/subjects/@class" default="MCRMetaClassification" />
-		<cell row="1" col="1" anchor="NORTHWEST" var="metadata/subjects/subject">
-		   <repeater min="1" max="5" >  
-				<panel lines="off">
-				 <hidden var="@inherited" default="0" />
-				 <hidden var="@type" default="locator" />
-			     <!-- configure this in mycore.properties  -->
-			     <include uri="request:content/getHiddenVarElement.jspx?var=@classid&amp;prop=MCR.WorkflowEngine.ClassificationID.DDC.xmetadiss&amp;defaultValue=DocPortal_class_00000009" />				 
-				<!--  <hidden var="@classid" default="DocPortal_class_00000009" />  -->
-				 <hidden var="@categid" />
-				 <cell row="1" col="1" width="100%">
-			       <output var="@title" default="DDC Klassifikation"/> <text label=" (" /><output var="@categid" default=" " /><text label=")" />
-		           <text   label=" " />
-				   <output var="@href" />
-				 </cell>
-				 <cell row="1" col="2">
-				   <subselect label="Auswählen" id="sub.select2" type="webpage" href="nav?path=~browse_subDDC" />
-				 </cell>
-			   </panel>
-			</repeater>
-		</cell>
-	  </panel>
+     <panel id="DSubjects" >
+        <hidden var="metadata/subjects/@class" default="MCRMetaClassification" />
+        <cell row="1" col="1" anchor="NORTHWEST" var="metadata/subjects/subject">
+           <repeater min="1" max="5" >  
+                <panel lines="off">
+                 <hidden var="@inherited" default="0" />
+                 <hidden var="@type" default="locator" />
+                 <!-- configure this in mycore.properties  -->
+                 <include uri="request:content/getHiddenVarElement.jspx?var=@classid&amp;prop=MCR.WorkflowEngine.ClassificationID.DDC.xmetadiss&amp;defaultValue=DocPortal_class_00000009" />                
+                <!--  <hidden var="@classid" default="DocPortal_class_00000009" />  -->
+                 <hidden var="@categid" />
+                 <cell row="1" col="1" width="100%">
+                   <output var="@title" default="DDC Klassifikation"/> <text label=" (" /><output var="@categid" default=" " /><text label=")" />
+                   <text   label=" " />
+                   <output var="@href" />
+                 </cell>
+                 <cell row="1" col="2">
+                   <subselect label="Auswählen" id="sub.select2" type="webpage" href="nav?path=~browse_subDDC" />
+                 </cell>
+               </panel>
+            </repeater>
+        </cell>
+      </panel>
 
 
 
@@ -167,39 +171,48 @@
 
   <panel id="DPublisher">
     <hidden var="metadata/publishers/@class" default="MCRMetaLangText" />
+    <hidden var="metadata/publishers/@parasearch" default="true" />
     <hidden var="metadata/publishers/@textsearch" default="true" />
-    <hidden var="metadata/publishers/publisher/@lang" default="de" />
-    <!--  configure this in messages_de.properties and messages_en.properties -->
-    <include uri="request:content/getHiddenVarElement.jspx?var=metadata.publishers.publisher&amp;prop=MCR.WorkflowEngine.PublisherDefaultName.xmetadiss&amp;lang=de&amp;bundle=messages" />
-    <!-- hidden var="metadata/publishers/publisher" default="Universitätsbibliothek der MyCoRe-Freunde" / -->    
+    <hidden var="metadata/publishers/@notinherit" default="false" />
+    <hidden var="metadata/publishers/@heritable" default="true" />
+
+    <hidden var="metadata/publishers/publisher/@inherited" default="0" />
+    <cell col="1" row="1" anchor="WEST" ref="TFzeile1024" var="metadata/publishers/publisher" default=""/>
+    <cell col="2" row="1" anchor="NORTHWEST" ref="Slang" var="metadata/publishers/publisher/@lang" default="de" />
     <hidden var="metadata/publishers/publisher/@type" default="publication" />
+
     <hidden var="metadata/publishers/publisher[2]/@inherited" default="0" />
-    <hidden var="metadata/publishers/publisher[2]/@lang" default="en" />
-    <!--  configure this in messages_de.properties and messages_en.properties -->
-    <include uri="request:content/getHiddenVarElement.jspx?var=metadata.publishers.publisher[2]&amp;prop=MCR.WorkflowEngine.PublisherDefaultName.xmetadiss&amp;lang=en&amp;bundle=messages" />
-    <hidden var="metadata/publishers/publisher[2]/@type" default="publication" />            
+    <cell col="1" row="2" anchor="WEST" ref="TFzeile1024" var="metadata/publishers/publisher[2]" default=""/>
+    <cell col="2" row="2" anchor="NORTHWEST" ref="SlangEN" var="metadata/publishers/publisher[2]/@lang" default="de" />
+    <hidden var="metadata/publishers/publisher[2]/@type" default="publication" />
   </panel>
 
 <!-- *** Data for the PublishLinks ** -->
   <panel id="DPublishLink">
     <hidden var="metadata/publishlinks/@class" default="MCRMetaLinkID" />
+    <hidden var="metadata/publishlinks/@parasearch" default="true" />
+    <hidden var="metadata/publishlinks/@textsearch" default="false" />
+    <hidden var="metadata/publishlinks/@notinherit" default="false" />
+    <hidden var="metadata/publishlinks/@heritable" default="true" />
     <hidden var="metadata/publishlinks/publishlink/@label" default="publication" />
-    <hidden var="metadata/publishlinks/publishlink/@type" default="locator" />      
-    <!-- configure this in mycore.properties  -->
-    <include uri="request:content/getHiddenVarElement.jspx?var=metadata.publishlinks.publishlink.@href&amp;prop=MCR.WorkflowEngine.PublisherDefaultID.xmetadiss&amp;defaultValue=DocPortal_institution_00000001" />
-    <!--  configure this in messages_de.properties and messages_en.properties -->    
-    <include uri="request:content/getHiddenVarElement.jspx?var=metadata.publishlinks.publishlink.@title&amp;prop=MCR.WorkflowEngine.PublisherDefaultName.xmetadiss&amp;lang=de&amp;bundle=messages" />    
+    <hidden var="metadata/publishlinks/publishlink/@type" default="locator" />
+    <cell col="1" row="1" anchor="WEST" ref="TFzeile128" var="metadata/publishlinks/publishlink/@href" />
+    <cell col="2" row="1" anchor="NORTHEAST" ref="ACreatorLinkID" />
+    <cell col="1" row="2" anchor="WEST" ref="TFzeile128" var="metadata/publishlinks/publishlink/@title" />
+    <cell col="2" row="2" anchor="NORTHEAST" ref="APublishLinkTitle" />
   </panel>
 
 <!-- ** Data for the FORMAT *** -->
 
   <panel id="DFormat">
     <hidden var="metadata/formats/@class" default="MCRMetaClassification" />
+    <hidden var="metadata/formats/@parasearch" default="true" />
+    <hidden var="metadata/formats/@textsearch" default="false" />
+    <hidden var="metadata/formats/@notinherit" default="false" />
+    <hidden var="metadata/formats/@heritable" default="true" />
     <hidden var="metadata/formats/format/@inherited" default="0" />
-	<!-- configure this in mycore.properties  -->
-	   <include uri="request:content/getHiddenVarElement.jspx?var=metadata.formats.format.@classid&amp;prop=MCR.WorkflowEngine.ClassificationID.Format.xmetadiss&amp;defaultValue=DocPortal_class_00000006" />				 
-	   <include uri="request:content/getHiddenVarElement.jspx?var=metadata.formats.format.@categid&amp;prop=MCR.WorkflowEngine.Classification.Format.DefaultCategoryID.xmetadiss&amp;defaultValue=Format0001" />				 
-	   <!--  <hidden var="@classid" default="DocPortal_class_00000009" />  -->
+    <include uri="request:content/getHiddenVarElement.jspx?var=metadata.formats.format.@classid&amp;prop=MCR.WorkflowEngine.ClassificationID.Format.xmetadiss&amp;defaultValue=DocPortal_class_00000006" />              
+    <cell col="1" row="1" anchor="WEST" ref="SFormat" var="metadata/formats/format/@categid" />
   </panel>
 
 <!-- *** Data for the KEYWORDS ** -->
