@@ -32,6 +32,7 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 	
 	private String nextPath;
 	
+	private String editorSessionID;
 	private String mcrid2;
 	private String uploadID;
 	private String editorPath;
@@ -56,6 +57,10 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 		this.mcrid = mcrid;
 	}
 
+	public void setEditorSessionID(String editorSessionID){
+		this.editorSessionID = editorSessionID;
+	}
+	
 	public void setMcrid2(String mcrid2) {
 		this.mcrid2 = mcrid2;
 	}
@@ -86,23 +91,30 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 	}
 
 	public void doTag() throws JspException, IOException {
-		if(cancelPage == null || cancelPage.equals("")){
-			cancelPage 		=  NavServlet.getBaseURL() + "nav?path=~workflow-" + type;
-		}
 		PageContext pageContext = (PageContext) getJspContext();
-		JspWriter out = pageContext.getOut();
-		
+		Properties parameters = new Properties();
 		String editorBase = "";
-		if(editorPath != null && !editorPath.equals("")) {
-			editorBase = editorPath;
-		}else {
-			editorBase = new StringBuffer(NavServlet.getBaseURL())
-			.append("editor/workflow/editor_form_").append(step).append('-').append(type)
-			.append(".xml").toString();	
+		if(editorSessionID != null && !editorSessionID.equals("")){
+			parameters.put("XSL.editor.session.id",editorSessionID);
+			editorBase = (String)pageContext.getSession().getAttribute("editorPath");
+		}else{
+			if(cancelPage == null || cancelPage.equals("")){
+				cancelPage 		=  NavServlet.getBaseURL() + "nav?path=~workflow-" + type;
+			}
+			if(editorPath != null && !editorPath.equals("")) {
+				editorBase = editorPath;
+			}else {
+				editorBase = new StringBuffer(NavServlet.getBaseURL())
+				.append("editor/workflow/editor_form_").append(step).append('-').append(type)
+				.append(".xml").toString();	
+			}
+			parameters = getParameters();
+			pageContext.getSession().setAttribute("editorPath", editorBase);			
 		}
+		JspWriter out = pageContext.getOut();
 	
 		try{
-			URL url = new URL(buildEncodedURL(editorBase, getParameters()));
+			URL url = new URL(buildEncodedURL(editorBase, parameters));
 			Reader is = new InputStreamReader( url.openStream(), "utf-8");
 		    BufferedReader in = new BufferedReader( is );
 		    for ( String s; ( s = in.readLine() ) != null; ){

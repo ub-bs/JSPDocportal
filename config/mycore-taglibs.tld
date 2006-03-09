@@ -110,6 +110,12 @@
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
+                <description>Value of Editor parameter: XSL.editor.session.id, required for editors with repeaters</description>
+                <name>editorSessionID</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <attribute>
                 <description>Value of Editor parameter: XSL.editor.source.new</description>
                 <name>isNewEditorSource</name>
                 <required>true</required>

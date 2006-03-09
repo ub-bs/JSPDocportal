@@ -18,10 +18,11 @@
 <c:set  var="step"     value="${param.step}" />
 <c:set  var="nextPath" value="${param.nextPath}" />
 
-<hr/>
+<c:set var="editorSessionID" value="${param['XSL.editor.session.id']}" />
 
-<mcr:includeEditor 
-	isNewEditorSource="${isNewEditorSource}" 
-	mcrid="${mcrid}" type="${type}" step="${step}" target="MCRCheckMetadataServlet" nextPath="${nextPath}"/>	
-	
+<hr/>
+    <mcr:includeEditor 
+        editorSessionID="${editorSessionID}"
+        isNewEditorSource="${isNewEditorSource}" 
+        mcrid="${mcrid}" type="${type}" step="${step}" target="MCRCheckMetadataServlet" nextPath="${nextPath}"/>       
 <hr/>	

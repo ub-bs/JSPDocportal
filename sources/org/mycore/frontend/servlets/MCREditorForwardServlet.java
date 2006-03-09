@@ -52,8 +52,7 @@ public class MCREditorForwardServlet extends MCRServlet {
     }
 
     /**
-     * The method replace the default form MCRServlet and redirect the
-     * MCRLayoutServlet.
+     * The method replace the default form MCRServlet 
      * 
      * @param job
      *            the MCRServletJob instance

@@ -221,7 +221,7 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 			MCRMetaLinkID creatorlink = new MCRMetaLinkID();
 			creatorlink.setSubTag("creatorlink");
 			creatorlink.setLang("de");
-			creatorlink.setReference(sAuthorID,sAuthorID,sAuthorName);
+			creatorlink.setReference(sAuthorID,sAuthorName,sAuthorName);
 
 			MCRMetaLangText urn = new MCRMetaLangText();
 			urn.setSubTag("urn");
