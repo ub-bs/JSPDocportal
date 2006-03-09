@@ -50,7 +50,6 @@ public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 	
 	public void setInitiator(String initiator){
 		setStringVariableValue("initiator", initiator);
-		addToInitiatorMap(initiator, processInstanceID);
 	}
 	
 	public String getStringVariableValue(String varName) {

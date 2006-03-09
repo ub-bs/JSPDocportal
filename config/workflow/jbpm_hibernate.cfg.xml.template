@@ -48,7 +48,10 @@
     <!-- ###################### -->
 
     <!-- hql queries and type defs -->
+    <!-- 
     <mapping resource="org/jbpm/db/hibernate.queries.hbm.xml" />
+    -->
+    <mapping resource="workflow/hibernate.queries.hbm.xml" />
     
     <!-- graph.def mapping files -->
     <mapping resource="org/jbpm/graph/def/ProcessDefinition.hbm.xml"/>
