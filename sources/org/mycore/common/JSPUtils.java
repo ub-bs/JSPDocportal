@@ -224,11 +224,9 @@ public class JSPUtils {
     //  static method to save any Document Object to an give directory - uses to put idt into
 	// the workflow directory or to save it before deleteing - look to MCRStartEditorServlet - sdelobj
 	public static void	saveToDirectory(MCRObject mob, String savedir){
-	
 		MCRObjectStructure structure = mob.getStructure();
 		String mcrid = mob.getId().getId();
 		int derSize = structure.getDerivateSize();
-		FileOutputStream fos =null;
 		
 		for(int i = 0; i < derSize; i++) {
 			String derivateID = structure.getDerivate(i).getXLinkHref();
@@ -240,13 +238,19 @@ public class JSPUtils {
 		for(int i = 0; i < derSize; i++) {
 			structure.removeDerivate(0);
 		}	
+		
+		saveDirect( mob.createXML(), savedir + "/" + mcrid + ".xml");
+	}
+	 
+	public static void saveDirect(Document jdom, String filename){
+		FileOutputStream fos =null;	
 		try {
-			fos = new FileOutputStream(savedir + "/" + mcrid + ".xml");
-			(new XMLOutputter(Format.getPrettyFormat())).output(mob.createXML(),fos);
+			fos = new FileOutputStream(filename);
+			(new XMLOutputter(Format.getPrettyFormat())).output(jdom,fos);
 			fos.close();
 		} catch (Exception ex){
 			logger.debug(ex);
-			logger.info("Cant save Object" + mcrid + " to directory " + savedir);
+			logger.info("Cant save Object" + filename);
 		} finally{
 			if ( fos != null ){
 				try {		fos.close(); }			
@@ -255,7 +259,6 @@ public class JSPUtils {
 			}
 		}
 	}
-	 
      public static void main(String[] args) {
     	 initialize();
     	 //just for testing
