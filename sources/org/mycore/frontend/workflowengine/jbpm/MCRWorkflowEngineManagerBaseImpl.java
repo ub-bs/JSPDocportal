@@ -566,6 +566,66 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		}
 	}	
 
+	public boolean deleteDerivateObject(String documentType, String metadataObject, String derivateObject) {	
+		String derivateDirectory = getWorkflowDirectory(documentType) + File.separator + derivateObject;
+		String derivateFileName = derivateDirectory + ".xml" ;
+		boolean bDeleted = true;
+		try {
+			File fi = new File(derivateFileName);
+			if (fi.isFile() && fi.canWrite()) {
+				fi.delete();				
+			} else {
+				logger.error("Can't remove file " + derivateFileName);
+				bDeleted=false;
+			}
+		} catch (Exception ex) {
+			logger.error("Can't remove file " + derivateFileName);
+			bDeleted=false;
+		}
+		
+		String fail = "Can't remove directory ";
+		// remove all derivate objects
+		try {
+			File fi = new File(derivateDirectory);
+			if (fi.isDirectory() && fi.canWrite()) {
+				// delete files
+				ArrayList dellist = MCRUtils.getAllFileNames(fi);
+				for (int j = 0; j < dellist.size(); j++) {
+					String na = (String) dellist.get(j);
+					File fl = new File(derivateDirectory + File.separator + na);
+					if (fl.delete()) {
+						logger.debug("File " + na + " removed.");
+					} else {
+						logger.error("Can't remove file " + na);
+					}
+				}
+				// delete subirectories
+				dellist = MCRUtils.getAllDirectoryNames(fi);
+				for (int j = dellist.size() - 1; j > -1; j--) {
+					String na = (String) dellist.get(j);
+					File fl = new File(derivateDirectory + File.separator + na);
+					if (fl.delete()) {
+						logger.debug("Directory " + na + " removed.");
+					} else {
+						logger.error(fail + na);
+					}
+				}
+				if (fi.delete()) {
+					logger.debug("Directory " + derivateDirectory + " removed.");
+				} else {
+					logger.error(fail + derivateDirectory);
+				}
+			} else {
+				logger.error(fail + derivateDirectory);
+			}
+		} catch (Exception ex) {
+			logger.error(fail + derivateDirectory);
+			bDeleted=false;
+		}
+		return bDeleted;
+	}	
+	
+	
 	public String getAuthorFromUniqueWorkflow(String userid){
 		return "";
 	}
