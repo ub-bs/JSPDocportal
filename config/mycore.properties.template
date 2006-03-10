@@ -21,6 +21,13 @@ MCR.WorkflowEngine.PublisherDefaultID.xmetadiss=DocPortal_institution_00000001
 MCR.WorkflowEngine.ClassificationID.DDC.xmetadiss=DocPortal_institution_00000009
 MCR.WorkflowEngine.ClassificationID.Format.xmetadiss=DocPortal_class_00000006				 
 MCR.WorkflowEngine.Classification.Format.DefaultCategoryID.xmetadiss=Format0001	
+MCR.WorkflowEngine.ClassificationID.Origin.xmetadiss=DocPortal_class_00000002
+MCR.WorkflowEngine.ClassificationID.Type.xmetadiss=DocPortal_class_00000005
+MCR.WorkflowEngine.Classification.Type.SelectCategoryIDs.xmetadiss=TYPE0007,TYPE0008,TYPE0009,TYPE0029,TYPE0030
+MCR.WorkflowEngine.ClassificationID.Language.xmetadiss=DocPortal_class_00000004
+MCR.WorkflowEngine.Classification.Language.SelectCategoryIDs.xmetadiss=LANG0001,LANG0002,LANG0003
+MCR.WorkflowEngine.Rightslinks.DefaultURL.xmetadiss=http://www.mycore.de/dissertations-copyright.html
+MCR.WorkflowEngine.ContactIdDDB.xmetadiss=Fxxxx-xxxx
 
 MCR.WorkflowEngine.ManagerImpl.xmetadiss=org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRWorkflowEngineManagerXmetadiss
 # Default-Start-URL vor the WorkflowEngine
