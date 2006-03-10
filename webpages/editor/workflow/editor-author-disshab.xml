@@ -202,7 +202,7 @@
     <hidden var="metadata/formats/format/@inherited" default="0" />
 		<!-- configure this in mycore.properties  -->
 	   <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.formats.format.@classid&amp;prop=MCR.WorkflowEngine.ClassificationID.Format.xmetadiss&amp;defaultValue=DocPortal_class_00000006" />				 
-	   <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.formats.format.@categid&amp;prop=MCR.WorkflowEngine.Classification.Format.DefaultCategoryID.xmetadiss&amp;defaultValue=Format0001" />				 
+	   <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.formats.format.@categid&amp;prop=MCR.WorkflowEngine.Classification.Format.DefaultCategoryID.xmetadiss&amp;defaultValue=FORMAT0001" />				 
 	   <!--  <hidden var="@classid" default="DocPortal_class_00000009" />  -->
   </panel>
 
