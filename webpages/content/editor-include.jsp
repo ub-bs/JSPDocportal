@@ -7,22 +7,77 @@
 <fmt:setLocale value="${requestScope.lang}" />
 <fmt:setBundle basename='messages'/>
 
-<c:set  var="mcrid"    value="${param.mcrid}"/>
-<c:set  var="isNewEditorSource">
- <c:choose>
-  <c:when test="${param.start=='withdata'}">false</c:when>
-  <c:otherwise>true</c:otherwise>
- </c:choose>
-</c:set>
-<c:set  var="type"     value="${param.type}" />
-<c:set  var="step"     value="${param.step}" />
-<c:set  var="nextPath" value="${param.nextPath}" />
+<c:choose>
+   <c:when test="${!empty(param.mcrid)}">
+      <c:set  var="mcrid" value="${param.mcrid}"/>
+   </c:when>
+   <c:otherwise>
+      <c:set  var="mcrid" value="${requestScope.mcrid}"/>
+   </c:otherwise>
+</c:choose>
 
+<c:choose>
+   <c:when test="${!empty(param.isNewEditorSource)}">
+      <c:set  var="isNewEditorSource" value="${param.isNewEditorSource}"/>
+   </c:when>
+   <c:otherwise>
+      <c:set  var="isNewEditorSource" value="${requestScope.isNewEditorSource}"/>
+   </c:otherwise>
+</c:choose>
+
+<c:choose>
+   <c:when test="${!empty(param.type)}">
+      <c:set  var="type" value="${param.type}"/>
+   </c:when>
+   <c:otherwise>
+      <c:set  var="type" value="${requestScope.type}"/>
+   </c:otherwise>
+</c:choose>
+
+<c:choose>
+   <c:when test="${!empty(param.step)}">
+      <c:set  var="step" value="${param.step}"/>
+   </c:when>
+   <c:otherwise>
+      <c:set  var="step" value="${requestScope.step}"/>
+   </c:otherwise>
+</c:choose>
+
+<c:choose>
+   <c:when test="${!empty(param.nextPath)}">
+      <c:set  var="nextPath" value="${param.nextPath}"/>
+   </c:when>
+   <c:otherwise>
+      <c:set  var="nextPath" value="${requestScope.nextPath}"/>
+   </c:otherwise>
+</c:choose>
+
+<c:choose>
+   <c:when test="${!empty(param.uploadID)}">
+      <c:set  var="uploadID" value="${param.uploadID}"/>
+   </c:when>
+   <c:otherwise>
+      <c:set  var="uploadID" value="${requestScope.uploadID}"/>
+   </c:otherwise>
+</c:choose>
+
+<c:choose>
+   <c:when test="${!empty(param.mcrid2)}">
+      <c:set  var="mcrid2" value="${param.mcrid2}"/>
+   </c:when>
+   <c:otherwise>
+      <c:set  var="mcrid2" value="${requestScope.mcrid2}"/>
+   </c:otherwise>
+</c:choose>
 <c:set var="editorSessionID" value="${param['XSL.editor.session.id']}" />
 
 <hr/>
-    <mcr:includeEditor 
-        editorSessionID="${editorSessionID}"
-        isNewEditorSource="${isNewEditorSource}" 
-        mcrid="${mcrid}" type="${type}" step="${step}" target="MCRCheckMetadataServlet" nextPath="${nextPath}"/>       
+type: ${type} | mcrid: ${mcrid} | step: ${step} | nextPath: ${nextPath} | uploadID: ${uploadID} |  isNewEditorSource: ${isNewEditorSource}
+
+<hr/>
+<mcr:includeEditor 
+  editorSessionID="${editorSessionID}"  isNewEditorSource="${isNewEditorSource}" 
+  mcrid2="${mcrid2}"  uploadID="${uploadID}"
+  mcrid="${mcrid}" type="${type}" step="${step}" target="MCRCheckMetadataServlet" nextPath="${nextPath}"/>    
+       
 <hr/>	
