@@ -18,7 +18,7 @@
   <td> 	
   	<p>	<fmt:message key="SWF.User.Register" />	</p>
 	<p>	<fmt:message key="SWF.User.Register2" />	</p>
-    <c:import url="${applicationScope.WebApplicationBaseURL}editor/editor-registeruser.xml?XSL.editor.source.new=true&XSL.editor.cancel.url=${applicationScope.WebApplicationBaseURL}nav?path=${requestScope.path}&usecase=register-user&page=nav?path=~registered" />    
+    <c:import url="${applicationScope.WebApplicationBaseURL}editor/workflow/editor-registeruser.xml?XSL.editor.source.new=true&XSL.editor.cancel.url=${applicationScope.WebApplicationBaseURL}nav?path=${requestScope.path}&usecase=register-user&page=nav?path=~registered" />    
 	<hr/>
 	<p><fmt:message key="Nav.Service.Text1" /></p>
 	<p><a href="mailto:atlibri@uni-rostock.de">atlibri@uni-rostock.de</a></p>  
