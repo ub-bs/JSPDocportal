@@ -50,8 +50,21 @@ public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 	
 	public void setInitiator(String initiator){
 		setStringVariableValue("initiator", initiator);
+		setStringVariableValue("fileCnt", "0");
 	}
 	
+	public String getDocumentType() {
+		
+		String mcrid = getStringVariableValue("createdDocID");
+		
+		try {
+			String parts[] = mcrid.split("_");
+			return parts[1];
+		} catch(Exception anyEx) {
+			return "";
+		}
+	}
+
 	public String getStringVariableValue(String varName) {
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try {
