@@ -41,6 +41,7 @@ import org.jdom.Element;
 import org.jdom.Namespace;
 import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
+import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRDefaults;
 import org.mycore.common.MCRException;
@@ -135,11 +136,9 @@ public class MCREditorOutValidator {
         this.errorlog = new ArrayList();
         this.input = jdom_in;
         this.id = id;
-        byte[] xml = MCRUtils.getByteArray(input);
-System.out.println(new String(xml));
+        LOGGER.debug("before validating: " + JSPUtils.getPrettyString(input));
         checkObject();
-        xml = MCRUtils.getByteArray(input);
-System.out.println(new String(xml));
+        LOGGER.debug("after validating: " + JSPUtils.getPrettyString(input));
     }
 
     /**
