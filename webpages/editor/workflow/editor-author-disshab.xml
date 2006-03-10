@@ -145,7 +145,7 @@
 				 <hidden var="@inherited" default="0" />
 				 <hidden var="@type" default="locator" />
 			     <!-- configure this in mycore.properties  -->
-			     <include uri="request:content/getHiddenVarElement.jspx?var=@classid&amp;prop=MCR.WorkflowEngine.ClassificationID.DDC.xmetadiss&amp;defaultValue=DocPortal_class_00000009" />				 
+			     <include uri="request:editor/helper/getHiddenVarElement.jspx?var=@classid&amp;prop=MCR.WorkflowEngine.ClassificationID.DDC.xmetadiss&amp;defaultValue=DocPortal_class_00000009" />				 
 				<!--  <hidden var="@classid" default="DocPortal_class_00000009" />  -->
 				 <hidden var="@categid" />
 				 <cell row="1" col="1" width="100%">
@@ -170,13 +170,13 @@
     <hidden var="metadata/publishers/@textsearch" default="true" />
     <hidden var="metadata/publishers/publisher/@lang" default="de" />
     <!--  configure this in messages_de.properties and messages_en.properties -->
-    <include uri="request:content/getHiddenVarElement.jspx?var=metadata.publishers.publisher&amp;prop=MCR.WorkflowEngine.PublisherDefaultName.xmetadiss&amp;lang=de&amp;bundle=messages" />
+    <include uri="request:editor/helper/getHiddenVarElement.jspx?var=metadata.publishers.publisher&amp;prop=MCR.WorkflowEngine.PublisherDefaultName.xmetadiss&amp;lang=de&amp;bundle=messages" />
     <!-- hidden var="metadata/publishers/publisher" default="Universitätsbibliothek der MyCoRe-Freunde" / -->    
     <hidden var="metadata/publishers/publisher/@type" default="publication" />
     <hidden var="metadata/publishers/publisher[2]/@inherited" default="0" />
     <hidden var="metadata/publishers/publisher[2]/@lang" default="en" />
     <!--  configure this in messages_de.properties and messages_en.properties -->
-    <include uri="request:content/getHiddenVarElement.jspx?var=metadata.publishers.publisher[2]&amp;prop=MCR.WorkflowEngine.PublisherDefaultName.xmetadiss&amp;lang=en&amp;bundle=messages" />
+    <include uri="request:editor/helper/getHiddenVarElement.jspx?var=metadata.publishers.publisher[2]&amp;prop=MCR.WorkflowEngine.PublisherDefaultName.xmetadiss&amp;lang=en&amp;bundle=messages" />
     <hidden var="metadata/publishers/publisher[2]/@type" default="publication" />            
   </panel>
 
@@ -186,9 +186,9 @@
     <hidden var="metadata/publishlinks/publishlink/@label" default="publication" />
     <hidden var="metadata/publishlinks/publishlink/@type" default="locator" />      
     <!-- configure this in mycore.properties  -->
-    <include uri="request:content/getHiddenVarElement.jspx?var=metadata.publishlinks.publishlink.@href&amp;prop=MCR.WorkflowEngine.PublisherDefaultID.xmetadiss&amp;defaultValue=DocPortal_institution_00000001" />
+    <include uri="request:editor/helper/getHiddenVarElement.jspx?var=metadata.publishlinks.publishlink.@href&amp;prop=MCR.WorkflowEngine.PublisherDefaultID.xmetadiss&amp;defaultValue=DocPortal_institution_00000001" />
     <!--  configure this in messages_de.properties and messages_en.properties -->    
-    <include uri="request:content/getHiddenVarElement.jspx?var=metadata.publishlinks.publishlink.@title&amp;prop=MCR.WorkflowEngine.PublisherDefaultName.xmetadiss&amp;lang=de&amp;bundle=messages" />    
+    <include uri="request:editor/helper/getHiddenVarElement.jspx?var=metadata.publishlinks.publishlink.@title&amp;prop=MCR.WorkflowEngine.PublisherDefaultName.xmetadiss&amp;lang=de&amp;bundle=messages" />    
   </panel>
 
 <!-- ** Data for the FORMAT *** -->
@@ -197,8 +197,8 @@
     <hidden var="metadata/formats/@class" default="MCRMetaClassification" />
     <hidden var="metadata/formats/format/@inherited" default="0" />
 	<!-- configure this in mycore.properties  -->
-	   <include uri="request:content/getHiddenVarElement.jspx?var=metadata.formats.format.@classid&amp;prop=MCR.WorkflowEngine.ClassificationID.Format.xmetadiss&amp;defaultValue=DocPortal_class_00000006" />				 
-	   <include uri="request:content/getHiddenVarElement.jspx?var=metadata.formats.format.@categid&amp;prop=MCR.WorkflowEngine.Classification.Format.DefaultCategoryID.xmetadiss&amp;defaultValue=Format0001" />				 
+	   <include uri="request:editor/helper/getHiddenVarElement.jspx?var=metadata.formats.format.@classid&amp;prop=MCR.WorkflowEngine.ClassificationID.Format.xmetadiss&amp;defaultValue=DocPortal_class_00000006" />				 
+	   <include uri="request:editor/helper/getHiddenVarElement.jspx?var=metadata.formats.format.@categid&amp;prop=MCR.WorkflowEngine.Classification.Format.DefaultCategoryID.xmetadiss&amp;defaultValue=Format0001" />				 
 	   <!--  <hidden var="@classid" default="DocPortal_class_00000009" />  -->
   </panel>
 

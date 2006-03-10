@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
+       xmlns:c="http://java.sun.com/jsp/jstl/core"
+       xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+       xmlns:x="http://java.sun.com/jsp/jstl/xml"
+       xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+       xmlns:mcr="/WEB-INF/lib/mycore-taglibs.jar"
+>
+<fmt:setLocale value="${param.lang}" />
+<fmt:setBundle basename='${param.bundle}'/>
+<c:choose>
+   <c:when test="${empty(param.bundle)}">
+      <mcr:getConfigProperty prop="${param.prop}" var="propValue" defaultValue="${param.defaultValue}" />
+   </c:when>
+   <c:otherwise>
+      <c:set var="propValue"><fmt:message key="${param.prop}" /></c:set>
+   </c:otherwise>
+</c:choose>
+<jsp:element name="hiddens">
+    <jsp:element name="hidden">
+      <jsp:attribute name="var"><c:out value="${fn:replace(param.var,'.','/')}" /></jsp:attribute>
+      <jsp:attribute name="default"><c:out value="${propValue}" /></jsp:attribute>
+    </jsp:element>
+</jsp:element>    
+</jsp:root>

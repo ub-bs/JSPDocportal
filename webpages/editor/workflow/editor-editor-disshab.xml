@@ -149,7 +149,7 @@
                  <hidden var="@inherited" default="0" />
                  <hidden var="@type" default="locator" />
                  <!-- configure this in mycore.properties  -->
-                 <include uri="request:content/getHiddenVarElement.jspx?var=@classid&amp;prop=MCR.WorkflowEngine.ClassificationID.DDC.xmetadiss&amp;defaultValue=DocPortal_class_00000009" />                
+                 <include uri="request:editor/helper/getHiddenVarElement.jspx?var=@classid&amp;prop=MCR.WorkflowEngine.ClassificationID.DDC.xmetadiss&amp;defaultValue=DocPortal_class_00000009" />                
                 <!--  <hidden var="@classid" default="DocPortal_class_00000009" />  -->
                  <hidden var="@categid" />
                  <cell row="1" col="1" width="100%">
@@ -211,7 +211,7 @@
     <hidden var="metadata/formats/@notinherit" default="false" />
     <hidden var="metadata/formats/@heritable" default="true" />
     <hidden var="metadata/formats/format/@inherited" default="0" />
-    <include uri="request:content/getHiddenVarElement.jspx?var=metadata.formats.format.@classid&amp;prop=MCR.WorkflowEngine.ClassificationID.Format.xmetadiss&amp;defaultValue=DocPortal_class_00000006" />              
+    <include uri="request:editor/helper/getHiddenVarElement.jspx?var=metadata.formats.format.@classid&amp;prop=MCR.WorkflowEngine.ClassificationID.Format.xmetadiss&amp;defaultValue=DocPortal_class_00000006" />              
     <cell col="1" row="1" anchor="WEST" ref="SFormat" var="metadata/formats/format/@categid" />
   </panel>
 
