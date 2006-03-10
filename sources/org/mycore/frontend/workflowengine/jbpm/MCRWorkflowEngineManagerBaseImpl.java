@@ -17,6 +17,7 @@ import org.jdom.filter.ElementFilter;
 import org.jdom.output.XMLOutputter;
 import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
+import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRDefaults;
 import org.mycore.common.MCRException;
@@ -24,9 +25,12 @@ import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.MCRUtils;
 import org.mycore.common.xml.MCRURIResolver;
 import org.mycore.common.xml.MCRXMLHelper;
+import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRMetaAddress;
 import org.mycore.datamodel.metadata.MCRMetaBoolean;
+import org.mycore.datamodel.metadata.MCRMetaIFS;
 import org.mycore.datamodel.metadata.MCRMetaLangText;
+import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRMetaPersonName;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
@@ -471,16 +475,77 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		Iterator it = derivate.getDescendants(new ElementFilter("linkmeta"));
 		if ( it.hasNext() ) {
 	      Element el = (Element) it.next();
-          derivateData.setAttribute("href",el.getAttributeValue("href",org.jdom.Namespace.getNamespace("xlink",MCRDefaults.XLINK_URL)) );
+	      String href = el.getAttributeValue("href",org.jdom.Namespace.getNamespace("xlink",MCRDefaults.XLINK_URL));
+	      if ( href==null)  	href = "";      
+          derivateData.setAttribute("href", href);
 	    } 
 		
-		it = derivate.getDescendants(new ElementFilter("internals"));		
+		it = derivate.getDescendants(new ElementFilter("internal"));		
 	    if ( it.hasNext() )	    {
 	      Element el = (Element) it.next();
-	      derivateData.setAttribute("maindoc", el.getAttributeValue("maindoc"));          
+	      String maindoc = el.getAttributeValue("maindoc");
+	      if ( maindoc==null)  	maindoc = "####";
+	      derivateData.setAttribute("maindoc", maindoc );          
 	    }
 	    return derivateData;		
 	}
+	
+	
+	/**
+	 * The method create a new MCRDerivate and store them to the directory of
+	 * the workflow that correspons with the type of the given object
+	 * MCRObjectID with the name of itseslf. Also it creates a new directory with
+	 * the same new name. This new derivate ID was returned.
+	 * 
+	 * @param objmcrid        the MCRObjectID of the related object
+	 * @return the MCRObjectID of the derivate
+	 */
+	
+	public String addNewDerivateToWorkflowObject(String objmcrid, String documentType) {
+		String lang = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
+	    String base = MCRConfiguration.instance().getString("MCR.default_project_id","DocPortal")+ "_derivate"; 	    		
+		MCRObjectID IDMax = new MCRObjectID();
+		IDMax.setNextFreeId(base);
+		
+		String dirname = getWorkflowDirectory(documentType);
+		ArrayList DerivateList = getAllDerivateDataFromWorkflow( documentType);		
+		for (int i = 0  ; i < DerivateList.size(); i++) {
+			Element derivate = (Element) DerivateList.get(i);
+			try { 
+				
+				MCRObjectID IDinWF = new MCRObjectID(derivate.getAttributeValue("ID"));
+				if (IDMax.getNumberAsInteger() <= IDinWF.getNumberAsInteger()) {
+					IDinWF.setNumber(IDinWF.getNumberAsInteger() + 1);
+					IDMax = IDinWF;
+				}				
+			} catch (Exception ignored){ ; } 
+		}
+		
+		logger.debug("New derivate ID " + IDMax.getId());
+
+		// create a new directory
+		File dir = new File(dirname + File.separator + IDMax.getId());
+		dir.mkdir();
+		logger.debug("Directory " + dir.getAbsolutePath() + " created.");
+
+		// build the derivate XML file
+		MCRDerivate der = new MCRDerivate();
+		der.setId(IDMax);
+		der.setLabel("Dataobject from " + IDMax.getId());
+		der.setSchema("datamodel-derivate.xsd");
+		MCRMetaLinkID link = new MCRMetaLinkID("linkmetas", "linkmeta", lang , 0);
+		link.setReference(objmcrid, "", "");
+		der.getDerivate().setLinkMeta(link);
+		MCRMetaIFS internal = new MCRMetaIFS("internals", "internal", lang , IDMax.getId());
+		internal.setMainDoc("#####");
+		der.getDerivate().setInternals(internal);
+		
+		JSPUtils.saveDirect( der.createXML(), dir.getAbsolutePath() + ".xml");
+		logger.info("Derivate " + IDMax.getId() + " stored under " + dir.getAbsolutePath() + ".xml");
+		return IDMax.getId();
+	}
+	
+	
 	
 	
 	/*

@@ -115,5 +115,9 @@ public interface MCRWorkflowEngineManagerInterface {
 	 *           Document jdom a list of all documents plus there derivate id's
 	 */
 	abstract Document getListWorkflowProcess(String userid, String workflowProcessType);
+
+	public boolean deleteDerivateObject(String documentType, String metadataObject, String derivateObject);
+	
+	public String addNewDerivateToWorkflowObject(String objmcrid, String documentType); 
 	
 }
