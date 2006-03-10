@@ -68,23 +68,13 @@
       <label xml:lang="de">(bitte wählen)</label>
       <label xml:lang="en">(please choose)</label>
     </item>
-    <include uri="request:content/classifications-to-items.jspx?classid=DocPortal_class_00000002" />	  
-    <!-- include uri="request:content/classifications-to-items.jspx?classid=mediaTUM_class_000000000000009" / -->	  
-    <!-- include uri="request:content/classifications-to-items.jspx?classid=atlibri_class_00000002" / -->	  
-	
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.WorkflowEngine.ClassificationID.Origin.xmetadiss&amp;defaultValue=DocPortal_class_00000002" />              
   </list>
 
   <panel id="DOrigin">
-    <hidden var="metadata/origins/@class" default="MCRMetaClassification" />
-    <hidden var="metadata/origins/@parasearch" default="true" />
-    <hidden var="metadata/origins/@textsearch" default="false" />
-    <hidden var="metadata/origins/@notinherit" default="false" />
-    <hidden var="metadata/origins/@heritable" default="true" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/origins&amp;classname=MCRMetaClassification&amp;textsearch=false" />
     <hidden var="metadata/origins/origin/@inherited" default="0" />
-    <hidden var="metadata/origins/origin/@classid" default="DocPortal_class_00000002" />	  
-    <!-- hidden var="metadata/origins/origin/@classid" default="mediaTUM_class_000000000000009" / -->
-    <!-- hidden var="metadata/origins/origin/@classid" default="atlibri_class_00000002" / -->	  
-	
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/origins/origin/@classid&amp;prop=MCR.WorkflowEngine.ClassificationID.Origin.xmetadiss&amp;defaultValue=DocPortal_class_00000002" />               
     <cell col="1" row="1" anchor="WEST" ref="COrigin" var="metadata/origins/origin/@categid" />
   </panel>
 
@@ -98,16 +88,10 @@
   </panel>
 
   <panel id="DDescription">
-    <hidden var="metadata/descriptions/@class" default="MCRMetaLangText" />
-    <hidden var="metadata/descriptions/@parasearch" default="true" />
-    <hidden var="metadata/descriptions/@textsearch" default="true" />
-    <hidden var="metadata/descriptions/@notinherit" default="false" />
-    <hidden var="metadata/descriptions/@heritable" default="true" />
-
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/descriptions&amp;classname=MCRMetaLangText" />
     <cell col="1" row="1" var="metadata/descriptions/description">
        <repeater min="2" max="5" ref="RDescription" />
     </cell>
-
   </panel>
 
 <!-- desripturls fehlen -->
@@ -115,11 +99,7 @@
 <!-- *** Data for the Contributor ** -->
 
   <panel id="DContributor">
-    <hidden var="metadata/contributors/@class" default="MCRMetaPersonName" />
-    <hidden var="metadata/contributors/@parasearch" default="true" />
-    <hidden var="metadata/contributors/@textsearch" default="true" />
-    <hidden var="metadata/contributors/@notinherit" default="false" />
-    <hidden var="metadata/contributors/@heritable" default="true" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/contributors&amp;classname=MCRMetaPersonName" />
     <cell row="1" col="1" anchor="NORTHWEST" var="metadata/contributors/contributor">
        <repeater min="3" max="8" ref="RContributorReferee" />
     </cell>
@@ -153,44 +133,19 @@
 
 <!-- ** Data for the TYPE *** -->
 
-  <list id="CType" width="425px" type="dropdown" class="mandatory">	  
+  <list id="CType" width="425px" type="dropdown" class="mandatory">
     <item value="">
       <label xml:lang="de">(bitte wählen)</label>
       <label xml:lang="en">(please choose)</label>
     </item>
-    <item value="TYPE0008">
-       <label xml:lang="de">Dissertation</label>
-       <label xml:lang="en">Ph.D. Thesis</label>
-    </item>
-    <item value="TYPE0007">
-       <label xml:lang="de">Diplomarbeit</label>
-       <label xml:lang="en">diploma thesis</label>
-    </item>
-    <item value="TYPE0009">
-       <label xml:lang="de">Habilitation</label>
-       <label xml:lang="en">habilitation</label>
-    </item>
-    <item value="TYPE0029">
-       <label xml:lang="de">Masterarbeit</label>
-       <label xml:lang="en">master thesis</label>
-    </item>    
-    <item value="TYPE0030">
-       <label xml:lang="de">Bachelorarbeit</label>
-       <label xml:lang="en">bachelor thesis</label>
-    </item>
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getSpecialCategoriesInItems&amp;classProp=MCR.WorkflowEngine.ClassificationID.Type.xmetadiss&amp;categoryProp=MCR.WorkflowEngine.Classification.Type.SelectCategoryIDs.xmetadiss" />                       
   </list>
 
   <panel id="DType">
-    <hidden var="metadata/types/@class" default="MCRMetaClassification" />
-    <hidden var="metadata/types/@parasearch" default="true" />
-    <hidden var="metadata/types/@textsearch" default="false" />
-    <hidden var="metadata/types/@notinherit" default="false" />
-    <hidden var="metadata/types/@heritable" default="true" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/types&amp;classname=MCRMetaClassification&amp;textsearch=false" />
     <hidden var="metadata/types/type/@inherited" default="0" />
-    <!-- hidden var="metadata/types/type/@classid" default="atlibri_class_00000005" / -->
-    <!-- hidden var="metadata/types/type/@classid" default="mediaTUM_class_000000000000005" / -->
-    <hidden var="metadata/types/type/@classid" default="DocPortal_class_00000005" />
-    <cell col="1" row="1" anchor="WEST" ref="CType" var="metadata/types/type/@categid" ordernr="13" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/types/type/@classid&amp;prop=MCR.WorkflowEngine.ClassificationID.Type.xmetadiss&amp;defaultValue=DocPortal_class_00000005" />               
+    <cell col="1" row="1" anchor="WEST" ref="CType" var="metadata/types/type/@categid" />
   </panel>
 
 <!-- *** only select list for formats -->
@@ -209,27 +164,18 @@
 <!-- ** Data for the LANGUAGE *** -->
 
   <list id="CLanguage" width="425px" type="dropdown" class="mandatory">
-    <item value="LANG0001">
-      <label xml:lang="de">Deutsch</label>
-      <label xml:lang="en">German</label>
+    <item value="">
+      <label xml:lang="de">(bitte wählen)</label>
+      <label xml:lang="en">(please choose)</label>
     </item>
-    <item value="LANG0002">
-      <label xml:lang="de">Englisch</label>
-      <label xml:lang="en">English</label>
-    </item>
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getSpecialCategoriesInItems&amp;classProp=MCR.WorkflowEngine.ClassificationID.Language.xmetadiss&amp;categoryProp=MCR.WorkflowEngine.Classification.Language.SelectCategoryIDs.xmetadiss" /> 
   </list>
 
   <panel id="DLanguage">
-    <hidden var="metadata/languages/@class" default="MCRMetaClassification" />
-    <hidden var="metadata/languages/@parasearch" default="true" />
-    <hidden var="metadata/languages/@textsearch" default="false" />
-    <hidden var="metadata/languages/@notinherit" default="false" />
-    <hidden var="metadata/languages/@heritable" default="true" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/languages&amp;classname=MCRMetaClassification&amp;textsearch=false" />
     <hidden var="metadata/languages/language/@inherited" default="0" />
-    <hidden var="metadata/languages/language/@classid" default="DocPortal_class_00000004" />
-    <!-- hidden var="metadata/languages/language/@classid" default="mediaTUM_class_000000000000004" / -->
-    <!-- hidden var="metadata/languages/language/@classid" default="atlibri_class_00000004" / -->
-    <cell col="1" row="1" anchor="WEST" ref="CLanguage" var="metadata/languages/language/@categid" ordernr="18" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/types/type/@classid&amp;prop=MCR.WorkflowEngine.ClassificationID.Language.xmetadiss&amp;defaultValue=DocPortal_class_00000004" />
+    <cell col="1" row="1" anchor="WEST" ref="CLanguage" var="metadata/languages/language/@categid" />
   </panel>
 
 <!-- coveragelink fehlt -->
@@ -241,8 +187,16 @@
 
 <!-- isbn fehlt -->
 <!-- nbn fehlt -->
-<!-- ddb:contact fehlt, geht übers stylesheet -->
-<!-- notes fehlt -->
+<!-- *** Data for the Note ** -->
+  <panel id="DNote">
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/notes&amp;classname=MCRMetaLangText" />  
+    <hidden var="metadata/notes/note/@inherited" default="0" />
+    <cell col="1" row="1" anchor="WEST" ref="TFzeile1024" var="metadata/notes/note" />
+    <cell col="2" row="1" anchor="NORTHWEST" ref="Slang" var="metadata/notes/note/@lang" default="de" />
+    <hidden var="metadata/notes/note[2]/@inherited" default="0" />
+    <cell col="1" row="2" anchor="WEST" ref="TFzeile1024" var="metadata/notes/note[2]" />
+    <cell col="2" row="2" anchor="NORTHWEST" ref="SlangEN" var="metadata/notes/note[2]/@lang" default="en" />            
+  </panel>
 <!-- citations fehlt -->
 
 <!-- ** MÜNCHEN -  Data for the COLLECTION *** 

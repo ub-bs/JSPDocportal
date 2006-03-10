@@ -91,15 +91,20 @@
     <cell col="2" row="191" anchor="NORTHEAST" ref="HKeywords" />
 
     <cell col="1" row="192" colspan="2" anchor="NORTHWEST" ref="DKeywords" />
+    
+    <cell col="1" row="201" anchor="NORTHWEST" ref="LNote" />
+    <cell col="2" row="201" anchor="NORTHEAST" ref="HNote" />
 
-    <cell col="1" row="202" anchor="NORTHWEST" ref="DHiddenFields" />
+    <cell col="1" row="202" colspan="2" anchor="NORTHWEST" ref="DNote" />    
+
+    <cell col="1" row="252" anchor="NORTHWEST" ref="DHiddenFields" />
     
  
-    <cell col="1" row="205" anchor="EAST" >
+    <cell col="1" row="255" anchor="EAST" >
       <space width="10" height="40" />
     </cell>
-    <cell col="1" row="210" anchor="EAST" ref="BCancel"            />
-    <cell col="2" row="210" anchor="WEST" ref="BSubmitDisshab" var="save" />
+    <cell col="1" row="260" anchor="EAST" ref="BCancel"            />
+    <cell col="2" row="260" anchor="WEST" ref="BSubmitDisshab" var="save" />
     
   </panel>
 
@@ -145,7 +150,7 @@
 				 <hidden var="@inherited" default="0" />
 				 <hidden var="@type" default="locator" />
 			     <!-- configure this in mycore.properties  -->
-			     <include uri="request:editor/helper/getHiddenVarElement.jspx?var=@classid&amp;prop=MCR.WorkflowEngine.ClassificationID.DDC.xmetadiss&amp;defaultValue=DocPortal_class_00000009" />				 
+			     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=@classid&amp;prop=MCR.WorkflowEngine.ClassificationID.DDC.xmetadiss&amp;defaultValue=DocPortal_class_00000009" />				 
 				<!--  <hidden var="@classid" default="DocPortal_class_00000009" />  -->
 				 <hidden var="@categid" />
 				 <cell row="1" col="1" width="100%">
@@ -166,47 +171,46 @@
 <!-- *** Data for the Publisher ** -->
 
   <panel id="DPublisher">
-    <hidden var="metadata/publishers/@class" default="MCRMetaLangText" />
-    <hidden var="metadata/publishers/@textsearch" default="true" />
+	<include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/publishers&amp;classname=MCRMetaLangText" />
     <hidden var="metadata/publishers/publisher/@lang" default="de" />
     <!--  configure this in messages_de.properties and messages_en.properties -->
-    <include uri="request:editor/helper/getHiddenVarElement.jspx?var=metadata.publishers.publisher&amp;prop=MCR.WorkflowEngine.PublisherDefaultName.xmetadiss&amp;lang=de&amp;bundle=messages" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.publishers.publisher&amp;prop=MCR.WorkflowEngine.PublisherDefaultName.xmetadiss&amp;lang=de&amp;bundle=messages" />
     <!-- hidden var="metadata/publishers/publisher" default="Universitätsbibliothek der MyCoRe-Freunde" / -->    
     <hidden var="metadata/publishers/publisher/@type" default="publication" />
     <hidden var="metadata/publishers/publisher[2]/@inherited" default="0" />
     <hidden var="metadata/publishers/publisher[2]/@lang" default="en" />
     <!--  configure this in messages_de.properties and messages_en.properties -->
-    <include uri="request:editor/helper/getHiddenVarElement.jspx?var=metadata.publishers.publisher[2]&amp;prop=MCR.WorkflowEngine.PublisherDefaultName.xmetadiss&amp;lang=en&amp;bundle=messages" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.publishers.publisher[2]&amp;prop=MCR.WorkflowEngine.PublisherDefaultName.xmetadiss&amp;lang=en&amp;bundle=messages" />
     <hidden var="metadata/publishers/publisher[2]/@type" default="publication" />            
   </panel>
 
 <!-- *** Data for the PublishLinks ** -->
   <panel id="DPublishLink">
-    <hidden var="metadata/publishlinks/@class" default="MCRMetaLinkID" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/publishlinks&amp;classname=MCRMetaLinkID&amp;textsearch=false" /> 
     <hidden var="metadata/publishlinks/publishlink/@label" default="publication" />
     <hidden var="metadata/publishlinks/publishlink/@type" default="locator" />      
     <!-- configure this in mycore.properties  -->
-    <include uri="request:editor/helper/getHiddenVarElement.jspx?var=metadata.publishlinks.publishlink.@href&amp;prop=MCR.WorkflowEngine.PublisherDefaultID.xmetadiss&amp;defaultValue=DocPortal_institution_00000001" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.publishlinks.publishlink.@href&amp;prop=MCR.WorkflowEngine.PublisherDefaultID.xmetadiss&amp;defaultValue=DocPortal_institution_00000001" />
     <!--  configure this in messages_de.properties and messages_en.properties -->    
-    <include uri="request:editor/helper/getHiddenVarElement.jspx?var=metadata.publishlinks.publishlink.@title&amp;prop=MCR.WorkflowEngine.PublisherDefaultName.xmetadiss&amp;lang=de&amp;bundle=messages" />    
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.publishlinks.publishlink.@title&amp;prop=MCR.WorkflowEngine.PublisherDefaultName.xmetadiss&amp;lang=de&amp;bundle=messages" />    
   </panel>
 
 <!-- ** Data for the FORMAT *** -->
 
   <panel id="DFormat">
-    <hidden var="metadata/formats/@class" default="MCRMetaClassification" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/formats&amp;classname=MCRMetaClassification&amp;textsearch=false" />
     <hidden var="metadata/formats/format/@inherited" default="0" />
-	<!-- configure this in mycore.properties  -->
-	   <include uri="request:editor/helper/getHiddenVarElement.jspx?var=metadata.formats.format.@classid&amp;prop=MCR.WorkflowEngine.ClassificationID.Format.xmetadiss&amp;defaultValue=DocPortal_class_00000006" />				 
-	   <include uri="request:editor/helper/getHiddenVarElement.jspx?var=metadata.formats.format.@categid&amp;prop=MCR.WorkflowEngine.Classification.Format.DefaultCategoryID.xmetadiss&amp;defaultValue=Format0001" />				 
+		<!-- configure this in mycore.properties  -->
+	   <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.formats.format.@classid&amp;prop=MCR.WorkflowEngine.ClassificationID.Format.xmetadiss&amp;defaultValue=DocPortal_class_00000006" />				 
+	   <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.formats.format.@categid&amp;prop=MCR.WorkflowEngine.Classification.Format.DefaultCategoryID.xmetadiss&amp;defaultValue=Format0001" />				 
 	   <!--  <hidden var="@classid" default="DocPortal_class_00000009" />  -->
   </panel>
 
 <!-- *** Data for the KEYWORDS ** -->
 
   <panel id="DKeywords">
-    <hidden var="metadata/keywords/@class" default="MCRMetaLangText" />
-    <hidden var="metadata/keywords/@textsearch" default="true" />    
+	<include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/keywords&amp;classname=MCRMetaLangText" />  
+     
     <hidden var="metadata/keywords/keyword/@inherited" default="0" />
     
     <cell col="1" row="1" colspan="3" anchor="NORTHWEST" ref="AKeywordsFreetext" />
@@ -241,7 +245,7 @@
 
   <panel id="DHiddenFields">
     <!-- *** Data for the COVERAGE ** -->
-    <hidden var="metadata/coverages/@class" default="MCRMetaLangText" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/coverages&amp;classname=MCRMetaLangText" />  
     <hidden var="metadata/coverages/coverage" />
     <hidden var="metadata/coverages/coverage/@lang" />
     <hidden var="metadata/coverages/coverage[2]" />
@@ -249,15 +253,14 @@
 
 <!-- *** Data for the Relation ** -->
 
-    <hidden var="metadata/relations/@class" default="MCRMetaLangText" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/relations&amp;classname=MCRMetaLangText" />  
     <hidden var="metadata/relations/relation" />
     <hidden var="metadata/relations/relation/@lang" default="de" />  
     <hidden var="metadata/relations/relation[2]" />
     <hidden var="metadata/relations/relation[2]/@lang" default="de" />  
 
 <!-- *** Data for the Rights ** -->
-
-    <hidden var="metadata/rights/@class" default="MCRMetaLangText" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/rights&amp;classname=MCRMetaLangText" />  
     <hidden var="metadata/rights/right" default="Dissertation /Copyrightbestimmungen" />
     <hidden var="metadata/rights/right/@lang"  default="de" />
 
@@ -265,16 +268,12 @@
     <hidden var="metadata/rights/right[2]/@lang"  default="de" />
 
 <!-- *** Data for the RightsLinks ** -->
-
-    <hidden var="metadata/rightslinks/@class" default="MCRMetaLink" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/rightslinks&amp;classname=MCRMetaLink&amp;textsearch=false" />  
     <hidden var="metadata/rightslinks/rightslink/@type" default="locator" />
-    <hidden var="metadata/rightslinks/rightslink/@href" default="http://www.uni-rostock.de/ub/ediss/copyright_terms.html" />
-    <!-- hidden var="metadata/rightslinks/rightslink/@href" default="http://www.ub.tum.de/medien/ediss/copyright_terms.html" / -->
-    <!-- hidden var="metadata/rightslinks/rightslink/@href" default="http://www.uni-rostock.de/ub/ediss/copyright_terms.html" / -->
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/rightslinks/rightslink/@href&amp;prop=MCR.WorkflowEngine.Rightslinks.DefaultURL.xmetadiss&amp;defaultValue=http://www.mycore.de" />                     
 
 <!-- *** Data for the Size ** -->
-
-    <hidden var="metadata/sizes/@class" default="MCRMetaLangText" />   
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/sizes&amp;classname=MCRMetaLangText&amp;textsearch=false" />  
     <hidden var="metadata/sizes/size" />
     <hidden var="metadata/sizes/size/@lang" />  
     
@@ -282,26 +281,33 @@
     <hidden var="metadata/sizes/size[2]/@lang" />        
 
 <!-- *** Data for the Place ** -->
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/places&amp;classname=MCRMetaLangText&amp;textsearch=false" />  
 
-    <hidden var="metadata/places/@class" default="MCRMetaLangText" />
-    <hidden var="metadata/places/place" default="Rostock" />    
-    <!-- hidden var="metadata/places/place" default="München" / -->    
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/places/place&amp;prop=MCR.WorkflowEngine.PlaceDefault.xmetadiss&amp;lang=de&amp;bundle=messages" />    
     <hidden var="metadata/places/place/@lang" default="de" />    
-    
-    <hidden var="metadata/places/place[2]" default="Rostock" />    
-    <!-- hidden var="metadata/places/place[2]" default="Munich" / -->    
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/places/place&amp;prop=MCR.WorkflowEngine.PlaceDefault.xmetadiss&amp;lang=en&amp;bundle=messages" />        
     <hidden var="metadata/places/place[2]/@lang" default="en" />    
 
 
     <!-- *** Data for the URN ** -->
-    <hidden var="metadata/urns/@class" default="MCRMetaLangText" />
-    <hidden var="metadata/urns/@textsearch" default="true" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/urns&amp;classname=MCRMetaLangText" />    
+    <hidden var="metadata/urns/urn/@type" />
     <hidden var="metadata/urns/urn" />
-  
-    <hidden var="metadata/urls/@class" default="MCRMetaLangText" />
-    <hidden var="metadata/urls/url" />
-    <hidden var="metadata/urls/url/@lang" default="de" />
-	
+    <hidden var="metadata/urns/urn[2]/@type" />
+    <hidden var="metadata/urns/urn[2]" />
+    <hidden var="metadata/urns/urn[3]/@type" />
+    <hidden var="metadata/urns/urn[3]" />
+    <hidden var="metadata/urns/urn[4]/@type" />
+    <hidden var="metadata/urns/urn[4]" />
+    <hidden var="metadata/urns/urn[5]/@type" />
+    <hidden var="metadata/urns/urn[5]" />    
+    
+<!-- *** Data for the ddb contact id ** -->
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/contacts&amp;classname=MCRMetaLangText&amp;textsearch=false" />  
+	<include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/contacts/contact&amp;prop=MCR.WorkflowEngine.ContactIdDDB.xmetadiss" />    
+    <hidden var="metadata/contacts/contact/@type" default="ddb" />
+    <hidden var="metadata/contacts/contact/@lang" default="de" />  
+    
   </panel>
 
 
