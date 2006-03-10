@@ -5,6 +5,7 @@
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
 
 <mcr:session method="get" var="username" type="userID" />
+<c:set  var="baseURL" value="${applicationScope.WebApplicationBaseURL}"/>
 
 <fmt:setLocale value="${requestScope.lang}" />
 <fmt:setBundle basename='messages' />
@@ -26,10 +27,12 @@
 
 <table border="0" >
 <x:forEach select="$myWorkflowList/mcr_workflow/mcr_result">	
+     <x:set var="processid" select="string(@processid)" />
      <x:forEach select="all-metavalues">
         <x:set var="itemID" select="string(./@ID)" />
+        <x:set var="processID" select="string(./@processid)" />
         <tr>
-			<td class="nothing" colspan="3"><hr />	</td>
+			<td class="nothing" colspan="3">ProcessID: ${processid} | App.Base: ${baseURL} <hr />	</td>
 	    </tr>
         <tr>
          <td class="resultTitle">
@@ -43,60 +46,41 @@
 		 <td align="right">
 				<table cellpadding="0" cellspacing="0">
 					<tr>
-										<c:if test="${param.type == 'document' || param.type == 'professorum' || param.type == 'disshab' }">
-											<td align="center" valign="top" width="30">
-												<form method="get" action="${requestScope.WebApplicationBaseURL}nav">
-													<input value="~editor-include" name="path" type="hidden">
-													<input value="${requestScope.lang}" name="lang" type="hidden">
-													<input name="mcrid" value="${itemID}" type="hidden">
-													<input value="${param.type}" name="type" type="hidden">
-													<input value="${param.step}" name="step" type="hidden">
-													<input value="wnewder" name="todo" type="hidden">
-												    <input value="~workflow-${param.type}" name="nextPath" type="hidden">																									
-													<input title="<fmt:message key="Derivate.AddDerivate" />" src="${requestScope.WebApplicationBaseURL}images/workflow_add.gif" type="image" class="imagebutton">
-												</form>
-											</td>
-										</c:if>
+								<c:if test="${param.type == 'document' || param.type == 'professorum' || param.type == 'disshab' }">
 										<td align="center" valign="top" width="30">
-											<form method="get" action="${requestScope.WebApplicationBaseURL}nav">
-												<input value="~editor-include" name="path" type="hidden">
-												<input value="withdata" name="start" type="hidden">
-												<input value="${requestScope.lang}" name="lang" type="hidden">
-												<input name="mcrid" value="${itemID}" type="hidden">
-												<input value="${param.type}" name="type" type="hidden">
-												<input value="${param.step}" name="step" type="hidden">
-											    <input value="~workflow-${param.type}" name="nextPath" type="hidden">																									
-												<input value="weditobj" name="todo" type="hidden">
-												<input title="<fmt:message key="Object.EditObject" />" src="${requestScope.WebApplicationBaseURL}images/workflow_edit.gif" type="image" class="imagebutton">
+											<form method="get" action="${baseURL}workflowaction">
+												<input name="processid" value="${processid}" type="hidden">
+												<input name="todo" value="WFAddNewDerivateToWorkflowObject" type="hidden">
+												<input title="<fmt:message key="Derivate.AddDerivate" />" src="${baseURL}images/workflow_add.gif" type="image" class="imagebutton">
+											</form>
+										</td>
+								</c:if>
+										<td align="center" valign="top" width="30">
+											<form method="get" action="${baseURL}workflowaction">
+												<input name="processid" value="${processid}" type="hidden">
+												<input name="todo" 		value="WFEditWorkflowObject" type="hidden">
+												<input title="<fmt:message key="Object.EditObject" />" src="${baseURL}images/workflow_edit.gif" type="image" class="imagebutton">
 											</form>
 										</td>
 										<td align="center" valign="top" width="30">
-											<form method="get" action="${requestScope.WebApplicationBaseURL}start_edit">
-												<input value="${requestScope.lang}" name="lang" type="hidden">
-												<input name="mcrid" value="${itemID}" type="hidden">
-												<input value="${param.type}" name="type" type="hidden">
-												<input value="${param.step}" name="step" type="hidden">
-												<input value="wcommit" name="todo" type="hidden">
-												<input value="~workflow-${param.type}" name="nextPath" type="hidden">												
-												<input title="<fmt:message key="Object.CommitObject" />" src="${requestScope.WebApplicationBaseURL}images/workflow_commit.gif" type="image" class="imagebutton">
+											<form method="get" action="${baseURL}workflowaction">
+												<input name="processid" value="${processid}" type="hidden">
+												<input name="todo" 		value="WFCommitWorkflowObject" type="hidden">
+												<input title="<fmt:message key="Object.CommitObject" />" src="${baseURL}images/workflow_commit.gif" type="image" class="imagebutton">
 											</form>
 										</td>
 										<td align="center" valign="top" width="30">
-											<form method="get" action="${requestScope.WebApplicationBaseURL}start_edit">
-												<input value="${requestScope.lang}" name="lang" type="hidden">
-												<input name="mcrid" value="${itemID}" type="hidden">
-												<input value="${param.type}" name="type" type="hidden">
-												<input value="${param.step}" name="step" type="hidden">
-												<input value="wdelobj" name="todo" type="hidden">
-												<input value="~workflow-${param.type}" name="page" type="hidden">
-												<input title="<fmt:message key="Object.DelObject" />" src="${requestScope.WebApplicationBaseURL}images/workflow_delete.gif" type="image" class="imagebutton">
+											<form method="get" action="${baseURL}workflowaction">
+												<input name="processid" value="${processid}" type="hidden">
+												<input name="todo" 		value="WFDeleteWorkflowObject" type="hidden">
+												<input title="<fmt:message key="Object.DelObject" />" src="${baseURL}images/workflow_delete.gif" type="image" class="imagebutton">
 											</form>
 										<td align="center" valign="top" width="30">
-											<form method="get" action="${requestScope.WebApplicationBaseURL}nav">
+											<form method="get" action="${baseURL}nav">
 												<input value="~workflow-preview" name="path" type="hidden">
 												<input name="id" value="${itemID}" type="hidden">
 												<input name="fromWForDB" value="workflow" type="hidden">
-												<input title="<fmt:message key="Object.Preview" />" src="${requestScope.WebApplicationBaseURL}images/workflow_preview.gif" type="image" class="imagebutton">
+												<input title="<fmt:message key="Object.Preview" />" src="${baseURL}images/workflow_preview.gif" type="image" class="imagebutton">
 											</form>
 								</td>
 							</tr>
@@ -123,7 +107,7 @@
 	 										<x:choose>
 		                                        <x:when select="./@href != '' ">
 		                                            <a href="<x:out select="./@href" />">
-		                                            <img src="${WebApplicationBaseURL}images/mail.gif" border="0"><x:out select="./@text" /></a>
+		                                            <img src="${baseURL}images/mail.gif" border="0"><x:out select="./@text" /></a>
 		                                        </x:when>
 		                                        <x:otherwise>
 		                                            <x:out select="./@text" />
@@ -152,39 +136,29 @@
 								<table cellpadding="0" cellspacing="0">
 									<tr>
 										<td align="center" valign="top" width="30">
-											<form method="get" action="${requestScope.WebApplicationBaseURL}start_edit">
-												<input value="${requestScope.lang}" name="lang" type="hidden">
-												<input name="mcrid2" value="${derivateID}" type="hidden">
-												<input name="mcrid" value="${itemID}" type="hidden">
-												<input value="${param.type}" name="type" type="hidden">
-												<input value="${param.step}" name="step" type="hidden">
-												<input value="waddfile" name="todo" type="hidden">
-												<input title="<fmt:message key="Derivate.AddFile" />" src="${requestScope.WebAppliationBaseURL}images/classnew.gif" type="image" class="imagebutton">
+											<form method="get" action="${baseURL}workflowaction">
+												<input name="derivateID" value="${derivateID}" type="hidden">
+												<input name="processid" value="${processid}" type="hidden">
+												<input name="todo" value="WFAddNewFileToDerivate" type="hidden">
+												<input title="<fmt:message key="Derivate.AddFile" />" src="${baseURL}images/classnew.gif" type="image" class="imagebutton">
 											</form>
 										</td>
 										<td width="10"></td>
 										<td align="center" valign="top" width="30">
-											<form method="get" action="${requestScope.WebApplicationBaseURL}nav">
-												<input value="~editor-include" name="path" type="hidden">
-												<input value="${requestScope.lang}" name="lang" type="hidden">
-												<input name="mcrid2" value="${derivateID}" type="hidden">
-												<input name="mcrid" value="${itemID}" type="hidden">
-												<input value="${param.type}" name="type" type="hidden">
-												<input value="${param.step}" name="step" type="hidden">
-												<input value="weditder" name="todo" type="hidden">
-												<input title="<fmt:message key="Derivate.EditDerivate" />" src="${requestScope.WebAppliationBaseURL}images/classedit.gif" type="image" border="0" class="imagebutton">
+											<form method="get" action="${baseURL}workflowaction">
+												<input name="derivateID" value="${derivateID}" type="hidden">
+												<input name="processid" value="${processid}" type="hidden">
+												<input name="todo" value="WFEditDerivateFromWorkflowObject" type="hidden">
+												<input title="<fmt:message key="Derivate.EditDerivate" />" src="${baseURL}images/classedit.gif" type="image" border="0" class="imagebutton">
 											</form>
 										</td>
 										<td width="10"></td>
 										<td align="center" valign="top" width="30">
-											<form method="get" action="${requestScope.WebAppliationBaseURL}start_edit">
-												<input value="${requestScope.lang}" name="lang" type="hidden">
-												<input name="mcrid2" value="${derivateID}" type="hidden">
-												<input name="mcrid" value="${itemID}" type="hidden">
-												<input value="${param.type}" name="type" type="hidden">
-												<input value="${param.step}" name="step" type="hidden">
-												<input value="wdelder" name="todo" type="hidden">
-												<input title="<fmt:message key="Derivate.DelDerivate" />" src="${requestScope.WebAppliationBaseURL}images/classdelete.gif" type="image" border="0" class="imagebutton">
+											<form method="get" action="${baseURL}workflowaction">
+												<input name="derivateID" value="${derivateID}" type="hidden">
+												<input name="processid" value="${processid}" type="hidden">
+												<input name="todo" value="WFRemoveDerivateFromWorkflowObject" type="hidden">
+												<input title="<fmt:message key="Derivate.DelDerivate" />" src="${baseURL}images/classdelete.gif" type="image" border="0" class="imagebutton">
 											</form>
 										</td>
 									</tr>
@@ -208,15 +182,12 @@
 									<tr>
 										<td align="center" valign="top" width="30">
 											<c:if test="${numFiles gt 1}">
-												<form method="post" action="start_edit">
-													<input value="${requestScope.lang}" name="lang" type="hidden">
-													<input name="mcrid2" value="${derivateID}" type="hidden">
-													<input name="mcrid" value="${itemID}" type="hidden">
-													<input value="${param.type}" name="type" type="hidden">
-													<input value="${param.step}" name="step" type="hidden">
-													<input value="wdelfile" name="todo" type="hidden">
+												<form method="post" action="${baseURL}workflowaction">
+													<input name="derivateID" value="${derivateID}" type="hidden">
+													<input name="processid" value="${processid}" type="hidden">
+													<input value="WFRemoveFileFromDerivate" name="todo" type="hidden">
 													<input name="extparm" value="####nrall####2####nrthe####1####filename####<x:out select="."/>" type="hidden">
-													<input title="Löschen dieser Datei" src="${requestScope.WebApplicationBaseURL}images/button_delete.gif" type="image" class="imagebutton">
+													<input title="Löschen dieser Datei" src="${baseURL}images/button_delete.gif" type="image" class="imagebutton">
 												</form>
 											</c:if>
 										</td>
