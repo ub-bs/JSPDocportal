@@ -49,7 +49,7 @@ public class MCRGetEditorElements implements MCRResolver {
 		String[] splitParams = query.replaceAll("&amp;","&").split("&");
 		for (int i = 0; i < splitParams.length; i++) {
 			String[] splitParam = splitParams[i].split("=");
-			params.put(splitParam[0], splitParam[1]);
+			params.put(splitParam[0].trim(), splitParam[1].trim());
 		}
 		return params;
 	}
