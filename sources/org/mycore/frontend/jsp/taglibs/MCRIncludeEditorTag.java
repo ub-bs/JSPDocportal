@@ -103,10 +103,13 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 			}
 			if(editorPath != null && !editorPath.equals("")) {
 				editorBase = editorPath;
-			}else {
+			}else if(uploadID == null || uploadID.equals("") ) {
 				editorBase = new StringBuffer(NavServlet.getBaseURL())
 				.append("editor/workflow/editor_form_").append(step).append('-').append(type)
 				.append(".xml").toString();	
+			}else{
+				editorBase = new StringBuffer(NavServlet.getBaseURL())
+				.append("editor/workflow/editor-author-addfile.xml").toString();
 			}
 			parameters = getParameters();
 			pageContext.getSession().setAttribute("editorPath", editorBase);			
