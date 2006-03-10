@@ -9,6 +9,11 @@
     </listener>
     
     <!-- servlets -->
+	<servlet>
+        <servlet-name>MCRWorkflowActions</servlet-name>
+        <servlet-class>org.mycore.frontend.workflowengine.jbpm.MCRWorkflowActions</servlet-class>
+    </servlet>     
+	
     <servlet>
          <servlet-name>MCRJSPObjectServlet</servlet-name>
          <servlet-class>org.mycore.frontend.servlets.MCRJSPObjectServlet</servlet-class>
@@ -315,6 +320,11 @@
         <url-pattern>/servlets/MCRPutUserRegistrationToWorkflow/*</url-pattern>
     </servlet-mapping> 
 
+   <servlet-mapping>
+        <servlet-name>MCRWorkflowActions</servlet-name>
+        <url-pattern>/workflowaction</url-pattern>
+    </servlet-mapping>
+		
     <servlet-mapping>
         <servlet-name>MCRPassToTargetServlet</servlet-name>
         <url-pattern>/servlets/MCRPassToTargetServlet/*</url-pattern>
