@@ -139,9 +139,6 @@
 
     <cell col="1" row="282" colspan="2" anchor="NORTHWEST" ref="DNote" />     
 
-    <cell col="1" row="302" anchor="NORTHWEST" ref="DHiddenFields" />
-    
- 
     <cell col="1" row="305" anchor="EAST" >
       <space width="10" height="40" />
     </cell>

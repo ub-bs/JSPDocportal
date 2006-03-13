@@ -92,12 +92,12 @@
 
     <cell col="1" row="192" colspan="2" anchor="NORTHWEST" ref="DKeywords" />
     
-    <cell col="1" row="201" anchor="NORTHWEST" ref="LNote" />
-    <cell col="2" row="201" anchor="NORTHEAST" ref="HNote" />
+    <cell col="1" row="202" anchor="NORTHWEST" ref="DHiddenFields" />
+    
+    <cell col="1" row="211" anchor="NORTHWEST" ref="LNote" />
+    <cell col="2" row="211" anchor="NORTHEAST" ref="HNote" />
 
-    <cell col="1" row="202" colspan="2" anchor="NORTHWEST" ref="DNote" />    
-
-    <cell col="1" row="252" anchor="NORTHWEST" ref="DHiddenFields" />
+    <cell col="1" row="212" colspan="2" anchor="NORTHWEST" ref="DNote" />     
     
  
     <cell col="1" row="255" anchor="EAST" >
@@ -303,7 +303,7 @@
     <hidden var="metadata/urns/urn[5]" />    
     
 <!-- *** Data for the ddb contact id ** -->
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/contacts&amp;classname=MCRMetaLangText&amp;textsearch=false" />  
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/contacts&amp;classname=MCRMetaLangText&amp;textsearch=false&amp;parasearch=false" />  
 	<include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/contacts/contact&amp;prop=MCR.WorkflowEngine.ContactIdDDB.xmetadiss" />    
     <hidden var="metadata/contacts/contact/@type" default="ddb" />
     <hidden var="metadata/contacts/contact/@lang" default="de" />  
