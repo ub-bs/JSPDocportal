@@ -609,7 +609,44 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		return true;
 	}
 	
-	
+	public final boolean deleteWorkflowObject(String objmcrid, String documentType) {
+		boolean bSuccess = true;
+		String dirname = getWorkflowDirectory(documentType);
+		String filename = dirname + File.separator + objmcrid + ".xml";
+
+		try {
+			File fi = new File(filename);
+			if (fi.isFile() && fi.canWrite()) {				
+				fi.delete();
+				logger.debug("File " + filename + " removed.");
+			} else {
+				logger.error("Can't remove file " + filename);
+				bSuccess = false;
+			}
+		} catch (Exception ex) {
+			logger.error("Can't remove file " + filename);
+				bSuccess = false;
+		}
+		
+		if ( bSuccess ) {
+			ArrayList DerivateList = getAllDerivateDataFromWorkflow( documentType);		
+			for (int i = 0  ; i < DerivateList.size(); i++) {
+				Element derivate = (Element) DerivateList.get(i);
+				try { 				
+					String href = derivate.getAttributeValue("href");
+					String derivateID = derivate.getAttributeValue("ID");
+					if ( objmcrid.equalsIgnoreCase(href)) {
+						bSuccess = deleteDerivateObject(documentType, objmcrid, derivateID );
+					}
+				} catch (Exception ig){ 
+					logger.error("Can't load File catched error: ", ig);
+					bSuccess=false;
+				}				
+			}
+		} 
+		return bSuccess;
+	 }
+	 
 	/*
 	 *    DUMMY IMPLEMENTATION, MUST BE EXTENDED BY REAL WORKFLOW-IMPLEMENTATIONS
 	 *    IF NEEDED THERE
@@ -687,10 +724,6 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		return bDeleted;
 	}	
 	
-	public void setCommitStatus( String mcrid){
-		// leer	
-	}
-	
 	public String getAuthorFromUniqueWorkflow(String userid){
 		return "";
 	}
@@ -715,5 +748,18 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	public void initWorkflowProcess(String initiator) throws MCRException {
 		logger.warn("no workflow process is initialized, must be implemented in subclass, if needed");
 	}
+	
+	public String getCurrentWorkflowMessage(String role, long  pid){
+		String status = MCRJbpmWorkflowBase.getWorkflowStatus(pid);
+		// getMessage from Status and role (author|editor)
+		String message = status;
+		
+		return message;
+	}	
+	
+	public void setCommitStatus( String mcrid, String lastAction){
+		// leer	
+	}
+	
 	
 }

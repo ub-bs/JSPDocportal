@@ -118,10 +118,12 @@ public interface MCRWorkflowEngineManagerInterface {
 
 	public boolean deleteDerivateObject(String documentType, String metadataObject, String derivateObject);
 	
-	public String addNewDerivateToWorkflowObject(String objmcrid, String documentType); 
+	public String addNewDerivateToWorkflowObject(String objmcrid, String documentType);
 	
 	public boolean commitWorkflowObject(String objmcrid, String documentType);
 	
-	public void setCommitStatus(String mcrid);
+	public boolean deleteWorkflowObject(String objmcrid, String documentType);
+	
+	public void setCommitStatus(String mcrid, String lastAction);
 	
 }

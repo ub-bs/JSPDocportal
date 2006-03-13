@@ -74,12 +74,21 @@ public class MCRWorkflowActions extends MCRServlet {
         String derivateID = parms.getParameter("derivateID");
         String nextPath = parms.getParameter("nextPath");
 
-        if ( nextPath == null || nextPath.length() == 0)        	nextPath = "~workflow-" + documentType;
+        if ( nextPath == null || nextPath.length() == 0)        	
+        	 nextPath = "~workflow-" + documentType;
         
         String todo = parms.getParameter("todo");
        
         if ( "WFAddWorkflowObject".equals(todo) ) {
+        	wfo.setWorkflowStatus(documentType + "Created");        	
         	// leeren Editor für das Object includieren
+        	request.setAttribute("isNewEditorSource","false");
+        	request.setAttribute("mcrid",mcrid);
+        	request.setAttribute("type",documentType);
+        	request.setAttribute("step","author");
+        	request.setAttribute("nextPath",nextPath);
+        	request.getRequestDispatcher("/nav?path=~editor-include").forward(request, response);
+        	return;
         }
         if ( "WFEditWorkflowObject".equals(todo) ) {
         	wfo.setWorkflowStatus(documentType + "Edited");
@@ -96,17 +105,33 @@ public class MCRWorkflowActions extends MCRServlet {
         if ( "WFCommitWorkflowObject".equals(todo) ) {
         	//Object komplett in die DB schieben
         	boolean bSuccess =false;
-    		if ( (  	AI.checkPermission(mcrid, "commitdb")
-    	             && AI.checkPermission(derivateID,"deletedb")) ) {    			
+    		if ( ! ( 	AI.checkPermission(mcrid, "commitdb")
+    	             && AI.checkPermission(derivateID,"deletedb")) ) {   			
+       			wfo.setWorkflowStatus("error" + documentType + "CommitRight");
+    		} else {    		
     		   	bSuccess = WFI.commitWorkflowObject(documentType, mcrid);
+       			wfo.setWorkflowStatus(documentType + "Committed");
     		}
     		if (bSuccess) {
-    			// Object hochgeladen
-    			WFI.setCommitStatus( mcrid);
+    			// Je nach WorkflowImplementation reagieren!
+    			WFI.setCommitStatus(mcrid, "WFCommitWorkflowObject");
     		}
+    		request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
+        	return;
         }
         if ( "WFDeleteWorkflowObject".equals(todo) ) {
-        	//Object aus dem WF löschen
+        	boolean bSuccess =false;
+    		if ( ! AI.checkPermission(mcrid, "deletewf") ) {
+       			wfo.setWorkflowStatus("error" + documentType + "DeleteRight");
+    		} else {
+    			bSuccess = WFI.deleteWorkflowObject(mcrid,documentType );
+    		}
+    		if (bSuccess) {
+    			// gesamten Prozess löschen!!
+    			MCRJbpmCommands.deleteProcess(pid);
+    		}
+    		request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
+        	return;
         }
         if ( "WFAddNewDerivateToWorkflowObject".equals(todo) ) {
         	derivateID = WFI.addNewDerivateToWorkflowObject(mcrid, documentType);
@@ -115,7 +140,7 @@ public class MCRWorkflowActions extends MCRServlet {
 	       		wfo.setStringVariableValue("fileCnt", Integer.toString(fcnt+1));
         	}
         	todo = "WFAddNewFileToDerivate";
-        	
+        	// kein requestforward !
         }
         if ( "WFEditDerivateFromWorkflowObject".equals(todo) ) {
         	//befüllten Editor für das Derivate includieren
