@@ -154,7 +154,7 @@
       <label xml:lang="de">(bitte wählen)</label>
       <label xml:lang="en">(please choose)</label>
     </item>
-    <include uri="request:content/classifications-to-items.jspx?prop=MCR.WorkflowEngine.ClassificationID.Format.xmetadiss" />	  	  
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.WorkflowEngine.ClassificationID.Format.xmetadiss&amp;defaultValue=DocPortal_class_00000006" />                   
   </list>
 
 <!-- IDENTIFIER fehlt -->
