@@ -1,6 +1,8 @@
 package org.mycore.frontend.workflowengine.jbpm;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -34,6 +36,9 @@ import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRMetaPersonName;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.datamodel.metadata.MCRObjectService;
+import org.mycore.frontend.cli.MCRDerivateCommands;
+import org.mycore.frontend.cli.MCRObjectCommands;
 import org.mycore.frontend.jsp.format.MCRResultFormatter;
 import org.mycore.frontend.workflow.MCREditorOutValidator;
 import org.mycore.services.nbn.MCRNBN;
@@ -337,7 +342,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	 */
 	public String getNextFreeID(String objtype) {
 	    String base = MCRConfiguration.instance().getString("MCR.default_project_id","DocPortal")+ "_" + objtype; 	    
-		String workingDirectoryPath = getWorkflowDirectory(objtype);
+		String workingDirectoryPath = MCRConfiguration.instance().getString("MCR.editor_" + objtype + "_directory");
 		
 		MCRObjectID IDMax = new MCRObjectID();
 		IDMax.setNextFreeId(base);
@@ -394,7 +399,10 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 			    logger.debug("Workflow file "+wfile+" was readed.");
 			    
 			    Element containerHit = new Element ("all-metavalues");
-	        	mcr_result.setAttribute("filename", sb.toString()); 
+	        	mcr_result.setAttribute("filename", sb.toString());
+	        	mcr_result.setAttribute("processid", pid.toString()); 
+	        	mcr_result.setAttribute("ID", docID);
+	        	
 		        try {
 			        containerHit = formatter.processDocDetails(workflow_in,resultlistElement,lang,"", documentType);
 		        } catch (Exception formattingEx ){
@@ -413,7 +421,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 			for (int j = 0; j < derivateDataArray.size(); j++) {
 			  try {				   			        
 					Element derivate =  (Element) derivateDataArray.get(j);
-					if ( docID == derivate.getAttributeValue("href")) {
+					if ( docID.equalsIgnoreCase(derivate.getAttributeValue("href"))) {
 						String derivatePath = derivate.getAttributeValue("ID");
 						File dir = new File(dirname, derivatePath);
 						logger.debug("Derivate under " + dir.getName());
@@ -457,7 +465,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 				if (dirl != null) {
 					for (int i = 0; i < dirl.length; i++) {
 						if ((dirl[i].indexOf("_derivate_") != -1) && (dirl[i].endsWith(".xml"))) {
-							Element derivateData = getDerivateMetaData(dirl[i]);
+							Element derivateData = getDerivateMetaData(dirname + File.separator + dirl[i]);
 							workfiles.add(derivateData);						
 						}
 					}
@@ -544,8 +552,62 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		logger.info("Derivate " + IDMax.getId() + " stored under " + dir.getAbsolutePath() + ".xml");
 		return IDMax.getId();
 	}
+
+	
+	public boolean commitWorkflowObject(String objmcrid, String documentType) {
+		boolean bSuccess = true;
+		String dirname = getWorkflowDirectory(documentType);
+		String filename = dirname + File.separator + objmcrid + ".xml";
+
+		try { 
+			if (MCRObject.existInDatastore(objmcrid)) {
+				MCRObject mcr_obj = new MCRObject();
+				mcr_obj.deleteFromDatastore(objmcrid);
+			}
+			MCRObjectCommands.loadFromFile(filename);
+			logger.info("The metadata object: " + filename + " is loaded.");
+		} catch (Exception ig){ 
+			logger.error("Can't load File catched error: ", ig);
+			bSuccess=false;
+		}
+		if ( (bSuccess = MCRObject.existInDatastore(objmcrid))  ) {
+			ArrayList DerivateList = getAllDerivateDataFromWorkflow( documentType);		
+			for (int i = 0  ; i < DerivateList.size(); i++) {
+				Element derivate = (Element) DerivateList.get(i);
+				try { 				
+					String href = derivate.getAttributeValue("href");
+					String derivateID = derivate.getAttributeValue("ID");
+					if ( objmcrid.equalsIgnoreCase(href)) {
+						bSuccess = commitDerivateObject(derivateID, documentType);
+					}
+				} catch (Exception ig){ 
+					logger.error("Can't load File catched error: ", ig);
+					bSuccess=false;
+				}				
+			}
+		}
+		return bSuccess;
+	}
 	
 	
+	public boolean commitDerivateObject(String derivateid, String documentType) {
+		String dirname = getWorkflowDirectory(documentType);
+		String filename = dirname + File.separator + derivateid + ".xml";
+		return loadDerivate(derivateid, filename);
+	}
+
+	private boolean loadDerivate(String derivateid, String filename) {
+		if (MCRDerivate.existInDatastore(derivateid)) {
+			MCRDerivateCommands.updateFromFile(filename);
+		} else {
+			MCRDerivateCommands.loadFromFile(filename);
+		}
+		if (!MCRDerivate.existInDatastore(derivateid)) {
+			return false;
+		}
+		logger.debug("Commit the derivate " + filename);
+		return true;
+	}
 	
 	
 	/*
@@ -625,6 +687,9 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		return bDeleted;
 	}	
 	
+	public void setCommitStatus( String mcrid){
+		// leer	
+	}
 	
 	public String getAuthorFromUniqueWorkflow(String userid){
 		return "";
