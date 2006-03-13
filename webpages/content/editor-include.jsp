@@ -71,6 +71,31 @@
 </c:choose>
 <c:set var="editorSessionID" value="${param['XSL.editor.session.id']}" />
 
+<c:choose>
+   <c:when test="${!empty(param.target)}">
+      <c:set  var="target" value="${param.target}"/>
+   </c:when>
+   <c:when test="${!empty(requestScope.target)}">
+      <c:set  var="target" value="${requestScope.target}"/>
+   </c:when>   
+   <c:otherwise>
+      <c:set  var="target" value="MCRCheckMetadataServlet"/>
+   </c:otherwise>
+</c:choose>
+
+<c:choose>
+   <c:when test="${!empty(param.editorPath)}">
+      <c:set  var="editorPath" value="${param.editorPath}"/>
+   </c:when>
+   <c:when test="${!empty(requestScope.editorPath)}">
+      <c:set  var="editorPath" value="${requestScope.editorPath}"/>
+   </c:when>   
+   <c:otherwise>
+      <c:set  var="editorPath" value=""/>
+   </c:otherwise>
+</c:choose>
+
+
 <hr/>
 type: ${type} | mcrid: ${mcrid} | step: ${step} | nextPath: ${nextPath} | uploadID: ${uploadID} |  isNewEditorSource: ${isNewEditorSource}
 
@@ -78,6 +103,6 @@ type: ${type} | mcrid: ${mcrid} | step: ${step} | nextPath: ${nextPath} | upload
 <mcr:includeEditor 
   editorSessionID="${editorSessionID}"  isNewEditorSource="${isNewEditorSource}" 
   mcrid2="${mcrid2}"  uploadID="${uploadID}"
-  mcrid="${mcrid}" type="${type}" step="${step}" target="MCRCheckMetadataServlet" nextPath="${nextPath}"/>    
+  mcrid="${mcrid}" type="${type}" step="${step}" target="${target}" nextPath="${nextPath}" editorPath="${editorPath}" />    
        
 <hr/>	
