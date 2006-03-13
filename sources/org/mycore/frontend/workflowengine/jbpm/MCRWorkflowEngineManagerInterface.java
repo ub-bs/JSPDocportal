@@ -120,4 +120,8 @@ public interface MCRWorkflowEngineManagerInterface {
 	
 	public String addNewDerivateToWorkflowObject(String objmcrid, String documentType); 
 	
+	public boolean commitWorkflowObject(String objmcrid, String documentType);
+	
+	public void setCommitStatus(String mcrid);
+	
 }
