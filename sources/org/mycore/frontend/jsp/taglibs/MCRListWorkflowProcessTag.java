@@ -99,8 +99,7 @@ public class MCRListWorkflowProcessTag extends SimpleTagSupport {
 			return;
 		} 
 		org.jdom.Document workflow_doc = WFM.getListWorkflowProcess(userid,workflowProcessType);
-		JSPUtils.getPrettyString(workflow_doc);
-		
+		LOGGER.debug(JSPUtils.getPrettyString(workflow_doc));
 		org.w3c.dom.Document domDoc = null;
 		try {
 			domDoc = new DOMOutputter().output(workflow_doc);
