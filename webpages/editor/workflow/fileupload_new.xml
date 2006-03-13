@@ -10,7 +10,7 @@ Sie können einzelne Dateien bis 50 MB Größe direkt mittels des folgenden Formula
 <p></p>
 <br />
 <p></p>
-<editor id="author-addfile-de"><include uri="webapp:editor/workflow/editor-author-addfile.xml" /></editor>
+<editor id="author-addfile-de"><include uri="webapp:editor/workflow/editor-author-addfile-new.xml" /></editor>
 <p></p>
 <br />
 <p></p>
@@ -24,7 +24,7 @@ You can upload files with a maximum of size of 50 MB directly with this formular
 <p></p>
 <br />
 <p></p>
-<editor id="author-addfile-en"><include uri="webapp:editor/workflow/editor-author-addfile.xml" /></editor>
+<editor id="author-addfile-en"><include uri="webapp:editor/workflow/editor-author-addfile-new.xml" /></editor>
 <p></p>
 <br />
 <p></p>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE Editor>
+<editor>
+ <target type="servlet" name="MCRPassToTargetServlet" method="post" format="xml" />
+
+ <components root="author-addfile" var="/mycorederivate">
+
+  <include uri="webapp:editor/workflow/imports-common.xml" />
+
+  <headline anchor="CENTER">
+   <text>
+    <label xml:lang="de">Einstellen von max. 3 Dateien in den Workflow.<p/></label>
+    <label xml:lang="en">Add max. 3 files to the workflow.<p/></label>
+   </text>
+  </headline>
+
+  <panel id="author-addfile">
+    <cell col="1" row="1" anchor="NORTHWEST" ref="LFileP" />
+    <cell col="2" row="1" anchor="NORTHWEST" ref="DFileUploadDoc" />
+    <cell col="3" row="1" anchor="NORTHWEST" >
+      <space width="20" height="0" />
+    </cell>
+    <cell col="4" row="1" anchor="WEST" ref="HFile" />
+
+    <cell col="2" row="2" anchor="NORTHWEST" ref="DFileUploadHint" />
+
+    <cell col="1" row="3" anchor="EAST"      ref="TwoButtons"  />
+  </panel>
+
+<!-- *** Data for the file upload *** -->
+
+  <panel id="DFileUploadDoc" lines="on">
+    <cell row="1" col="1" anchor="WEST" var="pathes/path">
+      <file width="60" maxlength="5000000" />
+    </cell>
+    <cell row="2" col="1" anchor="WEST" var="pathes/path[2]">
+      <file width="60" maxlength="5000000" />
+    </cell>
+    <cell row="3" col="1" anchor="WEST" var="pathes/path[3]">
+      <file width="60" maxlength="5000000" />
+    </cell>
+  </panel>
+
+<!-- *** End *** -->
+
+ </components>
+</editor>
