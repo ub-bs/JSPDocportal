@@ -1,4 +1,6 @@
 MCR.SimpleDateFormat.strictParsing=false
+
+MCR.WorkflowEngine.DefaultPermissionTypes=read,commitdb,writedb,deletedb,deletewf
 ####################################################################
 # semantics of the acl-properties
 ####################################################################
@@ -16,6 +18,11 @@ MCR.WorkflowEngine.defaultACL.disshab.read.xmetadiss=<condition format="xml"><bo
 MCR.WorkflowEngine.defaultACL.disshab.commitdb.xmetadiss=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></condition>
 MCR.WorkflowEngine.defaultACL.disshab.deletewf.xmetadiss=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></condition>
 MCR.WorkflowEngine.defaultACL.disshab.deletedb.xmetadiss=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></condition>
+MCR.WorkflowEngine.defaultACL.derivate.writedb.xmetadiss=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></condition>
+MCR.WorkflowEngine.defaultACL.derivate.read.xmetadiss=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></condition>
+MCR.WorkflowEngine.defaultACL.derivate.commitdb.xmetadiss=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></condition>
+MCR.WorkflowEngine.defaultACL.derivate.deletewf.xmetadiss=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></condition>
+MCR.WorkflowEngine.defaultACL.derivate.deletedb.xmetadiss=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></condition>
 
 MCR.WorkflowEngine.PublisherDefaultID.xmetadiss=DocPortal_institution_00000001
 MCR.WorkflowEngine.ClassificationID.DDC.xmetadiss=DocPortal_class_00000009
