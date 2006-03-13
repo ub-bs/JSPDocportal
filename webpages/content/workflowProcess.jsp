@@ -89,6 +89,7 @@
 												<input name="fromWForDB" value="workflow" type="hidden">
 												<input title="<fmt:message key="Object.Preview" />" src="${baseURL}images/workflow_preview.gif" type="image" class="imagebutton">
 											</form>
+                                        </td>
 								   </c:if>
 										<td align="center" valign="top" width="30">
 											<form method="get" action="${baseURL}nav">
