@@ -95,6 +95,15 @@ public class MCRWorkflowActions extends MCRServlet {
         }
         if ( "WFCommitWorkflowObject".equals(todo) ) {
         	//Object komplett in die DB schieben
+        	boolean bSuccess =false;
+    		if ( (  	AI.checkPermission(mcrid, "commitdb")
+    	             && AI.checkPermission(derivateID,"deletedb")) ) {    			
+    		   	bSuccess = WFI.commitWorkflowObject(documentType, mcrid);
+    		}
+    		if (bSuccess) {
+    			// Object hochgeladen
+    			WFI.setCommitStatus( mcrid);
+    		}
         }
         if ( "WFDeleteWorkflowObject".equals(todo) ) {
         	//Object aus dem WF löschen
@@ -132,7 +141,6 @@ public class MCRWorkflowActions extends MCRServlet {
             //muss wenn es eine Dissertation ist, der Status wieder zurückgesetzt werden
         	boolean bSuccess =false;
     		if ( (  	AI.checkPermission(mcrid, "deletewf")
-    	             &&	AI.checkPermission(mcrid, "deletedb") 
     	             && AI.checkPermission(derivateID,"deletewf")) ) {    			
     		   	bSuccess = WFI.deleteDerivateObject(documentType, mcrid, derivateID);
     		}
