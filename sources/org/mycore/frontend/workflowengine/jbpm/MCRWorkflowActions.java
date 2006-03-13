@@ -24,6 +24,9 @@
 package org.mycore.frontend.workflowengine.jbpm;
 
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Enumeration;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,7 +52,6 @@ import org.mycore.frontend.servlets.MCRServletJob;
 public class MCRWorkflowActions extends MCRServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger LOGGER = Logger.getLogger(MCRWorkflowActions.class);
-	private static MCRWorkflowEngineManagerInterface WFI = MCRWorkflowEngineManagerFactory.getDefaultImpl();
 
 	/**
      * This method overrides doGetPost of MCRServlet. <br />
@@ -59,12 +61,14 @@ public class MCRWorkflowActions extends MCRServlet {
     	HttpServletRequest request = job.getRequest();
     	HttpServletResponse response = job.getResponse();
         String lang = mcrSession.getCurrentLanguage();
-    	
+            	
         MCRRequestParameters parms = new MCRRequestParameters(request);
 
         String pid = parms.getParameter("processid");
         
         MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(Long.parseLong(pid));
+        MCRWorkflowEngineManagerInterface WFI = wfo.getCurrentWorkflowManager();
+        
         //jbpm_variableinstance  initiator, authorID, reservatedURN und createdDocID
         String mcrid = wfo.getStringVariableValue("createdDocID");
         String userid = wfo.getStringVariableValue("initiator");
@@ -134,7 +138,7 @@ public class MCRWorkflowActions extends MCRServlet {
         	return;
         }
         if ( "WFAddNewDerivateToWorkflowObject".equals(todo) ) {
-        	derivateID = WFI.addNewDerivateToWorkflowObject(mcrid, documentType);
+        	derivateID = WFI.addNewDerivateToWorkflowObject(mcrid, documentType, userid);
         	if (derivateID != null && derivateID.length()>0) {
 	       		int fcnt = Integer.parseInt(fileCnt);           		
 	       		wfo.setStringVariableValue("fileCnt", Integer.toString(fcnt+1));
@@ -148,16 +152,21 @@ public class MCRWorkflowActions extends MCRServlet {
         if ( "WFAddNewFileToDerivate".equals(todo) ) {
         	//leeren upload Editor includieren
 			String fuhid = new MCRUploadHandlerMyCoRe( mcrid, derivateID, "new", nextPath).getID();
-        	request.setAttribute("isNewEditorSource","true");
-        	request.setAttribute("uploadID", fuhid);
-        	request.setAttribute("mcrid",mcrid);
-        	request.setAttribute("type",documentType);
-        	request.setAttribute("step","author");
-        	request.setAttribute("nextPath",nextPath);
-        	request.setAttribute("mcrid2",derivateID);
-        	request.getRequestDispatcher("/nav?path=~editor-include").forward(request, response);        	
-        	return;
+			String base = getBaseURL() + "nav";
+			Properties params = new Properties();
+			params.put("path","~editor-include");
+			params.put("uploadID", fuhid);
+			params.put("isNewEditorSource", "true");
+			params.put("mcrid2", mcrid);
+			params.put("type", documentType);
+			params.put("step", "author");
+			params.put("mcrid", derivateID);
+			params.put("target", "MCRCheckDerivateServlet");
+
+			response.sendRedirect(response.encodeRedirectURL(buildRedirectURL(base, params)));
+			return;
        	}
+     
         if ( "WFRemoveFileFromDerivate".equals(todo) ) {
         	// ein File aus dem Derivate löschen
         }        
@@ -181,6 +190,43 @@ public class MCRWorkflowActions extends MCRServlet {
         	return;
         }         
     }
+    
+	/**
+	 * Builds an url that can be used to redirect the client browser to another
+	 * page, including http request parameters. The request parameters will be
+	 * encoded as http get request.
+	 * 
+	 * @param baseURL
+	 *            the base url of the target webpage
+	 * @param parameters
+	 *            the http request parameters
+	 */
+	private String buildRedirectURL(String baseURL, Properties parameters) {
+		StringBuffer redirectURL = new StringBuffer(baseURL);
+		boolean first = true;
+
+		for (Enumeration e = parameters.keys(); e.hasMoreElements();) {
+			if (first) {
+				redirectURL.append("?");
+				first = false;
+			} else
+				redirectURL.append("&");
+
+			String name = (String) (e.nextElement());
+			String value = null;
+			try {
+				value = URLEncoder
+						.encode(parameters.getProperty(name), "UTF-8");
+			} catch (UnsupportedEncodingException ex) {
+				value = parameters.getProperty(name);
+			}
+
+			redirectURL.append(name).append("=").append(value);
+		}
+
+		LOGGER.debug("Sending redirect to " + redirectURL.toString());
+		return redirectURL.toString();
+	}    
     
 
 

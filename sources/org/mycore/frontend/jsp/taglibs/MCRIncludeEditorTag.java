@@ -102,14 +102,14 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 				cancelPage 		=  NavServlet.getBaseURL() + "nav?path=~workflow-" + type;
 			}
 			if(editorPath != null && !editorPath.equals("")) {
-				editorBase = editorPath;
+				editorBase = NavServlet.getBaseURL() + editorPath;
 			}else if(uploadID == null || uploadID.equals("") ) {
 				editorBase = new StringBuffer(NavServlet.getBaseURL())
 				.append("editor/workflow/editor_form_").append(step).append('-').append(type)
 				.append(".xml").toString();	
 			}else{
 				editorBase = new StringBuffer(NavServlet.getBaseURL())
-				.append("editor/workflow/editor-author-addfile.xml").toString();
+				.append("editor/workflow/fileupload_new.xml").toString();
 			}
 			parameters = getParameters();
 			pageContext.getSession().setAttribute("editorPath", editorBase);			

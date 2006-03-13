@@ -180,14 +180,14 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 		String authorID = getAuthorFromUniqueWorkflow(userid);
 		String urn = getURNReservation(userid);
 		// im WF noch keine DocID für userid vorhanden - in myCoRe kreieren	
-		docID = createDisshab(authorID, urn);
+		docID = createDisshab(authorID, userid, urn);
 		wfo.setStringVariableValue("createdDocID", docID);
 		wfo.setWorkflowStatus("disshabCreated");
 		return docID;					
 	}
 
 	
-	private String createDisshab(String sAuthorID, String sUrn){		
+	private String createDisshab(String sAuthorID, String userid, String sUrn){		
 		if ( !(sAuthorID.length()>0 && sUrn.length()>0)  ){
 			logger.warn("Could not create disshab object because empty parameters,  sAuthorID=" + sAuthorID + ", sUrn=" + sUrn);
 			return "";
@@ -256,6 +256,7 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 	    
 		// ID Setzen
 		String nextID = getNextFreeID("disshab");
+		MCRObjectID id = new MCRObjectID(nextID);
 		mycoreobject.setAttribute("ID", nextID);	 
 		mycoreobject.setAttribute("label", nextID);
 
@@ -272,10 +273,14 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 			//TODO Fehlermeldung
 			logger.warn("Could not create disshab object " +  nextID );
 			return "";
-		}	
+		}
+		setDefaultPermissions(id.getId(), userid );
    	    return disshab.getId().getId();		
 	}
 
+	public void setDefaultPermissions(String mcrid, String userid) {
+		setDefaultPermissions(new MCRObjectID(mcrid),"xmetadiss", userid);
+	}
 
 	protected MCRJbpmWorkflowObject getWorkflowObject(String userid) {
 		long curProcessID = getUniqueCurrentProcessID(userid);

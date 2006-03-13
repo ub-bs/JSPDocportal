@@ -15,7 +15,8 @@ import org.mycore.common.MCRException;
 public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 	
 	private static Logger logger = Logger.getLogger(MCRJbpmWorkflowObject.class);
-	long processInstanceID = -1;
+	private long processInstanceID = -1;
+	private String workflowProcessType;
 
 	public MCRJbpmWorkflowObject(String processType) {
 		createNewProcessInstance(processType);
@@ -24,13 +25,19 @@ public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 	public MCRJbpmWorkflowObject(long processID){
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try{
-			jbpmContext.getGraphSession().loadProcessInstance(processID);
+			ProcessInstance pI = jbpmContext.getGraphSession().loadProcessInstance(processID);
 			processInstanceID = processID;
+			workflowProcessType = pI.getProcessDefinition().getName();
+			
 		}catch(MCRException e){
 			logger.error("workflow error",e);
 		}finally{
 			jbpmContext.close();
 		}
+	}
+	
+	public MCRWorkflowEngineManagerInterface getCurrentWorkflowManager(){
+		return MCRWorkflowEngineManagerFactory.getImpl(workflowProcessType);
 	}
 	
 	private void createNewProcessInstance(String processType) {
@@ -39,6 +46,7 @@ public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 			GraphSession graphSession = jbpmContext.getGraphSession();
 		    ProcessDefinition processDefinition = graphSession.findLatestProcessDefinition(processType);
 		    ProcessInstance processInstance = new ProcessInstance(processDefinition);
+		    workflowProcessType = processInstance.getProcessDefinition().getName();
 		    processInstanceID = processInstance.getId();
 		    jbpmContext.save(processInstance);
 		}catch(MCRException e){

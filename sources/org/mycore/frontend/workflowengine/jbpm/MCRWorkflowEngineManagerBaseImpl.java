@@ -48,6 +48,7 @@ import org.mycore.user2.MCRUserMgr;
 public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManagerInterface{
 	
 	private static Logger logger = Logger.getLogger(MCRWorkflowEngineManagerBaseImpl.class.getName());
+	private static final String[] defaultPermissionTypes ;
 	private static MCRWorkflowEngineManagerInterface singleton;
 	protected static MCRConfiguration config = MCRConfiguration.instance();
 	protected static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
@@ -66,6 +67,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 			String hashKey = propKey.substring("MCR.WorkflowEngine.EditDirectory.".length());
 			editWorkflowDirectories.put(hashKey,props.getProperty(propKey));
 		}
+		defaultPermissionTypes = config.getString("MCR.WorkflowEngine.DefaultPermissionTypes", "read,commitdb,writedb,deletedb,deletewf").split(",");
 	}
     	
 	private Hashtable mt = null;
@@ -328,7 +330,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 			logger.warn("Could not Create authors object from the user object " + user.getID());
 			return "";
 		}
-		setDefaultACL(author.getId(), workflowProcessType, user.getID());
+		setDefaultPermissions(author.getId(), workflowProcessType, user.getID());
    	    return author.getId().getId();
 	}
 	
@@ -342,7 +344,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	 */
 	public String getNextFreeID(String objtype) {
 	    String base = MCRConfiguration.instance().getString("MCR.default_project_id","DocPortal")+ "_" + objtype; 	    
-		String workingDirectoryPath = MCRConfiguration.instance().getString("MCR.editor_" + objtype + "_directory");
+		String workingDirectoryPath = getWorkflowDirectory(objtype);
 		
 		MCRObjectID IDMax = new MCRObjectID();
 		IDMax.setNextFreeId(base);
@@ -499,6 +501,12 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	}
 	
 	
+	public void setDummyPermissions(String objid){
+		for (int i = 0; i < defaultPermissionTypes.length; i++) {
+			AI.addRule(objid, defaultPermissionTypes[i], MCRAccessManager.getTrueRule(), "");	
+		}		
+	}
+
 	/**
 	 * The method create a new MCRDerivate and store them to the directory of
 	 * the workflow that correspons with the type of the given object
@@ -508,8 +516,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	 * @param objmcrid        the MCRObjectID of the related object
 	 * @return the MCRObjectID of the derivate
 	 */
-	
-	public String addNewDerivateToWorkflowObject(String objmcrid, String documentType) {
+	public String addNewDerivateToWorkflowObject(String objmcrid, String documentType, String userid){
 		String lang = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
 	    String base = MCRConfiguration.instance().getString("MCR.default_project_id","DocPortal")+ "_derivate"; 	    		
 		MCRObjectID IDMax = new MCRObjectID();
@@ -550,9 +557,9 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		
 		JSPUtils.saveDirect( der.createXML(), dir.getAbsolutePath() + ".xml");
 		logger.info("Derivate " + IDMax.getId() + " stored under " + dir.getAbsolutePath() + ".xml");
-		return IDMax.getId();
+		setDefaultPermissions(IDMax.getId(), userid);
+		return IDMax.getId();		
 	}
-
 	
 	public boolean commitWorkflowObject(String objmcrid, String documentType) {
 		boolean bSuccess = true;
@@ -646,24 +653,28 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		} 
 		return bSuccess;
 	 }
+	
+	public static void setDefaultPermissions(MCRObjectID objID, String workflowProcessType, String userID){
+		
+		for (int i = 0; i < defaultPermissionTypes.length; i++) {
+			String propName = new StringBuffer("MCR.WorkflowEngine.defaultACL.")
+				.append(objID.getTypeId()).append(".").append(defaultPermissionTypes[i]).append(".")
+				.append(workflowProcessType).toString();
+			String strRule = config.getString(propName,"<condition format=\"xml\"><boolean operator=\"false\" /></condition>");
+			strRule = strRule.replaceAll("\\$\\{user\\}",userID);
+			Element rule = (Element)MCRXMLHelper.parseXML(strRule).getRootElement().detach();
+			AI.addRule(objID.getId(), defaultPermissionTypes[i], rule, "");
+		}
+	}	
 	 
 	/*
 	 *    DUMMY IMPLEMENTATION, MUST BE EXTENDED BY REAL WORKFLOW-IMPLEMENTATIONS
 	 *    IF NEEDED THERE
 	 */
 	
-	public static void setDefaultACL(MCRObjectID objID, String workflowProcessType, String userID){
-		String[] permissions = {"read","commitdb","writedb","deletedb","deletewf"};
-		for (int i = 0; i < permissions.length; i++) {
-			String propName = new StringBuffer("MCR.WorkflowEngine.defaultACL.")
-				.append(objID.getTypeId()).append(".").append(permissions[i]).append(".")
-				.append(workflowProcessType).toString();
-			String strRule = config.getString(propName,"<condition format=\"xml\"><boolean operator=\"false\" /></condition>");
-			strRule = strRule.replaceAll("\\$\\{user\\}",userID);
-			Element rule = (Element)MCRXMLHelper.parseXML(strRule).getRootElement().detach();
-			AI.addRule(objID.getId(), permissions[i], rule, "");
-		}
-	}	
+	public void setDefaultPermissions(String mcrid, String userid){
+		setDummyPermissions(mcrid);
+	}
 
 	public boolean deleteDerivateObject(String documentType, String metadataObject, String derivateObject) {	
 		String derivateDirectory = getWorkflowDirectory(documentType) + File.separator + derivateObject;
