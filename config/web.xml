@@ -8,7 +8,18 @@
     <listener-class>org.mycore.frontend.jsp.ContextListener</listener-class>
     </listener>
     
-    <!-- servlets -->
+    <!--  deprecated -->
+    <servlet>
+        <servlet-name>MCRCheckNewFileServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.servlets.MCRCheckNewFileServlet</servlet-class>
+    </servlet>    
+    
+    <!-- servlets -->    
+    <servlet>
+        <servlet-name>MCRCheckDerivateServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.workflowengine.jbpm.MCRCheckDerivateServlet</servlet-class>
+    </servlet>    
+    
 	<servlet>
         <servlet-name>MCRWorkflowActions</servlet-name>
         <servlet-class>org.mycore.frontend.workflowengine.jbpm.MCRWorkflowActions</servlet-class>
@@ -162,11 +173,6 @@
         <servlet-class>org.mycore.frontend.fileupload.MCRUploadServlet</servlet-class>
     </servlet>
 
-    <servlet>
-    <servlet-name>MCRCheckNewFileServlet</servlet-name>
-        <servlet-class>org.mycore.frontend.servlets.MCRCheckNewFileServlet</servlet-class>
-    </servlet>
-    
     <servlet id="MCRFileViewWorkflowServlet">
          <servlet-name>MCRFileViewWorkflowServlet</servlet-name>
          <servlet-class>org.mycore.frontend.servlets.MCRFileViewWorkflowServlet</servlet-class>
@@ -180,7 +186,11 @@
     <!-- servlet mappings -->
 
     <servlet-mapping>
-    
+        <servlet-name>MCRCheckDerivateServlet</servlet-name>
+        <url-pattern>/servlets/MCRCheckDerivateServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
     <servlet-name>NavServlet</servlet-name>
     <url-pattern>/nav</url-pattern>
     </servlet-mapping>
