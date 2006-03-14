@@ -461,6 +461,14 @@ specified in the action.
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
+            <attribute>
+                <description>
+                    The special style for the resultlist formatter,  if there is no extra style, default we use the style named resultlist-[documentType].xml
+                </description>
+                <name>style</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            			
             <info>A Tag, that parses the single-result-config-file, uses templates and builds a dom-object of the metadata for easy jstl-formatting</info>
         </tag>
         <tag>
