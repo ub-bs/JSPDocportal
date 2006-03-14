@@ -20,6 +20,11 @@ public class MCRDocDetailsTag extends SimpleTagSupport
 	private org.jdom.Document mcrObj;
 	private String var;
 	private String lang;
+	private String style;
+	
+	public void setStyle(String style) {
+		this.style = style;
+	}
 	
 	public void setMcrObj(org.jdom.Document inputDoc) {
 		mcrObj = inputDoc;
@@ -39,7 +44,7 @@ public class MCRDocDetailsTag extends SimpleTagSupport
 	public void doTag() throws JspException, IOException {
 		if (formatter == null) initialize();
 		
-		org.jdom.Document allMetaValues = formatter.getFormattedDocDetails(mcrObj,lang);
+		org.jdom.Document allMetaValues = formatter.getFormattedDocDetails(mcrObj,lang,style);
 		org.w3c.dom.Document domDoc = null;
 		try {
 			domDoc = new DOMOutputter().output(allMetaValues);
