@@ -115,20 +115,31 @@
          <x:when select="./@type = 'standard'">
             <x:set var="nameKey" select="string(./@name)" />
             <tr>
-               <td class="metaname"><fmt:message key="${nameKey}" />:</td>
+               <td class="metaname"><b><fmt:message key="${nameKey}" />:</b></td>
                <td class="metavalue">
                   <x:forEach select="./metavalues">
                      <x:set var="separator" select="./@separator" />
                      <x:set var="terminator" select="./@terminator" />
                      <x:if select="string-length(./@introkey) > 0" >
                         <x:set var="introkey" select="string(./@introkey)" />
-                        <fmt:message key="${introkey}" />
+                        <b><fmt:message key="${introkey}" /></b>
                      </x:if>
                      <x:forEach select="./metavalue">
-                        <x:if select="generate-id(../metavalue[position() = 1]) != generate-id(.)">
-                           <x:out select="$separator" escapeXml="false" />
-                        </x:if>
-                        <x:choose>
+						<x:choose>
+							   <x:when select="$separator = 'br'">
+                                 <x:if select="generate-id(../metavalue[position() = 1]) != generate-id(.)">
+                                  <br/>
+                                 </x:if>
+                               </x:when>
+                               <x:when select="$separator = 'ul'"><ul></x:when>                                  
+                               <x:when select="$separator = 'li'"><li></x:when>                                  
+                               <x:otherwise>
+                                <x:if select="generate-id(../metavalue[position() = 1]) != generate-id(.)">
+                                   <x:out select="$separator" escapeXml="false" />
+                                </x:if>
+                              </x:otherwise>
+                        </x:choose>                        
+                           <x:choose>
                            <x:when select="../@type = 'BooleanValues'">
                               <x:set var="booleanKey" select="concat(./@type,'-',./@text)" />
                               <fmt:message key="${booleanKey}" />
