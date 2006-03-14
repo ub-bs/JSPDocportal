@@ -697,11 +697,12 @@ public class MCRResultFormatter {
     }
     
     
-    public Document getFormattedDocDetails(Document doc, String lang) {
+    public Document getFormattedDocDetails(Document doc, String lang, String style) {
     	MCRObjectID mcrid = new MCRObjectID(doc.getRootElement().getAttributeValue("ID"));
 		String docType = mcrid.getTypeId();
-        Element definition = (docdetailsMap.containsKey(docType)) ?
-        		(Element)docdetailsMap.get(docType) : addDocType2DocdetailsMap(docType);		
+		String resultlistStyle = (style == null || style.length() == 0 )?docType:style;
+        Element definition = (docdetailsMap.containsKey(resultlistStyle)) ?
+        		(Element)docdetailsMap.get(resultlistStyle) : addDocType2DocdetailsMap(resultlistStyle);		
         Element allmetavalues = processDocDetails(doc, definition, lang, "", docType);
         Document allMetaValues = new Document(allmetavalues);
         //System.out.println(JSPUtils.getPrettyString(allMetaValues));
@@ -818,7 +819,7 @@ public class MCRResultFormatter {
     }
 	public static void main(String[] args) {
     	MCRResultFormatter formatter = new MCRResultFormatter();
-    	Document neu = formatter.getFormattedDocDetails((new MCRObject()).receiveJDOMFromDatastore("DocPortal_document_00410903"),"de");
+    	Document neu = formatter.getFormattedDocDetails((new MCRObject()).receiveJDOMFromDatastore("DocPortal_document_00410903"),"de", "");
     	if (neu == null) System.out.println("is null");
         System.out.println(JSPUtils.getPrettyString(neu));
         
