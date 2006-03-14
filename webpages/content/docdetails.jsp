@@ -11,6 +11,7 @@
 <c:set var="mcrid" value="${param.id}" /> 
 <c:set var="from"  value="${param.fromWForDB}" /> 
 <c:set var="debug" value="${param.debug}" />
+<c:set var="style" value="${param.style}" /> 
 
 <mcr:receiveMcrObjAsJdom var="mycoreobject" mcrid="${mcrid}" />
 <c:choose>
@@ -70,7 +71,7 @@
 
 
 <table cellspacing="0" cellpadding="0" id="metaData">
-    <mcr:docDetails var="docDetails" mcrObj="${mycoreobject}" lang="${requestScope.lang}" />
+    <mcr:docDetails mcrObj="${mycoreobject}" var="docDetails" lang="${requestScope.lang}" style="${style}" />    
     <x:forEach select="$docDetails//metaname">
       <x:choose>
          <x:when select="./@type = 'space'">
