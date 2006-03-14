@@ -12,6 +12,11 @@ import org.mycore.common.MCRConfiguration;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerFactory;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
 
+/**
+ * 
+ * @deprecated
+ *
+ */
 public class MCRGetAuthorFromUser extends SimpleTagSupport
 {
     //input vars

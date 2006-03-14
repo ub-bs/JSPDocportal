@@ -37,7 +37,6 @@ import org.apache.log4j.Logger;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.frontend.editor.MCRRequestParameters;
-import org.mycore.frontend.fileupload.MCRUploadHandlerMyCoRe;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
 
@@ -151,7 +150,7 @@ public class MCRWorkflowActions extends MCRServlet {
         }
         if ( "WFAddNewFileToDerivate".equals(todo) ) {
         	//leeren upload Editor includieren
-			String fuhid = new MCRUploadHandlerMyCoRe( mcrid, derivateID, "new", nextPath).getID();
+			String fuhid = new MCRWorkflowUploadHandler( mcrid, derivateID, "new", nextPath).getID();
 			String base = getBaseURL() + "nav";
 			Properties params = new Properties();
 			params.put("path","~editor-include");
@@ -162,6 +161,7 @@ public class MCRWorkflowActions extends MCRServlet {
 			params.put("step", "author");
 			params.put("mcrid", derivateID);
 			params.put("target", "MCRCheckDerivateServlet");
+			params.put("processid", pid);
 
 			response.sendRedirect(response.encodeRedirectURL(buildRedirectURL(base, params)));
 			return;

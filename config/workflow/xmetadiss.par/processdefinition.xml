@@ -14,28 +14,31 @@
   <swimlane name="subjectExpert">
     <!--   <assignment expression="user(ernie)" /> -->
   </swimlane>  
-
   
   <start-state name="start">
-    <task swimlane="author">
-      <controller>
-        <variable name="userid"/>
-      </controller>
-    </task>
-    <transition to="existingAuthor" />
-    <transition to="newAuthor" />
+     <transition name="go2processInitialized" to="processInitialized" />
   </start-state>
 
-  <state name="newAuthor">
-  	<transition name="creating author" to="existingAuthor" />
+  <state name="processInitialized">
+     <event type='node-enter'>
+        <action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRGetAuthorAction">
+           <variableName>authorID</variableName>
+        </action>
+     </event>
+     <transition name="go2authorCreated" to="authorCreated" />  
   </state>
-    
-  <state name="existingAuthor">
-  	<transition name="create urn" to="urnCreated" />
+  
+  <state name="authorCreated">
+     <event type='node-enter'>
+        <action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRGetURNAction">
+           <variableName>reservatedURN</variableName>
+        </action>        
+     </event>  
+  	<transition name="go2urnCreated" to="urnCreated" />
   </state>
   
   <state name="urnCreated">
-  	<transition name="createDisshab" to="disshabCreated" />
+  	<transition name="go2disshabCreated" to="disshabCreated" />
   </state>
   
   <state name="disshabCreated">

@@ -56,9 +56,8 @@ public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 		}		
 	} 
 	
-	public void setInitiator(String initiator){
-		setStringVariableValue("initiator", initiator);
-		setStringVariableValue("fileCnt", "0");
+	public void initialize(String initiator){
+		setStringVariableValue(varINITIATOR, initiator);
 	}
 	
 	public String getDocumentType() {
@@ -87,6 +86,14 @@ public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 		}		
 	}
 	
+	/**
+	 * sets workflow-process variables to a given value
+	 * 
+	 * be careful, don't use this function in actionhandlers (persistence problems),
+	 * set variables with contextInstance there... 
+	 * @param varName
+	 * @param value
+	 */
 	public void setStringVariableValue(String varName, String value) {
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try {
@@ -129,6 +136,38 @@ public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 		}		
 		return statusIsSet;
 	}
+	
+	public long getProcessInstanceID() {
+		return processInstanceID;
+	}	
+	
+	public void signal(){
+		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+		try {
+			ProcessInstance processInstance = jbpmContext.getGraphSession().loadProcessInstance(processInstanceID);
+			processInstance.signal();
+			jbpmContext.save(processInstance);
+		}catch(MCRException e){
+			logger.error("could not signal to root token of processid " + processInstanceID, e);
+		}finally {
+			jbpmContext.close();
+		}		
+	}
+	
+	public void signal(String transitionName){
+		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+		try {
+			ProcessInstance processInstance = jbpmContext.getGraphSession().loadProcessInstance(processInstanceID);
+			Node curNode = processInstance.getRootToken().getNode();
+			logger.error(curNode.getName());
+			processInstance.signal(transitionName);
+			jbpmContext.save(processInstance);
+		}catch(Exception e){
+			logger.error("could not signal to root token of processid " + processInstanceID, e);
+		}finally {
+			jbpmContext.close();
+		}		
+	}	
 
 	public void testFunction() {
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();

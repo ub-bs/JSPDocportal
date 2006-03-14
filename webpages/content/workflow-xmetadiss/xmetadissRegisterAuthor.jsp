@@ -15,10 +15,10 @@
       <c:set var="workflowType" value="${param.workflowType}" />
    </c:otherwise>
 </c:choose>
-<mcr:initWorkflowProcess userid="${username}" status="status" workflowProcessType="${workflowType}" />
-<mcr:getAuthorFromUser userid="${username}" var="authorobject" status="status"  workflowProcessType="${workflowType}"/>
-<mcr:getURNForAuthor userid="${username}" status="status2"  urn="urn" workflowProcessType="${workflowType}" />
-
+<mcr:initWorkflowProcess userid="${username}" status="status" workflowProcessType="${workflowType}" processidVar="pid" />
+<mcr:getWorkflowEngineVariable pid="${pid}" var="authorID" workflowVar="authorID" /> 
+<mcr:getWorkflowEngineVariable pid="${pid}" var="urn" workflowVar="reservatedURN" /> 
+<mcr:receiveMcrObjAsJdom varDom="authorobject" mcrid="${authorID}" />
 
 <div class="headline">
    <fmt:message key="Nav.Application.dissertation" /> - 

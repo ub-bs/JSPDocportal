@@ -35,25 +35,29 @@ public class MCRGetWorkflowDocumentID extends SimpleTagSupport
 		this.workflowProcessType = workfowProcessType;
 	}	
 	
-	public void doTag() throws JspException, IOException {		
-		PageContext pageContext = (PageContext) getJspContext();
-    	pageContext.setAttribute(mcrid, "");
+	public void doTag() throws JspException, IOException {	
+		try{
+			PageContext pageContext = (PageContext) getJspContext();
+			pageContext.setAttribute(mcrid, "");
     	
-    	MCRWorkflowEngineManagerInterface WFM = null;
-		try {
-			 WFM = MCRWorkflowEngineManagerFactory.getImpl(workflowProcessType);
-		} catch (Exception noWFM) {
-			logger.error("could not build workflow interface", noWFM);
-			pageContext.setAttribute(status, "errorWfM");
+			MCRWorkflowEngineManagerInterface WFM = null;
+			try {
+				WFM = MCRWorkflowEngineManagerFactory.getImpl(workflowProcessType);
+			} catch (Exception noWFM) {
+				logger.error("could not build workflow interface", noWFM);
+				pageContext.setAttribute(status, "errorWfM");
+				return;
+			}
+			String smcrid = WFM.getMetadataDocumentID(userid);
+			pageContext.setAttribute(mcrid, smcrid);
+			if ( smcrid.length() <= 0 ) 
+				pageContext.setAttribute(status, "errorNoDocument");
+			else 
+				pageContext.setAttribute(status, WFM.getStatus(userid));
 			return;
+		}catch(Exception e){
+			logger.error("could not get workflow document id", e);
 		}
-		String smcrid = WFM.getMetadataDocumentID(userid);
-	    pageContext.setAttribute(mcrid, smcrid);
-	    if ( smcrid.length() <= 0 ) 
-    		pageContext.setAttribute(status, "errorNoDocument");
-	    else 
-			pageContext.setAttribute(status, WFM.getStatus(userid));
-		return;
 	}	  
 
 }

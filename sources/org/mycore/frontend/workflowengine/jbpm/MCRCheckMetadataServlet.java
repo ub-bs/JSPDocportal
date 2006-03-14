@@ -71,7 +71,7 @@ public class MCRCheckMetadataServlet extends MCRServlet {
     	
     	HttpServletRequest request = job.getRequest();
     	HttpServletResponse response = job.getResponse();
-        // read the XML data
+    	// read the XML data
         MCREditorSubmission sub = (MCREditorSubmission) (request.getAttribute("MCREditorSubmission"));
         org.jdom.Document indoc = sub.getXML();
 
@@ -84,16 +84,18 @@ public class MCRCheckMetadataServlet extends MCRServlet {
             parms = sub.getParameters();
         }
 
-        String oldmcrid1 = parms.getParameter("mcrid");
-        String oldtype = parms.getParameter("type");
-        String oldstep = parms.getParameter("step");
-        String oldmcrid2 = parms.getParameter("mcrid2");
+        String mcrid1 = parms.getParameter("mcrid");
+        String type = parms.getParameter("type");
+        String step = parms.getParameter("step");
+        String mcrid2 = parms.getParameter("mcrid2");
         String nextPath = parms.getParameter("nextPath");
-        LOGGER.debug("mcrid1 = " + oldmcrid1);
-        LOGGER.debug("type = " + oldtype);
-        LOGGER.debug("step = " + oldstep);
-        LOGGER.debug("mcrid2 = " + oldmcrid2);
+        LOGGER.debug("mcrid1 = " + mcrid1);
+        LOGGER.debug("type = " + type);
+        LOGGER.debug("step = " + step);
+        LOGGER.debug("mcrid2 = " + mcrid2);
         LOGGER.debug("nextPath = " + nextPath);
+        
+        WFI.setMetadataValidFlag(mcrid1, false);
         
         // get the MCRSession object for the current thread from the session
         // manager.
@@ -109,18 +111,18 @@ public class MCRCheckMetadataServlet extends MCRServlet {
             mmcrid = indoc.getRootElement().getAttributeValue("ID");
 
             if (mmcrid == null) {
-                mmcrid = oldmcrid1;
+                mmcrid = mcrid1;
             } else {
                 hasid = true;
             }
         } catch (Exception e) {
-            mmcrid = oldmcrid1;
+            mmcrid = mcrid1;
         }
 
         MCRObjectID ID = new MCRObjectID(mmcrid);
 
-        if (!ID.getTypeId().equals(oldtype)) {
-            ID = new MCRObjectID(oldmcrid1);
+        if (!ID.getTypeId().equals(type)) {
+            ID = new MCRObjectID(mcrid1);
             hasid = false;
         }
 
@@ -134,8 +136,9 @@ public class MCRCheckMetadataServlet extends MCRServlet {
 			.append(File.separator).append(ID.getId()).append(".xml");
         try{
         	storeMetadata(MCRUtils.getByteArray(indoc),job, ID, storePath.toString());
-        	outdoc = prepareMetadata((org.jdom.Document) indoc.clone(), ID, job, lang, oldstep, nextPath, storePath.toString());
+        	outdoc = prepareMetadata((org.jdom.Document) indoc.clone(), ID, job, lang, step, nextPath, storePath.toString());
         	storeMetadata(MCRUtils.getByteArray(outdoc),job, ID, storePath.toString());
+        	WFI.setMetadataValidFlag(mcrid1, true);
         	request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
         }catch(java.lang.IllegalStateException ill){
         	LOGGER.debug("because of error, forwarding to success page could not be executed [" + ill.getMessage() + "]");        	

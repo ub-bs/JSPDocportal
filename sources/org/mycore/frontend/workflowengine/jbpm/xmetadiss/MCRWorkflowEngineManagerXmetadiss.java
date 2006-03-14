@@ -39,6 +39,7 @@ import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.access.MCRAccessManager;
+import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRDefaults;
 import org.mycore.common.MCRException;
 import org.mycore.common.xml.MCRXMLHelper;
@@ -60,6 +61,8 @@ import org.mycore.common.JSPUtils;
  */
 
 public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerBaseImpl{
+	
+	
 	private static Logger logger = Logger.getLogger(MCRWorkflowEngineManagerXmetadiss.class.getName());
 	private static String processType = "xmetadiss" ;
 	private static MCRWorkflowEngineManagerInterface singleton;
@@ -80,7 +83,7 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 		return singleton;
 	}
 	
-	public void initWorkflowProcess(String initiator) throws MCRException {
+	public long initWorkflowProcess(String initiator) throws MCRException {
 		long processID = getUniqueCurrentProcessID(initiator);
 		if(processID < 0){
 			String errMsg = "there exists another workflow process of " + processType + " for initiator " + initiator;
@@ -88,10 +91,20 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 			throw new MCRException(errMsg);
 		}else if (processID == 0) {
 			MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(processType);
-			wfo.setInitiator(initiator);	
+			wfo.initialize(initiator);
+			wfo.setStringVariableValue("fileCnt", "0");
+			try{
+				wfo.signal("go2processInitialized");
+				wfo.signal("go2authorCreated");
+				wfo.signal("go2urnCreated");
+			}catch(MCRException e){
+				logger.error("MCRWorkflow Error, could not initialize the workflow process", e);
+				throw new MCRException("MCRWorkflow Error, could not initialize the workflow process");
+			}
+			return wfo.getProcessInstanceID();
+		}else{
+			return processID;
 		}
-		//else the workflow is initialized yet
-		
 	}
 	
 	public Document getListWorkflowProcess(String userid, String workflowProcessType ){
@@ -138,13 +151,9 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
     	logger.debug("Results found hits:" + mcrResult.getNumHits());    
     	if ( mcrResult.getNumHits() > 0 ) {
     		authorID = mcrResult.getHit(0).getID();
-    		wfo.setStringVariableValue("authorID", authorID);
-    		wfo.setWorkflowStatus("existingAuthor");
     		return authorID;
     	} else {
     		authorID = createAuthor(userid, processType);
-    		wfo.setStringVariableValue("authorID", authorID);
-    		wfo.setWorkflowStatus("existingAuthor");
     		return authorID;
     	}
 	}
@@ -162,12 +171,10 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 		// im WF keine URN vorhanden, - also in MyCoRe anlegen	
 		String authorID = getAuthorFromUniqueWorkflow(userid);
 		urn = createUrnReservationForAuthor(authorID, "URN for dissertation", processType);
-		wfo.setStringVariableValue("reservatedURN", urn);
-		wfo.setWorkflowStatus("urnCreated");
 		return urn;					
 	}
 		
-	public String getMetadataDocumentID(String userid){
+	public String getMetadataDocumentID(String userid) throws MCRException{
 		MCRJbpmWorkflowObject wfo = getWorkflowObject(userid);
 		if(wfo == null || !isUserValid(userid))
 			return "";
@@ -181,8 +188,12 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 		String urn = getURNReservation(userid);
 		// im WF noch keine DocID für userid vorhanden - in myCoRe kreieren	
 		docID = createDisshab(authorID, userid, urn);
-		wfo.setStringVariableValue("createdDocID", docID);
-		wfo.setWorkflowStatus("disshabCreated");
+		if(docID != null && !docID.equals("")) {
+			wfo.setStringVariableValue("createdDocID", docID);
+			wfo.signal("go2disshabCreated");
+		}else{
+			throw new MCRException("could not create mcr-docid");
+		}
 		return docID;					
 	}
 
@@ -291,6 +302,5 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 			
 		return new MCRJbpmWorkflowObject(curProcessID);		
 	}
-	     
-
+	
 }

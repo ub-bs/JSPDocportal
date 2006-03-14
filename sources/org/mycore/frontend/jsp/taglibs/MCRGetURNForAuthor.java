@@ -9,6 +9,11 @@ import org.apache.log4j.Logger;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerFactory;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
 
+/**
+ * 
+ * @deprecated
+ *
+ */
 public class MCRGetURNForAuthor extends SimpleTagSupport
 {
 	private String userid;	

@@ -8,6 +8,15 @@
 
   <typedef class="org.jbpm.db.hibernate.StringMax" name="string_max" />
 
+  <query name="MCRJbpmWorkflowBase.getCurrentProcessIDsForProcessVariable">
+    <![CDATA[
+      select si.processInstance
+      from org.jbpm.context.exe.variableinstance.StringInstance as si
+      where si.name = :var and si.value = :value
+      order by si.processInstance.start desc
+    ]]>
+  </query>
+
   <query name="MCRJbpmWorkflowBase.getCurrentProcessIDsForInitiator">
     <![CDATA[
       select si.processInstance

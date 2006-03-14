@@ -18,6 +18,8 @@ import org.mycore.common.MCRException;
 
 public class MCRJbpmWorkflowBase {
 	
+	// A VARIABLE USED IN ALL WORKFLOW PROCESSES
+	public final static String varINITIATOR = "initiator";
 	private static Logger logger = Logger.getLogger(MCRJbpmWorkflowBase.class);
 	protected static JbpmConfiguration jbpmConfiguration = 
         JbpmConfiguration.parseResource("jbpm.cfg.xml");
@@ -46,7 +48,7 @@ public class MCRJbpmWorkflowBase {
 		try{
 			Session hibSession = jbpmContext.getSession();
 			Query hibQuery = hibSession.getNamedQuery("MCRJbpmWorkflowBase.getCurrentProcessIDsForInitiator");
-			hibQuery.setString("initiator", initiator);
+			hibQuery.setString(varINITIATOR , initiator);
 			List processInstances = hibQuery.list();
 			for (Iterator it = processInstances.iterator(); it.hasNext();) {
 				ProcessInstance processInstance = (ProcessInstance) it.next();
@@ -58,6 +60,27 @@ public class MCRJbpmWorkflowBase {
 			jbpmContext.close();
 		}
 		return ret;		
+	}
+	
+	public static List getCurrentProcessIDsForProcessVariable(String varName, String value){
+		List ret = new ArrayList();
+		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+		try{
+			Session hibSession = jbpmContext.getSession();
+			Query hibQuery = hibSession.getNamedQuery("MCRJbpmWorkflowBase.getCurrentProcessIDsForProcessVariable");
+			hibQuery.setString("var" , varName);
+			hibQuery.setString("value", value);
+			List processInstances = hibQuery.list();
+			for (Iterator it = processInstances.iterator(); it.hasNext();) {
+				ProcessInstance processInstance = (ProcessInstance) it.next();
+				ret.add(new Long(processInstance.getId()));
+			}
+		}catch(MCRException e){
+			logger.error("error in fetching the current process ids", e);
+		}finally{
+			jbpmContext.close();
+		}
+		return ret;			
 	}
 	
 	public static List getCurrentProcessIDs(String initiator, String processType) {

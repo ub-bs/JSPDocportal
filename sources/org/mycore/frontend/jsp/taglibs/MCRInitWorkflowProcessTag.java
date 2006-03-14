@@ -17,6 +17,7 @@ public class MCRInitWorkflowProcessTag extends SimpleTagSupport
 	private String workflowProcessType;
 	
 	private String status;
+	private String processidVar;
 
 	private static Logger logger = Logger.getLogger(MCRInitWorkflowProcessTag.class);
 	private static String GUEST_ID = MCRConfiguration.instance().getString("MCR.users_guestuser_username","gast");
@@ -33,6 +34,10 @@ public class MCRInitWorkflowProcessTag extends SimpleTagSupport
 		this.status = status;
 	}
 	
+	public void setProcessidVar(String processidVar){
+		this.processidVar = processidVar;
+	}	
+	
 	public void doTag() throws JspException, IOException {		
 		PageContext pageContext = (PageContext) getJspContext();
     	MCRWorkflowEngineManagerInterface WFM = null;
@@ -48,7 +53,8 @@ public class MCRInitWorkflowProcessTag extends SimpleTagSupport
 			return;
 		}	
 		try{
-			WFM.initWorkflowProcess(userid);
+			long pid = WFM.initWorkflowProcess(userid);
+			pageContext.setAttribute(processidVar, String.valueOf(pid));
 		}catch(Exception noWFM){
 			logger.error("could not initialize Workflow Process", noWFM);
 			pageContext.setAttribute(status, "errorWfM");

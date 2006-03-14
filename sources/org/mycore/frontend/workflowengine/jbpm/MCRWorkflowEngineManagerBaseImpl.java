@@ -355,7 +355,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 			for (int i = 0; i < list.length; i++) {
 				try {
 					MCRObjectID IDinWF = new MCRObjectID(list[i].substring(0, list[i].length() - 4));
-					if (IDMax.getNumberAsInteger() <= IDinWF.getNumberAsInteger()) {
+					if (IDinWF.getTypeId().equals(objtype) && IDMax.getNumberAsInteger() <= IDinWF.getNumberAsInteger()) {
 						IDinWF.setNumber(IDinWF.getNumberAsInteger() + 1);
 						IDMax = IDinWF;
 					}
@@ -366,6 +366,23 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		}		
 		logger.debug("New ID is" + IDMax.getId());
 		return IDMax.getId();
+	}
+	
+	public void setMetadataValidFlag(String mcrid, boolean isValid) {
+		List lpids = MCRJbpmWorkflowBase.getCurrentProcessIDsForProcessVariable("createdDocID", mcrid);
+		if(lpids == null){
+			logger.error("there could not be found a process with this createdDocID " + mcrid);
+		}else if (lpids.size() > 1){
+			StringBuffer sb = new StringBuffer("there could be found more than one processids for createdDocID ")
+				.append(mcrid).append("\n delete one of the following processes ");
+			for (Iterator it = lpids.iterator(); it.hasNext();) {
+				sb.append("[").append(String.valueOf(((Long) it.next()).longValue())).append("]");
+			}
+			logger.error(sb.toString());
+		}else{
+			MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(((Long)lpids.get(0)).longValue());
+			wfo.setStringVariableValue("valid-" + mcrid, Boolean.toString(isValid));
+		}
 	}	
 	
 	public  Document getListWorkflowProcess(String userid, String workflowProcessType, String  documentType ){
@@ -666,7 +683,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 			AI.addRule(objID.getId(), defaultPermissionTypes[i], rule, "");
 		}
 	}	
-	 
+
 	/*
 	 *    DUMMY IMPLEMENTATION, MUST BE EXTENDED BY REAL WORKFLOW-IMPLEMENTATIONS
 	 *    IF NEEDED THERE
@@ -756,8 +773,9 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		return null;
 	}
 	
-	public void initWorkflowProcess(String initiator) throws MCRException {
+	public long initWorkflowProcess(String initiator) throws MCRException {
 		logger.warn("no workflow process is initialized, must be implemented in subclass, if needed");
+		return -1;
 	}
 	
 	public String getCurrentWorkflowMessage(String role, long  pid){
@@ -771,6 +789,5 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	public void setCommitStatus( String mcrid, String lastAction){
 		// leer	
 	}
-	
-	
+
 }

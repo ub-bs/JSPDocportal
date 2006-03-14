@@ -28,6 +28,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -57,8 +58,7 @@ public class MCRCheckDerivateServlet extends MCRServlet {
 
 	private static final long serialVersionUID = 1L;
 	private static Logger LOGGER = Logger.getLogger("MCRCheckDerivateServlet");
-	private static MCRWorkflowEngineManagerInterface defaultWFI = MCRWorkflowEngineManagerFactory.getDefaultImpl();
-
+	
 	/**
 	 * This method overrides doGetPost of MCRServlet. <br />
 	 */
@@ -90,6 +90,9 @@ public class MCRCheckDerivateServlet extends MCRServlet {
 		LOGGER.debug("mcrid2 (derid)= " + derid);
 		LOGGER.debug("nextPath = " + nextPath);
 
+		List lpids = MCRJbpmWorkflowBase.getCurrentProcessIDsForProcessVariable("createdDocID", objid);
+		MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(((Long)lpids.get(0)).longValue());
+
 		// get the MCRSession object for the current thread from the session
 		// manager.
 		MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
@@ -107,7 +110,7 @@ public class MCRCheckDerivateServlet extends MCRServlet {
 		// prepare the derivate MCRObjectID
 		MCRObjectID ID = new MCRObjectID(derid);
 
-		String workdir = defaultWFI.getWorkflowDirectory(ID.getTypeId());
+		String workdir = wfo.getCurrentWorkflowManager().getWorkflowDirectory(ID.getTypeId());
 		
 		String dirname = workdir + File.separator + objid;
 		if(nextPath.equals("")){
@@ -170,6 +173,8 @@ public class MCRCheckDerivateServlet extends MCRServlet {
 		} catch (Exception e) {
 			LOGGER.warn("Can't open file " + dirname + ".xml");
 		}
+		// TODO check uploaded data via workflow-specific implementations
+		//wfo.getCurrentWorkflowManager().
 
 		request.getRequestDispatcher("/nav?path=" + nextPath).forward(request,response);
 		return;

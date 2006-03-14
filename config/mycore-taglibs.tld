@@ -8,6 +8,30 @@
     <shortname>mcr</shortname>
     <uri>/WEB-INF/lib/mycore-taglibs.jar</uri>
     <info>MyCoRe Sample Tag library</info>
+     <tag>
+            <name>getWorkflowEngineVariable</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRGetWorkflowEngineVariableTag</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <description>Output the variable name that holds the value of the variable in the jsp-file</description>
+                <name>var</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>the workflow-processid as string</description>
+                <name>pid</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>The name of the workflow-variable the value is requested for</description>
+                <name>workflowVar</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <info>A Tag, that returns the value of a persistent workflow-engine variable</info>
+     </tag>
 	 <tag>
             <name>listWorkflowProcess</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRListWorkflowProcessTag</tagclass>
@@ -36,9 +60,8 @@
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>      
-			      
             <info>A Tag, that initializes a new workflow process in the workflow engine</info>
-        </tag>     
+        </tag>
       <tag>
             <name>getWorkflowDocumentID</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRGetWorkflowDocumentID</tagclass>
@@ -91,6 +114,12 @@
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
+            <attribute>
+                <description>Output - the workflow process id of the just inited process</description>
+                <name>processidVar</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>             
             <info>A Tag, that initializes a new workflow process in the workflow engine</info>
         </tag>     
         <tag>
@@ -171,66 +200,6 @@
             </attribute>            
             <info>A Tag, that includes MyCoRe-Editor-Pages</info>
        </tag>        
-       <tag>
-            <name>getURNForAuthor</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRGetURNForAuthor</tagclass>
-            <bodycontent>empty</bodycontent>
-            <attribute>
-                <description>Output - the urn reserved for the author </description>
-                <name>urn</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>
-            <attribute>
-                <description>Output - the status from this operation </description>
-                <name>status</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>
-            <attribute>
-                <description>The userid, musst exist in database</description>
-                <name>userid</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>
-            <attribute>
-                <description>The workflow-processType, this tag is used for</description>
-                <name>workflowProcessType</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>            
-            <info>A Tag, that returns a new or reserved URN for a author in a given Workflow Process</info>
-        </tag>    		
-        <tag>
-            <name>getAuthorFromUser</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRGetAuthorFromUser</tagclass>
-            <bodycontent>empty</bodycontent>
-            <attribute>
-                <description>Output - the name of the var - the jdom-author object used in the jsp body</description>
-                <name>var</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>
-            <attribute>
-                <description>Output - the status from this operation </description>
-                <name>status</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>
-            <attribute>
-                <description>The userid, musst exist in database</description>
-                <name>userid</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>
-            <attribute>
-                <description>The workflow-processType, this tag is used for</description>
-                <name>workflowProcessType</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>             
-            <info>A Tag, that returns a new or existing author for a user, generated from the user in a given Workflow Process</info>
-        </tag>    		
         <tag>
             <name>getFreeUserIDs</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRGetFreeUserIDs</tagclass>
@@ -477,10 +446,18 @@ specified in the action.
             <bodycontent>empty</bodycontent>
             <attribute>
                 <description>
+                    output: the name of the dom-variable that is set
+                </description>
+                <name>varDom</name>
+                <required>optional</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <attribute>
+                <description>
                     the name of the variable that is set
                 </description>
                 <name>var</name>
-                <required>true</required>
+                <required>optional</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
@@ -753,4 +730,69 @@ specified in the action.
             </attribute>            
             <info>A Tag, that sets the value of a Configuration Property to a specific value</info>
         </tag>        
+<!--  ********************************** -->        
+<!--  deprecated -->
+<!--  ********************************** -->
+<!-- 
+        <tag>
+            <name>getAuthorFromUser</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRGetAuthorFromUser</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <description>Output - the name of the var - the jdom-author object used in the jsp body</description>
+                <name>var</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>Output - the status from this operation </description>
+                <name>status</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>The userid, musst exist in database</description>
+                <name>userid</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>The workflow-processType, this tag is used for</description>
+                <name>workflowProcessType</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>             
+            <info>A Tag, that returns a new or existing author for a user, generated from the user in a given Workflow Process</info>
+        </tag> 
+       <tag>
+            <name>getURNForAuthor</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRGetURNForAuthor</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <description>Output - the urn reserved for the author </description>
+                <name>urn</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>Output - the status from this operation </description>
+                <name>status</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>The userid, musst exist in database</description>
+                <name>userid</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>The workflow-processType, this tag is used for</description>
+                <name>workflowProcessType</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <info>A Tag, that returns a new or reserved URN for a author in a given Workflow Process</info>
+        </tag>                  
+-->                
 </taglib>   

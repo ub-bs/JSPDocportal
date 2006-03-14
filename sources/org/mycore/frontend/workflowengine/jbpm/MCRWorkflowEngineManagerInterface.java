@@ -19,8 +19,10 @@ public interface MCRWorkflowEngineManagerInterface {
 	/**
 	 * initializes and starts a new workflow process instance
 	 * @param initiator
+	 * @return 
+	 *     the workflow processid as long
 	 */
-	public void initWorkflowProcess(String initiator) throws MCRException;
+	public long initWorkflowProcess(String initiator) throws MCRException;
 	/**
 	 * creates or fetchs the author joined to a userid and 
 	 * 		sets new workflow status and workflow variables 
@@ -127,5 +129,7 @@ public interface MCRWorkflowEngineManagerInterface {
 	public void setCommitStatus(String mcrid, String lastAction);
 	
 	abstract void setDefaultPermissions(String mcrid, String userid);
+	
+	abstract void setMetadataValidFlag(String mcrid, boolean isValid);
 	
 }
