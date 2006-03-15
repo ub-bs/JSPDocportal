@@ -53,7 +53,7 @@ MCR.WorkflowEngine.EditDirectory.disshab=E:/sample-mcrjsp/export/disshab
 
 MCR.Editor.FileUpload.TempStoragePath=E:/sample-mcrjsp/export/upload
 MCR.WorkflowEngine.EditDirectory.user=E:/sample-mcrjsp/export/user
-MCR.WorkflowEngine.DeleteDirectory.deleted=E:/sample-mcrjsp/export/deleted
+MCR.WorkflowEngine.DeleteDirectory=E:/sample-mcrjsp/export/deleted
 
 
 MCR.IFS.ContentStore.FS.BaseDirectory=C:/sample-mcrjsp/filestore
