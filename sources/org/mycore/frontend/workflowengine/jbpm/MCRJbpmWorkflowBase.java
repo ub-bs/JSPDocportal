@@ -42,6 +42,32 @@ public class MCRJbpmWorkflowBase {
 		}
 	}
 
+	public static List getCurrentProcessIDsForProcessType(String processType) {
+		List ret = new ArrayList();
+		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+		try{					
+			GraphSession graphSession = jbpmContext.getGraphSession();
+			ProcessDefinition  pd = graphSession.findLatestProcessDefinition(processType);
+			String processDefinition = Long.toString( pd.getId()-1); 
+			
+			Session hibSession = jbpmContext.getSession();			
+			Query hibQuery = hibSession.getNamedQuery("MCRJbpmWorkflowBase.getCurrentProcessIDsForProcessType");
+			hibQuery.setString("processDefinitionId" , processDefinition);
+			List processInstances = hibQuery.list();
+			for (Iterator it = processInstances.iterator(); it.hasNext();) {
+				ProcessInstance processInstance = (ProcessInstance) it.next();
+				if (   !processInstance.hasEnded() ){
+					ret.add(new Long(processInstance.getId()));
+				}
+			}
+		}catch(MCRException e){
+			logger.error("error in fetching the current process ids for processType " + processType, e);
+		}finally{
+			jbpmContext.close();
+		}
+		return ret;		
+	}
+
 	public static List getCurrentProcessIDs(String initiator) {
 		List ret = new ArrayList();
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
@@ -55,7 +81,7 @@ public class MCRJbpmWorkflowBase {
 				ret.add(new Long(processInstance.getId()));
 			}
 		}catch(MCRException e){
-			logger.error("error in fetching the current process ids", e);
+			logger.error("error in fetching the current process ids for initiator " + initiator, e);
 		}finally{
 			jbpmContext.close();
 		}
@@ -76,7 +102,7 @@ public class MCRJbpmWorkflowBase {
 				ret.add(new Long(processInstance.getId()));
 			}
 		}catch(MCRException e){
-			logger.error("error in fetching the current process ids", e);
+			logger.error("error in fetching the current process ids for varname " + varName + " and value " + value, e);
 		}finally{
 			jbpmContext.close();
 		}
@@ -98,7 +124,7 @@ public class MCRJbpmWorkflowBase {
 				
 			}
 		}catch(MCRException e){
-			logger.error("error in fetching the current process ids", e);
+			logger.error("error in fetching the current process ids for initiator " + initiator + " and processType " + processType, e);
 		}finally{
 			jbpmContext.close();
 		}

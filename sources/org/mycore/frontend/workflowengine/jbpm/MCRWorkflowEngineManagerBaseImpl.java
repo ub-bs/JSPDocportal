@@ -95,6 +95,9 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		mt = new Hashtable();		
 	}	
 	
+	public List  getCurrentProcessIDsForProcessType(String processType) {
+		return MCRJbpmWorkflowBase.getCurrentProcessIDsForProcessType(processType);
+	}
 
 	public List getCurrentProcessIDs(String userid) {
 		return MCRJbpmWorkflowBase.getCurrentProcessIDs(userid);
@@ -381,7 +384,8 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		if(pid > 0) {
 			MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(pid);
 			try{
-				return Boolean.parseBoolean(wfo.getStringVariableValue("valid-" + mcrid));
+				//parseBoolean erst ab Java Version 1.5 
+				return Boolean.getBoolean(wfo.getStringVariableValue("valid-" + mcrid));
 			}catch(Exception e){
 				logger.error("boolean parsing of " + mcrid + " was not possible", e);
 				return false;
@@ -412,7 +416,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	public  Document getListWorkflowProcess(String userid, String workflowProcessType, String  documentType ){
 		StringBuffer sb = null;
 		
-		List lpids = getCurrentProcessIDs(userid, workflowProcessType);		
+		List lpids = getCurrentProcessIDsForProcessType( workflowProcessType);  //userid, workflowProcessType);		
 		
 		String lang = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
         Element mcr_result = new Element("mcr_result");
@@ -434,6 +438,9 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 			Long  pid  = (Long) iter.next();
 			MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(pid.longValue());
 			String docID = wfo.getStringVariableValue("createdDocID");
+			
+			if ( ! AI.checkPermission(docID, "writedb") )
+				continue;
 			
 		    try {
 			    String wfile = docID + ".xml";
