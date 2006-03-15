@@ -1,17 +1,23 @@
 package org.mycore.frontend.workflowengine.jbpm;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.apache.commons.fileupload.FileItem;
 import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -53,9 +59,15 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	protected static MCRConfiguration config = MCRConfiguration.instance();
 	protected static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
 	protected static HashMap editWorkflowDirectories ;
+	protected static String deleteDir; 
 	
 	private static String sender ;
 	private static String GUEST_ID ;
+	
+	// pattern for the stringpart after the last [/\]
+	protected static Pattern filenamePattern = Pattern.compile("([^\\\\/]+)\\z");
+	//	 pattern for the file extension
+	protected static Pattern fileextensionPattern = Pattern.compile(".([^\\\\/.]+)\\z");
 	
 	static{
 		sender = config.getString("MCR.editor_mail_sender",	"mcradmin@localhost");
@@ -68,6 +80,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 			editWorkflowDirectories.put(hashKey,props.getProperty(propKey));
 		}
 		defaultPermissionTypes = config.getString("MCR.WorkflowEngine.DefaultPermissionTypes", "read,commitdb,writedb,deletedb,deletewf").split(",");
+		deleteDir = config.getString("MCR.WorkflowEngine.DeleteDirectory");
 	}
     	
 	private Hashtable mt = null;
@@ -384,8 +397,10 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		if(pid > 0) {
 			MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(pid);
 			try{
-				//parseBoolean erst ab Java Version 1.5 
-				return Boolean.getBoolean(wfo.getStringVariableValue("valid-" + mcrid));
+				if(wfo.getStringVariableValue("valid-" + mcrid).equals("true"))
+					return true;
+				else
+					return false;
 			}catch(Exception e){
 				logger.error("boolean parsing of " + mcrid + " was not possible", e);
 				return false;
@@ -394,6 +409,27 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 			return false;
 		}
 	}	
+
+	protected boolean backupDerivateObject(String documentType, String metadataObject, String derivateObject, long pid) {
+		try{
+			String derivateDirectory = getWorkflowDirectory(documentType) + File.separator + derivateObject;
+			String derivateFileName = derivateDirectory + ".xml" ;
+			
+			File inputDir = new File(derivateDirectory);
+			File inputFile = new File(derivateFileName);
+			
+			SimpleDateFormat fmt = new SimpleDateFormat();
+		    fmt.applyPattern( "yyyyMMddhhmmss" );
+		    GregorianCalendar cal = new GregorianCalendar();
+			File outputDir = File.createTempFile("deleted_at_" + fmt.format(cal.getTime()),"", new File(deleteDir));
+			JSPUtils.recursiveCopy(inputDir, outputDir);
+			MCRUtils.copyStream(new FileInputStream(inputFile), new FileOutputStream(new File(outputDir.getAbsolutePath() + File.separator + inputFile.getName())));
+		}catch(Exception ex){
+			logger.error("problems in copying", ex);
+			return false;
+		}
+		return true;		
+	}		
 	
 	private long getUniqueWorkflowProcessFromCreatedDocID(String mcrid){
 		List lpids = MCRJbpmWorkflowBase.getCurrentProcessIDsForProcessVariable("createdDocID%", mcrid);
@@ -449,7 +485,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 			    logger.debug("Workflow file "+wfile+" was readed.");
 			    
 			    Element containerHit = new Element ("all-metavalues");
-	        	mcr_result.setAttribute("filename", sb.toString());
+	        	mcr_result.setAttribute("filename", sb.toString().replaceAll("\\\\","/"));
 	        	mcr_result.setAttribute("processid", pid.toString()); 
 	        	mcr_result.setAttribute("ID", docID);
 	        	
@@ -480,11 +516,11 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 							ArrayList dirlist = MCRUtils.getAllFileNames(dir);
 							for (int k = 0; k < dirlist.size(); k++) {
 								org.jdom.Element file = new org.jdom.Element("file");
-								file.setText(derivatePath +derivatePath + File.separator + (String) dirlist.get(k));
+								file.setText(derivatePath + "/" + derivatePath + "/" + (String) dirlist.get(k));
 								File thisfile = new File(dir, (String) dirlist.get(k));
 								file.setAttribute("size", String.valueOf(thisfile.length()));
 								file.setAttribute("main", "false");
-								if (derivate.getAttributeValue("mainfile").equals((String) dirlist.get(k))) {
+								if (derivate.getAttributeValue("maindoc").equals((String) dirlist.get(k))) {
 									file.setAttribute("main", "true");
 								}
 								derivate.addContent(file);
@@ -495,8 +531,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 						}
 					}
 				  } catch (Exception ex) {
-						logger.error("Error while read derivates for XML workflow file " + docID);
-						logger.error(ex.getMessage());
+						logger.error("Error while read derivates for XML workflow file " + docID, ex);
 				  }
 		    }
 		}		
@@ -608,7 +643,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		setDefaultPermissions(IDMax.getId(), userid);
 		return IDMax.getId();		
 	}
-	
+
 	public boolean commitWorkflowObject(String objmcrid, String documentType) {
 		boolean bSuccess = true;
 		String dirname = getWorkflowDirectory(documentType);
@@ -724,63 +759,34 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		setDummyPermissions(mcrid);
 	}
 
-	public boolean deleteDerivateObject(String documentType, String metadataObject, String derivateObject) {	
-		String derivateDirectory = getWorkflowDirectory(documentType) + File.separator + derivateObject;
-		String derivateFileName = derivateDirectory + ".xml" ;
-		boolean bDeleted = true;
-		try {
-			File fi = new File(derivateFileName);
-			if (fi.isFile() && fi.canWrite()) {
-				fi.delete();				
-			} else {
-				logger.error("Can't remove file " + derivateFileName);
-				bDeleted=false;
+	public boolean deleteDerivateObject(String documentType, String metadataObject, String derivateObject) {
+		try{
+			String derivateDirectory = getWorkflowDirectory(documentType) + File.separator + derivateObject;
+			String derivateFileName = derivateDirectory + ".xml" ;
+			
+			File derDir = new File(derivateDirectory);
+			File derFile = new File(derivateFileName);
+			
+			
+			if(derDir.isDirectory()) {
+				logger.debug("deleting " + derDir.getName());
+				JSPUtils.recursiveDelete(derDir);
+			}else{
+				logger.warn(derDir.getName() + " is not a directory, did not delete it");
+				return false;
 			}
-		} catch (Exception ex) {
-			logger.error("Can't remove file " + derivateFileName);
-			bDeleted=false;
-		}
-		
-		String fail = "Can't remove directory ";
-		// remove all derivate objects
-		try {
-			File fi = new File(derivateDirectory);
-			if (fi.isDirectory() && fi.canWrite()) {
-				// delete files
-				ArrayList dellist = MCRUtils.getAllFileNames(fi);
-				for (int j = 0; j < dellist.size(); j++) {
-					String na = (String) dellist.get(j);
-					File fl = new File(derivateDirectory + File.separator + na);
-					if (fl.delete()) {
-						logger.debug("File " + na + " removed.");
-					} else {
-						logger.error("Can't remove file " + na);
-					}
-				}
-				// delete subirectories
-				dellist = MCRUtils.getAllDirectoryNames(fi);
-				for (int j = dellist.size() - 1; j > -1; j--) {
-					String na = (String) dellist.get(j);
-					File fl = new File(derivateDirectory + File.separator + na);
-					if (fl.delete()) {
-						logger.debug("Directory " + na + " removed.");
-					} else {
-						logger.error(fail + na);
-					}
-				}
-				if (fi.delete()) {
-					logger.debug("Directory " + derivateDirectory + " removed.");
-				} else {
-					logger.error(fail + derivateDirectory);
-				}
-			} else {
-				logger.error(fail + derivateDirectory);
+			if(derFile.isFile()){
+				logger.debug("deleting " + derFile.getName());
+				derFile.delete();
+			}else{
+				logger.warn(derFile.getName() + " is not a file, did not delete it");
+				return false;
 			}
-		} catch (Exception ex) {
-			logger.error(fail + derivateDirectory);
-			bDeleted=false;
+		}catch(Exception ex){
+			logger.error("problems in deleting", ex);
+			return false;
 		}
-		return bDeleted;
+		return true;
 	}	
 	
 	public String getAuthorFromUniqueWorkflow(String userid){
@@ -821,4 +827,65 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		// leer	
 	}
 
+	public void setDerivateVariables(long pid) {
+		logger.debug("enters setDerivateVariables (dummy), must be implemented in subclasses, if needes");
+	}
+	
+	public void saveFiles(List files, String dirname, long pid) throws MCRException {
+		logger.debug("enters saveFiles (dummy), must be implemented in subclasses, for workflow-specific file checks");
+		// save the files
+	
+		ArrayList ffname = new ArrayList();
+		String mainfile = "";
+		for (int i = 0; i < files.size(); i++) {
+			FileItem item = (FileItem) (files.get(i));
+			String fname = item.getName().trim();
+			Matcher mat = filenamePattern.matcher(fname);
+			while(mat.find()){
+				fname = mat.group(1);
+			}
+			fname.replace(' ', '_');
+			ffname.add(fname);
+			try{
+				File fout = new File(dirname, fname);
+				FileOutputStream fouts = new FileOutputStream(fout);
+				MCRUtils.copyStream(item.getInputStream(), fouts);
+				fouts.close();
+				logger.info("Data object stored under " + fout.getName());
+			}catch(Exception ex){
+				String errMsg = "could not sotre data object " + fname;
+				logger.error(errMsg, ex);
+				throw new MCRException(errMsg);
+			}
+		}
+		if ((mainfile.length() == 0) && (ffname.size() > 0)) {
+			mainfile = (String) ffname.get(0);
+		}
+	
+		// add the mainfile entry
+		MCRDerivate der = new MCRDerivate();
+		try {
+			der.setFromURI(dirname + ".xml");
+			if (der.getDerivate().getInternals().getMainDoc().equals("#####")) {
+				der.getDerivate().getInternals().setMainDoc(mainfile);
+				byte[] outxml = MCRUtils.getByteArray(der.createXML());
+				try {
+					FileOutputStream out = new FileOutputStream(dirname
+							+ ".xml");
+					out.write(outxml);
+					out.flush();
+				} catch (IOException ex) {
+					logger.error(ex.getMessage());
+					logger.error("Exception while store to file " + dirname
+							+ ".xml", ex);
+					throw ex;
+				}
+			}
+		} catch (Exception e) {
+			String msgErr = "Can't open file " + dirname + ".xml"; 
+			logger.error(msgErr, e);
+			throw new MCRException(msgErr);
+		}
+	}
+	
 }

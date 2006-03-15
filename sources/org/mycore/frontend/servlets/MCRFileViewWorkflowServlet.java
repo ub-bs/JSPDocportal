@@ -40,6 +40,8 @@ import org.mycore.common.MCRException;
 import org.mycore.common.MCRUtils;
 import org.mycore.datamodel.ifs.MCRContentInputStream;
 import org.mycore.datamodel.ifs.MCRFileContentTypeFactory;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerFactory;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
 
 /**
  * This servlet read a digital object from the workflow and put it to the web.
@@ -54,6 +56,7 @@ import org.mycore.datamodel.ifs.MCRFileContentTypeFactory;
 public class MCRFileViewWorkflowServlet extends MCRServlet {
 
 	private static final long serialVersionUID = 1L;
+	private static MCRWorkflowEngineManagerInterface defaultWFI = MCRWorkflowEngineManagerFactory.getDefaultImpl();
 	// The configuration
 	private static Logger LOGGER = Logger
 			.getLogger(MCRFileViewWorkflowServlet.class.getName());
@@ -97,8 +100,8 @@ public class MCRFileViewWorkflowServlet extends MCRServlet {
 		LOGGER.debug("MCRFileViewWorkflowServlet : type = " + type);
 
 		// read the file and write to output
-		String dirname = CONFIG.getString("MCR.editor_" + type + "_directory",
-				null);
+		String dirname = defaultWFI.getWorkflowDirectory(type);
+
 		if ((dirname != null)) {
 			File in = new File(dirname, file);
 			if (in.isFile()) {

@@ -47,12 +47,12 @@ public class MCRJbpmWorkflowBase {
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try{					
 			GraphSession graphSession = jbpmContext.getGraphSession();
-			ProcessDefinition  pd = graphSession.findLatestProcessDefinition(processType);
-			String processDefinition = Long.toString( pd.getId()-1); 
+			ProcessDefinition  processDefinition = graphSession.findLatestProcessDefinition(processType);
+			String processDefinitionID = Long.toString( processDefinition.getId()); 
 			
-			Session hibSession = jbpmContext.getSession();			
+			Session hibSession = jbpmContext.getSession();	
 			Query hibQuery = hibSession.getNamedQuery("MCRJbpmWorkflowBase.getCurrentProcessIDsForProcessType");
-			hibQuery.setString("processDefinitionId" , processDefinition);
+			hibQuery.setString("processDefinitionId" , processDefinitionID);
 			List processInstances = hibQuery.list();
 			for (Iterator it = processInstances.iterator(); it.hasNext();) {
 				ProcessInstance processInstance = (ProcessInstance) it.next();

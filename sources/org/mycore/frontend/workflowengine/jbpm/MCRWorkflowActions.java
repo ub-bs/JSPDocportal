@@ -71,7 +71,6 @@ public class MCRWorkflowActions extends MCRServlet {
         //jbpm_variableinstance  initiator, authorID, reservatedURN und createdDocID
         String mcrid = wfo.getStringVariableValue("createdDocID");
         String userid = wfo.getStringVariableValue("initiator");
-        String fileCnt = wfo.getStringVariableValue("fileCnt");
         String documentType = wfo.getDocumentType();
         
         String derivateID = parms.getParameter("derivateID");
@@ -139,8 +138,7 @@ public class MCRWorkflowActions extends MCRServlet {
         if ( "WFAddNewDerivateToWorkflowObject".equals(todo) ) {
         	derivateID = WFI.addNewDerivateToWorkflowObject(mcrid, documentType, userid);
         	if (derivateID != null && derivateID.length()>0) {
-	       		int fcnt = Integer.parseInt(fileCnt);           		
-	       		wfo.setStringVariableValue("fileCnt", Integer.toString(fcnt+1));
+	       		
         	}
         	todo = "WFAddNewFileToDerivate";
         	// kein requestforward !
@@ -180,11 +178,8 @@ public class MCRWorkflowActions extends MCRServlet {
     		}
     		
            	if ( bSuccess ) {
+           		//TODO
            		wfo.setWorkflowStatus(documentType + "DocumentRemoved");
-           		int fcnt = Integer.parseInt(fileCnt);           		
-           		wfo.setStringVariableValue("fileCnt", Integer.toString(fcnt-1));
-           		if ( fcnt <= 0 ) 
-           			wfo.setWorkflowStatus(documentType + "noDocuments");
            	}
             request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
         	return;

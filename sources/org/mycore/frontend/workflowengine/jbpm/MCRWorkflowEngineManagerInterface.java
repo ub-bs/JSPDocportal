@@ -134,8 +134,9 @@ public interface MCRWorkflowEngineManagerInterface {
 	 * sets a workflow-process-variable with the name
 	 * 	valid-{mcrid} to boolean isValid
 	 * 
-	 * can only be used in workflow-processes with a variable
-	 *  "createdDocID" that contains the requested mcrid
+	 * can only be used in workflow-processes with variables
+	 *  createdDocID, createdDocID1, createdDocID2, 
+	 *  	that contain the requested mcrid
 	 *  
 	 * @param mcrid
 	 * @param isValid
@@ -143,5 +144,7 @@ public interface MCRWorkflowEngineManagerInterface {
 	abstract void setMetadataValidFlag(String mcrid, boolean isValid);
 	
 	abstract boolean checkMetadataValidFlag(String mcrid);
+	
+	abstract void saveFiles(List files, String dirname, long pid) throws MCRException;
 	
 }

@@ -7,6 +7,7 @@
 package org.mycore.common;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
@@ -259,6 +260,41 @@ public class JSPUtils {
 			}
 		}
 	}
+	
+	/**
+	* deletes recursively a directory 
+	* @param path
+	* 	java.io.File the directory to be deleted recursively
+	*/    
+	public static void recursiveDelete( File path ) throws MCRException{
+		File files[] = path.listFiles();
+		for ( int i = 0; i < files.length; i++ ){
+			if ( files[i].isDirectory() )
+				recursiveDelete( files[i] );
+	    	files[i].delete();
+		}
+		path.delete();
+	}
+	
+	/**
+	* deletes recursively a directory 
+	* @param path
+	* 	java.io.File the directory to be deleted recursively
+	*/    
+	public static void recursiveCopy( File input, File output ) throws Exception{
+		output.mkdir();
+		File files[] = input.listFiles();
+		for ( int i = 0; i < files.length; i++ ){
+			if ( files[i].isDirectory() ){
+				File output2 = new File(output.getAbsolutePath() + File.separator + files[i].getName());
+				recursiveCopy( files[i], output2 );
+			}else{
+				File output2 = new File(output.getAbsolutePath() + File.separator + files[i].getName());
+				MCRUtils.copyStream(new FileInputStream(files[i]), new FileOutputStream(output2));
+			}
+		}
+	}	
+	
      public static void main(String[] args) {
     	 initialize();
     	 //just for testing

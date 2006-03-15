@@ -89,17 +89,26 @@ public class MCRCheckDerivateServlet extends MCRServlet {
 		LOGGER.debug("mcrid (derid)= " + derid);
 		LOGGER.debug("mcrid2 (objid)= " + objid);		
 		LOGGER.debug("nextPath = " + nextPath);
-
-		List lpids = MCRJbpmWorkflowBase.getCurrentProcessIDsForProcessVariable("createdDocID%", objid);
-		MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(((Long)lpids.get(0)).longValue());
-
+		
 		// get the MCRSession object for the current thread from the session
 		// manager.
 		MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
-		String lang = mcrSession.getCurrentLanguage();
+		String lang = mcrSession.getCurrentLanguage();		
+
+		List lpids = MCRJbpmWorkflowBase.getCurrentProcessIDsForProcessVariable("createdDocID%", objid);
+		if(lpids == null || lpids.size() != 1) {
+			request.setAttribute("messageKey", "WorkflowEngine.DocumentNotAvailable");
+			request.setAttribute("lang", lang);
+			request.getRequestDispatcher("/nav?path=~mycore-error").forward(request,response);
+			return;			
+		}
+		
+		long pid = ((Long)lpids.get(0)).longValue();
+		MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(pid);
+		MCRWorkflowEngineManagerInterface WFI = wfo.getCurrentWorkflowManager();
 
 		if (!AI.checkPermission(derid, "writedb" )) {
-			request.setAttribute("messageKey", "SWF.PrivilegesError");
+			request.setAttribute("messageKey", "WorkflowEngine.PrivilegesError");
 			request.setAttribute("lang", lang);
 			request.getRequestDispatcher("/nav?path=~mycore-error").forward(request,response);
 			return;
@@ -107,75 +116,25 @@ public class MCRCheckDerivateServlet extends MCRServlet {
 		String mylang = mcrSession.getCurrentLanguage();
 		LOGGER.info("LANG = " + mylang);
 
-		// prepare the derivate MCRObjectID
-		MCRObjectID ID = new MCRObjectID(derid);
+		// prepare the disshab MCRObjectID of the document the derivate belongs to
+		MCRObjectID ID = new MCRObjectID(objid);
 
-		String workdir = wfo.getCurrentWorkflowManager().getWorkflowDirectory(ID.getTypeId());
+		String workdir = WFI.getWorkflowDirectory(ID.getTypeId());
 		
-		String dirname = workdir + File.separator + objid;
+		String dirname = workdir + File.separator + derid;
 		if(nextPath.equals("")){
 			nextPath = "~workflow-" + ID.getTypeId();
-		}		
-
-		// save the files
-
-		ArrayList ffname = new ArrayList();
-		String mainfile = "";
-		for (int i = 0; i < files.size(); i++) {
-			FileItem item = (FileItem) (files.get(i));
-			String fname = item.getName().trim();
-			int j = 0;
-			int l = fname.length();
-			while (j < l) {
-				int k = fname.indexOf("\\", j);
-				if (k == -1) {
-					k = fname.indexOf("/", j);
-					if (k == -1) {
-						fname = fname.substring(j, l);
-						break;
-					} else {
-						j = k + 1;
-					}
-				} else {
-					j = k + 1;
-				}
-			}
-			fname.replace(' ', '_');
-			ffname.add(fname);
-			File fout = new File(dirname, fname);
-			FileOutputStream fouts = new FileOutputStream(fout);
-			MCRUtils.copyStream(item.getInputStream(), fouts);
-			fouts.close();
-			LOGGER.info("Data object stored under " + fout.getName());
 		}
-		if ((mainfile.length() == 0) && (ffname.size() > 0)) {
-			mainfile = (String) ffname.get(0);
+		
+		try{
+			WFI.saveFiles(files, dirname, pid);
+		}catch(Exception ex){
+			request.setAttribute("messageKey", "WorkflowEngine.UploadNotSuccessful");
+			request.setAttribute("lang", lang);
+			request.getRequestDispatcher("/nav?path=~mycore-error").forward(request,response);
+			return;
 		}
-
-		// add the mainfile entry
-		MCRDerivate der = new MCRDerivate();
-		try {
-			der.setFromURI(dirname + ".xml");
-			if (der.getDerivate().getInternals().getMainDoc().equals("#####")) {
-				der.getDerivate().getInternals().setMainDoc(mainfile);
-				byte[] outxml = MCRUtils.getByteArray(der.createXML());
-				try {
-					FileOutputStream out = new FileOutputStream(dirname
-							+ ".xml");
-					out.write(outxml);
-					out.flush();
-				} catch (IOException ex) {
-					LOGGER.error(ex.getMessage());
-					LOGGER.error("Exception while store to file " + dirname
-							+ ".xml");
-				}
-			}
-		} catch (Exception e) {
-			LOGGER.warn("Can't open file " + dirname + ".xml");
-		}
-		// TODO check uploaded data via workflow-specific implementations
-		//wfo.getCurrentWorkflowManager().
-
+		
 		request.getRequestDispatcher("/nav?path=" + nextPath).forward(request,response);
 		return;
 	}
