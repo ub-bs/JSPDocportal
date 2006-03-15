@@ -77,20 +77,20 @@ public class MCRCheckDerivateServlet extends MCRServlet {
 			parms = new MCRRequestParameters(job.getRequest());
 		else
 			parms = sub.getParameters();
-		String objid = parms.getParameter("mcrid");
-		String derid = parms.getParameter("mcrid2");
+		String objid = parms.getParameter("mcrid2");
+		String derid = parms.getParameter("mcrid");
 		String type = parms.getParameter("type");
 		String step = parms.getParameter("step");
 		String nextPath = parms.getParameter("nextPath");
 		if(nextPath == null) nextPath = "";
 		
-		LOGGER.debug("mcrid (objid)= " + objid);
 		LOGGER.debug("type = " + type);
 		LOGGER.debug("step = " + step);
-		LOGGER.debug("mcrid2 (derid)= " + derid);
+		LOGGER.debug("mcrid (derid)= " + derid);
+		LOGGER.debug("mcrid2 (objid)= " + objid);		
 		LOGGER.debug("nextPath = " + nextPath);
 
-		List lpids = MCRJbpmWorkflowBase.getCurrentProcessIDsForProcessVariable("createdDocID", objid);
+		List lpids = MCRJbpmWorkflowBase.getCurrentProcessIDsForProcessVariable("createdDocID%", objid);
 		MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(((Long)lpids.get(0)).longValue());
 
 		// get the MCRSession object for the current thread from the session

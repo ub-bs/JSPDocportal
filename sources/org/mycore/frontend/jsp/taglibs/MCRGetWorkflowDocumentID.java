@@ -15,6 +15,7 @@ public class MCRGetWorkflowDocumentID extends SimpleTagSupport
 	private String workflowProcessType;	
 	private String mcrid;
 	private String status;
+	private String valid;
 	
 	private static Logger logger = Logger.getLogger(MCRGetWorkflowDocumentID.class); 
 
@@ -35,6 +36,10 @@ public class MCRGetWorkflowDocumentID extends SimpleTagSupport
 		this.workflowProcessType = workfowProcessType;
 	}	
 	
+	public void setValid(String valid){
+		this.valid = valid;
+	}
+	
 	public void doTag() throws JspException, IOException {	
 		try{
 			PageContext pageContext = (PageContext) getJspContext();
@@ -50,10 +55,14 @@ public class MCRGetWorkflowDocumentID extends SimpleTagSupport
 			}
 			String smcrid = WFM.getMetadataDocumentID(userid);
 			pageContext.setAttribute(mcrid, smcrid);
-			if ( smcrid.length() <= 0 ) 
+			if ( smcrid.length() <= 0 ) {
 				pageContext.setAttribute(status, "errorNoDocument");
-			else 
+				pageContext.setAttribute(valid, "false");
+			}
+			else {
 				pageContext.setAttribute(status, WFM.getStatus(userid));
+				pageContext.setAttribute(valid, Boolean.toString(WFM.checkMetadataValidFlag(smcrid)));
+			}
 			return;
 		}catch(Exception e){
 			logger.error("could not get workflow document id", e);

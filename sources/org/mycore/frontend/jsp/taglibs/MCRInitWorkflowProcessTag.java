@@ -55,6 +55,7 @@ public class MCRInitWorkflowProcessTag extends SimpleTagSupport
 		try{
 			long pid = WFM.initWorkflowProcess(userid);
 			pageContext.setAttribute(processidVar, String.valueOf(pid));
+			pageContext.setAttribute(status, WFM.getStatus(pid));
 		}catch(Exception noWFM){
 			logger.error("could not initialize Workflow Process", noWFM);
 			pageContext.setAttribute(status, "errorWfM");

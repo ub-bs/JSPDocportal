@@ -17,7 +17,7 @@
       <c:set var="workflowType" value="${param.workflowType}" />
    </c:otherwise>
 </c:choose>
-<mcr:getWorkflowDocumentID userid="${username}" mcrid="mcrid" status="status"  workflowProcessType="${workflowType}"/>
+<mcr:getWorkflowDocumentID userid="${username}" mcrid="mcrid" status="status"  workflowProcessType="${workflowType}" valid="valid" />
 
 
 <div class="headline">
@@ -40,13 +40,13 @@
 
 <c:if test="${!empty(mcrid)}">
   <c:choose>
-	<c:when test="${fn:contains(status,'disshabCreated')}" >
-     <mcr:includeEditor 
-		isNewEditorSource="false" 
-		mcrid="${mcrid}" type="disshab" step="author" target="MCRCheckMetadataServlet" nextPath="~workflow-disshab"/>	
+	<c:when test="${valid == 'true'}" >
+        <c:import url="/content/workflowProcess.jsp?type=disshab&step=author&workflowProcessType=${workflowType}" />	
     </c:when>
     <c:otherwise>
-		<c:import url="/content/workflowProcess.jsp?type=disshab&step=author&workflowProcessType=${workflowType}" />
+         <mcr:includeEditor 
+            isNewEditorSource="false" 
+            mcrid="${mcrid}" type="disshab" step="author" target="MCRCheckMetadataServlet" nextPath="~workflow-disshab"/>    
     </c:otherwise>
   </c:choose>   		
 </c:if>

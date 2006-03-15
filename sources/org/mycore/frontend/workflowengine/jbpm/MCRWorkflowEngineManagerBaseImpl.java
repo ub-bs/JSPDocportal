@@ -369,9 +369,33 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	}
 	
 	public void setMetadataValidFlag(String mcrid, boolean isValid) {
-		List lpids = MCRJbpmWorkflowBase.getCurrentProcessIDsForProcessVariable("createdDocID", mcrid);
-		if(lpids == null){
+		long pid = getUniqueWorkflowProcessFromCreatedDocID(mcrid);
+		if(pid > 0) {
+			MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(pid);
+			wfo.setStringVariableValue("valid-" + mcrid, Boolean.toString(isValid));
+		}
+	}	
+	
+	public boolean checkMetadataValidFlag(String mcrid) {
+		long pid = getUniqueWorkflowProcessFromCreatedDocID(mcrid);
+		if(pid > 0) {
+			MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(pid);
+			try{
+				return Boolean.parseBoolean(wfo.getStringVariableValue("valid-" + mcrid));
+			}catch(Exception e){
+				logger.error("boolean parsing of " + mcrid + " was not possible", e);
+				return false;
+			}
+		}else{
+			return false;
+		}
+	}	
+	
+	private long getUniqueWorkflowProcessFromCreatedDocID(String mcrid){
+		List lpids = MCRJbpmWorkflowBase.getCurrentProcessIDsForProcessVariable("createdDocID%", mcrid);
+		if(lpids == null || lpids.size() == 0){
 			logger.error("there could not be found a process with this createdDocID " + mcrid);
+			return 0;
 		}else if (lpids.size() > 1){
 			StringBuffer sb = new StringBuffer("there could be found more than one processids for createdDocID ")
 				.append(mcrid).append("\n delete one of the following processes ");
@@ -379,11 +403,11 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 				sb.append("[").append(String.valueOf(((Long) it.next()).longValue())).append("]");
 			}
 			logger.error(sb.toString());
+			return -1;
 		}else{
-			MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(((Long)lpids.get(0)).longValue());
-			wfo.setStringVariableValue("valid-" + mcrid, Boolean.toString(isValid));
-		}
-	}	
+			return ((Long)lpids.get(0)).longValue();
+		}		
+	}
 	
 	public  Document getListWorkflowProcess(String userid, String workflowProcessType, String  documentType ){
 		StringBuffer sb = null;

@@ -79,6 +79,12 @@
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
+                <description>Output - the valid var contains the valid status of the document in the workflow </description>
+                <name>valid</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <attribute>
                 <description>The userid, musst exist in database</description>
                 <name>userid</name>
                 <required>true</required>

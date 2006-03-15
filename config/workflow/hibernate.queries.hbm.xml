@@ -12,7 +12,7 @@
     <![CDATA[
       select si.processInstance
       from org.jbpm.context.exe.variableinstance.StringInstance as si
-      where si.name = :var and si.value = :value
+      where si.name like :var and si.value like :value
       order by si.processInstance.start desc
     ]]>
   </query>

@@ -130,6 +130,18 @@ public interface MCRWorkflowEngineManagerInterface {
 	
 	abstract void setDefaultPermissions(String mcrid, String userid);
 	
+	/**
+	 * sets a workflow-process-variable with the name
+	 * 	valid-{mcrid} to boolean isValid
+	 * 
+	 * can only be used in workflow-processes with a variable
+	 *  "createdDocID" that contains the requested mcrid
+	 *  
+	 * @param mcrid
+	 * @param isValid
+	 */
 	abstract void setMetadataValidFlag(String mcrid, boolean isValid);
+	
+	abstract boolean checkMetadataValidFlag(String mcrid);
 	
 }
