@@ -421,9 +421,15 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 			SimpleDateFormat fmt = new SimpleDateFormat();
 		    fmt.applyPattern( "yyyyMMddhhmmss" );
 		    GregorianCalendar cal = new GregorianCalendar();
-			File outputDir = File.createTempFile("deleted_at_" + fmt.format(cal.getTime()),"", new File(deleteDir));
+		    File curBackupDir = null;
+		    boolean dirCreated = false;
+		    while(!dirCreated) {
+		    	curBackupDir = new File(deleteDir + "/" + "deleted_at_" + fmt.format(cal.getTime()));
+		    	if(curBackupDir.mkdir()) dirCreated = true;
+		    }
+		    File outputDir = new File(curBackupDir.getAbsolutePath() + File.separator + inputDir.getName());
 			JSPUtils.recursiveCopy(inputDir, outputDir);
-			MCRUtils.copyStream(new FileInputStream(inputFile), new FileOutputStream(new File(outputDir.getAbsolutePath() + File.separator + inputFile.getName())));
+			MCRUtils.copyStream(new FileInputStream(inputFile), new FileOutputStream(new File(curBackupDir.getAbsolutePath() + File.separator + inputFile.getName())));
 		}catch(Exception ex){
 			logger.error("problems in copying", ex);
 			return false;
@@ -516,7 +522,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 							ArrayList dirlist = MCRUtils.getAllFileNames(dir);
 							for (int k = 0; k < dirlist.size(); k++) {
 								org.jdom.Element file = new org.jdom.Element("file");
-								file.setText(derivatePath + "/" + derivatePath + "/" + (String) dirlist.get(k));
+								file.setText(derivatePath + "/" + (String) dirlist.get(k));
 								File thisfile = new File(dir, (String) dirlist.get(k));
 								file.setAttribute("size", String.valueOf(thisfile.length()));
 								file.setAttribute("main", "false");
@@ -769,14 +775,14 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 			
 			
 			if(derDir.isDirectory()) {
-				logger.debug("deleting " + derDir.getName());
+				logger.debug("deleting directory " + derDir.getName());
 				JSPUtils.recursiveDelete(derDir);
 			}else{
 				logger.warn(derDir.getName() + " is not a directory, did not delete it");
 				return false;
 			}
 			if(derFile.isFile()){
-				logger.debug("deleting " + derFile.getName());
+				logger.debug("deleting file " + derFile.getName());
 				derFile.delete();
 			}else{
 				logger.warn(derFile.getName() + " is not a file, did not delete it");

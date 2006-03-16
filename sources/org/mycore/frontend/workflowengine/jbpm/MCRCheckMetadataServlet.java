@@ -68,7 +68,6 @@ public class MCRCheckMetadataServlet extends MCRServlet {
      * This method overrides doGetPost of MCRServlet. <br />
      */
     public void doGetPost(MCRServletJob job) throws Exception {
-    	
     	HttpServletRequest request = job.getRequest();
     	HttpServletResponse response = job.getResponse();
     	// read the XML data

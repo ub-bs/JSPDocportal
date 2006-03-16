@@ -320,6 +320,18 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 		//		in a derivate only one zip-file is allowed, it will be renamed
 		//		to attachment.zip
 
+		MCRDerivate der = new MCRDerivate();
+		
+		try {
+			der.setFromURI(dirname + ".xml");
+		}catch(Exception ex){
+			String errMsg = "could not set derivate " + dirname + ".xml";
+			logger.error(errMsg, ex);
+			throw new MCRException(errMsg);
+		}
+		
+		String derID = der.getId().getId();
+		
 		MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(pid);
 		
 		boolean containsPdf = false;
@@ -360,7 +372,7 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 				}else{
 					containsPdf = true;
 					String wfPdf = wfo.getStringVariableValue("containsPDF"); 
-					if(wfPdf != null && wfPdf.equals("true")){
+					if(wfPdf != null && !wfPdf.equals(derID) && !wfPdf.equals("")){
 						String errMsg = "just one pdf-file for all derivates for one dissertation, please delete old derivates first";
 						logger.error(errMsg);
 						throw new MCRException(errMsg);
@@ -387,9 +399,7 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 		}
 	
 		// add the mainfile entry
-		MCRDerivate der = new MCRDerivate();
-		try {
-			der.setFromURI(dirname + ".xml");
+		try{
 			if (der.getDerivate().getInternals().getMainDoc().equals("#####")) {
 				der.getDerivate().getInternals().setMainDoc(mainfile);
 				byte[] outxml = MCRUtils.getByteArray(der.createXML());
@@ -411,20 +421,20 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 			throw new MCRException(msgErr);
 		}
 		if(containsPdf){
-			wfo.setStringVariableValue("containsPdf", "true");
+			wfo.setStringVariableValue("containsPDF", derID);
 			if(containsZip){
-				wfo.setStringVariableValue("containsZip", "true");
+				wfo.setStringVariableValue("containsZIP", derID);
 			}
 		}
 		String attachedDerivates = wfo.getStringVariableValue("attachedDerivates");
 		if(attachedDerivates == null || attachedDerivates.equals("")){
-			wfo.setStringVariableValue("attachedDerivates", der.getId().getId());
+			wfo.setStringVariableValue("attachedDerivates", derID);
 		}else{
-			wfo.setStringVariableValue("attachedDerivates", attachedDerivates + "," + der.getId().getId());
+			wfo.setStringVariableValue("attachedDerivates", attachedDerivates + "," + derID);
 		}
 	}	
 	
-	public boolean deleteDerivateObject(String documentType, String metadataObject, String derivateObject) {
+	public boolean deleteDerivateObject(String documentType, String metadataObject, String derID) {
 		List lpids = MCRJbpmWorkflowBase.getCurrentProcessIDsForProcessVariable("createdDocID", metadataObject);
 		long pid = 0;
 		if(lpids != null && lpids.size() == 1) {
@@ -432,7 +442,7 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 		}
 		MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(pid);
 		Set attachedDerivates = new HashSet(Arrays.asList(wfo.getStringVariableValue("attachedDerivates").split(",")));
-		attachedDerivates.remove(derivateObject);
+		attachedDerivates.remove(derID);
 		StringBuffer sbAttached = new StringBuffer("");
 		boolean first = true;
 		for (Iterator it = attachedDerivates.iterator(); it.hasNext();) {
@@ -441,9 +451,15 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 			sbAttached.append((String) it.next());
 			first = false;
 		}
-		if (backupDerivateObject(documentType, metadataObject, derivateObject, pid)){
-			if(super.deleteDerivateObject(documentType, metadataObject, derivateObject)){
+		if (backupDerivateObject(documentType, metadataObject, derID, pid)){
+			if(super.deleteDerivateObject(documentType, metadataObject, derID)){
 				wfo.setStringVariableValue("attachedDerivates", sbAttached.toString());
+				String cmp = wfo.getStringVariableValue("containsPDF"); 
+				if(cmp != null && cmp.equals(derID))
+					wfo.setStringVariableValue("containsPDF","");
+				cmp = wfo.getStringVariableValue("containsZIP");
+				if(cmp != null && cmp.equals(derID))
+					wfo.setStringVariableValue("containsZIP", "");
 				return true;
 			}else{
 				logger.error("problems in deleting, check inconsistences in workflow process " + pid);
