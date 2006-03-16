@@ -108,6 +108,24 @@ public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 			jbpmContext.close();
 		}		
 	}	
+	/**
+	 * deletes a workflow process variable
+	 * @param varName
+	 */
+	public void deleteVariable(String varName){
+		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+		try {
+			ProcessInstance processInstance = jbpmContext.getGraphSession().loadProcessInstance(processInstanceID);
+			ContextInstance contextInstance = processInstance.getContextInstance();
+			contextInstance.deleteVariable(varName);
+			jbpmContext.save(processInstance);
+		}catch(MCRException e){
+			logger.error("could not delete variable '" + varName + 
+					"' from processInstance [" + processInstanceID + "]", e);
+		}finally {
+			jbpmContext.close();
+		}				
+	}
 	
 	public boolean setWorkflowStatus(String newStatus){
 		boolean statusIsSet = false;
