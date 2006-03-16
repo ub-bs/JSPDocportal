@@ -12,12 +12,14 @@
 <c:set var="debug" value="false" />
 
 <c:set var="pid" value="${param.pid}" />
-<c:set var="workflowProcessType" value="${param.workflowProcessType}" />
+<c:set var="type" value="${param.workflowProcessType}" />
+
+
 <c:if test="${!empty(pid)}" >
-    <mcr:deleteProcess result="result" pid="${pid}" workflowProcessType="${workflowProcessType}" />
+    <mcr:deleteProcess result="result" pid="${pid}" workflowProcessType="${type}" />
 	<table class="access" cellspacing="1" cellpadding="0" >
 		<tr><td> zu löschender Prozess: <c:out value="${pid}" /> </td>
-	        <td> Typ: <fmt:message key="${workflowProcessType}" /> </td>
+	        <td> Typ: <c:out value="${type}" /> </td>
 	    </tr>
 	    <tr>    
 		    <td colspan="2" > Status: <fmt:message key="${result}" /> </td>
@@ -26,7 +28,7 @@
 	<hr/>
 </c:if>
   
-<mcr:listAllProcesses var="myWorkflowList" workflowProcessType="workflowProcessType" />
+<mcr:listAllProcesses var="myWorkflowList" workflowProcessType="${type}" />
 
 <table class="access" cellspacing="0" cellpadding="3" >
   <x:forEach select="$myWorkflowList/mcr_workflow">	
