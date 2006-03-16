@@ -83,11 +83,30 @@ public class MCRDeleteProcessTag extends SimpleTagSupport {
 		PageContext pageContext = (PageContext) getJspContext();
     	pageContext.setAttribute(result, "Admin.Process.deleted.successfull");
 
+    	MCRWorkflowEngineManagerInterface WFM = null;
+		try {
+			 WFM = MCRWorkflowEngineManagerFactory.getImpl(workflowProcessType);
+		} catch (Exception noWFM) {
+			LOGGER.error("could not build workflow interface", noWFM);
+			return;
+		}  
+
     	if ( AI.checkPermission("administrate-" + workflowProcessType) ) {
 			try{ 
+		    	MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(Long.parseLong(pid));
+		    	String createdDocID = wfo.getStringVariableValue("createdDocID") ;
+		    	if ( createdDocID != null && createdDocID.length() > 0 ) {
+		    		// Daten aus dem WFM löschen
+		    		boolean bSuccess = WFM.deleteWorkflowObject(createdDocID, wfo.getDocumentType() );  								
+	    			if (bSuccess) {
+	    				// AccessRules löschen !!
+	    				AI.removeAllRules(createdDocID);
+	    			}
+		    	}
 				MCRJbpmCommands.deleteProcess(pid);
 			} catch (java.lang.NullPointerException noObject) {
 		    	pageContext.setAttribute(result, "Admin.Process.deleted.noprocess");				
+		    	LOGGER.error("error:", noObject);
 			} catch (Exception allEx) {
 		    	pageContext.setAttribute(result, "Admin.Process.deleted.error");	
 		    	LOGGER.error("error:", allEx);
