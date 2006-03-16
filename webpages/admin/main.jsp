@@ -24,6 +24,7 @@
 				<li><a href="${applicationScope.WebApplicationBaseURL}admin?path=usergroup">Benutzergruppenverwaltung</a> zur Erstellung der Benutzergruppen</li>
 				<li><a href="${applicationScope.WebApplicationBaseURL}admin?path=user">Benutzerverwaltung</a> zur Verwaltung Nutzer</li>
 				<li><a href="${applicationScope.WebApplicationBaseURL}admin?path=user">Neue Nutzerregistration</a> zur Erstanmeldung von Nutzern</li>
+				<li><a href="${applicationScope.WebApplicationBaseURL}admin?path=processes_list&workflowProcessType=xmetadiss">Prozesse: Dissertationen</a> zeigt alle laufenden Prozesse an.</li>
 			</ul>
 			
 		</td>

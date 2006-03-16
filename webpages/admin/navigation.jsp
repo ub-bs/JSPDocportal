@@ -27,6 +27,9 @@
 	<ul class="nav">
 		<li class="<%=get("registeruser")%>"><a href="<%= WebApplicationBaseURL %>admin?path=user_registration">Nutzer Neuregistrierung</a></li>
 	</ul>		
+	<ul class="nav">
+		<li class="<%=get("processes_list")%>"><a href="<%= WebApplicationBaseURL %>admin?path=processes_list&workflowProcessType=xmetadiss">Prozesse: Dissertationen</a></li>
+	</ul>			
 </span>
 
 
