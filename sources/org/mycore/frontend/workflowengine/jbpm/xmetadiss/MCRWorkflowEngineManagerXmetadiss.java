@@ -57,6 +57,7 @@ import org.mycore.datamodel.metadata.MCRMetaLangText;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.frontend.cli.MCRObjectCommands;
 import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase;
 import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowObject;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerBaseImpl;
@@ -408,6 +409,7 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 							+ ".xml");
 					out.write(outxml);
 					out.flush();
+					out.close();
 				} catch (IOException ex) {
 					logger.error(ex.getMessage());
 					logger.error("Exception while store to file " + dirname
@@ -471,4 +473,36 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 		}
 	}
 	
+	public boolean commitWorkflowObject(String objmcrid, String documentType) {
+		boolean bSuccess = true;
+		long pid = getUniqueWorkflowProcessFromCreatedDocID(objmcrid);
+		MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(pid);
+		String dirname = getWorkflowDirectory(documentType);
+		String filename = dirname + File.separator + objmcrid + ".xml";
+
+		try { 
+			if (MCRObject.existInDatastore(objmcrid)) {
+				MCRObject mcr_obj = new MCRObject();
+				mcr_obj.deleteFromDatastore(objmcrid);
+			}
+			MCRObjectCommands.loadFromFile(filename);
+			logger.info("The metadata object: " + filename + " is loaded.");
+		} catch (Exception ig){ 
+			logger.error("Can't load File catched error: ", ig);
+			bSuccess=false;
+		}
+		if ( (bSuccess = MCRObject.existInDatastore(objmcrid))  ) {
+			List derivateIDs = Arrays.asList(wfo.getStringVariableValue("attachedDerivates").split(","));
+			try{
+				for (Iterator it = derivateIDs.iterator(); it.hasNext();) {
+					String derivateID = (String) it.next();
+					bSuccess = commitDerivateObject(derivateID, documentType);
+				}
+			}catch(Exception ex){
+				logger.error("Can't load File catched error: ", ex);
+				bSuccess=false;
+			}
+		}
+		return bSuccess;
+	}	
 }

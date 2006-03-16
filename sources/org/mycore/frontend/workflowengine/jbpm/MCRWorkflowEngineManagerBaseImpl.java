@@ -1,11 +1,15 @@
 package org.mycore.frontend.workflowengine.jbpm;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -28,6 +32,7 @@ import org.mycore.access.MCRAccessManager;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRDefaults;
+import org.mycore.common.MCRDerivateFileFilter;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.MCRUtils;
@@ -63,6 +68,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	
 	private static String sender ;
 	private static String GUEST_ID ;
+	private static MCRObjectID nextWorkflowDerivateID = null;
 	
 	// pattern for the stringpart after the last [/\]
 	protected static Pattern filenamePattern = Pattern.compile("([^\\\\/]+)\\z");
@@ -81,6 +87,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		}
 		defaultPermissionTypes = config.getString("MCR.WorkflowEngine.DefaultPermissionTypes", "read,commitdb,writedb,deletedb,deletewf").split(",");
 		deleteDir = config.getString("MCR.WorkflowEngine.DeleteDirectory");
+		
 	}
     	
 	private Hashtable mt = null;
@@ -437,7 +444,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		return true;		
 	}		
 	
-	private long getUniqueWorkflowProcessFromCreatedDocID(String mcrid){
+	protected long getUniqueWorkflowProcessFromCreatedDocID(String mcrid){
 		List lpids = MCRJbpmWorkflowBase.getCurrentProcessIDsForProcessVariable("createdDocID%", mcrid);
 		if(lpids == null || lpids.size() == 0){
 			logger.error("there could not be found a process with this createdDocID " + mcrid);
@@ -544,6 +551,11 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		return new org.jdom.Document(root);
 	}
 	
+	/**
+	 * 
+	 * @param documentType
+	 * @return
+	 */
 	protected final ArrayList getAllDerivateDataFromWorkflow(String documentType) {
 			String dirname = getWorkflowDirectory(documentType);
 			ArrayList workfiles = new ArrayList();
@@ -595,6 +607,45 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 			AI.addRule(objid, defaultPermissionTypes[i], MCRAccessManager.getTrueRule(), "");	
 		}		
 	}
+	
+	public synchronized MCRObjectID setNextFreeDerivateID(){
+		if(nextWorkflowDerivateID == null){
+			List allDerivateFileNames = new ArrayList();
+			for (Iterator it = editWorkflowDirectories.keySet().iterator(); it.hasNext();) {
+				File workDir = new File((String)editWorkflowDirectories.get(it.next()));
+				if(workDir.isDirectory()){
+					for (Iterator it2 = getAllDerivateFiles(workDir).iterator(); it2
+							.hasNext();) {
+						allDerivateFileNames.add(((File)it2.next()).getName());
+					}
+				}
+			}
+			Collections.sort(allDerivateFileNames, Collections.reverseOrder());
+			String maxFilename = (String)allDerivateFileNames.get(0); 
+			nextWorkflowDerivateID = new MCRObjectID(maxFilename.substring(0, maxFilename.lastIndexOf(".")));
+			String base = MCRConfiguration.instance().getString("MCR.default_project_id","DocPortal")+ "_derivate";
+			MCRObjectID dbIDMax = new MCRObjectID();
+			dbIDMax.setNextFreeId(base);
+			if (dbIDMax.getNumberAsInteger() >= nextWorkflowDerivateID.getNumberAsInteger()) {
+				nextWorkflowDerivateID.setNumber(dbIDMax.getNumberAsInteger() + 1);
+			}			
+		}
+		MCRObjectID retID = new MCRObjectID(nextWorkflowDerivateID.toString());
+		nextWorkflowDerivateID.setNumber(retID.getNumberAsInteger() + 1);
+		return retID;
+	}
+	
+    /**
+     * The method return a List of MyCoRe derivate files, the filename must follow the form
+     *    **_derivate_**
+     * 
+     * @param dir
+     *            File directory, that is searched for derivate files
+     * @return an List of Files
+     */
+    protected final List getAllDerivateFiles(File dir) {
+    	return Arrays.asList(dir.listFiles(new MCRDerivateFileFilter()));
+    }
 
 	/**
 	 * The method create a new MCRDerivate and store them to the directory of
@@ -607,23 +658,8 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	 */
 	public String addNewDerivateToWorkflowObject(String objmcrid, String documentType, String userid){
 		String lang = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
-	    String base = MCRConfiguration.instance().getString("MCR.default_project_id","DocPortal")+ "_derivate"; 	    		
-		MCRObjectID IDMax = new MCRObjectID();
-		IDMax.setNextFreeId(base);
-		
+		MCRObjectID IDMax = setNextFreeDerivateID();
 		String dirname = getWorkflowDirectory(documentType);
-		ArrayList DerivateList = getAllDerivateDataFromWorkflow( documentType);		
-		for (int i = 0  ; i < DerivateList.size(); i++) {
-			Element derivate = (Element) DerivateList.get(i);
-			try { 
-				
-				MCRObjectID IDinWF = new MCRObjectID(derivate.getAttributeValue("ID"));
-				if (IDMax.getNumberAsInteger() <= IDinWF.getNumberAsInteger()) {
-					IDinWF.setNumber(IDinWF.getNumberAsInteger() + 1);
-					IDMax = IDinWF;
-				}				
-			} catch (Exception ignored){ ; } 
-		}
 		
 		logger.debug("New derivate ID " + IDMax.getId());
 

@@ -16,6 +16,8 @@ import java.util.Map;
 import java.util.regex.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import org.apache.commons.vfs.FileObject;
 import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -250,8 +252,7 @@ public class JSPUtils {
 			(new XMLOutputter(Format.getPrettyFormat())).output(jdom,fos);
 			fos.close();
 		} catch (Exception ex){
-			logger.debug(ex);
-			logger.info("Cant save Object" + filename);
+			logger.error("Cant save Object" + filename);
 		} finally{
 			if ( fos != null ){
 				try {		fos.close(); }			
@@ -282,7 +283,7 @@ public class JSPUtils {
 	* 	java.io.File the directory to be deleted recursively
 	*/    
 	public static void recursiveCopy( File input, File output ) throws Exception{
-		output.mkdir();
+		if(!output.mkdir()) throw new MCRException("could not create dir " + output.getAbsolutePath()); 
 		File files[] = input.listFiles();
 		for ( int i = 0; i < files.length; i++ ){
 			if ( files[i].isDirectory() ){
@@ -290,7 +291,11 @@ public class JSPUtils {
 				recursiveCopy( files[i], output2 );
 			}else{
 				File output2 = new File(output.getAbsolutePath() + File.separator + files[i].getName());
-				MCRUtils.copyStream(new FileInputStream(files[i]), new FileOutputStream(output2));
+				FileInputStream fis = new FileInputStream(files[i]);
+				FileOutputStream fos = new FileOutputStream(output2); 
+				MCRUtils.copyStream(fis, fos);
+				fis.close();
+				fos.close();
 			}
 		}
 	}	
