@@ -48,8 +48,7 @@ public class MCRJbpmWorkflowBase {
 		try{					
 			GraphSession graphSession = jbpmContext.getGraphSession();
 			ProcessDefinition  processDefinition = graphSession.findLatestProcessDefinition(processType);
-			// dont get the next free ID , get the active id it is processDefinition.getId()-1 !!
-			String processDefinitionID = Long.toString( processDefinition.getId()-1); 
+			String processDefinitionID = Long.toString( processDefinition.getId()); 
 			
 			Session hibSession = jbpmContext.getSession();	
 			Query hibQuery = hibSession.getNamedQuery("MCRJbpmWorkflowBase.getCurrentProcessIDsForProcessType");
