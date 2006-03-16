@@ -9,6 +9,30 @@
     <uri>/WEB-INF/lib/mycore-taglibs.jar</uri>
     <info>MyCoRe Sample Tag library</info>
      <tag>
+            <name>deleteProcess</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRDeleteProcessTag</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <description>the prozess id string</description>
+                <name>pid</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>the workflow-defintion-type</description>
+                <name>workflowProcessType</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>Output the variable name that holds the value of the variable in the jsp-file</description>
+                <name>result</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <info>A Tag, that deletes a process identified by id, after checking permission administrate-{workflowtype} and return the result-code for formatted messaging</info>
+     </tag>	
+     <tag>
             <name>getWorkflowEngineVariable</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRGetWorkflowEngineVariableTag</tagclass>
             <bodycontent>empty</bodycontent>
