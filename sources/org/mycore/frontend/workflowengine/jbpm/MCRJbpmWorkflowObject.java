@@ -110,6 +110,9 @@ public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 	}	
 	/**
 	 * deletes a workflow process variable
+	 *  deleting this way delivers dead data in the 
+	 *  workflow tables, better set a given variable
+	 *  to empty string ""
 	 * @param varName
 	 */
 	public void deleteVariable(String varName){
