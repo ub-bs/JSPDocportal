@@ -12,6 +12,13 @@
     </boolean>
    </condition>
   </mcrpermission>
+  <mcrpermission name="administrate-accessrules" description="Verwalten von zugriffsrechten für Dokumente " ruledescription="Nur für Administratoren">
+   <condition format="xml">
+    <boolean operator="or">
+     <condition value="admingroup" operator="=" field="group"/>
+    </boolean>
+   </condition>
+  </mcrpermission>  
   <mcrpermission name="administrate-user" description="Verwalten von Usern (needed in MCRUserMgr)" ruledescription="Nur für Administratoren">
    <condition format="xml">
     <boolean operator="or">
