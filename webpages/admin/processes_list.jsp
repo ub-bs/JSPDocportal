@@ -18,15 +18,13 @@
 <c:if test="${!empty(pid)}" >
     <mcr:deleteProcess result="result" pid="${pid}" workflowProcessType="${type}" />
 	<table class="access" cellspacing="1" cellpadding="0" >
-		<tr><td> zu löschender Prozess: <c:out value="${pid}" /> </td>
-	        <td> Typ: <c:out value="${type}" /> </td>
-	    </tr>
-	    <tr>    
-		    <td colspan="2" > Status: <fmt:message key="${result}" /> </td>
-		</tr>
+		<tr><td> zu löschender Prozess: <c:out value="${pid}" /></td></tr>
+	    <tr><td> Typ: <c:out value="${type}" /></td></tr>
+	    <tr><td colspan="2" > Status: <fmt:message key="${result}" /></td></tr>
 	  </table>	
 	<hr/>
 </c:if>
+
   
 <mcr:listAllProcesses var="myWorkflowList" workflowProcessType="${type}" />
 
@@ -39,9 +37,49 @@
       <tr>
         <td valign="top"><b>Prozess ID: <x:out select="./@pid" /></b></td>
         <td>
-          Initiator: <x:out select="./@initiator" /><br/>
-          Autoren ID: <x:out select="./@authorID" /><br/>
-          Document ID: <x:out select="./@createdDocID" />
+         <table cellpadding="5" cellspacing="0" >
+          <tr valign="top">
+	           <td> Initiator: </td>
+	           <td>
+					<x:choose>
+					<x:when select="./@initiator = 'null'">
+						<fmt:message key="Variable.null" />
+					</x:when>
+					<x:otherwise>
+		                <x:out select="./@initiator" />
+					</x:otherwise>
+					</x:choose>           
+
+			   </td>
+          </tr>
+          <tr> 
+	           <td>Autoren ID:</td>
+	           <td>
+					<x:choose>
+					<x:when select="./@authorID = 'null'">
+						<fmt:message key="Variable.null" />
+					</x:when>
+					<x:otherwise>
+						<x:out select="./@authorID" />  
+					</x:otherwise>
+					</x:choose>           
+			   </td>
+          </tr>
+          <tr>
+	           <td>Document ID: </td>
+	           <td>
+					<x:choose>
+					<x:when select="./@createdDocID = 'null'">
+						<fmt:message key="Variable.null" />
+					</x:when>
+					<x:otherwise>
+						<x:out select="./@createdDocID" />  
+					</x:otherwise>
+					</x:choose>           
+
+			   </td>	           
+          </tr>
+         </table>
         </td>  
         <td width="50"> </td>
 	    <td align="center" >
