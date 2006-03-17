@@ -56,6 +56,8 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
         com = new MCRCommand("delete jbpm process {0}", "org.mycore.frontend.workflowengine.jbpm.MCRJbpmCommands.deleteProcess String", "The command deletes a processinstance of the jbpm workflow engine {0}");
         command.add(com);         
 
+        com = new MCRCommand("delete jbpm process variable {0} {1}", "org.mycore.frontend.workflowengine.jbpm.MCRJbpmCommands.deleteProcessVariable String String", "The command resets a variable {1} of a  processinstance  of the jbpm workflow engine {0}");
+        command.add(com);         
     }
 
     /**
@@ -74,6 +76,27 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
     	}catch(Exception e){
     		LOGGER.error("could not delete process " + strProcessID, e);
     		throw new MCRException("Error in deleting a process from workflow engine");
+    	}
+    	
+    	
+    }
+
+    /**
+     * The command deletes a process instance of the workflow engine
+     * 	if you've got to do this, you must restart your application server
+     * 	for reinitializing your caches
+     * @param strProcessID
+     *        		String processId as String
+     * @throws MCRException
+     */
+    public static final void deleteProcessVariable(String strProcessID, String workflowVar) throws MCRException{
+    	try{    		
+    		long processID = Long.valueOf(strProcessID).longValue();
+	    	MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(processID);
+	    	wfo.deleteVariable(workflowVar);
+    	}catch(Exception e){
+    		LOGGER.error("could not delete process variable '" + workflowVar + "' for process " + strProcessID, e);
+    		throw new MCRException("Error in deleting a process variable from workflow engine");
     	}
     	
     	
