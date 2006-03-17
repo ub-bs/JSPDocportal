@@ -8,6 +8,31 @@
     <shortname>mcr</shortname>
     <uri>/WEB-INF/lib/mycore-taglibs.jar</uri>
     <info>MyCoRe Sample Tag library</info>
+	 <tag>
+            <name>deleteWorkflowEngineVariable</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRDeleteWorkflowEngineVariableTag</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <description>Output the success of deleting the variable jsp-file</description>
+                <name>var</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>the workflow-processid as string</description>
+                <name>pid</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>The name of the workflow-variable for delete</description>
+                <name>workflowVar</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <info>A Tag, that deletes a workflow-engine variable</info>
+     </tag>
+	
      <tag>
             <name>deleteProcess</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRDeleteProcessTag</tagclass>
