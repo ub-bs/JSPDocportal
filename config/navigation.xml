@@ -148,6 +148,11 @@
             <navitem name="logout" label="Nav.Logout" href="logout">
                <refitem name="~logout" label="" />
             </navitem>
+		  <!--  internal references to admin sites -->
+          <navitem name="docportaladmin" label="Nav.Admin" href="content/docportaladmin.jsp" >
+			<refitem name="~docportaladmin" label="Nav.Admin" />
+          </navitem>		  
+			
          </navitem>
          <navitem name="mycore-message" label="MyCoReMessage" href="mycore-message.jsp" hidden="true">
             <refitem name="~mycore-message" label="" />
