@@ -13,6 +13,11 @@ import org.mycore.frontend.cli.MCRAbstractCommands;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
 
+/**
+ * 
+ * @deprecated
+ *
+ */
 public class MCRWorkflowEngineDoorServlet extends MCRServlet{
 
 	private static Logger LOGGER = Logger.getLogger(MCRWorkflowEngineDoorServlet.class);
