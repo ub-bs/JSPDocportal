@@ -100,9 +100,18 @@
 type: ${type} | mcrid: ${mcrid} | step: ${step} | nextPath: ${nextPath} | uploadID: ${uploadID} |  isNewEditorSource: ${isNewEditorSource}
 
 <hr/>
-<mcr:includeEditor 
-  editorSessionID="${editorSessionID}"  isNewEditorSource="${isNewEditorSource}" 
-  mcrid2="${mcrid2}"  uploadID="${uploadID}"
-  mcrid="${mcrid}" type="${type}" step="${step}" target="${target}" nextPath="${nextPath}" editorPath="${editorPath}" />    
+<mcr:checkAccess var="modifyAllowed" permission="writedb" key="${mcrid}" />
+<c:choose>
+    <c:when test="${modifyAllowed eq 'true'}">
+        <mcr:includeEditor 
+          editorSessionID="${editorSessionID}"  isNewEditorSource="${isNewEditorSource}" 
+          mcrid2="${mcrid2}"  uploadID="${uploadID}"
+          mcrid="${mcrid}" type="${type}" step="${step}" target="${target}" nextPath="${nextPath}" editorPath="${editorPath}" />        
+    </c:when>
+    <c:otherwise>
+        <font color="#ff0000"><fmt:message key="SWF.PrivilegesError" /></font>
+    </c:otherwise>
+</c:choose>
+
        
 <hr/>	
