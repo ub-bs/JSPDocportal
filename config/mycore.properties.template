@@ -24,6 +24,8 @@ MCR.WorkflowEngine.defaultACL.derivate.commitdb.xmetadiss=<condition format="xml
 MCR.WorkflowEngine.defaultACL.derivate.deletewf.xmetadiss=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></condition>
 MCR.WorkflowEngine.defaultACL.derivate.deletedb.xmetadiss=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></condition>
 
+MCR.WorkflowEngine.defaultACL.editorMode.xmetadiss=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></condition>
+
 MCR.WorkflowEngine.PublisherDefaultID.xmetadiss=DocPortal_institution_00000001
 MCR.WorkflowEngine.ClassificationID.DDC.xmetadiss=DocPortal_class_00000009
 MCR.WorkflowEngine.ClassificationID.Format.xmetadiss=DocPortal_class_00000006
