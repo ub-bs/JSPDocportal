@@ -92,6 +92,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
     	
 	private Hashtable mt = null;
 	private XMLOutputter out = new XMLOutputter(org.jdom.output.Format.getPrettyFormat());	
+	private Hashtable htRules = null;
 	
 	/**
 	 * Returns the workflow manager singleton.
@@ -690,17 +691,20 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		boolean bSuccess = true;
 		String dirname = getWorkflowDirectory(documentType);
 		String filename = dirname + File.separator + objmcrid + ".xml";
-
+      
 		try { 
+	        boolean bSet = false;
+	        
 			if (MCRObject.existInDatastore(objmcrid)) {
+		        bSet = getOldRules(objmcrid);
 				MCRObject mcr_obj = new MCRObject();
 				mcr_obj.deleteFromDatastore(objmcrid);
 			}
-			MCRObjectCommands.loadFromFile(filename);
-			String userid = MCRSessionMgr.getCurrentSession().getCurrentUserID();
-			MCRAccessManager.removeAllRules(new MCRObjectID(ID));
-			createWorkflowDefaultRule(ID, userid);
-
+			
+			MCRObjectCommands.loadFromFile(filename);		
+			if ( bSet ) 
+					setOldRules(objmcrid);
+			
 			logger.info("The metadata object: " + filename + " is loaded.");
 		} catch (Exception ig){ 
 			logger.error("Can't load File catched error: ", ig);
@@ -733,17 +737,21 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	}
 
 	private boolean loadDerivate(String derivateid, String filename) {
+        boolean bSet = false;
+
 		if (MCRDerivate.existInDatastore(derivateid)) {
+	        bSet = getOldRules(derivateid);
 			MCRDerivateCommands.updateFromFile(filename);
 		} else {
 			MCRDerivateCommands.loadFromFile(filename);
-			String userid = MCRSessionMgr.getCurrentSession().getCurrentUserID();
-			MCRAccessManager.removeAllRules(new MCRObjectID(ID));
-			createWorkflowDefaultRule(ID, userid);
 		}
 		if (!MCRDerivate.existInDatastore(derivateid)) {
 			return false;
 		}
+		
+		if ( bSet ) 
+			setOldRules(derivateid);			
+		
 		logger.debug("Commit the derivate " + filename);
 		return true;
 	}
@@ -935,6 +943,34 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 			logger.error(msgErr, e);
 			throw new MCRException(msgErr);
 		}
+	}
+
+	
+	private void setOldRules(String objid ) {
+		if ( htRules == null || htRules.isEmpty()) {
+			logger.warn("Can't reset AccessRules, they are emty");
+			return;
+		}
+		AI.removeAllRules(objid);
+		Enumeration eR = htRules.keys();
+		while (eR.hasMoreElements()) {
+			String perm = (String) eR.nextElement();
+			Element eRule = (Element) htRules.get(perm);
+			AI.addRule(objid,perm,eRule,"");			
+		}
+	}
+	
+	private boolean getOldRules(String objid) {
+		boolean bSet = false;
+		List liPerms = AI.getPermissionsForID(objid);        
+        htRules = new Hashtable();
+        for (int  i = 0; i< liPerms.size(); i++) {
+        	Element eRule = AI.getRule( objid,(String)liPerms.get(i));
+        	htRules.put((String)liPerms.get(i),eRule);
+        	bSet = true;
+        }
+        return bSet;
+	
 	}
 	
 }

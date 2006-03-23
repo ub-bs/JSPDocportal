@@ -30,6 +30,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -76,6 +77,7 @@ public class MCRWorkflowManager {
 	private static Element readrule ;
 	private Hashtable ht = null;
 	private Hashtable mt = null;
+	private Hashtable htRules = null;
 
 	/**
 	 * Returns the workflow manager singleton.
@@ -390,17 +392,17 @@ public class MCRWorkflowManager {
 		// commit metadata
 		String fn = getDirectoryPath(type) + NL + ID + ".xml";
 		try {
+	        boolean bSet = false;
+	        		
 			if (MCRObject.existInDatastore(ID)) {
+				bSet = getOldRules(ID);
 				MCRObject mcr_obj = new MCRObject();
 				mcr_obj.deleteFromDatastore(ID);				
 			}			
 			MCRObjectCommands.loadFromFile(fn);
-			
-			// set the rules again if they came from system default
-			String userid = MCRSessionMgr.getCurrentSession().getCurrentUserID();
-			MCRAccessManager.removeAllRules(new MCRObjectID(ID));
-			createWorkflowDefaultRule(ID, userid);
-			
+			if ( bSet ) 
+				setOldRules(ID);
+					
 		} catch (Exception ig){ logger.error("catched error: ", ig);}
 			
 		logger.info("The metadata object was " + fn + " loaded.");
@@ -438,19 +440,19 @@ public class MCRWorkflowManager {
 	}
 
 	private boolean loadDerivate(String ID, String filename) {
+        boolean bSet = false;
 		
 		if (MCRDerivate.existInDatastore(ID)) {
+			bSet = getOldRules(ID);
 			MCRDerivateCommands.updateFromFile(filename);
 		} else {
 			MCRDerivateCommands.loadFromFile(filename);
-			// set the rules again if they came from system default
-			String userid = MCRSessionMgr.getCurrentSession().getCurrentUserID();
-			MCRAccessManager.removeAllRules(new MCRObjectID(ID));
-			createWorkflowDefaultRule(ID, userid);
 		}
 		if (!MCRDerivate.existInDatastore(ID)) {
 			return false;
 		}
+		if ( bSet ) 
+			setOldRules(ID);
 		logger.debug("Commit the derivate " + filename);
 		return true;
 	}
@@ -591,4 +593,30 @@ public class MCRWorkflowManager {
 		return true;
 	}
 
+	private void setOldRules(String objid ) {
+		if ( htRules == null || htRules.isEmpty()) {
+			logger.warn("Can't reset AccessRules, they are emty");
+			return;
+		}
+		AI.removeAllRules(objid);
+		Enumeration eR = htRules.keys();
+		while (eR.hasMoreElements()) {
+			String perm = (String) eR.nextElement();
+			Element eRule = (Element) htRules.get(perm);
+			AI.addRule(objid,perm,eRule,"");			
+		}
+	}
+	
+	private boolean getOldRules(String objid) {
+		boolean bSet = false;
+		List liPerms = AI.getPermissionsForID(objid);        
+        htRules = new Hashtable();
+        for (int  i = 0; i< liPerms.size(); i++) {
+        	Element eRule = AI.getRule( objid,(String)liPerms.get(i));
+        	htRules.put((String)liPerms.get(i),eRule);
+        	bSet = true;
+        }
+        return bSet;
+	
+	}
 }
