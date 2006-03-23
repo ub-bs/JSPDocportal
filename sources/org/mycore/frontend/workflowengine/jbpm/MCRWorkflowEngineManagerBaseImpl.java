@@ -697,6 +697,10 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 				mcr_obj.deleteFromDatastore(objmcrid);
 			}
 			MCRObjectCommands.loadFromFile(filename);
+			String userid = MCRSessionMgr.getCurrentSession().getCurrentUserID();
+			MCRAccessManager.removeAllRules(new MCRObjectID(ID));
+			createWorkflowDefaultRule(ID, userid);
+
 			logger.info("The metadata object: " + filename + " is loaded.");
 		} catch (Exception ig){ 
 			logger.error("Can't load File catched error: ", ig);
@@ -733,6 +737,9 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 			MCRDerivateCommands.updateFromFile(filename);
 		} else {
 			MCRDerivateCommands.loadFromFile(filename);
+			String userid = MCRSessionMgr.getCurrentSession().getCurrentUserID();
+			MCRAccessManager.removeAllRules(new MCRObjectID(ID));
+			createWorkflowDefaultRule(ID, userid);
 		}
 		if (!MCRDerivate.existInDatastore(derivateid)) {
 			return false;

@@ -41,6 +41,8 @@ import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRDefaults;
+import org.mycore.common.MCRSession;
+import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.MCRUtils;
 import org.mycore.common.xml.MCRXMLHelper;
 import org.mycore.datamodel.metadata.MCRDerivate;
@@ -105,6 +107,7 @@ public class MCRWorkflowManager {
 		// int tables
 		ht = new Hashtable();
 		mt = new Hashtable();
+
 	}
 
 	/**
@@ -386,12 +389,18 @@ public class MCRWorkflowManager {
 	public final boolean commitMetadataObject(String type, String ID) {
 		// commit metadata
 		String fn = getDirectoryPath(type) + NL + ID + ".xml";
-		try { 
+		try {
 			if (MCRObject.existInDatastore(ID)) {
 				MCRObject mcr_obj = new MCRObject();
-				mcr_obj.deleteFromDatastore(ID);
-			}
+				mcr_obj.deleteFromDatastore(ID);				
+			}			
 			MCRObjectCommands.loadFromFile(fn);
+			
+			// set the rules again if they came from system default
+			String userid = MCRSessionMgr.getCurrentSession().getCurrentUserID();
+			MCRAccessManager.removeAllRules(new MCRObjectID(ID));
+			createWorkflowDefaultRule(ID, userid);
+			
 		} catch (Exception ig){ logger.error("catched error: ", ig);}
 			
 		logger.info("The metadata object was " + fn + " loaded.");
@@ -408,6 +417,7 @@ public class MCRWorkflowManager {
 				if (!loadDerivate(ID, fn)) {
 					return false;
 				}
+				
 			}
 		}
 		return true;
@@ -428,10 +438,15 @@ public class MCRWorkflowManager {
 	}
 
 	private boolean loadDerivate(String ID, String filename) {
+		
 		if (MCRDerivate.existInDatastore(ID)) {
 			MCRDerivateCommands.updateFromFile(filename);
 		} else {
 			MCRDerivateCommands.loadFromFile(filename);
+			// set the rules again if they came from system default
+			String userid = MCRSessionMgr.getCurrentSession().getCurrentUserID();
+			MCRAccessManager.removeAllRules(new MCRObjectID(ID));
+			createWorkflowDefaultRule(ID, userid);
 		}
 		if (!MCRDerivate.existInDatastore(ID)) {
 			return false;
