@@ -11,7 +11,6 @@ import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface
 
 public class MCRGetURNAction implements ActionHandler{
 
-	String variableName;
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = Logger.getLogger(MCRGetURNAction.class);
 	private static MCRWorkflowEngineManagerInterface WFI = MCRWorkflowEngineManagerFactory.getImpl("xmetadiss");
@@ -22,7 +21,7 @@ public class MCRGetURNAction implements ActionHandler{
 		String initiator = (String)contextInstance.getVariable(MCRJbpmWorkflowBase.varINITIATOR);
 		String urn = WFI.getURNReservation(initiator);
 		if(urn != null && !urn.equals("")){
-			contextInstance.setVariable(variableName, urn);
+			contextInstance.setVariable("reservatedURN", urn);
 			logger.debug("workflow changed state to " + executionContext.getProcessInstance().getRootToken().getName());	
 		}else{
 			logger.error("could not create urn");

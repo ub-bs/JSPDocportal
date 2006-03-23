@@ -20,6 +20,7 @@ public class MCRJbpmWorkflowBase {
 	
 	// A VARIABLE USED IN ALL WORKFLOW PROCESSES
 	public final static String varINITIATOR = "initiator";
+	public static final String lockedVariablesIdentifier = "MCRJBPMLOCKEDVARIABLES";
 	private static Logger logger = Logger.getLogger(MCRJbpmWorkflowBase.class);
 	protected static JbpmConfiguration jbpmConfiguration = 
         JbpmConfiguration.parseResource("jbpm.cfg.xml");

@@ -945,6 +945,10 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		}
 	}
 
+	public boolean checkBooleanDecisionNode(long processid, String decisionNode) {
+		return true;
+	}
+
 	
 	private void setOldRules(String objid ) {
 		if ( htRules == null || htRules.isEmpty()) {

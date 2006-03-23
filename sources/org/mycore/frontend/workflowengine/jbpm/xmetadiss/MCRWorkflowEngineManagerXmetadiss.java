@@ -504,5 +504,34 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 			}
 		}
 		return bSuccess;
-	}	
+	}
+	
+	public boolean checkBooleanDecisionNode(long processid, String decisionNode) {
+		if(decisionNode.equals("canDisshabBeSubmitted")){
+			MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(processid);
+			String authorID = wfo.getStringVariableValue("authorID");
+			String reservatedURN = wfo.getStringVariableValue("reservatedURN");
+			String createdDocID = wfo.getStringVariableValue("createdDocID");
+			String attachedDerivates = wfo.getStringVariableValue("attachedDerivates");
+			if(!isEmpty(authorID) && !isEmpty(reservatedURN) && !isEmpty(createdDocID) && !isEmpty(attachedDerivates)){
+				String strDocValid = wfo.getStringVariableValue("valid-" + createdDocID );
+				String containsPDF = wfo.getStringVariableValue("containsPDF");
+				if(strDocValid != null && containsPDF != null){
+					if(strDocValid.equals("true") && containsPDF.equals("true")){
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+		return false;
+	}
+	
+	public boolean isEmpty(String test){
+		if(test == null || test.equals("")){
+			return true;
+		}else{
+			return false;
+		}
+	}
 }

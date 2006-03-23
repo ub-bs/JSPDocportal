@@ -11,8 +11,6 @@ import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface
 
 public class MCRGetAuthorAction implements ActionHandler{
 	
-	String variableName;
-
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = Logger.getLogger(MCRGetAuthorAction.class);
 	private static MCRWorkflowEngineManagerInterface WFI = MCRWorkflowEngineManagerFactory.getImpl("xmetadiss");
@@ -23,7 +21,7 @@ public class MCRGetAuthorAction implements ActionHandler{
 		String initiator = (String)contextInstance.getVariable(MCRJbpmWorkflowBase.varINITIATOR);
 		String authorID = WFI.getAuthorFromUniqueWorkflow(initiator);
 		if(authorID != null && !authorID.equals("")) {
-			contextInstance.setVariable(variableName, authorID);
+			contextInstance.setVariable("authorID", authorID);
 			logger.debug("workflow changed state to " + executionContext.getProcessInstance().getRootToken().getName());
 		}else{
 			logger.error("no authorID could be generated");

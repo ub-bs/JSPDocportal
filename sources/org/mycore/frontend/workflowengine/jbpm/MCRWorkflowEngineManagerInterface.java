@@ -147,4 +147,6 @@ public interface MCRWorkflowEngineManagerInterface {
 	
 	abstract void saveFiles(List files, String dirname, long pid) throws MCRException;
 	
+	abstract boolean checkBooleanDecisionNode(long processid, String decision);
+	
 }

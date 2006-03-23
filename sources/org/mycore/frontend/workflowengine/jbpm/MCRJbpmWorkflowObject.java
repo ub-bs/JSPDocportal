@@ -1,6 +1,9 @@
 package org.mycore.frontend.workflowengine.jbpm;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.jbpm.JbpmContext;
@@ -17,7 +20,7 @@ public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 	private static Logger logger = Logger.getLogger(MCRJbpmWorkflowObject.class);
 	private long processInstanceID = -1;
 	private String workflowProcessType;
-
+	
 	public MCRJbpmWorkflowObject(String processType) {
 		createNewProcessInstance(processType);
 	}
@@ -58,6 +61,7 @@ public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 	
 	public void initialize(String initiator){
 		setStringVariableValue(varINITIATOR, initiator);
+		lockStringVariable(varINITIATOR);
 	}
 	
 	public String getDocumentType() {
@@ -79,7 +83,7 @@ public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 			String value = (String)contextInstance.getVariable(varName);
 			return value;
 		}catch(MCRException e){
-			logger.error("could not set variable '", e);
+			logger.error("could not get variable '", e);
 			return "";
 		}finally {
 			jbpmContext.close();
@@ -87,7 +91,7 @@ public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 	}
 	
 	/**
-	 * sets workflow-process variables to a given value
+	 * sets workflow-process variables to a given value, if the variable is not locked
 	 * 
 	 * be careful, don't use this function in actionhandlers (persistence problems),
 	 * set variables with contextInstance there... 
@@ -99,15 +103,72 @@ public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 		try {
 			ProcessInstance processInstance = jbpmContext.getGraphSession().loadProcessInstance(processInstanceID);
 			ContextInstance contextInstance = processInstance.getContextInstance();
-			contextInstance.setVariable(varName, value);
-			jbpmContext.save(processInstance);
+			Set lockedSet = getSetOfLockedVariables((String)contextInstance.getVariable(lockedVariablesIdentifier));
+			if(!lockedSet.contains(varName)){
+				contextInstance.setVariable(varName, value);
+				jbpmContext.save(processInstance);
+			}else{
+				logger.debug("variable [" + varName + "] could not be set, it is locked");
+			}
 		}catch(MCRException e){
 			logger.error("could not set variable '" + varName + 
 					"' to the value [" + value + "]", e);
 		}finally {
 			jbpmContext.close();
 		}		
-	}	
+	}
+	
+	public void lockStringVariable(String varName){
+		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+		try {
+			ProcessInstance processInstance = jbpmContext.getGraphSession().loadProcessInstance(processInstanceID);
+			ContextInstance contextInstance = processInstance.getContextInstance();
+			String lockedVariables = (String)contextInstance.getVariable(lockedVariablesIdentifier);
+			if(lockedVariables == null || lockedVariables.equals("")) {
+				contextInstance.setVariable(lockedVariablesIdentifier, varName);
+			}else{
+				contextInstance.setVariable(lockedVariablesIdentifier, lockedVariables + "," + varName);
+			}
+			jbpmContext.save(processInstance);
+		}catch(MCRException e){
+			logger.error("could not lock variable '" + varName, e);
+		}finally {
+			jbpmContext.close();
+		}		
+	}
+	
+	public void unlockStringVariable(String varName){
+		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+		try {
+			ProcessInstance processInstance = jbpmContext.getGraphSession().loadProcessInstance(processInstanceID);
+			ContextInstance contextInstance = processInstance.getContextInstance();
+			Set lockedSet = getSetOfLockedVariables((String)contextInstance.getVariable(lockedVariablesIdentifier));
+			lockedSet.remove(varName);
+			boolean first = true;
+			StringBuffer sb = new StringBuffer("");
+			for (Iterator it = lockedSet.iterator(); it.hasNext();) {
+				if(!first)
+					sb.append(",");
+				sb.append((String) it.next());
+				first = false;
+			}		
+			contextInstance.setVariable(lockedVariablesIdentifier, sb.toString());
+			jbpmContext.save(processInstance);
+		}catch(MCRException e){
+			logger.error("could not lock variable '" + varName, e);
+		}finally {
+			jbpmContext.close();
+		}			
+	}
+	
+	private Set getSetOfLockedVariables(String lockedVariables){
+		Set ret = new HashSet();
+		if(lockedVariables != null && !lockedVariables.equals("")){
+			ret.addAll(Arrays.asList(lockedVariables.split(",")));
+		}
+		return ret;
+	}
+	
 	/**
 	 * deletes a workflow process variable
 	 *  deleting this way delivers dead data in the 
@@ -190,9 +251,12 @@ public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 		}		
 	}	
 
+	
 	public void testFunction() {
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try {
+			ProcessInstance processInstance = jbpmContext.getGraphSession().loadProcessInstance(processInstanceID);
+			
 //		   TaskInstance taskInstance = null;
 //		    
 //		    jbpmContext.setActorId("heiko");

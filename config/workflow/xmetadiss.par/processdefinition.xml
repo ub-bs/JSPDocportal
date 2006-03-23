@@ -5,10 +5,12 @@
 
   <!-- SWIMLANES (= process roles) -->
 
-  <swimlane name="author" />
+  <swimlane name="initiator" />
   
-  <swimlane name="editor">
-    <!--   <assignment expression="user(ernie)" /> -->
+  <swimlane name="disseditor">
+	<assignment class="org.mycore.frontend.workflowengine.jbpm.MCRPooledActorAssignmentHandler">
+		<groupName>editorgroup1</groupName>
+	</assignment>  
   </swimlane>
   
   <swimlane name="subjectExpert">
@@ -16,23 +18,20 @@
   </swimlane>  
   
   <start-state name="start">
+     <task swimlane="initiator" />
      <transition name="go2processInitialized" to="processInitialized" />
   </start-state>
 
   <state name="processInitialized">
      <event type='node-enter'>
-        <action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRGetAuthorAction">
-           <variableName>authorID</variableName>
-        </action>
+        <action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRGetAuthorAction" />
      </event>
      <transition name="go2authorCreated" to="authorCreated" />  
   </state>
   
   <state name="authorCreated">
      <event type='node-enter'>
-        <action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRGetURNAction">
-           <variableName>reservatedURN</variableName>
-        </action>        
+        <action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRGetURNAction" />        
      </event>  
   	<transition name="go2urnCreated" to="urnCreated" />
   </state>
@@ -42,8 +41,33 @@
   </state>
   
   <state name="disshabCreated">
+     <transition name="go2canDisshabBeSubmitted" to="canDisshabBeSubmitted" />
+  </state>
+
+  <decision name="canDisshabBeSubmitted">
+     <handler class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRCanDisshabBeSubmittedDecisionHandler" />
+     <transition name="disshabCantBeSubmitted" to="disshabCreated" />
+     <transition name="disshabCanBeSubmitted" to="disshabSubmitted" />
+  </decision>
+  
+  <task-node name="disshabSubmitted">
+     <event type='node-enter'>
+        <action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRDisshabSubmittedAction">
+           <lockedVariables>initiator,createdDocID,authorID,reservatedURN,attachedDerivates</lockedVariables>
+        </action>
+     </event> 
+     <task name="taskCheckCompleteness" swimlane="disseditor">
+     </task> 
+     <transition name="todo next" to="todonext" />
+  </task-node>
+  
+  
+    
+  <!-- 
+  <state name="disshabCreated">
      <transition name="todo next" to="todonext" />
   </state>
+  -->
   
   <state name="todonext">
     <transition to="end" />
