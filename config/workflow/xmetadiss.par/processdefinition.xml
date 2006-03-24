@@ -18,7 +18,11 @@
   </swimlane>  
   
   <start-state name="start">
-     <task swimlane="initiator" />
+     <task name="initialization" swimlane="initiator">
+      <controller>
+        <variable name="initiator"/>
+      </controller>
+     </task>     
      <transition name="go2processInitialized" to="processInitialized" />
   </start-state>
 
@@ -40,9 +44,10 @@
   	<transition name="go2disshabCreated" to="disshabCreated" />
   </state>
   
-  <state name="disshabCreated">
+  <task-node name="disshabCreated">
+     <task name="completeDisshabAndSendToLibrary" swimlane="initiator" />
      <transition name="go2canDisshabBeSubmitted" to="canDisshabBeSubmitted" />
-  </state>
+  </task-node>
 
   <decision name="canDisshabBeSubmitted">
      <handler class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRCanDisshabBeSubmittedDecisionHandler" />

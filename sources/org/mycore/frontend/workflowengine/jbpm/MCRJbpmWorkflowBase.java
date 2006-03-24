@@ -1,19 +1,29 @@
 package org.mycore.frontend.workflowengine.jbpm;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.jdom.Document;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
+import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.db.GraphSession;
+import org.jbpm.db.TaskMgmtSession;
 import org.jbpm.graph.def.Node;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
+import org.jbpm.taskmgmt.exe.TaskInstance;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.output.DOMOutputter;
+import org.jdom.output.XMLOutputter;
 import org.mycore.common.MCRException;
 
 public class MCRJbpmWorkflowBase {
@@ -69,6 +79,12 @@ public class MCRJbpmWorkflowBase {
 		return ret;		
 	}
 
+	/**
+	 * 
+	 * @param initiator
+	 * @return
+	 * @deprecated
+	 */
 	public static List getCurrentProcessIDs(String initiator) {
 		List ret = new ArrayList();
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
@@ -130,6 +146,99 @@ public class MCRJbpmWorkflowBase {
 			jbpmContext.close();
 		}
 		return ret;
+	}
+	
+	public static List getTasks(String userid){
+		List ret = new ArrayList();
+		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+		try{
+			TaskMgmtSession taskMgmtSession = jbpmContext.getTaskMgmtSession();
+			List taskInstances = new ArrayList();
+			taskInstances.addAll(taskMgmtSession.findTaskInstances(userid));
+			taskInstances.addAll(taskMgmtSession.findPooledTaskInstances(userid));
+			for (Iterator it = taskInstances.iterator(); it.hasNext();) {
+				TaskInstance taskInstance = (TaskInstance) it.next();
+				ProcessInstance processInstance = taskInstance.getTaskMgmtInstance().getProcessInstance();
+				String curNodeName = "";
+				Node curNode = processInstance.getRootToken().getNode();
+				if(curNode != null) {
+					curNodeName = (curNode.getName() == null)? "noname" : curNode.getName();
+				}
+				long processID = processInstance.getId();
+				String workflowProcessType = processInstance.getProcessDefinition().getName();
+				String taskName = taskInstance.getName();
+				String workflowStatus = curNodeName;
+				org.w3c.dom.Document variables = 
+					buildTaskVariablesXML(taskInstance.getVariables(),
+							processInstance.getContextInstance().getVariables());
+				ret.add(new MCRJbpmTaskBean(processID, workflowProcessType, taskName, workflowStatus, variables)); 
+			}
+		}catch(MCRException e){
+			logger.error("error in fetching the task lists", e);
+		}finally{
+			jbpmContext.close();
+		}		
+		return ret;
+	}
+	
+	public static List getProcessesByInitiator(String userid){
+		List ret = new ArrayList();
+		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+		try{
+			Session hibSession = jbpmContext.getSession();
+			Query hibQuery = hibSession.getNamedQuery("MCRJbpmWorkflowBase.getCurrentProcessIDsForInitiator");
+			hibQuery.setString(varINITIATOR , userid);
+			List processInstances = hibQuery.list();
+			for (Iterator it = processInstances.iterator(); it.hasNext();) {
+				ProcessInstance processInstance = (ProcessInstance)it.next();
+				String curNodeName = "";
+				Node curNode = processInstance.getRootToken().getNode();
+				if(curNode != null) {
+					curNodeName = (curNode.getName() == null)? "noname" : curNode.getName();
+				}
+				long processID = processInstance.getId();
+				String workflowProcessType = processInstance.getProcessDefinition().getName();
+				String taskName = "start";
+				String workflowStatus = curNodeName;
+				org.w3c.dom.Document variables = 
+					buildTaskVariablesXML(new HashMap(),
+							processInstance.getContextInstance().getVariables());
+				ret.add(new MCRJbpmTaskBean(processID, workflowProcessType, taskName, workflowStatus, variables)); 
+			}
+		}catch(MCRException e){
+			logger.error("error in fetching the current process ids for initiator " + userid, e);
+		}finally{
+			jbpmContext.close();
+		}
+		return ret;			
+	}
+	
+	private static org.w3c.dom.Document buildTaskVariablesXML(Map taskVariables, Map contextVariables){
+		Element variables = new Element("variables");
+		for (Iterator it = contextVariables.keySet().iterator(); it.hasNext();) {
+			String var = (String) it.next();
+			String value = (String)contextVariables.get(var);
+			Element variable = new Element("variable");
+			variable.setAttribute("name",var);
+			variable.setAttribute("type","context");
+			variable.setAttribute("value",value);
+			variables.addContent(variable);
+		}		
+		for (Iterator it = taskVariables.keySet().iterator(); it.hasNext();) {
+			String var = (String) it.next();
+			String value = (String)taskVariables.get(var);
+			Element variable = new Element("variable");
+			variable.setAttribute("name",var);
+			variable.setAttribute("type","task");
+			variable.setAttribute("value",value);
+			variables.addContent(variable);
+		}
+		try{
+			return new DOMOutputter().output(new Document(variables));
+		}catch(Exception e){
+			logger.error("could not build org.w3c.dom.Document", e);
+			return null;
+		}
 	}
 	
 	public static String getWorkflowStatus(long processID){

@@ -1,8 +1,10 @@
 package org.mycore.frontend.workflowengine.jbpm;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -13,7 +15,10 @@ import org.jbpm.graph.def.Node;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.def.Transition;
 import org.jbpm.graph.exe.ProcessInstance;
+import org.jbpm.taskmgmt.exe.TaskInstance;
 import org.mycore.common.MCRException;
+import org.mycore.common.MCRSessionMgr;
+import org.mycore.user.MCRUserMgr;
 
 public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 	
@@ -46,9 +51,12 @@ public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 	private void createNewProcessInstance(String processType) {
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try {
+			jbpmContext.setActorId(MCRSessionMgr.getCurrentSession().getCurrentUserID());
 			GraphSession graphSession = jbpmContext.getGraphSession();
 		    ProcessDefinition processDefinition = graphSession.findLatestProcessDefinition(processType);
 		    ProcessInstance processInstance = new ProcessInstance(processDefinition);
+		    // initialize a start-task swimlane with the current user
+		    TaskInstance taskInstance = processInstance.getTaskMgmtInstance().createStartTaskInstance();
 		    workflowProcessType = processInstance.getProcessDefinition().getName();
 		    processInstanceID = processInstance.getId();
 		    jbpmContext.save(processInstance);
@@ -60,7 +68,21 @@ public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 	} 
 	
 	public void initialize(String initiator){
-		setStringVariableValue(varINITIATOR, initiator);
+		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+		try {
+			jbpmContext.setActorId(initiator);
+			ProcessInstance processInstance = jbpmContext.getGraphSession().loadProcessInstance(processInstanceID);
+			TaskInstance taskInstance = processInstance.getTaskMgmtInstance().createStartTaskInstance();
+			Map taskVariables = new HashMap();
+		    taskVariables.put(varINITIATOR, initiator);
+			taskInstance.addVariables(taskVariables);
+			taskInstance.end();
+			jbpmContext.save(processInstance);
+		}catch(MCRException e){
+			logger.error("could not create new processIinstance '", e);
+		}finally {
+			jbpmContext.close();
+		}		
 		lockStringVariable(varINITIATOR);
 	}
 	

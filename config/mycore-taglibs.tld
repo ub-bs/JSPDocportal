@@ -8,6 +8,49 @@
     <shortname>mcr</shortname>
     <uri>/WEB-INF/lib/mycore-taglibs.jar</uri>
     <info>MyCoRe Sample Tag library</info>
+     <tag>
+            <name>getWorkflowTaskBeanList</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRGetWorkflowTaskBeanListTag</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <description>Output the variable that holds the task bean list</description>
+                <name>var</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>Output the variable that holds the task bean list length</description>
+                <name>varTotalSize</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <attribute>
+                <description>the index of the tasklist (saved in the session) the processes are shown from</description>
+                <name>offset</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>the maximum number of tasks that is shown in a page</description>
+                <name>size</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute> 
+            <attribute>
+                <description>a variable that determines which tasks are fetched (possible values "activeTasks", "initiatedProcesses")</description>
+                <name>mode</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>             
+            <attribute>
+                <description>for getting the tasks for a special user (for debugging), generally the user of the session is required</description>
+                <name>debugUser</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <info>A Tag, that delivers the Workflow-Tasks for the current user</info>
+     </tag> 
+    
 	 <tag>
             <name>deleteWorkflowEngineVariable</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRDeleteWorkflowEngineVariableTag</tagclass>

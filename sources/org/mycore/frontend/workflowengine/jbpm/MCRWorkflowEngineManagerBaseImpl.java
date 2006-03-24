@@ -143,6 +143,20 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	public String getStatus(long processID) {
 		return MCRJbpmWorkflowBase.getWorkflowStatus(processID);
 	} 	
+
+	public List getTasks(String userid, String mode) {
+		List ret = new ArrayList();
+		if(mode == null) mode = "";
+		if(mode.equals("activeTasks")){
+			ret.addAll(MCRJbpmWorkflowBase.getTasks(userid));
+		}else if (mode.equals("initiatedProcesses")){
+			ret.addAll(MCRJbpmWorkflowBase.getProcessesByInitiator(userid));
+		}else{
+			ret.addAll(MCRJbpmWorkflowBase.getTasks(userid));
+			ret.addAll(MCRJbpmWorkflowBase.getProcessesByInitiator(userid));
+		}
+		return ret;
+	}	
 	
 	/**
 	 * The method return the mail sender adress form the configuration.

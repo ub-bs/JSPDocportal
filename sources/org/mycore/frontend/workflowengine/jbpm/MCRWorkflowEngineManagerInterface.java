@@ -75,6 +75,7 @@ public interface MCRWorkflowEngineManagerInterface {
 	 *  		String userID
 	 * @return
 	 * 		a List of java.lang.Long-Objects that represent the processIDs
+	 * @deprecated
 	 */
 	public List getCurrentProcessIDs(String userid) ;
 	
@@ -148,5 +149,7 @@ public interface MCRWorkflowEngineManagerInterface {
 	abstract void saveFiles(List files, String dirname, long pid) throws MCRException;
 	
 	abstract boolean checkBooleanDecisionNode(long processid, String decision);
+	
+	abstract List getTasks(String userid, String mode);
 	
 }
