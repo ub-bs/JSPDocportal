@@ -2,7 +2,7 @@
 
 <!-- =================================================================== -->
 <!-- MyCoRe sample application build file for use with Apache Ant        -->
-<!-- $Revision: 1.25 $ $Date: 2006-03-14 21:16:20 $                      -->
+<!-- $Revision: 1.26 $ $Date: 2006-03-26 17:09:31 $                      -->
 <!-- =================================================================== -->
 
 <project default="usage" basedir=".">
@@ -42,9 +42,26 @@
     <!-- Provide a default value for DOCPORTAL_HOME if not set in env -->
     <property name="DOCPORTAL_HOME" value="${basedir}" />
 
-    <!-- Read in properties from config/mycore.properties.private -->
-    <property file="${DOCPORTAL_HOME}/config/mycore.properties" />
-
+    <!-- Read in BaseDirectory from config/mycore.properties -->
+	<loadproperties srcfile="${DOCPORTAL_HOME}/config/mycore.properties">
+		<filterchain>
+			<linecontainsregexp>
+			  <regexp pattern="\\AMCR.BaseDirectory"/>
+			</linecontainsregexp>
+		</filterchain>
+	</loadproperties>	
+	
+	<!-- Read in all properties and replace %MCR.BaseDirectory% with above red MCR.BaseDirectory -->
+	<loadproperties srcfile="${DOCPORTAL_HOME}/config/mycore.properties">
+		<filterchain>
+	    	<filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
+	    	      <param type="tokenchar" name="begintoken" value="%"/>
+	              <param type="tokenchar" name="endtoken" value="%"/>
+	              <param type="token" name="MCR.BaseDirectory" value="${MCR.BaseDirectory}"/>
+	    	</filterreader>
+		</filterchain>
+	</loadproperties>
+	
     <!-- MyCoRe CVS repository root -->
     <property name="CVSRoot" value="/cvs" />
 
@@ -135,7 +152,7 @@
 	    <echo>Operating system   : ${os.name} Version ${os.version} on ${os.arch} </echo>
 	    <echo>Java version       : JDK ${ant.java.version} Version ${java.version} from ${java.vendor}</echo>
 	    <echo>Java home          : ${env.JAVA_HOME}</echo>
-	    <echo>Ant build file     : $Revision: 1.25 $ $Date: 2006-03-14 21:16:20 $</echo>
+	    <echo>Ant build file     : $Revision: 1.26 $ $Date: 2006-03-26 17:09:31 $</echo>
 	    <echo>Ant version        : ${ant.version}</echo>
 	    <echo>Ant home           : ${env.ANT_HOME}</echo>
 	    <echo>XML Store type     : ${MCR.XMLStore.Type}</echo>
@@ -318,16 +335,19 @@
 
     <target name="create.directories" depends="init">
         <mkdir dir="${MCR.Editor.FileUpload.TempStoragePath}" />
-        <mkdir dir="${MCR.Save.FileSystem}" />
+        <mkdir dir="${MCR.LogDirectory}" />    	
+    	<mkdir dir="${MCR.Save.FileSystem}" />
         <mkdir dir="${docportal.webapps}" />
     	<mkdir dir="${docportal.bin}" />
         <mkdir dir="${MCR.editor_workflow_page_dir}" />
-        <mkdir dir="${MCR.editor_author_directory}" />
-        <mkdir dir="${MCR.editor_document_directory}" />
-    	<mkdir dir="${MCR.editor_disshab_directory}" />
-        <mkdir dir="${MCR.editor_institution_directory}" />
-    	<mkdir dir="${MCR.editor_deleted_directory}" />
+        <mkdir dir="${MCR.WorkflowEngine.EditDirectory.author}" />
+        <mkdir dir="${MCR.WorkflowEngine.EditDirectory.document}" />
+    	<mkdir dir="${MCR.WorkflowEngine.EditDirectory.disshab}" />
+        <mkdir dir="${MCR.WorkflowEngine.EditDirectory.institution}" />
+        <mkdir dir="${MCR.WorkflowEngine.EditDirectory.user}" />    	
+    	<mkdir dir="${MCR.WorkflowEngine.DeleteDirectory}" />
     </target>
+
 
     <!-- =================================================================== -->
     <!-- Create script bin/mycore.sh or mycore.cmd for CommandLineInterface  -->
@@ -440,10 +460,11 @@
         	   target="${javatarget}"
                source="${sourcerelease}" 
         	   encoding="${sourceencoding}"
-               fork="yes"        	   
+               fork="yes"  
+        	verbose="true"
                deprecation="${deprecation}" />
         <echo>
-            ---------------------------------------------------------
+        	---------------------------------------------------------
         </echo>
     </target>
 
@@ -453,7 +474,7 @@
     </target>
 
     <target name="compile"
-        depends="compile_base,compile_services_nbn,compile_common, compile_common_xml, compile_frontend_jsp_format, compile_frontend_jsp, compile_frontend_jsp_nav, compile_frontend_jsp_query, compile_servlets, compile_workflow, compile_backend_query, compile_backend_hibernate, compile_services_oai, compile_demo, compile_workflowengine, compile_frontend_editor_helper" />
+        depends="compile_base,compile_common, compile_frontend_jsp_format, compile_frontend_jsp, compile_frontend_jsp_nav, compile_frontend_jsp_query, compile_servlets, compile_workflow, compile_backend_query, compile_backend_hibernate, compile_services_oai, compile_demo, compile_workflowengine, compile_frontend_editor_helper" />
 
     <target name="compile_base">
         <mkdir dir="${docportal.classes}" />
@@ -495,12 +516,6 @@
             <param name="packages" value="org/mycore/frontend/jsp/query/**" />
         </antcall>
     </target>	
-    <target name="compile_common_xml">
-        <echo>Compiling the common xml package</echo>
-        <antcall target="javac">
-            <param name="packages" value="org/mycore/common/xml/*" />
-        </antcall>
-    </target>
     <target name="compile_common">
         <echo>Compiling the common package</echo>
         <antcall target="javac">
@@ -647,14 +662,6 @@
     <!-- =================================================================== -->
 
     <target name="create.genkeys" depends="init">
-        <loadproperties
-            srcFile="${docportal.config}/mycore.properties">
-            <filterchain>
-                <linecontains>
-                    <contains value="SIGN." />
-                </linecontains>
-            </filterchain>
-        </loadproperties>
         <echo>
 
             Generating a key pair for signing applets ...
@@ -679,16 +686,22 @@
     <target name="do.merge" if="web.xml.present">
 
       <copy file="${docportal.webapps}/WEB-INF/web.xml" tofile="${docportal.webapps}/WEB-INF/web1.xml" />
-      <copy file="${web.xml.file}" tofile="${docportal.webapps}/WEB-INF/web2.xml" />
+      <!--<copy file="${web.xml.file}" tofile="${docportal.webapps}/WEB-INF/web2.xml" />-->
+	  <loadfile srcfile="${web.xml.file}" property="tidy.web2.xml">
+			<filterchain>
+				<replaceregex pattern="&lt;!DOCTYPE[^&gt;].*&gt;" replace="" flags="gi"/>
+			</filterchain>
+	  </loadfile> 
+      <echo file="${docportal.webapps}/WEB-INF/web2.xml" append="false">${tidy.web2.xml}</echo>
+    	
       <copy file="${docportal.stylesheets}/merge-web-xml.xsl" todir="${docportal.webapps}/WEB-INF" />
       
    	  <java classname="org.apache.xalan.xslt.Process" fork="yes" classpathref="docportal.classpath" dir="${docportal.webapps}/WEB-INF">
         <arg line="-IN web2.xml -XSL merge-web-xml.xsl -OUT web.xml" />
       </java>
-
       <delete file="${docportal.webapps}/WEB-INF/web1.xml" />
       <delete file="${docportal.webapps}/WEB-INF/web2.xml" />
-      <delete file="${docportal.webapps}/WEB-INF/merge-web-xml.xsl" /> 
+      <delete file="${docportal.webapps}/WEB-INF/merge-web-xml.xsl" />
     </target>	
 
 	<target name="test.merge">

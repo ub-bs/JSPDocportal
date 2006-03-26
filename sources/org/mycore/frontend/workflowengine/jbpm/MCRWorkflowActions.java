@@ -71,6 +71,7 @@ public class MCRWorkflowActions extends MCRServlet {
         //jbpm_variableinstance  initiator, authorID, reservatedURN und createdDocID
         String mcrid = wfo.getStringVariableValue("createdDocID");
         String userid = wfo.getStringVariableValue("initiator");
+        String workflowType = wfo.getWorkflowProcessType();
         String documentType = wfo.getDocumentType();
         
         String derivateID = parms.getParameter("derivateID");
@@ -87,6 +88,7 @@ public class MCRWorkflowActions extends MCRServlet {
         	request.setAttribute("isNewEditorSource","false");
         	request.setAttribute("mcrid",mcrid);
         	request.setAttribute("type",documentType);
+        	request.setAttribute("workflowType",workflowType);
         	request.setAttribute("step","author");
         	request.setAttribute("nextPath",nextPath);
         	request.getRequestDispatcher("/nav?path=~editor-include").forward(request, response);
@@ -98,6 +100,7 @@ public class MCRWorkflowActions extends MCRServlet {
         	request.setAttribute("isNewEditorSource","false");
         	request.setAttribute("mcrid",mcrid);
         	request.setAttribute("type",documentType);
+        	request.setAttribute("workflowType",workflowType);
         	request.setAttribute("step","author");
         	request.setAttribute("nextPath",nextPath);
         	request.getRequestDispatcher("/nav?path=~editor-include").forward(request, response);
@@ -156,6 +159,7 @@ public class MCRWorkflowActions extends MCRServlet {
 			params.put("isNewEditorSource", "true");
 			params.put("mcrid2", mcrid);
 			params.put("type", documentType);
+			params.put("workflowType",workflowType);
 			params.put("step", "author");
 			params.put("mcrid", derivateID);
 			params.put("target", "MCRCheckDerivateServlet");

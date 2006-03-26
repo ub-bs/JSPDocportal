@@ -19,9 +19,6 @@
   
   <start-state name="start">
      <task name="initialization" swimlane="initiator">
-      <controller>
-        <variable name="initiator"/>
-      </controller>
      </task>     
      <transition name="go2processInitialized" to="processInitialized" />
   </start-state>

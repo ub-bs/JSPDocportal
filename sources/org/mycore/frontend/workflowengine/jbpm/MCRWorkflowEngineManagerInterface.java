@@ -3,6 +3,7 @@ package org.mycore.frontend.workflowengine.jbpm;
 import java.util.List;
 
 import org.jdom.Document;
+import org.jdom.Element;
 import org.mycore.common.MCRException;
 
 public interface MCRWorkflowEngineManagerInterface {
@@ -151,5 +152,23 @@ public interface MCRWorkflowEngineManagerInterface {
 	abstract boolean checkBooleanDecisionNode(long processid, String decision);
 	
 	abstract List getTasks(String userid, String mode);
+	
+	/**
+	 * returns relevant information of certain derivate for a certain document as jdom Element
+	 * @param docID
+	 * @param derivateID
+	 * @return
+	 * 	the derivate as JDOM-Element
+	 * <br>
+	 * output format<br>
+	 * &lt;derivate id="derivateID" label="Label of Derivate" &rt;
+	 *    &lt;file type="maindoc" name="filename" path="fullpath without /filename" /&gt;
+	 *    &lt;file type="standard" name="filename" path="fullpath without /filename" /&gt;
+	 *    &lt;file type="standard" name="filename" path="fullpath without /filename" /&gt;
+	 * &lt;/derivate&rt;
+	 */
+	abstract Element getDerivateData(String docID, String derivateID);
+	
+	abstract void setWorkflowVariablesFromMetadata(String mcrid, Element metadata);
 	
 }

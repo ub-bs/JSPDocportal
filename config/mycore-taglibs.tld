@@ -8,6 +8,66 @@
     <shortname>mcr</shortname>
     <uri>/WEB-INF/lib/mycore-taglibs.jar</uri>
     <info>MyCoRe Sample Tag library</info>
+	 <tag>
+            <name>checkBooleanDecisionNode</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRCheckBooleanDecisionNodeTag</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <description>Output: the var that holds the boolean value</description>
+                <name>var</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>the workflow process type</description>
+                <name>workflowType</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <attribute>
+                <description>the workflow process id</description>
+                <name>processID</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <attribute>
+                <description>the name of the decision node conditions are checked of</description>
+                <name>decision</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <info>A tag, that checks a boolean decision node in the workflow</info>
+     </tag>     
+	 <tag>
+            <name>listWorkflowDerivates</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRListWorkflowDerivatesTag</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <description>Output: the varDom that holds the derivates xml</description>
+                <name>varDom</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>the scope of the variable (like in jstl), default is page scope</description>
+                <name>scope</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <attribute>
+                <description>a comma separated list of the derivates that must be listed</description>
+                <name>derivates</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>The ID of the document the derivates belong to</description>
+                <name>docID</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <info>A Tag, that delivers a DOM XML representation of the derivates for a special document in the workflow</info>
+     </tag>    
      <tag>
             <name>getWorkflowTaskBeanList</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRGetWorkflowTaskBeanListTag</tagclass>
@@ -266,6 +326,12 @@
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
+            <attribute>
+                <description>Value of Editor parameter: workflowType</description>
+                <name>workflowType</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>             
             <attribute>
                 <description>Value of Editor parameter: step</description>
                 <name>step</name>

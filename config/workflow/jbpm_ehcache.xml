@@ -39,7 +39,7 @@
         -->
 
     <defaultCache
-        maxElementsInMemory="100000"
+        maxElementsInMemory="1000"
         eternal="true"
         overflowToDisk="false"
         diskPersistent="false"

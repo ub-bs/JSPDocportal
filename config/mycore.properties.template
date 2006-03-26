@@ -1,3 +1,5 @@
+MCR.BaseDirectory=C:/sample-mcrjsp
+
 MCR.SimpleDateFormat.strictParsing=false
 
 MCR.WorkflowEngine.DefaultPermissionTypes=read,commitdb,writedb,deletedb,deletewf
@@ -46,24 +48,25 @@ MCR.persistence_workflow_sql_database_name=mycore-workflow
 MCR.languageResourceBundleBase=messages
 # paths
 
-MCR.XML.TempPath=C:/sample-mcrjsp/tmp
+MCR.XML.TempPath=%MCR.BaseDirectory%/tmp
 
-MCR.WorkflowEngine.EditDirectory.author=E:/sample-mcrjsp/export/author
-MCR.WorkflowEngine.EditDirectory.institution=E:/sample-mcrjsp/export/institution
-MCR.WorkflowEngine.EditDirectory.document=E:/sample-mcrjsp/export/document
-MCR.WorkflowEngine.EditDirectory.disshab=E:/sample-mcrjsp/export/disshab
+MCR.WorkflowEngine.EditDirectory.author=%MCR.BaseDirectory%/export/author
+MCR.WorkflowEngine.EditDirectory.institution=%MCR.BaseDirectory%/export/institution
+MCR.WorkflowEngine.EditDirectory.document=%MCR.BaseDirectory%/export/document
+MCR.WorkflowEngine.EditDirectory.disshab=%MCR.BaseDirectory%/export/disshab
 
-MCR.Editor.FileUpload.TempStoragePath=E:/sample-mcrjsp/export/upload
-MCR.WorkflowEngine.EditDirectory.user=E:/sample-mcrjsp/export/user
-MCR.WorkflowEngine.DeleteDirectory=E:/sample-mcrjsp/export/deleted
+MCR.Editor.FileUpload.TempStoragePath=%MCR.BaseDirectory%/export/upload
+MCR.WorkflowEngine.EditDirectory.user=%MCR.BaseDirectory%/export/user
+MCR.WorkflowEngine.DeleteDirectory=%MCR.BaseDirectory%/export/deleted
 
 
-MCR.IFS.ContentStore.FS.BaseDirectory=C:/sample-mcrjsp/filestore
-MCR.LogFile=C:/sample-mcrjsp/tmp/mcrjsp.log
+MCR.IFS.ContentStore.FS.BaseDirectory=%MCR.BaseDirectory%/filestore
+MCR.LogDirectory=%MCR.BaseDirectory%/log
+#MCR.LogFile=%MCR.BaseDirectory%/log/mcrjsp.log
 
-MCR.dtd.directory=C:/sample-mcrjsp/dtd
+MCR.dtd.directory=%MCR.BaseDirectory%/dtd
 
-MCR.Save.FileSystem=C:/sample-mcrjsp/save
+MCR.Save.FileSystem=%MCR.BaseDirectory%/save
 
 MCR.editor_page_error_formular=editor/error-formular.jsp
 #MCR.JDBCStore.Type=mysql
@@ -197,7 +200,7 @@ MCR.hibernate.connection.password=
 MCR.hibernate.connection.pool_size=5
 
 # needed for starting and stopping the hsqldb-database via ant
-MCR.persistence_sql_data_directory=E:/sample-mcrjsp/hsqldb-data
+MCR.persistence_sql_data_directory=%MCR.BaseDirectory%/hsqldb-data
 MCR.persistence_sql_database_name=mycore
 MCR.persistence_workflow_sql_database_name=mycore-workflow
 
@@ -337,7 +340,7 @@ MCR.mail.urnadmin=admin@mycore.de
 SIGN.Alias=mycore
 
 # File where the keys are stored in
-SIGN.KeyStore=C:/sample-mcrjsp/keystore
+SIGN.KeyStore=%MCR.BaseDirectory%/keystore
 
 # Password for keystore and key pair
 # SET IN PRIVATE.PROPERTIES: SIGN.Password
@@ -368,7 +371,7 @@ MCR.log4j.appender.stdlog.layout.ConversionPattern=%d [%t] %-5p (%F:%L) - %m%n
 
 # define the R appender
 MCR.log4j.appender.R=org.apache.log4j.RollingFileAppender
-MCR.log4j.appender.R.File=C:/sample-mcrjsp/tmp/mcr2jsp.log
+MCR.log4j.appender.R.File=%MCR.BaseDirectory%/log/mcr2jsp.log
 MCR.log4j.appender.R.MaxFileSize=10000KB
 MCR.log4j.appender.R.MaxBackupIndex=2
 MCR.log4j.appender.R.layout=org.apache.log4j.PatternLayout
@@ -424,13 +427,13 @@ MCR.EventHandler.MCRDerivate.3.Indexer=lucenec
 
 MCR.Searcher.lucenec.Index=content
 MCR.Searcher.lucenec.Class=org.mycore.backend.lucene.MCRLuceneSearcher
-MCR.Searcher.lucenec.IndexDir=C:/sample-mcrjsp/indexer/lucenec-index
+MCR.Searcher.lucenec.IndexDir=%MCR.BaseDirectory%/indexer/lucenec-index
 
 MCR.Searcher.lucenem.Index=metadata
 MCR.Searcher.lucenem.Class=org.mycore.backend.lucene.MCRLuceneSearcher
-MCR.Searcher.lucenem.IndexDir=C:/sample-mcrjsp/indexer/lucenem-index
+MCR.Searcher.lucenem.IndexDir=%MCR.BaseDirectory%/indexer/lucenem-index
 
-MCR.Lucene.LockDir=C:/sample-mcrjsp/indexer/lucene-lock
+MCR.Lucene.LockDir=%MCR.BaseDirectory%/indexer/lucene-lock
 
 
 ##############################################################################

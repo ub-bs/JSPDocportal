@@ -28,6 +28,7 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 	private String mcrid;
 	private String step;
 	private String type;
+	private String workflowType;
 	private String target;
 	
 	private String nextPath;
@@ -73,6 +74,10 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 	public void setType(String type) {
 		this.type = type;
 	}	
+	
+	public void setWorkflowType(String workflowType){
+		this.workflowType = workflowType;
+	}
 	
 	public void setTarget(String target){
 		this.target = target;
@@ -145,6 +150,7 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 		params.put("type", type);
 		params.put("step", step);
 		params.put("target", target);
+		params.put("workflowType", workflowType);
 		if(mcrid2 != null && !mcrid2.equals("")) {
 			params.put("mcrid2", mcrid2);
 		}

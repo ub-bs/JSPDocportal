@@ -9,20 +9,31 @@
 
 <fmt:setLocale value="${requestScope.lang}" />
 <fmt:setBundle basename='messages' />
-<c:set var="debug" value="true" />
+<c:choose>
+   <c:when test="${!empty(param.debug)}">
+      <c:set var="debug" value="true" />
+   </c:when>
+   <c:otherwise>
+      <c:set var="debug" value="false" />
+   </c:otherwise>
+</c:choose>
 
 <div class="headline"><fmt:message key="WorkflowEngine.MyTasks" /></div>
 
 <mcr:getWorkflowTaskBeanList var="myTaskList" mode="activeTasks" debugUser="author1A" varTotalSize="total1" />
-<c:forEach var="task" items="${myWorkflowList}">
+<table>
+<c:forEach var="task" items="${myTaskList}">
    <c:set var="task" scope="request" value="${task}" />
    <c:import url="/content/workflow/${task.workflowProcessType}/tasks.jsp" />
 </c:forEach>
+</table>
 
 <div class="headline"><fmt:message key="WorkflowEngine.MyInititiatedProcesses" /></div>
 
 <mcr:getWorkflowTaskBeanList var="myProcessList" mode="initiatedProcesses" debugUser="author1A" varTotalSize="total2" />
+<table>
 <c:forEach var="task" items="${myProcessList}">
    <c:set var="task" scope="request" value="${task}" />
    <c:import url="/content/workflow/${task.workflowProcessType}/tasks.jsp" />
 </c:forEach>
+</table>

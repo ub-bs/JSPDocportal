@@ -1,4 +1,4 @@
-package org.mycore.frontend.workflowengine.jbpm;
+ package org.mycore.frontend.workflowengine.jbpm;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -156,6 +156,37 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 			ret.addAll(MCRJbpmWorkflowBase.getProcessesByInitiator(userid));
 		}
 		return ret;
+	}	
+	
+	
+	public Element getDerivateData(String docID, String derivateID) {
+		String docType = new MCRObjectID(docID).getTypeId();
+		String derDir = getWorkflowDirectory(docType);
+		String fileName = new StringBuffer(derDir)
+			.append(File.separator).append(derivateID)
+			.append(".xml").toString();
+		Element derivate = getDerivateMetaData(fileName);
+		if ( docID.equalsIgnoreCase(derivate.getAttributeValue("href"))) {
+			// this is our convention
+			String derivatePath = derivate.getAttributeValue("ID");
+			File dir = new File(derDir, derivatePath);
+			logger.debug("Derivate under " + dir.getName());
+			if (dir.isDirectory()) {
+				ArrayList dirlist = MCRUtils.getAllFileNames(dir);
+				for (int k = 0; k < dirlist.size(); k++) {
+					org.jdom.Element file = new org.jdom.Element("file");
+					file.setText(derivatePath + "/" + (String) dirlist.get(k));
+					File thisfile = new File(dir, (String) dirlist.get(k));
+					file.setAttribute("size", String.valueOf(thisfile.length()));
+					file.setAttribute("main", "false");
+					if (derivate.getAttributeValue("maindoc").equals((String) dirlist.get(k))) {
+						file.setAttribute("main", "true");
+					}
+					derivate.addContent(file);
+				}
+			}
+		}
+		return derivate;
 	}	
 	
 	/**
@@ -414,6 +445,21 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		}
 	}	
 	
+	public void setWorkflowVariablesFromMetadata(String mcrid, Element metadata){
+		long pid = getUniqueWorkflowProcessFromCreatedDocID(mcrid);
+		MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(pid);
+		StringBuffer sbTitle = new StringBuffer("");
+		for(Iterator it = metadata.getDescendants(new ElementFilter("title")); it.hasNext();){
+			Element title = (Element)it.next();
+			sbTitle.append(title.getText());
+		}
+		if(sbTitle.length() == 0){
+			wfo.setStringVariableValue("wfo-title", "Your Workflow Object");
+		}else{
+			wfo.setStringVariableValue("wfo-title", sbTitle.toString());
+		}
+	}
+	
 	public boolean checkMetadataValidFlag(String mcrid) {
 		long pid = getUniqueWorkflowProcessFromCreatedDocID(mcrid);
 		if(pid > 0) {
@@ -570,6 +616,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	 * 
 	 * @param documentType
 	 * @return
+	 * @deprecated
 	 */
 	protected final ArrayList getAllDerivateDataFromWorkflow(String documentType) {
 			String dirname = getWorkflowDirectory(documentType);
@@ -635,15 +682,19 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 					}
 				}
 			}
-			Collections.sort(allDerivateFileNames, Collections.reverseOrder());
-			String maxFilename = (String)allDerivateFileNames.get(0); 
-			nextWorkflowDerivateID = new MCRObjectID(maxFilename.substring(0, maxFilename.lastIndexOf(".")));
 			String base = MCRConfiguration.instance().getString("MCR.default_project_id","DocPortal")+ "_derivate";
 			MCRObjectID dbIDMax = new MCRObjectID();
 			dbIDMax.setNextFreeId(base);
-			if (dbIDMax.getNumberAsInteger() >= nextWorkflowDerivateID.getNumberAsInteger()) {
-				nextWorkflowDerivateID.setNumber(dbIDMax.getNumberAsInteger() + 1);
-			}			
+			if(allDerivateFileNames.size() == 0){
+				nextWorkflowDerivateID = dbIDMax;
+			}else{			
+				Collections.sort(allDerivateFileNames, Collections.reverseOrder());
+				String maxFilename = (String)allDerivateFileNames.get(0); 
+				nextWorkflowDerivateID = new MCRObjectID(maxFilename.substring(0, maxFilename.lastIndexOf(".")));
+				if (dbIDMax.getNumberAsInteger() >= nextWorkflowDerivateID.getNumberAsInteger()) {
+					nextWorkflowDerivateID.setNumber(dbIDMax.getNumberAsInteger() + 1);
+				}
+			}
 		}
 		MCRObjectID retID = new MCRObjectID(nextWorkflowDerivateID.toString());
 		nextWorkflowDerivateID.setNumber(retID.getNumberAsInteger() + 1);
@@ -990,5 +1041,5 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
         return bSet;
 	
 	}
-	
+
 }

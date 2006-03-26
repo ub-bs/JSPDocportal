@@ -11,22 +11,20 @@
 <fmt:setBundle basename='messages' />
 <c:set var="debug" value="true" />
 <c:choose>
-   <c:when test="${requestScope.task eq 'start'}">
-      <c:set var="statusKey" value="WorkflowEngine
-      <fmt:message key="WorkflowEngine.ActualStateOfYourDissertation.xmetadiss">:<fmt:message key="WorkflowEngine.initiator.statusMessage.${requestScope.workflowStatus}.xmetadiss" />
+   <c:when test="${requestScope.task.taskName eq 'start'}">
+      <hr>
+      <fmt:message key="WorkflowEngine.ActualStateOfYourDissertation.xmetadiss" />: 
+      <b><fmt:message key="WorkflowEngine.initiator.statusMessage.${requestScope.task.workflowStatus}.xmetadiss" /></b>
+      </hr>
    </c:when>
-   <c:when test="completeDisshabAndSendToLibrary">
-   
+   <c:when test="${fn:toLowerCase(requestScope.task.taskName) eq 'completedisshabandsendtolibrary'}">
+      <c:import url="/content/workflow/editorButtons.jsp" />
+      <mcr:checkBooleanDecisionNode var="canBeSent" processID="${requestScope.task.processID}" workflowType="xmetadiss" decision="canDisshabBeSubmitted" />
+      <c:if test="${canBeSent}">
+         TODO LINK AUF ABGEBEN
+      </c:if>
    </c:when>
    <c:otherwise>
-    heiko<br>
-       ${requestScope.task.taskName} <br>
-       ${requestScope.task.processID} <br>
-       ${requestScope.task.workflowStatus} <br>
-       ${requestScope.task.workflowProcessType} <br>
-       <c:set var="dom" value="${requestScope.task.variables}" />
-       <x:forEach select="$dom/variables/variable"> 
-          <x:out select="./@name" />
-       </x:forEach>   
+    <h1>what else? TODO</h1>
    </c:otherwise>
 </c:choose>

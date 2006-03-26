@@ -35,6 +35,15 @@
 </c:choose>
 
 <c:choose>
+   <c:when test="${!empty(param.workflowType)}">
+      <c:set  var="workflowType" value="${param.workflowType}"/>
+   </c:when>
+   <c:otherwise>
+      <c:set  var="workflowType" value="${requestScope.workflowType}"/>
+   </c:otherwise>
+</c:choose>
+
+<c:choose>
    <c:when test="${!empty(param.step)}">
       <c:set  var="step" value="${param.step}"/>
    </c:when>
@@ -97,16 +106,19 @@
 
 
 <hr/>
-type: ${type} | mcrid: ${mcrid} | step: ${step} | nextPath: ${nextPath} | uploadID: ${uploadID} |  isNewEditorSource: ${isNewEditorSource}
+workflowType: ${workflowType} |type: ${type} | mcrid: ${mcrid} | step: ${step} | nextPath: ${nextPath} | uploadID: ${uploadID} |  isNewEditorSource: ${isNewEditorSource}
 
 <hr/>
 <mcr:checkAccess var="modifyAllowed" permission="writedb" key="${mcrid}" />
+
+TODO übergeben von mcrid TODO bis dahin modifyAllowed = true<c:set var="modifyAllowed" value="true" />
 <c:choose>
     <c:when test="${modifyAllowed eq 'true'}">
         <mcr:includeEditor 
           editorSessionID="${editorSessionID}"  isNewEditorSource="${isNewEditorSource}" 
           mcrid2="${mcrid2}"  uploadID="${uploadID}"
-          mcrid="${mcrid}" type="${type}" step="${step}" target="${target}" nextPath="${nextPath}" editorPath="${editorPath}" />        
+          mcrid="${mcrid}" type="${type}" workflowType="${workflowType}"
+          step="${step}" target="${target}" nextPath="${nextPath}" editorPath="${editorPath}" />        
     </c:when>
     <c:otherwise>
         <font color="#ff0000"><fmt:message key="SWF.PrivilegesError" /></font>

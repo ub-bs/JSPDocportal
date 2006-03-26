@@ -3,51 +3,45 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/xml" prefix="x"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
-
+<c:choose>
+   <c:when test="${!empty(param.debug)}">
+      <c:set var="debug" value="true" />
+   </c:when>
+   <c:otherwise>
+      <c:set var="debug" value="false" />
+   </c:otherwise>
+</c:choose>
 <mcr:session method="get" var="username" type="userID" />
 <c:set  var="baseURL" value="${applicationScope.WebApplicationBaseURL}"/>
 
 <fmt:setLocale value="${requestScope.lang}" />
 <fmt:setBundle basename='messages' />
-<c:set var="debug" value="false" />
-<mcr:listWorkflowProcess var="myWorkflowList" workflowProcessType="${param.workflowProcessType}" userid="${username}" status="status"  />
 
-<br/>
+<c:set var="processid" value="${requestScope.task.processID}" />
+<c:set var="dom" value="${requestScope.task.variables}" />
+<c:set var="itemID"><x:out select="$dom/variables/variable[@name = 'createdDocID']/@value" /></c:set>
+<c:set var="itemDocType" value="${fn:split(itemID,'_')[1]}" />
+<c:set var="attachedDerivates"><x:out select="$dom/variables/variable[@name = 'attachedDerivates']/@value" /></c:set> 
+<c:set var="wfoTitle"><x:out select="$dom/variables/variable[@name = 'wfo-title']/@value" /></c:set>
 
-<div class="headline"><fmt:message key="SWF.WorkflowHeadline-${param.type}" /></div>
-
-<table cellspacing="3" cellpadding="3" >
-   <tr>   
-      <td class="metaname" >Ergebnis:</td>
-      <td class="metavalue"><fmt:message key="SWF.Dissertation.${status}" /> </td>       
-   </tr>    
-</table>
-
-<p>	<fmt:message key="SWF.Info" />	</p>
-
-<table border="0" >
-<x:forEach select="$myWorkflowList/mcr_workflow/mcr_result">	
-     <x:set var="processid" select="string(@processid)" />
-     <x:forEach select="all-metavalues">
-        <x:set var="itemID" select="string(./@ID)" />
-        <x:set var="processID" select="string(./@processid)" />
-        <tr>
-			<td class="nothing" colspan="3">ProcessID: ${processid} | App.Base: ${baseURL} <hr />	</td>
-	    </tr>
+<c:if test="${debug}">
+	processid   <c:out value="${processid}" /><br>
+	itemid   <c:out value="${itemID}" /><br>
+	docType <c:out value="${itemDocType}" /><br>
+	attachedDerivates   <c:out value="${attachedDerivates}" /><br>		
+</c:if> 
+    
+<mcr:listWorkflowDerivates varDom="der" docID="${itemID}" derivates="${attachedDerivates}" />
         <tr>
          <td class="resultTitle">
-           <b>
-           	    <x:out select="./metaname[1]/metavalues[2]/metavalue/@text" escapeXml="./metaname[1]/metavalues/@escapeXml" />
-           	    <x:out select="./metaname[1]/metavalues[3]/metavalue/@text" escapeXml="./metaname[1]/metavalues/@escapeXml" />                            	                            	                            	
-            	<x:out select="./metaname[1]/metavalues[1]/metavalue/@text" escapeXml="./metaname[1]/metavalues/@escapeXml" />
-           </b>  	
+           <b><c:out value="${wfoTitle}" /></b>  	
          </td>
 		 <td width="50">	&nbsp;		</td>
 		 <td align="right">
 				<table cellpadding="0" cellspacing="0">
 					<tr>
-                            <mcr:checkAccess var="modifyAllowed" permission="writedb" key="${itemID}" />
-                            <c:if test="${modifyAllowed eq 'true'}">						
+                         <mcr:checkAccess var="modifyAllowed" permission="writedb" key="${itemID}" />
+                         <c:if test="${modifyAllowed eq 'true'}">						
 								<c:if test="${param.type == 'document' || param.type == 'professorum' || param.type == 'disshab' }">
 										<td align="center" valign="top" width="30">
 											<form method="get" action="${baseURL}workflowaction">
@@ -108,46 +102,13 @@
 						</table>
 					</td>
 				</tr>        
-	       		 <tr>
+	       		<tr>
 					 <td class="description" colspan="3">
-                            <table>
-                                <tr>
-                                    <td>
-                                      <x:forEach select="./metaname[6]/metavalues/metavalue" >
-	 										<x:choose>
-		                                        <x:when select="./@href != '' ">
-		                                            <a href="<x:out select="./@href" />"><x:out select="./@text"  /></a>
-		                                        </x:when>
-		                                        <x:otherwise>
-		                                            <x:out select="./@text" />
-		                                        </x:otherwise>               
- 		                                    </x:choose>                                       
-	                                       <br/>
- 		                               </x:forEach>     	
-                                       <x:forEach select="./metaname[position() >= 7]/metavalues/metavalue" >
-	 										<x:choose>
-		                                        <x:when select="./@href != '' ">
-		                                            <a href="<x:out select="./@href" />">
-		                                            <img src="${baseURL}images/mail.gif" border="0"><x:out select="./@text" /></a>
-		                                        </x:when>
-		                                        <x:otherwise>
-		                                            <x:out select="./@text" />
-		                                        </x:otherwise>
- 		                                    </x:choose>                                            
- 											<br/>                                      
-	                                    </x:forEach>     	
-										<x:out select="./metaname[3]/metavalues/metavalue/@text" escapeXml="./metaname[3]/metavalues/@escapeXml" />
-										,&#160;
-										<x:out select="./metaname[4]/metavalues/metavalue/@text" escapeXml="./metaname[4]/metavalues/@escapeXml" />
-										,&#160;
-										<x:out select="./metaname[5]/metavalues/metavalue/@text" escapeXml="./metaname[5]/metavalues/@escapeXml" />
-                                    </td>
-                                </tr>
-                            </table>
-           				 </tr>				
-		  	   </x:forEach>
+ 						<fmt:message key="WorkflowEngine.Description.${requestScope.task.workflowProcessType}" />, ${itemID}
+ 					</td>
+           		</tr>				
 		  	   
-		       <x:forEach select="derivate">
+		       <x:forEach select="$der/derivates/derivate">
         		 <x:set var="derivateID" select="string(./@ID)" />
         		 <x:set var="derivateLabel" select="string(./@label)" />
 		          <tr>
@@ -195,7 +156,7 @@
        		        <x:set var="fileSize" select="string(./@size)" />    	    		 
 					<tr valign="top" >
 							<td>
-								<a class="linkButton" href="servlets/MCRFileViewWorkflowServlet/<x:out select="."/>?type=${param.type}" target="_blank">
+								<a class="linkButton" href="${baseURL}servlets/MCRFileViewWorkflowServlet/<x:out select="."/>?type=${itemDocType}" target="_blank">
 								  <x:out select="."/>
 								</a>	[	${fileSize}	]
 							</td>
@@ -223,7 +184,6 @@
 						</tr>
 			     </x:forEach>			
 	       </x:forEach>
-</x:forEach>
-</table>
+
 
 

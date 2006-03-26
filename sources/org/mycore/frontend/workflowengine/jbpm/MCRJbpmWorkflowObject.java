@@ -48,6 +48,10 @@ public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 		return MCRWorkflowEngineManagerFactory.getImpl(workflowProcessType);
 	}
 	
+	public String getWorkflowProcessType(){
+		return workflowProcessType;
+	}
+	
 	private void createNewProcessInstance(String processType) {
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try {
@@ -73,10 +77,11 @@ public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 			jbpmContext.setActorId(initiator);
 			ProcessInstance processInstance = jbpmContext.getGraphSession().loadProcessInstance(processInstanceID);
 			TaskInstance taskInstance = processInstance.getTaskMgmtInstance().createStartTaskInstance();
-			Map taskVariables = new HashMap();
-		    taskVariables.put(varINITIATOR, initiator);
-			taskInstance.addVariables(taskVariables);
-			taskInstance.end();
+//			Map taskVariables = new HashMap();
+//		    taskVariables.put(varINITIATOR, initiator);
+//			taskInstance.addVariables(taskVariables);
+			processInstance.getContextInstance().setVariable(varINITIATOR, initiator);
+//			taskInstance.end();
 			jbpmContext.save(processInstance);
 		}catch(MCRException e){
 			logger.error("could not create new processIinstance '", e);

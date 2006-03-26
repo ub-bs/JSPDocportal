@@ -62,8 +62,7 @@ public class MCRCheckMetadataServlet extends MCRServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger LOGGER = Logger.getLogger(MCRCheckMetadataServlet.class);
 	private static String workflowEngineStartURL = MCRConfiguration.instance().getString("MCR.WorkflowEngine.StartURL", "~workflowengine");
-	private static MCRWorkflowEngineManagerInterface WFI = MCRWorkflowEngineManagerFactory.getDefaultImpl();
-	
+		
     /**
      * This method overrides doGetPost of MCRServlet. <br />
      */
@@ -85,15 +84,18 @@ public class MCRCheckMetadataServlet extends MCRServlet {
 
         String mcrid1 = parms.getParameter("mcrid");
         String type = parms.getParameter("type");
+        String workflowType = parms.getParameter("workflowType");
         String step = parms.getParameter("step");
         String mcrid2 = parms.getParameter("mcrid2");
         String nextPath = parms.getParameter("nextPath");
         LOGGER.debug("mcrid1 = " + mcrid1);
         LOGGER.debug("type = " + type);
+        LOGGER.debug("workflowType = " + workflowType);
         LOGGER.debug("step = " + step);
         LOGGER.debug("mcrid2 = " + mcrid2);
         LOGGER.debug("nextPath = " + nextPath);
         
+        MCRWorkflowEngineManagerInterface WFI = MCRWorkflowEngineManagerFactory.getImpl(workflowType);
         WFI.setMetadataValidFlag(mcrid1, false);
         
         // get the MCRSession object for the current thread from the session
@@ -137,6 +139,7 @@ public class MCRCheckMetadataServlet extends MCRServlet {
         	storeMetadata(MCRUtils.getByteArray(indoc),job, ID, storePath.toString());
         	outdoc = prepareMetadata((org.jdom.Document) indoc.clone(), ID, job, lang, step, nextPath, storePath.toString());
         	storeMetadata(MCRUtils.getByteArray(outdoc),job, ID, storePath.toString());
+        	WFI.setWorkflowVariablesFromMetadata(mcrid1, indoc.getRootElement().getChild("metadata"));
         	WFI.setMetadataValidFlag(mcrid1, true);
         	request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
         }catch(java.lang.IllegalStateException ill){

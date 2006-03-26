@@ -527,6 +527,18 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 		return false;
 	}
 	
+	public void setWorkflowVariablesFromMetadata(String mcrid, Element metadata){
+		long pid = getUniqueWorkflowProcessFromCreatedDocID(mcrid);
+		MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(pid);
+		StringBuffer sbTitle = new StringBuffer("");
+		for(Iterator it = metadata.getDescendants(new ElementFilter("title")); it.hasNext();){
+			Element title = (Element)it.next();
+			if(title.getAttributeValue("type").equals("original-main"))
+				sbTitle.append(title.getText());
+		}
+		wfo.setStringVariableValue("wfo-title", sbTitle.toString());	
+	}	
+	
 	public boolean isEmpty(String test){
 		if(test == null || test.equals("")){
 			return true;
