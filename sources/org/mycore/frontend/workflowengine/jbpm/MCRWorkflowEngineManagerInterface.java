@@ -151,7 +151,7 @@ public interface MCRWorkflowEngineManagerInterface {
 	
 	abstract boolean checkBooleanDecisionNode(long processid, String decision);
 	
-	abstract List getTasks(String userid, String mode);
+	abstract List getTasks(String userid, String mode, List workflowProcessTypes);
 	
 	/**
 	 * returns relevant information of certain derivate for a certain document as jdom Element
@@ -170,5 +170,7 @@ public interface MCRWorkflowEngineManagerInterface {
 	abstract Element getDerivateData(String docID, String derivateID);
 	
 	abstract void setWorkflowVariablesFromMetadata(String mcrid, Element metadata);
+	
+	abstract boolean endTask(long processid, String taskName);
 	
 }

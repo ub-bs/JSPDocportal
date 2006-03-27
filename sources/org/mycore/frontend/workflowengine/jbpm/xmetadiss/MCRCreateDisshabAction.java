@@ -9,26 +9,28 @@ import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerFactory;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
 
-public class MCRGetURNAction implements ActionHandler{
-
+public class MCRCreateDisshabAction implements ActionHandler{
+	
 	private static final long serialVersionUID = 1L;
-	private static Logger logger = Logger.getLogger(MCRGetURNAction.class);
+	private static Logger logger = Logger.getLogger(MCRCreateDisshabAction.class);
 	private static MCRWorkflowEngineManagerInterface WFI = MCRWorkflowEngineManagerFactory.getImpl("xmetadiss");
 
 	public void execute(ExecutionContext executionContext) throws MCRException {
+		logger.debug("creating empty disshab");
 		ContextInstance contextInstance;
 		contextInstance = executionContext.getContextInstance();
 		String initiator = (String)contextInstance.getVariable(MCRJbpmWorkflowBase.varINITIATOR);
-		String urn = WFI.getURNReservation(initiator);
-		if(urn != null && !urn.equals("")){
-			contextInstance.setVariable("reservatedURN", urn);
-			
-			logger.debug("workflow changed state to " + executionContext.getProcessInstance().getRootToken().getName());	
+		String createdDocID = WFI.getMetadataDocumentID(initiator);
+		if(createdDocID != null && !createdDocID.equals("")){
+			executionContext.setVariable("createdDocID", createdDocID);
+			executionContext.setVariable("attachedDerivates", "");
+			executionContext.setVariable("containsPDF","");
+			executionContext.setVariable("containsZIP","");
 		}else{
-			logger.error("could not create urn");
-			throw new MCRException("could not create urn");
+			String errMsg = "could not create a docID for dissertation";
+			logger.error(errMsg);
+			throw new MCRException(errMsg);
 		}
-		
 	}
 
 }

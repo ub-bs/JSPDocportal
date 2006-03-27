@@ -2,6 +2,7 @@ package org.mycore.frontend.workflowengine.jbpm;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +33,7 @@ public class MCRJbpmWorkflowBase {
 	public final static String varINITIATOR = "initiator";
 	public static final String lockedVariablesIdentifier = "MCRJBPMLOCKEDVARIABLES";
 	private static Logger logger = Logger.getLogger(MCRJbpmWorkflowBase.class);
-	protected static JbpmConfiguration jbpmConfiguration = 
+	private static JbpmConfiguration jbpmConfiguration = 
         JbpmConfiguration.parseResource("jbpm.cfg.xml");
 	// help cache for finding the workflow-processes of a given user
 	// not yet implemented in jbpm, can be removed one day
@@ -148,8 +149,9 @@ public class MCRJbpmWorkflowBase {
 		return ret;
 	}
 	
-	public static List getTasks(String userid){
+	public static List getTasks(String userid, List workflowProcessTypes){
 		List ret = new ArrayList();
+		HashSet listOfIDs = new HashSet();
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try{
 			TaskMgmtSession taskMgmtSession = jbpmContext.getTaskMgmtSession();
@@ -159,19 +161,25 @@ public class MCRJbpmWorkflowBase {
 			for (Iterator it = taskInstances.iterator(); it.hasNext();) {
 				TaskInstance taskInstance = (TaskInstance) it.next();
 				ProcessInstance processInstance = taskInstance.getTaskMgmtInstance().getProcessInstance();
+				long processID = processInstance.getId();
+				if(listOfIDs.contains(new Long(processID))){
+					continue;
+				}
 				String curNodeName = "";
 				Node curNode = processInstance.getRootToken().getNode();
 				if(curNode != null) {
 					curNodeName = (curNode.getName() == null)? "noname" : curNode.getName();
 				}
-				long processID = processInstance.getId();
 				String workflowProcessType = processInstance.getProcessDefinition().getName();
-				String taskName = taskInstance.getName();
-				String workflowStatus = curNodeName;
-				org.w3c.dom.Document variables = 
-					buildTaskVariablesXML(taskInstance.getVariables(),
-							processInstance.getContextInstance().getVariables());
-				ret.add(new MCRJbpmTaskBean(processID, workflowProcessType, taskName, workflowStatus, variables)); 
+				if(workflowProcessTypes == null || workflowProcessTypes.size() == 0 || workflowProcessTypes.contains(workflowProcessType)){
+					String taskName = taskInstance.getName();
+					String workflowStatus = curNodeName;
+					org.w3c.dom.Document variables = 
+						buildTaskVariablesXML(taskInstance.getVariables(),
+								processInstance.getContextInstance().getVariables());
+					ret.add(new MCRJbpmTaskBean(processID, workflowProcessType, taskName, workflowStatus, variables));
+					listOfIDs.add(new Long(processID));
+				}
 			}
 		}catch(MCRException e){
 			logger.error("error in fetching the task lists", e);
@@ -181,7 +189,7 @@ public class MCRJbpmWorkflowBase {
 		return ret;
 	}
 	
-	public static List getProcessesByInitiator(String userid){
+	public static List getProcessesByInitiator(String userid, List workflowProcessTypes){
 		List ret = new ArrayList();
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try{
@@ -198,12 +206,14 @@ public class MCRJbpmWorkflowBase {
 				}
 				long processID = processInstance.getId();
 				String workflowProcessType = processInstance.getProcessDefinition().getName();
-				String taskName = "start";
-				String workflowStatus = curNodeName;
-				org.w3c.dom.Document variables = 
-					buildTaskVariablesXML(new HashMap(),
-							processInstance.getContextInstance().getVariables());
-				ret.add(new MCRJbpmTaskBean(processID, workflowProcessType, taskName, workflowStatus, variables)); 
+				if(workflowProcessTypes == null || workflowProcessTypes.size() == 0 || workflowProcessTypes.contains(workflowProcessType)){
+					String taskName = "initialization";
+					String workflowStatus = curNodeName;
+					org.w3c.dom.Document variables = 
+						buildTaskVariablesXML(new HashMap(),
+								processInstance.getContextInstance().getVariables());
+					ret.add(new MCRJbpmTaskBean(processID, workflowProcessType, taskName, workflowStatus, variables)); 
+				}
 			}
 		}catch(MCRException e){
 			logger.error("error in fetching the current process ids for initiator " + userid, e);

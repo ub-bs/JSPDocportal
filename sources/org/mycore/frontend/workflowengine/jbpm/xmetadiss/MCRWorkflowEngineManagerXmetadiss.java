@@ -103,12 +103,13 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 			throw new MCRException(errMsg);
 		}else if (processID == 0) {
 			MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(processType);
-			wfo.initialize(initiator);
-			wfo.setStringVariableValue("fileCnt", "0");
 			try{
-				wfo.signal("go2processInitialized");
+				wfo.initialize(initiator);
+				wfo.setStringVariableValue("fileCnt", "0");
+				wfo.endTask("initialization", initiator);
 				wfo.signal("go2authorCreated");
 				wfo.signal("go2urnCreated");
+				wfo.signal("go2disshabCreated");				
 			}catch(MCRException e){
 				logger.error("MCRWorkflow Error, could not initialize the workflow process", e);
 				throw new MCRException("MCRWorkflow Error, could not initialize the workflow process");
@@ -200,12 +201,6 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 		String urn = getURNReservation(userid);
 		// im WF noch keine DocID für userid vorhanden - in myCoRe kreieren	
 		docID = createDisshab(authorID, userid, urn);
-		if(docID != null && !docID.equals("")) {
-			wfo.setStringVariableValue("createdDocID", docID);
-			wfo.signal("go2disshabCreated");
-		}else{
-			throw new MCRException("could not create mcr-docid");
-		}
 		return docID;					
 	}
 
@@ -514,10 +509,10 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 			String createdDocID = wfo.getStringVariableValue("createdDocID");
 			String attachedDerivates = wfo.getStringVariableValue("attachedDerivates");
 			if(!isEmpty(authorID) && !isEmpty(reservatedURN) && !isEmpty(createdDocID) && !isEmpty(attachedDerivates)){
-				String strDocValid = wfo.getStringVariableValue("valid-" + createdDocID );
+				String strDocValid = wfo.getStringVariableValue(VALIDPREFIX + createdDocID );
 				String containsPDF = wfo.getStringVariableValue("containsPDF");
 				if(strDocValid != null && containsPDF != null){
-					if(strDocValid.equals("true") && containsPDF.equals("true")){
+					if(strDocValid.equals("true") && !containsPDF.equals("")){
 						return true;
 					}
 				}

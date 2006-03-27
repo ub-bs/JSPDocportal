@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
 import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.db.GraphSession;
@@ -18,9 +19,11 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRSessionMgr;
-import org.mycore.user.MCRUserMgr;
 
-public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
+public class MCRJbpmWorkflowObject {
+	
+	private static JbpmConfiguration jbpmConfiguration = 
+        JbpmConfiguration.parseResource("jbpm.cfg.xml");	
 	
 	private static Logger logger = Logger.getLogger(MCRJbpmWorkflowObject.class);
 	private long processInstanceID = -1;
@@ -59,8 +62,6 @@ public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 			GraphSession graphSession = jbpmContext.getGraphSession();
 		    ProcessDefinition processDefinition = graphSession.findLatestProcessDefinition(processType);
 		    ProcessInstance processInstance = new ProcessInstance(processDefinition);
-		    // initialize a start-task swimlane with the current user
-		    TaskInstance taskInstance = processInstance.getTaskMgmtInstance().createStartTaskInstance();
 		    workflowProcessType = processInstance.getProcessDefinition().getName();
 		    processInstanceID = processInstance.getId();
 		    jbpmContext.save(processInstance);
@@ -75,20 +76,60 @@ public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try {
 			jbpmContext.setActorId(initiator);
-			ProcessInstance processInstance = jbpmContext.getGraphSession().loadProcessInstance(processInstanceID);
-			TaskInstance taskInstance = processInstance.getTaskMgmtInstance().createStartTaskInstance();
-//			Map taskVariables = new HashMap();
-//		    taskVariables.put(varINITIATOR, initiator);
-//			taskInstance.addVariables(taskVariables);
-			processInstance.getContextInstance().setVariable(varINITIATOR, initiator);
-//			taskInstance.end();
-			jbpmContext.save(processInstance);
+			ProcessInstance processInstance = jbpmContext.loadProcessInstance(processInstanceID);
+			processInstance.getTaskMgmtInstance().createStartTaskInstance();
+			processInstance.getContextInstance().setVariable(MCRJbpmWorkflowBase.varINITIATOR, initiator);
+			//jbpmContext.save(processInstance);
 		}catch(MCRException e){
 			logger.error("could not create new processIinstance '", e);
 		}finally {
 			jbpmContext.close();
 		}		
-		lockStringVariable(varINITIATOR);
+		lockStringVariable(MCRJbpmWorkflowBase.varINITIATOR);
+	}
+	
+	public boolean endTask(String taskName, String curUserID){
+		boolean ret = false;
+		logger.debug("try to end task " + taskName);
+		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+		try {
+			ProcessInstance processInstance = jbpmContext.loadProcessInstance(processInstanceID);
+			TaskInstance taskInstance = null;
+			for(Iterator taskIt = processInstance.getTaskMgmtInstance().getTaskInstances().iterator(); taskIt.hasNext();){
+				taskInstance = (TaskInstance)taskIt.next();
+				if(taskInstance.isOpen())
+					break;
+			}
+			
+			if(taskInstance == null){
+				logger.warn("could not end task " + taskName + ", no task was found");
+			}else{
+				if(taskInstance != null && taskInstance.getName().equalsIgnoreCase(taskName)){
+					Set allowedUsers = new HashSet();
+					Set tmp = taskInstance.getPooledActors();
+					if(tmp != null)
+						allowedUsers.addAll(tmp);
+					if(taskInstance.getActorId() != null)
+						allowedUsers.add(taskInstance.getActorId());
+					if(allowedUsers.contains(curUserID)){
+						taskInstance.end();
+						logger.debug(taskName + " has been ended");	
+						ret = true;
+					}else{
+						logger.debug("user [" + curUserID + "] cannot end the task [" + taskName + "]");
+					}
+				}else{
+					String err = "current task " + taskInstance.getName() + " is different from " + taskName;
+					throw new MCRException(err);
+				}
+			}
+			//jbpmContext.save(taskInstance);
+		}catch(MCRException e){
+			logger.error("could not create new processIinstance '", e);
+		}finally {
+			jbpmContext.close();
+		}	
+		return ret;
 	}
 	
 	public String getDocumentType() {
@@ -130,7 +171,7 @@ public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 		try {
 			ProcessInstance processInstance = jbpmContext.getGraphSession().loadProcessInstance(processInstanceID);
 			ContextInstance contextInstance = processInstance.getContextInstance();
-			Set lockedSet = getSetOfLockedVariables((String)contextInstance.getVariable(lockedVariablesIdentifier));
+			Set lockedSet = getSetOfLockedVariables((String)contextInstance.getVariable(MCRJbpmWorkflowBase.lockedVariablesIdentifier));
 			if(!lockedSet.contains(varName)){
 				contextInstance.setVariable(varName, value);
 				jbpmContext.save(processInstance);
@@ -150,11 +191,11 @@ public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 		try {
 			ProcessInstance processInstance = jbpmContext.getGraphSession().loadProcessInstance(processInstanceID);
 			ContextInstance contextInstance = processInstance.getContextInstance();
-			String lockedVariables = (String)contextInstance.getVariable(lockedVariablesIdentifier);
+			String lockedVariables = (String)contextInstance.getVariable(MCRJbpmWorkflowBase.lockedVariablesIdentifier);
 			if(lockedVariables == null || lockedVariables.equals("")) {
-				contextInstance.setVariable(lockedVariablesIdentifier, varName);
+				contextInstance.setVariable(MCRJbpmWorkflowBase.lockedVariablesIdentifier, varName);
 			}else{
-				contextInstance.setVariable(lockedVariablesIdentifier, lockedVariables + "," + varName);
+				contextInstance.setVariable(MCRJbpmWorkflowBase.lockedVariablesIdentifier, lockedVariables + "," + varName);
 			}
 			jbpmContext.save(processInstance);
 		}catch(MCRException e){
@@ -169,7 +210,7 @@ public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 		try {
 			ProcessInstance processInstance = jbpmContext.getGraphSession().loadProcessInstance(processInstanceID);
 			ContextInstance contextInstance = processInstance.getContextInstance();
-			Set lockedSet = getSetOfLockedVariables((String)contextInstance.getVariable(lockedVariablesIdentifier));
+			Set lockedSet = getSetOfLockedVariables((String)contextInstance.getVariable(MCRJbpmWorkflowBase.lockedVariablesIdentifier));
 			lockedSet.remove(varName);
 			boolean first = true;
 			StringBuffer sb = new StringBuffer("");
@@ -179,7 +220,7 @@ public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 				sb.append((String) it.next());
 				first = false;
 			}		
-			contextInstance.setVariable(lockedVariablesIdentifier, sb.toString());
+			contextInstance.setVariable(MCRJbpmWorkflowBase.lockedVariablesIdentifier, sb.toString());
 			jbpmContext.save(processInstance);
 		}catch(MCRException e){
 			logger.error("could not lock variable '" + varName, e);
@@ -267,9 +308,9 @@ public class MCRJbpmWorkflowObject extends MCRJbpmWorkflowBase {
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try {
 			ProcessInstance processInstance = jbpmContext.getGraphSession().loadProcessInstance(processInstanceID);
-			Node curNode = processInstance.getRootToken().getNode();
-			logger.error(curNode.getName());
+			logger.debug("before transition [" + transitionName + "] node [" + processInstance.getRootToken().getNode().getName() + "]");
 			processInstance.signal(transitionName);
+			logger.debug("after transition [" + transitionName + "] node [" + processInstance.getRootToken().getNode().getName() + "]");
 			jbpmContext.save(processInstance);
 		}catch(Exception e){
 			logger.error("could not signal to root token of processid " + processInstanceID, e);

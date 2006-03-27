@@ -60,6 +60,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	
 	private static Logger logger = Logger.getLogger(MCRWorkflowEngineManagerBaseImpl.class.getName());
 	private static final String[] defaultPermissionTypes ;
+	public static final String VALIDPREFIX = "valid-";
 	private static MCRWorkflowEngineManagerInterface singleton;
 	protected static MCRConfiguration config = MCRConfiguration.instance();
 	protected static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
@@ -144,16 +145,16 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		return MCRJbpmWorkflowBase.getWorkflowStatus(processID);
 	} 	
 
-	public List getTasks(String userid, String mode) {
+	public List getTasks(String userid, String mode, List workflowProcessTypes) {
 		List ret = new ArrayList();
 		if(mode == null) mode = "";
 		if(mode.equals("activeTasks")){
-			ret.addAll(MCRJbpmWorkflowBase.getTasks(userid));
+			ret.addAll(MCRJbpmWorkflowBase.getTasks(userid, workflowProcessTypes));
 		}else if (mode.equals("initiatedProcesses")){
-			ret.addAll(MCRJbpmWorkflowBase.getProcessesByInitiator(userid));
+			ret.addAll(MCRJbpmWorkflowBase.getProcessesByInitiator(userid, workflowProcessTypes));
 		}else{
-			ret.addAll(MCRJbpmWorkflowBase.getTasks(userid));
-			ret.addAll(MCRJbpmWorkflowBase.getProcessesByInitiator(userid));
+			ret.addAll(MCRJbpmWorkflowBase.getTasks(userid, workflowProcessTypes));
+			ret.addAll(MCRJbpmWorkflowBase.getProcessesByInitiator(userid, workflowProcessTypes));
 		}
 		return ret;
 	}	
@@ -441,7 +442,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		long pid = getUniqueWorkflowProcessFromCreatedDocID(mcrid);
 		if(pid > 0) {
 			MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(pid);
-			wfo.setStringVariableValue("valid-" + mcrid, Boolean.toString(isValid));
+			wfo.setStringVariableValue(VALIDPREFIX + mcrid, Boolean.toString(isValid));
 		}
 	}	
 	
@@ -663,6 +664,11 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	    return derivateData;		
 	}
 	
+	public boolean endTask(long processid, String taskName){
+		MCRUser user = MCRUserMgr.instance().getCurrentUser();
+		MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(processid);
+		return wfo.endTask(taskName, user.getID());
+	}
 	
 	public void setDummyPermissions(String objid){
 		for (int i = 0; i < defaultPermissionTypes.length; i++) {
@@ -1041,5 +1047,5 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
         return bSet;
 	
 	}
-
+	
 }
