@@ -9,6 +9,30 @@
     <uri>/WEB-INF/lib/mycore-taglibs.jar</uri>
     <info>MyCoRe Sample Tag library</info>
 	 <tag>
+            <name>endTask</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCREndTaskTag</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <description>Output: the var that holds the boolean success value</description>
+                <name>success</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>the workflow process id</description>
+                <name>processID</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>      
+            <attribute>
+                <description>the workflow task name</description>
+                <name>taskName</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <info>A tag, that ends a task and continues the workflow</info>
+     </tag>         
+	 <tag>
             <name>checkBooleanDecisionNode</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRCheckBooleanDecisionNodeTag</tagclass>
             <bodycontent>empty</bodycontent>
@@ -102,6 +126,12 @@
                 <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>             
+            <attribute>
+                <description>a comma separated list with specific workflow process types</description>
+                <name>workflowTypes</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
             <attribute>
                 <description>for getting the tasks for a special user (for debugging), generally the user of the session is required</description>
                 <name>debugUser</name>
