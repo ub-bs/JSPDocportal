@@ -4,11 +4,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
 
-<mcr:session method="get" var="username" type="userID" />
 <c:set  var="baseURL" value="${applicationScope.WebApplicationBaseURL}"/>
 
 <fmt:setLocale value="${requestScope.lang}" />
 <fmt:setBundle basename='messages' />
+
 <c:choose>
    <c:when test="${!empty(param.debug)}">
       <c:set var="debug" value="true" />
@@ -18,16 +18,22 @@
    </c:otherwise>
 </c:choose>
 
-<c:choose>
-   <c:when test="${!empty(param.lastInitiatedAction)}">
-   </c:when>
-   <c:otherwise>
-   </c:otherwise>
-</c:choose>
+<c:if test="${!empty(param.endTask)}">
+    <c:set var="endTask" scope="request" value="${param.endTask}" />
+    <c:set var="processID" scope="request" value="${param.processID}" />
+    <c:import url="/content/workflow/xmetadiss/endTasks.jsp" />
+</c:if>
+
+
+
+<div class="headline"><fmt:message key="Nav.WorkflowDisshab" /></div>
+
+<br>&nbsp;<br>
 
 <div class="headline"><fmt:message key="WorkflowEngine.MyTasks" /></div>
 
-<mcr:getWorkflowTaskBeanList var="myTaskList" mode="activeTasks" debugUser="author1A" varTotalSize="total1" />
+<mcr:getWorkflowTaskBeanList var="myTaskList" mode="activeTasks" workflowTypes="xmetadiss" 
+	varTotalSize="total1" />
 <table>
 <c:forEach var="task" items="${myTaskList}">
    <c:set var="task" scope="request" value="${task}" />
@@ -39,7 +45,8 @@
 
 <div class="headline"><fmt:message key="WorkflowEngine.MyInititiatedProcesses" /></div>
 
-<mcr:getWorkflowTaskBeanList var="myProcessList" mode="initiatedProcesses" debugUser="author1A" varTotalSize="total2" />
+<mcr:getWorkflowTaskBeanList var="myProcessList" mode="initiatedProcesses" workflowTypes="xmetadiss"
+	varTotalSize="total2" />
 <table>
 <c:forEach var="task" items="${myProcessList}">
    <c:set var="task" scope="request" value="${task}" />

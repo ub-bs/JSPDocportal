@@ -7,6 +7,9 @@
    <c:when test="${!empty(param.debug)}">
       <c:set var="debug" value="true" />
    </c:when>
+   <c:when test="${!empty(requestScope.debug)}">
+      <c:set var="debug" value="true" />
+   </c:when>   
    <c:otherwise>
       <c:set var="debug" value="false" />
    </c:otherwise>
@@ -42,7 +45,7 @@
 					<tr>
                          <mcr:checkAccess var="modifyAllowed" permission="writedb" key="${itemID}" />
                          <c:if test="${modifyAllowed eq 'true'}">						
-								<c:if test="${param.type == 'document' || param.type == 'professorum' || param.type == 'disshab' }">
+								<c:if test="${fn:contains('document,disshab,professorum',itemDocType)}">
 										<td align="center" valign="top" width="30">
 											<form method="get" action="${baseURL}workflowaction">
 												<input name="processid" value="${processid}" type="hidden">

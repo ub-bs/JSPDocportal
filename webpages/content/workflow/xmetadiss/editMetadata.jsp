@@ -46,7 +46,7 @@
     <c:otherwise>
          <mcr:includeEditor 
             isNewEditorSource="false" 
-            mcrid="${mcrid}" type="disshab" step="author" target="MCRCheckMetadataServlet" nextPath="~workflow-disshab"/>    
+            mcrid="${mcrid}" type="disshab" step="author" target="MCRCheckMetadataServlet" workflowType="xmetadiss" nextPath="~workflow-disshab"/>    
     </c:otherwise>
   </c:choose>   		
 </c:if>
