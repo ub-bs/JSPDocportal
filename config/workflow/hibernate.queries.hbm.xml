@@ -12,7 +12,7 @@
     <![CDATA[
       select pi
       from org.jbpm.graph.exe.ProcessInstance as pi
-      where pi.processDefinition.id = :processDefinitionId
+      where pi.processDefinition.id = :processDefinitionId and pi.end is null
       order by pi.start desc
     ]]>
   </query>
@@ -21,7 +21,7 @@
     <![CDATA[
       select si.processInstance
       from org.jbpm.context.exe.variableinstance.StringInstance as si
-      where si.name like :var and si.value like :value
+      where si.name like :var and si.value like :value and si.processInstance.end is null
       order by si.processInstance.start desc
     ]]>
   </query>
@@ -30,11 +30,11 @@
     <![CDATA[
       select si.processInstance
       from org.jbpm.context.exe.variableinstance.StringInstance as si
-      where si.name = 'initiator' and si.value = :initiator
+      where si.name = 'initiator' and si.value = :initiator and si.processInstance.end is null
       order by si.processInstance.start desc
     ]]>
   </query>
-
+  
   <query name="GraphSession.findLatestProcessDefinitionQuery">
     <![CDATA[
      select pd
