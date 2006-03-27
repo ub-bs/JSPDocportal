@@ -28,12 +28,9 @@ package org.mycore.frontend.jsp.taglibs;
 // Imported java classes
 import java.io.IOException;
 
-import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.JspException;
 import org.apache.log4j.Logger;
 
-import org.jdom.Element;
-import org.jdom.output.DOMOutputter;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerFactory;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
 
@@ -43,47 +40,32 @@ import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface
  * @version $Revision$ $Date$
  */
 
-public class MCRListWorkflowDerivatesTag extends MCRSimpleTagSupport {
-	private static Logger LOGGER = Logger.getLogger(MCRListWorkflowDerivatesTag.class.getName());
-	private static MCRWorkflowEngineManagerInterface defaultWFI = MCRWorkflowEngineManagerFactory.getDefaultImpl();
-	private String varDom;
-	private String derivates;
-	private String docID;
-	private String scope;
-
-	public void setVarDom(String varDom){
-		this.varDom = varDom;
-	}
+public class MCREndTaskTag extends MCRSimpleTagSupport {
+	private static Logger LOGGER = Logger.getLogger(MCREndTaskTag.class.getName());
+	private static MCRWorkflowEngineManagerInterface WFI = MCRWorkflowEngineManagerFactory.getDefaultImpl();
 	
-	public void setDerivates(String derivates) {
-		this.derivates = derivates;
+	private String success;
+	private long processID;
+	private String taskName;
+	
+	public void setProcessID(long processID) {
+		this.processID = processID;
 	}
 
-	public void setDocID(String docID) {
-		this.docID = docID;
+	public void setSuccess(String success) {
+		this.success = success;
+	}
+
+	public void setTaskName(String taskName) {
+		this.taskName = taskName;
 	}
 	
-	public void setScope(String scope){
-		this.scope = scope;
-	}
-	
+
 	public void doTag() throws JspException, IOException {
 		try{
-			int iScope = getScope(scope);
-			JspContext jspContext = getJspContext();
-			Element elDerivates = new Element("derivates");		
-			if(derivates != null && !derivates.equals("")){
-				String[] arDerivates = derivates.split(",");
-				for (int i = 0; i < arDerivates.length; i++) {
-				Element elDerivate = defaultWFI.getDerivateData(docID, arDerivates[i]);
-				elDerivates.addContent(elDerivate);
-				}
-			}
-			jspContext.setAttribute(varDom, 
-					new DOMOutputter().output(new org.jdom.Document(elDerivates)),
-					iScope);
+			getJspContext().setAttribute(success, new Boolean(WFI.endTask(processID,taskName)), getScope("page"));
 		}catch(Exception e){
-			LOGGER.error("could not list derivates of " + docID);
+			LOGGER.error("stacktrace", e);
 		}
 	}
 }

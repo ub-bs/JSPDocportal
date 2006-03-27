@@ -29,6 +29,7 @@ package org.mycore.frontend.jsp.taglibs;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -77,6 +78,8 @@ public class MCRGetWorkflowTaskBeanListTag extends SimpleTagSupport {
 	private int offset;
 	private String mode;
 	
+	private String workflowTypes;
+	
 	private String debugUser;
 	
 	public void setSize(int size) {
@@ -97,6 +100,10 @@ public class MCRGetWorkflowTaskBeanListTag extends SimpleTagSupport {
 	
 	public void setMode(String mode){
 		this.mode = mode;
+	}
+	
+	public void setWorkflowTypes(String workflowTypes){
+		this.workflowTypes = workflowTypes;
 	}
 	
 	public void setDebugUser(String debugUser){
@@ -120,12 +127,15 @@ public class MCRGetWorkflowTaskBeanListTag extends SimpleTagSupport {
 			}
 			
 			if(mode == null) mode = "";
-	
+			List workflowProcessTypes = new ArrayList();
+			if(workflowTypes != null && !workflowTypes.equals("")){
+				workflowProcessTypes = Arrays.asList(workflowTypes.split(","));				
+			}
 			List beans = null;
 			if(offset > 0){
 				beans = (List)jspSession.getAttribute(sessionBeanListName);
 			}else{
-				beans = defaultWFI.getTasks(userid, mode);
+				beans = defaultWFI.getTasks(userid, mode, workflowProcessTypes);
 				jspSession.setAttribute(sessionBeanListName, beans);
 			}
 			if(size == 0) size = 20;
