@@ -38,6 +38,9 @@
   </state>
   
   <state name="urnCreated">
+     <event type='node-enter'>
+        <action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRCreateDisshabAction" />        
+     </event>      
   	<transition name="go2disshabCreated" to="disshabCreated" />
   </state>
   
