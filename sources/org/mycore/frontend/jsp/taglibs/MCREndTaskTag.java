@@ -47,6 +47,7 @@ public class MCREndTaskTag extends MCRSimpleTagSupport {
 	private String success;
 	private long processID;
 	private String taskName;
+	private String transition;
 	
 	public void setProcessID(long processID) {
 		this.processID = processID;
@@ -60,10 +61,15 @@ public class MCREndTaskTag extends MCRSimpleTagSupport {
 		this.taskName = taskName;
 	}
 	
+	public void setTransition(String transition){
+		this.transition = transition;
+	}
+	
 
 	public void doTag() throws JspException, IOException {
+		if(transition == null) transition = "";
 		try{
-			getJspContext().setAttribute(success, new Boolean(WFI.endTask(processID,taskName)), getScope("page"));
+			getJspContext().setAttribute(success, new Boolean(WFI.endTask(processID,taskName,transition)), getScope("page"));
 		}catch(Exception e){
 			LOGGER.error("stacktrace", e);
 		}
