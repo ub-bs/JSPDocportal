@@ -5,6 +5,7 @@ import java.util.List;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.mycore.common.MCRException;
+import org.mycore.frontend.servlets.MCRServletJob;
 
 public interface MCRWorkflowEngineManagerInterface {
 
@@ -172,5 +173,33 @@ public interface MCRWorkflowEngineManagerInterface {
 	abstract void setWorkflowVariablesFromMetadata(String mcrid, Element metadata);
 	
 	abstract boolean endTask(long processid, String taskName);
+	
+	
+	/**
+     * The method stores the data in a working directory dependenced of the
+     * type.
+     * 
+     * @param outxml
+     *            the prepared JDOM object
+     * @param ID
+     *            MCRObject ID of the MCRObject/MCRDerivate/MCRUser
+     * @param fullname
+     *            the file name where the JDOM was stored.
+     */	
+	 public void storeMetadata(byte[] outxml,  String ID, String fullname)  throws Exception;
+	 
+	 public String getUserIDFromWorkflow(String initiator);
+	 
+	/**
+	 * sets a workflow-process-variable with the name
+	 * 	valid-{mcrid} to boolean isValid
+	 * 
+	 * can only be used in workflow-processes with variables
+	 *  userID%  	that contain the requested userID's
+	 *  
+	 * @param userID
+	 * @param isValid
+	 */
+	abstract void setUserIDValidFlag(String userID, boolean isValid);
 	
 }
