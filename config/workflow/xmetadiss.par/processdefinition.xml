@@ -63,11 +63,30 @@
      </event> 
      <task name="taskCheckCompleteness" swimlane="disseditor">
      </task> 
-     <transition name="todo next" to="todonext" />
+     <transition name="go2sendBackToDisshabCreated" to="sendBackToDisshabCreated" >
+        <action class="org.mycore.frontend.workflowengine.jbpm.MCRSetDefaultAclsAction">
+            <varmcrid>createdDocID</varmcrid>
+            <varuserid>initiator</varuserid>
+        </action>
+     </transition>
+     <transition name="go2canDisshabBeCommitted" to="canDisshabBeCommitted" />
   </task-node>
   
+  <task-node name="sendBackToDisshabCreated">
+     <task name="taskEnterMessageData" swimlane="disseditor" />
+     <transition name="go2disshabCreated2" to="disshabCreated" />
+  </task-node>
   
-    
+  <decision name="canDisshabBeCommitted">
+     <handler class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRCanDisshabBeCommittedDecisionHandler" />
+     <transition name="disshabCantBeCommitted" to="disshabSubmitted" />
+     <transition name="disshabCanBeCommitted" to="disshabCommitted" />
+  </decision>  
+  
+  <state name="disshabCommitted">
+     <transition name="to do next" to="todonext" />
+  </state>
+      
   <!-- 
   <state name="disshabCreated">
      <transition name="todo next" to="todonext" />
@@ -78,37 +97,6 @@
     <transition to="end" />
   </state>
   
-<!--   
-  <task-node name="createMetadata">
-    <task swimlane="author">
-      <controller>
-        <variable name="metadataFilename"/>
-        <variable name="isMetadataCorrect" />
-      </controller>
-    </task>
-    <transition name="ok" to="uploadFiles" />
-    <transition name="correctMetadata" to="correctMetadata" />
-  </task-node>  
-  
-  <task-node name="uploadFiles">
-    <task swimlane="author">
-      <controller>
-        <variable name="derivateFilename"/>
-      </controller>
-    </task>
-    <transition to="end" />
-  </task-node>    
-  
-  <task-node name="correctMetadata">
-    <task swimlane="author">
-      <controller>
-        <variable name="metadataFilename"/>
-        <variable name="isMetadataCorrect" />
-      </controller>
-    </task>
-    <transition name="ok" to="uploadFiles" />
-  </task-node>   
--->
   <end-state name="end" />
   
 </process-definition>

@@ -172,7 +172,7 @@ public interface MCRWorkflowEngineManagerInterface {
 	
 	abstract void setWorkflowVariablesFromMetadata(String mcrid, Element metadata);
 	
-	abstract boolean endTask(long processid, String taskName);
+	abstract boolean endTask(long processid, String taskName, String transitionName);
 	
 	
 	/**

@@ -106,7 +106,7 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 			try{
 				wfo.initialize(initiator);
 				wfo.setStringVariableValue("fileCnt", "0");
-				wfo.endTask("initialization", initiator);
+				wfo.endTask("initialization", initiator, null);
 				wfo.signal("go2authorCreated");
 				wfo.signal("go2urnCreated");
 				wfo.signal("go2disshabCreated");				
@@ -502,7 +502,7 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 	}
 	
 	public boolean checkBooleanDecisionNode(long processid, String decisionNode) {
-		if(decisionNode.equals("canDisshabBeSubmitted")){
+		if(decisionNode.equalsIgnoreCase("canDisshabBeSubmitted") || decisionNode.equalsIgnoreCase("canDisshabBeCommitted")){
 			MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(processid);
 			String authorID = wfo.getStringVariableValue("authorID");
 			String reservatedURN = wfo.getStringVariableValue("reservatedURN");

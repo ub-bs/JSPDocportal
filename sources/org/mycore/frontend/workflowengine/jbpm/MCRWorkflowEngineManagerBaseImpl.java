@@ -665,10 +665,10 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	    return derivateData;		
 	}
 	
-	public boolean endTask(long processid, String taskName){
+	public boolean endTask(long processid, String taskName, String transitionName){
 		MCRUser user = MCRUserMgr.instance().getCurrentUser();
 		MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(processid);
-		return wfo.endTask(taskName, user.getID());
+		return wfo.endTask(taskName, user.getID(), transitionName);
 	}
 	
 	public void setDummyPermissions(String objid){

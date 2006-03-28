@@ -16,6 +16,7 @@ import org.jbpm.graph.def.Node;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.def.Transition;
 import org.jbpm.graph.exe.ProcessInstance;
+import org.jbpm.taskmgmt.exe.PooledActor;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRSessionMgr;
@@ -88,7 +89,7 @@ public class MCRJbpmWorkflowObject {
 		lockStringVariable(MCRJbpmWorkflowBase.varINITIATOR);
 	}
 	
-	public boolean endTask(String taskName, String curUserID){
+	public boolean endTask(String taskName, String curUserID, String transitionName){
 		boolean ret = false;
 		logger.debug("try to end task " + taskName);
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
@@ -106,13 +107,21 @@ public class MCRJbpmWorkflowObject {
 			}else{
 				if(taskInstance != null && taskInstance.getName().equalsIgnoreCase(taskName)){
 					Set allowedUsers = new HashSet();
-					Set tmp = taskInstance.getPooledActors();
-					if(tmp != null)
-						allowedUsers.addAll(tmp);
+					Set pooledActors = taskInstance.getPooledActors();
+					if(pooledActors != null){
+						for (Iterator it = pooledActors.iterator(); it
+								.hasNext();) {
+							allowedUsers.add(((PooledActor) it.next()).getActorId());
+						}
+					}
 					if(taskInstance.getActorId() != null)
 						allowedUsers.add(taskInstance.getActorId());
 					if(allowedUsers.contains(curUserID)){
-						taskInstance.end();
+						if(transitionName != null && !transitionName.equals("")){
+							taskInstance.end(transitionName);
+						}else{
+							taskInstance.end();
+						}
 						logger.debug(taskName + " has been ended");	
 						ret = true;
 					}else{
