@@ -61,7 +61,6 @@ import org.mycore.frontend.workflow.MCREditorOutValidator;
 public class MCRCheckMetadataServlet extends MCRServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger LOGGER = Logger.getLogger(MCRCheckMetadataServlet.class);
-	private static String workflowEngineStartURL = MCRConfiguration.instance().getString("MCR.WorkflowEngine.StartURL", "~workflowengine");
 		
     /**
      * This method overrides doGetPost of MCRServlet. <br />
@@ -136,9 +135,9 @@ public class MCRCheckMetadataServlet extends MCRServlet {
         StringBuffer storePath = new StringBuffer(WFI.getWorkflowDirectory(ID.getTypeId()))
 			.append(File.separator).append(ID.getId()).append(".xml");
         try{
-        	storeMetadata(MCRUtils.getByteArray(indoc),job, ID, storePath.toString());
+        	WFI.storeMetadata(MCRUtils.getByteArray(indoc), ID.getId(), storePath.toString());
         	outdoc = prepareMetadata((org.jdom.Document) indoc.clone(), ID, job, lang, step, nextPath, storePath.toString());
-        	storeMetadata(MCRUtils.getByteArray(outdoc),job, ID, storePath.toString());
+        	WFI.storeMetadata(MCRUtils.getByteArray(outdoc), ID.getId(), storePath.toString());
         	WFI.setWorkflowVariablesFromMetadata(mcrid1, indoc.getRootElement().getChild("metadata"));
         	WFI.setMetadataValidFlag(mcrid1, true);
         	request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
@@ -151,38 +150,6 @@ public class MCRCheckMetadataServlet extends MCRServlet {
         //sendMail(ID);
     }
     
-
-    /**
-     * The method stores the data in a working directory dependenced of the
-     * type.
-     * 
-     * @param outxml
-     *            the prepared JDOM object
-     * @param job
-     *            the MCRServletJob
-     * @param ID
-     *            MCRObjectID of the MCRObject/MCRDerivate
-     * @param fullname
-     *            the file name where the JDOM was stored.
-     */
-    public final void storeMetadata(byte[] outxml, MCRServletJob job, MCRObjectID ID, String fullname) throws Exception {
-        if (outxml == null) {
-            return;
-        }
-
-        // Save the prepared MCRObject/MCRDerivate to a file
-        try {
-            FileOutputStream out = new FileOutputStream(fullname);
-            out.write(outxml);
-            out.flush();
-        } catch (IOException ex) {
-            LOGGER.error(ex.getMessage());
-            LOGGER.error("Exception while store to file " + fullname);
-            return;
-        }
-
-        LOGGER.info("Object " + ID.getId() + " stored under " + fullname + ".");
-    }
 
     /**
      * The method read the incoming JDOM tree in a MCRObject and prepare this by
