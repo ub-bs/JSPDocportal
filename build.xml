@@ -2,7 +2,7 @@
 
 <!-- =================================================================== -->
 <!-- MyCoRe sample application build file for use with Apache Ant        -->
-<!-- $Revision: 1.26 $ $Date: 2006-03-26 17:09:31 $                      -->
+<!-- $Revision: 1.27 $ $Date: 2006-03-28 15:41:37 $                      -->
 <!-- =================================================================== -->
 
 <project default="usage" basedir=".">
@@ -152,7 +152,7 @@
 	    <echo>Operating system   : ${os.name} Version ${os.version} on ${os.arch} </echo>
 	    <echo>Java version       : JDK ${ant.java.version} Version ${java.version} from ${java.vendor}</echo>
 	    <echo>Java home          : ${env.JAVA_HOME}</echo>
-	    <echo>Ant build file     : $Revision: 1.26 $ $Date: 2006-03-26 17:09:31 $</echo>
+	    <echo>Ant build file     : $Revision: 1.27 $ $Date: 2006-03-28 15:41:37 $</echo>
 	    <echo>Ant version        : ${ant.version}</echo>
 	    <echo>Ant home           : ${env.ANT_HOME}</echo>
 	    <echo>XML Store type     : ${MCR.XMLStore.Type}</echo>
@@ -1436,6 +1436,18 @@
         <delete file="${commands.file}" />		
 	</target>	
 	
+	<target name="deploy.processdefinition.registeruser">
+        <property name="commands.file" value="${basedir}/commands.txt" />
+        <echo file="${commands.file}" append="false">
+        	deploy jbpm processdefinition from file /workflow/registeruser.par/processdefinition.xml      	
+        </echo>
+        <antcall target="invoke.cli">
+            <param name="cli.directory"
+                value="${docportal.config}" />
+            <param name="cli.command" value="process ${commands.file}" />
+        </antcall>
+        <delete file="${commands.file}" />		
+	</target>		
 </project>
 
 <!-- ======================== End of file ======================== -->
