@@ -1,3 +1,5 @@
+MCR.WorkflowEngine.ManagerImpl.registeruser=org.mycore.frontend.workflowengine.jbpm.registeruser.MCRWorkflowEngineManagerRegisteruser
+
 MCR.BaseDirectory=C:/sample-mcrjsp
 
 MCR.SimpleDateFormat.strictParsing=false
