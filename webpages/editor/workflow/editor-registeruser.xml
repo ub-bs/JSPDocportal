@@ -5,7 +5,7 @@
 
 <editor id="register-user">
 	<!-- target type="debug" / -->
-    <target type="servlet" name="MCRPutUserRegistrationToWorkflow" method="post" format="xml" />
+    <target type="servlet" name="MCRPassToTargetServlet" method="post" format="xml" />
     <components root="register-user" var="/mycoreuser">
         <include uri="webapp:editor/workflow/imports-common.xml" />		
         <headline anchor="CENTER">
@@ -40,7 +40,7 @@
                     </label>
                 </text>
             </cell>
-            <cell row="2" col="2" anchor="WEST" ref="TFzeile64" var="user/@ID" sortnr="1" />
+            <cell row="2" col="2" anchor="WEST" ref="TFzeile64M" var="user/@ID" sortnr="1" />
             <cell row="2" col="3" anchor="EAST" >
                 <helpPopup id="HAccount" width="400px" height="200px">
                     <label xml:lang="de">
@@ -129,7 +129,7 @@
                     </label>
                 </text>
             </cell>
-            <cell row="11" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.firstname" sortnr="6" />
+            <cell row="11" col="2" anchor="WEST" ref="TFzeile64M" var="user/user.contact/contact.firstname" sortnr="6" />
 
             <!-- *** Last name *** -->
             <cell row="12" col="1" anchor="EAST">
@@ -142,7 +142,7 @@
                     </label>
                 </text>
             </cell>
-            <cell row="12" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.lastname" sortnr="7" />
+            <cell row="12" col="2" anchor="WEST" ref="TFzeile64M" var="user/user.contact/contact.lastname" sortnr="7" />
 
             <!-- *** Street *** -->
             <cell row="13" col="1" anchor="EAST">
@@ -207,7 +207,7 @@
                     </label>
                 </text>
             </cell>
-            <cell row="17" col="2" anchor="WEST" ref="TFzeile128" var="user/user.contact/contact.institution" sortnr="12" />
+            <cell row="17" col="2" anchor="WEST" ref="TFzeile128M" var="user/user.contact/contact.institution" sortnr="12" />
 
             <!-- *** Faculty *** -->
             <cell row="18" col="1" anchor="EAST">
@@ -220,7 +220,7 @@
                     </label>
                 </text>
             </cell>
-            <cell row="18" col="2" anchor="WEST" ref="TFzeile128" var="user/user.contact/contact.faculty" sortnr="13" />
+            <cell row="18" col="2" anchor="WEST" ref="TFzeile128M" var="user/user.contact/contact.faculty" sortnr="13" />
 
             <!-- *** Email *** -->
             <cell row="21" col="1" anchor="EAST">
@@ -233,7 +233,7 @@
                     </label>
                 </text>
             </cell>
-            <cell row="21" col="2" anchor="WEST" ref="TFzeile128" var="user/user.contact/contact.email" sortnr="16" />
+            <cell row="21" col="2" anchor="WEST" ref="TFzeile128M" var="user/user.contact/contact.email" sortnr="16" />
 
             <!-- *** Telephone *** -->
             <cell row="22" col="1" anchor="EAST">
@@ -287,30 +287,30 @@
             </cell>
             <cell row="34" col="2" anchor="WEST" var="user/accept">
                 <checkbox value="false" checked="false" class="mandatory" > 
-                    <label xml:lang="de">&#160;&#160;Ich erkenne die Regelungen	von jspdocportal an.</label>
-                    <label xml:lang="en">&#160;&#160;i accept the  jspdocportal licencse rights. </label>
+                    <label xml:lang="de">&#160;&#160;Ich erkenne die Regelungen	von @libri an.</label>
+                    <label xml:lang="en">&#160;&#160;i accept the  @libri licencse rights. </label>
                 </checkbox>
             </cell>
 			<cell row="34" col="3" anchor="EAST">
                 <helpPopup id="HAccountRights" width="400px" height="200px">
                     <label xml:lang="de">
-                        Mit dem Antrag auf Benutzungsberechtigung gestatte ich der Universitätsbibliothek XY	die von mir eingebrachten Dokumente im Internet	zu publizieren, zu vervielfältigen und zu	verbreiten sowie gegebenenfalls eine Konvertierung des Datenformates vorzunehmen. <br />Davon unberührt bleibt das Recht zur	Publikation in anderer körperlicher Form, z.B. 	einem Verlag. Ich versichere, dass ich allein berechtigt bin, über die urheberrechtlichen Nutzungsrechte aller von mir in jspdocportal eingebrachten Dokumente zu verfügen. Gleiches gilt auch für die von mir gelieferten Text und	Bildvorlagen, deren Nutzungsrechte bei mir 	liegen. <br />Ich übernehme für die von mir eingestellten Inhalte die volle Verantwortung	und versichere, dass die von mir verbreiteten	Dokumente wissenschaftlichen Charakter haben, insbesondere keine pornografischen und 	rechtsextremistischen Inhalte aufweisen und das Persönlichkeitsrecht Dritter nicht verletzen. <br />Mir ist bekannt, dass für den Fall einer späteren kommerziellen Verwertung der von mir eingebrachten Inhalte auf eine ggf. vorhandene elektronische Publikation in jspdocportal hinzuweisen	ist. <br /> <b>Ich erkenne die o.g. Regelungen	von jspdocportal an.</b>
+                        Mit dem Antrag auf Benutzungsberechtigung gestatte ich der Universitätsbibliothek Rostock 	die von mir eingebrachten Dokumente im Internet	zu publizieren, zu vervielfältigen und zu	verbreiten sowie gegebenenfalls eine Konvertierung des Datenformates vorzunehmen. <br />Davon unberührt bleibt das Recht zur	Publikation in anderer körperlicher Form, z.B. 	einem Verlag. Ich versichere, dass ich allein berechtigt bin, über die urheberrechtlichen Nutzungsrechte aller von mir in @libri ingebrachten Dokumente zu verfügen. Gleiches gilt auch für die von mir gelieferten Text und	Bildvorlagen, deren Nutzungsrechte bei mir 	liegen. <br />Ich übernehme für die von mir eingestellten Inhalte die volle Verantwortung	und versichere, dass die von mir verbreiteten	Dokumente wissenschaftlichen Charakter haben, insbesondere keine pornografischen und 	rechtsextremistischen Inhalte aufweisen und das Persönlichkeitsrecht Dritter nicht verletzen. <br />Mir ist bekannt, dass für den Fall einer späteren kommerziellen Verwertung der von mir eingebrachten Inhalte auf eine ggf. vorhandene elektronische Publikation in @libri hinzuweisen	ist. <br /> <b>Ich erkenne die o.g. Regelungen	von @libri an.</b>
                     </label>
                     <label xml:lang="en">
-						Mit dem Antrag auf Benutzungsberechtigung gestatte ich der Universitätsbibliothek XY	die von mir eingebrachten Dokumente im Internet	zu publizieren, zu vervielfältigen und zu	verbreiten sowie gegebenenfalls eine Konvertierung des Datenformates vorzunehmen. <br />Davon unberührt bleibt das Recht zur	Publikation in anderer körperlicher Form, z.B. 	einem Verlag. Ich versichere, dass ich allein berechtigt bin, über die urheberrechtlichen Nutzungsrechte aller von mir in jspdocportal eingebrachten Dokumente zu verfügen. Gleiches gilt auch für die von mir gelieferten Text und	Bildvorlagen, deren Nutzungsrechte bei mir 	liegen. <br />Ich übernehme für die von mir eingestellten Inhalte die volle Verantwortung	und versichere, dass die von mir verbreiteten	Dokumente wissenschaftlichen Charakter haben, insbesondere keine pornografischen und 	rechtsextremistischen Inhalte aufweisen und das Persönlichkeitsrecht Dritter nicht verletzen. <br />Mir ist bekannt, dass für den Fall einer späteren kommerziellen Verwertung der von mir eingebrachten Inhalte auf eine ggf. vorhandene elektronische Publikation in jspdocportal hinzuweisen	ist. <br /> <b>Ich erkenne die o.g. Regelungen	von jspdocportal an.</b>
+						Mit dem Antrag auf Benutzungsberechtigung gestatte ich der Universitätsbibliothek Rostock 	die von mir eingebrachten Dokumente im Internet	zu publizieren, zu vervielfältigen und zu	verbreiten sowie gegebenenfalls eine Konvertierung des Datenformates vorzunehmen. <br />Davon unberührt bleibt das Recht zur	Publikation in anderer körperlicher Form, z.B. 	einem Verlag. Ich versichere, dass ich allein berechtigt bin, über die urheberrechtlichen Nutzungsrechte aller von mir in @libri ingebrachten Dokumente zu verfügen. Gleiches gilt auch für die von mir gelieferten Text und	Bildvorlagen, deren Nutzungsrechte bei mir 	liegen. <br />Ich übernehme für die von mir eingestellten Inhalte die volle Verantwortung	und versichere, dass die von mir verbreiteten	Dokumente wissenschaftlichen Charakter haben, insbesondere keine pornografischen und 	rechtsextremistischen Inhalte aufweisen und das Persönlichkeitsrecht Dritter nicht verletzen. <br />Mir ist bekannt, dass für den Fall einer späteren kommerziellen Verwertung der von mir eingebrachten Inhalte auf eine ggf. vorhandene elektronische Publikation in @libri hinzuweisen	ist. <br /> <b>Ich erkenne die o.g. Regelungen	von @libri an.</b>
                     </label>
                 </helpPopup>
             </cell>			
 			
             <!-- *** Buttons *** -->
             <cell row="99"  col="1" ref="VSpace25" anchor="WEST" />
-            <cell row="100" col="1"  anchor="EAST" >
+            <cell row="100" col="1" ref="BCancel"  anchor="WEST" />
+            <cell row="100" col="2"  anchor="EAST" >
 			  <submitButton id="BSubmitRights" width="100px"  jsaction="return checkMyFormUser()" >
 				 <label xml:lang="de">[Speichern]</label>
 				 <label xml:lang="en">[Save]</label>
 			  </submitButton>
 			</cell>
-            <cell row="100" col="2" ref="BCancel"  anchor="WEST" />
             <cell row="101" col="1" ref="VSpace5"  anchor="WEST" />
         </panel>
     </components>
