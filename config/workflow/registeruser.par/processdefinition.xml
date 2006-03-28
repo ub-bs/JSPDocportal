@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns="urn:jbpm.org:jpdl-3.1"  name="registeruser">
+
+  <!-- SWIMLANES (= process roles) -->
+
+  <swimlane name="initiator" />
+  
+  <swimlane name="usereditor">
+	<assignment class="org.mycore.frontend.workflowengine.jbpm.MCRPooledActorAssignmentHandler">
+		<groupName>admingroup</groupName>
+	</assignment>  
+  </swimlane>
+   
+  <start-state name="start">
+     <task name="initialization" swimlane="initiator">
+     </task>     
+     <transition name="go2userCreated" to="userCreated" />  
+  </start-state>
+
+  <task-node name="userCreated">
+     <task name="completeUserAndSendToLibrary" swimlane="initiator" />
+     <transition name="go2canUserSubmitted" to="canUserSubmitted" />
+  </task-node>
+
+  <decision name="canUserSubmitted">
+     <transition name="go2userSubmitted" to="userSubmitted" />
+  </decision>
+  
+  <task-node name="userSubmitted">
+     <event type='node-enter'>
+        <action class="org.mycore.frontend.workflowengine.jbpm.registeruser.MCRUserSubmittedAction">
+           <lockedVariables>initiator,userID </lockedVariables>
+        </action>
+     </event> 
+     <task name="taskCheckCompleteness" swimlane="usereditor">
+     </task> 
+     <transition name="todo next" to="todonext" />
+  </task-node>
+   
+  <state name="todonext">
+    <transition to="end" />
+  </state>
+  
+  <end-state name="end" />
+  
+</process-definition>
