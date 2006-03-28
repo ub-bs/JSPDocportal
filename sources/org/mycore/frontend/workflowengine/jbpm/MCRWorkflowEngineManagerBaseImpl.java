@@ -51,6 +51,7 @@ import org.mycore.datamodel.metadata.MCRObjectService;
 import org.mycore.frontend.cli.MCRDerivateCommands;
 import org.mycore.frontend.cli.MCRObjectCommands;
 import org.mycore.frontend.jsp.format.MCRResultFormatter;
+import org.mycore.frontend.servlets.MCRServletJob;
 import org.mycore.frontend.workflow.MCREditorOutValidator;
 import org.mycore.services.nbn.MCRNBN;
 import org.mycore.user2.MCRUser;
@@ -1047,5 +1048,47 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
         return bSet;
 	
 	}
+	
+	 /**
+     * The method stores the data in a working directory dependenced of the
+     * type.
+     * 
+     * @param outxml
+     *            the prepared JDOM object
+     * @param job
+     *            the MCRServletJob
+     * @param ID
+     *            MCRObjectID of the MCRObject/MCRDerivate
+     * @param fullname
+     *            the file name where the JDOM was stored.
+     */
+    public final void storeMetadata(byte[] outxml, String ID, String fullname) throws Exception {
+        if (outxml == null) {
+            return;
+        }
+        try {
+            FileOutputStream out = new FileOutputStream(fullname);
+            out.write(outxml);
+            out.flush();
+        } catch (IOException ex) {
+        	logger.error(ex.getMessage());
+        	logger.error("Exception while store to file " + fullname);
+            return;
+        }
+        logger.info("Object " + ID + " stored under " + fullname + ".");
+    }
+
+    
+	public String getUserIDFromWorkflow(String initiator) {
+		// TODO Auto-generated method stub
+		logger.warn("getUserIDFromWorkflow: no workflow process is initialized, must be implemented in subclass, if needed");		
+		return null;
+	}
+
+	public void setUserIDValidFlag(String userID, boolean isValid) {
+		// TODO Auto-generated method stub
+		logger.warn("setUserIDValidFlag: no workflow process is initialized, must be implemented in subclass, if needed");		
+	}
+
 	
 }
