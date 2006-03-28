@@ -29,7 +29,13 @@
                 <name>taskName</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
-            </attribute>            
+            </attribute>  
+            <attribute>
+                <description>the workflow transition name </description>
+                <name>transition</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>                       
             <info>A tag, that ends a task and continues the workflow</info>
      </tag>         
 	 <tag>
@@ -214,6 +220,30 @@
             </attribute>
             <info>A Tag, that returns the value of a persistent workflow-engine variable</info>
      </tag>
+     <tag>
+            <name>setWorkflowEngineVariable</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRSetWorkflowEngineVariableTag</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <description>the value of the variable that is set</description>
+                <name>value</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>the workflow-processid as string</description>
+                <name>pid</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>The name of the workflow-variable the value is set for</description>
+                <name>workflowVar</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <info>A Tag, that sets the value of a persistent workflow-engine variable</info>
+     </tag>     
 	 <tag>
             <name>listWorkflowProcess</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRListWorkflowProcessTag</tagclass>

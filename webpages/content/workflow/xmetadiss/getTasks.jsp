@@ -17,12 +17,34 @@
       <b><fmt:message key="WorkflowEngine.initiator.statusMessage.${requestScope.task.workflowStatus}.xmetadiss" /></b>
    </c:when>
    <c:when test="${fn:toLowerCase(requestScope.task.taskName) eq 'completedisshabandsendtolibrary'}">
+      <p>
+         <fmt:message key="WorkflowEngine.description.completedisshabandsendtolibrary.xmetadiss" />
+      </p>
       <c:import url="/content/workflow/editorButtons.jsp" />
       <mcr:checkBooleanDecisionNode var="canBeSent" processID="${requestScope.task.processID}" workflowType="xmetadiss" decision="canDisshabBeSubmitted" />
       <c:if test="${canBeSent}">
-         <a href="${baseURL}nav?path=~workflow-disshab&endTask=completedisshabandsendtolibrary&processID=${requestScope.task.processID}"><fmt:message key="Nav.Application.dissertation.end" /></a>
+         <a href="${baseURL}nav?path=~workflow-disshab&transition=&endTask=completedisshabandsendtolibrary&processID=${requestScope.task.processID}"><fmt:message key="Nav.Application.dissertation.submit" /></a>
       </c:if>
    </c:when>
+   <c:when test="${fn:toLowerCase(requestScope.task.taskName) eq 'taskcheckcompleteness'}">
+      <c:import url="/content/workflow/editorButtons.jsp" />
+      <mcr:checkBooleanDecisionNode var="canBeCommitted" processID="${requestScope.task.processID}" workflowType="xmetadiss" decision="canDisshabBeCommitted" />
+      <c:if test="${canBeCommitted}">
+         <a href="${baseURL}nav?path=~workflow-disshab&transition=go2canDisshabBeCommitted&endTask=taskCheckCompleteness&processID=${requestScope.task.processID}"><fmt:message key="Nav.Application.dissertation.commit" /></a><br>
+      </c:if>
+      <a href="${baseURL}nav?path=~workflow-disshab&transition=go2sendBackToDisshabCreated&endTask=taskCheckCompleteness&processID=${requestScope.task.processID}"><fmt:message key="Nav.Application.dissertation.sendBackToInitiator" /></a><br>
+   </c:when>   
+   <c:when test="${fn:toLowerCase(requestScope.task.taskName) eq 'taskentermessagedata'}">
+      <form action="${baseURL}nav">
+         <input name="path" value="~workflow-disshab" type="hidden" />
+         <input name="transition" value="" type="hidden" />
+         <input name="endTask" value="taskentermessagedata" type="hidden" />
+         <input name="processID" value="${requestScope.task.processID}" type="hidden" />
+         <input name="setWorkflowVariableName" value="tmpTaskMessage" type="hidden" /> 
+         <textarea name="setWorkflowVariableValue" cols="50" rows="4">Sie müssen noch...</textarea>  
+         <input name=submit" type="submit" value="<fmt:message key="WorkflowEngine.Form.SendTask" />"/>      
+      </form>
+   </c:when>   
    <c:otherwise>
     <h1>what else? TODO</h1>
    </c:otherwise>

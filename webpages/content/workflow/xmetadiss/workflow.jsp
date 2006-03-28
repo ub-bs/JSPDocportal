@@ -21,6 +21,10 @@
 <c:if test="${!empty(param.endTask)}">
     <c:set var="endTask" scope="request" value="${param.endTask}" />
     <c:set var="processID" scope="request" value="${param.processID}" />
+    <c:set var="transition" scope="request" value="${param.transition}" />
+    <c:if test="${!empty(param.setWorkflowVariableName)}">
+       <mcr:setWorkflowEngineVariable workflowVar="${param.setWorkflowVariableName}" value="${param.setWorkflowVariableValue}" pid="${param.processID}" />
+    </c:if>
     <c:import url="/content/workflow/xmetadiss/endTasks.jsp" />
 </c:if>
 
@@ -39,6 +43,9 @@
    <c:set var="task" scope="request" value="${task}" />
    <c:import url="/content/workflow/${task.workflowProcessType}/getTasks.jsp" />
 </c:forEach>
+<c:if test="${empty(myTaskList)}">
+   <font color="#00ff00"><fmt:message key="WorkflowEngine.NoTasks" /></font>
+</c:if>
 </table>
 
 <br>&nbsp;<br>
@@ -52,4 +59,7 @@
    <c:set var="task" scope="request" value="${task}" />
    <c:import url="/content/workflow/${task.workflowProcessType}/getTasks.jsp" />
 </c:forEach>
+<c:if test="${empty(myProcessList)}">
+   <font color="#00ff00"><fmt:message key="WorkflowEngine.NoTasks" /></font>
+</c:if>
 </table>

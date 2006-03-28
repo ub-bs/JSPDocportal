@@ -35,7 +35,7 @@
 	  </td>
    </tr>  
    <tr valign="top" >
-      <td class="metaname"><fmt:message key="SWF.Dissertation.Author.ID" /> </td>
+      <td class="metaname"><fmt:message key="SWF.Dissertation.Author.ID" /> TODO LINK AUF WORKFLOW DER AUTOREN ÄNDERT</td>
       <td class="metavalue">  
          <x:out select="./@ID" />
 	  </td>
@@ -52,15 +52,11 @@
    </tr>     
  </x:forEach>
 </c:if>
- 
-   <tr>   
-      <td class="metaname" >Ergebnis:</td>
-      <td class="metavalue"><fmt:message key="SWF.Dissertation.${status}" /> </td>       
-   </tr>    
    <tr>
-      <td class="metaname" >Nächste Aktionen:</td>
-      <td class="metavalue"><fmt:message key="SWF.Dissertation.next.${status}" /> </td>       
-   </tr>    
+      <td colspan="2">
+         <a href="${WebApplicationBaseURL}nav?path=~workflow-disshab"><fmt:message key="WorkflowEngine.forwardToWorkflow" /></a>
+      </td>
+   </tr> 
    <tr><td colspan="2">
  	 <hr/>
 	 <p><fmt:message key="Dissertation.Service.Hinweis1" /></p>
