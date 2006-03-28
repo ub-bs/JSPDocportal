@@ -69,13 +69,17 @@
             </navitem>
             <navitem name="publish" label="Nav.DocumentManagement" href="content/documentmanagement.jsp">
                <refitem name="~documentmanagement" label="" />
-               <navitem name="register" label="Nav.RegisterAsAuthor" href="content/registerUser.jsp">
-                  <refitem name="~register" label="" />
-                  <navitem name="register" label="Nav.RegisteredAsAuthor" href="content/registerUserOK.jsp" hidden="true" >
+                 <navitem name="registeruser" label="Nav.Account" href="content/workflow/registeruser/beginUser.jsp">
+                    <refitem name="~registeruser" label="" />
+                    <navitem name="registered" label="Nav.AccountRegister" href="content/workflow/registeruser/endUser.jsp" hidden="true">
                       <refitem name="~registered" label="" />
-                  </navitem>				   
-               </navitem>
-			   <navitem name="mydiss" label="Nav.Application.dissertation" href="content/dissertation.jsp" >
+                    </navitem>
+                    <navitem name="chooseIDwhenDuplicate" label="Nav.AccountChangeID" href="content/workflow/registeruser/chooseIDwhenDuplicate.jsp"
+                      hidden="true">
+                      <refitem name="~chooseIDwhenDuplicate" label="" />
+                    </navitem>
+                  </navitem>			   
+                 <navitem name="mydiss" label="Nav.Application.dissertation" href="content/dissertation.jsp" >
 				  <refitem name="~mydiss" label="" />
 				  <navitem name="begin" label="Nav.Application.dissertation.begin" href="content/workflow/xmetadiss/registerAuthor.jsp" >
 					 <refitem name="~dissertationbegin" label="" />
