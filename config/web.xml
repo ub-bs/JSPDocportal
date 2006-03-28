@@ -16,6 +16,11 @@
     
     <!-- servlets -->    
     <servlet>
+        <servlet-name>MCRCheckUserRegistrationServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.workflowengine.jbpm.MCRCheckUserRegistrationServlet</servlet-class>
+    </servlet>     
+    
+    <servlet>
         <servlet-name>MCRCheckDerivateServlet</servlet-name>
         <servlet-class>org.mycore.frontend.workflowengine.jbpm.MCRCheckDerivateServlet</servlet-class>
     </servlet>    
@@ -184,6 +189,11 @@
     </servlet>    
 
     <!-- servlet mappings -->
+
+    <servlet-mapping>
+        <servlet-name>MCRCheckUserRegistrationServlet</servlet-name>
+        <url-pattern>/servlets/MCRCheckUserRegistrationServlet/*</url-pattern>
+    </servlet-mapping>    
 
     <servlet-mapping>
         <servlet-name>MCRCheckDerivateServlet</servlet-name>
