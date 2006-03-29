@@ -2,7 +2,7 @@
 
 <!-- =================================================================== -->
 <!-- MyCoRe sample application build file for use with Apache Ant        -->
-<!-- $Revision: 1.27 $ $Date: 2006-03-28 15:41:37 $                      -->
+<!-- $Revision: 1.28 $ $Date: 2006-03-29 22:11:21 $                      -->
 <!-- =================================================================== -->
 
 <project default="usage" basedir=".">
@@ -152,7 +152,7 @@
 	    <echo>Operating system   : ${os.name} Version ${os.version} on ${os.arch} </echo>
 	    <echo>Java version       : JDK ${ant.java.version} Version ${java.version} from ${java.vendor}</echo>
 	    <echo>Java home          : ${env.JAVA_HOME}</echo>
-	    <echo>Ant build file     : $Revision: 1.27 $ $Date: 2006-03-28 15:41:37 $</echo>
+	    <echo>Ant build file     : $Revision: 1.28 $ $Date: 2006-03-29 22:11:21 $</echo>
 	    <echo>Ant version        : ${ant.version}</echo>
 	    <echo>Ant home           : ${env.ANT_HOME}</echo>
 	    <echo>XML Store type     : ${MCR.XMLStore.Type}</echo>
@@ -474,12 +474,19 @@
     </target>
 
     <target name="compile"
-        depends="compile_base,compile_common, compile_frontend_jsp_format, compile_frontend_jsp, compile_frontend_jsp_nav, compile_frontend_jsp_query, compile_servlets, compile_workflow, compile_backend_query, compile_backend_hibernate, compile_services_oai, compile_demo, compile_workflowengine, compile_frontend_editor_helper" />
+        depends="compile_base,compile_common, compile_filters, compile_frontend_jsp_format, compile_frontend_jsp, compile_frontend_jsp_nav, compile_frontend_jsp_query, compile_servlets, compile_workflow, compile_backend_query, compile_backend_hibernate, compile_services_oai, compile_demo, compile_workflowengine, compile_frontend_editor_helper" />
 
     <target name="compile_base">
         <mkdir dir="${docportal.classes}" />
     </target>
 
+    <target name="compile_filters">
+        <echo>Compiling the filters package</echo>
+        <antcall target="javac">
+            <param name="packages" value="org/mycore/filters/*" />
+        </antcall>
+    </target>	
+	
     <target name="compile_services_oai">
         <echo>Compiling the services oai package</echo>
         <antcall target="javac">
