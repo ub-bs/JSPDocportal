@@ -74,7 +74,17 @@
   
   <task-node name="sendBackToDisshabCreated">
      <task name="taskEnterMessageData" swimlane="disseditor" />
-     <transition name="go2disshabCreated2" to="disshabCreated" />
+     <transition name="go2disshabCreated2" to="disshabCreated">
+		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+		   <from>helmbrecht@ub.tum.de</from>
+		   <to>heikohelm@gmx.de;heiko.helmbrecht@web.de</to>
+		   <replyTo>heikohelm@yahoo.de</replyTo>
+		   <bcc>heiko@hochofen.de</bcc>
+		   <subject>Sie müssen bei Ihrer Dissertation Daten ergänzen</subject>
+		   <!-- <body>Mustertext</body> -->
+		   <mode>taskMessage</mode>
+		</action>     
+     </transition>
   </task-node>
   
   <decision name="canDisshabBeCommitted">

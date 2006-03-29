@@ -6,6 +6,7 @@ import javax.servlet.jsp.tagext.*;
 import javax.servlet.jsp.*;
 
 import org.apache.log4j.Logger;
+import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase;
 import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowObject;
 
 public class MCRSetWorkflowEngineVariableTag extends SimpleTagSupport
@@ -13,6 +14,7 @@ public class MCRSetWorkflowEngineVariableTag extends SimpleTagSupport
 	private String value;	
 	private long pid;	
 	private String workflowVar;
+	private String mode;
 	
 	private static Logger logger = Logger.getLogger(MCRSetWorkflowEngineVariableTag.class); 
 
@@ -26,10 +28,19 @@ public class MCRSetWorkflowEngineVariableTag extends SimpleTagSupport
 
 	public void setWorkflowVar(String workflowVar) {
 		this.workflowVar = workflowVar;
-	}	  
+	}
+	
+	public void setMode(String mode){
+		this.mode = mode;
+	}
 	
 	public void doTag() throws JspException, IOException {
-		try {		
+		try {	
+			if(mode != null){
+				if(mode.equals("taskMessage")){
+					workflowVar = MCRJbpmWorkflowBase.varTASKMESSAGE; 
+				}
+			}
 	    	MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(pid);
 	    	wfo.setStringVariableValue(workflowVar, value);
 		}catch (Exception e) {

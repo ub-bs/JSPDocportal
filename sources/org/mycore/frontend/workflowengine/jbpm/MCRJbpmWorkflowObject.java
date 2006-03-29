@@ -1,10 +1,10 @@
 package org.mycore.frontend.workflowengine.jbpm;
 
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -16,6 +16,7 @@ import org.jbpm.graph.def.Node;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.def.Transition;
 import org.jbpm.graph.exe.ProcessInstance;
+import org.jbpm.graph.exe.Token;
 import org.jbpm.taskmgmt.exe.PooledActor;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 import org.mycore.common.MCRException;
@@ -132,7 +133,6 @@ public class MCRJbpmWorkflowObject {
 					throw new MCRException(err);
 				}
 			}
-			//jbpmContext.save(taskInstance);
 		}catch(MCRException e){
 			logger.error("could not create new processIinstance '", e);
 		}finally {
@@ -331,9 +331,17 @@ public class MCRJbpmWorkflowObject {
 	
 	public void testFunction() {
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+		jbpmContext.close();
+		jbpmContext = jbpmConfiguration.createJbpmContext();
 		try {
-			ProcessInstance processInstance = jbpmContext.getGraphSession().loadProcessInstance(processInstanceID);
-			
+			ProcessInstance processInstance = jbpmContext.loadProcessInstance(processInstanceID);
+			System.out.println(processInstance.getRootToken().getName());
+			System.out.println(processInstance.getRootToken().getFullName());
+			//System.out.println(processInstance.getRootToken().getNode().getName());
+			//processInstance.getRootToken().setNode(new Node("disshabCreated"));
+			jbpmContext.save(processInstance);
+			processInstance.end();
+			//System.out.println(processInstance.getRootToken().getNode().getName());
 //		   TaskInstance taskInstance = null;
 //		    
 //		    jbpmContext.setActorId("heiko");
