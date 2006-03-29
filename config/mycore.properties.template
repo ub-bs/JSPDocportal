@@ -510,3 +510,8 @@ MCR.oai.setscheme.classids.MCROAIProvider=DocPortal_class_00000006,DocPortal_cla
 MCR.oai.dini-mapping.doc-type.text=FORMAT0001
 MCR.oai.dini-mapping.doc-type.image=FORMAT0002
 MCR.oai.dini-mapping.doc-type.data=FORMAT0000
+
+# Generic mail configuration for MCRMailer
+MCR.mail.server=your.mailserver.com
+MCR.mail.protocol=smtp
+MCR.mail.debug=false

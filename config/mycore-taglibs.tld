@@ -239,9 +239,15 @@
             <attribute>
                 <description>The name of the workflow-variable the value is set for</description>
                 <name>workflowVar</name>
-                <required>true</required>
+                <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
+            <attribute>
+                <description>The name of mode, if a mode given, the workflowVar is taken from MCRJbpmWorkflowBase (only taskMessage ist allowed)</description>
+                <name>mode</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
             <info>A Tag, that sets the value of a persistent workflow-engine variable</info>
      </tag>     
 	 <tag>
