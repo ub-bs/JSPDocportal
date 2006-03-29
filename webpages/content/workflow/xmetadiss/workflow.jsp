@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/xml" prefix="x"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
+<%@ page pageEncoding="UTF-8" %>
 
 <c:set  var="baseURL" value="${applicationScope.WebApplicationBaseURL}"/>
 
@@ -22,8 +23,8 @@
     <c:set var="endTask" scope="request" value="${param.endTask}" />
     <c:set var="processID" scope="request" value="${param.processID}" />
     <c:set var="transition" scope="request" value="${param.transition}" />
-    <c:if test="${!empty(param.setWorkflowVariableName)}">
-       <mcr:setWorkflowEngineVariable workflowVar="${param.setWorkflowVariableName}" value="${param.setWorkflowVariableValue}" pid="${param.processID}" />
+    <c:if test="${!empty(param.message) && !empty(param.mode)}">
+       <mcr:setWorkflowEngineVariable mode="${param.mode}" value="${param.message}" pid="${param.processID}" />
     </c:if>
     <c:import url="/content/workflow/xmetadiss/endTasks.jsp" />
 </c:if>

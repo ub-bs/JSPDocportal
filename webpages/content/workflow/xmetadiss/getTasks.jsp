@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/xml" prefix="x"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
+<%@ page pageEncoding="UTF-8" %>
 
 <mcr:session method="get" var="username" type="userID" />
 <c:set  var="baseURL" value="${applicationScope.WebApplicationBaseURL}"/>
@@ -35,13 +36,13 @@
       <a href="${baseURL}nav?path=~workflow-disshab&transition=go2sendBackToDisshabCreated&endTask=taskCheckCompleteness&processID=${requestScope.task.processID}"><fmt:message key="Nav.Application.dissertation.sendBackToInitiator" /></a><br>
    </c:when>   
    <c:when test="${fn:toLowerCase(requestScope.task.taskName) eq 'taskentermessagedata'}">
-      <form action="${baseURL}nav">
+      <form action="${baseURL}nav" accept-charset="utf-8">
          <input name="path" value="~workflow-disshab" type="hidden" />
          <input name="transition" value="" type="hidden" />
          <input name="endTask" value="taskentermessagedata" type="hidden" />
          <input name="processID" value="${requestScope.task.processID}" type="hidden" />
-         <input name="setWorkflowVariableName" value="tmpTaskMessage" type="hidden" /> 
-         <textarea name="setWorkflowVariableValue" cols="50" rows="4">Sie müssen noch...</textarea>  
+         <input name="mode" value="taskMessage" type="hidden" /> 
+         <textarea name="message" cols="50" rows="4">Sie mÃ¼ssen noch...</textarea>  
          <input name=submit" type="submit" value="<fmt:message key="WorkflowEngine.Form.SendTask" />"/>      
       </form>
    </c:when>   
