@@ -30,6 +30,12 @@
     <xsl:copy-of select="$wia/listener" />
     <xsl:copy-of select="$wib/listener" />
 
+    <xsl:copy-of select="$wia/filter" />
+    <xsl:copy-of select="$wib/filter" />
+
+    <xsl:copy-of select="$wia/filter-mapping" />
+    <xsl:copy-of select="$wib/filter-mapping" />
+
     <xsl:copy-of select="$wia/servlet" />
     <xsl:copy-of select="$wib/servlet" />
 
