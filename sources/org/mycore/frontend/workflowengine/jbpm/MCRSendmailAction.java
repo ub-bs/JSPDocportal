@@ -1,10 +1,14 @@
 package org.mycore.frontend.workflowengine.jbpm;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
+import java.util.TimeZone;
 
 import org.apache.log4j.Logger;
 import org.jbpm.graph.def.ActionHandler;
@@ -19,6 +23,7 @@ public class MCRSendmailAction implements ActionHandler{
 	
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = Logger.getLogger(MCRSendmailAction.class);
+	private static Calendar cal = new GregorianCalendar( TimeZone.getTimeZone("ECT"));
 	
 	private String from;
 	private String to;
@@ -27,6 +32,8 @@ public class MCRSendmailAction implements ActionHandler{
 	private String subject;
 	private String body;
 	private String mode;
+	
+	private String dateOfSubmissionVariable;
 	
 	
 	public void execute(ExecutionContext executionContext) throws MCRException {
@@ -59,6 +66,10 @@ public class MCRSendmailAction implements ActionHandler{
 			List listBcc = getEmailAddressesFromStringList(bcc, executionContext);
 			String fromAddress = (String)getEmailAddressesFromStringList(from, executionContext).iterator().next();
 			MCRMailer.send(fromAddress, listReplyTo, listTo, listBcc, subject, body, null);
+			if(dateOfSubmissionVariable != null && !dateOfSubmissionVariable.equals("")) {
+				SimpleDateFormat formater = new SimpleDateFormat();
+			    executionContext.setVariable(dateOfSubmissionVariable, formater.format( cal.getTime() ) );	
+			}
 		}catch(Exception e){
 			String errMsg = "could not send email";
 			logger.error(errMsg, e);

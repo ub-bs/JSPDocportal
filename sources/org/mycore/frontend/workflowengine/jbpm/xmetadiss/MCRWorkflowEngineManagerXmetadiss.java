@@ -79,8 +79,6 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 	private static String processType = "xmetadiss" ;
 	private static MCRWorkflowEngineManagerInterface singleton;
 	
-	private static final String varSIGNED_AFFIRMATION_AVAILABLE = "signedAffirmationAvailable";
-	
 	protected MCRWorkflowEngineManagerXmetadiss() throws Exception {
 	}
 
@@ -504,23 +502,23 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 	}
 	
 	public String checkDecisionNode(long processid, String decisionNode) {
-		if(decisionNode.equalsIgnoreCase("canDisshabBeSubmitted") || decisionNode.equalsIgnoreCase("canDisshabBeCommitted")){
+		if(decisionNode.equals("canDisshabBeSubmitted")){
 			if(checkSubmitVariables(processid)){
 				return "disshabCanBeSubmitted";
 			}else{
 				return "disshabCantBeSubmitted";
 			}
-		}else if(decisionNode.equalsIgnoreCase("canDisshabBeCommitted")){
+		}else if(decisionNode.equals("canDisshabBeCommitted")){
 			if(checkSubmitVariables(processid)){
 				MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(processid);
-				String signedAffirmationAvailable = wfo.getStringVariableValue(varSIGNED_AFFIRMATION_AVAILABLE);
-				if(signedAffirmationAvailable.equals("true")){
+				String signedAffirmationAvailable = wfo.getStringVariableValue(MCRJbpmWorkflowBase.varSIGNED_AFFIRMATION_AVAILABLE);
+				if(signedAffirmationAvailable != null && signedAffirmationAvailable.equals("true")){
 					return "go2disshabCommitted";
 				}else{
 					return "go2checkNonDigitalRequirements";
 				}
 			}else{
-				return "sendBackToDisshabCreated";
+				return "go2sendBackToDisshabCreated";
 			}
 		}
 		return null;

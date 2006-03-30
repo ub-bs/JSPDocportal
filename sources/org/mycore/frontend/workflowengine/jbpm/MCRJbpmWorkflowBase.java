@@ -29,6 +29,7 @@ public class MCRJbpmWorkflowBase {
 	// A VARIABLE USED IN ALL WORKFLOW PROCESSES
 	public final static String varINITIATOR = "initiator";
 	public final static String varTASKMESSAGE = "tmpTaskMessage";
+	public final static String varSIGNED_AFFIRMATION_AVAILABLE = "signedAffirmationAvailable";
 	public static final String lockedVariablesIdentifier = "MCRJBPMLOCKEDVARIABLES";
 	private static Logger logger = Logger.getLogger(MCRJbpmWorkflowBase.class);
 	private static JbpmConfiguration jbpmConfiguration = 

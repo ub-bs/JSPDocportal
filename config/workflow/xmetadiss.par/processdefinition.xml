@@ -45,12 +45,12 @@
   </state>
   
   <task-node name="disshabCreated">
-     <task name="completeDisshabAndSendToLibrary" swimlane="initiator" />
+     <task name="taskCompleteDisshabAndSendToLibrary" swimlane="initiator" />
      <transition name="go2canDisshabBeSubmitted" to="canDisshabBeSubmitted" />
   </task-node>
 
   <decision name="canDisshabBeSubmitted">
-     <handler class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRCanDisshabBeSubmittedDecisionHandler" />
+     <handler class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRDecisionHandlerXmetadiss" />
      <transition name="disshabCantBeSubmitted" to="disshabCreated" />
      <transition name="disshabCanBeSubmitted" to="disshabSubmitted" />
   </decision>
@@ -87,10 +87,39 @@
      </transition>
   </task-node>
   
+  <task-node name="checkNonDigitalRequirements">
+     <task name="taskCheckIfSignedAffirmationYetAvailable" swimlane="disseditor" />
+     <transition name="go2canDisshabBeCommitted" to="canDisshabBeCommitted">
+        <action class="org.mycore.frontend.workflowengine.jbpm.MCRSetWorkflowVariableAction">
+           <varname>varSIGNED_AFFIRMATION_AVAILABLE@org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase</varname>
+           <value>true</value>
+        </action>
+     </transition>
+     <transition name="go2requireAffirmation" to="requireAffirmation" />
+  </task-node>
+  
+  <task-node name="requireAffirmation">
+     <task name="taskRequireSignedAffirmation" swimlane="disseditor" />
+     <transition name="go2checkNonDigitalRequirements" to="checkNonDigitalRequirements">
+		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+		   <from>helmbrecht@ub.tum.de</from>
+		   <to>heikohelm@gmx.de;heiko.helmbrecht@web.de</to>
+		   <replyTo>heikohelm@yahoo.de</replyTo>
+		   <bcc>heiko@hochofen.de</bcc>
+		   <subject>Sie müssen noch das Formblatt zur Abgabe elektronischer Dissertationen abgeben</subject>
+		   <!-- <body>Mustertext</body> -->
+		   <mode>taskMessage</mode>
+   		   <dateOfSubmissionVariable>lastRequiredAffirmation</dateOfSubmissionVariable>
+		</action>     
+     </transition>
+     <transition name="go2checkNonDigitalRequirementsWithoutMail" to="checkNonDigitalRequirements" />
+  </task-node>
+  
   <decision name="canDisshabBeCommitted">
-     <handler class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRCanDisshabBeCommittedDecisionHandler" />
-     <transition name="disshabCantBeCommitted" to="disshabSubmitted" />
-     <transition name="disshabCanBeCommitted" to="disshabCommitted" />
+     <handler class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRDecisionHandlerXmetadiss" />
+     <transition name="go2sendBackToDisshabCreated" to="sendBackToDisshabCreated" />
+     <transition name="go2checkNonDigitalRequirements" to="checkNonDigitalRequirements" />
+     <transition name="go2disshabCommitted" to="disshabCommitted" />
   </decision>  
   
   <state name="disshabCommitted">

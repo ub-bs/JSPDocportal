@@ -10,9 +10,9 @@ import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerFactory;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
 
-public class MCRCanDisshabBeCommittedDecisionHandler implements DecisionHandler {
+public class MCRDecisionHandlerXmetadiss implements DecisionHandler {
 	private static final long serialVersionUID = 1L;
-	private static Logger logger = Logger.getLogger(MCRCanDisshabBeCommittedDecisionHandler.class);
+	private static Logger logger = Logger.getLogger(MCRDecisionHandlerXmetadiss.class);
 	private static MCRWorkflowEngineManagerInterface WFI = MCRWorkflowEngineManagerFactory.getImpl("xmetadiss");
 	
 	/**
@@ -23,10 +23,6 @@ public class MCRCanDisshabBeCommittedDecisionHandler implements DecisionHandler 
 		long pid = executionContext.getContextInstance().getProcessInstance().getId();
 		String decisionNode = executionContext.getNode().getName();
 		logger.debug("checking boolean decision node [" + decisionNode + "] for pid [" + pid + "]");
-		if(WFI.checkBooleanDecisionNode(pid, decisionNode)) {
-			return "disshabCanBeCommitted";
-		}else{
-			return "disshabCantBeCommitted";
-		}
+		return WFI.checkDecisionNode(pid, decisionNode);
 	}
 }

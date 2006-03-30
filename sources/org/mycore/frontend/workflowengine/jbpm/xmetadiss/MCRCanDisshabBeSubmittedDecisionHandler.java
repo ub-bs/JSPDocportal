@@ -23,10 +23,6 @@ public class MCRCanDisshabBeSubmittedDecisionHandler implements DecisionHandler 
 		long pid = executionContext.getContextInstance().getProcessInstance().getId();
 		String decisionNode = executionContext.getNode().getName();
 		logger.debug("checking boolean decision node [" + decisionNode + "] for pid [" + pid + "]");
-		if(WFI.checkBooleanDecisionNode(pid, decisionNode)) {
-			return "disshabCanBeSubmitted";
-		}else{
-			return "disshabCantBeSubmitted";
-		}
+		return WFI.checkDecisionNode(pid, decisionNode);
 	}
 }

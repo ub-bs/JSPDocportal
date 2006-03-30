@@ -5,8 +5,23 @@
     <description></description>
 
     <listener>
-    <listener-class>org.mycore.frontend.jsp.ContextListener</listener-class>
+       <listener-class>org.mycore.frontend.jsp.ContextListener</listener-class>
     </listener>
+    <!-- 
+    <filter>
+       <filter-name>SetCharacterEncoding</filter-name>
+       <filter-class>org.mycore.filters.SetCharacterEncodingFilter</filter-class>
+       <init-param>
+          <param-name>encoding</param-name>
+          <param-value>UTF-8</param-value>
+       </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>SetCharacterEncoding</filter-name>
+        <url-pattern>*.jsp</url-pattern>
+    </filter-mapping>
+    -->
     
     <!--  deprecated -->
     <servlet>
