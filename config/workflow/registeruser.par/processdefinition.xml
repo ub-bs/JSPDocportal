@@ -19,14 +19,11 @@
   </start-state>
 
   <task-node name="userCreated">
-     <task name="completeUserAndSendToLibrary" swimlane="initiator" />
-     <transition name="go2canUserSubmitted" to="canUserSubmitted" />
-  </task-node>
-
-  <decision name="canUserSubmitted">
+     <task name="completeUserAndSendToLibrary" swimlane="usereditor" >
+     </task>
      <transition name="go2userSubmitted" to="userSubmitted" />
-  </decision>
-  
+  </task-node>
+ 
   <task-node name="userSubmitted">
      <event type='node-enter'>
         <action class="org.mycore.frontend.workflowengine.jbpm.registeruser.MCRUserSubmittedAction">
