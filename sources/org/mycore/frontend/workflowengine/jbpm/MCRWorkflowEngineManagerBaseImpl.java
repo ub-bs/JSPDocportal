@@ -1017,8 +1017,8 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		}
 	}
 
-	public boolean checkBooleanDecisionNode(long processid, String decisionNode) {
-		return true;
+	public String checkDecisionNode(long processid, String decisionNode) {
+		return "";
 	}
 
 	

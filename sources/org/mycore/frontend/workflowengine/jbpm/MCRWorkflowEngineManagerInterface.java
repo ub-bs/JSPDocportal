@@ -150,7 +150,7 @@ public interface MCRWorkflowEngineManagerInterface {
 	
 	abstract void saveFiles(List files, String dirname, long pid) throws MCRException;
 	
-	abstract boolean checkBooleanDecisionNode(long processid, String decision);
+	abstract String checkDecisionNode(long processid, String decision);
 	
 	abstract List getTasks(String userid, String mode, List workflowProcessTypes);
 	

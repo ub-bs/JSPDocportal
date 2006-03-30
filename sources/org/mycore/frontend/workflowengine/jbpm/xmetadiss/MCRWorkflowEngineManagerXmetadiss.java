@@ -79,6 +79,8 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 	private static String processType = "xmetadiss" ;
 	private static MCRWorkflowEngineManagerInterface singleton;
 	
+	private static final String varSIGNED_AFFIRMATION_AVAILABLE = "signedAffirmationAvailable";
+	
 	protected MCRWorkflowEngineManagerXmetadiss() throws Exception {
 	}
 
@@ -501,25 +503,45 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 		return bSuccess;
 	}
 	
-	public boolean checkBooleanDecisionNode(long processid, String decisionNode) {
+	public String checkDecisionNode(long processid, String decisionNode) {
 		if(decisionNode.equalsIgnoreCase("canDisshabBeSubmitted") || decisionNode.equalsIgnoreCase("canDisshabBeCommitted")){
-			MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(processid);
-			String authorID = wfo.getStringVariableValue("authorID");
-			String reservatedURN = wfo.getStringVariableValue("reservatedURN");
-			String createdDocID = wfo.getStringVariableValue("createdDocID");
-			String attachedDerivates = wfo.getStringVariableValue("attachedDerivates");
-			if(!isEmpty(authorID) && !isEmpty(reservatedURN) && !isEmpty(createdDocID) && !isEmpty(attachedDerivates)){
-				String strDocValid = wfo.getStringVariableValue(VALIDPREFIX + createdDocID );
-				String containsPDF = wfo.getStringVariableValue("containsPDF");
-				if(strDocValid != null && containsPDF != null){
-					if(strDocValid.equals("true") && !containsPDF.equals("")){
-						return true;
-					}
+			if(checkSubmitVariables(processid)){
+				return "disshabCanBeSubmitted";
+			}else{
+				return "disshabCantBeSubmitted";
+			}
+		}else if(decisionNode.equalsIgnoreCase("canDisshabBeCommitted")){
+			if(checkSubmitVariables(processid)){
+				MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(processid);
+				String signedAffirmationAvailable = wfo.getStringVariableValue(varSIGNED_AFFIRMATION_AVAILABLE);
+				if(signedAffirmationAvailable.equals("true")){
+					return "go2disshabCommitted";
+				}else{
+					return "go2checkNonDigitalRequirements";
+				}
+			}else{
+				return "sendBackToDisshabCreated";
+			}
+		}
+		return null;
+	}
+	
+	private boolean checkSubmitVariables(long processid){
+		MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(processid);
+		String authorID = wfo.getStringVariableValue("authorID");
+		String reservatedURN = wfo.getStringVariableValue("reservatedURN");
+		String createdDocID = wfo.getStringVariableValue("createdDocID");
+		String attachedDerivates = wfo.getStringVariableValue("attachedDerivates");
+		if(!isEmpty(authorID) && !isEmpty(reservatedURN) && !isEmpty(createdDocID) && !isEmpty(attachedDerivates)){
+			String strDocValid = wfo.getStringVariableValue(VALIDPREFIX + createdDocID );
+			String containsPDF = wfo.getStringVariableValue("containsPDF");
+			if(strDocValid != null && containsPDF != null){
+				if(strDocValid.equals("true") && !containsPDF.equals("")){
+					return true;
 				}
 			}
-			return false;
 		}
-		return false;
+		return false;		
 	}
 	
 	public void setWorkflowVariablesFromMetadata(String mcrid, Element metadata){
