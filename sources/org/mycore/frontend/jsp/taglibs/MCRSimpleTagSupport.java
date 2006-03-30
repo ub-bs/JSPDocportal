@@ -3,9 +3,13 @@ package org.mycore.frontend.jsp.taglibs;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.*;
 
+import org.apache.log4j.Logger;
+
 
 public class MCRSimpleTagSupport extends SimpleTagSupport
 {
+	protected static Logger logger = Logger.getLogger(MCRSimpleTagSupport.class);
+
 	protected int getScope(String scope){
 		int ret = PageContext.PAGE_SCOPE;
 		if(scope != null){
