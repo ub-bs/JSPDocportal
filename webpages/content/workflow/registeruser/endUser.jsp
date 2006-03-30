@@ -6,31 +6,10 @@
 <c:set var="debug" value="true" />
 <fmt:setLocale value="${requestScope.lang}" />
 <fmt:setBundle basename='messages'/>
-<c:choose>
-   <c:when test="${empty param.pid}">
-	<c:set var="pid" value="${requestScope.pid}" /> 
-   </c:when>
-   <c:otherwise>
-	 <c:set var="pid" value="${param.pid}" /> 
-   </c:otherwise>
-</c:choose>
 
-<c:choose>
-   <c:when test="${empty param.workflowType}">
-      <c:set var="workflowType" value="registeruser" />
-   </c:when>
-   <c:otherwise>
-      <c:set var="workflowType" value="${param.workflowType}" />
-   </c:otherwise>
-</c:choose>
 
-<c:if test="${!empty(pid)}">
-   <mcr:checkBooleanDecisionNode var="userID" processID="${pid}" workflowType="${workflowType}"  decision="canUserSubmitted" />
-   <c:if test="${userID}">
-     <mcr:getWorkflowEngineVariable pid="${pid}" workflowVar="userID" var="userid"/>
-  	 <mcr:receiveUserAsJdom var="user" userID="${userid}" fromWForDB="workflow" />
-   </c:if>	 
-</c:if>
+<mcr:session var="user" method="get" key="registereduser" />
+<c:set var="debug" value="true" />
 
 <div class="headline">
  <fmt:message key="Nav.Application.registerUser" /> - <fmt:message key="SWF.registerUser.Intro" />
@@ -57,8 +36,6 @@
     	       &#160;<x:out select=".//contact.firstname" />
     	  	   &#160;<x:out select=".//contact.lastname" />
     	  </td></tr>
-    	  <tr><td class="metavalue"><x:out select=".//contact.street" /></td></tr>
-    	  <tr><td class="metavalue"><x:out select=".//contact.institution" /></td></tr>
     	  <tr><td class="metavalue"><x:out select=".//contact.institution" /></td></tr>
     	  <tr><td class="metavalue"><x:out select=".//contact.faculty" /></td></tr>
     	  <tr><td class="metavalue"><x:out select=".//contact.email" /></td></tr>
