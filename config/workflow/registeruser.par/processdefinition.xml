@@ -21,24 +21,68 @@
   <task-node name="userCreated">
      <task name="completeUserAndSendToLibrary" swimlane="usereditor" >
      </task>
-     <transition name="go2userSubmitted" to="userSubmitted" />
+     <transition name="go2canUserBeSubmitted" to="canUserBeSubmitted" />
   </task-node>
  
+   <decision name="canUserBeSubmitted">
+     <handler class="org.mycore.frontend.workflowengine.jbpm.registeruser.MCRDecisionHandlerRegisterUser" />
+     <transition name="userCantBeSubmitted" to="userNOTSubmitted" />
+     <transition name="userCanBeSubmitted" to="userSubmitted" />
+  </decision>
+  
+  <task-node name="userNOTSubmitted">
+     <task name="sendToUserNotOK" swimlane="usereditor">    </task> 
+     <transition name="go2sendToUserNotOK" to="sendToUserNotOK" />
+  </task-node>
+
   <task-node name="userSubmitted">
      <event type='node-enter'>
         <action class="org.mycore.frontend.workflowengine.jbpm.registeruser.MCRUserSubmittedAction">
-           <lockedVariables>initiator,userID </lockedVariables>
+           <lockedVariables>initiator,userID</lockedVariables>
         </action>
      </event> 
-     <task name="taskCheckCompleteness" swimlane="usereditor">
-     </task> 
-     <transition name="todo next" to="todonext" />
+     <task name="sendToUserOK" swimlane="usereditor">    </task> 
+     <transition name="go2sendToUserOK" to="sendToUserOK" />
   </task-node>
+
+
+  <task-node name="sendToUserOK">
+    <transition name="go2userCommitted" to="userCommitted" />
+      <action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+         <from>atlibri@uni-rostock.de</from>
+         <subject>Nutzeranmeldung in der Digitalen Bibliothek @libri</subject>
+         <body>Ihre Nutzerdaten wurden in das System eingestellt. Sie können sich mit Ihrem Bibliotheksaccount anmelden.</body>
+      </action>     
+     </transition>
+  </task-node>
+  
+
+  <task-node name="sendToUserNotOK">
+    <task name="taskEnterMessageData" swimlane="usereditor" />
+    <transition name="userCanceled" to="userCanceled" />
+      <action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+         <from>atlibri@uni-rostock.de</from>
+         <subject>Nutzeranmeldung in der Digitalen Bibliothek @libri</subject>
+         <mode>taskMessage</mode>
+      </action>     
+    </transition>
+  </task-node>
+
+  
    
+  <state name="userCommitted">
+     <transition name="to do next" to="todonext" />
+  </state>
+  
+  <state name="userCanceled">
+     <transition name="to do next" to="todonext" />
+  </state>
+  
   <state name="todonext">
     <transition to="end" />
   </state>
   
   <end-state name="end" />
+  
   
 </process-definition>
