@@ -63,7 +63,8 @@
 										</td>
 						   </c:if>										
                            <mcr:checkAccess var="modifyAllowed" permission="commitdb" key="${itemID}" />
-                           <c:if test="${modifyAllowed eq 'true'}">						
+                           <c:if test="${modifyAllowed eq 'true'}">	
+                              <c:if test="${not fn:contains('disshab',itemDocType)}">					
 										<td align="center" valign="top" width="30">
 											<form method="get" action="${baseURL}workflowaction">
 												<input name="processid" value="${processid}" type="hidden">
@@ -71,6 +72,7 @@
 												<input title="<fmt:message key="Object.CommitObject" />" src="${baseURL}images/workflow_objcommit.gif" type="image" class="imagebutton">
 											</form>
 										</td>
+                              </c:if>
 							</c:if>										
                             <mcr:checkAccess var="modifyAllowed" permission="deletewf" key="${itemID}" />
                             <c:if test="${modifyAllowed eq 'true'}">						
