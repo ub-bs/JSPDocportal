@@ -79,7 +79,6 @@
 		   <from>helmbrecht@ub.tum.de</from>
 		   <to>heikohelm@gmx.de;heiko.helmbrecht@web.de</to>
 		   <replyTo>heikohelm@yahoo.de</replyTo>
-		   <bcc>heiko@hochofen.de</bcc>
 		   <subject>Sie müssen bei Ihrer Dissertation Daten ergänzen</subject>
 		   <!-- <body>Mustertext</body> -->
 		   <mode>taskMessage</mode>
@@ -105,7 +104,6 @@
 		   <from>helmbrecht@ub.tum.de</from>
 		   <to>heikohelm@gmx.de;heiko.helmbrecht@web.de</to>
 		   <replyTo>heikohelm@yahoo.de</replyTo>
-		   <bcc>heiko@hochofen.de</bcc>
 		   <subject>Sie müssen noch das Formblatt zur Abgabe elektronischer Dissertationen abgeben</subject>
 		   <!-- <body>Mustertext</body> -->
 		   <mode>taskMessage</mode>
@@ -119,23 +117,46 @@
      <handler class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRDecisionHandlerXmetadiss" />
      <transition name="go2sendBackToDisshabCreated" to="sendBackToDisshabCreated" />
      <transition name="go2checkNonDigitalRequirements" to="checkNonDigitalRequirements" />
-     <transition name="go2disshabCommitted" to="disshabCommitted" />
+     <transition name="go2wasCommitmentSuccessful" to="wasCommitmentSuccessful">
+        <action class="org.mycore.frontend.workflowengine.jbpm.MCRCommitObjectAction">
+           <varnameOBJID>createdDocID</varnameOBJID>
+           <varnameERROR>ERROR</varnameERROR>
+        </action>
+     </transition>
   </decision>  
   
-  <state name="disshabCommitted">
-     <transition name="to do next" to="todonext" />
-  </state>
-      
-  <!-- 
-  <state name="disshabCreated">
-     <transition name="todo next" to="todonext" />
-  </state>
-  -->
-  
-  <state name="todonext">
-    <transition to="end" />
-  </state>
-  
-  <end-state name="end" />
+  <decision name="wasCommitmentSuccessful">
+     <transition name="go2adminCheck" to="adminCheck">  
+        <condition expression="#{!empty(contextInstance.variables['ERROR']}" />
+     </transition>
+     <transition name="go2disshabCommitted" to="disshabCommitted" />
+  </decision>
+
+  <task-node name="adminCheck">
+     <event type='node-enter'>
+		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+		   <from>helmbrecht@ub.tum.de</from>
+		   <to>heikohelm@gmx.de;heiko.helmbrecht@web.de</to>
+		   <replyTo>heikohelm@yahoo.de</replyTo>
+		   <subject>Probleme beim Veröffentlichen einer Dissertation</subject>
+		   <body>Eine Dissertation konnte nicht veröffentlicht werden.</body>
+		</action>          
+     </event>
+     <task name="taskAdminCheckCommitmentNotSuccessFul" />
+     <transition name="go2disshabCommitted" to="disshabCommitted" />
+  </task-node>     
+
+  <end-state name="disshabCommitted">
+     <event type='node-enter'>
+		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailActionXmetadiss">
+		   <from>helmbrecht@ub.tum.de</from>
+		   <to>heikohelm@gmx.de;heiko.helmbrecht@web.de</to>
+		   <replyTo>heikohelm@yahoo.de</replyTo>
+		   <subject>Ihre elektronische Dissertation wurde erfolgreich veröffentlicht</subject>
+		   <!-- <body>Mustertext</body> -->
+		   <mode>success</mode>
+		</action>     
+     </event>     
+  </end-state>
   
 </process-definition>
