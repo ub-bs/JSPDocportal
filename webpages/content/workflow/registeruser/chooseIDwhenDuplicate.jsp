@@ -7,9 +7,18 @@
 <fmt:setLocale value='${requestScope.lang}'/>
 <fmt:setBundle basename='messages'/>
 <c:set var="WebApplicationBaseURL" value="${applicationScope.WebApplicationBaseURL}" />
-<c:set var="userID" value="${param.userid}" /> 
+<c:choose>
+   <c:when test="${empty param.userID}">
+	<c:set var="userID" value="${requestScope.userID}" /> 
+   </c:when>
+   <c:otherwise>
+	 <c:set var="userID" value="${param.userID}" /> 
+   </c:otherwise>
+</c:choose>
+
 <c:set var="count" value="4" /> 
 <c:set var="debug" value="false" />
+
 <mcr:getFreeUserIDs var="userIDList" count="${count}"  userid="${userID}" />
 
 <div class="headline">
@@ -26,7 +35,7 @@
 	<form method="post" action="servlets/MCRPassToTargetServlet">
 	<input type="hidden" name="target" value="MCRCheckUserRegistrationServlet" />
 	<input type="hidden" name="userID" value="${param.userid}" />
-	<input type="hidden" name="page" value="nav?path=~registered" />	
+	<input type="hidden" name="page" value="nav?path=~registeredUser" />	
 	<table class="editor" >
 	 <tr>
 	 <td class="metaname" >Auswählen</td> <td class="metaname" >Vorschläge</td>
