@@ -19,6 +19,8 @@
  * along with this program, in a file called gpl.txt or license.txt.
  * If not, write to the Free Software Foundation Inc.,
  * 59 Temple Place - Suite 330, Boston, MA  02111-1307 USA
+ * 
+ * 
  */
 
 package org.mycore.frontend.workflowengine.jbpm;
@@ -47,6 +49,7 @@ import org.mycore.frontend.servlets.MCRServletJob;
  * 
  * @author Heiko Helmbrecht
  * @version $Revision$ $Date$
+ * 
  */
 public class MCRWorkflowActions extends MCRServlet {
 	private static final long serialVersionUID = 1L;
@@ -56,10 +59,8 @@ public class MCRWorkflowActions extends MCRServlet {
      * This method overrides doGetPost of MCRServlet. <br />
      */
     public void doGetPost(MCRServletJob job) throws Exception {
-    	MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
     	HttpServletRequest request = job.getRequest();
     	HttpServletResponse response = job.getResponse();
-        String lang = mcrSession.getCurrentLanguage();
             	
         MCRRequestParameters parms = new MCRRequestParameters(request);
 
