@@ -26,12 +26,16 @@
 package org.mycore.frontend.workflowengine.jbpm.registeruser;
 
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import org.jdom.Element;
+import org.jdom.filter.ElementFilter;
 import org.mycore.common.MCRException;
 import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase;
+
 import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowObject;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerBaseImpl;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
@@ -74,6 +78,8 @@ public class MCRWorkflowEngineManagerRegisteruser extends MCRWorkflowEngineManag
 		}else if (processID == 0) {
 			MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(processType);
 			wfo.initialize(initiator);
+			wfo.setStringVariableValue("userID",initiator);
+			
 			try{
 				wfo.signal("go2userCreated");
 			}catch(MCRException e){
@@ -96,6 +102,11 @@ public class MCRWorkflowEngineManagerRegisteruser extends MCRWorkflowEngineManag
 		return new MCRJbpmWorkflowObject(curProcessID);		
 	}
 	
+	public void setUserIDFromWorkflow(String initiator, String userID){
+		MCRJbpmWorkflowObject wfo = getWorkflowObject(initiator);
+		wfo.setStringVariableValue("userID", userID);
+	}		
+
 	public String getUserIDFromWorkflow(String initiator){
 		MCRJbpmWorkflowObject wfo = getWorkflowObject(initiator);
 		String userID = wfo.getStringVariableValue("userID");
@@ -119,4 +130,5 @@ public class MCRWorkflowEngineManagerRegisteruser extends MCRWorkflowEngineManag
 		}
 	}	
 
+	
 }
