@@ -30,28 +30,23 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.jdom.Document;
 import org.jdom.Element;
 
-import org.mycore.common.MCRConfiguration;
-import org.mycore.common.MCRConfigurationException;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.MCRUtils;
 import org.mycore.common.xml.MCRXMLHelper;
-import org.mycore.datamodel.metadata.MCRObjectID;
+
 import org.mycore.frontend.editor.MCREditorSubmission;
 import org.mycore.frontend.editor.MCRRequestParameters;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
-import org.mycore.frontend.workflow.MCREditorOutValidator;
-import org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRCreateDisshabAction;
+
 import org.mycore.user2.MCRUserMgr;
 
 /**
@@ -107,25 +102,25 @@ public class MCRCheckUserRegistrationServlet extends MCRServlet {
         
         if ( userElement != null ) {
 			ID = userElement.getAttributeValue("ID");
-			
-            WFI.setMetadataValidFlag(ID, false);			
-	       	WFI.setWorkflowVariablesFromMetadata(ID, userElement);
-	       	
+			      	
 	       	StringBuffer storePath = new StringBuffer(WFI.getWorkflowDirectory("user"))
 				.append(File.separator).append("user_")
 				.append(ID).append(".xml");
 			org.jdom.Document outDoc =  new org.jdom.Document (userElement);	        
 			WFI.storeMetadata(MCRUtils.getByteArray(outDoc), ID, storePath.toString());
 				
-			try {
-				MCRUserMgr.instance().retrieveUser(userElement.getAttributeValue("ID"));
-				// try == error - we have another user with that ID 
+			if ( MCRUserMgr.instance().existUser(userElement.getAttributeValue("ID")) ) {
+				// we have another user with that ID 
 		        logger.warn("User registration - duplicate IDs");
-		        nextPath = "~registerChooseIDwhenDuplicate&userid="+ID;
-			} catch ( MCRException notExist) {
-				//catch == ok - new user is unknown and unique
-		        nextPath = "~registeredUser";					
-		       	WFI.setMetadataValidFlag(ID, true);
+				request.setAttribute("userID",ID);
+		        nextPath = "~registerChooseIDwhenDuplicate";
+			} else {
+				//erst wenn alles OK ist wird der WFI initiiert mit der USerID, die unique ist.
+				long pid = WFI.initWorkflowProcess(ID);						
+				request.setAttribute("pid",Long.toString(pid));
+		        nextPath = "~registeredUser";		
+		        WFI.setUserIDValidFlag(ID,true);
+		       	
 		    }		        
         }
        	request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
