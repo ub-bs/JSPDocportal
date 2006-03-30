@@ -469,34 +469,41 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 	}
 	
 	public boolean commitWorkflowObject(String objmcrid, String documentType) {
-		boolean bSuccess = true;
-		long pid = getUniqueWorkflowProcessFromCreatedDocID(objmcrid);
-		MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(pid);
-		String dirname = getWorkflowDirectory(documentType);
-		String filename = dirname + File.separator + objmcrid + ".xml";
-
-		try { 
-			if (MCRObject.existInDatastore(objmcrid)) {
-				MCRObject mcr_obj = new MCRObject();
-				mcr_obj.deleteFromDatastore(objmcrid);
-			}
-			MCRObjectCommands.loadFromFile(filename);
-			logger.info("The metadata object: " + filename + " is loaded.");
-		} catch (Exception ig){ 
-			logger.error("Can't load File catched error: ", ig);
-			bSuccess=false;
-		}
-		if ( (bSuccess = MCRObject.existInDatastore(objmcrid))  ) {
-			List derivateIDs = Arrays.asList(wfo.getStringVariableValue("attachedDerivates").split(","));
-			try{
-				for (Iterator it = derivateIDs.iterator(); it.hasNext();) {
-					String derivateID = (String) it.next();
-					bSuccess = commitDerivateObject(derivateID, documentType);
+		boolean bSuccess = false;
+		try{
+			long pid = getUniqueWorkflowProcessFromCreatedDocID(objmcrid);
+			MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(pid);
+			String dirname = getWorkflowDirectory(documentType);
+			String filename = dirname + File.separator + objmcrid + ".xml";
+	
+			try { 
+				if (MCRObject.existInDatastore(objmcrid)) {
+					MCRObject mcr_obj = new MCRObject();
+					mcr_obj.deleteFromDatastore(objmcrid);
 				}
-			}catch(Exception ex){
-				logger.error("Can't load File catched error: ", ex);
+				MCRObjectCommands.loadFromFile(filename);
+				logger.info("The metadata object: " + filename + " is loaded.");
+			} catch (Exception ig){ 
+				logger.error("Can't load File catched error: ", ig);
 				bSuccess=false;
 			}
+			if ( (bSuccess = MCRObject.existInDatastore(objmcrid))  ) {
+				List derivateIDs = Arrays.asList(wfo.getStringVariableValue("attachedDerivates").split(","));
+				try{
+					for (Iterator it = derivateIDs.iterator(); it.hasNext();) {
+						String derivateID = (String) it.next();
+						if(!(bSuccess = commitDerivateObject(derivateID, documentType))){
+							break;
+						}
+					}
+				}catch(Exception ex){
+					logger.error("Can't load File catched error: ", ex);
+					bSuccess=false;
+				}
+			}
+		}catch(Exception e){
+			logger.error("could not commit object");
+			bSuccess = false;
 		}
 		return bSuccess;
 	}
@@ -513,7 +520,7 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 				MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(processid);
 				String signedAffirmationAvailable = wfo.getStringVariableValue(MCRJbpmWorkflowBase.varSIGNED_AFFIRMATION_AVAILABLE);
 				if(signedAffirmationAvailable != null && signedAffirmationAvailable.equals("true")){
-					return "go2disshabCommitted";
+					return "go2wasCommitmentSuccessful";
 				}else{
 					return "go2checkNonDigitalRequirements";
 				}

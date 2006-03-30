@@ -22,7 +22,7 @@ import org.mycore.user2.MCRUserMgr;
 public class MCRSendmailAction implements ActionHandler{
 	
 	private static final long serialVersionUID = 1L;
-	private static Logger logger = Logger.getLogger(MCRSendmailAction.class);
+	protected static Logger logger = Logger.getLogger(MCRSendmailAction.class);
 	private static Calendar cal = new GregorianCalendar( TimeZone.getTimeZone("ECT"));
 	
 	private String from;
@@ -53,6 +53,8 @@ public class MCRSendmailAction implements ActionHandler{
 		if(mode != null){
 				if(mode.toLowerCase().equals("taskmessage")){
 					body += executionContext.getVariable(MCRJbpmWorkflowBase.varTASKMESSAGE);
+				}else{
+					body = getBody(executionContext, mode);
 				}
 		}
 		if(body.equals("")){
@@ -75,6 +77,16 @@ public class MCRSendmailAction implements ActionHandler{
 			logger.error(errMsg, e);
 			throw new MCRException(errMsg);
 		}
+	}
+	
+	/**
+	 * dummy function, overwrite this in your personal action for creating
+	 * specific mail messages
+	 * @param executionContext
+	 * @return
+	 */
+	protected String getBody(ExecutionContext executionContext, String mode){
+		return "";
 	}
 	
 	private List getEmailAddressesFromStringList(String addresses, ExecutionContext executionContext){
