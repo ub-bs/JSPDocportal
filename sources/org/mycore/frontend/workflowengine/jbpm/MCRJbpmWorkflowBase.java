@@ -14,7 +14,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
-import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.db.GraphSession;
 import org.jbpm.db.TaskMgmtSession;
 import org.jbpm.graph.def.Node;
@@ -22,15 +21,14 @@ import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 import org.jdom.Element;
-import org.jdom.JDOMException;
 import org.jdom.output.DOMOutputter;
-import org.jdom.output.XMLOutputter;
 import org.mycore.common.MCRException;
 
 public class MCRJbpmWorkflowBase {
 	
 	// A VARIABLE USED IN ALL WORKFLOW PROCESSES
 	public final static String varINITIATOR = "initiator";
+	public final static String varTASKMESSAGE = "tmpTaskMessage";
 	public static final String lockedVariablesIdentifier = "MCRJBPMLOCKEDVARIABLES";
 	private static Logger logger = Logger.getLogger(MCRJbpmWorkflowBase.class);
 	private static JbpmConfiguration jbpmConfiguration = 
@@ -281,10 +279,10 @@ public class MCRJbpmWorkflowBase {
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try{
 			ProcessDefinition processDefinition = 
-				ProcessDefinition.parseXmlResource(resource);
+				ProcessDefinition.parseXmlResource("workflow/xmetadiss.par/processdefinition.xml");
 				jbpmContext.deployProcessDefinition(processDefinition);
 		}catch(MCRException e){
-			logger.error("error in deploying a workflow processdefinition", e);
+			logger.error("error in deployin a workflow processdefinition", e);
 		}finally{
 			jbpmContext.close();
 		}
