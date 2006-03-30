@@ -79,6 +79,7 @@ public class MCRWorkflowEngineManagerRegisteruser extends MCRWorkflowEngineManag
 			MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(processType);
 			wfo.initialize(initiator);
 			wfo.setStringVariableValue("userID",initiator);
+			wfo.endTask("initialization", initiator, null);
 			
 			try{
 				wfo.signal("go2userCreated");
@@ -92,6 +93,27 @@ public class MCRWorkflowEngineManagerRegisteruser extends MCRWorkflowEngineManag
 		}
 	}
 	
+	public void setWorkflowVariablesFromMetadata(String pID, Element userMetadata){
+		long pid = Long.parseLong(pID);
+		MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(pid);
+		String email 	  = userMetadata.getChild("user.contact").getChild("contact.email").getText();
+		String salutation = userMetadata.getChild("user.contact").getChild("contact.salutation").getText();
+		String firstname  = userMetadata.getChild("user.contact").getChild("contact.firstname").getText();
+		String lastname   = userMetadata.getChild("user.contact").getChild("contact.lastname").getText();
+		String institution= userMetadata.getChild("user.contact").getChild("contact.institution").getText();
+		String faculty    = userMetadata.getChild("user.contact").getChild("contact.faculty").getText();		
+		StringBuffer bname = new StringBuffer(salutation).append(" ").append(firstname).append(" ").append(lastname);
+		
+		if ( email != null )
+			wfo.setStringVariableValue("email", email);
+
+		if ( bname != null )
+			wfo.setStringVariableValue("name",  bname.toString());
+		if ( institution != null)
+			wfo.setStringVariableValue("institution", institution);		
+		if ( faculty != null)
+			wfo.setStringVariableValue("faculty", faculty);
+	}	
 	
 	protected MCRJbpmWorkflowObject getWorkflowObject(String userid) {
 		long curProcessID = getUniqueCurrentProcessID(userid);

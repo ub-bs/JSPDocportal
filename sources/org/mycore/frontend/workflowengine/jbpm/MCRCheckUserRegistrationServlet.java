@@ -35,6 +35,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.jdom.Element;
+import org.jdom.output.DOMOutputter;
 
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRSession;
@@ -48,6 +49,7 @@ import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
 
 import org.mycore.user2.MCRUserMgr;
+import org.w3c.dom.Document;
 
 /**
  * This class is the superclass of servlets which checks the MCREditorServlet
@@ -116,10 +118,11 @@ public class MCRCheckUserRegistrationServlet extends MCRServlet {
 		        nextPath = "~registerChooseIDwhenDuplicate";
 			} else {
 				//erst wenn alles OK ist wird der WFI initiiert mit der USerID, die unique ist.
-				long pid = WFI.initWorkflowProcess(ID);						
-				request.setAttribute("pid",Long.toString(pid));
+				long pid = WFI.initWorkflowProcess(ID);				
+				WFI.setWorkflowVariablesFromMetadata(String.valueOf(pid),userElement);
+
+				MCRSessionMgr.getCurrentSession().put("registereduser", new DOMOutputter().output( outDoc ));
 		        nextPath = "~registeredUser";		
-		        WFI.setUserIDValidFlag(ID,true);
 		       	
 		    }		        
         }
