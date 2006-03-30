@@ -39,11 +39,11 @@
             <info>A tag, that ends a task and continues the workflow</info>
      </tag>         
 	 <tag>
-            <name>checkBooleanDecisionNode</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRCheckBooleanDecisionNodeTag</tagclass>
+            <name>checkDecisionNode</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRCheckDecisionNodeTag</tagclass>
             <bodycontent>empty</bodycontent>
             <attribute>
-                <description>Output: the var that holds the boolean value</description>
+                <description>Output: the var that holds the next transition name</description>
                 <name>var</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
@@ -66,7 +66,7 @@
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
-            <info>A tag, that checks a boolean decision node in the workflow</info>
+            <info>A tag, that checks a decision node and delivers the next transition in the workflow</info>
      </tag>     
 	 <tag>
             <name>listWorkflowDerivates</name>

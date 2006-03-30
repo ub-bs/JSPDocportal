@@ -7,9 +7,9 @@ import org.apache.log4j.Logger;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerFactory;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
 
-public class MCRCheckBooleanDecisionNodeTag extends MCRSimpleTagSupport
+public class MCRCheckDecisionNodeTag extends MCRSimpleTagSupport
 {
-	private static Logger logger = Logger.getLogger(MCRCheckBooleanDecisionNodeTag.class);
+	private static Logger logger = Logger.getLogger(MCRCheckDecisionNodeTag.class);
 	
 	private String var;
 	private long processID;
@@ -38,7 +38,7 @@ public class MCRCheckBooleanDecisionNodeTag extends MCRSimpleTagSupport
 		try{
 			PageContext pageContext = (PageContext) getJspContext();
 			MCRWorkflowEngineManagerInterface WFI = MCRWorkflowEngineManagerFactory.getImpl(workflowType);
-			pageContext.setAttribute(var, new Boolean(WFI.checkBooleanDecisionNode(processID, decision)));
+			pageContext.setAttribute(var, WFI.checkDecisionNode(processID, decision));
 		}catch(Exception e){
 			logger.error("could not check boolean decision node [" + 
 					decision + "] for processid [" + processID + "]");
