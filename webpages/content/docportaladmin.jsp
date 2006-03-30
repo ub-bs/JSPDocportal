@@ -27,7 +27,7 @@
 	    <td>
 			<c:choose>
 				<c:when test="${adminuser eq 'true'}">
-					<img src="${applicationScope.WebApplicationBaseURL}images/link_intern.gif" border="0" />&#160;<a href="${applicationScope.WebApplicationBaseURL}admin?path=user_registration" target="admin">
+					<img src="${applicationScope.WebApplicationBaseURL}images/link_intern.gif" border="0" />&#160; <a href="${applicationScope.WebApplicationBaseURL}nav?path=~workflow-registeruser">
 						Neuanmeldungen um Dokumente in @libri einzustellen
 					</a><br />
 				</c:when>
@@ -47,7 +47,7 @@
 	    <td>
 			<c:choose>
 				<c:when test="${adminxmetadiss eq 'true'}">
-					<img src="${applicationScope.WebApplicationBaseURL}images/link_intern.gif" border="0" />&#160;<a href="${applicationScope.WebApplicationBaseURL}nav?path=~workflow-disshab">
+					<img src="${applicationScope.WebApplicationBaseURL}images/link_intern.gif" border="0" />&#160; <a href="${applicationScope.WebApplicationBaseURL}nav?path=~workflow-disshab">
 						Arbeitsmappe Dissertationen
 					</a>	<br />
 					<img src="${applicationScope.WebApplicationBaseURL}images/link_intern.gif" border="0" />&#160;<a href="${applicationScope.WebApplicationBaseURL}nav?path=~workflow-disshab">
