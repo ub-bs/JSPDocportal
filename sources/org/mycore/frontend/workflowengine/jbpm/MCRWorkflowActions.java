@@ -79,7 +79,7 @@ public class MCRWorkflowActions extends MCRServlet {
         String nextPath = parms.getParameter("nextPath");
 
         if ( nextPath == null || nextPath.length() == 0)        	
-        	 nextPath = "~workflow-" + documentType;
+        	 nextPath = "~" + workflowType;
         
         String todo = parms.getParameter("todo");
        
