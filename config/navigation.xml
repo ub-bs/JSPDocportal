@@ -69,7 +69,7 @@
             </navitem>
             <navitem name="publish" label="Nav.DocumentManagement" href="content/documentmanagement.jsp">
                <refitem name="~documentmanagement" label="" />
-                 <navitem name="registeruser" label="Nav.Account" href="content/workflow/registeruser/beginUser.jsp">
+                 <navitem name="registeruser" label="Nav.OrderAuthorAccount" href="content/workflow/registeruser/beginUser.jsp">
                     <refitem name="~registeruser" label="" />
                     <navitem name="registered" label="Nav.AccountRegister" href="content/workflow/registeruser/endUser.jsp" hidden="true">
                       <refitem name="~registered" label="" />
@@ -78,19 +78,19 @@
                       hidden="true">
                       <refitem name="~chooseIDwhenDuplicate" label="" />
                     </navitem>
-                  </navitem>			   
-                 <navitem name="mydiss" label="Nav.Application.dissertation" href="content/dissertation.jsp" >
-				  <refitem name="~mydiss" label="" />
-				  <navitem name="begin" label="Nav.Application.dissertation.begin" href="content/workflow/xmetadiss/registerAuthor.jsp" >
-					 <refitem name="~dissertationbegin" label="" />
-			      </navitem>   
-				  <navitem name="workflow-disshab" label="Nav.WorkflowDisshab" href="content/workflow/xmetadiss/workflow.jsp"  >
-					<refitem name="~workflow-disshab" label="" />
-					<navitem name="workflow-fileupload" label="Nav.WorkflowFileupload" href="content/fileupload.jsp" hidden="true" >
-					  <refitem name="~workflow-fileupload" label="" />
-					</navitem>
-				  </navitem>			  
-				</navitem>			
+                 </navitem>			   
+                 <navitem name="xmetadiss" label="Nav.Workflow.xmetadiss" href="content/workflow/xmetadiss/workflow.jsp" >
+				    <refitem name="~xmetadiss" label="" />
+				    <navitem name="xmetadiss-begin" label="Nav.Workflow.xmetadiss.begin" href="content/workflow/xmetadiss/begin.jsp" >
+					   <refitem name="~xmetadissbegin" label="" />
+			        </navitem>   
+                    <navitem name="xmetadiss-info" label="Nav.Workflow.xmetadiss.info" href="content/workflow/xmetadiss/information.jsp" >
+                       <refitem name="~xmetadiss-info" label="" />
+                    </navitem>                    
+                    <navitem name="workflow-fileupload" label="Nav.WorkflowFileupload" href="content/fileupload.jsp" hidden="true" >
+                       <refitem name="~workflow-fileupload" label="" />
+                    </navitem>                  
+               	 </navitem>			  
 <!-- 
                <navitem name="author" label="Nav.CreatePerson" href="content/workflow-editor.jsp?type=author&amp;step=author&amp;todo=wnewobj" />
                <navitem name="institution" label="Nav.CreateInstitution" href="content/workflow-editor.jsp?type=institution&amp;step=author&amp;todo=wnewobj" />
