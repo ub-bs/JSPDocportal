@@ -339,6 +339,12 @@
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
             <attribute>
+                <description>the scope of the variables that are setted (default is page)</description>
+                <name>scope</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <attribute>
                 <description>Output - the workflow process id of the just inited process</description>
                 <name>processidVar</name>
                 <required>true</required>
