@@ -13,6 +13,12 @@
 	</assignment>  
   </swimlane>
   
+  <swimlane name="technicalAdministration">
+    <assignment class="org.mycore.frontend.workflowengine.jbpm.MCRPooledActorAssignmentHandler">
+		<groupName>admingroup</groupName>
+	</assignment>       
+  </swimlane>
+  
   <swimlane name="subjectExpert">
     <!--   <assignment expression="user(ernie)" /> -->
   </swimlane>  
@@ -142,7 +148,7 @@
 		   <body>Eine Dissertation konnte nicht veröffentlicht werden.</body>
 		</action>          
      </event>
-     <task name="taskAdminCheckCommitmentNotSuccessFul" />
+     <task name="taskAdminCheckCommitmentNotSuccessFul" swimlane="technicalAdministration" />
      <transition name="go2disshabCommitted" to="disshabCommitted" />
   </task-node>     
 
