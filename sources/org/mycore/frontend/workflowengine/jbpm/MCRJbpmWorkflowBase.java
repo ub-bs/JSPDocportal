@@ -280,7 +280,7 @@ public class MCRJbpmWorkflowBase {
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try{
 			ProcessDefinition processDefinition = 
-				ProcessDefinition.parseXmlResource("workflow/xmetadiss.par/processdefinition.xml");
+				ProcessDefinition.parseXmlResource(resource);
 				jbpmContext.deployProcessDefinition(processDefinition);
 		}catch(MCRException e){
 			logger.error("error in deployin a workflow processdefinition", e);
