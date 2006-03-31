@@ -13,30 +13,30 @@
 <c:set var="debug" value="true" />
 <c:choose>
    <c:when test="${requestScope.task.taskName eq 'initialization'}">
-      <fmt:message key="WorfklowEngine.Processnumber" /> ${requestScope.task.processID}<br>
-      <fmt:message key="WorkflowEngine.ActualStateOfYourDissertation.xmetadiss" />: 
+      <fmt:message key="WorfklowEngine.Processnumber" /> <b>${requestScope.task.processID}</b><br>
+      <fmt:message key="WorkflowEngine.ActualStateOfYourDissertation.xmetadiss" />: <br>
       <b><fmt:message key="WorkflowEngine.initiator.statusMessage.${requestScope.task.workflowStatus}.xmetadiss" /></b>
    </c:when>
    <c:when test="${requestScope.task.taskName eq 'taskCompleteDisshabAndSendToLibrary'}">
-   TODO check TASKMESSAGE
       <p>
+         <img title="" alt="" src="images/greenArrow.gif">
          <fmt:message key="WorkflowEngine.description.completedisshabandsendtolibrary.xmetadiss" />
       </p>
       <c:import url="/content/workflow/editorButtons.jsp" />
       <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="xmetadiss" decision="canDisshabBeSubmitted" />
       <c:if test="${transition eq 'disshabCanBeSubmitted'}">
-         <a href="${baseURL}nav?path=~workflow-disshab&transition=&endTask=taskCompleteDisshabAndSendToLibrary&processID=${requestScope.task.processID}"><fmt:message key="Nav.Application.dissertation.submit" /></a>
+         <a href="${baseURL}nav?path=~xmetadiss&transition=&endTask=taskCompleteDisshabAndSendToLibrary&processID=${requestScope.task.processID}"><fmt:message key="Nav.Application.dissertation.submit" /></a>
       </c:if>
    </c:when>
    <c:when test="${requestScope.task.taskName eq 'taskCheckCompleteness'}">
       <c:import url="/content/workflow/editorButtons.jsp" />
       <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="xmetadiss" decision="canDisshabBeCommitted" />
-         <a href="${baseURL}nav?path=~workflow-disshab&transition=go2canDisshabBeCommitted&endTask=taskCheckCompleteness&processID=${requestScope.task.processID}"><fmt:message key="Nav.Application.dissertation.MetadataOk" /></a><br>
-         <a href="${baseURL}nav?path=~workflow-disshab&transition=go2sendBackToDisshabCreated&endTask=taskCheckCompleteness&processID=${requestScope.task.processID}"><fmt:message key="Nav.Application.dissertation.sendBackToInitiator" /></a><br>
+         <a href="${baseURL}nav?path=~xmetadiss&transition=go2canDisshabBeCommitted&endTask=taskCheckCompleteness&processID=${requestScope.task.processID}"><fmt:message key="Nav.Application.dissertation.MetadataOk" /></a><br>
+         <a href="${baseURL}nav?path=~xmetadiss&transition=go2sendBackToDisshabCreated&endTask=taskCheckCompleteness&processID=${requestScope.task.processID}"><fmt:message key="Nav.Application.dissertation.sendBackToInitiator" /></a><br>
    </c:when>   
    <c:when test="${requestScope.task.taskName eq 'taskEnterMessageData'}">
       <form action="${baseURL}nav" accept-charset="utf-8">
-         <input name="path" value="~workflow-disshab" type="hidden" />
+         <input name="path" value="~xmetadiss" type="hidden" />
          <input name="transition" value="" type="hidden" />
          <input name="endTask" value="taskentermessagedata" type="hidden" />
          <input name="processID" value="${requestScope.task.processID}" type="hidden" />
@@ -46,15 +46,15 @@
       </form>
    </c:when>
    <c:when test="${requestScope.task.taskName eq 'taskCheckIfSignedAffirmationYetAvailable'}">
-      <a href="${baseURL}nav?path=~workflow-disshab&transition=go2canDisshabBeCommitted&endTask=taskCheckIfSignedAffirmationYetAvailable&processID=${requestScope.task.processID}"><fmt:message key="Nav.Application.dissertation.AffirmationIsAvailableCanBeCommitted" /></a><br>      
-      <a href="${baseURL}nav?path=~workflow-disshab&transition=go2requireAffirmation&endTask=taskCheckIfSignedAffirmationYetAvailable&processID=${requestScope.task.processID}"><fmt:message key="Nav.Application.dissertation.RequireAffirmation" /></a><br>            
+      <a href="${baseURL}nav?path=~xmetadiss&transition=go2canDisshabBeCommitted&endTask=taskCheckIfSignedAffirmationYetAvailable&processID=${requestScope.task.processID}"><fmt:message key="Nav.Application.dissertation.AffirmationIsAvailableCanBeCommitted" /></a><br>      
+      <a href="${baseURL}nav?path=~xmetadiss&transition=go2requireAffirmation&endTask=taskCheckIfSignedAffirmationYetAvailable&processID=${requestScope.task.processID}"><fmt:message key="Nav.Application.dissertation.RequireAffirmation" /></a><br>            
    </c:when>   
    <c:when test="${requestScope.task.taskName eq 'taskRequireSignedAffirmation'}">
       <c:if test="${true}">
-         Letzte Mail wurde gesendet am: <a href="${baseURL}nav?path=~workflow-disshab&transition=go2checkNonDigitalRequirementsWithoutMail&endTask=taskRequireSignedAffirmation&processID=${requestScope.task.processID}"><fmt:message key="Nav.Application.dissertation.ContinueWaitingForAffirmation" /></a><br>      
+         Letzte Mail wurde gesendet am: <a href="${baseURL}nav?path=~xmetadiss&transition=go2checkNonDigitalRequirementsWithoutMail&endTask=taskRequireSignedAffirmation&processID=${requestScope.task.processID}"><fmt:message key="Nav.Application.dissertation.ContinueWaitingForAffirmation" /></a><br>      
       </c:if>
       <form action="${baseURL}nav" accept-charset="utf-8">
-         <input name="path" value="~workflow-disshab" type="hidden" />
+         <input name="path" value="~xmetadiss" type="hidden" />
          <input name="transition" value="" type="hidden" />
          <input name="endTask" value="taskRequireSignedAffirmation" type="hidden" />
          <input name="processID" value="${requestScope.task.processID}" type="hidden" />
@@ -63,9 +63,11 @@
          <input name=submit" type="submit" value="<fmt:message key="WorkflowEngine.Form.SendTask" />"/>      
       </form>
    </c:when>
-   <c:when test="${requestScope.task.taskName eq 'taskSendAffirmation'}">
-      <a href="${baseURL}nav?path=~workflow-disshab&transition=go2checkNonDigitalRequirements&endTask=taskSendAffirmation&processID=${requestScope.task.processID}"><fmt:message key="Nav.Application.dissertation.sendAffirmationOfSubmission" /></a><br>      
-   </c:when>    
+   <c:when test="${requestScope.task.taskName eq 'taskAdminCheckCommitmentNotSuccessFul'}">
+      <a href="${baseURL}nav?path=~xmetadiss&transition=go2disshabCommitted&endTask=taskAdminCheckCommitmentNotSuccessFul&processID=${requestScope.task.processID}"><fmt:message key="Nav.Application.dissertation.sendAffirmationOfSubmission" /></a><br>      
+   </c:when>
+   
+       
 
    
    <c:otherwise>
