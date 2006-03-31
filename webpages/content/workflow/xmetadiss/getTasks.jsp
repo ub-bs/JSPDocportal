@@ -21,12 +21,14 @@
       <p>
          <img title="" alt="" src="images/greenArrow.gif">
          <fmt:message key="WorkflowEngine.description.completedisshabandsendtolibrary.xmetadiss" />
+         <br>
+         <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="xmetadiss" decision="canDisshabBeSubmitted" />
+         <c:if test="${transition eq 'disshabCanBeSubmitted'}">
+	        <img title="" alt="" src="images/greenArrow.gif">         
+            <a href="${baseURL}nav?path=~xmetadiss&transition=&endTask=taskCompleteDisshabAndSendToLibrary&processID=${requestScope.task.processID}"><fmt:message key="WorkflowEngine.taskCompleteDisshabAndSendToLibrary.xmetadiss" /></a>
+         </c:if>      
       </p>
       <c:import url="/content/workflow/editorButtons.jsp" />
-      <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="xmetadiss" decision="canDisshabBeSubmitted" />
-      <c:if test="${transition eq 'disshabCanBeSubmitted'}">
-         <a href="${baseURL}nav?path=~xmetadiss&transition=&endTask=taskCompleteDisshabAndSendToLibrary&processID=${requestScope.task.processID}"><fmt:message key="Nav.Application.dissertation.submit" /></a>
-      </c:if>
    </c:when>
    <c:when test="${requestScope.task.taskName eq 'taskCheckCompleteness'}">
       <c:import url="/content/workflow/editorButtons.jsp" />
