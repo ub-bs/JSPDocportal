@@ -13,7 +13,7 @@
 <c:set var="debug" value="${param.debug}" />
 <c:set var="style" value="${param.style}" /> 
 
-<mcr:receiveMcrObjAsJdom var="mycoreobject" mcrid="${mcrid}" />
+<mcr:receiveMcrObjAsJdom var="mycoreobject" mcrid="${mcrid}" fromWForDB="workflow" />
 <c:choose>
    <c:when test="${requestScope.host}">
       <c:set var="host" value="${requestScope.host}" />
