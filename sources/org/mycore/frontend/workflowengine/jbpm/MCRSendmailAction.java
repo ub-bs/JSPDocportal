@@ -95,7 +95,7 @@ public class MCRSendmailAction implements ActionHandler{
 			return ret;
 		String[] array = addresses.split(";");
 		for (int i = 0; i < array.length; i++) {
-			if(array[i].contains("@")){
+			if(array[i].indexOf("@") >= 0){
 				ret.add(array[i]);
 			}else if(array[i].trim().equals("initiator")){
 				ret.add(getUserEmailAddress((String)executionContext.getVariable(MCRJbpmWorkflowBase.varINITIATOR)));
