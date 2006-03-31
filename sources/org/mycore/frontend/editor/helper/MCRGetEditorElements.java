@@ -1,6 +1,7 @@
 package org.mycore.frontend.editor.helper;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -9,6 +10,7 @@ import java.util.Locale;
 import java.util.Properties;
 import java.util.PropertyResourceBundle;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,6 +30,7 @@ import org.mycore.common.xml.MCRURIResolver.MCRResolver;
 import org.mycore.datamodel.classifications.MCRClassification;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
+import org.mycore.user2.MCRUserMgr;
 
 /**
  * this class delivers xml objects that can be included
@@ -67,12 +70,42 @@ public class MCRGetEditorElements implements MCRResolver {
 				return getClassificationInItems(params);
 			}else if(mode.equals("getSpecialCategoriesInItems")) {
 				return getSpecialCategoriesInItems(params);
+			}else if(mode.equals("getGroupItems")) {
+				return getGroupItems(params);
+			}else if(mode.equals("getClassificationLabelInItems")) {
+				return getClassificationLabelInItems(params);				
 			}
 			return null;
 		}catch(Exception ex){
 			logger.error("could not resolve URI " + URI);
 			return new Element("error");
 		}
+	}
+
+	private Element getGroupItems(Properties params) throws TransformerException{
+		Element retitems = new Element("items");
+		ArrayList groupIDs = MCRUserMgr.instance().getAllGroupIDs();
+
+        for (int i = 0; i < groupIDs.size(); i++) {
+            org.jdom.Element item = new org.jdom.Element("item").setAttribute("value", (String) groupIDs.get(i)).setAttribute("label", (String) groupIDs.get(i));
+            retitems.addContent(item);
+        }
+        return retitems;        
+	}
+	
+	private Element getClassificationLabelInItems(Properties params) throws TransformerException{
+		String classid = params.getProperty("classid");
+        if(classid == null || classid.equals("")){
+            String prop = params.getProperty("prop");
+            String defaultValue = params.getProperty("defaultValue");
+            if(defaultValue == null || defaultValue.equals("")) defaultValue = "DocPortal_class_1";
+            if(prop != null && !prop.equals("")) {
+                classid = MCRConfiguration.instance().getString(prop, defaultValue);
+            }else{
+                classid = defaultValue ;
+            }
+        }
+        return transformClassLabelsToItems(classid);        
 	}
 
 	private Element getClassificationInItems(Properties params) throws TransformerException{
@@ -96,6 +129,12 @@ public class MCRGetEditorElements implements MCRResolver {
         return MCRXSLTransformation.transform(classJdom, xsl, new Properties()).getRootElement();		
 	}
 	
+	private Element transformClassLabelsToItems(String classid) throws TransformerException{
+        Document classJdom = MCRClassification.receiveClassificationAsJDOM(classid);
+        Source xsl = MCRURIResolver.instance().resolve("webapp:WEB-INF/stylesheets/classificationsLabels-to-items.xsl","classifications-to-items.jspx");
+        return MCRXSLTransformation.transform(classJdom, xsl, new Properties()).getRootElement();		
+	}
+
 	private Element getSpecialCategoriesInItems(Properties params) throws TransformerException{
 		Element retitems = new Element("items");
 		String classProp = params.getProperty("classProp");
