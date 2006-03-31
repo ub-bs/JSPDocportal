@@ -257,10 +257,11 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 			eCreatorLinks.addContent(eCreatorLink);
 			
 			Element eUrn = urn.createXML();
+			eUrn.setAttribute("type", "urn_new");
+			
 			Element eUrns = new Element("urns");
 			eUrns.setAttribute("class","MCRMetaLangText");
 			eUrns.setAttribute("textsearch", "true");
-			eUrns.setAttribute("type", "urn_new");
 			eUrns.addContent(eUrn);
 
 			metadata.addContent(eCreators);

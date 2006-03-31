@@ -55,6 +55,7 @@ public class MCRResultFormatter {
 	protected static MCRConfiguration CONFIG = MCRConfiguration.instance();
 	protected static String languageBundleBase = CONFIG.getString("MCR.languageResourceBundleBase","messages");
 	protected static String WebApplicationBaseURL ;
+	protected static String URN_RESOLVER;
 
 	protected static Map resultlistMap;
 	protected static Map docdetailsMap;
@@ -66,6 +67,7 @@ public class MCRResultFormatter {
         WebApplicationBaseURL = NavServlet.getNavigationBaseURL();
         xlinkNamespace = org.jdom.Namespace.getNamespace("xlink",
     			MCRDefaults.XLINK_URL);
+        URN_RESOLVER = CONFIG.getString("MCR.URN_RESOLVER.URL", "http://nbn-resolving.de/urn/resolver.pl");
     }	
     
     private static MCRResultFormatter singleton;
@@ -494,6 +496,45 @@ public class MCRResultFormatter {
 		} 
     	return metaValues;
     }
+
+    public Element getUrnValues(Document doc, String xpath, String separator, String terminator, String lang, String introkey, String escapeXml) {
+    	Element metaValues = new Element("metavalues");
+    	metaValues.setAttribute("type","LinkValues");
+    	metaValues.setAttribute("separator",separator);   
+    	metaValues.setAttribute("terminator",terminator);    	
+    	metaValues.setAttribute("introkey", introkey);
+    	metaValues.setAttribute("escapeXml", escapeXml);    	
+    	try {
+    		boolean breakLoop = false;
+			for(Iterator it = XPath.selectNodes(doc,xpath).iterator(); it.hasNext(); ) {
+			    Element el = (Element) it.next();
+			    String type = el.getAttributeValue("type");
+			    if(type == null || type.equals(""))
+			    	continue;
+			    String urn = "";
+			    if("urn_new_version,urn_new,url_update_general".indexOf(type) != -1 ){
+			    	urn = el.getText();
+			    	breakLoop = true;
+			    }else if("urn_new_version,urn_new, url_update_general, urn_first, urn_last".indexOf(type) != -1){
+			    	urn = el.getText();
+			    }
+			    if ( urn != null && !urn.equals("")) {
+						Element metaValue = new Element("metavalue");
+						String href = URN_RESOLVER + "?urn=" + urn;
+						metaValue.setAttribute("href", href);
+						metaValue.setAttribute("type",el.getName());
+						metaValue.setAttribute("text",urn);
+						metaValues.addContent(metaValue);			    	
+			    }
+			    if(breakLoop)
+			    	break;
+			}
+		} catch (JDOMException e) {
+			logger.debug("error occured", e);
+			return metaValues;
+		} 
+    	return metaValues;
+    }      
     
     public Element getLinkValues(Document doc, String xpath, String separator, String terminator, String lang, String introkey, String escapeXml) {
     	Element metaValues = new Element("metavalues");
@@ -687,6 +728,9 @@ public class MCRResultFormatter {
     		return getLinkValues(doc,xpath,separator,terminator,lang,introkey,escapeXml);    	
     	if (templatetype.equals("tpl-authorjoin"))
     		return getAuthorJoinValues(doc,xpath,separator,terminator,lang,introkey,escapeXml);    	
+    	
+    	if (templatetype.equals("tpl-urn"))
+    		return getUrnValues(doc,xpath,separator,terminator,lang,introkey,escapeXml);
     	
     	if (templatetype.equals("tpl-image"))
     		return getImagesFromObject(doc,xpath,separator,terminator,lang,introkey,escapeXml);    	
