@@ -161,6 +161,7 @@ public class MCRWorkflowActions extends MCRServlet {
 			params.put("mcrid2", mcrid);
 			params.put("type", documentType);
 			params.put("workflowType",workflowType);
+			params.put("nextPath", nextPath);
 			params.put("step", "author");
 			params.put("mcrid", derivateID);
 			params.put("target", "MCRCheckDerivateServlet");
