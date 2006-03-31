@@ -19,46 +19,16 @@
 
 <c:choose>
 	<c:when test="${adminuser eq 'true'}">
-
-		<c:if test="${!empty(param.endTask)}">
-			<c:set var="endTask" scope="request" value="${param.endTask}" />
-			<c:set var="processID" scope="request" value="${param.processID}" />
-			<c:import url="/content/workflow/registeruser/endTasks.jsp" />
-		</c:if>
-
-
 		<div class="headline"><fmt:message key="Nav.WorkflowRegisteruser" /></div>
-
 		<br>&nbsp;<br>
-
 		<div class="headline"><fmt:message key="WorkflowEngine.MyTasks" /></div>
-
-		<mcr:getWorkflowTaskBeanList var="myTaskList" mode="activeTasks"
-			workflowTypes="registeruser" varTotalSize="total1" />
-		<table>
+		<mcr:getWorkflowTaskBeanList var="myTaskList" mode="activeTasks" workflowTypes="registeruser" varTotalSize="total1" />
+		<table >
 			<c:forEach var="task" items="${myTaskList}">
 				<c:set var="task" scope="request" value="${task}" />
-				<c:import
-					url="/content/workflow/${task.workflowProcessType}/getTasks.jsp" />
+				<c:import url="/content/workflow/${task.workflowProcessType}/getTasks.jsp" />
 			</c:forEach>
 		</table>
-
-		<br>&nbsp;<br>
-
-		<div class="headline"><fmt:message
-			key="WorkflowEngine.MyInititiatedProcesses" /></div>
-
-		<mcr:getWorkflowTaskBeanList var="myProcessList"
-			mode="initiatedProcesses" workflowTypes="registeruser"
-			varTotalSize="total2" />
-		<table>
-			<c:forEach var="task" items="${myProcessList}">
-				<c:set var="task" scope="request" value="${task}" />
-				<c:import
-					url="/content/workflow/${task.workflowProcessType}/getTasks.jsp" />
-			</c:forEach>
-		</table>
-
 	</c:when>
 	<c:otherwise>
 		<fmt:message key="Admin.PrivilegesError" />

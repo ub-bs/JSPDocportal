@@ -19,18 +19,17 @@
   </start-state>
 
   <task-node name="userCreated">
-     <task name="completeUserAndSendToLibrary" swimlane="usereditor" >
-     </task>
-     <transition name="go2canUserBeSubmitted" to="canUserBeSubmitted" />
-  </task-node>
- 
-   <decision name="canUserBeSubmitted">
-     <handler class="org.mycore.frontend.workflowengine.jbpm.registeruser.MCRDecisionHandlerRegisterUser" />
+     <task name="isUserAccountOK" swimlane="usereditor" > </task>
      <transition name="userCantBeSubmitted" to="userNOTSubmitted" />
      <transition name="userCanBeSubmitted" to="userSubmitted" />
-  </decision>
+  </task-node>
   
   <task-node name="userNOTSubmitted">
+     <event type='node-enter'>
+        <action class="org.mycore.frontend.workflowengine.jbpm.registeruser.MCRUserCancelAction">
+           <lockedVariables>initiator,userID</lockedVariables>
+        </action>
+     </event> 
      <task name="sendToUserNotOK" swimlane="usereditor">    </task> 
      <transition name="go2sendToUserNotOK" to="sendToUserNotOK" />
   </task-node>

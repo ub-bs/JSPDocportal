@@ -26,6 +26,8 @@
 package org.mycore.frontend.workflowengine.jbpm.registeruser;
 
 
+import java.io.File;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -34,11 +36,16 @@ import org.apache.log4j.Logger;
 import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
 import org.mycore.common.MCRException;
+import org.mycore.datamodel.metadata.MCRObject;
+import org.mycore.frontend.cli.MCRObjectCommands;
+import org.mycore.frontend.cli.MCRUserCommands2;
 import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase;
 
 import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowObject;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerBaseImpl;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
+import org.mycore.user2.MCRUser;
+import org.mycore.user2.MCRUserMgr;
 
 /**
  * This class holds methods to manage the workflow file system of MyCoRe.
@@ -80,13 +87,6 @@ public class MCRWorkflowEngineManagerRegisteruser extends MCRWorkflowEngineManag
 			wfo.initialize(initiator);
 			wfo.setStringVariableValue("userID",initiator);
 			wfo.endTask("initialization", initiator, null);
-			
-			try{
-				wfo.signal("go2userCreated");
-			}catch(MCRException e){
-				logger.error("MCRWorkflow Error, could not initialize the workflow process", e);
-				throw new MCRException("MCRWorkflow Error, could not initialize the workflow process");
-			}
 			return wfo.getProcessInstanceID();
 		}else{
 			return processID;
@@ -96,23 +96,26 @@ public class MCRWorkflowEngineManagerRegisteruser extends MCRWorkflowEngineManag
 	public void setWorkflowVariablesFromMetadata(String pID, Element userMetadata){
 		long pid = Long.parseLong(pID);
 		MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(pid);
-		String email 	  = userMetadata.getChild("user.contact").getChild("contact.email").getText();
-		String salutation = userMetadata.getChild("user.contact").getChild("contact.salutation").getText();
-		String firstname  = userMetadata.getChild("user.contact").getChild("contact.firstname").getText();
-		String lastname   = userMetadata.getChild("user.contact").getChild("contact.lastname").getText();
-		String institution= userMetadata.getChild("user.contact").getChild("contact.institution").getText();
-		String faculty    = userMetadata.getChild("user.contact").getChild("contact.faculty").getText();		
+		String email 	   = userMetadata.getChild("user.contact").getChild("contact.email").getText();
+		String salutation  = userMetadata.getChild("user.contact").getChild("contact.salutation").getText();
+		String firstname   = userMetadata.getChild("user.contact").getChild("contact.firstname").getText();
+		String lastname    = userMetadata.getChild("user.contact").getChild("contact.lastname").getText();
+		String institution = userMetadata.getChild("user.contact").getChild("contact.institution").getText();
+		String faculty     = userMetadata.getChild("user.contact").getChild("contact.faculty").getText();		
+		String description = userMetadata.getChild("user.description").getText();	
+		
 		StringBuffer bname = new StringBuffer(salutation).append(" ").append(firstname).append(" ").append(lastname);
 		
 		if ( email != null )
 			wfo.setStringVariableValue("email", email);
-
 		if ( bname != null )
 			wfo.setStringVariableValue("name",  bname.toString());
 		if ( institution != null)
 			wfo.setStringVariableValue("institution", institution);		
 		if ( faculty != null)
 			wfo.setStringVariableValue("faculty", faculty);
+		if ( description != null)
+			wfo.setStringVariableValue("description", description);
 	}	
 	
 	protected MCRJbpmWorkflowObject getWorkflowObject(String userid) {
@@ -152,5 +155,34 @@ public class MCRWorkflowEngineManagerRegisteruser extends MCRWorkflowEngineManag
 		}
 	}	
 
+	public boolean commitWorkflowObject(String userid, String documentType) {
+		boolean bSuccess = false;
+		try{
+			long pid = getUniqueCurrentProcessID(userid);
+		
+			MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(pid);
+			String dirname = getWorkflowDirectory(documentType);
+			String filename = dirname + File.separator + "user_" + userid + ".xml";
+	
+			try { 
+				MCRUser u = new MCRUser();
+		
+				if ( MCRUserMgr.instance().existUser(userid) ) {
+					MCRUserCommands2.updateUserFromFile(filename);
+				} else {
+					MCRUserCommands2.createUserFromFile(filename);
+				}
+				logger.info("The user object: " + filename + " is loaded.");
+			} catch (Exception ig){ 
+				logger.error("Can't load File catched error: ", ig);
+				bSuccess=false;
+			}
+		}catch(Exception e){
+			logger.error("could not commit user");
+			bSuccess = false;
+		}
+		return bSuccess;
+	}
+	
 	
 }

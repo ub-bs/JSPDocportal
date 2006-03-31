@@ -9,51 +9,41 @@
 
 <c:set var="processid" value="${requestScope.task.processID}" />
 <c:set var="dom" value="${requestScope.task.variables}" />
-<c:set var="userID">
-	<x:out select="$dom/variables/variable[@name = 'userID']/@value" />
-</c:set>
-<c:set var="email">
-	<x:out select="$dom/variables/variable[@name = 'email']/@value" />
-</c:set>
-<c:set var="name">
-	<x:out select="$dom/variables/variable[@name = 'name']/@value" />
-</c:set>
-<c:set var="faculty">
-	<x:out select="$dom/variables/variable[@name = 'faculty']/@value" />
-</c:set>
-<c:set var="institution">
-	<x:out select="$dom/variables/variable[@name = 'institution']/@value" />
-</c:set>
+<c:set var="userID">	<x:out select="$dom/variables/variable[@name = 'userID']/@value" /></c:set>
+<c:set var="description">	<x:out select="$dom/variables/variable[@name = 'description']/@value" /></c:set>
+<c:set var="email">	<x:out select="$dom/variables/variable[@name = 'email']/@value" /></c:set>
+<c:set var="name">	<x:out select="$dom/variables/variable[@name = 'name']/@value" /></c:set>
+<c:set var="faculty">	<x:out select="$dom/variables/variable[@name = 'faculty']/@value" /></c:set>
+<c:set var="institution">	<x:out select="$dom/variables/variable[@name = 'institution']/@value" /></c:set>
 
 
-<tr valign="top">
-	<td class="metaname">Nutzerangaben</td>
-	<td>
-		<b><c:out value="${userID}" /></b><br/>
-		<c:out value="${name}" /> <br />
-		<c:out value="${faculty}" /> <c:out value="${institution}" />
-	</td>
-	<td width="50">&#160;</td>
-	<td align="center" valign="top" width="50">
-		<form method="get" action="${baseURL}workflowaction">
-			<input	name="processid" value="${processid}" type="hidden"> 
-			<input	name="todo" value="WFEditWorkflowObject" type="hidden"> 
-			<input	title="<fmt:message key="Object.EditObject" />"	src="${baseURL}images/workflow_objedit.gif" type="image"	class="imagebutton">
-		</form>
-	</td>
-	<td align="center" valign="top" width="50">
-		<form method="get" action="${baseURL}workflowaction">
-			<input	name="processid" value="${processid}" type="hidden"> 
-			<input	name="todo" value="WFCommitWorkflowObject" type="hidden"> 
-			<input	title="<fmt:message key="Nav.WorkflowRegisteruser.submit" />"	src="${baseURL}images/workflow_objcommit.gif" type="image"	class="imagebutton">
-		</form>
-	</td>
-	<td align="center" valign="top" width="50">
-		<form method="get" action="${baseURL}workflowaction">
-			<input		name="processid" value="${processid}" type="hidden"> 
-			<input		name="todo" value="WFDeleteWorkflowObject" type="hidden"> 
-			<input		title="<fmt:message key="Nav.WorkflowRegisteruser.cancel" />" src="${baseURL}images/workflow_objdelete.gif" type="image" class="imagebutton">
-		</form>
- </td>
-</tr>
+	<tr valign="top">
+		<td>
+			<b>Benutzerkennzeichen: <c:out value="${userID}" /></b><br/>
+			<c:out value="${name}" /> <br />
+			<c:out value="${faculty}" /> <c:out value="${institution}" />
+		</td>		
+		<td>&#160;</td>		
+	</tr><tr>
+	    <td class="description" >
+		    <c:out value="${description}" />
+	    </td>	
+		<td align="right">
+		 <table >
+		  <tr>
+			<td align="center" valign="top" width="50">
+				<form method="get" action="${baseURL}registeruserworkflow">
+				    <input  name="nextPath" value="~workflow-registeruser-modify" type="hidden">
+					<input	name="processid" value="${processid}" type="hidden"> 
+					<input	name="todo" value="WFModifyWorkflowUser" type="hidden"> 
+					<input	title="<fmt:message key="Object.EditObject" />"	src="${baseURL}images/workflow_objedit.gif" type="image"	class="imagebutton">
+				</form>
+			</td>
+		  </tr>		 
+		 </table>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="3" class="description">&#160;</td>
+	</tr>
 
