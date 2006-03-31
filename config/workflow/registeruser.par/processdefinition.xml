@@ -47,7 +47,7 @@
 
 
   <task-node name="sendToUserOK">
-    <transition name="go2userCommitted" to="userCommitted" />
+    <transition name="go2userCommitted" to="userCommitted" >
       <action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
          <from>atlibri@uni-rostock.de</from>
          <subject>Nutzeranmeldung in der Digitalen Bibliothek @libri</subject>
@@ -59,7 +59,7 @@
 
   <task-node name="sendToUserNotOK">
     <task name="taskEnterMessageData" swimlane="usereditor" />
-    <transition name="userCanceled" to="userCanceled" />
+    <transition name="userCanceled" to="userCanceled" >
       <action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
          <from>atlibri@uni-rostock.de</from>
          <subject>Nutzeranmeldung in der Digitalen Bibliothek @libri</subject>
