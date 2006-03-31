@@ -2,7 +2,7 @@
 
 <!-- =================================================================== -->
 <!-- MyCoRe sample application build file for use with Apache Ant        -->
-<!-- $Revision: 1.28 $ $Date: 2006-03-29 22:11:21 $                      -->
+<!-- $Revision: 1.29 $ $Date: 2006-03-31 11:46:09 $                      -->
 <!-- =================================================================== -->
 
 <project default="usage" basedir=".">
@@ -152,7 +152,7 @@
 	    <echo>Operating system   : ${os.name} Version ${os.version} on ${os.arch} </echo>
 	    <echo>Java version       : JDK ${ant.java.version} Version ${java.version} from ${java.vendor}</echo>
 	    <echo>Java home          : ${env.JAVA_HOME}</echo>
-	    <echo>Ant build file     : $Revision: 1.28 $ $Date: 2006-03-29 22:11:21 $</echo>
+	    <echo>Ant build file     : $Revision: 1.29 $ $Date: 2006-03-31 11:46:09 $</echo>
 	    <echo>Ant version        : ${ant.version}</echo>
 	    <echo>Ant home           : ${env.ANT_HOME}</echo>
 	    <echo>XML Store type     : ${MCR.XMLStore.Type}</echo>
@@ -1433,7 +1433,7 @@
 	<target name="deploy.processdefinition.xmetadiss">
         <property name="commands.file" value="${basedir}/commands.txt" />
         <echo file="${commands.file}" append="false">
-        	deploy jbpm processdefinition from file /workflow/xmetadiss.par/processdefinition.xml      	
+        	deploy jbpm processdefinition from file workflow/xmetadiss.par/processdefinition.xml      	
         </echo>
         <antcall target="invoke.cli">
             <param name="cli.directory"
@@ -1446,7 +1446,7 @@
 	<target name="deploy.processdefinition.registeruser">
         <property name="commands.file" value="${basedir}/commands.txt" />
         <echo file="${commands.file}" append="false">
-        	deploy jbpm processdefinition from file /workflow/registeruser.par/processdefinition.xml      	
+        	deploy jbpm processdefinition from file workflow/registeruser.par/processdefinition.xml      	
         </echo>
         <antcall target="invoke.cli">
             <param name="cli.directory"
