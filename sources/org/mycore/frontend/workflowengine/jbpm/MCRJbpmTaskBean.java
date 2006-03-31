@@ -1,8 +1,11 @@
 package org.mycore.frontend.workflowengine.jbpm;
 
+import java.io.Serializable;
 
-public class MCRJbpmTaskBean {
 
+public class MCRJbpmTaskBean implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	private long processID;
 	private String workflowProcessType;
 	private String taskName;
