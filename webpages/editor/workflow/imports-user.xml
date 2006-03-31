@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<imports>
+
+  <include uri="webapp:editor/workflow/imports-common.xml" />
+ 
+  <!-- *** Alle Datenfelder die in registeruser und modifyuser benötigt werden -->
+  
+    <list id="COrigin" width="425px" type="dropdown" class="mandatory">
+      <item value="">
+        <label xml:lang="de">(bitte wählen)</label>
+        <label xml:lang="en">(please choose)</label>
+      </item>
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationLabelInItems&amp;prop=MCR.WorkflowEngine.ClassificationID.Origin.registeruser&amp;defaultValue=DocPortal_class_00000002" />              
+    </list>
+    
+    <list id="CInstitution" width="425px" type="dropdown" class="mandatory">
+      <item value="">
+        <label xml:lang="de">(bitte wählen)</label>
+        <label xml:lang="en">(please choose)</label>
+      </item>
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationLabelInItems&amp;prop=MCR.WorkflowEngine.ClassificationID.Institution.registeruser&amp;defaultValue=DocPortal_class_00000003" />              
+    </list>
+
+  
+  <!-- *** End *** -->
+</imports>
