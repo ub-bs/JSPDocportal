@@ -28,7 +28,7 @@
 			<c:choose>
 				<c:when test="${adminuser eq 'true'}">
 					<img src="${applicationScope.WebApplicationBaseURL}images/link_intern.gif" border="0" />&#160; <a href="${applicationScope.WebApplicationBaseURL}nav?path=~workflow-registeruser">
-						Neuanmeldungen um Dokumente in @libri einzustellen
+						<fmt:message key="Nav.WorkflowRegisteruser" />
 					</a><br />
 				</c:when>
 				<c:otherwise>
