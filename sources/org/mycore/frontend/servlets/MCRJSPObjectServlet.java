@@ -71,17 +71,17 @@ public class MCRJSPObjectServlet extends MCRServlet {
         // the urn with information about the MCRObjectID
     	HttpServletRequest request = job.getRequest();
     	HttpServletResponse response = job.getResponse();
-    	LOGGER.debug("HH: contextPath=" + request.getContextPath());
-    	LOGGER.debug("HH: servletPath=" + request.getServletPath());
+    	LOGGER.debug("contextPath=" + request.getContextPath());
+    	LOGGER.debug("servletPath=" + request.getServletPath());
 
         String uri = request.getPathInfo();
         String id = null;
 
         if (uri != null) {
-            LOGGER.debug(this.getClass() + " Path = " + uri);
+            LOGGER.debug(" Path = " + uri);
 
             int j = uri.length();
-            LOGGER.debug(this.getClass() + " " + uri.substring(1, j));
+            LOGGER.debug(" id = " + uri.substring(1, j));
             id = uri.substring(1, j);
         } else {
             id = getProperty(job.getRequest(), "id");
