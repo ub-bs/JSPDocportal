@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!-- ============================================== -->
-<!-- $Revision: 1.1 $ $Date: 2005-11-14 12:51:03 $ -->
+<!-- $Revision: 1.2 $ $Date: 2006-04-03 18:25:50 $ -->
 <!-- ============================================== -->
 <xsl:stylesheet
      version="1.0"
@@ -235,6 +235,10 @@
               <xsl:value-of select="./metadata/urns/urn/@xlink:href" /> 
            </xsl:element>
         </xsl:if>
+        <xsl:element name="dc:identifier">
+        	<xsl:variable name="ID" select="./@ID" />
+            <xsl:value-of select="concat($WebApplicationBaseURL,'receive/',$ID)" /> 
+        </xsl:element>
     </xsl:template>
     
     <xsl:template name="identifier_qdc">

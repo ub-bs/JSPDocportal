@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!-- ============================================== -->
-<!-- $Revision: 1.1 $ $Date: 2005-11-14 12:51:02 $ -->
+<!-- $Revision: 1.2 $ $Date: 2006-04-03 18:25:50 $ -->
 <!-- ============================================== -->
 <xsl:stylesheet
      version="1.0"
@@ -23,6 +23,7 @@
 	             encoding="UTF-8"/>
    
     <xsl:param name="ServletsBaseURL" select="''" /> 
+    <xsl:param name="WebApplicationBaseURL" select="''" />     
     <xsl:param name="JSessionID" select="''" />   
     
     <xsl:include href="MyCoReDublinCoreTemplates.xsl" />             
