@@ -65,13 +65,13 @@ public class MCRWorkflowActions extends MCRServlet {
         MCRRequestParameters parms = new MCRRequestParameters(request);
 
         String pid = parms.getParameter("processid");
-        
+        //TODO variable weg
         MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(Long.parseLong(pid));
         MCRWorkflowEngineManagerInterface WFI = wfo.getCurrentWorkflowManager();
         
         //jbpm_variableinstance  initiator, authorID, reservatedURN und createdDocID
-        String mcrid = wfo.getStringVariableValue("createdDocID");
-        String userid = wfo.getStringVariableValue("initiator");
+        String mcrid = wfo.getStringVariable("createdDocID");
+        String userid = wfo.getStringVariable("initiator");
         String workflowType = wfo.getWorkflowProcessType();
         String documentType = wfo.getDocumentType();
         

@@ -8,6 +8,8 @@ import javax.servlet.jsp.*;
 import org.apache.log4j.Logger;
 import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase;
 import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowObject;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerFactory;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
 
 public class MCRSetWorkflowEngineVariableTag extends SimpleTagSupport
 {
@@ -16,7 +18,8 @@ public class MCRSetWorkflowEngineVariableTag extends SimpleTagSupport
 	private String workflowVar;
 	private String mode;
 	
-	private static Logger logger = Logger.getLogger(MCRSetWorkflowEngineVariableTag.class); 
+	private static Logger logger = Logger.getLogger(MCRSetWorkflowEngineVariableTag.class);
+	private static MCRWorkflowEngineManagerInterface defaultWFI = MCRWorkflowEngineManagerFactory.getDefaultImpl();
 
 	public void setPid(long pid) {
 		this.pid = pid;
@@ -30,19 +33,9 @@ public class MCRSetWorkflowEngineVariableTag extends SimpleTagSupport
 		this.workflowVar = workflowVar;
 	}
 	
-	public void setMode(String mode){
-		this.mode = mode;
-	}
-	
 	public void doTag() throws JspException, IOException {
 		try {	
-			if(mode != null){
-				if(mode.equals("taskMessage")){
-					workflowVar = MCRJbpmWorkflowBase.varTASKMESSAGE; 
-				}
-			}
-	    	MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(pid);
-	    	wfo.setStringVariableValue(workflowVar, value);
+			defaultWFI.setStringVariable(workflowVar, value, pid);
 		}catch (Exception e) {
 			logger.error("could not fetch workflow variable", e);
 		}

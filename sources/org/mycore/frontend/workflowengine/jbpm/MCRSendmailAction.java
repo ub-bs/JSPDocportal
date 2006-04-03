@@ -33,6 +33,8 @@ public class MCRSendmailAction implements ActionHandler{
 	private String body;
 	private String mode;
 	
+	private String jbpmVariableName;
+	
 	private String dateOfSubmissionVariable;
 	
 	
@@ -49,13 +51,11 @@ public class MCRSendmailAction implements ActionHandler{
 		subject += " (Bearbeitungsnummer: " + executionContext.getProcessInstance().getId() + ")";
 		if(body == null)
 			body = "";
-		
+		if(jbpmVariableName != null && !jbpmVariableName.equals("")){
+			body += executionContext.getVariable(jbpmVariableName);  
+		}
 		if(mode != null){
-				if(mode.toLowerCase().equals("taskmessage")){
-					body += executionContext.getVariable(MCRJbpmWorkflowBase.varTASKMESSAGE);
-				}else{
-					body = getBody(executionContext, mode);
-				}
+			body = getBody(executionContext, mode);
 		}
 		if(body.equals("")){
 			String errMsg = "no body for mail was given";
@@ -73,9 +73,10 @@ public class MCRSendmailAction implements ActionHandler{
 			    executionContext.setVariable(dateOfSubmissionVariable, formater.format( cal.getTime() ) );	
 			}
 		}catch(Exception e){
-			String errMsg = "could not send email";
-			logger.error(errMsg, e);
-			throw new MCRException(errMsg);
+			logger.error("could not send email, but the workflow goes on");
+			logger.error("mail subject: " + subject);
+			logger.error("mail body: " + body);
+			logger.error("mail main recipients: " + to);
 		}
 	}
 	

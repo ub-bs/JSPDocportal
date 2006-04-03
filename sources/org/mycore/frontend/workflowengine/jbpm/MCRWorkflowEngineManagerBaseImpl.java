@@ -16,7 +16,9 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -291,6 +293,60 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
     	return query;
     }
 	
+	public void setStringVariables(Map map, long processID){
+		MCRJbpmWorkflowObject wfo = getWorkflowObject(processID);
+		wfo.setStringVariables(map);
+	}
+	
+	public void setStringVariable(String variable, String value, long processID){
+		MCRJbpmWorkflowObject wfo = getWorkflowObject(processID);
+		wfo.setStringVariable(variable, value);		
+	}
+	
+	public String getStringVariable(String variable, long processID){
+		MCRJbpmWorkflowObject wfo = getWorkflowObject(processID);
+		return wfo.getStringVariable(variable);
+	}
+	
+	protected MCRJbpmWorkflowObject getWorkflowObject(long processID){
+		MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(processID);
+		return wfo;
+	}
+	
+	protected MCRJbpmWorkflowObject createWorkflowObject(String workflowProcessType){
+		MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(workflowProcessType);
+		return wfo;
+	}	
+	
+	public void deleteWorkflowProcessInstance(long processID) {
+		try{
+	    	MCRJbpmWorkflowObject wfo = getWorkflowObject(processID);
+	    	String createdDocID = wfo.getStringVariable("createdDocID") ;
+	    	if ( createdDocID != null && createdDocID.length() > 0 ) {
+	    		// delete data from workflow
+	    		boolean bSuccess = deleteWorkflowObject(createdDocID, wfo.getDocumentType() );  								
+				if (bSuccess) {
+					// AccessRules löschen !!
+					AI.removeAllRules(createdDocID);
+				}
+	    	}
+	    	MCRJbpmWorkflowBase.deleteProcessInstance(processID);
+		}catch(Exception e){
+			String errMsg = "could not delete process [" + processID + "]"; 
+			logger.error(errMsg);
+			throw new MCRException(errMsg);
+		}
+	}
+	
+	public void deleteWorkflowVariables(Set set, long processID){
+		MCRJbpmWorkflowObject wfo = getWorkflowObject(processID);
+		for (Iterator it = set.iterator(); it.hasNext();) {
+			String el = (String) it.next();
+			wfo.deleteVariable(el);
+		}
+	}
+	
+	
 	protected String createAuthor(String userid, String workflowProcessType){
 		MCRUser user = null;
 		try {
@@ -443,7 +499,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		long pid = getUniqueWorkflowProcessFromCreatedDocID(mcrid);
 		if(pid > 0) {
 			MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(pid);
-			wfo.setStringVariableValue(VALIDPREFIX + mcrid, Boolean.toString(isValid));
+			wfo.setStringVariable(VALIDPREFIX + mcrid, Boolean.toString(isValid));
 		}
 	}	
 	
@@ -456,9 +512,9 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 			sbTitle.append(title.getText());
 		}
 		if(sbTitle.length() == 0){
-			wfo.setStringVariableValue("wfo-title", "Your Workflow Object");
+			wfo.setStringVariable("wfo-title", "Your Workflow Object");
 		}else{
-			wfo.setStringVariableValue("wfo-title", sbTitle.toString());
+			wfo.setStringVariable("wfo-title", sbTitle.toString());
 		}
 	}
 	
@@ -467,7 +523,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		if(pid > 0) {
 			MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(pid);
 			try{
-				if(wfo.getStringVariableValue("valid-" + mcrid).equals("true"))
+				if(wfo.getStringVariable("valid-" + mcrid).equals("true"))
 					return true;
 				else
 					return false;
@@ -549,7 +605,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		for (Iterator iter = lpids.iterator(); iter.hasNext();) {
 			Long  pid  = (Long) iter.next();
 			MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(pid.longValue());
-			String docID = wfo.getStringVariableValue("createdDocID");
+			String docID = wfo.getStringVariable("createdDocID");
 			
 			if ( ! AI.checkPermission(docID, "writedb") )
 				continue;

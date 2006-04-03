@@ -71,8 +71,8 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
     public static final void deleteProcess(String strProcessID) throws MCRException{
     	try{
     		long processID = Long.valueOf(strProcessID).longValue();
-    		MCRJbpmWorkflowBase wfb = new MCRJbpmWorkflowBase();
-    		wfb.deleteProcessInstance(processID);
+    		MCRWorkflowEngineManagerInterface defaultWFI = MCRWorkflowEngineManagerFactory.getDefaultImpl();
+    		defaultWFI.deleteWorkflowProcessInstance(processID);
     	}catch(Exception e){
     		LOGGER.error("could not delete process " + strProcessID, e);
     		throw new MCRException("Error in deleting a process from workflow engine");

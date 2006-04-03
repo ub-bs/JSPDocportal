@@ -63,7 +63,7 @@ import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface
 public class MCRDeleteProcessTag extends SimpleTagSupport {
 	private static Logger LOGGER = Logger.getLogger(MCRDeleteProcessTag.class.getName());
 	private String result;
-	private String pid;
+	private long pid;
 	private String workflowProcessType;
 	
 	private static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
@@ -71,7 +71,7 @@ public class MCRDeleteProcessTag extends SimpleTagSupport {
 	public void setworkflowProcessType(String workflowProcessType) {
 		this.workflowProcessType = workflowProcessType;
 	}
-	public void setPid(String pid) {
+	public void setPid(long pid) {
 		this.pid = pid;
 	}
 	
@@ -93,20 +93,7 @@ public class MCRDeleteProcessTag extends SimpleTagSupport {
 
     	if ( AI.checkPermission("administrate-" + workflowProcessType) ) {
 			try{ 
-		    	MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(Long.parseLong(pid));
-		    	String createdDocID = wfo.getStringVariableValue("createdDocID") ;
-		    	if ( createdDocID != null && createdDocID.length() > 0 ) {
-		    		// Daten aus dem WFM löschen
-		    		boolean bSuccess = WFM.deleteWorkflowObject(createdDocID, wfo.getDocumentType() );  								
-	    			if (bSuccess) {
-	    				// AccessRules löschen !!
-	    				AI.removeAllRules(createdDocID);
-	    			}
-		    	}
-				MCRJbpmCommands.deleteProcess(pid);
-			} catch (java.lang.NullPointerException noObject) {
-		    	pageContext.setAttribute(result, "Admin.Process.deleted.noprocess");				
-		    	LOGGER.error("error:", noObject);
+				WFM.deleteWorkflowProcessInstance(pid);
 			} catch (Exception allEx) {
 		    	pageContext.setAttribute(result, "Admin.Process.deleted.error");	
 		    	LOGGER.error("error:", allEx);

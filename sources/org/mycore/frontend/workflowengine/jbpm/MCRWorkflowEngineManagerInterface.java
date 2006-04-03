@@ -1,6 +1,9 @@
 package org.mycore.frontend.workflowengine.jbpm;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.jdom.Document;
 import org.jdom.Element;
@@ -201,5 +204,15 @@ public interface MCRWorkflowEngineManagerInterface {
 	 * @param isValid
 	 */
 	abstract void setUserIDValidFlag(String userID, boolean isValid);
+	
+	abstract void setStringVariables(Map map, long processID);
+	
+	abstract void setStringVariable(String variable, String value, long processID);
+	
+	abstract String getStringVariable(String variable, long processID);
+	
+	abstract void deleteWorkflowProcessInstance(long processID);
+	
+	abstract void deleteWorkflowVariables(Set set, long processID);
 	
 }

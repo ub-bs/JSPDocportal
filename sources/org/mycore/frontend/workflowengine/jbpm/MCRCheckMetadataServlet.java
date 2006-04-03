@@ -136,7 +136,7 @@ public class MCRCheckMetadataServlet extends MCRServlet {
 			.append(File.separator).append(ID.getId()).append(".xml");
         try{
         	WFI.storeMetadata(MCRUtils.getByteArray(indoc), ID.getId(), storePath.toString());
-        	outdoc = prepareMetadata((org.jdom.Document) indoc.clone(), ID, job, lang, step, nextPath, storePath.toString());
+        	outdoc = prepareMetadata((org.jdom.Document) indoc.clone(), ID, job, lang, step, nextPath, storePath.toString(), workflowType);
         	WFI.storeMetadata(MCRUtils.getByteArray(outdoc), ID.getId(), storePath.toString());
         	WFI.setWorkflowVariablesFromMetadata(mcrid1, indoc.getRootElement().getChild("metadata"));
         	WFI.setMetadataValidFlag(mcrid1, true);
@@ -171,10 +171,10 @@ public class MCRCheckMetadataServlet extends MCRServlet {
      *            the current language
      */
     protected org.jdom.Document prepareMetadata(org.jdom.Document jdom_in, MCRObjectID ID, MCRServletJob job, 
-    		String lang, String step, String nextPath, String storePath) throws Exception {
+    		String lang, String step, String nextPath, String storePath, String workflowType) throws Exception {
         try{
         	EditorValidator ev = new EditorValidator(jdom_in, ID);
-        	errorHandlerValid(job, ev.getErrorLog(), ID, lang, step, nextPath, storePath);        	
+        	errorHandlerValid(job, ev.getErrorLog(), ID, lang, step, nextPath, storePath, workflowType);        	
         	Document jdom_out = ev.generateValidMyCoReObject();
         	return jdom_out;
         }catch(Exception e){
@@ -188,7 +188,7 @@ public class MCRCheckMetadataServlet extends MCRServlet {
      * A method to handle valid errors.
      */
     private final void errorHandlerValid(MCRServletJob job, List logtext, MCRObjectID ID, 
-    		String lang, String step, String nextPath, String storePath) throws Exception {
+    		String lang, String step, String nextPath, String storePath, String workflowType) throws Exception {
         if (logtext.size() == 0) {
             return;
         }
@@ -202,6 +202,7 @@ public class MCRCheckMetadataServlet extends MCRServlet {
 	        // redirect to editor
 	        HttpServletRequest request = job.getRequest();
 	        request.setAttribute("errorList", logtext);
+	        request.setAttribute("workflowType", workflowType);
 	        request.setAttribute("mcrid", ID.getId());
 	        request.setAttribute("type", ID.getTypeId());
 	        request.setAttribute("step", step);

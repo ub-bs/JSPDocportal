@@ -34,7 +34,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 
 import org.apache.commons.fileupload.FileItem;
@@ -46,8 +45,6 @@ import org.jdom.filter.ElementFilter;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 import org.mycore.services.fieldquery.MCRQueryManager;
-import org.mycore.access.MCRAccessManager;
-import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRDefaults;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRUtils;
@@ -63,6 +60,8 @@ import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowObject;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerBaseImpl;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
 import org.mycore.services.fieldquery.MCRResults;
+import org.mycore.user2.MCRUser;
+import org.mycore.user2.MCRUserMgr;
 import org.mycore.common.JSPUtils;
 
 /**
@@ -102,14 +101,23 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 			logger.warn(errMsg);
 			throw new MCRException(errMsg);
 		}else if (processID == 0) {
-			MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(processType);
+			MCRJbpmWorkflowObject wfo = createWorkflowObject(processType);
 			try{
 				wfo.initialize(initiator);
-				wfo.setStringVariableValue("fileCnt", "0");
+				MCRUser user = MCRUserMgr.instance().retrieveUser(initiator);
+				String email = user.getUserContact().getEmail();
+				if(email != null && !email.equals("")){
+					wfo.setStringVariable("initiatorEmail", email);
+				}
+				String salutation = user.getUserContact().getSalutation();
+				if(salutation != null && !salutation.equals("")){
+					wfo.setStringVariable("initiatorSalutation", salutation);
+				}
+				wfo.setStringVariable("fileCnt", "0");
 				wfo.endTask("initialization", initiator, null);
 				wfo.signal("go2authorCreated");
 				wfo.signal("go2urnCreated");
-				wfo.signal("go2disshabCreated");				
+				wfo.signal("go2isInitiatorsEmailAddressAvailable");				
 			}catch(MCRException e){
 				logger.error("MCRWorkflow Error, could not initialize the workflow process", e);
 				throw new MCRException("MCRWorkflow Error, could not initialize the workflow process");
@@ -151,7 +159,7 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 		if(wfo == null || !isUserValid(userid))
 			return "";
 	
-		String authorID = wfo.getStringVariableValue("authorID");
+		String authorID = wfo.getStringVariable("authorID");
 		if(authorID != null && !authorID.equals("")){
 			return authorID;
 		}
@@ -176,7 +184,7 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 		if(wfo == null || !isUserValid(userid))
 			return "";
 		
-		String urn = wfo.getStringVariableValue("reservatedURN");
+		String urn = wfo.getStringVariable("reservatedURN");
 		if(urn != null && !urn.equals("")){
 			return urn;
 		}
@@ -192,7 +200,7 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 		if(wfo == null || !isUserValid(userid))
 			return "";
 
-		String docID = wfo.getStringVariableValue("createdDocID");
+		String docID = wfo.getStringVariable("createdDocID");
 		if(docID != null && !docID.equals("")) {
 			return docID;
 		}
@@ -307,7 +315,7 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 			logger.warn("no " + processType + " workflow found for user " + userid);
 			return null;
 		}
-		return new MCRJbpmWorkflowObject(curProcessID);		
+		return getWorkflowObject(curProcessID);		
 	}
 	
 	public void saveFiles(List files, String dirname, long pid) throws MCRException {
@@ -329,7 +337,7 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 		
 		String derID = der.getId().getId();
 		
-		MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(pid);
+		MCRJbpmWorkflowObject wfo = getWorkflowObject(pid);
 		
 		boolean containsPdf = false;
 		boolean containsZip = false;
@@ -368,7 +376,7 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 					throw new MCRException(errMsg);
 				}else{
 					containsPdf = true;
-					String wfPdf = wfo.getStringVariableValue("containsPDF"); 
+					String wfPdf = wfo.getStringVariable("containsPDF"); 
 					if(wfPdf != null && !wfPdf.equals(derID) && !wfPdf.equals("")){
 						String errMsg = "just one pdf-file for all derivates for one dissertation, please delete old derivates first";
 						logger.error(errMsg);
@@ -419,16 +427,16 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 			throw new MCRException(msgErr);
 		}
 		if(containsPdf){
-			wfo.setStringVariableValue("containsPDF", derID);
+			wfo.setStringVariable("containsPDF", derID);
 			if(containsZip){
-				wfo.setStringVariableValue("containsZIP", derID);
+				wfo.setStringVariable("containsZIP", derID);
 			}
 		}
-		String attachedDerivates = wfo.getStringVariableValue("attachedDerivates");
+		String attachedDerivates = wfo.getStringVariable("attachedDerivates");
 		if(attachedDerivates == null || attachedDerivates.equals("")){
-			wfo.setStringVariableValue("attachedDerivates", derID);
+			wfo.setStringVariable("attachedDerivates", derID);
 		}else{
-			wfo.setStringVariableValue("attachedDerivates", attachedDerivates + "," + derID);
+			wfo.setStringVariable("attachedDerivates", attachedDerivates + "," + derID);
 		}
 	}	
 	
@@ -438,8 +446,8 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 		if(lpids != null && lpids.size() == 1) {
 			pid = ((Long)lpids.get(0)).longValue();
 		}
-		MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(pid);
-		Set attachedDerivates = new HashSet(Arrays.asList(wfo.getStringVariableValue("attachedDerivates").split(",")));
+		MCRJbpmWorkflowObject wfo = getWorkflowObject(pid);
+		HashSet attachedDerivates = new HashSet(Arrays.asList(wfo.getStringVariable("attachedDerivates").split(",")));
 		attachedDerivates.remove(derID);
 		StringBuffer sbAttached = new StringBuffer("");
 		boolean first = true;
@@ -451,13 +459,13 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 		}
 		if (backupDerivateObject(documentType, metadataObject, derID, pid)){
 			if(super.deleteDerivateObject(documentType, metadataObject, derID)){
-				wfo.setStringVariableValue("attachedDerivates", sbAttached.toString());
-				String cmp = wfo.getStringVariableValue("containsPDF"); 
+				wfo.setStringVariable("attachedDerivates", sbAttached.toString());
+				String cmp = wfo.getStringVariable("containsPDF"); 
 				if(cmp != null && cmp.equals(derID))
-					wfo.setStringVariableValue("containsPDF","");
-				cmp = wfo.getStringVariableValue("containsZIP");
+					wfo.setStringVariable("containsPDF","");
+				cmp = wfo.getStringVariable("containsZIP");
 				if(cmp != null && cmp.equals(derID))
-					wfo.setStringVariableValue("containsZIP", "");
+					wfo.setStringVariable("containsZIP", "");
 				return true;
 			}else{
 				logger.error("problems in deleting, check inconsistences in workflow process " + pid);
@@ -473,7 +481,7 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 		boolean bSuccess = false;
 		try{
 			long pid = getUniqueWorkflowProcessFromCreatedDocID(objmcrid);
-			MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(pid);
+			MCRJbpmWorkflowObject wfo = getWorkflowObject(pid);
 			String dirname = getWorkflowDirectory(documentType);
 			String filename = dirname + File.separator + objmcrid + ".xml";
 	
@@ -489,7 +497,7 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 				bSuccess=false;
 			}
 			if ( (bSuccess = MCRObject.existInDatastore(objmcrid))  ) {
-				List derivateIDs = Arrays.asList(wfo.getStringVariableValue("attachedDerivates").split(","));
+				List derivateIDs = Arrays.asList(wfo.getStringVariable("attachedDerivates").split(","));
 				try{
 					for (Iterator it = derivateIDs.iterator(); it.hasNext();) {
 						String derivateID = (String) it.next();
@@ -518,8 +526,8 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 			}
 		}else if(decisionNode.equals("canDisshabBeCommitted")){
 			if(checkSubmitVariables(processid)){
-				MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(processid);
-				String signedAffirmationAvailable = wfo.getStringVariableValue(MCRJbpmWorkflowBase.varSIGNED_AFFIRMATION_AVAILABLE);
+				MCRJbpmWorkflowObject wfo = getWorkflowObject(processid);
+				String signedAffirmationAvailable = wfo.getStringVariable(MCRJbpmWorkflowBase.varSIGNED_AFFIRMATION_AVAILABLE);
 				if(signedAffirmationAvailable != null && signedAffirmationAvailable.equals("true")){
 					return "go2wasCommitmentSuccessful";
 				}else{
@@ -533,14 +541,14 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 	}
 	
 	private boolean checkSubmitVariables(long processid){
-		MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(processid);
-		String authorID = wfo.getStringVariableValue("authorID");
-		String reservatedURN = wfo.getStringVariableValue("reservatedURN");
-		String createdDocID = wfo.getStringVariableValue("createdDocID");
-		String attachedDerivates = wfo.getStringVariableValue("attachedDerivates");
+		MCRJbpmWorkflowObject wfo = getWorkflowObject(processid);
+		String authorID = wfo.getStringVariable("authorID");
+		String reservatedURN = wfo.getStringVariable("reservatedURN");
+		String createdDocID = wfo.getStringVariable("createdDocID");
+		String attachedDerivates = wfo.getStringVariable("attachedDerivates");
 		if(!isEmpty(authorID) && !isEmpty(reservatedURN) && !isEmpty(createdDocID) && !isEmpty(attachedDerivates)){
-			String strDocValid = wfo.getStringVariableValue(VALIDPREFIX + createdDocID );
-			String containsPDF = wfo.getStringVariableValue("containsPDF");
+			String strDocValid = wfo.getStringVariable(VALIDPREFIX + createdDocID );
+			String containsPDF = wfo.getStringVariable("containsPDF");
 			if(strDocValid != null && containsPDF != null){
 				if(strDocValid.equals("true") && !containsPDF.equals("")){
 					return true;
@@ -552,14 +560,14 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 	
 	public void setWorkflowVariablesFromMetadata(String mcrid, Element metadata){
 		long pid = getUniqueWorkflowProcessFromCreatedDocID(mcrid);
-		MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(pid);
+		MCRJbpmWorkflowObject wfo = getWorkflowObject(pid);
 		StringBuffer sbTitle = new StringBuffer("");
 		for(Iterator it = metadata.getDescendants(new ElementFilter("title")); it.hasNext();){
 			Element title = (Element)it.next();
 			if(title.getAttributeValue("type").equals("original-main"))
 				sbTitle.append(title.getText());
 		}
-		wfo.setStringVariableValue("wfo-title", sbTitle.toString());	
+		wfo.setStringVariable("wfo-title", sbTitle.toString());	
 	}	
 	
 	public boolean isEmpty(String test){

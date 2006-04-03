@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -15,8 +16,10 @@ import org.jbpm.db.GraphSession;
 import org.jbpm.graph.def.Node;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.def.Transition;
+import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
+import org.jbpm.jpdl.el.impl.JbpmExpressionEvaluator;
 import org.jbpm.taskmgmt.exe.PooledActor;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 import org.mycore.common.MCRException;
@@ -31,11 +34,11 @@ public class MCRJbpmWorkflowObject {
 	private long processInstanceID = -1;
 	private String workflowProcessType;
 	
-	public MCRJbpmWorkflowObject(String processType) {
+	MCRJbpmWorkflowObject(String processType) {
 		createNewProcessInstance(processType);
 	}
 	
-	public MCRJbpmWorkflowObject(long processID){
+	MCRJbpmWorkflowObject(long processID){
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try{
 			ProcessInstance pI = jbpmContext.getGraphSession().loadProcessInstance(processID);
@@ -143,7 +146,7 @@ public class MCRJbpmWorkflowObject {
 	
 	public String getDocumentType() {
 		
-		String mcrid = getStringVariableValue("createdDocID");
+		String mcrid = getStringVariable("createdDocID");
 		
 		try {
 			String parts[] = mcrid.split("_");
@@ -153,7 +156,7 @@ public class MCRJbpmWorkflowObject {
 		}
 	}
 
-	public String getStringVariableValue(String varName) {
+	public String getStringVariable(String varName) {
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try {
 			ContextInstance contextInstance = jbpmContext.getGraphSession().loadProcessInstance(processInstanceID).getContextInstance();
@@ -175,7 +178,7 @@ public class MCRJbpmWorkflowObject {
 	 * @param varName
 	 * @param value
 	 */
-	public void setStringVariableValue(String varName, String value) {
+	public void setStringVariable(String varName, String value) {
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try {
 			ProcessInstance processInstance = jbpmContext.getGraphSession().loadProcessInstance(processInstanceID);
@@ -190,6 +193,39 @@ public class MCRJbpmWorkflowObject {
 		}catch(MCRException e){
 			logger.error("could not set variable '" + varName + 
 					"' to the value [" + value + "]", e);
+		}finally {
+			jbpmContext.close();
+		}		
+	}
+	
+	/**
+	 * sets workflow-process variables
+	 * 
+	 * be careful, don't use this function in actionhandlers (persistence problems),
+	 * set variables with contextInstance there... 
+	 * @param varName
+	 * @param value
+	 */
+	public void setStringVariables(Map map) {
+		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+		try {
+			ProcessInstance processInstance = jbpmContext.getGraphSession().loadProcessInstance(processInstanceID);
+			ContextInstance contextInstance = processInstance.getContextInstance();
+			Set lockedSet = getSetOfLockedVariables((String)contextInstance.getVariable(MCRJbpmWorkflowBase.lockedVariablesIdentifier));
+			for (Iterator it = map.keySet().iterator(); it.hasNext();) {
+				String key = (String) it.next();
+				if(!lockedSet.contains(key)){
+					String value = (String)map.get(key);
+					if(value == null)
+						value = "";
+					contextInstance.setVariable(key, (String)map.get(key));
+					jbpmContext.save(processInstance);
+				}else{
+					logger.debug("variable [" + key + "] could not be set, it is locked");
+				}
+			}
+		}catch(MCRException e){
+			logger.error("could not set variable map");
 		}finally {
 			jbpmContext.close();
 		}		
@@ -329,18 +365,17 @@ public class MCRJbpmWorkflowObject {
 	}	
 
 	
-	public void testFunction() {
+	public static void testFunction() {
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		jbpmContext.close();
 		jbpmContext = jbpmConfiguration.createJbpmContext();
 		try {
-			ProcessInstance processInstance = jbpmContext.loadProcessInstance(processInstanceID);
-			System.out.println(processInstance.getRootToken().getName());
-			System.out.println(processInstance.getRootToken().getFullName());
-			//System.out.println(processInstance.getRootToken().getNode().getName());
-			//processInstance.getRootToken().setNode(new Node("disshabCreated"));
-			jbpmContext.save(processInstance);
-			processInstance.end();
+			ProcessInstance processInstance = jbpmContext.loadProcessInstance(10);
+			ContextInstance contextInstance = processInstance.getContextInstance();
+			System.out.println(contextInstance.getVariable("initiator"));
+			Object obj = JbpmExpressionEvaluator.evaluate("#{contextInstance.variables['initiator'] eq 'author1A'}", new ExecutionContext(processInstance.getRootToken()));
+			System.out.println(obj.toString());
+			System.out.println("evaluated");
 			//System.out.println(processInstance.getRootToken().getNode().getName());
 //		   TaskInstance taskInstance = null;
 //		    
