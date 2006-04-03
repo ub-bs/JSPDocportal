@@ -8,12 +8,17 @@
 <fmt:setLocale value='${requestScope.lang}'/>
 <fmt:setBundle basename='messages'/>
 <c:set var="WebApplicationBaseURL" value="${applicationScope.WebApplicationBaseURL}" />
-<c:set var="mcrid" value="${param.id}" /> 
+<c:set var="mcrid">
+   <c:choose>
+      <c:when test="${!empty(requestScope.id)}">${requestScope.id}</c:when>
+      <c:otherwise>${param.id}</c:otherwise>
+   </c:choose>
+</c:set>
 <c:set var="from"  value="${param.fromWForDB}" /> 
 <c:set var="debug" value="${param.debug}" />
 <c:set var="style" value="${param.style}" /> 
 
-<mcr:receiveMcrObjAsJdom var="mycoreobject" mcrid="${mcrid}" fromWForDB="workflow" />
+<mcr:receiveMcrObjAsJdom var="mycoreobject" mcrid="${mcrid}" fromWForDB="${from}" />
 <c:choose>
    <c:when test="${requestScope.host}">
       <c:set var="host" value="${requestScope.host}" />
