@@ -8,6 +8,7 @@
 <c:set var="mcrid" value="${requestScope.mcrid}" />
 <c:set var="type" value="${requestScope.type}" />
 <c:set var="step" value="${requestScope.step}" />
+<c:set var="workflowType" value="${requestScope.workflowType}" />
 <c:set var="nextPath" value="${requestScope.nextPath}" />
 <c:set var="target" value="${requestScope.target}" />
 <c:set var="editorSource" value="${requestScope.editorSource}" />
@@ -26,7 +27,7 @@
    <fmt:message key="Workflow.Editor.ValidatorError.Instructions" />
 </div>
 <mcr:includeEditor isNewEditorSource="false" mcrid="${mcrid}" type="${type}" 
-    step="${step}" target="${target}" editorSource="${editorSource}" nextPath="${nextPath}" />
+    step="${step}" target="${target}" editorSource="${editorSource}" nextPath="${nextPath}" workflowType="${workflowType}"/>
 
 
 </c:catch>
