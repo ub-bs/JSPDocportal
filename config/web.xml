@@ -31,8 +31,13 @@
     
     <!-- servlets -->    
     <servlet>
+        <servlet-name>MCRJbpmVariableSetterServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.workflowengine.jbpm.MCRJbpmVariableSetterServlet</servlet-class>
+    </servlet>     
+    
+    <servlet>
         <servlet-name>MCRRegisterUserWorkflowServlet</servlet-name>
-        <servlet-class>org.mycore.frontend.workflowengine.jbpm.registeruser.MCRRegisterUserWorkflowServlett</servlet-class>
+        <servlet-class>org.mycore.frontend.workflowengine.jbpm.registeruser.MCRRegisterUserWorkflowServlet</servlet-class>
     </servlet>     
     
     <servlet>
@@ -208,7 +213,12 @@
     <servlet-mapping>
         <servlet-name>MCRRegisterUserWorkflowServlet</servlet-name>
         <url-pattern>/registeruserworkflow</url-pattern>
-    </servlet-mapping>    
+    </servlet-mapping> 
+    
+    <servlet-mapping>
+        <servlet-name>MCRJbpmVariableSetterServlet</servlet-name>
+        <url-pattern>/setworkflowvariable</url-pattern>
+    </servlet-mapping>     
 
     <servlet-mapping>
         <servlet-name>MCRCheckDerivateServlet</servlet-name>
