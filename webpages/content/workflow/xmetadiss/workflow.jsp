@@ -24,9 +24,6 @@
     <c:set var="endTask" scope="request" value="${param.endTask}" />
     <c:set var="processID" scope="request" value="${param.processID}" />
     <c:set var="transition" scope="request" value="${param.transition}" />
-    <c:if test="${!empty(param.message) && !empty(param.mode)}">
-       <mcr:setWorkflowEngineVariable mode="${param.mode}" value="${param.message}" pid="${param.processID}" />
-    </c:if>
     <c:import url="/content/workflow/xmetadiss/endTasks.jsp" />
 </c:if>
 
