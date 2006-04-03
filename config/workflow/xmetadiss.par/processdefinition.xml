@@ -47,8 +47,20 @@
      <event type='node-enter'>
         <action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRCreateDisshabAction" />        
      </event>      
-  	<transition name="go2disshabCreated" to="disshabCreated" />
+  	<transition name="go2isInitiatorsEmailAddressAvailable" to="isInitiatorsEmailAddressAvailable" />
   </state>
+  
+  <decision name="isInitiatorsEmailAddressAvailable">
+     <transition name="yes" to="disshabCreated">
+        <condition expression="#{!empty(contextInstance.variables['initiatorEmail']}"/>
+     </transition>
+     <transition name="no" to="getInitiatorsEmailAddress" />
+  </decision>
+  
+  <task-node name="getInitiatorsEmailAddress">
+     <task name="taskGetInitiatorsEmailAddress" swimlane="initiator" />
+     <transition name="go2IsInitiatorsEmailAddressAvailable" to="isInitiatorsEmailAddressAvailable" />
+  </task-node>
   
   <task-node name="disshabCreated">
      <task name="taskCompleteDisshabAndSendToLibrary" swimlane="initiator" />
