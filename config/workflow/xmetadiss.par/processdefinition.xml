@@ -51,10 +51,12 @@
   </state>
   
   <decision name="isInitiatorsEmailAddressAvailable">
-     <transition name="yes" to="disshabCreated">
-        <condition expression="#{!empty(contextInstance.variables['initiatorEmail']}"/>
+     <transition name="no" to="getInitiatorsEmailAddress"> 
+        <condition expression="#{empty(contextInstance.variables['initiatorEmail'])}"/>
      </transition>
-     <transition name="no" to="getInitiatorsEmailAddress" />
+     <transition name="yes" to="disshabCreated">
+        <condition expression="#{!empty(contextInstance.variables['initiatorEmail'])}"/>
+     </transition>
   </decision>
   
   <task-node name="getInitiatorsEmailAddress">
@@ -99,7 +101,7 @@
 		   <replyTo>heikohelm@yahoo.de</replyTo>
 		   <subject>Sie müssen bei Ihrer Dissertation Daten ergänzen</subject>
 		   <!-- <body>Mustertext</body> -->
-		   <mode>taskMessage</mode>
+		   <jbpmVariableName>tmpTaskMessage</jbpmVariableName>
 		</action>     
      </transition>
   </task-node>
@@ -124,7 +126,7 @@
 		   <replyTo>heikohelm@yahoo.de</replyTo>
 		   <subject>Sie müssen noch das Formblatt zur Abgabe elektronischer Dissertationen abgeben</subject>
 		   <!-- <body>Mustertext</body> -->
-		   <mode>taskMessage</mode>
+		   <jbpmVariableName>tmpTaskMessage</jbpmVariableName>
    		   <dateOfSubmissionVariable>lastRequiredAffirmation</dateOfSubmissionVariable>
 		</action>     
      </transition>
