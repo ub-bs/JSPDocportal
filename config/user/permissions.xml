@@ -8,7 +8,7 @@
   <mcrpermission name="administrate-xmetadiss" description="Verwalten von Dissertations - Prozessen " ruledescription="Nur für Administratoren">
    <condition format="xml">
     <boolean operator="or">
-     <condition value="admingroup" operator="=" field="group"/>
+     <condition value="editorgroup1" operator="=" field="group"/>
     </boolean>
    </condition>
   </mcrpermission>
