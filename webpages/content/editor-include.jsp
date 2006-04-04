@@ -106,14 +106,11 @@
 
 
 <hr/>
-workflowType: ${workflowType} |type: ${type} | mcrid: ${mcrid} | step: ${step} | nextPath: ${nextPath} | uploadID: ${uploadID} |  isNewEditorSource: ${isNewEditorSource}
 
-<hr/>
 <mcr:checkAccess var="modifyAllowed" permission="writedb" key="${mcrid}" />
 
-TODO übergeben von mcrid TODO bis dahin modifyAllowed = true<c:set var="modifyAllowed" value="true" />
 <c:choose>
-    <c:when test="${modifyAllowed eq 'true'}">
+    <c:when test="${modifyAllowed}">
         <mcr:includeEditor 
           editorSessionID="${editorSessionID}"  isNewEditorSource="${isNewEditorSource}" 
           mcrid2="${mcrid2}"  uploadID="${uploadID}"

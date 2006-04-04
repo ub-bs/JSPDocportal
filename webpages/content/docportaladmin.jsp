@@ -26,7 +26,7 @@
 	<tr>
 	    <td>
 			<c:choose>
-				<c:when test="${adminuser eq 'true'}">
+				<c:when test="${adminuser}">
 					<img src="${applicationScope.WebApplicationBaseURL}images/link_intern.gif" border="0" />&#160; <a href="${applicationScope.WebApplicationBaseURL}nav?path=~workflow-registeruser">
 						<fmt:message key="Nav.WorkflowRegisteruser" />
 					</a><br />
@@ -46,7 +46,7 @@
 	<tr>
 	    <td>
 			<c:choose>
-				<c:when test="${adminxmetadiss eq 'true'}">
+				<c:when test="${adminxmetadiss}">
 					<img src="${applicationScope.WebApplicationBaseURL}images/link_intern.gif" border="0" />&#160; <a href="${applicationScope.WebApplicationBaseURL}nav?path=~workflow-disshab">
 						Arbeitsmappe Dissertationen
 					</a>	<br />
@@ -75,7 +75,7 @@
 	<tr>
 	    <td>
 			<c:choose>
-				<c:when test="${adminaccessrules eq 'true'}">
+				<c:when test="${adminaccessrules}">
 					<img src="${applicationScope.WebApplicationBaseURL}images/link_intern.gif" border="0" />&#160;<a href="${applicationScope.WebApplicationBaseURL}admin" target="admin">
 						Zugriffsrechte für Dokumente verwalten
 					</a><br />

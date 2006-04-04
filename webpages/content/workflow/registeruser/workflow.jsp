@@ -18,7 +18,7 @@
 <mcr:checkAccess var="adminuser" permission="administrate-user" />
 
 <c:choose>
-	<c:when test="${adminuser eq 'true'}">
+	<c:when test="${adminuser}">
 		<div class="headline"><fmt:message key="Nav.WorkflowRegisteruser" /></div>
 		<br>&nbsp;<br>
 		<div class="headline"><fmt:message key="WorkflowEngine.MyTasks" /></div>

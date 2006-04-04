@@ -4,6 +4,7 @@ import java.io.IOException;
 import javax.servlet.jsp.tagext.*;
 import javax.servlet.jsp.*;
 
+import org.apache.log4j.Logger;
 import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
 
@@ -14,6 +15,7 @@ public class MCRCheckAccessTag extends SimpleTagSupport
 	private String key;
 	
 	private static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
+	private static Logger LOGGER = Logger.getLogger(MCRCheckAccessTag.class);
 
 	public void setPermission(String inputPermission) {
 		permission = inputPermission;
@@ -28,15 +30,16 @@ public class MCRCheckAccessTag extends SimpleTagSupport
 		return;
 	}	
 	public void doTag() throws JspException, IOException {
-		boolean accessAllowed=false;
-		PageContext pageContext = (PageContext) getJspContext();
-		if ( key == null || "".equals(key)) // allgemeiner check des aktuellen Users
-			accessAllowed = AI.checkPermission(permission);
-		else 
-			accessAllowed = AI.checkPermission(key, permission);
-		
-		pageContext.setAttribute(var, Boolean.toString(accessAllowed));
-		return;
+		try{
+			PageContext pageContext = (PageContext) getJspContext();
+			if ( key == null || "".equals(key)) // allgemeiner check des aktuellen Users
+				pageContext.setAttribute(var, new Boolean(AI.checkPermission(permission)));
+			else 
+				pageContext.setAttribute(var, new Boolean(AI.checkPermission(key, permission)));
+			return;
+		}catch(Exception e){
+			LOGGER.error("could not check access", e);
+		}
 	}	
 
 }

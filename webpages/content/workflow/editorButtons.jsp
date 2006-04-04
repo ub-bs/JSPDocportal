@@ -44,7 +44,7 @@
 				<table cellpadding="0" cellspacing="0">
 					<tr>
                          <mcr:checkAccess var="modifyAllowed" permission="writedb" key="${itemID}" />
-                         <c:if test="${modifyAllowed eq 'true'}">						
+                         <c:if test="${modifyAllowed}">						
 								<c:if test="${fn:contains('document,disshab,professorum',itemDocType)}">
 										<td align="center" valign="top" width="30">
 											<form method="get" action="${baseURL}workflowaction">
@@ -63,7 +63,7 @@
 										</td>
 						   </c:if>										
                            <mcr:checkAccess var="modifyAllowed" permission="commitdb" key="${itemID}" />
-                           <c:if test="${modifyAllowed eq 'true'}">	
+                           <c:if test="${modifyAllowed}">	
                               <c:if test="${not fn:contains('disshab',itemDocType)}">					
 										<td align="center" valign="top" width="30">
 											<form method="get" action="${baseURL}workflowaction">
@@ -75,7 +75,7 @@
                               </c:if>
 							</c:if>										
                             <mcr:checkAccess var="modifyAllowed" permission="deletewf" key="${itemID}" />
-                            <c:if test="${modifyAllowed eq 'true'}">						
+                            <c:if test="${modifyAllowed}">						
 										<td align="center" valign="top" width="30">
 											<form method="get" action="${baseURL}workflowaction">
 												<input name="processid" value="${processid}" type="hidden">
@@ -84,7 +84,7 @@
 											</form>
 						    </c:if>										
                             <mcr:checkAccess var="modifyAllowed" permission="read" key="${itemID}" />
-                            <c:if test="${modifyAllowed eq 'true'}">						
+                            <c:if test="${modifyAllowed}">						
 								   <c:if test="${param.type == 'disshab' }">
 										<td align="center" valign="top" width="30">
 											<form method="get" action="${baseURL}content/results-config/docdetails-disshab-deliver.jsp" target="new" >
@@ -121,7 +121,7 @@
 							<td width="30">	&nbsp;	</td>
 							<td>
 					          <mcr:checkAccess var="modifyAllowed" permission="writedb" key="${derivateID}" />
-					          <c:if test="${modifyAllowed eq 'true'}">						
+					          <c:if test="${modifyAllowed}">						
 								<table cellpadding="0" cellspacing="0">
 									<tr>
 										<td align="center" valign="top" width="30">
@@ -168,7 +168,7 @@
 							<td width="30">			&nbsp;		</td>
 							<td>
 					          <mcr:checkAccess var="modifyAllowed" permission="writedb" key="${derivateID}" />
-					          <c:if test="${modifyAllowed eq 'true'}">						
+					          <c:if test="${modifyAllowed}">						
 								<table cellpadding="0" cellspacing="0">
 									<tr>
 										<td align="center" valign="top" width="30">
