@@ -99,7 +99,14 @@ public class MCRSendmailAction implements ActionHandler{
 			if(array[i].indexOf("@") >= 0){
 				ret.add(array[i]);
 			}else if(array[i].trim().equals("initiator")){
-				ret.add(getUserEmailAddress((String)executionContext.getVariable(MCRJbpmWorkflowBase.varINITIATOR)));
+				String email = getUserEmailAddress((String)executionContext.getVariable(MCRJbpmWorkflowBase.varINITIATOR));
+				if(email == null || email.equals("")){
+					email = (String)executionContext.getVariable(MCRJbpmWorkflowBase.varINITIATOREMAIL);
+				}
+				if(email == null || email.equals("")){
+					email = getUserEmailAddress("administrator");
+				}
+				ret.add(email);
 			}else{
 				ret.addAll(getGroupMembersEmailAddresses(array[i]));
 			}

@@ -85,7 +85,7 @@
      <transition name="go2disshabCreated2" to="disshabCreated">
 		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
 		   <from>helmbrecht@ub.tum.de</from>
-		   <to>heikohelm@gmx.de;heiko.helmbrecht@web.de</to>
+		   <to>initiator</to>
 		   <replyTo>heikohelm@yahoo.de</replyTo>
 		   <subject>Sie müssen bei Ihrer Dissertation Daten ergänzen</subject>
 		   <!-- <body>Mustertext</body> -->
@@ -110,7 +110,7 @@
      <transition name="go2checkNonDigitalRequirements" to="checkNonDigitalRequirements">
 		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
 		   <from>helmbrecht@ub.tum.de</from>
-		   <to>heikohelm@gmx.de;heiko.helmbrecht@web.de</to>
+		   <to>initiator</to>
 		   <replyTo>heikohelm@yahoo.de</replyTo>
 		   <subject>Sie müssen noch das Formblatt zur Abgabe elektronischer Dissertationen abgeben</subject>
 		   <!-- <body>Mustertext</body> -->
@@ -137,9 +137,9 @@
      <transition name="go2adminCheck" to="adminCheck">  
         <condition expression="#{!empty(contextInstance.variables['COMMITERROR'])}" />
      </transition>
-     <transition name="go2disshabCommitted" to="disshabCommitted">
+     <transition name="go2disshabCommitted" to="disshabCommitted">  
         <condition expression="#{empty(contextInstance.variables['COMMITERROR'])}" />
-     </transition>
+     </transition>     
   </decision>
 
   <task-node name="adminCheck">
@@ -158,9 +158,9 @@
 
   <end-state name="disshabCommitted">
      <event type='node-enter'>
-		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailActionXmetadiss">
+		<action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRSendmailActionXmetadiss">
 		   <from>helmbrecht@ub.tum.de</from>
-		   <to>heikohelm@gmx.de;heiko.helmbrecht@web.de</to>
+		   <to>initiator</to>
 		   <replyTo>heikohelm@yahoo.de</replyTo>
 		   <subject>Ihre elektronische Dissertation wurde erfolgreich veröffentlicht</subject>
 		   <!-- <body>Mustertext</body> -->

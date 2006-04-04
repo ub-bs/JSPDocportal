@@ -107,11 +107,11 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 				MCRUser user = MCRUserMgr.instance().retrieveUser(initiator);
 				String email = user.getUserContact().getEmail();
 				if(email != null && !email.equals("")){
-					wfo.setStringVariable("initiatorEmail", email);
+					wfo.setStringVariable(MCRJbpmWorkflowBase.varINITIATOREMAIL, email);
 				}
 				String salutation = user.getUserContact().getSalutation();
 				if(salutation != null && !salutation.equals("")){
-					wfo.setStringVariable("initiatorSalutation", salutation);
+					wfo.setStringVariable(MCRJbpmWorkflowBase.varINITIATORSALUTATION, salutation);
 				}
 				wfo.setStringVariable("fileCnt", "0");
 				wfo.endTask("initialization", initiator, null);
