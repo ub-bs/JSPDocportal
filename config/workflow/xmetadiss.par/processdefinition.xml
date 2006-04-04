@@ -128,16 +128,18 @@
      <transition name="go2wasCommitmentSuccessful" to="wasCommitmentSuccessful">
         <action class="org.mycore.frontend.workflowengine.jbpm.MCRCommitObjectAction">
            <varnameOBJID>createdDocID</varnameOBJID>
-           <varnameERROR>ERROR</varnameERROR>
+           <varnameERROR>COMMITERROR</varnameERROR>
         </action>
      </transition>
   </decision>  
   
   <decision name="wasCommitmentSuccessful">
      <transition name="go2adminCheck" to="adminCheck">  
-        <condition expression="#{!empty(contextInstance.variables['ERROR']}" />
+        <condition expression="#{!empty(contextInstance.variables['COMMITERROR'])}" />
      </transition>
-     <transition name="go2disshabCommitted" to="disshabCommitted" />
+     <transition name="go2disshabCommitted" to="disshabCommitted">
+        <condition expression="#{empty(contextInstance.variables['COMMITERROR'])}" />
+     </transition>
   </decision>
 
   <task-node name="adminCheck">
