@@ -36,16 +36,18 @@
 
 <c:choose>
    <c:when test="${empty(myTaskList)&& empty(myProcessList)}">
+	  <div class="headline"><fmt:message key="Nav.Workflow.xmetadiss.info" /></div>
+      <img title="" alt="" src="images/greenArrow.gif">
+      <a target="_self" href="${baseURL}nav?path=~xmetadissbegin"><fmt:message key="WorkflowEngine.StartXmetadissWorkflow" /></a>
+      <br/>&nbsp;<br>
+      <img title="" alt="" src="images/greenArrow.gif">
+      <fmt:message key="WorkflowEngine.EmptyWorkflow" />   
+      <br>&nbsp;<br>
       <mcr:checkAccess permission="administrate-xmetadiss" var="curUserIsAdminUser" />
       <c:if test="${!curUserIsAdminUser}">
 	      <c:import url="/content/workflow/xmetadiss/information.jsp" />
     	  <br/>&nbsp;<br>
    	  </c:if>
-      <img title="" alt="" src="images/greenArrow.gif">
-      <a target="_self" href="${baseURL}nav?path=~xmetadissbegin"><fmt:message key="WorkflowEngine.StartXmetadissWorkflow" /></a>
-      <br/>&nbsp;<br>
-      <img title="" alt="" src="images/greenArrow.gif">
-      <fmt:message key="WorkflowEngine.EmptyWorkflow" />
    </c:when>
    <c:otherwise>
         <div class="headline"><fmt:message key="Nav.WorkflowDisshab" /></div>

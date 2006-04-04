@@ -4,7 +4,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
 <fmt:setLocale value="${requestScope.lang}" />
 <fmt:setBundle basename='messages'/>
-<div class="headline"><fmt:message key="Nav.Workflow.xmetadiss.info" /></div>
 
 <table class="bg_background">
 <tr>
