@@ -14,7 +14,7 @@
 <mcr:session method="get" var="username" type="userID" />
 <c:set var="pageurl" value="${requestScope.page}" />
 <mcr:checkAccess var="hasAccess" permission="admininterface-access" />
-<c:if test="${hasAccess eq 'false'}">
+<c:if test="${!hasAccess}">
    <c:set var="pageurl" value="error.jsp" />
 </c:if>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
