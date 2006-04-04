@@ -14,7 +14,7 @@
 <c:set var="dom" value="${requestScope.task.variables}" />
 
 <c:if test="${requestScope.task.taskName ne 'initialization'}">
-   <<fmt:message key="WorkflowEngine.Dissertaton" /> <fmt:message key="WorfklowEngine.Processnumber" /> <b>${requestScope.task.processID}</b>: <br>
+   <fmt:message key="WorkflowEngine.Dissertaton" /> <fmt:message key="WorkflowEngine.Processnumber" /> <b>${requestScope.task.processID}</b>: <br>
 </c:if>
 <c:choose>
    <c:when test="${requestScope.task.taskName eq 'initialization'}">
