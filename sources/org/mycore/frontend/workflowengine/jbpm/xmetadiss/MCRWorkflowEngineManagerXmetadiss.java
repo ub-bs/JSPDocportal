@@ -115,8 +115,6 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 				}
 				wfo.setStringVariable("fileCnt", "0");
 				wfo.endTask("initialization", initiator, null);
-				wfo.signal("go2authorCreated");
-				wfo.signal("go2urnCreated");
 				wfo.signal("go2isInitiatorsEmailAddressAvailable");				
 			}catch(MCRException e){
 				logger.error("MCRWorkflow Error, could not initialize the workflow process", e);

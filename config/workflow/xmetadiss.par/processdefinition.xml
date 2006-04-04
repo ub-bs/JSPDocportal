@@ -32,24 +32,12 @@
   <state name="processInitialized">
      <event type='node-enter'>
         <action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRGetAuthorAction" />
+        <action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRGetURNAction" />
+		<action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRCreateDisshabAction" />                        
      </event>
-     <transition name="go2authorCreated" to="authorCreated" />  
+     <transition name="go2isInitiatorsEmailAddressAvailable" to="isInitiatorsEmailAddressAvailable" />  
   </state>
-  
-  <state name="authorCreated">
-     <event type='node-enter'>
-        <action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRGetURNAction" />        
-     </event>  
-  	<transition name="go2urnCreated" to="urnCreated" />
-  </state>
-  
-  <state name="urnCreated">
-     <event type='node-enter'>
-        <action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRCreateDisshabAction" />        
-     </event>      
-  	<transition name="go2isInitiatorsEmailAddressAvailable" to="isInitiatorsEmailAddressAvailable" />
-  </state>
-  
+
   <decision name="isInitiatorsEmailAddressAvailable">
      <transition name="no" to="getInitiatorsEmailAddress"> 
         <condition expression="#{empty(contextInstance.variables['initiatorEmail'])}"/>
