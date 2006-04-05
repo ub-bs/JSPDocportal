@@ -1146,5 +1146,12 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		logger.warn("setUserIDValidFlag: no workflow process is initialized, must be implemented in subclass, if needed");		
 	}
 
+	public boolean isEmpty(String test){
+		if(test == null || test.equals("")){
+			return true;
+		}else{
+			return false;
+		}
+	}
 	
 }
