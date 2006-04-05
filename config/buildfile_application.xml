@@ -178,10 +178,10 @@
 	
 	<target name="initDOCPORTAL_SYSTEM">
 		<mkdir dir="${DOCPORTAL_SYSTEM}" />
-    	<copy todir="${DOCPORTAL_SYSTEM}" overwrite="true">
+    	<copy todir="${DOCPORTAL_SYSTEM}">
  			<fileset dir="${DOCPORTAL_HOME}" includes="**" ></fileset>
 		</copy>
-		<copy todir="${DOCPORTAL_SYSTEM}" overwrite="true">
+		<copy todir="${DOCPORTAL_SYSTEM}">
 		 			<fileset dir="." includes="**" ></fileset>
 		</copy>
 	</target>
@@ -1083,6 +1083,7 @@
             <fileset dir="${docportal.lib}" includes="docportal*.jar" />
                 <fileset dir="${docportal.lib}" includes="mycore-taglibs.jar" />        	
         </delete>
+    	<delete dir="${DOCPORTAL_SYSTEM}" />
     </target>
 
     <!-- =================================================================== -->
