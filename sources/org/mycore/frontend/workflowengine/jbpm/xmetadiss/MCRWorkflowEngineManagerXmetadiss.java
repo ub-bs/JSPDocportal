@@ -568,11 +568,4 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 		wfo.setStringVariable("wfo-title", sbTitle.toString());	
 	}	
 	
-	public boolean isEmpty(String test){
-		if(test == null || test.equals("")){
-			return true;
-		}else{
-			return false;
-		}
-	}
 }
