@@ -178,10 +178,10 @@
 	
 	<target name="initDOCPORTAL_SYSTEM">
 		<mkdir dir="${DOCPORTAL_SYSTEM}" />
-    	<copy todir="${DOCPORTAL_SYSTEM}">
+    	<copy todir="${DOCPORTAL_SYSTEM}" overwrite="true">
  			<fileset dir="${DOCPORTAL_HOME}" includes="**" ></fileset>
 		</copy>
-		<copy todir="${DOCPORTAL_SYSTEM}">
+		<copy todir="${DOCPORTAL_SYSTEM}" overwrite="true">
 		 			<fileset dir="." includes="**" ></fileset>
 		</copy>
 	</target>
