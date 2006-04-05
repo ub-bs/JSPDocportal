@@ -1360,6 +1360,12 @@
 	    </jar>
     </target>	
 
+	<target name="load_default_content">
+ 	     <subant target="load" inheritall="false" inheritrefs="false">
+ 	       <fileset file="${DOCPORTAL_SYSTEM}/content/defaultsample/build.xml" />
+ 	     </subant>		
+	</target>	
+	
     <target name="checkXMLFiles"
         description="check wether xml files are valid">
         <echo>validating xml configuration files</echo>
