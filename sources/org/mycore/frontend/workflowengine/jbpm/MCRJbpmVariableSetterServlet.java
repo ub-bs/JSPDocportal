@@ -57,6 +57,7 @@ public class MCRJbpmVariableSetterServlet extends MCRServlet {
     	Map map = new HashMap();
     	String jbpmVariableNames = request.getParameter("jbpmVariableNames");
     	String processID = request.getParameter("processID");
+    	String nextPath = request.getParameter("dispatcherForward");
     	
     	if(jbpmVariableNames != null && !jbpmVariableNames.equals("") && processID != null && !processID.equals("")){
     		long pid = Long.parseLong(processID);
@@ -70,6 +71,6 @@ public class MCRJbpmVariableSetterServlet extends MCRServlet {
     		defaultWFI.setStringVariables(map, pid);
     	}
     	
-    	request.getRequestDispatcher("/nav?path=~xmetadiss").forward(request, response);
+    	request.getRequestDispatcher(nextPath).forward(request, response);
     }
 }
