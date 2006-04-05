@@ -394,7 +394,7 @@
     </target>
 
 	  <target name="script.windows.write">
-	    <property name="tmp.cmd.file" value="${basedir}/bin/${mycore.cmd.file}" />
+	    <property name="tmp.cmd.file" value="${DOCPORTAL_SYSTEM}/bin/${mycore.cmd.file}" />
 	    <echo>Creating ${mycore.cmd.file} to invoke ${mycore.cmd.class}</echo>
 	    <echo file="${tmp.cmd.file}" append="false">@echo off
 
@@ -412,7 +412,7 @@
 	  </target>
 
 	  <target name="script.unix.write">
-	    <property name="tmp.cmd.file" value="${basedir}/bin/${mycore.cmd.file}" />
+	    <property name="tmp.cmd.file" value="${DOCPORTAL_SYSTEM}/bin/${mycore.cmd.file}" />
 	    <echo>Creating ${mycore.cmd.file} to invoke ${mycore.cmd.class}</echo>
 	    <echo file="${tmp.cmd.file}" append="false">#!/bin/bash
 
@@ -626,14 +626,14 @@
 
     <target name="create.hibernate" depends="init">
         <antcall target="invoke.cli">
-            <param name="cli.directory" value="${basedir}" />
+            <param name="cli.directory" value="${DOCPORTAL_SYSTEM}" />
             <param name="cli.command" value="init hibernate" />
         </antcall>
     </target>
 
 	<target name="create.metastore.author" depends="init">
         <antcall target="invoke.cli">
-            <param name="cli.directory" value="${basedir}" />
+            <param name="cli.directory" value="${DOCPORTAL_SYSTEM}" />
             <param name="cli.command"
                 value="create database for author" />
         </antcall>
@@ -641,7 +641,7 @@
 
     <target name="create.metastore.document" depends="init">
         <antcall target="invoke.cli">
-            <param name="cli.directory" value="${basedir}" />
+            <param name="cli.directory" value="${DOCPORTAL_SYSTEM}" />
             <param name="cli.command"
                 value="create database for document" />
         </antcall>
@@ -649,7 +649,7 @@
 
     <target name="create.metastore.institution" depends="init">
         <antcall target="invoke.cli">
-            <param name="cli.directory" value="${basedir}" />
+            <param name="cli.directory" value="${DOCPORTAL_SYSTEM}" />
             <param name="cli.command"
                 value="create database for institution" />
         </antcall>
@@ -657,7 +657,7 @@
 
     <target name="create.metastore.derivate" depends="init">
         <antcall target="invoke.cli">
-            <param name="cli.directory" value="${basedir}" />
+            <param name="cli.directory" value="${DOCPORTAL_SYSTEM}" />
             <param name="cli.command"
                 value="create database for derivate" />
         </antcall>
@@ -668,7 +668,7 @@
     <!-- =================================================================== -->
 
     <target name="create.class" depends="init">
-        <property name="commands.file" value="${basedir}/commands.txt" />
+        <property name="commands.file" value="${DOCPORTAL_SYSTEM}/commands.txt" />
         <delete file="${commands.file}" />
         <echo file="${commands.file}" append="false">
 
@@ -676,7 +676,7 @@
 
         </echo>
         <antcall target="invoke.cli">
-            <param name="cli.directory" value="${basedir}" />
+            <param name="cli.directory" value="${DOCPORTAL_SYSTEM}" />
             <param name="cli.command" value="process ${commands.file}" />
         </antcall>
         <delete file="${commands.file}" />
@@ -867,7 +867,7 @@
             </copy>
         -->
         <!--  	
-            <copy file="${basedir}/webpages/index.html" todir="${basedir}/webapps" overwrite="true" />				
+            <copy file="${DOCPORTAL_SYSTEM}/webpages/index.html" todir="${DOCPORTAL_SYSTEM}/webapps" overwrite="true" />				
         -->
         <!--  	
             <copy todir="${docportal.webapps}/editor">
