@@ -10,5 +10,6 @@
 <fmt:setLocale value="${requestScope.lang}" />
 <fmt:setBundle basename='messages' />
 <c:set var="debug" value="true" />
-<mcr:endTask success="success" processID="${requestScope.processID}" taskName="${requestScope.endTask}" />
+<mcr:endTask success="success" processID="${requestScope.processID}" 
+	taskName="${requestScope.endTask}" transition="${requestScope.transition}"/>
 

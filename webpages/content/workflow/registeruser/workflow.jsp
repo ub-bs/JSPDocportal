@@ -10,15 +10,23 @@
 	<c:when test="${!empty(param.debug)}">
 		<c:set var="debug" value="true" />
 	</c:when>
-	<c:otherwise>
+	<c:otherwise> 
 		<c:set var="debug" value="false" />
 	</c:otherwise>
 </c:choose>
 
 <mcr:checkAccess var="adminuser" permission="administrate-user" />
 
+<!--  handle task ending parameters -->
+<c:if test="${!empty(param.endTask)}">
+    <c:set var="endTask" scope="request" value="${param.endTask}" />
+    <c:set var="processID" scope="request" value="${param.processID}" />
+    <c:set var="transition" scope="request" value="${param.transition}" />
+    <c:import url="/content/workflow/registeruser/endTasks.jsp" />
+</c:if>
+
 <c:choose>
-	<c:when test="${adminuser}">
+	<c:when test="${adminuser eq 'true'}"> 
 		<div class="headline"><fmt:message key="Nav.WorkflowRegisteruser" /></div>
 		<br>&nbsp;<br>
 		<div class="headline"><fmt:message key="WorkflowEngine.MyTasks" /></div>
