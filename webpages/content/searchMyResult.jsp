@@ -35,7 +35,7 @@
 <c:set var="query" value="${requestScope.query}" />
 <c:set var="resultlistType" value="${requestScope.resultlistType}" />
 
-<mcr:setResultList var="resultList" query="${query}" navPath="${navPath}" resultlistType="${resultlistType}" from="${offset}" until="${offset + size}" lang="${lang}" />
+<mcr:setMyResultList var="resultList" query="${query}" navPath="${navPath}" resultlistType="${resultlistType}" from="${offset}" until="${offset + size}" lang="${lang}" />
 <mcr:setQueryAsString var="strQuery" jdom="${query}" />
 <c:set var="headlineKey" value="SR.MyResult" />
 <fmt:setLocale value='${lang}'/>
@@ -73,7 +73,11 @@
 					<x:set var="mcrID" select="string(@ID)" />
                     <tr>
                         <td class="resultTitle">
-                            <a href="${resultlistLink}"><x:out select="./metaname[1]/metavalues/metavalue/@text" escapeXml="./metaname[1]/metavalues/@escapeXml" /></a>
+                            <a href="${resultlistLink}">
+                            	<x:out select="./metaname[1]/metavalues[2]/metavalue/@text" escapeXml="./metaname[1]/metavalues/@escapeXml" />
+                            	<x:out select="./metaname[1]/metavalues[3]/metavalue/@text" escapeXml="./metaname[1]/metavalues/@escapeXml" />                            	                            	                            	
+                            	<x:out select="./metaname[1]/metavalues[1]/metavalue/@text" escapeXml="./metaname[1]/metavalues/@escapeXml" />
+                            </a>
                         </td>
                         <td width="30">&nbsp;</td>                        
                         <td class="author">
@@ -112,8 +116,8 @@
 						<input value="${docType}" name="type" type="hidden">
 						<input value="author" name="step" type="hidden">
 						<input value="sdelobj" name="todo" type="hidden">
-	                    <input value="nav?path=left.myatlibri.mydocs.searchMyResult-mydocs" name="page" type="hidden">                                       
-						<input onClick="return reallyDeletefromDB();" title="<fmt:message key="Object.DelObject" />" src="${WebApplicationBaseURL}images/object_delete.gif" type="image" class="imagebutton">
+	                    <input value="${navPath}" name="page" type="hidden">                                       
+						<input title="<fmt:message key="Object.DelObject" />" src="${WebApplicationBaseURL}images/object_delete.gif" type="image" class="imagebutton">
 					</form>
 	                </td>
 	              </tr></table>  
@@ -129,7 +133,8 @@
                         <x:otherwise>
                             <x:out select="./@text" />
                         </x:otherwise>               
-                     </x:choose>                                       
+                     </x:choose>   
+                     <br/>                                    
                     </x:forEach>     	
                     <br/>
                     <x:forEach select="./metaname[position() >= 7]/metavalues/metavalue" >
@@ -157,6 +162,8 @@
     </table>
 </x:forEach>    
 
+<br/>
+
 <mcr:browsePageCtrl var="browseControl" totalSize="${totalhits}" size="${size}" offset="${offset}" maxDisplayedPages="10" path="${navPath}" />
 <x:forEach select="$browseControl/mcr_resultpages/mcr_resultpage">
     <x:if select="generate-id(../mcr_resultpage[1]) = generate-id(.)">
@@ -182,5 +189,6 @@
     </x:choose>
 </x:forEach>  
 
-
+<hr/>
+<br/>
 
