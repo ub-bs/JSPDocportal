@@ -460,7 +460,7 @@
     <!-- Compiles all application classes                                    -->
     <!-- =================================================================== -->
 
-    <target name="javac" depends="init">
+    <target name="javac" >
         <echo>Compiling ${packages}</echo>
         <javac srcdir="${docportal.sources}"
                destdir="${docportal.classes}" 
@@ -479,15 +479,11 @@
         </echo>
     </target>
 
-    <target name="compile_create">
-        <mkdir dir="${docportal.classes}" />
-        <mkdir dir="${docportal.lib}" />
-    </target>
 
     <target name="compile"
         depends="compile_base,compile_common, compile_filters, compile_frontend_jsp_format, compile_frontend_jsp, compile_frontend_jsp_nav, compile_frontend_jsp_query, compile_servlets, compile_workflow, compile_backend_query, compile_backend_hibernate, compile_services_oai, compile_demo, compile_workflowengine, compile_frontend_editor_helper, compile_indexbrowser" />
 
-    <target name="compile_base">
+    <target name="compile_base" depends="init" >
         <mkdir dir="${docportal.classes}" />
     </target>
 
