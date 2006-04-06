@@ -20,18 +20,18 @@
 		
 			<ul>
 			<mcr:checkAccess var="cando" permission="administrate-accessrules" key="" />
-			<c:if test="${cando eq 'true'}">				
+			<c:if test="${cando}">				
 				<li><a href="${applicationScope.WebApplicationBaseURL}admin?path=rules">Regeleditor</a> zur Erstellung der Zugriffsregeln</li>
 				<li><a href="${applicationScope.WebApplicationBaseURL}admin?path=access">Regelzuweisung</a>, um Daten-Objekten Regeln zuweisen zu können</li>
 			</c:if>				
 			<mcr:checkAccess var="cando" permission="administrate-user" key="" />
-			<c:if test="${cando eq 'true'}">				
+			<c:if test="${cando}">				
 				<li><a href="${applicationScope.WebApplicationBaseURL}admin?path=usergroup">Benutzergruppenverwaltung</a> zur Erstellung der Benutzergruppen</li>
 				<li><a href="${applicationScope.WebApplicationBaseURL}admin?path=user">Benutzerverwaltung</a> zur Verwaltung Nutzer</li>
 				<li><a href="${applicationScope.WebApplicationBaseURL}admin?path=user">Neue Nutzerregistration</a> zur Erstanmeldung von Nutzern</li>
 			</c:if>	
 			<mcr:checkAccess var="cando" permission="administrate-xmetadiss" key="" />
-			<c:if test="${cando eq 'true'}">				
+			<c:if test="${cando}">				
 				<li><a href="${applicationScope.WebApplicationBaseURL}admin?path=processes_list&workflowProcessType=xmetadiss">Prozesse: Dissertationen</a> zeigt alle laufenden Prozesse an. - Löschen eines Prozesses</li>
 				<li><a href="${applicationScope.WebApplicationBaseURL}admin?path=processes_edit&workflowProcessType=xmetadiss">Prozesse: Dissertationen</a> zeigt alle laufenden Prozesse an. - Löschen von Prozessvariablen</li>
 			</c:if>	
