@@ -62,7 +62,7 @@ public class MCRWorkflowEngineManagerRegisteruser extends MCRWorkflowEngineManag
 	private static Logger logger = Logger.getLogger(MCRWorkflowEngineManagerRegisteruser.class.getName());
 	private static String processType = "registeruser" ;
 	private static MCRWorkflowEngineManagerInterface singleton;
-	
+	private static String documentType = "user";
 	protected MCRWorkflowEngineManagerRegisteruser() throws Exception {	}
 
 	
@@ -87,7 +87,7 @@ public class MCRWorkflowEngineManagerRegisteruser extends MCRWorkflowEngineManag
 		}else if (processID == 0) {
 			MCRJbpmWorkflowObject wfo = createWorkflowObject(processType);
 			wfo.initialize(initiator);
-			wfo.setStringVariable("userID",initiator);
+			wfo.setStringVariable("initiatorUserID",initiator);
 			wfo.endTask("initialization", initiator, null);
 			return wfo.getProcessInstanceID();
 		}else{
@@ -98,15 +98,29 @@ public class MCRWorkflowEngineManagerRegisteruser extends MCRWorkflowEngineManag
 	public void setWorkflowVariablesFromMetadata(String pID, Element userMetadata){
 		Map map = new HashMap();
 		long pid = Long.parseLong(pID);
-		String salutation = userMetadata.getChild("user.contact").getChild("contact.salutation").getText();
-		String firstname   = userMetadata.getChild("user.contact").getChild("contact.firstname").getText();
-		String lastname    = userMetadata.getChild("user.contact").getChild("contact.lastname").getText();
-		StringBuffer bname = new StringBuffer(salutation).append(" ").append(firstname).append(" ").append(lastname);
-		map.put("email", userMetadata.getChild("user.contact").getChild("contact.email").getText());
-		map.put("name", bname);
-		map.put("institution", userMetadata.getChild("user.contact").getChild("contact.institution").getText());
-		map.put("faculty", userMetadata.getChild("user.contact").getChild("contact.faculty").getText());		
-		map.put("description", userMetadata.getChild("user.description").getText());
+		Element userContact = userMetadata.getChild("user.contact");
+		if ( userContact != null ) {
+			String salutation="", firstname="", lastname="";
+			if (userContact.getChild("contact.salutation") != null)
+				salutation  = userContact.getChild("contact.salutation").getText();
+			if (userContact.getChild("contact.firstname") != null)
+				firstname   = userContact.getChild("contact.firstname").getText();
+			if (userContact.getChild("contact.lastname") != null)
+				lastname    = userContact.getChild("contact.lastname").getText();
+			StringBuffer bname = new StringBuffer(salutation).append(" ").append(firstname).append(" ").append(lastname);
+			map.put("initiatorName", bname.toString());
+			if (userContact.getChild("contact.email") != null)
+				map.put("initiatorEmail", userContact.getChild("contact.email").getText());
+			if (userContact.getChild("contact.institution") != null)
+				map.put("initiatorInstitution", userContact.getChild("contact.institution").getText());
+			if (userContact.getChild("contact.faculty") != null)
+				map.put("initiatorFaculty", userContact.getChild("contact.faculty").getText());
+		}
+		if ( userMetadata.getChild("user.description") != null)
+			map.put("initiatorIntend", userMetadata.getChild("user.description").getText());
+		
+		if ( userMetadata.getChild("user.groups") != null)
+			map.put("initiatorGroup", userMetadata.getChildren().toString());
 		
 		setStringVariables(map, pid);
 	}	
@@ -122,12 +136,12 @@ public class MCRWorkflowEngineManagerRegisteruser extends MCRWorkflowEngineManag
 	
 	public void setUserIDFromWorkflow(String initiator, String userID){
 		MCRJbpmWorkflowObject wfo = getWorkflowObject(initiator);
-		wfo.setStringVariable("userID", userID);
+		wfo.setStringVariable("initiatorUserID", userID);
 	}		
 
 	public String getUserIDFromWorkflow(String initiator){
 		MCRJbpmWorkflowObject wfo = getWorkflowObject(initiator);
-		String userID = wfo.getStringVariable("userID");
+		String userID = wfo.getStringVariable("initiatorUserID");
 		if(wfo != null && userID != null && !userID.equals("")){
 			return userID;
 		}
@@ -135,7 +149,7 @@ public class MCRWorkflowEngineManagerRegisteruser extends MCRWorkflowEngineManag
 	}		
 	
 	public void setUserIDValidFlag(String userID, boolean isValid) {
-		List lpids = MCRJbpmWorkflowBase.getCurrentProcessIDsForProcessVariable("userID%", userID);
+		List lpids = MCRJbpmWorkflowBase.getCurrentProcessIDsForProcessVariable("initiatorUserID%", userID);
 		long pid =0;
 		if(lpids == null || lpids.size() == 0){
 			logger.error("setUserIDValidFlag: there could not be found a process with this createdDocID " + userID);
@@ -148,18 +162,45 @@ public class MCRWorkflowEngineManagerRegisteruser extends MCRWorkflowEngineManag
 		}
 	}	
 
-	public boolean commitWorkflowObject(String userid, String documentType) {
+	
+	public String checkDecisionNode(long processid, String decisionNode) {
+		MCRJbpmWorkflowObject wfo = getWorkflowObject(processid);
+		String userid = wfo.getStringVariable("initiatorUserID");
+
+		if(decisionNode.equals("canUserBeSubmitted")){
+			if(checkSubmitVariables(processid)){
+				return "go2userCanBeSubmitted";
+			}else{
+				return "go2userMustEdited";
+			}
+		}else if(decisionNode.equals("canUserBeRejected")){
+			if (! this.rollbackWorkflowObject(userid)) 
+				wfo.setStringVariable("ROLLBACKERROR", Boolean.toString(true));
+			return "go2wasRejectmentSuccessful";
+		}else if(decisionNode.equals("canUserBeCommitted")){
+			if (! this.commitWorkflowObject(userid, "user")) 
+				wfo.setStringVariable("COMMITERROR", Boolean.toString(true));
+			return "go2wasCommitmentSuccessful";
+		}
+		return null;
+	}
+	
+	private boolean checkSubmitVariables(long processid){
+		MCRJbpmWorkflowObject wfo = getWorkflowObject(processid);
+		String group = wfo.getStringVariable("initiatorGroupID");
+		String email = wfo.getStringVariable("initiatorEmail");				
+
+		return (isEmpty(group+email));
+	}
+	
+	
+	public boolean commitWorkflowObject(String userid) {
 		boolean bSuccess = false;
 		try{
-			long pid = getUniqueCurrentProcessID(userid);
-		
-			MCRJbpmWorkflowObject wfo = getWorkflowObject(pid);
 			String dirname = getWorkflowDirectory(documentType);
 			String filename = dirname + File.separator + "user_" + userid + ".xml";
 	
 			try { 
-				MCRUser u = new MCRUser();
-		
 				if ( MCRUserMgr.instance().existUser(userid) ) {
 					MCRUserCommands2.updateUserFromFile(filename);
 				} else {
@@ -176,4 +217,32 @@ public class MCRWorkflowEngineManagerRegisteruser extends MCRWorkflowEngineManag
 		}
 		return bSuccess;
 	}
+	
+	public boolean rollbackWorkflowObject(String userid) {
+		boolean bSuccess = false;
+		try{
+			String dirname = getWorkflowDirectory(documentType);
+			String filename = dirname + File.separator + "user_" + userid + ".xml";	
+			try {
+				File ff = new File (filename);
+				if ( ff.exists()) 
+					bSuccess = ff.delete();
+			} catch (Exception ig){ 
+				logger.error("Can't load File catched error: ", ig);
+				bSuccess=false;
+			}
+			logger.info("loading user object: " + filename + " success=" + bSuccess);			
+		}catch(Exception e){
+			logger.error("could not commit user");
+			bSuccess = false;
+		}
+		return bSuccess;
+	}
+	
+	public boolean endTask(long processid, String taskName, String transitionName){
+		MCRJbpmWorkflowObject wfo = getWorkflowObject(processid);
+		MCRUser user = MCRUserMgr.instance().getCurrentUser();
+		return wfo.endTask(taskName, user.getID(), transitionName);
+	}
+
 }
