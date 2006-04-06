@@ -182,7 +182,7 @@
  			<fileset dir="${DOCPORTAL_HOME}" includes="**" ></fileset>
 		</copy>
 		<copy todir="${DOCPORTAL_SYSTEM}" overwrite="true">
-		 			<fileset dir="." includes="**" ></fileset>
+		 	<fileset dir="." includes="**" excludes="mycoresample.war" ></fileset>
 		</copy>
 	</target>
 
