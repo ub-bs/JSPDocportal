@@ -212,7 +212,7 @@
 
     <servlet-mapping>
         <servlet-name>MCRRegisterUserWorkflowServlet</servlet-name>
-        <url-pattern>/registeruserworkflow</url-pattern>
+        <url-pattern>/servlets/MCRRegisterUserWorkflowServlet</url-pattern>
     </servlet-mapping> 
     
     <servlet-mapping>
