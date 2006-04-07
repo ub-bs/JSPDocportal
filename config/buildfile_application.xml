@@ -184,6 +184,8 @@
 		<copy todir="${DOCPORTAL_SYSTEM}" overwrite="true">
 		 	<fileset dir="." includes="**" excludes="mycoresample.war" ></fileset>
 		</copy>
+        <mkdir dir="${docportal.webapps}" />
+    	<mkdir dir="${docportal.bin}" />		
 	</target>
 
     <target name="init"
@@ -349,8 +351,6 @@
         <mkdir dir="${MCR.Editor.FileUpload.TempStoragePath}" />
         <mkdir dir="${MCR.LogDirectory}" />    	
     	<mkdir dir="${MCR.Save.FileSystem}" />
-        <mkdir dir="${docportal.webapps}" />
-    	<mkdir dir="${docportal.bin}" />
         <mkdir dir="${MCR.WorkflowEngine.EditDirectory.author}" />
         <mkdir dir="${MCR.WorkflowEngine.EditDirectory.document}" />
     	<mkdir dir="${MCR.WorkflowEngine.EditDirectory.disshab}" />
@@ -1065,20 +1065,6 @@
     <!-- =================================================================== -->
 
     <target name="clean">
-        <delete dir="${docportal.schema}" />
-        <delete dir="${docportal.classes}" />
-        <delete dir="${docportal.webapps}" />
-        <delete dir="${docportal.javadocs}" />
-        <delete dir="${docportal.changelogs}" />
-        <delete
-            file="${docportal.stylesheets}/MCRMetadataCoreTemplates.xsl" />
-        <delete
-            file="${docportal.stylesheets}/MCRMetadataCoreTypes.xsl" />
-        <delete file="${docportal.stylesheets}/MCRMetadataSchema.xsl" />
-        <delete includeEmptyDirs="true">
-            <fileset dir="${docportal.lib}" includes="docportal*.jar" />
-                <fileset dir="${docportal.lib}" includes="mycore-taglibs.jar" />        	
-        </delete>
     	<delete dir="${DOCPORTAL_SYSTEM}" />
     </target>
 
