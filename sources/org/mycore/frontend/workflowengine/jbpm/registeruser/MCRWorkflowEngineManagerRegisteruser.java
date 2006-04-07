@@ -120,9 +120,16 @@ public class MCRWorkflowEngineManagerRegisteruser extends MCRWorkflowEngineManag
 		if ( userMetadata.getChild("user.description") != null)
 			map.put("initiatorIntend", userMetadata.getChild("user.description").getText());
 		
-		if ( userMetadata.getChild("user.groups") != null)
-			map.put("initiatorGroup", userMetadata.getChildren().toString());
-		
+		if ( userMetadata.getChild("user.groups") != null){
+			List groups = userMetadata.getChild("user.groups").getChildren();
+			StringBuffer sGroups = new StringBuffer("");
+			for ( int i=0; i < groups.size(); i++){
+				 Element eG = (Element)groups.get(i);
+				 if ( !eG.getText().equalsIgnoreCase("gastgroup"))
+					 sGroups.append(eG.getText()).append(" ");
+			}
+			map.put("initiatorGroup", sGroups.toString());
+		}
 		setStringVariables(map, pid);
 	}	
 	
@@ -158,10 +165,10 @@ public class MCRWorkflowEngineManagerRegisteruser extends MCRWorkflowEngineManag
 	
 	private boolean checkSubmitVariables(long processid){
 		MCRJbpmWorkflowObject wfo = getWorkflowObject(processid);
-		String group = wfo.getStringVariable("initiatorGroupID");
+		String group = wfo.getStringVariable("initiatorGroup");
 		String email = wfo.getStringVariable("initiatorEmail");				
 
-		return (isEmpty(group+email));
+		return (!isEmpty(group+email));
 	}
 	
 	
@@ -215,5 +222,27 @@ public class MCRWorkflowEngineManagerRegisteruser extends MCRWorkflowEngineManag
 		MCRUser user = MCRUserMgr.instance().getCurrentUser();
 		return wfo.endTask(taskName, user.getID(), transitionName);
 	}
+	
+	public long getUniqueCurrentProcessID(String userid) {
+		List li = getCurrentProcessIDs(userid, processType);
+		if(li != null && li.size() > 0) {
+			if(li.size() > 1) {
+				StringBuffer errorSB = new StringBuffer("there are existing more than one ")
+					.append(processType).append(" processIDs. Please delete old ones. Found these ")
+					.append("processids: ");
+				for (Iterator it = li.iterator(); it.hasNext();) {
+					Long processID = (Long) it.next();
+					errorSB.append("[").append(processID.longValue()).append("] ");
+				}
+				logger.error(errorSB.toString());
+				return -1;
+			}else{
+				return ((Long)li.get(0)).longValue();
+			}
+			
+		}else{
+			return 0;
+		}
+	}		
 
 }
