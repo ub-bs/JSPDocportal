@@ -25,6 +25,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.log4j.Logger;
+import org.jbpm.graph.exe.ExecutionContext;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
@@ -960,9 +961,36 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		}
 	}
 
-	public String checkDecisionNode(long processid, String decisionNode) {
+	public String checkDecisionNode(long processid, String decisionNode, ExecutionContext executionContext) {
 		return "";
 	}
+	
+	protected String getVariableValueInDecision(String varname, long processid, String decisionNode, ExecutionContext executionContext){
+		try{
+			if(executionContext == null){
+				MCRJbpmWorkflowObject wfo = getWorkflowObject(processid);
+				return wfo.getStringVariable(varname);
+			}else{
+				return (String)executionContext.getVariable(varname);
+			}
+		}catch(Exception e){
+			logger.error("could not get variable value", e);
+		}
+		return "";
+	}
+	
+	protected void setStringVariableInDecision(String varname, String value, long processid, String decisionNode, ExecutionContext executionContext){
+		try{
+			if(executionContext == null){
+				MCRJbpmWorkflowObject wfo = getWorkflowObject(processid);
+				wfo.setStringVariable(varname, value);
+			}else{
+				executionContext.setVariable(varname, value);
+			}
+		}catch(Exception e){
+			logger.error("could not set variable: " + varname + "=" + value, e);
+		}
+	}	
 
 	
 	private void setOldRules(String objid ) {

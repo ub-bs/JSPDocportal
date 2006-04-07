@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.jbpm.graph.exe.ExecutionContext;
 import org.jdom.Element;
 import org.mycore.common.MCRException;
 
@@ -176,7 +177,7 @@ public interface MCRWorkflowEngineManagerInterface {
 	 * @return 
 	 * 		String name of the resulting transition
 	 */
-	public String checkDecisionNode(long processid, String decision);
+	public String checkDecisionNode(long processid, String decision, ExecutionContext executionContext);
 	
 	/**
 	 * returns a list of the mycore task beans that bundle all essential 

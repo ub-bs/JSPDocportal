@@ -32,7 +32,9 @@ public class MCRSetWorkflowVariableAction implements ActionHandler{
 	        }
 		}
 		executionContext.setVariable(workflowVarname, value);
+		
 		logger.debug("setting workflow variable: " + workflowVarname + "=" + value);
+		return;
 	}
 
 }

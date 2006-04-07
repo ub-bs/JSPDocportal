@@ -35,6 +35,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import org.jbpm.graph.exe.ExecutionContext;
 import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
 import org.mycore.common.MCRException;
@@ -134,9 +135,8 @@ public class MCRWorkflowEngineManagerRegisteruser extends MCRWorkflowEngineManag
 		return getWorkflowObject(curProcessID);		
 	}
 	
-	public String checkDecisionNode(long processid, String decisionNode) {
-		MCRJbpmWorkflowObject wfo = getWorkflowObject(processid);
-		String userid = wfo.getStringVariable("initiatorUserID");
+	public String checkDecisionNode(long processid, String decisionNode, ExecutionContext executionContext) {
+		String userid = getVariableValueInDecision("initiatorUserID", processid, decisionNode, executionContext);
 
 		if(decisionNode.equals("canUserBeSubmitted")){
 			if(checkSubmitVariables(processid)){
@@ -145,12 +145,12 @@ public class MCRWorkflowEngineManagerRegisteruser extends MCRWorkflowEngineManag
 				return "go2userMustEdited";
 			}
 		}else if(decisionNode.equals("canUserBeRejected")){
-			if (! this.rollbackWorkflowObject(userid)) 
-				wfo.setStringVariable("ROLLBACKERROR", Boolean.toString(true));
+			if (! this.rollbackWorkflowObject(userid))
+				setStringVariableInDecision("ROLLBACKERROR", Boolean.toString(true), processid, decisionNode, executionContext);
 			return "go2wasRejectmentSuccessful";
 		}else if(decisionNode.equals("canUserBeCommitted")){
 			if (! this.commitWorkflowObject(userid, "user")) 
-				wfo.setStringVariable("COMMITERROR", Boolean.toString(true));
+				setStringVariableInDecision("COMMITERROR", Boolean.toString(true), processid, decisionNode, executionContext);
 			return "go2wasCommitmentSuccessful";
 		}
 		return null;

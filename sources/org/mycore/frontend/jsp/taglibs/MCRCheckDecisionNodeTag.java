@@ -38,7 +38,7 @@ public class MCRCheckDecisionNodeTag extends MCRSimpleTagSupport
 		try{
 			PageContext pageContext = (PageContext) getJspContext();
 			MCRWorkflowEngineManagerInterface WFI = MCRWorkflowEngineManagerFactory.getImpl(workflowType);
-			pageContext.setAttribute(var, WFI.checkDecisionNode(processID, decision));
+			pageContext.setAttribute(var, WFI.checkDecisionNode(processID, decision, null));
 		}catch(Exception e){
 			logger.error("could not check boolean decision node [" + 
 					decision + "] for processid [" + processID + "]");

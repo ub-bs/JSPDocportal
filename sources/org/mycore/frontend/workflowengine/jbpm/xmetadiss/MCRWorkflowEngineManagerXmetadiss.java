@@ -39,6 +39,7 @@ import java.util.regex.Matcher;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.log4j.Logger;
 
+import org.jbpm.graph.exe.ExecutionContext;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
@@ -517,7 +518,7 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 		return bSuccess;
 	}
 	
-	public String checkDecisionNode(long processid, String decisionNode) {
+	public String checkDecisionNode(long processid, String decisionNode, ExecutionContext executionContext) {
 		if(decisionNode.equals("canDisshabBeSubmitted")){
 			if(checkSubmitVariables(processid)){
 				return "disshabCanBeSubmitted";
@@ -526,8 +527,8 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 			}
 		}else if(decisionNode.equals("canDisshabBeCommitted")){
 			if(checkSubmitVariables(processid)){
-				MCRJbpmWorkflowObject wfo = getWorkflowObject(processid);
-				String signedAffirmationAvailable = wfo.getStringVariable(MCRJbpmWorkflowBase.varSIGNED_AFFIRMATION_AVAILABLE);
+				String signedAffirmationAvailable = getVariableValueInDecision(MCRJbpmWorkflowBase.varSIGNED_AFFIRMATION_AVAILABLE,
+						processid, decisionNode, executionContext);
 				if(signedAffirmationAvailable != null && signedAffirmationAvailable.equals("true")){
 					return "go2wasCommitmentSuccessful";
 				}else{
