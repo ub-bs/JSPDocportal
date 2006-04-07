@@ -57,12 +57,12 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 	private static Logger logger = Logger.getLogger(MCRRegisterUserWorkflowServlet.class);
 	private String pid;
 	private String nextPath;
-	private String workflowType;
 	private String newUserID;
 	private String ID ;
 	private String lang;
 	private MCRWorkflowEngineManagerInterface WFI;
 	private String documentType ="user";
+	private String workflowType="registeruser";
 	
     /**
      * This method overrides doGetPost of MCRServlet. <br />
@@ -88,7 +88,6 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
         
     	pid = parms.getParameter("processid");
 		nextPath = parms.getParameter("nextPath");
-		workflowType = parms.getParameter("workflowType");
 		newUserID = parms.getParameter("newUserID");
 		ID = parms.getParameter("userID");
 		lang = mcrSession.getCurrentLanguage();
@@ -120,8 +119,9 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
     				ID = wfo.getStringVariable("initiatorUserID");
     				
     	        	request.setAttribute("isNewEditorSource","false");
-    	        	request.setAttribute("mcrid",ID);
+    	        	request.setAttribute("mcrid","user_"+ID);
     	        	request.setAttribute("type",documentType);
+    	        	request.setAttribute("target","MCRRegisterUserWorkflowServlet");
     	        	request.setAttribute("workflowType",workflowType);
     	        	request.setAttribute("step","");
     	        	request.setAttribute("nextPath",nextPath);
@@ -167,14 +167,15 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 			} else {
 				//erst wenn alles OK ist wird der WFI initiiert mit der UserID, die unique ist.
 				//we have registeruser prozess - with that id
-				long pid = WFI.getUniqueCurrentProcessID(ID);
-				if ( pid ==0) {
-					pid = WFI.initWorkflowProcess(ID);				
+				long lpid = WFI.getUniqueCurrentProcessID(ID);
+
+				if ( lpid == 0) {
+					lpid = WFI.initWorkflowProcess(ID);				
 					MCRSessionMgr.getCurrentSession().put("registereduser", new DOMOutputter().output( outDoc ));
 			        nextPath = "~registeredUser";		
 			    }
 				// for initiator and editor 
-				WFI.setWorkflowVariablesFromMetadata(String.valueOf(pid),userElement);
+				WFI.setWorkflowVariablesFromMetadata(String.valueOf(lpid),userElement);
 		       	
 		    }		        
         }		
