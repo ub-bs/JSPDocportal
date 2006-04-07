@@ -27,7 +27,7 @@
 		<td>&#160;</td>		
 		<td align="center" valign="top" width="50">
 				<form method="get" action="${baseURL}servlets/MCRRegisterUserWorkflowServlet">
-				    <input  name="nextPath" value="~workflow-registeruser-modify" type="hidden">
+				    <input  name="nextPath" value="~workflow-registeruser" type="hidden">
 					<input	name="processid" value="${processid}" type="hidden"> 
 					<input	name="todo" value="WFModifyWorkflowUser" type="hidden"> 					
 					<input title="<fmt:message key="Object.EditObject" />" src="${baseURL}images/workflow_objedit.gif" type="image" class="imagebutton">					

@@ -31,10 +31,14 @@
 		<br>&nbsp;<br>
 		<div class="headline"><fmt:message key="WorkflowEngine.MyTasks" /></div>
 		<mcr:getWorkflowTaskBeanList var="myTaskList" mode="activeTasks" workflowTypes="registeruser" varTotalSize="total1" />
-		<table >
+		<table>
 			<c:forEach var="task" items="${myTaskList}">
+			 <tr><td class="task">
+			   <table width="100%">			
 				<c:set var="task" scope="request" value="${task}" />
 				<c:import url="/content/workflow/${task.workflowProcessType}/getTasks.jsp" />
+			   </table>
+			 </td></tr>	
 			</c:forEach>
 		</table>
 	</c:when>

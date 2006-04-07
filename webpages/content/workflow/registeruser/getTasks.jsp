@@ -15,15 +15,16 @@
 <!--  for all task  -->
      <tr>
        <td class="metaname"> 
-         <fmt:message key="WorkflowEngine.Processnumber" /> <b>${requestScope.task.processID}</b>: 
-         <fmt:message key="Nav.Application.registeruser.title.${requestScope.task.taskName}" />
+         <b><fmt:message key="WorfklowEngine.Processnumber" /> ${requestScope.task.processID}</b>
+         <br/>
+         <b>Information:</b>
+            <fmt:message key="Nav.Application.registeruser.title.${requestScope.task.taskName}" />
        </td>
       </tr>
  	 <tr valign="top">
 		<td>
 			<b>Benutzerkennzeichen: <c:out value="${userID}" /></b><br/>
 			<c:out value="${name}" /> <br />
-		<hr/>
 		</td>		
      </tr>   
 <c:choose>
@@ -31,11 +32,12 @@
       <tr> 
 	   <td>       
         <table width="100%" >
-	       <c:import url="/content/workflow/registeruser/editorButtons.jsp" />	       
-	    <tr><td>	       
+	       	<c:import url="/content/workflow/registeruser/editorButtons.jsp" />	       
+	       <tr><td>	       
 	       <a href="${baseURL}nav?path=~workflow-registeruser&transition=go2canUserBeSubmitted&endTask=${requestScope.task.taskName}&processID=${requestScope.task.processID}">
 	       	<fmt:message key="Nav.Application.registeruser.UserSubmitting"/></a>
-	       </td><td>
+	        &#160;
+	        &#160;
 	       <a href="${baseURL}nav?path=~workflow-registeruser&transition=go2canUserBeRejected&endTask=${requestScope.task.taskName}&processID=${requestScope.task.processID}">
 	       	<fmt:message key="Nav.Application.registeruser.UserRejecting"/></a>
        	</td></tr>   
