@@ -11,77 +11,137 @@
 		<groupName>admingroup</groupName>
 	</assignment>  
   </swimlane>
+  
+  <swimlane name="technicalAdministration">
+    <assignment class="org.mycore.frontend.workflowengine.jbpm.MCRPooledActorAssignmentHandler">
+    <groupName>admingroup</groupName>
+  </assignment>       
+  </swimlane>
    
   <start-state name="start">
      <task name="initialization" swimlane="initiator">
      </task>     
-     <transition name="go2userCreated" to="userCreated" />  
-  </start-state>
-
-  <task-node name="userCreated">
-     <task name="isUserAccountOK" swimlane="usereditor" > </task>
-     <transition name="userCantBeSubmitted" to="userNOTSubmitted" />
-     <transition name="userCanBeSubmitted" to="userSubmitted" />
-  </task-node>
+     <transition name="go2UserCreated" to="userCreated" />       
+  </start-state> 
   
-  <task-node name="userNOTSubmitted">
-     <event type='node-enter'>
-        <action class="org.mycore.frontend.workflowengine.jbpm.registeruser.MCRUserCancelAction">
-           <lockedVariables>initiator,userID</lockedVariables>
-        </action>
-     </event> 
-     <task name="sendToUserNotOK" swimlane="usereditor">    </task> 
-     <transition name="go2sendToUserNotOK" to="sendToUserNotOK" />
+  <task-node name="userCreated">     
+     <!--  Daten sind erstmal da und MÜSSEN zur Vervollständigung editiert werden, oder Ablehnen des Antrags -->
+     <task name="isUserAccountOK" swimlane="usereditor" > </task>
+     <transition name="go2canUserBeSubmitted"  to="canUserBeSubmitted" />
+     <transition name="go2canUserBeRejected"   to="canUserBeRejected" />
+  </task-node>
+   
+  <decision name="canUserBeSubmitted">
+     <!--  sind formale kriterien erfüllt - wie eintrag in eine gruppe ... -->
+     <handler class="org.mycore.frontend.workflowengine.jbpm.registeruser.MCRDecisionHandlerRegisteruser" />
+     <transition name="go2userMustEdited" to="userEdited" />
+     <transition name="go2userCanBeSubmitted"  to="userSubmitted" />     
+  </decision>
+
+  <task-node name="userEdited">     
+     <!--  Daten sind erstmal da und MÜSSEN zur Vervollständigung editiert werden, oder Ablehnen des Antrags-->
+     <task name="isEditedUserAccountOK" swimlane="usereditor" > </task>
+     <transition name="go2canUserBeSubmitted"  to="canUserBeSubmitted" />
+     <transition name="go2canUserBeRejected"   to="canUserBeRejected" />
   </task-node>
 
+  <decision name="canUserBeRejected">
+     <!--  ablehnen wird ausgeführt / Rollback der Daten  -->
+     <handler class="org.mycore.frontend.workflowengine.jbpm.registeruser.MCRDecisionHandlerRegisteruser" />
+     <transition name="go2wasRejectmentSuccessful" to="wasRejectmentSuccessful" />
+  </decision>
+
+  
   <task-node name="userSubmitted">
-     <event type='node-enter'>
-        <action class="org.mycore.frontend.workflowengine.jbpm.registeruser.MCRUserSubmittedAction">
-           <lockedVariables>initiator,userID</lockedVariables>
-        </action>
-     </event> 
-     <task name="sendToUserOK" swimlane="usereditor">    </task> 
-     <transition name="go2sendToUserOK" to="sendToUserOK" />
+     <!--  formale kriterien sind erfüllt - nun ist noch die Frage ob sie dem editor auch gefallen -->
+     <task name="taskSetUserDataComplete" swimlane="usereditor">     </task>     
+     <transition name="go2canUserBeCommitted" to="canUserBeCommitted" />
+     <transition name="go2canUserBeRejected"  to="canUserBeRejected" />
   </task-node>
 
+  <decision name="canUserBeCommitted">
+     <handler class="org.mycore.frontend.workflowengine.jbpm.registeruser.MCRDecisionHandlerRegisteruser" />
+     <transition name="go2wasCommitmentSuccessful" to="wasCommitmentSuccessful" />
+  </decision>  
 
-  <task-node name="sendToUserOK">
-    <transition name="go2userCommitted" to="userCommitted" >
+  <decision name="wasCommitmentSuccessful">
+     <!--  ist das Annehmen erfolgreich gewesen  -->
+     <transition name="go2adminCheck" to="adminCheck">  
+        <condition expression="#{!empty(contextInstance.variables['COMMITERROR'])}" />
+     </transition>
+     <transition name="go2userCommitted" to="userCommitted">  
+        <condition expression="#{empty(contextInstance.variables['COMMITERROR'])}" />
+     </transition>     
+  </decision>
+
+  <decision name="wasRejectmentSuccessful">
+     <!--  ist das ablehnen erfolgreich gewesen  -->
+     <transition name="go2adminCheckRejecting" to="adminCheckRejecting">  
+        <condition expression="#{!empty(contextInstance.variables['ROLLBACKERROR'])}" />
+     </transition>
+     <transition name="go2sendRejectedMail" to="sendRejectedMail">  
+        <condition expression="#{empty(contextInstance.variables['ROLLBACKERROR'])}" />
+     </transition>     
+  </decision>
+   
+  <task-node name="adminCheck">
+    <event type='node-enter'>
+    <action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+       <from>atlibri@uni-rostock.de</from>
+       <to>anja.schaar@uni-rostock.de</to>
+       <replyTo>anja.schaar@uni-rostock.de</replyTo>
+       <subject>Probleme beim Anlegen des Nutzer</subject>
+       <body>Die Nuterdaten konnten nicht angelegt werden.</body>
+    </action>          
+     </event>
+     <task name="taskAdminCheckCommitmentNotSuccessfull" swimlane="technicalAdministration" />
+     <transition name="go2userCommitted" to="userCommitted" />
+  </task-node>     
+
+  <task-node name="adminCheckRejecting">
+    <event type='node-enter'>
+    <action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+       <from>atlibri@uni-rostock.de</from>
+       <to>anja.schaar@uni-rostock.de</to>
+       <replyTo>anja.schaar@uni-rostock.de</replyTo>
+       <subject>Probleme beim Ablehnen des Nutzer</subject>
+       <body>Die Nuterdaten konnten nicht entfernt werden.</body>
+    </action>          
+     </event>
+     <task name="taskAdminCheckRejectSuccessfull" swimlane="technicalAdministration" />
+     <transition name="go2sendRejectedMail" to="sendRejectedMail" />
+  </task-node>     
+
+  <task-node name="sendRejectedMail">
+     <task name="taskEnterMessageData" swimlane="usereditor" />
+     <transition name="go2userRejected" to="userRejected">
       <action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
          <from>atlibri@uni-rostock.de</from>
-         <subject>Nutzeranmeldung in der Digitalen Bibliothek @libri</subject>
-         <body>Ihre Nutzerdaten wurden in das System eingestellt. Sie können sich mit Ihrem Bibliotheksaccount anmelden.</body>
+         <to>initiator</to>
+         <replyTo>atlibri@uni-rostock.de</replyTo>
+         <subject>Ablehnung der Nutzeranmeldung für die Digitalen Bibliothek @libri</subject>
+         <body>Ihre Nutzerdaten wurden nicht in das System eingestellt.</body>
+         <jbpmVariableName>tmpTaskMessage</jbpmVariableName>
       </action>     
      </transition>
   </task-node>
-  
 
-  <task-node name="sendToUserNotOK">
-    <task name="taskEnterMessageData" swimlane="usereditor" />
-    <transition name="userCanceled" to="userCanceled" >
-      <action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-         <from>atlibri@uni-rostock.de</from>
-         <subject>Nutzeranmeldung in der Digitalen Bibliothek @libri</subject>
-         <mode>taskMessage</mode>
-      </action>     
-    </transition>
-  </task-node>
-
+  <end-state name="userCommitted">
+    <event type='node-enter'>
+     <action class="org.mycore.frontend.workflowengine.jbpm.registeruser.MCRSendmailActionregisteruser">
+       <from>atlibri@uni-rostock.de</from>
+       <to>initiator</to>
+       <replyTo>atlibri@uni-rostock.de</replyTo>
+       <subject>Nutzeranmeldung in der Digitalen Bibliothek @libri</subject>
+       <body>Ihre Nutzerdaten wurden in das System eingestellt. Sie können sich mit Ihrem Bibliotheksaccount anmelden.</body>
+       <!-- <body>Mustertext</body> -->
+       <mode>success</mode>
+     </action>     
+    </event>     
+  </end-state>
   
-   
-  <state name="userCommitted">
-     <transition name="to do next" to="todonext" />
-  </state>
+  <end-state name="userRejected"></end-state>
   
-  <state name="userCanceled">
-     <transition name="to do next" to="todonext" />
-  </state>
-  
-  <state name="todonext">
-    <transition to="end" />
-  </state>
-  
-  <end-state name="end" />
   
   
 </process-definition>
