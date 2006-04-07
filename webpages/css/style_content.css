@@ -6,6 +6,15 @@
 /* =================================================================== */
 /* content area                                                        */
 /* =================================================================== */
+.task {
+    padding: 3px;
+    border-style: solid none solid none;
+    border-width: 1px;
+    border-color: white;
+    margin-bottom: 1.5em;
+    background-color:#CAD9E0; 
+}
+
 .helpdiv {
     visibility:hidden;
     position:absolute;
