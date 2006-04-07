@@ -54,11 +54,15 @@
         <br>&nbsp;<br>
         <div class="headline"><fmt:message key="WorkflowEngine.MyTasks" /></div>   
         
-        <table>
-        <c:forEach var="task" items="${myTaskList}">
-           <c:set var="task" scope="request" value="${task}" />
-           <c:import url="/content/workflow/${task.workflowProcessType}/getTasks.jsp" />
-        </c:forEach>
+        <table>       
+	        <c:forEach var="task" items="${myTaskList}">
+	        <tr><td class="task">
+			   <table width="100%">				        
+		           <c:set var="task" scope="request" value="${task}" />
+		           <c:import url="/content/workflow/${task.workflowProcessType}/getTasks.jsp" />
+		       </table>
+		    </td></tr>       
+	        </c:forEach>
         <c:if test="${empty(myTaskList)}">
            <font color="#00ff00"><fmt:message key="WorkflowEngine.NoTasks" /></font>
         </c:if>
