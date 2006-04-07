@@ -31,8 +31,8 @@
 
   <state name="processInitialized">
      <event type='node-enter'>
-        <action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRGetAuthorAction" />
-        <action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRGetURNAction" />
+        <action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRCreateAuthorAction" />
+        <action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRCreateURNAction" />
 		<action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRCreateDisshabAction" />                        
      </event>
      <transition name="go2isInitiatorsEmailAddressAvailable" to="isInitiatorsEmailAddressAvailable" />  
@@ -163,7 +163,7 @@
 		   <to>initiator</to>
 		   <replyTo>heikohelm@yahoo.de</replyTo>
 		   <subject>Ihre elektronische Dissertation wurde erfolgreich veröffentlicht</subject>
-		   <!-- <body>Mustertext</body> -->
+		   <!-- <body>dynamic</body> -->
 		   <mode>success</mode>
 		</action>     
      </event>     
