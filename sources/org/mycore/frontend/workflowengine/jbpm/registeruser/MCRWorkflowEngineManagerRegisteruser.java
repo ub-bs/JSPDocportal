@@ -134,35 +134,6 @@ public class MCRWorkflowEngineManagerRegisteruser extends MCRWorkflowEngineManag
 		return getWorkflowObject(curProcessID);		
 	}
 	
-	public void setUserIDFromWorkflow(String initiator, String userID){
-		MCRJbpmWorkflowObject wfo = getWorkflowObject(initiator);
-		wfo.setStringVariable("initiatorUserID", userID);
-	}		
-
-	public String getUserIDFromWorkflow(String initiator){
-		MCRJbpmWorkflowObject wfo = getWorkflowObject(initiator);
-		String userID = wfo.getStringVariable("initiatorUserID");
-		if(wfo != null && userID != null && !userID.equals("")){
-			return userID;
-		}
-		return "";
-	}		
-	
-	public void setUserIDValidFlag(String userID, boolean isValid) {
-		List lpids = MCRJbpmWorkflowBase.getCurrentProcessIDsForProcessVariable("initiatorUserID%", userID);
-		long pid =0;
-		if(lpids == null || lpids.size() == 0){
-			logger.error("setUserIDValidFlag: there could not be found a process with this createdDocID " + userID);
-		}else{
-			pid = ((Long)lpids.get(0)).longValue();
-		}				
-		if(pid > 0) {
-			MCRJbpmWorkflowObject wfo = getWorkflowObject(pid);
-			wfo.setStringVariable(VALIDPREFIX + userID, Boolean.toString(isValid));
-		}
-	}	
-
-	
 	public String checkDecisionNode(long processid, String decisionNode) {
 		MCRJbpmWorkflowObject wfo = getWorkflowObject(processid);
 		String userid = wfo.getStringVariable("initiatorUserID");

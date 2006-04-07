@@ -1,14 +1,11 @@
 package org.mycore.frontend.workflowengine.jbpm;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.jdom.Document;
 import org.jdom.Element;
 import org.mycore.common.MCRException;
-import org.mycore.frontend.servlets.MCRServletJob;
 
 public interface MCRWorkflowEngineManagerInterface {
 
@@ -35,7 +32,7 @@ public interface MCRWorkflowEngineManagerInterface {
 	 * @return
 	 * 		String authorID
 	 */	
-	public String getAuthorFromUniqueWorkflow(String userid);
+	public String createAuthorFromInitiator(String userid);
 	
 	/**
 	 * creates or fetchs a new urn and 
@@ -44,7 +41,7 @@ public interface MCRWorkflowEngineManagerInterface {
 	 * @return
 	 * 		String urn
 	 */
-	public String getURNReservation(String userid);
+	public String createURNReservation(String userid);
 	
 	/**
 	 * creates or fetchs a metadata document and 
@@ -53,17 +50,7 @@ public interface MCRWorkflowEngineManagerInterface {
 	 * @return
 	 * 		String documentID
 	 */
-	public String getMetadataDocumentID(String userid);
-	
-	/**
-	 * returns the current workflow status of a given workflow-process
-	 * don't call this, if there are multiple instances allowed for one user
-	 * @param userid
-	 *        String the user-id
-	 * @return
-	 *        String the workflow-status-name
-	 */
-	public String getStatus(String userid);
+	public String createMetadataDocumentID(String userid);
 	
 	/**
 	 * returns the current workflow status of a workflow process with the given 
@@ -74,15 +61,6 @@ public interface MCRWorkflowEngineManagerInterface {
 	 */
 	public String getStatus(long processID);
 	
-	/**
-	 * returns a list of all processIDs of a given user
-	 * @param userid
-	 *  		String userID
-	 * @return
-	 * 		a List of java.lang.Long-Objects that represent the processIDs
-	 * @deprecated
-	 */
-	public List getCurrentProcessIDs(String userid) ;
 	
 	/**
 	 * returns a list of all processIDs of a given user and a given workflowType
@@ -111,30 +89,51 @@ public interface MCRWorkflowEngineManagerInterface {
 	public long getUniqueCurrentProcessID(String userid);
 	
 	/**
-	 * a method that returns a jdom document for a given user
-	 * and the processtype, containing the list of all editable documents 
-	 * which are in the active  workflow
-	 * 
-	 * @param userid
-	 *           String userid of a mycore user 
-	 * @param workflowProcessType
-	 *           String the workflow Process Type 
+	 * deletes a derivate from the workflow 
+	 * @param documentType
+	 * 			String like "disshab" or "document"
+	 * @param metadataObject
+	 * 			String of the objID the derivate belongs to
+	 * @param derivateObject
+	 * 			String of the derID, that will bedeleted
 	 * @return
-	 *           Document jdom a list of all documents plus there derivate id's
 	 */
-	abstract Document getListWorkflowProcess(String userid, String workflowProcessType);
-
 	public boolean deleteDerivateObject(String documentType, String metadataObject, String derivateObject);
 	
+	/**
+	 * adds a new derivate to an workflow object
+	 * @param objmcrid
+	 * @param documentType
+	 * @param userid
+	 * @return
+	 * TODO check, why is here a userid required???
+	 */
 	public String addNewDerivateToWorkflowObject(String objmcrid, String documentType, String userid);
 	
+	/**
+	 * commits a workflow object to the database(server)
+	 * @param objmcrid
+	 * @param documentType
+	 * @return true|false
+	 */
 	public boolean commitWorkflowObject(String objmcrid, String documentType);
 	
+	/**
+	 * delete a whole object from the workflow
+	 * @param objmcrid
+	 * @param documentType
+	 * @return true|false
+	 */
 	public boolean deleteWorkflowObject(String objmcrid, String documentType);
 	
-	public void setCommitStatus(String mcrid, String lastAction);
-	
-	abstract void setDefaultPermissions(String mcrid, String userid);
+	/**
+	 * sets default permissions for a given mcrobj 
+	 * and a given user in the specific workflow
+	 * 
+	 * @param mcrid
+	 * @param userid
+	 */
+	public void setDefaultPermissions(String mcrid, String userid);
 	
 	/**
 	 * sets a workflow-process-variable with the name
@@ -147,15 +146,48 @@ public interface MCRWorkflowEngineManagerInterface {
 	 * @param mcrid
 	 * @param isValid
 	 */
-	abstract void setMetadataValidFlag(String mcrid, boolean isValid);
+	public void setMetadataValidFlag(String mcrid, boolean isValid);
 	
-	abstract boolean checkMetadataValidFlag(String mcrid);
+	/**
+	 * returns the boolean value of the valid-Flag that was set
+	 * via <code>setMetadataValidFlag</code>
+	 * @param mcrid
+	 * @return true|false
+	 */
+	public boolean checkMetadataValidFlag(String mcrid);
 	
-	abstract void saveFiles(List files, String dirname, long pid) throws MCRException;
+	/**
+	 * saves a list of files in a workflow directory, 
+	 * 		when the requirements of the specific workflow-type 
+	 * 		cannot be fulfilled, an exception is thrown
+	 * @param files
+	 * @param dirname
+	 * @param pid
+	 * @throws MCRException
+	 */
+	public void saveFiles(List files, String dirname, long pid) throws MCRException;
 	
-	abstract String checkDecisionNode(long processid, String decision);
+	/**
+	 * returns the transition that is delivered from a jbpm decision node,
+	 * 	if the node would be reached now, must be implemented in each workflow
+	 * 	for all decision nodes
+	 * @param processid
+	 * @param decision
+	 * @return 
+	 * 		String name of the resulting transition
+	 */
+	public String checkDecisionNode(long processid, String decision);
 	
-	abstract List getTasks(String userid, String mode, List workflowProcessTypes);
+	/**
+	 * returns a list of the mycore task beans that bundle all essential 
+	 * 		information of a workflow process instance
+	 * @param userid
+	 * @param mode
+	 * @param workflowProcessTypes
+	 * @return
+	 * 		a list of java beans
+	 */
+	public List getTasks(String userid, String mode, List workflowProcessTypes);
 	
 	/**
 	 * returns relevant information of certain derivate for a certain document as jdom Element
@@ -173,9 +205,22 @@ public interface MCRWorkflowEngineManagerInterface {
 	 */
 	abstract Element getDerivateData(String docID, String derivateID);
 	
-	abstract void setWorkflowVariablesFromMetadata(String mcrid, Element metadata);
+	/**
+	 * sets some workflow variables with any information from a documents metadata
+	 * 		can be used in every workflow type completely different according to the needs
+	 * @param mcrid
+	 * @param metadata
+	 */
+	public void setWorkflowVariablesFromMetadata(String mcrid, Element metadata);
 	
-	abstract boolean endTask(long processid, String taskName, String transitionName);
+	/**
+	 * is  ending a task and is checking if a user with sufficient rights tries to end a task
+	 * @param processid
+	 * @param taskName
+	 * @param transitionName
+	 * @return true|false
+	 */
+	public boolean endTask(long processid, String taskName, String transitionName);
 	
 	
 	/**
@@ -191,28 +236,35 @@ public interface MCRWorkflowEngineManagerInterface {
      */	
 	 public void storeMetadata(byte[] outxml,  String ID, String fullname)  throws Exception;
 	 
-	 public String getUserIDFromWorkflow(String initiator);
-	 
-	/**
-	 * sets a workflow-process-variable with the name
-	 * 	valid-{mcrid} to boolean isValid
-	 * 
-	 * can only be used in workflow-processes with variables
-	 *  userID%  	that contain the requested userID's
-	 *  
-	 * @param userID
-	 * @param isValid
-	 */
-	abstract void setUserIDValidFlag(String userID, boolean isValid);
+	 /**
+	  * sets a given map of string variables for a given workflow process instance
+	  * @param map
+	  * @param processID
+	  */
+	 abstract void setStringVariables(Map map, long processID);
 	
-	abstract void setStringVariables(Map map, long processID);
+	 /**
+	  * sets a variable to a given string value for a given workflow process instance
+	  * @param variable
+	  * @param value
+	  * @param processID
+	  */
+	 abstract void setStringVariable(String variable, String value, long processID);
 	
-	abstract void setStringVariable(String variable, String value, long processID);
+	 /**
+	  * returns the value of a variable in a given workflow process instance
+	  * @param variable
+	  * @param processID
+	  * @return
+	  */
+	 abstract String getStringVariable(String variable, long processID);
 	
-	abstract String getStringVariable(String variable, long processID);
+	 /**
+	  * deletes a given workflow process instance with all tasks and variables
+	  * @param processID
+	  */
+	 abstract void deleteWorkflowProcessInstance(long processID);
 	
-	abstract void deleteWorkflowProcessInstance(long processID);
-	
-	abstract void deleteWorkflowVariables(Set set, long processID);
+	 abstract void deleteWorkflowVariables(Set set, long processID);
 	
 }

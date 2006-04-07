@@ -78,6 +78,8 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 	private static String processType = "xmetadiss" ;
 	private static MCRWorkflowEngineManagerInterface singleton;
 	
+	private static boolean multipleInstancesAllowed = false;
+	
 	protected MCRWorkflowEngineManagerXmetadiss() throws Exception {
 	}
 
@@ -126,9 +128,9 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 		}
 	}
 	
-	public Document getListWorkflowProcess(String userid, String workflowProcessType ){
-		return super.getListWorkflowProcess( userid,  workflowProcessType, "disshab");
-	}
+	protected boolean areMultipleInstancesAllowed(){
+		return multipleInstancesAllowed;
+	}	
 	
 	public long getUniqueCurrentProcessID(String userid) {
 		List li = getCurrentProcessIDs(userid, processType);
@@ -152,7 +154,7 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 		}
 	}		
 
-	public String getAuthorFromUniqueWorkflow(String userid){
+	public String createAuthorFromInitiator(String userid){
 		MCRJbpmWorkflowObject wfo = getWorkflowObject(userid);
 		if(wfo == null || !isUserValid(userid))
 			return "";
@@ -177,7 +179,7 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
     	}
 	}
 	
-	public String getURNReservation(String userid){
+	public String createURNReservation(String userid){
 		MCRJbpmWorkflowObject wfo = getWorkflowObject(userid);
 		if(wfo == null || !isUserValid(userid))
 			return "";
@@ -188,12 +190,12 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 		}
 
 		// im WF keine URN vorhanden, - also in MyCoRe anlegen	
-		String authorID = getAuthorFromUniqueWorkflow(userid);
+		String authorID = createAuthorFromInitiator(userid);
 		urn = createUrnReservationForAuthor(authorID, "URN for dissertation", processType);
 		return urn;					
 	}
 		
-	public String getMetadataDocumentID(String userid) throws MCRException{
+	public String createMetadataDocumentID(String userid) throws MCRException{
 		MCRJbpmWorkflowObject wfo = getWorkflowObject(userid);
 		if(wfo == null || !isUserValid(userid))
 			return "";
@@ -203,8 +205,8 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 			return docID;
 		}
 
-		String authorID = getAuthorFromUniqueWorkflow(userid);
-		String urn = getURNReservation(userid);
+		String authorID = createAuthorFromInitiator(userid);
+		String urn = createURNReservation(userid);
 		// im WF noch keine DocID für userid vorhanden - in myCoRe kreieren	
 		docID = createDisshab(authorID, userid, urn);
 		return docID;					

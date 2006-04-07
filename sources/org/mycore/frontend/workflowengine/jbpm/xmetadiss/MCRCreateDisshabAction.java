@@ -20,7 +20,7 @@ public class MCRCreateDisshabAction implements ActionHandler{
 		ContextInstance contextInstance;
 		contextInstance = executionContext.getContextInstance();
 		String initiator = (String)contextInstance.getVariable(MCRJbpmWorkflowBase.varINITIATOR);
-		String createdDocID = WFI.getMetadataDocumentID(initiator);
+		String createdDocID = WFI.createMetadataDocumentID(initiator);
 		if(createdDocID != null && !createdDocID.equals("")){
 			executionContext.setVariable("createdDocID", createdDocID);
 			executionContext.setVariable("attachedDerivates", "");

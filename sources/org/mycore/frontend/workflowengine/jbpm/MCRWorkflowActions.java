@@ -120,7 +120,7 @@ public class MCRWorkflowActions extends MCRServlet {
     		}
     		if (bSuccess) {
     			// Je nach WorkflowImplementation reagieren!
-    			WFI.setCommitStatus(mcrid, "WFCommitWorkflowObject");
+    			//WFI.setCommitStatus(mcrid, "WFCommitWorkflowObject");
     		}
     		request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
         	return;

@@ -13,6 +13,7 @@ import java.util.TimeZone;
 import org.apache.log4j.Logger;
 import org.jbpm.graph.def.ActionHandler;
 import org.jbpm.graph.exe.ExecutionContext;
+import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRMailer;
 import org.mycore.user2.MCRGroup;
@@ -22,8 +23,6 @@ import org.mycore.user2.MCRUserMgr;
 public class MCRSendmailAction implements ActionHandler{
 	
 	private static final long serialVersionUID = 1L;
-	protected static Logger logger = Logger.getLogger(MCRSendmailAction.class);
-	private static Calendar cal = new GregorianCalendar( TimeZone.getTimeZone("ECT"));
 	
 	private String from;
 	private String to;
@@ -39,92 +38,7 @@ public class MCRSendmailAction implements ActionHandler{
 	
 	
 	public void execute(ExecutionContext executionContext) throws MCRException {
-		if(to == null || to.equals("")){
-			String errMsg = "no recipient was given";
-			logger.error(errMsg);
-			throw new MCRException(errMsg);			
-		}
-		
-		if(subject == null || subject.equals("")){
-			subject = PropertyResourceBundle.getBundle("messages", new Locale("de")).getString("WorkflowEngine.Mails.DefaultSubject");
-		}
-		subject += " (Bearbeitungsnummer: " + executionContext.getProcessInstance().getId() + ")";
-		if(body == null)
-			body = "";
-		if(jbpmVariableName != null && !jbpmVariableName.equals("")){
-			body += executionContext.getVariable(jbpmVariableName);  
-		}
-		if(mode != null){
-			body = getBody(executionContext, mode);
-		}
-		if(body.equals("")){
-			String errMsg = "no body for mail was given";
-			logger.error(errMsg);
-			throw new MCRException(errMsg);
-		}
-		try{
-			List listTo = getEmailAddressesFromStringList(to, executionContext);
-			List listReplyTo = getEmailAddressesFromStringList(replyTo, executionContext);
-			List listBcc = getEmailAddressesFromStringList(bcc, executionContext);
-			String fromAddress = (String)getEmailAddressesFromStringList(from, executionContext).iterator().next();
-			MCRMailer.send(fromAddress, listReplyTo, listTo, listBcc, subject, body, null);
-			if(dateOfSubmissionVariable != null && !dateOfSubmissionVariable.equals("")) {
-				SimpleDateFormat formater = new SimpleDateFormat();
-			    executionContext.setVariable(dateOfSubmissionVariable, formater.format( cal.getTime() ) );	
-			}
-		}catch(Exception e){
-			logger.error("could not send email, but the workflow goes on");
-			logger.error("mail subject: " + subject);
-			logger.error("mail body: " + body);
-			logger.error("mail main recipients: " + to);
-		}
-	}
-	
-	/**
-	 * dummy function, overwrite this in your personal action for creating
-	 * specific mail messages
-	 * @param executionContext
-	 * @return
-	 */
-	protected String getBody(ExecutionContext executionContext, String mode){
-		return "";
-	}
-	
-	private List getEmailAddressesFromStringList(String addresses, ExecutionContext executionContext){
-		List ret = new ArrayList();
-		if(addresses == null || addresses.equals(""))
-			return ret;
-		String[] array = addresses.split(";");
-		for (int i = 0; i < array.length; i++) {
-			if(array[i].indexOf("@") >= 0){
-				ret.add(array[i]);
-			}else if(array[i].trim().equals("initiator")){
-				String email = getUserEmailAddress((String)executionContext.getVariable(MCRJbpmWorkflowBase.varINITIATOR));
-				if(email == null || email.equals("")){
-					email = (String)executionContext.getVariable(MCRJbpmWorkflowBase.varINITIATOREMAIL);
-				}
-				if(email == null || email.equals("")){
-					email = getUserEmailAddress("administrator");
-				}
-				ret.add(email);
-			}else{
-				ret.addAll(getGroupMembersEmailAddresses(array[i]));
-			}
-		}
-		return ret;
-	}
-	
-	private String getUserEmailAddress(String userid){
-		MCRUser user = MCRUserMgr.instance().retrieveUser(userid);
-		return user.getUserContact().getEmail();
-	}
-	
-	private List getGroupMembersEmailAddresses(String groupid){
-		List ret = new ArrayList();
-		MCRGroup group = MCRUserMgr.instance().retrieveGroup(groupid);
-		for (Iterator it = group.getMemberUserIDs().iterator(); it.hasNext();) {
-			ret.add(getUserEmailAddress((String)it.next()));
-		}
-		return ret;
+		MCRJbpmSendmail.sendMail(from, to, replyTo, bcc, subject,
+				body, mode, jbpmVariableName, dateOfSubmissionVariable, executionContext);
 	}
 }

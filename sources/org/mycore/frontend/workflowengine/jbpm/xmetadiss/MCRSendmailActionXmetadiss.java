@@ -4,11 +4,32 @@ import java.util.Locale;
 import java.util.PropertyResourceBundle;
 
 import org.jbpm.graph.exe.ExecutionContext;
+import org.mycore.common.MCRException;
+import org.mycore.frontend.workflowengine.jbpm.MCRJbpmSendmail;
 import org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction;
 
-public class MCRSendmailActionXmetadiss extends MCRSendmailAction{
+public class MCRSendmailActionXmetadiss extends MCRSendmailAction {
 	
 	private static final long serialVersionUID = 1L;
+	
+	private String from;
+	private String to;
+	private String replyTo;
+	private String bcc;
+	private String subject;
+	private String body;
+	private String mode;
+	
+	private String jbpmVariableName;
+	
+	private String dateOfSubmissionVariable;
+	
+	
+	public void execute(ExecutionContext executionContext) throws MCRException {
+		body = getBody(executionContext, mode);
+		MCRJbpmSendmail.sendMail(from, to, replyTo, bcc, subject,
+				body, mode, jbpmVariableName, dateOfSubmissionVariable, executionContext);
+	}
 	
 	/**
 	 * returns the body message of a requested email
