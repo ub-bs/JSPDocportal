@@ -37,7 +37,7 @@
     
     <servlet>
         <servlet-name>MCRRegisterUserWorkflowServlet</servlet-name>
-        <servlet-class>org.mycore.frontend.workflowengine.jbpm.registeruser.MCRRegisterUserWorkflowServlet</servlet-class>
+        <servlet-class>org.mycore.frontend.workflowengine.jbpm.MCRRegisterUserWorkflowServlet</servlet-class>
     </servlet>     
     
     <servlet>
