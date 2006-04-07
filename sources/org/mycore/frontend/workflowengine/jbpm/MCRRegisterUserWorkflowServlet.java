@@ -24,14 +24,6 @@
 package org.mycore.frontend.workflowengine.jbpm;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -40,7 +32,6 @@ import org.jdom.Element;
 import org.jdom.output.DOMOutputter;
 
 import org.mycore.common.MCRDefaults;
-import org.mycore.common.MCRException;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.MCRUtils;
@@ -52,7 +43,6 @@ import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
 
 import org.mycore.user2.MCRUserMgr;
-import org.w3c.dom.Document;
 
 /**
  * This class is the superclass of servlets which checks the MCREditorServlet
@@ -82,7 +72,6 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
     	HttpServletRequest  request = job.getRequest();
     	HttpServletResponse response = job.getResponse();
        
-        MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(Long.parseLong(pid));
 
     	// read the XML data
         MCREditorSubmission sub = (MCREditorSubmission) (request.getAttribute("MCREditorSubmission"));
@@ -105,14 +94,15 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 		lang = mcrSession.getCurrentLanguage();
         String todo = parms.getParameter("todo");
 
-		WFI = MCRWorkflowEngineManagerFactory.getImpl(workflowType);
+
+        WFI = MCRWorkflowEngineManagerFactory.getImpl(workflowType);
 		
 		if ( pid == null ) {
 			initializeUserRegistration(sub);
 	       	request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
 	       	return;
 		} else {
-        	boolean bSuccess =false;
+	        MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(Long.parseLong(pid));
     		if ( ! AI.checkPermission("administrate-user") ) {
        			wfo.setWorkflowStatus("error" + workflowType + "Right");
     		} else {    		
@@ -125,8 +115,10 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
     		          step=""  target="MCRCheckUserRegistrationServlet" nextPath="~workflow-registeruser" 
     		          editorPath="editor/workflow/editor-modifyuser.xml" />
     		          ***/   
-    	        	wfo.setWorkflowStatus(documentType + "Edited");
     	        	// befüllten Editor für das Object includieren
+    				// aus dem wfo die Daten für die ID ... holen 
+    				ID = wfo.getStringVariable("initiatorUserID");
+    				
     	        	request.setAttribute("isNewEditorSource","false");
     	        	request.setAttribute("mcrid",ID);
     	        	request.setAttribute("type",documentType);
@@ -174,14 +166,15 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 		        nextPath = "~registerChooseIDwhenDuplicate&userID="+ID;
 			} else {
 				//erst wenn alles OK ist wird der WFI initiiert mit der UserID, die unique ist.
-				//we have  registeruser prozess - with that id
+				//we have registeruser prozess - with that id
 				long pid = WFI.getUniqueCurrentProcessID(ID);
 				if ( pid ==0) {
 					pid = WFI.initWorkflowProcess(ID);				
-					WFI.setWorkflowVariablesFromMetadata(String.valueOf(pid),userElement);
 					MCRSessionMgr.getCurrentSession().put("registereduser", new DOMOutputter().output( outDoc ));
 			        nextPath = "~registeredUser";		
 			    }
+				// for initiator and editor 
+				WFI.setWorkflowVariablesFromMetadata(String.valueOf(pid),userElement);
 		       	
 		    }		        
         }		
