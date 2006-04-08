@@ -37,7 +37,15 @@
     <xsl:copy-of select="$wib/filter-mapping" />
 
     <xsl:copy-of select="$wia/servlet" />
-    <xsl:copy-of select="$wib/servlet" />
+    <!--  problems with jetty, display-name must be before servlet-name -->
+    <xsl:for-each select="$wib/servlet">
+       <servlet>
+           <xsl:copy-of select="./display-name" />
+           <xsl:copy-of select="./servlet-name" />
+           <xsl:copy-of select="./servlet-class" />
+           <xsl:copy-of select="./load-on-startup" />                      
+       </servlet>
+    </xsl:for-each>
 
     <xsl:copy-of select="$wia/servlet-mapping" />
     <xsl:copy-of select="$wib/servlet-mapping" />
