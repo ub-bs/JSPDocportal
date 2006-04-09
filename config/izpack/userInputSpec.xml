@@ -1,0 +1,27 @@
+<userInput>
+<panel order="0">
+	<field type="rule" variable="EMAILADDRESS"> 
+	  <spec 
+	      txt="Your Email Address:" layout="O:12:U @ O:8:40 . A:4:4" 
+	      set="0: 1:domain 2:com" resultFormat="displayFormat"
+	  />
+	  <validator class="com.izforge.izpack.util.RegularExpressionValidator" 
+	      txt="Invalid email address!">
+	    <param 
+	        name="pattern" 
+	        value="[a-zA-Z0-9._-]{3,}@[a-zA-Z0-9._-]+([.][a-zA-Z0-9_-]+)*[.][a-zA-Z0-9._-]{2,4}"
+	    />
+	  </validator> 
+	</field>
+<!-- 
+
+  <field type="staticText" align="left" txt="My comment is here." id="input.comment"/>
+  <field type="text" variable="proxyAddress">
+        <spec txt="Proxy Host:" id="input.proxy" size="25" set=""/>
+  </field>
+  <field type="text" variable="proxyPort">
+       <spec txt="Proxy Port:" id="input.port" size="6" set=""/>
+  </field>
+-->  
+</panel>
+</userInput>
