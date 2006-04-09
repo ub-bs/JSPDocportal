@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app>
 
-    <display-name>navigation</display-name>
-    <description></description>
+    <display-name>JSP DOCPORTAL</display-name>
+    <description>(A MyCoRe Sample)</description>
 
     <listener>
        <listener-class>org.mycore.frontend.jsp.ContextListener</listener-class>
@@ -99,12 +99,7 @@
         <servlet-name>DebugServlet</servlet-name>
         <servlet-class>org.mycore.frontend.jsp.DebugServlet</servlet-class>
     </servlet>
-    
-    <servlet>
-        <servlet-name>MCRUserPrivServlet</servlet-name>
-        <servlet-class>org.mycore.user.MCRUserPrivServlet</servlet-class>
-    </servlet>
-    
+
     <servlet>
         <servlet-name>MCRCheckQueryServlet</servlet-name>
         <servlet-class>org.mycore.frontend.jsp.query.MCRCheckQueryServlet</servlet-class>
@@ -318,11 +313,6 @@
     <servlet-mapping>
                <servlet-name>MCRUploadServlet</servlet-name>
                <url-pattern>/servlets/MCRUploadServlet</url-pattern>
-    </servlet-mapping>
-    
-    <servlet-mapping>
-               <servlet-name>MCRUserPrivServlet</servlet-name>
-               <url-pattern>/servlets/MCRUserPrivServlet</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
