@@ -182,7 +182,7 @@
  			<fileset dir="${DOCPORTAL_HOME}" includes="**" ></fileset>
 		</copy>
 		<copy todir="${DOCPORTAL_SYSTEM}" overwrite="true">
-		 	<fileset dir="." includes="**" excludes="mycoresample.war" ></fileset>
+		 	<fileset dir="." includes="**" excludes="mycoresample.war,jspdocportal-installer*" ></fileset>
 		</copy>
         <mkdir dir="${docportal.webapps}" />
     	<mkdir dir="${docportal.bin}" />		
@@ -363,9 +363,7 @@
     <!-- =================================================================== -->
     <!-- Create script bin/mycore.sh or mycore.cmd for CommandLineInterface  -->
     <!-- =================================================================== -->
-
-    <target name="create.scripts"
-        depends="init, script.windows, script.unix" />
+	<target name="create.scripts" depends="init, script.windows, script.unix" description="Create commandline scripts" />
 
     <target name="script.windows" if="os.is.windows">
         <antcall target="script.windows.write">
@@ -392,7 +390,8 @@
                 value="org.mycore.sample.PluginLister $*" />
         </antcall>
     </target>
-
+	
+	
 	  <target name="script.windows.write">
 	    <property name="tmp.cmd.file" value="${DOCPORTAL_SYSTEM}/bin/${mycore.cmd.file}" />
 	    <echo>Creating ${mycore.cmd.file} to invoke ${mycore.cmd.class}</echo>
@@ -878,7 +877,7 @@
         <copy todir="${docportal.webapps}/WEB-INF/lib">
             <fileset dir="${DOCPORTAL_SYSTEM}/lib" includes="*.jar" excludes="jsp-api*.jar" />
             <fileset dir="${MYCORE_HOME}/lib" includes="*.jar"
-                excludes="servlet-api*" />
+                excludes="servlet-api*,standalone-compiler*" />
         </copy>
         <copy todir="${docportal.webapps}/WEB-INF/classes">
             <!-- <fileset dir="${docportal.classes}" /> -->
@@ -1309,15 +1308,16 @@
     	<delete file="connectionBase.tmp" />
     </target>
 	
-	<target name="jettystart" depends="init">
+	<target name="jettystart">
 		<echo message="Starting Jetty Server" />
 		<java jar="${docportal.lib}/jetty/start.jar" fork="yes">
 			<jvmarg value="-Djetty.home=${docportal.lib}/jetty"/>
 			<jvmarg value="-Djava.home=${env.JAVA_HOME}"/>
+			<arg value="${docportal.lib}/jetty/webapp.xml" />
 		</java>
 	</target>
 	
-	<target name="jettystop" depends="init">
+	<target name="jettystop">
 		<java jar="${docportal.lib}/jetty/stop.jar" fork="yes">
 			<jvmarg value="-Djetty.home=${docportal.lib}/jetty"/>
 		</java>		
@@ -1333,15 +1333,15 @@
 		<move file="${docportal.webapps}/WEB-INF/lib/xml-apis.jar.notallowedinjetty" tofile="${docportal.webapps}/WEB-INF/lib/xml-apis.jar"/>					
 	</target>
 	
-	<target name="demo.jar">
+	<target name="demo.jar" depends="compile_demo">
 	    <jar jarfile="../demo.jar"  >
 	       <manifest>
 	         <attribute name="Main-Class" value="org.mycore.start.demo.Main"/>
-	         <attribute name="Class-Path" value="mycore/lib/BrowserLauncher2.jar"/>
+	         <attribute name="Class-Path" value="mycore/lib/BrowserLauncher2.jar mycore-working/lib/jetty/lib/org.mortbay.jetty.jar mycore-working/lib/jetty/lib/javax.servlet.jar mycore-working/lib/jetty/lib/org.mortbay.jmx.jar mycore-working/lib/jetty/ext/commons-el.jar mycore-working/lib/jetty/ext/ant.jar mycore-working/lib/jetty/ext/commons-logging.jar mycore-working/lib/jetty/ext/jasper-compiler.jar mycore-working/lib/jetty/ext/jasper-runtime.jar mycore-working/lib/jetty/ext/jsp-api-2_0.jar mycore-working/lib/jetty/ext/jst1-1l.jar mycore-working/lib/jetty/ext/log4j-1.2.9.jar mycore-working/lib/jetty/ext/mx4j.jar mycore-working/lib/jetty/ext/mx4j-remote.jar mycore-working/lib/jetty/ext/mx4j-tools.jar mycore-working/lib/jetty/ext/xercesImpl.jar mycore-working/lib/jetty/ext/xml-apis.jar mycore-working/lib/jetty/ext/xmlParserAPIs.jar mycore-working/lib/jetty/start.jar mycore-working/lib/jetty/stop.jar"/>
 	       </manifest>
            <fileset dir="${docportal.classes}" includes="org/mycore/start/demo/**" />
 	    </jar>
-    </target>	
+    </target>		
 
 	<target name="load_default_content">
  	     <subant target="load" inheritall="false" inheritrefs="false">
@@ -1496,7 +1496,40 @@
             <param name="cli.command" value="process ${commands.file}" />
         </antcall>
         <delete file="${commands.file}" />		
-	</target>		
+	</target>	
+	
+	<target name="create.izpack.installer">
+		<echo message="copy base dir: ${MCR.BaseDirectory}" />
+		<mkdir dir="${basedir}/../tmpsampledata"/>
+		<copy todir="${basedir}/../tmpsampledata">
+			<fileset dir="${MCR.BaseDirectory}" excludes="log/*.log" />
+		</copy>			
+		<taskdef name="izpack" classpath="${DOCPORTAL_HOME}/lib/standalone-compiler.jar"
+				classname="com.izforge.izpack.ant.IzPackTask"/>
+		<echo message="Makes the installer using IzPack"/>
+		<copy file="${DOCPORTAL_SYSTEM}/config/mycore.properties.template" tofile="${DOCPORTAL_SYSTEM}/config/izpack/mycore.properties.izpack" overwrite="true">
+			<filterchain>
+				<tokenfilter>
+				    <replaceregex pattern="^MCR\.BaseDirectory=.*$" replace="MCR.BaseDirectory=$INSTALL_PATH/sample-data" />
+					<replaceregex pattern="^MCR\.hibernate\.connection\.url=.*$" replace="MCR.hibernate.connection.url=jdbc:hsqldb:file:%MCR.BaseDirectory%/hsqldb-data/mycore" />
+				</tokenfilter>				
+			</filterchain>
+		</copy>
+		<copy file="${DOCPORTAL_SYSTEM}/config/workflow/jbpm_hibernate.cfg.xml.template" tofile="${DOCPORTAL_SYSTEM}/config/izpack/jbpm_hibernate.cfg.xml.izpack" overwrite="true">
+			<filterchain>
+				<tokenfilter>
+				    <replaceregex pattern="^(\s*&lt;property name=&quot;hibernate\.connection\.url&quot;&gt;).*$" replace="\1jdbc:hsqldb:file:$INSTALL_PATH/sample-data/hsqldb-data/mycore-workflow&lt;/property&gt;" />
+				</tokenfilter>				
+			</filterchain>
+		</copy>		
+		<izpack input="${DOCPORTAL_SYSTEM}/config/izpack/install.xml"
+			output="${basedir}/jspdocportal-installer.jar"
+			installerType="standard"
+			basedir="${DOCPORTAL_SYSTEM}"/>
+		<delete dir="${basedir}/../tmpsamplsdata" />
+	</target>
+	
+	
 </project>
 
 <!-- ======================== End of file ======================== -->
