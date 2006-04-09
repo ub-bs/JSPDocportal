@@ -193,15 +193,16 @@ MCR.IFS.ContentStore.SQLDB.Class=org.mycore.backend.hibernate.MCRHIBCStore
 #MCR.hibernate.connection.url=jdbc:mysql://127.0.0.1/mycore?user=mcradmin&autoReconnect=true
 #MCR.hibernate.connection.username=mcradmin
 #MCR.hibernate.connection.password=
-#MCR.hibernate.connection.pool_size=5
 
 # JDBC parameters for connecting to HSQLDB
 MCR.hibernate.dialect=org.hibernate.dialect.HSQLDialect
 MCR.hibernate.connection.driver_class=org.hsqldb.jdbcDriver
+# Server mode for developer
 MCR.hibernate.connection.url=jdbc:hsqldb:hsql://localhost:9001/mycore
+# in-Process mode for application (faster, but only reachable from same jvm)
+#MCR.hibernate.connection.url=jdbc:hsqldb:file:%MCR.BaseDirectory%/hsqldb-data/mycore
 MCR.hibernate.connection.username=sa
 MCR.hibernate.connection.password=
-MCR.hibernate.connection.pool_size=5
 
 # needed for starting and stopping the hsqldb-database via ant
 MCR.persistence_sql_data_directory=%MCR.BaseDirectory%/hsqldb-data
@@ -394,6 +395,8 @@ MCR.log4j.rootLogger=DEBUG, stdout, R
 MCR.log4j.logger.org.mycore.backend.hibernate=ERROR, stdout, R
 MCR.log4j.logger.org.hibernate=ERROR, stdout, R
 MCR.log4j.logger.org.apache.commons.digester.Digester=ERROR, stdout, R
+MCR.log4j.logger.com.mchange.v2.c3p0=ERROR, stdout, R
+
 
 ##############################################################################
 # zip

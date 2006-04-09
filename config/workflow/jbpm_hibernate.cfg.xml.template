@@ -8,13 +8,29 @@
   <session-factory>
 
     <!-- jdbc connection properties -->
+    <!-- HSQLDB -->
+    <!-- *****************************************************  -->
     <property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>
     <property name="hibernate.connection.driver_class">org.hsqldb.jdbcDriver</property>
-    <!--  <property name="hibernate.connection.url">jdbc:hsqldb:mem:.;sql.enforce_strict_size=true</property>-->
+    <!-- server mode -->
     <property name="hibernate.connection.url">jdbc:hsqldb:hsql://localhost:9001/mycore-workflow</property>
+    <!-- in-Process mode -->
+    <!-- 
+    <property name="hibernate.connection.url">jdbc:hsqldb:file:C:/sample-mcrjsp/hsqldb-data/mycore-workflow</property>
+    -->
     <property name="hibernate.connection.username">sa</property>
     <property name="hibernate.connection.password"></property>
         
+    <!-- Mysql -->
+    <!-- *****************************************************  -->
+    <!--
+    <property name="hibernate.dialect">org.mycore.backend.hibernate.dialects.MCRMySQLMyISAMDialect</property>
+    <property name="hibernate.connection.driver_class">org.gjt.mm.mysql.Driver</property>
+    <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1/mycore?user=mcradmin&autoReconnect=true</property>
+    <property name="hibernate.connection.username">mcradmin</property>
+    <property name="hibernate.connection.password"></property>  
+    -->
+    
     <!-- other hibernate properties 
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.format_sql">true</property>
