@@ -210,7 +210,7 @@
             <pathelement location="${docportal.schema}" />
             <pathelement location="${docportal.stylesheets}" />
             <fileset dir="${MYCORE_HOME}/lib" includes="*.jar" />
-        	<fileset dir="${DOCPORTAL_SYSTEM}/lib" includes="*.jar" />
+        	<fileset dir="${DOCPORTAL_SYSTEM}/lib" includes="*.jar,jetty/lib/*.jar" />
             <path refid="jdbc.classpath" />
             <path refid="xml.classpath" />
         </path>
