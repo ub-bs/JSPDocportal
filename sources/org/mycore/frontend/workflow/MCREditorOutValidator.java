@@ -521,7 +521,7 @@ public class MCREditorOutValidator {
      * @param metadata
      */
     private void checkObjectMetadata(Element metadata) {
-        metadata.getAttribute("lang").setNamespace(Namespace.XML_NAMESPACE);
+        metadata.getAttribute("lang", Namespace.XML_NAMESPACE);
 
         List metadatalist = metadata.getChildren();
         Iterator metaIt = metadatalist.iterator();
