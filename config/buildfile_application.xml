@@ -1514,6 +1514,8 @@
 				<tokenfilter>
 				    <replaceregex pattern="^MCR\.BaseDirectory=.*$" replace="MCR.BaseDirectory=$INSTALL_PATH/sample-data" />
 					<replaceregex pattern="^MCR\.hibernate\.connection\.url=.*$" replace="MCR.hibernate.connection.url=jdbc:hsqldb:file:%MCR.BaseDirectory%/hsqldb-data/mycore" />
+					<replaceregex pattern="^MCR\.WorkflowEngine\.Administrator\.Email=.*$" replace="MCR.WorkflowEngine.Administrator.Email=$EMAILADDRESS" />
+					<replaceregex pattern="^MCR\.mail\.server=.*$" replace="MCR.mail.server=$MAILSERVER" />					
 				</tokenfilter>				
 			</filterchain>
 		</copy>
@@ -1528,7 +1530,7 @@
 			output="${basedir}/jspdocportal-installer.jar"
 			installerType="standard"
 			basedir="${DOCPORTAL_SYSTEM}"/>
-		<delete dir="${basedir}/../tmpsamplsdata" />
+		<delete dir="${basedir}/../tmpsampledata" />
 	</target>
 	
 	

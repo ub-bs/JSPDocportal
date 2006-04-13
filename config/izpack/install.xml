@@ -22,6 +22,10 @@
         <url>http://www.mycore.de/</url>
     </info>
     
+    <variables>
+       <variable name="JDKPathPanel.skipIfValid" value="yes"/>
+    </variables>    
+    
 
     <!-- 
         The gui preferences indication.
@@ -45,7 +49,9 @@
     <resources>
         <res id="LicencePanel.licence" src="config/izpack/Licence.txt"/>
         <res id="InfoPanel.info" src="config/izpack/Readme.txt"/>
-        <res id="userInputSpec.xml" src="config/izpack/userInputSpec.xml"/>        
+        <res id="userInputSpec.xml" src="config/izpack/userInputSpec.xml"/>
+        <res id="userInputLang.xml_eng" src="config/izpack/userInputLang.xml_eng"/>
+        <res id="userInputLang.xml_deu" src="config/izpack/userInputLang.xml_deu"/>
     </resources>
     
     <!-- 
@@ -54,13 +60,14 @@
     -->
     <panels>
         <panel classname="HelloPanel"/>
+        <panel classname="JDKPathPanel" />
         <panel classname="InfoPanel"/>
         <panel classname="LicencePanel"/>
         <panel classname="TargetPanel"/> 
         <panel classname="UserInputPanel"/> 
         <panel classname="PacksPanel"/>
         <panel classname="InstallPanel"/>
-        <panel classname="FinishPanel"/>
+        <panel classname="SimpleFinishPanel"/>
     </panels>
     
     <!-- 
@@ -70,6 +77,7 @@
     <packs>
         <pack name="jsp-sample" required="yes">
             <description>The JSP SAMPLE</description>
+            <file src="../demo.jar" targetdir="$INSTALL_PATH" />
             <file src="../mycore-working" targetdir="$INSTALL_PATH"/>
             <file src="../mycore" targetdir="$INSTALL_PATH"/>
             <file src="../jspdocportal" targetdir="$INSTALL_PATH"/>
@@ -84,6 +92,10 @@
             <file src="webpages" targetdir="$INSTALL_PATH/myapplication"/>             
 			<file src="config/izpack/Readme.txt" targetdir="$INSTALL_PATH"/>
             <file src="config/izpack/Licence.txt" targetdir="$INSTALL_PATH"/>
+            <file src="config/izpack/start.bat" targetdir="$INSTALL_PATH"/>
+            <file src="config/izpack/start.sh" targetdir="$INSTALL_PATH"/>
+            <file src="config/izpack/stop.bat" targetdir="$INSTALL_PATH"/>
+            <file src="config/izpack/stop.sh" targetdir="$INSTALL_PATH"/>            
             <singlefile src="config/izpack/mycore.properties.izpack" target="$INSTALL_PATH/myapplication/config/mycore.properties" overwrite="true" />
             <singlefile src="config/izpack/mycore.properties.izpack" target="$INSTALL_PATH/mycore-working/config/mycore.properties" overwrite="true" />
             <singlefile src="config/izpack/mycore.properties.izpack" target="$INSTALL_PATH/mycore-working/webapps/mycoresample/WEB-INF/classes/mycore.properties" overwrite="true" />
@@ -95,7 +107,15 @@
 			<parsable targetfile="$INSTALL_PATH/mycore-working/webapps/mycoresample/WEB-INF/classes/mycore.properties" type="javaprop" />
 			<parsable targetfile="$INSTALL_PATH/myapplication/config/workflow/jbpm_hibernate.cfg.xml" type="xml" />	
 			<parsable targetfile="$INSTALL_PATH/mycore-working/config/workflow/jbpm_hibernate.cfg.xml" type="xml" />	
-			<parsable targetfile="$INSTALL_PATH/mycore-working/webapps/mycoresample/WEB-INF/classes/workflow/jbpm_hibernate.cfg.xml" type="xml" />									
+			<parsable targetfile="$INSTALL_PATH/mycore-working/webapps/mycoresample/WEB-INF/classes/workflow/jbpm_hibernate.cfg.xml" type="xml" />
+			<parsable targetfile="$INSTALL_PATH/start.bat" type="plain" />
+			<parsable targetfile="$INSTALL_PATH/start.sh" type="shell" />
+			<parsable targetfile="$INSTALL_PATH/stop.bat" type="plain" />
+			<parsable targetfile="$INSTALL_PATH/stop.sh" type="shell" />						
+			<executable targetfile="$INSTALL_PATH/start.bat" os="windows" stage="never" keep="true" />
+			<executable targetfile="$INSTALL_PATH/start.sh" os="linux" stage="never" keep="true" />
+			<executable targetfile="$INSTALL_PATH/stop.bat" os="windows" stage="never" keep="true" />
+			<executable targetfile="$INSTALL_PATH/stop.sh" os="linux" stage="never" keep="true" />			
 		</pack>
 		<pack name="Default-Data" required="no">
 		    <description>Example-Content for the application</description>
