@@ -2,7 +2,7 @@
 <processing>
 	<job name="do xyz">
 		<os family="windows" />
-		<executefile name="$INSTALL_PATH/start.bat">
+		<executefile name="$INSTALL_PATH\start.bat">
 			<!-- <arg>doit</arg><arg>$variable</arg> -->
 		</executefile>
 	</job>
