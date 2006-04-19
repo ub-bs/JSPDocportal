@@ -26,7 +26,7 @@
     <!--
     <property name="hibernate.dialect">org.mycore.backend.hibernate.dialects.MCRMySQLMyISAMDialect</property>
     <property name="hibernate.connection.driver_class">org.gjt.mm.mysql.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1/mycore?user=mcradmin&autoReconnect=true</property>
+    <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1/mycore-workflow?user=mcradmin&autoReconnect=true</property>
     <property name="hibernate.connection.username">mcradmin</property>
     <property name="hibernate.connection.password"></property>  
     -->
