@@ -48,7 +48,7 @@
    </tr> 
    <tr><td colspan="2">
      <hr/>
-     <p><fmt:message key="Dissertation.Service.Hinweis1" /></p>
+     <p><fmt:message key="Service.Hinweis1" /></p>
      <p>
         <mcr:getConfigProperty var="mail" prop="MCR.WorkflowEngine.contactemail.xmetadiss" defaultValue="mycore@mycore.de" />
         <a href="mailto:${mail}">${mail}</a>

@@ -16,5 +16,21 @@
    </c:otherwise>
 </c:choose>
 <mcr:initWorkflowProcess userid="${username}" status="status" workflowProcessType="${workflowType}" processidVar="pid" scope="request" />
-<c:import url="/content/workflow/xmetadiss/dissertationData.jsp" />
 
+
+<c:choose>
+<c:when test="${fn:contains(status,'errorUserGuest')}">
+<div class="headline"><fmt:message key="Dissertation.Subtitle1" /></div>
+	<p><fmt:message key="SWF.Dissertation.errorUserGuest" /></p>
+	<p><fmt:message key="SWF.Dissertation.next.errorUserGuest" /></p>
+	<p><fmt:message key="DocumentManagement.FetchLogin" /></p>
+</c:when>
+<c:when test="${fn:contains(status,'errorWFM')}">
+<div class="headline"><fmt:message key="Dissertation.Subtitle1" /></div>
+	<p><fmt:message key="SWF.Dissertation.errorWfM" /></p>
+	<p><fmt:message key="SWF.Dissertation.next.errorWfM" /></p>
+</c:when>
+<c:otherwise>
+     <c:import url="/content/workflow/xmetadiss/dissertationData.jsp" />
+</c:otherwise>
+</c:choose>
