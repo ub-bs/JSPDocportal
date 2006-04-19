@@ -395,7 +395,7 @@ MCR.log4j.rootLogger=DEBUG, stdout, R
 MCR.log4j.logger.org.mycore.backend.hibernate=ERROR, stdout, R
 MCR.log4j.logger.org.hibernate=ERROR, stdout, R
 MCR.log4j.logger.org.apache.commons.digester.Digester=ERROR, stdout, R
-MCR.log4j.logger.com.mchange.v2.c3p0=ERROR, stdout, R
+MCR.log4j.logger.com.mchange=ERROR, stdout, R
 
 
 ##############################################################################
