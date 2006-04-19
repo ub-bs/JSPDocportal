@@ -84,9 +84,9 @@
      <task name="taskEnterMessageData" swimlane="disseditor" />
      <transition name="go2disshabCreated2" to="disshabCreated">
 		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-		   <from>helmbrecht@ub.tum.de</from>
+		   <from>editor@myserver.de</from>
 		   <to>initiator</to>
-		   <replyTo>heikohelm@yahoo.de</replyTo>
+		   <replyTo>editor@myserver.de</replyTo>
 		   <subject>Sie müssen bei Ihrer Dissertation Daten ergänzen</subject>
 		   <!-- <body>Mustertext</body> -->
 		   <jbpmVariableName>tmpTaskMessage</jbpmVariableName>
@@ -109,9 +109,9 @@
      <task name="taskRequireSignedAffirmation" swimlane="disseditor" />
      <transition name="go2checkNonDigitalRequirements" to="checkNonDigitalRequirements">
 		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-		   <from>helmbrecht@ub.tum.de</from>
+		   <from>editor@myserver.de</from>
 		   <to>initiator</to>
-		   <replyTo>heikohelm@yahoo.de</replyTo>
+		   <replyTo>editor@myserver.de</replyTo>
 		   <subject>Sie müssen noch das Formblatt zur Abgabe elektronischer Dissertationen abgeben</subject>
 		   <!-- <body>Mustertext</body> -->
 		   <jbpmVariableName>tmpTaskMessage</jbpmVariableName>
@@ -145,9 +145,9 @@
   <task-node name="adminCheck">
      <event type='node-enter'>
 		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-		   <from>helmbrecht@ub.tum.de</from>
-		   <to>heikohelm@gmx.de;heiko.helmbrecht@web.de</to>
-		   <replyTo>heikohelm@yahoo.de</replyTo>
+		   <from>editor@myserver.de</from>
+		   <to>administrator@myserver.de</to>
+		   <replyTo>editor@myserver.de</replyTo>
 		   <subject>Probleme beim Veröffentlichen einer Dissertation</subject>
 		   <body>Eine Dissertation konnte nicht veröffentlicht werden.</body>
 		</action>          
@@ -159,9 +159,9 @@
   <end-state name="disshabCommitted">
      <event type='node-enter'>
 		<action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRSendmailActionXmetadiss">
-		   <from>helmbrecht@ub.tum.de</from>
+		   <from>editor@myserver.de</from>
 		   <to>initiator</to>
-		   <replyTo>heikohelm@yahoo.de</replyTo>
+		   <replyTo>editor@myserver.de</replyTo>
 		   <subject>Ihre elektronische Dissertation wurde erfolgreich veröffentlicht</subject>
 		   <!-- <body>dynamic</body> -->
 		   <mode>success</mode>
