@@ -1499,6 +1499,20 @@
         </antcall>
         <delete file="${commands.file}" />		
 	</target>	
+
+	<target name="deploy.processdefinition.publication">
+        <property name="commands.file" value="${basedir}/commands.txt" />
+        <echo file="${commands.file}" append="false">
+        	deploy jbpm processdefinition from file workflow/publication.par/processdefinition.xml      	
+        </echo>
+        <antcall target="invoke.cli">
+            <param name="cli.directory"
+                value="${docportal.config}" />
+            <param name="cli.command" value="process ${commands.file}" />
+        </antcall>
+        <delete file="${commands.file}" />		
+	</target>		
+	
 	
 	<target name="create.izpack.installer" depends="demo.jar">
 		<echo message="copy base dir: ${MCR.BaseDirectory}" />
@@ -1506,8 +1520,7 @@
 		<copy todir="${basedir}/../tmpsampledata">
 			<fileset dir="${MCR.BaseDirectory}" excludes="log/*.log" />
 		</copy>			
-		<taskdef name="izpack" classpath="${DOCPORTAL_HOME}/lib/standalone-compiler.jar"
-				classname="com.izforge.izpack.ant.IzPackTask"/>
+		<taskdef name="izpack" classpath="${DOCPORTAL_HOME}/lib/standalone-compiler.jar" classname="com.izforge.izpack.ant.IzPackTask"/>
 		<echo message="Makes the installer using IzPack"/>
 		<copy file="${DOCPORTAL_SYSTEM}/config/mycore.properties.template" tofile="${DOCPORTAL_SYSTEM}/config/izpack/mycore.properties.izpack" overwrite="true">
 			<filterchain>
