@@ -7,6 +7,28 @@ MCR.SimpleDateFormat.strictParsing=false
 
 MCR.WorkflowEngine.Administrator.Email=admin@mycore.de
 MCR.WorkflowEngine.DefaultPermissionTypes=read,commitdb,writedb,deletedb,deletewf
+
+####################################################################
+# Workflow Publication
+####################################################################
+MCR.WorkflowEngine.contactemail.publication=mycore@mycore.de
+MCR.WorkflowEngine.defaultACL.document.writedb.publication=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></condition>
+MCR.WorkflowEngine.defaultACL.document.read.publication=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></condition>
+MCR.WorkflowEngine.defaultACL.document.commitdb.publication=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></condition>
+MCR.WorkflowEngine.defaultACL.document.deletewf.publication=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></condition>
+MCR.WorkflowEngine.defaultACL.document.deletedb.publication=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></condition>
+MCR.WorkflowEngine.defaultACL.derivate.writedb.publication=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></condition>
+MCR.WorkflowEngine.defaultACL.derivate.read.publication=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></condition>
+MCR.WorkflowEngine.defaultACL.derivate.commitdb.publication=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></condition>
+MCR.WorkflowEngine.defaultACL.derivate.deletewf.publication=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></condition>
+MCR.WorkflowEngine.defaultACL.derivate.deletedb.publication=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></condition>
+
+MCR.WorkflowEngine.defaultACL.editorMode.publication=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></condition>
+
+MCR.WorkflowEngine.ManagerImpl.publication=org.mycore.frontend.workflowengine.jbpm.publication.MCRWorkflowEngineManagerPublication
+MCR.nbn.nissprefix.publication=document
+
+
 ####################################################################
 # semantics of the acl-properties
 ####################################################################
