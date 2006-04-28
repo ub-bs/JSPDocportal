@@ -16,6 +16,10 @@ import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.frontend.servlets.MCRServlet;
 
+/**
+ * 
+ * @deprecated
+ */
 public class MCRAdminServlet extends MCRServlet{
 	
 	private static final long serialVersionUID = 1L;
@@ -72,7 +76,7 @@ public class MCRAdminServlet extends MCRServlet{
     }
     
 	/**
-	 * sets a default-rule for the use of the MCRAdminServlet
+	 * sets a default-rules for the use of the admin functions
 	 * 
 	 * @param objid
 	 * @param userid
