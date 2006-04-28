@@ -74,6 +74,9 @@
                     <navitem name="registered" label="Nav.AccountRegister" href="content/workflow/registeruser/endUser.jsp" hidden="true">
                       <refitem name="~registered" label="" />
                     </navitem>
+                    <navitem name="registeredUser" label="Nav.AccountRegistered" href="content/workflow/registeruser/registerUserOK.jsp" hidden="true">
+                      <refitem name="~registeredUser" label="" />
+                    </navitem>                    
                     <navitem name="chooseIDwhenDuplicate" label="Nav.AccountChangeID" href="content/workflow/registeruser/chooseIDwhenDuplicate.jsp"
                       hidden="true">
                       <refitem name="~chooseIDwhenDuplicate" label="" />
@@ -187,7 +190,7 @@
             
 -->            
             
-            <navitem name="admin" label="Nav.Admin" href="admin" extern="true">
+            <navitem name="adminlink" label="Nav.Admin" href="admin/main.jsp">
             </navitem>            
             <navitem name="manuals" label="Nav.Manuals" href="content/manuals.jsp">
             	<navitem name="technics" label="Nav.TechnicalBackground" href="content/docu/general.jsp" />
@@ -244,5 +247,23 @@
          <navitem name="subSelectPerson" label="Nav.PersonSearch" href="content/indexSearch.jspx?searchclass=creators_sub" hidden="true">
              <refitem name="~indexSearchCreatorsSub" label="" />
          </navitem>         
+      </navigation>
+      <navigation name="admin" label="Nav.AdminMenue">
+	     <navitem name="admin" label="Nav.AdminMenue" href="admin/main.jsp">
+	        <navitem name="accessrules" label="Nav.Admin.AccessRules" href="admin/accessrules.jsp" >
+	           <navitem name="ruleseditor" label="Nav.Admin.AccessRules.Editor" href="admin/accessrules/rules.jsp" />
+	           <navitem name="rulesassignment" label="Nav.Admin.AccessRules.Assignment" href="admin/accessrules/access.jsp" />	           
+	        </navitem>
+	        <navitem name="usermanagement" label="Nav.Admin.UserManagement" href="admin/usermanagement.jsp" >
+	           <navitem name="usergroup" label="Nav.Admin.UserManagement.Usergroup" href="admin/usermanagement/usergroup.jsp" />
+	           <navitem name="user" label="Nav.Admin.UserManagement.User" href="admin/usermanagement/user.jsp" />
+	           <navitem name="user_registration" label="Nav.Admin.UserManagement.UserRegistration" href="admin/usermanagement/user_registration.jsp" />
+	        </navitem>
+			<navitem name="xmetadiss" label="Nav.Admin.Xmetadiss" href="admin/xmetadiss.jsp" >
+               <navitem name="workflow"	label="Nav.Workflow.xmetadiss" href="content/workflow/xmetadiss/workflow.jsp" />
+			   <navitem name="deleteProcess" label="Nav.Admin.Xmetadiss.DeleteProcess" href="admin/processes_list.jsp?workflowProcessType=xmetadiss" />
+			</navitem>
+				<!-- processes_edit&workflowProcessType=xmetadiss Prozesse: Dissertationen</a> zeigt alle laufenden Prozesse an. - Löschen von Prozessvariablen-->
+		 </navitem>      
       </navigation>
    </navigations>
