@@ -135,11 +135,6 @@
             <servlet-class>org.mycore.services.oai.MCROAIProvider</servlet-class>
       </servlet>
       
-      <servlet id="MCRAdminServlet">
-      		<servlet-name>MCRAdminServlet</servlet-name>
-      		<servlet-class>org.mycore.frontend.servlets.MCRAdminServlet</servlet-class>
-      </servlet>
-      
       <servlet>
       		<servlet-name>MCRPutDocumenttoWorkflow</servlet-name>
       		<servlet-class>org.mycore.frontend.servlets.MCRPutDocumentToWorkflow</servlet-class>
@@ -340,11 +335,6 @@
             <url-pattern>/servlets/MCRLayoutServlet</url-pattern>
     </servlet-mapping>    
 
-    <servlet-mapping>
-        <servlet-name>MCRAdminServlet</servlet-name>
-        <url-pattern>/admin</url-pattern>
-    </servlet-mapping>
-    
     <servlet-mapping>
     	<servlet-name>MCRPutDocumenttoWorkflow</servlet-name>
 		<url-pattern>/servlets/MCRPutDocumenttoWorkflow/*</url-pattern>
