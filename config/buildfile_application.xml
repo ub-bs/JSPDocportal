@@ -1511,7 +1511,13 @@
             <param name="cli.command" value="process ${commands.file}" />
         </antcall>
         <delete file="${commands.file}" />		
-	</target>		
+	</target>
+	
+	<target name="deploy.workflow.processdefinitions" depends="deploy.processdefinition.registeruser,deploy.processdefinition.xmetadiss,deploy.processdefinition.publication">
+		<echo>
+			deployed all workflow process definitions
+		</echo>
+	</target>
 	
 	
 	<target name="create.izpack.installer" depends="demo.jar">
