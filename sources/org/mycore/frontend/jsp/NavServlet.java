@@ -5,7 +5,10 @@ import org.jdom.filter.ElementFilter;
 import org.jdom.xpath.XPath;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
+import org.mycore.access.MCRAccessManager;
 import org.mycore.common.JSPUtils;
+import org.mycore.common.MCRConfiguration;
+import org.mycore.common.MCRException;
 import org.mycore.common.MCRSession;
 import org.mycore.common.xml.MCRURIResolver;
 
@@ -13,7 +16,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletContext;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 
 public class NavServlet extends MCRServlet
@@ -30,6 +36,7 @@ public class NavServlet extends MCRServlet
     	setBaseURL(request);
     	setNavJdom();
     	setNavDom(navJdom);
+    	createNonExistingAdminPermissions();
     }
     
     public static void deinitialize()
@@ -142,17 +149,22 @@ public class NavServlet extends MCRServlet
 
         Element navitem = null;
         StringBuffer pathSB = new StringBuffer("");
-        if(path.startsWith("~")) {
-        	org.jdom.Element refitem = (Element) XPath.selectSingleNode(navJdom,"/navigations//refitem[@name='" + path + "']");
-            navitem = refitem.getParentElement();
-        }else{
-        	String[] nodes = path.split("\\.");
-        	StringBuffer xpath = new StringBuffer("/navigations/");
-        	for (int i = 0; i < nodes.length; i++) {
-        		logger.debug("i = " + i);
-        		xpath.append("/navitem[@name='").append(nodes[i]).append("']");
-			}
-        	navitem = (Element) XPath.selectSingleNode(navJdom, xpath.toString());
+        try{
+	        if(path.startsWith("~")) {
+	        	org.jdom.Element refitem = (Element) XPath.selectSingleNode(navJdom,"/navigations//refitem[@name='" + path + "']");
+	            navitem = refitem.getParentElement();
+	        }else{
+	        	String[] nodes = path.split("\\.");
+	        	StringBuffer xpath = new StringBuffer("/navigations/");
+	        	for (int i = 0; i < nodes.length; i++) {
+	        		logger.debug("i = " + i);
+	        		xpath.append("/navitem[@name='").append(nodes[i]).append("']");
+				}
+	        	navitem = (Element) XPath.selectSingleNode(navJdom, xpath.toString());
+	        }
+        }catch(Exception ex){
+        	logger.warn("wrong path" + path,ex);
+        	navitem = (Element) XPath.selectSingleNode(navJdom, "/navigations//navitem[0]");
         }
         String contentPage = navitem.getAttributeValue("href");
         String extern = navitem.getAttributeValue("extern");
@@ -214,4 +226,28 @@ public class NavServlet extends MCRServlet
         }
         
     }
+    
+	/**
+	 * sets a default-rules for the use of the admin functions
+	 * 
+	 * @param objid
+	 * @param userid
+	 * @return boolean  false if there was an Exception
+	 */
+	public static boolean createNonExistingAdminPermissions() {
+		try{
+			List savedPermissions = AI.getPermissions();
+			String permissions = MCRConfiguration.instance().getString("MCR.AccessAdminInterfacePermissions","admininterface-access,admininterface-user,admininterface-accessrules");
+			for (Iterator it = Arrays.asList(permissions.split(",")).iterator(); it.hasNext();) {
+				String permission = ((String) it.next()).trim().toLowerCase();
+				if(!permission.equals("") && !savedPermissions.contains(permission)) {
+					AI.addRule(permission, MCRAccessManager.getFalseRule(), "");
+				}
+			}
+		}catch(MCRException e) {
+			logger.error("could not create admin interface permissions", e);
+			return false;
+		}
+		return true;
+	}     
 }
