@@ -480,7 +480,7 @@
 
 
     <target name="compile"
-        depends="compile_base,compile_common, compile_filters, compile_frontend_jsp_format, compile_frontend_jsp, compile_frontend_jsp_nav, compile_frontend_jsp_query, compile_servlets, compile_workflow, compile_backend_query, compile_backend_hibernate, compile_services_oai, compile_demo, compile_workflowengine, compile_frontend_editor_helper, compile_indexbrowser" />
+        depends="compile_base,compile_common, compile_filters, compile_frontend_admin, compile_frontend_jsp_format, compile_frontend_jsp, compile_frontend_jsp_nav, compile_frontend_jsp_query, compile_servlets, compile_workflow, compile_backend_query, compile_backend_hibernate, compile_services_oai, compile_demo, compile_workflowengine, compile_frontend_editor_helper, compile_indexbrowser" />
 
     <target name="compile_base" depends="init" >
         <mkdir dir="${docportal.classes}" />
@@ -516,6 +516,12 @@
         <echo>Compiling the frontend jsp navigation package</echo>
         <antcall target="javac">
             <param name="packages" value="org/mycore/frontend/jsp/*" />
+        </antcall>
+    </target>	
+    <target name="compile_frontend_admin">
+        <echo>Compiling the frontend admin package</echo>
+        <antcall target="javac">
+            <param name="packages" value="org/mycore/frontend/admin/*" />
         </antcall>
     </target>	
     <target name="compile_frontend_editor_helper">
