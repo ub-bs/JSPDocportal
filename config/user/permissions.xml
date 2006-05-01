@@ -9,6 +9,7 @@
    <condition format="xml">
     <boolean operator="or">
      <condition value="editorgroup1" operator="=" field="group"/>
+     <condition value="admingroup" operator="=" field="group"/>
     </boolean>
    </condition>
   </mcrpermission>
