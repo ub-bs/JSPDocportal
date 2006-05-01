@@ -220,8 +220,8 @@
                <refitem name="~logout" label="" />
             </navitem>
 		  <!--  internal references to admin sites -->
-          <navitem name="docportaladmin" label="Nav.Admin" href="content/docportaladmin.jsp" >
-			<refitem name="~docportaladmin" label="Nav.Admin" />
+          <navitem name="docportaladmin" label="Nav.AdminMenue" href="admin/main.jsp" >
+			<refitem name="~docportaladmin" label="Nav.AdminMenue" />
           </navitem>		  
 			
          </navitem>
@@ -255,8 +255,12 @@
 	           <navitem name="rulesassignment" label="Nav.Admin.AccessRules.Assignment" href="admin/accessrules/access.jsp" />	           
 	        </navitem>
 	        <navitem name="usermanagement" label="Nav.Admin.UserManagement" href="admin/usermanagement.jsp" >
-	           <navitem name="usergroup" label="Nav.Admin.UserManagement.Usergroup" href="admin/usermanagement/usergroup.jsp" />
-	           <navitem name="user" label="Nav.Admin.UserManagement.User" href="admin/usermanagement/user.jsp" />
+	           <navitem name="usergroup" label="Nav.Admin.UserManagement.Usergroup" href="admin/usermanagement/usergroup.jsp">
+	              <navitem name="edit" label="Nav.Admin.UserManagement.Usergroup.Edit" href="admin/usermanagement/usergroup_edit.jsp" />
+	           </navitem>
+	           <navitem name="user" label="Nav.Admin.UserManagement.User" href="admin/usermanagement/user.jsp">
+  	              <navitem name="edit" label="Nav.Admin.UserManagement.User.Edit" href="admin/usermanagement/user_edit.jsp"/>
+	           </navitem>
 	           <navitem name="user_registration" label="Nav.Admin.UserManagement.UserRegistration" href="admin/usermanagement/user_registration.jsp" />
 	        </navitem>
 			<navitem name="xmetadiss" label="Nav.Admin.Xmetadiss" href="admin/xmetadiss.jsp" >
