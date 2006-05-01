@@ -58,6 +58,7 @@
         <link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_general.css">
         <link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_navigation.css">
         <link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_content.css">
+        <link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}admin/css/admin.css" />
     </head>
     <body topmargin="0" rightmargin="0" leftmargin="0">
     <table id="maintable" cellpadding="0" cellspacing="0">
