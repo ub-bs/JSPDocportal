@@ -1,17 +1,13 @@
 <%@ page import="org.mycore.user2.MCRUser,
 	org.mycore.user2.MCRUserContact,
 	org.mycore.user2.MCRUserMgr,
-	org.mycore.common.MCRSession,
     org.mycore.common.xml.MCRXMLHelper,	
     org.jdom.filter.ElementFilter,
-    org.jdom.Document,
-    org.jdom.Element,
 	java.text.SimpleDateFormat,
 	java.text.DateFormat,
 	java.util.ArrayList,
-	java.util.Date, java.util.Iterator,
-	java.util.Collections,java.util.Enumeration,
-	java.lang.Exception"%>
+	java.util.Iterator,
+	java.util.Collections"%>
 <%@ page import="org.mycore.frontend.servlets.MCRServlet" %>
 <%@ page import="java.io.File" %>
 <%	
@@ -23,14 +19,6 @@
 	Collections.sort(grouplist);
     String uid_orig = "";
     
-    Enumeration paramNames = request.getParameterNames();
-	while(paramNames.hasMoreElements()) {
-	      String paramName = (String)paramNames.nextElement();
-	      //System.out.println("PARAM:" + paramName );
-	}
-	
-try {
-
 	if (request.getParameter("id")==null){
 	    // create from empty Editor
 		user = new MCRUser(0,null, MCRServlet.getSession(request).getCurrentUserID(), null,null, true, true, null, null, null, null, null, null, null, null, null, null, null, null, null,null,null,null,null,null,null,null);
@@ -63,7 +51,7 @@ try {
 				File file = new File(filename);
 				System.out.println("File deleted from filesystem: " + filename);
 				if ( file.exists())			file.delete();
-				response.sendRedirect(WebApplicationBaseURL + "admin?path=user_registration");
+				response.sendRedirect(WebApplicationBaseURL + "nav?path=admin.usermanagement.user_registration");
 				return;
 			}			
 		}
@@ -94,9 +82,9 @@ try {
 
 <h4>Benutzer bearbeiten</h4>
 
-<p><a href="<%= WebApplicationBaseURL %>admin?path=user">zur Übersicht</a></p>
+<p><a href="<%= WebApplicationBaseURL %>nav?path=admin.usermanagement.user">zur Übersicht</a></p>
 
-<form name="details" method="post" onSubmit="return validateOnSubmit()" action="<%= WebApplicationBaseURL %>admin/user_validate.jsp">
+<form name="details" method="post" action="<%= WebApplicationBaseURL %>servlets/MCRUserValidateServlet" onSubmit="return validateOnSubmit()">
 	
 	<table class="access">
 		<tr>
@@ -291,9 +279,4 @@ try {
 	</table>
 
 </form>
-
-<% } catch ( Exception uErr ) {
-	response.sendRedirect(WebApplicationBaseURL + "admin?path=user_error&message=" + uErr.getMessage());
-	return;
-   }
-%>
+<br>&nbsp;<br>

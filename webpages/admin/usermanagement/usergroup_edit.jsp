@@ -29,7 +29,7 @@
 
 	if(request.getParameter("id") == null){
 		//new
-		group =  new MCRGroup("-", "root", null, null, "",l,l,l,l,l);
+		group =  new MCRGroup("-", "root", null, null, "",l,l,l);
 		operation = "new";
 	}else{
 		//edit
@@ -58,10 +58,10 @@
 
 <h4>Benutzergruppe bearbeiten</h4>
 
-<p><a href="./admin?path=usergroup">zur Übersicht</a></p>
+<p><a href="<%= WebApplicationBaseURL %>nav?path=admin.usermanagement.usergroup">zur Übersicht</a></p>
 
 
-<form name="details" method="post" action="<%= WebApplicationBaseURL %>admin/usergroup_validate.jsp" onSubmit="return validateOnSubmit()">
+<form name="details" method="post" action="<%= WebApplicationBaseURL %>servlets/MCRUserGroupValidateServlet" onSubmit="return validateOnSubmit()">
 	<table class="access">
 		<tr>
 			<td>Gruppen-ID <sup class="required">*</sup>:</td>
@@ -131,29 +131,9 @@
 			<td>
 				<table class="access">
 					<tr>
-						<th>Gruppen</th>
 						<th>Benutzer</th>
 					</tr>
 					<tr>
-						<td width="200px">
-							<select multiple size="5" name="membergroup" id="membergroup" style="width:200px">
-							<%
-								if (!operation.equals("new"))
-									l = group.getMemberGroupIDs();
-								for(int i=0; i<grouplist.size(); i++){
-
-									if (l!=null && l.contains((String) grouplist.get(i)))
-										out.println("<option selected value=\""+(String) grouplist.get(i)+"\">"+(String) grouplist.get(i)+"</option>");
-									else
-										out.println("<option value=\""+(String) grouplist.get(i)+"\">"+(String) grouplist.get(i)+"</option>");
-								}
-							%>
-							</select>
-							<small>
-								<a href="#" onclick="deselectall('membergroup')">Auswahl aufheben</a> |
-								<a href="#" onclick="selectall('membergroup')">alle wählen</a>
-							</small>
-						</td>
 						<td width="200px">
 							<select multiple size="5" name="memberuser" id="memberuser" style="width:200px">
 							<%
@@ -200,4 +180,4 @@
 		</tr>
 	</table>
 </form>
-
+<br>&nbsp;<br>

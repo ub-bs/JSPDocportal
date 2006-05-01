@@ -1,4 +1,4 @@
-f<%@ page import="org.mycore.user2.MCRUserMgr,
+<%@ page import="org.mycore.user2.MCRUserMgr,
 	java.util.ArrayList,
 	java.util.Collections"%>
 <%@ page import="org.mycore.frontend.servlets.MCRServlet" %>
@@ -12,7 +12,7 @@ String WebApplicationBaseURL = MCRServlet.getBaseURL();
 
 <h4>Vorhandene Benutzer</h4>
 
-<form method=post action="<%= WebApplicationBaseURL %>admin/user_validate.jsp" id="overview">
+<form method=post action="<%= WebApplicationBaseURL %>servlets/MCRUserValidateServlet" id="overview">
 
 <p>
 <%
@@ -52,3 +52,4 @@ String WebApplicationBaseURL = MCRServlet.getBaseURL();
 <input type="hidden" name="operation" value="detail">
 
 </form>
+<br>&nbsp;<br>

@@ -9,7 +9,7 @@
 
 <h4>Vorhandene Benutzergruppen</h4>
 
-<form method=post action="<%= WebApplicationBaseURL %>admin/usergroup_validate.jsp" id="overview">
+<form method=post action="<%= WebApplicationBaseURL %>servlets/MCRUserGroupValidateServlet" id="overview">
 <table class="access" cellspacing="1" cellpadding="0" >
 	<tr>
 		<th width="200px">
@@ -25,7 +25,6 @@
 	<%
 		for (int i=0; i<groupids.size(); i++){
 			MCRGroup grp = MCRUserMgr.instance().retrieveGroup((String)groupids.get(i));
-			ArrayList members = grp.getMemberGroupIDs();
 
 			out.println("<tr>");
 			out.println("<td class=\"rule\">" + (String)groupids.get(i) + "</td>");
