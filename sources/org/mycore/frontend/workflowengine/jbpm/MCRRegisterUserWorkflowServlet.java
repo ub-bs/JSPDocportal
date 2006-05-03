@@ -171,11 +171,11 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 
 				if ( lpid == 0) {
 					lpid = WFI.initWorkflowProcess(ID);				
-					MCRSessionMgr.getCurrentSession().put("registereduser", new DOMOutputter().output( outDoc ));
-			        nextPath = "~registeredUser";		
+			        nextPath = "~registered";		
 			    }
 				// for initiator and editor 
 				WFI.setWorkflowVariablesFromMetadata(String.valueOf(lpid),userElement);
+				MCRSessionMgr.getCurrentSession().put("registereduser", new DOMOutputter().output( outDoc ));
 		       	
 		    }		        
         }		
