@@ -1,5 +1,7 @@
 package org.mycore.frontend.indexbrowser;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -130,7 +132,20 @@ public class MCRIndexData {
         
         Element results = buildPageElement();
         
-		int numRows = fillmyLinkedList( );						
+		int numRows = fillmyLinkedList( );
+		Collections.sort(this.ll1, 
+				new Comparator() {
+					public int compare(Object o1, Object o2) {
+				        String[] name1 =  (String[]) o1;
+				        String[] name2 =  (String[]) o2;
+				        
+				        int cc =  name1[0].compareTo(name2[0]);
+				        //System.out.println("NAME1:" + name2[0] + "NAME2:" + name1[0]+ "ERG: " + cc);
+				        return cc;
+				    }
+				}
+		);
+		
 		results.setAttribute("numHits", String.valueOf(numRows) );
 		
         if (br.search != null) {
@@ -138,7 +153,7 @@ public class MCRIndexData {
         }
         int from = Math.max(0, br.from);
         int to = Math.min(numRows, br.to);
-        int numSelectedRows = to - from + 1;
+        int numSelectedRows = to - from;
 
         if (numSelectedRows <= ic.maxPerPage) {
            for (int i = from; i < to; i++) {
@@ -177,10 +192,11 @@ public class MCRIndexData {
             	String myVal[] = (String[])this.ll1.get(i);
             	String value = myVal[1];
             	
-            	while ((i < to) &&  value.equals( ((String[])this.ll1.get(i))[1]) )
-            		i++;
+            	//don't know for what this shoulöd be good
+            	//while ((i < to) &&  value.equals( ((String[])this.ll1.get(i))[1]) )            		i++;
+            	
             	if ((i < to) && ((to - i) < 3)) {
-            		i = to;                        
+            		i = to-1;                        
             		value =((String[])this.ll1.get(i))[1];
             	}
             	delims.add(new MyRangeDelim(i, value));
@@ -245,8 +261,7 @@ public class MCRIndexData {
         	    MCRObject oo = new MCRObject();
         	    Document od =  oo.receiveJDOMFromDatastore(child1.getAttributeValue("id"));
         	    Iterator it = od.getDescendants(new ElementFilter(sField));
-        	    while ( it.hasNext() )
-        	    {
+        	    if ( it.hasNext() )  {
         	      Element el = (Element) it.next();
                   value = el.getText();
         	    }  	
@@ -388,6 +403,7 @@ public class MCRIndexData {
     	Element sortBy = new Element("sortBy");
     	query.addContent(sortBy);
     	
+    	
     	Element field = new Element("field");
     	sortBy.addContent(field);
     	field.setAttribute("field", ic.browseField);
@@ -399,7 +415,7 @@ public class MCRIndexData {
 	    	field.setAttribute("field", ic.extraFields[i]);
 	    	field.setAttribute("order" ,ic.order);
     	}
-    	
+
     	logger.debug("generated query: \n" + out.outputString(query));	    	
     	jQuery = new Document(query);    	
     	mcrResult = MCRQueryManager.search(jQuery);
@@ -413,7 +429,7 @@ public class MCRIndexData {
 			  </mcrhit>
 			  <mcrhit mcrid="atlibri_document_000000000001">
 			    <sortData>
-			      <data name="title">Anja testet|zwei Haupttitel</data>
+			      <data name="title">Haupttitel</data>
 			    </sortData>
 			  </mcrhit>
 			  <mcrhit mcrid="atlibri_document_000000000002">
