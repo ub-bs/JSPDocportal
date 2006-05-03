@@ -52,6 +52,30 @@
     <item value="home"><label xml:lang="de">Privat</label></item>
   </list>	
 
+<!--  *** geburtsdatums  *** -->
+  <list id="STypeDate" width="60" type="dropdown">
+   <item value="birth"> 
+      <label xml:lang="de">Geburtstag</label>
+      <label xml:lang="en">birthday</label>
+   </item>
+      <item value="death">
+         <label xml:lang="de">Todestag</label>
+         <label xml:lang="en">day of death</label>
+      </item>
+  </list>
+
+<!--  *** Difference from to  *** -->
+  <list id="STypeYear" width="60" type="dropdown">
+   <item value="from"> 
+      <label xml:lang="de">seit</label>
+      <label xml:lang="en">since</label>
+   </item>
+      <item value="death">
+         <label xml:lang="de">bis</label>
+         <label xml:lang="en">until</label>
+      </item>
+  </list>
+
 <!-- *** Language List *** -->
 
   <list id="Slang" width="60" type="dropdown">
