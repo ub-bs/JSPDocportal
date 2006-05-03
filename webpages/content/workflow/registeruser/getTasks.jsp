@@ -58,17 +58,16 @@
 	   <td>       
         <table width="100%" >
 	     <tr><td >	       
-	       <a href="${baseURL}nav?path=~workflow-registeruser&transition=go2canUserBeSubmitted&endTask=${requestScope.task.taskName}&processID=${requestScope.task.processID}">
-	         <fmt:message key="Nav.Application.registeruser.${requestScope.task.taskName}" />
+	       <a href="${baseURL}nav?path=~workflow-registeruser&transition=go2canUserBeCommitted&endTask=${requestScope.task.taskName}&processID=${requestScope.task.processID}">
+	         <fmt:message key="Nav.Application.registeruser.UserSubmitting" />
 	       </a>  
 	       </td><td>&#160;  </td><td>	       
 	       <a href="${baseURL}nav?path=~workflow-registeruser&transition=go2canUserBeRejected&endTask=${requestScope.task.taskName}&processID=${requestScope.task.processID}">
-	         <fmt:message key="Nav.Application.registeruser.${requestScope.task.taskName}" />
+	         <fmt:message key="Nav.Application.registeruser.UserRejecting" />
 	       </a>  
        	</td></tr>    
         </table>
        	</td>
-	   </td>
 	  </tr>	      
    </c:when>
    <c:when test="${requestScope.task.taskName eq 'taskEnterMessageData'}">
