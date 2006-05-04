@@ -242,11 +242,6 @@
 
 <!-- **** Submitbutton *** -->
 
-  <submitButton id="BSubmitAuthor" width="100px"  jsaction="return checkMyFormAuthor()" >
-	 <label xml:lang="de">[Speichern]</label>
-	 <label xml:lang="en">[Save]</label>
-  </submitButton>
-
   <panel id="CheckButtonAuthor" >
 	 <cell col="1" row="1" anchor="EAST" ref="BCancel" />
 	 <cell col="2" row="1" anchor="WEST" ref="BSubmitAuthor" />
