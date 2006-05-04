@@ -69,20 +69,23 @@
             </navitem>
             <navitem name="publish" label="Nav.DocumentManagement" href="content/documentmanagement.jsp">
                <refitem name="~documentmanagement" label="" />
-                 <navitem name="registeruser" label="Nav.OrderAuthorAccount" href="content/workflow/registeruser/beginUser.jsp">
-                    <refitem name="~registeruser" label="" />
-                    <navitem name="registered" label="Nav.AccountRegister" href="content/workflow/registeruser/endUser.jsp" hidden="true">
-                      <refitem name="~registered" label="" />
-                    </navitem>
-                    <navitem name="registeredUser" label="Nav.AccountRegistered" href="content/workflow/registeruser/registerUserOK.jsp" hidden="true">
-                      <refitem name="~registeredUser" label="" />
-                    </navitem>                    
-                    <navitem name="chooseIDwhenDuplicate" label="Nav.AccountChangeID" href="content/workflow/registeruser/chooseIDwhenDuplicate.jsp"
-                      hidden="true">
-                      <refitem name="~chooseIDwhenDuplicate" label="" />
-                    </navitem>
-                 </navitem>			   
-                 <navitem name="xmetadiss" label="Nav.Workflow.xmetadiss" href="content/workflow/xmetadiss/workflow.jsp" >
+			       <navitem name="registeruser" label="Nav.OrderAuthorAccount" href="content/workflow/registeruser/beginUser.jsp">
+			          <refitem name="~registeruser" label="" />
+			          <navitem name="registered" label="Nav.AccountRegister" href="content/workflow/registeruser/endUser.jsp" hidden="true">
+			            <refitem name="~registered" label="" />
+			          </navitem>
+			          <navitem name="chooseIDwhenDuplicate" label="Nav.AccountChangeID" href="content/workflow/registeruser/chooseIDwhenDuplicate.jsp"
+			            hidden="true">
+			            <refitem name="~chooseIDwhenDuplicate" label="" />
+			          </navitem>
+			          <navitem name="workflow-registeruser" label="Nav.AccountRegister" href="content/workflow/registeruser/workflow.jsp" hidden="true">
+			            <refitem name="~workflow-registeruser" label="" />
+			          </navitem>
+			          <navitem name="workflow-registeruser-modify" label="Nav.AccountRegister" href="content/workflow/registeruser/modifyUser.jsp" hidden="true">
+			            <refitem name="~workflow-registeruser-modify" label="" />
+			          </navitem>
+			        </navitem>
+	                <navitem name="xmetadiss" label="Nav.Workflow.xmetadiss" href="content/workflow/xmetadiss/workflow.jsp" >
 				    <refitem name="~xmetadiss" label="" />
 				    <navitem name="xmetadiss-begin" label="Nav.Workflow.xmetadiss.begin" href="content/workflow/xmetadiss/begin.jsp" >
 					   <refitem name="~xmetadissbegin" label="" />
