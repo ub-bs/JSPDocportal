@@ -19,8 +19,9 @@ public class MCRCreateDocumentAction implements ActionHandler{
 		logger.debug("creating empty document");
 		ContextInstance contextInstance;
 		contextInstance = executionContext.getContextInstance();
+		long pid = executionContext.getProcessInstance().getId();
 		String initiator = (String)contextInstance.getVariable(MCRJbpmWorkflowBase.varINITIATOR);
-		String createdDocID = WFI.createMetadataDocumentID(initiator);
+		String createdDocID = WFI.createMetadataDocumentID(initiator, pid);
 		if(createdDocID != null && !createdDocID.equals("")){
 			executionContext.setVariable("createdDocID", createdDocID);
 			executionContext.setVariable("attachedDerivates", "");

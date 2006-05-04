@@ -91,12 +91,13 @@ public class MCRWorkflowEngineManagerPublication extends MCRWorkflowEngineManage
 	}
 	
 	public long initWorkflowProcess(String initiator) throws MCRException {
-		long processID = getUniqueCurrentProcessID(initiator);
+		/* long processID = getUniqueCurrentProcessID(initiator);
 		if(processID < 0){
 			String errMsg = "there exists another workflow process of " + processType + " for initiator " + initiator;
 			logger.warn(errMsg);
 			throw new MCRException(errMsg);
 		}else if (processID == 0) {
+		*/
 			MCRJbpmWorkflowObject wfo = createWorkflowObject(processType);
 			try{
 				wfo.initialize(initiator);
@@ -117,9 +118,10 @@ public class MCRWorkflowEngineManagerPublication extends MCRWorkflowEngineManage
 				throw new MCRException("MCRWorkflow Error, could not initialize the workflow process");
 			}
 			return wfo.getProcessInstanceID();
+        /*			
 		}else{
 			return processID;
-		}
+		}*/
 	}
 	
 	protected boolean areMultipleInstancesAllowed(){
@@ -164,8 +166,8 @@ public class MCRWorkflowEngineManagerPublication extends MCRWorkflowEngineManage
 		return urn;					
 	}
 		
-	public String createMetadataDocumentID(String userid) throws MCRException{
-		MCRJbpmWorkflowObject wfo = getWorkflowObject(userid);
+	public String createMetadataDocumentID(String userid, long pid) throws MCRException{
+		MCRJbpmWorkflowObject wfo = getWorkflowObject(pid);
 		if(wfo == null || !isUserValid(userid))
 			return "";
 
@@ -243,6 +245,9 @@ public class MCRWorkflowEngineManagerPublication extends MCRWorkflowEngineManage
 		setDefaultPermissions(new MCRObjectID(mcrid),"publication", userid);
 	}
 
+	/**
+	 * @deprecated
+	 */
 	protected MCRJbpmWorkflowObject getWorkflowObject(String userid) {
 		long curProcessID = getUniqueCurrentProcessID(userid);
 		if(curProcessID == 0){

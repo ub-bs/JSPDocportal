@@ -196,8 +196,8 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 		return urn;					
 	}
 		
-	public String createMetadataDocumentID(String userid) throws MCRException{
-		MCRJbpmWorkflowObject wfo = getWorkflowObject(userid);
+	public String createMetadataDocumentID(String userid, long pid) throws MCRException{
+		MCRJbpmWorkflowObject wfo = getWorkflowObject(pid);
 		if(wfo == null || !isUserValid(userid))
 			return "";
 

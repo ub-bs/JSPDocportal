@@ -51,7 +51,7 @@ public interface MCRWorkflowEngineManagerInterface {
 	 * @return
 	 * 		String documentID
 	 */
-	public String createMetadataDocumentID(String userid);
+	public String createMetadataDocumentID(String userid, long pid);
 	
 	/**
 	 * returns the current workflow status of a workflow process with the given 
@@ -86,6 +86,7 @@ public interface MCRWorkflowEngineManagerInterface {
 	 *           long the jbpm process id if there exists exactly one process id
 	 *           0 if there exists no processInstance for given author
 	 *           -1 if there are existing more than one processInstances
+	 * @deprecated           
 	 */
 	public long getUniqueCurrentProcessID(String userid);
 	
