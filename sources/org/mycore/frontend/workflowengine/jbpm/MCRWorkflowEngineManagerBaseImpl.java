@@ -1068,7 +1068,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	public String createMetadataDocumentID(String userid, long pid){
 		return "";
 	}	
-	public String createURNReservation(String userid){
+	public String createURNReservation(String userid, long pid){
 		return "";					
 	}	
 	

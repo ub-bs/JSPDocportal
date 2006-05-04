@@ -42,7 +42,7 @@ public interface MCRWorkflowEngineManagerInterface {
 	 * @return
 	 * 		String urn
 	 */
-	public String createURNReservation(String userid);
+	public String createURNReservation(String userid, long pid);
 	
 	/**
 	 * creates or fetchs a metadata document and 
