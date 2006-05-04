@@ -180,8 +180,8 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
     	}
 	}
 	
-	public String createURNReservation(String userid){
-		MCRJbpmWorkflowObject wfo = getWorkflowObject(userid);
+	public String createURNReservation(String userid, long pid){
+		MCRJbpmWorkflowObject wfo = getWorkflowObject(pid);
 		if(wfo == null || !isUserValid(userid))
 			return "";
 		
@@ -207,7 +207,7 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 		}
 
 		String authorID = createAuthorFromInitiator(userid);
-		String urn = createURNReservation(userid);
+		String urn = createURNReservation(userid, pid);
 		// im WF noch keine DocID für userid vorhanden - in myCoRe kreieren	
 		docID = createDisshab(authorID, userid, urn);
 		return docID;					

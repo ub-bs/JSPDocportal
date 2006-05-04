@@ -18,8 +18,10 @@ public class MCRCreateURNAction implements ActionHandler{
 	public void execute(ExecutionContext executionContext) throws MCRException {
 		ContextInstance contextInstance;
 		contextInstance = executionContext.getContextInstance();
+		long pid = executionContext.getProcessInstance().getId();
+		
 		String initiator = (String)contextInstance.getVariable(MCRJbpmWorkflowBase.varINITIATOR);
-		String urn = WFI.createURNReservation(initiator);
+		String urn = WFI.createURNReservation(initiator, pid);
 		if(urn != null && !urn.equals("")){
 			contextInstance.setVariable("reservatedURN", urn);
 			
