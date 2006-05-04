@@ -43,12 +43,15 @@
       <br>&nbsp;<br>
       <mcr:checkAccess permission="administrate-publication" var="curUserIsAdminUser" />
       <c:if test="${!curUserIsAdminUser}">
-	      <c:import url="/content/workflow/publication/information.jsp" />
+	      <c:import url="/content/workflow/publication/information.jsp" /> 
     	  <br/>&nbsp;<br>
    	  </c:if>
    </c:when>
    <c:otherwise>
         <div class="headline"><fmt:message key="Nav.WorkflowPublication" /></div>
+        <img title="" alt="" src="images/greenArrow.gif">
+        <a target="_self" href="${baseURL}nav?path=~publicationbegin"><fmt:message key="WorkflowEngine.StartPublicationWorkflow" /></a>
+        <br/>&nbsp;<br>
         <br>&nbsp;<br>
         <div class="headline"><fmt:message key="WorkflowEngine.MyTasks" /></div>   
         
