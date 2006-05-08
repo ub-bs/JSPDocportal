@@ -33,7 +33,9 @@ public interface MCRWorkflowEngineManagerInterface {
 	 * @return
 	 * 		String authorID
 	 */	
-	public String createAuthorFromInitiator(String userid);
+//  Robert 
+//	needs only to be implemented in certain instances 	
+//	public String createAuthorFromInitiator(String userid);
 	
 	/**
 	 * creates or fetchs a new urn and 
@@ -88,6 +90,8 @@ public interface MCRWorkflowEngineManagerInterface {
 	 *           -1 if there are existing more than one processInstances
 	 * @deprecated           
 	 */
+//TODO Remove Call from 
+//	   org\mycore\frontend\workflowengine\jbpm\MCRRegisterUserWorkflowServlet.java
 	public long getUniqueCurrentProcessID(String userid);
 	
 	/**
