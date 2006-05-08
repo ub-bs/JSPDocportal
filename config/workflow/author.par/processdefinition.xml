@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition
+  xmlns="urn:jbpm.org:jpdl-3.1"  name="registerauthor">
+
+  <!-- SWIMLANES (= process roles) -->
+
+  <swimlane name="initiator" />
+  
+  <swimlane name="authoreditor">
+	<assignment class="org.mycore.frontend.workflowengine.jbpm.MCRPooledActorAssignmentHandler">
+		<groupName>editorgroup1</groupName>
+	</assignment>  
+  </swimlane>
+  
+  <swimlane name="technicalAdministration">
+    <assignment class="org.mycore.frontend.workflowengine.jbpm.MCRPooledActorAssignmentHandler">
+		<groupName>admingroup</groupName>
+	</assignment>       
+  </swimlane>
+  
+  <start-state name="start">
+     <task name="initialization" swimlane="initiator">
+     </task>     
+     <transition name="go2isInitiatorsEmailAdressAvailable" to="isInitiatorsEmailAddressAvailable" /> 
+  </start-state>
+                  
+  <decision name="isInitiatorsEmailAddressAvailable">
+     <transition name="emailAvailable_no" to="getInitiatorsEmailAddress"> 
+        <condition expression="#{empty(contextInstance.variables['initiatorEmail'])}"/>
+     </transition>
+       <transition name="emailAvailable_yes" to="askForAuthorEqualsInitiator">
+        <condition expression="#{!empty(contextInstance.variables['initiatorEmail'])}"/>
+     </transition> 
+  </decision>
+  
+  <task-node name="getInitiatorsEmailAddress">
+     <task name="taskGetInitiatorsEmailAddress" swimlane="initiator" />
+     <transition name="go2IsInitiatorsEmailAddressAvailable2" to="isInitiatorsEmailAddressAvailable" />
+  </task-node> 
+
+  <task-node name="askForAuthorEqualsInitiator">
+ 	<task name="taskInputAuthorEqualsInitator" swimlane="initiator"/>
+ 	<transition name="go2CreateAuthorFromInitiator" to="authorCreated">
+ 		<action class="org.mycore.frontend.workflowengine.jbpm.registerauthor.MCRCreateAuthorFromInitiatorAction"/>
+ 	</transition>
+ 	<transition name="go2CreateNewAuthor" to="authorCreated">
+ 		<action class="org.mycore.frontend.workflowengine.jbpm.registerauthor.MCRCreateNewAuthorAction"/>
+ 	</transition>
+ </task-node>
+
+
+  <task-node name="authorCreated">
+     <task name="taskCompleteAuthorAndSendToLibrary" swimlane="initiator" />
+     <transition name="go2canAuthorBeSubmitted" to="canAuthorBeSubmitted" /> 
+  </task-node>
+
+  <decision name="canAuthorBeSubmitted">
+     <handler class="org.mycore.frontend.workflowengine.jbpm.registerauthor.MCRDecisionHandlerRegisterauthor" />
+     <transition name="authorCantBeSubmitted" to="authorCreated" />
+     <transition name="authorCanBeSubmitted" to="authorSubmitted" />
+  </decision>
+  
+  <task-node name="authorSubmitted">
+     <event type='node-enter'>    
+        <action class="org.mycore.frontend.workflowengine.jbpm.MCRCommitObjectAction">
+           <varnameOBJID>createdDocID</varnameOBJID>
+           <varnameERROR>COMMITERROR</varnameERROR>
+        </action>                                            
+        <action class="org.mycore.frontend.workflowengine.jbpm.registerauthor.MCRAuthorSubmittedAction">
+           <lockedVariables>initiator,createdDocID</lockedVariables>
+        </action>
+     </event> 
+     <task name="taskCheckCompleteness" swimlane="authoreditor"/>
+     <transition name="go2sendBackToAuthorCreated" to="sendBackToAuthorCreated" >
+        <action class="org.mycore.frontend.workflowengine.jbpm.MCRSetDefaultAclsAction">
+            <varmcrid>createdDocID</varmcrid>
+            <varuserid>initiator</varuserid>
+        </action>
+     </transition>
+     <transition name="go2canAuthorBeCommitted" to="canAuthorBeCommitted" />
+  </task-node>
+  
+  <task-node name="sendBackToAuthorCreated">
+     <task name="taskEnterMessageData" swimlane="authoreditor" />
+     <transition name="go2authorCreated2" to="authorCreated">
+		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+		   <from>administrator@mycore.de</from>
+		   <to>initiator</to>
+		   <replyTo>administrator@mycore.de</replyTo>
+		   <subject>Unvollständige Angaben zur Eingabe ihres Authors</subject>
+           <body>Messagetext</body>  
+		   <jbpmVariableName>tmpTaskMessage</jbpmVariableName>
+		</action>     
+     </transition>
+  </task-node>
+                  
+  <decision name="canAuthorBeCommitted">
+     <handler class="org.mycore.frontend.workflowengine.jbpm.registerauthor.MCRDecisionHandlerRegisterauthor" />
+     <transition name="authorCanBeCommitted" to="wasCommitmentSuccessful">
+       <action class="org.mycore.frontend.workflowengine.jbpm.MCRCommitObjectAction">
+           <varnameOBJID>createdDocID</varnameOBJID>
+           <varnameERROR>COMMITERROR</varnameERROR>
+        </action>  
+     </transition>
+      <transition name="authorCantBeCommitted" to="authorSubmitted"></transition>
+  </decision>  
+  
+  <decision name="wasCommitmentSuccessful">
+     <transition name="go2adminCheck" to="adminCheck">  
+        <condition expression="#{!empty(contextInstance.variables['COMMITERROR'])}" />
+     </transition>
+     <transition name="go2authorCommitted" to="authorCommitted">  
+        <condition expression="#{empty(contextInstance.variables['COMMITERROR'])}" />
+     </transition>     
+  </decision>
+
+  <task-node name="adminCheck">
+     <event type='node-enter'>
+		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+		   <from>editor@mycore.de</from>
+		   <to>administrator@mycore-xy.de</to>
+		   <replyTo>administrator@mycore-xy-de</replyTo>
+		   <subject>Probleme beim Anlegen eines Autors</subject>
+		   <body>Ein Autor konnte nicht angelegt werden.</body>
+		</action>          
+     </event>
+     <task name="taskAdminCheckCommitmentNotSuccessFul" swimlane="technicalAdministration" />
+     <transition name="go2authorCommitted2" to="authorCommitted" />
+  </task-node>  
+
+  <end-state name="authorCommitted">
+     <event type='node-enter'>
+		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+		   <from>editor@mycore.de</from>
+		   <to>initiator</to>
+		   <replyTo>editor@mycore.de</replyTo>
+		   <subject>Ihr Autor wurde erfolgreich angelegt.</subject>
+		   <body>dynamic</body>
+		   <mode>success</mode>
+		</action>     
+     </event>     
+  </end-state> 
+  
+</process-definition>
