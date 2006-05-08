@@ -28,39 +28,19 @@ package org.mycore.frontend.workflowengine.jbpm.registerauthor;
 // Imported java classes
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
-import java.util.regex.Matcher;
-
-import org.apache.commons.fileupload.FileItem;
 import org.apache.log4j.Logger;
 
 import org.jbpm.graph.exe.ExecutionContext;
-import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
-import org.mycore.services.fieldquery.MCRQueryManager;
-import org.mycore.common.MCRDefaults;
 import org.mycore.common.MCRException;
-import org.mycore.common.MCRUtils;
-import org.mycore.common.xml.MCRXMLHelper;
-import org.mycore.datamodel.metadata.MCRDerivate;
-import org.mycore.datamodel.metadata.MCRMetaAddress;
-import org.mycore.datamodel.metadata.MCRMetaBoolean;
-import org.mycore.datamodel.metadata.MCRMetaLangText;
-import org.mycore.datamodel.metadata.MCRMetaLinkID;
-import org.mycore.datamodel.metadata.MCRMetaPersonName;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.cli.MCRObjectCommands;
 import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase;
-import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowObject;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerBaseImpl;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
@@ -68,7 +48,6 @@ import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
 import org.mycore.services.fieldquery.MCRResults;
 import org.mycore.user2.MCRUser;
 import org.mycore.user2.MCRUserMgr;
-import org.mycore.common.JSPUtils;
 
 /**
  * This class holds methods to manage the workflow file system of MyCoRe.
@@ -103,44 +82,32 @@ public class MCRWorkflowEngineManagerRegisterauthor extends MCRWorkflowEngineMan
 	}
 	
 	public long initWorkflowProcess(String initiator) throws MCRException {
-	/*	long processID = getUniqueCurrentProcessID(initiator);
-		if(processID < 0){
-			String errMsg = "there exists another workflow process of " + processType + " for initiator " + initiator;
-			logger.warn(errMsg);
-			throw new MCRException(errMsg);
-		}else if (processID == 0) { */
-		MCRWorkflowProcess wfo = null;
+		long processID = 0;
+		MCRWorkflowProcess wfp = createWorkflowObject(processType);
 			try{
-				wfo = createWorkflowObject(processType);
-				wfo.initialize(initiator);
+				wfp.initialize(initiator);
+				wfp.close();
 				MCRUser user = MCRUserMgr.instance().retrieveUser(initiator);
 			
 				String email = user.getUserContact().getEmail();
 				if(email != null && !email.equals("")){
-					wfo.setStringVariable(MCRJbpmWorkflowBase.varINITIATOREMAIL, email);
+					wfp.setStringVariable(MCRJbpmWorkflowBase.varINITIATOREMAIL, email);
 				}
 				String salutation = user.getUserContact().getSalutation();
 				if(salutation != null && !salutation.equals("")){
-					wfo.setStringVariable(MCRJbpmWorkflowBase.varINITIATORSALUTATION, salutation);
+					wfp.setStringVariable(MCRJbpmWorkflowBase.varINITIATORSALUTATION, salutation);
 				}
-				//wfo.setStringVariable("fileCnt", "0");
-				//gibt es hier nicht - ist das nicht doppelgemoppelt
-				//steht bei uns im start state
-				
-				wfo.endTask("initialization", initiator, "go2isInitiatorsEmailAdressAvailable");
-			//	wfo.signal("go2isInitiatorsEmailAdressAvailable");		
+				wfp.endTask("initialization", initiator, "go2isInitiatorsEmailAdressAvailable");
+				processID = wfp.getProcessInstanceID();
 			}catch(MCRException e){
 				logger.error("MCRWorkflow Error, could not initialize the workflow process", e);
 				throw new MCRException("MCRWorkflow Error, could not initialize the workflow process");
-			}finally {
-				wfo.close();
+			}finally{
+				if(wfp != null)
+					wfp.close();
 			}
 			
-			return wfo.getProcessInstanceID();
-	/*	}else{
 			return processID;
-		}
-	*/
 	}
 	
 	protected boolean areMultipleInstancesAllowed(){
@@ -148,11 +115,19 @@ public class MCRWorkflowEngineManagerRegisterauthor extends MCRWorkflowEngineMan
 	}	
 	
 	public String createNewAuthor(String userid, long pid){
-		MCRWorkflowProcess wfo = getWorkflowObject(pid);
-		if(wfo == null || !isUserValid(userid))
-			return "";
+		String authorID = "";
+		MCRWorkflowProcess wfp = getWorkflowObject(pid);
+		try{
+			if(wfp == null || !isUserValid(userid))
+				return "";
 	
-		String authorID = wfo.getStringVariable("authorID");
+			authorID = wfp.getStringVariable("authorID");
+		}catch(MCRException ex){
+			logger.error("catched error", ex);
+		}finally{
+			if(wfp != null)
+				wfp.close();
+		}
 		if(authorID != null && !authorID.equals("")){
 			return authorID;
 		}
@@ -162,11 +137,19 @@ public class MCRWorkflowEngineManagerRegisterauthor extends MCRWorkflowEngineMan
 	}	
 	
 	public String createAuthorFromInitiator(String userid, long pid){
-		MCRWorkflowProcess wfo = getWorkflowObject(pid);
-		if(wfo == null || !isUserValid(userid))
-			return "";
+		String authorID = "";
+		MCRWorkflowProcess wfp = getWorkflowObject(pid);
+		try{
+			if(wfp == null || !isUserValid(userid))
+				return "";
 	
-		String authorID = wfo.getStringVariable("authorID");
+			authorID = wfp.getStringVariable("authorID");
+		}catch(MCRException ex){
+			logger.error("catched error", ex);
+		}finally{
+			if(wfp != null)
+				wfp.close();
+		}
 		if(authorID != null && !authorID.equals("")){
 			return authorID;
 		}
@@ -251,8 +234,6 @@ public class MCRWorkflowEngineManagerRegisterauthor extends MCRWorkflowEngineMan
 	public boolean commitWorkflowObject(String objmcrid, String documentType) {
 		boolean bSuccess = true;
 		try{
-//			long pid = getUniqueWorkflowProcessFromCreatedDocID(objmcrid);
-//			MCRJbpmWorkflowObject wfo = getWorkflowObject(pid);
 			String dirname = getWorkflowDirectory(documentType);
 			String filename = dirname + File.separator + objmcrid + ".xml";
 	
@@ -296,27 +277,42 @@ public class MCRWorkflowEngineManagerRegisterauthor extends MCRWorkflowEngineMan
 	}
 	
 	private boolean checkSubmitVariables(long processid){
-		MCRWorkflowProcess wfo = getWorkflowObject(processid);
-		String createdDocID = wfo.getStringVariable("createdDocID");
-		if(!isEmpty(createdDocID)){
-			String strDocValid = wfo.getStringVariable(VALIDPREFIX + createdDocID );
-			if(strDocValid != null && strDocValid.equals("true")){
-				return true;
+		boolean ret = false;
+		MCRWorkflowProcess wfp = getWorkflowObject(processid);
+		try{
+			String createdDocID = wfp.getStringVariable("createdDocID");
+			if(!isEmpty(createdDocID)){
+				String strDocValid = wfp.getStringVariable(VALIDPREFIX + createdDocID );
+				if(strDocValid != null && strDocValid.equals("true")){
+					ret = true;
+				}
 			}
+		}catch(MCRException ex){
+			logger.error("catched error", ex);
+		}finally{
+			if(wfp != null)
+				wfp.close();
 		}
-		return false;
+		return ret;
 	}
 
 	public void setWorkflowVariablesFromMetadata(String mcrid, Element metadata){
 		long pid = getUniqueWorkflowProcessFromCreatedDocID(mcrid);
-		MCRWorkflowProcess wfo = getWorkflowObject(pid);
-		StringBuffer sbTitle = new StringBuffer("");
-		for(Iterator it = metadata.getDescendants(new ElementFilter("title")); it.hasNext();){
-			Element title = (Element)it.next();
-			if(title.getAttributeValue("type").equals("original-main"))
-				sbTitle.append(title.getText());
-		}
-		wfo.setStringVariable("wfo-title", sbTitle.toString());	
+		MCRWorkflowProcess wfp = getWorkflowObject(pid);
+		try{
+			StringBuffer sbTitle = new StringBuffer("");
+			for(Iterator it = metadata.getDescendants(new ElementFilter("title")); it.hasNext();){
+				Element title = (Element)it.next();
+				if(title.getAttributeValue("type").equals("original-main"))
+					sbTitle.append(title.getText());
+			}
+			wfp.setStringVariable("wfp-title", sbTitle.toString());
+		}catch(MCRException ex){
+			logger.error("catched error", ex);
+		}finally{
+			if(wfp != null)
+				wfp.close();
+		}			
 	}	
 	
 }
