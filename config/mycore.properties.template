@@ -1,5 +1,6 @@
 MCR.WorkflowEngine.contactemail.xmetadiss=mycore@mycore.de
 MCR.WorkflowEngine.ManagerImpl.registeruser=org.mycore.frontend.workflowengine.jbpm.registeruser.MCRWorkflowEngineManagerRegisteruser
+MCR.WorkflowEngine.ManagerImpl.registerauthor=org.mycore.frontend.workflowengine.jbpm.registerauthor.MCRWorkflowEngineManagerRegisterauthor
 
 MCR.BaseDirectory=C:/sample-mcrjsp
 
@@ -7,6 +8,30 @@ MCR.SimpleDateFormat.strictParsing=false
 
 MCR.WorkflowEngine.Administrator.Email=admin@mycore.de
 MCR.WorkflowEngine.DefaultPermissionTypes=read,commitdb,writedb,deletedb,deletewf
+
+####################################################################
+# Workflow Author
+####################################################################
+
+####################################################################
+# |*******prefix****************|doctype*|permission|workflowType|
+# |MCR.WorkflowEngin.defaultACL.|disshab.|modify.   |registerauthor   |
+# $user will be replaces with the current user
+####################################################################
+MCR.WorkflowEngine.defaultACL.author.writedb.registerauthor=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></condition>
+MCR.WorkflowEngine.defaultACL.author.read.registerauthor=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></condition>
+MCR.WorkflowEngine.defaultACL.author.commitdb.registerauthor=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></condition>
+MCR.WorkflowEngine.defaultACL.author.deletewf.registerauthor=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></condition>
+MCR.WorkflowEngine.defaultACL.author.deletedb.registerauthor=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></condition>
+MCR.WorkflowEngine.defaultACL.editorMode.registerauthor=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></condition>
+
+#MCR.WorkflowEngine.defaultACL.derivate.writedb.registerauthor=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></condition>
+#MCR.WorkflowEngine.defaultACL.derivate.read.registerauthor=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></condition>
+#MCR.WorkflowEngine.defaultACL.derivate.commitdb.registerauthor=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></condition>
+#MCR.WorkflowEngine.defaultACL.derivate.deletewf.registerauthor=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></condition>
+#MCR.WorkflowEngine.defaultACL.derivate.deletedb.registerauthor=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></condition>
+#MCR.WorkflowEngine.defaultACL.editorMode.registerauthor=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></condition>
+
 
 ####################################################################
 # Workflow Publication

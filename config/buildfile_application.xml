@@ -1518,8 +1518,21 @@
         </antcall>
         <delete file="${commands.file}" />		
 	</target>
+
+	<target name="deploy.processdefinition.author">
+        <property name="commands.file" value="${basedir}/commands.txt" />
+        <echo file="${commands.file}" append="false">
+        	deploy jbpm processdefinition from file workflow/author.par/processdefinition.xml      	
+        </echo>
+        <antcall target="invoke.cli">
+            <param name="cli.directory"
+                value="${docportal.config}" />
+            <param name="cli.command" value="process ${commands.file}" />
+        </antcall>
+        <delete file="${commands.file}" />		
+	</target>		
 	
-	<target name="deploy.workflow.processdefinitions" depends="deploy.processdefinition.registeruser,deploy.processdefinition.xmetadiss,deploy.processdefinition.publication">
+	<target name="deploy.workflow.processdefinitions" depends="deploy.processdefinition.registeruser,deploy.processdefinition.xmetadiss,deploy.processdefinition.publication,deploy.processdefinition.author">
 		<echo>
 			deployed all workflow process definitions
 		</echo>
