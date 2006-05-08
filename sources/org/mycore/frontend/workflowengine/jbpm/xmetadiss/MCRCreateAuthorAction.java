@@ -7,13 +7,12 @@ import org.jbpm.graph.exe.ExecutionContext;
 import org.mycore.common.MCRException;
 import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerFactory;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
 
 public class MCRCreateAuthorAction implements ActionHandler{
 	
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = Logger.getLogger(MCRCreateAuthorAction.class);
-	private static MCRWorkflowEngineManagerInterface WFI = MCRWorkflowEngineManagerFactory.getImpl("xmetadiss");
+	private static MCRWorkflowEngineManagerXmetadiss WFI = (MCRWorkflowEngineManagerXmetadiss)MCRWorkflowEngineManagerFactory.getImpl("xmetadiss");
 
 	public void execute(ExecutionContext executionContext) throws MCRException {
 		ContextInstance contextInstance;
