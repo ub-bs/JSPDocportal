@@ -24,6 +24,8 @@
 package org.mycore.frontend.workflowengine.jbpm;
 
 import java.io.File;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -167,15 +169,21 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 			} else {
 				//erst wenn alles OK ist wird der WFI initiiert mit der UserID, die unique ist.
 				//we have registeruser prozess - with that id
-				long lpid = WFI.getUniqueCurrentProcessID(ID);
-
-				if ( lpid == 0) {
+				//long lpid = WFI.getUniqueCurrentProcessID(ID);
+				long lpid = 0;
+				List lpids  = WFI.getCurrentProcessIDs(ID, workflowType);	
+				if ( lpids.isEmpty()){
 					lpid = WFI.initWorkflowProcess(ID);				
-			        nextPath = "~registered";		
+			        nextPath = "~registered";
+			        lpids.add(new Long(lpid));
 			    }
+				lpid = ((Long)lpids.get(0)).longValue();
 				// for initiator and editor 
 				WFI.setWorkflowVariablesFromMetadata(String.valueOf(lpid),userElement);
 				MCRSessionMgr.getCurrentSession().put("registereduser", new DOMOutputter().output( outDoc ));
+				for ( int i=1; i< lpids.size(); i++) {
+			        logger.warn("User registration - duplicate Process ID's" + lpids.get(i).toString());
+				}
 		       	
 		    }		        
         }		
