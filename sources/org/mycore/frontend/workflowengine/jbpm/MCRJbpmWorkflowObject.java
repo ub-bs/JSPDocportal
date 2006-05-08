@@ -25,6 +25,11 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRSessionMgr;
 
+/**
+ * 
+ * @deprecated
+ *
+ */
 public class MCRJbpmWorkflowObject {
 	
 	private static JbpmConfiguration jbpmConfiguration = 

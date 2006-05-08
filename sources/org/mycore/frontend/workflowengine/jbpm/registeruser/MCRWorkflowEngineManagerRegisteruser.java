@@ -44,7 +44,7 @@ import org.mycore.frontend.cli.MCRObjectCommands;
 import org.mycore.frontend.cli.MCRUserCommands2;
 import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase;
 
-import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowObject;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerBaseImpl;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
 import org.mycore.user2.MCRUser;
@@ -86,11 +86,19 @@ public class MCRWorkflowEngineManagerRegisteruser extends MCRWorkflowEngineManag
 			logger.warn(errMsg);
 			throw new MCRException(errMsg);
 		}else if (processID == 0) {
-			MCRJbpmWorkflowObject wfo = createWorkflowObject(processType);
-			wfo.initialize(initiator);
-			wfo.setStringVariable("initiatorUserID",initiator);
-			wfo.endTask("initialization", initiator, null);
-			return wfo.getProcessInstanceID();
+			MCRWorkflowProcess wfp = createWorkflowObject(processType);
+			try{
+				wfp.initialize(initiator);
+				wfp.setStringVariable("initiatorUserID",initiator);
+				wfp.endTask("initialization", initiator, null);
+				return wfp.getProcessInstanceID();
+			}catch(MCRException ex){
+				logger.error("catched error", ex);
+				return -1;
+			}finally{
+				if(wfp != null)
+					wfp.close();
+			}				
 		}else{
 			return processID;
 		}
@@ -133,7 +141,7 @@ public class MCRWorkflowEngineManagerRegisteruser extends MCRWorkflowEngineManag
 		setStringVariables(map, pid);
 	}	
 	
-	protected MCRJbpmWorkflowObject getWorkflowObject(String userid) {
+	protected MCRWorkflowProcess getWorkflowObject(String userid) {
 		long curProcessID = getUniqueCurrentProcessID(userid);
 		if(curProcessID == 0){
 			logger.warn("no " + processType + " workflow found for user " + userid);
@@ -164,11 +172,20 @@ public class MCRWorkflowEngineManagerRegisteruser extends MCRWorkflowEngineManag
 	}
 	
 	private boolean checkSubmitVariables(long processid){
-		MCRJbpmWorkflowObject wfo = getWorkflowObject(processid);
-		String group = wfo.getStringVariable("initiatorGroup");
-		String email = wfo.getStringVariable("initiatorEmail");				
+		boolean ret = false;
+		MCRWorkflowProcess wfp = getWorkflowObject(processid);
+		try{
+			String group = wfp.getStringVariable("initiatorGroup");
+			String email = wfp.getStringVariable("initiatorEmail");				
 
-		return (!isEmpty(group+email));
+			ret =  (!isEmpty(group+email));
+		}catch(MCRException ex){
+			logger.error("catched error", ex);
+		}finally{
+			if(wfp != null)
+				wfp.close();
+		}
+		return ret;
 	}
 	
 	
@@ -218,9 +235,18 @@ public class MCRWorkflowEngineManagerRegisteruser extends MCRWorkflowEngineManag
 	}
 	
 	public boolean endTask(long processid, String taskName, String transitionName){
-		MCRJbpmWorkflowObject wfo = getWorkflowObject(processid);
-		MCRUser user = MCRUserMgr.instance().getCurrentUser();
-		return wfo.endTask(taskName, user.getID(), transitionName);
+		boolean ret = false;
+		MCRWorkflowProcess wfp = getWorkflowObject(processid);
+		try{
+			MCRUser user = MCRUserMgr.instance().getCurrentUser();
+			ret = wfp.endTask(taskName, user.getID(), transitionName);
+		}catch(MCRException ex){
+			logger.error("catched error", ex);
+		}finally{
+			if(wfp != null)
+				wfp.close();
+		}
+		return ret;
 	}
 	
 	public long getUniqueCurrentProcessID(String userid) {

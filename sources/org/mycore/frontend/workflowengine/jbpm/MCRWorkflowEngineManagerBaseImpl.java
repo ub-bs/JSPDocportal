@@ -293,42 +293,72 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
     }
 	
 	public void setStringVariables(Map map, long processID){
-		MCRJbpmWorkflowObject wfo = getWorkflowObject(processID);
-		wfo.setStringVariables(map);
+		MCRWorkflowProcess wfp = getWorkflowObject(processID);
+		try{
+			wfp.setStringVariables(map);
+		}catch(MCRException ex){
+			logger.error("catched error", ex);
+		}finally{
+			if(wfp != null)
+				wfp.close();
+		}
 	}
 	
 	public void setStringVariable(String variable, String value, long processID){
-		MCRJbpmWorkflowObject wfo = getWorkflowObject(processID);
-		wfo.setStringVariable(variable, value);		
+		MCRWorkflowProcess wfp = getWorkflowObject(processID);
+		try{
+			wfp.setStringVariable(variable, value);
+		}catch(MCRException ex){
+			logger.error("catched error", ex);
+		}finally{
+			if(wfp != null)
+				wfp.close();
+		}			
 	}
 	
 	public String getStringVariable(String variable, long processID){
-		MCRJbpmWorkflowObject wfo = getWorkflowObject(processID);
-		return wfo.getStringVariable(variable);
+		MCRWorkflowProcess wfp = getWorkflowObject(processID);
+		String ret = "";
+		try{
+			ret = wfp.getStringVariable(variable);
+		}catch(MCRException ex){
+			logger.error("catched error", ex);
+		}finally{
+			if(wfp != null)
+				wfp.close();
+		}		
+		return ret;
 	}
 	
-	protected MCRJbpmWorkflowObject getWorkflowObject(long processID){
-		MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(processID);
-		return wfo;
+	protected MCRWorkflowProcess getWorkflowObject(long processID){
+		MCRWorkflowProcess wfp = new MCRWorkflowProcess(processID);
+		return wfp;
 	}
 	
-	protected MCRJbpmWorkflowObject createWorkflowObject(String workflowProcessType){
-		MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(workflowProcessType);
-		return wfo;
+	protected MCRWorkflowProcess createWorkflowObject(String workflowProcessType){
+		MCRWorkflowProcess wfp = new MCRWorkflowProcess(workflowProcessType);
+		return wfp;
 	}	
 	
 	public void deleteWorkflowProcessInstance(long processID) {
-		try{
-	    	MCRJbpmWorkflowObject wfo = getWorkflowObject(processID);
-	    	String createdDocID = wfo.getStringVariable("createdDocID") ;
+	   	MCRWorkflowProcess wfp = getWorkflowObject(processID);
+	   	try{
+	    	String createdDocID = wfp.getStringVariable("createdDocID") ;
 	    	if ( createdDocID != null && createdDocID.length() > 0 ) {
 	    		// delete data from workflow
-	    		boolean bSuccess = deleteWorkflowObject(createdDocID, wfo.getDocumentType() );  								
+	    		boolean bSuccess = deleteWorkflowObject(createdDocID, wfp.getDocumentType() );  								
 				if (bSuccess) {
 					// AccessRules löschen !!
 					AI.removeAllRules(createdDocID);
 				}
 	    	}
+		}catch(MCRException ex){
+			logger.error("catched error", ex);
+		}finally{
+			if(wfp != null)
+				wfp.close();
+		}
+		try{
 	    	MCRJbpmWorkflowBase.deleteProcessInstance(processID);
 		}catch(Exception e){
 			String errMsg = "could not delete process [" + processID + "]"; 
@@ -338,11 +368,18 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	}
 	
 	public void deleteWorkflowVariables(Set set, long processID){
-		MCRJbpmWorkflowObject wfo = getWorkflowObject(processID);
-		for (Iterator it = set.iterator(); it.hasNext();) {
-			String el = (String) it.next();
-			wfo.deleteVariable(el);
-		}
+		MCRWorkflowProcess wfp = getWorkflowObject(processID);
+		try{
+			for (Iterator it = set.iterator(); it.hasNext();) {
+				String el = (String) it.next();
+				wfp.deleteVariable(el);
+			}
+		}catch(MCRException ex){
+			logger.error("catched error", ex);
+		}finally{
+			if(wfp != null)
+				wfp.close();
+		}			
 	}
 	
 	
@@ -497,38 +534,55 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	public void setMetadataValidFlag(String mcrid, boolean isValid) {
 		long pid = getUniqueWorkflowProcessFromCreatedDocID(mcrid);
 		if(pid > 0) {
-			MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(pid);
-			wfo.setStringVariable(VALIDPREFIX + mcrid, Boolean.toString(isValid));
+			MCRWorkflowProcess wfp = new MCRWorkflowProcess(pid);
+			try{
+				wfp.setStringVariable(VALIDPREFIX + mcrid, Boolean.toString(isValid));
+			}catch(MCRException ex){
+				logger.error("catched error", ex);
+			}finally{
+				if(wfp != null)
+					wfp.close();
+			}			
 		}
 	}	
 	
 	public void setWorkflowVariablesFromMetadata(String mcrid, Element metadata){
 		long pid = getUniqueWorkflowProcessFromCreatedDocID(mcrid);
-		MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(pid);
-		StringBuffer sbTitle = new StringBuffer("");
-		for(Iterator it = metadata.getDescendants(new ElementFilter("title")); it.hasNext();){
-			Element title = (Element)it.next();
-			sbTitle.append(title.getText());
-		}
-		if(sbTitle.length() == 0){
-			wfo.setStringVariable("wfo-title", "Your Workflow Object");
-		}else{
-			wfo.setStringVariable("wfo-title", sbTitle.toString());
-		}
+		MCRWorkflowProcess wfp = new MCRWorkflowProcess(pid);
+		try{
+			StringBuffer sbTitle = new StringBuffer("");
+			for(Iterator it = metadata.getDescendants(new ElementFilter("title")); it.hasNext();){
+				Element title = (Element)it.next();
+				sbTitle.append(title.getText());
+			}
+			if(sbTitle.length() == 0){
+				wfp.setStringVariable("wfp-title", "Your Workflow Object");
+			}else{
+				wfp.setStringVariable("wfp-title", sbTitle.toString());
+			}
+		}catch(MCRException ex){
+				logger.error("catched error", ex);
+			}finally{
+				if(wfp != null)
+					wfp.close();
+		}			
 	}
 	
 	public boolean checkMetadataValidFlag(String mcrid) {
 		long pid = getUniqueWorkflowProcessFromCreatedDocID(mcrid);
 		if(pid > 0) {
-			MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(pid);
+			MCRWorkflowProcess wfp = new MCRWorkflowProcess(pid);
 			try{
-				if(wfo.getStringVariable("valid-" + mcrid).equals("true"))
+				if(wfp.getStringVariable("valid-" + mcrid).equals("true"))
 					return true;
 				else
 					return false;
 			}catch(Exception e){
 				logger.error("boolean parsing of " + mcrid + " was not possible", e);
 				return false;
+			}finally{
+				if(wfp != null)
+					wfp.close();
 			}
 		}else{
 			return false;
@@ -632,8 +686,17 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	
 	public boolean endTask(long processid, String taskName, String transitionName){
 		MCRUser user = MCRUserMgr.instance().getCurrentUser();
-		MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(processid);
-		return wfo.endTask(taskName, user.getID(), transitionName);
+		MCRWorkflowProcess wfp = new MCRWorkflowProcess(processid);
+		boolean ret = false;
+		try{
+			ret = wfp.endTask(taskName, user.getID(), transitionName);
+		}catch(MCRException ex){
+			logger.error("catched error", ex);
+		}finally{
+			if(wfp != null)
+				wfp.close();
+		}
+		return ret;
 	}
 	
 	public void setDummyPermissions(String objid){
@@ -966,24 +1029,39 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	}
 	
 	protected String getVariableValueInDecision(String varname, long processid, String decisionNode, ExecutionContext executionContext){
+		String ret = "";
 		try{
 			if(executionContext == null){
-				MCRJbpmWorkflowObject wfo = getWorkflowObject(processid);
-				return wfo.getStringVariable(varname);
+				MCRWorkflowProcess wfp = getWorkflowObject(processid);
+				try{
+					ret = wfp.getStringVariable(varname);
+				}catch(MCRException ex){
+					logger.error("catched error", ex);
+				}finally{
+					if(wfp != null)
+						wfp.close();
+				}					
 			}else{
-				return (String)executionContext.getVariable(varname);
+				ret = (String)executionContext.getVariable(varname);
 			}
 		}catch(Exception e){
 			logger.error("could not get variable value", e);
 		}
-		return "";
+		return ret;
 	}
 	
 	protected void setStringVariableInDecision(String varname, String value, long processid, String decisionNode, ExecutionContext executionContext){
 		try{
 			if(executionContext == null){
-				MCRJbpmWorkflowObject wfo = getWorkflowObject(processid);
-				wfo.setStringVariable(varname, value);
+				MCRWorkflowProcess wfp = getWorkflowObject(processid);
+				try{
+					wfp.setStringVariable(varname, value);
+				}catch(MCRException ex){
+					logger.error("catched error", ex);
+				}finally{
+					if(wfp != null)
+						wfp.close();
+				}					
 			}else{
 				executionContext.setVariable(varname, value);
 			}
