@@ -647,20 +647,23 @@ public class MCRResultFormatter {
 			    if ( lang.equals("") || attrLang == null || attrLang.equals(lang) ) {
 						Element street = new Element("metavalue");
 						street.setAttribute("href","");
-						StringBuffer sb = new StringBuffer(address.getChildText("street"))
-							.append(" ").append(address.getChildText("number"));
+						String sStreet = (address.getChildText("street")!= null)?address.getChildText("street"):"";
+						String sNumber = (address.getChildText("number")!= null)?address.getChildText("number"):"";
+						StringBuffer sb = new StringBuffer(sStreet).append(" ").append(sNumber);
 						street.setAttribute("text",sb.toString());
 					    metaValues.addContent(street);
 					    Element city = new Element("metavalue");
 					    city.setAttribute("href","");
-					    sb = new StringBuffer(address.getChildText("zipcode"))
-					    	.append(" ").append(address.getChildText("city"));
+						String szipcode = (address.getChildText("zipcode")!= null)?address.getChildText("zipcode"):"";
+						String scity = (address.getChildText("city")!= null)?address.getChildText("city"):"";
+						sb = new StringBuffer(szipcode).append(" ").append(scity);
 					    city.setAttribute("text",sb.toString());
 					    metaValues.addContent(city);
 					    Element country = new Element("metavalue");
 					    country.setAttribute("href","");
-					    sb = new StringBuffer(address.getChildText("state"))
-					    	.append(", ").append(address.getChildText("country"));
+						String sstate = (address.getChildText("state")!= null)?address.getChildText("state"):"";
+						String scountry = (address.getChildText("country")!= null)?address.getChildText("country"):"";
+					    sb = new StringBuffer(sstate).append(", ").append(scountry);
 					    country.setAttribute("text",sb.toString());
 					    metaValues.addContent(country);					    
 			    }
