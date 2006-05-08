@@ -84,7 +84,7 @@ public class MCRJbpmWorkflowBase {
 	 * 
 	 * @param initiator
 	 * @return
-	 * @deprecated
+	 * not depecated, because for registering a new user we have no other chance to get the right id
 	 */
 	public static List getCurrentProcessIDs(String initiator) {
 		List ret = new ArrayList();

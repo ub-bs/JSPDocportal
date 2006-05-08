@@ -98,7 +98,6 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	}
     	
 	private Hashtable mt = null;
-	private XMLOutputter out = new XMLOutputter(org.jdom.output.Format.getPrettyFormat());	
 	private Hashtable htRules = null;
 	
 	/**
@@ -259,39 +258,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	}
 
 
-	protected Element  buildQueryforAuthor(String userid) {
-    	
-    	Element query = new Element("query"); 
-    	query.setAttribute("maxResults", "1");	    	
-    	Element conditions = new Element("conditions");
-    	conditions.setAttribute("format", "xml");
-    	query.addContent(conditions);	    	
-    	Element op = new Element("boolean");
-    	op.setAttribute("operator", "AND");
-    	conditions.addContent(op);
-    	
-    	Element condition = new Element("condition");    	
-       	condition.setAttribute("operator", "=");
-   		condition.setAttribute("field", "userid");
-		condition.setAttribute("value", userid);       	
-    	op.addContent(condition);
-	
-    	condition = new Element("condition");    	
-       	condition.setAttribute("operator", "=");
-   		condition.setAttribute("field", "objectType");
-		condition.setAttribute("value", "author");
-    	op.addContent(condition);
-
-		Element hosts = new Element("hosts");
-    	query.addContent(hosts);
-    	Element host = new Element("host");
-    	hosts.addContent(host);
-    	host.setAttribute("field", "local");
-    	
-    	logger.debug("generated query: \n" + out.outputString(query));
-    	return query;
-    }
-	
+		
 	public void setStringVariables(Map map, long processID){
 		MCRWorkflowProcess wfp = getWorkflowObject(processID);
 		try{
@@ -380,121 +347,6 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 			if(wfp != null)
 				wfp.close();
 		}			
-	}
-	
-	
-	protected String createAuthor(String userid, String workflowProcessType){
-		MCRUser user = null;
-		try {
-			user = MCRUserMgr.instance().retrieveUser(userid);
-		} catch (Exception noUser) {
-			//TODO Fehlermeldung
-			logger.warn("user dos'nt exist userid=" + userid);
-			return "";			
-		}
-		
-		MCRObject author = new MCRObject();
-		MCRMetaPersonName pname = new MCRMetaPersonName();
-		String fullname = user.getUserContact().getFirstName() + " " + user.getUserContact().getLastName();
-		pname.setSubTag("name");
-		pname.setLang("de");
-		pname.set(user.getUserContact().getFirstName(),
-				  user.getUserContact().getLastName(), 
-				  user.getUserContact().getLastName(), fullname, "", "", user.getUserContact().getSalutation());
-			
-		MCRMetaBoolean female = new MCRMetaBoolean();
-		female.setSubTag("female");
-		female.setLang("de");
-		female.setValue("false");
-		if ( user.getUserContact().getSalutation().equals("Frau")) 
-				female.setValue("true");
-		
-		MCRMetaAddress padr = new MCRMetaAddress();
-		padr.setSubTag("address");
-		padr.setLang("de");
-		
-		if ( user.getUserContact().getCountry().length()==0){
-			user.getUserContact().setCountry("-");
-		}
-		if ( user.getUserContact().getState().length()==0){
-			user.getUserContact().setState("-");
-		}
-		if ( user.getUserContact().getPostalCode().length()==0){
-			user.getUserContact().setPostalCode("-");
-		}
-		if ( user.getUserContact().getCity().length()==0){
-			user.getUserContact().setCity("-");
-		}
-		if ( user.getUserContact().getStreet().length()==0){
-			user.getUserContact().setStreet("-");
-		}
-		
-		padr.set(user.getUserContact().getCountry(), user.getUserContact().getState(),
-				user.getUserContact().getPostalCode(),user.getUserContact().getCity(),
-				user.getUserContact().getStreet(), "-");
-
-		MCRMetaLangText userID = new MCRMetaLangText();
-		userID.setSubTag("userid");
-		userID.setLang("de");
-		userID.setText(user.getID());
-		
-		
-		Element ePname = pname.createXML();
-		Element ePnames = new Element("names");
-		ePnames.setAttribute("class","MCRMetaPersonName");
-		ePnames.setAttribute("textsearch","true");		
-		ePnames.addContent(ePname);
-
-		
-		Element eFemale = female.createXML();
-		Element eFemales = new Element("females");
-		eFemales.setAttribute("class","MCRMetaBoolean");	
-		eFemales.addContent(eFemale);
-		
-		Element ePadr = padr.createXML();
-		Element ePadrs = new Element("addresses");
-		ePadrs.setAttribute("class","MCRMetaAddress");
-		ePadrs.addContent(ePadr);
-		
-		Element eUserID = userID.createXML();
-		Element eUserIDs = new Element("userids");
-		eUserIDs.setAttribute("class","MCRMetaLangText");	
-		eUserIDs.addContent(eUserID);
-		
-		
-		Element mycoreauthor = new Element ("mycoreobject");
-		MCRObjectID ID = new MCRObjectID();
- 	    String base = config.getString("MCR.default_project_id","DocPortal")+"_author";
-		ID.setNextFreeId(base);
-		mycoreauthor.addNamespaceDeclaration(org.jdom.Namespace.getNamespace("xsi", MCRDefaults.XSI_URL));
-		mycoreauthor.setAttribute("noNamespaceSchemaLocation", "datamodel-author.xsd", org.jdom.Namespace.getNamespace("xsi", MCRDefaults.XSI_URL));
-		mycoreauthor.setAttribute("ID", ID.toString());	 
-		mycoreauthor.setAttribute("label", ID.toString());
-		
-		Element structure = new Element ("structure");			
-		Element metadata = new Element ("metadata");	
-		Element service = new Element ("service");
-		
-	    metadata.addContent(ePnames);
-	    metadata.addContent(eFemales);
-	    metadata.addContent(ePadrs);
-	    metadata.addContent(eUserIDs);
-	    
-	    mycoreauthor.addContent(structure);
-	    mycoreauthor.addContent(metadata);
-	    mycoreauthor.addContent(service);
-	    
-		Document authordoc = new Document(mycoreauthor);
-		author.setFromJDOM(authordoc);
-		try {
-				author.createInDatastore();
-		} catch ( Exception ex){
-			//TODO Fehlermeldung
-			logger.warn("Could not Create authors object from the user object " + user.getID());
-			return "";
-		}
-		setDefaultPermissions(author.getId(), workflowProcessType, user.getID());
-   	    return author.getId().getId();
 	}
 	
 	/**
@@ -1140,9 +992,6 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	/*
 	 * DUMMY IMPLEMENTATION OF SOME METHODS
 	 */
-	public String createAuthorFromInitiator(String userid) {
-		return "";
-	}
 	public String createMetadataDocumentID(String userid, long pid){
 		return "";
 	}	
