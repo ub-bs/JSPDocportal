@@ -11,7 +11,7 @@
 <table  class="bg_background" >
  <tr>
   <td >
-	<div class="subtitle" >Hiermit beantrage ich, eine Autorenberechtigung für @libri </div>
+	<div class="subtitle" >Hiermit beantrage ich, eine Autorenberechtigung für Digitale Bibliothek </div>
   </td>
  </tr>
  <tr>
@@ -21,7 +21,7 @@
     <c:import url="${applicationScope.WebApplicationBaseURL}editor/workflow/editor-registeruser.xml?XSL.editor.source.new=true&XSL.editor.cancel.url=${applicationScope.WebApplicationBaseURL}nav?path=${requestScope.path}&usecase=register-user&page=nav?path=~registered" />    
 	<hr/>
 	<p><fmt:message key="Nav.Service.Text1" /></p>
-	<p><a href="mailto:atlibri@uni-rostock.de">atlibri@uni-rostock.de</a></p>  
+	<p><fmt:message key="Nav.Service.MailRef" /></p>
   </td>
 </tr>
 </table>

@@ -45,7 +45,7 @@
     </c:otherwise>
 	</c:choose>
 	<p><fmt:message key="Nav.Service.Text1" /></p>
-	<p><a href="mailto:atlibri@uni-rostock.de">atlibri@uni-rostock.de</a></p>
+	<p><fmt:message key="Nav.Service.MailRef" /></p>
  </td>
 </tr>
 </table>
