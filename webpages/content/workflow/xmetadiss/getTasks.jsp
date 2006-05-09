@@ -37,7 +37,7 @@
    </c:when>
    <c:when test="${requestScope.task.taskName eq 'taskGetInitiatorsEmailAddress'}">
       <p>
-         <fmt:message key="WorkflowEngine.description.getInitiatorsEmailAddress.xmetadiss" />
+         <fmt:message key="WorkflowEngine.description.getInitiatorsEmailAddress" />
 		 <br>&nbsp;<br>
 	     <form action="${baseURL}setworkflowvariable" accept-charset="utf-8">
     	     <input name="dispatcherForward" value="/nav?path=~xmetadiss" type="hidden" />
