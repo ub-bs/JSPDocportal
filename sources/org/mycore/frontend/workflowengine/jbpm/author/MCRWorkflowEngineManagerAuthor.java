@@ -86,9 +86,7 @@ public class MCRWorkflowEngineManagerAuthor extends MCRWorkflowEngineManagerBase
 		MCRWorkflowProcess wfp = createWorkflowObject(processType);
 			try{
 				wfp.initialize(initiator);
-				// ?? why that 
-				// we get an error  in wfp.endtask, that the session is closes
-				// wfp.close();
+				wfp.save();
 				MCRUser user = MCRUserMgr.instance().retrieveUser(initiator);
 			
 				String email = user.getUserContact().getEmail();
