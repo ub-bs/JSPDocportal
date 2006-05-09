@@ -86,13 +86,13 @@
 			          </navitem>
 			      </navitem>
 
-                 <navitem name="registerauthor" label="Nav.Workflow.registerauthor" href="content/workflow/registerauthor/workflow.jsp" >
-				    <refitem name="~registerauthor" label="" />
-				    <navitem name="registerauthor-begin" label="Nav.Workflow.registerauthor.begin" href="content/workflow/registerauthor/begin.jsp" >
-					   <refitem name="~registerauthor-begin" label="" />
+                 <navitem name="author" label="Nav.Workflow.author" href="content/workflow/author/workflow.jsp" >
+				    <refitem name="~author" label="" />
+				    <navitem name="author-begin" label="Nav.Workflow.author.begin" href="content/workflow/author/begin.jsp" >
+					   <refitem name="~author-begin" label="" />
 			        </navitem>   
-                    <navitem name="registerauthor-info" label="Nav.Workflow.registerauthor.info" href="content/workflow/registerauthor/information.jsp" >
-                       <refitem name="~xmetadiss-info" label="" />
+                    <navitem name="author-info" label="Nav.Workflow.author.info" href="content/workflow/author/information.jsp" >
+                       <refitem name="~author-info" label="" />
                     </navitem>                    
                	 </navitem>		
 			      

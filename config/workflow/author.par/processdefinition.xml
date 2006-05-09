@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <process-definition
-  xmlns="urn:jbpm.org:jpdl-3.1"  name="registerauthor">
+  xmlns="urn:jbpm.org:jpdl-3.1"  name="author">
 
   <!-- SWIMLANES (= process roles) -->
 
@@ -42,10 +42,10 @@
   <task-node name="askForAuthorEqualsInitiator">
  	<task name="taskInputAuthorEqualsInitator" swimlane="initiator"/>
  	<transition name="go2CreateAuthorFromInitiator" to="authorCreated">
- 		<action class="org.mycore.frontend.workflowengine.jbpm.registerauthor.MCRCreateAuthorFromInitiatorAction"/>
+ 		<action class="org.mycore.frontend.workflowengine.jbpm.author.MCRCreateAuthorFromInitiatorAction"/>
  	</transition>
  	<transition name="go2CreateNewAuthor" to="authorCreated">
- 		<action class="org.mycore.frontend.workflowengine.jbpm.registerauthor.MCRCreateNewAuthorAction"/>
+ 		<action class="org.mycore.frontend.workflowengine.jbpm.author.MCRCreateNewAuthorAction"/>
  	</transition>
  </task-node>
 
@@ -56,7 +56,7 @@
   </task-node>
 
   <decision name="canAuthorBeSubmitted">
-     <handler class="org.mycore.frontend.workflowengine.jbpm.registerauthor.MCRDecisionHandlerRegisterauthor" />
+     <handler class="org.mycore.frontend.workflowengine.jbpm.author.MCRDecisionHandlerAuthor" />
      <transition name="authorCantBeSubmitted" to="authorCreated" />
      <transition name="authorCanBeSubmitted" to="authorSubmitted" />
   </decision>
@@ -67,7 +67,7 @@
            <varnameOBJID>createdDocID</varnameOBJID>
            <varnameERROR>COMMITERROR</varnameERROR>
         </action>                                            
-        <action class="org.mycore.frontend.workflowengine.jbpm.registerauthor.MCRAuthorSubmittedAction">
+        <action class="org.mycore.frontend.workflowengine.jbpm.author.MCRAuthorSubmittedAction">
            <lockedVariables>initiator,createdDocID</lockedVariables>
         </action>
      </event> 
@@ -96,7 +96,7 @@
   </task-node>
                   
   <decision name="canAuthorBeCommitted">
-     <handler class="org.mycore.frontend.workflowengine.jbpm.registerauthor.MCRDecisionHandlerRegisterauthor" />
+     <handler class="org.mycore.frontend.workflowengine.jbpm.author.MCRDecisionHandlerAuthor" />
      <transition name="authorCanBeCommitted" to="wasCommitmentSuccessful">
        <action class="org.mycore.frontend.workflowengine.jbpm.MCRCommitObjectAction">
            <varnameOBJID>createdDocID</varnameOBJID>
