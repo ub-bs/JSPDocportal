@@ -89,6 +89,7 @@ public class MCRWorkflowEngineManagerRegisteruser extends MCRWorkflowEngineManag
 			MCRWorkflowProcess wfp = createWorkflowObject(processType);
 			try{
 				wfp.initialize(initiator);
+				wfp.save();
 				wfp.setStringVariable("initiatorUserID",initiator);
 				wfp.endTask("initialization", initiator, null);
 				return wfp.getProcessInstanceID();

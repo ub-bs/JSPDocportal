@@ -95,6 +95,7 @@ public class MCRWorkflowEngineManagerPublication extends MCRWorkflowEngineManage
 			MCRWorkflowProcess wfp = createWorkflowObject(processType);
 			try{
 				wfp.initialize(initiator);
+				wfp.save();
 				MCRUser user = MCRUserMgr.instance().retrieveUser(initiator);
 				String email = user.getUserContact().getEmail();
 				if(email != null && !email.equals("")){
