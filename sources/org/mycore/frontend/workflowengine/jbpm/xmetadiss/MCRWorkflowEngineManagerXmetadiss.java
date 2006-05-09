@@ -168,23 +168,25 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 			if(authorID != null && !authorID.equals("")){
 				return authorID;
 			}
+			// im WF kein Autor vorhanden, - Direkt aus MyCore Holen	
+			// - kann nachher weg - da ja dann die AuthorID immmer im WF steht, dann nur noch create zweig	
+	    	MCRResults mcrResult =  MCRWorkflowUtils.queryMCRForAuthorByUserid(userid);
+	    	logger.debug("Results found hits:" + mcrResult.getNumHits());    
+	    	if ( mcrResult.getNumHits() > 0 ) {
+	    		authorID = mcrResult.getHit(0).getID();
+	    		wfp.setStringVariable("authorID", authorID);
+	    		return authorID;
+	    	} else {
+	    		authorID = createAuthor(userid, processType);
+	    		return authorID;
+	    	}	
 		}catch(MCRException ex){
 			logger.error("catched error", ex);
 		}finally{
 			if(wfp != null)
 				wfp.close();
 		}			
-		// im WF kein Autor vorhanden, - Direkt aus MyCore Holen	
-		// - kann nachher weg - da ja dann die AuthorID immmer im WF steht, dann nur noch create zweig	
-    	MCRResults mcrResult =  MCRWorkflowUtils.queryMCRForAuthorByUserid(userid);
-    	logger.debug("Results found hits:" + mcrResult.getNumHits());    
-    	if ( mcrResult.getNumHits() > 0 ) {
-    		authorID = mcrResult.getHit(0).getID();
-    		return authorID;
-    	} else {
-    		authorID = createAuthor(userid, processType);
-    		return authorID;
-    	}	
+		return authorID;
 	}
 	
 	public String createURNReservation(String userid, long pid){
@@ -622,16 +624,13 @@ public class MCRWorkflowEngineManagerXmetadiss extends MCRWorkflowEngineManagerB
 		String nextID = getNextFreeID("author");
 		MCRObjectID id = new MCRObjectID(nextID);
 		MCRObject author = MCRWorkflowUtils.createAuthorFromUser(user, id);
-		
-
-
 		try {
 			author.createInDatastore();
-	} catch ( Exception ex){
-		//TODO Fehlermeldung
-		logger.warn("Could not Create authors object from the user object " + user.getID());
-		return null;
-	}
+		} catch ( Exception ex){
+			//TODO Fehlermeldung
+			logger.warn("Could not Create authors object from the user object " + user.getID());
+			return null;
+		}
 		setDefaultPermissions(author.getId(), workflowProcessType, user.getID());
    	    return author.getId().getId();
 	}
