@@ -66,8 +66,7 @@ public class MCRWorkflowUtils {
 	 * @return an ArrayList of file names
 	 */
 	public final static ArrayList getAllObjectFileNames(String type) {
-		String dirname = MCRWorkflowEngineManagerFactory.getDefaultImpl()
-				.getWorkflowDirectory(type);
+		String dirname = MCRWorkflowEngineManagerFactory.getDefaultImpl().getWorkflowDirectory(type);
 		ArrayList workfiles = new ArrayList();
 		if (!dirname.equals(".")) {
 			File dir = new File(dirname);
@@ -222,6 +221,9 @@ public class MCRWorkflowUtils {
 			if (user.getUserContact().getStreet().length() == 0) {
 				user.getUserContact().setStreet("-");
 			}
+			if (user.getUserContact().getEmail().length() == 0) {
+				user.getUserContact().setEmail("-");
+			}
 
 			padr.set(user.getUserContact().getCountry(), user.getUserContact()
 					.getState(), user.getUserContact().getPostalCode(), user
@@ -255,7 +257,7 @@ public class MCRWorkflowUtils {
 			eUserIDs.setAttribute("class", "MCRMetaLangText");
 			eUserIDs.addContent(eUserID);
 
-			MCRMetaLangText email = new MCRMetaLangText();
+			/* MCRMetaLangText email = new MCRMetaLangText();
 			email.setSubTag("email");
 			email.setLang("de");
 			email.setText(user.getUserContact().getEmail());
@@ -263,15 +265,15 @@ public class MCRWorkflowUtils {
 			Element eEmail = email.createXML();
 			Element eEmails = new Element("emails");
 			eEmails.setAttribute("class", "MCRMetaLangText");
-			eEmails.addContent(eEmail);
+			eEmails.addContent(eEmail); **/
 			
 			metadata.addContent(ePnames);
 			metadata.addContent(eFemales);
 			metadata.addContent(ePadrs);
 			metadata.addContent(eUserIDs);
-			metadata.addContent(eEmails);
-		}
-		else{
+			//metadata.addContent(eEmails);
+			
+		} else{
 			//metadata needs dummy data otherwise  author.createXML() failes
 			Element ePnames = new Element("names");
 			ePnames.setAttribute("class", "MCRMetaPersonName");
