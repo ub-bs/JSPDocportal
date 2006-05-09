@@ -240,6 +240,13 @@
     <cell col="2" row="2" anchor="NORTHWEST" ref="TFarea4096" var="metadata/publications/publication[2]" ordernr="14" default=""/>
   </panel>
 
+  <panel id="DUserid">
+    <hidden var="metadata/userids/@class" default="MCRMetaLangText" />
+    <hidden var="metadata/userids/@parasearch" default="false" />
+    <hidden var="metadata/userids/@textsearch" default="false" />
+    <hidden var="metadata/userids/userid" ordernr="15" default=""/>
+  </panel>
+
 <!-- **** Submitbutton *** -->
 
   <panel id="CheckButtonAuthor" >
