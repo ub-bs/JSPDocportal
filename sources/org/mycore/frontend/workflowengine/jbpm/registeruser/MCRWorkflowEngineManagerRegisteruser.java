@@ -190,7 +190,7 @@ public class MCRWorkflowEngineManagerRegisteruser extends MCRWorkflowEngineManag
 	}
 	
 	
-	public boolean commitWorkflowObject(String userid) {
+	public boolean commitWorkflowObject(String userid, String dummypar) {
 		boolean bSuccess = false;
 		try{
 			String dirname = getWorkflowDirectory(documentType);
