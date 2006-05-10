@@ -64,7 +64,7 @@
 						   </c:if>										
                            <mcr:checkAccess var="modifyAllowed" permission="commitdb" key="${itemID}" />
                            <c:if test="${modifyAllowed}">	
-                              <c:if test="${not fn:contains('disshab',itemDocType)}">					
+                              <c:if test="${not fn:contains('disshab,author',itemDocType)}">					
 										<td align="center" valign="top" width="30">
 											<form method="get" action="${baseURL}workflowaction">
 												<input name="processid" value="${processid}" type="hidden">
