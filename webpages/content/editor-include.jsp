@@ -108,7 +108,8 @@
 <hr/>
 
 <mcr:checkAccess var="modifyAllowed" permission="writedb" key="${mcrid}" />
-TODO in subselect übergeben von mcrid<c:set var="modifyAllowed" value="true" />
+<%-- TODO in subselect übergeben von mcrid--%>
+<c:set var="modifyAllowed" value="true" />
 <c:choose>
     <c:when test="${modifyAllowed}">
         <mcr:includeEditor 
