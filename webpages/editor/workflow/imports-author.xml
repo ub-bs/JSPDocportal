@@ -84,7 +84,16 @@
     <cell col="3" row="2" anchor="NORTHWEST" ref="AAddressState" />
     <cell col="2" row="3" anchor="NORTHWEST" ref="TFzeile10" var="metadata/addresses/address/zipcode" ordernr="4" />
     <cell col="3" row="3" anchor="NORTHWEST" ref="AAddressZIP" />
-    <cell col="2" row="4" anchor="NORTHWEST" ref="TFzeile128" var="metadata/addresses/address/city" ordernr="4" />
+
+    <cell col="2" row="4" anchor="NORTHWEST" var="metadata/addresses/address/city" ordernr="4">
+		<textfield id="TFCityMandatory"  width="30" maxlength="128"  class="mandatory" >		
+		   <condition id="CCityMandatory" regexp="\S+" required="true" >
+				<label xml:lang="de">Bitte geben Sie einen Ort an!</label>
+  				<label xml:lang="en">Please enter a city!</label>
+         </condition>
+      </textfield>	 
+  </cell>
+
     <cell col="3" row="4" anchor="NORTHWEST" ref="AAddressCity" />
     <cell col="2" row="5" anchor="NORTHWEST" ref="TFzeile128" var="metadata/addresses/address/street" ordernr="4" />
     <cell col="3" row="5" anchor="NORTHWEST" ref="AAddressStreet" />
@@ -186,8 +195,11 @@
     <hidden var="metadata/emails/email/@lang" ordernr="11" default="de" />
     <cell col="2" row="1" anchor="NORTHWEST" var="metadata/emails/email" ordernr="11" >
 		<textfield id="tf.Email"  width="30" maxlength="128"  class="mandatory" >		
-		   <condition id="cond.DEmail" regexp="\S+@\S+\.\S+" required="true" 
-             label="Bitte geben Sie Ihre EMail-Adresse syntaktisch korrekt ein!" />
+		   <condition id="cond.DEmail" regexp="\S+@\S+\.\S+" required="true" >
+				<!-- keien Leerzeichen vor oder nach dem Label-Inhalt erlaubt -->
+			  <label xml:lang="de">Bitte geben Sie Ihre EMail-Adresse syntaktisch korrekt ein!</label>
+			  <label xml:lang="en">Please enter a syntactically valid email address!</label>
+		   </condition>
 		</textfield>	 
 	</cell>	   
   </panel>
@@ -253,6 +265,27 @@
 	 <cell col="1" row="1" anchor="EAST" ref="BCancel" />
 	 <cell col="2" row="1" anchor="WEST" ref="BSubmitAuthor" />
   </panel>		
+
+  <text id="LEmailMandatory">
+	<label xml:lang="de">
+		<span class="editorlabel">E-Mail (*)</span>
+	</label>
+	<label xml:lang="en">
+		<span class="editorlabel">E-Mail (*)</span>
+	</label>
+   </text>
+
+  <text id="LAddressMandatory">
+    <label xml:lang="de">
+      <span class="editorlabel">Adresse (*)</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">Address (*)</span>
+    </label>   
+  </text>
+
+
+
 
 <!-- *** End *** -->
 </imports>

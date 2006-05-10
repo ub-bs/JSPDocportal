@@ -50,7 +50,7 @@
     </cell>
     <cell col="4" row="3" anchor="WEST" ref="HOrigin" />
 
-   <cell col="1" row="4" anchor="NORTHWEST" ref="LAddress" />
+   <cell col="1" row="4" anchor="NORTHWEST" ref="LAddressMandatory" />
    <cell col="2" row="4" anchor="NORTHWEST" ref="DAddress" />
    <cell col="3" row="4" anchor="NORTHWEST" >
     <space width="20" height="0" />
@@ -92,7 +92,7 @@
     </cell>
     <cell col="4" row="9" anchor="WEST" ref="HURL" />
 
-    <cell col="1" row="10" anchor="NORTHWEST" ref="LEmail" />
+    <cell col="1" row="10" anchor="NORTHWEST" ref="LEmailMandatory" />
     <cell col="2" row="10" anchor="NORTHWEST" ref="DEmail" />
     <cell col="3" row="10" anchor="NORTHWEST" >
       <space width="20" height="0" />
