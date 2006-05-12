@@ -13,7 +13,10 @@ import org.apache.log4j.Logger;
 import org.jdom.*;
 import org.jdom.filter.ElementFilter;
 import org.jdom.output.XMLOutputter;
+import org.mycore.access.MCRAccessInterface;
+import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRConfiguration;
+import org.mycore.common.MCRSessionMgr;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.services.fieldquery.MCRResults;
@@ -34,6 +37,7 @@ public class MCRIndexData {
     private Document jResult;
     private Document jQuery;
     private MCRResults mcrResult;
+	private static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
     
     class MyRangeDelim {
         int pos;
@@ -92,7 +96,7 @@ public class MCRIndexData {
         String filter;
         String style;
         int maxPerPage;
-
+        
         public void set (String ID) {
 
             MCRConfiguration config = MCRConfiguration.instance();
@@ -133,6 +137,7 @@ public class MCRIndexData {
         Element results = buildPageElement();
         
 		int numRows = fillmyLinkedList( );
+		/***  nur für meine blöde lyra IBM Power PC Kiste - Anja
 		Collections.sort(this.ll1, 
 				new Comparator() {
 					public int compare(Object o1, Object o2) {
@@ -144,7 +149,8 @@ public class MCRIndexData {
 				        return cc;
 				    }
 				}
-		);
+		);**/
+		
 		
 		results.setAttribute("numHits", String.valueOf(numRows) );
 		
@@ -491,19 +497,21 @@ public class MCRIndexData {
             for (int i = 0; i< numRows; i++) {
             	
                 String[] listelm = new String[2 + ( (ic.extraFields !=null)?ic.extraFields.length:0 ) ];                
-            	Element child = (Element)(mcrHit.get( i ));                  	
+            	Element child = (Element)(mcrHit.get( i ));   
             	
-            	String[] brFields = new String[1];
-            	brFields[0]=  ic.sortFields[0];
-            	           	
-            	if ( ic.sortFields != null ) 
-            			setListeElm(child, ic.sortFields ,0, listelm, true);
-            	
-           		setListeElm(child, brFields, 1, listelm, false);           		
-           		if (ic.extraFields !=null)
-           			setListeElm(child, ic.extraFields, 2, listelm, false);
-           		
-                this.ll1.add(listelm);
+            	if ( AI.checkPermission( child.getAttributeValue("mcrid"),"read") ){
+	            	String[] brFields = new String[1];
+	            	brFields[0]=  ic.sortFields[0];
+	            	           	
+	            	if ( ic.sortFields != null ) 
+	            			setListeElm(child, ic.sortFields ,0, listelm, true);
+	            	
+	           		setListeElm(child, brFields, 1, listelm, false);           		
+	           		if (ic.extraFields !=null)
+	           			setListeElm(child, ic.extraFields, 2, listelm, false);
+	           		
+	                this.ll1.add(listelm);
+            	}
             }            
 	    }
 	    return this.ll1.size();
