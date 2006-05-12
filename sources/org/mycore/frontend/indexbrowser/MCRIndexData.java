@@ -473,17 +473,7 @@ public class MCRIndexData {
 	    List mcrHit = jResult.getRootElement().getChildren();
 	    /**
     	 * <mcrresults sorted="true">
-			  <mcrhit mcrid="atlibri_professorum_000000000441">
-			    <sortData>
-			      <data name="title">Aepinus</data>
-			    </sortData>
-			  </mcrhit>
-			  <mcrhit mcrid="atlibri_document_000000000001">
-			    <sortData>
-			      <data name="title">Anja testet|zwei Haupttitel</data>
-			    </sortData>
-			  </mcrhit>
-			  <mcrhit mcrid="atlibri_document_000000000002">
+			  <mcrhit id="atlibri_document_000000000002">
 			    <sortData>
 			      <data name="title">Artikel Test Editor Servlet</data>
 			    </sortData>
@@ -499,7 +489,7 @@ public class MCRIndexData {
                 String[] listelm = new String[2 + ( (ic.extraFields !=null)?ic.extraFields.length:0 ) ];                
             	Element child = (Element)(mcrHit.get( i ));   
             	
-            	if ( AI.checkPermission( child.getAttributeValue("mcrid"),"read") ){
+            	if ( AI.checkPermission( child.getAttributeValue("id"),"read") ){
 	            	String[] brFields = new String[1];
 	            	brFields[0]=  ic.sortFields[0];
 	            	           	
