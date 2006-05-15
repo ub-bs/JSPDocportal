@@ -15,6 +15,8 @@ import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.common.xml.MCRXMLHelper;
 import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase;
+import org.mycore.user2.MCRUser;
+import org.mycore.user2.MCRUserMgr;
 
 public class MCRAuthorSubmittedAction implements ActionHandler{
 	
@@ -24,10 +26,13 @@ public class MCRAuthorSubmittedAction implements ActionHandler{
 	private static Logger logger = Logger.getLogger(MCRAuthorSubmittedAction.class);
 	private static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
 	private static Element editorModeRule;
+	private static Element authorReadRule;
+	private static String strReadRule;
 	
-	static{
-		String strRule = MCRConfiguration.instance().getString("MCR.WorkflowEngine.defaultACL.editorMode.xmetadiss", "<condition format=\"xml\"><boolean operator=\"or\"><condition field=\"group\" operator=\"=\" value=\"editorgroup1\" /></boolean></condition>");
+	static{  
+		String strRule = MCRConfiguration.instance().getString("MCR.WorkflowEngine.defaultACL.editorMode.author", "<condition format=\"xml\"><boolean operator=\"or\"><condition field=\"group\" operator=\"=\" value=\"editorgroup1\" /></boolean></condition>");
 		editorModeRule = (Element)MCRXMLHelper.parseXML(strRule).getRootElement().detach();
+		strReadRule = MCRConfiguration.instance().getString("MCR.WorkflowEngine.defaultACL.author.read.author");	
 	}
 
 	public void execute(ExecutionContext executionContext) throws MCRException {
@@ -37,6 +42,13 @@ public class MCRAuthorSubmittedAction implements ActionHandler{
 		// set access control to editor mode, the dissertand has no rights anymore
 		List ids = new ArrayList();
 		ids.add(contextInstance.getVariable("createdDocID"));
+		
+		String initiator = contextInstance.getVariable(MCRJbpmWorkflowBase.varINITIATOR).toString();
+		MCRUser user = MCRUserMgr.instance().retrieveUser(initiator);
+		
+		String x = strReadRule.replaceAll("\\$\\{user\\}", user.getID());
+		authorReadRule = (Element)MCRXMLHelper.parseXML(x).getRootElement().detach();
+				
 		for (Iterator it = ids.iterator(); it.hasNext();) {
 			String id = (String) it.next();
 			List permissions = AI.getPermissionsForID(id);
@@ -44,6 +56,7 @@ public class MCRAuthorSubmittedAction implements ActionHandler{
 				String permission = (String) it2.next();
 				AI.addRule(id, permission, editorModeRule, "");
 			}
+				AI.addRule(id, "read", authorReadRule, "");
 		}
 	}
 }
