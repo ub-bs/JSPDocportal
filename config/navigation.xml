@@ -88,12 +88,14 @@
 
                  <navitem name="author" label="Nav.Workflow.author" href="content/workflow/author/workflow.jsp" >
 				    <refitem name="~author" label="" />
+				    <refitem name="~workflow-author" label="" />  
+
 				    <navitem name="author-begin" label="Nav.Workflow.author.begin" href="content/workflow/author/begin.jsp" >
 					   <refitem name="~author-begin" label="" />
 			        </navitem>   
                     <navitem name="author-info" label="Nav.Workflow.author.info" href="content/workflow/author/information.jsp" >
                        <refitem name="~author-info" label="" />
-                    </navitem>                    
+                    </navitem>       
                	 </navitem>		
 			      
 	              <navitem name="xmetadiss" label="Nav.Workflow.xmetadiss" href="content/workflow/xmetadiss/workflow.jsp" >
@@ -126,8 +128,8 @@
                <navitem name="institution" label="Nav.CreateInstitution" href="content/workflow-editor.jsp?type=institution&amp;step=author&amp;todo=wnewobj" />
                <navitem name="document" label="Nav.CreateDocument" href="content/workflow-editor.jsp?type=document&amp;step=author&amp;todo=wnewobj" />
                   <navitem name="workflow-author" label="Nav.WorkflowAuthor" href="content/workflow.jsp?type=author&amp;step=editor" > 
-                  <refitem name="~workflow-author" label="" />
-               </navitem>
+                    <refitem name="~workflow-author" label="" />
+                  </navitem>
                <navitem name="workflow-institution" label="Nav.WorkflowInstitution" href="content/workflow.jsp?type=institution&amp;step=editor" > 
                   <refitem name="~workflow-institution" label="" />
                </navitem>
@@ -263,8 +265,7 @@
              <refitem name="~indexSearchCreatorsSub" label="" />
          </navitem>         
       </navigation>
-      <navigation name="admin" label="Nav.AdminMenue">
-	     <navitem name="admin" label="Nav.AdminMenue" href="admin/main.jsp">
+      <navigation name="admin" label="Nav.AdminMenue" href="admin/main.jsp">
 	        <navitem name="accessrules" label="Nav.Admin.AccessRules" href="admin/accessrules.jsp" >
 	           <navitem name="ruleseditor" label="Nav.Admin.AccessRules.Editor" href="admin/accessrules/rules.jsp" />
 	           <navitem name="rulesassignment" label="Nav.Admin.AccessRules.Assignment" href="admin/accessrules/access.jsp" />	           
@@ -274,13 +275,20 @@
 	              <navitem name="edit" label="Nav.Admin.UserManagement.Usergroup.Edit" href="admin/usermanagement/usergroup_edit.jsp" />
 	           </navitem>
 	           <navitem name="user" label="Nav.Admin.UserManagement.User" href="admin/usermanagement/user.jsp">
-  	              <navitem name="edit" label="Nav.Admin.UserManagement.User.Edit" href="admin/usermanagement/user_edit.jsp"/>
+  	              <navitem name="edit"   label="Nav.Admin.UserManagement.User.Edit" href="admin/usermanagement/user_edit.jsp"/>
+		          <navitem name="modify" label="Nav.AccountRegister" href="content/workflow/registeruser/modifyUser.jsp" />
+		          <navitem name="workflow" label="Nav.Admin.UserManagement.UserRegistration" href="content/workflow/registeruser/workflow.jsp" />
+			      <navitem name="deleteProcess" label="Nav.Admin.UserManagement.DeleteProcess" href="admin/processes_list.jsp?workflowProcessType=registeruser" />
+		          <!--  navitem name="user_registration" label="Nav.Admin.UserManagement.UserRegistration" href="admin/usermanagement/user_registration.jsp" /-->	           
 	           </navitem>
-	           <navitem name="user_registration" label="Nav.Admin.UserManagement.UserRegistration" href="admin/usermanagement/user_registration.jsp" />
 	        </navitem>
 			<navitem name="xmetadiss" label="Nav.Admin.Xmetadiss" href="admin/xmetadiss.jsp" >
                <navitem name="workflow"	label="Nav.Workflow.xmetadiss" href="content/workflow/xmetadiss/workflow.jsp" />
 			   <navitem name="deleteProcess" label="Nav.Admin.Xmetadiss.DeleteProcess" href="admin/processes_list.jsp?workflowProcessType=xmetadiss" />
+			</navitem>
+			<navitem name="publication" label="Nav.Admin.Publication" href="admin/publication.jsp" >
+               <navitem name="workflow"	label="Nav.Workflow.publication" href="content/workflow/publication/workflow.jsp" />
+			   <navitem name="deleteProcess" label="Nav.Admin.Publication.DeleteProcess" href="admin/processes_list.jsp?workflowProcessType=publication" />
 			</navitem>
 				<!-- processes_edit&workflowProcessType=xmetadiss Prozesse: Dissertationen</a> zeigt alle laufenden Prozesse an. - Löschen von Prozessvariablen-->
 		 </navitem>      
