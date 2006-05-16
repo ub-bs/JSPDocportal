@@ -27,6 +27,16 @@
     <hidden var="ID" />
     <hidden var="label" />
 
+<!-- save userid -->
+    <hidden var="metadata/userids/@class" default="MCRMetaLangText" />
+    <hidden var="metadata/userids/@parasearch" default="false" />
+    <hidden var="metadata/userids/@textsearch" default="false" />
+    <hidden var="metadata/userids/@notinherit" default="false" />
+    <hidden var="metadata/userids/@heritable" default="true" />
+    <hidden var="metadata/userids/userid/@inherited" default="0" />
+    <hidden var="metadata/userids/userid/@lang" default="de" />
+    <hidden var="metadata/userids/userid" />
+
     <hidden var="metadata/@lang" default="de" />
 
     <cell col="1" row="1" anchor="NORTHWEST" ref="LPNameP" />
@@ -122,6 +132,7 @@
 
     <cell col="1" row="15"  />
     <cell col="2" row="15" anchor="EAST" ref="CheckButtonAuthor"  />
+
   </panel>
 
  </components>
