@@ -87,7 +87,7 @@
 
     <cell col="2" row="4" anchor="NORTHWEST" var="metadata/addresses/address/city" ordernr="4">
 		<textfield id="TFCityMandatory"  width="30" maxlength="128"  class="mandatory" >		
-		   <condition id="CCityMandatory" regexp="\S+" required="true" >
+		   <condition id="CCityMandatory" regexp=".+" required="true" >
 				<label xml:lang="de">Bitte geben Sie einen Ort an!</label>
   				<label xml:lang="en">Please enter a city!</label>
          </condition>
@@ -254,7 +254,7 @@
 
   <panel id="DUserid">
     <hidden var="metadata/userids/@class" default="MCRMetaLangText" />
-    <hidden var="metadata/userids/@parasearch" default="false" />
+    <hidden var="metadata/userids/@parasearch" default="true" />
     <hidden var="metadata/userids/@textsearch" default="false" />
     <hidden var="metadata/userids/userid" ordernr="15" default=""/>
   </panel>
