@@ -43,18 +43,24 @@ public class MCRIfSortedTag extends SimpleTagSupport
 	public void doTag() throws JspException, IOException {
 		PageContext pageContext = (PageContext) getJspContext();
         JspWriter out = pageContext.getOut();
+	    Element sortField = null;
        
 		int sortprio = (sortorder == 0) ? 1: sortorder;
-	    Element sortField = (Element) query.getRootElement().getChild("sortBy").getChildren("field").get(sortprio - 1);
-		if (sortField != null) {
-			if (sortField.getAttributeValue(attributeName) != null &&
-				sortField.getAttributeValue(attributeName).equals(attributeValue) ) {
-					JspFragment body = getJspBody();
-					StringWriter stringWriter = new StringWriter();
-					body.invoke(stringWriter);
-					out.println(stringWriter);
-			}
-		} 
+	    try { 
+	    	sortField = (Element) query.getRootElement().getChild("sortBy").getChildren("field").get(sortprio - 1);
+			if (sortField != null) {
+				if (sortField.getAttributeValue(attributeName) != null &&
+					sortField.getAttributeValue(attributeName).equals(attributeValue) ) {
+						JspFragment body = getJspBody();
+						StringWriter stringWriter = new StringWriter();
+						body.invoke(stringWriter);
+						out.println(stringWriter);
+				}
+			} 
+	    } catch ( Exception allE){
+	    	//No sortField in query -
+	    	; 
+	    }
 		return;		
 	}	
 
