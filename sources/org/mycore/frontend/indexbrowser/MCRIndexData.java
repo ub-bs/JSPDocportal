@@ -24,8 +24,8 @@ import org.mycore.services.fieldquery.MCRResults;
 
 public class MCRIndexData {
 	/**
-	 * 
-	 */
+	 * @deprecated  - use org.mycore.frontend.indexbrowser.MCRIndexBrowserData from the MY Core
+	 **/
 	protected static Logger logger = Logger.getLogger(MCRIndexData.class);
 	private static final long serialVersionUID = 1L;
 	private String selectedtype = "";
