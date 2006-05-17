@@ -257,7 +257,7 @@ public class MCRWorkflowUtils {
 			eUserIDs.setAttribute("class", "MCRMetaLangText");
 			eUserIDs.addContent(eUserID);
 
-			/* MCRMetaLangText email = new MCRMetaLangText();
+			MCRMetaLangText email = new MCRMetaLangText();
 			email.setSubTag("email");
 			email.setLang("de");
 			email.setText(user.getUserContact().getEmail());
@@ -265,13 +265,13 @@ public class MCRWorkflowUtils {
 			Element eEmail = email.createXML();
 			Element eEmails = new Element("emails");
 			eEmails.setAttribute("class", "MCRMetaLangText");
-			eEmails.addContent(eEmail); **/
+			eEmails.addContent(eEmail); 
 			
 			metadata.addContent(ePnames);
 			metadata.addContent(eFemales);
 			metadata.addContent(ePadrs);
 			metadata.addContent(eUserIDs);
-			//metadata.addContent(eEmails);
+			metadata.addContent(eEmails);
 			
 		} else{
 			//metadata needs dummy data otherwise  author.createXML() failes
