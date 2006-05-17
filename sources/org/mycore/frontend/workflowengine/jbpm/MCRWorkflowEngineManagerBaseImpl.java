@@ -144,7 +144,12 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	
 	public String getStatus(long processID) {
 		return MCRJbpmWorkflowBase.getWorkflowStatus(processID);
-	} 	
+	}
+	
+	public boolean setStatus (String status, long processID){
+		return MCRJbpmWorkflowBase.setWorkflowStatus(status, processID);
+	}
+	
 
 	public List getTasks(String userid, String mode, List workflowProcessTypes) {
 		List ret = new ArrayList();
