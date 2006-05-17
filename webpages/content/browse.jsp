@@ -37,7 +37,7 @@
     Element browser = doc.getRootElement();
     Element navigationTree = browser.getChild("navigationtree");
     String searchType = navigationTree.getAttributeValue("doctype");
-    org.jdom.output.XMLOutputter xmlout = new org.jdom.output.XMLOutputter(org.jdom.output.Format.getPrettyFormat());
+    //org.jdom.output.XMLOutputter xmlout = new org.jdom.output.XMLOutputter(org.jdom.output.Format.getPrettyFormat());
     //System.out.print(xmlout.outputString(doc));
     String hrefStart = new StringBuffer(WebApplicationBaseURL)
     	.append("nav?path=").append(path)
@@ -80,16 +80,18 @@
 		  		.append("&actUriPath=").append(col2.getAttributeValue("searchbase"))
 		  		.toString();
 		  	String href2 = new StringBuffer(WebApplicationBaseURL)
-		  		.append("content/browsedocuments.jsp?searchField=").append(searchField)
-		  		.append("&searchClass=").append(searchClass)
-		  		.append("&searchValue=").append(col2.getAttributeValue("lineID"))
-		  		.append("&searchType=").append(searchType)
+	  		.append("content/browse-search.jsp?searchField=").append(searchField)
+	  		.append("&searchValue=").append(col2.getAttributeValue("lineID"))
+	  		.toString();
+/**
+		    <xsl:variable name="href2" select="concat($ServletsBaseURL, 'MCRSearchServlet?query=',$type,'+=+', col[2]/@lineID)" />
+		  	String href2 = new StringBuffer(WebApplicationBaseURL)
+		  		.append("servlets/MCRSearchServlet?query=").append(searchField)
+		  		.append("+=+").append(col2.getAttributeValue("lineID"))
 		  		.toString();
+**/		  	
 		  	String img1 = new StringBuffer(WebApplicationBaseURL)
 		  		.append("images/").append(col1.getAttributeValue("folder1")).append(".gif")
-		  		.toString();
-		  	String img2 = new StringBuffer(WebApplicationBaseURL)
-		  		.append("images/").append(col1.getAttributeValue("folder2")).append(".gif")
 		  		.toString();
 		  	String img3 = new StringBuffer(WebApplicationBaseURL)
 		  		.append("images/folder_blank.gif")
