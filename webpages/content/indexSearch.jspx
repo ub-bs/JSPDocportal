@@ -4,9 +4,8 @@
        xmlns:x="http://java.sun.com/jsp/jstl/xml"
        xmlns:fn="http://java.sun.com/jsp/jstl/function"
 >
-<jsp:directive.page import="org.mycore.frontend.indexbrowser.MCRIndexData" /> 
+<jsp:directive.page import="org.mycore.frontend.indexbrowser.MCRIndexBrowserData" /> 
 <jsp:directive.page import="org.mycore.common.MCRUtils" />   
-<jsp:directive.page import="org.mycore.common.MCRSessionMgr" />
 <jsp:directive.page import="org.mycore.common.MCRSession" />
 <jsp:directive.page import="org.mycore.frontend.servlets.MCRServlet" />
 <jsp:directive.page import="org.mycore.services.fieldquery.MCRResults" />
@@ -30,7 +29,7 @@
     String navPath = (String) request.getAttribute("path");
     
         
-    MCRIndexData id = new MCRIndexData(search, mode, searchclass, fromTo);
+    MCRIndexBrowserData id = new MCRIndexBrowserData(search, mode, searchclass, fromTo);
     Document jQuery =  id.getQuery();
     MCRResults mcrResult =  id.getResultList();
 
