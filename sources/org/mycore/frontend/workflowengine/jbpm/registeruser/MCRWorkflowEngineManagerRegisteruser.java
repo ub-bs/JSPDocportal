@@ -27,26 +27,19 @@ package org.mycore.frontend.workflowengine.jbpm.registeruser;
 
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jdom.Element;
-import org.jdom.filter.ElementFilter;
 import org.mycore.common.MCRException;
-import org.mycore.datamodel.metadata.MCRObject;
-import org.mycore.frontend.cli.MCRObjectCommands;
 import org.mycore.frontend.cli.MCRUserCommands2;
-import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase;
-
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerBaseImpl;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
 import org.mycore.user2.MCRUser;
 import org.mycore.user2.MCRUserMgr;
 
