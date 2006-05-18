@@ -69,6 +69,10 @@ public class NavServlet extends MCRServlet
     	for (Iterator it = navigationEl.getDescendants(new ElementFilter()); it.hasNext();) {
 			Element navEl = (Element) it.next();
 			String path;
+			String right = navEl.getAttributeValue("right");
+			if (right == null ){ 
+				right = "read"; 
+			}
 			String extern = navEl.getAttributeValue("extern");
 			if(extern != null && extern.equals("true")) {
 				if(extern.indexOf(".") > -1)
@@ -91,9 +95,13 @@ public class NavServlet extends MCRServlet
 				pathSB.insert(0,"nav?path=").insert(0,baseURL);
 				path = pathSB.toString();
 			}
+			
 			if(navEl.getName().equals("navitem")) {
 				navEl.setAttribute("path", path);
 			}
+			
+			navEl.setAttribute("right", right);
+			
 			String systemID = JSPUtils.fillToConstantLength(String.valueOf(i),"0",4);
 			navEl.setAttribute("systemID",systemID);
 			i++;

@@ -5,6 +5,7 @@
           <navitem name="search" label="Nav.Search" href="content/search.jsp">
             <refitem name="~searchstart" label="" />
             <navitem name="simple" label="Nav.SimpleDocumentSearch" href="content/searchmask-editor.jsp?editor=editor/searchmasks/SearchMask_SimpleDocument.xml">
+              <refitem name="~searchstart-simple" label="" />
               <navitem name="searchresult-simple" label="Nav.Searchresults" href="content/searchresult.jsp" >
                 <refitem name="~searchresult-simple" label="" />
                 <navitem name="resortresult-simple" label="Nav.sorted" href="content/searchresult.jsp" >
@@ -19,7 +20,15 @@
                 </navitem>
               </navitem>
             </navitem>
-            <navitem name="extended" label="Nav.ExtendedDocumentSearch" href="content/searchmask-editor.jsp?editor=editor/searchmasks/SearchMask_Alldocs.xml"></navitem>
+            <navitem name="extended" label="Nav.ExtendedDocumentSearch" href="content/searchmask-editor.jsp?editor=editor/searchmasks/SearchMask_ExpertDocument.xml">
+              <refitem name="~searchstart-extended" label="" />
+              <navitem name="searchresult-extended" label="Nav.Searchresults" href="content/searchresult.jsp" >
+                <refitem name="~searchresult-extended" label="" />
+                <navitem name="resortresult-extended" label="Nav.sorted" href="content/searchresult.jsp" >
+                  <refitem name="~resortresult-extended" label="" />
+                </navitem>
+              </navitem>
+            </navitem>
             <navitem name="persons" label="Nav.PersonSearch" href="content/indexSearch.jspx?searchclass=creators">
               <refitem name="~indexSearchCreators" label="" />
               <navitem name="documents" label="Nav.PersonsDocuments" href="content/searchresult.jsp" >
@@ -254,41 +263,32 @@
           <refitem name="~indexSearchCreatorsSub" label="" />
         </navitem>
       </navigation>
-      <navigation name="admin" label="Nav.AdminMenue" href="admin/main.jsp">
-        <navitem name="accessrules" label="Nav.Admin.AccessRules" href="admin/accessrules.jsp" >
-          <navitem name="ruleseditor" label="Nav.Admin.AccessRules.Editor" href="admin/accessrules/rules.jsp" >
-            <refitem name="~ruleseditor" label="" />
-          </navitem>
-          <navitem name="rulesassignment" label="Nav.Admin.AccessRules.Assignment" href="admin/accessrules/access.jsp" >
-            <refitem name="~rulesassignment" label="" />
-          </navitem>
-        </navitem>
-        <navitem name="usermanagement" label="Nav.Admin.UserManagement" href="admin/usermanagement.jsp" >
-          <navitem name="usergroup" label="Nav.Admin.UserManagement.Usergroup" href="admin/usermanagement/usergroup.jsp">
-            <navitem name="edit" label="Nav.Admin.UserManagement.Usergroup.Edit" href="admin/usermanagement/usergroup_edit.jsp" >
+      
+      <navigation name="admin" label="Nav.AdminMenue" >
+       <navitem   name="admin" label="Nav.AdminMenue" href="admin/main.jsp" >      
+        <navitem name="usermanagement" label="Nav.Admin.UserManagement" href="admin/usermanagement.jsp" right="administrate-user" >
+          <navitem name="usergroup" label="Nav.Admin.UserManagement.Usergroup" href="admin/usermanagement/usergroup.jsp" right="administrate-user" >
+            <navitem name="edit" label="Nav.Admin.UserManagement.Usergroup.Edit" href="admin/usermanagement/usergroup_edit.jsp" right="administrate-user" >
               <refitem name="~usergroupedit" label="" />
             </navitem>
           </navitem>
-        </navitem>
-        <navitem name="user" label="Nav.Admin.UserManagement.User" href="admin/usermanagement/user.jsp">
-          <navitem name="edit"   label="Nav.Admin.UserManagement.User.Edit" href="admin/usermanagement/user_edit.jsp">
+         <navitem name="user" label="Nav.Admin.UserManagement.User" href="admin/usermanagement/user.jsp" right="administrate-user">
+          <navitem name="edit"   label="Nav.Admin.UserManagement.User.Edit" href="admin/usermanagement/user_edit.jsp" right="administrate-user" >
             <refitem name="~useredit" label="" />
           </navitem>
-          <navitem name="modify" label="Nav.AccountRegister" href="content/workflow/registeruser/modifyUser.jsp" >
-            <refitem name="~usermodify" label="" />
-          </navitem>
-          <navitem name="workflow" label="Nav.Admin.UserManagement.UserRegistration" href="content/workflow/registeruser/workflow.jsp" >
-            <refitem name="~workflow-user" label="" />
-          </navitem>
-          <navitem name="deleteProcess" label="Nav.Admin.UserManagement.DeleteProcess" href="admin/processes_list.jsp?workflowProcessType=registeruser" >
+         </navitem>
+         <navitem name="workflow-user" label="Nav.Admin.UserManagement.UserRegistration" href="content/workflow/registeruser/workflow.jsp" right="administrate-user" >
+           <refitem name="~workflow-user" label="" />
+         </navitem>
+         <navitem name="process-user-delete" label="Nav.Admin.UserManagement.DeleteProcess" href="admin/processes_list.jsp?workflowProcessType=registeruser" right="administrate-user" >
             <refitem name="~process-user-delete" label="" />
-          </navitem>
-        </navitem>
-        <navitem name="xmetadiss" label="Nav.Admin.Xmetadiss" href="admin/xmetadiss.jsp" >
-          <navitem name="workflow"	label="Nav.Workflow.xmetadiss" href="content/workflow/xmetadiss/workflow.jsp" >
+         </navitem>
+        </navitem> 
+        <navitem name="xmetadiss" label="Nav.Admin.Xmetadiss" href="admin/xmetadiss.jsp" right="administrate-xmetadiss" >
+          <navitem name="workflow"	label="Nav.Workflow.xmetadiss" href="content/workflow/xmetadiss/workflow.jsp" right="administrate-xmetadiss" >
             <refitem name="~workflow-xmetadiss" label="" />
           </navitem>
-          <navitem name="deleteProcess" label="Nav.Admin.Xmetadiss.DeleteProcess" href="admin/processes_list.jsp?workflowProcessType=xmetadiss" >
+          <navitem name="process-xmetadiss-delete" label="Nav.Admin.Xmetadiss.DeleteProcess" href="admin/processes_list.jsp?workflowProcessType=xmetadiss" right="administrate-xmetadiss" >
             <refitem name="~process-xmetadiss-delete" label="" />
           </navitem>
         </navitem>
@@ -296,9 +296,18 @@
           <navitem name="workflow"	label="Nav.Workflow.publication" href="content/workflow/publication/workflow.jsp" >
             <refitem name="~workflow-publication" label="" />
           </navitem>
-          <navitem name="deleteProcess" label="Nav.Admin.Publication.DeleteProcess" href="admin/processes_list.jsp?workflowProcessType=publication" >
+          <navitem name="process-publication-delete" label="Nav.Admin.Publication.DeleteProcess" href="admin/processes_list.jsp?workflowProcessType=publication" >
             <refitem name="~process-publication-delete" label="" />
           </navitem>
         </navitem>
+        <navitem name="accessrules" label="Nav.Admin.AccessRules" href="admin/accessrules.jsp" right="administrate-accessrules" >
+          <navitem name="ruleseditor" label="Nav.Admin.AccessRules.Editor" href="admin/accessrules/rules.jsp" right="administrate-accessrules" >
+            <refitem name="~ruleseditor" label="" />
+          </navitem>
+          <navitem name="rulesassignment" label="Nav.Admin.AccessRules.Assignment" href="admin/accessrules/access.jsp" right="administrate-accessrules" >
+            <refitem name="~rulesassignment" label="" />
+          </navitem>
+        </navitem>
+       </navitem> 
       </navigation>
     </navigations>
