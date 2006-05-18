@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE MyCoReWebPage>
+<MyCoReWebPage>
+<section title="Searchmask Expert Document" xml:lang="de">
+<editor id="SearchMask_ExpertDocument">
+
+<target type="servlet" url="/searchresult" method="post" format="xml" />
+
+
+  <components root="SearchMask_ExpertDocument" var="/query">
+	  
+    <include uri="webapp:editor/searchmasks/imports-searchmasks-common.xml"/>	  
+	  
+    <headline anchor="LEFT">
+      <text>
+        <label xml:lang="de">Expertensuche nach Dokumenten:</label>
+        <label xml:lang="en">Expert search for Documents:</label>
+      </text>
+    </headline>
+
+    <panel id="SearchMask_ExpertDocument" lines="off">
+    <!-- 
+      <hidden var="@mask" default="editor_form_search-expertdocument.xml" />
+    -->      
+      <hidden var="conditions/@format" default="xml" />
+
+      <!-- Search only for object type document -->
+      <hidden var="conditions/boolean/condition1/@field"    default="objectType" />
+      <hidden var="conditions/boolean/condition1/@operator" default="=" />
+      <hidden var="conditions/boolean/condition1/@value"    default="document" />
+
+      <!-- Search in metadata fields that are text -->
+      <cell row="1" col="1" colspan="3" anchor="NORTHWEST" var="conditions/boolean/condition2">
+        <repeater min="1" max="10">
+          <panel lines="off">
+            <cell row="1" col="1" anchor="WEST" var="@field">
+              <list type="dropdown" default="title" width="110px">
+                <item value="title">
+                  <label xml:lang="de">Titel</label>
+                  <label xml:lang="en">Title</label>
+                </item>
+                <item value="keywords">
+                  <label xml:lang="de">Stichworte</label>
+                  <label xml:lang="en">Keywords</label>
+                </item>
+                <item value="description">
+                  <label xml:lang="de">Beschreibung</label>
+                  <label xml:lang="en">Description</label>
+                </item>
+                <item value="source">
+                  <label xml:lang="de">Quelle</label>
+                  <label xml:lang="en">Source</label>
+                </item>
+                <item value="coverage">
+                  <label xml:lang="de">Bezug</label>
+                  <label xml:lang="en">Coverage</label>
+                </item>
+                <item value="rights">
+                  <label xml:lang="de">Rechte</label>
+                  <label xml:lang="en">Rights</label>
+                </item>
+                <item value="relation">
+                  <label xml:lang="de">Beziehungen</label>
+                  <label xml:lang="en">Relation</label>
+                </item>
+                <item value="allMeta">
+                  <label xml:lang="de">Alle Metadaten</label>
+                  <label xml:lang="en">All metadata</label>
+                </item>
+              </list>
+            </cell>
+            <cell row="1" col="2" anchor="WEST" var="@operator" ref="list.operators.text" />
+            <cell row="1" col="3" anchor="WEST" var="@value">
+              <textfield width="40" />
+            </cell>
+          </panel>
+        </repeater>
+      </cell>
+      
+      <!-- Search in metadata fields that are names -->
+      <cell row="2" col="1" colspan="3" anchor="NORTHWEST" var="conditions/boolean/condition3">
+        <repeater min="1" max="10">
+          <panel lines="off">
+            <cell row="1" col="1" anchor="WEST" var="@field">
+              <list type="dropdown" default="author" width="110px">
+                <item value="author">
+                  <label xml:lang="de">Autor</label>
+                  <label xml:lang="en">author</label>
+                </item>
+                <item value="creator">
+                  <label xml:lang="de">Erzeuger</label>
+                  <label xml:lang="en">creator</label>
+                </item>
+                <item value="publisher">
+                  <label xml:lang="de">Herausgeber</label>
+                  <label xml:lang="en">publisher</label>
+                </item>
+                <item value="contributor">
+                  <label xml:lang="de">Beitragender</label>
+                  <label xml:lang="en">contributor</label>
+                </item>
+              </list>
+            </cell>
+            <cell row="1" col="2" anchor="WEST" var="@operator">
+              <list type="dropdown" default="contains">
+                <item value="contains">
+                  <label xml:lang="de">enthält</label>
+                  <label xml:lang="en">contains</label>
+                </item>
+                <item value="like">
+                  <label xml:lang="de">wie (*,?)</label>
+                  <label xml:lang="en">like (*,?)</label>
+                </item>
+               <item value="="     label="="     />
+               <item value="&gt;"  label="&gt;"  />
+               <item value="&gt;=" label="&gt;=" />
+               <item value="&lt;"  label="&lt;"  />
+               <item value="&lt;=" label="&lt;=" />
+              </list>
+            </cell>
+            <cell row="1" col="3" anchor="WEST" var="@value">
+              <textfield width="40" />
+            </cell>
+          </panel>
+        </repeater>
+      </cell>
+      
+      <!-- Search in field "identifier" -->
+      <hidden var="conditions/boolean/condition4/@field" default="identifier" />
+      <cell row="4" col="1" anchor="SOUTHEAST" height="50px">
+        <text>
+          <label xml:lang="de">Identifizierer</label>
+          <label xml:lang="en">identifier</label>
+        </text>
+      </cell>
+      <cell row="4" col="2" anchor="SOUTHWEST" var="conditions/boolean/condition4/@operator" ref="list.operators.identifier" />
+      <cell row="4" col="3" width="100%" anchor="SOUTHWEST" var="conditions/boolean/condition4/@value">
+        <textfield width="40" />
+      </cell>
+      
+      <!-- Search in field "origin" -->
+      <cell row="5" col="1"  anchor="NORTHEAST" ref="LOrigins" />     
+      <cell row="5" col="2" colspan="2" anchor="NORTHWEST" ref="DOrigins" var="conditions/boolean/condition5" />
+	  
+      <!-- Search in field "subject" with operator "=" -->
+      <cell row="6" col="1" anchor="NORTHEAST" ref="LSubjects" />     
+      <cell row="6" col="2" colspan="2" anchor="NORTHWEST" ref="DSubjects" var="conditions/boolean/condition6" />
+      
+
+      <!-- Search in field "format" with operator "=" -->
+      <cell row="7" col="1" anchor="NORTHEAST" ref="LFormats" />     
+      <cell row="7" col="2" colspan="2" anchor="NORTHWEST" ref="DFormats" var="conditions/boolean/condition7" />
+ 
+      <!-- Search in field "language" with operator "=" -->
+      <cell row="8" col="1"  anchor="NORTHEAST" ref="LLanguages" />     
+      <cell row="8" col="2" colspan="2" anchor="NORTHWEST" ref="DLanguages" var="conditions/boolean/condition8" />
+
+      <!-- Search in field "type" with operator "=" -->
+      <cell row="9" col="1" anchor="NORTHEAST" ref="LTypes" />     
+      <cell row="9" col="2" colspan="2" anchor="NORTHWEST" ref="DTypes" var="conditions/boolean/condition9" />
+       
+
+   
+      <!-- Search in field "date" -->
+      <hidden var="conditions/boolean/condition10/@field" default="date" />
+      <cell row="10" col="1" anchor="EAST">
+        <text>
+          <label xml:lang="de">Datum</label>
+          <label xml:lang="en">Date</label>
+        </text>
+      </cell>
+	    <cell row="10" col="2" colspan="2" anchor="WEST">
+	      <panel lines="off">  
+          <cell row="1" col="1" anchor="WEST" var="conditions/boolean/condition10/@operator" ref="list.operators" />
+          <cell row="1" col="2" anchor="WEST" var="conditions/boolean/condition10/@value">
+            <textfield width="15" />
+          </cell>
+        </panel>
+      </cell>
+
+      <cell row="11" col="1" colspan="3" anchor="SOUTHWEST" height="50px">
+        <text>
+          <label xml:lang="de">Suche nach enthaltenen Dateien</label>
+          <label xml:lang="en">Search for contained files</label>
+        </text>
+      </cell>
+
+      <!-- Search in field "content" -->
+      <hidden var="conditions/boolean/condition11/@field" default="content" />
+      <cell row="12" col="1" anchor="EAST">
+        <text>
+          <label xml:lang="de">Volltext</label>
+          <label xml:lang="en">File content</label>
+        </text>
+      </cell>
+	    <cell row="12" col="2" anchor="WEST" var="conditions/boolean/condition11/@operator" ref="list.operators.text" />
+      <cell row="12" col="3" anchor="WEST" var="conditions/boolean/condition11/@value">
+        <textfield width="15" />
+      </cell>
+
+      <!-- Search in field "fileName" -->
+      <hidden var="conditions/boolean/condition12/@field" default="fileName" />
+      <cell row="13" col="1" anchor="EAST">
+        <text>
+          <label xml:lang="de">Dateiname</label>
+          <label xml:lang="en">File name</label>
+        </text>
+      </cell>
+	    <cell row="13" col="2" anchor="WEST" var="conditions/boolean/condition12/@operator" ref="list.operators.identifier" />
+      <cell row="13" col="3" anchor="WEST" var="conditions/boolean/condition12/@value">
+        <textfield width="40" />
+      </cell>
+
+      <!-- Search in field "fileSize" -->
+      <hidden var="conditions/boolean/condition13/@field" default="fileSize" />
+      <cell row="14" col="1" anchor="EAST">
+        <text>
+          <label xml:lang="de">Größe in Bytes</label>
+          <label xml:lang="en">File size</label>
+        </text>
+      </cell>
+	    <cell row="14" col="2" anchor="WEST" var="conditions/boolean/condition13/@operator" ref="list.operators" />
+      <cell row="14" col="3" anchor="WEST" var="conditions/boolean/condition13/@value">
+        <textfield width="15" />
+      </cell>
+
+      <!-- Search in field "fileExtension" -->
+      <hidden var="conditions/boolean/condition14/@field" default="fileExtension" />
+      <cell row="15" col="1" anchor="EAST">
+        <text>
+          <label xml:lang="de">Endung</label>
+          <label xml:lang="en">Extension</label>
+        </text>
+      </cell>
+	    <cell row="15" col="2" anchor="WEST" var="conditions/boolean/condition14/@operator" ref="list.operators.identifier" />
+      <cell row="15" col="3" anchor="WEST" var="conditions/boolean/condition14/@value">
+        <textfield width="10" />
+      </cell>
+
+      <!-- Search in field "fileDateModified" -->
+      <hidden var="conditions/boolean/condition15/@field" default="fileDateModified" />
+      <cell row="16" col="1" anchor="EAST">
+        <text>
+          <label xml:lang="de">Änderungsdatum</label>
+          <label xml:lang="en">Date modified</label>
+        </text>
+      </cell>
+	    <cell row="16" col="2" anchor="WEST" var="conditions/boolean/condition15/@operator" ref="list.operators" />
+      <cell row="16" col="3" anchor="WEST" var="conditions/boolean/condition15/@value">
+        <textfield width="15" />
+      </cell>
+
+      <cell row="18" col="1" colspan="3" anchor="SOUTHEAST" height="50px">
+        <panel lines="off">
+          <cell row="1" col="1" anchor="WEST">
+            <text>
+              <label xml:lang="de">Alle Felder verknüpfen mit</label>
+              <label xml:lang="en">Combine all field conditions using</label>
+            </text>
+          </cell>
+          <cell row="1" col="2" anchor="WEST" var="conditions/boolean/@operator">
+            <list type="dropdown" default="and">
+              <item value="and">
+                <label xml:lang="de">und</label>
+                <label xml:lang="en">and</label>
+              </item>
+              <item value="or">
+                <label xml:lang="de">oder</label>
+                <label xml:lang="en">or</label>
+              </item>
+            </list>
+          </cell>
+        </panel>
+      </cell>
+
+      <cell row="19" col="1" colspan="3" anchor="EAST">
+        <panel lines="off">
+          <cell row="1" col="1" anchor="WEST">
+            <text label="Maximal " />
+          </cell>
+          <cell row="1" col="2" anchor="WEST" var="@maxResults">
+            <list type="dropdown" default="100">
+              <item value="20"  label="20"   />
+              <item value="100" label="100"  />
+              <item value="500" label="500"  />            
+              <item value="0"   label="alle" />
+            </list>
+          </cell>
+          <cell row="1" col="3" anchor="WEST">
+            <text label=" Treffer, " />
+          </cell>
+          <cell row="1" col="4" anchor="WEST" var="@numPerPage">
+            <list type="dropdown" default="10">
+              <item value="10" label="10" />
+              <item value="20" label="20" />
+              <item value="50" label="50" />
+              <item value="0"  label="allen" />
+            </list>
+          </cell>
+          <cell row="1" col="5" anchor="WEST">
+            <text label=" pro Seite anzeigen" />
+          </cell>
+        </panel>
+      </cell>
+      
+      <cell row="20" col="1" colspan="3" anchor="EAST">
+        <submitButton label="Suchen..." width="150px" />
+      </cell>
+    </panel>
+    
+    <list type="dropdown" id="list.operators.text" default="contains">
+      <item value="contains">
+        <label xml:lang="de">enthält</label>
+        <label xml:lang="en">contains</label>
+      </item>
+      <item value="like">
+        <label xml:lang="de">wie (*,?)</label>
+        <label xml:lang="en">like (*,?)</label>
+      </item>
+      <item value="phrase">
+        <label xml:lang="de">Phrase</label>
+        <label xml:lang="en">phrase</label>
+      </item>
+      <item value="="     label="="     />
+      <item value="&gt;"  label="&gt;"  />
+      <item value="&gt;=" label="&gt;=" />
+      <item value="&lt;"  label="&lt;"  />
+      <item value="&lt;=" label="&lt;=" />
+    </list>
+
+    <list type="dropdown" id="list.operators.identifier" default="like">
+      <item value="like">
+        <label xml:lang="de">wie (*,?)</label>
+        <label xml:lang="en">like (*,?)</label>
+      </item>
+      <item value="="     label="="     />
+      <item value="&gt;"  label="&gt;"  />
+      <item value="&gt;=" label="&gt;=" />
+      <item value="&lt;"  label="&lt;"  />
+      <item value="&lt;=" label="&lt;=" />
+    </list>
+
+    <list type="dropdown" id="list.operators" default="=">
+      <item value="="     label="="     />
+      <item value="&gt;"  label="&gt;"  />
+      <item value="&gt;=" label="&gt;=" />
+      <item value="&lt;"  label="&lt;"  />
+      <item value="&lt;=" label="&lt;=" />
+    </list>
+
+  </components>
+
+</editor>
+
+</section>
+</MyCoReWebPage>

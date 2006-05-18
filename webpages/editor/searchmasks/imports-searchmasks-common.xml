@@ -180,25 +180,23 @@
             <cell col="1" row="1" anchor="NORTHWEST" ref="COrigins" var="@value" />
       </panel>
       <helpPopup id="HOrigins" width="400px" height="250px">
-            <label xml:lang="de">   Es ist die Fakultät des Objektes einzugeben.
+            <label xml:lang="de">   Es ist die Fakultät einzugeben.
             </label>
-            <label xml:lang="en">   Input the faculty of this object. 
+            <label xml:lang="en">   Input the faculty. 
             </label>
       </helpPopup>
       <list id="COrigins" width="300" type="dropdown">
             <item value="">
                   <label xml:lang="de">(bitte wählen)</label>
+	              <label xml:lang="en">(please choose)</label>
             </item>
-            <include uri="request:content/classifications-to-items.jspx?classid=DocPortal_class_00000003" />
+            <include   uri="request:content/classifications-to-items.jspx?classid=DocPortal_class_00000003" />
       </list>      
+      
       <!-- *** Data for the Types ** -->
       <text id="LTypes">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Typ</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Type</span>
-            </label>
+            <label xml:lang="de"> <span class="editorlabel">&#160;&#160;&#160;Typ</span>  </label>
+            <label xml:lang="en"> <span class="editorlabel">&#160;&#160;&#160;Type</span> </label>
       </text>
       <panel id="DTypes">
             <hidden var="@field" default="type" />
@@ -206,33 +204,92 @@
             <cell col="1" row="1" anchor="NORTHWEST" ref="CTypes" var="@value" />
       </panel>
       <helpPopup id="HTypes" width="400px" height="250px">
-            <label xml:lang="de">   Es ist der Typ des Objektes einzugeben.
-            </label>
-            <label xml:lang="en">   Input the type of this object. 
-            </label>
+            <label xml:lang="de">   Es ist der Typ des Objektes einzugeben.  </label>
+            <label xml:lang="en">   Input the type of this object.  </label>
       </helpPopup>
       <list id="CTypes" width="300" type="dropdown">
             <item value="">
                   <label xml:lang="de">(bitte wählen)</label>
+	              <label xml:lang="en">(please choose)</label>                  
             </item>
-            <include uri="request:content/classifications-to-items.jspx?classid=DocPortal_class_00000005" />
+            <include   uri="request:content/classifications-to-items.jspx?classid=DocPortal_class_00000005" />
       </list>       
+      
+
+      <!-- *** Data for the Subjects ** -->
+      <text id="LSubjects">
+            <label xml:lang="de">   <span class="editorlabel">&#160;&#160;&#160;Subjekt</span></label>
+            <label xml:lang="en">   <span class="editorlabel">&#160;&#160;&#160;Subject</span></label>
+      </text>
+      <panel id="DSubjects">
+            <hidden var="@field" default="type" />
+            <hidden var="@operator" default="like" />            
+            <cell col="1" row="1" anchor="NORTHWEST" ref="CSubjects" var="@value" />
+      </panel>
+      <helpPopup id="HSubjects" width="400px" height="250px">
+            <label xml:lang="de">   Hier sind Schlüsselworte einzugeben.</label>
+            <label xml:lang="en">   Input the keys of this object.      </label>
+      </helpPopup>
+      <list id="CSubjects" width="300" type="dropdown">
+            <item value="">
+                  <label xml:lang="de">(bitte wählen)</label>
+	              <label xml:lang="en">(please choose)</label>                  
+            </item>
+            <include  uri="request:content/classifications-to-items.jspx?classid=DocPortal_class_00000007" />
+      </list>       
+      
+      <!-- *** Data for the Format ** -->
+      <text id="LFormats">
+            <label xml:lang="de">   <span class="editorlabel">&#160;&#160;&#160;Format</span></label>
+            <label xml:lang="en">   <span class="editorlabel">&#160;&#160;&#160;Format</span></label>
+      </text>
+      <panel id="DFormats">
+            <hidden var="@field" default="type" />
+            <hidden var="@operator" default="like" />            
+            <cell col="1" row="1" anchor="NORTHWEST" ref="CFormats" var="@value" />
+      </panel>
+      <helpPopup id="HFormats" width="400px" height="250px">
+            <label xml:lang="de">   Hier sind Formatangaben einzugeben.</label>
+            <label xml:lang="en">   Input the format of this object.      </label>
+      </helpPopup>
+      <list id="CFormats" width="300" type="dropdown">
+            <item value="">
+                  <label xml:lang="de">(bitte wählen)</label>
+	              <label xml:lang="en">(please choose)</label>                  
+            </item>
+            <include   uri="request:content/classifications-to-items.jspx?classid=DocPortal_class_00000006" />
+      </list>       
+      
+      <!-- *** Data for the Format ** -->
+      <text id="LLanguages">
+            <label xml:lang="de">   <span class="editorlabel">&#160;&#160;&#160;Sprache</span></label>
+            <label xml:lang="en">   <span class="editorlabel">&#160;&#160;&#160;Language</span></label>
+      </text>
+      <panel id="DLanguages">
+            <hidden var="@field" default="type" />
+            <hidden var="@operator" default="like" />            
+            <cell col="1" row="1" anchor="NORTHWEST" ref="CLanguages" var="@value" />
+      </panel>
+      <helpPopup id="HLanguages" width="400px" height="250px">
+            <label xml:lang="de">   Hier sind Sprachangaben einzugeben.</label>
+            <label xml:lang="en">   Input the language of this object.      </label>
+      </helpPopup>
+      <list id="CLanguages" width="300" type="dropdown">
+            <item value="">
+                  <label xml:lang="de">(bitte wählen)</label>
+	              <label xml:lang="en">(please choose)</label>                  
+            </item>
+            <include   uri="request:content/classifications-to-items.jspx?classid=DocPortal_class_00000004" />
+      </list>       
+
       <!-- *** Data for the Metadata ** -->
       <text id="LMetadata">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Volltext in den Metadaten</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Freetext in the metadata</span>
-            </label>
+            <label xml:lang="de"><span class="editorlabel">&#160;&#160;&#160;Volltext in den Metadaten</span> </label>
+            <label xml:lang="en"><span class="editorlabel">&#160;&#160;&#160;Freetext in the metadata</span>  </label>
       </text>
       <text id="LMetadataFastSearch">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Schnellsuche&#160;&#160;&#160;</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Fast Search&#160;&#160;&#160;</span>
-            </label>
+            <label xml:lang="de"><span class="editorlabel">&#160;&#160;&#160;Schnellsuche&#160;&#160;&#160;</span>  </label>
+            <label xml:lang="en"><span class="editorlabel">&#160;&#160;&#160;Fast Search&#160;&#160;&#160;</span>   </label>
       </text>      
       <panel id="DMetadata">
             <hidden var="@field" default="allMeta" />
@@ -243,20 +300,14 @@
             <label xml:lang="de">    Hier können Sie einfach Begriffe eingeben, 
                                      die im gesamten Metadatensatz gesucht werden. 
                                      Achtung, dieser Begriff wird nicht im 
-                                     eigentlichen Dokument gesucht!
-            </label>
+                                     eigentlichen Dokument gesucht!            </label>
             <label xml:lang="en">    Enter a word that the system should find 
-                                     in the metadata set.
-            </label>
+                                     in the metadata set.            </label>
       </helpPopup>
       <!-- *** Data for the Content ** -->
       <text id="LContents">
-            <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Volltext in den Dokumenten</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;Freetext in the documents</span>
-            </label>
+            <label xml:lang="de">  <span class="editorlabel">&#160;&#160;&#160;Volltext in den Dokumenten</span>  </label>
+            <label xml:lang="en">  <span class="editorlabel">&#160;&#160;&#160;Freetext in the documents</span>   </label>
       </text>
       <panel id="DContents">
             <hidden var="@field" default="content" />
@@ -264,10 +315,7 @@
             <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="@value" />
       </panel>
       <helpPopup id="HContents" width="400px" height="250px">
-            <label xml:lang="de">   Es ist der Titel des Objektes einzugeben.
-            </label>
-            <label xml:lang="en">    Enter a word that the system should find 
-                                     in the full text of the document.
-            </label>
+            <label xml:lang="de">   Es ist der Titel des Objektes einzugeben.  </label>
+            <label xml:lang="en">   Enter a word that the system should find  in the full text of the document.   </label>
       </helpPopup>            
 </imports>
