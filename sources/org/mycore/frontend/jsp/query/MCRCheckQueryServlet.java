@@ -45,6 +45,7 @@ import org.mycore.frontend.servlets.MCRServletJob;
  *  is adding some default fields
  * @author Heiko Helmbrecht
  * @version $Revision$ $Date$
+ * @deprecated
  */
 
 public class MCRCheckQueryServlet extends MCRServlet {
