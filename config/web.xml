@@ -26,6 +26,11 @@
     <!-- servlets -->    
     
     <servlet>
+        <servlet-name>MCRJSPSearchServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.servlets.MCRJSPSearchServlet</servlet-class>
+    </servlet>    
+
+    <servlet>
         <servlet-name>MCRUserValidateServlet</servlet-name>
         <servlet-class>org.mycore.frontend.admin.MCRUserValidateServlet</servlet-class>
     </servlet> 
@@ -326,10 +331,15 @@
     </servlet-mapping>
 
     <servlet-mapping>
+               <servlet-name>MCRJSPSearchServlet</servlet-name>
+               <url-pattern>/searchresult</url-pattern>
+    </servlet-mapping>
+    <!-- 
+    <servlet-mapping>
                <servlet-name>MCRCheckQueryServlet</servlet-name>
                <url-pattern>/searchresult</url-pattern>
     </servlet-mapping>
-        
+        -->
     <servlet-mapping>
                <servlet-name>MCRResortQueryServlet</servlet-name>
                <url-pattern>/resortresult</url-pattern>
