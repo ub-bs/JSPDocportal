@@ -26,8 +26,7 @@ public class MCRGetFreeUserIDs extends SimpleTagSupport
 	private String var;
 	private String userid;
 	private int count = 0;
-	
-	private static MCRUserMgr mgr = MCRUserMgr.instance();
+
 	private static String randomChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
 
 	public void setVar(String inputVar) {
@@ -49,13 +48,7 @@ public class MCRGetFreeUserIDs extends SimpleTagSupport
 		}
 		for(int childcnt=0, forcnt=0; childcnt < count; forcnt++ ) {
 			String testID = getRandomID(childcnt, forcnt);
-			MCRUser utest = null;
-			try {
-				utest = mgr.retrieveUser(testID);
-			} catch ( Exception all ){
-				utest = null;
-			}
-			if ( utest.getID().length() == 0 ){
+			if (!MCRUserMgr.instance().existUser(testID)){
 				childcnt++;
 				Element child = new Element("userid");
 				child.setAttribute("ID", testID);
