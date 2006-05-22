@@ -23,13 +23,41 @@
     </boolean>
    </condition>
   </mcrpermission>
-  <mcrpermission name="administrate-accessrules" description="Verwalten von zugriffsrechten für Dokumente " ruledescription="Nur für Administratoren">
+  
+  <mcrpermission name="administrate-publication" description="Verwalten von Publikationen - Prozessen " ruledescription="Nur für Administratoren und Editoren von Publikationen">
+   <condition format="xml">
+    <boolean operator="or">
+     <condition value="editorgroup1" operator="=" field="group"/>
+     <condition value="admingroup" operator="=" field="group"/>
+    </boolean>
+   </condition>
+  </mcrpermission>
+
+  <mcrpermission name="administrate-author" description="Verwalten von Author - Prozessen " ruledescription="Nur für Administratoren und Editoren von Autorendaten">
+   <condition format="xml">
+    <boolean operator="or">
+     <condition value="editorgroup1" operator="=" field="group"/>
+     <condition value="admingroup" operator="=" field="group"/>
+    </boolean>
+   </condition>
+  </mcrpermission>
+
+  <mcrpermission name="administrate-accessrules" description="Verwalten von Zugriffsrechten für Dokumente " ruledescription="Nur für Administratoren">
    <condition format="xml">
     <boolean operator="or">
      <condition value="admingroup" operator="=" field="group"/>
     </boolean>
    </condition>
   </mcrpermission>  
+
+  <mcrpermission name="administrate-registeruser" description="Verwalten von Nutzer Neuregistrierungen" ruledescription="Nur für Administratoren">
+   <condition format="xml">
+    <boolean operator="or">
+     <condition value="admingroup" operator="=" field="group"/>
+    </boolean>
+   </condition>
+  </mcrpermission>
+  
   <mcrpermission name="administrate-user" description="Verwalten von Usern (needed in MCRUserMgr)" ruledescription="Nur für Administratoren">
    <condition format="xml">
     <boolean operator="or">

@@ -76,22 +76,6 @@
           </navitem>
           <navitem name="publish" label="Nav.DocumentManagement" href="content/documentmanagement.jsp">
             <refitem name="~documentmanagement" label="" />
-            <navitem name="registeruser" label="Nav.OrderAuthorAccount" href="content/workflow/registeruser/beginUser.jsp">
-              <refitem name="~registeruser" label="" />
-              <navitem name="registered" label="Nav.AccountRegister" href="content/workflow/registeruser/endUser.jsp" hidden="true">
-                <refitem name="~registered" label="" />
-              </navitem>
-              <navitem name="chooseIDwhenDuplicate" label="Nav.AccountChangeID" href="content/workflow/registeruser/chooseIDwhenDuplicate.jsp"
-			            hidden="true">
-                <refitem name="~chooseIDwhenDuplicate" label="" />
-              </navitem>
-              <navitem name="workflow-registeruser" label="Nav.AccountRegister" href="content/workflow/registeruser/workflow.jsp" hidden="true">
-                <refitem name="~workflow-registeruser" label="" />
-              </navitem>
-              <navitem name="workflow-registeruser-modify" label="Nav.AccountRegister" href="content/workflow/registeruser/modifyUser.jsp" hidden="true">
-                <refitem name="~workflow-registeruser-modify" label="" />
-              </navitem>
-            </navitem>
             <navitem name="author" label="Nav.Workflow.author" href="content/workflow/author/workflow.jsp" >
               <refitem name="~author" label="" />
               <refitem name="~workflow-author" label="" />
@@ -125,24 +109,8 @@
               <navitem name="workflow-fileupload" label="Nav.WorkflowFileupload" href="content/fileupload.jsp" hidden="true" >
                 <refitem name="~workflow-fileupload" label="" />
               </navitem>
-            </navitem>
-            <!-- 
-               <navitem name="author" label="Nav.CreatePerson" href="content/workflow-editor.jsp?type=author&amp;step=author&amp;todo=wnewobj" />
-               <navitem name="institution" label="Nav.CreateInstitution" href="content/workflow-editor.jsp?type=institution&amp;step=author&amp;todo=wnewobj" />
-               <navitem name="document" label="Nav.CreateDocument" href="content/workflow-editor.jsp?type=document&amp;step=author&amp;todo=wnewobj" />
-                  <navitem name="workflow-author" label="Nav.WorkflowAuthor" href="content/workflow.jsp?type=author&amp;step=editor" > 
-                    <refitem name="~workflow-author" label="" />
-                  </navitem>
-               <navitem name="workflow-institution" label="Nav.WorkflowInstitution" href="content/workflow.jsp?type=institution&amp;step=editor" > 
-                  <refitem name="~workflow-institution" label="" />
-               </navitem>
-               <navitem name="workflow-document" label="Nav.WorkflowDocument" href="content/workflow.jsp?type=document&amp;step=editor" > 
-                  <refitem name="~workflow-document" label="" />
-	              <navitem name="workflow-fileupload" label="Nav.WorkflowFileupload" href="content/fileupload.jsp" hidden="true" > 
-		              <refitem name="~workflow-fileupload" label="" />
-				  </navitem>                  
-               </navitem>
--->
+            </navitem>           
+            <!--  hidden entries for editor include and previews -->
             <navitem name="workflow-edit" label="Nav.WorkflowEdit" href="content/workflow-editor.jsp" hidden="true">
               <refitem name="~workflow-edit" label="" />
             </navitem>
@@ -153,61 +121,24 @@
               <refitem name="~workflow-preview" label="" />
             </navitem>
           </navitem>
-          <!--             
-            <navitem name="publish2" label="Nav.DocumentManagement2" href="content/documentmanagement.jsp">
-               <refitem name="~documentmanagement" label="" />
-               <navitem name="register" label="Nav.RegisterAsAuthor" href="content/registerUser.jsp">
-                  <refitem name="~register" label="" />
-                  <navitem name="register" label="Nav.RegisteredAsAuthor" href="content/registerUserOK.jsp" hidden="true" >
-                      <refitem name="~registered" label="" />
-                  </navitem>				   
-               </navitem>
-				<navitem name="mydiss" label="Nav.Application.dissertation" href="content/dissertation.jsp" >
-				  <refitem name="~mydiss" label="" />
-				  <navitem name="begin" label="Nav.Application.dissertation.begin" href="content/workflow-xmetadiss/xmetadissRegisterAuthor.jsp" >
-					 <refitem name="~dissertationbegin" label="" />
-				  </navitem>   
-				  <navitem name="edit"  label="Nav.Application.dissertation.edit"  href="content/workflow-xmetadiss/xmetadissEditMetadata.jsp" >
-                     <refitem name="~dissertationEdit" />
-                  </navitem>
-				  <navitem name="end"   label="Nav.Application.dissertation.end"  href="" />
-				  <navitem name="workflow-disshab" label="Nav.WorkflowDisshab" href="content/workflowProcess.jsp?type=disshab&amp;step=author&amp;workflowProcessType=xmetadiss"  >
-					<refitem name="~workflow-disshab" label="" />
-					<navitem name="workflow-fileupload" label="Nav.WorkflowFileupload" href="content/fileupload.jsp" hidden="true" >
-					  <refitem name="~workflow-fileupload" label="" />
-					</navitem>
-				  </navitem>			  
-				  
-				</navitem>			
-
-               <navitem name="author" label="Nav.CreatePerson" href="content/workflow-editor.jsp?type=author&amp;step=author&amp;todo=wnewobj" />
-               <navitem name="institution" label="Nav.CreateInstitution" href="content/workflow-editor.jsp?type=institution&amp;step=author&amp;todo=wnewobj" />
-               <navitem name="document" label="Nav.CreateDocument" href="content/workflow-editor.jsp?type=document&amp;step=author&amp;todo=wnewobj" />
-                  <navitem name="workflow-author" label="Nav.WorkflowAuthor" href="content/workflow.jsp?type=author&amp;step=editor" > 
-                  <refitem name="~workflow-author" label="" />
-               </navitem>
-               <navitem name="workflow-institution" label="Nav.WorkflowInstitution" href="content/workflow.jsp?type=institution&amp;step=editor" > 
-                  <refitem name="~workflow-institution" label="" />
-               </navitem>
-               <navitem name="workflow-document" label="Nav.WorkflowDocument" href="content/workflow.jsp?type=document&amp;step=editor" > 
-                  <refitem name="~workflow-document" label="" />
-	              <navitem name="workflow-fileupload" label="Nav.WorkflowFileupload" href="content/fileupload.jsp" hidden="true" > 
-		              <refitem name="~workflow-fileupload" label="" />
-				  </navitem>                  
-               </navitem>
-               <navitem name="workflow-edit" label="Nav.WorkflowEdit" href="content/workflow-editor.jsp" hidden="true">
-                  <refitem name="~workflow-edit" label="" />
-               </navitem> 
-			   <navitem name="editor-include" label="Nav.WorkflowEdit" href="content/editor-include.jsp" hidden="true">
-			      <refitem name="~editor-include" label="" />							
-			   </navitem>			                 
-               <navitem name="workflow-preview" label="Nav.WorkflowPreview" href="content/docdetails.jsp"  hidden="true">
-                  <refitem name="~workflow-preview" label="" />
-               </navitem>				
-				
-            </navitem>
-            
--->
+          
+          <navitem name="registeruser" label="Nav.OrderAuthorAccount" href="content/workflow/registeruser/beginUser.jsp">
+              <refitem name="~registeruser" label="" />
+              <navitem name="registered" label="Nav.AccountRegister" href="content/workflow/registeruser/endUser.jsp" hidden="true">
+                <refitem name="~registered" label="" />
+              </navitem>
+              <navitem name="chooseIDwhenDuplicate" label="Nav.AccountChangeID" href="content/workflow/registeruser/chooseIDwhenDuplicate.jsp"
+			            hidden="true">
+                <refitem name="~chooseIDwhenDuplicate" label="" />
+              </navitem>
+              <navitem name="workflow-registeruser" label="Nav.AccountRegister" href="content/workflow/registeruser/workflow.jsp" hidden="true">
+                <refitem name="~workflow-registeruser" label="" />
+              </navitem>
+              <navitem name="workflow-registeruser-modify" label="Nav.AccountRegister" href="content/workflow/registeruser/modifyUser.jsp" hidden="true">
+                <refitem name="~workflow-registeruser-modify" label="" />
+              </navitem>
+          </navitem>
+          
           <navitem name="manuals" label="Nav.Manuals" href="content/manuals.jsp">
             <navitem name="technics" label="Nav.TechnicalBackground" href="content/docu/general.jsp" />
             <navitem name="mycore" label="Nav.MyCoRe" href="http://www.mycore.de/" extern="true" />
@@ -280,26 +211,35 @@
          <navitem name="workflow-user" label="Nav.Admin.UserManagement.UserRegistration" href="content/workflow/registeruser/workflow.jsp" right="administrate-user" >
            <refitem name="~workflow-user" label="" />
          </navitem>
-         <navitem name="process-user-delete" label="Nav.Admin.UserManagement.DeleteProcess" href="admin/processes_list.jsp?workflowProcessType=registeruser" right="administrate-user" >
-            <refitem name="~process-user-delete" label="" />
+         <navitem name="process-registeruser" label="Nav.Admin.Processes" href="admin/processes_list.jsp?workflowProcessType=registeruser" right="administrate-user" >
+            <refitem name="~process-registeruser" label="" />
          </navitem>
         </navitem> 
         <navitem name="xmetadiss" label="Nav.Admin.Xmetadiss" href="admin/xmetadiss.jsp" right="administrate-xmetadiss" >
           <navitem name="workflow"	label="Nav.Workflow.xmetadiss" href="content/workflow/xmetadiss/workflow.jsp" right="administrate-xmetadiss" >
             <refitem name="~workflow-xmetadiss" label="" />
           </navitem>
-          <navitem name="process-xmetadiss-delete" label="Nav.Admin.Xmetadiss.DeleteProcess" href="admin/processes_list.jsp?workflowProcessType=xmetadiss" right="administrate-xmetadiss" >
-            <refitem name="~process-xmetadiss-delete" label="" />
+          <navitem name="process-xmetadiss" label="Nav.Admin.Processes" href="admin/processes_list.jsp?workflowProcessType=xmetadiss" right="administrate-xmetadiss" >
+            <refitem name="~process-xmetadiss" label="" />
           </navitem>
         </navitem>
-        <navitem name="publication" label="Nav.Admin.Publication" href="admin/publication.jsp" >
-          <navitem name="workflow"	label="Nav.Workflow.publication" href="content/workflow/publication/workflow.jsp" >
+        <navitem name="publication" label="Nav.Admin.Publication" href="admin/publication.jsp"  right="administrate-publication" >
+          <navitem name="workflow"	label="Nav.Workflow.publication" href="content/workflow/publication/workflow.jsp" right="administrate-publication" >
             <refitem name="~workflow-publication" label="" />
           </navitem>
-          <navitem name="process-publication-delete" label="Nav.Admin.Publication.DeleteProcess" href="admin/processes_list.jsp?workflowProcessType=publication" >
-            <refitem name="~process-publication-delete" label="" />
+          <navitem name="process-publication" label="Nav.Admin.Processes" href="admin/processes_list.jsp?workflowProcessType=publication" right="administrate-publication" >
+            <refitem name="~process-publication" label="" />
           </navitem>
         </navitem>
+        <navitem name="author" label="Nav.Admin.Author" href="admin/author.jsp"  right="administrate-author" >
+          <navitem name="workflow"	label="Nav.Workflow.author" href="content/workflow/author/workflow.jsp"  right="administrate-author">
+            <refitem name="~workflow-author" label="" />
+          </navitem>
+          <navitem name="process-author" label="Nav.Admin.Processes" href="admin/processes_list.jsp?workflowProcessType=author"  right="administrate-author">
+            <refitem name="~process-author" label="" />
+          </navitem>
+        </navitem>
+        
         <navitem name="accessrules" label="Nav.Admin.AccessRules" href="admin/accessrules.jsp" right="administrate-accessrules" >
           <navitem name="ruleseditor" label="Nav.Admin.AccessRules.Editor" href="admin/accessrules/rules.jsp" right="administrate-accessrules" >
             <refitem name="~ruleseditor" label="" />
