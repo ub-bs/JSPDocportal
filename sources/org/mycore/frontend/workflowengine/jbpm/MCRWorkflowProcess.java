@@ -1,25 +1,16 @@
 package org.mycore.frontend.workflowengine.jbpm;
 
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.jbpm.JbpmConfiguration;
-import org.jbpm.JbpmContext;
 import org.jbpm.context.exe.ContextInstance;
-import org.jbpm.db.GraphSession;
 import org.jbpm.graph.def.Node;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.def.Transition;
-import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.exe.ProcessInstance;
-import org.jbpm.graph.exe.Token;
-import org.jbpm.jpdl.el.impl.JbpmExpressionEvaluator;
 import org.jbpm.taskmgmt.exe.PooledActor;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 import org.jbpm.taskmgmt.exe.TaskMgmtInstance;
@@ -149,8 +140,13 @@ public class MCRWorkflowProcess extends MCRAbstractWorkflowObject{
 		}
 	}
 
-	public String getStringVariable(String varName) {
+	public String getStringVariable(String varName) {		
 		return (String)contextInstance.getVariable(varName);
+	}
+	
+	public Map getStringVariableMap() {		
+		Map varMap = contextInstance.getVariables();
+		return varMap;
 	}
 	
 	/**
