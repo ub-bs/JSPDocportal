@@ -1,37 +1,9 @@
 /* =================================================================== */
 /* general colors                                                      */
 /* =================================================================== */
-
-
-body, html{
-   background-color:  #eff4f6;
-   color: #000000;
-   margin: 0px;
-   font-family: Verdana, Arial, Helvetica, sans-serif;
-   font-weight : normal;
-   text-decoration: none;
-   text-align: left;
-   vertical-align: top;
-   font-size: 12px;
-   height: 100%;
-}
-
 #mytable { 
 	height: 100%;
 	width: 100%
-}
-
-html{
-	height: 100%;
-	min-height: 100%;
-}
-
-td{
-	font-size: 12px;
-}
-
-h1{
-	font-size: 18px;
 }
 
 #mainLeftColumn {
@@ -134,22 +106,6 @@ ul{
 	padding:10px;
 }
 
-.nav a:link { color: #ffffff; text-decoration:none; }
-.nav a:active { color: #ffffff; text-decoration:none; }
-.nav a:visited { color: #ffffff; text-decoration:none; }
-.nav a:hover { color: silver; text-decoration:none; }
-
-.navact a:link { color: #ff0000; text-decoration:none; }
-.navact a:active { color: #ff0000; text-decoration:none; }
-.navact a:visited { color: #ff0000; text-decoration:none; }
-.navact a:hover { color: silver; text-decoration:none; }
-
-a:link { color: gray; text-decoration:none; }
-a:active { color: gray; text-decoration:none; }
-a:visited { color: gray; text-decoration:none; }
-a:hover { color: black; text-decoration:none; }
-
-
 table.access{
 	border: 1px solid #7791ac;
 	border: 1px solid #7791ac;
@@ -180,16 +136,11 @@ table.access td.rule{
 	padding: 2px;
 }
 
-textarea{
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-}
-
 span.scroll {
 	OVERFLOW: scroll; WIDTH: 100%; HEIGHT: 100%; align: justify;
 	border: 1px solid silver;
 }
 
 sup.required{
-	color: #ff0000;
-	
+	color: #ff0000;	
 }
