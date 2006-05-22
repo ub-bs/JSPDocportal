@@ -9,6 +9,7 @@ import javax.servlet.jsp.*;
 import org.apache.log4j.Logger;
 import org.jdom.JDOMException;
 import org.jdom.output.DOMOutputter;
+import org.mycore.services.fieldquery.MCRQuery;
 import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
@@ -73,7 +74,8 @@ public class MCRSetResultListTag extends SimpleTagSupport
         session.setAttribute("lastSearchListPath",navPath);        
         
         if (query != null && resultlistType != null) {
-        	result = MCRQueryManager.search(query);
+        	MCRQuery jquery = MCRQuery.parseXML(query);
+        	result = MCRQueryManager.search(jquery);
             if (result.getNumHits() <= 1000) {
                 session.setAttribute("lastMCRResults",result);
             }else {

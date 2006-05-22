@@ -39,10 +39,10 @@ import org.mycore.datamodel.metadata.MCRMetaLangText;
 import org.mycore.datamodel.metadata.MCRMetaPersonName;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.services.fieldquery.MCRQuery;
 import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.services.fieldquery.MCRResults;
 import org.mycore.user2.MCRUser;
-import org.mycore.user2.MCRUserMgr;
 
 /**
  * This class holds useful methods for the workflow.
@@ -157,7 +157,8 @@ public class MCRWorkflowUtils {
 				.getPrettyFormat());
 		logger.debug("generated query: \n" + out.outputString(query));
 		Document jQuery = new Document(query);
-		MCRResults mcrResult = MCRQueryManager.search(jQuery);
+		
+		MCRResults mcrResult = MCRQueryManager.search(MCRQuery.parseXML(jQuery));
 
 		return mcrResult;
 	}

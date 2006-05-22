@@ -29,7 +29,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,9 +43,8 @@ import org.mycore.common.MCRCache;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.frontend.editor.MCREditorSubmission;
-import org.mycore.frontend.servlets.MCRServlet;
-import org.mycore.frontend.servlets.MCRServletJob;
 import org.mycore.parsers.bool.MCRCondition;
+import org.mycore.services.fieldquery.MCRQuery;
 import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.services.fieldquery.MCRQueryParser;
 import org.mycore.services.fieldquery.MCRResults;
@@ -334,8 +332,9 @@ public class MCRJSPSearchServlet extends MCRServlet {
         }
 
         // Execute query
-        long start = System.currentTimeMillis();
-        MCRResults result = MCRQueryManager.search(input);
+        long start = System.currentTimeMillis();       
+        MCRQuery query = MCRQuery.parseXML(input);
+        MCRResults result = MCRQueryManager.search(query);
         long qtime = System.currentTimeMillis() - start;
         LOGGER.debug("MCRJSPSearchServlet total query time: " + qtime);
 

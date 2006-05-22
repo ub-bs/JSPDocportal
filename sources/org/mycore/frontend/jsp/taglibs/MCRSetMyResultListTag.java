@@ -1,24 +1,24 @@
 package org.mycore.frontend.jsp.taglibs;
 
 import java.io.IOException;
-import java.io.StringWriter;
 
 import javax.servlet.http.HttpSession;
-import javax.servlet.jsp.tagext.*;
-import javax.servlet.jsp.*;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.PageContext;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
 import org.jdom.JDOMException;
 import org.jdom.output.DOMOutputter;
 import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
-import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
-import org.mycore.common.MCRSession;
-import org.mycore.common.MCRSessionMgr;
 import org.mycore.frontend.jsp.format.MCRResultFormatter;
 import org.mycore.services.fieldquery.MCRHit;
+import org.mycore.services.fieldquery.MCRQuery;
+import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.services.fieldquery.MCRResults;
 
 
@@ -81,7 +81,8 @@ public class MCRSetMyResultListTag extends SimpleTagSupport
         
         if (query != null && resultlistType != null) {
             MCRResults allresult = null;            
-        	allresult = MCRQueryManager.search(query);
+            MCRQuery jquery = MCRQuery.parseXML(query);
+        	allresult = MCRQueryManager.search(jquery);
             result = new MCRResults();
             for (int i=0; i< allresult.getNumHits(); i++){
             	MCRHit myhit = allresult.getHit(i);
