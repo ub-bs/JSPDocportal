@@ -120,7 +120,8 @@ public class MCRUserValidateServlet extends MCRServlet {
     		MCRUser user = null;
     		int id = 0;
     		String creationdate = "";
-
+    		
+    		
     		if (request.getParameter("uid_orig").equals("")){
     			id = MCRUserMgr.instance().getMaxUserNumID()+1;
     			creationdate  = request.getParameter("creationtime");
@@ -164,14 +165,13 @@ public class MCRUserValidateServlet extends MCRServlet {
     		if (request.getParameter("uid_orig").equals("")){
     			// create new user
     			manager.createUser(user);
+        		// encrypt the passwort if propertiy is set, only for new Users!!!, the others are crypted
+        		manager.setPassword(user.getID(), user.getPassword());    			
     		}else{
-    			// update user
+    			// update user    			
     			manager.updateUser(user);
     		}
-    		
-    		// encrypt the passwort if propertiy is set
-    		manager.setPassword(user.getID(), user.getPassword());
-    		
+    		    		
     		response.sendRedirect(WebApplicationBaseURL + "nav?path=admin.usermanagement.user");
     	}
     	
