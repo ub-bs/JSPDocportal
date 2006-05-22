@@ -85,9 +85,6 @@ MCR.WorkflowEngine.Rightslinks.DefaultURL.xmetadiss=http://www.mycore.de/dissert
 MCR.WorkflowEngine.ContactIdDDB.xmetadiss=Fxxxx-xxxx
 
 MCR.WorkflowEngine.ManagerImpl.xmetadiss=org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRWorkflowEngineManagerXmetadiss
-# Default-Start-URL vor the WorkflowEngine
-#MCR.WorkflowEngine.StartURL.Relative=~workflowengine
-MCR.persistence_workflow_sql_database_name=mycore-workflow
 # required for MCRResultFormatter
 MCR.languageResourceBundleBase=messages
 # paths
