@@ -167,7 +167,7 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 			if ( MCRUserMgr.instance().existUser(userElement.getAttributeValue("ID")) ) {
 				// we have another user with that ID 
 		        logger.warn("User registration - duplicate IDs");
-		        nextPath = "~registerChooseIDwhenDuplicate&userID="+ID;
+		        nextPath = "~chooseIDwhenDuplicate&userID="+ID;
 			} else {
 				//erst wenn alles OK ist wird der WFI initiiert mit der UserID, die unique ist.
 				//we have registeruser prozess - with that id
