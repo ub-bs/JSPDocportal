@@ -49,7 +49,12 @@ public class MCRGetFreeUserIDs extends SimpleTagSupport
 		}
 		for(int childcnt=0, forcnt=0; childcnt < count; forcnt++ ) {
 			String testID = getRandomID(childcnt, forcnt);
-			MCRUser utest = mgr.retrieveUser(testID);
+			MCRUser utest = null;
+			try {
+				utest = mgr.retrieveUser(testID);
+			} catch ( Exception all ){
+				utest = null;
+			}
 			if ( utest.getID().length() == 0 ){
 				childcnt++;
 				Element child = new Element("userid");
