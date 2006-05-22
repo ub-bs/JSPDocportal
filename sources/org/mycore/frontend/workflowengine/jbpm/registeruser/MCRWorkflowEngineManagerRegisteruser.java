@@ -184,7 +184,7 @@ public class MCRWorkflowEngineManagerRegisteruser extends MCRWorkflowEngineManag
 	
 	
 	public boolean commitWorkflowObject(String userid, String dummypar) {
-		boolean bSuccess = false;
+		boolean bSuccess = true;
 		try{
 			String dirname = getWorkflowDirectory(documentType);
 			String filename = dirname + File.separator + "user_" + userid + ".xml";
@@ -208,7 +208,7 @@ public class MCRWorkflowEngineManagerRegisteruser extends MCRWorkflowEngineManag
 	}
 	
 	public boolean rollbackWorkflowObject(String userid) {
-		boolean bSuccess = false;
+		boolean bSuccess = true;
 		try{
 			String dirname = getWorkflowDirectory(documentType);
 			String filename = dirname + File.separator + "user_" + userid + ".xml";	

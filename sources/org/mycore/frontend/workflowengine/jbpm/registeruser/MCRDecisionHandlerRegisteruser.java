@@ -18,7 +18,11 @@ public class MCRDecisionHandlerRegisteruser implements DecisionHandler {
 		
 		long pid = executionContext.getContextInstance().getProcessInstance().getId();
 		String decisionNode = executionContext.getNode().getName();
-		logger.debug("checking boolean decision node [" + decisionNode + "] for pid [" + pid + "]");
-		return WFI.checkDecisionNode(pid, decisionNode, executionContext);
+		logger.debug("DECISION: checking decision node [" + decisionNode + "] for pid [" + pid + "]");
+		
+		String decision = WFI.checkDecisionNode(pid, decisionNode, executionContext);
+		logger.debug("DECISION: result is " + decision);
+		
+		return decision;
 	}
 }
