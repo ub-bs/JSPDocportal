@@ -137,7 +137,7 @@ public class MCRWorkflowUtils {
 
 		Element condition = new Element("condition");
 		condition.setAttribute("operator", "=");
-		condition.setAttribute("field", "userid");
+		condition.setAttribute("field", "userID");
 		condition.setAttribute("value", userid);
 		op.addContent(condition);
 
