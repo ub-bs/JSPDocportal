@@ -2,10 +2,10 @@ package org.mycore.frontend.jsp.taglibs;
 
 import java.io.IOException;
 
-import javax.servlet.jsp.tagext.*;
-import javax.servlet.jsp.*;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.PageContext;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.output.XMLOutputter;
 

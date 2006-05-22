@@ -26,31 +26,15 @@
 package org.mycore.frontend.jsp.taglibs;
 
 // Imported java classes
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
-
-import org.jbpm.graph.exe.ProcessInstance;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.output.DOMOutputter;
 import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
-import org.mycore.common.JSPUtils;
-import org.mycore.common.MCRDefaults;
-import org.mycore.frontend.workflowengine.jbpm.MCRJbpmCommands;
-import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase;
-import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowObject;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerFactory;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
 
@@ -86,6 +70,7 @@ public class MCRDeleteProcessTag extends SimpleTagSupport {
     	MCRWorkflowEngineManagerInterface WFM = null;
 		try {
 			 WFM = MCRWorkflowEngineManagerFactory.getImpl(workflowProcessType);
+			 
 		} catch (Exception noWFM) {
 			LOGGER.error("could not build workflow interface", noWFM);
 			return;
