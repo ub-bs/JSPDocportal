@@ -69,6 +69,24 @@
             <info>A tag, that checks a decision node and delivers the next transition in the workflow</info>
      </tag>     
 	 <tag>
+            <name>listWorkflowProcess</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRListWorkflowProcessTag</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <description>Output: the var that holds the processlist as  xml</description>
+                <name>var</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>The workflowtype for the process list</description>
+                <name>workflowProcessType</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <info>A Tag, that delivers a DOM XML representation of the processlist for a workflowtype </info>
+     </tag>    
+	 <tag>
             <name>listWorkflowDerivates</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRListWorkflowDerivatesTag</tagclass>
             <bodycontent>empty</bodycontent>
