@@ -302,7 +302,7 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 		return ret;
 	}
 	
-	protected MCRWorkflowProcess getWorkflowObject(long processID){
+	public MCRWorkflowProcess getWorkflowObject(long processID){
 		MCRWorkflowProcess wfp = new MCRWorkflowProcess(processID);
 		return wfp;
 	}

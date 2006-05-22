@@ -272,5 +272,9 @@ public interface MCRWorkflowEngineManagerInterface {
 	 abstract void deleteWorkflowProcessInstance(long processID);
 	
 	 abstract void deleteWorkflowVariables(Set set, long processID);
+	 
+	 public List getCurrentProcessIDsForProcessType(String workflowProcessType);
+	 
+	 public MCRWorkflowProcess getWorkflowObject(long pid);
 	
 }
