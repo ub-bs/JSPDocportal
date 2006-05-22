@@ -1,17 +1,11 @@
 package org.mycore.frontend.jsp;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpServlet;
 
 import org.apache.log4j.Logger;
-import org.mycore.common.MCRSession;
 import org.mycore.common.MCRConfiguration;
+import org.mycore.common.MCRSession;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
 
