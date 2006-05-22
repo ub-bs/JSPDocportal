@@ -164,7 +164,7 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 			org.jdom.Document outDoc =  new org.jdom.Document (root);	        
 			WFI.storeMetadata(MCRUtils.getByteArray(outDoc), ID, storePath.toString());
 				
-			if ( MCRUserMgr.instance().existUser(userElement.getAttributeValue("ID")) ) {
+			if ( MCRUserMgr.instance().existUser(ID) ) {
 				// we have another user with that ID 
 		        logger.warn("User registration - duplicate IDs");
 		        nextPath = "~chooseIDwhenDuplicate&userID="+ID;
