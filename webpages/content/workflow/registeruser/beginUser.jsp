@@ -11,6 +11,7 @@
   <div class="headline">
 	   <fmt:message key="Nav.Application.registerUser" /> - 
 	   <fmt:message key="SWF.registerUser.Intro" /> 
+	   <fmt:message key="Nav.MyCoRe" /> 
   </div>
 
   <table>

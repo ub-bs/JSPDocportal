@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <MCRDocDetails name="field definition for authordetails" >
-    <MCRDocDetail rowtype="standard" labelkey="gender" >
+    <MCRDocDetail rowtype="standard" labelkey="OMD.gender" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/females/female" templatetype="tpl-boolean" separator="" languageRequired="no" />
     </MCRDocDetail>
     <MCRDocDetail rowtype="standard" labelkey="OMD.institution" >
@@ -19,7 +19,7 @@
     <MCRDocDetail rowtype="standard" labelkey="OMD.nationality" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/nationals/national" templatetype="tpl-classification" separator=", " languageRequired="yes" />
     </MCRDocDetail>    
-    <MCRDocDetail rowtype="standard" labelkey="email" >
+    <MCRDocDetail rowtype="standard" labelkey="OMD.email" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/emails/email" templatetype="tpl-email" separator=", " languageRequired="yes" />
     </MCRDocDetail>     
     <MCRDocDetail rowtype="standard" labelkey="OMD.notes" >

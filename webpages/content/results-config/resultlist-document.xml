@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <MCRDocDetails name="field definition for resultlist of document" >
-    <MCRDocDetail rowtype="standard" labelkey="resultlist-title" >
+    <MCRDocDetail rowtype="standard" labelkey="OMD.title" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/titles/title" templatetype="tpl-text-values" separator=", " languageRequired="yes" withResultlistLink="true" />
     </MCRDocDetail> 
-   <MCRDocDetail rowtype="standard" labelkey="resultlist-author" >
+   <MCRDocDetail rowtype="standard" labelkey="OMD.author" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/creatorlinks/creatorlink" templatetype="tpl-author_links" separator=", " languageRequired="no" />
         <MCRDocDetailContent xpath="/mycoreobject/metadata/creators/creator" templatetype="tpl-text-values" separator=", " languageRequired="no" />
     </MCRDocDetail>
-    <MCRDocDetail rowtype="standard" labelkey="resultlist-descriptions" >
+    <MCRDocDetail rowtype="standard" labelkey="OMD.descriptions" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/descriptions/description[@type='description']" templatetype="tpl-text-values" separator=", " languageRequired="yes" escapeXml="false" />
     </MCRDocDetail>     
-    <MCRDocDetail rowtype="standard" labelkey="resultlist-formats" >
+    <MCRDocDetail rowtype="standard" labelkey="OMD.formats" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/formats/format" templatetype="tpl-classification" separator=", " languageRequired="yes" />
     </MCRDocDetail>
-    <MCRDocDetail rowtype="standard" labelkey="resultlist-types" >
+    <MCRDocDetail rowtype="standard" labelkey="OMD.types" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/types/type" templatetype="tpl-classification" separator=", " languageRequired="yes" />
     </MCRDocDetail>        
-    <MCRDocDetail rowtype="standard" labelkey="resultlist-ID" >
+    <MCRDocDetail rowtype="standard" labelkey="OMD.ID" >
         <MCRDocDetailContent xpath="/mycoreobject/@ID" templatetype="tpl-text-values" separator=", " languageRequired="no" />
     </MCRDocDetail>     
-    <MCRDocDetail rowtype="standard" labelkey="resultlist-Changed" >
+    <MCRDocDetail rowtype="standard" labelkey="OMD.changed" >
         <MCRDocDetailContent xpath="/mycoreobject/service/servdates/servdate[@type='modifydate']" templatetype="tpl-date-valuesMinimal" separator=", " languageRequired="yes" />
     </MCRDocDetail>
-    <MCRDocDetail rowtype="standard" labelkey="resultlist-documents" >    
+    <MCRDocDetail rowtype="standard" labelkey="OMD.documents" >    
        <MCRDocDetailContent xpath="/mycoreobject/structure/derobjects/derobject" type="document" templatetype="tpl-document" separator="br" languageRequired="no" />    
     </MCRDocDetail>    
 </MCRDocDetails>

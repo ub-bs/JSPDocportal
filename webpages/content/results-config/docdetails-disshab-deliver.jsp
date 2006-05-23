@@ -10,8 +10,8 @@
 <html>
      <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">        
-       <title>
-         Abgabeformular - Digitale Dissertation @libri
+        <title>
+         Abgabeformular - elektronische Dissertation 
         </title>
 		<link type="text/css" rel="stylesheet" href="${baseURL}css/style_general.css" />
 		<link type="text/css" rel="stylesheet" href="${baseURL}css/style_navigation.css" />
@@ -38,9 +38,9 @@
 <tr>
 	<td id="contentArea" width="100%">
 	<div id="contentWrapper">
-	 
-		
-		<div class="headline">  Digitale Dissertationen der Universität Rostock - Erklärung zur Abgabe</div>
+		<div class="headline"> 
+		   <fmt:message key="Nav.Application.dissertation.deliver" />
+		</div>
 	<table >
 	  <tr>
 	   <td>
@@ -50,17 +50,10 @@
 	  <td valign="top" class="metaname"> <b>Original </b>  </td></tr>
 	  <tr>
 		<td>
-	    <p align="justify" >   Die Doktorandin/der Doktorand versichert hiermit, dass die in der Universitätsbibliothek
-		abgegebene digitale Dissertation mit dem vom Promotionsausschuss genehmigten 
-		Prüfungsexemplar übereinstimmt und formal den Bestimmungen der Promotionsordnung 
-		entspricht. Die Drucklegung der Dissertation wurde vom Promotionsausschuss genehmigt. Die 
-		Publikation enthält eine Zusammenfassung in deutscher Sprache. 
-		Datenfomate, Datenträger und die Metadaten sowie die Anzahl der abzugebenden 
-		unentgeltlichen Exemplare in Papier- und elektronischer Form entsprechen den Vorgaben der 
-		Universitätsbibliothek. 
+	    <p align="justify" >
+ 	     <fmt:message key="Nav.Application.dissertation.deliver.p1" />
 		<br/>
-		Die abgelieferte digitale Version wurde von der Doktorandin/vom Doktorand auf Vollständigkeit 
-		und Lesbarkeit geprüft. 
+ 	     <fmt:message key="Nav.Application.dissertation.deliver.p1.1" />
 		</p>
 	  </td></tr>
 	  <tr>
@@ -68,38 +61,29 @@
 	  </td></tr>
 	  <tr>
 		<td>
-	    <p align="justify" > Die Doktorandin/der Doktorand gestattet der Universität, an der die Dissertation eingereicht 
-		wurde bzw. der Universitätsbibliothek, Kopien der digitalen Dissertation zu erstellen, und diese 
-		unter Verwendung der Metadaten auf ihren Servern für die Benutzung bereitzustellen, ggf. in 
-		andere Formate zu konvertieren und ihre bibliographischen Daten und ggf. das Abstract 
-		Datenbanken zugänglich zu machen. Die elektronische Dissertation wird archiviert und im 
-		Internet publiziert, solange dies technisch und mit vertretbarem Aufwand möglich ist. 
-		Die Doktorandin/der Doktorand räumt der Universitätbibliothek das einfache 
-		Nutzungsrecht ein, die elektronische Dissertation in Datennetzen öffentlich wiederzugeben und 
-		auf Einzelabruf zu übertragen.<br/> 
-		Der Lieferung der digitale Dissertation an Die Deutsche Bibliothek und der dortigen 
-		Speicherung zwecks Archivierung und Zurverfügungstellung nach geltendem Recht sowie ggf. 
-		an die Sondersammelgebietsbibliothek zu gleichen Konditionen stimmt die Doktorandin/der 
-		Doktorand zu. <br/>
-		Die Universitätsbibliothek stellt eine Bescheinigung über das Erbringen der Publikationspflicht 
-		aus. 
+	    <p align="justify" > 
+	       <fmt:message key="Nav.Application.dissertation.deliver.p2" />
+	       <br/> 
+	       <fmt:message key="Nav.Application.dissertation.deliver.p2.1" />	       
+	       <br/> 
+	       <fmt:message key="Nav.Application.dissertation.deliver.p2.2" />
 		</p>
 	  </td></tr>
 	  <tr>
 	  <td valign="top" class="metaname"> <b>Rechte Dritter </b>  </td></tr>
 	  <tr>
 		<td>
-	    <p align="justify" >  Die Doktorandin/der Doktorand versichert, dass mit der elektronischen Publikation der 
-		Dissertation keine Rechte Dritter verletzt werden und dass die Hochschule von etwaigen 
-		Rechten Dritter freigestellt wird. </p>
+	    <p align="justify" >  
+	       <fmt:message key="Nav.Application.dissertation.deliver.p3" />	    
+	    </p>
 	  </td></tr>
 	  <tr>
 	  <td valign="top" class="metaname"> <b>Datenschutz </b>  </td></tr>
 	  <tr>
 		<td>
-	    <p align="justify" >  Die Doktorandin/der Doktorand ist damit einverstanden, dass ihre/seine persönlichen Daten 
-		gem. Promotionsordnung maschinell gespeichert und zusammen mit der Dissertation 
-		bereitgestellt werden. </p>
+	    <p align="justify" >	       
+	    	<fmt:message key="Nav.Application.dissertation.deliver.p4" />
+		</p>
 	  </td></tr>
 	  </table>
 	  

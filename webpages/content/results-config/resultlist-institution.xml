@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <MCRDocDetails name="field definition for resultlist of document" >
-    <MCRDocDetail rowtype="standard" labelkey="resultlist-title" >
+    <MCRDocDetail rowtype="standard" labelkey="OMD.title" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/names/name/fullname" templatetype="tpl-text-values" separator=", " languageRequired="no" withResultlistLink="true" />
     </MCRDocDetail> 
-    <MCRDocDetail rowtype="standard" labelkey="resultlist-dummy" >
+    <MCRDocDetail rowtype="standard" labelkey="OMD.dummy" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/names/name/fullname" templatetype="tpl-text-values" separator=" " languageRequired="no" />    
     </MCRDocDetail>
-    <MCRDocDetail rowtype="standard" labelkey="resultlist-dummy" >
+    <MCRDocDetail rowtype="standard" labelkey="OMD.dummy" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/names/name/fullname" templatetype="tpl-text-values" separator=" " languageRequired="no" />    
     </MCRDocDetail>  
-    <MCRDocDetail rowtype="standard" labelkey="resultlist-address" >
+    <MCRDocDetail rowtype="standard" labelkey="OMD.address" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/addresses/address/country" templatetype="tpl-text-values" separator=", " languageRequired="no" />    
         <MCRDocDetailContent xpath="/mycoreobject/metadata/addresses/address/state" templatetype="tpl-text-values" separator=", " languageRequired="no" />    
         <MCRDocDetailContent xpath="/mycoreobject/metadata/addresses/address/city" templatetype="tpl-text-values" separator=", " languageRequired="no" />                    
     </MCRDocDetail>        
-    <MCRDocDetail rowtype="standard" labelkey="resultlist-ID" >
+    <MCRDocDetail rowtype="standard" labelkey="OMD.ID" >
         <MCRDocDetailContent xpath="/mycoreobject/@ID" templatetype="tpl-text-values" separator=", " languageRequired="no" />
     </MCRDocDetail>     
 </MCRDocDetails>

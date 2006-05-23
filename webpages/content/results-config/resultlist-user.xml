@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <MCRDocDetails name="field definition for resultlist of a user registration" >
-    <MCRDocDetail rowtype="standard" labelkey="resultlist-title" >
+    <MCRDocDetail rowtype="standard" labelkey="OMD.title" >
      <MCRDocDetailContent xpath="/user/user.contact/contact.salutation" templatetype="tpl-text-values" separator=" " languageRequired="no" withResultlistLink="true"/>
      <MCRDocDetailContent xpath="/user/user.contact/contact.firstname" templatetype="tpl-text-values" separator=" " languageRequired="no" withResultlistLink="true"/>
      <MCRDocDetailContent xpath="/user/user.contact/contact.lastname" templatetype="tpl-text-values" separator=" " languageRequired="no" withResultlistLink="true"/>
     </MCRDocDetail>
-    <MCRDocDetail rowtype="standard" labelkey="resultlist-faculty" >
+    <MCRDocDetail rowtype="standard" labelkey="OMD.faculty" >
         <MCRDocDetailContent xpath="/user/user.contact/contact.faculty" templatetype="tpl-text-values" separator="&lt;br&gt;" languageRequired="yes" />
     </MCRDocDetail>     
-    <MCRDocDetail rowtype="standard" labelkey="resultlist-institution" >
+    <MCRDocDetail rowtype="standard" labelkey="OMD.institution" >
         <MCRDocDetailContent xpath="/user/user.contact/contact.institution" templatetype="tpl-text-values" separator=", " languageRequired="no" />
     </MCRDocDetail>         
-    <MCRDocDetail rowtype="standard" labelkey="resultlist-email" >
+    <MCRDocDetail rowtype="standard" labelkey="OMD.email" >
         <MCRDocDetailContent xpath="/user/user.contact/contact.email" templatetype="tpl-email" separator=", " languageRequired="yes" />
     </MCRDocDetail>
-    <MCRDocDetail rowtype="standard" labelkey="resultlist-telephone" >
+    <MCRDocDetail rowtype="standard" labelkey="OMD.telephone" >
         <MCRDocDetailContent xpath="/user/user.contact/contact.telephone" templatetype="tpl-text-values" separator=", " languageRequired="no" />
     </MCRDocDetail>         
-    <MCRDocDetail rowtype="standard" labelkey="resultlist-description" >
+    <MCRDocDetail rowtype="standard" labelkey="OMD.description" >
         <MCRDocDetailContent xpath="/user/user.description" templatetype="tpl-text-values" separator=", " languageRequired="no" />
     </MCRDocDetail>         
     
