@@ -139,7 +139,6 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
         Element root = new Element("mycoreuser");        
  		root.setAttribute("noNamespaceSchemaLocation", "MCRUser.xsd", org.jdom.Namespace.getNamespace("xsi", MCRDefaults.XSI_URL));
         Element userElement = new Element("user");
-        org.jdom.Document   indoc = sub.getXML();
 		
         if ( newUserID != null ) {
 			// Neue ID verwenden, da erste ID schon existiert
@@ -148,6 +147,7 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
     			.append(ID).append(".xml");
         	userElement = (Element) setNewUserIDforUser(newUserID, ID, storePath.toString(), lang);
 		} else {
+	        org.jdom.Document   indoc = sub.getXML();
             userElement = (Element) indoc.getRootElement().getChild("user").clone();            
 		}
         
