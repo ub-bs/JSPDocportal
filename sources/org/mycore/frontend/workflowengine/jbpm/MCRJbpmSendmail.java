@@ -96,17 +96,22 @@ public class MCRJbpmSendmail{
 	}
 	
 	private static String getUserEmailAddress(String userid){
-		MCRUser user = MCRUserMgr.instance().retrieveUser(userid);
-		return user.getUserContact().getEmail();
+		if ( MCRUserMgr.instance().existUser(userid) ) {
+			MCRUser user = MCRUserMgr.instance().retrieveUser(userid);
+			return user.getUserContact().getEmail();
+		}
+		return null;
 	}
 	
 	private static List getGroupMembersEmailAddresses(String groupid){
 		List ret = new ArrayList();
-		MCRGroup group = MCRUserMgr.instance().retrieveGroup(groupid);
-		for (Iterator it = group.getMemberUserIDs().iterator(); it.hasNext();) {
-			String email = getUserEmailAddress((String)it.next());
-			if(email != null && email.indexOf("@") > -1){
-				ret.add(email);
+		if (MCRUserMgr.instance().existGroup(groupid) ) {
+			MCRGroup group = MCRUserMgr.instance().retrieveGroup(groupid);
+			for (Iterator it = group.getMemberUserIDs().iterator(); it.hasNext();) {
+				String email = getUserEmailAddress((String)it.next());
+				if(email != null && email.indexOf("@") > -1){
+					ret.add(email);
+				}
 			}
 		}
 		if(ret.size() == 0){
