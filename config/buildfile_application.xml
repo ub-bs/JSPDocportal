@@ -896,9 +896,19 @@
             <fileset
                 dir="${docportal.webpages}/content/results-config"
                 includes="*.xml" />
-            <fileset dir="${docportal.languages}"
-                includes="*.properties" />
         </copy>
+    	<echo> Concat messagebundles to one messages_{locale}.properties</echo>
+    	<concat destfile="${docportal.webapps}/WEB-INF/classes/messages_de.properties">
+    		<filelist id="messagebundles_de" 
+  		    		dir="${docportal.languages}"
+    		    	files="mymessages_de.properties,messages_de.properties"/> 
+    	</concat>
+    	<concat destfile="${docportal.webapps}/WEB-INF/classes/messages_en.properties" >
+    		<filelist  id="messagebundles_en" 
+    			dir="${docportal.languages}"
+    		    files="mymessages_en.properties,messages_en.properties"/> 
+    	</concat>
+    	
         <copy todir="${docportal.webapps}/WEB-INF/stylesheets"
             flatten="true">
             <fileset dir="${MYCORE_HOME}/stylesheets"
