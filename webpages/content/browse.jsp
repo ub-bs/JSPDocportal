@@ -3,7 +3,6 @@
 				 org.mycore.frontend.servlets.MCRServlet,
 				 org.mycore.common.MCRSession,
 				 org.mycore.common.MCRConfiguration,				 
-				 org.apache.log4j.Logger,
 				 org.mycore.common.JSPUtils,
 				 org.mycore.datamodel.classifications.MCRClassificationBrowserData,
 				 org.mycore.common.MCRConfigurationException,
@@ -16,14 +15,12 @@
 	String actUriPath = request.getParameter("actUriPath");
 	String browserClass = request.getParameter("browserClass");
 	String searchField = "";
-	String searchClass = "";
 
 	if (actUriPath == null) actUriPath = "/" + browserClass;
 	String lang = (String) request.getAttribute("lang");
     MCRSession mcrSession = MCRServlet.getSession(request);
     try {
 		searchField = MCRConfiguration.instance().getString("MCR.ClassificationBrowser." + browserClass + ".SearchField"); 
-		searchClass = MCRConfiguration.instance().getString("MCR.ClassificationBrowser." + browserClass + ".Classification"); 
         mcrSession.BData = new MCRClassificationBrowserData(actUriPath,"","","");
     } catch (MCRConfigurationException cErr) {
     	request.setAttribute("message",cErr.getMessage());
@@ -36,27 +33,19 @@
 	String WebApplicationBaseURL = (String) getServletContext().getAttribute("WebApplicationBaseURL");
     Element browser = doc.getRootElement();
     Element navigationTree = browser.getChild("navigationtree");
-    String searchType = navigationTree.getAttributeValue("doctype");
     //org.jdom.output.XMLOutputter xmlout = new org.jdom.output.XMLOutputter(org.jdom.output.Format.getPrettyFormat());
     //System.out.print(xmlout.outputString(doc));
     String hrefStart = new StringBuffer(WebApplicationBaseURL)
     	.append("nav?path=").append(path)
     	.append("&actUriPath=").append(request.getParameter("startUriPath"))
-    	.toString();
-    	
-    if ( searchField.equals("codice") ) {
-    	hrefStart="http://www.uni-rostock.de/ub/son.htm"; 
-    	
-    } else  if ( searchField.equals("archive") ) {
-    	hrefStart="http://www.uni-rostock.de/"; 
-	}
+    	.toString();    	
 %>
 	<fmt:setBundle basename='messages'/>
-	<div class="headline"><fmt:message key="browse.generalTitle" /></div>
+	<div class="headline"><fmt:message key="Browse.generalTitle" /></div>
     <table id="metaHeading" cellpadding="0" cellspacing="0">
         <tr>
             <td class="titles">
-                <fmt:message key="browse.numberOf" /> : <%= browser.getChildText("cntDocuments") %>
+                <fmt:message key="Browse.numberOf" /> : <%= browser.getChildText("cntDocuments") %>
             </td>
             <td class="browseCtrl">
                 <a href="<%= hrefStart %>"><%= browser.getChildText("description") %></a>
@@ -124,7 +113,7 @@
         	         %>
         	   </td>
         	   <td class="numDocs"> 
-        	      [<%= displayedNumber %> <fmt:message key="browse.doc" />]
+        	      [<%= displayedNumber %> <fmt:message key="Browse.doc" />]
         	   </td>
         	   <td class="descr">
         	      <% if(numDocs > 0) {   %>
@@ -141,22 +130,7 @@
        	          <% }    %>
         	</tr>
         	<% } %>        
-	 </table>	
-	 </td>
-	 	<% if ( searchField.equals("archive") || searchField.equals("codices")) { %>
- 		 	<td align="right"><img src="http://www.uni-rostock.de/ub/SON300.gif" border="0" /></td> 		 	
- 		 	<td width="10">&nbsp;</td>
-	 	<% } %> 	
-	 </tr>	
-	 	<% if ( searchField.equals("codices")) { %>
- 		 	<tr><td>
- 		 	  <div class="textblock2">
- 		 	  		<p><fmt:message key="Codice.Hinweis1" /></p>
-					<p><fmt:message key="Codice.Hinweis2" /></p>
-			  </div>		
- 		 	  </td>
- 		 	 </tr>
-	 	<% } %> 	
-	 	
+	 </table>
+	 </td></tr>	
  	</table>
  	

@@ -17,7 +17,7 @@
         <query mask="-" maxResults="0" numPerPage="0">
 		  <conditions format="text">origin = Unis.TUMuenchen</conditions>
 		</query>
-		**/
+		***/
 
         String resultlistType = "class" + searchField;
         Element query = new Element("query");

@@ -2,12 +2,8 @@
 				 org.jdom.Document,
 				 org.mycore.frontend.servlets.MCRServlet,
 				 org.mycore.common.MCRSession,
-				 org.mycore.common.MCRConfiguration,				 
-				 org.apache.log4j.Logger,
 				 org.mycore.common.JSPUtils,
-				 org.mycore.datamodel.classifications.MCRClassificationBrowserData,
-				 org.mycore.common.MCRConfigurationException,
-				 java.util.List,java.util.Enumeration,
+				 java.util.List,
 				 java.util.Iterator"%>  
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -48,27 +44,13 @@
 	
     /** ========== Subselect Parameter ENDE ========== **/
 	
-	String searchField = "";
-	String searchClass = "";
-
 	if (actUriPath == null) actUriPath = "/" + browserClass;
 	String lang = (String) request.getAttribute("lang");
     MCRSession mcrSession = MCRServlet.getSession(request);
-    try {
-		searchField = MCRConfiguration.instance().getString("MCR.ClassificationBrowser." + browserClass + ".SearchField"); 
-		searchClass = MCRConfiguration.instance().getString("MCR.ClassificationBrowser." + browserClass + ".Classification"); 
-        mcrSession.BData = new MCRClassificationBrowserData(actUriPath,"","","");
-    } catch (MCRConfigurationException cErr) {
-    	request.setAttribute("message",cErr.getMessage());
-   	    getServletContext().getRequestDispatcher("/mycore-error.jsp").forward(request,response);
-    }
-
-    Document doc = mcrSession.BData.createXmlTree(lang);
-    
+    Document doc = mcrSession.BData.createXmlTree(lang);   
 	String path = request.getParameter("path");
     Element browser = doc.getRootElement();
     Element navigationTree = browser.getChild("navigationtree");
-    String searchType = navigationTree.getAttributeValue("doctype");
     //org.jdom.output.XMLOutputter xmlout = new org.jdom.output.XMLOutputter(org.jdom.output.Format.getPrettyFormat());
     //System.out.print(xmlout.outputString(doc));
     String hrefStart = new StringBuffer(WebApplicationBaseURL)
@@ -76,15 +58,9 @@
     	.append("&actUriPath=").append(request.getParameter("startUriPath"))
     	.toString();
     	
-    if ( searchField.equals("codice") ) {
-    	hrefStart="http://www.uni-rostock.de/ub/son.htm"; 
-    	
-    } else  if ( searchField.equals("archive") ) {
-    	hrefStart="http://www.uni-rostock.de/"; 
-	}
 %>
 	<fmt:setBundle basename='messages'/>
-	<div class="headline"><fmt:message key="browse.generalTitle" /></div>
+	<div class="headline"><fmt:message key="Browse.generalTitle" /></div>
     <table id="metaHeading" cellpadding="0" cellspacing="0">
         <tr>
          <td style="width:60%;" class="desc">
@@ -96,7 +72,7 @@
 		</tr>
 		<tr>
           <td class="titles">
-                <fmt:message key="browse.numberOf" /> : <%= browser.getChildText("cntDocuments") %>
+                <fmt:message key="Browse.numberOf" /> : <%= browser.getChildText("cntDocuments") %>
             </td>
             <td class="browseCtrl">
                 <a href="<%= hrefStart %>"><%= browser.getChildText("description") %></a>
@@ -129,9 +105,11 @@
 		  	String img1 = new StringBuffer(WebApplicationBaseURL)
 		  		.append("images/").append(col1.getAttributeValue("folder1")).append(".gif")
 		  		.toString();
+		  	/***
 		  	String img2 = new StringBuffer(WebApplicationBaseURL)
 		  		.append("images/").append(col1.getAttributeValue("folder2")).append(".gif")
 		  		.toString();
+		  	***/
 		  	String img3 = new StringBuffer(WebApplicationBaseURL)
 		  		.append("images/folder_blank.gif")
 		  		.toString();
@@ -163,7 +141,7 @@
         	         %>
         	   </td>
         	   <td class="numDocs"> 
-        	      [<%= displayedNumber %> <fmt:message key="browse.doc" />]
+        	      [<%= displayedNumber %> <fmt:message key="Browse.doc" />]
         	   </td>
         	   <td class="descr">
     	          <a href="<%= subSelectItem %>"><%= col2.getText() %></a>
