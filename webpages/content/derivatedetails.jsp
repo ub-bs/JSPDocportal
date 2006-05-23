@@ -1,30 +1,19 @@
 <%@ page import="org.mycore.datamodel.metadata.MCRObject,
                  org.mycore.datamodel.metadata.MCRObjectID,
                  org.mycore.frontend.servlets.MCRServlet,
-				 java.util.HashMap,
                  java.util.List,
                  java.util.Iterator,
-                 java.util.Enumeration,
 				 org.jdom.Element,
 				 org.jdom.Document,
                  org.apache.log4j.Logger"%>
-<%@ page import="org.jdom.Document" %>
 <%@ page import="org.mycore.frontend.jsp.format.MCRResultFormatter" %>
 <%@ page import="org.mycore.frontend.jsp.query.MCRDerivateComparator" %>
-<%@ page import="org.mycore.datamodel.metadata.MCRObject" %>
 <%@ page import="org.mycore.datamodel.metadata.MCRDerivate" %>
-<%@ page import="java.io.InputStreamReader" %>
-<%@ page import="java.io.ByteArrayInputStream" %>
-<%@ page import="org.mycore.common.xml.MCRXMLHelper" %>
-<%@ page import="javax.xml.xpath.XPath" %>
-<%@ page import="org.mycore.access.MCRAccessManager" %>
-<%@ page import="org.mycore.common.MCRSession" %>
 <%@ page import="org.mycore.common.xml.MCRURIResolver" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/xml"  prefix="x" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>                 
 <%
-    MCRSession mcrSession = MCRServlet.getSession(request);
     MCRResultFormatter formatter = new MCRResultFormatter();
     String WebApplicationBaseURL = (String) getServletContext().getAttribute("WebApplicationBaseURL");
     String referer = request.getHeader("referer");
@@ -73,7 +62,6 @@
     Element fileContents = org.mycore.common.xml.MCRURIResolver.instance().resolve("resource:" + "FileContentTypes.xml");
     String allFiles = formatter.getSingleXPathValue(der,"/mcr_results/mcr_result/mcr_directory/numChildren/total/files");
     String derPath = formatter.getSingleXPathValue(der,"/mcr_results/mcr_result/mcr_directory/path");
-    String derOwnerID = formatter.getSingleXPathValue(der,"/mcr_results/mcr_result/mcr_directory/ownerID");    
 %>
     <fmt:setLocale value='<%= lang %>'/>
     <fmt:setBundle basename='messages'/>

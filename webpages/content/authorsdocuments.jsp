@@ -1,16 +1,7 @@
-<%@ page import="org.mycore.datamodel.metadata.MCRObject,
-                 org.mycore.datamodel.metadata.MCRObjectID,
-                 org.mycore.frontend.servlets.MCRServlet,
-				 java.util.HashMap,
-                 java.util.Enumeration,
-				 org.jdom.Element,
+<%@ page import="org.jdom.Element,
 				 org.jdom.Document,
                  org.apache.log4j.Logger"%>
-<%@ page import="org.jdom.Document" %>
 <%@ page import="org.jdom.output.XMLOutputter" %>
-<%@ page import="org.mycore.frontend.jsp.format.MCRResultFormatter" %>
-<%@ page import="org.mycore.datamodel.metadata.MCRObject" %>
-<%@ page import="org.mycore.common.MCRConfiguration" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>                 
 <%
@@ -78,8 +69,6 @@
         Logger.getLogger("authorsdocuments.jsp").debug("selfcreated query: \n" + xmlout.outputString(queryDoc));
         
         request.setAttribute("query", queryDoc);
-        //request.setAttribute("resultlistType",searchType);  //gibt es nicht ?
-
         getServletContext().getRequestDispatcher("/nav?path=~searchresult-" + resultlistType).forward(request, response);
 %>        
 
