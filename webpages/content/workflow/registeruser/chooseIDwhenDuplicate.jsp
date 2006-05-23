@@ -29,12 +29,12 @@
  <tr>
   <td>
 	<br/>
-	<p><fmt:message key="SWF.User.ChangeID" />	</p>
-	<p>Gewähltes Kennzeichen: <c:out value="${param.userid}" /></p>
+	<p><fmt:message key="SWF.registerUser.ChangeID" />	</p>
+	<p><fmt:message key="SWF.registerUser.YourID" /> <c:out value="${userID}" /></p>
 
-	<form method="post" action="servlets/MCRPassToTargetServlet">
-	<input type="hidden" name="target" value="MCRCheckUserRegistrationServlet" />
-	<input type="hidden" name="userID" value="${param.userid}" />
+	<form method="post" action="MCRPassToTargetServlet">
+	<input type="hidden" name="target" value="MCRRegisterUserWorkflowServlet" />
+	<input type="hidden" name="userID" value="${userID}" />
 	<input type="hidden" name="page" value="nav?path=~registeredUser" />	
 	<table class="editor" >
 	 <tr>
