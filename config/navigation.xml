@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
     <navigations>
       <navigation name="left" label="Nav.MainmenueLeft">
-        <navitem name="left" label="MyCoRe" href="content/index.jsp">
+        <navitem name="left" label="Nav.MyCoRe" href="content/index.jsp">
           <navitem name="search" label="Nav.Search" href="content/search.jsp">
             <refitem name="~searchstart" label="" />
             <navitem name="simple" label="Nav.SimpleDocumentSearch" href="content/searchmask-editor.jsp?editor=editor/searchmasks/SearchMask_SimpleDocument.xml">
@@ -150,7 +150,7 @@
         </navitem>
       </navigation>
       <navigation name="top" label="Nav.MenuAbove">
-        <navitem name="top" label="MyCoRe" href="content/index.jsp">
+        <navitem name="top" label="Nav.MyCoRe" href="content/index.jsp">
           <navitem name="start" label="Nav.Start" href="content/index.jsp">
             <refitem name="~index" label="" />
           </navitem>
