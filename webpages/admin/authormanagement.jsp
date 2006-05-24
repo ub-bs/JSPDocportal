@@ -4,5 +4,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
 <fmt:setLocale value="${requestScope.lang}" />
 <fmt:setBundle basename='messages'/>
-<div class="headline"><fmt:message key="Nav.Admin.Xmetadiss" /></div>
+<div class="headline"><fmt:message key="Nav.Admin.Author" /></div>
 <p><c:import url="content/node.jsp" /></p>
