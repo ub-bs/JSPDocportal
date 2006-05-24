@@ -221,7 +221,11 @@ public class MCRResultFormatter {
 				}catch(MissingResourceException m) {
 					datePattern = "EEEE, d MMMM yyyy HH:mm:ss";
 				}
-				dateString = formateDate(dateString, datePattern, lang); 
+				try {
+					dateString = formateDate(dateString, datePattern, lang);
+				} catch (Exception ignored) {
+					//take it as it is
+				}
 				metaValue.setAttribute("text",dateString);
 				metaValues.addContent(metaValue);			    
 			    break;
@@ -745,8 +749,11 @@ public class MCRResultFormatter {
     
     
     public Document getFormattedDocDetails(Document doc, String lang, String style) {
-    	MCRObjectID mcrid = new MCRObjectID(doc.getRootElement().getAttributeValue("ID"));
-		String docType = mcrid.getTypeId();
+    	String docType = style;
+    	if (! style.equalsIgnoreCase("user")) {
+        	MCRObjectID mcrid = new MCRObjectID(doc.getRootElement().getAttributeValue("ID"));
+    		docType = mcrid.getTypeId();    		
+    	}
 		String resultlistStyle = (style == null || style.length() == 0 )?docType:style;
         Element definition = (docdetailsMap.containsKey(resultlistStyle)) ?
         		(Element)docdetailsMap.get(resultlistStyle) : addDocType2DocdetailsMap(resultlistStyle);		
@@ -859,10 +866,16 @@ public class MCRResultFormatter {
 	}    
 
     public static String formateDate(String dateString, String datePattern, String iso639Lang){
-    	SimpleDateFormat fmt = new SimpleDateFormat( datePattern, new Locale(iso639Lang));
-        MCRMetaISO8601Date date = new MCRMetaISO8601Date();
-    	date.setDate(dateString);
-    	return fmt.format(date.getDate()) ;
+    	String ret = dateString;
+    	try {
+    		SimpleDateFormat fmt = new SimpleDateFormat( datePattern, new Locale(iso639Lang));
+            MCRMetaISO8601Date date = new MCRMetaISO8601Date();
+        	date.setDate(dateString);
+        	ret =  fmt.format(date.getDate()) ;
+    	} catch( Exception uparsableDate) {
+    		;
+    	}
+    	return ret;
     }
 	public static void main(String[] args) {
     	MCRResultFormatter formatter = new MCRResultFormatter();
