@@ -12,6 +12,7 @@
 <fmt:setBundle basename='messages' />
 <c:set var="debug" value="true" />
 <c:set var="dom" value="${requestScope.task.variables}" />
+<c:set var="objid" value="" />
 
 <c:if test="${requestScope.task.taskName ne 'initialization'}">
    <fmt:message key="WorkflowEngine.author" /> <fmt:message key="WorkflowEngine.Processnumber" /> <b>${requestScope.task.processID}</b>: <br>
@@ -23,16 +24,30 @@
        <b><fmt:message key="WorkflowEngine.initiator.statusMessage.${requestScope.task.workflowStatus}.author" /></b>
        <br />&nbsp;<br />
    </c:when>
-   <c:when test="${requestScope.task.taskName eq 'taskInputAuthorEqualsInitator'}">
+
+
+    <c:when test="${requestScope.task.taskName eq 'taskInputAuthorEqualsInitator'}">
       <br>&nbsp;<br>
-      <img title="" alt="" src="${baseURL}images/greenArrow.gif">   
+      <img title="" alt="" src="${baseURL}images/greenArrow.gif">                         
       <a href="${baseURL}nav?path=~author&transition=go2CreateAuthorFromInitiator&endTask=taskInputAuthorEqualsInitator&processID=${requestScope.task.processID}"><fmt:message key="Nav.Workflow.author.iAmTheAuthor" /></a>
       <br>                                                   
       <img title="" alt="" src="${baseURL}images/greenArrow.gif">      
       <a href="${baseURL}nav?path=~author&transition=go2CreateNewAuthor&endTask=taskInputAuthorEqualsInitator&processID=${requestScope.task.processID}"><fmt:message key="Nav.Workflow.author.iAmNotTheAuthor" /></a>
-
    </c:when>   
-
+   
+   <c:when test="${requestScope.task.taskName eq 'displayAuthorForUser'}">
+    	<mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="objid" workflowVar="authorID" /> 
+    	<%-- alternativ:
+	   	<c:set var="authorID"><x:out select="$dom/variables/variable[@name = 'authorID']/@value" /></c:set> --%>
+		<br>&nbsp;<br>
+	    <fmt:message key="WorkflowEngine.AuthorForUserExists.author">
+			<fmt:param>${objid}</fmt:param>                             
+	    </fmt:message>
+    	<br>&nbsp;<br>
+	    <img title="" alt="" src="${baseURL}images/greenArrow.gif">      
+    	<a href="${baseURL}nav?path=~author&transition=go2End&endTask=displayAuthorForUser&processID=${requestScope.task.processID}"><fmt:message key="Nav.Workflow.author.finishWorkflow" /></a>
+   </c:when>
+   
   <c:when test="${requestScope.task.taskName eq 'taskCompleteAuthorAndSendToLibrary'}">
       <p>
          <img title="" alt="" src="${baseURL}images/greenArrow.gif">

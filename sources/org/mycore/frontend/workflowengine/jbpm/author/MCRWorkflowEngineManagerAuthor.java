@@ -56,7 +56,9 @@ import org.mycore.user2.MCRUserMgr;
 
 public class MCRWorkflowEngineManagerAuthor extends
 		MCRWorkflowEngineManagerBaseImpl {
-
+	public static final String varAUTHORID = "authorID";
+	
+	
 	private static Logger logger = Logger
 			.getLogger(MCRWorkflowEngineManagerAuthor.class.getName());
 	private static String processType = "author";
@@ -245,6 +247,7 @@ public class MCRWorkflowEngineManagerAuthor extends
 
 	public String checkDecisionNode(long processid, String decisionNode,
 			ExecutionContext executionContext) {
+		MCRWorkflowProcess wfp = getWorkflowObject(processid);
 		if (decisionNode.equals("canAuthorBeSubmitted")) {
 			if (checkSubmitVariables(processid)) {
 				return "authorCanBeSubmitted";
@@ -260,6 +263,22 @@ public class MCRWorkflowEngineManagerAuthor extends
 				return "authorCantBeCommitted";
 			}
 		}
+		
+		if (decisionNode.equals("doesAuthorForUserExist")) {
+			String userid = wfp.getStringVariable(MCRJbpmWorkflowBase.varINITIATOR);
+			MCRResults mcrResult = MCRWorkflowUtils.queryMCRForAuthorByUserid(userid);
+			logger.debug("Results found hits:" + mcrResult.getNumHits());
+			if (mcrResult.getNumHits() > 0) {
+				String authorID = mcrResult.getHit(0).getID();
+				executionContext.setVariable(MCRWorkflowEngineManagerAuthor.varAUTHORID, authorID);			
+//alternativ:
+//				wfp.setStringVariable(MCRWorkflowEngineManagerAuthor.varAUTHORID, authorID);
+//				wfp.close();
+				return "authorForUserExists_yes";
+			} else {
+				return "authorForUserExists_no";
+			}
+		}
 		return null;
 	}
 
@@ -267,7 +286,9 @@ public class MCRWorkflowEngineManagerAuthor extends
 		boolean ret = false;
 		MCRWorkflowProcess wfp = getWorkflowObject(processid);
 		try {
-			String createdDocID = wfp.getStringVariable("createdDocID");
+			String createdDocID = wfp.getStringVariable(varAUTHORID);
+			if(createdDocID==null)createdDocID = wfp.getStringVariable("createdDocID");
+				
 			if (!isEmpty(createdDocID)) {
 				String strDocValid = wfp.getStringVariable(VALIDPREFIX
 						+ createdDocID);
@@ -288,14 +309,25 @@ public class MCRWorkflowEngineManagerAuthor extends
 		long pid = getUniqueWorkflowProcessFromCreatedDocID(mcrid);
 		MCRWorkflowProcess wfp = getWorkflowObject(pid);
 		try {
+			Element name = metadata.getChild("names").getChild("name");
 			StringBuffer sbTitle = new StringBuffer("");
-			for (Iterator it = metadata.getDescendants(new ElementFilter(
-					"title")); it.hasNext();) {
-				Element title = (Element) it.next();
-				if (title.getAttributeValue("type").equals("original-main"))
-					sbTitle.append(title.getText());
+			String first = name.getChildTextNormalize("firstname");
+			String last = name.getChildTextNormalize("surname");
+			String academic = name.getChildTextNormalize("academic");
+			String prefix = name.getChildTextNormalize("prefix");
+			String fullname=name.getChildTextNormalize("fullname");
+			if(fullname!=null){
+				sbTitle.append(fullname);
 			}
-			wfp.setStringVariable("wfp-title", sbTitle.toString());
+			else{
+				if(academic!=null){ sbTitle.append(academic); sbTitle.append(" ");}
+				if(first!=null ){ sbTitle.append(first); sbTitle.append(" ");}
+				if(prefix!=null){ sbTitle.append(prefix); sbTitle.append(" ");}
+				if(last!=null ){ sbTitle.append(last); sbTitle.append("");}
+			}
+			
+		
+			wfp.setStringVariable("wfo-title", sbTitle.toString());
 		} catch (MCRException ex) {
 			logger.error("catched error", ex);
 		} finally {
