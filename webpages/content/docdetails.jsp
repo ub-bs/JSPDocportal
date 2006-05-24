@@ -17,8 +17,15 @@
 <c:set var="from"  value="${param.fromWForDB}" /> 
 <c:set var="debug" value="${param.debug}" />
 <c:set var="style" value="${param.style}" /> 
+<c:choose>
+ <c:when test="${fn:contains(style,'user')}">
+	<mcr:receiveUserAsJdom var="mycoreobject" />
+ </c:when>
+ <c:otherwise>
+	<mcr:receiveMcrObjAsJdom var="mycoreobject" mcrid="${mcrid}" fromWForDB="${from}" />
+ </c:otherwise>
+</c:choose>
 
-<mcr:receiveMcrObjAsJdom var="mycoreobject" mcrid="${mcrid}" fromWForDB="${from}" />
 <c:choose>
    <c:when test="${requestScope.host}">
       <c:set var="host" value="${requestScope.host}" />
