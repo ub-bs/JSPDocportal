@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<MCRDocDetails name="field definition for userdetails" >
+    <MCRDocDetail rowtype="standard" labelkey="OMD.ID" >
+        <MCRDocDetailContent xpath="/user/@ID" templatetype="tpl-text-values" separator=", " languageRequired="no" />
+    </MCRDocDetail> 
+    <MCRDocDetail rowtype="standard" labelkey="OMD.name" >
+        <MCRDocDetailContent xpath="/user/user.contact/contact.salutation" templatetype="tpl-text-values" separator=" " languageRequired="no" />
+        <MCRDocDetailContent xpath="/user/user.contact/contact.firstname" templatetype="tpl-text-values" separator=" " languageRequired="no" />
+        <MCRDocDetailContent xpath="/user/user.contact/contact.lastname" templatetype="tpl-text-values" separator=" " languageRequired="no" />
+    </MCRDocDetail>
+    <MCRDocDetail rowtype="standard" labelkey="OMD.addressofficial">
+        <MCRDocDetailContent xpath="/user/user.contact/contact.postalcode" templatetype="tpl-text-values" separator=" " languageRequired="no" />
+        <MCRDocDetailContent xpath="/user/user.contact/contact.city" templatetype="tpl-text-values" separator=" " languageRequired="no" />
+    </MCRDocDetail>
+    <MCRDocDetail rowtype="standard" labelkey="">
+        <MCRDocDetailContent xpath="/user/user.contact/contact.street" templatetype="tpl-text-values" separator=" " languageRequired="no" />
+    </MCRDocDetail>  
+    <MCRDocDetail rowtype="standard" labelkey="OMD.institution" >
+        <MCRDocDetailContent xpath="/user/user.contact/contact.faculty" templatetype="tpl-text-values" separator="&lt;br&gt;" languageRequired="no" />
+        <MCRDocDetailContent xpath="/user/user.contact/contact.institution" templatetype="tpl-text-values" separator=" " languageRequired="no" />
+    </MCRDocDetail>           
+    <MCRDocDetail rowtype="standard" labelkey="OMD.email" >
+        <MCRDocDetailContent xpath="/user/user.contact/contact.email" templatetype="tpl-text-values" separator=" " languageRequired="no" />
+    </MCRDocDetail>     
+    <MCRDocDetail rowtype="standard" labelkey="OMD.notes" >
+        <MCRDocDetailContent xpath="/user/user.description" templatetype="tpl-text-values" separator="&lt;br&gt;" languageRequired="yes" />
+    </MCRDocDetail>     
+    <MCRDocDetail rowtype="standard" labelkey="OMD.groups" >
+        <MCRDocDetailContent xpath="/user/user.groups/groups.groupID" templatetype="tpl-text-values" separator="&lt;br&gt;" languageRequired="yes" />
+    </MCRDocDetail>     
+    <MCRDocDetail rowtype="standard" labelkey="OMD.primgroup" >
+        <MCRDocDetailContent xpath="/user/user.primary_group" templatetype="tpl-text-values" separator="&lt;br&gt;" languageRequired="yes" />
+    </MCRDocDetail>     
+    <MCRDocDetail rowtype="standard" labelkey="OMD.created" >
+        <MCRDocDetailContent xpath="/user/user.creation_date" templatetype="tpl-date-values" separator=", " languageRequired="yes" />
+    </MCRDocDetail>
+    <MCRDocDetail rowtype="standard" labelkey="OMD.changed" >
+        <MCRDocDetailContent xpath="/user/user.last_modified" templatetype="tpl-date-values" separator=", " languageRequired="yes" />
+    </MCRDocDetail> 
+    
+    
+</MCRDocDetails>
