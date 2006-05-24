@@ -154,12 +154,12 @@
           <navitem name="start" label="Nav.Start" href="content/index.jsp">
             <refitem name="~index" label="" />
           </navitem>
-          <navitem name="sitemap" label="Nav.Sitemap" href="content/snavitemap.jsp" />
+          <navitem name="sitemap" label="Nav.Sitemap" href="content/sitemap.jsp" />
           <navitem name="login" label="Nav.Login" href="content/login.jsp">
             <navitem name="login" label="Nav.LoggedIn" href="login" hidden="true">
               <refitem name="~login" label="" />
             </navitem>
-            <navitem name="showuser" label="Nav.UserDetails" href="content/query.jsp">
+            <navitem name="showuser" label="Nav.UserDetails" href="content/docdetails.jsp?style=user">
               <refitem name="~userdetail" label="" />
             </navitem>
           </navitem>

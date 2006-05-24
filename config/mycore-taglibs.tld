@@ -660,6 +660,29 @@ specified in the action.
             </attribute>   			
             <info>A Tag, that sets a pageContext variable with an MyCoRe-Object as jdom Document</info>
         </tag>    
+
+        <tag>
+            <name>receiveUserAsJdom</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRReceiveUserAsJdomTag</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <description>
+                    output: name of the variable containing the dom object of the requested user
+                </description>
+                <name>var</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <attribute>
+                <description>
+                    The String ID of the requested User, or the crrecnt user if not set
+                </description>
+                <name>userID</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <info>A Tag, that sets a pageContext variable with an MyCoRe-Object as jdom Document</info>
+        </tag>    
         <tag>
             <name>simpleXpath</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRSimpleXpathTag</tagclass>
