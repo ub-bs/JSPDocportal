@@ -7,8 +7,12 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.MissingResourceException;
 import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.jbpm.graph.exe.ExecutionContext;
@@ -19,6 +23,10 @@ import org.mycore.user2.MCRGroup;
 import org.mycore.user2.MCRUser;
 import org.mycore.user2.MCRUserMgr;
 
+/**
+ * @author mcradmin
+ *
+ */
 public class MCRJbpmSendmail{
 	
 	private static final long serialVersionUID = 1L;
@@ -42,9 +50,12 @@ public class MCRJbpmSendmail{
 		if(subject == null || subject.equals("")){
 			subject = PropertyResourceBundle.getBundle("messages", new Locale("de")).getString("WorkflowEngine.Mails.DefaultSubject");
 		}
+		subject = replaceMessageKeys(subject);
 		subject += " (Bearbeitungsnummer: " + executionContext.getProcessInstance().getId() + ")";
-		if(body == null)
+		if(body == null){
 			body = "";
+		}
+		body = replaceMessageKeys(body);
 		if(jbpmVariableName != null && !jbpmVariableName.equals("")){
 			body += executionContext.getVariable(jbpmVariableName);  
 		}
@@ -71,24 +82,41 @@ public class MCRJbpmSendmail{
 		}		
 	}
 	
-	private static List getEmailAddressesFromStringList(String addresses, ExecutionContext executionContext){
+	private static List getEmailAddressesFromStringList(String addresses,
+			ExecutionContext executionContext) {
 		List ret = new ArrayList();
-		if(addresses == null || addresses.equals(""))
+		if (addresses == null || addresses.equals(""))
 			return ret;
 		String[] array = addresses.split(";");
 		for (int i = 0; i < array.length; i++) {
-			if(array[i].indexOf("@") >= 0){
+			if (array[i].indexOf("@") >= 0) {
 				ret.add(array[i]);
-			}else if(array[i].trim().equals("initiator")){
-				String email = getUserEmailAddress((String)executionContext.getVariable(MCRJbpmWorkflowBase.varINITIATOR));
-				if(email == null || email.equals("")){
-					email = (String)executionContext.getVariable(MCRJbpmWorkflowBase.varINITIATOREMAIL);
+			} else if (array[i].trim().equals("initiator")) {
+				String email = getUserEmailAddress((String) executionContext
+						.getVariable(MCRJbpmWorkflowBase.varINITIATOR));
+				if (email == null || email.equals("")) {
+					email = (String) executionContext
+							.getVariable(MCRJbpmWorkflowBase.varINITIATOREMAIL);
 				}
-				if(email == null || email.equals("")){
+				if (email == null || email.equals("")) {
 					email = getUserEmailAddress("administrator");
 				}
 				ret.add(email);
-			}else{
+			} else if (array[i].trim().equals("user")){
+				MCRUser user = MCRUserMgr.instance().getCurrentUser();
+				String email = user.getUserContact().getEmail();
+				if(email!=null && !email.equals("")){
+					ret.add(email);
+				}
+			} else if (array[i].trim().equals("administrator")){
+				String email = 	email = getUserEmailAddress("administrator");
+				if(email==null || email.equals("")){
+					email = workflowAdminEmail;
+				}
+				ret.add(email);
+				
+			}			
+			else {
 				ret.addAll(getGroupMembersEmailAddresses(array[i]));
 			}
 		}
@@ -120,4 +148,35 @@ public class MCRJbpmSendmail{
 		}
 		return ret;
 	}
+	
+	
+	
+	/**
+	 * replaces all occurrences of ${variable} 
+	 * with the proper entry from the message property files
+	 * @param text the input, that should be translated
+	 * 
+	 * @return the translated string
+	 * 
+	 * @author Robert Stephan
+	 */
+	public static String replaceMessageKeys(String text){
+		ResourceBundle rb = ResourceBundle.getBundle("messages", new Locale("de"));
+		Pattern p = Pattern.compile("\\$\\{[^\\}]*\\}");
+		Matcher m = p.matcher(text);
+		StringBuffer sb = new StringBuffer();
+		while(m.find()){
+			String key = m.group();
+			key = key.substring(2,key.length()-1);
+			String replacement="???"+key+"???";
+			try{
+				replacement = rb.getString(key);
+			} catch(MissingResourceException mre){
+				
+			}
+			m.appendReplacement(sb, replacement);
+		}
+		m.appendTail(sb);
+		return sb.toString();
+}
 }
