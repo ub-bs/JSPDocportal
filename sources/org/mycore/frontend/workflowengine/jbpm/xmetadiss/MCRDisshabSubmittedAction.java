@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
-import org.jbpm.graph.def.ActionHandler;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jdom.Element;
 import org.mycore.access.MCRAccessInterface;
@@ -15,9 +14,10 @@ import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.common.xml.MCRXMLHelper;
+import org.mycore.frontend.workflowengine.jbpm.MCRAbstractAction;
 import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase;
 
-public class MCRDisshabSubmittedAction implements ActionHandler{
+public class MCRDisshabSubmittedAction extends MCRAbstractAction{
 	
 	String lockedVariables;
 
@@ -31,7 +31,7 @@ public class MCRDisshabSubmittedAction implements ActionHandler{
 		editorModeRule = (Element)MCRXMLHelper.parseXML(strRule).getRootElement().detach();
 	}
 
-	public void execute(ExecutionContext executionContext) throws MCRException {
+	public void executeAction(ExecutionContext executionContext) throws MCRException {
 		logger.debug("locking workflow variables and setting the access control to the editor mode");
 		ContextInstance contextInstance = executionContext.getContextInstance();
 		contextInstance.setVariable(MCRJbpmWorkflowBase.lockedVariablesIdentifier, lockedVariables);

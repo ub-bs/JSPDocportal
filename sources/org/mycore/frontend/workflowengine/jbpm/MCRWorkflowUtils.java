@@ -26,11 +26,17 @@ package org.mycore.frontend.workflowengine.jbpm;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.XMLOutputter;
+import org.mycore.access.MCRAccessInterface;
+import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRDefaults;
 import org.mycore.datamodel.metadata.MCRMetaAddress;
@@ -39,6 +45,7 @@ import org.mycore.datamodel.metadata.MCRMetaLangText;
 import org.mycore.datamodel.metadata.MCRMetaPersonName;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.frontend.workflowengine.strategies.MCRPermissionStrategy;
 import org.mycore.services.fieldquery.MCRQuery;
 import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.services.fieldquery.MCRResults;
@@ -53,10 +60,22 @@ import org.mycore.user2.MCRUser;
  */
 public class MCRWorkflowUtils {
 	private static Logger logger = Logger
-			.getLogger(MCRWorkflowEngineManagerBaseImpl.class.getName());
+			.getLogger(MCRWorkflowUtils.class.getName());
+	private static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
 
 	protected static MCRConfiguration config = MCRConfiguration.instance();
 
+	public final static MCRObjectID retrieveUsersAuthorId(String userid){
+		
+    	MCRResults mcrResult =  MCRWorkflowUtils.queryMCRForAuthorByUserid(userid);
+    	logger.debug("Results found hits:" + mcrResult.getNumHits());    
+    	if ( mcrResult.getNumHits() > 0 ) {
+    		String authorID = mcrResult.getHit(0).getID();
+    		return new MCRObjectID(authorID);
+    	}
+    	return null;
+	}
+	
 	/**
 	 * The method return a ArrayList of file names from objects of a special
 	 * type in the workflow
@@ -169,6 +188,7 @@ public class MCRWorkflowUtils {
 	 * 
 	 * @param user
 	 * @return an author object of type MCRObject
+	 * @deprecated moved to authorStrategy
 	 */
 	public static MCRObject createAuthorFromUser(MCRUser user, MCRObjectID id) {
 		MCRObject author = new MCRObject();
@@ -302,4 +322,47 @@ public class MCRWorkflowUtils {
 
 		return author;
 	}
+	
+	public static void setDummyPermissions(String objid){
+		for (int i = 0; i < MCRPermissionStrategy.defaultPermissionTypes.length; i++) {
+			AI.addRule(objid, 
+					MCRPermissionStrategy.defaultPermissionTypes[i], 
+					MCRAccessManager.getTrueRule(), "");	
+		}		
+	}	
+	
+	public static Map getAccessRulesMap(String objid) {
+		List liPerms = AI.getPermissionsForID(objid);        
+        Map htRules = new Hashtable();
+        for (int  i = 0; i< liPerms.size(); i++) {
+        	Element eRule = AI.getRule( objid,(String)liPerms.get(i));
+        	htRules.put((String)liPerms.get(i),eRule);
+        }
+        return htRules;
+	}	
+
+	public static void setAccessRulesMap(String objid, Map htRules ) {
+		if ( htRules == null || htRules.isEmpty()) {
+			logger.warn("Can't reset AccessRules, they are empty");
+			return;
+		}
+		AI.removeAllRules(objid);
+		for (Iterator it = htRules.keySet().iterator(); it.hasNext();) {
+			String perm = (String) it.next();
+			Element eRule = (Element)htRules.get(perm);
+			AI.addRule(objid,perm,eRule,"");
+		}
+	}	
+	/**
+	 * checks if a string is null or empty
+	 * @param test
+	 * @return true, if a string is empty or null
+	 */
+    public static boolean isEmpty(String test){
+		if(test == null || test.equals("")){
+			return true;
+		}else{
+			return false;
+		}
+	}	
 }

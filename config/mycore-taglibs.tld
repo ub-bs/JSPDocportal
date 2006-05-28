@@ -339,6 +339,12 @@
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
+                <description>Value of Editor workflow parameter: processid</description>
+                <name>processid</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <attribute>
                 <description>Value of Editor parameter: type</description>
                 <name>type</name>
                 <required>true</required>

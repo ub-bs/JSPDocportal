@@ -5,10 +5,10 @@ import java.util.PropertyResourceBundle;
 
 import org.jbpm.graph.exe.ExecutionContext;
 import org.mycore.common.MCRException;
+import org.mycore.frontend.workflowengine.jbpm.MCRAbstractAction;
 import org.mycore.frontend.workflowengine.jbpm.MCRJbpmSendmail;
-import org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction;
 
-public class MCRSendmailActionXmetadiss extends MCRSendmailAction {
+public class MCRSendmailActionXmetadiss extends MCRAbstractAction {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -25,7 +25,7 @@ public class MCRSendmailActionXmetadiss extends MCRSendmailAction {
 	private String dateOfSubmissionVariable;
 	
 	
-	public void execute(ExecutionContext executionContext) throws MCRException {
+	public void executeAction(ExecutionContext executionContext) throws MCRException {
 		body = getBody(executionContext, mode);
 		MCRJbpmSendmail.sendMail(from, to, replyTo, bcc, subject,
 				body, mode, jbpmVariableName, dateOfSubmissionVariable, executionContext);
