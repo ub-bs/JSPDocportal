@@ -13,9 +13,8 @@ import org.jdom.Document;
 import org.jdom.JDOMException;
 import org.jdom.output.DOMOutputter;
 import org.mycore.common.JSPUtils;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerFactory;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
 
 public class MCRListWorkflowProcessTag extends MCRSimpleTagSupport
 {
@@ -35,24 +34,23 @@ public class MCRListWorkflowProcessTag extends MCRSimpleTagSupport
 	public void doTag() throws JspException, IOException {		
 		PageContext pageContext = (PageContext) getJspContext();
         
-    	MCRWorkflowEngineManagerInterface WFI = null;
+    	MCRWorkflowManager WFM = null;
 		try {
-			WFI = MCRWorkflowEngineManagerFactory.getImpl(workflowProcessType);
+			WFM = MCRWorkflowManagerFactory.getImpl(workflowProcessType);
 		} catch (Exception noWFM) {
 			Logger.getLogger(MCRListWorkflowProcessTag.class).error("could not instantiate workflow manager", noWFM);
 			return;
 		}			
-		List lpids = WFI.getCurrentProcessIDsForProcessType(workflowProcessType);
+		List lpids = WFM.getCurrentProcessIDsForProcessType(workflowProcessType) ;
 		org.jdom.Element processlist = new org.jdom.Element ("processlist");
 		processlist.setAttribute("type", workflowProcessType);
 		
 		for (int i = 0; i < lpids.size(); i++) {
 			long pid = ((Long)lpids.get(i)).longValue();
-			MCRWorkflowProcess wfp = WFI.getWorkflowObject(pid);
 			org.jdom.Element process = new org.jdom.Element ("process");
 			process.setAttribute("pid", String.valueOf(pid));
-			process.setAttribute("status", WFI.getStatus(pid));
-			java.util.Map allVars = wfp.getStringVariableMap();
+			process.setAttribute("status", WFM.getStatus(pid));
+			java.util.Map allVars = WFM.getStringVariableMap(pid);
 			for ( Iterator it = allVars.keySet().iterator(); it.hasNext(); ) {
 				String nextKey  =  (String) it.next();				
 				String nextVal  =  (String) allVars.get(nextKey);

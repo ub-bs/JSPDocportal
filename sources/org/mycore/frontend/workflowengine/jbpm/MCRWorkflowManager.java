@@ -255,7 +255,7 @@ public abstract class MCRWorkflowManager {
 	 * 		a List of java.lang.Long-Objects that represent the processIDs
 	 */	
 	final public List getCurrentProcessIDsForProcessType(String workflowProcessType){
-		return MCRJbpmWorkflowBase.getCurrentProcessIDs(workflowProcessType);
+		return MCRJbpmWorkflowBase.getCurrentProcessIDsForProcessType(workflowProcessType);
 	}	
 	
 	public void deleteWorkflowProcessInstance(long processID) {
@@ -288,6 +288,26 @@ public abstract class MCRWorkflowManager {
 					wfp.close();
 			}		
 			return ret;		 
+	 }
+
+	 /**
+	  * returns the value of a variable in a given workflow process instance
+	  * 	for use in jsp tags or in servlets
+	  * @param processID
+	  * @return
+	  */		 
+	 public Map getStringVariableMap(long processID)	{
+		 Map map = null;
+		 MCRWorkflowProcess wfp = getWorkflowProcess(processID);
+		 try{
+			 map = wfp.getStringVariableMap();
+		 }catch(MCRException ex){
+				logger.error("catched error", ex);
+		}finally{
+			if(wfp != null)
+				wfp.close();
+		}
+		return map;
 	 }
 	 
 	 /**
@@ -569,6 +589,8 @@ public abstract class MCRWorkflowManager {
 	final public void storeMetadata(byte[] outxml,  String ID, String fullname)  throws Exception {
 		metadataStrategy.storeMetadata(outxml, ID, fullname);
 	}
+	
+	
 	
 	
 
