@@ -35,8 +35,8 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 import org.apache.log4j.Logger;
 import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerFactory;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
 
 /**
  * 
@@ -67,12 +67,12 @@ public class MCRDeleteProcessTag extends SimpleTagSupport {
 		PageContext pageContext = (PageContext) getJspContext();
     	pageContext.setAttribute(result, "Admin.Process.deleted.successfull");
 
-    	MCRWorkflowEngineManagerInterface WFM = null;
+    	MCRWorkflowManager WFM = null;
 		try {
-			 WFM = MCRWorkflowEngineManagerFactory.getImpl(workflowProcessType);
+			 WFM = MCRWorkflowManagerFactory.getImpl(workflowProcessType);
 			 
 		} catch (Exception noWFM) {
-			LOGGER.error("could not build workflow interface", noWFM);
+			LOGGER.error("could not create MCRWorkflowManager", noWFM);
 			return;
 		}  
 

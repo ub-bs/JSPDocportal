@@ -1,11 +1,13 @@
 package org.mycore.frontend.jsp.taglibs;
 
 import java.io.IOException;
-import javax.servlet.jsp.*;
+
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.PageContext;
 
 import org.apache.log4j.Logger;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerFactory;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
 
 public class MCRCheckDecisionNodeTag extends MCRSimpleTagSupport
 {
@@ -37,8 +39,8 @@ public class MCRCheckDecisionNodeTag extends MCRSimpleTagSupport
 	public void doTag() throws JspException, IOException {
 		try{
 			PageContext pageContext = (PageContext) getJspContext();
-			MCRWorkflowEngineManagerInterface WFI = MCRWorkflowEngineManagerFactory.getImpl(workflowType);
-			pageContext.setAttribute(var, WFI.checkDecisionNode(processID, decision, null));
+			MCRWorkflowManager WFM = MCRWorkflowManagerFactory.getImpl(workflowType);
+			pageContext.setAttribute(var, WFM.checkDecisionNode(processID, decision, null));
 		}catch(Exception e){
 			logger.error("could not check boolean decision node [" + 
 					decision + "] for processid [" + processID + "]");
