@@ -105,7 +105,8 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 		} else {
 			
     		if ( ! AI.checkPermission("administrate-user") ) {
-       			MCRJbpmWorkflowBase.setWorkflowStatus("error" + workflowType + "Right", Long.parseLong(pid));       			
+    			//TODO weiterleiten auf error-seite
+       			//MCRJbpmWorkflowBase.setWorkflowStatus("error" + workflowType + "Right", Long.parseLong(pid));       			
     		} else {    		
     			if ( "WFModifyWorkflowUser".equals(todo) ) {
     				// nochmals editieren
