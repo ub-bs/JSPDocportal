@@ -25,27 +25,20 @@
 package org.mycore.frontend.workflowengine.jbpm;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.fileupload.FileItem;
 import org.apache.log4j.Logger;
-
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
-import org.mycore.common.MCRUtils;
-import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.editor.MCREditorSubmission;
 import org.mycore.frontend.editor.MCRRequestParameters;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
+import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 
 /**
  * This class checks uploades files
@@ -79,6 +72,7 @@ public class MCRCheckDerivateServlet extends MCRServlet {
 			parms = sub.getParameters();
 		String objid = parms.getParameter("mcrid2");
 		String derid = parms.getParameter("mcrid");
+		long processID = Long.parseLong(parms.getParameter("processid"));
 		String type = parms.getParameter("type");
 		String step = parms.getParameter("step");
 		String nextPath = parms.getParameter("nextPath");
@@ -95,17 +89,15 @@ public class MCRCheckDerivateServlet extends MCRServlet {
 		MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
 		String lang = mcrSession.getCurrentLanguage();		
 
-		List lpids = MCRJbpmWorkflowBase.getCurrentProcessIDsForProcessVariable("createdDocID%", objid);
-		if(lpids == null || lpids.size() != 1) {
+		MCRWorkflowManager WFM;
+		try{
+			WFM = MCRWorkflowManagerFactory.getImpl(processID);
+		}catch(IllegalStateException ex){
 			request.setAttribute("messageKey", "WorkflowEngine.DocumentNotAvailable");
 			request.setAttribute("lang", lang);
 			request.getRequestDispatcher("/nav?path=~mycore-error").forward(request,response);
-			return;			
+			return;
 		}
-		
-		long pid = ((Long)lpids.get(0)).longValue();
-		MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(pid);
-		MCRWorkflowEngineManagerInterface WFI = wfo.getCurrentWorkflowManager();
 
 		if (!AI.checkPermission(derid, "writedb" )) {
 			request.setAttribute("messageKey", "WorkflowEngine.PrivilegesError");
@@ -119,7 +111,7 @@ public class MCRCheckDerivateServlet extends MCRServlet {
 		// prepare the disshab MCRObjectID of the document the derivate belongs to
 		MCRObjectID ID = new MCRObjectID(objid);
 
-		String workdir = WFI.getWorkflowDirectory(ID.getTypeId());
+		String workdir = MCRWorkflowDirectoryManager.getWorkflowDirectory(ID.getTypeId());
 		
 		String dirname = workdir + File.separator + derid;
 		if(nextPath.equals("")){
@@ -127,7 +119,7 @@ public class MCRCheckDerivateServlet extends MCRServlet {
 		}
 		
 		try{
-			WFI.saveFiles(files, dirname, pid);
+			WFM.saveUploadedFiles(files, dirname, processID);
 		}catch(Exception ex){
 			request.setAttribute("messageKey", "WorkflowEngine.UploadNotSuccessful");
 			request.setAttribute("lang", lang);

@@ -71,8 +71,8 @@ public class MCRWorkflowProcess extends MCRAbstractWorkflowObject{
 		jbpmContext.save(processInstance);
 	} 	
 	
-	public MCRWorkflowEngineManagerInterface getCurrentWorkflowManager(){
-		return MCRWorkflowEngineManagerFactory.getImpl(workflowProcessType);
+	public MCRWorkflowManager getCurrentWorkflowManager(){
+		return MCRWorkflowManagerFactory.getImpl(workflowProcessType);
 	}
 	
 	public String getWorkflowProcessType(){
@@ -144,6 +144,23 @@ public class MCRWorkflowProcess extends MCRAbstractWorkflowObject{
 		return (String)contextInstance.getVariable(varName);
 	}
 	
+	protected final void deleteWorkflowProcessInstance(long processID){
+		try{
+	    	MCRJbpmWorkflowBase.deleteProcessInstance(processID);
+		}catch(Exception e){
+			String errMsg = "could not delete process [" + processID + "]"; 
+			logger.error(errMsg);
+			throw new MCRException(errMsg);
+		}		
+	}
+	
+	/**
+	 * @return Returns the processInstance.
+	 */
+	protected final ProcessInstance getProcessInstance() {
+		return processInstance;
+	}
+
 	public Map getStringVariableMap() {		
 		Map varMap = contextInstance.getVariables();
 		return varMap;

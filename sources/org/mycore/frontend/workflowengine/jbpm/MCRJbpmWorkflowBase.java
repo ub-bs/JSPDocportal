@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.jdom.Document;
-
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.jbpm.JbpmConfiguration;
@@ -18,9 +16,10 @@ import org.jbpm.db.GraphSession;
 import org.jbpm.db.TaskMgmtSession;
 import org.jbpm.graph.def.Node;
 import org.jbpm.graph.def.ProcessDefinition;
-import org.jbpm.graph.def.Transition;
+import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.taskmgmt.exe.TaskInstance;
+import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.DOMOutputter;
 import org.mycore.common.MCRException;
@@ -252,6 +251,12 @@ public class MCRJbpmWorkflowBase {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param processID
+	 * @return
+	 * @deprecated
+	 */
 	public static String getWorkflowStatus(long processID){
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		String nodeName = "";
@@ -268,35 +273,6 @@ public class MCRJbpmWorkflowBase {
 		}
 		return nodeName;			
 	}	
-	
-	public static boolean setWorkflowStatus(String newStatus,long processID){
-		boolean statusIsSet = false;
-		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
-		try {
-			ProcessInstance processInstance = jbpmContext.getGraphSession().loadProcessInstance(processID);
-			Node curNode = processInstance.getRootToken().getNode();
-			if(curNode.getName().equals(newStatus)){
-				logger.debug("status is already set to " + newStatus);
-				statusIsSet = true;
-			}
-			for (Iterator it = curNode.getLeavingTransitions().iterator(); it.hasNext();) {
-				Transition transition = (Transition) it.next();
-				if(transition.getTo().getName().equals(newStatus)) {
-					processInstance.getRootToken().signal(transition);
-					jbpmContext.save(processInstance);
-					statusIsSet = true;
-					break;
-				}
-				
-			}
-		}catch(MCRException e){
-			logger.error("could not set workflow status [" + newStatus + "]", e);
-		}finally {
-			jbpmContext.close();
-		}		
-		return statusIsSet;
-	}
-	
 	
 	protected static JbpmConfiguration getJbpmConfiguration() {
 		return jbpmConfiguration;
@@ -317,6 +293,35 @@ public class MCRJbpmWorkflowBase {
 		}finally{
 			jbpmContext.close();
 		}
+	}
+	
+	public static String getWorkflowProcessType(long processID){
+		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+		try{
+			return jbpmContext.loadProcessInstance(processID).getProcessDefinition().getName();
+		}catch(MCRException e){
+			logger.error("could not get workflow process type for [" + processID + "]",e);
+		}finally{
+			jbpmContext.close();
+		}	
+		return "";
+	}
+	
+	public static String getWorkflowProcessType(ExecutionContext executionContext){
+		return executionContext.getProcessInstance().getProcessDefinition().getName();
 	}	
+	
+	public static String getStringVariable(String varName, long processID){
+		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+		try{
+			return (String)jbpmContext.loadProcessInstance(processID)
+				.getContextInstance().getVariable(varName);
+		}catch(MCRException e){
+			logger.error("could not get workflow variable [" + varName + "] for process [" + processID + "]",e);
+		}finally{
+			jbpmContext.close();
+		}	
+		return "";		
+	}
 	
 }

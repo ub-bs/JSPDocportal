@@ -45,7 +45,6 @@ import org.mycore.frontend.servlets.MCRServletJob;
 public class MCRJbpmVariableSetterServlet extends MCRServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger LOGGER = Logger.getLogger(MCRJbpmVariableSetterServlet.class);
-	private static MCRWorkflowEngineManagerInterface defaultWFI = MCRWorkflowEngineManagerFactory.getDefaultImpl();
 		
     /**
      * This method overrides doGetPost of MCRServlet. <br />
@@ -56,11 +55,11 @@ public class MCRJbpmVariableSetterServlet extends MCRServlet {
     	
     	Map map = new HashMap();
     	String jbpmVariableNames = request.getParameter("jbpmVariableNames");
-    	String processID = request.getParameter("processID");
+    	String strProcessID = request.getParameter("processID");
     	String nextPath = request.getParameter("dispatcherForward");
     	
-    	if(jbpmVariableNames != null && !jbpmVariableNames.equals("") && processID != null && !processID.equals("")){
-    		long pid = Long.parseLong(processID);
+    	if(jbpmVariableNames != null && !jbpmVariableNames.equals("") && strProcessID != null && !strProcessID.equals("")){
+    		long processid = Long.parseLong(strProcessID);
     		String[] array = jbpmVariableNames.split(",");
     		for (int i = 0; i < array.length; i++) {
 				String variableName = array[i];
@@ -68,7 +67,8 @@ public class MCRJbpmVariableSetterServlet extends MCRServlet {
 				LOGGER.debug("setting workflow variable " + variableName + "=" + variableValue);
 				map.put(variableName, variableValue);
 			}
-    		defaultWFI.setStringVariables(map, pid);
+    		MCRWorkflowManager WFM = MCRWorkflowManagerFactory.getImpl(processid);
+    		WFM.setStringVariableMap(map, processid);
     	}
     	
     	request.getRequestDispatcher(nextPath).forward(request, response);

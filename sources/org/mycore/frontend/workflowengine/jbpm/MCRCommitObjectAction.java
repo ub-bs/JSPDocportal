@@ -12,22 +12,15 @@ public class MCRCommitObjectAction implements ActionHandler{
 	
 	private String varnameOBJID;
 	private String varnameERROR;
-	private String varnameDOCTYPE;
 	
 	public void execute(ExecutionContext executionContext) throws MCRException {
 		try{
 			logger.debug("committing a object to the database");
-			MCRWorkflowEngineManagerInterface WFI = MCRWorkflowEngineManagerFactory.getImpl(executionContext.getProcessDefinition().getName());
-			String documentType = "";
+			MCRWorkflowManager WFM = MCRWorkflowManagerFactory.getImpl(MCRJbpmWorkflowBase.getWorkflowProcessType(executionContext));
 			String mcrid = (String)executionContext.getVariable(varnameOBJID);
 			if(varnameERROR == null)
 				varnameERROR = "ERROR";
-			if(varnameDOCTYPE == null || varnameDOCTYPE.equals("")){
-				documentType = mcrid.split("_")[1];
-			}else{
-				documentType = (String)executionContext.getVariable(varnameDOCTYPE);
-			}
-			if(!WFI.commitWorkflowObject(mcrid, documentType)){
+			if(!WFM.commitWorkflowObject(executionContext.getProcessInstance().getId())){
 				executionContext.setVariable(varnameERROR, "error in committing object [" + mcrid + "]");
 			}
 		}catch(Exception e){

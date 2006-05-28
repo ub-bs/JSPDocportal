@@ -35,9 +35,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-
-import org.mycore.common.MCRSession;
-import org.mycore.common.MCRSessionMgr;
 import org.mycore.frontend.editor.MCRRequestParameters;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
@@ -64,16 +61,15 @@ public class MCRWorkflowActions extends MCRServlet {
             	
         MCRRequestParameters parms = new MCRRequestParameters(request);
 
-        String pid = parms.getParameter("processid");
+        long pid = Long.parseLong(parms.getParameter("processid"));
         //TODO variable weg
-        MCRJbpmWorkflowObject wfo = new MCRJbpmWorkflowObject(Long.parseLong(pid));
-        MCRWorkflowEngineManagerInterface WFI = wfo.getCurrentWorkflowManager();
+        MCRWorkflowProcess wfp = new MCRWorkflowProcess(pid);
+        MCRWorkflowManager WFM = wfp.getCurrentWorkflowManager();
         
-        //jbpm_variableinstance  initiator, authorID, reservatedURN und createdDocID
-        String mcrid = wfo.getStringVariable("createdDocID");
-        String userid = wfo.getStringVariable("initiator");
-        String workflowType = wfo.getWorkflowProcessType();
-        String documentType = wfo.getDocumentType();
+        String mcrid = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
+        String userid = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_INITIATOR);
+        String workflowType = wfp.getWorkflowProcessType();
+        String documentType = wfp.getDocumentType();
         
         String derivateID = parms.getParameter("derivateID");
         String nextPath = parms.getParameter("nextPath");
@@ -84,10 +80,10 @@ public class MCRWorkflowActions extends MCRServlet {
         String todo = parms.getParameter("todo");
        
         if ( "WFAddWorkflowObject".equals(todo) ) {
-        	wfo.setWorkflowStatus(documentType + "Created");        	
         	// leeren Editor für das Object includieren
         	request.setAttribute("isNewEditorSource","false");
         	request.setAttribute("mcrid",mcrid);
+        	request.setAttribute("processid",new Long(pid));        	
         	request.setAttribute("type",documentType);
         	request.setAttribute("workflowType",workflowType);
         	request.setAttribute("step","author");
@@ -96,10 +92,10 @@ public class MCRWorkflowActions extends MCRServlet {
         	return;
         }
         if ( "WFEditWorkflowObject".equals(todo) ) {
-        	wfo.setWorkflowStatus(documentType + "Edited");
         	// befüllten Editor für das Object includieren
         	request.setAttribute("isNewEditorSource","false");
         	request.setAttribute("mcrid",mcrid);
+        	request.setAttribute("processid",new Long(pid));        	
         	request.setAttribute("type",documentType);
         	request.setAttribute("workflowType",workflowType);
         	request.setAttribute("step","author");
@@ -113,10 +109,8 @@ public class MCRWorkflowActions extends MCRServlet {
         	boolean bSuccess =false;
     		if ( ! ( 	AI.checkPermission(mcrid, "commitdb")
     	             && AI.checkPermission(derivateID,"deletedb")) ) {   			
-       			wfo.setWorkflowStatus("error" + documentType + "CommitRight");
     		} else {    		
-    		   	bSuccess = WFI.commitWorkflowObject(documentType, mcrid);
-       			wfo.setWorkflowStatus(documentType + "Committed");
+    		   	WFM.commitWorkflowObject(pid);
     		}
     		if (bSuccess) {
     			// Je nach WorkflowImplementation reagieren!
@@ -128,22 +122,19 @@ public class MCRWorkflowActions extends MCRServlet {
         if ( "WFDeleteWorkflowObject".equals(todo) ) {
         	boolean bSuccess =false;
     		if ( ! AI.checkPermission(mcrid, "deletewf") ) {
-       			wfo.setWorkflowStatus("error" + documentType + "DeleteRight");
     		} else {
-    			bSuccess = WFI.deleteWorkflowObject(mcrid,documentType );
+    			bSuccess = WFM.removeWorkflowFiles(pid);
     		}
     		if (bSuccess) {
     			// gesamten Prozess löschen!!
-    			MCRJbpmCommands.deleteProcess(pid);
+    			MCRJbpmCommands.deleteProcess(String.valueOf(pid));
     		}
     		request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
         	return;
         }
         if ( "WFAddNewDerivateToWorkflowObject".equals(todo) ) {
-        	derivateID = WFI.addNewDerivateToWorkflowObject(mcrid, documentType, userid);
-        	if (derivateID != null && derivateID.length()>0) {
-	       		
-        	}
+        	derivateID = WFM.addDerivate(pid, mcrid);
+    		WFM.setDefaultPermissions(derivateID, userid);
         	todo = "WFAddNewFileToDerivate";
         	// kein requestforward !
         }
@@ -160,12 +151,12 @@ public class MCRWorkflowActions extends MCRServlet {
 			params.put("isNewEditorSource", "true");
 			params.put("mcrid2", mcrid);
 			params.put("type", documentType);
+			params.put("processid", String.valueOf(pid));
 			params.put("workflowType",workflowType);
 			params.put("nextPath", nextPath);
 			params.put("step", "author");
 			params.put("mcrid", derivateID);
 			params.put("target", "MCRCheckDerivateServlet");
-			params.put("processid", pid);
 
 			response.sendRedirect(response.encodeRedirectURL(buildRedirectURL(base, params)));
 			return;
@@ -180,12 +171,12 @@ public class MCRWorkflowActions extends MCRServlet {
         	boolean bSuccess =false;
     		if ( (  	AI.checkPermission(mcrid, "deletewf")
     	             && AI.checkPermission(derivateID,"deletewf")) ) {    			
-    		   	bSuccess = WFI.deleteDerivateObject(documentType, mcrid, derivateID);
+    		   	bSuccess = WFM.removeDerivate(pid, mcrid, derivateID);
     		}
     		
            	if ( bSuccess ) {
            		//TODO
-           		wfo.setWorkflowStatus(documentType + "DocumentRemoved");
+ //wfo.setWorkflowStatus(documentType + "DocumentRemoved");
            	}
             request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
         	return;

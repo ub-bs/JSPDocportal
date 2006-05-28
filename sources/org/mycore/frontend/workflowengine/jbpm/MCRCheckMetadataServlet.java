@@ -24,22 +24,13 @@
 package org.mycore.frontend.workflowengine.jbpm;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.jdom.Document;
-
-import org.mycore.common.MCRConfiguration;
-import org.mycore.common.MCRConfigurationException;
-import org.mycore.common.MCRException;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.MCRUtils;
@@ -49,6 +40,7 @@ import org.mycore.frontend.editor.MCRRequestParameters;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
 import org.mycore.frontend.workflow.MCREditorOutValidator;
+import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 
 /**
  * This class is the superclass of servlets which checks the MCREditorServlet
@@ -83,6 +75,7 @@ public class MCRCheckMetadataServlet extends MCRServlet {
 
         String mcrid1 = parms.getParameter("mcrid");
         String type = parms.getParameter("type");
+        long processID = Long.parseLong(parms.getParameter("processid"));
         String workflowType = parms.getParameter("workflowType");
         String step = parms.getParameter("step");
         String mcrid2 = parms.getParameter("mcrid2");
@@ -94,8 +87,8 @@ public class MCRCheckMetadataServlet extends MCRServlet {
         LOGGER.debug("mcrid2 = " + mcrid2);
         LOGGER.debug("nextPath = " + nextPath);
         
-        MCRWorkflowEngineManagerInterface WFI = MCRWorkflowEngineManagerFactory.getImpl(workflowType);
-        WFI.setMetadataValidFlag(mcrid1, false);
+        MCRWorkflowManager WFM = MCRWorkflowManagerFactory.getImpl(workflowType);
+        WFM.setMetadataValid(mcrid1, false, processID);
         
         // get the MCRSession object for the current thread from the session
         // manager.
@@ -132,14 +125,14 @@ public class MCRCheckMetadataServlet extends MCRServlet {
 
         // create a metadata object and prepare it
         org.jdom.Document outdoc;
-        StringBuffer storePath = new StringBuffer(WFI.getWorkflowDirectory(ID.getTypeId()))
+        StringBuffer storePath = new StringBuffer(MCRWorkflowDirectoryManager.getWorkflowDirectory(ID.getTypeId()))
 			.append(File.separator).append(ID.getId()).append(".xml");
         try{
-        	WFI.storeMetadata(MCRUtils.getByteArray(indoc), ID.getId(), storePath.toString());
+        	WFM.storeMetadata(MCRUtils.getByteArray(indoc), ID.getId(), storePath.toString());
         	outdoc = prepareMetadata((org.jdom.Document) indoc.clone(), ID, job, lang, step, nextPath, storePath.toString(), workflowType);
-        	WFI.storeMetadata(MCRUtils.getByteArray(outdoc), ID.getId(), storePath.toString());
-        	WFI.setWorkflowVariablesFromMetadata(mcrid1, indoc.getRootElement().getChild("metadata"));
-        	WFI.setMetadataValidFlag(mcrid1, true);
+        	WFM.storeMetadata(MCRUtils.getByteArray(outdoc), ID.getId(), storePath.toString());
+        	WFM.setWorkflowVariablesFromMetadata(mcrid1, indoc.getRootElement().getChild("metadata"), processID);
+        	WFM.setMetadataValid(mcrid1, true, processID);
         	request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
         }catch(java.lang.IllegalStateException ill){
         	LOGGER.debug("because of error, forwarding to success page could not be executed [" + ill.getMessage() + "]");        	
