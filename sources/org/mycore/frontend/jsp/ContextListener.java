@@ -1,24 +1,18 @@
 package org.mycore.frontend.jsp;
 
-import org.apache.log4j.PropertyConfigurator;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+
 import org.apache.log4j.Logger;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.xml.MCRURIResolver;
 import org.mycore.frontend.servlets.MCRServlet;
-
-import javax.servlet.ServletContextListener;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Properties;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TimerTask;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 
 public class ContextListener implements ServletContextListener
 {
@@ -41,7 +35,8 @@ public class ContextListener implements ServletContextListener
         
         MCRURIResolver.init(context,NavServlet.getNavigationBaseURL());  
         JSPUtils.initialize();
-
+        
+        setApplicationScope(context);
         context.setAttribute("startup_done", "yes");
     }
 
@@ -55,10 +50,23 @@ public class ContextListener implements ServletContextListener
         JSPUtils.deinitialize();
     }
 
+    /**
+     * sets application scope attributes
+     * 	nav-attributes are set in the nav servlet
+     *
+     */
+    public final void setApplicationScope(ServletContext context){
+    	context.setAttribute( "constants", new MCRWorkflowConstants() );
+    }
     
     public class MyMCRServlet extends MCRServlet
     {
-        MyMCRServlet(String key, Object value) {
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		MyMCRServlet(String key, Object value) {
             MCRServlet.requestParamCache.put(key, value);
         }
     }
