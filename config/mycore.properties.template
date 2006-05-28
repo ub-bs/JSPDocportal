@@ -1,3 +1,4 @@
+MCR.Editor.FileUpload.MaxSize=50000000
 MCR.WorkflowEngine.contactemail.xmetadiss=mycore@mycore.de
 MCR.WorkflowEngine.ManagerImpl.registeruser=org.mycore.frontend.workflowengine.jbpm.registeruser.MCRWorkflowEngineManagerRegisteruser
 MCR.WorkflowEngine.ManagerImpl.author=org.mycore.frontend.workflowengine.jbpm.author.MCRWorkflowEngineManagerAuthor
@@ -84,7 +85,7 @@ MCR.WorkflowEngine.Classification.Language.SelectCategoryIDs.xmetadiss=LANG0001,
 MCR.WorkflowEngine.Rightslinks.DefaultURL.xmetadiss=http://www.mycore.de/dissertations-copyright.html
 MCR.WorkflowEngine.ContactIdDDB.xmetadiss=Fxxxx-xxxx
 
-MCR.WorkflowEngine.ManagerImpl.xmetadiss=org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRWorkflowEngineManagerXmetadiss
+MCR.WorkflowEngine.ManagerImpl.xmetadiss=org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRWorkflowManagerXmetadiss
 # required for MCRResultFormatter
 MCR.languageResourceBundleBase=messages
 # paths
