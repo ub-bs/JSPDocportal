@@ -273,6 +273,12 @@
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
+                <description>the transition that defines the start scenario, if not given, start node must own just one transition</description>
+                <name>transition</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <attribute>
                 <description>The userid, must exist in database</description>
                 <name>userid</name>
                 <required>true</required>
