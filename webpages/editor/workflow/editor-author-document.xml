@@ -13,7 +13,6 @@
             <panel id="author-document">
                   <hidden var="ID" />
                   <hidden var="label" />
-                  <hidden var="metadata/@lang" default="de" />
                   <cell col="1" row="1" anchor="NORTHWEST" ref="LTitleP" />
                   <cell col="2" row="1" anchor="NORTHWEST" ref="DTitle" />
                   <cell col="3" row="1" anchor="NORTHWEST" >
@@ -194,7 +193,9 @@
 		                  <item value="">
 		                        <label xml:lang="de">                                              </label>
 		                  </item>
+		                  <!-- 
                           <include uri="request:content/authors-to-items.jspx" />
+                           -->
 		            </list>                        
                   </cell>
              </panel>                         

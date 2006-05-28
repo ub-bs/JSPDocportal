@@ -32,7 +32,6 @@
     <hidden var="ID" />
     <hidden var="label" />
 
-    <hidden var="metadata/@lang" default="de" />
 
     <cell col="1" row="1" anchor="NORTHWEST" ref="LTitleDissP" />
     <cell col="2" row="1" anchor="NORTHEAST" ref="HTitle" />
