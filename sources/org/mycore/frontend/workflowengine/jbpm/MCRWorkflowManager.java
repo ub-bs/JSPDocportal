@@ -60,12 +60,14 @@ public abstract class MCRWorkflowManager {
 	/**
 	 * initializes and starts a new workflow process instance
 	 * @param initiator
-	 * @mode MCRWorkflowConstants.INIT_PROCESS_CREATE, MCRWorkflowConstants.INIT_PROCESS_UPDATE and
-                	MCRWorkflowConstants.INIT_PROCESS_DELETE
+	 * @param transitionName via the transitionname, 
+	 * 	you can define different start scenarios, 
+	 * 	the transitionname defines the next node after initialization
+	 * 
 	 * @return 
 	 *     the workflow processid as long
 	 */
-	public abstract long initWorkflowProcess(String initiator) throws MCRException;	
+	public abstract long initWorkflowProcess(String initiator, String transitionName) throws MCRException;	
 	
 	/**
 	 * returns the transition that is delivered from a jbpm decision node,

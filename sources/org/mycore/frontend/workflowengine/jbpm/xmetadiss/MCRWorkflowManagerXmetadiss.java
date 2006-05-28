@@ -89,7 +89,7 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 	
 	
 	
-	public long initWorkflowProcess(String initiator) throws MCRException {
+	public long initWorkflowProcess(String initiator, String transitionName) throws MCRException {
 
 		
 		List processIDs = getCurrentProcessIDsForProcessType(initiator, workflowProcessType);
@@ -108,7 +108,7 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 					wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_INITIATORSALUTATION, salutation);
 				}
 				wfp.setStringVariable("fileCnt", "0");
-				wfp.endTask("initialization", initiator, null);
+				wfp.endTask("initialization", initiator, transitionName);
 				wfp.signal("go2isInitiatorsEmailAddressAvailable");
 				return wfp.getProcessInstanceID();
 			}catch(MCRException ex){
@@ -186,7 +186,7 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 			String saveDirectory = MCRWorkflowDirectoryManager.getWorkflowDirectory(mainDocumentType);
 			Map identifiers = new HashMap();
 			identifiers.put(MCRWorkflowConstants.KEY_IDENTIFER_TYPE_URN, wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN));
-			if(metadataStrategy.createEmptyMetadataObject(Arrays.asList(authors), 
+			if(metadataStrategy.createEmptyMetadataObject(true, Arrays.asList(authors), null,
 					nextFreeId, initiator, identifiers, saveDirectory) ){
 						permissionStrategy.setPermissions(nextFreeId.toString(), initiator, 
 								getWorkflowProcessType(), MCRWorkflowConstants.PERMISSION_MODE_DEFAULT );
