@@ -29,7 +29,12 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy{
 				String strRule = config.getString(propName,"<condition format=\"xml\"><boolean operator=\"false\" /></condition>");
 				strRule = strRule.replaceAll("\\$\\{user\\}",userid);
 				Element rule = (Element)MCRXMLHelper.parseXML(strRule).getRootElement().detach();
-				AI.addRule(objID.getId(), defaultPermissionTypes[i], rule, "");
+				String permissionType = defaultPermissionTypes[i];
+				if(AI.hasRule(objID.getId(), permissionType )){
+					AI.updateRule(objID.getId(), permissionType, rule, "");
+				}else{
+					AI.addRule(objID.getId(), defaultPermissionTypes[i], rule, "");
+				}
 			}		
 		}
 	}
