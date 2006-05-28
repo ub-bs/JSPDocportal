@@ -35,7 +35,7 @@ public abstract class MCRMetadataStrategy {
 	 *				value contains the identifier
 	 * @return
 	 */
-	public abstract boolean createEmptyMetadataObject(List authorIDs, MCRObjectID nextFreeObjectId, String userid, Map identifiers, String saveDirectory);
+	public abstract boolean createEmptyMetadataObject(boolean authorRequired, List authorIDs, List authors, MCRObjectID nextFreeObjectId, String userid, Map identifiers, String saveDirectory);
 	
 	/**
      * The method stores the data in a working directory dependent of the

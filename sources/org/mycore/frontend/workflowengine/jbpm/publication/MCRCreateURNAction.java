@@ -2,35 +2,36 @@ package org.mycore.frontend.workflowengine.jbpm.publication;
 
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
-import org.jbpm.graph.def.ActionHandler;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.mycore.common.MCRException;
+import org.mycore.frontend.workflowengine.jbpm.MCRAbstractAction;
 import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerFactory;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
+import org.mycore.frontend.workflowengine.strategies.MCRIdentifierStrategy;
+import org.mycore.frontend.workflowengine.strategies.MCRMetadataStrategy;
 
-public class MCRCreateURNAction implements ActionHandler{
-
+public class MCRCreateURNAction extends MCRAbstractAction{
 	private static final long serialVersionUID = 1L;
-	private static Logger logger = Logger.getLogger(MCRCreateURNAction.class);
-	private static MCRWorkflowEngineManagerInterface WFI = MCRWorkflowEngineManagerFactory.getImpl("publication");
 
-	public void execute(ExecutionContext executionContext) throws MCRException {
+	private static Logger logger = Logger.getLogger(MCRCreateURNAction.class);
+	private static MCRWorkflowManager WFM = MCRWorkflowManagerFactory.getImpl("publication");
+
+	public void executeAction(ExecutionContext executionContext) throws MCRException {
 		ContextInstance contextInstance;
 		contextInstance = executionContext.getContextInstance();
-		long pid = executionContext.getProcessInstance().getId();
-		
+		MCRIdentifierStrategy identifierStrategy = WFM.getIdentifierStrategy();
 		String initiator = (String)contextInstance.getVariable(MCRJbpmWorkflowBase.varINITIATOR);
-		String urn = WFI.createURNReservation(initiator, pid);
+		String documentID = (String)contextInstance.getVariable(MCRMetadataStrategy.VARIABLE_PREFIX);
+		String urn = (String)identifierStrategy.createNewIdentifier(documentID, initiator, WFM.getWorkflowProcessType());
 		if(urn != null && !urn.equals("")){
-			contextInstance.setVariable("reservatedURN", urn);
-			
+			contextInstance.setVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN, urn);
 			logger.debug("workflow changed state to " + executionContext.getProcessInstance().getRootToken().getName());	
 		}else{
 			logger.error("could not create urn");
 			throw new MCRException("could not create urn");
 		}
-		
 	}
 
 }

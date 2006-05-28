@@ -90,7 +90,7 @@
    
   
   <decision name="canDocumentBeCommitted">
-     <handler class="org.mycore.frontend.workflowengine.jbpm.publication.MCRDecisionHandlerDocument" />
+     <handler class="org.mycore.frontend.workflowengine.jbpm.publication.MCRDecisionHandlerPublication" />
      <transition name="go2sendBackToDocumentCreated" to="sendBackToDocumentCreated" />
      <transition name="go2wasCommitmentSuccessful" to="wasCommitmentSuccessful">
         <action class="org.mycore.frontend.workflowengine.jbpm.MCRCommitObjectAction">
@@ -115,7 +115,7 @@
 		   <from>atlibri@uni-rostock.de</from>
 		   <to>anja.schaar@uni-rostock.de</to>
 		   <replyTo>atlibri@uni-rostock.de</replyTo>
-		   <subject>Probleme beim Veröffentlichen einer ublikation</subject>
+		   <subject>Probleme beim Veröffentlichen einer Publikation</subject>
 		   <body>Eine Publikation konnte nicht veröffentlicht werden.</body>
 		</action>          
      </event>

@@ -1,12 +1,8 @@
 package org.mycore.frontend.workflowengine.jbpm.publication;
 
 import org.apache.log4j.Logger;
-import org.jbpm.context.exe.ContextInstance;
-import org.jbpm.graph.def.ActionHandler;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.node.DecisionHandler;
-import org.mycore.common.MCRException;
-import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerFactory;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
 

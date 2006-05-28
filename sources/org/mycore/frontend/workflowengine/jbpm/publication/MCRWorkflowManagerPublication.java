@@ -23,7 +23,7 @@
  **/
 
 // package
-package org.mycore.frontend.workflowengine.jbpm.xmetadiss;
+package org.mycore.frontend.workflowengine.jbpm.publication;
 
 // Imported java classes
 import java.util.Arrays;
@@ -43,6 +43,7 @@ import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
 import org.mycore.frontend.workflowengine.strategies.MCRDefaultAuthorStrategy;
+import org.mycore.frontend.workflowengine.strategies.MCRDefaultDerivateStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRDefaultMetadataStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRDefaultPermissionStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRMetadataStrategy;
@@ -58,19 +59,19 @@ import org.mycore.user2.MCRUserMgr;
  * @version $Revision$ $Date$
  */
 
-public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
+public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 	
 	
-	private static Logger logger = Logger.getLogger(MCRWorkflowManagerXmetadiss.class.getName());
+	private static Logger logger = Logger.getLogger(MCRWorkflowManagerPublication.class.getName());
 	private static MCRWorkflowManager singleton;
 	
-	protected MCRWorkflowManagerXmetadiss() throws Exception {
-		this.workflowProcessType = "xmetadiss";
-		this.mainDocumentType = "disshab";
+	protected MCRWorkflowManagerPublication() throws Exception {
+		this.workflowProcessType = "publication";
+		this.mainDocumentType = "document";
 		this.authorStrategy = new MCRDefaultAuthorStrategy();
 		this.identifierStrategy = new MCRURNIdentifierStrategy();
-		this.metadataStrategy = new MCRDefaultMetadataStrategy("disshab");
-		this.derivateStrategy = new MCRDisshabDerivateStrategy();
+		this.metadataStrategy = new MCRDefaultMetadataStrategy("document");
+		this.derivateStrategy = new MCRDefaultDerivateStrategy();
 		this.permissionStrategy = new MCRDefaultPermissionStrategy();
 	}
 
@@ -83,17 +84,13 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 	 */
 	public static synchronized MCRWorkflowManager instance() throws Exception {
 		if (singleton == null)
-			singleton = new MCRWorkflowManagerXmetadiss();
+			singleton = new MCRWorkflowManagerPublication();
 		return singleton;
 	}
 	
 	
 	
 	public long initWorkflowProcess(String initiator, String transitionName) throws MCRException {
-
-		
-		List processIDs = getCurrentProcessIDsForProcessType(initiator, workflowProcessType);
-		if (processIDs == null || processIDs.size() == 0) {
 			MCRWorkflowProcess wfp = createWorkflowProcess(workflowProcessType);
 			try{
 				wfp.initialize(initiator);
@@ -118,34 +115,20 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 				if(wfp != null)
 					wfp.close();
 			}				
-		}else if(processIDs != null && processIDs.size() > 1){
-			String errMsg = "there exists another workflow process of " + workflowProcessType + " for initiator " + initiator;
-			logger.warn(errMsg);
-			throw new MCRException(errMsg);
-		}else{
-			return ((Long)processIDs.get(0)).longValue();
-		}
 	}
 	
 	public String checkDecisionNode(long processid, String decisionNode, ExecutionContext executionContext) {
-		if(decisionNode.equals("canDisshabBeSubmitted")){
+		if(decisionNode.equals("canDocumentBeSubmitted")){
 			if(checkSubmitVariables(processid)){
-				return "disshabCanBeSubmitted";
+				return "documentCanBeSubmitted";
 			}else{
-				return "disshabCantBeSubmitted";
+				return "documentCantBeSubmitted";
 			}
-		}else if(decisionNode.equals("canDisshabBeCommitted")){
+		}else if(decisionNode.equals("canDocumentBeCommitted")){
 			if(checkSubmitVariables(processid)){
-				String signedAffirmationAvailable = getVariableValueInDecision(
-						MCRWorkflowConstants.WFM_VAR_SIGNED_AFFIRMATION_AVAILABLE,
-						processid, decisionNode, executionContext);
-				if(signedAffirmationAvailable != null && signedAffirmationAvailable.equals("true")){
-					return "go2wasCommitmentSuccessful";
-				}else{
-					return "go2checkNonDigitalRequirements";
-				}
+				return "go2wasCommitmentSuccessful";
 			}else{
-				return "go2sendBackToDisshabCreated";
+				return "go2sendBackToDocumentCreated";
 			}
 		}
 		return null;
@@ -154,16 +137,14 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 	private boolean checkSubmitVariables(long processid){
 		MCRWorkflowProcess wfp = getWorkflowProcess(processid);
 		try{
-			String authorID = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_AUTHOR_IDS);
+//			String authorID = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_AUTHOR_IDS);
 			String reservatedURN = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN);
 			String createdDocID = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
-			String attachedDerivates = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES);
-			if(!MCRWorkflowUtils.isEmpty(authorID) && !MCRWorkflowUtils.isEmpty(reservatedURN) && 
-					!MCRWorkflowUtils.isEmpty(createdDocID) && !MCRWorkflowUtils.isEmpty(attachedDerivates)){
+//			String attachedDerivates = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES);
+			if(!MCRWorkflowUtils.isEmpty(reservatedURN) && 	!MCRWorkflowUtils.isEmpty(createdDocID)){
 				String strDocValid = wfp.getStringVariable(MCRMetadataStrategy.VALID_PREFIX + createdDocID );
-				String containsPDF = wfp.getStringVariable("containsPDF");
-				if(strDocValid != null && containsPDF != null){
-					if(strDocValid.equals("true") && !containsPDF.equals("")){
+				if(strDocValid != null ){
+					if(strDocValid.equals("true") ){
 						return true;
 					}
 				}
@@ -180,13 +161,12 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 	public String createEmptyMetadataObject(long pid){
 		MCRWorkflowProcess wfp = getWorkflowProcess(pid);
 		try{
-			String[] authors = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_AUTHOR_IDS).split(",");
 			MCRObjectID nextFreeId = getNextFreeID(metadataStrategy.getDocumentType());
 			String initiator = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_INITIATOR);
 			String saveDirectory = MCRWorkflowDirectoryManager.getWorkflowDirectory(mainDocumentType);
 			Map identifiers = new HashMap();
 			identifiers.put(MCRWorkflowConstants.KEY_IDENTIFER_TYPE_URN, wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN));
-			if(metadataStrategy.createEmptyMetadataObject(true, Arrays.asList(authors), null,
+			if(metadataStrategy.createEmptyMetadataObject(false,null,null, 
 					nextFreeId, initiator, identifiers, saveDirectory) ){
 						permissionStrategy.setPermissions(nextFreeId.toString(), initiator, 
 								getWorkflowProcessType(), MCRWorkflowConstants.PERMISSION_MODE_DEFAULT );
@@ -200,13 +180,7 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 		return null;
 	}	
 	
-	public void saveFiles(List files, String dirname, long pid) throws MCRException {
-		// a correct dissertation contains in the main derivate
-		//		exactly one pdf-file and optional an attachment zip-file
-		//		the pdf file will be renamed to dissertation.pdf
-		//		in a derivate only one zip-file is allowed, it will be renamed
-		//		to attachment.zip
-		
+	public void saveFiles(List files, String dirname, long pid) throws MCRException {		
 		MCRWorkflowProcess wfp = getWorkflowProcess(pid);
 		try{
 			derivateStrategy.saveFiles(files, dirname, wfp);
@@ -220,11 +194,11 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 	public boolean commitWorkflowObject(long processID){
 		MCRWorkflowProcess wfp = getWorkflowProcess(processID);
 		try{
-			String dissID = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
-			String documentType = new MCRObjectID(dissID).getTypeId();
+			String documentID = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
+			String documentType = new MCRObjectID(documentID).getTypeId();
 			List derivateIDs = Arrays.asList(wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES).split(","));
-			if(!metadataStrategy.commitMetadataObject(dissID, MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType))){
-				throw new MCRException("error in committing " + dissID);
+			if(!metadataStrategy.commitMetadataObject(documentID, MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType))){
+				throw new MCRException("error in committing " + documentID);
 			}
 			for (Iterator it = derivateIDs.iterator(); it.hasNext();) {
 				String derivateID = (String) it.next();
@@ -262,8 +236,7 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 			StringBuffer sbTitle = new StringBuffer("");
 			for(Iterator it = metadata.getDescendants(new ElementFilter("title")); it.hasNext();){
 				Element title = (Element)it.next();
-				if(title.getAttributeValue("type").equals("original-main"))
-					sbTitle.append(title.getText());
+				sbTitle.append(title.getText());
 			}
 			wfp.setStringVariable("wfo-title", sbTitle.toString());	
 		}catch(MCRException ex){

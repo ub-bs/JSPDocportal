@@ -1,33 +1,29 @@
 package org.mycore.frontend.workflowengine.jbpm.publication;
 
 import org.apache.log4j.Logger;
-import org.jbpm.context.exe.ContextInstance;
-import org.jbpm.graph.def.ActionHandler;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.mycore.common.MCRException;
-import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerFactory;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
+import org.mycore.frontend.workflowengine.jbpm.MCRAbstractAction;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
 
-public class MCRCreateDocumentAction implements ActionHandler{
+public class MCRCreateDocumentAction extends MCRAbstractAction {
+	
 	
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = Logger.getLogger(MCRCreateDocumentAction.class);
-	private static MCRWorkflowEngineManagerInterface WFI = MCRWorkflowEngineManagerFactory.getImpl("publication");
+	private static MCRWorkflowManager WFM = MCRWorkflowManagerFactory.getImpl("publication");
 
-	public void execute(ExecutionContext executionContext) throws MCRException {
+	public void executeAction(ExecutionContext executionContext) {
 		logger.debug("creating empty document");
-		ContextInstance contextInstance;
-		contextInstance = executionContext.getContextInstance();
 		long pid = executionContext.getProcessInstance().getId();
-		String initiator = (String)contextInstance.getVariable(MCRJbpmWorkflowBase.varINITIATOR);
-		String createdDocID = WFI.createMetadataDocumentID(initiator, pid);
+		String createdDocID = WFM.createEmptyMetadataObject(pid);
 		if(createdDocID != null && !createdDocID.equals("")){
-			executionContext.setVariable("createdDocID", createdDocID);
-			executionContext.setVariable("attachedDerivates", "");
-			
+			executionContext.setVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS, createdDocID);
+			executionContext.setVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES, "");
 		}else{
-			String errMsg = "could not create a docID for publication";
+			String errMsg = "could not create a docID for dissertation";
 			logger.error(errMsg);
 			throw new MCRException(errMsg);
 		}

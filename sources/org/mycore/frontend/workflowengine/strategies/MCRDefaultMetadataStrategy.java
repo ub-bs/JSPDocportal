@@ -32,11 +32,13 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 	
 	private static Logger logger = Logger.getLogger(MCRDefaultMetadataStrategy.class.getName());
 	
-	public boolean createEmptyMetadataObject(List authorIDs, MCRObjectID nextFreeObjectId, String userid, Map identifiers, String saveDirectory){
+	public boolean createEmptyMetadataObject(boolean authorRequired, List authorIDs, List authors, MCRObjectID nextFreeObjectId, String userid, Map identifiers, String saveDirectory){
 		
-		if(authorIDs == null || authorIDs.size() == 0){
-			logger.warn("Could not create metadata object because of empty parameter [authorIDs]");
-			return false;
+		if (authorRequired){
+			if((authorIDs == null || authorIDs.size() == 0) && (authors == null || authors.size() == 0)){
+				logger.warn("Could not create metadata object because of empty parameter [authorIDs]");
+				return false;
+			}
 		}
 		
 		Element mycoreobject = new Element ("mycoreobject");				
@@ -49,42 +51,58 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 
 		Element eCreators = new Element("creators");
 		eCreators.setAttribute("class","MCRMetaLangText");
-		Element eCreatorLinks = new Element("creatorlinks");			
-		eCreatorLinks.setAttribute("class","MCRMetaLinkID");
-
-		for (Iterator it = authorIDs.iterator(); it.hasNext();) {
-			String authorID = (String) it.next();
-			if ( authorID != null ) {
-				Document jAuthor =  new MCRObject().receiveJDOMFromDatastore(authorID);
-				String sAuthorName = authorID;
-				if ( jAuthor != null ) {
-				    Iterator it2 = jAuthor.getDescendants(new ElementFilter("fullname"));
-		        	if ( it2.hasNext() )    {
-		        	      Element el = (Element) it2.next();
-		        	      sAuthorName = el.getText();
-		        	}
+		
+		if ( authorIDs != null && authorIDs.size() > 0) {				
+			Element eCreatorLinks = new Element("creatorlinks");			
+			eCreatorLinks.setAttribute("class","MCRMetaLinkID");
+	
+			for (Iterator it = authorIDs.iterator(); it.hasNext();) {
+				String authorID = (String) it.next();
+				if ( authorID != null ) {
+					Document jAuthor =  new MCRObject().receiveJDOMFromDatastore(authorID);
+					String sAuthorName = authorID;
+					if ( jAuthor != null ) {
+					    Iterator it2 = jAuthor.getDescendants(new ElementFilter("fullname"));
+			        	if ( it2.hasNext() )    {
+			        	      Element el = (Element) it2.next();
+			        	      sAuthorName = el.getText();
+			        	}
+					}
+					MCRMetaLangText creator = new MCRMetaLangText();
+					creator.setSubTag("creator");
+					creator.setLang("de");
+					creator.setText(sAuthorName);
+	
+					MCRMetaLinkID creatorlink = new MCRMetaLinkID();
+					creatorlink.setSubTag("creatorlink");
+					creatorlink.setLang("de");
+					creatorlink.setReference(authorID,sAuthorName,sAuthorName);
+					
+					Element eCreator = creator.createXML();
+					eCreators.addContent(eCreator);
+					
+					Element eCreatorLink = creatorlink.createXML();
+					eCreatorLinks.addContent(eCreatorLink);					
 				}
+			}
+			metadata.addContent(eCreatorLinks);
+		}
+		
+		if ( authorIDs != null && authorIDs.size() > 0){
+			for (Iterator it = authors.iterator(); it.hasNext();) {
+				String author = (String) it.next();
 				MCRMetaLangText creator = new MCRMetaLangText();
 				creator.setSubTag("creator");
 				creator.setLang("de");
-				creator.setText(sAuthorName);
-
-				MCRMetaLinkID creatorlink = new MCRMetaLinkID();
-				creatorlink.setSubTag("creatorlink");
-				creatorlink.setLang("de");
-				creatorlink.setReference(authorID,sAuthorName,sAuthorName);
-				
+				creator.setText(author);
 				Element eCreator = creator.createXML();
 				eCreators.addContent(eCreator);
-				
-				Element eCreatorLink = creatorlink.createXML();
-				eCreatorLinks.addContent(eCreatorLink);					
 			}
 		}
 		
-		metadata.addContent(eCreators);
-		metadata.addContent(eCreatorLinks);
-
+		if (authorRequired)
+			metadata.addContent(eCreators);
+	
 		if(identifiers != null){
 			for (Iterator it = identifiers.keySet().iterator(); it.hasNext();) {
 				Integer identifierType = (Integer) it.next();

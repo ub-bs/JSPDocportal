@@ -15,6 +15,7 @@ public class MCRInitWorkflowProcessTag extends MCRSimpleTagSupport
     //input vars
 	private String userid;
 	private String workflowProcessType;
+	private String transition;
 	
 	private String status;
 	private String processidVar;
@@ -34,6 +35,10 @@ public class MCRInitWorkflowProcessTag extends MCRSimpleTagSupport
 		
 	public void setWorkflowProcessType(String workfowProcessType){
 		this.workflowProcessType = workfowProcessType;
+	}
+	
+	public void setTransition(String transition){
+		this.transition = transition;
 	}
 	
 	public void setStatus(String status){
@@ -61,7 +66,7 @@ public class MCRInitWorkflowProcessTag extends MCRSimpleTagSupport
 			return;
 		}	
 		try{
-			long pid = WFM.initWorkflowProcess(userid);
+			long pid = WFM.initWorkflowProcess(userid, transition);
 			jspContext.setAttribute(processidVar, String.valueOf(pid), getScope(scope));
 			jspContext.setAttribute(status, WFM.getStatus(pid), getScope(scope));
 		}catch(Exception noWFM){
