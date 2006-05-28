@@ -85,7 +85,7 @@
 						    </c:if>										
                             <mcr:checkAccess var="modifyAllowed" permission="read" key="${itemID}" />
                             <c:if test="${modifyAllowed}">						
-								   <c:if test="${param.type == 'disshab' }">
+								   <c:if test="${itemDocType == 'disshab' }">
 										<td align="center" valign="top" width="30">
 											<form method="get" action="${baseURL}content/results-config/docdetails-disshab-deliver.jsp" target="new" >
 												<input name="id" value="${itemID}" type="hidden">
