@@ -246,7 +246,17 @@ public abstract class MCRWorkflowManager {
 	final public List getCurrentProcessIDsForProcessType(String userid, String workflowProcessType){
 		return MCRJbpmWorkflowBase.getCurrentProcessIDs(userid, workflowProcessType);
 	}
-	
+
+	/**
+	 * returns a list of all processIDs of a given workflowType
+	 *  @param workflowProcessType
+	 *          String a special workflowType
+	 * @return
+	 * 		a List of java.lang.Long-Objects that represent the processIDs
+	 */	
+	final public List getCurrentProcessIDsForProcessType(String workflowProcessType){
+		return MCRJbpmWorkflowBase.getCurrentProcessIDs(workflowProcessType);
+	}	
 	
 	public void deleteWorkflowProcessInstance(long processID) {
 		removeWorkflowFiles(processID);
