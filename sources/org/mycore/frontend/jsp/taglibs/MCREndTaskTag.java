@@ -29,10 +29,10 @@ package org.mycore.frontend.jsp.taglibs;
 import java.io.IOException;
 
 import javax.servlet.jsp.JspException;
-import org.apache.log4j.Logger;
 
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerFactory;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
+import org.apache.log4j.Logger;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
 
 /**
  * 
@@ -42,7 +42,6 @@ import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface
 
 public class MCREndTaskTag extends MCRSimpleTagSupport {
 	private static Logger LOGGER = Logger.getLogger(MCREndTaskTag.class.getName());
-	private static MCRWorkflowEngineManagerInterface WFI = MCRWorkflowEngineManagerFactory.getDefaultImpl();
 	
 	private String success;
 	private long processID;
@@ -69,7 +68,8 @@ public class MCREndTaskTag extends MCRSimpleTagSupport {
 	public void doTag() throws JspException, IOException {
 		if(transition == null) transition = "";
 		try{
-			getJspContext().setAttribute(success, new Boolean(WFI.endTask(processID,taskName,transition)), getScope("page"));
+			MCRWorkflowManager WFM = MCRWorkflowManagerFactory.getImpl(processID);
+			getJspContext().setAttribute(success, new Boolean(WFM.endTask(processID,taskName,transition)), getScope("page"));
 		}catch(Exception e){
 			LOGGER.error("stacktrace", e);
 		}

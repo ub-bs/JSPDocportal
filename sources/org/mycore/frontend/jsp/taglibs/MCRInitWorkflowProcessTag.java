@@ -2,12 +2,13 @@ package org.mycore.frontend.jsp.taglibs;
 
 import java.io.IOException;
 
-import javax.servlet.jsp.*;
+import javax.servlet.jsp.JspContext;
+import javax.servlet.jsp.JspException;
 
 import org.apache.log4j.Logger;
 import org.mycore.common.MCRConfiguration;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerFactory;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
 
 public class MCRInitWorkflowProcessTag extends MCRSimpleTagSupport
 {
@@ -30,7 +31,7 @@ public class MCRInitWorkflowProcessTag extends MCRSimpleTagSupport
 	public void setScope(String scope) {
 		this.scope = scope;
 	}
-	
+		
 	public void setWorkflowProcessType(String workfowProcessType){
 		this.workflowProcessType = workfowProcessType;
 	}
@@ -45,11 +46,11 @@ public class MCRInitWorkflowProcessTag extends MCRSimpleTagSupport
 	
 	public void doTag() throws JspException, IOException {		
 		JspContext jspContext = getJspContext();
-    	MCRWorkflowEngineManagerInterface WFM = null;
+		MCRWorkflowManager WFM = null;
     	if(scope == null)
     		scope = "page";
-		try {
-			 WFM = MCRWorkflowEngineManagerFactory.getImpl(workflowProcessType);
+    	try {
+			 WFM = MCRWorkflowManagerFactory.getImpl(workflowProcessType);
 		} catch (Exception noWFM) {
 			logger.error("could not instantiate workflow manager", noWFM);
 			jspContext.setAttribute(status, "errorWfM", getScope(scope));

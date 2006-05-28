@@ -3,18 +3,17 @@ package org.mycore.frontend.jsp.taglibs;
 import java.io.File;
 import java.io.IOException;
 
-import javax.servlet.jsp.tagext.*;
-import javax.servlet.jsp.*;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.PageContext;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
 import org.jdom.output.DOMOutputter;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerFactory;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
+import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 
 public class MCRReceiveMcrObjAsJdomTag extends SimpleTagSupport
 {
 	private static Logger logger = Logger.getLogger(MCRReceiveMcrObjAsJdomTag.class);
-	private static MCRWorkflowEngineManagerInterface defaultWFI = MCRWorkflowEngineManagerFactory.getDefaultImpl();
 	
 	private String mcrid;
 	private String var;
@@ -42,7 +41,7 @@ public class MCRReceiveMcrObjAsJdomTag extends SimpleTagSupport
 			org.mycore.datamodel.metadata.MCRObject mcr_obj = new org.mycore.datamodel.metadata.MCRObject();
 			if ( fromWForDB != null && fromWForDB.equals("workflow") ) {
 				String[] mcridParts = mcrid.split("_");
-				String savedir = defaultWFI.getWorkflowDirectory(mcridParts[1]);
+				String savedir = MCRWorkflowDirectoryManager.getWorkflowDirectory(mcridParts[1]);
 				String filename = savedir + "/" + mcrid + ".xml";			
 				File file = new File(filename);
 				if (file.isFile()) {

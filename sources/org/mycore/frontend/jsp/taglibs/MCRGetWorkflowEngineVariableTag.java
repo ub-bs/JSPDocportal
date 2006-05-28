@@ -2,13 +2,12 @@ package org.mycore.frontend.jsp.taglibs;
 
 import java.io.IOException;
 
-import javax.servlet.jsp.tagext.*;
-import javax.servlet.jsp.*;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.PageContext;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
-import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowObject;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerFactory;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
+import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase;
 
 public class MCRGetWorkflowEngineVariableTag extends SimpleTagSupport
 {
@@ -17,8 +16,7 @@ public class MCRGetWorkflowEngineVariableTag extends SimpleTagSupport
 	private String workflowVar;
 	
 	private static Logger logger = Logger.getLogger(MCRGetWorkflowEngineVariableTag.class);
-	private static MCRWorkflowEngineManagerInterface defaultWFI = MCRWorkflowEngineManagerFactory.getDefaultImpl();
-
+	
 	public void setPid(long pid) {
 		this.pid = pid;
 	}
@@ -34,7 +32,8 @@ public class MCRGetWorkflowEngineVariableTag extends SimpleTagSupport
 	public void doTag() throws JspException, IOException {
 		try {		
 			PageContext pageContext = (PageContext) getJspContext();
-	    	pageContext.setAttribute(var, defaultWFI.getStringVariable(workflowVar, pid));
+			String value = MCRJbpmWorkflowBase.getStringVariable(workflowVar, pid);
+	    	pageContext.setAttribute(var, value);
 		}catch (Exception e) {
 			logger.error("could not fetch workflow variable", e);
 		}

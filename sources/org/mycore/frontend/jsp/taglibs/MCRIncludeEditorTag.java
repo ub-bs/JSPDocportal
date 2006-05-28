@@ -12,13 +12,14 @@ import java.net.URLEncoder;
 import java.util.Enumeration;
 import java.util.Properties;
 
-import javax.servlet.jsp.tagext.*;
-import javax.servlet.jsp.*;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.PageContext;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
 import org.mycore.frontend.jsp.NavServlet;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerFactory;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
+import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 
 
 public class MCRIncludeEditorTag extends SimpleTagSupport
@@ -30,6 +31,7 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 	private String type;
 	private String workflowType;
 	private String target;
+	private long processid;
 	
 	private String nextPath;
 	
@@ -40,7 +42,6 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 	private String cancelPage;
 
 	private static Logger logger = Logger.getLogger("MCRIncludeEditorTag.class");
-	private static MCRWorkflowEngineManagerInterface WFI = MCRWorkflowEngineManagerFactory.getDefaultImpl();
 	
 	public void setIsNewEditorSource(String isNewEditorSource) {
 		this.isNewEditorSource = isNewEditorSource;
@@ -93,6 +94,10 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 	
 	public void setCancelPage(String cancelPage){
 		this.cancelPage = cancelPage;
+	}
+	
+	public void setProcessid(long processid){
+		this.processid = processid;
 	}
 
 	public void doTag() throws JspException, IOException {
@@ -147,6 +152,7 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 		params.put("XSL.editor.cancel.url", cancelPage);
 		params.put("XSL.editor.source.new", isNewEditorSource);
 		params.put("mcrid", mcrid);
+		params.put("processid", String.valueOf(processid));
 		params.put("type", type);
 		params.put("step", step);
 		params.put("target", target);
@@ -160,7 +166,7 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 		if(editorSource != null && !editorSource.equals("")){
 			params.put("XSL.editor.source.url", "file://" + editorSource );
 		}else if(!isNewEditorSource.equals("true") && mcrid != null && !mcrid.equals("") && type != null && !type.equals("")){
-			StringBuffer sb = new StringBuffer("file://").append(WFI.getWorkflowDirectory(type))
+			StringBuffer sb = new StringBuffer("file://").append(MCRWorkflowDirectoryManager.getWorkflowDirectory(type))
 				.append(File.separator).append(mcrid).append(".xml");
 			params.put("XSL.editor.source.url", sb.toString());
 		}

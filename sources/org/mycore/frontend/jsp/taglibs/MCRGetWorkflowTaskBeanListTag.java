@@ -26,7 +26,6 @@
 package org.mycore.frontend.jsp.taglibs;
 
 // Imported java classes
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,25 +39,12 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
-
-import org.jdom.Element;
-import org.jdom.JDOMException;
 import org.jdom.input.DOMBuilder;
-import org.jdom.output.DOMOutputter;
-import org.mycore.access.MCRAccessInterface;
-import org.mycore.access.MCRAccessManager;
 import org.mycore.common.JSPUtils;
-import org.mycore.common.MCRConfiguration;
-import org.mycore.common.MCRDefaults;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
-import org.mycore.common.MCRUtils;
-import org.mycore.common.xml.MCRURIResolver;
-import org.mycore.common.xml.MCRXMLHelper;
-import org.mycore.frontend.jsp.format.MCRResultFormatter;
 import org.mycore.frontend.workflowengine.jbpm.MCRJbpmTaskBean;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerFactory;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 
 
 /**
@@ -70,7 +56,6 @@ import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface
 public class MCRGetWorkflowTaskBeanListTag extends SimpleTagSupport {
 	private static Logger LOGGER = Logger.getLogger(MCRGetWorkflowTaskBeanListTag.class.getName());
 	private static final String sessionBeanListName = "MCRGETWORKFLOWTASKBEANLIST-BEANLIST";
-	private static MCRWorkflowEngineManagerInterface defaultWFI = MCRWorkflowEngineManagerFactory.getDefaultImpl();
 	
 	private String var;
 	private int size;
@@ -135,7 +120,7 @@ public class MCRGetWorkflowTaskBeanListTag extends SimpleTagSupport {
 			if(offset > 0){
 				beans = (List)jspSession.getAttribute(sessionBeanListName);
 			}else{
-				beans = defaultWFI.getTasks(userid, mode, workflowProcessTypes);
+				beans = MCRWorkflowManager.getTasks(userid, mode, workflowProcessTypes);
 				jspSession.setAttribute(sessionBeanListName, beans);
 			}
 			if(size == 0) size = 20;
