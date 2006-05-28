@@ -1,22 +1,18 @@
 package org.mycore.frontend.jsp;
 
-import org.mycore.common.xml.MCRXMLContainer;
-import org.mycore.services.query.MCRQueryCache;
-
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.ServletException;
-import javax.servlet.ServletContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class DebugServlet extends HttpServlet
 {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        ServletContext context = this.getServletContext();
         PrintWriter out = response.getWriter();
         out.write("<html><body><h1>");
         out.write("Unknown page (not yet implemented)");
