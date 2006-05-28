@@ -8,6 +8,15 @@
 <fmt:setBundle basename='messages'/>
 
 <c:choose>
+   <c:when test="${!empty(param.processid)}">
+      <c:set  var="processid" value="${param.processid}"/>
+   </c:when>
+   <c:otherwise>
+      <c:set  var="processid" value="${requestScope.processid}"/>
+   </c:otherwise>
+</c:choose>
+
+<c:choose>
    <c:when test="${!empty(param.mcrid)}">
       <c:set  var="mcrid" value="${param.mcrid}"/>
    </c:when>
@@ -115,7 +124,7 @@
         <mcr:includeEditor 
           editorSessionID="${editorSessionID}"  isNewEditorSource="${isNewEditorSource}" 
           mcrid2="${mcrid2}"  uploadID="${uploadID}"
-          mcrid="${mcrid}" type="${type}" workflowType="${workflowType}"
+          mcrid="${mcrid}" type="${type}" processid="${processid}" workflowType="${workflowType}"
           step="${step}" target="${target}" nextPath="${nextPath}" editorPath="${editorPath}" />        
     </c:when>
     <c:otherwise>
