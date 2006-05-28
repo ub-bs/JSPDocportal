@@ -887,7 +887,7 @@
             <fileset dir="${MYCORE_HOME}/lib" includes="*.jar"
                 excludes="servlet-api*,standalone-compiler*" />
         </copy>
-        <copy todir="${docportal.webapps}/WEB-INF/classes">
+        <copy todir="${docportal.webapps}/WEB-INF/classes" overwrite="true">
             <!-- <fileset dir="${docportal.classes}" /> -->
             <fileset dir="${docportal.config}" excludes="user/*" />
             <fileset dir="${docportal.schema}" />
@@ -1059,6 +1059,16 @@
     <target name="war" depends="clean, create.schema, jar, create.taglib, webapps">
         <jar jarfile="mycoresample.war" basedir="${docportal.webapps}" />
     </target>
+	
+	<target name="fastdevelopwar" depends="jar,create.taglib">
+		<copy todir="${docportal.WEB-INF}/lib" file="${docportal.lib}/mycore-taglibs.jar" overwrite="true" />
+		<copy todir="${docportal.WEB-INF}/classes" overwrite="true" >		
+			<fileset dir="${docportal.classes}" />
+		</copy>
+		<copy todir="${docportal.webapps}" overwrite="true">
+			<fileset dir="${docportal.webpages}" />
+		</copy>
+    </target>	
 	
 	<!-- =================================================================== -->
     <!-- Build the web application and copy it to a special folder           -->
@@ -1542,10 +1552,24 @@
         <delete file="${commands.file}" />		
 	</target>		
 	
-	<target name="deploy.workflow.processdefinitions" depends="deploy.processdefinition.registeruser,deploy.processdefinition.xmetadiss,deploy.processdefinition.publication,deploy.processdefinition.author">
-		<echo>
-			deployed all workflow process definitions
-		</echo>
+	<!-- depends is not possible because of process mode of hsqldb -->
+	<target name="deploy.workflow.processdefinitions" >
+        <property name="commands.file" value="${basedir}/commands.txt" />
+        <echo file="${commands.file}" append="false">
+        	deploy jbpm processdefinition from file workflow/author.par/processdefinition.xml      	
+        	
+        	deploy jbpm processdefinition from file workflow/publication.par/processdefinition.xml      	
+        	
+        	deploy jbpm processdefinition from file workflow/registeruser.par/processdefinition.xml      	
+        	
+        	deploy jbpm processdefinition from file workflow/xmetadiss.par/processdefinition.xml      	        	
+        </echo>
+        <antcall target="invoke.cli">
+            <param name="cli.directory"
+                value="${docportal.config}" />
+            <param name="cli.command" value="process ${commands.file}" />
+        </antcall>
+        <delete file="${commands.file}" />
 	</target>
 	
 	
