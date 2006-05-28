@@ -60,6 +60,12 @@ import org.mycore.services.nbn.MCRNBN;
 import org.mycore.user2.MCRUser;
 import org.mycore.user2.MCRUserMgr;
 
+/**
+ * @deprecated
+ * dont use this class anymore, wrong results!!! 
+ * @author Heiko Helmbrecht
+ *
+ */
 public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManagerInterface{
 	
 	private static Logger logger = Logger.getLogger(MCRWorkflowEngineManagerBaseImpl.class.getName());
@@ -147,7 +153,9 @@ public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManage
 	}
 	
 	public boolean setStatus (String status, long processID){
-		return MCRJbpmWorkflowBase.setWorkflowStatus(status, processID);
+		//return MCRJbpmWorkflowBase.setWorkflowStatus(status, processID);
+		// debug:
+		return false;
 	}
 	
 
