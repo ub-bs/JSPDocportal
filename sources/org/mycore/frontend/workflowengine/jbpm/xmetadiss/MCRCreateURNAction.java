@@ -5,7 +5,6 @@ import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.mycore.common.MCRException;
 import org.mycore.frontend.workflowengine.jbpm.MCRAbstractAction;
-import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;

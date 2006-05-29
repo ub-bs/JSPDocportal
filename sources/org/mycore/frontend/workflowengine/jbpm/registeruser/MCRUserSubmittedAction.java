@@ -14,7 +14,6 @@ import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.common.xml.MCRXMLHelper;
-import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase;
 
 public class MCRUserSubmittedAction implements ActionHandler{
 	
@@ -33,7 +32,6 @@ public class MCRUserSubmittedAction implements ActionHandler{
 	public void execute(ExecutionContext executionContext) throws MCRException {
 		logger.debug("locking workflow variables and setting the access control to the admin mode");
 		ContextInstance contextInstance = executionContext.getContextInstance();
-		contextInstance.setVariable(MCRJbpmWorkflowBase.lockedVariablesIdentifier, lockedVariables);
 		// set access control to admin mode, the user  has no rights anymore
 		String id = (String) contextInstance.getVariable("userID");
 		List permissions = AI.getPermissionsForID(id);

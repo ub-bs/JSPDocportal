@@ -1,3 +1,4 @@
+<%@ page import="org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/xml" prefix="x"%>
@@ -36,7 +37,10 @@
    </c:when>   
    
    <c:when test="${requestScope.task.taskName eq 'displayAuthorForUser'}">
-    	<mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="objid" workflowVar="authorID" /> 
+ 	   <mcr:getWorkflowEngineVariable 
+			pid="${requestScope.task.processID}" var="objid" 
+			workflowVar="<%= MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS %>" /> 
+
     	<%-- alternativ:
 	   	<c:set var="authorID"><x:out select="$dom/variables/variable[@name = 'authorID']/@value" /></c:set> --%>
 		<br>&nbsp;<br>

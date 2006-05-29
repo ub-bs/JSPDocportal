@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
-import org.jbpm.graph.def.ActionHandler;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jdom.Element;
 import org.mycore.access.MCRAccessInterface;
@@ -40,7 +39,7 @@ public class MCRAuthorSubmittedAction extends MCRAbstractAction {
 	public void executeAction(ExecutionContext executionContext) throws MCRException {
 		logger.debug("locking workflow variables and setting the access control to the editor mode");
 		ContextInstance contextInstance = executionContext.getContextInstance();
-		contextInstance.setVariable(MCRJbpmWorkflowBase.lockedVariablesIdentifier, lockedVariables);
+		// contextInstance.setVariable(MCRJbpmWorkflowBase.lockedVariablesIdentifier, lockedVariables);
 		// set access control to editor mode, the dissertand has no rights anymore
 		List ids = new ArrayList();
 		ids.add(contextInstance.getVariable("createdDocID"));

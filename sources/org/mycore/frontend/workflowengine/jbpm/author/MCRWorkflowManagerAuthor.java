@@ -26,30 +26,19 @@
 package org.mycore.frontend.workflowengine.jbpm.author;
 
 // Imported java classes
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.log4j.Logger;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jdom.Element;
-import org.jdom.filter.ElementFilter;
 import org.mycore.common.MCRException;
-import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
-import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
 import org.mycore.frontend.workflowengine.strategies.MCRDefaultAuthorStrategy;
-import org.mycore.frontend.workflowengine.strategies.MCRDefaultDerivateStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRDefaultMetadataStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRDefaultPermissionStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRMetadataStrategy;
-import org.mycore.frontend.workflowengine.strategies.MCRURNIdentifierStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 import org.mycore.services.fieldquery.MCRResults;
 import org.mycore.user2.MCRUser;

@@ -28,15 +28,15 @@ public class MCRJbpmWorkflowBase {
 	
 	// A VARIABLE USED IN ALL WORKFLOW PROCESSES
 	/*
+	 * now they are in MCRWorkflowConstants
 	public final static String varINITIATOR = "initiator";
 	public final static String varINITIATOREMAIL = "initiatorEmail";
 	public final static String varINITIATORSALUTATION = "initiatorSalutation";	
 	public final static String varSIGNED_AFFIRMATION_AVAILABLE = "signedAffirmationAvailable";
 	*/
-	public static final String lockedVariablesIdentifier = "MCRJBPMLOCKEDVARIABLES";
+	// not used public static final String lockedVariablesIdentifier = "MCRJBPMLOCKEDVARIABLES";
 	private static Logger logger = Logger.getLogger(MCRJbpmWorkflowBase.class);
-	private static JbpmConfiguration jbpmConfiguration = 
-        JbpmConfiguration.parseResource("jbpm.cfg.xml");
+	private static JbpmConfiguration jbpmConfiguration =   JbpmConfiguration.parseResource("jbpm.cfg.xml");
 	// help cache for finding the workflow-processes of a given user
 	// not yet implemented in jbpm, can be removed one day
 
