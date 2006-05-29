@@ -5,24 +5,27 @@ import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.graph.def.ActionHandler;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.mycore.common.MCRException;
+import org.mycore.frontend.workflowengine.jbpm.MCRAbstractAction;
 import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerFactory;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
 
-public class MCRCreateAuthorFromInitiatorAction implements ActionHandler{
+public class MCRCreateAuthorFromInitiatorAction extends MCRAbstractAction {
 	
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = Logger.getLogger(MCRCreateAuthorFromInitiatorAction.class);
-	private static MCRWorkflowEngineManagerAuthor WFI = (MCRWorkflowEngineManagerAuthor)MCRWorkflowEngineManagerFactory.getImpl("author");
+	private static MCRWorkflowManagerAuthor WFM = (MCRWorkflowManagerAuthor)MCRWorkflowManagerFactory.getImpl("author");
 
-	public void execute(ExecutionContext executionContext) throws MCRException {
+	public void executeAction(ExecutionContext executionContext) throws MCRException {
 		ContextInstance contextInstance;
 		contextInstance = executionContext.getContextInstance();
-		String initiator = (String)contextInstance.getVariable(MCRJbpmWorkflowBase.varINITIATOR);
+		String initiator = (String)contextInstance.getVariable(	MCRWorkflowConstants.WFM_VAR_INITIATOR);
 		long pid = executionContext.getProcessInstance().getId();
-		String authorID = WFI.createAuthorFromInitiator(initiator, pid);
+		
+		String authorID = WFM.createNewAuthor(initiator,pid,true);
 		if(authorID != null && !authorID.equals("")) {
-			//contextInstance.setVariable("authorID", authorID);
-			contextInstance.setVariable("createdDocID", authorID);
+			contextInstance.setVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS, authorID);
 			logger.debug("workflow changed state to " + executionContext.getProcessInstance().getRootToken().getName());
 		}else{
 			logger.error("no authorID could be generated");

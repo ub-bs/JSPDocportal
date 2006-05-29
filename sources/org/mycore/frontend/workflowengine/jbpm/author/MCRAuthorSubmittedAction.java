@@ -14,11 +14,13 @@ import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.common.xml.MCRXMLHelper;
+import org.mycore.frontend.workflowengine.jbpm.MCRAbstractAction;
 import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.user2.MCRUser;
 import org.mycore.user2.MCRUserMgr;
 
-public class MCRAuthorSubmittedAction implements ActionHandler{
+public class MCRAuthorSubmittedAction extends MCRAbstractAction {
 	
 	String lockedVariables;
 
@@ -35,7 +37,7 @@ public class MCRAuthorSubmittedAction implements ActionHandler{
 		strReadRule = MCRConfiguration.instance().getString("MCR.WorkflowEngine.defaultACL.author.read.author");	
 	}
 
-	public void execute(ExecutionContext executionContext) throws MCRException {
+	public void executeAction(ExecutionContext executionContext) throws MCRException {
 		logger.debug("locking workflow variables and setting the access control to the editor mode");
 		ContextInstance contextInstance = executionContext.getContextInstance();
 		contextInstance.setVariable(MCRJbpmWorkflowBase.lockedVariablesIdentifier, lockedVariables);
@@ -43,7 +45,7 @@ public class MCRAuthorSubmittedAction implements ActionHandler{
 		List ids = new ArrayList();
 		ids.add(contextInstance.getVariable("createdDocID"));
 		
-		String initiator = contextInstance.getVariable(MCRJbpmWorkflowBase.varINITIATOR).toString();
+		String initiator = contextInstance.getVariable(MCRWorkflowConstants.WFM_VAR_INITIATOR).toString();
 		MCRUser user = MCRUserMgr.instance().retrieveUser(initiator);
 		
 		String x = strReadRule.replaceAll("\\$\\{user\\}", user.getID());
@@ -59,4 +61,5 @@ public class MCRAuthorSubmittedAction implements ActionHandler{
 				AI.addRule(id, "read", authorReadRule, "");
 		}
 	}
+
 }

@@ -49,6 +49,8 @@ import org.mycore.frontend.workflowengine.strategies.MCRPermissionStrategy;
 import org.mycore.services.fieldquery.MCRQuery;
 import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.services.fieldquery.MCRResults;
+import org.mycore.services.fieldquery.MCRSearcher;
+import org.mycore.services.fieldquery.MCRSearcherFactory;
 import org.mycore.user2.MCRUser;
 
 /**
@@ -177,7 +179,26 @@ public class MCRWorkflowUtils {
 		logger.debug("generated query: \n" + out.outputString(query));
 		Document jQuery = new Document(query);
 		
-		MCRResults mcrResult = MCRQueryManager.search(MCRQuery.parseXML(jQuery));
+//		BUGFIX by Robert:
+//		The original lines of code cannot be executed properly. The method fails to search data for ??? remote query ???
+//      Look  into method: search(MCRQuery query, boolean comesFromRemoteHost) in MCRQueryManager
+//		line:  MCRQueryClient.search(query, results) does not come back properly;
+//		The problem only occurs when the "local" result ist empty.
+//		
+//
+//Original:		
+//		MCRResults mcrResult = MCRQueryManager.search(MCRQuery.parseXML(jQuery));
+//		
+//
+//Workaround:		
+//	     simplification based on org.myocre.services.fieldquery.MCRQueryManager
+//		 only considering local results
+//	     - line 154: Method buildResults(...)
+			MCRQuery mcrQuery = MCRQuery.parseXML(jQuery);
+	        String index="metadata";
+	        MCRSearcher searcher = MCRSearcherFactory.getSearcherForIndex(index);
+            MCRResults mcrResult = searcher.search(mcrQuery.getCondition(), mcrQuery.getMaxResults(), mcrQuery.getSortBy(), false);
+//Workaround - end
 
 		return mcrResult;
 	}

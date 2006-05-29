@@ -1,8 +1,12 @@
 package org.mycore.frontend.workflowengine.strategies;
 
+import java.io.FileOutputStream;
+
 import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 import org.mycore.common.MCRDefaults;
 import org.mycore.datamodel.metadata.MCRMetaAddress;
 import org.mycore.datamodel.metadata.MCRMetaBoolean;
@@ -20,7 +24,7 @@ public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {
 	private static Logger logger = Logger.getLogger(MCRDefaultAuthorStrategy.class.getName());
 
 
-	public MCRObjectID createAuthor(String userid, MCRObjectID nextFreeAuthorId){
+	public MCRObjectID createAuthor(String userid, MCRObjectID nextFreeAuthorId, boolean fromUserData, boolean inDatabase){
 		
 		MCRUser user = null;
 		try {
@@ -37,9 +41,23 @@ public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {
 			return new MCRObjectID(authorID);
 		}
 		
-		MCRObject author = createAuthorFromUser(user, nextFreeAuthorId);
+		MCRObject author = null;
+		
+		if (fromUserData){
+			author = createAuthorFromUser(user, nextFreeAuthorId);
+		} else {
+			author = createAuthorFromUser(null, nextFreeAuthorId);
+		}
+		
 		try {
-			author.createInDatastore();
+			if ( inDatabase) {
+				author.createInDatastore();
+			} else {
+				FileOutputStream fos = new FileOutputStream(
+						MCRWorkflowDirectoryManager.getWorkflowDirectory("author")	+ "/" + author.getId().getId() + ".xml");
+						(new XMLOutputter(Format.getPrettyFormat())).output(author.createXML(),fos);
+				fos.close();
+			}
 		} catch ( Exception ex){
 			//TODO Fehlermeldung
 			logger.warn("Could not Create authors object from the user object " + user.getID());
@@ -78,7 +96,7 @@ public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {
 			female.setSubTag("female");
 			female.setLang("de");
 			female.setValue("false");
-			if (user.getUserContact().getSalutation().equals("Frau"))
+			if (user.getUserContact().getSalutation().equalsIgnoreCase("Frau"))
 				female.setValue("true");
 
 			MCRMetaAddress padr = new MCRMetaAddress();

@@ -10,7 +10,7 @@ public interface MCRAuthorStrategy {
 	 * @param userid
 	 * @return
 	 */
-	public MCRObjectID createAuthor(String userid, MCRObjectID nextFreeAuthorId);
+	public MCRObjectID createAuthor(String userid, MCRObjectID nextFreeAuthorId, boolean fromUserData, boolean inDatabase);
 	
 	
 }

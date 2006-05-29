@@ -82,7 +82,7 @@ public class MCRWorkflowProcess extends MCRAbstractWorkflowObject{
 	public void initialize(String initiator){
 		jbpmContext.setActorId(initiator);
 		taskMgmtInstance.createStartTaskInstance();
-		contextInstance.setVariable(MCRJbpmWorkflowBase.varINITIATOR, initiator);
+		contextInstance.setVariable(MCRWorkflowConstants.WFM_VAR_INITIATOR, initiator);
 	}
 	
 	public boolean endTask(String taskName, String curUserID, String transitionName){

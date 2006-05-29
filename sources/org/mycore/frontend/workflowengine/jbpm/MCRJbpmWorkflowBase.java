@@ -27,10 +27,12 @@ import org.mycore.common.MCRException;
 public class MCRJbpmWorkflowBase {
 	
 	// A VARIABLE USED IN ALL WORKFLOW PROCESSES
+	/*
 	public final static String varINITIATOR = "initiator";
 	public final static String varINITIATOREMAIL = "initiatorEmail";
 	public final static String varINITIATORSALUTATION = "initiatorSalutation";	
 	public final static String varSIGNED_AFFIRMATION_AVAILABLE = "signedAffirmationAvailable";
+	*/
 	public static final String lockedVariablesIdentifier = "MCRJBPMLOCKEDVARIABLES";
 	private static Logger logger = Logger.getLogger(MCRJbpmWorkflowBase.class);
 	private static JbpmConfiguration jbpmConfiguration = 
@@ -92,7 +94,7 @@ public class MCRJbpmWorkflowBase {
 		try{
 			Session hibSession = jbpmContext.getSession();
 			Query hibQuery = hibSession.getNamedQuery("MCRJbpmWorkflowBase.getCurrentProcessIDsForInitiator");
-			hibQuery.setString(varINITIATOR , initiator);
+			hibQuery.setString(MCRWorkflowConstants.WFM_VAR_INITIATOR , initiator);
 			List processInstances = hibQuery.list();
 			for (Iterator it = processInstances.iterator(); it.hasNext();) {
 				ProcessInstance processInstance = (ProcessInstance) it.next();
@@ -195,7 +197,7 @@ public class MCRJbpmWorkflowBase {
 		try{
 			Session hibSession = jbpmContext.getSession();
 			Query hibQuery = hibSession.getNamedQuery("MCRJbpmWorkflowBase.getCurrentProcessIDsForInitiator");
-			hibQuery.setString(varINITIATOR , userid);
+			hibQuery.setString(MCRWorkflowConstants.WFM_VAR_INITIATOR , userid);
 			List processInstances = hibQuery.list();
 			for (Iterator it = processInstances.iterator(); it.hasNext();) {
 				ProcessInstance processInstance = (ProcessInstance)it.next();

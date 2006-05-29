@@ -21,7 +21,7 @@ public class MCRCreateAuthorAction extends MCRAbstractAction{
 		String authorID = (String)contextInstance.getVariable(MCRWorkflowConstants.WFM_VAR_AUTHOR_IDS);
 		if(authorID == null || authorID.equals("")){
 			//TODO
-			authorID = WFM.getAuthorStrategy().createAuthor(initiator, WFM.getNextFreeID("author")).getId();
+			authorID = WFM.getAuthorStrategy().createAuthor(initiator, WFM.getNextFreeID("author"),true,true).getId();
 		}
 		if(authorID != null && !authorID.equals("")) {
 			contextInstance.setVariable(MCRWorkflowConstants.WFM_VAR_AUTHOR_IDS, authorID);

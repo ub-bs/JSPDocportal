@@ -1,7 +1,7 @@
 MCR.Editor.FileUpload.MaxSize=50000000
 MCR.WorkflowEngine.contactemail.xmetadiss=mycore@mycore.de
 MCR.WorkflowEngine.ManagerImpl.registeruser=org.mycore.frontend.workflowengine.jbpm.registeruser.MCRWorkflowEngineManagerRegisteruser
-MCR.WorkflowEngine.ManagerImpl.author=org.mycore.frontend.workflowengine.jbpm.author.MCRWorkflowEngineManagerAuthor
+MCR.WorkflowEngine.ManagerImpl.author=org.mycore.frontend.workflowengine.jbpm.author.MCRWorkflowManagerAuthor
 
 MCR.BaseDirectory=C:/sample-mcrjsp
 
@@ -44,7 +44,7 @@ MCR.WorkflowEngine.defaultACL.derivate.deletedb.publication=<conditions format="
 
 MCR.WorkflowEngine.defaultACL.editorMode.publication=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></conditions>
 
-MCR.WorkflowEngine.ManagerImpl.publication=org.mycore.frontend.workflowengine.jbpm.publication.MCRWorkflowEngineManagerPublication
+MCR.WorkflowEngine.ManagerImpl.publication=org.mycore.frontend.workflowengine.jbpm.publication.MCRWorkflowManagerPublication
 MCR.nbn.nissprefix.publication=document
 
 

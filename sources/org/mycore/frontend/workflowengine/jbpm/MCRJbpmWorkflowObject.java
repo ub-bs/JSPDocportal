@@ -88,14 +88,14 @@ public class MCRJbpmWorkflowObject {
 			jbpmContext.setActorId(initiator);
 			ProcessInstance processInstance = jbpmContext.loadProcessInstance(processInstanceID);
 			processInstance.getTaskMgmtInstance().createStartTaskInstance();
-			processInstance.getContextInstance().setVariable(MCRJbpmWorkflowBase.varINITIATOR, initiator);
+			processInstance.getContextInstance().setVariable(MCRWorkflowConstants.WFM_VAR_INITIATOR, initiator);
 			//jbpmContext.save(processInstance);
 		}catch(MCRException e){
 			logger.error("could not create new processIinstance '", e);
 		}finally {
 			jbpmContext.close();
 		}		
-		lockStringVariable(MCRJbpmWorkflowBase.varINITIATOR);
+		lockStringVariable(MCRWorkflowConstants.WFM_VAR_INITIATOR);
 	}
 	
 	public boolean endTask(String taskName, String curUserID, String transitionName){

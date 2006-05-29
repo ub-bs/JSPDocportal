@@ -93,10 +93,10 @@ public class MCRJbpmSendmail{
 				ret.add(array[i]);
 			} else if (array[i].trim().equals("initiator")) {
 				String email = getUserEmailAddress((String) executionContext
-						.getVariable(MCRJbpmWorkflowBase.varINITIATOR));
+						.getVariable(MCRWorkflowConstants.WFM_VAR_INITIATOR));
 				if (email == null || email.equals("")) {
 					email = (String) executionContext
-							.getVariable(MCRJbpmWorkflowBase.varINITIATOREMAIL);
+							.getVariable(MCRWorkflowConstants.WFM_VAR_INITIATOREMAIL);
 				}
 				if (email == null || email.equals("")) {
 					email = getUserEmailAddress("administrator");

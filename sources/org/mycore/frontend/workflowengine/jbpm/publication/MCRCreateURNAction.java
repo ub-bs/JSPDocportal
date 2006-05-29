@@ -22,7 +22,7 @@ public class MCRCreateURNAction extends MCRAbstractAction{
 		ContextInstance contextInstance;
 		contextInstance = executionContext.getContextInstance();
 		MCRIdentifierStrategy identifierStrategy = WFM.getIdentifierStrategy();
-		String initiator = (String)contextInstance.getVariable(MCRJbpmWorkflowBase.varINITIATOR);
+		String initiator = (String)contextInstance.getVariable(MCRWorkflowConstants.WFM_VAR_INITIATOR);
 		String documentID = (String)contextInstance.getVariable(MCRMetadataStrategy.VARIABLE_PREFIX);
 		String urn = (String)identifierStrategy.createNewIdentifier(documentID, initiator, WFM.getWorkflowProcessType());
 		if(urn != null && !urn.equals("")){
