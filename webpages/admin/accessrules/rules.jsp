@@ -15,7 +15,7 @@
 
 <h4>Vorhandene Regeln</h4>
 
-<form method=post action="<%= WebApplicationBaseURL %>admin/rules_validate.jsp" id="overview">
+<form method=post action="<%= WebApplicationBaseURL %>admin/accessrules/rules_validate.jsp" id="overview">
 <table class="access" cellspacing="1" cellpadding="0" >
 	<tr>
 		<th colspan="2">

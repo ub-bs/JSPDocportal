@@ -9,6 +9,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/2000/REC-xhtml1-20000126/DTD/xhtml1-strict.dtd">
 <html>
 <head>
-<meta http-equiv="refresh" content="0; URL=<%= MCRServlet.getBaseURL() %>min?path=rules"/>
+<meta http-equiv="refresh" content="0; URL=<%= MCRServlet.getBaseURL() %>nav?path=admin.accessrules"/>
 </head>
 </html>

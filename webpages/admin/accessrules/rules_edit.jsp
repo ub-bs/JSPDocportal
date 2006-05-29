@@ -4,15 +4,13 @@
 	org.mycore.frontend.servlets.MCRServlet,
 	java.text.SimpleDateFormat,
 	java.text.DateFormat,
-	java.util.Date,
-	java.util.Collections"%>
-<%@ page import="org.mycore.frontend.servlets.MCRServlet" %>    
+	java.util.Date"%>
 <%
     String WebApplicationBaseURL = MCRServlet.getBaseURL();
 %>    
 <h4>Regel bearbeiten</h4>
 
-<p><a href="<%= WebApplicationBaseURL %>/admin?path=rules">zur Übersicht</a></p>
+<p><a href="<%= WebApplicationBaseURL %>nav?path=admin.accessrules">zur Übersicht</a></p>
 
 <%
 	MCRSession mcrSession = MCRServlet.getSession(request);
@@ -46,7 +44,7 @@
 
 %>
 
-<form method="post" action="<%= WebApplicationBaseURL %>/admin/rules_validate.jsp">
+<form method="post" action="<%= WebApplicationBaseURL %>/admin/accessrules/rules_validate.jsp">
 	<table class="access">
 		<tr>
 			<td>Regel-ID:</td>

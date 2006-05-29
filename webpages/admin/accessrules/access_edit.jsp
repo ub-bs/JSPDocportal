@@ -28,7 +28,7 @@ if(id.length==1){
 	<h4>Einzelzuweisung</h4>
 	<p><a href="<%= WebApplicationBaseURL %>admin?path=access">zur Übersicht</a></p>
 
-	<form method=post action="<%= WebApplicationBaseURL %>admin/access_validate.jsp">
+	<form method=post action="<%= WebApplicationBaseURL %>admin/accessrules/access_validate.jsp">
 	<table  class="access" cellspacing="1" cellpadding="0">
 		<tr>
 			<td rowspan="2">&nbsp;</td>
@@ -69,10 +69,11 @@ if(id.length==1){
 		// multi selection
 %>
 
-	<h4>Mehrfachzuweisung</h4>
-	<p><a href="<%= WebApplicationBaseURL %>/admin?path=access">zur Übersicht</a></p>
+	<form method=post action="<%= WebApplicationBaseURL %>/admin/accessrules/access_validate.jsp">
 
-	<form method=post action="<%= WebApplicationBaseURL %>/admin/access_validate.jsp">
+	<h4>Mehrfachzuweisung</h4>
+	<p><a href="<%= WebApplicationBaseURL %>admin?path=access">zur Übersicht</a></p>
+
 	<table  class="access" cellspacing="1" cellpadding="0">
 		<tr>
 			<td rowspan="2">&nbsp;</td>
@@ -108,7 +109,7 @@ if(id.length==1){
 		<input type="hidden" value="<%=ids%>" name="ids">
 		<input type="hidden" value="save" name="operation">
 		<input type="reset">&nbsp;<input type="submit" value="Speichern">
-	<form>
+	</form>
 <%
 
 

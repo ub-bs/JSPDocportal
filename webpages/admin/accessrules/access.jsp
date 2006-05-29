@@ -60,7 +60,7 @@
 	}
 	
 </script>
-<c:set var="debug" value="true" />
+<c:set var="debug" value="false" />
 <c:choose>
    <c:when test="${param.step > 0}">
       <c:set var="step" value="${param.step}" />
@@ -83,7 +83,7 @@
 
 <h4><fmt:message key="Access.AssignRule" /></h4>
 
-<form method=post action="${WebApplicationBaseURL}admin/access_validate.jsp" id="overview">
+<form method=post action="${WebApplicationBaseURL}admin/accessrules/access_validate.jsp" id="overview">
 <table border="0">
 <tr>
 <td>
