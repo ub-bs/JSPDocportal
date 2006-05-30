@@ -42,7 +42,9 @@ import org.mycore.frontend.editor.MCRRequestParameters;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerFactory;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
+import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 import org.mycore.user2.MCRUserMgr;
 
 /**
@@ -61,7 +63,8 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 	private String newUserID;
 	private String ID ;
 	private String lang;
-	private MCRWorkflowEngineManagerInterface WFI;
+	private static MCRWorkflowManager WFM = MCRWorkflowManagerFactory.getImpl("registeruser");
+
 	private String documentType ="user";
 	private String workflowType="registeruser";
 	
@@ -93,56 +96,49 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 		ID = parms.getParameter("userID");
 		lang = mcrSession.getCurrentLanguage();
         String todo = parms.getParameter("todo");
-
-
-        WFI = MCRWorkflowEngineManagerFactory.getImpl(workflowType);
 		
-		if ( pid == null ) {
-			initializeUserRegistration(sub);
-	       	request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
-	       	return;
-		} else {
+   		if (  AI.checkPermission("administrate-user") &&  "WFModifyWorkflowUser".equals(todo) ) {
+			// nochmals editieren
+			/**
+			  <mcr:includeEditor 
+	          isNewEditorSource="false" processid="${pid}"
+	          mcrid="${userID}" type="user" workflowType="registeruser"
+	          step=""  target="MCRCheckUserRegistrationServlet" nextPath="~workflow-registeruser" 
+	          editorPath="editor/workflow/editor-modifyuser.xml" />
+	          ***/   
+        	// befüllten Editor für das Object includieren
+			// aus dem wfo die Daten für die ID ... holen 
+			ID = WFM.getStringVariable("initiatorUserID", Long.parseLong(pid));
 			
-    		if ( ! AI.checkPermission("administrate-user") ) {
-    			//TODO weiterleiten auf error-seite
-       			//MCRJbpmWorkflowBase.setWorkflowStatus("error" + workflowType + "Right", Long.parseLong(pid));       			
-    		} else {    		
-    			if ( "WFModifyWorkflowUser".equals(todo) ) {
-    				// nochmals editieren
-    				/**
-    				  <mcr:includeEditor 
-    		          isNewEditorSource="false" 
-    		          mcrid="${userID}" type="user" workflowType="registeruser"
-    		          step=""  target="MCRCheckUserRegistrationServlet" nextPath="~workflow-registeruser" 
-    		          editorPath="editor/workflow/editor-modifyuser.xml" />
-    		          ***/   
-    	        	// befüllten Editor für das Object includieren
-    				// aus dem wfo die Daten für die ID ... holen 
-    				ID = WFI.getStringVariable("initiatorUserID", Long.parseLong(pid));
-    				
-    	        	request.setAttribute("isNewEditorSource","false");
-    	        	request.setAttribute("mcrid","user_"+ID);
-    	        	request.setAttribute("type",documentType);
-    	        	request.setAttribute("target","MCRRegisterUserWorkflowServlet");
-    	        	request.setAttribute("workflowType",workflowType);
-    	        	request.setAttribute("step","");
-    	        	request.setAttribute("nextPath",nextPath);
-    	        	request.setAttribute("editorPath","editor/workflow/editor-modifyuser.xml");
-    	        	request.getRequestDispatcher("/nav?path=~editor-include").forward(request, response);
-    	        	return;    				
-    			}
-    		}
+        	request.setAttribute("isNewEditorSource","false");
+        	request.setAttribute("mcrid","user_"+ID);
+        	request.setAttribute("processid",pid);
+        	request.setAttribute("type",documentType);
+        	request.setAttribute("target","MCRRegisterUserWorkflowServlet");
+        	request.setAttribute("workflowType",workflowType);
+        	request.setAttribute("step","");
+        	request.setAttribute("nextPath",nextPath);
+        	request.setAttribute("editorPath","editor/workflow/editor-modifyuser.xml");
+        	request.getRequestDispatcher("/nav?path=~editor-include").forward(request, response);
+        	return;
+	        	
+		} else {
+			// im Editor/Administrator modus
+			assignUserRegistration(sub);
+	       	request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
+	       	return;    				
 		}
-     }
-          
-    private void initializeUserRegistration(MCREditorSubmission sub) throws Exception { 
+    }
+
+    
+    private void assignUserRegistration(MCREditorSubmission sub) throws Exception { 
         Element root = new Element("mycoreuser");        
  		root.setAttribute("noNamespaceSchemaLocation", "MCRUser.xsd", org.jdom.Namespace.getNamespace("xsi", MCRDefaults.XSI_URL));
         Element userElement = new Element("user");
 		
         if ( newUserID != null ) {
 			// Neue ID verwenden, da erste ID schon existiert
-    		StringBuffer storePath = new StringBuffer(WFI.getWorkflowDirectory("user"))
+    		StringBuffer storePath = new StringBuffer(MCRWorkflowDirectoryManager.getWorkflowDirectory(this.documentType))
     			.append(File.separator).append("user_")     	
     			.append(ID).append(".xml");
         	userElement = (Element) setNewUserIDforUser(newUserID, ID, storePath.toString(), lang);
@@ -156,13 +152,13 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 			int numID = MCRUserMgr.instance().getMaxUserNumID();
 			userElement.setAttribute("numID", String.valueOf(numID +1)) ;
 			
-	       	StringBuffer storePath = new StringBuffer(WFI.getWorkflowDirectory("user"))
+	       	StringBuffer storePath = new StringBuffer(MCRWorkflowDirectoryManager.getWorkflowDirectory(this.documentType))
 				.append(File.separator).append("user_")
 				.append(ID).append(".xml");
 	       	
 	       	root.addContent(userElement);
 			org.jdom.Document outDoc =  new org.jdom.Document (root);	        
-			WFI.storeMetadata(MCRUtils.getByteArray(outDoc), ID, storePath.toString());
+			WFM.storeMetadata(MCRUtils.getByteArray(outDoc), ID, storePath.toString());
 				
 			if ( MCRUserMgr.instance().existUser(ID) ) {
 				// we have another user with that ID 
@@ -173,15 +169,15 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 				//we have registeruser prozess - with that id
 				//long lpid = WFI.getUniqueCurrentProcessID(ID);
 				long lpid = 0;
-				List lpids  = WFI.getCurrentProcessIDs(ID, workflowType);	
+				List lpids  = WFM.getCurrentProcessIDsForProcessType(ID,workflowType);	
 				if ( lpids.isEmpty()){
-					lpid = WFI.initWorkflowProcess(ID);				
+					lpid = WFM.initWorkflowProcess(ID, null);				
 			        nextPath = "~registered";
 			        lpids.add(new Long(lpid));
 			    }
 				lpid = ((Long)lpids.get(0)).longValue();
 				// for initiator and editor 
-				WFI.setWorkflowVariablesFromMetadata(String.valueOf(lpid),userElement);
+				WFM.setWorkflowVariablesFromMetadata(ID,userElement, lpid);
 				MCRSessionMgr.getCurrentSession().put("registereduser", new DOMOutputter().output( outDoc ));
 				for ( int i=1; i< lpids.size(); i++) {
 			        logger.warn("User registration - duplicate Process ID's" + lpids.get(i).toString());

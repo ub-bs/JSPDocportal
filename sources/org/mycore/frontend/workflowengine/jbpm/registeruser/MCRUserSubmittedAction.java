@@ -14,8 +14,9 @@ import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.common.xml.MCRXMLHelper;
+import org.mycore.frontend.workflowengine.jbpm.MCRAbstractAction;
 
-public class MCRUserSubmittedAction implements ActionHandler{
+public class MCRUserSubmittedAction extends MCRAbstractAction{
 	
 	String lockedVariables;
 
@@ -29,7 +30,7 @@ public class MCRUserSubmittedAction implements ActionHandler{
 		editorModeRule = (Element)MCRXMLHelper.parseXML(strRule).getRootElement().detach();
 	}
 
-	public void execute(ExecutionContext executionContext) throws MCRException {
+	public void executeAction(ExecutionContext executionContext) throws MCRException {
 		logger.debug("locking workflow variables and setting the access control to the admin mode");
 		ContextInstance contextInstance = executionContext.getContextInstance();
 		// set access control to admin mode, the user  has no rights anymore
@@ -40,5 +41,6 @@ public class MCRUserSubmittedAction implements ActionHandler{
 			AI.addRule(id, permission, editorModeRule, "");
 		}
 	}
+
 
 }
