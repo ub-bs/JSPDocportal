@@ -34,6 +34,7 @@ import org.mycore.common.MCRUtils;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.fileupload.MCRUploadHandler;
+import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 
 /**
  * This class stores files uploaded from the client applet as derivates into the
@@ -95,7 +96,7 @@ public class MCRWorkflowUploadHandler extends MCRUploadHandler {
      */
     public void startUpload(int numFiles) throws Exception {
         MCRObjectID ID = new MCRObjectID(docId);
-        String workdir = MCRWorkflowEngineManagerFactory.getDefaultImpl().getWorkflowDirectory(ID.getTypeId());
+        String workdir = MCRWorkflowDirectoryManager.getWorkflowDirectory(ID.getTypeId()); 
         dirname = workdir + File.separator + derId;
     }
 

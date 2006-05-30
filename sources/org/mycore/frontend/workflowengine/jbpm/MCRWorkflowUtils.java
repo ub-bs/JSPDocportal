@@ -46,6 +46,7 @@ import org.mycore.datamodel.metadata.MCRMetaPersonName;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.strategies.MCRPermissionStrategy;
+import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 import org.mycore.services.fieldquery.MCRQuery;
 import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.services.fieldquery.MCRResults;
@@ -87,7 +88,7 @@ public class MCRWorkflowUtils {
 	 * @return an ArrayList of file names
 	 */
 	public final static ArrayList getAllObjectFileNames(String type) {
-		String dirname = MCRWorkflowEngineManagerFactory.getDefaultImpl().getWorkflowDirectory(type);
+		String dirname = MCRWorkflowDirectoryManager.getWorkflowDirectory(type);
 		ArrayList workfiles = new ArrayList();
 		if (!dirname.equals(".")) {
 			File dir = new File(dirname);
@@ -117,8 +118,7 @@ public class MCRWorkflowUtils {
 	 * @return an ArrayList of file names
 	 */
 	public final static ArrayList getAllDerivateFileNames(String type) {
-		String dirname = MCRWorkflowEngineManagerFactory.getDefaultImpl()
-				.getWorkflowDirectory(type);
+		String dirname = MCRWorkflowDirectoryManager.getWorkflowDirectory(type);
 		ArrayList workfiles = new ArrayList();
 		if (!dirname.equals(".")) {
 			File dir = new File(dirname);

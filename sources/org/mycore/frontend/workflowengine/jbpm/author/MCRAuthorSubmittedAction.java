@@ -14,7 +14,6 @@ import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.common.xml.MCRXMLHelper;
 import org.mycore.frontend.workflowengine.jbpm.MCRAbstractAction;
-import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.user2.MCRUser;
 import org.mycore.user2.MCRUserMgr;

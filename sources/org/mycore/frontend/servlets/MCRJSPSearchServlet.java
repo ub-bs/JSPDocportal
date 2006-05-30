@@ -331,6 +331,22 @@ public class MCRJSPSearchServlet extends MCRServlet {
             cond = new MCRQueryParser().parse(query);
         }
 
+        Element sortBy = input.getRootElement().getChild("sortBy");
+        if (sortBy != null) {
+            // Remove empty sort fields from input
+            List fields = sortBy.getChildren();
+            for (int i = 0; i < fields.size(); i++) {
+                Element field = (Element) (fields.get(i));
+                if (field.getAttributeValue("name", "").length() == 0) {
+                    i--;
+                    field.detach();
+                }
+            }
+
+            //Remove empty sort criteria list
+            if(sortBy.getChildren().size() == 0) sortBy.detach();
+        }
+        
         // Execute query
         long start = System.currentTimeMillis();       
         MCRQuery query = MCRQuery.parseXML(input);

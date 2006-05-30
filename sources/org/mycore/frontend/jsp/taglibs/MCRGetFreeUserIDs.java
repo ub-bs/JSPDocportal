@@ -1,23 +1,17 @@
 package org.mycore.frontend.jsp.taglibs;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
-import javax.servlet.jsp.tagext.*;
-import javax.servlet.jsp.*;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.PageContext;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.output.DOMOutputter;
-import org.mycore.access.MCRAccessInterface;
-import org.mycore.access.MCRAccessManager;
 import org.mycore.common.JSPUtils;
-import org.mycore.common.MCRConfiguration;
-import org.mycore.datamodel.metadata.MCRXMLTableManager;
-import org.mycore.user2.MCRUser;
 import org.mycore.user2.MCRUserMgr;
 
 

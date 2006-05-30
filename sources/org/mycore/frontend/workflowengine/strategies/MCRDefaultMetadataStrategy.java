@@ -88,7 +88,7 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 			metadata.addContent(eCreatorLinks);
 		}
 		
-		if ( authorIDs != null && authorIDs.size() > 0){
+		if ( authors != null && authors.size() > 0){
 			for (Iterator it = authors.iterator(); it.hasNext();) {
 				String author = (String) it.next();
 				MCRMetaLangText creator = new MCRMetaLangText();
@@ -182,7 +182,12 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
     }
 
 	public boolean removeMetadataFiles(MCRWorkflowProcess wfp, String saveDirectory, String  backupDirectory) {
-		String[] objids = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS).split(",");
+		String sobjids = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
+		if ( sobjids == null || sobjids.length() == 0 ) {
+			// no objects exists
+			return true;
+		}
+		String[] objids = sobjids.split(",");
 		for (int i = 0; i < objids.length; i++) {
 			String filename = saveDirectory + File.separator + objids[i] + ".xml";
 			if(!backupMetadataObject(filename, backupDirectory)){

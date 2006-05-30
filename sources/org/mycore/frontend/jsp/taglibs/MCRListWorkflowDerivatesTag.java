@@ -30,12 +30,12 @@ import java.io.IOException;
 
 import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.JspException;
-import org.apache.log4j.Logger;
 
+import org.apache.log4j.Logger;
 import org.jdom.Element;
 import org.jdom.output.DOMOutputter;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerFactory;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
+import org.mycore.frontend.workflowengine.strategies.MCRDefaultDerivateStrategy;
+import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 
 /**
  * 
@@ -45,11 +45,11 @@ import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface
 
 public class MCRListWorkflowDerivatesTag extends MCRSimpleTagSupport {
 	private static Logger LOGGER = Logger.getLogger(MCRListWorkflowDerivatesTag.class.getName());
-	private static MCRWorkflowEngineManagerInterface defaultWFI = MCRWorkflowEngineManagerFactory.getDefaultImpl();
 	private String varDom;
 	private String derivates;
 	private String docID;
 	private String scope;
+	private String workflowprocesstype;
 
 	public void setVarDom(String varDom){
 		this.varDom = varDom;
@@ -67,15 +67,23 @@ public class MCRListWorkflowDerivatesTag extends MCRSimpleTagSupport {
 		this.scope = scope;
 	}
 	
+	public void setWorkflowprocesstype(String workflowprocesstype) {
+		this.workflowprocesstype = workflowprocesstype;
+	}
+	
 	public void doTag() throws JspException, IOException {
 		try{
 			int iScope = getScope(scope);
 			JspContext jspContext = getJspContext();
+			MCRDefaultDerivateStrategy derStrategy = new MCRDefaultDerivateStrategy();
+
+			String derivateDirectory = MCRWorkflowDirectoryManager.getWorkflowDirectory(workflowprocesstype);
+			
 			Element elDerivates = new Element("derivates");		
 			if(derivates != null && !derivates.equals("")){
 				String[] arDerivates = derivates.split(",");
 				for (int i = 0; i < arDerivates.length; i++) {
-				Element elDerivate = defaultWFI.getDerivateData(docID, arDerivates[i]);
+				Element elDerivate = derStrategy.getDerivateData(derivateDirectory, docID, arDerivates[i]);
 				elDerivates.addContent(elDerivate);
 				}
 			}

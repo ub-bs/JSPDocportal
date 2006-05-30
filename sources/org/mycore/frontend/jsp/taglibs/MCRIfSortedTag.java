@@ -3,14 +3,14 @@ package org.mycore.frontend.jsp.taglibs;
 import java.io.IOException;
 import java.io.StringWriter;
 
-import javax.servlet.jsp.tagext.*;
-import javax.servlet.jsp.*;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.PageContext;
+import javax.servlet.jsp.tagext.JspFragment;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
-import org.mycore.common.MCRConfiguration;
-import org.mycore.frontend.jsp.format.MCRResultFormatter;
 
 
 /**

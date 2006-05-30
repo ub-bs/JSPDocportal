@@ -23,7 +23,12 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 
 	public boolean removeDerivates(MCRWorkflowProcess wfp, String saveDirectory, String backupDirectory){
 		try{
-			List attachedDerivates = Arrays.asList(wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES).split(","));
+			String sderids = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES);
+			if (sderids == null || sderids.length() == 0) {
+				// there exist no derivates
+				return true;
+			}
+			List attachedDerivates = Arrays.asList(sderids.split(","));
 			for (Iterator it = attachedDerivates.iterator(); it.hasNext();) {
 				String derivateID = (String) it.next();
 				deleteDerivateObject(wfp,saveDirectory, backupDirectory, null, derivateID, false);

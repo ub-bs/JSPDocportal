@@ -4,8 +4,6 @@ package org.mycore.frontend.workflowengine.jbpm.author;
 import org.apache.log4j.Logger;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.node.DecisionHandler;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerFactory;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerInterface;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
 public class MCRDecisionHandlerAuthor implements DecisionHandler {
 	private static final long serialVersionUID = 1L;

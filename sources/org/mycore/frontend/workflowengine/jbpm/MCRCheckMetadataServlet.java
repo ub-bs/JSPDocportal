@@ -35,11 +35,11 @@ import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.MCRUtils;
 import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.frontend.editor.MCREditorOutValidator;
 import org.mycore.frontend.editor.MCREditorSubmission;
 import org.mycore.frontend.editor.MCRRequestParameters;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
-import org.mycore.frontend.workflow.MCREditorOutValidator;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 
 /**

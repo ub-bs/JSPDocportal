@@ -41,7 +41,6 @@ import org.mycore.frontend.editor.MCREditorSubmission;
 import org.mycore.frontend.editor.MCRRequestParameters;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerFactory;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
