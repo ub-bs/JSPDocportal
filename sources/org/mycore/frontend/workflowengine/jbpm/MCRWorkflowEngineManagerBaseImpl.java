@@ -64,7 +64,7 @@ import org.mycore.user2.MCRUserMgr;
  * @deprecated
  * dont use this class anymore, wrong results!!! 
  * @author Heiko Helmbrecht
- *
+ * @deprecated
  */
 public class MCRWorkflowEngineManagerBaseImpl implements MCRWorkflowEngineManagerInterface{
 	

@@ -7,7 +7,11 @@ import java.util.Properties;
 import org.mycore.common.MCRConfiguration;
 
 
-
+/**
+ * 
+ * @author mcradmin
+ * @deprecated
+ */
 public class MCRWorkflowEngineManagerFactory {
 
 	private static final String defaultImpl = "org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineManagerBaseImpl";

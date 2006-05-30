@@ -7,7 +7,12 @@ import java.util.Set;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jdom.Element;
 import org.mycore.common.MCRException;
-
+/**
+ * 
+ * @author mcradmin
+ * @deprecated
+ *
+ */
 public interface MCRWorkflowEngineManagerInterface {
 
 	/**
