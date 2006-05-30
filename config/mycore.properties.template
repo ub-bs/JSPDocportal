@@ -1,6 +1,6 @@
 MCR.Editor.FileUpload.MaxSize=50000000
 MCR.WorkflowEngine.contactemail.xmetadiss=mycore@mycore.de
-MCR.WorkflowEngine.ManagerImpl.registeruser=org.mycore.frontend.workflowengine.jbpm.registeruser.MCRWorkflowEngineManagerRegisteruser
+MCR.WorkflowEngine.ManagerImpl.registeruser=org.mycore.frontend.workflowengine.jbpm.registeruser.MCRWorkflowManagerRegisteruser
 MCR.WorkflowEngine.ManagerImpl.author=org.mycore.frontend.workflowengine.jbpm.author.MCRWorkflowManagerAuthor
 
 MCR.BaseDirectory=C:/sample-mcrjsp
