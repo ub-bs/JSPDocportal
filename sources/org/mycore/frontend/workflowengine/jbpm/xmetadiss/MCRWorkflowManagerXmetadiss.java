@@ -138,7 +138,7 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 			if(checkSubmitVariables(processid)){
 				String signedAffirmationAvailable = getVariableValueInDecision(
 						MCRWorkflowConstants.WFM_VAR_SIGNED_AFFIRMATION_AVAILABLE,
-						processid, decisionNode, executionContext);
+						processid,  executionContext);
 				if(signedAffirmationAvailable != null && signedAffirmationAvailable.equals("true")){
 					return "go2wasCommitmentSuccessful";
 				}else{

@@ -168,7 +168,7 @@ public abstract class MCRWorkflowManager {
 	 * @param executionContext
 	 * @return
 	 */
-	final protected String getVariableValueInDecision(String varname, long processid, String decisionNode, ExecutionContext executionContext){
+	final protected String getVariableValueInDecision(String varname, long processid,  ExecutionContext executionContext){
 		String ret = "";
 		try{
 			if(executionContext == null){
@@ -352,6 +352,26 @@ public abstract class MCRWorkflowManager {
 			}		
 	 }		 
 
+ 	final protected void setStringVariableInDecision(String varname, String value, long processid,  ExecutionContext executionContext){
+	 try{
+		if(executionContext == null){
+			MCRWorkflowProcess wfp = new MCRWorkflowProcess(processid);
+			try{
+				wfp.setStringVariable(varname, value);
+			}catch(MCRException ex){
+				logger.error("catched error", ex);
+			}finally{
+				if(wfp != null)
+					wfp.close();
+			}					
+		}else{
+			executionContext.setVariable(varname, value);
+		}
+	 }catch(Exception e){
+			logger.error("could not set variable: " + varname + "=" + value, e);
+	 }
+	}	
+	 
 
 	final protected MCRWorkflowProcess getWorkflowProcess(long processID){
 		MCRWorkflowProcess wfp = new MCRWorkflowProcess(processID);
