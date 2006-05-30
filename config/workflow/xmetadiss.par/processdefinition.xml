@@ -98,7 +98,7 @@
      <task name="taskCheckIfSignedAffirmationYetAvailable" swimlane="disseditor" />
      <transition name="go2canDisshabBeCommitted" to="canDisshabBeCommitted">
         <action class="org.mycore.frontend.workflowengine.jbpm.MCRSetWorkflowVariableAction">
-           <varname>varSIGNED_AFFIRMATION_AVAILABLE@org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase</varname>
+           <varname>signedAffirmationAvailable</varname>
            <value>true</value>
         </action>
      </transition>
