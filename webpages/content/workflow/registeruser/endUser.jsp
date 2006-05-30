@@ -39,7 +39,7 @@
     	  <tr><td class="metavalue"><x:out select=".//contact.institution" /></td></tr>
     	  <tr><td class="metavalue"><x:out select=".//contact.faculty" /></td></tr>
     	  <tr><td class="metavalue"><x:out select=".//contact.email" /></td></tr>
-    	  <tr><td class="metavalue"><b><fmt:message key="SWF.registerUser.YourID"/> <x:out select="./@ID" /></b></td></tr> 
+    	  <tr><td class="metavalue"><b><fmt:message key="SWF.registerUser.YourID"/> <x:out select="@ID" /></b></td></tr> 
     	  </table>
      	</x:forEach>
     	<hr/>
