@@ -485,7 +485,7 @@ MCR.Lucene.LockDir=%MCR.BaseDirectory%/indexer/lucene-lock
 ##############################################################################
 # Configuration details for IndexServlet
 ##############################################################################
-MCR.IndexBrowser.creators.Table=allpers
+MCR.IndexBrowser.creators.Table=author
 MCR.IndexBrowser.creators.Searchfield=surname
 MCR.IndexBrowser.creators.ExtraOutputFields=id,firstname
 MCR.IndexBrowser.creators.FieldsToSort=surname
@@ -556,6 +556,6 @@ MCR.oai.dini-mapping.doc-type.image=FORMAT0002
 MCR.oai.dini-mapping.doc-type.data=FORMAT0000
 
 # Generic mail configuration for MCRMailer
-MCR.mail.server=your.mailserver.com
+MCR.mail.server=localhost
 MCR.mail.protocol=smtp
 MCR.mail.debug=false
