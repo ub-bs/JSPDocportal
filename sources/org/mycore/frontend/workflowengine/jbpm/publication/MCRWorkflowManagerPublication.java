@@ -202,7 +202,7 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 			}
 			for (Iterator it = derivateIDs.iterator(); it.hasNext();) {
 				String derivateID = (String) it.next();
-				if(!derivateStrategy.commitDerivateObject(derivateID, documentType)){
+				if(!derivateStrategy.commitDerivateObject(derivateID, MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType))){
 					throw new MCRException("error in committing " + derivateID);
 				}
 			}
