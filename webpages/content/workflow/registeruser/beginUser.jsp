@@ -25,6 +25,6 @@
 
    <mcr:includeEditor 
           isNewEditorSource="true" 
-          mcrid="" type="registeruser" workflowType="registeruser"
+          mcrid="" type="registeruser" workflowType="registeruser" processid=""
           step=""  target="MCRRegisterUserWorkflowServlet" nextPath="~registered" editorPath="editor/workflow/editor-registeruser.xml" />        
   
