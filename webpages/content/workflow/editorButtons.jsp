@@ -34,7 +34,7 @@
 	attachedDerivates   <c:out value="${attachedDerivates}" /><br>		
 </c:if> 
     
-<mcr:listWorkflowDerivates varDom="der" docID="${itemID}" derivates="${attachedDerivates}" />
+<mcr:listWorkflowDerivates varDom="der" docID="${itemID}" derivates="${attachedDerivates}" workflowprocesstype="${itemDocType}" />
         <tr>
          <td class="resultTitle">
            <b><c:out value="${wfoTitle}" /></b>  	
