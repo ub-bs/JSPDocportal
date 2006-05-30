@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!-- ============================================== -->
-<!-- $Revision: 1.1 $ $Date: 2005-11-14 12:51:02 $ -->
+<!-- $Revision: 1.2 $ $Date: 2006-05-30 06:08:35 $ -->
 <!-- ============================================== -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink" 
     exclude-result-prefixes="xlink" >
-  
+    
+	<xsl:include href="MyCoReLayout.xsl" />  
     <xsl:include href="editor.xsl" />
     <xsl:include href="fileupload.xsl" />
     

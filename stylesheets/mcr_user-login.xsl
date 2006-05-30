@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.1 $ $Date: 2005-11-14 12:51:02 $ -->
+<!-- $Revision: 1.2 $ $Date: 2006-05-30 06:08:35 $ -->
 <!-- ============================================== -->
 
 <!-- +
@@ -29,98 +29,58 @@
   version="1.0"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:i18n="xalan://org.mycore.services.i18n.MCRTranslation" 
   exclude-result-prefixes="xlink">
-
-<!-- The main template -->
-<xsl:template match="/mcr_user">
-  <!-- BEGIN: frame -->
-  <table class="frame" >
-    <tr>
-      <td>   
-
-    <!-- At first we display the current user in a head line. -->
-      <table class="frameintern" cellpadding="0" cellspacing="0">
-        <tr style="height:20px;">
-          <td class="resultcmd">
-            <xsl:value-of select="$Login.current_account"/>
-			&#160;&#160;[&#160;<span class="username"><xsl:value-of select="$CurrentUser"/></span>&#160;]
-          </td>
-        </tr>
-      </table>
-
-    <!-- +
-         | There are three possible error-conditions: wrong password, unknown user and disabled
-         | user. If one of these conditions occured, the corresponding information will be
-         | presented at the top of the page.
-         + -->
-
-    <table class="frameintern" style="height:20px;">
-      <tr><td colspan="2">&#160;</td></tr>
-      <xsl:if test="@invalid_password='true'">
-        <tr><td class="errormain"><xsl:value-of select="$Login.login_failed"/></td></tr>
-        <tr><td class="errormain"><xsl:value-of select="$Login.invalid_pwd"/></td></tr>
-      </xsl:if>
-      <xsl:if test="@unknown_user='true'">
-        <tr><td colspan="2">&#160;</td></tr>
-        <tr><td class="errormain"><xsl:value-of select="$Login.login_failed"/></td></tr>
-        <tr><td class="errormain"><xsl:value-of select="$Login.unknown_user"/></td></tr>
-      </xsl:if>
-      <xsl:if test="@user_disabled='true'">
-        <tr><td colspan="2">&#160;</td></tr>
-        <tr><td class="errormain"><xsl:value-of select="$Login.login_failed"/></td></tr>
-        <tr><td class="errormain"><xsl:value-of select="$Login.user_disabled"/></td></tr>
-      </xsl:if>
-    </table>
-
-    <!-- +
-         | Now the login dialog will be presented. There are two input fields, one for the
-         | user account and one for the password. Additionally there are 3 buttons: the
-         | "cancel"-button redirects back to the originating url, the "logout"-button changes
-         | the user to the guest account and the "login"-button submits the data to the
-         | LoginServlet.
-         + -->
-
-    <xsl:variable name="backto_url" select="/mcr_user/backto_url" />
-    <xsl:variable name="guest_id" select="/mcr_user/guest_id" />
-    <xsl:variable name="guest_pwd" select="/mcr_user/guest_pwd" />
-
-    <xsl:variable
-      xmlns:encoder="xalan://java.net.URLEncoder"
-      name="href"
-      select="concat($ServletsBaseURL, 'MCRLoginServlet?lang=', $CurrentLang, '&amp;url=', encoder:encode(string($backto_url)))">
+    <xsl:variable name="heading">
+        <xsl:value-of select="i18n:translate('users.tasks.currentAccount')"/>&#160;&#160;
+        [&#160;<xsl:value-of select="$CurrentUser"/>&#160;]
     </xsl:variable>
+    <xsl:include href="mcr_user-lang.xsl"/>
+    
+    <xsl:variable name="MainTitle" select="i18n:translate('titles.mainTitle')"/>
+    <xsl:variable name="PageTitle" select="i18n:translate('titles.pageTitle.login')"/>
 
-    <form class="login" action="{$ServletsBaseURL}MCRLoginServlet" method="post">
-      <input type="hidden" name="url" value="{backto_url}"/>
-      <table class="frameintern" style="height:50px;" >
-
-        <!-- Here come the input fields... -->
-        <tr>
-          <td class="inputcaption"><xsl:value-of select="$Login.account"/></td>
-          <td class="inputfield"><input name="uid" type="text" class="text" maxlength="30"/></td>
-        </tr>
-        <tr>
-          <td class="inputcaption"><xsl:value-of select="$Login.password"/></td>
-          <td class="inputfield"><input name="pwd" type="password" class="text" maxlength="30"/></td>
-        </tr>
-        <tr><td colspan="2">&#160;</td></tr>
-
-        <!-- and finally the buttons. -->
-        <tr>
-          <td class="logincmd">&#160;</td>
-          <td class="resultcmd" style="white-space: nowrap;vertical-align:top;">
-            &#160;
-            <input type="submit" class="submitbutton" value="{$Login.submit}" name="LoginSubmit"/>
-            &#160;
-            <input type="reset" class="submitbutton" value="{$Login.cancel}" name="LoginReset"/>
-          </td>
-        </tr>
-      </table>
+<xsl:template name="userAction">
+    <form action="{$ServletsBaseURL}MCRLoginServlet{$HttpSession}" method="post">
+        <input type="hidden" name="url" value="{backto_url}"/>
+        <table id="userAction">
+            <!-- Here come the input fields... -->
+            <tr>
+                <td class="inputCaption"><xsl:value-of select="concat(i18n:translate('users.tasks.login.account'),' :')"/></td>
+                <td class="inputField"><input name="uid" type="text" class="text" maxlength="30"/></td>
+            </tr>
+            <tr>
+                <td class="inputCaption"><xsl:value-of select="concat(i18n:translate('users.tasks.login.password'),' :')"/></td>
+                <td class="inputField"><input name="pwd" type="password" class="text" maxlength="30"/></td>
+            </tr>
+        </table>
+        <hr/>
+        <div class="submitButton">
+            <a class="submitbutton" href="{$href}&amp;uid={$CurrentUser}">
+                &#160;&#160;<xsl:value-of select="concat('&lt;&lt; ', i18n:translate('buttons.cancel'))"/>&#160;&#160;
+            </a>
+            <span style="width:30px;">&#160;</span>
+            <a class="submitbutton" href="{$href}&amp;uid={$guest_id}&amp;pwd={$guest_pwd}">
+              &#160;&#160;<xsl:value-of select="i18n:translate('buttons.logout')"/>&#160;&#160;
+            </a>
+            <span style="width:15px;">&#160;</span>
+                <input type="submit" class="submitButton" value="{i18n:translate('buttons.login')} &gt;&gt;"/>
+        </div>
     </form>
-
-      <!-- END OF: frame -->
-      </td>
-    </tr>
-  </table>  
 </xsl:template>
+<xsl:template name="userStatus">
+    <xsl:if test="/mcr_user/@invalid_password='true' or /mcr_user/@unknown_user='true' or /mcr_user/@user_disabled='true'">
+        <xsl:value-of select="i18n:translate('users.tasks.login.failed')"/>
+    </xsl:if>
+    <xsl:if test="/mcr_user/@invalid_password='true'">
+        <xsl:value-of select="i18n:translate('users.tasks.login.invalidPwd')"/>
+    </xsl:if>
+    <xsl:if test="/mcr_user/@unknown_user='true'">
+        <xsl:value-of select="i18n:translate('users.tasks.login.userUnknown')"/>
+    </xsl:if>
+    <xsl:if test="/mcr_user/@user_disabled='true'">
+        <xsl:value-of select="i18n:translate('users.tasks.login.userDisabled')"/>
+    </xsl:if>
+</xsl:template>
+<xsl:include href="MyCoReLayout.xsl" />
 </xsl:stylesheet>

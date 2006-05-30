@@ -7,6 +7,7 @@ import javax.servlet.jsp.JspException;
 
 import org.apache.log4j.Logger;
 import org.mycore.common.MCRConfiguration;
+import org.mycore.common.MCRException;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
 
@@ -56,7 +57,7 @@ public class MCRInitWorkflowProcessTag extends MCRSimpleTagSupport
     		scope = "page";
     	try {
 			 WFM = MCRWorkflowManagerFactory.getImpl(workflowProcessType);
-		} catch (Exception noWFM) {
+		} catch (MCRException noWFM) {
 			logger.error("could not instantiate workflow manager", noWFM);
 			jspContext.setAttribute(status, "errorWfM", getScope(scope));
 			return;
