@@ -24,36 +24,30 @@
 
 package org.mycore.frontend.servlets;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
-import org.jdom.output.Format;
-import org.jdom.output.XMLOutputter;
-
 import org.mycore.common.JSPUtils;
-import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.datamodel.metadata.MCRObject;
-import org.mycore.datamodel.metadata.MCRObjectID;
-import org.mycore.datamodel.metadata.MCRObjectStructure;
-import org.mycore.frontend.cli.MCRDerivateCommands;
 import org.mycore.frontend.editor.MCRRequestParameters;
+import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 
 
 /**
+ * This servlets put all metadata and derivates to the workflow directory and redirects 
+ * to the next page  
+ * @param mcrid, page in request 
  * 
  * @author Anja Schaar
  * @version $Revision$ $Date$
  */
 
-public class MCRPutDocumentToWorkflow extends MCRCheckBase {
+public class MCRPutDocumentToWorkflow extends MCRServlet {
 	protected static Logger logger = Logger.getLogger(MCRPutDocumentToWorkflow.class);
 	private static final long serialVersionUID = 1L;
     private String mcrid;
     
-
 	/**
 	 * This method overrides doGetPost of MCRServlet. <br />
 	 */
@@ -64,38 +58,26 @@ public class MCRPutDocumentToWorkflow extends MCRCheckBase {
 		MCRRequestParameters parms;
 		parms = new MCRRequestParameters(request);
 		mcrid = parms.getParameter("mcrid");
-		logger.debug("Document MCRID = " + mcrid);
 		String url = parms.getParameter("page");
-		MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
 
-		String lang   = mcrSession.getCurrentLanguage();
-		String userid = mcrSession.getCurrentUserID();
-		String usererrorpage = "mycore-error.jsp?messageKey=SWF.PrivilegesError&lang=" + lang;
 		if (!AI.checkPermission(mcrid, "writedb" )) {
-			logger.debug("Access denied for Current user for create = " + userid);				
+			String lang   = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
+			String usererrorpage = "mycore-error.jsp?messageKey=SWF.PrivilegesError&lang=" + lang;
+			logger.debug("Access denied for current user to start workflow for object " + mcrid);				
 			response.sendRedirect(getBaseURL() + usererrorpage);
 			return;
-		}		
+		}
+		
+		logger.debug("Document MCRID = " + mcrid);
+		logger.debug("nextpage = " + url);
 		
 		if ( mcrid != null && MCRObject.existInDatastore(mcrid) ) {
 			// Store Object in Workflow - Filesystem
 			MCRObject mob = new MCRObject();
 			mob.receiveFromDatastore(mcrid);
 			String type = mob.getId().getTypeId();
-			String savedir = CONFIG.getString("MCR.editor_" + type + "_directory");
-			JSPUtils.saveToDirectory(mob, savedir);			
+			JSPUtils.saveToDirectory(mob, MCRWorkflowDirectoryManager.getWorkflowDirectory(type));
 		}		
 		response.sendRedirect(response.encodeRedirectURL(getBaseURL() + url));
 	}
-
-	public String getNextURL(MCRObjectID ID) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void sendMail(MCRObjectID ID) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-	
 }	
