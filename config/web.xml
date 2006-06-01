@@ -22,7 +22,8 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
  -->               
-    <!-- 
+
+<!-- 
     <filter>
        <filter-name>SetCharacterEncoding</filter-name>
        <filter-class>org.mycore.filters.SetCharacterEncodingFilter</filter-class>
@@ -36,7 +37,7 @@
         <filter-name>SetCharacterEncoding</filter-name>
         <url-pattern>*.jsp</url-pattern>
     </filter-mapping>
-    -->
+-->
     
     
     <!-- servlets -->    
@@ -45,6 +46,10 @@
         <servlet-name>MCRJSPSearchServlet</servlet-name>
         <servlet-class>org.mycore.frontend.servlets.MCRJSPSearchServlet</servlet-class>
     </servlet>    
+    <servlet>
+         <servlet-name>MCRJSPObjectServlet</servlet-name>
+         <servlet-class>org.mycore.frontend.servlets.MCRJSPObjectServlet</servlet-class>
+    </servlet>
 
     <servlet>
         <servlet-name>MCRUserValidateServlet</servlet-name>
@@ -77,30 +82,10 @@
     </servlet>     
 	
     <servlet>
-         <servlet-name>MCRJSPObjectServlet</servlet-name>
-         <servlet-class>org.mycore.frontend.servlets.MCRJSPObjectServlet</servlet-class>
-    </servlet>
-
-    <servlet>
         <servlet-name>NavServlet</servlet-name>
         <servlet-class>org.mycore.frontend.jsp.NavServlet</servlet-class>
     </servlet>
 
-    <servlet>
-        <servlet-name>HandleXMLServlet</servlet-name>
-        <servlet-class>org.mycore.frontend.servlets.MCRStaticXMLFileServlet</servlet-class>
-    </servlet>
-    
-    <servlet>
-        <servlet-name>MCRLayoutServlet</servlet-name>
-        <servlet-class>org.mycore.common.xml.MCRLayoutServlet</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>MCREditorServlet</servlet-name>
-        <servlet-class>org.mycore.frontend.editor.MCREditorServlet</servlet-class>
-    </servlet>
-    
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>org.mycore.frontend.jsp.LoginServlet</servlet-class>
@@ -126,11 +111,12 @@
         <servlet-class>org.mycore.frontend.jsp.DebugServlet</servlet-class>
     </servlet>
 
+<!-- 
     <servlet>
         <servlet-name>MCRCheckQueryServlet</servlet-name>
         <servlet-class>org.mycore.frontend.jsp.query.MCRCheckQueryServlet</servlet-class>
     </servlet>    
-    
+-->    
     <servlet>
         <servlet-name>MCRResortQueryServlet</servlet-name>
         <servlet-class>org.mycore.frontend.jsp.query.MCRResortQueryServlet</servlet-class>
@@ -145,86 +131,80 @@
         <servlet-name>MCRCheckMetadataServlet</servlet-name>
         <servlet-class>org.mycore.frontend.workflowengine.jbpm.MCRCheckMetadataServlet</servlet-class>
     </servlet>      
-    
+            
     <servlet>
-        <servlet-name>MCRWorkflowEngineDoorServlet</servlet-name>
-        <servlet-class>org.mycore.frontend.workflowengine.jbpm.MCRWorkflowEngineDoorServlet</servlet-class>
-    </servlet>      
+    	  <servlet-name>MCRPutDocumentToWorkflow</servlet-name>
+      	  <servlet-class>org.mycore.frontend.servlets.MCRPutDocumentToWorkflow</servlet-class>
+    </servlet>
     
-    <servlet id="Zip">
-         <servlet-name>MCRZipServlet</servlet-name>
-         <servlet-class>org.mycore.services.zipper.MCRZipServlet</servlet-class>
-    </servlet>  
+      
+      <!-- mycore servlets -->
     
+      <servlet id="FileNode">
+            <servlet-name>MCRFileNodeServlet</servlet-name>
+            <servlet-class>org.mycore.datamodel.ifs.MCRFileNodeServlet</servlet-class>
+      </servlet>
+      <servlet id="Layout">
+            <servlet-name>MCRLayoutServlet</servlet-name>
+            <servlet-class>org.mycore.common.xml.MCRLayoutServlet</servlet-class>
+      </servlet>
+      <servlet id="NBNResolver">
+            <servlet-name>MCRNBNResolver</servlet-name>
+            <servlet-class>org.mycore.services.nbn.MCRNBNResolver</servlet-class>
+      </servlet>
       <servlet id="OAIProvider">
             <servlet-name>MCROAIProvider</servlet-name>
             <servlet-class>org.mycore.services.oai.MCROAIProvider</servlet-class>
       </servlet>
-      
-      <servlet>
-      		<servlet-name>MCRPutDocumenttoWorkflow</servlet-name>
-      		<servlet-class>org.mycore.frontend.servlets.MCRPutDocumentToWorkflow</servlet-class>
+      <servlet id="Query">
+            <servlet-name>MCRQueryServlet</servlet-name>
+            <servlet-class>org.mycore.services.query.MCRQueryServlet</servlet-class>
       </servlet>
-
-      <servlet>
-            <servlet-name>MCRPutUserRegistrationToWorkflow</servlet-name>
-            <servlet-class>org.mycore.frontend.servlets.MCRPutUserRegistrationToWorkflow</servlet-class>
-      </servlet>      
-      
-
+      <servlet id="StaticXMLFile">
+            <servlet-name>MCRStaticXMLFileServlet</servlet-name>
+            <servlet-class>org.mycore.frontend.servlets.MCRStaticXMLFileServlet</servlet-class>
+      </servlet>
+      <servlet id="XMLEditor">
+            <servlet-name>XMLEditor</servlet-name>
+            <servlet-class> org.mycore.frontend.editor.MCREditorServlet </servlet-class>
+      </servlet>
+      <servlet id="MCRClassBrowser">
+            <servlet-name>MCRClassificationBrowser</servlet-name>
+            <servlet-class>org.mycore.frontend.servlets.MCRClassificationBrowser</servlet-class>
+      </servlet>
+      <servlet id="MCRUpload">
+            <servlet-name>MCRUploadServlet</servlet-name>
+            <servlet-class>org.mycore.frontend.fileupload.MCRUploadServlet</servlet-class>
+      </servlet>
+      <servlet id="Zip">
+            <servlet-name>MCRZipServlet</servlet-name>
+            <servlet-class>org.mycore.services.zipper.MCRZipServlet</servlet-class>
+      </servlet>    
+      <servlet id="IndexBrowserServlet">
+            <servlet-name>MCRIndexBrowserServlet</servlet-name>
+            <servlet-class>org.mycore.frontend.indexbrowser.MCRIndexBrowserServlet</servlet-class>
+      </servlet>    
       <servlet id="IndexBrowser">
             <servlet-name>MCRIndexServlet</servlet-name>
             <servlet-class>org.mycore.frontend.indexbrowser.MCRIndexServlet</servlet-class>
-      </servlet>      
-      
-    <!-- mycore servlets -->
-    
-    <servlet>
-        <servlet-name>MCRQueryServlet</servlet-name>
-        <servlet-class>org.mycore.services.query.MCRQueryServlet</servlet-class>
-    </servlet>
-
-    <servlet>
-    <servlet-name>MCRCheckNewDataServlet</servlet-name>
-    <servlet-class>org.mycore.frontend.servlets.MCRCheckNewDataServlet</servlet-class>
-    </servlet>
-
-    <servlet>
-    <servlet-name>MCRCheckEditDataServlet</servlet-name>
-    <servlet-class>org.mycore.frontend.servlets.MCRCheckEditDataServlet</servlet-class>
-    </servlet>    
-    
-    <servlet>
-    <servlet-name>MCRStartEditorServlet</servlet-name>
-    <servlet-class>org.mycore.frontend.servlets.MCRStartEditorServlet</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>MCRFileNodeServlet</servlet-name>
-        <servlet-class>org.mycore.datamodel.ifs.MCRFileNodeServlet</servlet-class>
-    </servlet>
-    
-    <servlet>
-    <servlet-name>MCRListWorkflowServlet</servlet-name>
-    <servlet-class>org.mycore.frontend.servlets.MCRListWorkflowServlet</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>MCRUploadServlet</servlet-name>
-        <servlet-class>org.mycore.frontend.fileupload.MCRUploadServlet</servlet-class>
-    </servlet>
-
-    <servlet id="MCRFileViewWorkflowServlet">
-         <servlet-name>MCRFileViewWorkflowServlet</servlet-name>
-         <servlet-class>org.mycore.frontend.servlets.MCRFileViewWorkflowServlet</servlet-class>
-    </servlet>
-
-    <servlet id="MCRAccessCheckServlet">
-         <servlet-name>MCRAccessCheckServlet</servlet-name>
-         <servlet-class>org.mycore.access.MCRAccessCheckServlet</servlet-class>
-    </servlet>    
+      </servlet>    
+      <servlet id="MCRAccessCheckServlet">
+            <servlet-name>MCRAccessCheckServlet</servlet-name>
+            <servlet-class>org.mycore.access.MCRAccessCheckServlet</servlet-class>
+      </servlet>
+ 
 
     <!-- servlet mappings -->
+
+    <servlet-mapping>
+               <servlet-name>MCRJSPSearchServlet</servlet-name>
+               <url-pattern>/searchresult</url-pattern>
+    </servlet-mapping>   
+
+    <servlet-mapping>
+         <servlet-name>MCRJSPObjectServlet</servlet-name>
+         <url-pattern>/receive/*</url-pattern>
+    </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>MCRUserValidateServlet</servlet-name>
@@ -251,31 +231,16 @@
         <url-pattern>/servlets/MCRCheckDerivateServlet</url-pattern>
     </servlet-mapping>
 
-    <servlet-mapping>
-    <servlet-name>NavServlet</servlet-name>
-    <url-pattern>/nav</url-pattern>
+   <servlet-mapping>
+        <servlet-name>MCRWorkflowActions</servlet-name>
+        <url-pattern>/workflowaction</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
-         <servlet-name>MCRJSPObjectServlet</servlet-name>
-         <url-pattern>/receive/*</url-pattern>
+	    <servlet-name>NavServlet</servlet-name>
+	    <url-pattern>/nav</url-pattern>
     </servlet-mapping>
 
-    <servlet-mapping>
-        <servlet-name>MCREditorServlet</servlet-name>
-        <url-pattern>/editor</url-pattern>
-    </servlet-mapping>
-    
-    <servlet-mapping>
-        <servlet-name>MCREditorServlet</servlet-name>
-        <url-pattern>/servlets/XMLEditor</url-pattern>
-    </servlet-mapping>
-    
-    <servlet-mapping>
-        <servlet-name>MCREditorForwardServlet</servlet-name>
-        <url-pattern>/editor-forward/*</url-pattern>
-    </servlet-mapping>
-    
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -287,69 +252,20 @@
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>MCRCheckNewDataServlet</servlet-name>
-        <url-pattern>/servlets/MCRCheckNewDataServlet</url-pattern>
+        <servlet-name>MCREditorForwardServlet</servlet-name>
+        <url-pattern>/editor-forward/*</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>EditorSubmitted</servlet-name>
+        <url-pattern>/submitted</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>MCRCheckEditDataServlet</servlet-name>
-        <url-pattern>/servlets/MCRCheckEditDataServlet</url-pattern>
-    </servlet-mapping>
-    
-    <servlet-mapping>
-        <servlet-name>MCRStartEditorServlet</servlet-name>
-        <url-pattern>/start_edit</url-pattern>
-    </servlet-mapping>
-    
-    <servlet-mapping>
-        <servlet-name>MCREditorServlet</servlet-name>
-        <url-pattern>/upload</url-pattern>
-    </servlet-mapping>
-    
-    <servlet-mapping>
-        <servlet-name>MCRListWorkflowServlet</servlet-name>
-        <url-pattern>/servlets/MCRListWorkflowServlet</url-pattern>
-    </servlet-mapping>
-    
-    <servlet-mapping>
-         <servlet-name>MCRFileViewWorkflowServlet</servlet-name>
-         <url-pattern>/servlets/MCRFileViewWorkflowServlet/*</url-pattern>
-    </servlet-mapping>    
-
-    <servlet-mapping>
-               <servlet-name>HandleXMLServlet</servlet-name>
-               <url-pattern>*.xml</url-pattern>
+        <servlet-name>DebugServlet</servlet-name>
+        <url-pattern>/debug</url-pattern>
     </servlet-mapping>
 
-    <servlet-mapping>
-               <servlet-name>EditorSubmitted</servlet-name>
-               <url-pattern>/submitted</url-pattern>
-    </servlet-mapping>
-        
-    <servlet-mapping>
-               <servlet-name>MCRFileNodeServlet</servlet-name>
-               <url-pattern>/file/*</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-               <servlet-name>MCRZipServlet</servlet-name>
-               <url-pattern>/zip</url-pattern>
-    </servlet-mapping>
-    
-    <servlet-mapping>
-               <servlet-name>DebugServlet</servlet-name>
-               <url-pattern>/debug</url-pattern>
-    </servlet-mapping>
-    
-    <servlet-mapping>
-               <servlet-name>MCRUploadServlet</servlet-name>
-               <url-pattern>/servlets/MCRUploadServlet</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-               <servlet-name>MCRJSPSearchServlet</servlet-name>
-               <url-pattern>/searchresult</url-pattern>
-    </servlet-mapping>
     <!-- 
     <servlet-mapping>
                <servlet-name>MCRCheckQueryServlet</servlet-name>
@@ -360,60 +276,101 @@
                <servlet-name>MCRResortQueryServlet</servlet-name>
                <url-pattern>/resortresult</url-pattern>
     </servlet-mapping>
-    
-    <servlet-mapping>
-           <servlet-name>MCROAIProvider</servlet-name>
-           <url-pattern>/servlets/MCROAIProvider</url-pattern>
-    </servlet-mapping>      
-      
-    <servlet-mapping>
-            <servlet-name>MCRAccessCheckServlet</servlet-name>
-            <url-pattern>/servlets/MCRAccessCheckServlet</url-pattern>
-    </servlet-mapping> 
-    
-    <servlet-mapping>
-            <servlet-name>MCRLayoutServlet</servlet-name>
-            <url-pattern>/servlets/MCRLayoutServlet</url-pattern>
-    </servlet-mapping>    
 
-    <servlet-mapping>
-    	<servlet-name>MCRPutDocumenttoWorkflow</servlet-name>
-		<url-pattern>/servlets/MCRPutDocumenttoWorkflow/*</url-pattern>
-    </servlet-mapping> 
-    
-    <servlet-mapping>
-        <servlet-name>MCRPutUserRegistrationToWorkflow</servlet-name>
-        <url-pattern>/servlets/MCRPutUserRegistrationToWorkflow/*</url-pattern>
-    </servlet-mapping> 
-
-   <servlet-mapping>
-        <servlet-name>MCRWorkflowActions</servlet-name>
-        <url-pattern>/workflowaction</url-pattern>
-    </servlet-mapping>
-		
     <servlet-mapping>
         <servlet-name>MCRPassToTargetServlet</servlet-name>
         <url-pattern>/servlets/MCRPassToTargetServlet/*</url-pattern>
     </servlet-mapping>
-    
+
     <servlet-mapping>
         <servlet-name>MCRCheckMetadataServlet</servlet-name>
         <url-pattern>/servlets/MCRCheckMetadataServlet/*</url-pattern>
     </servlet-mapping>    
-    
+
     <servlet-mapping>
-        <servlet-name>MCRWorkflowEngineDoorServlet</servlet-name>
-        <url-pattern>/workflowengine</url-pattern>
-    </servlet-mapping>     
-        
+    	<servlet-name>MCRPutDocumentToWorkflow</servlet-name>
+		<url-pattern>/servlets/MCRPutDocumentToWorkflow/*</url-pattern>
+    </servlet-mapping> 
+
+	<!--  mycore servlets mapping  -->
+
     <servlet-mapping>
-    	<servlet-name>MCRIndexServlet</servlet-name>
-        <url-pattern>/servlets/IndexServlet/*</url-pattern>
+         <servlet-name>MCRFileNodeServlet</servlet-name>
+         <url-pattern>/servlets/MCRFileNodeServlet/*</url-pattern>
     </servlet-mapping>
+
     <servlet-mapping>
-    	<servlet-name>MCRIndexServlet</servlet-name>
+         <servlet-name>MCRNBNResolver</servlet-name>
+         <url-pattern>/servlets/MCRNBNResolver</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+	    <servlet-name>MCRNBNResolver</servlet-name>
+         <url-pattern>/servlets/MCRNBNResolver/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+         <servlet-name>MCROAIProvider</servlet-name>
+         <url-pattern>/servlets/MCROAIProvider</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+         <servlet-name>MCRQueryServlet</servlet-name>
+         <url-pattern>/servlets/MCRQueryServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+         <servlet-name>MCRStaticXMLFileServlet</servlet-name>
+         <url-pattern>*.xml</url-pattern>
+    </servlet-mapping>
+
+     <servlet-mapping>
+           <servlet-name>XMLEditor</servlet-name>
+           <url-pattern>/servlets/XMLEditor</url-pattern>
+     </servlet-mapping>
+
+
+    <servlet-mapping>
+         <servlet-name>MCRClassificationBrowser</servlet-name>
+         <url-pattern>/browse/*</url-pattern>
+    </servlet-mapping>
+
+     <servlet-mapping>
+           <servlet-name>MCRUploadServlet</servlet-name>
+           <url-pattern>/servlets/MCRUploadServlet</url-pattern>
+     </servlet-mapping>
+
+     <servlet-mapping>
+           <servlet-name>MCRZipServlet</servlet-name>
+           <url-pattern>/servlets/MCRZipServlet</url-pattern>
+     </servlet-mapping>
+     
+     <servlet-mapping>
+        <servlet-name>MCRIndexBrowserServlet</servlet-name>
+        <url-pattern>/servlets/IndexBrowserServlet</url-pattern>
+     </servlet-mapping>
+      
+     <servlet-mapping>
+        <servlet-name>MCRIndexBrowserServlet</servlet-name>
+        <url-pattern>/indexpage</url-pattern>
+     </servlet-mapping>
+      
+     <servlet-mapping>
+        <servlet-name>MCRIndexServlet</servlet-name>
+        <url-pattern>/servlets/IndexServlet/*</url-pattern>
+     </servlet-mapping>
+      
+     <servlet-mapping>
+        <servlet-name>MCRIndexServlet</servlet-name>
         <url-pattern>/index/*</url-pattern>
-    </servlet-mapping>    
+     </servlet-mapping>
+
+     <servlet-mapping>
+           <servlet-name>MCRAccessCheckServlet</servlet-name>
+           <url-pattern>/servlets/MCRAccessCheckServlet</url-pattern>
+     </servlet-mapping>
+
+
 
     <!-- specific servlets -->
 

@@ -26,12 +26,13 @@ package org.mycore.frontend.servlets;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Logger;
-import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.frontend.editor.MCRRequestParameters;
-import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
 
 
 /**
@@ -76,8 +77,20 @@ public class MCRPutDocumentToWorkflow extends MCRServlet {
 			MCRObject mob = new MCRObject();
 			mob.receiveFromDatastore(mcrid);
 			String type = mob.getId().getTypeId();
-			JSPUtils.saveToDirectory(mob, MCRWorkflowDirectoryManager.getWorkflowDirectory(type));
-		}		
-		response.sendRedirect(response.encodeRedirectURL(getBaseURL() + url));
+			//moved to MCRWorkflowManager.initWorkflowProcessForEditing()
+			//JSPUtils.saveToDirectory(mob, MCRWorkflowDirectoryManager.getWorkflowDirectory(type));
+			
+			MCRWorkflowManager wfm = MCRWorkflowManagerFactory.getImpl(type);
+			//initiator, mcrid, transition name
+			wfm.initWorkflowProcessForEditing(MCRSessionMgr.getCurrentSession().getCurrentUserID(),mcrid, "go2DisplayAuthorData");
+		
+			response.sendRedirect(response.encodeRedirectURL(getBaseURL() + url));
+		}
+		else{
+			String lang   = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
+			String usererrorpage = "mycore-error.jsp?messageKey=SWF.Dissertation.errorWfM&lang=" + lang;
+			logger.debug("The document (to open for editing) is not in the database: " + mcrid);				
+			response.sendRedirect(getBaseURL() + usererrorpage);
+		}
 	}
 }	
