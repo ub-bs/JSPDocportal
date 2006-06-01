@@ -17,12 +17,12 @@
    <fmt:message key="WorkflowEngine.Publication" /> <fmt:message key="WorkflowEngine.Processnumber" /> <b>${requestScope.task.processID}</b>: <br>
 </c:if>
 <c:choose>
-   <c:when test="${requestScope.task.taskName eq 'initialization'}">
+   <c:when test="${requestScope.task.taskName eq 'initialization' }">
       <fmt:message key="WorkflowEngine.ActualStateOfYourDocument.publication" />
       (<fmt:message key="WorkflowEngine.Processnumber" /> <b>${requestScope.task.processID}</b>): <br>
       <b><fmt:message key="WorkflowEngine.initiator.statusMessage.${requestScope.task.workflowStatus}.publication" /></b>
    </c:when>
-   <c:when test="${requestScope.task.taskName eq 'taskCompleteDocumentAndSendToLibrary'}">
+   <c:when test="${requestScope.task.taskName eq 'taskCompleteDocumentAndSendToLibrary' }" >
       <p>
          <img title="" alt="" src="${baseURL}images/greenArrow.gif">
          <fmt:message key="WorkflowEngine.description.completedocumentandsendtolibrary.publication" />
@@ -35,7 +35,22 @@
       </p>
       <c:import url="/content/workflow/editorButtons.jsp" />
    </c:when>
-   <c:when test="${requestScope.task.taskName eq 'taskGetInitiatorsEmailAddress'}">
+   
+   <c:when test="${requestScope.task.taskName eq 'taskprocessEditInitialized' }" >
+      <p>
+         <img title="" alt="" src="${baseURL}images/greenArrow.gif">
+         <fmt:message key="WorkflowEngine.description.completedocumentandsendtolibrary.publication" />
+         <br>
+         <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="publication" decision="canDocumentBeSubmitted" />
+         <c:if test="${transition eq 'documentCanBeSubmitted'}">
+	        <img title="" alt="" src="${baseURL}images/greenArrow.gif">         
+            <a href="${baseURL}nav?path=~publication&transition=&endTask=taskprocessEditInitialized&processID=${requestScope.task.processID}"><fmt:message key="WorkflowEngine.taskCompleteDocumentAndSendToLibrary.publication" /></a>
+         </c:if>      
+      </p>
+      <c:import url="/content/workflow/editorButtons.jsp" />
+   </c:when>
+
+   <c:when test="${requestScope.task.taskName eq 'taskGetInitiatorsEmailAddress'}" >
       <p>
          <fmt:message key="WorkflowEngine.description.getInitiatorsEmailAddress" />
 		 <br>&nbsp;<br>
@@ -47,7 +62,7 @@
     	     <input name="jbpmVariableNames" value="initiatorEmail" type="hidden" />
         	 <input type="text" size="80" name="initiatorEmail">
         	 <br>&nbsp;<br>
-         	 <input name=submit" type="submit" value="<fmt:message key="WorkflowEngine.Form.Send" />"/>      
+         	 <input name=submit" type="submit" value="<fmt:message key="WorkflowEngine.Form.Send" />" />     
 	     </form>	
      </p>
    </c:when>   
@@ -84,6 +99,6 @@
 
    
    <c:otherwise>
-    <h1>what else? TODO</h1>
+    <p> what else? TASK = ${requestScope.task.taskName} </p>
    </c:otherwise>
 </c:choose>
