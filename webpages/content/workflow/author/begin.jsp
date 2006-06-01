@@ -15,7 +15,7 @@
       <c:set var="workflowType" value="${param.workflowType}" />
    </c:otherwise>
 </c:choose>
-<mcr:initWorkflowProcess userid="${username}" status="status" workflowProcessType="${workflowType}" processidVar="pid" scope="request" />
+<mcr:initWorkflowProcess userid="${username}" status="status" workflowProcessType="${workflowType}" processidVar="pid" scope="request" transition="go2IsInitiatorsEmailAddressAvailable"/>
 
 
 <c:choose>

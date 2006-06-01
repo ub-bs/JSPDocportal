@@ -66,6 +66,23 @@
       <c:import url="/content/workflow/editorButtons.jsp" />
    </c:when> 
 
+  <c:when test="${requestScope.task.taskName eq 'taskDisplayAuthorData'}">
+      <p>
+         <img title="" alt="" src="${baseURL}images/greenArrow.gif">
+         <fmt:message key="WorkflowEngine.description.editAuthor.author" />
+         <br>
+       <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="author" decision="canChangesBeCommitted" />
+         <c:if test="${transition eq 'changesCanBeCommitted'}">
+	        <img title="" alt="" src="${baseURL}images/greenArrow.gif">         
+            <a href="${baseURL}nav?path=~author&transition=go2CanChangesBeCommitted&endTask=taskDisplayAuthorData&processID=${requestScope.task.processID}"><fmt:message key="WorkflowEngine.taskCommitChanges.author" /></a>
+         </c:if>     
+      </p>
+      <c:import url="/content/workflow/editorButtons.jsp" />
+   </c:when> 
+
+
+
+
    <c:when test="${requestScope.task.taskName eq 'taskGetInitiatorsEmailAddress'}">
       <p>
          <fmt:message key="WorkflowEngine.description.getInitiatorsEmailAddress" />

@@ -6,9 +6,9 @@
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
 <fmt:setLocale value="${requestScope.lang}" />
 <fmt:setBundle basename='messages'/>
-<mcr:getWorkflowEngineVariable 
+<%--<mcr:getWorkflowEngineVariable 
 	pid="${requestScope.pid}" var="authorID" 
-	workflowVar="<%= MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS %>" /> 
+	workflowVar="<%= MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS %>" /> --%>
 
 <div class="headline">
    <fmt:message key="WorkflowEngine.StartAuthorWorkflow" />
