@@ -110,7 +110,7 @@ public class MCRWorkflowProcess extends MCRAbstractWorkflowObject{
 				if(taskInstance.getActorId() != null)
 					allowedUsers.add(taskInstance.getActorId());
 				if(allowedUsers.contains(curUserID)){
-					if(transitionName != null && !transitionName.equals("")){
+					if(transitionName != null && !transitionName.equals("")){						
 						taskInstance.end(transitionName);
 					}else{
 						taskInstance.end();
@@ -130,8 +130,7 @@ public class MCRWorkflowProcess extends MCRAbstractWorkflowObject{
 	
 	public String getDocumentType() {
 		
-		String mcrid = getStringVariable("createdDocID");
-		
+		String mcrid = getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
 		try {
 			String parts[] = mcrid.split("_");
 			return parts[1];
