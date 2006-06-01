@@ -22,7 +22,8 @@
   <start-state name="start">
      <task name="initialization" swimlane="initiator">
      </task>     
-     <transition name="go2isInitiatorsEmailAdressAvailable" to="isInitiatorsEmailAddressAvailable" /> 
+     <transition name="go2IsInitiatorsEmailAddressAvailable" to="isInitiatorsEmailAddressAvailable" /> 
+     <transition name="go2DisplayAuthorData" to="tnDisplayAuthorData" />
   </start-state>
                   
   <decision name="isInitiatorsEmailAddressAvailable">
@@ -59,7 +60,7 @@
  
  <task-node name="tnDisplayAuthorForUser">
  	<task name="displayAuthorForUser" swimlane="initiator" />
- 	<transition name="go2End" to="authorExists" />
+ 	<transition name="go2End" to="authorFinished" />
  </task-node>
 
   <task-node name="authorCreated">
@@ -153,7 +154,23 @@
      </event>     
   </end-state> 
   
-  <end-state name="authorExists">
+  <task-node name="tnDisplayAuthorData">
+      <task name="taskDisplayAuthorData" swimlane="initiator" />
+	  <transition name="go2CanChangesBeCommitted" to="canChangesBeCommitted" />
+  </task-node>
+                
+  <decision name="canChangesBeCommitted">
+     <handler class="org.mycore.frontend.workflowengine.jbpm.author.MCRDecisionHandlerAuthor" />
+     <transition name="changesCanBeCommitted" to="authorFinished">
+       <action class="org.mycore.frontend.workflowengine.jbpm.MCRCommitObjectAction">
+           <varnameOBJID>createdDocID</varnameOBJID>
+           <varnameERROR>COMMITERROR</varnameERROR>
+        </action>  
+     </transition>
+      <transition name="changesCantBeCommitted" to="tnDisplayAuthorData"></transition>
+  </decision>
+  
+  <end-state name="authorFinished">
    </end-state>
   
 </process-definition>

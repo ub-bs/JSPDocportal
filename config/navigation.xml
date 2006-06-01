@@ -78,6 +78,7 @@
             <refitem name="~documentmanagement" label="" />
             <navitem name="author" label="Nav.Workflow.author" href="content/workflow/author/workflow.jsp" >
               <refitem name="~author" label="" />
+              <refitem name="~workflowEditor-author" label="" />
               <refitem name="~workflow-author" label="" />
               <navitem name="author-begin" label="Nav.Workflow.author.begin" href="content/workflow/author/begin.jsp" >
                 <refitem name="~author-begin" label="" />
@@ -85,7 +86,7 @@
               <navitem name="author-info" label="Nav.Workflow.author.info" href="content/workflow/author/information.jsp" >
                 <refitem name="~author-info" label="" />
               </navitem>
-            </navitem>
+	        </navitem>
             <navitem name="xmetadiss" label="Nav.Workflow.xmetadiss" href="content/workflow/xmetadiss/workflow.jsp" >
               <refitem name="~xmetadiss" label="" />
               <navitem name="xmetadiss-begin" label="Nav.Workflow.xmetadiss.begin" href="content/workflow/xmetadiss/begin.jsp" >
