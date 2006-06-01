@@ -10,6 +10,7 @@
   <components root="SearchMask_ExpertDocument" var="/query">
 	  
     <include uri="webapp:editor/searchmasks/imports-searchmasks-common.xml"/>	  
+	 
 	  
     <headline anchor="LEFT">
       <text>
@@ -22,13 +23,8 @@
     <!-- 
       <hidden var="@mask" default="editor_form_search-expertdocument.xml" />
     -->      
-      <hidden var="conditions/@format" default="xml" />
-
-      <!-- Search only for object type document -->
-      <hidden var="conditions/boolean/condition1/@field"    default="objectType" />
-      <hidden var="conditions/boolean/condition1/@operator" default="=" />
-      <hidden var="conditions/boolean/condition1/@value"    default="document" />
-
+     <hidden var="conditions/@format" default="xml" />
+            
       <!-- Search in metadata fields that are text -->
       <cell row="1" col="1" colspan="3" anchor="NORTHWEST" var="conditions/boolean/condition2">
         <repeater min="1" max="10">
@@ -269,16 +265,11 @@
                 <label xml:lang="en">or</label>
               </item>
             </list>
-          </cell>
-        </panel>
-      </cell>
-
-      <cell row="19" col="1" colspan="3" anchor="EAST">
-        <panel lines="off">
-          <cell row="1" col="1" anchor="WEST">
+          </cell>                    
+          <cell row="1" col="3" anchor="WEST">
             <text label="Maximal " />
           </cell>
-          <cell row="1" col="2" anchor="WEST" var="@maxResults">
+          <cell row="1" col="4" anchor="WEST" var="@maxResults">
             <list type="dropdown" default="100">
               <item value="20"  label="20"   />
               <item value="100" label="100"  />
@@ -286,10 +277,10 @@
               <item value="0"   label="alle" />
             </list>
           </cell>
-          <cell row="1" col="3" anchor="WEST">
+          <cell row="1" col="5" anchor="WEST">
             <text label=" Treffer, " />
           </cell>
-          <cell row="1" col="4" anchor="WEST" var="@numPerPage">
+          <cell row="1" col="6" anchor="WEST" var="@numPerPage">
             <list type="dropdown" default="10">
               <item value="10" label="10" />
               <item value="20" label="20" />
@@ -297,16 +288,24 @@
               <item value="0"  label="allen" />
             </list>
           </cell>
-          <cell row="1" col="5" anchor="WEST">
+          <cell row="1" col="7" anchor="WEST">
             <text label=" pro Seite anzeigen" />
           </cell>
         </panel>
       </cell>
       
-      <cell row="20" col="1" colspan="3" anchor="EAST">
+      <cell row="19" col="1" colspan="3" anchor="EAST">
         <submitButton label="Suchen..." width="150px" />
       </cell>
-    </panel>
+<!-- 
+      <hidden var="conditions/boolean/condition21/@field"    default="objectType" />
+      <hidden var="conditions/boolean/condition21/@operator" default="=" />
+      <hidden var="conditions/boolean/condition21/@value"    default="alldocs" />
+      -->       
+      
+       <hidden var="types/type/@field" default="alldocs" />
+       
+   </panel>
     
     <list type="dropdown" id="list.operators.text" default="contains">
       <item value="contains">
