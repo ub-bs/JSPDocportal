@@ -33,10 +33,24 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy{
 				if(AI.hasRule(objID.getId(), permissionType )){
 					AI.updateRule(objID.getId(), permissionType, rule, "");
 				}else{
-					AI.addRule(objID.getId(), defaultPermissionTypes[i], rule, "");
+					AI.addRule(objID.getId(), permissionType, rule, "");
 				}
 			}		
 		}
+		if(mode==MCRWorkflowConstants.PERMISSION_MODE_PUBLISH){
+			MCRObjectID objID = new MCRObjectID(mcrid);
+			String strRule ="<condition format=\"xml\"><boolean operator=\"true\" /></condition>";
+			Element rule = (Element)MCRXMLHelper.parseXML(strRule).getRootElement().detach();
+			String permissionType = "read";
+
+			if(AI.hasRule(objID.getId(), permissionType )){
+				AI.updateRule(objID.getId(), permissionType, rule, "");
+			}else{
+				AI.addRule(objID.getId(), permissionType, rule, "");
+			}
+			
+		}
+		
 	}
 	
 }
