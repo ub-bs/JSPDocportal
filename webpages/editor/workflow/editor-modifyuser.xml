@@ -86,12 +86,13 @@
             </cell>
 
             <!-- *** Update allowed? *** -->
-            <cell row="6" col="1" anchor="EAST"></cell>
-            <cell row="6" col="2" anchor="WEST" var="user/@update_allowed">
-                <checkbox value="true" checked="true"> 
+            <cell row="6" col="2" anchor="WEST" var="user/@update_allowed" >
+                <list type="radio" >
+                  <item value="true">
                     <label xml:lang="de">&#160;&#160;Eigene Accountdaten sind änderbar.</label>
                     <label xml:lang="en">&#160;&#160;The user may change the account information. </label>
-                </checkbox>
+                  </item>
+                </list>
             </cell>
 
             <!-- *** Primary group *** -->

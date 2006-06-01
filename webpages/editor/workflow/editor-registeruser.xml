@@ -288,19 +288,19 @@
             </cell>
             <cell row="34" col="2" anchor="WEST" var="user/accept">
                 <checkbox value="false" checked="false" class="mandatory" > 
-                    <label xml:lang="de">&#160;&#160;Ich erkenne die Regelungen	von @libri an.</label>
-                    <label xml:lang="en">&#160;&#160;i accept the  @libri licencse rights. </label>
+                    <label xml:lang="de">&#160;&#160;Ich erkenne die Regelungen	zur Nutzung der Digitalen Bibliothek an.</label>
+                    <label xml:lang="en">&#160;&#160;i accept the licencse rights for using the digital library account. </label>
                 </checkbox>
             </cell>
-			<cell row="34" col="3" anchor="EAST">
-                <helpPopup id="HAccountRights" width="400px" height="200px">
-                    <label xml:lang="de">
-                        Mit dem Antrag auf Benutzungsberechtigung gestatte ich der Universitätsbibliothek XYZ die von mir eingebrachten Dokumente im Internet	zu publizieren, zu vervielfältigen und zu	verbreiten sowie gegebenenfalls eine Konvertierung des Datenformates vorzunehmen. <br />Davon unberührt bleibt das Recht zur	Publikation in anderer körperlicher Form, z.B. 	einem Verlag. Ich versichere, dass ich allein berechtigt bin, über die urheberrechtlichen Nutzungsrechte aller von mir in @libri ingebrachten Dokumente zu verfügen. Gleiches gilt auch für die von mir gelieferten Text und	Bildvorlagen, deren Nutzungsrechte bei mir 	liegen. <br />Ich übernehme für die von mir eingestellten Inhalte die volle Verantwortung	und versichere, dass die von mir verbreiteten	Dokumente wissenschaftlichen Charakter haben, insbesondere keine pornografischen und 	rechtsextremistischen Inhalte aufweisen und das Persönlichkeitsrecht Dritter nicht verletzen. <br />Mir ist bekannt, dass für den Fall einer späteren kommerziellen Verwertung der von mir eingebrachten Inhalte auf eine ggf. vorhandene elektronische Publikation in DocPortal hinzuweisen	ist. <br /> <b>Ich erkenne die o.g. Regelungen	von @libri an.</b>
-                    </label>
-                    <label xml:lang="en">
-						Mit dem Antrag auf Benutzungsberechtigung gestatte ich der Universitätsbibliothek XYZ die von mir eingebrachten Dokumente im Internet	zu publizieren, zu vervielfältigen und zu	verbreiten sowie gegebenenfalls eine Konvertierung des Datenformates vorzunehmen. <br />Davon unberührt bleibt das Recht zur	Publikation in anderer körperlicher Form, z.B. 	einem Verlag. Ich versichere, dass ich allein berechtigt bin, über die urheberrechtlichen Nutzungsrechte aller von mir in @libri ingebrachten Dokumente zu verfügen. Gleiches gilt auch für die von mir gelieferten Text und	Bildvorlagen, deren Nutzungsrechte bei mir 	liegen. <br />Ich übernehme für die von mir eingestellten Inhalte die volle Verantwortung	und versichere, dass die von mir verbreiteten	Dokumente wissenschaftlichen Charakter haben, insbesondere keine pornografischen und 	rechtsextremistischen Inhalte aufweisen und das Persönlichkeitsrecht Dritter nicht verletzen. <br />Mir ist bekannt, dass für den Fall einer späteren kommerziellen Verwertung der von mir eingebrachten Inhalte auf eine ggf. vorhandene elektronische Publikation in DocPortal hinzuweisen	ist. <br /> <b>Ich erkenne die o.g. Regelungen	von @libri an.</b>
-                    </label>
-                </helpPopup>
+			<cell row="35" col="1" colspan="3" anchor="EAST">
+                <helpPopup id="HRights" width="400px" height="200px">
+                 <label xml:lang="de">
+                    Mit dem Antrag auf Benutzungsberechtigung gestatte ich der Universitätsbibliothek  die von mir eingebrachten Dokumente im Internet	zu publizieren, zu vervielfältigen und zu	verbreiten sowie gegebenenfalls eine Konvertierung des Datenformates vorzunehmen. <br />Davon unberührt bleibt das Recht zur	Publikation in anderer körperlicher Form, z.B. 	einem Verlag. Ich versichere, dass ich allein berechtigt bin, über die urheberrechtlichen Nutzungsrechte aller von mir in @libri ingebrachten Dokumente zu verfügen. Gleiches gilt auch für die von mir gelieferten Text und	Bildvorlagen, deren Nutzungsrechte bei mir 	liegen. <br />Ich übernehme für die von mir eingestellten Inhalte die volle Verantwortung	und versichere, dass die von mir verbreiteten	Dokumente wissenschaftlichen Charakter haben, insbesondere keine pornografischen und 	rechtsextremistischen Inhalte aufweisen und das Persönlichkeitsrecht Dritter nicht verletzen. <br />Mir ist bekannt, dass für den Fall einer späteren kommerziellen Verwertung der von mir eingebrachten Inhalte auf eine ggf. vorhandene elektronische Publikation in DocPortal hinzuweisen	ist. <br /> <b>Ich erkenne die o.g. Regelungen	von @libri an.</b>
+                  </label>
+                  <label xml:lang="en">
+					Mit dem Antrag auf Benutzungsberechtigung gestatte ich der Universitätsbibliothek  die von mir eingebrachten Dokumente im Internet	zu publizieren, zu vervielfältigen und zu	verbreiten sowie gegebenenfalls eine Konvertierung des Datenformates vorzunehmen. <br />Davon unberührt bleibt das Recht zur	Publikation in anderer körperlicher Form, z.B. 	einem Verlag. Ich versichere, dass ich allein berechtigt bin, über die urheberrechtlichen Nutzungsrechte aller von mir in @libri ingebrachten Dokumente zu verfügen. Gleiches gilt auch für die von mir gelieferten Text und	Bildvorlagen, deren Nutzungsrechte bei mir 	liegen. <br />Ich übernehme für die von mir eingestellten Inhalte die volle Verantwortung	und versichere, dass die von mir verbreiteten	Dokumente wissenschaftlichen Charakter haben, insbesondere keine pornografischen und 	rechtsextremistischen Inhalte aufweisen und das Persönlichkeitsrecht Dritter nicht verletzen. <br />Mir ist bekannt, dass für den Fall einer späteren kommerziellen Verwertung der von mir eingebrachten Inhalte auf eine ggf. vorhandene elektronische Publikation in DocPortal hinzuweisen	ist. <br /> <b>Ich erkenne die o.g. Regelungen	von @libri an.</b>
+                  </label>
+                 </helpPopup> 
             </cell>			
 			
             <!-- *** Buttons *** -->
