@@ -7,23 +7,23 @@
 <%
         XMLOutputter xmlout = new XMLOutputter(org.jdom.output.Format.getPrettyFormat());
         
-        String resultlistType = "authorjoin";
-        
         String creatorID = request.getParameter("id");
-        if (creatorID == null) creatorID = "";
         String creatorName = request.getParameter("name");
+
+        if (creatorID == null) creatorID = "";
         if (creatorName == null) creatorName = "";
         
         Element query = new Element("query");
-        query.setAttribute("resultType","~searchresult-" + resultlistType);
         query.setAttribute("maxResults","100");
         
         Element conditions = new Element("conditions");
         conditions.setAttribute("format","xml");
         
-        Element or = new Element("or");
+        Element or = new Element("boolean");
+        or.setAttribute("operator","or");
         
         Element creatorCondition = new Element("condition");
+        
         creatorCondition.setAttribute("field","creator");
         creatorCondition.setAttribute("value",creatorName);
         creatorCondition.setAttribute("operator","like");
@@ -43,14 +43,6 @@
         Element type = new Element("type");
         type.setAttribute("field","alldocs");
         
-        Element sortby = new Element("sortby");
-        
-        Element sortfield = new Element("field");
-        sortfield.setAttribute("field","title");
-        sortfield.setAttribute("order","ascending");
-
-        sortby.addContent(sortfield);
-        
         types.addContent(type);
         hosts.addContent(host);
         
@@ -58,18 +50,18 @@
             or.addContent(creatorIDCondition);
         if (!creatorName.equals("")) 
             or.addContent(creatorCondition);
+
         conditions.addContent(or);
         query.addContent(conditions);
-        query.addContent(hosts);
         query.addContent(types);
-        query.addContent(sortby);        
+        query.addContent(hosts);
         
         Document queryDoc = new Document(query);
         
         Logger.getLogger("authorsdocuments.jsp").debug("selfcreated query: \n" + xmlout.outputString(queryDoc));
         
         request.setAttribute("query", queryDoc);
-        getServletContext().getRequestDispatcher("/nav?path=~searchresult-" + resultlistType).forward(request, response);
+        getServletContext().getRequestDispatcher("/nav?path=~searchresult-simple").forward(request, response);
 %>        
 
 

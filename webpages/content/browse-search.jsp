@@ -13,24 +13,43 @@
 	   	    getServletContext().getRequestDispatcher("/nav?path=~mycore-error").forward(request,response);             
         }
         
-        /***
+        /*** 
+        OLD !!!
         <query mask="-" maxResults="0" numPerPage="0">
 		  <conditions format="text">origin = Unis.TUMuenchen</conditions>
 		</query>
-		***/
+		
+		NEW !!!
+		<query maxResults="100" numPerPage="10">
+        <conditions format="xml">
+          <boolean operator="and">
+            <condition value="TYPE0008" field="type" operator="like" />
+          </boolean>
+         </conditions>
+        </query>        
+        ******/
 
         String resultlistType = "class" + searchField;
         Element query = new Element("query");
-        //query.setAttribute("resultType","~searchresult-" + resultlistType);
         query.setAttribute("maxResults","0");
-        query.setAttribute("numPerPage","0");
+        query.setAttribute("numPerPage","30");
         
         Element conditions = new Element("conditions");
-        conditions.setAttribute("format","text");
-        conditions.addContent(searchField + " = " + searchValue);
+        conditions.setAttribute("format","xml");
+        
+        Element and = new Element("boolean");
+        and.setAttribute("operator","and");
+
+        Element condition = new Element("condition");
+        condition.setAttribute("field",searchField);
+        condition.setAttribute("value",searchValue);
+        condition.setAttribute("operator","like");
+
+        and.addContent(condition);
+        conditions.addContent(and);
         query.addContent(conditions);
         Document queryDoc = new Document(query);
-        
+
         Logger.getLogger("browse-search.jsp").debug("selfcreated query: \n" + xmlout.outputString(queryDoc));       
         request.setAttribute("query", queryDoc);
         request.setAttribute("resultlistType",resultlistType);
