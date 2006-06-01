@@ -173,9 +173,9 @@
  </td></tr></table>
  </td>
   <td>
-   <c:if test="${!(fn:contains(from,'workflow')) && fn:contains(style,'user')}" > 
+   <c:if test="${!(fn:contains(from,'workflow')) && !fn:contains(style,'user')}" > 
      <mcr:checkAccess var="modifyAllowed" permission="writedb" key="${mcrid}" />
-     <c:set var="type" value="fn:split(mcrid,'_')[1]"/>
+      <c:set var="type" value="${fn:split(mcrid,'_')[1]}"/>
       <c:if test="${modifyAllowed}">
          <!--  Editbutton -->
          <table>
@@ -183,7 +183,7 @@
            <td>
             <form method="get" action="${WebApplicationBaseURL}servlets/MCRPutDocumentToWorkflow" class="resort">                 
                 <input name="page" value="nav?path=~workflowEditor-${type}"  type="hidden">                                       
-        	    <input name="mcrid" value="${mcrID}" type="hidden"/>
+        	    <input name="mcrid" value="${mcrid}" type="hidden"/>
 				<input title="<fmt:message key="Object.EditObject" />" border="0" src="${WebApplicationBaseURL}images/workflow.gif" type="image"  class="imagebutton" />
             </form> 
            </td>
