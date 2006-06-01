@@ -10,6 +10,8 @@ MCR.SimpleDateFormat.strictParsing=false
 MCR.WorkflowEngine.Administrator.Email=admin@mycore.de
 MCR.WorkflowEngine.DefaultPermissionTypes=read,commitdb,writedb,deletedb,deletewf
 
+MCR.WorkflowEngine.WorkflowTypes=publication, xmetadiss, registeruser, author
+
 ####################################################################
 # Workflow Author
 ####################################################################
