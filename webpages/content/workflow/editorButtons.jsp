@@ -35,6 +35,7 @@
 </c:if> 
     
 <mcr:listWorkflowDerivates varDom="der" docID="${itemID}" derivates="${attachedDerivates}" workflowprocesstype="${itemDocType}" />
+
         <tr>
          <td class="resultTitle">
            <b><c:out value="${wfoTitle}" /></b>  	
@@ -62,18 +63,6 @@
 											</form>
 										</td>
 						   </c:if>										
-                           <mcr:checkAccess var="modifyAllowed" permission="commitdb" key="${itemID}" />
-                           <c:if test="${modifyAllowed}">	
-                              <c:if test="${not fn:contains('disshab,author',itemDocType)}">					
-										<td align="center" valign="top" width="30">
-											<form method="get" action="${baseURL}workflowaction">
-												<input name="processid" value="${processid}" type="hidden">
-												<input name="todo" 		value="WFCommitWorkflowObject" type="hidden">
-												<input title="<fmt:message key="Object.CommitObject" />" src="${baseURL}images/workflow_objcommit.gif" type="image" class="imagebutton">
-											</form>
-										</td>
-                              </c:if>
-							</c:if>										
                             <mcr:checkAccess var="modifyAllowed" permission="deletewf" key="${itemID}" />
                             <c:if test="${modifyAllowed}">						
 										<td align="center" valign="top" width="30">
