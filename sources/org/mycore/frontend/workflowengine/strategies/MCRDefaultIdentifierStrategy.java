@@ -8,5 +8,8 @@ public class MCRDefaultIdentifierStrategy implements MCRIdentifierStrategy{
 		return documentID;
 	}
 	
-	
+	public String getUrnFromDocument(String documentID) {
+		// TODO Auto-generated method stub
+		return "";
+	}
 }

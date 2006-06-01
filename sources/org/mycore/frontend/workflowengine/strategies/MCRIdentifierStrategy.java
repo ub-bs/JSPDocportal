@@ -11,4 +11,6 @@ public interface MCRIdentifierStrategy {
 	 * @return
 	 */	
 	public Object createNewIdentifier(String documentID, String userid, String workflowProcessType);
+	
+	public String getUrnFromDocument(String documentID ); 
 }

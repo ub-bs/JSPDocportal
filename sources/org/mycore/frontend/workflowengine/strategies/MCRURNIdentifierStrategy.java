@@ -8,12 +8,18 @@ public class MCRURNIdentifierStrategy implements MCRIdentifierStrategy{
 	private static MCRConfiguration config = MCRConfiguration.instance();
 
 	public Object createNewIdentifier(String documentID, String userid, String workflowProcessType) {
-		return createUrnReservationForAuthor(userid, "URN for " + documentID, workflowProcessType);
+		return createUrnReservationForAuthor(userid, "URN for " + workflowProcessType, workflowProcessType, documentID);
 	}
 	
-	protected String createUrnReservationForAuthor(String authorid, String comment, String workflowProcessType){
+	public String getUrnFromDocument(String documentID ) {
+		MCRNBN mcrurn = new MCRNBN();		
+		return mcrurn.getURNByDocumentID(documentID);
+	}
+	
+	protected String createUrnReservationForAuthor(String authorid, String comment, String workflowProcessType,String documentID ){
 		String nissprefix = config.getString("MCR.nbn.nissprefix." + workflowProcessType, "diss");
 		MCRNBN mcrurn = new MCRNBN(authorid, comment, nissprefix);  
+		mcrurn.setDocumentId(documentID);
 		return mcrurn.getURN();
 	}
 
