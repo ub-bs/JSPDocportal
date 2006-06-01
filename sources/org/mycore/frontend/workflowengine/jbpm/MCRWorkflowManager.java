@@ -69,6 +69,16 @@ public abstract class MCRWorkflowManager {
 	 */
 	public abstract long initWorkflowProcess(String initiator, String transitionName) throws MCRException;	
 	
+	
+	/**
+	 * initialize and starts a new workflow process instance for editing an object
+	 * @param initiator the MCRUser that initiates the process
+	 * @param mcrid the MCRObjectID as String
+	 * @param transitionName the transition the workflow process should take after initialization
+	 * @return the workflow processid as long
+	 * @throws MCRException
+	 */
+	public abstract long initWorkflowProcessForEditing(String initiator, String mcrid, String transitionName) throws MCRException; 
 	/**
 	 * returns the transition that is delivered from a jbpm decision node,
 	 * 	if the node would be reached now, must be implemented in each workflow

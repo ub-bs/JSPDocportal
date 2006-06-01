@@ -6,7 +6,8 @@ public class MCRWorkflowConstants {
 	public static final int INIT_PROCESS_UPDATE = 2;
 	public static final int INIT_PROCESS_DELETE = 3;
 
-	public static final int PERMISSION_MODE_DEFAULT = 1;	
+	public static final int PERMISSION_MODE_DEFAULT = 1;
+	public static final int PERMISSION_MODE_PUBLISH = 2;
 	
 	public static final String WFM_VAR_SIGNED_AFFIRMATION_AVAILABLE = "signedAffirmationAvailable";
 	public static final String WFM_VAR_INITIATOR = "initiator";

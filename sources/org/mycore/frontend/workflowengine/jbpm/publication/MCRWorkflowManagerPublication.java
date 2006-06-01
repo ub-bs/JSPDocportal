@@ -117,6 +117,14 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 			}				
 	}
 	
+	/**
+	 * TODO look into MCRWorkflowManagerAuthor for further implementation details
+	 */
+	public long initWorkflowProcessForEditing(String initiator, String mcrid, String transitionName){
+		
+		return initWorkflowProcess(initiator, transitionName);
+	}
+	
 	public String checkDecisionNode(long processid, String decisionNode, ExecutionContext executionContext) {
 		if(decisionNode.equals("canDocumentBeSubmitted")){
 			if(checkSubmitVariables(processid)){
