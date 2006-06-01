@@ -4,32 +4,20 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
-import org.jdom.output.Format;
-import org.jdom.output.XMLOutputter;
-import org.mycore.common.MCRDefaults;
-import org.mycore.datamodel.metadata.MCRMetaLangText;
-import org.mycore.datamodel.metadata.MCRMetaLinkID;
-import org.mycore.datamodel.metadata.MCRObject;
-import org.mycore.datamodel.metadata.MCRObjectID;
-import org.mycore.frontend.cli.MCRObjectCommands;
 import org.mycore.frontend.cli.MCRUserCommands2;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
 import org.mycore.user2.MCRUserMgr;
 
 public class MCRDefaultUserStrategy extends MCRUserStrategy{
 	private String documentType;
 	
-	public MCRDefaultUserStrategy(String documentType){
-		this.documentType = documentType;
+	public MCRDefaultUserStrategy(){
+		this.documentType = "user";
 	}
 	
 	private static Logger logger = Logger.getLogger(MCRDefaultUserStrategy.class.getName());
