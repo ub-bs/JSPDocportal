@@ -65,13 +65,7 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 	private static MCRWorkflowManager singleton;
 	
 	protected MCRWorkflowManagerXmetadiss() throws Exception {
-		this.workflowProcessType = "xmetadiss";
-		this.mainDocumentType = "disshab";
-		this.authorStrategy = new MCRDefaultAuthorStrategy();
-		this.identifierStrategy = new MCRURNIdentifierStrategy();
-		this.metadataStrategy = new MCRDefaultMetadataStrategy("disshab");
-		this.derivateStrategy = new MCRDisshabDerivateStrategy();
-		this.permissionStrategy = new MCRDefaultPermissionStrategy();
+		super("disshab", "xmetadiss");
 	}
 
 	
@@ -130,9 +124,9 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 	/**
 	 * TODO look into MCRWorkflowManagerAuthor for further implementation details
 	 */
-	public long initWorkflowProcessForEditing(String initiator, String mcrid, String transitionName){
+	public long initWorkflowProcessForEditing(String initiator, String mcrid ){
 		
-		return initWorkflowProcess(initiator, transitionName);
+		return initWorkflowProcess(initiator, "");
 	}
 	
 	public String checkDecisionNode(long processid, String decisionNode, ExecutionContext executionContext) {

@@ -36,18 +36,15 @@ import org.apache.log4j.Logger;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
+import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRException;
+import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
-import org.mycore.frontend.workflowengine.strategies.MCRDefaultAuthorStrategy;
-import org.mycore.frontend.workflowengine.strategies.MCRDefaultDerivateStrategy;
-import org.mycore.frontend.workflowengine.strategies.MCRDefaultMetadataStrategy;
-import org.mycore.frontend.workflowengine.strategies.MCRDefaultPermissionStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRMetadataStrategy;
-import org.mycore.frontend.workflowengine.strategies.MCRURNIdentifierStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 import org.mycore.user2.MCRUser;
 import org.mycore.user2.MCRUserMgr;
@@ -66,13 +63,8 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 	private static MCRWorkflowManager singleton;
 	
 	protected MCRWorkflowManagerPublication() throws Exception {
-		this.workflowProcessType = "publication";
-		this.mainDocumentType = "document";
-		this.authorStrategy = new MCRDefaultAuthorStrategy();
-		this.identifierStrategy = new MCRURNIdentifierStrategy();
-		this.metadataStrategy = new MCRDefaultMetadataStrategy("document");
-		this.derivateStrategy = new MCRDefaultDerivateStrategy();
-		this.permissionStrategy = new MCRDefaultPermissionStrategy();
+		super("document", "publication");
+		this.derivateStrategy = new MCRDocumentDerivateStrategy();
 	}
 
 	
@@ -105,8 +97,9 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 					wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_INITIATORSALUTATION, salutation);
 				}
 				wfp.setStringVariable("fileCnt", "0");
+				
 				wfp.endTask("initialization", initiator, transitionName);
-				wfp.signal("go2isInitiatorsEmailAddressAvailable");
+				// wfp.signal ("go2isInitiatorsEmailAddressAvailable");
 				return wfp.getProcessInstanceID();
 			}catch(MCRException ex){
 				logger.error("MCRWorkflow Error, could not initialize the workflow process", ex);
@@ -117,12 +110,31 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 			}				
 	}
 	
-	/**
-	 * TODO look into MCRWorkflowManagerAuthor for further implementation details
-	 */
-	public long initWorkflowProcessForEditing(String initiator, String mcrid, String transitionName){
-		
-		return initWorkflowProcess(initiator, transitionName);
+	
+	public long initWorkflowProcessForEditing(String initiator, String mcrid ){
+		if (mcrid != null && MCRObject.existInDatastore(mcrid)) {
+			// Store Object in Workflow - Filesystem
+			MCRObject mob = new MCRObject();
+			mob.receiveFromDatastore(mcrid);
+			String type = mob.getId().getTypeId();			
+			JSPUtils.saveToDirectory(mob, MCRWorkflowDirectoryManager.getWorkflowDirectory(type));
+			
+			long processID = initWorkflowProcess(initiator, "go2processEditInitialized");
+			MCRWorkflowProcess wfp = getWorkflowProcess(processID);
+			String urn = this.identifierStrategy.getUrnFromDocument(mcrid);
+			
+			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS, mcrid);
+			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN, urn);	
+			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES, "");
+			wfp.close();
+
+			setWorkflowVariablesFromMetadata(mcrid, mob.createXML().getRootElement().getChild("metadata"), processID);
+			setMetadataValid(mcrid, true, processID);
+			return processID;
+
+		} else {
+			return -1;
+		}
 	}
 	
 	public String checkDecisionNode(long processid, String decisionNode, ExecutionContext executionContext) {
@@ -210,8 +222,10 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 			}
 			for (Iterator it = derivateIDs.iterator(); it.hasNext();) {
 				String derivateID = (String) it.next();
-				if(!derivateStrategy.commitDerivateObject(derivateID, MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType))){
-					throw new MCRException("error in committing " + derivateID);
+				if ( derivateID != null && derivateID.length() > 0 ) {
+					if(!derivateStrategy.commitDerivateObject(derivateID, MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType))){
+						throw new MCRException("error in committing " + derivateID);
+					}
 				}
 			}
 			return true;

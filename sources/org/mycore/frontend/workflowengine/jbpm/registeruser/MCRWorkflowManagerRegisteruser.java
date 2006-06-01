@@ -54,13 +54,10 @@ public class MCRWorkflowManagerRegisteruser extends MCRWorkflowManager{
 	
 	private static Logger logger = Logger.getLogger(MCRWorkflowManagerRegisteruser.class.getName());
 	private static MCRWorkflowManager singleton;
-	private MCRUserStrategy userStrategy;
+	
 	
 	protected MCRWorkflowManagerRegisteruser() throws Exception {
-		this.workflowProcessType = "registeruser";
-		this.mainDocumentType = "user";
-		this.userStrategy = new MCRDefaultUserStrategy(mainDocumentType);
-		this.metadataStrategy = new MCRDefaultMetadataStrategy(mainDocumentType);
+		super("user", "registeruser");
 	}
 
 	
@@ -110,9 +107,9 @@ public class MCRWorkflowManagerRegisteruser extends MCRWorkflowManager{
 	/**
 	 * TODO look into MCRWorkflowManagerAuthor for further implementation details
 	 */
-	public long initWorkflowProcessForEditing(String initiator, String mcrid, String transitionName){
+	public long initWorkflowProcessForEditing(String initiator, String mcrid){
 		
-		return initWorkflowProcess(initiator, transitionName);
+		return initWorkflowProcess(initiator, "");
 	}
 	
 	public String checkDecisionNode(long processid, String decisionNode, ExecutionContext executionContext) {

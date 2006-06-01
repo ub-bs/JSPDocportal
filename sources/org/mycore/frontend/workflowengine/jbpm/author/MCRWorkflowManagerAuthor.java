@@ -38,9 +38,11 @@ import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
 import org.mycore.frontend.workflowengine.strategies.MCRDefaultAuthorStrategy;
+import org.mycore.frontend.workflowengine.strategies.MCRDefaultDerivateStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRDefaultMetadataStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRDefaultPermissionStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRMetadataStrategy;
+import org.mycore.frontend.workflowengine.strategies.MCRURNIdentifierStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 import org.mycore.services.fieldquery.MCRResults;
 import org.mycore.user2.MCRUser;
@@ -61,14 +63,7 @@ public class MCRWorkflowManagerAuthor extends MCRWorkflowManager {
 	private static MCRWorkflowManager singleton;
 
 	protected MCRWorkflowManagerAuthor() throws Exception {
-		this.workflowProcessType = "author";
-		this.mainDocumentType = "author";
-		this.authorStrategy = new MCRDefaultAuthorStrategy();
-		// this.identifierStrategy = new MCRURNIdentifierStrategy();
-		this.metadataStrategy = new MCRDefaultMetadataStrategy(
-				this.mainDocumentType);
-		// this.derivateStrategy = new MCRDefaultDerivateStrategy();
-		this.permissionStrategy = new MCRDefaultPermissionStrategy();
+		super("author", "author");
 	}
 
 	/**
@@ -294,24 +289,19 @@ public class MCRWorkflowManagerAuthor extends MCRWorkflowManager {
 		}
 	}
 
-	public long initWorkflowProcessForEditing(String initiator, String mcrid,
-			String transitionName) throws MCRException {
+	public long initWorkflowProcessForEditing(String initiator, String mcrid ) throws MCRException {
 		if (mcrid != null && MCRObject.existInDatastore(mcrid)) {
 			// Store Object in Workflow - Filesystem
 			MCRObject mob = new MCRObject();
 			mob.receiveFromDatastore(mcrid);
 			String type = mob.getId().getTypeId();
-			JSPUtils.saveToDirectory(mob, MCRWorkflowDirectoryManager
-					.getWorkflowDirectory(type));
-
-			long processID = initWorkflowProcess(initiator, transitionName);
+			JSPUtils.saveToDirectory(mob, MCRWorkflowDirectoryManager.getWorkflowDirectory(type));
+			long processID = initWorkflowProcess(initiator,  "go2DisplayAuthorData");
 			MCRWorkflowProcess wfp = getWorkflowProcess(processID);
-			wfp.setStringVariable(
-					MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS, mcrid);
+			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS, mcrid);
 			wfp.close();
 
-			setWorkflowVariablesFromMetadata(mcrid, mob.createXML()
-					.getRootElement().getChild("metadata"), processID);
+			setWorkflowVariablesFromMetadata(mcrid, mob.createXML().getRootElement().getChild("metadata"), processID);
 			setMetadataValid(mcrid, true, processID);
 			return processID;
 

@@ -21,7 +21,14 @@ import org.mycore.common.MCRException;
 import org.mycore.common.MCRUtils;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.strategies.MCRAuthorStrategy;
+import org.mycore.frontend.workflowengine.strategies.MCRDefaultAuthorStrategy;
+import org.mycore.frontend.workflowengine.strategies.MCRDefaultDerivateStrategy;
+import org.mycore.frontend.workflowengine.strategies.MCRDefaultMetadataStrategy;
+import org.mycore.frontend.workflowengine.strategies.MCRDefaultPermissionStrategy;
+import org.mycore.frontend.workflowengine.strategies.MCRDefaultUserStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRDerivateStrategy;
+import org.mycore.frontend.workflowengine.strategies.MCRURNIdentifierStrategy;
+import org.mycore.frontend.workflowengine.strategies.MCRUserStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 import org.mycore.frontend.workflowengine.strategies.MCRIdentifierStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRMetadataStrategy;
@@ -41,6 +48,7 @@ public abstract class MCRWorkflowManager {
 		GUEST_ID = config.getString("MCR.users_guestuser_username","gast");
 		deleteDir = config.getString("MCR.WorkflowEngine.DeleteDirectory");
 		logger = Logger.getLogger(MCRWorkflowManager.class.getName());
+		
 	}
 
 	
@@ -50,11 +58,22 @@ public abstract class MCRWorkflowManager {
 	protected String mainDocumentType;
 	
 	protected MCRIdentifierStrategy identifierStrategy;
-	protected MCRAuthorStrategy authorStrategy;
-	protected MCRMetadataStrategy metadataStrategy;
-	protected MCRDerivateStrategy derivateStrategy;
+	protected MCRAuthorStrategy 	authorStrategy;
+	protected MCRMetadataStrategy 	metadataStrategy;
+	protected MCRDerivateStrategy 	derivateStrategy;
 	protected MCRPermissionStrategy permissionStrategy;
-	
+	protected MCRUserStrategy 		userStrategy;
+
+	protected MCRWorkflowManager( String mainDocumentType, String workflowProcessType) throws Exception {
+		this.workflowProcessType 	= workflowProcessType;
+		this.mainDocumentType 		= mainDocumentType;
+		this.metadataStrategy 		= new MCRDefaultMetadataStrategy(mainDocumentType);
+		this.authorStrategy 		= new MCRDefaultAuthorStrategy();
+		this.identifierStrategy 	= new MCRURNIdentifierStrategy();
+		this.derivateStrategy   	= new MCRDefaultDerivateStrategy();
+		this.permissionStrategy 	= new MCRDefaultPermissionStrategy();
+		this.userStrategy 			= new MCRDefaultUserStrategy();
+	}
 	
 	
 	/**
@@ -78,7 +97,9 @@ public abstract class MCRWorkflowManager {
 	 * @return the workflow processid as long
 	 * @throws MCRException
 	 */
-	public abstract long initWorkflowProcessForEditing(String initiator, String mcrid, String transitionName) throws MCRException; 
+	public abstract long initWorkflowProcessForEditing(String initiator, String mcrid ) throws MCRException;
+	
+	
 	/**
 	 * returns the transition that is delivered from a jbpm decision node,
 	 * 	if the node would be reached now, must be implemented in each workflow
