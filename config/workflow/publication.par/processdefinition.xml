@@ -22,15 +22,21 @@
      <task name="initialization" swimlane="initiator">
      </task>     
      <transition name="go2processInitialized" to="processInitialized" />
+     <transition name="go2processEditInitialized" to="processEditInitialized" />
   </start-state>
 
-  <state name="processInitialized">
+  <task-node name="processInitialized">
      <event type='node-enter'>
         <action class="org.mycore.frontend.workflowengine.jbpm.publication.MCRCreateURNAction" />
 		<action class="org.mycore.frontend.workflowengine.jbpm.publication.MCRCreateDocumentAction" />                        
      </event>
      <transition name="go2isInitiatorsEmailAddressAvailable" to="isInitiatorsEmailAddressAvailable" />  
-  </state>
+  </task-node>
+
+  <task-node name="processEditInitialized">
+      <task name="taskprocessEditInitialized" swimlane="initiator" />
+	  <transition name="go2canDocumentBeSubmitted" to="canDocumentBeSubmitted" />
+  </task-node>
 
   <decision name="isInitiatorsEmailAddressAvailable">
      <transition name="no" to="getInitiatorsEmailAddress"> 
@@ -54,7 +60,7 @@
   <decision name="canDocumentBeSubmitted">
      <handler class="org.mycore.frontend.workflowengine.jbpm.publication.MCRDecisionHandlerPublication" />
      <transition name="documentCantBeSubmitted" to="documentCreated" />
-     <transition name="documentCanBeSubmitted" to="documentSubmitted" />
+     <transition name="documentCanBeSubmitted"  to="documentSubmitted" />
   </decision>
   
   <task-node name="documentSubmitted">

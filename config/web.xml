@@ -133,8 +133,8 @@
     </servlet>      
             
     <servlet>
-    	  <servlet-name>MCRPutDocumentToWorkflow</servlet-name>
-      	  <servlet-class>org.mycore.frontend.servlets.MCRPutDocumentToWorkflow</servlet-class>
+    	  <servlet-name>MCRWorkflowForEditingStartServlet</servlet-name>
+      	  <servlet-class>org.mycore.frontend.workflowengine.jbpm.MCRWorkflowForEditingStartServlet</servlet-class>
     </servlet>
     
       
@@ -273,8 +273,8 @@
     </servlet-mapping>
         -->
     <servlet-mapping>
-               <servlet-name>MCRResortQueryServlet</servlet-name>
-               <url-pattern>/resortresult</url-pattern>
+        <servlet-name>MCRResortQueryServlet</servlet-name>
+        <url-pattern>/resortresult</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -288,8 +288,8 @@
     </servlet-mapping>    
 
     <servlet-mapping>
-    	<servlet-name>MCRPutDocumentToWorkflow</servlet-name>
-		<url-pattern>/servlets/MCRPutDocumentToWorkflow/*</url-pattern>
+    	<servlet-name>MCRWorkflowForEditingStartServlet</servlet-name>
+		<url-pattern>/StartEdit</url-pattern>
     </servlet-mapping> 
 
 	<!--  mycore servlets mapping  -->

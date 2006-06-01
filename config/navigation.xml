@@ -78,8 +78,6 @@
             <refitem name="~documentmanagement" label="" />
             <navitem name="author" label="Nav.Workflow.author" href="content/workflow/author/workflow.jsp" >
               <refitem name="~author" label="" />
-              <refitem name="~workflowEditor-author" label="" />
-              <refitem name="~workflow-author" label="" />
               <navitem name="author-begin" label="Nav.Workflow.author.begin" href="content/workflow/author/begin.jsp" >
                 <refitem name="~author-begin" label="" />
               </navitem>
