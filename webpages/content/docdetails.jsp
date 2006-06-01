@@ -17,6 +17,7 @@
 <c:set var="from"  value="${param.fromWForDB}" /> 
 <c:set var="debug" value="${param.debug}" />
 <c:set var="style" value="${param.style}" /> 
+
 <c:choose>
  <c:when test="${fn:contains(style,'user')}">
 	<mcr:receiveUserAsJdom var="mycoreobject" />
@@ -60,15 +61,22 @@
  </c:otherwise> 
 </c:choose>
 
-<table class="${layout}" ><tr valign="top"><td>
- <table cellspacing="0" cellpadding="0" id="metaHeading">
-   <tr>
-      <td class="titles">
+<c:set var="type" value="${fn:split(mcrid,'_')[1]}"/>
+
+<table class="${layout}" ><tr valign="top">
+<td>
+<table >
+ <tr>
+   <td>
+     <div class="headline">
+      <fmt:message key="metaData.${type}.title" />:
          <mcr:simpleXpath jdom="${mycoreobject}" xpath="/mycoreobject/metadata/titles/title[@xml:lang='${requestScope.lang}']" />
          <mcr:simpleXpath jdom="${mycoreobject}" xpath="/mycoreobject/metadata/names/name/fullname" />
-      </td>
-      <td class="titles">
-         <mcr:browseCtrl results="${sessionScope.lastMCRResults}" offset="${offset}" >
+     </div>
+   </td>
+   <td width="30">&nbsp;</td>
+   <td >
+        <mcr:browseCtrl results="${sessionScope.lastMCRResults}" offset="${offset}" >
             <c:if test="${!empty(lastHitID)}">
                 <a href="${WebApplicationBaseURL}nav?path=~docdetail&id=${lastHitID}&offset=${offset -1}">&lt;&lt;</a>&#160;&#160;
             </c:if>
@@ -79,10 +87,7 @@
          </mcr:browseCtrl>
       </td>
    </tr>
-</table>
-
-<table>
-<tr><td>
+<tr valign = "bottom" ><td>
   <table cellspacing="0" cellpadding="0" id="metaData">
     <mcr:docDetails mcrObj="${mycoreobject}" var="docDetails" lang="${requestScope.lang}" style="${style}" />    
     <x:forEach select="$docDetails//metaname">
@@ -170,43 +175,21 @@
       </x:choose>
     </x:forEach>
   </table>
- </td></tr></table>
  </td>
-  <td>
+ <td>
    <c:if test="${!(fn:contains(from,'workflow')) && !fn:contains(style,'user')}" > 
      <mcr:checkAccess var="modifyAllowed" permission="writedb" key="${mcrid}" />
-      <c:set var="type" value="${fn:split(mcrid,'_')[1]}"/>
       <c:if test="${modifyAllowed}">
          <!--  Editbutton -->
-         <table>
-         <tr>
-           <td>
-            <form method="get" action="${WebApplicationBaseURL}servlets/MCRPutDocumentToWorkflow" class="resort">                 
-                <input name="page" value="nav?path=~workflowEditor-${type}"  type="hidden">                                       
-        	    <input name="mcrid" value="${mcrid}" type="hidden"/>
-				<input title="<fmt:message key="Object.EditObject" />" border="0" src="${WebApplicationBaseURL}images/workflow.gif" type="image"  class="imagebutton" />
-            </form> 
-           </td>
-           <!-- 
-           <td width="10">&nbsp;</td>
-           <td>
-			<form method="get" onSubmit="return reallyDeletefromDB();" action="${WebApplicationBaseURL}start_edit" >
-				<input value="${requestScope.lang}" name="lang" type="hidden">
-				<input name="mcrid" value="${mcrid}" type="hidden">
-				<input value="${docType}" name="type" type="hidden">
-				<input value="author" name="step" type="hidden">
-				<input value="sdelobj" name="todo" type="hidden">
-                <input value="nav?path=${navPath}" name="page" type="hidden">                                       
-				<input onClick="return reallyDeletefromDB();" title="<fmt:message key="Object.DelObject" />" src="${WebApplicationBaseURL}images/object_delete.gif" type="image" class="imagebutton">
-			</form>
-           </td>
-            -->
-          </tr>
-        </table>  
+         <form method="get" action="${WebApplicationBaseURL}StartEdit" class="resort">                 
+            <input name="page" value="nav?path=~workflowEditor-${type}"  type="hidden">                                       
+            <input name="mcrid" value="${mcrid}" type="hidden"/>
+			<input title="<fmt:message key="Object.EditObject" />" border="0" src="${WebApplicationBaseURL}images/workflow.gif" type="image"  class="imagebutton" />
+         </form> 
       </c:if>
    </c:if>
- </td></tr>
-</table>
+ </td></tr></table>
+</td></tr></table> 
 
 </c:catch>
 <c:if test="${e!=null}">
