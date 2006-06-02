@@ -134,33 +134,6 @@
                                         <span>                                
                                     </td>
                                     <td rowspan="2" align="right" valign="top" class="description">
-                                    <!-- 
-                                     <mcr:checkAccess var="modifyAllowed" permission="writedb" key="${mcrID}" />
-                                     <c:if test="${modifyAllowed}">
-							             <table><tr>
-							                <td width="10">&nbsp;</td>	             
-							                <td>
-							                 <form method="get" action="${WebApplicationBaseURL}/servlets/MCRPutDocumenttoWorkflow" class="resort">                 
-						    				    <input name="page" value="nav?path=~workflow-${docType}" type="hidden" />
-							                    <input name="mcrid" value="${mcrID}" type="hidden"/>
-												<input title="<fmt:message key="Object.EditObject" />" border="0" src="${WebApplicationBaseURL}images/workflow.gif" type="image"  class="imagebutton" />
-							                </form> 
-							                </td>
-							                <td width="10">&nbsp;</td>
-							                <td>
-											<form method="get" onSubmit="return reallyDeletefromDB();" action="${WebApplicationBaseURL}start_edit" >
-												<input value="${requestScope.lang}" name="lang" type="hidden">
-												<input name="mcrid" value="${mcrID}" type="hidden">
-												<input value="${docType}" name="type" type="hidden">
-												<input value="author" name="step" type="hidden">
-												<input value="sdelobj" name="todo" type="hidden">
-							                    <input value="nav?path=${navPath}" name="page" type="hidden">                                       
-												<input onClick="return reallyDeletefromDB();" title="<fmt:message key="Object.DelObject" />" src="${WebApplicationBaseURL}images/object_delete.gif" type="image" class="imagebutton">
-											</form>
-							                </td>
-							             </tr></table>  
-							         </c:if>
-							         -->
 						            </td>
                                 </tr>
                             </table>
@@ -171,6 +144,7 @@
          </tbody>
     </table>
 </x:forEach>    
+
 <mcr:browsePageCtrl var="browseControl" totalSize="${totalhits}" size="${size}" offset="${offset}" maxDisplayedPages="10" path="${navPath}" />
 <x:forEach select="$browseControl/mcr_resultpages/mcr_resultpage">
     <x:if select="generate-id(../mcr_resultpage[1]) = generate-id(.)">
