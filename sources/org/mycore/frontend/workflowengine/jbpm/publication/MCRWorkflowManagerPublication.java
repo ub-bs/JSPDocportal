@@ -99,7 +99,7 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 				wfp.setStringVariable("fileCnt", "0");
 				
 				wfp.endTask("initialization", initiator, transitionName);
-				// wfp.signal ("go2isInitiatorsEmailAddressAvailable");
+				
 				return wfp.getProcessInstanceID();
 			}catch(MCRException ex){
 				logger.error("MCRWorkflow Error, could not initialize the workflow process", ex);

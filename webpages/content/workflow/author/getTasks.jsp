@@ -37,17 +37,39 @@
    </c:when>   
    
    <c:when test="${requestScope.task.taskName eq 'displayAuthorForUser'}">
- 	   <mcr:getWorkflowEngineVariable 
+ 	    <mcr:getWorkflowEngineVariable 
 			pid="${requestScope.task.processID}" var="objid" 
 			workflowVar="<%= MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS %>" /> 
-
+ 	   <mcr:getWorkflowEngineVariable 
+			pid="${requestScope.task.processID}" var="wfoTitle" 
+			workflowVar="<%= MCRWorkflowConstants.WFM_VAR_WFOBJECT_TITLE %>" />  
     	<%-- alternativ:
 	   	<c:set var="authorID"><x:out select="$dom/variables/variable[@name = 'authorID']/@value" /></c:set> --%>
 		<br>&nbsp;<br>
 	    <fmt:message key="WorkflowEngine.AuthorForUserExists.author">
 			<fmt:param>${objid}</fmt:param>                             
 	    </fmt:message>
-    	<br>&nbsp;<br>
+		<%--display preview button --%>
+		</td>
+		 </tr>
+		 <tr>
+	         <!--  <td class="resultTitle"> -->
+	         <td>
+    	       <b><c:out value="${wfoTitle}" /></b>  	
+        	 </td>
+			 <td width="50">	&nbsp;		</td>
+			 <td align="right">
+				<form method="get" action="${baseURL}nav">
+					<input value="~workflow-preview" name="path" type="hidden" />
+					<input name="id" value="${objid}" type="hidden" />
+					<input name="fromWForDB" value="workflow" type="hidden"/>
+					<input title="<fmt:message key="Object.Preview" />" src="${baseURL}images/workflow_objpreview.gif" type="image" class="imagebutton" />
+				</form>
+			</td>
+		</tr>
+		<tr>
+		<td>
+<!--  <br>&nbsp;<br> -->
 	    <img title="" alt="" src="${baseURL}images/greenArrow.gif">      
     	<a href="${baseURL}nav?path=~author&transition=go2End&endTask=displayAuthorForUser&processID=${requestScope.task.processID}"><fmt:message key="Nav.Workflow.author.finishWorkflow" /></a>
    </c:when>
