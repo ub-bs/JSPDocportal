@@ -44,7 +44,7 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 	
 	public boolean deleteDerivateObject(MCRWorkflowProcess wfp, String derivateDirectory, String backupDirectory, String metadataObjectId, String derivateObjectId, boolean mustWorkflowVarBeUpdated){
 		try{
-			String derivateFileName = derivateDirectory + File.separator + derivateObjectId + ".xml" ;
+			String derivateFileName = derivateDirectory + "/" + derivateObjectId + ".xml" ;
 			
 			File derDir = new File(derivateDirectory);
 			File derFile = new File(derivateFileName);

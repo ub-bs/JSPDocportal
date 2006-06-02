@@ -189,7 +189,7 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 		}
 		String[] objids = sobjids.split(",");
 		for (int i = 0; i < objids.length; i++) {
-			String filename = saveDirectory + File.separator + objids[i] + ".xml";
+			String filename = saveDirectory + "/" + objids[i] + ".xml";
 			if(!backupMetadataObject(filename, backupDirectory)){
 				logger.error("could not backup file " + filename);
 				return false;
@@ -227,7 +227,7 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 	public boolean commitMetadataObject(String mcrobjid, String directory) {
 		try { 
 	        Map ruleMap = null;
-	        String filename = directory + File.separator + mcrobjid + ".xml";
+	        String filename = directory + "/" + mcrobjid + ".xml";
 			if (MCRObject.existInDatastore(mcrobjid)) {
 		        ruleMap = MCRWorkflowUtils.getAccessRulesMap(mcrobjid);
 				MCRObject mcr_obj = new MCRObject();

@@ -10,7 +10,9 @@ public interface MCRIdentifierStrategy {
 	 * 	  String of a MyCoRe user
 	 * @return
 	 */	
-	public Object createNewIdentifier(String documentID, String userid, String workflowProcessType);
+	public Object createNewIdentifier( String userid, String workflowProcessType);
 	
 	public String getUrnFromDocument(String documentID ); 
+	
+	public void setDocumentIDToUrn(String urn, String documentID);
 }

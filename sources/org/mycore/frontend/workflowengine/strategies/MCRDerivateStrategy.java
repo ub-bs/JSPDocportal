@@ -35,7 +35,7 @@ import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
 
 public abstract class MCRDerivateStrategy {
 	private static Logger logger = Logger.getLogger(MCRDefaultDerivateStrategy.class.getName());
-	
+	private static String SEPARATOR = "/";
 	private static MCRObjectID nextWorkflowDerivateID = null;
 	// pattern for the stringpart after the last [/\]
 	protected static Pattern filenamePattern = Pattern.compile("([^\\\\/]+)\\z");
@@ -68,7 +68,7 @@ public abstract class MCRDerivateStrategy {
 		logger.debug("New derivate ID " + IDMax.getId());
 
 		// create a new directory
-		File dir = new File(derivateDirectory + File.separator + IDMax.getId());
+		File dir = new File(derivateDirectory + SEPARATOR + IDMax.getId());
 		dir.mkdir();
 		logger.debug("Directory " + dir.getAbsolutePath() + " created.");
 
@@ -147,7 +147,7 @@ public abstract class MCRDerivateStrategy {
 	
 	public Element getDerivateData(String derivateDirectory, String docID, String derivateID) {
 		String fileName = new StringBuffer(derivateDirectory)
-			.append(File.separator).append(derivateID)
+			.append(SEPARATOR).append(derivateID)
 			.append(".xml").toString();
 		Element derivate = getDerivateMetaData(fileName);
 		if ( docID.equalsIgnoreCase(derivate.getAttributeValue("href"))) {
@@ -226,14 +226,14 @@ public abstract class MCRDerivateStrategy {
 		 * @return
 		 */		
 		public boolean commitDerivateObject(String derivateid, String directory) {
-			String filename = directory + File.separator + derivateid + ".xml";
+			String filename = directory + SEPARATOR + derivateid + ".xml";
 			return loadDerivate(derivateid, filename);
 		}
 		
 		protected boolean backupDerivateObject(String saveDirectory, String backupDir,
 				String metadataObjectID, String derivateObjectID, long pid) {
 			try{
-				String derivateDirectory = saveDirectory + File.separator + derivateObjectID;
+				String derivateDirectory = saveDirectory + SEPARATOR + derivateObjectID;
 				String derivateFileName = derivateDirectory + ".xml" ;
 				
 				File inputDir = new File(derivateDirectory);
@@ -248,9 +248,10 @@ public abstract class MCRDerivateStrategy {
 			    	curBackupDir = new File(backupDir + "/" + "deleted_at_" + fmt.format(cal.getTime()));
 			    	if(curBackupDir.mkdir()) dirCreated = true;
 			    }
-			    File outputDir = new File(curBackupDir.getAbsolutePath() + File.separator + inputDir.getName());
+			    File outputDir = new File(curBackupDir.getAbsolutePath() + SEPARATOR + inputDir.getName());
 				JSPUtils.recursiveCopy(inputDir, outputDir);
-				MCRUtils.copyStream(new FileInputStream(inputFile), new FileOutputStream(new File(curBackupDir.getAbsolutePath() + File.separator + inputFile.getName())));
+				MCRUtils.copyStream(new FileInputStream(inputFile), 
+						new FileOutputStream(new File(curBackupDir.getAbsolutePath() + SEPARATOR + inputFile.getName())));
 			}catch(Exception ex){
 				logger.error("problems in copying", ex);
 				return false;
@@ -294,7 +295,7 @@ public abstract class MCRDerivateStrategy {
 				if (dirl != null) {
 					for (int i = 0; i < dirl.length; i++) {
 						if ((dirl[i].indexOf("_derivate_") != -1) && (dirl[i].endsWith(".xml"))) {
-							Element derivateData = getDerivateMetaData(directory + File.separator + dirl[i]);
+							Element derivateData = getDerivateMetaData(directory + SEPARATOR + dirl[i]);
 							workfiles.add(derivateData);						
 						}
 					}

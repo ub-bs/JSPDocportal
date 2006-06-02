@@ -57,7 +57,7 @@ public class MCRDefaultUserStrategy extends MCRUserStrategy{
 	public boolean removeMetadataFiles(MCRWorkflowProcess wfp, String saveDirectory, String  backupDirectory) {
 		String[] objids = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS).split(",");
 		for (int i = 0; i < objids.length; i++) {
-			String filename = saveDirectory + File.separator + objids[i] + ".xml";
+			String filename = saveDirectory + "/" + objids[i] + ".xml";
 			if(!backupMetadataObject(filename, backupDirectory)){
 				logger.error("could not backup file " + filename);
 				return false;
@@ -94,7 +94,7 @@ public class MCRDefaultUserStrategy extends MCRUserStrategy{
 
 	public boolean commitUserObject(String userid, String directory) {
 		boolean bSuccess = true;
-		String filename = directory + File.separator + "user_" + userid + ".xml";
+		String filename = directory + "/" + "user_" + userid + ".xml";
 		try { 
 			if ( MCRUserMgr.instance().existUser(userid) ) {
 				MCRUserCommands2.updateUserFromFile(filename);
@@ -115,7 +115,7 @@ public class MCRDefaultUserStrategy extends MCRUserStrategy{
 	public boolean removeUserObject(String userid,String directory) {
 		boolean bSuccess = true;
 		try{
-			String filename = directory + File.separator + "user_" + userid + ".xml";	
+			String filename = directory + "/" + "user_" + userid + ".xml";	
 			try {
 				File ff = new File (filename);
 				if ( ff.exists()) 

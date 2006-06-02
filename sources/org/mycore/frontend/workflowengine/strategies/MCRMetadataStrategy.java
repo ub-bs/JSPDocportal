@@ -94,7 +94,8 @@ public abstract class MCRMetadataStrategy {
 		try{
 			File fInputFile = new File(inputFile);
 			File fBackupDirectory = new File(backupDirectory);
-			MCRUtils.copyStream(new FileInputStream(fInputFile), new FileOutputStream(new File(fBackupDirectory.getAbsolutePath() + File.separator + fInputFile.getName())));
+			MCRUtils.copyStream(new FileInputStream(fInputFile), 
+						new FileOutputStream(new File(fBackupDirectory.getAbsolutePath() + "/" + fInputFile.getName())));
 		}catch (Exception ex) {
 			logger.error("could not backup Metadata Object", ex);
 			return false;
