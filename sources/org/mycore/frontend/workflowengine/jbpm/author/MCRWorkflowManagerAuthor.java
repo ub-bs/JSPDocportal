@@ -134,20 +134,29 @@ public class MCRWorkflowManagerAuthor extends MCRWorkflowManager {
 			MCRWorkflowProcess wfp = getWorkflowProcess(processid);
 			String userid = wfp
 					.getStringVariable(MCRWorkflowConstants.WFM_VAR_INITIATOR);
+			wfp.close();
 			MCRResults mcrResult = MCRWorkflowUtils
 					.queryMCRForAuthorByUserid(userid);
 			logger.debug("Results found hits:" + mcrResult.getNumHits());
 			if (mcrResult.getNumHits() > 0) {
 				String createdDocID = mcrResult.getHit(0).getID();
 				executionContext.setVariable(
-						MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS,
-						createdDocID);
-				// alternativ:
-				// wfp.setStringVariable(MCRWorkflowEngineManagerAuthor.varAUTHORID,
-				// authorID);
-				// wfp.close();
+				   MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS,
+				   createdDocID);
+				// cannot be used in decision handlers - persistence problems with jbpm
+				// wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS, createdDocID);
+							
+				MCRObject mob = new MCRObject();
+				mob.receiveFromDatastore(createdDocID);
+				executionContext.setVariable(MCRWorkflowConstants.WFM_VAR_WFOBJECT_TITLE, 
+						                     createWFOTitlefromMetadata(mob.createXML().getRootElement().getChild("metadata")));
+				// cannot be used in decision handlers - persistence problems with jbpm
+				// setWorkflowVariablesFromMetadata(createdDocID, mob.createXML()
+				//	.getRootElement().getChild("metadata"), processid);
+
 				return "authorForUserExists_yes";
 			} else {
+				wfp.close();
 				return "authorForUserExists_no";
 			}
 		}
@@ -193,19 +202,18 @@ public class MCRWorkflowManagerAuthor extends MCRWorkflowManager {
 		return null;
 	}
 
-	public String createNewAuthor(String userid, long processID,
+public String createNewAuthor(String userid, long processID,
 			boolean isFillInUserData) {
-		MCRWorkflowProcess wfp = getWorkflowProcess(processID);
 		try {
 			MCRObjectID author = this.getNextFreeID(this.mainDocumentType);
 			author = authorStrategy.createAuthor(userid, author,
 					isFillInUserData, false);
+	//		setStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS, author.getId(), processID);
 			setDefaultPermissions(author.getId(), userid);
+		
 			return author.getId();
 		} catch (MCRException ex) {
 			logger.error("an error occurred", ex);
-		} finally {
-			wfp.close();
 		}
 		return null;
 	}
@@ -253,34 +261,7 @@ public class MCRWorkflowManagerAuthor extends MCRWorkflowManager {
 			Element metadata, long processID) {
 		MCRWorkflowProcess wfp = getWorkflowProcess(processID);
 		try {
-			Element name = metadata.getChild("names").getChild("name");
-			StringBuffer sbTitle = new StringBuffer("");
-			String first = name.getChildTextNormalize("firstname");
-			String last = name.getChildTextNormalize("surname");
-			String academic = name.getChildTextNormalize("academic");
-			String prefix = name.getChildTextNormalize("prefix");
-			String fullname = name.getChildTextNormalize("fullname");
-			if (fullname != null) {
-				sbTitle.append(fullname);
-			} else {
-				if (academic != null) {
-					sbTitle.append(academic);
-					sbTitle.append(" ");
-				}
-				if (first != null) {
-					sbTitle.append(first);
-					sbTitle.append(" ");
-				}
-				if (prefix != null) {
-					sbTitle.append(prefix);
-					sbTitle.append(" ");
-				}
-				if (last != null) {
-					sbTitle.append(last);
-					sbTitle.append("");
-				}
-			}
-			wfp.setStringVariable("wfo-title", sbTitle.toString());
+			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_WFOBJECT_TITLE, createWFOTitlefromMetadata(metadata));		
 		} catch (MCRException ex) {
 			logger.error("catched error", ex);
 		} finally {
@@ -308,5 +289,36 @@ public class MCRWorkflowManagerAuthor extends MCRWorkflowManager {
 		} else {
 			return -1;
 		}
+	}
+	
+	private String createWFOTitlefromMetadata(Element metadata){
+		Element name = metadata.getChild("names").getChild("name");
+		StringBuffer sbTitle = new StringBuffer("");
+		String first = name.getChildTextNormalize("firstname");
+		String last = name.getChildTextNormalize("surname");
+		String academic = name.getChildTextNormalize("academic");
+		String prefix = name.getChildTextNormalize("prefix");
+		String fullname = name.getChildTextNormalize("fullname");
+		if (fullname != null) {
+			sbTitle.append(fullname);
+		} else {
+			if (academic != null) {
+				sbTitle.append(academic);
+				sbTitle.append(" ");
+			}
+			if (first != null) {
+				sbTitle.append(first);
+				sbTitle.append(" ");
+			}
+			if (prefix != null) {
+				sbTitle.append(prefix);
+				sbTitle.append(" ");
+			}
+			if (last != null) {
+				sbTitle.append(last);
+				sbTitle.append("");
+			}
+		}
+		return sbTitle.toString();
 	}
 }

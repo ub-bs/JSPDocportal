@@ -25,25 +25,25 @@ public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {
 
 
 	public MCRObjectID createAuthor(String userid, MCRObjectID nextFreeAuthorId, boolean fromUserData, boolean inDatabase){
-		
-		MCRUser user = null;
-		try {
-			user = MCRUserMgr.instance().retrieveUser(userid);
-		} catch (Exception noUser) {
-			//TODO Fehlermeldung
-			logger.warn("user does'nt exist userid=" + userid);
-			return null;			
-		}	
-		MCRResults mcrResult =  MCRWorkflowUtils.queryMCRForAuthorByUserid(userid);
-		logger.debug("Results found hits:" + mcrResult.getNumHits());    
-		if ( mcrResult.getNumHits() > 0 ) {
-			String authorID = mcrResult.getHit(0).getID();
-			return new MCRObjectID(authorID);
-		}
-		
 		MCRObject author = null;
 		
 		if (fromUserData){
+			MCRUser user = null;
+			try {
+				user = MCRUserMgr.instance().retrieveUser(userid);
+			} catch (Exception noUser) {
+				//TODO Fehlermeldung
+				logger.warn("user does'nt exist userid=" + userid);
+				return null;			
+			}	
+			MCRResults mcrResult =  MCRWorkflowUtils.queryMCRForAuthorByUserid(userid);
+			logger.debug("Results found hits:" + mcrResult.getNumHits());    
+
+			if ( mcrResult.getNumHits() > 0 ) {
+				//workflow control should avoid getting here
+				String authorID = mcrResult.getHit(0).getID();
+				return new MCRObjectID(authorID);
+			}
 			author = createAuthorFromUser(user, nextFreeAuthorId);
 		} else {
 			author = createAuthorFromUser(null, nextFreeAuthorId);
@@ -60,7 +60,7 @@ public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {
 			}
 		} catch ( Exception ex){
 			//TODO Fehlermeldung
-			logger.warn("Could not Create authors object from the user object " + user.getID());
+			logger.warn("Could not Create authors object for the user:  " + userid);
 			return null;
 		}
    	    return author.getId();		
