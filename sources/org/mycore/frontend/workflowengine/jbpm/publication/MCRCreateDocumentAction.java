@@ -1,6 +1,5 @@
 package org.mycore.frontend.workflowengine.jbpm.publication;
 
-import org.apache.log4j.Logger;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.mycore.common.MCRException;
 import org.mycore.frontend.workflowengine.jbpm.MCRAbstractAction;
@@ -12,7 +11,6 @@ public class MCRCreateDocumentAction extends MCRAbstractAction {
 	
 	
 	private static final long serialVersionUID = 1L;
-	private static Logger logger = Logger.getLogger(MCRCreateDocumentAction.class);
 	private static MCRWorkflowManager WFM = MCRWorkflowManagerFactory.getImpl("publication");
 
 	public void executeAction(ExecutionContext executionContext) {

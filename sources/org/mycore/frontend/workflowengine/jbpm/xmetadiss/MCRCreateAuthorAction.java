@@ -1,6 +1,5 @@
 package org.mycore.frontend.workflowengine.jbpm.xmetadiss;
 
-import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.mycore.common.MCRException;
@@ -11,7 +10,6 @@ import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
 public class MCRCreateAuthorAction extends MCRAbstractAction{
 	
 	private static final long serialVersionUID = 1L;
-	private static Logger logger = Logger.getLogger(MCRCreateAuthorAction.class);
 	private static MCRWorkflowManagerXmetadiss WFM = (MCRWorkflowManagerXmetadiss)MCRWorkflowManagerFactory.getImpl("xmetadiss");
 
 	public void executeAction(ExecutionContext executionContext) throws MCRException {

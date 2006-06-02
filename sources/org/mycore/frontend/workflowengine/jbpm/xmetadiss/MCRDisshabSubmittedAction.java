@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jdom.Element;
@@ -21,7 +20,6 @@ public class MCRDisshabSubmittedAction extends MCRAbstractAction{
 	String lockedVariables;
 
 	private static final long serialVersionUID = 1L;
-	private static Logger logger = Logger.getLogger(MCRDisshabSubmittedAction.class);
 	private static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
 	private static Element editorModeRule;
 	
