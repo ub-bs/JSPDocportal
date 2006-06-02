@@ -209,7 +209,7 @@ MCR.searchmask_config_disshab=SearchMask_Disshab.xml
 
 
 # The prefix of all local NBN URLs, e. g. "urn:nbn:de:hbz:465-"
-MCR.NBN.NamespacePrefix=urn:dummyprefix-
+MCR.NBN.NamespacePrefix=urn:nbn:de:gbv:28-
 # you can have urns like 'urn:nbn:de:s124352334124'
 # or you can have urns with information like 'urn:nbn:de:diss20050512-1712185553'
 # then you have to set up a nissprefix, that follows the namespace-prefix
