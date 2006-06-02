@@ -126,7 +126,7 @@ public class MCRCheckMetadataServlet extends MCRServlet {
         // create a metadata object and prepare it
         org.jdom.Document outdoc;
         StringBuffer storePath = new StringBuffer(MCRWorkflowDirectoryManager.getWorkflowDirectory(ID.getTypeId()))
-			.append(File.separator).append(ID.getId()).append(".xml");
+			.append("/").append(ID.getId()).append(".xml");
         try{
         	WFM.storeMetadata(MCRUtils.getByteArray(indoc), ID.getId(), storePath.toString());
         	outdoc = prepareMetadata((org.jdom.Document) indoc.clone(), ID, job, lang, step, nextPath, storePath.toString(), workflowType);

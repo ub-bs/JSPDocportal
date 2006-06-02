@@ -97,7 +97,7 @@ public class MCRWorkflowUploadHandler extends MCRUploadHandler {
     public void startUpload(int numFiles) throws Exception {
         MCRObjectID ID = new MCRObjectID(docId);
         String workdir = MCRWorkflowDirectoryManager.getWorkflowDirectory(ID.getTypeId()); 
-        dirname = workdir + File.separator + derId;
+        dirname = workdir + "/" + derId;
     }
 
     /**
@@ -122,7 +122,7 @@ public class MCRWorkflowUploadHandler extends MCRUploadHandler {
         int j = 0;
 
         while (j < (i - 1)) {
-            newdir = newdir + File.separatorChar + st.nextToken();
+            newdir = newdir + "/" + st.nextToken();
             j++;
 
             try {

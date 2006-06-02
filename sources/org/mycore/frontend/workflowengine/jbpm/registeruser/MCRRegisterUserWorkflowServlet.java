@@ -138,7 +138,7 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
         if ( newUserID != null ) {
 			// Neue ID verwenden, da erste ID schon existiert
     		StringBuffer storePath = new StringBuffer(MCRWorkflowDirectoryManager.getWorkflowDirectory(this.documentType))
-    			.append(File.separator).append("user_")     	
+    			.append("/").append("user_")     	
     			.append(ID).append(".xml");
         	userElement = (Element) setNewUserIDforUser(newUserID, ID, storePath.toString(), lang);
 		} else {
@@ -152,7 +152,7 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 			userElement.setAttribute("numID", String.valueOf(numID +1)) ;
 			
 	       	StringBuffer storePath = new StringBuffer(MCRWorkflowDirectoryManager.getWorkflowDirectory(this.documentType))
-				.append(File.separator).append("user_")
+				.append("/").append("user_")
 				.append(ID).append(".xml");
 	       	
 	       	root.addContent(userElement);

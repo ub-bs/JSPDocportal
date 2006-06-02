@@ -113,7 +113,7 @@ public class MCRCheckDerivateServlet extends MCRServlet {
 
 		String workdir = MCRWorkflowDirectoryManager.getWorkflowDirectory(ID.getTypeId());
 		
-		String dirname = workdir + File.separator + derid;
+		String dirname = workdir + "/" + derid;
 		if(nextPath.equals("")){
 			nextPath = "~workflow-" + ID.getTypeId();
 		}

@@ -8,7 +8,7 @@ import org.mycore.common.MCRException;
 public abstract class MCRAbstractAction implements ActionHandler{
 	
 	private static final long serialVersionUID = 1L;
-	private static Logger logger = Logger.getLogger(MCRAbstractAction.class);
+	protected static Logger logger = Logger.getLogger(MCRAbstractAction.class);
 	
 	public abstract void executeAction(ExecutionContext executionContext);
 	

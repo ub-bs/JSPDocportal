@@ -469,7 +469,7 @@ public abstract class MCRWorkflowManager {
 	
 	protected boolean backupDerivateObject(String documentType, String metadataObject, String derivateObject, long pid) {
 		try{
-			String derivateDirectory = MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType) + File.separator + derivateObject;
+			String derivateDirectory = MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType) + "/" + derivateObject;
 			String derivateFileName = derivateDirectory + ".xml" ;
 			
 			File inputDir = new File(derivateDirectory);
@@ -484,9 +484,9 @@ public abstract class MCRWorkflowManager {
 		    	curBackupDir = new File(deleteDir + "/" + "deleted_at_" + fmt.format(cal.getTime()));
 		    	if(curBackupDir.mkdir()) dirCreated = true;
 		    }
-		    File outputDir = new File(curBackupDir.getAbsolutePath() + File.separator + inputDir.getName());
+		    File outputDir = new File(curBackupDir.getAbsolutePath() + "/" + inputDir.getName());
 			JSPUtils.recursiveCopy(inputDir, outputDir);
-			MCRUtils.copyStream(new FileInputStream(inputFile), new FileOutputStream(new File(curBackupDir.getAbsolutePath() + File.separator + inputFile.getName())));
+			MCRUtils.copyStream(new FileInputStream(inputFile), new FileOutputStream(new File(curBackupDir.getAbsolutePath() + "/" + inputFile.getName())));
 		}catch(Exception ex){
 			logger.error("problems in copying", ex);
 			return false;

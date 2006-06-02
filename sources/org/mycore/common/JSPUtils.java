@@ -287,10 +287,10 @@ public class JSPUtils {
 		File files[] = input.listFiles();
 		for ( int i = 0; i < files.length; i++ ){
 			if ( files[i].isDirectory() ){
-				File output2 = new File(output.getAbsolutePath() + File.separator + files[i].getName());
+				File output2 = new File(output.getAbsolutePath() + "/" + files[i].getName());
 				recursiveCopy( files[i], output2 );
 			}else{
-				File output2 = new File(output.getAbsolutePath() + File.separator + files[i].getName());
+				File output2 = new File(output.getAbsolutePath() + "/" + files[i].getName());
 				FileInputStream fis = new FileInputStream(files[i]);
 				FileOutputStream fos = new FileOutputStream(output2); 
 				MCRUtils.copyStream(fis, fos);

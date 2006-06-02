@@ -167,7 +167,7 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 			params.put("XSL.editor.source.url", "file://" + editorSource );
 		}else if(!isNewEditorSource.equals("true") && mcrid != null && !mcrid.equals("") && type != null && !type.equals("")){
 			StringBuffer sb = new StringBuffer("file://").append(MCRWorkflowDirectoryManager.getWorkflowDirectory(type))
-				.append(File.separator).append(mcrid).append(".xml");
+				.append("/").append(mcrid).append(".xml");
 			params.put("XSL.editor.source.url", sb.toString());
 		}
 		
