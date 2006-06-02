@@ -65,9 +65,9 @@
 
 <table class="${layout}" ><tr valign="top">
 <td>
-<table >
+<table width="90%">
  <tr>
-   <td>
+   <td width="90%" >
      <div class="headline">
       <fmt:message key="metaData.${type}.title" />:
          <mcr:simpleXpath jdom="${mycoreobject}" xpath="/mycoreobject/metadata/titles/title[@xml:lang='${requestScope.lang}']" />
@@ -86,9 +86,10 @@
             </c:if>
          </mcr:browseCtrl>
       </td>
-   </tr>
-<tr valign = "bottom" ><td>
-  <table cellspacing="0" cellpadding="0" id="metaData">
+  </tr>
+  <tr valign = "bottom" >
+  <td>
+    <table cellspacing="0" cellpadding="0" id="metaData">
     <mcr:docDetails mcrObj="${mycoreobject}" var="docDetails" lang="${requestScope.lang}" style="${style}" />    
     <x:forEach select="$docDetails//metaname">
       <x:choose>
@@ -116,7 +117,7 @@
                         <x:choose>
                            <x:when select="../@type = 'BooleanValues'">
                               <x:set var="booleanKey" select="concat(./@type,'-',./@text)" />
-                              <fmt:message key="${booleanKey}" />
+                              <fmt:message key="metaData.${booleanKey}" />
                            </x:when>
                            <x:when select="../@type = 'AuthorJoin'">
                               <x:set var="authorjoinKey" select="concat(./@type,'-',./@text)" />
@@ -176,6 +177,7 @@
     </x:forEach>
   </table>
  </td>
+ <td>&nbsp;</td>
  <td>
    <c:if test="${!(fn:contains(from,'workflow')) && !fn:contains(style,'user')}" > 
      <mcr:checkAccess var="modifyAllowed" permission="writedb" key="${mcrid}" />
