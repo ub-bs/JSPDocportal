@@ -21,6 +21,7 @@
       <fmt:message key="WorkflowEngine.ActualStateOfYourDocument.publication" />
       (<fmt:message key="WorkflowEngine.Processnumber" /> <b>${requestScope.task.processID}</b>): <br>
       <b><fmt:message key="WorkflowEngine.initiator.statusMessage.${requestScope.task.workflowStatus}.publication" /></b>
+      <br/>
    </c:when>
    <c:when test="${requestScope.task.taskName eq 'taskCompleteDocumentAndSendToLibrary' }" >
       <p>

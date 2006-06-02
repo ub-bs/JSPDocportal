@@ -62,7 +62,7 @@
 												<input title="<fmt:message key="Object.EditObject" />" src="${baseURL}images/workflow_objedit.gif" type="image" class="imagebutton">
 											</form>
 										</td>
-						   </c:if>										
+						    </c:if>										
                             <mcr:checkAccess var="modifyAllowed" permission="deletewf" key="${itemID}" />
                             <c:if test="${modifyAllowed}">						
 										<td align="center" valign="top" width="30">
@@ -71,10 +71,22 @@
 												<input name="todo" 		value="WFDeleteWorkflowObject" type="hidden">
 												<input title="<fmt:message key="Object.DelObject" />" src="${baseURL}images/workflow_objdelete.gif" type="image" class="imagebutton">
 											</form>
-						    </c:if>										
-                            <mcr:checkAccess var="modifyAllowed" permission="read" key="${itemID}" />
+										</td>	
+						    </c:if>		
+                            <mcr:checkAccess var="modifyAllowed" permission="deletedb" key="${itemID}" />
                             <c:if test="${modifyAllowed}">						
-								   <c:if test="${itemDocType == 'disshab' }">
+										<td align="center" valign="top" width="30">
+										<div style="bgcolor:red;" >
+						       		      <form method="get" onSubmit="return reallyDeletefromDB();" action="${baseURL}workflowaction" >
+												<input name="processid" value="${processid}" type="hidden">
+												<input name="todo" 		value="WFDeleteObject" type="hidden">
+												<input onClick="return reallyDeletefromDB();" title="<fmt:message key="Object.DelObject" />" src="${baseURL}images/database_objdelete.gif" type="image" class="imagebutton">
+											</form>
+						    			</div>
+						    			</td>
+						    </c:if>								
+						   
+						   <c:if test="${itemDocType == 'disshab' }">
 										<td align="center" valign="top" width="30">
 											<form method="get" action="${baseURL}content/results-config/docdetails-disshab-deliver.jsp" target="new" >
 												<input name="id" value="${itemID}" type="hidden">
@@ -82,16 +94,15 @@
 												<input title="<fmt:message key="Object.DisshabPreview" />" src="${baseURL}images/workflow_disshabpreview.gif" type="image" class="imagebutton">
 											</form>
                                         </td>
-								   </c:if>
-										<td align="center" valign="top" width="60">
-											<form method="get" action="${baseURL}nav">
-												<input value="~workflow-preview" name="path" type="hidden">
-												<input name="id" value="${itemID}" type="hidden">
-												<input name="fromWForDB" value="workflow" type="hidden">
-												<input title="<fmt:message key="Object.Preview" />" src="${baseURL}images/workflow_objpreview.gif" type="image" class="imagebutton">
-											</form>
-										</td>								   
-						    </c:if>										
+						   </c:if>
+									<td align="center" valign="top" width="60">
+										<form method="get" action="${baseURL}nav">
+											<input value="~workflow-preview" name="path" type="hidden">
+											<input name="id" value="${itemID}" type="hidden">
+											<input name="fromWForDB" value="workflow" type="hidden">
+											<input title="<fmt:message key="Object.Preview" />" src="${baseURL}images/workflow_objpreview.gif" type="image" class="imagebutton">
+										</form>
+									</td>								   
 							</tr>
 						</table>
 					</td>
