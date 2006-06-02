@@ -65,9 +65,9 @@
 
 <table class="${layout}" ><tr valign="top">
 <td>
-<table width="90%">
+<table width="100%" >
  <tr>
-   <td width="90%" >
+   <td>
      <div class="headline">
       <fmt:message key="metaData.${type}.title" />:
          <mcr:simpleXpath jdom="${mycoreobject}" xpath="/mycoreobject/metadata/titles/title[@xml:lang='${requestScope.lang}']" />
@@ -75,8 +75,9 @@
      </div>
    </td>
    <td width="30">&nbsp;</td>
-   <td >
-        <mcr:browseCtrl results="${sessionScope.lastMCRResults}" offset="${offset}" >
+   <td align="center" >
+   	    <nobr>
+         <mcr:browseCtrl results="${sessionScope.lastMCRResults}" offset="${offset}" >
             <c:if test="${!empty(lastHitID)}">
                 <a href="${WebApplicationBaseURL}nav?path=~docdetail&id=${lastHitID}&offset=${offset -1}">&lt;&lt;</a>&#160;&#160;
             </c:if>
@@ -84,12 +85,12 @@
             <c:if test="${!empty(nextHitID)}">
                 <a href="${WebApplicationBaseURL}nav?path=~docdetail&id=${nextHitID}&offset=${offset +1}">&gt;&gt;</a>                        
             </c:if>
-         </mcr:browseCtrl>
-      </td>
+          </mcr:browseCtrl>
+         </nobr>
+   </td>
   </tr>
-  <tr valign = "bottom" >
-  <td>
-    <table cellspacing="0" cellpadding="0" id="metaData">
+ <tr valign = "bottom" ><td>
+   <table cellspacing="0" cellpadding="0" id="metaData">
     <mcr:docDetails mcrObj="${mycoreobject}" var="docDetails" lang="${requestScope.lang}" style="${style}" />    
     <x:forEach select="$docDetails//metaname">
       <x:choose>
@@ -152,10 +153,10 @@
                                                  (<x:out select="./@size mod 1024" /> kB)&#160;&#160;
                                              </td>
                                              <td>
-                                                <a href="<x:out select="concat($WebApplicationBaseURL,'zip?id=',./@derivid)" />" class="linkButton" ><fmt:message key="zipgenerate" /></a>&#160;&#160;
+                                                <a href="<x:out select="concat($WebApplicationBaseURL,'zip?id=',./@derivid)" />" class="linkButton" ><fmt:message key="OMD.zipgenerate" /></a>&#160;&#160;
                                              </td>
                                              <td>
-                                                <a href="<x:out select="concat($WebApplicationBaseURL,'nav?path=~derivatedetails&derID=',./@derivid,'&docID=',$mcrid,'&hosts=',$host)" />" target="_self"><fmt:message key="details" />&gt;&gt;</a>&#160;&#160; 
+                                                <a href="<x:out select="concat($WebApplicationBaseURL,'nav?path=~derivatedetails&derID=',./@derivid,'&docID=',$mcrid,'&hosts=',$host)" />" target="_self"><fmt:message key="OMD.details" />&gt;&gt;</a>&#160;&#160; 
                                              </td>
                                              <c:if test="${fn:contains('gif-jpeg-png', contentType)}">
                                                 <td class="imageInResult"><a href="${mainFileURL}"><img src="${mainFileURL}" width="100"></a></td>
@@ -178,7 +179,7 @@
   </table>
  </td>
  <td>&nbsp;</td>
- <td>
+ <td align="center" >
    <c:if test="${!(fn:contains(from,'workflow')) && !fn:contains(style,'user')}" > 
      <mcr:checkAccess var="modifyAllowed" permission="writedb" key="${mcrid}" />
       <c:if test="${modifyAllowed}">
