@@ -29,6 +29,7 @@
      <event type='node-enter'>
         <action class="org.mycore.frontend.workflowengine.jbpm.publication.MCRCreateURNAction" />
 		<action class="org.mycore.frontend.workflowengine.jbpm.publication.MCRCreateDocumentAction" />                        
+		<action class="org.mycore.frontend.workflowengine.jbpm.publication.MCRAssignURNAction" />                        
      </event>
      <transition name="go2isInitiatorsEmailAddressAvailable" to="isInitiatorsEmailAddressAvailable" />  
   </task-node>
