@@ -156,7 +156,6 @@ public class MCRWorkflowManagerAuthor extends MCRWorkflowManager {
 
 				return "authorForUserExists_yes";
 			} else {
-				wfp.close();
 				return "authorForUserExists_no";
 			}
 		}

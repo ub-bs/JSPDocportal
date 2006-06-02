@@ -77,6 +77,7 @@ public class MCRWorkflowForEditingStartServlet extends MCRServlet {
 			String type = mcrid.split("_")[1];
 			String workflowTypes[] = (MCRConfiguration.instance().getString("MCR.WorkflowEngine.WorkflowTypes")).split(",");
 			for ( int i = 0; i< workflowTypes.length; i++ ) {
+				workflowTypes[i]=workflowTypes[i].trim();
 				wfm = MCRWorkflowManagerFactory.getImpl(workflowTypes[i]);
 				if ( wfm != null && wfm.getMainDocumentType().equalsIgnoreCase(type)) {
 					bOK = true;
