@@ -36,8 +36,20 @@
     <hidden var="metadata/userids/userid/@inherited" default="0" />
     <hidden var="metadata/userids/userid/@lang" default="de" />
     <hidden var="metadata/userids/userid" />
+    <hidden var="service/servdates/@class" default="MCRMetaISO8601Date"/>
+    <hidden var="service/servdates/@heritable" default="false" />
+    <hidden var="service/servdates/@notinherit" default="false" />
+    <hidden var="service/servdates/@parasearch" default="true" />
+    <hidden var="service/servdates/@textsearch" default="false"/>
+    <hidden var="service/servdates/servdate/@inherited" default ="0" />
+    <hidden var="service/servdates/servdate/@type" default="createdate"/>
+    <hidden var="service/servdates/servdate" />
+<!-- 
+    <hidden var="service/servdates/servdate[2]/@inherited" default ="0" />
+    <hidden var="service/servdates/servdate[2]/@type" default="modifydate"/>
+    <hidden var="service/servdates/servdate[2]" />  -->
 
-    <hidden var="metadata/@lang" default="de" />
+    <!-- <hidden var="metadata/@lang" default="de" /> -->
 
     <cell col="1" row="1" anchor="NORTHWEST" ref="LPNameP" />
     <cell col="2" row="1" anchor="NORTHWEST" ref="DPName" />
