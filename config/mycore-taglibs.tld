@@ -220,30 +220,6 @@
             <info>A Tag, that returns the value of a persistent workflow-engine variable</info>
      </tag>
      <tag>
-            <name>setWorkflowEngineVariable</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRSetWorkflowEngineVariableTag</tagclass>
-            <bodycontent>empty</bodycontent>
-            <attribute>
-                <description>the value of the variable that is set</description>
-                <name>value</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>
-            <attribute>
-                <description>the workflow-processid as string</description>
-                <name>pid</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>
-            <attribute>
-                <description>The name of the workflow-variable the value is set for</description>
-                <name>workflowVar</name>
-                <required>false</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>
-            <info>A Tag, that sets the value of a persistent workflow-engine variable</info>
-     </tag>     
-       <tag>
             <name>initWorkflowProcess</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRInitWorkflowProcessTag</tagclass>
             <bodycontent>empty</bodycontent>
@@ -430,23 +406,27 @@
             <info>A Tag, that sets a DOM Object with all needed data for assigning accessrules to objects to a given variable name</info>
         </tag>        
         <tag>
-            <name>listWorkflow</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRListWorkflowTag</tagclass>
+            <name>isObjectNotLocked</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRIsObjectNotLockedTag</tagclass>
             <bodycontent>empty</bodycontent>
-            <attribute>
-                <description>The name of the var used in the jsp body</description>
+            <attribute>           
+                <description>
+                    Name of the pageContext variable that hold the value specified in the action (true or false).
+                </description>
                 <name>var</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>The Document Type of the MyCoRe-Objects in the wf directory </description>
-                <name>docType</name>
+                <description>
+                    String, that represents the objID of a given Object, which can standing in another workflow
+                </description>
+                <name>objectid</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
-            </attribute>
-            <info>A Tag, that lists the wf-files and format it with the result-config-files, uses templates and builds a dom-object of the objects in jstl-formatting</info>
-        </tag>    
+            </attribute>            
+            <info>A Tag, that checks if the object is in work, in another workflow and return bhasAccess=true if it is not locked</info>
+        </tag>     
         <tag>
             <name>checkAccess</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRCheckAccessTag</tagclass>
@@ -461,8 +441,7 @@
             </attribute> 
             <attribute>           
                 <description>
-                    Name of the pageContext variable that hold the value
-specified in the action (true or false).
+                    Name of the pageContext variable that hold the value specified in the action (true or false).
                 </description>
                 <name>var</name>
                 <required>true</required>
@@ -492,8 +471,7 @@ specified in the action (true or false).
             </attribute> 
             <attribute>           
                 <description>
-                    Name of the pageContext variable that hold the value
-specified in the action.
+                    Name of the pageContext variable that hold the value specified in the action.
                 </description>
                 <name>var</name>
                 <required>true</required>
@@ -782,68 +760,6 @@ specified in the action.
             </attribute>             
             <info>A Tag, that sets the current resultList to a given Variable, for a Query either from the Session or from a request-Attribute</info>
         </tag>
-        <tag>
-            <name>setMyResultList</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRSetMyResultListTag</tagclass>
-            <bodycontent>empty</bodycontent>
-            <attribute>
-                <description>
-                    name of the variable containing the requested result-list of MCRResults of my own Objects
-                </description>
-                <name>var</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>
-            <attribute>
-                <description>
-                    the query delivers a list, and this is the index the shown results begin
-                </description>
-                <name>from</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>
-            <attribute>
-                <description>
-                    the query delivers a list, and this is the index the shown results end
-                </description>
-                <name>until</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>              
-            <attribute>
-                <description>
-                    the navigation-path (needed for the building of the session-parameter the query is saved in)
-                </description>
-                <name>navPath</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>            
-            <attribute>
-                <description>
-                    the resultlist-Type (needed for the building of the session-parameter the query is saved in and the navigation management)
-                </description>
-                <name>resultlistType</name>
-                <required>false</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>             
-            <attribute>
-                <description>
-                    the requested language
-                </description>
-                <name>lang</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>             
-            <attribute>
-                <description>
-                    the Query as Jdom, that will be executed, if is null, it is taken of the session
-                </description>
-                <name>query</name>
-                <required>false</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>             
-            <info>A Tag, that sets the current resultList for the Objects, the current user is allowed to modify, to a given Variable, for a Query either from the Session or from a request-Attribute</info>
-        </tag>        
         <tag>
             <name>browsePageCtrl</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRBrowsePageCtrlTag</tagclass>
