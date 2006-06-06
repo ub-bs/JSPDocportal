@@ -300,7 +300,22 @@ public abstract class MCRWorkflowManager {
 	final public List getCurrentProcessIDsForProcessType(String userid, String workflowProcessType){
 		return MCRJbpmWorkflowBase.getCurrentProcessIDs(userid, workflowProcessType);
 	}
+	
+	
 
+	/**
+	 * returns a list of all processIDs of a given variablename and its value
+	 *  @param workflowvariable
+	 *  @param value of it 
+	 *          
+	 * @return
+	 * 		a List of java.lang.Long-Objects that represent the processIDs
+	 */	
+	final public List getCurrentProcessIDsForVariable(String varname, String value){
+		return MCRJbpmWorkflowBase.getCurrentProcessIDsForProcessVariable(varname,value);
+	}	
+
+	
 	/**
 	 * returns a list of all processIDs of a given workflowType
 	 *  @param workflowProcessType
@@ -627,7 +642,7 @@ public abstract class MCRWorkflowManager {
 	/**
 	 * @return Returns the mainDocumentType.
 	 */
-	protected final String getMainDocumentType() {
+	public final String getMainDocumentType() {
 		return mainDocumentType;
 	}
 
