@@ -34,6 +34,7 @@ import org.apache.log4j.Logger;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jdom.Element;
 import org.mycore.common.MCRException;
+import org.mycore.frontend.cli.MCRUserCommands2;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
@@ -60,7 +61,6 @@ public class MCRWorkflowManagerRegisteruser extends MCRWorkflowManager{
 		super("user", "registeruser");
 	}
 
-	
 	/**
 	 * Returns the disshab workflow manager singleton.
 	 * @throws ClassNotFoundException 
@@ -185,6 +185,24 @@ public class MCRWorkflowManagerRegisteruser extends MCRWorkflowManager{
 		}
 		return false;
 	}
+	
+	public boolean removeDatabaseAndWorkflowObject(long processID) {
+    	boolean bSuccess =false;
+		MCRWorkflowProcess wfp = getWorkflowProcess(processID);
+		try{
+			String userID = wfp.getStringVariable("initiatorUserID");
+			MCRUserCommands2.deleteUser(userID);
+			bSuccess = this.removeWorkflowFiles(processID);
+		}catch(Exception ex){
+			logger.error("could not delete workflow files", ex);
+			bSuccess =false;
+			wfp.setStringVariable("ROLLBACKERROR", Boolean.toString(bSuccess));
+		}finally{
+			wfp.close();
+		}
+		return bSuccess;
+	}
+	
 	
 	public void setWorkflowVariablesFromMetadata(String mcrid, Element userMetadata, long processID){		
 		Map map = new HashMap();
