@@ -40,9 +40,9 @@
          <td class="resultTitle">
            <b><c:out value="${wfoTitle}" /></b>  	
          </td>
-		 <td width="50">	&nbsp;		</td>
-		 <td align="right">
-				<table cellpadding="0" cellspacing="0">
+		 <td width="30">	&nbsp;		</td>
+		 <td align="right" >
+				<table>
 					<tr>
                          <mcr:checkAccess var="modifyAllowed" permission="writedb" key="${itemID}" />
                          <c:if test="${modifyAllowed}">						
@@ -63,28 +63,6 @@
 											</form>
 										</td>
 						    </c:if>										
-                            <mcr:checkAccess var="modifyAllowed" permission="deletewf" key="${itemID}" />
-                            <c:if test="${modifyAllowed}">						
-										<td align="center" valign="top" width="30">
-											<form method="get" action="${baseURL}workflowaction">
-												<input name="processid" value="${processid}" type="hidden">
-												<input name="todo" 		value="WFDeleteWorkflowObject" type="hidden">
-												<input title="<fmt:message key="Object.DelObject" />" src="${baseURL}images/workflow_objdelete.gif" type="image" class="imagebutton">
-											</form>
-										</td>	
-						    </c:if>		
-                            <mcr:checkAccess var="modifyAllowed" permission="deletedb" key="${itemID}" />
-                            <c:if test="${modifyAllowed}">						
-										<td align="center" valign="top" width="30">
-										<div style="bgcolor:red;" >
-						       		      <form method="get" onSubmit="return reallyDeletefromDB();" action="${baseURL}workflowaction" >
-												<input name="processid" value="${processid}" type="hidden">
-												<input name="todo" 		value="WFDeleteObject" type="hidden">
-												<input onClick="return reallyDeletefromDB();" title="<fmt:message key="Object.DelObject" />" src="${baseURL}images/database_objdelete.gif" type="image" class="imagebutton">
-											</form>
-						    			</div>
-						    			</td>
-						    </c:if>								
 						   
 						   <c:if test="${itemDocType == 'disshab' }">
 										<td align="center" valign="top" width="30">
@@ -95,7 +73,7 @@
 											</form>
                                         </td>
 						   </c:if>
-									<td align="center" valign="top" width="60">
+									<td align="center" valign="top" width="30">
 										<form method="get" action="${baseURL}nav">
 											<input value="~workflow-preview" name="path" type="hidden">
 											<input name="id" value="${itemID}" type="hidden">
@@ -117,12 +95,12 @@
         		 <x:set var="derivateID" select="string(./@ID)" />
         		 <x:set var="derivateLabel" select="string(./@label)" />
 		          <tr>
-							<td align="left" valign="top">${derivateLabel}&#160;	</td>
+							<td align="left" valign="top"><b>${derivateLabel}</b></td>
 							<td width="30">	&nbsp;	</td>
-							<td>
+							<td align="right" >
 					          <mcr:checkAccess var="modifyAllowed" permission="writedb" key="${derivateID}" />
 					          <c:if test="${modifyAllowed}">						
-								<table cellpadding="0" cellspacing="0">
+								<table>
 									<tr>
 										<td align="center" valign="top" width="30">
 											<form method="get" action="${baseURL}workflowaction">
@@ -132,7 +110,6 @@
 												<input title="<fmt:message key="Derivate.AddFile" />" src="${baseURL}images/workflow_derivatenew.gif" type="image" class="imagebutton">
 											</form>
 										</td>
-										<td width="10"></td>
 										<td align="center" valign="top" width="30">
 											<form method="get" action="${baseURL}workflowaction">
 												<input name="derivateID" value="${derivateID}" type="hidden">
@@ -141,7 +118,6 @@
 												<input title="<fmt:message key="Derivate.EditDerivate" />" src="${baseURL}images/workflow_derivateedit.gif" type="image" border="0" class="imagebutton">
 											</form>
 										</td>
-										<td width="10"></td>
 										<td align="center" valign="top" width="30">
 											<form method="get" action="${baseURL}workflowaction">
 												<input name="derivateID" value="${derivateID}" type="hidden">
@@ -168,19 +144,17 @@
 							<td width="30">			&nbsp;		</td>
 							<td>
 					          <mcr:checkAccess var="modifyAllowed" permission="writedb" key="${derivateID}" />
-					          <c:if test="${modifyAllowed}">						
-								<table cellpadding="0" cellspacing="0">
+					          <c:if test="${modifyAllowed && numFiles gt 1}">
+								<table>
 									<tr>
 										<td align="center" valign="top" width="30">
-											<c:if test="${numFiles gt 1}">
-												<form method="post" action="${baseURL}workflowaction">
-													<input name="derivateID" value="${derivateID}" type="hidden">
-													<input name="processid" value="${processid}" type="hidden">
-													<input value="WFRemoveFileFromDerivate" name="todo" type="hidden">
-													<input name="filename" value="<x:out select="."/>" type="hidden">
-													<input title="Löschen dieser Datei" src="${baseURL}images/delete.png" type="image" class="imagebutton">
-												</form>
-											</c:if>
+											<form method="post" action="${baseURL}workflowaction">
+												<input name="derivateID" value="${derivateID}" type="hidden">
+												<input name="processid" value="${processid}" type="hidden">
+												<input value="WFRemoveFileFromDerivate" name="todo" type="hidden">
+												<input name="filename" value="<x:out select="."/>" type="hidden">
+												<input title="Löschen dieser Datei" src="${baseURL}images/delete.png" type="image" class="imagebutton">
+											</form>
 										</td>
 									</tr>
 								</table>
@@ -188,6 +162,34 @@
 							</td>
 						</tr>
 			     </x:forEach>			
+			     
+			     <tr><td colspan="2" >&nbsp;</td>
+			     <td align="right"> 
+			     <table ><tr>
+		          <mcr:checkAccess var="modifyAllowed" permission="deletewf" key="${itemID}" />
+                   <c:if test="${modifyAllowed}">						
+					<td align="center" valign="top" width="30"   >
+						<form method="get" action="${baseURL}workflowaction">
+							<input name="processid" value="${processid}" type="hidden">
+							<input name="todo" 		value="WFDeleteWorkflowObject" type="hidden">
+							<input title="<fmt:message key="Object.DelWFObject" />" src="${baseURL}images/workflow_objdelete.gif" type="image" class="imagebutton">
+						</form>
+					</td>	
+			      </c:if>		
+			      		       	 
+                 <mcr:checkAccess var="modifyAllowed" permission="deletedb" key="${itemID}" />
+                  <c:if test="${modifyAllowed}">						
+					<td align="center" valign="top" width="30"  >
+	       		      <form method="get" onSubmit="return reallyDeletefromDB();" action="${baseURL}workflowaction" >
+							<input name="processid" value="${processid}" type="hidden">
+							<input name="todo" 		value="WFDeleteObject" type="hidden">
+							<input onClick="return reallyDeletefromDB();" title="<fmt:message key="Object.DelObject" />" src="${baseURL}images/database_objdelete.gif" type="image" class="imagebutton">
+						</form>
+	    			</td>
+			     </c:if>								
+			    </tr></table>
+			    
+			    </td></tr>
 	       </x:forEach>
 
 
