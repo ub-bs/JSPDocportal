@@ -19,6 +19,7 @@ import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRUtils;
+import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.strategies.MCRAuthorStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRDefaultAuthorStrategy;
@@ -134,6 +135,28 @@ public abstract class MCRWorkflowManager {
 	public abstract boolean commitWorkflowObject(long processID);
 	
 	public abstract boolean removeWorkflowFiles(long processID);
+	
+	public boolean removeDatabaseAndWorkflowObject(long processID) {
+		boolean bSuccess =false;
+		MCRObject mycore_obj = new MCRObject();
+		MCRWorkflowProcess wfp = getWorkflowProcess(processID);
+		try{
+			String documentID = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
+			if ( MCRObject.existInDatastore(documentID)) {
+				mycore_obj.deleteFromDatastore(documentID);
+				logger.info(mycore_obj.getId().getId() + " deleted.");
+			}
+	        bSuccess= removeWorkflowFiles(processID);
+		} catch ( Exception all ) {
+            logger.error("Can't delete " + mycore_obj.getId().getId() + ".");
+			bSuccess =false;
+			wfp.setStringVariable("ROLLBACKERROR", Boolean.toString(bSuccess));
+		}finally{
+			if(wfp != null)
+				wfp.close();
+		}
+		return bSuccess;
+	}
 	
 	final protected void setDefaultPermissions(String objid, String userid){
 		permissionStrategy.setPermissions(objid, userid, workflowProcessType, MCRWorkflowConstants.PERMISSION_MODE_DEFAULT);

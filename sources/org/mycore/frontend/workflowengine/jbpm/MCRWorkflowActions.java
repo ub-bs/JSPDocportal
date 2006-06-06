@@ -35,6 +35,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.mycore.datamodel.metadata.MCRObject;
+import org.mycore.frontend.cli.MCRObjectCommands;
 import org.mycore.frontend.editor.MCRRequestParameters;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
@@ -105,16 +107,9 @@ public class MCRWorkflowActions extends MCRServlet {
         	
         }
         if ( "WFCommitWorkflowObject".equals(todo) ) {
-        	//Object komplett in die DB schieben
-        	boolean bSuccess =false;
-    		if ( ! ( 	AI.checkPermission(mcrid, "commitdb")
-    	             && AI.checkPermission(derivateID,"deletedb")) ) {   			
-    		} else {    		
-    		   	WFM.commitWorkflowObject(pid);
-    		}
-    		if (bSuccess) {
-    			// Je nach WorkflowImplementation reagieren!
-    			//WFI.setCommitStatus(mcrid, "WFCommitWorkflowObject");
+    		if (  ( AI.checkPermission(mcrid, "commitdb")
+   	             && AI.checkPermission(derivateID,"deletedb")) ) {   			
+    			WFM.commitWorkflowObject(pid);
     		}
     		request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
         	return;
@@ -132,11 +127,25 @@ public class MCRWorkflowActions extends MCRServlet {
     		request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
         	return;
         }
+        if ( "WFDeleteObject".equals(todo) ) {
+        	boolean bSuccess =false;
+    		if ( ! AI.checkPermission(mcrid, "deletedb") ) {
+    		} else {
+    	        bSuccess = WFM.removeDatabaseAndWorkflowObject(pid);
+    		}
+    		if (bSuccess) {
+    			// gesamten Prozess löschen!!
+    			MCRJbpmCommands.deleteProcess(String.valueOf(pid));
+    		}
+    		request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
+        	return;
+        }
+        
         if ( "WFAddNewDerivateToWorkflowObject".equals(todo) ) {
         	derivateID = WFM.addDerivate(pid, mcrid);
     		WFM.setDefaultPermissions(derivateID, userid);
         	todo = "WFAddNewFileToDerivate";
-        	// kein requestforward !
+        	// kein requestforward sondern in den WFAddNewFileToDerivate Zweig übergehen! 
         }
         if ( "WFEditDerivateFromWorkflowObject".equals(todo) ) {
         	//befüllten Editor für das Derivate includieren
@@ -166,18 +175,13 @@ public class MCRWorkflowActions extends MCRServlet {
         	// ein File aus dem Derivate löschen
         }        
         if ( "WFRemoveDerivateFromWorkflowObject".equals(todo) ) {
-            //Anschliessend muss im WF eventuell ein neuer Status gesetzt werden, denn wenn zB. kein Derivate mehr da ist
+            //Anschliessend wird im WF eventuell ein neuer Status gesetzt,  wenn zB. kein Derivate mehr da ist
             //muss wenn es eine Dissertation ist, der Status wieder zurückgesetzt werden
-        	boolean bSuccess =false;
     		if ( (  	AI.checkPermission(mcrid, "deletewf")
     	             && AI.checkPermission(derivateID,"deletewf")) ) {    			
-    		   	bSuccess = WFM.removeDerivate(pid, mcrid, derivateID);
+    		   	 WFM.removeDerivate(pid, mcrid, derivateID);
     		}
     		
-           	if ( bSuccess ) {
-           		//TODO
- //wfo.setWorkflowStatus(documentType + "DocumentRemoved");
-           	}
             request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
         	return;
         }         
