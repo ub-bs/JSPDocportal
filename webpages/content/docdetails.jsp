@@ -182,14 +182,22 @@
  <td align="center" >
    <c:if test="${!(fn:contains(from,'workflow')) && !fn:contains(style,'user')}" > 
      <mcr:checkAccess var="modifyAllowed" permission="writedb" key="${mcrid}" />
+     <mcr:isObjectNotLocked var="bhasAccess" objectid="${mcrid}" />
       <c:if test="${modifyAllowed}">
-         <!--  Editbutton -->
-         <form method="get" action="${WebApplicationBaseURL}StartEdit" class="resort">                 
-            <input name="page" value="nav?path=~workflowEditor-${type}"  type="hidden">                                       
-            <input name="mcrid" value="${mcrid}" type="hidden"/>
-			<input title="<fmt:message key="Object.EditObject" />" border="0" src="${WebApplicationBaseURL}images/workflow.gif" type="image"  class="imagebutton" />
-         </form> 
-      </c:if>
+        <c:choose>
+         <c:when test="${bhasAccess}"> 
+	         <!--  Editbutton -->
+	         <form method="get" action="${WebApplicationBaseURL}StartEdit" class="resort">                 
+	            <input name="page" value="nav?path=~workflowEditor-${type}"  type="hidden">                                       
+	            <input name="mcrid" value="${mcrid}" type="hidden"/>
+					<input title="<fmt:message key="Object.EditObject" />" border="0" src="${WebApplicationBaseURL}images/workflow1.gif" type="image"  class="imagebutton" />
+	         </form> 
+         </c:when>
+         <c:otherwise>
+            <img title="<fmt:message key="Object.EditObjectIsLocked" />" border="0" src="${WebApplicationBaseURL}images/workflow_locked.gif" />
+         </c:otherwise>
+        </c:choose>         
+      </c:if>      
    </c:if>
  </td></tr></table>
 </td></tr></table> 
