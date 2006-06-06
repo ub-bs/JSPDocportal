@@ -23,10 +23,35 @@
       </td>
    </tr>  
    <tr valign="top" >
-      <td class="metaname"><fmt:message key="SWF.Dissertation.Author.ID" /> TODO LINK AUF WORKFLOW DER AUTOREN ÄNDERT</td>
+      <td class="metaname"><fmt:message key="SWF.Dissertation.Author.ID" /> 
+      <%-- LINK AUF WORKFLOW DER AUTOREN --%>
+      </td>
       <td class="metavalue">  
          <x:out select="./@ID" />
-      </td>
+         <x:set var="mcrid" select="string(./@ID)" />
+         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+   <c:if test="${!(fn:contains(from,'workflow')) && !fn:contains(style,'user')}" > 
+     <mcr:checkAccess var="modifyAllowed" permission="writedb" key="${mcrid}" />
+     <mcr:isObjectNotLocked var="bhasAccess" objectid="${mcrid}" />
+      <c:if test="${modifyAllowed}">
+        <c:choose>
+         <c:when test="${bhasAccess}"> 
+	         <!--  Editbutton -->
+		 <%--         <form method="get" action="${WebApplicationBaseURL}StartEdit" class="resort">                 
+	            <input name="page" value="nav?path=~workflowEditor-author"  type="hidden">                                       
+	            <input name="mcrid" value="${mcrid}" type="hidden"/>
+					<input title="<fmt:message key="Object.EditObject" />" border="0" src="${WebApplicationBaseURL}images/workflow1.gif" type="image"  class="imagebutton" />
+	         </form>  --%>
+	         <a href="${WebApplicationBaseURL}StartEdit?page=nav?path=~workflowEditor-author&mcrid=${mcrid}"><fmt:message key="Object.EditObjectAuthor" /></a>
+         </c:when>
+         <c:otherwise>
+         <%--   <img title="<fmt:message key="Object.EditObjectIsLocked" />" border="0" src="${WebApplicationBaseURL}images/workflow_locked.gif" /> --%>
+         (<fmt:message key="Object.EditObjectIsLockedAuthor"/>)
+         </c:otherwise>
+        </c:choose>         
+      </c:if>      
+   </c:if>
+	</td>
    </tr>  
    <tr valign="top">
         <td class="metaname"><fmt:message key="SWF.Dissertation.URN" /> </td>
