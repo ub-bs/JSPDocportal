@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE MyCoReWebPage>
+<MyCoReWebPage>
+<section title="Searchmask for Author to Edit" xml:lang="de">
+<editor id="SearchMask_AuthorEdit">
+
+<!-- <target type="debug" /> -->
+
+<target type="servlet" url="/searchresult" method="post" format="xml" />
+
+<components root="SearchMask_AuthorEdit" var="/query">
+
+  <include uri="webapp:editor/searchmasks/imports-searchmasks-common.xml" />
+  
+  <panel id="SearchMask_AuthorEdit">
+  
+    <hidden var="@resultlistType" default="simple" />
+    <hidden var="@maxResults" default="100" />
+    
+    <hidden var="types/type/@field" default="allpers" />
+    
+    <hidden var="conditions/@format" default="xml" />
+    <hidden var="conditions/boolean/@operator" default="AND" />
+    <hidden var="conditions/boolean/condition/@field" default="editAuthor" />
+    <hidden var="conditions/boolean/condition/@operator" default="contains" />    
+    <cell row="1" col="1" anchor="WEST">
+      <text>
+          <label xml:lang="de">Nachname oder ID</label>
+            <label xml:lang="en">surname or ID</label>
+      </text>
+    </cell>
+    <cell col="2" row="1" anchor="NORTHWEST" >
+      <space width="20" height="0" />
+    </cell>
+     
+      <!-- <cell col="3" row="1" anchor="WEST" var="conditions/boolean/condition/@field">
+           <list type="dropdown" default="name" width="110px">
+                <item value="name" var="">
+                  <label xml:lang="de">Nachname</label>
+                  <label xml:lang="en">last name</label>
+                </item>
+                <item value="id">
+                  <label xml:lang="de">ID</label>
+                  <label xml:lang="en">ID</label>
+                </item>
+              </list>
+    	</cell> -->
+    <cell col="4" row="1" anchor="NORTHWEST" >
+      <space width="20" height="0" />
+    </cell>
+<!-- 	<cell col="5" row="1" anchor="WEST" 
+	      var="conditions/boolean/condition/@operator" ref="list.operators.text" /> 
+	      -->
+    <cell col="6" row="1" anchor="WEST" var="conditions/boolean/condition/@value">
+    	<textfield width="40" />
+    </cell>
+    <cell col="7" row="1" anchor="WEST" ref="SearchButton" /> 
+
+    <hidden var="/host/host/@field" default="local" />
+
+  </panel>
+ </components>
+</editor>
+</section>
+</MyCoReWebPage>
