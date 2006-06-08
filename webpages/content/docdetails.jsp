@@ -18,9 +18,12 @@
 <c:set var="debug" value="${param.debug}" />
 <c:set var="style" value="${param.style}" /> 
 
+<c:set var="type" value="${fn:split(mcrid,'_')[1]}"/>
+
 <c:choose>
  <c:when test="${fn:contains(style,'user')}">
 	<mcr:receiveUserAsJdom var="mycoreobject" />
+	<c:set var="type" value="user"/>
  </c:when>
  <c:otherwise>
 	<mcr:receiveMcrObjAsJdom var="mycoreobject" mcrid="${mcrid}" fromWForDB="${from}" />
@@ -61,7 +64,7 @@
  </c:otherwise> 
 </c:choose>
 
-<c:set var="type" value="${fn:split(mcrid,'_')[1]}"/>
+
 
 <table class="${layout}" ><tr valign="top">
 <td>

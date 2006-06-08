@@ -163,34 +163,34 @@
 						</tr>
 			     </x:forEach>			
 			     
-			     <tr><td colspan="2" >&nbsp;</td>
-			     <td align="right"> 
-			     <table ><tr>
-		          <mcr:checkAccess var="modifyAllowed" permission="deletewf" key="${itemID}" />
-                   <c:if test="${modifyAllowed}">						
-					<td align="center" valign="top" width="30"   >
-						<form method="get" action="${baseURL}workflowaction">
-							<input name="processid" value="${processid}" type="hidden">
-							<input name="todo" 		value="WFDeleteWorkflowObject" type="hidden">
-							<input title="<fmt:message key="Object.DelWFObject" />" src="${baseURL}images/workflow_objdelete.gif" type="image" class="imagebutton">
-						</form>
-					</td>	
-			      </c:if>		
-			      		       	 
-                 <mcr:checkAccess var="modifyAllowed" permission="deletedb" key="${itemID}" />
-                  <c:if test="${modifyAllowed}">						
-					<td align="center" valign="top" width="30"  >
-	       		      <form method="get" onSubmit="return reallyDeletefromDB();" action="${baseURL}workflowaction" >
-							<input name="processid" value="${processid}" type="hidden">
-							<input name="todo" 		value="WFDeleteObject" type="hidden">
-							<input onClick="return reallyDeletefromDB();" title="<fmt:message key="Object.DelObject" />" src="${baseURL}images/database_objdelete.gif" type="image" class="imagebutton">
-						</form>
-	    			</td>
-			     </c:if>								
-			    </tr></table>
-			    
-			    </td></tr>
 	       </x:forEach>
+	     <tr><td colspan="2" >&nbsp;</td>
+	     <td align="right"> 
+	     <table ><tr>
+          <mcr:checkAccess var="modifyAllowed" permission="deletewf" key="${itemID}" />
+                 <c:if test="${modifyAllowed}">						
+			<td align="center" valign="top" width="30"   >
+				<form method="get" action="${baseURL}workflowaction">
+					<input name="processid" value="${processid}" type="hidden">
+					<input name="todo" 		value="WFDeleteWorkflowObject" type="hidden">
+					<input title="<fmt:message key="Object.DelWFObject" />" src="${baseURL}images/workflow_objdelete.gif" type="image" class="imagebutton">
+				</form>
+			</td>	
+	      </c:if>		
+	      		       	 
+               <mcr:checkAccess var="modifyAllowed" permission="deletedb" key="${itemID}" />
+                <c:if test="${modifyAllowed}">						
+			<td align="center" valign="top" width="30"  >
+      		      <form method="get" onSubmit="return reallyDeletefromDB();" action="${baseURL}workflowaction" >
+					<input name="processid" value="${processid}" type="hidden">
+					<input name="todo" 		value="WFDeleteObject" type="hidden">
+					<input onClick="return reallyDeletefromDB();" title="<fmt:message key="Object.DelObject" />" src="${baseURL}images/database_objdelete.gif" type="image" class="imagebutton">
+				</form>
+   			</td>
+	     </c:if>								
+	    </tr></table>
+	    
+	    </td></tr>
 
 
 
