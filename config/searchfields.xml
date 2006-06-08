@@ -51,6 +51,7 @@
     <field name="profclass"     type="identifier" source="objectCategory" objects="author" xpath="/mycoreobject/metadata/profclasses/profclass" value="@ID" />
 
     <field name="userID"        type="text"  	  source="objectMetadata" objects="author" xpath="/mycoreobject/metadata/userids/userid" value="text()" />
+    <field name="editAuthor"  type="text"       source="objectMetadata" objects="author" xpath="/mycoreobject/@ID | /mycoreobject/metadata/names/name/surname" value="." />
 
   </index>
 
@@ -76,7 +77,6 @@
     <field name="avFrameRate"       type="decimal"    source="fileMetadata" xpath="file/@frameRate" value="." />
     <field name="avDuration"        type="time"       source="fileMetadata" xpath="file/@duration" value="." />
     <field name="avMediaType"       type="identifier" source="fileMetadata" xpath="file/@mediaType" value="." />
-
   </index>
 
 </searchfields>

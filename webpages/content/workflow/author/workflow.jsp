@@ -33,13 +33,31 @@
 	varTotalSize="total1" />
 <mcr:getWorkflowTaskBeanList var="myProcessList" mode="initiatedProcesses" workflowTypes="author"
     varTotalSize="total2" />
-
+        <div class="headline"><fmt:message key="Nav.Workflow.author" /></div>
+		<table>
+			<tr>
+		      	<td><img title="" alt="" src="images/greenArrow.gif"></td>
+				<td><a target="_self" href="${baseURL}nav?path=~author-begin"><fmt:message key="WorkflowEngine.StartAuthorWorkflow" /></a>
+				 </td>
+			</tr>
+			<tr />
+			<tr>
+				<td><img title="" alt="" src="images/greenArrow.gif"></td>
+				<td><fmt:message key="WorkflowEngine.SearchAuthorToEdit.author" /> </td>
+			<tr>
+				<td />
+				<td>
+					<c:url var="url" value="${WebApplicationBaseURL}editor/searchmasks/SearchMask_AuthorEdit.xml">
+					    <c:param name="XSL.editor.source.new" value="true" />
+				    	<c:param name="XSL.editor.cancel.url" value="${WebApplicationBaseURL}" />
+					    <c:param name="lang" value="${requestScope.lang}" />
+				  </c:url>
+				  <c:import url="${url}" />        
+			  </td>
+		  </tr>
+	  </table>
 <c:choose>
    <c:when test="${empty(myTaskList)&& empty(myProcessList)}">
-	  <div class="headline"><fmt:message key="Nav.Workflow.author.info" /></div>
-      <img title="" alt="" src="images/greenArrow.gif">
-      <a target="_self" href="${baseURL}nav?path=~author-begin"><fmt:message key="WorkflowEngine.StartAuthorWorkflow" /></a>
-      <br/>&nbsp;<br>
       <img title="" alt="" src="images/greenArrow.gif">
       <fmt:message key="WorkflowEngine.EmptyWorkflow" />   
       <br>&nbsp;<br>
@@ -50,10 +68,7 @@
    	  </c:if>
    </c:when>
    <c:otherwise>
-        <div class="headline"><fmt:message key="Nav.Workflow.author" /></div>
-      <img title="" alt="" src="images/greenArrow.gif">
-      <a target="_self" href="${baseURL}nav?path=~author-begin"><fmt:message key="WorkflowEngine.StartAuthorWorkflow" /></a>
-        <br/>&nbsp;<br>
+
         <br>&nbsp;<br>
 
         <div class="headline"><fmt:message key="WorkflowEngine.MyTasks" /></div>   
