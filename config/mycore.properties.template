@@ -75,14 +75,15 @@ MCR.WorkflowEngine.defaultACL.derivate.deletedb.xmetadiss=<conditions format="xm
 
 MCR.WorkflowEngine.defaultACL.editorMode.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></conditions>
 
+MCR.WorkflowEngine.ClassificationID.DDC=DocPortal_class_00000009
+MCR.WorkflowEngine.ClassificationID.Format=DocPortal_class_00000006
+MCR.WorkflowEngine.ClassificationID.Origin=DocPortal_class_00000002
+MCR.WorkflowEngine.ClassificationID.Type=DocPortal_class_00000005
+MCR.WorkflowEngine.ClassificationID.Language=DocPortal_class_00000004
+
 MCR.WorkflowEngine.PublisherDefaultID.xmetadiss=DocPortal_institution_00000001
-MCR.WorkflowEngine.ClassificationID.DDC.xmetadiss=DocPortal_class_00000009
-MCR.WorkflowEngine.ClassificationID.Format.xmetadiss=DocPortal_class_00000006
 MCR.WorkflowEngine.Classification.Format.DefaultCategoryID.xmetadiss=FORMAT0001
-MCR.WorkflowEngine.ClassificationID.Origin.xmetadiss=DocPortal_class_00000002
-MCR.WorkflowEngine.ClassificationID.Type.xmetadiss=DocPortal_class_00000005
 MCR.WorkflowEngine.Classification.Type.SelectCategoryIDs.xmetadiss=TYPE0007,TYPE0008,TYPE0009,TYPE0029,TYPE0030
-MCR.WorkflowEngine.ClassificationID.Language.xmetadiss=DocPortal_class_00000004
 MCR.WorkflowEngine.Classification.Language.SelectCategoryIDs.xmetadiss=LANG0001,LANG0002,LANG0003
 MCR.WorkflowEngine.Rightslinks.DefaultURL.xmetadiss=http://www.mycore.de/dissertations-copyright.html
 MCR.WorkflowEngine.ContactIdDDB.xmetadiss=Fxxxx-xxxx
@@ -494,6 +495,12 @@ MCR.IndexBrowser.creators.FieldsToSort=surname
 MCR.IndexBrowser.creators.Style=creators
 MCR.IndexBrowser.creators.MaxPerPage=30
 
+MCR.IndexBrowser.creators_sub.Table=author
+MCR.IndexBrowser.creators_sub.Searchfield=surname
+MCR.IndexBrowser.creators_sub.ExtraOutputFields=id,firstname
+MCR.IndexBrowser.creators_sub.FieldsToSort=surname
+MCR.IndexBrowser.creators_sub.Style=creators_sub
+MCR.IndexBrowser.creators_sub.MaxPerPage=30
 
 ########################
 # ACCESS
