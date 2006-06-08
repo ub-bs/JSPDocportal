@@ -35,7 +35,7 @@ import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
 
 public abstract class MCRDerivateStrategy {
 	private static Logger logger = Logger.getLogger(MCRDefaultDerivateStrategy.class.getName());
-	private static String SEPARATOR = "/";
+	protected static String SEPARATOR = "/";
 	private static MCRObjectID nextWorkflowDerivateID = null;
 	// pattern for the stringpart after the last [/\]
 	protected static Pattern filenamePattern = Pattern.compile("([^\\\\/]+)\\z");

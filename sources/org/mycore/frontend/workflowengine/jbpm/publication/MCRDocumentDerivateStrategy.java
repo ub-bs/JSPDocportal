@@ -78,10 +78,13 @@ public class MCRDocumentDerivateStrategy extends MCRDefaultDerivateStrategy {
 			logger.error(msgErr, e);
 			throw new MCRException(msgErr);
 		}
-		String attachedDerivates = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES);				
+		String attachedDerivates = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES);			
+		
 		if(attachedDerivates == null || attachedDerivates.equals("")){
 			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES, derID);
-		}else{
+		} else if ( attachedDerivates.indexOf(derID) >= 0  ){
+			//its allright in the list, because is the sae derivate with a second upload file
+		} else{
 			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES, attachedDerivates + "," + derID);
 		}
 	}

@@ -116,8 +116,7 @@ public class MCRWorkflowActions extends MCRServlet {
         }
         if ( "WFDeleteWorkflowObject".equals(todo) ) {
         	boolean bSuccess =false;
-    		if ( ! AI.checkPermission(mcrid, "deletewf") ) {
-    		} else {
+    		if ( AI.checkPermission(mcrid, "deletewf") ) {
     			bSuccess = WFM.removeWorkflowFiles(pid);
     		}
     		if (bSuccess) {
@@ -129,9 +128,10 @@ public class MCRWorkflowActions extends MCRServlet {
         }
         if ( "WFDeleteObject".equals(todo) ) {
         	boolean bSuccess =false;
-    		if ( ! AI.checkPermission(mcrid, "deletedb") ) {
-    		} else {
-    	        bSuccess = WFM.removeDatabaseAndWorkflowObject(pid);
+    		if ( AI.checkPermission(mcrid, "deletedb")) {
+    	        bSuccess = WFM.removeDatabaseObjects(pid);
+    	        if ( bSuccess )
+    	        	bSuccess = WFM.removeWorkflowFiles(pid);
     		}
     		if (bSuccess) {
     			// gesamten Prozess löschen!!

@@ -212,53 +212,53 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 	}
 	
 	public boolean commitWorkflowObject(long processID){
+		boolean bSuccess = false;
 		MCRWorkflowProcess wfp = getWorkflowProcess(processID);
 		try{
 			String documentID = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
 			String documentType = new MCRObjectID(documentID).getTypeId();
 			List derivateIDs = Arrays.asList(wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES).split(","));
-			if(!metadataStrategy.commitMetadataObject(documentID, MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType))){
-				throw new MCRException("error in committing " + documentID);
-			}
+			bSuccess = metadataStrategy.commitMetadataObject(documentID, MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType));
+			
 			for (Iterator it = derivateIDs.iterator(); it.hasNext();) {
 				String derivateID = (String) it.next();
 				if ( derivateID != null && derivateID.length() > 0 ) {
-					if(!derivateStrategy.commitDerivateObject(derivateID, MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType))){
-						throw new MCRException("error in committing " + derivateID);
-					}
+					bSuccess &= derivateStrategy.commitDerivateObject(derivateID, MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType));
 				}
 			}
-			return true;
+			bSuccess = true;
 		}catch(MCRException ex){
 			logger.error("an error occurred", ex);
 		}finally{
 			wfp.close();
 		}		
-		return false;
+		return bSuccess;
 	}
 	
 	public boolean removeWorkflowFiles(long processID){
+		boolean bSuccess = false;
 		MCRWorkflowProcess wfp = getWorkflowProcess(processID);
 		String workflowDirectory = MCRWorkflowDirectoryManager.getWorkflowDirectory(mainDocumentType);
 		try{
-			metadataStrategy.removeMetadataFiles(wfp, workflowDirectory, deleteDir);
-			derivateStrategy.removeDerivates(wfp,workflowDirectory, deleteDir);
-			return true;
+			bSuccess = metadataStrategy.removeMetadataFiles(wfp, workflowDirectory, deleteDir);
+			bSuccess &= derivateStrategy.removeDerivates(wfp,workflowDirectory, deleteDir);
 		}catch(MCRException ex){
 			logger.error("could not delete workflow files", ex);
 		}finally{
 			wfp.close();
 		}
-		return false;
+		return bSuccess;
 	}
 	
 	public void setWorkflowVariablesFromMetadata(String mcrid, Element metadata, long processID){
 		MCRWorkflowProcess wfp = getWorkflowProcess(processID);
 		try{
 			StringBuffer sbTitle = new StringBuffer("");
-			for(Iterator it = metadata.getDescendants(new ElementFilter("title")); it.hasNext();){
+			Iterator it = metadata.getDescendants(new ElementFilter("title"));
+			if( it.hasNext()){
+				//nur din ersten Titelsatz!
 				Element title = (Element)it.next();
-				sbTitle.append(title.getText());
+				sbTitle.append(title.getText());				
 			}
 			wfp.setStringVariable("wfo-title", sbTitle.toString());	
 		}catch(MCRException ex){

@@ -136,7 +136,7 @@ public abstract class MCRWorkflowManager {
 	
 	public abstract boolean removeWorkflowFiles(long processID);
 	
-	public boolean removeDatabaseAndWorkflowObject(long processID) {
+	public boolean removeDatabaseObjects(long processID) {
 		boolean bSuccess =false;
 		MCRObject mycore_obj = new MCRObject();
 		MCRWorkflowProcess wfp = getWorkflowProcess(processID);
@@ -144,9 +144,10 @@ public abstract class MCRWorkflowManager {
 			String documentID = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
 			if ( MCRObject.existInDatastore(documentID)) {
 				mycore_obj.deleteFromDatastore(documentID);
+				AI.removeAllRules(documentID);
 				logger.info(mycore_obj.getId().getId() + " deleted.");
 			}
-	        bSuccess= removeWorkflowFiles(processID);
+			bSuccess=true;
 		} catch ( Exception all ) {
             logger.error("Can't delete " + mycore_obj.getId().getId() + ".");
 			bSuccess =false;
