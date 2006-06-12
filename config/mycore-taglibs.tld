@@ -8,6 +8,31 @@
     <shortname>mcr</shortname>
     <uri>/WEB-INF/lib/mycore-taglibs.jar</uri>
     <info>MyCoRe Sample Tag library</info>
+     <tag>
+            <name>login</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRLoginTag</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <description>the user id</description>
+                <name>uid</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>      
+            <attribute>
+                <description>the password</description>
+                <name>pwd</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>  
+            <attribute>
+                <description>Output: the var that holds the loginstatus as  xml</description>
+                <name>var</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <info>A tag, that loged in an user </info>
+     </tag>         
+
 	 <tag>
             <name>endTask</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCREndTaskTag</tagclass>
