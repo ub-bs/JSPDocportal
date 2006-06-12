@@ -87,11 +87,6 @@
     </servlet>
 
     <servlet>
-        <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>org.mycore.frontend.jsp.LoginServlet</servlet-class>
-    </servlet>
-    
-    <servlet>
         <servlet-name>LogoutServlet</servlet-name>
         <servlet-class>org.mycore.frontend.jsp.LogoutServlet</servlet-class>
     </servlet>
@@ -239,11 +234,6 @@
     <servlet-mapping>
 	    <servlet-name>NavServlet</servlet-name>
 	    <url-pattern>/nav</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>LoginServlet</servlet-name>
-        <url-pattern>/login</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
