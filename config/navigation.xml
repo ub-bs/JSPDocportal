@@ -154,20 +154,14 @@
             <refitem name="~index" label="" />
           </navitem>
           <navitem name="sitemap" label="Nav.Sitemap" href="content/sitemap.jsp" />
-          <navitem name="login" label="Nav.Login" href="content/login.jsp">
-            <navitem name="login" label="Nav.LoggedIn" href="login" hidden="true">
-              <refitem name="~login" label="" />
-            </navitem>
+          <navitem name="login" label="Nav.Login" href="content/login.jsp" >
+            <refitem name="~login" label="" />
             <navitem name="showuser" label="Nav.UserDetails" href="content/docdetails.jsp?style=user">
               <refitem name="~userdetail" label="" />
             </navitem>
           </navitem>
           <navitem name="logout" label="Nav.Logout" href="logout">
             <refitem name="~logout" label="" />
-          </navitem>
-          <!--  internal references to admin sites -->
-          <navitem name="docportaladmin" label="Nav.AdminMenue" href="admin/main.jsp" >
-            <refitem name="~docportaladmin" label="Nav.AdminMenue" />
           </navitem>
         </navitem>
         <navitem name="mycore-message" label="MyCoReMessage" href="mycore-message.jsp" hidden="true">
