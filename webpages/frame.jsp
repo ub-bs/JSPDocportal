@@ -5,7 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/xml" prefix="x"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr"%>
-<mcr:session method="get" var="username" type="userID" />
+
 <c:set var="WebApplicationBaseURL"	value="${applicationScope.WebApplicationBaseURL}" />
 <c:set var="Navigation" value="${applicationScope.navDom}" />
 <c:set var="path" value="${requestScope.path}" />
@@ -250,8 +250,9 @@
 								</x:otherwise>
 							</x:choose>
 						</x:forEach></td>
-						<td class="navi_history_user"><fmt:message key="User" />: <a
-							href="${WebApplicationBaseURL}nav?path=~login">${username}</a></td>
+						<td class="navi_history_user"><fmt:message key="User" />
+							<mcr:session method="get" var="username" type="userID" />												
+						    : <a href="${WebApplicationBaseURL}nav?path=~login">${username}</a></td>
 					</tr>
 				</table>
 				</td>
