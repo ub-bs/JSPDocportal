@@ -8,7 +8,7 @@
         <MCRDocDetailContent xpath="/mycoreobject/metadata/institutions/institution" templatetype="tpl-classification" separator=", " languageRequired="yes" />
     </MCRDocDetail>     
     <MCRDocDetail rowtype="standard" labelkey="OMD.addressofficial">
-        <MCRDocDetailContent xpath="/mycoreobject/metadata/addresses/address[@type='office']" templatetype="tpl-address" separator="&lt;br&gt;&#160;&#160;&#160;" languageRequired="yes" introkey="three-spaces" escapeXml="true"/>
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/addresses/address[@type='office']" templatetype="tpl-address" separator="&lt;br&gt;&#160;&#160;&#160;" languageRequired="yes" introkey="WF.common.three-spaces" escapeXml="true"/>
     </MCRDocDetail>  
     <MCRDocDetail rowtype="standard" labelkey="OMD.phone" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/phones/phone[@type='phone']" templatetype="tpl-text-values" separator=", " languageRequired="yes" />

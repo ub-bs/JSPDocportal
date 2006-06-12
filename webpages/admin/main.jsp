@@ -15,7 +15,7 @@
 	<tr>
 		<td>
 			<div class="headline"><fmt:message key="Nav.AdminMenue" /></div>
-			<h3><fmt:message key="Admin.AllowedFunctions" />:</h3>
+			<h3><fmt:message key="Webpage.admin.AllowedFunctions" />:</h3>
 		
 			<ul>
 			<mcr:checkAccess var="canDo" permission="administrate-accessrules" key="" />
@@ -26,7 +26,7 @@
 			<mcr:checkAccess var="canDo" permission="administrate-user" key="" />
 			<c:if test="${canDo}">				
      			<c:set var="userHasAdminPermission" value="true" />
-				<li><a href="${applicationScope.WebApplicationBaseURL}nav?path=admin.usermanagement"><fmt:message key="Nav.Admin.UserManagement" /></a></li>
+				<li><a href="${applicationScope.WebApplicationBaseURL}nav?path=admin.usermanagement"><fmt:message key="Nav.Webpage.intro.admin.UserManagement" /></a></li>
 			</c:if>	
 			<mcr:checkAccess var="canDo" permission="administrate-xmetadiss" key="" />
 			<c:if test="${canDo}">
@@ -40,5 +40,5 @@
 </table>
 
 <c:if test="${!userHasAdminPermission}">
-   <font color="red"><fmt:message key="Admin.NoPermissionError" /></font>
+   <font color="red"><fmt:message key="Webpage.admin.NoPermissionError" /></font>
 </c:if>

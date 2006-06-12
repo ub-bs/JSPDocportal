@@ -34,12 +34,12 @@
 
 <c:choose>
    <c:when test="${empty(myTaskList)&& empty(myProcessList)}">
-	  <div class="headline"><fmt:message key="Nav.Workflow.publication.info" /></div>
+	  <div class="headline"><fmt:message key="WF.publication.info" /></div>
       <img title="" alt="" src="images/greenArrow.gif">
-      <a target="_self" href="${baseURL}nav?path=~publicationbegin"><fmt:message key="WorkflowEngine.StartPublicationWorkflow" /></a>
+      <a target="_self" href="${baseURL}nav?path=~publicationbegin"><fmt:message key="WF.publication.StartWorkflow" /></a>
       <br/>&nbsp;<br>
       <img title="" alt="" src="images/greenArrow.gif">
-      <fmt:message key="WorkflowEngine.EmptyWorkflow" />   
+      <fmt:message key="WF.common.EmptyWorkflow" />   
       <br>&nbsp;<br>
       <mcr:checkAccess permission="administrate-publication" var="curUserIsAdminUser" />
       <c:if test="${!curUserIsAdminUser}">
@@ -48,12 +48,12 @@
    	  </c:if>
    </c:when>
    <c:otherwise>
-        <div class="headline"><fmt:message key="Nav.WorkflowPublication" /></div>
+        <div class="headline"><fmt:message key="WF.Publication" /></div>
         <img title="" alt="" src="images/greenArrow.gif">
-        <a target="_self" href="${baseURL}nav?path=~publicationbegin"><fmt:message key="WorkflowEngine.StartPublicationWorkflow" /></a>
+        <a target="_self" href="${baseURL}nav?path=~publicationbegin"><fmt:message key="WF.publication.StartWorkflow" /></a>
         <br/>&nbsp;<br>
         <br>&nbsp;<br>
-        <div class="headline"><fmt:message key="WorkflowEngine.MyTasks" /></div>   
+        <div class="headline"><fmt:message key="WF.common.MyTasks" /></div>   
         
         <table>       
 	        <c:forEach var="task" items="${myTaskList}">
@@ -65,13 +65,13 @@
 		    </td></tr>       
 	        </c:forEach>
         <c:if test="${empty(myTaskList)}">
-           <font color="#00ff00"><fmt:message key="WorkflowEngine.NoTasks" /></font>
+           <font color="#00ff00"><fmt:message key="WF.common.NoTasks" /></font>
         </c:if>
         </table>
         
         <br>&nbsp;<br>
         
-        <div class="headline"><fmt:message key="WorkflowEngine.MyInititiatedProcesses.publication" /></div>
+        <div class="headline"><fmt:message key="WF.publication.MyInititiatedProcesses" /></div>
         
         <table>
         <c:forEach var="task" items="${myProcessList}">
@@ -79,7 +79,7 @@
            <c:import url="/content/workflow/${task.workflowProcessType}/getTasks.jsp" />
         </c:forEach>
         <c:if test="${empty(myProcessList)}">
-           <font color="#00ff00"><fmt:message key="WorkflowEngine.NoTasks" /></font>
+           <font color="#00ff00"><fmt:message key="WF.common.NoTasks" /></font>
         </c:if>
         </table>   
    </c:otherwise>

@@ -37,7 +37,7 @@
                     <img src="images/white20px.gif" /><img src="${WebApplicationBaseURL}images/logo_atlibri.gif" alt="@libri" />
                 </td>
                 <td valign="bottom" align="right"  style="padding:10px" class="adminheadline" >
-                    <fmt:message key="Admin.Text2" />
+                    <fmt:message key="Webpage.intro.admin.Text2" />
                 </td>
             </tr>
             <tr>

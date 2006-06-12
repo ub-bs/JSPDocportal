@@ -41,11 +41,11 @@
     	.toString();    	
 %>
 	<fmt:setBundle basename='messages'/>
-	<div class="headline"><fmt:message key="Browse.generalTitle" /></div>
+	<div class="headline"><fmt:message key="Webpage.browse.generalTitle" /></div>
     <table id="metaHeading" cellpadding="0" cellspacing="0">
         <tr>
             <td class="titles">
-                <fmt:message key="Browse.numberOf" /> : <%= browser.getChildText("cntDocuments") %>
+                <fmt:message key="Webpage.browse.numberOf" /> : <%= browser.getChildText("cntDocuments") %>
             </td>
             <td class="browseCtrl">
                 <a href="<%= hrefStart %>"><%= browser.getChildText("description") %></a>
@@ -113,7 +113,7 @@
         	         %>
         	   </td>
         	   <td class="numDocs"> 
-        	      [<%= displayedNumber %> <fmt:message key="Browse.doc" />]
+        	      [<%= displayedNumber %> <fmt:message key="Webpage.browse.doc" />]
         	   </td>
         	   <td class="descr">
         	      <% if(numDocs > 0) {   %>

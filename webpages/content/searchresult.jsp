@@ -40,10 +40,10 @@
 
 <c:choose>
     <c:when test="${fn:startsWith(resultlistType,'class')}">
-        <c:set var="headlineKey" value="SR.result-document-browse" />
+        <c:set var="headlineKey" value="Webpage.searchresults.result-document-browse" />
     </c:when>
     <c:otherwise>
-        <c:set var="headlineKey" value="SR.result-document-search" />
+        <c:set var="headlineKey" value="Webpage.searchresults.result-document-search" />
     </c:otherwise>
 </c:choose>
 <fmt:setLocale value='${lang}'/>
@@ -58,17 +58,17 @@
                 <td class="resort">
                     <input type="hidden" name="query" value="${strQuery}">
                         <select name="field1">
-                            <option value="modified" <mcr:ifSorted query="${query}" attributeName="field" attributeValue="modified">selected</mcr:ifSorted> ><fmt:message key="SR.sort-modified" /></option>    
-                            <option value="title" <mcr:ifSorted query="${query}" attributeName="field" attributeValue="title">selected</mcr:ifSorted> ><fmt:message key="SR.sort-title" /></option>
-                            <option value="author" <mcr:ifSorted query="${query}" attributeName="field" attributeValue="author">selected</mcr:ifSorted> ><fmt:message key="SR.sort-author" /></option>
+                            <option value="modified" <mcr:ifSorted query="${query}" attributeName="field" attributeValue="modified">selected</mcr:ifSorted> ><fmt:message key="Webpage.searchresults.sort-modified" /></option>    
+                            <option value="title" <mcr:ifSorted query="${query}" attributeName="field" attributeValue="title">selected</mcr:ifSorted> ><fmt:message key="Webpage.searchresults.sort-title" /></option>
+                            <option value="author" <mcr:ifSorted query="${query}" attributeName="field" attributeValue="author">selected</mcr:ifSorted> ><fmt:message key="Webpage.searchresults.sort-author" /></option>
                         </select>
                         <select name="order1">
-                            <option value="ascending" <mcr:ifSorted query="${query}" attributeName="field" attributeValue="ascending">selected</mcr:ifSorted> ><fmt:message key="SR.ascending" /></option>
-                            <option value="descending" <mcr:ifSorted query="${query}" attributeName="field" attributeValue="descending">selected</mcr:ifSorted> ><fmt:message key="SR.descending" /></option>
+                            <option value="ascending" <mcr:ifSorted query="${query}" attributeName="field" attributeValue="ascending">selected</mcr:ifSorted> ><fmt:message key="Webpage.searchresults.ascending" /></option>
+                            <option value="descending" <mcr:ifSorted query="${query}" attributeName="field" attributeValue="descending">selected</mcr:ifSorted> ><fmt:message key="Webpage.searchresults.descending" /></option>
                         </select>
                     <input value="Sortiere Ergebnisliste neu" class="resort" type="submit">
                 </td>
-                <td class="resultCount"><strong>${totalhits} <fmt:message key="SR.foundMCRObjects" /></strong></td>
+                <td class="resultCount"><strong>${totalhits} <fmt:message key="Webpage.searchresults.foundMCRObjects" /></strong></td>
             </tr>
         </table>
     </form>
@@ -148,7 +148,7 @@
 <mcr:browsePageCtrl var="browseControl" totalSize="${totalhits}" size="${size}" offset="${offset}" maxDisplayedPages="10" path="${navPath}" />
 <x:forEach select="$browseControl/mcr_resultpages/mcr_resultpage">
     <x:if select="generate-id(../mcr_resultpage[1]) = generate-id(.)">
-        <fmt:message key="SR.hitlists" />
+        <fmt:message key="Webpage.searchresults.hitlists" />
     </x:if>
     <x:choose>
         <x:when select="( (contains(../@cutted-left,'true')) and (generate-id(../mcr_resultpage[1]) = generate-id(.)) )">

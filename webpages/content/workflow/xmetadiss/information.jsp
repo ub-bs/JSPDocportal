@@ -8,30 +8,30 @@
 <table class="bg_background">
 <tr>
 <td>
-  <span class="subtitle"><fmt:message key="Dissertation.Subtitle1" /></span>
+  <span class="subtitle"><fmt:message key="Webpage.intro.xmetadiss.Subtitle1" /></span>
   <br/>
-  <p><fmt:message key="Dissertation.Item1" /></p>
-  <p><fmt:message key="Dissertation.Item2" /></p>
-  <p><fmt:message key="Dissertation.Item3" /></p>
+  <p><fmt:message key="Webpage.intro.xmetadiss.Item1" /></p>
+  <p><fmt:message key="Webpage.intro.xmetadiss.Item2" /></p>
+  <p><fmt:message key="Webpage.intro.xmetadiss.Item3" /></p>
  
   <br/>
-  <span class="subtitle"><fmt:message key="Dissertation.Subtitle2" /></span>
+  <span class="subtitle"><fmt:message key="Webpage.intro.xmetadiss.Subtitle2" /></span>
   <br/>
   
-	 <p><fmt:message key="Dissertation.Item4" /></p>
-	 <p><fmt:message key="Dissertation.Item5" /></p>
-	 <p><fmt:message key="Dissertation.Item6" /></p>
-	 <p><fmt:message key="Dissertation.Item7" /></p>
+	 <p><fmt:message key="Webpage.intro.xmetadiss.Item4" /></p>
+	 <p><fmt:message key="Webpage.intro.xmetadiss.Item5" /></p>
+	 <p><fmt:message key="Webpage.intro.xmetadiss.Item6" /></p>
+	 <p><fmt:message key="Webpage.intro.xmetadiss.Item7" /></p>
   <br/>
-  <span class="subtitle"><fmt:message key="Dissertation.Subtitle3" /></span>
+  <span class="subtitle"><fmt:message key="Webpage.intro.xmetadiss.Subtitle3" /></span>
   <br/>
-  <p><fmt:message key="Dissertation.P1" /></p> 
+  <p><fmt:message key="Webpage.intro.xmetadiss.P1" /></p> 
   <table class="editor" >
-		<tr><td><b><fmt:message key="Dissertation.P2" /></b></td></tr>
+		<tr><td><b><fmt:message key="Webpage.intro.xmetadiss.P2" /></b></td></tr>
 		<tr>
-			<td><fmt:message key="Dissertation.P3" /></td>
-			<td><fmt:message key="three-spaces" /></td>
-			<td><fmt:message key="Dissertation.P4" /></td>
+			<td><fmt:message key="Webpage.intro.xmetadiss.P3" /></td>
+			<td><fmt:message key="WF.common.three-spaces" /></td>
+			<td><fmt:message key="Webpage.intro.xmetadiss.P4" /></td>
 		</tr>
    </table>
 </td>

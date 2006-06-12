@@ -20,15 +20,15 @@
 
 <c:choose>
 <c:when test="${fn:contains(status,'errorUserGuest')}">
-<div class="headline"><fmt:message key="WorkflowEngine.StartAuthorWorkflow" /></div>
-	<p><fmt:message key="SWF.Author.errorUserGuest" /></p>
-	<p><fmt:message key="SWF.Author.next.errorUserGuest" /></p>
-	<p><fmt:message key="DocumentManagement.FetchLogin" /></p>
+<div class="headline"><fmt:message key="WF.author.StartWorkflow" /></div>
+	<p><fmt:message key="WF.common.errorUserGuest" /></p>
+	<p><fmt:message key="WF.author.errorUserGuest2" /></p>
+	<p><fmt:message key="Webpage.admin.DocumentManagement.FetchLogin" /></p>
 </c:when>
 <c:when test="${fn:contains(status,'errorWFM')}">
-<div class="headline"><fmt:message key="WorkflowEngine.StartAuthorWorkflow" /></div>
-	<p><fmt:message key="SWF.Author.errorWfM" /></p>
-	<p><fmt:message key="SWF.Author.next.errorWfM" /></p>
+<div class="headline"><fmt:message key="WF.author.StartWorkflow" /></div>
+	<p><fmt:message key="WF.author.errorWfM" /></p>
+	<p><fmt:message key="WF.author.errorWfM2" /></p>
 </c:when>
 <c:otherwise>
 

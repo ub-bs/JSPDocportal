@@ -12,7 +12,7 @@
 <c:set var="debug" value="true" />
 
 <div class="headline">
- <fmt:message key="Nav.Application.registerUser" /> - <fmt:message key="SWF.registerUser.Intro" />
+ <fmt:message key="WF.registeruser.RegisterUser" /> - <fmt:message key="WF.registerUser.Intro" />
 </div>
 
 <table  class="bg_background" >
@@ -21,13 +21,13 @@
 	<c:choose>	
     <c:when test="${empty(user)}">
 		<br/>
-		<p>	<fmt:message key="SWF.registerUser.ErrorMessage" />	</p>
+		<p>	<fmt:message key="WF.registerUser.ErrorMessage" />	</p>
 		<hr/>	
     </c:when>
     <c:otherwise>
 		<br/>
-		<p>	<fmt:message key="SWF.registerUser.Registered" />	</p>
-		<p>	<fmt:message key="SWF.registerUser.Registered2" />	</p>
+		<p>	<fmt:message key="WF.registerUser.Registered" />	</p>
+		<p>	<fmt:message key="WF.registerUser.Registered2" />	</p>
 		<hr/>
        	 <x:forEach select="$user">
     	  <table class="editor">
@@ -39,13 +39,13 @@
     	  <tr><td class="metavalue"><x:out select=".//contact.institution" /></td></tr>
     	  <tr><td class="metavalue"><x:out select=".//contact.faculty" /></td></tr>
     	  <tr><td class="metavalue"><x:out select=".//contact.email" /></td></tr>
-    	  <tr><td class="metavalue"><b><fmt:message key="SWF.registerUser.YourID"/> <x:out select="@ID" /></b></td></tr> 
+    	  <tr><td class="metavalue"><b><fmt:message key="WF.registerUser.YourID"/> <x:out select="@ID" /></b></td></tr> 
     	  </table>
      	</x:forEach>
     	<hr/>
     </c:otherwise>
 	</c:choose>
-	<p><fmt:message key="Admin.Info" /></p>
+	<p><fmt:message key="Webpage.admin.Info" /></p>
 	<p><fmt:message key="Admin.MailRef" /></p>
  </td>
 </tr>

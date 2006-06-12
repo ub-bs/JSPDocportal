@@ -33,17 +33,17 @@
 	varTotalSize="total1" />
 <mcr:getWorkflowTaskBeanList var="myProcessList" mode="initiatedProcesses" workflowTypes="author"
     varTotalSize="total2" />
-        <div class="headline"><fmt:message key="Nav.Workflow.author" /></div>
+        <div class="headline"><fmt:message key="WF.author" /></div>
 		<table>
 			<tr>
 		      	<td><img title="" alt="" src="images/greenArrow.gif"></td>
-				<td><a target="_self" href="${baseURL}nav?path=~author-begin"><fmt:message key="WorkflowEngine.StartAuthorWorkflow" /></a>
+				<td><a target="_self" href="${baseURL}nav?path=~author-begin"><fmt:message key="WF.author.StartWorkflow" /></a>
 				 </td>
 			</tr>
 			<tr />
 			<tr>
 				<td><img title="" alt="" src="images/greenArrow.gif"></td>
-				<td><fmt:message key="WorkflowEngine.SearchAuthorToEdit.author" /> </td>
+				<td><fmt:message key="WF.author.SearchAuthorToEdit" /> </td>
 			<tr>
 				<td />
 				<td>
@@ -59,7 +59,7 @@
 <c:choose>
    <c:when test="${empty(myTaskList)&& empty(myProcessList)}">
       <img title="" alt="" src="images/greenArrow.gif">
-      <fmt:message key="WorkflowEngine.EmptyWorkflow" />   
+      <fmt:message key="WF.common.EmptyWorkflow" />   
       <br>&nbsp;<br>
       <mcr:checkAccess permission="administrate-author" var="curUserIsAdminUser" />
       <c:if test="${!curUserIsAdminUser}">
@@ -71,7 +71,7 @@
 
         <br>&nbsp;<br>
 
-        <div class="headline"><fmt:message key="WorkflowEngine.MyTasks" /></div>   
+        <div class="headline"><fmt:message key="WF.common.MyTasks" /></div>   
         
         <table>       
 	        <c:forEach var="task" items="${myTaskList}">
@@ -83,13 +83,13 @@
 		    </td></tr>       
 	        </c:forEach>
         <c:if test="${empty(myTaskList)}">
-           <font color="#00ff00"><fmt:message key="WorkflowEngine.NoTasks" /></font>
+           <font color="#00ff00"><fmt:message key="WF.common.NoTasks" /></font>
         </c:if>
         </table>
         
         <br>&nbsp;<br>
         
-        <div class="headline"><fmt:message key="WorkflowEngine.MyInititiatedProcesses.author" /></div>
+        <div class="headline"><fmt:message key="WF.author.MyInititiatedProcesses" /></div>
         
         <table>
         <c:forEach var="task" items="${myProcessList}">
@@ -97,7 +97,7 @@
            <c:import url="/content/workflow/${task.workflowProcessType}/getTasks.jsp" />
         </c:forEach>
         <c:if test="${empty(myProcessList)}">
-           <font color="#00ff00"><fmt:message key="WorkflowEngine.NoTasks" /></font>
+           <font color="#00ff00"><fmt:message key="WF.common.NoTasks" /></font>
         </c:if>
         </table>   
    </c:otherwise>

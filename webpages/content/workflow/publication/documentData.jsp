@@ -9,41 +9,41 @@
 <mcr:getWorkflowEngineVariable pid="${requestScope.pid}" var="docID" workflowVar="createdDocID" /> 
 
 <div class="headline">
-   <fmt:message key="Nav.Workflow.publication.begin" />
+   <fmt:message key="WF.publication.begin" />
 </div>
 
 <table cellspacing="3" cellpadding="3" >
 <c:if test="${!empty(docID)}">
    <tr valign="top">
-        <td class="metaname"><fmt:message key="SWF.Document.Created" /> </td>
+        <td class="metaname"><fmt:message key="WF.publication.Created" /> </td>
         <td class="metavalue">            
          <b><c:out value="${docID}" /></b>
          <br/>
          <br/>
-         <i><fmt:message key="SWF.Document.Created.next" /></i>
+         <i><fmt:message key="WF.publication.Created2" /></i>
       </td>
    </tr>     
 </c:if>
 <c:if test="${!empty(urn)}">
    <tr valign="top">
-        <td class="metaname"><fmt:message key="SWF.Document.URN" /> </td>
+        <td class="metaname"><fmt:message key="WF.publication.URN" /> </td>
         <td class="metavalue">            
          <b><c:out value="${urn}" /></b>
          <br/>
          <br/>
-         <i><fmt:message key="SWF.Document.URN.Hinweis" /></i>
+         <i><fmt:message key="WF.publication.URN.Hinweis" /></i>
       </td>
    </tr>     
 </c:if>
    <tr>
       <td colspan="2">
          <img title="" alt="" src="images/greenArrow.gif">
-         <a href="${WebApplicationBaseURL}nav?path=~publication"><fmt:message key="WorkflowEngine.forwardToWorkflow" /></a>
+         <a href="${WebApplicationBaseURL}nav?path=~publication"><fmt:message key="WF.common.forwardToWorkflow" /></a>
       </td>
    </tr> 
    <tr><td colspan="2">
      <hr/>
-     <p><fmt:message key="Service.Hinweis1" /></p>
+     <p><fmt:message key="Webpage.intro.Service.Hinweis1" /></p>
      <p>
         <mcr:getConfigProperty var="mail" prop="MCR.WorkflowEngine.contactemail.publication" defaultValue="mycore@mycore.de" />
         <a href="mailto:${mail}">${mail}</a>

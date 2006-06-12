@@ -51,7 +51,7 @@ public class MCRSendmailActionPublication  extends MCRAbstractAction {
 			String body = PropertyResourceBundle.getBundle("messages", new Locale(lang)).getString("WorkflowEngine.Mails.SuccessMessage.publication");
 			if(body != null)
 				ret += body + "\r\n\r\n";
-			String footer = PropertyResourceBundle.getBundle("messages", new Locale(lang)).getString("WorkflowEngine.Mails.Footer");
+			String footer = PropertyResourceBundle.getBundle("messages", new Locale(lang)).getString("WF.Mails.Footer");
 			if(footer != null)
 				ret += footer;
 		}

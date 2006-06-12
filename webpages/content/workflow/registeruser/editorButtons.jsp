@@ -30,7 +30,7 @@
 				    <input  name="nextPath" value="~workflow-registeruser" type="hidden">
 					<input	name="processid" value="${processid}" type="hidden"> 
 					<input	name="todo" value="WFModifyWorkflowUser" type="hidden"> 					
-					<input title="<fmt:message key="Object.EditObject" />" src="${baseURL}images/workflow_objedit.gif" type="image" class="imagebutton">					
+					<input title="<fmt:message key="WF.common.object.EditObject" />" src="${baseURL}images/workflow_objedit.gif" type="image" class="imagebutton">					
 				</form>
 		</td>
 	</tr>

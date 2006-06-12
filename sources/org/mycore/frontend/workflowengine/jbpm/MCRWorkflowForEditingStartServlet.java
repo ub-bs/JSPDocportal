@@ -64,7 +64,7 @@ public class MCRWorkflowForEditingStartServlet extends MCRServlet {
 
 		if (!AI.checkPermission(mcrid, "writedb" )) {
 			String lang   = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
-			String usererrorpage = "mycore-error.jsp?messageKey=SWF.PrivilegesError&lang=" + lang;
+			String usererrorpage = "mycore-error.jsp?messageKey=WF.common.PrivilegesError&lang=" + lang;
 			logger.debug("Access denied for current user to start workflow for object " + mcrid);				
 			response.sendRedirect(getBaseURL() + usererrorpage);
 			return;
@@ -94,7 +94,7 @@ public class MCRWorkflowForEditingStartServlet extends MCRServlet {
 		
 		if ( !bOK) {
 			String lang   = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
-			String usererrorpage = "mycore-error.jsp?messageKey=SWF.Dissertation.errorWfM&lang=" + lang;
+			String usererrorpage = "mycore-error.jsp?messageKey=WF.xmetadiss.errorWfM&lang=" + lang;
 			logger.debug("The document (to open for editing) is not in the database: " + mcrid);				
 			response.sendRedirect(getBaseURL() + usererrorpage);
 		}

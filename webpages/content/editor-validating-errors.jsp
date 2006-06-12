@@ -15,7 +15,7 @@
 <c:set var="errorList" value="${requestScope.errorList}" />
 <fmt:setLocale value='${requestScope.lang}'/>
 <fmt:setBundle basename='messages'/>
-<div class="headline"><fmt:message key="Workflow.Editor.ValidatorError.Headline" /></div>
+<div class="headline"><fmt:message key="WF.editor.ValidatorError.Headline" /></div>
 <table>
    <c:forEach items="${errorList}" var="errorEntry" varStatus="status">
       <tr>
@@ -24,7 +24,7 @@
    </c:forEach>
 </table>
 <div>
-   <fmt:message key="Workflow.Editor.ValidatorError.Instructions" />
+   <fmt:message key="WF.editor.ValidatorError.Instructions" />
 </div>
 <mcr:includeEditor isNewEditorSource="false" mcrid="${mcrid}" type="${type}" 
     step="${step}" target="${target}" editorSource="${editorSource}" nextPath="${nextPath}" workflowType="${workflowType}"/>

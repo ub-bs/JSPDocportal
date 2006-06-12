@@ -14,24 +14,24 @@
 <c:set var="dom" value="${requestScope.task.variables}" />
 
 <c:if test="${requestScope.task.taskName ne 'initialization'}">
-   <fmt:message key="WorkflowEngine.Publication" /> <fmt:message key="WorkflowEngine.Processnumber" /> <b>${requestScope.task.processID}</b>: <br>
+   <fmt:message key="WF.publication.Publication" /> <fmt:message key="WF.common.Processnumber" /> <b>${requestScope.task.processID}</b>: <br>
 </c:if>
 <c:choose>
    <c:when test="${requestScope.task.taskName eq 'initialization' }">
-      <fmt:message key="WorkflowEngine.ActualStateOfYourDocument.publication" />
-      (<fmt:message key="WorkflowEngine.Processnumber" /> <b>${requestScope.task.processID}</b>): <br>
-      <b><fmt:message key="WorkflowEngine.initiator.statusMessage.${requestScope.task.workflowStatus}.publication" /></b>
+      <fmt:message key="WF.publication.ActualStateOfYourDocument" />
+      (<fmt:message key="WF.common.Processnumber" /> <b>${requestScope.task.processID}</b>): <br>
+      <b><fmt:message key="WF.publication.status.${requestScope.task.workflowStatus}" /></b>
       <br/>
    </c:when>
    <c:when test="${requestScope.task.taskName eq 'taskCompleteDocumentAndSendToLibrary' }" >
       <p>
          <img title="" alt="" src="${baseURL}images/greenArrow.gif">
-         <fmt:message key="WorkflowEngine.description.completedocumentandsendtolibrary.publication" />
+         <fmt:message key="WF.publication.completedocumentandsendtolibrary" />
          <br>
          <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="publication" decision="canDocumentBeSubmitted" />
          <c:if test="${transition eq 'documentCanBeSubmitted'}">
 	        <img title="" alt="" src="${baseURL}images/greenArrow.gif">         
-            <a href="${baseURL}nav?path=~publication&transition=&endTask=taskCompleteDocumentAndSendToLibrary&processID=${requestScope.task.processID}"><fmt:message key="WorkflowEngine.taskCompleteDocumentAndSendToLibrary.publication" /></a>
+            <a href="${baseURL}nav?path=~publication&transition=&endTask=taskCompleteDocumentAndSendToLibrary&processID=${requestScope.task.processID}"><fmt:message key="WF.publication.taskCompleteDocumentAndSendToLibrary" /></a>
          </c:if>      
       </p>
       <c:import url="/content/workflow/editorButtons.jsp" />
@@ -40,12 +40,12 @@
    <c:when test="${requestScope.task.taskName eq 'taskprocessEditInitialized' }" >
       <p>
          <img title="" alt="" src="${baseURL}images/greenArrow.gif">
-         <fmt:message key="WorkflowEngine.description.completedocumentandsendtolibrary.publication" />
+         <fmt:message key="WF.publication.completedocumentandsendtolibrary" />
          <br>
          <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="publication" decision="canDocumentBeSubmitted" />
          <c:if test="${transition eq 'documentCanBeSubmitted'}">
 	        <img title="" alt="" src="${baseURL}images/greenArrow.gif">         
-            <a href="${baseURL}nav?path=~publication&transition=&endTask=taskprocessEditInitialized&processID=${requestScope.task.processID}"><fmt:message key="WorkflowEngine.taskCompleteDocumentAndSendToLibrary.publication" /></a>
+            <a href="${baseURL}nav?path=~publication&transition=&endTask=taskprocessEditInitialized&processID=${requestScope.task.processID}"><fmt:message key="WF.publication.taskCompleteDocumentAndSendToLibrary" /></a>
          </c:if>      
       </p>
       <c:import url="/content/workflow/editorButtons.jsp" />
@@ -53,7 +53,7 @@
 
    <c:when test="${requestScope.task.taskName eq 'taskGetInitiatorsEmailAddress'}" >
       <p>
-         <fmt:message key="WorkflowEngine.description.getInitiatorsEmailAddress" />
+         <fmt:message key="WF.common.getInitiatorsEmailAddress" />
 		 <br>&nbsp;<br>
 	     <form action="${baseURL}setworkflowvariable" accept-charset="utf-8">
     	     <input name="dispatcherForward" value="/nav?path=~publication" type="hidden" />
@@ -63,7 +63,7 @@
     	     <input name="jbpmVariableNames" value="initiatorEmail" type="hidden" />
         	 <input type="text" size="80" name="initiatorEmail">
         	 <br>&nbsp;<br>
-         	 <input name=submit" type="submit" value="<fmt:message key="WorkflowEngine.Form.Send" />" />     
+         	 <input name=submit" type="submit" value="<fmt:message key="WF.common.Send" />" />     
 	     </form>	
      </p>
    </c:when>   
@@ -71,13 +71,13 @@
       <c:import url="/content/workflow/editorButtons.jsp" />
       <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="publication" decision="canDocumentBeCommitted" />
          <br>&nbsp;<br>
-         <fmt:message key="WorkflowEngine.AreTheMetadataOk" />
+         <fmt:message key="WF.common.AreTheMetadataOK" />
          <br>&nbsp;<br>
          <img title="" alt="" src="${baseURL}images/greenArrow.gif">
-         <a href="${baseURL}nav?path=~publication&transition=go2canDocumentBeCommitted&endTask=taskCheckCompleteness&processID=${requestScope.task.processID}"><fmt:message key="WorkflowEngine.MetadataOk.Continue" /></a>
+         <a href="${baseURL}nav?path=~publication&transition=go2canDocumentBeCommitted&endTask=taskCheckCompleteness&processID=${requestScope.task.processID}"><fmt:message key="WF.common.MetadataOk_Continue" /></a>
          <br>
          <img title="" alt="" src="${baseURL}images/greenArrow.gif">
-         <a href="${baseURL}nav?path=~publication&transition=go2sendBackToDocumentCreated&endTask=taskCheckCompleteness&processID=${requestScope.task.processID}"><fmt:message key="WorkflowEngine.MetadataNotOk.SendToInitiator" /></a>
+         <a href="${baseURL}nav?path=~publication&transition=go2sendBackToDocumentCreated&endTask=taskCheckCompleteness&processID=${requestScope.task.processID}"><fmt:message key="WF.common.MetadataNotOk_SendToInitiator" /></a>
          <br>
    </c:when>   
    <c:when test="${requestScope.task.taskName eq 'taskEnterMessageData'}">
@@ -89,7 +89,7 @@
          <input name="jbpmVariableNames" value="tmpTaskMessage" type="hidden" /> 
 	     <textarea name="tmpTaskMessage" cols="50" rows="4">Sie müssen noch...</textarea>  
 	     <br>&nbsp;<br>
-    	<input name=submit" type="submit" value="<fmt:message key="WorkflowEngine.Form.SendTask" />"/>      
+    	<input name=submit" type="submit" value="<fmt:message key="WF.common.SendTask" />"/>      
       </form>
    </c:when>
    <c:when test="${requestScope.task.taskName eq 'taskAdminCheckCommitmentNotSuccessFul'}">

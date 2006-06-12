@@ -81,7 +81,7 @@
 <c:set var="WebApplicationBaseURL" value="${applicationScope.WebApplicationBaseURL}" />
 
 
-<h4><fmt:message key="Access.AssignRule" /></h4>
+<h4><fmt:message key="Webpage.admin.access.AssignRule" /></h4>
 
 <form method=post action="${WebApplicationBaseURL}admin/accessrules/access_validate.jsp" id="overview">
 <table border="0">
@@ -91,11 +91,11 @@
 <table class="access" cellspacing="1" cellpadding="0">
 	<tr>
 		<td rowspan=2">
-			<fmt:message key="Access.AvailableStringIDs" />
+			<fmt:message key="Webpage.admin.access.AvailableStringIDs" />
 		</td>
         <x:set var="poolNum" select="$index/accessrule-index/permissions/@numHits + 0" />
 		<td class="pool" colspan="${poolNum}">
-			<fmt:message key="Access.Permissions" />
+			<fmt:message key="Webpage.admin.access.Permissions" />
 		</td>
 		<td rowspan="2">
 			&nbsp;
@@ -119,7 +119,7 @@
        <td><input type="text" name="objID" id="objID" size="25"></td>
        <td colspan="${poolNum + 1}">
         &nbsp;&nbsp;<input type="image" src="./admin/images/edit.png" onclick="setIDFromInputField()" />&nbsp;&nbsp;
-        <fmt:message key="Access.EnterObjIDDirectly" />
+        <fmt:message key="Webpage.admin.access.EnterObjIDDirectly" />
        </td>
     </tr>    
 </table>
@@ -129,11 +129,11 @@
 </tr>
 <tr>
 <td align="right">
-<a href="#" onclick="selectAll(true)"><fmt:message key="Access.SelectAll" /></a> | <a href="#" onclick="selectAll(false)"><fmt:message key="Access.DeselectAll" /></a>
+<a href="#" onclick="selectAll(true)"><fmt:message key="Webpage.admin.access.SelectAll" /></a> | <a href="#" onclick="selectAll(false)"><fmt:message key="Webpage.admin.access.DeselectAll" /></a>
 <x:set var="maxPos" select="$index/accessrule-index/result/value[last()]/@pos +1" />
 <x:set var="numHits" select="$index/accessrule-index/result/@numHits + 0" />
 <c:if test="${maxPos < numHits}">
- | <a href="${WebApplicationBaseURL}admin?path=${param.path}&start=${fn:substringBefore(maxPos,'.')}&step=${step}&docType=${param.docType}"><fmt:message key="Access.NextIDs" /></a>
+ | <a href="${WebApplicationBaseURL}admin?path=${param.path}&start=${fn:substringBefore(maxPos,'.')}&step=${step}&docType=${param.docType}"><fmt:message key="Webpage.admin.access.NextIDs" /></a>
 </c:if>
 </td>
 </tr>

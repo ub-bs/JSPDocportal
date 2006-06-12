@@ -51,7 +51,7 @@
 											<form method="get" action="${baseURL}workflowaction">
 												<input name="processid" value="${processid}" type="hidden">
 												<input name="todo" value="WFAddNewDerivateToWorkflowObject" type="hidden">
-												<input title="<fmt:message key="Derivate.AddDerivate" />" src="${baseURL}images/workflow_derivateadd.gif" type="image" class="imagebutton">
+												<input title="<fmt:message key="WF.common.derivate.AddDerivate" />" src="${baseURL}images/workflow_derivateadd.gif" type="image" class="imagebutton">
 											</form>
 										</td>
 								</c:if>
@@ -59,7 +59,7 @@
 											<form method="get" action="${baseURL}workflowaction">
 												<input name="processid" value="${processid}" type="hidden">
 												<input name="todo" 		value="WFEditWorkflowObject" type="hidden">
-												<input title="<fmt:message key="Object.EditObject" />" src="${baseURL}images/workflow_objedit.gif" type="image" class="imagebutton">
+												<input title="<fmt:message key="WF.common.object.EditObject" />" src="${baseURL}images/workflow_objedit.gif" type="image" class="imagebutton">
 											</form>
 										</td>
 						    </c:if>										
@@ -69,7 +69,7 @@
 											<form method="get" action="${baseURL}content/results-config/docdetails-disshab-deliver.jsp" target="new" >
 												<input name="id" value="${itemID}" type="hidden">
 												<input name="fromWForDB" value="workflow" type="hidden">
-												<input title="<fmt:message key="Object.DisshabPreview" />" src="${baseURL}images/workflow_disshabpreview.gif" type="image" class="imagebutton">
+												<input title="<fmt:message key="WF.common.object.DisshabPreview" />" src="${baseURL}images/workflow_disshabpreview.gif" type="image" class="imagebutton">
 											</form>
                                         </td>
 						   </c:if>
@@ -78,7 +78,7 @@
 											<input value="~workflow-preview" name="path" type="hidden">
 											<input name="id" value="${itemID}" type="hidden">
 											<input name="fromWForDB" value="workflow" type="hidden">
-											<input title="<fmt:message key="Object.Preview" />" src="${baseURL}images/workflow_objpreview.gif" type="image" class="imagebutton">
+											<input title="<fmt:message key="WF.common.object.Preview" />" src="${baseURL}images/workflow_objpreview.gif" type="image" class="imagebutton">
 										</form>
 									</td>								   
 							</tr>
@@ -87,7 +87,7 @@
 				</tr>        
 	       		<tr>
 					 <td class="description" colspan="3">
- 						<fmt:message key="WorkflowEngine.Description.${requestScope.task.workflowProcessType}" />, ${itemID}
+ 						<fmt:message key="WF.${requestScope.task.workflowProcessType}.Description" />, ${itemID}
  					</td>
            		</tr>				
 		  	   
@@ -107,7 +107,7 @@
 												<input name="derivateID" value="${derivateID}" type="hidden">
 												<input name="processid" value="${processid}" type="hidden">
 												<input name="todo" value="WFAddNewFileToDerivate" type="hidden">
-												<input title="<fmt:message key="Derivate.AddFile" />" src="${baseURL}images/workflow_derivatenew.gif" type="image" class="imagebutton">
+												<input title="<fmt:message key="WF.common.derivate.AddFile" />" src="${baseURL}images/workflow_derivatenew.gif" type="image" class="imagebutton">
 											</form>
 										</td>
 										<td align="center" valign="top" width="30">
@@ -115,7 +115,7 @@
 												<input name="derivateID" value="${derivateID}" type="hidden">
 												<input name="processid" value="${processid}" type="hidden">
 												<input name="todo" value="WFEditDerivateFromWorkflowObject" type="hidden">
-												<input title="<fmt:message key="Derivate.EditDerivate" />" src="${baseURL}images/workflow_derivateedit.gif" type="image" border="0" class="imagebutton">
+												<input title="<fmt:message key="WF.common.derivate.EditDerivate" />" src="${baseURL}images/workflow_derivateedit.gif" type="image" border="0" class="imagebutton">
 											</form>
 										</td>
 										<td align="center" valign="top" width="30">
@@ -123,7 +123,7 @@
 												<input name="derivateID" value="${derivateID}" type="hidden">
 												<input name="processid" value="${processid}" type="hidden">
 												<input name="todo" value="WFRemoveDerivateFromWorkflowObject" type="hidden">
-												<input title="<fmt:message key="Derivate.DelDerivate" />" src="${baseURL}images/workflow_derivatedelete.gif" type="image" border="0" class="imagebutton">
+												<input title="<fmt:message key="WF.common.derivate.DelDerivate" />" src="${baseURL}images/workflow_derivatedelete.gif" type="image" border="0" class="imagebutton">
 											</form>
 										</td>
 									</tr>
@@ -173,7 +173,7 @@
 				<form method="get" action="${baseURL}workflowaction">
 					<input name="processid" value="${processid}" type="hidden">
 					<input name="todo" 		value="WFDeleteWorkflowObject" type="hidden">
-					<input title="<fmt:message key="Object.DelWFObject" />" src="${baseURL}images/workflow_objdelete.gif" type="image" class="imagebutton">
+					<input title="<fmt:message key="WF.common.object.DelWFObject" />" src="${baseURL}images/workflow_objdelete.gif" type="image" class="imagebutton">
 				</form>
 			</td>	
 	      </c:if>		
@@ -184,7 +184,7 @@
       		      <form method="get" onSubmit="return reallyDeletefromDB();" action="${baseURL}workflowaction" >
 					<input name="processid" value="${processid}" type="hidden">
 					<input name="todo" 		value="WFDeleteObject" type="hidden">
-					<input onClick="return reallyDeletefromDB();" title="<fmt:message key="Object.DelObject" />" src="${baseURL}images/database_objdelete.gif" type="image" class="imagebutton">
+					<input onClick="return reallyDeletefromDB();" title="<fmt:message key="WF.common.object.DelObject" />" src="${baseURL}images/database_objdelete.gif" type="image" class="imagebutton">
 				</form>
    			</td>
 	     </c:if>								

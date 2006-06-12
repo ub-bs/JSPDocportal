@@ -24,16 +24,16 @@
 	 scope="request" />
 <c:choose>
 <c:when test="${fn:contains(status,'errorUserGuest')}">
-  <div class="headline"><fmt:message key="Publications.Subtitle1" /></div>
-	<p><fmt:message key="SWF.Document.errorUserGuest" /></p>
-	<p><fmt:message key="SWF.Document.next.errorUserGuest" /></p>
+  <div class="headline"><fmt:message key="Webpage.intro.publications.Subtitle1" /></div>
+	<p><fmt:message key="WF.publication.errorUserGuest" /></p>
+	<p><fmt:message key="WF.publication.errorUserGuest2" /></p>
 
-	<p><fmt:message key="DocumentManagement.FetchLogin" /></p>
+	<p><fmt:message key="Webpage.admin.DocumentManagement.FetchLogin" /></p>
 </c:when>
 <c:when test="${fn:contains(status,'errorWFM')}">
-  <div class="headline"><fmt:message key="Publications.Subtitle1" /></div>
-  	<p><fmt:message key="SWF.Dissertation.errorWfM" /></p>
-	<p><fmt:message key="SWF.Dissertation.next.errorWfM" /></p>
+  <div class="headline"><fmt:message key="Webpage.intro.publications.Subtitle1" /></div>
+  	<p><fmt:message key="WF.xmetadiss.errorWfM" /></p>
+	<p><fmt:message key="WF.xmetadiss.errorWfM2" /></p>
 </c:when>
 <c:otherwise>
 	<c:import url="/content/workflow/publication/documentData.jsp" />

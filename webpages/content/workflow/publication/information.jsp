@@ -8,17 +8,17 @@
 <table class="bg_background">
 <tr>
 <td>
-  <b><fmt:message key="Publications.Subtitle1" /></b>
+  <b><fmt:message key="Webpage.intro.publications.Subtitle1" /></b>
   <br/>
-  <p><fmt:message key="Publications.Text1" /></p>
+  <p><fmt:message key="Webpage.intro.publications.Text1" /></p>
   <br/>
-  <b><fmt:message key="Publications.Subtitle2" /></b>
+  <b><fmt:message key="Webpage.intro.publications.Subtitle2" /></b>
   <br/>
-	  <p><fmt:message key="Publications.Text2" /></p>
+	  <p><fmt:message key="Webpage.intro.publications.Text2" /></p>
   <br/>
-  <b><fmt:message key="Publications.Subtitle3" /></b>
+  <b><fmt:message key="Webpage.intro.publications.Subtitle3" /></b>
   <br/>
-	  <p><fmt:message key="Publications.Text3" /></p>
+	  <p><fmt:message key="Webpage.intro.publications.Text3" /></p>
   <br/>
 </td>
 </tr>

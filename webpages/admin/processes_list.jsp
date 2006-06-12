@@ -7,7 +7,7 @@
 <fmt:setLocale value="${requestScope.lang}" />
 <fmt:setBundle basename='messages' />
 
-<div class="headline"><fmt:message key="Admin.Process" /></div>
+<div class="headline"><fmt:message key="Webpage.admin.Process" /></div>
 <br />
 <c:set var="debug" value="false" />
 

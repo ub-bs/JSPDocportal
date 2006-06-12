@@ -8,30 +8,30 @@
 <table class="bg_background">
 <tr>
 <td>
-  <span class="subtitle"><fmt:message key="Author.Subtitle1" /></span>
+  <span class="subtitle"><fmt:message key="Webpage.intro.author.Subtitle1" /></span>
   <br/>
-  <p><fmt:message key="Author.Item1" /></p>
-  <p><fmt:message key="Author.Item2" /></p>
-  <p><fmt:message key="Author.Item3" /></p>
+  <p><fmt:message key="Webpage.intro.author.Item1" /></p>
+  <p><fmt:message key="Webpage.intro.author.Item2" /></p>
+  <p><fmt:message key="Webpage.intro.author.Item3" /></p>
  
   <br/>
-  <span class="subtitle"><fmt:message key="Author.Subtitle2" /></span>
+  <span class="subtitle"><fmt:message key="Webpage.intro.author.Subtitle2" /></span>
   <br/>
   
-	 <p><fmt:message key="Author.Item4" /></p>
-	 <p><fmt:message key="Author.Item5" /></p>
-	 <p><fmt:message key="Author.Item6" /></p>
+	 <p><fmt:message key="Webpage.intro.author.Item4" /></p>
+	 <p><fmt:message key="Webpage.intro.author.Item5" /></p>
+	 <p><fmt:message key="Webpage.intro.author.Item6" /></p>
 
   <br/>
-  <span class="subtitle"><fmt:message key="Author.Subtitle3" /></span>
+  <span class="subtitle"><fmt:message key="Webpage.intro.author.Subtitle3" /></span>
   <br/>
-  <p><fmt:message key="Author.P1" /></p> 
+  <p><fmt:message key="Webpage.intro.author.P1" /></p> 
   <table class="editor" >
-		<tr><td><b><fmt:message key="Author.P2" /></b></td></tr>
+		<tr><td><b><fmt:message key="Webpage.intro.author.P2" /></b></td></tr>
 		<tr>
-			<td><fmt:message key="Author.P3" /></td>
-			<td><fmt:message key="three-spaces" /></td>
-			<td><fmt:message key="Author.P4" /></td>
+			<td><fmt:message key="Webpage.intro.author.P3" /></td>
+			<td><fmt:message key="WF.common.three-spaces" /></td>
+			<td><fmt:message key="Webpage.intro.author.P4" /></td>
 		</tr>
    </table>
 </td>

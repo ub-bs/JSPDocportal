@@ -9,17 +9,17 @@
 <fmt:setBundle basename='messages'/>
 
   <div class="headline">
-	   <fmt:message key="Nav.Application.registerUser" /> - 
-	   <fmt:message key="SWF.registerUser.Intro" /> 
+	   <fmt:message key="WF.registeruser.RegisterUser" /> - 
+	   <fmt:message key="WF.registerUser.Intro" /> 
 	   <fmt:message key="Nav.MyCoRe" /> 
   </div>
 
   <table>
    <tr>
-	<td><fmt:message key="SWF.registerUser.Register" /> </td>
+	<td><fmt:message key="WF.registerUser.Register" /> </td>
    </tr>
    <tr>
-	<td><fmt:message key="SWF.registerUser.Register2" /> </td>
+	<td><fmt:message key="WF.registerUser.Register2" /> </td>
    </tr>
   </table>
 

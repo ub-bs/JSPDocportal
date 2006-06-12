@@ -49,10 +49,10 @@ public class MCRSendmailActionXmetadiss extends MCRAbstractAction {
 				ret += salutation + "\r\n\r\n";
 			else
 				ret += "Sehr geehrte(r) Doktorand(in)";
-			String body = PropertyResourceBundle.getBundle("messages", new Locale(lang)).getString("WorkflowEngine.Mails.SuccessMessage.xmetadiss");
+			String body = PropertyResourceBundle.getBundle("messages", new Locale(lang)).getString("WF.Mails.SuccessMessage.xmetadiss");
 			if(body != null)
 				ret += body + "\r\n\r\n";
-			String footer = PropertyResourceBundle.getBundle("messages", new Locale(lang)).getString("WorkflowEngine.Mails.Footer");
+			String footer = PropertyResourceBundle.getBundle("messages", new Locale(lang)).getString("WF.Mails.Footer");
 			if(footer != null)
 				ret += footer;
 		}

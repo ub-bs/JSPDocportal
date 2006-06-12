@@ -6,7 +6,7 @@
 <fmt:setLocale value="${requestScope.lang}" />
 <fmt:setBundle basename='messages'/>
 <div class="headline"><fmt:message key="Search" /></div>
-<p><fmt:message key="Search.Possibilities" /></p>
+<p><fmt:message key="Webpage.intro.search.Possibilities" /></p>
 <center>
 <c:url var="url" value="${WebApplicationBaseURL}editor/searchmasks/SearchMask_AllMetadataFields.xml">
     <c:param name="XSL.editor.source.new" value="true" />
@@ -16,6 +16,6 @@
 <c:import url="${url}" />
 </center>
 <p><c:import url="content/node.jsp" /></p>
-<p><fmt:message key="Search.HintsBool" /></p>
-<p><fmt:message key="Search.HintsFulltext" /></p>
-<p><fmt:message key="Search.HintsMinLength" /></p>
+<p><fmt:message key="Webpage.intro.search.HintsBool" /></p>
+<p><fmt:message key="Webpage.intro.search.HintsFulltext" /></p>
+<p><fmt:message key="Webpage.intro.search.HintsMinLength" /></p>

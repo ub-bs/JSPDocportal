@@ -27,9 +27,9 @@
 
 <c:choose>
 	<c:when test="${adminuser eq 'true'}"> 
-		<div class="headline"><fmt:message key="Nav.WorkflowRegisteruser" /></div>
+		<div class="headline"><fmt:message key="WF.Registeruser" /></div>
 		<br>&nbsp;<br>
-		<div class="headline"><fmt:message key="WorkflowEngine.MyTasks" /></div>
+		<div class="headline"><fmt:message key="WF.common.MyTasks" /></div>
 		<mcr:getWorkflowTaskBeanList var="myTaskList" mode="activeTasks" workflowTypes="registeruser" varTotalSize="total1" />
 		<table>
 			<c:forEach var="task" items="${myTaskList}">

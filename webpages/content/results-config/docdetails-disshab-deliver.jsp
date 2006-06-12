@@ -39,7 +39,7 @@
 	<td id="contentArea" width="100%">
 	<div id="contentWrapper">
 		<div class="headline"> 
-		   <fmt:message key="Nav.Application.dissertation.deliver" />
+		   <fmt:message key="Webpage.intro.xmetadiss.deliver" />
 		</div>
 	<table >
 	  <tr>
@@ -51,9 +51,9 @@
 	  <tr>
 		<td>
 	    <p align="justify" >
- 	     <fmt:message key="Nav.Application.dissertation.deliver.p1" />
+ 	     <fmt:message key="Webpage.intro.xmetadiss.deliver.p1" />
 		<br/>
- 	     <fmt:message key="Nav.Application.dissertation.deliver.p1.1" />
+ 	     <fmt:message key="Webpage.intro.xmetadiss.deliver.p1.1" />
 		</p>
 	  </td></tr>
 	  <tr>
@@ -62,11 +62,11 @@
 	  <tr>
 		<td>
 	    <p align="justify" > 
-	       <fmt:message key="Nav.Application.dissertation.deliver.p2" />
+	       <fmt:message key="Webpage.intro.xmetadiss.deliver.p2" />
 	       <br/> 
-	       <fmt:message key="Nav.Application.dissertation.deliver.p2.1" />	       
+	       <fmt:message key="Webpage.intro.xmetadiss.deliver.p2.1" />	       
 	       <br/> 
-	       <fmt:message key="Nav.Application.dissertation.deliver.p2.2" />
+	       <fmt:message key="Webpage.intro.xmetadiss.deliver.p2.2" />
 		</p>
 	  </td></tr>
 	  <tr>
@@ -74,7 +74,7 @@
 	  <tr>
 		<td>
 	    <p align="justify" >  
-	       <fmt:message key="Nav.Application.dissertation.deliver.p3" />	    
+	       <fmt:message key="Webpage.intro.xmetadiss.deliver.p3" />	    
 	    </p>
 	  </td></tr>
 	  <tr>
@@ -82,7 +82,7 @@
 	  <tr>
 		<td>
 	    <p align="justify" >	       
-	    	<fmt:message key="Nav.Application.dissertation.deliver.p4" />
+	    	<fmt:message key="Webpage.intro.xmetadiss.deliver.p4" />
 		</p>
 	  </td></tr>
 	  </table>

@@ -15,7 +15,7 @@
 <!--  for all task  -->
      <tr>
        <td class="metaname"> 
-         <b><fmt:message key="WorfklowEngine.Processnumber" /> ${requestScope.task.processID}</b>
+         <b><fmt:message key="WF.common.Processnumber" /> ${requestScope.task.processID}</b>
          <br/>
          <b>Information:</b>
             <fmt:message key="Nav.Application.registeruser.title.${requestScope.task.taskName}" />
@@ -35,11 +35,11 @@
 	       	<c:import url="/content/workflow/registeruser/editorButtons.jsp" />	       
 	       <tr><td>	       
 	       <a href="${baseURL}nav?path=~workflow-registeruser&transition=go2canUserBeSubmitted&endTask=${requestScope.task.taskName}&processID=${requestScope.task.processID}">
-	       	<fmt:message key="Nav.Application.registeruser.UserSubmitting"/></a>
+	       	<fmt:message key="WF.registeruser.UserSubmitting"/></a>
 	        &#160;
 	        &#160;
 	       <a href="${baseURL}nav?path=~workflow-registeruser&transition=go2canUserBeRejected&endTask=${requestScope.task.taskName}&processID=${requestScope.task.processID}">
-	       	<fmt:message key="Nav.Application.registeruser.UserRejecting"/></a>
+	       	<fmt:message key="WF.registeruser.UserRejecting"/></a>
        	</td></tr>   
         </table>
 	   </td>
@@ -59,11 +59,11 @@
         <table width="100%" >
 	     <tr><td >	       
 	       <a href="${baseURL}nav?path=~workflow-registeruser&transition=go2canUserBeCommitted&endTask=${requestScope.task.taskName}&processID=${requestScope.task.processID}">
-	         <fmt:message key="Nav.Application.registeruser.UserSubmitting" />
+	         <fmt:message key="WF.registeruser.UserSubmitting" />
 	       </a>  
 	       </td><td>&#160;  </td><td>	       
 	       <a href="${baseURL}nav?path=~workflow-registeruser&transition=go2canUserBeRejected&endTask=${requestScope.task.taskName}&processID=${requestScope.task.processID}">
-	         <fmt:message key="Nav.Application.registeruser.UserRejecting" />
+	         <fmt:message key="WF.registeruser.UserRejecting" />
 	       </a>  
        	</td></tr>    
         </table>
@@ -81,7 +81,7 @@
 	         <input name="jbpmVariableNames" value="tmpTaskMessage" type="hidden" /> 
 		     <textarea name="tmpTaskMessage" cols="50" rows="4">Ablehnungsgründe: </textarea>  
 		     <br>&nbsp;<br>
-	    	<input name=submit" type="submit" value="<fmt:message key="WorkflowEngine.Form.SendTask" />"/>      
+	    	<input name=submit" type="submit" value="<fmt:message key="WF.common.SendTask" />"/>      
 	      </form>
 	   </td>
 	  </tr>	      

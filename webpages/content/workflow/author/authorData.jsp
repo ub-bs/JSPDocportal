@@ -11,25 +11,25 @@
 	workflowVar="<%= MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS %>" /> --%>
 
 <div class="headline">
-   <fmt:message key="WorkflowEngine.StartAuthorWorkflow" />
+   <fmt:message key="WF.author.StartWorkflow" />
 </div>
 
 <table cellspacing="3" cellpadding="3" >
    <tr>
       <td>      
-        <p><fmt:message key="SWF.Access.ok" /></p>      
+        <p><fmt:message key="WF.common.AccessOK" /></p>      
       </td>
    </tr> 
    <tr>
       <td>      
          <img title="" alt="" src="images/greenArrow.gif">
-         <a href="${WebApplicationBaseURL}nav?path=~author"><fmt:message key="WorkflowEngine.forwardToWorkflow" /></a>
+         <a href="${WebApplicationBaseURL}nav?path=~author"><fmt:message key="WF.common.forwardToWorkflow" /></a>
       </td>
    </tr> 
    <tr>
      <td>
      <hr/>
-     <p><fmt:message key="Service.Hinweis1" /></p>
+     <p><fmt:message key="Webpage.intro.Service.Hinweis1" /></p>
      <p>
         <mcr:getConfigProperty var="mail" prop="MCR.WorkflowEngine.contactemail.author" defaultValue="mycore@mycore.de" />
         <a href="mailto:${mail}">${mail}</a>

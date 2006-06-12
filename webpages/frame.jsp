@@ -250,7 +250,7 @@
 								</x:otherwise>
 							</x:choose>
 						</x:forEach></td>
-						<td class="navi_history_user"><fmt:message key="User" />
+						<td class="navi_history_user"><fmt:message key="Webpage.user" />
 							<mcr:session method="get" var="username" type="userID" />												
 						    : <a href="${WebApplicationBaseURL}nav?path=~login">${username}</a></td>
 					</tr>

@@ -128,7 +128,7 @@
           step="${step}" target="${target}" nextPath="${nextPath}" editorPath="${editorPath}" />        
     </c:when>
     <c:otherwise>
-        <font color="#ff0000"><fmt:message key="SWF.PrivilegesError" /></font>
+        <font color="#ff0000"><fmt:message key="WF.common.PrivilegesError" /></font>
     </c:otherwise>
 </c:choose>
 

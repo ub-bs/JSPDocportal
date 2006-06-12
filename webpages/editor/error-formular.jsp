@@ -6,7 +6,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
 <fmt:setLocale value="${requestScope.lang}" />
 <fmt:setBundle basename='messages'/>
-<div class="headline"><fmt:message key="Editor.CheckFormData" /></div>
+<div class="headline"><fmt:message key="Webpage.editor.CheckFormData" /></div>
     <p></p>
     <br />
     <p></p>
@@ -25,7 +25,7 @@
     <table width="80%">
         <tr align="center">
             <td align="center">
-                <font color="red"><fmt:message key="Editor.YouErrorMessageIsAbove" /></font>
+                <font color="red"><fmt:message key="Webpage.editor.YouErrorMessageIsAbove" /></font>
             </td>
         </tr>
     </table>
@@ -41,5 +41,5 @@
         <input name="type" type="hidden" value="${requestScope.type}" />
         <input name="step" type="hidden" value="editor" />
         <input name="todo" type="hidden" value="weditobj" />
-        <input type="submit" class="submitbutton" value="<fmt:message key="Editor.EditWrongDataset" />" />
+        <input type="submit" class="submitbutton" value="<fmt:message key="Webpage.editor.EditWrongDataset" />" />
     </form>   

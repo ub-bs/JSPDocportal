@@ -76,47 +76,47 @@
           </navitem>
           <navitem name="publish" label="Nav.DocumentManagement" href="content/documentmanagement.jsp">
             <refitem name="~documentmanagement" label="" />
-            <navitem name="author" label="Nav.Workflow.author" href="content/workflow/author/workflow.jsp" >
+            <navitem name="author" label="WF.author" href="content/workflow/author/workflow.jsp" >
               <refitem name="~author" label="" />
-              <navitem name="author-begin" label="Nav.Workflow.author.begin" href="content/workflow/author/begin.jsp" >
+              <navitem name="author-begin" label="WF.author.begin" href="content/workflow/author/begin.jsp" >
                 <refitem name="~author-begin" label="" />
               </navitem>
-              <navitem name="author-info" label="Nav.Workflow.author.info" href="content/workflow/author/information.jsp" >
+              <navitem name="author-info" label="WF.author.info" href="content/workflow/author/information.jsp" >
                 <refitem name="~author-info" label="" />
               </navitem>
 	        </navitem>
-            <navitem name="xmetadiss" label="Nav.Workflow.xmetadiss" href="content/workflow/xmetadiss/workflow.jsp" >
+            <navitem name="xmetadiss" label="WF.xmetadiss" href="content/workflow/xmetadiss/workflow.jsp" >
               <refitem name="~xmetadiss" label="" />
-              <navitem name="xmetadiss-begin" label="Nav.Workflow.xmetadiss.begin" href="content/workflow/xmetadiss/begin.jsp" >
+              <navitem name="xmetadiss-begin" label="WF.xmetadiss.begin" href="content/workflow/xmetadiss/begin.jsp" >
                 <refitem name="~xmetadissbegin" label="" />
               </navitem>
-              <navitem name="xmetadiss-info" label="Nav.Workflow.xmetadiss.info" href="content/workflow/xmetadiss/information.jsp" >
+              <navitem name="xmetadiss-info" label="WF.xmetadiss.info" href="content/workflow/xmetadiss/information.jsp" >
                 <refitem name="~xmetadiss-info" label="" />
               </navitem>
               <navitem name="workflow-fileupload" label="Nav.WorkflowFileupload" href="content/fileupload.jsp" hidden="true" >
                 <refitem name="~workflow-fileupload" label="" />
               </navitem>
             </navitem>
-            <navitem name="publication" label="Nav.Workflow.publication" href="content/workflow/publication/workflow.jsp" >
+            <navitem name="publication" label="WF.publication" href="content/workflow/publication/workflow.jsp" >
               <refitem name="~publication" label="" />
-              <navitem name="publication-begin" label="Nav.Workflow.publication.begin" href="content/workflow/publication/begin.jsp" >
+              <navitem name="publication-begin" label="WF.publication.begin" href="content/workflow/publication/begin.jsp" >
                 <refitem name="~publicationbegin" label="" />
               </navitem>
-              <navitem name="publication-info" label="Nav.Workflow.publication.info" href="content/workflow/publication/information.jsp" >
+              <navitem name="publication-info" label="WF.publication.info" href="content/workflow/publication/information.jsp" >
                 <refitem name="~publication-info" label="" />
               </navitem>
-              <navitem name="workflow-fileupload" label="Nav.WorkflowFileupload" href="content/fileupload.jsp" hidden="true" >
+              <navitem name="workflow-fileupload" label="Nav.WorfklowFileUpload" href="content/fileupload.jsp" hidden="true" >
                 <refitem name="~workflow-fileupload" label="" />
               </navitem>
             </navitem>           
             <!--  hidden entries for editor include and previews -->
-            <navitem name="workflow-edit" label="Nav.WorkflowEdit" href="content/workflow-editor.jsp" hidden="true">
+            <navitem name="workflow-edit" label="WF.Edit" href="content/workflow-editor.jsp" hidden="true">
               <refitem name="~workflow-edit" label="" />
             </navitem>
-            <navitem name="editor-include" label="Nav.WorkflowEdit" href="content/editor-include.jsp" hidden="true">
+            <navitem name="editor-include" label="WF.Edit" href="content/editor-include.jsp" hidden="true">
               <refitem name="~editor-include" label="" />
             </navitem>
-            <navitem name="workflow-preview" label="Nav.WorkflowPreview" href="content/docdetails.jsp"  hidden="true">
+            <navitem name="workflow-preview" label="WF.Preview" href="content/docdetails.jsp"  hidden="true">
               <refitem name="~workflow-preview" label="" />
             </navitem>
           </navitem>
@@ -154,8 +154,8 @@
             <refitem name="~index" label="" />
           </navitem>
           <navitem name="sitemap" label="Nav.Sitemap" href="content/sitemap.jsp" />
-          <navitem name="login" label="Nav.Login" href="content/login.jsp" >
-            <refitem name="~login" label="" />
+          <navitem name="login" label="Nav.Login" href="content/login.jsp">
+             <refitem name="~login" label="" />
             <navitem name="showuser" label="Nav.UserDetails" href="content/docdetails.jsp?style=user">
               <refitem name="~userdetail" label="" />
             </navitem>
@@ -209,7 +209,7 @@
          </navitem>
         </navitem> 
         <navitem name="xmetadiss" label="Nav.Admin.Xmetadiss" href="admin/xmetadiss.jsp" right="administrate-xmetadiss" >
-          <navitem name="workflow"	label="Nav.Workflow.xmetadiss" href="content/workflow/xmetadiss/workflow.jsp" right="administrate-xmetadiss" >
+          <navitem name="workflow"	label="WF.xmetadiss" href="content/workflow/xmetadiss/workflow.jsp" right="administrate-xmetadiss" >
             <refitem name="~workflow-xmetadiss" label="" />
           </navitem>
           <navitem name="process-xmetadiss" label="Nav.Admin.Processes" href="admin/processes_list.jsp?workflowProcessType=xmetadiss" right="administrate-xmetadiss" >
@@ -228,7 +228,7 @@
           <navitem name="workflow"	label="Nav.Workflow.author" href="content/workflow/author/workflow.jsp"  right="administrate-author">
             <refitem name="~workflow-author" label="" />
           </navitem>
-          <navitem name="process-author" label="Nav.Admin.Processes" href="admin/processes_list.jsp?workflowProcessType=author"  right="administrate-author">
+          <navitem name="process-author" label="Nav.admin.Processes" href="admin/processes_list.jsp?workflowProcessType=author"  right="administrate-author">
             <refitem name="~process-author" label="" />
           </navitem>
         </navitem>

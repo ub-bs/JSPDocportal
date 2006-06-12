@@ -36,12 +36,12 @@
 
 <c:choose>
    <c:when test="${empty(myTaskList)&& empty(myProcessList)}">
-	  <div class="headline"><fmt:message key="Nav.Workflow.xmetadiss.info" /></div>
+	  <div class="headline"><fmt:message key="WF.xmetadiss.info" /></div>
       <img title="" alt="" src="images/greenArrow.gif">
-      <a target="_self" href="${baseURL}nav?path=~xmetadissbegin"><fmt:message key="WorkflowEngine.StartXmetadissWorkflow" /></a>
+      <a target="_self" href="${baseURL}nav?path=~xmetadissbegin"><fmt:message key="WF.xmetadiss.StartWorkflow" /></a>
       <br/>&nbsp;<br>
       <img title="" alt="" src="images/greenArrow.gif">
-      <fmt:message key="WorkflowEngine.EmptyWorkflow" />   
+      <fmt:message key="WF.common.EmptyWorkflow" />   
       <br>&nbsp;<br>
       <mcr:checkAccess permission="administrate-xmetadiss" var="curUserIsAdminUser" />
       <c:if test="${!curUserIsAdminUser}">
@@ -50,9 +50,9 @@
    	  </c:if>
    </c:when>
    <c:otherwise>
-        <div class="headline"><fmt:message key="Nav.WorkflowDisshab" /></div>
+        <div class="headline"><fmt:message key="WF.Disshab" /></div>
         <br>&nbsp;<br>
-        <div class="headline"><fmt:message key="WorkflowEngine.MyTasks" /></div>   
+        <div class="headline"><fmt:message key="WF.common.MyTasks" /></div>   
         
         <table>       
 	        <c:forEach var="task" items="${myTaskList}">
@@ -64,13 +64,13 @@
 		    </td></tr>       
 	        </c:forEach>
         <c:if test="${empty(myTaskList)}">
-           <font color="#00ff00"><fmt:message key="WorkflowEngine.NoTasks" /></font>
+           <font color="#00ff00"><fmt:message key="WF.common.NoTasks" /></font>
         </c:if>
         </table>
         
         <br>&nbsp;<br>
         
-        <div class="headline"><fmt:message key="WorkflowEngine.MyInititiatedProcesses.xmetadiss" /></div>
+        <div class="headline"><fmt:message key="WF.common.MyInititiatedProcesses.xmetadiss" /></div>
         
         <table>
         <c:forEach var="task" items="${myProcessList}">
@@ -78,7 +78,7 @@
            <c:import url="/content/workflow/${task.workflowProcessType}/getTasks.jsp" />
         </c:forEach>
         <c:if test="${empty(myProcessList)}">
-           <font color="#00ff00"><fmt:message key="WorkflowEngine.NoTasks" /></font>
+           <font color="#00ff00"><fmt:message key="WF.common.NoTasks" /></font>
         </c:if>
         </table>   
    </c:otherwise>

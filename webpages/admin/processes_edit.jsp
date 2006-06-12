@@ -12,7 +12,7 @@
 <c:set var="wfVar" value="${param.workflowVar}" />
 <c:set var="type" value="${param.workflowProcessType}" />
 
-<div class="headline"><fmt:message key="Admin.Process" /></div>
+<div class="headline"><fmt:message key="Webpage.admin.Process" /></div>
 
 <p> </p>
 

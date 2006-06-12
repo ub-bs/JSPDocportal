@@ -65,7 +65,7 @@ public class MCRDeleteProcessTag extends SimpleTagSupport {
 	
 	public void doTag() throws JspException, IOException {
 		PageContext pageContext = (PageContext) getJspContext();
-    	pageContext.setAttribute(result, "Admin.Process.deleted.successfull");
+    	pageContext.setAttribute(result, "Webpage.admin.Process.deleted.successfull");
 
     	MCRWorkflowManager WFM = null;
 		try {
@@ -80,11 +80,11 @@ public class MCRDeleteProcessTag extends SimpleTagSupport {
 			try{ 
 				WFM.deleteWorkflowProcessInstance(pid);
 			} catch (Exception allEx) {
-		    	pageContext.setAttribute(result, "Admin.Process.deleted.error");	
+		    	pageContext.setAttribute(result, "Webpage.admin.Process.deleted.error");	
 		    	LOGGER.error("error:", allEx);
 			}
     	} else {
-	    	pageContext.setAttribute(result, "Admin.Process.deleted.norights");	    		
+	    	pageContext.setAttribute(result, "Webpage.admin.Process.deleted.norights");	    		
     	}
 		return;		
 	}

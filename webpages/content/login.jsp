@@ -13,7 +13,7 @@
 
 <mcr:login uid="${param.uid}" pwd="${param.pwd}" var="loginresult" />
 
-<div class="headline"><fmt:message key="Login.ChangeUserID" /></div>
+<div class="headline"><fmt:message key="Webpage.login.ChangeUserID" /></div>
 
 <x:forEach select="$loginresult">
   <x:set var="status" select="string(./@status)" />
@@ -24,7 +24,7 @@
 <table id="metaHeading" cellpadding="0" cellspacing="0">
 	<tbody>
 		<tr>
-			<td class="titles"><fmt:message key="Login.YouAreLoggedInAs" />:&nbsp;&nbsp;
+			<td class="titles"><fmt:message key="Webpage.login.YouAreLoggedInAs" />:&nbsp;&nbsp;
 			<c:out value="${username}"></c:out></td>
 		</tr>
 	</tbody>
@@ -67,19 +67,19 @@
 	</table>
 </c:when>
 <c:otherwise>
-    <div id="userStatus"><c:out value="${status}"></c:out></div>
+    <div id="userStatus"><fmt:message key="Webpage.loging.status.${status}" /></div>
 	<form method="post" action="nav?path=~login"><input name="url"
 		value="<c:out value="${requestScope.WebApplicationBaseURL}" />"
 		type="hidden">
 	<table id="userAction">
 		<tbody>
 			<tr>
-				<td class="inputCaption"><fmt:message key="Login.UserLogin" />:</td>
+				<td class="inputCaption"><fmt:message key="Webpage.login.UserLogin" />:</td>
 				<td class="inputField"><input maxlength="30" class="text" name="uid"
 					type="text"></td>
 			</tr>
 			<tr>
-				<td class="inputCaption"><fmt:message key="Login.Password" />:</td>
+				<td class="inputCaption"><fmt:message key="Webpage.login.Password" />:</td>
 				<td class="inputField"><input maxlength="30" class="text" name="pwd"
 					type="password"></td>
 			</tr>
@@ -87,9 +87,9 @@
 	</table>
 	<hr>
 	<div class="submitButton">&nbsp; <input name="LoginSubmit"
-		value="<fmt:message key="Login.Login" />" class="submitbutton"
+		value="<fmt:message key="Webpage.login.Login" />" class="submitbutton"
 		type="submit"> &nbsp; <input name="LoginReset"
-		value="<fmt:message key="Cancel" />" class="submitbutton" type="reset">
+		value="<fmt:message key="Webpage.login.Cancel" />" class="submitbutton" type="reset">
 	</div>
 	</form>
 

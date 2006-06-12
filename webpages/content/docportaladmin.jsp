@@ -11,12 +11,12 @@
 <mcr:checkAccess var="adminaccessrules" permission="administrate-accessrules" key="" />
 
 <div class="adminheadline">
-	<fmt:message key="Admin.Application" />
+	<fmt:message key="Webpage.admin.Application" />
 </div>
 <br />
 
 <div class="textblock">
-	<fmt:message key="Admin.Text1" />
+	<fmt:message key="Webpage.intro.admin.Text1" />
 </div>
 <hr />
 <table class="editor">
@@ -28,7 +28,7 @@
 			<c:choose>
 				<c:when test="${adminuser}">
 					<img src="${applicationScope.WebApplicationBaseURL}images/link_intern.gif" border="0" />&#160; <a href="${applicationScope.WebApplicationBaseURL}nav?path=~workflow-registeruser">
-						<fmt:message key="Nav.WorkflowRegisteruser" />
+						<fmt:message key="WF.Registeruser" />
 					</a><br />
 				</c:when>
 				<c:otherwise>
