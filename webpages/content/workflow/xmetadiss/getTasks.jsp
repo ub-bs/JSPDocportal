@@ -22,6 +22,20 @@
       (<fmt:message key="WF.common.Processnumber" /> <b>${requestScope.task.processID}</b>): <br>
       <b><fmt:message key="WF.xmetadiss.status.${requestScope.task.workflowStatus}" /></b>
    </c:when>
+   <c:when test="${requestScope.task.taskName eq 'taskprocessEditInitialized' }" >
+      <p>
+         <img title="" alt="" src="${baseURL}images/greenArrow.gif">
+         <fmt:message key="WorkflowEngine.description.completedisshabandsendtolibrary.xmetadiss" />
+         <br>
+         <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="xmetadiss" decision="canDisshabBeSubmitted" />
+         <c:if test="${transition eq 'documentCanBeSubmitted'}">
+	        <img title="" alt="" src="${baseURL}images/greenArrow.gif">         
+            <a href="${baseURL}nav?path=~xmetadiss&transition=&endTask=taskprocessEditInitialized&processID=${requestScope.task.processID}"><fmt:message key="WF.xmetadiss.taskCompleteDisshabAndSendToLibrary" /></a>
+         </c:if>      
+      </p>
+      <c:import url="/content/workflow/editorButtons.jsp" />
+   </c:when>
+   
    <c:when test="${requestScope.task.taskName eq 'taskCompleteDisshabAndSendToLibrary'}">
       <p>
          <img title="" alt="" src="${baseURL}images/greenArrow.gif">
