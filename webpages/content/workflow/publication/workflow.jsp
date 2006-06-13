@@ -48,7 +48,7 @@
    	  </c:if>
    </c:when>
    <c:otherwise>
-        <div class="headline"><fmt:message key="WF.Publication" /></div>
+        <div class="headline"><fmt:message key="WF.publication" /></div>
         <img title="" alt="" src="images/greenArrow.gif">
         <a target="_self" href="${baseURL}nav?path=~publicationbegin"><fmt:message key="WF.publication.StartWorkflow" /></a>
         <br/>&nbsp;<br>
