@@ -217,7 +217,7 @@
           </navitem>
         </navitem>
         <navitem name="publication" label="Nav.Admin.Publication" href="admin/publication.jsp"  right="administrate-publication" >
-          <navitem name="workflow"	label="Nav.Workflow.publication" href="content/workflow/publication/workflow.jsp" right="administrate-publication" >
+          <navitem name="workflow"	label="WF.publication" href="content/workflow/publication/workflow.jsp" right="administrate-publication" >
             <refitem name="~workflow-publication" label="" />
           </navitem>
           <navitem name="process-publication" label="Nav.Admin.Processes" href="admin/processes_list.jsp?workflowProcessType=publication" right="administrate-publication" >
@@ -225,10 +225,10 @@
           </navitem>
         </navitem>
         <navitem name="author" label="Nav.Admin.Author" href="admin/author.jsp"  right="administrate-author" >
-          <navitem name="workflow"	label="Nav.Workflow.author" href="content/workflow/author/workflow.jsp"  right="administrate-author">
+          <navitem name="workflow"	label="WF.author" href="content/workflow/author/workflow.jsp"  right="administrate-author">
             <refitem name="~workflow-author" label="" />
           </navitem>
-          <navitem name="process-author" label="Nav.admin.Processes" href="admin/processes_list.jsp?workflowProcessType=author"  right="administrate-author">
+          <navitem name="process-author" label="Nav.Admin.Processes" href="admin/processes_list.jsp?workflowProcessType=author"  right="administrate-author">
             <refitem name="~process-author" label="" />
           </navitem>
         </navitem>
