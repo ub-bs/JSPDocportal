@@ -72,7 +72,7 @@
  <tr>
    <td>
      <div class="headline">
-      <fmt:message key="metaData.${type}.title" />:
+      <fmt:message key="OMD.${type}.title" />:
          <mcr:simpleXpath jdom="${mycoreobject}" xpath="/mycoreobject/metadata/titles/title[@xml:lang='${requestScope.lang}']" />
          <mcr:simpleXpath jdom="${mycoreobject}" xpath="/mycoreobject/metadata/names/name/fullname" />
      </div>
@@ -121,11 +121,11 @@
                         <x:choose>
                            <x:when select="../@type = 'BooleanValues'">
                               <x:set var="booleanKey" select="concat(./@type,'-',./@text)" />
-                              <fmt:message key="metaData.${booleanKey}" />
+                              <fmt:message key="OMD.${booleanKey}" />
                            </x:when>
                            <x:when select="../@type = 'AuthorJoin'">
                               <x:set var="authorjoinKey" select="concat(./@type,'-',./@text)" />
-                                 <a href="<x:out select="./@href" />" target="<x:out select="./@target" />"><fmt:message key="${authorjoinKey}" /></a>
+                                 <a href="<x:out select="./@href" />" target="<x:out select="./@target" />"><fmt:message key="OMD.${authorjoinKey}" /></a>
                            </x:when>                                     
                            <x:when select="./@href != ''">
                               <a href="<x:out select="./@href" />" target="<x:out select="./@target" />"><x:out select="./@text" /></a>
