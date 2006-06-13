@@ -51,7 +51,7 @@
 		<c:otherwise>
 			<c:out value="${pageTitle}" />
 		</c:otherwise>
-	</c:choose> @ <fmt:message key="Title.DocPortalTrailer" /></title>
+	</c:choose> @ <fmt:message key="Webpage.intro.title" /></title>
 	
 	<script src="${WebApplicationBaseURL}javascript/jspdocportal.js" type="text/javascript"></script>
 	<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_general.css">
