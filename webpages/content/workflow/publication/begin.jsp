@@ -18,10 +18,8 @@
 
 
 <mcr:initWorkflowProcess userid="${username}" status="status" 
-	 workflowProcessType="${workflowType}" 
-	 processidVar="pid" 
-	 transition="go2processInitialized"
-	 scope="request" />
+    workflowProcessType="${workflowType}" 	 
+	processidVar="pid" 	 transition="go2getPublicationType"	 scope="request" />
 <c:choose>
 <c:when test="${fn:contains(status,'errorUserGuest')}">
   <div class="headline"><fmt:message key="Webpage.intro.publications.Subtitle1" /></div>
@@ -36,7 +34,7 @@
 	<p><fmt:message key="WF.xmetadiss.errorWfM2" /></p>
 </c:when>
 <c:otherwise>
-	<c:import url="/content/workflow/publication/documentData.jsp" />
+    <c:import url="/content/workflow/${workflowType}/workflow.jsp" />  
 </c:otherwise>
 </c:choose>
 
