@@ -24,7 +24,7 @@
 </td>
    <tr><td >
      <hr/>
-     <p><fmt:message key="Service.Hinweis1" /></p>
+     <p><fmt:message key="Webpage.intro.Service.Hinweis1" /></p>
      <p>
        <mcr:getConfigProperty var="mail" prop="MCR.WorkflowEngine.contactemail.publication" defaultValue="mycore@mycore.de" />
        <a href="mailto:${mail}">${mail}</a>

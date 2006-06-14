@@ -35,10 +35,10 @@
 <c:choose>
    <c:when test="${empty(myTaskList)&& empty(myProcessList)}">
 	  <div class="headline"><fmt:message key="WF.publication.info" /></div>
-      <img title="" alt="" src="images/greenArrow.gif">
+      <img title="" alt="" src="${baseURL}images/greenArrow.gif">
       <a target="_self" href="${baseURL}nav?path=~publicationbegin"><fmt:message key="WF.publication.StartWorkflow" /></a>
       <br/>&nbsp;<br>
-      <img title="" alt="" src="images/greenArrow.gif">
+      <img title="" alt="" src="${baseURL}images/greenArrow.gif">
       <fmt:message key="WF.common.EmptyWorkflow" />   
       <br>&nbsp;<br>
       <mcr:checkAccess permission="administrate-publication" var="curUserIsAdminUser" />
@@ -49,15 +49,15 @@
    </c:when>
    <c:otherwise>
         <div class="headline"><fmt:message key="WF.publication" /></div>
-        <img title="" alt="" src="images/greenArrow.gif">
+        <img title="" alt="" src="${baseURL}images/greenArrow.gif">
         <a target="_self" href="${baseURL}nav?path=~publicationbegin"><fmt:message key="WF.publication.StartWorkflow" /></a>
         <br/>&nbsp;<br>
         <br>&nbsp;<br>
         <div class="headline"><fmt:message key="WF.common.MyTasks" /></div>   
         
-        <table>       
+        <table cellspacing="3" >       
 	        <c:forEach var="task" items="${myTaskList}">
-	        <tr><td class="task">
+	        <tr><td class="task" border="1">
 	           <c:set var="task" scope="request" value="${task}" />
 	           <c:import url="/content/workflow/${task.workflowProcessType}/getTasks.jsp" />
 		    </td></tr>       

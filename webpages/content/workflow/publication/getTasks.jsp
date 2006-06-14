@@ -12,7 +12,9 @@
 <fmt:setBundle basename='messages' />
 <c:set var="debug" value="true" />
 <c:set var="dom" value="${requestScope.task.variables}" />
-
+<!-- 
+<b><c:out value="${requestScope.task.taskName}"></c:out></b><br/>
+ -->
 <c:if test="${requestScope.task.taskName ne 'initialization'}">
    <fmt:message key="WF.publication.Publication" /> <fmt:message key="WF.common.Processnumber" /> <b>${requestScope.task.processID}</b>: <br>
 </c:if>
@@ -24,21 +26,19 @@
       <br/>
    </c:when>
 	<c:when	test="${requestScope.task.taskName eq 'taskGetPublicationType'}">
-		<p>
-		<fmt:message key="WF.description.getPublicationType" />
-	   <br/>&nbsp;<br/>
+		<fmt:message key="WF.publication.GetPublicationType" />
+	    <br/>
 		<c:url var="url" value="${WebApplicationBaseURL}editor/workflow/getPublicationTypes.xml">
 			<c:param name="dispatcherForward" value="/nav?path=~publication" />
 			<c:param name="transition" value="" />
 			<c:param name="endTask" value="taskGetPublicationType" />
 			<c:param name="processID" value="${requestScope.task.processID}" />
-			<c:param name="jbpmVariableNames" value="/publication/types"	 />
+			<c:param name="jbpmVariableNames" value="/publication/Type"	 />
 			<c:param name="XSL.editor.source.new" value="true" />
 			<c:param name="XSL.editor.cancel.url" value="/nav?path=~publication" />
 			<c:param name="lang" value="${requestScope.lang}" />
 		</c:url>
 		<c:import url="${url}" />
-		</p>
 	</c:when>
 	<c:when	test="${requestScope.task.taskName eq 'taskprocessInitialized' }">
 		<mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="urn" workflowVar="reservatedURN" /> 
@@ -68,35 +68,31 @@
 		           <br/><i><fmt:message key="WF.publication.Created2" /></i>
 		      </td>
 		   </tr>     
-		</c:if>
-		
+		</c:if>		
 		   <tr>
 		      <td colspan="2">
-		         <img title="" alt="" src="images/greenArrow.gif">
+		         <img title="" alt="" src="${baseURL}images/greenArrow.gif">
 		         <a	href="${baseURL}nav?path=~publication&transition=&endTask=taskprocessInitialized&processID=${requestScope.task.processID}">		         
-			         <fmt:message key="WF.common.forwardToWorkflow" /></a>
+			         <fmt:message key="WF.common.object.EditObject" /></a>
 		      </td>
 		   </tr> 
 		</table>	
 	</c:when>
    <c:when test="${requestScope.task.taskName eq 'taskprocessEditInitialized' }" >
-      <p>
-         <img title="" alt="" src="${baseURL}images/greenArrow.gif">
-         <fmt:message key="WF.publication.completedocumentandsendtolibrary" />
-         <br>
-         <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="publication" decision="canDocumentBeSubmitted" />
-         <c:if test="${transition eq 'documentCanBeSubmitted'}">
-	        <img title="" alt="" src="${baseURL}images/greenArrow.gif">         
-            <a href="${baseURL}nav?path=~publication&transition=&endTask=taskprocessEditInitialized&processID=${requestScope.task.processID}"><fmt:message key="WF.publication.taskCompleteDocumentAndSendToLibrary" /></a>
-         </c:if>      
-      </p>
-      <c:import url="/content/workflow/editorButtons.jsp" />
+       <img title="" alt="" src="${baseURL}images/greenArrow.gif">
+       <fmt:message key="WF.publication.completedocumentandsendtolibrary" />
+       <br>
+       <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="publication" decision="canDocumentBeSubmitted" />
+       <c:if test="${transition eq 'documentCanBeSubmitted'}">
+       	  <img title="" alt="" src="${baseURL}images/greenArrow.gif">         
+          <a href="${baseURL}nav?path=~publication&transition=&endTask=taskprocessEditInitialized&processID=${requestScope.task.processID}"><fmt:message key="WF.publication.taskCompleteDocumentAndSendToLibrary" /></a>
+       </c:if>      
+       <c:import url="/content/workflow/editorButtons.jsp" />
    </c:when>
  
    <c:when test="${requestScope.task.taskName eq 'taskGetInitiatorsEmailAddress'}" >
-      <p>
          <fmt:message key="WF.common.getInitiatorsEmailAddress" />
-		 <br>&nbsp;<br>
+		 <br/>
 	     <form action="${baseURL}setworkflowvariable" accept-charset="utf-8">
     	     <input name="dispatcherForward" value="/nav?path=~publication" type="hidden" />
         	 <input name="transition" value="" type="hidden" />
@@ -104,14 +100,11 @@
     	     <input name="processID" value="${requestScope.task.processID}" type="hidden" />
     	     <input name="jbpmVariableNames" value="initiatorEmail" type="hidden" />
         	 <input type="text" size="80" name="initiatorEmail">
-        	 <br>&nbsp;<br>
          	 <input name=submit" type="submit" value="<fmt:message key="WF.common.Send" />" />     
 	     </form>	
-     </p>
    </c:when>   
    
    <c:when test="${requestScope.task.taskName eq 'taskCompleteDocumentAndSendToLibrary' }" >
-      <p>
          <img title="" alt="" src="${baseURL}images/greenArrow.gif">
          <fmt:message key="WF.publication.completedocumentandsendtolibrary" />
          <br>
@@ -119,9 +112,9 @@
          <c:if test="${transition eq 'documentCanBeSubmitted'}">
 	        <img title="" alt="" src="${baseURL}images/greenArrow.gif">         
             <a href="${baseURL}nav?path=~publication&transition=&endTask=taskCompleteDocumentAndSendToLibrary&processID=${requestScope.task.processID}"><fmt:message key="WF.publication.taskCompleteDocumentAndSendToLibrary" /></a>
-         </c:if>      
-      </p>
-      <c:import url="/content/workflow/editorButtons.jsp" />
+         </c:if>  
+         <br/>    
+         <c:import url="/content/workflow/editorButtons.jsp" />
    </c:when>
    
    <c:when test="${requestScope.task.taskName eq 'taskCheckCompleteness'}">
@@ -152,10 +145,6 @@
    <c:when test="${requestScope.task.taskName eq 'taskAdminCheckCommitmentNotSuccessFul'}">
       <a href="${baseURL}nav?path=~publication&transition=go2documentCommitted&endTask=taskAdminCheckCommitmentNotSuccessFul&processID=${requestScope.task.processID}"><fmt:message key="Nav.Application.dissertation.sendAffirmationOfSubmission" /></a><br>      
    </c:when>
-   
-       
-
-   
    <c:otherwise>
     <p> what else? TASK = ${requestScope.task.taskName} </p>
    </c:otherwise>
