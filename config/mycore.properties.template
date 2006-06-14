@@ -83,7 +83,7 @@ MCR.WorkflowEngine.ClassificationID.Language=DocPortal_class_00000004
 
 MCR.WorkflowEngine.PublisherDefaultID.xmetadiss=DocPortal_institution_00000001
 MCR.WorkflowEngine.Classification.Format.DefaultCategoryID.xmetadiss=FORMAT0001
-MCR.WorkflowEngine.Classification.Type.SelectCategoryIDs.xmetadiss=TYPE0007,TYPE0008,TYPE0009,TYPE0029,TYPE0030
+MCR.WorkflowEngine.Classification.Type.SelectCategoryIDs.xmetadiss=TYPE0003.006,TYPE0003.007
 MCR.WorkflowEngine.Classification.Language.SelectCategoryIDs.xmetadiss=LANG0001,LANG0002,LANG0003
 MCR.WorkflowEngine.Rightslinks.DefaultURL.xmetadiss=http://www.mycore.de/dissertations-copyright.html
 MCR.WorkflowEngine.ContactIdDDB.xmetadiss=Fxxxx-xxxx
@@ -325,14 +325,14 @@ MCR.ClassificationBrowser.type.EmbeddingPage=mcr_doc_browse.xml
 MCR.ClassificationBrowser.type.Style=search
 MCR.ClassificationBrowser.type.EmptyLeafs=yes
 MCR.ClassificationBrowser.type.Comments=true
-MCR.ClassificationBrowser.type.View=flat
+MCR.ClassificationBrowser.type.View=tree
 MCR.ClassificationBrowser.type.SearchField=type
 
 # browsing classification for origin
 MCR.ClassificationBrowser.origin.Classification=DocPortal_class_00000003
 MCR.ClassificationBrowser.origin.EmbeddingPage=mcr_doc_browse.xml
 MCR.ClassificationBrowser.origin.Style=search
-MCR.ClassificationBrowser.origin.EmptyLeafs=no
+MCR.ClassificationBrowser.origin.EmptyLeafs=yes
 MCR.ClassificationBrowser.origin.View=tree
 MCR.ClassificationBrowser.origin.Comments=true
 MCR.ClassificationBrowser.origin.SearchField=origin
@@ -341,8 +341,8 @@ MCR.ClassificationBrowser.origin.SearchField=origin
 MCR.ClassificationBrowser.format.Classification=DocPortal_class_00000006
 MCR.ClassificationBrowser.format.EmbeddingPage=mcr_doc_browse.xml
 MCR.ClassificationBrowser.format.Style=search
-MCR.ClassificationBrowser.format.EmptyLeafs=no
-MCR.ClassificationBrowser.format.View=flat
+MCR.ClassificationBrowser.format.EmptyLeafs=yes
+MCR.ClassificationBrowser.format.View=tree
 MCR.ClassificationBrowser.format.Comments=true
 MCR.ClassificationBrowser.format.SearchField=format
 
