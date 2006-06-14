@@ -749,13 +749,16 @@ Use this date format <b>DD.MM.YYYY</b>.
 
   <helpPopup id="HDateBirthP" width="400px" height="250px">
     <label xml:lang="de">
-      GEBURTSDATUM<br />Bitte geben Sie hier Ihr Geburtsdatum ein. 
-      Benutzen Sie dabei bitte eines der folgenden Formate: DD.MM.YYYY oder 
-      YYYY-MM-DD<br />Beispiel: 16.04.1984 oder 1980-02-08
+      GEBURTSDATUM<br />
+Bitte geben Sie hier das Geburtsdatum ein. <br />
+Es wird intern für die Verarbeitung der Daten benötigt und nicht veröffentlicht.<br />
+Benutzen Sie dabei bitte eines der folgenden Formate: DD.MM.YYYY oder 
+YYYY-MM-DD<br />Beispiel: 16.04.1984 oder 1980-02-08
     </label>
     <label xml:lang="en">
       BIRTH OF DATE<br />
-For the processing of persons in library catalogs you must give the date of birth from this person.
+For internal processing you must give the date of birth from this person.<br />
+It will not be published. <br />
 Use this date format <b>YYYY-MM-DD</b> or <b>DD.MM.YYYY</b>, for example: 1984-04-16
     </label>
   </helpPopup>

@@ -35,6 +35,34 @@
     <cell col="3" row="5" anchor="NORTHWEST" ref="APNamePrefix" />
   </panel>
 
+  <!-- *** NAME *** -->
+  <panel id="DPName_woPeerage">
+    <hidden var="metadata/names/@class" default="MCRMetaPersonName" />
+    <hidden var="metadata/names/@parasearch" default="true" />
+    <hidden var="metadata/names/@textsearch" default="true" />
+    <hidden var="metadata/names/@notinherit" default="false" />
+    <hidden var="metadata/names/@heritable" default="true" />
+    <hidden var="metadata/names/name/@inherited" default="0" />
+    <hidden var="metadata/names/name/@lang" ordernr="1" default="de" />
+    <cell col="2" row="1" anchor="NORTHWEST"  var="metadata/names/name/surname" ordernr="1" >
+	  <textfield id="tf.Surname"  width="30" maxlength="128"  class="mandatory" >		
+		<condition required="true" label="Bitte geben Sie einen Namen ein!" id="cond.Name" />
+	  </textfield>	
+	</cell>	
+    <cell col="3" row="1" anchor="NORTHWEST" ref="APNameSurname" />
+    <cell col="2" row="2" anchor="NORTHWEST" var="metadata/names/name/firstname" ordernr="1" >
+	  <textfield id="tf.FirstName"  width="30" maxlength="128"  class="mandatory" >		
+		<condition required="true" label="Bitte geben Sie einen Voramen ein!" id="cond.FirstName" />
+	  </textfield>	
+	</cell>	
+    <cell col="3" row="2" anchor="NORTHWEST" ref="APNameFirstName" />
+    <cell col="2" row="3" anchor="NORTHWEST" ref="TFzeile32" var="metadata/names/name/academic" ordernr="1" />
+    <cell col="3" row="3" anchor="NORTHWEST" ref="APNameAcademic" />
+    <cell col="2" row="4" anchor="NORTHWEST" ref="TFzeile32" var="metadata/names/name/prefix" ordernr="1" />
+    <cell col="3" row="4" anchor="NORTHWEST" ref="APNamePrefix" />
+  </panel>
+
+
 <!-- *** FEMALE *** -->
 
   <panel id="DFemale">
@@ -132,6 +160,24 @@
     <cell col="2" row="1" anchor="WEST" ref="TFzeile10" var="metadata/dates/date" ordernr="6" />
   </panel>
 
+  <panel id="DDateM">
+    <hidden var="metadata/dates/@class" default="MCRMetaISO8601Date" />
+    <hidden var="metadata/dates/@parasearch" default="true" />
+    <hidden var="metadata/dates/@textsearch" default="false" />
+    <hidden var="metadata/dates/@notinherit" default="false" />
+    <hidden var="metadata/dates/@heritable" default="true" />
+    <hidden var="metadata/dates/date/@inherited" default="0" />
+    <hidden var="metadata/dates/date/@type" default="birth" />
+    <cell col="2" row="1" anchor="WEST" var="metadata/dates/date" ordernr="6" >
+      <textfield id="tf.Date"  width="10" maxlength="10"  class="mandatory" >		
+      <condition id="cond.Date" regexp="(\d\d\.\d\d\.\d\d\d\d)|(\d\d\d\d\-\d\d\-\d\d)" required="true" >
+			  <label xml:lang="de">Bitte geben Sie das Datum in der Form tt.mm.yyyy oder yyyy-mm-tt ein!</label>
+			  <label xml:lang="en">Please enter the date like dd.mm.yyyy or yyyy-mm-dd !</label>
+		   </condition>
+		</textfield>	 
+    </cell>
+  </panel>
+
 <!-- *** Data for the PROFESSION ** -->
 
   <panel id="DProfession">
@@ -145,6 +191,19 @@
     <cell col="2" row="1" anchor="WEST" ref="TFzeile128" var="metadata/professions/profession" ordernr="7" />
     <cell col="3" row="1" anchor="NORTHWEST" ref="SProfession" var="metadata/professions/profession/@type" ordernr="7" default="profession" />
   </panel>
+
+  <panel id="DProfession_Only">
+    <hidden var="metadata/professions/@class" default="MCRMetaLangText" />
+    <hidden var="metadata/professions/@parasearch" default="true" />
+    <hidden var="metadata/professions/@textsearch" default="true" />
+    <hidden var="metadata/professions/@notinherit" default="false" />
+    <hidden var="metadata/professions/@heritable" default="true" />
+    <hidden var="metadata/professions/profession/@inherited" default="0" />
+    <hidden var="metadata/professions/profession/@lang" ordernr="7" default="de" />
+    <hidden var="metadata/professions/profession/@type" default="profession" />
+    <cell col="2" row="1" anchor="WEST" ref="TFzeile128" var="metadata/professions/profession" ordernr="7" />
+  </panel>
+
 
 <!-- ** Data for the NATIONAL *** -->
 
@@ -284,8 +343,45 @@
     </label>   
   </text>
 
+	<text id="LOrigin_StrukturEinheit">
+			<label xml:lang="de">
+		      <span class="editorlabel">Struktureinheit (*)</span>
+		    </label>
+		    <label xml:lang="en">
+		      <span class="editorlabel">Unit (*)</span>
+		    </label>
+	   </text>
+
+	<text id="ProfessionOnly">
+			<label xml:lang="de">
+		      <span class="editorlabel">Beruf</span>
+		    </label>
+		    <label xml:lang="en">
+		      <span class="editorlabel">Profession</span>
+		    </label>
+	   </text>
+
+	<text id="LBirthDateM">
+			<label xml:lang="de">
+		      <span class="editorlabel">Geburtsdatum (*)</span>
+		    </label>
+		    <label xml:lang="en">
+		      <span class="editorlabel">Birth date (*)</span>
+		    </label>
+	   </text>
+
+    <text id="LHomepage">
+
+    
+			<label xml:lang="de">
+		      <span class="editorlabel">Homepage</span>
+		    </label>
+		    <label xml:lang="en">
+		      <span class="editorlabel">Home page</span>
+		    </label>
 
 
+  </text>
 
 <!-- *** End *** -->
 </imports>

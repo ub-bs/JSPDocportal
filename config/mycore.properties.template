@@ -5,6 +5,14 @@ MCR.WorkflowEngine.ManagerImpl.author=org.mycore.frontend.workflowengine.jbpm.au
 
 MCR.BaseDirectory=C:/sample-mcrjsp
 
+MCR.WorkflowEngine.MyInstitution.name=Universität Rostock
+MCR.WorkflowEngine.MyInstitution.country=Deutschland (Germany)
+MCR.WorkflowEngine.MyInstitution.state=Mecklenburg-Vorpommern
+MCR.WorkflowEngine.MyInstitution.zipcode=18051
+MCR.WorkflowEngine.MyInstitution.city=Rostock
+MCR.WorkflowEngine.MyInstitution.street=Universität Rostock
+MCR.WorkflowEngine.MyInstitution.number=
+
 MCR.SimpleDateFormat.strictParsing=false
 
 MCR.WorkflowEngine.Administrator.Email=admin@mycore.de
