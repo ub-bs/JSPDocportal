@@ -138,6 +138,10 @@
     <cell col="2" row="1" anchor="WEST" ref="BSubmit" var="save" />
   </panel>
 
+  <panel id="OneButton">
+    <cell col="1" row="1" anchor="WEST" ref="BSubmit" var="save" />
+  </panel>
+
 <!-- *** Data for the flags *** -->
 
   <text id="LFlagsP">
