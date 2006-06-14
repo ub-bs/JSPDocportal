@@ -36,13 +36,13 @@
         <div class="headline"><fmt:message key="WF.author" /></div>
 		<table>
 			<tr>
-		      	<td><img title="" alt="" src="images/greenArrow.gif"></td>
+		      	<td><img title="" alt="" src="${baseURL}images/greenArrow.gif"></td>
 				<td><a target="_self" href="${baseURL}nav?path=~author-begin"><fmt:message key="WF.author.StartWorkflow" /></a>
 				 </td>
 			</tr>
 			<tr />
 			<tr>
-				<td><img title="" alt="" src="images/greenArrow.gif"></td>
+				<td><img title="" alt="" src="${baseURL}images/greenArrow.gif"></td>
 				<td><fmt:message key="WF.author.SearchAuthorToEdit" /> </td>
 			<tr>
 				<td />
@@ -58,7 +58,7 @@
 	  </table>
 <c:choose>
    <c:when test="${empty(myTaskList)&& empty(myProcessList)}">
-      <img title="" alt="" src="images/greenArrow.gif">
+      <img title="" alt="" src="${baseURL}images/greenArrow.gif">
       <fmt:message key="WF.common.EmptyWorkflow" />   
       <br>&nbsp;<br>
       <mcr:checkAccess permission="administrate-author" var="curUserIsAdminUser" />
