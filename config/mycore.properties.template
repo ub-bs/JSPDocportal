@@ -96,6 +96,8 @@ MCR.WorkflowEngine.Classification.Language.SelectCategoryIDs.xmetadiss=LANG0001,
 MCR.WorkflowEngine.Rightslinks.DefaultURL.xmetadiss=http://www.mycore.de/dissertations-copyright.html
 MCR.WorkflowEngine.ContactIdDDB.xmetadiss=Fxxxx-xxxx
 
+MCR.WorkflowEngine.Classification.Type.SelectCategoryIDs.publication=TYPE0001.001,TYPE0001.002,TYPE0001.003,TYPE0001.004,TYPE0001.005,TYPE0001.006,TYPE0001.007,TYPE0002.001,TYPE0002.002
+
 MCR.WorkflowEngine.ManagerImpl.xmetadiss=org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRWorkflowManagerXmetadiss
 # required for MCRResultFormatter
 MCR.languageResourceBundleBase=messages
