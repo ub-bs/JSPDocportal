@@ -64,8 +64,8 @@ public class MCRJbpmVariableSetterServlet extends MCRServlet {
     		for (int i = 0; i < array.length; i++) {
 				String variableName = array[i];
 				String variableValue = request.getParameter(variableName);
-				LOGGER.debug("setting workflow variable " + variableName + "=" + variableValue);
 				variableName = variableName.replaceAll("/","");
+				LOGGER.debug("setting workflow variable " + variableName + "=" + variableValue);
 				map.put(variableName, variableValue);
 			}
     		MCRWorkflowManager WFM = MCRWorkflowManagerFactory.getImpl(processid);
