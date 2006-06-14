@@ -23,20 +23,62 @@
       <b><fmt:message key="WF.publication.status.${requestScope.task.workflowStatus}" /></b>
       <br/>
    </c:when>
-   <c:when test="${requestScope.task.taskName eq 'taskCompleteDocumentAndSendToLibrary' }" >
-      <p>
-         <img title="" alt="" src="${baseURL}images/greenArrow.gif">
-         <fmt:message key="WF.publication.completedocumentandsendtolibrary" />
-         <br>
-         <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="publication" decision="canDocumentBeSubmitted" />
-         <c:if test="${transition eq 'documentCanBeSubmitted'}">
-	        <img title="" alt="" src="${baseURL}images/greenArrow.gif">         
-            <a href="${baseURL}nav?path=~publication&transition=&endTask=taskCompleteDocumentAndSendToLibrary&processID=${requestScope.task.processID}"><fmt:message key="WF.publication.taskCompleteDocumentAndSendToLibrary" /></a>
-         </c:if>      
-      </p>
-      <c:import url="/content/workflow/editorButtons.jsp" />
-   </c:when>
-   
+	<c:when	test="${requestScope.task.taskName eq 'taskGetPublicationType'}">
+		<p>
+		<fmt:message key="WF.description.getPublicationType" />
+	   <br/>&nbsp;<br/>
+		<c:url var="url" value="${WebApplicationBaseURL}editor/workflow/getPublicationTypes.xml">
+			<c:param name="dispatcherForward" value="/nav?path=~publication" />
+			<c:param name="transition" value="" />
+			<c:param name="endTask" value="taskGetPublicationType" />
+			<c:param name="processID" value="${requestScope.task.processID}" />
+			<c:param name="jbpmVariableNames" value="/publication/types"	 />
+			<c:param name="XSL.editor.source.new" value="true" />
+			<c:param name="XSL.editor.cancel.url" value="/nav?path=~publication" />
+			<c:param name="lang" value="${requestScope.lang}" />
+		</c:url>
+		<c:import url="${url}" />
+		</p>
+	</c:when>
+	<c:when	test="${requestScope.task.taskName eq 'taskprocessInitialized' }">
+		<mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="urn" workflowVar="reservatedURN" /> 
+		<mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="docID" workflowVar="createdDocID" /> 
+		<mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="docType" workflowVar="publicationType" /> 
+		<table cellspacing="3" cellpadding="3" >
+		<c:if test="${!empty(urn)}">
+		   <tr valign="top">
+		        <td class="metaname"><fmt:message key="WF.publication.URN" /> </td>
+		        <td class="metavalue"><b><c:out value="${urn}" /></b>  <br/>
+		         <br/> <i><fmt:message key="WF.publication.URN.Hinweis" /></i>
+		      </td>
+		   </tr>     
+		</c:if>
+		<c:if test="${!empty(docType)}">
+		   <tr valign="top">
+		        <td class="metaname"><fmt:message key="WF.publication.URN" /> </td>
+		        <td class="metavalue"><b><c:out value="${docType}" /></b>  <br/>
+		      </td>
+		   </tr>     
+		</c:if>
+		<c:if test="${!empty(docID)}">
+		   <tr valign="top">
+		        <td class="metaname"><fmt:message key="WF.publication.Created" /></td>
+		        <td class="metavalue"> 
+		           <b><c:out value="${docID}" /></b>
+		           <br/><i><fmt:message key="WF.publication.Created2" /></i>
+		      </td>
+		   </tr>     
+		</c:if>
+		
+		   <tr>
+		      <td colspan="2">
+		         <img title="" alt="" src="images/greenArrow.gif">
+		         <a	href="${baseURL}nav?path=~publication&transition=&endTask=taskprocessInitialized&processID=${requestScope.task.processID}">		         
+			         <fmt:message key="WF.common.forwardToWorkflow" /></a>
+		      </td>
+		   </tr> 
+		</table>	
+	</c:when>
    <c:when test="${requestScope.task.taskName eq 'taskprocessEditInitialized' }" >
       <p>
          <img title="" alt="" src="${baseURL}images/greenArrow.gif">
@@ -50,7 +92,7 @@
       </p>
       <c:import url="/content/workflow/editorButtons.jsp" />
    </c:when>
-
+ 
    <c:when test="${requestScope.task.taskName eq 'taskGetInitiatorsEmailAddress'}" >
       <p>
          <fmt:message key="WF.common.getInitiatorsEmailAddress" />
@@ -67,6 +109,21 @@
 	     </form>	
      </p>
    </c:when>   
+   
+   <c:when test="${requestScope.task.taskName eq 'taskCompleteDocumentAndSendToLibrary' }" >
+      <p>
+         <img title="" alt="" src="${baseURL}images/greenArrow.gif">
+         <fmt:message key="WF.publication.completedocumentandsendtolibrary" />
+         <br>
+         <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="publication" decision="canDocumentBeSubmitted" />
+         <c:if test="${transition eq 'documentCanBeSubmitted'}">
+	        <img title="" alt="" src="${baseURL}images/greenArrow.gif">         
+            <a href="${baseURL}nav?path=~publication&transition=&endTask=taskCompleteDocumentAndSendToLibrary&processID=${requestScope.task.processID}"><fmt:message key="WF.publication.taskCompleteDocumentAndSendToLibrary" /></a>
+         </c:if>      
+      </p>
+      <c:import url="/content/workflow/editorButtons.jsp" />
+   </c:when>
+   
    <c:when test="${requestScope.task.taskName eq 'taskCheckCompleteness'}">
       <c:import url="/content/workflow/editorButtons.jsp" />
       <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="publication" decision="canDocumentBeCommitted" />
