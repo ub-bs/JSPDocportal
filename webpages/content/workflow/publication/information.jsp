@@ -2,6 +2,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/xml"  prefix="x" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
+<%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
 <fmt:setLocale value="${requestScope.lang}" />
 <fmt:setBundle basename='messages'/>
 
@@ -21,5 +22,15 @@
 	  <p><fmt:message key="Webpage.intro.publications.Text3" /></p>
   <br/>
 </td>
+   <tr><td >
+     <hr/>
+     <p><fmt:message key="Service.Hinweis1" /></p>
+     <p>
+       <mcr:getConfigProperty var="mail" prop="MCR.WorkflowEngine.contactemail.publication" defaultValue="mycore@mycore.de" />
+       <a href="mailto:${mail}">${mail}</a>
+     </p>
+     </td>
+    </tr>
+
 </tr>
 </table>
