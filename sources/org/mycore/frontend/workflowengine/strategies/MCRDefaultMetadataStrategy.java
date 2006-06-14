@@ -31,7 +31,7 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 	}
 	
 	private static Logger logger = Logger.getLogger(MCRDefaultMetadataStrategy.class.getName());
-	
+		
 	public boolean createEmptyMetadataObject(boolean authorRequired, List authorIDs, List authors, MCRObjectID nextFreeObjectId, String userid, Map identifiers, String saveDirectory){
 		
 		if (authorRequired){

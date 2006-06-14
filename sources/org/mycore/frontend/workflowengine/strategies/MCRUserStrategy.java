@@ -3,13 +3,10 @@ package org.mycore.frontend.workflowengine.strategies;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.jdom.Element;
 import org.mycore.common.MCRUtils;
-import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
 
 public abstract class MCRUserStrategy {

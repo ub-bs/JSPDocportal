@@ -25,6 +25,8 @@ public abstract class MCRMetadataStrategy {
 	 * @return
 	 */
 	public abstract String getDocumentType();
+	
+
 	/**
 	 * creates an empty metadata object with default values
 	 * @param authorIDs
