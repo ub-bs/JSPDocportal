@@ -21,11 +21,18 @@
   <start-state name="start">
      <task name="initialization" swimlane="initiator">
      </task>     
-     <transition name="go2processInitialized" to="processInitialized" />
+     <transition name="go2getPublicationType" to="getPublicationType" />
      <transition name="go2processEditInitialized" to="processEditInitialized" />
   </start-state>
 
+  <task-node name="getPublicationType">
+     <task name="taskGetPublicationType" swimlane="initiator" />
+     <transition name="go2processInitialized" to="processInitialized" />
+  </task-node>
+
+
   <task-node name="processInitialized">
+     <task name="taskprocessInitialized" swimlane="initiator" />
      <event type='node-enter'>
         <action class="org.mycore.frontend.workflowengine.jbpm.publication.MCRCreateURNAction" />
 		<action class="org.mycore.frontend.workflowengine.jbpm.publication.MCRCreateDocumentAction" />                        
@@ -34,10 +41,7 @@
      <transition name="go2isInitiatorsEmailAddressAvailable" to="isInitiatorsEmailAddressAvailable" />  
   </task-node>
 
-  <task-node name="processEditInitialized">
-      <task name="taskprocessEditInitialized" swimlane="initiator" />
-	  <transition name="go2canDocumentBeSubmitted" to="canDocumentBeSubmitted" />
-  </task-node>
+
 
   <decision name="isInitiatorsEmailAddressAvailable">
      <transition name="no" to="getInitiatorsEmailAddress"> 
@@ -53,10 +57,18 @@
      <transition name="go2IsInitiatorsEmailAddressAvailable" to="isInitiatorsEmailAddressAvailable" />
   </task-node>
   
+  
+  
   <task-node name="documentCreated">
      <task name="taskCompleteDocumentAndSendToLibrary" swimlane="initiator" />
      <transition name="go2canDocumentBeSubmitted" to="canDocumentBeSubmitted" />
   </task-node>
+
+  <task-node name="processEditInitialized">
+      <task name="taskprocessEditInitialized" swimlane="initiator" />
+    <transition name="go2canDocumentBeSubmitted" to="canDocumentBeSubmitted" />
+  </task-node>
+
 
   <decision name="canDocumentBeSubmitted">
      <handler class="org.mycore.frontend.workflowengine.jbpm.publication.MCRDecisionHandlerPublication" />
