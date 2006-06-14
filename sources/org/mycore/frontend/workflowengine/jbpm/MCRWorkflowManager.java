@@ -682,23 +682,4 @@ public abstract class MCRWorkflowManager {
 	
 	
 	
-	
-
-// hoffentlich entsorgbar	
-//	 /**
-//	  * sets a given map of string variables for a given workflow process instance
-//	  * @param map
-//	  * @param processID
-//	  */
-//	 abstract void setStringVariables(Map map, long processID);
-//	
-//	 /**
-//	  * sets a variable to a given string value for a given workflow process instance
-//	  * @param variable
-//	  * @param value
-//	  * @param processID
-//	  */
-//	 abstract void setStringVariable(String variable, String value, long processID);
-
-	
 }
