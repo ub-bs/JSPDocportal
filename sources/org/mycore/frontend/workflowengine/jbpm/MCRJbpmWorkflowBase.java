@@ -230,20 +230,24 @@ public class MCRJbpmWorkflowBase {
 		for (Iterator it = contextVariables.keySet().iterator(); it.hasNext();) {
 			String var = (String) it.next();
 			String value = (String)contextVariables.get(var);
-			Element variable = new Element("variable");
-			variable.setAttribute("name",var);
-			variable.setAttribute("type","context");
-			variable.setAttribute("value",value);
-			variables.addContent(variable);
+			if ( value !=null ){
+				Element variable = new Element("variable");
+				variable.setAttribute("name",var);
+				variable.setAttribute("type","context");
+				variable.setAttribute("value",value);
+				variables.addContent(variable);				
+			}
 		}		
 		for (Iterator it = taskVariables.keySet().iterator(); it.hasNext();) {
 			String var = (String) it.next();
 			String value = (String)taskVariables.get(var);
-			Element variable = new Element("variable");
-			variable.setAttribute("name",var);
-			variable.setAttribute("type","task");
-			variable.setAttribute("value",value);
-			variables.addContent(variable);
+			if ( value !=null ){
+				Element variable = new Element("variable");
+				variable.setAttribute("name",var);
+				variable.setAttribute("type","task");
+				variable.setAttribute("value",value);
+				variables.addContent(variable);
+			}
 		}
 		try{
 			return new DOMOutputter().output(new Document(variables));
