@@ -19,8 +19,7 @@ public class MCRDocumentDerivateStrategy extends MCRDefaultDerivateStrategy {
 	private static Logger logger = Logger.getLogger(MCRDocumentDerivateStrategy.class.getName());
 	
 	public void saveFiles(List files, String dirname, MCRWorkflowProcess wfp) throws MCRException {
-	// a correct document contains in the main derivate
-	//		one or more file 
+	// a correct document contains in the main derivate	one or more file 
 
 	MCRDerivate der = new MCRDerivate();
 	
@@ -38,20 +37,22 @@ public class MCRDocumentDerivateStrategy extends MCRDefaultDerivateStrategy {
 	
 		ArrayList ffname = new ArrayList();
 		String mainfile = "";
+		FileOutputStream fouts = null;
 		for (int i = 0; i < files.size(); i++) {
 			FileItem item = (FileItem) (files.get(i));
 			String fname = item.getName().trim();
 			try{
 				File fout = new File(dirname, fname);
-				FileOutputStream fouts = new FileOutputStream(fout);
+				fouts = new FileOutputStream(fout);
 				MCRUtils.copyStream(item.getInputStream(), fouts);
+				fouts.flush();
 				fouts.close();
 				logger.info("Data object stored under " + fout.getName());
 			}catch(Exception ex){
 				String errMsg = "could not store data object " + fname;
 				logger.error(errMsg, ex);
 				throw new MCRException(errMsg);
-			}
+			} 
 		}
 		if ((mainfile.length() == 0) && (ffname.size() > 0)) {
 			mainfile = (String) ffname.get(0);

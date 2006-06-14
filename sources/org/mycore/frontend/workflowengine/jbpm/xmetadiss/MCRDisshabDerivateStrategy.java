@@ -89,6 +89,7 @@ public class MCRDisshabDerivateStrategy extends MCRDefaultDerivateStrategy {
 				File fout = new File(dirname, fname);
 				FileOutputStream fouts = new FileOutputStream(fout);
 				MCRUtils.copyStream(item.getInputStream(), fouts);
+				fouts.flush();
 				fouts.close();
 				logger.info("Data object stored under " + fout.getName());
 			}catch(Exception ex){
