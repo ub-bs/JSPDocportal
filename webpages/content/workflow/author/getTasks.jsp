@@ -49,15 +49,12 @@
 	    <fmt:message key="WF.author.AuthorForUserExists">
 			<fmt:param>${objid}</fmt:param>                             
 	    </fmt:message>
-		<%--display preview button --%>
-		</td>
-		 </tr>
 		 <tr>
-	         <!--  <td class="resultTitle"> -->
 	         <td>
     	       <b><c:out value="${wfoTitle}" /></b>  	
         	 </td>
-			 <td width="50">	&nbsp;		</td>
+			 <td width="50">	&nbsp;		
+			 </td>
 			 <td align="right">
 				<form method="get" action="${baseURL}nav">
 					<input value="~workflow-preview" name="path" type="hidden" />
@@ -67,9 +64,8 @@
 				</form>
 			</td>
 		</tr>
-		<tr>
-		<td>
-<!--  <br>&nbsp;<br> -->
+
+    <br />&nbsp;<br />
 	    <img title="" alt="" src="${baseURL}images/greenArrow.gif">      
     	<a href="${baseURL}nav?path=~author&transition=go2End&endTask=displayAuthorForUser&processID=${requestScope.task.processID}"><fmt:message key="WF.author.finishWorkflow" /></a>
    </c:when>
@@ -101,10 +97,7 @@
       </p>
       <c:import url="/content/workflow/editorButtons.jsp" />
    </c:when> 
-
-
-
-
+   
    <c:when test="${requestScope.task.taskName eq 'taskGetInitiatorsEmailAddress'}">
       <p>
          <fmt:message key="WF.common.getInitiatorsEmailAddress" />
@@ -152,13 +145,9 @@
       </form>
    </c:when>
 
-
    <c:when test="${requestScope.task.taskName eq 'taskAdminCheckCommitmentNotSuccessFul'}">
       <a href="${baseURL}nav?path=~author&transition=go2authorCommitted2&endTask=taskAdminCheckCommitmentNotSuccessFul&processID=${requestScope.task.processID}"><fmt:message key="WF.author.admin.authorValidated" /></a><br>      
    </c:when>
-   
-       
-
    
    <c:otherwise>
     <h1>what else? TODO</h1>

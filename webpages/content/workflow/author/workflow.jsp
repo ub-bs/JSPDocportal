@@ -6,9 +6,9 @@
 <%@ page pageEncoding="UTF-8" %>
 
 <c:set  var="baseURL" value="${applicationScope.WebApplicationBaseURL}"/>
-
 <fmt:setLocale value="${requestScope.lang}" />
 <fmt:setBundle basename='messages' />
+
 <!--  debug handling -->
 <c:choose>
    <c:when test="${!empty(param.debug)}">
@@ -29,76 +29,87 @@
 
 <!--  task management part -->
 
-<mcr:getWorkflowTaskBeanList var="myTaskList" mode="activeTasks" workflowTypes="author" 
-	varTotalSize="total1" />
-<mcr:getWorkflowTaskBeanList var="myProcessList" mode="initiatedProcesses" workflowTypes="author"
-    varTotalSize="total2" />
-        <div class="headline"><fmt:message key="WF.author" /></div>
-		<table>
-			<tr>
-		      	<td><img title="" alt="" src="${baseURL}images/greenArrow.gif"></td>
-				<td><a target="_self" href="${baseURL}nav?path=~author-begin"><fmt:message key="WF.author.StartWorkflow" /></a>
-				 </td>
-			</tr>
-			<tr />
-			<tr>
-				<td><img title="" alt="" src="${baseURL}images/greenArrow.gif"></td>
-				<td><fmt:message key="WF.author.SearchAuthorToEdit" /> </td>
-			<tr>
-				<td />
-				<td>
-					<c:url var="url" value="${WebApplicationBaseURL}editor/searchmasks/SearchMask_AuthorEdit.xml">
-					    <c:param name="XSL.editor.source.new" value="true" />
-				    	<c:param name="XSL.editor.cancel.url" value="${WebApplicationBaseURL}" />
-					    <c:param name="lang" value="${requestScope.lang}" />
-				  </c:url>
-				  <c:import url="${url}" />        
-			  </td>
-		  </tr>
-	  </table>
+<mcr:getWorkflowTaskBeanList var="myTaskList" mode="activeTasks" 
+							 workflowTypes="author"  varTotalSize="total1" />
+<mcr:getWorkflowTaskBeanList var="myProcessList" mode="initiatedProcesses" 
+							 workflowTypes="author" varTotalSize="total2" />
+<div class="headline"><fmt:message key="WF.author" /></div>
+<table>
+	<tr>
+		<td><img title="" alt="" src="${baseURL}images/greenArrow.gif"></td>
+		<td>
+			<a target="_self" href="${baseURL}nav?path=~author-begin">
+				<fmt:message key="WF.author.StartWorkflow" />
+			</a>
+		</td>
+	</tr>
+	<tr />
+	<tr>
+		<td><img title="" alt="" src="${baseURL}images/greenArrow.gif"></td>
+			<td><fmt:message key="WF.author.SearchAuthorToEdit" /> </td>
+	</tr>
+	<tr>
+		<td />
+		<td>
+			<c:url var="url" value="${WebApplicationBaseURL}editor/searchmasks/SearchMask_AuthorEdit.xml">
+				<c:param name="XSL.editor.source.new" value="true" />
+				<c:param name="XSL.editor.cancel.url" value="${WebApplicationBaseURL}" />
+				<c:param name="lang" value="${requestScope.lang}" />
+			</c:url>
+			<c:import url="${url}" />        
+		</td>
+	</tr>
+</table>
+
 <c:choose>
-   <c:when test="${empty(myTaskList)&& empty(myProcessList)}">
+	<c:when test="${empty(myTaskList)&& empty(myProcessList)}">
       <img title="" alt="" src="${baseURL}images/greenArrow.gif">
       <fmt:message key="WF.common.EmptyWorkflow" />   
-      <br>&nbsp;<br>
+      <br />&nbsp;<br />
       <mcr:checkAccess permission="administrate-author" var="curUserIsAdminUser" />
       <c:if test="${!curUserIsAdminUser}">
 	      <c:import url="/content/workflow/author/information.jsp" />
-    	  <br/>&nbsp;<br>
+    	  <br />&nbsp;<br />
    	  </c:if>
-   </c:when>
-   <c:otherwise>
-
-        <br>&nbsp;<br>
-
-        <div class="headline"><fmt:message key="WF.common.MyTasks" /></div>   
-        
-        <table>       
-	        <c:forEach var="task" items="${myTaskList}">
-	        <tr><td class="task">
-			   <table width="100%">				        
-		           <c:set var="task" scope="request" value="${task}" />
-		           <c:import url="/content/workflow/${task.workflowProcessType}/getTasks.jsp" />
-		       </table>
-		    </td></tr>       
+	</c:when>
+	<c:otherwise>
+		<br />&nbsp;<br />
+		<div class="headline"><fmt:message key="WF.common.MyTasks" /></div>   
+    	<table cellspacing="3">       
+			<c:forEach var="task" items="${myTaskList}">
+				<tr>
+					<td class="task">
+			        	<c:set var="task" scope="request" value="${task}" />
+		    	       	<c:import url="/content/workflow/${task.workflowProcessType}/getTasks.jsp" />
+			    	</td>
+		    	</tr>       
+			</c:forEach>
+    	    <c:if test="${empty(myTaskList)}">
+			  	<tr>
+		  			<td class="task">
+			           <font color="#00ff00"><fmt:message key="WF.common.NoTasks" /></font>
+    	    		 </td>
+        		</tr>
+			</c:if>
+		</table>
+    	<br />&nbsp;<br />
+    	<div class="headline"><fmt:message key="WF.author.MyInititiatedProcesses" /></div>
+		<table>
+    		<c:forEach var="task" items="${myProcessList}">
+				<tr>
+					<td class="task">
+						<c:set var="task" scope="request" value="${task}" />
+						<c:import url="/content/workflow/${task.workflowProcessType}/getTasks.jsp" />
+		           </td>
+				</tr>
 	        </c:forEach>
-        <c:if test="${empty(myTaskList)}">
-           <font color="#00ff00"><fmt:message key="WF.common.NoTasks" /></font>
-        </c:if>
-        </table>
-        
-        <br>&nbsp;<br>
-        
-        <div class="headline"><fmt:message key="WF.author.MyInititiatedProcesses" /></div>
-        
-        <table>
-        <c:forEach var="task" items="${myProcessList}">
-           <c:set var="task" scope="request" value="${task}" />
-           <c:import url="/content/workflow/${task.workflowProcessType}/getTasks.jsp" />
-        </c:forEach>
-        <c:if test="${empty(myProcessList)}">
-           <font color="#00ff00"><fmt:message key="WF.common.NoTasks" /></font>
-        </c:if>
-        </table>   
-   </c:otherwise>
+    	    <c:if test="${empty(myProcessList)}">
+				<tr>
+					<td class="task">
+	           			<font color="#00ff00"><fmt:message key="WF.common.NoTasks" /></font>
+		           </td>
+		 		</tr>
+        	</c:if>
+		</table>   
+	</c:otherwise>
 </c:choose>        
