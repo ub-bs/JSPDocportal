@@ -189,6 +189,7 @@
       </navigation>
       
       <navigation name="admin" label="Nav.AdminMenue" >
+       <navitem   name="admin" label="Nav.AdminMenue" href="admin/main.jsp" > 
        <navitem   name="admin" label="Nav.AdminMenue" href="admin/main.jsp" >      
         <navitem name="usermanagement" label="Nav.Admin.UserManagement" href="admin/usermanagement.jsp" right="administrate-user" >
           <navitem name="usergroup" label="Nav.Admin.UserManagement.Usergroup" href="admin/usermanagement/usergroup.jsp" right="administrate-user" >
@@ -241,6 +242,7 @@
             <refitem name="~rulesassignment" label="" />
           </navitem>
         </navitem>
+       </navitem> 
        </navitem> 
       </navigation>
     </navigations>
