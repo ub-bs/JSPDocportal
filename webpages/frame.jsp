@@ -14,6 +14,7 @@
 <c:set var="pathID" value="${requestScope.pathID}" />
 <c:set var="youAreHere" value="${requestScope.youAreHere}" />
 <c:set var="langfreeRequestURL" value="${langfreeRequestURL}" />
+
 <c:choose>
 	<c:when test="${!empty(param.lang)}">
 		<c:set var="lang" value="${param.lang}" />
@@ -60,16 +61,18 @@
 	<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}admin/css/admin.css" />
 </head>
 <body topmargin="0" rightmargin="0" leftmargin="0">
+
  <table id="maintable" cellpadding="0" cellspacing="0">
 	<tr class="max">
 		<td id="mainLeftColumn"><a href="${WebApplicationBaseURL}"><img	id="logo" alt="Logo" src="${WebApplicationBaseURL}images/logo.gif"></a>
 		<!-- Navigation Left Start -->
-		<div class="navi_main">
-		<table class="navi_main" cellpadding="0" cellspacing="0">
+		<table cellpadding="0" cellspacing="0">
+<%--		<table class="navi_main" cellpadding="0" cellspacing="0">
 			<tr>
-				<td style="height: 1px; width: 7%;"><img title="" alt=""
-					style="width: 1px; height: 1px;"
-					src="${WebApplicationBaseURL}images/emtyDot1Pix.gif"></td>
+				<td style="height: 1px; width: 7%;">
+					<img title="" alt="" style="width: 1px; height: 1px;"
+	   					 src="${WebApplicationBaseURL}images/emtyDot1Pix.gif"/>
+	   			</td>
 				<td style="width: 9%;"><img title="" alt=""
 					style="width: 1px; height: 1px;"
 					src="${WebApplicationBaseURL}images/emtyDot1Pix.gif"></td>
@@ -79,59 +82,15 @@
 					style="width: 1px; height: 1px;"
 					src="${WebApplicationBaseURL}images/emtyDot1Pix.gif"></td>
 			</tr>
-			<x:forEach
-				select="$Navigation//navigation[@name='left']/navitem[@name='left']/navitem[not(@hidden = 'true')]">
-				<x:set var="href1" select="string(./@path)" />
-				<x:set var="labelKey1" select="string(./@label)" />
-				<tr>
-					<td style="height:17px;"><img title="" alt=""
-						style="width:1px; height:1px"
-						src="${WebApplicationBaseURL}images/emtyDot1Pix.gif"></td>
-					<th align="left" colspan="4"><a target="_self" href='${href1}'><fmt:message
-						key="${labelKey1}" /></a></th>
-				</tr>
+--%>			
+			<%--Aufruf des linken Navigationsmenues --%>
+			<tr><td colspan="5">
+				<x:set scope="session" var="recNavPath" select="$Navigation//navigation[@name='left']/navitem[@name='left']"/>
+				<c:import url="content/navi_left_rec.jsp" />
+			</td></tr>
 
-				<x:if select="contains($pathID,./@systemID)">
-					<x:forEach select="./navitem[not(@hidden = 'true')]">
-						<x:set var="href2" select="string(./@path)" />
-						<x:set var="labelKey2" select="string(./@label)" />
-						<x:choose>
-							<x:when select="../navitem[last()]/@systemID = ./@systemID">
-								<x:set var="end" select="'_end'" />
-							</x:when>
-							<x:otherwise>
-								<x:set var="end" select="''" />
-							</x:otherwise>
-						</x:choose>
-						<c:set var="imghref2"
-							value="${WebApplicationBaseURL}images/line-with-element${end}.gif" />
-						<tr>
-							<td style="height:17px;"><img title="" alt=""
-								style="width:1px; height:17px;"
-								src="${WebApplicationBaseURL}images/emtyDot1Pix.gif"></td>
-							<td align="center"><img title="" alt="" src="${imghref2}"></td>
-							<td colspan="2"><x:choose>
-								<x:when select="contains($pathID,./@systemID)">
-									<span class="marked"><a target="_self" href="${href2}"><fmt:message
-										key="${labelKey2}" /></a></span>
-								</x:when>
-								<x:otherwise>
-									<a target="_self" href="${href2}"><fmt:message
-										key="${labelKey2}" /></a>
-								</x:otherwise>
-							</x:choose></td>
-						</tr>
-					</x:forEach>
-					<x:if select="../navitem[last()]/@systemID != ./@systemID">
-						<tr>
-							<td colspan="5" style="height:10px;"><img title="" alt=""
-								style="width:1px; height:1px"
-								src="${WebApplicationBaseURL}images/emtyDot1Pix.gif"></td>
-						</tr>
-					</x:if>
 
-				</x:if>
-			</x:forEach>
+			
 			<tr>
 				<td colspan="5" style="height:15px;"><img title="" alt=""
 					style="width:1px; height:1px"
@@ -193,7 +152,7 @@
 				</c:if>
 			</x:forEach>
 		</table>
-		</div>
+
 		<!-- NAVIGATION LEFT END --></td>
 		<td class="max autowidth">
 		<table class="max" cellpadding="0" cellspacing="0">

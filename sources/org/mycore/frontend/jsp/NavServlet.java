@@ -98,10 +98,10 @@ public class NavServlet extends MCRServlet
 			
 			if(navEl.getName().equals("navitem")) {
 				navEl.setAttribute("path", path);
+				navEl.setAttribute("level", Integer.toString(getLevel(navEl)));
 			}
-			
 			navEl.setAttribute("right", right);
-			
+						
 			String systemID = JSPUtils.fillToConstantLength(String.valueOf(i),"0",4);
 			navEl.setAttribute("systemID",systemID);
 			i++;
@@ -258,4 +258,19 @@ public class NavServlet extends MCRServlet
 		}
 		return true;
 	}     
+	
+	/**
+	 * returns the level (depth) of an element (item) in navigation tree
+	 * 
+	 * @param navElem - the Element
+	 * @return the level as number (0==root level) 
+	 */
+	private int getLevel(Element navEl){
+		if(navEl.getParentElement()!=null && navEl.getParentElement().getName().equals("navitem")){
+			return getLevel(navEl.getParentElement())+1;
+		}
+		else{
+			return 0;
+		}
+	}
 }

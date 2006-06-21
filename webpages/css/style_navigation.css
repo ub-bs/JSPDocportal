@@ -139,3 +139,53 @@ div.navi_main{
 {
     text-decoration: none;
 }
+
+/*Robert: - CSS- und DIV-basiertes linkes Navigationsmenü*/
+
+ div.navi_left_mainentry{
+   /* border: 2px solid black;*/
+	font-size: 11px;
+	font-weight : bold;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+	border-style: none;
+	border-width: 0px;
+    min-width: 200px;
+    width: 200px;
+    color:white;
+ 	
+ 	margin-left: 3em;
+    margin-top: 0.6em;
+    
+
+  }
+div.navi_left_subentry{
+    font-size: 11px;
+	font-weight : normal;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+	border-style: none;
+	border-width: 0px;
+    min-width: 200px;
+    width: 200px;
+    color:white;
+
+    background-image:url(../images/whiteArrow.gif);
+    background-repeat:no-repeat;
+    background-position:left 0.5ex;
+    margin-top: 0.1em;
+    margin-left: 0.8em;
+    padding-left:0.7em;
+    
+  }
+
+  div.navi_left_mainentry a, 
+  div.navi_left_subentry a{
+   	color: #EFF4F6;	
+    padding: 0.1em;
+    text-decoration: none; 
+  }
+
+  div.navi_left_mainentry a:hover, 
+  div.navi_left_subentry a:hover{
+	color: #EFF4F6;	
+   	text-decoration:underline;
+  }
