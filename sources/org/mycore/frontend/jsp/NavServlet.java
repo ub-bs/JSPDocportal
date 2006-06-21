@@ -33,10 +33,11 @@ public class NavServlet extends MCRServlet
     public void initializeParameters(HttpServletRequest request)
     {
         //getNewTree(); //precache
+    	createNonExistingAdminPermissions();
     	setBaseURL(request);
     	setNavJdom();
     	setNavDom(navJdom);
-    	createNonExistingAdminPermissions();
+    	
     }
     
     public static void deinitialize()
@@ -65,14 +66,10 @@ public class NavServlet extends MCRServlet
     public void setNavJdom() {
     	ServletContext context = getServletContext();
     	org.jdom.Element navigationEl = MCRURIResolver.instance().resolve("resource:navigation.xml");
-    	int i = 0;
+    	int sysID = 0;
     	for (Iterator it = navigationEl.getDescendants(new ElementFilter()); it.hasNext();) {
 			Element navEl = (Element) it.next();
 			String path;
-			String right = navEl.getAttributeValue("right");
-			if (right == null ){ 
-				right = "read"; 
-			}
 			String extern = navEl.getAttributeValue("extern");
 			if(extern != null && extern.equals("true")) {
 				if(extern.indexOf(".") > -1)
@@ -100,12 +97,13 @@ public class NavServlet extends MCRServlet
 				navEl.setAttribute("path", path);
 				navEl.setAttribute("level", Integer.toString(getLevel(navEl)));
 			}
-			navEl.setAttribute("right", right);
+		//	navEl.setAttribute("right", right);
 						
-			String systemID = JSPUtils.fillToConstantLength(String.valueOf(i),"0",4);
+			String systemID = JSPUtils.fillToConstantLength(String.valueOf(sysID++),"0",4);
 			navEl.setAttribute("systemID",systemID);
-			i++;
+			navEl.setAttribute("accessAllowed", "true");
 		}
+		
     	navJdom = navigationEl.getDocument();
     	context.setAttribute("navJdom",navJdom);
     	logger.debug(JSPUtils.getPrettyString(navJdom));

@@ -21,22 +21,28 @@
 
 <fmt:setLocale value="${lang}" />
 <fmt:setBundle basename='messages' />
+<%-- <x:forEach select="$recNavPath/navitem[(not(@hidden = 'true')) and (@accessAllowed = 'true')]"> --%>
 <x:forEach select="$recNavPath/navitem[not(@hidden = 'true')]">
 	<x:set var="href" select="string(./@path)" />
 	<x:set var="labelKey" select="string(./@label)" />
-	<x:choose>
-		<x:when select="./@level ='1'">
-			<div class="navi_left_mainentry">
-		</x:when>
-		<x:otherwise>
-			<div class="navi_left_subentry">
-		</x:otherwise>
-	</x:choose>
-	<a target="_self" href='${href}'><fmt:message key="${labelKey}" /></a>
-		<x:if select="contains($pathID,./@systemID)">
-			<x:set scope="session" var="recNavPath" select="./navitem"/>
-			<c:import url="/content/navi_left_rec.jsp" />
-		</x:if>
-	</div>
+    <x:set var="right" select="string(./@right)" /> 
+	<mcr:checkAccess var="canDo" permission="${right}" key="" /> 
+	<c:if test="${right=='' or canDo}">						
+		<x:choose>
+			<x:when select="./@level ='1'">
+				<div class="navi_left_mainentry">
+			</x:when>
+			<x:otherwise>
+				<div class="navi_left_subentry">
+			</x:otherwise>
+		</x:choose>
+		<%--<div> in <x:choose> --%>
+			<a target="_self" href='${href}'><fmt:message key="${labelKey}" /></a>
+			<x:if select="contains($pathID,./@systemID)">
+				<x:set scope="session" var="recNavPath" select="./navitem"/>
+				<c:import url="/content/navi_left_rec.jsp" />
+			</x:if>
+		</div>
+	</c:if>
 </x:forEach>
 
