@@ -140,10 +140,9 @@ div.navi_main{
     text-decoration: none;
 }
 
-/*Robert: - CSS- und DIV-basiertes linkes Navigationsmenü*/
+/*Robert: - CSS- und DIV -based left navigation menu */
 
  div.navi_left_mainentry{
-   /* border: 2px solid black;*/
 	font-size: 11px;
 	font-weight : bold;
     font-family: Verdana, Arial, Helvetica, sans-serif;
@@ -153,7 +152,7 @@ div.navi_main{
     width: 200px;
     color:white;
  	
- 	margin-left: 3em;
+ 	margin-left: 3.0em;
     margin-top: 0.6em;
     
 
