@@ -26,7 +26,7 @@
 			<mcr:checkAccess var="canDo" permission="administrate-user" key="" />
 			<c:if test="${canDo}">				
      			<c:set var="userHasAdminPermission" value="true" />
-				<li><a href="${applicationScope.WebApplicationBaseURL}nav?path=admin.usermanagement"><fmt:message key="Nav.Webpage.intro.admin.UserManagement" /></a></li>
+				<li><a href="${applicationScope.WebApplicationBaseURL}nav?path=admin.usermanagement"><fmt:message key="Nav.Admin.UserManagement" /></a></li>
 			</c:if>	
 			<mcr:checkAccess var="canDo" permission="administrate-xmetadiss" key="" />
 			<c:if test="${canDo}">
