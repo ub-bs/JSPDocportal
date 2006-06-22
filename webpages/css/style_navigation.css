@@ -87,61 +87,10 @@ td.navi_history_user{
     padding-bottom: 5px;
 }
 
-/* =================================================================== */
-/* Main navigation menu                                                */
-/* =================================================================== */
-.navi_main
-{
-	font-size: 11px;
-	font-weight : bold;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-	border-style: none;
-	border-width: 0px;
-    min-width: 200px;
-    width: 200px;
-}
-div.navi_main{
-    background-color:#14516E;
-    vertical-align: top;
-    min-width: 200px;
-    width: auto;
-    border-style: none;
-    margin-left:20px;
-}
-.navi_main img{
-    display:block;
-    border:none;
-}
-.navi_main tr, .navi_main td
-{
-	font-size: 11px;
-}
-.navi_main th a:hover
-{
-	text-decoration: underline;
-}
-.navi_main th a
-{
-	color: #EFF4F6;	
-	font-weight : bold;	
-}
-.navi_main a
-{
-    color: #EFF4F6;
-    font-weight : normal;
-    text-decoration: none;
-}
-.navi_main a:hover
-{
-    text-decoration: underline;
-}
-.navi_main .marked a
-{
-    text-decoration: none;
-}
 
-/*Robert: - CSS- und DIV -based left navigation menu */
-
+/* =================================================================== */
+/* General Main navigation column (left side)                          */
+/* =================================================================== */
  div.navi_left_mainentry{
 	font-size: 11px;
 	font-weight : bold;
@@ -151,12 +100,10 @@ div.navi_main{
     min-width: 200px;
     width: 200px;
     color:white;
- 	
  	margin-left: 3.0em;
     margin-top: 0.6em;
-    
-
   }
+  
 div.navi_left_subentry{
     font-size: 11px;
 	font-weight : normal;
@@ -173,7 +120,6 @@ div.navi_left_subentry{
     margin-top: 0.1em;
     margin-left: 0.8em;
     padding-left:0.7em;
-    
   }
 
   div.navi_left_mainentry a, 
@@ -188,3 +134,32 @@ div.navi_left_subentry{
 	color: #EFF4F6;	
    	text-decoration:underline;
   }
+  
+/* =================================================================== */
+/* Sitemap items                                                       */
+/* =================================================================== */
+  div.sitemap-item{
+    font-size: 11px;
+	font-weight : normal;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+
+    background-image:url(../images/greenArrow.gif);
+    background-repeat:no-repeat;
+    background-position:left 0.5ex;
+    margin-top: 0.1em;
+    margin-left: 0.8em;
+    padding-left:0.7em;
+  }
+  
+ div.sitemap-item a{
+   	color: #EFF4F6;	
+    padding: 0.1em;
+    text-decoration: none; 
+  }
+
+  div.sitemap-item a:hover{
+	color: #EFF4F6;	
+   	text-decoration:underline;
+  }
+  
+  

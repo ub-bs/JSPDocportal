@@ -6,16 +6,16 @@
             <refitem name="~searchstart" label="" />
             <navitem name="simple" label="Nav.SimpleDocumentSearch" href="content/searchmask-editor.jsp?editor=editor/searchmasks/SearchMask_SimpleDocument.xml">
               <refitem name="~searchstart-simple" label="" />
-              <navitem name="searchresult-simple" label="Nav.Searchresults" href="content/searchresult.jsp" >
+              <navitem name="searchresult-simple" label="Nav.Searchresults" href="content/searchresult.jsp" hidden="true" >
                 <refitem name="~searchresult-simple" label="" />
-                <navitem name="resortresult-simple" label="Nav.sorted" href="content/searchresult.jsp" >
+                <navitem name="resortresult-simple" label="Nav.sorted" href="content/searchresult.jsp" hidden="true" >
                   <refitem name="~resortresult-simple" label="" />
                 </navitem>
               </navitem>
               <navitem name="docdetail" label="Nav.DocumentDetails" href="content/docdetails.jsp" hidden="true" >
                 <refitem name="~docdetail" label="" />
                 <refitem name="~query" label="" />
-                <navitem name="derivatedetails" label="Nav.DigitalisatDetails" href="content/derivatedetails.jsp" >
+                <navitem name="derivatedetails" label="Nav.DigitalisatDetails" href="content/derivatedetails.jsp" hidden="true" >
                   <refitem name="~derivatedetails" label="" />
                 </navitem>
               </navitem>
@@ -24,7 +24,7 @@
               <refitem name="~searchstart-extended" label="" />
               <navitem name="searchresult-extended" label="Nav.Searchresults" href="content/searchresult.jsp" >
                 <refitem name="~searchresult-extended" label="" />
-                <navitem name="resortresult-extended" label="Nav.sorted" href="content/searchresult.jsp" >
+                <navitem name="resortresult-extended" label="Nav.sorted" href="content/searchresult.jsp" hidden="true" >
                   <refitem name="~resortresult-extended" label="" />
                 </navitem>
               </navitem>
@@ -33,7 +33,7 @@
               <refitem name="~indexSearchCreators" label="" />
               <navitem name="documents" label="Nav.PersonsDocuments" href="content/searchresult.jsp" >
                 <refitem name="~searchresult-authorjoin" label="" />
-                <navitem name="resortresult-authorjoin" label="Nav.sorted" href="content/searchresult.jsp" >
+                <navitem name="resortresult-authorjoin" label="Nav.sorted" href="content/searchresult.jsp" hidden="true" >
                   <refitem name="~resortresult-authorjoin" label="" />
                 </navitem>
               </navitem>
@@ -44,7 +44,7 @@
             <navitem name="ddc" label="Nav.DDC" href="content/browse.jsp?browserClass=ddc">
               <navitem name="result" label="Results" href="content/searchresult.jsp" >
                 <refitem name="~searchresult-classddc" label="" />
-                <navitem name="resortresult-classddc" label="Nav.sorted" href="content/searchresult.jsp" >
+                <navitem name="resortresult-classddc" label="Nav.sorted" href="content/searchresult.jsp"  hidden="true" >
                   <refitem name="~resortresult-classddc" label="" />
                 </navitem>
               </navitem>
@@ -52,7 +52,7 @@
             <navitem name="origin" label="Nav.Origin" href="content/browse.jsp?browserClass=origin">
               <navitem name="result" label="Results" href="content/searchresult.jsp" >
                 <refitem name="~searchresult-classorigin" label="" />
-                <navitem name="resortresult-classorigin" label="Nav.sorted" href="content/searchresult.jsp" >
+                <navitem name="resortresult-classorigin" label="Nav.sorted" href="content/searchresult.jsp"  hidden="true">
                   <refitem name="~resortresult-classorigin" label="" />
                 </navitem>
               </navitem>
@@ -60,7 +60,7 @@
             <navitem name="type" label="Nav.Type" href="content/browse.jsp?browserClass=type">
               <navitem name="result" label="Results" href="content/searchresult.jsp" >
                 <refitem name="~searchresult-classtype" label="" />
-                <navitem name="resortresult-classtype" label="Nav.sorted" href="content/searchresult.jsp" >
+                <navitem name="resortresult-classtype" label="Nav.sorted" href="content/searchresult.jsp"  hidden="true">
                   <refitem name="~resortresult-classtype" label="" />
                 </navitem>
               </navitem>
@@ -68,7 +68,7 @@
             <navitem name="format" label="Nav.Format" href="content/browse.jsp?browserClass=format">
               <navitem name="result" label="Results" href="content/searchresult.jsp" >
                 <refitem name="~searchresult-classformat" label="" />
-                <navitem name="resortresult-classformat" label="Nav.sorted" href="content/searchresult.jsp" >
+                <navitem name="resortresult-classformat" label="Nav.sorted" href="content/searchresult.jsp" hidden="true">
                   <refitem name="~resortresult-classformat" label="" />
                 </navitem>
               </navitem>
@@ -78,19 +78,19 @@
             <refitem name="~documentmanagement" label="" />
             <navitem name="author" label="WF.author" href="content/workflow/author/workflow.jsp" >
               <refitem name="~author" label="" />
-              <navitem name="author-begin" label="WF.author.begin" href="content/workflow/author/begin.jsp" >
+              <navitem name="author-begin" label="WF.author.begin" href="content/workflow/author/begin.jsp" hidden="true" >
                 <refitem name="~author-begin" label="" />
               </navitem>
-              <navitem name="author-info" label="WF.author.info" href="content/workflow/author/information.jsp" >
+              <navitem name="author-info" label="WF.author.info" href="content/workflow/author/information.jsp" hidden="true" >
                 <refitem name="~author-info" label="" />
               </navitem>
 	        </navitem>
             <navitem name="xmetadiss" label="WF.xmetadiss" href="content/workflow/xmetadiss/workflow.jsp" >
               <refitem name="~xmetadiss" label="" />
-              <navitem name="xmetadiss-begin" label="WF.xmetadiss.begin" href="content/workflow/xmetadiss/begin.jsp" >
+              <navitem name="xmetadiss-begin" label="WF.xmetadiss.begin" href="content/workflow/xmetadiss/begin.jsp" hidden="true" >
                 <refitem name="~xmetadissbegin" label="" />
               </navitem>
-              <navitem name="xmetadiss-info" label="WF.xmetadiss.info" href="content/workflow/xmetadiss/information.jsp" >
+              <navitem name="xmetadiss-info" label="WF.xmetadiss.info" href="content/workflow/xmetadiss/information.jsp" hidden="true" >
                 <refitem name="~xmetadiss-info" label="" />
               </navitem>
               <navitem name="workflow-fileupload" label="Nav.WorkflowFileupload" href="content/fileupload.jsp" hidden="true" >
@@ -99,10 +99,10 @@
             </navitem>
             <navitem name="publication" label="WF.publication" href="content/workflow/publication/workflow.jsp" >
               <refitem name="~publication" label="" />
-              <navitem name="publication-begin" label="WF.publication.begin" href="content/workflow/publication/begin.jsp" >
+              <navitem name="publication-begin" label="WF.publication.begin" href="content/workflow/publication/begin.jsp" hidden="true" >
                 <refitem name="~publicationbegin" label="" />
               </navitem>
-              <navitem name="publication-info" label="WF.publication.info" href="content/workflow/publication/information.jsp" >
+              <navitem name="publication-info" label="WF.publication.info" href="content/workflow/publication/information.jsp" hidden="true" >
                 <refitem name="~publication-info" label="" />
               </navitem>
               <navitem name="workflow-fileupload" label="Nav.WorfklowFileUpload" href="content/fileupload.jsp" hidden="true" >
