@@ -21,10 +21,8 @@
 	<c:if test="${right=='' or canDo}">						
 		<div class="sitemap-item">
 			<a target="_self" href='${href}'><fmt:message key="${labelKey}" /></a>
-			<x:if select="not(./navitem/@hidden='true')">
-				<x:set scope="session" var="recNavPath" select="./navitem"/>
-				<c:import url="/content/sitemap_items_rec.jsp" />
-			</x:if>
+			<x:set scope="session" var="recNavPath" select="./navitem"/>
+			<c:import url="/content/sitemap_items_rec.jsp" />
 		</div>
 	</c:if>
 </x:forEach>
