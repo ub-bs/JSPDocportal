@@ -37,7 +37,8 @@ public abstract class MCRMetadataStrategy {
 	 *				value contains the identifier
 	 * @return
 	 */
-	public abstract boolean createEmptyMetadataObject(boolean authorRequired, List authorIDs, List authors, MCRObjectID nextFreeObjectId, String userid, Map identifiers, String saveDirectory);
+	public abstract boolean createEmptyMetadataObject(boolean authorRequired, List authorIDs, List authors, 
+			MCRObjectID nextFreeObjectId, String userid, Map identifiers, String publicationType, String saveDirectory);
 	
 	/**
      * The method stores the data in a working directory dependent of the
@@ -98,6 +99,9 @@ public abstract class MCRMetadataStrategy {
 			File fBackupDirectory = new File(backupDirectory);
 			MCRUtils.copyStream(new FileInputStream(fInputFile), 
 						new FileOutputStream(new File(fBackupDirectory.getAbsolutePath() + "/" + fInputFile.getName())));
+		}catch (java.io.FileNotFoundException fnE){
+			logger.error("could not backup Metadata Object - FileNotFound - " + inputFile);
+			//don't return false, because if there is no File it is ok when we can't backup it 
 		}catch (Exception ex) {
 			logger.error("could not backup Metadata Object", ex);
 			return false;

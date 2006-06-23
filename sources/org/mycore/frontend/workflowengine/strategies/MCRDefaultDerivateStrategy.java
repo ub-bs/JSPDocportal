@@ -55,15 +55,23 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 				logger.debug("deleting directory " + derDir.getName());
 				JSPUtils.recursiveDelete(derDir);
 			}else{
-				logger.warn(derDir.getName() + " is not a directory, did not delete it");
-				return false;
+				if (!derDir.exists()) {
+					logger.warn(derivateObjectId + " not exist's - do nothing.");					
+				} else {
+					logger.warn(derDir.getName() + " is not a directory, did not delete it");
+					return false;
+				}
 			}
 			if(derFile.isFile()){
 				logger.debug("deleting file " + derFile.getName());
 				derFile.delete();
 			}else{
-				logger.warn(derFile.getName() + " is not a file, did not delete it");
-				return false;
+				if ( !derFile.exists()) {
+					logger.warn(derivateObjectId +  " not exist's - do nothing.");					
+				} else {
+					logger.warn(derFile.getName() + " is not a file, did not delete it");
+					return false;
+				}
 			}
 			if(mustWorkflowVarBeUpdated){
 				String newDerivates = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES)

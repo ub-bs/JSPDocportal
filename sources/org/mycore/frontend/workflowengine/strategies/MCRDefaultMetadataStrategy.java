@@ -13,7 +13,9 @@ import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
+import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRDefaults;
+import org.mycore.datamodel.metadata.MCRMetaClassification;
 import org.mycore.datamodel.metadata.MCRMetaLangText;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRObject;
@@ -32,7 +34,9 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 	
 	private static Logger logger = Logger.getLogger(MCRDefaultMetadataStrategy.class.getName());
 		
-	public boolean createEmptyMetadataObject(boolean authorRequired, List authorIDs, List authors, MCRObjectID nextFreeObjectId, String userid, Map identifiers, String saveDirectory){
+	public boolean createEmptyMetadataObject(boolean authorRequired, List authorIDs, List authors, 
+			MCRObjectID nextFreeObjectId, 	String userid,	Map identifiers, String publicationType,
+			String saveDirectory){
 		
 		if (authorRequired){
 			if((authorIDs == null || authorIDs.size() == 0) && (authors == null || authors.size() == 0)){
@@ -43,7 +47,9 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 		
 		Element mycoreobject = new Element ("mycoreobject");				
 		mycoreobject.addNamespaceDeclaration(org.jdom.Namespace.getNamespace("xsi", MCRDefaults.XSI_URL));
-		mycoreobject.setAttribute("noNamespaceSchemaLocation", "datamodel-disshab.xsd", org.jdom.Namespace.getNamespace("xsi", MCRDefaults.XSI_URL));		
+		mycoreobject.setAttribute("noNamespaceSchemaLocation", 
+					"datamodel-" + nextFreeObjectId.getTypeId() +".xsd", 
+					org.jdom.Namespace.getNamespace("xsi", MCRDefaults.XSI_URL));		
 		
 		Element structure = new Element ("structure");			
 		Element metadata = new Element ("metadata");	
@@ -103,6 +109,19 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 		if (authorRequired)
 			metadata.addContent(eCreators);
 	
+		if ( publicationType != null) {
+			MCRMetaClassification clType = new MCRMetaClassification();
+			clType.setSubTag("type");
+			clType.setLang("de");
+			clType.setValue(MCRConfiguration.instance().getString("MCR.WorkflowEngine.ClassificationID.Type"),	publicationType);
+			Element eclType = clType.createXML();
+			Element eclTypes = new Element("types");
+			eclTypes.setAttribute("class","MCRMetaClassification");
+			eclTypes.setAttribute("parasearch", "true");			
+			eclTypes.addContent(eclType);			
+			metadata.addContent(eclTypes);								
+		}
+		
 		if(identifiers != null){
 			for (Iterator it = identifiers.keySet().iterator(); it.hasNext();) {
 				Integer identifierType = (Integer) it.next();
@@ -123,7 +142,7 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 				}
 			}
 		}
-	      
+		      
 		mycoreobject.addContent(structure);
 		mycoreobject.addContent(metadata);
 		mycoreobject.addContent(service);
@@ -191,7 +210,6 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 		for (int i = 0; i < objids.length; i++) {
 			String filename = saveDirectory + "/" + objids[i] + ".xml";
 			if(!backupMetadataObject(filename, backupDirectory)){
-				logger.error("could not backup file " + filename);
 				return false;
 			}
 			try {
@@ -200,8 +218,12 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 					fi.delete();
 					logger.debug("File " + filename + " removed.");
 				} else {
-					logger.error("Can't remove file " + filename);
-					return false;
+					if ( !fi.exists()) {
+						logger.warn("File not exist  " + filename + " do nothing.");
+					} else {
+						logger.error("Can't remove file " + filename);
+						return false;
+					}
 				}
 			} catch (Exception ex) {
 				logger.error("Can't remove file " + filename);
