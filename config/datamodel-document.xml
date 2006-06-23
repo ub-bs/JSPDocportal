@@ -72,7 +72,7 @@
       <mcrmetaclassification name="format" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
     </element>
     <!-- 15 - DC Identifier -->
-    <element name="identifiers" minOccurs='0' maxOccurs='1' parasearch="true" textsearch="true">
+    <element name="identifiers" minOccurs='0' maxOccurs='1' parasearch="true" textsearch="false">
       <mcrmetalangtext name="identifier" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="128" />
     </element>
     <!-- 16 - DC Source -->
@@ -123,6 +123,14 @@
     <element name="rightslinks" minOccurs='0' maxOccurs='1' parasearch="true" textsearch="false">
       <mcrmetalink name="rightslink" class="MCRMetaLink" minOccurs='1' maxOccurs='unbounded' />
     </element>
+    <!-- 28 - Size -->
+    <element name="sizes" minOccurs='0' maxOccurs='1' parasearch="true" textsearch="false">
+      <mcrmetalangtext name="size" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="1024" />
+    </element>
+    <!-- 29 - Place -->
+    <element name="places" minOccurs='0' maxOccurs='1' parasearch="true" textsearch="false">
+      <mcrmetalangtext name="place" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="1024" />
+    </element>
     <!-- 30 - ISBN -->
     <element name="isbns" minOccurs='0' maxOccurs='1' parasearch="true" textsearch="false">
       <mcrmetaisbn name="isbn" class="MCRMetaISBN" minOccurs='1' maxOccurs='unbounded' length="32" />
@@ -138,15 +146,6 @@
     <!-- 33 - DDB Contact -->
     <element name="contacts" minOccurs='0' maxOccurs='1' parasearch="false" textsearch="false">
       <mcrmetalangtext name="contact" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="1024" />
-    </element>
-
-    <!-- 28 - Size -->
-    <element name="sizes" minOccurs='0' maxOccurs='1' parasearch="true" textsearch="false">
-      <mcrmetalangtext name="size" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="1024" />
-    </element>
-    <!-- 29 - Place -->
-    <element name="places" minOccurs='0' maxOccurs='1' parasearch="true" textsearch="false">
-      <mcrmetalangtext name="place" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="1024" />
     </element>
 
     <!-- 34 - Notes -->
