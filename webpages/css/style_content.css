@@ -373,3 +373,52 @@ td.editorHLine                 { border-top:1px solid #7791ac; border-left:1px s
                                  font-weight:bold; font-family:Verdana,Arial,Helvetica,SansSerif; 
                                  font-size:10px; letter-spacing:1px }
 
+/* =================================================================== */
+/* Help Popup (button + messagebox on mouse over)                      */
+/* =================================================================== */
+div.helppopup{
+	margin-top:4px;
+}
+
+div.helppopup a {
+	font:bold 12px verdana, sans-serif;
+	text-decoration:none;
+	background:#15516E; 
+	display:boxed;
+	padding:2px;
+
+}
+
+div.helppopup a:link, 
+div.helppopup a:visited,
+div.helppopup a:focus, 
+div.helppopup a:active{
+	font-weight:bold; 
+	color:#ffffff !important; 
+	text-decoration:none !important;
+}
+
+div.helppopup a:hover {
+	text-decoration:none !important;
+	font-weight:bold;
+	color:black !important;
+	background:#FFFCAA;
+	border: none;
+}
+
+div.helppopup a span {display:none;
+}
+
+div.helppopup a:hover span {
+	position:absolute; bottom:20px; left:40px; z-index:3;
+	display:block;
+	color:black;
+	width:300px;
+	background:#FFFCAA;
+	font:normal 12px Verdana, Arial, Helvetica, sans-serif;
+	border-width:2px;
+	border-color:#ED8F2B;
+	border-style:outset; 
+	
+	padding:10px;
+}

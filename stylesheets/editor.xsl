@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.6 $ $Date: 2006-06-22 07:43:15 $ -->
+<!-- $Revision: 1.7 $ $Date: 2006-06-23 13:07:07 $ -->
 <!-- ============================================== --> 
 
 <xsl:stylesheet 
@@ -734,6 +734,31 @@
       </input>
     </xsl:when>
     <xsl:otherwise>
+		<xsl:choose>
+		<xsl:when test="@id">
+			<div class="helppopup"><a href="#">?<span>
+			        <xsl:attribute name="style">
+						<xsl:if test="@width">
+				             <xsl:text>width:</xsl:text>
+				             <xsl:value-of select="@width"/>
+				             <xsl:text>;</xsl:text>
+		            	</xsl:if>
+			            <xsl:if test="@height">
+			              	<xsl:text>height:</xsl:text>
+			              	<xsl:value-of select="@height"/>
+				        	<xsl:text>;</xsl:text>
+		            	</xsl:if>
+					</xsl:attribute>
+					<xsl:call-template name="output.label" />
+				</span>
+			</a></div>
+		</xsl:when>
+		<xsl:otherwise>
+	      <input type="button" value=" ? " onClick="window.open('{$url}','help','{$properties}');" class="editorButton" />			
+		</xsl:otherwise>
+</xsl:choose>
+
+<!-- old 
 	  <xsl:choose>
 		<xsl:when test="@id">
 		  <xsl:variable name="ID"><xsl:value-of select="@id" /></xsl:variable>
@@ -746,9 +771,11 @@
 		<xsl:otherwise>
 	      <input type="button" value=" ? " onClick="window.open('{$url}','help','{$properties}');" class="editorButton" />			
 		</xsl:otherwise>
-	   </xsl:choose>
+   </xsl:choose> -->
+   
     </xsl:otherwise>
   </xsl:choose>
+
 </xsl:template>
 
 <!-- ======== hidden ======== -->
