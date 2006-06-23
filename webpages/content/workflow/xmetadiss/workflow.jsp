@@ -50,7 +50,7 @@
    	  </c:if>
    </c:when>
    <c:otherwise>
-        <div class="headline"><fmt:message key="WF.Disshab" /></div>
+        <div class="headline"><fmt:message key="WF.xmetadiss" /></div>
         <br>&nbsp;<br>
         <div class="headline"><fmt:message key="WF.common.MyTasks" /></div>   
         
@@ -70,7 +70,7 @@
         
         <br>&nbsp;<br>
         
-        <div class="headline"><fmt:message key="WF.common.MyInititiatedProcesses.xmetadiss" /></div>
+        <div class="headline"><fmt:message key="WF.common.MyInititiatedProcesses" /></div>
         
         <table>
         <c:forEach var="task" items="${myProcessList}">

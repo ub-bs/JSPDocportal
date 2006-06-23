@@ -21,7 +21,7 @@
 <c:choose>
    <c:when test="${requestScope.task.taskName eq 'initialization' }">
       <fmt:message key="WF.publication.ActualStateOfYourDocument" />
-      (<fmt:message key="WF.common.Processnumber" /> <b>${requestScope.task.processID}</b>): <br>
+      (<fmt:message key="WF.common.Processnumber" /> <b>${requestScope.task.processID}</b>): <br/><br/>
       <b><fmt:message key="WF.publication.status.${requestScope.task.workflowStatus}" /></b>
       <br/>
    </c:when>
@@ -43,39 +43,39 @@
 	<c:when	test="${requestScope.task.taskName eq 'taskprocessInitialized' }">
 		<mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="urn" workflowVar="reservatedURN" /> 
 		<mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="docID" workflowVar="createdDocID" /> 
-		<mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="docType" workflowVar="publicationType" /> 
+	    <mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="docType" workflowVar="wfo-type" /> 
 		<table cellspacing="3" cellpadding="3" >
-		<c:if test="${!empty(urn)}">
+		<c:if test="${!empty(docID)}">
 		   <tr valign="top">
-		        <td class="metaname"><fmt:message key="WF.publication.URN" /> </td>
-		        <td class="metavalue"><b><c:out value="${urn}" /></b>  <br/>
-		         <br/> <i><fmt:message key="WF.publication.URN.Hinweis" /></i>
+		        <td class="metaname"><fmt:message key="WF.publication.ID" /><br/></td>
+		        <td class="metavalue"> 
+		           <b><c:out value="${docID}" /></b>
 		      </td>
 		   </tr>     
-		</c:if>
+		</c:if>		
 		<c:if test="${!empty(docType)}">
 		   <tr valign="top">
-		        <td class="metaname"><fmt:message key="WF.publication.URN" /> </td>
+		        <td class="metaname"><fmt:message key="WF.publication.Type" /><br/></td>
 		        <td class="metavalue"><b><c:out value="${docType}" /></b>  <br/>
 		      </td>
 		   </tr>     
 		</c:if>
-		<c:if test="${!empty(docID)}">
+		<c:if test="${!empty(urn)}">
 		   <tr valign="top">
-		        <td class="metaname"><fmt:message key="WF.publication.Created" /></td>
-		        <td class="metavalue"> 
-		           <b><c:out value="${docID}" /></b>
-		           <br/><i><fmt:message key="WF.publication.Created2" /></i>
+		        <td class="metaname"><fmt:message key="WF.publication.URN" /><br/></td>
+		        <td class="metavalue"><b><c:out value="${urn}" /></b> 
+		         <br/> <small><i><fmt:message key="WF.publication.URN.Hinweis" /></i></small>
 		      </td>
 		   </tr>     
-		</c:if>		
-		   <tr>
-		      <td colspan="2">
-		         <img title="" alt="" src="${baseURL}images/greenArrow.gif">
-		         <a	href="${baseURL}nav?path=~publication&transition=&endTask=taskprocessInitialized&processID=${requestScope.task.processID}">		         
-			         <fmt:message key="WF.common.object.EditObject" /></a>
-		      </td>
-		   </tr> 
+		</c:if>
+	      <tr>
+		    <td colspan="2">
+		      <br/>
+		      <img title="" alt="" src="${baseURL}images/greenArrow.gif">
+		      <a href="${baseURL}nav?path=~publication&transition=&endTask=taskprocessInitialized&processID=${requestScope.task.processID}">		         
+		         <fmt:message key="WF.common.object.EditObject" /></a>
+		    </td>
+		  </tr> 
 		</table>	
 	</c:when>
    <c:when test="${requestScope.task.taskName eq 'taskprocessEditInitialized' }" >

@@ -25,7 +25,7 @@
    <c:when test="${requestScope.task.taskName eq 'taskprocessEditInitialized' }" >
       <p>
          <img title="" alt="" src="${baseURL}images/greenArrow.gif">
-         <fmt:message key="WF.xmetadiss.description.completedisshabandsendtolibrary" />
+         <fmt:message key="WF.xmetadiss.completedisshabandsendtolibrary" />
          <br>
          <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="xmetadiss" decision="canDisshabBeSubmitted" />
          <c:if test="${transition eq 'documentCanBeSubmitted'}">
