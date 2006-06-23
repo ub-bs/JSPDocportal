@@ -35,8 +35,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.mycore.datamodel.metadata.MCRObject;
-import org.mycore.frontend.cli.MCRObjectCommands;
 import org.mycore.frontend.editor.MCRRequestParameters;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
@@ -95,11 +93,18 @@ public class MCRWorkflowActions extends MCRServlet {
         }
         if ( "WFEditWorkflowObject".equals(todo) ) {
         	// befüllten Editor für das Object includieren
+        	String publicationType = WFM.getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_PUBLICATIONTYPE,pid);
+        	if ( publicationType == null )  
+        		 publicationType="";
+        	
+        	if ( publicationType.length() > 0	&& publicationType.indexOf(".") >0 )
+        		 publicationType = publicationType.substring(0, publicationType.indexOf("."));
         	request.setAttribute("isNewEditorSource","false");
         	request.setAttribute("mcrid",mcrid);
         	request.setAttribute("processid",new Long(pid));        	
         	request.setAttribute("type",documentType);
         	request.setAttribute("workflowType",workflowType);
+        	request.setAttribute("publicationType",publicationType);
         	request.setAttribute("step","author");
         	request.setAttribute("nextPath",nextPath);
         	request.getRequestDispatcher("/nav?path=~editor-include").forward(request, response);

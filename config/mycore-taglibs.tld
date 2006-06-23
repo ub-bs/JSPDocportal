@@ -345,6 +345,12 @@
                 <rtexprvalue>true</rtexprvalue>
             </attribute>             
             <attribute>
+                <description>Value of Editor parameter: publicationType</description>
+                <name>publicationType</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>             
+            <attribute>
                 <description>Value of Editor parameter: step</description>
                 <name>step</name>
                 <required>true</required>

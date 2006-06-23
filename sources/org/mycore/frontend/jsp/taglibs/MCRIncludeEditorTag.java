@@ -1,7 +1,6 @@
 package org.mycore.frontend.jsp.taglibs;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -30,6 +29,7 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 	private String step;
 	private String type;
 	private String workflowType;
+	private String publicationType;
 	private String target;
 	private long processid;
 	
@@ -80,6 +80,9 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 		this.workflowType = workflowType;
 	}
 	
+	public void setPublicationType(String publicationType) {
+		this.publicationType = publicationType;
+	}
 	public void setTarget(String target){
 		this.target = target;
 	}
@@ -114,9 +117,13 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 			if(editorPath != null && !editorPath.equals("")) {
 				editorBase = NavServlet.getBaseURL() + editorPath;
 			}else if(uploadID == null || uploadID.equals("") ) {
-				editorBase = new StringBuffer(NavServlet.getBaseURL())
-				.append("editor/workflow/editor_form_").append(step).append('-').append(type)
-				.append(".xml").toString();	
+				StringBuffer base = new StringBuffer(NavServlet.getBaseURL()).
+						append("editor/workflow/editor_form_").append(step).append('-').append(type);			
+				if (publicationType != null && !publicationType.equals(""))
+					base.append("-").append(publicationType);					
+				base.append(".xml");	
+				editorBase = base.toString();
+
 			}else{
 				editorBase = new StringBuffer(NavServlet.getBaseURL())
 				.append("editor/workflow/fileupload_new.xml").toString();
