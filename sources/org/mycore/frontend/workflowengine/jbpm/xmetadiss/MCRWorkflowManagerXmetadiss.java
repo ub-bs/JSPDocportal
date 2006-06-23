@@ -40,10 +40,13 @@ import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRException;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.datamodel.metadata.MCRObjectStructure;
+import org.mycore.frontend.cli.MCRDerivateCommands;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
+import org.mycore.frontend.workflowengine.jbpm.publication.MCRDocumentDerivateStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRMetadataStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 import org.mycore.user2.MCRUser;
@@ -64,6 +67,7 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 	
 	protected MCRWorkflowManagerXmetadiss() throws Exception {
 		super("disshab", "xmetadiss");
+		this.derivateStrategy = new MCRDisshabDerivateStrategy();
 	}
 
 	
@@ -101,7 +105,6 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 				}
 				wfp.setStringVariable("fileCnt", "0");
 				wfp.endTask("initialization", initiator, transitionName);
-				wfp.signal("go2isInitiatorsEmailAddressAvailable");
 				return wfp.getProcessInstanceID();
 			}catch(MCRException ex){
 				logger.error("MCRWorkflow Error, could not initialize the workflow process", ex);
@@ -125,18 +128,21 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 	public long initWorkflowProcessForEditing(String initiator, String mcrid ){
 		if (mcrid != null && MCRObject.existInDatastore(mcrid)) {
 			// Store Object in Workflow - Filesystem
+			
 			MCRObject mob = new MCRObject();
 			mob.receiveFromDatastore(mcrid);
 			String type = mob.getId().getTypeId();			
-			JSPUtils.saveToDirectory(mob, MCRWorkflowDirectoryManager.getWorkflowDirectory(type));
-			
+			String atachedDerivates = JSPUtils.saveToDirectory(mob, MCRWorkflowDirectoryManager.getWorkflowDirectory(type));
+
 			long processID = initWorkflowProcess(initiator, "go2processEditInitialized");
+			
 			MCRWorkflowProcess wfp = getWorkflowProcess(processID);
 			String urn = this.identifierStrategy.getUrnFromDocument(mcrid);
-			
 			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS, mcrid);
 			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN, urn);	
-			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES, "");
+			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES, atachedDerivates);
+			int filecnt =  (atachedDerivates.split("_derivate_")).length;
+			wfp.setStringVariable("fileCnt", String.valueOf(filecnt));
 			wfp.close();
 
 			setWorkflowVariablesFromMetadata(mcrid, mob.createXML().getRootElement().getChild("metadata"), processID);
@@ -209,7 +215,7 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 			Map identifiers = new HashMap();
 			identifiers.put(MCRWorkflowConstants.KEY_IDENTIFER_TYPE_URN, wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN));
 			if(metadataStrategy.createEmptyMetadataObject(true, Arrays.asList(authors), null,
-					nextFreeId, initiator, identifiers, saveDirectory) ){
+					nextFreeId, initiator, identifiers, null, saveDirectory) ){
 						permissionStrategy.setPermissions(nextFreeId.toString(), initiator, 
 								getWorkflowProcessType(), MCRWorkflowConstants.PERMISSION_MODE_DEFAULT );
 						return nextFreeId.toString();
