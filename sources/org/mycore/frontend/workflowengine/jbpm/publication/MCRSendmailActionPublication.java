@@ -48,7 +48,14 @@ public class MCRSendmailActionPublication  extends MCRAbstractAction {
 				ret += salutation + "\r\n\r\n";
 			else
 				ret += "Sehr geehrte(r) Autor(in)";
-			String body = PropertyResourceBundle.getBundle("messages", new Locale(lang)).getString("WorkflowEngine.Mails.SuccessMessage.publication");
+			String body = " Ihre Publikation wurde angenommen und publiziert.";
+			try {
+				body = PropertyResourceBundle.getBundle("messages", new Locale(lang)).getString("WF.Mails.SuccessMessage.publication");
+			} catch (java.util.MissingResourceException mRE) {
+				// ignore and take the standard text
+				;
+			}
+			
 			if(body != null)
 				ret += body + "\r\n\r\n";
 			String footer = PropertyResourceBundle.getBundle("messages", new Locale(lang)).getString("WF.Mails.Footer");
