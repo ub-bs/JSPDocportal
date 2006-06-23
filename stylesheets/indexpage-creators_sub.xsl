@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.2 $ $Date: 2006-06-08 15:17:48 $ -->
+<!-- $Revision: 1.3 $ $Date: 2006-06-23 15:36:23 $ -->
 <!-- ============================================== -->
 
 <xsl:stylesheet
@@ -177,13 +177,17 @@
     <xsl:value-of select="$subselect.webpage" />
   </xsl:variable>
 
+   <xsl:variable name="title">
+       <xsl:value-of select="concat(idx, ', ', col[@name='firstname'])" />   
+   </xsl:variable>
+   
     <tr>
       <td class="td1" valign="top">
         <img border="0" src="{$WebApplicationBaseURL}/images/folder_plain.gif"/>
       </td>
       <td class="td1" valign="top" style="padding-right:5px;">
-        <a href="{$url}&amp;_var_@href={col[@name='id']}&amp;_var_@title={idx}">
-          <xsl:value-of select="idx" />, <xsl:value-of select="col[@name='firstname']" />	  
+        <a href="{$url}&amp;_var_@href={col[@name='id']}&amp;_var_@title={$title}">
+          <xsl:value-of select="$title" />
         </a>
       </td>
     </tr>
