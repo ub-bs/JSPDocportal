@@ -23,7 +23,6 @@
 
 package org.mycore.frontend.workflowengine.jbpm;
 
-import java.io.File;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;

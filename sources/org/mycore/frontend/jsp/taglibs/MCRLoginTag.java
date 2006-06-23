@@ -12,10 +12,8 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.output.DOMOutputter;
 import org.mycore.common.JSPUtils;
-import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRSessionMgr;
-import org.mycore.user2.MCRUser;
 import org.mycore.user2.MCRUserMgr;
 
 
