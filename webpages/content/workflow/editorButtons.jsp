@@ -92,9 +92,7 @@
 		</td>
 	</tr>
 	<tr>
-		<td class="description" colspan="3"><fmt:message
-			key="WF.${requestScope.task.workflowProcessType}.Description" />,
-		${itemID}</td>
+		<td class="description" colspan="3"><fmt:message key="WF.${requestScope.task.workflowProcessType}.Description" />,${itemID}</td>
 	</tr>
 
 	<x:forEach select="$der/derivates/derivate">
@@ -103,9 +101,9 @@
 		<tr>
 			<td align="left" valign="top"><b>${derivateLabel}</b></td>
 			<td width="30">&nbsp;</td>
-			<td align="right"><mcr:checkAccess var="modifyAllowed"
-				permission="writedb" key="${derivateID}" /> <c:if
-				test="${modifyAllowed}">
+			<td align="right">
+			  <mcr:checkAccess var="modifyAllowed"	permission="writedb" key="${derivateID}" /> 
+			  <c:if	test="${modifyAllowed}">
 				<table>
 					<tr>
 						<td align="center" valign="top" width="30">
@@ -146,8 +144,10 @@
 		<x:forEach select="file">
 			<x:set var="fileSize" select="string(./@size)" />
 			<tr valign="top">
-				<td><a class="linkButton"
-					href="${baseURL}servlets/MCRFileViewWorkflowServlet/<x:out select="."/>?type=${itemDocType}"
+				<td>
+				 <!--  http://139.30.48.72:8080/mycoresample/file/DocPortal_derivate_00000008/dissertation.pdf?hosts=local -->
+				 <a class="linkButton"				
+					href="${baseURL}file/<x:out select="."/>?type=${itemDocType}"
 					target="_blank"> <x:out select="." /> </a> [ ${fileSize} ]</td>
 				<td width="30">&nbsp;</td>
 				<td><mcr:checkAccess var="modifyAllowed" permission="writedb"
