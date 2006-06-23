@@ -152,7 +152,7 @@
                                        <x:set var="contentType" select="string(./@contentType)" />
                                        <table>
                                           <tr>
-                                             <td><a href="<x:out select="$mainFileURL" />" target="_self"><x:out select="./@derivmain" /></a>&#160;
+                                             <td><a href="<x:out select="$mainFileURL" />" target="_blank"><x:out select="./@derivmain" /></a>&#160;
                                                  (<x:out select="./@size mod 1024" /> kB)&#160;&#160;
                                              </td>
                                              <td>
