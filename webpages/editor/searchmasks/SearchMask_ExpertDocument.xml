@@ -44,10 +44,10 @@
                 <item value="title" i18n="Editor.Search.Document.title" />
                 <item value="keywords" i18n="Editor.Search.Document.keyword" />
                 <item value="description" i18n="Editor.Search.Document.descript" />
-                <item value="source" i18n="Editor.Search.Document.source" />
-                <item value="coverage" i18n="Editor.Search.Document.coverage" />
-                <item value="rights" i18n="Editor.Search.Document.rights" />
-                <item value="relation" i18n="Editor.Search.Document.relation" />
+                <item value="source" i18n="Editor.Document.source" />
+                <item value="coverage" i18n="Editor.Document.coverage" />
+                <item value="rights" i18n="Editor.Document.rights" />
+                <item value="relation" i18n="Editor.Document.relation" />
                 <item value="allMeta" i18n="Editor.Search.metadata" />
               </list>
             </cell>
@@ -65,10 +65,9 @@
           <panel lines="off">
             <cell row="1" col="1" anchor="WEST" var="@field">
               <list type="dropdown" default="author" width="110px">
-                <item value="author" i18n="Editor.Search.Document.author"/>
-                <item value="creator" i18n="Editor.Search.Document.creator"/>
-                <item value="publisher" i18n="Editor.Search.Document.publisher"/>
-                <item value="contributor" i18n="Editor.Search.Document.contrib"/>
+                <item value="creator" i18n="Editor.Document.creator"/>
+                <item value="publisher" i18n="Editor.Document.publisher"/>
+                <item value="contributor" i18n="Editor.Document.contrib"/>
               </list>
             </cell>
             <cell row="1" col="2" anchor="WEST" var="@operator">
@@ -92,7 +91,7 @@
       <!-- Search in field "identifier" -->
       <hidden var="conditions/boolean/condition4/@field" default="identifier" />
       <cell row="4" col="1" anchor="SOUTHEAST" height="50px">
-        <text i18n="Editor.Search.Document.identifier"/>
+        <text i18n="Editor.Document.identifier"/>
       </cell>
       <cell row="4" col="2" anchor="SOUTHWEST" var="conditions/boolean/condition4/@operator" ref="list.operators.identifier" />
       <cell row="4" col="3" width="100%" anchor="SOUTHWEST" var="conditions/boolean/condition4/@value">
@@ -124,7 +123,7 @@
       <!-- Search in field "dateCreated" -->
       <hidden var="conditions/boolean/condition10/@field" default="dateCreated" />
       <cell row="10" col="1" anchor="EAST">
-        <text i18n="Editor.Search.Document.datecr" />
+        <text i18n="Editor.Document.datecr" />
       </cell>
       <cell row="10" col="2" colspan="2" anchor="WEST">
         <panel lines="off">  
@@ -136,13 +135,13 @@
       </cell>
 
       <cell row="11" col="1" colspan="3" anchor="SOUTHWEST" height="50px">
-        <text i18n="Editor.Search.Document.filecont" />
+        <text i18n="Editor.Search.filecont" />
       </cell>
 
       <!-- Search in field "content" -->
       <hidden var="conditions/boolean/condition11/@field" default="content" />
       <cell row="12" col="1" anchor="EAST">
-        <text i18n="Editor.Search.fulltext" />
+        <text i18n="Editor.Document.fulltext" />
       </cell>
       <cell row="12" col="2" anchor="WEST" var="conditions/boolean/condition11/@operator" ref="list.operators.text" />
       <cell row="12" col="3" anchor="WEST" var="conditions/boolean/condition11/@value">
@@ -152,7 +151,7 @@
       <!-- Search in field "fileName" -->
       <hidden var="conditions/boolean/condition12/@field" default="fileName" />
       <cell row="13" col="1" anchor="EAST">
-        <text i18n="Editor.Search.Document.filename" />
+        <text i18n="Editor.Document.filename" />
       </cell>
       <cell row="13" col="2" anchor="WEST" var="conditions/boolean/condition12/@operator" ref="list.operators.identifier" />
       <cell row="13" col="3" anchor="WEST" var="conditions/boolean/condition12/@value">
@@ -162,7 +161,7 @@
       <!-- Search in field "fileSize" -->
       <hidden var="conditions/boolean/condition13/@field" default="fileSize" />
       <cell row="14" col="1" anchor="EAST">
-        <text i18n="Editor.Search.Document.filesize" />
+        <text i18n="Editor.Document.filesize" />
       </cell>
       <cell row="14" col="2" anchor="WEST" var="conditions/boolean/condition13/@operator" ref="list.operators" />
       <cell row="14" col="3" anchor="WEST" var="conditions/boolean/condition13/@value">
@@ -172,7 +171,7 @@
       <!-- Search in field "fileExtension" -->
       <hidden var="conditions/boolean/condition14/@field" default="fileExtension" />
       <cell row="15" col="1" anchor="EAST">
-        <text i18n="Editor.Search.Document.extension" />
+        <text i18n="Editor.Document.extension" />
       </cell>
       <cell row="15" col="2" anchor="WEST" var="conditions/boolean/condition14/@operator" ref="list.operators.identifier" />
       <cell row="15" col="3" anchor="WEST" var="conditions/boolean/condition14/@value">
@@ -182,7 +181,7 @@
       <!-- Search in field "fileDateModified" -->
       <hidden var="conditions/boolean/condition15/@field" default="fileDateModified" />
       <cell row="16" col="1" anchor="EAST">
-        <text i18n="Editor.Search.Document.datemod" />
+        <text i18n="Editor.Document.datemod" />
       </cell>
       <cell row="16" col="2" anchor="WEST" var="conditions/boolean/condition15/@operator" ref="list.operators" />
       <cell row="16" col="3" anchor="WEST" var="conditions/boolean/condition15/@value">
@@ -233,10 +232,10 @@
           <panel lines="off">
             <cell row="1" col="1" anchor="WEST" var="@name">
               <list type="dropdown">
-                <item value="" i18n="Editor.Search.choose" />
-                <item value="title" i18n="Editor.Search.Document.title" />
-                <item value="author" i18n="Editor.Search.Document.author" />
-                <item value="dateCreated" i18n="Editor.Search.Document.datecr" />
+                <item value="" i18n="Editor.Common.choose" />
+                <item value="title" i18n="Editor.Document.title" />
+                <item value="author" i18n="Editor.Document.author" />
+                <item value="dateCreated" i18n="Editor.Document.datecr" />
               </list>
             </cell>
             <cell row="1" col="2" anchor="WEST" var="@order">
