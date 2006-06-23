@@ -226,15 +226,17 @@ public class JSPUtils {
      
     //  static method to save any Document Object to an give directory - uses to put idt into
 	// the workflow directory or to save it before deleteing - look to MCRStartEditorServlet - sdelobj
-	public static void	saveToDirectory(MCRObject mob, String savedir){
+	public static String saveToDirectory(MCRObject mob, String savedir){
 		MCRObjectStructure structure = mob.getStructure();
 		String mcrid = mob.getId().getId();
 		int derSize = structure.getDerivateSize();
-		
+		String atachedDerivates = "";
+
 		for(int i = 0; i < derSize; i++) {
 			String derivateID = structure.getDerivate(i).getXLinkHref();
 	        String derDir  = savedir ;
 	        if ( derivateID != null && MCRObject.existInDatastore(derivateID) ) {
+				atachedDerivates += derivateID + ",";
 		        MCRDerivateCommands.show(derivateID, derDir);
 	        }				
 		}
@@ -243,6 +245,7 @@ public class JSPUtils {
 		}	
 		
 		saveDirect( mob.createXML(), savedir + "/" + mcrid + ".xml");
+		return atachedDerivates;
 	}
 	 
 	public static void saveDirect(Document jdom, String filename){
