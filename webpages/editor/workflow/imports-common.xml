@@ -124,14 +124,20 @@
 	 <label xml:lang="en">[Save]</label>
   </submitButton>
 
-   <submitButton id="BSubmit" width="100px" jsaction="return checkMyForm()" >
+  <submitButton id="BSubmit" width="100px" jsaction="return checkMyForm()" >
     <label xml:lang="de">[Speichern]</label>
     <label xml:lang="en">[Save]</label>
   </submitButton>
+  
   <cancelButton id="BCancel" width="100px" >
     <label xml:lang="de">[Abbrechen]</label>
     <label xml:lang="en">[Cancel]</label>
   </cancelButton>
+
+  <submitButton id="BChoose" width="100px" >
+    <label xml:lang="de">[Auswählen]</label>
+    <label xml:lang="en">[Choose]</label>
+  </submitButton>
 
   <panel id="TwoButtons">
     <cell col="1" row="1" anchor="WEST" ref="BCancel"            />
@@ -139,7 +145,7 @@
   </panel>
 
   <panel id="OneButton">
-    <cell col="1" row="1" anchor="WEST" ref="BSubmit" var="save" />
+    <cell col="1" row="1" anchor="WEST" ref="BChoose" var="save" />
   </panel>
 
 <!-- *** Data for the flags *** -->
@@ -197,25 +203,8 @@ Here you can add the read access of the object. Also you can add a host or domai
     </label>
   </text>
 
-  <helpPopup id="HTitle" width="550px" height="400px">
-   <label xml:lang="de">
-      TITEL<br />Bitte tragen Sie den Titel Ihrer Publikation in der Originalsprache
-      in das Pflichtfeld &#8222;Haupttitel&#8220; ein. Wählen Sie die Sprache des Titels
-      aus dem Auswahlmenü.<br />
-      Wenn Ihre Publikation über einen Untertitel verfügt, können Sie im Auswahlmenü 
-      &#8222;Untertitel&#8220; wählen und diesen in einem gesonderten Feld eintragen.<br />
-      Es ist notwendig, Titel und Untertitel Ihrer Publikation in deutscher sowie in 
-      englischer Sprache anzugeben. Sie können den Titel Ihrer Publikation in beliebigen
-      weiteren Sprachen angeben, indem Sie mit dem Plus-Button zusätzliche Felder erzeugen.<br />
-      Mit dem Minus-Button können Sie diese Felder wieder löschen und mit den Pfeil-Buttons
-      vertauschen Sie die Reihenfolge.
-   </label>
-   <label xml:lang="en">
-      TITLE<br />
-Input the title of this object. This title available the attribute main title. Also you can add a alternative title.
-   </label>
-  </helpPopup>
-
+  <helpPopup id="HTitle" width="550px" height="400px" i18n="Editor.Help.HTitle" />
+    
   <helpPopup id="SMTitle" width="400px" height="250px">
     <label xml:lang="de">
 Es ist der Titel des Objektes einzugeben.
@@ -225,7 +214,7 @@ Input the title of this object.
     </label>
   </helpPopup>
 
-  <text id="ATitleMain">
+  <text id="ATitleMain" >
     <label xml:lang="de">
       <span class="editorlabel">Haupttitel (*)</span>
     </label>
@@ -395,27 +384,29 @@ You to choose from the list one or more subjects for the digital objects.
 
   <text id="LOriginP">
     <label xml:lang="de">
-      <span class="editorlabel">Fakultät (*)</span>
+      <span class="editorlabel">Struktureinheit (*)</span>
     </label>
     <label xml:lang="en">
-      <span class="editorlabel">Faculty (*)</span>
+      <span class="editorlabel">structure item(*)</span>
     </label>
   </text>
 
   <text id="LOrigin">
     <label xml:lang="de">
-      <span class="editorlabel">Herkunft</span>
+      <span class="editorlabel">Struktureinheit</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">structure item</span>
     </label>
   </text>
 
   <helpPopup id="HOrigin" width="400px" height="250px">
     <label xml:lang="de">
       FAKULTÄT<br />Durch Anklicken des Auswahlmenüs erhalten Sie eine Liste 
-      der Fakultäten der Technischen Universität München. Bitte wählen Sie daraus
-      die Fakultät aus, an der Sie Ihre Publikation eingereicht haben.
+      der Einrichtungen. Bitte wählen Sie daraus
+      die Einrichtung aus, an der Sie Ihre Publikation eingereicht haben.
     </label>
-    <label xml:lang="en">
-You to choose from the list the origin from the digital objects.
+    <label xml:lang="en">You to choose from the list the origin from the digital objects.
     </label>
   </helpPopup>
 
@@ -433,19 +424,19 @@ You to choose from the list the origin from the digital objects.
 
   <text id="LInstitutionP">
     <label xml:lang="de">
-      <span class="editorlabel">Fakultät (*)</span>
+      <span class="editorlabel">Einrichtung (*)</span>
     </label>
   </text>
 
   <text id="LInstitution">
     <label xml:lang="de">
-      <span class="editorlabel">Fakultät</span>
+      <span class="editorlabel">faculty</span>
     </label>
   </text>
 
   <helpPopup id="HInstitution" width="400px" height="250px">
     <label xml:lang="de">
-Wählen Sie aus der Liste Ihre Fakultät aus.
+Wählen Sie aus der Liste Ihre Einrichtung aus.
     </label>
     <label xml:lang="en">
 You to choose from the list your faculty.
@@ -548,14 +539,16 @@ Both in Englisch and in German.
 
 <!-- *** Data for the Publisher ** -->
 
-  <text id="LPublisher">
-    <label xml:lang="de">
+  <text id="LPublisher" >
+      <label xml:lang="de">
       <span class="editorlabel">Herausgeber</span>
     </label>
     <label xml:lang="en">
-      <span class="editorlabel">Publisher</span>
+      <span class="editorlabel">publisher</span>
     </label>
   </text>
+  
+
 
   <helpPopup id="HPublisher" width="400px" height="250px">
     <label xml:lang="de">
@@ -668,6 +661,21 @@ Is designed for this types <b>advisor</b> and <b>referee</b>. <br />
     <item value="referee">
        <label xml:lang="de">Gutachter</label>
        <label xml:lang="en">Referee</label>
+    </item>
+  </list>
+
+  <list id="SContributorType" width="60" type="dropdown">
+    <item value="">
+       <label xml:lang="de">(Bitte Typ auswählen)</label>
+       <label xml:lang="en">(Please choose type)</label>
+    </item>   
+    <item value="referee">
+       <label xml:lang="de">Gutachter</label>
+       <label xml:lang="en">Referee</label>
+    </item>
+    <item value="advisor">
+       <label xml:lang="de">Betreuer</label>
+       <label xml:lang="en">Advisor</label>
     </item>
   </list>
 
