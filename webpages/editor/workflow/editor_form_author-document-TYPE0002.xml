@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO_8859-1"?>
+<!DOCTYPE MyCoReWebPage>
+
+<MyCoReWebPage>
+
+<section title="Neueingabe einer unselbständigen Publikation" xml:lang="de">
+<p></p>
+<br />
+<p></p>
+<editor id="author-document-de"><include uri="webapp:editor/workflow/editor-author-document-TYPE0002.xml"/></editor>
+<p></p>
+<br />
+<p></p>
+</section>
+
+<section title="Create a new dependend publication" xml:lang="en">
+<p></p>
+<br />
+<p></p>
+<editor id="author-document-en"><include uri="webapp:editor/workflow/editor-author-document-TYPE0002.xml"/></editor>
+<p></p>
+<br />
+<p></p>
+</section>
+
+</MyCoReWebPage>
+
+

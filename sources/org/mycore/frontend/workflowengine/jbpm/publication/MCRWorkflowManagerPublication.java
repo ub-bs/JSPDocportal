@@ -37,7 +37,11 @@ import org.jbpm.graph.exe.ExecutionContext;
 import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
 import org.mycore.common.JSPUtils;
+import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
+import org.mycore.common.MCRSessionMgr;
+import org.mycore.datamodel.classifications.MCRCategoryItem;
+import org.mycore.datamodel.classifications.MCRClassificationItem;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
@@ -117,7 +121,7 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 			MCRObject mob = new MCRObject();
 			mob.receiveFromDatastore(mcrid);
 			String type = mob.getId().getTypeId();			
-			JSPUtils.saveToDirectory(mob, MCRWorkflowDirectoryManager.getWorkflowDirectory(type));
+			String atachedDerivates = JSPUtils.saveToDirectory(mob, MCRWorkflowDirectoryManager.getWorkflowDirectory(type));
 			
 			long processID = initWorkflowProcess(initiator, "go2processEditInitialized");
 			MCRWorkflowProcess wfp = getWorkflowProcess(processID);
@@ -125,7 +129,10 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 			
 			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS, mcrid);
 			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN, urn);	
-			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES, "");
+			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES, atachedDerivates);
+			int filecnt =  (atachedDerivates.split("_derivate_")).length;
+			wfp.setStringVariable("fileCnt", String.valueOf(filecnt));
+			
 			wfp.close();
 
 			setWorkflowVariablesFromMetadata(mcrid, mob.createXML().getRootElement().getChild("metadata"), processID);
@@ -160,8 +167,11 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 //			String authorID = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_AUTHOR_IDS);
 			String reservatedURN = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN);
 			String createdDocID = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
-//			String attachedDerivates = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES);
-			if(!MCRWorkflowUtils.isEmpty(reservatedURN) && 	!MCRWorkflowUtils.isEmpty(createdDocID)){
+			String attachedDerivates = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES);
+			if(		!MCRWorkflowUtils.isEmpty(reservatedURN) 
+				&& 	!MCRWorkflowUtils.isEmpty(createdDocID)
+				&&	!MCRWorkflowUtils.isEmpty(attachedDerivates)	){
+				
 				String strDocValid = wfp.getStringVariable(MCRMetadataStrategy.VALID_PREFIX + createdDocID );
 				if(strDocValid != null ){
 					if(strDocValid.equals("true") ){
@@ -178,19 +188,21 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 		return false;		
 	}	
 	
+		
 	public String createEmptyMetadataObject(long pid){
 		MCRWorkflowProcess wfp = getWorkflowProcess(pid);
 		try{
 			MCRObjectID nextFreeId = getNextFreeID(metadataStrategy.getDocumentType());
 			String initiator = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_INITIATOR);
+			String publicationType = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_PUBLICATIONTYPE);			
 			String saveDirectory = MCRWorkflowDirectoryManager.getWorkflowDirectory(mainDocumentType);
 			Map identifiers = new HashMap();
 			identifiers.put(MCRWorkflowConstants.KEY_IDENTIFER_TYPE_URN, wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN));
 			if(metadataStrategy.createEmptyMetadataObject(false,null,null, 
-					nextFreeId, initiator, identifiers, saveDirectory) ){
-						permissionStrategy.setPermissions(nextFreeId.toString(), initiator, 
-								getWorkflowProcessType(), MCRWorkflowConstants.PERMISSION_MODE_DEFAULT );
-						return nextFreeId.toString();
+					nextFreeId, initiator, identifiers, publicationType, saveDirectory) ){
+				
+				permissionStrategy.setPermissions(nextFreeId.toString(), initiator,	getWorkflowProcessType(), MCRWorkflowConstants.PERMISSION_MODE_DEFAULT );
+				return nextFreeId.toString();
 			}
 		}catch(MCRException ex){
 			logger.error("could not create empty metadata object", ex);
@@ -261,6 +273,16 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 				sbTitle.append(title.getText());				
 			}
 			wfp.setStringVariable("wfo-title", sbTitle.toString());	
+			
+			String publicationType = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_PUBLICATIONTYPE);			
+			if ( publicationType != null) {
+				String clid = MCRConfiguration.instance().getString("MCR.WorkflowEngine.ClassificationID.Type");
+				MCRCategoryItem clItem = MCRCategoryItem.getCategoryItem(clid,publicationType);
+				String label = clItem.getDescription(MCRSessionMgr.getCurrentSession().getCurrentLanguage());
+				wfp.setStringVariable("wfo-type", label);
+			}
+			
+			
 		}catch(MCRException ex){
 			logger.error("catched error", ex);
 		}finally{

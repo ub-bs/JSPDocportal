@@ -53,6 +53,15 @@
 </c:choose>
 
 <c:choose>
+   <c:when test="${!empty(param.publicationType)}">
+      <c:set  var="publicationType" value="${param.publicationType}"/>
+   </c:when>
+   <c:otherwise>
+      <c:set  var="publicationType" value="${requestScope.publicationType}"/>
+   </c:otherwise>
+</c:choose>
+
+<c:choose>
    <c:when test="${!empty(param.step)}">
       <c:set  var="step" value="${param.step}"/>
    </c:when>
@@ -123,9 +132,10 @@
     <c:when test="${modifyAllowed}">
         <mcr:includeEditor 
           editorSessionID="${editorSessionID}"  isNewEditorSource="${isNewEditorSource}" 
-          mcrid2="${mcrid2}"  uploadID="${uploadID}"
-          mcrid="${mcrid}" type="${type}" processid="${processid}" workflowType="${workflowType}"
-          step="${step}" target="${target}" nextPath="${nextPath}" editorPath="${editorPath}" />        
+          mcrid2="${mcrid2}"  uploadID="${uploadID}"    mcrid="${mcrid}" 
+          type="${type}" processid="${processid}" workflowType="${workflowType}"
+          publicationType="${publicationType}" step="${step}" target="${target}" 
+          nextPath="${nextPath}" editorPath="${editorPath}" />        
     </c:when>
     <c:otherwise>
         <font color="#ff0000"><fmt:message key="WF.common.PrivilegesError" /></font>
