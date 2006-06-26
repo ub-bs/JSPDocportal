@@ -96,6 +96,7 @@ MCR.WorkflowEngine.Classification.Language.SelectCategoryIDs.xmetadiss=LANG0001,
 MCR.WorkflowEngine.Rightslinks.DefaultURL.xmetadiss=http://www.mycore.de/dissertations-copyright.html
 MCR.WorkflowEngine.ContactIdDDB.xmetadiss=Fxxxx-xxxx
 
+MCR.WorkflowEngine.Rightslinks.DefaultURL.publication=http://www.uni-rostock.de/ub/pubication-copyright.html
 MCR.WorkflowEngine.Classification.Type.SelectCategoryIDs.publication=TYPE0001.001,TYPE0001.002,TYPE0001.003,TYPE0001.004,TYPE0001.005,TYPE0001.006,TYPE0001.007,TYPE0002.001,TYPE0002.002
 
 MCR.WorkflowEngine.ManagerImpl.xmetadiss=org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRWorkflowManagerXmetadiss
@@ -254,6 +255,8 @@ MCR.hibernate.connection.url=jdbc:hsqldb:hsql://localhost:9001/mycore
 #MCR.hibernate.connection.url=jdbc:hsqldb:file:%MCR.BaseDirectory%/hsqldb-data/mycore
 MCR.hibernate.connection.username=sa
 MCR.hibernate.connection.password=
+
+MCR.persistence_sql_connection_test_query=select 1 from MCRACCESS
 
 # needed for starting and stopping the hsqldb-database via ant
 MCR.persistence_sql_data_directory=%MCR.BaseDirectory%/hsqldb-data
