@@ -87,6 +87,9 @@ public class MCRCheckMetadataServlet extends MCRServlet {
         LOGGER.debug("nextPath = " + nextPath);
         
         MCRWorkflowManager WFM = MCRWorkflowManagerFactory.getImpl(workflowType);
+        String publicationType = WFM.getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_PUBLICATIONTYPE, processID);
+        LOGGER.debug("publicationType = " + publicationType);
+        
         WFM.setMetadataValid(mcrid1, false, processID);
         
         // get the MCRSession object for the current thread from the session
@@ -128,9 +131,10 @@ public class MCRCheckMetadataServlet extends MCRServlet {
 			.append("/").append(ID.getId()).append(".xml");
         try{
         	WFM.storeMetadata(MCRUtils.getByteArray(indoc), ID.getId(), storePath.toString());
-        	outdoc = prepareMetadata((org.jdom.Document) indoc.clone(), ID, job, lang, step, nextPath, storePath.toString(), workflowType);
+        	outdoc = prepareMetadata((org.jdom.Document) indoc.clone(), ID, job, lang, step, 
+        			   nextPath, storePath.toString(), workflowType, String.valueOf(processID), publicationType);
         	WFM.storeMetadata(MCRUtils.getByteArray(outdoc), ID.getId(), storePath.toString());
-        	WFM.setWorkflowVariablesFromMetadata(mcrid1, indoc.getRootElement().getChild("metadata"), processID);
+        	WFM.setWorkflowVariablesFromMetadata(mcrid1, indoc.getRootElement().getChild("metadata"),processID  );
         	WFM.setMetadataValid(mcrid1, true, processID);
         	request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
         }catch(java.lang.IllegalStateException ill){
@@ -163,10 +167,11 @@ public class MCRCheckMetadataServlet extends MCRServlet {
      *            the current language
      */
     protected org.jdom.Document prepareMetadata(org.jdom.Document jdom_in, MCRObjectID ID, MCRServletJob job, 
-    		String lang, String step, String nextPath, String storePath, String workflowType) throws Exception {
+    		String lang, String step, String nextPath, String storePath, String workflowType, 
+    		String processID , String publicationType) throws Exception {
         try{
         	EditorValidator ev = new EditorValidator(jdom_in, ID);
-        	errorHandlerValid(job, ev.getErrorLog(), ID, lang, step, nextPath, storePath, workflowType);        	
+        	errorHandlerValid(job, ev.getErrorLog(), ID, lang, step, nextPath, storePath, workflowType, processID, publicationType);        	
         	Document jdom_out = ev.generateValidMyCoReObject();
         	return jdom_out;
         }catch(Exception e){
@@ -180,7 +185,8 @@ public class MCRCheckMetadataServlet extends MCRServlet {
      * A method to handle valid errors.
      */
     private final void errorHandlerValid(MCRServletJob job, List logtext, MCRObjectID ID, 
-    		String lang, String step, String nextPath, String storePath, String workflowType) throws Exception {
+    		String lang, String step, String nextPath, String storePath, String workflowType, 
+    		String processID, String publicationType) throws Exception {
         if (logtext.size() == 0) {
             return;
         }
@@ -200,6 +206,8 @@ public class MCRCheckMetadataServlet extends MCRServlet {
 	        request.setAttribute("step", step);
 	        request.setAttribute("nextPath", nextPath);
 	        request.setAttribute("target", "MCRCheckMetadataServlet");
+	        request.setAttribute("processID",processID);
+	        request.setAttribute("publicationType",publicationType);
 	        request.setAttribute("editorSource", storePath.toString().replaceAll("\\\\","/"));
 	
 	        getServletContext().getRequestDispatcher("/nav?path=~editor-validating-errors").forward(request, job.getResponse());
