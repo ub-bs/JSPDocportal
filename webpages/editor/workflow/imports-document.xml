@@ -19,7 +19,7 @@
       <include  uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/types/type/@classid&amp;prop=MCR.WorkflowEngine.ClassificationID.Type&amp;defaultValue=DocPortal_class_00000005" />
       <hidden   var="metadata/types/type/@inherited" default="0" sortnr="13" />
       <hidden   var="metadata/types/type/@categid"   sortnr="13" />
-      <cell col="1" row="1" anchor="WEST" ref="CPublicationType" var="metadata/types/type/@label" />    
+      <cell col="1" row="1" anchor="WEST" ref="CPublicationType" var="metadata/types/type/@categid" />    
     </panel>
     
     <!-- *** Data for the TITLE ** -->
@@ -302,6 +302,12 @@
       <cell col="1" row="1" anchor="WEST" ref="TFzeile1024" var="metadata/sizes/size" sortnr="28" />
     </panel>
 
+    <panel id="DIsbns">
+      <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/isbns&amp;classname=MCRMetaISBN" />
+      <hidden  var="metadata/isbns/isbn/@inherited" default="0" />
+      <hidden  var="metadata/isbns/isbn/@lang"  default="de" sortnr="30"/>
+      <cell col="1" row="1" anchor="WEST" ref="TFzeile10" var="metadata/isbns/isbn" sortnr="30" />
+    </panel>
 
     <panel id="DHiddenFields">
       <!-- *** Data for the Rights ** -->
@@ -344,6 +350,46 @@
       <hidden  var="metadata/citations/citation/@lang"  default="de" sortnr="35"/>
       <cell col="1" row="1" anchor="WEST" ref="TFzeile1024" var="metadata/citations/citation" sortnr="35" />
     </panel>
+
+
+    <!-- *** Data for the year of publication ** -->
+    <panel id="DJournalTitle">
+      <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/journaltitles&amp;classname=MCRMetaLangText" />
+      <hidden  var="metadata/journaltitles/journaltitle/@inherited" default="0" />
+      <hidden  var="metadata/journaltitles/journaltitle/@lang"  default="de" sortnr="36"/>
+      <cell col="1" row="1" anchor="WEST" ref="TFzeile1024" var="metadata/journaltitles/journaltitle" sortnr="36" />
+    </panel>
+
+    <panel id="DPublishingYear">
+      <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/yearofpublications&amp;classname=MCRMetaLangText" />
+      <hidden  var="metadata/yearofpublications/yearofpublication/@inherited" default="0" />
+      <hidden  var="metadata/yearofpublications/yearofpublication/@lang"  default="de" sortnr="37"/>
+      <cell col="1" row="1" anchor="WEST" ref="TFzeile10" var="metadata/yearofpublications/yearofpublication" sortnr="37" />
+    </panel>
+
+    <panel id="DVolume">
+      <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/volumes&amp;classname=MCRMetaLangText" />
+      <hidden  var="metadata/volumes/volume/@inherited" default="0" />
+      <hidden  var="metadata/volumes/volume/@lang"  default="de" sortnr="38"/>
+      <cell col="1" row="1" anchor="WEST" ref="TFzeile10" var="metadata/volumes/volume" sortnr="38" />
+    </panel>
+
+    <panel id="DBook">
+      <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/books&amp;classname=MCRMetaLangText" />
+      <hidden  var="metadata/books/book/@inherited" default="0" />
+      <hidden  var="metadata/books/book/@lang"  default="de" sortnr="39"/>
+      <cell col="1" row="1" anchor="WEST" ref="TFzeile10" var="metadata/books/book" sortnr="39" />
+    </panel>
+    
+    <panel id="DPlaces">
+      <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/places&amp;classname=MCRMetaLangText" />
+      <hidden  var="metadata/places/place/@inherited" default="0" />
+      <hidden  var="metadata/places/place/@lang"  default="de" sortnr="40"/>
+      <cell col="1" row="1" anchor="WEST" ref="TFzeile10" var="metadata/places/place" sortnr="40" />
+    </panel>
+
     <!-- *** End *** -->
+
+    
     
 </imports>
