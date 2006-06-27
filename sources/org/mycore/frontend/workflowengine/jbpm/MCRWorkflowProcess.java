@@ -1,5 +1,6 @@
 package org.mycore.frontend.workflowengine.jbpm;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -16,6 +17,7 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
 import org.jbpm.taskmgmt.exe.TaskMgmtInstance;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRSessionMgr;
+import org.mycore.datamodel.metadata.MCRMetaISO8601Date;
 
 /**
  * 
@@ -57,7 +59,7 @@ public class MCRWorkflowProcess extends MCRAbstractWorkflowObject{
 		taskMgmtInstance = processInstance.getTaskMgmtInstance();
 		contextInstance = processInstance.getContextInstance();
 		processInstanceID = processID;
-		workflowProcessType = processInstance.getProcessDefinition().getName();
+		workflowProcessType = processInstance.getProcessDefinition().getName();		
 	}
 	
 	private void createNewProcessInstance(String processType) {
@@ -68,6 +70,7 @@ public class MCRWorkflowProcess extends MCRAbstractWorkflowObject{
 		contextInstance = processInstance.getContextInstance();	    
 		workflowProcessType = processInstance.getProcessDefinition().getName();
 		processInstanceID = processInstance.getId();
+		setProcessCreatedVariable();
 		jbpmContext.save(processInstance);
 	} 	
 	
@@ -176,6 +179,15 @@ public class MCRWorkflowProcess extends MCRAbstractWorkflowObject{
 	public void setStringVariable(String varName, String value) {
 		contextInstance.setVariable(varName, value);
 	}
+	
+	public final void setProcessCreatedVariable(){
+		MCRMetaISO8601Date d= new MCRMetaISO8601Date();
+		d.setType("createdate");
+		d.setDate(new Date());
+		setStringVariable(MCRWorkflowConstants.WFM_VAR_CREATED, d.getISOString()); 
+		logger.debug("process created on " + d.getISOString());
+	}
+	
 	
 	/**
 	 * sets workflow-process variables
