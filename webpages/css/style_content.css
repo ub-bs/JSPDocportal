@@ -410,7 +410,7 @@ div.helppopup a span {display:none;
 }
 
 div.helppopup a:hover span {
-	position:absolute; bottom:20px; left:40px; z-index:3;
+	position:fixed; bottom:20px; left:40px; z-index:30;
 	display:block;
 	color:black;
 	width:300px;
@@ -419,6 +419,10 @@ div.helppopup a:hover span {
 	border-width:2px;
 	border-color:#ED8F2B;
 	border-style:outset; 
-	
 	padding:10px;
 }
+/* Star Hack - this entry is only interpreted by IE 
+   necessary, because it cannot handle position:fixed correctly */
+* html * div.helppopup a:hover span {
+	position:absolute; !important;
+}	
