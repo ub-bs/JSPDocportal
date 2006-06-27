@@ -83,11 +83,15 @@
        <fmt:message key="WF.publication.completedocumentandsendtolibrary" />
        <br>
        <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="publication" decision="canDocumentBeSubmitted" />
+
+       <c:import url="/content/workflow/editorButtons.jsp" />
+       
+       <br/>
+
        <c:if test="${transition eq 'documentCanBeSubmitted'}">
        	  <img title="" alt="" src="${baseURL}images/greenArrow.gif">         
           <a href="${baseURL}nav?path=~publication&transition=&endTask=taskprocessEditInitialized&processID=${requestScope.task.processID}"><fmt:message key="WF.publication.taskCompleteDocumentAndSendToLibrary" /></a>
        </c:if>      
-       <c:import url="/content/workflow/editorButtons.jsp" />
    </c:when>
  
    <c:when test="${requestScope.task.taskName eq 'taskGetInitiatorsEmailAddress'}" >
@@ -109,12 +113,16 @@
          <fmt:message key="WF.publication.completedocumentandsendtolibrary" />
          <br>
          <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="publication" decision="canDocumentBeSubmitted" />
+
+         <c:import url="/content/workflow/editorButtons.jsp" />
+
+         <br/>
+
          <c:if test="${transition eq 'documentCanBeSubmitted'}">
 	        <img title="" alt="" src="${baseURL}images/greenArrow.gif">         
             <a href="${baseURL}nav?path=~publication&transition=&endTask=taskCompleteDocumentAndSendToLibrary&processID=${requestScope.task.processID}"><fmt:message key="WF.publication.taskCompleteDocumentAndSendToLibrary" /></a>
          </c:if>  
          <br/>    
-         <c:import url="/content/workflow/editorButtons.jsp" />
    </c:when>
    
    <c:when test="${requestScope.task.taskName eq 'taskCheckCompleteness'}">

@@ -23,34 +23,29 @@
       <b><fmt:message key="WF.xmetadiss.status.${requestScope.task.workflowStatus}" /></b>
    </c:when>
    <c:when test="${requestScope.task.taskName eq 'taskprocessEditInitialized' }" >
-      <p>
-         <img title="" alt="" src="${baseURL}images/greenArrow.gif">
-         <fmt:message key="WF.xmetadiss.completedisshabandsendtolibrary" />
-         <br>
-         <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="xmetadiss" decision="canDisshabBeSubmitted" />
-         <c:if test="${transition eq 'documentCanBeSubmitted'}">
+      <img title="" alt="" src="${baseURL}images/greenArrow.gif">
+      <fmt:message key="WF.xmetadiss.completedisshabandsendtolibrary" />
+      <br>
+      <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="xmetadiss" decision="canDisshabBeSubmitted" />
+      <c:import url="/content/workflow/editorButtons.jsp" />
+      <c:if test="${transition eq 'documentCanBeSubmitted'}">
 	        <img title="" alt="" src="${baseURL}images/greenArrow.gif">         
             <a href="${baseURL}nav?path=~xmetadiss&transition=&endTask=taskprocessEditInitialized&processID=${requestScope.task.processID}"><fmt:message key="WF.xmetadiss.taskCompleteDisshabAndSendToLibrary" /></a>
-         </c:if>      
-      </p>
-      <c:import url="/content/workflow/editorButtons.jsp" />
+      </c:if>      
    </c:when>
    
    <c:when test="${requestScope.task.taskName eq 'taskCompleteDisshabAndSendToLibrary'}">
-      <p>
-         <img title="" alt="" src="${baseURL}images/greenArrow.gif">
-         <fmt:message key="WF.xmetadiss.completedisshabandsendtolibrary" />
-         <br>
-         <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="xmetadiss" decision="canDisshabBeSubmitted" />
-         <c:if test="${transition eq 'disshabCanBeSubmitted'}">
-	        <img title="" alt="" src="${baseURL}images/greenArrow.gif">         
-            <a href="${baseURL}nav?path=~xmetadiss&transition=&endTask=taskCompleteDisshabAndSendToLibrary&processID=${requestScope.task.processID}"><fmt:message key="WF.xmetadiss.taskCompleteDisshabAndSendToLibrary" /></a>
-         </c:if>      
-      </p>
+      <img title="" alt="" src="${baseURL}images/greenArrow.gif"><fmt:message key="WF.xmetadiss.completedisshabandsendtolibrary" />
+      <br>
+      <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="xmetadiss" decision="canDisshabBeSubmitted" />
       <c:import url="/content/workflow/editorButtons.jsp" />
+
+      <c:if test="${transition eq 'disshabCanBeSubmitted'}">
+	     <img title="" alt="" src="${baseURL}images/greenArrow.gif">         
+         <a href="${baseURL}nav?path=~xmetadiss&transition=&endTask=taskCompleteDisshabAndSendToLibrary&processID=${requestScope.task.processID}"><fmt:message key="WF.xmetadiss.taskCompleteDisshabAndSendToLibrary" /></a>
+      </c:if>      
    </c:when>
    <c:when test="${requestScope.task.taskName eq 'taskGetInitiatorsEmailAddress'}">
-      <p>
          <fmt:message key="WF.common.getInitiatorsEmailAddress" />
 		 <br>&nbsp;<br>
 	     <form action="${baseURL}setworkflowvariable" accept-charset="utf-8">
@@ -63,7 +58,6 @@
         	 <br>&nbsp;<br>
          	 <input name=submit" type="submit" value="<fmt:message key="WF.common.Send" />"/>      
 	     </form>	
-     </p>
    </c:when>   
    <c:when test="${requestScope.task.taskName eq 'taskCheckCompleteness'}">
       <c:import url="/content/workflow/editorButtons.jsp" />
@@ -122,11 +116,7 @@
    <c:when test="${requestScope.task.taskName eq 'taskAdminCheckCommitmentNotSuccessFul'}">
       <a href="${baseURL}nav?path=~xmetadiss&transition=go2disshabCommitted&endTask=taskAdminCheckCommitmentNotSuccessFul&processID=${requestScope.task.processID}"><fmt:message key="Nav.Application.dissertation.sendAffirmationOfSubmission" /></a><br>      
    </c:when>
-   
-       
-
-   
    <c:otherwise>
-    <h1>what else? TODO</h1>
+    <p> what else? TASK = ${requestScope.task.taskName} </p>
    </c:otherwise>
 </c:choose>

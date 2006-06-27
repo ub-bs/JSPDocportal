@@ -36,7 +36,7 @@
     
 <mcr:listWorkflowDerivates varDom="der" docID="${itemID}" derivates="${attachedDerivates}" workflowprocesstype="${itemDocType}" />
 
-<table width="100%">
+<table width="100%" class="task" >
 	<tr>
 		<td class="resultTitle"><b><c:out value="${wfoTitle}" /></b></td>
 		<td width="30">&nbsp;</td>

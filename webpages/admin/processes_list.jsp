@@ -35,10 +35,10 @@
 
 <mcr:listWorkflowProcess var="processlist" workflowProcessType="${type}" />
 
-<table class="access" cellspacing="0" cellpadding="3">
+<table class="access" cellspacing="0" cellpadding="3" >
 	<x:forEach select="$processlist/processlist">
 		<x:set var="type" select="string(./@type)" />
-		<tr>
+		<tr >
 			<th colspan="2">Prozessdaten vom Typ: ${type}</th>
 			<th>Löschen</th>
 		</tr>
@@ -50,21 +50,17 @@
 				<table cellpadding="1" cellspacing="0">
 					<tr>
 						<td valign="top"><b>Prozess Nr: <x:out select="./@pid" /></b></td>
+						<td width="30px">&nbsp;</td>
 						<td valign="top"><b>Status: <x:out select="./@status" /></b></td>
 					</tr>
-					<tr>
-						<td colspan="2">
-						<table cellpadding="1" cellspacing="0">
-							<x:forEach select="./variable">
-								<tr valign="top">
-									<td><x:out select="./@name" /></td>
-									<td><x:out select="./@value" /></td>
-								</tr>
-							</x:forEach>
-						</table>
-						</td>
-					</tr>
-				</table>
+					<x:forEach select="./variable">
+						<tr valign="top">
+								<td><x:out select="./@name" /></td>
+								<td width="30px">&nbsp;</td>
+								<td><x:out select="./@value" /></td>
+						</tr>
+					</x:forEach>
+				 </table>
 				</td>
 				<td width="50"></td>
 				<td align="center">
@@ -77,6 +73,7 @@
 					onClick="return questionDel()"></form>
 				</td>
 			</tr>
+		 <tr><th colspan="3" height="1px" ></th></tr>
 		</x:forEach>
 	</x:forEach>
 </table>
