@@ -28,12 +28,15 @@
 
 
     <c:when test="${requestScope.task.taskName eq 'taskInputAuthorEqualsInitator'}">
+		<p>
+	  <fmt:message key="WF.author.whatToDo" />
       <br>&nbsp;<br>
       <img title="" alt="" src="${baseURL}images/greenArrow.gif">                         
       <a href="${baseURL}nav?path=~author&transition=go2CreateAuthorFromInitiator&endTask=taskInputAuthorEqualsInitator&processID=${requestScope.task.processID}"><fmt:message key="WF.author.iAmTheAuthor" /></a>
       <br>                                                   
       <img title="" alt="" src="${baseURL}images/greenArrow.gif">      
       <a href="${baseURL}nav?path=~author&transition=go2CreateNewAuthor&endTask=taskInputAuthorEqualsInitator&processID=${requestScope.task.processID}"><fmt:message key="WF.author.iAmNotTheAuthor" /></a>
+      </p>
    </c:when>   
    
    <c:when test="${requestScope.task.taskName eq 'displayAuthorForUser'}">
@@ -74,28 +77,35 @@
       <p>
          <img title="" alt="" src="${baseURL}images/greenArrow.gif">
          <fmt:message key="WF.author.completeauthorandsendtolibrary" />
-         <br>
-       <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="author" decision="canAuthorBeSubmitted" />
+         <br />
+       </p>  
+      <c:import url="/content/workflow/editorButtons.jsp" />
+     <p>
+         <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="author" decision="canAuthorBeSubmitted" />
          <c:if test="${transition eq 'authorCanBeSubmitted'}">
 	        <img title="" alt="" src="${baseURL}images/greenArrow.gif">         
             <a href="${baseURL}nav?path=~author&transition=go2canAuthorBeSubmitted&endTask=taskCompleteAuthorAndSendToLibrary&processID=${requestScope.task.processID}"><fmt:message key="WF.author.taskCompleteAuthorAndSendToLibrary" /></a>
+            <br />
          </c:if>     
       </p>
-      <c:import url="/content/workflow/editorButtons.jsp" />
+     
    </c:when> 
 
   <c:when test="${requestScope.task.taskName eq 'taskDisplayAuthorData'}">
       <p>
          <img title="" alt="" src="${baseURL}images/greenArrow.gif">
          <fmt:message key="WF.author.editAuthor" />
-         <br>
-       <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="author" decision="canChangesBeCommitted" />
+         <br />
+       </p>
+      <c:import url="/content/workflow/editorButtons.jsp" />
+      <p>
+         <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="author" decision="canChangesBeCommitted" />
          <c:if test="${transition eq 'changesCanBeCommitted'}">
 	        <img title="" alt="" src="${baseURL}images/greenArrow.gif">         
             <a href="${baseURL}nav?path=~author&transition=go2CanChangesBeCommitted&endTask=taskDisplayAuthorData&processID=${requestScope.task.processID}"><fmt:message key="WF.author.taskCommitChanges" /></a>
+            <br />
          </c:if>     
       </p>
-      <c:import url="/content/workflow/editorButtons.jsp" />
    </c:when> 
    
    <c:when test="${requestScope.task.taskName eq 'taskGetInitiatorsEmailAddress'}">

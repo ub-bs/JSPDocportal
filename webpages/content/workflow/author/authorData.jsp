@@ -17,7 +17,7 @@
 <table cellspacing="3" cellpadding="3" >
    <tr>
       <td>      
-        <p><fmt:message key="WF.common.AccessOK" /></p>      
+        <p><fmt:message key="WF.author.AccessOK" /></p>      
       </td>
    </tr> 
    <tr>
