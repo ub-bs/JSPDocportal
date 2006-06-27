@@ -141,13 +141,12 @@
     </element>
     <!-- 32 - URN -->
     <element name="urns" minOccurs='0' maxOccurs='1' parasearch="true" textsearch="false">
-      <mcrmetalink name="urn" class="MCRMetaLink" minOccurs='1' maxOccurs='unbounded' />
+      <mcrmetalangtext name="urn" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' />
     </element>
     <!-- 33 - DDB Contact -->
     <element name="contacts" minOccurs='0' maxOccurs='1' parasearch="false" textsearch="false">
       <mcrmetalangtext name="contact" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="1024" />
     </element>
-
     <!-- 34 - Notes -->
     <element name="notes" minOccurs='0' maxOccurs='1' parasearch="true" textsearch="true">
       <mcrmetalangtext name="note" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="4096" />
@@ -156,6 +155,30 @@
     <element name="citations" minOccurs='0' maxOccurs='1' parasearch="false" textsearch="false">
       <mcrmetalangtext name="citation" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="4096" />
     </element>
+    
+    
+    <!--  für unselbständige Schriften -->
+    <!-- 36 - Titelder Zeitschrift/Buchtitel/Kongesstitel -->
+    <element name="journaltitles" minOccurs='0' maxOccurs='1' parasearch="false" textsearch="false">
+      <mcrmetalangtext name="journaltitle" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="4096" />
+    </element>
+    <!-- 37 - Erscheinungsjahr -->
+    <element name="yearofpublications" minOccurs='0' maxOccurs='1' parasearch="false" textsearch="false">
+      <mcrmetalangtext name="yearofpublication" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="256" />
+    </element>    
+    <!-- 38 - Jahrgang/Band -->
+    <element name="volumes" minOccurs='0' maxOccurs='1' parasearch="false" textsearch="false">
+      <mcrmetalangtext name="volume" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="256" />
+    </element>    
+    <!-- 39 - Heft -->
+    <element name="books" minOccurs='0' maxOccurs='1' parasearch="false" textsearch="false">
+      <mcrmetalangtext name="book" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="256" />      
+    </element>    
+    <!-- 40 - Seitenzahlen von-bis -->
+    <element name="pages" minOccurs='0' maxOccurs='1' parasearch="false" textsearch="false">
+      <mcrmetalangtext name="page" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="256" />      
+    </element>
+    
   </metadata>
   <service>
     <!-- Service Dates -->
