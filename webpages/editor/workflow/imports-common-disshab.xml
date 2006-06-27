@@ -6,19 +6,13 @@
 
 
   <submitButton id="BSubmitDisshab" width="100px" jsaction="return checkMyFormDisshab();">
-    <label xml:lang="de">[Speichern]</label>
-    <label xml:lang="en">[Save]</label>
+    <label i18n="Editor.Common.button.Save" />
   </submitButton>
 
 <!-- *** Data for the TITLE *** -->
 
   <text id="LTitleDissP">
-    <label xml:lang="de">
-      <span class="editorlabel">Titel der Arbeit (*)</span>
-    </label>
-    <label xml:lang="en">
-      <span class="editorlabel">Paper Title (*)</span>
-    </label>
+    <label i18n="Editor.Label.TitleDissM" />
   </text>
 
 <!-- *** Data for the TITLE ** -->
@@ -65,8 +59,7 @@
 
   <list id="COrigin" width="425px" type="dropdown" class="mandatory">
     <item value="">
-      <label xml:lang="de">(bitte wählen)</label>
-      <label xml:lang="en">(please choose)</label>
+      <label i18n="Editor.Common.choose" />
     </item>
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.WorkflowEngine.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002" />              
   </list>
@@ -135,8 +128,7 @@
 
   <list id="CType" width="425px" type="dropdown" class="mandatory">
     <item value="">
-      <label xml:lang="de">(bitte wählen)</label>
-      <label xml:lang="en">(please choose)</label>
+		<label i18n="Editor.Common.choose" />
     </item>
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getSpecialCategoriesInItems&amp;classProp=MCR.WorkflowEngine.ClassificationID.Type&amp;categoryProp=MCR.WorkflowEngine.Classification.Type.SelectCategoryIDs.xmetadiss" />                       
   </list>
@@ -151,8 +143,7 @@
 <!-- *** only select list for formats -->
   <list id="SFormat" width="250px" type="dropdown">
     <item value="">
-      <label xml:lang="de">(bitte wählen)</label>
-      <label xml:lang="en">(please choose)</label>
+      <label i18n="Editor.Common.choose" />
     </item>
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.WorkflowEngine.ClassificationID.Format&amp;defaultValue=DocPortal_class_00000006" />                   
   </list>
@@ -165,8 +156,7 @@
 
   <list id="CLanguage" width="425px" type="dropdown" class="mandatory">
     <item value="">
-      <label xml:lang="de">(bitte wählen)</label>
-      <label xml:lang="en">(please choose)</label>
+      <label i18n="Editor.Common.choose" />
     </item>
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getSpecialCategoriesInItems&amp;classProp=MCR.WorkflowEngine.ClassificationID.Language&amp;categoryProp=MCR.WorkflowEngine.Classification.Language.SelectCategoryIDs.xmetadiss" /> 
   </list>

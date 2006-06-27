@@ -17,13 +17,17 @@
     <hidden var="metadata/names/name/@lang" ordernr="1" default="de" />
     <cell col="2" row="1" anchor="NORTHWEST"  var="metadata/names/name/surname" ordernr="1" >
 	  <textfield id="tf.Surname"  width="30" maxlength="128"  class="mandatory" >		
-		<condition required="true" label="Bitte geben Sie einen Namen ein!" id="cond.Name" />
+		<condition required="true" id="cond.Name">
+			<label i18n="Editor.Validate.Name.Empty" />
+		</condition>
 	  </textfield>	
 	</cell>	
     <cell col="3" row="1" anchor="NORTHWEST" ref="APNameSurname" />
     <cell col="2" row="2" anchor="NORTHWEST" var="metadata/names/name/firstname" ordernr="1" >
 	  <textfield id="tf.FirstName"  width="30" maxlength="128"  class="mandatory" >		
-		<condition required="true" label="Bitte geben Sie einen Voramen ein!" id="cond.FirstName" />
+		<condition required="true" id="cond.FirstName">
+		<label i18n="Editor.Validate.Firstname.Empty" />
+		</condition>
 	  </textfield>	
 	</cell>	
     <cell col="3" row="2" anchor="NORTHWEST" ref="APNameFirstName" />
@@ -46,13 +50,17 @@
     <hidden var="metadata/names/name/@lang" ordernr="1" default="de" />
     <cell col="2" row="1" anchor="NORTHWEST"  var="metadata/names/name/surname" ordernr="1" >
 	  <textfield id="tf.Surname"  width="30" maxlength="128"  class="mandatory" >		
-		<condition required="true" label="Bitte geben Sie einen Namen ein!" id="cond.Name" />
+		<condition required="true" id="cond.Name1">
+					<label i18n="Editor.Validate.Name.Empty" />
+		</condition>
 	  </textfield>	
 	</cell>	
     <cell col="3" row="1" anchor="NORTHWEST" ref="APNameSurname" />
     <cell col="2" row="2" anchor="NORTHWEST" var="metadata/names/name/firstname" ordernr="1" >
 	  <textfield id="tf.FirstName"  width="30" maxlength="128"  class="mandatory" >		
-		<condition required="true" label="Bitte geben Sie einen Voramen ein!" id="cond.FirstName" />
+		<condition required="true" id="cond.FirstName1">
+			<label i18n="Editor.Validate.Firstname.Empty" />
+		</condition>
 	  </textfield>	
 	</cell>	
     <cell col="3" row="2" anchor="NORTHWEST" ref="APNameFirstName" />
@@ -78,10 +86,11 @@
 <!-- ** Data for the ORIGIN *** -->
 
   <list id="COrigin" width="300" type="dropdown" class="mandatory" >
-    <item value=""><label xml:lang="de">(bitte wählen)</label></item>
+    <item value=""><label i18n="Editor.Common.choose" /></item>
     <include uri="request:content/classifications-to-items.jspx?classid=DocPortal_class_00000002" />
-    <condition id="cond.COrigin" required="true" 
-           label="Bitte wählen Sie Ihren Fachbereich bzw. Ihr Institut" />
+    <condition id="cond.COrigin" required="true"> 
+           <label i18n="Editor.Validate.Origin.Empty" />
+    </condition>
   </list>
 
   <panel id="DOrigin">
@@ -116,8 +125,7 @@
     <cell col="2" row="4" anchor="NORTHWEST" var="metadata/addresses/address/city" ordernr="4">
 		<textfield id="TFCityMandatory"  width="30" maxlength="128"  class="mandatory" >		
 		   <condition id="CCityMandatory" regexp=".+" required="true" >
-				<label xml:lang="de">Bitte geben Sie einen Ort an!</label>
-  				<label xml:lang="en">Please enter a city!</label>
+				<label i18n="Editor.Validate.City.Emtpy" />
          </condition>
       </textfield>	 
   </cell>
@@ -171,8 +179,7 @@
     <cell col="2" row="1" anchor="WEST" var="metadata/dates/date" ordernr="6" >
       <textfield id="tf.Date"  width="10" maxlength="10"  class="mandatory" >		
       <condition id="cond.Date" regexp="(\d\d\.\d\d\.\d\d\d\d)|(\d\d\d\d\-\d\d\-\d\d)" required="true" >
-			  <label xml:lang="de">Bitte geben Sie das Datum in der Form tt.mm.yyyy oder yyyy-mm-tt ein!</label>
-			  <label xml:lang="en">Please enter the date like dd.mm.yyyy or yyyy-mm-dd !</label>
+      		  <label i18n="Editor.Validate.Date.Format" />
 		   </condition>
 		</textfield>	 
     </cell>
@@ -208,7 +215,7 @@
 <!-- ** Data for the NATIONAL *** -->
 
   <list id="CNational" width="300" type="dropdown">
-    <item value=""><label xml:lang="de">(bitte wählen)</label></item>
+    <item value=""><label i18n="Editor.Common.choose" /></item>
     <include uri="request:content/classifications-to-items.jspx?classid=DocPortal_class_00000001" />
   </list>
 
@@ -255,9 +262,7 @@
     <cell col="2" row="1" anchor="NORTHWEST" var="metadata/emails/email" ordernr="11" >
 		<textfield id="tf.Email"  width="30" maxlength="128"  class="mandatory" >		
 		   <condition id="cond.DEmail" regexp="\S+@\S+\.\S+" required="true" >
-				<!-- keien Leerzeichen vor oder nach dem Label-Inhalt erlaubt -->
-			  <label xml:lang="de">Bitte geben Sie Ihre EMail-Adresse syntaktisch korrekt ein!</label>
-			  <label xml:lang="en">Please enter a syntactically valid email address!</label>
+			  <label i18n="Editor.Validate.Email.Format" />
 		   </condition>
 		</textfield>	 
 	</cell>	   
@@ -326,62 +331,28 @@
   </panel>		
 
   <text id="LEmailMandatory">
-	<label xml:lang="de">
-		<span class="editorlabel">E-Mail (*)</span>
-	</label>
-	<label xml:lang="en">
-		<span class="editorlabel">E-Mail (*)</span>
-	</label>
+	<label i18n="Editor.Label.EmailM" />
    </text>
 
   <text id="LAddressMandatory">
-    <label xml:lang="de">
-      <span class="editorlabel">Adresse (*)</span>
-    </label>
-    <label xml:lang="en">
-      <span class="editorlabel">Address (*)</span>
-    </label>   
+    <label i18n="Editor.Label.AddressM" />   
   </text>
 
 	<text id="LOrigin_StrukturEinheit">
-			<label xml:lang="de">
-		      <span class="editorlabel">Struktureinheit (*)</span>
-		    </label>
-		    <label xml:lang="en">
-		      <span class="editorlabel">Unit (*)</span>
-		    </label>
+			<label i18n="Editor.Label.UnitM" />
 	   </text>
 
 	<text id="ProfessionOnly">
-			<label xml:lang="de">
-		      <span class="editorlabel">Beruf</span>
-		    </label>
-		    <label xml:lang="en">
-		      <span class="editorlabel">Profession</span>
-		    </label>
+			<label i18n="Editor.Label.ProfessionOnly" />
 	   </text>
 
 	<text id="LBirthDateM">
-			<label xml:lang="de">
-		      <span class="editorlabel">Geburtsdatum (*)</span>
-		    </label>
-		    <label xml:lang="en">
-		      <span class="editorlabel">Birth date (*)</span>
-		    </label>
+			<label i18n="Editor.Label.BirthdateM" />
 	   </text>
 
     <text id="LHomepage">
-
-    
-			<label xml:lang="de">
-		      <span class="editorlabel">Homepage</span>
-		    </label>
-		    <label xml:lang="en">
-		      <span class="editorlabel">Home page</span>
-		    </label>
-
-
-  </text>
+			<label i18n="Editor.Label.Homepage" />
+	</text>
 
 <!-- *** End *** -->
 </imports>
