@@ -96,6 +96,7 @@
       <c:set  var="mcrid2" value="${requestScope.mcrid2}"/>
    </c:otherwise>
 </c:choose>
+
 <c:set var="editorSessionID" value="${param['XSL.editor.session.id']}" />
 
 <c:choose>
@@ -122,6 +123,18 @@
    </c:otherwise>
 </c:choose>
 
+<c:choose>
+   <c:when test="${!empty(param.editorSource)}">
+      <c:set  var="editorSource" value="${param.editorSource}"/>
+   </c:when>
+   <c:when test="${!empty(requestScope.editorSource)}">
+      <c:set  var="editorSource" value="${requestScope.editorSource}"/>
+   </c:when>   
+   <c:otherwise>
+      <c:set  var="editorSource" value=""/>
+   </c:otherwise>
+</c:choose>
+
 
 <hr/>
 
@@ -131,11 +144,20 @@
 <c:choose>
     <c:when test="${modifyAllowed}">
         <mcr:includeEditor 
-          editorSessionID="${editorSessionID}"  isNewEditorSource="${isNewEditorSource}" 
-          mcrid2="${mcrid2}"  uploadID="${uploadID}"    mcrid="${mcrid}" 
-          type="${type}" processid="${processid}" workflowType="${workflowType}"
-          publicationType="${publicationType}" step="${step}" target="${target}" 
-          nextPath="${nextPath}" editorPath="${editorPath}" />        
+          editorSessionID="${editorSessionID}"  
+          isNewEditorSource="${isNewEditorSource}" 
+          mcrid2="${mcrid2}"  
+          uploadID="${uploadID}"    
+          mcrid="${mcrid}" 
+          type="${type}" 
+          processid="${processid}" 
+          workflowType="${workflowType}"
+          publicationType="${publicationType}" 
+          step="${step}" 
+          target="${target}" 
+          nextPath="${nextPath}" 
+          editorPath="${editorPath}" 
+          editorSource="${editorSource}"/>        
     </c:when>
     <c:otherwise>
         <font color="#ff0000"><fmt:message key="WF.common.PrivilegesError" /></font>

@@ -18,36 +18,44 @@
 </c:if>
 <c:choose>
    <c:when test="${requestScope.task.taskName eq 'initialization'}">
-      <fmt:message key="WF.xmetadiss.ActualStateOfYourDissertation" />
-      (<fmt:message key="WF.common.Processnumber" /> <b>${requestScope.task.processID}</b>): <br>
-      <b><fmt:message key="WF.xmetadiss.status.${requestScope.task.workflowStatus}" /></b>
+      <p><fmt:message key="WF.xmetadiss.ActualStateOfYourDissertation" />(<fmt:message key="WF.common.Processnumber" /> <b>${requestScope.task.processID}</b>): 
+      </p>
+      <p><b><fmt:message key="WF.xmetadiss.status.${requestScope.task.workflowStatus}" /></b>
+      </p>
    </c:when>
    <c:when test="${requestScope.task.taskName eq 'taskprocessEditInitialized' }" >
-      <img title="" alt="" src="${baseURL}images/greenArrow.gif">
-      <fmt:message key="WF.xmetadiss.completedisshabandsendtolibrary" />
-      <br>
+      <p><img title="" alt="" src="${baseURL}images/greenArrow.gif"><fmt:message key="WF.xmetadiss.completedisshabandsendtolibrary" />
+      </p>
+      
       <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="xmetadiss" decision="canDisshabBeSubmitted" />
+      
       <c:import url="/content/workflow/editorButtons.jsp" />
-      <c:if test="${transition eq 'documentCanBeSubmitted'}">
+      <p>
+	      <c:if test="${transition eq 'documentCanBeSubmitted'}">
 	        <img title="" alt="" src="${baseURL}images/greenArrow.gif">         
             <a href="${baseURL}nav?path=~xmetadiss&transition=&endTask=taskprocessEditInitialized&processID=${requestScope.task.processID}"><fmt:message key="WF.xmetadiss.taskCompleteDisshabAndSendToLibrary" /></a>
-      </c:if>      
+	      </c:if>      
+	  </p>    
    </c:when>
    
    <c:when test="${requestScope.task.taskName eq 'taskCompleteDisshabAndSendToLibrary'}">
-      <img title="" alt="" src="${baseURL}images/greenArrow.gif"><fmt:message key="WF.xmetadiss.completedisshabandsendtolibrary" />
-      <br>
+      <p><img title="" alt="" src="${baseURL}images/greenArrow.gif"><fmt:message key="WF.xmetadiss.completedisshabandsendtolibrary" />
+      </p>
+      
       <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="xmetadiss" decision="canDisshabBeSubmitted" />
+      
       <c:import url="/content/workflow/editorButtons.jsp" />
-
-      <c:if test="${transition eq 'disshabCanBeSubmitted'}">
-	     <img title="" alt="" src="${baseURL}images/greenArrow.gif">         
-         <a href="${baseURL}nav?path=~xmetadiss&transition=&endTask=taskCompleteDisshabAndSendToLibrary&processID=${requestScope.task.processID}"><fmt:message key="WF.xmetadiss.taskCompleteDisshabAndSendToLibrary" /></a>
-      </c:if>      
+      
+	  <p>
+	      <c:if test="${transition eq 'disshabCanBeSubmitted'}">
+		     <img title="" alt="" src="${baseURL}images/greenArrow.gif">         
+	         <a href="${baseURL}nav?path=~xmetadiss&transition=&endTask=taskCompleteDisshabAndSendToLibrary&processID=${requestScope.task.processID}"><fmt:message key="WF.xmetadiss.taskCompleteDisshabAndSendToLibrary" /></a>
+	      </c:if>      
+	  </p>    
    </c:when>
    <c:when test="${requestScope.task.taskName eq 'taskGetInitiatorsEmailAddress'}">
-         <fmt:message key="WF.common.getInitiatorsEmailAddress" />
-		 <br>&nbsp;<br>
+   	  <p><fmt:message key="WF.common.getInitiatorsEmailAddress" />
+	  </p> 
 	     <form action="${baseURL}setworkflowvariable" accept-charset="utf-8">
     	     <input name="dispatcherForward" value="/nav?path=~xmetadiss" type="hidden" />
         	 <input name="transition" value="" type="hidden" />
@@ -62,15 +70,13 @@
    <c:when test="${requestScope.task.taskName eq 'taskCheckCompleteness'}">
       <c:import url="/content/workflow/editorButtons.jsp" />
       <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="xmetadiss" decision="canDisshabBeCommitted" />
-         <br>&nbsp;<br>
-         <fmt:message key="WF.common.AreTheMetadataOK" />
-         <br>&nbsp;<br>
-         <img title="" alt="" src="${baseURL}images/greenArrow.gif">
+         <p><fmt:message key="WF.common.AreTheMetadataOK" /></p>
+         <p><img title="" alt="" src="${baseURL}images/greenArrow.gif">
          <a href="${baseURL}nav?path=~xmetadiss&transition=go2canDisshabBeCommitted&endTask=taskCheckCompleteness&processID=${requestScope.task.processID}"><fmt:message key="WF.common.MetadataOk_Continue" /></a>
-         <br>
-         <img title="" alt="" src="${baseURL}images/greenArrow.gif">
+         </p>
+         <p><img title="" alt="" src="${baseURL}images/greenArrow.gif">
          <a href="${baseURL}nav?path=~xmetadiss&transition=go2sendBackToDisshabCreated&endTask=taskCheckCompleteness&processID=${requestScope.task.processID}"><fmt:message key="WF.common.MetadataNotOk_SendToInitiator" /></a>
-         <br>
+         </p>
    </c:when>   
    <c:when test="${requestScope.task.taskName eq 'taskEnterMessageData'}">
      <form action="${baseURL}setworkflowvariable" accept-charset="utf-8">
@@ -85,23 +91,25 @@
       </form>
    </c:when>
    <c:when test="${requestScope.task.taskName eq 'taskCheckIfSignedAffirmationYetAvailable'}">
-      <br>&nbsp;<br>
-      <img title="" alt="" src="${baseURL}images/greenArrow.gif">   
+	  <p><img title="" alt="" src="${baseURL}images/greenArrow.gif">   
       <a href="${baseURL}nav?path=~xmetadiss&transition=go2canDisshabBeCommitted&endTask=taskCheckIfSignedAffirmationYetAvailable&processID=${requestScope.task.processID}"><fmt:message key="WF.xmetadiss.AffirmationIsAvailableCanBeCommitted" /></a>
-      <br>      
-      <img title="" alt="" src="${baseURL}images/greenArrow.gif">      
+      </p>
+      <p><img title="" alt="" src="${baseURL}images/greenArrow.gif">      
       <a href="${baseURL}nav?path=~xmetadiss&transition=go2requireAffirmation&endTask=taskCheckIfSignedAffirmationYetAvailable&processID=${requestScope.task.processID}"><fmt:message key="WF.xmetadiss.RequireAffirmation" /></a>
-      <br>            
+      </p>
    </c:when>   
    <c:when test="${requestScope.task.taskName eq 'taskRequireSignedAffirmation'}">
       <c:set var="lastSendDate"><x:out select="$dom/variables/variable[@name = 'lastRequiredAffirmation']/@value" /></c:set>
+      <p>
       <c:if test="${!empty(lastSendDate)}">
          Letzte Mail wurde gesendet am <i>${lastSendDate}</i>
       </c:if>
-	  <br>&nbsp;<br>
+	  </p>
+	  <p>
       <img title="" alt="" src="${baseURL}images/greenArrow.gif">         
       <a href="${baseURL}nav?path=~xmetadiss&transition=go2checkNonDigitalRequirementsWithoutMail&endTask=taskRequireSignedAffirmation&processID=${requestScope.task.processID}"><fmt:message key="WF.xmetadiss.ContinueWaitingForAffirmation" /></a>
-      <br>&nbsp;<br>
+      </p>
+      
       <form action="${baseURL}setworkflowvariable" accept-charset="utf-8">
    	     <input name="dispatcherForward" value="/nav?path=~xmetadiss" type="hidden" />
          <input name="transition" value="" type="hidden" />
@@ -114,7 +122,9 @@
       </form>
    </c:when>
    <c:when test="${requestScope.task.taskName eq 'taskAdminCheckCommitmentNotSuccessFul'}">
+      <p>
       <a href="${baseURL}nav?path=~xmetadiss&transition=go2disshabCommitted&endTask=taskAdminCheckCommitmentNotSuccessFul&processID=${requestScope.task.processID}"><fmt:message key="Nav.Application.dissertation.sendAffirmationOfSubmission" /></a><br>      
+      </p>
    </c:when>
    <c:otherwise>
     <p> what else? TASK = ${requestScope.task.taskName} </p>

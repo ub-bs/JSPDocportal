@@ -116,14 +116,14 @@
 							class="imagebutton"></form>
 						</td>
 						<td align="center" valign="top" width="30">
-						<form method="get" action="${baseURL}workflowaction"><input
-							name="derivateID" value="${derivateID}" type="hidden"> <input
-							name="processid" value="${processid}" type="hidden"> <input
-							name="todo" value="WFEditDerivateFromWorkflowObject"
-							type="hidden"> <input
-							title="<fmt:message key="WF.common.derivate.EditDerivate" />"
-							src="${baseURL}images/workflow_derivateedit.gif" type="image"
-							border="0" class="imagebutton"></form>
+						<form method="get" action="${baseURL}workflowaction">
+							<input	name="derivateID" value="${derivateID}" type="hidden"> 
+							<input	name="processid" value="${processid}" type="hidden"> 							
+							<input	name="todo" value="WFEditDerivateFromWorkflowObject" type="hidden"> 
+							<input	title="<fmt:message key="WF.common.derivate.EditDerivate" />"
+								src="${baseURL}images/workflow_derivateedit.gif" type="image"
+								border="0" class="imagebutton">
+							</form>
 						</td>
 						<td align="center" valign="top" width="30">
 						<form method="get" action="${baseURL}workflowaction"><input
