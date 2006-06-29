@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <fmt:setLocale value="${requestScope.lang}" />
 <fmt:setBundle basename='messages'/>
