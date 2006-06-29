@@ -187,6 +187,19 @@ public abstract class MCRWorkflowManager {
 		return false;
 	}
 
+	final protected boolean removeFileFromDerivate(long processID, String metadataObjectID, String derivateObjectID, String filename){
+		MCRWorkflowProcess wfp = getWorkflowProcess(processID);
+		try{
+			return derivateStrategy.deleteDerivateFile(wfp, MCRWorkflowDirectoryManager.getWorkflowDirectory(mainDocumentType),
+					deleteDir, metadataObjectID, derivateObjectID, true, filename);
+		}catch(MCRException ex){
+			logger.error("could not remove file from derivate");
+		}finally{
+			wfp.close();
+		}
+		return false;
+	}
+	
 	/**
 	 * creates and returns a new workflow process of a given type
 	 * 	use this function just in initWorkflowProcess
@@ -204,10 +217,10 @@ public abstract class MCRWorkflowManager {
 	 * @param dirname
 	 * @param pid
 	 */
-	final public void saveUploadedFiles(List files, String dirname, long processID) {
+	final public void saveUploadedFiles(List files, String dirname, long processID, String newLabel) {
 		MCRWorkflowProcess wfp = getWorkflowProcess(processID);
 		try{
-			derivateStrategy.saveFiles(files, dirname, wfp);
+			derivateStrategy.saveFiles(files, dirname, wfp, newLabel);
 		}catch(MCRException ex){
 			logger.error("could not save uploaded files");
 		}finally{

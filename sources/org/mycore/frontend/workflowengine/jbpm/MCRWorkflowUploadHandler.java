@@ -29,7 +29,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.StringTokenizer;
 
-import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRUtils;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRObjectID;

@@ -38,21 +38,13 @@ import org.jdom.output.XMLOutputter;
 import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRConfiguration;
-import org.mycore.common.MCRDefaults;
-import org.mycore.datamodel.metadata.MCRMetaAddress;
-import org.mycore.datamodel.metadata.MCRMetaBoolean;
-import org.mycore.datamodel.metadata.MCRMetaLangText;
-import org.mycore.datamodel.metadata.MCRMetaPersonName;
-import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.strategies.MCRPermissionStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 import org.mycore.services.fieldquery.MCRQuery;
-import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.services.fieldquery.MCRResults;
 import org.mycore.services.fieldquery.MCRSearcher;
 import org.mycore.services.fieldquery.MCRSearcherFactory;
-import org.mycore.user2.MCRUser;
 
 /**
  * This class holds useful methods for the workflow.
