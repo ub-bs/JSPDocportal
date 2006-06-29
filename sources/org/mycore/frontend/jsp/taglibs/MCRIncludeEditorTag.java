@@ -17,6 +17,7 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
+import org.mycore.common.MCRSessionMgr;
 import org.mycore.frontend.jsp.NavServlet;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 
@@ -107,9 +108,9 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 		PageContext pageContext = (PageContext) getJspContext();
 		Properties parameters = new Properties();
 		String editorBase = "";
-		if(editorSessionID != null && !editorSessionID.equals("")){
-			parameters.put("XSL.editor.session.id",editorSessionID);
-			editorBase = (String)pageContext.getSession().getAttribute("editorPath");
+		if(editorSessionID != null && !editorSessionID.equals("")){			
+			parameters.put("XSL.editor.session.id",editorSessionID);			
+			editorBase = (String)pageContext.getSession().getAttribute("editorPath");			
 		}else{
 			if(cancelPage == null || cancelPage.equals("")){
 				cancelPage 		=  NavServlet.getBaseURL() + "nav?path=~workflow-" + type;
@@ -156,6 +157,9 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 		if(cancelPage == null || cancelPage.equals("")){
 			cancelPage 		=  NavServlet.getBaseURL() + "nav?path=~workflow-" + type;
 		}		
+
+		params.put("lang" , MCRSessionMgr.getCurrentSession().getCurrentLanguage());
+		params.put("MCRSessionID" , MCRSessionMgr.getCurrentSession().getID());
 		params.put("XSL.editor.cancel.url", cancelPage);
 		params.put("XSL.editor.source.new", isNewEditorSource);
 		params.put("mcrid", mcrid);
@@ -164,6 +168,7 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 		params.put("step", step);
 		params.put("target", target);
 		params.put("workflowType", workflowType);
+		
 		if(mcrid2 != null && !mcrid2.equals("")) {
 			params.put("mcrid2", mcrid2);
 		}

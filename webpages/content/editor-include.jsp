@@ -97,7 +97,8 @@
    </c:otherwise>
 </c:choose>
 
-<c:set var="editorSessionID" value="${param['XSL.editor.session.id']}" />
+<c:set  var="editorSessionID" value="${param['XSL.editor.session.id']}"/>
+
 
 <c:choose>
    <c:when test="${!empty(param.target)}">
@@ -160,7 +161,7 @@
           editorSource="${editorSource}"/>        
     </c:when>
     <c:otherwise>
-        <font color="#ff0000"><fmt:message key="WF.common.PrivilegesError" /></font>
+        <span class="error"><fmt:message key="WF.common.PrivilegesError" /></span>
     </c:otherwise>
 </c:choose>
 
