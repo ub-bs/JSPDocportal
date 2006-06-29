@@ -18,12 +18,13 @@ import org.mycore.frontend.workflowengine.strategies.MCRDefaultDerivateStrategy;
 public class MCRDocumentDerivateStrategy extends MCRDefaultDerivateStrategy {
 	private static Logger logger = Logger.getLogger(MCRDocumentDerivateStrategy.class.getName());
 	
-	public void saveFiles(List files, String dirname, MCRWorkflowProcess wfp) throws MCRException {
+	public void saveFiles(List files, String dirname, MCRWorkflowProcess wfp, String newLabel) throws MCRException {
 	// a correct document contains in the main derivate	one or more file 
 
-	MCRDerivate der = new MCRDerivate();
-	
-	try {
+		MCRDerivate der = new MCRDerivate();
+		boolean bUpdateDerivate=false;
+		
+		try {
 			der.setFromURI(dirname + ".xml");
 		}catch(Exception ex){
 			String errMsg = "could not set derivate " + dirname + ".xml";
@@ -37,6 +38,7 @@ public class MCRDocumentDerivateStrategy extends MCRDefaultDerivateStrategy {
 	
 		ArrayList ffname = new ArrayList();
 		String mainfile = "";
+		int newFileCnt = 0;
 		FileOutputStream fouts = null;
 		for (int i = 0; i < files.size(); i++) {
 			FileItem item = (FileItem) (files.get(i));
@@ -48,6 +50,7 @@ public class MCRDocumentDerivateStrategy extends MCRDefaultDerivateStrategy {
 				fouts.flush();
 				fouts.close();
 				logger.info("Data object stored under " + fout.getName());
+				newFileCnt++;
 			}catch(Exception ex){
 				String errMsg = "could not store data object " + fname;
 				logger.error(errMsg, ex);
@@ -58,10 +61,18 @@ public class MCRDocumentDerivateStrategy extends MCRDefaultDerivateStrategy {
 			mainfile = (String) ffname.get(0);
 		}
 	
-		// add the mainfile entry
+		if (der.getDerivate().getInternals().getMainDoc().equals("#####")) {
+			der.getDerivate().getInternals().setMainDoc(mainfile);
+			bUpdateDerivate=true;
+		}
+		if ( newLabel != null && newLabel.length()>0 ) {
+			der.setLabel(newLabel);
+			bUpdateDerivate=true;
+		}
+
+		// update the Derivate...xml file
 		try{
-			if (der.getDerivate().getInternals().getMainDoc().equals("#####")) {
-				der.getDerivate().getInternals().setMainDoc(mainfile);
+			if ( bUpdateDerivate ){
 				byte[] outxml = MCRUtils.getByteArray(der.createXML());
 				try {
 					FileOutputStream out = new FileOutputStream(dirname	+ ".xml");
@@ -84,11 +95,20 @@ public class MCRDocumentDerivateStrategy extends MCRDefaultDerivateStrategy {
 		if(attachedDerivates == null || attachedDerivates.equals("")){
 			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES, derID);
 		} else if ( attachedDerivates.indexOf(derID) >= 0  ){
-			//its allright in the list, because is the sae derivate with a second upload file
+			//its allright in the list, because is the same derivate with a second upload file
 		} else{
 			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES, attachedDerivates + "," + derID);
 		}
+		
+		String fcnt = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_FILECNT);
+		try {
+			int cnt = Integer.parseInt(fcnt);
+			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_FILECNT, String.valueOf( cnt + newFileCnt) );	
+		} catch ( NumberFormatException nonum ) {
+			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_FILECNT, String.valueOf( newFileCnt) );	
+		}			
 	}
+
 	
 	public boolean deleteDerivateObject(MCRWorkflowProcess wfp, String saveDirectory, String backupDirectory, String metadataObjectID, 
 		String derivateObjectID, boolean mustWorkflowVarBeUpdated) {

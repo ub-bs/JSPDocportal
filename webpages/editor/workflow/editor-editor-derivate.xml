@@ -2,28 +2,48 @@
 <!DOCTYPE editor>
 
 <editor>
- <target type="servlet" name="MCRStartEditorServlet" method="get" format="name=value" />
  <!-- <target type="servlet" name="MCRCheckEditDataServlet" method="post" format="xml" /> -->
 <!--
  <target type="debug" />
 -->
+ <target type="servlet" name="MCRPassToTargetServlet" method="post" format="xml" />
 
- <components root="editor-derivate">
+ <components root="editor-derivate" var="/mycorederivate">
+ 
   <include uri="webapp:editor/workflow/imports-common.xml" />
-  <include uri="webapp:editor/workflow/imports-editor-derivate.xml" />
 
+  <headline anchor="CENTER">
+   <text>    <label i18n="Editor.derivate.label" />   </text> 
+  </headline>
+  
   <panel id="editor-derivate">
-   <hidden var="todo" default="wsetlabel" />
-   <cell col="1" row="1" anchor="NORTHWEST" ref="import-derivate" />
+    <cell col="1" row="1" anchor="NORTHWEST" ref="LLabel" />
+    <cell col="2" row="1" anchor="NORTHWEST" ref="DLabel" />
+    <cell col="3" row="1" anchor="NORTHWEST" >
+      <space width="20" height="0" />
+    </cell>
+    <cell col="4" row="1" anchor="NORTHWEST" ref="HLabel" />
+    <cell col="1" row="3" />
+    <cell col="2" row="3" anchor="EAST" ref="TwoButtons"  />  
   </panel>
 
   <panel id="DLabel">
-    <cell col="1" row="1" anchor="NORTHWEST" var="extparm" sortnr="1">
-      <textfield id="TFweditder" width="64" maxlength="128">
-      <include uri="session:weditder" cacheable="false" />
-      </textfield>
-    </cell>
+    <cell col="1" row="1" anchor="NORTHWEST" var="@label" ref="TFzeile1024M"/>    
   </panel>
+
+  <text id="LLabel">
+    <label xml:lang="de">
+      <span class="editorlabel">&#160;&#160;&#160;Label&#160;&#160;&#160;</span>
+    </label>
+    <label xml:lang="en">
+      <span class="editorlabel">&#160;&#160;&#160;Label&#160;&#160;&#160;</span>
+    </label>
+  </text>
+
+  <helpPopup id="HLabel" >
+   <label xml:lang="de">Hier kann der Label des Derivates geändert werden.   </label>
+   <label xml:lang="en">You can change the label of the derivate here.   </label>
+  </helpPopup>
 
  </components>
 </editor>

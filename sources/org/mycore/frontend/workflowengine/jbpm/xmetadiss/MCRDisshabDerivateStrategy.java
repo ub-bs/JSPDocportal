@@ -18,7 +18,7 @@ import org.mycore.frontend.workflowengine.strategies.MCRDefaultDerivateStrategy;
 public class MCRDisshabDerivateStrategy extends MCRDefaultDerivateStrategy {
 	private static Logger logger = Logger.getLogger(MCRDisshabDerivateStrategy.class.getName());
 	
-	public void saveFiles(List files, String dirname, MCRWorkflowProcess wfp) throws MCRException {
+	public void saveFiles(List files, String dirname, MCRWorkflowProcess wfp, String newLabel) throws MCRException {
 	// a correct dissertation contains in the main derivate
 	//		exactly one pdf-file and optional an attachment zip-file
 	//		the pdf file will be renamed to dissertation.pdf
@@ -26,6 +26,7 @@ public class MCRDisshabDerivateStrategy extends MCRDefaultDerivateStrategy {
 	//		to attachment.zip
 
 	MCRDerivate der = new MCRDerivate();
+	boolean bUpdateDerivate=false;
 	
 	try {
 			der.setFromURI(dirname + ".xml");
@@ -43,7 +44,7 @@ public class MCRDisshabDerivateStrategy extends MCRDefaultDerivateStrategy {
 	
 		ArrayList ffname = new ArrayList();
 		String mainfile = "";
-		for (int i = 0; i < files.size(); i++) {
+		for (int i = 0; files !=null && i < files.size(); i++) {
 			FileItem item = (FileItem) (files.get(i));
 			String fname = item.getName().trim();
 			Matcher mat = filenamePattern.matcher(fname);
@@ -98,18 +99,21 @@ public class MCRDisshabDerivateStrategy extends MCRDefaultDerivateStrategy {
 				throw new MCRException(errMsg);
 			}
 		}
-		if ((mainfile.length() == 0) && (ffname.size() > 0)) {
-			mainfile = (String) ffname.get(0);
+		if (der.getDerivate().getInternals().getMainDoc().equals("#####")) {
+			der.getDerivate().getInternals().setMainDoc(mainfile);
+			bUpdateDerivate=true;
 		}
-	
-		// add the mainfile entry
+		if ( newLabel != null && newLabel.length()>0 ) {
+			der.setLabel(newLabel);
+			bUpdateDerivate=true;
+		}
+
+		// update the Derivate...xml file
 		try{
-			if (der.getDerivate().getInternals().getMainDoc().equals("#####")) {
-				der.getDerivate().getInternals().setMainDoc(mainfile);
+			if ( bUpdateDerivate ){
 				byte[] outxml = MCRUtils.getByteArray(der.createXML());
 				try {
-					FileOutputStream out = new FileOutputStream(dirname
-							+ ".xml");
+					FileOutputStream out = new FileOutputStream(dirname	+ ".xml");
 					out.write(outxml);
 					out.flush();
 					out.close();

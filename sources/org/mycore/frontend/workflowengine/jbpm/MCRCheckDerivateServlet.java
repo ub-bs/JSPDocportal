@@ -24,7 +24,6 @@
 
 package org.mycore.frontend.workflowengine.jbpm;
 
-import java.io.File;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -59,8 +58,7 @@ public class MCRCheckDerivateServlet extends MCRServlet {
 		HttpServletRequest request = job.getRequest();
 		HttpServletResponse response = job.getResponse();
 		// read the XML data
-		MCREditorSubmission sub = (MCREditorSubmission) (job.getRequest()
-				.getAttribute("MCREditorSubmission"));
+		MCREditorSubmission sub = (MCREditorSubmission) (job.getRequest().getAttribute("MCREditorSubmission"));
 
 		List files = sub.getFiles();
 
@@ -76,6 +74,8 @@ public class MCRCheckDerivateServlet extends MCRServlet {
 		String type = parms.getParameter("type");
 		String step = parms.getParameter("step");
 		String nextPath = parms.getParameter("nextPath");
+		String newLabel = parms.getParameter("/mycorederivate/@label");
+		
 		if(nextPath == null) nextPath = "";
 		
 		LOGGER.debug("type = " + type);
@@ -105,10 +105,8 @@ public class MCRCheckDerivateServlet extends MCRServlet {
 			request.getRequestDispatcher("/nav?path=~mycore-error").forward(request,response);
 			return;
 		}
-		String mylang = mcrSession.getCurrentLanguage();
-		LOGGER.info("LANG = " + mylang);
 
-		// prepare the disshab MCRObjectID of the document the derivate belongs to
+		// prepare the MCRObjectID of the document the derivate belongs to
 		MCRObjectID ID = new MCRObjectID(objid);
 
 		String workdir = MCRWorkflowDirectoryManager.getWorkflowDirectory(ID.getTypeId());
@@ -119,7 +117,7 @@ public class MCRCheckDerivateServlet extends MCRServlet {
 		}
 		
 		try{
-			WFM.saveUploadedFiles(files, dirname, processID);
+			WFM.saveUploadedFiles(files, dirname, processID, newLabel);
 		}catch(Exception ex){
 			request.setAttribute("messageKey", "WorkflowEngine.UploadNotSuccessful");
 			request.setAttribute("lang", lang);

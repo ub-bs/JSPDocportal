@@ -41,6 +41,34 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 		return false;
 	}
 	
+	public boolean deleteDerivateFile(MCRWorkflowProcess wfp, String documentDirectory, String backupDirectory, String metadataObjectId, String derivateObjectId, boolean mustWorkflowVarBeUpdated, String filename) {
+		String derivateFileName = documentDirectory + SEPARATOR + filename;
+		File derFile = new File(derivateFileName);
+		
+		if(derFile.isFile()){
+			logger.debug("deleting file " + derFile.getName());
+			derFile.delete();
+		}else{
+			if ( !derFile.exists()) {
+				logger.warn(derivateObjectId +  " not exist's - do nothing.");					
+			} else {
+				logger.warn(derFile.getName() + " is not a file, did not delete it");
+				return false;
+			}
+		}
+		
+		if(mustWorkflowVarBeUpdated){
+			String fcnt = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_FILECNT);
+			try {
+				int cnt = Integer.parseInt(fcnt);
+				wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_FILECNT, String.valueOf( --cnt) );	
+			} catch ( NumberFormatException nonum ) {
+				wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_FILECNT, "0");
+			}			
+		}
+		
+		return false;
+	}
 	
 	public boolean deleteDerivateObject(MCRWorkflowProcess wfp, String documentDirectory, String backupDirectory, String metadataObjectId, String derivateObjectId, boolean mustWorkflowVarBeUpdated){
 		try{
@@ -85,10 +113,12 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 		return true;
 	}	
 	
-	public void saveFiles(List files, String dirname, MCRWorkflowProcess wfp) throws MCRException {
-		logger.debug("enters saveFiles (dummy), must be implemented in subclasses, for workflow-specific file checks");
-		// save the files
 	
+	public void saveFiles(List files, String dirname, MCRWorkflowProcess wfp, String newLabel) throws MCRException {
+		logger.debug("!! You Enters the saveFiles-DUMMY implementation, must be implemented in subclasses, for workflow-specific file checks");
+		
+		// save the files
+		boolean bUpdateDerivate=false;
 		ArrayList ffname = new ArrayList();
 		String mainfile = "";
 		for (int i = 0; i < files.size(); i++) {
@@ -112,16 +142,23 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 				throw new MCRException(errMsg);
 			}
 		}
-		if ((mainfile.length() == 0) && (ffname.size() > 0)) {
-			mainfile = (String) ffname.get(0);
-		}
-	
-		// add the mainfile entry
+					
 		MCRDerivate der = new MCRDerivate();
-		try {
-			der.setFromURI(dirname + ".xml");
-			if (der.getDerivate().getInternals().getMainDoc().equals("#####")) {
+		der.setFromURI(dirname + ".xml");
+		
+		if (der.getDerivate().getInternals().getMainDoc().equals("#####")) {
+			if ((mainfile.length() == 0) && (ffname.size() > 0)) {
+				mainfile = (String) ffname.get(0);
 				der.getDerivate().getInternals().setMainDoc(mainfile);
+				bUpdateDerivate=true;
+			}
+		}
+		if ( newLabel != null && newLabel.length()>0 ) {
+			der.setLabel(newLabel);
+			bUpdateDerivate=true;
+		}		
+		try {
+			if(bUpdateDerivate){
 				byte[] outxml = MCRUtils.getByteArray(der.createXML());
 				try {
 					FileOutputStream out = new FileOutputStream(dirname

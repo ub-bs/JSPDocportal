@@ -38,6 +38,7 @@ import org.apache.log4j.Logger;
 import org.mycore.frontend.editor.MCRRequestParameters;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
+import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 
 /**
  * This class is the superclass of servlets which checks the MCREditorServlet
@@ -62,7 +63,6 @@ public class MCRWorkflowActions extends MCRServlet {
         MCRRequestParameters parms = new MCRRequestParameters(request);
 
         long pid = Long.parseLong(parms.getParameter("processid"));
-        //TODO variable weg
         MCRWorkflowProcess wfp = new MCRWorkflowProcess(pid);
         MCRWorkflowManager WFM = wfp.getCurrentWorkflowManager();
         
@@ -73,7 +73,8 @@ public class MCRWorkflowActions extends MCRServlet {
         
         String derivateID = parms.getParameter("derivateID");
         String nextPath = parms.getParameter("nextPath");
-
+        String filename = parms.getParameter("filename");
+        
         if ( nextPath == null || nextPath.length() == 0)        	
         	 nextPath = "~" + workflowType;
         
@@ -144,8 +145,7 @@ public class MCRWorkflowActions extends MCRServlet {
     		}
     		request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
         	return;
-        }
-        
+        }        
         if ( "WFAddNewDerivateToWorkflowObject".equals(todo) ) {
         	derivateID = WFM.addDerivate(pid, mcrid);
     		WFM.setDefaultPermissions(derivateID, userid);
@@ -153,8 +153,29 @@ public class MCRWorkflowActions extends MCRServlet {
         	// kein requestforward sondern in den WFAddNewFileToDerivate Zweig übergehen! 
         }
         if ( "WFEditDerivateFromWorkflowObject".equals(todo) ) {
-        	//befüllten Editor für das Derivate includieren
+        	//befüllten Editor für das Derivate includieren	um Label zu editieren		
+        	StringBuffer sb = new StringBuffer();        	
+			sb.append(MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType))
+				.append("/")
+				.append(derivateID).append(".xml");
+				
+			request.setAttribute("path","~editor-include");
+        	request.setAttribute("isNewEditorSource","false");
+        	request.setAttribute("editorSource",sb.toString());
+			request.setAttribute("mcrid", derivateID);
+			request.setAttribute("type", "derivate");
+        	request.setAttribute("processid",new Long(pid));        	
+			request.setAttribute("workflowType",workflowType);
+			request.setAttribute("step", "editor");
+			request.setAttribute("nextPath", nextPath);
+			request.setAttribute("mcrid2", mcrid);
+			request.setAttribute("nextPath", nextPath);
+			request.setAttribute("target", "MCRCheckDerivateServlet");
+        	request.getRequestDispatcher("/nav?path=~editor-include").forward(request, response);
+        	return;
+
         }
+       
         if ( "WFAddNewFileToDerivate".equals(todo) ) {
         	//leeren upload Editor includieren
 			String fuhid = new MCRWorkflowUploadHandler( mcrid, derivateID, "new", nextPath).getID();
@@ -177,16 +198,18 @@ public class MCRWorkflowActions extends MCRServlet {
        	}
      
         if ( "WFRemoveFileFromDerivate".equals(todo) ) {
-        	// ein File aus dem Derivate löschen
-        }        
+    		if ( (  	AI.checkPermission(mcrid, "deletewf")
+   	             && AI.checkPermission(derivateID,"deletewf")) ) {    			
+   		   	 WFM.removeFileFromDerivate(pid, mcrid, derivateID, filename);
+    		}
+            request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
+        	return;
+        }
         if ( "WFRemoveDerivateFromWorkflowObject".equals(todo) ) {
-            //Anschliessend wird im WF eventuell ein neuer Status gesetzt,  wenn zB. kein Derivate mehr da ist
-            //muss wenn es eine Dissertation ist, der Status wieder zurückgesetzt werden
     		if ( (  	AI.checkPermission(mcrid, "deletewf")
     	             && AI.checkPermission(derivateID,"deletewf")) ) {    			
     		   	 WFM.removeDerivate(pid, mcrid, derivateID);
-    		}
-    		
+    		}    		
             request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
         	return;
         }         

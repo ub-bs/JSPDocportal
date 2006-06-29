@@ -40,13 +40,10 @@ import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRException;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
-import org.mycore.datamodel.metadata.MCRObjectStructure;
-import org.mycore.frontend.cli.MCRDerivateCommands;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
-import org.mycore.frontend.workflowengine.jbpm.publication.MCRDocumentDerivateStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRMetadataStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 import org.mycore.user2.MCRUser;
@@ -228,7 +225,7 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 		return null;
 	}	
 	
-	public void saveFiles(List files, String dirname, long pid) throws MCRException {
+	public void saveFiles(List files, String dirname, long pid, String newLabel) throws MCRException {
 		// a correct dissertation contains in the main derivate
 		//		exactly one pdf-file and optional an attachment zip-file
 		//		the pdf file will be renamed to dissertation.pdf
@@ -237,7 +234,7 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 		
 		MCRWorkflowProcess wfp = getWorkflowProcess(pid);
 		try{
-			derivateStrategy.saveFiles(files, dirname, wfp);
+			derivateStrategy.saveFiles(files, dirname, wfp, newLabel);
 		}catch(MCRException ex){
 			
 		}finally{

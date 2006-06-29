@@ -41,7 +41,6 @@ import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.datamodel.classifications.MCRCategoryItem;
-import org.mycore.datamodel.classifications.MCRClassificationItem;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
@@ -212,10 +211,10 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 		return null;
 	}	
 	
-	public void saveFiles(List files, String dirname, long pid) throws MCRException {		
+	public void saveFiles(List files, String dirname, long pid, String newLabel) throws MCRException {		
 		MCRWorkflowProcess wfp = getWorkflowProcess(pid);
 		try{
-			derivateStrategy.saveFiles(files, dirname, wfp);
+			derivateStrategy.saveFiles(files, dirname, wfp, newLabel);
 		}catch(MCRException ex){
 			
 		}finally{
