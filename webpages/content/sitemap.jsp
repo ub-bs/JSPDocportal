@@ -12,9 +12,9 @@
 <div class="headline"><fmt:message key="Nav.Sitemap" /></div>
 <table class="max" cellspacing="0" cellpadding="0">
 	<tr width="100%">
-		<th align="left" style="width:33%"><fmt:message key="Nav.MainmenueLeft" /></th>
-		<th align="left" style="width:33%"><fmt:message key="Nav.MenuAbove" /></th>
-		<th align="left"><fmt:message key="Nav.AdminMenue" /></th>
+		<th class="sitemap"><fmt:message key="Nav.MainmenueLeft" /></th>
+		<th class="sitemap"><fmt:message key="Nav.MenuAbove" /></th>
+		<th class="sitemap"><fmt:message key="Nav.AdminMenue" /></th>
 	</tr>	
 	<tr>
 		<td>

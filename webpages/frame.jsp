@@ -66,9 +66,9 @@
 	<tr class="max">
 		<td id="mainLeftColumn"><a href="${WebApplicationBaseURL}"><img	id="logo" alt="Logo" src="${WebApplicationBaseURL}images/logo.gif"></a>
 		<!-- NAVIGATION LEFT BEGIN -->
-	 		<table cellpadding="0" cellspacing="0"> 
+	 		<table class="navi_left" cellpadding="0" cellspacing="0"> 
 				<!--Main Menu -->
-				<tr><td style="padding-bottom:30px">
+				<tr><td>
 					<x:set scope="session" var="recNavPath" select="$Navigation//navigation[@name='left']/navitem[@name='left']"/>
 					<c:import url="content/navi_left_rec.jsp" />
 				</td></tr>

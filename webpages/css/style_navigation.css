@@ -91,53 +91,67 @@ td.navi_history_user{
 /* =================================================================== */
 /* General Main navigation column (left side)                          */
 /* =================================================================== */
+
+ table.navi_left{
+ 	font-family: Verdana, Arial, Helvetica, sans-serif;
+ 	margin:15px 15px 15px 35px;
+    width:210px;
+ }
+ 
+ table.navi_left tr td{
+	border-top:1px solid #EFF4F6;
+    padding-bottom:45px;
+ }
+ 
  div.navi_left_mainentry{
-	font-size: 11px;
-	font-weight : bold;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-	border-style: none;
-	border-width: 0px;
-    min-width: 200px;
-    width: 200px;
-    color:#EFF4F6;
- 	margin-left: 3.0em;
-    margin-top: 0.6em;
+	font-size: 12px;
+	font-weight: bold;
+	border-bottom:1px solid #EFF4F6;	
   }
   
-div.navi_left_subentry{
+ div.navi_left_subentry{
     font-size: 11px;
 	font-weight : normal;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-	border-style: none;
-	border-width: 0px;
-    min-width: 200px;
-    width: 200px;
-    color:#EFF4F6;
-
+    
     background-image:url(../images/whiteArrow.gif);
     background-repeat:no-repeat;
-    background-position:left 0.5ex;
-    margin-top: 0.1em;
-    margin-left: 0.8em;
-    padding-left:0.7em;
-  }
+    background-position:0px 9px;
+    margin-left: 20px;
+}
 
-  div.navi_left_mainentry a, 
+  div.navi_left_mainentry a,
   div.navi_left_subentry a{
-   	color: #EFF4F6;	
-    padding: 0.1em;
+  	display: block;
     text-decoration: none; 
+    color: #EFF4F6;		  
+  }  
+  
+  div.navi_left_mainentry a{
+    padding-top:6px;
+    padding-bottom:6px;
+    padding-left:10px;
+  } 
+  
+  div.navi_left_subentry a{
+	margin-left:5px;
+    padding-left:5px;
   }
 
-  div.navi_left_mainentry a:hover, 
+  div.navi_left_mainentry a:hover,
   div.navi_left_subentry a:hover{
-	color: #EFF4F6;	
-   	text-decoration:underline;
+	color: #8F3D00;	
+	background-color: #EFF4F6;  
   }
-  
+ 
 /* =================================================================== */
 /* Sitemap items                                                       */
 /* =================================================================== */
+  th.sitemap{
+  	width:33%;
+  	text-align:left;
+  	padding-bottom:10px;
+  }
+
   div.sitemap-item{
     font-size: 11px;
 	font-weight : normal;
