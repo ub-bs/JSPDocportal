@@ -99,7 +99,7 @@ td.navi_history_user{
 	border-width: 0px;
     min-width: 200px;
     width: 200px;
-    color:white;
+    color:#EFF4F6;
  	margin-left: 3.0em;
     margin-top: 0.6em;
   }
@@ -112,7 +112,7 @@ div.navi_left_subentry{
 	border-width: 0px;
     min-width: 200px;
     width: 200px;
-    color:white;
+    color:#EFF4F6;
 
     background-image:url(../images/whiteArrow.gif);
     background-repeat:no-repeat;
@@ -152,7 +152,7 @@ div.navi_left_subentry{
   }
   
  div.sitemap-item a{
-   	color: #EFF4F6;	
+   	color: #EFF4F6;	!important
     padding: 0.1em;
     text-decoration: none; 
   }
