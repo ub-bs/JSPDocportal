@@ -304,7 +304,7 @@
       <cell col="1" row="1" anchor="WEST" ref="TFzeile1024" var="metadata/sizes/size" sortnr="28" />
     </panel>
 
-    <panel id="DIsbns">
+    <panel id="DIsbn">
       <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/isbns&amp;classname=MCRMetaISBN" />
       <hidden  var="metadata/isbns/isbn/@inherited" default="0" />
       <hidden  var="metadata/isbns/isbn/@lang"  default="de" sortnr="30"/>
@@ -359,7 +359,7 @@
       <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/journaltitles&amp;classname=MCRMetaLangText" />
       <hidden  var="metadata/journaltitles/journaltitle/@inherited" default="0" />
       <hidden  var="metadata/journaltitles/journaltitle/@lang"  default="de" sortnr="36"/>
-      <cell col="1" row="1" anchor="WEST" ref="TFzeile1024" var="metadata/journaltitles/journaltitle" sortnr="36" />
+      <cell col="1" row="1" anchor="WEST" ref="TFzeile1024M" var="metadata/journaltitles/journaltitle" sortnr="36" />
     </panel>
 
     <panel id="DPublishingYear">

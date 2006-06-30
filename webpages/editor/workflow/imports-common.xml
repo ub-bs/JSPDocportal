@@ -50,26 +50,6 @@
 		</item>
 	</list>
 
-	<!--  *** geburtsdatums  *** -->
-	<!--  <list id="STypeDate" width="60" type="dropdown">
-		<item value="birth"> 
-		<label i18n="OMD.contact.birthday" />
-		</item>
-		<item value="death">
-		<label i18n="OMD.contact.dayofdeath" />
-		</item>
-		</list> -->
-
-	<!--  *** Difference from to  *** -->
-	<!--  <list id="STypeYear" width="60" type="dropdown">
-		<item value="from"> 
-		<label i18n="Editor.Common.from" />
-		</item>
-		<item value="death">
-		<label i18ln="Editor.Common.until" />
-		</item>
-		</list> -->
-
 	<!-- *** Language List *** -->
 
 	<list id="Slang" width="60" type="dropdown">
@@ -160,13 +140,11 @@
 		<cell col="2" row="1" anchor="WEST" ref="BSubmitDoc" />
 	</panel>
 
-	<submitButton id="BSubmitAuthor" width="100px"
-		jsaction="return checkMyFormAuthor()">
+	<submitButton id="BSubmitAuthor" width="100px" jsaction="return checkMyFormAuthor()">
 		<label i18n="Editor.Common.button.Submit" />
 	</submitButton>
 
-	<submitButton id="BSubmit" width="100px"
-		jsaction="return checkMyForm()">
+	<submitButton id="BSubmit" width="100px" jsaction="return checkMyForm()">
 		<label i18n="Editor.Common.button.Submit" />
 	</submitButton>
 
@@ -195,7 +173,7 @@
 		</label>
 		</text>
 		
-		<helpPopup id="HFlags" width="400px" height="250px">
+		<helpPopup id="HFlags" >
 		<label xml:lang="de">
 		Hier können nun Leserechte vergeben werden. Weiterhin können Host- oder Domainnamen angegeben werden, welche Zugriffsberechtigung haben.<p/>Beispiel: myhost.mynet.com oder .mynet.com .
 		</label>
@@ -237,7 +215,7 @@
 		<label i18n="Editor.Label.TitleM" />
 	</text>
 
-	<helpPopup id="HTitle" width="400px">
+	<helpPopup id="HTitle" >
 		<label i18n="Editor.Help.HTitle" />
 	</helpPopup>
 	<!--   <helpPopup  id="SMTitle">
@@ -304,7 +282,7 @@
 		<label i18n="Editor.Label.Subject" />
 	</text>
 
-	<helpPopup id="HSubject" width="450px" height="250px">
+	<helpPopup id="HSubject" >
 		<label i18n="Editor.Help.HSubject" />
 	</helpPopup>
 
@@ -353,7 +331,7 @@
 		<label i18n="Editor.Help.HDescrption" />
 	</helpPopup>
 
-	<helpPopup id="HDescriptionAbstract" width="550px">
+	<helpPopup id="HDescriptionAbstract" >
 		<label i18n="Editor.Help.HDescriptionAbstract" />
 	</helpPopup>
 
@@ -455,15 +433,15 @@
 		<span class="editorhints"><label i18n="Editor.Label.DateFormat" /></span>
 	</text>
 
-	<helpPopup id="HDate" width="450px" height="300px">
+	<helpPopup id="HDate" >
 		<label i18n="Editor.Help.HDateSubmitted" />
 	</helpPopup>
 
-	<helpPopup id="HDateBirthP" width="400px" height="250px">
+	<helpPopup id="HDateBirthP"  >
 		<label i18n="Editor.Help.HDateBirth" />
 	</helpPopup>
 
-	<helpPopup id="HDateP" width="400px" height="250px">
+	<helpPopup id="HDateP" >
 		<label i18n="Editor.Help.HDate" />
 	</helpPopup>
 
@@ -476,7 +454,7 @@
 		</item>
 	</list>
 
-	<!--   <helpPopup id="SMDate" width="400px" height="250px">
+	<!--   <helpPopup id="SMDate" >
 		<label xml:lang="de">
 		Hier können Sie ein Datum eintragen, welches in den Objekt-Metadaten vorkommen soll.
 		</label>
@@ -491,18 +469,10 @@
 		<label i18n="Editor.Label.TypeM" />
 	</text>
 
-	<helpPopup id="HType" width="400px" height="250px">
+	<helpPopup id="HType" >
 		<label i18n="Editor.Help.HType" />
 	</helpPopup>
 
-	<!--  <helpPopup id="SMType" width="400px" height="250px">
-		<label xml:lang="de">
-		Wählen Sie aus der Liste einen Typ-Begriff aus.
-		</label>
-		<label xml:lang="en">
-		You can select the type of notion from the list.
-		</label>
-		</helpPopup> -->
 
 	<!-- *** Data for the Format ** -->
 
@@ -510,18 +480,9 @@
 		<label i18n="Editor.Label.FormatM" />
 	</text>
 
-	<helpPopup id="HFormat" width="400px" height="250px">
+	<helpPopup id="HFormat" >
 		<label i18n="Editor.Help.HFormat" />
 	</helpPopup>
-
-	<!-- <helpPopup id="SMFormat" width="400px" height="250px">
-		<label xml:lang="de">
-		Wählen Sie aus der Liste einen Format-Begriff aus.
-		</label>
-		<label xml:lang="en">
-		You can select the format of notion from the list.
-		</label>
-		</helpPopup> -->
 
 	<!-- *** Data for the Identifier ** -->
 
@@ -533,20 +494,9 @@
 		<label i18n="Editor.Label.Identifier" />
 	</text>
 
-	<helpPopup id="HIdentifier" width="400px" height="250px">
+	<helpPopup id="HIdentifier" >
 		<label i18n="Eitor.Help.HIdentifier" />
 	</helpPopup>
-
-	<!--   <helpPopup id="SMIdentifier" width="400px" height="250px">
-		<label xml:lang="de">
-		Hier können Sie einen Identifikator (ID) eintragen, welcher zum Auffinden des Objektes dient.
-		</label>
-		<label xml:lang="en">
-		You can write a identificator-ID in this area, which help you find the object.
-		</label>
-		</helpPopup> -->
-
-	<!-- *** Data for the Source ** -->
 
 	<text id="LSourceP">
 		<label i18n="Editor.Label.SourceM" />
@@ -556,18 +506,10 @@
 		<label i18n="Editor.Label.Source" />
 	</text>
 
-	<helpPopup id="HSource" width="400px" height="250px">
+	<helpPopup id="HSource" >
 		<label i18n="Editor.Help.HSource" />
 	</helpPopup>
 
-	<!--  <helpPopup id="SMSource" width="400px" height="250px">
-		<label xml:lang="de">
-		Hier können Sie Quellen angeben, nach denen gesucht werden soll.
-		</label>
-		<label xml:lang="en">
-		You can write a source in this area, search for this.
-		</label>
-		</helpPopup> -->
 
 	<!-- *** Data for the Language ** -->
 
@@ -575,18 +517,9 @@
 		<label i18n="Editor.Label.LanguageM" />
 	</text>
 
-	<helpPopup id="HLanguage" width="400px" height="250px">
+	<helpPopup id="HLanguage" >
 		<label i18n="Editor.Help.HLanguage" />
 	</helpPopup>
-
-	<!--  <helpPopup id="SMLanguage" width="400px" height="250px">
-		<label xml:lang="de">
-		Wählen Sie aus der Liste eine Sprache aus.
-		</label>
-		<label xml:lang="en">
-		You can select a language from the list.
-		</label>
-		</helpPopup> -->
 
 	<!-- *** Data for the Keywords ** -->
 
@@ -595,7 +528,7 @@
 	</text>
 
 	<text id="LKeywords">
-		<label i18n="Editor.Labels.Keywords" />
+		<label i18n="Editor.Label.Keywords" />
 	</text>
 
 	<text id="AKeywordsFreetext">
@@ -649,24 +582,13 @@
 		</item>
 	</list>
 
-	<helpPopup id="HKeywords" width="550px" height="350px">
+	<helpPopup id="HKeywords" >
 		<label i18n="Editor.Help.HKeywords" />
 	</helpPopup>
 
-	<helpPopup id="HKeywordsClassifications" width="550px"
-		height="500px">
+	<helpPopup id="HKeywordsClassifications" >
 		<label i18n="Editor.Help.HKeywordsClassifications" />
-
 	</helpPopup>
-
-	<!--   <helpPopup id="SMKeywords" width="400px" height="250px">
-		<label xml:lang="de">
-		Hier können Sie Schlüsselworte eintragen, welche in den Objekt-Metadaten vorkommen sollen.
-		</label>
-		<label xml:lang="en">
-		You can write keywords in this area, which are find in the object metadata.
-		</label>
-		</helpPopup> -->
 
 	<!-- *** Data for the Coverage ** -->
 
@@ -674,18 +596,10 @@
 		<label i18n="Editor.Label.Coverage" />
 	</text>
 
-	<helpPopup id="HCoverage" width="400px" height="250px">
+	<helpPopup id="HCoverage" >
 		<label i18n="Editor.Help.HCoverage" />
 	</helpPopup>
 
-	<!--    <helpPopup id="SMCoverage" width="400px" height="250px">
-		<label xml:lang="de">
-		Hier können Sie Einträge zur Erstreckung machen, nach denen gesucht werden soll.
-		</label>
-		<label xml:lang="en">
-		You can write entrys of extend for the search.
-		</label>
-		</helpPopup>-->
 
 	<!-- *** Data for the Relation ** -->
 
@@ -693,7 +607,7 @@
 		<label i18n="Editor.Label.Relation" />
 	</text>
 
-	<helpPopup id="HRelation" width="400px" height="250px">
+	<helpPopup id="HRelation" >
 		<label i18n="Editor.Help.HRelation" />
 	</helpPopup>
 
@@ -712,11 +626,11 @@
 		<label i18n="Editor.Label.Rights" />
 	</text>
 
-	<helpPopup id="HRight" width="400px" height="250px">
+	<helpPopup id="HRight" >
 		<label i18n="Editor.Help.HRights" />
 	</helpPopup>
 
-	<helpPopup id="HRightsLink" width="400px" height="250px">
+	<helpPopup id="HRightsLink" >
 		<label i18n="Editor.Help.HRightsLink" />
 	</helpPopup>
 
@@ -730,7 +644,7 @@
 		<label i18n="Editor.Label.Size" />
 	</text>
 
-	<helpPopup id="HSize" width="400px" height="250px">
+	<helpPopup id="HSize" >
 		<label i18n="Editor.Help.HSize" />
 	</helpPopup>
 
@@ -744,7 +658,7 @@
 		<label i18n="Editor.Label.Place" />
 	</text>
 
-	<helpPopup id="HPlace" width="400px" height="250px">
+	<helpPopup id="HPlace" >
 		<label i18n="Editor.Help.HPlace" />
 	</helpPopup>
 
@@ -759,7 +673,7 @@
 		<label i18n="Editor.Label.URN" />
 	</text>
 
-	<helpPopup id="HUrn" width="400px" height="250px">
+	<helpPopup id="HUrn" >
 		<label i18n="Editor.Label.HURN" />
 	</helpPopup>
 
@@ -774,7 +688,7 @@
 		<label i18n="Editor.Label.ContactM" />
 	</text>
 
-	<helpPopup id="HContact" width="400px" height="250px">
+	<helpPopup id="HContact" >
 		<label i18n="Editor.Help.HContact" />
 	</helpPopup>
 
@@ -788,25 +702,9 @@
 		<label i18n="Editor.Label.CitationM" />
 	</text>
 
-	<helpPopup id="HCitation" width="400px" height="250px">
+	<helpPopup id="HCitation" >
 		<label i18n="Editor.Help.HCitation" />
 	</helpPopup>
-	<!-- *** Data for the Collection ** -->
-	<!-- 
-		<text id="LCollectionP">
-		<label xml:lang="de">
-		<span class="editorlabel">TU-Kollektion (*)</span>
-		</label>
-		</text>
-		
-		<helpPopup id="HCollection" width="400px" height="250px">
-		<label xml:lang="de">
-		Wählen Sie aus der Liste die TU-Kollektion des digitalen Objektes aus.
-		</label>
-		<label xml:lang="en">
-		Here you can choose the TU-Collection of the digital object.
-		</label>
-		</helpPopup> -->
 
 	<!-- *** Data for the PName ** -->
 
@@ -840,7 +738,7 @@
 		<span class="editorhints"><label i18n="Editor.Label.PNamePeerage" /></span>
 	</text>
 
-	<helpPopup id="HPName" width="400px" height="250px">
+	<helpPopup id="HPName" >
 		<label i18n="Editor.Help.HPName" />
 	</helpPopup>
 
@@ -852,12 +750,11 @@
 		<label i18n="Editor.Label.Gender" />
 	</text>
 
-	<helpPopup id="HFemale" width="400px" height="250px">
+	<helpPopup id="HFemale" >
 		<label i18n="Editor.Help.HGender" />
 	</helpPopup>
 
-	<list id="SFemale" width="400" type="radio" cols="2"
-		default="false">
+	<list id="SFemale" width="400" type="radio" cols="2" >
 		<item value="true">
 			<label i18n="Editor.Author.gender.female" />
 		</item>
@@ -872,7 +769,7 @@
 		<label i18n="Editor.Label.Profession" />
 	</text>
 
-	<helpPopup id="HProfession" width="400px" height="250px">
+	<helpPopup id="HProfession" >
 		<label i18n="Editor.Help.HProfession" />
 	</helpPopup>
 
@@ -886,26 +783,6 @@
 		</item>
 	</list>
 
-	<!-- *** Data for the ProfClass ** -->
-
-	<!-- <text id="LProfClass">
-		<label i18n="" />
-		<label xml:lang="de">
-		<span class="editorlabel">Beruf nach SWB</span>
-		</label>
-		</text>
-		
-		<helpPopup id="HProfClass" width="400px" height="250px">
-		<label i18n="" />
-		<label xml:lang="de">
-		Wählen Sie hier bitte den Beruf aus der SWB Klassifikation aus.
-		</label>
-		<label xml:lang="en">
-		Select you the profession from the SWB classification.
-		</label>
-		</helpPopup>
-		
-	-->
 
 	<!-- *** Data for the National ** -->
 
@@ -913,7 +790,7 @@
 		<label i18n="Editor.Label.Nationality" />
 	</text>
 
-	<helpPopup id="HNational" width="400px" height="250px">
+	<helpPopup id="HNational" >
 		<label i18n="Editor.Help.HNational" />
 	</helpPopup>
 
@@ -923,7 +800,7 @@
 		<label i18n="Editor.Label.Reference" />
 	</text>
 
-	<helpPopup id="HReference" width="400px" height="250px">
+	<helpPopup id="HReference" >
 		<label i18n="Editor.Help.HReference" />
 	</helpPopup>
 
@@ -933,7 +810,7 @@
 		<label i18n="Editor.Label.Publications" />
 	</text>
 
-	<helpPopup id="HPublication" width="400px" height="250px">
+	<helpPopup id="HPublication" >
 		<label i18n="Editor.Help.HPublication" />
 	</helpPopup>
 
@@ -949,7 +826,7 @@
 		</label>
 	</text>
 
-	<helpPopup id="HPlaceBirth" width="400px" height="250px">
+	<helpPopup id="HPlaceBirth" >
 		<label i18n="Editor.Help.HBirthPlace" />
 	</helpPopup>
 
@@ -1069,7 +946,7 @@
 		</item>
 	</list>
 
-	<helpPopup id="HAddress" width="400px" height="250px">
+	<helpPopup id="HAddress" >
 		<label i18n="Editor.Help.HAddress" />
 	</helpPopup>
 
@@ -1108,7 +985,7 @@
 		<label i18n="Editor.Label.URLLink" />
 	</text>
 
-	<helpPopup id="HURL" width="400px" height="250px">
+	<helpPopup id="HURL" >
 		<label i18n="Editor.Help.HURL" />
 	</helpPopup>
 
@@ -1118,7 +995,7 @@
 		<label i18n="Editor.Label.Email" />
 	</text>
 
-	<helpPopup id="HEmail" width="400px" height="250px">
+	<helpPopup id="HEmail" >
 		<label i18n="Editor.Help.HEmail" />
 	</helpPopup>
 
@@ -1129,7 +1006,7 @@
 		<label i18n="Editor.Label.Notes" />
 	</text>
 
-	<helpPopup id="HNote" width="400px" height="250px">
+	<helpPopup id="HNote" >
 		<label i18n="Editor.Help.HNotes" />
 	</helpPopup>
 
@@ -1147,9 +1024,54 @@
 		<label i18n="Editor.Label.DigitalObjectsOther" />
 	</text>
 
-	<helpPopup id="HFile" width="400px" height="250px">
+	<helpPopup id="HFile" >
 		<label i18n="Editor.Help.HDigitalObjects" />
 	</helpPopup>
+
+
+    <!--  Data for JournalTitle -->
+    <text id="LIsbn">
+     <label i18n="Editor.Label.Isbn" />
+    </text>
+    <helpPopup id="HIsbn" >
+      <label i18n="Editor.Help.HIsbn" />
+    </helpPopup>
+
+
+    <!--  Data for JournalTitle -->
+    <text id="LJournalTitleM">
+     <label i18n="Editor.Label.JournalTitle" />
+    </text>
+    <helpPopup id="HJournalTitle" >
+      <label i18n="Editor.Help.HJournalTitle" />
+    </helpPopup>
+
+
+    <!--  Data for Book -->
+    <text id="LBook">
+     <label i18n="Editor.Label.Book" />
+    </text>
+    <helpPopup id="HBook" >
+      <label i18n="Editor.Help.HBook" />
+    </helpPopup>
+     
+    <!--  Data for Pages -->
+    <text id="LPages">
+     <label i18n="Editor.Label.Pages" />
+    </text>
+    <helpPopup id="HPages" >
+      <label i18n="Editor.Help.HPages" />
+    </helpPopup>
+
+    <!--  Data for Pages -->
+    <text id="LVolume">
+     <label i18n="Editor.Label.Volume" />
+    </text>
+    <helpPopup id="HVolume" >
+      <label i18n="Editor.Help.HVolume" />
+    </helpPopup>
+
+
 
 	<!-- *** End *** -->
 </imports>

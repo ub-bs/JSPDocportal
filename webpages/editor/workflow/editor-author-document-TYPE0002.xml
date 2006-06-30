@@ -135,19 +135,19 @@
         <text i18n="Editor.Document.extendedInformations" />
       </cell>        
       
-      <cell col="1" row="130" anchor="NORTHWEST" ref="LJounalTitle" />
+      <cell col="1" row="130" anchor="NORTHWEST" ref="LJounalTitleM" />
       <cell col="2" row="130" anchor="NORTHWEST" ref="DJournalTitle" sortnr="36"  />
       <cell col="3" row="130" anchor="NORTHWEST">
         <space width="20" height="0" />
       </cell>
       <cell col="4" row="130" anchor="WEST" ref="HJournalTitle" />
       
-      <cell col="1" row="130" anchor="NORTHWEST" ref="LIsbn" />
-      <cell col="2" row="130" anchor="NORTHWEST" ref="DIsbn" sortnr="30"  />
-      <cell col="3" row="130" anchor="NORTHWEST">
+      <cell col="1" row="140" anchor="NORTHWEST" ref="LIsbn" />
+      <cell col="2" row="140" anchor="NORTHWEST" ref="DIsbn" sortnr="30"  />
+      <cell col="3" row="140" anchor="NORTHWEST">
         <space width="20" height="0" />
       </cell>
-      <cell col="4" row="130" anchor="WEST" ref="HIsbn" />
+      <cell col="4" row="140" anchor="WEST" ref="HIsbn" />
       
       <!--  Herausgeber Verlag -->      
       <cell col="1" row="150" anchor="NORTHWEST" ref="LPublisher" />
