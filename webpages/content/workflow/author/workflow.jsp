@@ -38,9 +38,7 @@
 	<tr>
 		<td><img title="" alt="" src="${baseURL}images/greenArrow.gif"></td>
 		<td>
-			<a target="_self" href="${baseURL}nav?path=~author-begin">
-				<fmt:message key="WF.author.StartWorkflow" />
-			</a>
+			<a target="_self" href="${baseURL}nav?path=~authorbegin"><fmt:message key="WF.author.StartWorkflow" /></a>
 		</td>
 	</tr>
 	<tr />
