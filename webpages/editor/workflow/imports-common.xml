@@ -12,29 +12,20 @@
 	<textfield id="TFzeile1024" width="60" maxlength="1024" />
 
 	<!-- ** mandatory Input fields *** -->
-	<textfield id="TFzeile10M" width="10" maxlength="10"
-		class="mandatory" />
-	<textfield id="TFzeile32M" width="15" maxlength="32"
-		class="mandatory" />
-	<textfield id="TFzeile64M" width="20" maxlength="64"
-		class="mandatory" />
-	<textfield id="TFzeile128M" width="30" maxlength="128"
-		class="mandatory" />
-	<textfield id="TFzeile1024M" width="60" maxlength="1024"
-		class="mandatory" />
+	<textfield id="TFzeile10M" width="10" maxlength="10" class="mandatory" />
+	<textfield id="TFzeile32M" width="15" maxlength="32" class="mandatory" />
+	<textfield id="TFzeile64M" width="20" maxlength="64" class="mandatory" />
+	<textfield id="TFzeile128M" width="30" maxlength="128" class="mandatory" />
+	<textfield id="TFzeile1024M" width="60" maxlength="1024" class="mandatory" />
 
 
 	<!-- *** Text area *** -->
-	<textarea id="TFarea4096" width="45" height="4" maxlength="4096"
-		default="" />
-	<textarea id="TFarea4096x10" width="45" height="10" maxlength="4096"
-		default="" />
+	<textarea id="TFarea4096" width="45" height="4" maxlength="4096" default="" />
+	<textarea id="TFarea4096x10" width="45" height="10" maxlength="4096" default="" />
 
 	<!-- *** mandatory Text area *** -->
-	<textarea id="TFarea4096M" width="45" height="4" maxlength="4096"
-		default=" " class="mandatory" />
-	<textarea id="TFarea4096x10M" width="45" height="10"
-		maxlength="4096" default=" " class="mandatory" />
+	<textarea id="TFarea4096M" width="45" height="4" maxlength="4096" default=" " class="mandatory" />
+	<textarea id="TFarea4096x10M" width="45" height="10" maxlength="4096" default=" " class="mandatory" />
 
 	<!-- *** Definitions of Spaces  *** -->
 
@@ -160,8 +151,7 @@
 	</list>
 
 	<!-- *** Data for the buttons ** -->
-	<submitButton id="BSubmitDoc" width="100px"
-		jsaction="return checkMyFormDocument()">
+	<submitButton id="BSubmitDoc" width="100px" jsaction="return checkMyFormDocument()">
 		<label i18n="Editor.Common.button.Submit" />
 	</submitButton>
 
@@ -261,20 +251,16 @@
 		<label i18n="Editor.Label.Subtitle" />
 	</text>
 
-
-	<list id="STitleType" width="120" type="dropdown">
-		<item value="original-main">
-			<label i18n="OMD.original-maintitle" />
-		</item>
-		<item value="translated-main">
-			<label i18n="OMD.translated-maintitle" />
-		</item>
-		<item value="original-sub">
-			<label i18n="OMD.original-subtitle" />
-		</item>
-		<item value="translated-sub">
-			<label i18n="OMD.translated-subtitle" />
-		</item>
+    <list id="STitleType2" type="dropdown">
+      <item value="main" i18n="OMD.maintitle" />
+      <item value="sub"  i18n="OMD.subtitle" />
+    </list>
+    
+	<list id="STitleType" type="dropdown">
+		<item value="original-main" i18n="OMD.original-maintitle" />
+		<item value="translated-main" i18n="OMD.translated-maintitle" />
+		<item value="original-sub" i18n="OMD.original-subtitle" />
+		<item value="translated-sub" i18n="OMD.translated-subtitle" />
 	</list>
 
 	<!-- *** Data for the Creator/Creatorlink ** -->
@@ -332,11 +318,9 @@
 		<label i18n="Editor.Label.Origin" />
 	</text>
 
-	<helpPopup id="HOrigin" width="400px" height="250px">
+	<helpPopup id="HOrigin" >
 		<label i18n="Editor.Help.HOrigin" />
 	</helpPopup>
-
-
 
 	<!-- *** Data for the institution -->
 	<text id="LInstitutionP">
@@ -373,16 +357,10 @@
 		<label i18n="Editor.Help.HDescriptionAbstract" />
 	</helpPopup>
 
-	<list id="SDescriptType" width="60" type="dropdown">
-		<item value="abstract">
-			<label i18n="OMD.abstract" />
-		</item>
-		<item value="description">
-			<label i18n="OMD.descriptions" />
-		</item>
-		<item value="content">
-			<label i18n="OMD.content" />
-		</item>
+	<list id="SDescriptType" type="dropdown">
+		<item value="abstract" i18n="OMD.abstract" />
+		<item value="description" i18n="OMD.descriptions" />
+		<item value="content" i18n="OMD.content" />
 	</list>
 
 	<!-- *** Data for the Publisher ** -->
@@ -391,17 +369,13 @@
 		<label i18n="Editor.Label.Publisher" />
 	</text>
 
-	<helpPopup id="HPublisher" width="400px" height="250px">
+	<helpPopup id="HPublisher" >
 		<label i18n="Editor.Help.HPublisher" />
 	</helpPopup>
 
-	<list id="SPublisherType" width="60" type="dropdown">
-		<item value="publisher">
-			<label i18n="Editor.Document.publishingcompany" />
-		</item>
-		<item value="publication">
-			<label i18n="Editor.Document.publisher" />
-		</item>
+	<list id="SPublisherType" type="dropdown">
+		<item value="publisher" i18n="Editor.Document.publishingcompany" />
+		<item value="publication" i18n="Editor.Document.publisher" />
 	</list>
 
 	<text id="LPublishLink">
@@ -430,41 +404,25 @@
 		<label i18n="Editor.Label.ContributorsM" />
 	</text>
 
-	<helpPopup id="HContributor" width="500px" height="250px">
+	<helpPopup id="HContributor" >
 		<label i18n="Editor.Help.HContributors" />
 	</helpPopup>
 
-	<list id="SContributorTypeReferee" width="60" type="dropdown">
-		<item value="">
-			<label i18n="Editor.Common.choose.type" />
-		</item>
-		<item value="referee">
-			<label i18n="Editor.Label.contributors.referee" />
-		</item>
-		<item value="advisor">
-			<label i18n="Editor.Label.contributors.adivsor" />
-		</item>
+    <list id="SContributorTypeReferee" type="dropdown">
+		<item value="" i18n="Editor.Common.choose.type" />
+		<item value="referee" i18n="Editor.Label.contributors.referee" />
+		<item value="advisor" i18n="Editor.Label.contributors.adivsor" />
 	</list>
 
 	<list id="SContributorTypeAdvisor" width="60" type="dropdown">
-		<item value="advisor">
-			<label i18n="Editor.Label.contributors.adivsor" />
-		</item>
-		<item value="referee">
-			<label i18n="Editor.Label.contributors.referee" />
-		</item>
+		<item value="advisor" i18n="Editor.Label.contributors.adivsor" />
+		<item value="referee" i18n="Editor.Label.contributors.referee" />
 	</list>
 
 	<list id="SContributorType" width="60" type="dropdown">
-		<item value="">
-			<label i18n="Editor.Common.choose.type" />
-		</item>
-		<item value="referee">
-			<label i18n="Editor.Label.contributors.referee" />
-		</item>
-		<item value="advisor">
-			<label i18n="Editor.Label.contributors.adivsor" />
-		</item>
+		<item value="" i18n="Editor.Common.choose.type" />
+		<item value="referee" i18n="Editor.Label.contributors.referee" />
+		<item value="advisor" i18n="Editor.Label.contributors.adivsor" />
 	</list>
 
 	<!-- *** Data for the Date ** -->
@@ -486,15 +444,15 @@
 	</text>
 
 	<text id="ADateSubmitted">
-		<label i18n="Editor.Label.DateSubmitted" />
+		<span class="editorhints"><label i18n="Editor.Label.DateSubmitted" /></span>
 	</text>
 
 	<text id="ADateAccepted">
-		<label i18n="Editor.Label.DateAccepted" />
+		<span class="editorhints"><label i18n="Editor.Label.DateAccepted" /></span>
 	</text>
 
 	<text id="ADateFormat">
-		<label i18n="Editor.Label.DateFormat" />
+		<span class="editorhints"><label i18n="Editor.Label.DateFormat" /></span>
 	</text>
 
 	<helpPopup id="HDate" width="450px" height="300px">
@@ -663,11 +621,11 @@
 		</text> -->
 
 	<text id="AKeywordsClassifications">
-		<label i18n="Editor.Label.KeywordsClassifications" />
+		<span class="editorhints"><label i18n="Editor.Label.KeywordsClassifications" /></span>
 	</text>
 
 	<text id="AKeywordsClassificationsCode">
-		<label i18n="Editor.Label.KeywordsClassificationsCode" />
+		<span class="editorhints"><label i18n="Editor.Label.KeywordsClassificationsCode" /></span>
 	</text>
 
 	<list id="SKeywordsClassifications" width="450px" type="dropdown">
@@ -861,25 +819,25 @@
 	</text>
 
 	<text id="APNameFirstName">
-		<label i18n="Editor.Label.PNameFirstname" />
+		<span class="editorhints"><label i18n="Editor.Label.PNameFirstname" /></span>
 	</text>
 	<text id="APNameSurName">
-		<label i18n="Editor.Label.PNameSurname" />
+		<span class="editorhints"><label i18n="Editor.Label.PNameSurname" /></span>
 	</text>
 	<text id="APNameFirstNameP">
-		<label i18n="Editor.Label.PNameFirstnameM" />
+		<span class="editorhints"><label i18n="Editor.Label.PNameFirstnameM" /></span>
 	</text>
 	<text id="APNameSurNameP">
-		<label i18n="Editor.Label.PNameSurnameM" />
+		<span class="editorhints"><label i18n="Editor.Label.PNameSurnameM" /></span>
 	</text>
 	<text id="APNameAcademic">
-		<label i18n="Editor.Label.PNameAcademic" />
+		<span class="editorhints"><label i18n="Editor.Label.PNameAcademic" /></span>
 	</text>
 	<text id="APNamePrefix">
-		<label i18n="Editor.Label.PNamePrefix" />
+		<span class="editorhints"><label i18n="Editor.Label.PNamePrefix" /></span>
 	</text>
 	<text id="APNamePeerage">
-		<label i18n="Editor.Label.PNamePeerage" />
+		<span class="editorhints"><label i18n="Editor.Label.PNamePeerage" /></span>
 	</text>
 
 	<helpPopup id="HPName" width="400px" height="250px">

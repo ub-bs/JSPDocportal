@@ -173,7 +173,9 @@
       <hidden var="@inherited" default="0" sortnr="10" />
       <hidden var="@lang"  default="de" sortnr="10" />
       <cell col="1" row="1" anchor="WEST" ref="TFzeile1024" sortnr="10" />
-      <cell col="2" row="1" anchor="WEST" ref="SContributorType" var="@type" sortnr="10" />            
+      <cell col="2" row="1" anchor="WEST" ref="TFzeile32" var="@type" sortnr="10" >            
+         <text i18n="Editor.Label.contributors.type" />      
+      </cell>
     </panel>
 
     <panel id="DContributor">
@@ -188,7 +190,7 @@
       <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/dates&amp;classname=MCRMetaISO8601Date" />
       <cell col="1" row="1" anchor="WEST" ref="TFzeile10" var="metadata/dates/date" sortnr="12" />
       <cell col="2" row="1" var="metadata/dates/date/@type" default="submitted" sortnr="12">
-        <text i18n="Editor.DatePublishing" />
+        <text i18n="Editor.Label.Date.publishing" />
       </cell>
     </panel>
 
