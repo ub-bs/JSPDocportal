@@ -6,6 +6,8 @@
 <%@ page pageEncoding="UTF-8" %>
 
 <mcr:session method="get" var="username" type="userID" />
+<mcr:session var="sessionid" method="get" type="ID"/>
+
 <c:set  var="baseURL" value="${applicationScope.WebApplicationBaseURL}"/>
 
 <fmt:setLocale value="${requestScope.lang}" />
@@ -35,6 +37,7 @@
 			<c:param name="jbpmVariableNames" value="/publication/Type"	 />
 			<c:param name="XSL.editor.source.new" value="true" />
 			<c:param name="XSL.editor.cancel.url" value="/nav?path=~publication" />
+		    <c:param name="XSL.editor.session.id" value="${sessionid}" />
 			<c:param name="lang" value="${requestScope.lang}" />
 		</c:url>
 		<c:import url="${url}" />
@@ -49,8 +52,7 @@
 		<c:if test="${!empty(docID)}">
 		   <tr valign="top">
 		        <td class="metaname"><fmt:message key="WF.publication.ID" /><br/></td>
-		        <td class="metavalue"> 
-		           <b><c:out value="${docID}" /></b>
+		        <td class="metavalue"> <b><c:out value="${docID}" /></b>
 		      </td>
 		   </tr>     
 		</c:if>		
