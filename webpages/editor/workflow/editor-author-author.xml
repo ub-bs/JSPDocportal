@@ -28,13 +28,13 @@
     <hidden var="label" />
 
 <!-- save userid -->
-    <hidden var="metadata/userids/@class" default="MCRMetaLangText" />
-    <hidden var="metadata/userids/@parasearch" default="false" />
-    <hidden var="metadata/userids/@textsearch" default="false" />
-    <hidden var="metadata/userids/@notinherit" default="false" />
-    <hidden var="metadata/userids/@heritable" default="true" />
-    <hidden var="metadata/userids/userid/@inherited" default="0" />
-    <hidden var="metadata/userids/userid/@lang" default="de" />
+    <hidden var="metadata/userids/@class" default="MCRMetaLangText" sortnr="15" />
+    <hidden var="metadata/userids/@parasearch" default="false" sortnr="15" />
+    <hidden var="metadata/userids/@textsearch" default="false" sortnr="15" />
+    <hidden var="metadata/userids/@notinherit" default="false" sortnr="15" />
+    <hidden var="metadata/userids/@heritable" default="true" sortnr="15" />
+    <hidden var="metadata/userids/userid/@inherited" default="0" sortnr="15" />
+    <hidden var="metadata/userids/userid/@lang" default="de" sortnr="15" />
     <hidden var="metadata/userids/userid" />
     
     <hidden var="service/servdates/@class" default="MCRMetaISO8601Date"/>
@@ -53,21 +53,21 @@
     <!-- <hidden var="metadata/@lang" default="de" /> -->
 
     <cell col="1" row="1" anchor="NORTHWEST" ref="LPNameP" />
-    <cell col="2" row="1" anchor="NORTHWEST" ref="DPName_woPeerage" />
+    <cell col="2" row="1" anchor="NORTHWEST" ref="DPName_woPeerage" sortnr="1" />
     <cell col="3" row="1" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
-    <cell col="4" row="1" anchor="WEST" ref="HPName" />
+    <cell col="4" row="1" anchor="WEST" ref="HPName" sortnr="1" />
 
     <cell col="1" row="2" anchor="NORTHWEST" ref="LFemaleP" />
-    <cell col="2" row="2" anchor="NORTHWEST" ref="DFemale" />
+    <cell col="2" row="2" anchor="NORTHWEST" ref="DFemale" sortnr="2"/>
     <cell col="3" row="2" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
     <cell col="4" row="2" anchor="WEST" ref="HFemale" />
 
     <cell col="1" row="3" anchor="NORTHWEST" ref="LOrigin_StrukturEinheit" />
-    <cell col="2" row="3" anchor="NORTHWEST" ref="DOrigin" />
+    <cell col="2" row="3" anchor="NORTHWEST" ref="DOrigin" sortnr="3"/>
     <cell col="3" row="3" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
@@ -79,15 +79,15 @@
     <space width="20" height="0" />
    </cell>
    <cell col="4" row="4" anchor="WEST" ref="HAddress" /> -->
-    <hidden var="metadata/addresses/@class" ordernr="4" default="MCRMetaAddress" />
-    <hidden var="metadata/addresses/@parasearch" ordernr="4" default="false" />
-    <hidden var="metadata/addresses/@textsearch" ordernr="4" default="false" />
-    <hidden var="metadata/addresses/@notinherit" ordernr="4" default="false" />
-    <hidden var="metadata/addresses/@heritable" ordernr="4" default="true" />
-    <hidden var="metadata/addresses/address/@inherited" ordernr="4" default="0" />
-    <hidden var="metadata/addresses/address/@type" ordernr="4" default="office" />	  
+    <hidden var="metadata/addresses/@class" sortnr="4" default="MCRMetaAddress" />
+    <hidden var="metadata/addresses/@parasearch" sortnr="4" default="false" />
+    <hidden var="metadata/addresses/@textsearch" sortnr="4" default="false" />
+    <hidden var="metadata/addresses/@notinherit" sortnr="4" default="false" />
+    <hidden var="metadata/addresses/@heritable" sortnrr="4" default="true" />
+    <hidden var="metadata/addresses/address/@inherited" sortnr="4" default="0" />
+    <hidden var="metadata/addresses/address/@type" sortnr="4" default="office" />	  
    
-    <hidden var="metadata/addresses/address/@lang" ordernr="4" default="de" />
+    <hidden var="metadata/addresses/address/@lang" sortnr="4" default="de" />
     <!-- getHiddenVar: Parameter: lang bundle prop defaultValue var -->
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/addresses/address/country&amp;prop=MCR.WorkflowEngine.MyInstitution.country&amp;default= " />  
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/addresses/address/state&amp;prop=MCR.WorkflowEngine.MyInstitution.state&amp;defaultValue= " />    				  
@@ -99,42 +99,42 @@
 
 
    <cell col="1" row="5" anchor="NORTHWEST" ref="LPhone" />
-   <cell col="2" row="5" anchor="NORTHWEST" ref="DPhone" />
+   <cell col="2" row="5" anchor="NORTHWEST" ref="DPhone" sortnr="5" />
    <cell col="3" row="5" anchor="NORTHWEST" >
     <space width="20" height="0" />
    </cell>
    <cell col="4" row="5" anchor="WEST" ref="HPhone" />
 
     <cell col="1" row="6" anchor="NORTHWEST" ref="LBirthDateM" />
-    <cell col="2" row="6" anchor="NORTHWEST" ref="DDateM" />
+    <cell col="2" row="6" anchor="NORTHWEST" ref="DDateM" sortnr="6" />
     <cell col="3" row="6" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
     <cell col="4" row="6" anchor="WEST" ref="HDateBirthP" />
 
     <cell col="1" row="7" anchor="NORTHWEST" ref="LProfession" />
-    <cell col="2" row="7" anchor="NORTHWEST" ref="DProfession_Only" />
+    <cell col="2" row="7" anchor="NORTHWEST" ref="DProfession_Only" sortnr="7" />
     <cell col="3" row="7" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
     <cell col="4" row="7" anchor="WEST" ref="HProfession" />
 
     <cell col="1" row="8" anchor="NORTHWEST" ref="LNational" />
-    <cell col="2" row="8" anchor="NORTHWEST" ref="DNational" />
+    <cell col="2" row="8" anchor="NORTHWEST" ref="DNational" sortnr="9" />
     <cell col="3" row="8" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
     <cell col="4" row="8" anchor="WEST" ref="HNational" />
 
     <cell col="1" row="9" anchor="NORTHWEST" ref="LHomepage" />
-    <cell col="2" row="9" anchor="NORTHWEST" ref="DURL" />
+    <cell col="2" row="9" anchor="NORTHWEST" ref="DURL" sortnr="10"  />
     <cell col="3" row="9" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
     <cell col="4" row="9" anchor="WEST" ref="HURL" />
 
     <cell col="1" row="10" anchor="NORTHWEST" ref="LEmailMandatory" />
-    <cell col="2" row="10" anchor="NORTHWEST" ref="DEmail" />
+    <cell col="2" row="10" anchor="NORTHWEST" ref="DEmail" sortnr="11" />
     <cell col="3" row="10" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
@@ -148,7 +148,7 @@
     <cell col="4" row="11" anchor="WEST" ref="HReference" /> -->
 
     <cell col="1" row="12" anchor="NORTHWEST" ref="LNote" />
-    <cell col="2" row="12" anchor="NORTHWEST" ref="DNote" />
+    <cell col="2" row="12" anchor="NORTHWEST" ref="DNote" sortnr="13" />
     <cell col="3" row="12" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>

@@ -8,47 +8,47 @@
   
   <!-- *** NAME *** -->
   <panel id="DPName">
-    <hidden var="metadata/names/@class" default="MCRMetaPersonName" />
-    <hidden var="metadata/names/@parasearch" default="true" />
-    <hidden var="metadata/names/@textsearch" default="true" />
-    <hidden var="metadata/names/@notinherit" default="false" />
-    <hidden var="metadata/names/@heritable" default="true" />
-    <hidden var="metadata/names/name/@inherited" default="0" />
-    <hidden var="metadata/names/name/@lang" ordernr="1" default="de" />
-    <cell col="2" row="1" anchor="NORTHWEST"  var="metadata/names/name/surname" ordernr="1" >
+    <hidden var="metadata/names/@class" default="MCRMetaPersonName" sortnr="1" />
+    <hidden var="metadata/names/@parasearch" default="true" sortnr="1" />
+    <hidden var="metadata/names/@textsearch" default="true" sortnr="1" />
+    <hidden var="metadata/names/@notinherit" default="false" sortnr="1" />
+    <hidden var="metadata/names/@heritable" default="true" sortnr="1" />
+    <hidden var="metadata/names/name/@inherited" default="0" sortnr="1" />
+    <hidden var="metadata/names/name/@lang" ordernr="1" default="de" sortnr="1" />
+    <cell col="2" row="1" anchor="NORTHWEST"  var="metadata/names/name/surname" sortnr="1" >
 	  <textfield id="tf.Surname"  width="30" maxlength="128"  class="mandatory" >		
 		<condition required="true" id="cond.Name">
 			<label i18n="Editor.Validate.Name.Empty" />
 		</condition>
 	  </textfield>	
 	</cell>	
-    <cell col="3" row="1" anchor="NORTHWEST" ref="APNameSurname" />
-    <cell col="2" row="2" anchor="NORTHWEST" var="metadata/names/name/firstname" ordernr="1" >
-	  <textfield id="tf.FirstName"  width="30" maxlength="128"  class="mandatory" >		
+    <cell col="3" row="1" anchor="NORTHWEST" ref="APNameSurname" sortnr="1" />
+    <cell col="2" row="2" anchor="NORTHWEST" var="metadata/names/name/firstname" sortnr="1" >
+	  <textfield id="tf.FirstName"  width="30" maxlength="128"  class="mandatory">		
 		<condition required="true" id="cond.FirstName">
-		<label i18n="Editor.Validate.Firstname.Empty" />
+			<label i18n="Editor.Validate.Firstname.Empty" />
 		</condition>
 	  </textfield>	
 	</cell>	
     <cell col="3" row="2" anchor="NORTHWEST" ref="APNameFirstName" />
-    <cell col="2" row="3" anchor="NORTHWEST" ref="TFzeile32" var="metadata/names/name/academic" ordernr="1" />
+    <cell col="2" row="3" anchor="NORTHWEST" ref="TFzeile32" var="metadata/names/name/academic" sortnr="1" />
     <cell col="3" row="3" anchor="NORTHWEST" ref="APNameAcademic" />
-    <cell col="2" row="4" anchor="NORTHWEST" ref="TFzeile32" var="metadata/names/name/peerage" ordernr="1" />
+    <cell col="2" row="4" anchor="NORTHWEST" ref="TFzeile32" var="metadata/names/name/peerage" sortnr="1" />
     <cell col="3" row="4" anchor="NORTHWEST" ref="APNamePeerage" />
-    <cell col="2" row="5" anchor="NORTHWEST" ref="TFzeile32" var="metadata/names/name/prefix" ordernr="1" />
+    <cell col="2" row="5" anchor="NORTHWEST" ref="TFzeile32" var="metadata/names/name/prefix" sortnr="1" />
     <cell col="3" row="5" anchor="NORTHWEST" ref="APNamePrefix" />
   </panel>
 
   <!-- *** NAME *** -->
   <panel id="DPName_woPeerage">
-    <hidden var="metadata/names/@class" default="MCRMetaPersonName" />
-    <hidden var="metadata/names/@parasearch" default="true" />
-    <hidden var="metadata/names/@textsearch" default="true" />
-    <hidden var="metadata/names/@notinherit" default="false" />
-    <hidden var="metadata/names/@heritable" default="true" />
-    <hidden var="metadata/names/name/@inherited" default="0" />
-    <hidden var="metadata/names/name/@lang" ordernr="1" default="de" />
-    <cell col="2" row="1" anchor="NORTHWEST"  var="metadata/names/name/surname" ordernr="1" >
+    <hidden var="metadata/names/@class" default="MCRMetaPersonName" sortnr="1" />
+    <hidden var="metadata/names/@parasearch" default="true" sortnr="1" />
+    <hidden var="metadata/names/@textsearch" default="true" sortnr="1" />
+    <hidden var="metadata/names/@notinherit" default="false" sortnr="1" />
+    <hidden var="metadata/names/@heritable" default="true" sortnr="1" />
+    <hidden var="metadata/names/name/@inherited" default="0" sortnr="1" />
+    <hidden var="metadata/names/name/@lang" default="de" sortnr="1" />
+    <cell col="2" row="1" anchor="NORTHWEST"  var="metadata/names/name/surname" sortnr="1" >
 	  <textfield id="tf.Surname"  width="30" maxlength="128"  class="mandatory" >		
 		<condition required="true" id="cond.Name1">
 					<label i18n="Editor.Validate.Name.Empty" />
@@ -56,36 +56,36 @@
 	  </textfield>	
 	</cell>	
     <cell col="3" row="1" anchor="NORTHWEST" ref="APNameSurname" />
-    <cell col="2" row="2" anchor="NORTHWEST" var="metadata/names/name/firstname" ordernr="1" >
+    <cell col="2" row="2" anchor="NORTHWEST" var="metadata/names/name/firstname" sortnr="1" >
 	  <textfield id="tf.FirstName"  width="30" maxlength="128"  class="mandatory" >		
 		<condition required="true" id="cond.FirstName1">
 			<label i18n="Editor.Validate.Firstname.Empty" />
 		</condition>
 	  </textfield>	
 	</cell>	
-    <cell col="3" row="2" anchor="NORTHWEST" ref="APNameFirstName" />
-    <cell col="2" row="3" anchor="NORTHWEST" ref="TFzeile32" var="metadata/names/name/academic" ordernr="1" />
+    <cell col="3" row="2" anchor="NORTHWEST" ref="APNameFirstName" sortnr="1" />
+    <cell col="2" row="3" anchor="NORTHWEST" ref="TFzeile32" var="metadata/names/name/academic" sortnr="1" />
     <cell col="3" row="3" anchor="NORTHWEST" ref="APNameAcademic" />
-    <cell col="2" row="4" anchor="NORTHWEST" ref="TFzeile32" var="metadata/names/name/prefix" ordernr="1" />
-    <cell col="3" row="4" anchor="NORTHWEST" ref="APNamePrefix" />
+    <cell col="2" row="4" anchor="NORTHWEST" ref="TFzeile32" var="metadata/names/name/prefix" sortnr="1" />
+    <cell col="3" row="4" anchor="NORTHWEST" ref="APNamePrefix" sortnr="1" />
   </panel>
 
 
 <!-- *** FEMALE *** -->
 
   <panel id="DFemale">
-    <hidden var="metadata/females/@class" default="MCRMetaBoolean" />
-    <hidden var="metadata/females/@parasearch" default="true" />
-    <hidden var="metadata/females/@textsearch" default="false" />
-    <hidden var="metadata/females/@notinherit" default="false" />
-    <hidden var="metadata/females/@heritable" default="true" />
+    <hidden var="metadata/females/@class" default="MCRMetaBoolean" sortnr="2" />
+    <hidden var="metadata/females/@parasearch" default="true" sortnr="2" />
+    <hidden var="metadata/females/@textsearch" default="false" sortnr="2" />
+    <hidden var="metadata/females/@notinherit" default="false" sortnr="2" />
+    <hidden var="metadata/females/@heritable" default="true" sortnr="2" />
     <hidden var="metadata/females/female/@inherited" default="0" />
-    <cell col="2" row="1" anchor="NORTHWEST" ref="SFemale" var="metadata/females/female" ordernr="2" />
+    <cell col="2" row="1" anchor="NORTHWEST" ref="SFemale" var="metadata/females/female" sortnr="2" />
   </panel>
 
 <!-- ** Data for the ORIGIN *** -->
 
-  <list id="COrigin" width="300" type="dropdown" class="mandatory" >
+  <list id="COrigin" width="300" type="dropdown" class="mandatory" sortnr="3" >
     <item value=""><label i18n="Editor.Common.choose" /></item>
     <include uri="request:content/classifications-to-items.jspx?classid=DocPortal_class_00000002" />
     <condition id="cond.COrigin" required="true"> 
@@ -94,35 +94,35 @@
   </list>
 
   <panel id="DOrigin">
-    <hidden var="metadata/institutions/@class" default="MCRMetaClassification" />
-    <hidden var="metadata/institutions/@parasearch" default="true" />
-    <hidden var="metadata/institutions/@textsearch" default="false" />
-    <hidden var="metadata/institutions/@notinherit" default="false" />
-    <hidden var="metadata/institutions/@heritable" default="true" />
-    <hidden var="metadata/institutions/institution/@inherited" default="0" />
-    <hidden var="metadata/institutions/institution/@classid" default="DocPortal_class_00000002" />
-    <cell col="1" row="1" anchor="WEST" ref="COrigin" var="metadata/institutions/institution/@categid" ordernr="3" />
+    <hidden var="metadata/institutions/@class" default="MCRMetaClassification" sortnr="3" />
+    <hidden var="metadata/institutions/@parasearch" default="true" sortnr="3" />
+    <hidden var="metadata/institutions/@textsearch" default="false" sortnr="3" />
+    <hidden var="metadata/institutions/@notinherit" default="false" sortnr="3" />
+    <hidden var="metadata/institutions/@heritable" default="true" sortnr="3" />
+    <hidden var="metadata/institutions/institution/@inherited" default="0" sortnr="3" />
+    <hidden var="metadata/institutions/institution/@classid" default="DocPortal_class_00000002" sortnr="3" />
+    <cell col="1" row="1" anchor="WEST" ref="COrigin" var="metadata/institutions/institution/@categid" sortnr="3" />
   </panel>
 
 <!-- *** Data for the ADDRESS ** -->
  
   <panel id="DAddress">
-    <hidden var="metadata/addresses/@class" default="MCRMetaAddress" />
-    <hidden var="metadata/addresses/@parasearch" default="false" />
-    <hidden var="metadata/addresses/@textsearch" default="false" />
-    <hidden var="metadata/addresses/@notinherit" default="false" />
-    <hidden var="metadata/addresses/@heritable" default="true" />
-    <hidden var="metadata/addresses/address/@inherited" default="0" />
-    <hidden var="metadata/addresses/address/@lang" ordernr="4" default="de" />
-    <cell col="1" row="1" anchor="NORTHWEST" ref="SAdrType" var="metadata/addresses/address/@type" ordernr="4" default="home" />	  
-    <cell col="2" row="1" anchor="NORTHWEST" ref="Scountry" var="metadata/addresses/address/country" ordernr="4" />
+    <hidden var="metadata/addresses/@class" default="MCRMetaAddress" sortnr="4" />
+    <hidden var="metadata/addresses/@parasearch" default="false" sortnr="4" />
+    <hidden var="metadata/addresses/@textsearch" default="false" sortnr="4" />
+    <hidden var="metadata/addresses/@notinherit" default="false" sortnr="4" />
+    <hidden var="metadata/addresses/@heritable" default="true" sortnr="4" />
+    <hidden var="metadata/addresses/address/@inherited" default="0" sortnr="4" />
+    <hidden var="metadata/addresses/address/@lang" sortnr="4" default="de" />
+    <cell col="1" row="1" anchor="NORTHWEST" ref="SAdrType" var="metadata/addresses/address/@type" sortnr="4" default="home" />	  
+    <cell col="2" row="1" anchor="NORTHWEST" ref="Scountry" var="metadata/addresses/address/country" sortnr="4" />
     <cell col="3" row="1" anchor="NORTHWEST" ref="AAddressCountry" />
-    <cell col="2" row="2" anchor="NORTHWEST" ref="SAddressState" var="metadata/addresses/address/state" ordernr="4" />
+    <cell col="2" row="2" anchor="NORTHWEST" ref="SAddressState" var="metadata/addresses/address/state" sortnr="4" />
     <cell col="3" row="2" anchor="NORTHWEST" ref="AAddressState" />
-    <cell col="2" row="3" anchor="NORTHWEST" ref="TFzeile10" var="metadata/addresses/address/zipcode" ordernr="4" />
+    <cell col="2" row="3" anchor="NORTHWEST" ref="TFzeile10" var="metadata/addresses/address/zipcode" sortnr="4" />
     <cell col="3" row="3" anchor="NORTHWEST" ref="AAddressZIP" />
 
-    <cell col="2" row="4" anchor="NORTHWEST" var="metadata/addresses/address/city" ordernr="4">
+    <cell col="2" row="4" anchor="NORTHWEST" var="metadata/addresses/address/city" sortnr="4" >
 		<textfield id="TFCityMandatory"  width="30" maxlength="128"  class="mandatory" >		
 		   <condition id="CCityMandatory" regexp=".+" required="true" >
 				<label i18n="Editor.Validate.City.Emtpy" />
@@ -131,52 +131,52 @@
   </cell>
 
     <cell col="3" row="4" anchor="NORTHWEST" ref="AAddressCity" />
-    <cell col="2" row="5" anchor="NORTHWEST" ref="TFzeile128" var="metadata/addresses/address/street" ordernr="4" />
+    <cell col="2" row="5" anchor="NORTHWEST" ref="TFzeile128" var="metadata/addresses/address/street" sortnr="4" />
     <cell col="3" row="5" anchor="NORTHWEST" ref="AAddressStreet" />
-    <cell col="2" row="6" anchor="NORTHWEST" ref="TFzeile10" var="metadata/addresses/address/number" ordernr="4" />
+    <cell col="2" row="6" anchor="NORTHWEST" ref="TFzeile10" var="metadata/addresses/address/number" sortnr="4" />
     <cell col="3" row="6" anchor="NORTHWEST" ref="AAddressNumber" />
   </panel>
 
 <!-- *** Data for the PHONE ** -->
 
   <panel id="DPhone">
-    <hidden var="metadata/phones/@class" default="MCRMetaLangText" />
-    <hidden var="metadata/phones/@parasearch" default="false" />
-    <hidden var="metadata/phones/@textsearch" default="false" />
-    <hidden var="metadata/phones/@notinherit" default="false" />
-    <hidden var="metadata/phones/@heritable" default="true" />
-    <hidden var="metadata/phones/phone/@inherited" default="0" />
-    <hidden var="metadata/phones/phone/@lang" ordernr="5" default="de" />
-    <cell col="2" row="1" anchor="NORTHWEST" ref="TFzeile128" var="metadata/phones/phone" ordernr="5" />
-    <cell col="3" row="1" anchor="NORTHWEST" ref="Sphone" var="metadata/phones/phone/@type" ordernr="5" />
-    <hidden var="metadata/phones/phone[2]/@inherited" default="0" />
-    <hidden var="metadata/phones/phone[2]/@lang" ordernr="5" default="de" />
-    <cell col="2" row="2" anchor="NORTHWEST" ref="TFzeile128" var="metadata/phones/phone[2]" ordernr="5" />
-    <cell col="3" row="2" anchor="NORTHWEST" ref="Sphone" var="metadata/phones/phone[2]/@type" ordernr="5" />
+    <hidden var="metadata/phones/@class" default="MCRMetaLangText" sortnr="5" />
+    <hidden var="metadata/phones/@parasearch" default="false" sortnr="5" />
+    <hidden var="metadata/phones/@textsearch" default="false" sortnr="5" />
+    <hidden var="metadata/phones/@notinherit" default="false" sortnr="5" />
+    <hidden var="metadata/phones/@heritable" default="true" sortnr="5" />
+    <hidden var="metadata/phones/phone/@inherited" default="0" sortnr="5" />
+    <hidden var="metadata/phones/phone/@lang" sortnr="5"  default="de" />
+    <cell col="2" row="1" anchor="NORTHWEST" ref="TFzeile128" var="metadata/phones/phone" sortnr="5" />
+    <cell col="3" row="1" anchor="NORTHWEST" ref="Sphone" var="metadata/phones/phone/@type" sortnr="5" />
+    <hidden var="metadata/phones/phone[2]/@inherited" default="0" sortnr="5" />
+    <hidden var="metadata/phones/phone[2]/@lang" ordernr="5" default="de" sortnr="5" />
+    <cell col="2" row="2" anchor="NORTHWEST" ref="TFzeile128" var="metadata/phones/phone[2]" sortnr="5"  />
+    <cell col="3" row="2" anchor="NORTHWEST" ref="Sphone" var="metadata/phones/phone[2]/@type" sortnr="5"  />
   </panel>
 
 <!-- *** Data for the Date ** -->
 
   <panel id="DDate">
-    <hidden var="metadata/dates/@class" default="MCRMetaISO8601Date" />
-    <hidden var="metadata/dates/@parasearch" default="true" />
-    <hidden var="metadata/dates/@textsearch" default="false" />
-    <hidden var="metadata/dates/@notinherit" default="false" />
-    <hidden var="metadata/dates/@heritable" default="true" />
-    <hidden var="metadata/dates/date/@inherited" default="0" />
-    <hidden var="metadata/dates/date/@type" default="birth" />
-    <cell col="2" row="1" anchor="WEST" ref="TFzeile10" var="metadata/dates/date" ordernr="6" />
+    <hidden var="metadata/dates/@class" default="MCRMetaISO8601Date" sortnr="6" />
+    <hidden var="metadata/dates/@parasearch" default="true" sortnr="6" />
+    <hidden var="metadata/dates/@textsearch" default="false" sortnr="6" />
+    <hidden var="metadata/dates/@notinherit" default="false" sortnr="6" />
+    <hidden var="metadata/dates/@heritable" default="true" sortnr="6" />
+    <hidden var="metadata/dates/date/@inherited" default="0" sortnr="6" />
+    <hidden var="metadata/dates/date/@type" default="birth" sortnr="6" />
+    <cell col="2" row="1" anchor="WEST" ref="TFzeile10" var="metadata/dates/date" sortnr="6" />
   </panel>
 
   <panel id="DDateM">
-    <hidden var="metadata/dates/@class" default="MCRMetaISO8601Date" />
-    <hidden var="metadata/dates/@parasearch" default="true" />
-    <hidden var="metadata/dates/@textsearch" default="false" />
-    <hidden var="metadata/dates/@notinherit" default="false" />
-    <hidden var="metadata/dates/@heritable" default="true" />
-    <hidden var="metadata/dates/date/@inherited" default="0" />
-    <hidden var="metadata/dates/date/@type" default="birth" />
-    <cell col="2" row="1" anchor="WEST" var="metadata/dates/date" ordernr="6" >
+    <hidden var="metadata/dates/@class" default="MCRMetaISO8601Date" sortnr="6" />
+    <hidden var="metadata/dates/@parasearch" default="true" sortnr="6" />
+    <hidden var="metadata/dates/@textsearch" default="false" sortnr="6" />
+    <hidden var="metadata/dates/@notinherit" default="false" sortnr="6" />
+    <hidden var="metadata/dates/@heritable" default="true" sortnr="6" />
+    <hidden var="metadata/dates/date/@inherited" default="0" sortnr="6" />
+    <hidden var="metadata/dates/date/@type" default="birth" sortnr="6" />
+    <cell col="2" row="1" anchor="WEST" var="metadata/dates/date" sortnr="6" >
       <textfield id="tf.Date"  width="10" maxlength="10"  class="mandatory" >		
       <condition id="cond.Date" regexp="(\d\d\.\d\d\.\d\d\d\d)|(\d\d\d\d\-\d\d\-\d\d)" required="true" >
       		  <label i18n="Editor.Validate.Date.Format" />
@@ -188,62 +188,62 @@
 <!-- *** Data for the PROFESSION ** -->
 
   <panel id="DProfession">
-    <hidden var="metadata/professions/@class" default="MCRMetaLangText" />
-    <hidden var="metadata/professions/@parasearch" default="true" />
-    <hidden var="metadata/professions/@textsearch" default="true" />
-    <hidden var="metadata/professions/@notinherit" default="false" />
-    <hidden var="metadata/professions/@heritable" default="true" />
-    <hidden var="metadata/professions/profession/@inherited" default="0" />
-    <hidden var="metadata/professions/profession/@lang" ordernr="7" default="de" />
-    <cell col="2" row="1" anchor="WEST" ref="TFzeile128" var="metadata/professions/profession" ordernr="7" />
-    <cell col="3" row="1" anchor="NORTHWEST" ref="SProfession" var="metadata/professions/profession/@type" ordernr="7" default="profession" />
+    <hidden var="metadata/professions/@class" default="MCRMetaLangText" sortnr="7" />
+    <hidden var="metadata/professions/@parasearch" default="true" sortnr="7" />
+    <hidden var="metadata/professions/@textsearch" default="true" sortnr="7" />
+    <hidden var="metadata/professions/@notinherit" default="false" sortnr="7" />
+    <hidden var="metadata/professions/@heritable" default="true" sortnr="7" />
+    <hidden var="metadata/professions/profession/@inherited" default="0" sortnr="7" />
+    <hidden var="metadata/professions/profession/@lang" sortnr="7"  default="de" />
+    <cell col="2" row="1" anchor="WEST" ref="TFzeile128" var="metadata/professions/profession" sortnr="7" />
+    <cell col="3" row="1" anchor="NORTHWEST" ref="SProfession" var="metadata/professions/profession/@type" sortnr="7" default="profession" />
   </panel>
 
   <panel id="DProfession_Only">
-    <hidden var="metadata/professions/@class" default="MCRMetaLangText" />
-    <hidden var="metadata/professions/@parasearch" default="true" />
-    <hidden var="metadata/professions/@textsearch" default="true" />
-    <hidden var="metadata/professions/@notinherit" default="false" />
-    <hidden var="metadata/professions/@heritable" default="true" />
-    <hidden var="metadata/professions/profession/@inherited" default="0" />
-    <hidden var="metadata/professions/profession/@lang" ordernr="7" default="de" />
-    <hidden var="metadata/professions/profession/@type" default="profession" />
-    <cell col="2" row="1" anchor="WEST" ref="TFzeile128" var="metadata/professions/profession" ordernr="7" />
+    <hidden var="metadata/professions/@class" default="MCRMetaLangText" sortnr="7" />
+    <hidden var="metadata/professions/@parasearch" default="true" sortnr="7" />
+    <hidden var="metadata/professions/@textsearch" default="true" sortnr="7" />
+    <hidden var="metadata/professions/@notinherit" default="false" sortnr="7" />
+    <hidden var="metadata/professions/@heritable" default="true" sortnr="7" />
+    <hidden var="metadata/professions/profession/@inherited" default="0" sortnr="7" />
+    <hidden var="metadata/professions/profession/@lang" sortnr="7" default="de" />
+    <hidden var="metadata/professions/profession/@type" default="profession" sortnr="7" />
+    <cell col="2" row="1" anchor="WEST" ref="TFzeile128" var="metadata/professions/profession" sortnr="7" />
   </panel>
 
 
 <!-- ** Data for the NATIONAL *** -->
 
-  <list id="CNational" width="300" type="dropdown">
+  <list id="CNational" width="300" type="dropdown" sortnr="9" >
     <item value=""><label i18n="Editor.Common.choose" /></item>
     <include uri="request:content/classifications-to-items.jspx?classid=DocPortal_class_00000001" />
   </list>
 
   <panel id="DNational">
-    <hidden var="metadata/nationals/@class" default="MCRMetaClassification" />
-    <hidden var="metadata/nationals/@parasearch" default="true" />
-    <hidden var="metadata/nationals/@textsearch" default="false" />
-    <hidden var="metadata/nationals/@notinherit" default="false" />
-    <hidden var="metadata/nationals/@heritable" default="true" />
-    <hidden var="metadata/nationals/national/@inherited" default="0" />
-    <hidden var="metadata/nationals/national/@classid" default="DocPortal_class_00000001" />
-    <cell col="1" row="1" anchor="WEST" ref="CNational" var="metadata/nationals/national/@categid" ordernr="9" />
+    <hidden var="metadata/nationals/@class" default="MCRMetaClassification" sortnr="9" />
+    <hidden var="metadata/nationals/@parasearch" default="true" sortnr="9" />
+    <hidden var="metadata/nationals/@textsearch" default="false" sortnr="9" />
+    <hidden var="metadata/nationals/@notinherit" default="false" sortnr="9" />
+    <hidden var="metadata/nationals/@heritable" default="true" sortnr="9" />
+    <hidden var="metadata/nationals/national/@inherited" default="0" sortnr="9" />
+    <hidden var="metadata/nationals/national/@classid" default="DocPortal_class_00000001" sortnr="9" />
+    <cell col="1" row="1" anchor="WEST" ref="CNational" var="metadata/nationals/national/@categid" sortnr="9" />
   </panel>
 
 <!-- ** Data for the URL *** -->
 
   <panel id="DURL">
-    <hidden var="metadata/urls/@class" default="MCRMetaLink" />
-    <hidden var="metadata/urls/@parasearch" default="false" />
-    <hidden var="metadata/urls/@textsearch" default="false" />
-    <hidden var="metadata/urls/@notinherit" default="false" />
-    <hidden var="metadata/urls/@heritable" default="true" />
-    <hidden var="metadata/urls/url/@inherited" default="0" />
-    <hidden var="metadata/urls/url/@type" default="locator" />
+    <hidden var="metadata/urls/@class" default="MCRMetaLink" sortnr="10" />
+    <hidden var="metadata/urls/@parasearch" default="false" sortnr="10" />
+    <hidden var="metadata/urls/@textsearch" default="false" sortnr="10" />
+    <hidden var="metadata/urls/@notinherit" default="false" sortnr="10" />
+    <hidden var="metadata/urls/@heritable" default="true" sortnr="10" />
+    <hidden var="metadata/urls/url/@inherited" default="0" sortnr="10" />
+    <hidden var="metadata/urls/url/@type" default="locator" sortnr="10" />
     <cell col="1" row="1" anchor="NORTHWEST" >
       <space width="80" height="0" />
     </cell>
-    <cell col="2" row="1" anchor="NORTHWEST" ref="TFzeile128" var="metadata/urls/url/@title" ordernr="10" />
+    <cell col="2" row="1" anchor="NORTHWEST" ref="TFzeile128" var="metadata/urls/url/@title" sortnr="10" />
     <cell col="3" row="1" anchor="NORTHWEST" ref="AURLTitle" />
     <cell col="2" row="2" anchor="NORTHWEST" ref="TFzeile128" var="metadata/urls/url/@href" ordernr="10" />
     <cell col="3" row="2" anchor="NORTHWEST" ref="AURLReference" />
@@ -252,14 +252,14 @@
 <!-- ** Data for the EMAIL *** -->
 
   <panel id="DEmail">
-    <hidden var="metadata/emails/@class" default="MCRMetaLangText" />
-    <hidden var="metadata/emails/@parasearch" default="false" />
-    <hidden var="metadata/emails/@textsearch" default="false" />
-    <hidden var="metadata/emails/@notinherit" default="false" />
-    <hidden var="metadata/emails/@heritable" default="true" />
-    <hidden var="metadata/emails/email/@inherited" default="0" />
-    <hidden var="metadata/emails/email/@lang" ordernr="11" default="de" />
-    <cell col="2" row="1" anchor="NORTHWEST" var="metadata/emails/email" ordernr="11" >
+    <hidden var="metadata/emails/@class" default="MCRMetaLangText" sortnr="11" />
+    <hidden var="metadata/emails/@parasearch" default="false" sortnr="11" />
+    <hidden var="metadata/emails/@textsearch" default="false" sortnr="11" />
+    <hidden var="metadata/emails/@notinherit" default="false" sortnr="11" />
+    <hidden var="metadata/emails/@heritable" default="true" sortnr="11" />
+    <hidden var="metadata/emails/email/@inherited" default="0" sortnr="11" />
+    <hidden var="metadata/emails/email/@lang" sortnr="11" default="de" />
+    <cell col="2" row="1" anchor="NORTHWEST" var="metadata/emails/email" sortnr="11" >
 		<textfield id="tf.Email"  width="30" maxlength="128"  class="mandatory" >		
 		   <condition id="cond.DEmail" regexp="\S+@\S+\.\S+" required="true" >
 			  <label i18n="Editor.Validate.Email.Format" />
@@ -271,56 +271,56 @@
 <!-- ** Data for the REFERENCE *** -->
 
   <panel id="DReference">
-    <hidden var="metadata/references/@class" default="MCRMetaLink" />
-    <hidden var="metadata/references/@parasearch" default="false" />
-    <hidden var="metadata/references/@textsearch" default="false" />
-    <hidden var="metadata/references/@notinherit" default="false" />
-    <hidden var="metadata/references/@heritable" default="true" />
-    <hidden var="metadata/references/reference/@inherited" default="0" />
-    <hidden var="metadata/references/reference/@type" default="locator" />
+    <hidden var="metadata/references/@class" default="MCRMetaLink" sortnr="12" />
+    <hidden var="metadata/references/@parasearch" default="false" sortnr="12" />
+    <hidden var="metadata/references/@textsearch" default="false" sortnr="12" />
+    <hidden var="metadata/references/@notinherit" default="false" sortnr="12" />
+    <hidden var="metadata/references/@heritable" default="true" sortnr="12" />
+    <hidden var="metadata/references/reference/@inherited" default="0" sortnr="12" />
+    <hidden var="metadata/references/reference/@type" default="locator" sortnr="12" />
     <cell col="1" row="1" anchor="NORTHWEST" >
       <space width="80" height="0" />
     </cell>
-    <cell col="2" row="1" anchor="NORTHWEST" ref="TFzeile128" var="metadata/references/reference/@title" ordernr="12" />
+    <cell col="2" row="1" anchor="NORTHWEST" ref="TFzeile128" var="metadata/references/reference/@title" sortnr="12" />
     <cell col="3" row="1" anchor="NORTHWEST" ref="AURLTitle" />
-    <cell col="2" row="2" anchor="NORTHWEST" ref="TFzeile128" var="metadata/references/reference/@href" ordernr="12" />
+    <cell col="2" row="2" anchor="NORTHWEST" ref="TFzeile128" var="metadata/references/reference/@href" sortnr="12" />
     <cell col="3" row="2" anchor="NORTHWEST" ref="AURLReference" />
   </panel>
 
 <!-- ** Data for the NOTE *** -->
 
   <panel id="DNote">
-    <hidden var="metadata/notes/@class" default="MCRMetaLangText" />
-    <hidden var="metadata/notes/@parasearch" default="false" />
-    <hidden var="metadata/notes/@textsearch" default="false" />
-    <hidden var="metadata/notes/@notinherit" default="false" />
-    <hidden var="metadata/notes/@heritable" default="true" />
-    <hidden var="metadata/notes/note/@inherited" default="0" />
-    <hidden var="metadata/notes/note/@lang" ordernr="13" default="de" />
-    <cell col="2" row="1" anchor="NORTHWEST" ref="TFarea4096" var="metadata/notes/note" ordernr="13" default=""/>
+    <hidden var="metadata/notes/@class" default="MCRMetaLangText" sortnr="13" />
+    <hidden var="metadata/notes/@parasearch" default="false" sortnr="13" />
+    <hidden var="metadata/notes/@textsearch" default="false" sortnr="13" />
+    <hidden var="metadata/notes/@notinherit" default="false" sortnr="13" />
+    <hidden var="metadata/notes/@heritable" default="true" sortnr="13" />
+    <hidden var="metadata/notes/note/@inherited" default="0" sortnr="13" />
+    <hidden var="metadata/notes/note/@lang" ordernr="13" default="de" sortnr="13" />
+    <cell col="2" row="1" anchor="NORTHWEST" ref="TFarea4096" var="metadata/notes/note" sortnr="13" default=""/>
   </panel>
 
 <!-- ** Data for the PUBLICATION *** -->
 
   <panel id="DPublication">
-    <hidden var="metadata/publications/@class" default="MCRMetaLangText" />
-    <hidden var="metadata/publications/@parasearch" default="false" />
-    <hidden var="metadata/publications/@textsearch" default="false" />
-    <hidden var="metadata/publications/@notinherit" default="false" />
-    <hidden var="metadata/publications/@heritable" default="true" />
-    <hidden var="metadata/publications/publication/@inherited" default="0" />
-    <cell col="1" row="1" anchor="NORTHWEST" ref="Slang" var="metadata/publications/publication/@lang" ordernr="14" default="de" />
-    <cell col="2" row="1" anchor="NORTHWEST" ref="TFarea4096" var="metadata/publications/publication" ordernr="14" default=""/>
+    <hidden var="metadata/publications/@class" default="MCRMetaLangText" sortnr="14" />
+    <hidden var="metadata/publications/@parasearch" default="false" sortnr="14" />
+    <hidden var="metadata/publications/@textsearch" default="false" sortnr="14" />
+    <hidden var="metadata/publications/@notinherit" default="false" sortnr="14" />
+    <hidden var="metadata/publications/@heritable" default="true" sortnr="14" />
+    <hidden var="metadata/publications/publication/@inherited" default="0" sortnr="14" />
+    <cell col="1" row="1" anchor="NORTHWEST" ref="Slang" var="metadata/publications/publication/@lang" sortnr="14" default="de" />
+    <cell col="2" row="1" anchor="NORTHWEST" ref="TFarea4096" var="metadata/publications/publication" sortnr="14" default=""/>
     <hidden var="metadata/publications/publication[2]/@inherited" default="0" />
-    <cell col="1" row="2" anchor="NORTHWEST" ref="Slang" var="metadata/publications/publication[2]/@lang" ordernr="14" default="de" />
-    <cell col="2" row="2" anchor="NORTHWEST" ref="TFarea4096" var="metadata/publications/publication[2]" ordernr="14" default=""/>
+    <cell col="1" row="2" anchor="NORTHWEST" ref="Slang" var="metadata/publications/publication[2]/@lang" sortnr="14" default="de" />
+    <cell col="2" row="2" anchor="NORTHWEST" ref="TFarea4096" var="metadata/publications/publication[2]" sortnr="14" default=""/>
   </panel>
 
   <panel id="DUserid">
-    <hidden var="metadata/userids/@class" default="MCRMetaLangText" />
-    <hidden var="metadata/userids/@parasearch" default="true" />
-    <hidden var="metadata/userids/@textsearch" default="false" />
-    <hidden var="metadata/userids/userid" ordernr="15" default=""/>
+    <hidden var="metadata/userids/@class" default="MCRMetaLangText" sortnr="15" />
+    <hidden var="metadata/userids/@parasearch" default="true" sortnr="15" />
+    <hidden var="metadata/userids/@textsearch" default="false" sortnr="15" />
+    <hidden var="metadata/userids/userid" sortnr="15" default=""/>
   </panel>
 
 <!-- **** Submitbutton *** -->
