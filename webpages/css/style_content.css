@@ -81,7 +81,7 @@
 	}
 /*IE Fix to have content inside the table: stupid browser*/
 #contentWrapper {
-    width: 90%;
+    padding:15px;
     margin: 0px auto;
 }
 
@@ -361,7 +361,7 @@ div.submitButton{
 /* Editor forms (see editor.xsl and org.mycore.frontend.editor.*       */
 /* =================================================================== */
 
-table.editor                   { background-color:#CAD9E0; border:1px solid #7791ac; }
+table.editor                   { padding:10px; background-color:#CAD9E0; border:1px solid #7791ac; }
 td.editorHeadline              { color:#FFFFFF; background-color:#15516E; padding:3px; }
 td.editorValidationMessage     { color:#FFFFFF; background-color:#FF0000; padding:3px; }
 td.editorCellWithPanelLinesOff { }
