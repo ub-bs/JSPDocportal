@@ -8,8 +8,8 @@
 <fmt:setLocale value="${requestScope.lang}" />
 <fmt:setBundle basename='messages'/>
 
-<div class="headline"><fmt:message key="Search" /></div>
-<p><fmt:message key="Webpage.intro.search.Possibilities" /> ${sessionID }</p>
+<div class="headline"><fmt:message key="Nav.Search" /></div>
+<p><fmt:message key="Webpage.intro.search.Possibilities" /> </p>
 <center>
 	<c:url var="url" value="${WebApplicationBaseURL}editor/searchmasks/SearchMask_AllMetadataFields.xml">
 	    <c:param name="XSL.editor.source.new" value="true" />
