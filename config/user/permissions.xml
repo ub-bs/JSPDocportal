@@ -120,6 +120,7 @@
    <condition format="xml">
     <boolean operator="or">
      <condition value="admingroup" operator="=" field="group"/>
+     <condition value="editorgroup1" operator="=" field="group"/>
      <condition value="authorgroup1" operator="=" field="group"/>
      <condition value="authorgroup2" operator="=" field="group"/>
     </boolean>
@@ -129,6 +130,17 @@
    <condition format="xml">
     <boolean operator="or">
      <condition value="admingroup" operator="=" field="group"/>
+     <condition value="editorgroup1" operator="=" field="group"/>
+     <condition value="authorgroup1" operator="=" field="group"/>
+     <condition value="authorgroup2" operator="=" field="group"/>
+    </boolean>
+   </condition>
+  </mcrpermission>
+  <mcrpermission name="create-disshab" description="Erzeugen einer Dissertation">
+   <condition format="xml">
+    <boolean operator="or">
+     <condition value="admingroup" operator="=" field="group"/>
+     <condition value="editorgroup1" operator="=" field="group"/>
      <condition value="authorgroup1" operator="=" field="group"/>
      <condition value="authorgroup2" operator="=" field="group"/>
     </boolean>
@@ -138,6 +150,7 @@
    <condition format="xml">
     <boolean operator="or">
      <condition value="admingroup" operator="=" field="group"/>
+     <condition value="editorgroup1" operator="=" field="group"/>
      <condition value="authorgroup1" operator="=" field="group"/>
      <condition value="authorgroup2" operator="=" field="group"/>
     </boolean>
