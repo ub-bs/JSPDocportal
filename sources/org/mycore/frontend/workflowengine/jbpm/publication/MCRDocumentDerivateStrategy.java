@@ -91,14 +91,11 @@ public class MCRDocumentDerivateStrategy extends MCRDefaultDerivateStrategy {
 			throw new MCRException(msgErr);
 		}
 		String attachedDerivates = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES);			
-		
-		if(attachedDerivates == null || attachedDerivates.equals("")){
-			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES, derID);
-		} else if ( attachedDerivates.indexOf(derID) >= 0  ){
-			//its allright in the list, because is the same derivate with a second upload file
-		} else{
-			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES, attachedDerivates + "," + derID);
+				
+		if ( derID.length() >0 && attachedDerivates.indexOf(derID)>0  ) {
+			wfp.setStringVariable("attachedDerivates", attachedDerivates + "," + derID);
 		}
+
 		
 		String fcnt = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_FILECNT);
 		try {

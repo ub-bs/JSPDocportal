@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRUtils;
 import org.mycore.datamodel.metadata.MCRDerivate;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
 import org.mycore.frontend.workflowengine.strategies.MCRDefaultDerivateStrategy;
 
@@ -135,10 +136,9 @@ public class MCRDisshabDerivateStrategy extends MCRDefaultDerivateStrategy {
 				wfp.setStringVariable("containsZIP", derID);
 			}
 		}
-		String attachedDerivates = wfp.getStringVariable("attachedDerivates");
-		if(attachedDerivates == null || attachedDerivates.equals("")){
-			wfp.setStringVariable("attachedDerivates", derID);
-		}else{
+		String attachedDerivates = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES);			
+		
+		if ( derID.length() >0 && attachedDerivates.indexOf(derID)>0  ) {
 			wfp.setStringVariable("attachedDerivates", attachedDerivates + "," + derID);
 		}
 	}
@@ -146,8 +146,6 @@ public class MCRDisshabDerivateStrategy extends MCRDefaultDerivateStrategy {
 	public boolean deleteDerivateObject(MCRWorkflowProcess wfp, String saveDirectory, String backupDirectory, String metadataObjectID, 
 			String derivateObjectID, boolean mustWorkflowVarBeUpdated) {
 
-//			HashSet attachedDerivates = new HashSet(Arrays.asList(wfp.getStringVariable("attachedDerivates").split(",")));
-//			attachedDerivates.remove(derivateObjectID);
 		try{
 			if (backupDerivateObject(saveDirectory, backupDirectory, metadataObjectID, derivateObjectID, wfp.getProcessInstanceID())){
 				if(super.deleteDerivateObject(wfp, saveDirectory, backupDirectory, metadataObjectID, derivateObjectID, mustWorkflowVarBeUpdated) && mustWorkflowVarBeUpdated){

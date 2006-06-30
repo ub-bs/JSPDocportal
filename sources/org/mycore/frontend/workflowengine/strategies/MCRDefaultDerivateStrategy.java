@@ -31,7 +31,8 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 			List attachedDerivates = Arrays.asList(sderids.split(","));
 			for (Iterator it = attachedDerivates.iterator(); it.hasNext();) {
 				String derivateID = (String) it.next();
-				deleteDerivateObject(wfp,saveDirectory, backupDirectory, null, derivateID, false);
+				if ( derivateID != null && derivateID.length()> 0)
+					deleteDerivateObject(wfp,saveDirectory, backupDirectory, null, derivateID, false);
 			}
 			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES,"");
 			return true;
