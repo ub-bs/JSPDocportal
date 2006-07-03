@@ -23,7 +23,7 @@ public class MCRWorkflowConstants {
 	public static final String WFM_VAR_WFOBJECT_TITLE= "wfo-title";
 	public static final String WFM_VAR_METADATA_PUBLICATIONTYPE ="publicationType";
 	public static final String WFM_VAR_CREATED ="ProcessCreatedTimestamp";
-	public static final String WFM_VAR_FILECNT ="filecnt";
+	public static final String WFM_VAR_FILECNT ="fileCnt";
 	
 	public String getAuthorIdWorkflowVariable(){
 		return WFM_VAR_AUTHOR_IDS;
