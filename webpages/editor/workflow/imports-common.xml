@@ -422,15 +422,15 @@
 	</text>
 
 	<text id="ADateSubmitted">
-		<span class="editorhints"><label i18n="Editor.Label.DateSubmitted" /></span>
+		<label css-style="editorHint" i18n="Editor.Label.DateSubmitted" />
 	</text>
 
 	<text id="ADateAccepted">
-		<span class="editorhints"><label i18n="Editor.Label.DateAccepted" /></span>
+		<label css-style="editorHint" i18n="Editor.Label.DateAccepted" />
 	</text>
 
 	<text id="ADateFormat">
-		<span class="editorhints"><label i18n="Editor.Label.DateFormat" /></span>
+		<label css-style="editorHint" i18n="Editor.Label.DateFormat" />
 	</text>
 
 	<helpPopup id="HDate" >
@@ -554,11 +554,11 @@
 		</text> -->
 
 	<text id="AKeywordsClassifications">
-		<span class="editorhints"><label i18n="Editor.Label.KeywordsClassifications" /></span>
+		<label css-style="editorHint" i18n="Editor.Label.KeywordsClassifications" />
 	</text>
 
 	<text id="AKeywordsClassificationsCode">
-		<span class="editorhints"><label i18n="Editor.Label.KeywordsClassificationsCode" /></span>
+		<label css-style="editorHint" i18n="Editor.Label.KeywordsClassificationsCode" />
 	</text>
 
 	<list id="SKeywordsClassifications" width="450px" type="dropdown">
@@ -717,25 +717,25 @@
 	</text>
 
 	<text id="APNameFirstName">
-		<span class="editorhints"><label i18n="Editor.Label.PNameFirstname" /></span>
+		<label css-style="editorHint" i18n="Editor.Label.PNameFirstname" />
 	</text>
 	<text id="APNameSurName">
-		<span class="editorhints"><label i18n="Editor.Label.PNameSurname" /></span>
+		<label css-style="editorHint" i18n="Editor.Label.PNameSurname" />
 	</text>
 	<text id="APNameFirstNameP">
-		<span class="editorhints"><label i18n="Editor.Label.PNameFirstnameM" /></span>
+		<label css-style="editorHint" i18n="Editor.Label.PNameFirstnameM" />
 	</text>
 	<text id="APNameSurNameP">
-		<span class="editorhints"><label i18n="Editor.Label.PNameSurnameM" /></span>
+		<label css-style="editorHint" i18n="Editor.Label.PNameSurnameM" />
 	</text>
 	<text id="APNameAcademic">
-		<span class="editorhints"><label i18n="Editor.Label.PNameAcademic" /></span>
+		<label css-style="editorHint" i18n="Editor.Label.PNameAcademic" />
 	</text>
 	<text id="APNamePrefix">
-		<span class="editorhints"><label i18n="Editor.Label.PNamePrefix" /></span>
+		<label css-style="editorHint" i18n="Editor.Label.PNamePrefix" />
 	</text>
 	<text id="APNamePeerage">
-		<span class="editorhints"><label i18n="Editor.Label.PNamePeerage" /></span>
+		<label css-style="editorHint" i18n="Editor.Label.PNamePeerage" />
 	</text>
 
 	<helpPopup id="HPName" >
@@ -979,10 +979,10 @@
 	</text>
 
 	<text id="AURLTitle">
-		<label i18n="Editor.Label.URLTitle" />
+		<label css-style="editorHint" i18n="Editor.Label.URLTitle" />
 	</text>
 	<text id="AURLReference">
-		<label i18n="Editor.Label.URLLink" />
+		<label css-style="editorHint" i18n="Editor.Label.URLLink" />
 	</text>
 
 	<helpPopup id="HURL" >

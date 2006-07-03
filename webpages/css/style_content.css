@@ -371,12 +371,12 @@ td.editorCellWithCompLinesOn   { padding:3px; border-left:1px solid #7791ac }
 td.editorCellValidationFailed  { padding:3px; border:2px solid #FF0000 }
 table.editorPanel              { }
 td.editorRepeaterButton        { padding-right:3px; padding-bottom:3px }
-.editorText                    { font-size:12px; font-family:Verdana,Arial,Helvetica,SansSerif; line-height:16px }
+.editorText                    { font-size:12px; font-family:Verdana,Arial,Helvetica,SansSerif; line-height:24px }
 td.editorHLine                 { border-top:1px solid #7791ac; border-left:1px solid #7791ac }
 .editorButton                  { color:#ffffff; background-color:#7791ac; 
                                  font-weight:bold; font-family:Verdana,Arial,Helvetica,SansSerif; 
                                  font-size:10px; letter-spacing:1px }
-
+.editorHint					   { font-size:11px; font-family:Verdana,Arial,Helvetica,SansSerif; line-height:24px}
 /* =================================================================== */
 /* Help Popup (button + messagebox on mouse over)                      */
 /* =================================================================== */
@@ -415,6 +415,7 @@ div.helppopup a span {display:none;
 
 div.helppopup a:hover span {
 	position:fixed; bottom:20px; left:40px; z-index:30;
+	text-align:left;
 	display:block;
 	color:black;
 	width:300px;
