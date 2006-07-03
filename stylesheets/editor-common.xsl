@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.1 $ $Date: 2006-07-03 09:20:02 $ -->
+<!-- $Revision: 1.2 $ $Date: 2006-07-03 13:45:38 $ -->
 <!-- ============================================== --> 
 
 <xsl:stylesheet 
@@ -27,12 +27,16 @@
 <xsl:template name="output.label">
   <xsl:param name="usefont" select="'no'" />
 
+  <!--  new outer choose-block for "specialities"  -->
   <xsl:choose>
   
     <!--  If there is a i18n key not in  label (like items from listbox), output the translation from messages file without css stylesheet -->
     <xsl:when test="@i18n and name() != 'label' ">
       <xsl:value-of select="i18n:translate(@i18n)" disable-output-escaping="yes"/>    
     </xsl:when>
+    
+    <!--  If there is a label with i18n attribute and css-style attribute 
+          wrap the i18n-translation into a <span>-Element and use the defined CSS style-->
     <xsl:when test="label[string-length(@i18n)!=0 and string-length(@css-style)!=0 ]">
         <xsl:text disable-output-escaping="yes">&lt;span class=&quot;</xsl:text>
 		<xsl:value-of select="label/@css-style" />
