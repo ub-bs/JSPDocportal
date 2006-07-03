@@ -23,7 +23,7 @@
 
 
 <c:choose>
-<c:when test="${fn:contains(status,'errorUserGuest')}">
+<c:when test="${fn:contains(status,'errorPermission')}">
 <div class="headline"><fmt:message key="Webpage.intro.xmetadiss.Subtitle1" /></div>
 	<p><fmt:message key="WF.xmetadiss.errorUserGuest" /></p>
 	<p><fmt:message key="WF.xmetadiss.errorUserGuest2" /></p>

@@ -37,7 +37,7 @@
 			<c:param name="jbpmVariableNames" value="/publication/Type"	 />
 			<c:param name="XSL.editor.source.new" value="true" />
 			<c:param name="XSL.editor.cancel.url" value="/nav?path=~publication" />
-		    <c:param name="XSL.editor.session.id" value="${sessionid}" />
+		    <c:param name="MCRSessionID" value="${sessionid}" />
 			<c:param name="lang" value="${requestScope.lang}" />
 		</c:url>
 		<c:import url="${url}" />

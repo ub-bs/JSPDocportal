@@ -5,13 +5,17 @@
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
 <fmt:setLocale value="${requestScope.lang}" />
 <fmt:setBundle basename='messages'/>
+
 <mcr:getWorkflowEngineVariable pid="${requestScope.pid}" var="authorID" workflowVar="${applicationScope.constants.authorIdWorkflowVariable}" /> 
 <mcr:getWorkflowEngineVariable pid="${requestScope.pid}" var="urn" workflowVar="${applicationScope.constants.reservatedUrnWorkflowVariable}" /> 
+
+
 <mcr:receiveMcrObjAsJdom varDom="authorobject" mcrid="${authorID}" />
 
 <div class="headline">
    <fmt:message key="WF.xmetadiss.begin" />
 </div>
+<c:out value="${applicationScope.constants}"></c:out>
 
 <table cellspacing="3" cellpadding="3" >
 <c:if test="${!empty(authorobject)}">
@@ -20,51 +24,36 @@
       <td class="metaname"><fmt:message key="WF.xmetadiss.Author" /> </td>
       <td class="metavalue">  
          <x:out select="./metadata/names/name/fullname" escapeXml="false" />
-      </td>
-   </tr>  
-   <tr valign="top" >
-      <td class="metaname"><fmt:message key="WF.xmetadiss.Author.ID" /> 
-      <%-- LINK AUF WORKFLOW DER AUTOREN --%>
+         (<x:out select="./@ID" />)
       </td>
       <td class="metavalue">  
-         <x:out select="./@ID" />
-         <x:set var="mcrid" select="string(./@ID)" />
-         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-   <c:if test="${!(fn:contains(from,'workflow')) && !fn:contains(style,'user')}" > 
-     <mcr:checkAccess var="modifyAllowed" permission="writedb" key="${mcrid}" />
-     <mcr:isObjectNotLocked var="bhasAccess" objectid="${mcrid}" />
-      <c:if test="${modifyAllowed}">
-        <c:choose>
-         <c:when test="${bhasAccess}"> 
-	         <!--  Editbutton -->
-		 <%--         <form method="get" action="${WebApplicationBaseURL}StartEdit" class="resort">                 
-	            <input name="page" value="nav?path=~workflowEditor-author"  type="hidden">                                       
-	            <input name="mcrid" value="${mcrid}" type="hidden"/>
-					<input title="<fmt:message key="WF.common.object.EditObject" />" border="0" src="${WebApplicationBaseURL}images/workflow1.gif" type="image"  class="imagebutton" />
-	         </form>  --%>
-	         <a href="${WebApplicationBaseURL}StartEdit?page=nav?path=~workflowEditor-author&mcrid=${mcrid}"><fmt:message key="WF.common.object.EditObjectAuthor" /></a>
-         </c:when>
-         <c:otherwise>
-         <%--   <img title="<fmt:message key="WF.common.object.EditObjectIsLocked" />" border="0" src="${WebApplicationBaseURL}images/workflow_locked.gif" /> --%>
-         (<fmt:message key="WF.common.object.EditObjectIsLockedAuthor"/>)
-         </c:otherwise>
-        </c:choose>         
-      </c:if>      
-   </c:if>
-	</td>
-   </tr>  
-   <tr valign="top">
-        <td class="metaname"><fmt:message key="WF.xmetadiss.URN" /> </td>
-        <td class="metavalue">            
-         <x:set var="mcrid" select="string(./@ID)" />
-         <b><c:out value="${urn}" /></b>
-         <br/>
-         <br/>
-         <i><fmt:message key="WF.xmetadiss.URN.Hinweis" /></i>
+	     <mcr:checkAccess var="modifyAllowed" permission="writedb" key="${authorID}" />
+	     <mcr:isObjectNotLocked var="bhasAccess" objectid="${authorID}" />
+	      <%-- LINK AUF WORKFLOW DER AUTOREN --%>
+	      <c:if test="${modifyAllowed}">
+	        <c:choose>
+	         <c:when test="${bhasAccess}"> 
+		         <a href="${WebApplicationBaseURL}StartEdit?page=nav?path=~workflowEditor-author&mcrid=${authorID}"><fmt:message key="WF.common.object.EditObjectAuthor" /></a>
+	         </c:when>
+	         <c:otherwise>
+	         <%--   <img title="<fmt:message key="WF.common.object.EditObjectIsLocked" />" border="0" src="${WebApplicationBaseURL}images/workflow_locked.gif" /> --%>
+	         (<fmt:message key="WF.common.object.EditObjectIsLockedAuthor"/>)
+	         </c:otherwise>
+	        </c:choose>         
+	      </c:if>      
       </td>
-   </tr>     
+   </tr>  
  </x:forEach>
 </c:if>
+   </tr>  
+		<c:if test="${!empty(urn)}">
+		   <tr valign="top">
+		        <td class="metaname"><fmt:message key="WF.xmetadiss.URN" /> </td>
+		        <td class="metavalue"><b><c:out value="${urn}" /></b> 
+		         <br/> <small><i><fmt:message key="WF.publication.URN.Hinweis" /></i></small>
+		      </td>
+		   </tr>     
+		</c:if>
    <tr>
       <td colspan="2">
          <img title="" alt="" src="images/greenArrow.gif">

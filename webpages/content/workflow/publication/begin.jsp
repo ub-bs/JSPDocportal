@@ -23,11 +23,10 @@
 	transition="go2getPublicationType"	 scope="request" />
 	
 <c:choose>
-<c:when test="${fn:contains(status,'errorUserGuest')}">
+<c:when test="${fn:contains(status,'errorPermission')}">
   <div class="headline"><fmt:message key="Webpage.intro.publications.Subtitle1" /></div>
 	<p><fmt:message key="WF.publication.errorUserGuest" /></p>
 	<p><fmt:message key="WF.publication.errorUserGuest2" /></p>
-
 	<p><fmt:message key="Webpage.admin.DocumentManagement.FetchLogin" /></p>
 </c:when>
 <c:when test="${fn:contains(status,'errorWFM')}">
