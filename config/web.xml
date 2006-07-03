@@ -7,6 +7,9 @@
     <listener>
        <listener-class>org.mycore.frontend.jsp.ContextListener</listener-class>
     </listener>
+    <listener>
+       <listener-class>org.mycore.common.events.MCRServletContextListener</listener-class>
+    </listener>
     
  <!-- 
 	<filter>
