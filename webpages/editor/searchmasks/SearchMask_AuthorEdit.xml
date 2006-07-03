@@ -26,31 +26,15 @@
     <cell row="1" col="1" anchor="WEST">
       <text>
           <label xml:lang="de">Nachname oder ID</label>
-            <label xml:lang="en">surname or ID</label>
+          <label xml:lang="en">surname or ID</label>
       </text>
     </cell>
     <cell col="2" row="1" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
-     
-      <!-- <cell col="3" row="1" anchor="WEST" var="conditions/boolean/condition/@field">
-           <list type="dropdown" default="name" width="110px">
-                <item value="name" var="">
-                  <label xml:lang="de">Nachname</label>
-                  <label xml:lang="en">last name</label>
-                </item>
-                <item value="id">
-                  <label xml:lang="de">ID</label>
-                  <label xml:lang="en">ID</label>
-                </item>
-              </list>
-    	</cell> -->
     <cell col="4" row="1" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
-<!-- 	<cell col="5" row="1" anchor="WEST" 
-	      var="conditions/boolean/condition/@operator" ref="list.operators.text" /> 
-	      -->
     <cell col="6" row="1" anchor="WEST" var="conditions/boolean/condition/@value">
     	<textfield width="40" />
     </cell>
