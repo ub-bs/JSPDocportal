@@ -56,6 +56,12 @@ public class MCRDisshabDerivateStrategy extends MCRDefaultDerivateStrategy {
 			}
 			fname.replace(' ', '_');
 			ffname.add(fname);
+			// IE Explorer Bug, the name includes the whole path
+			if (fname.indexOf("/") >0)
+				fname = fname.substring(fname.lastIndexOf("/")+1);
+			if (fname.indexOf("\\") >0 )
+				fname = fname.substring(fname.lastIndexOf("\\")+1);
+
 			String fileextension = null;
 			mat = fileextensionPattern.matcher(fname);
 			while(mat.find()) {

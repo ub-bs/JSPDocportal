@@ -136,6 +136,12 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 				fname = mat.group(1);
 			}
 			fname.replace(' ', '_');
+			// IE Explorer Bug, the name includes the whole path
+			if (fname.indexOf("/") >0)
+				fname = fname.substring(fname.lastIndexOf("/")+1);
+			if (fname.indexOf("\\") >0 )
+				fname = fname.substring(fname.lastIndexOf("\\")+1);
+
 			ffname.add(fname);
 			try{
 				File fout = new File(dirname, fname);

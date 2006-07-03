@@ -43,6 +43,12 @@ public class MCRDocumentDerivateStrategy extends MCRDefaultDerivateStrategy {
 		for (int i = 0; i < files.size(); i++) {
 			FileItem item = (FileItem) (files.get(i));
 			String fname = item.getName().trim();
+			// IE Explorer Bug, the name includes the whole path
+			if (fname.indexOf("/") >0)
+				fname = fname.substring(fname.lastIndexOf("/")+1);
+			if (fname.indexOf("\\") >0 )
+				fname = fname.substring(fname.lastIndexOf("\\")+1);
+					
 			try{
 				File fout = new File(dirname, fname);
 				fouts = new FileOutputStream(fout);
