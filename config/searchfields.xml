@@ -38,7 +38,7 @@
     <field name="rights"        type="text"       source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/rights/right" value="text()" />
     <field name="relation"      type="text"       source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/relations/relation" value="text()" />
     <field name="isbn"          type="identifier" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/isbns/isbn" value="text()" />
-    <field name="date"          type="date"       source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/dates/date" value="ext:normalizeDate(string(normalize-space(text())),string(@xml:lang))" />
+    <field name="date"          type="date"       source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/dates/date" value="ext:normalizeDate(string(normalize-space(text())))" />
     <field name="identifier"    type="identifier" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/identifiers/identifier" value="text()" />
 
     <!-- Search in author or institution metadata -->
