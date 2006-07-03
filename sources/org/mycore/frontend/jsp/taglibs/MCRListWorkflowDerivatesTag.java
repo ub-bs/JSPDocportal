@@ -83,8 +83,10 @@ public class MCRListWorkflowDerivatesTag extends MCRSimpleTagSupport {
 			if(derivates != null && !derivates.equals("")){
 				String[] arDerivates = derivates.split(",");
 				for (int i = 0; i < arDerivates.length; i++) {
-				Element elDerivate = derStrategy.getDerivateData(derivateDirectory, docID, arDerivates[i]);
-				elDerivates.addContent(elDerivate);
+					if ( arDerivates[i].trim().length()>0){
+						Element elDerivate = derStrategy.getDerivateData(derivateDirectory, docID, arDerivates[i]);
+						elDerivates.addContent(elDerivate);
+					}
 				}
 			}
 			jspContext.setAttribute(varDom, 
