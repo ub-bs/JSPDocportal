@@ -133,7 +133,7 @@
     </element>
     <!-- 30 - ISBN -->
     <element name="isbns" minOccurs='0' maxOccurs='1' parasearch="true" textsearch="false">
-      <mcrmetaisbn name="isbn" class="MCRMetaISBN" minOccurs='1' maxOccurs='unbounded' length="32" />
+      <MCRMetaLangText name="isbn" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="256" />
     </element>
     <!-- 31 - NBN -->
     <element name="nbns" minOccurs='0' maxOccurs='1' parasearch="true" textsearch="false">
