@@ -78,20 +78,20 @@
             <refitem name="~documentmanagement" label="" />
             <navitem name="author" label="WF.author" href="content/workflow/author/workflow.jsp" >
               <refitem name="~author" label="" />
-              <navitem name="author-begin" label="WF.author.begin" href="content/workflow/author/begin.jsp" hidden="true" >
-                <refitem name="~author-begin" label="" />
+              <navitem name="authorbegin" label="WF.author.begin" href="content/workflow/author/begin.jsp" hidden="true" >
+                <refitem name="~authorbegin" label="" />
               </navitem>
-              <navitem name="author-info" label="WF.author.info" href="content/workflow/author/information.jsp" hidden="true" >
-                <refitem name="~author-info" label="" />
+              <navitem name="authorinfo" label="WF.author.info" href="content/workflow/author/information.jsp" hidden="true" >
+                <refitem name="~authorinfo" label="" />
               </navitem>
 	        </navitem>
             <navitem name="xmetadiss" label="WF.xmetadiss" href="content/workflow/xmetadiss/workflow.jsp" >
               <refitem name="~xmetadiss" label="" />
-              <navitem name="xmetadiss-begin" label="WF.xmetadiss.begin" href="content/workflow/xmetadiss/begin.jsp" hidden="true" >
+              <navitem name="xmetadissbegin" label="WF.xmetadiss.begin" href="content/workflow/xmetadiss/begin.jsp" hidden="true" >
                 <refitem name="~xmetadissbegin" label="" />
               </navitem>
-              <navitem name="xmetadiss-info" label="WF.xmetadiss.info" href="content/workflow/xmetadiss/information.jsp" hidden="true" >
-                <refitem name="~xmetadiss-info" label="" />
+              <navitem name="xmetadissinfo" label="WF.xmetadiss.info" href="content/workflow/xmetadiss/information.jsp" hidden="true" >
+                <refitem name="~xmetadissinfo" label="" />
               </navitem>
               <navitem name="workflow-fileupload" label="Nav.WorkflowFileupload" href="content/fileupload.jsp" hidden="true" >
                 <refitem name="~workflow-fileupload" label="" />
@@ -99,11 +99,11 @@
             </navitem>
             <navitem name="publication" label="WF.publication" href="content/workflow/publication/workflow.jsp" >
               <refitem name="~publication" label="" />
-              <navitem name="publication-begin" label="WF.publication.begin" href="content/workflow/publication/begin.jsp" hidden="true" >
+              <navitem name="publicationbegin" label="WF.publication.begin" href="content/workflow/publication/begin.jsp" hidden="true" >
                 <refitem name="~publicationbegin" label="" />
               </navitem>
-              <navitem name="publication-info" label="WF.publication.info" href="content/workflow/publication/information.jsp" hidden="true" >
-                <refitem name="~publication-info" label="" />
+              <navitem name="publicationinfo" label="WF.publication.info" href="content/workflow/publication/information.jsp" hidden="true" >
+                <refitem name="~publicationinfo" label="" />
               </navitem>
               <navitem name="workflow-fileupload" label="Nav.WorfklowFileUpload" href="content/fileupload.jsp" hidden="true" >
                 <refitem name="~workflow-fileupload" label="" />

@@ -17,6 +17,9 @@
     
     <field name="type"          type="identifier" source="objectCategory" xpath="/mycoreobject/metadata/types/type" value="@ID" />
     <field name="format"        type="identifier" source="objectCategory" xpath="/mycoreobject/metadata/formats/format" value="@ID" />
+    <field name="origin"        type="identifier" source="objectCategory" xpath="/mycoreobject/metadata/origins/origin" value="@ID" />
+    <field name="subject"       type="identifier" source="objectCategory" xpath="/mycoreobject/metadata/subjects/subject" value="@ID" />
+    <field name="language"      type="identifier" source="objectCategory" xpath="/mycoreobject/metadata/languages/language" value="@ID" />
 
     <!-- Search in document metadata -->    
     <field name="title"         type="text"       source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/titles/title" value="text()" />
@@ -28,9 +31,6 @@
     <field name="publisherID"   type="identifier" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/publisherlinks/publisherlink" value="@xlink:href" />
     <field name="contributor"   type="name"       source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/contributors/contributor" value="text()" />
     <field name="contributorID" type="identifier" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/contributorlinks/contributorlink" value="@xlink:href" />
-    <field name="origin"        type="identifier" source="objectCategory" objects="document disshab" xpath="/mycoreobject/metadata/origins/origin" value="@ID" />
-    <field name="subject"       type="identifier" source="objectCategory" objects="document disshab" xpath="/mycoreobject/metadata/subjects/subject" value="@ID" />
-    <field name="language"      type="identifier" source="objectCategory" objects="document disshab" xpath="/mycoreobject/metadata/languages/language" value="@ID" />
     <field name="keywords"      type="text"       source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/keywords/keyword" value="text()" />
     <field name="description"   type="text"       source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/descriptions/description" value="text()" />
     <field name="source"        type="text"       source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/sources/source" value="text()" />
@@ -46,12 +46,13 @@
     <field name="surname"       type="name"       source="objectMetadata" objects="author" xpath="/mycoreobject/metadata/names/name/surname"  value="text()" />
     <field name="firstname"     type="name"       source="objectMetadata" objects="author" xpath="/mycoreobject/metadata/names/name/firstname"  value="text()" />
     <field name="name"          type="name"       source="objectMetadata" objects="author institution" xpath="/mycoreobject/metadata/names/name" value="concat(callname,' ',surname,' ',fullname,' ',nickname)" />
-    <field name="institution"   type="identifier" source="objectCategory" objects="author" xpath="/mycoreobject/metadata/institutions/institution" value="@ID" />
     <field name="profession"    type="text"       source="objectMetadata" objects="author" xpath="/mycoreobject/metadata/professions/profession" value="text()" />
+    <field name="institution"   type="identifier" source="objectCategory" objects="author" xpath="/mycoreobject/metadata/institutions/institution" value="@ID" />
     <field name="profclass"     type="identifier" source="objectCategory" objects="author" xpath="/mycoreobject/metadata/profclasses/profclass" value="@ID" />
 
     <field name="userID"        type="text"  	  source="objectMetadata" objects="author" xpath="/mycoreobject/metadata/userids/userid" value="text()" />
-    <field name="editAuthor"  type="text"       source="objectMetadata" objects="author" xpath="/mycoreobject/@ID | /mycoreobject/metadata/names/name/surname" value="." />
+    <field name="editAuthor"    type="text"       source="objectMetadata" objects="author" xpath="/mycoreobject/@ID | /mycoreobject/metadata/names/name/surname" value="." />
+    <field name="editDocument"  type="text"       source="objectMetadata" objects="document" xpath="/mycoreobject/@ID | /mycoreobject/metadata/*/*" value="." />
 
   </index>
 
