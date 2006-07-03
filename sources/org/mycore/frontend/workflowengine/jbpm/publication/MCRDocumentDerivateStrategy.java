@@ -92,8 +92,12 @@ public class MCRDocumentDerivateStrategy extends MCRDefaultDerivateStrategy {
 		}
 		String attachedDerivates = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES);			
 				
-		if ( derID.length() >0 && attachedDerivates.indexOf(derID)>0  ) {
-			wfp.setStringVariable("attachedDerivates", attachedDerivates + "," + derID);
+		if ( derID.length() >0 && attachedDerivates.indexOf(derID)<0  ) {
+			if ( attachedDerivates.trim().length() > 0) {
+				attachedDerivates += ",";
+			}
+			
+			wfp.setStringVariable("attachedDerivates", attachedDerivates  + derID);
 		}
 
 		

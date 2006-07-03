@@ -45,6 +45,8 @@ public class MCRDisshabDerivateStrategy extends MCRDefaultDerivateStrategy {
 	
 		ArrayList ffname = new ArrayList();
 		String mainfile = "";
+		int newFileCnt = 0;
+		
 		for (int i = 0; files !=null && i < files.size(); i++) {
 			FileItem item = (FileItem) (files.get(i));
 			String fname = item.getName().trim();
@@ -94,6 +96,7 @@ public class MCRDisshabDerivateStrategy extends MCRDefaultDerivateStrategy {
 				fouts.flush();
 				fouts.close();
 				logger.info("Data object stored under " + fout.getName());
+				newFileCnt++;				
 			}catch(Exception ex){
 				String errMsg = "could not store data object " + fname;
 				logger.error(errMsg, ex);
@@ -138,9 +141,20 @@ public class MCRDisshabDerivateStrategy extends MCRDefaultDerivateStrategy {
 		}
 		String attachedDerivates = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES);			
 		
-		if ( derID.length() >0 && attachedDerivates.indexOf(derID)>0  ) {
-			wfp.setStringVariable("attachedDerivates", attachedDerivates + "," + derID);
+		if ( derID.length() >0 && attachedDerivates.indexOf(derID)<0  ) {
+			if ( attachedDerivates.trim().length() > 0) {
+				attachedDerivates += ",";
+			}
+			wfp.setStringVariable("attachedDerivates", attachedDerivates  + derID);
 		}
+		String fcnt = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_FILECNT);
+		try {
+			int cnt = Integer.parseInt(fcnt);
+			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_FILECNT, String.valueOf( cnt + newFileCnt) );	
+		} catch ( NumberFormatException nonum ) {
+			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_FILECNT, String.valueOf( newFileCnt) );	
+		}			
+		
 	}
 	
 	public boolean deleteDerivateObject(MCRWorkflowProcess wfp, String saveDirectory, String backupDirectory, String metadataObjectID, 

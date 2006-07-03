@@ -99,7 +99,7 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 				if(salutation != null && !salutation.equals("")){
 					wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_INITIATORSALUTATION, salutation);
 				}
-				wfp.setStringVariable("fileCnt", "0");
+				wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_FILECNT, "0");
 				
 				wfp.endTask("initialization", initiator, transitionName);
 				

@@ -81,8 +81,14 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 			
 			
 			if(derDir.isDirectory()) {
+				
 				logger.debug("deleting directory " + derDir.getName());
 				JSPUtils.recursiveDelete(derDir);
+				if(mustWorkflowVarBeUpdated){
+					String oldFC = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_FILECNT);
+					int iFC = Math.abs(Integer.parseInt(oldFC) - derDir.list().length);
+					wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_FILECNT,String.valueOf(iFC)) ;
+				}
 			}else{
 				if (!derDir.exists()) {
 					logger.warn(derivateObjectId + " not exist's - do nothing.");					
@@ -103,10 +109,10 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 				}
 			}
 			if(mustWorkflowVarBeUpdated){
-				String newDerivates = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES)
-					.replaceAll(derivateObjectId + ",*","");
+				String newDerivates = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES).replaceAll(derivateObjectId + ",*","");
 				wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES, newDerivates);
 			}
+			
 		}catch(Exception ex){
 			logger.error("problems in deleting", ex);
 			return false;
@@ -162,8 +168,7 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 			if(bUpdateDerivate){
 				byte[] outxml = MCRUtils.getByteArray(der.createXML());
 				try {
-					FileOutputStream out = new FileOutputStream(dirname
-							+ ".xml");
+					FileOutputStream out = new FileOutputStream(dirname	+ ".xml");
 					out.write(outxml);
 					out.flush();
 				} catch (IOException ex) {
