@@ -21,7 +21,7 @@
     <MCRDocDetail rowtype="space" labelkey="" separator="" />    
 	
     <MCRDocDetail rowtype="standard" labelkey="OMD.documents" >    
-       <MCRDocDetailContent xpath="/mycoreobject/structure/derobjects/derobject" type="document" templatetype="tpl-document" separator="br" languageRequired="no" />    
+       <MCRDocDetailContent xpath="/mycoreobject/structure/derobjects/derobject" type="document" templatetype="tpl-alldocument" separator="br" languageRequired="no" />    
     </MCRDocDetail>
     <MCRDocDetail rowtype="space" labelkey="" separator="" /> 
     <MCRDocDetail rowtype="standard" labelkey="OMD.class-types" >
