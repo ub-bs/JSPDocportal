@@ -35,6 +35,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.mycore.frontend.cli.MCRObjectCommands;
 import org.mycore.frontend.editor.MCRRequestParameters;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
@@ -81,6 +82,11 @@ public class MCRWorkflowActions extends MCRServlet {
         String todo = parms.getParameter("todo");
        
         if ( "WFAddWorkflowObject".equals(todo) ) {
+            if ( ! AI.checkPermission("create-"+documentType)) {
+            	nextPath+="begin";
+        		request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
+            	return;            	
+            }
         	// leeren Editor für das Object includieren
         	request.setAttribute("isNewEditorSource","false");
         	request.setAttribute("mcrid",mcrid);
@@ -93,6 +99,11 @@ public class MCRWorkflowActions extends MCRServlet {
         	return;
         }
         if ( "WFEditWorkflowObject".equals(todo) ) {
+            if ( ! AI.checkPermission("create-"+documentType)) {
+            	nextPath+="begin";
+        		request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
+            	return;            	
+            }
         	// befüllten Editor für das Object includieren
         	String publicationType = WFM.getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_PUBLICATIONTYPE,pid);
         	if ( publicationType == null )  
@@ -147,6 +158,11 @@ public class MCRWorkflowActions extends MCRServlet {
         	return;
         }        
         if ( "WFAddNewDerivateToWorkflowObject".equals(todo) ) {
+            if ( ! AI.checkPermission("create-"+documentType)) {
+            	nextPath+="begin";
+        		request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
+            	return;            	
+            }
         	derivateID = WFM.addDerivate(pid, mcrid);
     		WFM.setDefaultPermissions(derivateID, userid);
         	todo = "WFAddNewFileToDerivate";
@@ -154,6 +170,11 @@ public class MCRWorkflowActions extends MCRServlet {
         }
         if ( "WFEditDerivateFromWorkflowObject".equals(todo) ) {
         	//befüllten Editor für das Derivate includieren	um Label zu editieren		
+            if ( ! AI.checkPermission("create-"+documentType)) {
+            	nextPath+="begin";
+        		request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
+            	return;            	
+            }
         	StringBuffer sb = new StringBuffer();        	
 			sb.append(MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType))
 				.append("/")
@@ -177,6 +198,11 @@ public class MCRWorkflowActions extends MCRServlet {
         }
        
         if ( "WFAddNewFileToDerivate".equals(todo) ) {
+            if ( ! AI.checkPermission("create-"+documentType)) {
+            	nextPath+="begin";
+        		request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
+            	return;            	
+            }
         	//leeren upload Editor includieren
 			String fuhid = new MCRWorkflowUploadHandler( mcrid, derivateID, "new", nextPath).getID();
 			String base = getBaseURL() + "nav";
@@ -239,8 +265,7 @@ public class MCRWorkflowActions extends MCRServlet {
 			String name = (String) (e.nextElement());
 			String value = null;
 			try {
-				value = URLEncoder
-						.encode(parameters.getProperty(name), "UTF-8");
+				value = URLEncoder.encode(parameters.getProperty(name), "UTF-8");
 			} catch (UnsupportedEncodingException ex) {
 				value = parameters.getProperty(name);
 			}

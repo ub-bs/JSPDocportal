@@ -6,6 +6,7 @@ import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.JspException;
 
 import org.apache.log4j.Logger;
+import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
@@ -62,10 +63,12 @@ public class MCRInitWorkflowProcessTag extends MCRSimpleTagSupport
 			jspContext.setAttribute(status, "errorWfM", getScope(scope));
 			return;
 		}			
-		if ( GUEST_ID.equals(userid) ){
-			jspContext.setAttribute(status, "errorUserGuest", getScope(scope));
+		String perm = "create-" + WFM.getMainDocumentType();
+		if ( !(MCRAccessManager.getAccessImpl().checkPermission(perm)) ){
+			jspContext.setAttribute(status, "errorPermission", getScope(scope));
 			return;
 		}	
+		
 		try{
 			long pid = WFM.initWorkflowProcess(userid, transition);
 			jspContext.setAttribute(processidVar, String.valueOf(pid), getScope(scope));
