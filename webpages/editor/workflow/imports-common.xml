@@ -389,18 +389,18 @@
     <list id="SContributorTypeReferee" type="dropdown">
 		<item value="" i18n="Editor.Common.choose.type" />
 		<item value="referee" i18n="Editor.Label.contributors.referee" />
-		<item value="advisor" i18n="Editor.Label.contributors.adivsor" />
+		<item value="advisor" i18n="Editor.Label.contributors.advisor" />
 	</list>
 
 	<list id="SContributorTypeAdvisor" width="60" type="dropdown">
-		<item value="advisor" i18n="Editor.Label.contributors.adivsor" />
+		<item value="advisor" i18n="Editor.Label.contributors.advisor" />
 		<item value="referee" i18n="Editor.Label.contributors.referee" />
 	</list>
 
 	<list id="SContributorType" width="60" type="dropdown">
 		<item value="" i18n="Editor.Common.choose.type" />
 		<item value="referee" i18n="Editor.Label.contributors.referee" />
-		<item value="advisor" i18n="Editor.Label.contributors.adivsor" />
+		<item value="advisor" i18n="Editor.Label.contributors.advisor" />
 	</list>
 
 	<!-- *** Data for the Date ** -->
@@ -495,7 +495,7 @@
 	</text>
 
 	<helpPopup id="HIdentifier" >
-		<label i18n="Eitor.Help.HIdentifier" />
+		<label i18n="Editor.Help.HIdentifier" />
 	</helpPopup>
 
 	<text id="LSourceP">
