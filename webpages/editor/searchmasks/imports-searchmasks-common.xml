@@ -43,7 +43,7 @@
                   <checkbox value="selfremote" checked="false" label="entfernt" />
             </cell>            
       </panel>
-      <helpPopup id="HInstances" width="400px" height="250px">
+      <helpPopup id="HInstances" width="400px" >
             <label i18n="Editor.Search.Help.instances" />l>
       </helpPopup>
       <!-- *** Data for the Institution ** -->
@@ -55,14 +55,14 @@
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="CInstitution" var="@value" />
       </panel>
-      <helpPopup id="HInstitution" width="400px" height="250px">
+      <helpPopup id="HInstitution" width="400px" >
             <label i18n="Editor.Search.Help.institution" />
       </helpPopup>
       <list id="CInstitution" width="300" type="dropdown">
             <item value="">
                   <label i18n="Editor.Common.choose" />
             </item>
-            <include uri="request:content/classifications-to-items.jspx?classid=DocPortal_class_00000002" />
+            <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Institution&amp;defaultValue=DocPortal_class_00000003" />                                      
       </list>       
       <!-- *** Data for the Surname ** -->
       <text id="LSurName">
@@ -73,7 +73,7 @@
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="@value" />
       </panel>
-      <helpPopup id="HSurName" width="400px" height="250px">
+      <helpPopup id="HSurName" width="400px" >
             <label i18n="Editor.Search.Help.surname" />
       </helpPopup>      
       <!-- *** Data for the First Name ** -->
@@ -85,7 +85,7 @@
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="@value" />
       </panel>
-      <helpPopup id="HFirstName" width="400px" height="250px">
+      <helpPopup id="HFirstName" width="400px" >
             <label i18n="Editor.Search.Help.firstname" />
       </helpPopup>      
       <!-- *** Data for the Titles ** -->
@@ -97,7 +97,7 @@
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="@value" />
       </panel>
-      <helpPopup id="HTitles" width="400px" height="250px">
+      <helpPopup id="HTitles" width="400px" >
             <label i18n="Editor.Search.Help.title" />
       </helpPopup>
       <!-- *** Data for the Creator ** -->
@@ -109,7 +109,7 @@
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="@value" />
       </panel>
-      <helpPopup id="HCreators" width="400px" height="250px">
+      <helpPopup id="HCreators" width="400px" >
             <label i18n="Editor.Search.Help.creator" />
       </helpPopup>
       <!-- *** Data for the Origins ** -->
@@ -121,15 +121,15 @@
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="COrigins" var="@value" />
       </panel>
-      <helpPopup id="HOrigins" width="400px" height="250px">
+      <helpPopup id="HOrigins" width="400px" >
             <label i18n="Editor.Search.Help.origin" />
       </helpPopup>
 
       <list id="COrigins" width="300" type="dropdown">
             <item value="">
-				<label i18n="Editor.Common.choose" />
+        <label i18n="Editor.Common.choose" />
             </item>
-            <include   uri="request:content/classifications-to-items.jspx?classid=DocPortal_class_00000003" />
+            <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002" />                          
       </list>      
       
       <!-- *** Data for the Types ** -->
@@ -141,14 +141,14 @@
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="CTypes" var="@value" />
       </panel>
-      <helpPopup id="HTypes" width="400px" height="250px">
+      <helpPopup id="HTypes" width="400px" >
             <label i18n="Editor.Search.Help.type" />
       </helpPopup>
       <list id="CTypes" width="300" type="dropdown">
             <item value="">
-				<label i18n="Editor.Common.choose" />              
+        <label i18n="Editor.Common.choose" />              
             </item>
-            <include   uri="request:content/classifications-to-items.jspx?classid=DocPortal_class_00000005" />
+            <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Type&amp;defaultValue=DocPortal_class_00000005" />                          
       </list>       
       
 
@@ -161,14 +161,14 @@
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="CSubjects" var="@value" />
       </panel>
-      <helpPopup id="HSubjects" width="400px" height="250px">
+      <helpPopup id="HSubjects" width="400px" >
             <label i18n="Editor.Search.Help.subject" />
       </helpPopup>
       <list id="CSubjects" width="300" type="dropdown">
             <item value="">
-				<label i18n="Editor.Common.choose" />                 
+        <label i18n="Editor.Common.choose" />                 
             </item>
-            <include  uri="request:content/classifications-to-items.jspx?classid=DocPortal_class_00000007" />
+            <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.DNB&amp;defaultValue=DocPortal_class_00000007" />                          
       </list>       
       
       <!-- *** Data for the Format ** -->
@@ -180,14 +180,14 @@
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="CFormats" var="@value" />
       </panel>
-      <helpPopup id="HFormats" width="400px" height="250px">
+      <helpPopup id="HFormats" width="400px" >
             <label i18n="Editor.Search.Help.format" />
       </helpPopup>
       <list id="CFormats" width="300" type="dropdown">
             <item value="">
-				<label i18n="Editor.Common.choose" />                 
+        <label i18n="Editor.Common.choose" />                 
             </item>
-            <include   uri="request:content/classifications-to-items.jspx?classid=DocPortal_class_00000006" />
+            <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Format&amp;defaultValue=DocPortal_class_00000006" />                          
       </list>       
       
       <!-- *** Data for the Format ** -->
@@ -199,14 +199,14 @@
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="CLanguages" var="@value" />
       </panel>
-      <helpPopup id="HLanguages" width="400px" height="250px">
+      <helpPopup id="HLanguages" width="400px" >
             <label i18n="Editor.Search.Help.language" />
       </helpPopup>
       <list id="CLanguages" width="300" type="dropdown">
             <item value="">
-				<label i18n="Editor.Common.choose" />                
+        <label i18n="Editor.Common.choose" />                
             </item>
-            <include   uri="request:content/classifications-to-items.jspx?classid=DocPortal_class_00000004" />
+            <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Languages&amp;defaultValue=DocPortal_class_00000004" />                          
       </list>       
 
       <!-- *** Data for the Metadata ** -->
@@ -221,7 +221,7 @@
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="@value" />
       </panel>
-      <helpPopup id="HMetadata" width="400px" height="250px">
+      <helpPopup id="HMetadata" width="400px" >
             <label i18n="Editor.Search.Help.metadata" />
       </helpPopup>
       <!-- *** Data for the Content ** -->
@@ -233,7 +233,7 @@
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="@value" />
       </panel>
-      <helpPopup id="HContents" width="400px" height="250px">
+      <helpPopup id="HContents" width="400px" >
             <label i18n="Editor.Search.Help.content" />
       </helpPopup>            
 </imports>
