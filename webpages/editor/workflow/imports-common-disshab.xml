@@ -61,13 +61,13 @@
     <item value="">
       <label i18n="Editor.Common.choose" />
     </item>
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.WorkflowEngine.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002" />              
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002" />              
   </list>
 
   <panel id="DOrigin">
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/origins&amp;classname=MCRMetaClassification&amp;textsearch=false" />
     <hidden var="metadata/origins/origin/@inherited" default="0" />
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/origins/origin/@classid&amp;prop=MCR.WorkflowEngine.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002" />               
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/origins/origin/@classid&amp;prop=MCR.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002" />               
     <cell col="1" row="1" anchor="WEST" ref="COrigin" var="metadata/origins/origin/@categid" />
   </panel>
 
@@ -130,13 +130,13 @@
     <item value="">
 		<label i18n="Editor.Common.choose" />
     </item>
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getSpecialCategoriesInItems&amp;classProp=MCR.WorkflowEngine.ClassificationID.Type&amp;categoryProp=MCR.WorkflowEngine.Classification.Type.SelectCategoryIDs.xmetadiss" />                       
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getSpecialCategoriesInItems&amp;classProp=MCR.ClassificationID.Type&amp;categoryProp=MCR.Classification.Type.SelectCategoryIDs.xmetadiss" />                       
   </list>
 
   <panel id="DType">
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/types&amp;classname=MCRMetaClassification&amp;textsearch=false" />
     <hidden var="metadata/types/type/@inherited" default="0" />
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/types/type/@classid&amp;prop=MCR.WorkflowEngine.ClassificationID.Type&amp;defaultValue=DocPortal_class_00000005" />               
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/types/type/@classid&amp;prop=MCR.ClassificationID.Type&amp;defaultValue=DocPortal_class_00000005" />               
     <cell col="1" row="1" anchor="WEST" ref="CType" var="metadata/types/type/@categid" />
   </panel>
 
@@ -145,7 +145,7 @@
     <item value="">
       <label i18n="Editor.Common.choose" />
     </item>
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.WorkflowEngine.ClassificationID.Format&amp;defaultValue=DocPortal_class_00000006" />                   
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Format&amp;defaultValue=DocPortal_class_00000006" />                   
   </list>
 
 <!-- IDENTIFIER fehlt -->
@@ -158,13 +158,13 @@
     <item value="">
       <label i18n="Editor.Common.choose" />
     </item>
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getSpecialCategoriesInItems&amp;classProp=MCR.WorkflowEngine.ClassificationID.Language&amp;categoryProp=MCR.WorkflowEngine.Classification.Language.SelectCategoryIDs.xmetadiss" /> 
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getSpecialCategoriesInItems&amp;classProp=MCR.ClassificationID.Language&amp;categoryProp=MCR.Classification.Language.SelectCategoryIDs.xmetadiss" /> 
   </list>
 
   <panel id="DLanguage">
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/languages&amp;classname=MCRMetaClassification&amp;textsearch=false" />
     <hidden var="metadata/languages/language/@inherited" default="0" />
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/languages/language/@classid&amp;prop=MCR.WorkflowEngine.ClassificationID.Language&amp;defaultValue=DocPortal_class_00000004" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/languages/language/@classid&amp;prop=MCR.ClassificationID.Language&amp;defaultValue=DocPortal_class_00000004" />
     <cell col="1" row="1" anchor="WEST" ref="CLanguage" var="metadata/languages/language/@categid" />
   </panel>
 

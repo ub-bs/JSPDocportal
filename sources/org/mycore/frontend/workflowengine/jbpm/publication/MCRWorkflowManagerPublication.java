@@ -275,7 +275,7 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 			
 			String publicationType = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_PUBLICATIONTYPE);			
 			if ( publicationType != null) {
-				String clid = MCRConfiguration.instance().getString("MCR.WorkflowEngine.ClassificationID.Type");
+				String clid = MCRConfiguration.instance().getString("MCR.ClassificationID.Type");
 				MCRCategoryItem clItem = MCRCategoryItem.getCategoryItem(clid,publicationType);
 				String label = clItem.getDescription(MCRSessionMgr.getCurrentSession().getCurrentLanguage());
 				wfp.setStringVariable("wfo-type", label);

@@ -11,7 +11,7 @@
         <label xml:lang="de">(bitte wählen)</label>
         <label xml:lang="en">(please choose)</label>
       </item>
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationLabelInItems&amp;prop=MCR.WorkflowEngine.ClassificationID.Origin.registeruser&amp;defaultValue=DocPortal_class_00000002" />              
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationLabelInItems&amp;prop=MCR.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002" />              
     </list>
     
     <list id="CInstitution" width="425px" type="dropdown" class="mandatory">
@@ -19,7 +19,7 @@
         <label xml:lang="de">(bitte wählen)</label>
         <label xml:lang="en">(please choose)</label>
       </item>
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationLabelInItems&amp;prop=MCR.WorkflowEngine.ClassificationID.Institution.registeruser&amp;defaultValue=DocPortal_class_00000003" />              
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationLabelInItems&amp;prop=MCR.ClassificationID.Institution&amp;defaultValue=DocPortal_class_00000003" />              
     </list>
 
   

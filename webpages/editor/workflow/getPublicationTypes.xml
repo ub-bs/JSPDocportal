@@ -20,10 +20,10 @@
 
         <list id="CTypes" type="dropdown" >
           <!--  include  
-            uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.WorkflowEngine.ClassificationID.Type&amp;defaultValue=DocPortal_class_00000005" 
+            uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Type&amp;defaultValue=DocPortal_class_00000005" 
            / -->
           <include 
-            uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getSpecialCategoriesInItems&amp;classProp=MCR.WorkflowEngine.ClassificationID.Type&amp;categoryProp=MCR.WorkflowEngine.Classification.Type.SelectCategoryIDs.publication" />                       
+            uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getSpecialCategoriesInItems&amp;classProp=MCR.ClassificationID.Type&amp;categoryProp=MCR.Classification.Type.SelectCategoryIDs.publication" />                       
           
         </list>
         

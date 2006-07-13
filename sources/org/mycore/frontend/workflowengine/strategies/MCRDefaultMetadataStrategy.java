@@ -113,7 +113,7 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 			MCRMetaClassification clType = new MCRMetaClassification();
 			clType.setSubTag("type");
 			clType.setLang("de");
-			clType.setValue(MCRConfiguration.instance().getString("MCR.WorkflowEngine.ClassificationID.Type"),	publicationType);
+			clType.setValue(MCRConfiguration.instance().getString("MCR.ClassificationID.Type"),	publicationType);
 			Element eclType = clType.createXML();
 			Element eclTypes = new Element("types");
 			eclTypes.setAttribute("class","MCRMetaClassification");

@@ -192,7 +192,7 @@
                  <hidden var="@inherited" default="0" />
                  <hidden var="@type" default="locator" />
                  <!-- configure this in mycore.properties  -->
-                 <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=@classid&amp;prop=MCR.WorkflowEngine.ClassificationID.DDC.xmetadiss&amp;defaultValue=DocPortal_class_00000009" />                
+                 <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=@classid&amp;prop=MCR.ClassificationID.DDC.xmetadiss&amp;defaultValue=DocPortal_class_00000009" />                
                 <!--  <hidden var="@classid" default="DocPortal_class_00000009" />  -->
                  <hidden var="@categid" />
                  <cell row="1" col="1" width="100%">
@@ -241,7 +241,7 @@
   <panel id="DFormat">
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/formats&amp;classname=MCRMetaClassification&amp;textsearch=false" />
     <hidden var="metadata/formats/format/@inherited" default="0" />
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.formats.format.@classid&amp;prop=MCR.WorkflowEngine.ClassificationID.Format.xmetadiss&amp;defaultValue=DocPortal_class_00000006" />              
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.formats.format.@classid&amp;prop=MCR.ClassificationID.Format.xmetadiss&amp;defaultValue=DocPortal_class_00000006" />              
     <cell col="1" row="1" anchor="WEST" ref="SFormat" var="metadata/formats/format/@categid" />
   </panel>
 
