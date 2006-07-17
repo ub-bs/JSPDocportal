@@ -42,9 +42,9 @@
             </cell>
             <cell row="2" col="2" anchor="WEST" ref="TFzeile64M" var="user/@ID" sortnr="1" />
             <cell row="2" col="3" anchor="EAST" >
-                <helpPopup id="HAccount" width="400px" height="200px">
+                <helpPopup id="HAccount" width="400px" >
                     <label xml:lang="de">
-                        In diesem Feld geben Sie bitte die Benutzerkennung also Ihre Bibliothekskennung ein.						
+                        In diesem Feld geben Sie bitte die Benutzerkennung, also Ihre Bibliothekskennung ein.						
                     </label>
                     <label xml:lang="en">
                         Please specify the account - this ist your library Account.
@@ -292,7 +292,7 @@
                     <label xml:lang="en">&#160;&#160;i accept the licencse rights for using the digital library account. </label>
                 </checkbox>
             </cell>
-			<cell row="34" col="1" colspan="3" anchor="EAST">
+			<cell row="34" col="3" anchor="EAST">
                 <helpPopup id="HRights" width="400px" >
                  <label xml:lang="de">
                     Mit dem Antrag auf Benutzungsberechtigung gestatte ich der Universitätsbibliothek  die von mir eingebrachten Dokumente im Internet	zu publizieren, zu vervielfältigen und zu	verbreiten sowie gegebenenfalls eine Konvertierung des Datenformates vorzunehmen. <br />Davon unberührt bleibt das Recht zur	Publikation in anderer körperlicher Form, z.B. 	einem Verlag. Ich versichere, dass ich allein berechtigt bin, über die urheberrechtlichen Nutzungsrechte aller von mir in @libri ingebrachten Dokumente zu verfügen. Gleiches gilt auch für die von mir gelieferten Text und	Bildvorlagen, deren Nutzungsrechte bei mir 	liegen. <br />Ich übernehme für die von mir eingestellten Inhalte die volle Verantwortung	und versichere, dass die von mir verbreiteten	Dokumente wissenschaftlichen Charakter haben, insbesondere keine pornografischen und 	rechtsextremistischen Inhalte aufweisen und das Persönlichkeitsrecht Dritter nicht verletzen. <br />Mir ist bekannt, dass für den Fall einer späteren kommerziellen Verwertung der von mir eingebrachten Inhalte auf eine ggf. vorhandene elektronische Publikation in DocPortal hinzuweisen	ist. <br /> <b>Ich erkenne die o.g. Regelungen	von @libri an.</b>
