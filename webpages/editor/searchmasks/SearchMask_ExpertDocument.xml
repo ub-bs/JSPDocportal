@@ -11,10 +11,6 @@
 	  
     <include uri="webapp:editor/searchmasks/imports-searchmasks-common.xml"/>	  
 	 
-    <headline anchor="LEFT">
-      <text i18n="Editor.Search.Document.labela"/>
-    </headline>
-
     <panel id="SearchMask_ExpertDocument" lines="off">
       
       <hidden var="conditions/@format" default="xml" />
@@ -41,9 +37,9 @@
           <panel lines="off">
             <cell row="1" col="1" anchor="WEST" var="@field">
               <list type="dropdown" default="title" width="110px">
-                <item value="title" i18n="Editor.Search.Document.title" />
-                <item value="keywords" i18n="Editor.Search.Document.keyword" />
-                <item value="description" i18n="Editor.Search.Document.descript" />
+                <item value="title" i18n="Editor.Document.title" />
+                <item value="keywords" i18n="Editor.Document.keyword" />
+                <item value="description" i18n="Editor.Document.descript" />
                 <item value="source" i18n="Editor.Document.source" />
                 <item value="coverage" i18n="Editor.Document.coverage" />
                 <item value="rights" i18n="Editor.Document.rights" />
@@ -67,7 +63,7 @@
               <list type="dropdown" default="author" width="110px">
                 <item value="creator" i18n="Editor.Document.creator"/>
                 <item value="publisher" i18n="Editor.Document.publisher"/>
-                <item value="contributor" i18n="Editor.Document.contrib"/>
+                <item value="contributor" i18n="Editor.Document.contributor"/>
               </list>
             </cell>
             <cell row="1" col="2" anchor="WEST" var="@operator">
@@ -112,9 +108,11 @@
       <cell row="7" col="2" colspan="2" anchor="NORTHWEST" ref="DFormats" var="conditions/boolean/condition7" />
  
       <!-- Search in field "language" with operator "=" -->
+      <!-- 
       <cell row="8" col="1"  anchor="NORTHEAST" ref="LLanguages" />     
       <cell row="8" col="2" colspan="2" anchor="NORTHWEST" ref="DLanguages" var="conditions/boolean/condition8" />
-
+      -->
+      
       <!-- Search in field "type" with operator "=" -->
       <cell row="9" col="1" anchor="NORTHEAST" ref="LTypes" />     
       <cell row="9" col="2" colspan="2" anchor="NORTHWEST" ref="DTypes" var="conditions/boolean/condition9" />
@@ -227,7 +225,10 @@
         </panel>
       </cell>
 
-      <cell row="19" col="1" colspan="3" anchor="SOUTHEAST" var="sortBy/field">
+      <cell row="19" col="1" anchor="SOUTHEAST">
+             <text i18n="Editor.Search.sortBy" />
+      </cell>
+      <cell row="19" col="2" colspan="2" anchor="SOUTHEAST" var="sortBy/field">
         <repeater min="1" max="3">
           <panel lines="off">
             <cell row="1" col="1" anchor="WEST" var="@name">
@@ -249,6 +250,7 @@
       </cell>          
 
 
+     <cell col="1" colspan="3" row="21" anchor="WEST"><hr /></cell>
 
       <cell row="22" col="1" colspan="3" anchor="EAST">
         <submitButton i18n="Editor.Search.search" width="150px" />

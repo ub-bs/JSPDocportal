@@ -66,13 +66,14 @@
       <space width="20" height="0" />
     </cell>
     <cell col="4" row="6" anchor="WEST" ref="HContents" />         
-
+<!-- 
     <cell col="1" row="50" anchor="NORTHWEST" ref="LInstances" />
     <cell col="2" row="50" anchor="NORTHWEST" ref="DInstances" />
     <cell col="3" row="50" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
     <cell col="4" row="50" anchor="WEST" ref="HInstances" />
+-->    
     <cell col="1" colspan="4" row="51" anchor="WEST"><hr /></cell>
     <cell col="1" row="100"  />
     <cell col="2" row="100" anchor="EAST"      ref="SearchTwoButtons"  />

@@ -56,15 +56,18 @@
 			<c:import url="${url}" />
 			<br/>        
 		</td>
-	</tr>      
-      <img title="" alt="" src="${baseURL}images/greenArrow.gif">
+	</tr> 
+	<tr>
+	  <td>     
       <fmt:message key="WF.common.EmptyWorkflow" />   
-      <br>&nbsp;<br>
+      <hr/>
       <mcr:checkAccess permission="administrate-publication" var="curUserIsAdminUser" />
       <c:if test="${!curUserIsAdminUser}">
 	      <c:import url="/content/workflow/publication/information.jsp" /> 
     	  <br/>&nbsp;<br>
    	  </c:if>
+   	  </td>
+   </tr>	  
    </c:when>
    <c:otherwise>
         <div class="headline"><fmt:message key="WF.publication" /></div>

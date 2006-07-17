@@ -55,15 +55,15 @@
 				<c:param name="lang" value="${requestScope.lang}" />
 			</c:url>
 			<c:import url="${url}" />        
+			<br/>
 		</td>
 	</tr>
 </table>
 
 <c:choose>
 	<c:when test="${empty(myTaskList)&& empty(myProcessList)}">
-      <img title="" alt="" src="${baseURL}images/greenArrow.gif">
       <fmt:message key="WF.common.EmptyWorkflow" />   
-      <br />&nbsp;<br />
+      <hr/>
       <mcr:checkAccess permission="administrate-author" var="curUserIsAdminUser" />
       <c:if test="${!curUserIsAdminUser}">
 	      <c:import url="/content/workflow/author/information.jsp" />

@@ -40,9 +40,8 @@
       <img title="" alt="" src="images/greenArrow.gif">
       <a target="_self" href="${baseURL}nav?path=~xmetadissbegin"><fmt:message key="WF.xmetadiss.StartWorkflow" /></a>
       <br/>&nbsp;<br>
-      <img title="" alt="" src="images/greenArrow.gif">
       <fmt:message key="WF.common.EmptyWorkflow" />   
-      <br>&nbsp;<br>
+      <hr/>
       <mcr:checkAccess permission="administrate-xmetadiss" var="curUserIsAdminUser" />
       <c:if test="${!curUserIsAdminUser}">
 	      <c:import url="/content/workflow/xmetadiss/information.jsp" />

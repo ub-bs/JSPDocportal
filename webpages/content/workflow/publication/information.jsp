@@ -9,28 +9,28 @@
 <table class="bg_background">
 <tr>
 <td>
-  <b><fmt:message key="Webpage.intro.publications.Subtitle1" /></b>
+  <span class="subtitle"><fmt:message key="Webpage.intro.publications.Subtitle1" /></span>
   <br/>
   <p><fmt:message key="Webpage.intro.publications.Text1" /></p>
   <br/>
-  <b><fmt:message key="Webpage.intro.publications.Subtitle2" /></b>
+  <span class="subtitle"><fmt:message key="Webpage.intro.publications.Subtitle2" /></span>
   <br/>
-	  <p><fmt:message key="Webpage.intro.publications.Text2" /></p>
+  <p><fmt:message key="Webpage.intro.publications.Text2" /></p>
   <br/>
-  <b><fmt:message key="Webpage.intro.publications.Subtitle3" /></b>
+  <span class="subtitle"><fmt:message key="Webpage.intro.publications.Subtitle3" /></span>
   <br/>
-	  <p><fmt:message key="Webpage.intro.publications.Text3" /></p>
+  <p><fmt:message key="Webpage.intro.publications.Text3" /></p>
   <br/>
-</td>
-   <tr><td >
-     <hr/>
-     <p><fmt:message key="Webpage.intro.Service.Hinweis1" /></p>
-     <p>
-       <mcr:getConfigProperty var="mail" prop="MCR.WorkflowEngine.contactemail.publication" defaultValue="mycore@mycore.de" />
-       <a href="mailto:${mail}">${mail}</a>
-     </p>
-     </td>
-    </tr>
+  <p><fmt:message key="Webpage.intro.publications.P1" /></p> 
 
+  <table class="editor" >
+		<tr><td><b><fmt:message key="Webpage.intro.publications.P2" /></b></td></tr>
+		<tr valin="top">
+			<td><fmt:message key="Webpage.intro.publications.P3" /></td>
+			<td><fmt:message key="WF.common.three-spaces" /></td>
+			<td><fmt:message key="Webpage.intro.publications.P4" /></td>
+		</tr>
+   </table>
+ </td>
 </tr>
 </table>

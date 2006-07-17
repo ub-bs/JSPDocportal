@@ -236,4 +236,53 @@
       <helpPopup id="HContents" width="400px" >
             <label i18n="Editor.Search.Help.content" />
       </helpPopup>            
+      
+      <!-- *** Data for the basiklassification ** -->
+      <text id="LBkl">
+            <label xml:lang="de">
+                  <span class="editorlabel">&#160;&#160;&#160;Fachklassifikation</span>
+            </label>
+            <label xml:lang="en">
+                  <span class="editorlabel">&#160;&#160;&#160;classification</span>
+            </label>
+      </text>
+      <panel id="DBkl">
+            <hidden var="@field" default="bkl" />
+            <hidden var="@operator" default="like" />            
+            <cell col="1" row="1" anchor="NORTHWEST" ref="CBkl" var="@value" />
+      </panel>
+      <helpPopup id="HBkl" width="400px" height="250px">
+            <label xml:lang="de">   Die Daten sind nach Fachgebieten klassifiziert.
+            </label>
+            <label xml:lang="en">   the Objects are classified
+            </label>
+      </helpPopup>
+      <list id="CBkl" width="300px"  type="dropdown">
+            <item value="">
+                  <label xml:lang="de">(bitte wählen)</label>
+            </item>
+            <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Bkl&amp;defaultValue=DocPortal_class_00000020" />                                      
+      </list>       
+
+      <!-- *** Data for the Place of Birth ** -->
+      <text id="LPlaces">
+            <label xml:lang="de">
+                  <span class="editorlabel">&#160;&#160;&#160;Geburtsort</span>
+            </label>
+            <label xml:lang="en">
+                  <span class="editorlabel">&#160;&#160;&#160;place of birth</span>
+            </label>
+      </text>
+      <panel id="DPlaces">
+            <hidden var="@field" default="place" />
+            <hidden var="@operator" default="like" />            
+            <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="@value" />
+      </panel>
+      <helpPopup id="HPlaces" width="400px" height="250px">
+            <label xml:lang="de">   Es ist der Geburtsort der Person einzugeben.
+            </label>
+            <label xml:lang="en">   Input the place of birth of this person. 
+            </label>
+      </helpPopup>  
+      
 </imports>

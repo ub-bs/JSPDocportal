@@ -28,7 +28,7 @@
   <p><fmt:message key="Webpage.intro.xmetadiss.P1" /></p> 
   <table class="editor" >
 		<tr><td><b><fmt:message key="Webpage.intro.xmetadiss.P2" /></b></td></tr>
-		<tr>
+		<tr valin="top">
 			<td><fmt:message key="Webpage.intro.xmetadiss.P3" /></td>
 			<td><fmt:message key="WF.common.three-spaces" /></td>
 			<td><fmt:message key="Webpage.intro.xmetadiss.P4" /></td>
