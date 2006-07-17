@@ -6,7 +6,7 @@
 <fmt:setBundle basename='messages'/>
 <div class="headline"><fmt:message key="Webpage.admin.DocumentManagement" /></div>
 <p><c:import url="content/node.jsp" /></p>
-<p><fmt:message key="Webpage.admin.DocumentManagement.Applet" /></p>
+
 <p><fmt:message key="Webpage.admin.DocumentManagement.FetchLogin" /></p>
 <p><fmt:message key="Webpage.admin.DocumentManagement.InstitutionData" /></p>
 <p><fmt:message key="Webpage.admin.DocumentManagement.AuthorData" /></p>

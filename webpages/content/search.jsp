@@ -9,8 +9,9 @@
 <fmt:setBundle basename='messages'/>
 
 <div class="headline"><fmt:message key="Nav.Search" /></div>
+
 <p><fmt:message key="Webpage.intro.search.Possibilities" /> </p>
-<center>
+
 	<c:url var="url" value="${WebApplicationBaseURL}editor/searchmasks/SearchMask_AllMetadataFields.xml">
 	    <c:param name="XSL.editor.source.new" value="true" />
 	    <c:param name="XSL.editor.cancel.url" value="${WebApplicationBaseURL}" />
@@ -18,7 +19,7 @@
 	    <c:param name="MCRSessionID" value="${sessionID}"/>
 	  </c:url>
 	<c:import url="${url}" />
-</center>
+
 <p><c:import url="content/node.jsp" /></p>
 <p><fmt:message key="Webpage.intro.search.HintsBool" /></p>
 <p><fmt:message key="Webpage.intro.search.HintsFulltext" /></p>
