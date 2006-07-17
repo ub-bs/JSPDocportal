@@ -16,8 +16,8 @@
     </c:otherwise>
 </c:choose>
 <fmt:setBundle basename='messages'/>
-<h2><fmt:message key="Error" /></h2>
-<h3><fmt:message key="GoToTheAdministrator" /></h3>
+<h2><fmt:message key="Webpage.error.Error" /></h2>
+<h3><fmt:message key="Webpage.error.GoToTheAdministrator" /></h3>
 <p>
 <c:if test="${!empty param.messageKey}">
 <fmt:message key="${param.messageKey}" />
