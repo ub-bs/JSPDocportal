@@ -1,6 +1,5 @@
 <%@ page import="org.jdom.Element,
 				 org.jdom.Document,
-				 org.mycore.frontend.servlets.MCRServlet,
 				 org.mycore.common.MCRSession,
 				 org.mycore.common.JSPUtils,
 				 java.util.List,
@@ -13,7 +12,8 @@
 	
 	String actUriPath = request.getParameter("actUriPath");
 	String browserClass = request.getParameter("browserClass");
-    
+	String searchField = "";
+
     /** ========== Subselect Parameter ========== **/
     /**
      Enumeration ee = request.getParameterNames();
@@ -33,20 +33,32 @@
   		 	   + "&amp;subselect.varpath="+subselectVarpath
     		   + "&amp;subselect.webpage="+subselectWebpage;
 
-   String subselectParams  =  "XSL.subselect.session="+subselectSession
+    String subselectParams  =  "XSL.subselect.session="+subselectSession
 	        		 		+ "&amp;XSL.subselect.varpath="+subselectVarpath
     		     			+ "&amp;XSL.subselect.webpage="+subselectWebpage;
     		   
     String formAction=WebApplicationBaseURL + subselectWebpage+"?XSL.editor.session.id="+subselectSession;        		         		
 	
-	System.out.println("formAction: " + formAction);
-	System.out.println("url: " + url);
+	System.out.println("XXXX formAction: " + formAction);
+	System.out.println("XXX url: " + url);
 	
     /** ========== Subselect Parameter ENDE ========== **/
 	
 	if (actUriPath == null) actUriPath = "/" + browserClass;
 	String lang = (String) request.getAttribute("lang");
-    MCRSession mcrSession = MCRServlet.getSession(request);
+	
+    MCRSession mcrSession = org.mycore.common.MCRSessionMgr.getCurrentSession();
+	System.out.println("Session: " + mcrSession.getID());
+    
+	if (actUriPath == null) actUriPath = "/" + browserClass;
+    try {
+		searchField = org.mycore.common.MCRConfiguration.instance().getString("MCR.ClassificationBrowser." + browserClass + ".SearchField"); 
+        mcrSession.BData = new org.mycore.datamodel.classifications.MCRClassificationBrowserData(actUriPath,"","","");
+    } catch (Exception cErr) {
+    	request.setAttribute("message",cErr.getMessage());
+   	    getServletContext().getRequestDispatcher("/mycore-error.jsp").forward(request,response);
+    }
+	
     Document doc = mcrSession.BData.createXmlTree(lang);   
 	String path = request.getParameter("path");
     Element browser = doc.getRootElement();
@@ -66,6 +78,7 @@
          <td style="width:60%;" class="desc">
 		  <form action="<%= formAction %>" method="post">
 		   <input type="submit" class="submit" value="Auswahl abbrechen" />
+		   <br/>
 		   <br/>
 		 </form>
 		 </td>
