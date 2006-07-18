@@ -15,14 +15,13 @@ import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.common.xml.MCRXMLHelper;
 import org.mycore.frontend.workflowengine.jbpm.MCRAbstractAction;
-import org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRDisshabSubmittedAction;
 
 public class MCRDocumentSubmittedAction extends MCRAbstractAction{
 	
 	String lockedVariables;
 
 	private static final long serialVersionUID = 1L;
-	private static Logger logger = Logger.getLogger(MCRDisshabSubmittedAction.class);
+	private static Logger logger = Logger.getLogger(MCRDocumentSubmittedAction.class);
 	private static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
 	private static Element editorModeRule;
 	
@@ -34,7 +33,7 @@ public class MCRDocumentSubmittedAction extends MCRAbstractAction{
 	public void executeAction(ExecutionContext executionContext) throws MCRException {
 		logger.debug("locking workflow variables and setting the access control to the editor mode");
 		ContextInstance contextInstance = executionContext.getContextInstance();
-		// set access control to editor mode, the dissertand has no rights anymore
+
 		List ids = new ArrayList();
 		ids.addAll(Arrays.asList(((String)contextInstance.getVariable("attachedDerivates")).split(",")));
 		ids.add(contextInstance.getVariable("createdDocID"));
