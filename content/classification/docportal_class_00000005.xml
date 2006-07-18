@@ -2,17 +2,21 @@
 <mycoreclass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="MCRClassification.xsd"
   ID="DocPortal_class_00000005">
   <label xml:lang="de" text="DocPortal Type" description="DocPortal Klassifikation der Typen" />
+    <label xml:lang="x-dini" text="pub-type" description="DINI formal publication type" />
   <categories>
     <category ID="TYPE0001">
       <label xml:lang="de" text="selbständige Publikation" />
       <label xml:lang="en" text="independent Publications" />
+      <label xml:lang="x-dini" text="" />
       <category ID="TYPE0001.001">
         <label xml:lang="de" text="Monographie" />
-        <label xml:lang="en" text="Monographie" />
+        <label xml:lang="en" text="Monograph" />
+        <label xml:lang="x-dini" text="pub-type:monograph" />
       </category>
       <category ID="TYPE0001.002">
         <label xml:lang="de" text="Konferenzband" />
         <label xml:lang="en" text="Conference proc." />
+        <label xml:lang="x-dini" text="pub-type:conf-proceeding" />
       </category>
       <category ID="TYPE0001.003">
         <label xml:lang="de" text="Schriftenreihe" />
@@ -21,14 +25,17 @@
       <category ID="TYPE0001.004">
         <label xml:lang="de" text="Zeitschrift" />
         <label xml:lang="en" text="Journal" />
+        <label xml:lang="x-dini" text="pub-type:journal" />        
       </category>
       <category ID="TYPE0001.005">
         <label xml:lang="de" text="Musikalie" />
         <label xml:lang="en" text="musics" />
+        <label xml:lang="x-dini" text="pub-type:music" />        
       </category>
       <category ID="TYPE0001.006">
         <label xml:lang="de" text="Patent" />
         <label xml:lang="en" text="patent" />
+        <label xml:lang="x-dini" text="pub-type:standards" />        
       </category>
       <category ID="TYPE0001.007">
         <label xml:lang="de" text="Karte" />
@@ -42,10 +49,12 @@
       <category ID="TYPE0002.001">
         <label xml:lang="de" text="Aufsatz/Artikel" />
         <label xml:lang="en" text="Article" />
+        <label xml:lang="x-dini" text="pub-type:article" />                
       </category>
       <category ID="TYPE0002.002">
         <label xml:lang="de" text="Rezension" />
         <label xml:lang="en" text="Recension" />
+        <label xml:lang="x-dini" text="pub-type:paper" />                
       </category>
 
     </category>
@@ -55,30 +64,37 @@
       <category ID="TYPE0003.001">
         <label xml:lang="de" text="Examensarbeit" />
         <label xml:lang="en" text="Examination" />
+        <label xml:lang="x-dini" text="pub-type:masterthesis" />        
       </category>
       <category ID="TYPE0003.002">
         <label xml:lang="de" text="Bachelor" />
         <label xml:lang="en" text="Bachelor" />
+        <label xml:lang="x-dini" text="pub-type:masterthesis" />                
       </category>
       <category ID="TYPE0003.003">
         <label xml:lang="de" text="Master" />
         <label xml:lang="en" text="Master" />
+        <label xml:lang="x-dini" text="pub-type:masterthesis" />                
       </category>
       <category ID="TYPE0003.004">
         <label xml:lang="de" text="Magister" />
         <label xml:lang="en" text="Magister" />
+        <label xml:lang="x-dini" text="pub-type:masterthesis" />                
       </category>
       <category ID="TYPE0003.005">
         <label xml:lang="de" text="Diplom" />
         <label xml:lang="en" text="Diploma" />
+        <label xml:lang="x-dini" text="pub-type:masterthesis" />                
       </category>
       <category ID="TYPE0003.006">
         <label xml:lang="de" text="Dissertation" />
         <label xml:lang="en" text="Dissertation" />
+        <label xml:lang="x-dini" text="pub-type:dissertation" />               
       </category>
       <category ID="TYPE0003.007">
         <label xml:lang="de" text="Habilitation" />
         <label xml:lang="en" text="Habilitation" />
+        <label xml:lang="x-dini" text="pub-type:dissertation" />                
       </category>
 
     </category>

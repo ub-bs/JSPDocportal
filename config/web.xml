@@ -204,6 +204,11 @@
          <url-pattern>/receive/*</url-pattern>
     </servlet-mapping>
 
+	<servlet-mapping>
+		<servlet-name>MCRJSPObjectServlet</servlet-name>
+		<url-pattern>/metadata/*</url-pattern>
+	</servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>MCRUserValidateServlet</servlet-name>
         <url-pattern>/servlets/MCRUserValidateServlet</url-pattern>
