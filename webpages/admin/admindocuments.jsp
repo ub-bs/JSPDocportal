@@ -4,5 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
 <fmt:setLocale value="${requestScope.lang}" />
 <fmt:setBundle basename='messages'/>
-<div class="headline"><fmt:message key="Nav.Admin.Xmetadiss" /></div>
+<c:set var="type" value="${param.workflowProcessType}" />
+
+<div class="headline"><fmt:message key="Nav.Admin.${type}" /></div>
 <p><c:import url="content/node.jsp" /></p>
