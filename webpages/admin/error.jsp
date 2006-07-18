@@ -9,4 +9,4 @@
 Bitte wenden Sie sich an Ihren Administrator, falls Sie weitere Fragen haben</p>
 
 <p>&nbsp;</p><p>&nbsp;</p>
-<p align="center"><a href="<%= MCRServlet.getBaseURL() %>">Sie müssen Sich erst auf Ihrer MyCoRe-Anwendung anmelden</a>
+<p align="center"><a href="<%= MCRServlet.getBaseURL() %>">Sie müssen Sich erst in der Digitalen Bibliothek anmelden</a>
