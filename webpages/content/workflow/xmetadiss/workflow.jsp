@@ -21,10 +21,7 @@
 
 <!--  handle task ending parameters -->
 <c:if test="${!empty(param.endTask)}">
-    <c:set var="endTask" scope="request" value="${param.endTask}" />
-    <c:set var="processID" scope="request" value="${param.processID}" />
-    <c:set var="transition" scope="request" value="${param.transition}" />
-    <c:import url="/content/workflow/xmetadiss/endTasks.jsp" />
+	<mcr:endTask success="success" processID="${param.processID}" 	taskName="${param.endTask}" transition="${param.transition}"/>
 </c:if>
 
 <!--  task management part -->
