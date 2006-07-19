@@ -6,39 +6,17 @@
 
 <fmt:setLocale value="${requestScope.lang}" />
 <fmt:setBundle basename='messages' />
-<c:set var="userHasAdminPermission" value="false" />
+<c:set var="type" value="${param.workflowProcessType}" />
 
-<table width="100%">
-	<tr>
-		<td>&nbsp;</td>
-	</tr>
-	<tr>
-		<td>
-			<div class="headline"><fmt:message key="Nav.AdminMenue" /></div>
-			<h3><fmt:message key="Webpage.admin.AllowedFunctions" />:</h3>
-		
-			<ul>
-			<mcr:checkAccess var="canDo" permission="administrate-accessrules" key="" />
-			<c:if test="${canDo}">				
-			    <c:set var="userHasAdminPermission" value="true" />
-				<li><a href="${applicationScope.WebApplicationBaseURL}nav?path=admin.accessrules"><fmt:message key="Nav.Admin.AccessRules" /></a></li>
-			</c:if>				
-			<mcr:checkAccess var="canDo" permission="administrate-user" key="" />
-			<c:if test="${canDo}">				
-     			<c:set var="userHasAdminPermission" value="true" />
-				<li><a href="${applicationScope.WebApplicationBaseURL}nav?path=admin.usermanagement"><fmt:message key="Nav.Admin.UserManagement" /></a></li>
-			</c:if>	
-			<mcr:checkAccess var="canDo" permission="administrate-xmetadiss" key="" />
-			<c:if test="${canDo}">
-     			<c:set var="userHasAdminPermission" value="true" />			
-				<li><a href="${applicationScope.WebApplicationBaseURL}nav?path=admin.xmetadiss"><fmt:message key="Nav.Admin.Xmetadiss" /></a></li>
-			</c:if>	
-			</ul>
-			
-		</td>
-	</tr>
-</table>
+<c:choose>
+<c:when test="${empty(type)}">
+	<div class="headline"><fmt:message key="Nav.AdminMenue" /></div>
+ 	<p><fmt:message key="Webpage.admin.AllowedFunctions" />:</p>
+</c:when>
+<c:otherwise>
+	<div class="headline"><fmt:message key="Nav.Admin.${type}" /></div>
+</c:otherwise>
+</c:choose>
+ 	<p><c:import url="content/node.jsp" /></p> 
 
-<c:if test="${!userHasAdminPermission}">
-   <font color="red"><fmt:message key="Webpage.admin.NoPermissionError" /></font>
-</c:if>
+

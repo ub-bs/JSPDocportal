@@ -209,7 +209,7 @@
             <refitem name="~process-registeruser" label="" />
          </navitem>
         </navitem> 
-        <navitem name="xmetadiss" label="Nav.Admin.Xmetadiss" href="admin/admindocuments.jsp" right="administrate-xmetadiss" >
+        <navitem name="xmetadiss" label="Nav.Admin.Xmetadiss" href="admin/main.jsp" right="administrate-xmetadiss" >
           <navitem name="workflow"	label="WF.xmetadiss" href="content/workflow/xmetadiss/workflow.jsp" right="administrate-xmetadiss" >
             <refitem name="~workflow-xmetadiss" label="" />
           </navitem>
@@ -217,7 +217,7 @@
             <refitem name="~process-xmetadiss" label="" />
           </navitem>
         </navitem>
-        <navitem name="publication" label="Nav.Admin.Publication" href="admin/admindocuments.jsp"  right="administrate-publication" >
+        <navitem name="publication" label="Nav.Admin.Publication" href="admin/main.jsp"  right="administrate-publication" >
           <navitem name="workflow"	label="WF.publication" href="content/workflow/publication/workflow.jsp" right="administrate-publication" >
             <refitem name="~workflow-publication" label="" />
           </navitem>
@@ -225,7 +225,7 @@
             <refitem name="~process-publication" label="" />
           </navitem>
         </navitem>
-        <navitem name="author" label="Nav.Admin.Author" href="admin/admindocuments.jsp"  right="administrate-author" >
+        <navitem name="author" label="Nav.Admin.Author" href="admin/main.jsp"  right="administrate-author" >
           <navitem name="workflow"	label="WF.author" href="content/workflow/author/workflow.jsp"  right="administrate-author">
             <refitem name="~workflow-author" label="" />
           </navitem>
