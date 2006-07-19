@@ -100,7 +100,7 @@
 		   <from>atlibri@uni-rostock.de</from>
 		   <to>initiator</to>
 		   <replyTo>atlibri@uni-rostock.de</replyTo>
-		   <subject>Sie müssen bei Ihrer Publication Daten ergänzen</subject>
+		   <subject>Sie müssen bei Ihrer Publikation Daten ergänzen</subject>
 		   <!-- <body>Mustertext</body> -->
 		   <jbpmVariableName>tmpTaskMessage</jbpmVariableName>
 		</action>     
