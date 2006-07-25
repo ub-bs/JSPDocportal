@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.3 $ $Date: 2006-01-17 11:18:19 $ -->
+<!-- $Revision: 1.4 $ $Date: 2006-07-25 11:21:20 $ -->
 <!-- ============================================== -->
 
 <xsl:stylesheet
@@ -164,7 +164,7 @@
         <img border="0" src="images/folder_plain.gif"/>
       </td>
       <td class="td1" valign="top" style="padding-right:5px;">
-		<xsl:value-of select="sort" />, 
+        <xsl:value-of select="col[@name='surname']" />,  
 		<xsl:value-of select="col[@name='firstname']" />	  
 	  </td>
       <td class="td1" valign="top" style="padding-right:5px;">
