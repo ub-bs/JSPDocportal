@@ -20,7 +20,7 @@
     <MCRDocDetail rowtype="standard" labelkey="OMD.email" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/emails/email" templatetype="tpl-email" separator=", " languageRequired="yes" />
     </MCRDocDetail>
-    <MCRDocDetail rowtype="standard" labelkey="OMD.ID" >
+    <MCRDocDetail rowtype="standard" labelkey="OMD.id" >
         <MCRDocDetailContent xpath="/mycoreobject/@ID" templatetype="tpl-text-values" separator=", " languageRequired="no" />
     </MCRDocDetail>    
 </MCRDocDetails>

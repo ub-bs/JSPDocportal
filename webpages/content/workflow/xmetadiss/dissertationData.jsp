@@ -15,7 +15,6 @@
 <div class="headline">
    <fmt:message key="WF.xmetadiss.begin" />
 </div>
-<c:out value="${applicationScope.constants}"></c:out>
 
 <table cellspacing="3" cellpadding="3" >
 <c:if test="${!empty(authorobject)}">

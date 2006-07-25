@@ -26,10 +26,8 @@
 
 <!--  task management part -->
 
-<mcr:getWorkflowTaskBeanList var="myTaskList" mode="activeTasks" workflowTypes="xmetadiss" 
-	varTotalSize="total1" />
-<mcr:getWorkflowTaskBeanList var="myProcessList" mode="initiatedProcesses" workflowTypes="xmetadiss"
-    varTotalSize="total2" />
+<mcr:getWorkflowTaskBeanList var="myTaskList" mode="activeTasks" workflowTypes="xmetadiss" 	varTotalSize="total1" />
+<mcr:getWorkflowTaskBeanList var="myProcessList" mode="initiatedProcesses" workflowTypes="xmetadiss"    varTotalSize="total2" />
 
 <c:choose>
    <c:when test="${empty(myTaskList)&& empty(myProcessList)}">

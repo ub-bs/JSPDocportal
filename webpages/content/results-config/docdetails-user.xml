@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <MCRDocDetails name="field definition for userdetails" >
-    <MCRDocDetail rowtype="standard" labelkey="OMD.ID" >
+    <MCRDocDetail rowtype="standard" labelkey="OMD.id" >
         <MCRDocDetailContent xpath="/user/@ID" templatetype="tpl-text-values" separator=", " languageRequired="no" />
     </MCRDocDetail> 
     <MCRDocDetail rowtype="standard" labelkey="OMD.name" >
@@ -13,7 +13,7 @@
         <MCRDocDetailContent xpath="/user/user.contact/contact.postalcode" templatetype="tpl-text-values" separator=" " languageRequired="no" />
         <MCRDocDetailContent xpath="/user/user.contact/contact.city" templatetype="tpl-text-values" separator=" " languageRequired="no" />
     </MCRDocDetail>
-    <MCRDocDetail rowtype="standard" labelkey="">
+    <MCRDocDetail rowtype="standard" labelkey="OMD.addressofficial">
         <MCRDocDetailContent xpath="/user/user.contact/contact.street" templatetype="tpl-text-values" separator=" " languageRequired="no" />
     </MCRDocDetail>  
     <MCRDocDetail rowtype="standard" labelkey="OMD.institution" >

@@ -19,7 +19,7 @@
     <MCRDocDetail rowtype="standard" labelkey="OMD.fax" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/phones/phone[@type='fax']" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
     </MCRDocDetail>     
-    <MCRDocDetail rowtype="standard" labelkey="OMD.ID" >
+    <MCRDocDetail rowtype="standard" labelkey="OMD.id" >
         <MCRDocDetailContent xpath="/mycoreobject/@ID" templatetype="tpl-text-values" separator=", " languageRequired="no" />
     </MCRDocDetail> 
 </MCRDocDetails>

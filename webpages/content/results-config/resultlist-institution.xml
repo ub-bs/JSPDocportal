@@ -15,7 +15,7 @@
         <MCRDocDetailContent xpath="/mycoreobject/metadata/addresses/address/state" templatetype="tpl-text-values" separator=", " languageRequired="no" />    
         <MCRDocDetailContent xpath="/mycoreobject/metadata/addresses/address/city" templatetype="tpl-text-values" separator=", " languageRequired="no" />                    
     </MCRDocDetail>        
-    <MCRDocDetail rowtype="standard" labelkey="OMD.ID" >
+    <MCRDocDetail rowtype="standard" labelkey="OMD.id" >
         <MCRDocDetailContent xpath="/mycoreobject/@ID" templatetype="tpl-text-values" separator=", " languageRequired="no" />
     </MCRDocDetail>     
 </MCRDocDetails>

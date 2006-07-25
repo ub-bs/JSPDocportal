@@ -73,6 +73,8 @@
 		</c:if>
 	      <tr>
 		    <td colspan="2">
+		      <fmt:message key="WF.publication.Created" /><br/>
+		      <fmt:message key="WF.publication.Created2" /><br/>
 		      <br/>
 		      <img title="" alt="" src="${baseURL}images/greenArrow.gif">
 		      <a href="${baseURL}nav?path=~publication&transition=&endTask=taskprocessInitialized&processID=${requestScope.task.processID}">		         

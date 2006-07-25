@@ -54,7 +54,7 @@
     <MCRDocDetail rowtype="standard" labelkey="OMD.changed" >
         <MCRDocDetailContent xpath="/mycoreobject/service/servdates/servdate[@type='modifydate']" templatetype="tpl-date-values" separator=", " languageRequired="yes" />
     </MCRDocDetail> 
-    <MCRDocDetail rowtype="standard" labelkey="OMD.ID" >
+    <MCRDocDetail rowtype="standard" labelkey="OMD.id" >
         <MCRDocDetailContent xpath="/mycoreobject/@ID" templatetype="tpl-text-values" separator=", " languageRequired="no" />
     </MCRDocDetail>     
 </MCRDocDetails>

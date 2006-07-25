@@ -39,14 +39,12 @@
     	  <tr><td class="metavalue"><x:out select=".//contact.institution" /></td></tr>
     	  <tr><td class="metavalue"><x:out select=".//contact.faculty" /></td></tr>
     	  <tr><td class="metavalue"><x:out select=".//contact.email" /></td></tr>
-    	  <tr><td class="metavalue"><b><fmt:message key="WF.registerUser.YourID"/> <x:out select="@ID" /></b></td></tr> 
+    	  <tr><td class="metavalue"><b><fmt:message key="WF.registerUser.YourID"/> <x:out select=".//@ID" /></b></td></tr> 
     	  </table>
      	</x:forEach>
     	<hr/>
     </c:otherwise>
 	</c:choose>
-	<p><fmt:message key="Webpage.admin.Info" /></p>
-	<p><fmt:message key="Admin.MailRef" /></p>
- </td>
+</td>
 </tr>
 </table>

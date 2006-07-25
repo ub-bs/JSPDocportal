@@ -18,7 +18,7 @@
          <b><fmt:message key="WF.common.Processnumber" /> ${requestScope.task.processID}</b>
          <br/>
          <b>Information:</b>
-            <fmt:message key="Nav.Application.registeruser.title.${requestScope.task.taskName}" />
+            <fmt:message key="WF.registeruser.title.${requestScope.task.taskName}" />
        </td>
       </tr>
  	 <tr valign="top">
@@ -49,7 +49,7 @@
      <tr> 
 	  <td>       
        <a href="${baseURL}nav?path=~workflow-registeruser&transition=go2sendRejectedMail&endTask=${requestScope.task.taskName}&processID=${requestScope.task.processID}">
-         <fmt:message key="Nav.Application.registeruser.${requestScope.task.taskName}" />
+         <fmt:message key="WF.registeruser.${requestScope.task.taskName}" />
 	   </td>
 	  </tr>	      
    </c:when>
@@ -57,7 +57,7 @@
       <tr> 
 	   <td>       
         <table width="100%" >
-	     <tr><td >	       
+	     <tr><td>	       
 	       <a href="${baseURL}nav?path=~workflow-registeruser&transition=go2canUserBeCommitted&endTask=${requestScope.task.taskName}&processID=${requestScope.task.processID}">
 	         <fmt:message key="WF.registeruser.UserSubmitting" />
 	       </a>  
@@ -86,10 +86,19 @@
 	   </td>
 	  </tr>	      
    </c:when>
+   <c:when test="${requestScope.task.taskName eq 'taskAdminCheckCommitmentNotSuccessfull' }">
+      <tr> 
+	   <td>       
+	         <fmt:message key="WF.registeruser.taskAdminCheckCommitmentNotSuccessfull" />
+	   </td>
+	  </tr>	      
    
+   </c:when>
    <c:otherwise>
       <tr>
-       <td> 	    <b>nothing to do ??</b>	   </td>
+       <td>
+	    <p> what else? TASK = ${requestScope.task.taskName} </p>
+	   </td>
 	  </tr> 
    </c:otherwise>
 </c:choose>

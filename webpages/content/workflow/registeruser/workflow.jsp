@@ -38,6 +38,9 @@
 			   </table>
 			 </td></tr>	
 			</c:forEach>
+			<c:if test="${empty(myTaskList)}">
+           		<font color="#00ff00"><fmt:message key="WF.common.NoTasks" /></font>
+           	</c:if>			
 		</table>
 	</c:when>
 	<c:otherwise>
