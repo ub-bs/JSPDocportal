@@ -34,6 +34,7 @@ import org.apache.log4j.Logger;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jdom.Element;
 import org.mycore.common.MCRException;
+import org.mycore.common.xml.MCRXMLHelper;
 import org.mycore.frontend.cli.MCRUserCommands2;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
@@ -116,7 +117,8 @@ public class MCRWorkflowManagerRegisteruser extends MCRWorkflowManager{
 		String userid = getVariableValueInDecision("initiatorUserID", processid, executionContext);
 
 		if(decisionNode.equals("canUserBeSubmitted")){
-			if(checkSubmitVariables(processid)){
+			if(checkSubmitVariables(processid) && 
+				this.userStrategy.checkMetadata(userid,MCRWorkflowDirectoryManager.getWorkflowDirectory(this.mainDocumentType))){				
 				return "go2userCanBeSubmitted";
 			}else{
 				return "go2userMustEdited";
@@ -138,9 +140,11 @@ public class MCRWorkflowManagerRegisteruser extends MCRWorkflowManager{
 		MCRWorkflowProcess wfp = getWorkflowProcess(processid);
 		try{
 			String group = wfp.getStringVariable("initiatorGroup");
-			String email = wfp.getStringVariable("initiatorEmail");	
+			String email = wfp.getStringVariable("initiatorEmail");
+			String pwd	 = wfp.getStringVariable("initiatorPwd");	
 			ret =  !MCRWorkflowUtils.isEmpty(group);
 			ret =  ret && (!MCRWorkflowUtils.isEmpty(email));			
+			ret =  ret && (!MCRWorkflowUtils.isEmpty(pwd));
 		}catch(MCRException ex){
 			logger.error("catched error", ex);
 		}finally{
@@ -226,7 +230,8 @@ public class MCRWorkflowManagerRegisteruser extends MCRWorkflowManager{
 		}
 		if ( userMetadata.getChild("user.description") != null)
 			map.put("initiatorIntend", userMetadata.getChild("user.description").getText());
-		
+		if ( userMetadata.getChild("user.password") != null)
+			map.put("initiatorPwd", "xxxxxxx");
 		if ( userMetadata.getChild("user.groups") != null){
 			List groups = userMetadata.getChild("user.groups").getChildren();
 			StringBuffer sGroups = new StringBuffer("");

@@ -8,6 +8,7 @@ import java.util.Iterator;
 import org.apache.log4j.Logger;
 import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
+import org.mycore.common.xml.MCRXMLHelper;
 import org.mycore.frontend.cli.MCRUserCommands2;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
@@ -92,6 +93,19 @@ public class MCRDefaultUserStrategy extends MCRUserStrategy{
 		}
 	}
 
+	public boolean checkMetadata(String userid, String directory) {  
+		boolean bSuccess = true;
+		String filename = directory + "/" + "user_" + userid + ".xml";
+		try { 
+			MCRXMLHelper.parseURI(filename, true);
+		}catch(Exception e){
+			logger.error("Check Metadata of user" +  filename);
+			logger.error( e.getMessage());
+			bSuccess = false;
+		}
+		return bSuccess;
+	}
+	
 	public boolean commitUserObject(String userid, String directory) {
 		boolean bSuccess = true;
 		String filename = directory + "/" + "user_" + userid + ".xml";
@@ -100,6 +114,7 @@ public class MCRDefaultUserStrategy extends MCRUserStrategy{
 				MCRUserCommands2.updateUserFromFile(filename);
 			} else {
 				MCRUserCommands2.createUserFromFile(filename);
+				
 			}
 		}catch(Exception e){
 			logger.error("could not commit user");

@@ -90,4 +90,6 @@ public abstract class MCRUserStrategy {
 		return true;
 		
 	}
+
+	public abstract boolean checkMetadata(String userid, String workflowDirectory) ;
 }
