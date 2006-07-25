@@ -75,6 +75,7 @@
       <fmt:message key="OMD.${type}.title" />:
          <mcr:simpleXpath jdom="${mycoreobject}" xpath="/mycoreobject/metadata/titles/title[@xml:lang='${requestScope.lang}']" />
          <mcr:simpleXpath jdom="${mycoreobject}" xpath="/mycoreobject/metadata/names/name/fullname" />
+	     <mcr:simpleXpath jdom="${mycoreobject}" xpath="/user/@ID" />
      </div>
    </td>
    <td width="30">&nbsp;</td>

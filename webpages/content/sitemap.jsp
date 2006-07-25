@@ -16,7 +16,7 @@
 		<th class="sitemap"><fmt:message key="Nav.MenuAbove" /></th>
 		<th class="sitemap"><fmt:message key="Nav.AdminMenue" /></th>
 	</tr>	
-	<tr>
+	<tr valign="top">
 		<td>
 			<x:set scope="session" var="recNavPath" select="$Navigation//navigation[@name='left']/navitem[@name='left']"/>
 			<c:import url="content/sitemap_items_rec.jsp" />
