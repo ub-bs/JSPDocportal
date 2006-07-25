@@ -43,7 +43,6 @@
 //org.jdom.output.XMLOutputter xmlout = new org.jdom.output.XMLOutputter(org.jdom.output.Format.getPrettyFormat());
 //System.out.print(xmlout.outputString(uElm));
 		            user = new MCRUser(uElm, true);
-		            user.setPassword("dummy");
 				}	            
 	            
 	        } else if ( request.getParameter("step").equalsIgnoreCase("delete" )) {
@@ -95,11 +94,17 @@
 			</td>
 		</tr>
 		<tr>
+<% if ( user.getPassword().length()> 1 ) { %>	
+			<td>
+			<input type="hidden" name="upass" id="upass" value="<%=user.getPassword()%>" ">
+			</td>
+<% } else { %>
 			<td>Passwort <sup class="required">*</sup>:</td>
 			<td>
-				<input type="password" name="upass" id="upass" value="<%=user.getPassword()%>" maxlength="200" size="30" style="width:209px" onchange="validatePresent(this);">
+			<input type="password" name="upass" id="upass" value="<%=user.getPassword()%>" maxlength="20" size="30" style="width:209px" onchange="validatePresent(this);"> 
 			</td>
-		</tr>
+<% } %>		
+	    </tr>
 		<tr>
 			<td>Beschreibung/Vorhaben:</td>
 			<td>
