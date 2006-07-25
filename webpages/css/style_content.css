@@ -131,54 +131,6 @@
     margin-left: 0px;
 }
 /* =================================================================== */
-/* sitemap                                                             */
-/* =================================================================== */
-.sitemap tr, .sitemap th, .sitemap td, .sitemap a {
-    color: #9A5B11;
-    background : #FFFFFF; /* white */
-    font-size: 12;
-    font-family: Verdana, Arial, Helvetica, sans-serif; 
-    font-weight : normal;           
-    text-decoration: none;  
-}
-.sitemap a {
-    color: #9A5B11;
-    font-size: 12;
-    text-decoration: none;
-    font-weight : normal;   
-}
-.sitemap a:hover {
-    text-decoration: underline;
-}
-/* headlines like "menu below..." */
-.sitemap th {
-    font-weight : bold;         
-    text-align: left;       
-    padding: 3px;   
-    color: #041B26;
-    background : #CAD9E0;       
-    border-style: solid;
-    border-width: 1px;
-    border-color: #041B26;      
-}
-.sitemap th.mainMenuPoint {
-    color: #454545;
-    background : #EDEDED;   
-    padding: 3px;           
-    border-color: #454545;  
-}
-.sitemap th.mainMenuPoint a {
-    color: #454545;
-    font-size: 100%;    
-    font-weight : bold;         
-    background: #EDEDED; 
-}
-.sitemap th.mainMenuPoint a:hover {
-    color: #9A5B11;
-    font-weight : bold;         
-    background: #EDEDED; 
-}
-/* =================================================================== */
 /* search masks & login                                                */
 /* =================================================================== */
 
