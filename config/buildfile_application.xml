@@ -1237,27 +1237,37 @@
 
             change to user root with alleswirdgut
       			
-            create group data from file group_admingroup.xml
-            create user data from file user_administrator.xml
-            change to user administrator with alleswirdgut
+        	create user data from file user_administrator.xml        	        	  	
 
-            create group data from file group_readergroup1.xml
-            create group data from file group_authorgroup1.xml
-            create group data from file group_editorgroup1.xml
-            create user data from file user_reader1A.xml
-            create user data from file user_author1A.xml
-            create user data from file user_author1B.xml
-            create user data from file user_editor1A.xml
-            create user data from file user_editor1B.xml
+            create group data from file group_adminall.xml        	
+        	
+        	create group data from file group_adminauthor.xml
+        	create group data from file group_createauthor.xml
+        	
+        	create group data from file group_admindisshab.xml
+        	create group data from file group_createdisshab.xml
 
-            create group data from file group_readergroup2.xml
-            create group data from file group_authorgroup2.xml
-            create group data from file group_editorgroup2.xml
-            create user data from file user_reader2A.xml
-            create user data from file user_author2A.xml
-            create user data from file user_author2B.xml
-            create user data from file user_editor2A.xml
-            create user data from file user_editor2B.xml
+        	create group data from file group_admininstitution.xml
+        	create group data from file group_createinstitution.xml
+        	
+        	create group data from file group_adminpublication.xml
+        	create group data from file group_createpublication.xml
+        	
+        	create group data from file group_adminclassification.xml
+        	
+        	create group data from file group_adminuser.xml
+
+        	create user data from file user_editorUser.xml
+        	create user data from file user_editorClass.xml
+        	create user data from file user_author1A.xml
+        	create user data from file user_author1B.xml
+        	create user data from file user_editor1A.xml
+        	create user data from file user_editor1B.xml
+
+        	create user data from file user_author2A.xml
+        	create user data from file user_author2B.xml
+        	create user data from file user_editor2A.xml
+        	create user data from file user_editor2B.xml
 
             check user data consistency
         </echo>
