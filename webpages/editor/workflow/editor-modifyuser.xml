@@ -25,7 +25,7 @@
             </cell>
             <cell row="2" col="2" anchor="WEST" ref="TFzeile64M" var="user/@ID" sortnr="1" />
             <cell row="2" col="3" anchor="EAST" >
-                <helpPopup id="HAccount" width="400px" height="200px">
+                <helpPopup id="HAccount" width="400px" >
                     <label xml:lang="de">
                         In diesem Feld geben Sie bitte die Benutzerkennung (user-ID) des neu
                         anzulegenden Benutzers ein. Die ID darf nicht länger als 20 Zeichen sein.
@@ -49,7 +49,7 @@
                 </text>
             </cell>
             <cell row="3" col="2" anchor="WEST" var="user/user.password" sortnr="2">
-                <password width="48" maxlength="128" />
+                <password width="48" maxlength="128" class="mandatory" default="dummy"/>
             </cell>
             
             <!-- *** Description *** -->
@@ -65,7 +65,7 @@
             </cell>
             <cell row="4" col="2" anchor="WEST" ref="TFarea4096" var="user/user.description" sortnr="3"/>
             <cell row="4" col="3" anchor="EAST">
-                <helpPopup id="HDescription" width="400px" height="200px">
+                <helpPopup id="HDescription" width="400px"  >
                     <label xml:lang="de">
                         In diesem Feld können Sie einen Text zur Beschreibung des neuen
                         Benutzers bzw. der neuen Benutzerin eingeben.
@@ -116,7 +116,7 @@
                 </list>
             </cell>
             <cell row="7" col="3" anchor="EAST">
-                <helpPopup id="HPrimaryGroup" width="400px" height="200px">
+                <helpPopup id="HPrimaryGroup" width="400px"  >
                     <label xml:lang="de">
                         Jede(r) Benutzer(in) muß mindestens einer Gruppe angehören, da 
                         Privilegien im System durch die Gruppenzugehörigkeit geregelt wird.
@@ -149,7 +149,7 @@
                 </list>
             </cell>
             <cell row="8" col="3" anchor="EAST">
-                <helpPopup id="HAdditionalGroups" width="400px" height="200px">
+                <helpPopup id="HAdditionalGroups" width="400px"  >
                     <label xml:lang="de">
                         Privilegien im System (Rollen) werden durch die Gruppenzugehörigkeit 
                         geregelt. Durch zusätzliche Gruppenzugehörigkeiten können die möglichen
@@ -306,6 +306,7 @@
             </cell>
             <cell row="21" col="2" anchor="WEST" ref="TFzeile64M" var="user/user.contact/contact.email" sortnr="16" />
 
+
             <!-- *** Telephone *** -->
             <cell row="22" col="1" anchor="EAST">
                 <text id="LTelephone">
@@ -317,7 +318,7 @@
                     </label>
                 </text>
             </cell>
-            <cell row="22" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.telephone" sortnr="17" />
+            <cell row="22" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.telephone" sortnr="14" />
 
             <!-- *** Fax *** -->
             <cell row="23" col="1" anchor="EAST">
@@ -330,7 +331,7 @@
                     </label>
                 </text>
             </cell>
-            <cell row="23" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.fax" sortnr="18" />
+            <cell row="23" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.fax" sortnr="15" />
 
             <!-- *** Cellphone *** -->
             <cell row="24" col="1" anchor="EAST">
@@ -343,7 +344,7 @@
                     </label>
                 </text>
             </cell>
-            <cell row="24" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.cellphone" sortnr="19" />
+            <cell row="24" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.cellphone" sortnr="17" />
 
             <!-- *** Buttons *** -->
             <cell row="99"  col="1" ref="VSpace25" anchor="WEST" />

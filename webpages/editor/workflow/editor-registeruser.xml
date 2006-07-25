@@ -21,7 +21,7 @@
             <!-- *** Update allowed? *** -->
 			<hidden var="user/@update_allowed" default="true" />
             <!-- *** Password *** -->
-		    <hidden var="user/password" default="dummy"  />
+		    <hidden var="user/user.password" default="dummy"  />
             <!-- *** Primary group = gastgroup *** -->
             <hidden var="user/user.primary_group" default="gastgroup" /> 
 			
@@ -247,7 +247,7 @@
                     </label>
                 </text>
             </cell>
-            <cell row="22" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.telephone" sortnr="17" />
+            <cell row="22" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.telephone" sortnr="14" />
 
             <!-- *** Fax *** -->
             <cell row="23" col="1" anchor="EAST">
@@ -260,7 +260,7 @@
                     </label>
                 </text>
             </cell>
-            <cell row="23" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.fax" sortnr="18" />
+            <cell row="23" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.fax" sortnr="15" />
 
             <!-- *** Cellphone *** -->
             <cell row="24" col="1" anchor="EAST">
@@ -273,7 +273,7 @@
                     </label>
                 </text>
             </cell>
-            <cell row="24" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.cellphone" sortnr="19" />
+            <cell row="24" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.cellphone" sortnr="17" />
 
             <!-- *** Cellphone *** -->
             <cell row="34" col="1" anchor="EAST">
@@ -287,7 +287,7 @@
                 </text>
             </cell>
             <cell row="34" col="2" anchor="WEST" var="user/accept">
-                <checkbox value="false" checked="false" class="mandatory" > 
+                <checkbox value="false" checked="true" class="mandatory" > 
                     <label xml:lang="de">&#160;&#160;Ich erkenne die Regelungen	zur Nutzung der Digitalen Bibliothek an.</label>
                     <label xml:lang="en">&#160;&#160;i accept the licencse rights for using the digital library account. </label>
                 </checkbox>

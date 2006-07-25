@@ -179,7 +179,9 @@
     <hidden var="metadata/publishers/publisher[2]/@lang" default="en" />
     <!--  configure this in messages_de.properties and messages_en.properties -->
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.publishers.publisher[2]&amp;prop=MCR.WorkflowEngine.PublisherDefaultName.xmetadiss&amp;lang=en&amp;bundle=messages" />
-    <hidden var="metadata/publishers/publisher[2]/@type" default="publication" />            
+    <hidden var="metadata/publishers/publisher[2]/@type" default="publication" />    
+    <cell col="1" row="1" anchor="WEST" />
+            
   </panel>
 
 <!-- *** Data for the PublishLinks ** -->
@@ -191,6 +193,7 @@
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.publishlinks.publishlink.@href&amp;prop=MCR.WorkflowEngine.PublisherDefaultID.xmetadiss&amp;defaultValue=DocPortal_institution_00000001" />
     <!--  configure this in messages_de.properties and messages_en.properties -->    
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.publishlinks.publishlink.@title&amp;prop=MCR.WorkflowEngine.PublisherDefaultName.xmetadiss&amp;lang=de&amp;bundle=messages" />    
+    <cell col="1" row="1" anchor="WEST" />
   </panel>
 
 <!-- ** Data for the FORMAT *** -->
@@ -198,10 +201,11 @@
   <panel id="DFormat">
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/formats&amp;classname=MCRMetaClassification&amp;textsearch=false" />
     <hidden var="metadata/formats/format/@inherited" default="0" />
-		<!-- configure this in mycore.properties  -->
-	   <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.formats.format.@classid&amp;prop=MCR.ClassificationID.Format&amp;defaultValue=DocPortal_class_00000006" />				 
-	   <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.formats.format.@categid&amp;prop=MCR.Classification.Format.DefaultCategoryID.xmetadiss&amp;defaultValue=FORMAT0001" />				 
-	   <!--  <hidden var="@classid" default="DocPortal_class_00000009" />  -->
+	<!-- configure this in mycore.properties  -->
+	<include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.formats.format.@classid&amp;prop=MCR.ClassificationID.Format&amp;defaultValue=DocPortal_class_00000006" />				 
+	<include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.formats.format.@categid&amp;prop=MCR.Classification.Format.DefaultCategoryID.xmetadiss&amp;defaultValue=FORMAT0001" />				 
+    <!--  <hidden var="@classid" default="DocPortal_class_00000009" />  -->
+    <cell col="1" row="1" anchor="WEST" />
   </panel>
 
 <!-- *** Data for the KEYWORDS ** -->
@@ -238,7 +242,10 @@
     <cell col="3" row="14" width="150" anchor="NORTHEAST" ref="HKeywordsClassifications" />     
     
     <cell col="1" row="15" colspan="3" />       
+   
+ </panel> 
 
+ <panel id="DHiddenFields" >
     <!--  after this the hidden fields !!! in the same paneel  -->
     <!-- *** Data for the COVERAGE ** -->
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/coverages&amp;classname=MCRMetaLangText" />  
@@ -304,6 +311,7 @@
     <hidden var="metadata/contacts/contact/@type" default="ddb" />
     <hidden var="metadata/contacts/contact/@lang" default="de" />  
     
+    <cell col="1" row="1"  />       
   </panel>
 
 
