@@ -17,9 +17,6 @@
     <hidden var="@resultlistType" default="simple" />
     <hidden var="@maxResults" default="100" />
     
-    <hidden var="types/type/@field" default="alldocs" />
-    <hidden var="types/type[2]/@field" default="allpers" />
-    
     <hidden var="conditions/@format" default="xml" />
     <hidden var="conditions/boolean/@operator" default="AND" />
    

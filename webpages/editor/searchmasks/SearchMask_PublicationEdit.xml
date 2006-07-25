@@ -18,8 +18,8 @@
       <hidden var="conditions/boolean/condition1/@field"    default="objectType" />
       <hidden var="conditions/boolean/condition1/@operator" default="=" />
       <hidden var="conditions/boolean/condition1/@value"    default="document" />
-      <hidden var="conditions/boolean/condition2/@field"    default="editDocument" />
-      <hidden var="conditions/boolean/condition2/@operator" default="like" />
+      <hidden var="conditions/boolean/condition2/@field"    default="allMeta" />
+      <hidden var="conditions/boolean/condition2/@operator" default="contains" />
       
       <cell row="1" col="1" anchor="WEST" >
         <text><label i18n="Editor.Common.MetaAndID" /></text>

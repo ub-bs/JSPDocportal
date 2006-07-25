@@ -218,7 +218,7 @@
       </text>      
       <panel id="DMetadata">
             <hidden var="@field" default="allMeta" />
-            <hidden var="@operator" default="like" />            
+            <hidden var="@operator" default="contains" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="@value" />
       </panel>
       <helpPopup id="HMetadata" width="400px" >
