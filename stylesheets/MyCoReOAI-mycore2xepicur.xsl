@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!-- ============================================== -->
-<!-- $Revision: 1.1 $ $Date: 2006-07-18 15:25:13 $ -->
+<!-- $Revision: 1.2 $ $Date: 2006-07-25 11:26:23 $ -->
 <!-- ============================================== -->
 <xsl:stylesheet
      version="1.0"
@@ -16,6 +16,8 @@
     <xsl:param name="ServletsBaseURL" select="''" /> 
     <xsl:param name="JSessionID" select="''" />    
     <xsl:param name="WebApplicationBaseURL" select="''" />
+  
+
     <xsl:template match="/">
         <xsl:apply-templates select="*" />
     </xsl:template>
@@ -121,13 +123,13 @@
     
     <xsl:template name="administrative_data">
         <xsl:param name="epicurType" select="''" />
-        <administrative_data>
-            <delivery>
-               <xsl:element name="update_status">
+        <xsl:element name="administrative_data" namespace="urn:nbn:de:1111-2004033116">
+            <xsl:element name="delivery" namespace="urn:nbn:de:1111-2004033116">
+               <xsl:element name="update_status" namespace="urn:nbn:de:1111-2004033116">
                    <xsl:attribute name="type"><xsl:value-of select="$epicurType" /></xsl:attribute>
                </xsl:element>
-            </delivery>
-        </administrative_data>
+           </xsl:element>
+        </xsl:element>
     </xsl:template>
     
     <xsl:template name="url_update_general">
@@ -137,19 +139,19 @@
     <xsl:template name="record">
         <xsl:param name="epicurType" select="''" />
         <xsl:variable name="mycoreobjectID" select="@ID" />        
-        <record>
-            <xsl:element name="identifier">
+        <xsl:element name="record" namespace="urn:nbn:de:1111-2004033116">
+            <xsl:element name="identifier" namespace="urn:nbn:de:1111-2004033116">
                 <xsl:attribute name="scheme">urn:nbn:de</xsl:attribute>
                 <xsl:value-of select="./metadata/urns/urn[@type=$epicurType]" />
             </xsl:element>
             <xsl:if test="$epicurType='urn_new_version'">
-                <xsl:element name="isVersionOf">
+                <xsl:element name="isVersionOf" namespace="urn:nbn:de:1111-2004033116">
                     <xsl:attribute name="scheme">urn:nbn:de</xsl:attribute>
                     <xsl:value-of select="./metadata/urns/urn[@type='urn_first']" />
                 </xsl:element>
             </xsl:if>
-            <resource>
-                <xsl:element name="identifier">
+            <xsl:element name="resource" namespace="urn:nbn:de:1111-2004033116">
+                <xsl:element name="identifier" namespace="urn:nbn:de:1111-2004033116">
                     <xsl:attribute name="scheme">url</xsl:attribute>
                     <xsl:attribute name="role">primary</xsl:attribute>
                     <xsl:attribute name="origin">original</xsl:attribute>
@@ -159,11 +161,11 @@
                     </xsl:if>
                     <xsl:value-of select="concat($WebApplicationBaseURL,'metadata/', $mycoreobjectID)" />
                 </xsl:element>
-                <xsl:element name="format">
+                <xsl:element name="format" namespace="urn:nbn:de:1111-2004033116">
                     <xsl:attribute name="scheme">imt</xsl:attribute>
                     <xsl:value-of select="'text/html'" />
                 </xsl:element>
-            </resource>
+            </xsl:element>
             <xsl:for-each select="./structure/derobjects/derobject">
                    <xsl:variable name="derID" select="./@xlink:href" />
                    <xsl:variable name="filelink" select="concat($WebApplicationBaseURL,'file/',
@@ -180,38 +182,38 @@
                       <xsl:variable name="filenumber" select="$details/mcr_directory/numChildren/total/files" />                  
                       <xsl:choose>
                         <xsl:when test="number($filenumber) &gt; 1">
-                           <resource>
-                             <xsl:element name="identifier">
+                           <xsl:element name="resource" namespace="urn:nbn:de:1111-2004033116">
+                             <xsl:element name="identifier" namespace="urn:nbn:de:1111-2004033116">
 	                             <xsl:attribute name="scheme">url</xsl:attribute>
                                 <xsl:attribute name="target">transfer</xsl:attribute>
 		                          <xsl:value-of select="concat($ServletsBaseURL,'MCRZipServlet?id=',$derID)" />
 		                       </xsl:element> 
-		                       <xsl:element name="format">
+		                       <xsl:element name="format" namespace="urn:nbn:de:1111-2004033116">
 		                       	  <xsl:attribute name="scheme">imt</xsl:attribute>
 		                          <xsl:value-of select="'application/zip'" />
                             </xsl:element>
-                           </resource>
+                           </xsl:element>
                         </xsl:when>
                         <xsl:otherwise>
                            <!-- 1 PDF File should be return - the default case -->
 		                    <xsl:for-each select="$details/mcr_directory/children/child[@type='file']">
-                            <resource>
-                             <xsl:element name="identifier">
-	                             <xsl:attribute name="scheme">url</xsl:attribute>
-		                          <xsl:value-of select="concat($WebApplicationBaseURL,'file/',$derID,'/',./name)" />
-		                       </xsl:element> 
-		                       <xsl:element name="format">
-		                       	  <xsl:attribute name="scheme">imt</xsl:attribute>
-                                <!-- just application/pdf possible -->
-		                          <xsl:value-of select="concat('application/',./contentType)" />
-                             </xsl:element>
-                            </resource>                                   
+                            <xsl:element name="resource" namespace="urn:nbn:de:1111-2004033116">
+	                             <xsl:element name="identifier" namespace="urn:nbn:de:1111-2004033116">
+	                             	<xsl:attribute name="scheme">url</xsl:attribute>
+		                        	  <xsl:value-of select="concat($WebApplicationBaseURL,'file/',$derID,'/',./name)" />
+		                    	   </xsl:element> 
+		                	       <xsl:element name="format" namespace="urn:nbn:de:1111-2004033116">
+		            	           	  <xsl:attribute name="scheme">imt</xsl:attribute>
+    		                            <!-- just application/pdf possible -->
+		    		                      <xsl:value-of select="concat('application/',./contentType)" />
+    		                         </xsl:element>
+	                            </xsl:element>                                   
 		                    </xsl:for-each>                                   
 		                  </xsl:otherwise>
                       </xsl:choose>
                    </xsl:if>                  
              </xsl:for-each>
-        </record>
+        </xsl:element>
     </xsl:template>
 
     <xsl:template match="*">

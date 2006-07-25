@@ -551,6 +551,7 @@ MCR.hibernate.hbm.xml.MCRRESUMPTIONTOKEN=MCRRESUMPTIONTOKEN.hbm.xml
 ## instance independent settings
 # the email address of the oai admin
 MCR.oai.adminemail=admin@mycore.de
+MCR.oai.epicur.responseemail=admin@mycore.de
 # A temporary directory to store the resumption tokens
 #MCR.oai.resumptiontoken.dir=/export/DissApplication/tmp
 # timeout, after which the resumption tokens will be deleted (in hours)
@@ -560,12 +561,12 @@ MCR.oai.maxreturns=25
 # implementation of the OAI query interface
 MCR.oai.queryservice=org.mycore.services.oai.MCROAIQueryImpl
 # metadata transformer stylesheets: oai_dc is required, others are optional and use as input metadata format oai_dc
-MCR.oai.metadata.transformer.oai_dc=MyCoReOAI-mycore2dc.xsl
+MCR.oai.metadata.transformer.oai_dc=MyCoReOAI-mycore2simpledc.xsl
 # the store, where resumption tokens are saved
 MCR.oai.resumptiontoken.store=org.mycore.backend.hibernate.MCRHIBResumptionTokenStore
 
 # qualified Dublin Core
-MCR.oai.metadata.transformer.oai_qdc=MyCoReOAI-mycore2dcqualified.xsl
+MCR.oai.metadata.transformer.oai_qdc=MyCoReOAI-mycore2dc.xsl
 MCR.oai.metadata.namespace.oai_qdc=http://www.mycore.de/xmlns/qdc
 MCR.oai.metadata.schema.oai_qdc=http://www.mycore.de/schema/qdc.xsd
 
@@ -592,6 +593,7 @@ MCR.oai.setscheme.searchfields.MCROAIProvider=format,type, subject
 MCR.oai.setscheme.classids.MCROAIProvider.format=DocPortal_class_00000006
 MCR.oai.setscheme.classids.MCROAIProvider.type=DocPortal_class_00000005
 MCR.oai.setscheme.classids.MCROAIProvider.subject=DocPortal_class_00000009
+
 
 # Generic mail configuration for MCRMailer
 MCR.mail.server=localhost
