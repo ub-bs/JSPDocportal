@@ -8,7 +8,7 @@
   
   <swimlane name="usereditor">
 	<assignment class="org.mycore.frontend.workflowengine.jbpm.MCRPooledActorAssignmentHandler">
-		<groupName>admingroup</groupName>
+		<groupName>adminuser</groupName>
 	</assignment>  
   </swimlane>
   
@@ -128,7 +128,7 @@
 
   <end-state name="userCommitted">
     <event type='node-enter'>
-     <action class="org.mycore.frontend.workflowengine.jbpm.registeruser.MCRSendmailActionregisteruser">
+     <action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
        <from>atlibri@uni-rostock.de</from>
        <to>initiator</to>
        <replyTo>atlibri@uni-rostock.de</replyTo>
@@ -136,6 +136,10 @@
        <body>Ihre Nutzerdaten wurden in das System eingestellt. Sie können sich mit Ihrem Bibliotheksaccount anmelden.</body>
        <!-- <body>Mustertext</body> -->
        <mode>success</mode>
+     </action>     
+     <action class="org.mycore.frontend.workflowengine.jbpm.MCRCleanUpWorkflowAction">
+           <varnameOBJID>initiatorUserID</varnameOBJID>
+           <varnameERROR>CLEANUPERROR</varnameERROR>
      </action>     
     </event>     
   </end-state>

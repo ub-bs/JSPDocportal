@@ -9,7 +9,7 @@
   
   <swimlane name="authoreditor">
 	<assignment class="org.mycore.frontend.workflowengine.jbpm.MCRPooledActorAssignmentHandler">
-		<groupName>editorgroup1</groupName>
+		<groupName>adminauthor</groupName>
 	</assignment>  
   </swimlane>
   
@@ -142,7 +142,7 @@
      <transition name="go2authorCommitted2" to="authorCommitted" />
   </task-node>  
 
-  <end-state name="authorCommitted">
+  <task-node name="authorCommitted">
      <event type='node-enter'>
 		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
 		   <from>administrator</from>
@@ -150,18 +150,19 @@
 		   <subject>Ihr Autor wurde erfolgreich angelegt.</subject>
 		   <body>Ich, ${Author.P3}, wünsche viel Erfolg bei der Arbeit!</body>
 		   <mode>success</mode>
-		</action>     
+		</action> 
      </event>     
-  </end-state> 
+     <transition name="go2cleanupWorkflow" to="cleanupWorkflow" />
+  </task-node> 
   
   <task-node name="tnDisplayAuthorData">
       <task name="taskDisplayAuthorData" swimlane="initiator" />
-	  <transition name="go2CanChangesBeCommitted" to="canChangesBeCommitted" />
+	  <transition name="go2canChangesBeCommitted" to="canChangesBeCommitted" />
   </task-node>
                 
   <decision name="canChangesBeCommitted">
      <handler class="org.mycore.frontend.workflowengine.jbpm.author.MCRDecisionHandlerAuthor" />
-     <transition name="changesCanBeCommitted" to="authorFinished">
+     <transition name="changesCanBeCommitted" to="cleanupWorkflow">
        <action class="org.mycore.frontend.workflowengine.jbpm.MCRCommitObjectAction">
            <varnameOBJID>createdDocID</varnameOBJID>
            <varnameERROR>COMMITERROR</varnameERROR>
@@ -169,6 +170,16 @@
      </transition>
       <transition name="changesCantBeCommitted" to="tnDisplayAuthorData"></transition>
   </decision>
+  
+  <task-node name="cleanupWorkflow">
+     <event type='node-enter'>
+        <action class="org.mycore.frontend.workflowengine.jbpm.MCRCleanUpWorkflowAction">
+           <varnameOBJID>createdDocID</varnameOBJID>
+           <varnameERROR>CLEANUPERROR</varnameERROR>
+        </action>                  
+     </event>   
+     <transition name="go2authorFinished" to="authorFinished" />
+  </task-node>
   
   <end-state name="authorFinished">
    </end-state>

@@ -8,7 +8,7 @@
   
   <swimlane name="publicationeditor">
 	<assignment class="org.mycore.frontend.workflowengine.jbpm.MCRPooledActorAssignmentHandler">
-		<groupName>editorgroup1</groupName>
+		<groupName>adminpublication</groupName>
 	</assignment>  
   </swimlane>
   
@@ -97,9 +97,9 @@
      <task name="taskEnterMessageData" swimlane="publicationeditor" />
      <transition name="go2documentCreated2" to="documentCreated">
 		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-		   <from>atlibri@uni-rostock.de</from>
+		   <from>MCR.WorkflowEngine.publication.from</from>
 		   <to>initiator</to>
-		   <replyTo>atlibri@uni-rostock.de</replyTo>
+		   <replyTo>MCR.WorkflowEngine.publication.replyto</replyTo>
 		   <subject>Sie müssen bei Ihrer Publikation Daten ergänzen</subject>
 		   <!-- <body>Mustertext</body> -->
 		   <jbpmVariableName>tmpTaskMessage</jbpmVariableName>
@@ -131,9 +131,9 @@
   <task-node name="adminCheck">
      <event type='node-enter'>
 		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-		   <from>atlibri@uni-rostock.de</from>
-		   <to>anja.schaar@uni-rostock.de</to>
-		   <replyTo>atlibri@uni-rostock.de</replyTo>
+		   <from>MCR.WorkflowEngine.publication.from</from>
+		   <to>MCR.WorkflowEngine.publication.admin</to>
+		   <replyTo>MCR.WorkflowEngine.publication.from</replyTo>
 		   <subject>Probleme beim Veröffentlichen einer Publikation</subject>
 		   <body>Eine Publikation konnte nicht veröffentlicht werden.</body>
 		</action>          
@@ -142,17 +142,28 @@
      <transition name="go2documentCommitted" to="documentCommitted" />
   </task-node>     
 
-  <end-state name="documentCommitted">
+  <task-node name="documentCommitted">
      <event type='node-enter'>
 		<action class="org.mycore.frontend.workflowengine.jbpm.publication.MCRSendmailActionPublication">
-		   <from>atlibri@uni-rostock.de</from>
+		   <from>MCR.WorkflowEngine.publication.from</from>
 		   <to>initiator</to>
-		   <replyTo>atlibri@uni-rostock.de</replyTo>
+		   <replyTo>MCR.WorkflowEngine.publication.from</replyTo>
 		   <subject>Ihre Publikation wurde erfolgreich veröffentlicht</subject>
 		   <!-- <body>dynamic</body> -->
 		   <mode>success</mode>
-		</action>     
-     </event>     
+		</action>   
+     </event> 
+     <transition name="go2cleanUpWorkingDirectory" to="cleanUpWorkingDirectory" />     
+  </task-node>
+  
+  <end-state name="cleanUpWorkingDirectory">
+     <event type='node-enter'>
+        <action class="org.mycore.frontend.workflowengine.jbpm.MCRCleanUpWorkflowAction">
+           <varnameOBJID>createdDocID</varnameOBJID>
+           <varnameERROR>CLEANUPERROR</varnameERROR>
+        </action>               
+     </event>   
   </end-state>
+  
   
 </process-definition>
