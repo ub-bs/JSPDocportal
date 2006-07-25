@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="ISO_8859-1"?>
 <mycoreuser xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:noNamespaceSchemaLocation="MCRUser.xsd">
-  <user numID="9" ID="reader1A" id_enabled="true" update_allowed="true">
-    <user.password>reader1A</user.password>
-    <user.description>Bereichtigter Leser gesperrter Dokumente der Gruppe 1</user.description>
-    <user.primary_group>readergroup1</user.primary_group>
+  <user numID="9" ID="editoruser" id_enabled="true" update_allowed="true">
+    <user.password>editoruser</user.password>
+    <user.description>Administration Gruppen/Acces/Nutzer</user.description>
+    <user.primary_group>adminuser</user.primary_group>
     <user.contact>
       <contact.salutation />
       <contact.firstname />
-      <contact.lastname>Reader der Gruppe 1</contact.lastname>
+      <contact.lastname>Editor User/Access/Groups</contact.lastname>
       <contact.street />
       <contact.city />
       <contact.postalcode />

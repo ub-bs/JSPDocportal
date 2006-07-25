@@ -2,12 +2,12 @@
 <mycoreuser xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:noNamespaceSchemaLocation="MCRUser.xsd">
   <user numID="12" ID="editor1A" id_enabled="true" update_allowed="true">
     <user.password>editor1A</user.password>
-    <user.description>Bereichtigter Editor der Gruppe 1</user.description>
-    <user.primary_group>editorgroup1</user.primary_group>
+    <user.description>Bereichtigter Editor für Autoren (Workflow)</user.description>
+    <user.primary_group>adminauthor</user.primary_group>
     <user.contact>
       <contact.salutation />
       <contact.firstname />
-      <contact.lastname>Editor A der Gruppe 1</contact.lastname>
+      <contact.lastname>Editor für Autoren (Workflow)</contact.lastname>
       <contact.street />
       <contact.city />
       <contact.postalcode />

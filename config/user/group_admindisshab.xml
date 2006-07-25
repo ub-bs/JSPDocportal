@@ -6,8 +6,8 @@
 
 <!-- ******************************************************************* -->
 
-  <group ID="readergroup2">
-    <group.description>Die Gruppe von Lesern geschützter Dokumente der Gruppe 2</group.description>
+  <group ID="admindisshab">
+    <group.description>Die Gruppe von Editoren, die Dissertationsdaten administrieren.</group.description>
   </group>
 
 <!-- ******************************************************************* -->

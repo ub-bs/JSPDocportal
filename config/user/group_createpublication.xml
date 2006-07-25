@@ -6,8 +6,8 @@
 
 <!-- ******************************************************************* -->
 
-  <group ID="editorgroup2">
-    <group.description>Die Gruppe von Bearbeitern der Gruppe 2</group.description>
+  <group ID="createpublication">
+    <group.description>Die Gruppe die Publikationen in das System einstellen dürfen</group.description>
   </group>
 
 <!-- ******************************************************************* -->

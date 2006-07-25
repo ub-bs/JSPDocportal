@@ -6,8 +6,8 @@
 
 <!-- ******************************************************************* -->
 
-  <group ID="authorgroup2">
-    <group.description>Die Gruppe von Autoren der Gruppe 2</group.description>
+  <group ID="adminclassification">
+    <group.description>Die Gruppe von Bearbeitern, die Klassifikationen editiert.</group.description>
   </group>
 
 <!-- ******************************************************************* -->

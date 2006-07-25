@@ -6,8 +6,8 @@
 
 <!-- ******************************************************************* -->
 
-  <group ID="readergroup1">
-    <group.description>Die Gruppe von Lesern geschützter Dokumente der Gruppe 1</group.description>
+  <group ID="adminauthor">
+    <group.description>Die Gruppe von Editoren, die Autorendaten administrieren.</group.description>
   </group>
 
 <!-- ******************************************************************* -->

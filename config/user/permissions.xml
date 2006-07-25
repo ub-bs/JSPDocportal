@@ -8,9 +8,17 @@
   <mcrpermission name="administrate" description="Administrationsaufgaben " ruledescription="Administratoren, Editoren mit Teiladminsitrationsrechten">
    <condition format="xml">
     <boolean operator="or">
-     <condition value="editorgroup1" operator="=" field="group"/>
      <condition value="admingroup" operator="=" field="group"/>
-     <condition value="editorgroup2" operator="=" field="group"/>
+     <condition value="rootgroup" operator="=" field="group"/>
+    </boolean>
+   </condition>
+  </mcrpermission>
+
+  <mcrpermission name="administrate-institution" description="Verwalten von Dissertations - Prozessen " ruledescription="Nur für Administratoren">
+   <condition format="xml">
+    <boolean operator="or">
+     <condition value="administutution" operator="=" field="group"/>
+     <condition value="admingroup" operator="=" field="group"/>
     </boolean>
    </condition>
   </mcrpermission>
@@ -18,7 +26,7 @@
   <mcrpermission name="administrate-xmetadiss" description="Verwalten von Dissertations - Prozessen " ruledescription="Nur für Administratoren">
    <condition format="xml">
     <boolean operator="or">
-     <condition value="editorgroup1" operator="=" field="group"/>
+     <condition value="admindisshab" operator="=" field="group"/>
      <condition value="admingroup" operator="=" field="group"/>
     </boolean>
    </condition>
@@ -27,7 +35,7 @@
   <mcrpermission name="administrate-publication" description="Verwalten von Publikationen - Prozessen " ruledescription="Nur für Administratoren und Editoren von Publikationen">
    <condition format="xml">
     <boolean operator="or">
-     <condition value="editorgroup1" operator="=" field="group"/>
+     <condition value="adminpublication" operator="=" field="group"/>
      <condition value="admingroup" operator="=" field="group"/>
     </boolean>
    </condition>
@@ -36,7 +44,7 @@
   <mcrpermission name="administrate-author" description="Verwalten von Author - Prozessen " ruledescription="Nur für Administratoren und Editoren von Autorendaten">
    <condition format="xml">
     <boolean operator="or">
-     <condition value="editorgroup1" operator="=" field="group"/>
+     <condition value="adminauthor" operator="=" field="group"/>
      <condition value="admingroup" operator="=" field="group"/>
     </boolean>
    </condition>
@@ -46,6 +54,7 @@
    <condition format="xml">
     <boolean operator="or">
      <condition value="admingroup" operator="=" field="group"/>
+     <condition value="adminuser" operator="=" field="group"/>
     </boolean>
    </condition>
   </mcrpermission>  
@@ -54,6 +63,7 @@
    <condition format="xml">
     <boolean operator="or">
      <condition value="admingroup" operator="=" field="group"/>
+     <condition value="adminuser" operator="=" field="group"/>
     </boolean>
    </condition>
   </mcrpermission>
@@ -62,6 +72,7 @@
    <condition format="xml">
     <boolean operator="or">
      <condition value="admingroup" operator="=" field="group"/>
+     <condition value="adminuser" operator="=" field="group"/>
     </boolean>
    </condition>
   </mcrpermission>
@@ -69,6 +80,7 @@
    <condition format="xml">
     <boolean operator="or">
      <condition value="admingroup" operator="=" field="group"/>
+     <condition value="adminuser" operator="=" field="group"/>
     </boolean>
    </condition>
   </mcrpermission>
@@ -76,6 +88,7 @@
    <condition format="xml">
     <boolean operator="or">
      <condition value="admingroup" operator="=" field="group"/>
+     <condition value="adminuser" operator="=" field="group"/>
     </boolean>
    </condition>
   </mcrpermission>    
@@ -83,6 +96,7 @@
    <condition format="xml">
     <boolean operator="or">
      <condition value="admingroup" operator="=" field="group"/>
+     <condition value="adminuser" operator="=" field="group"/>
     </boolean>
    </condition>
   </mcrpermission>  
@@ -90,6 +104,7 @@
    <condition format="xml">
     <boolean operator="or">
      <condition value="admingroup" operator="=" field="group"/>
+     <condition value="adminuser" operator="=" field="group"/>
     </boolean>
    </condition>
   </mcrpermission>
@@ -97,6 +112,7 @@
    <condition format="xml">
     <boolean operator="or">
      <condition value="admingroup" operator="=" field="group"/>
+     <condition value="adminuser" operator="=" field="group"/>
     </boolean>
    </condition>
   </mcrpermission>  
@@ -104,6 +120,7 @@
    <condition format="xml">
     <boolean operator="or">
      <condition value="admingroup" operator="=" field="group"/>
+     <condition value="adminuser" operator="=" field="group"/>
     </boolean>
    </condition> 
   </mcrpermission> 
@@ -111,8 +128,7 @@
    <condition format="xml">
     <boolean operator="or">
      <condition value="admingroup" operator="=" field="group"/>
-     <condition value="editorgroup1" operator="=" field="group"/>
-     <condition value="editorgroup2" operator="=" field="group"/>
+     <condition value="adminclassification" operator="=" field="group"/>
     </boolean>
    </condition>
   </mcrpermission>
@@ -120,9 +136,8 @@
    <condition format="xml">
     <boolean operator="or">
      <condition value="admingroup" operator="=" field="group"/>
-     <condition value="editorgroup1" operator="=" field="group"/>
-     <condition value="authorgroup1" operator="=" field="group"/>
-     <condition value="authorgroup2" operator="=" field="group"/>
+     <condition value="adminauthor" operator="=" field="group"/>
+     <condition value="createauthor" operator="=" field="group"/>
     </boolean>
    </condition>
   </mcrpermission>
@@ -130,9 +145,8 @@
    <condition format="xml">
     <boolean operator="or">
      <condition value="admingroup" operator="=" field="group"/>
-     <condition value="editorgroup1" operator="=" field="group"/>
-     <condition value="authorgroup1" operator="=" field="group"/>
-     <condition value="authorgroup2" operator="=" field="group"/>
+     <condition value="adminpublication" operator="=" field="group"/>
+     <condition value="createpublication" operator="=" field="group"/>
     </boolean>
    </condition>
   </mcrpermission>
@@ -140,9 +154,8 @@
    <condition format="xml">
     <boolean operator="or">
      <condition value="admingroup" operator="=" field="group"/>
-     <condition value="editorgroup1" operator="=" field="group"/>
-     <condition value="authorgroup1" operator="=" field="group"/>
-     <condition value="authorgroup2" operator="=" field="group"/>
+     <condition value="admindisshab" operator="=" field="group"/>
+     <condition value="createdisshab" operator="=" field="group"/>
     </boolean>
    </condition>
   </mcrpermission>
@@ -150,9 +163,8 @@
    <condition format="xml">
     <boolean operator="or">
      <condition value="admingroup" operator="=" field="group"/>
-     <condition value="editorgroup1" operator="=" field="group"/>
-     <condition value="authorgroup1" operator="=" field="group"/>
-     <condition value="authorgroup2" operator="=" field="group"/>
+     <condition value="admininstitution" operator="=" field="group"/>
+     <condition value="createinstitution" operator="=" field="group"/>
     </boolean>
    </condition>
   </mcrpermission>  
@@ -160,6 +172,7 @@
    <condition format="xml">
     <boolean operator="or">
      <condition value="admingroup" operator="=" field="group"/>
+     <condition value="adminuser" operator="=" field="group"/>
     </boolean>
    </condition>
   </mcrpermission>    
@@ -167,6 +180,7 @@
    <condition format="xml">
     <boolean operator="or">
      <condition value="admingroup" operator="=" field="group"/>
+     <condition value="adminuser" operator="=" field="group"/>
     </boolean>
    </condition>
   </mcrpermission>    
@@ -174,6 +188,7 @@
    <condition format="xml">
     <boolean operator="or">
      <condition value="admingroup" operator="=" field="group"/>
+     <condition value="adminuser" operator="=" field="group"/>
     </boolean>
    </condition>
   </mcrpermission>        

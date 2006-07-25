@@ -3,5 +3,10 @@
   <group ID="admingroup">
     <group.description>The administration group</group.description>
   </group>
+  <group.members>
+      <members.userID>administrator</members.userID>
+      <members.userID>root</members.userID>
+  </group.members>
+  
 </mycoregroup>
 

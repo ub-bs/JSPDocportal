@@ -6,8 +6,8 @@
 
 <!-- ******************************************************************* -->
 
-  <group ID="editorgroup1">
-    <group.description>Die Gruppe von Bearbeitern der Gruppe 1</group.description>
+  <group ID="createinstitution">
+    <group.description>Die Gruppe die eine eigene Dissertation in das System einstellen dürfen</group.description>
   </group>
 
 <!-- ******************************************************************* -->
