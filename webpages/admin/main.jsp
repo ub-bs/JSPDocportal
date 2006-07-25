@@ -20,3 +20,4 @@
  	<p><c:import url="content/node.jsp" /></p> 
 
 
+<p><fmt:message key="Webpage.admin.AllowedFunctions.Text" /></p>
