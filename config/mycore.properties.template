@@ -5,12 +5,15 @@ MCR.WorkflowEngine.ManagerImpl.author=org.mycore.frontend.workflowengine.jbpm.au
 
 MCR.BaseDirectory=C:/sample-mcrjsp
 
-MCR.WorkflowEngine.MyInstitution.name=Universität Rostock
+#####################################################
+# fix entrys for your own institution
+#####################################################
+MCR.WorkflowEngine.MyInstitution.name=Universität XYZ
 MCR.WorkflowEngine.MyInstitution.country=Deutschland (Germany)
-MCR.WorkflowEngine.MyInstitution.state=Mecklenburg-Vorpommern
-MCR.WorkflowEngine.MyInstitution.zipcode=18051
-MCR.WorkflowEngine.MyInstitution.city=Rostock
-MCR.WorkflowEngine.MyInstitution.street=Universität Rostock
+MCR.WorkflowEngine.MyInstitution.state= 
+MCR.WorkflowEngine.MyInstitution.zipcode=11111
+MCR.WorkflowEngine.MyInstitution.city=Neustadt
+MCR.WorkflowEngine.MyInstitution.street=Musterstrasse
 MCR.WorkflowEngine.MyInstitution.number=
 
 MCR.SimpleDateFormat.strictParsing=false
@@ -23,34 +26,40 @@ MCR.WorkflowEngine.WorkflowTypes=publication, xmetadiss, registeruser, author
 ####################################################################
 # Workflow Author
 ####################################################################
+MCR.WorkflowEngine.author.admin=authAdmin@mycore.de
+MCR.WorkflowEngine.author.from=authEdit@mycore.de
+MCR.WorkflowEngine.author.replyto=authEdit@mycore.de
 
 ####################################################################
 # |*******prefix****************|doctype*|permission|workflowType|
 # |MCR.WorkflowEngin.defaultACL.|disshab.|modify.   |author   |
 # $user will be replaces with the current user
 ####################################################################
-MCR.WorkflowEngine.defaultACL.author.writedb.author=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
-MCR.WorkflowEngine.defaultACL.author.read.author=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
-MCR.WorkflowEngine.defaultACL.author.commitdb.author=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></conditions>
-MCR.WorkflowEngine.defaultACL.author.deletewf.author=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
-MCR.WorkflowEngine.defaultACL.author.deletedb.author=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></conditions>
-MCR.WorkflowEngine.defaultACL.editorMode.author=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></conditions>
+MCR.WorkflowEngine.defaultACL.author.writedb.author=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="adminauthor" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
+MCR.WorkflowEngine.defaultACL.author.read.author=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="adminauthor" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
+MCR.WorkflowEngine.defaultACL.author.commitdb.author=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="adminauthor" /></boolean></conditions>
+MCR.WorkflowEngine.defaultACL.author.deletewf.author=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="adminauthor" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
+MCR.WorkflowEngine.defaultACL.author.deletedb.author=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="adminauthor" /></boolean></conditions>
+MCR.WorkflowEngine.defaultACL.editorMode.author=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="adminauthor" /></boolean></conditions>
 
 
 ####################################################################
 # Workflow Publication
 ####################################################################
-MCR.WorkflowEngine.contactemail.publication=mycore@mycore.de
-MCR.WorkflowEngine.defaultACL.document.writedb.publication=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
-MCR.WorkflowEngine.defaultACL.document.read.publication=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
-MCR.WorkflowEngine.defaultACL.document.commitdb.publication=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></conditions>
-MCR.WorkflowEngine.defaultACL.document.deletewf.publication=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
-MCR.WorkflowEngine.defaultACL.document.deletedb.publication=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></conditions>
-MCR.WorkflowEngine.defaultACL.derivate.writedb.publication=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
-MCR.WorkflowEngine.defaultACL.derivate.read.publication=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
-MCR.WorkflowEngine.defaultACL.derivate.commitdb.publication=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></conditions>
-MCR.WorkflowEngine.defaultACL.derivate.deletewf.publication=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
-MCR.WorkflowEngine.defaultACL.derivate.deletedb.publication=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></conditions>
+MCR.WorkflowEngine.publication.admin=pubAdmin@mycore.de
+MCR.WorkflowEngine.publication.from=pubEdit@mycore.de
+MCR.WorkflowEngine.publication.replyto=pubEdit@mycore.de
+
+MCR.WorkflowEngine.defaultACL.document.writedb.publication=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="adminpublication" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
+MCR.WorkflowEngine.defaultACL.document.read.publication=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="adminpublication" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
+MCR.WorkflowEngine.defaultACL.document.commitdb.publication=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="adminpublication" /></boolean></conditions>
+MCR.WorkflowEngine.defaultACL.document.deletewf.publication=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="adminpublication" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
+MCR.WorkflowEngine.defaultACL.document.deletedb.publication=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="adminpublication" /></boolean></conditions>
+MCR.WorkflowEngine.defaultACL.derivate.writedb.publication=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="adminpublication" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
+MCR.WorkflowEngine.defaultACL.derivate.read.publication=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="adminpublication" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
+MCR.WorkflowEngine.defaultACL.derivate.commitdb.publication=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="adminpublication" /></boolean></conditions>
+MCR.WorkflowEngine.defaultACL.derivate.deletewf.publication=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="adminpublication" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
+MCR.WorkflowEngine.defaultACL.derivate.deletedb.publication=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="adminpublication" /></boolean></conditions>
 
 MCR.WorkflowEngine.defaultACL.editorMode.publication=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></conditions>
 
@@ -59,27 +68,29 @@ MCR.nbn.nissprefix.publication=document
 
 
 ####################################################################
-# semantics of the acl-properties
+# Workflow xMetaDiss
 ####################################################################
-# |*******prefix****************|doctype*|permission|workflowType|
-# |MCR.WorkflowEngin.defaultACL.|disshab.|modify.   |xmetadiss   |
-# $user will be replaces with the current user
+MCR.WorkflowEngine.xmetadiss.admin=disshabAdmin@mycore.de
+MCR.WorkflowEngine.xmetadiss.from=disshabAdmin@mycore.de
+MCR.WorkflowEngine.xmetadiss.replyto=disshabAdmin@mycore.de
 ####################################################################
-MCR.WorkflowEngine.defaultACL.author.writedb.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
-MCR.WorkflowEngine.defaultACL.author.read.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
-MCR.WorkflowEngine.defaultACL.author.commitdb.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></conditions>
-MCR.WorkflowEngine.defaultACL.author.deletewf.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
-MCR.WorkflowEngine.defaultACL.author.deletedb.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></conditions>
-MCR.WorkflowEngine.defaultACL.disshab.writedb.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
-MCR.WorkflowEngine.defaultACL.disshab.read.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
-MCR.WorkflowEngine.defaultACL.disshab.commitdb.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></conditions>
-MCR.WorkflowEngine.defaultACL.disshab.deletewf.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
-MCR.WorkflowEngine.defaultACL.disshab.deletedb.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></conditions>
-MCR.WorkflowEngine.defaultACL.derivate.writedb.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
-MCR.WorkflowEngine.defaultACL.derivate.read.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
-MCR.WorkflowEngine.defaultACL.derivate.commitdb.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></conditions>
-MCR.WorkflowEngine.defaultACL.derivate.deletewf.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
-MCR.WorkflowEngine.defaultACL.derivate.deletedb.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></conditions>
+# acl-properties
+####################################################################
+MCR.WorkflowEngine.defaultACL.author.writedb.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="admindisshab" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
+MCR.WorkflowEngine.defaultACL.author.read.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="admindisshab" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
+MCR.WorkflowEngine.defaultACL.author.commitdb.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="admindisshab" /></boolean></conditions>
+MCR.WorkflowEngine.defaultACL.author.deletewf.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="admindisshab" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
+MCR.WorkflowEngine.defaultACL.author.deletedb.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="admindisshab" /></boolean></conditions>
+MCR.WorkflowEngine.defaultACL.disshab.writedb.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="admindisshab" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
+MCR.WorkflowEngine.defaultACL.disshab.read.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="admindisshab" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
+MCR.WorkflowEngine.defaultACL.disshab.commitdb.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="admindisshab" /></boolean></conditions>
+MCR.WorkflowEngine.defaultACL.disshab.deletewf.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="admindisshab" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
+MCR.WorkflowEngine.defaultACL.disshab.deletedb.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="admindisshab" /></boolean></conditions>
+MCR.WorkflowEngine.defaultACL.derivate.writedb.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="admindisshab" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
+MCR.WorkflowEngine.defaultACL.derivate.read.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="admindisshab" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
+MCR.WorkflowEngine.defaultACL.derivate.commitdb.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="admindisshab" /></boolean></conditions>
+MCR.WorkflowEngine.defaultACL.derivate.deletewf.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="admindisshab" /><condition field="user" operator="=" value="${user}" /></boolean></conditions>
+MCR.WorkflowEngine.defaultACL.derivate.deletedb.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="admindisshab" /></boolean></conditions>
 
 MCR.WorkflowEngine.defaultACL.editorMode.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /></boolean></conditions>
 
@@ -505,14 +516,14 @@ MCR.Lucene.LockDir=%MCR.BaseDirectory%/indexer/lucene-lock
 ##############################################################################
 MCR.IndexBrowser.creators.Table=author
 MCR.IndexBrowser.creators.Searchfield=surname
-MCR.IndexBrowser.creators.ExtraOutputFields=id,firstname
+MCR.IndexBrowser.creators.OutputFields=surname,id,firstname
 MCR.IndexBrowser.creators.FieldsToSort=surname
 MCR.IndexBrowser.creators.Style=creators
 MCR.IndexBrowser.creators.MaxPerPage=30
 
 MCR.IndexBrowser.creators_sub.Table=author
 MCR.IndexBrowser.creators_sub.Searchfield=surname
-MCR.IndexBrowser.creators_sub.ExtraOutputFields=id,firstname
+MCR.IndexBrowser.creators_sub.OutputFields=surname,id,firstname
 MCR.IndexBrowser.creators_sub.FieldsToSort=surname
 MCR.IndexBrowser.creators_sub.Style=creators_sub
 MCR.IndexBrowser.creators_sub.MaxPerPage=30
