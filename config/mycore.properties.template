@@ -515,18 +515,21 @@ MCR.Lucene.LockDir=%MCR.BaseDirectory%/indexer/lucene-lock
 # Configuration details for IndexServlet
 ##############################################################################
 MCR.IndexBrowser.creators.Table=author
-MCR.IndexBrowser.creators.Searchfield=surname
-MCR.IndexBrowser.creators.OutputFields=surname,id,firstname
-MCR.IndexBrowser.creators.FieldsToSort=surname
+MCR.IndexBrowser.creators.Searchfield=name
+MCR.IndexBrowser.creators.FieldsToSort=name
+## first field is equal to sort, second to sarchfield, the rest is additional
+MCR.IndexBrowser.creators.OutputFields=name,name,surname,firstname,id
 MCR.IndexBrowser.creators.Style=creators
 MCR.IndexBrowser.creators.MaxPerPage=30
 
 MCR.IndexBrowser.creators_sub.Table=author
 MCR.IndexBrowser.creators_sub.Searchfield=surname
-MCR.IndexBrowser.creators_sub.OutputFields=surname,id,firstname
-MCR.IndexBrowser.creators_sub.FieldsToSort=surname
+MCR.IndexBrowser.creators_sub.FieldsToSort=surname,firstname
+## first field is equal to sort, second to sarchfield, the rest is additional
+MCR.IndexBrowser.creators_sub.OutputFields=surname,firstname,id
 MCR.IndexBrowser.creators_sub.Style=creators_sub
 MCR.IndexBrowser.creators_sub.MaxPerPage=30
+
 
 ########################
 # ACCESS
