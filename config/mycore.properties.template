@@ -141,8 +141,8 @@ MCR.editor_page_error_formular=editor/error-formular.jsp
 #MCR.JDBCStore.Type=mysql
 
 # Workflow-Default-Accessrules
-MCR.AccessRule.STANDARD-WORKFLOW-RULE=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="group" operator="=" value="editorgroup1" /></boolean></condition>
-MCR.AccessRule.STANDARD-RULE-ALL-EDITORS=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="editorgroup1" /><condition field="group" operator="=" value="editorgroup1" /></boolean></condition>
+MCR.AccessRule.STANDARD-WORKFLOW-RULE=<condition format="xml"><condition field="group" operator="=" value="admingroup" /></condition>
+MCR.AccessRule.STANDARD-RULE-ALL-EDITORS=<condition format="xml"><condition field="group" operator="=" value="admingroup" /></condition>
 MCR.AccessRule.ADMININTERFACE-DEFAULTRULE=<condition format="xml"><condition field="user" operator="=" value="administrator" /></condition>
 MCR.AccessRule.STANDARD-READ-RULE=<condition format="xml"><boolean operator="true" /></condition>
 
