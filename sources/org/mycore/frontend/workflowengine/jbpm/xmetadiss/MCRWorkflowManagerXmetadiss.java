@@ -256,7 +256,13 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 				if(!derivateStrategy.commitDerivateObject(derivateID, MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType))){
 					throw new MCRException("error in committing " + derivateID);
 				}
+				permissionStrategy.setPermissions(derivateID, null,
+						workflowProcessType,
+						MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
 			}
+			permissionStrategy.setPermissions(dissID, null,
+					workflowProcessType,
+					MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
 			return true;
 		}catch(MCRException ex){
 			logger.error("an error occurred", ex);

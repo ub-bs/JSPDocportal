@@ -39,7 +39,7 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy{
 		}
 		if(mode==MCRWorkflowConstants.PERMISSION_MODE_PUBLISH){
 			MCRObjectID objID = new MCRObjectID(mcrid);
-			String strRule ="<condition format=\"xml\"><boolean operator=\"true\" /></condition>";
+			String strRule =config.getString("STANDARD-READ-RULE","<condition format=\"xml\"><boolean operator=\"true\" /></condition>");
 			Element rule = (Element)MCRXMLHelper.parseXML(strRule).getRootElement().detach();
 			String permissionType = "read";
 

@@ -230,13 +230,18 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 			String documentType = new MCRObjectID(documentID).getTypeId();
 			List derivateIDs = Arrays.asList(wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES).split(","));
 			bSuccess = metadataStrategy.commitMetadataObject(documentID, MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType));
-			
 			for (Iterator it = derivateIDs.iterator(); it.hasNext();) {
 				String derivateID = (String) it.next();
 				if ( derivateID != null && derivateID.length() > 0 ) {
 					bSuccess &= derivateStrategy.commitDerivateObject(derivateID, MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType));
+					permissionStrategy.setPermissions(derivateID, null,
+							workflowProcessType,
+							MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
 				}
 			}
+			permissionStrategy.setPermissions(documentID, null,
+					workflowProcessType,
+					MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
 			bSuccess = true;
 		}catch(MCRException ex){
 			logger.error("an error occurred", ex);
