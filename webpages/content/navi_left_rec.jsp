@@ -14,8 +14,11 @@
 	<x:set var="href" select="string(./@path)" />
 	<x:set var="labelKey" select="string(./@label)" />
     <x:set var="right" select="string(./@right)" /> 
-	<mcr:checkAccess var="canDo" permission="${right}" key="" /> 
-	<c:if test="${right=='' or canDo}">						
+    <c:set var="canDo" value="true"/>
+    <c:if test="${right!=''}">
+		<mcr:checkAccess var="canDo" permission="${right}" key="" />        
+    </c:if>
+	<c:if test="${canDo}">						
 		<x:choose>
 			<x:when select="./@level ='1'">
 				<div class="navi_left_mainentry">
