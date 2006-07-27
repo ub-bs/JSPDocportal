@@ -185,7 +185,12 @@
 		 	<fileset dir="." includes="**" excludes="mycoresample.war,jspdocportal-installer*" ></fileset>
 		</copy>
         <mkdir dir="${docportal.webapps}" />
-    	<mkdir dir="${docportal.bin}" />		
+    	<mkdir dir="${docportal.bin}" />	
+		<taskdef name="mergepropertyfiles" classname="org.mycore.ant.customtasks.MergeProperties" classpathref="docportal.classpath" />
+		<mergepropertyfiles basefile="config/mycore.properties" 
+		    				deltafile="config/mymycore.properties" 
+		    				tofile="${docportal.config}/mycore.properties"/>
+		 <delete file="${docportal.config}/mymycore.properties" />
 	</target>
 
     <target name="init"
@@ -846,23 +851,23 @@
         -->
 
         <!-- Copy the files from various directories to build the webapps -->
-        <copy todir="${docportal.webapps}">
-            <!--    	
-                <fileset dir="${docportal.webpages}"/>
-                <fileset dir="${docportal.config}" includes="FileContentTypes.xml" />
-                <fileset dir="${docportal.doc}" includes="DocPortal.*" />
-                <fileset dir="${docportal.doc}" includes="Anleitung_Autor_Dokumente.*" />
-                <fileset dir="${docportal.doc}" includes="Anleitung_Bearbeiter_Documente.*" />
-            -->
-            <fileset
-                dir="${MYCORE_HOME}/documentation/StartingGuide"
-                includes="StartingGuide.*" />
-            <fileset dir="${MYCORE_HOME}/documentation/UserGuide"
-                includes="UserGuide.*" />
-            <fileset dir="${MYCORE_HOME}/documentation/ProgGuide"
-                includes="ProgGuide.*" />
-        </copy>
-        <!--  	
+  	  <!--     <copy todir="${docportal.webapps}">
+            	
+              <fileset dir="${docportal.webpages}"/>
+              <fileset dir="${docportal.config}" includes="FileContentTypes.xml" />
+              <fileset dir="${docportal.doc}" includes="DocPortal.*" />
+              <fileset dir="${docportal.doc}" includes="Anleitung_Autor_Dokumente.*" />
+              <fileset dir="${docportal.doc}" includes="Anleitung_Bearbeiter_Documente.*" />
+      
+          <fileset
+              dir="${MYCORE_HOME}/documentation/StartingGuide"
+              includes="StartingGuide.*" />
+          <fileset dir="${MYCORE_HOME}/documentation/UserGuide"
+              includes="UserGuide.*" />
+          <fileset dir="${MYCORE_HOME}/documentation/ProgGuide"
+              includes="ProgGuide.*" />    
+      </copy> -->
+      <!--  	
             <copy todir="${docportal.webapps}" overwrite="true">
             <fileset dir="${docportal.webpages}" >
             <exclude name="**/*.xsl" />				      	
@@ -898,6 +903,15 @@
                 includes="*.xml" />
         </copy>
     	<echo> Concat messagebundles to one messages_{locale}.properties</echo>
+    	<mergepropertyfiles basefile="${docportal.languages}/messages_de.properties" 
+    						deltafile="${docportal.languages}/mymessages_de.properties" 
+    						tofile="${docportal.webapps}/WEB-INF/classes/messages_de.properties"/>
+
+    	<mergepropertyfiles basefile="${docportal.languages}/messages_en.properties" 
+    						deltafile="${docportal.languages}/mymessages_en.properties" 
+    						tofile="${docportal.webapps}/WEB-INF/classes/messages_en.properties"/>
+
+    	<!--
     	<concat destfile="${docportal.webapps}/WEB-INF/classes/messages_de.properties">
     		<filelist id="messagebundles_de" 
   		    		dir="${docportal.languages}"
@@ -907,7 +921,7 @@
     		<filelist  id="messagebundles_en" 
     			dir="${docportal.languages}"
     		    files="mymessages_en.properties,messages_en.properties"/> 
-    	</concat>
+    	</concat> -->
     	
         <copy todir="${docportal.webapps}/WEB-INF/stylesheets"
             flatten="true">
@@ -1232,13 +1246,10 @@
         <property name="commands.file" value="${basedir}/commands.txt" />
         <echo file="${commands.file}" append="false">
             load permissions data from file permissions.xml
-
       	    init superuser
-
             change to user root with alleswirdgut
-      			
 
-            create group data from file group_adminall.xml        	
+        	create group data from file group_adminall.xml        	
         	
         	create group data from file group_adminauthor.xml
         	create group data from file group_createauthor.xml

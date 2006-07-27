@@ -1,0 +1,10 @@
+#####################################################
+# fix entrys for your own institution
+#####################################################
+MCR.WorkflowEngine.MyInstitution.name=Universität XYZ
+MCR.WorkflowEngine.MyInstitution.country=Deutschland (Germany)
+MCR.WorkflowEngine.MyInstitution.state= 
+MCR.WorkflowEngine.MyInstitution.zipcode=11111
+MCR.WorkflowEngine.MyInstitution.city=Neustadt
+MCR.WorkflowEngine.MyInstitution.street=Musterstrasse
+MCR.WorkflowEngine.MyInstitution.number=1
