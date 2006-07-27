@@ -6,8 +6,8 @@
 
 <!-- ******************************************************************* -->
 
-  <group ID="createinstitution">
-    <group.description>Die Gruppe die institutionen in das System einstellen dürfen</group.description>
+  <group ID="createdisshab">
+    <group.description>Die Gruppe die Dissertationen in das System einstellen dürfen</group.description>
   </group>
 
 <!-- ******************************************************************* -->

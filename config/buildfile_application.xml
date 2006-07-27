@@ -1237,7 +1237,6 @@
 
             change to user root with alleswirdgut
       			
-        	create user data from file user_administrator.xml        	        	  	
 
             create group data from file group_adminall.xml        	
         	
@@ -1257,6 +1256,7 @@
         	
         	create group data from file group_adminuser.xml
 
+        	create user data from file user_administrator.xml        	        	  	
         	create user data from file user_editorUser.xml
         	create user data from file user_editorClass.xml
         	create user data from file user_author1A.xml
