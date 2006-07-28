@@ -42,7 +42,7 @@
     <panel id="DCreator_repeater">
       <hidden var="@inherited" default="0"  sortnr="2" />
       <hidden var="@lang" default="de"  sortnr="2" /> 
-      <cell col="1" row="1" anchor="WEST" ref="TFzeile1024M" sortnr="2" />
+      <cell col="1" row="1" anchor="WEST" ref="TFzeile1024" sortnr="2" />
     </panel>
 
     <panel id="DCreator">
@@ -305,7 +305,7 @@
     </panel>
 
     <panel id="DIsbn">
-      <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/isbns&amp;classname=MCRMetaISBN" />
+      <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/isbns&amp;classname=MCRMetaLangText" />
       <hidden  var="metadata/isbns/isbn/@inherited" default="0" />
       <hidden  var="metadata/isbns/isbn/@lang"  default="de" sortnr="30"/>
       <cell col="1" row="1" anchor="WEST" ref="TFzeile10" var="metadata/isbns/isbn" sortnr="30" />
@@ -388,6 +388,13 @@
       <hidden  var="metadata/places/place/@inherited" default="0" />
       <hidden  var="metadata/places/place/@lang"  default="de" sortnr="40"/>
       <cell col="1" row="1" anchor="WEST" ref="TFzeile10" var="metadata/places/place" sortnr="40" />
+    </panel>
+
+    <panel id="DPages">
+      <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/pages&amp;classname=MCRMetaLangText" />
+      <hidden  var="metadata/pages/page/@inherited" default="0" />
+      <hidden  var="metadata/pages/page/@lang"  default="de" sortnr="39"/>
+      <cell col="1" row="1" anchor="WEST" ref="TFzeile10" var="metadata/pages/page" sortnr="39" />
     </panel>
 
     <!-- *** End *** -->

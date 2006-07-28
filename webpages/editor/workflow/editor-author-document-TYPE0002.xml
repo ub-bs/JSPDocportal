@@ -6,6 +6,9 @@
   <components root="author-document" var="/mycoreobject">
     <validationMessage>
       <text i18n="Editor.Common.validationMessage" />
+      <text >
+        <label xml:lang="de" >Es muss mindestens ein Autor über den Link oder das Eingabefeld gesetzt sein.</label> 
+      </text>
     </validationMessage>
     
     <include uri="webapp:editor/workflow/imports-document.xml" />
@@ -135,7 +138,7 @@
         <text i18n="Editor.Document.extendedInformations" />
       </cell>        
       
-      <cell col="1" row="130" anchor="NORTHWEST" ref="LJounalTitleM" />
+      <cell col="1" row="130" anchor="NORTHWEST" ref="LJournalTitleM" />
       <cell col="2" row="130" anchor="NORTHWEST" ref="DJournalTitle" sortnr="36"  />
       <cell col="3" row="130" anchor="NORTHWEST">
         <space width="20" height="0" />
@@ -172,7 +175,7 @@
       <cell col="1" row="180" anchor="NORTHWEST" ref="LBook" />
       <cell col="2" row="180" anchor="NORTHWEST" ref="DBook" sortnr="39"  />
       <cell col="3" row="180" anchor="NORTHWEST"> <space width="20" height="0" />   </cell>      
-      <cell col="4" row="190" anchor="WEST" ref="HBook" />
+      <cell col="4" row="180" anchor="WEST" ref="HBook" />
 
       <cell col="1" row="190" anchor="NORTHWEST" ref="LPages" />
       <cell col="2" row="190" anchor="NORTHWEST" ref="DPages" sortnr="40"  />
