@@ -6,6 +6,7 @@ import java.util.PropertyResourceBundle;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.mycore.frontend.workflowengine.jbpm.MCRAbstractAction;
 import org.mycore.frontend.workflowengine.jbpm.MCRJbpmSendmail;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 
 public class MCRSendmailActionPublication  extends MCRAbstractAction {
 	
@@ -44,11 +45,13 @@ public class MCRSendmailActionPublication  extends MCRAbstractAction {
 				lang = inLang;
 			}
 			String salutation = (String)executionContext.getVariable("salutation");
+			String id = (String)executionContext.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
+			String title = (String)executionContext.getVariable(MCRWorkflowConstants.WFM_VAR_WFOBJECT_TITLE);
 			if(salutation != null)
 				ret += salutation + "\r\n\r\n";
 			else
 				ret += "Sehr geehrte(r) Autor(in)";
-			String body = " Ihre Publikation wurde angenommen und publiziert.";
+			String body = " Ihre Publikation '" + title + "' (" + id + ") wurde angenommen und publiziert.";
 			try {
 				body = PropertyResourceBundle.getBundle("messages", new Locale(lang)).getString("WF.Mails.SuccessMessage.publication");
 			} catch (java.util.MissingResourceException mRE) {

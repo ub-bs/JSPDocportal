@@ -65,9 +65,23 @@ public class MCRJbpmSendmail{
 			throw new MCRException(errMsg);
 		}
 		try{
-			List listTo = getEmailAddressesFromStringList(to, executionContext);
+			List listTo = getEmailAddressesFromStringList(to, executionContext);						
 			List listReplyTo = getEmailAddressesFromStringList(replyTo, executionContext);
 			List listBcc = getEmailAddressesFromStringList(bcc, executionContext);
+			
+			// if no correct email is set
+			if (listTo.size() + listReplyTo.size() + listBcc.size() < 1)	{
+				
+				logger.error("could not send email, but the workflow goes on");
+				logger.error("main recipients are empty" );
+				return;
+			}
+			if (listTo.size() < 1) {
+				if (listReplyTo.size() > 0)
+					  listTo = listReplyTo;
+				else  listTo = listBcc;
+			}			
+
 			String fromAddress = (String)getEmailAddressesFromStringList(from, executionContext).iterator().next();
 			MCRMailer.send(fromAddress, listReplyTo, listTo, listBcc, subject, body, null);
 			if(dateOfSubmissionVariable != null && !dateOfSubmissionVariable.equals("")) {
