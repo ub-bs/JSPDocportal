@@ -26,6 +26,7 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy{
 				String propName = new StringBuffer("MCR.WorkflowEngine.defaultACL.")
 					.append(objID.getTypeId()).append(".").append(defaultPermissionTypes[i]).append(".")
 					.append(workflowProcessType).toString();
+				
 				String strRule = config.getString(propName,"<condition format=\"xml\"><boolean operator=\"false\" /></condition>");
 				strRule = strRule.replaceAll("\\$\\{user\\}",userid);
 				Element rule = (Element)MCRXMLHelper.parseXML(strRule).getRootElement().detach();
@@ -48,6 +49,7 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy{
 			}else{
 				AI.addRule(objID.getId(), permissionType, rule, "");
 			}
+			
 			
 		}
 		

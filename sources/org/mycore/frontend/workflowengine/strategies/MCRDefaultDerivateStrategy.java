@@ -86,7 +86,9 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 				JSPUtils.recursiveDelete(derDir);
 				if(mustWorkflowVarBeUpdated){
 					String oldFC = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_FILECNT);
-					int iFC = Math.abs(Integer.parseInt(oldFC) - derDir.list().length);
+					int iFC = 0;
+					if ( derDir.list() != null )
+						iFC = Math.abs(Integer.parseInt(oldFC) - derDir.list().length);
 					wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_FILECNT,String.valueOf(iFC)) ;
 				}
 			}else{
@@ -111,6 +113,11 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 			if(mustWorkflowVarBeUpdated){
 				String newDerivates = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES).replaceAll(derivateObjectId + ",*","");
 				wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES, newDerivates);
+				
+				String deledetDerIDs = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_DELETED_DERIVATES);
+				deledetDerIDs += "," + derivateObjectId;
+				wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_DELETED_DERIVATES, deledetDerIDs);
+				
 			}
 			
 		}catch(Exception ex){

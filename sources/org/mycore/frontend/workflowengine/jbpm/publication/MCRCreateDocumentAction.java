@@ -20,6 +20,7 @@ public class MCRCreateDocumentAction extends MCRAbstractAction {
 		if(createdDocID != null && !createdDocID.equals("")){
 			executionContext.setVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS, createdDocID);
 			executionContext.setVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES, "");
+			executionContext.setVariable(MCRWorkflowConstants.WFM_VAR_DELETED_DERIVATES, "");
 		}else{
 			String errMsg = "could not create a docID for dissertation";
 			logger.error(errMsg);

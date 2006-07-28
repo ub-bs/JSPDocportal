@@ -34,6 +34,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.jbpm.graph.exe.ExecutionContext;
+import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
 import org.mycore.common.JSPUtils;
@@ -41,6 +42,7 @@ import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.datamodel.classifications.MCRCategoryItem;
+import org.mycore.datamodel.metadata.MCRMetaElement;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
@@ -119,16 +121,29 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 			// Store Object in Workflow - Filesystem
 			MCRObject mob = new MCRObject();
 			mob.receiveFromDatastore(mcrid);
-			String type = mob.getId().getTypeId();			
+			String type = mob.getId().getTypeId();
+			Document job = mob.createXML();
+			String pubType="";
+            Iterator it = job.getDescendants( new ElementFilter("type"));
+            if ( it.hasNext() )    {
+			       Element el = (Element) it.next();
+			       pubType = el.getAttributeValue("categid");
+		           if ( pubType.indexOf(".")>0)
+		        	   pubType = pubType.substring(0,pubType.indexOf("."));
+			}			
+            
 			String atachedDerivates = JSPUtils.saveToDirectory(mob, MCRWorkflowDirectoryManager.getWorkflowDirectory(type));
 			
 			long processID = initWorkflowProcess(initiator, "go2processEditInitialized");
-			MCRWorkflowProcess wfp = getWorkflowProcess(processID);
-			String urn = this.identifierStrategy.getUrnFromDocument(mcrid);
 			
+			MCRWorkflowProcess wfp = getWorkflowProcess(processID);
+			String urn = this.identifierStrategy.getUrnFromDocument(mcrid);			
+            wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_PUBLICATIONTYPE,pubType);
 			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS, mcrid);
 			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN, urn);	
 			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES, atachedDerivates);
+			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_DELETED_DERIVATES, "");
+
 			int filecnt =  (atachedDerivates.split("_derivate_")).length;
 			wfp.setStringVariable("fileCnt", String.valueOf(filecnt));
 			
@@ -228,20 +243,27 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 		try{
 			String documentID = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
 			String documentType = new MCRObjectID(documentID).getTypeId();
-			List derivateIDs = Arrays.asList(wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES).split(","));
 			bSuccess = metadataStrategy.commitMetadataObject(documentID, MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType));
+			
+			List deletedDerIDs = Arrays.asList(wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_DELETED_DERIVATES).split(","));
+			for (Iterator it = deletedDerIDs.iterator(); it.hasNext();) {
+				String derivateID = (String) it.next();
+				if ( derivateID != null && derivateID.length() > 0 ) {
+					bSuccess &= derivateStrategy.deleteDeletedDerivates(derivateID);
+				}
+			}
+			
+			List derivateIDs = Arrays.asList(wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES).split(","));
 			for (Iterator it = derivateIDs.iterator(); it.hasNext();) {
 				String derivateID = (String) it.next();
 				if ( derivateID != null && derivateID.length() > 0 ) {
 					bSuccess &= derivateStrategy.commitDerivateObject(derivateID, MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType));
-					permissionStrategy.setPermissions(derivateID, null,
-							workflowProcessType,
-							MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
+					permissionStrategy.setPermissions(derivateID, null,	workflowProcessType, MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
 				}
 			}
-			permissionStrategy.setPermissions(documentID, null,
-					workflowProcessType,
-					MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
+			
+			// readrule wird auf true gesetzt
+			permissionStrategy.setPermissions(documentID, null,	workflowProcessType, MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
 			bSuccess = true;
 		}catch(MCRException ex){
 			logger.error("an error occurred", ex);

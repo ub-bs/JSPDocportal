@@ -248,16 +248,13 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 
 	public boolean commitMetadataObject(String mcrobjid, String directory) {
 		try { 
-	        Map ruleMap = null;
 	        String filename = directory + "/" + mcrobjid + ".xml";
 			if (MCRObject.existInDatastore(mcrobjid)) {
-		        ruleMap = MCRWorkflowUtils.getAccessRulesMap(mcrobjid);
-				MCRObject mcr_obj = new MCRObject();
-				mcr_obj.deleteFromDatastore(mcrobjid);
+				// updates changes not the accesrules
+				MCRObjectCommands.updateFromFile(filename);
+			} else {
+				MCRObjectCommands.loadFromFile(filename);
 			}
-			MCRObjectCommands.loadFromFile(filename);		
-			if(ruleMap != null)
-				MCRWorkflowUtils.setAccessRulesMap(mcrobjid, ruleMap);
 			logger.info("The metadata object: " + filename + " is loaded.");
 			return true;
 		} catch (Exception ig){ 

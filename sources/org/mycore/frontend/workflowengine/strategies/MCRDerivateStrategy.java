@@ -2,6 +2,7 @@ package org.mycore.frontend.workflowengine.strategies;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -204,25 +205,28 @@ public abstract class MCRDerivateStrategy {
 		 */
 		protected final Element getDerivateMetaData( String filename){
 			Element derivateData = new Element("derivate");
-			Element derivate = MCRXMLHelper.parseURI(filename, false).getRootElement();		
-			derivateData.setAttribute("label", derivate.getAttributeValue("label") );
-			derivateData.setAttribute("ID", derivate.getAttributeValue("ID") );
+			try {
+				Element derivate = MCRXMLHelper.parseURI(filename, false).getRootElement();		
+				derivateData.setAttribute("label", derivate.getAttributeValue("label") );
+				derivateData.setAttribute("ID", derivate.getAttributeValue("ID") );
+				
+				Iterator it = derivate.getDescendants(new ElementFilter("linkmeta"));
+				if ( it.hasNext() ) {
+			      Element el = (Element) it.next();
+			      String href = el.getAttributeValue("href",org.jdom.Namespace.getNamespace("xlink",MCRDefaults.XLINK_URL));
+			      if ( href==null)  	href = "";      
+		          derivateData.setAttribute("href", href);
+			    } 
+				
+				it = derivate.getDescendants(new ElementFilter("internal"));		
+			    if ( it.hasNext() )	    {
+			      Element el = (Element) it.next();
+			      String maindoc = el.getAttributeValue("maindoc");
+			      if ( maindoc==null)  	maindoc = "####";
+			      derivateData.setAttribute("maindoc", maindoc );          
+			    }
+			} catch ( Exception ignore) {	;	}
 			
-			Iterator it = derivate.getDescendants(new ElementFilter("linkmeta"));
-			if ( it.hasNext() ) {
-		      Element el = (Element) it.next();
-		      String href = el.getAttributeValue("href",org.jdom.Namespace.getNamespace("xlink",MCRDefaults.XLINK_URL));
-		      if ( href==null)  	href = "";      
-	          derivateData.setAttribute("href", href);
-		    } 
-			
-			it = derivate.getDescendants(new ElementFilter("internal"));		
-		    if ( it.hasNext() )	    {
-		      Element el = (Element) it.next();
-		      String maindoc = el.getAttributeValue("maindoc");
-		      if ( maindoc==null)  	maindoc = "####";
-		      derivateData.setAttribute("maindoc", maindoc );          
-		    }
 		    return derivateData;		
 		}
 
@@ -243,6 +247,16 @@ public abstract class MCRDerivateStrategy {
 		public boolean commitDerivateObject(String derivateid, String directory) {
 			String filename = directory + SEPARATOR + derivateid + ".xml";
 			return loadDerivate(derivateid, filename);
+		}
+		
+		/**
+		 * is publishing the deleting in the workflowprozess - makes the delete of the derivate in the database
+		 * @param derivateid
+		 * @return
+		 */
+		public boolean deleteDeletedDerivates(String derivateid) {			
+			MCRDerivateCommands.delete(derivateid);
+			return true;
 		}
 		
 		protected boolean backupDerivateObject(String saveDirectory, String backupDir,
