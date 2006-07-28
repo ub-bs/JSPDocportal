@@ -113,7 +113,7 @@
     </element>
     <!-- 25 - RelationISBN -->
     <element name="relationisbns" minOccurs='0' maxOccurs='1' parasearch="true" textsearch="false">
-      <mcrmetaisbn name="relationisbn" class="MCRMetaISBN" minOccurs='1' maxOccurs='unbounded' length="32" />
+      <mcrmetalangtext name="relationisbn" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="32" />
     </element>
     <!-- 26 - DC Rights -->
     <element name="rights" minOccurs='0' maxOccurs='1' parasearch="true" textsearch="false">
