@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE editor>
 
 <editor>
@@ -106,30 +106,58 @@
     
   </panel>
 
-<!-- für Dissertationen STANDARD AUSSCHLIESSLICH CREATORLINK -->
+<!-- fÃ¼r Dissertationen STANDARD AUSSCHLIESSLICH CREATORLINK -->
    <text id="LCreatorLinks">
         <label xml:lang="de">
           <span class="editorlabel">Autor</span>
         </label>
    </text>
-   
-   <panel id="DCreatorLinks">
-        <hidden var="metadata/creatorlinks/@class" default="MCRMetaLinkID" />
-	    <hidden var="metadata/creatorlinks/creatorlink" />
-   	    <hidden var="metadata/creatorlinks/creatorlink/@inherited" default="0" />
-   	    <hidden var="metadata/creatorlinks/creatorlink/@type" default="locator" />
-   	    <hidden var="metadata/creatorlinks/creatorlink/@title" />
-   	    <hidden var="metadata/creatorlinks/creatorlink/@label" />
-   	    <hidden var="metadata/creatorlinks/creatorlink/@href" />   	       	       	       	    
+   <!-- 
+    <panel id="DCreatorLinks">
+        <hidden var="metadata/creatorlinks/@class" default="MCRMetaLinkID" sortnr="3" />
+	    <hidden var="metadata/creatorlinks/creatorlink" sortnr="3" />
+   	    <hidden var="metadata/creatorlinks/creatorlink/@inherited" default="0"  sortnr="3"/>
+   	    <hidden var="metadata/creatorlinks/creatorlink/@type" default="locator" sortnr="3"/>
+   	    <hidden var="metadata/creatorlinks/creatorlink/@title" sortnr="3"/>
+   	    <hidden var="metadata/creatorlinks/creatorlink/@label" sortnr="3"/>
+   	    <hidden var="metadata/creatorlinks/creatorlink/@href" sortnr="3"/>   	       	       	       	    
         <cell row="1" col="1" anchor="NORTHWEST">
 	        <output var="metadata/creatorlinks/creatorlink/@title" />
 	        <text label=" (" />
 	         <output var="metadata/creatorlinks/creatorlink/@href" />
 	        <text label=")" />
         </cell>   	    
-   </panel>
+         <cell row="1" col="2" sortnr="3">
+             <subselect i18n="Editor.Common.indexcreators" id="sub.select1" type="webpage" href="nav?path=~indexSearchCreatorsSub" />
+         </cell>
+   </panel> -->
 	 
-
+	 
+    <panel id="DCreatorLinks">
+      <!--creatorlink-->
+      <include  uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/creatorlinks&amp;classname=MCRMetaLinkID" />      
+      <cell col="1" row="1" anchor="NORTHWEST" var="metadata/creatorlinks/creatorlink" sortnr="3">
+        
+          <panel lines="off">
+            <hidden var="@inherited" default="0"  sortnr="3" />
+            <hidden var="@type" default="locator" sortnr="3" />
+            <hidden var="@title" default="Person" />
+            <hidden var="@href" default="" sortnr="3" />
+            <cell row="1" col="1" width="100%">
+            <output var="@title" />
+	        <text label=" (" />
+	         <output var="@href" />
+	        <text label=")" />
+              <text label="&#160;&#160;&#160;" />
+            </cell>
+            <cell row="1" col="2">
+              <subselect i18n="Editor.Common.indexcreators" id="sub.select1" type="webpage" href="nav?path=~indexSearchCreatorsSub" sortnr="3" />
+            </cell>
+          </panel>
+  
+      </cell>
+      <cell col="2" row="1" anchor="WEST" ref="ACreatorLink" />      
+   </panel>
 
 <!-- ** Data for the SUBJECT *** -->
 
@@ -157,7 +185,7 @@
 				   <output var="@href" />
 				 </cell>
 				 <cell row="1" col="2">
-				   <subselect label="Auswählen" id="sub.select2" type="webpage" href="nav?path=~browse_subDDC" />
+				   <subselect label="AuswÃ¤hlen" id="sub.select2" type="webpage" href="nav?path=~browse_subDDC" />
 				 </cell>
 			   </panel>
 			</repeater>
@@ -173,7 +201,7 @@
     <hidden var="metadata/publishers/publisher/@lang" default="de" />
     <!--  configure this in messages_de.properties and messages_en.properties -->
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.publishers.publisher&amp;prop=MCR.WorkflowEngine.PublisherDefaultName.xmetadiss&amp;lang=de&amp;bundle=messages" />
-    <!-- hidden var="metadata/publishers/publisher" default="Universitätsbibliothek der MyCoRe-Freunde" / -->    
+    <!-- hidden var="metadata/publishers/publisher" default="UniversitÃ¤tsbibliothek der MyCoRe-Freunde" / -->    
     <hidden var="metadata/publishers/publisher/@type" default="publication" />
     <hidden var="metadata/publishers/publisher[2]/@inherited" default="0" />
     <hidden var="metadata/publishers/publisher[2]/@lang" default="en" />
