@@ -64,7 +64,7 @@ public class MCRWorkflowForEditingStartServlet extends MCRServlet {
 
 		if (!AI.checkPermission(mcrid, "writedb" )) {
 			String lang   = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
-			String usererrorpage = "mycore-error.jsp?messageKey=WF.common.PrivilegesError&lang=" + lang;
+			String usererrorpage = "nav?path=~mycore-error?messageKey=WF.common.PrivilegesError&lang=" + lang;
 			logger.debug("Access denied for current user to start workflow for object " + mcrid);				
 			response.sendRedirect(getBaseURL() + usererrorpage);
 			return;
