@@ -65,7 +65,8 @@
     	  <br/>&nbsp;<br>
    	  </c:if>
    	  </td>
-   </tr>	  
+    </tr>	 
+    </table> 
    </c:when>
    <c:otherwise>
         <div class="headline"><fmt:message key="WF.publication" /></div>
