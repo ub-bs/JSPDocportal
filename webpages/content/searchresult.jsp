@@ -79,6 +79,52 @@
                     <x:set var="resultlistLink" select="string(./metaname[1]/resultlistLink/@href)" />
                     <x:set var="mcrID" select="string(@ID)" />
                     <x:set var="docType" select="string(@docType)" />
+                    <x:set var="contentType" select="./metaname[3]/metavalues/metavalue/@text" />
+					<tr>
+					<td style="vertical-align:middle; padding-right:20px">
+						<x:choose>
+							<x:when select="contains($docType, 'author')">
+								<img src="../images/person.gif" alt="author" />
+							</x:when>
+							<x:when select="contains($docType, 'institution')">
+								<img src="../images/institutionr.gif" alt="institution" />							
+							</x:when>
+							<x:when select="contains($docType, 'disshab')">
+								<img src="../images/disshab.gif" alt="disshab" />							
+							</x:when>
+							<x:when select="contains($docType, 'document')">
+								<x:choose>
+									<x:when select="contains($contentType, 'text')">
+										<img src="../images/article.gif" alt="text" />							
+									</x:when>
+									<x:when select="contains($contentType, 'image')">
+										<img src="../images/picture.gif" alt="image" />							
+									</x:when>
+									<x:when select="contains($contentType, 'notes')">
+										<img src="../images/musikalie.gif" alt="notes" />							
+									</x:when>
+									<x:when select="contains($contentType, 'software')">
+										<img src="../images/software.gif" alt="software" />							
+									</x:when>
+									<x:when select="contains($contentType, 'sound')">
+										<img src="../images/audio.gif" alt="sound" />							
+									</x:when>
+									<x:when select="contains($contentType, 'video')">
+										<img src="../images/audiovisual.gif" alt="video" />							
+									</x:when>
+									<x:otherwise>
+										<img src="../images/unknown.gif" alt="unknown" />														
+									</x:otherwise>	
+								</x:choose>
+							</x:when>
+							<x:otherwise>
+								<img src="../images/unknown.gif" alt="unknown" />														
+							</x:otherwise>
+						</x:choose>
+					</td>
+					<td>
+
+                    <table id="resultList" cellpadding="0" cellspacing="0">
                     <tr>
                         <td class="resultTitle">
                             <a href="${resultlistLink}"><x:out select="./metaname[1]/metavalues/metavalue/@text" escapeXml="./metaname[1]/metavalues/@escapeXml" /></a>
@@ -107,7 +153,7 @@
                             <table>
                                 <tr>
                                     <td class="imageInResultlist">
-                                        <x:set var="contentType" select="string(.//digitalobject/@contentType)" />
+                                        
                                         <x:set var="mainFileURL" select="concat($WebApplicationBaseURL,'file/',.//digitalobject/@derivid,'/',.//digitalobject/@derivmain,'?hosts=',$host)" />
                                         <c:choose>
                                             <c:when test="${!empty(contentType) and fn:contains('gif-jpeg-png', contentType)}">
@@ -138,6 +184,9 @@
                                 </tr>
                             </table>
                         </td>
+                    </tr>
+                    </table>
+                    </td>
                     </tr>
                 </x:forEach>
             </x:if>
