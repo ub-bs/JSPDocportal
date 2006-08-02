@@ -19,7 +19,7 @@
     
     <hidden var="conditions/@format" default="xml" />
     <hidden var="conditions/boolean/@operator" default="AND" />
-    <hidden var="conditions/boolean/condition1/@field" default="objecttype" />
+    <hidden var="conditions/boolean/condition1/@field" default="objectType" />
     <hidden var="conditions/boolean/condition1/@operator" default="=" />    
     <hidden var="conditions/boolean/condition1/@value" default="author" />    
     
