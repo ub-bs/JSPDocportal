@@ -9,12 +9,7 @@
 
  <target type="servlet" name="MCRPassToTargetServlet" method="post" format="xml" />
   <validationMessage>
-   <label xml:lang="de">Eingabefehler: Bitte korrigieren Sie die markierten Felder. <br/> 
-      Wenn Sie den Mauszeiger auf das rote Symbol neben dem fehlerhaften <br/>
-      Eingabefeld bewegen, sehen Sie weitere Hinweise.
-   </label>
-   <label xml:lang="en">Input error: Please correct the marked fields first. You see more tipps, if you scroll over the input field.
-   </label>   
+   <label i18n="Editor.Common.validationMessageLong" />
  </validationMessage>
 
  <components root="author-disshab" var="/mycoreobject">
@@ -23,8 +18,7 @@
 
   <headline anchor="CENTER">
    <text>
-    <label xml:lang="de">Die mit * gekennzeichneten Daten sind Plichtfelder.<p/></label>
-    <label xml:lang="en">The fields with * are duty.<p/></label>    
+    <label i18n="Editor.Common.mandatoryFields" />
    </text>
   </headline>
 
@@ -109,7 +103,7 @@
 <!-- für Dissertationen STANDARD AUSSCHLIESSLICH CREATORLINK -->
    <text id="LCreatorLinks">
         <label xml:lang="de">
-          <span class="editorlabel">Autor</span>
+          <label css-style="editorlabel" i18n="Editor.Document.author" />
         </label>
    </text>
    <!-- 
@@ -162,11 +156,7 @@
 <!-- ** Data for the SUBJECT *** -->
 
      <text id="LSubjects">
-        <label xml:lang="de">
-          <span class="editorlabel">
-            Klassifikation
-          </span>
-        </label>
+        <label css-style="editorlabel" i18n="Editor.Document.classification" />
      </text>
 	 <panel id="DSubjects" >
 		<hidden var="metadata/subjects/@class" default="MCRMetaClassification" />

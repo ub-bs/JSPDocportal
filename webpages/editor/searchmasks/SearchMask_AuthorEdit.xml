@@ -27,8 +27,7 @@
     <hidden var="conditions/boolean/condition2/@operator" default="contains" />    
     <cell row="1" col="1" anchor="WEST">
       <text>
-          <label xml:lang="de">Nachname oder ID</label>
-          <label xml:lang="en">surname or ID</label>
+          <label i18n="Editor.Search.lastnameorid" />
       </text>
     </cell>
     <cell col="2" row="1" anchor="NORTHWEST" >

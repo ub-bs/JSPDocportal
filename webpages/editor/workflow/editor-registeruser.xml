@@ -9,10 +9,7 @@
     <components root="register-user" var="/mycoreuser">
         <include uri="webapp:editor/workflow/imports-user.xml" />		
         <headline anchor="CENTER">
-            <text>
-                <label xml:lang="de">Die mit * gekennzeichneten Felder sind Plichtfelder.<p/></label>
-                <label xml:lang="en">Required fields are labeled with a star (*).<p/></label>
-            </text>
+            <text i18n="Editor.Common.mandatoryFields" />
         </headline>
 
         <panel id="register-user" lines="off">

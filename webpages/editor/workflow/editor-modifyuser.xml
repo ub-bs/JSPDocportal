@@ -26,14 +26,7 @@
             <cell row="2" col="2" anchor="WEST" ref="TFzeile64M" var="user/@ID" sortnr="1" />
             <cell row="2" col="3" anchor="EAST" >
                 <helpPopup id="HAccount" width="400px" >
-                    <label xml:lang="de">
-                        In diesem Feld geben Sie bitte die Benutzerkennung (user-ID) des neu
-                        anzulegenden Benutzers ein. Die ID darf nicht länger als 20 Zeichen sein.
-                    </label>
-                    <label xml:lang="en">
-                        Please specify the account (user-ID) of the new user. This ID must not
-                        be larger than 20 characters.
-                    </label>
+                    <label i18n="Editor.Help.HNewUserAccount" />
                 </helpPopup>
             </cell>
 

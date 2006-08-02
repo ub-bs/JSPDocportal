@@ -6,9 +6,7 @@
   <components root="author-document" var="/mycoreobject">
     <validationMessage>
       <text i18n="Editor.Common.validationMessage" />
-      <text >
-        <label xml:lang="de" >Es muss mindestens ein Autor über den Link oder das Eingabefeld gesetzt sein.</label> 
-      </text>
+      <text i18n="Editor.Validate.Author.Empty" />
     </validationMessage>
     
     <include uri="webapp:editor/workflow/imports-document.xml" />

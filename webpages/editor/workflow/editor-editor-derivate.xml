@@ -41,8 +41,7 @@
   </text>
 
   <helpPopup id="HLabel" >
-   <label xml:lang="de">Hier kann der Label des Derivates geändert werden.   </label>
-   <label xml:lang="en">You can change the label of the derivate here.   </label>
+		<label i18n="Editor.Help.ChangeDerivateLabel=" />
   </helpPopup>
 
  </components>

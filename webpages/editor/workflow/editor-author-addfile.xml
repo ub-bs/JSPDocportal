@@ -11,8 +11,7 @@
 
   <headline anchor="CENTER">
    <text>
-    <label xml:lang="de">Einstellen von max. 3 Dateien in den Workflow.<p/></label>
-    <label xml:lang="en">Add max. 3 files to the workflow.<p/></label>
+    <label i18n="Editor.Common.addFiles" />
    </text>
   </headline>
 
