@@ -248,10 +248,10 @@
             refid="docportal.classpath" />
         <pathconvert targetos="${detected.os}"
             property="docportal.libpath.translated"
-            refid="docportal.libpath" />
+            refid="docportal.libpath" />	
     </target>
-
-    <target name="jdbcstore.path.1" if="MCR.JDBCStore.BaseDir">
+	
+	<target name="jdbcstore.path.1" if="MCR.JDBCStore.BaseDir">
         <path id="jdbc.classpath">
             <fileset dir="${MCR.JDBCStore.BaseDir}"
                 includes="_dummy_ ${MCR.JDBCStore.Jars}" />
@@ -851,23 +851,23 @@
         -->
 
         <!-- Copy the files from various directories to build the webapps -->
-  	  <!--     <copy todir="${docportal.webapps}">
-            	
-              <fileset dir="${docportal.webpages}"/>
-              <fileset dir="${docportal.config}" includes="FileContentTypes.xml" />
-              <fileset dir="${docportal.doc}" includes="DocPortal.*" />
-              <fileset dir="${docportal.doc}" includes="Anleitung_Autor_Dokumente.*" />
-              <fileset dir="${docportal.doc}" includes="Anleitung_Bearbeiter_Documente.*" />
-      
-          <fileset
-              dir="${MYCORE_HOME}/documentation/StartingGuide"
-              includes="StartingGuide.*" />
-          <fileset dir="${MYCORE_HOME}/documentation/UserGuide"
-              includes="UserGuide.*" />
-          <fileset dir="${MYCORE_HOME}/documentation/ProgGuide"
-              includes="ProgGuide.*" />    
-      </copy> -->
-      <!--  	
+    	  <!--     <copy todir="${docportal.webapps}">
+              	
+                <fileset dir="${docportal.webpages}"/>
+                <fileset dir="${docportal.config}" includes="FileContentTypes.xml" />
+                <fileset dir="${docportal.doc}" includes="DocPortal.*" />
+                <fileset dir="${docportal.doc}" includes="Anleitung_Autor_Dokumente.*" />
+                <fileset dir="${docportal.doc}" includes="Anleitung_Bearbeiter_Documente.*" />
+        
+            <fileset
+                dir="${MYCORE_HOME}/documentation/StartingGuide"
+                includes="StartingGuide.*" />
+            <fileset dir="${MYCORE_HOME}/documentation/UserGuide"
+                includes="UserGuide.*" />
+            <fileset dir="${MYCORE_HOME}/documentation/ProgGuide"
+                includes="ProgGuide.*" />    
+        </copy> -->
+        <!--  	
             <copy todir="${docportal.webapps}" overwrite="true">
             <fileset dir="${docportal.webpages}" >
             <exclude name="**/*.xsl" />				      	
@@ -957,7 +957,7 @@
                 </linecontains>
             </filterchain>
         </loadproperties>
-        <signjar jar="${docportal.webapps}/applet/unsigned.jar"
+       <signjar jar="${docportal.webapps}/applet/unsigned.jar"
             signedjar="${docportal.webapps}/applet/upload.jar" alias="${SIGN.Alias}"
             keystore="${SIGN.KeyStore}/keys"
             storepass="${SIGN.Password}" keypass="${SIGN.Password}" />
@@ -1246,10 +1246,12 @@
         <property name="commands.file" value="${basedir}/commands.txt" />
         <echo file="${commands.file}" append="false">
             load permissions data from file permissions.xml
-      	    init superuser
-            change to user root with alleswirdgut
 
-        	create group data from file group_adminall.xml        	
+      	    init superuser
+
+            change to user root with alleswirdgut
+      			
+            create group data from file group_adminall.xml        	
         	
         	create group data from file group_adminauthor.xml
         	create group data from file group_createauthor.xml
@@ -1266,8 +1268,8 @@
         	create group data from file group_adminclassification.xml
         	
         	create group data from file group_adminuser.xml
-
-        	create user data from file user_administrator.xml        	        	  	
+        	
+        	create user data from file user_administrator.xml  
         	create user data from file user_editorUser.xml
         	create user data from file user_editorClass.xml
         	create user data from file user_author1A.xml
@@ -1560,6 +1562,19 @@
         <delete file="${commands.file}" />		
 	</target>
 
+	<target name="deploy.processdefinition.institution">
+        <property name="commands.file" value="${basedir}/commands.txt" />
+        <echo file="${commands.file}" append="false">
+        	deploy jbpm processdefinition from file workflow/institution.par/processdefinition.xml      	
+        </echo>
+        <antcall target="invoke.cli">
+            <param name="cli.directory"
+                value="${docportal.config}" />
+            <param name="cli.command" value="process ${commands.file}" />
+        </antcall>
+        <delete file="${commands.file}" />		
+	</target>	
+	
 	<target name="deploy.processdefinition.author">
         <property name="commands.file" value="${basedir}/commands.txt" />
         <echo file="${commands.file}" append="false">
@@ -1584,6 +1599,8 @@
         	deploy jbpm processdefinition from file workflow/registeruser.par/processdefinition.xml      	
         	
         	deploy jbpm processdefinition from file workflow/xmetadiss.par/processdefinition.xml      	        	
+
+    	   	deploy jbpm processdefinition from file workflow/institution.par/processdefinition.xml      	        	
         </echo>
         <antcall target="invoke.cli">
             <param name="cli.directory"

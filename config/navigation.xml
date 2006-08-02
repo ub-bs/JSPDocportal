@@ -85,6 +85,17 @@
                 <refitem name="~authorinfo" label="" />
               </navitem>
 	        </navitem>
+	        
+	        <navitem name="institution" label="WF.institution" href="content/workflow/institution/workflow.jsp" >
+              <refitem name="~institution" label="" />
+              <navitem name="institutionbegin" label="WF.institution.begin" href="content/workflow/institution/begin.jsp" hidden="true" >
+                <refitem name="~institutionbegin" label="" />
+              </navitem>
+              <navitem name="institutioninfo" label="WF.institution.info" href="content/workflow/institution/information.jsp" hidden="true" >
+                <refitem name="~institutioninfo" label="" />
+              </navitem>
+	        </navitem>
+	        
             <navitem name="xmetadiss" label="WF.xmetadiss" href="content/workflow/xmetadiss/workflow.jsp" >
               <refitem name="~xmetadiss" label="" />
               <navitem name="xmetadissbegin" label="WF.xmetadiss.begin" href="content/workflow/xmetadiss/begin.jsp" hidden="true" >
@@ -231,6 +242,15 @@
           </navitem>
           <navitem name="process-author" label="Nav.Admin.Processes" href="admin/processes_list.jsp?workflowProcessType=author"  right="administrate-author">
             <refitem name="~process-author" label="" />
+          </navitem>
+        </navitem>
+
+        <navitem name="institution" label="Nav.Admin.Institution" href="admin/main.jsp"  right="administrate-institution" >
+          <navitem name="workflow"	label="WF.institution" href="content/workflow/institution/workflow.jsp"  right="administrate-institution">
+            <refitem name="~workflow-institution" label="" />
+          </navitem>
+          <navitem name="process-institution" label="Nav.Admin.Processes" href="admin/processes_list.jsp?workflowProcessType=institution"  right="administrate-institution">
+            <refitem name="~process-institution" label="" />
           </navitem>
         </navitem>
         

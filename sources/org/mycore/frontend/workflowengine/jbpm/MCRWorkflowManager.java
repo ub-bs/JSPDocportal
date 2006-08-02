@@ -24,10 +24,12 @@ import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.strategies.MCRAuthorStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRDefaultAuthorStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRDefaultDerivateStrategy;
+import org.mycore.frontend.workflowengine.strategies.MCRDefaultInstitutionStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRDefaultMetadataStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRDefaultPermissionStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRDefaultUserStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRDerivateStrategy;
+import org.mycore.frontend.workflowengine.strategies.MCRInstitutionStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRURNIdentifierStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRUserStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
@@ -64,6 +66,7 @@ public abstract class MCRWorkflowManager {
 	protected MCRDerivateStrategy 	derivateStrategy;
 	protected MCRPermissionStrategy permissionStrategy;
 	protected MCRUserStrategy 		userStrategy;
+	protected MCRInstitutionStrategy institutionStrategy;
 
 	protected MCRWorkflowManager( String mainDocumentType, String workflowProcessType) throws Exception {
 		this.workflowProcessType 	= workflowProcessType;
@@ -74,6 +77,7 @@ public abstract class MCRWorkflowManager {
 		this.derivateStrategy   	= new MCRDefaultDerivateStrategy();
 		this.permissionStrategy 	= new MCRDefaultPermissionStrategy();
 		this.userStrategy 			= new MCRDefaultUserStrategy();
+		this.institutionStrategy    = new MCRDefaultInstitutionStrategy();
 	}
 	
 	

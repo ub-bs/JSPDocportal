@@ -7,10 +7,7 @@
 -->
  <target type="servlet" name="MCRPassToTargetServlet" method="post" format="xml" /> 
  <validationMessage>
-   <label>Eingabefehler: Bitte korrigieren Sie die markierten Felder. <br/> 
-      Wenn Sie den Mauszeiger auf das rote Symbol neben dem fehlerhaften <br/>
-      Eingabefeld bewegen, sehen Sie weitere Hinweise.
-   </label>
+   <label i18n="Editor.Common.validationMessage" />
  </validationMessage>
  <components root="author-author" var="/mycoreobject">
 	
@@ -18,8 +15,7 @@
   
   <headline anchor="CENTER">
    <text>
-    <label xml:lang="de">Die mit * gekennzeichneten Daten sind Plichtfelder.<p/></label>
-    <label xml:lang="en">The fields with * are duty.<p/></label>
+    <label i18n="Editor.Common.headline" />
    </text>
   </headline>
   
