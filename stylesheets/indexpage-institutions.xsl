@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.6 $ $Date: 2006-08-02 12:15:09 $ -->
+<!-- $Revision: 1.1 $ $Date: 2006-08-02 12:15:09 $ -->
 <!-- ============================================== -->
 
 <xsl:stylesheet
@@ -14,7 +14,7 @@
   encoding="UTF-8" 
 />
 <xsl:variable name="MainTitle" select="'Indexsuche '"/>
-<xsl:variable name="PageTitle" select="'Autorenindex'"/>
+<xsl:variable name="PageTitle" select="'Index über Institutionen'"/>
 <xsl:param name="WebApplicationBaseURL" />
 
 <!-- ========== Variablen ========== -->
@@ -47,7 +47,7 @@
     <td>
       <table border="0" cellpadding="0" cellspacing="0"><tr>
         <td class="metavalue">
-          <form action="nav?path=~indexSearchCreators" method="post">
+          <form action="nav?path=~~indexSearchInstitutions" method="post">
             <b>Index </b>
             <select name="mode" size="1" class="button">
               <option value="prefix">
@@ -91,7 +91,7 @@
 </xsl:template>
 
 <xsl:variable name="up.url">
-  <xsl:text>nav?path=~indexSearchCreators</xsl:text>
+  <xsl:text>nav?path=~indexSearchInstitutions</xsl:text>
   <xsl:text>&amp;</xsl:text>
   <xsl:if test="string-length($search) &gt; 0">
     <xsl:text>search=</xsl:text>
@@ -148,7 +148,7 @@
 <!-- ========== value ========== -->
 <xsl:template match="value">
   
-  <xsl:variable name="urlAuthor">
+  <xsl:variable name="urlInstitution">
     <xsl:text>nav?path=~docdetail</xsl:text>
 	<xsl:text>&amp;id=</xsl:text>
     <xsl:value-of select="col[@name='id']" />
@@ -164,11 +164,10 @@
         <img border="0" src="images/folder_plain.gif"/>
       </td>
       <td class="td1" valign="top" style="padding-right:5px;">
-        <xsl:value-of select="col[@name='surname']" />,  
-		<xsl:value-of select="col[@name='firstname']" />	  
+        <xsl:value-of select="col[@name='fullname']" /> 
 	  </td>
       <td class="td1" valign="top" style="padding-right:5px;">
-        <a href="{$urlAuthor}{$offset}" ><xsl:text> [Detailansicht] </xsl:text></a>
+        <a href="{$urlInstitution}{$offset}" ><xsl:text> [Detailansicht] </xsl:text></a>
       </td>
 	</tr>
 		
@@ -177,7 +176,7 @@
 <!-- ========== range ========== -->
 <xsl:template match="range">
   <xsl:variable name="url">
-    <xsl:value-of select="concat($WebApplicationBaseURL,'nav?path=~indexSearchCreators&amp;fromTo=', from/@pos,'-', to/@pos )" />	
+    <xsl:value-of select="concat($WebApplicationBaseURL,'nav?path=~indexSearchInstitutions&amp;fromTo=', from/@pos,'-', to/@pos )" />	
     <xsl:if test="string-length($search) &gt; 0">
       <xsl:text>&amp;search=</xsl:text>		
       <xsl:value-of select="$search" />
@@ -197,15 +196,15 @@
 
 
 <!-- ========== Titel ========== -->
-<xsl:variable name="IndexTitle" select="'Personen von A - Z'" />
+<xsl:variable name="IndexTitle" select="'Institutionen von A - Z'" />
 
 <!-- ========== Einleitender Text ========== -->
 <xsl:template name="IntroText">
-Dieser Index enthält die Namen der Autoren, die Dokumente in @libri publiziert haben.
+Dieser Index enthält die Namen der Institutionen, die in der Digitalen Bibliothek registriert sind.
 <br/><br/>
 <xsl:text> | </xsl:text>
 <xsl:for-each select="xalan:nodeset($AtoZ)/search">
-  <a href="{$WebApplicationBaseURL}nav?path=~indexSearchCreators&amp;search={@prefix}">
+  <a href="{$WebApplicationBaseURL}nav?path=~indexSearchInstitutions&amp;search={@prefix}">
   <!-- a href="{$WebApplicationBaseURL}index/{$IndexID}/index.html?mode=prefix&amp;search={@prefix}" -->
     <xsl:value-of select="@prefix" />
   </a>

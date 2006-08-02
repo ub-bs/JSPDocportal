@@ -38,7 +38,9 @@
                 </navitem>
               </navitem>
             </navitem>
-            <navitem name="institution" label="Nav.InstitutionSearch" href="searchMask?layout=institution"></navitem>
+            <navitem name="institution" label="Nav.InstitutionSearch" href="content/indexSearch.jspx?searchclass=institutions">
+              <refitem name="~indexSearchInstitutions" label="" />
+            </navitem>
           </navitem>
           <navitem name="browse" label="Nav.ClassificationsSearch" href="content/node.jsp">
             <navitem name="ddc" label="Nav.DDC" href="content/browse.jsp?browserClass=ddc">

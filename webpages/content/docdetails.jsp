@@ -72,7 +72,7 @@
  <tr>
    <td>
      <div class="headline">
-      <fmt:message key="OMD.${type}.title" />:
+        <fmt:message key="OMD.${type}.title" />:
          <mcr:simpleXpath jdom="${mycoreobject}" xpath="/mycoreobject/metadata/titles/title[@xml:lang='${requestScope.lang}']" />
          <mcr:simpleXpath jdom="${mycoreobject}" xpath="/mycoreobject/metadata/names/name/fullname" />
 	     <mcr:simpleXpath jdom="${mycoreobject}" xpath="/user/@ID" />

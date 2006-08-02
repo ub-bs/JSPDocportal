@@ -541,6 +541,14 @@ MCR.IndexBrowser.creators_sub.OutputFields=surname,firstname,id
 MCR.IndexBrowser.creators_sub.Style=creators_sub
 MCR.IndexBrowser.creators_sub.MaxPerPage=30
 
+MCR.IndexBrowser.institutions.Table=institution
+MCR.IndexBrowser.institutions.Searchfield=name
+MCR.IndexBrowser.institutions.FieldsToSort=name
+## first field is equal to sort, second to sarchfield, the rest is additional
+MCR.IndexBrowser.institutions.ExtraOutputFields=fullname,id
+MCR.IndexBrowser.institutions.Style=institutions
+MCR.IndexBrowser.institutions.MaxPerPage=30
+
 ########################
 # ACCESS
 MCR.accessstore_class_name=org.mycore.backend.hibernate.MCRHIBAccessStore
