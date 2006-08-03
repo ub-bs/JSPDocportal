@@ -61,7 +61,7 @@
           <panel lines="off">
             <hidden var="@inherited" default="0"  sortnr="3" />
             <hidden var="@type" default="locator" sortnr="3" />
-            <hidden var="@title" default="Person" />
+            <hidden var="@title" default="Person/Körperschaft" />
             <hidden var="@href" default="" sortnr="3" />
             <cell row="1" col="1" width="100%">
               <output var="@title" default=" Name " />
@@ -117,7 +117,7 @@
           <panel lines="off">
             <hidden var="@inherited" default="0"   />
             <hidden var="@type" default="locator" sortnr="9" />
-            <hidden var="@title" default="Person" />
+            <hidden var="@title" default="Person/Körperschaft" />
             <hidden var="@href" default="" sortnr="9"  />
             <cell row="1" col="1" width="100%">
               <output var="@title" default=" Name " />
@@ -155,7 +155,7 @@
           <panel lines="off">
             <hidden var="@inherited" default="0" sortnr="11" />
             <hidden var="@type"  default="locator" sortnr="11" />
-            <hidden var="@title" default="Person" />
+            <hidden var="@title" default="Person/Körperschaft" />
             <hidden var="@href"  default="" sortnr="11" />
             <cell row="1" col="1" width="100%">
               <output var="@title" default=" Name" />
