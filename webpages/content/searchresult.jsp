@@ -84,41 +84,41 @@
 					<td style="vertical-align:middle; padding-right:20px">
 						<x:choose>
 							<x:when select="contains($docType, 'author')">
-								<img src="../images/person.gif" alt="author" />
+								<img src="${WebApplicationBaseURL}/images/person.gif" alt="author" />
 							</x:when>
 							<x:when select="contains($docType, 'institution')">
-								<img src="../images/institutionr.gif" alt="institution" />							
+								<img src="${WebApplicationBaseURL}/images/institution.gif" alt="institution" />							
 							</x:when>
 							<x:when select="contains($docType, 'disshab')">
-								<img src="../images/disshab.gif" alt="disshab" />							
+								<img src="${WebApplicationBaseURL}/images/disshab.gif" alt="disshab" />							
 							</x:when>
 							<x:when select="contains($docType, 'document')">
 								<x:choose>
 									<x:when select="contains($contentType, 'text')">
-										<img src="../images/article.gif" alt="text" />							
+										<img src="${WebApplicationBaseURL}/images/article.gif" alt="text" />							
 									</x:when>
 									<x:when select="contains($contentType, 'image')">
-										<img src="../images/picture.gif" alt="image" />							
+										<img src="${WebApplicationBaseURL}/images/picture.gif" alt="image" />							
 									</x:when>
 									<x:when select="contains($contentType, 'notes')">
-										<img src="../images/musikalie.gif" alt="notes" />							
+										<img src="${WebApplicationBaseURL}/images/musikalie.gif" alt="notes" />							
 									</x:when>
 									<x:when select="contains($contentType, 'software')">
-										<img src="../images/software.gif" alt="software" />							
+										<img src="${WebApplicationBaseURL}/images/software.gif" alt="software" />							
 									</x:when>
 									<x:when select="contains($contentType, 'sound')">
-										<img src="../images/audio.gif" alt="sound" />							
+										<img src="${WebApplicationBaseURL}/images/audio.gif" alt="sound" />							
 									</x:when>
 									<x:when select="contains($contentType, 'video')">
-										<img src="../images/audiovisual.gif" alt="video" />							
+										<img src="${WebApplicationBaseURL}/images/audiovisual.gif" alt="video" />							
 									</x:when>
 									<x:otherwise>
-										<img src="../images/unknown.gif" alt="unknown" />														
+										<img src="${WebApplicationBaseURL}/images/unknown.gif" alt="unknown" />														
 									</x:otherwise>	
 								</x:choose>
 							</x:when>
 							<x:otherwise>
-								<img src="../images/unknown.gif" alt="unknown" />														
+								<img src="${WebApplicationBaseURL}/images/unknown.gif" alt="unknown" />														
 							</x:otherwise>
 						</x:choose>
 					</td>
