@@ -530,22 +530,21 @@ MCR.IndexBrowser.creators.Table=author
 MCR.IndexBrowser.creators.Style=creators
 MCR.IndexBrowser.creators.MaxPerPage=30
 # the value must be defined as sotable searchfields in searchfields.xml and in the metadata - with the same name
-MCR.IndexBrowser.creators.Searchfield=surname
-MCR.IndexBrowser.creators.FieldsToSort=surname,firstname
+MCR.IndexBrowser.creators.Searchfield=fullname
+MCR.IndexBrowser.creators.FieldsToSort=fullname
 # the values came from metadata of the object
-MCR.IndexBrowser.creators.ExtraOutputFields=firstname,id
+MCR.IndexBrowser.creators.ExtraOutputFields=fullname,id
 
-MCR.IndexBrowser.creators_sub.Table=author
-MCR.IndexBrowser.creators_sub.FieldsToSort=surname,firstname
-MCR.IndexBrowser.creators_sub.Searchfield=surname
-MCR.IndexBrowser.creators_sub.ExtraOutputFields=firstname,id
+MCR.IndexBrowser.creators_sub.Table=author,institution
+MCR.IndexBrowser.creators_sub.FieldsToSort=fullname
+MCR.IndexBrowser.creators_sub.Searchfield=fullname
+MCR.IndexBrowser.creators_sub.ExtraOutputFields=fullname,id
 MCR.IndexBrowser.creators_sub.Style=creators_sub
 MCR.IndexBrowser.creators_sub.MaxPerPage=30
 
 MCR.IndexBrowser.institutions.Table=institution
-MCR.IndexBrowser.institutions.Searchfield=name
-MCR.IndexBrowser.institutions.FieldsToSort=name
-## first field is equal to sort, second to sarchfield, the rest is additional
+MCR.IndexBrowser.institutions.Searchfield=fullname
+MCR.IndexBrowser.institutions.FieldsToSort=fullname
 MCR.IndexBrowser.institutions.ExtraOutputFields=fullname,id
 MCR.IndexBrowser.institutions.Style=institutions
 MCR.IndexBrowser.institutions.MaxPerPage=30
