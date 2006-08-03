@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.3 $ $Date: 2006-06-23 15:36:23 $ -->
+<!-- $Revision: 1.4 $ $Date: 2006-08-03 11:34:08 $ -->
 <!-- ============================================== -->
 
 <xsl:stylesheet
@@ -178,7 +178,7 @@
   </xsl:variable>
 
    <xsl:variable name="title">
-       <xsl:value-of select="concat(idx, ', ', col[@name='firstname'])" />   
+       <xsl:value-of select="col[@name='fullname']" />   
    </xsl:variable>
    
     <tr>

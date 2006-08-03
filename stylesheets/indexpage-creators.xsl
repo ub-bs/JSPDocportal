@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.6 $ $Date: 2006-08-02 12:15:09 $ -->
+<!-- $Revision: 1.7 $ $Date: 2006-08-03 11:34:08 $ -->
 <!-- ============================================== -->
 
 <xsl:stylesheet
@@ -164,8 +164,7 @@
         <img border="0" src="images/folder_plain.gif"/>
       </td>
       <td class="td1" valign="top" style="padding-right:5px;">
-        <xsl:value-of select="col[@name='surname']" />,  
-		<xsl:value-of select="col[@name='firstname']" />	  
+		<xsl:value-of select="col[@name='fullname']" />	  
 	  </td>
       <td class="td1" valign="top" style="padding-right:5px;">
         <a href="{$urlAuthor}{$offset}" ><xsl:text> [Detailansicht] </xsl:text></a>
