@@ -74,12 +74,14 @@
     </form>
     <table id="resultList" cellpadding="0" cellspacing="0">
         <tbody>
+
             <x:if select="./mcr_result">
                 <x:forEach select="./mcr_result/all-metavalues">
                     <x:set var="resultlistLink" select="string(./metaname[1]/resultlistLink/@href)" />
                     <x:set var="mcrID" select="string(@ID)" />
                     <x:set var="docType" select="string(@docType)" />
-                    <x:set var="contentType" select="./metaname[3]/metavalues/metavalue/@text" />
+                    <!--  the number corresponds to the x. entry in resultlist-*.xml -->
+                    <x:set var="contentType" select="./metaname[7]/metavalues/metavalue/@text" />
 					<tr>
 					<td style="vertical-align:middle; padding-right:20px">
 						<x:choose>
