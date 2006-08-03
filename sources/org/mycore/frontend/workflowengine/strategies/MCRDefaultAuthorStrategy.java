@@ -83,8 +83,13 @@ public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {
 
 		if (user != null) {
 			MCRMetaPersonName pname = new MCRMetaPersonName();
-			String fullname = user.getUserContact().getFirstName() + " "
-					+ user.getUserContact().getLastName();
+			StringBuffer sbFullname=new StringBuffer();
+			sbFullname.append(user.getUserContact().getLastName());
+			if(user.getUserContact().getFirstName().length()>0){
+				sbFullname.append(", ");
+				sbFullname.append(user.getUserContact().getFirstName());
+			}
+			String fullname = sbFullname.toString();
 			pname.setSubTag("name");
 			pname.setLang("de");
 			pname.set(user.getUserContact().getFirstName(), user

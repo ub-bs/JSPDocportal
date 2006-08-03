@@ -37,12 +37,8 @@ import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
-import org.mycore.frontend.workflowengine.strategies.MCRDefaultAuthorStrategy;
-import org.mycore.frontend.workflowengine.strategies.MCRDefaultDerivateStrategy;
-import org.mycore.frontend.workflowengine.strategies.MCRDefaultMetadataStrategy;
-import org.mycore.frontend.workflowengine.strategies.MCRDefaultPermissionStrategy;
+import org.mycore.frontend.workflowengine.strategies.MCRAuthorMetadataStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRMetadataStrategy;
-import org.mycore.frontend.workflowengine.strategies.MCRURNIdentifierStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 import org.mycore.services.fieldquery.MCRResults;
 import org.mycore.user2.MCRUser;
@@ -64,6 +60,7 @@ public class MCRWorkflowManagerAuthor extends MCRWorkflowManager {
 
 	protected MCRWorkflowManagerAuthor() throws Exception {
 		super("author", "author");
+		metadataStrategy = new MCRAuthorMetadataStrategy("author");
 	}
 
 	/**
