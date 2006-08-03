@@ -102,7 +102,7 @@
          <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="author" decision="canChangesBeCommitted" />
          <c:if test="${transition eq 'changesCanBeCommitted'}">
 	        <img title="" alt="" src="${baseURL}images/greenArrow.gif">         
-            <a href="${baseURL}nav?path=~author&transition=go2CanChangesBeCommitted&endTask=taskDisplayAuthorData&processID=${requestScope.task.processID}"><fmt:message key="WF.author.taskCommitChanges" /></a>
+            <a href="${baseURL}nav?path=~author&transition=go2canChangesBeCommitted&endTask=taskDisplayAuthorData&processID=${requestScope.task.processID}"><fmt:message key="WF.author.taskCommitChanges" /></a>
             <br />
          </c:if>     
       </p>
