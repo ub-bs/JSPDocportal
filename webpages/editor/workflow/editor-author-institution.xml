@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE editor>
 
-<editor>
- <target type="servlet" name="MCRPassToTargetServlet" method="post" format="xml" />
+<editor  id="editor-author-institution" >
+
+ <target type="servlet" name="MCRPassToTargetServlet" method="post" format="xml" /> 
+ <validationMessage>
+   <label i18n="Editor.Common.validationMessage" />
+ </validationMessage>
 
  <components root="author-institution" var="/mycoreobject">
 
@@ -17,8 +21,6 @@
   <panel id="author-institution">
    <hidden var="ID" />
    <hidden var="label" />
-
-   <!-- <hidden var="metadata/@lang" default="de" /> -->
 
    <cell col="1" row="1" anchor="NORTHWEST" ref="LINameP" />
    <cell col="2" row="1" anchor="NORTHWEST" ref="DIName" />
@@ -66,21 +68,6 @@
    <cell col="2" row="8" anchor="WEST" ref="TwoButtons"  />
   </panel>
 
-<!--
-  <submitButton id="BSubmit" width="100px" >
-    <label xml:lang="de">[Speichern]</label>
-    <label xml:lang="en">[Save]</label>
-  </submitButton>
-  <cancelButton id="BCancel" width="100px" >
-    <label xml:lang="de">[Abbrechen]</label>
-    <label xml:lang="en">[Cancel]</label>
-  </cancelButton>
-
-  <panel id="TwoButtons">
-    <cell col="1" row="1" anchor="WEST" ref="BCancel"            />
-    <cell col="2" row="1" anchor="WEST" ref="BSubmit" var="save" />
-  </panel>
--->
 
   <panel id="DIName">
     <hidden var="metadata/names/@class" default="MCRMetaInstitutionName" />
@@ -90,7 +77,13 @@
     <hidden var="metadata/names/@heritable" default="true" />
     <hidden var="metadata/names/name/@inherited" default="0" />
     <cell col="1" row="1" anchor="NORTHWEST" ref="Slang" var="metadata/names/name/@lang" ordernr="1" default="de" />
-    <cell col="2" row="1" anchor="NORTHWEST" ref="TFzeile128" var="metadata/names/name/fullname" ordernr="1" />
+    <cell col="2" row="1" anchor="NORTHWEST" var="metadata/names/name/fullname" ordernr="1" >
+	  <textfield id="tf.fullname" width="30" maxlength="128"   >		
+		<condition required="true" id="cond.Name">
+			<label i18n="Editor.Validate.Name.Empty" />
+		</condition>
+	  </textfield>	
+    </cell>
     <cell col="3" row="1" anchor="NORTHWEST" ref="AINameName" />
     <cell col="2" row="2" anchor="NORTHWEST" ref="TFzeile32" var="metadata/names/name/nickname" ordernr="1" />
     <cell col="3" row="2" anchor="NORTHWEST" ref="AINameNick" />
@@ -110,9 +103,21 @@
     <cell col="3" row="1" anchor="NORTHWEST" ref="AAddressCountry" />
     <cell col="2" row="2" anchor="NORTHWEST" ref="Sstate" var="metadata/addresses/address/state" ordernr="2" />
     <cell col="3" row="2" anchor="NORTHWEST" ref="AAddressState" />
-    <cell col="2" row="3" anchor="NORTHWEST" ref="TFzeile10" var="metadata/addresses/address/zipcode" ordernr="2" />
+    <cell col="2" row="3" anchor="NORTHWEST" var="metadata/addresses/address/zipcode" ordernr="2" >
+	  <textfield id="tf.ZipCode" width="10" maxlength="128"  >		
+		<condition required="true" id="cond.ZipCode">
+			<label i18n="Editor.Validate.City.Empty" />
+		</condition>
+	  </textfield>	
+    </cell>    
     <cell col="3" row="3" anchor="NORTHWEST" ref="AAddressZIP" />
-    <cell col="2" row="4" anchor="NORTHWEST" ref="TFzeile128" var="metadata/addresses/address/city" ordernr="2" />
+    <cell col="2" row="4" anchor="NORTHWEST" var="metadata/addresses/address/city" ordernr="2" >
+	  <textfield id="tf.Country" width="30" maxlength="128"  >		
+		<condition required="true" id="cond.Country">
+			<label i18n="Editor.Validate.City.Empty" />
+		</condition>
+	  </textfield>	
+    </cell>
     <cell col="3" row="4" anchor="NORTHWEST" ref="AAddressCity" />
     <cell col="2" row="5" anchor="NORTHWEST" ref="TFzeile128" var="metadata/addresses/address/street" ordernr="2" />
     <cell col="3" row="5" anchor="NORTHWEST" ref="AAddressStreet" />
