@@ -526,18 +526,19 @@ MCR.Lucene.LockDir=%MCR.BaseDirectory%/indexer/lucene-lock
 # Configuration details for IndexServlet
 ##############################################################################
 MCR.IndexBrowser.creators.Table=author
-MCR.IndexBrowser.creators.Searchfield=name
-MCR.IndexBrowser.creators.FieldsToSort=name
-## first field is equal to sort, second to sarchfield, the rest is additional
-MCR.IndexBrowser.creators.ExtraOutputFields=name,name,surname,firstname,id
+# the layout -to build the stylesheet idexpage-<Style>.xsl
 MCR.IndexBrowser.creators.Style=creators
 MCR.IndexBrowser.creators.MaxPerPage=30
+# the value must be defined as sotable searchfields in searchfields.xml and in the metadata - with the same name
+MCR.IndexBrowser.creators.Searchfield=surname
+MCR.IndexBrowser.creators.FieldsToSort=surname,firstname
+# the values came from metadata of the object
+MCR.IndexBrowser.creators.ExtraOutputFields=firstname,id
 
 MCR.IndexBrowser.creators_sub.Table=author
-MCR.IndexBrowser.creators_sub.Searchfield=surname
 MCR.IndexBrowser.creators_sub.FieldsToSort=surname,firstname
-## first field is equal to sort, second to sarchfield, the rest is additional
-MCR.IndexBrowser.creators_sub.OutputFields=surname,firstname,id
+MCR.IndexBrowser.creators_sub.Searchfield=surname
+MCR.IndexBrowser.creators_sub.ExtraOutputFields=firstname,id
 MCR.IndexBrowser.creators_sub.Style=creators_sub
 MCR.IndexBrowser.creators_sub.MaxPerPage=30
 
