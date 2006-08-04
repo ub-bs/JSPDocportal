@@ -252,6 +252,7 @@ public class MCRResultFormatter {
     		try { start = Integer.parseInt(sStart);}
     		catch (Exception parameterfailes) { start=1; }
     		
+    		
 			for(Iterator it = XPath.selectNodes(doc,xpath).iterator(); it.hasNext(); ) {
 				Object obj = (Object) it.next();
 				String text = "";
@@ -265,6 +266,10 @@ public class MCRResultFormatter {
 					org.jdom.Attribute at = (org.jdom.Attribute) obj;
 					text = at.getValue();
 				}
+				
+				if ( terminator.endsWith("...") & text.length() >150)
+					text = text.substring(0,150) + terminator;
+				
 				if ( (text != null) && (!text.equals("")) && cnt >= start) {
 					Element metaValue = new Element("metavalue");
 					metaValue.setAttribute("href","");
