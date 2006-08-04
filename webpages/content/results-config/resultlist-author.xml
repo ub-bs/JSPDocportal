@@ -22,6 +22,9 @@
     <MCRDocDetail rowtype="standard" labelkey="OMD.id" >
         <MCRDocDetailContent xpath="/mycoreobject/@ID" templatetype="tpl-text-values" separator=", " languageRequired="no" />
     </MCRDocDetail>    
+    <MCRDocDetail rowtype="standard" labelkey="OMD.institution" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/institutions/institution" templatetype="tpl-classification" separator=", " languageRequired="yes" />
+    </MCRDocDetail>    
 </MCRDocDetails>
 
 

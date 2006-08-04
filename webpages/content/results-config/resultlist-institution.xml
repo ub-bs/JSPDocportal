@@ -21,4 +21,8 @@
         <MCRDocDetailContent xpath="/mycoreobject/metadata/addresses/address/state" templatetype="tpl-text-values" separator=", " languageRequired="no" />    
         <MCRDocDetailContent xpath="/mycoreobject/metadata/addresses/address/city" templatetype="tpl-text-values" separator=", " languageRequired="no" />                    
     </MCRDocDetail>        
+    <MCRDocDetail rowtype="standard" labelkey="OMD.city" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/addresses/address/city" templatetype="tpl-text-values" separator=", " languageRequired="no" />                    
+    </MCRDocDetail>        
+    
 </MCRDocDetails>

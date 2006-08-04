@@ -267,8 +267,10 @@ public class MCRResultFormatter {
 					text = at.getValue();
 				}
 				
-				if ( terminator.endsWith("...") & text.length() >150)
-					text = text.substring(0,150) + terminator;
+				int max = CONFIG.getInt("MCR.Searchresults.description.maxlength", 250);
+				if ( !terminator.equals(", ") & text.length() > max){
+					text = text.substring(0,max) + terminator;
+				}
 				
 				if ( (text != null) && (!text.equals("")) && cnt >= start) {
 					Element metaValue = new Element("metavalue");

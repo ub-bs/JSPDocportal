@@ -129,6 +129,7 @@ MCR.WorkflowEngine.Rightslinks.DefaultURL.publication=http://www.uni-rostock.de/
 MCR.WorkflowEngine.ManagerImpl.xmetadiss=org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRWorkflowManagerXmetadiss
 # required for MCRResultFormatter
 MCR.languageResourceBundleBase=messages
+MCR.Searchresults.description.maxlength=250
 # paths
 
 MCR.XML.TempPath=%MCR.BaseDirectory%/tmp

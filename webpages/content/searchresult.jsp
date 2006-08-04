@@ -5,6 +5,7 @@
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
 <c:set var="debug" value="false" />
 <c:set var="WebApplicationBaseURL" value="${applicationScope.WebApplicationBaseURL}" />
+<fmt:setBundle basename="messages"/>
 <c:choose>
    <c:when test="${param.offset > 0}">
       <c:set var="offset" value="${param.offset}" />
@@ -46,8 +47,6 @@
         <c:set var="headlineKey" value="Webpage.searchresults.result-document-search" />
     </c:otherwise>
 </c:choose>
-<fmt:setLocale value='${lang}'/>
-<fmt:setBundle basename='messages'/>
 <x:forEach select="$resultList/mcr_results">
     <x:set var="totalhits" select="string(./@total-hitsize)" scope="page" />
     <div class="headline"><fmt:message key="${headlineKey}" /></div>
@@ -72,18 +71,20 @@
             </tr>
         </table>
     </form>
-    <table id="resultList" cellpadding="0" cellspacing="0">
-        <tbody>
 
+    <table cellpadding="0" cellspacing="0">
+        <tbody>
             <x:if select="./mcr_result">
                 <x:forEach select="./mcr_result/all-metavalues">
                     <x:set var="resultlistLink" select="string(./metaname[1]/resultlistLink/@href)" />
                     <x:set var="mcrID" select="string(@ID)" />
                     <x:set var="docType" select="string(@docType)" />
                     <!--  the number corresponds to the x. entry in resultlist-*.xml -->
-                    <x:set var="contentType" select="./metaname[7]/metavalues/metavalue/@text" />
+                    <x:set var="contentType" select="./metaname[3]/metavalues/metavalue/@text" />					
+					<table id="resultList">
+					<tbody>
 					<tr>
-					<td style="vertical-align:middle; padding-right:20px">
+						<td class="resultIcon" rowspan="4">
 						<x:choose>
 							<x:when select="contains($docType, 'author')">
 								<img src="${WebApplicationBaseURL}/images/person.gif" alt="author" />
@@ -124,9 +125,117 @@
 							</x:otherwise>
 						</x:choose>
 					</td>
-					<td>
 
-                    <table id="resultList" cellpadding="0" cellspacing="0">
+
+					<x:choose>
+						<x:when select="contains($docType, 'author')">
+					     	 <td class="resultTitle">
+    	                	        <a href="${resultlistLink}"><x:out select="./metaname[1]/metavalues/metavalue/@text" escapeXml="./metaname[1]/metavalues/@escapeXml" /></a>
+        	                	</td><td /> </tr>
+        	                <tr><td colspan="2" class="resultData">
+							 	<x:out select="./metaname[@name='OMD.institution']/metavalues/metavalue/@text" />
+        	                	</td></tr>
+        	                <tr> <td colspan="2" class="resultData">
+	        	                	(<x:out select="./metaname[@name='OMD.id']/metavalues/metavalue/@text" escapeXml="./metaname[@name='OMD.id']/metavalues/@escapeXml" />)
+								</td> </tr> <tr />
+						</x:when>
+						<x:when select="contains($docType, 'institution')">
+					     	 <td class="resultTitle">
+    	                	        <a href="${resultlistLink}"><x:out select="./metaname[1]/metavalues/metavalue/@text" escapeXml="./metaname[1]/metavalues/@escapeXml" /></a>
+        	                	</td><td /> </tr>
+        	                <tr><td class="resultData" colspan="2" >
+							 	<x:out select="./metaname[@name='OMD.city']/metavalues/metavalue/@text" />
+        	                	</td></tr>
+        	                <tr> <td class="resultData" colspan="2" >
+	        	                	(<x:out select="./metaname[@name='OMD.id']/metavalues/metavalue/@text" escapeXml="./metaname[@name='OMD.id']/metavalues/@escapeXml" />)
+								</td> </tr>
+						</x:when>
+
+						<x:when select="contains($docType, 'document')">
+					     		<td class="resultTitle">
+    	                	        <a href="${resultlistLink}"><x:out select="./metaname[@name='OMD.title']/metavalues/metavalue/@text" escapeXml="./metaname[@name='OMD.title']/metavalues/@escapeXml" /></a>
+        	                	</td>
+                     		   <td class="author">
+                            		<x:if select="not(contains(./metaname[2]/@name,'dummy'))">
+		                                <x:forEach select="./metaname[2]/metavalues">
+        		                            <x:if select="generate-id(../metavalues[position() = 1]) != generate-id(.)">
+                		                       <x:out select="../metavalues/@separator" escapeXml="false" />
+                        		            </x:if>                    
+                                		    <x:choose>
+		                                        <x:when select="./metavalue/@href != '' ">
+        		                                    <a href="<x:out select="./metavalue/@href" />"><x:out select="./metavalue/@text" escapeXml="./@escapeXml" /></a>
+                		                        </x:when>
+                        		                <x:otherwise>
+		                                            <x:out select="./metavalue/@text" />
+        		                                </x:otherwise>
+                		                    </x:choose>
+		                                </x:forEach>
+        		                    </x:if>
+                		        </td>
+        	              	</tr>
+        	                <tr> <td colspan="2" class="resultData">
+	        	                	<x:out select="./metaname[@name='OMD.class-types']/metavalues/metavalue/@text" escapeXml="./metaname[@name='OMD.class-types']/metavalues/@escapeXml" />:
+	      	               		<fmt:message key="Webpage.searchresults.lastChanged">
+		        	                	<fmt:param>
+		        	                		<x:out select="./metaname[@name='OMD.changed']/metavalues/metavalue/@text" escapeXml="./metaname[@name='OMD.changed']/metavalues/@escapeXml" />
+		        	                	</fmt:param>
+	        	                	</fmt:message>							</td> </tr>
+        	                <tr> <td colspan="2" class="description">
+	        	                	<x:out select="./metaname[@name='OMD.descriptions']/metavalues/metavalue/@text" escapeXml="./metaname[@name='OMD.descriptions']/metavalues/@escapeXml" />
+								</td> </tr>
+        	        
+        	                <tr> <td colspan="2" class="resultData">
+	        	                	(<x:out select="./metaname[@name='OMD.id']/metavalues/metavalue/@text" escapeXml="./metaname[@name='OMD.id']/metavalues/@escapeXml" />)
+								</td> </tr>
+						</x:when>	
+						
+						<x:when select="contains($docType, 'disshab')">
+					     		<td class="resultTitle">
+    	                	        <a href="${resultlistLink}"><x:out select="./metaname[@name='OMD.title']/metavalues/metavalue/@text" escapeXml="./metaname[@name='OMD.title']/metavalues/@escapeXml" /></a>
+        	                	</td>
+                     		   <td class="author">
+                            		<x:if select="not(contains(./metaname[2]/@name,'dummy'))">
+		                                <x:forEach select="./metaname[2]/metavalues">
+        		                            <x:if select="generate-id(../metavalues[position() = 1]) != generate-id(.)">
+                		                       <x:out select="../metavalues/@separator" escapeXml="false" />
+                        		            </x:if>                    
+                                		    <x:choose>
+		                                        <x:when select="./metavalue/@href != '' ">
+        		                                    <a href="<x:out select="./metavalue/@href" />"><x:out select="./metavalue/@text" escapeXml="./@escapeXml" /></a>
+                		                        </x:when>
+                        		                <x:otherwise>
+		                                            <x:out select="./metavalue/@text" />
+        		                                </x:otherwise>
+                		                    </x:choose>
+		                                </x:forEach>
+        		                    </x:if>
+                		        </td>
+        	              	</tr>
+        	                <tr> <td colspan="2" class="resultData">
+	        	                	<x:out select="./metaname[@name='OMD.class-types']/metavalues/metavalue/@text" escapeXml="./metaname[@name='OMD.class-types']/metavalues/@escapeXml" />:
+	        	    
+	        	               		<fmt:message key="Webpage.searchresults.lastChanged">
+		        	                	<fmt:param>
+		        	                		<x:out select="./metaname[@name='OMD.changed']/metavalues/metavalue/@text" escapeXml="./metaname[@name='OMD.changed']/metavalues/@escapeXml" />
+		        	                	</fmt:param>
+	        	                	</fmt:message>
+								</td> </tr>
+        	                <tr> <td colspan="2" class="description">
+	        	                	<x:out select="./metaname[@name='OMD.descriptions']/metavalues/metavalue/@text" escapeXml="./metaname[@name='OMD.descriptions']/metavalues/@escapeXml" />
+								</td> </tr>
+        	                <tr> <td colspan="2" class="resultData">
+	        	                	(<x:out select="./metaname[@name='OMD.id']/metavalues/metavalue/@text" escapeXml="./metaname[@name='OMD.id']/metavalues/@escapeXml" />)
+								</td> </tr>
+						</x:when>
+						
+									
+						<x:otherwise>
+						
+						<%--Should never occur --%>
+
+
+
+  
                     <tr>
                         <td class="resultTitle">
                             <a href="${resultlistLink}"><x:out select="./metaname[1]/metavalues/metavalue/@text" escapeXml="./metaname[1]/metavalues/@escapeXml" /></a>
@@ -187,15 +296,16 @@
                             </table>
                         </td>
                     </tr>
-                    </table>
-                    </td>
-                    </tr>
+					</x:otherwise>
+					</x:choose>
+                    
                 </x:forEach>
             </x:if>
          </tbody>
     </table>
 </x:forEach>    
 
+<div id="resultListFooter">
 <mcr:browsePageCtrl var="browseControl" totalSize="${totalhits}" size="${size}" offset="${offset}" maxDisplayedPages="10" path="${navPath}" />
 <x:forEach select="$browseControl/mcr_resultpages/mcr_resultpage">
     <x:if select="generate-id(../mcr_resultpage[1]) = generate-id(.)">
@@ -220,4 +330,4 @@
         </x:otherwise>
     </x:choose>
 </x:forEach>  
-
+</div>
