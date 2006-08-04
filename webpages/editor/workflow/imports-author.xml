@@ -86,21 +86,14 @@
 <!-- ** Data for the ORIGIN *** -->
 
   <list id="COrigin" width="300" type="dropdown" class="mandatory" sortnr="3" >
-    <item value=""><label i18n="Editor.Common.choose" /></item>
-    <include uri="request:content/classifications-to-items.jspx?classid=DocPortal_class_00000002" />
-    <condition id="cond.COrigin" required="true"> 
-           <label i18n="Editor.Validate.Origin.Empty" />
-    </condition>
+      <item    value="" i18n="Editor.Common.choose" />      
+      <include cacheable="false" uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002" />
+      <condition id="CoOrigin" required="true" i18n="Editor.Common.choose.entry" />
   </list>
 
   <panel id="DOrigin">
-    <hidden var="metadata/institutions/@class" default="MCRMetaClassification" sortnr="3" />
-    <hidden var="metadata/institutions/@parasearch" default="true" sortnr="3" />
-    <hidden var="metadata/institutions/@textsearch" default="false" sortnr="3" />
-    <hidden var="metadata/institutions/@notinherit" default="false" sortnr="3" />
-    <hidden var="metadata/institutions/@heritable" default="true" sortnr="3" />
-    <hidden var="metadata/institutions/institution/@inherited" default="0" sortnr="3" />
-    <hidden var="metadata/institutions/institution/@classid" default="DocPortal_class_00000002" sortnr="3" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/institutions&amp;classname=MCRMetaClassification&amp;textsearch=false" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/institutions/institution/@classid&amp;prop=MCR.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002" />
     <cell col="1" row="1" anchor="WEST" ref="COrigin" var="metadata/institutions/institution/@categid" sortnr="3" />
   </panel>
 
@@ -216,17 +209,12 @@
 
   <list id="CNational" width="300" type="dropdown" sortnr="9" >
     <item value=""><label i18n="Editor.Common.choose" /></item>
-    <include uri="request:content/classifications-to-items.jspx?classid=DocPortal_class_00000001" />
+    <include cacheable="false" uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Nationality&amp;defaultValue=DocPortal_class_00000001" />
   </list>
 
   <panel id="DNational">
-    <hidden var="metadata/nationals/@class" default="MCRMetaClassification" sortnr="9" />
-    <hidden var="metadata/nationals/@parasearch" default="true" sortnr="9" />
-    <hidden var="metadata/nationals/@textsearch" default="false" sortnr="9" />
-    <hidden var="metadata/nationals/@notinherit" default="false" sortnr="9" />
-    <hidden var="metadata/nationals/@heritable" default="true" sortnr="9" />
-    <hidden var="metadata/nationals/national/@inherited" default="0" sortnr="9" />
-    <hidden var="metadata/nationals/national/@classid" default="DocPortal_class_00000001" sortnr="9" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/nationals&amp;classname=MCRMetaClassification&amp;textsearch=false" />    
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/nationals/national/@classid&amp;prop=MCR.ClassificationID.Nationality&amp;defaultValue=DocPortal_class_00000001" />    
     <cell col="1" row="1" anchor="WEST" ref="CNational" var="metadata/nationals/national/@categid" sortnr="9" />
   </panel>
 
