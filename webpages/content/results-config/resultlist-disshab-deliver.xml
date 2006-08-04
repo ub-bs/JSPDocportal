@@ -8,9 +8,9 @@
         <MCRDocDetailContent xpath="/mycoreobject/metadata/creatorlinks/creatorlink" templatetype="tpl-author_links" separator=", " languageRequired="no" />
         <MCRDocDetailContent xpath="/mycoreobject/metadata/creators/creator" templatetype="tpl-text-values" separator=", " languageRequired="no" />
     </MCRDocDetail>
-   <MCRDocDetail rowtype="standard" labelkey="OMD.types" >
-        <MCRDocDetailContent xpath="/mycoreobject/metadata/types/type" templatetype="tpl-classification" separator=", " languageRequired="yes" />
-    </MCRDocDetail>        
+    <MCRDocDetail rowtype="standard" labelkey="OMD.class-formats" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/formats/format" templatetype="tpl-classification" separator=", " languageRequired="yes" />
+    </MCRDocDetail>
     <MCRDocDetail rowtype="standard" labelkey="OMD.id" >
         <MCRDocDetailContent xpath="/mycoreobject/@ID" templatetype="tpl-text-values" separator=", " languageRequired="no" />
     </MCRDocDetail>     
@@ -27,9 +27,6 @@
     <MCRDocDetail rowtype="standard" labelkey="OMD.class-types" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/types/type" templatetype="tpl-classification" separator=", " languageRequired="yes" />
     </MCRDocDetail>        
-    <MCRDocDetail rowtype="standard" labelkey="OMD.class-formats" >
-        <MCRDocDetailContent xpath="/mycoreobject/metadata/formats/format" templatetype="tpl-classification" separator=", " languageRequired="yes" />
-    </MCRDocDetail>
     <MCRDocDetail rowtype="standard" labelkey="OMD.keywords" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/keywords/keyword" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
     </MCRDocDetail>     
