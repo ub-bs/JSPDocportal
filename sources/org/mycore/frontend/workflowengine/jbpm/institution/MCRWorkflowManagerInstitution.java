@@ -179,12 +179,11 @@ public String createNewInstitution(String userid, long processID) {
 							.getWorkflowDirectory(documentType))) {
 				throw new MCRException("error in committing " + documentID);
 			}
-			permissionStrategy.setPermissions(documentID, null,
-					workflowProcessType,
-					MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
+			permissionStrategy.setPermissions(documentID, null,	workflowProcessType,MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
 			return true;
 		} catch (MCRException ex) {
 			logger.error("an error occurred", ex);
+			wfp.setStringVariable("varnameERROR", ex.getMessage());						
 		} finally {
 			wfp.close();
 		}
@@ -193,14 +192,13 @@ public String createNewInstitution(String userid, long processID) {
 
 	public boolean removeWorkflowFiles(long processID) {
 		MCRWorkflowProcess wfp = getWorkflowProcess(processID);
-		String workflowDirectory = MCRWorkflowDirectoryManager
-				.getWorkflowDirectory(mainDocumentType);
+		String workflowDirectory = MCRWorkflowDirectoryManager.getWorkflowDirectory(mainDocumentType);
 		try {
-			metadataStrategy.removeMetadataFiles(wfp, workflowDirectory,
-					deleteDir);
+			metadataStrategy.removeMetadataFiles(wfp, workflowDirectory,deleteDir);
 			return true;
 		} catch (MCRException ex) {
 			logger.error("could not delete workflow files", ex);
+			wfp.setStringVariable("varnameERROR", ex.getMessage());						
 		} finally {
 			wfp.close();
 		}

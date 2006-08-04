@@ -170,6 +170,7 @@ public class MCRWorkflowManagerRegisteruser extends MCRWorkflowManager{
 			return true;
 		}catch(MCRException ex){
 			logger.error("an error occurred", ex);
+			wfp.setStringVariable("varnameERROR", ex.getMessage());									
 		}finally{
 			wfp.close();
 		}		
@@ -184,6 +185,7 @@ public class MCRWorkflowManagerRegisteruser extends MCRWorkflowManager{
 			return true;
 		}catch(MCRException ex){
 			logger.error("could not delete workflow files", ex);
+			wfp.setStringVariable("varnameERROR", ex.getMessage());						
 		}finally{
 			wfp.close();
 		}
@@ -201,6 +203,7 @@ public class MCRWorkflowManagerRegisteruser extends MCRWorkflowManager{
 			logger.error("could not delete workflow files", ex);
 			bSuccess =false;
 			wfp.setStringVariable("ROLLBACKERROR", Boolean.toString(bSuccess));
+			wfp.setStringVariable("varnameERROR", ex.getMessage());						
 		}finally{
 			wfp.close();
 		}

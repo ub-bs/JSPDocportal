@@ -152,10 +152,11 @@ public abstract class MCRWorkflowManager {
 				logger.info(mycore_obj.getId().getId() + " deleted.");
 			}
 			bSuccess=true;
+			//wfp.setStringVariable("varnameERROR", '');						
 		} catch ( Exception all ) {
-            logger.error("Can't delete " + mycore_obj.getId().getId() + ".");
+            logger.error(all.getMessage());
 			bSuccess =false;
-			wfp.setStringVariable("ROLLBACKERROR", Boolean.toString(bSuccess));
+			wfp.setStringVariable("varnameERROR", all.getMessage());						
 		}finally{
 			if(wfp != null)
 				wfp.close();

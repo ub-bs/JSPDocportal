@@ -271,10 +271,10 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 			}
 			
 			permissionStrategy.setPermissions(dissID, null,	workflowProcessType, MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
-			
 			return true;
 		}catch(MCRException ex){
 			logger.error("an error occurred", ex);
+			wfp.setStringVariable("varnameERROR", ex.getMessage());						
 		}finally{
 			wfp.close();
 		}		
@@ -290,6 +290,7 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 			return true;
 		}catch(MCRException ex){
 			logger.error("could not delete workflow files", ex);
+			wfp.setStringVariable("varnameERROR", ex.getMessage());						
 		}finally{
 			wfp.close();
 		}

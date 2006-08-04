@@ -267,6 +267,7 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 			bSuccess = true;
 		}catch(MCRException ex){
 			logger.error("an error occurred", ex);
+			wfp.setStringVariable("varnameERROR", ex.getMessage());						
 		}finally{
 			wfp.close();
 		}		
@@ -282,6 +283,7 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 			bSuccess &= derivateStrategy.removeDerivates(wfp,workflowDirectory, deleteDir);
 		}catch(MCRException ex){
 			logger.error("could not delete workflow files", ex);
+			wfp.setStringVariable("varnameERROR", ex.getMessage());						
 		}finally{
 			wfp.close();
 		}

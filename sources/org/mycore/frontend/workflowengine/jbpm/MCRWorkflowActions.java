@@ -81,6 +81,8 @@ public class MCRWorkflowActions extends MCRServlet {
         
         String todo = parms.getParameter("todo");
        
+        WFM.setStringVariable("varnameERROR", "",pid);
+        
         if ( "WFAddWorkflowObject".equals(todo) ) {
             if ( ! AI.checkPermission("create-"+documentType)) {
             	nextPath+="begin";

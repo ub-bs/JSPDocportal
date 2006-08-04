@@ -97,12 +97,8 @@ public class MCRWorkflowManagerAuthor extends MCRWorkflowManager {
 			wfp.endTask("initialization", initiator, transitionName);
 			return wfp.getProcessInstanceID();
 		} catch (MCRException ex) {
-			logger
-					.error(
-							"MCRWorkflow Error, could not initialize the workflow process",
-							ex);
-			throw new MCRException(
-					"MCRWorkflow Error, could not initialize the workflow process");
+			logger.error("MCRWorkflow Error, could not initialize the workflow process",ex);
+			throw new MCRException(	"MCRWorkflow Error, could not initialize the workflow process");
 		} finally {
 			if (wfp != null)
 				wfp.close();
@@ -132,8 +128,7 @@ public class MCRWorkflowManagerAuthor extends MCRWorkflowManager {
 			String userid = wfp
 					.getStringVariable(MCRWorkflowConstants.WFM_VAR_INITIATOR);
 			wfp.close();
-			MCRResults mcrResult = MCRWorkflowUtils
-					.queryMCRForAuthorByUserid(userid);
+			MCRResults mcrResult = MCRWorkflowUtils.queryMCRForAuthorByUserid(userid);
 			logger.debug("Results found hits:" + mcrResult.getNumHits());
 			if (mcrResult.getNumHits() > 0) {
 				String createdDocID = mcrResult.getHit(0).getID();
@@ -221,16 +216,14 @@ public String createNewAuthor(String userid, long processID,
 					.getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
 			String documentType = new MCRObjectID(documentID).getTypeId();
 			if (!metadataStrategy.commitMetadataObject(documentID,
-					MCRWorkflowDirectoryManager
-							.getWorkflowDirectory(documentType))) {
+					MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType))) {
 				throw new MCRException("error in committing " + documentID);
 			}
-			permissionStrategy.setPermissions(documentID, null,
-					workflowProcessType,
-					MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
+			permissionStrategy.setPermissions(documentID, null,	workflowProcessType,MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
 			return true;
 		} catch (MCRException ex) {
 			logger.error("an error occurred", ex);
+			wfp.setStringVariable("varnameERROR", ex.getMessage());			
 		} finally {
 			wfp.close();
 		}
@@ -242,19 +235,18 @@ public String createNewAuthor(String userid, long processID,
 		String workflowDirectory = MCRWorkflowDirectoryManager
 				.getWorkflowDirectory(mainDocumentType);
 		try {
-			metadataStrategy.removeMetadataFiles(wfp, workflowDirectory,
-					deleteDir);
+			metadataStrategy.removeMetadataFiles(wfp, workflowDirectory, deleteDir);
 			return true;
 		} catch (MCRException ex) {
 			logger.error("could not delete workflow files", ex);
+			wfp.setStringVariable("varnameERROR", ex.getMessage());			
 		} finally {
 			wfp.close();
 		}
 		return false;
 	}
 
-	public void setWorkflowVariablesFromMetadata(String mcrid,
-			Element metadata, long processID) {
+	public void setWorkflowVariablesFromMetadata(String mcrid,	Element metadata, long processID) {
 		MCRWorkflowProcess wfp = getWorkflowProcess(processID);
 		try {
 			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_WFOBJECT_TITLE, createWFOTitlefromMetadata(metadata));		
