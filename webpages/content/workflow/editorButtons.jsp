@@ -93,7 +93,12 @@
 		</td>
 	</tr>
 	<tr>
-		<td class="description" colspan="3"><fmt:message key="WF.${requestScope.task.workflowProcessType}.Description" />,${itemID}</td>
+		<td class="description" colspan="3">
+		 <fmt:message key="WF.${requestScope.task.workflowProcessType}.Description" />, ${itemID}
+		 <br/>
+		 <mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="error" workflowVar="varnameERROR" /> 
+	     <font color="red">${error}</font><br/>	         		 
+		</td>
 	</tr>
 
 	<x:forEach select="$der/derivates/derivate">

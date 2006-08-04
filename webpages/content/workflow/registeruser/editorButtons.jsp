@@ -23,6 +23,9 @@
 			<br/>
 			<c:out value="${description}" />
 			<br/>
+			 <mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="error" workflowVar="varnameERROR" /> 
+		     <font color="red">${error}</font><br/>	         		 
+			
 		</td>		
 		<td>&#160;</td>		
 		<td align="center" valign="top" width="50">
