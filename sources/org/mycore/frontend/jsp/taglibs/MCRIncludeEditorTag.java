@@ -113,7 +113,7 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 			editorBase = (String)pageContext.getSession().getAttribute("editorPath");			
 		}else{
 			if(cancelPage == null || cancelPage.equals("")){
-				cancelPage 		=  NavServlet.getBaseURL() + "nav?path=~workflow-" + type;
+				cancelPage 		=  NavServlet.getBaseURL() + "nav?path=~"+workflowType;
 			}
 			if(editorPath != null && !editorPath.equals("")) {
 				editorBase = NavServlet.getBaseURL() + editorPath;
@@ -155,7 +155,8 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 	private Properties getParameters(){
 		Properties params = new Properties();
 		if(cancelPage == null || cancelPage.equals("")){
-			cancelPage 		=  NavServlet.getBaseURL() + "nav?path=~workflow-" + type;
+			//cancelPage 		=  NavServlet.getBaseURL() + "nav?path=~workflow-" + type;
+			cancelPage = NavServlet.getNavigationBaseURL()+"~"+workflowType;
 		}		
 
 		params.put("lang" , MCRSessionMgr.getCurrentSession().getCurrentLanguage());
