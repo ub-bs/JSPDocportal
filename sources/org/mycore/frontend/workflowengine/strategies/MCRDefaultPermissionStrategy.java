@@ -1,5 +1,8 @@
 package org.mycore.frontend.workflowengine.strategies;
 
+import java.util.Iterator;
+import java.util.List;
+
 import org.jdom.Element;
 import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
@@ -39,18 +42,39 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy{
 			}		
 		}
 		if(mode==MCRWorkflowConstants.PERMISSION_MODE_PUBLISH){
-			MCRObjectID objID = new MCRObjectID(mcrid);
-			String strRule =config.getString("STANDARD-READ-RULE","<condition format=\"xml\"><boolean operator=\"true\" /></condition>");
+			String strRule =config.getString("MCR.AccessRule.STANDARD-READ-RULE","<condition format=\"xml\"><boolean operator=\"true\" /></condition>");
 			Element rule = (Element)MCRXMLHelper.parseXML(strRule).getRootElement().detach();
 			String permissionType = "read";
 
-			if(AI.hasRule(objID.getId(), permissionType )){
-				AI.updateRule(objID.getId(), permissionType, rule, "");
+			if(AI.hasRule(mcrid, permissionType )){
+				AI.updateRule(mcrid, permissionType, rule, "");
 			}else{
-				AI.addRule(objID.getId(), permissionType, rule, "");
-			}
-			
-			
+				AI.addRule(mcrid, permissionType, rule, "");
+			}			
+		}
+		if(mode==MCRWorkflowConstants.PERMISSION_MODE_EDITING){
+			String strRule = MCRConfiguration.instance().getString("MCR.WorkflowEngine.defaultACL.editorMode."+workflowProcessType, "<condition format=\"xml\"><boolean operator=\"or\"><condition field=\"group\" operator=\"=\" value=\"editorgroup1\" /></boolean></condition>");
+			Element editorModeRule = (Element)MCRXMLHelper.parseXML(strRule).getRootElement().detach();
+			List permissions = AI.getPermissionsForID(mcrid);
+			for (Iterator it2 = permissions.iterator(); it2.hasNext();) {
+				String permissionType = (String)it2.next();
+				if(AI.hasRule(mcrid, permissionType )){
+					AI.updateRule(mcrid, permissionType, editorModeRule, "");
+				}else{
+					AI.addRule(mcrid, permissionType, editorModeRule, "");
+				}
+			}		
+		}
+		
+		if(mode==MCRWorkflowConstants.PERMISSION_MODE_CREATORRREAD){
+			MCRObjectID objID = new MCRObjectID(mcrid);
+			String propName = new StringBuffer("MCR.WorkflowEngine.defaultACL.")
+			.append(objID.getTypeId()).append(".").append("read").append(".")
+			.append(workflowProcessType).toString();
+			String strReadRule = MCRConfiguration.instance().getString(propName);
+			String x = strReadRule.replaceAll("\\$\\{user\\}", userid);
+			Element readRule = (Element)MCRXMLHelper.parseXML(x).getRootElement().detach();
+			AI.addRule(mcrid, "read", readRule, "");
 		}
 		
 	}

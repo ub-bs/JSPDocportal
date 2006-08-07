@@ -64,7 +64,7 @@ public abstract class MCRWorkflowManager {
 	protected MCRAuthorStrategy 	authorStrategy;
 	protected MCRMetadataStrategy 	metadataStrategy;
 	protected MCRDerivateStrategy 	derivateStrategy;
-	protected MCRPermissionStrategy permissionStrategy;
+	public MCRPermissionStrategy permissionStrategy;
 	protected MCRUserStrategy 		userStrategy;
 	protected MCRInstitutionStrategy institutionStrategy;
 

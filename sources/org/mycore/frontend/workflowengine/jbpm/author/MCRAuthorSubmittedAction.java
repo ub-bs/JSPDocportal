@@ -7,14 +7,14 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.graph.exe.ExecutionContext;
-import org.jdom.Element;
 import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
-import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
-import org.mycore.common.xml.MCRXMLHelper;
 import org.mycore.frontend.workflowengine.jbpm.MCRAbstractAction;
+import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
 import org.mycore.user2.MCRUser;
 import org.mycore.user2.MCRUserMgr;
 
@@ -25,15 +25,6 @@ public class MCRAuthorSubmittedAction extends MCRAbstractAction {
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = Logger.getLogger(MCRAuthorSubmittedAction.class);
 	private static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
-	private static Element editorModeRule;
-	private static Element authorReadRule;
-	private static String strReadRule;
-	
-	static{  
-		String strRule = MCRConfiguration.instance().getString("MCR.WorkflowEngine.defaultACL.editorMode.author", "<condition format=\"xml\"><boolean operator=\"or\"><condition field=\"group\" operator=\"=\" value=\"editorgroup1\" /></boolean></condition>");
-		editorModeRule = (Element)MCRXMLHelper.parseXML(strRule).getRootElement().detach();
-		strReadRule = MCRConfiguration.instance().getString("MCR.WorkflowEngine.defaultACL.author.read.author");	
-	}
 
 	public void executeAction(ExecutionContext executionContext) throws MCRException {
 		logger.debug("locking workflow variables and setting the access control to the editor mode");
@@ -41,22 +32,19 @@ public class MCRAuthorSubmittedAction extends MCRAbstractAction {
 		// contextInstance.setVariable(MCRJbpmWorkflowBase.lockedVariablesIdentifier, lockedVariables);
 		// set access control to editor mode, the dissertand has no rights anymore
 		List ids = new ArrayList();
-		ids.add(contextInstance.getVariable("createdDocID"));
+		ids.add(contextInstance.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS));
 		
 		String initiator = contextInstance.getVariable(MCRWorkflowConstants.WFM_VAR_INITIATOR).toString();
 		MCRUser user = MCRUserMgr.instance().retrieveUser(initiator);
+		long processID = contextInstance.getProcessInstance().getId();
+		String workflowType = MCRJbpmWorkflowBase.getWorkflowProcessType(processID);
+		MCRWorkflowManager wfm = MCRWorkflowManagerFactory.getImpl(workflowType);
 		
-		String x = strReadRule.replaceAll("\\$\\{user\\}", user.getID());
-		authorReadRule = (Element)MCRXMLHelper.parseXML(x).getRootElement().detach();
-				
 		for (Iterator it = ids.iterator(); it.hasNext();) {
 			String id = (String) it.next();
-			List permissions = AI.getPermissionsForID(id);
-			for (Iterator it2 = permissions.iterator(); it2.hasNext();) {
-				String permission = (String) it2.next();
-				AI.addRule(id, permission, editorModeRule, "");
-			}
-				AI.addRule(id, "read", authorReadRule, "");
+			 						//(mcrid, userid, wftype, mode)
+			wfm.permissionStrategy.setPermissions(id, user.getID(), workflowType,MCRWorkflowConstants.PERMISSION_MODE_EDITING);
+			wfm.permissionStrategy.setPermissions(id, user.getID(), workflowType,MCRWorkflowConstants.PERMISSION_MODE_CREATORRREAD);;
 		}
 	}
 
