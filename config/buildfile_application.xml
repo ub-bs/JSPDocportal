@@ -185,12 +185,7 @@
 		 	<fileset dir="." includes="**" excludes="mycoresample.war,jspdocportal-installer*" ></fileset>
 		</copy>
         <mkdir dir="${docportal.webapps}" />
-    	<mkdir dir="${docportal.bin}" />	
-		<taskdef name="mergepropertyfiles" classname="org.mycore.ant.customtasks.MergeProperties" classpathref="docportal.classpath" />
-		<mergepropertyfiles basefile="config/mycore.properties" 
-		    				deltafile="config/mymycore.properties" 
-		    				tofile="${docportal.config}/mycore.properties"/>
-		 <delete file="${docportal.config}/mymycore.properties" />
+    	<mkdir dir="${docportal.bin}" />
 	</target>
 
     <target name="init"
