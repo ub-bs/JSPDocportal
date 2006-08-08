@@ -42,7 +42,7 @@ Der Zug mit der Lok 99 582 steht in Schönheide zur Abfahrt bereit.
    <date type="create">2000-05-21</date>
   </dates>
   <types class="MCRMetaClassification">
-   <type classid="DocPortal_class_00000005" categid="TYPE0004"/>
+   <type classid="DocPortal_class_00000005" categid="TYPE0002"/>
   </types>
   <formats class="MCRMetaClassification">
    <format classid="DocPortal_class_00000006" categid="FORMAT0002"/>
