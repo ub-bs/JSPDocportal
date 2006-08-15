@@ -28,6 +28,8 @@ public class MCRWorkflowConstants {
 	public static final String WFM_VAR_CREATED ="ProcessCreatedTimestamp";
 	public static final String WFM_VAR_FILECNT ="fileCnt";
 	
+	public static final String WFM_VAR_READRULE="readrule";
+	
 	public String getAuthorIdWorkflowVariable(){
 		return WFM_VAR_AUTHOR_IDS;
 	}

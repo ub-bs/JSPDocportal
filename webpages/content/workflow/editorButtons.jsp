@@ -78,6 +78,19 @@
 					</form>
 					</td>
 				</c:if>
+				<c:if test="${fn:contains('document,disshab',itemDocType)}">
+				<td align="center" valign="top" width="30">   								
+    			<!-- 			<form method="get" action="${baseURL}content/workflow/accessruleeditor.jsp">--> <!--  target="new"> -->
+				<form method="get" action="${baseURL}nav">
+					<input	value="~workflow-editaccess" name="path" type="hidden"> 
+					<input name="returnPath" value="${path}" type="hidden" />
+					<input	name="id" value="${itemID}" type="hidden"> 
+					<input	title="<fmt:message key="Editor.Access.icondescr" />"
+						src="${baseURL}images/workflow_accessedit.gif" type="image"
+						class="imagebutton">
+				</form>
+				</td>
+				</c:if>
 				<td align="center" valign="top" width="30">
 				<form method="get" action="${baseURL}nav">
 					<input	value="~workflow-preview" name="path" type="hidden"> 
@@ -88,6 +101,7 @@
 						class="imagebutton">
 				</form>
 				</td>
+				
 			</tr>
 		</table>
 		</td>

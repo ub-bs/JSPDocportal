@@ -108,6 +108,19 @@ MCR.WorkflowEngine.defaultACL.derivate.deletedb.xmetadiss=<conditions format="xm
 
 MCR.WorkflowEngine.defaultACL.editorMode.xmetadiss=<conditions format="xml"><boolean operator="or"><condition field="group" operator="=" value="admindisshab" /></boolean></conditions>
 
+####################################################################
+# Basic Rules for AccessRuleEditor
+####################################################################
+MCR.AccessRuleEditor.defaultrules=public,iparea,groups,registeredUser
+MCR.AccessRuleEditor.defaultrules.public=<condition format="xml"><boolean operator="true"/></condition>
+MCR.AccessRuleEditor.defaultrules.iparea=<condition format="xml"><boolean operator="or"><condition field="ip" operator="" value="194.94.0.0"/></boolean></condition>
+MCR.AccessRuleEditor.defaultrules.groups=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="${group}"/></boolean></condition>
+MCR.AccessRuleEditor.defaultrules.registeredUser=<condition format="xml"><boolean operator="or"><condition field="user" operator="!=" value="guest"/></boolean></condition>
+
+####################################################################
+# Initial Classifications
+####################################################################
+
 MCR.ClassificationID.Nationality=DocPortal_class_00000001
 MCR.ClassificationID.Origin		=DocPortal_class_00000002
 MCR.ClassificationID.Language	=DocPortal_class_00000004
