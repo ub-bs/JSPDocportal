@@ -548,7 +548,7 @@ MCR.IndexBrowser.creators.MaxPerPage=30
 MCR.IndexBrowser.creators.Searchfield=fullname
 MCR.IndexBrowser.creators.FieldsToSort=fullname
 # the values came from metadata of the object
-MCR.IndexBrowser.creators.ExtraOutputFields=fullname,id
+MCR.IndexBrowser.creators.ExtraOutputFields=firstname,surname,academic,prefix,peerage,id
 
 MCR.IndexBrowser.creators_sub.Table=author,institution
 MCR.IndexBrowser.creators_sub.FieldsToSort=fullname
