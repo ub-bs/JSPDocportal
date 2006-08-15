@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.7 $ $Date: 2006-08-03 11:34:08 $ -->
+<!-- $Revision: 1.8 $ $Date: 2006-08-15 13:40:54 $ -->
 <!-- ============================================== -->
 
 <xsl:stylesheet
@@ -164,7 +164,14 @@
         <img border="0" src="images/folder_plain.gif"/>
       </td>
       <td class="td1" valign="top" style="padding-right:5px;">
-		<xsl:value-of select="col[@name='fullname']" />	  
+        <xsl:value-of select="col[@name='surname']" />   
+        <xsl:variable name="secondnamepart">
+          <xsl:value-of select="concat(col[@name='academic'],' ', col[@name='firstname'], ' ', col[@name='prefix'], ' ', col[@name='peerage'])" />   
+        </xsl:variable>
+        <xsl:if test="string-length($secondnamepart) &gt; 1">
+          <xsl:text>, </xsl:text>   
+          <xsl:value-of select="$secondnamepart" />           
+        </xsl:if>
 	  </td>
       <td class="td1" valign="top" style="padding-right:5px;">
         <a href="{$urlAuthor}{$offset}" ><xsl:text> [Detailansicht] </xsl:text></a>
