@@ -97,8 +97,14 @@ public abstract class MCRMetadataStrategy {
 		try{
 			File fInputFile = new File(inputFile);
 			File fBackupDirectory = new File(backupDirectory);
-			MCRUtils.copyStream(new FileInputStream(fInputFile), 
-						new FileOutputStream(new File(fBackupDirectory.getAbsolutePath() + "/" + fInputFile.getName())));
+			FileInputStream fin = new FileInputStream(fInputFile);
+			FileOutputStream fout = new FileOutputStream(new File(fBackupDirectory.getAbsolutePath() + "/" + fInputFile.getName()));
+			MCRUtils.copyStream(fin, fout);
+			
+			fin.close();
+			fout.flush();
+			fout.close();
+			
 		}catch (java.io.FileNotFoundException fnE){
 			logger.error("could not backup Metadata Object - FileNotFound - " + inputFile);
 			//don't return false, because if there is no File it is ok when we can't backup it 

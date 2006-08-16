@@ -143,6 +143,7 @@ public class MCRWorkflowUploadHandler extends MCRUploadHandler {
         try {
             FileOutputStream fouts = new FileOutputStream(fout);
             MCRUtils.copyStream(in, fouts);
+            fouts.flush();
             fouts.close();
             logger.info("Data object stored under " + fout.getName());
         } catch (IOException e) {

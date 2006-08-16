@@ -279,8 +279,14 @@ public abstract class MCRDerivateStrategy {
 			    }
 			    File outputDir = new File(curBackupDir.getAbsolutePath() + SEPARATOR + inputDir.getName());
 				JSPUtils.recursiveCopy(inputDir, outputDir);
-				MCRUtils.copyStream(new FileInputStream(inputFile), 
-						new FileOutputStream(new File(curBackupDir.getAbsolutePath() + SEPARATOR + inputFile.getName())));
+				FileInputStream fin = new FileInputStream(inputFile);
+				FileOutputStream fout = new FileOutputStream(new File(curBackupDir.getAbsolutePath() + SEPARATOR + inputFile.getName()));
+				MCRUtils.copyStream(fin, fout);
+				
+				fin.close();
+				fout.flush();
+				fout.close();
+
 			}catch(Exception ex){
 				logger.error("problems in copying", ex);
 				return false;

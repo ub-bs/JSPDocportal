@@ -3,6 +3,7 @@ package org.mycore.frontend.workflowengine.jbpm.xmetadiss;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -98,7 +99,10 @@ public class MCRDisshabDerivateStrategy extends MCRDefaultDerivateStrategy {
 			try{
 				File fout = new File(dirname, fname);
 				FileOutputStream fouts = new FileOutputStream(fout);
-				MCRUtils.copyStream(item.getInputStream(), fouts);
+				InputStream fin = item.getInputStream();
+				fouts = new FileOutputStream(fout);
+				MCRUtils.copyStream(fin, fouts);
+				fin.close();
 				fouts.flush();
 				fouts.close();
 				logger.info("Data object stored under " + fout.getName());

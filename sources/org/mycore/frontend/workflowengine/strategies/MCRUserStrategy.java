@@ -81,8 +81,13 @@ public abstract class MCRUserStrategy {
 		try{
 			File fInputFile = new File(inputFile);
 			File fBackupDirectory = new File(backupDirectory);
-			MCRUtils.copyStream(new FileInputStream(fInputFile), 
-						new FileOutputStream(new File(fBackupDirectory.getAbsolutePath() + "/" + fInputFile.getName())));
+
+			FileInputStream fin = new FileInputStream(fInputFile);
+			FileOutputStream fout = new FileOutputStream(new File(fBackupDirectory.getAbsolutePath() + "/" + fInputFile.getName()));
+			MCRUtils.copyStream(fin, fout);			
+			fin.close();
+			fout.flush();
+			fout.close();
 		}catch (Exception ex) {
 			logger.error("could not backup Metadata Object", ex);
 			return false;

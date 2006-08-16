@@ -3,6 +3,7 @@ package org.mycore.frontend.workflowengine.jbpm;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -544,7 +545,13 @@ public abstract class MCRWorkflowManager {
 		    }
 		    File outputDir = new File(curBackupDir.getAbsolutePath() + "/" + inputDir.getName());
 			JSPUtils.recursiveCopy(inputDir, outputDir);
-			MCRUtils.copyStream(new FileInputStream(inputFile), new FileOutputStream(new File(curBackupDir.getAbsolutePath() + "/" + inputFile.getName())));
+			FileInputStream fin = new FileInputStream(inputFile);
+			FileOutputStream fout = new FileOutputStream(new File(curBackupDir.getAbsolutePath() + "/" + inputFile.getName()));
+			MCRUtils.copyStream(fin, fout);
+			fin.close();
+			fout.flush();
+			fout.close();
+			
 		}catch(Exception ex){
 			logger.error("problems in copying", ex);
 			return false;

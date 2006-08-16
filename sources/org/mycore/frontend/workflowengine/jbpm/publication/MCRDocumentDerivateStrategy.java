@@ -3,6 +3,7 @@ package org.mycore.frontend.workflowengine.jbpm.publication;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,9 +51,12 @@ public class MCRDocumentDerivateStrategy extends MCRDefaultDerivateStrategy {
 				fname = fname.substring(fname.lastIndexOf("\\")+1);
 					
 			try{
+				
 				File fout = new File(dirname, fname);
+				InputStream fin = item.getInputStream();
 				fouts = new FileOutputStream(fout);
-				MCRUtils.copyStream(item.getInputStream(), fouts);
+				MCRUtils.copyStream(fin, fouts);
+				fin.close();
 				fouts.flush();
 				fouts.close();
 				logger.info("Data object stored under " + fout.getName());
@@ -121,7 +125,8 @@ public class MCRDocumentDerivateStrategy extends MCRDefaultDerivateStrategy {
 		String derivateObjectID, boolean mustWorkflowVarBeUpdated) {
 		try{
 			if (backupDerivateObject(saveDirectory, backupDirectory, metadataObjectID, derivateObjectID, wfp.getProcessInstanceID())){
-				if(super.deleteDerivateObject(wfp, saveDirectory, backupDirectory, metadataObjectID, derivateObjectID, mustWorkflowVarBeUpdated) && mustWorkflowVarBeUpdated){
+				if(super.deleteDerivateObject(wfp, saveDirectory, backupDirectory, metadataObjectID, derivateObjectID, mustWorkflowVarBeUpdated) 
+						){
 					return true;
 				}else{
 					logger.error("problems in deleting, check inconsistences in workflow process " + wfp.getProcessInstanceID());

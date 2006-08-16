@@ -3,6 +3,7 @@ package org.mycore.frontend.workflowengine.strategies;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -152,8 +153,11 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 			ffname.add(fname);
 			try{
 				File fout = new File(dirname, fname);
+				InputStream fin = item.getInputStream();				
 				FileOutputStream fouts = new FileOutputStream(fout);
-				MCRUtils.copyStream(item.getInputStream(), fouts);
+				MCRUtils.copyStream(fin, fouts);
+				fin.close();
+				fouts.flush();
 				fouts.close();
 				logger.info("Data object stored under " + fout.getName());
 			}catch(Exception ex){
