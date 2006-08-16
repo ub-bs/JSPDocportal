@@ -27,10 +27,15 @@ package org.mycore.frontend.jsp.taglibs;
 
 // Imported java classes
 import java.io.IOException;
+import java.text.CollationKey;
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.JspException;
@@ -123,11 +128,25 @@ public class MCRGetWorkflowTaskBeanListTag extends SimpleTagSupport {
 				beans = MCRWorkflowManager.getTasks(userid, mode, workflowProcessTypes);
 				jspSession.setAttribute(sessionBeanListName, beans);
 			}
+			
 			if(size == 0) size = 20;
 			List displayedBeans = new ArrayList();
 			for (int i = offset; i < offset + size && i < beans.size(); i++) {
 				displayedBeans.add(beans.get(i));
 			}
+			
+			// resort by prozessid
+			Collections.sort(displayedBeans,				
+					new Comparator() {
+						public int compare(Object o1, Object o2) {
+				        long id1 = ((MCRJbpmTaskBean)o1).getProcessID();
+				        long id2 = ((MCRJbpmTaskBean)o2).getProcessID();
+				        return (new Long(id1)).compareTo(new Long(id2));		        
+						}
+					}
+				);
+
+			
 			pageContext.setAttribute(var, displayedBeans);
 			pageContext.setAttribute(varTotalSize,String.valueOf(beans.size()));
 			if(pageContext.getAttribute("debug") != null && pageContext.getAttribute("debug").equals("true")) {
@@ -136,6 +155,7 @@ public class MCRGetWorkflowTaskBeanListTag extends SimpleTagSupport {
     			StringBuffer debugSB = new StringBuffer("<textarea cols=\"80\" rows=\"30\">")
     				.append("found these workflow java beans");
     			int i = 0;
+    			
     			for (Iterator it = displayedBeans.iterator(); it.hasNext();) {
 					MCRJbpmTaskBean bean = (MCRJbpmTaskBean) it.next();
 					
