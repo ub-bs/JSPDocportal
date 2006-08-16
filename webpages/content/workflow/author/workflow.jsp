@@ -26,10 +26,8 @@
 
 <!--  task management part -->
 
-<mcr:getWorkflowTaskBeanList var="myTaskList" mode="activeTasks" 
-							 workflowTypes="author"  varTotalSize="total1" />
-<mcr:getWorkflowTaskBeanList var="myProcessList" mode="initiatedProcesses" 
-							 workflowTypes="author" varTotalSize="total2" />
+<mcr:getWorkflowTaskBeanList var="myTaskList" mode="activeTasks"  workflowTypes="author"  varTotalSize="total1" />
+<mcr:getWorkflowTaskBeanList var="myProcessList" mode="initiatedProcesses"  workflowTypes="author" varTotalSize="total2" />
 <div class="headline"><fmt:message key="WF.author" /></div>
 <table>
 	<tr>
