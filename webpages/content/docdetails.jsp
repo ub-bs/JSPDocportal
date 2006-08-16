@@ -65,6 +65,7 @@
 </c:choose>
 
 
+<mcr:checkAccess permission="read" var="readAccess" ${mcrid} />
 
 <table class="${layout}" ><tr valign="top">
 <td>
@@ -93,9 +94,13 @@
          </nobr>
    </td>
   </tr>
- <tr valign = "bottom" ><td>
-   <table cellspacing="0" cellpadding="0" id="metaData">
-    <mcr:docDetails mcrObj="${mycoreobject}" var="docDetails" lang="${requestScope.lang}" style="${style}" />    
+
+ <tr valign = "bottom" >
+  <td>
+  <c:choose>
+   <c:when test="${readAccess}">
+	<mcr:docDetails mcrObj="${mycoreobject}" var="docDetails" lang="${requestScope.lang}" style="${style}" />
+    <table cellspacing="0" cellpadding="0" id="metaData">
     <x:forEach select="$docDetails//metaname">
       <x:choose>
          <x:when select="./@type = 'space'">
@@ -181,6 +186,12 @@
       </x:choose>
     </x:forEach>
   </table>
+  </c:when>
+  <c:otherwise>
+	    <fmt:message key="Webpage.error.NoAccessRight" />  
+  </c:otherwise>
+  </c:choose>
+  
  </td>
  <td>&nbsp;</td>
  <td align="center" >
