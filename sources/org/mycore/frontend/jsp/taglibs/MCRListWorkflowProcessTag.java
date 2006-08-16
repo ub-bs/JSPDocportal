@@ -53,10 +53,10 @@ public class MCRListWorkflowProcessTag extends MCRSimpleTagSupport
 			java.util.Map allVars = WFM.getStringVariableMap(pid);
 			for ( Iterator it = allVars.keySet().iterator(); it.hasNext(); ) {
 				String nextKey  =  (String) it.next();				
-				String nextVal  =  (String) allVars.get(nextKey);
+				Object nextVal  =  allVars.get(nextKey);
 				org.jdom.Element pvar = new org.jdom.Element ("variable");
 				pvar.setAttribute("name", nextKey);
-				pvar.setAttribute("value", nextVal);
+				pvar.setAttribute("value", nextVal.toString());
 				process.addContent(pvar);
 			}
 			

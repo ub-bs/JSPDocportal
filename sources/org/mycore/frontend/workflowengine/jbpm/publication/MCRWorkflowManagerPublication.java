@@ -42,9 +42,9 @@ import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.datamodel.classifications.MCRCategoryItem;
-import org.mycore.datamodel.metadata.MCRMetaElement;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowAccessRuleEditorUtils;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
@@ -148,7 +148,7 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 			wfp.setStringVariable("fileCnt", String.valueOf(filecnt));
 			
 			wfp.close();
-
+			MCRWorkflowAccessRuleEditorUtils.setWorkflowVariablesForAccessRuleEditor(mcrid, processID);
 			setWorkflowVariablesFromMetadata(mcrid, mob.createXML().getRootElement().getChild("metadata"), processID);
 			setMetadataValid(mcrid, true, processID);
 			return processID;
@@ -215,7 +215,7 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 			if(metadataStrategy.createEmptyMetadataObject(false,null,null, 
 					nextFreeId, initiator, identifiers, publicationType, saveDirectory) ){
 				
-				permissionStrategy.setPermissions(nextFreeId.toString(), initiator,	getWorkflowProcessType(), MCRWorkflowConstants.PERMISSION_MODE_DEFAULT );
+				permissionStrategy.setPermissions(nextFreeId.toString(), initiator,	getWorkflowProcessType(), wfp.getContextInstance(), MCRWorkflowConstants.PERMISSION_MODE_DEFAULT );
 				return nextFreeId.toString();
 			}
 		}catch(MCRException ex){
@@ -258,12 +258,12 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 				String derivateID = (String) it.next();
 				if ( derivateID != null && derivateID.length() > 0 ) {
 					bSuccess &= derivateStrategy.commitDerivateObject(derivateID, MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType));
-					permissionStrategy.setPermissions(derivateID, null,	workflowProcessType, MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
+					permissionStrategy.setPermissions(derivateID, null,	workflowProcessType, wfp.getContextInstance(), MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
 				}
 			}
 			
 			// readrule wird auf true gesetzt
-			permissionStrategy.setPermissions(documentID, null,	workflowProcessType, MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
+			permissionStrategy.setPermissions(documentID, null,	workflowProcessType, wfp.getContextInstance(), MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
 			bSuccess = true;
 		}catch(MCRException ex){
 			logger.error("an error occurred", ex);

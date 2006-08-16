@@ -7,8 +7,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.graph.exe.ExecutionContext;
-import org.mycore.access.MCRAccessInterface;
-import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRException;
 import org.mycore.frontend.workflowengine.jbpm.MCRAbstractAction;
 import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase;
@@ -24,7 +22,6 @@ public class MCRAuthorSubmittedAction extends MCRAbstractAction {
 
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = Logger.getLogger(MCRAuthorSubmittedAction.class);
-	private static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
 
 	public void executeAction(ExecutionContext executionContext) throws MCRException {
 		logger.debug("locking workflow variables and setting the access control to the editor mode");
@@ -43,8 +40,8 @@ public class MCRAuthorSubmittedAction extends MCRAbstractAction {
 		for (Iterator it = ids.iterator(); it.hasNext();) {
 			String id = (String) it.next();
 			 						//(mcrid, userid, wftype, mode)
-			wfm.permissionStrategy.setPermissions(id, user.getID(), workflowType,MCRWorkflowConstants.PERMISSION_MODE_EDITING);
-			wfm.permissionStrategy.setPermissions(id, user.getID(), workflowType,MCRWorkflowConstants.PERMISSION_MODE_CREATORRREAD);;
+			wfm.permissionStrategy.setPermissions(id, user.getID(), workflowType, contextInstance, MCRWorkflowConstants.PERMISSION_MODE_EDITING);
+			wfm.permissionStrategy.setPermissions(id, user.getID(), workflowType, contextInstance, MCRWorkflowConstants.PERMISSION_MODE_CREATORRREAD);;
 		}
 	}
 

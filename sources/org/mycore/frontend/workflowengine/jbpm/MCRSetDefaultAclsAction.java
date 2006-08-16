@@ -15,6 +15,6 @@ public class MCRSetDefaultAclsAction extends MCRAbstractAction{
 		logger.debug("setting default access rights");
 		MCRWorkflowManager WFM = MCRWorkflowManagerFactory.getImpl(MCRJbpmWorkflowBase.getWorkflowProcessType(executionContext));
 		WFM.setDefaultPermissions((String)executionContext.getVariable(varmcrid), 
-				(String)executionContext.getVariable(varuserid));	}
+				(String)executionContext.getVariable(varuserid), executionContext.getContextInstance());	}
 
 }

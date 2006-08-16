@@ -1,5 +1,6 @@
 package org.mycore.frontend.workflowengine.strategies;
 
+import org.jbpm.context.exe.ContextInstance;
 import org.mycore.common.MCRConfiguration;
 
 public interface MCRPermissionStrategy {
@@ -17,6 +18,6 @@ public interface MCRPermissionStrategy {
 	 * @param userid
 	 * @param workflowProcessType
 	 */
-	public void setPermissions(String mcrid, String userid, String workflowProcessType, int mode);	
+	public void setPermissions(String mcrid, String userid, String workflowProcessType, ContextInstance ctxI, int mode);	
 	
 }

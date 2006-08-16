@@ -41,8 +41,8 @@ public class MCRInstitutionSubmittedAction extends MCRAbstractAction {
 		for (Iterator it = ids.iterator(); it.hasNext();) {
 			String id = (String) it.next();
 			 						//(mcrid, userid, wftype, mode)
-			wfm.permissionStrategy.setPermissions(id, user.getID(), workflowType,MCRWorkflowConstants.PERMISSION_MODE_EDITING);
-			wfm.permissionStrategy.setPermissions(id, user.getID(), workflowType,MCRWorkflowConstants.PERMISSION_MODE_CREATORRREAD);;
+			wfm.permissionStrategy.setPermissions(id, user.getID(), workflowType,contextInstance, MCRWorkflowConstants.PERMISSION_MODE_EDITING);
+			wfm.permissionStrategy.setPermissions(id, user.getID(), workflowType,contextInstance, MCRWorkflowConstants.PERMISSION_MODE_CREATORRREAD);;
 		}		
 	}
 

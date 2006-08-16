@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.graph.def.Node;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jdom.Element;
@@ -164,8 +165,8 @@ public abstract class MCRWorkflowManager {
 		return bSuccess;
 	}
 	
-	final protected void setDefaultPermissions(String objid, String userid){
-		permissionStrategy.setPermissions(objid, userid, workflowProcessType, MCRWorkflowConstants.PERMISSION_MODE_DEFAULT);
+	final protected void setDefaultPermissions(String objid, String userid, ContextInstance ctxI){
+		permissionStrategy.setPermissions(objid, userid, workflowProcessType, ctxI, MCRWorkflowConstants.PERMISSION_MODE_DEFAULT);
 	}
 	
 	/**

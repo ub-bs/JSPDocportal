@@ -250,6 +250,10 @@ public class MCRWorkflowProcess extends MCRAbstractWorkflowObject{
 		return processInstanceID;
 	}	
 	
+	public ContextInstance getContextInstance(){
+		return contextInstance;
+	}
+	
 	public void signal(){
 		processInstance.signal();
 		jbpmContext.save(processInstance);

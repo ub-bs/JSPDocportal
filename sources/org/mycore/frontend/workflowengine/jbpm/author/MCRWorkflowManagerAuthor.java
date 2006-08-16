@@ -33,6 +33,7 @@ import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRException;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowAccessRuleEditorUtils;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
@@ -82,6 +83,7 @@ public class MCRWorkflowManagerAuthor extends MCRWorkflowManager {
 		try {
 			wfp.initialize(initiator);
 			wfp.save();
+			
 			MCRUser user = MCRUserMgr.instance().retrieveUser(initiator);
 			String email = user.getUserContact().getEmail();
 			if (email != null && !email.equals("")) {
@@ -195,17 +197,22 @@ public class MCRWorkflowManagerAuthor extends MCRWorkflowManager {
 
 public String createNewAuthor(String userid, long processID,
 			boolean isFillInUserData) {
-		try {
+	MCRWorkflowProcess wfp = getWorkflowProcess(processID);	
+	try {
 			MCRObjectID author = this.getNextFreeID(this.mainDocumentType);
 			author = authorStrategy.createAuthor(userid, author,
 					isFillInUserData, false);
 	//		setStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS, author.getId(), processID);
-			setDefaultPermissions(author.getId(), userid);
+			setDefaultPermissions(author.getId(), userid, wfp.getContextInstance());
 		
 			return author.getId();
 		} catch (MCRException ex) {
 			logger.error("an error occurred", ex);
+		} finally {
+			if (wfp != null)
+				wfp.close();
 		}
+		
 		return null;
 	}
 
@@ -219,7 +226,7 @@ public String createNewAuthor(String userid, long processID,
 					MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType))) {
 				throw new MCRException("error in committing " + documentID);
 			}
-			permissionStrategy.setPermissions(documentID, null,	workflowProcessType,MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
+			permissionStrategy.setPermissions(documentID, null,	workflowProcessType,wfp.getContextInstance(),MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
 			return true;
 		} catch (MCRException ex) {
 			logger.error("an error occurred", ex);
@@ -269,7 +276,7 @@ public String createNewAuthor(String userid, long processID,
 			MCRWorkflowProcess wfp = getWorkflowProcess(processID);
 			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS, mcrid);
 			wfp.close();
-
+			MCRWorkflowAccessRuleEditorUtils.setWorkflowVariablesForAccessRuleEditor(mcrid, processID);
 			setWorkflowVariablesFromMetadata(mcrid, mob.createXML().getRootElement().getChild("metadata"), processID);
 			setMetadataValid(mcrid, true, processID);
 			return processID;

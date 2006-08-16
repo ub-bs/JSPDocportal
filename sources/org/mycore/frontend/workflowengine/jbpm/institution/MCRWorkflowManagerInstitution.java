@@ -31,16 +31,14 @@ import org.jbpm.graph.exe.ExecutionContext;
 import org.jdom.Element;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRException;
-import org.mycore.datamodel.metadata.MCRMetaInstitutionName;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowAccessRuleEditorUtils;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
 import org.mycore.frontend.workflowengine.strategies.MCRMetadataStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
-import org.mycore.services.fieldquery.MCRResults;
 import org.mycore.user2.MCRUser;
 import org.mycore.user2.MCRUserMgr;
 
@@ -156,14 +154,18 @@ public class MCRWorkflowManagerInstitution extends MCRWorkflowManager {
 	}
 
 public String createNewInstitution(String userid, long processID) {
-		try {
+	MCRWorkflowProcess wfp = getWorkflowProcess(processID);	
+	try {
 			MCRObjectID institution = this.getNextFreeID(this.mainDocumentType);
 			institution = institutionStrategy.createInstitution(institution, false);
-			setDefaultPermissions(institution.getId(), userid);
+			setDefaultPermissions(institution.getId(), userid, wfp.getContextInstance());
 		
 			return institution.getId();
 		} catch (MCRException ex) {
 			logger.error("an error occurred", ex);
+		} finally {
+			if (wfp != null)
+				wfp.close();
 		}
 		return null;
 	}
@@ -179,7 +181,7 @@ public String createNewInstitution(String userid, long processID) {
 							.getWorkflowDirectory(documentType))) {
 				throw new MCRException("error in committing " + documentID);
 			}
-			permissionStrategy.setPermissions(documentID, null,	workflowProcessType,MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
+			permissionStrategy.setPermissions(documentID, null,	workflowProcessType,wfp.getContextInstance(), MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
 			return true;
 		} catch (MCRException ex) {
 			logger.error("an error occurred", ex);
@@ -216,7 +218,7 @@ public String createNewInstitution(String userid, long processID) {
 			MCRWorkflowProcess wfp = getWorkflowProcess(processID);
 			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS, mcrid);
 			wfp.close();
-
+			MCRWorkflowAccessRuleEditorUtils.setWorkflowVariablesForAccessRuleEditor(mcrid, processID);
 			setWorkflowVariablesFromMetadata(mcrid, mob.createXML().getRootElement().getChild("metadata"), processID);
 			setMetadataValid(mcrid, true, processID);
 			return processID;

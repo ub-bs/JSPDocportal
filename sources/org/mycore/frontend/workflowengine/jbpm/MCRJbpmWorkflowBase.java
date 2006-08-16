@@ -229,23 +229,23 @@ public class MCRJbpmWorkflowBase {
 		Element variables = new Element("variables");
 		for (Iterator it = contextVariables.keySet().iterator(); it.hasNext();) {
 			String var = (String) it.next();
-			String value = (String)contextVariables.get(var);
+			Object value = contextVariables.get(var);
 			if ( value !=null ){
 				Element variable = new Element("variable");
 				variable.setAttribute("name",var);
 				variable.setAttribute("type","context");
-				variable.setAttribute("value",value);
+				variable.setAttribute("value",value.toString());
 				variables.addContent(variable);				
 			}
 		}		
 		for (Iterator it = taskVariables.keySet().iterator(); it.hasNext();) {
 			String var = (String) it.next();
-			String value = (String)taskVariables.get(var);
+			Object value = taskVariables.get(var);
 			if ( value !=null ){
 				Element variable = new Element("variable");
 				variable.setAttribute("name",var);
 				variable.setAttribute("type","task");
-				variable.setAttribute("value",value);
+				variable.setAttribute("value",value.toString());
 				variables.addContent(variable);
 			}
 		}

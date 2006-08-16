@@ -34,14 +34,10 @@ import org.apache.log4j.Logger;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jdom.Element;
 import org.mycore.common.MCRException;
-import org.mycore.common.xml.MCRXMLHelper;
 import org.mycore.frontend.cli.MCRUserCommands2;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
-import org.mycore.frontend.workflowengine.strategies.MCRDefaultMetadataStrategy;
-import org.mycore.frontend.workflowengine.strategies.MCRDefaultUserStrategy;
-import org.mycore.frontend.workflowengine.strategies.MCRUserStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 
 /**

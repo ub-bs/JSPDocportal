@@ -40,6 +40,7 @@ import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRException;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowAccessRuleEditorUtils;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
@@ -143,7 +144,8 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 			int filecnt =  (atachedDerivates.split("_derivate_")).length;
 			wfp.setStringVariable("fileCnt", String.valueOf(filecnt));
 			wfp.close();
-
+			
+			MCRWorkflowAccessRuleEditorUtils.setWorkflowVariablesForAccessRuleEditor(mcrid, processID);
 			setWorkflowVariablesFromMetadata(mcrid, mob.createXML().getRootElement().getChild("metadata"), processID);
 			setMetadataValid(mcrid, true, processID);
 			return processID;
@@ -216,7 +218,7 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 			if(metadataStrategy.createEmptyMetadataObject(true, Arrays.asList(authors), null,
 					nextFreeId, initiator, identifiers, null, saveDirectory) ){
 						permissionStrategy.setPermissions(nextFreeId.toString(), initiator, 
-								getWorkflowProcessType(), MCRWorkflowConstants.PERMISSION_MODE_DEFAULT );
+								getWorkflowProcessType(), wfp.getContextInstance(), MCRWorkflowConstants.PERMISSION_MODE_DEFAULT );
 						return nextFreeId.toString();
 			}
 		}catch(MCRException ex){
@@ -267,10 +269,10 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 				if(!derivateStrategy.commitDerivateObject(derivateID, MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType))){
 					throw new MCRException("error in committing " + derivateID);
 				}
-				permissionStrategy.setPermissions(derivateID, null,	workflowProcessType, MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
+				permissionStrategy.setPermissions(derivateID, null,	workflowProcessType, wfp.getContextInstance(), MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
 			}
 			
-			permissionStrategy.setPermissions(dissID, null,	workflowProcessType, MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
+			permissionStrategy.setPermissions(dissID, null,	workflowProcessType, wfp.getContextInstance(), MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
 			return true;
 		}catch(MCRException ex){
 			logger.error("an error occurred", ex);

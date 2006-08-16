@@ -35,7 +35,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.mycore.frontend.cli.MCRObjectCommands;
 import org.mycore.frontend.editor.MCRRequestParameters;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
@@ -166,7 +165,7 @@ public class MCRWorkflowActions extends MCRServlet {
             	return;            	
             }
         	derivateID = WFM.addDerivate(pid, mcrid);
-    		WFM.setDefaultPermissions(derivateID, userid);
+    		WFM.setDefaultPermissions(derivateID, userid, wfp.getContextInstance());
         	todo = "WFAddNewFileToDerivate";
         	// kein requestforward sondern in den WFAddNewFileToDerivate Zweig übergehen! 
         }

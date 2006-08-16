@@ -11,6 +11,9 @@ public class MCRWorkflowConstants {
 	public static final int PERMISSION_MODE_EDITING = 3;
 	public static final int PERMISSION_MODE_CREATORRREAD = 4;
 	
+	public static final String ACCESSRULE_PREFIX = "APPRULE";
+	public static final String ACCESSRULE_NUMBERFORMAT="0000000000";
+	
 	public static final String WFM_VAR_SIGNED_AFFIRMATION_AVAILABLE = "signedAffirmationAvailable";
 	public static final String WFM_VAR_INITIATOR = "initiator";
 	public static final String WFM_VAR_AUTHOR_IDS = "authorIds";
@@ -20,7 +23,7 @@ public class MCRWorkflowConstants {
 	public static final String WFM_VAR_METADATA_OBJECT_IDS = "createdDocID";
 	public static final String WFM_VAR_ATTACHED_DERIVATES = "attachedDerivates";
 	public static final String WFM_VAR_DELETED_DERIVATES = "deletedDerivates";
-	
+		
 	public static final String WFM_VAR_CONTAINS_PDF = "containsPDF";
 	public static final String WFM_VAR_CONTAINS_ZIP = "containsZIP";
 	public static final String WFM_VAR_WFOBJECT_TITLE= "wfo-title";
@@ -28,14 +31,6 @@ public class MCRWorkflowConstants {
 	public static final String WFM_VAR_CREATED ="ProcessCreatedTimestamp";
 	public static final String WFM_VAR_FILECNT ="fileCnt";
 	
-	public static final String WFM_VAR_READRULE="readrule";
-	
-	public String getAuthorIdWorkflowVariable(){
-		return WFM_VAR_AUTHOR_IDS;
-	}
-
-	public String getReservatedUrnWorkflowVariable(){
-		return WFM_VAR_RESERVATED_URN;
-	}
-	
+	public static final String WFM_VAR_READRULE_TYPE="readrule-type";
+	public static final String WFM_VAR_READRULE_XMLSTRING="readrule-xmlstring";
 }
