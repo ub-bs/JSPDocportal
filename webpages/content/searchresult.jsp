@@ -80,7 +80,7 @@
                     <x:set var="mcrID" select="string(@ID)" />
                     <x:set var="docType" select="string(@docType)" />
                     <!--  the number corresponds to the x. entry in resultlist-*.xml -->
-                    <x:set var="contentType" select="./metaname[3]/metavalues/metavalue/@text" />					
+                    <x:set var="contentType" select="./metaname[3]/metavalues/metavalue/@categid" />					
 					<table id="resultList">
 					<tbody>
 					<tr>
@@ -97,22 +97,22 @@
 							</x:when>
 							<x:when select="contains($docType, 'document')">
 								<x:choose>
-									<x:when select="contains($contentType, 'text')">
+									<x:when select="contains($contentType, 'FORMAT0001')">
 										<img src="${WebApplicationBaseURL}/images/article.gif" alt="text" />							
 									</x:when>
-									<x:when select="contains($contentType, 'image')">
+									<x:when select="contains($contentType, 'FORMAT0002')">
 										<img src="${WebApplicationBaseURL}/images/picture.gif" alt="image" />							
 									</x:when>
-									<x:when select="contains($contentType, 'notes')">
+									<x:when select="contains($contentType, 'FORMAT0005')">
 										<img src="${WebApplicationBaseURL}/images/musikalie.gif" alt="notes" />							
 									</x:when>
-									<x:when select="contains($contentType, 'software')">
+									<x:when select="contains($contentType, 'FORMAT0006')">
 										<img src="${WebApplicationBaseURL}/images/software.gif" alt="software" />							
 									</x:when>
-									<x:when select="contains($contentType, 'sound')">
+									<x:when select="contains($contentType, 'FORMAT0009')">
 										<img src="${WebApplicationBaseURL}/images/audio.gif" alt="sound" />							
 									</x:when>
-									<x:when select="contains($contentType, 'video')">
+									<x:when select="contains($contentType, 'FORMAT0010')">
 										<img src="${WebApplicationBaseURL}/images/audiovisual.gif" alt="video" />							
 									</x:when>
 									<x:otherwise>
