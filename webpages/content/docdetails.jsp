@@ -65,7 +65,7 @@
 </c:choose>
 
 
-<mcr:checkAccess permission="read" var="readAccess" ${mcrid} />
+<mcr:checkAccess permission="read" var="readAccess" key="${mcrid}" />
 
 <table class="${layout}" ><tr valign="top">
 <td>
