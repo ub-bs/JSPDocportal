@@ -132,6 +132,9 @@
             <navitem name="workflow-preview" label="WF.Preview" href="content/docdetails.jsp"  hidden="true">
               <refitem name="~workflow-preview" label="" />
             </navitem>
+            <navitem name="workflow-editaccess" label="WF.EditAccess" href="content/workflow/accessruleeditor.jsp"  hidden="true">
+              <refitem name="~workflow-editaccess" label="" />
+            </navitem>
           </navitem>
           
           <navitem name="registeruser" label="Nav.OrderAuthorAccount" href="content/workflow/registeruser/beginUser.jsp">
