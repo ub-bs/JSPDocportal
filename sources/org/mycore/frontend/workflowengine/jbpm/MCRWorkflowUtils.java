@@ -196,14 +196,6 @@ public class MCRWorkflowUtils {
 	}
 
 	
-	public static void setDummyPermissions(String objid){
-		for (int i = 0; i < MCRPermissionStrategy.defaultPermissionTypes.length; i++) {
-			AI.addRule(objid, 
-					MCRPermissionStrategy.defaultPermissionTypes[i], 
-					MCRAccessManager.getTrueRule(), "");	
-		}		
-	}	
-	
 	public static Map getAccessRulesMap(String objid) {
 		List liPerms = AI.getPermissionsForID(objid);        
         Map htRules = new Hashtable();
