@@ -405,6 +405,8 @@ public class MCRResultFormatter {
 					metaValue.setAttribute("href",categItem.getURL());
 					metaValue.setAttribute("target","new");
 					metaValue.setAttribute("text",categItem.getText(lang));
+					metaValue.setAttribute("classid",classID);
+					metaValue.setAttribute("categid",categID);
 					metaValues.addContent(metaValue);
 				}
 			}
