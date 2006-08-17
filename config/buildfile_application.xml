@@ -898,6 +898,7 @@
                 includes="*.xml" />
         </copy>
     	<echo> Concat messagebundles to one messages_{locale}.properties</echo>
+    	<taskdef name="mergepropertyfiles" classname="org.mycore.ant.customtasks.MergeProperties" classpath="${DOCPORTAL_HOME}/lib/ant-mycore.jar" />  
     	<mergepropertyfiles basefile="${docportal.languages}/messages_de.properties" 
     						deltafile="${docportal.languages}/mymessages_de.properties" 
     						tofile="${docportal.webapps}/WEB-INF/classes/messages_de.properties"/>
