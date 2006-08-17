@@ -30,12 +30,18 @@ public class MCRAuthorMetadataStrategy extends MCRDefaultMetadataStrategy {
 				String firstname = eName.getChildText("firstname");
 				String lastname = eName.getChildText("surname");
 				String academic = eName.getChildText("academic");
+				String prefix = eName.getChildText("prefix");
 				if(lastname!=null && !lastname.equals("")){
 					sbFullname.append(lastname);
 				}
 				if(firstname!=null && !firstname.equals("")){
 					sbFullname.append(", ");
 					sbFullname.append(firstname);
+				}
+				
+				if(prefix!=null && !lastname.equals("")){
+					sbFullname.append(" ");
+					sbFullname.append(prefix);
 				}
 			 
 				if(academic!=null && !academic.equals("")){
