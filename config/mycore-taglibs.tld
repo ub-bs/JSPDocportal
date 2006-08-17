@@ -148,6 +148,36 @@
             <info>A Tag, that delivers a DOM XML representation of the derivates for a special document in the workflow</info>
      </tag>    
      <tag>
+         <name>getAccessRulesTag</name>
+         <tagclass>org.mycore.frontend.jsp.taglibs.MCRGetAccessRulesTag</tagclass>
+         <bodycontent>empty</bodycontent>
+         <attribute>
+           <name>var</name>
+           <required>true</required>
+           <rtexprvalue>true</rtexprvalue>
+         </attribute>
+         <attribute>
+           <name>step</name>
+           <required>true</required>
+           <rtexprvalue>true</rtexprvalue>
+         </attribute>
+         <attribute>
+           <name>mcrid</name>
+           <required>true</required>
+           <rtexprvalue>true</rtexprvalue>
+         </attribute>
+         <attribute>
+           <name>processid</name>
+           <required>true</required>
+           <rtexprvalue>true</rtexprvalue>
+         </attribute>
+         <attribute>
+           <name>choosenRule</name>
+           <required>false</required>
+           <rtexprvalue>true</rtexprvalue>
+         </attribute>
+     </tag>
+     <tag>
             <name>getWorkflowTaskBeanList</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRGetWorkflowTaskBeanListTag</tagclass>
             <bodycontent>empty</bodycontent>
