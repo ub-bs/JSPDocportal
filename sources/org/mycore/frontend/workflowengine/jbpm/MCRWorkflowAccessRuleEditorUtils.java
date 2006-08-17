@@ -142,6 +142,7 @@ public class MCRWorkflowAccessRuleEditorUtils {
 	 * @param oid - the MCRObjectID
 	 * @param processid - the ProcessID
 	 * @return
+	 * 
 	 */
 	public static String getCurrentRule(String oid, String processid){
 		long lpid = Long.parseLong(processid);
@@ -153,63 +154,6 @@ public class MCRWorkflowAccessRuleEditorUtils {
 		return rule;
 	}
 	
-	/**
-	 * creates Code for the JSP
-	 * It generates the data for the Combobobx, that displays the different rules
-	 * @param currentRule - the current rule, that should be selected
-	 * @param out - the JSPWriter
-	 */
-	public static void fillRulesCombobox(String currentRule, JspWriter out) {
-		String lang = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
-		String[] rules = MCRWorkflowAccessRuleEditorUtils.getDefaultRules();
-		for (int i = 0; i < rules.length; i++) {
-			try {
-				out.write("<option value=\"" + rules[i] + "\"");
-				if (currentRule.equalsIgnoreCase(rules[i])) {
-					out.write(" selected=\"selected\"");
-				}
-				out.write(">");
-				out.write(PropertyResourceBundle.getBundle("messages",
-						new Locale(lang)).getString(
-						"MCR.AccessRuleEditor.defaultrules." + rules[i]));
-			} catch (IOException e) {
-				logger.debug("Could not create content for rules combobox", e);
-			}
-		}
-	}
-	
-	
-	/**
-	 * creates code for the JSP
-	 * It generates the items for the groups listbox (all available groups)
-	 * @param mcrid -the MCRObjectID
-	 * @param processid - the ProcessID
-	 * @param out - the JSPWriter
-	 */
-	public static void fillGroupsListbox(String mcrid, String processid, JspWriter out){
-		try{
-			String[] availGroups = MCRWorkflowAccessRuleEditorUtils.getAvailableGroups();
-			String[] selectedGroups = MCRWorkflowAccessRuleEditorUtils.getSelectedGroups(mcrid, processid);
-			for(int i=0;i<availGroups.length;i++){
-				out.write("<option value=\""+availGroups[i]+"\"");
-				if(java.util.Arrays.asList(selectedGroups).contains(availGroups[i])){
-					out.write(" selected=\"selected\"");
-				}	
-				out.write(">");
-				out.write(availGroups[i]);
-			}
-		} catch(IOException e){
-			logger.debug("Could not fill group listbox", e);
-		}
-	}
-	
-	/**
-	 * @return an array of all groups, which are available in the system
-	 */
-	private static String[] getAvailableGroups(){
-		String[] groups = (String[]) MCRUserMgr.instance().getAllGroupIDs().toArray(new String[]{});
-		return groups;
-	}
 	
 	/**
 	 * returns an array of group names which are associated the rule (should be selected)
@@ -217,7 +161,7 @@ public class MCRWorkflowAccessRuleEditorUtils {
 	 * @param processid - the ProcessID
 	 * @return
 	 */
-	private static String[] getSelectedGroups(String oid, String processid){
+	public static String[] getChoosenGroups(String oid, String processid){
 		long lpid = Long.parseLong(processid);
 		try{
 			String ruleRawXML = getLargeStringVariableFromWorkflow(MCRWorkflowConstants.WFM_VAR_READRULE_XMLSTRING, lpid);
@@ -265,7 +209,7 @@ public class MCRWorkflowAccessRuleEditorUtils {
 	 * @param processID - the processID
 	 * @return
 	 */
-	private static String getLargeStringVariableFromWorkflow(String varName, long processID){
+	public static String getLargeStringVariableFromWorkflow(String varName, long processID){
 		return getStringVariableFromWorkflow(varName, processID);
 	}
 	
