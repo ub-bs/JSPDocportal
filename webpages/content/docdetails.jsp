@@ -157,20 +157,32 @@
                                        <x:set var="mainFileURL" select="concat($WebApplicationBaseURL,'file/',./@derivid,'/',./@derivmain,'?hosts=',$host)" />
                                        <x:set var="contentType" select="string(./@contentType)" />
                                        <table>
-                                          <tr>
-                                             <td><a href="<x:out select="$mainFileURL" />" target="_blank"><x:out select="./@derivmain" /></a>&#160;
-                                                 (<x:out select="./@size mod 1024" /> kB)&#160;&#160;
-                                             </td>
-                                             <td>
-                                                <a href="<x:out select="concat($WebApplicationBaseURL,'zip?id=',./@derivid)" />" class="linkButton" ><fmt:message key="OMD.zipgenerate" /></a>&#160;&#160;
-                                             </td>
-                                             <td>
-                                                <a href="<x:out select="concat($WebApplicationBaseURL,'nav?path=~derivatedetails&derID=',./@derivid,'&docID=',$mcrid,'&hosts=',$host)" />" target="_self"><fmt:message key="OMD.details" />&gt;&gt;</a>&#160;&#160; 
-                                             </td>
-                                             <c:if test="${fn:contains('gif-jpeg-png', contentType)}">
-                                                <td class="imageInResult"><a href="${mainFileURL}"><img src="${mainFileURL}" width="100"></a></td>
-                                             </c:if>                                                 
-                                          </tr>
+                                       <c:set var="derivID"><x:out select="./@derivid"/></c:set>
+                                       <mcr:checkAccess permission="read" var="accessallowed" key="${derivID}" />
+									   <c:choose>
+										   <c:when test="${accessallowed}">
+	                                         <tr>
+    	                                         <td><a href="<x:out select="$mainFileURL" />" target="_blank"><x:out select="./@derivmain" /></a>&#160;
+        	                                         (<x:out select="./@size mod 1024" /> kB)&#160;&#160;
+            	                                 </td>
+                	                             <td>
+                    	                            <a href="<x:out select="concat($WebApplicationBaseURL,'zip?id=',./@derivid)" />" class="linkButton" ><fmt:message key="OMD.zipgenerate" /></a>&#160;&#160;
+                        	                     </td>
+                            	                 <td>
+                                	                <a href="<x:out select="concat($WebApplicationBaseURL,'nav?path=~derivatedetails&derID=',./@derivid,'&docID=',$mcrid,'&hosts=',$host)" />" target="_self"><fmt:message key="OMD.details" />&gt;&gt;</a>&#160;&#160; 
+                                    	         </td>
+	                                             <c:if test="${fn:contains('gif-jpeg-png', contentType)}">
+    	                                            <td class="imageInResult"><a href="${mainFileURL}"><img src="${mainFileURL}" width="100"></a></td>
+        	                                     </c:if>                                                 
+	                                          </tr>
+										   </c:when>
+										   <c:otherwise>
+										   		<tr>
+                                        	     <td><x:out select="./@derivmain" />&#160;(<x:out select="./@size mod 1024" /> kB)</td>
+                	                            </tr>
+                	                            <tr><td><fmt:message key="OMD.fileaccess.denied" /></td></tr>
+                                          </c:otherwise>
+                                        </c:choose>
                                        </table>
                                     </div>
                                  </div>
