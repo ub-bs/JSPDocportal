@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.4 $ $Date: 2006-08-03 11:34:08 $ -->
+<!-- $Revision: 1.5 $ $Date: 2006-08-17 14:14:33 $ -->
 <!-- ============================================== -->
 
 <xsl:stylesheet
@@ -123,7 +123,7 @@
       <xsl:if test="range">
         <dl>
           <dt>
-            <img border="0" src="{$WebApplicationBaseURL}/images/folder_open.gif" align="middle"/>
+            <img border="0" src="{$WebApplicationBaseURL}images/folder_open.gif" align="middle"/>
 
           <xsl:choose>
             <xsl:when test="contains(/indexpage/@path,'-')">
@@ -144,7 +144,7 @@
       <xsl:if test="value">
         <dl>
           <dt>
-            <img border="0" src="{$WebApplicationBaseURL}/images/folder_open.gif" align="middle"/>
+            <img border="0" src="{$WebApplicationBaseURL}images/folder_open.gif" align="middle"/>
 
           <xsl:choose>
             <xsl:when test="contains(/indexpage/@path,'-')">
