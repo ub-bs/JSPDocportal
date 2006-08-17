@@ -19,7 +19,13 @@ import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.datamodel.metadata.MCRXMLTableManager;
 
-
+/**
+ * 
+ * @author ??? - its unused ???
+ * 
+ * @deprecated
+ *
+ */
 public class MCRSetAccessRuleEditorDataTag extends SimpleTagSupport
 {
 	private String var;
