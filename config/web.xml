@@ -44,6 +44,10 @@
     
     
     <!-- servlets -->    
+    <servlet>
+        <servlet-name>MCRWorkflowAccessRuleEditorServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.workflowengine.jbpm.MCRWorkflowAccessRuleEditorServlet</servlet-class>
+    </servlet>
     
     <servlet>
         <servlet-name>MCRJSPSearchServlet</servlet-name>
@@ -193,6 +197,10 @@
  
 
     <!-- servlet mappings -->
+    <servlet-mapping>
+        <servlet-name>MCRWorkflowAccessRuleEditorServlet</servlet-name>
+        <url-pattern>/servlets/MCRWorkflowAccessRules</url-pattern>
+    </servlet-mapping>
 
     <servlet-mapping>
                <servlet-name>MCRJSPSearchServlet</servlet-name>
