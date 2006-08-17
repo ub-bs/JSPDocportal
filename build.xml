@@ -2,7 +2,7 @@
 
 <!-- =================================================================== -->
 <!-- MyCoRe sample application build file for use with Apache Ant        -->
-<!-- $Revision: 1.35 $ $Date: 2006-08-08 21:15:54 $                      -->
+<!-- $Revision: 1.36 $ $Date: 2006-08-17 14:07:55 $                      -->
 <!-- =================================================================== -->
 
 <project default="usage" basedir=".">
@@ -36,6 +36,12 @@
 		<copy file="./config/workflow/jbpm_hibernate.cfg.xml.template" tofile="../myapplication/config/workflow/jbpm_hibernate.cfg.xml.template" overwrite="true" />
 	</target>		
 
+	<target name="merge.my.properties">
+		<taskdef name="mergepropertyfiles" classname="org.mycore.ant.customtasks.MergeProperties" classpath="../jspdocportal/lib/ant-mycore.jar" /> 
+		<mergepropertyfiles basefile="config/mycore.properties.template" 
+				    				deltafile="../myapplication/config/mymycore.properties" 
+				    				tofile="../myapplication/config/mycore.properties"/>
+	</target>
 </project>
 
 <!-- ======================== End of file ======================== -->
