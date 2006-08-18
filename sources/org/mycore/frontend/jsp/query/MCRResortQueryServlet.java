@@ -63,7 +63,7 @@ public class MCRResortQueryServlet extends MCRServlet {
 		for ( i = 1; i < 4; i++) {
 			if (request.getParameter("field" + i) != null && !request.getParameter("field" + i).equals("")) {
 				Element sortField = new Element("field");
-				sortField.setAttribute("field",request.getParameter("field" + i));
+				sortField.setAttribute("name",request.getParameter("field" + i));
 				String order = (request.getParameter("order" + i) != null) ?
 						request.getParameter("order" + i) : "ascending" ;
 				sortField.setAttribute("order",order);
