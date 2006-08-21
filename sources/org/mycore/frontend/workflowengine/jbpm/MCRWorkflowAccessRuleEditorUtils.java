@@ -24,14 +24,9 @@
 
 package org.mycore.frontend.workflowengine.jbpm;
 
-import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.PropertyResourceBundle;
-
-import javax.servlet.jsp.JspWriter;
 
 import org.apache.log4j.Logger;
 import org.jbpm.JbpmConfiguration;
@@ -48,9 +43,7 @@ import org.mycore.access.mcrimpl.MCRAccessStore;
 import org.mycore.access.mcrimpl.MCRRuleStore;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
-import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.xml.MCRXMLHelper;
-import org.mycore.user2.MCRUserMgr;
 
 /**
  * This class holds methods for the simple accessrule editor.
