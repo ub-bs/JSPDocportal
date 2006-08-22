@@ -39,7 +39,7 @@
 
 	<form name="accessrules" action="${WebApplicationBaseURL}servlets/MCRWorkflowAccessRules" method="get">
 		<input type="hidden" name="path" value="~workflow-editaccess">
-		<input type="hidden" name="mcrid" value="${mcrid}">
+		<input type="hidden" name="id" value="${mcrid}">
 		<input type="hidden" name="returnPath" value="${returnPath}">
 		<input type="hidden" name="processid" value="${processid}">
 

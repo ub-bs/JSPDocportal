@@ -57,7 +57,7 @@ public class MCRWorkflowAccessRuleEditorServlet extends MCRServlet {
 		// read the parameter
 		MCRRequestParameters parms;
 		parms = new MCRRequestParameters(request);
-		String mcrid = parms.getParameter("mcrid");
+		String mcrid = parms.getParameter("id");
 		String rule  = parms.getParameter("rule");
 		String processid  = parms.getParameter("processid");		
 		String[] selectedGroups  = parms.getParameterValues("selectedGroups");
