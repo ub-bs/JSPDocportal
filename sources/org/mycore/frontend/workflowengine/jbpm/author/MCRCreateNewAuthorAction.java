@@ -15,14 +15,12 @@ public class MCRCreateNewAuthorAction extends MCRAbstractAction {
 	private static MCRWorkflowManagerAuthor WFM = (MCRWorkflowManagerAuthor)MCRWorkflowManagerFactory.getImpl("author");
 
 	public void executeAction(ExecutionContext executionContext) throws MCRException {
-		ContextInstance contextInstance;
-		contextInstance = executionContext.getContextInstance();
-		String initiator = (String)contextInstance.getVariable(	MCRWorkflowConstants.WFM_VAR_INITIATOR);
-		long pid = executionContext.getProcessInstance().getId();
-		
-		String authorID = WFM.createNewAuthor(initiator,pid,false);
+		ContextInstance ctxI = executionContext.getContextInstance();
+		String initiator = (String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_INITIATOR);
+				
+		String authorID = WFM.createNewAuthor(initiator, ctxI, false);
 		if(authorID != null && !authorID.equals("")) {
-			contextInstance.setVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS, authorID);
+			ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS, authorID);
 			logger.debug("workflow changed state to " + executionContext.getProcessInstance().getRootToken().getName());
 		}else{
 			logger.error("no authorID could be generated");

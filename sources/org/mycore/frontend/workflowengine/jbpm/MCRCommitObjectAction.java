@@ -20,7 +20,7 @@ public class MCRCommitObjectAction implements ActionHandler{
 			String mcrid = (String)executionContext.getVariable(varnameOBJID);
 			if(varnameERROR == null)
 				varnameERROR = "ERROR";
-			if(!WFM.commitWorkflowObject(executionContext.getProcessInstance().getId())){
+			if(!WFM.commitWorkflowObject(executionContext.getContextInstance())){
 				executionContext.setVariable(varnameERROR, "error in committing object [" + mcrid + "]");
 			}
 		}catch(Exception e){

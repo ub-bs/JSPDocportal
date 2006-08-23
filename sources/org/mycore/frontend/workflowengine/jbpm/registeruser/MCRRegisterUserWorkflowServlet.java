@@ -43,6 +43,8 @@ import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcessManager;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 import org.mycore.user2.MCRUserMgr;
 
@@ -107,7 +109,9 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 	          ***/   
         	// befüllten Editor für das Object includieren
 			// aus dem wfo die Daten für die ID ... holen 
-			ID = WFM.getStringVariable("initiatorUserID", Long.parseLong(pid));
+			MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(Long.parseLong(pid));
+   			try{
+			ID = wfp.getStringVariable("initiatorUserID");
 			
         	request.setAttribute("isNewEditorSource","false");
         	request.setAttribute("mcrid","user_"+ID);
@@ -119,6 +123,13 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
         	request.setAttribute("nextPath",nextPath);
         	request.setAttribute("editorPath","editor/workflow/editor-modifyuser.xml");
         	request.getRequestDispatcher("/nav?path=~editor-include").forward(request, response);
+   			}
+   			catch(Exception e){
+   				logger.error("caught exception: ",e);
+   			}
+   			finally{
+   				wfp.close();
+   			}
         	return;
 	        	
 		} else {
@@ -176,7 +187,16 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 			    }
 				lpid = ((Long)lpids.get(0)).longValue();
 				// for initiator and editor 
-				WFM.setWorkflowVariablesFromMetadata(ID,userElement, lpid);
+				MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(lpid);
+				try{
+					WFM.setWorkflowVariablesFromMetadata(ID,userElement, wfp.getContextInstance());
+				}
+				catch(Exception e){
+					logger.error("caught exception ",e);
+				}
+				finally{
+					wfp.close();
+				}
 				MCRSessionMgr.getCurrentSession().put("registereduser", new DOMOutputter().output( outDoc ));
 				for ( int i=1; i< lpids.size(); i++) {
 			        logger.warn("User registration - duplicate Process ID's" + lpids.get(i).toString());

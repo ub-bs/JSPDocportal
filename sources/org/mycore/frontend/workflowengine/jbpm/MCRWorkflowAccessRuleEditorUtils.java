@@ -29,8 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.jbpm.JbpmConfiguration;
-import org.jbpm.JbpmContext;
 import org.jbpm.context.exe.ContextInstance;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
@@ -56,7 +54,7 @@ import org.mycore.common.xml.MCRXMLHelper;
  */
 
 public class MCRWorkflowAccessRuleEditorUtils { 
-	private static JbpmConfiguration jbpmConfiguration =   JbpmConfiguration.parseResource("jbpm.cfg.xml");
+	//private static JbpmConfiguration jbpmConfiguration =   JbpmConfiguration.parseResource("jbpm.cfg.xml");
 	private static Logger logger = Logger
 			.getLogger(MCRWorkflowAccessRuleEditorUtils.class.getName());
 	
@@ -116,9 +114,10 @@ public class MCRWorkflowAccessRuleEditorUtils {
 		}	
 		
 		long lpid = Long.parseLong(processid);
-		setStringVariableInWorkflow(MCRWorkflowConstants.WFM_VAR_READRULE_TYPE, rulename, lpid);
+		MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(lpid);
+		setStringVariableInWorkflow(MCRWorkflowConstants.WFM_VAR_READRULE_TYPE, rulename, wfp.getContextInstance());
 		XMLOutputter xmlOut = new XMLOutputter();
-		setLargeStringVariableInWorkflow(MCRWorkflowConstants.WFM_VAR_READRULE_XMLSTRING, xmlOut.outputString(eRule), lpid);
+		setLargeStringVariableInWorkflow(MCRWorkflowConstants.WFM_VAR_READRULE_XMLSTRING, xmlOut.outputString(eRule), wfp.getContextInstance());
 		
  	}
 	
@@ -139,10 +138,20 @@ public class MCRWorkflowAccessRuleEditorUtils {
 	 */
 	public static String getCurrentRule(String oid, String processid){
 		long lpid = Long.parseLong(processid);
-		String rule = getStringVariableFromWorkflow(MCRWorkflowConstants.WFM_VAR_READRULE_TYPE, lpid);
+		MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(lpid);
+		String rule="";
+		try{
+		 rule= getStringVariableFromWorkflow(MCRWorkflowConstants.WFM_VAR_READRULE_TYPE, wfp.getContextInstance());
 		if(rule == null){
 			rule = defaultRules[0];
-			setStringVariableInWorkflow(MCRWorkflowConstants.WFM_VAR_READRULE_TYPE, rule, lpid);
+			wfp.getContextInstance().setVariable(MCRWorkflowConstants.WFM_VAR_READRULE_TYPE, rule);
+		}
+		}
+		catch(Exception e){
+			logger.error("caught exception: "+e);
+		}
+		finally{
+			wfp.close();
 		}
 		return rule;
 	}
@@ -156,8 +165,9 @@ public class MCRWorkflowAccessRuleEditorUtils {
 	 */
 	public static String[] getChoosenGroups(String oid, String processid){
 		long lpid = Long.parseLong(processid);
+		MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(lpid);
 		try{
-			String ruleRawXML = getLargeStringVariableFromWorkflow(MCRWorkflowConstants.WFM_VAR_READRULE_XMLSTRING, lpid);
+			String ruleRawXML = getLargeStringVariableFromWorkflow(MCRWorkflowConstants.WFM_VAR_READRULE_XMLSTRING, wfp.getContextInstance());
 			Element eRule = (Element)MCRXMLHelper.parseXML(ruleRawXML).getRootElement().detach();
 			List listR = XPath.selectNodes(eRule, ".//condition[@field='group']");
 			ArrayList listResults = new ArrayList();
@@ -176,11 +186,10 @@ public class MCRWorkflowAccessRuleEditorUtils {
 	 * @param processID
 	 * @return
 	 */
-	private static String getStringVariableFromWorkflow(String varName, long processID){
-		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+	private static String getStringVariableFromWorkflow(String varName, ContextInstance ctxI){
+
 		try{
-			Object result = jbpmContext.loadProcessInstance(processID)
-				.getContextInstance().getVariable(varName);
+			Object result = ctxI.getVariable(varName);
 			if(result==null){
 				return null;
 			}
@@ -189,9 +198,9 @@ public class MCRWorkflowAccessRuleEditorUtils {
 				
 			}
 		}catch(MCRException e){
-			logger.error("could not get workflow variable [" + varName + "] for process [" + processID + "]",e);
+			logger.error("could not get workflow variable [" + varName + "] for process [" + ctxI.getProcessInstance().getId()+ "]",e);
 		}finally{
-			jbpmContext.close();
+
 		}	
 		return "";		
 	}
@@ -202,8 +211,8 @@ public class MCRWorkflowAccessRuleEditorUtils {
 	 * @param processID - the processID
 	 * @return
 	 */
-	public static String getLargeStringVariableFromWorkflow(String varName, long processID){
-		return getStringVariableFromWorkflow(varName, processID);
+	public static String getLargeStringVariableFromWorkflow(String varName, ContextInstance ctxI){
+		return getStringVariableFromWorkflow(varName, ctxI);
 	}
 	
 	/**
@@ -212,15 +221,16 @@ public class MCRWorkflowAccessRuleEditorUtils {
 	 * @param varValue - the value of the variable
 	 * @param processID - the ProcessID
 	 */
-	private static void setStringVariableInWorkflow(String varName, String varValue, long processID){
-		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+	private static void setStringVariableInWorkflow(String varName, String varValue, ContextInstance ctxI){
+		
+		//JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try{
-			ContextInstance ctxI = jbpmContext.loadProcessInstance(processID).getContextInstance();
+			//ContextInstance ctxI = jbpmContext.loadProcessInstance(processID).getContextInstance();
 			ctxI.setVariable(varName, varValue);				
 		}catch(MCRException e){
-			logger.error("could not get workflow variable [" + varName + "] for process [" + processID + "]",e);
+			logger.error("could not get workflow variable [" + varName + "] for process [" + ctxI.getProcessInstance().getId()+ "]",e);
 		}finally{
-			jbpmContext.close();
+			//jbpmContext.close();
 		}			
 	}
 
@@ -232,15 +242,15 @@ public class MCRWorkflowAccessRuleEditorUtils {
 	 * @param varValue - the value of the variable
 	 * @param processID - the ProcessID
 	 */
-	private static void setLargeStringVariableInWorkflow(String varName, String varValue, long processID){
-		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+	private static void setLargeStringVariableInWorkflow(String varName, String varValue, ContextInstance ctxI){
+		//JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try{
-			ContextInstance ctxI = jbpmContext.loadProcessInstance(processID).getContextInstance();
+			//ContextInstance ctxI = jbpmContext.loadProcessInstance(processID).getContextInstance();
 			ctxI.setVariable(varName, new MCRWorkflowLargeStringObject(varValue));
 		}catch(MCRException e){
-			logger.error("could not get workflow variable [" + varName + "] for process [" + processID + "]",e);
+			logger.error("could not get workflow variable [" + varName + "] for process [" + ctxI.getProcessInstance().getId() + "]",e);
 		}finally{
-			jbpmContext.close();
+			//jbpmContext.close();
 		}			
 	}
 	
@@ -252,7 +262,7 @@ public class MCRWorkflowAccessRuleEditorUtils {
 	 * @param oid -the MCRObjectID
 	 * @param processid - the ProcessID
 	 */
-	public static void setWorkflowVariablesForAccessRuleEditor(String oid, long processID){
+	public static void setWorkflowVariablesForAccessRuleEditor(String oid, ContextInstance ctxI){
 		MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
 		MCRAccessStore accessstore = MCRAccessStore.getInstance();
 		String ruletype=defaultRules[0];
@@ -285,7 +295,7 @@ public class MCRWorkflowAccessRuleEditorUtils {
 			XMLOutputter outputter = new XMLOutputter();
 			xmlRuleString = outputter.outputString(rule);
 		}	
-		setStringVariableInWorkflow(MCRWorkflowConstants.WFM_VAR_READRULE_TYPE, ruletype, processID);
-		setLargeStringVariableInWorkflow(MCRWorkflowConstants.WFM_VAR_READRULE_XMLSTRING, xmlRuleString, processID);
+		setStringVariableInWorkflow(MCRWorkflowConstants.WFM_VAR_READRULE_TYPE, ruletype, ctxI);
+		setLargeStringVariableInWorkflow(MCRWorkflowConstants.WFM_VAR_READRULE_XMLSTRING, xmlRuleString, ctxI);
 	}
 }

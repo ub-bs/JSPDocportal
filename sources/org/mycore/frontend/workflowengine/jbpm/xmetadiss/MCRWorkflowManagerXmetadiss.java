@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
@@ -44,6 +45,7 @@ import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowAccessRuleEditorUtils;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcessManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
 import org.mycore.frontend.workflowengine.strategies.MCRMetadataStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
@@ -134,7 +136,7 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 
 			long processID = initWorkflowProcess(initiator, "go2processEditInitialized");
 			
-			MCRWorkflowProcess wfp = getWorkflowProcess(processID);
+			MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processID);
 			String urn = this.identifierStrategy.getUrnFromDocument(mcrid);
 			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS, mcrid);
 			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN, urn);	
@@ -143,11 +145,12 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 			
 			int filecnt =  (atachedDerivates.split("_derivate_")).length;
 			wfp.setStringVariable("fileCnt", String.valueOf(filecnt));
+				
+			MCRWorkflowAccessRuleEditorUtils.setWorkflowVariablesForAccessRuleEditor(mcrid, wfp.getContextInstance());
+			setWorkflowVariablesFromMetadata(mcrid, mob.createXML().getRootElement().getChild("metadata"), wfp.getContextInstance());
+			setMetadataValid(mcrid, true, wfp.getContextInstance());
 			wfp.close();
-			
-			MCRWorkflowAccessRuleEditorUtils.setWorkflowVariablesForAccessRuleEditor(mcrid, processID);
-			setWorkflowVariablesFromMetadata(mcrid, mob.createXML().getRootElement().getChild("metadata"), processID);
-			setMetadataValid(mcrid, true, processID);
+
 			return processID;
 
 		} else {
@@ -181,7 +184,7 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 	}
 
 	private boolean checkSubmitVariables(long processid){
-		MCRWorkflowProcess wfp = getWorkflowProcess(processid);
+		MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processid);
 		try{
 			String authorID = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_AUTHOR_IDS);
 			String reservatedURN = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN);
@@ -206,25 +209,25 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 		return false;		
 	}	
 	
-	public String createEmptyMetadataObject(long pid){
-		MCRWorkflowProcess wfp = getWorkflowProcess(pid);
+	public String createEmptyMetadataObject(ContextInstance ctxI){
+		
 		try{
-			String[] authors = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_AUTHOR_IDS).split(",");
+			String[] authors = ((String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_AUTHOR_IDS)).split(",");
 			MCRObjectID nextFreeId = getNextFreeID(metadataStrategy.getDocumentType());
-			String initiator = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_INITIATOR);
+			String initiator = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_INITIATOR);
 			String saveDirectory = MCRWorkflowDirectoryManager.getWorkflowDirectory(mainDocumentType);
 			Map identifiers = new HashMap();
-			identifiers.put(MCRWorkflowConstants.KEY_IDENTIFER_TYPE_URN, wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN));
+			identifiers.put(MCRWorkflowConstants.KEY_IDENTIFER_TYPE_URN, (String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN));
 			if(metadataStrategy.createEmptyMetadataObject(true, Arrays.asList(authors), null,
 					nextFreeId, initiator, identifiers, null, saveDirectory) ){
 						permissionStrategy.setPermissions(nextFreeId.toString(), initiator, 
-								getWorkflowProcessType(), wfp.getContextInstance(), MCRWorkflowConstants.PERMISSION_MODE_DEFAULT );
+								getWorkflowProcessType(), ctxI, MCRWorkflowConstants.PERMISSION_MODE_DEFAULT );
 						return nextFreeId.toString();
 			}
 		}catch(MCRException ex){
 			logger.error("could not create empty metadata object", ex);
 		}finally{
-			wfp.close();
+		
 		}
 		return null;
 	}	
@@ -236,9 +239,9 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 		//		in a derivate only one zip-file is allowed, it will be renamed
 		//		to attachment.zip
 		
-		MCRWorkflowProcess wfp = getWorkflowProcess(pid);
+		MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(pid);
 		try{
-			derivateStrategy.saveFiles(files, dirname, wfp, newLabel);
+			derivateStrategy.saveFiles(files, dirname, wfp.getContextInstance(), newLabel);
 		}catch(MCRException ex){
 			
 		}finally{
@@ -246,15 +249,15 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 		}
 	}
 	
-	public boolean commitWorkflowObject(long processID){
-		MCRWorkflowProcess wfp = getWorkflowProcess(processID);
+	public boolean commitWorkflowObject(ContextInstance ctxI){
+		
 		try{
-			String dissID = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
+			String dissID = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
 			String documentType = new MCRObjectID(dissID).getTypeId();
 			if(!metadataStrategy.commitMetadataObject(dissID, MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType))){
 				throw new MCRException("error in committing " + dissID);
 			}
-			List deletedDerIDs = Arrays.asList(wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_DELETED_DERIVATES).split(","));
+			List deletedDerIDs = Arrays.asList(((String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_DELETED_DERIVATES)).split(","));
 			for (Iterator it = deletedDerIDs.iterator(); it.hasNext();) {
 				String derivateID = (String) it.next();
 				if ( derivateID != null && derivateID.length() > 0 ) {
@@ -263,44 +266,44 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 			}
 			
 			
-			List derivateIDs = Arrays.asList(wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES).split(","));
+			List derivateIDs = Arrays.asList(((String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES)).split(","));
 			for (Iterator it = derivateIDs.iterator(); it.hasNext();) {
 				String derivateID = (String) it.next();
 				if(!derivateStrategy.commitDerivateObject(derivateID, MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType))){
 					throw new MCRException("error in committing " + derivateID);
 				}
-				permissionStrategy.setPermissions(derivateID, null,	workflowProcessType, wfp.getContextInstance(), MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
+				permissionStrategy.setPermissions(derivateID, null,	workflowProcessType, ctxI, MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
 			}
 			
-			permissionStrategy.setPermissions(dissID, null,	workflowProcessType, wfp.getContextInstance(), MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
+			permissionStrategy.setPermissions(dissID, null,	workflowProcessType, ctxI, MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
 			return true;
 		}catch(MCRException ex){
 			logger.error("an error occurred", ex);
-			wfp.setStringVariable("varnameERROR", ex.getMessage());						
+			ctxI.setVariable("varnameERROR", ex.getMessage());						
 		}finally{
-			wfp.close();
+		
 		}		
 		return false;
 	}
 	
-	public boolean removeWorkflowFiles(long processID){
-		MCRWorkflowProcess wfp = getWorkflowProcess(processID);
+	public boolean removeWorkflowFiles(ContextInstance ctxI){
+		
 		String workflowDirectory = MCRWorkflowDirectoryManager.getWorkflowDirectory(mainDocumentType);
 		try{
-			metadataStrategy.removeMetadataFiles(wfp, workflowDirectory, deleteDir);
-			derivateStrategy.removeDerivates(wfp,workflowDirectory, deleteDir);
+			metadataStrategy.removeMetadataFiles(ctxI, workflowDirectory, deleteDir);
+			derivateStrategy.removeDerivates(ctxI,workflowDirectory, deleteDir);
 			return true;
 		}catch(MCRException ex){
 			logger.error("could not delete workflow files", ex);
-			wfp.setStringVariable("varnameERROR", ex.getMessage());						
+			ctxI.setVariable("varnameERROR", ex.getMessage());						
 		}finally{
-			wfp.close();
+			
 		}
 		return false;
 	}
 	
-	public void setWorkflowVariablesFromMetadata(String mcrid, Element metadata, long processID){
-		MCRWorkflowProcess wfp = getWorkflowProcess(processID);
+	public void setWorkflowVariablesFromMetadata(String mcrid, Element metadata, ContextInstance ctxI){
+		
 		try{
 			StringBuffer sbTitle = new StringBuffer("");
 			for(Iterator it = metadata.getDescendants(new ElementFilter("title")); it.hasNext();){
@@ -308,12 +311,11 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 				if(title.getAttributeValue("type").equals("original-main"))
 					sbTitle.append(title.getText());
 			}
-			wfp.setStringVariable("wfo-title", sbTitle.toString());	
+			ctxI.setVariable("wfo-title", sbTitle.toString());	
 		}catch(MCRException ex){
 			logger.error("catched error", ex);
 		}finally{
-			if(wfp != null)
-				wfp.close();
+			
 		}			
 	}
 	

@@ -15,6 +15,8 @@ import org.jdom.output.DOMOutputter;
 import org.mycore.common.JSPUtils;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcessManager;
 
 public class MCRListWorkflowProcessTag extends MCRSimpleTagSupport
 {
@@ -50,7 +52,8 @@ public class MCRListWorkflowProcessTag extends MCRSimpleTagSupport
 			org.jdom.Element process = new org.jdom.Element ("process");
 			process.setAttribute("pid", String.valueOf(pid));
 			process.setAttribute("status", WFM.getStatus(pid));
-			java.util.Map allVars = WFM.getStringVariableMap(pid);
+			MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(pid);
+			java.util.Map allVars = wfp.getStringVariableMap();
 			for ( Iterator it = allVars.keySet().iterator(); it.hasNext(); ) {
 				String nextKey  =  (String) it.next();				
 				Object nextVal  =  allVars.get(nextKey);
@@ -59,9 +62,8 @@ public class MCRListWorkflowProcessTag extends MCRSimpleTagSupport
 				pvar.setAttribute("value", nextVal.toString());
 				process.addContent(pvar);
 			}
-			
 			processlist.addContent(process);			
-			
+			wfp.close();
 		}
 		org.jdom.Document result = new Document(processlist);			
 		org.w3c.dom.Document domDoc = null;

@@ -33,4 +33,13 @@ public class MCRWorkflowConstants {
 	
 	public static final String WFM_VAR_READRULE_TYPE="readrule-type";
 	public static final String WFM_VAR_READRULE_XMLSTRING="readrule-xmlstring";
+	
+    //used in "bean-style" in dissertationData.jsp
+	public String getAuthorIdWorkflowVariable(){ 	 
+        return WFM_VAR_AUTHOR_IDS; 	 
+} 	 
+
+    public String getReservatedUrnWorkflowVariable(){ 	 
+        return WFM_VAR_RESERVATED_URN; 	 
+}
 }

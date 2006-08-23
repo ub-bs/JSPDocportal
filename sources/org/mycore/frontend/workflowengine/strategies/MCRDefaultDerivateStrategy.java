@@ -12,19 +12,20 @@ import java.util.regex.Matcher;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.log4j.Logger;
+import org.jbpm.context.exe.ContextInstance;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRUtils;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
+
 
 public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 	private static Logger logger = Logger.getLogger(MCRDefaultDerivateStrategy.class.getName());
 
-	public boolean removeDerivates(MCRWorkflowProcess wfp, String saveDirectory, String backupDirectory){
+	public boolean removeDerivates(ContextInstance ctxI, String saveDirectory, String backupDirectory){
 		try{
-			String sderids = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES);
+			String sderids = (String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES);
 			if (sderids == null || sderids.length() == 0) {
 				// there exist no derivates
 				return true;
@@ -33,9 +34,9 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 			for (Iterator it = attachedDerivates.iterator(); it.hasNext();) {
 				String derivateID = (String) it.next();
 				if ( derivateID != null && derivateID.length()> 0)
-					deleteDerivateObject(wfp,saveDirectory, backupDirectory, null, derivateID, false);
+					deleteDerivateObject(ctxI,saveDirectory, backupDirectory, null, derivateID, false);
 			}
-			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES,"");
+			ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES,"");
 			return true;
 		}catch(MCRException ex){
 			logger.error("could not remove derivate", ex);
@@ -43,7 +44,7 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 		return false;
 	}
 	
-	public boolean deleteDerivateFile(MCRWorkflowProcess wfp, String documentDirectory, String backupDirectory, String metadataObjectId, String derivateObjectId, boolean mustWorkflowVarBeUpdated, String filename) {
+	public boolean deleteDerivateFile(ContextInstance ctxI, String documentDirectory, String backupDirectory, String metadataObjectId, String derivateObjectId, boolean mustWorkflowVarBeUpdated, String filename) {
 		String derivateFileName = documentDirectory + SEPARATOR + filename;
 		File derFile = new File(derivateFileName);
 		
@@ -60,19 +61,19 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 		}
 		
 		if(mustWorkflowVarBeUpdated){
-			String fcnt = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_FILECNT);
+			String fcnt = (String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_FILECNT);
 			try {
 				int cnt = Integer.parseInt(fcnt);
-				wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_FILECNT, String.valueOf( --cnt) );	
+				ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_FILECNT, String.valueOf( --cnt) );	
 			} catch ( NumberFormatException nonum ) {
-				wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_FILECNT, "0");
+				ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_FILECNT, "0");
 			}			
 		}
 		
 		return false;
 	}
 	
-	public boolean deleteDerivateObject(MCRWorkflowProcess wfp, String documentDirectory, String backupDirectory, String metadataObjectId, String derivateObjectId, boolean mustWorkflowVarBeUpdated){
+	public boolean deleteDerivateObject(ContextInstance ctxI, String documentDirectory, String backupDirectory, String metadataObjectId, String derivateObjectId, boolean mustWorkflowVarBeUpdated){
 		try{
 			String derivateDirectory = documentDirectory + SEPARATOR + derivateObjectId;
 			String derivateFileName = documentDirectory +  SEPARATOR + derivateObjectId + ".xml" ;
@@ -86,11 +87,11 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 				logger.debug("deleting directory " + derDir.getName());
 				JSPUtils.recursiveDelete(derDir);
 				if(mustWorkflowVarBeUpdated){
-					String oldFC = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_FILECNT);
+					String oldFC = (String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_FILECNT);
 					int iFC = 0;
 					if ( derDir.list() != null )
 						iFC = Math.abs(Integer.parseInt(oldFC) - derDir.list().length);
-					wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_FILECNT,String.valueOf(iFC)) ;
+					ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_FILECNT,String.valueOf(iFC)) ;
 				}
 			}else{
 				if (!derDir.exists()) {
@@ -112,12 +113,12 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 				}
 			}
 			if(mustWorkflowVarBeUpdated){
-				String newDerivates = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES).replaceAll(derivateObjectId + ",*","");
-				wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES, newDerivates);
+				String newDerivates = ((String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES)).replaceAll(derivateObjectId + ",*","");
+				ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES, newDerivates);
 				
-				String deledetDerIDs = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_DELETED_DERIVATES);
+				String deledetDerIDs = (String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_DELETED_DERIVATES);
 				deledetDerIDs += "," + derivateObjectId;
-				wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_DELETED_DERIVATES, deledetDerIDs);
+				ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_DELETED_DERIVATES, deledetDerIDs);
 				
 			}
 			
@@ -129,7 +130,7 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 	}	
 	
 	
-	public void saveFiles(List files, String dirname, MCRWorkflowProcess wfp, String newLabel) throws MCRException {
+	public void saveFiles(List files, String dirname, ContextInstance ctxI, String newLabel) throws MCRException {
 		logger.debug("!! You Enters the saveFiles-DUMMY implementation, must be implemented in subclasses, for workflow-specific file checks");
 		
 		// save the files

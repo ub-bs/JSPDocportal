@@ -2,7 +2,6 @@ package org.mycore.frontend.workflowengine.strategies;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -16,6 +15,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
+import org.jbpm.context.exe.ContextInstance;
 import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
 import org.mycore.common.JSPUtils;
@@ -31,7 +31,6 @@ import org.mycore.datamodel.metadata.MCRMetaIFS;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.cli.MCRDerivateCommands;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
 
 public abstract class MCRDerivateStrategy {
@@ -53,7 +52,7 @@ public abstract class MCRDerivateStrategy {
 	 * 			String of the derID, that will bedeleted
 	 * @return
 	 */
-	public abstract boolean deleteDerivateObject(MCRWorkflowProcess wfp, String derivateDirectory, String backupDirectory, String metadataObjectId, String derivateObjectId, boolean mustWorkflowVarBeUpdated);
+	public abstract boolean deleteDerivateObject(ContextInstance ctxI, String derivateDirectory, String backupDirectory, String metadataObjectId, String derivateObjectId, boolean mustWorkflowVarBeUpdated);
 	
 	
 	/**
@@ -68,7 +67,7 @@ public abstract class MCRDerivateStrategy {
 	 * 			String the filename with its derivatepath
 	 * @return
 	 */
-	public abstract boolean deleteDerivateFile(MCRWorkflowProcess wfp, String derivateDirectory, String backupDirectory, String metadataObjectId, String derivateObjectId, boolean mustWorkflowVarBeUpdated, String filename);
+	public abstract boolean deleteDerivateFile(ContextInstance ctxI, String derivateDirectory, String backupDirectory, String metadataObjectId, String derivateObjectId, boolean mustWorkflowVarBeUpdated, String filename);
 	
 	/**
 	 * adds a new derivate to an workflow object
@@ -159,7 +158,7 @@ public abstract class MCRDerivateStrategy {
 	 * @throws MCRException
 	 * TODO a better javadoc
 	 */	
-	public abstract void saveFiles(List files, String dirname, MCRWorkflowProcess wfp, String newLabel) throws MCRException ;
+	public abstract void saveFiles(List files, String dirname, ContextInstance ctxI, String newLabel) throws MCRException ;
 	
 	public Element getDerivateData(String derivateDirectory, String docID, String derivateID) {
 		String fileName = new StringBuffer(derivateDirectory)
@@ -235,7 +234,7 @@ public abstract class MCRDerivateStrategy {
 		 * @param wfp
 		 * @param directory
 		 */
-		public abstract boolean removeDerivates(MCRWorkflowProcess wfp, String saveDirectory, String backupDirectory);
+		public abstract boolean removeDerivates(ContextInstance ctxI, String saveDirectory, String backupDirectory);
 		
 		
 		/**

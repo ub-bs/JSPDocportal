@@ -53,6 +53,7 @@ public class MCRJbpmWorkflowBase {
 			logger.error("could not delete process [" + procID + "]",e);
 		}finally{
 			jbpmContext.close();
+			
 		}
 	}
 

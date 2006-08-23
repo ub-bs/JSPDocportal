@@ -57,20 +57,23 @@ public class MCRWorkflowActions extends MCRServlet {
      * This method overrides doGetPost of MCRServlet. <br />
      */
     public void doGetPost(MCRServletJob job) throws Exception {
+    	
+    	
     	HttpServletRequest request = job.getRequest();
     	HttpServletResponse response = job.getResponse();
             	
         MCRRequestParameters parms = new MCRRequestParameters(request);
-
         long pid = Long.parseLong(parms.getParameter("processid"));
-        MCRWorkflowProcess wfp = new MCRWorkflowProcess(pid);
+    	MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(pid);
+    	try{
+     
         MCRWorkflowManager WFM = wfp.getCurrentWorkflowManager();
         
         String mcrid = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
         String userid = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_INITIATOR);
         String workflowType = wfp.getWorkflowProcessType();
         String documentType = wfp.getDocumentType();
-        
+                
         String derivateID = parms.getParameter("derivateID");
         String nextPath = parms.getParameter("nextPath");
         String filename = parms.getParameter("filename");
@@ -80,7 +83,7 @@ public class MCRWorkflowActions extends MCRServlet {
         
         String todo = parms.getParameter("todo");
        
-        WFM.setStringVariable("varnameERROR", "",pid);
+        wfp.getContextInstance().setVariable("varnameERROR", "");
         
         if ( "WFAddWorkflowObject".equals(todo) ) {
             if ( ! AI.checkPermission("create-"+documentType)) {
@@ -106,7 +109,7 @@ public class MCRWorkflowActions extends MCRServlet {
             	return;            	
             }
         	// befüllten Editor für das Object includieren
-        	String publicationType = WFM.getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_PUBLICATIONTYPE,pid);
+        	String publicationType = (String) wfp.getContextInstance().getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_PUBLICATIONTYPE);
         	if ( publicationType == null )  
         		 publicationType="";
         	
@@ -127,7 +130,7 @@ public class MCRWorkflowActions extends MCRServlet {
         if ( "WFCommitWorkflowObject".equals(todo) ) {
     		if (  ( AI.checkPermission(mcrid, "commitdb")
    	             && AI.checkPermission(derivateID,"deletedb")) ) {   			
-    			WFM.commitWorkflowObject(pid);
+    			WFM.commitWorkflowObject(wfp.getContextInstance());
     		}
     		request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
         	return;
@@ -135,10 +138,11 @@ public class MCRWorkflowActions extends MCRServlet {
         if ( "WFDeleteWorkflowObject".equals(todo) ) {
         	boolean bSuccess =false;
     		if ( AI.checkPermission(mcrid, "deletewf") ) {
-    			bSuccess = WFM.removeWorkflowFiles(pid);
+    			bSuccess = WFM.removeWorkflowFiles(wfp.getContextInstance());
     		}
     		if (bSuccess) {
     			// gesamten Prozess löschen!!
+    			wfp.close();
     			MCRJbpmCommands.deleteProcess(String.valueOf(pid));
     		}
     		request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
@@ -147,12 +151,13 @@ public class MCRWorkflowActions extends MCRServlet {
         if ( "WFDeleteObject".equals(todo) ) {
         	boolean bSuccess =false;
     		if ( AI.checkPermission(mcrid, "deletedb")) {
-    	        bSuccess = WFM.removeDatabaseObjects(pid);
+    	        bSuccess = WFM.removeDatabaseObjects(wfp.getContextInstance());
     	        if ( bSuccess )
-    	        	bSuccess = WFM.removeWorkflowFiles(pid);
+    	        	bSuccess = WFM.removeWorkflowFiles(wfp.getContextInstance());
     		}
     		if (bSuccess) {
     			// gesamten Prozess löschen!!
+    			wfp.close();
     			MCRJbpmCommands.deleteProcess(String.valueOf(pid));
     		}
     		request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
@@ -164,8 +169,10 @@ public class MCRWorkflowActions extends MCRServlet {
         		request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
             	return;            	
             }
-        	derivateID = WFM.addDerivate(pid, mcrid);
+        	derivateID = WFM.addDerivate(wfp.getContextInstance(), mcrid);
+        	
     		WFM.setDefaultPermissions(derivateID, userid, wfp.getContextInstance());
+    		
         	todo = "WFAddNewFileToDerivate";
         	// kein requestforward sondern in den WFAddNewFileToDerivate Zweig übergehen! 
         }
@@ -195,7 +202,6 @@ public class MCRWorkflowActions extends MCRServlet {
 			request.setAttribute("target", "MCRCheckDerivateServlet");
         	request.getRequestDispatcher("/nav?path=~editor-include").forward(request, response);
         	return;
-
         }
        
         if ( "WFAddNewFileToDerivate".equals(todo) ) {
@@ -227,7 +233,7 @@ public class MCRWorkflowActions extends MCRServlet {
         if ( "WFRemoveFileFromDerivate".equals(todo) ) {
     		if ( (  	AI.checkPermission(mcrid, "deletewf")
    	             && AI.checkPermission(derivateID,"deletewf")) ) {    			
-   		   	 WFM.removeFileFromDerivate(pid, mcrid, derivateID, filename);
+   		   	 WFM.removeFileFromDerivate(wfp.getContextInstance(), mcrid, derivateID, filename);
     		}
             request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
         	return;
@@ -235,11 +241,20 @@ public class MCRWorkflowActions extends MCRServlet {
         if ( "WFRemoveDerivateFromWorkflowObject".equals(todo) ) {
     		if ( (  	AI.checkPermission(mcrid, "deletewf")
     	             && AI.checkPermission(derivateID,"deletewf")) ) {    			
-    		   	 WFM.removeDerivate(pid, mcrid, derivateID);
+    		   	 WFM.removeDerivate(wfp.getContextInstance(), mcrid, derivateID);
     		}    		
             request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
         	return;
-        }         
+        }
+        }
+        catch(Exception e){
+        	
+        }
+        finally{
+        	if(!wfp.wasClosed()){
+        		wfp.close();
+        	}
+        }
     }
     
 	/**

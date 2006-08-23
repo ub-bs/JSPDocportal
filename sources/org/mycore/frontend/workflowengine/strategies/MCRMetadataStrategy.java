@@ -7,10 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.jbpm.context.exe.ContextInstance;
 import org.jdom.Element;
 import org.mycore.common.MCRUtils;
 import org.mycore.datamodel.metadata.MCRObjectID;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
+
 
 public abstract class MCRMetadataStrategy {
 	private static Logger logger = Logger.getLogger(MCRMetadataStrategy.class.getName());
@@ -60,7 +61,7 @@ public abstract class MCRMetadataStrategy {
 	 * @param mcrid
 	 * @param isValid
 	 */
-	public abstract void setMetadataValid(String mcrid, boolean isValid, MCRWorkflowProcess wfp);
+	public abstract void setMetadataValid(String mcrid, boolean isValid, ContextInstance ctxI);
 	
 	/**
 	 * returns the boolean value of the valid-Flag that was set
@@ -68,14 +69,14 @@ public abstract class MCRMetadataStrategy {
 	 * @param mcrid
 	 * @return true|false
 	 */
-	public abstract boolean isMetadataValid(String mcrid, MCRWorkflowProcess wfp);
+	public abstract boolean isMetadataValid(String mcrid, ContextInstance ctxI);
 	
 	/**
 	 * deletes the metadata files from a MCRWorkflowProcess
 	 * @param wfp
 	 * @return
 	 */
-	public abstract boolean removeMetadataFiles(MCRWorkflowProcess wfp, String saveDirectory, String backupDirectory);
+	public abstract boolean removeMetadataFiles(ContextInstance ctxI, String saveDirectory, String backupDirectory);
 	
 	/**
 	 * sets some workflow variables with any information from a documents metadata
@@ -83,7 +84,7 @@ public abstract class MCRMetadataStrategy {
 	 * @param mcrid
 	 * @param metadata
 	 */
-	public abstract void setWorkflowVariablesFromMetadata(MCRWorkflowProcess wfp, Element metadata);
+	public abstract void setWorkflowVariablesFromMetadata(ContextInstance ctxI, Element metadata);
 	
 	/**
 	 * is publishing a metadata object to the database

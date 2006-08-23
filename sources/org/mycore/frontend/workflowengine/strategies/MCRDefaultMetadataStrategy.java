@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.jbpm.context.exe.ContextInstance;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
@@ -22,8 +23,6 @@ import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.cli.MCRObjectCommands;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
 
 public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 	private String documentType;
@@ -168,18 +167,18 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
    	    return true;		
 	}
 
-	public void setMetadataValid(String mcrid, boolean isValid, MCRWorkflowProcess wfp) {
-		wfp.setStringVariable(MCRMetadataStrategy.VALID_PREFIX + mcrid, Boolean.toString(isValid));
+	public void setMetadataValid(String mcrid, boolean isValid, ContextInstance ctxI) {
+		ctxI.setVariable(MCRMetadataStrategy.VALID_PREFIX + mcrid, Boolean.toString(isValid));
 	}
 
-	public boolean isMetadataValid(String mcrid, MCRWorkflowProcess wfp) {
+	public boolean isMetadataValid(String mcrid, ContextInstance ctxI) {
 		try{
-			if(wfp.getStringVariable("valid-" + mcrid).equals("true"))
+			if(((String)ctxI.getVariable("valid-" + mcrid)).equals("true"))
 				return true;
 			else
 				return false;
 		}catch(Exception e){
-			logger.error("metadata flag was not set for " + mcrid + " and process " + wfp.getProcessInstanceID(), e);
+			logger.error("metadata flag was not set for " + mcrid + " and process " + ctxI.getProcessInstance().getId(), e);
 			return false;
 		}
 	}
@@ -200,8 +199,8 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
         logger.info("Object " + ID + " stored under " + fullname + ".");
     }
 
-	public boolean removeMetadataFiles(MCRWorkflowProcess wfp, String saveDirectory, String  backupDirectory) {
-		String sobjids = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
+	public boolean removeMetadataFiles(ContextInstance ctxI, String saveDirectory, String  backupDirectory) {
+		String sobjids = (String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
 		if ( sobjids == null || sobjids.length() == 0 ) {
 			// no objects exists
 			return true;
@@ -233,16 +232,16 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 		return true;
 	}
 
-	public void setWorkflowVariablesFromMetadata(MCRWorkflowProcess wfp, Element metadata) {
+	public void setWorkflowVariablesFromMetadata(ContextInstance ctxI, Element metadata) {
 		StringBuffer sbTitle = new StringBuffer("");
 		for(Iterator it = metadata.getDescendants(new ElementFilter("title")); it.hasNext();){
 			Element title = (Element)it.next();
 			sbTitle.append(title.getText());
 		}
 		if(sbTitle.length() == 0){
-			wfp.setStringVariable("wfp-title", "Your Workflow Object");
+			ctxI.setVariable("wfp-title", "Your Workflow Object");
 		}else{
-			wfp.setStringVariable("wfp-title", sbTitle.toString());
+			ctxI.setVariable("wfp-title", sbTitle.toString());
 		}
 	}
 

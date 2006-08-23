@@ -17,13 +17,13 @@ public class MCRCleanUpWorkflowAction implements ActionHandler{
 		try{
 			logger.debug("cleanup the workflow from the object ");
 			MCRWorkflowManager WFM = MCRWorkflowManagerFactory.getImpl(MCRJbpmWorkflowBase.getWorkflowProcessType(executionContext));
-			String mcrid = (String)executionContext.getVariable(varnameOBJID);
-			if(!WFM.removeWorkflowFiles(executionContext.getProcessInstance().getId())) {					
-				executionContext.setVariable(varnameERROR, "error in committing object [" + mcrid + "]");
+			String mcrid = (String)executionContext.getContextInstance().getVariable(varnameOBJID);
+			if(!WFM.removeWorkflowFiles(executionContext.getContextInstance())) {					
+				executionContext.getContextInstance().setVariable(varnameERROR, "error in committing object [" + mcrid + "]");
 			}
 		}catch(Exception e){
 			String errMsg = "could not cleanup the workflow from  object";
-			executionContext.setVariable(varnameERROR, errMsg);
+			executionContext.getContextInstance().setVariable(varnameERROR, errMsg);
 			logger.error(errMsg, e);
 			throw new MCRException(errMsg);
 		}

@@ -1,9 +1,9 @@
 package org.mycore.frontend.workflowengine.strategies;
 
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
+import org.jbpm.context.exe.ContextInstance;
 
 public interface MCRBackupStrategy {
 		
-	public boolean backupWorkflowFiles(MCRWorkflowProcess wfp);
+	public boolean backupWorkflowFiles(ContextInstance ctxI);
 
 }

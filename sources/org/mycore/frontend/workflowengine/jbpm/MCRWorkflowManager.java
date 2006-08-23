@@ -3,12 +3,11 @@ package org.mycore.frontend.workflowengine.jbpm;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
@@ -31,13 +30,13 @@ import org.mycore.frontend.workflowengine.strategies.MCRDefaultMetadataStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRDefaultPermissionStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRDefaultUserStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRDerivateStrategy;
+import org.mycore.frontend.workflowengine.strategies.MCRIdentifierStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRInstitutionStrategy;
+import org.mycore.frontend.workflowengine.strategies.MCRMetadataStrategy;
+import org.mycore.frontend.workflowengine.strategies.MCRPermissionStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRURNIdentifierStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRUserStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
-import org.mycore.frontend.workflowengine.strategies.MCRIdentifierStrategy;
-import org.mycore.frontend.workflowengine.strategies.MCRMetadataStrategy;
-import org.mycore.frontend.workflowengine.strategies.MCRPermissionStrategy;
 import org.mycore.user2.MCRUser;
 import org.mycore.user2.MCRUserMgr;
 
@@ -69,6 +68,8 @@ public abstract class MCRWorkflowManager {
 	public MCRPermissionStrategy permissionStrategy;
 	protected MCRUserStrategy 		userStrategy;
 	protected MCRInstitutionStrategy institutionStrategy;
+	
+	
 
 	protected MCRWorkflowManager( String mainDocumentType, String workflowProcessType) throws Exception {
 		this.workflowProcessType 	= workflowProcessType;
@@ -124,30 +125,30 @@ public abstract class MCRWorkflowManager {
 	 * @param mcrid
 	 * @param metadata
 	 */
-	public abstract void setWorkflowVariablesFromMetadata(String mcrid, Element metadata, long processID);	
+	public abstract void setWorkflowVariablesFromMetadata(String mcrid, Element metadata, ContextInstance ctxI);	
 		
 	/**
 	 * returns an empty metadata object and returns the mcrobjectid of this object
 	 * @param pid
 	 * @return
 	 */
-	public abstract String createEmptyMetadataObject(long pid);
+	public abstract String createEmptyMetadataObject(ContextInstance ctxI);
 	
 	
 	/**
 	 * commits metadata and derivates to the database
 	 * @param processID
 	 */
-	public abstract boolean commitWorkflowObject(long processID);
+	public abstract boolean commitWorkflowObject(ContextInstance ctxI);
 	
-	public abstract boolean removeWorkflowFiles(long processID);
+	public abstract boolean removeWorkflowFiles(ContextInstance ctxI);
 	
-	public boolean removeDatabaseObjects(long processID) {
+	public boolean removeDatabaseObjects(ContextInstance ctxI) {
 		boolean bSuccess =false;
 		MCRObject mycore_obj = new MCRObject();
-		MCRWorkflowProcess wfp = getWorkflowProcess(processID);
+		
 		try{
-			String documentID = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
+			String documentID = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
 			if ( MCRObject.existInDatastore(documentID)) {
 				mycore_obj.deleteFromDatastore(documentID);
 				AI.removeAllRules(documentID);
@@ -158,10 +159,9 @@ public abstract class MCRWorkflowManager {
 		} catch ( Exception all ) {
             logger.error(all.getMessage());
 			bSuccess =false;
-			wfp.setStringVariable("varnameERROR", all.getMessage());						
+			ctxI.setVariable("varnameERROR", all.getMessage());						
 		}finally{
-			if(wfp != null)
-				wfp.close();
+		
 		}
 		return bSuccess;
 	}
@@ -176,46 +176,47 @@ public abstract class MCRWorkflowManager {
 	 * @param metadataObjectId
 	 * @return
 	 */
-	final protected String addDerivate(long processid, String metadataObjectId){
+	final protected String addDerivate(ContextInstance ctxI, String metadataObjectId){
 		return derivateStrategy.addNewDerivateToWorkflowObject(MCRWorkflowDirectoryManager.getWorkflowDirectory(mainDocumentType),
 				metadataObjectId);
 	}
 	
-	final protected boolean removeDerivate(long processID, String metadataObjectID, String derivateObjectID){
-		MCRWorkflowProcess wfp = getWorkflowProcess(processID);
+	final protected boolean removeDerivate(ContextInstance ctxI, String metadataObjectID, String derivateObjectID){
 		try{
-			return derivateStrategy.deleteDerivateObject(wfp, MCRWorkflowDirectoryManager.getWorkflowDirectory(mainDocumentType),
+			return derivateStrategy.deleteDerivateObject(ctxI, MCRWorkflowDirectoryManager.getWorkflowDirectory(mainDocumentType),
 					deleteDir, metadataObjectID, derivateObjectID, true);
 		}catch(MCRException ex){
 			logger.error("could not remove derivate");
 		}finally{
-			wfp.close();
+		
 		}
 		return false;
 	}
 
-	final protected boolean removeFileFromDerivate(long processID, String metadataObjectID, String derivateObjectID, String filename){
-		MCRWorkflowProcess wfp = getWorkflowProcess(processID);
+	final protected boolean removeFileFromDerivate(ContextInstance ctxI, String metadataObjectID, String derivateObjectID, String filename){
 		try{
-			return derivateStrategy.deleteDerivateFile(wfp, MCRWorkflowDirectoryManager.getWorkflowDirectory(mainDocumentType),
+			return derivateStrategy.deleteDerivateFile(ctxI, MCRWorkflowDirectoryManager.getWorkflowDirectory(mainDocumentType),
 					deleteDir, metadataObjectID, derivateObjectID, true, filename);
 		}catch(MCRException ex){
 			logger.error("could not remove file from derivate");
 		}finally{
-			wfp.close();
+		
 		}
 		return false;
 	}
 	
 	/**
 	 * creates and returns a new workflow process of a given type
-	 * 	use this function just in initWorkflowProcess
+	 * 	use this function <b>just</b> in initWorkflowProcess
 	 * @param workflowProcessType
 	 * @return
 	 */
 	final protected MCRWorkflowProcess createWorkflowProcess(String workflowProcessType){
-		MCRWorkflowProcess wfp = new MCRWorkflowProcess(workflowProcessType);
-		return wfp;
+		return MCRWorkflowProcessManager.getInstance().createWorkflowProcess(workflowProcessType);
+		
+		//wfp = new MCRWorkflowProcess(workflowProcessType);
+		//workflowprocesses.put(new Long(wfp.getProcessInstanceID()), wfp);
+		//return wfp;
 	}	
 
 	/**
@@ -224,14 +225,13 @@ public abstract class MCRWorkflowManager {
 	 * @param dirname
 	 * @param pid
 	 */
-	final public void saveUploadedFiles(List files, String dirname, long processID, String newLabel) {
-		MCRWorkflowProcess wfp = getWorkflowProcess(processID);
+	final public void saveUploadedFiles(List files, String dirname, ContextInstance ctxI, String newLabel) {
 		try{
-			derivateStrategy.saveFiles(files, dirname, wfp, newLabel);
+			derivateStrategy.saveFiles(files, dirname, ctxI, newLabel);
 		}catch(MCRException ex){
 			logger.error("could not save uploaded files");
 		}finally{
-			wfp.close();
+		
 		}
 	}	
 	
@@ -247,7 +247,7 @@ public abstract class MCRWorkflowManager {
 		String ret = "";
 		try{
 			if(executionContext == null){
-				MCRWorkflowProcess wfp = getWorkflowProcess(processid);
+				MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processid);
 				try{
 					ret = wfp.getStringVariable(varname);
 				}catch(MCRException ex){
@@ -297,7 +297,7 @@ public abstract class MCRWorkflowManager {
 	 */
 	final public boolean endTask(long processID, String taskName, String transitionName){
 		MCRUser user = MCRUserMgr.instance().getCurrentUser();
-		MCRWorkflowProcess wfp = getWorkflowProcess(processID);
+		MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processID);
 		try{
 			return wfp.endTask(taskName, user.getID(), transitionName);
 		}catch(MCRException ex){
@@ -348,104 +348,109 @@ public abstract class MCRWorkflowManager {
 		return MCRJbpmWorkflowBase.getCurrentProcessIDsForProcessType(workflowProcessType);
 	}	
 	
-	public void deleteWorkflowProcessInstance(long processID) {
-		removeWorkflowFiles(processID);
+	public void deleteWorkflowProcessInstance(long pid) {
+		MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(pid);
 		try{
-	    	MCRJbpmWorkflowBase.deleteProcessInstance(processID);
+			
+			removeWorkflowFiles(wfp.getContextInstance());
+			MCRJbpmWorkflowBase.deleteProcessInstance(pid);
 		}catch(Exception e){
-			String errMsg = "could not delete process [" + processID + "]"; 
+			String errMsg = "could not delete process [" + pid + "]"; 
 			logger.error(errMsg);
 			throw new MCRException(errMsg);
 		}
+		finally{
+			wfp.close();
+		}
 	}	
 	
-	 /**
-	  * returns the value of a variable in a given workflow process instance
-	  * 	for use in jsp tags or in servlets
-	  * @param variable
-	  * @param processID
-	  * @return
-	  */
-	 final public String getStringVariable(String variable, long processID){
-			MCRWorkflowProcess wfp = getWorkflowProcess(processID);
-			String ret = "";
-			try{
-				ret = wfp.getStringVariable(variable);
-			}catch(MCRException ex){
-				logger.error("catched error", ex);
-			}finally{
-				if(wfp != null)
-					wfp.close();
-			}		
-			return ret;		 
-	 }
-
-	 /**
-	  * returns the value of a variable in a given workflow process instance
-	  * 	for use in jsp tags or in servlets
-	  * @param processID
-	  * @return
-	  */		 
-	 public Map getStringVariableMap(long processID)	{
-		 Map map = null;
-		 MCRWorkflowProcess wfp = getWorkflowProcess(processID);
-		 try{
-			 map = wfp.getStringVariableMap();
-		 }catch(MCRException ex){
-				logger.error("catched error", ex);
-		}finally{
-			if(wfp != null)
-				wfp.close();
-		}
-		return map;
-	 }
-	 
-	 /**
-	  * sets the value of a workflow variable in a given workflow process instance
-	  * 	for use in jsp tags or in servlets
-	  * @param variable
-	  * @param processID
-	  * @return
-	  */
-	 final public void setStringVariable(String variable, String value, long processID) throws MCRException{
-			MCRWorkflowProcess wfp = getWorkflowProcess(processID);
-			try{
-				wfp.setStringVariable(variable, value);
-			}catch(MCRException ex){
-				String errMsg = "could not set workflow variable";
-				logger.error(errMsg, ex);
-				throw new MCRException(errMsg);
-			}finally{
-				if(wfp != null)
-					wfp.close();
-			}		
-	 }
-	 
-	 /**
-	  * sets a map of workflow variable in a given workflow process instance
-	  * 	for use in jsp tags or in servlets
-	  * @param map	a map of key/value paires for workflow variables
-	  * @param processID
-	  * @return
-	  */
-	 final public void setStringVariableMap(Map map, long processID) throws MCRException{
-			MCRWorkflowProcess wfp = getWorkflowProcess(processID);
-			try{
-				wfp.setStringVariables(map);
-			}catch(MCRException ex){
-				String errMsg = "could not set workflow variable";
-				logger.error(errMsg, ex);
-				throw new MCRException(errMsg);
-			}finally{
-				if(wfp != null)
-					wfp.close();
-			}		
-	 }		 
+//	 /**
+//	  * returns the value of a variable in a given workflow process instance
+//	  * 	for use in jsp tags or in servlets
+//	  * @param variable
+//	  * @param processID
+//	  * @return
+//	  */
+//	 final public String getStringVariable(String variable, long processID){
+//			MCRWorkflowProcess wfp = getWorkflowProcess(processID);
+//			String ret = "";
+//			try{
+//				ret = wfp.getStringVariable(variable);
+//			}catch(MCRException ex){
+//				logger.error("catched error", ex);
+//			}finally{
+//				if(wfp != null)
+//					wfp.close();
+//			}		
+//			return ret;		 
+//	 }
+//
+//	 /**
+//	  * returns the value of a variable in a given workflow process instance
+//	  * 	for use in jsp tags or in servlets
+//	  * @param processID
+//	  * @return
+//	  */		 
+//	 public Map getStringVariableMap(long processID)	{
+//		 Map map = null;
+//		 MCRWorkflowProcess wfp = getWorkflowProcess(processID);
+//		 try{
+//			 map = wfp.getStringVariableMap();
+//		 }catch(MCRException ex){
+//				logger.error("catched error", ex);
+//		}finally{
+//			if(wfp != null)
+//				wfp.close();
+//		}
+//		return map;
+//	 }
+//	 
+//	 /**
+//	  * sets the value of a workflow variable in a given workflow process instance
+//	  * 	for use in jsp tags or in servlets
+//	  * @param variable
+//	  * @param processID
+//	  * @return
+//	  */
+//	 final public void setStringVariable(String variable, String value, long processID) throws MCRException{
+//			MCRWorkflowProcess wfp = getWorkflowProcess(processID);
+//			try{
+//				wfp.setStringVariable(variable, value);
+//			}catch(MCRException ex){
+//				String errMsg = "could not set workflow variable";
+//				logger.error(errMsg, ex);
+//				throw new MCRException(errMsg);
+//			}finally{
+//				if(wfp != null)
+//					wfp.close();
+//			}		
+//	 }
+//	 
+//	 /**
+//	  * sets a map of workflow variable in a given workflow process instance
+//	  * 	for use in jsp tags or in servlets
+//	  * @param map	a map of key/value paires for workflow variables
+//	  * @param processID
+//	  * @return
+//	  */
+//	 final public void setStringVariableMap(Map map, long processID) throws MCRException{
+//			MCRWorkflowProcess wfp = getWorkflowProcess(processID);
+//			try{
+//				wfp.setStringVariables(map);
+//			}catch(MCRException ex){
+//				String errMsg = "could not set workflow variable";
+//				logger.error(errMsg, ex);
+//				throw new MCRException(errMsg);
+//			}finally{
+//				if(wfp != null)
+//					wfp.close();
+//			}		
+//	 }		 
 
  	final protected void setStringVariableInDecision(String varname, String value, long processid,  ExecutionContext executionContext){
 	 try{
 		if(executionContext == null){
-			MCRWorkflowProcess wfp = new MCRWorkflowProcess(processid);
+			MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processid);
 			try{
 				wfp.setStringVariable(varname, value);
 			}catch(MCRException ex){
@@ -462,11 +467,16 @@ public abstract class MCRWorkflowManager {
 	 }
 	}	
 	 
-
-	final protected MCRWorkflowProcess getWorkflowProcess(long processID){
-		MCRWorkflowProcess wfp = new MCRWorkflowProcess(processID);
-		return wfp;
-	}
+ 	
+ 	
+//	final public MCRWorkflowProcess getWorkflowProcess(long processID){
+//		MCRWorkflowProcess wfp = (MCRWorkflowProcess) workflowprocesses.get(new Long(processID));
+//		if(wfp==null || wfp.wasClosed()){
+//			wfp = new MCRWorkflowProcess(processID);
+//			workflowprocesses.put(new Long(processID), wfp);
+//		}	
+//		return wfp;
+//	}
 	
 	/**
 	 * returns the current workflow status of a workflow process with the given 
@@ -477,7 +487,7 @@ public abstract class MCRWorkflowManager {
 	 */
 	final public String getStatus(long processID){
 		String nodeName = "";
-		MCRWorkflowProcess wfp = getWorkflowProcess(processID);
+		MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processID);
 		try{
 			Node curNode = wfp.getProcessInstance().getRootToken().getNode();
 			if(curNode != null) {
@@ -680,14 +690,14 @@ public abstract class MCRWorkflowManager {
 		this.mainDocumentType = mainDocumentType;
 	}
 
-	final public void setMetadataValid(String mcrid, boolean valid, long processID) {
-		MCRWorkflowProcess wfp = getWorkflowProcess(processID);
+	final public void setMetadataValid(String mcrid, boolean valid, ContextInstance ctxI) {
+		
 		try{
-			metadataStrategy.setMetadataValid(mcrid, valid, wfp);
+			metadataStrategy.setMetadataValid(mcrid, valid, ctxI);
 		}catch(MCRException ex){
 			logger.error("could not set metadata valid flag", ex);
 		}finally{
-			wfp.close();
+		
 		}
 	}
 	

@@ -87,10 +87,12 @@ public class MCRCheckMetadataServlet extends MCRServlet {
         LOGGER.debug("nextPath = " + nextPath);
         
         MCRWorkflowManager WFM = MCRWorkflowManagerFactory.getImpl(workflowType);
-        String publicationType = WFM.getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_PUBLICATIONTYPE, processID);
+        MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processID);
+        try{
+        String publicationType = (String) wfp.getContextInstance().getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_PUBLICATIONTYPE);
         LOGGER.debug("publicationType = " + publicationType);
         
-        WFM.setMetadataValid(mcrid1, false, processID);
+        WFM.setMetadataValid(mcrid1, false, wfp.getContextInstance());
         
         // get the MCRSession object for the current thread from the session
         // manager.
@@ -129,18 +131,23 @@ public class MCRCheckMetadataServlet extends MCRServlet {
         org.jdom.Document outdoc;
         StringBuffer storePath = new StringBuffer(MCRWorkflowDirectoryManager.getWorkflowDirectory(ID.getTypeId()))
 			.append("/").append(ID.getId()).append(".xml");
-        try{
+        
         	WFM.storeMetadata(MCRUtils.getByteArray(indoc), ID.getId(), storePath.toString());
         	outdoc = prepareMetadata((org.jdom.Document) indoc.clone(), ID, job, lang, step, 
         			   nextPath, storePath.toString(), workflowType, String.valueOf(processID), publicationType);
         	WFM.storeMetadata(MCRUtils.getByteArray(outdoc), ID.getId(), storePath.toString());
-        	WFM.setWorkflowVariablesFromMetadata(mcrid1, indoc.getRootElement().getChild("metadata"),processID  );
-        	WFM.setMetadataValid(mcrid1, true, processID);
+        	WFM.setWorkflowVariablesFromMetadata(mcrid1, indoc.getRootElement().getChild("metadata"),wfp.getContextInstance()  );
+        	WFM.setMetadataValid(mcrid1, true, wfp.getContextInstance());
+        	wfp.close();
         	request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
         }catch(java.lang.IllegalStateException ill){
         	LOGGER.debug("because of error, forwarding to success page could not be executed [" + ill.getMessage() + "]");        	
         }catch(Exception e){
         	LOGGER.error("catched error:" , e);
+        
+        }
+        finally{
+        	if(!wfp.wasClosed()){ wfp.close();}
         }
         //TODO sendMail in WFE
         //sendMail(ID);

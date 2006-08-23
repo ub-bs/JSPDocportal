@@ -10,17 +10,17 @@ import java.util.regex.Matcher;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.log4j.Logger;
+import org.jbpm.context.exe.ContextInstance;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRUtils;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
 import org.mycore.frontend.workflowengine.strategies.MCRDefaultDerivateStrategy;
 
 public class MCRDisshabDerivateStrategy extends MCRDefaultDerivateStrategy {
 	private static Logger logger = Logger.getLogger(MCRDisshabDerivateStrategy.class.getName());
 	
-	public void saveFiles(List files, String dirname, MCRWorkflowProcess wfp, String newLabel) throws MCRException {
+	public void saveFiles(List files, String dirname, ContextInstance ctxI, String newLabel) throws MCRException {
 	// a correct dissertation contains in the main derivate
 	//		exactly one pdf-file and optional an attachment zip-file
 	//		the pdf file will be renamed to dissertation.pdf
@@ -85,7 +85,7 @@ public class MCRDisshabDerivateStrategy extends MCRDefaultDerivateStrategy {
 					throw new MCRException(errMsg);
 				}else{
 					containsPdf = true;
-					String wfPdf = wfp.getStringVariable("containsPDF"); 
+					String wfPdf = (String)ctxI.getVariable("containsPDF"); 
 					if(wfPdf != null && !wfPdf.equals(derID) && !wfPdf.equals("")){
 						String errMsg = "just one pdf-file for all derivates for one dissertation, please delete old derivates first";
 						logger.error(errMsg);
@@ -144,44 +144,43 @@ public class MCRDisshabDerivateStrategy extends MCRDefaultDerivateStrategy {
 			throw new MCRException(msgErr);
 		}
 		if(containsPdf){
-			wfp.setStringVariable("containsPDF", derID);
+			ctxI.setVariable("containsPDF", derID);
 			if(containsZip){
-				wfp.setStringVariable("containsZIP", derID);
+				ctxI.setVariable("containsZIP", derID);
 			}
 		}
-		String attachedDerivates = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES);			
+		String attachedDerivates = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES);			
 		
 		if ( derID.length() >0 && attachedDerivates.indexOf(derID)<0  ) {
 			if ( attachedDerivates.trim().length() > 0) {
 				attachedDerivates += ",";
 			}
-			wfp.setStringVariable("attachedDerivates", attachedDerivates  + derID);
+			ctxI.setVariable("attachedDerivates", attachedDerivates  + derID);
 		}
-		String fcnt = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_FILECNT);
+		String fcnt = (String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_FILECNT);
 		try {
 			int cnt = Integer.parseInt(fcnt);
-			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_FILECNT, String.valueOf( cnt + newFileCnt) );	
+			ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_FILECNT, String.valueOf( cnt + newFileCnt) );	
 		} catch ( NumberFormatException nonum ) {
-			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_FILECNT, String.valueOf( newFileCnt) );	
+			ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_FILECNT, String.valueOf( newFileCnt) );	
 		}			
 		
 	}
 	
-	public boolean deleteDerivateObject(MCRWorkflowProcess wfp, String saveDirectory, String backupDirectory, String metadataObjectID, 
+	public boolean deleteDerivateObject(ContextInstance ctxI, String saveDirectory, String backupDirectory, String metadataObjectID, 
 			String derivateObjectID, boolean mustWorkflowVarBeUpdated) {
-
 		try{
-			if (backupDerivateObject(saveDirectory, backupDirectory, metadataObjectID, derivateObjectID, wfp.getProcessInstanceID())){
-				if(super.deleteDerivateObject(wfp, saveDirectory, backupDirectory, metadataObjectID, derivateObjectID, mustWorkflowVarBeUpdated) && mustWorkflowVarBeUpdated){
-					String cmp = wfp.getStringVariable("containsPDF"); 
+			if (backupDerivateObject(saveDirectory, backupDirectory, metadataObjectID, derivateObjectID, ctxI.getProcessInstance().getId())){
+				if(super.deleteDerivateObject(ctxI, saveDirectory, backupDirectory, metadataObjectID, derivateObjectID, mustWorkflowVarBeUpdated) && mustWorkflowVarBeUpdated){
+					String cmp = (String)ctxI.getVariable("containsPDF"); 
 					if(cmp != null && cmp.equals(derivateObjectID))
-						wfp.setStringVariable("containsPDF","");
-					cmp = wfp.getStringVariable("containsZIP");
+						ctxI.setVariable("containsPDF","");
+					cmp = (String)ctxI.getVariable("containsZIP");
 					if(cmp != null && cmp.equals(derivateObjectID))
-						wfp.setStringVariable("containsZIP", "");
+						ctxI.setVariable("containsZIP", "");
 					return true;
 				}else{
-					logger.error("problems in deleting, check inconsistences in workflow process " + wfp.getProcessInstanceID());
+					logger.error("problems in deleting, check inconsistences in workflow process " + ctxI.getProcessInstance().getId());
 					return false;
 				}
 			}else{

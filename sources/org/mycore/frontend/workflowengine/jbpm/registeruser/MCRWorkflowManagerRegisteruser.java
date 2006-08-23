@@ -27,16 +27,19 @@ package org.mycore.frontend.workflowengine.jbpm.registeruser;
 
 // Imported java classes
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jdom.Element;
 import org.mycore.common.MCRException;
 import org.mycore.frontend.cli.MCRUserCommands2;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcessManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 
@@ -133,7 +136,7 @@ public class MCRWorkflowManagerRegisteruser extends MCRWorkflowManager{
 
 	private boolean checkSubmitVariables(long processid){
 		boolean ret = false;		
-		MCRWorkflowProcess wfp = getWorkflowProcess(processid);
+		MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processid);
 		try{
 			String group = wfp.getStringVariable("initiatorGroup");
 			String email = wfp.getStringVariable("initiatorEmail");
@@ -151,50 +154,50 @@ public class MCRWorkflowManagerRegisteruser extends MCRWorkflowManager{
 		
 	}	
 	
-	public String createEmptyMetadataObject(long pid){
+	public String createEmptyMetadataObject(ContextInstance ctxI){
 		return null;
 	}	
 		
-	public boolean commitWorkflowObject(long processID){
+	public boolean commitWorkflowObject(ContextInstance ctxI){
 
-		MCRWorkflowProcess wfp = getWorkflowProcess(processID);
+
 		try{
-			String userID = wfp.getStringVariable("initiatorUserID");
+			String userID = (String) ctxI.getVariable("initiatorUserID");
 			if ( !this.userStrategy.commitUserObject(userID,MCRWorkflowDirectoryManager.getWorkflowDirectory(this.mainDocumentType))){
 				throw new MCRException("error in committing a user" + userID);
 			}
 			return true;
 		}catch(MCRException ex){
 			logger.error("an error occurred", ex);
-			wfp.setStringVariable("varnameERROR", ex.getMessage());									
+			ctxI.setVariable("varnameERROR", ex.getMessage());									
 		}finally{
-			wfp.close();
+
 		}		
 		return false;
 	}
 	
-	public boolean removeWorkflowFiles(long processID){
-		MCRWorkflowProcess wfp = getWorkflowProcess(processID);
+	public boolean removeWorkflowFiles(ContextInstance ctxI){
+		
 		try{
-			String userID = wfp.getStringVariable("initiatorUserID");
+			String userID = (String) ctxI.getVariable("initiatorUserID");
 			userStrategy.removeUserObject(userID,MCRWorkflowDirectoryManager.getWorkflowDirectory(this.mainDocumentType));
 			return true;
 		}catch(MCRException ex){
 			logger.error("could not delete workflow files", ex);
-			wfp.setStringVariable("varnameERROR", ex.getMessage());						
+			ctxI.setVariable("varnameERROR", ex.getMessage());						
 		}finally{
-			wfp.close();
+		
 		}
 		return false;
 	}
 	
 	public boolean removeDatabaseAndWorkflowObject(long processID) {
     	boolean bSuccess =false;
-		MCRWorkflowProcess wfp = getWorkflowProcess(processID);
+		MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processID);
 		try{
 			String userID = wfp.getStringVariable("initiatorUserID");
 			MCRUserCommands2.deleteUser(userID);
-			bSuccess = this.removeWorkflowFiles(processID);
+			bSuccess = this.removeWorkflowFiles(wfp.getContextInstance());
 		}catch(Exception ex){
 			logger.error("could not delete workflow files", ex);
 			bSuccess =false;
@@ -207,7 +210,7 @@ public class MCRWorkflowManagerRegisteruser extends MCRWorkflowManager{
 	}
 	
 	
-	public void setWorkflowVariablesFromMetadata(String mcrid, Element userMetadata, long processID){		
+	public void setWorkflowVariablesFromMetadata(String mcrid, Element userMetadata, ContextInstance ctxI){		
 		Map map = new HashMap();
 		Element userContact = userMetadata.getChild("user.contact");
 		if ( userContact != null ) {
@@ -241,7 +244,13 @@ public class MCRWorkflowManagerRegisteruser extends MCRWorkflowManager{
 			}
 			map.put("initiatorGroup", sGroups.toString());
 		}
-		setStringVariableMap(map, processID);		
+		//setStringVariableMap(map, processID);
+		for (Iterator it = map.keySet().iterator(); it.hasNext();) {
+			String key = (String) it.next();
+			String value = (String)map.get(key);
+			if(value == null)
+				value = "";
+			ctxI.setVariable(key, (String)map.get(key));
+		}		
 	}
-	
 }

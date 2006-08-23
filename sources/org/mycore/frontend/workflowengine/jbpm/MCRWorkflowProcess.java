@@ -33,6 +33,7 @@ public class MCRWorkflowProcess extends MCRAbstractWorkflowObject{
 	private long processInstanceID = -1;
 	
 	private String workflowProcessType;
+	private boolean closed=true;
 	
 	MCRWorkflowProcess(String processType) {
 		super.open();
@@ -42,9 +43,10 @@ public class MCRWorkflowProcess extends MCRAbstractWorkflowObject{
 			logger.error("workflow constructor error",e);
 			super.close();
 		}
+		closed=false;
 	}
 	
-	MCRWorkflowProcess(long processID){
+	protected MCRWorkflowProcess(long processID){
 		super.open();
 		try{
 			initVariables(processID);
@@ -267,7 +269,13 @@ public class MCRWorkflowProcess extends MCRAbstractWorkflowObject{
 	}	
 	
 	public void close(){
+		closed=true;
 		super.close();
+		MCRWorkflowProcessManager.getInstance().removeWorkflowProcess(this);
+	}
+	
+	public boolean wasClosed(){
+		return closed;
 	}
 	
 	public void save(){

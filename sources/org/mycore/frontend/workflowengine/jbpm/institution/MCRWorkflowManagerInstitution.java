@@ -27,6 +27,7 @@ package org.mycore.frontend.workflowengine.jbpm.institution;
 
 // Imported java classes
 import org.apache.log4j.Logger;
+import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jdom.Element;
 import org.mycore.common.JSPUtils;
@@ -37,6 +38,7 @@ import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowAccessRuleEditorUtils;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcessManager;
 import org.mycore.frontend.workflowengine.strategies.MCRMetadataStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 import org.mycore.user2.MCRUser;
@@ -127,7 +129,7 @@ public class MCRWorkflowManagerInstitution extends MCRWorkflowManager {
 
 	private boolean checkSubmitVariables(long processid) {
 		boolean ret = false;
-		MCRWorkflowProcess wfp = getWorkflowProcess(processid);
+		MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processid);
 		try {
 			String createdDocID = wfp
 					.getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
@@ -148,13 +150,13 @@ public class MCRWorkflowManagerInstitution extends MCRWorkflowManager {
 		return ret;
 	}
 
-	public String createEmptyMetadataObject(long pid) {
+	public String createEmptyMetadataObject(ContextInstance ctxI) {
 		logger.warn("this is an empty method for workflowtype institution");
 		return null;
 	}
 
 public String createNewInstitution(String userid, long processID) {
-	MCRWorkflowProcess wfp = getWorkflowProcess(processID);	
+	MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processID);	
 	try {
 			MCRObjectID institution = this.getNextFreeID(this.mainDocumentType);
 			institution = institutionStrategy.createInstitution(institution, false);
@@ -170,39 +172,38 @@ public String createNewInstitution(String userid, long processID) {
 		return null;
 	}
 
-	public boolean commitWorkflowObject(long processID) {
-		MCRWorkflowProcess wfp = getWorkflowProcess(processID);
+	public boolean commitWorkflowObject(ContextInstance ctxI) {
+		
 		try {
-			String documentID = wfp
-					.getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
+			String documentID = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
 			String documentType = new MCRObjectID(documentID).getTypeId();
 			if (!metadataStrategy.commitMetadataObject(documentID,
 					MCRWorkflowDirectoryManager
 							.getWorkflowDirectory(documentType))) {
 				throw new MCRException("error in committing " + documentID);
 			}
-			permissionStrategy.setPermissions(documentID, null,	workflowProcessType,wfp.getContextInstance(), MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
+			permissionStrategy.setPermissions(documentID, null,	workflowProcessType, ctxI, MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
 			return true;
 		} catch (MCRException ex) {
 			logger.error("an error occurred", ex);
-			wfp.setStringVariable("varnameERROR", ex.getMessage());						
+			ctxI.setVariable("varnameERROR", ex.getMessage());						
 		} finally {
-			wfp.close();
+		
 		}
 		return false;
 	}
 
-	public boolean removeWorkflowFiles(long processID) {
-		MCRWorkflowProcess wfp = getWorkflowProcess(processID);
+	public boolean removeWorkflowFiles(ContextInstance ctxI) {
+		
 		String workflowDirectory = MCRWorkflowDirectoryManager.getWorkflowDirectory(mainDocumentType);
 		try {
-			metadataStrategy.removeMetadataFiles(wfp, workflowDirectory,deleteDir);
+			metadataStrategy.removeMetadataFiles(ctxI, workflowDirectory,deleteDir);
 			return true;
 		} catch (MCRException ex) {
 			logger.error("could not delete workflow files", ex);
-			wfp.setStringVariable("varnameERROR", ex.getMessage());						
+			ctxI.setVariable("varnameERROR", ex.getMessage());						
 		} finally {
-			wfp.close();
+			
 		}
 		return false;
 	}
@@ -215,12 +216,13 @@ public String createNewInstitution(String userid, long processID) {
 			String type = mob.getId().getTypeId();
 			JSPUtils.saveToDirectory(mob, MCRWorkflowDirectoryManager.getWorkflowDirectory(type));
 			long processID = initWorkflowProcess(initiator,  "go2DisplayInstitutionData");
-			MCRWorkflowProcess wfp = getWorkflowProcess(processID);
+			MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processID);
 			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS, mcrid);
+			MCRWorkflowAccessRuleEditorUtils.setWorkflowVariablesForAccessRuleEditor(mcrid, wfp.getContextInstance());
+			setWorkflowVariablesFromMetadata(mcrid, mob.createXML().getRootElement().getChild("metadata"), wfp.getContextInstance());
+		
+			setMetadataValid(mcrid, true, wfp.getContextInstance());
 			wfp.close();
-			MCRWorkflowAccessRuleEditorUtils.setWorkflowVariablesForAccessRuleEditor(mcrid, processID);
-			setWorkflowVariablesFromMetadata(mcrid, mob.createXML().getRootElement().getChild("metadata"), processID);
-			setMetadataValid(mcrid, true, processID);
 			return processID;
 
 		} else {
@@ -229,15 +231,14 @@ public String createNewInstitution(String userid, long processID) {
 	}
 	
 	public void setWorkflowVariablesFromMetadata(String mcrid,
-			Element metadata, long processID) {
-		MCRWorkflowProcess wfp = getWorkflowProcess(processID);
+			Element metadata, ContextInstance ctxI) {
+		
 		try {
-			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_WFOBJECT_TITLE, createWFOTitlefromMetadata(metadata));		
+			ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_WFOBJECT_TITLE, createWFOTitlefromMetadata(metadata));		
 		} catch (MCRException ex) {
 			logger.error("catched error", ex);
 		} finally {
-			if (wfp != null)
-				wfp.close();
+		
 		}
 	}
 	private String createWFOTitlefromMetadata(Element metadata){

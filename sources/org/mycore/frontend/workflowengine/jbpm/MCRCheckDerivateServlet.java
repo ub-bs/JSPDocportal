@@ -116,13 +116,18 @@ public class MCRCheckDerivateServlet extends MCRServlet {
 			nextPath = "~workflow-" + ID.getTypeId();
 		}
 		
+		MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processID);
 		try{
-			WFM.saveUploadedFiles(files, dirname, processID, newLabel);
+			
+			WFM.saveUploadedFiles(files, dirname, wfp.getContextInstance(), newLabel);
 		}catch(Exception ex){
 			request.setAttribute("messageKey", "WorkflowEngine.UploadNotSuccessful");
 			request.setAttribute("lang", lang);
 			request.getRequestDispatcher("/nav?path=~mycore-error").forward(request,response);
 			return;
+		}
+		finally{
+			wfp.close();
 		}
 		
 		request.getRequestDispatcher("/nav?path=" + nextPath).forward(request,response);

@@ -5,9 +5,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 import org.apache.log4j.Logger;
+import org.jbpm.context.exe.ContextInstance;
 import org.jdom.Element;
 import org.mycore.common.MCRUtils;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
+
 
 public abstract class MCRUserStrategy {
 	private static Logger logger = Logger.getLogger(MCRUserStrategy.class.getName());
@@ -43,7 +44,7 @@ public abstract class MCRUserStrategy {
 	 * @param mcrid
 	 * @param isValid
 	 */
-	public abstract void setMetadataValid(String mcrid, boolean isValid, MCRWorkflowProcess wfp);
+	public abstract void setMetadataValid(String mcrid, boolean isValid, ContextInstance ctxI);
 	
 	/**
 	 * returns the boolean value of the valid-Flag that was set
@@ -51,7 +52,7 @@ public abstract class MCRUserStrategy {
 	 * @param mcrid
 	 * @return true|false
 	 */
-	public abstract boolean isMetadataValid(String mcrid, MCRWorkflowProcess wfp);
+	public abstract boolean isMetadataValid(String mcrid, ContextInstance ctxI);
 	
 	/**
 	 * sets some workflow variables with any information from a documents metadata
@@ -59,7 +60,7 @@ public abstract class MCRUserStrategy {
 	 * @param mcrid
 	 * @param metadata
 	 */
-	public abstract void setWorkflowVariablesFromMetadata(MCRWorkflowProcess wfp, Element metadata);
+	public abstract void setWorkflowVariablesFromMetadata(ContextInstance ctxI, Element metadata);
 	
 	/**
 	 * is publishing a user metadata object to the database

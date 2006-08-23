@@ -14,9 +14,8 @@ public class MCRCreateDisshabAction extends MCRAbstractAction{
 
 	public void executeAction(ExecutionContext executionContext) throws MCRException {
 		logger.debug("creating empty disshab");
-		long pid = executionContext.getProcessInstance().getId();
-		
-		String createdDocID = WFM.createEmptyMetadataObject(pid);
+			
+		String createdDocID = WFM.createEmptyMetadataObject(executionContext.getContextInstance());
 		if(createdDocID != null && !createdDocID.equals("")){
 			executionContext.setVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS, createdDocID);
 			executionContext.setVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES, "");
