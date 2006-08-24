@@ -723,6 +723,11 @@ public class MCRResultFormatter {
 
     	if (templatetype.equals("tpl-author_links"))
     		return getConcatenatedPersons(doc,xpath,separator,terminator,introkey,escapeXml);
+    	if (templatetype.equals("tpl-text-messagekey")) {
+    		Element metaValues = getXPathValues(doc,xpath,separator,terminator,lang,introkey,escapeXml,start);
+        	metaValues.setAttribute("type","messagekey");
+    		return metaValues;
+    	}
     	if (templatetype.equals("tpl-text-values"))
     		return getXPathValues(doc,xpath,separator,terminator,lang,introkey,escapeXml,start);
     	if (templatetype.equals("tpl-classification"))
