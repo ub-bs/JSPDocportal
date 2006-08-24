@@ -347,6 +347,12 @@ public class MCRJSPSearchServlet extends MCRServlet {
             if(sortBy.getChildren().size() == 0) sortBy.detach();
         }
         
+        // Show cleaned query document
+        if (LOGGER.isDebugEnabled()) {
+            XMLOutputter out = new XMLOutputter(org.jdom.output.Format.getPrettyFormat());
+            LOGGER.debug(out.outputString(input));
+        }
+
         // Execute query
         long start = System.currentTimeMillis();       
         MCRQuery query = MCRQuery.parseXML(input);
