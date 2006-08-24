@@ -260,6 +260,10 @@ public abstract class MCRDerivateStrategy {
 		
 		protected boolean backupDerivateObject(String saveDirectory, String backupDir,
 				String metadataObjectID, String derivateObjectID, long pid) {
+			
+			logger.debug("backup is uncommented");
+			return true;
+			/***
 			try{
 				String derivateDirectory = saveDirectory + SEPARATOR + derivateObjectID;
 				String derivateFileName = derivateDirectory + ".xml" ;
@@ -267,30 +271,33 @@ public abstract class MCRDerivateStrategy {
 				File inputDir = new File(derivateDirectory);
 				File inputFile = new File(derivateFileName);
 				
-				SimpleDateFormat fmt = new SimpleDateFormat();
-			    fmt.applyPattern( "yyyyMMddhhmmss" );
-			    GregorianCalendar cal = new GregorianCalendar();
-			    File curBackupDir = null;
-			    boolean dirCreated = false;
-			    while(!dirCreated) {
-			    	curBackupDir = new File(backupDir + "/" + "deleted_at_" + fmt.format(cal.getTime()));
-			    	if(curBackupDir.mkdir()) dirCreated = true;
-			    }
-			    File outputDir = new File(curBackupDir.getAbsolutePath() + SEPARATOR + inputDir.getName());
-				JSPUtils.recursiveCopy(inputDir, outputDir);
-				FileInputStream fin = new FileInputStream(inputFile);
-				FileOutputStream fout = new FileOutputStream(new File(curBackupDir.getAbsolutePath() + SEPARATOR + inputFile.getName()));
-				MCRUtils.copyStream(fin, fout);
-				
-				fin.close();
-				fout.flush();
-				fout.close();
+				if ( inputFile.exist() ){
+					SimpleDateFormat fmt = new SimpleDateFormat();
+				    fmt.applyPattern( "yyyyMMddhhmmss" );
+				    GregorianCalendar cal = new GregorianCalendar();
+				    File curBackupDir = null;
+				    boolean dirCreated = false;
+				    while(!dirCreated) {
+				    	curBackupDir = new File(backupDir + "/" + "deleted_at_" + fmt.format(cal.getTime()));
+				    	if(curBackupDir.mkdir()) dirCreated = true;
+				    }
+				    File outputDir = new File(curBackupDir.getAbsolutePath() + SEPARATOR + inputDir.getName());
+					JSPUtils.recursiveCopy(inputDir, outputDir);
+					FileInputStream fin = new FileInputStream(inputFile);
+					FileOutputStream fout = new FileOutputStream(new File(curBackupDir.getAbsolutePath() + SEPARATOR + inputFile.getName()));
+					MCRUtils.copyStream(fin, fout);
+					
+					fin.close();
+					fout.flush();
+					fout.close();
+				}
 
 			}catch(Exception ex){
 				logger.error("problems in copying", ex);
 				return false;
 			}
-			return true;		
+			return true;
+			**/		
 		}		
 
 		private boolean loadDerivate(String derivateid, String filename) {
