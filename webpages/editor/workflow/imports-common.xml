@@ -7,8 +7,8 @@
 	<!-- *** Text fields *** -->
 	<textfield id="TFzeile10" width="10" maxlength="10" />
 	<textfield id="TFzeile32" width="15" maxlength="32" />
-	<textfield id="TFzeile64" width="20" maxlength="64" />
-	<textfield id="TFzeile128" width="30" maxlength="128" />
+	<textfield id="TFzeile64" width="20" maxlength="128" />
+	<textfield id="TFzeile128" width="30" maxlength="256" />
 	<textfield id="TFzeile1024" width="60" maxlength="1024" />
 
 	<!-- ** mandatory Input fields *** -->
@@ -49,6 +49,24 @@
 			<label i18n="OMD.contact.address.Private" />
 		</item>
 	</list>
+  
+  <list id="STypeYear" type="dropdown">
+    <item value="from">
+      <label i18n="OMD.from" />
+    </item>
+    <item value="to">
+      <label i18n="OMD.to" />
+    </item>
+  </list>
+
+  <list id="STypeDate" type="dropdown">
+    <item value="birth">
+      <label i18n="OMD.birth" />
+    </item>
+    <item value="death">
+      <label i18n="OMD.death" />
+    </item>
+  </list>
 
 	<!-- *** Language List *** -->
 
