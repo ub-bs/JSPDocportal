@@ -4,6 +4,8 @@ MCR.WorkflowEngine.ManagerImpl.registeruser=org.mycore.frontend.workflowengine.j
 MCR.WorkflowEngine.ManagerImpl.author=org.mycore.frontend.workflowengine.jbpm.author.MCRWorkflowManagerAuthor
 MCR.WorkflowEngine.ManagerImpl.institution=org.mycore.frontend.workflowengine.jbpm.institution.MCRWorkflowManagerInstitution
 MCR.BaseDirectory=C:/sample-mcrjsp
+MCR.basedir=$DOCPORTAL_HOME
+
 
 #####################################################
 # fix entrys for your own institution
@@ -113,7 +115,7 @@ MCR.WorkflowEngine.defaultACL.editorMode.xmetadiss=<conditions format="xml"><boo
 ####################################################################
 MCR.AccessRuleEditor.defaultrules=public,iparea,groups,registeredUser
 MCR.AccessRuleEditor.defaultrules.public=<condition format="xml"><boolean operator="true"/></condition>
-MCR.AccessRuleEditor.defaultrules.iparea=<condition format="xml"><boolean operator="or"><condition field="ip" operator="" value="194.94.0.0"/></boolean></condition>
+MCR.AccessRuleEditor.defaultrules.iparea=<condition format="xml"><boolean operator="or"><condition field="ip" operator="" value="139.39.0.0/255.255.0.0"/></boolean></condition>
 MCR.AccessRuleEditor.defaultrules.groups=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="${group}"/></boolean></condition>
 MCR.AccessRuleEditor.defaultrules.registeredUser=<condition format="xml"><boolean operator="or"><condition field="user" operator="!=" value="guest"/></boolean></condition>
 
@@ -500,6 +502,20 @@ MCR.zip.metadata.transformer=MyCoReZip2dc.xsl
 
 
 
+##############################################################################
+# Plugins for text index                                                     #
+##############################################################################
+
+# Classes for TextFilterPluginManager to convert files to text for indexing with lucene 
+MCR.TextFilterPlugin.1.class=org.mycore.services.plugins.MSWordPlugin
+MCR.TextFilterPlugin.2.class=org.mycore.services.plugins.OpenDocumentTextPlugin
+MCR.TextFilterPlugin.3.class=org.mycore.services.plugins.OoTextPlugin
+MCR.TextFilterPlugin.4.class=org.mycore.services.plugins.PdfPlugin
+MCR.TextFilterPlugin.5.class=org.mycore.services.plugins.PlainTextPlugin
+MCR.TextFilterPlugin.6.class=org.mycore.services.plugins.PostScriptPlugin
+MCR.TextFilterPlugin.7.class=org.mycore.services.plugins.XmlHtmlPlugin
+
+
 ############################################################################
 ##
 # Event Handler
@@ -507,6 +523,7 @@ MCR.zip.metadata.transformer=MyCoReZip2dc.xsl
 # Index and Search Management 
 ############################################################################
 
+MCR.Lucene.LockDir=%MCR.BaseDirectory%/indexer/lucene-lock
 
 MCR.EventHandler.MCRObject.1.class=org.mycore.access.MCRAccessEventHandler
 MCR.EventHandler.MCRObject.2.class=org.mycore.datamodel.metadata.MCRXMLTableEventHandler
@@ -516,16 +533,9 @@ MCR.EventHandler.MCRObject.4.Indexer=lucenem
 
 MCR.EventHandler.MCRDerivate.1.class=org.mycore.access.MCRAccessEventHandler
 MCR.EventHandler.MCRDerivate.2.class=org.mycore.datamodel.metadata.MCRXMLTableEventHandler
-MCR.EventHandler.MCRDerivate.3.Indexer=lucenec
+MCR.EventHandler.MCRDerivate.3.class=org.mycore.datamodel.ifs.MCRContentIndexEventHandler
 
-
-#MCR.Searcher.hibernate.Index=metadata
-#MCR.Searcher.hibernate.Class=org.mycore.backend.hibernate.MCRHIBSearcher
-#MCR.Searcher.hibernate.TableName=MCRQueryTable
-
-#MCR.Searcher.hibernate2.Index=metadata2
-#MCR.Searcher.hibernate2.Class=org.mycore.backend.hibernate.MCRHIBSearcher
-#MCR.Searcher.hibernate2.TableName=MCRQueryTableII
+MCR.EventHandler.MCRFile.1.Indexer=lucenec
 
 MCR.Searcher.lucenec.Index=content
 MCR.Searcher.lucenec.Class=org.mycore.backend.lucene.MCRLuceneSearcher
@@ -535,7 +545,7 @@ MCR.Searcher.lucenem.Index=metadata
 MCR.Searcher.lucenem.Class=org.mycore.backend.lucene.MCRLuceneSearcher
 MCR.Searcher.lucenem.IndexDir=%MCR.BaseDirectory%/indexer/lucenem-index
 
-MCR.Lucene.LockDir=%MCR.BaseDirectory%/indexer/lucene-lock
+
 
 ##############################################################################
 # Configuration details for IndexServlet
