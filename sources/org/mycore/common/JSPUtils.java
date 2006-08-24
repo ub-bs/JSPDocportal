@@ -286,9 +286,12 @@ public class JSPUtils {
 	* 	java.io.File the directory to be deleted recursively
 	*/    
 	public static void recursiveCopy( File input, File output ) throws Exception{
-		if(!output.mkdir()) throw new MCRException("could not create dir " + output.getAbsolutePath()); 
 		File files[] = input.listFiles();
-		for ( int i = 0; i < files.length; i++ ){
+		
+		if ( files == null)		return;
+		
+		if(!output.mkdir()) throw new MCRException("could not create dir " + output.getAbsolutePath()); 
+		for ( int i = 0;  i < files.length; i++ ){
 			if ( files[i].isDirectory() ){
 				File output2 = new File(output.getAbsolutePath() + "/" + files[i].getName());
 				recursiveCopy( files[i], output2 );
