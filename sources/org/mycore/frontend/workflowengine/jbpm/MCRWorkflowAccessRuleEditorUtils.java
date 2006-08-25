@@ -118,6 +118,7 @@ public class MCRWorkflowAccessRuleEditorUtils {
 		setStringVariableInWorkflow(MCRWorkflowConstants.WFM_VAR_READRULE_TYPE, rulename, wfp.getContextInstance());
 		XMLOutputter xmlOut = new XMLOutputter();
 		setLargeStringVariableInWorkflow(MCRWorkflowConstants.WFM_VAR_READRULE_XMLSTRING, xmlOut.outputString(eRule), wfp.getContextInstance());
+		wfp.close();
 		
  	}
 	
