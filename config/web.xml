@@ -44,6 +44,11 @@
     
     
     <!-- servlets -->    
+    <servlet id="FileNode">
+         <servlet-name>MCRFileNodeServlet</servlet-name>
+         <servlet-class>org.mycore.frontend.servlets.MCRJSPFileNodeServlet</servlet-class>
+    </servlet>
+
     <servlet>
         <servlet-name>MCRWorkflowAccessRuleEditorServlet</servlet-name>
         <servlet-class>org.mycore.frontend.workflowengine.jbpm.MCRWorkflowAccessRuleEditorServlet</servlet-class>
@@ -142,10 +147,6 @@
       
       <!-- mycore servlets -->
     
-      <servlet id="FileNode">
-            <servlet-name>MCRFileNodeServlet</servlet-name>
-            <servlet-class>org.mycore.datamodel.ifs.MCRFileNodeServlet</servlet-class>
-      </servlet>
       <servlet id="Layout">
             <servlet-name>MCRLayoutServlet</servlet-name>
             <servlet-class>org.mycore.common.xml.MCRLayoutServlet</servlet-class>
@@ -354,6 +355,11 @@
      <servlet-mapping>
            <servlet-name>MCRZipServlet</servlet-name>
            <url-pattern>/servlets/MCRZipServlet</url-pattern>
+     </servlet-mapping>
+
+     <servlet-mapping>
+           <servlet-name>MCRZipServlet</servlet-name>
+           <url-pattern>/zip</url-pattern>
      </servlet-mapping>
      
      <servlet-mapping>
