@@ -321,6 +321,7 @@ public abstract class MCRWorkflowManager {
 		try{
 			
 			removeWorkflowFiles(wfp.getContextInstance());
+			wfp.close();
 			MCRJbpmWorkflowBase.deleteProcessInstance(pid);
 		}catch(Exception e){
 			String errMsg = "could not delete process [" + pid + "]"; 
@@ -328,7 +329,9 @@ public abstract class MCRWorkflowManager {
 			throw new MCRException(errMsg);
 		}
 		finally{
-			wfp.close();
+			if(!wfp.wasClosed()){
+				wfp.close();
+			}
 		}
 	}	
 	
