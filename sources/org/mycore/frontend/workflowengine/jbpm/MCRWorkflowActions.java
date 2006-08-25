@@ -65,6 +65,7 @@ public class MCRWorkflowActions extends MCRServlet {
         MCRRequestParameters parms = new MCRRequestParameters(request);
         long pid = Long.parseLong(parms.getParameter("processid"));
     	MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(pid);
+        String requestPath ="";
     	try{
      
         MCRWorkflowManager WFM = wfp.getCurrentWorkflowManager();
@@ -77,6 +78,7 @@ public class MCRWorkflowActions extends MCRServlet {
         String derivateID = parms.getParameter("derivateID");
         String nextPath = parms.getParameter("nextPath");
         String filename = parms.getParameter("filename");
+
         
         if ( nextPath == null || nextPath.length() == 0)        	
         	 nextPath = "~" + workflowType;
@@ -88,8 +90,8 @@ public class MCRWorkflowActions extends MCRServlet {
         if ( "WFAddWorkflowObject".equals(todo) ) {
             if ( ! AI.checkPermission("create-"+documentType)) {
             	nextPath+="begin";
-        		request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
-            	return;            	
+            	requestPath = "/nav?path=" + nextPath;
+        		return;            	
             }
         	// leeren Editor für das Object includieren
         	request.setAttribute("isNewEditorSource","false");
@@ -105,7 +107,7 @@ public class MCRWorkflowActions extends MCRServlet {
         if ( "WFEditWorkflowObject".equals(todo) ) {
             if ( ! AI.checkPermission("create-"+documentType)) {
             	nextPath+="begin";
-        		request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
+        		requestPath="/nav?path=" + nextPath;
             	return;            	
             }
         	// befüllten Editor für das Object includieren
@@ -123,7 +125,7 @@ public class MCRWorkflowActions extends MCRServlet {
         	request.setAttribute("publicationType",publicationType);
         	request.setAttribute("step","author");
         	request.setAttribute("nextPath",nextPath);
-        	request.getRequestDispatcher("/nav?path=~editor-include").forward(request, response);
+        	requestPath="/nav?path=~editor-include";
         	return;
         	
         }
@@ -132,7 +134,7 @@ public class MCRWorkflowActions extends MCRServlet {
    	             && AI.checkPermission(derivateID,"deletedb")) ) {   			
     			WFM.commitWorkflowObject(wfp.getContextInstance());
     		}
-    		request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
+    		requestPath="/nav?path=" + nextPath;
         	return;
         }
         if ( "WFDeleteWorkflowObject".equals(todo) ) {
@@ -145,7 +147,7 @@ public class MCRWorkflowActions extends MCRServlet {
     			wfp.close();
     			MCRJbpmCommands.deleteProcess(String.valueOf(pid));
     		}
-    		request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
+    		requestPath="/nav?path=" + nextPath;
         	return;
         }
         if ( "WFDeleteObject".equals(todo) ) {
@@ -160,13 +162,13 @@ public class MCRWorkflowActions extends MCRServlet {
     			wfp.close();
     			MCRJbpmCommands.deleteProcess(String.valueOf(pid));
     		}
-    		request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
+    		requestPath="/nav?path=" + nextPath;
         	return;
         }        
         if ( "WFAddNewDerivateToWorkflowObject".equals(todo) ) {
             if ( ! AI.checkPermission("create-"+documentType)) {
             	nextPath+="begin";
-        		request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
+        		requestPath="/nav?path=" + nextPath;
             	return;            	
             }
         	derivateID = WFM.addDerivate(wfp.getContextInstance(), mcrid);
@@ -180,7 +182,7 @@ public class MCRWorkflowActions extends MCRServlet {
         	//befüllten Editor für das Derivate includieren	um Label zu editieren		
             if ( ! AI.checkPermission("create-"+documentType)) {
             	nextPath+="begin";
-        		request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
+        		requestPath="/nav?path=" + nextPath;
             	return;            	
             }
         	StringBuffer sb = new StringBuffer();        	
@@ -200,14 +202,14 @@ public class MCRWorkflowActions extends MCRServlet {
 			request.setAttribute("mcrid2", mcrid);
 			request.setAttribute("nextPath", nextPath);
 			request.setAttribute("target", "MCRCheckDerivateServlet");
-        	request.getRequestDispatcher("/nav?path=~editor-include").forward(request, response);
+        	requestPath="/nav?path=~editor-include";
         	return;
         }
        
         if ( "WFAddNewFileToDerivate".equals(todo) ) {
             if ( ! AI.checkPermission("create-"+documentType)) {
             	nextPath+="begin";
-        		request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
+        		requestPath="/nav?path=" + nextPath;
             	return;            	
             }
         	//leeren upload Editor includieren
@@ -225,7 +227,7 @@ public class MCRWorkflowActions extends MCRServlet {
 			params.put("step", "author");
 			params.put("mcrid", derivateID);
 			params.put("target", "MCRCheckDerivateServlet");
-
+			wfp.close();
 			response.sendRedirect(response.encodeRedirectURL(buildRedirectURL(base, params)));
 			return;
        	}
@@ -235,7 +237,7 @@ public class MCRWorkflowActions extends MCRServlet {
    	             && AI.checkPermission(derivateID,"deletewf")) ) {    			
    		   	 WFM.removeFileFromDerivate(wfp.getContextInstance(), mcrid, derivateID, filename);
     		}
-            request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
+            requestPath="/nav?path=" + nextPath;
         	return;
         }
         if ( "WFRemoveDerivateFromWorkflowObject".equals(todo) ) {
@@ -243,7 +245,7 @@ public class MCRWorkflowActions extends MCRServlet {
     	             && AI.checkPermission(derivateID,"deletewf")) ) {    			
     		   	 WFM.removeDerivate(wfp.getContextInstance(), mcrid, derivateID);
     		}    		
-            request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
+            requestPath="/nav?path=" + nextPath;
         	return;
         }
         }
@@ -251,9 +253,9 @@ public class MCRWorkflowActions extends MCRServlet {
         	
         }
         finally{
-        	if(!wfp.wasClosed()){
-        		wfp.close();
-        	}
+        	wfp.close();
+        	request.getRequestDispatcher(requestPath).forward(request, response);
+        	
         }
     }
     

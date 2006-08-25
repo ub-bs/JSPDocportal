@@ -25,12 +25,8 @@
 package org.mycore.frontend.workflowengine.jbpm;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.mycore.common.MCRConfiguration;
-import org.mycore.common.MCRSessionMgr;
-import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.frontend.editor.MCRRequestParameters;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;

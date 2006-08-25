@@ -7,7 +7,8 @@ import javax.servlet.jsp.PageContext;
 
 import org.apache.log4j.Logger;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcessManager;
 
 public class MCRCheckDecisionNodeTag extends MCRSimpleTagSupport
 {
@@ -16,7 +17,7 @@ public class MCRCheckDecisionNodeTag extends MCRSimpleTagSupport
 	private String var;
 	private long processID;
 	private String decision;
-	private String workflowType;
+//	private String workflowType;
 	
 	
 	public void setDecision(String decision) {
@@ -31,16 +32,19 @@ public class MCRCheckDecisionNodeTag extends MCRSimpleTagSupport
 		this.processID = processID;
 	}
 
+	//no longer needed
 	public void setWorkflowType(String workflowType) {
-		this.workflowType = workflowType;
+	//	this.workflowType = workflowType;
 	}
 
 
 	public void doTag() throws JspException, IOException {
 		try{
 			PageContext pageContext = (PageContext) getJspContext();
-			MCRWorkflowManager WFM = MCRWorkflowManagerFactory.getImpl(workflowType);
-			pageContext.setAttribute(var, WFM.checkDecisionNode(processID, decision, null));
+			MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processID);
+			MCRWorkflowManager WFM = wfp.getCurrentWorkflowManager();
+			pageContext.setAttribute(var, WFM.checkDecisionNode(decision, wfp.getContextInstance()));
+			wfp.close();
 		}catch(Exception e){
 			logger.error("could not check boolean decision node [" + 
 					decision + "] for processid [" + processID + "]");

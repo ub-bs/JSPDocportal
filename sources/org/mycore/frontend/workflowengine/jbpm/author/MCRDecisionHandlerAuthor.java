@@ -18,6 +18,6 @@ public class MCRDecisionHandlerAuthor implements DecisionHandler {
 		long pid = executionContext.getContextInstance().getProcessInstance().getId();
 		String decisionNode = executionContext.getNode().getName();
 		logger.debug("checking boolean decision node [" + decisionNode + "] for pid [" + pid + "]");
-		return WFM.checkDecisionNode(pid, decisionNode, executionContext);
+		return WFM.checkDecisionNode(decisionNode, executionContext.getContextInstance());
 	}
 }

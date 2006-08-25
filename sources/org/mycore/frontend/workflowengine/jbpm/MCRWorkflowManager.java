@@ -6,13 +6,11 @@ import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.Hashtable;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.graph.def.Node;
-import org.jbpm.graph.exe.ExecutionContext;
 import org.jdom.Element;
 import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
@@ -115,9 +113,9 @@ public abstract class MCRWorkflowManager {
 	 * @param processid
 	 * @param decision
 	 * @return 
-	 * 		String name of the resulting transition
+	 * 		String name of the resulting transition 
 	 */
-	public abstract String checkDecisionNode(long processid, String decision, ExecutionContext executionContext);
+	public abstract String checkDecisionNode(String decision, ContextInstance ctxI);
 	
 	/**
 	 * sets some workflow variables with any information from a documents metadata
@@ -236,36 +234,6 @@ public abstract class MCRWorkflowManager {
 	}	
 	
 	/**
-	 * In Decision Nodes the value of a workflow variable should fetched this way
-	 * @param varname
-	 * @param processid
-	 * @param decisionNode
-	 * @param executionContext
-	 * @return
-	 */
-	final protected String getVariableValueInDecision(String varname, long processid,  ExecutionContext executionContext){
-		String ret = "";
-		try{
-			if(executionContext == null){
-				MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processid);
-				try{
-					ret = wfp.getStringVariable(varname);
-				}catch(MCRException ex){
-					logger.error("catched error", ex);
-				}finally{
-					if(wfp != null)
-						wfp.close();
-				}					
-			}else{
-				ret = (String)executionContext.getVariable(varname);
-			}
-		}catch(Exception e){
-			logger.error("could not get variable value", e);
-		}
-		return ret;
-	}	
-	
-	/**
 	 * returns a list of the mycore task beans that bundle all essential 
 	 * 		information of a workflow process instance
 	 * @param userid
@@ -363,120 +331,6 @@ public abstract class MCRWorkflowManager {
 			wfp.close();
 		}
 	}	
-	
-//	 /**
-//	  * returns the value of a variable in a given workflow process instance
-//	  * 	for use in jsp tags or in servlets
-//	  * @param variable
-//	  * @param processID
-//	  * @return
-//	  */
-//	 final public String getStringVariable(String variable, long processID){
-//			MCRWorkflowProcess wfp = getWorkflowProcess(processID);
-//			String ret = "";
-//			try{
-//				ret = wfp.getStringVariable(variable);
-//			}catch(MCRException ex){
-//				logger.error("catched error", ex);
-//			}finally{
-//				if(wfp != null)
-//					wfp.close();
-//			}		
-//			return ret;		 
-//	 }
-//
-//	 /**
-//	  * returns the value of a variable in a given workflow process instance
-//	  * 	for use in jsp tags or in servlets
-//	  * @param processID
-//	  * @return
-//	  */		 
-//	 public Map getStringVariableMap(long processID)	{
-//		 Map map = null;
-//		 MCRWorkflowProcess wfp = getWorkflowProcess(processID);
-//		 try{
-//			 map = wfp.getStringVariableMap();
-//		 }catch(MCRException ex){
-//				logger.error("catched error", ex);
-//		}finally{
-//			if(wfp != null)
-//				wfp.close();
-//		}
-//		return map;
-//	 }
-//	 
-//	 /**
-//	  * sets the value of a workflow variable in a given workflow process instance
-//	  * 	for use in jsp tags or in servlets
-//	  * @param variable
-//	  * @param processID
-//	  * @return
-//	  */
-//	 final public void setStringVariable(String variable, String value, long processID) throws MCRException{
-//			MCRWorkflowProcess wfp = getWorkflowProcess(processID);
-//			try{
-//				wfp.setStringVariable(variable, value);
-//			}catch(MCRException ex){
-//				String errMsg = "could not set workflow variable";
-//				logger.error(errMsg, ex);
-//				throw new MCRException(errMsg);
-//			}finally{
-//				if(wfp != null)
-//					wfp.close();
-//			}		
-//	 }
-//	 
-//	 /**
-//	  * sets a map of workflow variable in a given workflow process instance
-//	  * 	for use in jsp tags or in servlets
-//	  * @param map	a map of key/value paires for workflow variables
-//	  * @param processID
-//	  * @return
-//	  */
-//	 final public void setStringVariableMap(Map map, long processID) throws MCRException{
-//			MCRWorkflowProcess wfp = getWorkflowProcess(processID);
-//			try{
-//				wfp.setStringVariables(map);
-//			}catch(MCRException ex){
-//				String errMsg = "could not set workflow variable";
-//				logger.error(errMsg, ex);
-//				throw new MCRException(errMsg);
-//			}finally{
-//				if(wfp != null)
-//					wfp.close();
-//			}		
-//	 }		 
-
- 	final protected void setStringVariableInDecision(String varname, String value, long processid,  ExecutionContext executionContext){
-	 try{
-		if(executionContext == null){
-			MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processid);
-			try{
-				wfp.setStringVariable(varname, value);
-			}catch(MCRException ex){
-				logger.error("catched error", ex);
-			}finally{
-				if(wfp != null)
-					wfp.close();
-			}					
-		}else{
-			executionContext.setVariable(varname, value);
-		}
-	 }catch(Exception e){
-			logger.error("could not set variable: " + varname + "=" + value, e);
-	 }
-	}	
-	 
- 	
- 	
-//	final public MCRWorkflowProcess getWorkflowProcess(long processID){
-//		MCRWorkflowProcess wfp = (MCRWorkflowProcess) workflowprocesses.get(new Long(processID));
-//		if(wfp==null || wfp.wasClosed()){
-//			wfp = new MCRWorkflowProcess(processID);
-//			workflowprocesses.put(new Long(processID), wfp);
-//		}	
-//		return wfp;
-//	}
 	
 	/**
 	 * returns the current workflow status of a workflow process with the given 

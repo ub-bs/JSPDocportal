@@ -28,7 +28,6 @@ package org.mycore.frontend.workflowengine.jbpm.institution;
 // Imported java classes
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
-import org.jbpm.graph.exe.ExecutionContext;
 import org.jdom.Element;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRException;
@@ -99,10 +98,9 @@ public class MCRWorkflowManagerInstitution extends MCRWorkflowManager {
 		}
 	}
 
-	public String checkDecisionNode(long processid, String decisionNode,
-			ExecutionContext executionContext) {
+	public String checkDecisionNode(String decisionNode, ContextInstance ctxI) {
 		if (decisionNode.equals("canInstitutionBeSubmitted")) {
-			if (checkSubmitVariables(processid)) {
+			if (checkSubmitVariables(ctxI)) {
 				return "canInstitutionBeSubmitted_yes";
 			} else {
 				return "canInstitutionBeSubmitted_no";
@@ -110,7 +108,7 @@ public class MCRWorkflowManagerInstitution extends MCRWorkflowManager {
 		}
 
 		if (decisionNode.equals("canInstitutionBeCommitted")) {
-			if (checkSubmitVariables(processid)) {
+			if (checkSubmitVariables(ctxI)) {
 				return "canInstitutionBeCommitted_yes";
 			} else {
 				return "canInstitutionBeCommitted_no";
@@ -118,7 +116,7 @@ public class MCRWorkflowManagerInstitution extends MCRWorkflowManager {
 		}
 
 		if (decisionNode.equals("canChangesBeCommitted")) {
-			if (checkSubmitVariables(processid)) {
+			if (checkSubmitVariables(ctxI)) {
 				return "canChangesBeCommitted_yes";
 			} else {
 				return "canChangesBeCommited_no";
@@ -127,14 +125,11 @@ public class MCRWorkflowManagerInstitution extends MCRWorkflowManager {
 		return null;
 	}
 
-	private boolean checkSubmitVariables(long processid) {
+	private boolean checkSubmitVariables(ContextInstance ctxI) {
 		boolean ret = false;
-		MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processid);
 		try {
-			String createdDocID = wfp
-					.getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
-			String strDocValid = wfp
-					.getStringVariable(MCRMetadataStrategy.VALID_PREFIX
+			String createdDocID = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
+			String strDocValid = (String) ctxI.getVariable(MCRMetadataStrategy.VALID_PREFIX
 							+ createdDocID);
 			if (strDocValid != null) {
 				if (strDocValid.equals("true")) {
@@ -144,8 +139,7 @@ public class MCRWorkflowManagerInstitution extends MCRWorkflowManager {
 		} catch (MCRException ex) {
 			logger.error("catched error", ex);
 		} finally {
-			if (wfp != null)
-				wfp.close();
+		
 		}
 		return ret;
 	}

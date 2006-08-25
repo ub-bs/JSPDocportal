@@ -33,7 +33,6 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
-import org.jbpm.graph.exe.ExecutionContext;
 import org.jdom.Element;
 import org.mycore.common.MCRException;
 import org.mycore.frontend.cli.MCRUserCommands2;
@@ -112,11 +111,11 @@ public class MCRWorkflowManagerRegisteruser extends MCRWorkflowManager{
 		return initWorkflowProcess(initiator, "");
 	}
 	
-	public String checkDecisionNode(long processid, String decisionNode, ExecutionContext executionContext) {
-		String userid = getVariableValueInDecision("initiatorUserID", processid, executionContext);
+	public String checkDecisionNode(String decisionNode, ContextInstance ctxI) {
+		String userid = (String) ctxI.getVariable("initiatorUserID");
 
 		if(decisionNode.equals("canUserBeSubmitted")){
-			if(checkSubmitVariables(processid) && 
+			if(checkSubmitVariables(ctxI) && 
 				this.userStrategy.checkMetadata(userid,MCRWorkflowDirectoryManager.getWorkflowDirectory(this.mainDocumentType))){				
 				return "go2userCanBeSubmitted";
 			}else{
@@ -124,31 +123,29 @@ public class MCRWorkflowManagerRegisteruser extends MCRWorkflowManager{
 			}
 		}else if(decisionNode.equals("canUserBeRejected")){
 			if ( !this.userStrategy.removeUserObject(userid, MCRWorkflowDirectoryManager.getWorkflowDirectory(this.mainDocumentType)) )
-				setStringVariableInDecision("ROLLBACKERROR", Boolean.toString(true), processid,  executionContext);
+				ctxI.setVariable("ROLLBACKERROR", Boolean.toString(true));
 			return "go2wasRejectmentSuccessful";
 		}else if(decisionNode.equals("canUserBeCommitted")){
 			if (! this.userStrategy.commitUserObject(userid, MCRWorkflowDirectoryManager.getWorkflowDirectory(this.mainDocumentType)) )
-				setStringVariableInDecision("COMMITERROR", Boolean.toString(true), processid,  executionContext);
+				ctxI.setVariable("COMMITERROR", Boolean.toString(true));
 			return "go2wasCommitmentSuccessful";
 		}
 		return null;
 	}
 
-	private boolean checkSubmitVariables(long processid){
+	private boolean checkSubmitVariables(ContextInstance ctxI){
 		boolean ret = false;		
-		MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processid);
 		try{
-			String group = wfp.getStringVariable("initiatorGroup");
-			String email = wfp.getStringVariable("initiatorEmail");
-			String pwd	 = wfp.getStringVariable("initiatorPwd");	
+			String group = (String) ctxI.getVariable("initiatorGroup");
+			String email = (String) ctxI.getVariable("initiatorEmail");
+			String pwd	 = (String) ctxI.getVariable("initiatorPwd");	
 			ret =  !MCRWorkflowUtils.isEmpty(group);
 			ret =  ret && (!MCRWorkflowUtils.isEmpty(email));			
 			ret =  ret && (!MCRWorkflowUtils.isEmpty(pwd));
 		}catch(MCRException ex){
 			logger.error("catched error", ex);
 		}finally{
-			if(wfp != null)
-				wfp.close();
+
 		}			
 		return ret;
 		

@@ -34,7 +34,6 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
-import org.jbpm.graph.exe.ExecutionContext;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
@@ -162,15 +161,15 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 		}
 	}
 	
-	public String checkDecisionNode(long processid, String decisionNode, ExecutionContext executionContext) {
+	public String checkDecisionNode(String decisionNode, ContextInstance ctxI) {
 		if(decisionNode.equals("canDocumentBeSubmitted")){
-			if(checkSubmitVariables(processid)){
+			if(checkSubmitVariables(ctxI)){
 				return "documentCanBeSubmitted";
 			}else{
 				return "documentCantBeSubmitted";
 			}
 		}else if(decisionNode.equals("canDocumentBeCommitted")){
-			if(checkSubmitVariables(processid)){
+			if(checkSubmitVariables(ctxI)){
 				return "go2wasCommitmentSuccessful";
 			}else{
 				return "go2sendBackToDocumentCreated";
@@ -179,18 +178,17 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 		return null;
 	}
 
-	private boolean checkSubmitVariables(long processid){
-		MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processid);
+	private boolean checkSubmitVariables(ContextInstance ctxI){
 		try{
-//			String authorID = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_AUTHOR_IDS);
-			String reservatedURN = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN);
-			String createdDocID = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
-			String attachedDerivates = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES);
+//			String authorID = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_AUTHOR_IDS);
+			String reservatedURN = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN);
+			String createdDocID = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
+			String attachedDerivates = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES);
 			if(		!MCRWorkflowUtils.isEmpty(reservatedURN) 
 				&& 	!MCRWorkflowUtils.isEmpty(createdDocID)
 				&&	!MCRWorkflowUtils.isEmpty(attachedDerivates)	){
 				
-				String strDocValid = wfp.getStringVariable(MCRMetadataStrategy.VALID_PREFIX + createdDocID );
+				String strDocValid = (String) ctxI.getVariable(MCRMetadataStrategy.VALID_PREFIX + createdDocID );
 				if(strDocValid != null ){
 					if(strDocValid.equals("true") ){
 						return true;
@@ -200,8 +198,7 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 		}catch(MCRException ex){
 			logger.error("catched error", ex);
 		}finally{
-			if(wfp != null)
-				wfp.close();
+
 		}			
 		return false;		
 	}	

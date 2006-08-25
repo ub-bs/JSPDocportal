@@ -69,7 +69,8 @@ public class MCREndTaskTag extends MCRSimpleTagSupport {
 		if(transition == null) transition = "";
 		try{
 			MCRWorkflowManager WFM = MCRWorkflowManagerFactory.getImpl(processID);
-			getJspContext().setAttribute(success, new Boolean(WFM.endTask(processID,taskName,transition)), getScope("page"));
+			boolean result = WFM.endTask(processID,taskName,transition);
+			getJspContext().setAttribute(success, new Boolean(result), getScope("page"));
 		}catch(Exception e){
 			LOGGER.error("stacktrace", e);
 		}

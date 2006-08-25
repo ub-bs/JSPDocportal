@@ -28,7 +28,6 @@ package org.mycore.frontend.workflowengine.jbpm.author;
 // Imported java classes
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
-import org.jbpm.graph.exe.ExecutionContext;
 import org.jdom.Element;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRException;
@@ -109,10 +108,9 @@ public class MCRWorkflowManagerAuthor extends MCRWorkflowManager {
 		}
 	}
 
-	public String checkDecisionNode(long processid, String decisionNode,
-			ExecutionContext executionContext) {
+	public String checkDecisionNode(String decisionNode, ContextInstance ctxI) {
 		if (decisionNode.equals("canAuthorBeSubmitted")) {
-			if (checkSubmitVariables(processid)) {
+			if (checkSubmitVariables(ctxI)) {
 				return "authorCanBeSubmitted";
 			} else {
 				return "authorCantBeSubmitted";
@@ -120,7 +118,7 @@ public class MCRWorkflowManagerAuthor extends MCRWorkflowManager {
 		}
 
 		if (decisionNode.equals("canAuthorBeCommitted")) {
-			if (checkSubmitVariables(processid)) {
+			if (checkSubmitVariables(ctxI)) {
 				return "authorCanBeCommitted";
 			} else {
 				return "authorCantBeCommitted";
@@ -128,15 +126,13 @@ public class MCRWorkflowManagerAuthor extends MCRWorkflowManager {
 		}
 
 		if (decisionNode.equals("doesAuthorForUserExist")) {
-			MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processid);
-			String userid = wfp
-					.getStringVariable(MCRWorkflowConstants.WFM_VAR_INITIATOR);
-			wfp.close();
+			
+			String userid = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_INITIATOR);
 			MCRResults mcrResult = MCRWorkflowUtils.queryMCRForAuthorByUserid(userid);
 			logger.debug("Results found hits:" + mcrResult.getNumHits());
 			if (mcrResult.getNumHits() > 0) {
 				String createdDocID = mcrResult.getHit(0).getID();
-				executionContext.setVariable(
+				ctxI.setVariable(
 				   MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS,
 				   createdDocID);
 				// cannot be used in decision handlers - persistence problems with jbpm
@@ -144,7 +140,7 @@ public class MCRWorkflowManagerAuthor extends MCRWorkflowManager {
 							
 				MCRObject mob = new MCRObject();
 				mob.receiveFromDatastore(createdDocID);
-				executionContext.setVariable(MCRWorkflowConstants.WFM_VAR_WFOBJECT_TITLE, 
+				ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_WFOBJECT_TITLE, 
 						                     createWFOTitlefromMetadata(mob.createXML().getRootElement().getChild("metadata")));
 				// cannot be used in decision handlers - persistence problems with jbpm
 				// setWorkflowVariablesFromMetadata(createdDocID, mob.createXML()
@@ -157,7 +153,7 @@ public class MCRWorkflowManagerAuthor extends MCRWorkflowManager {
 		}
 
 		if (decisionNode.equals("canChangesBeCommitted")) {
-			if (checkSubmitVariables(processid)) {
+			if (checkSubmitVariables(ctxI)) {
 				return "changesCanBeCommitted";
 			} else {
 				return "changesCantBeCommitted";
@@ -166,17 +162,13 @@ public class MCRWorkflowManagerAuthor extends MCRWorkflowManager {
 		return null;
 	}
 
-	private boolean checkSubmitVariables(long processid) {
+	private boolean checkSubmitVariables(ContextInstance ctxI) {
 		boolean ret = false;
-		MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processid);
 		try {
-			String createdDocID = wfp
-					.getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
+			String createdDocID = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
 			if (createdDocID == null)
-				createdDocID = wfp
-						.getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
-			String strDocValid = wfp
-					.getStringVariable(MCRMetadataStrategy.VALID_PREFIX
+				createdDocID = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
+			String strDocValid = (String) ctxI.getVariable(MCRMetadataStrategy.VALID_PREFIX
 							+ createdDocID);
 			if (strDocValid != null) {
 				if (strDocValid.equals("true")) {
@@ -185,9 +177,6 @@ public class MCRWorkflowManagerAuthor extends MCRWorkflowManager {
 			}
 		} catch (MCRException ex) {
 			logger.error("catched error", ex);
-		} finally {
-			if (wfp != null)
-				wfp.close();
 		}
 		return ret;
 	}
