@@ -78,6 +78,7 @@ public abstract class MCRDerivateStrategy {
 	 */
 	public String addNewDerivateToWorkflowObject(String derivateDirectory, String metadataObjectId){
 		String lang = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
+		
 		MCRObjectID IDMax = setNextFreeDerivateID();
 		
 		logger.debug("New derivate ID " + IDMax.getId());
@@ -111,9 +112,11 @@ public abstract class MCRDerivateStrategy {
 			for (Iterator it = directoryMap.keySet().iterator(); it.hasNext();) {
 				File workDir = new File((String)directoryMap.get(it.next()));
 				if(workDir.isDirectory()){
-					for (Iterator it2 = getAllDerivateFiles(workDir).iterator(); it2
-							.hasNext();) {
-						allDerivateFileNames.add(((File)it2.next()).getName());
+					for (Iterator it2 = getAllDerivateFiles(workDir).iterator(); it2.hasNext();) {
+						File ff = (File) it2.next();
+						if ( (ff.isFile())) {
+								allDerivateFileNames.add(ff.getName());
+						}
 					}
 				}
 			}
