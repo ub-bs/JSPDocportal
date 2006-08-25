@@ -102,9 +102,7 @@
 
 <!-- für Dissertationen STANDARD AUSSCHLIESSLICH CREATORLINK -->
    <text id="LCreatorLinks">
-        <label xml:lang="de">
-          <label css-style="editorlabel" i18n="Editor.Document.author" />
-        </label>
+          <label css-style="editorlabel" i18n="Editor.Label.AuthorM" />
    </text>
    <!-- 
     <panel id="DCreatorLinks">
