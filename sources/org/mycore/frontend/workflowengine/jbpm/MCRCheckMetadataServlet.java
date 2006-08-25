@@ -138,8 +138,8 @@ public class MCRCheckMetadataServlet extends MCRServlet {
         	WFM.storeMetadata(MCRUtils.getByteArray(outdoc), ID.getId(), storePath.toString());
         	WFM.setWorkflowVariablesFromMetadata(mcrid1, indoc.getRootElement().getChild("metadata"),wfp.getContextInstance()  );
         	WFM.setMetadataValid(mcrid1, true, wfp.getContextInstance());
-        	wfp.close();
-        	request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
+        	
+        	
         }catch(java.lang.IllegalStateException ill){
         	LOGGER.debug("because of error, forwarding to success page could not be executed [" + ill.getMessage() + "]");        	
         }catch(Exception e){
@@ -147,7 +147,8 @@ public class MCRCheckMetadataServlet extends MCRServlet {
         
         }
         finally{
-        	if(!wfp.wasClosed()){ wfp.close();}
+        	 wfp.close();
+        	 request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
         }
         //TODO sendMail in WFE
         //sendMail(ID);
