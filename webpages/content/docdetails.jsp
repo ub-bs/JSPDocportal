@@ -145,53 +145,69 @@
                         <x:out select="$terminator" escapeXml="false" />
                      </x:if>                               
                   </x:forEach>
-                  <x:forEach select="./digitalobjects">
-                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                        <tbody>
-                        <x:forEach select="./digitalobject">
-                           <tr>
-                              <td align="left" valign="top">
-                                 <div class="derivateBox">
-                                    <div class="derivateHeading"><x:out select="./@derivlabel" /></div>
-                                    <div class="derivate">
-                                       <x:set var="mainFileURL" select="concat($WebApplicationBaseURL,'file/',./@derivid,'/',./@derivmain,'?hosts=',$host)" />
-                                       <x:set var="contentType" select="string(./@contentType)" />
-                                       <table>
-                                       <c:set var="derivID"><x:out select="./@derivid"/></c:set>
-                                       <mcr:checkAccess permission="read" var="accessallowed" key="${derivID}" />
-									   <c:choose>
-										   <c:when test="${accessallowed}">
-	                                         <tr>
-    	                                         <td><a href="<x:out select="$mainFileURL" />" target="_blank"><x:out select="./@derivmain" /></a>&#160;
-        	                                         (<x:out select="./@size mod 1024" /> kB)&#160;&#160;
-            	                                 </td>
-                	                             <td>
-                    	                            <a href="<x:out select="concat($WebApplicationBaseURL,'zip?id=',./@derivid)" />" class="linkButton" ><fmt:message key="OMD.zipgenerate" /></a>&#160;&#160;
-                        	                     </td>
-                            	                 <td>
-                                	                <a href="<x:out select="concat($WebApplicationBaseURL,'file/',./@derivid,'/','?hosts=',$host)" />" target="_self"><fmt:message key="OMD.details" />&gt;&gt;</a>&#160;&#160; 
-                                    	         </td>
-	                                             <c:if test="${fn:contains('gif-jpeg-png', contentType)}">
-    	                                            <td class="imageInResult"><a href="${mainFileURL}"><img src="${mainFileURL}" width="100"></a></td>
-        	                                     </c:if>                                                 
-	                                          </tr>
-										   </c:when>
-										   <c:otherwise>
-										   		<tr>
-                                        	     <td><x:out select="./@derivmain" />&#160;(<x:out select="./@size mod 1024" /> kB)</td>
-                	                            </tr>
-                	                            <tr><td><fmt:message key="OMD.fileaccess.denied" /></td></tr>
-                                          </c:otherwise>
-                                        </c:choose>
-                                       </table>
-                                    </div>
-                                 </div>
-                              </td>
-                           </tr>
-                        </x:forEach>
-                        </tbody>
-                     </table>                               
-                  </x:forEach>
+				<x:forEach select="./digitalobjects">
+				    <c:set var="label"  value="dummy" />
+					<table border="0" cellpadding="0" cellspacing="0" width="100%">
+					
+					<x:forEach select="./digitalobject">
+					      <x:set var="actlabel"  select="string(./@derivlabel)" />
+				      <x:set var="derivid"  select="string(./digitalobject/@derivid)" />
+				      
+					  <c:if test="${!fn:contains(label,actlabel)}">
+                                     	 <mcr:checkAccess permission="read" var="accessallowed" key="${derivid}" />
+						  <tr>										  
+							<td align="left" valign="bottom" >
+								<div class="derivateHeading">
+								   <br/><c:out value="${actlabel}" />
+								</div>
+							</td>	 
+						   <c:if test="${accessallowed}">
+							<td>
+							 <a href="<x:out select="concat($WebApplicationBaseURL,'zip?id=',$derivid)" />"
+								class="linkButton"><fmt:message key="OMD.zipgenerate" /></a>&#160;&#160;
+							</td>
+							<td>
+               	                <a href="<x:out select="concat($WebApplicationBaseURL,'file/',$derivid,'/','?hosts=',$host)" />" target="_self"><fmt:message key="OMD.details" />&gt;&gt;</a>&#160;&#160; 
+               	            </td>
+               	            </c:if>
+               	          </tr>   										  
+               	      </c:if>   
+               	      <c:choose>
+					  <c:when test="${accessallowed}">
+					  <tr>
+						<td align="left" valign="top" colspan="3" >
+								  <div class="derivate">
+								  <x:set var="URL"	select="concat($WebApplicationBaseURL,'file/',./@derivid,'/',./@derivmain,'?hosts=',$host)" />
+						  <x:set var="contentType" select="string(./@contentType)" />
+						  <x:set var="size" select="string(./@size)" />
+						  <table>
+							<tr>
+								<td><a href="<x:out select="$URL" />" target="_blank"><x:out select="./@derivmain" /></a>&#160;
+								(<c:out value="${size}" /> Bytes)&#160;&#160;</td>
+								<c:if test="${fn:contains('gif-jpeg-png', contentType) && size < 100000}">
+									<td class="imageInResult"><a href="${URL}"><img	src="${URL}" width="100"></a></td>
+								</c:if>
+							</tr>
+				 		  </table>
+						  </div>
+						</td>
+						  </tr>
+					  </c:when>
+					  <c:otherwise>
+					    <tr>
+                   	     <td>
+						  <div class="derivate">
+                      	     	<x:out select="./@derivmain" />&#160;(<x:out select="./@size" /> Bytes)
+                             	     	--- <fmt:message key="OMD.fileaccess.denied" />
+                       	  </div>	
+                   	     </td>
+                       	 </tr>
+                        </c:otherwise>
+                       </c:choose>
+				      <c:set var="label" value="${actlabel}" />	     
+					</x:forEach>
+				  </table>
+				</x:forEach>
                </td>
             </tr>        
          </x:when>
