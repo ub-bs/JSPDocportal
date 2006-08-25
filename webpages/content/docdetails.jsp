@@ -169,7 +169,7 @@
                     	                            <a href="<x:out select="concat($WebApplicationBaseURL,'zip?id=',./@derivid)" />" class="linkButton" ><fmt:message key="OMD.zipgenerate" /></a>&#160;&#160;
                         	                     </td>
                             	                 <td>
-                                	                <a href="<x:out select="concat($WebApplicationBaseURL,'nav?path=~derivatedetails&derID=',./@derivid,'&docID=',$mcrid,'&hosts=',$host)" />" target="_self"><fmt:message key="OMD.details" />&gt;&gt;</a>&#160;&#160; 
+                                	                <a href="<x:out select="concat($WebApplicationBaseURL,'file/',./@derivid,'/','?hosts=',$host)" />" target="_self"><fmt:message key="OMD.details" />&gt;&gt;</a>&#160;&#160; 
                                     	         </td>
 	                                             <c:if test="${fn:contains('gif-jpeg-png', contentType)}">
     	                                            <td class="imageInResult"><a href="${mainFileURL}"><img src="${mainFileURL}" width="100"></a></td>
