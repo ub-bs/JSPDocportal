@@ -222,7 +222,7 @@
 					<form method="get" onSubmit="return reallyDeletefromDB();" action="${baseURL}workflowaction">
 						<input name="processid"	value="${processid}" type="hidden"> 
 						<input name="todo" value="WFDeleteObject" type="hidden"> 
-						<input onClick="return reallyDeletefromDB();" title="<fmt:message key="WF.common.object.DelObject" />"
+						<input title="<fmt:message key="WF.common.object.DelObject" />"
 							src="${baseURL}images/database_objdelete.gif" type="image"
 							class="imagebutton">
 					</form>
