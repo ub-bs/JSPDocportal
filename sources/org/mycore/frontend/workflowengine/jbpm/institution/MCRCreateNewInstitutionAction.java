@@ -18,9 +18,8 @@ public class MCRCreateNewInstitutionAction extends MCRAbstractAction {
 		ContextInstance contextInstance;
 		contextInstance = executionContext.getContextInstance();
 		String initiator = (String)contextInstance.getVariable(	MCRWorkflowConstants.WFM_VAR_INITIATOR);
-		long pid = executionContext.getProcessInstance().getId();
-		
-		String institutionID = WFM.createNewInstitution(initiator,pid);
+				
+		String institutionID = WFM.createNewInstitution(initiator,contextInstance);
 		if(institutionID != null && !institutionID.equals("")) {
 			contextInstance.setVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS, institutionID);
 			logger.debug("workflow changed state to " + executionContext.getProcessInstance().getRootToken().getName());

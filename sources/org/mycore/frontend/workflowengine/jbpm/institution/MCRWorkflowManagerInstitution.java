@@ -149,19 +149,16 @@ public class MCRWorkflowManagerInstitution extends MCRWorkflowManager {
 		return null;
 	}
 
-public String createNewInstitution(String userid, long processID) {
-	MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processID);	
+public String createNewInstitution(String userid, ContextInstance ctxI) {
 	try {
 			MCRObjectID institution = this.getNextFreeID(this.mainDocumentType);
 			institution = institutionStrategy.createInstitution(institution, false);
-			setDefaultPermissions(institution.getId(), userid, wfp.getContextInstance());
+			setDefaultPermissions(institution.getId(), userid, ctxI);
 		
 			return institution.getId();
 		} catch (MCRException ex) {
 			logger.error("an error occurred", ex);
 		} finally {
-			if (wfp != null)
-				wfp.close();
 		}
 		return null;
 	}
