@@ -108,7 +108,7 @@
 		</td>
 	</tr>
 	<tr>
-		<td class="description" colspan="3">
+		<td class="description">
 		 <fmt:message key="WF.${requestScope.task.workflowProcessType}.Description" />, ${itemID}
 		 <br/>
 		 <mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="error" workflowVar="varnameERROR" /> 
