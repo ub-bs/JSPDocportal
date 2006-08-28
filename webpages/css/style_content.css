@@ -355,6 +355,56 @@ td.editorHLine                 { border-top:1px solid #7791ac; border-left:1px s
                                  font-weight:bold; font-family:Verdana,Arial,Helvetica,SansSerif; 
                                  font-size:10px; letter-spacing:1px }
 .editorHint					   { font-size:11px; font-family:Verdana,Arial,Helvetica,SansSerif; line-height:24px}
+
+/* =================================================================== */
+/* TaskList                     					                   */
+/* =================================================================== */
+table.tasklistObject{
+	background-color: #CAD9E0;
+    padding: 8px;
+    margin-bottom: 1.5em;
+    margin-left:8px;
+    margin-right: 8px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #14516E;
+
+}
+
+td.tasklistTitle{
+	font-weight: bold;
+	vertical-align: bottom;
+}
+
+table.tasklistDerivate{
+	background-color: #EFF4F6;
+	margin-bottom:6px; 
+	margin-left:6px;
+}
+
+table.tasklistDerivate th{
+	color: black;
+	font-weight: bold;
+	vertical-align: middle;
+}
+
+table.tasklistDerivate tr td{
+	vertical-align: middle;
+	color: #000000;
+	font-weight: normal;
+	
+}
+
+table.tasklistDerivate tr td a:link, 
+table.tasklistDerivate tr td a:visited,
+table.tasklistDerivate tr td a:focus, 
+table.tasklistDerivate tr td a:active{
+	font-weight:normal !important;		
+	color: #da1f3d;
+}
+
+
+
 /* =================================================================== */
 /* Help Popup (button + messagebox on mouse over)                      */
 /* =================================================================== */

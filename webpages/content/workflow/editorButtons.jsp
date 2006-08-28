@@ -36,11 +36,11 @@
     
 <mcr:listWorkflowDerivates varDom="der" docID="${itemID}" derivates="${attachedDerivates}" workflowprocesstype="${itemDocType}" />
 
-<table width="100%" class="task" >
+<table width="100%" class="tasklistObject" >
 	<tr>
-		<td class="resultTitle"><b><c:out value="${wfoTitle}" /></b></td>
-		<td width="30">&nbsp;</td>
-		<td align="right">
+		<td class="tasklistTitle"><b><c:out value="${wfoTitle}" /></b></td>
+		<td width="30" rowspan="2">&nbsp;</td>
+		<td align="right" rowspan="2">
 		<table>
 			<tr>
 				<mcr:checkAccess var="modifyAllowed" permission="writedb"	key="${itemID}" />
@@ -116,14 +116,17 @@
 		</td>
 	</tr>
 
+	<tr><td>
 	<x:forEach select="$der/derivates/derivate">
 		<x:set var="derivateID" select="string(./@ID)" />
 		<x:set var="derivateLabel" select="string(./@label)" />
 	    <mcr:checkAccess var="modifyAllowed" permission="writedb"	key="${derivateID}" /> 
+		
+		<table width=100% class="tasklistDerivate">
 		<tr>
-			<td align="left" valign="top"><b>${derivateLabel}</b></td>
-			<td width="30">&nbsp;</td>
-			<td align="right">
+			<th align="left" valign="top">${derivateLabel}</th>
+			<th width="30">&nbsp;</th>
+			<th align="right">
 			  <c:if	test="${modifyAllowed}">
 				<table>
 					<tr>
@@ -159,7 +162,7 @@
 						</td>
 					</tr>
 				</table>
-			</c:if></td>
+			</c:if></th>
 		</tr>
 
 		<x:set var="numFiles" select="count(./file)" />
@@ -168,7 +171,7 @@
 			<tr valign="top">
 				<td>
 				 <!--  http://139.30.48.72:8080/mycoresample/file/DocPortal_derivate_00000008/dissertation.pdf?hosts=local -->
-				 <a class="linkButton"				
+				 <a 				
 					href="${baseURL}file/<x:out select="."/>?type=${itemDocType}"
 					target="_blank"> <x:out select="." /> </a> [ ${fileSize} ]</td>
 				<td width="30">&nbsp;</td>
@@ -191,16 +194,18 @@
 				</c:if></td>
 			</tr>
 		</x:forEach>
-
+	</table>
+	
 	</x:forEach>
-	<tr>
-		<td colspan="2">&nbsp;</td>
-		<td align="right">
+	</td>
+
+		<td>&nbsp;</td>
+		<td align="right" style="vertical-align: bottom;" height="100%">
 		<table>
 			<tr>
 				<mcr:checkAccess var="modifyAllowed" permission="deletewf"	key="${itemID}" />
 				<c:if test="${modifyAllowed}">
-					<td align="center" valign="top" width="30">
+					<td align="center" valign="bottom" width="30">
 					<form method="get" action="${baseURL}workflowaction">
 						<input	name="processid" value="${processid}" type="hidden"> 
 						<input	name="todo" value="WFDeleteWorkflowObject" type="hidden"> 
@@ -213,7 +218,7 @@
 
 				<mcr:checkAccess var="modifyAllowed" permission="deletedb"	key="${itemID}" />
 				<c:if test="${modifyAllowed}">
-					<td align="center" valign="top" width="30">
+					<td align="center" valign="bottom" width="30">
 					<form method="get" onSubmit="return reallyDeletefromDB();" action="${baseURL}workflowaction">
 						<input name="processid"	value="${processid}" type="hidden"> 
 						<input name="todo" value="WFDeleteObject" type="hidden"> 
