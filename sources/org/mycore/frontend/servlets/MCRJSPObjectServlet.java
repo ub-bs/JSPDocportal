@@ -103,8 +103,8 @@ public class MCRJSPObjectServlet extends MCRServlet {
             return;
         }
         
-        request.setAttribute("id", id);
+        //request.setAttribute("id", id);
         
-        this.getServletContext().getRequestDispatcher("/nav?path=~docdetail").forward(request, response);	
+        this.getServletContext().getRequestDispatcher("/nav?path=~docdetail&id=" +id).forward(request, response);	
     }
 }
