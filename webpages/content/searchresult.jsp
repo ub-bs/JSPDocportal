@@ -232,13 +232,19 @@
  		                                   </x:forEach>                                    
  										<br/>                                      
 	                                    </x:forEach>     	
-										<fmt:message key="Webpage.searchresults.lastChanged">
-											<fmt:param>
-												<x:out select="./metaname[@name='OMD.changed']/metavalues/metavalue/@text"	escapeXml="./metaname[@name='OMD.changed']/metavalues/@escapeXml" />
-											</fmt:param>
-										</fmt:message>
 										</td>
 									</tr>				
+									<tr>
+										<td colspan="2" class="resultData">
+											<x:out	select="./metaname[@name='OMD.class-types']/metavalues/metavalue/@text"	escapeXml="./metaname[@name='OMD.class-types']/metavalues/@escapeXml" />
+											- 
+											<fmt:message key="Webpage.searchresults.lastChanged">
+												<fmt:param>
+													<x:out select="./metaname[@name='OMD.changed']/metavalues/metavalue/@text"	escapeXml="./metaname[@name='OMD.changed']/metavalues/@escapeXml" />
+												</fmt:param>
+											</fmt:message>
+										</td>
+									</tr>
 									<tr>
 										<td colspan="2" class="description">
 											<x:out	select="./metaname[@name='OMD.descriptions']/metavalues/metavalue/@text" escapeXml="./metaname[@name='OMD.descriptions']/metavalues/@escapeXml" />
