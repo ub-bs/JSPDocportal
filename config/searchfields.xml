@@ -22,7 +22,9 @@
     <field name="language"      type="identifier" source="objectCategory" xpath="/mycoreobject/metadata/languages/language" value="@ID" />
 
     <!-- Search in document metadata -->    
-    <field name="title"         type="text"      sortable="true" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/titles/title" value="text()" />
+    <field name="title"     type="text" sortable="true" source="objectMetadata" xpath="/mycoreobject/metadata/titles/title | /mycoreobject/metadata/surnames/surname | mycoreobject/metadata/names/name " value="text() | @xlink:title"  />
+    
+    <!--  field name="title"         type="text"      sortable="true" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/titles/title" value="text()" / -->
     <field name="author"        type="name"      sortable="true" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/creators/creator | /mycoreobject/metadata/creatorlinks/creatorlink " value="text() | @xlink:title" />
     <field name="authorID"      type="identifier" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/creatorlinks/creatorlink" value="@xlink:href" />
     <field name="creator"       type="name"      sortable="true" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/creators/creator | /mycoreobject/metadata/creatorlinks/creatorlink " value="text() | @xlink:title" />
