@@ -178,7 +178,10 @@ public class MCRWorkflowAccessRuleEditorUtils {
 			return (String[])listResults.toArray(new String[]{});
 		}catch(Exception e){
 			return new String[]{};
-		}		
+		}
+		finally{
+			wfp.close();
+		}
 	}
 	
 	/**
