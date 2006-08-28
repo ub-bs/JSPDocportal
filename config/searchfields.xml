@@ -23,9 +23,9 @@
 
     <!-- Search in document metadata -->    
     <field name="title"         type="text"      sortable="true" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/titles/title" value="text()" />
-    <field name="author"        type="name"      sortable="true" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/creators/creator | /mycoreobject/metadata/publishers/publisher | /mycoreobject/metadata/creatorlinks/creatorlink | /mycoreobject/metadata/publisherlinks/publisherlink" value="text() | @xlink:title" />
-    <field name="authorID"      type="identifier" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/creatorlinks/creatorlink | /mycoreobject/metadata/publisherlinks/publisherlink" value="@xlink:href" />
-    <field name="creator"       type="name"      sortable="true" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/creators/creator | /mycoreobject/metadata/publishers/publisher | /mycoreobject/metadata/creatorlinks/creatorlink | /mycoreobject/metadata/publisherlinks/publisherlink" value="text() | @xlink:title" />
+    <field name="author"        type="name"      sortable="true" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/creators/creator | /mycoreobject/metadata/creatorlinks/creatorlink " value="text() | @xlink:title" />
+    <field name="authorID"      type="identifier" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/creatorlinks/creatorlink" value="@xlink:href" />
+    <field name="creator"       type="name"      sortable="true" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/creators/creator | /mycoreobject/metadata/creatorlinks/creatorlink " value="text() | @xlink:title" />
     <field name="creatorID"     type="identifier" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/creatorlinks/creatorlink" value="@xlink:href" />
     <field name="publisher"     type="name"       source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/publishers/publisher | /mycoreobject/metadata/publisherlinks/publisherlink" value="text() | @xlink:title" />
     <field name="publisherID"   type="identifier" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/publisherlinks/publisherlink " value="@xlink:href" />
