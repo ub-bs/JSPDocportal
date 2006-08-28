@@ -87,9 +87,9 @@
   <task-node name="adminCheck">
     <event type='node-enter'>
     <action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-       <from>atlibri@uni-rostock.de</from>
-       <to>anja.schaar@uni-rostock.de</to>
-       <replyTo>anja.schaar@uni-rostock.de</replyTo>
+	   <from>MCR.WorkflowEngine.registeruser.from</from>
+	   <to>MCR.WorkflowEngine.registeruser.from</to>
+	   <replyTo>MCR.WorkflowEngine.registeruser.from</replyTo>
        <subject>Probleme beim Anlegen des Nutzer</subject>
        <body>Die Nuterdaten konnten nicht angelegt werden.</body>
     </action>          
@@ -101,9 +101,9 @@
   <task-node name="adminCheckRejecting">
     <event type='node-enter'>
     <action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-       <from>atlibri@uni-rostock.de</from>
-       <to>anja.schaar@uni-rostock.de</to>
-       <replyTo>anja.schaar@uni-rostock.de</replyTo>
+	   <from>MCR.WorkflowEngine.registeruser.from</from>
+	   <to>MCR.WorkflowEngine.registeruser.to</to>
+	   <replyTo>MCR.WorkflowEngine.registeruser.replyTo</replyTo>
        <subject>Probleme beim Ablehnen des Nutzer</subject>
        <body>Die Nuterdaten konnten nicht entfernt werden.</body>
     </action>          
@@ -116,9 +116,9 @@
      <task name="taskEnterMessageData" swimlane="usereditor" />
      <transition name="go2userRejected" to="userRejected">
       <action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-         <from>atlibri@uni-rostock.de</from>
+         <from>MCR.WorkflowEngine.registeruser.from</from>
          <to>initiator</to>
-         <replyTo>atlibri@uni-rostock.de</replyTo>
+	   <replyTo>MCR.WorkflowEngine.registeruser.replyTo</replyTo>
          <subject>Ablehnung der Nutzeranmeldung für die Digitalen Bibliothek @libri</subject>
          <body>Ihre Nutzerdaten wurden nicht in das System eingestellt.</body>
          <jbpmVariableName>tmpTaskMessage</jbpmVariableName>
@@ -129,9 +129,9 @@
   <end-state name="userCommitted">
     <event type='node-enter'>
      <action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-       <from>atlibri@uni-rostock.de</from>
+       <from>MCR.WorkflowEngine.registeruser.from</from>
        <to>initiator</to>
-       <replyTo>atlibri@uni-rostock.de</replyTo>
+	   <replyTo>MCR.WorkflowEngine.registeruser.replyTo</replyTo>
        <subject>Nutzeranmeldung in der Digitalen Bibliothek @libri</subject>
        <body>Ihre Nutzerdaten wurden in das System eingestellt. Sie können sich mit Ihrem Bibliotheksaccount anmelden.</body>
        <!-- <body>Mustertext</body> -->

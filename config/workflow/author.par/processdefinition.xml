@@ -98,9 +98,9 @@
      <task name="taskEnterMessageData" swimlane="authoreditor" />
      <transition name="go2authorCreated2" to="authorCreated">
 		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-		   <from>administrator@mycore.de</from>
+		   <from>MCR.WorkflowEngine.author.from</from>
 		   <to>initiator</to>
-		   <replyTo>administrator@mycore.de</replyTo>
+		   <replyTo>MCR.WorkflowEngine.author.replyTo</replyTo>
 		   <subject>Unvollständige Angaben zur Eingabe ihres Authors</subject>
            <body>Messagetext</body>  
 		   <jbpmVariableName>tmpTaskMessage</jbpmVariableName>
@@ -131,9 +131,9 @@
   <task-node name="adminCheck">
      <event type='node-enter'>
 		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-		   <from>editor@mycore.de</from>
-		   <to>administrator@mycore-xy.de</to>
-		   <replyTo>administrator@mycore-xy-de</replyTo>
+		   <from>MCR.WorkflowEngine.author.from</from>
+		   <to>MCR.WorkflowEngine.author.to</to>
+		   <replyTo>MCR.WorkflowEngine.author.replyTo</replyTo>
 		   <subject>Probleme beim Anlegen eines Autors</subject>
 		   <body>Ein Autor konnte nicht angelegt werden.</body>
 		</action>          
@@ -145,7 +145,7 @@
   <task-node name="authorCommitted">
      <event type='node-enter'>
 		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-		   <from>administrator</from>
+		   <from>MCR.WorkflowEngine.author.replyTo</from>
 		   <to>initiator</to>
 		   <subject>Ihr Autor wurde erfolgreich angelegt.</subject>
 		   <body>Ich, ${Author.P3}, wünsche viel Erfolg bei der Arbeit!</body>

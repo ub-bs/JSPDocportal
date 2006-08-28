@@ -76,9 +76,9 @@
      <task name="taskEnterMessageData" swimlane="adminInstitution" />
      <transition name="go2InstitutionCreated" to="tnInstitutionCreated">
 		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-		   <from>administrator@mycore.de</from>
+		   <from>MCR.WorkflowEngine.institution.from</from>
 		   <to>initiator</to>
-		   <replyTo>administrator@mycore.de</replyTo>
+		   <replyTo>MCR.WorkflowEngine.institution.replyTo</replyTo>
 		   <subject>Unvollständige Angaben zur Eingabe der Institution</subject>
            <body>Messagetext</body>  
 		   <jbpmVariableName>tmpTaskMessage</jbpmVariableName>
@@ -109,9 +109,9 @@
   <task-node name="tnAdminCheck">
      <event type='node-enter'>
 		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-		   <from>editor@mycore.de</from>
-		   <to>administrator@mycore-xy.de</to>
-		   <replyTo>administrator@mycore-xy-de</replyTo>
+		   <from>MCR.WorkflowEngine.institution.from</from>
+		   <to>MCR.WorkflowEngine.institution.to</to>
+		   <replyTo>MCR.WorkflowEngine.institution.replyTo</replyTo>
 		   <subject>Probleme beim Anlegen eines Autors</subject>
 		   <body>Ein Autor konnte nicht angelegt werden.</body>
 		</action>          
@@ -123,7 +123,7 @@
   <task-node name="tnInstitutionCommitted">
      <event type='node-enter'>
 		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-		   <from>administrator</from>
+		   <from>MCR.WorkflowEngine.institution.from</from>
 		   <to>initiator</to>
 		   <subject>Ihre Institution wurde erfolgreich angelegt.</subject>
 		   <body>Ich, ${Author.P3}, wünsche viel Erfolg bei der Arbeit!</body>

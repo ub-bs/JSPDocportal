@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<process-diagram name="institution" width="963" height="817">
+<process-diagram name="institution" width="968" height="817">
   <node name="start" x="0" y="26" width="140" height="40">
     <transition name="go2IsInitiatorsEmailAddressAvailable">
       <label x="-25" y="-11"/>
