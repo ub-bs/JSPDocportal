@@ -227,13 +227,13 @@ div.submitButton{
 }
 
 #resultList td.resultData{
-    padding-left:20px;
+    padding-left:0px;
     padding-bottom:3px;
 }
 
 
 #resultList td.description{
-    padding-left:20px;
+    padding-left:0px;
     padding-bottom:3px;
     font-style: italic;
     text-align:justify;
