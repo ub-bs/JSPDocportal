@@ -1,3 +1,21 @@
+     function checkEmail()	{
+	    var val = document.setvar.initiatorEmail.value;
+    	if ( val.indexOf('@') > 0 ) {
+    	    //alert("OK");
+    		//document.setvar.submit.disabled=false;
+    		return true;
+    	}else {
+    	    alert("keine g?ltige Email Adresse");
+    		return false;
+		}    	
+	  }
+
+	  function checkText()	{	  
+    	if ( document.setvar.tmpTaskMessage.value !=  'Sie m?ssen noch...'  ) {
+    		return true;
+    	}
+   		return false;		    	
+	  }	  
   
   function reallyDeletefromDB() {
 	return confirm("Achtung! \n Das gesamte Dokument wird damit aus der Digitalen Bibliothek gel?scht!");
