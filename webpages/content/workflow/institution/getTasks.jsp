@@ -68,16 +68,11 @@
       <p>
          <fmt:message key="WF.common.getInitiatorsEmailAddress" />
 		 <br>&nbsp;<br>
-	     <form action="${baseURL}setworkflowvariable" accept-charset="utf-8">
-    	     <input name="dispatcherForward" value="/nav?path=~institution" type="hidden" />
-        	 <input name="transition" value="" type="hidden" />
-	         <input name="endTask" value="taskGetInitiatorsEmailAddress" type="hidden" />
-    	     <input name="processID" value="${requestScope.task.processID}" type="hidden" />
-    	     <input name="jbpmVariableNames" value="initiatorEmail" type="hidden" />
-        	 <input type="text" size="80" name="initiatorEmail">
-        	 <br>&nbsp;<br>
-         	 <input name=submit" type="submit" value="<fmt:message key="WF.common.Send" />"/>      
-	     </form>	
+	     <c:import url="/content/workflow/setworkflowvariable.jsp" >
+	     	<c:param name="workflowType" value="institution" />
+	     	<c:param name="endTask" value="taskGetInitiatorsEmailAddress" />	     	
+	     </c:import>
+		 
      </p>
    </c:when>   
 

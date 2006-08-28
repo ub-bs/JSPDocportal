@@ -112,16 +112,10 @@
       <p>
          <fmt:message key="WF.common.getInitiatorsEmailAddress" />
 		 <br>&nbsp;<br>
-	     <form action="${baseURL}setworkflowvariable" accept-charset="utf-8">
-    	     <input name="dispatcherForward" value="/nav?path=~author" type="hidden" />
-        	 <input name="transition" value="" type="hidden" />
-	         <input name="endTask" value="taskGetInitiatorsEmailAddress" type="hidden" />
-    	     <input name="processID" value="${requestScope.task.processID}" type="hidden" />
-    	     <input name="jbpmVariableNames" value="initiatorEmail" type="hidden" />
-        	 <input type="text" size="80" name="initiatorEmail">
-        	 <br>&nbsp;<br>
-         	 <input name=submit" type="submit" value="<fmt:message key="WF.common.Send" />"/>      
-	     </form>	
+	     <c:import url="/content/workflow/setworkflowvariable.jsp" >
+	     	<c:param name="workflowType" value="author" />
+	     	<c:param name="endTask" value="taskGetInitiatorsEmailAddress" />
+	     </c:import>
      </p>
    </c:when>   
 
@@ -143,16 +137,10 @@
    </c:when>   
 
    <c:when test="${requestScope.task.taskName eq 'taskEnterMessageData'}">
-     <form action="${baseURL}setworkflowvariable" accept-charset="utf-8">
-   	     <input name="dispatcherForward" value="/nav?path=~author" type="hidden" />
-         <input name="transition" value="" type="hidden" />
-         <input name="endTask" value="taskentermessagedata" type="hidden" />
-         <input name="processID" value="${requestScope.task.processID}" type="hidden" />
-         <input name="jbpmVariableNames" value="tmpTaskMessage" type="hidden" /> 
-	     <textarea name="tmpTaskMessage" cols="50" rows="4">Sie müssen noch...</textarea>  
-	     <br>&nbsp;<br>
-    	<input name=submit" type="submit" value="<fmt:message key="WF.common.SendTask" />"/>      
-      </form>
+	     <c:import url="/content/workflow/setworkflowvariable.jsp" >
+	     	<c:param name="workflowType" value="author" />
+	     	<c:param name="endTask" value="taskentermessagedata" />
+	     </c:import>
    </c:when>
 
    <c:when test="${requestScope.task.taskName eq 'taskAdminCheckCommitmentNotSuccessFul'}">

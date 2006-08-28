@@ -54,18 +54,11 @@
 	  </p>    
    </c:when>
    <c:when test="${requestScope.task.taskName eq 'taskGetInitiatorsEmailAddress'}">
-   	  <p><fmt:message key="WF.common.getInitiatorsEmailAddress" />
-	  </p> 
-	     <form action="${baseURL}setworkflowvariable" accept-charset="utf-8">
-    	     <input name="dispatcherForward" value="/nav?path=~xmetadiss" type="hidden" />
-        	 <input name="transition" value="" type="hidden" />
-	         <input name="endTask" value="taskGetInitiatorsEmailAddress" type="hidden" />
-    	     <input name="processID" value="${requestScope.task.processID}" type="hidden" />
-    	     <input name="jbpmVariableNames" value="initiatorEmail" type="hidden" />
-        	 <input type="text" size="80" name="initiatorEmail">
-        	 <br>&nbsp;<br>
-         	 <input name=submit" type="submit" value="<fmt:message key="WF.common.Send" />"/>      
-	     </form>	
+   	  <p><fmt:message key="WF.common.getInitiatorsEmailAddress" /></p>
+	     <c:import url="/content/workflow/setworkflowvariable.jsp" >
+	     	<c:param name="workflowType" value="xmetadiss" />
+	     	<c:param name="endTask" value="taskGetInitiatorsEmailAddress" />
+	     </c:import>
    </c:when>   
    <c:when test="${requestScope.task.taskName eq 'taskCheckCompleteness'}">
       <c:import url="/content/workflow/editorButtons.jsp" />
@@ -79,16 +72,10 @@
          </p>
    </c:when>   
    <c:when test="${requestScope.task.taskName eq 'taskEnterMessageData'}">
-     <form action="${baseURL}setworkflowvariable" accept-charset="utf-8">
-   	     <input name="dispatcherForward" value="/nav?path=~xmetadiss" type="hidden" />
-         <input name="transition" value="" type="hidden" />
-         <input name="endTask" value="taskentermessagedata" type="hidden" />
-         <input name="processID" value="${requestScope.task.processID}" type="hidden" />
-         <input name="jbpmVariableNames" value="tmpTaskMessage" type="hidden" /> 
-	     <textarea name="tmpTaskMessage" cols="50" rows="4">Sie müssen noch...</textarea>  
-	     <br>&nbsp;<br>
-    	<input name=submit" type="submit" value="<fmt:message key="WF.common.SendTask" />"/>      
-      </form>
+	     <c:import url="/content/workflow/setworkflowvariable.jsp" >
+	     	<c:param name="workflowType" value="xmetadiss" />
+	     	<c:param name="endTask" value="taskentermessagedata" />
+	     </c:import>
    </c:when>
    <c:when test="${requestScope.task.taskName eq 'taskCheckIfSignedAffirmationYetAvailable'}">
 	  <p><img title="" alt="" src="${baseURL}images/greenArrow.gif">   
