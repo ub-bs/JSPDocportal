@@ -786,6 +786,9 @@
                 <exclude name="**/web.xml" />
             </fileset>
         </copy>
+        <copy todir="${docportal.webapps}/content/webcontent">
+            <fileset dir="${docportal.languages}/webcontent" />
+		</copy>
     </target>
 
 	  <target name="webapps.useradmin">

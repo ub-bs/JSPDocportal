@@ -876,33 +876,18 @@
             <info>A Tag, that set a simple DOM object for the resultlist-pages browse control</info>
         </tag>          
         <tag>
-            <name>getConfigProperty</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRGetConfigPropertyTag</tagclass>
+            <name>includeWebContent</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRIncludeWebContentTag</tagclass>
             <bodycontent>empty</bodycontent>
             <attribute>
                 <description>
-                    the property name
+                    the file to include
                 </description>
-                <name>prop</name>
+                <name>file</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
-            <attribute>
-                <description>
-                    Name of the pageContext variable that hold the value specified in the action.
-                </description>
-                <name>var</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>        
-            <attribute>
-                <description>
-                    Default value, if property is not set
-                </description>
-                <name>defaultValue</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>            
-            <info>A Tag, that sets the value of a Configuration Property to a specific value</info>
-        </tag>        
+
+            <info>A Tag, that includes another web page trying to load it in the current language</info>
+        </tag>  
 </taglib>   
