@@ -118,17 +118,6 @@
         <servlet-class>org.mycore.frontend.jsp.DebugServlet</servlet-class>
     </servlet>
 
-<!-- 
-    <servlet>
-        <servlet-name>MCRCheckQueryServlet</servlet-name>
-        <servlet-class>org.mycore.frontend.jsp.query.MCRCheckQueryServlet</servlet-class>
-    </servlet>    
--->    
-    <servlet>
-        <servlet-name>MCRResortQueryServlet</servlet-name>
-        <servlet-class>org.mycore.frontend.jsp.query.MCRResortQueryServlet</servlet-class>
-    </servlet>   
-    
     <servlet>
         <servlet-name>MCRPassToTargetServlet</servlet-name>
         <servlet-class>org.mycore.frontend.workflowengine.jbpm.MCRPassToTargetServlet</servlet-class>
@@ -205,7 +194,7 @@
 
     <servlet-mapping>
                <servlet-name>MCRJSPSearchServlet</servlet-name>
-               <url-pattern>/searchresult</url-pattern>
+               <url-pattern>/servlets/MCRJSPSearchServlet</url-pattern>
     </servlet-mapping>   
 
     <servlet-mapping>
@@ -271,17 +260,6 @@
     <servlet-mapping>
         <servlet-name>DebugServlet</servlet-name>
         <url-pattern>/debug</url-pattern>
-    </servlet-mapping>
-
-    <!-- 
-    <servlet-mapping>
-               <servlet-name>MCRCheckQueryServlet</servlet-name>
-               <url-pattern>/searchresult</url-pattern>
-    </servlet-mapping>
-        -->
-    <servlet-mapping>
-        <servlet-name>MCRResortQueryServlet</servlet-name>
-        <url-pattern>/resortresult</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
