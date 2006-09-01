@@ -15,7 +15,7 @@ public class MCRSetQueryAsStringTag extends SimpleTagSupport
 {
 	private Document jdom;
 	private String var;
-	
+		
 	public void setVar(String inputVar) {
 		var = inputVar;
 		return;
@@ -25,9 +25,9 @@ public class MCRSetQueryAsStringTag extends SimpleTagSupport
 	}
 
 	public void doTag() throws JspException, IOException {
-		PageContext pageContext = (PageContext) getJspContext();	
-		
-		XMLOutputter output = new XMLOutputter(org.jdom.output.Format.getRawFormat());
+		PageContext pageContext = (PageContext) getJspContext();
+	
+		XMLOutputter output = new XMLOutputter(org.jdom.output.Format.getRawFormat());		
 		String str = output.escapeAttributeEntities(output.escapeElementEntities(output.outputString(jdom)));		
 		
 		pageContext.setAttribute(var, str);

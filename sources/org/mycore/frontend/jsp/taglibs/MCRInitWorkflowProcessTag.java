@@ -7,7 +7,6 @@ import javax.servlet.jsp.JspException;
 
 import org.apache.log4j.Logger;
 import org.mycore.access.MCRAccessManager;
-import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
@@ -25,7 +24,6 @@ public class MCRInitWorkflowProcessTag extends MCRSimpleTagSupport
 	private String scope;
 
 	private static Logger logger = Logger.getLogger(MCRInitWorkflowProcessTag.class);
-	private static String GUEST_ID = MCRConfiguration.instance().getString("MCR.users_guestuser_username","gast");
 
 	public void setUserid(String userid){
 		this.userid = userid;

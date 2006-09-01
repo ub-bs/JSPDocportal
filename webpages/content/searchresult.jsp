@@ -5,23 +5,24 @@
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr"%>
 
 <c:set var="debug" value="false" />
+
 <c:set var="WebApplicationBaseURL"
 	value="${applicationScope.WebApplicationBaseURL}" />
 <fmt:setBundle basename="messages" />
 <c:choose>
-	<c:when test="${param.offset > 0}">
-		<c:set var="offset" value="${param.offset}" />
+	<c:when test="${param.page > 1}">
+		<c:set var="page" value="${param.page}" />
 	</c:when>
 	<c:otherwise>
-		<c:set var="offset" value="0" />
+		<c:set var="page" value="1" />
 	</c:otherwise>
 </c:choose>
 <c:choose>
-	<c:when test="${param.size < 25}">
-		<c:set var="size" value="${param.size}" />
+	<c:when test="${param.numPerPage > 1}">
+		<c:set var="numPerPage" value="${param.numPerPage}" />
 	</c:when>
 	<c:otherwise>
-		<c:set var="size" value="10" />
+		<c:set var="numPerPage" value="10" />
 	</c:otherwise>
 </c:choose>
 <c:choose>
@@ -35,11 +36,12 @@
 <c:set var="len" value="0" />
 <c:set var="lang" value="${requestScope.lang}" />
 <c:set var="navPath" value="${requestScope.path}" />
+<c:set var="mcrresult" value="${requestScope.results}" /> 
 <c:set var="query" value="${requestScope.query}" />
-<c:set var="resultlistType" value="${requestScope.resultlistType}" />
 
-<mcr:setResultList var="resultList" query="${query}"	navPath="${navPath}" resultlistType="${resultlistType}"	from="${offset}" until="${offset + size}" lang="${lang}" />
-<mcr:setQueryAsString var="strQuery" jdom="${query}" />
+<!-- the result contains only the results from the begin of the selected page to page +numPerPage -->
+<mcr:setResultList var="resultList"  results="${mcrresult}" from="0" until="${numPerPage}" lang="${lang}" />
+
 
 <c:choose>
 	<c:when test="${fn:startsWith(resultlistType,'class')}">
@@ -51,32 +53,46 @@
 </c:choose>
 
 <x:forEach select="$resultList/mcr_results">
+	<x:set var="resultid"  select="string(./@id)" scope="page" />
 	<x:set var="totalhits" select="string(./@total-hitsize)" scope="page" />
-	<div class="headline"><fmt:message key="${headlineKey}" /></div>
-	<form action="${WebApplicationBaseURL}resortresult" method="get" id="resortForm">
-		<input type="hidden" name="resultlistType" value="${resultlistType}">
-	<table cellspacing="0" cellpadding="0">
+	<x:set var="mask" select="string(./@mask)" scope="page" />
+	<div class="headline">
+		<fmt:message key="${headlineKey}" />	
+	</div>
+	<p>
+		<a href="${WebApplicationBaseURL}servlets/MCRJSPSearchServlet?mode=refine&mask=${mask}&id=${resultid}">
+		<b>Suche verfeinern |</b> </a>
+		<a href="${WebApplicationBaseURL}servlets/MCRJSPSearchServlet?mode=renew&mask=${mask}"><b> neue Suche</b></a>		
+	</p>
+
+	<div id="resortForm">
+	
+	<table cellspacing="0" cellpadding="0" >
 		<tr>
-			<td class="resort">
-                    <input type="hidden" name="query" value="${strQuery}">
-                        <select name="field1">
-                            <option value="modified" <mcr:ifSorted query="${query}" attributeName="field" attributeValue="modified">selected</mcr:ifSorted> ><fmt:message key="Webpage.searchresults.sort-modified" /></option>    
-                            <option value="title" <mcr:ifSorted query="${query}" attributeName="field" attributeValue="title">selected</mcr:ifSorted> ><fmt:message key="Webpage.searchresults.sort-title" /></option>
-                            <option value="author" <mcr:ifSorted query="${query}" attributeName="field" attributeValue="author">selected</mcr:ifSorted> ><fmt:message key="Webpage.searchresults.sort-author" /></option>
-                        </select>
-                        <select name="order1">
-                            <option value="ascending" <mcr:ifSorted query="${query}" attributeName="field" attributeValue="ascending">selected</mcr:ifSorted> ><fmt:message key="Webpage.searchresults.ascending" /></option>
-                            <option value="descending" <mcr:ifSorted query="${query}" attributeName="field" attributeValue="descending">selected</mcr:ifSorted> ><fmt:message key="Webpage.searchresults.descending" /></option>
-                        </select>
+		 <td class="resort"> 
+				<form action="${WebApplicationBaseURL}servlets/MCRJSPSearchServlet" method="get" >
+					<input type="hidden" name="mode" value="resort">
+                    <input type="hidden" name="id" value="${resultid}">
+                    <select name="field1">
+                        <option value="modified" <mcr:ifSorted query="${query}" attributeName="field" attributeValue="modified">selected</mcr:ifSorted> ><fmt:message key="Webpage.searchresults.sort-modified" /></option>    
+                        <option value="title" <mcr:ifSorted query="${query}" attributeName="field" attributeValue="title">selected</mcr:ifSorted> ><fmt:message key="Webpage.searchresults.sort-title" /></option>
+                        <option value="author" <mcr:ifSorted query="${query}" attributeName="field" attributeValue="author">selected</mcr:ifSorted> ><fmt:message key="Webpage.searchresults.sort-author" /></option>
+                    </select>
+                    <select name="order1">
+                        <option value="ascending" <mcr:ifSorted query="${query}" attributeName="field" attributeValue="ascending">selected</mcr:ifSorted> ><fmt:message key="Webpage.searchresults.ascending" /></option>
+                        <option value="descending" <mcr:ifSorted query="${query}" attributeName="field" attributeValue="descending">selected</mcr:ifSorted> ><fmt:message key="Webpage.searchresults.descending" /></option>
+                    </select>                                         
                     <input value="Sortiere Ergebnisliste neu" class="resort" type="submit">
-			<td class="resultCount">
-				<strong>${totalhits} 
-				<fmt:message key="Webpage.searchresults.foundMCRObjects" /></strong>
+				</form>
+				
+   			</td>	
+			<td class="resultCount" >
+				<strong>${totalhits} <fmt:message key="Webpage.searchresults.foundMCRObjects" /></strong>
 			</td>
 		</tr>
 	</table>
-	</form>
-
+	</div>
+	
 	<table cellpadding="0" cellspacing="0">
 		<tbody>
 			<x:if select="./mcr_result">
@@ -86,7 +102,7 @@
 					<x:set var="docType" select="string(@docType)" />
 					<!--  the number corresponds to the x. entry in resultlist-*.xml -->
 					<x:set var="contentType"	select="./metaname[3]/metavalues/metavalue/@categid" />
-					<table id="resultList" width="95%" >
+					<table id="resultList" width="100%" >
 						<tbody>
 							<tr>
 								<td width="30px" class="resultIcon" rowspan="4" valign="top" ><x:choose>
@@ -298,11 +314,12 @@
 				</x:if>
 			</tbody>
 		</table>
+    <br/>
 	</x:forEach>
-
+    
 	<div id="resultListFooter">				
-	  <mcr:browsePageCtrl var="browseControl" totalSize="${totalhits}" size="${size}" offset="${offset}" maxDisplayedPages="10" path="${navPath}" /> 
-	  <x:forEach select="$browseControl/mcr_resultpages/mcr_resultpage">
+	  <mcr:browsePageCtrl var="browseControl" totalhits="${totalhits}" numPerPage="${numPerPage}" currentPage="${page}" maxDisplayedPages="10" resultid="${resultid}" /> 
+	  <x:forEach select="$browseControl/mcr_resultpages/mcr_resultpage">		
 		<x:if select="generate-id(../mcr_resultpage[1]) = generate-id(.)">
 				<fmt:message key="Webpage.searchresults.hitlists" />
 		</x:if>
@@ -319,10 +336,12 @@
            	        [<x:out select="./@pageNr" />]
        				</x:when>
 					<x:otherwise>
-   	                [<a href="<x:out select="./@href" />"><x:out select="./@pageNr" /></a>]                
+					<!-- /servlets/MCRSearchServlet?mode=results&id=-1xm6zxm7vxrojerkdk1sv&page=2&numPerPage=10	-->									
+   	                [<a href="${WebApplicationBaseURL}<x:out select="./@href" />"><x:out select="./@pageNr" /></a>]                
 	                </x:otherwise>
 				</x:choose>
 			</x:otherwise>
 	    </x:choose>
 	  </x:forEach>
-	</div>
+	</div>	
+	<br/>	

@@ -1,173 +1,126 @@
-<%@ page import="org.jdom.Element,
-				 org.jdom.Document,
-				 org.mycore.common.MCRSession,
-				 org.mycore.common.JSPUtils,
-				 java.util.List,
-				 java.util.Iterator"%>  
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/xml"  prefix="x" %>	 
-<%
-	String WebApplicationBaseURL = (String) getServletContext().getAttribute("WebApplicationBaseURL");
-	
-	String actUriPath = request.getParameter("actUriPath");
-	String browserClass = request.getParameter("browserClass");
-	String searchField = "";
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/xml" prefix="x"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr"%>
 
-    /** ========== Subselect Parameter ========== **/
-    /**
-     Enumeration ee = request.getParameterNames();
+<%
+     java.util.Enumeration ee = request.getParameterNames();
      while ( ee.hasMoreElements() ) {
          String param = (String) ee.nextElement();
     	 System.out.println("PARAM: " + param + " VALUE: "  + 	request.getParameter(param) );
      }
-    **/
-    
-    String subselectSession = request.getParameter("XSL.subselect.session");
-    String subselectVarpath = request.getParameter("XSL.subselect.varpath");
-    String subselectWebpage = request.getParameter("XSL.subselect.webpage");
-    
-    String url = WebApplicationBaseURL
-    	       + "servlets/XMLEditor?_action=end.subselect"
-    	       + "&amp;subselect.session="+subselectSession
-  		 	   + "&amp;subselect.varpath="+subselectVarpath
-    		   + "&amp;subselect.webpage="+subselectWebpage;
+%>    
 
-    String subselectParams  =  "XSL.subselect.session="+subselectSession
-	        		 		+ "&amp;XSL.subselect.varpath="+subselectVarpath
-    		     			+ "&amp;XSL.subselect.webpage="+subselectWebpage;
-    		   
-    String formAction=WebApplicationBaseURL + subselectWebpage+"?XSL.editor.session.id="+subselectSession;        		         		
-	
-	System.out.println("XXXX formAction: " + formAction);
-	System.out.println("XXX url: " + url);
-	
-    /** ========== Subselect Parameter ENDE ========== **/
-	
-	if (actUriPath == null) actUriPath = "/" + browserClass;
-	String lang = (String) request.getAttribute("lang");
-	
-    MCRSession mcrSession = org.mycore.common.MCRSessionMgr.getCurrentSession();
-	System.out.println("Session: " + mcrSession.getID());
-    
-	if (actUriPath == null) actUriPath = "/" + browserClass;
-    try {
-		searchField = org.mycore.common.MCRConfiguration.instance().getString("MCR.ClassificationBrowser." + browserClass + ".SearchField"); 
-        mcrSession.BData = new org.mycore.datamodel.classifications.MCRClassificationBrowserData(actUriPath,"","","");
-    } catch (Exception cErr) {
-    	request.setAttribute("message",cErr.getMessage());
-   	    getServletContext().getRequestDispatcher("/mycore-error.jsp").forward(request,response);
-    }
-	
-    Document doc = mcrSession.BData.createXmlTree(lang);   
-	String path = request.getParameter("path");
-    Element browser = doc.getRootElement();
-    Element navigationTree = browser.getChild("navigationtree");
-    //org.jdom.output.XMLOutputter xmlout = new org.jdom.output.XMLOutputter(org.jdom.output.Format.getPrettyFormat());
-    //System.out.print(xmlout.outputString(doc));
-    String hrefStart = new StringBuffer(WebApplicationBaseURL)
-    	.append("nav?path=").append(path)
-    	.append("&actUriPath=").append(request.getParameter("startUriPath"))
-    	.toString();
-    	
-%>
-	<fmt:setBundle basename='messages'/>
-	<div class="headline"><fmt:message key="Webpage.browse.generalTitle" /></div>
+<c:set var="debug" value="false" />
+<c:set var="WebApplicationBaseURL"	value="${applicationScope.WebApplicationBaseURL}" />
+
+<c:set var="lang" value="${requestScope.lang}" />
+
+<c:set var="browserClass" value="${param.browserClass}" />
+<c:set var="path" value="${param.path}" />
+<c:choose>
+<c:when test="${param.actUriPath}">
+	<c:set var="actUriPath" value="${param.actUriPath}" />
+</c:when>
+<c:otherwise>
+	<c:set var="actUriPath" value="" />
+</c:otherwise>
+</c:choose>
+
+<!--  ========== Subselect Parameter ENDE ==========  -->
+
+<c:set var="subselectSession" value="${param.XSL.subselect.session}" />
+<c:set var="subselectVarpath" value="${param.XSL.subselect.varpath}" />
+<c:set var="subselectWebpage" value="${param.XSL.subselect.webpage}" />
+
+<x:set var="url" 
+value="concat($WebApplicationBaseURL,'servlets/XMLEditor?_action=end.subselect&amp;subselect.session=',$subselectSession,
+  		 	   '&amp;subselect.varpath=',$subselectVarpath,'&amp;subselect.webpage=', $subselectWebpage)" />
+
+<x:set var="subselectParams"
+value="concat('XSL.subselect.session=',$subselectSession,'&amp;XSL.subselect.varpath=',$subselectVarpath,
+			  '&amp;XSL.subselect.webpage=', $subselectWebpage )" />
+
+<x:set var="formAction" value="concat($WebApplicationBaseURL, $subselectWebpage, '?XSL.editor.session.id=', $subselectSession)" />     		         		
+<!--  ========== Subselect Parameter ENDE ==========  -->
+			  
+<div class="headline"><fmt:message key="Webpage.browse.generalTitle" /></div>
+
+
+<mcr:setClassBrowserTreeTag actUriPath="${param.actUriPath}" browserClass="${param.browserClass}"  lang="${lang}"  var="browser" />
+<mcr:getConfigProperty defaultValue="default" var="searchField" prop="MCR.ClassificationBrowser.${param.browserClass}.SearchField"/>
+
+<x:set var="hrefStart" select="concat($WebApplicationBaseURL, 'nav?path=', $path )" />
+
+<x:forEach select="$browser/classificationBrowse">    
     <table id="metaHeading" cellpadding="0" cellspacing="0">
-        <tr>
-         <td style="width:60%;" class="desc">
-		  <form action="<%= formAction %>" method="post">
-		   <input type="submit" class="submit" value="Auswahl abbrechen" />
-		   <br/>
-		   <br/>
-		 </form>
-		 </td>
-		</tr>
 		<tr>
-          <td class="titles">
-                <fmt:message key="Webpage.browse.numberOf" /> : <%= browser.getChildText("cntDocuments") %>
+	    	<td style="width:60%;" class="desc">
+			  <form action="${formAction}" method="post">
+			   <input type="submit" class="submit" value="Auswahl abbrechen" />
+			   <br/>
+			   <br/>
+			  </form>
+			 </td>
+		</tr>
+        <tr>
+	        <td class="titles">
+                <fmt:message key="Webpage.browse.numberOf" /> : <x:out select="./cntDocuments" />
             </td>
             <td class="browseCtrl">
-                <a href="<%= hrefStart %>"><%= browser.getChildText("description") %></a>
+                <a href="${hrefStart}"><x:out select="./description"/>
             </td>
         </tr>
 	</table>
- 	<!-- IE Fix for padding and border -->
  	<hr/>
 	<table cellspacing="0" cellpadding="3" width="100%" >
 	<tr><td valign="top">
  	  <table id="browseClass" cellspacing="0" cellpadding="3">
-		<%
-		for(Iterator it = navigationTree.getChildren("row").iterator(); it.hasNext();) {
-        	Element row = (Element) it.next();
-        	List cols = row.getChildren("col");
-        	Element col1 = (Element) cols.get(0);
-        	Element col2 = (Element) cols.get(1);   
-        	
-		  	String href1 = new StringBuffer(WebApplicationBaseURL)
-		  		.append("nav?path=").append(path)
-		  		.append("&actUriPath=").append(col2.getAttributeValue("searchbase"))
-		  		.append("&").append(subselectParams)
-		  		.toString();
-		  		
-   	   		String subSelectItem = new StringBuffer(url)
-		  		.append("&amp;_var_@categid=").append(col2.getAttributeValue("lineID"))
-		  		.append("&amp;_var_@title=").append(col2.getText())
-		  		.toString();
+		<x:forEach select="./navigationtree/row" >    
+		    <x:set var="searchbase" select="string(./col[2]/@searchbase) " />
+		    <x:set var="folder1" select="string(./col[1]/@folder1) " />
+		    <x:set var="lineID" select="string(./col[2]/@lineID) " />
+		    <x:set var="text" select="string(./col[2]) " />
 
-		  	String img1 = new StringBuffer(WebApplicationBaseURL)
-		  		.append("images/").append(col1.getAttributeValue("folder1")).append(".gif")
-		  		.toString();
-		  	/***
-		  	String img2 = new StringBuffer(WebApplicationBaseURL)
-		  		.append("images/").append(col1.getAttributeValue("folder2")).append(".gif")
-		  		.toString();
-		  	***/
-		  	String img3 = new StringBuffer(WebApplicationBaseURL)
-		  		.append("images/folder_blank.gif")
-		  		.toString();
-		  	
-		  	int lineLevel = Integer.valueOf(col1.getAttributeValue("lineLevel")).intValue();
-		  	int numDocs = Integer.valueOf(col2.getAttributeValue("numDocs")).intValue();
-		  	
-		  	String displayedNumber = JSPUtils.fillToConstantLength(String.valueOf(numDocs),"&#160;",6);
-		  		
-            String plusminusBase = col1.getAttributeValue("plusminusbase"); 				  				  		
-        	%>
-        	<tr>
-        	   <td class="image">
-        	         <%
-        	         if (lineLevel > 0) {
-        	         %>
-        	            <img border="0" width="<%= lineLevel * 10 %>" src="<%= img3 %>" />
-        	         <%
-        	         }
-        	         if ((plusminusBase != null) && !(plusminusBase.equals(""))) {
-        	         %>
-        	         	<a href="<%= href1 %>"><img class="borderless" src="<%= img1 %>" /></a>
-        	         <%
-        	         }else {
-        	         %>
-        	         	<img class="borderless" src="<%= img1 %>" />
-        	         <%
-        	         }
-        	         %>
+			<x:set var="lineLevel" select="number(./col[1]/@lineLevel)" />
+			<x:set var="numDocs" select="number(./col[2]/@numDocs)" />
+			<x:set var="fmtnumDocs" select="string(./col[2]/@fmtnumDocs)" />			
+			<c:set var="fmtnumDocs" value="${fn:replace(fmtnumDocs,' ', '_')}" />			
+			<x:set var="plusminusbase" select="string(./col[1]/@plusminusbase)" />
+   	   		<x:set var="subSelectItem" value="concat( $url, '&amp;_var_@categid=',$lineID,'&amp;_var_@title=',$text)" />
+			
+        	<tr valign="top" >
+        	   <td valign="top">
+	       	    <c:if test="${lineLevel gt 0 }" >
+       	            <img border="0" height="1px" width="${lineLevel * 10}px"  src="${WebApplicationBaseURL}images/folder_blank.gif" />
+				</c:if>        	            
+				<c:choose>
+	       		    <c:when test="${fn:length(plusminusbase) > 0}" >
+       	        	 	<a href="${WebApplicationBaseURL}nav?path=${path}&actUriPath=${searchbase}"><img 
+       	        	 		class="borderless" src="${WebApplicationBaseURL}images/${folder1}.gif" /></a>
+       		        </c:when>
+    	   	        <c:otherwise> 
+       	        		<img class="borderless" src="${WebApplicationBaseURL}images/${folder1}.gif" />
+					</c:otherwise> 		
+				</c:choose>
         	   </td>
-        	   <td class="numDocs"> 
-        	      [<%= displayedNumber %> <fmt:message key="Webpage.browse.doc" />]
+        	   <td> 
+        	      [ <code> <c:out value="${fmtnumDocs}" />  </code>  <fmt:message key="Webpage.browse.doc" />]
         	   </td>
         	   <td class="descr">
-    	          <a href="<%= subSelectItem %>"><%= col2.getText() %></a>
+    	          <a href="${subSelectItem}"><x:out select="string(./col[2])" /></a>
         	   </td>
-        	      <% if ( (col2.getChildText("comment") != null) && !(col2.getChildText("comment").equals(""))) {   %>
-        	      <td>
-        	         <%= col2.getChildText("comment") %>
-        	      <td>
-       	          <% }    %>
-        	</tr>
-        	<% } %>        
-	 </table>	
-	 </td>
-	 </tr>	
-</table>
- 	
+	       	    <x:if select="./col[2]/comment">
+	       	       <td>
+	        	      <x:out select="string(./col[2]/comment)" />
+	       	       </td>  
+				</x:if>       	       
+			</tr>	        	
+        	
+        </x:forEach>	
+	 </table>	 
+    </td></tr>		 
+   </table>
+ </x:forEach>
+

@@ -1,62 +1,67 @@
 package org.mycore.frontend.jsp.taglibs;
 
 import java.io.IOException;
-import javax.servlet.jsp.tagext.*;
-import javax.servlet.jsp.*;
+
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.PageContext;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.output.DOMOutputter;
 import org.mycore.common.JSPUtils;
-import org.mycore.frontend.jsp.NavServlet;
 
 public class MCRBrowsePageCtrlTag extends SimpleTagSupport
 {
-	private int size;
-	private int totalSize;
-	private int offset;
+	private int numPerPage;
+	private int currentPage;
+	private int totalhits;
 	private int maxDisplayedPages;
 	private String var;
-	private String path;
+	private String resultid;
 	
-	public void setPath(String inputPath) {
-		path = inputPath;
-		return;
-	}
 	public void setVar(String inputVar) {
 		var = inputVar;
 		return;
+	}	
+	public void setNumPerPage(int numPerPage) {
+		this.numPerPage = numPerPage;
 	}
-	public void setSize(int inputSize) {
-		size = inputSize;
+	
+	public void setCurrentPage(int currentPage) {
+		this.currentPage = currentPage;
 	}
+	
 	public void setMaxDisplayedPages(int inputMaxDisplayedPages) {
 		maxDisplayedPages = inputMaxDisplayedPages;
-	}	
-	public void setTotalSize(int inputTotalSize) {
-		totalSize = inputTotalSize;
-	}	
-	public void setOffset(int inputOffset) {
-		offset = inputOffset;
 	}
-
+	
+	public void setTotalhits(int totalhits) {
+		this.totalhits = totalhits;
+	}
+	
+	public void setResultid(String resultid) {
+		this.resultid = resultid;
+	}
+	
 	public void doTag() throws JspException, IOException {
 		PageContext pageContext = (PageContext) getJspContext();		
 		Element mcr_resultpages = new Element("mcr_resultpages");
-        int totalNumPages= (totalSize % size == 0)? totalSize / size : totalSize / size + 1;
-        int currentPage = offset / size +1 ;
-        String baseResultURL = new StringBuffer(NavServlet.getNavigationBaseURL()).append("nav?path=")
-        	  .append(path).toString();
-        int start = Math.max(1,currentPage - (maxDisplayedPages / 2));
+		int totalNumPages=1;
+		if ( totalhits > numPerPage )
+			totalNumPages= (totalhits / numPerPage) + 1 ; 
+        int start = Math.max(1, currentPage - (maxDisplayedPages / 2));
         int end = Math.min(start + maxDisplayedPages,totalNumPages);
         if (start > 1) {
         	mcr_resultpages.setAttribute("cutted-left","true");
         }
         for (int i = start; i <= end ; i++) {
            	Element mcr_resultpage = new Element("mcr_resultpage");
-        	StringBuffer linkSB = new StringBuffer(baseResultURL).append("&size=").append(size)
-        		.append("&offset=").append((i - 1)*size);
+        	StringBuffer linkSB = new StringBuffer("servlets/MCRJSPSearchServlet?mode=results&id=").append(resultid)
+        		.append("&page=").append(String.valueOf(i))
+        		.append("&numPerPage=").append(String.valueOf(numPerPage));
         	mcr_resultpage.setAttribute("href", linkSB.toString());
         	mcr_resultpage.setAttribute("pageNr",String.valueOf(i));
         	if( i == currentPage) {
