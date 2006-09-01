@@ -5,14 +5,14 @@
 <editor id="SearchMask_PublicationEdit">
 
 <!-- <target type="debug" /> -->
-
-<target type="servlet" url="/searchresult" method="post" format="xml" />
+<source url="request:servlets/MCRJSPSearchServlet?mode=load&amp;id=[ID]" token="[ID]"/>
+<target type="servlet" url="/servlets/MCRJSPSearchServlet" method="post" format="xml" />
 
 <components root="SearchMask_PublicationEdit" var="/query">
     <include uri="webapp:editor/searchmasks/imports-searchmasks-common.xml"/>   
    
     <panel id="SearchMask_PublicationEdit" lines="off">
-      
+      <hidden var="@mask" default="~searchstart-wfpublication" />    
       <hidden var="conditions/@format" default="xml" />
       <hidden var="conditions/boolean/@operator" default="and" />
       <hidden var="conditions/boolean/condition1/@field"    default="objectType" />

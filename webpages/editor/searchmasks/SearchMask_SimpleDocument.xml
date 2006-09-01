@@ -4,18 +4,14 @@
 <section title="Searchmask for all Documents" xml:lang="de">
 <editor id="SearchMask_Alldocs">
 
-<!-- <target type="debug" /> -->
-
-<target type="servlet" url="/searchresult" method="post" format="xml" />
+<source url="request:servlets/MCRJSPSearchServlet?mode=load&amp;id=[ID]" token="[ID]"/>
+<target type="servlet" url="/servlets/MCRJSPSearchServlet" method="post" format="xml" />
 
 <components root="SearchMask_Alldocs" var="/query">
 
   <include uri="webapp:editor/searchmasks/imports-searchmasks-common.xml" />
-  
-  
   <panel id="SearchMask_Alldocs">
-  
-    <hidden var="@resultlistType" default="simple" />
+    <hidden var="@mask" default="~searchstart-simple" />
     <hidden var="@maxResults" default="100" />
     
     <hidden var="conditions/@format" default="xml" />

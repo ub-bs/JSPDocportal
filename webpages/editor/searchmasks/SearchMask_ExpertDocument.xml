@@ -4,15 +4,14 @@
 <section title="Searchmask Expert Document" xml:lang="de">
 <editor id="SearchMask_ExpertDocument">
 
-<target type="servlet" url="/searchresult" method="post" format="xml" />
+<source url="request:servlets/MCRJSPSearchServlet?mode=load&amp;id=[ID]" token="[ID]"/>
+<target type="servlet" url="/servlets/MCRJSPSearchServlet" method="post" format="xml" />
 
-
-  <components root="SearchMask_ExpertDocument" var="/query">
-	  
+  <components root="SearchMask_ExpertDocument" var="/query">  
     <include uri="webapp:editor/searchmasks/imports-searchmasks-common.xml"/>	  
 	 
     <panel id="SearchMask_ExpertDocument" lines="off">
-      
+      <hidden var="@mask" default="~searchstart-extended" />
       <hidden var="conditions/@format" default="xml" />
 
       <!-- Search only for object type document -->

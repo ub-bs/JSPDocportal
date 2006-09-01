@@ -6,7 +6,9 @@
 
 <!-- <target type="debug" /> -->
 
-<target type="servlet" url="/searchresult" method="post" format="xml" />
+
+<source url="request:servlets/MCRJSPSearchServlet?mode=load&amp;id=[ID]" token="[ID]"/>
+<target type="servlet" url="/servlets/MCRJSPSearchServlet" method="post" format="xml" />
 
 <components root="SearchMask_Alldocs" var="/query">
 
@@ -14,8 +16,7 @@
   
   
   <panel id="SearchMask_Alldocs">
-  
-    <hidden var="@resultlistType" default="simple" />
+    <hidden var="@mask" default="~searchstart-alldocs" />  
     <hidden var="@maxResults" default="100" />
     
     <hidden var="conditions/@format" default="xml" />

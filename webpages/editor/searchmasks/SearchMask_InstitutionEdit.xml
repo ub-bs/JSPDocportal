@@ -5,16 +5,15 @@
 <editor id="SearchMask_InstitutionEdit">
 
 <!-- <target type="debug" /> -->
-
-<target type="servlet" url="/searchresult" method="post" format="xml" />
+<source url="request:servlets/MCRJSPSearchServlet?mode=load&amp;id=[ID]" token="[ID]"/>
+<target type="servlet" url="/servlets/MCRJSPSearchServlet" method="post" format="xml" />
 
 <components root="SearchMask_InstitutionEdit" var="/query">
 
   <include uri="webapp:editor/searchmasks/imports-searchmasks-common.xml" />
   
   <panel id="SearchMask_InstitutionEdit">
-  
-    <hidden var="@resultlistType" default="simple" />
+    <hidden var="@mask" default="~searchstart-wfinstitution" />
     <hidden var="@maxResults" default="100" />
     
     <hidden var="conditions/@format" default="xml" />

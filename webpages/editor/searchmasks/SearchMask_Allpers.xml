@@ -5,7 +5,8 @@
 <editor id="SearchMask_Allpers">
 <!-- <target type="debug" /> -->
 
-<target type="servlet" url="/searchresult" method="post" format="xml" />
+<source url="request:servlets/MCRJSPSearchServlet?mode=load&amp;id=[ID]" token="[ID]"/>
+<target type="servlet" url="/servlets/MCRJSPSearchServlet" method="post" format="xml" />
 
 <components root="SearchMask_Allpers" var="/query">
 
@@ -13,8 +14,7 @@
   
   
   <panel id="SearchMask_Allpers">
-  
-    <hidden var="@resultlistType" default="simple" />
+    <hidden var="@mask" default="~searchstart-allpers" />  
     <hidden var="@maxResults" default="100" />
     
     <hidden var="types/type/@field" default="alldocs" />
