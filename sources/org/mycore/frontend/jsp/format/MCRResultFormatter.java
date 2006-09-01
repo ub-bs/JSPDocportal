@@ -18,7 +18,6 @@ import java.util.MissingResourceException;
 import java.util.PropertyResourceBundle;
 
 import org.apache.log4j.Logger;
-
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -41,7 +40,7 @@ import org.mycore.datamodel.metadata.MCRMetaISO8601Date;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.jsp.NavServlet;
-import org.mycore.services.fieldquery.MCRResults;
+import org.mycore.services.fieldquery.MCRFieldDef;
 
 /**
  * @author Heiko Helmbrecht
@@ -838,16 +837,21 @@ public class MCRResultFormatter {
         return allMetaValuesRoot ;    	
     }
     
-	public Document getFormattedResultContainer(MCRResults result, String lang, int from, int until) {
+    public Document getFormattedResultContainer(Element results, String lang, int from, int until) {
 		MCRObject mcr_obj = new MCRObject();
 		Element mcr_results = new Element("mcr_results");
-		mcr_results.setAttribute("total-hitsize", String.valueOf(result.getNumHits()));
+		String numHits = results.getAttributeValue("numHits");
+		mcr_results.setAttribute("id", results.getAttributeValue("id"));
+		mcr_results.setAttribute("mask", results.getAttributeValue("mask"));
+		mcr_results.setAttribute("total-hitsize", numHits);
 		// is the same now, but could be different for browsing over huge collections
 		// not every hit will be build then
-		mcr_results.setAttribute("resultlist-hitsize", String.valueOf(result.getNumHits()));
-		int max = Math.min(until,result.getNumHits());
-		for (int k = from; k < max; k++) {
-			String hitID = result.getHit(k).getID();
+		mcr_results.setAttribute("resultlist-hitsize", numHits);
+		// int max = Math.min(until,Integer.parseInt(numHits));
+		// the resultset contains only the hits from page x from 0 to numPerPage - cutting is taken in MCRJSPSearchservlet
+		List hits = results.getChildren("hit",MCRFieldDef.mcrns);		
+		for (int k = from; k < until && k < hits.size() ; k++) {
+			String hitID = ((Element)(hits.get(k))).getAttributeValue("id");
 		    org.jdom.Document hit = mcr_obj.receiveJDOMFromDatastore(hitID);
 	        Element mycoreobject = hit.getRootElement();
 	        String mcrID = mycoreobject.getAttributeValue("ID");
@@ -862,9 +866,9 @@ public class MCRResultFormatter {
 	        mcr_result.addContent(containerHit);
 	        mcr_results.addContent(mcr_result);
 		}
-		return new Document(mcr_results);
-	}    
-  
+		return new Document(mcr_results);    	
+    	
+    }
     protected Element addDocType2ResultlistMap(String docType) {
     	String resultlistResource = new StringBuffer("resource:resultlist-").append(docType).append(".xml").toString();
     	Element resultlistElement = MCRURIResolver.instance().resolve(resultlistResource);
