@@ -178,6 +178,12 @@
     <element name="pages" minOccurs='0' maxOccurs='1' parasearch="false" textsearch="false">
       <mcrmetalangtext name="page" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="256" />      
     </element>
+
+    <!--  für alle Publikationen -->
+    <!-- 41 - Basisklassifikation -->
+    <element name="bkls" minOccurs='0' maxOccurs='1' parasearch="true" textsearch="false">
+      <mcrmetaclassification name="bkl" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
+    </element>
     
   </metadata>
   <service>
