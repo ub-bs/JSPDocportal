@@ -63,7 +63,7 @@
       <hr/>
       <mcr:checkAccess permission="administrate-institution" var="curUserIsAdminUser" />
       <c:if test="${!curUserIsAdminUser}">
-	      <c:import url="/content/workflow/institution/information.jsp" />
+	      <mcr:includeWebContent file="workflow/institution_introtext.jsp"/>
     	  <br />&nbsp;<br />
    	  </c:if>
 	</c:when>

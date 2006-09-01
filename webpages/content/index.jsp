@@ -6,8 +6,8 @@
 <fmt:setBundle basename='messages'/>
 
 <div class="headline"><fmt:message key="Webpage.intro.Webpage.intro" /></div>
-<mcr:includeWebContent file="intro.html" />
-<p><fmt:message key="Webpage.intro.ExampleApplication" /></p>
+<mcr:includeWebContent file="index_introtext.jsp" />
+<%-- <p><fmt:message key="Webpage.intro.ExampleApplication" /></p>
 <p><fmt:message key="Webpage.intro.ExplainSearch" /></p>
 <p><fmt:message key="Webpage.intro.TwoFundamentalTypes" /></p>
 <p><fmt:message key="Webpage.intro.TypesKnowMetadata" /></p>
@@ -27,7 +27,7 @@
 <p><fmt:message key="Webpage.intro.AlsoTwoTypesForAuthors" /></p>
 <p><fmt:message key="Webpage.intro.DifferenceAuthorEditor" /></p>
 <p><fmt:message key="Webpage.intro.MoreAuthorData" /></p>
-<p><fmt:message key="Webpage.intro.Workflow" /></p>
+<p><fmt:message key="Webpage.intro.Workflow" /></p> --%>
 <p style="text-align:right">
 <a style="color:white" href="<c:out value="${requestScope.WebApplicationBaseURL}" />/index/robotd/index.html"><fmt:message key="Webpage.intro.AccessForRobots" /> (<fmt:message key="documents" />)</a>
 </p>

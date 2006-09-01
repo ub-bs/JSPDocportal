@@ -61,8 +61,8 @@
       <hr/>
       <mcr:checkAccess permission="administrate-author" var="curUserIsAdminUser" />
       <c:if test="${!curUserIsAdminUser}">
-	      <c:import url="/content/workflow/author/information.jsp" />
-    	  <br />&nbsp;<br />
+	      <mcr:includeWebContent file="workflow/author_introtext.jsp"/>
+
    	  </c:if>
 	</c:when>
 	<c:otherwise>

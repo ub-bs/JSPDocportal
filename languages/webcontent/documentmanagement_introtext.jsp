@@ -1,0 +1,54 @@
+<p>Zunächst sollten Sie sich ein gültiges Autoren-Login von Ihrer
+Einrichtung oder von Ihrem Institut beschaffen. Dieses berechtigt Sie
+neue Daten einzustellen und Daten, welche sich von Ihnen im System
+befinden zu modifizieren. Zur Arbeit melden Sie sich bitte zuerst mit
+Ihrem Autoren oder Bearbeiter-Login an.</p>
+
+<p>Sollten Sie auf bestimmte externe Institutionen oft von Ihren
+Metadaten aus verweisen wollen, so lohnt es sich, dafür einen
+entsprechenden Datensatz anzulegen. Benutzen Sie dazu den Menüpunkt Neue
+Institutionen anlegen. Der Dialog gestattet Ihnen die Dateneingabe.
+Anschließend werden die Daten in einem Arbeitsbereich
+zwischengespeichert und der Dialog führt Sie zu dem Bearbeitungs-Tool.
+Hier können Sie die Eingabe nachbearbeiten, in das System laden oder aus
+dem Arbeitsbereich löschen. Wurde ein Datensatz in den Server geladen,
+so wird er aus dem Arbeitsbereich gelöscht. Um schon eingestellte
+Institutionen zu bearbeiten, suchen Sie diese. Wenn Sie zu Änderungen
+berechtigt sind, erscheinen am Fuss der Anzeigeseite Icons für die
+Bearbeitung oder das Löschen.</p>
+
+<p>Analog zu den Institutionen verhält es sich mit den Personen- oder
+Autorendaten. Sollten Sie oft auf Ihre Personendaten referenzieren
+wollen, so ist es sinnvoll, diese gesondert im System abzulegen.
+Benutzen Sie zum Einstellen der Daten den Menüpunkt Neue Person anlegen.
+Das weitere Verfahren ist im Ablauf genau so wie bei den Institutionen.</p>
+
+<p>Umfangreicher gestaltet sich das Einstellen von Dokumenten. Es ist
+grundsätzlich nicht zwingend erforderlich, vorher Institutionen- und
+Personendatensätze anzulegen. Bei häufig verwendteten Referenzen macht
+es jedoch Sinn. Starten Sie für die Neueingabe mit dem Menüpunkt Neues
+Dokument eingeben. Nach dem Ausfüllen der Eingabemaske für die Metadaten
+werden diese im Arbeitsbereich abgelegt. Bitte beachten Sie, dass Sie
+alle Pflichtfelder ausfüllen müssen! Sollten Sie beim Ausfüllen des
+Formulares Unklarheiten haben, so sollten Sie zuerst die Hilfe-Button
+(?) konsultieren. Im nächsten Dialogschritt werden Ihen die Daten im
+Eingangsbereich angezeigt. Sie können hier nun die Metadaten noch einmal
+nachbearbeiten, den Datensatz löschen oder die eigentlichen
+Dokumentenobjekte hinzufügen. All diese Abeiten sollten Sie
+fertigstellen, bevor die Daten in den Server geladen werden.</p>
+
+<p>Sie können beliebig viele Datenobjekte Ihrem metadatensatz
+hinzufügen. Hierzu wird jeweis ein Upload-Dialog angeboten, welcher via
+Applet gestattet, Datein oder ganze Verzeichnisse in den Arbeitsbereich
+einzubinden. Der Dialog endet immer wieder bei der Anzeige des aktuellen
+Standes im Arbeitsbereich. Hier werden auch alle Dateien angezeigt,
+welche den metadaten zugeordnet sind. Haben Sie alle Datenobjekte
+eingebracht, können Sie das gesamte Dokument mit allen angehangenen
+Datein in den Server hochladen. Sie erhalten dann die Datenanzeige, wie
+sie sich nach einer Suche präsentiert.</p>
+
+<!-- 	Webpage.admin.DocumentManagement.FetchLogin
+		Webpage.admin.DocumentManagement.InstitutionData
+		Webpage.admin.DocumentManagement.AuthorData
+		Webpage.admin.DocumentManagement.EditData
+		Webpage.admin.DocumentManagement.UploadData -->

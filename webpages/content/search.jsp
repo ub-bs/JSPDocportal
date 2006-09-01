@@ -21,6 +21,7 @@
 	<c:import url="${url}" />
 
 <p><c:import url="content/node.jsp" /></p>
-<p><fmt:message key="Webpage.intro.search.HintsBool" /></p>
+<mcr:includeWebContent file="search_introtext.jsp"/>
+<!-- <fmt:message key="Webpage.intro.search.HintsBool" /></p>
 <p><fmt:message key="Webpage.intro.search.HintsFulltext" /></p>
-<p><fmt:message key="Webpage.intro.search.HintsMinLength" /></p>
+<p><fmt:message key="Webpage.intro.search.HintsMinLength" /></p> -->

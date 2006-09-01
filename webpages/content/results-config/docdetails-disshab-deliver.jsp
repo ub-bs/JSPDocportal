@@ -41,51 +41,7 @@
 		<div class="headline"> 
 		   <fmt:message key="Webpage.intro.xmetadiss.deliver" />
 		</div>
-	<table >
-	  <tr>
-	   <td>
-	   </td>
-	  </tr>
-	  <tr>
-	  <td valign="top" class="metaname"> <b>Original </b>  </td></tr>
-	  <tr>
-		<td>
-	    <p align="justify" >
- 	     <fmt:message key="Webpage.intro.xmetadiss.deliver.p1" />
-		<br/>
- 	     <fmt:message key="Webpage.intro.xmetadiss.deliver.p1.1" />
-		</p>
-	  </td></tr>
-	  <tr>
-	  <td valign="top" class="metaname"> <b>Zugänglichkeit in Datennetzen </b> 
-	  </td></tr>
-	  <tr>
-		<td>
-	    <p align="justify" > 
-	       <fmt:message key="Webpage.intro.xmetadiss.deliver.p2" />
-	       <br/> 
-	       <fmt:message key="Webpage.intro.xmetadiss.deliver.p2.1" />	       
-	       <br/> 
-	       <fmt:message key="Webpage.intro.xmetadiss.deliver.p2.2" />
-		</p>
-	  </td></tr>
-	  <tr>
-	  <td valign="top" class="metaname"> <b>Rechte Dritter </b>  </td></tr>
-	  <tr>
-		<td>
-	    <p align="justify" >  
-	       <fmt:message key="Webpage.intro.xmetadiss.deliver.p3" />	    
-	    </p>
-	  </td></tr>
-	  <tr>
-	  <td valign="top" class="metaname"> <b>Datenschutz </b>  </td></tr>
-	  <tr>
-		<td>
-	    <p align="justify" >	       
-	    	<fmt:message key="Webpage.intro.xmetadiss.deliver.p4" />
-		</p>
-	  </td></tr>
-	  </table>
+	  <mcr:includeWebContent file="workflow/form_disshab_deliver.jsp" />
 	  
     <hr/>
 	<table cellspacing="0" cellpadding="0" id="metaData">
