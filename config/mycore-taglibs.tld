@@ -7,145 +7,127 @@
     <jspversion>2.0</jspversion>
     <shortname>mcr</shortname>
     <uri>/WEB-INF/lib/mycore-taglibs.jar</uri>
-    <info>MyCoRe Sample Tag library</info>
+    <info>MyCoRe Sample Tag library </info>
      <tag>
             <name>login</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRLoginTag</tagclass>
             <bodycontent>empty</bodycontent>
             <attribute>
-                <description>the user id</description>
                 <name>uid</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>      
             <attribute>
-                <description>the password</description>
                 <name>pwd</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>  
             <attribute>
-                <description>Output: the var that holds the loginstatus as  xml</description>
                 <name>var</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
-            </attribute>
-            <info>A tag, that loged in an user </info>
+            </attribute>           
+            <!-- A tag, that loged in an user -->
      </tag>         
 
-	 <tag>
+   <tag>
             <name>endTask</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCREndTaskTag</tagclass>
             <bodycontent>empty</bodycontent>
             <attribute>
-                <description>Output: the var that holds the boolean success value</description>
                 <name>success</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>the workflow process id</description>
                 <name>processID</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>      
             <attribute>
-                <description>the workflow task name</description>
                 <name>taskName</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>  
             <attribute>
-                <description>the workflow transition name </description>
                 <name>transition</name>
                 <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>                       
-            <info>A tag, that ends a task and continues the workflow</info>
+            <!-- A tag, that ends a task and continues the workflow-->
      </tag>         
-	 <tag>
+   <tag>
             <name>checkDecisionNode</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRCheckDecisionNodeTag</tagclass>
             <bodycontent>empty</bodycontent>
             <attribute>
-                <description>Output: the var that holds the next transition name</description>
                 <name>var</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>the workflow process type</description>
                 <name>workflowType</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
             <attribute>
-                <description>the workflow process id</description>
                 <name>processID</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
             <attribute>
-                <description>the name of the decision node conditions are checked of</description>
                 <name>decision</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
-            <info>A tag, that checks a decision node and delivers the next transition in the workflow</info>
+            <!-- A tag, that checks a decision node and delivers the next transition in the workflow-->
      </tag>     
-	 <tag>
+   <tag>
             <name>listWorkflowProcess</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRListWorkflowProcessTag</tagclass>
             <bodycontent>empty</bodycontent>
             <attribute>
-                <description>Output: the var that holds the processlist as  xml</description>
                 <name>var</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>The workflowtype for the process list</description>
                 <name>workflowProcessType</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
-            <info>A Tag, that delivers a DOM XML representation of the processlist for a workflowtype </info>
+            <!-- A Tag, that delivers a DOM XML representation of the processlist for a workflowtype -->
      </tag>    
-	 <tag>
+   <tag>
             <name>listWorkflowDerivates</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRListWorkflowDerivatesTag</tagclass>
             <bodycontent>empty</bodycontent>
             <attribute>
-                <description>Output: the varDom that holds the derivates xml</description>
                 <name>varDom</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>the scope of the variable (like in jstl), default is page scope</description>
                 <name>scope</name>
                 <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
             <attribute>
-                <description>a comma separated list of the derivates that must be listed</description>
                 <name>derivates</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>The ID of the document the derivates belong to</description>
                 <name>docID</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>the workflow-defintion-type</description>
                 <name>workflowprocesstype</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
-            <info>A Tag, that delivers a DOM XML representation of the derivates for a special document in the workflow</info>
+            <!-- A Tag, that delivers a DOM XML representation of the derivates for a special document in the workflow-->
      </tag>    
      <tag>
          <name>getAccessRulesTag</name>
@@ -182,48 +164,41 @@
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRGetWorkflowTaskBeanListTag</tagclass>
             <bodycontent>empty</bodycontent>
             <attribute>
-                <description>Output the variable that holds the task bean list</description>
                 <name>var</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>Output the variable that holds the task bean list length</description>
                 <name>varTotalSize</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
             <attribute>
-                <description>the index of the tasklist (saved in the session) the processes are shown from</description>
                 <name>offset</name>
                 <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>the maximum number of tasks that is shown in a page</description>
                 <name>size</name>
                 <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute> 
             <attribute>
-                <description>a variable that determines which tasks are fetched (possible values "activeTasks", "initiatedProcesses")</description>
                 <name>mode</name>
                 <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>             
             <attribute>
-                <description>a comma separated list with specific workflow process types</description>
                 <name>workflowTypes</name>
                 <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
             <attribute>
-                <description>for getting the tasks for a special user (for debugging), generally the user of the session is required</description>
                 <name>debugUser</name>
                 <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
-            <info>A Tag, that delivers the Workflow-Tasks for the current user</info>
+            <!-- A Tag, that delivers the Workflow-Tasks for the current user-->
      </tag> 
     
      <tag>
@@ -231,466 +206,390 @@
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRDeleteProcessTag</tagclass>
             <bodycontent>empty</bodycontent>
             <attribute>
-                <description>the prozess id string</description>
                 <name>pid</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>the workflow-defintion-type</description>
                 <name>workflowProcessType</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>Output the variable name that holds the value of the variable in the jsp-file</description>
                 <name>result</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
-            <info>A Tag, that deletes a process identified by id, after checking permission administrate-{workflowtype} and return the result-code for formatted messaging</info>
-     </tag>	
+            <!-- A Tag, that deletes a process identified by id, after checking permission administrate-{workflowtype} and return the result-code for formatted messaging-->
+     </tag> 
      <tag>
             <name>getWorkflowEngineVariable</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRGetWorkflowEngineVariableTag</tagclass>
             <bodycontent>empty</bodycontent>
             <attribute>
-                <description>Output the variable name that holds the value of the variable in the jsp-file</description>
                 <name>var</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>the workflow-processid as string</description>
                 <name>pid</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>The name of the workflow-variable the value is requested for</description>
                 <name>workflowVar</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
-            <info>A Tag, that returns the value of a persistent workflow-engine variable</info>
+            <!-- A Tag, that returns the value of a persistent workflow-engine variable-->
      </tag>
      <tag>
             <name>initWorkflowProcess</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRInitWorkflowProcessTag</tagclass>
             <bodycontent>empty</bodycontent>
             <attribute>
-                <description>the workflow-defintion-type, a new process instance is created for</description>
                 <name>workflowProcessType</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>the transition that defines the start scenario, if not given, start node must own just one transition</description>
                 <name>transition</name>
                 <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
             <attribute>
-                <description>The userid, must exist in database</description>
                 <name>userid</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>Output - the status from this operation </description>
                 <name>status</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
             <attribute>
-                <description>the scope of the variables that are setted (default is page)</description>
                 <name>scope</name>
                 <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
             <attribute>
-                <description>Output - the workflow process id of the just inited process</description>
                 <name>processidVar</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>             
-            <info>A Tag, that initializes a new workflow process in the workflow engine</info>
+            <!-- A Tag, that initializes a new workflow process in the workflow engine-->
         </tag>     
         <tag>
             <name>includeEditor</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRIncludeEditorTag</tagclass>
             <bodycontent>empty</bodycontent>
             <attribute>
-                <description>NavServlet-Path of the next Page, if the metadataCheck was successful</description>
                 <name>nextPath</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
             <attribute>
-                <description>Target-Servlet-Name of the editor file</description>
                 <name>target</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>Value of Editor parameter: XSL.editor.session.id, required for editors with repeaters</description>
                 <name>editorSessionID</name>
                 <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
             <attribute>
-                <description>Value of Editor parameter: XSL.editor.source.new</description>
                 <name>isNewEditorSource</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>Value of Editor parameter: XSL.editor.source.url</description>
                 <name>editorSource</name>
                 <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
             <attribute>
-                <description>Value of Editor parameter: mcrid</description>
                 <name>mcrid</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>Value of Editor workflow parameter: processid</description>
                 <name>processid</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
             <attribute>
-                <description>Value of Editor parameter: type</description>
                 <name>type</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
             <attribute>
-                <description>Value of Editor parameter: workflowType</description>
                 <name>workflowType</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>             
             <attribute>
-                <description>Value of Editor parameter: publicationType</description>
                 <name>publicationType</name>
                 <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>             
             <attribute>
-                <description>Value of Editor parameter: step</description>
                 <name>step</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
             <attribute>
-                <description>Value of Editor parameter: mcrid2</description>
                 <name>mcrid2</name>
                 <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>Relative Path of the included Editor Definition file: editorPath</description>
                 <name>editorPath</name>
                 <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
             <attribute>
-                <description>Value of Editor parameter: cancelURL</description>
                 <name>cancelURL</name>
                 <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>Value of Editor parameter: uploadID</description>
                 <name>uploadID</name>
                 <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
-            <info>A Tag, that includes MyCoRe-Editor-Pages</info>
+            <!-- A Tag, that includes MyCoRe-Editor-Pages-->
        </tag>        
         <tag>
             <name>getFreeUserIDs</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRGetFreeUserIDs</tagclass>
             <bodycontent>empty</bodycontent>
             <attribute>
-                <description>The name of the var used in the jsp body</description>
                 <name>var</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>The count of proposed ID's </description>
                 <name>count</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>The StartString for the of proposed userID's </description>
                 <name>userid</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
-            <info>A Tag, that returns a list of proposals for free UserIDs</info>
-        </tag>    	
+            <!-- A Tag, that returns a list of proposals for free UserIDs-->
+        </tag>      
         <tag>
             <name>setAccessRuleEditorData</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRSetAccessRuleEditorDataTag</tagclass>
             <bodycontent>empty</bodycontent>
             <attribute>
-                <description>The name of the var used in the jsp body</description>
                 <name>var</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>Start position of the displayed String IDs</description>
                 <name>start</name>
                 <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>Step width, how many String IDs are displayes</description>
                 <name>step</name>
                 <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
             <attribute>
-                <description>The Document Type of the MyCoRe-Objects in the wf directory </description>
                 <name>docType</name>
                 <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
-            <info>A Tag, that sets a DOM Object with all needed data for assigning accessrules to objects to a given variable name</info>
+            <!-- A Tag, that sets a DOM Object with all needed data for assigning accessrules to objects to a given variable name-->
         </tag>        
         <tag>
             <name>isObjectNotLocked</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRIsObjectNotLockedTag</tagclass>
             <bodycontent>empty</bodycontent>
             <attribute>           
-                <description>
-                    Name of the pageContext variable that hold the value specified in the action (true or false).
-                </description>
                 <name>var</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>
-                    String, that represents the objID of a given Object, which can standing in another workflow
-                </description>
                 <name>objectid</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
-            <info>A Tag, that checks if the object is in work, in another workflow and return bhasAccess=true if it is not locked</info>
+            <!-- A Tag, that checks if the object is in work, in another workflow and return bhasAccess=true if it is not locked-->
         </tag>     
         <tag>
             <name>checkAccess</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRCheckAccessTag</tagclass>
             <bodycontent>empty</bodycontent>
             <attribute>
-                <description>
-                    String, that represents the access-permission, that is checked.
-                </description>
                 <name>permission</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute> 
             <attribute>           
-                <description>
-                    Name of the pageContext variable that hold the value specified in the action (true or false).
-                </description>
                 <name>var</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>
-                    String, that represents the objID of a given Object, whose access-rights are requested
-                </description>
                 <name>key</name>
                 <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
-            <info>A Tag, that checks via MCRAccessManager the access rights of a given objID and a given Access-Permission</info>
+            <!-- A Tag, that checks via MCRAccessManager the access rights of a given objID and a given Access-Permission-->
         </tag>     
         <tag>
             <name>session</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRSessionTag</tagclass>
             <bodycontent>empty</bodycontent>
             <attribute>
-                <description>
-                    "get" or "set" a session variable.
-                </description>
                 <name>method</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute> 
             <attribute>           
-                <description>
-                    Name of the pageContext variable that hold the value specified in the action.
-                </description>
                 <name>var</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>
-                    String that is indicating the type of the requested session information
-                </description>
                 <name>type</name>
                 <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute> 
             <attribute>
-                <description>
-                    String, that is the key for getting an Object of the session via get(key)
-                </description>
                 <name>key</name>
                 <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
-            <info>A Tag, that gets Information of the current mcrSession</info>
+            <!-- A Tag, that gets Information of the current mcrSession-->
         </tag>     
         <tag>
             <name>ifSorted</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRIfSortedTag</tagclass>
             <bodycontent>scriptless</bodycontent>
             <attribute>
-                <description>
-                    a MyCoRe Query as JDOM Document
-                </description>
                 <name>query</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>
-                    the attribute name of a /query/sortby/field
-                </description>
                 <name>attributeName</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute> 
             <attribute>
-                <description>
-                    the attribute value of a /query/sortby/field/@attributeName
-                </description>
                 <name>attributeValue</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
             <attribute>
-                <description>
-                    if a resultlist is sorted for several fields, you can specify the requested order-priority with this variable
-                </description>
                 <name>sortorder</name>
                 <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
-            <info>A Tag, that evaluates whether a query-result was sorted by a given field or a given order. an example is given below. (needed for sort form)</info>
+            <!-- A Tag, that evaluates whether a query-result was sorted by a given field or a given order. an example is given below. (needed for sort form)-->
         </tag> 
         <tag>
             <name>setQueryAsString</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRSetQueryAsStringTag</tagclass>
             <bodycontent>empty</bodycontent>
             <attribute>
-                <description>
-                    a MyCoRe Query as JDOM Document
-                </description>
                 <name>jdom</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>
-                    the variable name, the String is set to
-                </description>
                 <name>var</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
-            <info>A Tag, that converts a MyCoRe Jdom-Query to the String-Representation and sets the String to a given Variable</info>
+            <!-- A Tag, that converts a MyCoRe Jdom-Query to the String-Representation and sets the String to a given Variable-->
         </tag>    
         <tag>
             <name>docDetails</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRDocDetailsTag</tagclass>
             <bodycontent>empty</bodycontent>
             <attribute>
-                <description>
-                    The name of the var used in the body
-                </description>
                 <name>var</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>
-                    The jdom-Document of an MyCoRe-Object
-                </description>
                 <name>mcrObj</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>
-                    The current language
-                </description>
                 <name>lang</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
             <attribute>
-                <description>
-                    The special style for the resultlist formatter,  if there is no extra style, default we use the style named resultlist-[documentType].xml
-                </description>
                 <name>style</name>
                 <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
-            </attribute>            			
-            <info>A Tag, that parses the single-result-config-file, uses templates and builds a dom-object of the metadata for easy jstl-formatting</info>
+            </attribute>                  
+            <!-- A Tag, that parses the single-result-config-file, uses templates and builds a dom-object of the metadata for easy jstl-formatting-->
         </tag>
+        <tag>
+            <name>setClassBrowserTreeTag</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRSetClassBrowserTreeTag</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <name>var</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <name>actUriPath</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <attribute>
+                <name>browserClass</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <attribute>
+                <name>lang</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+            <!-- A  Tag, that sets a pageContext variable with the Classification Browser Tree as jdom Document-->
+        </tag>    
+        
         <tag>
             <name>receiveMcrObjAsJdom</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRReceiveMcrObjAsJdomTag</tagclass>
             <bodycontent>empty</bodycontent>
             <attribute>
-                <description>
-                    output: the name of the dom-variable that is set
-                </description>
                 <name>varDom</name>
                 <required>optional</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
             <attribute>
-                <description>
-                    the name of the variable that is set
-                </description>
                 <name>var</name>
                 <required>optional</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>
-                    The String ID of the requested MCR Object
-                </description>
                 <name>mcrid</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
-			<attribute>
-                <description>
-                    The String From where the Object should be loaded, either workflow or database 
-                </description>
+      <attribute>
                 <name>fromWForDB</name>
                 <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
-            </attribute>   			
-            <info>A Tag, that sets a pageContext variable with an MyCoRe-Object as jdom Document</info>
+            </attribute>        
+            <!-- A Tag, that sets a pageContext variable with an MyCoRe-Object as jdom Document-->
         </tag>    
 
         <tag>
@@ -698,227 +597,146 @@
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRReceiveUserAsJdomTag</tagclass>
             <bodycontent>empty</bodycontent>
             <attribute>
-                <description>
-                    output: name of the variable containing the dom object of the requested user
-                </description>
                 <name>var</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
             <attribute>
-                <description>
-                    The String ID of the requested User, or the crrecnt user if not set
-                </description>
                 <name>userID</name>
                 <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
-            <info>A Tag, that sets a pageContext variable with an MyCoRe-Object as jdom Document</info>
+            <!-- A  Tag, that sets a pageContext variable with an MyCoRe-Object as jdom Document-->
         </tag>    
         <tag>
             <name>simpleXpath</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRSimpleXpathTag</tagclass>
             <bodycontent>empty</bodycontent>
             <attribute>
-                <description>
-                    the name of the jdom-Document
-                </description>
                 <name>jdom</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>
-                    The xpath-expression as String
-                </description>
                 <name>xpath</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
-            <info>A Tag, that delivers a single xpath-value in a given jdom-Document</info>
+            <!--  A Tag, that delivers a single xpath-value in a given jdom-Document-->
         </tag>
         <tag>
             <name>browseCtrl</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRBrowseCtrlTag</tagclass>
             <bodycontent>scriptless</bodycontent>
             <attribute>
-                <description>
-                    The MCRResults-Hitlist
-                </description>
                 <name>results</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>
-                    The offset of the current hit
-                </description>
                 <name>offset</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
-            <info>A Tag, that sets the IDs of the last and next MCRResult.hit: lastHitID, nextHitID</info>
+            <!--  A Tag, that sets the IDs of the last and next MCRResult.hit: lastHitID, nextHitID  -->
         </tag>
         <tag>
             <name>setResultList</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRSetResultListTag</tagclass>
             <bodycontent>empty</bodycontent>
             <attribute>
-                <description>
-                    name of the variable containing the requested result-list of MCRResults
-                </description>
                 <name>var</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
-            </attribute>
+            </attribute>            
             <attribute>
-                <description>
-                    the query delivers a list, and this is the index the shown results begin
-                </description>
                 <name>from</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>
-                    the query delivers a list, and this is the index the shown results end
-                </description>
                 <name>until</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>              
             <attribute>
-                <description>
-                    the navigation-path (needed for the building of the session-parameter the query is saved in)
-                </description>
-                <name>navPath</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>            
-            <attribute>
-                <description>
-                    the resultlist-Type (needed for the building of the session-parameter the query is saved in and the navigation management)
-                </description>
-                <name>resultlistType</name>
-                <required>false</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>             
-            <attribute>
-                <description>
-                    the requested language
-                </description>
                 <name>lang</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>             
             <attribute>
-                <description>
-                    the Query as Jdom, that will be executed, if is null, it is taken of the session
-                </description>
-                <name>query</name>
+                <name>results</name>
                 <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>             
-            <info>A Tag, that sets the current resultList to a given Variable, for a Query either from the Session or from a request-Attribute</info>
+            <!-- A Tag, that sets the current resultList to a given Variable, for a Query either from the Session or from a request-Attribute -->
         </tag>
         <tag>
             <name>browsePageCtrl</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRBrowsePageCtrlTag</tagclass>
             <bodycontent>empty</bodycontent>
+            <!-- A Tag, that set a simple DOM object for the resultlist-pages browse control -->
             <attribute>
-                <description>
-                    name of the variable containing the browse-control-jdom
-                </description>
                 <name>var</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>
-                    the number of total hits
-                </description>
-                <name>totalSize</name>
+                <name>numPerPage</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>
-                    the number of results displayed in one (1) page
-                </description>
-                <name>size</name>
+                <name>currentPage</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>              
             <attribute>
-                <description>
-                    the hit-number of the first hits of the current page
-                </description>
-                <name>offset</name>
+                <name>totalhits</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>
-                    how many pages are displayed in the browse control?
-                </description>
                 <name>maxDisplayedPages</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
             <attribute>
-                <description>
-                    the navigation-path (needed for the building the urls)
-                </description>
-                <name>path</name>
+                <name>resultid</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
-            <info>A Tag, that set a simple DOM object for the resultlist-pages browse control</info>
-        </tag>  
-   <tag>
+        </tag>          
+        <tag>
             <name>getConfigProperty</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRGetConfigPropertyTag</tagclass>
             <bodycontent>empty</bodycontent>
             <attribute>
-                <description>
-                    the property name
-                </description>
                 <name>prop</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
-                <description>
-                    Name of the pageContext variable that hold the value specified in the action.
-                </description>
                 <name>var</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>        
             <attribute>
-                <description>
-                    Default value, if property is not set
-                </description>
                 <name>defaultValue</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
-            <info>A Tag, that sets the value of a Configuration Property to a specific value</info>
-        </tag>                
-                
+            <!-- A Tag, that sets the value of a Configuration Property to a specific value  -->
+        </tag> 
         <tag>
             <name>includeWebContent</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRIncludeWebContentTag</tagclass>
-            <bodycontent>empty</bodycontent>
+            <bodycontent>empty</bodycontent> 
             <attribute>
-                <description>
-                    the file to include
-                </description>
                 <name>file</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
-
             <info>A Tag, that includes another web page trying to load it in the current language</info>
         </tag>  
 </taglib>   
