@@ -12,19 +12,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Map;
-import java.util.regex.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import org.apache.commons.vfs.FileObject;
 import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 import org.mycore.datamodel.metadata.MCRObject;
-import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.datamodel.metadata.MCRObjectStructure;
 import org.mycore.frontend.cli.MCRDerivateCommands;
 
@@ -38,7 +34,7 @@ public class JSPUtils {
 
 	protected static Logger logger=Logger.getLogger(JSPUtils.class);
 	private static int uniqueNumber ;
-	private static Document allAuthorsQuery;
+	//private static Document allAuthorsQuery;
 	
 	// "dd.MM.YYYY" 
 	private static Pattern germanDatePattern = Pattern.compile("(\\d{1,2})\\.(\\d{1,2})\\.(\\d{4})");
@@ -49,14 +45,15 @@ public class JSPUtils {
 
 	public static void initialize() {
 		uniqueNumber = 0;
-		allAuthorsQuery = createAllAuthorsQuery("DocPortal_author");
+	//	allAuthorsQuery = createAllAuthorsQuery("DocPortal_author");
 	}
 	
 	public static void deinitialize() {
 		uniqueNumber = 0;
-		allAuthorsQuery = null;
+	//	allAuthorsQuery = null;
 	}	
 	
+	/*
 	public static Map getSessionParameterMap(HttpServletRequest request) {
 	    Map map = request.getParameterMap();
 	    HttpSession session = request.getSession();
@@ -145,7 +142,8 @@ public class JSPUtils {
            return true;
         else
            return false;
-     } 
+     }*/ 
+     
      public static String fillToConstantLength(String value,String fillsign,int length) {
     	 int valueLength = value.length();
     	 if (valueLength >= length) return value;
@@ -170,13 +168,14 @@ public class JSPUtils {
     	 XMLOutputter output = new XMLOutputter(Format.getPrettyFormat());
     	 return output.outputString(doc);
      }  
-     
+   
+     /*
      public static Document getAllAuthorsQuery() {
     	 if (allAuthorsQuery == null) {
     		 initialize();
     	 }
     	 return allAuthorsQuery ;
-     }
+     }*/
      
 	public static String convertToISO8601String(String date) {
 		int length = date.length();

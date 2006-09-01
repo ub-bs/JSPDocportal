@@ -8,6 +8,11 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+/**
+ * 
+ * @author HH
+ * @deprecated
+ */
 
 public final class SetCharacterEncodingFilter implements Filter {
 
