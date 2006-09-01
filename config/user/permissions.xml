@@ -17,7 +17,7 @@
   <mcrpermission name="administrate-institution" description="Verwalten von Dissertations - Prozessen " ruledescription="Nur für Administratoren">
    <condition format="xml">
     <boolean operator="or">
-     <condition value="administutution" operator="=" field="group"/>
+     <condition value="admininstitution" operator="=" field="group"/>
      <condition value="admingroup" operator="=" field="group"/>
     </boolean>
    </condition>
