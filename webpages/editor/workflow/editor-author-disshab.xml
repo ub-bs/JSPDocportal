@@ -153,9 +153,6 @@
 
 <!-- ** Data for the SUBJECT *** -->
 
-     <text id="LSubjects">
-        <label css-style="editorlabel" i18n="Editor.Document.classification" />
-     </text>
 	 <panel id="DSubjects" >
 		<hidden var="metadata/subjects/@class" default="MCRMetaClassification" />
 		<cell row="1" col="1" anchor="NORTHWEST" var="metadata/subjects/subject">

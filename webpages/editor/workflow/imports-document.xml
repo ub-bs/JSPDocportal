@@ -162,7 +162,7 @@
               <text label="&#160;&#160;&#160;" />
             </cell>
             <cell row="1" col="2">
-              <subselect i18n="Editor.Common.indexcreators" id="sub.select4" type="webpage" href="nav?path=~indexSearchCreatorsSub" sortnr="11" />
+              <subselect i18n="Editor.Common.indexcreators" id="sub.select3" type="webpage" href="nav?path=~indexSearchCreatorsSub" sortnr="11" />
             </cell>
           </panel>
         </repeater>
@@ -397,6 +397,58 @@
       <cell col="1" row="1" anchor="WEST" ref="TFzeile10" var="metadata/pages/page" sortnr="39" />
     </panel>
 
+
+
+<!-- ** Data for the SUBJECT *** -->
+
+   <panel id="DSubjects" >
+    <hidden var="metadata/subjects/@class" default="MCRMetaClassification" sortnr="4"  />
+    <cell row="1" col="1" anchor="NORTHWEST" var="metadata/subjects/subject" sortnr="4" >
+       <repeater min="1" max="5" >  
+        <panel lines="off">
+         <hidden var="@inherited" default="0" />
+         <hidden var="@type" default="locator" />
+           <!-- configure this in mycore.properties  -->
+           <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=@classid&amp;prop=MCR.ClassificationID.DDC&amp;defaultValue=DocPortal_class_00000009" />        
+           <hidden var="@categid" />
+           <cell row="1" col="1" width="100%">
+             <output var="@title" default="DDC Klassifikation"/> <text label=" (" /><output var="@categid" default=" " /><text label=")" />
+             <text   label=" " />
+             <output var="@href" />
+           </cell>
+           <cell row="1" col="2">
+             <subselect label="Auswählen" id="sub.select4" type="webpage" href="nav?path=~browse_subDDC" />
+           </cell>
+          </panel>
+         </repeater>
+     </cell>
+    </panel>
+
+
+
+    <panel id="Dbkl">
+      <hidden var="metadata/bkls/@class" default="MCRMetaClassification" sortnr="41"  />
+      <cell row="1" col="1" anchor="NORTHWEST" var="metadata/bkls/bkl" sortnr="41"  >
+         <repeater min="1" max="5" >  
+          <panel lines="off">
+            <hidden var="@inherited" default="0" />
+            <hidden var="@type" default="locator" />
+            <!-- configure this in mycore.properties  -->
+            <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=@classid&amp;prop=MCR.ClassificationID.BKL&amp;defaultValue=DocPortal_class_00000020" />        
+            <hidden var="@categid" />
+            <cell row="1" col="1" width="100%">
+               <output var="@title" default="Basisklassifikation"/> <text label=" (" /><output var="@categid" default=" " /><text label=")" />
+               <text   label=" " />
+               <output var="@href" />
+            </cell>
+            <cell row="1" col="2">
+             <subselect label="Auswählen" id="sub.select5" type="webpage" href="nav?path=~browse_subBKL" />
+            </cell>
+           </panel>
+        </repeater>
+     </cell>
+    </panel>
+    
     <!-- *** End *** -->
 
     

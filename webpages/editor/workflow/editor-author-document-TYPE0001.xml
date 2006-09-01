@@ -83,70 +83,81 @@
       <cell col="4" row="61" anchor="WEST" ref="HContributor" />
       
       <cell col="1" row="62"  colspan="4" anchor="WEST" ><hr/> </cell>
-
       
-      <!-- Schlagworte -->
-      <cell col="1" row="70" anchor="NORTHWEST" ref="LKeywords" />
-      <cell col="2" row="70" anchor="NORTHWEST" ref="DKeywords" sortnr="19"  />
+      <cell col="1" row="70" anchor="NORTHWEST" ref="LDate" />
+      <cell col="2" row="70" anchor="NORTHWEST" ref="DDate" sortnr="12"  />
       <cell col="3" row="70" anchor="NORTHWEST">
         <space width="20" height="0" />
-      </cell>
-      <cell col="4" row="70" anchor="WEST" ref="HKeywords" />
-
-
-      <cell col="1" row="80" anchor="NORTHWEST" ref="LDescription"  />
-      <cell col="2" row="80" anchor="NORTHWEST" ref="DDescription" sortnr="6"  />
+      </cell>      
+      <cell col="4" row="70" anchor="WEST" ref="HDate" />
+            
+      <cell col="1" row="80" anchor="NORTHWEST" ref="LLanguageP" />
+      <cell col="2" row="80" anchor="NORTHWEST" ref="DLanguage" sortnr="18"  />
       <cell col="3" row="80" anchor="NORTHWEST">
         <space width="20" height="0" />
       </cell>
-      <cell col="4" row="80" anchor="WEST" ref="HDescription" />
-      
-      <cell col="1" row="90" anchor="NORTHWEST" ref="LDate" />
-      <cell col="2" row="90" anchor="NORTHWEST" ref="DDate" sortnr="12"  />
+      <cell col="4" row="80" anchor="WEST" ref="HLanguage" />
+
+      <cell col="1" row="90" anchor="NORTHWEST" ref="LFormatP" />
+      <cell col="2" row="90" anchor="NORTHWEST" ref="DFormat" sortnr="14"  />
       <cell col="3" row="90" anchor="NORTHWEST">
         <space width="20" height="0" />
-      </cell>      
-      <cell col="4" row="90" anchor="WEST" ref="HDate" />
-            
-      <cell col="1" row="100" anchor="NORTHWEST" ref="LLanguageP" />
-      <cell col="2" row="100" anchor="NORTHWEST" ref="DLanguage" sortnr="18"  />
+      </cell>
+      <cell col="4" row="90" anchor="WEST" ref="HFormat" />
+
+      <cell col="1" row="100" anchor="NORTHWEST" ref="LDescription"  />
+      <cell col="2" row="100" anchor="NORTHWEST" ref="DDescription" sortnr="6"  />
       <cell col="3" row="100" anchor="NORTHWEST">
         <space width="20" height="0" />
       </cell>
-      <cell col="4" row="100" anchor="WEST" ref="HLanguage" />
+      <cell col="4" row="100" anchor="WEST" ref="HDescription" />
+      
+      <cell col="1" row="101"  colspan="4" anchor="WEST" ><hr/> </cell>
 
-      <cell col="1" row="110" anchor="NORTHWEST" ref="LFormatP" />
-      <cell col="2" row="110" anchor="NORTHWEST" ref="DFormat" sortnr="14"  />
+      <!-- Schlagworte -->
+      <cell col="1" row="110" anchor="NORTHWEST" ref="LKeywords" />
+      <cell col="2" row="110" anchor="NORTHWEST" ref="DKeywords" sortnr="19"  />
       <cell col="3" row="110" anchor="NORTHWEST">
         <space width="20" height="0" />
       </cell>
-      <cell col="4" row="110" anchor="WEST" ref="HFormat" />
+      <cell col="4" row="110" anchor="WEST" ref="HKeywords" />
+
+      <cell col="1" row="120" anchor="NORTHWEST" ref="LSubjects" />
+      <cell col="2" row="120" colspan="2" anchor="NORTHWEST" ref="DSubjects" sortnr="4" />    
+      <cell col="4" row="120" anchor="NORTHEAST" ref="HSubject" />
       
-      <cell col="1" row="111" anchor="NORTHWEST" ref="LSource" />
-      <cell col="2" row="111" anchor="NORTHWEST" ref="DSource" sortnr="16"  />
-      <cell col="3" row="111" anchor="NORTHWEST">
+      <cell col="1" row="130" anchor="NORTHWEST" ref="Lbkl" />
+      <cell col="2" row="130" colspan="2" anchor="NORTHWEST" ref="Dbkl" sortnr="41"  />
+      <cell col="4" row="130" anchor="WEST" ref="Hbkl" />
+      
+      
+      <cell col="1" row="131"  colspan="4" anchor="WEST" ><hr/> </cell>
+
+      <cell col="1" row="140" anchor="NORTHWEST" ref="LSource" />
+      <cell col="2" row="140" anchor="NORTHWEST" ref="DSource" sortnr="16"  />
+      <cell col="3" row="140" anchor="NORTHWEST">
         <space width="20" height="0" />
       </cell>
-      <cell col="4" row="111" anchor="WEST" ref="HSource" />
+      <cell col="4" row="140" anchor="WEST" ref="HSource" />
 
-      <cell col="1" row="119" anchor="NORTHWEST" ref="LNote" />
-      <cell col="2" row="119" anchor="NORTHWEST" ref="DNote" sortnr="34"  />
-      <cell col="3" row="119" anchor="NORTHWEST">
+      <cell col="1" row="150" anchor="NORTHWEST" ref="LNote" />
+      <cell col="2" row="150" anchor="NORTHWEST" ref="DNote" sortnr="34"  />
+      <cell col="3" row="150" anchor="NORTHWEST">
         <space width="20" height="0" />
       </cell>
       <cell col="4" row="119" anchor="WEST" ref="HNote" />
       
-      <cell col="1" row="120" anchor="NORTHWEST" ref="LCitation" />
-      <cell col="2" row="120" anchor="NORTHWEST" ref="DCitation" sortnr="35"  />
-      <cell col="3" row="120" anchor="NORTHWEST">
+      <cell col="1" row="160" anchor="NORTHWEST" ref="LCitation" />
+      <cell col="2" row="160" anchor="NORTHWEST" ref="DCitation" sortnr="35"  />
+      <cell col="3" row="160" anchor="NORTHWEST">
         <space width="20" height="0" />
       </cell>
-      <cell col="4" row="120" anchor="WEST" ref="HCitation" />
+      <cell col="4" row="160" anchor="WEST" ref="HCitation" />
       
-      <cell col="1" row="121" anchor="NORTHWEST" ref="DHiddenFields" sortnr="26"  />      
+      <cell col="1" row="161" anchor="NORTHWEST" ref="DHiddenFields" sortnr="26"  />      
       
-      <cell col="1" row="122" />
-      <cell col="2" colspan="3" row="122" ref="TwoButtons" />
+      <cell col="1" row="162" />
+      <cell col="2" colspan="3" row="162" ref="TwoButtons" />
     </panel>
   </components>
 </editor>

@@ -528,6 +528,19 @@
 		<label i18n="Editor.Help.HSource" />
 	</helpPopup>
 
+    <!-- *** Data for the BK classification ** -->
+      <text id="Lbkl">
+        <label i18n="OMD.bkl" />
+      </text>
+
+    <!-- *** Data for the ddc classification ** -->
+     <text id="LSubjects">
+        <label i18n="Editor.Document.classification" />
+     </text>
+     
+    <helpPopup id="HSubject" >
+      <label i18n="Editor.Help.HSubject" />
+    </helpPopup>
 
 	<!-- *** Data for the Language ** -->
 
