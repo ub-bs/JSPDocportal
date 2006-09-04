@@ -67,6 +67,12 @@
                 <refitem name="~searchresult-classddc" label="" />
               </navitem>
             </navitem>
+            <navitem name="bkl" label="Nav.BKL" href="content/browse.jsp?browserClass=bkl">
+                <refitem name="~searchstart-classbkl" label="" />
+                <navitem name="result" label="Results" href="content/searchresult.jsp" hidden="true">
+                  <refitem name="~searchresult-classbkl" label="" />
+                </navitem>
+            </navitem>            
           </navitem>
           
 
