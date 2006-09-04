@@ -35,6 +35,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.jdom.Element;
+import org.jdom.Namespace;
 import org.jdom.filter.ElementFilter;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRException;
@@ -190,7 +191,7 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 			if(!MCRWorkflowUtils.isEmpty(authorID) && !MCRWorkflowUtils.isEmpty(reservatedURN) && 
 					!MCRWorkflowUtils.isEmpty(createdDocID) && !MCRWorkflowUtils.isEmpty(attachedDerivates)){
 				String strDocValid = (String) ctxI.getVariable(MCRMetadataStrategy.VALID_PREFIX + createdDocID );
-				String containsPDF = (String) ctxI.getVariable("containsPDF");
+				String containsPDF = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_CONTAINS_PDF);
 				if(strDocValid != null && containsPDF != null){
 					if(strDocValid.equals("true") && !containsPDF.equals("")){
 						return true;
@@ -308,6 +309,17 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 					sbTitle.append(title.getText());
 			}
 			ctxI.setVariable("wfo-title", sbTitle.toString());	
+			
+			
+			StringBuffer sbAuthors = new StringBuffer("");
+			for(Iterator it = metadata.getDescendants(new ElementFilter("creatorlink")); it.hasNext();){
+				Element creatorlink = (Element)it.next();
+				sbAuthors.append(creatorlink.getAttributeValue("href", Namespace.getNamespace("http://www.w3.org/1999/xlink")));
+				if(it.hasNext()){ sbAuthors.append(",");}
+			}
+			ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_AUTHOR_IDS, sbAuthors.toString());
+			ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_CONTAINS_PDF, "true");
+			
 		}catch(MCRException ex){
 			logger.error("catched error", ex);
 		}finally{

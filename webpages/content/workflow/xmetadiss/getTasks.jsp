@@ -31,7 +31,7 @@
       
       <c:import url="/content/workflow/editorButtons.jsp" />
       <p>
-	      <c:if test="${transition eq 'documentCanBeSubmitted'}">
+	      <c:if test="${transition eq 'disshabCanBeSubmitted'}">
 	        <img title="" alt="" src="${baseURL}images/greenArrow.gif">         
             <a href="${baseURL}nav?path=~xmetadiss&transition=&endTask=taskprocessEditInitialized&processID=${requestScope.task.processID}"><fmt:message key="WF.xmetadiss.taskCompleteDisshabAndSendToLibrary" /></a>
 	      </c:if>      

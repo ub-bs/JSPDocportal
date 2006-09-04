@@ -85,7 +85,7 @@ public class MCRDisshabDerivateStrategy extends MCRDefaultDerivateStrategy {
 					throw new MCRException(errMsg);
 				}else{
 					containsPdf = true;
-					String wfPdf = (String)ctxI.getVariable("containsPDF"); 
+					String wfPdf = (String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_CONTAINS_PDF); 
 					if(wfPdf != null && !wfPdf.equals(derID) && !wfPdf.equals("")){
 						String errMsg = "just one pdf-file for all derivates for one dissertation, please delete old derivates first";
 						logger.error(errMsg);
@@ -144,7 +144,7 @@ public class MCRDisshabDerivateStrategy extends MCRDefaultDerivateStrategy {
 			throw new MCRException(msgErr);
 		}
 		if(containsPdf){
-			ctxI.setVariable("containsPDF", derID);
+			ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_CONTAINS_PDF, derID);
 			if(containsZip){
 				ctxI.setVariable("containsZIP", derID);
 			}
@@ -172,9 +172,9 @@ public class MCRDisshabDerivateStrategy extends MCRDefaultDerivateStrategy {
 		try{
 			if (backupDerivateObject(saveDirectory, backupDirectory, metadataObjectID, derivateObjectID, ctxI.getProcessInstance().getId())){
 				if(super.deleteDerivateObject(ctxI, saveDirectory, backupDirectory, metadataObjectID, derivateObjectID, mustWorkflowVarBeUpdated) && mustWorkflowVarBeUpdated){
-					String cmp = (String)ctxI.getVariable("containsPDF"); 
+					String cmp = (String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_CONTAINS_PDF); 
 					if(cmp != null && cmp.equals(derivateObjectID))
-						ctxI.setVariable("containsPDF","");
+						ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_CONTAINS_PDF,"");
 					cmp = (String)ctxI.getVariable("containsZIP");
 					if(cmp != null && cmp.equals(derivateObjectID))
 						ctxI.setVariable("containsZIP", "");
