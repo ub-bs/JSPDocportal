@@ -5,6 +5,7 @@ MCR.WorkflowEngine.ManagerImpl.author=org.mycore.frontend.workflowengine.jbpm.au
 MCR.WorkflowEngine.ManagerImpl.institution=org.mycore.frontend.workflowengine.jbpm.institution.MCRWorkflowManagerInstitution
 MCR.BaseDirectory=C:/sample-mcrjsp
 MCR.basedir=$DOCPORTAL_HOME
+MCR.WebContent.Folder=webcontent
 
 
 #####################################################
