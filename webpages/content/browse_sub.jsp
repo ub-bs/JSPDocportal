@@ -10,13 +10,17 @@
          String param = (String) ee.nextElement();
     	 System.out.println("PARAM: " + param + " VALUE: "  + 	request.getParameter(param) );
      }
+     // the c:set tag with value="${param.XSL.subselect.session}" dos'nt work - maybe the reasons are the dots, only one is allowed !!!
+     pageContext.setAttribute("subselectSession", request.getParameter("XSL.subselect.session"));
+     pageContext.setAttribute("subselectVarpath", request.getParameter("XSL.subselect.varpath"));
+     pageContext.setAttribute("subselectWebpage", request.getParameter("XSL.subselect.webpage"));
 %>    
 
 <c:set var="debug" value="false" />
+<fmt:setBundle basename="messages" />
 <c:set var="WebApplicationBaseURL"	value="${applicationScope.WebApplicationBaseURL}" />
 
 <c:set var="lang" value="${requestScope.lang}" />
-
 <c:set var="browserClass" value="${param.browserClass}" />
 <c:set var="path" value="${param.path}" />
 <c:choose>
@@ -30,19 +34,16 @@
 
 <!--  ========== Subselect Parameter ENDE ==========  -->
 
-<c:set var="subselectSession" value="${param.XSL.subselect.session}" />
-<c:set var="subselectVarpath" value="${param.XSL.subselect.varpath}" />
-<c:set var="subselectWebpage" value="${param.XSL.subselect.webpage}" />
 
 <x:set var="url" 
-value="concat($WebApplicationBaseURL,'servlets/XMLEditor?_action=end.subselect&amp;subselect.session=',$subselectSession,
+select="concat($WebApplicationBaseURL,'servlets/XMLEditor?_action=end.subselect&amp;subselect.session=',$subselectSession,
   		 	   '&amp;subselect.varpath=',$subselectVarpath,'&amp;subselect.webpage=', $subselectWebpage)" />
 
 <x:set var="subselectParams"
-value="concat('XSL.subselect.session=',$subselectSession,'&amp;XSL.subselect.varpath=',$subselectVarpath,
-			  '&amp;XSL.subselect.webpage=', $subselectWebpage )" />
+select="concat('XSL.subselect.session=',$subselectSession,'&amp;XSL.subselect.varpath=',
+			   $subselectVarpath, '&amp;XSL.subselect.webpage=', $subselectWebpage )" />
 
-<x:set var="formAction" value="concat($WebApplicationBaseURL, $subselectWebpage, '?XSL.editor.session.id=', $subselectSession)" />     		         		
+<x:set var="formAction" select="concat($WebApplicationBaseURL, $subselectWebpage, '?XSL.editor.session.id=', $subselectSession)" />     		         		
 <!--  ========== Subselect Parameter ENDE ==========  -->
 			  
 <div class="headline"><fmt:message key="Webpage.browse.generalTitle" /></div>
@@ -86,9 +87,9 @@ value="concat('XSL.subselect.session=',$subselectSession,'&amp;XSL.subselect.var
 			<x:set var="lineLevel" select="number(./col[1]/@lineLevel)" />
 			<x:set var="numDocs" select="number(./col[2]/@numDocs)" />
 			<x:set var="fmtnumDocs" select="string(./col[2]/@fmtnumDocs)" />			
-			<c:set var="fmtnumDocs" value="${fn:replace(fmtnumDocs,' ', '_')}" />			
+			<c:set var="fmtnumDocs" value="${fn:replace(fmtnumDocs,' ', '.')}" />			
 			<x:set var="plusminusbase" select="string(./col[1]/@plusminusbase)" />
-   	   		<x:set var="subSelectItem" value="concat( $url, '&amp;_var_@categid=',$lineID,'&amp;_var_@title=',$text)" />
+   	   		<x:set var="subSelectItem" select="concat( $url, '&amp;_var_@categid=',$lineID,'&amp;_var_@title=',$text)" />
 			
         	<tr valign="top" >
         	   <td valign="top">
@@ -97,7 +98,7 @@ value="concat('XSL.subselect.session=',$subselectSession,'&amp;XSL.subselect.var
 				</c:if>        	            
 				<c:choose>
 	       		    <c:when test="${fn:length(plusminusbase) > 0}" >
-       	        	 	<a href="${WebApplicationBaseURL}nav?path=${path}&actUriPath=${searchbase}"><img 
+       	        	 	<a href="${WebApplicationBaseURL}nav?path=${path}&actUriPath=${searchbase}&${subselectParams}"><img 
        	        	 		class="borderless" src="${WebApplicationBaseURL}images/${folder1}.gif" /></a>
        		        </c:when>
     	   	        <c:otherwise> 
