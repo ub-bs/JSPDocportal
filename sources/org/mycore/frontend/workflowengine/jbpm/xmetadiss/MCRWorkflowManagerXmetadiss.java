@@ -34,9 +34,6 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
-import org.jdom.Element;
-import org.jdom.Namespace;
-import org.jdom.filter.ElementFilter;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRException;
 import org.mycore.datamodel.metadata.MCRObject;
@@ -68,6 +65,7 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 	protected MCRWorkflowManagerXmetadiss() throws Exception {
 		super("disshab", "xmetadiss");
 		this.derivateStrategy = new MCRDisshabDerivateStrategy();
+		this.metadataStrategy = new MCRDisshabMetadataStrategy();
 	}
 
 	
@@ -147,7 +145,7 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 			wfp.setStringVariable("fileCnt", String.valueOf(filecnt));
 				
 			MCRWorkflowAccessRuleEditorUtils.setWorkflowVariablesForAccessRuleEditor(mcrid, wfp.getContextInstance());
-			setWorkflowVariablesFromMetadata(mcrid, mob.createXML().getRootElement().getChild("metadata"), wfp.getContextInstance());
+			setWorkflowVariablesFromMetadata(wfp.getContextInstance(), mob.createXML().getRootElement().getChild("metadata"));
 			setMetadataValid(mcrid, true, wfp.getContextInstance());
 			wfp.close();
 
@@ -298,33 +296,4 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 		}
 		return false;
 	}
-	
-	public void setWorkflowVariablesFromMetadata(String mcrid, Element metadata, ContextInstance ctxI){
-		
-		try{
-			StringBuffer sbTitle = new StringBuffer("");
-			for(Iterator it = metadata.getDescendants(new ElementFilter("title")); it.hasNext();){
-				Element title = (Element)it.next();
-				if(title.getAttributeValue("type").equals("original-main"))
-					sbTitle.append(title.getText());
-			}
-			ctxI.setVariable("wfo-title", sbTitle.toString());	
-			
-			
-			StringBuffer sbAuthors = new StringBuffer("");
-			for(Iterator it = metadata.getDescendants(new ElementFilter("creatorlink")); it.hasNext();){
-				Element creatorlink = (Element)it.next();
-				sbAuthors.append(creatorlink.getAttributeValue("href", Namespace.getNamespace("http://www.w3.org/1999/xlink")));
-				if(it.hasNext()){ sbAuthors.append(",");}
-			}
-			ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_AUTHOR_IDS, sbAuthors.toString());
-			ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_CONTAINS_PDF, "true");
-			
-		}catch(MCRException ex){
-			logger.error("catched error", ex);
-		}finally{
-			
-		}			
-	}
-	
 }

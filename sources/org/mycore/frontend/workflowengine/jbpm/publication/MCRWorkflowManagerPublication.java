@@ -38,10 +38,7 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
 import org.mycore.common.JSPUtils;
-import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
-import org.mycore.common.MCRSessionMgr;
-import org.mycore.datamodel.classifications.MCRCategoryItem;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowAccessRuleEditorUtils;
@@ -71,6 +68,7 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 	protected MCRWorkflowManagerPublication() throws Exception {
 		super("document", "publication");
 		this.derivateStrategy = new MCRDocumentDerivateStrategy();
+		this.metadataStrategy = new MCRDocumentMetadataStrategy();
 	}
 
 	
@@ -151,7 +149,7 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 			
 			MCRWorkflowAccessRuleEditorUtils.setWorkflowVariablesForAccessRuleEditor(mcrid, wfp.getContextInstance());
 		
-			setWorkflowVariablesFromMetadata(mcrid, mob.createXML().getRootElement().getChild("metadata"), wfp.getContextInstance());
+			setWorkflowVariablesFromMetadata(wfp.getContextInstance(), mob.createXML().getRootElement().getChild("metadata"));
 			setMetadataValid(mcrid, true, wfp.getContextInstance());
 			wfp.close();
 			return processID;
@@ -289,32 +287,4 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 		}
 		return bSuccess;
 	}
-	
-	public void setWorkflowVariablesFromMetadata(String mcrid, Element metadata, ContextInstance ctxI){
-		try{
-			StringBuffer sbTitle = new StringBuffer("");
-			Iterator it = metadata.getDescendants(new ElementFilter("title"));
-			if( it.hasNext()){
-				//nur din ersten Titelsatz!
-				Element title = (Element)it.next();
-				sbTitle.append(title.getText());				
-			}
-			ctxI.setVariable("wfo-title", sbTitle.toString());	
-			
-			String publicationType = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_PUBLICATIONTYPE);			
-			if ( publicationType != null) {
-				String clid = MCRConfiguration.instance().getString("MCR.ClassificationID.Type");
-				MCRCategoryItem clItem = MCRCategoryItem.getCategoryItem(clid,publicationType);
-				String label = clItem.getDescription(MCRSessionMgr.getCurrentSession().getCurrentLanguage());
-				ctxI.setVariable("wfo-type", label);
-			}
-			
-			
-		}catch(MCRException ex){
-			logger.error("catched error", ex);
-		}finally{
-			
-		}			
-	}
-	
 }

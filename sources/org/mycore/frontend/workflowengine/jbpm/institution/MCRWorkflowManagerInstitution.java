@@ -28,7 +28,6 @@ package org.mycore.frontend.workflowengine.jbpm.institution;
 // Imported java classes
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
-import org.jdom.Element;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRException;
 import org.mycore.datamodel.metadata.MCRObject;
@@ -59,6 +58,7 @@ public class MCRWorkflowManagerInstitution extends MCRWorkflowManager {
 
 	protected MCRWorkflowManagerInstitution() throws Exception {
 		super("institution", "institution");
+		metadataStrategy = new MCRInstitutionMetadataStrategy();
 	}
 
 	/**
@@ -210,7 +210,7 @@ public String createNewInstitution(String userid, ContextInstance ctxI) {
 			MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processID);
 			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS, mcrid);
 			MCRWorkflowAccessRuleEditorUtils.setWorkflowVariablesForAccessRuleEditor(mcrid, wfp.getContextInstance());
-			setWorkflowVariablesFromMetadata(mcrid, mob.createXML().getRootElement().getChild("metadata"), wfp.getContextInstance());
+			setWorkflowVariablesFromMetadata(wfp.getContextInstance(), mob.createXML().getRootElement().getChild("metadata"));
 		
 			setMetadataValid(mcrid, true, wfp.getContextInstance());
 			wfp.close();
@@ -219,22 +219,5 @@ public String createNewInstitution(String userid, ContextInstance ctxI) {
 		} else {
 			return -1;
 		}
-	}
-	
-	public void setWorkflowVariablesFromMetadata(String mcrid,
-			Element metadata, ContextInstance ctxI) {
-		
-		try {
-			ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_WFOBJECT_TITLE, createWFOTitlefromMetadata(metadata));		
-		} catch (MCRException ex) {
-			logger.error("catched error", ex);
-		} finally {
-		
-		}
-	}
-	private String createWFOTitlefromMetadata(Element metadata){
-		Element name = metadata.getChild("names").getChild("name");
-		
-		return name.getChildText("fullname");
 	}
 }

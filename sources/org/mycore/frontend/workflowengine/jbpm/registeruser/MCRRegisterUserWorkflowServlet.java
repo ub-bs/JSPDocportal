@@ -189,7 +189,7 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 				// for initiator and editor 
 				MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(lpid);
 				try{
-					WFM.setWorkflowVariablesFromMetadata(ID,userElement, wfp.getContextInstance());
+					WFM.setWorkflowVariablesFromMetadata(wfp.getContextInstance(), userElement);
 				}
 				catch(Exception e){
 					logger.error("caught exception ",e);

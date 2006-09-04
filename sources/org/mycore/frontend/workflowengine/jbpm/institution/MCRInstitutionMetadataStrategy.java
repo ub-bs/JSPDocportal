@@ -1,21 +1,25 @@
-package org.mycore.frontend.workflowengine.strategies;
+package org.mycore.frontend.workflowengine.jbpm.institution;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.jbpm.context.exe.ContextInstance;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 import org.jdom.xpath.XPath;
+import org.mycore.common.MCRException;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
+import org.mycore.frontend.workflowengine.strategies.MCRDefaultMetadataStrategy;
 
-public class MCRAuthorMetadataStrategy extends MCRDefaultMetadataStrategy {
-	private static Logger logger = Logger.getLogger(MCRAuthorMetadataStrategy.class.getName());
-	public MCRAuthorMetadataStrategy(String documentType){
-		super(documentType);
+public class MCRInstitutionMetadataStrategy extends MCRDefaultMetadataStrategy {
+	private static Logger logger = Logger.getLogger(MCRInstitutionMetadataStrategy.class.getName());
+	public MCRInstitutionMetadataStrategy(){
+		super("institution");
 	}
 	
 	public boolean commitMetadataObject(String mcrobjid, String directory) {
@@ -84,5 +88,20 @@ public class MCRAuthorMetadataStrategy extends MCRDefaultMetadataStrategy {
 //		  </names>		 
 		
 		return super.commitMetadataObject(mcrobjid, directory);
+	}
+	
+	public void setWorkflowVariablesFromMetadata(ContextInstance ctxI, Element metadata) {
+		try {
+			ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_WFOBJECT_TITLE, createWFOTitlefromMetadata(metadata));		
+		} catch (MCRException ex) {
+			logger.error("catched error", ex);
+		} finally {
+		}
+	}
+	
+	private String createWFOTitlefromMetadata(Element metadata){
+		Element name = metadata.getChild("names").getChild("name");
+		
+		return name.getChildText("fullname");
 	}
 }

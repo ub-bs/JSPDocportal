@@ -28,7 +28,6 @@ package org.mycore.frontend.workflowengine.jbpm.author;
 // Imported java classes
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
-import org.jdom.Element;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRException;
 import org.mycore.datamodel.metadata.MCRObject;
@@ -39,7 +38,6 @@ import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcessManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
-import org.mycore.frontend.workflowengine.strategies.MCRAuthorMetadataStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRMetadataStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 import org.mycore.services.fieldquery.MCRResults;
@@ -62,7 +60,7 @@ public class MCRWorkflowManagerAuthor extends MCRWorkflowManager {
 
 	protected MCRWorkflowManagerAuthor() throws Exception {
 		super("author", "author");
-		metadataStrategy = new MCRAuthorMetadataStrategy("author");
+		metadataStrategy = new MCRAuthorMetadataStrategy();
 	}
 
 	/**
@@ -140,8 +138,7 @@ public class MCRWorkflowManagerAuthor extends MCRWorkflowManager {
 							
 				MCRObject mob = new MCRObject();
 				mob.receiveFromDatastore(createdDocID);
-				ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_WFOBJECT_TITLE, 
-						                     createWFOTitlefromMetadata(mob.createXML().getRootElement().getChild("metadata")));
+				setWorkflowVariablesFromMetadata(ctxI, mob.createXML().getRootElement().getChild("metadata"));
 				// cannot be used in decision handlers - persistence problems with jbpm
 				// setWorkflowVariablesFromMetadata(createdDocID, mob.createXML()
 				//	.getRootElement().getChild("metadata"), processid);
@@ -239,16 +236,6 @@ public String createNewAuthor(String userid, ContextInstance ctxI,
 		return false;
 	}
 
-	public void setWorkflowVariablesFromMetadata(String mcrid,	Element metadata, ContextInstance ctxI) {
-		
-		try {
-			ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_WFOBJECT_TITLE, createWFOTitlefromMetadata(metadata));		
-		} catch (MCRException ex) {
-			logger.error("catched error", ex);
-		} finally {
-		}
-	}
-
 	public long initWorkflowProcessForEditing(String initiator, String mcrid ) throws MCRException {
 		if (mcrid != null && MCRObject.existInDatastore(mcrid)) {
 			// Store Object in Workflow - Filesystem
@@ -262,7 +249,7 @@ public String createNewAuthor(String userid, ContextInstance ctxI,
 			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS, mcrid);
 			
 			MCRWorkflowAccessRuleEditorUtils.setWorkflowVariablesForAccessRuleEditor(mcrid, wfp.getContextInstance());
-			setWorkflowVariablesFromMetadata(mcrid, mob.createXML().getRootElement().getChild("metadata"), wfp.getContextInstance());
+			setWorkflowVariablesFromMetadata(wfp.getContextInstance(), mob.createXML().getRootElement().getChild("metadata"));
 			setMetadataValid(mcrid, true, wfp.getContextInstance());
 			return processID;
 			}
@@ -278,36 +265,5 @@ public String createNewAuthor(String userid, ContextInstance ctxI,
 		} else {
 			return -1;
 		}
-	}
-	
-	private String createWFOTitlefromMetadata(Element metadata){
-		Element name = metadata.getChild("names").getChild("name");
-		StringBuffer sbTitle = new StringBuffer("");
-		String first = name.getChildTextNormalize("firstname");
-		String last = name.getChildTextNormalize("surname");
-		String academic = name.getChildTextNormalize("academic");
-		String prefix = name.getChildTextNormalize("prefix");
-		String fullname = name.getChildTextNormalize("fullname");
-		if (fullname != null) {
-			sbTitle.append(fullname);
-		} else {
-			if (academic != null) {
-				sbTitle.append(academic);
-				sbTitle.append(" ");
-			}
-			if (first != null) {
-				sbTitle.append(first);
-				sbTitle.append(" ");
-			}
-			if (prefix != null) {
-				sbTitle.append(prefix);
-				sbTitle.append(" ");
-			}
-			if (last != null) {
-				sbTitle.append(last);
-				sbTitle.append("");
-			}
-		}
-		return sbTitle.toString();
 	}
 }

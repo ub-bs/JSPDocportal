@@ -136,7 +136,7 @@ public class MCRCheckMetadataServlet extends MCRServlet {
         	outdoc = prepareMetadata((org.jdom.Document) indoc.clone(), ID, job, lang, step, 
         			   nextPath, storePath.toString(), workflowType, String.valueOf(processID), publicationType);
         	WFM.storeMetadata(MCRUtils.getByteArray(outdoc), ID.getId(), storePath.toString());
-        	WFM.setWorkflowVariablesFromMetadata(mcrid1, indoc.getRootElement().getChild("metadata"),wfp.getContextInstance()  );
+        	WFM.setWorkflowVariablesFromMetadata(wfp.getContextInstance(), indoc.getRootElement().getChild("metadata"));
         	WFM.setMetadataValid(mcrid1, true, wfp.getContextInstance());
         	
         	

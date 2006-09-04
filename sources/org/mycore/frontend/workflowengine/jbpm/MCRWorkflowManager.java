@@ -123,7 +123,9 @@ public abstract class MCRWorkflowManager {
 	 * @param mcrid
 	 * @param metadata
 	 */
-	public abstract void setWorkflowVariablesFromMetadata(String mcrid, Element metadata, ContextInstance ctxI);	
+	public final void setWorkflowVariablesFromMetadata(ContextInstance ctxI, Element metadata){
+		metadataStrategy.setWorkflowVariablesFromMetadata(ctxI, metadata);
+	}
 		
 	/**
 	 * returns an empty metadata object and returns the mcrobjectid of this object
@@ -547,15 +549,8 @@ public abstract class MCRWorkflowManager {
 		this.mainDocumentType = mainDocumentType;
 	}
 
-	final public void setMetadataValid(String mcrid, boolean valid, ContextInstance ctxI) {
-		
-		try{
-			metadataStrategy.setMetadataValid(mcrid, valid, ctxI);
-		}catch(MCRException ex){
-			logger.error("could not set metadata valid flag", ex);
-		}finally{
-		
-		}
+	public final void setMetadataValid(String mcrid, boolean valid, ContextInstance ctxI) {
+		metadataStrategy.setMetadataValid(mcrid, valid, ctxI);
 	}
 	
 	/**
