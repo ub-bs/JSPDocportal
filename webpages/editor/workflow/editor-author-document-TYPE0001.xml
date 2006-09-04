@@ -145,7 +145,7 @@
       <cell col="3" row="150" anchor="NORTHWEST">
         <space width="20" height="0" />
       </cell>
-      <cell col="4" row="119" anchor="WEST" ref="HNote" />
+      <cell col="4" row="150" anchor="WEST" ref="HNote" />
       
       <cell col="1" row="160" anchor="NORTHWEST" ref="LCitation" />
       <cell col="2" row="160" anchor="NORTHWEST" ref="DCitation" sortnr="35"  />
