@@ -151,10 +151,10 @@
 					
 					<x:forEach select="./digitalobject">
 					      <x:set var="actlabel"  select="string(./@derivlabel)" />
-				      <x:set var="derivid"  select="string(./digitalobject/@derivid)" />
+				      <x:set var="derivid"  select="string(./@derivid)" />
 				      
 					  <c:if test="${!fn:contains(label,actlabel)}">
-                                     	 <mcr:checkAccess permission="read" var="accessallowed" key="${derivid}" />
+                    <mcr:checkAccess permission="read" var="accessallowed" key="${derivid}" />
 						  <tr>										  
 							<td align="left" valign="bottom" >
 								<div class="derivateHeading">
