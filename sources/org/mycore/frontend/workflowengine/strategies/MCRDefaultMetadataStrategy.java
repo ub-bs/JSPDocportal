@@ -239,9 +239,9 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 			sbTitle.append(title.getText());
 		}
 		if(sbTitle.length() == 0){
-			ctxI.setVariable("wfp-title", "Your Workflow Object");
+			ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_WFOBJECT_TITLE, "Your Workflow Object");
 		}else{
-			ctxI.setVariable("wfp-title", sbTitle.toString());
+			ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_WFOBJECT_TITLE, sbTitle.toString());
 		}
 	}
 
