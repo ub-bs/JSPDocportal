@@ -538,10 +538,6 @@
         <label i18n="Editor.Document.classification" />
      </text>
      
-    <helpPopup id="HSubject" >
-      <label i18n="Editor.Help.HSubject" />
-    </helpPopup>
-
 	<!-- *** Data for the Language ** -->
 
 	<text id="LLanguageP">
