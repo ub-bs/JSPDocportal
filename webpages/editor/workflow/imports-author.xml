@@ -85,7 +85,7 @@
 
 <!-- ** Data for the ORIGIN *** -->
 
-  <list id="COrigin" width="300" type="dropdown" class="mandatory" sortnr="3" >
+  <list id="COrigin" width="300px" type="dropdown" class="mandatory" sortnr="3" >
       <item    value="" i18n="Editor.Common.choose" />      
       <include cacheable="false" uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002" />
       <condition id="CoOrigin" required="true" i18n="Editor.Common.choose.entry" />
