@@ -38,7 +38,7 @@
 
 <table width="100%" class="tasklistObject" >
 	<tr>
-		<td class="tasklistTitle"><b><c:out value="${wfoTitle}" /></b></td>
+		<td class="tasklistTitle"><c:out value="${wfoTitle}" /></td>
 		<td width="30" rowspan="2">&nbsp;</td>
 		<td align="right" rowspan="2">
 		<table>
@@ -109,7 +109,11 @@
 	</tr>
 	<tr>
 		<td class="description">
-		 <fmt:message key="WF.${requestScope.task.workflowProcessType}.Description" />, ${itemID}
+  	 	<fmt:message key="WF.${requestScope.task.workflowProcessType}.Description" />, ${itemID}
+		<mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="urn" workflowVar="reservatedURN" />
+		<c:if test="${not(empty urn)}">
+			  <br />[<fmt:message key="WF.xmetadiss.URN" />:&nbsp;<i><c:out value="${urn}" /></i>]
+		</c:if>		 
 		 <br/>
 		 <mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="error" workflowVar="varnameERROR" /> 
 	     <font color="red">${error}</font><br/>	         		 
