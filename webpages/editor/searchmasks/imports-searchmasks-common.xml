@@ -58,7 +58,7 @@
       <helpPopup id="HInstitution" width="400px" >
             <label i18n="Editor.Search.Help.institution" />
       </helpPopup>
-      <list id="CInstitution" width="300" type="dropdown">
+      <list id="CInstitution" width="300px" type="dropdown">
             <item value="">
                   <label i18n="Editor.Common.choose" />
             </item>
@@ -125,7 +125,7 @@
             <label i18n="Editor.Search.Help.origin" />
       </helpPopup>
 
-      <list id="COrigins" width="300" type="dropdown">
+      <list id="COrigins" width="300px" type="dropdown">
             <item value="">
         <label i18n="Editor.Common.choose" />
             </item>
@@ -144,7 +144,7 @@
       <helpPopup id="HTypes" width="400px" >
             <label i18n="Editor.Search.Help.type" />
       </helpPopup>
-      <list id="CTypes" width="300" type="dropdown">
+      <list id="CTypes" width="300px" type="dropdown">
             <item value="">
         <label i18n="Editor.Common.choose" />              
             </item>
@@ -164,7 +164,7 @@
       <helpPopup id="HSubjects" width="400px" >
             <label i18n="Editor.Search.Help.subject" />
       </helpPopup>
-      <list id="CSubjects" width="300" type="dropdown">
+      <list id="CSubjects" width="300px" type="dropdown">
             <item value="">
         <label i18n="Editor.Common.choose" />                 
             </item>
@@ -183,7 +183,7 @@
       <helpPopup id="HFormats" width="400px" >
             <label i18n="Editor.Search.Help.format" />
       </helpPopup>
-      <list id="CFormats" width="300" type="dropdown">
+      <list id="CFormats" width="300px" type="dropdown">
             <item value="">
         <label i18n="Editor.Common.choose" />                 
             </item>
@@ -202,7 +202,7 @@
       <helpPopup id="HLanguages" width="400px" >
             <label i18n="Editor.Search.Help.language" />
       </helpPopup>
-      <list id="CLanguages" width="300" type="dropdown">
+      <list id="CLanguages" width="300px" type="dropdown">
             <item value="">
         <label i18n="Editor.Common.choose" />                
             </item>
