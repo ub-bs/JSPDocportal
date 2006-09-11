@@ -206,7 +206,7 @@ div.submitButton{
     margin: 5px 0px;/* top-bottom and left-right margin */
     table-layout:fixed; 
     width:100%;   
-    border-bottom-width: 8px;
+    border-bottom-width: 2px;
     border-bottom-style: solid;
     border-bottom-color: #EFF4F6; /* same as background */
 }
