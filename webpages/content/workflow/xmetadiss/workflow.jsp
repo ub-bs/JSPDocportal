@@ -51,10 +51,10 @@
         <table>       
 	        <c:forEach var="task" items="${myTaskList}">
 	        <tr><td class="task">
-			   <table width="100%">				        
+			  
 		           <c:set var="task" scope="request" value="${task}" />
 		           <c:import url="/content/workflow/${task.workflowProcessType}/getTasks.jsp" />
-		       </table>
+		      
 		    </td></tr>       
 	        </c:forEach>
         <c:if test="${empty(myTaskList)}">
@@ -68,11 +68,15 @@
         
         <table>
         <c:forEach var="task" items="${myProcessList}">
-           <c:set var="task" scope="request" value="${task}" />
-           <c:import url="/content/workflow/${task.workflowProcessType}/getTasks.jsp" />
+    	    <tr> <td class="task">
+        	   <c:set var="task" scope="request" value="${task}" />
+	           <c:import url="/content/workflow/${task.workflowProcessType}/getTasks.jsp" />
+	        </td></tr>
         </c:forEach>
         <c:if test="${empty(myProcessList)}">
-           <font color="#00ff00"><fmt:message key="WF.common.NoTasks" /></font>
+    		<tr> <td class="task">
+	           <font color="#00ff00"><fmt:message key="WF.common.NoTasks" /></font>
+	        </td></tr>
         </c:if>
         </table>   
    </c:otherwise>
