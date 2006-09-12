@@ -32,6 +32,6 @@ public class MCRDisshabMetadataStrategy extends MCRDefaultMetadataStrategy {
 			if(it.hasNext()){ sbAuthors.append(",");}
 		}
 		ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_AUTHOR_IDS, sbAuthors.toString());
-		ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_CONTAINS_PDF, "true");
+//		ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_CONTAINS_PDF, "true");
 	}
 }

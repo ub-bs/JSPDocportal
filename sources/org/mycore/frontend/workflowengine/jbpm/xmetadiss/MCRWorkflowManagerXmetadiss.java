@@ -146,6 +146,7 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 				
 			MCRWorkflowAccessRuleEditorUtils.setWorkflowVariablesForAccessRuleEditor(mcrid, wfp.getContextInstance());
 			setWorkflowVariablesFromMetadata(wfp.getContextInstance(), mob.createXML().getRootElement().getChild("metadata"));
+			wfp.getContextInstance().setVariable(MCRWorkflowConstants.WFM_VAR_CONTAINS_PDF, "true");
 			setMetadataValid(mcrid, true, wfp.getContextInstance());
 			wfp.close();
 
