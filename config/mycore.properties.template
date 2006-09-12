@@ -129,7 +129,7 @@ MCR.ClassificationID.Origin		=DocPortal_class_00000002
 MCR.ClassificationID.Language	=DocPortal_class_00000004
 MCR.ClassificationID.Type		=DocPortal_class_00000005
 MCR.ClassificationID.Format		=DocPortal_class_00000006
-MCR.ClassificationID.DNB		=DocPortal_class_00000007
+#MCR.ClassificationID.DNB		=DocPortal_class_00000007
 MCR.ClassificationID.DDC		=DocPortal_class_00000009
 MCR.ClassificationID.Bkl		=DocPortal_class_00000020
 
