@@ -36,6 +36,7 @@ import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRException;
+import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowAccessRuleEditorUtils;
@@ -146,7 +147,23 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 				
 			MCRWorkflowAccessRuleEditorUtils.setWorkflowVariablesForAccessRuleEditor(mcrid, wfp.getContextInstance());
 			setWorkflowVariablesFromMetadata(wfp.getContextInstance(), mob.createXML().getRootElement().getChild("metadata"));
-			wfp.getContextInstance().setVariable(MCRWorkflowConstants.WFM_VAR_CONTAINS_PDF, "true");
+			wfp.getContextInstance().setVariable(MCRWorkflowConstants.WFM_VAR_CONTAINS_PDF, "");
+			wfp.getContextInstance().setVariable(MCRWorkflowConstants.WFM_VAR_CONTAINS_ZIP, "");
+			String[] derivateIDs = atachedDerivates.split(",");
+			for (int i=0;i<derivateIDs.length;i++){
+				MCRDerivate d = new MCRDerivate();
+				d.receiveFromDatastore(derivateIDs[i]);
+				String filename = d.getDerivate().getInternals().getMainDoc();
+				logger.debug("**********MainDoc for derivate - "+d.getDerivate().getInternals().getMainDoc());
+				String fileextension = filename.substring(filename.lastIndexOf('.')+1, filename.length()); 
+				if(fileextension.equalsIgnoreCase("pdf")){
+					wfp.getContextInstance().setVariable(MCRWorkflowConstants.WFM_VAR_CONTAINS_PDF, derivateIDs[i]);
+				}
+				if(fileextension.equalsIgnoreCase("zip")){
+					wfp.getContextInstance().setVariable(MCRWorkflowConstants.WFM_VAR_CONTAINS_ZIP, derivateIDs[i]);
+				}
+			}
+			
 			setMetadataValid(mcrid, true, wfp.getContextInstance());
 			wfp.close();
 
