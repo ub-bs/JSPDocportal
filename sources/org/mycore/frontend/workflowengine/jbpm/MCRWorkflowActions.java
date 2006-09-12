@@ -195,8 +195,7 @@ public class MCRWorkflowActions extends MCRServlet {
 			request.setAttribute("type", "derivate");
         	request.setAttribute("processid",new Long(pid));        	
 			request.setAttribute("workflowType",workflowType);
-			request.setAttribute("step", "editor");
-			request.setAttribute("nextPath", nextPath);
+			request.setAttribute("step", "author");
 			request.setAttribute("mcrid2", mcrid);
 			request.setAttribute("nextPath", nextPath);
 			request.setAttribute("target", "MCRCheckDerivateServlet");
