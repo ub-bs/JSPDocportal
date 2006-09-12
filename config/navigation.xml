@@ -218,6 +218,9 @@
         <navitem name="subselectDDC" label="Nav.DDC" href="content/browse_sub.jsp?browserClass=ddc_sub" hidden="true">
           <refitem name="~browse_subDDC" label="" />
         </navitem>
+        <navitem name="subselectBKL" label="Nav.BKL" href="content/browse_sub.jsp?browserClass=bkl_sub" hidden="true">
+          <refitem name="~browse_subBKL" label="" />
+        </navitem>
         <navitem name="subSelectPerson" label="Nav.PersonSearch" href="content/indexSearch.jspx?searchclass=creators_sub" hidden="true">
           <refitem name="~indexSearchCreatorsSub" label="" />
         </navitem>
