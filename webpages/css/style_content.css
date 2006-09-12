@@ -363,12 +363,17 @@ table.tasklistObject{
 	background-color: #CAD9E0;
     padding: 8px;
     margin-bottom: 1.5em;
-    margin-left:8px;
-    margin-right: 8px;
     border-width: 1px;
     border-style: solid;
     border-color: #14516E;
+    margin-left:8px;
+	margin-right:8px;
+}
 
+/**Star Hack - only interpreted by IE */
+* html table.tasklistObject {
+    margin-left:0px;
+	margin-right:0px;
 }
 
 td.tasklistTitle{
