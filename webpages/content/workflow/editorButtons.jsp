@@ -140,7 +140,7 @@
 							<input	name="processid" value="${processid}" type="hidden"> 
 							<input	name="todo" value="WFAddNewFileToDerivate" type="hidden"> 
 							<input	title="<fmt:message key="WF.common.derivate.AddFile" />"
-								src="${baseURL}images/workflow_derivatenew.gif" type="image"
+								src="${baseURL}images/workflow_derivateaddfile.gif" type="image"
 								class="imagebutton">
 						</form>
 						</td>
