@@ -49,7 +49,7 @@ public class MCRDocumentDerivateStrategy extends MCRDefaultDerivateStrategy {
 				fname = fname.substring(fname.lastIndexOf("/")+1);
 			if (fname.indexOf("\\") >0 )
 				fname = fname.substring(fname.lastIndexOf("\\")+1);
-					
+			fname=normalizeFilename(fname);		
 			try{
 				
 				File fout = new File(dirname, fname);

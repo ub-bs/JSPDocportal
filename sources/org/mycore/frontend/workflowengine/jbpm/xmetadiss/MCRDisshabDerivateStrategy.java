@@ -76,7 +76,8 @@ public class MCRDisshabDerivateStrategy extends MCRDefaultDerivateStrategy {
 					throw new MCRException(errMsg);
 				}else{
 					containsZip = true;
-					fname = "attachment.zip";
+					//fname = "attachment.zip";
+					fname=normalizeFilename(fname);
 				}
 			}else if(fileextension.equals("pdf")) {
 				if(containsPdf) {
@@ -91,10 +92,14 @@ public class MCRDisshabDerivateStrategy extends MCRDefaultDerivateStrategy {
 						logger.error(errMsg);
 						throw new MCRException(errMsg);
 					}else{
-						fname = "dissertation.pdf";
+						//fname = "dissertation.pdf";
+						fname=normalizeFilename(fname);
 						mainfile = fname;
 					}
 				}
+			}
+			else{
+				fname=normalizeFilename(fname);
 			}
 			try{
 				File fout = new File(dirname, fname);

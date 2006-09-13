@@ -202,4 +202,30 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 			throw new MCRException(msgErr);
 		}
 	}
+	
+	public String normalizeFilename(String s){
+		StringBuffer newName = new StringBuffer();
+		for(int i=0;i<s.length();i++){
+			char test = s.charAt(i);
+			if(test>='a' && test<='z'){newName.append(test); continue;}
+			if(test>='A' && test<='Z'){newName.append(test); continue;}
+			if(test>='0' && test<='9'){newName.append(test); continue;}
+			if(test=='.') {newName.append(test); continue;}
+			if(test=='-') {newName.append(test); continue;}
+			if(test=='_') {newName.append(test); continue;}
+			
+			if(test=='ä') {newName.append("ae"); continue;}
+			if(test=='ö') {newName.append("oe"); continue;}
+			if(test=='ü') {newName.append("ue"); continue;}
+			if(test=='Ä') {newName.append("AE"); continue;}
+			if(test=='Ö') {newName.append("OE"); continue;}
+			if(test=='Ü') {newName.append("UE"); continue;}
+			if(test=='ß') {newName.append("ss"); continue;}
+			if(test==' ') {newName.append("_"); continue;}
+			//every other char will be ignored.
+			newName.append("");
+		}
+		
+		return newName.toString();
+	}
 }
