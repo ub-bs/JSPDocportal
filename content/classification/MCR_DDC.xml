@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <mycoreclass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="DocPortal_class_00000009" xsi:noNamespaceSchemaLocation="MCRClassification.xsd">
   <label description="Dewey Dezimal-Klassifikation" text="DDC" xml:lang="de" />
   <label text="ddc:DocPortal_class_00000009" xml:lang="x-dini" />

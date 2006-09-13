@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+ï»¿<?xml version="1.0" encoding="UTF-8"?>
 <mycoreclass
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="MCRClassification.xsd"
@@ -25,11 +25,11 @@
   <label xml:lang="en" text="arabic" description="ara#ar"/>
  </category>
  <category ID="LANG0004">
-  <label xml:lang="de" text="dänisch" description="dan#da"/>
+  <label xml:lang="de" text="dÃ¤nisch" description="dan#da"/>
   <label xml:lang="en" text="danish" description="dan#da"/>
  </category>
  <category ID="LANG0005">
-  <label xml:lang="de" text="französisch" description="fre#fr"/>
+  <label xml:lang="de" text="franzÃ¶sisch" description="fre#fr"/>
   <label xml:lang="en" text="french" description="fre#fr"/>
  </category>
  <category ID="LANG0006">
@@ -37,7 +37,7 @@
   <label xml:lang="en" text="greek" description="gre#el"/>
  </category>
  <category ID="LANG0007">
-  <label xml:lang="de" text="hebräisch" description="heb#iw"/>
+  <label xml:lang="de" text="hebrÃ¤isch" description="heb#iw"/>
   <label xml:lang="en" text="hebrew" description="heb#iw"/>
  </category>
  <category ID="LANG0008">
@@ -45,7 +45,7 @@
   <label xml:lang="en" text="italian" description="ita#it"/>
  </category>
  <category ID="LANG0009">
-  <label xml:lang="de" text="niederländisch" description="dut#nl"/>
+  <label xml:lang="de" text="niederlÃ¤ndisch" description="dut#nl"/>
   <label xml:lang="en" text="dutch" description="dut#nl"/>
  </category>
  <category ID="LANG0010">

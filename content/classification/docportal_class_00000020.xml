@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <mycoreclass xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
   ID="DocPortal_class_00000020" xsi:noNamespaceSchemaLocation="MCRClassification.xsd">
-  <label description="Stand 12/2004, Quelle: http://www.gbv.de/vgm/info/mitglieder/02Verbund/01Erschliessung/02Richtlinien/05Basisklassifikation/index" text="Basisklassifikation" xml:lang="de" />
+<!-- Stand 12/2004, Quelle: http://www.gbv.de/vgm/info/mitglieder/02Verbund/01Erschliessung/02Richtlinien/05Basisklassifikation/index -->
+  <label description="" xml:lang="de" text="Basisklassifikation"/>
   <label description="base classification for scientific papers" text="base classification" xml:lang="en" />
   <categories>
     <category ID="BK01">

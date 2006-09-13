@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+ï»¿<?xml version="1.0" encoding="UTF-8"?>
 <mycoreclass
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -14,62 +14,67 @@
   description="A list of institutions" />
 <categories>
  <category ID="Unis">
-  <label xml:lang="de" text="Universität in Deutschland" />
+  <label xml:lang="de" text="UniversitÃ¤ten in Deutschland" />
   <label xml:lang="en" text="Universities of Germany" />
   <category ID="Unis.Dresden">
-   <label xml:lang="de" text="Universität Dresden" />
+   <label xml:lang="de" text="UniversitÃ¤t Dresden" />
    <label xml:lang="en" text="Dresden University" />
    <url xlink:href="http://www.uni-dresden.de/" />
   </category>
   <category ID="Unis.Essen">
-   <label xml:lang="de" text="Universität Duisburg-Essen" />
+   <label xml:lang="de" text="UniversitÃ¤t Duisburg-Essen" />
    <label xml:lang="en" text="Duisburg-Essen University" />
    <url xlink:href="http://www.uni-duisburg-essen.de/" />
   </category>
   <category ID="Unis.Freiburg">
-   <label xml:lang="de" text="Universität Freiburg" />
+   <label xml:lang="de" text="UniversitÃ¤t Freiburg" />
    <label xml:lang="en" text="Freiburg University" />
    <url xlink:href="http://www.uni-freiburg.de/" />
   </category>
   <category ID="Unis.Greifswald">
-   <label xml:lang="de" text="Universität Greifswald" />
+   <label xml:lang="de" text="UniversitÃ¤t Greifswald" />
    <label xml:lang="en" text="University of Greifswald" />
    <url xlink:href="http://www.uni-greifswald.de/" />
   </category>
   <category ID="Unis.Hamburg">
-   <label xml:lang="de" text="Universität Hamburg" />
+   <label xml:lang="de" text="UniversitÃ¤t Hamburg" />
    <label xml:lang="en" text="University of Hamburg" />
    <url xlink:href="http://www.uni-hamburg.de/" />
   </category>
   <category ID="Unis.Jena">
-   <label xml:lang="de" text="Universität Jena" />
+   <label xml:lang="de" text="UniversitÃ¤t Jena" />
    <label xml:lang="en" text="Jena University" />
    <url xlink:href="http://www.uni-jena.de/" />
   </category>
   <category ID="Unis.Kiel">
-   <label xml:lang="de" text="Universität Kiel" />
+   <label xml:lang="de" text="UniversitÃ¤t Kiel" />
    <label xml:lang="en" text="Kiel University" />
    <url xlink:href="http://www.uni-kiel.de/" />
   </category>
   <category ID="Unis.Leipzig">
-   <label xml:lang="de" text="Universität Leipzig" />
+   <label xml:lang="de" text="UniversitÃ¤t Leipzig" />
    <label xml:lang="en" text="Leipzig University" />
    <url xlink:href="http://www.uni-leipzig.de/" />
   </category>
   <category ID="Unis.TUMuenchen">
-   <label xml:lang="de" text="Technische Universität München" />
-   <label xml:lang="en" text="Technical University of München" />
+   <label xml:lang="de" text="Technische UniversitÃ¤t MÃ¼nchen" />
+   <label xml:lang="en" text="Technical University of Munich" />
    <url xlink:href="http://www.tu-muenchen.de/" />
   </category>
   <category ID="Unis.Muenster">
-   <label xml:lang="de" text="Universität Münster" />
-   <label xml:lang="en" text="University of Münster" />
+   <label xml:lang="de" text="UniversitÃ¤t MÃ¼nster" />
+   <label xml:lang="en" text="University of Muenster" />
    <url xlink:href="http://www.uni-muenster.de/" />
   </category>
   <category ID="Unis.Rostock">
-   <label xml:lang="de" text="Universität Rostock" />
+   <label xml:lang="de" text="UniversitÃ¤t Rostock" />
    <label xml:lang="en" text="University of Rostock" />
    <url xlink:href="http://www.uni-rostock.de/" />
+  </category>
+  <category ID="Unis.Neubrandenburg">
+   <label xml:lang="de" text="Hochschule Neubrandenburg" />
+   <label xml:lang="en" text="Universtity of Applied Sciences Neubrandenburg" />
+   <url xlink:href="http://www.hs-nb.de/" />
   </category>
  </category>
  <category ID="Firma">

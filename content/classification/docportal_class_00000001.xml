@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+ï»¿<?xml version="1.0" encoding="UTF-8"?>
 <mycoreclass 
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="MCRClassification.xsd"
   ID="DocPortal_class_00000001" >
 <label
   xml:lang="de"
-  text="DocPortal Nationalitäten"
-  description="DocPortal Klassifikation Nationalitäten" />
+  text="DocPortal NationalitÃ¤ten"
+  description="DocPortal Klassifikation NationalitÃ¤ten" />
 <categories>
  <category ID="NAT0000">
   <label xml:lang="de" text="andere" />
@@ -21,7 +21,7 @@
   <label xml:lang="en" text="english" />
  </category>
  <category ID="NAT0003">
-  <label xml:lang="de" text="französisch" />
+  <label xml:lang="de" text="franzÃ¶sisch" />
   <label xml:lang="en" text="french" />
  </category>
  <category ID="NAT0004">
@@ -37,7 +37,7 @@
   <label xml:lang="en" text="czech" />
  </category>
  <category ID="NAT0007">
-  <label xml:lang="de" text="österreichisch" />
+  <label xml:lang="de" text="Ã¶sterreichisch" />
   <label xml:lang="en" text="austrian" />
  </category>
  <category ID="NAT0008">
@@ -53,11 +53,11 @@
   <label xml:lang="en" text="belgian" />
  </category>
  <category ID="NAT0011">
-  <label xml:lang="de" text="niederländisch" />
+  <label xml:lang="de" text="niederlÃ¤ndisch" />
   <label xml:lang="en" text="dutch" />
  </category>
  <category ID="NAT0012">
-  <label xml:lang="de" text="dänisch" />
+  <label xml:lang="de" text="dÃ¤nisch" />
   <label xml:lang="en" text="danish" />
  </category>
  <category ID="NAT0013">
@@ -101,7 +101,7 @@
   <label xml:lang="en" text="norwegian" />
  </category>
  <category ID="NAT0023">
-  <label xml:lang="de" text="isländisch" />
+  <label xml:lang="de" text="islÃ¤ndisch" />
   <label xml:lang="en" text="icelandic" />
  </category>
  <category ID="NAT0024">
@@ -110,7 +110,7 @@
  </category>
  <category ID="NAT0025">
   <label xml:lang="de" text="griechisch" />
-  <label xml:lang="en" text="grecian" />
+  <label xml:lang="en" text="greek" />
  </category>
 </categories>
 </mycoreclass>
