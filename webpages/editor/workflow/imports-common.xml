@@ -864,13 +864,13 @@
 	</text>
 
 	<text id="AINameName">
-		<label i18n="Editor.Label.INameFull" />
+		<label css-style="editorHint" i18n="Editor.Label.INameFull" />
 	</text>
 	<text id="AINameNick">
-		<label i18n="Editor.Label.INameNick" />
+		<label css-style="editorHint" i18n="Editor.Label.INameNick" />
 	</text>
 	<text id="AINameProp">
-		<label i18n="Editor.Label.INameLegalForm" />
+		<label css-style="editorHint" i18n="Editor.Label.INameLegalForm" />
 	</text>
 
 	<helpPopup id="HIName">
@@ -883,21 +883,24 @@
 		<label i18n="Editor.Label.Address" />
 	</text>
 
+	<text id="LAddressM">
+		<label i18n="Editor.Label.AddressM" />
+	</text>
 	<text id="AAddressCountry">
-		<label i18n="Editor.Label.AddressCountry" />
+		<label css-style="editorHint" i18n="Editor.Label.AddressCountry" />
 	</text>
 	<text id="AAddressState"></text>
 	<text id="AAddressZIP">
-		<label i18n="Editor.Label.AddressZIP" />
+		<label css-style="editorHint" i18n="Editor.Label.AddressZIP" />
 	</text>
 	<text id="AAddressCity">
-		<label i18n="Editor.Label.AddressCity" />
+		<label css-style="editorHint" i18n="Editor.Label.AddressCity" />
 	</text>
 	<text id="AAddressStreet">
-		<label i18n="Editor.Label.AddressStreet" />
+		<label css-style="editorHint" i18n="Editor.Label.AddressStreet" />
 	</text>
 	<text id="AAddressNumber">
-		<label i18n="Editor.Label.AddressNumber" />
+		<label css-style="editorHint" i18n="Editor.Label.AddressNumber" />
 	</text>
 
 

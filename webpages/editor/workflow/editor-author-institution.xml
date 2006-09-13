@@ -29,7 +29,7 @@
    </cell>
    <cell col="4" row="1" anchor="WEST" ref="HIName" />
 
-   <cell col="1" row="2" anchor="NORTHWEST" ref="LAddress" />
+   <cell col="1" row="2" anchor="NORTHWEST" ref="LAddressM" />
    <cell col="2" row="2" anchor="NORTHWEST" ref="DAddress" />
    <cell col="3" row="2" anchor="NORTHWEST" >
     <space width="20" height="0" />
@@ -76,7 +76,8 @@
     <hidden var="metadata/names/@notinherit" default="false" />
     <hidden var="metadata/names/@heritable" default="true" />
     <hidden var="metadata/names/name/@inherited" default="0" />
-    <cell col="1" row="1" anchor="NORTHWEST" ref="Slang" var="metadata/names/name/@lang" ordernr="1" default="de" />
+    <hidden var="metadata/names/name/@lang" default="de" />
+
     <cell col="2" row="1" anchor="NORTHWEST" var="metadata/names/name/fullname" ordernr="1" >
 	  <textfield id="tf.fullname" width="30" maxlength="128"   >		
 		<condition required="true" id="cond.Name">
@@ -98,7 +99,8 @@
     <hidden var="metadata/addresses/@notinherit" default="false" />
     <hidden var="metadata/addresses/@heritable" default="true" />
     <hidden var="metadata/addresses/address/@inherited" default="0" />
-    <cell col="1" row="1" anchor="NORTHWEST" ref="Slang" var="metadata/addresses/address/@lang" ordernr="2" default="de" />
+    <hidden var="metadata/addresses/address/@lang" default="de" />
+
     <cell col="2" row="1" anchor="NORTHWEST" ref="Scountry" var="metadata/addresses/address/country" ordernr="2" />
     <cell col="3" row="1" anchor="NORTHWEST" ref="AAddressCountry" />
     <cell col="2" row="2" anchor="NORTHWEST" ref="Sstate" var="metadata/addresses/address/state" ordernr="2" />
@@ -132,11 +134,13 @@
     <hidden var="metadata/phones/@notinherit" default="false" />
     <hidden var="metadata/phones/@heritable" default="true" />
     <hidden var="metadata/phones/phone/@inherited" default="0" />
-    <cell col="1" row="1" anchor="NORTHWEST" ref="Slang" var="metadata/phones/phone/@lang" ordernr="3" default="de" />
+    <hidden var="metadata/phones/phone/@lang" default="de" />
+    <hidden var="metadata/phones/phone[2]/@lang" default="de" />
+
     <cell col="2" row="1" anchor="NORTHWEST" ref="TFzeile128" var="metadata/phones/phone" ordernr="3" />
     <cell col="3" row="1" anchor="NORTHWEST" ref="Sphone" var="metadata/phones/phone/@type" ordernr="3" />
     <hidden var="metadata/phones/phone[2]/@inherited" default="0" />
-    <cell col="1" row="2" anchor="NORTHWEST" ref="Slang" var="metadata/phones/phone[2]/@lang" ordernr="3" default="de" />
+
     <cell col="2" row="2" anchor="NORTHWEST" ref="TFzeile128" var="metadata/phones/phone[2]" ordernr="3" />
     <cell col="3" row="2" anchor="NORTHWEST" ref="Sphone" var="metadata/phones/phone[2]/@type" ordernr="3" />
   </panel>
@@ -165,7 +169,8 @@
     <hidden var="metadata/emails/@notinherit" default="false" />
     <hidden var="metadata/emails/@heritable" default="true" />
     <hidden var="metadata/emails/email/@inherited" default="0" />
-    <cell col="1" row="1" anchor="NORTHWEST" ref="Slang" var="metadata/emails/email/@lang" ordernr="5" default="de" />
+    <hidden var="metadata/emails/email/@lang" default="de" />
+
     <cell col="2" row="1" anchor="NORTHWEST" ref="TFzeile128" var="metadata/emails/email" ordernr="5" />
   </panel>
 
@@ -176,7 +181,7 @@
     <hidden var="metadata/notes/@notinherit" default="false" />
     <hidden var="metadata/notes/@heritable" default="true" />
     <hidden var="metadata/notes/note/@inherited" default="0" />
-    <cell col="1" row="1" anchor="NORTHWEST" ref="Slang" var="metadata/notes/note/@lang" ordernr="6" default="de" />
+    <hidden var="metadata/notes/note/@lang" default="de" />
     <cell col="2" row="1" anchor="NORTHWEST" ref="TFarea4096" var="metadata/notes/note" ordernr="6" default=""/>
   </panel>
 
