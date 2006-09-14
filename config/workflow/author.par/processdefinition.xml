@@ -111,11 +111,11 @@
   <decision name="canAuthorBeCommitted">
      <handler class="org.mycore.frontend.workflowengine.jbpm.author.MCRDecisionHandlerAuthor" />
      <transition name="authorCanBeCommitted" to="wasCommitmentSuccessful">
-       <action class="org.mycore.frontend.workflowengine.jbpm.MCRCommitObjectAction">
+       <action class="org.mycore.frontend.workflowengine.jbpm.author.MCRCommitAuthorAction">
            <varnameOBJID>createdDocID</varnameOBJID>
            <varnameERROR>COMMITERROR</varnameERROR>
-        </action>  
-     </transition>
+        </action> 
+      </transition>
       <transition name="authorCantBeCommitted" to="authorSubmitted"></transition>
   </decision>  
   

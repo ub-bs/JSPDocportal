@@ -23,6 +23,7 @@ public class MCRWorkflowConstants {
 	public static final String WFM_VAR_METADATA_OBJECT_IDS = "createdDocID";
 	public static final String WFM_VAR_ATTACHED_DERIVATES = "attachedDerivates";
 	public static final String WFM_VAR_DELETED_DERIVATES = "deletedDerivates";
+	public static final String WFM_VAR_BOOL_TEMPORARY_IN_DATABASE = "temporaryInDatabase";
 		
 	public static final String WFM_VAR_CONTAINS_PDF = "containsPDF";
 	public static final String WFM_VAR_CONTAINS_ZIP = "containsZIP";

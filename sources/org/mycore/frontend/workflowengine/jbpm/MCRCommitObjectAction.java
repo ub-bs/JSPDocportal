@@ -10,8 +10,8 @@ public class MCRCommitObjectAction implements ActionHandler{
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = Logger.getLogger(MCRCommitObjectAction.class);
 	
-	private String varnameOBJID;
-	private String varnameERROR;
+	protected String varnameOBJID;
+	protected String varnameERROR;
 	
 	public void execute(ExecutionContext executionContext) throws MCRException {
 		try{

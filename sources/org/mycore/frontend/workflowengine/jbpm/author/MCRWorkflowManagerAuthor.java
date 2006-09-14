@@ -221,6 +221,21 @@ public String createNewAuthor(String userid, ContextInstance ctxI,
 	}
 
 	public boolean removeWorkflowFiles(ContextInstance ctxI) {
+		//since author database objects are created when the user submits the author, that he can move on
+		//we must try to delete this database object when the workflow process is killed
+		//
+		if(ctxI.hasVariable(MCRWorkflowConstants.WFM_VAR_BOOL_TEMPORARY_IN_DATABASE)
+             &&((Boolean)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_BOOL_TEMPORARY_IN_DATABASE)).booleanValue()){
+			String createdDocID = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
+			MCRObject author = new MCRObject();
+			try{
+				author.deleteFromDatastore(createdDocID);
+			}
+			 catch (Exception ex) {
+					logger.error("could not delete workflow files", ex);
+					ctxI.setVariable("varnameERROR", ex.getMessage());
+			 }
+		}		
 		
 		String workflowDirectory = MCRWorkflowDirectoryManager
 				.getWorkflowDirectory(mainDocumentType);
