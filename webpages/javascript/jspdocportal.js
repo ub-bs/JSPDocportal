@@ -5,7 +5,7 @@
     		//document.setvar.submit.disabled=false;
     		return true;
     	}else {
-    	    alert("keine g?ltige Email Adresse");
+    	    alert("Bitte geben Sie eine g?ltige Emailadresse ein.");
     		return false;
 		}    	
 	  }
@@ -72,7 +72,7 @@
     	}
     	
     }
-    if ( !ret )	alert("Es fehlen einige Pflichtangaben. \n Diese markierten Felder bitte ausfuellen." );      
+    if ( !ret )	alert("Es fehlen einige Pflichtangaben. \n Bitte f?llen Sie die markierten Felder aus." );      
 	return ret;
   }
   
