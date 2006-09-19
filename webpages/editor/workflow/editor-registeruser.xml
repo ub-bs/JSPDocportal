@@ -193,7 +193,7 @@
             </cell>
             <cell row="16" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.country" sortnr="11" />
 
-            <!-- *** Institution *** -->
+            <!-- *** Institution 
             <cell row="17" col="1" anchor="EAST">
                 <text id="LInstitution">
                     <label xml:lang="de">
@@ -205,7 +205,8 @@
                 </text>
             </cell>
             <cell row="17" col="2" anchor="WEST" ref="CInstitution" var="user/user.contact/contact.institution" sortnr="12" />           
-
+			*** -->
+			
             <!-- *** Faculty *** -->
             <cell row="18" col="1" anchor="EAST">
                 <text id="LFaculty">
