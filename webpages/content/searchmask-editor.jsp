@@ -5,6 +5,14 @@
 <fmt:setLocale value="${requestScope.lang}" />
 <fmt:setBundle basename='messages'/>
 <div class="headline"><fmt:message key="Webpage.editor.title.${fn:replace(param.editor,'/','.')}" /></div>
+<c:choose>
+	<c:when test="${fn:length(param.session) > 0}">
+		<c:set var="MCRSessionID" value="${param.session}" />
+	</c:when>
+	<c:otherwise>
+		<c:set var="MCRSessionID" value="${requestScope.sessionID}" />
+	</c:otherwise>
+</c:choose>
 
 <table >
  <tr>
@@ -20,7 +28,7 @@
 		</c:choose>    
 		<c:param name="XSL.editor.cancel.url" value="${WebApplicationBaseURL}" />
 	    <c:param name="lang" value="${requestScope.lang}" />
-	    <c:param name="MCRSessionID" value="${requestScope.sessionID}"/>
+	    <c:param name="MCRSessionID" value="${MCRSessionID}"/>
 	  </c:url>
 	<c:import url="${url}" />  
     </td>
