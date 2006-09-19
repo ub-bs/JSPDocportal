@@ -1267,10 +1267,13 @@
         	create group data from file group_adminclassification.xml
         	
         	create group data from file group_adminuser.xml
+        	create group data from file group_adminwebcontent.xml
         	
         	create user data from file user_administrator.xml  
         	create user data from file user_editorUser.xml
         	create user data from file user_editorClass.xml
+        	create user data from file user_editorWeb.xml
+        	
         	create user data from file user_author1A.xml
         	create user data from file user_author1B.xml
         	create user data from file user_editor1A.xml
