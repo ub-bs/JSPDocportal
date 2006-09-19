@@ -109,7 +109,8 @@
 							style="width:10px; height:1px;"
 							src="${WebApplicationBaseURL}images/emtyDot1Pix.gif"></td>
 						<!--                                 <td><a href="${WebApplicationBaseURL}nav?path=${path}&lang=${translateLang}"><img style="border-style: none; width: 24px; height: 12px; vertical-align: bottom;" alt="<fmt:message key="secondLanguage" />" src="${WebApplicationBaseURL}images/lang-${translateLang}.gif"></a></td>            -->
-						<td><a href="${langfreeRequestURL}&lang=${translateLang}"><img
+						<td>
+						   <a href ="${WebApplicationBaseURL}${langfreeRequestURL}${translateLang}" ><img
 							style="border-style: none; width: 24px; height: 12px; vertical-align: bottom;"
 							alt="<fmt:message key="secondLanguage" />"
 							src="${WebApplicationBaseURL}images/lang-${translateLang}.gif"></a></td>
@@ -129,9 +130,11 @@
 							<x:set var="href1" select="string(./@path)" />
 							<x:set var="labelKey1" select="string(./@label)" />
 							<x:choose>
+								<x:when select="../navitem[last()]/@systemID = ./@systemID">
+								   &gt; <fmt:message key="${labelKey1}" />
+                                </x:when>        							
 								<x:when select="../navitem[1]/@systemID != ./@systemID">
-                                            &gt; <a href="${href1}"><fmt:message
-										key="${labelKey1}" /></a>
+                                   &gt; <a href="${href1}"><fmt:message	key="${labelKey1}" /></a>
 								</x:when>
 								<x:otherwise>
 									<a href="${href1}"><fmt:message key="${labelKey1}" /></a>

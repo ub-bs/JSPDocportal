@@ -1,30 +1,35 @@
 package org.mycore.frontend.jsp;
 
+import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
 import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
 import org.jdom.xpath.XPath;
-import org.mycore.frontend.servlets.MCRServlet;
-import org.mycore.frontend.servlets.MCRServletJob;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRSession;
 import org.mycore.common.xml.MCRURIResolver;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.ServletContext;
-import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-
-import org.apache.log4j.Logger;
+import org.mycore.frontend.servlets.MCRServlet;
+import org.mycore.frontend.servlets.MCRServletJob;
 
 public class NavServlet extends MCRServlet
 {
-    private static Logger logger = Logger.getLogger(NavServlet.class);
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private static Logger logger = Logger.getLogger(NavServlet.class);
 
     private static String baseURL ;
     private static org.jdom.Document navJdom;
@@ -184,6 +189,7 @@ public class NavServlet extends MCRServlet
         int i = 0;
         while(navitem != null) {
         	if (!navitem.getName().equals("navitem")) break;
+        	
         	if (i != 0) {
         		pathSB.insert(0,".");
         		pathID.insert(0,".");
@@ -213,11 +219,8 @@ public class NavServlet extends MCRServlet
         request.setAttribute("path", path);
         request.setAttribute("pathID", pathID.toString());
         request.setAttribute("youAreHere",domYouAreHere);
+               
         
-        String requestURL = request.getRequestURL().append("?").append(request.getQueryString()).toString();
-        requestURL = requestURL.replaceAll("&lang=[^&]*","");
-        
-        request.setAttribute("langfreeRequestURL", requestURL);
         if(contentPage == null || contentPage.equals("")) {
             request.setAttribute("content", "content/dummy.jsp");
         } else {
