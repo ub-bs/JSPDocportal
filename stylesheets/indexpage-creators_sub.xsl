@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.5 $ $Date: 2006-08-17 14:14:33 $ -->
+<!-- $Revision: 1.6 $ $Date: 2006-09-19 08:23:16 $ -->
 <!-- ============================================== -->
 
 <xsl:stylesheet
@@ -107,8 +107,8 @@
 </xsl:template>
 
 <xsl:variable name="up.url">
-  <xsl:text>{$WebApplicationBaseURL}nav?path=~indexSearchCreatorsSub</xsl:text>
-  <xsl:text>?</xsl:text>
+  <xsl:text>nav?path=~indexSearchCreatorsSub</xsl:text>
+  <xsl:text>&amp;</xsl:text>
   <xsl:value-of select="$subselect.params" />
   <xsl:if test="string-length($search) &gt; 0">
     <xsl:text>&amp;search=</xsl:text>
@@ -123,11 +123,11 @@
       <xsl:if test="range">
         <dl>
           <dt>
-            <img border="0" src="{$WebApplicationBaseURL}images/folder_open.gif" align="middle"/>
+            <img border="0" src="{$WebApplicationBaseURL}images/folder_blank.gif" align="middle"/>
 
           <xsl:choose>
             <xsl:when test="contains(/indexpage/@path,'-')">
-              <b><a class="nav" href="{$up.url}">Zurück...</a></b>
+              <b><a class="nav" href="{$WebApplicationBaseURL}{$up.url}">Zurück...</a></b>
             </xsl:when>
             <xsl:when test="string-length($search) &gt; 0">
               <b>Gesamtindex (über Suchausdruck gefiltert)</b>
@@ -144,7 +144,7 @@
       <xsl:if test="value">
         <dl>
           <dt>
-            <img border="0" src="{$WebApplicationBaseURL}images/folder_open.gif" align="middle"/>
+            <img border="0" src="{$WebApplicationBaseURL}images/folder_plus.gif" align="middle"/>
 
           <xsl:choose>
             <xsl:when test="contains(/indexpage/@path,'-')">
@@ -197,7 +197,7 @@
 <xsl:template match="range">
   <xsl:variable name="url">
     <xsl:value-of select="concat($WebApplicationBaseURL,'nav?path=~indexSearchCreatorsSub&amp;fromTo=', from/@pos,'-', to/@pos )" />	  
-    <xsl:text>?</xsl:text>
+    <xsl:text>&amp;</xsl:text>
     <xsl:value-of select="$subselect.params" />
     <xsl:if test="string-length($search) &gt; 0">
       <xsl:text>&amp;search=</xsl:text>
@@ -208,7 +208,7 @@
   </xsl:variable>
 
   <dd>
-    <img border="0" src="{$WebApplicationBaseURL}/images/folder_closed_in_use.gif" align="middle"/>
+    <img border="0" src="{$WebApplicationBaseURL}/images/folder_plus.gif" align="middle"/>
     <xsl:text> </xsl:text>
     <a href="{$url}" class="nav">
       <xsl:value-of select="from/@short"/>
