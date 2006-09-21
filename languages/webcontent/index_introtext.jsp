@@ -1,7 +1,3 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<fmt:setLocale value="${requestScope.lang}" />
-<fmt:setBundle basename='messages'/>
 <p>Dieser Server ist eine Beispiel-Anwendung zur Gestaltung allgemeiner Dokumenten- und Dissertations/Habilitations-Server.</p>
 
 <p>Alle Dokumente werden mit einem erweiterten Dublin Core Metadatensatz in das System eingestellt und sind über diese Metadaten recherchierbar. Je nach eingesetzter Hard- und Software kommt hierzu noch eine Volltext-Recherchemöglichkeit.</p>
@@ -25,6 +21,9 @@
 <p>Im Autorenbereich wird unter DocPortal immer zwischen einem Autor und einem Bearbeiter unterschieden. Beide haben unterschiedliche Rechte. Autoren dürfen ihre Arbeiten nur in einen Workflow einbringen, Bearbeiter können dann diese Daten freigeben und in das System hochladen. Die Arbeitsabläufe unterscheiden sich dabei zwischen den beiden Typen, Dokumente werden direkt nach dem Bearbeiten geladen, für Dissertationen / Habilitationen ist dafür noch ein extra Arbeitsschritt erforderlich.</p>
 <p>Wenn Sie eine ausführliche Information zum Autor oder zu beteiligten Personen oder Institutionen in die Metadaten Ihres Objektes integrieren möchten (für Dissertationen / Habilitationen ist das PFLICHT), so legen Sie zuerst einen Personen- bzw. Institutionen-Datensatz an und merken sich die ID dieses  Datensatzes. Nun können Sie diese ID beim Ausfüllen der Dokumentdaten als Referenz bei den Feldern Autor, Publizist und Beteiligter entsprechend angeben. Start.Workflow=Daten die neu eingegeben wurden werden erstmal im Workflow zwischengespeichert. Hier befinden sich alle Daten, die noch nicht in das System eingestellt wurden. Da bei der Bearbeitung von Dissertationen / Habilitationen oft mehrere Iterationsschritte erforderlich sind, müssen diese Daten dann expizit in den Server gestellt werden.</p>
 <p>Daten die neu eingegeben wurden werden erstmal im Workflow zwischengespeichert. Hier befinden sich alle Daten, die noch nicht in das System eingestellt wurden. Da bei der Bearbeitung von Dissertationen / Habilitationen oft mehrere Iterationsschritte erforderlich sind, müssen diese Daten dann expizit in den Server gestellt werden.</p>
+
+
+
 <%-- 	Webpage.intro.ExampleApplication
 		Webpage.intro.ExplainSearch
 		Webpage.intro.TwoFundamentalTypes

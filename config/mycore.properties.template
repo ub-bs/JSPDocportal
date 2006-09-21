@@ -667,3 +667,11 @@ MCR.oai.setscheme.classids.MCROAIProvider.subject=DocPortal_class_00000009
 MCR.mail.server=localhost
 MCR.mail.protocol=smtp
 MCR.mail.debug=false
+
+##############################################################################
+# FCK Editor                                                                 #
+##############################################################################
+
+MCR.fckeditor.width=95%
+MCR.fckeditor.height=450
+MCR.fckeditor.toolbarset=mcr
