@@ -1,6 +1,7 @@
 package org.mycore.frontend.jsp.taglibs;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
@@ -14,6 +15,7 @@ import org.jdom.output.DOMOutputter;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRSessionMgr;
+import org.mycore.user2.MCRGroup;
 import org.mycore.user2.MCRUserMgr;
 
 
@@ -39,6 +41,8 @@ public class MCRLoginTag extends SimpleTagSupport
 	public void doTag() throws JspException, IOException {		
         boolean loginOk = false;
         String status = "user.login";
+        String lastname = "";
+        String salutation = "";
         String username = MCRSessionMgr.getCurrentSession().getCurrentUserName();
         if ( username == null ) username = MCRSessionMgr.getCurrentSession().getCurrentUserID();
         	
@@ -61,8 +65,20 @@ public class MCRLoginTag extends SimpleTagSupport
 	            if (loginOk) {
 		        	MCRSessionMgr.getCurrentSession().setCurrentUserID(uid);
 		        	username = MCRUserMgr.instance().retrieveUser(uid).getName();
+		        	lastname = MCRUserMgr.instance().retrieveUser(uid).getUserContact().getLastName();
+		        	salutation = MCRUserMgr.instance().retrieveUser(uid).getUserContact().getSalutation();
+		        	ArrayList allGroupIDS = MCRUserMgr.instance().retrieveUser(uid).getAllGroupIDs();
+		        	Element eGroups = new Element ("groups");
+		        	for ( int i=0; i<allGroupIDS.size(); i++ ) {		        		
+		        		Element eGroup = new Element ("group");
+		        		MCRGroup mcrgroup = MCRUserMgr.instance().retrieveGroup((String)allGroupIDS.get(i));		        				        		
+		        		eGroup.setAttribute("gid", (String)allGroupIDS.get(i));
+		        		eGroup.setAttribute("description", mcrgroup.getDescription());
+		        		eGroups.addContent(eGroup);
+	            	}
 	                status = "user.welcome";
-		            logger.info("user " + uid + " logged in ");            			
+		            logger.info("user " + uid + " logged in ");
+		            loginresult.addContent(eGroups);
 	            } else {
 		            if (uid != null) {
 		            	status = "user.invalid_password";
@@ -82,6 +98,7 @@ public class MCRLoginTag extends SimpleTagSupport
 	        loginresult.setAttribute("loginOK", Boolean.toString(loginOk));
             loginresult.setAttribute("status",  status);
             loginresult.setAttribute("username",  username);
+            loginresult.setAttribute("name", salutation + " " + lastname);
         }
         
 		org.jdom.Document lgresult = new org.jdom.Document(loginresult);
