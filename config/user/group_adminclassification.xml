@@ -7,7 +7,7 @@
 <!-- ******************************************************************* -->
 
   <group ID="adminclassification">
-    <group.description>Die Gruppe von Bearbeitern, die Klassifikationen editiert.</group.description>
+    <group.description>Administration der Klassifikationen.</group.description>
   </group>
 
 <!-- ******************************************************************* -->

@@ -4,7 +4,7 @@
     <group.creator>root</group.creator>
     <group.creation_date>2004-04-20 12:11:09.0</group.creation_date>
     <group.last_modified>2004-04-20 12:11:09.0</group.last_modified>
-    <group.description>The guest group</group.description>
+    <group.description>Suchen/Browsen in Dokumentenbestand.</group.description>
     <group.admins>
       <admins.userID>root</admins.userID>
       <admins.groupID>rootgroup</admins.groupID>

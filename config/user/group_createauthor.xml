@@ -7,7 +7,7 @@
 <!-- ******************************************************************* -->
 
   <group ID="createauthor">
-    <group.description>Die Gruppe die eigene Autorendaten in das System einstellen dürfen</group.description>
+    <group.description>Erstellen von Autorendaten.</group.description>
   </group>
 
 <!-- ******************************************************************* -->

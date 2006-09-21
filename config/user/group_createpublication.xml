@@ -7,7 +7,7 @@
 <!-- ******************************************************************* -->
 
   <group ID="createpublication">
-    <group.description>Die Gruppe die Publikationen in das System einstellen dürfen</group.description>
+    <group.description>Erstellen von Publikationen.</group.description>
   </group>
 
 <!-- ******************************************************************* -->

@@ -7,7 +7,7 @@
 <!-- ******************************************************************* -->
 
   <group ID="createinstitution">
-    <group.description>Die Gruppe die eine eigene Dissertation in das System einstellen dürfen</group.description>
+    <group.description>Erstellen von Insitutionsdaten.</group.description>
   </group>
 
 <!-- ******************************************************************* -->

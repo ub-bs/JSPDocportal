@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="ISO_8859-1"?>
 <mycoreuser xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:noNamespaceSchemaLocation="MCRUser.xsd">
-  <user numID="18" ID="editor2B" id_enabled="true" update_allowed="true">
-    <user.password>editor2B</user.password>
-    <user.description>Bereichtigter Editor für Dissertationen (Workflow)</user.description>
-    <user.primary_group>admindisshab</user.primary_group>
+  <user numID="11" ID="authorP" id_enabled="true" update_allowed="true">
+    <user.password>authorP</user.password>
+    <user.description>Bereichtigter Autor von Publikationen</user.description>
+    <user.primary_group>createpublication</user.primary_group>
     <user.contact>
       <contact.salutation />
       <contact.firstname />
-      <contact.lastname>Editor Dissertationen (Workflow)</contact.lastname>
+      <contact.lastname>Autor Publikationen</contact.lastname>
       <contact.street />
       <contact.city />
       <contact.postalcode />

@@ -7,7 +7,7 @@
 <!-- ******************************************************************* -->
 
   <group ID="adminauthor">
-    <group.description>Die Gruppe von Editoren, die Autorendaten administrieren.</group.description>
+    <group.description>Administration der Autorendaten.</group.description>
   </group>
 
 <!-- ******************************************************************* -->

@@ -7,7 +7,7 @@
 <!-- ******************************************************************* -->
 
   <group ID="adminwebcontent">
-    <group.description>Die Gruppe von Bearbeitern, die die Statischen Inhalte aus dem WebContent über FCK editieren können</group.description>
+    <group.description>Administration der statischen Textinhalte.</group.description>
   </group>
 
 <!-- ******************************************************************* -->

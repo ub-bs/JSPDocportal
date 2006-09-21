@@ -7,7 +7,7 @@
 <!-- ******************************************************************* -->
 
   <group ID="adminpublication">
-    <group.description>Die Gruppe von Editoren, die Publikationen administrieren.</group.description>
+    <group.description>Administration der Publikationen.</group.description>
   </group>
 
 <!-- ******************************************************************* -->

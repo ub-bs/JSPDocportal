@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO_8859-1"?>
 <mycoreuser xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:noNamespaceSchemaLocation="MCRUser.xsd">
-  <user numID="16" ID="author2B" id_enabled="true" update_allowed="true">
-    <user.password>author2B</user.password>
+  <user numID="16" ID="authorD" id_enabled="true" update_allowed="true">
+    <user.password>authorD</user.password>
     <user.description>Bereichtigter Autor zum Anlegen von Dissertationen</user.description>
     <user.primary_group>createdisshab</user.primary_group>
     <user.contact>

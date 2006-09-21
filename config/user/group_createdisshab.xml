@@ -7,7 +7,7 @@
 <!-- ******************************************************************* -->
 
   <group ID="createdisshab">
-    <group.description>Die Gruppe die Dissertationen in das System einstellen dürfen</group.description>
+    <group.description>Erstellen von Dissertationen.</group.description>
   </group>
 
 <!-- ******************************************************************* -->

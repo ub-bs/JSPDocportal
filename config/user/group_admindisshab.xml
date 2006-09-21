@@ -7,7 +7,7 @@
 <!-- ******************************************************************* -->
 
   <group ID="admindisshab">
-    <group.description>Die Gruppe von Editoren, die Dissertationsdaten administrieren.</group.description>
+    <group.description>Administration der Dissertationen.</group.description>
   </group>
 
 <!-- ******************************************************************* -->

@@ -7,7 +7,7 @@
 <!-- ******************************************************************* -->
 
   <group ID="adminuser">
-    <group.description>Die Gruppe von Bearbeitern, die Nutzer, Gruppen und Zugriffsrechte administrieren.</group.description>
+    <group.description>Administration der Nutzer, Gruppen und Zugriffsrechte.</group.description>
   </group>
 
 <!-- ******************************************************************* -->
