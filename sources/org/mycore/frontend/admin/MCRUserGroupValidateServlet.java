@@ -155,9 +155,9 @@ public class MCRUserGroupValidateServlet extends MCRServlet {
 	    				}
 	    			}
 	    			
-	    			//TODO: add changes of name and description
-	
-	
+	    			 
+	    			// Name of a group is not editable
+	    			group.setDescription(request.getParameter("description"));
 	    			MCRUserMgr.instance().updateGroup(group);
 	    			response.sendRedirect(WebApplicationBaseURL + "nav?path=admin.usermanagement.usergroup");
 	    		}
