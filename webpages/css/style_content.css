@@ -461,4 +461,11 @@ div.helppopup a:hover span {
    necessary, because it cannot handle position:fixed correctly */
 * html * div.helppopup a:hover span {
 	position:absolute; !important;
-}	
+}
+
+/* =================================================================== */
+/* WebContent Styles                                                   */
+/* =================================================================== */
+table.highlighted {padding:10px; background-color:#CAD9E0; border:1px solid #7791ac; }
+span.subtitle {font-weight: bold;}
+span.maintitle {font-weight: bold; letter-spacing:0.3em;}
