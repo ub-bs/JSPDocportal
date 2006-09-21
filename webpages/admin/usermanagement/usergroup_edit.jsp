@@ -65,7 +65,15 @@
 	<table class="access">
 		<tr>
 			<td>Gruppen-ID <sup class="required">*</sup>:</td>
-			<td><input type="text" name="gid" value="<% if(! operation.equals("new")){ out.print(group.getID());}%>" maxlength="20" size="20" onchange="validatePresent(this);"><input type="hidden" name="gid_orig" value="<%=group.getID()%>"></td>
+			<td>
+			<% if( operation.equals("new")) {%>
+			  <input type="text" name="gid" 
+			     value=""    maxlength="20" size="20" onchange="validatePresent(this);">
+			<% } else {	  %>     
+			  <b> <%=group.getID()%></b>
+			  <input type="hidden" name="gid" value="<%=group.getID()%>">
+			<% } 	%>     			
+			  <input type="hidden" name="gid_orig" value="<%=group.getID()%>"></td>
 		</tr>
 		<tr>
 			<td valign="top">Beschreibung:</td>
