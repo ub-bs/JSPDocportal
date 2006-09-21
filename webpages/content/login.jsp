@@ -19,13 +19,13 @@
   <x:set var="status" select="string(./@status)" />
   <x:set var="username" select="string(./@username)" />
   <x:set var="loginOK" select="string(./@loginOK)" />
+  <x:set var="name" select="string(./@name)" />
 </x:forEach>	
 
 <table id="metaHeading" cellpadding="0" cellspacing="0">
 	<tbody>
 		<tr>
-			<td class="titles"><fmt:message key="Webpage.login.YouAreLoggedInAs" />:&nbsp;&nbsp;
-			<c:out value="${username}"></c:out></td>
+			<td><fmt:message key="Webpage.login.YouAreLoggedInAs" />:&nbsp;	<c:out value="${username}"></c:out></td>
 		</tr>
 	</tbody>
 </table>
@@ -33,37 +33,27 @@
 
 <c:choose>
 <c:when test="${fn:contains(status,'user.welcome')}">
+
 	<table class="frameintern">
-		<colgroup>
-			<col width="4%">
-			<col width="48%" span="2">
-		</colgroup>
-		<tr class="result">
-			<td colspan="3" style="font-weight:bolder;" class="header">Was wollen
-			Sie tun?</td>
+		<tr class="result" height="50px" valign="bottom" >
+			<td colspan="3" valign="bottom" ><b>Herzlich willkommen <c:out value="${name}" />!	</b></td>
 		</tr>
-		<tr style="height:10px;">
-			<td colspan="2">&nbsp;</td>
+		<tr class="result">
+			<td colspan="3" > 			    
+ 			    <table>
+ 			      <tr><td colspan="2" ><b>Sie haben folgende Arbeitsmöglichkeiten:</b></td></tr>
+ 			      <x:forEach select="$loginresult">
+	 			    <x:forEach select="./groups/group">
+	 				<tr>
+	 				<td><img src="${requestScope.WebApplicationBaseURL}images/greenArrow.gif"></td>
+	 				<td><x:out select="./@description" /> (<x:out select="./@gid" />)</td>
+	 				</tr>
+	 				</x:forEach>
+				  </x:forEach> 
+				</table>				
+			</td>
 		</tr>
 
-		<tr class="result">
-			<td colspan="3"
-				style="font-weight:bolder;font-size:12px;padding-left:30px;"
-				class="desc"><a href="nav">R&uuml;ckkehr zur MyCoRe Anwendung</a></td>
-		</tr>
-
-		<tr class="result">
-			<td colspan="3"
-				style="font-weight:bolder;font-size:12px;padding-left:30px;"
-				class="desc"><a href="nav?path=~login">Benutzerkennung wechseln</a></td>
-		</tr>
-
-		<tr class="result">
-			<td colspan="3"
-				style="font-weight:bolder;font-size:12px;padding-left:30px;"
-				class="desc"><a href="nav?path=~logout" class="resultcmd">Abmelden
-			und als Gast weiterarbeiten</a></td>
-		</tr>
 	</table>
 </c:when>
 <c:otherwise>
