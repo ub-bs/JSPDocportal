@@ -777,6 +777,7 @@
                 <include name="**/*.css" />
                 <include name="**/*.js" />				
                 <include name="**/*.gif" />
+                <include name="**/*.ico" />            	
                 <include name="**/*.png" />
                 <include name="**/*.jpg" />
                 <include name="**/*.jar" />
@@ -1273,17 +1274,17 @@
         	create user data from file user_editorUser.xml
         	create user data from file user_editorClass.xml
         	create user data from file user_editorWeb.xml
+
+        	create user data from file user_authorA.xml
+        	create user data from file user_authorI.xml
+        	create user data from file user_editorP.xml
+        	create user data from file user_editorD.xml
+
+        	create user data from file user_authorA.xml
+        	create user data from file user_authorI.xml
+        	create user data from file user_editorP.xml
+        	create user data from file user_editorD.xml
         	
-        	create user data from file user_author1A.xml
-        	create user data from file user_author1B.xml
-        	create user data from file user_editor1A.xml
-        	create user data from file user_editor1B.xml
-
-        	create user data from file user_author2A.xml
-        	create user data from file user_author2B.xml
-        	create user data from file user_editor2A.xml
-        	create user data from file user_editor2B.xml
-
             check user data consistency
         </echo>
         <antcall target="invoke.cli">
