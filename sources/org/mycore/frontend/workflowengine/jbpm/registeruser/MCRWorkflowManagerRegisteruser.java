@@ -26,10 +26,7 @@
 package org.mycore.frontend.workflowengine.jbpm.registeruser;
 
 // Imported java classes
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
@@ -58,10 +55,11 @@ public class MCRWorkflowManagerRegisteruser extends MCRWorkflowManager{
 	
 	protected MCRWorkflowManagerRegisteruser() throws Exception {
 		super("user", "registeruser");
+		
 	}
 
 	/**
-	 * Returns the disshab workflow manager singleton.
+	 * Returns the registeruser workflow manager singleton.
 	 * @throws ClassNotFoundException 
 	 * @throws IllegalAccessException 
 	 * @throws InstantiationException 
@@ -73,6 +71,9 @@ public class MCRWorkflowManagerRegisteruser extends MCRWorkflowManager{
 	}
 	
 	
+	public  void setWorkflowVariablesFromMetadata(ContextInstance ctxI, Element metadata){		
+		userStrategy.setWorkflowVariablesFromMetadata( ctxI, metadata);
+	}
 	
 	public long initWorkflowProcess(String initiator, String transitionName) throws MCRException {
 			
@@ -106,8 +107,7 @@ public class MCRWorkflowManagerRegisteruser extends MCRWorkflowManager{
 	/**
 	 * TODO look into MCRWorkflowManagerAuthor for further implementation details
 	 */
-	public long initWorkflowProcessForEditing(String initiator, String mcrid){
-		
+	public long initWorkflowProcessForEditing(String initiator, String mcrid){		
 		return initWorkflowProcess(initiator, "");
 	}
 	
@@ -156,8 +156,6 @@ public class MCRWorkflowManagerRegisteruser extends MCRWorkflowManager{
 	}	
 		
 	public boolean commitWorkflowObject(ContextInstance ctxI){
-
-
 		try{
 			String userID = (String) ctxI.getVariable("initiatorUserID");
 			if ( !this.userStrategy.commitUserObject(userID,MCRWorkflowDirectoryManager.getWorkflowDirectory(this.mainDocumentType))){
@@ -173,8 +171,7 @@ public class MCRWorkflowManagerRegisteruser extends MCRWorkflowManager{
 		return false;
 	}
 	
-	public boolean removeWorkflowFiles(ContextInstance ctxI){
-		
+	public boolean removeWorkflowFiles(ContextInstance ctxI){		
 		try{
 			String userID = (String) ctxI.getVariable("initiatorUserID");
 			userStrategy.removeUserObject(userID,MCRWorkflowDirectoryManager.getWorkflowDirectory(this.mainDocumentType));
@@ -206,48 +203,5 @@ public class MCRWorkflowManagerRegisteruser extends MCRWorkflowManager{
 		return bSuccess;
 	}
 	
-	
-	public void setWorkflowVariablesFromMetadata(String mcrid, Element userMetadata, ContextInstance ctxI){		
-		Map map = new HashMap();
-		Element userContact = userMetadata.getChild("user.contact");
-		if ( userContact != null ) {
-			String salutation="", firstname="", lastname="";
-			if (userContact.getChild("contact.salutation") != null)
-				salutation  = userContact.getChild("contact.salutation").getText();
-			if (userContact.getChild("contact.firstname") != null)
-				firstname   = userContact.getChild("contact.firstname").getText();
-			if (userContact.getChild("contact.lastname") != null)
-				lastname    = userContact.getChild("contact.lastname").getText();
-			StringBuffer bname = new StringBuffer(salutation).append(" ").append(firstname).append(" ").append(lastname);
-			map.put("initiatorName", bname.toString());
-			if (userContact.getChild("contact.email") != null)
-				map.put("initiatorEmail", userContact.getChild("contact.email").getText());
-			if (userContact.getChild("contact.institution") != null)
-				map.put("initiatorInstitution", userContact.getChild("contact.institution").getText());
-			if (userContact.getChild("contact.faculty") != null)
-				map.put("initiatorFaculty", userContact.getChild("contact.faculty").getText());
-		}
-		if ( userMetadata.getChild("user.description") != null)
-			map.put("initiatorIntend", userMetadata.getChild("user.description").getText());
-		if ( userMetadata.getChild("user.password") != null)
-			map.put("initiatorPwd", "xxxxxxx");
-		if ( userMetadata.getChild("user.groups") != null){
-			List groups = userMetadata.getChild("user.groups").getChildren();
-			StringBuffer sGroups = new StringBuffer("");
-			for ( int i=0; i < groups.size(); i++){
-				 Element eG = (Element)groups.get(i);
-				 if ( !eG.getText().equalsIgnoreCase("gastgroup"))
-					 sGroups.append(eG.getText()).append(" ");
-			}
-			map.put("initiatorGroup", sGroups.toString());
-		}
-		//setStringVariableMap(map, processID);
-		for (Iterator it = map.keySet().iterator(); it.hasNext();) {
-			String key = (String) it.next();
-			String value = (String)map.get(key);
-			if(value == null)
-				value = "";
-			ctxI.setVariable(key, (String)map.get(key));
-		}		
-	}
+		
 }
