@@ -63,7 +63,7 @@ public abstract class MCRWorkflowManager {
 	protected MCRAuthorStrategy 	authorStrategy;
 	protected MCRMetadataStrategy 	metadataStrategy;
 	protected MCRDerivateStrategy 	derivateStrategy;
-	public MCRPermissionStrategy permissionStrategy;
+	public MCRPermissionStrategy    permissionStrategy;
 	protected MCRUserStrategy 		userStrategy;
 	protected MCRInstitutionStrategy institutionStrategy;
 	
@@ -123,7 +123,7 @@ public abstract class MCRWorkflowManager {
 	 * @param mcrid
 	 * @param metadata
 	 */
-	public final void setWorkflowVariablesFromMetadata(ContextInstance ctxI, Element metadata){
+	public  void setWorkflowVariablesFromMetadata(ContextInstance ctxI, Element metadata){
 		metadataStrategy.setWorkflowVariablesFromMetadata(ctxI, metadata);
 	}
 		
