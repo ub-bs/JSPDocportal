@@ -62,7 +62,7 @@
             <item value="">
                   <label i18n="Editor.Common.choose" />
             </item>
-            <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Institution&amp;defaultValue=DocPortal_class_00000003" />                                      
+            <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Institution&amp;defaultValue=DocPortal_class_00000002" />                                      
       </list>       
       <!-- *** Data for the Surname ** -->
       <text id="LSurName">
