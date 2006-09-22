@@ -289,6 +289,11 @@
             <refitem name="~rulesassignment" label="" />
           </navitem>
         </navitem>
+
+        <navitem name="editwebcontent" label="Nav.Admin.EditWebcontent" href="admin/webcontent.jsp" right="administrate-webcontent" >
+	        <refitem name="~editwebcontent" label="" />
+        </navitem>
+             
        </navitem> 
        </navitem> 
       </navigation>

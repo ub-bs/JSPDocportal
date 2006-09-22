@@ -242,8 +242,10 @@
             <servlet-name>MCRAccessCheckServlet</servlet-name>
             <servlet-class>org.mycore.access.MCRAccessCheckServlet</servlet-class>
       </servlet>
- 
-
+      <servlet id=" MCRZipWebcontentServlet">
+            <servlet-name> MCRZipWebcontentServlet</servlet-name>
+            <servlet-class> org.mycore.frontend.servlets.MCRZipWebcontentServlet</servlet-class>
+      </servlet>
     <!-- servlet mappings -->
     
     <!-- FCK Editor Java Integration  -->
@@ -440,7 +442,10 @@
            <url-pattern>/servlets/MCRAccessCheckServlet</url-pattern>
      </servlet-mapping>
 
-
+     <servlet-mapping>
+           <servlet-name>MCRZipWebcontentServlet</servlet-name>
+           <url-pattern>/zipwebcontent</url-pattern>
+     </servlet-mapping>
 
     <!-- specific servlets -->
 
