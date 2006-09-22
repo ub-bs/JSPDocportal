@@ -5,7 +5,7 @@
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
 <fmt:setLocale value="${requestScope.lang}" />
 <fmt:setBundle basename='messages' />
-<c:set var="debug" value="false" />
+<c:set var="debug" value="${param.debug}" />
 <!-- available user status  
 	 status = { user.login, user.invalid_password, user.welcome, user.disabled, user.unknown, user.unkwnown_error
              
@@ -35,7 +35,7 @@
 <c:when test="${fn:contains(status,'user.welcome')}">
 
 	<table class="frameintern">
-		<tr class="result" height="50px" valign="bottom" >
+		<tr class="result" valign="bottom" >
 			<td colspan="3" valign="bottom" ><b>Herzlich willkommen <c:out value="${name}" />!	</b></td>
 		</tr>
 		<tr class="result">
