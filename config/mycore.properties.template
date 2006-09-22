@@ -387,7 +387,7 @@ MCR.ClassificationBrowser.type.View=tree
 MCR.ClassificationBrowser.type.SearchField=type
 
 # browsing classification for origin
-MCR.ClassificationBrowser.origin.Classification=DocPortal_class_00000003
+MCR.ClassificationBrowser.origin.Classification=DocPortal_class_00000002
 MCR.ClassificationBrowser.origin.EmbeddingPage=mcr_doc_browse.xml
 MCR.ClassificationBrowser.origin.Style=search
 MCR.ClassificationBrowser.origin.EmptyLeafs=yes
