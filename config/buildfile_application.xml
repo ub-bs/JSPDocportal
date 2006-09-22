@@ -835,6 +835,7 @@
         <copy
             file="${MYCORE_HOME}/stylesheets/editor/imports-help-popup.xsl"
             todir="${docportal.webapps}/WEB-INF/stylesheets" />
+    	<!--
         <copy
             file="${MYCORE_HOME}/stylesheets/editor/mcr_results-classif-to-items.xsl"
             todir="${docportal.webapps}/WEB-INF/stylesheets" />
@@ -844,7 +845,7 @@
         <copy
             file="${MYCORE_HOME}/stylesheets/editor/mcr_results-inst-to-items.xsl"
             todir="${docportal.webapps}/WEB-INF/stylesheets" />
-
+		-->
         <!-- 
             <copy file="${docportal.stylesheets}/editor/editor-config.xsl" todir="${docportal.webapps}/WEB-INF/stylesheets"/>
         -->
@@ -1277,13 +1278,14 @@
 
         	create user data from file user_authorA.xml
         	create user data from file user_authorI.xml
+        	create user data from file user_authorP.xml
+        	create user data from file user_authorD.xml
+
+        	create user data from file user_editorA.xml
+        	create user data from file user_editorI.xml
         	create user data from file user_editorP.xml
         	create user data from file user_editorD.xml
 
-        	create user data from file user_authorA.xml
-        	create user data from file user_authorI.xml
-        	create user data from file user_editorP.xml
-        	create user data from file user_editorD.xml
         	
             check user data consistency
         </echo>
