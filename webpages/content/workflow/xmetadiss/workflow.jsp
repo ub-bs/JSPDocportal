@@ -39,7 +39,7 @@
       <hr/>
       <mcr:checkAccess permission="administrate-xmetadiss" var="curUserIsAdminUser" />
       <c:if test="${!curUserIsAdminUser}">
-	      <mcr:includeWebContent file="workflow/xmetadiss_introtext.jsp"/>
+	      <mcr:includeWebContent file="workflow/xmetadiss_introtext.html"/>
     	  <br/>&nbsp;<br>
    	  </c:if>
    </c:when>

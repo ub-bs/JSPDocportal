@@ -9,10 +9,4 @@
 <div class="headline"><fmt:message key="Webpage.admin.DocumentManagement" /></div>
 <p><c:import url="content/node.jsp" /></p>
 
-<mcr:includeWebContent file="documentmanagement_introtext.jsp"/>
-
-<!-- <p><fmt:message key="Webpage.admin.DocumentManagement.FetchLogin" /></p>
-<p><fmt:message key="Webpage.admin.DocumentManagement.InstitutionData" /></p>
-<p><fmt:message key="Webpage.admin.DocumentManagement.AuthorData" /></p>
-<p><fmt:message key="Webpage.admin.DocumentManagement.EditData" /></p>
-<p><fmt:message key="Webpage.admin.DocumentManagement.UploadData" /></p> -->
+<mcr:includeWebContent file="documentmanagement_introtext.html"/>

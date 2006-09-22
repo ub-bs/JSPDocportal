@@ -61,7 +61,7 @@
       <hr/>
       <mcr:checkAccess permission="administrate-publication" var="curUserIsAdminUser" />
       <c:if test="${!curUserIsAdminUser}">
-	      <mcr:includeWebContent file="workflow/publication_introtext.jsp" />
+	      <mcr:includeWebContent file="workflow/publication_introtext.html" />
     	  <br/>&nbsp;<br>
    	  </c:if>
    	  </td>
