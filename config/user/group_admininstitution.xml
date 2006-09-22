@@ -7,7 +7,7 @@
 <!-- ******************************************************************* -->
 
   <group ID="admininstitution">
-    <group.description>Administration der Instututionsdaten.</group.description>
+    <group.description>Administration der Institutionsdaten.</group.description>
   </group>
 
 <!-- ******************************************************************* -->
