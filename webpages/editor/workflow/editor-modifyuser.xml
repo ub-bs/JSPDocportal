@@ -341,8 +341,8 @@
 
             <!-- *** Buttons *** -->
             <cell row="99"  col="1" ref="VSpace25" anchor="WEST" />
-            <cell row="100" col="1" ref="BSubmit"  anchor="EAST" />
-            <cell row="100" col="2" ref="BCancel"  anchor="WEST" />
+            <cell row="100" col="1" ref="BCancel"  anchor="WEST" />
+            <cell row="100" col="2" ref="BSubmit"  anchor="EAST" />
             <cell row="101" col="1" ref="VSpace5"  anchor="WEST" />
         </panel>
 

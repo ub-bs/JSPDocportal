@@ -19,7 +19,7 @@
         <label xml:lang="de">(bitte wählen)</label>
         <label xml:lang="en">(please choose)</label>
       </item>
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationLabelInItems&amp;prop=MCR.ClassificationID.Institution&amp;defaultValue=DocPortal_class_00000003" />              
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationLabelInItems&amp;prop=MCR.ClassificationID.Institution&amp;defaultValue=DocPortal_class_00000002" />              
     </list>
 
   
