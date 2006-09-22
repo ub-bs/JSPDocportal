@@ -975,9 +975,11 @@
         </subant>
     	
         <!-- Copy / Unpack fckEditor files (WYSIWYG HTML Editor) -->
-        <unzip src="${MYCORE_HOME}/lib/fckEditor.zip" dest="${docportal.webapps}" />
-        <copy file="${MYCORE_HOME}/config/fckconfig.js" todir="${docportal.webapps}/fck" />
-
+<!--    <unzip src="${MYCORE_HOME}/lib/fckEditor.zip" dest="${docportal.webapps}" />
+        <copy file="${MYCORE_HOME}/config/fckconfig.js" todir="${docportal.webapps}/fck" /> -->
+    	<copy todir="${docportal.webapps}/FCKeditor">
+    		<fileset dir="${DOCPORTAL_HOME}/FCKeditor" />
+    	</copy>
     </target>
 
     <target name="webapp.info.shared.jars"
