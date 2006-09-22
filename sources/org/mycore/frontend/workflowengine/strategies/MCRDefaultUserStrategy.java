@@ -3,12 +3,14 @@ package org.mycore.frontend.workflowengine.strategies;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.jdom.Element;
-import org.jdom.filter.ElementFilter;
 import org.mycore.common.xml.MCRXMLHelper;
 import org.mycore.frontend.cli.MCRUserCommands2;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
@@ -80,17 +82,48 @@ public class MCRDefaultUserStrategy extends MCRUserStrategy{
 		return true;
 	}
 
-	public void setWorkflowVariablesFromMetadata(ContextInstance ctxI, Element metadata) {
-		StringBuffer sbTitle = new StringBuffer("");
-		for(Iterator it = metadata.getDescendants(new ElementFilter("title")); it.hasNext();){
-			Element title = (Element)it.next();
-			sbTitle.append(title.getText());
+	public void setWorkflowVariablesFromMetadata(ContextInstance ctxI, Element userMetadata) {
+		Map map = new HashMap();
+		Element userContact = userMetadata.getChild("user.contact");
+		if ( userContact != null ) {
+			String salutation="", firstname="", lastname="";
+			if (userContact.getChild("contact.salutation") != null)
+				salutation  = userContact.getChild("contact.salutation").getText();
+			if (userContact.getChild("contact.firstname") != null)
+				firstname   = userContact.getChild("contact.firstname").getText();
+			if (userContact.getChild("contact.lastname") != null)
+				lastname    = userContact.getChild("contact.lastname").getText();
+			StringBuffer bname = new StringBuffer(salutation).append(" ").append(firstname).append(" ").append(lastname);
+			map.put("initiatorName", bname.toString());
+			if (userContact.getChild("contact.email") != null)
+				map.put("initiatorEmail", userContact.getChild("contact.email").getText());
+			if (userContact.getChild("contact.institution") != null)
+				map.put("initiatorInstitution", userContact.getChild("contact.institution").getText());
+			if (userContact.getChild("contact.faculty") != null)
+				map.put("initiatorFaculty", userContact.getChild("contact.faculty").getText());
 		}
-		if(sbTitle.length() == 0){
-			ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_WFOBJECT_TITLE, "Your Workflow Object");
-		}else{
-			ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_WFOBJECT_TITLE, sbTitle.toString());
+		if ( userMetadata.getChild("user.description") != null)
+			map.put("initiatorIntend", userMetadata.getChild("user.description").getText());
+		if ( userMetadata.getChild("user.password") != null)
+			map.put("initiatorPwd", "xxxxxxx");
+		if ( userMetadata.getChild("user.groups") != null){
+			List groups = userMetadata.getChild("user.groups").getChildren();
+			StringBuffer sGroups = new StringBuffer("");
+			for ( int i=0; i < groups.size(); i++){
+				 Element eG = (Element)groups.get(i);
+				 if ( !eG.getText().equalsIgnoreCase("gastgroup"))
+					 sGroups.append(eG.getText()).append(" ");
+			}
+			map.put("initiatorGroup", sGroups.toString());
 		}
+		//setStringVariableMap(map, processID);
+		for (Iterator it = map.keySet().iterator(); it.hasNext();) {
+			String key = (String) it.next();
+			String value = (String)map.get(key);
+			if(value == null)
+				value = "";
+			ctxI.setVariable(key, (String)map.get(key));
+		}		
 	}
 
 	public boolean checkMetadata(String userid, String directory) {  
