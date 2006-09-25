@@ -21,7 +21,7 @@
 FCKConfig.CustomConfigurationsPath = '' ;
 FCKConfig.UserFilesPath = '/fckdata/';
 
-FCKConfig.EditorAreaCSS = FCKConfig.BasePath + '../css/style_content.css' ;
+FCKConfig.EditorAreaCSS =FCKConfig.BasePath + '../../css/style_content.css' ;
 
 FCKConfig.DocType = '' ;
 
