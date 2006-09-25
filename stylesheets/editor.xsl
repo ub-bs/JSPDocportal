@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.7 $ $Date: 2006-06-23 13:07:07 $ -->
+<!-- $Revision: 1.8 $ $Date: 2006-09-25 08:53:19 $ -->
 <!-- ============================================== --> 
 
 <xsl:stylesheet 
@@ -1315,6 +1315,9 @@
         <xsl:when test="starts-with($url,'http://') or starts-with($url,'https://') or starts-with($url,'file://')">
             <xsl:value-of select="$url" />
         </xsl:when>
+        <xsl:when test="starts-with($url,'classification:')">
+            <xsl:value-of select="$url" />
+        </xsl:when>
         <xsl:otherwise>
             <xsl:value-of select="concat($WebApplicationBaseURL,$url)" />
         </xsl:otherwise>
@@ -1324,6 +1327,7 @@
     <xsl:with-param name="url" select="$return"/>
   </xsl:call-template>
 </xsl:template>
+
 
 <!-- ======== html select list option ======== -->
 <xsl:template match="item" mode="editor.list">
