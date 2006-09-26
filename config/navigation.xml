@@ -115,9 +115,6 @@
               <navitem name="xmetadissbegin" label="WF.xmetadiss.begin" href="content/workflow/xmetadiss/begin.jsp" hidden="true" >
                 <refitem name="~xmetadissbegin" label="" />
               </navitem>
-              <navitem name="xmetadissinfo" label="WF.xmetadiss.info" href="content/workflow/xmetadiss/information.jsp" hidden="true" >
-                <refitem name="~xmetadissinfo" label="" />
-              </navitem>
               <navitem name="workflow-fileupload" label="Nav.WorkflowFileupload" href="content/fileupload.jsp" hidden="true" >
                 <refitem name="~workflow-fileupload" label="" />
               </navitem>
@@ -126,9 +123,6 @@
               <refitem name="~publication" label="" />
               <navitem name="publicationbegin" label="WF.publication.begin" href="content/workflow/publication/begin.jsp" hidden="true" >
                 <refitem name="~publicationbegin" label="" />
-              </navitem>
-              <navitem name="publicationinfo" label="WF.publication.info" href="content/workflow/publication/information.jsp" hidden="true" >
-                <refitem name="~publicationinfo" label="" />
               </navitem>
               <navitem name="workflow-fileupload" label="Nav.WorfklowFileUpload" href="content/fileupload.jsp" hidden="true" >
                 <refitem name="~workflow-fileupload" label="" />
