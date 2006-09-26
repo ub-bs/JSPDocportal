@@ -6,6 +6,6 @@
 
 <div class="headline"><fmt:message key="Webpage.browse.generalTitle" /></div>
 <p><c:import url="content/node.jsp" /></p>
-<p><fmt:message key="Browse.Text1" /></p>
-<p><fmt:message key="Browse.Text2" /></p>
+<p></p>
 
+<mcr:includeWebContent file="browsenode.html" />
