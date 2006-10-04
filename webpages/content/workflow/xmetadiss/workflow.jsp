@@ -37,11 +37,8 @@
       <br/>&nbsp;<br>
       <fmt:message key="WF.common.EmptyWorkflow" />   
       <hr/>
-      <mcr:checkAccess permission="administrate-xmetadiss" var="curUserIsAdminUser" />
-      <c:if test="${!curUserIsAdminUser}">
 	      <mcr:includeWebContent file="workflow/xmetadiss_introtext.html"/>
     	  <br/>&nbsp;<br>
-   	  </c:if>
    </c:when>
    <c:otherwise>
         <div class="headline"><fmt:message key="WF.xmetadiss" /></div>

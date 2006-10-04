@@ -57,13 +57,10 @@
 	</tr> 
 	<tr>
 	  <td>     
-      <fmt:message key="WF.common.EmptyWorkflow" />   
-      <hr/>
-      <mcr:checkAccess permission="administrate-publication" var="curUserIsAdminUser" />
-      <c:if test="${!curUserIsAdminUser}">
-	      <mcr:includeWebContent file="workflow/publication_introtext.html" />
+       <fmt:message key="WF.common.EmptyWorkflow" />   
+       <hr/>
+       <mcr:includeWebContent file="workflow/publication_introtext.html" />
     	  <br/>&nbsp;<br>
-   	  </c:if>
    	  </td>
     </tr>	 
     </table> 

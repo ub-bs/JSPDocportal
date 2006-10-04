@@ -59,10 +59,7 @@
 	<c:when test="${empty(myTaskList)&& empty(myProcessList)}">
       <fmt:message key="WF.common.EmptyWorkflow" />   
       <hr/>
-      <mcr:checkAccess permission="administrate-author" var="curUserIsAdminUser" />
-      <c:if test="${!curUserIsAdminUser}">
-	      <mcr:includeWebContent file="workflow/author_introtext.html"/>
-   	  </c:if>
+      <mcr:includeWebContent file="workflow/author_introtext.html"/>
 	</c:when>
 	<c:otherwise>
 		<br />&nbsp;<br />
