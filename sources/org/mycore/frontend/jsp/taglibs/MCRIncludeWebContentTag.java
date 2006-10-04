@@ -1,5 +1,6 @@
 package org.mycore.frontend.jsp.taglibs;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -78,16 +79,20 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 				showFCKEditor(f_read);
 			} else {
 				showEditButton();
-				FileReader fr = new FileReader(f_read);
-				while (fr.ready()) {
-					out.write(fr.read());
+				BufferedReader br = new BufferedReader(new FileReader(f_read));
+				String temp=null;
+				while ((temp = br.readLine()) != null) {
+					out.write(temp);
+					out.newLine();
 				}
 			}
 		} else {
 			//editing not allowed simply display the file
-			FileReader fr = new FileReader(f_read);
-			while (fr.ready()) {
-				out.write(fr.read());
+			BufferedReader br = new BufferedReader(new FileReader(f_read));
+			String temp=null;
+			while ((temp = br.readLine()) != null) {
+				out.write(temp);
+				out.newLine();
 			}
 		}
 	}
@@ -121,10 +126,13 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 		BodyContent bc = pageContext.pushBody(); // creates a new pagecontext
 													// and save the old one in a
 													// stack
-		FileReader fr = new FileReader(file2display);
-		while (fr.ready()) {
-			bc.write(fr.read());
+		BufferedReader br = new BufferedReader(new FileReader(file2display));
+		String temp=null;
+		while ((temp = br.readLine()) != null) {
+			bc.write(temp);
+			bc.newLine();
 		}
+		
 		fck.setBodyContent(bc);
 		fck.setPageContext(pageContext);
 
