@@ -41,7 +41,7 @@
 		<div class="headline"> 
 		   <fmt:message key="Webpage.intro.xmetadiss.deliver" />
 		</div>
-	  <mcr:includeWebContent file="workflow/form_disshab_deliver.jsp" />
+	  <mcr:includeWebContent file="workflow/form_disshab_deliver.html" />
 	  
     <hr/>
 	<table cellspacing="0" cellpadding="0" id="metaData">
@@ -141,12 +141,12 @@
       </x:choose>
     </x:forEach>
    </table>
-  
+  </div>
   <hr/>
   <table border="0" width="100%">
   <tr height="50"><td>&#160;</td></tr>	
   <tr><td class="metaname" ><u><b>Datum</b></u></td><td class="metaname" ><u><b>Unterschrift</b></u></td><td class="metaname" ><u><b>Ort</b></u></td></tr>
-</table>
+  </table>
   
 </c:catch>
 <c:if test="${e!=null}">
