@@ -73,10 +73,7 @@ public class NavServlet extends MCRServlet
 			String path;
 			String extern = navEl.getAttributeValue("extern");
 			if(extern != null && extern.equals("true")) {
-				if(extern.indexOf(".") > -1)
-					path = navEl.getAttributeValue("href");
-				else
-					path = baseURL + navEl.getAttributeValue("href");
+				path = navEl.getAttributeValue("href");
 			}else {
 				Element parent = navEl;
 				int k = 0;
