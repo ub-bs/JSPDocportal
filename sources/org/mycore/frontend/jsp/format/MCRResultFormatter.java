@@ -603,12 +603,9 @@ public class MCRResultFormatter {
     	try {
     		Element docRoot = doc.getRootElement();
     		String mcrid = getSingleXPathValue(docRoot,xpathArray[0]);
-    		String name = getSingleXPathValue(docRoot,xpathArray[1]);;
-    		StringBuffer linkSB = new StringBuffer(WebApplicationBaseURL)
-    			.append("content/authorsdocuments.jsp?id=")
-    			.append(mcrid).append("&name=").append(name);
+    		String name = getSingleXPathValue(docRoot,xpathArray[1]);
     		Element metaValue = new Element("metavalue");
-			metaValue.setAttribute("href",linkSB.toString());
+			metaValue.setAttribute("querytext","query=creator+=+" + name + "+OR+id+=+"+mcrid);
 			metaValue.setAttribute("type","authorjoin");
 			metaValue.setAttribute("text","start-search");
 			metaValues.addContent(metaValue);
