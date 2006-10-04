@@ -5,6 +5,6 @@
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
 <fmt:setLocale value="${requestScope.lang}" />
 <fmt:setBundle basename='messages'/>
-<div class="headline"><fmt:message key="Manuals" /></div>
+<div class="headline"><fmt:message key="Nav.Manuals" /></div>
 <p><c:import url="content/node.jsp" /></p>
 <mcr:includeWebContent file="manuals_introtext.html" />

@@ -16,10 +16,10 @@
 
   <table>
    <tr>
-	<td><fmt:message key="WF.registerUser.Register" /> </td>
+	<td><fmt:message key="WF.registerUser.Registered" /> </td>
    </tr>
    <tr>
-	<td><fmt:message key="WF.registerUser.Register2" /> </td>
+	<td><fmt:message key="WF.registerUser.Registered2" /> </td>
    </tr>
   </table>
 
