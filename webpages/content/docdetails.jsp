@@ -131,7 +131,8 @@
                            </x:when>
                            <x:when select="../@type = 'AuthorJoin'">
                               <x:set var="authorjoinKey" select="concat(./@type,'-',./@text)" />
-                                 <a href="<x:out select="./@href" />" target="<x:out select="./@target" />"><fmt:message key="OMD.${authorjoinKey}" /></a>
+                              <x:set var="hrefquery" select="concat($WebApplicationBaseURL,'servlets/MCRJSPSearchServlet?mask=~searchstart-indexcreators&', ./@querytext) " />
+                              <a href="${hrefquery}" target="<x:out select="./@target" />"><fmt:message key="OMD.${authorjoinKey}" /></a>                                 
                            </x:when>                                     
                            <x:when select="./@href != ''">
                               <a href="<x:out select="./@href" />" target="<x:out select="./@target" />"><x:out select="./@text" /></a>

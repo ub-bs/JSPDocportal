@@ -75,7 +75,10 @@ public class MCRJSPSearchServlet extends MCRSearchServlet {
 		if ( editormask.startsWith("~searchstart-class")) {
 			// this comes from the browserclass and we have no searchmask
 			String browseuri  = session.BData.getUri();
-			furl +=editormask+"&actUriPath="+browseuri; 
+			furl +=editormask+"&actUriPath="+browseuri;
+		} else if ( editormask.startsWith("~searchstart-index")) {
+				// this comes from the indexbrowser and we have no searchmask
+				furl +=editormask; 
 		} else {
 		   // we must set the session, cause in the next request for the editor call we need the right 
 			// session to get the query from the cache
