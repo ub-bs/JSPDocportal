@@ -1,10 +1,13 @@
 package org.mycore.frontend.jsp.taglibs;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
@@ -66,9 +69,9 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 			isOpenEditor = false;
 			if (wasCanceled == null) {
 				//editor was submitted -> save file
-				FileWriter fwResult = new FileWriter(f_save);
-				fwResult.write(result);
-				fwResult.close();
+				BufferedWriter bwResult = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(f_save), "UTF-8"));
+				bwResult.write(result);
+				bwResult.close();
 				f_read = f_save;
 			}
 		}
@@ -78,22 +81,25 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 			if (isOpenEditor) {
 				showFCKEditor(f_read);
 			} else {
-				showEditButton();
-				BufferedReader br = new BufferedReader(new FileReader(f_read));
+				showEditButton(); 
+
+				BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(f_read), "UTF-8"));
 				String temp=null;
 				while ((temp = br.readLine()) != null) {
 					out.write(temp);
 					out.newLine();
 				}
+				br.close();
 			}
 		} else {
 			//editing not allowed simply display the file
-			BufferedReader br = new BufferedReader(new FileReader(f_read));
+			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(f_read), "UTF-8"));
 			String temp=null;
 			while ((temp = br.readLine()) != null) {
 				out.write(temp);
 				out.newLine();
 			}
+			br.close();
 		}
 	}
 
@@ -126,13 +132,13 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 		BodyContent bc = pageContext.pushBody(); // creates a new pagecontext
 													// and save the old one in a
 													// stack
-		BufferedReader br = new BufferedReader(new FileReader(file2display));
+		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file2display), "UTF-8"));
 		String temp=null;
 		while ((temp = br.readLine()) != null) {
 			bc.write(temp);
 			bc.newLine();
 		}
-		
+		br.close();
 		fck.setBodyContent(bc);
 		fck.setPageContext(pageContext);
 
@@ -198,9 +204,9 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 		}
 		
 		if (!f_read.canRead()) {
-			FileWriter fw = new FileWriter(f_read);
-			fw.write("New["+f_read.getName()+"] ...");
-			fw.close();
+			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(f_read), "UTF-8"));
+			bw.write("New["+f_read.getName()+"] ...");
+			bw.close();
 		}
 	}
 }
