@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.6 $ $Date: 2006-09-19 08:23:16 $ -->
+<!-- $Revision: 1.7 $ $Date: 2006-10-04 14:01:36 $ -->
 <!-- ============================================== -->
 
 <xsl:stylesheet
@@ -223,7 +223,7 @@
 
 <!-- ========== Einleitender Text ========== -->
 <xsl:template name="IntroText">
-Dieser Index enthält die Namen von Personen, die Autoren, Herausgeber oder sonstige Beitragende zu @libri Dokumenten sind.
+Dieser Index enthält die Namen von Personen, die Autoren, Herausgeber oder sonstige Beitragende zu Dokumenten sind.
 <br/><br/>
 <form action="{$WebApplicationBaseURL}{$subselect.webpage}?XSL.editor.session.id={$subselect.session}" method="post">
   <input type="submit" class="submit" value="Auswahl abbrechen" />

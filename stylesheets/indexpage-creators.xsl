@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.9 $ $Date: 2006-09-13 08:34:19 $ -->
+<!-- $Revision: 1.10 $ $Date: 2006-10-04 14:01:36 $ -->
 <!-- ============================================== -->
 
 <xsl:stylesheet
@@ -208,7 +208,7 @@
 
 <!-- ========== Einleitender Text ========== -->
 <xsl:template name="IntroText">
-Dieser Index enthält die Namen der Autoren, die Dokumente in @libri publiziert haben.
+Dieser Index enthält die Namen der Autoren, die Dokumente publiziert haben.
 <br/><br/>
 <xsl:text> | </xsl:text>
 <xsl:for-each select="xalan:nodeset($AtoZ)/search">
