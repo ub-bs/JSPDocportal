@@ -32,6 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.jdom.Element;
 import org.jdom.output.DOMOutputter;
+import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRDefaults;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
@@ -159,6 +160,15 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
         
         if ( userElement != null ) {
 			ID = userElement.getAttributeValue("ID");
+		
+			//change default password "dummy" to password from properties file
+			Element ePWD = userElement.getChild("user.password");
+			if(ePWD.getText().equals("dummy")){
+				String pwd = MCRConfiguration.instance().getString("MCR.Application.user_initialpasswd","dummy");
+				ePWD.setText(pwd);
+				logger.debug("New Password: default password from properties File");	
+			}
+
 			int numID = MCRUserMgr.instance().getMaxUserNumID();
 			userElement.setAttribute("numID", String.valueOf(numID +1)) ;
 			
