@@ -14,7 +14,6 @@
 <mcr:login uid="${param.uid}" pwd="${param.pwd}" var="loginresult" />
 
 <div class="headline"><fmt:message key="Webpage.login.ChangeUserID" /></div>
-
 <x:forEach select="$loginresult">
   <x:set var="status" select="string(./@status)" />
   <x:set var="username" select="string(./@username)" />
@@ -32,11 +31,12 @@
 <hr>
 
 <c:choose>
-<c:when test="${fn:contains(status,'user.welcome')}">
+<c:when test="${fn:contains(status,'user.welcome') or fn:contains(status,'user.disabled_member')}">
 
 	<table class="frameintern">
 		<tr class="result" valign="bottom" >
-			<td colspan="3" valign="bottom" ><b>Herzlich willkommen <c:out value="${name}" />!	</b></td>
+			<td colspan="3" valign="bottom" ><b><fmt:message key="Webpage.login.status.${status}" >
+			<fmt:param value="${name}" /></fmt:message></b></td>
 		</tr>
 		<tr class="result">
 			<td colspan="3" > 			    
@@ -57,7 +57,7 @@
 	</table>
 </c:when>
 <c:otherwise>
-    <div id="userStatus"><fmt:message key="Webpage.loging.status.${status}" /></div>
+    <div id="userStatus"><fmt:message key="Webpage.login.status.${status}" /></div>
 	<form method="post" action="nav?path=~login"><input name="url"
 		value="<c:out value="${requestScope.WebApplicationBaseURL}" />"
 		type="hidden">

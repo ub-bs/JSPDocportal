@@ -13,18 +13,25 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.output.DOMOutputter;
 import org.mycore.common.JSPUtils;
+import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
+import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
+import org.mycore.user2.MCRExternalUserLogin;
 import org.mycore.user2.MCRGroup;
+import org.mycore.user2.MCRUser;
 import org.mycore.user2.MCRUserMgr;
 
 
 public class MCRLoginTag extends SimpleTagSupport
 {
+
+
 	private String var;
 	private String uid;
 	private String pwd;
-	private static Logger logger = Logger.getLogger(MCRInitWorkflowProcessTag.class);
+	private static Logger logger = Logger.getLogger(MCRLoginTag.class);
+	private static String classNameExtUserLogin = MCRConfiguration.instance().getString("MCR.Application.ExternalUserLogin.Class", "").trim();
 	
 	public void setVar(String inputVar) {
 		var = inputVar;
@@ -39,68 +46,132 @@ public class MCRLoginTag extends SimpleTagSupport
 	}
 
 	public void doTag() throws JspException, IOException {		
-        boolean loginOk = false;
-        String status = "user.login";
-        String lastname = "";
-        String salutation = "";
-        String username = MCRSessionMgr.getCurrentSession().getCurrentUserName();
-        if ( username == null ) username = MCRSessionMgr.getCurrentSession().getCurrentUserID();
-        	
-        
-		PageContext pageContext = (PageContext) getJspContext();		
-	    Element loginresult = new Element("loginresult"); 
-        if (uid != null)
+        boolean extLoginOk = false;
+        boolean mcrLoginOK = false;
+        String mcrUID = "";
+        String mcrPWD = "";
+       
+        MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
+		
+        String oldID = mcrSession.getCurrentUserID();
+		String oldUsername = mcrSession.getCurrentUserName();
+		if ( oldUsername == null ) oldUsername = MCRSessionMgr.getCurrentSession().getCurrentUserID();
+
+		if (uid != null)
             uid = (uid.trim().length() == 0) ? null : uid.trim();
         if (pwd != null)
             pwd = (pwd.trim().length() == 0) ? null : pwd.trim();
-
-        loginresult.setAttribute("loginOK", Boolean.toString(loginOk));
-        loginresult.setAttribute("status",  status);
-        loginresult.setAttribute("username",  username);
-
-        if( !(uid==null || pwd == null) ) {
-	        logger.debug("Trying to log in user "+uid);	
-	        try {
-	            loginOk = ((uid != null) && (pwd != null) && MCRUserMgr.instance().login(uid, pwd));
-	            if (loginOk) {
-		        	MCRSessionMgr.getCurrentSession().setCurrentUserID(uid);
-		        	username = MCRUserMgr.instance().retrieveUser(uid).getName();
-		        	lastname = MCRUserMgr.instance().retrieveUser(uid).getUserContact().getLastName();
-		        	salutation = MCRUserMgr.instance().retrieveUser(uid).getUserContact().getSalutation();
-		        	ArrayList allGroupIDS = MCRUserMgr.instance().retrieveUser(uid).getAllGroupIDs();
-		        	Element eGroups = new Element ("groups");
-		        	for ( int i=0; i<allGroupIDS.size(); i++ ) {		        		
-		        		Element eGroup = new Element ("group");
-		        		MCRGroup mcrgroup = MCRUserMgr.instance().retrieveGroup((String)allGroupIDS.get(i));		        				        		
-		        		eGroup.setAttribute("gid", (String)allGroupIDS.get(i));
-		        		eGroup.setAttribute("description", mcrgroup.getDescription());
-		        		eGroups.addContent(eGroup);
-	            	}
-	                status = "user.welcome";
-		            logger.info("user " + uid + " logged in ");
-		            loginresult.addContent(eGroups);
-	            } else {
-		            if (uid != null) {
-		            	status = "user.invalid_password";
-		            }
-	            }
-	        } catch (MCRException e) {
-	            if (e.getMessage().equals("user can't be found in the database")) {
-	                status = "user.unknown";
-	            } else if (e.getMessage().equals("Login denied. User is disabled.")) {
-	                status = "user.disabled";
-	            } else {
-	                status = "user.unkwnown_error";
-	                logger.debug("user.unkwnown_error" + e.getMessage());
-	            }
-	        }	        
-            logger.info( status );
-	        loginresult.setAttribute("loginOK", Boolean.toString(loginOk));
-            loginresult.setAttribute("status",  status);
-            loginresult.setAttribute("username",  username);
-            loginresult.setAttribute("name", salutation + " " + lastname);
+        
+        MCRUser mcrUser = null;
+        Element loginresult = new Element("loginresult");
+       
+        if(uid==null || pwd == null ){
+            logger.debug("ID or Password cannot be empty");
+            loginresult.setAttribute("loginOK", "false");
+            loginresult.setAttribute("status",  "user.login");
+            loginresult.setAttribute("username",  oldUsername);
+            setTagResult(loginresult);
+            return;
         }
         
+        logger.debug("Trying to log in user "+uid);
+        if(oldID.equals(uid)){
+        	logger.debug("User "+oldUsername+" with ID "+uid+" is allready logged in");
+            loginresult.setAttribute("loginOK", "false");
+            loginresult.setAttribute("status",  "user.exists");
+            loginresult.setAttribute("username",  oldUsername);
+            setTagResult(loginresult);
+        	return;
+        }
+        
+        MCRExternalUserLogin extLogin= null;
+        if(classNameExtUserLogin.length()>0){
+        	try{
+        		Class c = Class.forName(classNameExtUserLogin);
+        		extLogin = (MCRExternalUserLogin)c.newInstance();		
+        	}       	
+        	catch(Exception e){
+        		//ExceptionClassNotFoundException, IllegalAccessException, InstantiationException
+        		//do nothing
+        	}
+        }
+        
+        if (extLogin!=null) {
+           // check userID und PW against external user management system
+        	extLoginOk =extLogin.loginUser(uid, pwd);
+        }
+       	if(extLoginOk){
+   		    mcrUID = extLogin.retrieveMyCoReUserID(uid, pwd);
+  		    mcrPWD = extLogin.retrieveMyCoRePassword(uid, pwd);
+   		   	if (  MCRUserMgr.instance().existUser(mcrUID) ) { 
+   		  	       	mcrLoginOK = loginInMyCore(mcrUID, mcrPWD, loginresult);  			        		
+   		    } 
+       	} else {
+	       logger.info("No External User Login - check for MyCoRe User");
+	       mcrUID = uid;
+	       mcrPWD = pwd;
+	       mcrLoginOK=loginInMyCore(mcrUID, mcrPWD, loginresult);
+       	}
+		if(mcrLoginOK){
+			mcrUser = MCRUserMgr.instance().retrieveUser(mcrUID);
+			mcrLoginOK = mcrUser.isEnabled() && mcrUser.isValid();
+		}
+       			
+		//interprete the results
+		if(extLoginOk && mcrLoginOK){
+			//the user exists in external system and MyCoRe -> everything is OK
+	     	mcrUser = MCRUserMgr.instance().retrieveUser(mcrUID);
+	       	mcrSession.setCurrentUserID("root");
+		    extLogin.updateUserData(uid, mcrUser);
+		    MCRUserMgr.instance().updateUser(mcrUser);
+		    mcrSession.setCurrentUserID(mcrUID);
+		    mcrSession.setCurrentUserName(mcrUser.getUserContact().getFirstName() + " " + mcrUser.getUserContact().getLastName() );
+		    loginresult.setAttribute("loginOK", "true");
+		}
+		
+		if(!extLoginOk && mcrLoginOK){
+			//the user could not be validated against external system
+			//but he could be validated against MyCoRe Loging 
+			//-> use MyCoRe
+	     	mcrUser = MCRUserMgr.instance().retrieveUser(mcrUID);
+	       	mcrSession.setCurrentUserID(mcrUID);
+		    mcrSession.setCurrentUserName(mcrUser.getUserContact().getFirstName() + " " + mcrUser.getUserContact().getLastName() );
+		    loginresult.setAttribute("loginOK", "true");
+		}
+		if(extLoginOk && !mcrLoginOK){
+			//the user is regcognized as member of the institution
+			//-> login as member (special account with extended read rights)
+			mcrUID=MCRConfiguration.instance().getString("MCR.Application.ExternalUserLogin.DefaultUser.uid", "gast").trim();
+			mcrPWD=MCRConfiguration.instance().getString("MCR.Application.ExternalUserLogin.DefaultUser.pwd", "gast").trim();
+			String oldStatus = loginresult.getAttributeValue("status");
+			loginInMyCore(mcrUID, mcrPWD, loginresult);
+			if((oldStatus!=null) && oldStatus.equals("user.disabled")){
+				loginresult.setAttribute("status", "user.disabled_member");	
+			}
+			else{
+				loginresult.setAttribute("status", "user.member");
+			}
+        	loginresult.setAttribute("loginOK", "true");	
+			
+			
+		}
+		if(!extLoginOk && !mcrLoginOK){
+			//the user is not allowed
+        	loginresult.setAttribute("status", "user.unknown");
+        	loginresult.setAttribute("loginOK", "false");	
+		}
+		
+		setTagResult(loginresult);
+		return;
+	}	
+		
+	
+
+    
+        
+        
+	private void setTagResult(Element loginresult) throws IOException{
+		PageContext pageContext = (PageContext) getJspContext();
 		org.jdom.Document lgresult = new org.jdom.Document(loginresult);
 		org.w3c.dom.Document domDoc = null;
 		try {
@@ -117,9 +188,54 @@ public class MCRLoginTag extends SimpleTagSupport
 				.append("</textarea>");
 			out.println(debugSB.toString());
 		}
-		pageContext.setAttribute(var, domDoc);
-		
-		return;
+		pageContext.setAttribute(var, domDoc);	
 	}	
-   
+
+	private boolean loginInMyCore(String uid, String pwd, Element loginresult){
+		 boolean loginOk=false;
+		try {
+            loginOk = ((uid != null) && (pwd != null) && MCRUserMgr.instance().login(uid, pwd));
+            if (loginOk) {
+	        	MCRSessionMgr.getCurrentSession().setCurrentUserID(uid);
+	        	loginresult.setAttribute("username",  
+	        			MCRUserMgr.instance().retrieveUser(uid).getName());
+	            loginresult.setAttribute("name",
+	            		MCRUserMgr.instance().retrieveUser(uid).getUserContact().getSalutation() 
+	            		+ " " +
+	            		MCRUserMgr.instance().retrieveUser(uid).getUserContact().getLastName());
+	        	
+	        	ArrayList allGroupIDS = MCRUserMgr.instance().retrieveUser(uid).getAllGroupIDs();
+	        	Element eGroups = new Element ("groups");
+	        	for ( int i=0; i<allGroupIDS.size(); i++ ) {		        		
+	        		Element eGroup = new Element ("group");
+	        		MCRGroup mcrgroup = MCRUserMgr.instance().retrieveGroup((String)allGroupIDS.get(i));		        				        		
+	        		eGroup.setAttribute("gid", (String)allGroupIDS.get(i));
+	        		eGroup.setAttribute("description", mcrgroup.getDescription());
+	        		eGroups.addContent(eGroup);
+            	}
+	        	loginresult.setAttribute("status", "user.welcome");
+	            logger.info("user " + uid + " logged in ");
+	            loginresult.addContent(eGroups);
+            } else {
+	            if (uid != null) {
+	            	loginresult.setAttribute("status", "user.invalid_password");
+	            }
+            }
+        } catch (MCRException e) {
+        	loginOk=false;
+            if (e.getMessage().equals("user can't be found in the database")) {
+            	loginresult.setAttribute("status", "user.unknown");
+            } else if (e.getMessage().equals("Login denied. User is disabled.")) {
+            	loginresult.setAttribute("status",  "user.disabled");
+            } else {
+            	loginresult.setAttribute("status", "user.unkwnown_error");
+                logger.debug("user.unkwnown_error" + e.getMessage());
+            }
+        }	        
+        loginresult.setAttribute("loginOK", Boolean.toString(loginOk));
+        
+        
+        logger.info( loginresult.getAttributeValue("status"));
+        return loginOk;
+	}
 }

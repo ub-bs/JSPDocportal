@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- =================================================================== -->
 <!-- MyCoRe sample application build file for use with Apache Ant        -->
@@ -1073,7 +1072,7 @@
     <!-- Build a web application archive                                     -->
     <!-- =================================================================== -->
 
-    <target name="war" depends="clean, create.schema, jar, create.taglib, webapps">
+    <target name="war" depends="clean, create.schema, jar, create.taglib, webapps, create.scripts">
         <jar jarfile="mycoresample.war" basedir="${docportal.webapps}" />
     </target>
 	
@@ -1287,7 +1286,9 @@
         	create user data from file user_editorI.xml
         	create user data from file user_editorP.xml
         	create user data from file user_editorD.xml
-
+        	
+        	create group data from file group_membergroup.xml
+        	create user data from file user_member.xml
         	
             check user data consistency
         </echo>

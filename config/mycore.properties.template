@@ -118,7 +118,7 @@ MCR.AccessRuleEditor.defaultrules=public,iparea,groups,registeredUser
 MCR.AccessRuleEditor.defaultrules.public=<condition format="xml"><boolean operator="true"/></condition>
 MCR.AccessRuleEditor.defaultrules.iparea=<condition format="xml"><boolean operator="or"><condition field="ip" operator="" value="139.39.0.0/255.255.0.0"/></boolean></condition>
 MCR.AccessRuleEditor.defaultrules.groups=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="${group}"/></boolean></condition>
-MCR.AccessRuleEditor.defaultrules.registeredUser=<condition format="xml"><boolean operator="or"><condition field="user" operator="!=" value="guest"/></boolean></condition>
+MCR.AccessRuleEditor.defaultrules.registeredUser=<condition format="xml"><boolean operator="or"><condition field="group" operator="=" value="membergroup"/></boolean></condition>
 
 ####################################################################
 # Initial Classifications
@@ -583,7 +583,7 @@ MCR.IndexBrowser.creators.FieldsToSort=fullname
 MCR.IndexBrowser.creators.ExtraOutputFields=fullname,firstname,surname,academic,prefix,peerage,id
 
 MCR.IndexBrowser.creators_sub.Table=author,institution
-MCR.IndexBrowser.creators_sub.FieldsToSort=surname
+MCR.IndexBrowser.creators_sub.FieldsToSort=fullname
 MCR.IndexBrowser.creators_sub.Searchfield=fullname
 MCR.IndexBrowser.creators_sub.ExtraOutputFields=fullname,id
 MCR.IndexBrowser.creators_sub.Style=creators_sub
@@ -667,6 +667,14 @@ MCR.oai.setscheme.classids.MCROAIProvider.subject=DocPortal_class_00000009
 MCR.mail.server=localhost
 MCR.mail.protocol=smtp
 MCR.mail.debug=false
+
+##############################################################################
+# External User Login
+##############################################################################
+MCR.Application.user_initialpasswd=dummy
+MCR.Application.ExternalUserLogin.Class=
+MCR.Application.ExternalUserLogin.DefaultUser.uid=authorP
+MCR.Application.ExternalUserLogin.DefaultUser.pwd=authorP
 
 ##############################################################################
 # FCK Editor                                                                 #

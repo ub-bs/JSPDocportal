@@ -11,10 +11,13 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.jdom.Element;
+import org.mycore.common.MCRConfiguration;
 import org.mycore.common.xml.MCRXMLHelper;
 import org.mycore.frontend.cli.MCRUserCommands2;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.user2.MCRUserMgr;
+
+import org.mycore.user2.MCRExternalUserLogin;
 
 public class MCRDefaultUserStrategy extends MCRUserStrategy{
 	private String documentType;
@@ -116,6 +119,28 @@ public class MCRDefaultUserStrategy extends MCRUserStrategy{
 			}
 			map.put("initiatorGroup", sGroups.toString());
 		}
+		
+		//check if the UserID exists in an external User Management System
+		String classNameExtUserLogin = MCRConfiguration.instance().getString("MCR.Application.ExternalUserLogin.Class", "").trim();
+		if(classNameExtUserLogin.length()>1){
+			String checkExtern =null;
+			if(userMetadata.getAttributeValue("ID")!=null){
+				MCRExternalUserLogin extLogin= null;
+		        if(classNameExtUserLogin.length()>0){
+		        	try{
+		        		Class c = Class.forName(classNameExtUserLogin);
+		        		extLogin = (MCRExternalUserLogin)c.newInstance();
+		        		checkExtern = extLogin.checkUserID(userMetadata.getAttributeValue("ID"));
+		        		map.put("externalValidation", checkExtern);
+		        		
+		        	}       	
+		        	catch(Exception e){
+		        
+		        	}
+		        }
+			}
+		}
+		
 		//setStringVariableMap(map, processID);
 		for (Iterator it = map.keySet().iterator(); it.hasNext();) {
 			String key = (String) it.next();

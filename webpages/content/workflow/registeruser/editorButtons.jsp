@@ -13,7 +13,7 @@
 <c:set var="email">	<x:out select="$dom/variables/variable[@name = 'initiatorEmail']/@value" /></c:set>
 <c:set var="faculty">	<x:out select="$dom/variables/variable[@name = 'initiatorFaculty']/@value" /></c:set>
 <c:set var="institution">	<x:out select="$dom/variables/variable[@name = 'initiatorInstitution']/@value" /></c:set>
-
+<c:set var="externalValidation">	<x:out select="$dom/variables/variable[@name = 'externalValidation']/@value" /></c:set>
 
 	<tr valign="top">
 		<td>
@@ -22,6 +22,8 @@
 			<c:out value="${email}" />
 			<br/>
 			<c:out value="${description}" />
+			<br/>
+			<b><c:out value="${externalValidation}" /></b>
 			<br/>
 			 <mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="error" workflowVar="varnameERROR" /> 
 		     <font color="red">${error}</font><br/>	         		 
