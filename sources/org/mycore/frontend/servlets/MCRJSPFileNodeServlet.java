@@ -63,10 +63,12 @@ public class MCRJSPFileNodeServlet extends  MCRFileNodeServlet{
     	String mcrid   =  mcr_der.getDerivate().getMetaLink().getXLinkHref();
     	MCRObject mcr_obj = new MCRObject();
     	Document jmcr_obj = mcr_obj.receiveJDOMFromDatastore(mcrid);
-    	String objTitle   =  jmcr_obj.getRootElement().getChild("metadata").getChild("titles").getChildText("title");
-    	
-    	Element addons = new Element("details");
-    	
+    	String objTitle   = jmcr_obj.getRootElement().getAttributeValue("label");
+    		
+   		if ( jmcr_obj.getRootElement().getChild("metadata").getChild("titles") != null )
+    			objTitle   =  jmcr_obj.getRootElement().getChild("metadata").getChild("titles").getChildText("title");
+
+   		Element addons = new Element("details");    	
     	addons.setAttribute("mainDoc", mainDoc);
     	addons.setAttribute("mcrid", mcrid);    	
     	addons.setAttribute("objTitle", objTitle);
