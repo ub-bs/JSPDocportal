@@ -277,14 +277,14 @@
           </navitem>
         </navitem>
         
-        <navitem name="accessrules" label="Nav.Admin.AccessRules" href="admin/accessrules.jsp" right="administrate-accessrules" >
+     <!--    <navitem name="accessrules" label="Nav.Admin.AccessRules" href="admin/accessrules.jsp" right="administrate-accessrules" >
           <navitem name="ruleseditor" label="Nav.Admin.AccessRules.Editor" href="admin/accessrules/rules.jsp" right="administrate-accessrules" >
             <refitem name="~ruleseditor" label="" />
           </navitem>
           <navitem name="rulesassignment" label="Nav.Admin.AccessRules.Assignment" href="admin/accessrules/access.jsp" right="administrate-accessrules" >
             <refitem name="~rulesassignment" label="" />
           </navitem>
-        </navitem>
+        </navitem> -->
 
         <navitem name="editwebcontent" label="Nav.Admin.EditWebcontent" href="admin/webcontent.jsp" right="administrate-webcontent" >
 	        <refitem name="~editwebcontent" label="" />
