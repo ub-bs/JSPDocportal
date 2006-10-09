@@ -89,7 +89,7 @@
 		<tr>
 			<td>Benutzerkennung <sup class="required">*</sup>:</td>
 			<td>
-				<input type="text" name="uid" id="uid" value="<%=user.getID()%>" maxlength="20" size="30" style="width:209px" onchange="validatePresent(this);">
+				<input type="text" name="uid" id="uid" value="<%=user.getID()%>" maxlength="20" size="30" style="width:209px" readonly="readonly" onchange="validatePresent(this);">
 				<input type="hidden" name="uid_orig" value="<%=uid_orig%>">
 			</td>
 		</tr>
