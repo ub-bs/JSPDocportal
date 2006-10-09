@@ -20,7 +20,7 @@
             <!-- *** Password *** -->
 		    <hidden var="user/user.password" default="dummy"  />
             <!-- *** Primary group = gastgroup *** -->
-            <hidden var="user/user.primary_group" default="gastgroup" /> 
+            <hidden var="user/user.primary_group" default="membergroup" /> 
 			
             <hidden var="user/user.creator" default="administrator" />
 			
