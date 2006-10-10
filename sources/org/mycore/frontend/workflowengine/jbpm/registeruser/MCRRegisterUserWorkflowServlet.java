@@ -148,11 +148,15 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
         Element userElement = new Element("user");
 		
         if ( newUserID != null ) {
-			// Neue ID verwenden, da erste ID schon existiert
-    		StringBuffer storePath = new StringBuffer(MCRWorkflowDirectoryManager.getWorkflowDirectory(this.documentType))
-    			.append("/").append("user_")     	
-    			.append(ID).append(".xml");
-        	userElement = (Element) setNewUserIDforUser(newUserID, ID, storePath.toString(), lang);
+			if(newUserID.equals("")){
+				userElement=null;
+			}else{
+				// 	Neue ID verwenden, da erste ID schon existiert
+				StringBuffer storePath = new StringBuffer(MCRWorkflowDirectoryManager.getWorkflowDirectory(this.documentType))
+    				.append("/").append("user_")     	
+    				.append(ID).append(".xml");
+				userElement = (Element) setNewUserIDforUser(newUserID, ID, storePath.toString(), lang);
+			}
 		} else {
 	        org.jdom.Document   indoc = sub.getXML();
             userElement = (Element) indoc.getRootElement().getChild("user").clone();            
@@ -183,7 +187,27 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 			if ( MCRUserMgr.instance().existUser(ID) ) {
 				// we have another user with that ID 
 		        logger.warn("User registration - duplicate IDs");
-		        nextPath = "~chooseIDwhenDuplicate&userID="+ID;
+		        if(MCRConfiguration.instance().getString("MCR.Application.ExternalUserLogin.Class").length()>1){
+		        	//we use an external user manager ..-> finish workflowprocess and display error
+		        	List lpids  = WFM.getCurrentProcessIDsForProcessType(ID,workflowType);	
+					if ( !lpids.isEmpty()){
+						long lpid = ((Long)lpids.get(0)).longValue();
+						WFM.deleteWorkflowProcessInstance(lpid);
+				    }
+					
+					// for initiator and editor 
+					
+		        	nextPath = "~breakIfDuplicateUserID&userID="+ID;
+		        }
+		        else{
+		        	//we use MyCoRe as user manager
+		        	//user should select an ID
+		        	nextPath = "~chooseIDwhenDuplicate&userID="+ID;
+		        	
+		        }
+		        
+		       
+		        
 			} else {
 				//erst wenn alles OK ist wird der WFI initiiert mit der UserID, die unique ist.
 				//we have registeruser prozess - with that id

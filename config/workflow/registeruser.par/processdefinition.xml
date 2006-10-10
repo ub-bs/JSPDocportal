@@ -88,7 +88,7 @@
     <event type='node-enter'>
     <action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
 	   <from>MCR.WorkflowEngine.registeruser.from</from>
-	   <to>MCR.WorkflowEngine.registeruser.from</to>
+	   <to>MCR.WorkflowEngine.registeruser.to</to>
 	   <replyTo>MCR.WorkflowEngine.registeruser.from</replyTo>
        <subject>Probleme beim Anlegen des Nutzer</subject>
        <body>Die Nuterdaten konnten nicht angelegt werden.</body>

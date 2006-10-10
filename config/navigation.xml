@@ -161,6 +161,10 @@
 			            hidden="true">
                 <refitem name="~chooseIDwhenDuplicate" label="" />
               </navitem>
+              <navitem name="breakIfDuplicateUserID" label="Nav.AccountChangeID" href="content/workflow/registeruser/breakIfDuplicateUserID.jsp"
+			            hidden="true">
+                <refitem name="~breakIfDuplicateUserID" label="" />
+              </navitem>              
               <navitem name="workflow-registeruser" label="Nav.AccountRegister" href="content/workflow/registeruser/workflow.jsp" hidden="true">
                 <refitem name="~workflow-registeruser" label="" />
               </navitem>
