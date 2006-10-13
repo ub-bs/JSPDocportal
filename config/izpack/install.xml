@@ -79,7 +79,7 @@
         <pack name="jsp-sample" required="yes">
             <description>The JSP SAMPLE</description>
             <file src="../demo.jar" targetdir="$INSTALL_PATH" />
-            <file src="../mycore-working" targetdir="$INSTALL_PATH"/>
+            <file src="../working" targetdir="$INSTALL_PATH"/>
             <file src="../mycore" targetdir="$INSTALL_PATH"/>
             <file src="../jspdocportal" targetdir="$INSTALL_PATH"/>
             <file src="build.xml" targetdir="$INSTALL_PATH/myapplication"/>            
@@ -98,17 +98,17 @@
             <file src="config/izpack/stop.bat" targetdir="$INSTALL_PATH"/>
             <file src="config/izpack/stop.sh" targetdir="$INSTALL_PATH"/>            
             <singlefile src="config/izpack/mycore.properties.izpack" target="$INSTALL_PATH/myapplication/config/mycore.properties" overwrite="true" />
-            <singlefile src="config/izpack/mycore.properties.izpack" target="$INSTALL_PATH/mycore-working/config/mycore.properties" overwrite="true" />
-            <singlefile src="config/izpack/mycore.properties.izpack" target="$INSTALL_PATH/mycore-working/webapps/mycoresample/WEB-INF/classes/mycore.properties" overwrite="true" />
+            <singlefile src="config/izpack/mycore.properties.izpack" target="$INSTALL_PATH/working/config/mycore.properties" overwrite="true" />
+            <singlefile src="config/izpack/mycore.properties.izpack" target="$INSTALL_PATH/working/webapps/mycoresample/WEB-INF/classes/mycore.properties" overwrite="true" />
             <singlefile src="config/izpack/jbpm_hibernate.cfg.xml.izpack" target="$INSTALL_PATH/myapplication/config/workflow/jbpm_hibernate.cfg.xml" overwrite="true" />
-            <singlefile src="config/izpack/jbpm_hibernate.cfg.xml.izpack" target="$INSTALL_PATH/mycore-working/config/workflow/jbpm_hibernate.cfg.xml" overwrite="true" />
-            <singlefile src="config/izpack/jbpm_hibernate.cfg.xml.izpack" target="$INSTALL_PATH/mycore-working/webapps/mycoresample/WEB-INF/classes/workflow/jbpm_hibernate.cfg.xml" overwrite="true" />                        
+            <singlefile src="config/izpack/jbpm_hibernate.cfg.xml.izpack" target="$INSTALL_PATH/working/config/workflow/jbpm_hibernate.cfg.xml" overwrite="true" />
+            <singlefile src="config/izpack/jbpm_hibernate.cfg.xml.izpack" target="$INSTALL_PATH/working/webapps/mycoresample/WEB-INF/classes/workflow/jbpm_hibernate.cfg.xml" overwrite="true" />                        
             <parsable targetfile="$INSTALL_PATH/myapplication/config/mycore.properties" type="javaprop" />
-            <parsable targetfile="$INSTALL_PATH/mycore-working/config/mycore.properties" type="javaprop" />
-			<parsable targetfile="$INSTALL_PATH/mycore-working/webapps/mycoresample/WEB-INF/classes/mycore.properties" type="javaprop" />
+            <parsable targetfile="$INSTALL_PATH/working/config/mycore.properties" type="javaprop" />
+			<parsable targetfile="$INSTALL_PATH/working/webapps/mycoresample/WEB-INF/classes/mycore.properties" type="javaprop" />
 			<parsable targetfile="$INSTALL_PATH/myapplication/config/workflow/jbpm_hibernate.cfg.xml" type="xml" />	
-			<parsable targetfile="$INSTALL_PATH/mycore-working/config/workflow/jbpm_hibernate.cfg.xml" type="xml" />	
-			<parsable targetfile="$INSTALL_PATH/mycore-working/webapps/mycoresample/WEB-INF/classes/workflow/jbpm_hibernate.cfg.xml" type="xml" />
+			<parsable targetfile="$INSTALL_PATH/working/config/workflow/jbpm_hibernate.cfg.xml" type="xml" />	
+			<parsable targetfile="$INSTALL_PATH/working/webapps/mycoresample/WEB-INF/classes/workflow/jbpm_hibernate.cfg.xml" type="xml" />
 			<parsable targetfile="$INSTALL_PATH/start.bat" type="plain" />
 			<parsable targetfile="$INSTALL_PATH/start.sh" type="shell" />
 			<parsable targetfile="$INSTALL_PATH/stop.bat" type="plain" />

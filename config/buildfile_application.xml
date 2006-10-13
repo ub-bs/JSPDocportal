@@ -5,10 +5,10 @@
 <!-- =================================================================== -->
 
 <project default="usage" basedir=".">
-
-    <!-- =================================================================== -->
+	<!-- =================================================================== -->
     <!-- Global properties                                                   -->
     <!-- =================================================================== -->
+<property name="MYAPPLICATION_NAME" value="mycoresample" />
 
     <!-- Javac properties -->
     <property name="debug" value="on" />
@@ -39,7 +39,7 @@
 	
 
     <!-- Provide a default value for DOCPORTAL_SYSTEM if not set in env -->
-    <property name="DOCPORTAL_SYSTEM" location="${basedir}/../mycore-working" />
+    <property name="DOCPORTAL_SYSTEM" location="${basedir}/../working" />
 	
 	<property name="DOCPORTAL_HOME" value="../jspdocportal" />
 
@@ -97,7 +97,7 @@
     <property name="docportal.webpages"
         value="${DOCPORTAL_SYSTEM}/webpages" />
     <property name="docportal.webapps"
-        value="${DOCPORTAL_SYSTEM}/webapps/mycoresample" />
+        value="${DOCPORTAL_SYSTEM}/webapps/${MYAPPLICATION_NAME}" />
     <property name="docportal.workflow"
         value="${MCR.editor_base_directory}" />
 
@@ -181,7 +181,7 @@
  			<fileset dir="${DOCPORTAL_HOME}" includes="**" ></fileset>
 		</copy>
 		<copy todir="${DOCPORTAL_SYSTEM}" overwrite="true">
-		 	<fileset dir="." includes="**" excludes="mycoresample.war,jspdocportal-installer*" ></fileset>
+		 	<fileset dir="." includes="**" excludes="${MYAPPLICATION_NAME}.war,jspdocportal-installer*" ></fileset>
 		</copy>
         <mkdir dir="${docportal.webapps}" />
     	<mkdir dir="${docportal.bin}" />
@@ -1073,7 +1073,7 @@
     <!-- =================================================================== -->
 
     <target name="war" depends="clean, create.schema, jar, create.taglib, webapps, create.scripts">
-        <jar jarfile="mycoresample.war" basedir="${docportal.webapps}" />
+        <jar jarfile="${MYAPPLICATION_NAME}.war" basedir="${docportal.webapps}" />
     </target>
 	
 	<target name="fastdevelopwar" depends="jar,create.taglib">
@@ -1396,7 +1396,7 @@
 	    <jar jarfile="../demo.jar"  >
 	       <manifest>
 	         <attribute name="Main-Class" value="org.mycore.start.demo.Main"/>
-	       	 <attribute name="Class-Path" value="mycore/lib/BrowserLauncher2.jar mycore-working/lib/jetty/start.jar mycore-working/lib/jetty/stop.jar"/>
+	       	 <attribute name="Class-Path" value="mycore/lib/BrowserLauncher2.jar working/lib/jetty/start.jar working/lib/jetty/stop.jar"/>
 	       </manifest>
            <fileset dir="${docportal.classes}" includes="org/mycore/start/demo/**" />
 	    </jar>

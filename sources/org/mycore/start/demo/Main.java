@@ -40,7 +40,7 @@ public class Main {
 			System.exit(-1);
 		}
 		baseDir = System.getProperty("user.dir");
-		File jetty = new File(baseDir + File.separator + "mycore-working" + File.separator + "lib" + File.separator + "jetty");
+		File jetty = new File(baseDir + File.separator + "working" + File.separator + "lib" + File.separator + "jetty");
 		if(jetty.exists()){
 			jettyHomeAbsolutePath = jetty.getAbsolutePath();
 			jettyHome = jettyHomeAbsolutePath.replaceAll("\\\\","/");
@@ -93,7 +93,7 @@ public class Main {
     
     public void renameXmlLibs(String mode){
     	String basedirLIBS = new StringBuffer(baseDir).append(File.separator)
-    		.append("mycore-working").append(File.separator)
+    		.append("working").append(File.separator)
     		.append("webapps").append(File.separator)
     		.append("mycoresample").append(File.separator)
     		.append("WEB-INF").append(File.separator)

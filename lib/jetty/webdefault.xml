@@ -2,7 +2,7 @@
 
 <!-- =================================================================== -->
 <!-- MyCoRe Papyri application configuration file for jetty              -->
-<!-- $Revision: 1.2 $ $Date: 2006-04-13 18:20:56 $                      -->
+<!-- $Revision: 1.3 $ $Date: 2006-10-13 10:04:24 $                      -->
 <!-- =================================================================== -->
 
 <web-app
@@ -145,7 +145,7 @@
     </init-param>
     <init-param>
         <param-name>scratchdir</param-name>
-        <param-value>mycore-working/lib/jetty/jettywork</param-value>
+        <param-value>working/lib/jetty/jettywork</param-value>
     </init-param>
     <load-on-startup>0</load-on-startup>
   </servlet>
