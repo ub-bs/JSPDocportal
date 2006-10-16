@@ -44,16 +44,16 @@
     </MCRDocDetail>
     <MCRDocDetail rowtype="space" labelkey="" separator="" />    
     <MCRDocDetail rowtype="standard" labelkey="OMD.date" >
-        <MCRDocDetailContent xpath="/mycoreobject/metadata/dates/date[@type='submitted']" templatetype="tpl-date-values" separator=", " languageRequired="no" introkey="datecreated" />
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/dates/date[@type='submitted']" templatetype="tpl-date-values" separator=", " languageRequired="no" introkey="OMD.datecreated" />
     </MCRDocDetail> 
     <MCRDocDetail rowtype="standard" labelkey="OMD.date" >
-        <MCRDocDetailContent xpath="/mycoreobject/metadata/dates/date[@type='accepted']" templatetype="tpl-date-values" separator=", " languageRequired="no" introkey="datecreated" />
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/dates/date[@type='accepted']" templatetype="tpl-date-values" separator=", " languageRequired="no" introkey="OMD.datecreated" />
     </MCRDocDetail> 
     <MCRDocDetail rowtype="standard" labelkey="OMD.contributors" >
-        <MCRDocDetailContent xpath="/mycoreobject/metadata/contributors/contributor[@type='referee']" templatetype="tpl-date-values" separator=", " languageRequired="no" introkey="datecreated" />
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/contributors/contributor[@type='referee']" templatetype="tpl-date-values" separator=", " languageRequired="no" introkey="OMD.datecreated" />
     </MCRDocDetail> 
     <MCRDocDetail rowtype="standard" labelkey="OMD.contributors" >
-        <MCRDocDetailContent xpath="/mycoreobject/metadata/contributors/contributor[@type='advisor']" templatetype="tpl-date-values" separator=", " languageRequired="no" introkey="datecreated" />
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/contributors/contributor[@type='advisor']" templatetype="tpl-date-values" separator=", " languageRequired="no" introkey="OMD.datecreated" />
     </MCRDocDetail> 
 	
     <MCRDocDetail rowtype="space" labelkey="" separator="" />    

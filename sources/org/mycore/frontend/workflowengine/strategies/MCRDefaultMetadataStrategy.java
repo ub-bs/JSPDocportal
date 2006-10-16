@@ -31,7 +31,7 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 		this.documentType = documentType;
 	}
 	
-	private static Logger logger = Logger.getLogger(MCRDefaultMetadataStrategy.class.getName());
+	protected static Logger logger = Logger.getLogger(MCRDefaultMetadataStrategy.class.getName());
 		
 	public boolean createEmptyMetadataObject(boolean authorRequired, List authorIDs, List authors, 
 			MCRObjectID nextFreeObjectId, 	String userid,	Map identifiers, String publicationType,
@@ -162,8 +162,7 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 			logger.warn("Could not create disshab object " +  nextID );
 			return false;
 		}
-		//TODO permission and save im workflow
-		//setDefaultPermissions(id.getId(), userid );
+
    	    return true;		
 	}
 
