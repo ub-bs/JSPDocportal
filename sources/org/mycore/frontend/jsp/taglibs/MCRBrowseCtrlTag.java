@@ -10,24 +10,34 @@ import javax.servlet.jsp.tagext.JspFragment;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
+import org.mycore.common.MCRCache;
+import org.mycore.common.MCRSessionMgr;
 import org.mycore.services.fieldquery.MCRResults;
+import org.mycore.services.fieldquery.MCRSearchServlet;
 
 
 public class MCRBrowseCtrlTag extends SimpleTagSupport
 {
-	private MCRResults results;
+	private String id;
 	private int offset;
 	
-	public void setResults(MCRResults inputResults) {
-		results = inputResults;
-		return;
+	public void setId(String id) {
+		this.id = id;
 	}
+	
 	public void setOffset(int inputOffset) {
 		offset = inputOffset;
 		return;
 	}	
 	public void doTag() throws JspException, IOException {
 		PageContext pageContext = (PageContext) getJspContext();
+		MCRResults results = null;
+		try {
+			results = (MCRResults)((MCRCache) MCRSessionMgr.getCurrentSession().get(MCRSearchServlet.getResultsKey())).get(id);
+		} catch ( Exception all) {
+			results = null;
+		}
+		
         if ( results != null) {
         	int numHits = results.getNumHits();
         	if (offset > 0) {

@@ -629,7 +629,7 @@
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRBrowseCtrlTag</tagclass>
             <bodycontent>scriptless</bodycontent>
             <attribute>
-                <name>results</name>
+                <name>id</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
