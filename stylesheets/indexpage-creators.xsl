@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.10 $ $Date: 2006-10-04 14:01:36 $ -->
+<!-- $Revision: 1.11 $ $Date: 2006-10-16 15:08:08 $ -->
 <!-- ============================================== -->
 
 <xsl:stylesheet
@@ -149,9 +149,9 @@
 <xsl:template match="value">
   
   <xsl:variable name="urlAuthor">
-    <xsl:text>nav?path=~docdetail</xsl:text>
+    <xsl:text>nav?path=left.search.persons.docdetail</xsl:text>
 	<xsl:text>&amp;id=</xsl:text>
-    <xsl:value-of select="col[@name='id']" />
+    <xsl:value-of select="./id" />
   </xsl:variable>
 
   <xsl:variable name="offset">
@@ -192,7 +192,7 @@
   </xsl:variable>
 
   <dd>
-    <img border="0" src="images/folder_plus.gif" align="middle"/>
+    <img border="0" src="{$WebApplicationBaseURL}images/folder_plus.gif" align="middle"/>
     <xsl:text>  </xsl:text>
     <a href="{$url}" class="nav">
       <xsl:value-of select="from/@short"/>

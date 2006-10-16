@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.7 $ $Date: 2006-10-04 14:01:36 $ -->
+<!-- $Revision: 1.8 $ $Date: 2006-10-16 15:08:08 $ -->
 <!-- ============================================== -->
 
 <xsl:stylesheet
@@ -186,7 +186,7 @@
         <img border="0" src="{$WebApplicationBaseURL}/images/folder_plain.gif"/>
       </td>
       <td class="td1" valign="top" style="padding-right:5px;">
-        <a href="{$url}&amp;_var_@href={col[@name='id']}&amp;_var_@title={$title}">
+        <a href="{$url}&amp;_var_@href={./id}&amp;_var_@title={$title}">
           <xsl:value-of select="$title" />
         </a>
       </td>
@@ -208,7 +208,7 @@
   </xsl:variable>
 
   <dd>
-    <img border="0" src="{$WebApplicationBaseURL}/images/folder_plus.gif" align="middle"/>
+    <img border="0" src="{$WebApplicationBaseURL}images/folder_plus.gif" align="middle"/>
     <xsl:text> </xsl:text>
     <a href="{$url}" class="nav">
       <xsl:value-of select="from/@short"/>

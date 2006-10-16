@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.1 $ $Date: 2006-08-02 12:15:09 $ -->
+<!-- $Revision: 1.2 $ $Date: 2006-10-16 15:08:08 $ -->
 <!-- ============================================== -->
 
 <xsl:stylesheet
@@ -149,7 +149,7 @@
 <xsl:template match="value">
   
   <xsl:variable name="urlInstitution">
-    <xsl:text>nav?path=~docdetail</xsl:text>
+    <xsl:text>nav?path=left.search.institution.docdetail</xsl:text>
 	<xsl:text>&amp;id=</xsl:text>
     <xsl:value-of select="col[@name='id']" />
   </xsl:variable>
@@ -184,7 +184,7 @@
   </xsl:variable>
 
   <dd>
-    <img border="0" src="images/folder_plus.gif" align="middle"/>
+    <img border="0" src="{$WebApplicationBaseURL}images/folder_plus.gif" align="middle"/>
     <xsl:text>  </xsl:text>
     <a href="{$url}" class="nav">
       <xsl:value-of select="from/@short"/>
