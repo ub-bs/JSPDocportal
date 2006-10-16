@@ -1,22 +1,21 @@
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/xml"  prefix="x" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
 <%@ page import="org.apache.log4j.Logger" %>
 <c:catch var="e">
 <fmt:setLocale value='${requestScope.lang}'/>
 <fmt:setBundle basename='messages'/>
 <c:set var="WebApplicationBaseURL" value="${applicationScope.WebApplicationBaseURL}" />
-<c:set var="mcrid">
-   <c:choose>
-      <c:when test="${!empty(requestScope.id)}">${requestScope.id}</c:when>
-      <c:otherwise>${param.id}</c:otherwise>
-   </c:choose>
-</c:set>
-<c:set var="from"  value="${param.fromWForDB}" /> 
+<c:set var="mcrid" value="${param.id}" />
+<c:set var="host" value="${param.host}" />
+<c:set var="offset" value="${param.offset}" />
+<c:set var="size" value="${param.size}" />
 <c:set var="debug" value="${param.debug}" />
-<c:set var="style" value="${param.style}" /> 
+<c:set var="from"  value="${param.from}" /> 
+<c:set var="path"  value="${param.path}" /> 
 
 <c:set var="type" value="${fn:split(mcrid,'_')[1]}"/>
 
@@ -82,16 +81,16 @@
    <td width="30">&nbsp;</td>
    <td align="center" >
    	    <nobr>
-         <mcr:browseCtrl results="${sessionScope.lastMCRResults}" offset="${offset}" >
+         <mcr:browseCtrl id="${param.resultid}" offset="${offset}" >
             <c:if test="${!empty(lastHitID)}">
-                <a href="${WebApplicationBaseURL}nav?path=~docdetail&id=${lastHitID}&offset=${offset -1}">&lt;&lt;</a>&#160;&#160;
+                <a href="${WebApplicationBaseURL}nav?path=${path}&id=${lastHitID}&offset=${offset -1}&resultid=${param.resultid}">&lt;&lt;</a>&#160;&#160;
             </c:if>
-            <a href="${WebApplicationBaseURL}nav?path=${sessionScope.lastSearchListPath}">^</a>&#160;&#160;
+            <a href="${WebApplicationBaseURL}servlets/MCRJSPSearchServlet?mode=results&id=${param.resultid}">^</a>&#160;&#160;
             <c:if test="${!empty(nextHitID)}">
-                <a href="${WebApplicationBaseURL}nav?path=~docdetail&id=${nextHitID}&offset=${offset +1}">&gt;&gt;</a>                        
+                <a href="${WebApplicationBaseURL}nav?path=${path}&id=${nextHitID}&offset=${offset +1}&resultid=${param.resultid}">&gt;&gt;</a>                        
             </c:if>
-          </mcr:browseCtrl>
-         </nobr>
+         </mcr:browseCtrl>
+        </nobr>
    </td>
   </tr>
 

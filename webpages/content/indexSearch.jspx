@@ -29,7 +29,7 @@
     String navPath = (String) request.getAttribute("path");
     
         
-    MCRIndexBrowserData id = new MCRIndexBrowserData(search, mode, searchclass, fromTo);
+    MCRIndexBrowserData id = new MCRIndexBrowserData(search, mode, searchclass, fromTo, navPath);
     Document jQuery =  id.getQuery();
     MCRResults mcrResult =  id.getResultList();
 
@@ -42,7 +42,13 @@
 	
     String ServletsBaseURL = WebApplicationBaseURL+"servlets/";
     Document pageContent = id.getXMLContent();   
+    
+    // 
+    System.out.println(    org.mycore.common.JSPUtils.getPrettyString(pageContent)) ;
+    
+    
     byte[] xml = MCRUtils.getByteArray(pageContent);
+
     String contentString = new String(xml,"UTF-8");
     String resolver="webapp:WEB-INF/stylesheets/indexpage-"+searchclass+".xsl";
     Source xsl = MCRURIResolver.instance().resolve(resolver,"indexSearch.jspx");

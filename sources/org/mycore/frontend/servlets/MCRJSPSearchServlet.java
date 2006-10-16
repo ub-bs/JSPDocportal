@@ -162,11 +162,12 @@ public class MCRJSPSearchServlet extends MCRSearchServlet {
     		
     		String[] maskarray = mask.split("-");
     		
-    		if ( maskarray.length > 0 )
+    		if ( maskarray.length > 1 ) {
     			 resultlistType = maskarray[1];
-    		else resultlistType = "simple";
-
-   			path += "~searchresult-" + resultlistType;
+    			 path += "~searchresult-" + resultlistType;
+    		}
+    		else path += mask; 
+   			
     		this.getServletContext().getRequestDispatcher(path).forward(req, res);	
     	}
     	else {

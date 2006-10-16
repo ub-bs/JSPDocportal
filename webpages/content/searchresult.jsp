@@ -95,7 +95,7 @@
 	
 	<table cellpadding="0" cellspacing="0">
 		<tbody>
-			<x:if select="./mcr_result">
+			<x:if select="./mcr_result" >
 				<x:forEach select="./mcr_result/all-metavalues">
 					<x:set var="resultlistLink"	select="string(./metaname[1]/resultlistLink/@href)" />
 					<x:set var="mcrID" select="string(@ID)" />
@@ -160,7 +160,7 @@
 									</x:otherwise>
 								</x:choose></td>
 								<td class="resultTitle">
-									<a href="${resultlistLink}">
+									<a href="${resultlistLink}&path=${navPath}.docdetail&resultid=${resultid}">
 										<x:if select="contains('professorum, codice',$docType)">
 			                            	<x:out select="./metaname[1]/metavalues[2]/metavalue/@text" escapeXml="./metaname[1]/metavalues/@escapeXml" />
 			                            	<x:out select="./metaname[1]/metavalues[3]/metavalue/@text" escapeXml="./metaname[1]/metavalues/@escapeXml" />                            	                            	                            	
@@ -325,10 +325,10 @@
 		</x:if>
 		<x:choose>
 			<x:when	select="( (contains(../@cutted-left,'true')) and (generate-id(../mcr_resultpage[1]) = generate-id(.)) )">
-				<a href="<x:out select="./@href" />">&lt;&lt;&lt;</a>&#160;
+				<a href="${WebApplicationBaseURL}<x:out select="./@href" />">&lt;&lt;&lt;</a>&#160;
 	        </x:when>
 			<x:when	select="( (contains(../@cutted-right,'true')) and (generate-id(../mcr_resultpage[last()]) = generate-id(.)) )">
-				<a href="<x:out select="./@href" />">&gt;&gt;&gt;</a>&#160;
+				<a href="${WebApplicationBaseURL}<x:out select="./@href" />">&gt;&gt;&gt;</a>&#160;
 	        </x:when>
 			<x:otherwise>
 				<x:choose>
