@@ -301,8 +301,12 @@ public class MCRResultFormatter {
     	try {
 			for(Iterator it = XPath.selectNodes(doc,xpath).iterator(); it.hasNext(); ) {
 			    String derivateID = ((Element) it.next()).getAttributeValue("href",Namespace.getNamespace("xlink",MCRDefaults.XLINK_URL));
-			    mcr_der.receiveFromDatastore(derivateID);
-
+			    try {
+			    	mcr_der.receiveFromDatastore(derivateID);
+			    } catch (Exception noDerivate) {
+			    	logger.error("There ist no Derivate with ID:" + derivateID);
+			    	continue;
+			    }
 			    MCRDirectory root;
 			    root = MCRDirectory.getRootDirectory(derivateID);
 			    MCRFilesystemNode[] myfiles = root.getChildren();
@@ -431,7 +435,12 @@ public class MCRResultFormatter {
         	try {
     			for(Iterator it = XPath.selectNodes(doc,xpath).iterator(); it.hasNext(); ) {
     			    String derivateID = ((Element) it.next()).getAttributeValue("href",Namespace.getNamespace("xlink",MCRDefaults.XLINK_URL));
-    			    mcr_der.receiveFromDatastore(derivateID);
+    			    try {
+    			    	mcr_der.receiveFromDatastore(derivateID);
+	    			} catch (Exception noDerivate) {
+				    	logger.error("There ist no Derivate with ID:" + derivateID);
+				    	continue;
+				    }
     			    String derivlabel = mcr_der.getLabel();
     			    String derivmain = mcr_der.getDerivate().getInternals().getMainDoc();
     			    
@@ -848,13 +857,14 @@ public class MCRResultFormatter {
 		// the resultset contains only the hits from page x from 0 to numPerPage - cutting is taken in MCRJSPSearchservlet
 		List hits = results.getChildren("hit",MCRFieldDef.mcrns);		
 		for (int k = from; k < until && k < hits.size() ; k++) {
-			String hitID = ((Element)(hits.get(k))).getAttributeValue("id");
+			String hitID = ((Element)(hits.get(k))).getAttributeValue("id");		
 		    org.jdom.Document hit = mcr_obj.receiveJDOMFromDatastore(hitID);
 	        Element mycoreobject = hit.getRootElement();
 	        String mcrID = mycoreobject.getAttributeValue("ID");
 	        String docType = mcrID.substring(mcrID.indexOf("_")+1,mcrID.lastIndexOf("_"));
 	        StringBuffer doclink = new StringBuffer(NavServlet.getNavigationBaseURL())
-		            .append("nav?path=~docdetail&id=").append(hitID)
+		            //.append("nav?path=~docdetail&id=").append(hitID)
+		            .append("nav?id=").append(hitID)
 		            .append("&offset=").append(k).append("&doctype=").append(docType);
 	        Element definition = (resultlistMap.containsKey(docType)) ?
 	        		(Element)resultlistMap.get(docType) : addDocType2ResultlistMap(docType);
