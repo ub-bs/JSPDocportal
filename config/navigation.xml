@@ -7,18 +7,21 @@
           <refitem name="~searchstart-allmeta" label="" />      
           <navitem name="searchresult-allmeta" label="Nav.Search" href="content/searchresult.jsp" hidden="true">
               <refitem name="~searchresult-allmeta" label="" />
+              <navitem name="docdetail" label="Nav.DocumentDetails" href="content/docdetails.jsp" hidden="true" />              
           </navitem>
         </navitem>          
         <navitem name="simple" label="Nav.SimpleDocumentSearch" href="content/searchmask-editor.jsp?editor=editor/searchmasks/SearchMask_SimpleDocument.xml">
           <refitem name="~searchstart-simple" label="" />
           <navitem name="searchresult-simple" label="Nav.Searchresults" href="content/searchresult.jsp" hidden="true">
             <refitem name="~searchresult-simple" label="" />
+            <navitem name="docdetail" label="Nav.DocumentDetails" href="content/docdetails.jsp" hidden="true" />              
           </navitem>
         </navitem>
         <navitem name="extended" label="Nav.ExtendedDocumentSearch"  href="content/searchmask-editor.jsp?editor=editor/searchmasks/SearchMask_ExpertDocument.xml" >
           <refitem name="~searchstart-extended" label="" />
           <navitem name="searchresult-extended" label="Nav.Searchresults" href="content/searchresult.jsp" hidden="true">
             <refitem name="~searchresult-extended" label="" />
+            <navitem name="docdetail" label="Nav.DocumentDetails" href="content/docdetails.jsp" hidden="true" />              
           </navitem>
         </navitem>
         <navitem name="persons" label="Nav.PersonSearch" href="content/indexSearch.jspx?searchclass=creators">
@@ -26,6 +29,7 @@
           <refitem name="~searchstart-indexcreators" label="" />
           <navitem name="documents" label="Nav.PersonsDocuments" href="content/searchresult.jsp" hidden="true">
             <refitem name="~searchresult-indexcreators" label="" />
+            <navitem name="docdetail" label="Nav.DocumentDetails" href="content/docdetails.jsp" hidden="true" />              
           </navitem>
         </navitem>
         <navitem name="institution" label="Nav.InstitutionSearch" href="content/indexSearch.jspx?searchclass=institutions">
@@ -33,11 +37,11 @@
           <refitem name="~searchstart-indexinstitutions" label="" />
           <navitem name="documents" label="Nav.PersonsDocuments" href="content/searchresult.jsp" hidden="true">
             <refitem name="~searchresult-indexinstitutions" label="" />
+            <navitem name="docdetail" label="Nav.DocumentDetails" href="content/docdetails.jsp" hidden="true" />              
           </navitem>
         </navitem>  
         <navitem name="docdetail" label="Nav.DocumentDetails" href="content/docdetails.jsp" hidden="true">
            <refitem name="~docdetail" label="" />
-           <refitem name="~query" label="" />
            <navitem name="derivatedetails" label="Nav.DigitalisatDetails" href="content/derivatedetails.jsp" hidden="true">
               <refitem name="~derivatedetails" label="" />
            </navitem>
@@ -49,30 +53,35 @@
              <refitem name="~searchstart-classorigin" label="" />
              <navitem name="result" label="Results" href="content/searchresult.jsp" hidden="true">
                 <refitem name="~searchresult-classorigin" label="" />
+                <navitem name="docdetail" label="Nav.DocumentDetails" href="content/docdetails.jsp" hidden="true" />              
               </navitem>
             </navitem>
             <navitem name="type" label="Nav.Type" href="content/browse.jsp?browserClass=type">
               <refitem name="~searchstart-classtype" label="" />
               <navitem name="result" label="Results" href="content/searchresult.jsp" hidden="true">
                 <refitem name="~searchresult-classtype" label="" />
+                <navitem name="docdetail" label="Nav.DocumentDetails" href="content/docdetails.jsp" hidden="true" />              
               </navitem>
             </navitem>
             <navitem name="format" label="Nav.Format" href="content/browse.jsp?browserClass=format">
               <refitem name="~searchstart-classformat" label="" />
               <navitem name="result" label="Results" href="content/searchresult.jsp" hidden="true">
                 <refitem name="~searchresult-classformat" label="" />
+                <navitem name="docdetail" label="Nav.DocumentDetails" href="content/docdetails.jsp" hidden="true" />              
               </navitem>
             </navitem>
             <navitem name="ddc" label="Nav.DDC" href="content/browse.jsp?browserClass=ddc">
               <refitem name="~searchstart-classddc" label="" />
               <navitem name="result" label="Results" href="content/searchresult.jsp" hidden="true">
                 <refitem name="~searchresult-classddc" label="" />
+                <navitem name="docdetail" label="Nav.DocumentDetails" href="content/docdetails.jsp" hidden="true" />              
               </navitem>
             </navitem>
             <navitem name="bkl" label="Nav.BKL" href="content/browse.jsp?browserClass=bkl">
                 <refitem name="~searchstart-classbkl" label="" />
                 <navitem name="result" label="Results" href="content/searchresult.jsp" hidden="true">
                   <refitem name="~searchresult-classbkl" label="" />
+                  <navitem name="docdetail" label="Nav.DocumentDetails" href="content/docdetails.jsp" hidden="true" />              
                 </navitem>
             </navitem>            
           </navitem>
@@ -92,6 +101,7 @@
                 <refitem name="~searchstart-wfauthor" label="" />        
                 <navitem name="searchresult-wfauthor" label="" href="content/searchresult.jsp" hidden="true">
                   <refitem name="~searchresult-wfauthor" label="" />
+                  <navitem name="docdetail" label="Nav.DocumentDetails" href="content/docdetails.jsp" hidden="true" />              
                 </navitem>
               </navitem>              
 	        </navitem>
@@ -108,6 +118,7 @@
                 <refitem name="~searchstart-wfinstitution" label="" />        
                 <navitem name="searchresult-wfinstitution" label="" href="content/searchresult.jsp" hidden="true">
                   <refitem name="~searchresult-wfinstitution" label="" />
+                  <navitem name="docdetail" label="Nav.DocumentDetails" href="content/docdetails.jsp" hidden="true" />              
                 </navitem>
               </navitem>              
 	        </navitem>
@@ -133,6 +144,7 @@
                 <refitem name="~searchstart-wfpublication" label="" />        
                 <navitem name="searchresult-wfpublication" label="" href="content/searchresult.jsp" hidden="true">
                   <refitem name="~searchresult-wfpublication" label="" />
+                  <navitem name="docdetail" label="Nav.DocumentDetails" href="content/docdetails.jsp" hidden="true" />              
                 </navitem>
               </navitem>                        
             </navitem>           
