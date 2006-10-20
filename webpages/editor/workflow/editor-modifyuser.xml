@@ -100,7 +100,7 @@
                 </text>
             </cell>
             <cell row="7" col="2" anchor="WEST" var="user/user.primary_group" sortnr="4">
-                <list width="150" type="dropdown">
+                <list width="200px" type="dropdown">
                     <item value="">
                         <label xml:lang="de">(bitte auswählen)</label>
                         <label xml:lang="en">(choose a value)</label>
@@ -133,7 +133,7 @@
                 </text>
             </cell>
             <cell row="8" col="2" anchor="WEST" var="user/user.groups/groups.groupID" sortnr="20">
-                <list width="150" type="multirow" multiple="true" rows="5">
+                <list width="200px" type="multirow" multiple="true" rows="10">
                     <item value="">
                         <label xml:lang="de">(Mehrfachauswahl)</label>
                         <label xml:lang="en">(multiple choice)</label>

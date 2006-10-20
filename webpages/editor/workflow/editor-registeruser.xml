@@ -19,7 +19,7 @@
 			<hidden var="user/@update_allowed" default="true" />
             <!-- *** Password *** -->
 		    <hidden var="user/user.password" default="dummy"  />
-            <!-- *** Primary group = gastgroup *** -->
+            <!-- *** Primary group = membergroup *** -->
             <hidden var="user/user.primary_group" default="membergroup" /> 
 			
             <hidden var="user/user.creator" default="administrator" />
