@@ -76,7 +76,7 @@
     	    <c:if test="${empty(myTaskList)}">
 			  	<tr>
 		  			<td class="task">
-			           <font color="#00ff00"><fmt:message key="WF.common.NoTasks" /></font>
+			           <fmt:message key="WF.common.NoTasks" />
     	    		 </td>
         		</tr>
 			</c:if>
@@ -95,7 +95,7 @@
     	    <c:if test="${empty(myProcessList)}">
 				<tr>
 					<td class="task">
-	           			<font color="#00ff00"><fmt:message key="WF.common.NoTasks" /></font>
+			           <fmt:message key="WF.common.NoTasks" />
 		           </td>
 		 		</tr>
         	</c:if>
