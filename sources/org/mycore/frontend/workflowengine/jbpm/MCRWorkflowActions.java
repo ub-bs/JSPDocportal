@@ -35,6 +35,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.frontend.editor.MCRRequestParameters;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
@@ -141,10 +142,15 @@ public class MCRWorkflowActions extends MCRServlet {
     			bSuccess = WFM.removeWorkflowFiles(wfp.getContextInstance());
     		}
     		if (bSuccess) {
+        		if ( ! MCRObject.existInDatastore(mcrid) ) {
+        			// delete unused Permissions from database
+        			AI.removeAllRules(mcrid);
+        		}
     			// gesamten Prozess löschen!!
     			wfp.close();
     			MCRJbpmCommands.deleteProcess(String.valueOf(pid));
     		}
+
     		returnPath="/nav?path=" + nextPath;
         	return;
         }
