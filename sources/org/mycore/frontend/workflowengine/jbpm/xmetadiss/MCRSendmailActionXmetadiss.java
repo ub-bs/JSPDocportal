@@ -7,6 +7,7 @@ import org.jbpm.graph.exe.ExecutionContext;
 import org.mycore.common.MCRException;
 import org.mycore.frontend.workflowengine.jbpm.MCRAbstractAction;
 import org.mycore.frontend.workflowengine.jbpm.MCRJbpmSendmail;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 
 public class MCRSendmailActionXmetadiss extends MCRAbstractAction {
 	
@@ -45,6 +46,9 @@ public class MCRSendmailActionXmetadiss extends MCRAbstractAction {
 				lang = inLang;
 			}
 			String salutation = (String)executionContext.getVariable("salutation");
+			String id = (String)executionContext.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
+			String title = (String)executionContext.getVariable(MCRWorkflowConstants.WFM_VAR_WFOBJECT_TITLE);
+			
 			if(salutation != null)
 				ret += salutation + "\r\n\r\n";
 			else
@@ -52,6 +56,7 @@ public class MCRSendmailActionXmetadiss extends MCRAbstractAction {
 			String body = PropertyResourceBundle.getBundle("messages", new Locale(lang)).getString("WF.Mails.SuccessMessage.xmetadiss");
 			if(body != null)
 				ret += body + "\r\n\r\n";
+			ret += "Titel: '" + title + "' Dokument ID: " + id + ".";
 			String footer = PropertyResourceBundle.getBundle("messages", new Locale(lang)).getString("WF.Mails.Footer");
 			if(footer != null)
 				ret += footer;
