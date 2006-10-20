@@ -206,7 +206,7 @@
             <item value="">
         <label i18n="Editor.Common.choose" />                
             </item>
-            <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Languages&amp;defaultValue=DocPortal_class_00000004" />                          
+            <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Language&amp;defaultValue=DocPortal_class_00000004" />                          
       </list>       
 
       <!-- *** Data for the Metadata ** -->
