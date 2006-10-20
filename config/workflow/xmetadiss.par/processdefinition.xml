@@ -90,10 +90,10 @@
      <task name="taskEnterMessageData" swimlane="disseditor" />
      <transition name="go2disshabCreated2" to="disshabCreated">
 		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-		   <from>editor@myserver.de</from>
+		   <from>MCR.WorkflowEngine.xmetadiss.from</from>
 		   <to>initiator</to>
-		   <replyTo>editor@myserver.de</replyTo>
-		   <subject>Sie müssen bei Ihrer Dissertation Daten ergänzen</subject>
+		   <replyTo>MCR.WorkflowEngine.xmetadiss.from</replyTo>
+		   <subject>MCR.WorkflowEngine.xmetadiss.subject</subject>
 		   <!-- <body>Mustertext</body> -->
 		   <jbpmVariableName>tmpTaskMessage</jbpmVariableName>
 		</action>     
@@ -115,10 +115,10 @@
      <task name="taskRequireSignedAffirmation" swimlane="disseditor" />
      <transition name="go2checkNonDigitalRequirements" to="checkNonDigitalRequirements">
 		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-		   <from>editor@myserver.de</from>
+		   <from>MCR.WorkflowEngine.xmetadiss.from</from>
 		   <to>initiator</to>
-		   <replyTo>editor@myserver.de</replyTo>
-		   <subject>Sie müssen noch das Formblatt zur Abgabe elektronischer Dissertationen abgeben</subject>
+		   <replyTo>MCR.WorkflowEngine.xmetadiss.from</replyTo>
+		   <subject>MCR.WorkflowEngine.xmetadiss.subject.aff</subject>
 		   <!-- <body>Mustertext</body> -->
 		   <jbpmVariableName>tmpTaskMessage</jbpmVariableName>
    		   <dateOfSubmissionVariable>lastRequiredAffirmation</dateOfSubmissionVariable>
@@ -151,11 +151,12 @@
   <task-node name="adminCheck">
      <event type='node-enter'>
 		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-		   <from>editor@myserver.de</from>
-		   <to>administrator@myserver.de</to>
-		   <replyTo>editor@myserver.de</replyTo>
-		   <subject>Probleme beim Veröffentlichen einer Dissertation</subject>
-		   <body>Eine Dissertation konnte nicht veröffentlicht werden.</body>
+		   <from>MCR.WorkflowEngine.xmetadiss.from</from>
+		   <to>MCR.WorkflowEngine.xmetadiss.to</to>
+		   <from>MCR.WorkflowEngine.xmetadiss.from</from>
+		   <subject>MCR.WorkflowEngine.xmetadiss.subject.admin</subject>
+		   <body>MCR.WorkflowEngine.xmetadiss.body.admin</body>
+           <jbpmVariableName>createdDocID</jbpmVariableName>
 		</action>          
      </event>
      <task name="taskAdminCheckCommitmentNotSuccessFul" swimlane="technicalAdministration" />
@@ -165,11 +166,11 @@
   <task-node name="disshabCommitted">
      <event type='node-enter'>
 		<action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRSendmailActionXmetadiss">
-		   <from>editor@myserver.de</from>
+		   <from>MCR.WorkflowEngine.xmetadiss.from</from>
 		   <to>initiator</to>
-		   <replyTo>editor@myserver.de</replyTo>
-		   <subject>Ihre elektronische Dissertation wurde erfolgreich veröffentlicht</subject>
+		   <subject>MCR.WorkflowEngine.xmetadiss.subject.commit</subject>
 		   <!-- <body>dynamic</body> -->
+           <jbpmVariableName>createdDocID</jbpmVariableName>
 		   <mode>success</mode>
 		</action> 
      </event>     

@@ -100,7 +100,7 @@
 		   <from>MCR.WorkflowEngine.publication.from</from>
 		   <to>initiator</to>
 		   <replyTo>MCR.WorkflowEngine.publication.replyto</replyTo>
-		   <subject>Sie müssen bei Ihrer Publikation Daten ergänzen</subject>
+           <subject>MCR.WorkflowEngine.publication.subject.sendback</subject>
 		   <!-- <body>Mustertext</body> -->
 		   <jbpmVariableName>tmpTaskMessage</jbpmVariableName>
 		</action>     
@@ -134,8 +134,8 @@
 		   <from>MCR.WorkflowEngine.publication.from</from>
 		   <to>MCR.WorkflowEngine.publication.admin</to>
 		   <replyTo>MCR.WorkflowEngine.publication.from</replyTo>
-		   <subject>Probleme beim Veröffentlichen einer Publikation</subject>
-		   <body>Eine Publikation konnte nicht veröffentlicht werden.</body>
+		   <subject>MCR.WorkflowEngine.publication.subject.admin</subject>
+		   <body>MCR.WorkflowEngine.publication.body.admin</body>
 		</action>          
      </event>
      <task name="taskAdminCheckCommitmentNotSuccessFul" swimlane="technicalAdministration" />
@@ -148,7 +148,7 @@
 		   <from>MCR.WorkflowEngine.publication.from</from>
 		   <to>initiator</to>
 		   <replyTo>MCR.WorkflowEngine.publication.from</replyTo>
-		   <subject>Ihre Publikation wurde erfolgreich veröffentlicht</subject>
+           <subject>MCR.WorkflowEngine.publication.subject.commit</subject>
 		   <!-- <body>dynamic</body> -->
 		   <mode>success</mode>
 		</action>   
@@ -163,7 +163,6 @@
            <varnameERROR>CLEANUPERROR</varnameERROR>
         </action>               
      </event>   
-  </end-state>
-  
+  </end-state>  
   
 </process-definition>

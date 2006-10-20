@@ -90,8 +90,9 @@
 	   <from>MCR.WorkflowEngine.registeruser.from</from>
 	   <to>MCR.WorkflowEngine.registeruser.to</to>
 	   <replyTo>MCR.WorkflowEngine.registeruser.from</replyTo>
-       <subject>Probleme beim Anlegen des Nutzer</subject>
-       <body>Die Nuterdaten konnten nicht angelegt werden.</body>
+       <subject>MCR.WorkflowEngine.registeruser.subject</subject>
+       <body>MCR.WorkflowEngine.registeruser.body.admin</body>
+       <jbpmVariableName>initiatorUserID</jbpmVariableName>       
     </action>          
      </event>
      <task name="taskAdminCheckCommitmentNotSuccessfull" swimlane="technicalAdministration" />
@@ -104,8 +105,9 @@
 	   <from>MCR.WorkflowEngine.registeruser.from</from>
 	   <to>MCR.WorkflowEngine.registeruser.to</to>
 	   <replyTo>MCR.WorkflowEngine.registeruser.replyTo</replyTo>
-       <subject>Probleme beim Ablehnen des Nutzer</subject>
-       <body>Die Nuterdaten konnten nicht entfernt werden.</body>
+       <subject>MCR.WorkflowEngine.registeruser.subject</subject>
+       <body>MCR.WorkflowEngine.registeruser.body.admin</body>
+       <jbpmVariableName>initiatorUserID</jbpmVariableName>       
     </action>          
      </event>
      <task name="taskAdminCheckRejectSuccessfull" swimlane="technicalAdministration" />
@@ -118,9 +120,9 @@
       <action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
          <from>MCR.WorkflowEngine.registeruser.from</from>
          <to>initiator</to>
-	   <replyTo>MCR.WorkflowEngine.registeruser.replyTo</replyTo>
-         <subject>Ablehnung der Nutzeranmeldung für die Digitalen Bibliothek @libri</subject>
-         <body>Ihre Nutzerdaten wurden nicht in das System eingestellt.</body>
+	     <replyTo>MCR.WorkflowEngine.registeruser.replyTo</replyTo>
+         <subject>MCR.WorkflowEngine.registeruser.subject</subject>
+         <body>MCR.WorkflowEngine.registeruser.body.reject</body>
          <jbpmVariableName>tmpTaskMessage</jbpmVariableName>
       </action>     
      </transition>
@@ -132,9 +134,9 @@
        <from>MCR.WorkflowEngine.registeruser.from</from>
        <to>initiator</to>
 	   <replyTo>MCR.WorkflowEngine.registeruser.replyTo</replyTo>
-       <subject>Nutzeranmeldung in der Digitalen Bibliothek @libri</subject>
-       <body>Ihre Nutzerdaten wurden in das System eingestellt. Sie können sich mit Ihrem Bibliotheksaccount anmelden.</body>
-       <!-- <body>Mustertext</body> -->
+       <subject>MCR.WorkflowEngine.registeruser.subject</subject>
+       <body>MCR.WorkflowEngine.registeruser.body.commit</body>
+       <jbpmVariableName>initiatorUserID</jbpmVariableName>       
        <mode>success</mode>
      </action>     
      <action class="org.mycore.frontend.workflowengine.jbpm.MCRCleanUpWorkflowAction">

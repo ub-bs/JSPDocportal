@@ -101,7 +101,7 @@
 		   <from>MCR.WorkflowEngine.author.from</from>
 		   <to>initiator</to>
 		   <replyTo>MCR.WorkflowEngine.author.replyTo</replyTo>
-		   <subject>Unvollständige Angaben zur Eingabe ihres Authors</subject>
+		   <subject>MCR.WorkflowEngine.author.subject.sendback</subject>
            <body>Messagetext</body>  
 		   <jbpmVariableName>tmpTaskMessage</jbpmVariableName>
 		</action>     
@@ -134,8 +134,8 @@
 		   <from>MCR.WorkflowEngine.author.from</from>
 		   <to>MCR.WorkflowEngine.author.to</to>
 		   <replyTo>MCR.WorkflowEngine.author.replyTo</replyTo>
-		   <subject>Probleme beim Anlegen eines Autors</subject>
-		   <body>Ein Autor konnte nicht angelegt werden.</body>
+           <subject>MCR.WorkflowEngine.author.subject.admin</subject>
+           <body>MCR.WorkflowEngine.author.body.admin</body>
 		</action>          
      </event>
      <task name="taskAdminCheckCommitmentNotSuccessFul" swimlane="technicalAdministration" />
@@ -147,8 +147,8 @@
 		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
 		   <from>MCR.WorkflowEngine.author.replyTo</from>
 		   <to>initiator</to>
-		   <subject>Ihr Autor wurde erfolgreich angelegt.</subject>
-		   <body>Ich, ${Author.P3}, wünsche viel Erfolg bei der Arbeit!</body>
+           <subject>MCR.WorkflowEngine.author.subject.commit</subject>
+           <body>MCR.WorkflowEngine.author.body.commit</body>
 		   <mode>success</mode>
 		</action> 
      </event>     

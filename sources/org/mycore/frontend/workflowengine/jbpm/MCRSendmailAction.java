@@ -25,7 +25,7 @@ public class MCRSendmailAction implements ActionHandler{
 	public void execute(ExecutionContext executionContext) throws MCRException {
 		String myreplyTo="";
 		String mybcc ="";
-		
+		String mybody =null;
 		//Either in the variable is the ConfigString or the real value
 		String myfrom = MCRConfiguration.instance().getString(from,from);
 		String myto = MCRConfiguration.instance().getString(to,to);
@@ -33,6 +33,10 @@ public class MCRSendmailAction implements ActionHandler{
 			myreplyTo = MCRConfiguration.instance().getString(replyTo,replyTo);
 		if ( bcc != null)
 			mybcc = MCRConfiguration.instance().getString(bcc,bcc);
+		String mysubject = MCRConfiguration.instance().getString(subject,subject);
+		
+		if ( body != null )
+			mybody = MCRConfiguration.instance().getString(body, body);
 		
 		MCRJbpmSendmail.sendMail(myfrom, myto, myreplyTo, mybcc, subject,
 				body, mode, jbpmVariableName, dateOfSubmissionVariable, executionContext);

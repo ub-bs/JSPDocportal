@@ -79,7 +79,7 @@
 		   <from>MCR.WorkflowEngine.institution.from</from>
 		   <to>initiator</to>
 		   <replyTo>MCR.WorkflowEngine.institution.replyTo</replyTo>
-		   <subject>Unvollständige Angaben zur Eingabe der Institution</subject>
+		   <subject>MCR.WorkflowEngine.institution.subject.sendback</subject>
            <body>Messagetext</body>  
 		   <jbpmVariableName>tmpTaskMessage</jbpmVariableName>
 		</action>     
@@ -112,8 +112,8 @@
 		   <from>MCR.WorkflowEngine.institution.from</from>
 		   <to>MCR.WorkflowEngine.institution.to</to>
 		   <replyTo>MCR.WorkflowEngine.institution.replyTo</replyTo>
-		   <subject>Probleme beim Anlegen eines Autors</subject>
-		   <body>Ein Autor konnte nicht angelegt werden.</body>
+           <subject>MCR.WorkflowEngine.institution.subject.admin</subject>
+           <body>MCR.WorkflowEngine.institution.body.admin</body>
 		</action>          
      </event>
      <task name="taskAdminCheckCommitNotSuccessful" swimlane="technicalAdministration" />
@@ -125,8 +125,8 @@
 		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
 		   <from>MCR.WorkflowEngine.institution.from</from>
 		   <to>initiator</to>
-		   <subject>Ihre Institution wurde erfolgreich angelegt.</subject>
-		   <body>Ich, ${Author.P3}, wünsche viel Erfolg bei der Arbeit!</body>
+           <subject>MCR.WorkflowEngine.institution.subject.commit</subject>
+           <body>MCR.WorkflowEngine.institution.body.commit</body>
 		   <mode>success</mode>
 		</action> 
      </event>     

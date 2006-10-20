@@ -59,6 +59,17 @@ public class MCRJbpmSendmail{
 		if(jbpmVariableName != null && !jbpmVariableName.equals("")){
 			body += executionContext.getVariable(jbpmVariableName);  
 		}
+		try {
+			String id = (String)executionContext.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
+			String title = (String)executionContext.getVariable(MCRWorkflowConstants.WFM_VAR_WFOBJECT_TITLE);
+			if ( title != null)
+				body += "\nTitel: '" + title + "'";
+			if ( id != null)
+				body += " ID: " + id;
+		} catch ( Exception all) {
+			;
+		}
+		
 		if(body.equals("")){
 			String errMsg = "no body for mail was given";
 			logger.error(errMsg);
