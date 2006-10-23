@@ -32,7 +32,7 @@
     <hidden var="metadata/titles/@heritable" default="true" />
 
     <cell col="1" row="1" var="metadata/titles/title" >
-       <repeater min="4" max="15" ref="RTitle" />
+       <repeater min="1" max="4" ref="RTitle" />
     </cell>
 
   </panel>
