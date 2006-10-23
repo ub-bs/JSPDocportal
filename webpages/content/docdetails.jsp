@@ -14,7 +14,7 @@
 <c:set var="offset" value="${param.offset}" />
 <c:set var="size" value="${param.size}" />
 <c:set var="debug" value="${param.debug}" />
-<c:set var="from"  value="${param.from}" /> 
+<c:set var="from"  value="${param.fromWForDB}" /> 
 <c:set var="path"  value="${param.path}" /> 
 
 <c:set var="type" value="${fn:split(mcrid,'_')[1]}"/>
