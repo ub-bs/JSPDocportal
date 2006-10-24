@@ -80,6 +80,15 @@
       </cell>
       <cell col="4" row="70" anchor="WEST" ref="HKeywords" />
 
+      <cell col="1" row="73" anchor="NORTHWEST" ref="LSubjects" />
+      <cell col="2" row="73" colspan="2" anchor="NORTHWEST" ref="DSubjects" sortnr="4" />    
+      <cell col="4" row="73" anchor="NORTHEAST" ref="HSubject" />
+      
+      <cell col="1" row="77" anchor="NORTHWEST" ref="Lbkl" />
+      <cell col="2" row="77" colspan="2" anchor="NORTHWEST" ref="Dbkl" sortnr="41"  />
+      <cell col="4" row="77" anchor="WEST" ref="Hbkl" />
+
+
 
       <cell col="1" row="80" anchor="NORTHWEST" ref="LDescription"  />
       <cell col="2" row="80" anchor="NORTHWEST" ref="DDescription" sortnr="6"  />
@@ -123,12 +132,12 @@
       </cell>
       <cell col="4" row="119" anchor="WEST" ref="HNote" />
       
-      <cell col="1" row="120" anchor="NORTHWEST" ref="LCitation" />
+<!--       <cell col="1" row="120" anchor="NORTHWEST" ref="LCitation" />
       <cell col="2" row="120" anchor="NORTHWEST" ref="DCitation" sortnr="35"  />
       <cell col="3" row="120" anchor="NORTHWEST">
         <space width="20" height="0" />
       </cell>
-      <cell col="4" row="120" anchor="WEST" ref="HCitation" />
+      <cell col="4" row="120" anchor="WEST" ref="HCitation" /> -->
       
       
       <cell col="1" row="121"  colspan="4" anchor="WEST" ref="DHiddenFields" sortnr="26">      
