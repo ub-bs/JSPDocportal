@@ -22,4 +22,8 @@
     <MCRDocDetail rowtype="standard" labelkey="OMD.id" >
         <MCRDocDetailContent xpath="/mycoreobject/@ID" templatetype="tpl-text-values" separator=", " languageRequired="no" />
     </MCRDocDetail> 
+    <MCRDocDetail rowtype="standard" labelkey="OMD.documents-by-institution" >
+        <MCRDocDetailContent xpath="/mycoreobject/@ID,/mycoreobject/metadata/names/name/fullname" templatetype="tpl-authorjoin" separator="" terminator="" languageRequired="no" />
+    </MCRDocDetail>         
+    
 </MCRDocDetails>
