@@ -1,3 +1,9 @@
+//Umlaute und Sonderzeichen in Messageboxen müssen mit unescape() und folgenden 
+//Ersetzungen erzeugt werden:
+//Ä %C4 	Ö %D6 		Ü %DC 
+//ä %E4 	ö %F6 		ü %FC 
+//ß %DF 	? %u20AC 	$ %24 	% %25 
+
      function checkEmail()	{
 	    var val = document.setvar.initiatorEmail.value;
     	if ( val.indexOf('@') > 0 ) {
@@ -5,20 +11,20 @@
     		//document.setvar.submit.disabled=false;
     		return true;
     	}else {
-    	    alert("Bitte geben Sie eine g?ltige Emailadresse ein.");
+    	    alert(unescape("Bitte geben Sie eine g%FCltige Emailadresse ein."));
     		return false;
 		}    	
 	  }
 
 	  function checkText()	{	  
-    	if ( document.setvar.tmpTaskMessage.value !=  'Sie m?ssen noch...'  ) {
+    	if ( document.setvar.tmpTaskMessage.value !=  'Sie müssen noch...'  ) {
     		return true;
     	}
    		return false;		    	
 	  }	  
   
   function reallyDeletefromDB() {
-	return confirm("Achtung! \n Das gesamte Dokument wird damit aus der Digitalen Bibliothek gel?scht!");
+	return confirm(unescape("Achtung! \n Das gesamte Dokument wird damit aus der Digitalen Bibliothek gel%F6scht!"));
   }
 
   function showHelp(ID) {
@@ -33,24 +39,24 @@
   }
     
   function checkMyFormUser()	{
-    var prefix="/mycoreuser/user/"
+    var prefix='/mycoreuser/user/'
     var elAnz = document.forms[0].length;	
     var ret=true;
     for (var i = 0; i < elAnz; ++i){
     	var myElem = document.forms[0].elements[i];
-    	var type = myElem.getAttribute("class");
-    	if ( type=="mandatory" ){    
-    	    if ( myElem.value==null || myElem.value=="" ) {
-				document.forms[0].elements[i].setAttribute("style", "background-color: rgb(255,240,240); background: rgb(255,240,240); ");	
+    	var type = myElem.className;
+    	if ( type=='mandatory' ){    
+    	    if ( myElem.value==null || myElem.value==('') ) {
+				myElem.style.backgroundColor='rgb(255,240,240)';
 				ret=false;
 			} else {
 			 //reset if fails in former time
-	  		 document.forms[0].elements[i].setAttribute("style", "background-color: rgb(255,255,255); background: rgb(255,255,255); ");	    	
+ 	 			 myElem.style.backgroundColor='rgb(255,255,255)';
 	  		}
     	}
     	
     }
-    if ( !ret )	alert("Es fehlen einige Pflichtangaben. \n Diese markierten Felder bitte ausfuellen." );      
+    if ( !ret )	alert(unescape("Es fehlen einige Pflichtangaben. \n Bitte f%FCllen Sie die markierten Felder aus." ));      
 	return ret;
   }
 
@@ -60,19 +66,19 @@
     var ret=true;
     for (var i = 0; i < elAnz; ++i){
     	var myElem = document.forms[0].elements[i];
-    	var type = myElem.getAttribute("class");
+    	var type = myElem.className;
     	if ( type=="mandatory" ){    
     	    if ( myElem.value==null || myElem.value=="" ) {
-				document.forms[0].elements[i].setAttribute("style", "background-color: rgb(255,240,240); background: rgb(255,240,240); ");	
+				myElem.style.backgroundColor='rgb(255,240,240)';
 				ret=false;
 			} else {
 			 //reset if fails in former time
-	  		 document.forms[0].elements[i].setAttribute("style", "background-color: rgb(255,255,255); background: rgb(255,255,255); ");	    	
+	  		   myElem.style.backgroundColor='rgb(255,255,255)';
 	  		}
     	}
     	
     }
-    if ( !ret )	alert("Es fehlen einige Pflichtangaben. \n Bitte f?llen Sie die markierten Felder aus." );      
+    if ( !ret )	alert(unescape("Es fehlen einige Pflichtangaben. \n Bitte f%FCllen Sie die markierten Felder aus." ));      
 	return ret;
   }
   
