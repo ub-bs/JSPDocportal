@@ -1,5 +1,9 @@
 package org.mycore.frontend.workflowengine.jbpm;
 
+import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+
 import org.jbpm.graph.def.ActionHandler;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.mycore.common.MCRConfiguration;
@@ -33,12 +37,24 @@ public class MCRSendmailAction implements ActionHandler{
 			myreplyTo = MCRConfiguration.instance().getString(replyTo,replyTo);
 		if ( bcc != null)
 			mybcc = MCRConfiguration.instance().getString(bcc,bcc);
-		String mysubject = MCRConfiguration.instance().getString(subject,subject);
+		ResourceBundle rb = ResourceBundle.getBundle("messages", new Locale("de"));
 		
-		if ( body != null )
-			mybody = MCRConfiguration.instance().getString(body, body);
+		String mysubject = null;
+		try{
+			mysubject = rb.getString(subject);
+		}
+		catch(MissingResourceException mre){
+			mysubject = subject;
+		}
+		if ( body != null ){
+			try{
+				mybody = rb.getString(body);
+			}catch(MissingResourceException mre){
+				mybody = body;	
+			}
+		}
 		
-		MCRJbpmSendmail.sendMail(myfrom, myto, myreplyTo, mybcc, subject,
-				body, mode, jbpmVariableName, dateOfSubmissionVariable, executionContext);
+		MCRJbpmSendmail.sendMail(myfrom, myto, myreplyTo, mybcc, mysubject,
+				mybody, mode, jbpmVariableName, dateOfSubmissionVariable, executionContext);
 	}
 }

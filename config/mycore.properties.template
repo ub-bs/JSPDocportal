@@ -29,6 +29,8 @@ MCR.WorkflowEngine.WorkflowTypes=publication, xmetadiss, registeruser, author, i
 ####################################################################
 # Workflow Author
 ####################################################################
+MCR.WorkflowEngine.newtaskemail.author=authEdit@mycore.de
+MCR.WorkflowEngine.contactemail.author=authEdit@mycore.de
 MCR.WorkflowEngine.author.admin=authAdmin@mycore.de
 MCR.WorkflowEngine.author.from=authEdit@mycore.de
 MCR.WorkflowEngine.author.replyto=authEdit@mycore.de
@@ -48,6 +50,7 @@ MCR.WorkflowEngine.defaultACL.editorMode.author=<conditions format="xml"><boolea
 ####################################################################
 # Workflow Institution
 ####################################################################
+MCR.WorkflowEngine.newtaskemail.institution=instEdit@mycore.de
 MCR.WorkflowEngine.contactemail.institution=instFragen@mycore.de
 MCR.WorkflowEngine.institution.admin=instAdmin@mycore.de
 MCR.WorkflowEngine.institution.from=instEdit@mycore.de
@@ -63,6 +66,8 @@ MCR.WorkflowEngine.defaultACL.editorMode.institution=<conditions format="xml"><b
 ####################################################################
 # Workflow Publication
 ####################################################################
+MCR.WorkflowEngine.newtaskemail.publication=pubEdit@mycore.de
+MCR.WorkflowEngine.contactemail.publication=pubFragen@mycore.de
 MCR.WorkflowEngine.publication.admin=pubAdmin@mycore.de
 MCR.WorkflowEngine.publication.from=pubEdit@mycore.de
 MCR.WorkflowEngine.publication.replyto=pubEdit@mycore.de
@@ -87,8 +92,10 @@ MCR.nbn.nissprefix.publication=document
 ####################################################################
 # Workflow xMetaDiss
 ####################################################################
+MCR.WorkflowEngine.newtaskemail.xmetadiss=disshabEdit@mycore.de
+MCR.WorkflowEngine.contactemail.xmetadiss=disshabFragen@mycore.de
 MCR.WorkflowEngine.xmetadiss.admin=disshabAdmin@mycore.de
-MCR.WorkflowEngine.xmetadiss.from=disshabAdmin@mycore.de
+MCR.WorkflowEngine.xmetadiss.from=disshabEdit@mycore.de
 MCR.WorkflowEngine.xmetadiss.replyto=disshabAdmin@mycore.de
 ####################################################################
 # acl-properties

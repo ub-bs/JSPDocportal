@@ -74,6 +74,14 @@
         <action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRDisshabSubmittedAction">
            <lockedVariables>initiator,createdDocID,authorID,reservatedURN,attachedDerivates</lockedVariables>
         </action>
+        <action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+		   <from>MCR.WorkflowEngine.Administrator.Email</from>
+		   <to>MCR.WorkflowEngine.newtaskemail.registeruser</to>
+		   <replyTo>MCR.WorkflowEngine.Administrator.Email</replyTo>
+		   <subject>MCR.WorkflowEngine.registeruser.subject.newtask</subject>
+           <body>MCR.WorkflowEngine.registeruser.body.newtask</body>  
+		</action>     
+        
      </event> 
      <task name="taskCheckCompleteness" swimlane="disseditor">
      </task> 

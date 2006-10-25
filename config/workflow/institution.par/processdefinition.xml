@@ -61,6 +61,14 @@
         <action class="org.mycore.frontend.workflowengine.jbpm.institution.MCRInstitutionSubmittedAction">
            <lockedVariables>initiator,createdDocID</lockedVariables>
         </action>
+        <action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+		   <from>MCR.WorkflowEngine.Administrator.Email</from>
+		   <to>MCR.WorkflowEngine.newtaskemail.institution</to>
+		   <replyTo>MCR.WorkflowEngine.Administrator.Email</replyTo>
+		   <subject>MCR.WorkflowEngine.institution.subject.newtask</subject>
+           <body>MCR.WorkflowEngine.institution.body.newtask</body>  
+		</action>     
+        
      </event> 
      <task name="taskCheckCompleteness" swimlane="adminInstitution"/>
      <transition name="go2SendBackToInstitutionCreated" to="tnSendBackToInstitutionCreated" >
