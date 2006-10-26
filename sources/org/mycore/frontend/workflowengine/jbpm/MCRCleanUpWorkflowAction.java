@@ -22,9 +22,14 @@ public class MCRCleanUpWorkflowAction implements ActionHandler{
 			if(!WFM.removeWorkflowFiles(executionContext.getContextInstance())) {					
 				executionContext.getContextInstance().setVariable(varnameERROR, "error in committing object [" + mcrid + "]");
 			}
-			// delete the whole process
-            //leads to exception - confused with different jbpmcontext instances, ... (the usual friends)
-            //WFM.deleteWorkflowProcessInstance(executionContext.getContextInstance().getId());
+			else{
+				//everything is OK
+				// delete the whole process
+            	//leads to exception - confused with different jbpmcontext instances, ... (the usual friends)
+           		// WFM.deleteWorkflowProcessInstance(executionContext.getContextInstance().getId());
+				executionContext.getJbpmContext().getGraphSession().deleteProcessInstance(executionContext.getProcessInstance());
+			}
+		
 		}catch(Exception e){
 			String errMsg = "could not cleanup the workflow from  object";
 			executionContext.getContextInstance().setVariable(varnameERROR, errMsg);
