@@ -1,9 +1,12 @@
 package org.mycore.frontend.workflowengine.jbpm.publication;
 
 import java.util.Locale;
+import java.util.MissingResourceException;
 import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 
 import org.jbpm.graph.exe.ExecutionContext;
+import org.mycore.common.MCRConfiguration;
 import org.mycore.frontend.workflowengine.jbpm.MCRAbstractAction;
 import org.mycore.frontend.workflowengine.jbpm.MCRJbpmSendmail;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
@@ -26,9 +29,29 @@ public class MCRSendmailActionPublication  extends MCRAbstractAction {
 	
 	
 	public void executeAction(ExecutionContext executionContext) {
-		body = getBody(executionContext, mode);
-		MCRJbpmSendmail.sendMail(from, to, replyTo, bcc, subject,
-				body, mode, jbpmVariableName, dateOfSubmissionVariable, executionContext);
+		String myreplyTo="";
+		String mybcc ="";
+		String mybody =null;
+		//Either in the variable is the ConfigString or the real value
+		String myfrom = MCRConfiguration.instance().getString(from,from);
+		String myto = MCRConfiguration.instance().getString(to,to);
+		if ( replyTo != null )
+			myreplyTo = MCRConfiguration.instance().getString(replyTo,replyTo);
+		if ( bcc != null)
+			mybcc = MCRConfiguration.instance().getString(bcc,bcc);
+		ResourceBundle rb = ResourceBundle.getBundle("messages", new Locale("de"));
+		
+		String mysubject = null;
+		try{
+			mysubject = rb.getString(subject);
+		}
+		catch(MissingResourceException mre){
+			mysubject = subject;
+		}
+		
+		mybody = getBody(executionContext, mode);
+		MCRJbpmSendmail.sendMail(myfrom, myto, myreplyTo, mybcc, mysubject,
+				mybody, mode, jbpmVariableName, dateOfSubmissionVariable, executionContext);
 	}
 	
 	/**
