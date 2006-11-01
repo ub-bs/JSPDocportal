@@ -733,8 +733,14 @@ public class MCRResultFormatter {
         	metaValues.setAttribute("type","messagekey");
     		return metaValues;
     	}
-    	if (templatetype.equals("tpl-text-values"))
-    		return getXPathValues(doc,xpath,separator,terminator,lang,introkey,escapeXml,start);
+    	if (templatetype.equals("tpl-text-values")){
+    	    Element result = getXPathValues(doc,xpath,separator,terminator,lang,introkey,escapeXml,start);
+            if(result.getContentSize()==0){
+                result = getXPathValues(doc,xpath,separator,terminator,"",introkey,escapeXml,start); 
+            }
+            return result;
+        }
+    	
     	if (templatetype.equals("tpl-classification"))
     		return getLinkedCategoryTexts(doc,xpath,separator,terminator,lang,escapeXml);
     	if (templatetype.startsWith("tpl-date-values"))
