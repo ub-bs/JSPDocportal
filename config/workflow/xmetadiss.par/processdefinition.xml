@@ -173,13 +173,12 @@
 
   <task-node name="disshabCommitted">
      <event type='node-enter'>
-		<action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRSendmailActionXmetadiss">
+		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
 		   <from>MCR.WorkflowEngine.xmetadiss.from</from>
 		   <to>initiator</to>
 		   <subject>MCR.WorkflowEngine.xmetadiss.subject.commit</subject>
-		   <!-- <body>dynamic</body> -->
+		   <body>MCR.WorkflowEngine.institution.body.commit</body>
            <jbpmVariableName>createdDocID</jbpmVariableName>
-		   <mode>success</mode>
 		</action> 
      </event>     
      <transition name="go2cleanUpWorkingDirectory" to="cleanUpWorkingDirectory" />     

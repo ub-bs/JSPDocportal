@@ -1,10 +1,12 @@
 package org.mycore.frontend.workflowengine.jbpm.publication;
 
+import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
+import org.apache.poi.hssf.model.TextboxShape;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.frontend.workflowengine.jbpm.MCRAbstractAction;
@@ -63,30 +65,25 @@ public class MCRSendmailActionPublication  extends MCRAbstractAction {
 		String ret = "";
 		String lang = "de";
 		if(mode.equals("success")){
-			String inLang = (String)executionContext.getVariable("initiatorLanguage"); 
+			ResourceBundle messages =ResourceBundle.getBundle("messages", new Locale(lang)); 
+            String inLang = (String)executionContext.getVariable("initiatorLanguage"); 
 			if( inLang != null && !inLang.equals("")){
 				lang = inLang;
 			}
 			String salutation = (String)executionContext.getVariable("salutation");
-			String id = (String)executionContext.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
-			String title = (String)executionContext.getVariable(MCRWorkflowConstants.WFM_VAR_WFOBJECT_TITLE);
+			//String id = (String)executionContext.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
+			//String title = (String)executionContext.getVariable(MCRWorkflowConstants.WFM_VAR_WFOBJECT_TITLE);
 			if(salutation != null)
 				ret += salutation + "\r\n\r\n";
 			else
-				ret += "Sehr geehrte(r) Autor(in)";
-			String body = " Ihre Publikation '" + title + "' (" + id + ") wurde angenommen und publiziert.";
-			try {
-				body = PropertyResourceBundle.getBundle("messages", new Locale(lang)).getString("WF.Mails.SuccessMessage.publication");
-			} catch (java.util.MissingResourceException mRE) {
-				// ignore and take the standard text
-				;
-			}
-			
+				ret += messages.getString("MCR.WorkflowEngine.publication.body.salutation");
+			String body = messages.getString("MCR.WorkflowEngine.publication.subject.commit");
+						
 			if(body != null)
 				ret += body + "\r\n\r\n";
 			String footer = PropertyResourceBundle.getBundle("messages", new Locale(lang)).getString("WF.Mails.Footer");
 			if(footer != null)
-				ret += footer;
+				ret += footer + "\r\n\r\n";
 		}
 		if(ret != null)
 			return ret;

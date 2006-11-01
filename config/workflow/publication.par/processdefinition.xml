@@ -152,13 +152,12 @@
 
   <task-node name="documentCommitted">
      <event type='node-enter'>
-		<action class="org.mycore.frontend.workflowengine.jbpm.publication.MCRSendmailActionPublication">
+		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
 		   <from>MCR.WorkflowEngine.publication.from</from>
 		   <to>initiator</to>
 		   <replyTo>MCR.WorkflowEngine.publication.from</replyTo>
            <subject>MCR.WorkflowEngine.publication.subject.commit</subject>
-		   <!-- <body>dynamic</body> -->
-		   <mode>success</mode>
+		   <body>MCR.WorkflowEngine.publication.body.commit</body>
 		</action>   
      </event> 
      <transition name="go2cleanUpWorkingDirectory" to="cleanUpWorkingDirectory" />     
