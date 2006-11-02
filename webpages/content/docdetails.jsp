@@ -64,7 +64,6 @@
  </c:otherwise> 
 </c:choose>
 
-
 <mcr:checkAccess permission="read" var="readAccess" key="${mcrid}" />
 <mcr:docDetails mcrObj="${mycoreobject}" var="docDetails" lang="${requestScope.lang}" style="${style}" />
 	
@@ -102,8 +101,13 @@
 
  <tr valign = "bottom" >
   <td>
-  <c:choose>
-   <c:when test="${readAccess}">
+  <mcr:session var="curUserID" method="get" type="userID"/>
+  <x:forEach select="$docDetails">
+  	  	<x:set var="currentID" select="./@ID" />
+  </x:forEach>
+
+   <c:choose>
+   <c:when test="${readAccess or fn:contains(currentID, curUserID)}">
     <table cellspacing="0" cellpadding="0" id="metaData">
     <x:forEach select="$docDetails//metaname">
       <x:choose>
@@ -222,14 +226,15 @@
     </x:forEach>
    
    <!-- show link for this page -->
-    <tr><td colspan="2" class="metanone">&nbsp;</td></tr>     
-   <tr>
-   		<td class="metaname"> <fmt:message key="OMD.selflink" />:</td>
-        <td class="metavalue"><a href="${WebApplicationBaseURL}metadata/${param.id}">
-	          	${WebApplicationBaseURL}metadata/${param.id}
-	         </a>
-	</td>
-   </tr> 
+	<c:if test="${!fn:contains(style,'user')}">
+    	<tr><td colspan="2" class="metanone">&nbsp;</td></tr>     
+	   <tr>
+   			<td class="metaname"> <fmt:message key="OMD.selflink" />:</td>
+        	<td class="metavalue"><a href="${WebApplicationBaseURL}metadata/${param.id}">
+	          	${WebApplicationBaseURL}metadata/${param.id} </a>
+			</td>
+	   </tr> 
+	</c:if>
     
   </table>
    
@@ -242,7 +247,7 @@
  </td>
  <td>&nbsp;</td>
  <td align="center" >
-    <c:if test="${empty(param.print)}">
+     <c:if test="${empty(param.print) and !fn:contains(style,'user')}">
 		     <a href="${WebApplicationBaseURL}content/print_details.jsp?id=${param.id}&from=${param.fromWForDB}" target="_blank">
 	          	<img src="${WebApplicationBaseURL}images/workflow_print.gif" border="0" alt="<fmt:message key="WF.common.printdetails" />"  class="imagebutton" height="30"/>
 	         </a>
