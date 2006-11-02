@@ -336,6 +336,7 @@ MCR.metadata_objectid_number_pattern=00000000
 # ------- Editor
 
 MCR.default_project_id=DocPortal
+MCR.default_derivate_label=Anhang (Volltext)
 
 # ---- Browser
 #
