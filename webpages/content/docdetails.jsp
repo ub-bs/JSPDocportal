@@ -146,10 +146,12 @@
                            </x:otherwise>
                         </x:choose>
                      </x:forEach>
+                   
                      <x:if select="generate-id(../metavalues[position() = last()]) != generate-id(.)">
                         <x:out select="$terminator" escapeXml="false" />
                      </x:if>                               
                   </x:forEach>
+                  
 				<x:forEach select="./digitalobjects">
 				    <c:set var="label"  value="dummy" />
 					<table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -216,9 +218,21 @@
                </td>
             </tr>        
          </x:when>
-      </x:choose>
+      </x:choose>   
     </x:forEach>
+   
+   <!-- show link for this page -->
+    <tr><td colspan="2" class="metanone">&nbsp;</td></tr>     
+   <tr>
+   		<td class="metaname"> <fmt:message key="OMD.selflink" />:</td>
+        <td class="metavalue"><a href="${WebApplicationBaseURL}metadata/${param.id}">
+	          	${WebApplicationBaseURL}metadata/${param.id}
+	         </a>
+	</td>
+   </tr> 
+    
   </table>
+   
   </c:when>
   <c:otherwise>
 	    <fmt:message key="Webpage.error.NoAccessRight" />  
@@ -230,7 +244,7 @@
  <td align="center" >
     <c:if test="${empty(param.print)}">
 		     <a href="${WebApplicationBaseURL}content/print_details.jsp?id=${param.id}&from=${param.fromWForDB}" target="_blank">
-	          	<img src="${WebApplicationBaseURL}images/workflow_print.gif" border="0" alt="<fmt:message key="WF.common.printdetails" />"  class="imagebutton" />
+	          	<img src="${WebApplicationBaseURL}images/workflow_print.gif" border="0" alt="<fmt:message key="WF.common.printdetails" />"  class="imagebutton" height="30"/>
 	         </a>
    </c:if>
  
@@ -244,7 +258,7 @@
 	         <form method="get" action="${WebApplicationBaseURL}StartEdit" class="resort">                 
 	            <input name="page" value="nav?path=~workflowEditor-${type}"  type="hidden">                                       
 	            <input name="mcrid" value="${mcrid}" type="hidden"/>
-					<input title="<fmt:message key="WF.common.object.EditObject" />" border="0" src="${WebApplicationBaseURL}images/workflow1.gif" type="image"  class="imagebutton" />
+					<input title="<fmt:message key="WF.common.object.EditObject" />" border="0" src="${WebApplicationBaseURL}images/workflow1.gif" type="image"  class="imagebutton" height="30" />
 	         </form> 
          </c:when>
          <c:otherwise>
