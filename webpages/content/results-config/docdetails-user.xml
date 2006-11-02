@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <MCRDocDetails name="field definition for userdetails" >
+    <MCRDocDetail rowtype="hidden" labelkey="OMD.maintitle" >
+        <MCRDocDetailContent xpath="/user/@ID" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
+    </MCRDocDetail> 
     <MCRDocDetail rowtype="standard" labelkey="OMD.id" >
         <MCRDocDetailContent xpath="/user/@ID" templatetype="tpl-text-values" separator=", " languageRequired="no" />
     </MCRDocDetail> 

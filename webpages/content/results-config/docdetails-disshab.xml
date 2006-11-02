@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <MCRDocDetails name="field definition for documentdetails" >
+    <MCRDocDetail rowtype="hidden" labelkey="OMD.maintitle" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/titles/title" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
+    </MCRDocDetail> 
     <MCRDocDetail rowtype="standard" labelkey="OMD.identifiers" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/identifiers/identifier" templatetype="tpl-text-values" separator=", " languageRequired="no" />
     </MCRDocDetail> 

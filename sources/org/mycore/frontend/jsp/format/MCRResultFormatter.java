@@ -800,7 +800,8 @@ public class MCRResultFormatter {
             Element field = (Element) it.next();
             Element metaname = new Element("metaname");
             if (field.getAttributeValue("rowtype").equals("standard")
-	            || field.getAttributeValue("rowtype").equals("image")
+                || field.getAttributeValue("rowtype").equals("hidden")
+                || field.getAttributeValue("rowtype").equals("image")
 	            || field.getAttributeValue("rowtype").equals("children") 
 	            || field.getAttributeValue("rowtype").equals("table") ) {
             	
