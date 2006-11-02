@@ -14,9 +14,10 @@
 <c:set var="offset" value="${param.offset}" />
 <c:set var="size" value="${param.size}" />
 <c:set var="debug" value="${param.debug}" />
+<c:set var="print" value="${param.print}" />
 <c:set var="from"  value="${param.fromWForDB}" /> 
 <c:set var="path"  value="${param.path}" /> 
-
+<c:set var="style"  value="${param.style}" /> 
 <c:set var="type" value="${fn:split(mcrid,'_')[1]}"/>
 
 <c:choose>
@@ -25,7 +26,7 @@
 	<c:set var="type" value="user"/>
  </c:when>
  <c:otherwise>
-	<mcr:receiveMcrObjAsJdom var="mycoreobject" mcrid="${mcrid}" fromWForDB="${from}" />
+  	<mcr:receiveMcrObjAsJdom var="mycoreobject" mcrid="${mcrid}" fromWForDB="${from}" />
  </c:otherwise>
 </c:choose>
 
@@ -65,17 +66,22 @@
 
 
 <mcr:checkAccess permission="read" var="readAccess" key="${mcrid}" />
-
+<mcr:docDetails mcrObj="${mycoreobject}" var="docDetails" lang="${requestScope.lang}" style="${style}" />
+	
 <table class="${layout}" ><tr valign="top">
 <td>
 <table width="100%" >
  <tr>
    <td>
      <div class="headline">
-        <fmt:message key="OMD.${type}.title" />:
-         <mcr:simpleXpath jdom="${mycoreobject}" xpath="/mycoreobject/metadata/titles/title[@xml:lang='${requestScope.lang}']" />
+		 <fmt:message key="OMD.${type}.title" />:
+
+		 <x:forEach select="$docDetails//metaname[@name='OMD.maintitle']/metavalues/metavalue">
+		 	<x:out select="./@text" escapeXml="./@escapeXml" />
+		 </x:forEach> 
+<!--      <mcr:simpleXpath jdom="${mycoreobject}" xpath="/mycoreobject/metadata/titles/title[@xml:lang='${requestScope.lang}']" />
          <mcr:simpleXpath jdom="${mycoreobject}" xpath="/mycoreobject/metadata/names/name/fullname" />
-	     <mcr:simpleXpath jdom="${mycoreobject}" xpath="/user/@ID" />
+	     <mcr:simpleXpath jdom="${mycoreobject}" xpath="/user/@ID" /> -->
      </div>
    </td>
    <td width="30">&nbsp;</td>
@@ -98,7 +104,6 @@
   <td>
   <c:choose>
    <c:when test="${readAccess}">
-	<mcr:docDetails mcrObj="${mycoreobject}" var="docDetails" lang="${requestScope.lang}" style="${style}" />
     <table cellspacing="0" cellpadding="0" id="metaData">
     <x:forEach select="$docDetails//metaname">
       <x:choose>
@@ -161,7 +166,7 @@
 								   <br/><c:out value="${actlabel}" />
 								</div>
 							</td>	 
-						   <c:if test="${accessallowed}">
+						   <c:if test="${accessallowed and empty(param.print)}">
 							<td>
 							 <a href="<x:out select="concat($WebApplicationBaseURL,'zip?id=',$derivid)" />"
 								class="linkButton"><fmt:message key="OMD.zipgenerate" /></a>&#160;&#160;
@@ -223,6 +228,12 @@
  </td>
  <td>&nbsp;</td>
  <td align="center" >
+    <c:if test="${empty(param.print)}">
+		     <a href="${WebApplicationBaseURL}content/print_details.jsp?id=${param.id}&from=${param.fromWForDB}" target="_blank">
+	          	<img src="${WebApplicationBaseURL}images/workflow_print.gif" border="0" alt="<fmt:message key="WF.common.printdetails" />"  class="imagebutton" />
+	         </a>
+   </c:if>
+ 
    <c:if test="${!(fn:contains(from,'workflow')) && !fn:contains(style,'user')}" > 
      <mcr:checkAccess var="modifyAllowed" permission="writedb" key="${mcrid}" />
      <mcr:isObjectNotLocked var="bhasAccess" objectid="${mcrid}" />
