@@ -345,7 +345,7 @@ public class MCRResultFormatter {
 			        mcr_obj.receiveFromDatastore(person_id); 
 			        Element creator_root = mcr_obj.createXML().getRootElement();
 			        String creatorName = (String) XPath.selectSingleNode(creator_root,
-			            "concat(metadata/names/name/firstname,' ',metadata/names/name/surname)");
+			            "concat(metadata/names/name/fullname)");
 					Element metaValue = new Element("metavalue");
 					metaValue.setAttribute("href","");
 					metaValue.setAttribute("text",creatorName);			        
@@ -578,6 +578,7 @@ public class MCRResultFormatter {
 						metaValue.setAttribute("href", href);
 						metaValue.setAttribute("type",el.getName());
 						metaValue.setAttribute("text",title);
+						metaValue.setAttribute("target","new");						
 						metaValues.addContent(metaValue);			    	
 			    }
 			}
