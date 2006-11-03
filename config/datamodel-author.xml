@@ -29,31 +29,31 @@
   </element>
   <!-- 02 - Female -->
   <element name="females" minOccurs='0' maxOccurs='1' parasearch="true"
-   textsearch="false">
+   textsearch="true">
    <mcrmetaboolean name="female" class="MCRMetaBoolean"
     minOccurs='1' maxOccurs='1'/>
   </element>
   <!-- 03 - Institution -->
   <element name="institutions" minOccurs='1' maxOccurs='1' parasearch="true"
-   textsearch="false">
+   textsearch="true">
    <mcrmetaclassification name="institution" class="MCRMetaClassification"
     minOccurs='1' maxOccurs='unbounded'/>
   </element>
   <!-- 04 - Address -->
   <element name="addresses" minOccurs='0' maxOccurs='1' parasearch="true"
-   textsearch="false">
+   textsearch="true">
    <mcrmetaaddress name="address" class="MCRMetaAddress" minOccurs='1'
     maxOccurs='unbounded' length="64"/>
   </element>
   <!-- 05 - Phones -->
   <element name="phones" minOccurs='0' maxOccurs='1' parasearch="true"
-   textsearch="false">
+   textsearch="true">
    <mcrmetalangtext name="phone" class="MCRMetaLangText" minOccurs='1'
     maxOccurs='unbounded' length="32" />
   </element>
   <!-- 06 - Dates -->
   <element name="dates" minOccurs='0' maxOccurs='1' parasearch="true"
-   textsearch="false">
+   textsearch="true">
    <mcrmetaiso8601date name="date" class="MCRMetaISO8601Date" minOccurs='1'
     maxOccurs='unbounded'/>
   </element>
@@ -65,49 +65,49 @@
   </element>
   <!-- 08 - ProfClass -->
   <element name="profclasses" minOccurs='0' maxOccurs='1' parasearch="true"
-   textsearch="false">
+   textsearch="true">
    <mcrmetaclassification name="profclass" class="MCRMetaClassification" 
     minOccurs='1' maxOccurs='unbounded'/>
   </element>
   <!-- 09 - National -->
   <element name="nationals" minOccurs='0' maxOccurs='1' parasearch="true"
-   textsearch="false">
+   textsearch="true">
    <mcrmetaclassification name="national" class="MCRMetaClassification" 
     minOccurs='1' maxOccurs='unbounded'/>
   </element>
   <!-- 10 - URL -->
-  <element name="urls" minOccurs='0' maxOccurs='1' parasearch="false"
-   textsearch="false">
+  <element name="urls" minOccurs='0' maxOccurs='1' parasearch="true"
+   textsearch="true">
    <mcrmetalink name="url" class="MCRMetaLink" minOccurs='1'
     maxOccurs='unbounded'/>
   </element>
   <!-- 11 - eMail -->
-  <element name="emails" minOccurs='0' maxOccurs='1' parasearch="false"
-   textsearch="false">
+  <element name="emails" minOccurs='0' maxOccurs='1' parasearch="true"
+   textsearch="true">
    <mcrmetalangtext name="email" class="MCRMetaLangText" minOccurs='1'
     maxOccurs='unbounded' length="128"/>
   </element>
   <!-- 12 - Reference -->
-  <element name="references" minOccurs='0' maxOccurs='1' parasearch="false"
-   textsearch="false">
+  <element name="references" minOccurs='0' maxOccurs='1' parasearch="true"
+   textsearch="true">
    <mcrmetalink name="reference" class="MCRMetaLink" minOccurs='1'
     maxOccurs='unbounded'/>
   </element>
   <!-- 13 - Note -->
-  <element name="notes" minOccurs='0' maxOccurs='1' parasearch="false"
-   textsearch="false">
+  <element name="notes" minOccurs='0' maxOccurs='1' parasearch="true"
+   textsearch="true">
    <mcrmetalangtext name="note" class="MCRMetaLangText" minOccurs='1'
     maxOccurs='unbounded' length="4096"/>
   </element>
   <!-- 14 - Publication -->
-  <element name="publications" minOccurs='0' maxOccurs='1' parasearch="false"
-   textsearch="false">
+  <element name="publications" minOccurs='0' maxOccurs='1' parasearch="true"
+   textsearch="true">
    <mcrmetalangtext name="publication" class="MCRMetaLangText" minOccurs='1'
     maxOccurs='unbounded' length="4096"/>
   </element>
 	 
   <!-- 15 - the userid, from the user who has created its own author -->
-  <element name="userids" minOccurs='0' maxOccurs='1' parasearch="false"   textsearch="false">
+  <element name="userids" minOccurs='0' maxOccurs='1' parasearch="true"   textsearch="true">
    <mcrmetalangtext name="userid" class="MCRMetaLangText" minOccurs='0'  maxOccurs='1' length="128"/>
   </element>	  	 
 	 
@@ -115,13 +115,13 @@
  <service>
   <!-- Service Dates -->
   <element name="servdates" minOccurs='0' maxOccurs='1' parasearch="true"
-   textsearch="false">
+   textsearch="true">
    <mcrmetaiso8601date name="servdate" class="MCRMetaISO8601Date" minOccurs='1'
     maxOccurs='unbounded'/>
   </element>
   <!-- Service Flags -->
   <element name="servflags" minOccurs='0' maxOccurs='1' parasearch="true"
-   textsearch="false">
+   textsearch="true">
    <mcrmetalangtext name="servflag" class="MCRMetaLangText" minOccurs='1'
     maxOccurs='unbounded' length="256" />
   </element>
