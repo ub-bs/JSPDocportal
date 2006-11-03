@@ -28,32 +28,32 @@
     minOccurs='1' maxOccurs='unbounded' length="128"/>
   </element>
   <!-- 02 - Address -->
-  <element name="addresses" minOccurs='0' maxOccurs='1' parasearch="false"
-   textsearch="false">
+  <element name="addresses" minOccurs='0' maxOccurs='1' parasearch="true"
+   textsearch="true">
    <mcrmetaaddress name="address" class="MCRMetaAddress" minOccurs='1'
     maxOccurs='unbounded' length="64"/>
   </element>
   <!-- 03 - Phones -->
-  <element name="phones" minOccurs='0' maxOccurs='1' parasearch="false"
-   textsearch="false">
+  <element name="phones" minOccurs='0' maxOccurs='1' parasearch="true"
+   textsearch="true">
    <mcrmetalangtext name="phone" class="MCRMetaLangText" minOccurs='1'
     maxOccurs='unbounded' length="32" />
   </element>
   <!-- 04 - URL -->
-  <element name="urls" minOccurs='0' maxOccurs='1' parasearch="false"
-   textsearch="false">
+  <element name="urls" minOccurs='0' maxOccurs='1' parasearch="true"
+   textsearch="true">
    <mcrmetalink name="url" class="MCRMetaLink" minOccurs='1'
     maxOccurs='unbounded'/>
   </element>
   <!-- 05 - eMail -->
-  <element name="emails" minOccurs='0' maxOccurs='1' parasearch="false"
-   textsearch="false">
+  <element name="emails" minOccurs='0' maxOccurs='1' parasearch="true"
+   textsearch="true">
    <mcrmetalangtext name="email" class="MCRMetaLangText" minOccurs='1'
     maxOccurs='unbounded' length="128"/>
   </element>
   <!-- 06 - Note -->
-  <element name="notes" minOccurs='0' maxOccurs='1' parasearch="false"
-   textsearch="false">
+  <element name="notes" minOccurs='0' maxOccurs='1' parasearch="true"
+   textsearch="true">
    <mcrmetalangtext name="note" class="MCRMetaLangText" minOccurs='1'
     maxOccurs='unbounded' length="4096"/>
   </element>
@@ -61,13 +61,13 @@
  <service>
   <!-- Service Dates -->
   <element name="servdates" minOccurs='0' maxOccurs='1' parasearch="true"
-   textsearch="false">
+   textsearch="true">
    <mcrmetaiso8601date name="servdate" class="MCRMetaISO8601Date" minOccurs='1'
     maxOccurs='unbounded'/>
   </element>
   <!-- Service Flags -->
   <element name="servflags" minOccurs='0' maxOccurs='1' parasearch="true"
-   textsearch="false">
+   textsearch="true">
    <mcrmetalangtext name="servflag" class="MCRMetaLangText" minOccurs='1'
     maxOccurs='unbounded' length="256" />
   </element>
