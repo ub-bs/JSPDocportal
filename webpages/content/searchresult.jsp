@@ -4,7 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr"%>
 
-<c:set var="debug" value="false" />
+<c:set var="debug" value="${param.debug}" />
 
 <c:set var="WebApplicationBaseURL"
 	value="${applicationScope.WebApplicationBaseURL}" />
@@ -107,65 +107,61 @@
 							<tr>
 								<td width="30px" class="resultIcon" rowspan="4" valign="top" ><x:choose>
 									<x:when select="contains($docType, 'author')">
-										<img src="${WebApplicationBaseURL}/images/person.gif"
-											alt="author" />
+										<img src="${WebApplicationBaseURL}/images/person.gif" alt="author" />
 									</x:when>
 									<x:when select="contains($docType, 'institution')">
-										<img src="${WebApplicationBaseURL}/images/institution.gif"
-											alt="institution" />
+										<img src="${WebApplicationBaseURL}/images/institution.gif" alt="institution" />
 									</x:when>
 									<x:when select="contains($docType, 'disshab')">
-										<img src="${WebApplicationBaseURL}/images/disshab.gif"
-											alt="disshab" />
+										<img src="${WebApplicationBaseURL}/images/disshab.gif" alt="disshab" />
 									</x:when>
 									<x:when select="contains($docType, 'document')">
 										<x:choose>
 											<x:when select="contains($contentType, 'FORMAT0001')">
-												<img src="${WebApplicationBaseURL}/images/article.gif"
-													alt="text" />
+												<img src="${WebApplicationBaseURL}/images/article.gif" alt="text" />
 											</x:when>
 											<x:when select="contains($contentType, 'FORMAT0002')">
-												<img src="${WebApplicationBaseURL}/images/picture.gif"
-													alt="image" />
+												<img src="${WebApplicationBaseURL}/images/picture.gif" alt="image" />
 											</x:when>
 											<x:when select="contains($contentType, 'FORMAT0005')">
-												<img src="${WebApplicationBaseURL}/images/musikalie.gif"
-													alt="notes" />
+												<img src="${WebApplicationBaseURL}/images/musikalie.gif" alt="notes" />
 											</x:when>
 											<x:when select="contains($contentType, 'FORMAT0006')">
-												<img src="${WebApplicationBaseURL}/images/software.gif"
-													alt="software" />
+												<img src="${WebApplicationBaseURL}/images/software.gif" alt="software" />
 											</x:when>
 											<x:when select="contains($contentType, 'FORMAT0009')">
-												<img src="${WebApplicationBaseURL}/images/audio.gif"
-													alt="sound" />
+												<img src="${WebApplicationBaseURL}/images/audio.gif" alt="sound" />
 											</x:when>
 											<x:when select="contains($contentType, 'FORMAT0010')">
-												<img src="${WebApplicationBaseURL}/images/audiovisual.gif"
-													alt="video" />
+												<img src="${WebApplicationBaseURL}/images/audiovisual.gif" alt="video" />
 											</x:when>
 											<x:otherwise>
-												<img src="${WebApplicationBaseURL}/images/unknown.gif"
-													alt="unknown" />
+												<img src="${WebApplicationBaseURL}/images/unknown.gif"	alt="unknown" />
 											</x:otherwise>
 										</x:choose>
 									</x:when>
 									<x:when select="contains('professorum codice', $docType)">
-										<img src="${WebApplicationBaseURL}/images/handwriting.gif"
-											alt="historische Sammlung" />
+										<img src="${WebApplicationBaseURL}/images/handwriting.gif"	alt="historische Sammlung" />
 									</x:when>
 									<x:otherwise>
-										<img src="${WebApplicationBaseURL}/images/unknown.gif"
-											alt="unknown" />
+										<img src="${WebApplicationBaseURL}/images/unknown.gif" alt="unknown" />
 									</x:otherwise>
 								</x:choose></td>
 								<td class="resultTitle">
 									<a href="${resultlistLink}&path=${navPath}.docdetail&resultid=${resultid}">
-										<x:if select="contains('professorum, codice',$docType)">
-			                            	<x:out select="./metaname[1]/metavalues[2]/metavalue/@text" escapeXml="./metaname[1]/metavalues/@escapeXml" />
-			                            	<x:out select="./metaname[1]/metavalues[3]/metavalue/@text" escapeXml="./metaname[1]/metavalues/@escapeXml" />                            	                            	                            	
-										</x:if>
-										<x:out	select="./metaname[1]/metavalues/metavalue/@text"	escapeXml="./metaname[1]/metavalues/@escapeXml" />
+										<x:choose>
+										<x:when select="contains('codice',$docType)">
+			                            	<x:out select="./metaname[1]/metavalues[2]/metavalue/@text" />
+			                            	<x:out select="./metaname[1]/metavalues[3]/metavalue/@text" />                            	                            	                            	
+										</x:when>
+										<x:when select="contains('professorum',$docType)">
+											<x:out	select="./metaname[1]/metavalues/metavalue/@text"	/>,
+											<x:out	select="./metaname[1]/metavalues[2]/metavalue/@text"	/>										
+										</x:when>
+										<x:otherwise>
+											<x:out	select="./metaname[1]/metavalues/metavalue/@text"	/>
+										</x:otherwise>
+										</x:choose>
 									</a>
 									
 								</td>
@@ -228,23 +224,26 @@
 								<x:when select="contains('codice professorum', $docType)">
 									<tr>
 										<td colspan="2" class="resultData">
-	                                    <x:forEach select="./metaname[position() >= 6]" >
+	                                    <x:forEach select="./metaname[position() >= 4]" >
 	                                        <x:if select="./@name != '' ">
 	                                            <x:set var="name" select="string(./@name)"/>   
-	                                            <fmt:message key="${name}" />
+	                                            <fmt:message key="${name}" />:
 											</x:if>		                                            
-	                                       <x:forEach select="./metavalues/metavalue" >
-		                                    <x:if select="generate-id(../metavalues[position() = 1]) != generate-id(.)">
-		                                       <x:out select="../metavalues/@separator" escapeXml="false" />
-		                                    </x:if>                    
-	 										<x:choose>
+	                                        <x:forEach select="./metavalues/metavalue[position() = 1]" >
+	                                        <x:set var="introkey" select="string(../@introkey)" />                                                  
+			                                <c:if test="${fn:length(introkey) > 0 }" >
+												<fmt:message key="${introkey}" />
+					                        </c:if>
+	                                       
+	                                        <!--  Nur ersten Eintrag darstellen  -->	                                       
+											 <x:choose>
 		                                        <x:when select="./@href != '' ">
 		                                            <a href="<x:out select="./@href" />"><x:out select="./@text" /></a>
-		                                        </x:when>
+		                                        </x:when>		                                        
 		                                        <x:otherwise>
 		                                            <x:out select="./@text" />
 		                                        </x:otherwise>
- 		                                    </x:choose>         
+	 		                                 </x:choose>         
  		                                   </x:forEach>                                    
  										<br/>                                      
 	                                    </x:forEach>     	
@@ -259,11 +258,6 @@
 													<x:out select="./metaname[@name='OMD.changed']/metavalues/metavalue/@text"	escapeXml="./metaname[@name='OMD.changed']/metavalues/@escapeXml" />
 												</fmt:param>
 											</fmt:message>
-										</td>
-									</tr>
-									<tr>
-										<td colspan="2" class="description">
-											<x:out	select="./metaname[@name='OMD.descriptions']/metavalues/metavalue/@text" escapeXml="./metaname[@name='OMD.descriptions']/metavalues/@escapeXml" />
 										</td>
 									</tr>
 								</x:when>		
