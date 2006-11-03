@@ -15,7 +15,7 @@
     <label i18n="Editor.Label.TitleDissM" />
   </text>
 
-<!-- *** Data for the TITLE ** -->
+<!-- *** Data for the TITLE ** sortnr="1"-->
 
   <panel id="RTitle">
     <hidden var="@inherited" default="0" />

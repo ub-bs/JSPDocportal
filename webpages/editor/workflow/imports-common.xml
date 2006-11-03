@@ -1104,8 +1104,8 @@
     <text id="LPublishingYear">
      <label i18n="Editor.Label.Year" />
     </text>
-    <helpPopup id="HVolume" >
-      <label i18n="Editor.Help.Hyear" />
+    <helpPopup id="HPublishingYear" >
+      <label i18n="Editor.Help.HPublishingYear" />
     </helpPopup>
 
 

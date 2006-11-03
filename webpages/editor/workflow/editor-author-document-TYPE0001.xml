@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE editor>
 <editor>
-
+  <!--  
+  <target type="debug" />
+  -->
   <target type="servlet" name="MCRPassToTargetServlet" method="post" format="xml" />
   <components root="author-document" var="/mycoreobject">
     <validationMessage>
@@ -146,17 +148,16 @@
         <space width="20" height="0" />
       </cell>
       <cell col="4" row="150" anchor="WEST" ref="HNote" />
+           
+      <cell col="1" row="151" colspan="4" anchor="NORTHWEST" ref="DRights" sortnr="26"  />      
+      <cell col="1" row="152" colspan="4" anchor="NORTHWEST" ref="DRightsLinks" sortnr="27"  />      
+      <cell col="1" row="153" colspan="4" anchor="NORTHWEST" ref="DUrn" sortnr="32"  />      
+      <cell col="1" row="154" colspan="4" anchor="NORTHWEST" ref="DDdb" sortnr="33"  />      
       
-<!--  <cell col="1" row="160" anchor="NORTHWEST" ref="LCitation" />
-      <cell col="2" row="160" anchor="NORTHWEST" ref="DCitation" sortnr="35"  />
-      <cell col="3" row="160" anchor="NORTHWEST">
-        <space width="20" height="0" />
-      </cell>
-      <cell col="4" row="160" anchor="WEST" ref="HCitation" /> -->
+      <cell col="1" row="160"  colspan="4" anchor="WEST" ><hr/> </cell>
+
+      <cell col="1" row="162" ><space width="20" height="0" /></cell>
       
-      <cell col="1" row="161" anchor="NORTHWEST" ref="DHiddenFields" sortnr="26"  />      
-      
-      <cell col="1" row="162" />
       <cell col="2" colspan="3" row="162" ref="TwoButtons" />
     </panel>
   </components>
