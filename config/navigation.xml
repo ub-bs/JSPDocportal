@@ -29,6 +29,7 @@
           <refitem name="~searchstart-indexcreators" label="" />
           <navitem name="documents" label="Nav.PersonsDocuments" href="content/searchresult.jsp" hidden="true">
             <refitem name="~searchresult-indexcreators" label="" />
+            <navitem name="docdetail" label="Nav.DocumentDetails" href="content/docdetails.jsp" hidden="true" />              
           </navitem>
           <navitem name="docdetail" label="Nav.DocumentDetails" href="content/docdetails.jsp" hidden="true" />              
         </navitem>
