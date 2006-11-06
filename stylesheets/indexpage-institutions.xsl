@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.2 $ $Date: 2006-10-16 15:08:08 $ -->
+<!-- $Revision: 1.3 $ $Date: 2006-11-06 14:36:54 $ -->
 <!-- ============================================== -->
 
 <xsl:stylesheet
@@ -151,7 +151,7 @@
   <xsl:variable name="urlInstitution">
     <xsl:text>nav?path=left.search.institution.docdetail</xsl:text>
 	<xsl:text>&amp;id=</xsl:text>
-    <xsl:value-of select="col[@name='id']" />
+    <xsl:value-of select="./id" />
   </xsl:variable>
 
   <xsl:variable name="offset">
