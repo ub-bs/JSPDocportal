@@ -2,7 +2,10 @@
 
 <MCRDocDetails name="field definition for documentdetails" >
     <MCRDocDetail rowtype="hidden" labelkey="OMD.maintitle" >
-        <MCRDocDetailContent xpath="/mycoreobject/metadata/titles/title" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/titles/title[@type='main']" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
+    </MCRDocDetail> 
+    <MCRDocDetail rowtype="standard" labelkey="OMD.subtitle" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/titles/title[@type='sub']" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
     </MCRDocDetail> 
     <MCRDocDetail rowtype="standard" labelkey="OMD.identifiers" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/identifiers/identifier" templatetype="tpl-text-values" separator=", " languageRequired="no" />
