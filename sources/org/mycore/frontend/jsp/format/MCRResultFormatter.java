@@ -345,7 +345,7 @@ public class MCRResultFormatter {
 			        mcr_obj.receiveFromDatastore(person_id); 
 			        Element creator_root = mcr_obj.createXML().getRootElement();
 			        String creatorName = (String) XPath.selectSingleNode(creator_root,
-			            "concat(metadata/names/name/fullname)");
+			            "concat(metadata/names/name/fullname,'')");
 					Element metaValue = new Element("metavalue");
 					metaValue.setAttribute("href","");
 					metaValue.setAttribute("text",creatorName);			        
