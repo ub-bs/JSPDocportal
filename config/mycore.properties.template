@@ -600,7 +600,7 @@ MCR.IndexBrowser.creators_sub.MaxPerPage=30
 MCR.IndexBrowser.institutions.Table=institution
 MCR.IndexBrowser.institutions.Searchfield=fullname
 MCR.IndexBrowser.institutions.FieldsToSort=fullname
-MCR.IndexBrowser.institutions.ExtraOutputFields=fullname
+MCR.IndexBrowser.institutions.ExtraOutputFields=id,fullname
 MCR.IndexBrowser.institutions.Style=institutions
 MCR.IndexBrowser.institutions.MaxPerPage=30
 
