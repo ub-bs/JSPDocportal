@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.8 $ $Date: 2006-10-16 15:08:08 $ -->
+<!-- $Revision: 1.9 $ $Date: 2006-11-08 14:20:14 $ -->
 <!-- ============================================== -->
 
 <xsl:stylesheet
   version="1.0"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:xalan="http://xml.apache.org/xalan"
+  xmlns:encode="java.net.URLEncoder"
+  extension-element-prefixes="encode"
+  
 >
 <xsl:param name="subselect.webpage" />
 <xsl:param name="WebApplicationBaseURL" />
@@ -180,13 +183,14 @@
    <xsl:variable name="title">
        <xsl:value-of select="col[@name='fullname']" />   
    </xsl:variable>
+   <xsl:variable name="titleEnc" select="encode:encode($title)"/>
    
     <tr>
       <td class="td1" valign="top">
         <img border="0" src="{$WebApplicationBaseURL}/images/folder_plain.gif"/>
       </td>
       <td class="td1" valign="top" style="padding-right:5px;">
-        <a href="{$url}&amp;_var_@href={./id}&amp;_var_@title={$title}">
+        <a href="{$url}&amp;_var_@href={./id}&amp;_var_@title={$titleEnc}">
           <xsl:value-of select="$title" />
         </a>
       </td>
