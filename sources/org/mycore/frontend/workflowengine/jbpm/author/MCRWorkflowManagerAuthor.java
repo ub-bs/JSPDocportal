@@ -26,6 +26,9 @@
 package org.mycore.frontend.workflowengine.jbpm.author;
 
 // Imported java classes
+import java.text.MessageFormat;
+import java.util.PropertyResourceBundle;
+
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.mycore.common.JSPUtils;
@@ -40,6 +43,10 @@ import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcessManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
 import org.mycore.frontend.workflowengine.strategies.MCRMetadataStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
+import org.mycore.services.fieldquery.MCRFieldDef;
+import org.mycore.services.fieldquery.MCRQuery;
+import org.mycore.services.fieldquery.MCRQueryCondition;
+import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.services.fieldquery.MCRResults;
 import org.mycore.user2.MCRUser;
 import org.mycore.user2.MCRUserMgr;
@@ -107,8 +114,17 @@ public class MCRWorkflowManagerAuthor extends MCRWorkflowManager {
 	}
 
 	public String checkDecisionNode(String decisionNode, ContextInstance ctxI) {
-		if (decisionNode.equals("canAuthorBeSubmitted")) {
-			if (checkSubmitVariables(ctxI)) {
+		if (decisionNode.equals("canAuthorBeSubmitted")) { 
+			boolean canDo = checkSubmitVariables(ctxI);
+            String existsMessage = doesAuthorWithSameNameExist((String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_WFOBJECT_TITLE),
+                                                               (String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS));
+            if(existsMessage!=null){
+                ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_HINT, existsMessage);
+            }
+            else{
+                ctxI.deleteVariable(MCRWorkflowConstants.WFM_VAR_HINT);
+            }
+            if (canDo) {
 				return "authorCanBeSubmitted";
 			} else {
 				return "authorCantBeSubmitted";
@@ -281,4 +297,23 @@ public String createNewAuthor(String userid, ContextInstance ctxI,
 			return -1;
 		}
 	}
+    
+      /**
+     * @param name - the fullname of the author
+     * @return The message that should be displayed or
+     *          <i>null</i> if there is no author.
+     */
+    private String doesAuthorWithSameNameExist(String name, String mcrid){
+        //query="fullname like \""+name+"\"";
+        if (name==null) return null;
+        MCRFieldDef field = MCRFieldDef.getDef("fullname");
+        MCRQuery query = new MCRQuery(new MCRQueryCondition(field, "=", name));
+        MCRResults mcrResult = MCRQueryManager.search(query); 
+        if(mcrResult.getNumHits()>0){
+            String hitid = mcrResult.getHit(0).getID();
+            if(hitid.equals(mcrid)) return null;
+            return MessageFormat.format(PropertyResourceBundle.getBundle("messages").getString("WF.author.AuthorAllreadyExists"), new String[]{hitid});
+        }        
+        return null;
+    }
 }

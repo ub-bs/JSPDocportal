@@ -116,7 +116,12 @@
 		</c:if>		 
 		 <br/>
 		 <mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="error" workflowVar="varnameERROR" /> 
-	     <font color="red">${error}</font><br/>	         		 
+	     <font color="red">${error}</font>
+	     <mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="hint" workflowVar="hint" />
+		<c:if test="${not(empty hint)}">
+			  <br /><font color="red"><c:out value="${hint}" />
+		</c:if>		  
+	     <br/>	         
 		</td>
 	</tr>
 

@@ -30,37 +30,14 @@ public class MCRAuthorMetadataStrategy extends MCRDefaultMetadataStrategy {
 			List resultList = xName.selectNodes(d);
 			for(int i=0;i<resultList.size();i++){
 				Element eName = (Element)resultList.get(i);
-				StringBuffer sbFullname = new StringBuffer();
-				String firstname = eName.getChildText("firstname");
-				String lastname = eName.getChildText("surname");
-				String academic = eName.getChildText("academic");
-				String prefix = eName.getChildText("prefix");
-				if(lastname!=null && !lastname.equals("")){
-					sbFullname.append(lastname);
-				}
-				if(firstname!=null && !firstname.equals("")){
-					sbFullname.append(", ");
-					sbFullname.append(firstname);
-				}
-				
-				if(prefix!=null && !lastname.equals("")){
-					sbFullname.append(" ");
-					sbFullname.append(prefix);
-				}
-			 
-				if(academic!=null && !academic.equals("")){
-					sbFullname.append(" (");
-					sbFullname.append(academic);
-					sbFullname.append(")");
-				}
 				Element eFullname = eName.getChild("fullname");
 				if(eFullname==null){
 					eFullname = new Element("fullname");
-					eFullname.setText(sbFullname.toString());
+					eFullname.setText(createFullName(eName));
 					eName.addContent(eFullname);
 				}
 				else{
-					eFullname.setText(sbFullname.toString());
+					eFullname.setText(createFullName(eName));
 				}
 			}
 			XMLOutputter xmlOut = new XMLOutputter(Format.getPrettyFormat());
@@ -98,35 +75,44 @@ public class MCRAuthorMetadataStrategy extends MCRDefaultMetadataStrategy {
 		} finally {
 		}
 	}
-	
+
+    
+    
+    private String createFullName(Element eName){
+        StringBuffer sbFullname = new StringBuffer();
+        String firstname = eName.getChildText("firstname");
+        String lastname = eName.getChildText("surname");
+        String academic = eName.getChildText("academic");
+        String prefix = eName.getChildText("prefix");
+        if(lastname!=null && !lastname.equals("")){
+            sbFullname.append(lastname);
+        }
+        if(firstname!=null && !firstname.equals("")){
+            sbFullname.append(", ");
+            sbFullname.append(firstname);
+        }
+        
+        if(prefix!=null && !lastname.equals("")){
+            sbFullname.append(" ");
+            sbFullname.append(prefix);
+        }
+     
+        if(academic!=null && !academic.equals("")){
+            sbFullname.append(" (");
+            sbFullname.append(academic);
+            sbFullname.append(")");
+        }
+        return sbFullname.toString();
+
+        
+    }
 	private String createWFOTitlefromMetadata(Element metadata){
 		Element name = metadata.getChild("names").getChild("name");
-		StringBuffer sbTitle = new StringBuffer("");
-		String first = name.getChildTextNormalize("firstname");
-		String last = name.getChildTextNormalize("surname");
-		String academic = name.getChildTextNormalize("academic");
-		String prefix = name.getChildTextNormalize("prefix");
 		String fullname = name.getChildTextNormalize("fullname");
 		if (fullname != null) {
-			sbTitle.append(fullname);
+			return fullname;
 		} else {
-			if (academic != null) {
-				sbTitle.append(academic);
-				sbTitle.append(" ");
-			}
-			if (first != null) {
-				sbTitle.append(first);
-				sbTitle.append(" ");
-			}
-			if (prefix != null) {
-				sbTitle.append(prefix);
-				sbTitle.append(" ");
-			}
-			if (last != null) {
-				sbTitle.append(last);
-				sbTitle.append("");
-			}
-		}
-		return sbTitle.toString();
+            return createFullName(name);
+        }
 	}
 }
