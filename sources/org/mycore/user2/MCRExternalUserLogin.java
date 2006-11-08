@@ -37,10 +37,17 @@ public interface MCRExternalUserLogin {
 	 * @param mcrUser - the MyCoRe userobject
 	 */
 	public void updateUserData(String userID, String password, MCRUser mcrUser);	
+
 	/**
 	 * @param userID - the external userid
 	 * @return a text that gives information about the external usermessage
 	 * (e.g. exists, is enabled, ... )
 	 */
 	public String checkUserID(String userID);
+	
+	/**
+	 * @param userID - the external userid
+	 * @return a text that gives information about the type (student, member, external...) 
+	 */	
+	public String checkUserType(String userID);
 }
