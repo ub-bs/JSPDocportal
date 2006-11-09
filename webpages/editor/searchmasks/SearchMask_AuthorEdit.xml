@@ -3,6 +3,14 @@
 <MyCoReWebPage>
 <section title="Searchmask for Author to Edit" xml:lang="de">
 <editor id="SearchMask_AuthorEdit">
+  <validationMessage>
+      <label xml:lang="de">
+        Eingabefehler: Bitte korrigieren Sie die markierten Felder 
+      </label>              
+      <label xml:lang="en">
+        input error: Please correct the highlighted items
+      </label>                    
+  </validationMessage>
 
 <!-- <target type="debug" /> -->
 <source url="request:servlets/MCRJSPSearchServlet?mode=load&amp;id=[ID]" token="[ID]"/>

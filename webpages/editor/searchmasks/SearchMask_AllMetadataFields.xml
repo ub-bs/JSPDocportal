@@ -3,16 +3,23 @@
 <MyCoReWebPage>
 <section title="Searchmask for all Documents" xml:lang="de">
 <editor id="SearchMask_AllMetadataFields">
-
 <!-- <target type="debug" /> -->
 
 <source url="request:servlets/MCRJSPSearchServlet?mode=load&amp;id=[ID]" token="[ID]"/>
 <target type="servlet" url="/servlets/MCRJSPSearchServlet" method="post" format="xml" />
+  <validationMessage>
+      <label xml:lang="de">
+        Eingabefehler: Bitte korrigieren Sie die markierten Felder 
+      </label>              
+      <label xml:lang="en">
+        input error: Please correct the highlighted items
+      </label>                    
+  </validationMessage>
 
 <components root="SearchMask_AllMetadataFields" var="/query">
 
   <include uri="webapp:editor/searchmasks/imports-searchmasks-common.xml" />
-  
+   
   <panel id="SearchMask_AllMetadataFields">
     <hidden var="@mask" default="~searchstart-allmeta" />
     <hidden var="@maxResults" default="100" />
@@ -24,7 +31,8 @@
     <cell col="2" row="5" anchor="NORTHWEST" >
       &#160;<space width="20" height="0" />
     </cell>    
-    <cell col="3" row="5" anchor="NORTHWEST" ref="DMetadata" var="conditions/boolean/condition" />
+    <cell col="3" row="5" anchor="NORTHWEST" ref="DOnlyMetadata" var="conditions/boolean/condition" />
+    
     <cell col="4" row="5" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>

@@ -3,6 +3,14 @@
 <MyCoReWebPage>
 <section title="Searchmask for all Documents" xml:lang="de">
 <editor id="SearchMask_Alldocs">
+  <validationMessage>
+      <label xml:lang="de">
+        Eingabefehler: Bitte korrigieren Sie die markierten Felder 
+      </label>              
+      <label xml:lang="en">
+        input error: Please correct the highlighted items
+      </label>                    
+  </validationMessage>
 
 <!-- <target type="debug" /> -->
 
@@ -10,7 +18,7 @@
 <source url="request:servlets/MCRJSPSearchServlet?mode=load&amp;id=[ID]" token="[ID]"/>
 <target type="servlet" url="/servlets/MCRJSPSearchServlet" method="post" format="xml" />
 
-<components root="SearchMask_Alldocs" var="/query">
+<components root="SearchMask_Alldocs" var="/query" >
 
   <include uri="webapp:editor/searchmasks/imports-searchmasks-common.xml" />
   

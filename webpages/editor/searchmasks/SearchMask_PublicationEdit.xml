@@ -7,6 +7,14 @@
 <!-- <target type="debug" /> -->
 <source url="request:servlets/MCRJSPSearchServlet?mode=load&amp;id=[ID]" token="[ID]"/>
 <target type="servlet" url="/servlets/MCRJSPSearchServlet" method="post" format="xml" />
+  <validationMessage>
+      <label xml:lang="de">
+        Eingabefehler: Bitte korrigieren Sie die markierten Felder 
+      </label>              
+      <label xml:lang="en">
+        input error: Please correct the highlighted items
+      </label>                    
+  </validationMessage>
 
 <components root="SearchMask_PublicationEdit" var="/query">
     <include uri="webapp:editor/searchmasks/imports-searchmasks-common.xml"/>   
