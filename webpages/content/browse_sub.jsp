@@ -89,8 +89,8 @@ select="concat('XSL.subselect.session=',$subselectSession,'&amp;XSL.subselect.va
 			<x:set var="fmtnumDocs" select="string(./col[2]/@fmtnumDocs)" />			
 			<c:set var="fmtnumDocs" value="${fn:replace(fmtnumDocs,' ', '.')}" />			
 			<x:set var="plusminusbase" select="string(./col[1]/@plusminusbase)" />
-						<c:set var="textEnc" value="<%=java.net.URLEncoder.encode(pageContext.getAttribute("text").toString()) %>" />			
-   	   		<x:set var="subSelectItem" select="concat( $url, '&amp;_var_@categid=',$lineID,'&amp;_var_@title=',escape-uri($textEnc))" />
+			<c:set var="textEnc" value="<%=java.net.URLEncoder.encode(pageContext.getAttribute("text").toString(), "ISO-8859-1") %>" />			
+   	   		<x:set var="subSelectItem" select="concat( $url, '&amp;_var_@categid=',$lineID,'&amp;_var_@title=',$textEnc)" />
 			
         	<tr valign="top" >
         	   <td valign="top">
