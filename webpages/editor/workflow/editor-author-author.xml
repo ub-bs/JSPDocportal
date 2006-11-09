@@ -114,7 +114,7 @@
     </cell>
     <cell col="4" row="6" anchor="WEST" ref="HDateBirthP" />
 
-    <cell col="1" row="7" anchor="NORTHWEST" ref="LProfession" />
+    <cell col="1" row="7" anchor="NORTHWEST" ref="LProfessionM" />
     <cell col="2" row="7" anchor="NORTHWEST" ref="DProfession_Only" sortnr="7" />
     <cell col="3" row="7" anchor="NORTHWEST" >
       <space width="20" height="0" />
