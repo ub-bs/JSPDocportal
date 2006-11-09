@@ -109,8 +109,12 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 		Properties parameters = new Properties();
 		String editorBase = "";
 		if(editorSessionID != null && !editorSessionID.equals("")){			
-			parameters.put("XSL.editor.session.id",editorSessionID);			
-			editorBase = (String)pageContext.getSession().getAttribute("editorPath");			
+			parameters.put("XSL.editor.session.id",editorSessionID);				
+			editorBase = (String)pageContext.getSession().getAttribute("editorPath");	
+			if (editorBase == null ) {
+				editorBase = new StringBuffer(NavServlet.getBaseURL())
+				.append((String) pageContext.getAttribute("editorPath")).toString();
+			}
 		}else{
 			if(cancelPage == null || cancelPage.equals("")){
 				cancelPage 		=  NavServlet.getBaseURL() + "nav?path=~"+workflowType;
