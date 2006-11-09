@@ -17,6 +17,7 @@ public class MCRPassToTargetServlet extends MCRServlet{
 	 * This method overrides doGetPost of MCRServlet. <br />
 	 */
 	public void doGetPost(MCRServletJob job) throws Exception {
+		// the target request parameter comes from the editor-include.jsp target parameter
 		HttpServletRequest request = job.getRequest();
 		String servletName = request.getParameter("target");
 		if(servletName == null || servletName.equals("")){
