@@ -1,4 +1,4 @@
-<%@ page import="org.mycore.user2.MCRUserMgr,
+<%@ page import="org.mycore.user2.MCRUserMgr,org.mycore.user2.MCRUser,
 	java.util.ArrayList,
 	java.util.Collections"%>
 <%@ page import="org.mycore.frontend.servlets.MCRServlet" %>
@@ -41,9 +41,10 @@ String WebApplicationBaseURL = MCRServlet.getBaseURL();
 				out.println("<tr><th colspan=\"2\"><A name=\"" + ((String)userids.get(i)).substring(0,1).toUpperCase() + "\">" + ((String)userids.get(i)).substring(0,1).toUpperCase() + "</a></th></tr>");
 				header = ((String)userids.get(i)).substring(0,1).toUpperCase();
 			}
-			
+			MCRUser user = MCRUserMgr.instance().retrieveUser((String)userids.get(i));
+		
 			out.println("<tr>");
-			out.println("<td class=\"rule\">" + (String)userids.get(i) + "</td>");
+			out.println("<td class=\"rule\">" + user.getName() +  "(" + (String)userids.get(i) + ")" + "</td>");
 			out.println("<td class=\"rule\"><input type=\"image\" title=\"Benutzer bearbeiten\" name=\"e"+ (String)userids.get(i) +"\" src=\"" + WebApplicationBaseURL + "admin/images/edit.png\"> <input type=\"image\" title=\"Benutzer löschen\" name=\"d"+ (String)userids.get(i) +"\" src=\"" + WebApplicationBaseURL + "admin/images/delete.png\" onClick=\"return questionDel()\"></td>");
 			out.println("</tr>");
 		}
