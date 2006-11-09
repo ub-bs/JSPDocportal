@@ -47,7 +47,9 @@ import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcessManager;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
+import org.mycore.user2.MCRExternalUserLogin;
 import org.mycore.user2.MCRUserMgr;
+
 
 /**
  * This class is the superclass of servlets which checks the MCREditorServlet
@@ -66,6 +68,7 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 	private String ID ;
 	private String lang;
 	private static MCRWorkflowManager WFM = MCRWorkflowManagerFactory.getImpl("registeruser");
+	private static String classNameExtUserLogin = MCRConfiguration.instance().getString("MCR.Application.ExternalUserLogin.Class", "").trim();
 
 	private String documentType ="user";
 	private String workflowType="registeruser";
@@ -164,79 +167,82 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
         
         if ( userElement != null ) {
 			ID = userElement.getAttributeValue("ID");
-		
-			//change default password "dummy" to password from properties file
-			Element ePWD = userElement.getChild("user.password");
-			if(ePWD.getText().equals("dummy")){
-				String pwd = MCRConfiguration.instance().getString("MCR.Application.user_initialpasswd","dummy");
-				ePWD.setText(pwd);
-				logger.debug("New Password: default password from properties File");	
-			}
 
-			int numID = MCRUserMgr.instance().getMaxUserNumID();
-			userElement.setAttribute("numID", String.valueOf(numID +1)) ;
-			
-	       	StringBuffer storePath = new StringBuffer(MCRWorkflowDirectoryManager.getWorkflowDirectory(this.documentType))
-				.append("/").append("user_")
-				.append(ID).append(".xml");
-	       	
-	       	root.addContent(userElement);
-			org.jdom.Document outDoc =  new org.jdom.Document (root);	        
-			WFM.storeMetadata(MCRUtils.getByteArray(outDoc), ID, storePath.toString());
+			String sUnAcceptedType = checkUserType(ID );
+        	if ( sUnAcceptedType  != null ) {
+	        	nextPath = "~mycore-error&messageKey=WF.registerUser.ErrorKey&message="+sUnAcceptedType;	        
+			} else {			
+				//change default password "dummy" to password from properties file
+				Element ePWD = userElement.getChild("user.password");
+				if(ePWD.getText().equals("dummy")){
+					String pwd = MCRConfiguration.instance().getString("MCR.Application.user_initialpasswd","dummy");
+					ePWD.setText(pwd);
+					logger.debug("New Password: default password from properties File");	
+				}
+	
+				int numID = MCRUserMgr.instance().getMaxUserNumID();
+				userElement.setAttribute("numID", String.valueOf(numID +1)) ;
 				
-			if ( MCRUserMgr.instance().existUser(ID) ) {
-				// we have another user with that ID 
-		        logger.warn("User registration - duplicate IDs");
-		        if(MCRConfiguration.instance().getString("MCR.Application.ExternalUserLogin.Class").length()>1){
-		        	//we use an external user manager ..-> finish workflowprocess and display error
-		        	List lpids  = WFM.getCurrentProcessIDsForProcessType(ID,workflowType);	
-					if ( !lpids.isEmpty()){
-						long lpid = ((Long)lpids.get(0)).longValue();
-						WFM.deleteWorkflowProcessInstance(lpid);
-				    }
-					
-					// for initiator and editor 
-					
-		        	nextPath = "~breakIfDuplicateUserID&userID="+ID;
-		        }
-		        else{
-		        	//we use MyCoRe as user manager
-		        	//user should select an ID
-		        	nextPath = "~chooseIDwhenDuplicate&userID="+ID;
-		        	
-		        }
-		        
-		       
-		        
-			} else {
-				//erst wenn alles OK ist wird der WFI initiiert mit der UserID, die unique ist.
-				//we have registeruser prozess - with that id
-				//long lpid = WFI.getUniqueCurrentProcessID(ID);
-				long lpid = 0;
-				List lpids  = WFM.getCurrentProcessIDsForProcessType(ID,workflowType);	
-				if ( lpids.isEmpty()){
-					lpid = WFM.initWorkflowProcess(ID, null);				
-			        nextPath = "~registered";
-			        lpids.add(new Long(lpid));
-			    }
-				lpid = ((Long)lpids.get(0)).longValue();
-				// for initiator and editor 
-				MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(lpid);
-				try{
-					WFM.setWorkflowVariablesFromMetadata(wfp.getContextInstance(), userElement);
-				}
-				catch(Exception e){
-					logger.error("caught exception ",e);
-				}
-				finally{
-					wfp.close();
-				}
-				MCRSessionMgr.getCurrentSession().put("registereduser", new DOMOutputter().output( outDoc ));
-				for ( int i=1; i< lpids.size(); i++) {
-			        logger.warn("User registration - duplicate Process ID's" + lpids.get(i).toString());
-				}
+		       	StringBuffer storePath = new StringBuffer(MCRWorkflowDirectoryManager.getWorkflowDirectory(this.documentType))
+					.append("/").append("user_")
+					.append(ID).append(".xml");
 		       	
-		    }		        
+		       	root.addContent(userElement);
+				org.jdom.Document outDoc =  new org.jdom.Document (root);	        
+				WFM.storeMetadata(MCRUtils.getByteArray(outDoc), ID, storePath.toString());
+					
+				if ( MCRUserMgr.instance().existUser(ID) ) {
+					// we have another user with that ID 
+			        logger.warn("User registration - duplicate IDs");
+			        if(MCRConfiguration.instance().getString("MCR.Application.ExternalUserLogin.Class").length()>1){
+			        	//we use an external user manager ..-> finish workflowprocess and display error
+			        	List lpids  = WFM.getCurrentProcessIDsForProcessType(ID,workflowType);	
+						if ( !lpids.isEmpty()){
+							long lpid = ((Long)lpids.get(0)).longValue();
+							WFM.deleteWorkflowProcessInstance(lpid);
+					    }
+						
+						// for initiator and editor 
+						
+			        	nextPath = "~breakIfDuplicateUserID&userID="+ID;
+			        }
+			        else{
+			        	//we use MyCoRe as user manager
+			        	//user should select an ID
+			        	nextPath = "~chooseIDwhenDuplicate&userID="+ID;
+			        	
+			        }
+			        
+				} else {
+					//erst wenn alles OK ist wird der WFI initiiert mit der UserID, die unique ist.
+					//we have registeruser prozess - with that id
+					//long lpid = WFI.getUniqueCurrentProcessID(ID);
+					long lpid = 0;
+					List lpids  = WFM.getCurrentProcessIDsForProcessType(ID,workflowType);	
+					if ( lpids.isEmpty()){
+						lpid = WFM.initWorkflowProcess(ID, null);				
+				        nextPath = "~registered";
+				        lpids.add(new Long(lpid));
+				    }
+					lpid = ((Long)lpids.get(0)).longValue();
+					// for initiator and editor 
+					MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(lpid);
+					try{
+						WFM.setWorkflowVariablesFromMetadata(wfp.getContextInstance(), userElement);
+					}
+					catch(Exception e){
+						logger.error("caught exception ",e);
+					}
+					finally{
+						wfp.close();
+					}
+					MCRSessionMgr.getCurrentSession().put("registereduser", new DOMOutputter().output( outDoc ));
+					for ( int i=1; i< lpids.size(); i++) {
+				        logger.warn("User registration - duplicate Process ID's" + lpids.get(i).toString());
+					}
+			       	
+			    }
+			}
         }		
 	}
 	  
@@ -266,4 +272,23 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 
  	}    
 
+     private String checkUserType(String ID) {
+    	 MCRExternalUserLogin extLogin= null;
+         if(classNameExtUserLogin.length()>0){
+         	try{
+         		Class c = Class.forName(classNameExtUserLogin);
+         		extLogin = (MCRExternalUserLogin)c.newInstance();		
+         	}       	
+         	catch(Exception e){
+         		//ExceptionClassNotFoundException, IllegalAccessException, InstantiationException
+         		//do nothing
+         	}
+         }
+         if (extLogin!=null) {
+             // check userType from the external user system
+          	return  extLogin.checkUserType(ID);
+         }
+         return null;
+
+     }
 }
