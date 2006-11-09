@@ -122,8 +122,8 @@ public class MCRLoginTag extends SimpleTagSupport
 			//the user exists in external system and MyCoRe -> everything is OK
 	     	mcrUser = MCRUserMgr.instance().retrieveUser(mcrUID);
 	       	mcrSession.setCurrentUserID("root");
-		    extLogin.updateUserData(uid, "", mcrUser);
-		    MCRUserMgr.instance().updateUser(mcrUser);
+	       	extLogin.updateUserData(uid, "", mcrUser);
+		    
 		    mcrSession.setCurrentUserID(mcrUID);
 		    mcrSession.setCurrentUserName(mcrUser.getUserContact().getFirstName() + " " + mcrUser.getUserContact().getLastName() );
 		    loginresult.setAttribute("loginOK", "true");
