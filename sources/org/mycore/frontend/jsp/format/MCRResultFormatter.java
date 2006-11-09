@@ -343,10 +343,9 @@ public class MCRResultFormatter {
 			        .getAttributeValue("href",Namespace.getNamespace("xlink",MCRDefaults.XLINK_URL)));
 			    try{
 			        mcr_obj.receiveFromDatastore(person_id); 
-			        Element creator_root = mcr_obj.createXML().getRootElement();
-			        String creatorName = (String) XPath.selectSingleNode(creator_root,
-			            "concat(metadata/names/name/fullname,'')");
-					Element metaValue = new Element("metavalue");
+					Element creator_root = mcr_obj.createXML().getRootElement();			        
+			        String creatorName = (String) XPath.selectSingleNode(creator_root,"string(./metadata/names/name/fullname)");
+	        		Element metaValue = new Element("metavalue");
 					metaValue.setAttribute("href","");
 					metaValue.setAttribute("text",creatorName);			        
 					metaValues.addContent(metaValue);			        
