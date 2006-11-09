@@ -2,13 +2,20 @@
 <!DOCTYPE Editor>
 
 <editor id="editor-author-author">
+
 <!--
  <target type="debug" />
 -->
  <target type="servlet" name="MCRPassToTargetServlet" method="post" format="xml" /> 
- <validationMessage>
-   <label i18n="Editor.Common.validationMessage" />
- </validationMessage>
+  <validationMessage>
+      <label xml:lang="de">
+        Eingabefehler: Bitte korrigieren Sie die markierten Felder 
+      </label>              
+      <label xml:lang="en">
+        input error: Please correct the highlighted items
+      </label>                    
+  </validationMessage>
+
  <components root="author-author" var="/mycoreobject">
 	
   <include uri="webapp:editor/workflow/imports-author.xml" />

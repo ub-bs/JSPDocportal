@@ -2,6 +2,14 @@
 <!DOCTYPE Editor>
 <editor>
  <target type="servlet" name="MCRPassToTargetServlet" method="post" format="xml" />
+  <validationMessage>
+      <label xml:lang="de">
+        Eingabefehler: Bitte korrigieren Sie die markierten Felder 
+      </label>              
+      <label xml:lang="en">
+        input error: Please correct the highlighted items
+      </label>                    
+  </validationMessage>
 
  <components root="author-addfile" var="/mycorederivate">
 

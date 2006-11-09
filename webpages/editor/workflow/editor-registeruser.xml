@@ -4,9 +4,18 @@
 <section title="Registering for a user" xml:lang="de">
 
 <editor id="register-user">
-	<!-- target type="debug" / -->
-    <target type="servlet" name="MCRPassToTargetServlet" method="post" format="xml" />
-    <components root="register-user" var="/mycoreuser">
+   <!-- target type="debug" / -->
+  <target type="servlet" name="MCRPassToTargetServlet" method="post" format="xml" />
+  <validationMessage>
+      <label xml:lang="de">
+        Eingabefehler: Bitte korrigieren Sie die markierten Felder 
+      </label>              
+      <label xml:lang="en">
+        input error: Please correct the highlighted items
+      </label>                    
+  </validationMessage>
+    
+  <components root="register-user" var="/mycoreuser">
         <include uri="webapp:editor/workflow/imports-user.xml" />		
         <headline anchor="CENTER">
             <text i18n="Editor.Common.mandatoryFields" />
@@ -39,7 +48,7 @@
             </cell>
             <cell row="2" col="2" anchor="WEST" ref="TFzeile64M" var="user/@ID" sortnr="1" />
             <cell row="2" col="3" anchor="EAST" >
-                <helpPopup id="HAccount" width="400px" >
+                <helpPopup id="HAccount" >
                     <label xml:lang="de">
                         In diesem Feld geben Sie bitte die Benutzerkennung, also Ihre Bibliothekskennung ein.						
                     </label>
@@ -48,23 +57,7 @@
                     </label>
                 </helpPopup>
             </cell>
-				
-			<!-- wird zunächst nicht gesetzt 
-            <cell row="3" col="1" anchor="EAST">
-                <text id="LPassword">
-                    <label xml:lang="de">
-                        <span class="editorlabel">Bibliothekspasswort&#160;(*):</span>
-                    </label>
-                    <label xml:lang="en">
-                        <span class="editorlabel">Library Password&#160;(*):</span>
-                    </label>
-                </text>
-            </cell>
-            <cell row="3" col="2" anchor="WEST" var="user/user.password" sortnr="2">
-                <password width="20" maxlength="128" />
-            </cell>
-            -->
-			
+						
             <!-- *** Description *** -->
             <cell row="7" col="1" anchor="EAST">
                 <text id="LDescription">
@@ -76,18 +69,18 @@
                     </label>
                 </text>
             </cell>
-            <cell row="7" col="2" anchor="WEST" ref="TFarea4096" var="user/user.description" sortnr="2"/>
-            <!-- cell row="4" col="3" anchor="EAST">
+            <cell row="7" col="2" anchor="WEST" ref="TFarea4096M" var="user/user.description" sortnr="2"/>
+            <cell row="7" col="3" anchor="EAST">
                 <helpPopup id="HDescription" width="400px" height="200px">
                     <label xml:lang="de">
-                        In diesem Feld können Sie einen Text zur Beschreibung Ihres Vorhabens
-						eingeben.
+                        In diesem Feld sollten sie beschreiben, wofür sie den Zugang benötigen, damit ihnen auch die
+                        notwendigen Zugriffsrechte zugeteilt werden können.
                     </label>
                     <label xml:lang="en">
-                        Here you can specify a description of your work.
+                        Here you can specify a description of your work. We need you description to give you the right Accessrules
                     </label>
                 </helpPopup>
-            </cell -->
+            </cell> 
 
             <!-- *** Contact information *** -->
             <cell row="9" col="1" ref="VSpace50" anchor="EAST" />
