@@ -15,16 +15,17 @@
   </div>
 
   <table>
-   <tr>
-	<td><fmt:message key="WF.registerUser.Registered" /> </td>
-   </tr>
-   <tr>
-	<td><fmt:message key="WF.registerUser.Registered2" /> </td>
+   <tr>	<td>
+   	<fmt:message key="WF.registerUser.Register" /> <br/>
+   	<fmt:message key="WF.registerUser.Register2" /> <br/>
+   	<fmt:message key="WF.registerUser.Register3" /> 
+   	</td>
    </tr>
   </table>
 
    <mcr:includeEditor 
           isNewEditorSource="true" 
           mcrid="" type="registeruser" workflowType="registeruser" processid=""
-          step=""  target="MCRRegisterUserWorkflowServlet" nextPath="~registered" editorPath="editor/workflow/editor-registeruser.xml" />        
+          step=""  target="MCRRegisterUserWorkflowServlet" nextPath="~registered" 
+          editorPath="editor/workflow/editor-registeruser.xml" />        
   
