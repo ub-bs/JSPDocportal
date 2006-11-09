@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.8 $ $Date: 2006-09-25 08:53:19 $ -->
+<!-- $Revision: 1.9 $ $Date: 2006-11-09 10:43:18 $ -->
 <!-- ============================================== --> 
 
 <xsl:stylesheet 
@@ -946,7 +946,7 @@
       <xsl:text>wrap="</xsl:text><xsl:value-of select="$wrap"/><xsl:text>" </xsl:text>
       <xsl:text>name="</xsl:text><xsl:value-of select="$var"/><xsl:text>" </xsl:text>
       <xsl:if test="@class">
-          <xsl:text>class="></xsl:text><xsl:value-of select="@class"/><xsl:text>" </xsl:text>
+          <xsl:text>class="</xsl:text><xsl:value-of select="@class"/><xsl:text>" </xsl:text>
       </xsl:if>
 	  
       <xsl:text disable-output-escaping="yes">&gt;</xsl:text>
