@@ -792,9 +792,13 @@
 
 	<!-- *** Data for the Profession ** -->
 
-	<text id="LProfession">
-		<label i18n="Editor.Label.Profession" />
+	<text id="LProfessionM">
+		<label i18n="Editor.Label.ProfessionM" />
 	</text>
+
+    <text id="LProfession">
+      <label i18n="Editor.Label.Profession" />
+    </text>
 
 	<helpPopup id="HProfession" >
 		<label i18n="Editor.Help.HProfession" />

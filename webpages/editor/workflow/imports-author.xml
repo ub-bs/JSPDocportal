@@ -201,7 +201,7 @@
     <hidden var="metadata/professions/profession/@inherited" default="0" sortnr="7" />
     <hidden var="metadata/professions/profession/@lang" sortnr="7" default="de" />
     <hidden var="metadata/professions/profession/@type" default="profession" sortnr="7" />
-    <cell col="2" row="1" anchor="WEST" ref="TFzeile128" var="metadata/professions/profession" sortnr="7" />
+    <cell col="2" row="1" anchor="WEST" ref="TFzeile128M" var="metadata/professions/profession" sortnr="7" />
   </panel>
 
 

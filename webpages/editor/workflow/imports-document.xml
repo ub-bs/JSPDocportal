@@ -191,7 +191,7 @@
     <!-- *** Data for the Date ** sortnr="12" -->
     <panel id="DDate">
       <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/dates&amp;classname=MCRMetaISO8601Date" />
-      <cell col="1" row="1" anchor="WEST" ref="TFzeile10" var="metadata/dates/date"  />
+      <cell col="1" row="1" anchor="WEST" ref="TFzeile10M" var="metadata/dates/date"  />
       <cell col="2" row="1" var="metadata/dates/date/@type" default="submitted" >
         <text i18n="Editor.Label.Date.publishing" />
       </cell>
@@ -273,7 +273,7 @@
     <!-- *** Data for the KEYWORDS ** 19 -->
     <panel id="DKeywordsRef">
       <hidden var="@inherited" default="0" />
-      <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile1024"  default="" />
+      <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile1024M"  default="" />
       <cell col="2" row="1" anchor="NORTHWEST" ref="Slang" var="@lang"  default="de" />
     </panel>
     
@@ -313,7 +313,7 @@
       <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/isbns&amp;classname=MCRMetaLangText" />
       <hidden  var="metadata/isbns/isbn/@inherited" default="0" />
       <hidden  var="metadata/isbns/isbn/@lang"  default="de" />
-      <cell col="1" row="1" anchor="WEST" ref="TFzeile10" var="metadata/isbns/isbn"  />
+      <cell col="1" row="1" anchor="WEST" ref="TFzeile128" var="metadata/isbns/isbn"  />
     </panel>
 
     <panel id="DRights">

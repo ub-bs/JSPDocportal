@@ -140,13 +140,14 @@
       
       <cell col="1" row="131"  colspan="4" anchor="WEST" ><hr/> </cell>
 
+<!-- 
       <cell col="1" row="140" anchor="NORTHWEST" ref="LSource" />
       <cell col="2" row="140" anchor="NORTHWEST" ref="DSource" sortnr="16"  />
       <cell col="3" row="140" anchor="NORTHWEST">
         <space width="20" height="0" />
       </cell>
       <cell col="4" row="140" anchor="WEST" ref="HSource" />
-
+-->
       <cell col="1" row="150" anchor="NORTHWEST" ref="LNote" />
       <cell col="2" row="150" anchor="NORTHWEST" ref="DNote" sortnr="34"  />
       <cell col="3" row="150" anchor="NORTHWEST">
