@@ -267,7 +267,7 @@
 	         </form> 
          </c:when>
          <c:otherwise>
-            <img title="<fmt:message key="WF.common.object.EditObjectIsLocked" />" border="0" src="${WebApplicationBaseURL}images/workflow_locked.gif" />
+            <img title="<fmt:message key="WF.common.object.EditObjectIsLocked" />" border="0" src="${WebApplicationBaseURL}images/workflow_locked.gif" height="30" />
          </c:otherwise>
         </c:choose>         
       </c:if>      
