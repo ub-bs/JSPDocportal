@@ -7,6 +7,7 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
+import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRDefaults;
 import org.mycore.datamodel.metadata.MCRMetaAddress;
 import org.mycore.datamodel.metadata.MCRMetaBoolean;
@@ -211,7 +212,37 @@ public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {
 			ePnames.addContent(pname.createXML());
 						
 			metadata.addContent(ePnames);
-	//		metadata.addContent(new Element("females"));
+
+			MCRMetaAddress padr = new MCRMetaAddress();
+			padr.setSubTag("address");
+			padr.setLang("de");
+			
+			MCRConfiguration cfg = MCRConfiguration.instance();
+			
+			String instName=cfg.getString("McRCMCR.WorkflowEngine.MyInstitution.name","");
+			String instCountry=cfg.getString("MCR.WorkflowEngine.MyInstitution.country","");
+			String instState=cfg.getString("MCR.WorkflowEngine.MyInstitution.state","");
+			String instZipCode=cfg.getString("MCR.WorkflowEngine.MyInstitution.zipcode","");
+			String instCity=cfg.getString("MCR.WorkflowEngine.MyInstitution.city","");
+			String instStreet=cfg.getString("MCR.WorkflowEngine.MyInstitution.street","");
+			String instNumber=cfg.getString("MCR.WorkflowEngine.MyInstitution.number","");
+
+			
+			
+			padr.set(instCountry, instState, instZipCode, instCity, instStreet, instNumber);
+			
+			Element ePadr = padr.createXML();
+			Element ePadrs = new Element("addresses");
+			ePadrs.setAttribute("class", "MCRMetaAddress");
+			ePadrs.addContent(ePadr);
+
+			metadata.addContent(ePadrs);
+			
+			
+			
+			
+			
+			//		metadata.addContent(new Element("females"));
 	//		metadata.addContent(new Element("institutions"));
 	//		metadata.addContent(new Element("addresses"));
 			
