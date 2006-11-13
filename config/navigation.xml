@@ -221,10 +221,10 @@
         <navitem name="editor-error" label="EditorError" href="editor/editor-error.jsp" hidden="true">
           <refitem name="~editor-error" label="" />
         </navitem>
-        <navitem name="error" label="Error" hidden="true" href="mycore-error.jsp">
+        <navitem name="error" label="Webpage.error.Error" hidden="true" href="mycore-error.jsp">
           <refitem name="~mycore-error" label="" />
         </navitem>
-        <navitem name="error-editor" label="Error" hidden="true" href="content/editor-validating-errors.jsp">
+        <navitem name="error-editor" label="Webpage.error.Error" hidden="true" href="content/editor-validating-errors.jsp">
           <refitem name="~editor-validating-errors" label="" />
         </navitem>
         <!--  hidden subselects -->
