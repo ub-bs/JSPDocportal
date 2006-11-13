@@ -52,11 +52,11 @@ import org.mycore.user2.MCRUserMgr;
 
 
 /**
- * This class is the superclass of servlets which checks the MCREditorServlet
+ * This class takes the input from registeruser 
  * output XML and store the XML in a file or if an error was occured start the
  * editor again.
  * 
- * @author Heiko Helmbrecht
+ * @author Heiko Helmbrecht; Anja Schaar
  * @version $Revision$ $Date$
  */
 public class MCRRegisterUserWorkflowServlet extends MCRServlet {
@@ -162,7 +162,32 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 			}
 		} else {
 	        org.jdom.Document   indoc = sub.getXML();
-            userElement = (Element) indoc.getRootElement().getChild("user").clone();            
+            userElement = (Element) indoc.getRootElement().getChild("user").clone();
+            // remove the n- Entry and put it into one descrition...
+            // map the user.groups to the selected description entries
+            List descriptions = userElement.getChildren("user.description");
+            Element groups = new Element("user.groups");
+            String descr = "";
+            for(int i=0;  i < descriptions.size(); i++) {
+            	String groupname = ((Element)descriptions.get(i)).getText();
+            	if ( MCRUserMgr.instance().existGroup(groupname)) {
+            		// gruppe gewählt
+            		Element group = new Element("groups.groupID");
+            		group.setText(groupname);
+            		groups.addContent(group);
+            	} else {
+            		// beschreibungstext
+            		descr += groupname + ", ";
+            	}
+            }
+           	userElement.removeChildren("user.description");
+           	Element eDescr = new Element ("user.description");
+           	eDescr.setText(descr);
+        	userElement.addContent(1, eDescr);
+
+        	if ( groups.getChildren() != null) {
+        		userElement.addContent(groups);
+        	}
 		}
         
         if ( userElement != null ) {
@@ -200,10 +225,9 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 						if ( !lpids.isEmpty()){
 							long lpid = ((Long)lpids.get(0)).longValue();
 							WFM.deleteWorkflowProcessInstance(lpid);
-					    }
-						
-						// for initiator and editor 
-						
+					    }						
+						// choose another id or break this prozess, 
+						// for initiator and editor 						
 			        	nextPath = "~breakIfDuplicateUserID&userID="+ID;
 			        }
 			        else{
