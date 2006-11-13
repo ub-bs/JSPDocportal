@@ -76,7 +76,7 @@
   <panel id="DFemale">
     <hidden var="metadata/females/@class" default="MCRMetaBoolean" sortnr="2" />
     <hidden var="metadata/females/@parasearch" default="true" sortnr="2" />
-    <hidden var="metadata/females/@textsearch" default="false" sortnr="2" />
+    <hidden var="metadata/females/@textsearch" default="true" sortnr="2" />
     <hidden var="metadata/females/@notinherit" default="false" sortnr="2" />
     <hidden var="metadata/females/@heritable" default="true" sortnr="2" />
     <hidden var="metadata/females/female/@inherited" default="0" />
@@ -201,7 +201,13 @@
     <hidden var="metadata/professions/profession/@inherited" default="0" sortnr="7" />
     <hidden var="metadata/professions/profession/@lang" sortnr="7" default="de" />
     <hidden var="metadata/professions/profession/@type" default="profession" sortnr="7" />
-    <cell col="2" row="1" anchor="WEST" ref="TFzeile128M" var="metadata/professions/profession" sortnr="7" />
+    <cell col="2" row="1" anchor="WEST" var="metadata/professions/profession" sortnr="7">
+	<textfield id="TFProfession_OnlyMandatory"  width="30" maxlength="128"  class="mandatory" >		
+		   <condition id="CProfessionMandatory" regexp=".+" required="true" >
+				<label i18n="Editor.Validate.Profession.Empty" />
+         </condition>
+      </textfield>	 
+    </cell>
   </panel>
 
 
