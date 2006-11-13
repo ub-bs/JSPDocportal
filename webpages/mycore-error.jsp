@@ -16,24 +16,28 @@
     </c:otherwise>
 </c:choose>
 <fmt:setBundle basename='messages'/>
-<h2><fmt:message key="Webpage.error.Error" /></h2>
-<h3><fmt:message key="Webpage.error.GoToTheAdministrator" /></h3>
-<p>
-<c:if test="${!empty param.messageKey}">
-<fmt:message key="${param.messageKey}" />
-</c:if>
-</p>
+
+<div class="headline">
+<c:choose>
+ <c:when test="${!empty param.messageKey}">
+  <fmt:message key="${param.messageKey}" /> 
+ </c:when>
+ <c:when test="${!empty requestScope.messageKey}">
+	<fmt:message key="${requestScope.messageKey}" />
+ </c:when>
+ <c:otherwise>
+	 <fmt:message key="Webpage.error.Error" />
+ </c:otherwise>
+</c:choose>
+</div>
+
 <p>
 <c:if test="${!empty param.message}">
-<c:out value="${param.message}" />
-</c:if>
-</p>
-<c:if test="${!empty requestScope.messageKey}">
-<fmt:message key="${requestScope.messageKey}" />
+	<c:out value="${param.message}" />
 </c:if>
 </p>
 <p>
 <c:if test="${!empty requestScope.message}">
-<c:out value="${requestScope.message}" />
+	<c:out value="${requestScope.message}" />
 </c:if>
 </p>
