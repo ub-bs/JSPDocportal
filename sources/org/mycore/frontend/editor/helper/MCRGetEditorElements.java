@@ -63,6 +63,8 @@ public class MCRGetEditorElements implements MCRResolver {
 				return getSpecialCategoriesInItems(params);
 			}else if(mode.equals("getGroupItems")) {
 				return getGroupItems(params);
+			}else if(mode.equals("getGroupItemAndLabelForUser")) {
+				return getGroupItemAndLabelForUser(params);
 			}else if(mode.equals("getClassificationLabelInItems")) {
 				return getClassificationLabelInItems(params);				
 			}
@@ -83,6 +85,24 @@ public class MCRGetEditorElements implements MCRResolver {
         }
         return retitems;        
 	}
+	
+	private Element getGroupItemAndLabelForUser(Properties params) throws TransformerException {
+		Element retitems = new Element("items");
+		Document groups  = MCRUserMgr.instance().getAllGroups();
+		Iterator itGroup = groups.getDescendants(new ElementFilter("group"));
+		while (itGroup.hasNext()) {
+			Element group = (Element) itGroup.next();
+			String ID = group.getAttributeValue("ID");
+			if ( ID.startsWith("create")) {
+	            org.jdom.Element item = new org.jdom.Element("item").setAttribute("value", ID)
+	            	.setAttribute("label", group.getChild("group.description").getText());			
+	            retitems.addContent(item);
+			}
+        }
+        return retitems;        
+	}
+	
+	
 	
 	private Element getClassificationLabelInItems(Properties params) throws TransformerException{
 		String classid = params.getProperty("classid");
