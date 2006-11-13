@@ -24,16 +24,6 @@
   <label xml:lang="en" text="image" />
   <label xml:lang="x-dini" text="doc-type:image" />
  </category>
- <category ID="FORMAT0003">
-  <label xml:lang="de" text="Sammlung" />
-  <label xml:lang="en" text="collection" />
-  <label xml:lang="x-dini" text="doc-type:data" />
- </category>
- <category ID="FORMAT0004">
-  <label xml:lang="de" text="Datensatz" />
-  <label xml:lang="en" text="dataset" />
-  <label xml:lang="x-dini" text="doc-type:data" />
- </category>
  <category ID="FORMAT0005">
   <label xml:lang="de" text="Skripte" />
   <label xml:lang="en" text="notes" />

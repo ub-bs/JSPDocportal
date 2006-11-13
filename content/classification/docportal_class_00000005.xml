@@ -21,6 +21,7 @@
       <category ID="TYPE0001.003">
         <label xml:lang="de" text="Schriftenreihe" />
         <label xml:lang="en" text="series" />
+        <label xml:lang="x-dini" text="pub-type:monograph" />
       </category>
       <category ID="TYPE0001.004">
         <label xml:lang="de" text="Zeitschrift" />
@@ -40,6 +41,7 @@
       <category ID="TYPE0001.007">
         <label xml:lang="de" text="Karte" />
         <label xml:lang="en" text="map" />
+        <label xml:lang="x-dini" text="pub-type:monograph" />        
       </category>
 
     </category>
@@ -96,12 +98,21 @@
         <label xml:lang="en" text="habilitation" />
         <label xml:lang="x-dini" text="pub-type:dissertation" />                
       </category>
-
     </category>
 
     <category ID="TYPE0010">
       <label xml:lang="de" text="Andere" />
       <label xml:lang="en" text="others" />
+      <category ID="TYPE0010.001">
+        <label xml:lang="de" text="Rede/Vortrag" />
+        <label xml:lang="en" text="speech" />
+        <label xml:lang="x-dini" text="pub-type:article" />                
+      </category>
+      <category ID="TYPE0010.002">
+        <label xml:lang="de" text="Sonstiges" />
+        <label xml:lang="en" text="others" />
+        <label xml:lang="x-dini" text="pub-type:article" />                
+      </category>      
     </category>
   </categories>
 </mycoreclass>
