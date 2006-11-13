@@ -56,11 +56,12 @@
                     </label>
                 </text>
             </cell>
-            <cell row="4" col="2" anchor="WEST" ref="TFarea4096" var="user/user.description" sortnr="3"/>
+            <cell row="4" col="2" anchor="WEST" ref="TFarea4096" var="user/user.description" sortnr="3"/>            
             <cell row="4" col="3" anchor="EAST">
                 <helpPopup id="HDescription" width="400px"  >
                     <label xml:lang="de">
-                        In diesem Feld können Sie einen Text zur Beschreibung des neuen
+                        In diesem Feld steht zunächst die Vorhabensbeschreibung, die der Nutzer angegeben hat.
+                        Sie können Sie einen Text zur Beschreibung des neuen
                         Benutzers bzw. der neuen Benutzerin eingeben.
                     </label>
                     <label xml:lang="en">
@@ -100,7 +101,7 @@
                 </text>
             </cell>
             <cell row="7" col="2" anchor="WEST" var="user/user.primary_group" sortnr="4">
-                <list width="200px" type="dropdown">
+                <list width="200px" type="dropdown" class="mandatory" >
                     <item value="">
                         <label xml:lang="de">(bitte auswählen)</label>
                         <label xml:lang="en">(choose a value)</label>
@@ -133,7 +134,7 @@
                 </text>
             </cell>
             <cell row="8" col="2" anchor="WEST" var="user/user.groups/groups.groupID" sortnr="20">
-                <list width="200px" type="multirow" multiple="true" rows="10">
+                <list width="200px" type="multirow" multiple="true" rows="10" class="mandatory" >
                     <item value="">
                         <label xml:lang="de">(Mehrfachauswahl)</label>
                         <label xml:lang="en">(multiple choice)</label>
