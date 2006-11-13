@@ -1073,7 +1073,7 @@
     <!-- =================================================================== -->
 
     <target name="war" depends="clean, create.schema, jar, create.taglib, webapps, create.scripts">
-        <jar jarfile="${MYAPPLICATION_NAME}.war" basedir="${docportal.webapps}" />
+        <jar jarfile="../${MYAPPLICATION_NAME}.war" basedir="${docportal.webapps}" />
     </target>
 	
 	<target name="fastdevelopwar" depends="jar,create.taglib">
