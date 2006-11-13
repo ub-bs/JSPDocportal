@@ -36,306 +36,268 @@
 <c:set var="len" value="0" />
 <c:set var="lang" value="${requestScope.lang}" />
 <c:set var="navPath" value="${requestScope.path}" />
-<c:set var="mcrresult" value="${requestScope.results}" /> 
+<c:set var="mcrresult" value="${requestScope.results}" />
 <c:set var="query" value="${requestScope.query}" />
 
 <!-- the result contains only the results from the begin of the selected page to page +numPerPage -->
-<mcr:setResultList var="resultList"  results="${mcrresult}" from="0" until="${numPerPage}" lang="${lang}" />
+<mcr:setResultList var="resultList" results="${mcrresult}" from="0"
+	until="${numPerPage}" lang="${lang}" />
 
 
 <c:choose>
 	<c:when test="${fn:startsWith(resultlistType,'class')}">
-		<c:set var="headlineKey" value="Webpage.searchresults.result-document-browse" />
+		<c:set var="headlineKey"
+			value="Webpage.searchresults.result-document-browse" />
 	</c:when>
 	<c:otherwise>
-		<c:set var="headlineKey" value="Webpage.searchresults.result-document-search" />
+		<c:set var="headlineKey"
+			value="Webpage.searchresults.result-document-search" />
 	</c:otherwise>
 </c:choose>
 
 <x:forEach select="$resultList/mcr_results">
-	<x:set var="resultid"  select="string(./@id)" scope="page" />
+	<x:set var="resultid" select="string(./@id)" scope="page" />
 	<x:set var="totalhits" select="string(./@total-hitsize)" scope="page" />
 	<x:set var="mask" select="string(./@mask)" scope="page" />
-	<div class="headline">
-		<fmt:message key="${headlineKey}" />	
-	</div>
-	<p>
-		<a href="${WebApplicationBaseURL}servlets/MCRJSPSearchServlet?mode=refine&mask=${mask}&id=${resultid}">
-		<b>Suche verfeinern |</b> </a>
-		<a href="${WebApplicationBaseURL}servlets/MCRJSPSearchServlet?mode=renew&mask=${mask}"><b> neue Suche</b></a>		
-	</p>
+	<div class="headline"><fmt:message key="${headlineKey}" /></div>
+	<p><a
+		href="${WebApplicationBaseURL}servlets/MCRJSPSearchServlet?mode=refine&mask=${mask}&id=${resultid}">
+	<b>Suche verfeinern |</b> </a> <a
+		href="${WebApplicationBaseURL}servlets/MCRJSPSearchServlet?mode=renew&mask=${mask}"><b>
+	neue Suche</b></a></p>
 
 	<div id="resortForm">
-	
-	<table cellspacing="0" cellpadding="0" >
+
+	<table cellspacing="0" cellpadding="0">
 		<tr>
-		 <td class="resort"> 
-				<form action="${WebApplicationBaseURL}servlets/MCRJSPSearchServlet" method="get" >
-					<input type="hidden" name="mode" value="resort">
-                    <input type="hidden" name="id" value="${resultid}">
-                    <select name="field1">
-                        <option value="modified" <mcr:ifSorted query="${query}" attributeName="field" attributeValue="modified">selected</mcr:ifSorted> ><fmt:message key="Webpage.searchresults.sort-modified" /></option>    
-                        <option value="title" <mcr:ifSorted query="${query}" attributeName="field" attributeValue="title">selected</mcr:ifSorted> ><fmt:message key="Webpage.searchresults.sort-title" /></option>
-                        <option value="author" <mcr:ifSorted query="${query}" attributeName="field" attributeValue="author">selected</mcr:ifSorted> ><fmt:message key="Webpage.searchresults.sort-author" /></option>
-                    </select>
-                    <select name="order1">
-                        <option value="ascending" <mcr:ifSorted query="${query}" attributeName="field" attributeValue="ascending">selected</mcr:ifSorted> ><fmt:message key="Webpage.searchresults.ascending" /></option>
-                        <option value="descending" <mcr:ifSorted query="${query}" attributeName="field" attributeValue="descending">selected</mcr:ifSorted> ><fmt:message key="Webpage.searchresults.descending" /></option>
-                    </select>                                         
-                    <input value="Sortiere Ergebnisliste neu" class="resort" type="submit">
-				</form>
-				
-   			</td>	
-			<td class="resultCount" >
-				<strong>${totalhits} <fmt:message key="Webpage.searchresults.foundMCRObjects" /></strong>
+			<td class="resort">
+			<form action="${WebApplicationBaseURL}servlets/MCRJSPSearchServlet"
+				method="get"><input type="hidden" name="mode" value="resort">
+			<input type="hidden" name="id" value="${resultid}"> <select
+				name="field1">
+				<option value="modified"
+					<mcr:ifSorted query="${query}" attributeName="field" attributeValue="modified">selected</mcr:ifSorted>><fmt:message
+					key="Webpage.searchresults.sort-modified" /></option>
+				<option value="title"
+					<mcr:ifSorted query="${query}" attributeName="field" attributeValue="title">selected</mcr:ifSorted>><fmt:message
+					key="Webpage.searchresults.sort-title" /></option>
+				<option value="author"
+					<mcr:ifSorted query="${query}" attributeName="field" attributeValue="author">selected</mcr:ifSorted>><fmt:message
+					key="Webpage.searchresults.sort-author" /></option>
+			</select> <select name="order1">
+				<option value="ascending"
+					<mcr:ifSorted query="${query}" attributeName="field" attributeValue="ascending">selected</mcr:ifSorted>><fmt:message
+					key="Webpage.searchresults.ascending" /></option>
+				<option value="descending"
+					<mcr:ifSorted query="${query}" attributeName="field" attributeValue="descending">selected</mcr:ifSorted>><fmt:message
+					key="Webpage.searchresults.descending" /></option>
+			</select> <input value="Sortiere Ergebnisliste neu" class="resort"
+				type="submit"></form>
+
 			</td>
+			<td class="resultCount"><strong>${totalhits} <fmt:message
+				key="Webpage.searchresults.foundMCRObjects" /></strong></td>
 		</tr>
 	</table>
 	</div>
-	
-	<table cellpadding="0" cellspacing="0">
+
+	<x:if select="./mcr_result">
+	<table cellpadding="0" cellspacing="0" width="100%">
 		<tbody>
-			<x:if select="./mcr_result" >
-				<x:forEach select="./mcr_result/all-metavalues">
-					<x:set var="resultlistLink"	select="string(./metaname[1]/resultlistLink/@href)" />
+		<tr><td>
+			<x:forEach select="./mcr_result/all-metavalues">
+					<x:set var="resultlistLink" select="string(./metaname[1]/resultlistLink/@href)" />
 					<x:set var="mcrID" select="string(@ID)" />
 					<x:set var="docType" select="string(@docType)" />
 					<!--  the number corresponds to the x. entry in resultlist-*.xml -->
-					<x:set var="contentType"	select="./metaname[3]/metavalues/metavalue/@categid" />
-					<table id="resultList" width="100%" >
+					<x:set var="contentType" select="string(./metaname[@name='OMD.class-types']/metavalues/metavalue/@categid)" />
+					<table id="resultList" width="100%">
 						<tbody>
 							<tr>
-								<td width="30px" class="resultIcon" rowspan="4" valign="top" ><x:choose>
+								<td width="30px" class="resultIcon" rowspan="2" valign="top">
+								<x:choose>
 									<x:when select="contains($docType, 'author')">
-										<img src="${WebApplicationBaseURL}/images/person.gif" alt="author" />
+										<img src="${WebApplicationBaseURL}/images/pubtype/person.gif"	alt="author" />
 									</x:when>
 									<x:when select="contains($docType, 'institution')">
-										<img src="${WebApplicationBaseURL}/images/institution.gif" alt="institution" />
+										<img src="${WebApplicationBaseURL}/images/pubtype/institution.gif"
+											alt="institution" />
 									</x:when>
-									<x:when select="contains($docType, 'disshab')">
-										<img src="${WebApplicationBaseURL}/images/disshab.gif" alt="disshab" />
-									</x:when>
-									<x:when select="contains($docType, 'document')">
+									<x:when select="contains('document disshab',$docType)">
 										<x:choose>
-											<x:when select="contains($contentType, 'FORMAT0001')">
-												<img src="${WebApplicationBaseURL}/images/article.gif" alt="text" />
+											<x:when select="contains('TYPE0001.001', $contentType)">
+												<img src="${WebApplicationBaseURL}/images/pubtype/monographie.gif"
+													alt="text" />
 											</x:when>
-											<x:when select="contains($contentType, 'FORMAT0002')">
-												<img src="${WebApplicationBaseURL}/images/picture.gif" alt="image" />
+											<x:when select="contains('TYPE0001.002 TYPE0001.003 TYPE0001.004', $contentType)">
+												<img src="${WebApplicationBaseURL}/images/pubtype/periodical.gif"
+													alt="periodicals" />
 											</x:when>
-											<x:when select="contains($contentType, 'FORMAT0005')">
-												<img src="${WebApplicationBaseURL}/images/musikalie.gif" alt="notes" />
+											<x:when select="contains('TYPE0001.005',$contentType)">
+												<img src="${WebApplicationBaseURL}/images/pubtype/musikalie.gif"
+													alt="music" />
 											</x:when>
-											<x:when select="contains($contentType, 'FORMAT0006')">
-												<img src="${WebApplicationBaseURL}/images/software.gif" alt="software" />
+											<x:when select="contains('TYPE0001.006',$contentType)">
+												<img src="${WebApplicationBaseURL}/images/pubtype/patent.gif"
+													alt="patent" />
 											</x:when>
-											<x:when select="contains($contentType, 'FORMAT0009')">
-												<img src="${WebApplicationBaseURL}/images/audio.gif" alt="sound" />
+											<x:when select="contains('TYPE0001.007',$contentType)">
+												<img src="${WebApplicationBaseURL}/images/pubtype/map.gif"
+													alt="map" />
 											</x:when>
-											<x:when select="contains($contentType, 'FORMAT0010')">
-												<img src="${WebApplicationBaseURL}/images/audiovisual.gif" alt="video" />
+											<x:when select="contains($contentType,'TYPE0002' )">
+												<img
+													src="${WebApplicationBaseURL}/images/pubtype/article.gif"
+													alt="disshab" />
+											</x:when>
+											<x:when select="contains($contentType,'TYPE0003' )">
+												<img src="${WebApplicationBaseURL}/images/pubtype/disshab.gif"
+													alt="disshab" />
+											</x:when>
+											<x:when select="contains('TYPE00010.001', $contentType )">
+												<img src="${WebApplicationBaseURL}/images/pubtype/rede.gif"
+													alt="speech" />
 											</x:when>
 											<x:otherwise>
-												<img src="${WebApplicationBaseURL}/images/unknown.gif"	alt="unknown" />
+												<x:set var="formatType"
+													select="string(./metaname[@name='OMD.class-formats']/metavalues/metavalue/@categid)" />
+												<x:choose>
+													<x:when select="contains('FORMAT0001', $formatType)">
+														<img src="${WebApplicationBaseURL}/images/pubtype/article.gif"
+															alt="text" />
+													</x:when>
+													<x:when select="contains('FORMAT0002', $formatType)">
+														<img src="${WebApplicationBaseURL}/images/pubtype/picture.gif"
+															alt="image" />
+													</x:when>
+													<x:when select="contains('FORMAT0005 FORMAT0006  FORMAT0008', $formatType)">
+														<img src="${WebApplicationBaseURL}/images/pubtype/software.gif"
+															alt="software" />
+													</x:when>
+													<x:when select="contains('FORMAT0009', $formatType)">
+														<img src="${WebApplicationBaseURL}/images/pubtype/audio.gif"
+															alt="audio" />
+													</x:when>
+													<x:when select="contains('FORMAT0010', $formatType)">
+														<img src="${WebApplicationBaseURL}/images/pubtype/audiovisual.gif"
+															alt="video" />
+													</x:when>
+													<x:otherwise>
+														<img src="${WebApplicationBaseURL}/images/pubtype/unknown.gif"
+															alt="unknown" />
+													</x:otherwise>
+												</x:choose>
 											</x:otherwise>
 										</x:choose>
 									</x:when>
 									<x:when select="contains('professorum codice', $docType)">
-										<img src="${WebApplicationBaseURL}/images/handwriting.gif"	alt="historische Sammlung" />
+										<img
+											src="${WebApplicationBaseURL}/images/pubtype/handwriting.gif"
+											alt="historische Sammlung" />
 									</x:when>
 									<x:otherwise>
-										<img src="${WebApplicationBaseURL}/images/unknown.gif" alt="unknown" />
+										<img src="${WebApplicationBaseURL}/images/pubtype/unknown.gif"
+											alt="unknown" />
 									</x:otherwise>
-								</x:choose></td>
-								<td class="resultTitle">
-									<a href="${resultlistLink}&path=${navPath}.docdetail&resultid=${resultid}">
-										<x:choose>
-										<x:when select="contains('codice',$docType)">
-			                            	<x:out select="./metaname[1]/metavalues[2]/metavalue/@text" />
-			                            	<x:out select="./metaname[1]/metavalues[3]/metavalue/@text" />                            	                            	                            	
-										</x:when>
-										<x:when select="contains('professorum',$docType)">
-											<x:out	select="./metaname[1]/metavalues/metavalue/@text"	/>,
-											<x:out	select="./metaname[1]/metavalues[2]/metavalue/@text"	/>										
-										</x:when>
-										<x:otherwise>
-											<x:out	select="./metaname[1]/metavalues/metavalue/@text"	/>
-										</x:otherwise>
-										</x:choose>
-									</a>
-									
+								</x:choose>
 								</td>
-								<td class="id" align="right" >[<c:out	value="${mcrID}" />]		</td>
+								<td class="resultTitle">
+								<a href="${resultlistLink}&path=${navPath}.docdetail&resultid=${resultid}">
+								<x:choose>
+									<x:when select="contains('codice',$docType)">
+										<x:out select="./metaname[1]/metavalues[2]/metavalue/@text" />
+										<x:out select="./metaname[@name='OMD.title']/metavalues[3]/metavalue/@text" />
+									</x:when>
+									<x:when select="contains('professorum',$docType)">
+										<x:out select="./metaname[1]/metavalues/metavalue/@text" />,
+										<x:out select="./metaname[1]/metavalues[2]/metavalue/@text" />
+									</x:when>
+									<x:otherwise>
+										<x:out select="./metaname[1]/metavalues/metavalue/@text" />
+									</x:otherwise>
+								</x:choose> </a></td>
+								<td class="id" align="right">[<c:out value="${mcrID}" />]
+								</td>
 							</tr>
+							<tr>
+								<td colspan="2" class="description">
+								 <x:forEach select="./metaname[position() > 1]" >
+								   <x:if select="./@name != '' ">
+										<x:set var="name" select="string(./@name)" />
+										<fmt:message key="${name}" />:
+								   </x:if>							 
+	 							   <x:forEach select="./metavalues" >
+									<x:set var="separator" select="string(./@separator)" />
+									<x:set var="introkey" select="string(./@introkey)" />
+									
+									<x:if select="generate-id(../metavalues[position() > 1]) = generate-id(.)">
+			                           <x:out select="$separator" escapeXml="false" />
+                        			</x:if>									
 
+ 							        <x:forEach select="./metavalue[position() = 1]" >
+										<x:set var="text" select="string(./@text)" />
+										<x:set var="href" select="string(./@href)" />
+											 							   
+										<c:if test="${fn:length(introkey) > 0 }">
+											<fmt:message key="${introkey}" />
+										</c:if>
+										<c:choose>
+											<c:when test="${!empty(href) }">
+												<a href="${href}"><c:out value="${text}"></c:out></a>
+											</c:when>
+											<c:otherwise>
+												<c:out value="${text}"></c:out>
+											</c:otherwise>
+										</c:choose>
+									</x:forEach>
+									
+								  </x:forEach>	
+								  <br/>
+								 </x:forEach>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</x:forEach>
+		</td>
+		</tr>		
+	</tbody>
+	</table>			
+	       
+      		<div id="resultListFooter"><mcr:browsePageCtrl
+					var="browseControl" totalhits="${totalhits}"
+					numPerPage="${numPerPage}" currentPage="${page}"
+					maxDisplayedPages="10" resultid="${resultid}" /> <x:forEach
+					select="$browseControl/mcr_resultpages/mcr_resultpage">
+					<x:if select="generate-id(../mcr_resultpage[1]) = generate-id(.)">
+						<fmt:message key="Webpage.searchresults.hitlists" />
+					</x:if>
+					<x:choose>
+						<x:when
+							select="( (contains(../@cutted-left,'true')) and (generate-id(../mcr_resultpage[1]) = generate-id(.)) )">
+							<a href="${WebApplicationBaseURL}<x:out select="./@href" />">&lt;&lt;&lt;</a>&#160;
+	        </x:when>
+						<x:when
+							select="( (contains(../@cutted-right,'true')) and (generate-id(../mcr_resultpage[last()]) = generate-id(.)) )">
+							<a href="${WebApplicationBaseURL}<x:out select="./@href" />">&gt;&gt;&gt;</a>&#160;
+	        </x:when>
+						<x:otherwise>
 							<x:choose>
-								<x:when select="contains($docType, 'author')">
-									<tr>
-										<td colspan="2" class="resultData"><x:out
-											select="./metaname[@name='OMD.institution']/metavalues/metavalue/@text" />
-										</td>
-									</tr>
-								</x:when>
-								<x:when select="contains($docType, 'institution')">
-									<tr>
-										<td class="resultData" colspan="2">
-										<x:out	select="./metaname[@name='OMD.city']/metavalues/metavalue/@text" />
-										</td>
-									</tr>
-								</x:when>
-								<x:when select="contains('document disshab', $docType)">
-									<tr>
-										<td class="author" colspan="2">
-										<!-- autorenlink -->
-			                            <x:if select="not(contains(./metaname[2]/@name,'dummy'))">
-			                                <x:forEach select="./metaname[2]/metavalues">
-			                                    <x:if select="generate-id(../metavalues[position() = 1]) != generate-id(.)">
-			                                       <x:out select="../metavalues/@separator" escapeXml="false" />
-			                                    </x:if>                    
-			                                    <x:choose>
-			                                        <x:when select="./metavalue/@href != '' ">
-			                                            <a href="<x:out select="./metavalue/@href" />"><x:out select="./metavalue/@text" escapeXml="./@escapeXml" /></a>
-			                                        </x:when>
-			                                        <x:otherwise>
-			                                            <x:out select="./metavalue/@text" />
-			                                        </x:otherwise>
-			                                    </x:choose>
-			                                </x:forEach>
-			                            </x:if>
-			                            </td>
-									</tr>
-									<tr>
-										<td colspan="2" class="resultData">
-											<x:out	select="./metaname[@name='OMD.class-types']/metavalues/metavalue/@text"	escapeXml="./metaname[@name='OMD.class-types']/metavalues/@escapeXml" />
-											- 
-											<fmt:message key="Webpage.searchresults.lastChanged">
-												<fmt:param>
-													<x:out select="./metaname[@name='OMD.changed']/metavalues/metavalue/@text"	escapeXml="./metaname[@name='OMD.changed']/metavalues/@escapeXml" />
-												</fmt:param>
-											</fmt:message>
-										</td>
-									</tr>
-									<tr>
-										<td colspan="2" class="description">
-										<x:out	select="./metaname[@name='OMD.descriptions']/metavalues/metavalue/@text" escapeXml="./metaname[@name='OMD.descriptions']/metavalues/@escapeXml" />
-										</td>
-									</tr>
-								</x:when>
-								<x:when select="contains('codice professorum', $docType)">
-									<tr>
-										<td colspan="2" class="resultData">
-	                                    <x:forEach select="./metaname[position() >= 4]" >
-	                                        <x:if select="./@name != '' ">
-	                                            <x:set var="name" select="string(./@name)"/>   
-	                                            <fmt:message key="${name}" />:
-											</x:if>		                                            
-	                                        <x:forEach select="./metavalues/metavalue[position() = 1]" >
-	                                        <x:set var="introkey" select="string(../@introkey)" />                                                  
-			                                <c:if test="${fn:length(introkey) > 0 }" >
-												<fmt:message key="${introkey}" />
-					                        </c:if>
-	                                       
-	                                        <!--  Nur ersten Eintrag darstellen  -->	                                       
-											 <x:choose>
-		                                        <x:when select="./@href != '' ">
-		                                            <a href="<x:out select="./@href" />"><x:out select="./@text" /></a>
-		                                        </x:when>		                                        
-		                                        <x:otherwise>
-		                                            <x:out select="./@text" />
-		                                        </x:otherwise>
-	 		                                 </x:choose>         
- 		                                   </x:forEach>                                    
- 										<br/>                                      
-	                                    </x:forEach>     	
-										</td>
-									</tr>				
-									<tr>
-										<td colspan="2" class="resultData">
-											<x:out	select="./metaname[@name='OMD.class-types']/metavalues/metavalue/@text"	escapeXml="./metaname[@name='OMD.class-types']/metavalues/@escapeXml" />
-											- 
-											<fmt:message key="Webpage.searchresults.lastChanged">
-												<fmt:param>
-													<x:out select="./metaname[@name='OMD.changed']/metavalues/metavalue/@text"	escapeXml="./metaname[@name='OMD.changed']/metavalues/@escapeXml" />
-												</fmt:param>
-											</fmt:message>
-										</td>
-									</tr>
-								</x:when>		
-											
-							<x:otherwise>
-							<!--  should never  occure-->
-							   <tr>
-								<td class="description" colspan="2">
-									<table>
-										<tr>
-											<td class="imageInResultlist"><x:set var="mainFileURL"
-												select="concat($WebApplicationBaseURL,'file/',.//digitalobject/@derivid,'/',.//digitalobject/@derivmain,'?hosts=',$host)" />
-												<c:choose>
-													<c:when	test="${!empty(contentType) and fn:contains('gif-jpeg-png', contentType)}">
-														<a href="${resultlistLink}"><img src="${mainFileURL}" width="100"></a>
-													</c:when>
-											       	<c:otherwise>
-                                               		&#160;
-	                                           		</c:otherwise>
-												</c:choose>
-											</td>
-											<td rowspan="2" align="right" valign="top"	class="description"></td>
-										</tr>
-									</table>
-									</td>
-								</tr>
-								<tr>
-									<td colspan="2" class="resultData"><x:out
-										select="./metaname[@name='OMD.class-types']/metavalues/metavalue/@text"
-										escapeXml="./metaname[@name='OMD.class-types']/metavalues/@escapeXml" />:
-									<fmt:message key="Webpage.searchresults.lastChanged">
-										<fmt:param>
-											<x:out
-												select="./metaname[@name='OMD.changed']/metavalues/metavalue/@text"
-												escapeXml="./metaname[@name='OMD.changed']/metavalues/@escapeXml" />
-										</fmt:param>
-									</fmt:message></td>
-								</tr>
-								<tr>
-									<td colspan="2" class="description"><x:out
-										select="./metaname[@name='OMD.descriptions']/metavalues/metavalue/@text"
-										escapeXml="./metaname[@name='OMD.descriptions']/metavalues/@escapeXml" />
-									</td>
-								</tr>
-							</x:otherwise>
-						</x:choose>
-	 				</x:forEach>
-				</x:if>
-			</tbody>
-		</table>
-    <br/>
-	</x:forEach>
-    
-	<div id="resultListFooter">				
-	  <mcr:browsePageCtrl var="browseControl" totalhits="${totalhits}" numPerPage="${numPerPage}" currentPage="${page}" maxDisplayedPages="10" resultid="${resultid}" /> 
-	  <x:forEach select="$browseControl/mcr_resultpages/mcr_resultpage">		
-		<x:if select="generate-id(../mcr_resultpage[1]) = generate-id(.)">
-				<fmt:message key="Webpage.searchresults.hitlists" />
-		</x:if>
-		<x:choose>
-			<x:when	select="( (contains(../@cutted-left,'true')) and (generate-id(../mcr_resultpage[1]) = generate-id(.)) )">
-				<a href="${WebApplicationBaseURL}<x:out select="./@href" />">&lt;&lt;&lt;</a>&#160;
-	        </x:when>
-			<x:when	select="( (contains(../@cutted-right,'true')) and (generate-id(../mcr_resultpage[last()]) = generate-id(.)) )">
-				<a href="${WebApplicationBaseURL}<x:out select="./@href" />">&gt;&gt;&gt;</a>&#160;
-	        </x:when>
-			<x:otherwise>
-				<x:choose>
-					<x:when select="contains(./@current,'true')">
+								<x:when select="contains(./@current,'true')">
            	        [<x:out select="./@pageNr" />]
        				</x:when>
-					<x:otherwise>
-					<!-- /servlets/MCRSearchServlet?mode=results&id=-1xm6zxm7vxrojerkdk1sv&page=2&numPerPage=10	-->									
-   	                [<a href="${WebApplicationBaseURL}<x:out select="./@href" />"><x:out select="./@pageNr" /></a>]                
+								<x:otherwise>
+									<!-- /servlets/MCRSearchServlet?mode=results&id=-1xm6zxm7vxrojerkdk1sv&page=2&numPerPage=10	-->									
+   	                [<a
+										href="${WebApplicationBaseURL}<x:out select="./@href" />"><x:out
+										select="./@pageNr" /></a>]                
 	                </x:otherwise>
-				</x:choose>
-			</x:otherwise>
-	    </x:choose>
-	  </x:forEach>
-	</div>	
-	<br/>	
+							</x:choose>
+						</x:otherwise>
+					</x:choose>
+				</x:forEach>
+			</div>
+		<br />	
+	 </x:if>
+   </x:forEach>
+				

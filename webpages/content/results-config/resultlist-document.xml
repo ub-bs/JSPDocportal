@@ -8,22 +8,16 @@
         <MCRDocDetailContent xpath="/mycoreobject/metadata/creatorlinks/creatorlink" templatetype="tpl-author_links" separator=", " languageRequired="no" />
         <MCRDocDetailContent xpath="/mycoreobject/metadata/creators/creator" templatetype="tpl-text-values" separator=", " languageRequired="no" />
     </MCRDocDetail>
+    <MCRDocDetail rowtype="standard" labelkey="OMD.class-types" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/types/type" templatetype="tpl-classification" separator=", " languageRequired="yes" />
+    </MCRDocDetail>            
     <MCRDocDetail rowtype="standard" labelkey="OMD.class-formats" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/formats/format" templatetype="tpl-classification" separator=", " languageRequired="yes" />
-    </MCRDocDetail>
-    <MCRDocDetail rowtype="standard" labelkey="OMD.id" >
-        <MCRDocDetailContent xpath="/mycoreobject/@ID" templatetype="tpl-text-values" separator=", " languageRequired="no" />
-    </MCRDocDetail>     
-    <MCRDocDetail rowtype="standard" labelkey="OMD.changed" >
-        <MCRDocDetailContent xpath="/mycoreobject/service/servdates/servdate[@type='modifydate']" templatetype="tpl-date-valuesMinimal" separator=", " languageRequired="yes" />
     </MCRDocDetail>
     <MCRDocDetail rowtype="standard" labelkey="OMD.descriptions" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/descriptions/description" terminator="..." templatetype="tpl-text-values" separator=", " languageRequired="yes" escapeXml="false" />
     </MCRDocDetail>     
-    <MCRDocDetail rowtype="standard" labelkey="OMD.class-types" >
-        <MCRDocDetailContent xpath="/mycoreobject/metadata/types/type" templatetype="tpl-classification" separator=", " languageRequired="yes" />
-    </MCRDocDetail>            
-    <MCRDocDetail rowtype="standard" labelkey="OMD.documents" >    
-       <MCRDocDetailContent xpath="/mycoreobject/structure/derobjects/derobject" type="document" templatetype="tpl-document" separator="br" languageRequired="no" />    
-    </MCRDocDetail>    
+    <MCRDocDetail rowtype="standard" labelkey="OMD.changed" >
+        <MCRDocDetailContent xpath="/mycoreobject/service/servdates/servdate[@type='modifydate']" templatetype="tpl-date-valuesMinimal" separator=", " languageRequired="yes" />
+    </MCRDocDetail>
 </MCRDocDetails>
