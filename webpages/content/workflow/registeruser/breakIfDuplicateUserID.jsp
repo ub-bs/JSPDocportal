@@ -27,8 +27,8 @@
  <tr>
   <td>
 	<br/>
-<%--	<p><fmt:message key="WF.registerUser.ChangeID" />	</p>
-	<p><fmt:message key="WF.registerUser.YourID" /> <c:out value="${userID}" /></p> --%>
+    <p><fmt:message key="WF.registerUser.UserIDExist" />	</p>
+	<p><fmt:message key="WF.registerUser.YourID" /> <c:out value="${userID}" /></p> 
 
 	<form method="post" action="MCRPassToTargetServlet">
 	<input type="hidden" name="target" value="MCRRegisterUserWorkflowServlet" />
