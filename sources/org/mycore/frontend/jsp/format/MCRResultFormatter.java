@@ -64,8 +64,7 @@ public class MCRResultFormatter {
     static {
         logger=Logger.getLogger(MCRResultFormatter.class);
         WebApplicationBaseURL = NavServlet.getNavigationBaseURL();
-        xlinkNamespace = org.jdom.Namespace.getNamespace("xlink",
-    			MCRDefaults.XLINK_URL);
+        xlinkNamespace = org.jdom.Namespace.getNamespace("xlink", MCRDefaults.XLINK_URL);
         URN_RESOLVER = CONFIG.getString("MCR.URN_RESOLVER.URL", "http://nbn-resolving.de/urn/resolver.pl");
     }	
     
@@ -300,7 +299,7 @@ public class MCRResultFormatter {
     	MCRDerivate mcr_der = new MCRDerivate();
     	try {
 			for(Iterator it = XPath.selectNodes(doc,xpath).iterator(); it.hasNext(); ) {
-			    String derivateID = ((Element) it.next()).getAttributeValue("href",Namespace.getNamespace("xlink",MCRDefaults.XLINK_URL));
+			    String derivateID = ((Element) it.next()).getAttributeValue("href",xlinkNamespace);
 			    try {
 			    	mcr_der.receiveFromDatastore(derivateID);
 			    } catch (Exception noDerivate) {
@@ -335,20 +334,28 @@ public class MCRResultFormatter {
     	metaValues.setAttribute("terminator",terminator);    	
     	metaValues.setAttribute("introkey", introkey);
     	metaValues.setAttribute("escapeXml", escapeXml);    	
-    	MCRObject mcr_obj = new MCRObject();
+    	//MCRObject mcr_obj = new MCRObject();
     	try {
 			for(Iterator it = XPath.selectNodes(doc,xpath).iterator(); it.hasNext(); ) {
 			    Element personlink = (Element) it.next();
-			    MCRObjectID person_id = new MCRObjectID(personlink
-			        .getAttributeValue("href",Namespace.getNamespace("xlink",MCRDefaults.XLINK_URL)));
+			    //MCRObjectID person_id = new MCRObjectID(personlink.getAttributeValue("href",xlinkNamespace));
 			    try{
-			        mcr_obj.receiveFromDatastore(person_id); 
+	        		Element metaValue = new Element("metavalue");
+	        		String href = WebApplicationBaseURL + "metadata/" + personlink.getAttributeValue("href",xlinkNamespace);
+					metaValue.setAttribute("href",href);
+					metaValue.setAttribute("text", personlink.getAttributeValue("title", xlinkNamespace));			        
+					metaValues.addContent(metaValue);
+					
+					/**
+	        		mcr_obj.receiveFromDatastore(person_id); 
 					Element creator_root = mcr_obj.createXML().getRootElement();			        
 			        String creatorName = (String) XPath.selectSingleNode(creator_root,"string(./metadata/names/name/fullname)");
 	        		Element metaValue = new Element("metavalue");
 					metaValue.setAttribute("href","");
 					metaValue.setAttribute("text",creatorName);			        
-					metaValues.addContent(metaValue);			        
+					metaValues.addContent(metaValue);
+					**/
+					
 			    }catch (Exception ex) {
 			        logger.debug("error occured", ex);
 			    	return metaValues;			        
@@ -404,8 +411,24 @@ public class MCRResultFormatter {
 				if ( classID != null ) {
 					MCRCategoryItem categItem = MCRCategoryItem.getCategoryItem(classID,categID);
 					Element metaValue = new Element("metavalue");
-					metaValue.setAttribute("href",categItem.getURL());
-					metaValue.setAttribute("target","new");
+					if (categItem.getURL().length() >0 ){
+						metaValue.setAttribute("href",categItem.getURL());
+						metaValue.setAttribute("target","new");
+					} else {
+						//http://localhost:8080/atlibri/servlets/MCRJSPSearchServlet?query=ddc+=+9&mask=~searchstart-classddc
+						try {
+							String searchfield = MCRConfiguration.instance().getString("MCR.Class.SearchField."+ classID);
+							if ( searchfield != null ){
+								String href = WebApplicationBaseURL + "servlets/MCRJSPSearchServlet?query="
+									+ searchfield + "+=+" + categID + "&mask=~searchstart-simple";
+								metaValue.setAttribute("href",href);
+								metaValue.setAttribute("target","");
+							}
+						}catch (Exception all) {
+							//MCR.Class.SearchField.<classID> is not set
+							logger.info("Property MCR.Class.SearchField." + classID + " is not set!!");
+						}
+					}
 					metaValue.setAttribute("text",categItem.getText(lang));
 					metaValue.setAttribute("classid",classID);
 					metaValue.setAttribute("categid",categID);
@@ -433,7 +456,7 @@ public class MCRResultFormatter {
         	MCRDerivate mcr_der = new MCRDerivate();
         	try {
     			for(Iterator it = XPath.selectNodes(doc,xpath).iterator(); it.hasNext(); ) {
-    			    String derivateID = ((Element) it.next()).getAttributeValue("href",Namespace.getNamespace("xlink",MCRDefaults.XLINK_URL));
+    			    String derivateID = ((Element) it.next()).getAttributeValue("href", xlinkNamespace);
     			    try {
     			    	mcr_der.receiveFromDatastore(derivateID);
 	    			} catch (Exception noDerivate) {
@@ -708,7 +731,7 @@ public class MCRResultFormatter {
     	//MCRObject mcr_obj = new MCRObject();
     	try {
 			for(Iterator it = XPath.selectNodes(doc,xpath).iterator(); it.hasNext(); ) {
-			    String childID = ((Element) it.next()).getAttributeValue("href",Namespace.getNamespace("xlink",MCRDefaults.XLINK_URL));
+			    String childID = ((Element) it.next()).getAttributeValue("href",xlinkNamespace);
 			    //mcr_obj.receiveFromDatastore(childID);
 			    Element childObject = new Element("child");			    		
 			    childObject.setAttribute("childID",childID);
@@ -869,7 +892,7 @@ public class MCRResultFormatter {
 	        Element mycoreobject = hit.getRootElement();
 	        String mcrID = mycoreobject.getAttributeValue("ID");
 	        String docType = mcrID.substring(mcrID.indexOf("_")+1,mcrID.lastIndexOf("_"));
-	        StringBuffer doclink = new StringBuffer(NavServlet.getNavigationBaseURL())
+	        StringBuffer doclink = new StringBuffer(WebApplicationBaseURL)
 		            //.append("nav?path=~docdetail&id=").append(hitID)
 		            .append("nav?id=").append(hitID)
 		            .append("&offset=").append(k).append("&doctype=").append(docType);
