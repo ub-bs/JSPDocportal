@@ -91,7 +91,7 @@
       
       <cell col="1" row="62"  colspan="4" anchor="WEST" ><hr/> </cell>
       
-      <cell col="1" row="70" anchor="NORTHWEST" ref="LDate" />
+      <cell col="1" row="70" anchor="NORTHWEST" ref="LDateP" />
       <cell col="2" row="70" anchor="NORTHWEST" ref="DDate" sortnr="12"  />
       <cell col="3" row="70" anchor="NORTHWEST">
         <space width="20" height="0" />
@@ -122,7 +122,7 @@
       <cell col="1" row="101"  colspan="4" anchor="WEST" ><hr/> </cell>
 
       <!-- Schlagworte -->
-      <cell col="1" row="110" anchor="NORTHWEST" ref="LKeywords" />
+      <cell col="1" row="110" anchor="NORTHWEST" ref="LKeywordsP" />
       <cell col="2" row="110" anchor="NORTHWEST" ref="DKeywords" sortnr="19"  />
       <cell col="3" row="110" anchor="NORTHWEST">
         <space width="20" height="0" />

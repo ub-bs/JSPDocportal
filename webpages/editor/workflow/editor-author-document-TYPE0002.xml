@@ -80,7 +80,7 @@
 
       
       <!-- Schlagworte -->
-      <cell col="1" row="70" anchor="NORTHWEST" ref="LKeywords" />
+      <cell col="1" row="70" anchor="NORTHWEST" ref="LKeywordsP" />
       <cell col="2" row="70" anchor="NORTHWEST" ref="DKeywords" sortnr="19"  />
       <cell col="3" row="70" anchor="NORTHWEST">
         <space width="20" height="0" />
@@ -104,7 +104,7 @@
       </cell>
       <cell col="4" row="80" anchor="WEST" ref="HDescription" />
       
-      <cell col="1" row="90" anchor="NORTHWEST" ref="LDate" />
+      <cell col="1" row="90" anchor="NORTHWEST" ref="LDateP" />
       <cell col="2" row="90" anchor="NORTHWEST" ref="DDate" sortnr="12"  />
       <cell col="3" row="90" anchor="NORTHWEST">
         <space width="20" height="0" />
