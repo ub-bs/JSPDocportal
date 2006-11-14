@@ -566,7 +566,8 @@ MCR.EventHandler.MCRObject.1.class=org.mycore.access.MCRAccessEventHandler
 MCR.EventHandler.MCRObject.2.class=org.mycore.datamodel.metadata.MCRXMLTableEventHandler
 MCR.EventHandler.MCRObject.3.class=org.mycore.datamodel.metadata.MCRLinkTableEventHandler
 MCR.EventHandler.MCRObject.4.Indexer=lucenem
-
+#clears classification caches
+#MCR.EventHandler.MCRObject.5.class=org.mycore.datamodel.classifications.MCRClassificationEventHandler
 
 MCR.EventHandler.MCRDerivate.1.class=org.mycore.access.MCRAccessEventHandler
 MCR.EventHandler.MCRDerivate.2.class=org.mycore.datamodel.metadata.MCRXMLTableEventHandler
