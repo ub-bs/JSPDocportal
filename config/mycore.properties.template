@@ -150,7 +150,7 @@ MCR.Class.SearchField.DocPortal_class_00000006=format
 MCR.Classification.Format.DefaultCategoryID.xmetadiss=FORMAT0001
 MCR.Classification.Type.SelectCategoryIDs.xmetadiss=TYPE0003.006,TYPE0003.007
 MCR.Classification.Language.SelectCategoryIDs.xmetadiss=LANG0001,LANG0002,LANG0000
-MCR.Classification.Type.SelectCategoryIDs.publication=TYPE0001.001,TYPE0001.002,TYPE0001.003,TYPE0001.004,TYPE0001.005,TYPE0001.006,TYPE0001.007,TYPE0002.001,TYPE0002.002
+MCR.Classification.Type.SelectCategoryIDs.publication=TYPE0001.001,TYPE0001.002,TYPE0001.003,TYPE0001.004,TYPE0001.005,TYPE0001.006,TYPE0001.007,TYPE0002.001,TYPE0002.002,TYPE0010.001,TYPE0010.002
 
 MCR.WorkflowEngine.PublisherDefaultID.xmetadiss=DocPortal_institution_00000001
 MCR.WorkflowEngine.Rightslinks.DefaultURL.xmetadiss=http://www.mycore.de/dissertations-copyright.html
