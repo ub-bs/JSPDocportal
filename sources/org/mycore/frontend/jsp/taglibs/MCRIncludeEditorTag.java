@@ -124,8 +124,12 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 			}else if(uploadID == null || uploadID.equals("") ) {
 				StringBuffer base = new StringBuffer(NavServlet.getBaseURL()).
 						append("editor/workflow/editor_form_").append(step).append('-').append(type);			
-				if (publicationType != null && !publicationType.equals(""))
-					base.append("-").append(publicationType);					
+				if (publicationType != null && !publicationType.equals("")) {
+					if ( publicationType.endsWith("TYPE0002") )
+						base.append("-").append("TYPE0002");
+					else 
+						base.append("-").append("TYPE0001");
+				}
 				base.append(".xml");	
 				editorBase = base.toString();
 
