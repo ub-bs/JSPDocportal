@@ -27,11 +27,11 @@
             <!-- *** Update allowed? *** -->
 			<hidden var="user/@update_allowed" default="true" />
             <!-- *** Password *** -->
-		    <hidden var="user/user.password" default="dummy"  />
+		    <hidden var="user/user.password" default="dummy"  sortnr="1"/>
             <!-- *** Primary group = membergroup *** -->
-            <hidden var="user/user.primary_group" default="membergroup" /> 
+            <hidden var="user/user.primary_group" default="membergroup" sortnr="3"/> 
 			
-            <hidden var="user/user.creator" default="administrator" />
+            <hidden var="user/user.creator" default="administrator" sortnr="4" />
 			
             <cell row="1" col="1" ref="VSpace5" anchor="EAST" />
 
@@ -69,7 +69,8 @@
                     </label>
                 </text>
             </cell>
-            <cell row="6" col="2" anchor="WEST" ref="CGroupDescription" var="user/user.description" sortnr="2"/>
+            <cell row="6" col="2" anchor="WEST" ref="CGroupDescription" var="user/user.groups/groups.groupID" sortnr="6"/>
+            
             <cell row="6" col="3" anchor="EAST">
                 <helpPopup id="HDescription" width="400px" >
                     <label xml:lang="de">
@@ -84,7 +85,7 @@
             </cell> 
             
             <cell row="7" col="1" ref="VSpace50" anchor="EAST" />
-            <cell row="7" col="2" anchor="WEST" ref="TFarea4096M" var="user/user.description" autofill="Alternativ können Sie hier Vorhaben beschreiben" sortnr="2" />
+            <cell row="7" col="2" anchor="WEST" ref="TFarea4096M" var="user/user.description" sortnr="2" />
                         
             <!-- *** Contact information *** -->
             <cell row="9" col="1" ref="VSpace50" anchor="EAST" />
@@ -110,7 +111,7 @@
                     </label>
                 </text>
             </cell>
-            <cell row="10" col="2" anchor="WEST" ref="TFzeile32" var="user/user.contact/contact.salutation" sortnr="5" />
+            <cell row="10" col="2" anchor="WEST" ref="TFzeile32" var="user/user.contact/contact.salutation"  sortnr="5" />
 
             <!-- *** First name *** -->
             <cell row="11" col="1" anchor="EAST">
@@ -123,7 +124,7 @@
                     </label>
                 </text>
             </cell>
-            <cell row="11" col="2" anchor="WEST" ref="TFzeile64M" var="user/user.contact/contact.firstname" sortnr="6" />
+            <cell row="11" col="2" anchor="WEST" ref="TFzeile64M" var="user/user.contact/contact.firstname"  />
 
             <!-- *** Last name *** -->
             <cell row="12" col="1" anchor="EAST">
@@ -136,7 +137,7 @@
                     </label>
                 </text>
             </cell>
-            <cell row="12" col="2" anchor="WEST" ref="TFzeile64M" var="user/user.contact/contact.lastname" sortnr="7" />
+            <cell row="12" col="2" anchor="WEST" ref="TFzeile64M" var="user/user.contact/contact.lastname"  />
 
             <!-- *** Street *** -->
             <cell row="13" col="1" anchor="EAST">
@@ -149,7 +150,7 @@
                     </label>
                 </text>
             </cell>
-            <cell row="13" col="2" anchor="WEST" ref="TFzeile128" var="user/user.contact/contact.street" sortnr="8" />
+            <cell row="13" col="2" anchor="WEST" ref="TFzeile128" var="user/user.contact/contact.street"  />
 
             <!-- *** City *** -->
             <cell row="14" col="1" anchor="EAST">
@@ -162,7 +163,7 @@
                     </label>
                 </text>
             </cell>
-            <cell row="14" col="2" anchor="WEST" ref="TFzeile128" var="user/user.contact/contact.city" sortnr="9" />
+            <cell row="14" col="2" anchor="WEST" ref="TFzeile128" var="user/user.contact/contact.city" />
 
             <!-- *** Postal code *** -->
             <cell row="15" col="1" anchor="EAST">
@@ -175,7 +176,7 @@
                     </label>
                 </text>
             </cell>
-            <cell row="15" col="2" anchor="WEST" ref="TFzeile32" var="user/user.contact/contact.postalcode" sortnr="10" />
+            <cell row="15" col="2" anchor="WEST" ref="TFzeile32" var="user/user.contact/contact.postalcode"  />
 
             <!-- *** Country *** -->
             <cell row="16" col="1" anchor="EAST">
@@ -188,7 +189,7 @@
                     </label>
                 </text>
             </cell>
-            <cell row="16" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.country" sortnr="11" />
+            <cell row="16" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.country" />
 
             <!-- *** Institution 
             <cell row="17" col="1" anchor="EAST">
@@ -201,7 +202,7 @@
                     </label>
                 </text>
             </cell>
-            <cell row="17" col="2" anchor="WEST" ref="CInstitution" var="user/user.contact/contact.institution" sortnr="12" />           
+            <cell row="17" col="2" anchor="WEST" ref="CInstitution" var="user/user.contact/contact.institution"  />           
 			*** -->
 			
             <!-- *** Faculty *** -->
@@ -215,7 +216,7 @@
                     </label>
                 </text>
             </cell>
-            <cell row="18" col="2" anchor="WEST" ref="COrigin" var="user/user.contact/contact.faculty" sortnr="13" />
+            <cell row="18" col="2" anchor="WEST" ref="COrigin" var="user/user.contact/contact.faculty"  />
             
 
             <!-- *** Email *** -->
@@ -229,7 +230,7 @@
                     </label>
                 </text>
             </cell>
-            <cell row="21" col="2" anchor="WEST" ref="TFzeile128M" var="user/user.contact/contact.email" sortnr="16" />
+            <cell row="21" col="2" anchor="WEST" ref="TFzeile128M" var="user/user.contact/contact.email"  />
 
             <!-- *** Telephone *** -->
             <cell row="22" col="1" anchor="EAST">
@@ -242,7 +243,7 @@
                     </label>
                 </text>
             </cell>
-            <cell row="22" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.telephone" sortnr="14" />
+            <cell row="22" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.telephone"  />
 
             <!-- *** Fax *** -->
             <cell row="23" col="1" anchor="EAST">
@@ -255,7 +256,7 @@
                     </label>
                 </text>
             </cell>
-            <cell row="23" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.fax" sortnr="15" />
+            <cell row="23" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.fax"  />
 
             <!-- *** Cellphone *** -->
             <cell row="24" col="1" anchor="EAST">
@@ -268,7 +269,7 @@
                     </label>
                 </text>
             </cell>
-            <cell row="24" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.cellphone" sortnr="17" />
+            <cell row="24" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.cellphone"  />
 
             <!-- *** Cellphone *** -->
             <cell row="34" col="1" anchor="EAST">
@@ -281,7 +282,7 @@
                     </label>
                 </text>
             </cell>
-            <cell row="34" col="2" anchor="WEST" var="user/accept">
+            <cell row="34" col="2" anchor="WEST" var="user/accept" sortnr="4">
                 <checkbox value="false" checked="true" class="mandatory" > 
                     <label xml:lang="de">&#160;&#160;Ich erkenne die Regelungen	zur Nutzung der Digitalen Bibliothek an.</label>
                     <label xml:lang="en">&#160;&#160;i accept the licencse rights for using the digital library account. </label>

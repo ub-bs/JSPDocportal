@@ -991,13 +991,13 @@
 	</text>
 
 	<list id="Sphone" width="160" type="dropdown">
-		<item value="Telefon">
+		<item value="phone">
 			<label i18n="Editor.Common.phones.telephone" />
 		</item>
-		<item value="Fax">
+		<item value="fax">
 			<label i18n="Editor.Common.phones.fax" />
 		</item>
-		<item value="Mobil">
+		<item value="mobil">
 			<label i18n="Editor.Common.phones.mobil" />
 		</item>
 	</list>
