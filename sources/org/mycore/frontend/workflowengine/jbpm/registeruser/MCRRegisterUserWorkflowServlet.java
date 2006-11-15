@@ -163,6 +163,7 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 		} else {
 	        org.jdom.Document   indoc = sub.getXML();
             userElement = (Element) indoc.getRootElement().getChild("user").clone();
+            /**
             // remove the n- Entry and put it into one descrition...
             // map the user.groups to the selected description entries
             List descriptions = userElement.getChildren("user.description");
@@ -188,6 +189,7 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
         	if ( groups.getChildren() != null) {
         		userElement.addContent(groups);
         	}
+        	**/
 		}
         
         if ( userElement != null ) {
