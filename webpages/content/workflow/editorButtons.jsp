@@ -179,9 +179,9 @@
 			<x:set var="fileSize" select="string(./@size)" />
 			<tr valign="top">
 				<td>
-				 <!--  http://139.30.48.72:8080/mycoresample/file/DocPortal_derivate_00000008/dissertation.pdf?hosts=local -->
+				 <!--  http://139.30.48.72:8080/mycoresample/wffile/DocPortal_derivate_00000008/dissertation.pdf?hosts=local -->
 				 <a 				
-					href="${baseURL}file/<x:out select="."/>?type=${itemDocType}"
+					href="${baseURL}wffile/<x:out select="."/>?type=${itemDocType}"
 					target="_blank"> <x:out select="." /> </a> [ ${fileSize} ]</td>
 				<td width="30">&nbsp;</td>
 				<td>

@@ -107,6 +107,11 @@
          <servlet-class>org.mycore.frontend.servlets.MCRJSPFileNodeServlet</servlet-class>
     </servlet>
 
+    <servlet id="WFFileNode">
+         <servlet-name>MCRWFFileNodeServlet</servlet-name>
+         <servlet-class>org.mycore.frontend.servlets.MCRWFFileNodeServlet</servlet-class>
+    </servlet>
+
     <servlet>
         <servlet-name>MCRWorkflowAccessRuleEditorServlet</servlet-name>
         <servlet-class>org.mycore.frontend.workflowengine.jbpm.MCRWorkflowAccessRuleEditorServlet</servlet-class>
@@ -353,6 +358,12 @@
     	<servlet-name>MCRWorkflowForEditingStartServlet</servlet-name>
 		<url-pattern>/StartEdit</url-pattern>
     </servlet-mapping> 
+
+    <servlet-mapping>
+         <servlet-name>MCRWFFileNodeServlet</servlet-name>
+         <url-pattern>/wffile/*</url-pattern>
+    </servlet-mapping>
+
 
 	<!--  mycore servlets mapping  -->
 
