@@ -22,7 +22,7 @@
         <MCRDocDetailContent xpath="/mycoreobject/metadata/origins/origin" templatetype="tpl-classification" separator=", " languageRequired="yes" />
     </MCRDocDetail>
     <MCRDocDetail rowtype="standard" labelkey="OMD.date" >
-        <MCRDocDetailContent xpath="/mycoreobject/metadata/dates/date[@type='create']" templatetype="tpl-date-values" separator=", " languageRequired="no" introkey="datecreated" />
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/dates/date[@type='create']" templatetype="tpl-date-valuesMinimal" separator=", " languageRequired="no" introkey="datecreated" />
     </MCRDocDetail> 
     <MCRDocDetail rowtype="space" labelkey="" separator="" />    
 	

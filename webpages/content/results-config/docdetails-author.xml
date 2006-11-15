@@ -8,7 +8,7 @@
         <MCRDocDetailContent xpath="/mycoreobject/metadata/females/female" templatetype="tpl-boolean" separator="" languageRequired="no" />
     </MCRDocDetail>
     <MCRDocDetail rowtype="standard" labelkey="OMD.life" >
-        <MCRDocDetailContent xpath="/mycoreobject/metadata/dates/date" templatetype="tpl-date-values" separator="-" languageRequired="no"  />
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/dates/date" templatetype="tpl-date-valuesMinimal" separator="-" languageRequired="no"  />
     </MCRDocDetail> 
     <MCRDocDetail rowtype="standard" labelkey="OMD.institution" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/institutions/institution" templatetype="tpl-classification" separator=", " languageRequired="yes" />

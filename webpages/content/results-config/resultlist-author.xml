@@ -17,7 +17,7 @@
         <MCRDocDetailContent xpath="/mycoreobject/metadata/institutions/institution" templatetype="tpl-classification" separator=", " languageRequired="yes" />
     </MCRDocDetail>    
     <MCRDocDetail rowtype="standard" labelkey="OMD.changed" >
-        <MCRDocDetailContent xpath="/mycoreobject/service/servdates/servdate[@type='modifydate']" templatetype="tpl-date-valuesMinimal" separator=", " languageRequired="yes" />
+        <MCRDocDetailContent xpath="/mycoreobject/service/servdates/servdate[@type='modifydate']" templatetype="tpl-date-values" separator=", " languageRequired="yes" />
     </MCRDocDetail>
 </MCRDocDetails>
 

@@ -239,16 +239,37 @@
 										<x:set var="href" select="string(./@href)" />
 											 							   
 										<c:if test="${fn:length(introkey) > 0 }">
-											<fmt:message key="${introkey}" />
+											<x:choose>
+			                                <x:when select="../@type = 'messagekey'">
+				                               <x:set var="val" select="string(./@text)" />
+				                               <c:set var="messagekey" value="${introkey}.${val }" />
+			      							   <fmt:message key="${messagekey}" />
+											</x:when>
+											<x:otherwise>
+												<fmt:message key="${introkey}" />
+											</x:otherwise>   
+											</x:choose>
 										</c:if>
-										<c:choose>
-											<c:when test="${!empty(href) }">
-												<a href="${href}"><c:out value="${text}"></c:out></a>
-											</c:when>
-											<c:otherwise>
-												<c:out value="${text}"></c:out>
-											</c:otherwise>
-										</c:choose>
+										<x:choose>                                                               
+			                               <x:when select="../@type = 'messagekey'">
+			                                  <!-- ist schon im introkey behandelt -->
+			                               </x:when>
+			                               <x:when select="../@type = 'BooleanValues'">
+			                                  <x:set var="booleanKey" select="concat(./@type,'-',./@text)" />
+			                                  <fmt:message key="${booleanKey}" />
+			                               </x:when>
+			                               <x:when select="../@type = 'AuthorJoin'">
+			                                  <x:set var="authorjoinKey" select="concat(./@type,'-',./@text)" />
+			                                     <a href="<x:out select="./@href" />" target="<x:out select="./@target" />"><fmt:message key="${authorjoinKey}" /></a>
+			                               </x:when>                                     
+			                               <x:when select="./@href != ''">
+			                                  <a href="<x:out select="./@href" />" target="<x:out select="./@target" />"><x:out select="./@text" /></a>
+			                               </x:when>
+			                               <x:otherwise>
+			                                  <x:out select="./@text" escapeXml="false" /> 
+			                               </x:otherwise>
+			                            </x:choose>
+                            
 									</x:forEach>
 									
 								  </x:forEach>	
@@ -264,11 +285,10 @@
 	</tbody>
 	</table>			
 	       
-      		<div id="resultListFooter"><mcr:browsePageCtrl
-					var="browseControl" totalhits="${totalhits}"
-					numPerPage="${numPerPage}" currentPage="${page}"
-					maxDisplayedPages="10" resultid="${resultid}" /> <x:forEach
-					select="$browseControl/mcr_resultpages/mcr_resultpage">
+      		<div id="resultListFooter">
+      		<mcr:browsePageCtrl	var="browseControl" totalhits="${totalhits}"numPerPage="${numPerPage}" currentPage="${page}"
+					maxDisplayedPages="10" resultid="${resultid}" /> 
+			<x:forEach select="$browseControl/mcr_resultpages/mcr_resultpage">
 					<x:if select="generate-id(../mcr_resultpage[1]) = generate-id(.)">
 						<fmt:message key="Webpage.searchresults.hitlists" />
 					</x:if>
@@ -276,22 +296,21 @@
 						<x:when
 							select="( (contains(../@cutted-left,'true')) and (generate-id(../mcr_resultpage[1]) = generate-id(.)) )">
 							<a href="${WebApplicationBaseURL}<x:out select="./@href" />">&lt;&lt;&lt;</a>&#160;
-	        </x:when>
+				        </x:when>
 						<x:when
 							select="( (contains(../@cutted-right,'true')) and (generate-id(../mcr_resultpage[last()]) = generate-id(.)) )">
 							<a href="${WebApplicationBaseURL}<x:out select="./@href" />">&gt;&gt;&gt;</a>&#160;
-	        </x:when>
+	        			</x:when>
 						<x:otherwise>
 							<x:choose>
-								<x:when select="contains(./@current,'true')">
-           	        [<x:out select="./@pageNr" />]
-       				</x:when>
+								<x:when select="contains(./@current,'true')">[<x:out select="./@pageNr" />]
+			       				</x:when>
 								<x:otherwise>
 									<!-- /servlets/MCRSearchServlet?mode=results&id=-1xm6zxm7vxrojerkdk1sv&page=2&numPerPage=10	-->									
-   	                [<a
+   	        					        [<a
 										href="${WebApplicationBaseURL}<x:out select="./@href" />"><x:out
 										select="./@pageNr" /></a>]                
-	                </x:otherwise>
+				                </x:otherwise>
 							</x:choose>
 						</x:otherwise>
 					</x:choose>

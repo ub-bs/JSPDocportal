@@ -18,6 +18,6 @@
         <MCRDocDetailContent xpath="/mycoreobject/metadata/descriptions/description" terminator="..." templatetype="tpl-text-values" separator=", " languageRequired="yes" escapeXml="false" />
     </MCRDocDetail>     
     <MCRDocDetail rowtype="standard" labelkey="OMD.changed" >
-        <MCRDocDetailContent xpath="/mycoreobject/service/servdates/servdate[@type='modifydate']" templatetype="tpl-date-valuesMinimal" separator=", " languageRequired="yes" />
+        <MCRDocDetailContent xpath="/mycoreobject/service/servdates/servdate[@type='modifydate']" templatetype="tpl-date-values" separator=", " languageRequired="yes" />
     </MCRDocDetail>
 </MCRDocDetails>

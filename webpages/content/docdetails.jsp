@@ -116,6 +116,57 @@
                <td colspan="2" class="metanone">&nbsp;</td>
             </tr>                
          </x:when>
+                  <x:when select="./@type = 'line'">
+            <tr>
+               <td colspan="2" class="metanone"><hr/></td>
+            </tr>                
+         </x:when>
+         <x:when select="./@type = 'table'">
+           <x:set var="nameKey" select="string(./@name)" />
+           <tr>
+            <td class="metaname">
+             <c:if test="${! empty(nameKey)}">
+	             <fmt:message key="${nameKey}" />:
+             </c:if>
+            </td>
+            <td class="metavalue">
+               <x:set var="colnum" select="count(./metavalues)" />
+               <x:set var="rownum" select="count(./metavalues[1]/metavalue)" />
+	           <x:set var="rownum2" select="count(./metavalues[2]/metavalue)" />
+               <c:if test="${rownum2 > rownum}" >
+                  <x:set var="rownum" select="count(./metavalues[2]/metavalue)" />
+               </c:if>   
+               <table border="0" cellpadding="0" cellspacing="4px">
+                   <c:forEach var="i" begin="1" end="${rownum}">
+                     <tr>
+                      <c:forEach var="j" begin="1" end="${colnum}">                              
+                        <td valign="top">
+                          <div style="min-width:110px" >
+                          <x:set var="ikey" select="string(./metavalues[$j]/@introkey)" />   			                               
+					      <x:choose>
+                             <x:when select="./metavalues[$j]/@type = 'messagekey'">
+                              <x:set var="val" select="string(./metavalues[$j]/metavalue[$i]/@text)" />
+                              <c:set var="messagekey" value="${ikey}.${val }" />
+   							  <fmt:message key="${messagekey}" />
+					 		 </x:when>
+					         <x:otherwise>
+								<c:if test="${!empty(ikey)}">   			                               					         
+			                        <fmt:message key="${ikey}" />&nbsp;
+	                            </c:if>    
+                                <x:out select="./metavalues[$j]/metavalue[$i]/@text" escapeXml="false" />
+							 </x:otherwise>   
+						  </x:choose>       
+							&nbsp;                          
+                          </div>
+                         </td>
+                        </c:forEach>
+                       </tr>
+                   </c:forEach>
+                </table>
+           </td>
+          </tr>
+         </x:when>                      
+         
          <x:when select="./@type = 'standard'">
             <x:set var="nameKey" select="string(./@name)" />
             <tr>
@@ -154,7 +205,7 @@
                      <x:if select="generate-id(../metavalues[position() = last()]) != generate-id(.)">
                         <x:out select="$terminator" escapeXml="false" />
                      </x:if>                               
-                  </x:forEach>
+                  </x:forEach>                 
                   
 				<x:forEach select="./digitalobjects">
 				    <c:set var="label"  value="dummy" />
@@ -165,7 +216,7 @@
 				      <x:set var="derivid"  select="string(./@derivid)" />
 				      
 					  <c:if test="${!fn:contains(label,actlabel)}">
-                    <mcr:checkAccess permission="read" var="accessallowed" key="${derivid}" />
+                      <mcr:checkAccess permission="read" var="accessallowed" key="${derivid}" />
 						  <tr>										  
 							<td align="left" valign="bottom" >
 								<div class="derivateHeading">

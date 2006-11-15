@@ -36,10 +36,10 @@
     </MCRDocDetail>
 	
     <MCRDocDetail rowtype="standard" labelkey="OMD.submitted-date" >
-        <MCRDocDetailContent xpath="/mycoreobject/metadata/dates/date[@type='submitted']" templatetype="tpl-date-values" separator=", " languageRequired="no"  />
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/dates/date[@type='submitted']" templatetype="tpl-date-valuesMinimal" separator=", " languageRequired="no"  />
     </MCRDocDetail> 
     <MCRDocDetail rowtype="standard" labelkey="OMD.accepted-date" >
-        <MCRDocDetailContent xpath="/mycoreobject/metadata/dates/date[@type='accepted']" templatetype="tpl-date-values" separator=", " languageRequired="no" />
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/dates/date[@type='accepted']" templatetype="tpl-date-valuesMinimal" separator=", " languageRequired="no" />
     </MCRDocDetail> 
     <MCRDocDetail rowtype="standard" labelkey="OMD.advisor" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/contributors/contributor[@type='advisor']/fullname" templatetype="tpl-text-values" separator=", " languageRequired="no" />
