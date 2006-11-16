@@ -154,7 +154,7 @@
 												<img src="${WebApplicationBaseURL}/images/pubtype/disshab.gif"
 													alt="disshab" />
 											</x:when>
-											<x:when select="contains('TYPE00010.001', $contentType )">
+											<x:when select="contains('TYPE0010.001', $contentType )">
 												<img src="${WebApplicationBaseURL}/images/pubtype/rede.gif"
 													alt="speech" />
 											</x:when>
