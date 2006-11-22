@@ -16,7 +16,6 @@ import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
-import org.mycore.common.MCRDefaults;
 import org.mycore.common.MCRDerivateFileFilter;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRSessionMgr;
@@ -31,8 +30,11 @@ import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
 
 public abstract class MCRDerivateStrategy {
 	private static Logger logger = Logger.getLogger(MCRDefaultDerivateStrategy.class.getName());
+	private static String XLINK_URL = "http://www.w3.org/1999/xlink";
+	
 	protected static String SEPARATOR = "/";
 	private static MCRObjectID nextWorkflowDerivateID = null;
+	
 	// pattern for the stringpart after the last [/\]
 	protected static Pattern filenamePattern = Pattern.compile("([^\\\\/]+)\\z");
 	//	 pattern for the file extension
@@ -211,7 +213,7 @@ public abstract class MCRDerivateStrategy {
 				Iterator it = derivate.getDescendants(new ElementFilter("linkmeta"));
 				if ( it.hasNext() ) {
 			      Element el = (Element) it.next();
-			      String href = el.getAttributeValue("href",org.jdom.Namespace.getNamespace("xlink",MCRDefaults.XLINK_URL));
+			      String href = el.getAttributeValue("href",org.jdom.Namespace.getNamespace("xlink",XLINK_URL));
 			      if ( href==null)  	href = "";      
 		          derivateData.setAttribute("href", href);
 			    } 

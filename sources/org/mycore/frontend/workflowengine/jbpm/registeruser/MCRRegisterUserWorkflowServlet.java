@@ -33,7 +33,6 @@ import org.apache.log4j.Logger;
 import org.jdom.Element;
 import org.jdom.output.DOMOutputter;
 import org.mycore.common.MCRConfiguration;
-import org.mycore.common.MCRDefaults;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.MCRUtils;
@@ -62,6 +61,7 @@ import org.mycore.user2.MCRUserMgr;
 public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = Logger.getLogger(MCRRegisterUserWorkflowServlet.class);
+	private static String XSI_URL = "http://www.w3.org/2001/XMLSchema-instance";
 	private String pid;
 	private String nextPath;
 	private String newUserID;
@@ -147,7 +147,7 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
     
     private void assignUserRegistration(MCREditorSubmission sub) throws Exception { 
         Element root = new Element("mycoreuser");        
- 		root.setAttribute("noNamespaceSchemaLocation", "MCRUser.xsd", org.jdom.Namespace.getNamespace("xsi", MCRDefaults.XSI_URL));
+ 		root.setAttribute("noNamespaceSchemaLocation", "MCRUser.xsd", org.jdom.Namespace.getNamespace("xsi", XSI_URL));
         Element userElement = new Element("user");
 		
         if ( newUserID != null ) {

@@ -27,7 +27,6 @@ import org.jdom.input.SAXBuilder;
 import org.jdom.xpath.XPath;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
-import org.mycore.common.MCRDefaults;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRUsageException;
 import org.mycore.common.xml.MCRURIResolver;
@@ -64,7 +63,8 @@ public class MCRResultFormatter {
     static {
         logger=Logger.getLogger(MCRResultFormatter.class);
         WebApplicationBaseURL = NavServlet.getNavigationBaseURL();
-        xlinkNamespace = org.jdom.Namespace.getNamespace("xlink", MCRDefaults.XLINK_URL);
+        String XLINK_URL = "http://www.w3.org/1999/xlink";
+        xlinkNamespace = org.jdom.Namespace.getNamespace("xlink", XLINK_URL);
         URN_RESOLVER = CONFIG.getString("MCR.URN_RESOLVER.URL", "http://nbn-resolving.de/urn/resolver.pl");
     }	
     

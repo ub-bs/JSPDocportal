@@ -7,14 +7,14 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
-import org.mycore.common.MCRDefaults;
+
 import org.mycore.datamodel.metadata.MCRMetaInstitutionName;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 
 public class MCRDefaultInstitutionStrategy implements MCRInstitutionStrategy {
 	private static Logger logger = Logger.getLogger(MCRDefaultInstitutionStrategy.class.getName());
-
+	private static String XSI_URL = "http://www.w3.org/2001/XMLSchema-instance";
 
 	public MCRObjectID createInstitution(MCRObjectID nextFreeInstitutionId, boolean inDatabase){
 		MCRObject institution = null;
@@ -40,10 +40,10 @@ public class MCRDefaultInstitutionStrategy implements MCRInstitutionStrategy {
 		MCRObject institution = new MCRObject();
 		Element xmlElemInstitution = new Element("mycoreobject");
 		xmlElemInstitution.addNamespaceDeclaration(org.jdom.Namespace.getNamespace(
-				"xsi", MCRDefaults.XSI_URL));
+				"xsi", XSI_URL));
 		xmlElemInstitution.setAttribute("noNamespaceSchemaLocation",
 				"datamodel-author.xsd", org.jdom.Namespace.getNamespace("xsi",
-						MCRDefaults.XSI_URL));
+						XSI_URL));
 		xmlElemInstitution.setAttribute("ID", id.toString());
 		xmlElemInstitution.setAttribute("label", id.toString());
 

@@ -6,7 +6,7 @@ import java.io.FilenameFilter;
 /**
  * 
  * @author HH
- * @deprecated
+ * 
  */
 public class MCRDerivateFileFilter implements FilenameFilter{
 	public boolean accept(File dir, String name) {

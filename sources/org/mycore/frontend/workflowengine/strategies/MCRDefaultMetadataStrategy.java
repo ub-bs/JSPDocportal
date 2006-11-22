@@ -15,7 +15,6 @@ import org.jdom.filter.ElementFilter;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 import org.mycore.common.MCRConfiguration;
-import org.mycore.common.MCRDefaults;
 import org.mycore.datamodel.metadata.MCRMetaClassification;
 import org.mycore.datamodel.metadata.MCRMetaLangText;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
@@ -26,6 +25,7 @@ import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 
 public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 	private String documentType;
+    public  static String XSI_URL = "http://www.w3.org/2001/XMLSchema-instance";
 	
 	public MCRDefaultMetadataStrategy(String documentType){
 		this.documentType = documentType;
@@ -45,10 +45,10 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 		}
 		
 		Element mycoreobject = new Element ("mycoreobject");				
-		mycoreobject.addNamespaceDeclaration(org.jdom.Namespace.getNamespace("xsi", MCRDefaults.XSI_URL));
+		mycoreobject.addNamespaceDeclaration(org.jdom.Namespace.getNamespace("xsi", XSI_URL));
 		mycoreobject.setAttribute("noNamespaceSchemaLocation", 
 					"datamodel-" + nextFreeObjectId.getTypeId() +".xsd", 
-					org.jdom.Namespace.getNamespace("xsi", MCRDefaults.XSI_URL));		
+					org.jdom.Namespace.getNamespace("xsi", XSI_URL));		
 		
 		Element structure = new Element ("structure");			
 		Element metadata = new Element ("metadata");	

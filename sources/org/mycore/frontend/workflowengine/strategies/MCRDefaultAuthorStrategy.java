@@ -8,7 +8,7 @@ import org.jdom.Element;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 import org.mycore.common.MCRConfiguration;
-import org.mycore.common.MCRDefaults;
+
 import org.mycore.datamodel.metadata.MCRMetaAddress;
 import org.mycore.datamodel.metadata.MCRMetaBoolean;
 import org.mycore.datamodel.metadata.MCRMetaLangText;
@@ -23,7 +23,7 @@ import org.mycore.user2.MCRUserMgr;
 
 public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {
 	private static Logger logger = Logger.getLogger(MCRDefaultAuthorStrategy.class.getName());
-
+	private static String XSI_URL = "http://www.w3.org/2001/XMLSchema-instance";
 
 	public MCRObjectID createAuthor(String userid, MCRObjectID nextFreeAuthorId, boolean fromUserData, boolean inDatabase){
 		MCRObject author = null;
@@ -71,10 +71,10 @@ public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {
 		MCRObject author = new MCRObject();
 		Element xmlElemAuthor = new Element("mycoreobject");
 		xmlElemAuthor.addNamespaceDeclaration(org.jdom.Namespace.getNamespace(
-				"xsi", MCRDefaults.XSI_URL));
+				"xsi", XSI_URL));
 		xmlElemAuthor.setAttribute("noNamespaceSchemaLocation",
 				"datamodel-author.xsd", org.jdom.Namespace.getNamespace("xsi",
-						MCRDefaults.XSI_URL));
+						XSI_URL));
 		xmlElemAuthor.setAttribute("ID", id.toString());
 		xmlElemAuthor.setAttribute("label", id.toString());
 
