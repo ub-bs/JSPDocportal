@@ -39,7 +39,7 @@
 	
 
     <!-- Provide a default value for DOCPORTAL_SYSTEM if not set in env -->
-    <property name="DOCPORTAL_SYSTEM" location="${basedir}/../working" />
+    <property name="DOCPORTAL_SYSTEM" location="${basedir}/../${MYAPPLICATION_NAME}-working" />
 	
 	<property name="DOCPORTAL_HOME" value="../jspdocportal" />
 
@@ -1396,7 +1396,7 @@
 	    <jar jarfile="../demo.jar"  >
 	       <manifest>
 	         <attribute name="Main-Class" value="org.mycore.start.demo.Main"/>
-	       	 <attribute name="Class-Path" value="mycore/lib/BrowserLauncher2.jar working/lib/jetty/start.jar working/lib/jetty/stop.jar"/>
+	       	 <attribute name="Class-Path" value="mycore/lib/BrowserLauncher2.jar ${MYAPPLICATION_NAME}-working/lib/jetty/start.jar ${MYAPPLICATION_NAME}-working/lib/jetty/stop.jar"/>
 	       </manifest>
            <fileset dir="${docportal.classes}" includes="org/mycore/start/demo/**" />
 	    </jar>
