@@ -332,7 +332,7 @@
     </target>
 
     <target name="do.transform" depends="init">
-        <echo>Transforming ${metadata.schema}...</echo>
+        <echo level="info">Transforming ${metadata.schema}...</echo>
         <java classname="org.apache.xalan.xslt.Process"
             dir="${docportal.config}" fork="yes"
             maxmemory="${java.maxmemory}"
@@ -393,7 +393,7 @@
 	
 	  <target name="script.windows.write">
 	    <property name="tmp.cmd.file" value="${DOCPORTAL_SYSTEM}/bin/${mycore.cmd.file}" />
-	    <echo>Creating ${mycore.cmd.file} to invoke ${mycore.cmd.class}</echo>
+	    <echo level="info">Creating ${mycore.cmd.file} to invoke ${mycore.cmd.class}</echo>
 	    <echo file="${tmp.cmd.file}" append="false">@echo off
 
 	rem
@@ -411,7 +411,7 @@
 
 	  <target name="script.unix.write">
 	    <property name="tmp.cmd.file" value="${DOCPORTAL_SYSTEM}/bin/${mycore.cmd.file}" />
-	    <echo>Creating ${mycore.cmd.file} to invoke ${mycore.cmd.class}</echo>
+	    <echo level="info">Creating ${mycore.cmd.file} to invoke ${mycore.cmd.class}</echo>
 	    <echo file="${tmp.cmd.file}" append="false">#!/bin/bash
 
 	#
@@ -459,7 +459,7 @@
     <!-- =================================================================== -->
 
     <target name="javac" >
-        <echo>Compiling ${packages}</echo>
+        <echo level="info">Compiling ${packages}</echo>
         <javac srcdir="${docportal.sources}"
                destdir="${docportal.classes}" 
         	   includes="${packages}"
@@ -470,9 +470,9 @@
                source="${sourcerelease}" 
         	   encoding="${sourceencoding}"
                fork="yes"  
-        	verbose="true"
+        	verbose="false"
                deprecation="${deprecation}" />
-        <echo>
+        <echo level="info">
         	---------------------------------------------------------
         </echo>
     </target>
@@ -486,108 +486,108 @@
     </target>
 
     <target name="compile_filters">
-        <echo>Compiling the filters package</echo>
+        <echo level="info">Compiling the filters package</echo>
         <antcall target="javac">
             <param name="packages" value="org/mycore/filters/*" />
         </antcall>
     </target>		
 	
     <target name="compile_indexbrowser">
-        <echo>Compiling the filters package</echo>
+        <echo level="info">Compiling the filters package</echo>
         <antcall target="javac">
             <param name="packages" value="org/mycore/frontend/indexbrowser/*" />
         </antcall>
     </target>	
 	
     <target name="compile_services_oai">
-        <echo>Compiling the services oai package</echo>
+        <echo level="info">Compiling the services oai package</echo>
         <antcall target="javac">
             <param name="packages" value="org/mycore/services/oai/*" />
         </antcall>
     </target>
     <target name="compile_frontend_jsp_format">
-        <echo>Compiling the frontend jsp navigation package</echo>
+        <echo level="info">Compiling the frontend jsp navigation package</echo>
         <antcall target="javac">
             <param name="packages" value="org/mycore/frontend/jsp/format/*" />
         </antcall>
     </target>		
     <target name="compile_frontend_jsp">
-        <echo>Compiling the frontend jsp navigation package</echo>
+        <echo level="info">Compiling the frontend jsp navigation package</echo>
         <antcall target="javac">
             <param name="packages" value="org/mycore/frontend/jsp/*" />
         </antcall>
     </target>	
     <target name="compile_frontend_admin">
-        <echo>Compiling the frontend admin package</echo>
+        <echo level="info">Compiling the frontend admin package</echo>
         <antcall target="javac">
             <param name="packages" value="org/mycore/frontend/admin/*" />
         </antcall>
     </target>	
     <target name="compile_frontend_editor_helper">
-        <echo>Compiling the frontend editor helper package</echo>
+        <echo level="info">Compiling the frontend editor helper package</echo>
         <antcall target="javac">
             <param name="packages" value="org/mycore/frontend/editor/helper/*" />
         </antcall>
     </target>	
     <target name="compile_frontend_jsp_nav">
-        <echo>Compiling the frontend jsp navigation package</echo>
+        <echo level="info">Compiling the frontend jsp navigation package</echo>
         <antcall target="javac">
             <param name="packages" value="org/mycore/frontend/jsp/navigation/**" />
         </antcall>
     </target>
     <target name="compile_frontend_jsp_query">
-        <echo>Compiling the frontend jsp query package</echo>
+        <echo level="info">Compiling the frontend jsp query package</echo>
         <antcall target="javac">
             <param name="packages" value="org/mycore/frontend/jsp/query/**" />
         </antcall>
     </target>	
     <target name="compile_common">
-        <echo>Compiling the common package</echo>
+        <echo level="info">Compiling the common package</echo>
         <antcall target="javac">
             <param name="packages" value="org/mycore/common/*" />
         </antcall>
     </target>
     <target name="compile_servlets">
-        <echo>Compiling the servlets</echo>
+        <echo level="info">Compiling the servlets</echo>
         <antcall target="javac">
             <param name="packages"
                 value="org/mycore/frontend/servlets/**" />
         </antcall>
     </target>
     <target name="compile_workflow">
-        <echo>Compiling the servlets</echo>
+        <echo level="info">Compiling the servlets</echo>
         <antcall target="javac">
             <param name="packages"
                 value="org/mycore/frontend/workflow/**" />
         </antcall>
     </target>
     <target name="compile_services_nbn">
-        <echo>Compiling the mediaTUM-Version of MCRNBN</echo>
+        <echo level="info">Compiling the mediaTUM-Version of MCRNBN</echo>
         <antcall target="javac">
             <param name="packages" value="org/mycore/services/nbn/**" />
         </antcall>
     </target>
     <target name="compile_backend_query">
-        <echo>Compiling the Hibernate Query Mapping Table</echo>
+        <echo level="info">Compiling the Hibernate Query Mapping Table</echo>
         <antcall target="javac">
             <param name="packages" value="org/mycore/backend/query/**" />
         </antcall>
     </target>
     <target name="compile_backend_hibernate">
-        <echo>Compiling the Hibernate Tables</echo>
+        <echo level="info">Compiling the Hibernate Tables</echo>
         <antcall target="javac">
             <param name="packages"
                 value="org/mycore/backend/hibernate/tables/**" />
         </antcall>
     </target>
     <target name="compile_demo">
-        <echo>Compiling the start class for the demo out of the box</echo>
+        <echo level="info">Compiling the start class for the demo out of the box</echo>
         <antcall target="javac">
             <param name="packages" value="org/mycore/start/demo/*" />
         </antcall>
     </target>	
     <target name="compile_workflowengine">
-        <echo>Compiling the classes for the workflowengine</echo>
+        <echo level="info">Compiling the classes for the workflowengine</echo>
         <antcall target="javac">
             <param name="packages" value="org/mycore/frontend/workflowengine/**" />
         </antcall>
@@ -600,7 +600,7 @@
 
     <target name="jar" depends="compile"
         description="creates lib/docportal-for-*.jar">
-        <echo>
+        <echo level="info">
             Creating docportal-for-${MCR.XMLStore.Type}.jar containing
             all compiled classes. ..
         </echo>
@@ -610,7 +610,7 @@
             <fileset dir="${docportal.schema}" includes="*.xsd *.dtd" />
         	<fileset dir="${MYCORE_HOME}/lib" includes="*.dtd" />
         </jar>
-        <echo>
+        <echo level="info">
             ---------------------------------------------------------
         </echo>
     </target>
@@ -621,7 +621,7 @@
 
     <target name="create.metastore"
         depends="init,create.hibernate,create.metastore.author,create.metastore.document,create.metastore.institution,create.metastore.derivate" >
-    	<echo>	create.metastore finished </echo>
+    	<echo level="info">	create.metastore finished </echo>
     </target>
 
     <target name="create.hibernate" depends="init">
@@ -687,7 +687,7 @@
     <!-- =================================================================== -->
 
     <target name="create.genkeys" depends="init">
-        <echo>
+        <echo level="info">
 
             Generating a key pair for signing applets ...
         </echo>
@@ -740,13 +740,13 @@
 
     <target name="webapps"
         depends="init,webapps.base,webapps.useradmin, webapps.jsp, webapps.webservices">
-        <echo>
+        <echo level="info">
             Creating web application in directory ${docportal.webapps}
         </echo>
     </target>
 
 	<target name="webapps.webservices">
-	  	     <echo>
+	  	     <echo level="info">
 	  	 
 	  	       Add the module Webservices
 	  	     </echo>
@@ -901,7 +901,7 @@
                 dir="${docportal.webpages}/content/results-config"
                 includes="*.xml" />
         </copy>
-    	<echo> Concat messagebundles to one messages_{locale}.properties</echo>
+    	<echo level="info"> Concat messagebundles to one messages_{locale}.properties</echo>
     	<taskdef name="mergepropertyfiles" classname="org.mycore.ant.customtasks.MergeProperties" classpath="${DOCPORTAL_HOME}/lib/ant-mycore.jar" />  
     	<mergepropertyfiles basefile="${docportal.languages}/messages_de.properties" 
     						deltafile="${docportal.languages}/mymessages_de.properties" 
@@ -933,7 +933,7 @@
 	        	<fileset dir="${docportal.stylesheets}" includes="**/*.xsl" />
 	   </copy>
 
-        <echo>
+        <echo level="info">
 
             Building the upload applet used for file uploads...
         </echo>
@@ -968,7 +968,7 @@
         <antcall target="webapp.info.shared.jars" />
         <antcall target="webapp.info.unix" />
 
-        <echo>Updating modules...</echo>
+        <echo level="info">Updating modules...</echo>
         <subant target="webapps" inheritall="true" inheritrefs="true">
             <fileset dir="." includes="modules/module-*/build.xml" />
         </subant>
@@ -983,7 +983,7 @@
 
     <target name="webapp.info.shared.jars"
         unless="MCR.WebAppServer.SharedJarsDir">
-        <echo>
+        <echo level="info">
             NOTE: MyCoRe copied the jar files listed above as specified
             by MCR.XMLStore.Jars and MCR.JDBCStore.Jars to the web
             applicaton WEB-INF/lib directory. Your build.properties
@@ -1001,7 +1001,7 @@
     </target>
 
     <target name="webapp.info.unix" if="os.is.unix">
-        <echo>
+        <echo level="info">
             NOTE: For UNIX systems like AIX, Linux, set the environment
             variables LIBPATH and LD_LIBRARY_PATH as needed for your
             database system. From your configuration in
@@ -1135,7 +1135,7 @@
     <!-- =================================================================== -->
 
     <target name="changelog" depends="init">
-        <echo>
+        <echo level="info">
 
             Building CVS ChangeLog, please be patient...
         </echo>
@@ -1196,7 +1196,7 @@
 
     <target name="javadocs" depends="up2date" if="javadocs.outdated"
         description="creates JavaDoc API documentation in HTML format">
-        <echo>Building the DocPortal JavaDoc API documentation...</echo>
+        <echo level="info">Building the DocPortal JavaDoc API documentation...</echo>
 
         <mkdir dir="${docportal.javadocs}" />
         <javadoc packagenames="org.mycore.*"
@@ -1230,7 +1230,7 @@
             <link href="http://logging.apache.org/log4j/docs/api/" />
             <link href="http://jakarta.apache.org/lucene/docs/api/" />
         </javadoc>
-        <echo>
+        <echo level="info">
             ---------------------------------------------------------
         </echo>
 
@@ -1246,7 +1246,7 @@
 
     <target name="create.users" depends="init">
         <property name="commands.file" value="${basedir}/commands.txt" />
-        <echo file="${commands.file}" append="false">
+        <echo level="info" file="${commands.file}" append="false">
             load permissions data from file permissions.xml
 
       	    init superuser
@@ -1351,7 +1351,7 @@
                     </tokenfilter>
             </filterchain>
         </loadproperties>   
-    	<echo>connectionBase:${connectionBase}</echo>
+    	<echo level="info">connectionBase:${connectionBase}</echo>
         <java dir="${docportal.hsqldb-datadir}"
             classname="org.hsqldb.util.ShutdownServer" fork="yes"
             classpathref="docportal.classpath">
@@ -1410,7 +1410,7 @@
 	
     <target name="checkXMLFiles"
         description="check wether xml files are valid">
-        <echo>validating xml configuration files</echo>
+        <echo level="info">validating xml configuration files</echo>
         <!--
             <xmlvalidate>
             <fileset dir="${dir.WEB-INF}" >
@@ -1427,7 +1427,7 @@
 
     <target name="create.hibindexer"
         description="dynamic class generation">
-        <echo
+        <echo level="info"
             message="Generating Hibernate getter/setter class for query" />
         <!-- <property file="${DOCPORTAL_SYSTEM}/config/mycore.properties.query" /> -->
         <mkdir dir="${docportal.sources}/org/mycore/backend/query" />
@@ -1444,7 +1444,7 @@
 	
 	<target name="compile-mcr-taglib"
 		description="generation of a taglib.jar for mycore">
-		<echo message="Generation of the MyCoRe-Taglib: mcr-taglib.jar" />
+		<echo level="info" message="Generation of the MyCoRe-Taglib: mcr-taglib.jar" />
         <antcall target="javac">
             <param name="packages" value="org/mycore/frontend/jsp/taglibs/**" />
         </antcall>		
@@ -1463,7 +1463,7 @@
 	
 	<target name="zip-mycore"
 		description="generation of a zip-file with all necessary mycore-data">
-		<echo message="Generation of a zip-file with all necessary mycore-data" />
+		<echo level="info" message="Generation of a zip-file with all necessary mycore-data" />
 		<mkdir dir="${DOCPORTAL_SYSTEM}/tmp-mycore-zip" />
 		<copy todir="${DOCPORTAL_SYSTEM}/tmp-mycore-zip">
 			<fileset dir="${MYCORE_HOME}" >
@@ -1489,7 +1489,7 @@
 	
 	<target name="zip-jspdocportal"
 		description="generation of a zip-file with all necessary jspdocportal-data">
-		<echo message="Generation of a zip-file with all necessary jspdocportal-data" />
+		<echo level="info" message="Generation of a zip-file with all necessary jspdocportal-data" />
 		<mkdir dir="${DOCPORTAL_SYSTEM}/tmp-jspdocportal-zip" />
 		<copy todir="${DOCPORTAL_SYSTEM}/tmp-jspdocportal-zip">
 			<fileset dir="${DOCPORTAL_SYSTEM}" >
@@ -1620,13 +1620,13 @@
 	
 	
 	<target name="create.izpack.installer" depends="demo.jar">
-		<echo message="copy base dir: ${MCR.BaseDirectory}" />
+		<echo level="info" message="copy base dir: ${MCR.BaseDirectory}" />
 		<mkdir dir="${basedir}/../tmpsampledata"/>
 		<copy todir="${basedir}/../tmpsampledata">
 			<fileset dir="${MCR.BaseDirectory}" excludes="log/*.log" />
 		</copy>			
 		<taskdef name="izpack" classpath="${DOCPORTAL_HOME}/lib/standalone-compiler.jar" classname="com.izforge.izpack.ant.IzPackTask"/>
-		<echo message="Makes the installer using IzPack"/>
+		<echo level="info" message="Makes the installer using IzPack"/>
 		<copy file="${DOCPORTAL_SYSTEM}/config/mycore.properties.template" tofile="${DOCPORTAL_SYSTEM}/config/izpack/mycore.properties.izpack" overwrite="true">
 			<filterchain>
 				<tokenfilter>
