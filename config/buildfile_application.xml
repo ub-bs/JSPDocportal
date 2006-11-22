@@ -614,7 +614,7 @@
     <!-- =================================================================== -->
 
     <target name="create.metastore"
-        depends="init,create.hibernate,create.metastore.author,create.metastore.document,create.metastore.institution,create.metastore.derivate" >
+        depends="create.hibernate" >
     	<echo level="info">	create.metastore finished </echo>
     </target>
 
@@ -622,38 +622,6 @@
         <antcall target="invoke.cli">
             <param name="cli.directory" value="${DOCPORTAL_SYSTEM}" />
             <param name="cli.command" value="init hibernate" />
-        </antcall>
-    </target>
-
-	<target name="create.metastore.author" depends="init">
-        <antcall target="invoke.cli">
-            <param name="cli.directory" value="${DOCPORTAL_SYSTEM}" />
-            <param name="cli.command"
-                value="create database for author" />
-        </antcall>
-    </target>
-
-    <target name="create.metastore.document" depends="init">
-        <antcall target="invoke.cli">
-            <param name="cli.directory" value="${DOCPORTAL_SYSTEM}" />
-            <param name="cli.command"
-                value="create database for document" />
-        </antcall>
-    </target>
-
-    <target name="create.metastore.institution" depends="init">
-        <antcall target="invoke.cli">
-            <param name="cli.directory" value="${DOCPORTAL_SYSTEM}" />
-            <param name="cli.command"
-                value="create database for institution" />
-        </antcall>
-    </target>
-
-    <target name="create.metastore.derivate" depends="init">
-        <antcall target="invoke.cli">
-            <param name="cli.directory" value="${DOCPORTAL_SYSTEM}" />
-            <param name="cli.command"
-                value="create database for derivate" />
         </antcall>
     </target>
 
