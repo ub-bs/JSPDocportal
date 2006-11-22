@@ -561,12 +561,6 @@
                 value="org/mycore/frontend/workflow/**" />
         </antcall>
     </target>
-    <target name="compile_services_nbn">
-        <echo level="info">Compiling the mediaTUM-Version of MCRNBN</echo>
-        <antcall target="javac">
-            <param name="packages" value="org/mycore/services/nbn/**" />
-        </antcall>
-    </target>
     <target name="compile_backend_query">
         <echo level="info">Compiling the Hibernate Query Mapping Table</echo>
         <antcall target="javac">
