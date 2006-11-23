@@ -331,7 +331,7 @@
         </move>
     </target>
 
-    <target name="do.transform" depends="init">
+    <target name="do.transform">
         <echo level="info">Transforming ${metadata.schema}...</echo>
         <java classname="org.apache.xalan.xslt.Process"
             dir="${docportal.config}" fork="yes"
