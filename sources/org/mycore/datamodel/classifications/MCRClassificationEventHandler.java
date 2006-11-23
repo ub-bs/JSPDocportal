@@ -2,7 +2,7 @@
  * $RCSfile$
  * $Revision$ $Date$
  *
- * This file is part of ***  M y C o R e  ***
+ * This file is part of ***  M y C o R e  *** 
  * See http://www.mycore.de/ for details.
  *
  * This program is free software; you can use it, redistribute it
@@ -82,10 +82,7 @@ public class MCRClassificationEventHandler extends MCREventHandlerBase {
         classMgr.jDomCache.clear();
         classMgr.categoryCache.clear();
         classMgr.classificationCache.clear();
-               
-       // MCRSessionMgr.getCurrentSession().BData.linesCache.clear();
-        MCRClassificationBrowserData.linesCache.clear();
-        
+                       
         Logger.getLogger(this.getClass()).info("Cleared Classification Caches");        
         metadataChanged.put(obj.getId().getId(), obj.getMetadata());
 
