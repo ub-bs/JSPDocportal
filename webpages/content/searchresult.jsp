@@ -288,7 +288,7 @@
       		<div id="resultListFooter">
       		<mcr:browsePageCtrl	var="browseControl" totalhits="${totalhits}"numPerPage="${numPerPage}" currentPage="${page}"
 					maxDisplayedPages="10" resultid="${resultid}" /> 
-			<x:forEach select="$browseControl/mcr_resultpages/mcr_resultpage">
+			<x:forEach select="$browseControl/mcr_resultpage">
 					<x:if select="generate-id(../mcr_resultpage[1]) = generate-id(.)">
 						<fmt:message key="Webpage.searchresults.hitlists" />
 					</x:if>
