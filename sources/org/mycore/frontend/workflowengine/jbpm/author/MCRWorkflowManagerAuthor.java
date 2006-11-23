@@ -312,7 +312,8 @@ public String createNewAuthor(String userid, ContextInstance ctxI,
         if(mcrResult.getNumHits()>0){
             String hitid = mcrResult.getHit(0).getID();
             if(hitid.equals(mcrid)) return null;
-            return MessageFormat.format(PropertyResourceBundle.getBundle("messages").getString("WF.author.AuthorAllreadyExists"), new String[]{hitid});
+            String tt = PropertyResourceBundle.getBundle("messages").getString("WF.author.AuthorAllreadyExists");
+            return MessageFormat.format( tt, new Object[]{hitid});
         }        
         return null;
     }
