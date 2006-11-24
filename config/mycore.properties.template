@@ -265,9 +265,9 @@ MCR.IFS.FileContentTypes.DefinitionFile=FileContentTypes.xml
 MCR.IFS.ContentStoreSelector.Class=org.mycore.datamodel.ifs.MCRSimpleContentStoreSelector
 MCR.IFS.ContentStoreSelector.ConfigFile=ContentStoreSelectionRules.xml
 
-MCR.IFS.ContentStore.FS.Class=org.mycore.backend.filesystem.MCRCStoreLocalFilesystem
+MCR.IFS.ContentStore.FS.Class=org.mycore.backend.filesystem.MCRCStoreVFS
 
-#MCR.IFS.ContentStore.TIF.Class=org.mycore.backend.filesystem.MCRCStoreLocalFilesystem
+#MCR.IFS.ContentStore.TIF.Class=org.mycore.backend.filesystem.MCRCStoreVFS
 #MCR.IFS.ContentStore.Lucene.Class=org.mycore.backend.lucene.MCRCStoreLucene
 
 MCR.searchmask_config_simpledocument=SearchMask_SimpleDocument.xml
