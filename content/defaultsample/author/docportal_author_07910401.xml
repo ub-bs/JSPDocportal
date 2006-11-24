@@ -11,8 +11,8 @@
 </phones>
 <professions class="MCRMetaLangText" heritable="true" notinherit="false" parasearch="true" textsearch="true"><profession xml:lang="de" inherited="0" form="plain" type="job">wiss. Mitarbeiter</profession>
 </professions>
-<profclasses class="MCRMetaClassification" heritable="true" notinherit="false" parasearch="true" textsearch="false"><profclass inherited="0" classid="DocPortal_class_00000008" categid="SWBB0186"/>
-</profclasses>
+<!-- <profclasses class="MCRMetaClassification" heritable="true" notinherit="false" parasearch="true" textsearch="false"><profclass inherited="0" classid="DocPortal_class_00000008" categid="SWBB0186"/>
+</profclasses> -->
 <nationals class="MCRMetaClassification" heritable="true" notinherit="false" parasearch="true" textsearch="false"><national inherited="0" classid="DocPortal_class_00000001" categid="NAT0001"/>
 </nationals>
 <emails class="MCRMetaLangText" heritable="true" notinherit="false" parasearch="false" textsearch="false"><email xml:lang="de" inherited="0" form="plain">Detlev.Degenhardt@rz.uni-freiburg.de</email>
