@@ -1,8 +1,5 @@
 package org.mycore.frontend.jsp;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -11,7 +8,6 @@ import org.apache.log4j.Logger;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.xml.MCRURIResolver;
-import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 
 public class ContextListener implements ServletContextListener
@@ -24,8 +20,8 @@ public class ContextListener implements ServletContextListener
         ServletContext context = event.getServletContext();
         try {context.removeAttribute("startup_done");} catch(Throwable nevermind) {}
 
-        Map map = new HashMap();
-        new MyMCRServlet("jspkey", map);
+      //  Map map = new HashMap();
+      //  new MyMCRServlet("jspkey", map);
 
         Logger.getLogger(ContextListener.class).fatal("Context started");
         Logger.getLogger(ContextListener.class).error("Context started");
@@ -59,15 +55,15 @@ public class ContextListener implements ServletContextListener
     	context.setAttribute( "constants", new MCRWorkflowConstants() );
     }
     
-    public class MyMCRServlet extends MCRServlet
-    {
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
-		MyMCRServlet(String key, Object value) {
-            MCRServlet.requestParamCache.put(key, value);
-        }
-    }
+//    public class MyMCRServlet extends MCRServlet
+//    {
+//        /**
+//		 * 
+//		 */
+//		private static final long serialVersionUID = 1L;
+//
+//		MyMCRServlet(String key, Object value) {
+//            MCRServlet.requestParamCache.put(key, value);
+//        }
+//    }
 }
