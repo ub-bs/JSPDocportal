@@ -76,10 +76,10 @@
         </action>
         <action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
 		   <from>MCR.WorkflowEngine.Administrator.Email</from>
-		   <to>MCR.WorkflowEngine.newtaskemail.registeruser</to>
+		   <to>MCR.WorkflowEngine.newtaskemail.xmetadiss</to>
 		   <replyTo>MCR.WorkflowEngine.Administrator.Email</replyTo>
-		   <subject>MCR.WorkflowEngine.registeruser.subject.newtask</subject>
-           <body>MCR.WorkflowEngine.registeruser.body.newtask</body>  
+		   <subject>MCR.WorkflowEngine.xmetadiss.subject.newtask</subject>
+           <body>MCR.WorkflowEngine.xmetadiss.body.newtask</body>  
 		</action>     
         
      </event> 
