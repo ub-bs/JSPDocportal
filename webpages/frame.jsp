@@ -69,8 +69,6 @@
 	 		<table class="navi_left" cellpadding="0" cellspacing="0"> 
 				<!--Main Menu -->
 				<tr><td>
-					<img alt="" style="width:6px; height:1px;"
-										src="${WebApplicationBaseURL}images/emtyDot1Pix.gif">
 					<x:set scope="session" var="recNavPath" select="$Navigation//navigation[@name='left']/navitem[@name='left']"/>
 					<c:import url="content/navi_left_rec.jsp" />
 				</td></tr>
