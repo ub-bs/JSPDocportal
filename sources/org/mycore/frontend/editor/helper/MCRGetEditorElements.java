@@ -121,6 +121,12 @@ public class MCRGetEditorElements implements MCRResolver {
 
 	private Element getClassificationInItems(Properties params) throws TransformerException{
 		String classid = params.getProperty("classid");
+		String emptyLeafs = params.getProperty("emptyLeafs");		
+		if(emptyLeafs == null || emptyLeafs.equals("")){
+			emptyLeafs = "yes";
+		} else 
+			emptyLeafs = "no";
+		
         if(classid == null || classid.equals("")){
             String prop = params.getProperty("prop");
             String defaultValue = params.getProperty("defaultValue");
@@ -131,13 +137,17 @@ public class MCRGetEditorElements implements MCRResolver {
                 classid = defaultValue ;
             }
         }
-        return transformClassToItems(classid);        
+        return transformClassToItems(classid, emptyLeafs);        
 	}
 	
-	private Element transformClassToItems(String classid) throws TransformerException{
+	private Element transformClassToItems(String classid, String emptyLeafs) throws TransformerException{
         Document classJdom = MCRClassification.receiveClassificationAsJDOM(classid);
         Source xsl = MCRURIResolver.instance().resolve("webapp:WEB-INF/stylesheets/classifications-to-items.xsl","classifications-to-items.jspx");
-        return MCRXSLTransformation.transform(classJdom, xsl, new Properties()).getRootElement();		
+        
+        Properties myProps = new Properties();
+        myProps.setProperty("emptyLeafs", emptyLeafs);
+        
+        return MCRXSLTransformation.transform(classJdom, xsl, myProps).getRootElement();		
 	}
 	
 	private Element transformClassLabelsToItems(String classid) throws TransformerException{
@@ -149,10 +159,15 @@ public class MCRGetEditorElements implements MCRResolver {
 	private Element getSpecialCategoriesInItems(Properties params) throws TransformerException{
 		Element retitems = new Element("items");
 		String classProp = params.getProperty("classProp");
+		String emptyLeafs = params.getProperty("emptyLeafs");		
+		if(emptyLeafs == null || emptyLeafs.equals("")){
+			emptyLeafs = "yes";
+		} else 
+			emptyLeafs = "no";		
 		String categoryProp = params.getProperty("categoryProp");
 		if(classProp != null && categoryProp != null) {
 			String classid = MCRConfiguration.instance().getString(classProp, "DocPortal_class_1");
-			Element items = transformClassToItems(classid);
+			Element items = transformClassToItems(classid, emptyLeafs);
 			List values = null;
 			try{
 				values = Arrays.asList(CONFIG.getString(categoryProp).split(","));
