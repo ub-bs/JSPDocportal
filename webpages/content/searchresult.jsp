@@ -40,9 +40,7 @@
 <c:set var="query" value="${requestScope.query}" />
 
 <!-- the result contains only the results from the begin of the selected page to page +numPerPage -->
-<mcr:setResultList var="resultList" results="${mcrresult}" from="0"
-	until="${numPerPage}" lang="${lang}" />
-
+<mcr:setResultList var="resultList" results="${mcrresult}" from="0"	 until="${numPerPage}" lang="${lang}" />
 
 <c:choose>
 	<c:when test="${fn:startsWith(resultlistType,'class')}">
@@ -71,10 +69,10 @@
 	<table cellspacing="0" cellpadding="0">
 		<tr>
 			<td class="resort">
-			<form action="${WebApplicationBaseURL}servlets/MCRJSPSearchServlet"
-				method="get"><input type="hidden" name="mode" value="resort">
-			<input type="hidden" name="id" value="${resultid}"> <select
-				name="field1">
+			<form action="${WebApplicationBaseURL}servlets/MCRJSPSearchServlet"	method="get">
+			<input type="hidden" name="mode" value="resort">
+			<input type="hidden" name="id" value="${resultid}"> 
+			<select	name="field1">
 				<option value="modified"
 					<mcr:ifSorted query="${query}" attributeName="field" attributeValue="modified">selected</mcr:ifSorted>><fmt:message
 					key="Webpage.searchresults.sort-modified" /></option>
@@ -84,7 +82,8 @@
 				<option value="author"
 					<mcr:ifSorted query="${query}" attributeName="field" attributeValue="author">selected</mcr:ifSorted>><fmt:message
 					key="Webpage.searchresults.sort-author" /></option>
-			</select> <select name="order1">
+			</select> 
+			<select name="order1">
 				<option value="ascending"
 					<mcr:ifSorted query="${query}" attributeName="field" attributeValue="ascending">selected</mcr:ifSorted>><fmt:message
 					key="Webpage.searchresults.ascending" /></option>
