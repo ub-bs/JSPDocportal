@@ -61,8 +61,7 @@ public class MCRJSPObjectServlet extends MCRServlet {
     }
 
     /**
-     * The method replace the default form MCRServlet and redirect the
-     * MCRLayoutServlet.
+     * The method replace the default form MCRSearchServlet and redirect the
      * 
      * @param job
      *            the MCRServletJob instance

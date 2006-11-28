@@ -38,7 +38,6 @@ import org.jdom.output.DOMOutputter;
 import org.mycore.datamodel.ifs.MCRFileNodeServlet;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRObject;
-import org.mycore.frontend.jsp.taglibs.MCRDocDetailsTag;
 
 /**
  * This Servlet overides only the output methods of mcrfilenodservlet for jsp docportal use 
@@ -48,7 +47,9 @@ import org.mycore.frontend.jsp.taglibs.MCRDocDetailsTag;
  *  */
 public class MCRJSPFileNodeServlet extends  MCRFileNodeServlet{
     private static final long serialVersionUID = 1L; 
-   
+    // The Log4J logger
+    private static Logger LOGGER = Logger.getLogger(MCRJSPFileNodeServlet.class.getName());
+
     
     protected void forwardRequest(HttpServletRequest req, HttpServletResponse res, Document jdom) throws IOException, ServletException {
     	//the derivate
@@ -79,7 +80,7 @@ public class MCRJSPFileNodeServlet extends  MCRFileNodeServlet{
 		try {
 			domDoc = new DOMOutputter().output(jdom);
 		} catch (JDOMException e) {
-			Logger.getLogger(MCRDocDetailsTag.class).error("Domoutput failed: ", e);
+			LOGGER.error("Domoutput failed: ", e);
 		}
 
     	req.setAttribute("jDomMcrDir", domDoc);
@@ -99,9 +100,14 @@ public class MCRJSPFileNodeServlet extends  MCRFileNodeServlet{
         return;
     }
     
-    protected void errorPage ( HttpServletRequest req, HttpServletResponse res, int error, String msg, Exception ex, boolean xmlstyle)  throws IOException, ServletException {
+    protected void errorPage ( HttpServletRequest req, HttpServletResponse res, int error, String msg, Exception ex, boolean xmlstyle)  throws IOException {
     	String path = "/nav?path=~mycore-error&messageKey=MCRJSPFileNodeServlet.error."+error+"&message="+msg;
-    	getServletContext().getRequestDispatcher(path).forward(req,res);    	    
+    	try {
+    		getServletContext().getRequestDispatcher(path).forward(req,res);
+    	} catch (ServletException se) {
+    		LOGGER.error("Error on forwarding errorpage", se);
+    		
+    	}
         return;
     }
 }

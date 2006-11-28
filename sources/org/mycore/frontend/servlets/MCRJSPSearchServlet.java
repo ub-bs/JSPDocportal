@@ -29,6 +29,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.XMLOutputter;
@@ -48,10 +49,10 @@ import org.mycore.services.fieldquery.MCRSearchServlet;
  */
 public class MCRJSPSearchServlet extends MCRSearchServlet {
     private static final long serialVersionUID = 1L;
-
+    protected static final Logger LOGGER = Logger.getLogger(MCRJSPSearchServlet.class);
     private String resultlistType = "simple";
     
-    public void doGetPost(MCRServletJob job) throws IOException, ServletException {
+    public void doGetPost(MCRServletJob job) throws IOException {
         String mode = job.getRequest().getParameter("mode");
         
         if ("resort".equals(mode))
@@ -66,7 +67,7 @@ public class MCRJSPSearchServlet extends MCRSearchServlet {
     }
 
     // this calls the editor of the searchmask with the inputfield
-    private void refineQuery(HttpServletRequest req, HttpServletResponse res) throws IOException,ServletException {
+    private void refineQuery(HttpServletRequest req, HttpServletResponse res) throws IOException {
     	String furl = "/nav?path=";    
 		String id = req.getParameter("id");
 		String editormask = req.getParameter("mask");
@@ -84,14 +85,23 @@ public class MCRJSPSearchServlet extends MCRSearchServlet {
 			// session to get the query from the cache
 			furl += editormask+"&sourceid="+id+"&session="+session.getID();
 		}
-		this.getServletContext().getRequestDispatcher(furl).forward(req, res);
+		try {
+			this.getServletContext().getRequestDispatcher(furl).forward(req, res);
+		} catch ( ServletException se) {
+			LOGGER.error("error forward ", se);
+    	}
     }
     
     // this calls the editor start address of the searchmask with the inputfield or the classbrowser start adresse
-    private void renewQuery(HttpServletRequest req, HttpServletResponse res) throws IOException ,ServletException {
+    private void renewQuery(HttpServletRequest req, HttpServletResponse res) throws IOException  {
 		String editormask = req.getParameter("mask");
     	String furl = "/nav?path="+editormask;    
-		this.getServletContext().getRequestDispatcher(furl).forward(req, res);
+		try {
+			this.getServletContext().getRequestDispatcher(furl).forward(req, res);
+		} catch ( ServletException se) {
+			LOGGER.error("error forward ", se);
+    	}
+
     }    
     
     //this mode comes from the resort form in the resultlist
@@ -144,7 +154,7 @@ public class MCRJSPSearchServlet extends MCRSearchServlet {
      *  @author A.Schaar
      *  @see its from mycore and overwritten here 
      */
-    protected void forwardRequest(HttpServletRequest req, HttpServletResponse res, Document jdom) throws IOException, ServletException {
+    protected void sendToLayout(HttpServletRequest req, HttpServletResponse res, Document jdom) throws IOException {
     	if ( "results".equalsIgnoreCase(jdom.getRootElement().getName()) ) {
     		String path = "/nav?path=";
 
@@ -167,12 +177,18 @@ public class MCRJSPSearchServlet extends MCRSearchServlet {
     			 path += "~searchresult-" + resultlistType;
     		}
     		else path += mask; 
-   			
-    		this.getServletContext().getRequestDispatcher(path).forward(req, res);	
+
+    		try {
+        		this.getServletContext().getRequestDispatcher(path).forward(req, res);	
+    		} catch ( ServletException se) {
+    			LOGGER.error("error forward ", se);
+        	}   			
     	}
     	else {
     		// reload the searchmask with in the query
-    		super.forwardRequest(req,res,jdom);
+            // Send query XML to editor
+            getLayoutService().sendXML(req, res, jdom);
+            //super.forwardRequest(req,res,jdom);
     	}
     }
     
