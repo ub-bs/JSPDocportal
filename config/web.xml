@@ -198,22 +198,9 @@
     
       
       <!-- mycore servlets -->
-    
-      <servlet id="Layout">
-            <servlet-name>MCRLayoutServlet</servlet-name>
-            <servlet-class>org.mycore.common.xml.MCRLayoutServlet</servlet-class>
-      </servlet>
-      <servlet id="NBNResolver">
-            <servlet-name>MCRNBNResolver</servlet-name>
-            <servlet-class>org.mycore.services.nbn.MCRNBNResolver</servlet-class>
-      </servlet>
       <servlet id="OAIProvider">
             <servlet-name>MCROAIProvider</servlet-name>
             <servlet-class>org.mycore.services.oai.MCROAIProvider</servlet-class>
-      </servlet>
-      <servlet id="Query">
-            <servlet-name>MCRQueryServlet</servlet-name>
-            <servlet-class>org.mycore.services.query.MCRQueryServlet</servlet-class>
       </servlet>
       <servlet id="StaticXMLFile">
             <servlet-name>MCRStaticXMLFileServlet</servlet-name>
@@ -223,10 +210,6 @@
             <servlet-name>XMLEditor</servlet-name>
             <servlet-class> org.mycore.frontend.editor.MCREditorServlet </servlet-class>
       </servlet>
-      <servlet id="MCRClassBrowser">
-            <servlet-name>MCRClassificationBrowser</servlet-name>
-            <servlet-class>org.mycore.frontend.servlets.MCRClassificationBrowser</servlet-class>
-      </servlet>
       <servlet id="MCRUpload">
             <servlet-name>MCRUploadServlet</servlet-name>
             <servlet-class>org.mycore.frontend.fileupload.MCRUploadServlet</servlet-class>
@@ -234,10 +217,6 @@
       <servlet id="Zip">
             <servlet-name>MCRZipServlet</servlet-name>
             <servlet-class>org.mycore.services.zipper.MCRZipServlet</servlet-class>
-      </servlet>    
-      <servlet id="IndexBrowserServlet">
-            <servlet-name>MCRIndexBrowserServlet</servlet-name>
-            <servlet-class>org.mycore.frontend.indexbrowser.MCRIndexBrowserServlet</servlet-class>
       </servlet>    
       <servlet id="IndexBrowser">
             <servlet-name>MCRIndexServlet</servlet-name>
@@ -378,23 +357,8 @@
     </servlet-mapping>
 
     <servlet-mapping>
-         <servlet-name>MCRNBNResolver</servlet-name>
-         <url-pattern>/servlets/MCRNBNResolver</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-	    <servlet-name>MCRNBNResolver</servlet-name>
-         <url-pattern>/servlets/MCRNBNResolver/*</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
          <servlet-name>MCROAIProvider</servlet-name>
          <url-pattern>/servlets/MCROAIProvider</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-         <servlet-name>MCRQueryServlet</servlet-name>
-         <url-pattern>/servlets/MCRQueryServlet</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -407,11 +371,6 @@
            <url-pattern>/servlets/XMLEditor</url-pattern>
      </servlet-mapping>
 
-
-    <servlet-mapping>
-         <servlet-name>MCRClassificationBrowser</servlet-name>
-         <url-pattern>/browse/*</url-pattern>
-    </servlet-mapping>
 
      <servlet-mapping>
            <servlet-name>MCRUploadServlet</servlet-name>
@@ -428,15 +387,6 @@
            <url-pattern>/zip</url-pattern>
      </servlet-mapping>
      
-     <servlet-mapping>
-        <servlet-name>MCRIndexBrowserServlet</servlet-name>
-        <url-pattern>/servlets/IndexBrowserServlet</url-pattern>
-     </servlet-mapping>
-      
-     <servlet-mapping>
-        <servlet-name>MCRIndexBrowserServlet</servlet-name>
-        <url-pattern>/indexpage</url-pattern>
-     </servlet-mapping>
       
      <servlet-mapping>
         <servlet-name>MCRIndexServlet</servlet-name>
