@@ -79,9 +79,18 @@
 				<option value="title"
 					<mcr:ifSorted query="${query}" attributeName="field" attributeValue="title">selected</mcr:ifSorted>><fmt:message
 					key="Webpage.searchresults.sort-title" /></option>
-				<option value="author"
-					<mcr:ifSorted query="${query}" attributeName="field" attributeValue="author">selected</mcr:ifSorted>><fmt:message
-					key="Webpage.searchresults.sort-author" /></option>
+				<x:choose>
+				 <x:when select="contains($mask, 'prof') or contains($mask, 'cpr') or contains($mask, 'historigin')">
+					<option value="profstates"
+						<mcr:ifSorted query="${query}" attributeName="field" attributeValue="profstates">selected</mcr:ifSorted>>
+						<fmt:message key="Webpage.searchresults.states" /></option>
+				</x:when>
+				<x:otherwise>
+					<option value="author"
+						<mcr:ifSorted query="${query}" attributeName="field" attributeValue="author">selected</mcr:ifSorted>>
+						<fmt:message key="Webpage.searchresults.sort-author" /></option>
+				</x:otherwise>		
+				</x:choose>
 			</select> 
 			<select name="order1">
 				<option value="ascending"
@@ -221,6 +230,7 @@
 							<tr>
 								<td colspan="2" class="description">
 								 <x:forEach select="./metaname[position() > 1]" >
+								  <x:if select="./@type != 'hidden' ">
 								   <x:if select="./@name != '' ">
 										<x:set var="name" select="string(./@name)" />
 										<fmt:message key="${name}" />:
@@ -232,7 +242,6 @@
 									<x:if select="generate-id(../metavalues[position() > 1]) = generate-id(.)">
 			                           <x:out select="$separator" escapeXml="false" />
                         			</x:if>									
-
  							        <x:forEach select="./metavalue[position() = 1]" >
 										<x:set var="text" select="string(./@text)" />
 										<x:set var="href" select="string(./@href)" />
@@ -267,12 +276,11 @@
 			                               <x:otherwise>
 			                                  <x:out select="./@text" escapeXml="false" /> 
 			                               </x:otherwise>
-			                            </x:choose>
-                            
+			                            </x:choose>                           
 									</x:forEach>
-									
 								  </x:forEach>	
 								  <br/>
+							     </x:if>									
 								 </x:forEach>
 								</td>
 							</tr>
