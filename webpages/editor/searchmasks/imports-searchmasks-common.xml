@@ -175,7 +175,7 @@
             <item value="">
         <label i18n="Editor.Common.choose" />                 
             </item>
-            <include cacheable="false" uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.DNB&amp;emptyLeafs=no&amp;defaultValue=DocPortal_class_00000007" />                          
+            <include cacheable="false" uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.DDC&amp;emptyLeafs=no&amp;defaultValue=DocPortal_class_00000007" />                          
       </list>       
       
       <!-- *** Data for the Format ** -->
