@@ -693,6 +693,28 @@ MCR.Application.ExternalUserLogin.DefaultUser.uid=authorP
 MCR.Application.ExternalUserLogin.DefaultUser.pwd=authorP
 
 ##############################################################################
+# Startlink
+# last item in key should map to a group ID
+# value = a url                                                               
+##############################################################################
+
+MCR.Application.Login.StartLink.adminauthor=nav?path=left.publish.author
+MCR.Application.Login.StartLink.adminclassification=
+MCR.Application.Login.StartLink.admindisshab=nav?path=left.publish.xmetadiss
+MCR.Application.Login.StartLink.admingroup=nav?path=admin.admin.usermanagement
+MCR.Application.Login.StartLink.admininstitution=nav?path=left.publish.institution
+MCR.Application.Login.StartLink.adminpublication=nav?path=left.publish.publication
+MCR.Application.Login.StartLink.adminuser=nav?path=admin.admin.usermanagement
+MCR.Application.Login.StartLink.adminwebcontent=nav?path=top.start
+MCR.Application.Login.StartLink.createauthor=nav?path=left.publish.author
+MCR.Application.Login.StartLink.createdisshab=nav?path=left.publish.xmetadiss
+MCR.Application.Login.StartLink.createinstitution=nav?path=left.publish.institution
+MCR.Application.Login.StartLink.createpublication=nav?path=left.publish.publication
+MCR.Application.Login.StartLink.gastgroup=nav?path=top.start
+MCR.Application.Login.StartLink.membergroup=nav?path=top.start
+MCR.Application.Login.StartLink.rootgroup=
+
+##############################################################################
 # FCK Editor                                                                 #
 ##############################################################################
 

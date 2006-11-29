@@ -30,6 +30,36 @@
             <!-- A tag, that loged in an user -->
      </tag>         
 
+  	<tag>
+            <name>login_startlink</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRLogin_StartLinkTag</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <name>group_id</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>      
+            <attribute>
+                <name>group_description</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>  
+            <!-- A tag, that displays a link for a right after login-->
+     </tag>         
+
+
+
+
+
+
+
+
+
+
+
+
+
+MCRLogin_StartLinkTag
    <tag>
             <name>endTask</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCREndTaskTag</tagclass>

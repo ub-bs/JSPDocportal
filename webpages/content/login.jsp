@@ -46,7 +46,12 @@
 	 			    <x:forEach select="./groups/group">
 	 				<tr>
 	 				<td><img src="${requestScope.WebApplicationBaseURL}images/greenArrow.gif"></td>
-	 				<td><x:out select="./@description" /> (<x:out select="./@gid" />)</td>
+	 				<td>
+	 					<!--<x:out select="./@description" /> (<x:out select="./@gid" />)-->
+	 					<c:set var="gid"><x:out select="./@gid" /></c:set>
+	 					<c:set var="gdescr"><x:out select="./@description" /></c:set>
+	 					<mcr:login_startlink group_id="${gid}" group_description="${gdescr}" />
+	 				</td>
 	 				</tr>
 	 				</x:forEach>
 				  </x:forEach> 
