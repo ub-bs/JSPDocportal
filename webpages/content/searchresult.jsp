@@ -40,7 +40,7 @@
 <c:set var="query" value="${requestScope.query}" />
 
 <!-- the result contains only the results from the begin of the selected page to page +numPerPage -->
-<mcr:setResultList var="resultList" results="${mcrresult}" from="0"	 until="${numPerPage}" lang="${lang}" />
+<mcr:setResultList var="resultList" results="${mcrresult}"  objectType="oType" from="0"	 until="${numPerPage}" lang="${lang}" />
 
 <c:choose>
 	<c:when test="${fn:startsWith(resultlistType,'class')}">
@@ -61,8 +61,8 @@
 	<p><a
 		href="${WebApplicationBaseURL}servlets/MCRJSPSearchServlet?mode=refine&mask=${mask}&id=${resultid}">
 	<b>Suche verfeinern |</b> </a> <a
-		href="${WebApplicationBaseURL}servlets/MCRJSPSearchServlet?mode=renew&mask=${mask}"><b>
-	neue Suche</b></a></p>
+		href="${WebApplicationBaseURL}servlets/MCRJSPSearchServlet?mode=renew&mask=${mask}">
+	<b>neue Suche</b></a></p>
 
 	<div id="resortForm">
 
@@ -80,16 +80,16 @@
 					<mcr:ifSorted query="${query}" attributeName="field" attributeValue="title">selected</mcr:ifSorted>><fmt:message
 					key="Webpage.searchresults.sort-title" /></option>
 				<x:choose>
-				 <x:when select="contains($mask, 'prof') or contains($mask, 'cpr') or contains($mask, 'historigin')">
+				 <x:when select="contains($oType,'professorum')">
 					<option value="profstates"
 						<mcr:ifSorted query="${query}" attributeName="field" attributeValue="profstates">selected</mcr:ifSorted>>
 						<fmt:message key="Webpage.searchresults.states" /></option>
-				</x:when>
-				<x:otherwise>
+				 </x:when>
+			     <x:when select="contains($oType, 'disshab') or contains($oType, 'document')">
 					<option value="author"
 						<mcr:ifSorted query="${query}" attributeName="field" attributeValue="author">selected</mcr:ifSorted>>
 						<fmt:message key="Webpage.searchresults.sort-author" /></option>
-				</x:otherwise>		
+				 </x:when >
 				</x:choose>
 			</select> 
 			<select name="order1">
@@ -103,8 +103,8 @@
 				type="submit"></form>
 
 			</td>
-			<td class="resultCount"><strong>${totalhits} <fmt:message
-				key="Webpage.searchresults.foundMCRObjects" /></strong></td>
+			<td class="resultCount"><strong>${totalhits} 
+			   <fmt:message key="Webpage.searchresults.foundMCRObjects" /></strong></td>
 		</tr>
 	</table>
 	</div>
@@ -121,8 +121,8 @@
 					<x:set var="contentType" select="string(./metaname[@name='OMD.class-types']/metavalues/metavalue/@categid)" />
 					<table id="resultList" width="100%">
 						<tbody>
-							<tr>
-								<td width="30px" class="resultIcon" rowspan="2" valign="top">
+							<tr valign="top" >
+								<td width="30px" class="resultIcon" rowspan="2" >
 								<x:choose>
 									<x:when select="contains($docType, 'author')">
 										<img src="${WebApplicationBaseURL}/images/pubtype/person.gif"	alt="author" />
@@ -224,7 +224,27 @@
 										<x:out select="./metaname[1]/metavalues/metavalue/@text" />
 									</x:otherwise>
 								</x:choose> </a></td>
-								<td class="id" align="right">[<c:out value="${mcrID}" />]
+								<td class="id" rowspan="2" align="right">[<c:out value="${mcrID}" />]
+								<br/>
+	  <c:set var="type" value="${fn:split(mcrid,'_')[1]}"/>								     
+      <mcr:checkAccess var="modifyAllowed" permission="writedb" key="${mcrID}" />
+      <c:if test="${modifyAllowed}">
+        <mcr:isObjectNotLocked var="bhasAccess" objectid="${mcrID}" />
+        <c:choose>
+         <c:when test="${bhasAccess}"> 
+	         <!--  Editbutton -->
+	         <form method="get" action="${WebApplicationBaseURL}StartEdit" class="resort">                 
+	            <input name="page" value="nav?path=~workflowEditor-${type}"  type="hidden">                                       
+	            <input name="mcrid" value="${mcrID}" type="hidden"/>
+					<input title="<fmt:message key="WF.common.object.EditObject" />" border="0" src="${WebApplicationBaseURL}images/workflow1.gif" type="image"  class="imagebutton" height="30" />
+	         </form> 
+         </c:when>
+         <c:otherwise>
+            <img title="<fmt:message key="WF.common.object.EditObjectIsLocked" />" border="0" src="${WebApplicationBaseURL}images/workflow_locked.gif" height="30" />
+         </c:otherwise>
+        </c:choose>         
+      </c:if>      
+								
 								</td>
 							</tr>
 							<tr>

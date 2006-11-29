@@ -109,6 +109,7 @@
    <c:choose>
    <c:when test="${readAccess or fn:contains(currentID, curUserID)}">
     <table cellspacing="0" cellpadding="0" id="metaData">
+    <c:set var="exist" value="0" />                  
     <x:forEach select="$docDetails//metaname">
       <x:choose>
          <x:when select="./@type = 'space'">
@@ -116,12 +117,16 @@
                <td colspan="2" class="metanone">&nbsp;</td>
             </tr>                
          </x:when>
-                  <x:when select="./@type = 'line'">
-            <tr>
-               <td colspan="2" class="metanone"><hr/></td>
-            </tr>                
+         <x:when select="./@type = 'line'">
+            <c:if test="${exist > 0}" >
+              <c:set var="exist" value="0" />              
+              <tr>
+              <td colspan="2" class="metanone"><hr/></td>
+              </tr>                
+             </c:if> 
          </x:when>
          <x:when select="./@type = 'table'">
+           <x:set var="exist" select="count(./metavalues)" />         
            <x:set var="nameKey" select="string(./@name)" />
            <tr>
             <td class="metaname">
@@ -168,6 +173,7 @@
          </x:when>                      
          
          <x:when select="./@type = 'standard'">
+            <x:set var="exist" select="count(./metavalues)" />         
             <x:set var="nameKey" select="string(./@name)" />
             <tr>
                <td class="metaname"><fmt:message key="${nameKey}" />:</td>
@@ -302,27 +308,7 @@
 		     <a href="${WebApplicationBaseURL}content/print_details.jsp?id=${param.id}&from=${param.fromWForDB}" target="_blank">
 	          	<img src="${WebApplicationBaseURL}images/workflow_print.gif" border="0" alt="<fmt:message key="WF.common.printdetails" />"  class="imagebutton" height="30"/>
 	         </a>
-   </c:if>
- 
-   <c:if test="${!(fn:contains(from,'workflow')) && !fn:contains(style,'user')}" > 
-     <mcr:checkAccess var="modifyAllowed" permission="writedb" key="${mcrid}" />
-     <mcr:isObjectNotLocked var="bhasAccess" objectid="${mcrid}" />
-      <c:if test="${modifyAllowed}">
-        <c:choose>
-         <c:when test="${bhasAccess}"> 
-	         <!--  Editbutton -->
-	         <form method="get" action="${WebApplicationBaseURL}StartEdit" class="resort">                 
-	            <input name="page" value="nav?path=~workflowEditor-${type}"  type="hidden">                                       
-	            <input name="mcrid" value="${mcrid}" type="hidden"/>
-					<input title="<fmt:message key="WF.common.object.EditObject" />" border="0" src="${WebApplicationBaseURL}images/workflow1.gif" type="image"  class="imagebutton" height="30" />
-	         </form> 
-         </c:when>
-         <c:otherwise>
-            <img title="<fmt:message key="WF.common.object.EditObjectIsLocked" />" border="0" src="${WebApplicationBaseURL}images/workflow_locked.gif" height="30" />
-         </c:otherwise>
-        </c:choose>         
-      </c:if>      
-   </c:if>
+   </c:if> 
  </td></tr></table>
 </td></tr></table> 
 
