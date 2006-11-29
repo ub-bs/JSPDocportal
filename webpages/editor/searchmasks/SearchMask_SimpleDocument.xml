@@ -25,6 +25,14 @@
     <hidden var="conditions/@format" default="xml" />
     <hidden var="conditions/boolean/@operator" default="AND" />
 
+    <hidden var="conditions/boolean/boolean/@operator" default="or" />
+    <hidden var="conditions/boolean/boolean/condition/@field"    default="objectType" />
+    <hidden var="conditions/boolean/boolean/condition/@operator" default="=" />
+    <hidden var="conditions/boolean/boolean/condition/@value"    default="document" />
+    <hidden var="conditions/boolean/boolean/condition[2]/@field"    default="objectType" />
+    <hidden var="conditions/boolean/boolean/condition[2]/@operator" default="=" />
+    <hidden var="conditions/boolean/boolean/condition[2]/@value"    default="disshab" />
+
 
     <cell col="1" row="1" anchor="NORTHWEST" ref="LTitles" />
     <cell col="2" row="1" anchor="NORTHWEST" ref="DTitles" var="conditions/boolean/condition" />
