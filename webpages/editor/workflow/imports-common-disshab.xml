@@ -189,27 +189,6 @@
   </panel>
 <!-- citations fehlt -->
 
-<!-- ** MÜNCHEN -  Data for the COLLECTION *** 
-
-  <list id="CCollection" width="300" type="dropdown">
-    <item value="">
-      <label xml:lang="de">(bitte wählen)</label>
-      <label xml:lang="en">(please choose)</label>
-    </item>
-    <include uri="request:content/classifications-to-items.jspx?classid=mediaTUM_class_000000000000010" />	  	  	  
-  </list>
-
-  <panel id="DCollection">
-    <hidden var="metadata/collections/@class" default="MCRMetaClassification" />
-    <hidden var="metadata/collections/@parasearch" default="true" />
-    <hidden var="metadata/collections/@textsearch" default="false" />
-    <hidden var="metadata/collections/@notinherit" default="false" />
-    <hidden var="metadata/collections/@heritable" default="true" />
-    <hidden var="metadata/collections/collection/@inherited" default="0" />
-    <hidden var="metadata/collections/collection/@classid" default="mediaTUM_class_000000000000010" />
-    <hidden var="metadata/collections/collection/@categid" default="Kollektion.Dissertation" />
-  </panel>
--->
 
 </imports>
 
