@@ -593,8 +593,8 @@ MCR.IndexBrowser.creators.Table=author
 MCR.IndexBrowser.creators.Style=creators
 MCR.IndexBrowser.creators.MaxPerPage=30
 # the value must be defined as sotable searchfields in searchfields.xml and in the metadata - with the same name
-MCR.IndexBrowser.creators.Searchfield=surname
-MCR.IndexBrowser.creators.FieldsToSort=fullname
+MCR.IndexBrowser.creators.FieldsToSort=surname,fullname
+MCR.IndexBrowser.creators.Searchfield=fullname
 # the values came from metadata of the object
 MCR.IndexBrowser.creators.ExtraOutputFields=fullname,firstname,surname,academic,prefix,peerage,id
 
@@ -670,7 +670,7 @@ MCR.oai.repositoryidentifier.MCROAIProvider=oai.mycore.de
 MCR.oai.repositoryname.MCROAIProvider=MyCoRe Repository fuer Online Hochschulschriften
 # a mycore-query condition that is joined with "AND" with the other query (from,until,set)
 # you can restrict an instance here to a special document-type or something else
-MCR.oai.queryRestriction.OAIProvider=<condition field="objecttype" value="document" operator="=" />
+MCR.oai.queryRestriction.OAIProvider=<condition field\="objecttype" value\="disshab" operator\="\=" />
 
  # DINIspec - searchField mapping: ddc = subject, pub-type = type, doc-type=format;
 MCR.oai.setscheme.searchfields.MCROAIProvider=format,type, subject
