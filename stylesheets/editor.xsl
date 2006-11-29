@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.10 $ $Date: 2006-11-27 10:20:18 $ -->
+<!-- $Revision: 1.11 $ $Date: 2006-11-29 15:37:03 $ -->
 <!-- ============================================== --> 
 
 <xsl:stylesheet 
@@ -27,7 +27,7 @@
 <xsl:variable name="editor.delimiter.pos.end"   select="']'" />
 
 <xsl:variable name="editor.list.indent">
-  <xsl:text disable-output-escaping="yes">&amp;nbsp;&amp;nbsp;&amp;nbsp;</xsl:text>
+  <xsl:text disable-output-escaping="yes">&#160;&#160;&#160;</xsl:text>
 </xsl:variable>
 
 <!-- ======== FCK Editor JavaScript laden ======== -->
@@ -504,7 +504,7 @@
 
     <!-- ======== if there is no cell here, add space ======== -->
     <xsl:if test="count($the.cell) = 0">
-      <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+      <xsl:text disable-output-escaping="yes">&#160;</xsl:text>
     </xsl:if>
 
     <!-- ======== if there is a cell here, handle it ======== -->
@@ -820,7 +820,7 @@
         <xsl:value-of select="@default" />
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+        <xsl:text disable-output-escaping="yes">&#160;</xsl:text>
       </xsl:otherwise>
     </xsl:choose>  
   </span>
@@ -849,7 +849,7 @@
         <xsl:value-of select="@default" />
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+        <xsl:text disable-output-escaping="yes">&#160;</xsl:text>
       </xsl:otherwise>
     </xsl:choose>  
   </span>
@@ -1149,7 +1149,7 @@
       <xsl:with-param name="usefont" select="'yes'" />
     </xsl:call-template>
   </xsl:for-each>
-  <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+  <xsl:text disable-output-escaping="yes">&#160;</xsl:text>
 </xsl:template>
 
 <!-- ======== output checkbox ======== -->
@@ -1173,7 +1173,7 @@
       <xsl:with-param name="usefont" select="'yes'" />
     </xsl:call-template>
   </xsl:for-each>
-  <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+  <xsl:text disable-output-escaping="yes">&#160;</xsl:text>
 </xsl:template>
 
 <!-- ======== checkbox ======== -->
