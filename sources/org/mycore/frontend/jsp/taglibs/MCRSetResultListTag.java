@@ -1,6 +1,7 @@
 package org.mycore.frontend.jsp.taglibs;
 
 import java.io.IOException;
+import java.util.Iterator;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
@@ -8,7 +9,9 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
+import org.jdom.Element;
 import org.jdom.JDOMException;
+import org.jdom.filter.ElementFilter;
 import org.jdom.output.DOMOutputter;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
@@ -23,6 +26,8 @@ public class MCRSetResultListTag extends SimpleTagSupport
 	private String var;
 	
 	private String lang;
+	private String objectType;
+	
 	private org.jdom.Document results;
 	
 	public void setVar(String inputVar) {
@@ -42,7 +47,9 @@ public class MCRSetResultListTag extends SimpleTagSupport
 	public void setResults(org.jdom.Document results) {
 		this.results = results;
 	}
-	
+	public void setObjectType(String objectType) {
+		this.objectType = objectType;
+	}	
 	public void initialize() {
 		formatter = (MCRResultFormatter) MCRConfiguration.instance().getSingleInstanceOf("MCR.ResultFormatter_class_name","org.mycore.frontend.jsp.format.MCRResultFormatter");
 	}	
@@ -66,6 +73,17 @@ public class MCRSetResultListTag extends SimpleTagSupport
     		/* the resultlist output
     		 * */    		 
     		org.jdom.Document resultContainer = formatter.getFormattedResultContainer(results.getRootElement(),lang, from, until);
+    		
+    		/* objecttype extrahieren */
+			Iterator it = results.getRootElement().getDescendants(new ElementFilter("condition"));
+			String ot = "";
+			while( it.hasNext()){
+				//nur den ersten Titelsatz!
+				Element condition = (Element)it.next();
+				if ( "objectType".equalsIgnoreCase(condition.getAttributeValue("field")) ) {
+					ot += condition.getAttributeValue("value") +  " ";
+				}
+			}			
     		org.w3c.dom.Document domDoc = null;
     		try {
     			domDoc = new DOMOutputter().output(resultContainer);
@@ -74,6 +92,7 @@ public class MCRSetResultListTag extends SimpleTagSupport
     		}
     		
     		pageContext.setAttribute(var, domDoc);
+    		pageContext.setAttribute(objectType, ot);
     		
     		
     		if(pageContext.getAttribute("debug") != null && pageContext.getAttribute("debug").equals("true")) {
