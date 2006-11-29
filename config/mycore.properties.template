@@ -175,8 +175,9 @@ MCR.Editor.FileUpload.TempStoragePath=%MCR.BaseDirectory%/export/upload
 MCR.WorkflowEngine.EditDirectory.user=%MCR.BaseDirectory%/export/user
 MCR.WorkflowEngine.DeleteDirectory=%MCR.BaseDirectory%/export/deleted
 
+MCR.IFS.ContentStore.FS.URI=%MCR.BaseDirectory%/filestore
+#MCR.IFS.ContentStore.FS.BaseDirectory=%MCR.BaseDirectory%/filestore
 
-MCR.IFS.ContentStore.FS.BaseDirectory=%MCR.BaseDirectory%/filestore
 MCR.LogDirectory=%MCR.BaseDirectory%/log
 #MCR.LogFile=%MCR.BaseDirectory%/log/mcrjsp.log
 
