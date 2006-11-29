@@ -699,6 +699,12 @@ MCRLogin_StartLinkTag
                 <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>             
+            <attribute>
+                <name>objectType</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>             
+            
             <!-- A Tag, that sets the current resultList to a given Variable, for a Query either from the Session or from a request-Attribute -->
         </tag>
         <tag>
