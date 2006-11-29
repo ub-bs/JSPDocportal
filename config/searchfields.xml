@@ -28,7 +28,7 @@
     <field name="title"     type="text" sortable="true" source="objectMetadata" xpath="/mycoreobject/metadata/titles/title | /mycoreobject/metadata/surnames/surname | mycoreobject/metadata/names/name " value="text() | @xlink:title"  />
     
     <!--  field name="title"         type="text"      sortable="true" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/titles/title" value="text()" / -->
-    <field name="author"        type="name"      sortable="true" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/creators/creator | /mycoreobject/metadata/creatorlinks/creatorlink " value="text() | @xlink:title" />
+    <field name="author"        type="name"       sortable="true" source="objectMetadata"  xpath="/mycoreobject/metadata/creators/creator | /mycoreobject/metadata/creatorlinks/creatorlink " value="text() | @xlink:title" />
     <field name="authorID"      type="identifier" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/creatorlinks/creatorlink" value="@xlink:href" />
     <field name="creator"       type="name"      sortable="true" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/creators/creator | /mycoreobject/metadata/creatorlinks/creatorlink " value="text() | @xlink:title" />
     <field name="creatorID"     type="identifier" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/creatorlinks/creatorlink" value="@xlink:href" />
@@ -50,10 +50,10 @@
     <field name="surname"       type="name"       sortable="true" source="objectMetadata" objects="author" xpath="/mycoreobject/metadata/names/name/surname"  value="text()" />
     <field name="firstname"     type="name"       sortable="true" source="objectMetadata" objects="author" xpath="/mycoreobject/metadata/names/name/firstname"  value="text()" />
     <field name="fullname"      type="identifier" sortable="true" source="objectMetadata" objects="author institution" xpath="/mycoreobject/metadata/names/name/fullname" value="text()" />
+    <field name="sortname"      type="name"       sortable="true" source="objectMetadata" objects="author institution" xpath="/mycoreobject/metadata/names/name/fullname" value="text()" />
     <field name="profession"    type="text"       source="objectMetadata" objects="author" xpath="/mycoreobject/metadata/professions/profession" value="text()" />
     <field name="institution"   type="identifier" source="objectCategory" objects="author" xpath="/mycoreobject/metadata/institutions/institution" value="@ID" />
     <field name="profclass"     type="identifier" source="objectCategory" objects="author" xpath="/mycoreobject/metadata/profclasses/profclass" value="@ID" />
-
     <field name="userID"        type="text"  	  source="objectMetadata" objects="author" xpath="/mycoreobject/metadata/userids/userid" value="text()" />
   </index>
 
