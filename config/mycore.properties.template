@@ -594,21 +594,21 @@ MCR.IndexBrowser.creators.Table=author
 MCR.IndexBrowser.creators.Style=creators
 MCR.IndexBrowser.creators.MaxPerPage=30
 # the value must be defined as sotable searchfields in searchfields.xml and in the metadata - with the same name
-MCR.IndexBrowser.creators.FieldsToSort=surname,fullname
+MCR.IndexBrowser.creators.FieldsToSort=sortname,fullname
 MCR.IndexBrowser.creators.Searchfield=fullname
 # the values came from metadata of the object
 MCR.IndexBrowser.creators.ExtraOutputFields=fullname,firstname,surname,academic,prefix,peerage,id
 
 MCR.IndexBrowser.creators_sub.Table=author,institution
-MCR.IndexBrowser.creators_sub.FieldsToSort=fullname
+MCR.IndexBrowser.creators_sub.FieldsToSort=sortname,fullname
 MCR.IndexBrowser.creators_sub.Searchfield=fullname
 MCR.IndexBrowser.creators_sub.ExtraOutputFields=fullname,id
 MCR.IndexBrowser.creators_sub.Style=creators_sub
 MCR.IndexBrowser.creators_sub.MaxPerPage=30
 
 MCR.IndexBrowser.institutions.Table=institution
+MCR.IndexBrowser.institutions.FieldsToSort=sortname,fullname
 MCR.IndexBrowser.institutions.Searchfield=fullname
-MCR.IndexBrowser.institutions.FieldsToSort=fullname
 MCR.IndexBrowser.institutions.ExtraOutputFields=id,fullname
 MCR.IndexBrowser.institutions.Style=institutions
 MCR.IndexBrowser.institutions.MaxPerPage=30
