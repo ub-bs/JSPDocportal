@@ -59,7 +59,9 @@
     pageContext.setAttribute("XSLSubselectVarpath",request.getParameter("XSL.subselect.varpath"));
     pageContext.setAttribute("XSLSubselectSession",request.getParameter("XSL.subselect.session"));
     pageContext.setAttribute("XSLSubselectWebpage",request.getParameter("XSL.subselect.webpage"));    
-    
+    String pft = request.getParameter("prevFromTo");
+    if(pft==null) pft="";
+    pageContext.setAttribute("prevFromTo",pft);       
 </jsp:scriptlet>  
    
     <x:transform xml="${contentString}" xslt="${xsl}" >   
@@ -68,6 +70,7 @@
     	<x:param name="subselect.varpath">${XSLSubselectVarpath}</x:param>
     	<x:param name="subselect.session">${XSLSubselectSession}</x:param>
     	<x:param name="subselect.webpage">${XSLSubselectWebpage}</x:param>
+    	<x:param name="prevFromTo">${prevFromTo}</x:param>
     </x:transform>
     
 </jsp:root>

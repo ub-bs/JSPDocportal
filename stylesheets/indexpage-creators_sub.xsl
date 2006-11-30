@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.10 $ $Date: 2006-11-09 12:39:01 $ -->
+<!-- $Revision: 1.11 $ $Date: 2006-11-30 17:21:10 $ -->
 <!-- ============================================== -->
 
 <xsl:stylesheet
@@ -19,6 +19,7 @@
 <xsl:param name="subselect.varpath" />
 <xsl:param name="subselect.session" />
 
+<xsl:param name="prevFromTo"/> <!-- navigation path of previous fromTos in reverse order, separated by '.'-->
 		
 <!-- ========== Variablen ========== -->
 <xsl:variable name="search"  select="/indexpage/results/@search" />
@@ -109,15 +110,30 @@
  </table>
 </xsl:template>
 
-<xsl:variable name="up.url">
-  <xsl:text>nav?path=~indexSearchCreatorsSub</xsl:text>
-  <xsl:text>&amp;</xsl:text>
-  <xsl:value-of select="$subselect.params" />
-  <xsl:if test="string-length($search) &gt; 0">
-    <xsl:text>&amp;search=</xsl:text>
-    <xsl:value-of select="$search" />
-  </xsl:if>
+<xsl:variable name="upFromTo">
+	<xsl:choose>
+		<xsl:when test="/indexpage/results/range[last()]/to/@pos + 1 - /indexpage/results/range[1]/from/@pos = /indexpage/results/@numHits">
+			<xsl:text></xsl:text>
+		</xsl:when>
+		<xsl:otherwise>
+			<xsl:value-of select="/indexpage/results/range[1]/from/@pos" />
+			<xsl:text>-</xsl:text>
+			<xsl:value-of select="/indexpage/results/range[last()]/to/@pos" />
+		</xsl:otherwise>
+	</xsl:choose>
 </xsl:variable>
+
+<xsl:variable name="up.url">
+	<xsl:text>nav?path=~indexSearchCreatorsSub</xsl:text>
+	<xsl:text>&amp;fromTo=</xsl:text>
+	<xsl:value-of select="substring-before($prevFromTo, '.')" />
+	<xsl:text>&amp;prevFromTo=</xsl:text>
+	<xsl:value-of select="substring-after($prevFromTo, '.')" />
+	<xsl:if test="string-length($search) &gt; 0">
+	  	<xsl:text>&amp;search=</xsl:text>
+   		<xsl:value-of select="$search" />
+    </xsl:if>	
+</xsl:variable> 
 
 <!-- ========== results ========== -->
 <xsl:template match="results">
@@ -200,7 +216,7 @@
 <!-- ========== range ========== -->
 <xsl:template match="range">
   <xsl:variable name="url">
-    <xsl:value-of select="concat($WebApplicationBaseURL,'nav?path=~indexSearchCreatorsSub&amp;fromTo=', from/@pos,'-', to/@pos )" />	  
+    <xsl:value-of select="concat($WebApplicationBaseURL,'nav?path=~indexSearchCreatorsSub&amp;fromTo=', from/@pos,'-', to/@pos, '&amp;prevFromTo=', $upFromTo, '.', $prevFromTo)" />
     <xsl:text>&amp;</xsl:text>
     <xsl:value-of select="$subselect.params" />
     <xsl:if test="string-length($search) &gt; 0">
