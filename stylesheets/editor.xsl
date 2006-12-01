@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.11 $ $Date: 2006-11-29 15:37:03 $ -->
+<!-- $Revision: 1.12 $ $Date: 2006-12-01 14:00:28 $ -->
 <!-- ============================================== --> 
 
 <xsl:stylesheet 
@@ -27,7 +27,7 @@
 <xsl:variable name="editor.delimiter.pos.end"   select="']'" />
 
 <xsl:variable name="editor.list.indent">
-  <xsl:text disable-output-escaping="yes">&#160;&#160;&#160;</xsl:text>
+  <xsl:text disable-output-escaping="yes">&amp;nbsp;&amp;nbsp;&amp;nbsp;</xsl:text>
 </xsl:variable>
 
 <!-- ======== FCK Editor JavaScript laden ======== -->
@@ -55,7 +55,7 @@
       <xsl:apply-templates select="headline" />
 
       <!-- ======== if validation errors exist, display message ======== -->
-      <xsl:apply-templates select="/editor/failed">
+      <xsl:apply-templates select="ancestor::editor/failed">
         <xsl:with-param name="lines" select="panel[@id=current()/@root]/@lines" />
       </xsl:apply-templates>
 
@@ -144,7 +144,7 @@
 
   <!-- ======== send editor session ID to servlet ======== -->
   <input type="hidden" name="{$editor.delimiter.internal}session" value="{../@session}" />
-  <input type="hidden" name="{$editor.delimiter.internal}webpage" value="{$StaticFilePath}" />
+  <input type="hidden" name="{$editor.delimiter.internal}webpage" value="{concat('editor-forward/',substring-before($StaticFilePath,'.xml'))}" />  
   <input type="hidden" name="{$editor.delimiter.internal}action"  value="submit" />
 
   <!-- ======== durchreichen der target parameter ======== -->
@@ -176,7 +176,7 @@
   <tr>
     <td class="editorValidationMessage">
 
-      <xsl:for-each select="/editor/validationMessage">
+      <xsl:for-each select="ancestor::editor/validationMessage">
         <xsl:call-template name="output.label">
           <xsl:with-param name="usefont" select="'yes'" />
         </xsl:call-template>
@@ -397,13 +397,13 @@
   <table border="0" cellpadding="0" cellspacing="0">
     <xsl:attribute name="class">
       <xsl:choose>
-        <xsl:when test="/editor/failed/field[@sortnr=$pos]">editorPanelValidationFailed</xsl:when>
+        <xsl:when test="ancestor::editor/failed/field[@sortnr=$pos]">editorPanelValidationFailed</xsl:when>
         <xsl:otherwise>editorPanel</xsl:otherwise>
       </xsl:choose>
     </xsl:attribute>
-    <xsl:if test="/editor/failed/field[@sortnr=$pos]">
+    <xsl:if test="ancestor::editor/failed/field[@sortnr=$pos]">
       <xsl:variable name="message">
-        <xsl:for-each select="//condition[@id=/editor/failed/field[@sortnr=$pos]/@condition]">
+        <xsl:for-each select="//condition[@id=ancestor::editor/failed/field[@sortnr=$pos]/@condition]">
           <xsl:call-template name="output.label" />
         </xsl:for-each>
       </xsl:variable>
@@ -504,7 +504,7 @@
 
     <!-- ======== if there is no cell here, add space ======== -->
     <xsl:if test="count($the.cell) = 0">
-      <xsl:text disable-output-escaping="yes">&#160;</xsl:text>
+      <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
     </xsl:if>
 
     <!-- ======== if there is a cell here, handle it ======== -->
@@ -587,7 +587,7 @@
     <xsl:if test="position() = 1">
       <xsl:attribute name="class">
         <xsl:choose>
-          <xsl:when test="/editor/failed/field[@sortnr=$pos] and contains('textfield textarea password file list checkbox display ', concat(name(),' '))">editorCellValidationFailed</xsl:when>
+          <xsl:when test="ancestor::editor/failed/field[@sortnr=$pos] and contains('textfield textarea password file list checkbox display ', concat(name(),' '))">editorCellValidationFailed</xsl:when>
           <xsl:when test="$first='true'">
             <xsl:choose>
 			  <xsl:when test="$lines='off' and @lines='on'">editorCellWithPanelLinesOn</xsl:when>
@@ -616,9 +616,9 @@
 
     <!-- ======== show failed input validation message ======== -->
     <xsl:if test="contains('textfield textarea password file list checkbox display ', concat(name(),' '))">
-      <xsl:if test="/editor/failed/field[@sortnr=$pos]">
+      <xsl:if test="ancestor::editor/failed/field[@sortnr=$pos]">
         <xsl:variable name="message">
-          <xsl:for-each select="//condition[@id=/editor/failed/field[@sortnr=$pos]/@condition]">
+          <xsl:for-each select="//condition[@id=ancestor::editor/failed/field[@sortnr=$pos]/@condition]">
             <xsl:call-template name="output.label" />
           </xsl:for-each>
         </xsl:variable>
@@ -820,7 +820,7 @@
         <xsl:value-of select="@default" />
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text disable-output-escaping="yes">&#160;</xsl:text>
+        <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
       </xsl:otherwise>
     </xsl:choose>  
   </span>
@@ -849,7 +849,7 @@
         <xsl:value-of select="@default" />
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text disable-output-escaping="yes">&#160;</xsl:text>
+        <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
       </xsl:otherwise>
     </xsl:choose>  
   </span>
@@ -1149,7 +1149,7 @@
       <xsl:with-param name="usefont" select="'yes'" />
     </xsl:call-template>
   </xsl:for-each>
-  <xsl:text disable-output-escaping="yes">&#160;</xsl:text>
+  <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
 </xsl:template>
 
 <!-- ======== output checkbox ======== -->
@@ -1173,7 +1173,7 @@
       <xsl:with-param name="usefont" select="'yes'" />
     </xsl:call-template>
   </xsl:for-each>
-  <xsl:text disable-output-escaping="yes">&#160;</xsl:text>
+  <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
 </xsl:template>
 
 <!-- ======== checkbox ======== -->
