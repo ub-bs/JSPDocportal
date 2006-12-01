@@ -11,12 +11,14 @@ import java.net.URLEncoder;
 import java.util.Enumeration;
 import java.util.Properties;
 
+import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
+import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.frontend.jsp.NavServlet;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
@@ -106,6 +108,7 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 
 	public void doTag() throws JspException, IOException {
 		PageContext pageContext = (PageContext) getJspContext();
+		
 		Properties parameters = new Properties();
 		String editorBase = "";
 		if(editorSessionID != null && !editorSessionID.equals("")){			
@@ -166,6 +169,10 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 			//cancelPage 		=  NavServlet.getBaseURL() + "nav?path=~workflow-" + type;
 			cancelPage = NavServlet.getNavigationBaseURL()+"~"+workflowType;
 		}		
+		PageContext pageContext = (PageContext) getJspContext();
+		HttpSession session = pageContext.getSession();		
+	    String jSessionID = MCRConfiguration.instance().getString("MCR.session.param", ";jsessionid=");		
+	    String sessionID = jSessionID + session.getId();
 
 		params.put("lang" , MCRSessionMgr.getCurrentSession().getCurrentLanguage());
 		params.put("MCRSessionID" , MCRSessionMgr.getCurrentSession().getID());
@@ -177,6 +184,9 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 		params.put("step", step);
 		params.put("target", target);
 		params.put("workflowType", workflowType);
+		params.put("HttpSessionID",sessionID);	
+		params.put("JSessionID",sessionID);	
+		
 		
 		if(mcrid2 != null && !mcrid2.equals("")) {
 			params.put("mcrid2", mcrid2);
