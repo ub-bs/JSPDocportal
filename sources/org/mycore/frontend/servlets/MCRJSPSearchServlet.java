@@ -73,6 +73,10 @@ public class MCRJSPSearchServlet extends MCRSearchServlet {
 		String editormask = req.getParameter("mask");
 		MCRSession session = MCRSessionMgr.getCurrentSession();
 		
+		String mcrSessionID =  session.getID();
+		if ( mcrSessionID == null )
+			 mcrSessionID = (String) req.getAttribute("XSL.MCRSessionID");
+		
 		if ( editormask.startsWith("~searchstart-class")) {
 			// this comes from the browserclass and we have no searchmask
 			String browseuri  = session.BData.getUri();
@@ -81,15 +85,20 @@ public class MCRJSPSearchServlet extends MCRSearchServlet {
 				// this comes from the indexbrowser and we have no searchmask
 				furl +=editormask; 
 		} else {
-		   // we must set the session, cause in the next request for the editor call we need the right 
+		    // we must set the session, cause in the next request for the editor call we need the right 
 			// session to get the query from the cache
-			furl += editormask+"&sourceid="+id+"&session="+session.getID();
+			//furl += editormask+"&sourceid="+id+"&session="+session.getID();
+			if ( mcrSessionID == null )
+				LOGGER.error("session is null - can't load the query from the Cache ");
+			
+			furl += editormask+"&sourceid="+id+"&session="+mcrSessionID;
 		}
 		try {
 			this.getServletContext().getRequestDispatcher(furl).forward(req, res);
 		} catch ( ServletException se) {
 			LOGGER.error("error forward ", se);
     	}
+		
     }
     
     // this calls the editor start address of the searchmask with the inputfield or the classbrowser start adresse
