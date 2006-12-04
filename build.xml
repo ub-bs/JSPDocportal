@@ -2,11 +2,12 @@
 
 <!-- =================================================================== -->
 <!-- MyCoRe sample application build file for use with Apache Ant        -->
-<!-- $Revision: 1.36 $ $Date: 2006-08-17 14:07:55 $                      -->
+<!-- $Revision: 1.37 $ $Date: 2006-12-04 13:06:17 $                      -->
 <!-- =================================================================== -->
 
 <project default="usage" basedir=".">
-	
+	<property name="MYAPPLICATION.DIRNAME" value="myapplication" />
+	<property name="OBJECTID.PREFIX" value="DocPortal" />
     <!-- =================================================================== -->
     <!-- Help on usage                                                       -->
     <!-- =================================================================== -->
@@ -25,22 +26,53 @@
     </target>	
 
 	<target name="create.my.own.application">
-		<mkdir dir="../myapplication" />
-		<copy todir="../myapplication">
+		<mkdir dir="../${MYAPPLICATION.DIRNAME}" />
+		<copy todir="../${MYAPPLICATION.DIRNAME}">
 			<fileset dir="." >
 			  <type type="dir" />
 			</fileset>
 		</copy>
-		<copy file="./config/buildfile_application.xml" tofile="../myapplication/build.xml" overwrite="true"/>
-		<copy file="./config/mycore.properties.template" tofile="../myapplication/config/mycore.properties.template" overwrite="true"/>
-		<copy file="./config/workflow/jbpm_hibernate.cfg.xml.template" tofile="../myapplication/config/workflow/jbpm_hibernate.cfg.xml.template" overwrite="true" />
+		<copy file="./config/buildfile_application.xml" tofile="../${MYAPPLICATION.DIRNAME}/build.xml" overwrite="true"/>
+		<copy file="./config/mycore.properties.template" tofile="../${MYAPPLICATION.DIRNAME}/config/mycore.properties.template" overwrite="true"/>
+		<copy file="./config/workflow/jbpm_hibernate.cfg.xml.template" tofile="../${MYAPPLICATION.DIRNAME}/config/workflow/jbpm_hibernate.cfg.xml.template" overwrite="true" />
 	</target>		
 
 	<target name="merge.my.properties">
 		<taskdef name="mergepropertyfiles" classname="org.mycore.ant.customtasks.MergeProperties" classpath="../jspdocportal/lib/ant-mycore.jar" /> 
 		<mergepropertyfiles basefile="config/mycore.properties.template" 
-				    				deltafile="../myapplication/config/mymycore.properties" 
-				    				tofile="../myapplication/config/mycore.properties"/>
+				    				deltafile="../${MYAPPLICATION.DIRNAME}/config/mymycore.properties" 
+				    				tofile="../${MYAPPLICATION.DIRNAME}/config/mycore.properties"/>
+	
+	</target>
+	
+	<!-- This target has an EXPERIMENTAL state 
+	     It can be used to rename the classification IDs in classification.xml files and properties.
+	     If it is used, it has to be called after every call of "merge.my.properties" -->
+	<target name="update.objectIDs">
+		<copy todir="./../${MYAPPLICATION.DIRNAME}/content/classification">
+		    <fileset dir="./../jspdocportal/content/classification"/>
+		 </copy>
+
+		<replaceregexp flags="g">
+		  <regexp pattern="DocPortal_"/>
+		  <substitution expression="${OBJECTID.PREFIX}_"/>
+			<fileset dir="./.." casesensitive="yes">  
+			  <include name="${MYAPPLICATION.DIRNAME}/config/mycore.properties"/>
+ 			  <include name="${MYAPPLICATION.DIRNAME}/content/classification/*"/> 
+		  </fileset>
+		</replaceregexp>
+		
+		<!--extend the id with 2 leading zeros -->
+		<replaceregexp flags="g">
+		  <regexp pattern="_class_0"/>
+		  <substitution expression="_class_000"/>
+			<fileset dir="./.." casesensitive="yes">  
+			  <include name="${MYAPPLICATION.DIRNAME}/config/mycore.properties"/>
+		  </fileset>
+		 </replaceregexp>
+
+		
+		
 	</target>
 </project>
 
