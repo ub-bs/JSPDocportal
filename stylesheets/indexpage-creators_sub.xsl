@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.11 $ $Date: 2006-11-30 17:21:10 $ -->
+<!-- $Revision: 1.12 $ $Date: 2006-12-04 12:57:23 $ -->
 <!-- ============================================== -->
 
 <xsl:stylesheet
@@ -146,7 +146,7 @@
 
           <xsl:choose>
             <xsl:when test="contains(/indexpage/@path,'-')">
-              <b><a class="nav" href="{$WebApplicationBaseURL}{$up.url}">Zurück...</a></b>
+              <b><a class="nav" href="{$WebApplicationBaseURL}{$up.url}&amp;{$subselect.params}">Zurück...</a></b>
             </xsl:when>
             <xsl:when test="string-length($search) &gt; 0">
               <b>Gesamtindex (über Suchausdruck gefiltert)</b>
@@ -167,7 +167,7 @@
 
           <xsl:choose>
             <xsl:when test="contains(/indexpage/@path,'-')">
-              <b><a class="nav" href="{$up.url}">Zurück...</a></b>
+              <b><a class="nav" href="{$up.url}&amp;{$subselect.params}">Zurück...</a></b>
             </xsl:when>
             <xsl:when test="string-length($search) &gt; 0">
               <b>Einträge (über Suchausdruck gefiltert)</b>
