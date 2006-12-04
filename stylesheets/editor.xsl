@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.12 $ $Date: 2006-12-01 14:00:28 $ -->
+<!-- $Revision: 1.13 $ $Date: 2006-12-04 12:56:41 $ -->
 <!-- ============================================== --> 
 
 <xsl:stylesheet 
@@ -743,8 +743,28 @@
         </xsl:attribute>
       </input>
     </xsl:when>
-    <xsl:otherwise>
-      <input type="button" value=" ? " onClick="window.open('{$url}','help','{$properties}');" class="editorButton" />
+    
+	<xsl:when test="@id"> 	 
+    	<div class="helppopup">
+    	   <a href="#">?<span> 	 
+              <xsl:attribute name="style"> 	 
+                 <xsl:if test="@width"> 	 
+                    <xsl:text>width:</xsl:text> 	 
+                    <xsl:value-of select="@width"/> 	 
+                    <xsl:text>;</xsl:text> 	 
+                 </xsl:if> 	 
+                 <xsl:if test="@height"> 	 
+                    <xsl:text>height:</xsl:text> 	 
+                    <xsl:value-of select="@height"/> 	 
+                    <xsl:text>;</xsl:text> 	 
+                </xsl:if> 	 
+           </xsl:attribute> 	 
+           <xsl:call-template name="output.label" /> 	 
+         </span></a>
+       </div> 
+   </xsl:when>
+   <xsl:otherwise>
+       <input type="button" value=" ? " onClick="window.open('{$url}','help','{$properties}');" class="editorButton" />
     </xsl:otherwise>
   </xsl:choose>
 </xsl:template>
