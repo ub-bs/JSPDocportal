@@ -121,8 +121,8 @@
 					<x:set var="contentType" select="string(./metaname[@name='OMD.class-types']/metavalues/metavalue/@categid)" />
 					<table id="resultList" width="100%">
 						<tbody>
-							<tr valign="top" >
-								<td width="30px" class="resultIcon" rowspan="2" >
+							<tr valign="middle">
+								<td width="30px" class="resultIcon" valign="top" rowspan="2">
 								<x:choose>
 									<x:when select="contains($docType, 'author')">
 										<img src="${WebApplicationBaseURL}/images/pubtype/person.gif"	alt="author" />
@@ -208,25 +208,10 @@
 											alt="unknown" />
 									</x:otherwise>
 								</x:choose>
-								</td>
-								<td class="resultTitle">
-								<a href="${resultlistLink}&path=${navPath}.docdetail&resultid=${resultid}">
-								<x:choose>
-									<x:when select="contains('codice',$docType)">
-										<x:out select="./metaname[1]/metavalues[2]/metavalue/@text" />
-										<x:out select="./metaname[@name='OMD.title']/metavalues[3]/metavalue/@text" />
-									</x:when>
-									<x:when select="contains('professorum',$docType)">
-										<x:out select="./metaname[1]/metavalues/metavalue/@text" />,
-										<x:out select="./metaname[1]/metavalues[2]/metavalue/@text" />
-									</x:when>
-									<x:otherwise>
-										<x:out select="./metaname[1]/metavalues/metavalue/@text" />
-									</x:otherwise>
-								</x:choose> </a></td>
-								<td class="id" rowspan="2" align="right">[<c:out value="${mcrID}" />]
-								<br/>
-	  <c:set var="type" value="${fn:split(mcrid,'_')[1]}"/>								     
+
+			<%-- begin editbutton --%>
+			
+				  <c:set var="type" value="${fn:split(mcrid,'_')[1]}"/>								     
       <mcr:checkAccess var="modifyAllowed" permission="writedb" key="${mcrID}" />
       <c:if test="${modifyAllowed}">
         <mcr:isObjectNotLocked var="bhasAccess" objectid="${mcrID}" />
@@ -244,10 +229,32 @@
          </c:otherwise>
         </c:choose>         
       </c:if>      
-								
+			</td>
+			<td class="resultTitle">
+								<a href="${resultlistLink}&path=${navPath}.docdetail&resultid=${resultid}">
+								<x:choose>
+									<x:when select="contains('codice',$docType)">
+										<x:out select="./metaname[1]/metavalues[2]/metavalue/@text" />
+										<x:out select="./metaname[@name='OMD.title']/metavalues[3]/metavalue/@text" />
+									</x:when>
+									<x:when select="contains('professorum',$docType)">
+										<x:out select="./metaname[1]/metavalues/metavalue/@text" />,
+										<x:out select="./metaname[1]/metavalues[2]/metavalue/@text" />
+									</x:when>
+									<x:otherwise>
+										<x:out select="./metaname[1]/metavalues/metavalue/@text" />
+									</x:otherwise>
+								</x:choose> </a>
+				</td>
+
+				
+				<td class="id"  align="right">[<c:out value="${mcrID}" />]</td>
+	</tr>
+	<tr> 
+							
 								</td>
-							</tr>
-							<tr>
+						
+				
 								<td colspan="2" class="description">
 								 <x:forEach select="./metaname[position() > 1]" >
 								  <x:if select="./@type != 'hidden' ">
