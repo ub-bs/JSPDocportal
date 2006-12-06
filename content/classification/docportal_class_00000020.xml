@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <mycoreclass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="MCRClassification.xsd" 
    ID="DocPortal_class_0020">
-  <label xml:lang="de" text="Basisklassifikation" description="Hauptklassen der Basisklassifikation Übersicht" />
+  <label xml:lang="de" text="Basisklassifikation" description="Hauptklassen der Basisklassifikation Ãœbersicht" />
   <categories>
 
     <category ID="BK01">
@@ -29,7 +29,7 @@
       <label xml:lang="de" text="15 - Geschichte" />
     </category>
     <category ID="BK17">
-      <label xml:lang="de" text="17 - Sprachwissenschaft ­ und Literaturwissenschaft" />
+      <label xml:lang="de" text="17 - Sprachwissenschaft Â­ und Literaturwissenschaft" />
     </category>
     <category ID="BK18">
       <label xml:lang="de" text="18 - Einzelne Sprachen und Literaturen" />
@@ -116,7 +116,7 @@
       <label xml:lang="de" text="73 - Ethnologie, Volkskunde " />
     </category>
     <category ID="BK74">
-      <label xml:lang="de" text="74 - Geographie, Raumordnung, Städtebau" />
+      <label xml:lang="de" text="74 - Geographie, Raumordnung, StÃ¤dtebau" />
     </category>
     <category ID="BK76">
       <label xml:lang="de" text="76 - Sport, Freizeit, Erholung" />
@@ -125,10 +125,10 @@
       <label xml:lang="de" text="77 - Psychologie" />
     </category>
     <category ID="BK79">
-      <label xml:lang="de" text="79 - Sozialpädagogik, Sozialarbeit " />
+      <label xml:lang="de" text="79 - SozialpÃ¤dagogik, Sozialarbeit " />
     </category>
     <category ID="BK80">
-      <label xml:lang="de" text="80 - Pädagogik " />
+      <label xml:lang="de" text="80 - PÃ¤dagogik " />
     </category>
     <category ID="BK81">
       <label xml:lang="de" text="81 - Bildungswesen" />
