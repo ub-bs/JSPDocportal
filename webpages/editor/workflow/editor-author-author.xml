@@ -76,7 +76,7 @@
     <cell col="4" row="3" anchor="WEST" ref="HOrigin" />
 
  <cell col="1" row="4" anchor="NORTHWEST" ref="LAddressMandatory" />
-   <cell col="2" row="4" anchor="NORTHWEST" ref="DAddress" />
+   <cell col="2" row="4" anchor="NORTHWEST" ref="DAddress" sortnr="4"/>
    <cell col="3" row="4" anchor="NORTHWEST" >
     <space width="20" height="0" />
    </cell>
