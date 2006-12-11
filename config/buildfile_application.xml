@@ -39,7 +39,7 @@
 	
 
     <!-- Provide a default value for DOCPORTAL_SYSTEM if not set in env -->
-    <property name="DOCPORTAL_SYSTEM" location="${basedir}/../${MYAPPLICATION_NAME}-working" />
+    <property name="DOCPORTAL_SYSTEM" location="${basedir}/../${MYAPPLICATION_NAME}_working" />
 	
 	<property name="DOCPORTAL_HOME" value="../jspdocportal" />
 
