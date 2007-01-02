@@ -56,9 +56,11 @@
     <MCRDocDetail rowtype="standard" labelkey="OMD.coverages" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/coverages/coverage" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
     </MCRDocDetail>     
+	<!--
     <MCRDocDetail rowtype="standard" labelkey="OMD.rights" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/rights/right" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
     </MCRDocDetail>  
+	-->
     <MCRDocDetail rowtype="standard" labelkey="OMD.sizes" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/sizes/size" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
     </MCRDocDetail>

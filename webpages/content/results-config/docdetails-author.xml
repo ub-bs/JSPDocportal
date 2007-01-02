@@ -7,9 +7,11 @@
     <MCRDocDetail rowtype="standard" labelkey="OMD.gender" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/females/female" templatetype="tpl-boolean" separator="" languageRequired="no" />
     </MCRDocDetail>
+    <!-- 
     <MCRDocDetail rowtype="standard" labelkey="OMD.birthyear" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/dates/date" templatetype="tpl-date-valuesYearOnly" separator="-" languageRequired="no"  />
     </MCRDocDetail> 
+    -->
     <MCRDocDetail rowtype="standard" labelkey="OMD.institution" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/institutions/institution" templatetype="tpl-classification" separator=", " languageRequired="yes" />
     </MCRDocDetail>     

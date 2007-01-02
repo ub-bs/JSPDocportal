@@ -44,6 +44,7 @@ public class MCRListWorkflowProcessTag extends MCRSimpleTagSupport
 			return;
 		}			
 		List lpids = WFM.getCurrentProcessIDsForProcessType(workflowProcessType) ;
+		
 		org.jdom.Element processlist = new org.jdom.Element ("processlist");
 		processlist.setAttribute("type", workflowProcessType);
 		
@@ -59,7 +60,7 @@ public class MCRListWorkflowProcessTag extends MCRSimpleTagSupport
 				Object nextVal  =  allVars.get(nextKey);
 				org.jdom.Element pvar = new org.jdom.Element ("variable");
 				pvar.setAttribute("name", nextKey);
-				pvar.setAttribute("value", nextVal.toString());
+				pvar.setAttribute("value", (nextVal!=null?nextVal.toString():""));
 				process.addContent(pvar);
 			}
 			processlist.addContent(process);			

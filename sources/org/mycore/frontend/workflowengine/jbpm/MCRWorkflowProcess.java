@@ -180,7 +180,8 @@ public class MCRWorkflowProcess extends MCRAbstractWorkflowObject{
 	 * @param value
 	 */
 	public void setStringVariable(String varName, String value) {
-		contextInstance.setVariable(varName, value);
+		if ( value != null)
+			contextInstance.setVariable(varName, value);
 	}
 	
 	public final void setProcessCreatedVariable(){

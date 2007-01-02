@@ -93,6 +93,7 @@ public class MCRLoginTag extends SimpleTagSupport
         	catch(Exception e){
         		//ExceptionClassNotFoundException, IllegalAccessException, InstantiationException
         		//do nothing
+        		logger.debug("Could not load MCRExternalUserLogin: " + classNameExtUserLogin, e);
         	}
         }
         

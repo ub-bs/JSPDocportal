@@ -177,7 +177,7 @@
 		   <from>MCR.WorkflowEngine.xmetadiss.from</from>
 		   <to>initiator</to>
 		   <subject>MCR.WorkflowEngine.xmetadiss.subject.commit</subject>
-		   <body>MCR.WorkflowEngine.institution.body.commit</body>
+		   <body>MCR.WorkflowEngine.xmetadiss.body.commit</body>
            <jbpmVariableName>createdDocID</jbpmVariableName>
 		</action> 
      </event>     

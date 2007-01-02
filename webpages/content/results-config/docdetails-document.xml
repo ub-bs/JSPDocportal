@@ -99,11 +99,11 @@
     <MCRDocDetail rowtype="standard" labelkey="OMD.notes" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/notes/note" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
     </MCRDocDetail>    
-     
+    <!-- 
     <MCRDocDetail rowtype="standard" labelkey="OMD.rights" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/rights/right" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
     </MCRDocDetail>  
-
+	-->
     <MCRDocDetail rowtype="line" labelkey="" separator="" />    
 
     <MCRDocDetail rowtype="standard" labelkey="OMD.created" >
