@@ -136,7 +136,17 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 			long processID = initWorkflowProcess(initiator, "go2processEditInitialized");
 			
 			MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processID);
-			String urn = this.identifierStrategy.getUrnFromDocument(mcrid);			
+			String urn = identifierStrategy.getUrnFromDocument(mcrid);
+			
+			if ( urn == null ) {
+				// a migration problem - old urns are in nbn, new in urn store
+				urn = (String)identifierStrategy.createNewIdentifier( initiator, workflowProcessType);
+				identifierStrategy.setDocumentIDToUrn(urn, mcrid);
+				Element eUrns = metadataStrategy.createURNElement(urn);
+				// mob.getMetadata().getMetadataElement("urns").setFromDOM(eUrns);
+				mob.getMetadata().getMetadataElement("urns").getElement(0).setFromDOM(eUrns.getChild("urn"));
+				
+			}
             wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_PUBLICATIONTYPE,pubType);
 			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS, mcrid);
 			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN, urn);	

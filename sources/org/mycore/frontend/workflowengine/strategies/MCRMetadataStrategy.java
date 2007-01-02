@@ -94,6 +94,15 @@ public abstract class MCRMetadataStrategy {
 	 */
 	public abstract boolean commitMetadataObject(String mcrobjid, String directory);
 	
+	
+	/**
+	 * creates an urns elemnt for the metadata object
+	 * @param urn
+	 * @return elemnt urns
+	 */
+	public abstract Element createURNElement(String urn) ;
+
+	
 	protected boolean backupMetadataObject(String inputFile, String backupDirectory){
 		try{
 			File fInputFile = new File(inputFile);
@@ -116,4 +125,5 @@ public abstract class MCRMetadataStrategy {
 		return true;
 		
 	}
+
 }

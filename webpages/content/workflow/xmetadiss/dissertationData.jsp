@@ -26,25 +26,26 @@
          (<x:out select="./@ID" />)
       </td>
       <td class="metavalue">  
+        <!--  LINK AUF WORKFLOW DER AUTOREN 
 	     <mcr:checkAccess var="modifyAllowed" permission="writedb" key="${authorID}" />
 	     <mcr:isObjectNotLocked var="bhasAccess" objectid="${authorID}" />
-	      <%-- LINK AUF WORKFLOW DER AUTOREN --%>
+
 	      <c:if test="${modifyAllowed}">
 	        <c:choose>
 	         <c:when test="${bhasAccess}"> 
 		         <a href="${WebApplicationBaseURL}StartEdit?page=nav?path=~workflowEditor-author&mcrid=${authorID}"><fmt:message key="WF.common.object.EditObjectAuthor" /></a>
 	         </c:when>
 	         <c:otherwise>
-	         <%--   <img title="<fmt:message key="WF.common.object.EditObjectIsLocked" />" border="0" src="${WebApplicationBaseURL}images/workflow_locked.gif" /> --%>
 	         (<fmt:message key="WF.common.object.EditObjectIsLockedAuthor"/>)
 	         </c:otherwise>
 	        </c:choose>         
 	      </c:if>      
+		// -->	      
       </td>
    </tr>  
  </x:forEach>
 </c:if>
-   </tr>  
+     
 		<c:if test="${!empty(urn)}">
 		   <tr valign="top">
 		        <td class="metaname"><fmt:message key="WF.xmetadiss.URN" /> </td>

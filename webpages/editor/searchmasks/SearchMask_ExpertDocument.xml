@@ -39,7 +39,7 @@
       <hidden var="conditions/boolean/boolean/condition[2]/@value"    default="disshab" />
       
       <!-- Search in metadata fields that are text -->
-      <cell row="1" col="1" colspan="3" anchor="NORTHWEST" var="conditions/boolean/condition2">
+      <cell row="1" col="1" colspan="4" anchor="NORTHWEST" var="conditions/boolean/condition2">
         <repeater min="1" max="10">
           <panel lines="off">
             <cell row="1" col="1" anchor="WEST" var="@field">
@@ -63,7 +63,7 @@
       </cell>
       
       <!-- Search in metadata fields that are names -->
-      <cell row="2" col="1" colspan="3" anchor="NORTHWEST" var="conditions/boolean/condition3">
+      <cell row="2" col="1" colspan="4" anchor="NORTHWEST" var="conditions/boolean/condition3">
         <repeater min="1" max="10">
           <panel lines="off">
             <cell row="1" col="1" anchor="WEST" var="@field">
@@ -91,110 +91,123 @@
         </repeater>
       </cell>
       
-      <!-- Search in field "identifier" -->
-      <hidden var="conditions/boolean/condition4/@field" default="identifier" />
-      <cell row="4" col="1" anchor="SOUTHEAST" height="50px">
-        <text i18n="Editor.Document.identifier"/>
-      </cell>
-      <cell row="4" col="2" anchor="SOUTHWEST" var="conditions/boolean/condition4/@operator" ref="list.operators.identifier" />
-      <cell row="4" col="3" width="100%" anchor="SOUTHWEST" var="conditions/boolean/condition4/@value">
-        <textfield width="40" />
-      </cell>
-      
-      <!-- Search in field "origin" -->
-      <cell row="5" col="1"  anchor="NORTHEAST" ref="LOrigins" />     
-      <cell row="5" col="2" colspan="2" anchor="NORTHWEST" ref="DOrigins" var="conditions/boolean/condition5" />
-    
-      <!-- Search in field "subject" with operator "=" -->
-      <cell row="6" col="1" anchor="NORTHEAST" ref="LSubjects" />     
-      <cell row="6" col="2" colspan="2" anchor="NORTHWEST" ref="DSubjects" var="conditions/boolean/condition6" />
-      
+      <cell row="3" col="1" colspan="2" anchor="NORTHWEST" >
+      <panel>
+        <hidden var="conditions/boolean/condition4/@field" default="identifier" />
 
-      <!-- Search in field "format" with operator "=" -->
-      <cell row="7" col="1" anchor="NORTHEAST" ref="LFormats" />     
-      <cell row="7" col="2" colspan="2" anchor="NORTHWEST" ref="DFormats" var="conditions/boolean/condition7" />
- 
-      <!-- Search in field "language" with operator "=" -->
-      <!-- 
-      <cell row="8" col="1"  anchor="NORTHEAST" ref="LLanguages" />     
-      <cell row="8" col="2" colspan="2" anchor="NORTHWEST" ref="DLanguages" var="conditions/boolean/condition8" />
-      -->
+        <!-- Search in field "origin" -->
+        <cell row="1" col="1"  anchor="NORTHEAST" ref="LOrigins" />     
+        <cell row="1" col="2" anchor="NORTHWEST" ref="DOrigins" var="conditions/boolean/condition5" />
       
-      <!-- Search in field "type" with operator "=" -->
-      <cell row="9" col="1" anchor="NORTHEAST" ref="LTypes" />     
-      <cell row="9" col="2" colspan="2" anchor="NORTHWEST" ref="DTypes" var="conditions/boolean/condition9" />
+        <!-- Search in field "subject" with operator "=" -->
+        <cell row="2" col="1" anchor="NORTHEAST" ref="LSubjects" />     
+        <cell row="2" col="2"  anchor="NORTHWEST" ref="DSubjects" var="conditions/boolean/condition6" />
+
+        <!-- Search in field "identifier" -->
+        <cell row="3" col="1" anchor="NORTHEAST" >
+          <text i18n="Editor.Document.identifier"/>
+        </cell>
+        <cell row="3" col="2" colspan="2" anchor="WEST">
+          <panel lines="off">  
+            <cell row="1" col="1" anchor="WEST" var="conditions/boolean/condition4/@operator" ref="list.operators.identifier" />
+            <cell row="1" col="2" anchor="WEST" var="conditions/boolean/condition4/@value">
+              <textfield width="10" />
+            </cell>
+          </panel>
+        </cell>
+      </panel>
+      </cell>
       
+      <cell  row="3" col="3" colspan="2" anchor="NORTHWEST" >
+      <panel>
+        <hidden var="conditions/boolean/condition10/@field" default="dateCreated" />
+  
+        <!-- Search in field "format" with operator "=" -->
+        <cell row="1" col="1" anchor="NORTHWEST" ref="LFormats" />     
+        <cell row="1" col="2" anchor="NORTHWEST" ref="DFormats" var="conditions/boolean/condition7" />
+   
+        <!-- Search in field "type" with operator "=" -->
+        <cell row="2" col="1" anchor="NORTHWEST" ref="LTypes" />     
+        <cell row="2" col="2" anchor="NORTHWEST" ref="DTypes" var="conditions/boolean/condition9" />
+        <!-- Search in field "dateCreated" -->
+        <cell row="3" col="1" anchor="EAST">
+          <text i18n="Editor.Document.datecr" />
+        </cell>
+        <cell row="3" col="2" colspan="2" anchor="WEST">
+          <panel lines="off">  
+            <cell row="1" col="1" anchor="WEST" var="conditions/boolean/condition10/@operator" ref="list.operators" />
+            <cell row="1" col="2" anchor="WEST" var="conditions/boolean/condition10/@value">
+              <textfield width="10" />
+            </cell>
+          </panel>
+        </cell>  
+      </panel>      
+      </cell>             
 
-      <!-- Search in field "dateCreated" -->
-      <hidden var="conditions/boolean/condition10/@field" default="dateCreated" />
-      <cell row="10" col="1" anchor="EAST">
-        <text i18n="Editor.Document.datecr" />
-      </cell>
-      <cell row="10" col="2" colspan="2" anchor="WEST">
-        <panel lines="off">  
-          <cell row="1" col="1" anchor="WEST" var="conditions/boolean/condition10/@operator" ref="list.operators" />
-          <cell row="1" col="2" anchor="WEST" var="conditions/boolean/condition10/@value">
-            <textfield width="15" />
-          </cell>
-        </panel>
-      </cell>
-
-      <cell row="11" col="1" colspan="3" anchor="SOUTHWEST" height="50px">
+      <cell row="10"  col="1" colspan="4" anchor="WEST">
+        <hr />
         <text i18n="Editor.Search.filecont" />
       </cell>
 
-      <!-- Search in field "content" -->
-      <hidden var="conditions/boolean/condition11/@field" default="content" />
-      <cell row="12" col="1" anchor="EAST">
-        <text i18n="Editor.Document.fulltext" />
+      <cell row="12" col="1" colspan="2"  anchor="NORTHWEST" >
+      <panel>
+        <!-- Search in field "content" -->
+        <hidden var="conditions/boolean/condition11/@field" default="content" />
+        <cell row="1" col="1" anchor="EAST">
+          <text i18n="Editor.Document.fulltext" />
+        </cell>
+        <cell row="1" col="2" anchor="WEST" var="conditions/boolean/condition11/@operator" ref="list.operators.text" />
+        <cell row="1" col="3" anchor="WEST" var="conditions/boolean/condition11/@value">
+          <textfield width="15" />
+        </cell>
+        <!-- Search in field "fileSize" -->
+        <hidden var="conditions/boolean/condition13/@field" default="fileSize" />
+        <cell row="2" col="1" anchor="EAST">
+          <text i18n="Editor.Document.filesize" />
+        </cell>
+        <cell row="2" col="2" anchor="WEST" var="conditions/boolean/condition13/@operator" ref="list.operators" />
+        <cell row="2" col="3" anchor="WEST" var="conditions/boolean/condition13/@value">
+          <textfield width="15" />
+        </cell>
+      </panel>
       </cell>
-      <cell row="12" col="2" anchor="WEST" var="conditions/boolean/condition11/@operator" ref="list.operators.text" />
-      <cell row="12" col="3" anchor="WEST" var="conditions/boolean/condition11/@value">
-        <textfield width="15" />
+      
+      <cell row="12" col="3" anchor="NORTHWEST" >
+      <panel>     
+        <!-- Search in field "fileName" -->
+        <hidden var="conditions/boolean/condition12/@field" default="fileName" />
+        <cell row="1" col="1" anchor="EAST">
+          <text i18n="Editor.Document.filename" />
+        </cell>
+        <cell row="1" col="2" anchor="WEST" var="conditions/boolean/condition12/@operator" ref="list.operators.identifier" />
+        <cell row="1" col="3" anchor="WEST" var="conditions/boolean/condition12/@value">
+          <textfield width="10" />
+        </cell>
+
+        <!-- Search in field "fileExtension" -->
+        <hidden var="conditions/boolean/condition14/@field" default="fileExtension" />
+        <cell row="2" col="1" anchor="EAST">
+          <text i18n="Editor.Document.extension" />
+        </cell>
+        <cell row="2" col="2" anchor="WEST" var="conditions/boolean/condition14/@operator" ref="list.operators.identifier" />
+        <cell row="2" col="3" anchor="WEST" var="conditions/boolean/condition14/@value">
+          <textfield width="10" />
+        </cell>
+        <!-- Search in field "fileDateModified" -->
+        <hidden var="conditions/boolean/condition15/@field" default="fileDateModified" />
+        <cell row="3" col="1" anchor="EAST">
+          <text i18n="Editor.Document.datemod" />
+        </cell>
+        <cell row="3" col="2" anchor="WEST" var="conditions/boolean/condition15/@operator" ref="list.operators" />
+        <cell row="3" col="3" anchor="WEST" var="conditions/boolean/condition15/@value">
+          <textfield width="10" />
+        </cell>
+      </panel>
       </cell>
 
-      <!-- Search in field "fileName" -->
-      <hidden var="conditions/boolean/condition12/@field" default="fileName" />
-      <cell row="13" col="1" anchor="EAST">
-        <text i18n="Editor.Document.filename" />
-      </cell>
-      <cell row="13" col="2" anchor="WEST" var="conditions/boolean/condition12/@operator" ref="list.operators.identifier" />
-      <cell row="13" col="3" anchor="WEST" var="conditions/boolean/condition12/@value">
-        <textfield width="40" />
-      </cell>
-
-      <!-- Search in field "fileSize" -->
-      <hidden var="conditions/boolean/condition13/@field" default="fileSize" />
-      <cell row="14" col="1" anchor="EAST">
-        <text i18n="Editor.Document.filesize" />
-      </cell>
-      <cell row="14" col="2" anchor="WEST" var="conditions/boolean/condition13/@operator" ref="list.operators" />
-      <cell row="14" col="3" anchor="WEST" var="conditions/boolean/condition13/@value">
-        <textfield width="15" />
-      </cell>
-
-      <!-- Search in field "fileExtension" -->
-      <hidden var="conditions/boolean/condition14/@field" default="fileExtension" />
-      <cell row="15" col="1" anchor="EAST">
-        <text i18n="Editor.Document.extension" />
-      </cell>
-      <cell row="15" col="2" anchor="WEST" var="conditions/boolean/condition14/@operator" ref="list.operators.identifier" />
-      <cell row="15" col="3" anchor="WEST" var="conditions/boolean/condition14/@value">
-        <textfield width="10" />
-      </cell>
-
-      <!-- Search in field "fileDateModified" -->
-      <hidden var="conditions/boolean/condition15/@field" default="fileDateModified" />
-      <cell row="16" col="1" anchor="EAST">
-        <text i18n="Editor.Document.datemod" />
-      </cell>
-      <cell row="16" col="2" anchor="WEST" var="conditions/boolean/condition15/@operator" ref="list.operators" />
-      <cell row="16" col="3" anchor="WEST" var="conditions/boolean/condition15/@value">
-        <textfield width="15" />
-      </cell>
-
-       <cell row="18" col="1" colspan="3" anchor="SOUTHEAST" height="50px">
-        <panel lines="off">
+     <cell row="17"  col="1" colspan="4" anchor="WEST">
+       <hr />
+       <panel lines="off">
           <cell row="1" col="1" anchor="WEST">
               <text i18n="Editor.Search.connect" />
           </cell>
@@ -231,14 +244,15 @@
           </cell>
         </panel>
       </cell>
-
-      <cell row="19" col="1" anchor="SOUTHEAST">
-             <text i18n="Editor.Search.sortBy" />
-      </cell>
-      <cell row="19" col="2" colspan="2" anchor="SOUTHEAST" var="sortBy/field">
+     
+      <cell row="19"  col="1" colspan="4" anchor="WEST" var="sortBy/field">
+        <hr />
         <repeater min="1" max="3">
           <panel lines="off">
-            <cell row="1" col="1" anchor="WEST" var="@name">
+            <cell row="1" col="1" anchor="WEST" >
+               <text i18n="Editor.Search.sortBy" />
+            </cell>
+            <cell row="1" col="2" anchor="WEST" var="@name">
               <list type="dropdown">
                 <item value="" i18n="Editor.Common.choose" />
                 <item value="title" i18n="Editor.Document.title" />
@@ -246,7 +260,7 @@
                 <item value="dateCreated" i18n="Editor.Document.datecr" />
               </list>
             </cell>
-            <cell row="1" col="2" anchor="WEST" var="@order">
+            <cell row="1" col="3" anchor="WEST" var="@order">
               <list type="dropdown" default="ascending">
                 <item value="ascending" i18n="Editor.Search.ascending" />
                 <item value="descending" i18n="Editor.Search.descending" />
@@ -256,10 +270,7 @@
         </repeater>
       </cell>          
 
-
-     <cell col="1" colspan="3" row="21" anchor="WEST"><hr /></cell>
-
-      <cell row="22" col="1" colspan="3" anchor="EAST">
+      <cell row="22" col="1" colspan="4" anchor="EAST">
         <submitButton i18n="Editor.Search.search" width="150px" />
       </cell>
     </panel>

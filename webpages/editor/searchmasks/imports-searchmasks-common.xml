@@ -132,7 +132,7 @@
             <label i18n="Editor.Search.Help.origin" />
       </helpPopup>
 
-      <list id="COrigins" width="300px" type="dropdown">
+      <list id="COrigins" width="200px" type="dropdown">
             <item value="">
         <label i18n="Editor.Common.choose" />
             </item>
@@ -151,7 +151,7 @@
       <helpPopup id="HTypes" width="400px" >
             <label i18n="Editor.Search.Help.type" />
       </helpPopup>
-      <list id="CTypes" width="300px" type="dropdown">
+      <list id="CTypes" width="100px" type="dropdown">
             <item value="">
         <label i18n="Editor.Common.choose" />              
             </item>
@@ -171,7 +171,7 @@
       <helpPopup id="HSubjects" width="400px" >
             <label i18n="Editor.Search.Help.subject" />
       </helpPopup>
-      <list id="CSubjects" width="300px" type="dropdown">
+      <list id="CSubjects" width="200px" type="dropdown">
             <item value="">
         <label i18n="Editor.Common.choose" />                 
             </item>
@@ -190,7 +190,7 @@
       <helpPopup id="HFormats" width="400px" >
             <label i18n="Editor.Search.Help.format" />
       </helpPopup>
-      <list id="CFormats" width="300px" type="dropdown">
+      <list id="CFormats" width="100px" type="dropdown">
             <item value="">
         <label i18n="Editor.Common.choose" />                 
             </item>
@@ -209,7 +209,7 @@
       <helpPopup id="HLanguages" width="400px" >
             <label i18n="Editor.Search.Help.language" />
       </helpPopup>
-      <list id="CLanguages" width="300px" type="dropdown">
+      <list id="CLanguages" width="100px" type="dropdown">
             <item value="">
         <label i18n="Editor.Common.choose" />                
             </item>
@@ -273,7 +273,7 @@
             <label xml:lang="en">   the Objects are classified
             </label>
       </helpPopup>
-      <list id="CBkl" width="300px"  type="dropdown">
+      <list id="CBkl" width="200px"  type="dropdown">
             <item value="">
                   <label xml:lang="de">(bitte wählen)</label>
             </item>

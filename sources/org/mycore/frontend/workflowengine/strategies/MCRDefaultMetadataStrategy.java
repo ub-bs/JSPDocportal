@@ -124,19 +124,8 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 		if(identifiers != null){
 			for (Iterator it = identifiers.keySet().iterator(); it.hasNext();) {
 				Integer identifierType = (Integer) it.next();
-				if(identifierType.equals(MCRWorkflowConstants.KEY_IDENTIFER_TYPE_URN)){
-					MCRMetaLangText urn = new MCRMetaLangText();
-					urn.setSubTag("urn");
-					urn.setLang("de");
-					urn.setText((String)identifiers.get(identifierType));
-					Element eUrn = urn.createXML();
-					eUrn.setAttribute("type", "urn_new");
-						
-					Element eUrns = new Element("urns");
-					eUrns.setAttribute("class","MCRMetaLangText");
-					eUrns.setAttribute("textsearch", "true");
-					eUrns.addContent(eUrn);
-
+				if(identifierType.equals(MCRWorkflowConstants.KEY_IDENTIFER_TYPE_URN)){					 
+					Element eUrns = createURNElement((String)identifiers.get(identifierType));
 					metadata.addContent(eUrns);					
 				}
 			}
@@ -275,5 +264,19 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 		this.documentType = documentType;
 	}
 	
-	
+	public final Element createURNElement(String urn) {
+		
+		MCRMetaLangText turn = new MCRMetaLangText();
+		turn.setSubTag("urn");
+		turn.setLang("de");
+		turn.setText(urn);
+		Element eUrn = turn.createXML();
+		eUrn.setAttribute("type", "urn_new");				
+		Element eUrns = new Element("urns");
+		eUrns.setAttribute("class","MCRMetaLangText");
+		eUrns.setAttribute("textsearch", "true");
+		eUrns.addContent(eUrn);
+		
+		return eUrns;
+	}
 }
