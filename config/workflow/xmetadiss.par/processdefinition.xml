@@ -75,9 +75,9 @@
            <lockedVariables>initiator,createdDocID,authorID,reservatedURN,attachedDerivates</lockedVariables>
         </action>
         <action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-		   <from>MCR.WorkflowEngine.Administrator.Email</from>
+		   <from>MCR.WorkflowEngine.xmetadiss.from</from>
 		   <to>MCR.WorkflowEngine.newtaskemail.xmetadiss</to>
-		   <replyTo>MCR.WorkflowEngine.Administrator.Email</replyTo>
+		   <replyTo>MCR.WorkflowEngine.xmetadiss.replyto</replyTo>
 		   <subject>MCR.WorkflowEngine.xmetadiss.subject.newtask</subject>
            <body>MCR.WorkflowEngine.xmetadiss.body.newtask</body>  
 		</action>     

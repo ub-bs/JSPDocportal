@@ -84,9 +84,9 @@
            <lockedVariables>initiator,createdDocID</lockedVariables>
         </action>
 		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-		   <from>MCR.WorkflowEngine.Administrator.Email</from>
+		   <from>MCR.WorkflowEngine.author.from</from>
 		   <to>MCR.WorkflowEngine.newtaskemail.author</to>
-		   <replyTo>MCR.WorkflowEngine.Administrator.Email</replyTo>
+		   <replyTo>MCR.WorkflowEngine.author.replyto</replyTo>
 		   <subject>MCR.WorkflowEngine.author.subject.newtask</subject>
            <body>MCR.WorkflowEngine.author.body.newtask</body>  
 		</action>     

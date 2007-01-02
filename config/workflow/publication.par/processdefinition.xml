@@ -82,9 +82,9 @@
            <lockedVariables>initiator,createdDocID,reservatedURN</lockedVariables>
         </action>
         <action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-		   <from>MCR.WorkflowEngine.Administrator.Email</from>
+		   <from>MCR.WorkflowEngine.publication.from</from>
 		   <to>MCR.WorkflowEngine.newtaskemail.publication</to>
-		   <replyTo>MCR.WorkflowEngine.Administrator.Email</replyTo>
+		   <replyTo>MCR.WorkflowEngine.publication.replyto</replyTo>
 		   <subject>MCR.WorkflowEngine.publication.subject.newtask</subject>
            <body>MCR.WorkflowEngine.publication.body.newtask</body>  
 		</action>     
