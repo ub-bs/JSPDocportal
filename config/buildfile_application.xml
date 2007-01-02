@@ -478,116 +478,38 @@
     </target>
 
 
-    <target name="compile"
-        depends="compile_base,compile_common, compile_filters, compile_frontend_admin, compile_frontend_jsp_format, compile_frontend_jsp, compile_frontend_jsp_nav, compile_frontend_jsp_query, compile_servlets, compile_workflow, compile_backend_query, compile_backend_hibernate, compile_services_oai, compile_demo, compile_workflowengine, compile_frontend_editor_helper, compile_indexbrowser" />
+	<target name="compile"
+	        depends="compile_base,compile_jspdocportal, compile_myappclasses" />
 
-    <target name="compile_base" depends="init" >
-        <mkdir dir="${docportal.classes}" />
-    </target>
+	    <target name="compile_base" depends="init" >
+	        <mkdir dir="${docportal.classes}" />
+	    </target>
 
-    <target name="compile_filters">
-        <echo level="info">Compiling the filters package</echo>
-        <antcall target="javac">
-            <param name="packages" value="org/mycore/filters/*" />
-        </antcall>
-    </target>		
+	    <target name="compile_jspdocportal">
+	        <echo level="info">Compiling all package from jspdocportal</echo>
+	        <antcall target="javac">
+	            <param name="packages" value="org/mycore/**" />
+	        </antcall>
+	    </target>		
+
+	    <target name="compile_demo">
+	        <echo level="info">Compiling the start class for the demo out of the box</echo>
+	        <antcall target="javac">
+	            <param name="packages" value="org/mycore/start/demo/*" />
+	        </antcall>
+	    </target>	
 	
-    <target name="compile_indexbrowser">
-        <echo level="info">Compiling the filters package</echo>
-        <antcall target="javac">
-            <param name="packages" value="org/mycore/frontend/indexbrowser/*" />
-        </antcall>
-    </target>	
+		<!-- your own classes -->
+		<target name="compile_myappclasses">
+	        <echo level="info">Compiling the classes for the app-spec. classes</echo>
+        	<!--
+	        <antcall target="javac">
+	            <param name="packages" value="org/<app_name>/**" />
+	        </antcall>
+            -->
+	    </target>		
 	
-    <target name="compile_services_oai">
-        <echo level="info">Compiling the services oai package</echo>
-        <antcall target="javac">
-            <param name="packages" value="org/mycore/services/oai/*" />
-        </antcall>
-    </target>
-    <target name="compile_frontend_jsp_format">
-        <echo level="info">Compiling the frontend jsp navigation package</echo>
-        <antcall target="javac">
-            <param name="packages" value="org/mycore/frontend/jsp/format/*" />
-        </antcall>
-    </target>		
-    <target name="compile_frontend_jsp">
-        <echo level="info">Compiling the frontend jsp navigation package</echo>
-        <antcall target="javac">
-            <param name="packages" value="org/mycore/frontend/jsp/*" />
-        </antcall>
-    </target>	
-    <target name="compile_frontend_admin">
-        <echo level="info">Compiling the frontend admin package</echo>
-        <antcall target="javac">
-            <param name="packages" value="org/mycore/frontend/admin/*" />
-        </antcall>
-    </target>	
-    <target name="compile_frontend_editor_helper">
-        <echo level="info">Compiling the frontend editor helper package</echo>
-        <antcall target="javac">
-            <param name="packages" value="org/mycore/frontend/editor/helper/*" />
-        </antcall>
-    </target>	
-    <target name="compile_frontend_jsp_nav">
-        <echo level="info">Compiling the frontend jsp navigation package</echo>
-        <antcall target="javac">
-            <param name="packages" value="org/mycore/frontend/jsp/navigation/**" />
-        </antcall>
-    </target>
-    <target name="compile_frontend_jsp_query">
-        <echo level="info">Compiling the frontend jsp query package</echo>
-        <antcall target="javac">
-            <param name="packages" value="org/mycore/frontend/jsp/query/**" />
-        </antcall>
-    </target>	
-    <target name="compile_common">
-        <echo level="info">Compiling the common package</echo>
-        <antcall target="javac">
-            <param name="packages" value="org/mycore/common/*" />
-        </antcall>
-    </target>
-    <target name="compile_servlets">
-        <echo level="info">Compiling the servlets</echo>
-        <antcall target="javac">
-            <param name="packages"
-                value="org/mycore/frontend/servlets/**" />
-        </antcall>
-    </target>
-    <target name="compile_workflow">
-        <echo level="info">Compiling the servlets</echo>
-        <antcall target="javac">
-            <param name="packages"
-                value="org/mycore/frontend/workflow/**" />
-        </antcall>
-    </target>
-    <target name="compile_backend_query">
-        <echo level="info">Compiling the Hibernate Query Mapping Table</echo>
-        <antcall target="javac">
-            <param name="packages" value="org/mycore/backend/query/**" />
-        </antcall>
-    </target>
-    <target name="compile_backend_hibernate">
-        <echo level="info">Compiling the Hibernate Tables</echo>
-        <antcall target="javac">
-            <param name="packages"
-                value="org/mycore/backend/hibernate/tables/**" />
-        </antcall>
-    </target>
-    <target name="compile_demo">
-        <echo level="info">Compiling the start class for the demo out of the box</echo>
-        <antcall target="javac">
-            <param name="packages" value="org/mycore/start/demo/*" />
-        </antcall>
-    </target>	
-    <target name="compile_workflowengine">
-        <echo level="info">Compiling the classes for the workflowengine</echo>
-        <antcall target="javac">
-            <param name="packages" value="org/mycore/frontend/workflowengine/**" />
-        </antcall>
-    </target>		
-
-
+	
     <!-- =================================================================== -->
     <!-- Creates a docportal-for-*.jar file containing all compiled classes     -->
     <!-- =================================================================== -->
