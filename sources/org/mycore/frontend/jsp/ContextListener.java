@@ -23,11 +23,7 @@ public class ContextListener implements ServletContextListener
       //  Map map = new HashMap();
       //  new MyMCRServlet("jspkey", map);
 
-        Logger.getLogger(ContextListener.class).fatal("Context started");
-        Logger.getLogger(ContextListener.class).error("Context started");
-        Logger.getLogger(ContextListener.class).warn("Context started");
         Logger.getLogger(ContextListener.class).info("Context started");
-        Logger.getLogger(ContextListener.class).debug("Context started");
         
         MCRURIResolver.init(context,NavServlet.getNavigationBaseURL());  
         JSPUtils.initialize();
