@@ -237,12 +237,12 @@ div.submitButton{
     text-align:justify;
 }
 
-/*#resultListFooter{
-    border-top-style: solid;
+#resultListFooter{
+/*    border-top-style: solid;
     border-top-width: 2px;
-    border-top-color: #15516E;
+    border-top-color: #15516E; */
     padding-top: 5px;
-}*/
+}
 
 #pageSelection{
     border-top-style: solid;
@@ -364,11 +364,10 @@ table.tasklistObject{
     border-width: 1px;
     border-style: solid;
     border-color: #14516E;
-    margin-left:8px;
-	margin-right:8px;
+
 }
 
-/**Star Hack - only interpreted by IE */
+/**Star Hack - only interpreted by IE 6.0 */
 * html table.tasklistObject {
     margin-left:0px;
 	margin-right:0px;
