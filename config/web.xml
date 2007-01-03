@@ -10,9 +10,9 @@
     <listener>
        <listener-class>org.mycore.common.events.MCRServletContextListener</listener-class>
     </listener>
-    <listener>
+<!--    <listener>
       <listener-class>org.mycore.common.events.MCRHttpSessionListener</listener-class>
-    </listener>
+    </listener> -->
     
     <!-- FCK Editor Java Integration -->
     <servlet>
@@ -411,7 +411,7 @@
            <servlet-name>MCRZipWebcontentServlet</servlet-name>
            <url-pattern>/zipwebcontent</url-pattern>
      </servlet-mapping>
-
+     
     <!-- specific servlets -->
 
     <welcome-file-list>
