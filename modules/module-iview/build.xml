@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ============================================== -->
+<!--  MyCoRe-iview build file for use with ANT      -->
+<!--  - for JSPDocPortal 							-->
+<!--  												-->
+<!-- Image Viewer - MCR-IView 1.0, 05-2006  		-->
+<!-- +++++++++++++++++++++++++++++++++++++			-->
+<!--  												-->
+<!-- $Revision: 1.1 $ $Date: 2007-01-12 14:47:04 $ -->
+<!-- ============================================== -->
+
+<project name="MyCoReModule - iview" default="webapps" basedir="../..">
+
+	<!--reuseable properties: DOCPORTAL_HOME  docportal.webapps  DOCPORTAL_SYSTEM -->
+	
+	<property name="DOCPORTAL_HOME" value="${basedir}" />
+	<property name="docportal.modules" location="${DOCPORTAL_HOME}/modules" />
+	<property name="build.webapps" location="${docportal.webapps}" />
+	
+	<path id="docportal.classpath">
+        <pathelement location="${docportal.classes}" />
+        <pathelement location="${docportal.config}" />
+        <pathelement location="${docportal.schema}" />
+        <pathelement location="${docportal.stylesheets}" />
+        <fileset dir="${MYCORE_HOME}/lib" includes="*.jar" />
+    	<fileset dir="${DOCPORTAL_SYSTEM}/lib" includes="*.jar,jetty/lib/*.jar" />
+    </path>
+
+  	<taskdef name="mergepropertyfiles" 
+    			classname="org.mycore.ant.customtasks.MergeProperties" 
+    			classpath="${DOCPORTAL_HOME}/lib/ant-mycore.jar" /> 
+       	<taskdef name="mergexmlfiles" 
+       			classname="org.mycore.ant.customtasks.MergeXML" 
+       			classpath="${DOCPORTAL_HOME}/lib/ant-mycore.jar" /> 
+	<!-- ============================================== -->
+
+    <target name="usage">
+        <echo level="info">
+          Usage:
+            ant [target]
+
+          Available targets are:
+            webapps                 --> integrates module-iview into the application
+            
+          Please do not use any of the other targets, they are internal.
+        </echo>
+    </target>
+
+    <!-- ============================================== -->
+
+	<target name="integrate" if="usemodule">
+        <echo level="info">
+			... integrating IView-Module webapp
+	    </echo>
+    	<!--create temporary build directory + merge jspdocportal and docportal files-->
+   		<copy todir="${DOCPORTAL_SYSTEM}/modules/module-iview">
+			<fileset dir="${docportal.modules}/module-iview/docportal"/>
+    	</copy>
+    	<copy todir="${DOCPORTAL_SYSTEM}/modules/module-iview">
+			<fileset dir="${docportal.modules}/module-iview" />
+    	</copy>
+
+				
+        <!-- copy mycore.properties.iview.template if it isn't -->
+        <copy file="${DOCPORTAL_SYSTEM}/modules/module-iview/docportal/config/mycore.properties.iview.template" tofile="${DOCPORTAL_SYSTEM}/modules/module-iview/config/mycore.properties.iview" overwrite="false" />
+        <!-- copy config -->
+  
+  
+        <!-- copy Stylesheets  -->
+        <copy todir="${DOCPORTAL_SYSTEM}/stylesheets/" preservelastmodified="yes" flatten="true">
+            <fileset dir="${DOCPORTAL_SYSTEM}/modules/module-iview/xsl/">
+                <include name="**/*.xsl" />
+            </fileset>
+        </copy>
+ 	 
+    	<mergexmlfiles basefile="${DOCPORTAL_SYSTEM}/config/mycore-taglibs.tld" 
+            	 	   deltafile="${DOCPORTAL_SYSTEM}/modules/module-iview/config/mycore-taglibs-iview.tld" 
+            	 	   tofile="${DOCPORTAL_SYSTEM}/config/mycore-taglibs.tld"/>
+        <!-- i18n -->
+    	<mergepropertyfiles basefile="${DOCPORTAL_SYSTEM}/languages/messages_en.properties" 
+    						deltafile="${DOCPORTAL_SYSTEM}/modules/module-iview/config/messages_en.properties" 
+    						tofile="${DOCPORTAL_SYSTEM}/languages/messages_en.properties"  />
+
+    	<mergepropertyfiles basefile="${DOCPORTAL_SYSTEM}/languages/messages_de.properties" 
+    						deltafile="${DOCPORTAL_SYSTEM}/modules/module-iview/config/messages_de.properties" 
+    						tofile="${DOCPORTAL_SYSTEM}/languages/messages_de.properties"/>
+		
+  		<mergexmlfiles basefile="${DOCPORTAL_SYSTEM}/config/web.xml" 
+             	 	   deltafile="${DOCPORTAL_SYSTEM}/modules/module-iview/config/web.xml" 
+             	 	   tofile="${DOCPORTAL_SYSTEM}/config/web.xml"/>
+	</target>
+	
+    <!-- =================================================================== -->
+    <!-- Compiles the sources from directory sources to directory classes    -->
+    <!-- =================================================================== -->
+	<target name="compile" if="usemodule">
+		<copy file="${DOCPORTAL_SYSTEM}/modules/module-iview/docportal/config/mycore.properties.iview.template" tofile="${DOCPORTAL_SYSTEM}/modules/module-iview/config/mycore.properties.iview" overwrite="false" />
+    	<mergepropertyfiles basefile="${DOCPORTAL_SYSTEM}/config/mycore.properties" 
+    			    		deltafile="${DOCPORTAL_SYSTEM}/modules/module-iview/config/mycore.properties.iview" 
+    			    		tofile="${DOCPORTAL_SYSTEM}/config/mycore.properties"/> 
+
+		<echo level="info">Compiling iview-module classes...</echo>
+        <antcall target="javac">
+            <param name="packages" value="org/mycore/frontend/iview/**,org/mycore/frontend/jsp/taglibs/iview/**" />
+        </antcall>
+    </target>
+
+
+    <target name="webapps" if="usemodule">
+        <!-- copy web stuff -->
+         <mkdir dir="${build.webapps}/modules/module-iview/web" />     
+         <copy todir="${build.webapps}/modules/module-iview/web/" flatten="false">
+             <fileset dir="${DOCPORTAL_SYSTEM}/modules/module-iview/web/" />
+         </copy>
+    </target>
+	<!-- ============================================================== -->
+	<!-- "private" targets                                              -->
+	<!-- ============================================================== -->	
+	
+    <target name="javac" depends="init">
+        <echo level="info">Compiling ${packages}</echo>
+        <javac 
+			srcdir="${DOCPORTAL_SYSTEM}/modules/module-iview/sources" 
+			destdir="${docportal.classes}" includes="${packages}" 
+			classpathref="docportal.classpath" 
+			debug="${debug}" 
+			optimize="${optimize}" 
+			target="${javatarget}" 
+			source="${sourcerelease}" 
+			encoding="${sourceencoding}" 
+			deprecation="${deprecation}">
+        </javac>
+
+    </target>
+
+    <target name="init">
+        <path id="mycore.classpath">
+            <fileset dir="${build.lib}" includes="*.jar" />
+        </path>
+    </target>
+	
+
+
+</project>
+
+<!-- ============================================== -->

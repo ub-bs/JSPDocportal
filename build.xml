@@ -2,12 +2,12 @@
 
 <!-- =================================================================== -->
 <!-- MyCoRe sample application build file for use with Apache Ant        -->
-<!-- $Revision: 1.37 $ $Date: 2006-12-04 13:06:17 $                      -->
+<!-- $Revision: 1.38 $ $Date: 2007-01-12 14:47:04 $                      -->
 <!-- =================================================================== -->
 
 <project default="usage" basedir=".">
-	<property name="MYAPPLICATION.DIRNAME" value="myapplication" />
-	<property name="OBJECTID.PREFIX" value="DocPortal" />
+	<property name="MYAPPLICATION.DIRNAME" value="atlibri_app" />
+	<property name="OBJECTID.PREFIX" value="atlibri" />
     <!-- =================================================================== -->
     <!-- Help on usage                                                       -->
     <!-- =================================================================== -->
