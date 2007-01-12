@@ -180,6 +180,13 @@
     	<copy todir="${DOCPORTAL_SYSTEM}" overwrite="true">
  			<fileset dir="${DOCPORTAL_HOME}" includes="**" ></fileset>
 		</copy>
+		
+		<!-- integrate modules -->
+		<subant target="integrate" inheritall="true" inheritrefs="true">
+				    <fileset dir="${DOCPORTAL_HOME}" includes="**/modules/module-*/build.xml" />
+		</subant>
+		
+		<!-- copy myapplication -->
 		<copy todir="${DOCPORTAL_SYSTEM}" overwrite="true">
 		 	<fileset dir="." includes="**" excludes="${MYAPPLICATION_NAME}.war,jspdocportal-installer*" ></fileset>
 		</copy>
@@ -210,6 +217,7 @@
             <pathelement location="${docportal.stylesheets}" />
             <fileset dir="${MYCORE_HOME}/lib" includes="*.jar" />
         	<fileset dir="${DOCPORTAL_SYSTEM}/lib" includes="*.jar,jetty/lib/*.jar" />
+        	<fileset dir="${env.JAVA_HOME}/jre/lib/ext" includes="jai*.jar" />
             <path refid="jdbc.classpath" />
             <path refid="xml.classpath" />
         </path>
@@ -463,6 +471,7 @@
         <javac srcdir="${docportal.sources}"
                destdir="${docportal.classes}" 
         	   includes="${packages}"
+        	   excludes="${excludes}"
                classpathref="docportal.classpath" 
         	   debug="${debug}"
                optimize="${optimize}" 
@@ -478,19 +487,17 @@
     </target>
 
 
-	<target name="compile"
-	        depends="compile_base,compile_jspdocportal, compile_myappclasses" />
-
-	    <target name="compile_base" depends="init" >
-	        <mkdir dir="${docportal.classes}" />
-	    </target>
-
-	    <target name="compile_jspdocportal">
-	        <echo level="info">Compiling all package from jspdocportal</echo>
-	        <antcall target="javac">
-	            <param name="packages" value="org/mycore/**" />
-	        </antcall>
-	    </target>		
+    <target name="compile">
+       <mkdir dir="${docportal.classes}" />
+        <echo level="info">Compiling all package from jspdocportal</echo>
+        <antcall target="javac">
+            <param name="packages" value="*/**" /> 
+        	<param name="excludes" value="org/mycore/frontend/jsp/taglibs/**, org/mycore/start/demo/*" />
+        </antcall>
+		<subant target="compile" inheritall="true" inheritrefs="true">
+		    <fileset dir="${DOCPORTAL_HOME}" includes="**/modules/module-*/build.xml" />
+		</subant>
+    </target>	
 
 	    <target name="compile_demo">
 	        <echo level="info">Compiling the start class for the demo out of the box</echo>
@@ -499,18 +506,7 @@
 	        </antcall>
 	    </target>	
 	
-		<!-- your own classes -->
-		<target name="compile_myappclasses">
-	        <echo level="info">Compiling the classes for the app-spec. classes</echo>
-        	<!--
-	        <antcall target="javac">
-	            <param name="packages" value="org/<app_name>/**" />
-	        </antcall>
-            -->
-	    </target>		
-	
-	
-    <!-- =================================================================== -->
+	<!-- =================================================================== -->
     <!-- Creates a docportal-for-*.jar file containing all compiled classes     -->
     <!-- =================================================================== -->
 
@@ -854,8 +850,8 @@
 
         <echo level="info">Updating modules...</echo>
         <subant target="webapps" inheritall="true" inheritrefs="true">
-            <fileset dir="." includes="modules/module-*/build.xml" />
-        </subant>
+            <fileset dir="${DOCPORTAL_HOME}" includes="**/modules/module-*/build.xml" /> 
+	    </subant>
     	
         <!-- Copy / Unpack fckEditor files (WYSIWYG HTML Editor) -->
 <!--    <unzip src="${MYCORE_HOME}/lib/fckEditor.zip" dest="${docportal.webapps}" />
@@ -1339,7 +1335,7 @@
 		<copy file="${docportal.config}/mycore-taglibs.tld" tofile="${docportal.config}/tmp-tld/taglib.tld" />
         <jar
             destfile="${docportal.lib}/mycore-taglibs.jar">
-            <fileset dir="${docportal.classes}" includes="org/mycore/frontend/jsp/taglibs/*.class" />
+        	<fileset dir="${docportal.classes}" includes="org/mycore/frontend/jsp/taglibs/**/*.class" /> 
         	<metainf file="${docportal.config}/tmp-tld/taglib.tld" />
         </jar>	
         <delete dir="${docportal.config}/tmp-tld" />
