@@ -109,7 +109,11 @@
   <!-- 15 - the userid, from the user who has created its own author -->
   <element name="userids" minOccurs='0' maxOccurs='1' parasearch="true"   textsearch="true">
    <mcrmetalangtext name="userid" class="MCRMetaLangText" minOccurs='0'  maxOccurs='1' length="128"/>
-  </element>	  	 
+  </element>	
+  <!-- 16  PND-Nummer (ID des zugehörenden Datensatzes in der PND -->
+  <element name="pnd-numbers" minOccurs='0' maxOccurs='1' parasearch="true"  textsearch="true">
+     <mcrmetalangtext name="pnd-number" class="MCRMetaLangText"  minOccurs='1'  maxOccurs='1' length="128" />
+  </element>
 	 
  </metadata>
  <service>

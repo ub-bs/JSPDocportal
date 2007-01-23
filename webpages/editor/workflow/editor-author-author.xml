@@ -141,6 +141,14 @@
       <space width="20" height="0" />
     </cell>
     <cell col="4" row="10" anchor="WEST" ref="HEmail" />
+    
+    <cell col="1" row="11" anchor="NORTHWEST" ref="Lpndnumber" />
+    <cell col="2" row="11" anchor="NORTHWEST" ref="Dpndnumber" sortnr="16" />
+    <cell col="3" row="11" anchor="NORTHWEST" >
+      <space width="20" height="0" />
+    </cell>
+    <cell col="4" row="11" anchor="WEST" ref="Hpndnumber" />
+    
 
   <!--   <cell col="1" row="11" anchor="NORTHWEST" ref="LReference" />
     <cell col="2" row="11" anchor="NORTHWEST" ref="DReference" />

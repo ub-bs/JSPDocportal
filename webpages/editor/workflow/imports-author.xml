@@ -261,6 +261,26 @@
 		</textfield>	 
 	</cell>	   
   </panel>
+  
+<!-- ** Data for the PND Number *** -->  
+  
+  <text id="Lpndnumber">
+     <label i18n="OMD.pndnumber" />
+  </text>
+  
+  <panel id="Dpndnumber">
+        <hidden var="metadata/pnd-numbers/@class" default="MCRMetaLangText" sortnr="16" />
+        <hidden var="metadata/pnd-numbers/@parasearch" default="true" sortnr="16" />
+        <hidden var="metadata/pnd-numbers/@textsearch" default="true" sortnr="16" />
+        <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="metadata/pnd-numbers/pnd-number"  />
+  </panel>
+  
+  <helpPopup id="HAddress" >
+		<label i18n="Editor.Help.Hpndnumber" />
+  </helpPopup>
+      
+  
+  
 
 <!-- ** Data for the REFERENCE *** -->
 

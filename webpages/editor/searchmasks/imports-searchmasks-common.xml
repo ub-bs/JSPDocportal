@@ -256,10 +256,10 @@
       <!-- *** Data for the basiklassification ** -->
       <text id="LBkl">
             <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Fachklassifikation</span>
+                  <span class="editorlabel">Fachklassifikation</span>
             </label>
             <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;classification</span>
+                  <span class="editorlabel">classification</span>
             </label>
       </text>
       <panel id="DBkl">
@@ -283,10 +283,10 @@
       <!-- *** Data for the Place of Birth ** -->
       <text id="LPlaces">
             <label xml:lang="de">
-                  <span class="editorlabel">&#160;&#160;&#160;Geburtsort</span>
+                  <span class="editorlabel">Geburtsort</span>
             </label>
             <label xml:lang="en">
-                  <span class="editorlabel">&#160;&#160;&#160;place of birth</span>
+                  <span class="editorlabel">place of birth</span>
             </label>
       </text>
       <panel id="DPlaces">
