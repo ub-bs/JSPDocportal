@@ -104,7 +104,7 @@
             <cell row="10" col="1" anchor="EAST">
                 <text id="LSalutation">
                     <label xml:lang="de">
-                        <span class="editorlabel">Anrede&#160;/&#160;Titel:</span>
+                        <span class="editorlabel">Titel:</span>
                     </label>
                     <label xml:lang="en">
                         <span class="editorlabel">Salutation:</span>
@@ -190,6 +190,20 @@
                 </text>
             </cell>
             <cell row="16" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.country" />
+
+            <!-- *** Gender *** -->
+            <cell row="17" col="1" anchor="EAST">
+                <text id="LGender">
+                    <label xml:lang="de">
+                        <span class="editorlabel">Anrede:</span>
+                    </label>
+                    <label xml:lang="en">
+                        <span class="editorlabel">Gender:</span>
+                    </label>
+                </text>
+            </cell>
+            <cell row="17" col="2" anchor="WEST" ref="SFemale" var="user/user.contact/contact.state" />
+
 
             <!-- *** Institution 
             <cell row="17" col="1" anchor="EAST">

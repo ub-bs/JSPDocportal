@@ -43,6 +43,18 @@
 //org.jdom.output.XMLOutputter xmlout = new org.jdom.output.XMLOutputter(org.jdom.output.Format.getPrettyFormat());
 //System.out.print(xmlout.outputString(uElm));
 		            user = new MCRUser(uElm, true);
+
+//		            String isFemale = uElm.getChildTextTrim("contact.gender");
+//		            if(isFemale.equalsIgnoreCase("true"));{
+//						String s = uElm.getChildTextTrim("contact.salutation");
+//						if(s.length()>MCRUserContact.salutation_len-2){
+//							s.substring(0,MCRUserContact.salutation_len-2);
+//						}
+//						s="f_"+s;
+//					    user.getUserContact().setSalutation(s);		            	
+//		            }
+		            
+		          
 				}	            
 	            
 	        } else if ( request.getParameter("step").equalsIgnoreCase("delete" )) {

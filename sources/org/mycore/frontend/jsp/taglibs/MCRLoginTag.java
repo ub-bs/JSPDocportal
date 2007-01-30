@@ -2,6 +2,9 @@ package org.mycore.frontend.jsp.taglibs;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
@@ -200,11 +203,23 @@ public class MCRLoginTag extends SimpleTagSupport
 	        	MCRSessionMgr.getCurrentSession().setCurrentUserID(uid);
 	        	loginresult.setAttribute("username",  
 	        			MCRUserMgr.instance().retrieveUser(uid).getName());
-	            loginresult.setAttribute("name",
-	            		MCRUserMgr.instance().retrieveUser(uid).getUserContact().getSalutation() 
-	            		+ " " +
-	            		MCRUserMgr.instance().retrieveUser(uid).getUserContact().getLastName());
+	        	StringBuffer name=new StringBuffer();
+	        	ResourceBundle messages = PropertyResourceBundle.getBundle("messages", new Locale(MCRSessionMgr.getCurrentSession().getCurrentLanguage()));
 	        	
+	        	if(MCRUserMgr.instance().retrieveUser(uid).getUserContact().getState().equalsIgnoreCase("true")){
+	        		//Frau
+	        		name.append(messages.getString("Editor.Author.gender.female"));
+	        	}
+	        	if(MCRUserMgr.instance().retrieveUser(uid).getUserContact().getState().equalsIgnoreCase("false")){
+	        		//Herr
+	        		name.append(messages.getString("Editor.Author.gender.male"));
+	        	}
+	        	name.append(" ");
+	        	name.append(MCRUserMgr.instance().retrieveUser(uid).getUserContact().getSalutation());
+	        	name.append(" ");
+	            name.append(MCRUserMgr.instance().retrieveUser(uid).getUserContact().getLastName());
+	            loginresult.setAttribute("name", name.toString());
+	            		
 	        	ArrayList allGroupIDS = MCRUserMgr.instance().retrieveUser(uid).getAllGroupIDs();
 	        	Element eGroups = new Element ("groups");
 	        	for ( int i=0; i<allGroupIDS.size(); i++ ) {		        		

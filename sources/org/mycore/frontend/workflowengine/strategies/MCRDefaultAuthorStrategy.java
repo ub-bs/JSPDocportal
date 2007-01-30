@@ -102,7 +102,7 @@ public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {
 			female.setSubTag("female");
 			female.setLang("de");
 			female.setValue("false");
-			if (user.getUserContact().getSalutation().equalsIgnoreCase("Frau"))
+			if (user.getUserContact().getState().equalsIgnoreCase("true"))
 				female.setValue("true");
 
 			MCRMetaAddress padr = new MCRMetaAddress();
@@ -130,8 +130,14 @@ public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {
 				userContact.setEmail("-");
 			}
 
-			padr.set(userContact.getCountry(), userContact
-					.getState(), userContact.getPostalCode(), user
+			
+//			padr.set(userContact.getCountry(), userContact
+//					.getState(), userContact.getPostalCode(), user
+//					.getUserContact().getCity(), userContact
+//					.getStreet(), "-");
+			
+			padr.set(userContact.getCountry(), "-", 
+					 userContact.getPostalCode(), user					
 					.getUserContact().getCity(), userContact
 					.getStreet(), "-");
 

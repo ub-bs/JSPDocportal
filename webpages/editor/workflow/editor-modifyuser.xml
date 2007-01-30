@@ -174,7 +174,7 @@
             <cell row="10" col="1" anchor="EAST">
                 <text id="LSalutation">
                     <label xml:lang="de">
-                        <span class="editorlabel">Anrede&#160;/&#160;Titel:</span>
+                        <span class="editorlabel">Titel:</span>
                     </label>
                     <label xml:lang="en">
                         <span class="editorlabel">Salutation:</span>
@@ -261,6 +261,20 @@
             </cell>
             <cell row="16" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.country" sortnr="11" />
 
+           <!-- *** Gender *** -->
+            <cell row="17" col="1" anchor="EAST">
+                <text id="LGender">
+                    <label xml:lang="de">
+                        <span class="editorlabel">Anrede:</span>
+                    </label>
+                    <label xml:lang="en">
+                        <span class="editorlabel">Gender:</span>
+                    </label>
+                </text>
+            </cell>
+            <cell row="17" col="2" anchor="WEST" ref="SFemale" var="user/user.contact/contact.state"  sortnr="12" />
+
+
             <!-- *** Institution *** -->
             <cell row="17" col="1" anchor="EAST">
                 <text id="LInstitution">
@@ -272,7 +286,7 @@
                     </label>
                 </text>
             </cell>
-            <cell row="17" col="2" anchor="WEST" ref="TFzeile128M" var="user/user.contact/contact.institution" sortnr="12" />
+            <cell row="17" col="2" anchor="WEST" ref="TFzeile128M" var="user/user.contact/contact.institution" sortnr="13" />
 
             <!-- *** Faculty *** -->
             <cell row="18" col="1" anchor="EAST">
@@ -285,7 +299,7 @@
                     </label>
                 </text>
             </cell>
-            <cell row="18" col="2" anchor="WEST" ref="TFzeile128M" var="user/user.contact/contact.faculty" sortnr="13" />
+            <cell row="18" col="2" anchor="WEST" ref="TFzeile128M" var="user/user.contact/contact.faculty" sortnr="14" />
 
             <!-- *** Email *** -->
             <cell row="21" col="1" anchor="EAST">
@@ -298,7 +312,7 @@
                     </label>
                 </text>
             </cell>
-            <cell row="21" col="2" anchor="WEST" ref="TFzeile64M" var="user/user.contact/contact.email" sortnr="16" />
+            <cell row="21" col="2" anchor="WEST" ref="TFzeile64M" var="user/user.contact/contact.email" sortnr="17" />
 
 
             <!-- *** Telephone *** -->
@@ -312,7 +326,7 @@
                     </label>
                 </text>
             </cell>
-            <cell row="22" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.telephone" sortnr="14" />
+            <cell row="22" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.telephone" sortnr="15" />
 
             <!-- *** Fax *** -->
             <cell row="23" col="1" anchor="EAST">
@@ -325,7 +339,7 @@
                     </label>
                 </text>
             </cell>
-            <cell row="23" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.fax" sortnr="15" />
+            <cell row="23" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.fax" sortnr="16" />
 
             <!-- *** Cellphone *** -->
             <cell row="24" col="1" anchor="EAST">
@@ -338,7 +352,7 @@
                     </label>
                 </text>
             </cell>
-            <cell row="24" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.cellphone" sortnr="17" />
+            <cell row="24" col="2" anchor="WEST" ref="TFzeile64" var="user/user.contact/contact.cellphone" sortnr="18" />
 
             <!-- *** Buttons *** -->
             <cell row="99"  col="1" ref="VSpace25" anchor="WEST" />
