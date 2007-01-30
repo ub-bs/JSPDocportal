@@ -127,10 +127,10 @@ public class MCRLoginTag extends SimpleTagSupport
 	     	mcrUser = MCRUserMgr.instance().retrieveUser(mcrUID);
 	       	mcrSession.setCurrentUserID("root");
 	       	extLogin.updateUserData(uid, "", mcrUser);
-		    
-		    mcrSession.setCurrentUserID(mcrUID);
+	       	mcrSession.setCurrentUserID(mcrUID);
 		    mcrSession.setCurrentUserName(mcrUser.getUserContact().getFirstName() + " " + mcrUser.getUserContact().getLastName() );
 		    loginresult.setAttribute("loginOK", "true");
+		    setNameIntoLoginResult(uid, loginresult);
 		}
 		
 		if(!extLoginOk && mcrLoginOK){
@@ -201,25 +201,8 @@ public class MCRLoginTag extends SimpleTagSupport
             loginOk = ((uid != null) && (pwd != null) && MCRUserMgr.instance().login(uid, pwd));
             if (loginOk) {
 	        	MCRSessionMgr.getCurrentSession().setCurrentUserID(uid);
-	        	loginresult.setAttribute("username",  
-	        			MCRUserMgr.instance().retrieveUser(uid).getName());
-	        	StringBuffer name=new StringBuffer();
-	        	ResourceBundle messages = PropertyResourceBundle.getBundle("messages", new Locale(MCRSessionMgr.getCurrentSession().getCurrentLanguage()));
-	        	
-	        	if(MCRUserMgr.instance().retrieveUser(uid).getUserContact().getState().equalsIgnoreCase("true")){
-	        		//Frau
-	        		name.append(messages.getString("Editor.Author.gender.female"));
-	        	}
-	        	if(MCRUserMgr.instance().retrieveUser(uid).getUserContact().getState().equalsIgnoreCase("false")){
-	        		//Herr
-	        		name.append(messages.getString("Editor.Author.gender.male"));
-	        	}
-	        	name.append(" ");
-	        	name.append(MCRUserMgr.instance().retrieveUser(uid).getUserContact().getSalutation());
-	        	name.append(" ");
-	            name.append(MCRUserMgr.instance().retrieveUser(uid).getUserContact().getLastName());
-	            loginresult.setAttribute("name", name.toString());
-	            		
+	        	setNameIntoLoginResult(uid, loginresult);
+	            
 	        	ArrayList allGroupIDS = MCRUserMgr.instance().retrieveUser(uid).getAllGroupIDs();
 	        	Element eGroups = new Element ("groups");
 	        	for ( int i=0; i<allGroupIDS.size(); i++ ) {		        		
@@ -253,5 +236,26 @@ public class MCRLoginTag extends SimpleTagSupport
         
         logger.info( loginresult.getAttributeValue("status"));
         return loginOk;
+	}
+	
+	private void setNameIntoLoginResult(String uid, Element loginresult){
+    	loginresult.setAttribute("username",  
+    			MCRUserMgr.instance().retrieveUser(uid).getName());
+    	StringBuffer name=new StringBuffer();
+    	ResourceBundle messages = PropertyResourceBundle.getBundle("messages", new Locale(MCRSessionMgr.getCurrentSession().getCurrentLanguage()));
+    	
+    	if(MCRUserMgr.instance().retrieveUser(uid).getUserContact().getState().equalsIgnoreCase("true")){
+    		//Frau
+    		name.append(messages.getString("Editor.Author.gender.female"));
+    	}
+    	if(MCRUserMgr.instance().retrieveUser(uid).getUserContact().getState().equalsIgnoreCase("false")){
+    		//Herr
+    		name.append(messages.getString("Editor.Author.gender.male"));
+    	}
+    	name.append(" ");
+    	name.append(MCRUserMgr.instance().retrieveUser(uid).getUserContact().getSalutation());
+    	name.append(" ");
+        name.append(MCRUserMgr.instance().retrieveUser(uid).getUserContact().getLastName());
+        loginresult.setAttribute("name", name.toString());
 	}
 }
