@@ -523,7 +523,7 @@ public abstract class MCRWorkflowManager {
 	/**
 	 * @return Returns the permissionStrategy.
 	 */
-	protected final MCRPermissionStrategy getPermissionStrategy() {
+	public final MCRPermissionStrategy getPermissionStrategy() {
 		return permissionStrategy;
 	}
 
