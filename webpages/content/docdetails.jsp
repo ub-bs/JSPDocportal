@@ -110,21 +110,35 @@
    <c:when test="${readAccess or fn:contains(currentID, curUserID)}">
     <table cellspacing="0" cellpadding="0" id="metaData">
     <c:set var="exist" value="0" />                  
+    
+    <x:forEach select="$docDetails//metaname">        
+		<x:set var="data" select="." scope="request" />
+		<c:set var="type"><x:out select = "./@type" /></c:set>
+		<x:choose>
+			<x:when select="./@type = 'line'">
+				<c:if test="${exist > 0}" >
+					<jsp:include page="docdetailitems/docdetailitem-${type}.jsp" /> 
+				</c:if>
+			    <c:set var="exist" value="0" />  
+			</x:when>
+			<x:when select="./@type = 'image'">
+					<%--Do nothing, handled separately --%>
+			</x:when>
+					
+			<x:otherwise>
+				<x:set var="exist" select="count(./metavalues)+count(./digitalobjects)" />
+					<jsp:include page="docdetailitems/docdetailitem-${type}.jsp" /> 
+				</x:otherwise>
+			</x:choose>
+       </x:forEach>
+    
+    
+    
+    
+    
+    
     <x:forEach select="$docDetails//metaname">
       <x:choose>
-         <x:when select="./@type = 'space'">
-            <tr>
-               <td colspan="2" class="metanone">&nbsp;</td>
-            </tr>                
-         </x:when>
-         <x:when select="./@type = 'line'">
-            <c:if test="${exist > 0}" >
-              <c:set var="exist" value="0" />              
-              <tr>
-              <td colspan="2" class="metanone"><hr/></td>
-              </tr>                
-             </c:if> 
-         </x:when>
          <x:when select="./@type = 'table'">
            <x:set var="exist" select="count(./metavalues)" />         
            <x:set var="nameKey" select="string(./@name)" />

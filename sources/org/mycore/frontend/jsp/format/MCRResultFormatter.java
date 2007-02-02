@@ -822,11 +822,18 @@ public class MCRResultFormatter {
         	
             Element field = (Element) it.next();
             Element metaname = new Element("metaname");
-            if (field.getAttributeValue("rowtype").equals("standard")
-                || field.getAttributeValue("rowtype").equals("hidden")
-                || field.getAttributeValue("rowtype").equals("image")
-	            || field.getAttributeValue("rowtype").equals("children") 
-	            || field.getAttributeValue("rowtype").equals("table") ) {
+            if(field.getAttributeValue("rowtype").equals("space")){
+            	metaname.setAttribute("type","space");
+            	allMetaValuesRoot.addContent(metaname);
+            }else if(field.getAttributeValue("rowtype").equals("line")){
+                  metaname.setAttribute("type","line");
+                  allMetaValuesRoot.addContent(metaname);
+            }else{
+         //   if (field.getAttributeValue("rowtype").equals("standard")
+         //       || field.getAttributeValue("rowtype").equals("hidden")
+         //       || field.getAttributeValue("rowtype").equals("image")
+	     //       || field.getAttributeValue("rowtype").equals("children") 
+	     //       || field.getAttributeValue("rowtype").equals("table") ) {
             	
             			metaname.setAttribute("name", field.getAttributeValue("labelkey"));
             			metaname.setAttribute("type",field.getAttributeValue("rowtype"));
@@ -862,13 +869,8 @@ public class MCRResultFormatter {
                         if (metaname.getChildren() != null && metaname.getChildren().size() > 0) {
                         	allMetaValuesRoot.addContent(metaname);
                         }
-            }else if(field.getAttributeValue("rowtype").equals("space")){
-            	metaname.setAttribute("type","space");
-            	allMetaValuesRoot.addContent(metaname);
-            }else if(field.getAttributeValue("rowtype").equals("line")){
-                  metaname.setAttribute("type","line");
-                  allMetaValuesRoot.addContent(metaname);
             }
+            
         }
         return allMetaValuesRoot ;    	
     }
