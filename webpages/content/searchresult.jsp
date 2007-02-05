@@ -73,31 +73,46 @@
 			<input type="hidden" name="mode" value="resort">
 			<input type="hidden" name="id" value="${resultid}"> 
 			<select	name="field1">
-				<option value="modified"
-					<mcr:ifSorted query="${query}" attributeName="field" attributeValue="modified">selected</mcr:ifSorted>><fmt:message
-					key="Webpage.searchresults.sort-modified" /></option>
-				<option value="title"
-					<mcr:ifSorted query="${query}" attributeName="field" attributeValue="title">selected</mcr:ifSorted>><fmt:message
-					key="Webpage.searchresults.sort-title" /></option>
 				<x:choose>
 				 <x:when select="contains($oType,'professorum')">
+					<option value="title"
+						<mcr:ifSorted query="${query}" attributeName="name" attributeValue="title">selected</mcr:ifSorted>><fmt:message
+						key="Webpage.searchresults.sort-title_cpr" /></option>
+						
+					<option value="rostockdate"
+						<mcr:ifSorted query="${query}" attributeName="name" attributeValue="rostockdate">selected</mcr:ifSorted>>
+						<fmt:message key="Webpage.searchresults.sort-rostockdate" /></option>
+				
+					<option value="modified"
+						<mcr:ifSorted query="${query}" attributeName="name" attributeValue="modified">selected</mcr:ifSorted>><fmt:message
+						key="Webpage.searchresults.sort-modified" /></option>
+			
 					<option value="profstates"
-						<mcr:ifSorted query="${query}" attributeName="field" attributeValue="profstates">selected</mcr:ifSorted>>
+						<mcr:ifSorted query="${query}" attributeName="name" attributeValue="profstates">selected</mcr:ifSorted>>
 						<fmt:message key="Webpage.searchresults.states" /></option>
-				 </x:when>
-			     <x:when select="contains($oType, 'disshab') or contains($oType, 'document')">
-					<option value="author"
-						<mcr:ifSorted query="${query}" attributeName="field" attributeValue="author">selected</mcr:ifSorted>>
-						<fmt:message key="Webpage.searchresults.sort-author" /></option>
-				 </x:when >
-				</x:choose>
+				</x:when>
+				<x:otherwise>
+					<option value="title"
+						<mcr:ifSorted query="${query}" attributeName="name" attributeValue="title">selected</mcr:ifSorted>><fmt:message
+						key="Webpage.searchresults.sort-title" /></option>
+				 	<x:if select="contains($oType, 'disshab') or contains($oType, 'document')">
+						<option value="author"
+							<mcr:ifSorted query="${query}" attributeName="name" attributeValue="author">selected</mcr:ifSorted>>
+							<fmt:message key="Webpage.searchresults.sort-author" /></option>
+					</x:if >
+					<option value="modified"
+						<mcr:ifSorted query="${query}" attributeName="name" attributeValue="modified">selected</mcr:ifSorted>><fmt:message
+						key="Webpage.searchresults.sort-modified" /></option>
+				</x:otherwise>
+			</x:choose>
+
 			</select> 
 			<select name="order1">
 				<option value="ascending"
-					<mcr:ifSorted query="${query}" attributeName="field" attributeValue="ascending">selected</mcr:ifSorted>><fmt:message
+					<mcr:ifSorted query="${query}" attributeName="order" attributeValue="ascending">selected</mcr:ifSorted>><fmt:message
 					key="Webpage.searchresults.ascending" /></option>
 				<option value="descending"
-					<mcr:ifSorted query="${query}" attributeName="field" attributeValue="descending">selected</mcr:ifSorted>><fmt:message
+					<mcr:ifSorted query="${query}" attributeName="order" attributeValue="descending">selected</mcr:ifSorted>><fmt:message
 					key="Webpage.searchresults.descending" /></option>
 			</select> <input value="Sortiere Ergebnisliste neu" class="resort"
 				type="submit"></form>
