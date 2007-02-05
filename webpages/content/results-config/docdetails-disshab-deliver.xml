@@ -63,7 +63,7 @@
 	
     <MCRDocDetail rowtype="space" labelkey="" separator="" />   
 	
-    <MCRDocDetail rowtype="standard" labelkey="OMD.documents" >    
+    <MCRDocDetail rowtype="digitalobject" labelkey="OMD.documents" >    
        <MCRDocDetailContent xpath="/mycoreobject/structure/derobjects/derobject" type="document" templatetype="tpl-document" separator="br" languageRequired="no" />    
     </MCRDocDetail>
     <MCRDocDetail rowtype="standard" labelkey="OMD.id" >

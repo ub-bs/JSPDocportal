@@ -7,21 +7,23 @@
 <fmt:setBundle basename='messages' />
 <x:forEach select="$data">
 	<x:set var="nameKey" select="string(./@name)" />
+
 	<tr>
 		<td class="metaname"><c:if test="${fn:length(nameKey) > 0 }">
 			<fmt:message key="${nameKey}" />:
             </c:if></td>
 		<td class="metavalue">
 		<table border="0" cellpadding="0" cellspacing="0">
-			<tr valign="top">
-				<x:forEach select="./metavalues">
-					<td valign="top" align="left">
+			<tr valign="top"><td>
+              <x:forEach select="./metavalues">
+                     <x:set var="separator" select="./@separator" />
+                     <x:set var="terminator" select="./@terminator" />
 					<x:set var="introkey" select="string(./@introkey)" />
-					<table border="0" cellpadding="0" cellspacing="3px">
-						<x:forEach select="./metavalue">
-							<tr valign="top">
-								<td valign="top" align="left"><c:if
-									test="${fn:length(introkey) > 0 }">
+                        <x:forEach select="./metavalue">
+                        <x:if select="generate-id(../metavalue[position() = 1]) != generate-id(.)">
+                           <x:out select="$separator" escapeXml="false" />
+                        </x:if>
+                        <c:if test="${fn:length(introkey) > 0 }">
 									<x:choose>
 										<x:when select="../@type = 'messagekey'">
 											<x:set var="val" select="string(./@text)" />
@@ -32,36 +34,35 @@
 											<fmt:message key="${introkey}" />
 										</x:otherwise>
 									</x:choose>
-								</c:if> <x:choose>
-									<x:when select="../@type = 'messagekey'">
-										<!-- ist schon im introkey behandelt -->
-									</x:when>
-									<x:when select="../@type = 'BooleanValues'">
-										<x:set var="booleanKey" select="concat(./@type,'-',./@text)" />
-										<fmt:message key="${booleanKey}" />
-									</x:when>
-									<x:when select="../@type = 'AuthorJoin'">
-										<x:set var="authorjoinKey"
-											select="concat(./@type,'-',./@text)" />
-										<a href="<x:out select="./@href" />"
-											target="<x:out select="./@target" />"><fmt:message
-											key="${authorjoinKey}" /></a>
-									</x:when>
-									<x:when select="./@href != ''">
-										<a href="<x:out select="./@href" />"
-											target="<x:out select="./@target" />"><x:out
-											select="./@text" /></a>
-									</x:when>
-									<x:otherwise>
-										<x:out select="./@text" escapeXml="false" />
-									</x:otherwise>
-								</x:choose></td>
-							</tr>
-						</x:forEach>
-					</table>
-					</td>
-				</x:forEach>
-			</tr>
+								</c:if>
+                        <x:choose>
+	                        <x:when select="../@type = 'messagekey'">
+	                        	<!-- do nothing, allready dealt with in introkey -->
+	                        </x:when>
+                           <x:when select="../@type = 'BooleanValues'">
+                              <x:set var="booleanKey" select="concat(./@type,'-',./@text)" />
+                              <fmt:message key="OMD.${booleanKey}" />
+                           </x:when>
+                           <x:when select="../@type = 'AuthorJoin'">
+                              <x:set var="authorjoinKey" select="concat(./@type,'-',./@text)" />
+                              <x:set var="hrefquery" select="concat($WebApplicationBaseURL,'servlets/MCRJSPSearchServlet?mask=~searchstart-indexcreators&', ./@querytext) " />
+                              <a href="${hrefquery}" target="<x:out select="./@target" />"><fmt:message key="OMD.${authorjoinKey}" /></a>                                 
+                           </x:when>                                     
+                           <x:when select="./@href != ''">
+                              <a href="<x:out select="./@href" />" target="<x:out select="./@target" />"><x:out select="./@text" /></a>
+                           </x:when>
+                           <x:otherwise>
+                              <x:out select="./@text" escapeXml="./@escapeXml" />
+                           </x:otherwise>
+                        </x:choose>
+                     </x:forEach>
+                   
+                     <x:if select="generate-id(../metavalues[position() = last()]) != generate-id(.)">
+                        <x:out select="$terminator" escapeXml="false" />
+                     </x:if>                               
+                  </x:forEach> 
+                  </td>
+                  </tr>
 		</table>
 		</td>
 	</tr>

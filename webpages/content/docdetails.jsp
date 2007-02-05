@@ -10,7 +10,7 @@
 <fmt:setBundle basename='messages'/>
 <c:set var="WebApplicationBaseURL" value="${applicationScope.WebApplicationBaseURL}" />
 <c:set var="mcrid" value="${param.id}" />
-<c:set var="host" value="${param.host}" />
+<c:set var="host" value="${param.host}" scope="request" />
 <c:set var="offset" value="${param.offset}" />
 <c:set var="size" value="${param.size}" />
 <c:set var="debug" value="${param.debug}" />
@@ -130,171 +130,11 @@
 					<jsp:include page="docdetailitems/docdetailitem-${type}.jsp" /> 
 				</x:otherwise>
 			</x:choose>
-       </x:forEach>
+       </x:forEach>   
     
     
     
-    
-    
-    
-    <x:forEach select="$docDetails//metaname">
-      <x:choose>
-         <x:when select="./@type = 'table'">
-           <x:set var="exist" select="count(./metavalues)" />         
-           <x:set var="nameKey" select="string(./@name)" />
-           <tr>
-            <td class="metaname">
-             <c:if test="${! empty(nameKey)}">
-	             <fmt:message key="${nameKey}" />:
-             </c:if>
-            </td>
-            <td class="metavalue">
-               <x:set var="colnum" select="count(./metavalues)" />
-               <x:set var="rownum" select="count(./metavalues[1]/metavalue)" />
-	           <x:set var="rownum2" select="count(./metavalues[2]/metavalue)" />
-               <c:if test="${rownum2 > rownum}" >
-                  <x:set var="rownum" select="count(./metavalues[2]/metavalue)" />
-               </c:if>   
-               <table border="0" cellpadding="0" cellspacing="4px">
-                   <c:forEach var="i" begin="1" end="${rownum}">
-                     <tr>
-                      <c:forEach var="j" begin="1" end="${colnum}">                              
-                        <td valign="top">
-                          <div style="min-width:110px" >
-                          <x:set var="ikey" select="string(./metavalues[$j]/@introkey)" />   			                               
-					      <x:choose>
-                             <x:when select="./metavalues[$j]/@type = 'messagekey'">
-                              <x:set var="val" select="string(./metavalues[$j]/metavalue[$i]/@text)" />
-                              <c:set var="messagekey" value="${ikey}.${val }" />
-   							  <fmt:message key="${messagekey}" />
-					 		 </x:when>
-					         <x:otherwise>
-								<c:if test="${!empty(ikey)}">   			                               					         
-			                        <fmt:message key="${ikey}" />&nbsp;
-	                            </c:if>    
-                                <x:out select="./metavalues[$j]/metavalue[$i]/@text" escapeXml="false" />
-							 </x:otherwise>   
-						  </x:choose>       
-							&nbsp;                          
-                          </div>
-                         </td>
-                        </c:forEach>
-                       </tr>
-                   </c:forEach>
-                </table>
-           </td>
-          </tr>
-         </x:when>                      
-         
-         <x:when select="./@type = 'standard'">
-            <x:set var="exist" select="count(./metavalues)" />         
-            <x:set var="nameKey" select="string(./@name)" />
-            <tr>
-               <td class="metaname"><fmt:message key="${nameKey}" />:</td>
-               <td class="metavalue">
-                  <x:forEach select="./metavalues">
-                     <x:set var="separator" select="./@separator" />
-                     <x:set var="terminator" select="./@terminator" />
-                     <x:if select="string-length(./@introkey) > 0" >
-                        <x:set var="introkey" select="string(./@introkey)" />
-                        <fmt:message key="${introkey}" />
-                     </x:if>
-                     <x:forEach select="./metavalue">
-                        <x:if select="generate-id(../metavalue[position() = 1]) != generate-id(.)">
-                           <x:out select="$separator" escapeXml="false" />
-                        </x:if>
-                        <x:choose>
-                           <x:when select="../@type = 'BooleanValues'">
-                              <x:set var="booleanKey" select="concat(./@type,'-',./@text)" />
-                              <fmt:message key="OMD.${booleanKey}" />
-                           </x:when>
-                           <x:when select="../@type = 'AuthorJoin'">
-                              <x:set var="authorjoinKey" select="concat(./@type,'-',./@text)" />
-                              <x:set var="hrefquery" select="concat($WebApplicationBaseURL,'servlets/MCRJSPSearchServlet?mask=~searchstart-indexcreators&', ./@querytext) " />
-                              <a href="${hrefquery}" target="<x:out select="./@target" />"><fmt:message key="OMD.${authorjoinKey}" /></a>                                 
-                           </x:when>                                     
-                           <x:when select="./@href != ''">
-                              <a href="<x:out select="./@href" />" target="<x:out select="./@target" />"><x:out select="./@text" /></a>
-                           </x:when>
-                           <x:otherwise>
-                              <x:out select="./@text" escapeXml="./@escapeXml" />
-                           </x:otherwise>
-                        </x:choose>
-                     </x:forEach>
-                   
-                     <x:if select="generate-id(../metavalues[position() = last()]) != generate-id(.)">
-                        <x:out select="$terminator" escapeXml="false" />
-                     </x:if>                               
-                  </x:forEach>                 
-                  
-				<x:forEach select="./digitalobjects">
-				    <c:set var="label"  value="dummy" />
-					<table border="0" cellpadding="0" cellspacing="0" width="100%">
-					
-					<x:forEach select="./digitalobject">
-					      <x:set var="actlabel"  select="string(./@derivlabel)" />
-				      <x:set var="derivid"  select="string(./@derivid)" />
-				      
-					  <c:if test="${!fn:contains(label,actlabel)}">
-                      <mcr:checkAccess permission="read" var="accessallowed" key="${derivid}" />
-						  <tr>										  
-							<td align="left" valign="bottom" >
-								<div class="derivateHeading">
-								   <br/><c:out value="${actlabel}" />
-								</div>
-							</td>	 
-						   <c:if test="${accessallowed and empty(param.print)}">
-							<td>
-							 <a href="<x:out select="concat($WebApplicationBaseURL,'zip?id=',$derivid)" />"
-								class="linkButton"><fmt:message key="OMD.zipgenerate" /></a>&#160;&#160;
-							</td>
-							<td>
-               	                <a href="<x:out select="concat($WebApplicationBaseURL,'file/',$derivid,'/','?hosts=',$host)" />" target="_self"><fmt:message key="OMD.details" />&gt;&gt;</a>&#160;&#160; 
-               	            </td>
-               	            </c:if>
-               	          </tr>   										  
-               	      </c:if>   
-               	      <c:choose>
-					  <c:when test="${accessallowed}">
-					  <tr>
-						<td align="left" valign="top" colspan="3" >
-								  <div class="derivate">
-								  <x:set var="URL"	select="concat($WebApplicationBaseURL,'file/',./@derivid,'/',./@derivmain,'?hosts=',$host)" />
-						  <x:set var="contentType" select="string(./@contentType)" />
-						  <x:set var="size" select="string(./@size)" />
-						  <table>
-							<tr>
-								<td><a href="<x:out select="$URL" />" target="_blank"><x:out select="./@derivmain" /></a>&#160;
-								(<c:out value="${size}" /> Bytes)&#160;&#160;</td>
-								<c:if test="${fn:contains('gif-jpeg-png', contentType) && size < 100000}">
-									<td class="imageInResult"><a href="${URL}"><img	src="${URL}" width="100"></a></td>
-								</c:if>
-							</tr>
-				 		  </table>
-						  </div>
-						</td>
-						  </tr>
-					  </c:when>
-					  <c:otherwise>
-					    <tr>
-                   	     <td>
-						  <div class="derivate">
-                      	     	<x:out select="./@derivmain" />&#160;(<x:out select="./@size" /> Bytes)
-                             	     	--- <fmt:message key="OMD.fileaccess.denied" />
-                       	  </div>	
-                   	     </td>
-                       	 </tr>
-                        </c:otherwise>
-                       </c:choose>
-				      <c:set var="label" value="${actlabel}" />	     
-					</x:forEach>
-				  </table>
-				</x:forEach>
-               </td>
-            </tr>        
-         </x:when>
-      </x:choose>   
-    </x:forEach>
+
    
    <!-- show link for this page -->
 	<c:if test="${!fn:contains(style,'user')}">
