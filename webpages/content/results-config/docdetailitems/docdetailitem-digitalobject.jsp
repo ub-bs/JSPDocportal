@@ -6,14 +6,7 @@
 <fmt:setLocale value='${requestScope.lang}' />
 <fmt:setBundle basename='messages' />
 <x:forEach select="$data">
-
-
-
-
-
-
-
-
+ <x:set var="nameKey" select="string(./@name)" />
 	<tr>
 		<td class="metaname"><c:if test="${fn:length(nameKey) > 0 }">
 			<fmt:message key="${nameKey}" />:
