@@ -39,12 +39,11 @@
 					 		 </x:when>
 					         <x:otherwise>
 								<c:if test="${!empty(ikey)}">   			                               					         
-			                        <fmt:message key="${ikey}" />&nbsp;
+			                        <fmt:message key="${ikey}" />
 	                            </c:if>    
                                 <x:out select="./metavalues[$j]/metavalue[$i]/@text" escapeXml="false" />
 							 </x:otherwise>   
-						  </x:choose>       
-							&nbsp;                          
+						  </x:choose>                              
                           </div>
                          </td>
                         </c:forEach>
