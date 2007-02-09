@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!-- ============================================== -->
-<!-- $Revision: 1.2 $ $Date: 2006-07-25 11:26:23 $ -->
+<!-- $Revision: 1.3 $ $Date: 2007-02-09 14:18:00 $ -->
 <!-- ============================================== -->
 <xsl:stylesheet
      version="1.0"
@@ -47,10 +47,11 @@
     </xsl:template>
 
     <xsl:template name="linkQueryURL">
-        <xsl:param name="type" select="'alldocs'"/>
-        <xsl:param name="host" select="'local'"/>
+    <!-- <xsl:param name="type" select="'alldocs'"/>
+        <xsl:param name="host" select="'local'"/> -->
         <xsl:param name="id"/>
-        <xsl:value-of select="concat($ServletsBaseURL,'MCRQueryServlet',$JSessionID,'?XSL.Style=xml&amp;type=',$type,'&amp;hosts=',$host,'&amp;query=%2Fmycoreobject%5B%40ID%3D%27',$id,'%27%5D')" />
+       <!--  <xsl:value-of select="concat($ServletsBaseURL,'MCRQueryServlet',$JSessionID,'?XSL.Style=xml&amp;type=',$type,'&amp;hosts=',$host,'&amp;query=%2Fmycoreobject%5B%40ID%3D%27',$id,'%27%5D')" /> -->
+       <xsl:value-of select="concat('mcrobject:',$id)" /> 
     </xsl:template>
 
     <xsl:template name="linkDerDetailsURL">
