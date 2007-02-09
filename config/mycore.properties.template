@@ -217,37 +217,30 @@ MCR.users_use_password_encryption=true
 # ---------------------------------------------------------------------
 MCR.metadata_default_lang=de
 
-# The class for the XML Store
-MCR.xml_store_class=org.mycore.backend.hibernate.MCRHIBXMLStore
-
+#classification
 MCR.type_class=true
 
 # document
 MCR.type_document=true
-MCR.type_document_in=alldocs
 MCR.persistence_config_document=datamodel-document.xml
 
 #disshab
 MCR.type_disshab=true
-MCR.type_disshab_in=alldocs
 MCR.persistence_config_disshab=datamodel-disshab.xml
-MCR.type_alldocs=disshab,document
+
 
 # derivate
 MCR.type_derivate=true
-MCR.type_derivate_in=derivate
 MCR.persistence_config_derivate=datamodel-derivate.xml
 
 # author
 MCR.type_author=true
-MCR.type_author_in=allpers
 MCR.persistence_config_author=datamodel-author.xml
-MCR.type_allpers=author
+
 
 # institution
 MCR.type_institution=true
 MCR.persistence_config_institution=datamodel-institution.xml
-MCR.type_institution_in=institution
 
 
 # The name of the Java class of the XML parser
@@ -255,9 +248,13 @@ MCR.parser_class_name=org.mycore.common.xml.MCRParserXerces
 
 
 # ---------------------------------------------------------------------
+# The class for the XML Store
+MCR.xml_store_class=org.mycore.backend.hibernate.MCRHIBXMLStore
+
 
 MCR.XMLStore.Type=hibernate
 MCR.persistence_hibernate_class_name=org.mycore.common.events.MCRDummySearchStore
+
 
 # ---------------------------------------------------------------------
 
@@ -380,12 +377,9 @@ MCR.ClassificationBrowser.dissertationen.EmptyLeafs=yes
 MCR.ClassificationBrowser.dissertationen.Comments=true
 MCR.ClassificationBrowser.dissertationen.View=flat
 MCR.ClassificationBrowser.dissertationen.SearchField=ddc
-##Beispiel - ist in MyCoReSample nicht moeglich
 
-##MCR.ClassificationBrowser.dissertationen.Doctype=alldisshabs
-##alldisshabs zB. wird über 
-##MCR.type_alldisshabs=disshab,dimplom,bachelor
-##definiert, dh er muss vorhande sein, sonst wird er nicht genommen
+##Beispiel - ist in MyCoReSample nicht moeglich
+##MCR.ClassificationBrowser.dissertationen.Objecttype=disshab
 
 ##MCR.ClassificationBrowser.dissertationen.Restriction=DocPortal_class_00000005##TYPE002
 ##diese category schränkt auf einen bestimmten Typ von Dokument ein
@@ -434,7 +428,7 @@ MCR.ClassificationBrowser.bkl.Style=search
 MCR.ClassificationBrowser.bkl.EmptyLeafs=yes
 MCR.ClassificationBrowser.bkl.Comments=true
 MCR.ClassificationBrowser.bkl.View=tree
-MCR.ClassificationBrowser.bkl.Doctype=alldocs
+MCR.ClassificationBrowser.bkl.Objecttype=document,disshab
 MCR.ClassificationBrowser.bkl.SearchField=bkl
 
 
@@ -460,7 +454,7 @@ MCR.ClassificationBrowser.default.Style=search
 MCR.ClassificationBrowser.default.EmptyLeafs=yes
 MCR.ClassificationBrowser.default.View=tree
 MCR.ClassificationBrowser.default.Comments=true
-MCR.ClassificationBrowser.default.Doctype=alldocs
+MCR.ClassificationBrowser.default.Objecttype=document,disshab
 MCR.ClassificationBrowser.default.searchField=cltype1
 
 MCR.editor_workflow_page_dir=editor/workflow/
