@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!-- ============================================== -->
-<!-- $Revision: 1.3 $ $Date: 2007-02-09 14:18:00 $ -->
+<!-- $Revision: 1.4 $ $Date: 2007-02-12 09:30:35 $ -->
 <!-- ============================================== -->
 <xsl:stylesheet
      version="1.0"
@@ -537,7 +537,7 @@
         
         	<xsl:element name="cc:universityOrInstitution">
         		<xsl:element name="cc:name">
-        			<xsl:value-of select="'Universitaet Rostock'" />
+        			<xsl:value-of select="'Universität Rostock'" />
         		</xsl:element>
         		<xsl:element name="cc:place">
         			<xsl:value-of select="'18051 Rostock'" />
