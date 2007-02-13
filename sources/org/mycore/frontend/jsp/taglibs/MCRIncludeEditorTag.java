@@ -1,6 +1,7 @@
 package org.mycore.frontend.jsp.taglibs;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -194,14 +195,24 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 		if(uploadID != null && !uploadID.equals("")){
 			params.put("XSL.UploadID", uploadID);
 		}
+		String url="";
 		if(editorSource != null && !editorSource.equals("")){
-			params.put("XSL.editor.source.url", "file://" + editorSource );
+			try{
+				url = new File(editorSource).toURL().toString();
+			}
+			catch(MalformedURLException mue){
+				logger.error("Wrong URL", mue);
+			}
+			
 		}else if(!isNewEditorSource.equals("true") && mcrid != null && !mcrid.equals("") && type != null && !type.equals("")){
-			StringBuffer sb = new StringBuffer("file://").append(MCRWorkflowDirectoryManager.getWorkflowDirectory(type))
-				.append("/").append(mcrid).append(".xml");
-			params.put("XSL.editor.source.url", sb.toString());
+			try{
+				url = new File(MCRWorkflowDirectoryManager.getWorkflowDirectory(type)+"/"+mcrid+".xml").toURL().toString();
+			}
+			catch(MalformedURLException mue){
+				logger.error("Wrong URL", mue);
+			}			
 		}
-		
+		params.put("XSL.editor.source.url", url);
 		if(nextPath != null && !nextPath.equals("")){
 			params.put("nextPath", nextPath);
 		}
