@@ -332,7 +332,7 @@ MCR.users_store_sql_table_group_members=MCRGROUPMEMBERS
 MCR.users_store_sql_table_group_admins=MCRGROUPADMINS
 
 
-MCR.userstore_class_name=org.mycore.backend.hibernate.MCRHIBUserStore2
+MCR.userstore_class_name=org.mycore.backend.hibernate.MCRHIBUserStore
 
 MCR.metadata_objectid_number_pattern=00000000
 
