@@ -136,12 +136,11 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 			long processID = initWorkflowProcess(initiator, "go2processEditInitialized");
 			
 			MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processID);
-			String urn = identifierStrategy.getUrnFromDocument(mcrid);
+			String urn = (String)identifierStrategy.getIdentifierFromDocument(mcrid);
 			
 			if ( urn == null ) {
 				// a migration problem - old urns are in nbn, new in urn store
-				urn = (String)identifierStrategy.createNewIdentifier( initiator, workflowProcessType);
-				identifierStrategy.setDocumentIDToUrn(urn, mcrid);
+				urn = (String)identifierStrategy.createNewIdentifier( mcrid, workflowProcessType, initiator);
 				Element eUrns = metadataStrategy.createURNElement(urn);
 				// mob.getMetadata().getMetadataElement("urns").setFromDOM(eUrns);
 				mob.getMetadata().getMetadataElement("urns").getElement(0).setFromDOM(eUrns.getChild("urn"));
@@ -216,7 +215,12 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 		
 		try{
 			MCRObjectID nextFreeId = getNextFreeID(metadataStrategy.getDocumentType());
-			String initiator = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_INITIATOR);
+			String initiator = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_INITIATOR);		
+			String identifier = (String)identifierStrategy.createNewIdentifier(nextFreeId.getId(), getWorkflowProcessType(), initiator);
+			if(identifier != null && !identifier.equals("")){
+				ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN, identifier);
+			}
+			
 			String publicationType = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_PUBLICATIONTYPE);			
 			String saveDirectory = MCRWorkflowDirectoryManager.getWorkflowDirectory(mainDocumentType);
 			Map identifiers = new HashMap();

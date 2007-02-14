@@ -1,22 +1,18 @@
 package org.mycore.frontend.workflowengine.strategies;
 
+import org.mycore.services.urn.MCRURNManager;
+
 
 public class MCRURNIdentifierStrategy implements MCRIdentifierStrategy{
 
-	public Object createNewIdentifier(  String userid, String workflowProcessType) {
-		return createUrnReservationForAuthor(userid, "URN for " + workflowProcessType, workflowProcessType );
+	
+	public Object getIdentifierFromDocument(String documentID ) {
+		return MCRURNManager.getURNforDocument(documentID);
 	}
 	
-	public String getUrnFromDocument(String documentID ) {
-		return org.mycore.services.urn.MCRURNManager.getURNforDocument(documentID);
-	}
-	
-	protected String createUrnReservationForAuthor(String authorid, String comment, String workflowProcessType ){
-		// String nissprefix = config.getString("MCR.nbn.nissprefix." + workflowProcessType, "diss");
-		return org.mycore.services.urn.MCRURNManager.buildURN(workflowProcessType);
-	}
 
-	public void setDocumentIDToUrn(String urn, String documentID){
-		org.mycore.services.urn.MCRURNManager.assignURN(urn, documentID);		
+	public Object createNewIdentifier(String documentID, String workflowProcessType, String userid) {
+		// TODO Auto-generated method stub
+		return MCRURNManager.buildAndAssignURN(documentID, workflowProcessType);
 	}
 }

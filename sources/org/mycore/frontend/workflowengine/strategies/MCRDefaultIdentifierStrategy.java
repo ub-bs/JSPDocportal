@@ -2,18 +2,16 @@ package org.mycore.frontend.workflowengine.strategies;
 
 
 public class MCRDefaultIdentifierStrategy implements MCRIdentifierStrategy{
-
-	public Object createNewIdentifier( String userid, String workflowProcessType) {
-		return "";
-	}
 	
-	public String getUrnFromDocument(String documentID) {
+	public Object getIdentifierFromDocument(String documentID) {
 		// TODO Auto-generated method stub
 		return "";
 	}
 	
-	public void setDocumentIDToUrn(String urn, String documentID) {
+	public Object createNewIdentifier(String documentID, String workflowProcessType, String userid) {
 		// TODO Auto-generated method stub
-		return ;
+		return "";
 	}
+	
+	
 }

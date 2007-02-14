@@ -137,12 +137,11 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 			long processID = initWorkflowProcess(initiator, "go2processEditInitialized");
 			
 			MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processID);
-			String urn = identifierStrategy.getUrnFromDocument(mcrid);
+			String urn = (String)identifierStrategy.getIdentifierFromDocument(mcrid);
 			
 			if ( urn == null ) {
 				// a migration problem - old urns are in nbn, new in urn store
-				urn = (String)identifierStrategy.createNewIdentifier( initiator, workflowProcessType);
-				identifierStrategy.setDocumentIDToUrn(urn, mcrid);
+				urn = (String)identifierStrategy.createNewIdentifier(mcrid, workflowProcessType,initiator);
 				Element eUrns = metadataStrategy.createURNElement(urn);
 				// mob.getMetadata().getMetadataElement("urns").setFromDOM(eUrns);
 				mob.getMetadata().getMetadataElement("urns").getElement(0).setFromDOM(eUrns.getChild("urn"));
@@ -236,11 +235,15 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 	
 	public String createEmptyMetadataObject(ContextInstance ctxI){
 		
-		try{
+		try{			
 			String[] authors = ((String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_AUTHOR_IDS)).split(",");
 			MCRObjectID nextFreeId = getNextFreeID(metadataStrategy.getDocumentType());
 			String initiator = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_INITIATOR);
 			String saveDirectory = MCRWorkflowDirectoryManager.getWorkflowDirectory(mainDocumentType);
+			String identifier = (String)identifierStrategy.createNewIdentifier(nextFreeId.getId(), getWorkflowProcessType(), initiator);
+			if(identifier != null && !identifier.equals("")){
+				ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN, identifier);
+			}
 			Map identifiers = new HashMap();
 			identifiers.put(MCRWorkflowConstants.KEY_IDENTIFER_TYPE_URN, (String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN));
 			if(metadataStrategy.createEmptyMetadataObject(true, Arrays.asList(authors), null,
@@ -248,7 +251,7 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 						permissionStrategy.setPermissions(nextFreeId.toString(), initiator, 
 								getWorkflowProcessType(), ctxI, MCRWorkflowConstants.PERMISSION_MODE_DEFAULT );
 						return nextFreeId.toString();
-			}
+			}			
 		}catch(MCRException ex){
 			logger.error("could not create empty metadata object", ex);
 		}finally{

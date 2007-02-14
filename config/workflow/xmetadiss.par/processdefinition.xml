@@ -32,9 +32,7 @@
   <task-node name="processInitialized">
      <event type='node-enter'>
         <action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRCreateAuthorAction" />
-        <action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRCreateURNAction" />
 		<action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRCreateDisshabAction" />                        
-		<action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRAssignURNAction" />                        		
      </event>
      <transition name="go2isInitiatorsEmailAddressAvailable" to="isInitiatorsEmailAddressAvailable" />  
   </task-node>
