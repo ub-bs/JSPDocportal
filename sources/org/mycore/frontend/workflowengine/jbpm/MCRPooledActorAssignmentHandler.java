@@ -6,7 +6,7 @@ import java.util.List;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.taskmgmt.def.AssignmentHandler;
 import org.jbpm.taskmgmt.exe.Assignable;
-import org.mycore.user2.MCRUserMgr;
+import org.mycore.user.MCRUserMgr;
 
 public class MCRPooledActorAssignmentHandler implements AssignmentHandler {
 	

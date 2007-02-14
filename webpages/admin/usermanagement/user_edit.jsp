@@ -1,6 +1,4 @@
-<%@ page import="org.mycore.user2.MCRUser,
-	org.mycore.user2.MCRUserContact,
-	org.mycore.user2.MCRUserMgr,
+<%@ page import="org.mycore.user.MCRUser,org.mycore.user.MCRUserContact,org.mycore.user.MCRUserMgr,
     org.mycore.common.xml.MCRXMLHelper,	
     org.jdom.filter.ElementFilter,
 	java.text.SimpleDateFormat,

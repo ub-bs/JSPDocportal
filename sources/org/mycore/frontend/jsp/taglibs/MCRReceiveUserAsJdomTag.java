@@ -11,8 +11,8 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRSessionMgr;
-import org.mycore.user2.MCRUser;
-import org.mycore.user2.MCRUserMgr;
+import org.mycore.user.MCRUser;
+import org.mycore.user.MCRUserMgr;
 public class MCRReceiveUserAsJdomTag extends SimpleTagSupport
 {
 	private static Logger logger = Logger.getLogger(MCRReceiveUserAsJdomTag.class);

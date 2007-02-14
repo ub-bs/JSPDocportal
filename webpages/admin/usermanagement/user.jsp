@@ -1,4 +1,4 @@
-<%@ page import="org.mycore.user2.MCRUserMgr,org.mycore.user2.MCRUser,
+<%@ page import="org.mycore.user.MCRUserMgr,org.mycore.user.MCRUser,
 	java.util.ArrayList, java.util.Comparator,java.util.Collections"%>
 <%@ page import="org.mycore.frontend.servlets.MCRServlet" %>
 

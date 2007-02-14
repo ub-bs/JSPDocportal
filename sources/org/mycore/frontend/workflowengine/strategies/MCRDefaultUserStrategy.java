@@ -15,9 +15,9 @@ import org.mycore.common.MCRConfiguration;
 import org.mycore.common.xml.MCRXMLHelper;
 import org.mycore.frontend.cli.MCRUserCommands2;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
-import org.mycore.user2.MCRUserMgr;
+import org.mycore.user.MCRExternalUserLogin;
+import org.mycore.user.MCRUserMgr;
 
-import org.mycore.user2.MCRExternalUserLogin;
 
 public class MCRDefaultUserStrategy extends MCRUserStrategy{
 	private String documentType;

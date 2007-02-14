@@ -17,9 +17,9 @@ import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
 import org.mycore.services.fieldquery.MCRResults;
-import org.mycore.user2.MCRUser;
-import org.mycore.user2.MCRUserContact;
-import org.mycore.user2.MCRUserMgr;
+import org.mycore.user.MCRUser;
+import org.mycore.user.MCRUserContact;
+import org.mycore.user.MCRUserMgr;
 
 public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {
 	private static Logger logger = Logger.getLogger(MCRDefaultAuthorStrategy.class.getName());

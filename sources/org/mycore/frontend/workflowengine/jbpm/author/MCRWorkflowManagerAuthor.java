@@ -48,8 +48,8 @@ import org.mycore.services.fieldquery.MCRQuery;
 import org.mycore.services.fieldquery.MCRQueryCondition;
 import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.services.fieldquery.MCRResults;
-import org.mycore.user2.MCRUser;
-import org.mycore.user2.MCRUserMgr;
+import org.mycore.user.MCRUser;
+import org.mycore.user.MCRUserMgr;
 
 /**
  * This class holds methods to manage the workflow file system of MyCoRe.

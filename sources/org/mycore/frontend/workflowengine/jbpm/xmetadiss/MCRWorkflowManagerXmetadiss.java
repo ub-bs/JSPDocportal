@@ -48,8 +48,8 @@ import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcessManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
 import org.mycore.frontend.workflowengine.strategies.MCRMetadataStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
-import org.mycore.user2.MCRUser;
-import org.mycore.user2.MCRUserMgr;
+import org.mycore.user.MCRUser;
+import org.mycore.user.MCRUserMgr;
 
 /**
  * This class holds methods to manage the workflow file system of MyCoRe.

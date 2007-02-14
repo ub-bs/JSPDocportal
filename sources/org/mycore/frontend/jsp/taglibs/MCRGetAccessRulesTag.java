@@ -16,7 +16,7 @@ import org.jdom.output.DOMOutputter;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowAccessRuleEditorUtils;
-import org.mycore.user2.MCRUserMgr;
+import org.mycore.user.MCRUserMgr;
 
 
 public class MCRGetAccessRulesTag extends SimpleTagSupport

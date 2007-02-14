@@ -12,7 +12,7 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.output.DOMOutputter;
 import org.mycore.common.JSPUtils;
-import org.mycore.user2.MCRUserMgr;
+import org.mycore.user.MCRUserMgr;
 
 
 public class MCRGetFreeUserIDs extends SimpleTagSupport

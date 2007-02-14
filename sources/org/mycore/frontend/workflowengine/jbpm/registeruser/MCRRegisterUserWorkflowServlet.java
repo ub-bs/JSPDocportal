@@ -46,8 +46,8 @@ import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcessManager;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
-import org.mycore.user2.MCRExternalUserLogin;
-import org.mycore.user2.MCRUserMgr;
+import org.mycore.user.MCRExternalUserLogin;
+import org.mycore.user.MCRUserMgr;
 
 
 /**

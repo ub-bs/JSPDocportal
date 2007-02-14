@@ -19,9 +19,9 @@ import org.jbpm.graph.exe.ExecutionContext;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRMailer;
-import org.mycore.user2.MCRGroup;
-import org.mycore.user2.MCRUser;
-import org.mycore.user2.MCRUserMgr;
+import org.mycore.user.MCRGroup;
+import org.mycore.user.MCRUser;
+import org.mycore.user.MCRUserMgr;
 
 /**
  * @author mcradmin

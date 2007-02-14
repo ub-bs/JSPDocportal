@@ -1,6 +1,6 @@
-<%@ page import="org.mycore.user2.MCRUserMgr,
-    org.mycore.user2.MCRUser,
-    org.mycore.user2.MCRGroup,
+<%@ page import="org.mycore.user.MCRUserMgr,
+    org.mycore.user.MCRUser,
+    org.mycore.user.MCRGroup,
     org.mycore.common.MCRSession,
     org.mycore.frontend.servlets.MCRServlet"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>

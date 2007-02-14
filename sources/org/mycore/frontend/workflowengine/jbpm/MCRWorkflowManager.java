@@ -35,8 +35,8 @@ import org.mycore.frontend.workflowengine.strategies.MCRPermissionStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRURNIdentifierStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRUserStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
-import org.mycore.user2.MCRUser;
-import org.mycore.user2.MCRUserMgr;
+import org.mycore.user.MCRUser;
+import org.mycore.user.MCRUserMgr;
 
 public abstract class MCRWorkflowManager {
 	private static Logger logger;

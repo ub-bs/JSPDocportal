@@ -1,4 +1,4 @@
-<%@ page import="org.mycore.user2.MCRUserMgr,java.util.ArrayList"%>
+<%@ page import="org.mycore.user.MCRUserMgr,java.util.ArrayList"%>
 <%@ page import="org.mycore.frontend.servlets.MCRServlet" %>    
 <%
 	String WebApplicationBaseURL = MCRServlet.getBaseURL();

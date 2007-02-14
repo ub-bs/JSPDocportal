@@ -41,7 +41,7 @@ import org.jdom.filter.ElementFilter;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.xml.MCRURIResolver.MCRResolver;
 import org.mycore.datamodel.classifications.MCRClassification;
-import org.mycore.user2.MCRUserMgr;
+import org.mycore.user.MCRUserMgr;
 
 /**
  * this class delivers xml objects that can be included

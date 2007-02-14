@@ -13,8 +13,8 @@ import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
-import org.mycore.user2.MCRUser;
-import org.mycore.user2.MCRUserMgr;
+import org.mycore.user.MCRUser;
+import org.mycore.user.MCRUserMgr;
 
 public class MCRInstitutionSubmittedAction extends MCRAbstractAction {
 	
