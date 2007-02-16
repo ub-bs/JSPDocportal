@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!-- ============================================== -->
-<!-- $Revision: 1.4 $ $Date: 2007-02-12 09:30:35 $ -->
+<!-- $Revision: 1.5 $ $Date: 2007-02-16 17:18:53 $ -->
 <!-- ============================================== -->
 <xsl:stylesheet
      version="1.0"
@@ -19,7 +19,7 @@
      xmlns:thesis="http://www.ndltd.org/standards/metadata/etdms/1.0/"
      xmlns="http://www.ddb.de/standards/subject/"
 
-     xsi:schemaLocation="http://www.ddb.de/standards/xMetaDiss/ http://atlibri.uni-rostock.de:8080/test/dnb-schemas/xmetadiss.xsd">
+     xsi:schemaLocation="http://www.d-nb.de/standards/xMetaDiss/  http://www.d-nb.de/standards/xmetadiss/xmetadiss.xsd">
      
     <xsl:output method="xml"
 	             encoding="UTF-8"/>
@@ -35,10 +35,12 @@
          
     <xsl:template match="mycoreobject">
         <xsl:element name="metadata" namespace="http://www.openarchives.org/OAI/2.0/">
-             <xMetaDiss:xMetaDiss>
+         <xMetaDiss:xMetaDiss> 
     	        <!-- remaining xmlns:... - Attributes are added by the XSLT parser -->
-    	        <xsl:attribute name="xsi:schemaLocation">http://www.ddb.de/standards/xMetaDiss/ http://atlibri.uni-rostock.de:8080/test/dnb-schemas/xmetadiss.xsd</xsl:attribute>
-      
+				<xsl:attribute name="xmlns:xsi">http://www.w3.org/2001/XMLSchema-instance</xsl:attribute>
+    	        <xsl:attribute name="xsi:schemaLocation">http://www.d-nb.de/standards/xMetaDiss/  http://www.d-nb.de/standards/xmetadiss/xmetadiss.xsd</xsl:attribute> 
+
+    	        
              <xsl:call-template name="title"/>
              <xsl:call-template name="alternative"/>
              <xsl:call-template name="creator"/>
@@ -218,16 +220,18 @@
 	                                <xsl:value-of select="./names/name/peerage" />
 	                            </xsl:element>
 	                        </xsl:if>
-	                        <xsl:if test="./names/name/academic">
-	                            <xsl:element name="pc:academicTitle">
-	                                <xsl:value-of select="./names/name/academic" />
-	                            </xsl:element>
-	                        </xsl:if>
 	                    </xsl:element>
+                        <xsl:if test="./names/name/academic">
+                            <xsl:element name="pc:academicTitle">
+                                <xsl:value-of select="./names/name/academic" />
+                            </xsl:element>
+                        </xsl:if>
+
 	                    <xsl:if test="./dates/date/@type = 'birth'">
 	                        <xsl:element name="pc:dateOfBirth">
 	                            <xsl:attribute name="xsi:type">dcterms:W3CDTF</xsl:attribute>
-	                            <xsl:value-of select="substring(./dates/date[@type='birth'],1,4)" />
+	                            <xsl:value-of select="./dates/date[@type='birth']" />
+	                            <!-- <xsl:value-of select="substring(./dates/date[@type='birth'],1,4)" /> -->
 	                        </xsl:element>
 	                    </xsl:if>
 	                    <xsl:if test="(./places/place/@type = 'birth')">
@@ -375,7 +379,7 @@
             <xsl:choose>
                 <xsl:when test="contains(./@categid,'TYPE0005')">
                     <xsl:element name="dc:type">
-                        <xsl:attribute name="xsi:type">dcterms:DCMIType</xsl:attribute>
+                        <xsl:attribute name="xsi:type">ddb:PublType</xsl:attribute>
                         <xsl:text>ElectronicThesisandDissertation</xsl:text>
                     </xsl:element>
                 </xsl:when>
@@ -390,7 +394,7 @@
 				<xsl:for-each select="./label[@xml:lang='x-dini']">
 				<xsl:if test="contains(./@text,'dissertation')" >
                     <xsl:element name="dc:type">
-                        <xsl:attribute name="xsi:type">dcterms:DCMIType</xsl:attribute>
+                        <xsl:attribute name="xsi:type">ddb:PublType</xsl:attribute>
                         <xsl:text>ElectronicThesisandDissertation</xsl:text>
                     </xsl:element>        
         		</xsl:if>
@@ -454,7 +458,7 @@
 				<xsl:for-each select="./label[@xml:lang='en']">
                 <xsl:element name="dc:language">
                    <xsl:attribute name="xsi:type">dcterms:ISO639-2</xsl:attribute>
-                   <xsl:attribute name="lang"><xsl:value-of select="substring-before(./@description,'#')" /></xsl:attribute>
+                   <xsl:value-of select="substring-before(./@description,'#')" />
                 </xsl:element>
             </xsl:for-each>
             </xsl:for-each>
