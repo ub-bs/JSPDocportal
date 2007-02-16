@@ -29,7 +29,7 @@
 						 	<td width="15px" /> 
                         </c:if>
                         <td valign="top">
-                          <div style="min-width:60px" >
+                          <div style="min-width:80px" >
                           <x:set var="ikey" select="string(./metavalues[$j]/@introkey)" />   			                               
 					      <x:choose>
                              <x:when select="./metavalues[$j]/@type = 'messagekey'">
