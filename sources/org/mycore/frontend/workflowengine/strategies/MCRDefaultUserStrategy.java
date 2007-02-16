@@ -13,7 +13,7 @@ import org.jbpm.context.exe.ContextInstance;
 import org.jdom.Element;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.xml.MCRXMLHelper;
-import org.mycore.frontend.cli.MCRUserCommands2;
+import org.mycore.frontend.cli.MCRUserCommands;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.user.MCRExternalUserLogin;
 import org.mycore.user.MCRUserMgr;
@@ -169,9 +169,9 @@ public class MCRDefaultUserStrategy extends MCRUserStrategy{
 		String filename = directory + "/" + "user_" + userid + ".xml";
 		try { 
 			if ( MCRUserMgr.instance().existUser(userid) ) {
-				MCRUserCommands2.updateUserFromFile(filename);
+				MCRUserCommands.updateUserFromFile(filename);
 			} else {
-				MCRUserCommands2.createUserFromFile(filename);
+				MCRUserCommands.createUserFromFile(filename);
 				
 			}
 		}catch(Exception e){

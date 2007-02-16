@@ -32,7 +32,7 @@ import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.jdom.Element;
 import org.mycore.common.MCRException;
-import org.mycore.frontend.cli.MCRUserCommands2;
+import org.mycore.frontend.cli.MCRUserCommands;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcessManager;
@@ -190,7 +190,7 @@ public class MCRWorkflowManagerRegisteruser extends MCRWorkflowManager{
 		MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processID);
 		try{
 			String userID = wfp.getStringVariable("initiatorUserID");
-			MCRUserCommands2.deleteUser(userID);
+			MCRUserCommands.deleteUser(userID);
 			bSuccess = this.removeWorkflowFiles(wfp.getContextInstance());
 		}catch(Exception ex){
 			logger.error("could not delete workflow files", ex);
