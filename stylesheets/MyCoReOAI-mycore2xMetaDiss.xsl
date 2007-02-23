@@ -1,12 +1,13 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!-- ============================================== -->
-<!-- $Revision: 1.5 $ $Date: 2007-02-16 17:18:53 $ -->
+<!-- $Revision: 1.6 $ $Date: 2007-02-23 14:41:07 $ -->
 <!-- ============================================== -->
 <xsl:stylesheet
      version="1.0"
      xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
      xmlns:xlink="http://www.w3.org/1999/xlink"
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xmlns:exslt="http://exslt.org/common"
 
      xmlns:xMetaDiss="http://www.ddb.de/standards/xMetaDiss/"
      xmlns:cc="http://www.ddb.de/standards/cc/"
@@ -35,11 +36,17 @@
          
     <xsl:template match="mycoreobject">
         <xsl:element name="metadata" namespace="http://www.openarchives.org/OAI/2.0/">
-         <xMetaDiss:xMetaDiss> 
-    	        <!-- remaining xmlns:... - Attributes are added by the XSLT parser -->
-				<xsl:attribute name="xmlns:xsi">http://www.w3.org/2001/XMLSchema-instance</xsl:attribute>
-    	        <xsl:attribute name="xsi:schemaLocation">http://www.d-nb.de/standards/xMetaDiss/  http://www.d-nb.de/standards/xmetadiss/xmetadiss.xsd</xsl:attribute> 
-
+		<!-- DNB needs the the attribute "xmlns:xsi" definied here in the xMetaDiss-Element 
+		     XSLT puts definition into the root element and won't repeat it here
+		     WORKAROUND: Write the elements open and closing tags as text
+		<xMetaDiss:xMetaDiss>
+                  <xsl:attribute name="xsi:schemaLocation">http://www.ddb.de/standards/xMetaDiss/ http://atlibri.uni-rostock.de:8080/test/dnb-schemas/xmetadiss.xsd</xsl:attribute> 
+		 -->
+		
+		<xsl:text disable-output-escaping="yes">
+		&#60;xMetaDiss:xMetaDiss xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:xMetaDiss=&quot;http://www.ddb.de/standards/xMetaDiss/&quot;
+                              xsi:schemaLocation=&quot;http://www.d-nb.de/standards/xMetaDiss/  http://www.d-nb.de/standards/xmetadiss/xmetadiss.xsd&quot;&#62;
+		</xsl:text>          
     	        
              <xsl:call-template name="title"/>
              <xsl:call-template name="alternative"/>
@@ -57,8 +64,9 @@
              <xsl:call-template name="contact"/>
              <xsl:call-template name="file"/>
              <xsl:call-template name="rights"/>
-
-			</xMetaDiss:xMetaDiss>   
+		<xsl:text disable-output-escaping="yes">
+			&#60;/xMetaDiss:xMetaDiss&#62;
+			</xsl:text>          
 		</xsl:element> <!--  </metadata>  -->
     </xsl:template>
 
@@ -178,6 +186,11 @@
 	             <xsl:element name="dc:creator">
 	                <xsl:attribute name="xsi:type">pc:MetaPers</xsl:attribute>
 	                <xsl:element name="pc:person">
+	                   <xsl:if test="./pnd-numbers/pnd-number">
+	                   	<xsl:attribute name="PND-Nr">
+		                     <xsl:value-of select="./pnd-numbers/pnd-number" />
+	                   	</xsl:attribute>
+						</xsl:if>	                
 	                    <xsl:if test="./females/female">
 	                        <xsl:attribute name="gender">
 	                            <xsl:choose>
@@ -251,29 +264,47 @@
               <xsl:attribute name="xsi:type">xMetaDiss:DDC-SG</xsl:attribute>
               <xsl:value-of select="@categid" />
            </xsl:element>   -->
- 
-		<xsl:for-each select="./metadata/subjects/subject"> 
-			<xsl:variable name="classid" select="./@classid" />
-            <xsl:variable name="categid" select="./@categid" />
-   			<xsl:variable name="classification" select="concat('mcrobject:',$classid)" />
-			<xsl:for-each select="document($classification)/mycoreclass//category[@ID=$categid]"> 
-				<xsl:for-each select="./label[@xml:lang='x-dini']">
-				<xsl:if test="starts-with(./@text,'ddc')" >
-		           <xsl:element name="dc:subject">
-        		      <xsl:attribute name="xsi:type">xMetaDiss:DDC-SG</xsl:attribute>
-		              <xsl:value-of select="@text" />
+		<xsl:variable name="x">
+ 			<xsl:for-each select="./metadata/subjects/subject"> 
+				<xsl:variable name="classid" select="./@classid" />
+    	        <xsl:variable name="categid" select="./@categid" />
+   				<xsl:variable name="classification" select="concat('mcrobject:',$classid)" />
+				<xsl:variable name="subject-nodes" select="document($classification)/mycoreclass//category[@ID=$categid]" /> 
+			
+				<xsl:for-each select="$subject-nodes">
+					<xsl:element name="dc:subject">
+						<xsl:attribute name="xsi:type">dcterms:DDC</xsl:attribute>
+						<xsl:value-of select="@ID" />
+					</xsl:element>
+		           	<xsl:element name="dc:subject">
+        		    	<xsl:attribute name="xsi:type">xMetaDiss:DDC-SG</xsl:attribute>
+		              	<xsl:value-of select="substring-after(./label[@xml:lang='x-dini']/@text,':')" />
 		           </xsl:element>           
-        		</xsl:if>
-			</xsl:for-each>
-			</xsl:for-each>
+				</xsl:for-each>
+    	   </xsl:for-each>
+       </xsl:variable>
+       <!-- remove duplicate entries -->
+       <xsl:for-each select="exslt:node-set($x)">
+			<xsl:copy-of select="dc:subject[not(.=following::dc:subject)]" />
        </xsl:for-each>
-       <xsl:for-each select="./keywords/keyword[@type='SWD']">
+
+       <xsl:for-each select="./metadata/keywords/keyword[@type='SWD']">
            <xsl:element name="dc:subject">
                <xsl:attribute name="xsi:type">xMetaDiss:SWD</xsl:attribute>
                <xsl:value-of select="." />   
            </xsl:element>
        </xsl:for-each>
+        <xsl:for-each select="./metadata/keywords/keyword[@type='freetext']">
+           <xsl:element name="dc:subject">
+               <xsl:attribute name="xsi:type">xMetaDiss:noScheme</xsl:attribute>
+               <xsl:value-of select="." />   
+           </xsl:element>
+       </xsl:for-each>
+       
+       
     </xsl:template>
+    
+
     
     <xsl:template name="abstract">
         <xsl:for-each select="./metadata/descriptions/description[@type='abstract']">
@@ -287,17 +318,16 @@
         </xsl:for-each>
     </xsl:template>
     
-    <xsl:template name="publisher">
-    <!--  ToDo after Institutions are integerated in JSPDocportal
-        <xsl:for-each select="./metadata/publishlinks/publishlink">
-           <xsl:variable name="publishlinkURL">
-                <xsl:call-template name="linkQueryURL">
-                    <xsl:with-param name="id" select="./@xlink:href" />
-                    <xsl:with-param name="type" select="'institution'" />
-                </xsl:call-template>
+	<xsl:template name="publisher">
+		<xsl:for-each select="./metadata/publishlinks/publishlink">
+			<xsl:variable name="publishlinkURL">
+				<xsl:call-template name="linkQueryURL">
+					 <xsl:with-param name="id" select="./@xlink:href" />
+					 <xsl:with-param name="type" select="'institution'" />
+				 </xsl:call-template>
            </xsl:variable>
-           <xsl:for-each select="document($publishlinkURL)/mcr_results/mcr_result/mycoreobject/metadata">
-	            <xsl:element name="dc:publisher">
+           <xsl:for-each select="document($publishlinkURL)/mycoreobject/metadata">
+               <xsl:element name="dc:publisher">
 	                <xsl:attribute name="xsi:type">cc:Publisher</xsl:attribute>
 	                <xsl:element name="cc:universityOrInstitution">
 	                    <xsl:element name="cc:name">
@@ -310,21 +340,25 @@
 	                    </xsl:for-each>
 	                </xsl:element>
 	                <xsl:element name="cc:address">
-	                    <xsl:value-of select="./addresses/address[@xml:lang='de']/street" />
-	                    <xsl:text> </xsl:text>
+	                     <xsl:value-of select="./addresses/address[@xml:lang='de']/street" />
+	                    <xsl:if test="./addresses/address[@xml:lang='de']/street" >
+	                    	<xsl:text> </xsl:text>
+	                    </xsl:if>
 	                    <xsl:value-of select="./addresses/address[@xml:lang='de']/number" />
-	                    <xsl:text>, </xsl:text>
+	                    <xsl:if test="./addresses/address[@xml:lang='de']/street or ./addresses/address[@xml:lang='de']/number">
+		                    <xsl:text>, </xsl:text>
+		                </xsl:if>
 	                    <xsl:value-of select="./addresses/address[@xml:lang='de']/zipcode" />                     
 	                    <xsl:text> </xsl:text>
-	                    <xsl:value-of select="./addresses/address[@xml:lang='de']/city" />                    
+	                    <xsl:value-of select="./addresses/address[@xml:lang='de']/city" />      
 	                </xsl:element>
 	            </xsl:element>
            </xsl:for-each>
-        </xsl:for-each> -->
+        </xsl:for-each>
 
 
         <!-- WORKAROUND -->
-        <xsl:element name="dc:publisher">
+       <!--  <xsl:element name="dc:publisher">
         	<xsl:attribute name="xsi:type">cc:Publisher</xsl:attribute>
         	<xsl:element name="cc:universityOrInstitution">
         		<xsl:element name="cc:name">
@@ -337,7 +371,7 @@
         	<xsl:element name="cc:address">
         		<xsl:value-of select="'Postfach, 18051 Rostock'" />
         	</xsl:element>
-        </xsl:element>
+        </xsl:element> -->
         <!-- WORKAROUND ENDE -->
     </xsl:template>
 
@@ -494,17 +528,64 @@
                            </xsl:otherwise>
                        </xsl:choose>
                    </xsl:element>
-                   <xsl:element name="thesis:grantor">
+                   
+            <xsl:for-each select="./../../grantorlinks/grantorlink">
+			<xsl:variable name="grantorlinkURL">
+				<xsl:call-template name="linkQueryURL">
+					 <xsl:with-param name="id" select="@xlink:href" />
+					 <xsl:with-param name="type" select="'institution'" />
+				 </xsl:call-template>
+           </xsl:variable>
+            <xsl:for-each select="document($grantorlinkURL)/mycoreobject/metadata">
+                <xsl:element name="thesis:grantor">
+                    <xsl:attribute name="xsi:type">cc:Corporate</xsl:attribute>
+                    <xsl:attribute name="type">dcterms:ISO3166</xsl:attribute>
+	                <xsl:element name="cc:universityOrInstitution">
+	                    <xsl:element name="cc:name">
+	                        <xsl:value-of select="./names/name[@xml:lang='de']/fullname" />
+	                    </xsl:element>
+	                    <xsl:for-each select="./addresses/address[@xml:lang='de' and @inherited='0']/city">
+	                        <xsl:element name="cc:place">
+	                                <xsl:value-of select="." />
+	                        </xsl:element>
+	                    </xsl:for-each>
+	                </xsl:element>
+	                <xsl:element name="cc:address">
+	                     <xsl:value-of select="./addresses/address[@xml:lang='de']/street" />
+	                    <xsl:if test="./addresses/address[@xml:lang='de']/street" >
+	                    	<xsl:text> </xsl:text>
+	                    </xsl:if>
+	                    <xsl:value-of select="./addresses/address[@xml:lang='de']/number" />
+	                    <xsl:if test="./addresses/address[@xml:lang='de']/street or ./addresses/address[@xml:lang='de']/number">
+		                    <xsl:text>, </xsl:text>
+		                </xsl:if>
+	                    <xsl:value-of select="./addresses/address[@xml:lang='de']/zipcode" />                     
+	                    <xsl:text> </xsl:text>
+	                    <xsl:value-of select="./addresses/address[@xml:lang='de']/city" />      
+	                </xsl:element>
+	            </xsl:element>
+           </xsl:for-each>
+        </xsl:for-each>
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+              <!--        <xsl:element name="thesis:grantor">
                       <xsl:attribute name="xsi:type">cc:Corporate</xsl:attribute>
                       <xsl:attribute name="type">dcterms:ISO3166</xsl:attribute>
 
-           <!--           <xsl:variable name="institutionClasslinkURL">
+                   <xsl:variable name="institutionClasslinkURL">
                           <xsl:call-template name="linkClassQueryURL">
                               <xsl:with-param name="classid" select="$institutionClassid" />
                               <xsl:with-param name="categid" select="$institutionCategid" />
                           </xsl:call-template>
                       </xsl:variable>
-                      <xsl:for-each select="document($institutionClasslinkURL)/mcr_results/mcr_result/mycoreclass/categories/category/url"> -->
+                      <xsl:for-each select="document($institutionClasslinkURL)/mcr_results/mcr_result/mycoreclass/categories/category/url"> ->
 
 
 			<xsl:variable name="classid" select="./@classid" />
@@ -512,7 +593,7 @@
    			<xsl:variable name="classification" select="concat('mcrobject:',$institutionClassid)" />
 			<xsl:for-each select="document($classification)/mycoreclass//category[@ID=$institutionCategid]/url"> 
 
-						<!-- TODO Check again after integration of institutions 
+						<!- TODO Check again after integration of institutions 
                           <xsl:variable name="institutionlinkURL">
                               <xsl:call-template name="linkQueryURL">
                                   <xsl:with-param name="id" select="./@xlink:href" />
@@ -536,8 +617,8 @@
 	                                  </xsl:element> 
 	                                  </xsl:element>
                               </xsl:element>
-                          </xsl:for-each>                         -->
-        <!-- WORKAROUND -->
+                          </xsl:for-each>                         
+        <!- WORKAROUND ->
         
         	<xsl:element name="cc:universityOrInstitution">
         		<xsl:element name="cc:name">
@@ -549,10 +630,10 @@
         	</xsl:element>
 
  
-        <!-- WORKAROUND ENDE -->                          
+        <!- WORKAROUND ENDE    ->                    
 
                       </xsl:for-each>
-                   </xsl:element>
+                   </xsl:element> -->   
                </xsl:element>
            </xsl:if>
        </xsl:for-each>
@@ -566,7 +647,7 @@
                         <xsl:value-of select="./metadata/contacts/contact" />
                     </xsl:when>
                     <xsl:otherwise>
-                        <xsl:text>F6000-0333</xsl:text>
+                        <xsl:text>FXXXX-XXXX</xsl:text>
                     </xsl:otherwise>
                 </xsl:choose>   
             </xsl:attribute>

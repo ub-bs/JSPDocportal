@@ -101,7 +101,8 @@
     <cell col="2" row="211" anchor="NORTHEAST" ref="HNote" />
 
     <cell col="1" row="212" colspan="2" anchor="NORTHWEST" ref="DNote" sortnr="34" />      
-    
+
+  <cell col="1" row="213" colspan="2" anchor="NORTHWEST" ref="DGrantorLink" sortnr="37" />     
  
     <cell col="1" row="255" anchor="EAST" >
       <space width="10" height="40" />
@@ -176,30 +177,42 @@
 <!-- *** Data for the Publisher ** -->
 
   <panel id="DPublisher">
-	<include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/publishers&amp;classname=MCRMetaLangText" />
+<!-- we use publish link -->
+<!-- <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/publishers&amp;classname=MCRMetaLangText" />
     <hidden var="metadata/publishers/publisher/@lang" default="de" />
-    <!--  configure this in messages_de.properties and messages_en.properties -->
+     configure this in messages_de.properties and messages_en.properties 
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.publishers.publisher&amp;prop=MCR.WorkflowEngine.PublisherDefaultName.xmetadiss&amp;lang=de&amp;bundle=messages" />
-    <!-- hidden var="metadata/publishers/publisher" default="Universitätsbibliothek der MyCoRe-Freunde" / -->    
+    hidden var="metadata/publishers/publisher" default="Universitätsbibliothek der MyCoRe-Freunde" />
     <hidden var="metadata/publishers/publisher/@type" default="publication" />
     <hidden var="metadata/publishers/publisher[2]/@inherited" default="0" />
     <hidden var="metadata/publishers/publisher[2]/@lang" default="en" />
-    <!--  configure this in messages_de.properties and messages_en.properties -->
+     configure this in messages_de.properties and messages_en.properties 
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.publishers.publisher[2]&amp;prop=MCR.WorkflowEngine.PublisherDefaultName.xmetadiss&amp;lang=en&amp;bundle=messages" />
     <hidden var="metadata/publishers/publisher[2]/@type" default="publication" />    
     <cell col="1" row="1" anchor="WEST" />
-            
+-->            
   </panel>
 
 <!-- *** Data for the PublishLinks ** -->
   <panel id="DPublishLink">
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/publishlinks&amp;classname=MCRMetaLinkID" /> 
-    <hidden var="metadata/publishlinks/publishlink/@label" default="publication" />
+    <hidden var="metadata/publishlinks/publishlink/@label" default="institution" />
     <hidden var="metadata/publishlinks/publishlink/@type" default="locator" />      
     <!-- configure this in mycore.properties  -->
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.publishlinks.publishlink.@href&amp;prop=MCR.WorkflowEngine.PublisherDefaultID.xmetadiss&amp;defaultValue=DocPortal_institution_00000001" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.publishlinks.publishlink.@href&amp;prop=MCR.WorkflowEngine.PublisherDefaultID.xmetadiss&amp;defaultValue=DocPortal_institution_00000002" />
     <!--  configure this in messages_de.properties and messages_en.properties -->    
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.publishlinks.publishlink.@title&amp;prop=MCR.WorkflowEngine.PublisherDefaultName.xmetadiss&amp;lang=de&amp;bundle=messages" />    
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.publishlinks.publishlink.@title&amp;prop=MCR.WorkflowEngine.PublisherDefaultName.xmetadiss&amp;defaultValue=My_Library" />    
+    <cell col="1" row="1" anchor="WEST" />
+  </panel>
+  <!-- *** Data for the Grantor ** -->
+  <panel id="DGrantorLink">
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/grantorlinks&amp;classname=MCRMetaLinkID" /> 
+    <hidden var="metadata/grantorlinks/grantorlink/@label" default="institution" />
+    <hidden var="metadata/grantorlinks/grantorlink/@type" default="locator" />      
+    <!-- configure this in mycore.properties  -->
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.grantorlinks.grantorlink.@href&amp;prop=MCR.WorkflowEngine.GrantorDefaultID.xmetadiss&amp;defaultValue=DocPortal_institution_00000001" />
+    <!--  configure this in messages_de.properties and messages_en.properties -->    
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.grantorlinks.grantorlink.@title&amp;prop=MCR.WorkflowEngine.GrantorDefaultName.xmetadiss&amp;defaultValue=My_University" />    
     <cell col="1" row="1" anchor="WEST" />
   </panel>
 
@@ -272,12 +285,13 @@
  
  <panel id="DPlace" >
 <!-- *** Data for the Place 29 ** -->
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/places&amp;classname=MCRMetaLangText" />  
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/places/place&amp;prop=MCR.WorkflowEngine.PlaceDefault.xmetadiss&amp;lang=de&amp;bundle=messages" />    
+<!--  Robert: decoded in grantorlink and publisherlink -->
+<!--    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/places&amp;classname=MCRMetaLangText" />  
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/places/place&amp;prop=MCR.WorkflowEngine.PlaceDefault_de.xmetadiss" />    
     <hidden var="metadata/places/place/@lang" default="de" />    
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/places/place&amp;prop=MCR.WorkflowEngine.PlaceDefault.xmetadiss&amp;lang=en&amp;bundle=messages" />        
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/places/place&amp;prop=MCR.WorkflowEngine.PlaceDefault_en.xmetadiss" />        
     <hidden var="metadata/places/place[2]/@lang" default="en" />    
-    <cell col="1" row="1"  />       
+    <cell col="1" row="1"  />       -->
  </panel>
  
  <panel id="DUrn" >
