@@ -714,6 +714,12 @@
         <copy
             file="${MYCORE_HOME}/stylesheets/editor/imports-help-popup.xsl"
             todir="${docportal.webapps}/WEB-INF/stylesheets" />
+
+        <mkdir dir="${docportal.webapps}/content/oai" />
+    	<copy
+	        file="${MYCORE_HOME}/stylesheets/oai2.xsl"
+    	    todir="${docportal.webapps}/content/oai" />
+
     	<!--
         <copy
             file="${MYCORE_HOME}/stylesheets/editor/mcr_results-classif-to-items.xsl"
