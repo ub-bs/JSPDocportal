@@ -124,7 +124,13 @@
                     </label>
                 </text>
             </cell>
-            <cell row="11" col="2" anchor="WEST" ref="TFzeile64M" var="user/user.contact/contact.firstname"  />
+            <cell row="11" col="2" anchor="WEST" var="user/user.contact/contact.firstname">
+               <textfield id="tf.FirstName"  width="30" maxlength="64"  class="mandatory" >		
+    		       <condition required="true" id="cond.FirstName1">
+					<label i18n="Editor.Validate.Firstname.Empty" />
+				   </condition>
+	  	    	</textfield>	
+			</cell>	
 
             <!-- *** Last name *** -->
             <cell row="12" col="1" anchor="EAST">
@@ -137,7 +143,13 @@
                     </label>
                 </text>
             </cell>
-            <cell row="12" col="2" anchor="WEST" ref="TFzeile64M" var="user/user.contact/contact.lastname"  />
+            <cell row="12" col="2" anchor="WEST" var="user/user.contact/contact.lastname">
+             <textfield id="tf.Surname"  width="30" maxlength="64"  class="mandatory" >		
+				<condition required="true" id="cond.Name1">
+					<label i18n="Editor.Validate.Name.Empty" />
+				</condition>
+			  </textfield>	
+			</cell>
 
             <!-- *** Street *** -->
             <cell row="13" col="1" anchor="EAST">
@@ -244,7 +256,14 @@
                     </label>
                 </text>
             </cell>
-            <cell row="21" col="2" anchor="WEST" ref="TFzeile128M" var="user/user.contact/contact.email"  />
+            <cell row="21" col="2" anchor="WEST" var="user/user.contact/contact.email">
+      	       <textfield id="tf.Email"  width="30" maxlength="128"  class="mandatory" >		
+				   <condition id="cond.DEmail" regexp="\S+@\S+\.\S+" required="true" >
+					  <label i18n="Editor.Validate.Email.Format" />
+				   </condition>
+				</textfield>	 
+			</cell>	   
+            
 
             <!-- *** Telephone *** -->
             <cell row="22" col="1" anchor="EAST">
