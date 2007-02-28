@@ -215,6 +215,11 @@ MCR.users_guestuser_userpasswd=gast
 MCR.users_guestuser_groupname=gastgroup
 MCR.users_use_password_encryption=true
 
+#implizit user groups suggestions
+MCR.users.implicitgroups.createdisshab=createauthor,createinstitution
+MCR.users.implicitgroups.createpublication=createauthor,createinstitution
+
+
 # ---------------------------------------------------------------------
 MCR.metadata_default_lang=de
 

@@ -24,14 +24,19 @@
 package org.mycore.frontend.workflowengine.jbpm.registeruser;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.jdom.Element;
+import org.jdom.JDOMException;
 import org.jdom.output.DOMOutputter;
+import org.jdom.xpath.XPath;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
@@ -209,7 +214,9 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 	
 				int numID = MCRUserMgr.instance().getMaxUserNumID();
 				userElement.setAttribute("numID", String.valueOf(numID +1)) ;
-				
+			
+				addImplicitGroupIDs(userElement);
+			
 		       	StringBuffer storePath = new StringBuffer(MCRWorkflowDirectoryManager.getWorkflowDirectory(this.documentType))
 					.append("/").append("user_")
 					.append(ID).append(".xml");
@@ -316,5 +323,40 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
          }
          return null;
 
+     }
+     
+     private void addImplicitGroupIDs(Element user){
+    	 //<groups.groupID>createauthor</groups.groupID>
+    		Properties props = MCRConfiguration.instance().getProperties("MCR.users.implicitgroups.");
+			List<String> gl = new ArrayList<String>();
+			try{
+				String path = "user.groups/groups.groupID";
+				Iterator itElems = XPath.selectNodes(user, path).iterator();
+				while(itElems.hasNext()){
+					Element e = (Element)itElems.next();
+					gl.add(e.getTextNormalize());
+				}
+			}
+			catch(JDOMException jde){
+				//do nothing
+			}
+    		List<String> newGIDs = new ArrayList<String>();			
+    		for(String id:gl){
+					if(props.containsKey("MCR.users.implicitgroups."+id)){
+					String value = props.getProperty("MCR.users.implicitgroups."+id);
+					String[] gids = value.split(",");
+					for(int i=0;i<gids.length;i++){
+						if(!gl.contains(gids[i])){
+							newGIDs.add(gids[i]);
+						}
+					}								
+				}
+			}
+			Element groups = user.getChild("user.groups");
+			for(String s:newGIDs){
+				Element el = new Element("groups.groupID");
+				el.setText(s);
+				groups.addContent(el);
+			}
      }
 }
