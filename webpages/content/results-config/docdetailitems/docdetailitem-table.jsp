@@ -22,14 +22,16 @@
                   <x:set var="rownum" select="count(./metavalues[2]/metavalue)" />
                </c:if>   
                <table border="0" cellpadding="0" cellspacing="4px">
+                <c:if test="${colnum>1}">
+	                <colgroup>
+						<col width="80">
+					</colgroup>
+ 			   </c:if>
+               
                    <c:forEach var="i" begin="1" end="${rownum}">
                      <tr>
                       <c:forEach var="j" begin="1" end="${colnum}">                              
-                        <c:if test="${j >1}">
-						 	<td width="15px" /> 
-                        </c:if>
-                        <td valign="top">
-                          <div style="min-width:80px" >
+                        <td valign="top" style="text-align:left">
                           <x:set var="ikey" select="string(./metavalues[$j]/@introkey)" />   			                               
 					      <x:choose>
                              <x:when select="./metavalues[$j]/@type = 'messagekey'">
@@ -44,8 +46,7 @@
                                 <x:out select="./metavalues[$j]/metavalue[$i]/@text" escapeXml="false" />
 							 </x:otherwise>   
 						  </x:choose>                              
-                          </div>
-                         </td>
+                        </td>
                         </c:forEach>
                        </tr>
                    </c:forEach>

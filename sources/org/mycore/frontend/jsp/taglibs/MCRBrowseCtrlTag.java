@@ -40,6 +40,7 @@ public class MCRBrowseCtrlTag extends SimpleTagSupport
 		
         if ( results != null) {
         	int numHits = results.getNumHits();
+        	pageContext.setAttribute("numHits", numHits);
         	if (offset > 0) {
         		pageContext.setAttribute("lastHitID", results.getHit(offset - 1).getID());
         	}

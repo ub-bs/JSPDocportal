@@ -13,7 +13,7 @@
 			<fmt:message key="${nameKey}" />:
             </c:if></td>
 		<td class="metavalue">
-		<table border="0" cellpadding="0" cellspacing="0">
+		<table border="0" cellpadding="0" cellspacing="4px">
 			<tr valign="top"><td>
               <x:forEach select="./metavalues">
                      <x:set var="separator" select="./@separator" />
