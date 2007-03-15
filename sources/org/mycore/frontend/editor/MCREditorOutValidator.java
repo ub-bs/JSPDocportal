@@ -208,14 +208,23 @@ public class MCREditorOutValidator {
             } else {
                 LOGGER.warn("To do for type " + mcrclass + " not found, fallback to default behaviour");
                 // try to create MCRMetaInterface instance
+                Class metaClass = null;
                 try {
-                    Class metaClass = Class.forName(mcrclass);
+                	metaClass = Class.forName(mcrclass);
                     // just checks if class would validate this element
+                } catch (ClassNotFoundException e) {
+                    try{
+                    	metaClass = Class.forName("org.mycore.datamodel.metadata."+mcrclass);
+                    }
+                    catch (ClassNotFoundException e1){
+                    	LOGGER.error("Failure while trying fallback. Class not found: " + mcrclass);
+                    }
+                }
+                if(metaClass!=null){
                     if (!checkMetaObject(datasubtag, metaClass)) {
                         datatagIt.remove();
                     }
-                } catch (ClassNotFoundException e) {
-                    LOGGER.error("Failure while trying fallback. Class not found: " + mcrclass);
+                	
                 }
             }
         }
