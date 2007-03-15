@@ -12,7 +12,16 @@
 	<c:set var="workflowType" value="${requestScope.workflowType}" />
 	<c:set var="nextPath" value="${requestScope.nextPath}" />
 	<c:set var="target" value="${requestScope.target}" />
-	<c:set var="processID" value="${requestScope.processID}" />
+	
+	<c:choose>
+   <c:when test="${!empty(param.processid)}">
+      <c:set  var="processid" value="${param.processid}"/>
+   </c:when>
+   <c:otherwise>
+      <c:set  var="processid" value="${requestScope.processid}"/>
+   </c:otherwise>
+</c:choose>
+
 	<c:set var="publicationType" value="${requestScope.publicationType}" />
 	
 	<c:set var="errorList" value="${requestScope.errorList}" />
