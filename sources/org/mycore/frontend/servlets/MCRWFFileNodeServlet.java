@@ -55,7 +55,6 @@ public class MCRWFFileNodeServlet extends  MCRServlet{
      */
     public void init() throws ServletException {
         super.init();
-        CONFIG = MCRConfiguration.instance();
     }
     
     public void doGetPost(MCRServletJob job) throws ServletException, Exception {

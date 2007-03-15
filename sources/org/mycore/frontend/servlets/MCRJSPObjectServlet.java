@@ -57,7 +57,6 @@ public class MCRJSPObjectServlet extends MCRServlet {
      */
     public void init() throws ServletException {
         super.init();
-        CONFIG = MCRConfiguration.instance();
     }
 
     /**
