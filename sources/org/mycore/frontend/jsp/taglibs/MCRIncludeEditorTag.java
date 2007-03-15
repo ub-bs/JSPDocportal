@@ -124,7 +124,12 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 				cancelPage 		=  NavServlet.getBaseURL() + "nav?path=~"+workflowType;
 			}
 			if(editorPath != null && !editorPath.equals("")) {
-				editorBase = NavServlet.getBaseURL() + editorPath;
+				if(editorPath.startsWith("http")){
+					editorBase = editorPath;
+				}
+				else{
+					editorBase = NavServlet.getBaseURL() + editorPath;
+				}
 			}else if(uploadID == null || uploadID.equals("") ) {
 				StringBuffer base = new StringBuffer(NavServlet.getBaseURL()).
 						append("editor/workflow/editor_form_").append(step).append('-').append(type);			
