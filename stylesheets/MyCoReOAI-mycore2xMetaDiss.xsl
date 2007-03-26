@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!-- ============================================== -->
-<!-- $Revision: 1.6 $ $Date: 2007-02-23 14:41:07 $ -->
+<!-- $Revision: 1.7 $ $Date: 2007-03-26 15:28:23 $ -->
 <!-- ============================================== -->
 <xsl:stylesheet
      version="1.0"
@@ -9,16 +9,16 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xmlns:exslt="http://exslt.org/common"
 
-     xmlns:xMetaDiss="http://www.ddb.de/standards/xMetaDiss/"
-     xmlns:cc="http://www.ddb.de/standards/cc/"
-     xmlns:ddb="http://www.ddb.de/standards/ddb/"
+     xmlns:xMetaDiss="http://www.d-nb.de/standards/xMetaDiss/"
+     xmlns:cc="http://www.d-nb.de/standards/cc/"
+     xmlns:ddb="http://www.d-nb.de/standards/ddb/"
      xmlns:dc="http://purl.org/dc/elements/1.1/"
      xmlns:dcmitype="http://purl.org/dc/dcmitype/"
      xmlns:dcterms="http://purl.org/dc/terms/"
-     xmlns:pc="http://www.ddb.de/standards/pc/"
-     xmlns:urn="http://www.ddb.de/standards/urn/"
+     xmlns:pc="http://www.d-nb.de/standards/pc/"
+     xmlns:urn="http://www.d-nb.de/standards/urn/"
      xmlns:thesis="http://www.ndltd.org/standards/metadata/etdms/1.0/"
-     xmlns="http://www.ddb.de/standards/subject/"
+     xmlns="http://www.d-nb.de/standards/subject/"
 
      xsi:schemaLocation="http://www.d-nb.de/standards/xMetaDiss/  http://www.d-nb.de/standards/xmetadiss/xmetadiss.xsd">
      
@@ -40,11 +40,11 @@
 		     XSLT puts definition into the root element and won't repeat it here
 		     WORKAROUND: Write the elements open and closing tags as text
 		<xMetaDiss:xMetaDiss>
-                  <xsl:attribute name="xsi:schemaLocation">http://www.ddb.de/standards/xMetaDiss/ http://atlibri.uni-rostock.de:8080/test/dnb-schemas/xmetadiss.xsd</xsl:attribute> 
+                  <xsl:attribute name="xsi:schemaLocation">http://www.d-nb.de/standards/xMetaDiss/ http://atlibri.uni-rostock.de:8080/test/dnb-schemas/xmetadiss.xsd</xsl:attribute> 
 		 -->
 		
 		<xsl:text disable-output-escaping="yes">
-		&#60;xMetaDiss:xMetaDiss xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:xMetaDiss=&quot;http://www.ddb.de/standards/xMetaDiss/&quot;
+		&#60;xMetaDiss:xMetaDiss xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:xMetaDiss=&quot;http://www.d-nb.de/standards/xMetaDiss/&quot;
                               xsi:schemaLocation=&quot;http://www.d-nb.de/standards/xMetaDiss/  http://www.d-nb.de/standards/xmetadiss/xmetadiss.xsd&quot;&#62;
 		</xsl:text>          
     	        
@@ -549,19 +549,6 @@
 	                                <xsl:value-of select="." />
 	                        </xsl:element>
 	                    </xsl:for-each>
-	                </xsl:element>
-	                <xsl:element name="cc:address">
-	                     <xsl:value-of select="./addresses/address[@xml:lang='de']/street" />
-	                    <xsl:if test="./addresses/address[@xml:lang='de']/street" >
-	                    	<xsl:text> </xsl:text>
-	                    </xsl:if>
-	                    <xsl:value-of select="./addresses/address[@xml:lang='de']/number" />
-	                    <xsl:if test="./addresses/address[@xml:lang='de']/street or ./addresses/address[@xml:lang='de']/number">
-		                    <xsl:text>, </xsl:text>
-		                </xsl:if>
-	                    <xsl:value-of select="./addresses/address[@xml:lang='de']/zipcode" />                     
-	                    <xsl:text> </xsl:text>
-	                    <xsl:value-of select="./addresses/address[@xml:lang='de']/city" />      
 	                </xsl:element>
 	            </xsl:element>
            </xsl:for-each>
