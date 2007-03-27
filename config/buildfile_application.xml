@@ -770,7 +770,7 @@
         -->
         <copy todir="${docportal.webapps}/WEB-INF">
             <fileset dir="${docportal.config}"
-                includes="web.xml ibm*.xmi" />
+                includes="web.xml ibm*.xmi urlrewrite.xml" />
         </copy>
         <copy todir="${docportal.webapps}/WEB-INF/lib">
             <fileset dir="${DOCPORTAL_SYSTEM}/lib" includes="*.jar" excludes="jsp-api*.jar" />
