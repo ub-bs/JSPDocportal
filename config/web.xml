@@ -21,12 +21,12 @@
 <!-- optional -->
        <init-param>
                <param-name>confReloadCheckInterval</param-name>
-               <param-value>60</param-value>
+               <param-value>300</param-value>
        </init-param>
        <init-param>
-               <param-name>logLevel</param-name>
-               <param-value>DEBUG</param-value>
-       </init-param>
+	   		<param-name>logLevel</param-name>
+    		<param-value>log4j</param-value>
+    	</init-param>
        <init-param>
                <param-name>statusEnabled</param-name>
                <param-value>true</param-value>
