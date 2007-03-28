@@ -51,7 +51,7 @@ public class MCRBrowsePageCtrlTag extends SimpleTagSupport
 		Element mcr_resultpages = new Element("mcr_resultpages");
 		int totalNumPages=1;
 		if ( totalhits > numPerPage )
-			totalNumPages= (totalhits / numPerPage) + 1 ; 
+			totalNumPages= Math.round((float)Math.ceil((float)totalhits / numPerPage)) ; 
         int start = Math.max(1, currentPage - (maxDisplayedPages / 2));
         int end = Math.min(start + maxDisplayedPages,totalNumPages);
         if (start > 1) {
