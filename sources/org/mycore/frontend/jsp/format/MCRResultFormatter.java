@@ -888,6 +888,15 @@ public class MCRResultFormatter {
 		// int max = Math.min(until,Integer.parseInt(numHits));
 		// the resultset contains only the hits from page x from 0 to numPerPage - cutting is taken in MCRJSPSearchservlet
 		List hits = results.getChildren("hit",MCRFieldDef.mcrns);		
+		//needed for calculation of the proper offset
+		int firstItemNumber;
+		try{
+			firstItemNumber = (Integer.parseInt(results.getAttributeValue("page"))-1)*Integer.parseInt(results.getAttributeValue("numPerPage"));
+		}catch(NumberFormatException nfe){
+			firstItemNumber=0;
+		}
+		
+		
 		for (int k = from; k < until && k < hits.size() ; k++) {
 			String hitID = ((Element)(hits.get(k))).getAttributeValue("id");		
 		    org.jdom.Document hit = mcr_obj.receiveJDOMFromDatastore(hitID);
@@ -897,7 +906,7 @@ public class MCRResultFormatter {
 	        StringBuffer doclink = new StringBuffer(WebApplicationBaseURL)
 		            //.append("nav?path=~docdetail&id=").append(hitID)
 		            .append("nav?id=").append(hitID)
-		            .append("&offset=").append(k).append("&doctype=").append(docType);
+		            .append("&offset=").append(firstItemNumber+k).append("&doctype=").append(docType);
 	        Element definition = (resultlistMap.containsKey(docType)) ?
 	        		(Element)resultlistMap.get(docType) : addDocType2ResultlistMap(docType);
 	        Element containerHit = processDocDetails(hit,definition,lang,doclink.toString(), docType);
