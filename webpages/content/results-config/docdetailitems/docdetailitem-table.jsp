@@ -42,8 +42,17 @@
 					         <x:otherwise>
 								<c:if test="${!empty(ikey)}">   			                               					         
 			                        <fmt:message key="${ikey}" />
-	                            </c:if>    
-                                <x:out select="./metavalues[$j]/metavalue[$i]/@text" escapeXml="false" />
+	                            </c:if>
+	                            <x:choose>
+									<x:when select="./metavalues[$j]/metavalue[$i]/@href != ''">
+                              			<a href="<x:out select="./metavalues[$j]/metavalue[$i]/@href" />" target="<x:out select="./metavalues[$j]/metavalue[$i]/@target" />"><x:out select="./metavalues[$j]/metavalue[$i]/@text" /></a>
+		                           </x:when>
+		                            <x:otherwise>
+			                            <x:out select="./metavalues[$j]/metavalue[$i]/@text" escapeXml="false" />                            
+	                            	</x:otherwise>
+	                            </x:choose>
+	                                
+    
 							 </x:otherwise>   
 						  </x:choose>                              
                         </td>
