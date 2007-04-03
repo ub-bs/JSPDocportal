@@ -50,8 +50,8 @@ import org.mycore.datamodel.metadata.MCRMetaAccessRule;
 import org.mycore.datamodel.metadata.MCRMetaAddress;
 import org.mycore.datamodel.metadata.MCRMetaBoolean;
 import org.mycore.datamodel.metadata.MCRMetaClassification;
-import org.mycore.datamodel.metadata.MCRMetaDate;
 import org.mycore.datamodel.metadata.MCRMetaHistoryDate;
+import org.mycore.datamodel.metadata.MCRMetaHistoryEvent;
 import org.mycore.datamodel.metadata.MCRMetaISO8601Date;
 import org.mycore.datamodel.metadata.MCRMetaInstitutionName;
 import org.mycore.datamodel.metadata.MCRMetaInterface;
@@ -270,7 +270,8 @@ public class MCREditorOutValidator {
 
     private boolean checkMetaObjectWithLinks(Element datasubtag, Class metaClass) {
         String href = datasubtag.getAttributeValue("href");
-        if (href == null) {
+        String title = datasubtag.getAttributeValue("title");
+        if (href == null && title == null) {
             return false;
         }
         if (datasubtag.getAttribute("type") != null) {
@@ -336,8 +337,16 @@ public class MCREditorOutValidator {
     /**
      * @param datasubtag
      */
-    private boolean checkMCRMetaDate(Element datasubtag) {
-        return checkMetaObjectWithLangNotEmpty(datasubtag, MCRMetaDate.class);
+    private boolean checkMCRMetaHistoryEvent(Element datasubtag) {
+        Element eText = datasubtag.getChild("text");
+        if(eText==null){
+        	return false;
+        }
+    	String text = eText.getTextNormalize();
+        if ((text == null) || ((text = text.trim()).length() == 0)) {
+            return false;
+        }
+        return checkMetaObjectWithLang(datasubtag, MCRMetaHistoryEvent.class);
     }
 
     /**
