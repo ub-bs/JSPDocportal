@@ -17,7 +17,7 @@ import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
-import org.mycore.datamodel.metadata.MCRXMLTableManager;
+
 
 /**
  * 
@@ -84,7 +84,7 @@ public class MCRSetAccessRuleEditorDataTag extends SimpleTagSupport
 	}	
 			
 	public void doTag() throws JspException, IOException {
-		PageContext pageContext = (PageContext) getJspContext();
+/*		PageContext pageContext = (PageContext) getJspContext();
 		List merged;
 		String indexType;
 		if(docType == null || docType.equals("")) {
@@ -154,7 +154,7 @@ public class MCRSetAccessRuleEditorDataTag extends SimpleTagSupport
 			out.println(debugSB.toString());
 		}
     	pageContext.setAttribute(var, domDoc);
-		return;
+		return;*/
 	}	
 
 }

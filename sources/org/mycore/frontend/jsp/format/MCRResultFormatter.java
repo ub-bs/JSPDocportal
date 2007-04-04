@@ -31,6 +31,7 @@ import org.mycore.common.MCRException;
 import org.mycore.common.MCRUsageException;
 import org.mycore.common.xml.MCRURIResolver;
 import org.mycore.datamodel.classifications.MCRCategoryItem;
+import org.mycore.datamodel.classifications.MCRClassificationManager;
 import org.mycore.datamodel.ifs.MCRDirectory;
 import org.mycore.datamodel.ifs.MCRFile;
 import org.mycore.datamodel.ifs.MCRFilesystemNode;
@@ -167,8 +168,8 @@ public class MCRResultFormatter {
     		String classifID = classification.getAttributeValue("classid");
     		String categID = classification.getAttributeValue("categid");
             org.mycore.datamodel.classifications.MCRCategoryItem categItem = 
-            	org.mycore.datamodel.classifications.MCRCategoryItem.getCategoryItem(classifID, categID); 
-            return categItem.getText(lang);    		
+            	org.mycore.datamodel.classifications.MCRClassificationManager.instance().retrieveCategoryItem(classifID, categID); 
+            return categItem.retrieveLabel(lang).getText();    		
 		} catch (Exception e) {
 		   //logger.debug("wrong xpath expression: " + xpath);
 		}
@@ -382,9 +383,10 @@ public class MCRResultFormatter {
 				Element elClass = (Element) it.next();
 				String classID = elClass.getAttributeValue("classid");
 				String categID = elClass.getAttributeValue("categid");
-				MCRCategoryItem categItem = MCRCategoryItem.getCategoryItem(classID,categID);
+				MCRCategoryItem categItem = MCRClassificationManager.instance().retrieveCategoryItem(classID,categID);
 				Element metaValue = new Element("metavalue");
-				metaValue.setAttribute("text",categItem.getText(lang));
+				String text = categItem.retrieveLabel(lang).getText();
+				metaValue.setAttribute("text", text);
 				metaValues.addContent(metaValue);
 			}
 		} catch (MCRUsageException e) {
@@ -409,10 +411,10 @@ public class MCRResultFormatter {
 				String classID = elClass.getAttributeValue("classid");
 				String categID = elClass.getAttributeValue("categid");
 				if ( classID != null ) {
-					MCRCategoryItem categItem = MCRCategoryItem.getCategoryItem(classID,categID);
+					MCRCategoryItem categItem = MCRClassificationManager.instance().retrieveCategoryItem(classID,categID);
 					Element metaValue = new Element("metavalue");
-					if (categItem.getURL().length() >0 ){
-						metaValue.setAttribute("href",categItem.getURL());
+					if (categItem.getLink().getHref().length() >0 ){
+						metaValue.setAttribute("href",categItem.getLink().getHref());
 						metaValue.setAttribute("target","new");
 					} else {
 						//http://localhost:8080/atlibri/servlets/MCRJSPSearchServlet?query=ddc+=+9&mask=~searchstart-classddc
@@ -429,7 +431,8 @@ public class MCRResultFormatter {
 							logger.info("Property MCR.Class.SearchField." + classID + " is not set!!");
 						}
 					}
-					metaValue.setAttribute("text",categItem.getText(lang));
+					
+					metaValue.setAttribute("text",categItem.retrieveLabel(lang).getText());
 					metaValue.setAttribute("classid",classID);
 					metaValue.setAttribute("categid",categID);
 					metaValues.addContent(metaValue);

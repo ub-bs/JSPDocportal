@@ -161,13 +161,13 @@ public class MCRGetEditorElements implements MCRResolver {
 	}
 	
 	private Element transformClassToItems(String classid, String emptyLeafs) throws TransformerException{
-        Document classJdom = MCRClassification.receiveClassificationAsJDOM(classid);
+        Document classJdom = MCRClassification.retrieveClassificationAsJDOM(classid);
         boolean displayEmptyLeafs = (emptyLeafs.equalsIgnoreCase("yes")||emptyLeafs.equalsIgnoreCase("true"));
         return MCREditorClassificationHelper.transformClassificationtoItems(classJdom, displayEmptyLeafs).getRootElement();
 	}
 	
 	private Element transformClassLabelsToItems(String classid) throws TransformerException{
-        Document classJdom = MCRClassification.receiveClassificationAsJDOM(classid);
+        Document classJdom = MCRClassification.retrieveClassificationAsJDOM(classid);
         return MCREditorClassificationHelper.transformClassificationLabeltoItems(classJdom, true).getRootElement();
 	}
 
