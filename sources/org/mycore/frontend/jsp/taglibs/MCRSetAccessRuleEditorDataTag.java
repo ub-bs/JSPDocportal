@@ -51,6 +51,7 @@ public class MCRSetAccessRuleEditorDataTag extends SimpleTagSupport
 		step = inputStep;
 	}	
 
+	@SuppressWarnings("unchecked")
 	public static List mergeSortedDistinctStringLists(List list1, List list2){
 		int size1 = list1.size();
 		int size2 = list2.size();

@@ -56,8 +56,8 @@ public class MCRResultFormatter {
 	protected static String WebApplicationBaseURL ;
 	protected static String URN_RESOLVER;
 
-	protected static Map resultlistMap;
-	protected static Map docdetailsMap;
+	protected static Map<String, Element> resultlistMap;
+	protected static Map<String, Element> docdetailsMap;
 	
 	protected static org.jdom.Namespace xlinkNamespace;
 	
@@ -85,10 +85,10 @@ public class MCRResultFormatter {
     
     private void initialize(){
     	if (resultlistMap == null) {
-    		resultlistMap = new HashMap();
+    		resultlistMap = new HashMap<String, Element>();
     	}
     	if (docdetailsMap == null) {
-    		docdetailsMap = new HashMap();
+    		docdetailsMap = new HashMap<String, Element>();
     	}    	
     }
 
@@ -807,7 +807,7 @@ public class MCRResultFormatter {
     	}
 		String resultlistStyle = (style == null || style.length() == 0 )?docType:style;
         Element definition = (docdetailsMap.containsKey(resultlistStyle)) ?
-        		(Element)docdetailsMap.get(resultlistStyle) : addDocType2DocdetailsMap(resultlistStyle);		
+        		docdetailsMap.get(resultlistStyle) : addDocType2DocdetailsMap(resultlistStyle);		
         Element allmetavalues = processDocDetails(doc, definition, lang, "", docType);
         Document allMetaValues = new Document(allmetavalues);
         //System.out.println(JSPUtils.getPrettyString(allMetaValues));
@@ -911,7 +911,7 @@ public class MCRResultFormatter {
 		            .append("nav?id=").append(hitID)
 		            .append("&offset=").append(firstItemNumber+k).append("&doctype=").append(docType);
 	        Element definition = (resultlistMap.containsKey(docType)) ?
-	        		(Element)resultlistMap.get(docType) : addDocType2ResultlistMap(docType);
+	        		resultlistMap.get(docType) : addDocType2ResultlistMap(docType);
 	        Element containerHit = processDocDetails(hit,definition,lang,doclink.toString(), docType);
 	        Element mcr_result = new Element("mcr_result");
 	        mcr_result.addContent(containerHit);
