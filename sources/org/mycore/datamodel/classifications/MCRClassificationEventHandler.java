@@ -72,7 +72,8 @@ public class MCRClassificationEventHandler extends MCREventHandlerBase {
      * @param obj
      *            the MCRObject that caused the event
      */
-    protected final void handleObjectUpdated(MCREvent evt, MCRObject obj) {
+    @SuppressWarnings("unchecked")
+	protected final void handleObjectUpdated(MCREvent evt, MCRObject obj) {
         if(metadataChanged.containsKey(obj.getId().getId()) 
                  && equalsMetadata(((MCRObjectMetadata) metadataChanged.get(obj.getId().getId())), obj.getMetadata())){                
                   

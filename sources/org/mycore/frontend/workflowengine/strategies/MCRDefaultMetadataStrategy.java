@@ -116,7 +116,7 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 			Element eclType = clType.createXML();
 			Element eclTypes = new Element("types");
 			eclTypes.setAttribute("class","MCRMetaClassification");
-			eclTypes.setAttribute("parasearch", "true");			
+			//eclTypes.setAttribute("parasearch", "true");			
 			eclTypes.addContent(eclType);			
 			metadata.addContent(eclTypes);								
 		}
@@ -274,7 +274,7 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 		eUrn.setAttribute("type", "urn_new");				
 		Element eUrns = new Element("urns");
 		eUrns.setAttribute("class","MCRMetaLangText");
-		eUrns.setAttribute("textsearch", "true");
+	//	eUrns.setAttribute("textsearch", "true");
 		eUrns.addContent(eUrn);
 		
 		return eUrns;

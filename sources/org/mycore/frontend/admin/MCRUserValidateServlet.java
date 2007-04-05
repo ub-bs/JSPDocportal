@@ -103,7 +103,7 @@ public class MCRUserValidateServlet extends MCRServlet {
     		// save
     		boolean idEnabled=false;
     		boolean updateAllowed=false;
-    		ArrayList l = new ArrayList();
+    		ArrayList<String> l = new ArrayList<String>();
     		String[] values = request.getParameterValues("ugroups");
     		
     		if (values!=null && values[0].substring(0,1)!="("){

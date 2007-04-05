@@ -31,7 +31,7 @@ public class MCRDisshabSubmittedAction extends MCRAbstractAction{
 		String workflowType = MCRJbpmWorkflowBase.getWorkflowProcessType(processID);
 		MCRWorkflowManager wfm = MCRWorkflowManagerFactory.getImpl(workflowType);
 
-		List ids = new ArrayList();
+		List<Object> ids = new ArrayList<Object>();
 		ids.addAll(Arrays.asList(((String)contextInstance.getVariable("attachedDerivates")).split(",")));
 		ids.add(contextInstance.getVariable("createdDocID"));
 		for (Iterator it = ids.iterator(); it.hasNext();) {

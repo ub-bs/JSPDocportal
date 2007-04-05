@@ -105,7 +105,7 @@ public class MCRWorkflowProcess extends MCRAbstractWorkflowObject{
 			logger.warn("could not end task " + taskName + ", no task was found");
 		}else{
 			if(taskInstance != null && taskInstance.getName().equalsIgnoreCase(taskName)){
-				Set allowedUsers = new HashSet();
+				Set<String> allowedUsers = new HashSet<String>();
 				Set pooledActors = taskInstance.getPooledActors();
 				if(pooledActors != null){
 					for (Iterator it = pooledActors.iterator(); it

@@ -225,7 +225,7 @@ public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {
 			
 			MCRConfiguration cfg = MCRConfiguration.instance();
 			
-			String instName=cfg.getString("McRCMCR.WorkflowEngine.MyInstitution.name","");
+		//	String instName=cfg.getString("McRCMCR.WorkflowEngine.MyInstitution.name","");
 			String instCountry=cfg.getString("MCR.WorkflowEngine.MyInstitution.country","");
 			String instState=cfg.getString("MCR.WorkflowEngine.MyInstitution.state","");
 			String instZipCode=cfg.getString("MCR.WorkflowEngine.MyInstitution.zipcode","");

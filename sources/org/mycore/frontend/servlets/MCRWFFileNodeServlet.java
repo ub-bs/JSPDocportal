@@ -36,7 +36,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.mycore.common.MCRConfiguration;
 
 /**
  * This Servlet overides only the output methods of mcrfilenodservlet for jsp docportal use 

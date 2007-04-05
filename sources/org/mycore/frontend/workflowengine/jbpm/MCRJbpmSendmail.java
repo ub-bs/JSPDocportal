@@ -109,7 +109,7 @@ public class MCRJbpmSendmail{
 	
 	private static List getEmailAddressesFromStringList(String addresses,
 			ExecutionContext executionContext) {
-		List ret = new ArrayList();
+		List<String> ret = new ArrayList<String>();
 		if (addresses == null || addresses.equals(""))
 			return ret;
 		String[] array = addresses.split(";");
@@ -134,7 +134,7 @@ public class MCRJbpmSendmail{
 					ret.add(email);
 				}
 			} else if (array[i].trim().equals("administrator")){
-				String email = 	email = getUserEmailAddress("administrator");
+				String email  = getUserEmailAddress("administrator");
 				if(email==null || email.equals("")){
 					email = workflowAdminEmail;
 				}
@@ -156,8 +156,8 @@ public class MCRJbpmSendmail{
 		return null;
 	}
 	
-	private static List getGroupMembersEmailAddresses(String groupid){
-		List ret = new ArrayList();
+	private static List<String> getGroupMembersEmailAddresses(String groupid){
+		List<String> ret = new ArrayList<String>();
 		if (MCRUserMgr.instance().existGroup(groupid) ) {
 			MCRGroup group = MCRUserMgr.instance().retrieveGroup(groupid);
 			for (Iterator it = group.getMemberUserIDs().iterator(); it.hasNext();) {

@@ -105,7 +105,7 @@ public abstract class MCRDerivateStrategy {
 
 	final public synchronized MCRObjectID setNextFreeDerivateID(){
 		if(nextWorkflowDerivateID == null){
-			List allDerivateFileNames = new ArrayList();
+			List<String> allDerivateFileNames = new ArrayList<String>();
 			HashMap directoryMap = MCRWorkflowDirectoryManager.getEditWorkflowDirectories();
 			for (Iterator it = directoryMap.keySet().iterator(); it.hasNext();) {
 				File workDir = new File((String)directoryMap.get(it.next()));
@@ -327,7 +327,7 @@ public abstract class MCRDerivateStrategy {
 		 * @return
 		 */		
 		public List getAllDerivateDataFromWorkflow(String directory) {
-			List workfiles = new ArrayList();
+			List<Element> workfiles = new ArrayList<Element>();
 			if (!directory.equals(".")) {
 				File dir = new File(directory);
 				String[] dirl = null;

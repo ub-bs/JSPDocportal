@@ -49,7 +49,8 @@ public class MCRJbpmVariableSetterServlet extends MCRServlet {
     /**
      * This method overrides doGetPost of MCRServlet. <br />
      */
-    public void doGetPost(MCRServletJob job) throws Exception {
+    @SuppressWarnings("unchecked")
+	public void doGetPost(MCRServletJob job) throws Exception {
     	HttpServletRequest request = job.getRequest();
     	HttpServletResponse response = job.getResponse();
     	

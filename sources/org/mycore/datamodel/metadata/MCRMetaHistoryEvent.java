@@ -3,8 +3,6 @@ package org.mycore.datamodel.metadata;
 import org.jdom.Element;
 import org.mycore.common.MCRException;
 
-import com.ibm.icu.util.Calendar;
-
 public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
 	public static final int MCRHISTORYEVENT_MAX_EVENT = 1024;
 	private String event;

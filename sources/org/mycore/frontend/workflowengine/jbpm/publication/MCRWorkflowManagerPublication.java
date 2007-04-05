@@ -223,7 +223,7 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 			
 			String publicationType = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_PUBLICATIONTYPE);			
 			String saveDirectory = MCRWorkflowDirectoryManager.getWorkflowDirectory(mainDocumentType);
-			Map identifiers = new HashMap();
+			Map<Integer, Object> identifiers = new HashMap<Integer, Object>();
 			identifiers.put(MCRWorkflowConstants.KEY_IDENTIFER_TYPE_URN, (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN));
 			if(metadataStrategy.createEmptyMetadataObject(false,null,null, 
 					nextFreeId, initiator, identifiers, publicationType, saveDirectory) ){

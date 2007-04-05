@@ -1,7 +1,6 @@
 package org.mycore.frontend.workflowengine.jbpm.xmetadiss;
 import java.util.Iterator;
 
-import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.jdom.Element;
 import org.jdom.Namespace;

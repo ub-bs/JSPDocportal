@@ -48,6 +48,7 @@ public class MCRGetAccessRulesTag extends SimpleTagSupport
 		this.choosenRule = choosenRule;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void doTag() throws JspException, IOException {
 		PageContext pageContext = (PageContext) getJspContext();
 		String lang = MCRSessionMgr.getCurrentSession().getCurrentLanguage();

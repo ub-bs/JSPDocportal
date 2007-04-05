@@ -11,7 +11,9 @@ import org.mycore.frontend.servlets.MCRServletJob;
 
 
 public class LogoutServlet extends MCRServlet {
-    // The configuration
+
+	private static final long serialVersionUID = 1L;
+	// The configuration
     private static Logger LOGGER = Logger.getLogger(LogoutServlet.class);
 
     protected void doGetPost(MCRServletJob job) throws Exception

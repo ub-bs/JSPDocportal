@@ -97,6 +97,7 @@ public class MCRGetWorkflowTaskBeanListTag extends SimpleTagSupport {
 		this.debugUser = debugUser;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void doTag() throws JspException, IOException {
 		try{
 			PageContext pageContext = (PageContext) getJspContext();

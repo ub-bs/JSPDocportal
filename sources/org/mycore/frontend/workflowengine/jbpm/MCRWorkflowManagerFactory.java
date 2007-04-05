@@ -10,10 +10,10 @@ import org.mycore.common.MCRConfiguration;
 
 public class MCRWorkflowManagerFactory {
 
-	private static HashMap workflowManagerImpls;
+	private static HashMap<String, Object> workflowManagerImpls;
 	private static Logger logger = Logger.getLogger(MCRWorkflowManagerFactory.class);
 	static{
-		workflowManagerImpls = new HashMap();
+		workflowManagerImpls = new HashMap<String, Object>();
 		MCRConfiguration config = MCRConfiguration.instance();
 		Properties props = config.getProperties("MCR.WorkflowEngine.ManagerImpl.");
 		for (Enumeration e = props.keys(); e.hasMoreElements();) {

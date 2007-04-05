@@ -31,7 +31,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.jdom.Document;
-import org.mycore.common.MCRConfiguration;
 import org.mycore.datamodel.metadata.MCRObject;
 
 /**

@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 
 public class DebugServlet extends HttpServlet
 {
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	private static final long serialVersionUID = 1L;
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         PrintWriter out = response.getWriter();
         out.write("<html><body><h1>");

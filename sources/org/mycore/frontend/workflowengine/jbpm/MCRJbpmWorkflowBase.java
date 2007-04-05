@@ -58,7 +58,7 @@ public class MCRJbpmWorkflowBase {
 	}
 
 	public static List getCurrentProcessIDsForProcessType(String processType) {
-		List ret = new ArrayList();
+		List<Long> ret = new ArrayList<Long>();
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try{					
 			GraphSession graphSession = jbpmContext.getGraphSession();
@@ -90,7 +90,7 @@ public class MCRJbpmWorkflowBase {
 	 * not depecated, because for registering a new user we have no other chance to get the right id
 	 */
 	public static List getCurrentProcessIDs(String initiator) {
-		List ret = new ArrayList();
+		List<Long> ret = new ArrayList<Long>();
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try{
 			Session hibSession = jbpmContext.getSession();
@@ -110,7 +110,7 @@ public class MCRJbpmWorkflowBase {
 	}
 	
 	public static List getCurrentProcessIDsForProcessVariable(String varName, String value){
-		List ret = new ArrayList();
+		List<Long> ret = new ArrayList<Long>();
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try{
 			Session hibSession = jbpmContext.getSession();
@@ -130,8 +130,8 @@ public class MCRJbpmWorkflowBase {
 		return ret;			
 	}
 	
-	public static List getCurrentProcessIDs(String initiator, String processType) {
-		List ret = new ArrayList();
+	public static List<Long> getCurrentProcessIDs(String initiator, String processType) {
+		List<Long> ret = new ArrayList<Long>();
 		List allProcessIDs = getCurrentProcessIDs(initiator);
 	
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
@@ -152,6 +152,7 @@ public class MCRJbpmWorkflowBase {
 		return ret;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static List getTasks(String userid, List workflowProcessTypes){
 		List ret = new ArrayList();
 		HashSet listOfIDs = new HashSet();
@@ -193,7 +194,7 @@ public class MCRJbpmWorkflowBase {
 	}
 	
 	public static List getProcessesByInitiator(String userid, List workflowProcessTypes){
-		List ret = new ArrayList();
+		List<MCRJbpmTaskBean> ret = new ArrayList<MCRJbpmTaskBean>();
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try{
 			Session hibSession = jbpmContext.getSession();

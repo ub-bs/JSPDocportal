@@ -44,7 +44,7 @@ public class MCRDisshabDerivateStrategy extends MCRDefaultDerivateStrategy {
 		boolean containsZip = false;
 		// save the files
 	
-		ArrayList ffname = new ArrayList();
+		ArrayList<String> ffname = new ArrayList<String>();
 		String mainfile = "";
 		int newFileCnt = 0;
 		

@@ -135,7 +135,7 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 		
 		// save the files
 		boolean bUpdateDerivate=false;
-		ArrayList ffname = new ArrayList();
+		List<String> ffname = new ArrayList<String>();
 		String mainfile = "";
 		for (int i = 0; i < files.size(); i++) {
 			FileItem item = (FileItem) (files.get(i));

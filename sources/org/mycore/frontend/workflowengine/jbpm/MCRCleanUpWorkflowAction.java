@@ -1,7 +1,6 @@
 package org.mycore.frontend.workflowengine.jbpm;
 
 import org.apache.log4j.Logger;
-import org.jbpm.JbpmConfiguration;
 import org.jbpm.graph.def.ActionHandler;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.mycore.common.MCRException;

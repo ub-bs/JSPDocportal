@@ -72,7 +72,7 @@ public class MCRZipWebcontentServlet extends MCRServlet {
     	   	File webcontentDir = new File(getServletContext().getRealPath(foldername));
           	int rootPathLength = webcontentDir.getParent().length(); 
            
-          	ArrayList files = new ArrayList();
+          	ArrayList<File> files = new ArrayList<File>();
            	collectAllFiles(webcontentDir, files);
            	Iterator it = files.iterator();
            	while(it.hasNext()){
@@ -101,7 +101,7 @@ public class MCRZipWebcontentServlet extends MCRServlet {
         }
     }
 
-    private void collectAllFiles(File file , List l){
+    private void collectAllFiles(File file , List<File> l){
     	if(file.isDirectory()){
     		File[] subFiles = file.listFiles();
     		for(int i=0;i<subFiles.length;i++){

@@ -86,7 +86,7 @@ public class MCRDefaultUserStrategy extends MCRUserStrategy{
 	}
 
 	public void setWorkflowVariablesFromMetadata(ContextInstance ctxI, Element userMetadata) {
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<String, Object>();
 		Element userContact = userMetadata.getChild("user.contact");
 		if ( userContact != null ) {
 			String salutation="", firstname="", lastname="";

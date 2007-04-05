@@ -86,7 +86,7 @@ import org.mycore.datamodel.metadata.MCRObjectID;
  * @version $Revision$ $Date$
  */
 public class MCREditorOutValidator {
-    private List errorlog;
+    private List<String> errorlog;
 
     private Document input;
 
@@ -96,7 +96,7 @@ public class MCREditorOutValidator {
 
     private static final Map checkMethods;
 
-    private static final ArrayList adduserlist;
+    private static final ArrayList<String> adduserlist;
     private static String XSI_URL = "http://www.w3.org/2001/XMLSchema-instance";
     private static String XLINK_URL = "http://www.w3.org/1999/xlink";
     
@@ -106,7 +106,7 @@ public class MCREditorOutValidator {
 
     static {
         // save all check methods in a Map for later usage
-        HashMap methods = new HashMap();
+        HashMap<String, Method> methods = new HashMap<String, Method>();
         Method[] m = MCREditorOutValidator.class.getDeclaredMethods();
         for (int i = 0; i < m.length; i++) {
             if (!m[i].getName().startsWith("checkMCR") || !((m[i].getParameterTypes().length == 1) && m[i].getParameterTypes()[0] == Element.class && m[i].getReturnType() == Boolean.TYPE)) {
@@ -117,7 +117,7 @@ public class MCREditorOutValidator {
         }
         checkMethods = Collections.unmodifiableMap(methods);
         // read the list of user add to ACL's
-        adduserlist = new ArrayList();
+        adduserlist = new ArrayList<String>();
         String inline = MCRConfiguration.instance().getString("MCR.AccessAddUser", "read");
         StringTokenizer st = new StringTokenizer(inline,",");
         while (st.hasMoreTokens()) {
@@ -135,7 +135,7 @@ public class MCREditorOutValidator {
      *            editor input
      */
     public MCREditorOutValidator(Document jdom_in, MCRObjectID id) {
-        this.errorlog = new ArrayList();
+        this.errorlog = new ArrayList<String>();
         this.input = jdom_in;
         this.id = id;
         LOGGER.debug("before validating: " + JSPUtils.getPrettyString(input));
@@ -268,6 +268,7 @@ public class MCREditorOutValidator {
         return checkMetaObjectWithLang(datasubtag, metaClass);
     }
 
+    
     private boolean checkMetaObjectWithLinks(Element datasubtag, Class metaClass) {
         String href = datasubtag.getAttributeValue("href");
         String title = datasubtag.getAttributeValue("title");
@@ -353,7 +354,13 @@ public class MCREditorOutValidator {
      * @param datasubtag
      */
     private boolean checkMCRMetaLinkID(Element datasubtag) {
-        return checkMetaObjectWithLinks(datasubtag, MCRMetaLinkID.class);
+    	String href = datasubtag.getAttributeValue("href");
+    	if (href == null) {
+             return false;
+        }
+    	else{
+    		 return checkMetaObjectWithLinks(datasubtag, MCRMetaLinkID.class);
+    	}
     }
 
     /**

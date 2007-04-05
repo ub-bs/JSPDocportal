@@ -244,8 +244,9 @@ public abstract class MCRWorkflowManager {
 	 * @return
 	 * 		a list of java beans
 	 */
+	@SuppressWarnings("unchecked")
 	final public static List getTasks(String userid, String mode, List workflowProcessTypes){
-		List ret = new ArrayList();
+		List ret = new ArrayList<Object>();
 		if(mode == null) mode = "";
 		if(mode.equals("activeTasks")){
 			ret.addAll(MCRJbpmWorkflowBase.getTasks(userid, workflowProcessTypes));
@@ -288,7 +289,7 @@ public abstract class MCRWorkflowManager {
 	 * @return
 	 * 		a List of java.lang.Long-Objects that represent the processIDs
 	 */	
-	final public List getCurrentProcessIDsForProcessType(String userid, String workflowProcessType){
+	final public List<Long> getCurrentProcessIDsForProcessType(String userid, String workflowProcessType){
 		return MCRJbpmWorkflowBase.getCurrentProcessIDs(userid, workflowProcessType);
 	}
 	

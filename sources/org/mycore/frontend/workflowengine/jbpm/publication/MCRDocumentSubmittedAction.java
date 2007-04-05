@@ -28,7 +28,7 @@ public class MCRDocumentSubmittedAction extends MCRAbstractAction{
 		logger.debug("locking workflow variables and setting the access control to the editor mode");
 		ContextInstance contextInstance = executionContext.getContextInstance();
 
-		List ids = new ArrayList();
+		List<Object> ids = new ArrayList<Object>();
 		ids.addAll(Arrays.asList(((String)contextInstance.getVariable("attachedDerivates")).split(",")));
 		ids.add(contextInstance.getVariable("createdDocID"));
 

@@ -8,10 +8,10 @@ import org.mycore.common.MCRConfiguration;
 
 final public class MCRWorkflowDirectoryManager {
 	
-	private static final HashMap editWorkflowDirectories ;
+	private static final HashMap<String, Object> editWorkflowDirectories ;
 	
 	static{
-		editWorkflowDirectories = new HashMap();
+		editWorkflowDirectories = new HashMap<String, Object>();
 		Properties props = MCRConfiguration.instance().getProperties("MCR.WorkflowEngine.EditDirectory.");
 		for(Enumeration e = props.keys(); e.hasMoreElements();){
 			String propKey = (String)e.nextElement();

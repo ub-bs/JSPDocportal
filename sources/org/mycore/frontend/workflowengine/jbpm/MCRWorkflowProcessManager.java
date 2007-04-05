@@ -14,10 +14,10 @@ import org.apache.log4j.Logger;
 public class MCRWorkflowProcessManager {
 		private static Logger logger = Logger.getLogger(MCRWorkflowProcessManager.class.getName());
 		 private static MCRWorkflowProcessManager _instance; 
-		 protected Hashtable workflowprocesses;//key:Long //value: MCRWorkflowProcess
+		 protected Hashtable<Long, MCRWorkflowProcess> workflowprocesses;//key:Long //value: MCRWorkflowProcess
 		 
 		 private MCRWorkflowProcessManager() { 
-		  workflowprocesses = new Hashtable();
+		  workflowprocesses = new Hashtable<Long, MCRWorkflowProcess>();
 		 } 
 
 		 // For lazy initialization 

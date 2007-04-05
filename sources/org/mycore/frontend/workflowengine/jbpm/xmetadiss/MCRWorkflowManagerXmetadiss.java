@@ -244,7 +244,7 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 			if(identifier != null && !identifier.equals("")){
 				ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN, identifier);
 			}
-			Map identifiers = new HashMap();
+			Map<Integer, String> identifiers = new HashMap<Integer, String>();
 			identifiers.put(MCRWorkflowConstants.KEY_IDENTIFER_TYPE_URN, (String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN));
 			if(metadataStrategy.createEmptyMetadataObject(true, Arrays.asList(authors), null,
 					nextFreeId, initiator, identifiers, null, saveDirectory) ){

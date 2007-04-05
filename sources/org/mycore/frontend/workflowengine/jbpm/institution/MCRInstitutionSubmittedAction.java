@@ -28,7 +28,7 @@ public class MCRInstitutionSubmittedAction extends MCRAbstractAction {
 		ContextInstance contextInstance = executionContext.getContextInstance();
 		// contextInstance.setVariable(MCRJbpmWorkflowBase.lockedVariablesIdentifier, lockedVariables);
 		// set access control to editor mode, the dissertand has no rights anymore
-		List ids = new ArrayList();
+		List<Object> ids = new ArrayList<Object>();
 		ids.add(contextInstance.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS));
 		
 		String initiator = contextInstance.getVariable(MCRWorkflowConstants.WFM_VAR_INITIATOR).toString();

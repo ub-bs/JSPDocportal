@@ -251,7 +251,7 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 					//we have registeruser prozess - with that id
 					//long lpid = WFI.getUniqueCurrentProcessID(ID);
 					long lpid = 0;
-					List lpids  = WFM.getCurrentProcessIDsForProcessType(ID,workflowType);	
+					List<Long> lpids  = WFM.getCurrentProcessIDsForProcessType(ID,workflowType);	
 					if ( lpids.isEmpty()){
 						lpid = WFM.initWorkflowProcess(ID, null);				
 				        nextPath = "~registered";

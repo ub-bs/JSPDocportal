@@ -80,7 +80,7 @@ public class MCRWorkflowUtils {
 	 */
 	public final static ArrayList getAllObjectFileNames(String type) {
 		String dirname = MCRWorkflowDirectoryManager.getWorkflowDirectory(type);
-		ArrayList workfiles = new ArrayList();
+		ArrayList<String> workfiles = new ArrayList<String>();
 		if (!dirname.equals(".")) {
 			File dir = new File(dirname);
 			String[] dirl = null;
@@ -110,7 +110,7 @@ public class MCRWorkflowUtils {
 	 */
 	public final static ArrayList getAllDerivateFileNames(String type) {
 		String dirname = MCRWorkflowDirectoryManager.getWorkflowDirectory(type);
-		ArrayList workfiles = new ArrayList();
+		ArrayList<String> workfiles = new ArrayList<String>();
 		if (!dirname.equals(".")) {
 			File dir = new File(dirname);
 			String[] dirl = null;
@@ -197,10 +197,10 @@ public class MCRWorkflowUtils {
 	
 	public static Map getAccessRulesMap(String objid) {
 		List liPerms = AI.getPermissionsForID(objid);        
-        Map htRules = new Hashtable();
+        Map<String, Element> htRules = new Hashtable<String, Element>();
         for (int  i = 0; i< liPerms.size(); i++) {
         	Element eRule = AI.getRule( objid,(String)liPerms.get(i));
-        	htRules.put((String)liPerms.get(i),eRule);
+        	htRules.put((String)liPerms.get(i), eRule);
         }
         return htRules;
 	}	
