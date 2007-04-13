@@ -48,7 +48,9 @@
                               			<a href="<x:out select="./metavalues[$j]/metavalue[$i]/@href" />" target="<x:out select="./metavalues[$j]/metavalue[$i]/@target" />"><x:out select="./metavalues[$j]/metavalue[$i]/@text" /></a>
 		                           </x:when>
 		                            <x:otherwise>
-			                            <x:out select="./metavalues[$j]/metavalue[$i]/@text" escapeXml="false" />                            
+		                            	<x:if select="./metavalues[$j]/metavalue[$i]/@text !='#'">
+				                            <x:out select="./metavalues[$j]/metavalue[$i]/@text" escapeXml="false" />                            
+				                       </x:if>
 	                            	</x:otherwise>
 	                            </x:choose>
 	                                
