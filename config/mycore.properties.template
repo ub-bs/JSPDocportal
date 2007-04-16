@@ -250,7 +250,7 @@ MCR.persistence_config_institution=datamodel-institution.xml
 
 
 # The name of the Java class of the XML parser
-MCR.parser_class_name=org.mycore.common.xml.MCRParserXerces
+MCR.XMLParser.Class=org.mycore.common.xml.MCRParserXerces
 
 
 # ---------------------------------------------------------------------
@@ -497,40 +497,40 @@ SIGN.Country=Germany
 ##############################################################################
 
 # define the stdout appender
-MCR.log4j.appender.stdout=org.apache.log4j.ConsoleAppender
-MCR.log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
-MCR.log4j.appender.stdout.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %t %-5p %c - %m%n
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+log4j.appender.stdout.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %t %-5p %c - %m%n
 
 # define the stdlog appender
-MCR.log4j.appender.stdlog=org.apache.log4j.ConsoleAppender
-MCR.log4j.appender.stdlog.layout=org.apache.log4j.PatternLayout
-MCR.log4j.appender.stdlog.layout.ConversionPattern=%d [%t] %-5p (%F:%L) - %m%n
+log4j.appender.stdlog=org.apache.log4j.ConsoleAppender
+log4j.appender.stdlog.layout=org.apache.log4j.PatternLayout
+log4j.appender.stdlog.layout.ConversionPattern=%d [%t] %-5p (%F:%L) - %m%n
 
 # define the R appender
-MCR.log4j.appender.R=org.apache.log4j.RollingFileAppender
-MCR.log4j.appender.R.File=%MCR.BaseDirectory%/log/mcr2jsp.log
-MCR.log4j.appender.R.MaxFileSize=10000KB
-MCR.log4j.appender.R.MaxBackupIndex=2
-MCR.log4j.appender.R.layout=org.apache.log4j.PatternLayout
-MCR.log4j.appender.R.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %t %-5p %c - %m%n
+log4j.appender.R=org.apache.log4j.RollingFileAppender
+log4j.appender.R.File=%MCR.BaseDirectory%/log/mcr2jsp.log
+log4j.appender.R.MaxFileSize=10000KB
+log4j.appender.R.MaxBackupIndex=2
+log4j.appender.R.layout=org.apache.log4j.PatternLayout
+log4j.appender.R.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %t %-5p %c - %m%n
 
 
 # Set the log level and appender for the general logger
-#MCR.log4j.rootLogger=INFO, stdout
-MCR.log4j.rootLogger=DEBUG, stdout, R
+#log4j.rootLogger=INFO, stdout
+log4j.rootLogger=DEBUG, stdout, R
 
 # exclude some classes from debug
-#MCR.log4j.logger.org.mycore.common.MCRUtils=INFO, stdout
-#MCR.log4j.logger.org.mycore.common.xml.MCREntityResolver=INFO, stdout
-#MCR.log4j.logger.org.mycore.common.xml.MCRLayoutServlet=INFO, stdout
-#MCR.log4j.logger.org.mycore.user=INFO, stdout
-MCR.log4j.logger.org.mycore.backend.hibernate=ERROR, stdout, R
-MCR.log4j.logger.org.hibernate=ERROR, stdout, R
-MCR.log4j.logger.org.apache.commons.digester=ERROR, stdout, R
-MCR.log4j.logger.org.apache.catalina.session=ERROR, stdout, R
-MCR.log4j.logger.com.mchange=ERROR, stdout, R
-MCR.log4j.logger.org.apache.jasper.compiler=ERROR, stdout, R
-MCR.log4j.logger.org.tuckey.web.filters.urlrewrite=ERROR, stdout, R
+#log4j.logger.org.mycore.common.MCRUtils=INFO, stdout
+#log4j.logger.org.mycore.common.xml.MCREntityResolver=INFO, stdout
+#log4j.logger.org.mycore.common.xml.MCRLayoutServlet=INFO, stdout
+#log4j.logger.org.mycore.user=INFO, stdout
+log4j.logger.org.mycore.backend.hibernate=ERROR, stdout, R
+log4j.logger.org.hibernate=ERROR, stdout, R
+log4j.logger.org.apache.commons.digester=ERROR, stdout, R
+log4j.logger.org.apache.catalina.session=ERROR, stdout, R
+log4j.logger.com.mchange=ERROR, stdout, R
+log4j.logger.org.apache.jasper.compiler=ERROR, stdout, R
+log4j.logger.org.tuckey.web.filters.urlrewrite=ERROR, stdout, R
 
 ##############################################################################
 # zip
