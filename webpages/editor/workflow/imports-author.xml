@@ -9,8 +9,6 @@
   <!-- *** NAME *** -->
   <panel id="DPName">
     <hidden var="metadata/names/@class" default="MCRMetaPersonName" sortnr="1" />
-    <hidden var="metadata/names/@parasearch" default="true" sortnr="1" />
-    <hidden var="metadata/names/@textsearch" default="true" sortnr="1" />
     <hidden var="metadata/names/@notinherit" default="false" sortnr="1" />
     <hidden var="metadata/names/@heritable" default="true" sortnr="1" />
     <hidden var="metadata/names/name/@inherited" default="0" sortnr="1" />
@@ -42,8 +40,6 @@
   <!-- *** NAME *** -->
   <panel id="DPName_woPeerage">
     <hidden var="metadata/names/@class" default="MCRMetaPersonName" sortnr="1" />
-    <hidden var="metadata/names/@parasearch" default="true" sortnr="1" />
-    <hidden var="metadata/names/@textsearch" default="true" sortnr="1" />
     <hidden var="metadata/names/@notinherit" default="false" sortnr="1" />
     <hidden var="metadata/names/@heritable" default="true" sortnr="1" />
     <hidden var="metadata/names/name/@inherited" default="0" sortnr="1" />
@@ -75,8 +71,6 @@
 
   <panel id="DFemale">
     <hidden var="metadata/females/@class" default="MCRMetaBoolean" sortnr="2" />
-    <hidden var="metadata/females/@parasearch" default="true" sortnr="2" />
-    <hidden var="metadata/females/@textsearch" default="true" sortnr="2" />
     <hidden var="metadata/females/@notinherit" default="false" sortnr="2" />
     <hidden var="metadata/females/@heritable" default="true" sortnr="2" />
     <hidden var="metadata/females/female/@inherited" default="0" />
@@ -101,8 +95,6 @@
  
   <panel id="DAddress">
     <hidden var="metadata/addresses/@class" default="MCRMetaAddress" sortnr="4" />
-    <hidden var="metadata/addresses/@parasearch" default="false" sortnr="4" />
-    <hidden var="metadata/addresses/@textsearch" default="false" sortnr="4" />
     <hidden var="metadata/addresses/@notinherit" default="false" sortnr="4" />
     <hidden var="metadata/addresses/@heritable" default="true" sortnr="4" />
     <hidden var="metadata/addresses/address/@inherited" default="0" sortnr="4" />
@@ -134,8 +126,6 @@
 
   <panel id="DPhone">
     <hidden var="metadata/phones/@class" default="MCRMetaLangText" sortnr="5" />
-    <hidden var="metadata/phones/@parasearch" default="false" sortnr="5" />
-    <hidden var="metadata/phones/@textsearch" default="false" sortnr="5" />
     <hidden var="metadata/phones/@notinherit" default="false" sortnr="5" />
     <hidden var="metadata/phones/@heritable" default="true" sortnr="5" />
     <hidden var="metadata/phones/phone/@inherited" default="0" sortnr="5" />
@@ -152,8 +142,6 @@
 
   <panel id="DDate">
     <hidden var="metadata/dates/@class" default="MCRMetaISO8601Date" sortnr="6" />
-    <hidden var="metadata/dates/@parasearch" default="true" sortnr="6" />
-    <hidden var="metadata/dates/@textsearch" default="false" sortnr="6" />
     <hidden var="metadata/dates/@notinherit" default="false" sortnr="6" />
     <hidden var="metadata/dates/@heritable" default="true" sortnr="6" />
     <hidden var="metadata/dates/date/@inherited" default="0" sortnr="6" />
@@ -163,8 +151,6 @@
 
   <panel id="DDateM">
     <hidden var="metadata/dates/@class" default="MCRMetaISO8601Date" sortnr="6" />
-    <hidden var="metadata/dates/@parasearch" default="true" sortnr="6" />
-    <hidden var="metadata/dates/@textsearch" default="false" sortnr="6" />
     <hidden var="metadata/dates/@notinherit" default="false" sortnr="6" />
     <hidden var="metadata/dates/@heritable" default="true" sortnr="6" />
     <hidden var="metadata/dates/date/@inherited" default="0" sortnr="6" />
@@ -182,8 +168,6 @@
 
   <panel id="DProfession">
     <hidden var="metadata/professions/@class" default="MCRMetaLangText" sortnr="7" />
-    <hidden var="metadata/professions/@parasearch" default="true" sortnr="7" />
-    <hidden var="metadata/professions/@textsearch" default="true" sortnr="7" />
     <hidden var="metadata/professions/@notinherit" default="false" sortnr="7" />
     <hidden var="metadata/professions/@heritable" default="true" sortnr="7" />
     <hidden var="metadata/professions/profession/@inherited" default="0" sortnr="7" />
@@ -194,8 +178,6 @@
 
   <panel id="DProfession_Only">
     <hidden var="metadata/professions/@class" default="MCRMetaLangText" sortnr="7" />
-    <hidden var="metadata/professions/@parasearch" default="true" sortnr="7" />
-    <hidden var="metadata/professions/@textsearch" default="true" sortnr="7" />
     <hidden var="metadata/professions/@notinherit" default="false" sortnr="7" />
     <hidden var="metadata/professions/@heritable" default="true" sortnr="7" />
     <hidden var="metadata/professions/profession/@inherited" default="0" sortnr="7" />
@@ -228,8 +210,6 @@
 
   <panel id="DURL">
     <hidden var="metadata/urls/@class" default="MCRMetaLink" sortnr="10" />
-    <hidden var="metadata/urls/@parasearch" default="false" sortnr="10" />
-    <hidden var="metadata/urls/@textsearch" default="false" sortnr="10" />
     <hidden var="metadata/urls/@notinherit" default="false" sortnr="10" />
     <hidden var="metadata/urls/@heritable" default="true" sortnr="10" />
     <hidden var="metadata/urls/url/@inherited" default="0" sortnr="10" />
@@ -247,8 +227,6 @@
 
   <panel id="DEmail">
     <hidden var="metadata/emails/@class" default="MCRMetaLangText" sortnr="11" />
-    <hidden var="metadata/emails/@parasearch" default="false" sortnr="11" />
-    <hidden var="metadata/emails/@textsearch" default="false" sortnr="11" />
     <hidden var="metadata/emails/@notinherit" default="false" sortnr="11" />
     <hidden var="metadata/emails/@heritable" default="true" sortnr="11" />
     <hidden var="metadata/emails/email/@inherited" default="0" sortnr="11" />
@@ -270,8 +248,6 @@
   
   <panel id="Dpndnumber">
         <hidden var="metadata/pnd-numbers/@class" default="MCRMetaLangText" sortnr="16" />
-        <hidden var="metadata/pnd-numbers/@parasearch" default="true" sortnr="16" />
-        <hidden var="metadata/pnd-numbers/@textsearch" default="true" sortnr="16" />
         <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="metadata/pnd-numbers/pnd-number"  />
   </panel>
   
@@ -286,8 +262,6 @@
 
   <panel id="DReference">
     <hidden var="metadata/references/@class" default="MCRMetaLink" sortnr="12" />
-    <hidden var="metadata/references/@parasearch" default="false" sortnr="12" />
-    <hidden var="metadata/references/@textsearch" default="false" sortnr="12" />
     <hidden var="metadata/references/@notinherit" default="false" sortnr="12" />
     <hidden var="metadata/references/@heritable" default="true" sortnr="12" />
     <hidden var="metadata/references/reference/@inherited" default="0" sortnr="12" />
@@ -305,8 +279,6 @@
 
   <panel id="DNote">
     <hidden var="metadata/notes/@class" default="MCRMetaLangText" sortnr="13" />
-    <hidden var="metadata/notes/@parasearch" default="false" sortnr="13" />
-    <hidden var="metadata/notes/@textsearch" default="false" sortnr="13" />
     <hidden var="metadata/notes/@notinherit" default="false" sortnr="13" />
     <hidden var="metadata/notes/@heritable" default="true" sortnr="13" />
     <hidden var="metadata/notes/note/@inherited" default="0" sortnr="13" />
@@ -318,8 +290,6 @@
 
   <panel id="DPublication">
     <hidden var="metadata/publications/@class" default="MCRMetaLangText" sortnr="14" />
-    <hidden var="metadata/publications/@parasearch" default="false" sortnr="14" />
-    <hidden var="metadata/publications/@textsearch" default="false" sortnr="14" />
     <hidden var="metadata/publications/@notinherit" default="false" sortnr="14" />
     <hidden var="metadata/publications/@heritable" default="true" sortnr="14" />
     <hidden var="metadata/publications/publication/@inherited" default="0" sortnr="14" />
@@ -332,8 +302,6 @@
 
   <panel id="DUserid">
     <hidden var="metadata/userids/@class" default="MCRMetaLangText" sortnr="15" />
-    <hidden var="metadata/userids/@parasearch" default="true" sortnr="15" />
-    <hidden var="metadata/userids/@textsearch" default="false" sortnr="15" />
     <hidden var="metadata/userids/userid" sortnr="15" default=""/>
   </panel>
 

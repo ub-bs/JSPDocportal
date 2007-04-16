@@ -26,8 +26,6 @@
 
   <panel id="DTitle">
     <hidden var="metadata/titles/@class" default="MCRMetaLangText" />
-    <hidden var="metadata/titles/@parasearch" default="true" />
-    <hidden var="metadata/titles/@textsearch" default="true" />
     <hidden var="metadata/titles/@notinherit" default="false" />
     <hidden var="metadata/titles/@heritable" default="true" />
 
@@ -41,8 +39,6 @@
 <!--
   <panel id="DCreator">
     <hidden var="metadata/creator/@class" default="MCRMetaLangText" />
-    <hidden var="metadata/creators/@parasearch" default="true" />
-    <hidden var="metadata/creators/@textsearch" default="true" />
     <hidden var="metadata/creators/@notinherit" default="false" />
     <hidden var="metadata/creators/@heritable" default="true" />
     <hidden var="metadata/creators/creator/@inherited" default="0" />
@@ -62,6 +58,10 @@
       <label i18n="Editor.Common.choose" />
     </item>
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002" />              
+    <condition id="COriginSelected" regexp=".+" required="true" >
+				<label i18n="Editor.Validate.Selection.Empty" />
+    </condition>
+    
   </list>
 
   <panel id="DOrigin">
@@ -102,7 +102,13 @@
     <hidden var="@lang" default="de" />
     <hidden var="@inherited" default="0" />
     <cell col="1" row="1" anchor="WEST" ref="SContributorTypeReferee" var="@type" />
-    <cell col="1" row="2" anchor="WEST" ref="TFzeile1024M" var="surname" />
+    <cell col="1" row="2" anchor="WEST" var="surname">
+    <textfield id="TFContributorSurname"  width="60" maxlength="1024" class="mandatory" >		
+		   <condition id="CContributorSurnameMandatory" regexp=".+" required="true" >
+				<label i18n="Editor.Validate.Name.Empty" />
+         </condition>
+      </textfield>	 
+     </cell>
     <cell col="2" row="2" anchor="NORTHWEST" ref="APNameSurName" />
     <cell col="1" row="3" anchor="WEST" ref="TFzeile1024" var="firstname" />
     <cell col="2" row="3" anchor="NORTHWEST" ref="APNameFirstName" />
@@ -117,10 +123,23 @@
   <panel id="DDate">
     <hidden var="metadata/dates/@class" default="MCRMetaISO8601Date" />
     <hidden var="metadata/dates/date/@type" default="submitted" />
-    <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128M" var="metadata/dates/date" />
+    <cell col="1" row="1" anchor="NORTHWEST" var="metadata/dates/date">
+       <textfield id="TFDateSubmitted"  width="30" maxlength="128" class="mandatory" >		
+		   <condition id="CDateSubmitted" regexp="(\d\d\.\d\d\.\d\d\d\d)|(\d\d\d\d\-\d\d\-\d\d)" required="true" >
+				<label i18n="Editor.Validate.Date.Format" />
+         </condition>
+      </textfield>	 
+    </cell>
     <cell col="2" row="1" anchor="NORTHEAST" ref="ADateSubmitted" />
     <hidden var="metadata/dates/date[2]/@type" default="accepted" />
-    <cell col="1" row="2" anchor="NORTHWEST" ref="TFzeile128M" var="metadata/dates/date[2]" />
+    <cell col="1" row="2" anchor="NORTHWEST"  var="metadata/dates/date[2]" >
+       <textfield id="TFDateAccepted"  width="30" maxlength="128" class="mandatory" >		
+		   <condition id="CDateAccepted" regexp="(\d\d\.\d\d\.\d\d\d\d)|(\d\d\d\d\-\d\d\-\d\d)" required="true" >
+				<label i18n="Editor.Validate.Date.Format" />
+         </condition>
+      </textfield>	 
+
+    </cell>
     <cell col="2" row="2" anchor="NORTHEAST" ref="ADateAccepted" />
   </panel>
 
@@ -131,6 +150,9 @@
 		<label i18n="Editor.Common.choose" />
     </item>
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getSpecialCategoriesInItems&amp;classProp=MCR.ClassificationID.Type&amp;categoryProp=MCR.Classification.Type.SelectCategoryIDs.xmetadiss" />                       
+     <condition id="CTypeSelected" regexp=".+" required="true" >
+				<label i18n="Editor.Validate.Selection.Empty" />
+     </condition>
   </list>
 
   <panel id="DType">
@@ -146,6 +168,10 @@
       <label i18n="Editor.Common.choose" />
     </item>
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Format&amp;defaultValue=DocPortal_class_00000006" />                   
+      <condition id="CFormatSelected" regexp=".+" required="true" >
+				<label i18n="Editor.Validate.Selection.Empty" />
+     </condition>
+    
   </list>
 
 <!-- IDENTIFIER fehlt -->
@@ -159,6 +185,10 @@
       <label i18n="Editor.Common.choose" />
     </item>
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getSpecialCategoriesInItems&amp;classProp=MCR.ClassificationID.Language&amp;categoryProp=MCR.Classification.Language.SelectCategoryIDs.xmetadiss" /> 
+         <condition id="CLanguageSelected" regexp=".+" required="true" >
+				<label i18n="Editor.Validate.Selection.Empty" />
+     </condition>
+    
   </list>
 
   <panel id="DLanguage">

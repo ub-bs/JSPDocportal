@@ -147,8 +147,6 @@
 
 	 <panel id="DSubjects" >
 		<hidden var="metadata/subjects/@class" default="MCRMetaClassification" />
-        <hidden var="metadata/subjects/@textsearch" default="true" />
-        <hidden var="metadata/subjects/@parasearch" default="true" />
     
 		<cell row="1" col="1" anchor="NORTHWEST" var="metadata/subjects/subject">
 		   <repeater min="1" max="5" >  
@@ -167,6 +165,12 @@
 				 <cell row="1" col="2">
 				   <subselect label="Auswählen" id="sub.select2" type="webpage" href="nav?path=~browse_subDDC" />
 				 </cell>
+			<!-- 	 <condition id="CSubjectEmtpy" class="org.mycore.frontend.editor.helper.MCREditorClassificationHelper" method="isClassificationSet">
+					<label i18n="Editor.Validate.Selection.Empty" />
+    			 </condition> 
+    			 <condition id="CSubjectEmtpy" xsl="count(@categid) &gt; 0" >
+    			 	<label i18n="Editor.Validate.Selection.Empty" />
+    			 </condition> -->
 			   </panel>
 			</repeater>
 		</cell>

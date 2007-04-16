@@ -31,8 +31,6 @@
     <hidden var="label" />
 <!-- save userid -->
     <hidden var="metadata/userids/@class" default="MCRMetaLangText" sortnr="15" />
-    <hidden var="metadata/userids/@parasearch" default="true" sortnr="15" />
-    <hidden var="metadata/userids/@textsearch" default="true" sortnr="15" />
     <hidden var="metadata/userids/@notinherit" default="false" sortnr="15" />
     <hidden var="metadata/userids/@heritable" default="true" sortnr="15" />
     <hidden var="metadata/userids/userid/@inherited" default="0"  />
@@ -42,8 +40,6 @@
     <hidden var="service/servdates/@class" default="MCRMetaISO8601Date"/>
     <hidden var="service/servdates/@heritable" default="false" />
     <hidden var="service/servdates/@notinherit" default="false" />
-    <hidden var="service/servdates/@parasearch" default="true" />
-    <hidden var="service/servdates/@textsearch" default="true"/>
     <hidden var="service/servdates/servdate/@inherited" default ="0" />
     <hidden var="service/servdates/servdate/@type" default="createdate"/>
     <hidden var="service/servdates/servdate" />
@@ -82,8 +78,6 @@
    </cell>
    <cell col="4" row="4" anchor="WEST" ref="HAddress" /> 
 <!--     <hidden var="metadata/addresses/@class" sortnr="4" default="MCRMetaAddress" />
-    <hidden var="metadata/addresses/@parasearch" sortnr="4" default="true" />
-    <hidden var="metadata/addresses/@textsearch" sortnr="4" default="true" />
     <hidden var="metadata/addresses/@notinherit" sortnr="4" default="false" />
     <hidden var="metadata/addresses/@heritable"  sortnr="4" default="true" />
     <hidden var="metadata/addresses/address/@inherited" default="0" />
