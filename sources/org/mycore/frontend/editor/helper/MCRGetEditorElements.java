@@ -203,14 +203,14 @@ public class MCRGetEditorElements implements MCRResolver {
 	private Element getHiddenAttributesForClass(Properties params){
 		String var = params.getProperty("var").replaceAll("\\.","/");
 		String classname = params.getProperty("classname");
-		String parasearch = params.getProperty("parasearch");
-		String textsearch = params.getProperty("textsearch");
+	//	String parasearch = params.getProperty("parasearch");
+	//	String textsearch = params.getProperty("textsearch");
 		String notinherit = params.getProperty("notinherit");
 		String heritable = params.getProperty("heritable");
 		
 		// Default-Values
-		if(parasearch == null || parasearch.equals("")) parasearch = "true";
-		if(textsearch == null || textsearch.equals("")) textsearch = "true";
+	//	if(parasearch == null || parasearch.equals("")) parasearch = "true";
+	//	if(textsearch == null || textsearch.equals("")) textsearch = "true";
 		if(notinherit == null || notinherit.equals("")) notinherit = "false";
 		if(heritable == null || heritable.equals("")) heritable = "true";
 		
@@ -218,12 +218,12 @@ public class MCRGetEditorElements implements MCRResolver {
 		Element hidden1 = new Element("hidden");
 		hidden1.setAttribute("default", classname);
 		hidden1.setAttribute("var", var + "/@class");
-		Element hidden2 = new Element("hidden");
-		hidden2.setAttribute("default", parasearch);
-		hidden2.setAttribute("var", var + "/@parasearch");
-		Element hidden3 = new Element("hidden");
-		hidden3.setAttribute("default", textsearch);
-		hidden3.setAttribute("var", var + "/@textsearch");
+//		Element hidden2 = new Element("hidden");
+//		hidden2.setAttribute("default", parasearch);
+//		hidden2.setAttribute("var", var + "/@parasearch");
+//		Element hidden3 = new Element("hidden");
+//		hidden3.setAttribute("default", textsearch);
+//		hidden3.setAttribute("var", var + "/@textsearch");
 		Element hidden4 = new Element("hidden");
 		hidden4.setAttribute("default", notinherit);
 		hidden4.setAttribute("var", var + "/@notinherit");
@@ -231,8 +231,8 @@ public class MCRGetEditorElements implements MCRResolver {
 		hidden5.setAttribute("default", heritable);
 		hidden5.setAttribute("var", var + "/@heritable");
 		hiddens.addContent(hidden1);
-		hiddens.addContent(hidden2);
-		hiddens.addContent(hidden3);
+//		hiddens.addContent(hidden2);
+//		hiddens.addContent(hidden3);
 		hiddens.addContent(hidden4);
 		hiddens.addContent(hidden5);
 		return hiddens;
