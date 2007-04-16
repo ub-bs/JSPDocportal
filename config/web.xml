@@ -3,7 +3,6 @@
 
     <display-name>JSP DOCPORTAL</display-name>
     <description>(A MyCoRe Sample)</description>
-
     <listener>
        <listener-class>org.mycore.frontend.jsp.ContextListener</listener-class>
     </listener>
@@ -439,6 +438,20 @@
      <servlet-mapping>
            <servlet-name>MCRZipWebcontentServlet</servlet-name>
            <url-pattern>/zipwebcontent</url-pattern>
+     </servlet-mapping>
+     
+     <servlet id="MCRGoogleSitemapServlet">
+            <servlet-name>MCRGoogleSitemapServlet</servlet-name>
+            <servlet-class>org.mycore.frontend.indexbrowser.MCRGoogleSitemapServlet</servlet-class>
+      </servlet>
+
+	 <servlet-mapping>
+            <servlet-name>MCRGoogleSitemapServlet</servlet-name>
+            <url-pattern>/servlets/MCRGoogleSitemapServlet</url-pattern>
+     </servlet-mapping>
+ 	 <servlet-mapping>
+            <servlet-name>MCRGoogleSitemapServlet</servlet-name>
+            <url-pattern>/sitemap_google.xml</url-pattern>
      </servlet-mapping>
      
     <!-- specific servlets -->
