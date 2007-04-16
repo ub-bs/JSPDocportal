@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ============================================== -->
-<!-- $Revision: 1.1 $ $Date: 2005-11-14 12:51:02 $ -->
+<!-- $Revision: 1.2 $ $Date: 2007-04-16 12:04:31 $ -->
 <!-- ============================================== -->
 
 <xsl:stylesheet
@@ -44,7 +44,7 @@
   fixed="MCRMetaInstitutionName"/>
 </xsl:template>
 
-<!-- Template for the metadata MCRMetaPersonName -->
+
 
 <xsl:template match="mcrmetapersonname">
 <xsd:sequence>
@@ -74,6 +74,41 @@
 </xsd:sequence>
 <xsd:attribute name="class" type="xsd:string" use="required"
   fixed="MCRMetaPersonName"/>
+</xsl:template>
+
+<!-- Template for the metadata MCRMetaHistoryEvent -->
+<xsl:template match="mcrmetahistoryevent">
+<xsd:sequence>
+ <xsd:element name="{@name}" minOccurs="{@minOccurs}" maxOccurs="{@maxOccurs}">
+  <xsd:complexType>
+   <xsd:all>
+    <xsd:element name="text" type="xsd:string" minOccurs='0' maxOccurs='1'/>
+    <xsd:element name="von"  type="xsd:string" minOccurs='0' maxOccurs='1'/>
+    <xsd:element name="ivon"  type="xsd:integer" minOccurs='0' maxOccurs='1'/>
+    <xsd:element name="bis"  type="xsd:string" minOccurs='0' maxOccurs='1'/>
+    <xsd:element name="ibis"  type="xsd:integer" minOccurs='0' maxOccurs='1'/>
+    <xsd:element name="calendar"  type="xsd:string" minOccurs='0' maxOccurs='1'/>
+    <xsd:element name="event"  type="xsd:string" minOccurs='0' maxOccurs='1'/>
+   	<!-- copied from MCRMetadataCoreTemplates -->
+    <xsd:element name="classification" minOccurs='0' maxOccurs='1'>
+    	<xsd:complexType>
+		    <xsd:attribute name="classid" use="required" type="mcrobjectid" />
+     		<xsd:attribute name="categid" use="required" type="mcrcategory" />
+    		 <xsd:attribute name="type" use="optional" type="mcrdefaulttype" />
+     		<xsd:attribute name="inherited" use="optional" type="xsd:integer" />
+     		<xsd:attribute ref="xml:lang" use="optional" />
+	  </xsd:complexType>
+    </xsd:element> 
+   </xsd:all>
+   <xsd:attribute name="type" use="optional" type="xsd:string" />
+   <xsd:attribute name="inherited" use="optional" type="xsd:integer" />
+   <xsd:attribute ref="xml:lang" />
+  
+  </xsd:complexType>
+ </xsd:element>
+</xsd:sequence>
+<xsd:attribute name="class" type="xsd:string" use="required"
+  fixed="MCRMetaHistoryEvent"/>
 </xsl:template>
 
 </xsl:stylesheet>
