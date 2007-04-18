@@ -4,7 +4,8 @@
 <section title="Searchmask for all Documents" xml:lang="de">
 <editor id="SearchMask_Alldocs">
 
-<source url="request:servlets/MCRJSPSearchServlet?mode=load&amp;id=[ID]" token="[ID]"/>
+<source url="request:servlets/MCRJSPSearchServlet?mode=load&amp;id={ID}" token="{ID}"/>
+<!-- <source url="request:servlets/MCRJSPSearchServlet?mode=load&amp;id=[ID]" token="[ID]"/> -->
 <target type="servlet" url="/servlets/MCRJSPSearchServlet" method="post" format="xml" />
   <validationMessage>
       <label xml:lang="de">

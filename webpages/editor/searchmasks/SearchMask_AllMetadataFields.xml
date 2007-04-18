@@ -5,7 +5,8 @@
 <editor id="SearchMask_AllMetadataFields">
 <!-- <target type="debug" /> -->
 
-<source url="request:servlets/MCRJSPSearchServlet?mode=load&amp;id=[ID]" token="[ID]"/>
+<source uri="request:servlets/MCRJSPSearchServlet?mode=load&amp;id={ID}" token="{ID}"/> 
+<!--<source uri="" url="request:servlets/MCRJSPSearchServlet?mode=load&amp;id=[ID]" token="[ID]"/> -->
 <target type="servlet" url="/servlets/MCRJSPSearchServlet" method="post" format="xml" />
   <validationMessage>
       <label xml:lang="de">

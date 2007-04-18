@@ -12,7 +12,8 @@
       </label>                    
   </validationMessage>
 
-<source url="request:servlets/MCRJSPSearchServlet?mode=load&amp;id=[ID]" token="[ID]"/>
+<source url="request:servlets/MCRJSPSearchServlet?mode=load&amp;id={ID}" token="{ID}"/>
+<!-- <source url="request:servlets/MCRJSPSearchServlet?mode=load&amp;id=[ID]" token="[ID]"/> -->
 <target type="servlet" url="/servlets/MCRJSPSearchServlet" method="post" format="xml" />
 
   <components root="SearchMask_ExpertDocument" var="/query">  
