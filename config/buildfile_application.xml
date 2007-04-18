@@ -303,7 +303,7 @@
             srcFile="${docportal.config}/mycore.properties">
             <filterchain>
                 <linecontains>
-                    <contains value="MCR.persistence_config_" />
+                    <contains value="MCR.Metadata.Config." />
                 </linecontains>
             </filterchain>
         </loadproperties>
@@ -313,28 +313,28 @@
         <!-- Translate *.xml to *.xsd using MCRMetadataSchema.xsl -->
         <antcall target="do.transform">
             <param name="metadata.schema"
-                value="${MCR.persistence_config_document}" />
+                value="${MCR.Metadata.Config.document}" />
         </antcall>
         <antcall target="do.transform">
             <param name="metadata.schema"
-                value="${MCR.persistence_config_disshab}" />
+                value="${MCR.Metadata.Config.disshab}" />
         </antcall>
         <antcall target="do.transform">
             <param name="metadata.schema"
-                value="${MCR.persistence_config_derivate}" />
+                value="${MCR.Metadata.Config.derivate}" />
         </antcall>
         <antcall target="do.transform">
             <param name="metadata.schema"
-                value="${MCR.persistence_config_author}" />
+                value="${MCR.Metadata.Config.author}" />
         </antcall>
         <antcall target="do.transform">
             <param name="metadata.schema"
-                value="${MCR.persistence_config_institution}" />
+                value="${MCR.Metadata.Config.institution}" />
         </antcall>
 
         <move todir="${docportal.schema}">
             <fileset dir="${docportal.schema}"
-                includes="${MCR.persistence_config_document} ${MCR.persistence_config_disshab} ${MCR.persistence_config_derivate} ${MCR.persistence_config_author} ${MCR.persistence_config_institution}" />
+                includes="${MCR.Metadata.Config.document} ${MCR.Metadata.Config.disshab} ${MCR.Metadata.Config.derivate} ${MCR.Metadata.Config.author} ${MCR.Metadata.Config.institution}" />
             <mapper type="glob" from="*.xml" to="*.xsd" />
         </move>
     </target>
@@ -1519,7 +1519,7 @@
 				    <replaceregex pattern="^MCR\.BaseDirectory=.*$" replace="MCR.BaseDirectory=$INSTALL_PATH/sample-data" />
 					<replaceregex pattern="^MCR\.hibernate\.connection\.url=.*$" replace="MCR.hibernate.connection.url=jdbc:hsqldb:file:%MCR.BaseDirectory%/hsqldb-data/mycore" />
 					<replaceregex pattern="^MCR\.WorkflowEngine\.Administrator\.Email=.*$" replace="MCR.WorkflowEngine.Administrator.Email=$EMAILADDRESS" />
-					<replaceregex pattern="^MCR\.mail\.server=.*$" replace="MCR.mail.server=$MAILSERVER" />					
+					<replaceregex pattern="^MCR\.Mail\.Server=.*$" replace="MCR.Mail.Server=$MAILSERVER" />					
 				</tokenfilter>				
 			</filterchain>
 		</copy>

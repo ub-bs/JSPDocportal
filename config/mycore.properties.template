@@ -19,7 +19,7 @@ MCR.WorkflowEngine.MyInstitution.city=Neustadt
 MCR.WorkflowEngine.MyInstitution.street=Musterstrasse
 MCR.WorkflowEngine.MyInstitution.number=
 
-MCR.SimpleDateFormat.strictParsing=false
+MCR.Metadata.SimpleDateFormat.StrictParsing=false
 
 MCR.WorkflowEngine.Administrator.Email=admin@mycore.de
 MCR.WorkflowEngine.DefaultPermissionTypes=read,commitdb,writedb,deletedb,deletewf
@@ -182,7 +182,7 @@ MCR.IFS.ContentStore.FS.URI=%MCR.BaseDirectory%/filestore
 MCR.LogDirectory=%MCR.BaseDirectory%/log
 #MCR.LogFile=%MCR.BaseDirectory%/log/mcrjsp.log
 
-MCR.dtd.directory=%MCR.BaseDirectory%/dtd
+MCR.Hibernate.DTD.Directory=%MCR.BaseDirectory%/dtd
 
 MCR.Save.FileSystem=%MCR.BaseDirectory%/save
 
@@ -195,58 +195,59 @@ MCR.AccessRule.STANDARD-RULE-ALL-EDITORS=<condition format="xml"><condition fiel
 MCR.AccessRule.ADMININTERFACE-DEFAULTRULE=<condition format="xml"><condition field="user" operator="=" value="administrator" /></condition>
 MCR.AccessRule.STANDARD-READ-RULE=<condition format="xml"><boolean operator="true" /></condition>
 
-MCR.internal_command_classes=org.mycore.frontend.cli.MCRUserCommands,org.mycore.frontend.cli.MCRClassificationCommands,org.mycore.frontend.cli.MCRObjectCommands,org.mycore.frontend.cli.MCRAccessCommands,org.mycore.frontend.cli.MCRDerivateCommands,org.mycore.backend.hibernate.MCRHIBCtrlCommands,org.mycore.access.mcrimpl.MCRAccessCtrlCommands,org.mycore.services.fieldquery.MCRQueryCommands,org.mycore.frontend.workflowengine.jbpm.MCRJbpmCommands
+MCR.CLI.Classes.Internal=org.mycore.frontend.cli.MCRUserCommands,org.mycore.frontend.cli.MCRClassificationCommands,org.mycore.frontend.cli.MCRObjectCommands,org.mycore.frontend.cli.MCRAccessCommands,org.mycore.frontend.cli.MCRDerivateCommands,org.mycore.backend.hibernate.MCRHIBCtrlCommands,org.mycore.access.mcrimpl.MCRAccessCtrlCommands,org.mycore.services.fieldquery.MCRQueryCommands,org.mycore.frontend.workflowengine.jbpm.MCRJbpmCommands
 
-MCR.Access_class_name=org.mycore.access.mcrimpl.MCRAccessControlSystem
-MCR.AccessPermissions=read,commitdb,writedb,deletedb,deletewf
-MCR.AccessAdminInterfacePermissions=admininterface-access,admininterface-user,admininterface-accessrules
-MCR.access_page_error=error-access.jsp
+MCR.Access.Class=org.mycore.access.mcrimpl.MCRAccessControlSystem
+MCR.Access.ErrorPage=error-access.jsp
+MCR.Access.AccessPermissions=read,commitdb,writedb,deletedb,deletewf
+MCR.Access.AdminInterfacePermissions=admininterface-access,admininterface-user,admininterface-accessrules
+MCR.Access.ErrorPage=error-access.jsp
 
 MCR.AccessPool.CacheSize=4096
 
 # The configuration for the superuser
-MCR.users_superuser_username=root
-MCR.users_superuser_userpasswd=alleswirdgut
-MCR.users_superuser_groupname=rootgroup
+MCR.Users.Superuser.Username=root
+MCR.Users.Superuser.UserPasswd=alleswirdgut
+MCR.Users.Superuser.GroupName=rootgroup
 
 # The configuration for the guestuser
-MCR.users_guestuser_username=gast
-MCR.users_guestuser_userpasswd=gast
-MCR.users_guestuser_groupname=gastgroup
-MCR.users_use_password_encryption=true
+MCR.Users.Guestuser.UserName=gast
+MCR.Users.Guestuser.UserPasswd=gast
+MCR.Users.Guestuser.GroupName=gastgroup
+MCR.Users.UsePasswordEncryption=true
 
 #implizit user groups suggestions
-MCR.users.implicitgroups.createdisshab=createauthor,createinstitution
-MCR.users.implicitgroups.createpublication=createauthor,createinstitution
+MCR.Users.Implicitgroups.createdisshab=createauthor,createinstitution
+MCR.Users.Implicitgroups.createpublication=createauthor,createinstitution
 
 
 # ---------------------------------------------------------------------
-MCR.metadata_default_lang=de
+MCR.Metadata.DefaultLang=de
 
 #classification
-MCR.type_class=true
+MCR.Metadata.Type.class=true
 
 # document
-MCR.type_document=true
-MCR.persistence_config_document=datamodel-document.xml
+MCR.Metadata.Type.document=true
+MCR.Metadata.Config.document=datamodel-document.xml
 
 #disshab
-MCR.type_disshab=true
-MCR.persistence_config_disshab=datamodel-disshab.xml
+MCR.Metadata.Type.disshab=true
+MCR.Metadata.Config.disshab=datamodel-disshab.xml
 
 
 # derivate
-MCR.type_derivate=true
-MCR.persistence_config_derivate=datamodel-derivate.xml
+MCR.Metadata.Type.derivate=true
+MCR.Metadata.Config.derivate=datamodel-derivate.xml
 
 # author
-MCR.type_author=true
-MCR.persistence_config_author=datamodel-author.xml
+MCR.Metadata.Type.author=true
+MCR.Metadata.Config.author=datamodel-author.xml
 
 
 # institution
-MCR.type_institution=true
-MCR.persistence_config_institution=datamodel-institution.xml
+MCR.Metadata.Type.institution=true
+MCR.Metadata.Config.institution=datamodel-institution.xml
 
 
 # The name of the Java class of the XML parser
@@ -255,7 +256,7 @@ MCR.XMLParser.Class=org.mycore.common.xml.MCRParserXerces
 
 # ---------------------------------------------------------------------
 # The class for the XML Store
-MCR.xml_store_class=org.mycore.backend.hibernate.MCRHIBXMLStore
+MCR.Persistence.XML.Store.Class=org.mycore.backend.hibernate.MCRHIBXMLStore
 
 
 MCR.XMLStore.Type=hibernate
@@ -285,16 +286,16 @@ MCR.searchmask_config_disshab=SearchMask_Disshab.xml
 
 
 # This is the default. It use the Hibernate class for URN
-MCR.URN.Store=org.mycore.backend.hibernate.MCRHIBURNStore
+MCR.Persistence.URN.Store.Class=org.mycore.backend.hibernate.MCRHIBURNStore
 # this is appl-specific
 MCR.URN.SubNamespace.disshab.Prefix=urn\:nbn\:de\:gbv\:28-diss   
 MCR.URN.SubNamespace.publication.Prefix=urn\:nbn\:de\:gbv\:28-document
 
 # -------------------------------
 
-MCR.classifications_store_class=org.mycore.backend.hibernate.MCRHIBClassificationStore
-MCR.linktable_store_class=org.mycore.backend.hibernate.MCRHIBLinkTableStore
-MCR.IFS.FileMetadataStore.Class=org.mycore.backend.hibernate.MCRHIBFileMetadataStore
+MCR.Persistence.Classification.Store.Class=org.mycore.backend.hibernate.MCRHIBClassificationStore
+MCR.Persistence.LinkTable.Store.Class=org.mycore.backend.hibernate.MCRHIBLinkTableStore
+MCR.Persistence.IFS.FileMetadataStore.Class=org.mycore.backend.hibernate.MCRHIBFileMetadataStore
 
 MCR.IFS.ContentStore.SQLDB.Class=org.mycore.backend.hibernate.MCRHIBCStore
 
@@ -326,21 +327,22 @@ MCR.persistence_sql_database_name=mycore
 MCR.persistence_workflow_sql_database_name=mycore-workflow
 
 MCR.classifications_store_sql_table_class=MCRCLASS
-MCR.classifications_store_sql_table_classlabel=MCRCLASSLABEL
-MCR.classifications_store_sql_table_categ=MCRCATEG
-MCR.classifications_store_sql_table_categlabel=MCRCATEGLABEL
+MCR.Persistence.Classification.Store.Table.ClassLabel=MCRCLASSLABEL
+MCR.Persistence.Classification.Store.Table.Categ=MCRCATEG
+MCR.Persistence.Classification.Store.Table.CategLabel=MCRCATEGLABEL
+
 MCR.linktable_store_sql_table_class=MCRLINKCLASS
-MCR.linktable_store_sql_table_href=MCRLINKHREF
-MCR.IFS.FileMetadataStore.SQL.TableName=MCRFSNODES
-MCR.users_store_sql_table_users=MCRUSERS
-MCR.users_store_sql_table_groups=MCRGROUPS
-MCR.users_store_sql_table_group_members=MCRGROUPMEMBERS
-MCR.users_store_sql_table_group_admins=MCRGROUPADMINS
+MCR.Persistence.LinkTable.Store.Table=MCRLINKHREF
+MCR.Persistence.IFS.FileMetadataStore.Table=MCRFSNODES
+MCR.Persistence.User.Store.Table.Users=MCRUSERS
+MCR.Persistence.User.Store.Table.Groups=MCRGROUPS
+MCR.Persistence.User.Store.Table.GroupMembers=MCRGROUPMEMBERS
+MCR.Persistence.User.Store.Table.GroupAdmins=MCRGROUPADMINS
 
 
-MCR.userstore_class_name=org.mycore.backend.hibernate.MCRHIBUserStore
+MCR.Persistence.User.Store.Class=org.mycore.backend.hibernate.MCRHIBUserStore
 
-MCR.metadata_objectid_number_pattern=00000000
+MCR.Metadata.ObjectID.NumberPattern=00000000
 
 # ------- Editor
 
@@ -357,8 +359,8 @@ MCR.default_derivate_label=Anhang (Volltext)
 ##############################################################################
 
 # General configurations
-MCR.classifications_classification_cache_size=20
-MCR.classifications_category_cache_size=500
+MCR.Persistence.Classification.Store.CacheSize.Class=20
+MCR.Persistence.Classification.Store.CacheSize.Categ=500
 MCR.classifications_search_sequence=remote-local
 
 ##############################################################################
@@ -674,13 +676,13 @@ MCR.UriResolver.classification.format.idtext={id} {text}
 
 ########################
 # ACCESS
-MCR.accessstore_class_name=org.mycore.backend.hibernate.MCRHIBAccessStore
-MCR.rulestore_class_name=org.mycore.backend.hibernate.MCRHIBRuleStore
+MCR.Persistence.Access.Store.Class=org.mycore.backend.hibernate.MCRHIBAccessStore
+MCR.Persistence.Rule.Store_Class=org.mycore.backend.hibernate.MCRHIBRuleStore
 
 #########################
 # additional hibernate-mapping-files
 #########################
-MCR.hibernate.hbm.xml.MCRRESUMPTIONTOKEN=MCRRESUMPTIONTOKEN.hbm.xml
+MCR.Persistence.Hibernate.HBM.XML.MCRRESUMPTIONTOKEN=MCRRESUMPTIONTOKEN.hbm.xml
 
 ###################################
 #OAI
@@ -699,7 +701,7 @@ MCR.oai.epicur.responseemail=admin@mycore.de
 # A temporary directory to store the resumption tokens
 #MCR.oai.resumptiontoken.dir=/export/DissApplication/tmp
 # timeout, after which the resumption tokens will be deleted (in hours)
-MCR.oai.resumptiontoken.timeout=48
+MCR.OAI.Resumptiontoken.Timeout=48
 # Number of results in the list
 MCR.oai.maxreturns=25
 # implementation of the OAI query interface
@@ -726,23 +728,24 @@ MCR.oai.metadata.schema.epicur=urn:nbn:dC:1111-2004033116 http://nbn-resolving.d
 
 
 ## instance dependent settings for instance OAIProvider
-MCR.oai.repositoryidentifier.MCROAIProvider=oai.mycore.de
-MCR.oai.repositoryname.MCROAIProvider=MyCoRe Repository fuer Online Hochschulschriften
+MCR.OAI.Repository.Identifier.MCROAIProvider=oai.mycore.de
+MCR.OAI.Repository.Name.MCROAIProvider=MyCoRe Repository fuer Online Hochschulschriften
 # a mycore-query condition that is joined with "AND" with the other query (from,until,set)
 # you can restrict an instance here to a special document-type or something else
-MCR.oai.queryRestriction.OAIProvider=<condition field\="objecttype" value\="disshab" operator\="\=" />
+MCR.OAI.QueryRestriction.MCROAIProvider=<condition field\="objecttype" value\="disshab" operator\="\=" />
 
  # DINIspec - searchField mapping: ddc = subject, pub-type = type, doc-type=format;
-MCR.oai.setscheme.searchfields.MCROAIProvider=format,type, subject
-MCR.oai.setscheme.classids.MCROAIProvider.format=DocPortal_class_00000006
-MCR.oai.setscheme.classids.MCROAIProvider.type=DocPortal_class_00000005
-MCR.oai.setscheme.classids.MCROAIProvider.subject=DocPortal_class_00000009
+MCR.OAI.Setscheme.Searchfields.MCROAIProvider=format,type, subject
+MCR.OAI.Setscheme.Classids.MCROAIProvider.format=DocPortal_class_00000006
+MCR.OAI.Setscheme.Classids.MCROAIProvider.type=DocPortal_class_00000005
+MCR.OAI.Setscheme.Classids.MCROAIProvider.subject=DocPortal_class_00000009
 
 
 # Generic mail configuration for MCRMailer
-MCR.mail.server=localhost
-MCR.mail.protocol=smtp
-MCR.mail.debug=false
+MCR.Mail.Server=localhost
+MCR.Mail.Protocol=smtp
+MCR.Mail.Debug=false
+MCR.Mail.NumTries=3
 
 ##############################################################################
 # External User Login

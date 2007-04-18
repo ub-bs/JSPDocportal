@@ -23,7 +23,7 @@ public class LogoutServlet extends MCRServlet {
         MCRSession session = MCRServlet.getSession(request);
         String uid = session.getCurrentUserID();
         LOGGER.debug("Log out user "+uid);
-        session.setCurrentUserID(MCRConfiguration.instance().getString("MCR.users_guestuser_username", "gast"));
+        session.setCurrentUserID(MCRConfiguration.instance().getString("MCR.Users.Guestuser.UserName", "gast"));
         this.getServletContext().getRequestDispatcher("/content/index.jsp").include(request,response);
     }
 }

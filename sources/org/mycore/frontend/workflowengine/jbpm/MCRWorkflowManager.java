@@ -47,7 +47,7 @@ public abstract class MCRWorkflowManager {
 	
 	static{
 		MCRConfiguration config = MCRConfiguration.instance();
-		GUEST_ID = config.getString("MCR.users_guestuser_username","gast");
+		GUEST_ID = config.getString("MCR.Users.Guestuser.UserName","gast");
 		deleteDir = config.getString("MCR.WorkflowEngine.DeleteDirectory");
 		logger = Logger.getLogger(MCRWorkflowManager.class.getName());
 		

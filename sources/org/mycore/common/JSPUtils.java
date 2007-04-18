@@ -134,7 +134,7 @@ public class JSPUtils {
            return false;
      }
    	 public static boolean isDocument(String docType) {
-   	   String searchTypes = MCRConfiguration.instance().getString("MCR.type_alldocs", "alldocs");
+   	   String searchTypes = MCRConfiguration.instance().getString("MCR.Metadata.Type.alldocs", "alldocs");
  	   return (searchTypes.indexOf(docType) >= 0);
      }    
      public static boolean isInstitution(String docType) {

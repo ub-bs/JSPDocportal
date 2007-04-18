@@ -60,7 +60,7 @@ public class MCRSessionTag extends SimpleTagSupport
 			} else if (type.equals("userName")) {
 				if (method.equals("get")) {
 					String userName = mcrSession.getCurrentUserName();
-					if (userName == null) userName = MCRConfiguration.instance().getString("MCR.users_guestuser_username","Gast");
+					if (userName == null) userName = MCRConfiguration.instance().getString("MCR.Users.Guestuser.UserName","Gast");
 					pageContext.setAttribute(var, userName);
 				}else
 					mcrSession.setCurrentUserName((String)pageContext.getAttribute(var));
