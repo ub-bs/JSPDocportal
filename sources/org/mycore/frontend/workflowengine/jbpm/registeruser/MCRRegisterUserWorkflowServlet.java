@@ -327,7 +327,7 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
      
      private void addImplicitGroupIDs(Element user){
     	 //<groups.groupID>createauthor</groups.groupID>
-    		Properties props = MCRConfiguration.instance().getProperties("MCR.users.implicitgroups.");
+    		Properties props = MCRConfiguration.instance().getProperties("MCR.Users.Implicitgroups.");
 			List<String> gl = new ArrayList<String>();
 			try{
 				String path = "user.groups/groups.groupID";
@@ -342,8 +342,8 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 			}
     		List<String> newGIDs = new ArrayList<String>();			
     		for(String id:gl){
-					if(props.containsKey("MCR.users.implicitgroups."+id)){
-					String value = props.getProperty("MCR.users.implicitgroups."+id);
+					if(props.containsKey("MCR.Users.Implicitgroups."+id)){
+					String value = props.getProperty("MCR.Users.Implicitgroups."+id);
 					String[] gids = value.split(",");
 					for(int i=0;i<gids.length;i++){
 						if(!gl.contains(gids[i])){
