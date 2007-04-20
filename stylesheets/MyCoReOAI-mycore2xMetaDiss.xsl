@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!-- ============================================== -->
-<!-- $Revision: 1.7 $ $Date: 2007-03-26 15:28:23 $ -->
+<!-- $Revision: 1.8 $ $Date: 2007-04-20 15:18:23 $ -->
 <!-- ============================================== -->
 <xsl:stylesheet
      version="1.0"
@@ -186,9 +186,9 @@
 	             <xsl:element name="dc:creator">
 	                <xsl:attribute name="xsi:type">pc:MetaPers</xsl:attribute>
 	                <xsl:element name="pc:person">
-	                   <xsl:if test="./pnd-numbers/pnd-number">
+	                   <xsl:if test="./identifiers/identifier[@type='pnd']">
 	                   	<xsl:attribute name="PND-Nr">
-		                     <xsl:value-of select="./pnd-numbers/pnd-number" />
+		                     <xsl:value-of select="./identifiers/identifier[@type='pnd']" />
 	                   	</xsl:attribute>
 						</xsl:if>	                
 	                    <xsl:if test="./females/female">

@@ -240,19 +240,20 @@
 	</cell>	   
   </panel>
   
-<!-- ** Data for the PND Number *** -->  
+<!-- ** Data for the Ppn Number *** -->  
   
-  <text id="Lpndnumber">
-     <label i18n="OMD.pndnumber" />
+  <text id="Lpnd-number">
+     <label i18n="OMD.pnd-number" />
   </text>
   
-  <panel id="Dpndnumber">
-        <hidden var="metadata/pnd-numbers/@class" default="MCRMetaLangText" sortnr="16" />
-        <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="metadata/pnd-numbers/pnd-number"  />
+  <panel id="Dpnd-number">
+        <hidden var="metadata/identifiers/@class" default="MCRMetaLangText" />
+        <hidden var="metadata/identifiers/identifier/@type" default="pnd" />
+        <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="metadata/identifiers/identifier"  />
   </panel>
   
-  <helpPopup id="HAddress" >
-		<label i18n="Editor.Help.Hpndnumber" />
+  <helpPopup id="Hpnd-number" >
+		<label i18n="Editor.Help.Hpnd-number" />
   </helpPopup>
       
   
