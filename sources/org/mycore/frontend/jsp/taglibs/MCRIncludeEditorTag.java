@@ -182,7 +182,7 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 
 		params.put("lang" , MCRSessionMgr.getCurrentSession().getCurrentLanguage());
 		params.put("MCRSessionID" , MCRSessionMgr.getCurrentSession().getID());
-		params.put("XSL.editor.cancel.url", cancelPage);
+		params.put("cancelUrl", cancelPage);
 		params.put("XSL.editor.source.new", isNewEditorSource);
 		params.put("mcrid", mcrid);
 		params.put("processid", String.valueOf(processid));
@@ -217,7 +217,7 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 				logger.error("Wrong URL", mue);
 			}			
 		}
-		params.put("XSL.editor.source.url", url);
+		params.put("sourceUri", url);
 		if(nextPath != null && !nextPath.equals("")){
 			params.put("nextPath", nextPath);
 		}
