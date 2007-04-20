@@ -23,10 +23,7 @@
 						<x:set var="terminator" select="./@terminator" />
 						<x:set var="introkey" select="string(./@introkey)" />
 						<x:forEach select="./metavalue">
-							<x:if
-								select="generate-id(../metavalue[position() = 1]) != generate-id(.)">
-								<c:set var="output">${output}<x:out select="$separator" escapeXml="false" />&nbsp;</c:set>
-							</x:if>
+						<x:if select="./@text!='#'">
 							<c:if test="${fn:length(introkey) > 0 }">
 								<x:choose>
 									<x:when select="../@type = 'messagekey'">
@@ -62,10 +59,16 @@
 									<c:set var="output">${output}<x:out select="./@text" escapeXml="./@escapeXml" /></c:set>
 								</x:otherwise>
 							</x:choose>
+							<x:if select="generate-id(../metavalue[position() = last()]) != generate-id(.)">
+								<c:set var="output">${output}<x:out select="$separator" escapeXml="false" />&nbsp;</c:set>
+							</x:if>
+							
+						</x:if>
 						</x:forEach>
-						<x:if
-							select="generate-id(../metavalues[position() = last()]) != generate-id(.)">
-							<c:set var="output">${output}<x:out select="$terminator" escapeXml="false" />&nbsp;</c:set>
+						<x:if select="generate-id(../metavalues[position() = last()]) != generate-id(.)">
+							<x:if select="./metavalue[1]/@text!='#'">
+								<c:set var="output">${output}<x:out select="$terminator" escapeXml="false" />&nbsp;</c:set>
+							</x:if>
 						</x:if>
 					</x:forEach>
 
