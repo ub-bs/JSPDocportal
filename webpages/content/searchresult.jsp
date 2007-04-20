@@ -60,7 +60,7 @@
 	<div class="headline"><fmt:message key="${headlineKey}" /></div>
 	<p><a
 		href="${WebApplicationBaseURL}servlets/MCRJSPSearchServlet?mode=refine&mask=${mask}&id=${resultid}">
-	<b>Suche verfeinern |</b> </a> <a
+	<b>Suche verfeinern</b> </a><b> | </b> <a
 		href="${WebApplicationBaseURL}servlets/MCRJSPSearchServlet?mode=renew&mask=${mask}">
 	<b>neue Suche</b></a></p>
 

@@ -4,7 +4,8 @@
 <section title="Registering for a user" xml:lang="de">
 
 <editor id="modify-user">
-
+	 <source uri="{sourceUri}" />
+     <cancel url="{cancelUrl}" />
     <target type="servlet" name="MCRPassToTargetServlet" method="post" format="xml" /> 
     <components root="modify-user" var="/mycoreuser">
         <include uri="webapp:editor/workflow/imports-user.xml" />		

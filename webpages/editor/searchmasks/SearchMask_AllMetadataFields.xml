@@ -5,9 +5,11 @@
 <editor id="SearchMask_AllMetadataFields">
 <!-- <target type="debug" /> -->
 
-<source uri="request:servlets/MCRJSPSearchServlet?mode=load&amp;id={ID}" token="{ID}"/> 
-<!--<source uri="" url="request:servlets/MCRJSPSearchServlet?mode=load&amp;id=[ID]" token="[ID]"/> -->
-<target type="servlet" url="/servlets/MCRJSPSearchServlet" method="post" format="xml" />
+<!-- MyCore-Default: <source uri="request:servlets/MCRSearchServlet?mode=load&amp;id={id}" />
+                     <target type="servlet" name="MCRSearchServlet" method="post" format="xml" />  -->
+  <source uri="request:servlets/MCRJSPSearchServlet?mode=load&amp;id={XSL.editor.source.id}&amp;MCRSessionID={MCRSessionID}" />
+  <target type="servlet" url="/servlets/MCRJSPSearchServlet" method="post" format="xml" />
+
   <validationMessage>
       <label xml:lang="de">
         Eingabefehler: Bitte korrigieren Sie die markierten Felder 

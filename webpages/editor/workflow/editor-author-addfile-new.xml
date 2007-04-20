@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE Editor>
 <editor>
+	 <!-- this is a special editor - do nto enable this: <source uri="{sourceUri}" /> -->
+     <cancel url="{cancelUrl}" /> 
  <target type="servlet" name="MCRPassToTargetServlet" method="post" format="xml" />
   <validationMessage>
       <label xml:lang="de">

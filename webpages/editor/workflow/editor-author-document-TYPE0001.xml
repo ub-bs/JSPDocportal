@@ -5,6 +5,8 @@
   <target type="debug" />
   -->
   <target type="servlet" name="MCRPassToTargetServlet" method="post" format="xml" />
+  <source uri="{sourceUri}" />
+  <cancel url="{cancelUrl}" />
   <validationMessage>
       <label xml:lang="de">
         Eingabefehler: Bitte korrigieren Sie die markierten Felder 

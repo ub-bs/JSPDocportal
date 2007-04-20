@@ -2,7 +2,8 @@
 <!DOCTYPE Editor>
 
 <editor id="editor-author-author">
-
+	 <source uri="{sourceUri}" />
+     <cancel url="{cancelUrl}" />
 <!--
  <target type="debug" />
 -->

@@ -2,7 +2,8 @@
 <!DOCTYPE editor>
 
 <editor  id="editor-author-institution" >
-
+ <source uri="{sourceUri}" />
+ <cancel url="{cancelUrl}" />
  <target type="servlet" name="MCRPassToTargetServlet" method="post" format="xml" /> 
   <validationMessage>
       <label xml:lang="de">

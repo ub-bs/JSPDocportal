@@ -13,9 +13,11 @@
   </validationMessage>
 
 <!-- <target type="debug" /> -->
-<source url="request:servlets/MCRJSPSearchServlet?mode=load&amp;id={ID}" token="{ID}"/>
-<!-- <source url="request:servlets/MCRJSPSearchServlet?mode=load&amp;id=[ID]" token="[ID]"/> -->
-<target type="servlet" url="/servlets/MCRJSPSearchServlet" method="post" format="xml" />
+<!-- MyCore-Default: <source uri="request:servlets/MCRSearchServlet?mode=load&amp;id={id}" />
+                     <target type="servlet" name="MCRSearchServlet" method="post" format="xml" />  -->
+  <source uri="request:servlets/MCRJSPSearchServlet?mode=load&amp;id={XSL.editor.source.id}&amp;MCRSessionID={MCRSessionID}" />
+  <target type="servlet" url="/servlets/MCRJSPSearchServlet" method="post" format="xml" />
+
 
 <components root="SearchMask_Allpers" var="/query">
 
