@@ -118,7 +118,7 @@ public abstract class MCRDerivateStrategy {
 					}
 				}
 			}
-			String base = MCRConfiguration.instance().getString("MCR.default_project_id","DocPortal")+ "_derivate";
+			String base = MCRConfiguration.instance().getString("MCR.SWF.Project.ID","DocPortal")+ "_derivate";
 			MCRObjectID dbIDMax = new MCRObjectID();
 			dbIDMax.setNextFreeId(base);
 			if(allDerivateFileNames.size() == 0){

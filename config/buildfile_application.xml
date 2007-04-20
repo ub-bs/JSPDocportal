@@ -1191,7 +1191,7 @@
     <!-- =================================================================== -->
 
     <property name="docportal.hsqldb-datadir"
-        value="${MCR.persistence_sql_data_directory}" />
+        value="${MCR.Persistence.SQL.Data.Directory}" />
     <target name="hsqldbstart" depends="init">
         <echo message="Starting HSQLDB Server" />
         <echo file="hsqlport.tmp" append="false">
@@ -1210,11 +1210,11 @@
             classname="org.hsqldb.Server"
             classpathref="docportal.classpath" fork="yes">
             <arg value="-database.0" />
-            <arg value="${MCR.persistence_sql_data_directory}/${MCR.persistence_sql_database_name}" />
+            <arg value="${MCR.Persistence.SQL.Data.Directory}/${MCR.Persistence.SQL.Database.Name}" />
         	<arg value="-dbname.0" />
-            <arg value="${MCR.persistence_sql_database_name}" />
+            <arg value="${MCR.Persistence.SQL.Database.Name}" />
         	<arg value="-database.1" />
-        	<arg value="${MCR.persistence_sql_data_directory}/${MCR.persistence_workflow_sql_database_name}" />
+        	<arg value="${MCR.Persistence.SQL.Data.Directory}/${MCR.persistence_workflow_sql_database_name}" />
             <arg value="-dbname.1" />
             <arg value="${MCR.persistence_workflow_sql_database_name}" />        	
             <arg value="-port" />
@@ -1242,7 +1242,7 @@
             classname="org.hsqldb.util.ShutdownServer" fork="yes"
             classpathref="docportal.classpath">
             <arg value="-url" />
-            <arg value="${connectionBase}/${MCR.persistence_sql_database_name}" />
+            <arg value="${connectionBase}/${MCR.Persistence.SQL.Database.Name}" />
         </java>
         <java dir="${docportal.hsqldb-datadir}"
             classname="org.hsqldb.util.ShutdownServer" fork="yes"

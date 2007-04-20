@@ -371,7 +371,7 @@ public abstract class MCRWorkflowManager {
 	 * TODO for user
 	 */
 	final public MCRObjectID getNextFreeID(String objtype) {
-	    String base = MCRConfiguration.instance().getString("MCR.default_project_id","DocPortal")+ "_" + objtype; 	    
+	    String base = MCRConfiguration.instance().getString("MCR.SWF.Project.ID","DocPortal")+ "_" + objtype; 	    
 		String workingDirectoryPath = MCRWorkflowDirectoryManager.getWorkflowDirectory(objtype);
 		
 		MCRObjectID IDMax = new MCRObjectID();
