@@ -902,7 +902,14 @@ public class MCRResultFormatter {
 		
 		for (int k = from; k < until && k < hits.size() ; k++) {
 			String hitID = ((Element)(hits.get(k))).getAttributeValue("id");		
-		    org.jdom.Document hit = mcr_obj.receiveJDOMFromDatastore(hitID);
+			org.jdom.Document hit=null;
+			try{
+		    	hit = mcr_obj.receiveJDOMFromDatastore(hitID);
+		    }
+		    catch(Exception e){
+		    	logger.error("Object with ID "+hitID+" does not exist in data store!!!");
+		    	continue;
+		    }
 	        Element mycoreobject = hit.getRootElement();
 	        String mcrID = mycoreobject.getAttributeValue("ID");
 	        String docType = mcrID.substring(mcrID.indexOf("_")+1,mcrID.lastIndexOf("_"));
