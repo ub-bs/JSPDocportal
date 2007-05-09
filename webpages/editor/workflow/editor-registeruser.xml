@@ -4,7 +4,7 @@
 <section title="Registering for a user" xml:lang="de">
 
 <editor id="register-user">
-	 <source uri="{sourceUri}" />
+	<!-- this is a "special" editor - do nto enable this: <source uri="{sourceUri}" /> -->
      <cancel url="{cancelUrl}" />
    <!-- target type="debug" / -->
   <target type="servlet" name="MCRPassToTargetServlet" method="post" format="xml" />
