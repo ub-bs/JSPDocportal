@@ -203,7 +203,7 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 		String url="";
 		if(editorSource != null && !editorSource.equals("")){
 			try{
-				url = new File(editorSource).toURL().toString();
+				url = new File(editorSource).toURI().toURL().toString();
 			}
 			catch(MalformedURLException mue){
 				logger.error("Wrong URL", mue);
@@ -211,7 +211,7 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 			
 		}else if(!isNewEditorSource.equals("true") && mcrid != null && !mcrid.equals("") && type != null && !type.equals("")){
 			try{
-				url = new File(MCRWorkflowDirectoryManager.getWorkflowDirectory(type)+"/"+mcrid+".xml").toURL().toString();
+				url = new File(MCRWorkflowDirectoryManager.getWorkflowDirectory(type)+"/"+mcrid+".xml").toURI().toURL().toString();
 			}
 			catch(MalformedURLException mue){
 				logger.error("Wrong URL", mue);
