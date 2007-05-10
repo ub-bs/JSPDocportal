@@ -661,6 +661,7 @@
                 <include name="**/*.jpg" />
                 <include name="**/*.jar" />
                 <include name="**/*.swf" />
+                <include name="**/documentation/**" />
                 <exclude name="**/CVS/**/*.*" />
                 <exclude name="**/.svn/**/*.*" />
                 <exclude name="**/web.xml" />
