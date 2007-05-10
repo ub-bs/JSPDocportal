@@ -41,9 +41,10 @@ import org.mycore.datamodel.metadata.MCRObjectMetadata;
  *  for each classification item is displayed correctly. This has also an impact to the question
  * if a classification item can be expanded to display subitems.
  * 
- * @author Robert Stephan
+ * @author Robert Stephan * @deprecated The class is not used anymore -> It was to update classifications after a new object
+ * (CPR, Disshab) to flush the classification cache.
  */
-public class MCRClassificationEventHandler extends MCREventHandlerBase {
+public class MCRObjectClearClassificationsCacheEventHandler extends MCREventHandlerBase {
 
     static MCRClassificationManager classMgr= MCRClassificationManager.instance();
 
