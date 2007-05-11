@@ -7,6 +7,9 @@
 <xsl:stylesheet 
   version="1.0" 
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:j2ee="http://java.sun.com/xml/ns/j2ee"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
 >
 <xsl:output 
   indent="yes"
@@ -17,47 +20,47 @@
 <xsl:preserve-space elements="" />
 
 <xsl:template match="/">
-  <xsl:variable name="wia" select="document('web1.xml')/web-app" />
-  <xsl:variable name="wib" select="web-app" />
+  <xsl:variable name="wia" select="document('web1.xml')/j2ee:web-app" />
+  <xsl:variable name="wib" select="j2ee:web-app" />
   
 <web-app xmlns="http://java.sun.com/xml/ns/j2ee"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
     version="2.4">
     
-    <xsl:copy-of select="$wia/display-name" />
+    <xsl:copy-of select="$wia/j2ee:display-name" />
 
-    <xsl:copy-of select="$wia/listener" />
-    <xsl:copy-of select="$wib/listener" />
+    <xsl:copy-of select="$wia/j2ee:listener" />
+    <xsl:copy-of select="$wib/j2ee:listener" />
 
-    <xsl:copy-of select="$wia/filter" />
-    <xsl:copy-of select="$wib/filter" />
+    <xsl:copy-of select="$wia/j2ee:filter" />
+    <xsl:copy-of select="$wib/j2ee:filter" />
 
-    <xsl:copy-of select="$wia/filter-mapping" />
-    <xsl:copy-of select="$wib/filter-mapping" />
+    <xsl:copy-of select="$wia/j2ee:filter-mapping" />
+    <xsl:copy-of select="$wib/j2ee:filter-mapping" />
 
-    <xsl:copy-of select="$wia/servlet" />
+    <xsl:copy-of select="$wia/j2ee:servlet" />
     <!--  problems with jetty, display-name must be before servlet-name -->
-    <xsl:for-each select="$wib/servlet">
+    <xsl:for-each select="$wib/j2ee:servlet">
        <servlet>
-           <xsl:copy-of select="./display-name" />
-           <xsl:copy-of select="./servlet-name" />
-           <xsl:copy-of select="./servlet-class" />
-           <xsl:copy-of select="./load-on-startup" />                      
+           <xsl:copy-of select="./j2ee:display-name" />
+           <xsl:copy-of select="./j2ee:servlet-name" />
+           <xsl:copy-of select="./j2ee:servlet-class" />
+           <xsl:copy-of select="./j2ee:load-on-startup" />                      
        </servlet>
     </xsl:for-each>
 
-    <xsl:copy-of select="$wia/servlet-mapping" />
-    <xsl:copy-of select="$wib/servlet-mapping" />
+    <xsl:copy-of select="$wia/j2ee:servlet-mapping" />
+    <xsl:copy-of select="$wib/j2ee:servlet-mapping" />
 
-    <xsl:copy-of select="$wia/mime-mapping" />
-    <xsl:copy-of select="$wib/mime-mapping" />
+    <xsl:copy-of select="$wia/j2ee:mime-mapping" />
+    <xsl:copy-of select="$wib/j2ee:mime-mapping" />
 
-    <xsl:copy-of select="$wia/session-config" />
-    <xsl:copy-of select="$wia/welcome-file-list" />
+    <xsl:copy-of select="$wia/j2ee:session-config" />
+    <xsl:copy-of select="$wia/j2ee:welcome-file-list" />
     
-    <xsl:copy-of select="$wia/error-page" />    
-    <xsl:copy-of select="$wia/jsp-config" />    
+    <xsl:copy-of select="$wia/j2ee:error-page" />    
+    <xsl:copy-of select="$wia/j2ee:jsp-config" />    
     
   </web-app>
 

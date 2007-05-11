@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- =================================================================== -->
+<!-- MyCoRe sample application build file for use with Apache Ant        -->
+<!-- $Revision$ $Date$                      -->
+<!-- =================================================================== -->
+
+<project name="mycoresample_build" default="usage" basedir=".">
+	<property name="MYAPPLICATION_NAME" value="mycoresample" />
+    <property environment="env" />
+	<!-- Provide a default value for MYCORE_HOME if not set in env -->
+    <property name="env.MYCORE_HOME" value="../mycore" /> 
+	<property name="MYCORE_HOME" value="../mycore" />
+	
+	<import file="./../jspdocportal/config/buildfile_application.xml"/>
+    <!-- for a short description of the features of the import task look at
+		  http://ant.apache.org/manual/CoreTasks/import.html
+		  - Tasks and properties can be overwritten.
+		  - Original tasks can be called via xxx.task_name 
+		                   (where xxx is the name of the orginal build project). 
+		  There are some problems with the Eclipse editor
+		      - Close and Reopen makes the parent tasks visible again in Outline View
+    -->
+	<target name="usage">
+		<antcall target="main_build.usage" />
+    </target>
+</project>
