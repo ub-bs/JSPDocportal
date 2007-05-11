@@ -4,7 +4,7 @@
 <!-- $Revision$ $Date$                      -->
 <!-- =================================================================== -->
 
-<project default="usage" basedir=".">
+<project name="main_build" default="usage" basedir=".">
 	<!-- =================================================================== -->
     <!-- Global properties                                                   -->
     <!-- =================================================================== -->
@@ -251,6 +251,8 @@
         <pathconvert targetos="${detected.os}"
             property="docportal.libpath.translated"
             refid="docportal.libpath" />	
+    	
+    	 <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask" classpathref="docportal.classpath" />
     </target>
 	
 	<target name="jdbcstore.path.1" if="MCR.JDBCStore.BaseDir">
@@ -590,8 +592,8 @@
 		
     <target name="do.merge" if="web.xml.present">
 
-      <copy file="${docportal.webapps}/WEB-INF/web.xml" tofile="${docportal.webapps}/WEB-INF/web1.xml" />
-      <!--<copy file="${web.xml.file}" tofile="${docportal.webapps}/WEB-INF/web2.xml" />-->
+<!--      <copy file="${docportal.webapps}/WEB-INF/web.xml" tofile="${docportal.webapps}/WEB-INF/web1.xml" />
+      <copy file="${web.xml.file}" tofile="${docportal.webapps}/WEB-INF/web2.xml" />
 	  <loadfile srcfile="${web.xml.file}" property="tidy.web2.xml">
 			<filterchain>
 				<replaceregex pattern="&lt;!DOCTYPE[^&gt;].*&gt;" replace="" flags="gi"/>
@@ -606,7 +608,12 @@
       </java>
       <delete file="${docportal.webapps}/WEB-INF/web1.xml" />
       <delete file="${docportal.webapps}/WEB-INF/web2.xml" />
-      <delete file="${docportal.webapps}/WEB-INF/merge-web-xml.xsl" />
+      <delete file="${docportal.webapps}/WEB-INF/merge-web-xml.xsl" /> -->
+    	
+      	<xmltask source="${docportal.webapps}/WEB-INF/web.xml" dest="${docportal.webapps}/WEB-INF/web.xml"> 
+      	  <insert path="/web-app/session-config" position="before" file="${web.xml.file}" /> 
+      	</xmltask> 
+      	<replace file="${docportal.webapps}/WEB-INF/web.xml" token='xmlns=""' /> 
     </target>	
 
 	<target name="test.merge">
