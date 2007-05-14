@@ -11,7 +11,7 @@
 	<!-- =================================================================== -->
     <!-- Global properties                                                   -->
     <!-- =================================================================== -->
-<property name="MYAPPLICATION_NAME" value="mycoresample" />
+	<property name="MYAPPLICATION_NAME" value="mycoresample" />
 
     <!-- Javac properties -->
     <property name="debug" value="on" />
@@ -46,27 +46,30 @@
 	
 	<property name="DOCPORTAL_HOME" value="../jspdocportal" />
 
-    <!-- Read in BaseDirectory from config/mycore.properties -->
-	<loadproperties srcfile="./config/mycore.properties">
-		<filterchain>
-			<linecontainsregexp>
-			  <regexp pattern="\\AMCR.BaseDirectory"/>
-			</linecontainsregexp>
-		</filterchain>
-	</loadproperties>	
+
+	<!-- Read in BaseDirectory from config/mycore.properties -->
+    		<loadproperties srcfile="./config/mycore.properties">
+    			<filterchain>
+    				<linecontainsregexp>
+    				  <regexp pattern="\\AMCR.BaseDirectory"/>
+    				</linecontainsregexp>
+    			</filterchain>
+    		</loadproperties>	
+    		
+    		<!-- Read in all properties and replace %MCR.BaseDirectory% with above red MCR.BaseDirectory -->
+    		<loadproperties srcfile="./config/mycore.properties">
+    			<filterchain>
+    		    	<filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
+    		    	      <param type="tokenchar" name="begintoken" value="%"/>
+    		              <param type="tokenchar" name="endtoken" value="%"/>
+    		              <param type="token" name="MCR.BaseDirectory" value="${MCR.BaseDirectory}"/>
+    		    	</filterreader>
+    			</filterchain>
+    		</loadproperties>
+    	
 	
-	<!-- Read in all properties and replace %MCR.BaseDirectory% with above red MCR.BaseDirectory -->
-	<loadproperties srcfile="./config/mycore.properties">
-		<filterchain>
-	    	<filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-	    	      <param type="tokenchar" name="begintoken" value="%"/>
-	              <param type="tokenchar" name="endtoken" value="%"/>
-	              <param type="token" name="MCR.BaseDirectory" value="${MCR.BaseDirectory}"/>
-	    	</filterreader>
-		</filterchain>
-	</loadproperties>
 	
-    <!-- MyCoRe CVS repository root -->
+	<!-- MyCoRe CVS repository root -->
     <property name="CVSRoot" value="/cvs" />
 
     <property name="docportal.bin" value="${DOCPORTAL_SYSTEM}/bin" />
@@ -198,9 +201,9 @@
 	</target>
 
     <target name="init"
-        depends="jdbcstore.path.1, jdbcstore.path.2, xmlstore.path.1, xmlstore.path.2, initDOCPORTAL_SYSTEM">
-
-        <!-- Copy stylesheets from MyCoRe to MyCoRe Sample Application -->
+        depends="merge.my.properties, jdbcstore.path.1, jdbcstore.path.2, xmlstore.path.1, xmlstore.path.2, initDOCPORTAL_SYSTEM">
+                	
+    	<!-- Copy stylesheets from MyCoRe to MyCoRe Sample Application -->
         <copy todir="${docportal.stylesheets}">
             <fileset dir="${MYCORE_HOME}/stylesheets" excludes="MCRJdom*.xsl">
                 <include name="MCR*.xsl" />
@@ -1524,7 +1527,7 @@
 		</copy>			
 		<taskdef name="izpack" classpath="${DOCPORTAL_HOME}/lib/standalone-compiler.jar" classname="com.izforge.izpack.ant.IzPackTask"/>
 		<echo level="info" message="Makes the installer using IzPack"/>
-		<copy file="${DOCPORTAL_SYSTEM}/config/mycore.properties.template" tofile="${DOCPORTAL_SYSTEM}/config/izpack/mycore.properties.izpack" overwrite="true">
+		<copy file="${DOCPORTAL_SYSTEM}/config/mycore.base.properties" tofile="${DOCPORTAL_SYSTEM}/config/izpack/mycore.properties.izpack" overwrite="true">
 			<filterchain>
 				<tokenfilter>
 				    <replaceregex pattern="^MCR\.BaseDirectory=.*$" replace="MCR.BaseDirectory=$INSTALL_PATH/sample-data" />
@@ -1548,8 +1551,14 @@
 		<delete dir="${basedir}/../tmpsampledata" />
 	</target>
 	
+	<target name="merge.my.properties">
+		<taskdef name="mergepropertyfiles" classname="org.mycore.ant.customtasks.MergeProperties" classpath="${DOCPORTAL_HOME}/lib/ant-mycore.jar" /> 
+		<mergepropertyfiles basefile="${DOCPORTAL_HOME}/config/mycore.base.properties" 
+				    				deltafile="./config/mymycore.properties" 
+				    				tofile="./config/mycore.properties"/>
+	
+	</target>
+	
 	
 </project>
-
-<!-- ======================== End of file ======================== -->
 

@@ -23,6 +23,7 @@
     <field name="origin"        type="identifier" source="objectCategory" xpath="/mycoreobject/metadata/origins/origin" value="@ID" />
     <field name="subject"       type="identifier" source="objectCategory" xpath="/mycoreobject/metadata/subjects/subject" value="@ID" />
     <field name="language"      type="identifier" source="objectCategory" xpath="/mycoreobject/metadata/languages/language" value="@ID" />
+	<field name="national"      type="identifier" source="objectCategory" objects="author" xpath="/mycoreobject/metadata/nationals/national" value="@ID" />
 
     <!-- Search in document metadata -->    
     <field name="title"     type="text" sortable="true" source="objectMetadata" xpath="/mycoreobject/metadata/titles/title | /mycoreobject/metadata/surnames/surname | mycoreobject/metadata/names/name | mycoreobject/metadata/contents/content" value="text() | @xlink:title"  />
