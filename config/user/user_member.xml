@@ -7,7 +7,7 @@
     <user.contact>
       <contact.salutation />
       <contact.firstname />
-      <contact.lastname>Mitglied der Hochschule/Universität</contact.lastname>
+      <contact.lastname>Angehöriger dieser Einrichtung</contact.lastname>
       <contact.street />
       <contact.city />
       <contact.postalcode />
