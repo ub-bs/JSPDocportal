@@ -5,6 +5,9 @@
 <!-- =================================================================== -->
 
 <project name="main_build" default="usage" basedir=".">
+	<!-- !!! ATTENTION !!! -->
+	<!-- !!! basedir is overwritten by derrived build processes with the xxx_app directory !!! -->
+
 	<!-- =================================================================== -->
     <!-- Global properties                                                   -->
     <!-- =================================================================== -->
