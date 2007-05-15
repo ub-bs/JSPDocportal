@@ -7,7 +7,6 @@
     <category ID="TYPE0001">
       <label xml:lang="de" text="selbständige Publikation" />
       <label xml:lang="en" text="independent publication" />
-      <label xml:lang="x-dini" text="" />
       <category ID="TYPE0001.001">
         <label xml:lang="de" text="Monographie" />
         <label xml:lang="en" text="monograph" />
