@@ -117,7 +117,7 @@
 		<x:choose>
 			<x:when select="./@type = 'line'">
 				<c:if test="${exist > 0}" >
-					<jsp:include page="docdetailitems/docdetailitem-${type}.jsp" /> 
+					<jsp:include page="results-config/docdetailitems/docdetailitem-${type}.jsp" /> 
 				</c:if>
 			    <c:set var="exist" value="0" />  
 			</x:when>
@@ -127,7 +127,7 @@
 					
 			<x:otherwise>
 				<x:set var="exist" select="count(./metavalues)+count(./digitalobjects)" />
-					<jsp:include page="docdetailitems/docdetailitem-${type}.jsp" /> 
+					<jsp:include page="results-config/docdetailitems/docdetailitem-${type}.jsp" /> 
 				</x:otherwise>
 			</x:choose>
        </x:forEach>   

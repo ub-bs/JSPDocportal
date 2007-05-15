@@ -5,6 +5,7 @@
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr"%>
 <fmt:setLocale value='${requestScope.lang}' />
 <fmt:setBundle basename='messages' />
+<c:set var="host" value="local" />
 <x:forEach select="$data">
  <x:set var="nameKey" select="string(./@name)" />
 	<tr>
