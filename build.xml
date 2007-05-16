@@ -2,12 +2,11 @@
 
 <!-- =================================================================== -->
 <!-- MyCoRe sample application build file for use with Apache Ant        -->
-<!-- $Revision: 1.40 $ $Date: 2007-05-14 16:02:16 $                      -->
+<!-- $Revision: 1.41 $ $Date: 2007-05-16 13:09:11 $                      -->
 <!-- =================================================================== -->
 
 <project default="usage" basedir=".">
 	<property name="MYAPPLICATION.DIRNAME" value="mycoresample_app" />
-	<property name="OBJECTID.PREFIX" value="DocPortal" />
     <!-- =================================================================== -->
     <!-- Help on usage                                                       -->
     <!-- =================================================================== -->
