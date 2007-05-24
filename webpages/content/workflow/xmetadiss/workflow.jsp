@@ -42,7 +42,15 @@
    </c:when>
    <c:otherwise>
         <div class="headline"><fmt:message key="WF.xmetadiss" /></div>
-        <br>&nbsp;<br>
+	   <mcr:checkAccess var="createallowed" permission="administrate-xmetadiss" />
+   		<c:if test="${createallowed}">    
+	    	<img title="" alt="" src="images/greenArrow.gif">
+  		    <a target="_self" href="${baseURL}nav?path=~xmetadissbegin"><fmt:message key="WF.xmetadiss.StartWorkflow" /></a>
+  		</c:if>
+   
+   
+   
+        <br />&nbsp;<br />
         <div class="headline"><fmt:message key="WF.common.MyTasks" /></div>   
         
         <table>       

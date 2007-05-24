@@ -89,7 +89,10 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 
 		
 		List processIDs = getCurrentProcessIDsForProcessType(initiator, workflowProcessType);
-		if (processIDs == null || processIDs.size() == 0) {
+//		if (processIDs == null || processIDs.size() == 0) {
+//		allow multiple workflowproccesses - same code as in MCRWorkflowManagerPublication		
+		
+		if(true){
 			MCRWorkflowProcess wfp = createWorkflowProcess(workflowProcessType);
 			try{
 				wfp.initialize(initiator);
