@@ -11,9 +11,9 @@
     	 System.out.println("PARAM: " + param + " VALUE: "  + 	request.getParameter(param) );
      }
      // the c:set tag with value="${param.XSL.subselect.session}" dos'nt work - maybe the reasons are the dots, only one is allowed !!!
-     pageContext.setAttribute("subselectSession", request.getParameter("XSL.subselect.session"));
-     pageContext.setAttribute("subselectVarpath", request.getParameter("XSL.subselect.varpath"));
-     pageContext.setAttribute("subselectWebpage", request.getParameter("XSL.subselect.webpage"));
+     pageContext.setAttribute("subselectSession", request.getParameter("XSL.subselect.session.SESSION"));
+     pageContext.setAttribute("subselectVarpath", request.getParameter("XSL.subselect.varpath.SESSION"));
+     pageContext.setAttribute("subselectWebpage", request.getParameter("XSL.subselect.webpage.SESSION"));
 %>    
 
 <c:set var="debug" value="false" />
@@ -40,8 +40,8 @@ select="concat($WebApplicationBaseURL,'servlets/XMLEditor?_action=end.subselect&
   		 	   '&amp;subselect.varpath=',$subselectVarpath,'&amp;subselect.webpage=', $subselectWebpage)" />
 
 <x:set var="subselectParams"
-select="concat('XSL.subselect.session=',$subselectSession,'&amp;XSL.subselect.varpath=',
-			   $subselectVarpath, '&amp;XSL.subselect.webpage=', $subselectWebpage )" />
+select="concat('XSL.subselect.session.SESSION=',$subselectSession,'&amp;XSL.subselect.varpath.SESSION=',
+			   $subselectVarpath, '&amp;XSL.subselect.webpage.SESSION=', $subselectWebpage )" />
 
 <x:set var="formAction" select="concat($WebApplicationBaseURL, $subselectWebpage, '?XSL.editor.session.id=', $subselectSession)" />     		         		
 <!--  ========== Subselect Parameter ENDE ==========  -->

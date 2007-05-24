@@ -56,9 +56,9 @@
     pageContext.setAttribute("xsl",xsl);        
         
     pageContext.setAttribute("ServletsBaseURL",ServletsBaseURL);
-    pageContext.setAttribute("XSLSubselectVarpath",request.getParameter("XSL.subselect.varpath"));
-    pageContext.setAttribute("XSLSubselectSession",request.getParameter("XSL.subselect.session"));
-    pageContext.setAttribute("XSLSubselectWebpage",request.getParameter("XSL.subselect.webpage"));    
+    pageContext.setAttribute("XSLSubselectVarpath",request.getParameter("XSL.subselect.varpath.SESSION"));
+    pageContext.setAttribute("XSLSubselectSession",request.getParameter("XSL.subselect.session.SESSION"));
+    pageContext.setAttribute("XSLSubselectWebpage",request.getParameter("XSL.subselect.webpage.SESSION"));    
     String pft = request.getParameter("prevFromTo");
     if(pft==null) pft="";
     pageContext.setAttribute("prevFromTo",pft);       
