@@ -35,17 +35,16 @@
 
   </panel>
 
-<!-- *** Data for the CREATOR ** -->
-<!--
+<!-- *** Data for the CREATOR (as TextField)** -->
   <panel id="DCreator">
-    <hidden var="metadata/creator/@class" default="MCRMetaLangText" />
+    <hidden var="metadata/creators/@class" default="MCRMetaLangText" />
     <hidden var="metadata/creators/@notinherit" default="false" />
     <hidden var="metadata/creators/@heritable" default="true" />
     <hidden var="metadata/creators/creator/@inherited" default="0" />
-    <cell col="1" row="1" anchor="NORTHWEST" ref="Slang" var="metadata/creators/creator/@lang" ordernr="2" default="de" />
+  <!-- ???  <cell col="1" row="1" anchor="NORTHWEST" ref="Slang" var="metadata/creators/creator/@lang" ordernr="2" default="de" /> -->
     <cell col="2" row="1" anchor="WEST" ref="TFzeile128" var="metadata/creators/creator" ordernr="2" />
   </panel>
--->
+
 
 <!-- CREATORLINK is in the MASKS itself -->
 
