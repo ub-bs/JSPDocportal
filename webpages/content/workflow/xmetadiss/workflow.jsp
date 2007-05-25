@@ -32,7 +32,7 @@
 <c:choose>
    <c:when test="${empty(myTaskList)&& empty(myProcessList)}">
 	  <div class="headline"><fmt:message key="WF.xmetadiss.info" /></div>
-      <img title="" alt="" src="images/greenArrow.gif">
+      <img title="" alt="" src="${baseURL}images/greenArrow.gif">
       <a target="_self" href="${baseURL}nav?path=~xmetadissbegin"><fmt:message key="WF.xmetadiss.StartWorkflow" /></a>
       <br/>&nbsp;<br>
       <fmt:message key="WF.common.EmptyWorkflow" />   
@@ -44,7 +44,7 @@
         <div class="headline"><fmt:message key="WF.xmetadiss" /></div>
 	   <mcr:checkAccess var="createallowed" permission="administrate-xmetadiss" />
    		<c:if test="${createallowed}">    
-	    	<img title="" alt="" src="images/greenArrow.gif">
+	    	<img title="" alt="" src="${baseURL}images/greenArrow.gif">
   		    <a target="_self" href="${baseURL}nav?path=~xmetadissbegin"><fmt:message key="WF.xmetadiss.StartWorkflow" /></a>
   		</c:if>
    
