@@ -194,7 +194,7 @@
 		
 		<!-- copy myapplication -->
 		<copy todir="${DOCPORTAL_SYSTEM}" overwrite="true">
-		 	<fileset dir="." includes="**" excludes="${MYAPPLICATION_NAME}.war,jspdocportal-installer*" ></fileset>
+		 	<fileset dir="." includes="**/**" excludes="${MYAPPLICATION_NAME}.war,jspdocportal-installer*" ></fileset>
 		</copy>
         <mkdir dir="${docportal.webapps}" />
     	<mkdir dir="${docportal.bin}" />
@@ -793,14 +793,19 @@
         </copy>
         <copy todir="${docportal.webapps}/WEB-INF/classes" overwrite="true">
             <!-- <fileset dir="${docportal.classes}" /> -->
-            <fileset dir="${docportal.config}" excludes="user/*" />
+            <fileset dir="${docportal.config}" excludes="user/* hibernate/*" />
             <fileset dir="${docportal.schema}" />
             <fileset dir="${docportal.stylesheets}"
                 includes="mycoreobject-*-to-workflow.xsl" />
             <fileset
                 dir="${docportal.webpages}/content/results-config"
                 includes="*.xml" />
+            <fileset dir="${docportal.config}/hibernate" />
+        	<fileset dir="${MYCORE_HOME}/config">
+			    <include name="fieldtypes.xml"/>
+			</fileset>
         </copy>
+
     	<echo level="info"> Concat messagebundles to one messages_{locale}.properties</echo>
     	<taskdef name="mergepropertyfiles" classname="org.mycore.ant.customtasks.MergeProperties" classpath="${DOCPORTAL_HOME}/lib/ant-mycore.jar" />  
     	<mergepropertyfiles basefile="${docportal.languages}/messages_de.properties" 
