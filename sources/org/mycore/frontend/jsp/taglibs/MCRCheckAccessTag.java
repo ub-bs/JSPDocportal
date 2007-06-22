@@ -3,8 +3,9 @@ package org.mycore.frontend.jsp.taglibs;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.tagext.*;
-import javax.servlet.jsp.*;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.PageContext;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
 import org.mycore.access.MCRAccessInterface;
@@ -37,7 +38,8 @@ public class MCRCheckAccessTag extends SimpleTagSupport
 		try{
 
 			PageContext pageContext = (PageContext) getJspContext();			
-			MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)pageContext.getRequest());
+			//"HttpJspBase" is the name of the servlet that handles JSPs
+			MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)pageContext.getRequest(), "HttpJspBase");
 			
 			if ( mcrSession.getCurrentUserID().equals("guest") )
 				pageContext.setAttribute(var, new Boolean(false));	

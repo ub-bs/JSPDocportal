@@ -98,7 +98,7 @@ public class MCRGetEditorElements implements MCRResolver {
 
 	private Element getGroupItems(Properties params) throws TransformerException{
 		Element retitems = new Element("items");
-		ArrayList groupIDs = MCRUserMgr.instance().getAllGroupIDs();
+		List<String> groupIDs = MCRUserMgr.instance().getAllGroupIDs();
 
         for (int i = 0; i < groupIDs.size(); i++) {
             org.jdom.Element item = new org.jdom.Element("item").setAttribute("value", (String) groupIDs.get(i)).setAttribute("label", (String) groupIDs.get(i));

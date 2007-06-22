@@ -2,6 +2,7 @@ package org.mycore.frontend.jsp.taglibs;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
@@ -203,12 +204,12 @@ public class MCRLoginTag extends SimpleTagSupport
 	        	MCRSessionMgr.getCurrentSession().setCurrentUserID(uid);
 	        	setNameIntoLoginResult(uid, loginresult);
 	            
-	        	ArrayList allGroupIDS = MCRUserMgr.instance().retrieveUser(uid).getAllGroupIDs();
+	        	List<String> allGroupIDS = MCRUserMgr.instance().retrieveUser(uid).getAllGroupIDs();
 	        	Element eGroups = new Element ("groups");
 	        	for ( int i=0; i<allGroupIDS.size(); i++ ) {		        		
 	        		Element eGroup = new Element ("group");
-	        		MCRGroup mcrgroup = MCRUserMgr.instance().retrieveGroup((String)allGroupIDS.get(i));		        				        		
-	        		eGroup.setAttribute("gid", (String)allGroupIDS.get(i));
+	        		MCRGroup mcrgroup = MCRUserMgr.instance().retrieveGroup(allGroupIDS.get(i));		        				        		
+	        		eGroup.setAttribute("gid", allGroupIDS.get(i));
 	        		eGroup.setAttribute("description", mcrgroup.getDescription());
 	        		eGroups.addContent(eGroup);
             	}

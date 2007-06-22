@@ -65,7 +65,7 @@ public class MCREditorForwardServlet extends MCRServlet {
             String msg = "Error: HTTP request path is null";
             LOGGER.error(msg);
             response.sendRedirect(getBaseURL() + "mycore-error.jsp?messageKey=SWF.EditorError&lang=" + 
-            		MCRServlet.getSession(request).getCurrentLanguage());
+            		MCRServlet.getSession(request, getServletName()).getCurrentLanguage());
             return;
         }
         String editorFile = requestPath.substring(requestPath.lastIndexOf("/")+1);
@@ -77,7 +77,7 @@ public class MCREditorForwardServlet extends MCRServlet {
         String msg = "Error: HTTP request path has wrong format, no '/' given";
         LOGGER.error(msg);
         response.sendRedirect(getBaseURL() + "mycore-error.jsp?messageKey=SWF.EditorError&lang=" + 
-        		MCRServlet.getSession(request).getCurrentLanguage());
+        		MCRServlet.getSession(request, getServletName()).getCurrentLanguage());
         return;
     }
 }
