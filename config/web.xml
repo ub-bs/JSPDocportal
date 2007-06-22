@@ -259,6 +259,10 @@
             <servlet-name> MCRZipWebcontentServlet</servlet-name>
             <servlet-class> org.mycore.frontend.servlets.MCRZipWebcontentServlet</servlet-class>
       </servlet>
+      <servlet id="CPR2RTFServlet">
+            <servlet-name>CPR2RTFServlet</servlet-name>
+            <servlet-class>de.uni_rostock.ub.atlibri.cpr2rtf.CPR2RTFServlet</servlet-class>
+      </servlet>
     <!-- servlet mappings -->
     
     <!-- FCK Editor Java Integration  -->
@@ -371,6 +375,10 @@
          <servlet-name>MCRWFFileNodeServlet</servlet-name>
          <url-pattern>/wffile/*</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+          <servlet-name>CPR2RTFServlet</servlet-name>
+          <url-pattern>/servlets/CPR2RTFServlet</url-pattern>
+    </servlet-mapping>  
 
 
 	<!--  mycore servlets mapping  -->
@@ -386,7 +394,7 @@
     </servlet-mapping>
 
     <servlet-mapping>
-         <servlet-name>MCROAIProvider</servlet-name>
+    <servlet-name>MCROAIProvider</servlet-name>
          <url-pattern>/servlets/MCROAIProvider</url-pattern>
     </servlet-mapping>
         <servlet-mapping>

@@ -10,6 +10,7 @@ MCR.WorkflowEngine.MyInstitution.city=Hamburg
 MCR.WorkflowEngine.MyInstitution.street=Schlüterstr.
 MCR.WorkflowEngine.MyInstitution.number=70
 
+MCR.NameOfProject=Mycoresample
 MCR.SWF.Project.ID=DocPortal
 MCR.Metadata.ObjectID.NumberPattern=00000000
 
