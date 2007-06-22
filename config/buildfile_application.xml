@@ -1559,8 +1559,8 @@
 	<target name="merge.my.properties">
 		<taskdef name="mergepropertyfiles" classname="org.mycore.ant.customtasks.MergeProperties" classpath="${DOCPORTAL_HOME}/lib/ant-mycore.jar" /> 
 		<mergepropertyfiles basefile="${DOCPORTAL_HOME}/config/mycore.base.properties" 
-				    				deltafile="./config/mymycore.properties" 
-				    				tofile="./config/mycore.properties"/>
+				    				deltafile="${basedir}/config/mymycore.properties" 
+				    				tofile="${basedir}/config/mycore.properties"/>
 	
 	</target>
 	
