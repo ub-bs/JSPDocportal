@@ -2,11 +2,11 @@
 
 <!-- =================================================================== -->
 <!-- MyCoRe sample application build file for use with Apache Ant        -->
-<!-- $Revision: 1.41 $ $Date: 2007-05-16 13:09:11 $                      -->
+<!-- $Revision: 1.42 $ $Date: 2007-06-22 10:06:12 $                      -->
 <!-- =================================================================== -->
 
 <project default="usage" basedir=".">
-	<property name="MYAPPLICATION.DIRNAME" value="mycoresample_app" />
+	<property name="MYAPPLICATION.DIRNAME" value="myapplication" />
     <!-- =================================================================== -->
     <!-- Help on usage                                                       -->
     <!-- =================================================================== -->
