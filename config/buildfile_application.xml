@@ -219,6 +219,7 @@
         <path id="docportal.classpath">
             <pathelement location="${docportal.classes}" />
             <pathelement location="${docportal.config}" />
+            <pathelement location="${docportal.config}/hibernate" />
             <pathelement location="${docportal.schema}" />
             <pathelement location="${docportal.stylesheets}" />
             <fileset dir="${MYCORE_HOME}/lib" includes="*.jar" />

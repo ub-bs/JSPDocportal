@@ -7,8 +7,8 @@
 <hibernate-mapping>
 
   <typedef class="org.jbpm.db.hibernate.StringMax" name="string_max" />
-
-  <query name="MCRJbpmWorkflowBase.getCurrentProcessIDsForProcessType">
+  
+<query name="MCRJbpmWorkflowBase.getCurrentProcessIDsForProcessType">
     <![CDATA[
       select pi
       from org.jbpm.graph.exe.ProcessInstance as pi
@@ -95,6 +95,30 @@
     ]]>
   </query>
   
+  <query name="GraphSession.findTaskInstanceIdsForProcessInstance">
+    <![CDATA[
+      select t 
+      from org.jbpm.taskmgmt.exe.TaskInstance t
+      where t.taskMgmtInstance.processInstance = :processInstance
+    ]]>
+  </query>
+  
+  <query name="GraphSession.deleteTaskInstancesById">
+    <![CDATA[
+      delete
+      from org.jbpm.taskmgmt.exe.TaskInstance t
+      where t.id in (:taskInstanceIds)
+    ]]>
+  </query>
+  
+  <query name="GraphSession.deleteMessagesForToken">
+    <![CDATA[
+      delete
+      from org.jbpm.msg.Message m
+      where m.token = :token
+    ]]>
+  </query>
+  
   <query name="LoggingSession.findLogsByToken">
     <![CDATA[
       select pl
@@ -126,17 +150,17 @@
   
   <query name="MessagingSession.suspendMessagesForToken">
     <![CDATA[
-      update org.jbpm.msg.Message
-      set isSuspended = true
-      where token = :token
+      update org.jbpm.msg.Message m
+      set m.isSuspended = true
+      where m.token = :token 
     ]]>
   </query>
 
   <query name="MessagingSession.resumeMessagesForToken">
     <![CDATA[
-      update org.jbpm.msg.Message
-      set isSuspended = false
-      where token = :token
+      update org.jbpm.msg.Message m
+      set m.isSuspended = false
+      where m.token = :token 
     ]]>
   </query>
 
