@@ -100,15 +100,31 @@ public class MCRWorkflowUploadHandler extends MCRUploadHandler {
     }
 
     /**
-     * Store file in data store
+     * When the applet uploads a file, this method is called so that the
+     * UploadHandler subclass can store the file on the server side.
+     * When the UploadHandler could read less than length bytes from the
+     * InputStream at the time the InputStream has no data any more, the user
+     * at the remote side canceled upload during file transfer. The UploadHandler
+     * then can decide to delete the file, but must return the number of 
+     * bytes stored. The UploadHandler can also compare the MD5 checksum calculated
+     * at the client side with its own checksum, to detect magical transfer errors.
      * 
      * @param path
-     *            file name
+     *            the path and filename of the file
      * @param in
-     *            InputStream belongs to socket, do not close!
-     * 
+     *            the inputstream to read the content of the file from
+     * @param length
+     *            the total file size as number of bytes. This may be 0,
+     *            meaning that the file is empty or the file size is not known.
+     * @param md5
+     *            the md5 checksum calculated at the client applet side. This
+     *            may be null, meaning that the md5 checksum is not known.
+     * @return 
+     *            the number of bytes that have been stored.
+     * @throws Exception
      */
-    public void receiveFile(String path, InputStream in) throws Exception {
+    @Override
+	public long receiveFile(String path, InputStream in, long length, String md5) throws Exception {
         // prepare to save
         logger.debug("Upload file path: " + path);
 
@@ -154,6 +170,7 @@ public class MCRWorkflowUploadHandler extends MCRUploadHandler {
         if (mainfile.length() == 0) {
             mainfile = fname;
         }
+        return 0;
     }
 
     /**
@@ -183,4 +200,5 @@ public class MCRWorkflowUploadHandler extends MCRUploadHandler {
         } catch (Exception e) {
         }
     }
+
 }
