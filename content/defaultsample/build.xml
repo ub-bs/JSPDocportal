@@ -2,7 +2,7 @@
 
 <!-- =================================================================== -->
 <!-- MyCoRe Default Sample Content for the MyCoReSample Application      -->
-<!-- $Revision: 1.5 $ $Date: 2007-01-16 12:17:52 $                       -->
+<!-- $Revision: 1.6 $ $Date: 2007-06-25 10:36:37 $                       -->
 <!-- =================================================================== -->
 
 <project default="usage" basedir=".">
@@ -70,7 +70,7 @@
       <pathelement location="${env.DOCPORTAL_SYSTEM}/config" />
       <pathelement location="${env.DOCPORTAL_SYSTEM}/schema" />
       <pathelement location="${env.DOCPORTAL_SYSTEM}/stylesheets" />
-      <pathelement location="${env.DOCPORTAL_SYSTEM}/config" />
+      <pathelement location="${env.DOCPORTAL_SYSTEM}/config/hibernate" />
             
       <path refid="jdbc.classpath" />
       <path refid="xml.classpath"  />
@@ -139,7 +139,7 @@
     <echo>Operating system   : ${os.name} Version ${os.version} on ${os.arch} </echo>
     <echo>Java version       : JDK ${ant.java.version} Version ${java.version} from ${java.vendor}</echo>
     <echo>Java home          : ${env.JAVA_HOME}</echo>
-    <echo>Ant build file     : $Revision: 1.5 $ $Date: 2007-01-16 12:17:52 $</echo>
+    <echo>Ant build file     : $Revision: 1.6 $ $Date: 2007-06-25 10:36:37 $</echo>
     <echo>Ant version        : ${ant.version}</echo>
     <echo>Ant home           : ${env.ANT_HOME}</echo>
     <echo>System CLASSPATH   : ${build.sysclasspath}</echo>
