@@ -2,7 +2,7 @@
 
 <!-- =================================================================== -->
 <!-- MyCoRe sample application build file for use with Apache Ant        -->
-<!-- $Revision: 1.42 $ $Date: 2007-06-22 10:06:12 $                      -->
+<!-- $Revision: 1.43 $ $Date: 2007-06-25 12:01:29 $                      -->
 <!-- =================================================================== -->
 
 <project default="usage" basedir=".">
@@ -36,6 +36,7 @@
 		<copy file="./config/mymycore.properties.template" tofile="../${MYAPPLICATION.DIRNAME}/config/mymycore.properties.template" overwrite="true"/>
 		<copy file="./config/mycore.base.properties" tofile="../${MYAPPLICATION.DIRNAME}/config/mycore.properties" overwrite="true"/>
 		<copy file="./config/workflow/jbpm_hibernate.cfg.xml.template" tofile="../${MYAPPLICATION.DIRNAME}/config/workflow/jbpm_hibernate.cfg.xml.template" overwrite="true" />
+		<copy file="./config/hibernate/hibernate.cfg.xml.template" tofile="../${MYAPPLICATION.DIRNAME}/config/hibernate/hibernate.cfg.xml.template" overwrite="true" />
 	</target>
 </project>
 
