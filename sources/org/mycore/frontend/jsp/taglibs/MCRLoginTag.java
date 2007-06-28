@@ -199,7 +199,8 @@ public class MCRLoginTag extends SimpleTagSupport
 	private boolean loginInMyCore(String uid, String pwd, Element loginresult){
 		 boolean loginOk=false;
 		try {
-            loginOk = ((uid != null) && (pwd != null) && MCRUserMgr.instance().login(uid, pwd));
+            loginOk = ((uid != null) && (pwd != null) 
+            		  && MCRUserMgr.instance().existUser(uid) && MCRUserMgr.instance().login(uid, pwd));
             if (loginOk) {
 	        	MCRSessionMgr.getCurrentSession().setCurrentUserID(uid);
 	        	setNameIntoLoginResult(uid, loginresult);
