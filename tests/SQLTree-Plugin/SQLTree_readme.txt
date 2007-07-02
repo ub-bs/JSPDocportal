@@ -26,9 +26,9 @@ subtree = (node (subtree)...(subtree)) | (node)
 node = <string>
 
 z.B: "(World(Europe(Germany)(UK))(Asia))" ergibt:
-                World
-		   +------+---------+  	
-		Europe             Asia
+              World
+         +------+---------+  	
+       Europe            Asia
    +------+---+
 Germany       UK		
 
