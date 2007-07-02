@@ -3,10 +3,10 @@ SQLTree Plug-in for Eclipse
 
 Leistungsumfang
 ---------------
-Das SQLTree-Plugin dient zur Demonstration von Algorithmen, die für die Realisierung der Speicherung von Bäumen in einer Tabellenstruktur benötigt werden. Das Konzept wurde aus Artikeln "SQL for Smarties" von Joe Celko aus DBMSonline übernommen.
+Das SQLTree-Plugin dient zur Demonstration von Algorithmen, die fÃ¼r die Realisierung der Speicherung von BÃ¤umen in einer Tabellenstruktur benï¿½tigt werden. Das Konzept wurde aus Artikeln "SQL for Smarties" von Joe Celko aus DBMSonline ï¿½bernommen.
 (siehe http://www.dbmsmag.com/9603d06.html, http://www.dbmsmag.com/9604d06.html, http://www.dbmsmag.com/9605d06.html http://www.dbmsmag.com/9606d06.html)
-Implementiert wurden, das Erzeugen von Bäumen, das Einfügen von Knoten, das Verschieben von Teilbäumen und das Löschen von Teilbäumen.
-Die Bäume werden in einer HSQL-DB im Speicher abgelegt, die beim Beenden des Programms nicht gesichert wird.
+Implementiert wurden, das Erzeugen von BÃ¤umen, das EinfÃ¼gen von Knoten, das Verschieben von TeilbÃ¤umen und das LÃ¶schen von TeilbÃ¤umen.
+Die BÃ¤ume werden in einer HSQL-DB im Speicher abgelegt, die beim Beenden des Programms nicht gesichert wird.
 
 Installation
 ------------
@@ -14,13 +14,13 @@ Das Tool wird als Plug-in in Eclipse integriert. Zur Installation ist lediglich 
 
 Start
 -----
-Das Tool wurde als View in die Eclipse-Oberfläche integriert.
-Er wird über das Menü: Window -> Show View -> Other... geöffnet.
-Im sich öffnenden Dialog kann er unter SQLTree -> SQLTree View gefunden werden.
+Das Tool wurde als View in die Eclipse-OberflÃ¤che integriert.
+Er wird Ã¼ber das MenÃ¼: Window -> Show View -> Other... geÃ¶ffnet.
+Im sich Ã¶ffnenden Dialog kann er unter SQLTree -> SQLTree View gefunden werden.
 
-Eignabe-Syntax für Bäume
+Eignabe-Syntax fÃ¼r BÃ¤ume
 ------------------------
-Für die effiziente Eingabe wurde die LISP-Notation gewählt
+FÃ¼r die effiziente Eingabe wurde die LISP-Notation gewÃ¤hlt
 tree = subtree
 subtree = (node (subtree)...(subtree)) | (node)
 node = <string>
@@ -36,5 +36,3 @@ Germany       UK
 Algorithmen
 -----------
 Die Implementation der Algorithmen erfolgt in der Klasse sqltree.SQLTreeManager
-
-
