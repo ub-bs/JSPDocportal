@@ -801,11 +801,17 @@
             <fileset
                 dir="${docportal.webpages}/content/results-config"
                 includes="*.xml" />
-            <fileset dir="${docportal.config}/hibernate" />
+            <fileset dir="${docportal.config}/hibernate"
+					  includes="*" excludes="*.template" />
+
         	<fileset dir="${MYCORE_HOME}/config">
 			    <include name="fieldtypes.xml"/>
 			</fileset>
-        </copy>
+		</copy>        	
+        <copy todir="${docportal.webapps}/WEB-INF/classes/mappings" overwrite="true">
+        	<fileset dir="${docportal.config}/hibernate/mappings" />
+      	</copy>
+
 
     	<echo level="info"> Concat messagebundles to one messages_{locale}.properties</echo>
     	<taskdef name="mergepropertyfiles" classname="org.mycore.ant.customtasks.MergeProperties" classpath="${DOCPORTAL_HOME}/lib/ant-mycore.jar" />  
