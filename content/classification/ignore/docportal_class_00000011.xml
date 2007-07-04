@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <mycoreclass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="MCRClassification.xsd" 
       ID="DocPortal_class_011" >
-      <label xml:lang="de" text="L�nder" description="Klassifikation Länder" />
+      <label xml:lang="de" text="Länder" description="Klassifikation Länder" />
       <categories>
             <category ID="AF">
                   <label xml:lang="de" text="AFGHANISTAN" />
