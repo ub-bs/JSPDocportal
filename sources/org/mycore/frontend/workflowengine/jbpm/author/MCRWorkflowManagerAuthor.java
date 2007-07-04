@@ -31,6 +31,7 @@ import java.util.PropertyResourceBundle;
 
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
+import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRException;
 import org.mycore.datamodel.metadata.MCRObject;
@@ -208,6 +209,7 @@ public String createNewAuthor(String userid, ContextInstance ctxI,
 					isFillInUserData, false);
 	//		setStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS, author.getId(), processID);
 			setDefaultPermissions(author.getId(), userid, ctxI);
+			MCRHIBConnection.instance().flushSession();
 			return author.getId();
 		} catch (MCRException ex) {
 			logger.error("an error occurred", ex);

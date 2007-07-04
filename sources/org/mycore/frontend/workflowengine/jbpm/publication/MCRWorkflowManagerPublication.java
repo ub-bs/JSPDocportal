@@ -37,6 +37,7 @@ import org.jbpm.context.exe.ContextInstance;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
+import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRException;
 import org.mycore.datamodel.metadata.MCRObject;
@@ -267,11 +268,14 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 			}
 			
 			List derivateIDs = Arrays.asList(((String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES)).split(","));
+			MCRHIBConnection.instance().flushSession();
 			for (Iterator it = derivateIDs.iterator(); it.hasNext();) {
 				String derivateID = (String) it.next();
 				if ( derivateID != null && derivateID.length() > 0 ) {
 					bSuccess &= derivateStrategy.commitDerivateObject(derivateID, MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType));
+					MCRHIBConnection.instance().flushSession();
 					permissionStrategy.setPermissions(derivateID, null,	workflowProcessType, ctxI, MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
+					MCRHIBConnection.instance().flushSession();
 				}
 			}
 			

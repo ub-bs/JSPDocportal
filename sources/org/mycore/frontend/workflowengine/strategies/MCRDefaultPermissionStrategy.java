@@ -15,6 +15,7 @@ import org.mycore.access.mcrimpl.MCRAccessRule;
 import org.mycore.access.mcrimpl.MCRAccessStore;
 import org.mycore.access.mcrimpl.MCRRuleMapping;
 import org.mycore.access.mcrimpl.MCRRuleStore;
+import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.xml.MCRXMLHelper;
 import org.mycore.datamodel.metadata.MCRObjectID;
@@ -56,6 +57,7 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 				Element rule = (Element) MCRXMLHelper.parseXML(strRule)
 						.getRootElement().detach();
 				String permissionType = defaultPermissionTypes[i];
+				MCRHIBConnection.instance().flushSession();
 				if (AI.hasRule(objID.getId(), permissionType)) {
 					AI.updateRule(objID.getId(), permissionType, rule, "");
 				} else {

@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
+import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRDerivateFileFilter;
@@ -303,22 +304,19 @@ public abstract class MCRDerivateStrategy {
 
 		private boolean loadDerivate(String derivateid, String filename) {
 	        Map ruleMap = null;
-
+	        boolean result = false;
 			if (MCRDerivate.existInDatastore(derivateid)) {
 		        ruleMap = MCRWorkflowUtils.getAccessRulesMap(derivateid);
-				MCRDerivateCommands.updateFromFile(filename);
+				result = MCRDerivateCommands.updateFromFile(filename);
 			} else {
-				MCRDerivateCommands.loadFromFile(filename);
-			}
-			if (!MCRDerivate.existInDatastore(derivateid)) {
-				return false;
+				result = MCRDerivateCommands.loadFromFile(filename);
 			}
 			
 			if ( ruleMap != null ) 
 				MCRWorkflowUtils.setAccessRulesMap(derivateid, ruleMap);
 		
 			logger.debug("Commit the derivate " + filename);
-			return true;
+			return result;
 		}	
 		
 		/**
