@@ -13,7 +13,7 @@
 <p><a href="<%= WebApplicationBaseURL %>nav?path=admin.accessrules">zur Übersicht</a></p>
 
 <%
-	MCRSession mcrSession = MCRServlet.getSession(request);
+	MCRSession mcrSession = MCRServlet.getSession(request,"HttpJspBase");
 
 	DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	String operation = request.getParameter("operation");

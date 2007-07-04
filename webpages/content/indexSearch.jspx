@@ -4,6 +4,7 @@
        xmlns:x="http://java.sun.com/jsp/jstl/xml"
        xmlns:fn="http://java.sun.com/jsp/jstl/function"
 >
+<jsp:directive.page import="org.apache.jasper.runtime.HttpJspBase"/>
 <jsp:directive.page import="org.mycore.frontend.indexbrowser.MCRIndexBrowserData" /> 
 <jsp:directive.page import="org.mycore.common.MCRUtils" />   
 <jsp:directive.page import="org.mycore.common.MCRSession" />
@@ -24,8 +25,8 @@
     String search = request.getParameter("search");
    	String mode = request.getParameter("mode");		
    	String searchclass = request.getParameter("searchclass");		  	
-   	String fromTo = request.getParameter("fromTo");		  	
-    MCRSession mcrsession = MCRServlet.getSession(request);
+   	String fromTo = request.getParameter("fromTo");		  
+    MCRSession mcrsession = MCRServlet.getSession(request, "HttpJspBase");
     String navPath = (String) request.getAttribute("path");
     
         

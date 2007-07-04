@@ -7,7 +7,7 @@
 	org.mycore.frontend.servlets.MCRServlet,
 	java.util.Enumeration"%>
 <%
-	MCRSession mcrSession = MCRServlet.getSession(request);
+	MCRSession mcrSession = MCRServlet.getSession(request,"HttpJspBase");
     
     String WebApplicationBaseURL = MCRServlet.getBaseURL();
 	String operation = request.getParameter("operation");
