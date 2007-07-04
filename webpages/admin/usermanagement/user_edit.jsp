@@ -8,18 +8,19 @@
 	java.util.Collections"%>
 <%@ page import="org.mycore.frontend.servlets.MCRServlet" %>
 <%@ page import="java.io.File" %>
+<%@page import="java.util.List"%>
 <%	
     String WebApplicationBaseURL = MCRServlet.getBaseURL();
 	DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	MCRUser user = null;
 	MCRUserContact contact = null;
-	ArrayList grouplist = MCRUserMgr.instance().getAllGroupIDs();
+	List grouplist = MCRUserMgr.instance().getAllGroupIDs();
 	Collections.sort(grouplist);
     String uid_orig = "";
     
 	if (request.getParameter("id")==null){
 	    // create from empty Editor
-		user = new MCRUser(0,null, MCRServlet.getSession(request).getCurrentUserID(), null,null, true, true, null, null, null, null, null, null, null, null, null, null, null, null, null,null,null,null,null,null,null,null);
+		user = new MCRUser(0,null, MCRServlet.getSession(request,"HttpJspBase").getCurrentUserID(), null,null, true, true, null, null, null, null, null, null, null, null, null, null, null, null, null,null,null,null,null,null,null,null);
 		contact = user.getUserContact();
 	}else{
 		if (request.getParameter("step") ==null) {
@@ -69,6 +70,7 @@
 
 
 %>
+
 
 <SCRIPT TYPE="text/javascript">
 	function validateOnSubmit() {
@@ -161,7 +163,7 @@
 					<option>(Mehrfachauswahl)</option>
 				<%
 				
-					ArrayList gl = new ArrayList();
+					List gl = new ArrayList();
 					if(user.getGroupCount()>0){
 						gl = user.getGroupIDs();
 					}

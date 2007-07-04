@@ -1,12 +1,12 @@
 <%@ page import="org.mycore.user.MCRUserMgr,org.mycore.user.MCRUser,
-	java.util.ArrayList, java.util.Comparator,java.util.Collections"%>
+	java.util.Comparator,java.util.Collections"%>
 <%@ page import="org.mycore.frontend.servlets.MCRServlet" %>
 
 <%
-	ArrayList userids = MCRUserMgr.instance().getAllUserIDs();
+	List<String> userids = MCRUserMgr.instance().getAllUserIDs();
 	String WebApplicationBaseURL = MCRServlet.getBaseURL();
 
-	ArrayList users = new ArrayList(userids.size());
+	ArrayList<String[]> users = new ArrayList<String[]>(userids.size());
 
 	
 	for (int i=0; i<userids.size(); i++){
@@ -32,6 +32,8 @@
 	
 %>
 
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
 <h4>Vorhandene Benutzer</h4>
 
 <form method=post action="<%= WebApplicationBaseURL %>servlets/MCRUserValidateServlet" id="overview">

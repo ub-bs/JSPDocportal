@@ -2,10 +2,12 @@
 	org.mycore.user.MCRGroup,
 	java.util.ArrayList"%>
 <%@ page import="org.mycore.frontend.servlets.MCRServlet" %>
+<%@page import="java.util.List"%>
 <%
-	ArrayList groupids = MCRUserMgr.instance().getAllGroupIDs();
+	List<String> groupids = MCRUserMgr.instance().getAllGroupIDs();
     String WebApplicationBaseURL = MCRServlet.getBaseURL();
 %>
+
 
 <h4>Vorhandene Benutzergruppen</h4>
 

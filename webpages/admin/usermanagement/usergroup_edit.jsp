@@ -4,19 +4,19 @@
 	org.mycore.user.MCRUserMgr,
 	java.text.SimpleDateFormat,
 	java.text.DateFormat,
-	java.util.Date,
+	java.util.List,
 	java.util.ArrayList,
 	java.util.Collections"%>
-<%@ page import="org.mycore.frontend.servlets.MCRServlet" %>
+
 <%
 	
-	MCRSession mcrSession = MCRServlet.getSession(request);
+	MCRSession mcrSession = MCRServlet.getSession(request,"HttpJspBase");
     String WebApplicationBaseURL = MCRServlet.getBaseURL();
     String operation = request.getParameter("operation");
 	DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-	ArrayList userlist = MCRUserMgr.instance().getAllUserIDs();
-	ArrayList grouplist = MCRUserMgr.instance().getAllGroupIDs();
+	List<String> userlist = MCRUserMgr.instance().getAllUserIDs();
+	List<String> grouplist = MCRUserMgr.instance().getAllGroupIDs();
 
 	Collections.sort(userlist);
 	Collections.sort(grouplist);
@@ -41,6 +41,7 @@
 	}
 
 %>
+
 <SCRIPT TYPE="text/javascript">
 	function validateOnSubmit() {
 		var elem;
