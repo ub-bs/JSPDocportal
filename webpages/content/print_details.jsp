@@ -11,6 +11,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="mcr" uri="/WEB-INF/lib/mycore-taglibs.jar" %>
 
+<%@page import="org.hibernate.Transaction"%>
+<%@page import="org.mycore.backend.hibernate.MCRHIBConnection"%>
 <html>
 <head><title>Docdetails</title>
 	<link type="text/css" rel="stylesheet" href="${applicationScope.WebApplicationBaseURL}css/style_general.css">
@@ -24,11 +26,13 @@
 
 <mcr:session var="lang" method="get" type="language"/>
 <c:set var="lang" value="${lang}" scope="request" />
+<% Transaction tx = MCRHIBConnection.instance().getSession().beginTransaction(); %>
 <jsp:include page="docdetails.jsp">
 	<jsp:param name="fromWForDB"  value="${param.from}" />
 	<jsp:param name="id" value="${param.id}"/>
 	<jsp:param name="print" value="${true}"/>
 </jsp:include>
+<% tx.commit(); %>
 </td></tr>
 </table>
 </body>

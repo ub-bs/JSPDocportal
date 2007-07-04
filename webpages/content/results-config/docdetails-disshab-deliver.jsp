@@ -7,6 +7,8 @@
 
 <c:set  var="baseURL" value="${applicationScope.WebApplicationBaseURL}"/>
 
+<%@page import="org.hibernate.Transaction"%>
+<%@page import="org.mycore.backend.hibernate.MCRHIBConnection"%>
 <html>
      <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">        
@@ -19,7 +21,7 @@
 	</head>
 
 <body>
-
+<% Transaction tx = MCRHIBConnection.instance().getSession().beginTransaction(); %>
 <c:catch var="e">
 <fmt:setLocale value='${requestScope.lang}'/>
 <fmt:setBundle basename='messages'/>
@@ -30,7 +32,7 @@
 <c:set var="from" value="${param.fromWForDB}" />
 
 <c:set var="debug" value="false" />
- 
+
 <mcr:receiveMcrObjAsJdom var="mycoreobject" mcrid="${mcrid}" fromWForDB="${from}" />
 <mcr:docDetails mcrObj="${mycoreobject}" var="docDetails" lang="${requestScope.lang}" style="disshab-deliver" />
 
@@ -155,7 +157,7 @@ An error occured, hava a look in the logFiles!
   Logger.getLogger("test.jsp").error("error", (Throwable) pageContext.getAttribute("e"));   
 %>
 </c:if>
-
+<% tx.commit(); %>
     </div>
    </td></tr>
   </table>
