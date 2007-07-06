@@ -41,9 +41,13 @@ public class MCRWorkflowConstants {
     //used in "bean-style" in dissertationData.jsp
 	public String getAuthorIdWorkflowVariable(){ 	 
         return WFM_VAR_AUTHOR_IDS; 	 
-} 	 
+	} 	 
 
     public String getReservatedUrnWorkflowVariable(){ 	 
         return WFM_VAR_RESERVATED_URN; 	 
-}
+    }
+    public String getObjectID(){ 	 
+        return WFM_VAR_METADATA_OBJECT_IDS; 	 
+    }
+
 }

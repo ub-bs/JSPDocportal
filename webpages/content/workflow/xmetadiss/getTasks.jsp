@@ -103,7 +103,12 @@
          <input name="endTask" value="taskRequireSignedAffirmation" type="hidden" />
          <input name="processID" value="${requestScope.task.processID}" type="hidden" />
          <input name="jbpmVariableNames" value="tmpTaskMessage" type="hidden" /> 
-	     <textarea name="tmpTaskMessage" cols="50" rows="4">Sehr geehrter Herr XY Sie müssen uns noch das Formblatt für elektronische Dissertationen unterschrieben zukommen lassen. Sonst können wir Ihre Dissertation nicht veröffentlichen</textarea>  
+         <mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="docID" workflowVar="${applicationScope.constants.objectID}" /> 
+
+         
+	     <textarea name="tmpTaskMessage" cols="50" rows="4"><fmt:message key="WF.xmetadiss.mail.body.requireAffirmation" />
+	     ${baseURL}content/results-config/docdetails-disshab-deliver.jsp?id=${docID}&fromWForDB=workflow
+	     </textarea>  
 	     <br>&nbsp;<br>
          <input name=submit" type="submit" value="<fmt:message key="WF.common.Send" />"/>      
       </form>

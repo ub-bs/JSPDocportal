@@ -41,7 +41,7 @@
 		<tr class="result">
 			<td colspan="3" > 			    
  			    <table>
- 			      <tr><td colspan="2" ><b>Sie haben folgende Arbeitsmöglichkeiten:</b></td></tr>
+ 			      <tr><td colspan="2" ><b><fmt:message key="Webpage.login.YourChoices" /></b></td></tr>
  			      <x:forEach select="$loginresult">
 	 			    <x:forEach select="./groups/group">
 	 				<tr>
