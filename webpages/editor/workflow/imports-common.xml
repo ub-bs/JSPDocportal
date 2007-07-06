@@ -20,12 +20,12 @@
 
 
 	<!-- *** Text area *** -->
-	<textarea id="TFarea4096" width="45" height="4" maxlength="4096" default="" />
-	<textarea id="TFarea4096x10" width="45" height="10" maxlength="4096" default="" />
+	<textarea id="TFarea4096" width="60" height="4" maxlength="4096" default="" />
+	<textarea id="TFarea4096x10" width="60" height="10" maxlength="4096" default="" />
 
 	<!-- *** mandatory Text area *** -->
-	<textarea id="TFarea4096M" width="45" height="4" maxlength="4096" default=" " class="mandatory" />
-	<textarea id="TFarea4096x10M" width="45" height="10" maxlength="4096" default=" " class="mandatory" />
+	<textarea id="TFarea4096M" width="60" height="4" maxlength="4096" default=" " class="mandatory" />
+	<textarea id="TFarea4096x10M" width="60" height="10" maxlength="4096" default=" " class="mandatory" />
 
 	<!-- *** Definitions of Spaces  *** -->
 
@@ -34,10 +34,14 @@
 	<space id="VSpace25" width="0px" height="25px" />
 	<space id="VSpace50" width="0px" height="50px" />
 	<space id="VSpace100" width="0px" height="100px" />
+	<space id="HSpace75" width="75px" height="1px" />
 
 	<!-- *** An Empty Cell *** -->
 	<text id="EMPTYCELL">
 		<label xml:lang="de">&#160;</label>
+	</text>
+	<text id="TENSPACES">
+		<label xml:lang="de">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</label>
 	</text>
 
 	<!-- *** AdressType List *** -->
@@ -559,7 +563,7 @@
 	</text>
 
 	<text id="AKeywordsFreetext">
-		<label i18n="Editor.Label.KeywordsFreetext" />
+		<label css-style="editorHint" i18n="Editor.Label.KeywordsFreetext" />
 	</text>
 
 	<!--   <text id="AKeywordsSWD">
