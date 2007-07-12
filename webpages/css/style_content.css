@@ -290,6 +290,22 @@ div.submitButton{
     color: black;
     padding-left: 10px;
 }
+td.metaheadline{
+    width: 80%;
+    background-color: transparent;
+    color: black;
+    padding-left: 10px;
+    font-weight: bold;
+}
+
+#metaData .metaheading{
+    width: 80%;
+    background-color: transparent;
+    color: black;
+    padding-left: 10px;
+    font-weight: bold;
+}
+
 #files .metaname, #files .metavalue{
     width: auto;
 }

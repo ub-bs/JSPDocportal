@@ -43,6 +43,10 @@
 	<text id="TENSPACES">
 		<label xml:lang="de">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</label>
 	</text>
+	<text id="FIVESPACES">
+		<label xml:lang="de">&#160;&#160;&#160;&#160;</label>
+	</text>
+
 
 	<!-- *** AdressType List *** -->
 	<list id="SAdrType" type="dropdown">
@@ -750,7 +754,7 @@
 	<text id="APNameFirstName">
 		<label css-style="editorHint" i18n="Editor.Label.PNameFirstname" />
 	</text>
-	<text id="APNameSurName">
+	<text id="APNameSurname">
 		<label css-style="editorHint" i18n="Editor.Label.PNameSurname" />
 	</text>
 	<text id="APNameFirstNameP">
@@ -778,14 +782,14 @@
 	<!-- *** Data for the Female ** -->
 
 	<text id="LFemaleP">
-		<label i18n="Editor.Label.Gender" />
+		<label i18n="Editor.Label.GenderM" />
 	</text>
 
 	<helpPopup id="HFemale" >
 		<label i18n="Editor.Help.HGender" />
 	</helpPopup>
 
-	<list id="SFemale" width="400" type="radio" cols="2" >
+	<list id="SFemale" width="400" type="radio" cols="2" default="true">
 		<item value="true">
 			<label i18n="Editor.Author.gender.female" />
 		</item>

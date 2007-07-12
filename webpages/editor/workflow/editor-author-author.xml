@@ -4,17 +4,13 @@
 <editor id="editor-author-author">
 	 <source uri="{sourceUri}" />
      <cancel url="{cancelUrl}" />
-<!--
+
  <target type="debug" />
--->
+ 
+ 
  <target type="servlet" name="MCRPassToTargetServlet" method="post" format="xml" /> 
   <validationMessage>
-      <label xml:lang="de">
-        Eingabefehler: Bitte korrigieren Sie die markierten Felder 
-      </label>              
-      <label xml:lang="en">
-        input error: Please correct the highlighted items
-      </label>                    
+      <label i18n="WF.editor.ValidatorError.Instructions" />       
   </validationMessage>
 
  <components root="author-author" var="/mycoreobject">
@@ -51,33 +47,37 @@
 
     <!-- <hidden var="metadata/@lang" default="de" /> -->
 
-    <cell col="1" row="1" anchor="NORTHWEST" ref="LPNameP" />
-    <cell col="2" row="1" anchor="NORTHWEST" ref="DPName_woPeerage" sortnr="1" />
-    <cell col="3" row="1" anchor="NORTHWEST" >
+    <cell col="1" row="1" anchor="NORTHWEST" ref="HPName" />
+    <cell col="2" row="1" anchor="NORTHWEST" ref="LPNameP" />
+    <cell col="3" row="1" anchor="NORTHWEST" ref="DPName_woPeerage" sortnr="1" />
+    <cell col="4" row="1" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
-    <cell col="4" row="1" anchor="WEST" ref="HPName" />
 
-    <cell col="1" row="2" anchor="NORTHWEST" ref="LFemaleP" />
-    <cell col="2" row="2" anchor="NORTHWEST" ref="DFemale" sortnr="2"/>
-    <cell col="3" row="2" anchor="NORTHWEST" >
+
+    <cell col="1" row="2" anchor="NORTHWEST" ref="HFemale" />
+    <cell col="2" row="2" anchor="NORTHWEST" ref="LFemaleP" />
+    <cell col="3" row="2" anchor="NORTHWEST" ref="DFemale" sortnr="2"/>
+    <cell col="4" row="2" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
-    <cell col="4" row="2" anchor="WEST" ref="HFemale" />
 
-    <cell col="1" row="3" anchor="NORTHWEST" ref="LOrigin_StrukturEinheit" />
-    <cell col="2" row="3" anchor="NORTHWEST" ref="DOrigin" sortnr="3"/>
-    <cell col="3" row="3" anchor="NORTHWEST" >
+    <cell col="1" row="3" anchor="NORTHWEST" ref="HOrigin" />
+    <cell col="2" row="3" anchor="NORTHWEST" ref="LOrigin_StrukturEinheit" />
+    <cell col="3" row="3" anchor="NORTHWEST" ref="DOrigin" sortnr="3"/>
+    <cell col="4" row="3" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
-    <cell col="4" row="3" anchor="WEST" ref="HOrigin" />
 
- <cell col="1" row="4" anchor="NORTHWEST" ref="LAddressMandatory" />
+
+<!-- address information is not needed 
+   <cell col="1" row="4" anchor="NORTHWEST" ref="LAddressMandatory" />
    <cell col="2" row="4" anchor="NORTHWEST" ref="DAddress" sortnr="4"/>
    <cell col="3" row="4" anchor="NORTHWEST" >
     <space width="20" height="0" />
    </cell>
    <cell col="4" row="4" anchor="WEST" ref="HAddress" /> 
+   -->
 <!--     <hidden var="metadata/addresses/@class" sortnr="4" default="MCRMetaAddress" />
     <hidden var="metadata/addresses/@notinherit" sortnr="4" default="false" />
     <hidden var="metadata/addresses/@heritable"  sortnr="4" default="true" />
@@ -94,56 +94,55 @@
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/addresses/address/number&amp;prop=MCR.WorkflowEngine.MyInstitution.number&amp;defaultValue= " />   -->
     <!--    MCR.WorkflowEngine.MyInstitution.name=Universität Rostock -->
 
-
+<!-- Telephone is not needed 
    <cell col="1" row="5" anchor="NORTHWEST" ref="LPhone" />
    <cell col="2" row="5" anchor="NORTHWEST" ref="DPhone" sortnr="5" />
    <cell col="3" row="5" anchor="NORTHWEST" >
     <space width="20" height="0" />
    </cell>
-   <cell col="4" row="5" anchor="WEST" ref="HPhone" />
+   <cell col="4" row="5" anchor="WEST" ref="HPhone" /> -->
 
-    <cell col="1" row="6" anchor="NORTHWEST" ref="LBirthDateM" />
-    <cell col="2" row="6" anchor="NORTHWEST" ref="DDateM" sortnr="6" />
-    <cell col="3" row="6" anchor="NORTHWEST" >
+    <cell col="1" row="6" anchor="NORTHWEST" ref="HDateBirthP" />
+    <cell col="2" row="6" anchor="NORTHWEST" ref="LBirthDateM" />
+    <cell col="3" row="6" anchor="NORTHWEST" ref="DDateM" sortnr="6" />
+    <cell col="4" row="6" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
-    <cell col="4" row="6" anchor="WEST" ref="HDateBirthP" />
 
-    <cell col="1" row="7" anchor="NORTHWEST" ref="LProfessionM" />
-    <cell col="2" row="7" anchor="NORTHWEST" ref="DProfession_Only" sortnr="7" />
-    <cell col="3" row="7" anchor="NORTHWEST" >
+    <cell col="1" row="7" anchor="NORTHWEST" ref="HProfession" />
+    <cell col="2" row="7" anchor="NORTHWEST" ref="LProfession" />
+    <cell col="3" row="7" anchor="NORTHWEST" ref="DProfession_Only" sortnr="7" />
+    <cell col="4" row="7" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
-    <cell col="4" row="7" anchor="WEST" ref="HProfession" />
 
-    <cell col="1" row="8" anchor="NORTHWEST" ref="LNational" />
-    <cell col="2" row="8" anchor="NORTHWEST" ref="DNational" sortnr="9" />
-    <cell col="3" row="8" anchor="NORTHWEST" >
+    <cell col="1" row="8" anchor="NORTHWEST" ref="HNational" />
+    <cell col="2" row="8" anchor="NORTHWEST" ref="LNational" />
+    <cell col="3" row="8" anchor="NORTHWEST" ref="DNational" sortnr="9" />
+    <cell col="4" row="8" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
-    <cell col="4" row="8" anchor="WEST" ref="HNational" />
 
-    <cell col="1" row="9" anchor="NORTHWEST" ref="LHomepage" />
-    <cell col="2" row="9" anchor="NORTHWEST" ref="DURL" sortnr="10"  />
-    <cell col="3" row="9" anchor="NORTHWEST" >
+    <cell col="1" row="9" anchor="NORTHWEST" ref="HURL" />
+    <cell col="2" row="9" anchor="NORTHWEST" ref="LHomepage" />
+    <cell col="3" row="9" anchor="NORTHWEST" ref="DURL" sortnr="10"  />
+    <cell col="4" row="9" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
-    <cell col="4" row="9" anchor="WEST" ref="HURL" />
 
-    <cell col="1" row="10" anchor="NORTHWEST" ref="LEmailMandatory" />
-    <cell col="2" row="10" anchor="NORTHWEST" ref="DEmail" sortnr="11" />
-    <cell col="3" row="10" anchor="NORTHWEST" >
+    <cell col="1" row="10" anchor="NORTHWEST" ref="HEmail" />
+    <cell col="2" row="10" anchor="NORTHWEST" ref="LEmail" />
+    <cell col="3" row="10" anchor="NORTHWEST" ref="DEmail" sortnr="11" />
+    <cell col="4" row="10" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
-    <cell col="4" row="10" anchor="WEST" ref="HEmail" />
-    
-    <cell col="1" row="11" anchor="NORTHWEST" ref="Lpnd-number" />
-    <cell col="2" row="11" anchor="NORTHWEST" ref="Dpnd-number" sortnr="16" />
-    <cell col="3" row="11" anchor="NORTHWEST" >
+
+    <cell col="1" row="11" anchor="NORTHWEST" ref="Hpnd-number" />    
+    <cell col="2" row="11" anchor="NORTHWEST" ref="Lpnd-number" />
+    <cell col="3" row="11" anchor="NORTHWEST" ref="Dpnd-number" sortnr="16" />
+    <cell col="4" row="11" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
-    <cell col="4" row="11" anchor="WEST" ref="Hpnd-number" />
-    
 
   <!--   <cell col="1" row="11" anchor="NORTHWEST" ref="LReference" />
     <cell col="2" row="11" anchor="NORTHWEST" ref="DReference" />
@@ -152,12 +151,13 @@
     </cell>
     <cell col="4" row="11" anchor="WEST" ref="HReference" /> -->
 
-    <cell col="1" row="12" anchor="NORTHWEST" ref="LNote" />
-    <cell col="2" row="12" anchor="NORTHWEST" ref="DNote" sortnr="13" />
-    <cell col="3" row="12" anchor="NORTHWEST" >
+    <cell col="1" row="12" anchor="NORTHWEST" ref="HNote" />
+    <cell col="2" row="12" anchor="NORTHWEST" ref="LNote" />
+    <cell col="3" row="12" anchor="NORTHWEST" ref="DNote" sortnr="13" />
+    <cell col="4" row="12" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
-    <cell col="4" row="12" anchor="WEST" ref="HNote" />
+
 
 <!--<cell col="1" row="13" anchor="NORTHWEST" ref="LPublication" />
     <cell col="2" row="13" anchor="NORTHWEST" ref="DPublication" />
@@ -167,7 +167,8 @@
     <cell col="4" row="13" anchor="WEST" ref="HPublication" /> -->
 
     <cell col="1" row="15"  />
-    <cell col="2" row="15" anchor="EAST" ref="CheckButtonAuthor"  />
+    <cell col="2" row="15"  />
+    <cell col="3" row="15" anchor="EAST" ref="CheckButtonAuthor"  />
 
   </panel>
 

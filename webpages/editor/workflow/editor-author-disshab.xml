@@ -34,74 +34,73 @@
     <cell col="1" row="1" anchor="NORTHWEST" ref="TENSPACES" />
     <cell col="2" row="1" anchor="NORTHWEST" ref="TENSPACES" />
     <cell col="3" row="1" anchor="NORTHWEST" ref="TENSPACES" />
+    <cell col="4" row="1" anchor="NORTHWEST" ref="FIVESPACES" />
 
-    <cell col="1" row="11" colspan="2" anchor="NORTHWEST" ref="LTitleDissP" />
-    <cell col="3" row="11" anchor="NORTHEAST" ref="HTitle" />
-    <cell col="2" row="12" colspan="2" anchor="NORTHWEST" ref="DTitle" sortnr="1" />
+    <cell col="1" row="11" anchor="NORTHEAST" ref="HTitle" />
+    <cell col="2" row="11" colspan="3" anchor="NORTHWEST" ref="LTitleDissP" />
+    <cell col="3" row="12" colspan="2" anchor="NORTHWEST" ref="DTitle" sortnr="1" />
 
 <!-- creator not needed -->
 
-    <cell col="1" row="31" colspan="2" anchor="NORTHWEST" ref="LCreatorLinks" />
-    <cell col="3" row="31" anchor="NORTHEAST" ref="HCreatorLink" />
-    <cell col="2" row="32" colspan="2" anchor="NORTHWEST" ref="DCreatorLinks" sortnr="3" />
+    <cell col="1" row="31" anchor="NORTHEAST" ref="HCreatorLink" />
+    <cell col="2" row="31" colspan="3" anchor="NORTHWEST" ref="LCreatorLinks" />
+    <cell col="3" row="32" colspan="2" anchor="NORTHWEST" ref="DCreatorLinks" sortnr="3" />
 
-    <cell col="1" row="41" colspan="2" anchor="NORTHWEST" ref="LSubjects" />
-    <cell col="3" row="41" anchor="NORTHEAST" ref="HSubject" />
-    <cell col="2" row="42" colspan="2" anchor="NORTHWEST" ref="DSubjects" sortnr="4" />  
+    <cell col="1" row="41" anchor="NORTHEAST" ref="HSubject" />
+    <cell col="2" row="41" colspan="3" anchor="NORTHWEST" ref="LSubjects" />
+    <cell col="3" row="42" colspan="2" anchor="NORTHWEST" ref="DSubjects" sortnr="4" />  
 
-    <cell col="1" row="51" colspan="2" anchor="NORTHWEST" ref="LOriginP" />
-    <cell col="3" row="51" anchor="NORTHEAST" ref="HOrigin" />
-    <cell col="2" row="52" colspan="2" anchor="NORTHWEST" ref="DOrigin" sortnr="5" />
+    <cell col="1" row="51" anchor="NORTHEAST" ref="HOrigin" />
+    <cell col="2" row="51" colspan="3" anchor="NORTHWEST" ref="LOriginP" />
+    <cell col="3" row="52" colspan="2" anchor="NORTHWEST" ref="DOrigin" sortnr="5" />
 
-    <cell col="1" row="61" colspan="2" anchor="NORTHWEST" ref="LDescriptionAbstractP" />
-    <cell col="3" row="61"  anchor="NORTHEAST" ref="HDescriptionAbstract" />
-    <cell col="2" row="62" colspan="2" anchor="NORTHWEST" ref="DDescription" sortnr="6" />
+    <cell col="1" row="61" anchor="NORTHEAST" ref="HDescriptionAbstract" />
+    <cell col="2" row="61" colspan="3" anchor="NORTHWEST" ref="LDescriptionAbstractP" />
+    <cell col="3" row="62" colspan="2" anchor="NORTHWEST" ref="DDescription" sortnr="6" />
 
-    <cell col="2" row="71" colspan="2" anchor="NORTHWEST" ref="DPublisher" sortnr="8" />
-    
-    <cell col="2" row="81" colspan="2" anchor="NORTHWEST" ref="DPublishLink" sortnr="9" />     -->
+<!-- <cell col="2" row="71" colspan="2" anchor="NORTHWEST" ref="DPublisher" sortnr="8" /> -->
+    <cell col="2" row="81" colspan="2" anchor="NORTHWEST" ref="DPublishLink" sortnr="9" />   
 
-    <cell col="1" row="101" colspan="2" anchor="NORTHWEST" ref="LContributorP" />
-    <cell col="3" row="101" anchor="NORTHEAST" ref="HContributor" />
-    <cell col="2" row="102" colspan="2" anchor="NORTHWEST" ref="DContributor" sortnr="10" />    
+    <cell col="1" row="101" anchor="NORTHEAST" ref="HContributor" />
+    <cell col="2" row="101" colspan="3" anchor="NORTHWEST" ref="LContributorP" />
+    <cell col="3" row="102" colspan="2" anchor="NORTHWEST" ref="DContributor" sortnr="10" />    
 
-    <cell col="1" row="121" colspan="2" anchor="NORTHWEST" ref="LDateP" />
-    <cell col="3" row="121" anchor="NORTHEAST" ref="HDate" />
-    <cell col="2" row="122" colspan="2" anchor="NORTHWEST" ref="DDate" sortnr="12" />    
+    <cell col="1" row="121" anchor="NORTHEAST" ref="HDate" />
+    <cell col="2" row="121" colspan="3" anchor="NORTHWEST" ref="LDateP" />
+    <cell col="3" row="122" colspan="2" anchor="NORTHWEST" ref="DDate" sortnr="12" />    
 
-    <cell col="1" row="131" colspan="2" anchor="NORTHWEST" ref="LTypeP" />
-    <cell col="3" row="131" anchor="NORTHEAST" ref="HType" />
-    <cell col="2" row="132" colspan="2" anchor="NORTHWEST" ref="DType" sortnr="13" />    
+    <cell col="1" row="131" anchor="NORTHEAST" ref="HType" />
+    <cell col="2" row="131" colspan="3" anchor="NORTHWEST" ref="LTypeP" />
+    <cell col="3" row="132" colspan="2" anchor="NORTHWEST" ref="DType" sortnr="13" />    
 
     <cell col="2" row="141" colspan="2" anchor="NORTHWEST" ref="DFormat" sortnr="14" />    
     
-    <cell col="1" row="181" colspan="2" anchor="NORTHWEST" ref="LLanguageP" />
-    <cell col="3" row="181" anchor="NORTHEAST" ref="HLanguage" />
-    <cell col="2" row="182" colspan="2" anchor="NORTHWEST" ref="DLanguage" sortnr="18" />    
+    <cell col="1" row="181" anchor="NORTHEAST" ref="HLanguage" />
+    <cell col="2" row="181" colspan="3" anchor="NORTHWEST" ref="LLanguageP" />
+    <cell col="3" row="182" colspan="2" anchor="NORTHWEST" ref="DLanguage" sortnr="18" />    
   
-    <cell col="1" row="191" colspan="2" anchor="NORTHWEST" ref="LKeywords" />
-    <cell col="3" row="191" anchor="NORTHEAST" ref="HKeywords" />
-    <cell col="2" row="192" colspan="2" anchor="NORTHWEST" ref="DKeywords" sortnr="19" />    
+    <cell col="1" row="191" anchor="NORTHEAST" ref="HKeywords" />
+    <cell col="2" row="191" colspan="3" anchor="NORTHWEST" ref="LKeywords" />
+    <cell col="3" row="192" colspan="2" anchor="NORTHWEST" ref="DKeywords" sortnr="19" />    
     
     <cell col="2" row="200" colspan="2" anchor="NORTHWEST" ref="DRights" sortnr="26" />    
     <cell col="2" row="201" colspan="2" anchor="NORTHWEST" ref="DRightsLinks" sortnr="27" />    
     <cell col="2" row="202" colspan="2" anchor="NORTHWEST" ref="DPlace" sortnr="29" />    
     <cell col="2" row="203" colspan="2" anchor="NORTHWEST" ref="DUrn" sortnr="32" />    
     <cell col="2" row="204" colspan="2" anchor="NORTHWEST" ref="DDdb" sortnr="33" />    
+       
     
-    
-    
-    <cell col="1" row="211" colspan="2" anchor="NORTHWEST" ref="LNote" />
-    <cell col="3" row="211" anchor="NORTHEAST" ref="HNote" />
-    <cell col="2" row="212" colspan="2" anchor="NORTHWEST" ref="DNote" sortnr="34" />      
+    <cell col="1" row="211" anchor="NORTHEAST" ref="HNote" />
+    <cell col="2" row="211" colspan="3" anchor="NORTHWEST" ref="LNote" />
+    <cell col="3" row="212" colspan="2" anchor="NORTHWEST" ref="DNote" sortnr="34" />      
 
-	  <cell col="2" row="213" colspan="2" anchor="NORTHWEST" ref="DGrantorLink" sortnr="37" />     
+	 <cell col="2" row="213" colspan="2" anchor="NORTHWEST" ref="DGrantorLink" sortnr="37" />     
  
     <cell col="1" row="255" colspan="3" anchor="EAST">
       <space width="10" height="40" />
     </cell>
-    <cell col="2" row="260" anchor="EAST" ref="BCancel"            />
-    <cell col="3" row="260" anchor="WEST" ref="BSubmitDisshab" var="save" />
+    <cell col="3" row="260" anchor="EAST" ref="BCancel"            />
+    <cell col="4" row="260" anchor="WEST" ref="BSubmitDisshab" var="save" />
 
   </panel>
 
@@ -233,7 +232,7 @@
      
     <hidden var="metadata/keywords/keyword/@inherited" default="0" />
     
-    <cell col="1" row="1" colspan="3" anchor="NORTHEAST" ref="AKeywordsFreetext" />
+    <cell col="1" row="1" colspan="3" anchor="NORTHWEST" ref="AKeywordsFreetext" />
     
     <hidden var="metadata/keywords/keyword/@type" default="freetext" />
     <cell col="1" row="2" anchor="WEST" ref="TFzeile1024" var="metadata/keywords/keyword" />
@@ -243,7 +242,7 @@
     <cell col="1" row="3" anchor="WEST" ref="TFzeile1024" var="metadata/keywords/keyword[2]" />
     <cell col="2" row="3" anchor="NORTHWEST" ref="SlangEN" var="metadata/keywords/keyword[2]/@lang" default="en" />    
 
-    <cell col="1" row="8" colspan="3" anchor="NORTHEAST" ref="AKeywordsClassifications" /> 
+    <cell col="1" row="8" colspan="3" anchor="NORTHWEST" ref="AKeywordsClassifications" /> 
     <cell col="1" row="9" colspan="3" anchor="NORTWEST" ref="SKeywordsClassifications" var="metadata/keywords/keyword[3]/@type" />
     <hidden var="metadata/keywords/keyword[3]/@lang" default="de" /> 
     <cell col="1" row="10" anchor="WEST" ref="TFzeile1024" var="metadata/keywords/keyword[3]" />     
@@ -252,7 +251,7 @@
 
     <cell col="1" row="11" colspan="3" /> 
 
-    <cell col="1" row="12" colspan="3" anchor="NORTHEAST" ref="AKeywordsClassifications" /> 
+    <cell col="1" row="12" colspan="3" anchor="NORTHWEST" ref="AKeywordsClassifications" /> 
     <cell col="1" row="13" colspan="3" anchor="NORTWEST" ref="SKeywordsClassifications" var="metadata/keywords/keyword[4]/@type" />
     <hidden var="metadata/keywords/keyword[4]/@lang" default="de" /> 
     <cell col="1" row="14" anchor="WEST" ref="TFzeile1024" var="metadata/keywords/keyword[4]" />
