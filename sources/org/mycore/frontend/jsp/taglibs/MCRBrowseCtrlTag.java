@@ -10,10 +10,8 @@ import javax.servlet.jsp.tagext.JspFragment;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
-import org.mycore.common.MCRCache;
-import org.mycore.common.MCRSessionMgr;
+import org.mycore.services.fieldquery.MCRCachedQueryData;
 import org.mycore.services.fieldquery.MCRResults;
-import org.mycore.services.fieldquery.MCRSearchServlet;
 
 
 public class MCRBrowseCtrlTag extends SimpleTagSupport
@@ -33,7 +31,10 @@ public class MCRBrowseCtrlTag extends SimpleTagSupport
 		PageContext pageContext = (PageContext) getJspContext();
 		MCRResults results = null;
 		try {
-			results = (MCRResults)((MCRCache) MCRSessionMgr.getCurrentSession().get(MCRSearchServlet.getResultsKey())).get(id);
+			//results = (MCRResults)((MCRCache) MCRSessionMgr.getCurrentSession().get(MCRSearchServlet.getResultsKey())).get(id);
+			 MCRCachedQueryData qd = MCRCachedQueryData.getData( id );
+			results = qd.getResults();
+			
 		} catch ( Exception all) {
 			results = null;
 		}

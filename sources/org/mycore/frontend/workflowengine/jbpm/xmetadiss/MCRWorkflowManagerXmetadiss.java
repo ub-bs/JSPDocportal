@@ -143,14 +143,14 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 			MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processID);
 			String urn = (String)identifierStrategy.getIdentifierFromDocument(mcrid);
 			
-			if ( urn == null ) {
+		/*	if ( urn == null ) {
 				// a migration problem - old urns are in nbn, new in urn store
 				urn = (String)identifierStrategy.createNewIdentifier(mcrid, workflowProcessType,initiator);
 				Element eUrns = metadataStrategy.createURNElement(urn);
 				// mob.getMetadata().getMetadataElement("urns").setFromDOM(eUrns);
 				mob.getMetadata().getMetadataElement("urns").getElement(0).setFromDOM(eUrns.getChild("urn"));
 				
-			}
+			}*/
 			
 			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS, mcrid);
 			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN, urn);	

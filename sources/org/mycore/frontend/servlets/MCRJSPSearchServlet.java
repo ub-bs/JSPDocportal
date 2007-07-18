@@ -36,6 +36,7 @@ import org.jdom.output.XMLOutputter;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.parsers.bool.MCRCondition;
+import org.mycore.services.fieldquery.MCRCachedQueryData;
 import org.mycore.services.fieldquery.MCRQuery;
 import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.services.fieldquery.MCRResults;
@@ -123,11 +124,13 @@ public class MCRJSPSearchServlet extends MCRSearchServlet {
     
     //this mode comes from the resort form in the resultlist
     private void resortQuery(HttpServletRequest req, HttpServletResponse res) throws IOException {
+    	MCRCachedQueryData queryData = getQueryData(req);
     	// the id of the query
-		String id = req.getParameter("id");
-		Document query = (Document) (getCache(getResortKey()).get(id));
-		Document origquery = (Document) (getCache(getQueriesKey()).get(id));
-		MCRCondition cond = (MCRCondition) (getCache(getConditionsKey()).get(id));
+		//String id = req.getParameter("id");
+		
+		Document query = (Document) queryData.getQuery();
+		//Document origquery = (Document) getQueryData(req).get(getCache(getQueriesKey()).get(id));
+		//MCRCondition cond = (MCRCondition) getQueryData(req).getCondition();
 		
 		Element sortBy = new Element("sortBy");
 		int i = 1;
@@ -156,10 +159,10 @@ public class MCRJSPSearchServlet extends MCRSearchServlet {
         String npp = query.getRootElement().getAttributeValue("numPerPage", "0");
 
         // Store query and results in cache
-        getCache(getResultsKey()).put(result.getID(), result);
-        getCache(getResortKey()).put(result.getID(), query);
-        getCache(getQueriesKey()).put(result.getID(), origquery); 
-        getCache(getConditionsKey()).put(result.getID(), cond);
+        //getCache(getResultsKey()).put(result.getID(), result);
+        //getCache(getResortKey()).put(result.getID(), query);
+        //getCache(getQueriesKey()).put(result.getID(), origquery); 
+        //getCache(getConditionsKey()).put(result.getID(), cond);
         
         // Redirect browser to first results page
         sendRedirect(req, res, result.getID(), npp);
@@ -181,9 +184,9 @@ public class MCRJSPSearchServlet extends MCRSearchServlet {
                 XMLOutputter out = new XMLOutputter(org.jdom.output.Format.getPrettyFormat());
                 LOGGER.debug(out.outputString(jdom));
             }
-    		String id = jdom.getRootElement().getAttributeValue("id");
+    		//String id = jdom.getRootElement().getAttributeValue("id");
     		String mask = jdom.getRootElement().getAttributeValue("mask");
-    		Document query = (Document) (getCache(getResortKey()).get(id));
+    		Document query = (Document) getQueryData(req).getQuery();
     		req.setAttribute("query", query);
     		req.setAttribute("results", jdom);
     		

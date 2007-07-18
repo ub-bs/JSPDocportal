@@ -15,7 +15,7 @@
     <!-- Search in all metadata fields (that have an xml:lang attribute) -->
     <field name="allMeta"       type="text"       source="objectMetadata" xpath="/mycoreobject | /mycoreobject/metadata//*" value="@ID | text() | @xlink:title" />
 
-    <field name="bkl"           type="identifier" source="objectCategory" objects="disshab document" xpath="/mycoreobject/metadata/bkls/bkl" value="@ID" /> 
+    <field name="bkl"           type="identifier" source="objectCategory" objects="disshab document" xpath="/mycoreobject/metadata/bkls/bkl | /mycoreobject/metadata/subjects/subject" value="@ID" /> 
     <field name="ddc"           type="identifier" source="objectCategory" objects="disshab document" xpath="/mycoreobject/metadata/subjects/subject" value="@ID" /> 
     
     <field name="type"          type="identifier" source="objectCategory" xpath="/mycoreobject/metadata/types/type" value="@ID" />

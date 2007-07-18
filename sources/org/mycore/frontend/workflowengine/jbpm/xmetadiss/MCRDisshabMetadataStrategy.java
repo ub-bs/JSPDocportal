@@ -30,6 +30,13 @@ public class MCRDisshabMetadataStrategy extends MCRDefaultMetadataStrategy {
 			sbAuthors.append(creatorlink.getAttributeValue("href", Namespace.getNamespace("http://www.w3.org/1999/xlink")));
 			if(it.hasNext()){ sbAuthors.append(",");}
 		}
+		if(sbAuthors.length()==0){
+			for(Iterator it = metadata.getDescendants(new ElementFilter("creator")); it.hasNext();){
+				Element creator = (Element)it.next();
+				sbAuthors.append(creator.getText());
+				if(it.hasNext()){ sbAuthors.append(",");}
+			}	
+		}
 		ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_AUTHOR_IDS, sbAuthors.toString());
 //		ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_CONTAINS_PDF, "true");
 	}
