@@ -24,6 +24,7 @@
      
     String search = request.getParameter("search");
    	String mode = request.getParameter("mode");		
+   	if (mode==null) mode="prefix";
    	String searchclass = request.getParameter("searchclass");		  	
    	String fromTo = request.getParameter("fromTo");		  
     MCRSession mcrsession = MCRServlet.getSession(request, "HttpJspBase");
