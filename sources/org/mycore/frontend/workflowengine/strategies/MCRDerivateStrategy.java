@@ -14,14 +14,16 @@ import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
-import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRDerivateFileFilter;
 import org.mycore.common.MCRException;
+import org.mycore.common.MCRPersistenceException;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.MCRUtils;
 import org.mycore.common.xml.MCRXMLHelper;
+import org.mycore.datamodel.ifs.MCRDirectory;
+import org.mycore.datamodel.ifs.MCRFilesystemNode;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRMetaIFS;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
@@ -255,10 +257,38 @@ public abstract class MCRDerivateStrategy {
 		 * @param derivateid
 		 * @return
 		 */
-		public boolean deleteDeletedDerivates(String derivateid) {			
-			MCRDerivateCommands.delete(derivateid);
+		public boolean deleteDeletedDerivates(String derivateid) {	
+			if(MCRDerivate.existInDatastore(derivateid)){
+				MCRDerivateCommands.delete(derivateid);
+			}
 			return true;
 		}
+
+		/**
+		 * is publishing the deleting in the workflowprozess - makes the delete of single files of a derivate in the database
+		 * @param filename
+		 * @return
+		 */
+		public boolean deleteDeletedDerivateFile(String fileName) {			
+			logger.debug("Delete File from Derivate: "+fileName);
+			int split = fileName.indexOf(SEPARATOR);
+			String derID = fileName.substring(0, split);
+			MCRDirectory root = MCRDirectory.getRootDirectory(derID);
+			if(root!=null){
+				MCRFilesystemNode myfile = root.getChildByPath(fileName.substring(split));
+				if (myfile!=null){
+					try{
+						myfile.delete();
+					}
+					catch(MCRPersistenceException pe){
+						logger.error("Could not delete file: "+myfile.getAbsolutePath(), pe);
+					}
+				}
+			}
+			return true;
+		}
+		
+		
 		
 		protected boolean backupDerivateObject(String saveDirectory, String backupDir,
 				String metadataObjectID, String derivateObjectID, long pid) {

@@ -34,7 +34,6 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
-import org.jdom.Element;
 import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRException;
@@ -297,6 +296,15 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 				String derivateID = (String) it.next();
 				if ( derivateID != null && derivateID.length() > 0 ) {
 					derivateStrategy.deleteDeletedDerivates(derivateID);
+				}
+			}
+			if(ctxI.hasVariable(MCRWorkflowConstants.WFM_VAR_DELETED_FILES_IN_DERIVATES)){
+				List deletedDerFiles = Arrays.asList(((String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_DELETED_FILES_IN_DERIVATES)).split(","));
+				for (Iterator it = deletedDerFiles.iterator(); it.hasNext();) {
+					String derivateFile= (String) it.next();
+					if ( derivateFile != null && derivateFile.length() > 0 ) {
+						derivateStrategy.deleteDeletedDerivateFile(derivateFile);
+					}
 				}
 			}
 			

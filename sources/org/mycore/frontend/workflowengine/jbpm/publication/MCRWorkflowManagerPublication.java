@@ -266,6 +266,15 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 					bSuccess &= derivateStrategy.deleteDeletedDerivates(derivateID);
 				}
 			}
+			if(ctxI.hasVariable(MCRWorkflowConstants.WFM_VAR_DELETED_FILES_IN_DERIVATES)){
+				List deletedDerFiles = Arrays.asList(((String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_DELETED_FILES_IN_DERIVATES)).split(","));
+				for (Iterator it = deletedDerFiles.iterator(); it.hasNext();) {
+					String derivateFile= (String) it.next();
+					if ( derivateFile != null && derivateFile.length() > 0 ) {
+						bSuccess &= derivateStrategy.deleteDeletedDerivateFile(derivateFile);
+					}
+				}
+			}
 			
 			List derivateIDs = Arrays.asList(((String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES)).split(","));
 			MCRHIBConnection.instance().flushSession();

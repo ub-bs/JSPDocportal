@@ -51,6 +51,12 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 		if(derFile.isFile()){
 			logger.debug("deleting file " + derFile.getName());
 			derFile.delete();
+			String deleted = "";
+			if(ctxI.hasVariable(MCRWorkflowConstants.WFM_VAR_DELETED_FILES_IN_DERIVATES)){
+				deleted=(String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_DELETED_FILES_IN_DERIVATES)+",";
+			}
+			ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_DELETED_FILES_IN_DERIVATES, deleted+filename);
+			
 		}else{
 			if ( !derFile.exists()) {
 				logger.warn(derivateObjectId +  " not exist's - do nothing.");					
