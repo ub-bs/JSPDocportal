@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!-- ============================================== -->
-<!-- $Revision: 1.5 $ $Date: 2007-02-12 09:30:35 $ -->
+<!-- $Revision: 1.6 $ $Date: 2007-08-01 14:38:10 $ -->
 <!-- ============================================== -->
 <xsl:stylesheet
+	 version="1.0"
      xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
      xmlns:xlink="http://www.w3.org/1999/xlink"
      xmlns:dc="http://purl.org/dc/elements/1.1/"

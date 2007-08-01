@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!-- ============================================== -->
-<!-- $Revision: 1.2 $ $Date: 2007-02-12 09:30:35 $ -->
+<!-- $Revision: 1.3 $ $Date: 2007-08-01 14:38:10 $ -->
 <!-- ============================================== -->
 <xsl:stylesheet
      version="1.0"
@@ -24,7 +24,8 @@
    
     <xsl:param name="ServletsBaseURL" select="''" /> 
     <xsl:param name="JSessionID" select="''" />   
-    
+    <xsl:param name="WebApplicationBaseURL" select="''" />
+ 
     <xsl:include href="MyCoReDublinCoreTemplates.xsl" />             
    
     <xsl:template match="/">
@@ -41,7 +42,6 @@
 					xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd" >
  
              <xsl:call-template name="title"/>
-             <xsl:call-template name="alternative"/>
              <xsl:call-template name="creator"/>
              <xsl:call-template name="subject"/>
              <xsl:call-template name="abstract"/>
