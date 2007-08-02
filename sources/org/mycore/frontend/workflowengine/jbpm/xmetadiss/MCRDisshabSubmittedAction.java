@@ -11,7 +11,6 @@ import org.mycore.common.MCRException;
 import org.mycore.frontend.workflowengine.jbpm.MCRAbstractAction;
 import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
 import org.mycore.user.MCRUser;
 import org.mycore.user.MCRUserMgr;
@@ -19,7 +18,8 @@ import org.mycore.user.MCRUserMgr;
 public class MCRDisshabSubmittedAction extends MCRAbstractAction{
 	String lockedVariables;
 	private static final long serialVersionUID = 1L;
-
+	private static MCRWorkflowManagerXmetadiss WFM = (MCRWorkflowManagerXmetadiss)MCRWorkflowManagerFactory.getImpl("xmetadiss");
+	
 	public void executeAction(ExecutionContext executionContext) throws MCRException {
 		logger.debug("locking workflow variables and setting the access control to the editor mode");
 		ContextInstance contextInstance = executionContext.getContextInstance();
@@ -29,7 +29,7 @@ public class MCRDisshabSubmittedAction extends MCRAbstractAction{
 		MCRUser user = MCRUserMgr.instance().retrieveUser(initiator);
 		long processID = contextInstance.getProcessInstance().getId();
 		String workflowType = MCRJbpmWorkflowBase.getWorkflowProcessType(processID);
-		MCRWorkflowManager wfm = MCRWorkflowManagerFactory.getImpl(workflowType);
+		
 
 		List<Object> ids = new ArrayList<Object>();
 		ids.addAll(Arrays.asList(((String)contextInstance.getVariable("attachedDerivates")).split(",")));
@@ -37,7 +37,7 @@ public class MCRDisshabSubmittedAction extends MCRAbstractAction{
 		for (Iterator it = ids.iterator(); it.hasNext();) {
 			String id = (String) it.next();
 			 						//(mcrid, userid, wftype, mode)
-			wfm.permissionStrategy.setPermissions(id, user.getID(), workflowType, contextInstance, MCRWorkflowConstants.PERMISSION_MODE_EDITING);
+			WFM.setPermissions(id, user.getID(), workflowType, contextInstance, MCRWorkflowConstants.PERMISSION_MODE_EDITING);
 			
 		}
 	}

@@ -33,11 +33,16 @@ import org.jbpm.context.exe.ContextInstance;
 import org.jdom.Element;
 import org.mycore.common.MCRException;
 import org.mycore.frontend.cli.MCRUserCommands;
+import org.mycore.frontend.workflowengine.guice.MCRRegisteruserWorkflowModule;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcessManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
+import org.mycore.frontend.workflowengine.strategies.MCRUserStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
+
+import com.google.inject.Guice;
+import com.google.inject.Inject;
 
 /**
  * This class holds methods to manage the workflow file system of MyCoRe.
@@ -52,7 +57,7 @@ public class MCRWorkflowManagerRegisteruser extends MCRWorkflowManager{
 	private static Logger logger = Logger.getLogger(MCRWorkflowManagerRegisteruser.class.getName());
 	private static MCRWorkflowManager singleton;
 	
-	
+	@Inject protected MCRUserStrategy userStrategy;
 	protected MCRWorkflowManagerRegisteruser() throws Exception {
 		super("user", "registeruser");
 		
@@ -66,7 +71,7 @@ public class MCRWorkflowManagerRegisteruser extends MCRWorkflowManager{
 	 */
 	public static synchronized MCRWorkflowManager instance() throws Exception {
 		if (singleton == null)
-			singleton = new MCRWorkflowManagerRegisteruser();
+			singleton = Guice.createInjector(new MCRRegisteruserWorkflowModule()).getInstance(MCRWorkflowManager.class);
 		return singleton;
 	}
 	

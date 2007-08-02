@@ -32,15 +32,20 @@ import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRException;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.frontend.workflowengine.guice.MCRInstitutionWorkflowModule;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowAccessRuleEditorUtils;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcessManager;
+import org.mycore.frontend.workflowengine.strategies.MCRInstitutionStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRMetadataStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 import org.mycore.user.MCRUser;
 import org.mycore.user.MCRUserMgr;
+
+import com.google.inject.Guice;
+import com.google.inject.Inject;
 
 /**
  * This class holds methods to manage the workflow file system of MyCoRe.
@@ -56,9 +61,11 @@ public class MCRWorkflowManagerInstitution extends MCRWorkflowManager {
 
 	private static MCRWorkflowManager singleton;
 
+	@Inject protected MCRMetadataStrategy metadataStrategy;
+	@Inject protected MCRInstitutionStrategy institutionStrategy;
+
 	protected MCRWorkflowManagerInstitution() throws Exception {
 		super("institution", "institution");
-		metadataStrategy = new MCRInstitutionMetadataStrategy();
 	}
 
 	/**
@@ -70,7 +77,7 @@ public class MCRWorkflowManagerInstitution extends MCRWorkflowManager {
 	 */
 	public static synchronized MCRWorkflowManager instance() throws Exception {
 		if (singleton == null)
-			singleton = new MCRWorkflowManagerInstitution();
+			singleton = Guice.createInjector(new MCRInstitutionWorkflowModule()).getInstance(MCRWorkflowManager.class);
 		return singleton;
 	}
 

@@ -31,6 +31,9 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 		this.documentType = documentType;
 	}
 	
+	public MCRDefaultMetadataStrategy(){
+		this.documentType="";
+	}
 	protected static Logger logger = Logger.getLogger(MCRDefaultMetadataStrategy.class.getName());
 		
 	public boolean createEmptyMetadataObject(boolean authorRequired, List authorIDs, List authors, 
@@ -260,10 +263,10 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 	/**
 	 * @param documentType The documentType to set.
 	 */
-	protected final void setDocumentType(String documentType) {
-		this.documentType = documentType;
-	}
-	
+//	protected final void setDocumentType(String documentType) {
+//		this.documentType = documentType;
+//	}
+//	
 	public final Element createURNElement(String urn) {
 		
 		MCRMetaLangText turn = new MCRMetaLangText();

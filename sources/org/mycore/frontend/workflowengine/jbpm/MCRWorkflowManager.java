@@ -20,29 +20,18 @@ import org.mycore.common.MCRException;
 import org.mycore.common.MCRUtils;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
-import org.mycore.frontend.workflowengine.strategies.MCRAuthorStrategy;
-import org.mycore.frontend.workflowengine.strategies.MCRDefaultAuthorStrategy;
-import org.mycore.frontend.workflowengine.strategies.MCRDefaultDerivateStrategy;
-import org.mycore.frontend.workflowengine.strategies.MCRDefaultInstitutionStrategy;
-import org.mycore.frontend.workflowengine.strategies.MCRDefaultMetadataStrategy;
-import org.mycore.frontend.workflowengine.strategies.MCRDefaultPermissionStrategy;
-import org.mycore.frontend.workflowengine.strategies.MCRDefaultUserStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRDerivateStrategy;
-import org.mycore.frontend.workflowengine.strategies.MCRIdentifierStrategy;
-import org.mycore.frontend.workflowengine.strategies.MCRInstitutionStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRMetadataStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRPermissionStrategy;
-import org.mycore.frontend.workflowengine.strategies.MCRURNIdentifierStrategy;
-import org.mycore.frontend.workflowengine.strategies.MCRUserStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 import org.mycore.user.MCRUser;
 import org.mycore.user.MCRUserMgr;
 
+import com.google.inject.Inject;
+
 public abstract class MCRWorkflowManager {
 	private static Logger logger;
 	private static String GUEST_ID ;
-
-	
 	protected static String deleteDir ;
 	
 	static{
@@ -53,32 +42,30 @@ public abstract class MCRWorkflowManager {
 		
 	}
 
+
+	@Inject protected MCRMetadataStrategy 	metadataStrategy;
+	@Inject protected MCRDerivateStrategy 	derivateStrategy;
+	@Inject public MCRPermissionStrategy    permissionStrategy;
 	
 	protected MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
 	
 	protected String workflowProcessType;
 	protected String mainDocumentType;
 	
-	protected MCRIdentifierStrategy identifierStrategy;
-	protected MCRAuthorStrategy 	authorStrategy;
-	protected MCRMetadataStrategy 	metadataStrategy;
-	protected MCRDerivateStrategy 	derivateStrategy;
-	public MCRPermissionStrategy    permissionStrategy;
-	protected MCRUserStrategy 		userStrategy;
-	protected MCRInstitutionStrategy institutionStrategy;
+
 	
 	
 
 	protected MCRWorkflowManager( String mainDocumentType, String workflowProcessType) throws Exception {
 		this.workflowProcessType 	= workflowProcessType;
 		this.mainDocumentType 		= mainDocumentType;
-		this.metadataStrategy 		= new MCRDefaultMetadataStrategy(mainDocumentType);
-		this.authorStrategy 		= new MCRDefaultAuthorStrategy();
-		this.identifierStrategy 	= new MCRURNIdentifierStrategy();
-		this.derivateStrategy   	= new MCRDefaultDerivateStrategy();
-		this.permissionStrategy 	= new MCRDefaultPermissionStrategy();
-		this.userStrategy 			= new MCRDefaultUserStrategy();
-		this.institutionStrategy    = new MCRDefaultInstitutionStrategy();
+//		this.metadataStrategy 		= new MCRDefaultMetadataStrategy(mainDocumentType);
+//		this.authorStrategy 		= new MCRDefaultAuthorStrategy();
+//		this.identifierStrategy 	= new MCRURNIdentifierStrategy();
+//		this.derivateStrategy   	= new MCRDefaultDerivateStrategy();
+//		this.permissionStrategy 	= new MCRDefaultPermissionStrategy();
+//		this.userStrategy 			= new MCRDefaultUserStrategy();
+//		this.institutionStrategy    = new MCRDefaultInstitutionStrategy();
 	}
 	
 	
@@ -444,52 +431,52 @@ public abstract class MCRWorkflowManager {
 	}
 	
 	
-	/**
-	 * @return Returns the authorStrategy.
-	 */
-	public final MCRAuthorStrategy getAuthorStrategy() {
-		return authorStrategy;
-	}
-
-
-	/**
-	 * @param authorStrategy The authorStrategy to set.
-	 */
-	protected final void setAuthorStrategy(MCRAuthorStrategy authorStrategy) {
-		this.authorStrategy = authorStrategy;
-	}
-
-	/**
-	 * @return Returns the identifierStrategy.
-	 */
-	public final MCRIdentifierStrategy getIdentifierStrategy() {
-		return identifierStrategy;
-	}
-
-
-	/**
-	 * @param identifierStrategy The identifierStrategy to set.
-	 */
-	protected final void setIdentifierStrategy(
-			MCRIdentifierStrategy identifierStrategy) {
-		this.identifierStrategy = identifierStrategy;
-	}
-
-
-	/**
-	 * @return Returns the metadataStrategy.
-	 */
-	public final MCRMetadataStrategy getMetadataStrategy() {
-		return metadataStrategy;
-	}
-
-
-	/**
-	 * @param metadataStrategy The metadataStrategy to set.
-	 */
-	protected final void setMetadataStrategy(MCRMetadataStrategy metadataStrategy) {
-		this.metadataStrategy = metadataStrategy;
-	}
+//	/**
+//	 * @return Returns the authorStrategy.
+//	 */
+//	public final MCRAuthorStrategy getAuthorStrategy() {
+//		return authorStrategy;
+//	}
+//
+//
+//	/**
+//	 * @param authorStrategy The authorStrategy to set.
+//	 */
+//	protected final void setAuthorStrategy(MCRAuthorStrategy authorStrategy) {
+//		this.authorStrategy = authorStrategy;
+//	}
+//
+//	/**
+//	 * @return Returns the identifierStrategy.
+//	 */
+//	public final MCRIdentifierStrategy getIdentifierStrategy() {
+//		return identifierStrategy;
+//	}
+//
+//
+//	/**
+//	 * @param identifierStrategy The identifierStrategy to set.
+//	 */
+//	protected final void setIdentifierStrategy(
+//			MCRIdentifierStrategy identifierStrategy) {
+//		this.identifierStrategy = identifierStrategy;
+//	}
+//
+//
+//	/**
+//	 * @return Returns the metadataStrategy.
+//	 */
+//	public final MCRMetadataStrategy getMetadataStrategy() {
+//		return metadataStrategy;
+//	}
+//
+//
+//	/**
+//	 * @param metadataStrategy The metadataStrategy to set.
+//	 */
+//	protected final void setMetadataStrategy(MCRMetadataStrategy metadataStrategy) {
+//		this.metadataStrategy = metadataStrategy;
+//	}
 
 
 	/**
@@ -507,34 +494,34 @@ public abstract class MCRWorkflowManager {
 		this.workflowProcessType = workflowProcessType;
 	}
 
-	/**
-	 * @return Returns the derivateStrategy.
-	 */
-	protected final MCRDerivateStrategy getDerivateStrategy() {
-		return derivateStrategy;
-	}
-
-	/**
-	 * @param derivateStrategy The derivateStrategy to set.
-	 */
-	protected final void setDerivateStrategy(MCRDerivateStrategy derivateStrategy) {
-		this.derivateStrategy = derivateStrategy;
-	}
-
-	/**
-	 * @return Returns the permissionStrategy.
-	 */
-	public final MCRPermissionStrategy getPermissionStrategy() {
-		return permissionStrategy;
-	}
-
-	/**
-	 * @param permissionStrategy The permissionStrategy to set.
-	 */
-	protected final void setPermissionStrategy(
-			MCRPermissionStrategy permissionStrategy) {
-		this.permissionStrategy = permissionStrategy;
-	}
+//	/**
+//	 * @return Returns the derivateStrategy.
+//	 */
+//	protected final MCRDerivateStrategy getDerivateStrategy() {
+//		return derivateStrategy;
+//	}
+//
+//	/**
+//	 * @param derivateStrategy The derivateStrategy to set.
+//	 */
+//	protected final void setDerivateStrategy(MCRDerivateStrategy derivateStrategy) {
+//		this.derivateStrategy = derivateStrategy;
+//	}
+//
+//	/**
+//	 * @return Returns the permissionStrategy.
+//	 */
+//	public final MCRPermissionStrategy getPermissionStrategy() {
+//		return permissionStrategy;
+//	}
+//
+//	/**
+//	 * @param permissionStrategy The permissionStrategy to set.
+//	 */
+//	protected final void setPermissionStrategy(
+//			MCRPermissionStrategy permissionStrategy) {
+//		this.permissionStrategy = permissionStrategy;
+//	}
 
 	/**
 	 * @return Returns the mainDocumentType.

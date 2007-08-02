@@ -40,16 +40,23 @@ import org.mycore.common.MCRException;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.frontend.workflowengine.guice.MCRRegisteruserWorkflowModule;
+import org.mycore.frontend.workflowengine.guice.MCRXmetadissWorkflowModule;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowAccessRuleEditorUtils;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcessManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
+import org.mycore.frontend.workflowengine.strategies.MCRAuthorStrategy;
+import org.mycore.frontend.workflowengine.strategies.MCRIdentifierStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRMetadataStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 import org.mycore.user.MCRUser;
 import org.mycore.user.MCRUserMgr;
+
+import com.google.inject.Guice;
+import com.google.inject.Inject;
 
 /**
  * This class holds methods to manage the workflow file system of MyCoRe.
@@ -63,11 +70,11 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 	
 	private static Logger logger = Logger.getLogger(MCRWorkflowManagerXmetadiss.class.getName());
 	private static MCRWorkflowManager singleton;
-	
+	@Inject MCRAuthorStrategy authorStrategy;
+	@Inject MCRIdentifierStrategy identifierStrategy;
 	protected MCRWorkflowManagerXmetadiss() throws Exception {
 		super("disshab", "xmetadiss");
-		this.derivateStrategy = new MCRDisshabDerivateStrategy();
-		this.metadataStrategy = new MCRDisshabMetadataStrategy();
+
 	}
 
 	
@@ -79,7 +86,7 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 	 */
 	public static synchronized MCRWorkflowManager instance() throws Exception {
 		if (singleton == null)
-			singleton = new MCRWorkflowManagerXmetadiss();
+			singleton = Guice.createInjector(new MCRXmetadissWorkflowModule()).getInstance(MCRWorkflowManager.class);
 		return singleton;
 	}
 	
@@ -346,5 +353,13 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 			
 		}
 		return false;
+	}
+	
+	public MCRObjectID createAuthor(String userid, MCRObjectID nextFreeAuthorId, boolean fromUserData, boolean inDatabase){
+		return authorStrategy.createAuthor(userid, nextFreeAuthorId, fromUserData, inDatabase);
+	}
+	
+	public void setPermissions(String mcrid, String userid, String workflowProcessType, ContextInstance ctxI, int mode){
+		permissionStrategy.setPermissions(mcrid, userid, workflowProcessType, ctxI, mode);
 	}
 }
