@@ -36,7 +36,7 @@ import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRException;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
-import org.mycore.frontend.workflowengine.guice.MCRProfessorumWorkflowModule;
+import org.mycore.frontend.workflowengine.guice.MCRAuthorWorkflowModule;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowAccessRuleEditorUtils;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
@@ -87,7 +87,7 @@ public class MCRWorkflowManagerAuthor extends MCRWorkflowManager {
 	 */
 	public static synchronized MCRWorkflowManager instance() throws Exception {
 		if (singleton == null)
-			singleton = Guice.createInjector(new MCRProfessorumWorkflowModule()).getInstance(MCRWorkflowManager.class);
+			singleton = Guice.createInjector(new MCRAuthorWorkflowModule()).getInstance(MCRWorkflowManager.class);
 		return singleton;
 	}
 
