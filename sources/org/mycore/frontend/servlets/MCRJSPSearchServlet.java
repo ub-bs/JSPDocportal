@@ -149,21 +149,27 @@ public class MCRJSPSearchServlet extends MCRSearchServlet {
 			query.getRootElement().removeChild("sortBy");
 			query.getRootElement().addContent(sortBy);
 		}
+	    // Show incoming query document
+        if (LOGGER.isDebugEnabled()) {
+            XMLOutputter out = new XMLOutputter(org.jdom.output.Format.getPrettyFormat());
+            LOGGER.debug(out.outputString(query));
+        }
 		
-        // Execute query
+       
+        Document clonedQuery = (Document)(query.clone()); // Keep for later re-use
+        //cleanupQuery
+        MCRCondition cond=cleanupQuery(query);
+        
         long start = System.currentTimeMillis();
         MCRResults result = MCRQueryManager.search(MCRQuery.parseXML(query));
         long qtime = System.currentTimeMillis() - start;
         LOGGER.debug("MCRJSPSearchServlet total query time: " + qtime);
 
-        String npp = query.getRootElement().getAttributeValue("numPerPage", "0");
-
         // Store query and results in cache
-        //getCache(getResultsKey()).put(result.getID(), result);
-        //getCache(getResortKey()).put(result.getID(), query);
-        //getCache(getQueriesKey()).put(result.getID(), origquery); 
-        //getCache(getConditionsKey()).put(result.getID(), cond);
+        new MCRCachedQueryData( result, clonedQuery, cond );
         
+        String npp = query.getRootElement().getAttributeValue("numPerPage", "0");
+       
         // Redirect browser to first results page
         sendRedirect(req, res, result.getID(), npp);
 
