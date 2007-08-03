@@ -123,7 +123,7 @@
       
       <cell  row="3" col="3" colspan="2" anchor="NORTHWEST" >
       <panel>
-        <hidden var="conditions/boolean/condition10/@field" default="dateCreated" />
+        <hidden var="conditions/boolean/condition10/@field" default="created" />
   
         <!-- Search in field "format" with operator "=" -->
         <cell row="1" col="1" anchor="NORTHWEST" ref="LFormats" />     
@@ -132,7 +132,7 @@
         <!-- Search in field "type" with operator "=" -->
         <cell row="2" col="1" anchor="NORTHWEST" ref="LTypes" />     
         <cell row="2" col="2" anchor="NORTHWEST" ref="DTypes" var="conditions/boolean/condition9" />
-        <!-- Search in field "dateCreated" -->
+        <!-- Search in field "created" -->
         <cell row="3" col="1" anchor="EAST">
           <text i18n="Editor.Document.datecr" />
         </cell>
@@ -260,7 +260,7 @@
                 <item value="" i18n="Editor.Common.choose" />
                 <item value="title" i18n="Editor.Document.title" />
                 <item value="author" i18n="Editor.Document.author" />
-                <item value="dateCreated" i18n="Editor.Document.datecr" />
+                <item value="created" i18n="Editor.Document.datecr" />
               </list>
             </cell>
             <cell row="1" col="3" anchor="WEST" var="@order">
