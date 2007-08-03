@@ -5,7 +5,7 @@
 	 <source uri="{sourceUri}" />
      <cancel url="{cancelUrl}" />
 
- <target type="debug" />
+<!-- <target type="debug" /> -->
  
  
  <target type="servlet" name="MCRPassToTargetServlet" method="post" format="xml" /> 
