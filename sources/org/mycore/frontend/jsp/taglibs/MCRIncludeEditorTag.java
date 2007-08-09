@@ -136,7 +136,7 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 				if (publicationType != null && !publicationType.equals("")) {
 					if ( publicationType.endsWith("TYPE0002") )
 						base.append("-").append("TYPE0002");
-					else 
+					if ( publicationType.endsWith("TYPE0001") ) 
 						base.append("-").append("TYPE0001");
 				}
 				base.append(".xml");	
