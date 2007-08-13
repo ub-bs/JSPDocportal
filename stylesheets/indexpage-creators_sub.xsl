@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.12 $ $Date: 2006-12-04 12:57:23 $ -->
+<!-- $Revision: 1.13 $ $Date: 2007-08-13 15:09:32 $ -->
 <!-- ============================================== -->
 
 <xsl:stylesheet
@@ -27,11 +27,11 @@
 	
 	
 <xsl:variable name="subselect.params">
-  <xsl:text>XSL.subselect.session=</xsl:text>
+  <xsl:text>XSL.subselect.session.SESSION=</xsl:text>
   <xsl:value-of select="$subselect.session" />
-  <xsl:text>&amp;XSL.subselect.varpath=</xsl:text>
+  <xsl:text>&amp;XSL.subselect.varpath.SESSION=</xsl:text>
   <xsl:value-of select="$subselect.varpath" />
-  <xsl:text>&amp;XSL.subselect.webpage=</xsl:text>
+  <xsl:text>&amp;XSL.subselect.webpage.SESSION=</xsl:text>
   <xsl:value-of select="$subselect.webpage" />
 </xsl:variable>
 
@@ -74,9 +74,9 @@
             <xsl:text> </xsl:text>
             <input type="text" class="button" size="30" name="search" value="{$search}" />
             <xsl:text> </xsl:text>
-            <input type="hidden" name="XSL.subselect.session" value="{$subselect.session}" />
-            <input type="hidden" name="XSL.subselect.varpath" value="{$subselect.varpath}" />
-            <input type="hidden" name="XSL.subselect.webpage" value="{$subselect.webpage}" />
+            <input type="hidden" name="XSL.subselect.session.SESSION" value="{$subselect.session}" />
+            <input type="hidden" name="XSL.subselect.varpath.SESSION" value="{$subselect.varpath}" />
+            <input type="hidden" name="XSL.subselect.webpage.SESSION" value="{$subselect.webpage}" />
             <input type="submit" class="button" value="suchen..." />
           </form>
         </td>
@@ -88,9 +88,9 @@
                 <xsl:value-of select="results/@numHits"/>
                 <xsl:text> Treffer </xsl:text>
               </b>
-              <input type="hidden" name="XSL.subselect.session" value="{$subselect.session}" />
-              <input type="hidden" name="XSL.subselect.varpath" value="{$subselect.varpath}" />
-              <input type="hidden" name="XSL.subselect.webpage" value="{$subselect.webpage}" />
+              <input type="hidden" name="XSL.subselect.session.SESSION" value="{$subselect.session}" />
+              <input type="hidden" name="XSL.subselect.varpath.SESSION" value="{$subselect.varpath}" />
+              <input type="hidden" name="XSL.subselect.webpage.SESSION" value="{$subselect.webpage}" />
               <input type="submit" class="button" value="Filter aufheben" />
             </form>
            </td>
