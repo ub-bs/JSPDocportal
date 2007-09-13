@@ -46,7 +46,7 @@
 				<mcr:checkAccess var="modifyAllowed" permission="writedb"	key="${itemID}" />
 				
 				<c:if test="${modifyAllowed}">
-					<c:if test="${fn:contains('document,disshab,professorum',itemDocType)}">
+					<c:if test="${fn:contains('document,disshab,professorum,artwork',itemDocType)}">
 						<td align="center" valign="top" width="30">
 						<form method="get" action="${baseURL}workflowaction">
 							<input	name="processid" value="${processid}" type="hidden"> 
