@@ -4,6 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr"%>
 
+<%@page import="org.mycore.common.MCRConfiguration"%>
 <c:set var="debug" value="${param.debug}" />
 
 <c:set var="WebApplicationBaseURL"
@@ -133,100 +134,30 @@
 					<x:set var="mcrID" select="string(@ID)" />
 					<x:set var="docType" select="string(@docType)" />
 					<!--  the number corresponds to the x. entry in resultlist-*.xml -->
-					<x:set var="contentType" select="string(./metaname[@name='OMD.class-types']/metavalues/metavalue/@categid)" />
+					<x:set var="contentType"
+							 select="string(./metaname[@name='OMD.class-types']/metavalues/metavalue/@categid)" />
+					<x:set var="formatType"
+							select="string(./metaname[@name='OMD.class-formats']/metavalues/metavalue/@categid|./metaname[@name='OMD.class-formats']/metavalues/metavalue/@text)" />
+					<x:set var="data" select="." scope="request" />
 					<table id="resultList" width="100%">
 						<tbody>
 							<tr valign="top" >
 								<td width="30px" class="resultIcon" rowspan="2" >
-								<x:choose>
-									<x:when select="contains($docType, 'author')">
-										<img src="${WebApplicationBaseURL}/images/pubtype/person.gif"	alt="author" />
-									</x:when>
-									<x:when select="contains($docType, 'institution')">
-										<img src="${WebApplicationBaseURL}/images/pubtype/institution.gif"
-											alt="institution" />
-									</x:when>
-									<x:when select="contains('document disshab',$docType)">
-										<x:choose>
-											<x:when select="contains('TYPE0001.001', $contentType)">
-												<img src="${WebApplicationBaseURL}/images/pubtype/monographie.gif"
-													alt="text" />
-											</x:when>
-											<x:when select="contains('TYPE0001.002 TYPE0001.003 TYPE0001.004', $contentType)">
-												<img src="${WebApplicationBaseURL}/images/pubtype/periodical.gif"
-													alt="periodicals" />
-											</x:when>
-											<x:when select="contains('TYPE0001.005',$contentType)">
-												<img src="${WebApplicationBaseURL}/images/pubtype/musikalie.gif"
-													alt="music" />
-											</x:when>
-											<x:when select="contains('TYPE0001.006',$contentType)">
-												<img src="${WebApplicationBaseURL}/images/pubtype/patent.gif"
-													alt="patent" />
-											</x:when>
-											<x:when select="contains('TYPE0001.007',$contentType)">
-												<img src="${WebApplicationBaseURL}/images/pubtype/map.gif"
-													alt="map" />
-											</x:when>
-											<x:when select="contains($contentType,'TYPE0002' )">
-												<img
-													src="${WebApplicationBaseURL}/images/pubtype/article.gif"
-													alt="disshab" />
-											</x:when>
-											<x:when select="contains($contentType,'TYPE0003' )">
-												<img src="${WebApplicationBaseURL}/images/pubtype/disshab.gif"
-													alt="disshab" />
-											</x:when>
-											<x:when select="contains('TYPE0010.001', $contentType )">
-												<img src="${WebApplicationBaseURL}/images/pubtype/rede.gif"
-													alt="speech" />
-											</x:when>
-											<x:otherwise>
-												<x:set var="formatType"
-													select="string(./metaname[@name='OMD.class-formats']/metavalues/metavalue/@categid)" />
-												<x:choose>
-													<x:when select="contains('FORMAT0001', $formatType)">
-														<img src="${WebApplicationBaseURL}/images/pubtype/article.gif"
-															alt="text" />
-													</x:when>
-													<x:when select="contains('FORMAT0002', $formatType)">
-														<img src="${WebApplicationBaseURL}/images/pubtype/picture.gif"
-															alt="image" />
-													</x:when>
-													<x:when select="contains('FORMAT0005 FORMAT0006  FORMAT0008', $formatType)">
-														<img src="${WebApplicationBaseURL}/images/pubtype/software.gif"
-															alt="software" />
-													</x:when>
-													<x:when select="contains('FORMAT0009', $formatType)">
-														<img src="${WebApplicationBaseURL}/images/pubtype/audio.gif"
-															alt="audio" />
-													</x:when>
-													<x:when select="contains('FORMAT0010', $formatType)">
-														<img src="${WebApplicationBaseURL}/images/pubtype/audiovisual.gif"
-															alt="video" />
-													</x:when>
-													<x:otherwise>
-														<img src="${WebApplicationBaseURL}/images/pubtype/unknown.gif"
-															alt="unknown" />
-													</x:otherwise>
-												</x:choose>
-											</x:otherwise>
-										</x:choose>
-									</x:when>
-									<x:when select="contains('professorum codice', $docType)">
-										<img
-											src="${WebApplicationBaseURL}/images/pubtype/handwriting.gif"
-											alt="historische Sammlung" />
-									</x:when>
-									<x:otherwise>
-										<img src="${WebApplicationBaseURL}/images/pubtype/unknown.gif"
-											alt="unknown" />
-									</x:otherwise>
-								</x:choose>
-								</td>
+									<jsp:include page="results-config/resultlistitems/resultlistitem-${docType}.jsp" >
+							        	<jsp:param name="pageFragment" value="icon" />
+								        <jsp:param name="contentType" value="${contentType}" />
+   								        <jsp:param name="formatType" value="${formatType}" />
+								    </jsp:include>
+							    </td>
 								<td class="resultTitle">
-								<a href="${resultlistLink}&path=${navPath}.docdetail&resultid=${resultid}">
-								<x:choose>
+									<a href="${resultlistLink}&path=${navPath}.docdetail&resultid=${resultid}">
+									<jsp:include page="results-config/resultlistitems/resultlistitem-${docType}.jsp" >
+							        	<jsp:param name="pageFragment" value="headline" />
+								        <jsp:param name="contentType" value="${contentType}" />
+   								        <jsp:param name="formatType" value="${formatType}" />
+								    </jsp:include>
+									
+<!-- 								<x:choose>
 									<x:when select="contains('codice',$docType)">
 										<x:out select="./metaname[1]/metavalues[2]/metavalue/@text" />
 										<x:out select="./metaname[@name='OMD.title']/metavalues[3]/metavalue/@text" />
@@ -237,8 +168,11 @@
 									</x:when>
 									<x:otherwise>
 										<x:out select="./metaname[1]/metavalues/metavalue/@text" />
-									</x:otherwise>
-								</x:choose> </a></td>
+									</x:otherwise> 
+								</x:choose>-->
+								
+								 </a></td>
+
 								<td class="id" align="right">[<c:out value="${mcrID}" />]</td>
 							</tr>
 							<tr>
