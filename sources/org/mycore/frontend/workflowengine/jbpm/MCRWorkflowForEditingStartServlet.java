@@ -79,7 +79,7 @@ public class MCRWorkflowForEditingStartServlet extends MCRServlet {
 			for ( int i = 0; i< workflowTypes.length; i++ ) {
 				workflowTypes[i]=workflowTypes[i].trim();
 				wfm = MCRWorkflowManagerFactory.getImpl(workflowTypes[i]);
-				if ( wfm != null && wfm.getMainDocumentType().equalsIgnoreCase(type)) {
+				if ( wfm != null && wfm.getDocumentTypes().contains(type)) {
 					bOK = true;
 					//initiator, mcrid, transition name
 					wfm.initWorkflowProcessForEditing(MCRSessionMgr.getCurrentSession().getCurrentUserID(),	mcrid);	

@@ -51,6 +51,7 @@ public abstract class MCRWorkflowManager {
 	
 	protected String workflowProcessType;
 	protected String mainDocumentType;
+	protected String documentTypes; //','-Separated String
 	
 
 	
@@ -59,6 +60,7 @@ public abstract class MCRWorkflowManager {
 	protected MCRWorkflowManager( String mainDocumentType, String workflowProcessType) throws Exception {
 		this.workflowProcessType 	= workflowProcessType;
 		this.mainDocumentType 		= mainDocumentType;
+		this.documentTypes 			= mainDocumentType;
 //		this.metadataStrategy 		= new MCRDefaultMetadataStrategy(mainDocumentType);
 //		this.authorStrategy 		= new MCRDefaultAuthorStrategy();
 //		this.identifierStrategy 	= new MCRURNIdentifierStrategy();
@@ -66,6 +68,15 @@ public abstract class MCRWorkflowManager {
 //		this.permissionStrategy 	= new MCRDefaultPermissionStrategy();
 //		this.userStrategy 			= new MCRDefaultUserStrategy();
 //		this.institutionStrategy    = new MCRDefaultInstitutionStrategy();
+	}
+	
+	protected MCRWorkflowManager( String mainDocumentType, String documentTypes, String workflowProcessType) throws Exception {
+		if(!documentTypes.contains(mainDocumentType)){
+			documentTypes+=","+mainDocumentType;
+		}
+			this.workflowProcessType 	= workflowProcessType;
+			this.mainDocumentType 		= mainDocumentType;
+			this.documentTypes 			= documentTypes;
 	}
 	
 	
@@ -530,6 +541,9 @@ public abstract class MCRWorkflowManager {
 		return mainDocumentType;
 	}
 
+	public final String getDocumentTypes(){
+		return documentTypes;
+	}
 	/**
 	 * @param mainDocumentType The mainDocumentType to set.
 	 */
