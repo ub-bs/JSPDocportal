@@ -22,6 +22,7 @@
 	<!-- *** Text area *** -->
 	<textarea id="TFarea4096" width="60" height="4" maxlength="4096" default="" />
 	<textarea id="TFarea4096x10" width="60" height="10" maxlength="4096" default="" />
+	<textarea id="TFarea4096x4" width="60" height="4" maxlength="4096" default="" />
 
 	<!-- *** mandatory Text area *** -->
 	<textarea id="TFarea4096M" width="60" height="4" maxlength="4096" default=" " class="mandatory" />
