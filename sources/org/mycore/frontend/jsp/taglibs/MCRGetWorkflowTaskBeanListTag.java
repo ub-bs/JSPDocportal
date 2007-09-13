@@ -139,7 +139,7 @@ public class MCRGetWorkflowTaskBeanListTag extends SimpleTagSupport {
 						public int compare(Object o1, Object o2) {
 				        long id1 = ((MCRJbpmTaskBean)o1).getProcessID();
 				        long id2 = ((MCRJbpmTaskBean)o2).getProcessID();
-				        return (new Long(id1)).compareTo(new Long(id2));		        
+				        return -1*(new Long(id1)).compareTo(new Long(id2));		        
 						}
 					}
 				);
