@@ -39,7 +39,7 @@ public class MCRIsObjectNotLockedTag extends SimpleTagSupport
 			for ( int i = 0; i< workflowTypes.length; i++ ) {
 				workflowTypes[i]=workflowTypes[i].trim();
 				WFM = MCRWorkflowManagerFactory.getImpl(workflowTypes[i]);
-				if ( WFM != null && WFM.getMainDocumentType().equalsIgnoreCase(type)) {
+				if ( WFM != null && WFM.getDocumentTypes().contains(type)) {
 					List lpids = WFM.getCurrentProcessIDsForVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS, objectid);
 					if( lpids == null || lpids.size() == 0 ){
 						// not in use by another process
