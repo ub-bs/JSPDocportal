@@ -12,6 +12,7 @@
     <!-- Global properties                                                   -->
     <!-- =================================================================== -->
 	<property name="MYAPPLICATION_NAME" value="mycoresample" />
+	<property name="usemodule" value="true" />
 
     <!-- Javac properties -->
     <property name="debug" value="on" />
