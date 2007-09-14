@@ -468,7 +468,7 @@ public class MCRResultFormatter {
 				    }
     			    String derivlabel = mcr_der.getLabel();
     			    String derivmain = mcr_der.getDerivate().getInternals().getMainDoc();
-    			    
+    			      			    
     			    MCRDirectory root;
     			    root = MCRDirectory.getRootDirectory(derivateID);
     			    MCRFilesystemNode[] myfiles = root.getChildren();
@@ -482,8 +482,13 @@ public class MCRResultFormatter {
     			    	fileCnt = 1; 
     			    	myfiles[0] = (MCRFile) root.getChildByPath(derivmain);
     			    	if (myfiles[0] == null) {
-    				    	logger.error("SEEMS TO EXIST A DERIVATE WITHOUT A DIGITAL OBJECT. REVIEW DERIVATE WITH ID: " + derivateID);
-    				    	continue;
+    				    	logger.error("SEEMS TO EXIST A DERIVATE WITHOUT A MAIN DOCUMENT. REVIEW DERIVATE WITH ID: " + derivateID);
+    				    	//maindoc not set -> use the first file
+    				    	if(root.getChildren().length>0)	myfiles[0] = (MCRFile) root.getChild(0);
+    				    	if(myfiles[0]==null){
+    				    		logger.error("SEEMS TO EXIST A DERIVATE WITHOUT A DIGITAL OBJECT. REVIEW DERIVATE WITH ID: " + derivateID);
+    				    	   	continue;
+    				    	}
     				    }
     			    }
     				for ( int i=0; i< fileCnt; i++) {
