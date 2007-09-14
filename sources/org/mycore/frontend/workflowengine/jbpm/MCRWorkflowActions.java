@@ -281,7 +281,7 @@ public class MCRWorkflowActions extends MCRServlet {
 	 * @param parameters
 	 *            the http request parameters
 	 */
-	private String buildRedirectURL(String baseURL, Properties parameters) {
+	protected String buildRedirectURL(String baseURL, Properties parameters) {
 		StringBuffer redirectURL = new StringBuffer(baseURL);
 		boolean first = true;
 
