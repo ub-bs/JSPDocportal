@@ -43,7 +43,7 @@ select="concat($WebApplicationBaseURL,'servlets/XMLEditor?_action=end.subselect&
 select="concat('XSL.subselect.session.SESSION=',$subselectSession,'&amp;XSL.subselect.varpath.SESSION=',
 			   $subselectVarpath, '&amp;XSL.subselect.webpage.SESSION=', $subselectWebpage )" />
 
-<x:set var="formAction" select="concat($WebApplicationBaseURL, $subselectWebpage, '?XSL.editor.session.id=', $subselectSession)" />     		         		
+<x:set var="formAction" select="concat($WebApplicationBaseURL, $subselectWebpage, 'XSL.editor.session.id=', $subselectSession)" />     		         		
 <!--  ========== Subselect Parameter ENDE ==========  -->
 			  
 <div class="headline"><fmt:message key="Webpage.browse.generalTitle" /></div>

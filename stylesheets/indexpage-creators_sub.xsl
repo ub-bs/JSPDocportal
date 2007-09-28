@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.13 $ $Date: 2007-08-13 15:09:32 $ -->
+<!-- $Revision: 1.14 $ $Date: 2007-09-28 15:27:13 $ -->
 <!-- ============================================== -->
 
 <xsl:stylesheet
@@ -245,7 +245,7 @@
 <xsl:template name="IntroText">
 Dieser Index enthält die Namen von Personen, die Autoren, Herausgeber oder sonstige Beitragende zu Dokumenten sind.
 <br/><br/>
-<form action="{$WebApplicationBaseURL}{$subselect.webpage}?XSL.editor.session.id={$subselect.session}" method="post">
+<form action="{$WebApplicationBaseURL}{$subselect.webpage}XSL.editor.session.id={$subselect.session}" method="post">
   <input type="submit" class="submit" value="Auswahl abbrechen" />
 </form>
 <br/><br/>
