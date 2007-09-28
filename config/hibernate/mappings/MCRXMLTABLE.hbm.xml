@@ -8,7 +8,7 @@
       <key-property name="version" type="integer" column="MCRVERSION" length="64" />
     </composite-id>
     <property name="type" type="string" column="MCRTYPE" length="64" />
-    <property name="xml" type="blob" column="MCRXML" length="7000000" not-null="false" unique="false" />
+    <property name="xml" type="org.mycore.backend.hibernate.types.MCRXMLBlobType" column="MCRXML" length="7000000" not-null="false" unique="false" />
   </class>
 </hibernate-mapping>
 

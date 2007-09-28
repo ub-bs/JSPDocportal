@@ -17,7 +17,7 @@
     <!-- MySQL -->
     <!--
     <property name="connection.driver_class">org.gjt.mm.mysql.Driver</property>
-    <property name="connection.url">jdbc:mysql://127.0.0.1/mycoresample</property>
+    <property name="connection.url">jdbc:mysql://127.0.0.1/mycore</property>
     <property name="connection.username">mcradmin</property>
     <property name="connection.password"></property>
     <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
@@ -25,7 +25,7 @@
     <!-- DB2 -->
     <!--
     <property name="connection.driver_class">com.ibm.db2.jcc.DB2Driver</property>
-    <property name="connection.url">jdbc:db2:MYCORE</property>
+    <property name="connection.url">jdbc:db2://localhost:50000/docportal</property>
     <property name="connection.username"></property>
     <property name="connection.password"></property>
     <property name="dialect">org.hibernate.dialect.DB2Dialect</property>
@@ -39,6 +39,8 @@
     <!-- second-level cache  -->
     <!-- disabled -->
     <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+    <property name="cache.use_second_level_cache">false</property>
+    <property name="cache.use_query_cache">false</property>
     <!-- net/sf/ehcache/hibernate/Provider -->
     <!--
       <property name="cache.provider_class">net.sf.ehcache.hibernate.EhCacheProvider</property>
