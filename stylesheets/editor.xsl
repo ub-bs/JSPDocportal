@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.13 $ $Date: 2006-12-04 12:56:41 $ -->
+<!-- $Revision: 1.14 $ $Date: 2007-09-28 15:06:28 $ -->
 <!-- ============================================== --> 
 
 <xsl:stylesheet 
@@ -144,8 +144,18 @@
 
   <!-- ======== send editor session ID to servlet ======== -->
   <input type="hidden" name="{$editor.delimiter.internal}session" value="{../@session}" />
-  <input type="hidden" name="{$editor.delimiter.internal}webpage" value="{concat('editor-forward/',substring-before($StaticFilePath,'.xml'))}" />  
   <input type="hidden" name="{$editor.delimiter.internal}action"  value="submit" />
+<!-- JSPDocportal alt:
+    <input type="hidden" name="{$editor.delimiter.internal}webpage" value="{concat('editor-forward/',substring-before($StaticFilePath,'.xml'))}" />   -->
+    <input type="hidden" name="{$editor.delimiter.internal}webpage">
+    <xsl:attribute name="value">
+      <!-- Docportal: <xsl:value-of select="substring-after($RequestURL,$WebApplicationBaseURL)" /> -->
+      <xsl:text>editor-forward/</xsl:text>
+      <xsl:value-of select="substring-before($StaticFilePath,'.xml')" />
+      <xsl:text>.xml?</xsl:text>
+    </xsl:attribute>
+  </input>
+  
 
   <!-- ======== durchreichen der target parameter ======== -->
   <xsl:for-each select="../target-parameters/target-parameter">

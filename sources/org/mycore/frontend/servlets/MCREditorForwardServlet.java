@@ -69,7 +69,10 @@ public class MCREditorForwardServlet extends MCRServlet {
             return;
         }
         String editorFile = requestPath.substring(requestPath.lastIndexOf("/")+1);
-        String editorPath = requestPath.substring(requestPath.indexOf("/")+1)+ ".xml";
+        if(editorFile.contains("?")){
+        	editorFile = editorFile.split("?")[0];
+        }
+        String editorPath = requestPath.substring(requestPath.indexOf("/")+1);//+ ".xml";
         if (editorFile != null && !editorFile.equals("")) {
         	this.getServletContext().getRequestDispatcher("/nav?path=~editor-include&id=" + editorFile+"&editorPath="+editorPath).forward(request, response);
         	return;
