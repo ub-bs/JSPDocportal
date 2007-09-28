@@ -216,7 +216,6 @@ public String createNewAuthor(String userid, ContextInstance ctxI,
 					isFillInUserData, false);
 	//		setStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS, author.getId(), processID);
 			setDefaultPermissions(author.getId(), userid, ctxI);
-			MCRHIBConnection.instance().flushSession();
 			return author.getId();
 		} catch (MCRException ex) {
 			logger.error("an error occurred", ex);

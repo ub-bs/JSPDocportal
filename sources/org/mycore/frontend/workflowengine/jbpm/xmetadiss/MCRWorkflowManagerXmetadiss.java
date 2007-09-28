@@ -257,7 +257,6 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 			}
 			Map<Integer, String> identifiers = new HashMap<Integer, String>();
 			identifiers.put(MCRWorkflowConstants.KEY_IDENTIFER_TYPE_URN, (String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN));
-			MCRHIBConnection.instance().flushSession();
 			if(metadataStrategy.createEmptyMetadataObject(true, Arrays.asList(authors), null,
 					nextFreeId, initiator, identifiers, null, saveDirectory) ){
 						permissionStrategy.setPermissions(nextFreeId.toString(), initiator, 
@@ -297,7 +296,6 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 			if(!metadataStrategy.commitMetadataObject(dissID, MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType))){
 				throw new MCRException("error in committing " + dissID);
 			}
-			MCRHIBConnection.instance().flushSession();
 			List deletedDerIDs = Arrays.asList(((String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_DELETED_DERIVATES)).split(","));
 			for (Iterator it = deletedDerIDs.iterator(); it.hasNext();) {
 				String derivateID = (String) it.next();
@@ -317,14 +315,12 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 			
 			
 			List derivateIDs = Arrays.asList(((String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES)).split(","));
-			MCRHIBConnection.instance().flushSession();
 			for (Iterator it = derivateIDs.iterator(); it.hasNext();) {
 	
 				String derivateID = (String) it.next();
 				if(!derivateStrategy.commitDerivateObject(derivateID, MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType))){
 					throw new MCRException("error in committing " + derivateID);
 				}
-				MCRHIBConnection.instance().flushSession();
 				permissionStrategy.setPermissions(derivateID, null,	workflowProcessType, ctxI, MCRWorkflowConstants.PERMISSION_MODE_PUBLISH);
 			}
 		

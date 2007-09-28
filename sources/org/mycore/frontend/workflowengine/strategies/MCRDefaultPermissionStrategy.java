@@ -57,7 +57,6 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 				Element rule = (Element) MCRXMLHelper.parseXML(strRule)
 						.getRootElement().detach();
 				String permissionType = defaultPermissionTypes[i];
-				MCRHIBConnection.instance().flushSession();
 				if (AI.hasRule(objID.getId(), permissionType)) {
 					AI.updateRule(objID.getId(), permissionType, rule, "");
 				} else {
