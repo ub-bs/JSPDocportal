@@ -60,14 +60,14 @@
 								</x:otherwise>
 							</x:choose>
 							<x:if select="generate-id(../metavalue[position() = last()]) != generate-id(.)">
-								<c:set var="output">${output}<x:out select="$separator" escapeXml="false" />&nbsp;</c:set>
+								<c:set var="output">${output}<x:out select="$separator" escapeXml="false" /></c:set>
 							</x:if>
 							
 						</x:if>
 						</x:forEach>
 						<x:if select="generate-id(../metavalues[position() = last()]) != generate-id(.)">
 							<x:if select="./metavalue[1]/@text!='#'">
-								<c:set var="output">${output}<x:out select="$terminator" escapeXml="false" />&nbsp;</c:set>
+								<c:set var="output">${output}<x:out select="$terminator" escapeXml="false" /></c:set>
 							</x:if>
 						</x:if>
 					</x:forEach>
