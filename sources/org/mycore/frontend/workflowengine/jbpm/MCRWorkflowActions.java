@@ -253,6 +253,28 @@ public class MCRWorkflowActions extends MCRServlet {
             returnPath="/nav?path=" + nextPath;
         	return;
         }
+        if ( "WFMoveDerivateUp".equals(todo) ) {
+    		if ( (  	AI.checkPermission(mcrid, "deletewf")
+    	             && AI.checkPermission(derivateID,"deletewf")) ) {    			
+    		   	 WFM.moveDerivate(wfp.getContextInstance(), mcrid, derivateID,-1);
+    		}    		
+            returnPath="/nav?path=" + nextPath;
+        	return;
+        }
+        if ( "WFMoveDerivateDown".equals(todo) ) {
+    		if ( (  	AI.checkPermission(mcrid, "deletewf")
+    	             && AI.checkPermission(derivateID,"deletewf")) ) {    			
+    		   	 WFM.moveDerivate(wfp.getContextInstance(), mcrid, derivateID,+1);
+    		}    		
+            returnPath="/nav?path=" + nextPath;
+        	return;
+        }
+        
+        
+        
+        
+        
+        
         }
         catch(Exception e){
         	

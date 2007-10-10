@@ -13,10 +13,18 @@ import java.util.regex.Matcher;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.Namespace;
+import org.jdom.input.SAXBuilder;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRUtils;
 import org.mycore.datamodel.metadata.MCRDerivate;
+import org.mycore.datamodel.metadata.MCRMetaLinkID;
+import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 
 
@@ -233,5 +241,31 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 		}
 		
 		return newName.toString();
+	}
+
+	@Override
+	public boolean moveDerivateObject(ContextInstance ctxI, String derivateObjectID, int direction) {
+		String attachedDerivates = (String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES);
+		String[] data = attachedDerivates.split(",");
+		int pos = -1;
+		for(int i=0;i<data.length;i++){
+			if(data[i].equals(derivateObjectID)){
+				pos=i;
+			}
+		}
+		if(pos>=0 && pos+direction>=0 && pos+direction<data.length){
+			String temp = data[pos];
+			data[pos]=data[pos+direction];
+			data[pos+direction]=temp;
+			StringBuffer sb = new StringBuffer();
+			for(int i=0;i<data.length;i++){
+				sb.append(data[i]);
+				sb.append(",");
+			}
+			ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES, sb.toString());
+			
+		}
+   	    return true;	
+
 	}
 }

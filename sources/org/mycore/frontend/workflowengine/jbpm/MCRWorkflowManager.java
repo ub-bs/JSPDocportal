@@ -203,6 +203,17 @@ public abstract class MCRWorkflowManager {
 		return false;
 	}
 	
+	final protected boolean moveDerivate(ContextInstance ctxI, String metadataObjectID, String derivateObjectID, int direction){
+		try{
+			return derivateStrategy.moveDerivateObject(ctxI,derivateObjectID, direction);
+		}catch(MCRException ex){
+			logger.error("could not remove derivate");
+		}finally{
+		
+		}
+		return false;
+	}
+	
 	/**
 	 * creates and returns a new workflow process of a given type
 	 * 	use this function <b>just</b> in initWorkflowProcess

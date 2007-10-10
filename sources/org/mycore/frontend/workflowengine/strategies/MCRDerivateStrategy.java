@@ -241,6 +241,8 @@ public abstract class MCRDerivateStrategy {
 		public abstract boolean removeDerivates(ContextInstance ctxI, String saveDirectory, String backupDirectory);
 		
 		
+		public abstract boolean moveDerivateObject(ContextInstance ctxI, String derivateObjectID, int direction);
+		
 		/**
 		 * is publishing a derivate to the database
 		 * @param derivateid

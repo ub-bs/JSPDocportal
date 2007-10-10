@@ -164,11 +164,59 @@
 							<input	name="derivateID" value="${derivateID}" type="hidden"> 
 							<input	name="processid" value="${processid}" type="hidden"> 
 							<input	name="todo" value="WFRemoveDerivateFromWorkflowObject" type="hidden"> 
-							<input	title="<fmt:message key="WF.common.derivate.DelDerivate" />"
+							<input	title="<fmt:message key="WF.common.derivate.MoveDownDerivate" />"
 								src="${baseURL}images/workflow_derivatedelete.gif" type="image"
 								border="0" class="imagebutton">
 						</form>
 						</td>
+						  <x:choose>
+						  <x:when select=". != ./../derivate[position()= 1]">
+							<td align="center" valign="top" width="30">
+							<form method="get" action="${baseURL}workflowaction">
+								<input	name="derivateID" value="${derivateID}" type="hidden"> 
+								<input	name="processid" value="${processid}" type="hidden"> 
+								<input	name="todo" value="WFMoveDerivateUp" type="hidden"> 
+								<input	title="<fmt:message key="WF.common.derivate.MoveUpDerivate" />"
+									src="${baseURL}images/workflow_derivatemoveup.gif" type="image"
+									border="0" class="imagebutton">
+							</form>
+							</td>
+						</x:when>
+						<x:otherwise>
+							<td align="center" valign="top" width="30">
+							<form method="get" action="">
+								<input	title="<fmt:message key="WF.common.derivate.MoveUpDerivate" />"
+									src="${baseURL}images/workflow_derivatemoveempty.gif" type="image"
+									border="0" class="imagebutton">
+							</form>
+							</td>						
+						</x:otherwise>
+						</x:choose>
+   					    <x:choose>
+						  <x:when select=". != ./../derivate[position()= last()]">
+							<td align="center" valign="top" width="30">
+							<form method="get" action="${baseURL}workflowaction">
+								<input	name="derivateID" value="${derivateID}" type="hidden"> 
+								<input	name="processid" value="${processid}" type="hidden"> 
+								<input	name="todo" value="WFMoveDerivateDown" type="hidden"> 
+								<input	title="<fmt:message key="WF.common.derivate.DelDerivate" />"
+									src="${baseURL}images/workflow_derivatemovedown.gif" type="image"
+									border="0" class="imagebutton">
+							</form>
+							</td>
+						</x:when>
+						<x:otherwise>
+							<td align="center" valign="top" width="30">
+							<form method="get" action="">
+								<input	title="<fmt:message key="WF.common.derivate.MoveUpDerivate" />"
+									src="${baseURL}images/workflow_derivatemoveempty.gif" type="image"
+									border="0" class="imagebutton">
+							</form>
+							</td>						
+						</x:otherwise>
+						</x:choose>
+						
+
 					</tr>
 				</table>
 			</c:if></th>
