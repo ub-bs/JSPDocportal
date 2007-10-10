@@ -606,7 +606,9 @@ public class MCRResultFormatter {
 							continue;
 						if (title == null) title = href;
 						metaValue.setAttribute("href", href);
-						metaValue.setAttribute("type",el.getName());
+						String to = el.getAttributeValue("to");
+						if( to==null) to ="";
+						metaValue.setAttribute("type",to);
 						metaValue.setAttribute("text",title);
 						metaValue.setAttribute("target","new");						
 						metaValues.addContent(metaValue);			    	
