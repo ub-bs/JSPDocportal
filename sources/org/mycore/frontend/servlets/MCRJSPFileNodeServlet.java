@@ -51,7 +51,7 @@ public class MCRJSPFileNodeServlet extends  MCRFileNodeServlet{
     private static Logger LOGGER = Logger.getLogger(MCRJSPFileNodeServlet.class.getName());
 
     
-    protected void forwardRequest(HttpServletRequest req, HttpServletResponse res, Document jdom) throws IOException, ServletException {
+    protected void layoutDirectory(HttpServletRequest req, HttpServletResponse res, Document jdom) throws IOException {
     	//the derivate
     	String derid = jdom.getRootElement().getChild("ownerID").getText();
     	MCRDerivate mcr_der = new MCRDerivate();
@@ -95,8 +95,12 @@ public class MCRJSPFileNodeServlet extends  MCRFileNodeServlet{
             out.close();
             return;
         }
-
-        getServletContext().getRequestDispatcher("/nav?path=~derivatedetails").forward(req, res);
+        try{
+        	getServletContext().getRequestDispatcher("/nav?path=~derivatedetails").forward(req, res);
+        }
+        catch(ServletException se) {
+        	throw new IOException(se);
+        }
         return;
     }
     
@@ -109,5 +113,6 @@ public class MCRJSPFileNodeServlet extends  MCRFileNodeServlet{
     		
     	}
         return;
-    }
+    } 
+
 }
