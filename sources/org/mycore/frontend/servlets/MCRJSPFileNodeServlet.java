@@ -99,7 +99,9 @@ public class MCRJSPFileNodeServlet extends  MCRFileNodeServlet{
         	getServletContext().getRequestDispatcher("/nav?path=~derivatedetails").forward(req, res);
         }
         catch(ServletException se) {
-        	throw new IOException(se);
+        	IOException ioe = new IOException("Error showing derivate details");
+        	ioe.initCause(se);
+        	throw ioe;
         }
         return;
     }
