@@ -144,7 +144,7 @@
 <c:set var="modifyAllowed" value="true" />
 <c:choose>
     <c:when test="${modifyAllowed}">
-        <mcr:includeEditor 
+        <mcr:includeInWorkflowEditor 
           editorSessionID="${editorSessionID}"  
           isNewEditorSource="${isNewEditorSource}" 
           mcrid2="${mcrid2}"  

@@ -296,8 +296,8 @@
             <!-- A Tag, that initializes a new workflow process in the workflow engine-->
         </tag>     
         <tag>
-            <name>includeEditor</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRIncludeEditorTag</tagclass>
+            <name>includeEditorInWorkflow</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRIncludeEditorInWorkflowTag</tagclass>
             <bodycontent>empty</bodycontent>
             <attribute>
                 <name>nextPath</name>

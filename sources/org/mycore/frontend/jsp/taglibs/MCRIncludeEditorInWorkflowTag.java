@@ -25,7 +25,7 @@ import org.mycore.frontend.jsp.NavServlet;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 
 
-public class MCRIncludeEditorTag extends SimpleTagSupport
+public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 {
 	private String isNewEditorSource;
 	private String editorSource;

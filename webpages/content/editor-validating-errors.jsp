@@ -39,7 +39,7 @@
 	   <fmt:message key="WF.editor.ValidatorError.Instructions" />
 	</div>
 
-	<mcr:includeEditor 
+	<mcr:includeEditorInWorkflow
           isNewEditorSource="false" 
           mcrid="${mcrid}" 
           type="${type}" processid="${processid}" workflowType="${workflowType}"
