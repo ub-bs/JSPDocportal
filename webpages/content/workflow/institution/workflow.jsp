@@ -46,12 +46,13 @@
 	<tr>
 		<td />
 		<td>
-			<c:url var="url" value="${WebApplicationBaseURL}editor/searchmasks/SearchMask_InstitutionEdit.xml">
+			<%--<c:url var="url" value="${WebApplicationBaseURL}editor/searchmasks/SearchMask_InstitutionEdit.xml">
 				<c:param name="XSL.editor.source.new" value="true" />
 				<c:param name="XSL.editor.cancel.url" value="${WebApplicationBaseURL}" />
 				<c:param name="lang" value="${requestScope.lang}" />
 			</c:url>
-			<c:import url="${url}" />        
+			<c:import url="${url}" />  --%>
+			<mcr:includeEditor editorPath="editor/searchmasks/SearchMask_InstitutionEdit.xml"/>      
 			<br/>
 		</td>
 	</tr>

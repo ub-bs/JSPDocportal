@@ -38,7 +38,7 @@
 	<div>
 	   <fmt:message key="WF.editor.ValidatorError.Instructions" />
 	</div>
-
+ 
 	<mcr:includeEditorInWorkflow
           isNewEditorSource="false" 
           mcrid="${mcrid}" 

@@ -17,7 +17,7 @@
 <table >
  <tr>
     <td valign="top">
-	<c:url var="url" value="${applicationScope.WebApplicationBaseURL}${param.editor}">
+	<%--<c:url var="url" value="${applicationScope.WebApplicationBaseURL}${param.editor}">
 	   <c:choose>
 		 <c:when test="${fn:length(param.sourceid) > 0 }">
 	   	    <c:param name="XSL.editor.source.id" value="${param.sourceid}" />
@@ -29,8 +29,8 @@
 		<c:param name="XSL.editor.cancel.url" value="${WebApplicationBaseURL}" />
 	    <c:param name="lang" value="${requestScope.lang}" />
 	    <c:param name="MCRSessionID" value="${MCRSessionID}"/>
-	  </c:url>
-	<c:import url="${url}" />  
+		<c:import url="${url}" />  --%>
+		<mcr:includeEditor editorPath="${param.editor}"/>
     </td>
  </tr>  
 </table>

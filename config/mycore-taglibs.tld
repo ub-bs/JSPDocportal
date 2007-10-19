@@ -376,6 +376,35 @@
             </attribute>            
             <!-- A Tag, that includes MyCoRe-Editor-Pages-->
        </tag>        
+
+
+        <tag>
+            <name>includeEditor</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRIncludeEditorTag</tagclass>
+            <bodycontent>empty</bodycontent>
+            <!-- <attribute>
+                <name>editorSessionID</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute> -->            
+            <attribute>
+                <name>editorPath</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>            
+<!--            <attribute>
+                <name>cancelURL</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>    -->
+            <!-- A Tag, that includes MyCoRe-Editor-Pages (also Search Masks) -->
+       </tag>        
+
+
+
+
+
+
         <tag>
             <name>getFreeUserIDs</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRGetFreeUserIDs</tagclass>

@@ -23,7 +23,7 @@
    </tr>
   </table>
 
-   <mcr:includeEditor 
+   <mcr:includeEditorInWorkflow 
           isNewEditorSource="true" 
           mcrid="" type="registeruser" workflowType="registeruser" processid=""
           step=""  target="MCRRegisterUserWorkflowServlet" nextPath="~registered" 
