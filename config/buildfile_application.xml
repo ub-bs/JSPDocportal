@@ -368,6 +368,7 @@
         <mkdir dir="${MCR.Editor.FileUpload.TempStoragePath}" />
         <mkdir dir="${MCR.LogDirectory}" />    	
     	<mkdir dir="${MCR.Save.FileSystem}" />
+    	<mkdir dir="${MCR.WebContent.SaveFolder}" />
         <mkdir dir="${MCR.WorkflowEngine.EditDirectory.author}" />
         <mkdir dir="${MCR.WorkflowEngine.EditDirectory.document}" />
     	<mkdir dir="${MCR.WorkflowEngine.EditDirectory.disshab}" />

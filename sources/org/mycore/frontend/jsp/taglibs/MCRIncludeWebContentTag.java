@@ -190,19 +190,23 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 	private void adaptFiles()throws IOException{
 		String lang = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
 		String foldername = CONFIG.getString("MCR.WebContent.Folder");
+		String storeFolderName=CONFIG.getString("MCR.WebContent.SaveFolder");
 		PageContext pageContext = (PageContext) getJspContext();
 
 		String[] s = file.split("\\."); //split the filename into path and extension
-		String path = foldername + "/" + s[0] + "_" + lang + "." + s[1];
-		File dir = new File(pageContext.getServletContext().getRealPath("content"));
-		f_read = new File(dir, path);
+		f_read = new File(new File(storeFolderName), s[0] + "_" + lang + "." + s[1]);
+		
 		f_save = f_read;
 		
-		if (!f_read.exists()) {
-			path = foldername + "/" + file;
+		if(!f_read.exists()){
+			String path = foldername + "/" + s[0] + "_" + lang + "." + s[1];
+			File dir = new File(pageContext.getServletContext().getRealPath("content"));
 			f_read = new File(dir, path);
+			if (!f_read.exists()) {
+				path = foldername + "/" + file;
+				f_read = new File(dir, path);
+			}
 		}
-		
 		if (!f_read.canRead()) {
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(f_read), "UTF-8"));
 			bw.write("New["+f_read.getName()+"] ...");
