@@ -401,7 +401,7 @@ public abstract class MCRWorkflowManager {
 				}
 			}
 		}		
-		logger.debug("New ID is" + IDMax.getId());
+		logger.debug("New ID is: " + IDMax.getId());
 		return IDMax;
 	}
 	
