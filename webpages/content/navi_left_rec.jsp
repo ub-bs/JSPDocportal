@@ -29,10 +29,18 @@
 		</x:choose>
 		<%--<div> in <x:choose> --%>
 			<a target="_self" href='${href}'><fmt:message key="${labelKey}" /></a>
-			<x:if select="contains($pathID,./@systemID)">
-				<x:set scope="session" var="recNavPath" select="./navitem"/>
-				<c:import url="/content/navi_left_rec.jsp" />
-			</x:if>
+			<c:choose>
+			<c:when test="${not (empty param.open)}">
+						<x:set scope="session" var="recNavPath" select="./navitem"/>
+						<c:import url="/content/navi_left_rec.jsp" />
+			</c:when>
+				<c:otherwise>
+					<x:if select="contains($pathID,./@systemID)">
+						<x:set scope="session" var="recNavPath" select="./navitem"/>
+						<c:import url="/content/navi_left_rec.jsp" />
+					</x:if>
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</c:if>
 </x:forEach>

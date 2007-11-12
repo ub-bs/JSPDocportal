@@ -75,7 +75,7 @@
 			<input type="hidden" name="id" value="${resultid}"> 
 			<select	name="field1">
 				<x:choose>
-				 <x:when select="contains($oType,'professorum')">
+				 <x:when select="contains($oType,'professor')">
 					<option value="title"
 						<mcr:ifSorted query="${query}" attributeName="name" attributeValue="title">selected</mcr:ifSorted>><fmt:message
 						key="Webpage.searchresults.sort-title_cpr" /></option>
@@ -162,7 +162,7 @@
 										<x:out select="./metaname[1]/metavalues[2]/metavalue/@text" />
 										<x:out select="./metaname[@name='OMD.title']/metavalues[3]/metavalue/@text" />
 									</x:when>
-									<x:when select="contains('professorum',$docType)">
+									<x:when select="contains('professor',$docType)">
 										<x:out select="./metaname[1]/metavalues/metavalue/@text" />,
 										<x:out select="./metaname[1]/metavalues[2]/metavalue/@text" />
 									</x:when>
