@@ -29,9 +29,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-import javax.xml.transform.Transformer;
-import javax.xml.transform.stream.StreamResult;
-
 import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -39,12 +36,12 @@ import org.jdom.output.Format;
 import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRException;
-import org.mycore.common.xml.MCRXMLHelper;
+import org.mycore.datamodel.common.MCRActiveLinkException;
 import org.mycore.datamodel.common.MCRXMLTableManager;
 import org.mycore.datamodel.metadata.MCRDerivate;
+import org.mycore.datamodel.metadata.MCRMetaAccessRule;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRObject;
-import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.datamodel.metadata.MCRObjectStructure;
 import org.mycore.frontend.cli.MCRAbstractCommands;
 import org.mycore.frontend.cli.MCRCommand;
@@ -83,6 +80,9 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
         command.add(com);     
         
         com = new MCRCommand("backup all objects of type {0} to directory {1}", "org.mycore.frontend.workflowengine.jbpm.MCRJbpmCommands.backupAllObjects String String", "The command backups all objects of type {0} into the directory {1} including all derivates");
+        command.add(com);
+        
+        com = new MCRCommand("restore all objects from directory {0}", "org.mycore.frontend.workflowengine.jbpm.MCRJbpmCommands.restoreAllObjects String", "The command restores all objects from directory {0} including all derivates");
         command.add(com);
         
     }
@@ -139,18 +139,25 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
     }
     
     /**
-     * Save all MCRObject's to files named <em>MCRObjectID</em> .xml in a
-     * <em>dirname</em>directory for the data type <em>type</em>. The
-     * method use the converter stylesheet mcr_<em>style</em>_object.xsl.
-     * 
-     * @param fromID
-     *            the ID of the MCRObject from be save.
-     * @param toID
-     *            the ID of the MCRObject to be save.
+     * Backups all objects of given type and their derivates into the following structure:
+     *  - MCR_OBJECT_0001
+     *    - MCR_DERIVATE_0001
+     *      - file0001.pdf
+     *      - file0002.pdf
+     *    - MCR_DERIVATE_0002
+     *      - file0003.txt
+     *    - mcr_derivate_0001.xml
+     *    - mcr_derivate_0002.xml
+     *   - MCR_OBJECT_0002
+     *     - MCR_DERIVATE_0003
+     *       - file004.pdf
+     *     - mcr_derivate_0003.xml
+     *   - mcr_object_0001.xml
+     *   - mcr_object_0002.xml
+     * @param type
+     *            the object type
      * @param dirname
-     *            the filename to store the object
-     * @param style
-     *            the type of the stylesheet
+     *            the filename to store the object 
      */
     public static final void backupAllObjects(String type, String dirname) {
         // check dirname
@@ -208,4 +215,89 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
              }	
         }
     }
+    
+    
+    /**
+     * Restore all MCRObject's from a directory with the following structure:
+     *  - MCR_OBJECT_0001
+     *    - MCR_DERIVATE_0001
+     *      - file0001.pdf
+     *      - file0002.pdf
+     *    - MCR_DERIVATE_0002
+     *      - file0003.txt
+     *    - mcr_derivate_0001.xml
+     *    - mcr_derivate_0002.xml
+     *   - MCR_OBJECT_0002
+     *     - MCR_DERIVATE_0003
+     *       - file004.pdf
+     *     - mcr_derivate_0003.xml
+     *   - mcr_object_0001.xml
+     *   - mcr_object_0002.xml
+     *     
+     *  @param dirname
+     *            the directory name from where to restore the objects
+     * 
+     */
+    public static final void restoreAllObjects(String dirname) {
+        // check dirname
+        File dir = new File(dirname);
+        if (dir.isFile()) {
+            LOGGER.error(dirname + " is not a dirctory.");
+            return;
+        }
+        for(File objectFile:dir.listFiles()){
+        	//ignore directories
+        	if(objectFile.isDirectory()){continue;}
+        	String id = objectFile.getName().substring(0, objectFile.getName().length()-4);
+        	try{
+        		MCRObject mcrObj = new MCRObject();
+        	    mcrObj.setImportMode(true); //true = servdates are taken from xml file;
+        	    mcrObj.setFromURI(objectFile.getAbsolutePath());
+        	    mcrObj.updateInDatastore();
+        	    
+        	    //load derivates first:
+        	    for(int i=0;i<mcrObj.getStructure().getDerivateSize();i++){
+        	    	MCRMetaLinkID derLinkID = mcrObj.getStructure().getDerivate(i);
+        	    	String derID = derLinkID.getXLinkHref();
+        	    	File f = new File(new File(dir, id), derID+".xml");
+        	    	if(f.exists()){
+	         	    	MCRDerivateCommands.loadFromFile(f.getAbsolutePath()); 
+	         	    	//set ACLs
+	         	    	MCRDerivate mcrDer = new MCRDerivate();
+	             	    mcrDer.setImportMode(true); //true = servdates are taken from xml file;
+	             	    mcrDer.setFromURI(new File(new File(dir, id), derID+".xml").getAbsolutePath());
+	             	    while(mcrDer.getService().getRulesSize()>0){
+	             		   MCRMetaAccessRule rule = mcrDer.getService().getRule(0);
+	             		   String permission = mcrDer.getService().getRulePermission(0);
+	             		   ACCESS_IMPL.updateRule(derID, permission, rule.getCondition(), "");
+	             		   mcrDer.getService().removeRule(0);
+	             	   }
+        	    	}
+        	    }        	    
+        	    MCRObjectCommands.updateFromFile(objectFile.getAbsolutePath());
+        	    
+        	    //set AccessRules
+        	    mcrObj = new MCRObject();
+        	    mcrObj.setImportMode(true); //true = servdates are taken from xml file;
+        	    mcrObj.setFromURI(objectFile.getAbsolutePath());
+        	    while(mcrObj.getService().getRulesSize()>0){
+        	    	MCRMetaAccessRule rule = mcrObj.getService().getRule(0);
+        	    	String permission = mcrObj.getService().getRulePermission(0);
+        	    	
+        	    	ACCESS_IMPL.updateRule(id, permission, rule.getCondition(), "");
+        	    	mcrObj.getService().removeRule(0);
+        	    }
+        	    	 
+//               add ACL's
+                 List l = ACCESS_IMPL.getPermissionsForID(id.toString());
+                 for (int i = 0; i < l.size(); i++) {
+                     Element rule = ACCESS_IMPL.getRule(id.toString(), (String) l.get(i));
+                     mcrObj.getService().addRule((String) l.get(i), rule);
+                 }               
+        	}
+        	catch(MCRActiveLinkException ale){
+        		LOGGER.error("Linkage error", ale);
+        	}
+        }       
+    }    
 }
