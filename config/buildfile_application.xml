@@ -1243,9 +1243,9 @@
         	<arg value="-dbname.0" />
             <arg value="${MCR.Persistence.SQL.Database.Name}" />
         	<arg value="-database.1" />
-        	<arg value="${MCR.Persistence.SQL.Data.Directory}/${MCR.persistence_workflow_sql_database_name}" />
+        	<arg value="${MCR.Persistence.SQL.Data.Directory}/${MCR.Persistence.SQL.WorkflowDatabase.Name}" />
             <arg value="-dbname.1" />
-            <arg value="${MCR.persistence_workflow_sql_database_name}" />        	
+            <arg value="${MCR.Persistence.SQL.WorkflowDatabase.Name}" />        	
             <arg value="-port" />
             <arg value="${hsqlport}" />
         </java>
@@ -1277,7 +1277,7 @@
             classname="org.hsqldb.util.ShutdownServer" fork="yes"
             classpathref="docportal.classpath">
             <arg value="-url" />
-            <arg value="${connectionBase}/${MCR.persistence_workflow_sql_database_name}" />
+            <arg value="${connectionBase}/${MCR.Persistence.SQL.WorkflowDatabase.Name}" />
         </java>    	
     	<delete file="connectionBase.tmp" />
     </target>
