@@ -535,9 +535,11 @@ public class MCRResultFormatter {
 						String emailaddress = el.getText();
 						if (emailaddress == null)
 							continue;
-						metaValue.setAttribute("href","mailto:" + emailaddress);
+			    
+						//metaValue.setAttribute("href","mailto:" + emailaddress);
+						metaValue.setAttribute("href","");
 						metaValue.setAttribute("type",el.getName());
-						metaValue.setAttribute("text",emailaddress);
+						metaValue.setAttribute("text",decodeEMailAdress(emailaddress));
 						metaValues.addContent(metaValue);			    	
 			    }
 			}
@@ -546,6 +548,19 @@ public class MCRResultFormatter {
 			return metaValues;
 		} 
     	return metaValues;
+    }
+    
+    //Codiere Email durch umgekehrte Schreibweise -> Auflösung durch CSS  
+    //<div style="direction: rtl; unicode-bidi: bidi-override;">ed.liam@ofni</div> -> info@mail.de 
+    
+    private String decodeEMailAdress(String mail){
+    	StringBuffer sb = new StringBuffer();
+    	sb.append("<div style=\"direction: rtl; unicode-bidi: bidi-override;\">");
+    	for(int i=mail.length()-1;i>=0;i--){
+    		sb.append(mail.charAt(i));
+    	}
+    	sb.append("</div>");                  //&#64; = '@'
+    	return sb.toString().replace("@", "&#64;");    	
     }
 
     public Element getUrnValues(Document doc, String xpath, String separator, String terminator, String lang, String introkey, String escapeXml) {
