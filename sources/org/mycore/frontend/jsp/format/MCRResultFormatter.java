@@ -554,13 +554,14 @@ public class MCRResultFormatter {
     //<div style="direction: rtl; unicode-bidi: bidi-override;">ed.liam@ofni</div> -> info@mail.de 
     
     private String decodeEMailAdress(String mail){
+    	String address = mail.replace("@", "(at)");             //&#64; = '@'
     	StringBuffer sb = new StringBuffer();
     	sb.append("<div style=\"direction: rtl; unicode-bidi: bidi-override;\">");
-    	for(int i=mail.length()-1;i>=0;i--){
-    		sb.append(mail.charAt(i));
+    	for(int i=address.length()-1;i>=0;i--){
+    		sb.append(address.charAt(i));
     	}
-    	sb.append("</div>");                  //&#64; = '@'
-    	return sb.toString().replace("@", "&#64;");    	
+    	sb.append("</div>");      
+    	return sb.toString();    	
     }
 
     public Element getUrnValues(Document doc, String xpath, String separator, String terminator, String lang, String introkey, String escapeXml) {
