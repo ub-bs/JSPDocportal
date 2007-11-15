@@ -261,7 +261,7 @@
       </servlet>
       <servlet id="CPR2RTFServlet">
             <servlet-name>CPR2RTFServlet</servlet-name>
-            <servlet-class>de.uni_rostock.ub.atlibri.cpr2rtf.CPR2RTFServlet</servlet-class>
+            <servlet-class>de.uni_rostock.ub.rosdok.cpr2rtf.CPR2RTFServlet</servlet-class>
       </servlet>
     <!-- servlet mappings -->
     
