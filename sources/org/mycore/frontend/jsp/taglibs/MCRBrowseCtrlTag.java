@@ -11,6 +11,7 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
 import org.mycore.services.fieldquery.MCRCachedQueryData;
+import org.mycore.services.fieldquery.MCRHit;
 import org.mycore.services.fieldquery.MCRResults;
 
 
@@ -43,10 +44,16 @@ public class MCRBrowseCtrlTag extends SimpleTagSupport
         	int numHits = results.getNumHits();
         	pageContext.setAttribute("numHits", numHits);
         	if (offset > 0) {
-        		pageContext.setAttribute("lastHitID", results.getHit(offset - 1).getID());
+        		MCRHit hit = results.getHit(offset - 1);
+        		if(hit!=null){
+        			pageContext.setAttribute("lastHitID", hit.getID());
+        		}
         	}
         	if (offset < numHits - 1) {
-        		pageContext.setAttribute("nextHitID", results.getHit(offset + 1).getID());
+        		MCRHit hit = results.getHit(offset + 1);
+        		if(hit!=null){
+        			pageContext.setAttribute("nextHitID", hit.getID());
+        		}
         	}
             JspFragment body = getJspBody();
             JspWriter out = pageContext.getOut();

@@ -554,7 +554,7 @@ public class MCRResultFormatter {
     //<div style="direction: rtl; unicode-bidi: bidi-override;">ed.liam@ofni</div> -> info@mail.de 
     
     private String decodeEMailAdress(String mail){
-    	String address = mail.replace("@", "(at)");             //&#64; = '@'
+    	String address = mail.replace("@", ")at(");             //&#64; = '@'
     	StringBuffer sb = new StringBuffer();
     	sb.append("<div style=\"direction: rtl; unicode-bidi: bidi-override;\">");
     	for(int i=address.length()-1;i>=0;i--){
