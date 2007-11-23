@@ -90,18 +90,18 @@
 
           <navitem name="publish" label="Nav.DocumentManagement" href="content/documentmanagement.jsp">
             <refitem name="~documentmanagement" label="" />
-            <navitem name="author" label="WF.author" href="content/workflow/author/workflow.jsp" >
-              <refitem name="~author" label="" />
-              <navitem name="authorbegin" label="WF.author.begin" href="content/workflow/author/begin.jsp" hidden="true" >
-                <refitem name="~authorbegin" label="" />
+            <navitem name="person" label="WF.person" href="content/workflow/person/workflow.jsp" >
+              <refitem name="~person" label="" />
+              <navitem name="personbegin" label="WF.person.begin" href="content/workflow/person/begin.jsp" hidden="true" >
+                <refitem name="~personbegin" label="" />
               </navitem>
-              <navitem name="authorinfo" label="WF.author.info" href="content/workflow/author/information.jsp" hidden="true" >
-                <refitem name="~authorinfo" label="" />
+              <navitem name="personinfo" label="WF.person.info" href="content/workflow/person/information.jsp" hidden="true" >
+                <refitem name="~personinfo" label="" />
               </navitem>
-              <navitem name="authorsearch" label="" href="content/searchmask-editor.jsp?editor=editor/searchmasks/SearchMask_AuthorEdit.xml" hidden="true" >
-                <refitem name="~searchstart-wfauthor" label="" />        
-                <navitem name="searchresult-wfauthor" label="" href="content/searchresult.jsp" hidden="true">
-                  <refitem name="~searchresult-wfauthor" label="" />
+              <navitem name="personsearch" label="" href="content/searchmask-editor.jsp?editor=editor/searchmasks/SearchMask_PersonEdit.xml" hidden="true" >
+                <refitem name="~searchstart-wfperson" label="" />        
+                <navitem name="searchresult-wfperson" label="" href="content/searchresult.jsp" hidden="true">
+                  <refitem name="~searchresult-wfperson" label="" />
                   <navitem name="docdetail" label="Nav.DocumentDetails" href="content/docdetails.jsp" hidden="true" />              
                 </navitem>
               </navitem>              
@@ -276,12 +276,12 @@
             <refitem name="~process-publication" label="" />
           </navitem>
         </navitem>
-        <navitem name="author" label="Nav.Admin.Author" href="admin/main.jsp"  right="administrate-author" >
-          <navitem name="workflow"	label="WF.author" href="content/workflow/author/workflow.jsp"  right="administrate-author">
-            <refitem name="~workflow-author" label="" />
+        <navitem name="person" label="Nav.Admin.Person" href="admin/main.jsp"  right="administrate-person" >
+          <navitem name="workflow"	label="WF.person" href="content/workflow/person/workflow.jsp"  right="administrate-person">
+            <refitem name="~workflow-person" label="" />
           </navitem>
-          <navitem name="process-author" label="Nav.Admin.Processes" href="admin/processes_list.jsp?workflowProcessType=author"  right="administrate-author">
-            <refitem name="~process-author" label="" />
+          <navitem name="process-person" label="Nav.Admin.Processes" href="admin/processes_list.jsp?workflowProcessType=person"  right="administrate-person">
+            <refitem name="~process-person" label="" />
           </navitem>
         </navitem>
 

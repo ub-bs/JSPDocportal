@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE Editor>
 
-<editor id="editor-author-author">
+<editor id="editor-author-person">
 	 <source uri="{sourceUri}" />
      <cancel url="{cancelUrl}" />
 
@@ -13,7 +13,7 @@
       <label i18n="WF.editor.ValidatorError.Instructions" />       
   </validationMessage>
 
- <components root="author-author" var="/mycoreobject">
+ <components root="author-person" var="/mycoreobject">
 	
   <include uri="webapp:editor/workflow/imports-author.xml" />
   
@@ -23,7 +23,7 @@
    </text>
   </headline>
   
-  <panel id="author-author">
+  <panel id="author-person">
     <hidden var="ID" />
     <hidden var="label" />
 <!-- save userid -->

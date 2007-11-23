@@ -23,7 +23,7 @@
     <field name="origin"        type="identifier" source="objectCategory" xpath="/mycoreobject/metadata/origins/origin" value="@ID" />
     <field name="subject"       type="identifier" source="objectCategory" xpath="/mycoreobject/metadata/subjects/subject" value="@ID" />
     <field name="language"      type="identifier" source="objectCategory" xpath="/mycoreobject/metadata/languages/language" value="@ID" />
-	<field name="national"      type="identifier" source="objectCategory" objects="author" xpath="/mycoreobject/metadata/nationals/national" value="@ID" />
+	<field name="national"      type="identifier" source="objectCategory" objects="person" xpath="/mycoreobject/metadata/nationals/national" value="@ID" />
 
     <!-- Search in document metadata -->    
     <field name="title"     type="text" sortable="true" source="objectMetadata" xpath="/mycoreobject/metadata/titles/title | /mycoreobject/metadata/surnames/surname | mycoreobject/metadata/names/name | mycoreobject/metadata/contents/content" value="text() | @xlink:title"  />
@@ -48,14 +48,14 @@
     <field name="identifier"    type="identifier" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/identifiers/identifier" value="text()" />
 
     <!-- Search in author or institution metadata -->
-    <field name="surname"       type="name"       sortable="true" source="objectMetadata" objects="author" xpath="/mycoreobject/metadata/names/name/surname"  value="text()" />
-    <field name="firstname"     type="name"       sortable="true" source="objectMetadata" objects="author" xpath="/mycoreobject/metadata/names/name/firstname"  value="text()" />
-    <field name="fullname"      type="identifier" sortable="true" source="objectMetadata" objects="author institution" xpath="/mycoreobject/metadata/names/name/fullname" value="text()" />
-    <field name="sortname"      type="name"       sortable="true" source="objectMetadata" objects="author institution" xpath="/mycoreobject/metadata/names/name/fullname" value="text()" />
-    <field name="profession"    type="text"       source="objectMetadata" objects="author" xpath="/mycoreobject/metadata/professions/profession" value="text()" />
-    <field name="institution"   type="identifier" source="objectCategory" objects="author" xpath="/mycoreobject/metadata/institutions/institution" value="@ID" />
-    <field name="profclass"     type="identifier" source="objectCategory" objects="author" xpath="/mycoreobject/metadata/profclasses/profclass" value="@ID" />
-    <field name="userID"        type="text"  	  source="objectMetadata" objects="author" xpath="/mycoreobject/metadata/userids/userid" value="text()" />
+    <field name="surname"       type="name"       sortable="true" source="objectMetadata" objects="person" xpath="/mycoreobject/metadata/names/name/surname"  value="text()" />
+    <field name="firstname"     type="name"       sortable="true" source="objectMetadata" objects="person" xpath="/mycoreobject/metadata/names/name/firstname"  value="text()" />
+    <field name="fullname"      type="identifier" sortable="true" source="objectMetadata" objects="person institution" xpath="/mycoreobject/metadata/names/name/fullname" value="text()" />
+    <field name="sortname"      type="name"       sortable="true" source="objectMetadata" objects="person institution" xpath="/mycoreobject/metadata/names/name/fullname" value="text()" />
+    <field name="profession"    type="text"       source="objectMetadata" objects="person" xpath="/mycoreobject/metadata/professions/profession" value="text()" />
+    <field name="institution"   type="identifier" source="objectCategory" objects="person" xpath="/mycoreobject/metadata/institutions/institution" value="@ID" />
+    <field name="profclass"     type="identifier" source="objectCategory" objects="person" xpath="/mycoreobject/metadata/profclasses/profclass" value="@ID" />
+    <field name="userID"        type="text"  	  source="objectMetadata" objects="person" xpath="/mycoreobject/metadata/userids/userid" value="text()" />
   </index>
 
   <!-- Search in MCRFile metadata and content -->  

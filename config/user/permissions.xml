@@ -50,10 +50,10 @@
    </condition>
   </mcrpermission>
 
-  <mcrpermission name="administrate-author" description="Verwalten von Autoren - Prozessen " ruledescription="Nur für Administratoren und Editoren von Autorendaten">
+  <mcrpermission name="administrate-person" description="Verwalten von Personen - Prozessen " ruledescription="Nur für Administratoren und Editoren von Autorendaten">
    <condition format="xml">
     <boolean operator="or">
-     <condition value="adminauthor" operator="=" field="group"/>
+     <condition value="adminperson" operator="=" field="group"/>
      <condition value="admingroup" operator="=" field="group"/>
     </boolean>
    </condition>
@@ -141,12 +141,12 @@
     </boolean>
    </condition>
   </mcrpermission>
-  <mcrpermission name="create-author" description="Erzeugen eines Autors">
+  <mcrpermission name="create-person" description="Erzeugen einer Person">
    <condition format="xml">
     <boolean operator="or">
      <condition value="admingroup" operator="=" field="group"/>
-     <condition value="adminauthor" operator="=" field="group"/>
-     <condition value="createauthor" operator="=" field="group"/>
+     <condition value="adminperson" operator="=" field="group"/>
+     <condition value="createperson" operator="=" field="group"/>
     </boolean>
    </condition>
   </mcrpermission>

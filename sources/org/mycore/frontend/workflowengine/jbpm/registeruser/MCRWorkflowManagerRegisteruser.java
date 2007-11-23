@@ -110,7 +110,7 @@ public class MCRWorkflowManagerRegisteruser extends MCRWorkflowManager{
 			
 	}
 	/**
-	 * TODO look into MCRWorkflowManagerAuthor for further implementation details
+	 * TODO look into MCRWorkflowManagerPerson for further implementation details
 	 */
 	public long initWorkflowProcessForEditing(String initiator, String mcrid){		
 		return initWorkflowProcess(initiator, "");

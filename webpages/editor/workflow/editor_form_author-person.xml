@@ -7,7 +7,7 @@
 <p></p>
 <br />
 <p></p>
-<editor id="author-author-de"><include uri="webapp:editor/workflow/editor-author-author.xml" /></editor>
+<editor id="author-person-de"><include uri="webapp:editor/workflow/editor-author-person.xml" /></editor>
 <p></p>
 <br />
 <p></p>
@@ -17,7 +17,7 @@
 <p></p>
 <br />
 <p></p>
-<editor id="author-author-en"><include uri="webapp:editor/workflow/editor-author-author.xml" /></editor>
+<editor id="author-person-en"><include uri="webapp:editor/workflow/editor-author-person.xml" /></editor>
 
 
 <p></p>

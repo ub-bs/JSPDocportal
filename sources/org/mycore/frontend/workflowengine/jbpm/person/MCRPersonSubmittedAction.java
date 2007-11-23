@@ -1,4 +1,4 @@
-package org.mycore.frontend.workflowengine.jbpm.author;
+package org.mycore.frontend.workflowengine.jbpm.person;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,12 +16,12 @@ import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
 import org.mycore.user.MCRUser;
 import org.mycore.user.MCRUserMgr;
 
-public class MCRAuthorSubmittedAction extends MCRAbstractAction {
+public class MCRPersonSubmittedAction extends MCRAbstractAction {
 	
 	String lockedVariables;
 
 	private static final long serialVersionUID = 1L;
-	private static Logger logger = Logger.getLogger(MCRAuthorSubmittedAction.class);
+	private static Logger logger = Logger.getLogger(MCRPersonSubmittedAction.class);
 
 	public void executeAction(ExecutionContext executionContext) throws MCRException {
 		logger.debug("locking workflow variables and setting the access control to the editor mode");

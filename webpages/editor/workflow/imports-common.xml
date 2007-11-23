@@ -792,10 +792,10 @@
 
 	<list id="SFemale" width="400" type="radio" cols="2" default="true">
 		<item value="true">
-			<label i18n="Editor.Author.gender.female" />
+			<label i18n="Editor.Person.gender.female" />
 		</item>
 		<item value="false">
-			<label i18n="Editor.Author.gender.male" />
+			<label i18n="Editor.Person.gender.male" />
 		</item>
 	</list>
 

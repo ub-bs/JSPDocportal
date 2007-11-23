@@ -64,11 +64,11 @@ MCR.Mail.Server=localhost
 
 MCR.WorkflowEngine.Administrator.Email=digibib@hs-nb.de
 
-MCR.WorkflowEngine.newtaskemail.author=digibib@hs-nb.de
-MCR.WorkflowEngine.contactemail.author=digibib@hs-nb.de
-MCR.WorkflowEngine.author.admin=digibib@hs-nb.de
-MCR.WorkflowEngine.author.from=digibib@hs-nb.de
-MCR.WorkflowEngine.author.replyto=digibib@hs-nb.de
+MCR.WorkflowEngine.newtaskemail.person=digibib@hs-nb.de
+MCR.WorkflowEngine.contactemail.person=digibib@hs-nb.de
+MCR.WorkflowEngine.person.admin=digibib@hs-nb.de
+MCR.WorkflowEngine.person.from=digibib@hs-nb.de
+MCR.WorkflowEngine.person.replyto=digibib@hs-nb.de
 
 MCR.WorkflowEngine.newtaskemail.institution=digibib@hs-nb.de
 MCR.WorkflowEngine.contactemail.institution=digibib@hs-nb.de

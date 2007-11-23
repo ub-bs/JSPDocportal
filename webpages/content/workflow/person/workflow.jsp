@@ -26,31 +26,31 @@
 
 <!--  task management part -->
 
-<mcr:getWorkflowTaskBeanList var="myTaskList" mode="activeTasks"  workflowTypes="author"  varTotalSize="total1" />
-<mcr:getWorkflowTaskBeanList var="myProcessList" mode="initiatedProcesses"  workflowTypes="author" varTotalSize="total2" />
-<div class="headline"><fmt:message key="WF.author" /></div>
+<mcr:getWorkflowTaskBeanList var="myTaskList" mode="activeTasks"  workflowTypes="person"  varTotalSize="total1" />
+<mcr:getWorkflowTaskBeanList var="myProcessList" mode="initiatedProcesses"  workflowTypes="person" varTotalSize="total2" />
+<div class="headline"><fmt:message key="WF.person" /></div>
 <table>
 	<tr>
 		<td><img title="" alt="" src="${baseURL}images/greenArrow.gif"></td>
 		<td>
-			<a target="_self" href="${baseURL}nav?path=~authorbegin"><fmt:message key="WF.author.StartWorkflow" /></a>
+			<a target="_self" href="${baseURL}nav?path=~personbegin"><fmt:message key="WF.person.StartWorkflow" /></a>
 		</td>
 	</tr>
 	<tr />
 	<tr>
 		<td><img title="" alt="" src="${baseURL}images/greenArrow.gif"></td>
-			<td><fmt:message key="WF.author.SearchAuthorToEdit" /> </td>
+			<td><fmt:message key="WF.person.SearchPersonToEdit" /> </td>
 	</tr>
 	<tr>
 		<td />
 		<td>
-			<%--<c:url var="url" value="${WebApplicationBaseURL}editor/searchmasks/SearchMask_AuthorEdit.xml">
+			<%--<c:url var="url" value="${WebApplicationBaseURL}editor/searchmasks/SearchMask_PersonEdit.xml">
 				<c:param name="XSL.editor.source.new" value="true" />
 				<c:param name="XSL.editor.cancel.url" value="${WebApplicationBaseURL}" />
 				<c:param name="lang" value="${requestScope.lang}" />
 			</c:url>
 			<c:import url="${url}" />   --%>
-			 <mcr:includeEditor editorPath="editor/searchmasks/SearchMask_AuthorEdit.xml"/>
+			 <mcr:includeEditor editorPath="editor/searchmasks/SearchMask_PersonEdit.xml"/>
 			<br/>
 		</td>
 	</tr>
@@ -60,7 +60,7 @@
 	<c:when test="${empty(myTaskList)&& empty(myProcessList)}">
       <fmt:message key="WF.common.EmptyWorkflow" />   
       <hr/>
-      <mcr:includeWebContent file="workflow/author_introtext.html"/>
+      <mcr:includeWebContent file="workflow/person_introtext.html"/>
 	</c:when>
 	<c:otherwise>
 		<br />&nbsp;<br />
@@ -83,7 +83,7 @@
 			</c:if>
 		</table>
     	<br />&nbsp;<br />
-    	<div class="headline"><fmt:message key="WF.author.MyInititiatedProcesses" /></div>
+    	<div class="headline"><fmt:message key="WF.person.MyInititiatedProcesses" /></div>
 		<table>
     		<c:forEach var="task" items="${myProcessList}">
 				<tr>

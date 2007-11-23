@@ -16,30 +16,30 @@
 <c:set var="objid" value="" />
 
 <c:if test="${requestScope.task.taskName ne 'initialization'}">
-   <fmt:message key="WF.author.Author" /> <fmt:message key="WF.common.Processnumber" /> <b>${requestScope.task.processID}</b>: <br>
+   <fmt:message key="WF.person.Person" /> <fmt:message key="WF.common.Processnumber" /> <b>${requestScope.task.processID}</b>: <br>
 </c:if>
 <c:choose>
    <c:when test="${requestScope.task.taskName eq 'initialization'}">
-      <fmt:message key="WF.author.ActualStateOfYourAuthor" />
+      <fmt:message key="WF.person.ActualStateOfYourPerson" />
       (<fmt:message key="WF.common.Processnumber" /> <b>${requestScope.task.processID}</b>): <br>
-       <b><fmt:message key="WF.author.status.${requestScope.task.workflowStatus}" /></b>
+       <b><fmt:message key="WF.person.status.${requestScope.task.workflowStatus}" /></b>
        <br />&nbsp;<br />
    </c:when>
 
 
-    <c:when test="${requestScope.task.taskName eq 'taskInputAuthorEqualsInitator'}">
+    <c:when test="${requestScope.task.taskName eq 'taskInputPersonEqualsInitator'}">
 		<p>
-	  <fmt:message key="WF.author.whatToDo" />
+	  <fmt:message key="WF.person.whatToDo" />
       <br>&nbsp;<br>
       <img title="" alt="" src="${baseURL}images/greenArrow.gif">                         
-      <a href="${baseURL}nav?path=~author&transition=go2CreateAuthorFromInitiator&endTask=taskInputAuthorEqualsInitator&processID=${requestScope.task.processID}"><fmt:message key="WF.author.iAmTheAuthor" /></a>
+      <a href="${baseURL}nav?path=~person&transition=go2CreatePersonFromInitiator&endTask=taskInputPersonEqualsInitator&processID=${requestScope.task.processID}"><fmt:message key="WF.person.iAmThePerson" /></a>
       <br>                                                   
       <img title="" alt="" src="${baseURL}images/greenArrow.gif">      
-      <a href="${baseURL}nav?path=~author&transition=go2CreateNewAuthor&endTask=taskInputAuthorEqualsInitator&processID=${requestScope.task.processID}"><fmt:message key="WF.author.iAmNotTheAuthor" /></a>
+      <a href="${baseURL}nav?path=~person&transition=go2CreateNewPerson&endTask=taskInputPersonEqualsInitator&processID=${requestScope.task.processID}"><fmt:message key="WF.person.iAmNotThePerson" /></a>
       </p>
    </c:when>   
    
-   <c:when test="${requestScope.task.taskName eq 'displayAuthorForUser'}">
+   <c:when test="${requestScope.task.taskName eq 'displayPersonForUser'}">
  	    <mcr:getWorkflowEngineVariable 
 			pid="${requestScope.task.processID}" var="objid" 
 			workflowVar="<%= MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS %>" /> 
@@ -47,9 +47,9 @@
 			pid="${requestScope.task.processID}" var="wfoTitle" 
 			workflowVar="<%= MCRWorkflowConstants.WFM_VAR_WFOBJECT_TITLE %>" />  
     	<%-- alternativ:
-	   	<c:set var="authorID"><x:out select="$dom/variables/variable[@name = 'authorID']/@value" /></c:set> --%>
+	   	<c:set var="personID"><x:out select="$dom/variables/variable[@name = 'personID']/@value" /></c:set> --%>
 		<br>&nbsp;<br>
-	    <fmt:message key="WF.author.AuthorForUserExists">
+	    <fmt:message key="WF.person.PersonForUserExists">
 			<fmt:param>${objid}</fmt:param>                             
 	    </fmt:message>
 		 <tr>
@@ -70,40 +70,40 @@
 
     <br />&nbsp;<br />
 	    <img title="" alt="" src="${baseURL}images/greenArrow.gif">      
-    	<a href="${baseURL}nav?path=~author&transition=go2End&endTask=displayAuthorForUser&processID=${requestScope.task.processID}"><fmt:message key="WF.author.finishWorkflow" /></a>
+    	<a href="${baseURL}nav?path=~person&transition=go2End&endTask=displayPersonForUser&processID=${requestScope.task.processID}"><fmt:message key="WF.person.finishWorkflow" /></a>
    </c:when>
    
-  <c:when test="${requestScope.task.taskName eq 'taskCompleteAuthorAndSendToLibrary'}">
+  <c:when test="${requestScope.task.taskName eq 'taskCompletePersonAndSendToLibrary'}">
       <p>
          <img title="" alt="" src="${baseURL}images/greenArrow.gif">
-         <fmt:message key="WF.author.completeauthorandsendtolibrary" />
+         <fmt:message key="WF.person.completepersonandsendtolibrary" />
          <br />
        </p>  
-	<mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="author" decision="canAuthorBeSubmitted" />
+	<mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="person" decision="canPersonBeSubmitted" />
       <c:import url="/content/workflow/editorButtons.jsp" />
      <p>
          
-         <c:if test="${transition eq 'authorCanBeSubmitted'}">
+         <c:if test="${transition eq 'personCanBeSubmitted'}">
 	        <img title="" alt="" src="${baseURL}images/greenArrow.gif">         
-            <a href="${baseURL}nav?path=~author&transition=go2canAuthorBeSubmitted&endTask=taskCompleteAuthorAndSendToLibrary&processID=${requestScope.task.processID}"><fmt:message key="WF.author.taskCompleteAuthorAndSendToLibrary" /></a>
+            <a href="${baseURL}nav?path=~person&transition=go2canPersonBeSubmitted&endTask=taskCompletePersonAndSendToLibrary&processID=${requestScope.task.processID}"><fmt:message key="WF.person.taskCompletePersonAndSendToLibrary" /></a>
             <br />
          </c:if>     
       </p>
      
    </c:when> 
 
-  <c:when test="${requestScope.task.taskName eq 'taskDisplayAuthorData'}">
+  <c:when test="${requestScope.task.taskName eq 'taskDisplayPersonData'}">
       <p>
          <img title="" alt="" src="${baseURL}images/greenArrow.gif">
-         <fmt:message key="WF.author.editAuthor" />
+         <fmt:message key="WF.person.editPerson" />
          <br />
        </p>
       <c:import url="/content/workflow/editorButtons.jsp" />
       <p>
-         <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="author" decision="canChangesBeCommitted" />
+         <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="person" decision="canChangesBeCommitted" />
          <c:if test="${transition eq 'changesCanBeCommitted'}">
 	        <img title="" alt="" src="${baseURL}images/greenArrow.gif">         
-            <a href="${baseURL}nav?path=~author&transition=go2canChangesBeCommitted&endTask=taskDisplayAuthorData&processID=${requestScope.task.processID}"><fmt:message key="WF.author.taskCommitChanges" /></a>
+            <a href="${baseURL}nav?path=~person&transition=go2canChangesBeCommitted&endTask=taskDisplayPersonData&processID=${requestScope.task.processID}"><fmt:message key="WF.person.taskCommitChanges" /></a>
             <br />
          </c:if>     
       </p>
@@ -114,7 +114,7 @@
          <fmt:message key="WF.common.getInitiatorsEmailAddress" />
 		 <br>&nbsp;<br>
 	     <c:import url="/content/workflow/setworkflowvariable.jsp" >
-	     	<c:param name="workflowType" value="author" />
+	     	<c:param name="workflowType" value="person" />
 	     	<c:param name="endTask" value="taskGetInitiatorsEmailAddress" />
 	     </c:import>
      </p>
@@ -122,30 +122,30 @@
 
    <c:when test="${requestScope.task.taskName eq 'taskCheckCompleteness'}">
       <c:import url="/content/workflow/editorButtons.jsp" />
-      <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="author" decision="canAuthorBeCommitted" />
+      <mcr:checkDecisionNode var="transition" processID="${requestScope.task.processID}" workflowType="person" decision="canPersonBeCommitted" />
          <br>&nbsp;<br>
          <fmt:message key="WF.common.AreTheMetadataOK" />
          <br>&nbsp;<br>
-		 <c:if test="${transition eq 'authorCanBeCommitted'}">
+		 <c:if test="${transition eq 'personCanBeCommitted'}">
 	        <img title="" alt="" src="${baseURL}images/greenArrow.gif">         
-            <a href="${baseURL}nav?path=~author&transition=go2canAuthorBeCommitted&endTask=taskCheckCompleteness&processID=${requestScope.task.processID}"><fmt:message key="WF.common.MetadataOk_Continue" /></a>
+            <a href="${baseURL}nav?path=~person&transition=go2canPersonBeCommitted&endTask=taskCheckCompleteness&processID=${requestScope.task.processID}"><fmt:message key="WF.common.MetadataOk_Continue" /></a>
             <br>
          </c:if>     
          <br>
          <img title="" alt="" src="${baseURL}images/greenArrow.gif">
-         <a href="${baseURL}nav?path=~author&transition=go2sendBackToAuthorCreated&endTask=taskCheckCompleteness&processID=${requestScope.task.processID}"><fmt:message key="WF.common.MetadataNotOk_SendToInitiator" /></a>
+         <a href="${baseURL}nav?path=~person&transition=go2sendBackToPersonCreated&endTask=taskCheckCompleteness&processID=${requestScope.task.processID}"><fmt:message key="WF.common.MetadataNotOk_SendToInitiator" /></a>
          <br>
    </c:when>   
 
    <c:when test="${requestScope.task.taskName eq 'taskEnterMessageData'}">
 	     <c:import url="/content/workflow/setworkflowvariable.jsp" >
-	     	<c:param name="workflowType" value="author" />
+	     	<c:param name="workflowType" value="person" />
 	     	<c:param name="endTask" value="taskentermessagedata" />
 	     </c:import>
    </c:when>
 
    <c:when test="${requestScope.task.taskName eq 'taskAdminCheckCommitmentNotSuccessFul'}">
-      <a href="${baseURL}nav?path=~author&transition=go2authorCommitted2&endTask=taskAdminCheckCommitmentNotSuccessFul&processID=${requestScope.task.processID}"><fmt:message key="WF.author.admin.authorValidated" /></a><br>      
+      <a href="${baseURL}nav?path=~person&transition=go2personCommitted2&endTask=taskAdminCheckCommitmentNotSuccessFul&processID=${requestScope.task.processID}"><fmt:message key="WF.person.admin.personValidated" /></a><br>      
    </c:when>
    
    <c:otherwise>

@@ -23,7 +23,7 @@
  **/
 
 // package
-package org.mycore.frontend.workflowengine.jbpm.author;
+package org.mycore.frontend.workflowengine.jbpm.person;
 
 // Imported java classes
 import java.text.MessageFormat;
@@ -64,18 +64,18 @@ import com.google.inject.Inject;
  * @version $Revision$ $Date$
  */
 
-public class MCRWorkflowManagerAuthor extends MCRWorkflowManager {
+public class MCRWorkflowManagerPerson extends MCRWorkflowManager {
 	
 	private static Logger logger = Logger
-			.getLogger(MCRWorkflowManagerAuthor.class.getName());
+			.getLogger(MCRWorkflowManagerPerson.class.getName());
 
 	private static MCRWorkflowManager singleton;
 
 	@Inject MCRAuthorStrategy authorStrategy;
 	
 	
-	protected MCRWorkflowManagerAuthor() throws Exception {
-		super("author", "author");
+	protected MCRWorkflowManagerPerson() throws Exception {
+		super("person", "person");
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class MCRWorkflowManagerAuthor extends MCRWorkflowManager {
 	}
 
 	public String checkDecisionNode(String decisionNode, ContextInstance ctxI) {
-		if (decisionNode.equals("canAuthorBeSubmitted")) { 
+		if (decisionNode.equals("canPersonBeSubmitted")) { 
 			boolean canDo = checkSubmitVariables(ctxI);
             String existsMessage = doesAuthorWithSameNameExist((String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_WFOBJECT_TITLE),
                                                                (String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS));
@@ -133,21 +133,21 @@ public class MCRWorkflowManagerAuthor extends MCRWorkflowManager {
                 ctxI.deleteVariable(MCRWorkflowConstants.WFM_VAR_HINT);
             }
             if (canDo) {
-				return "authorCanBeSubmitted";
+				return "personCanBeSubmitted";
 			} else {
-				return "authorCantBeSubmitted";
+				return "personCantBeSubmitted";
 			}
 		}
 
-		if (decisionNode.equals("canAuthorBeCommitted")) {
+		if (decisionNode.equals("canPersonBeCommitted")) {
 			if (checkSubmitVariables(ctxI)) {
-				return "authorCanBeCommitted";
+				return "personCanBeCommitted";
 			} else {
-				return "authorCantBeCommitted";
+				return "personCantBeCommitted";
 			}
 		}
 
-		if (decisionNode.equals("doesAuthorForUserExist")) {
+		if (decisionNode.equals("doesPersonForUserExist")) {
 			
 			String userid = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_INITIATOR);
 			MCRResults mcrResult = MCRWorkflowUtils.queryMCRForAuthorByUserid(userid);
@@ -167,9 +167,9 @@ public class MCRWorkflowManagerAuthor extends MCRWorkflowManager {
 				// setWorkflowVariablesFromMetadata(createdDocID, mob.createXML()
 				//	.getRootElement().getChild("metadata"), processid);
 
-				return "authorForUserExists_yes";
+				return "personForUserExists_yes";
 			} else {
-				return "authorForUserExists_no";
+				return "personForUserExists_no";
 			}
 		}
 
@@ -282,7 +282,7 @@ public String createNewAuthor(String userid, ContextInstance ctxI,
 			mob.receiveFromDatastore(mcrid);
 			String type = mob.getId().getTypeId();
 			JSPUtils.saveToDirectory(mob, MCRWorkflowDirectoryManager.getWorkflowDirectory(type));
-			long processID = initWorkflowProcess(initiator,  "go2DisplayAuthorData");
+			long processID = initWorkflowProcess(initiator,  "go2DisplayPersonData");
 			MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processID);
 			try{
 			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS, mcrid);
@@ -320,7 +320,7 @@ public String createNewAuthor(String userid, ContextInstance ctxI,
         if(mcrResult.getNumHits()>0){
             String hitid = mcrResult.getHit(0).getID();
             if(hitid.equals(mcrid)) return null;
-            String tt = PropertyResourceBundle.getBundle("messages").getString("WF.author.AuthorAllreadyExists");
+            String tt = PropertyResourceBundle.getBundle("messages").getString("WF.author.PersonAllreadyExists");
             return MessageFormat.format( tt, new Object[]{hitid});
         }        
         return null;

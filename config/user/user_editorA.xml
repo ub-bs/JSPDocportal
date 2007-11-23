@@ -3,7 +3,7 @@
   <user numID="12" ID="editorA" id_enabled="true" update_allowed="true">
     <user.password>editorA</user.password>
     <user.description>Berechtigter Editor für Autoren (Workflow)</user.description>
-    <user.primary_group>adminauthor</user.primary_group>
+    <user.primary_group>adminperson</user.primary_group>
     <user.contact>
       <contact.salutation />
       <contact.firstname />

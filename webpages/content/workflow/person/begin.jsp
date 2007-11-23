@@ -9,7 +9,7 @@
 <fmt:setBundle basename='messages'/>
 <c:choose>
    <c:when test="${empty param.workflowType}">
-      <c:set var="workflowType" value="author" />
+      <c:set var="workflowType" value="person" />
    </c:when>
    <c:otherwise>
       <c:set var="workflowType" value="${param.workflowType}" />
@@ -20,18 +20,18 @@
 
 <c:choose>
 <c:when test="${fn:contains(status,'errorPermission')}">
-<div class="headline"><fmt:message key="WF.author.StartWorkflow" /></div>
+<div class="headline"><fmt:message key="WF.person.StartWorkflow" /></div>
 	<p><fmt:message key="WF.common.errorUserGuest" /></p>
-	<p><fmt:message key="WF.author.errorUserGuest2" /></p>
+	<p><fmt:message key="WF.person.errorUserGuest2" /></p>
 	<p><fmt:message key="Webpage.admin.DocumentManagement.FetchLogin" /></p>
 </c:when>
 <c:when test="${fn:contains(status,'errorWFM')}">
-<div class="headline"><fmt:message key="WF.author.StartWorkflow" /></div>
+<div class="headline"><fmt:message key="WF.person.StartWorkflow" /></div>
 	<p><fmt:message key="WF.author.errorWfM" /></p>
 	<p><fmt:message key="WF.author.errorWfM2" /></p>
 </c:when>
 <c:otherwise>
 
-    <c:import url="/content/workflow/author/authorData.jsp" />
+    <c:import url="/content/workflow/person/personData.jsp" />
 </c:otherwise>
 </c:choose>

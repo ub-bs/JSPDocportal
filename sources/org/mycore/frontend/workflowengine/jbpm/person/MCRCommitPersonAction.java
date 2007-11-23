@@ -1,11 +1,11 @@
-package org.mycore.frontend.workflowengine.jbpm.author;
+package org.mycore.frontend.workflowengine.jbpm.person;
 
 import org.jbpm.graph.exe.ExecutionContext;
 import org.mycore.common.MCRException;
 import org.mycore.frontend.workflowengine.jbpm.MCRCommitObjectAction;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 
-public class MCRCommitAuthorAction extends MCRCommitObjectAction {
+public class MCRCommitPersonAction extends MCRCommitObjectAction {
 	
 	private static final long serialVersionUID = 1L;
 

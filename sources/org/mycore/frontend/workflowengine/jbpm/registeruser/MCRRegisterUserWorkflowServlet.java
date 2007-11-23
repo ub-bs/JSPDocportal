@@ -326,7 +326,7 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
      }
      
      private void addImplicitGroupIDs(Element user){
-    	 //<groups.groupID>createauthor</groups.groupID>
+    	 //<groups.groupID>createperson</groups.groupID>
     		Properties props = MCRConfiguration.instance().getProperties("MCR.Users.Implicitgroups.");
 			List<String> gl = new ArrayList<String>();
 			try{

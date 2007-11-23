@@ -1,14 +1,14 @@
-package org.mycore.frontend.workflowengine.jbpm.author;
+package org.mycore.frontend.workflowengine.jbpm.person;
     
 
 import org.apache.log4j.Logger;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.node.DecisionHandler;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
-public class MCRDecisionHandlerAuthor implements DecisionHandler {
+public class MCRDecisionHandlerPerson implements DecisionHandler {
 	private static final long serialVersionUID = 1L;
-	private static Logger logger = Logger.getLogger(MCRDecisionHandlerAuthor.class);
-	private static MCRWorkflowManagerAuthor WFM = (MCRWorkflowManagerAuthor)MCRWorkflowManagerFactory.getImpl("author");
+	private static Logger logger = Logger.getLogger(MCRDecisionHandlerPerson.class);
+	private static MCRWorkflowManagerPerson WFM = (MCRWorkflowManagerPerson)MCRWorkflowManagerFactory.getImpl("person");
 
 	/**
 	* decides which transition to take. returnes the name of this transition

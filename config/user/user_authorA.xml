@@ -2,12 +2,12 @@
 <mycoreuser xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:noNamespaceSchemaLocation="MCRUser.xsd">
   <user numID="10" ID="authorA" id_enabled="true" update_allowed="true">
     <user.password>authorA</user.password>
-    <user.description>Bereichtigter Autor zum Erstellen von Autorendaten</user.description>
-    <user.primary_group>createauthor</user.primary_group>
+    <user.description>Berechtigter Autor zum Erstellen von Autorendaten</user.description>
+    <user.primary_group>createperson</user.primary_group>
     <user.contact>
       <contact.salutation />
       <contact.firstname />
-      <contact.lastname>Autor für Autorendaten</contact.lastname>
+      <contact.lastname>Autor für Personendaten</contact.lastname>
       <contact.street />
       <contact.city />
       <contact.postalcode />

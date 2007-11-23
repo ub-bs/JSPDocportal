@@ -335,7 +335,7 @@
         </antcall>
         <antcall target="do.transform">
             <param name="metadata.schema"
-                value="${MCR.Metadata.Config.author}" />
+                value="${MCR.Metadata.Config.person}" />
         </antcall>
         <antcall target="do.transform">
             <param name="metadata.schema"
@@ -344,7 +344,7 @@
 
         <move todir="${docportal.schema}">
             <fileset dir="${docportal.schema}"
-                includes="${MCR.Metadata.Config.document} ${MCR.Metadata.Config.disshab} ${MCR.Metadata.Config.derivate} ${MCR.Metadata.Config.author} ${MCR.Metadata.Config.institution}" />
+                includes="${MCR.Metadata.Config.document} ${MCR.Metadata.Config.disshab} ${MCR.Metadata.Config.derivate} ${MCR.Metadata.Config.person} ${MCR.Metadata.Config.institution}" />
             <mapper type="glob" from="*.xml" to="*.xsd" />
         </move>
     </target>
@@ -369,7 +369,7 @@
         <mkdir dir="${MCR.LogDirectory}" />    	
     	<mkdir dir="${MCR.Save.FileSystem}" />
     	<mkdir dir="${MCR.WebContent.SaveFolder}" />
-        <mkdir dir="${MCR.WorkflowEngine.EditDirectory.author}" />
+        <mkdir dir="${MCR.WorkflowEngine.EditDirectory.person}" />
         <mkdir dir="${MCR.WorkflowEngine.EditDirectory.document}" />
     	<mkdir dir="${MCR.WorkflowEngine.EditDirectory.disshab}" />
         <mkdir dir="${MCR.WorkflowEngine.EditDirectory.institution}" />
@@ -1170,8 +1170,8 @@
       			
             create group data from file group_adminall.xml        	
         	
-        	create group data from file group_adminauthor.xml
-        	create group data from file group_createauthor.xml
+        	create group data from file group_adminperson.xml
+        	create group data from file group_createperson.xml
         	
         	create group data from file group_admindisshab.xml
         	create group data from file group_createdisshab.xml
@@ -1498,10 +1498,10 @@
         <delete file="${commands.file}" />		
 	</target>	
 	
-	<target name="deploy.processdefinition.author">
+	<target name="deploy.processdefinition.person">
         <property name="commands.file" value="${basedir}/commands.txt" />
         <echo file="${commands.file}" append="false">
-        	deploy jbpm processdefinition from file workflow/author.par/processdefinition.xml      	
+        	deploy jbpm processdefinition from file workflow/person.par/processdefinition.xml      	
         </echo>
         <antcall target="invoke.cli">
             <param name="cli.directory"
@@ -1515,7 +1515,7 @@
 	<target name="deploy.workflow.processdefinitions" >
         <property name="commands.file" value="${basedir}/commands.txt" />
         <echo file="${commands.file}" append="false">
-        	deploy jbpm processdefinition from file workflow/author.par/processdefinition.xml      	
+        	deploy jbpm processdefinition from file workflow/person.par/processdefinition.xml      	
         	
         	deploy jbpm processdefinition from file workflow/publication.par/processdefinition.xml      	
         	

@@ -1,4 +1,4 @@
-package org.mycore.frontend.workflowengine.jbpm.author;
+package org.mycore.frontend.workflowengine.jbpm.person;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
@@ -16,10 +16,10 @@ import org.mycore.common.MCRException;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.frontend.workflowengine.strategies.MCRDefaultMetadataStrategy;
 
-public class MCRAuthorMetadataStrategy extends MCRDefaultMetadataStrategy {
-	private static Logger logger = Logger.getLogger(MCRAuthorMetadataStrategy.class.getName());
-	public MCRAuthorMetadataStrategy(){
-		super("author");
+public class MCRPersonMetadataStrategy extends MCRDefaultMetadataStrategy {
+	private static Logger logger = Logger.getLogger(MCRPersonMetadataStrategy.class.getName());
+	public MCRPersonMetadataStrategy(){
+		super("person");
 	}
 	
 	public boolean commitMetadataObject(String mcrobjid, String directory) {

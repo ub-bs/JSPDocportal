@@ -9,8 +9,8 @@
 <c:set var="contentType" value="${param.contentType}" />
 <c:choose>
 	<c:when test="${pageFragment=='icon'}">
-		<img src="${WebApplicationBaseURL}/images/pubtype/handwriting.gif"
-			alt="historische Sammlung" />
+		<img src="${WebApplicationBaseURL}/images/pubtype/person.gif"
+			alt="Person" />
 	</c:when>
 	
 	<c:when test="${pageFragment=='headline'}">

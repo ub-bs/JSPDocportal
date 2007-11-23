@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<MCRDocDetails name="field definition for authordetails" >
+<MCRDocDetails name="field definition for persondetails" >
     <MCRDocDetail rowtype="hidden" labelkey="OMD.maintitle" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/names/name/fullname" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
     </MCRDocDetail> 

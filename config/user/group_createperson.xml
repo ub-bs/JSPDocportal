@@ -6,8 +6,8 @@
 
 <!-- ******************************************************************* -->
 
-  <group ID="createauthor">
-    <group.description>Erstellen von Autorendaten.</group.description>
+  <group ID="createperson">
+    <group.description>Erstellen von Personendaten.</group.description>
   </group>
 
 <!-- ******************************************************************* -->

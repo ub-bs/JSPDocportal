@@ -55,7 +55,7 @@ public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {
 				author.createInDatastore();
 			} else {
 				FileOutputStream fos = new FileOutputStream(
-						MCRWorkflowDirectoryManager.getWorkflowDirectory("author")	+ "/" + author.getId().getId() + ".xml");
+						MCRWorkflowDirectoryManager.getWorkflowDirectory("person")	+ "/" + author.getId().getId() + ".xml");
 						(new XMLOutputter(Format.getPrettyFormat())).output(author.createXML(),fos);
 				fos.close();
 			}

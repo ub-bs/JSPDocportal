@@ -6,8 +6,8 @@
 
 <!-- ******************************************************************* -->
 
-  <group ID="adminauthor">
-    <group.description>Administration der Autorendaten.</group.description>
+  <group ID="adminperson">
+    <group.description>Administration der Personendaten.</group.description>
   </group>
 
 <!-- ******************************************************************* -->

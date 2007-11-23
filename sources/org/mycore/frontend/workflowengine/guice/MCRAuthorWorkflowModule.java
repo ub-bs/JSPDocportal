@@ -1,8 +1,8 @@
 package org.mycore.frontend.workflowengine.guice;
 
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
-import org.mycore.frontend.workflowengine.jbpm.author.MCRAuthorMetadataStrategy;
-import org.mycore.frontend.workflowengine.jbpm.author.MCRWorkflowManagerAuthor;
+import org.mycore.frontend.workflowengine.jbpm.person.MCRPersonMetadataStrategy;
+import org.mycore.frontend.workflowengine.jbpm.person.MCRWorkflowManagerPerson;
 import org.mycore.frontend.workflowengine.strategies.MCRAuthorStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRDefaultAuthorStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRDefaultDerivateStrategy;
@@ -17,12 +17,12 @@ import com.google.inject.AbstractModule;
 public class MCRAuthorWorkflowModule  extends AbstractModule {
 
 	public void configure() {
-		bind(MCRWorkflowManager.class).to(MCRWorkflowManagerAuthor.class);
+		bind(MCRWorkflowManager.class).to(MCRWorkflowManagerPerson.class);
 		
 		bind(MCRDerivateStrategy.class).to(MCRDefaultDerivateStrategy.class);
 		bind(MCRPermissionStrategy.class).to(MCRDefaultPermissionStrategy.class);
 		
-		bind(MCRMetadataStrategy.class).to(MCRAuthorMetadataStrategy.class);
+		bind(MCRMetadataStrategy.class).to(MCRPersonMetadataStrategy.class);
 		bind(MCRAuthorStrategy.class).to(MCRDefaultAuthorStrategy.class);
 	}
 

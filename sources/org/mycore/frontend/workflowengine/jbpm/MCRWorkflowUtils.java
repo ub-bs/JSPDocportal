@@ -156,7 +156,7 @@ public class MCRWorkflowUtils {
 		condition = new Element("condition");
 		condition.setAttribute("operator", "=");
 		condition.setAttribute("field", "objectType");
-		condition.setAttribute("value", "author");
+		condition.setAttribute("value", "person");
 		op.addContent(condition);
 
 		Element hosts = new Element("hosts");

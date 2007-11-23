@@ -7,23 +7,23 @@
 <fmt:setLocale value="${requestScope.lang}" />
 <fmt:setBundle basename='messages'/>
 <%--<mcr:getWorkflowEngineVariable 
-	pid="${requestScope.pid}" var="authorID" 
+	pid="${requestScope.pid}" var="personID" 
 	workflowVar="<%= MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS %>" /> --%>
 
 <div class="headline">
-   <fmt:message key="WF.author.StartWorkflow" />
+   <fmt:message key="WF.person.StartWorkflow" />
 </div>
 
 <table cellspacing="3" cellpadding="3" >
    <tr>
       <td>      
-        <p><fmt:message key="WF.author.AccessOK" /></p>      
+        <p><fmt:message key="WF.person.AccessOK" /></p>      
       </td>
    </tr> 
    <tr>
       <td>      
          <img title="" alt="" src="images/greenArrow.gif">
-         <a href="${WebApplicationBaseURL}nav?path=~author"><fmt:message key="WF.common.forwardToWorkflow" /></a>
+         <a href="${WebApplicationBaseURL}nav?path=~person"><fmt:message key="WF.common.forwardToWorkflow" /></a>
       </td>
    </tr> 
    <tr>
@@ -31,7 +31,7 @@
      <hr/>
      <p><fmt:message key="Webpage.intro.Service.Hinweis1" /></p>
      <p>
-        <mcr:getConfigProperty var="mail" prop="MCR.WorkflowEngine.contactemail.author" defaultValue="mycore@mycore.de" />
+        <mcr:getConfigProperty var="mail" prop="MCR.WorkflowEngine.contactemail.person" defaultValue="mycore@mycore.de" />
         <a href="mailto:${mail}">${mail}</a>
      </p>
      </td>

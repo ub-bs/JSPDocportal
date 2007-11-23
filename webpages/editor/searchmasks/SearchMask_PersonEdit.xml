@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE MyCoReWebPage>
 <MyCoReWebPage>
-<section title="Searchmask for Author to Edit" xml:lang="de">
-<editor id="SearchMask_AuthorEdit">
+<section title="Searchmask for Person to Edit" xml:lang="de">
+<editor id="SearchMask_PersonEdit">
   <validationMessage>
       <label xml:lang="de">
         Eingabefehler: Bitte korrigieren Sie die markierten Felder 
@@ -19,19 +19,19 @@
   <target type="servlet" url="/servlets/MCRJSPSearchServlet" method="post" format="xml" />
 
 
-<components root="SearchMask_AuthorEdit" var="/query">
+<components root="SearchMask_PersonEdit" var="/query">
 
   <include uri="webapp:editor/searchmasks/imports-searchmasks-common.xml" />
   
-  <panel id="SearchMask_AuthorEdit">
-    <hidden var="@mask" default="~searchstart-wfauthor" />
+  <panel id="SearchMask_PersonEdit">
+    <hidden var="@mask" default="~searchstart-wfperson" />
     <hidden var="@maxResults" default="100" />
     
     <hidden var="conditions/@format" default="xml" />
     <hidden var="conditions/boolean/@operator" default="AND" />
     <hidden var="conditions/boolean/condition1/@field" default="objectType" />
     <hidden var="conditions/boolean/condition1/@operator" default="=" />    
-    <hidden var="conditions/boolean/condition1/@value" default="author" />    
+    <hidden var="conditions/boolean/condition1/@value" default="person" />    
     
     <hidden var="conditions/boolean/condition2/@field" default="allMeta" />
     <hidden var="conditions/boolean/condition2/@operator" default="contains" />    

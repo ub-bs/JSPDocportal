@@ -19,14 +19,14 @@ public class MCRCreateAuthorAction extends MCRAbstractAction{
 		String initiator = (String)contextInstance.getVariable(MCRWorkflowConstants.WFM_VAR_INITIATOR);
 		String authorID = (String)contextInstance.getVariable(MCRWorkflowConstants.WFM_VAR_AUTHOR_IDS);
 		if(authorID == null || authorID.equals("")){
-			MCRObjectID newAuthorID = WFM.getNextFreeID("author");
+			MCRObjectID newAuthorID = WFM.getNextFreeID("person");
 			//TODO
 			authorID = WFM.createAuthor(initiator, newAuthorID,true,true).getId();
 			if(newAuthorID.getId().equals(authorID)){
 				//we have a new author -> must set default permissions
-				//Attention, workflowprocesstype is "author" because we want to set the default permissions from author workflow
+				//Attention, workflowprocesstype is "person" because we want to set the default permissions from author workflow
 				//otherwise another set of properties is necessary
-				WFM.setPermissions(authorID, initiator, "author", contextInstance, MCRWorkflowConstants.PERMISSION_MODE_DEFAULT);
+				WFM.setPermissions(authorID, initiator, "person", contextInstance, MCRWorkflowConstants.PERMISSION_MODE_DEFAULT);
 			}
 			
 		}
