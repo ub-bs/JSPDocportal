@@ -10,7 +10,7 @@
 <!-- Britta Kapitzki	- Design					-->
 <!-- Thomas Scheffler   - html prototype		    -->
 <!-- Stephan Schmidt 	- html prototype			-->
-<!-- $Revision: 1.1 $ $Date: 2007-01-12 14:47:03 $ -->
+<!-- $Revision: 1.1 $ $Date: 2007-11-23 15:06:30 $ -->
 <!-- ============================================== -->
 
 <project name="MyCoReModule - iview" default="usage" basedir="../..">
