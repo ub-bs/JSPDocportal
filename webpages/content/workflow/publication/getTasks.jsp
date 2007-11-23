@@ -28,8 +28,12 @@
    </c:when>
 	<c:when	test="${requestScope.task.taskName eq 'taskGetPublicationType'}">
 		<p><fmt:message key="WF.publication.GetPublicationType" /></p>
+		 <c:import url="/content/workflow/setworkflowvariable.jsp" >
+	     	<c:param name="workflowType" value="publication" />
+	     	<c:param name="endTask" value="taskGetPublicationType" />	     	
+	     </c:import>
 		
-		<c:url var="url" value="${WebApplicationBaseURL}editor/workflow/getPublicationTypes.xml">
+		<%-- <c:url var="url" value="${WebApplicationBaseURL}editor/workflow/getPublicationTypes.xml">
 			<c:param name="dispatcherForward" value="/nav?path=~publication" />
 			<c:param name="transition" value="" />
 			<c:param name="endTask" value="taskGetPublicationType" />
@@ -40,7 +44,7 @@
 		    <c:param name="MCRSessionID" value="${sessionid}" />
 			<c:param name="lang" value="${requestScope.lang}" />
 		</c:url>
-		<c:import url="${url}" />
+		<c:import url="${url}" /> --%>
 		
 	</c:when>
 	<c:when	test="${requestScope.task.taskName eq 'taskprocessInitialized' }">
