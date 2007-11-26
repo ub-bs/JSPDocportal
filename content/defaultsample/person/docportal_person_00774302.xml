@@ -4,44 +4,73 @@
   xsi:noNamespaceSchemaLocation="datamodel-author.xsd"
   xmlns:xlink="http://www.w3.org/1999/xlink"
   xmlns:xml="http://www.w3.org/XML/1998/namespace"
-  ID="DocPortal_author_07111101"
-  label="Ursula Reber">
+  ID="DocPortal_person_00774302"
+  label="Thomas Scheffler">
  <structure/>
  <metadata>
   <names class="MCRMetaPersonName" textsearch="true">
    <name type="latest" xml:lang="de">
-    <firstname>Ursula</firstname>
-    <callname>Ursula</callname>
-    <surname>Reber</surname>
+    <callname>Thomas</callname>
+    <surname>Scheffler</surname>
+    <fullname>Thomas Scheffler</fullname>
    </name>
   </names>
   <females class="MCRMetaBoolean">
-   <female xml:lang="en">true</female>
+   <female xml:lang="en">false</female>
   </females>
   <institutions class="MCRMetaClassification" parasearch="true">
-   <institution categid="Firma.Reber" classid="DocPortal_class_00000002" />
+   <institution categid="Unis.Jena" classid="DocPortal_class_00000002" />
   </institutions>
   <addresses class="MCRMetaAddress">
    <address type="office" xml:lang="de">
     <country>Deutschland</country>
-    <state>Baden-Württemberg</state>
+    <state>Thüringen</state>
+    <zipcode>07743</zipcode>
+    <city>Jena</city>
+    <street>Bibliotheksplatz</street>
+    <number>2</number>
+   </address>
+   <address type="office" xml:lang="en">
+    <country>Germany</country>
+    <state>Thüringen</state>
+    <zipcode>07743</zipcode>
+    <city>Jena</city>
+    <street>Bibliotheksplatz</street>
+    <number>2</number>
    </address>
   </addresses>
   <phones class="MCRMetaLangText">
-   <phone type="phone" xml:lang="de">0049 7157 20638</phone>
-   <phone type="phone" xml:lang="de">0049 172 711 9243</phone>
+   <phone type="phone" xml:lang="de">+49 (0)3641 9470024</phone>
+   <phone type="phone" xml:lang="en">+49 (0)3641 9470024</phone>
   </phones>
+  <dates class="MCRMetaISO8601Date">
+   <date type="birth">1978-11-26</date>
+  </dates>
   <professions class="MCRMetaLangText" textsearch="true">
-   <profession type="job" xml:lang="de">System-Beraterin</profession>
+   <profession type="job" xml:lang="de">Student</profession>
+   <profession type="profession" xml:lang="de">Student</profession>
   </professions>
   <nationals class="MCRMetaClassification" parasearch="false">
    <national classid="DocPortal_class_00000001" categid="NAT0001" />
   </nationals>
   <emails class="MCRMetaLangText" parasearch="false">
    <email>
-    uschi.reber@gmx.de
+    thomas.scheffler@.uni-jena.de
    </email>
   </emails>
+  <references class="MCRMetaLink" parasearch="false">
+   <reference xlink:type="locator" xlink:href="http://www.mycore.de" xlink:title="URL von MyCoRe" />
+  </references>
+  <notes class="MCRMetaLangText" parasearch="false">
+   <note>
+    Thomas Scheffler ist einer der Architekten von MyCoRe.
+   </note>
+  </notes>
+  <publications class="MCRMetaLangText" parasearch="false">
+   <publication xml:lang="de">
+    Dokumentationen für MyCoRe
+   </publication>
+  </publications>
  </metadata>
  <service>
   <servacls class="MCRMetaAccessRule">

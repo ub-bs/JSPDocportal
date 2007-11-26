@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mycoreobject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" ID="DocPortal_author_07910401" label="Detlev Degenhardt" xsi:noNamespaceSchemaLocation="datamodel-author.xsd"><structure/><metadata xml:lang="de"><names class="MCRMetaPersonName" heritable="true" notinherit="false" parasearch="true" textsearch="true"><name xml:lang="de" inherited="0"><firstname>Detlev</firstname><callname>Detlev</callname><fullname>Dr. Detlev Degenhardt</fullname><surname>Degenhardt</surname><academic>Dr.</academic></name>
+<mycoreobject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" ID="DocPortal_person_07910401" label="Detlev Degenhardt" xsi:noNamespaceSchemaLocation="datamodel-author.xsd"><structure/><metadata xml:lang="de"><names class="MCRMetaPersonName" heritable="true" notinherit="false" parasearch="true" textsearch="true"><name xml:lang="de" inherited="0"><firstname>Detlev</firstname><callname>Detlev</callname><fullname>Dr. Detlev Degenhardt</fullname><surname>Degenhardt</surname><academic>Dr.</academic></name>
 </names>
 <females class="MCRMetaBoolean" heritable="true" notinherit="false" parasearch="true" textsearch="false"><female xml:lang="de" inherited="0">false</female>
 </females>

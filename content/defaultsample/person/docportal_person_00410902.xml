@@ -4,66 +4,63 @@
   xsi:noNamespaceSchemaLocation="datamodel-author.xsd"
   xmlns:xlink="http://www.w3.org/1999/xlink"
   xmlns:xml="http://www.w3.org/XML/1998/namespace"
-  ID="DocPortal_author_00774302"
-  label="Thomas Scheffler">
+  ID="DocPortal_person_00410902"
+  label="Ute Starke">
  <structure/>
  <metadata>
   <names class="MCRMetaPersonName" textsearch="true">
    <name type="latest" xml:lang="de">
-    <callname>Thomas</callname>
-    <surname>Scheffler</surname>
-    <fullname>Thomas Scheffler</fullname>
+    <callname>Ute</callname>
+    <surname>Starke</surname>
+    <fullname>Ute Starke</fullname>
+    <academic>Dipl. Betriebswirt FH</academic>
    </name>
   </names>
   <females class="MCRMetaBoolean">
-   <female xml:lang="en">false</female>
+   <female xml:lang="en">true</female>
   </females>
   <institutions class="MCRMetaClassification" parasearch="true">
-   <institution categid="Unis.Jena" classid="DocPortal_class_00000002" />
+   <institution categid="Unis.Leipzig" classid="DocPortal_class_00000002" />
   </institutions>
   <addresses class="MCRMetaAddress">
    <address type="office" xml:lang="de">
     <country>Deutschland</country>
-    <state>Thüringen</state>
-    <zipcode>07743</zipcode>
-    <city>Jena</city>
-    <street>Bibliotheksplatz</street>
-    <number>2</number>
+    <state>Sachsen</state>
+    <zipcode>04109</zipcode>
+    <city>Leipzig</city>
+    <street>Augustusplatz</street>
+    <number>10/11</number>
    </address>
    <address type="office" xml:lang="en">
     <country>Germany</country>
-    <state>Thüringen</state>
-    <zipcode>07743</zipcode>
-    <city>Jena</city>
-    <street>Bibliotheksplatz</street>
-    <number>2</number>
+    <state>Sachsen</state>
+    <zipcode>04109</zipcode>
+    <city>Leipzig</city>
+    <street>Augustusplatz</street>
+    <number>10/11</number>
    </address>
   </addresses>
   <phones class="MCRMetaLangText">
-   <phone type="phone" xml:lang="de">+49 (0)3641 9470024</phone>
-   <phone type="phone" xml:lang="en">+49 (0)3641 9470024</phone>
+   <phone type="phone" xml:lang="de">0341 9733328</phone>
+   <phone type="fax" xml:lang="de">0341 9733399</phone>
+   <phone type="phone" xml:lang="en">+49 (0)341 9733328</phone>
+   <phone type="fax" xml:lang="en">+49 (0)341 9733399</phone>
   </phones>
-  <dates class="MCRMetaISO8601Date">
-   <date type="birth">1978-11-26</date>
-  </dates>
   <professions class="MCRMetaLangText" textsearch="true">
-   <profession type="job" xml:lang="de">Student</profession>
-   <profession type="profession" xml:lang="de">Student</profession>
+   <profession type="job" xml:lang="de">System-Administrator</profession>
+   <profession type="job" xml:lang="de">System-Designer</profession>
   </professions>
   <nationals class="MCRMetaClassification" parasearch="false">
    <national classid="DocPortal_class_00000001" categid="NAT0001" />
   </nationals>
   <emails class="MCRMetaLangText" parasearch="false">
    <email>
-    thomas.scheffler@.uni-jena.de
+    starke@rz.uni-leipzig.de
    </email>
   </emails>
-  <references class="MCRMetaLink" parasearch="false">
-   <reference xlink:type="locator" xlink:href="http://www.mycore.de" xlink:title="URL von MyCoRe" />
-  </references>
   <notes class="MCRMetaLangText" parasearch="false">
    <note>
-    Thomas Scheffler ist einer der Architekten von MyCoRe.
+    Ute Starke arbeitet in Leipzig an MyCoRe-Applikationen mit.
    </note>
   </notes>
   <publications class="MCRMetaLangText" parasearch="false">

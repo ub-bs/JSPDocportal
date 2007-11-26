@@ -2,7 +2,7 @@
 
 <!-- =================================================================== -->
 <!-- MyCoRe Default Sample Content for the MyCoReSample Application      -->
-<!-- $Revision: 1.6 $ $Date: 2007-06-25 10:36:37 $                       -->
+<!-- $Revision: 1.7 $ $Date: 2007-11-26 09:23:31 $                       -->
 <!-- =================================================================== -->
 
 <project default="usage" basedir=".">
@@ -26,7 +26,7 @@
   <!-- Provide a default value for DOCPORTAL_HOME if not set in env -->
   <property name="env.DOCPORTAL_SYSTEM" location="${basedir}/../.." />	
   <property name="this.institution"           value="${basedir}/institution"/>
-  <property name="this.author"                value="${basedir}/author"/>
+  <property name="this.person"                value="${basedir}/person"/>
   <property name="this.document"              value="${basedir}/document"/>
 
   <property name="build.sysclasspath" value="ignore"/>
@@ -139,7 +139,7 @@
     <echo>Operating system   : ${os.name} Version ${os.version} on ${os.arch} </echo>
     <echo>Java version       : JDK ${ant.java.version} Version ${java.version} from ${java.vendor}</echo>
     <echo>Java home          : ${env.JAVA_HOME}</echo>
-    <echo>Ant build file     : $Revision: 1.6 $ $Date: 2007-06-25 10:36:37 $</echo>
+    <echo>Ant build file     : $Revision: 1.7 $ $Date: 2007-11-26 09:23:31 $</echo>
     <echo>Ant version        : ${ant.version}</echo>
     <echo>Ant home           : ${env.ANT_HOME}</echo>
     <echo>System CLASSPATH   : ${build.sysclasspath}</echo>
@@ -169,18 +169,18 @@
   <target name="load.author">
     <property name="commands.file" value="${env.DOCPORTAL_SYSTEM}/commands.txt"/>
     <echo file="${commands.file}" append="false">
-      update object from file docportal_author_00410901.xml
-      update object from file docportal_author_00410902.xml
-      update object from file docportal_author_00774301.xml
-      update object from file docportal_author_00774302.xml
-      update object from file docportal_author_04514101.xml
-      update object from file docportal_author_07111101.xml
-      update object from file docportal_author_07910401.xml
-      update object from file docportal_author_08033301.xml
+      update object from file docportal_person_00410901.xml
+      update object from file docportal_person_00410902.xml
+      update object from file docportal_person_00774301.xml
+      update object from file docportal_person_00774302.xml
+      update object from file docportal_person_04514101.xml
+      update object from file docportal_person_07111101.xml
+      update object from file docportal_person_07910401.xml
+      update object from file docportal_person_08033301.xml
       quit
     </echo>
     <antcall target="invoke.cli">
-      <param name="cli.directory" value="${this.author}"  />
+      <param name="cli.directory" value="${this.person}"  />
       <param name="cli.command"   value="process ${commands.file}" />
     </antcall>
     <delete file="${commands.file}" />
@@ -232,18 +232,18 @@
   <target name="remove.author">
     <property name="commands.file" value="${env.DOCPORTAL_SYSTEM}/commands.txt"/>
     <echo file="${commands.file}" append="false">
-      delete object DocPortal_author_00410901
-      delete object DocPortal_author_00410902
-      delete object DocPortal_author_00774301
-      delete object DocPortal_author_00774302
-      delete object DocPortal_author_04514101
-      delete object DocPortal_author_07111101
-      delete object DocPortal_author_07910401
-      delete object DocPortal_author_08033301
+      delete object DocPortal_person_00410901
+      delete object DocPortal_person_00410902
+      delete object DocPortal_person_00774301
+      delete object DocPortal_person_00774302
+      delete object DocPortal_person_04514101
+      delete object DocPortal_person_07111101
+      delete object DocPortal_person_07910401
+      delete object DocPortal_person_08033301
       quit
     </echo>
     <antcall target="invoke.cli">
-      <param name="cli.directory" value="${this.author}"  />
+      <param name="cli.directory" value="${this.person}"  />
       <param name="cli.command"   value="process ${commands.file}" />
     </antcall>
     <delete file="${commands.file}" />
