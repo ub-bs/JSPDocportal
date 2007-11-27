@@ -56,6 +56,20 @@
 						</form>
 						</td>
 					</c:if>
+					
+					<!-- Update from Formularserver for HS NB -->
+					<c:if test="${(itemDocType == 'disshab')&& fn:contains(itemID, 'dbhsnb')}">
+						<td align="center" valign="top" width="30">
+						<form method="get"	action="${baseURL}content/workflow/import-from-formserver.jsp"	target="new">
+							<input name="id" value="${itemID}" type="hidden"> 
+							<input name="returnPath" value="${path}" type="hidden" />
+							<input title="<fmt:message key="WF.common.object.ImportFromFormserver" />"
+									src="${baseURL}images/workflow_import_from_formserver.gif" type="image"
+									class="imagebutton">
+						</form>
+						</td>
+					</c:if>
+					
 					<td align="center" valign="top" width="30">
 					<form method="get" action="${baseURL}workflowaction">
 						<input	name="processid" value="${processid}" type="hidden"> 
@@ -67,7 +81,7 @@
 					</td>
 				</c:if>
 
-				<c:if test="${itemDocType == 'disshab' }">
+				<c:if test="${itemDocType == 'disshab' && !fn:contains(itemID, 'dbhsnb') }">
 					<td align="center" valign="top" width="30">
 					<form method="get"	action="${baseURL}content/results-config/docdetails-disshab-deliver.jsp"	target="new">
 						<input name="id" value="${itemID}" type="hidden"> 
