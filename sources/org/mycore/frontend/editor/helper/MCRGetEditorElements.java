@@ -161,7 +161,8 @@ public class MCRGetEditorElements implements MCRResolver {
 	}
 	
 	private Element transformClassToItems(String classid, String emptyLeafs) throws TransformerException{
-        Document classJdom = MCRClassification.retrieveClassificationAsJDOM(classid);
+        Document classJdom = MCRClassification.retrieveClassificationAsJDOM(classid, true);
+        
         boolean displayEmptyLeafs = (emptyLeafs.equalsIgnoreCase("yes")||emptyLeafs.equalsIgnoreCase("true"));
         return MCREditorClassificationHelper.transformClassificationtoItems(classJdom, displayEmptyLeafs).getRootElement();
 	}
