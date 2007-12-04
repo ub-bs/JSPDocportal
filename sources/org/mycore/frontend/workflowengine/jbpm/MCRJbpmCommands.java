@@ -261,7 +261,13 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
         	    	String derID = derLinkID.getXLinkHref();
         	    	File f = new File(new File(dir, id), derID+".xml");
         	    	if(f.exists()){
-	         	    	MCRDerivateCommands.loadFromFile(f.getAbsolutePath()); 
+        	    		if(MCRDerivate.existInDatastore(derID)){
+        	    			MCRDerivateCommands.updateFromFile(f.getAbsolutePath());
+        	    		}
+        	    		else{
+        	    			MCRDerivateCommands.loadFromFile(f.getAbsolutePath());
+        	    		}
+	         	    	
 	         	    	//set ACLs
 	         	    	MCRDerivate mcrDer = new MCRDerivate();
 	             	    mcrDer.setImportMode(true); //true = servdates are taken from xml file;
