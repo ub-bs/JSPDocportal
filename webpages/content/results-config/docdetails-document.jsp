@@ -142,8 +142,11 @@
     	<tr><td colspan="2" class="metanone">&nbsp;</td></tr>     
 	   <tr>
    			<td class="metaname"> <fmt:message key="OMD.selflink" />:</td>
-        	<td class="metavalue"><a href="${WebApplicationBaseURL}metadata/${param.id}">
-	          	${WebApplicationBaseURL}metadata/${param.id} </a>
+   			<td class="metavalue">
+   				<table><tr><td>
+		   			<a href="${WebApplicationBaseURL}metadata/${param.id}">
+	    	      	${WebApplicationBaseURL}metadata/${param.id} </a>
+	    	    </td></tr></table>
 			</td>
 	   </tr> 
 	</c:if>
