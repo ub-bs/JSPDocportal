@@ -67,7 +67,7 @@ public class MCRIViewServlet extends MCRServlet {
 	private String dateFormat = "dd.MM.yyyy HH:mm:ss";
 	private DateFormat dateFormatter = new SimpleDateFormat(dateFormat);
 	private static MCRIViewTools iTools = new MCRIViewTools(); 
-	MCRCache mcrCache = new MCRCache(1000);
+	MCRCache mcrCache = new MCRCache(1000, "MCRIViewServlet");
 	
 	public void init() throws MCRConfigurationException, ServletException {
 		super.init();
@@ -515,7 +515,7 @@ public class MCRIViewServlet extends MCRServlet {
 		MCRCache cachedFileNodeList;
 		//// init new one 
 		if (cacheObj==null){
-			cachedFileNodeList=new MCRCache(10);
+			cachedFileNodeList=new MCRCache(10, "MCRIViewServlet-cachedFileNodes");
 			session.put(cacheObjKey,cachedFileNodeList);
 		} // get cached one
 		else 
