@@ -54,6 +54,15 @@
 			<x:set var="fmtnumDocs" select="string(./col[2]/@fmtnumDocs)" />			
 			<c:set var="fmtnumDocs" value="${fn:replace(fmtnumDocs,' ', '_')}" />			
 			<x:set var="plusminusbase" select="string(./col[1]/@plusminusbase)" />
+			<c:choose>
+				<c:when test="${numDocs>0}">
+					<c:set var="foldername" value="${folder1}" />
+				</c:when>
+				<c:otherwise>
+					<c:set var="foldername" value="${folder1}_empty" />
+				</c:otherwise>
+			</c:choose>
+				
         	<tr valign="top" >
         	   <td valign="top">
 	       	    <c:if test="${lineLevel gt 0 }" >
@@ -62,10 +71,10 @@
 				<c:choose>
 	       		    <c:when test="${fn:length(plusminusbase) > 0}" >
        	        	 	<a href="${WebApplicationBaseURL}nav?path=${path}&actUriPath=${searchbase}"><img 
-       	        	 		class="borderless" src="${WebApplicationBaseURL}images/${folder1}.gif" /></a>
+       	        	 		class="borderless" src="${WebApplicationBaseURL}images/${foldername}.gif" /></a>
        		        </c:when>
     	   	        <c:otherwise> 
-       	        		<img class="borderless" src="${WebApplicationBaseURL}images/${folder1}.gif" />
+       	        		<img class="borderless" src="${WebApplicationBaseURL}images/${foldername}.gif" />
 					</c:otherwise> 		
 				</c:choose>
         	   </td>
