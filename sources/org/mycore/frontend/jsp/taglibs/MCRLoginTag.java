@@ -248,11 +248,11 @@ public class MCRLoginTag extends SimpleTagSupport
     	
     	if(MCRUserMgr.instance().retrieveUser(uid).getUserContact().getState().equalsIgnoreCase("true")){
     		//Frau
-    		name.append(messages.getString("Editor.Author.gender.female"));
+    		name.append(messages.getString("Editor.Person.gender.female"));
     	}
     	if(MCRUserMgr.instance().retrieveUser(uid).getUserContact().getState().equalsIgnoreCase("false")){
     		//Herr
-    		name.append(messages.getString("Editor.Author.gender.male"));
+    		name.append(messages.getString("Editor.Person.gender.male"));
     	}
     	name.append(" ");
     	name.append(MCRUserMgr.instance().retrieveUser(uid).getUserContact().getSalutation());

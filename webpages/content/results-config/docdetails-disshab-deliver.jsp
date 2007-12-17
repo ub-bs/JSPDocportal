@@ -162,7 +162,7 @@ An error occured, hava a look in the logFiles!
    </td></tr>
   </table>
 <hr/>
-	<p>Bitte drucken Sie das Formular aus und geben es in der Dissertationsstelle ab.</p>
+	<p>Bitte drucken Sie das Formular aus und geben es in der Dissertationsstelle der Universitätsbibliothek Rostock ab.</p>
 
 </body>
 </html>
