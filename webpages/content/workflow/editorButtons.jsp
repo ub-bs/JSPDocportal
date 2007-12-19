@@ -38,10 +38,8 @@
 
 <table width="100%" class="tasklistObject" >
 	<tr>
-		<td class="tasklistTitle"><c:out value="${wfoTitle}" /></td>
-		<td width="30" rowspan="2">&nbsp;</td>
-		<td align="right" rowspan="2">
-		<table>
+		<td colspan="3">
+		  <table>
 			<tr>
 				<mcr:checkAccess var="modifyAllowed" permission="writedb"	key="${itemID}" />
 				
@@ -116,9 +114,16 @@
 						class="imagebutton">
 				</form>
 				</td>
-				
 			</tr>
 		</table>
+		</td>
+	</tr>
+	<tr>
+	
+		<td class="tasklistTitle"><c:out value="${wfoTitle}" /></td>
+		<td width="30" rowspan="2">&nbsp;</td>
+		<td align="right" rowspan="2">
+
 		</td>
 	</tr>
 	<tr>

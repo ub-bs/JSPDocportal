@@ -18,15 +18,15 @@
     
     <MCRDocDetail rowtype="standard" labelkey="OMD.publisher" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/publishlinks/publishlink" templatetype="tpl-author_links" separator="," terminator="&lt;br&gt;" languageRequired="no" />
-        <MCRDocDetailContent xpath="/mycoreobject/metadata/publishers/publisher[@type='publisher']" templatetype="tpl-text-values" separator=";" terminator="&lt;br&gt;" languageRequired="no" /> 
-        <MCRDocDetailContent introkey="OMD.publisher.company" xpath="/mycoreobject/metadata/publishers/publisher[@type='publication']" templatetype="tpl-text-values" separator=", " terminator="&lt;br&gt;" languageRequired="no" /> 
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/publishers/publisher[@type='publication']" templatetype="tpl-text-values" separator=";" terminator="&lt;br&gt;" languageRequired="no" /> 
+        <MCRDocDetailContent introkey="OMD.publisher.company" xpath="/mycoreobject/metadata/publishers/publisher[@type='publisher']" templatetype="tpl-text-values" separator=", " terminator="&lt;br&gt;" languageRequired="no" /> 
     </MCRDocDetail>
     
     <MCRDocDetail rowtype="standard" labelkey="OMD.contributors" >
       <MCRDocDetailContent xpath="/mycoreobject/metadata/contriblinks/contriblink" templatetype="tpl-author_links" separator=", " terminator="&lt;br&gt;" languageRequired="no" />
     </MCRDocDetail>
     <MCRDocDetail rowtype="table" labelkey="OMD.contributors" >
-      <MCRDocDetailContent xpath="/mycoreobject/metadata/contributors/contributor/@type" templatetype="tpl-text-values" separator="td" languageRequired="yes" />       
+      <MCRDocDetailContent xpath="/mycoreobject/metadata/contributors/contributor/@type" templatetype="tpl-text-values" separator="td" languageRequired="yes" />        
       <MCRDocDetailContent xpath="/mycoreobject/metadata/contributors/contributor" templatetype="tpl-text-values" separator="td" languageRequired="yes" escapeXml="false" />       
     </MCRDocDetail>
         
