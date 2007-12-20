@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!-- ============================================== -->
-<!-- $Revision: 1.4 $ $Date: 2007-02-12 09:30:35 $ -->
+<!-- $Revision: 1.5 $ $Date: 2007-12-20 20:28:10 $ -->
 <!-- ============================================== -->
 <xsl:stylesheet
      version="1.0"
@@ -25,7 +25,7 @@
     <xsl:template match="mycoreobject">
         <metadata>  
             <epicur 
-                xsi:schemaLocation="urn:nbn:de:1111-2004033116 http://nbn-resolving.de/urn/resolver.pl?urn=urn:nbn:de:1111-2004033116"
+                xsi:schemaLocation="urn:nbn:de:1111-2004033116 http://www.persistent-identifier.de/xepicur/version1.0/xepicur.xsd"
                 xmlns="urn:nbn:de:1111-2004033116"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
              
