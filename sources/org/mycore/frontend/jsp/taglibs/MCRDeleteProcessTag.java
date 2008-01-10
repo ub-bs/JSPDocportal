@@ -76,7 +76,7 @@ public class MCRDeleteProcessTag extends SimpleTagSupport {
 			return;
 		}  
 
-    	if ( AI.checkPermission("administrate-" + workflowProcessType) ) {
+    	if ( AI.checkPermission("administrate-" + WFM.getMainDocumentType()) ) {
 			try{ 
 				WFM.deleteWorkflowProcessInstance(pid);
 			} catch (Exception allEx) {
