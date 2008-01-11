@@ -51,9 +51,29 @@
 								  <x:set var="URL"	select="concat($WebApplicationBaseURL,'file/',./@derivid,'/',./@derivmain,'?hosts=',$host)" />
 						  <x:set var="contentType" select="string(./@contentType)" />
 						  <x:set var="size" select="string(./@size)" />
+						  <x:set var="filename" select="string(./@derivmain)" />
 						  <table>
 							<tr>
-								<td><a href="<x:out select="$URL" />" target="_blank"><x:out select="./@derivmain" /></a>&#160;
+								<td><a href="<x:out select="$URL" />" target="_blank">
+												<c:choose>
+													<c:when test="${fn:endsWith(filename, '.pdf')}">
+														<img src="${WebApplicationBaseURL}images/derivate_pdf.gif" alt="Öffne PDF">
+													</c:when>
+													<c:when test="${fn:endsWith(filename, '.mp3')}">
+														<img src="${WebApplicationBaseURL}images/derivate_mp3.gif" alt="Öffne PDF">
+													</c:when>
+													<c:when test="${fn:endsWith(filename, '.jpg') or fn:endsWith(filename, '.jpeg') }">
+														<img src="${WebApplicationBaseURL}images/derivate_portrait.gif" alt="Öffne Bild" >
+													</c:when>
+													<c:when test="${fn:endsWith(filename, '.doc')}">
+														<img src="${WebApplicationBaseURL}images/derivate_doc.gif" alt="Öffne Dokument" >
+													</c:when>
+													
+													<c:otherwise>
+														<img src="${WebApplicationBaseURL}images/derivate_unknown.gif" alt="Öffne Dokument" valign="middle">
+													</c:otherwise>												
+												</c:choose>
+												<x:out select="./@derivmain" /></a>&#160;
 								(<c:out value="${size}" /> Bytes)&#160;&#160;</td>
 								<c:if test="${fn:contains('gif-jpeg-png', contentType) && size < 100000}">
 									<td class="imageInResult"><a href="${URL}"><img	src="${URL}" width="100"></a></td>
