@@ -471,7 +471,7 @@ public class MCRResultFormatter {
     			      			    
     			    MCRDirectory root;
     			    root = MCRDirectory.getRootDirectory(derivateID);
-    			    MCRFilesystemNode[] myfiles = root.getChildren();
+    			    MCRFilesystemNode[] myfiles = root.getChildren(MCRDirectory.SORT_BY_NAME);//getChildren();
     			    Element digitalObject = new Element("digitalobject");
     			    
     			    int fileCnt = 0;
