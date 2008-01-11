@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- ============================================== -->
-<!-- $Revision: 1.15 $ $Date: 2007-11-12 09:55:12 $ -->
+<!-- $Revision: 1.16 $ $Date: 2008-01-11 16:57:42 $ -->
 <!-- ============================================== -->
 
 <xsl:stylesheet
@@ -199,7 +199,7 @@
    <xsl:variable name="title">
        <xsl:value-of select="col[@name='fullname']" />   
    </xsl:variable>
-   <xsl:variable name="titleEnc" select="encode:encode($title,'UTF-8')"/>
+   <xsl:variable name="titleEnc" select="encode:encode($title,'ISO-8859-1')"/>
    
     <tr>
       <td class="td1" valign="top">
