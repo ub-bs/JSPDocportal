@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!-- ============================================== -->
-<!-- $Revision: 1.6 $ $Date: 2007-08-01 14:38:10 $ -->
+<!-- $Revision: 1.7 $ $Date: 2008-01-15 14:20:55 $ -->
 <!-- ============================================== -->
 <xsl:stylesheet
 	 version="1.0"
@@ -141,9 +141,10 @@
 			<xsl:variable name="mcr_obj" select="concat('mcrobject:',$id)" />
             <xsl:for-each select="document($mcr_obj)/mycoreobject/metadata">			
                 <xsl:element name="dc:publisher">
-	                <xsl:value-of select="concat(./names/name[@xml:lang='de']/shortname,
+	              <!--  <xsl:value-of select="concat(./names/name[@xml:lang='de']/shortname,
                                                 ', ',
-                                                ./names/name[@xml:lang='de']/fullname)" />
+                                                ./names/name[@xml:lang='de']/fullname)" /> -->
+                 <xsl:value-of select="./names/name[@xml:lang='de']/fullname" />
 	            </xsl:element>
            </xsl:for-each>
         </xsl:for-each>
@@ -245,7 +246,7 @@
         </xsl:if>
         <xsl:element name="dc:identifier">
         	<xsl:variable name="ID" select="./@ID" />
-            <xsl:value-of select="concat($WebApplicationBaseURL,'receive/',$ID)" /> 
+            <xsl:value-of select="concat($WebApplicationBaseURL,'metadata/',$ID)" /> 
         </xsl:element>
     </xsl:template>
     

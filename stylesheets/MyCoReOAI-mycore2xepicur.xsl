@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!-- ============================================== -->
-<!-- $Revision: 1.5 $ $Date: 2007-12-20 20:28:10 $ -->
+<!-- $Revision: 1.6 $ $Date: 2008-01-15 14:20:55 $ -->
 <!-- ============================================== -->
 <xsl:stylesheet
      version="1.0"
@@ -22,13 +22,10 @@
         <xsl:apply-templates select="*" />
     </xsl:template>
  
-    <xsl:template match="mycoreobject">
-        <metadata>  
-            <epicur 
-                xsi:schemaLocation="urn:nbn:de:1111-2004033116 http://www.persistent-identifier.de/xepicur/version1.0/xepicur.xsd"
-                xmlns="urn:nbn:de:1111-2004033116"
-                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-             
+       <xsl:template match="mycoreobject">
+        <metadata>
+        	  <xsl:text disable-output-escaping="yes">&lt;epicur xsi:schemaLocation="urn:nbn:de:1111-2004033116 http://www.persistent-identifier.de/xepicur/version1.0/xepicur.xsd"
+                xmlns="urn:nbn:de:1111-2004033116" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;</xsl:text>                        
                 <xsl:variable name="epicurType">
                     <xsl:choose>
                         <xsl:when test="./metadata/urns/urn[@type='url_update_general']">url_update_general</xsl:when>
@@ -42,7 +39,7 @@
                  <xsl:call-template name="record">
                     <xsl:with-param name="epicurType" select="$epicurType" />
                 </xsl:call-template>             
-            </epicur>   
+        	<xsl:text disable-output-escaping="yes">&lt;/epicur&gt;</xsl:text>   
         </metadata>
     </xsl:template>
 
