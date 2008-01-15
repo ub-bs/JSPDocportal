@@ -92,7 +92,7 @@ public abstract class MCRDerivateStrategy {
 		// build the derivate XML file
 		MCRDerivate der = new MCRDerivate();
 		der.setId(IDMax);
-		der.setLabel(MCRConfiguration.instance().getString("MCR.default_derivate_label", "Dataobject from " + IDMax.getId()));
+		der.setLabel(MCRConfiguration.instance().getString("MCR.Derivates.Labels.default", "Dataobject from " + IDMax.getId()));
 		der.setSchema("datamodel-derivate.xsd");
 		MCRMetaLinkID link = new MCRMetaLinkID("linkmetas", "linkmeta", lang , 0);
 		link.setReference(metadataObjectId, "", "");
@@ -130,9 +130,10 @@ public abstract class MCRDerivateStrategy {
 				Collections.sort(allDerivateFileNames, Collections.reverseOrder());
 				String maxFilename = (String)allDerivateFileNames.get(0); 
 				nextWorkflowDerivateID = new MCRObjectID(maxFilename.substring(0, maxFilename.lastIndexOf(".")));
-				if (dbIDMax.getNumberAsInteger() >= nextWorkflowDerivateID.getNumberAsInteger()) {
-					nextWorkflowDerivateID.setNumber(dbIDMax.getNumberAsInteger() + 1);
-				}
+				nextWorkflowDerivateID.setNumber(nextWorkflowDerivateID.getNumberAsInteger() + 1);
+				//neue ID = Maximum von DatenbankID und WorkflowDirectoryID
+				nextWorkflowDerivateID.setNumber(Math.max(nextWorkflowDerivateID.getNumberAsInteger(), dbIDMax.getNumberAsInteger()));
+				
 			}
 		}
 		MCRObjectID retID = new MCRObjectID(nextWorkflowDerivateID.toString());
