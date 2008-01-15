@@ -379,7 +379,7 @@ public abstract class MCRWorkflowManager {
 	 * @return
 	 * TODO for user
 	 */
-	final public MCRObjectID getNextFreeID(String objtype) {
+	final public synchronized MCRObjectID getNextFreeID(String objtype) {
 	    String base = MCRConfiguration.instance().getString("MCR.SWF.Project.ID","DocPortal")+ "_" + objtype; 	    
 		String workingDirectoryPath = MCRWorkflowDirectoryManager.getWorkflowDirectory(objtype);
 		
