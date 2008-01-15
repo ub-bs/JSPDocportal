@@ -141,6 +141,12 @@
          <servlet-class>org.mycore.frontend.servlets.MCRWFFileNodeServlet</servlet-class>
     </servlet>
 
+<servlet id="IDResolver">
+         <servlet-name>MCRJSPIDResolverServlet</servlet-name>
+         <servlet-class>org.mycore.frontend.servlets.MCRJSPIDResolverServlet</servlet-class>
+    </servlet>
+
+
     <servlet>
         <servlet-name>MCRWorkflowAccessRuleEditorServlet</servlet-name>
         <servlet-class>org.mycore.frontend.workflowengine.jbpm.MCRWorkflowAccessRuleEditorServlet</servlet-class>
@@ -379,6 +385,11 @@
           <servlet-name>CPR2RTFServlet</servlet-name>
           <url-pattern>/servlets/CPR2RTFServlet</url-pattern>
     </servlet-mapping>  
+
+<servlet-mapping>
+          <servlet-name>MCRJSPIDResolverServlet</servlet-name>
+          <url-pattern>/resolve</url-pattern>
+    </servlet-mapping>
 
 
 	<!--  mycore servlets mapping  -->
