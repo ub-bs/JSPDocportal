@@ -90,7 +90,7 @@
 					</form>
 					</td>
 				</c:if>
-				<c:if test="${fn:contains('document,disshab,author,institution',itemDocType)}">
+				<c:if test="${fn:contains('document,disshab,author,institution',itemDocType)&& !fn:contains(itemID, 'dbhsnb') && !fn:contains(itemID, 'rosdok')}">
 				<td align="center" valign="top" width="30">   								
     			<!-- 			<form method="get" action="${baseURL}content/workflow/accessruleeditor.jsp">--> <!--  target="new"> -->
 				<form method="get" action="${baseURL}nav">
