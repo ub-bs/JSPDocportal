@@ -1319,7 +1319,7 @@
 
 	<target name="load_default_content">
  	     <subant target="load" inheritall="false" inheritrefs="false">
- 	       <fileset file="${DOCPORTAL_SYSTEM}/content/defaultsample/build.xml" />
+ 	       <fileset file="${DOCPORTAL_HOME}/content/defaultsample/build.xml" />
  	     </subant>		
 	</target>	
 	

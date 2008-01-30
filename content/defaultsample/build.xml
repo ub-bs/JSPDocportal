@@ -18,7 +18,7 @@
   <property environment="env" />
 
   <!-- Provide a default value for MYCORE_HOME if not set in env -->
-  <property name="env.MYCORE_HOME" value="../../../mycore" />
+  <property name="env.MYCORE_HOME" location="./../../../mycore" />
 
   <!-- Read in properties from config/build.properties -->
   <property file="${env.MYCORE_HOME}/config/build.properties" />
@@ -64,6 +64,10 @@
     <path id="this.classpath">
       <fileset dir="${env.MYCORE_HOME}/lib" includes="*.jar"/>
       <fileset dir="${env.DOCPORTAL_SYSTEM}/lib" includes="*.jar"/>
+      <fileset dir="C:\workspaces\mycoresample\projects\mycoresample_app\lib" includes="*.jar"/>
+      <pathelement location="C:\workspaces\mycoresample\projects\mycoresample_app\config" />
+      <pathelement location="C:\workspaces\mycoresample\projects\mycoresample_app\config\hibernate" />
+      <pathelement location="C:\workspaces\mycoresample\projects\mycoresample_app\working\classes" />
       <pathelement location="${env.MYCORE_HOME}/config" />
       <pathelement location="${env.MYCORE_HOME}/schema" />
       <pathelement location="${env.MYCORE_HOME}/stylesheets" />
@@ -154,7 +158,11 @@
   <target name="load" depends="load.institution,load.author,load.document"/>
   
   <target name="load.institution">
-    <property name="commands.file" value="${env.DOCPORTAL_SYSTEM}/commands.txt"/>
+    
+  	<property name="commands.file" value="${env.DOCPORTAL_SYSTEM}/commands.txt"/>
+  	<echo>MyCoRe home dir  x  : ${env.MYCORE_HOME}</echo>
+  	<echo>Docportal System x  : ${env.DOCPORTAL_SYSTEM}</echo>
+  	<echo>Basedir             : ${basedir}</echo>
     <echo file="${commands.file}" append="false">
       update object from file docportal_institution_00000001.xml
       quit
