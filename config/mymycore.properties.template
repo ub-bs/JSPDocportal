@@ -22,29 +22,10 @@ MCR.basedir=c:/workspaces/mycoresample/mycoresample_project/jspdocportal
 #MCR.BaseDirectory=/home/mcradmin/mycoresample/working_content
 #MCR.basedir=/home/mcradmin/mycoresample/mycoresample_project/jspdocportal
 
-MCR.Persistence.SQL.Database.Name=mycoresample
-MCR.persistence_workflow_sql_database_name=mycoresample_workflow
-
 MCR.AccessRuleEditor.defaultrules.iparea=<condition format="xml"><boolean operator="or"><condition field="ip" operator="" value="127.0.0.1/255.255.255.0"/></boolean></condition>
 
 
 
-# JDBC parameters for connecting to HSQLDB via MySQL
-MCR.hibernate.dialect=org.mycore.backend.hibernate.dialects.MCRMySQLMyISAMDialect
-MCR.hibernate.connection.driver_class=org.gjt.mm.mysql.Driver
-MCR.hibernate.connection.url=jdbc:mysql://127.0.0.1/mycoresample?autoReconnect=true
-MCR.hibernate.connection.username=mcradmin
-MCR.hibernate.connection.password=dummy
-
-# JDBC parameters for connecting to HSQLDB via HSQL
-#MCR.hibernate.dialect=org.hibernate.dialect.HSQLDialect
-#MCR.hibernate.connection.driver_class=org.hsqldb.jdbcDriver
-# Server mode for developer
-#MCR.hibernate.connection.url=jdbc:hsqldb:hsql://127.0.0.1:9001/mycoresample
-# in-Process mode for application (faster, but only reachable from same jvm)
-#MCR.hibernate.connection.url=jdbc:hsqldb:file:%MCR.BaseDirectory%/hsqldb-data/mycore
-#MCR.hibernate.connection.username=sa
-#MCR.hibernate.connection.password=
 # needed for starting and stopping the hsqldb-database via ant
 #MCR.Persistence.SQL.Data.Directory=%MCR.BaseDirectory%/hsqldb-data
 
@@ -62,35 +43,35 @@ MCR.URN.SubNamespace.publication.NISSPattern=yyyyMMdd-HHmmss000-
 #Email Adresses
 MCR.Mail.Server=localhost
 
-MCR.WorkflowEngine.Administrator.Email=digibib@hs-nb.de
+MCR.WorkflowEngine.Administrator.Email=digibib@myurl.de
 
-MCR.WorkflowEngine.newtaskemail.person=digibib@hs-nb.de
-MCR.WorkflowEngine.contactemail.person=digibib@hs-nb.de
-MCR.WorkflowEngine.person.admin=digibib@hs-nb.de
-MCR.WorkflowEngine.person.from=digibib@hs-nb.de
-MCR.WorkflowEngine.person.replyto=digibib@hs-nb.de
+MCR.WorkflowEngine.newtaskemail.person=digibib@myurl.de
+MCR.WorkflowEngine.contactemail.person=digibib@myurl.de
+MCR.WorkflowEngine.person.admin=digibib@myurl.de
+MCR.WorkflowEngine.person.from=digibib@myurl.de
+MCR.WorkflowEngine.person.replyto=digibib@myurl.de
 
-MCR.WorkflowEngine.newtaskemail.institution=digibib@hs-nb.de
-MCR.WorkflowEngine.contactemail.institution=digibib@hs-nb.de
-MCR.WorkflowEngine.institution.admin=digibib@hs-nb.de
-MCR.WorkflowEngine.institution.from=digibib@hs-nb.de
-MCR.WorkflowEngine.institution.replyto=digibib@hs-nb.de
+MCR.WorkflowEngine.newtaskemail.institution=digibib@myurl.de
+MCR.WorkflowEngine.contactemail.institution=digibib@myurl.de
+MCR.WorkflowEngine.institution.admin=digibib@myurl.de
+MCR.WorkflowEngine.institution.from=digibib@myurl.de
+MCR.WorkflowEngine.institution.replyto=digibib@myurl.de
 
-MCR.WorkflowEngine.newtaskemail.xmetadiss=digibib@hs-nb.de
-MCR.WorkflowEngine.contactemail.xmetadiss=digibib@hs-nb.de
-MCR.WorkflowEngine.xmetadiss.admin=digibib@hs-nb.de
-MCR.WorkflowEngine.xmetadiss.from=digibib@hs-nb.de
-MCR.WorkflowEngine.xmetadiss.replyto=digibib@hs-nb.de
+MCR.WorkflowEngine.newtaskemail.xmetadiss=digibib@myurl.de
+MCR.WorkflowEngine.contactemail.xmetadiss=digibib@myurl.de
+MCR.WorkflowEngine.xmetadiss.admin=digibib@myurl.de
+MCR.WorkflowEngine.xmetadiss.from=digibib@myurl.de
+MCR.WorkflowEngine.xmetadiss.replyto=digibib@myurl.de
 
-MCR.WorkflowEngine.newtaskemail.publication=digibib@hs-nb.de
-MCR.WorkflowEngine.contactemail.publication=digibib@hs-nb.de
-MCR.WorkflowEngine.publication.admin=digibib@hs-nb.de
-MCR.WorkflowEngine.publication.from=digibib@hs-nb.de
-MCR.WorkflowEngine.publication.replyto=digibib@hs-nb.de
+MCR.WorkflowEngine.newtaskemail.publication=digibib@myurl.de
+MCR.WorkflowEngine.contactemail.publication=digibib@myurl.de
+MCR.WorkflowEngine.publication.admin=digibib@myurl.de
+MCR.WorkflowEngine.publication.from=digibib@myurl.de
+MCR.WorkflowEngine.publication.replyto=digibib@myurl.de
 
-MCR.mail.urnadmin=digibib@hs-nb.de
-MCR.OAI.AdmineMail=digibib@hs-nb.de
-MCR.oai.epicur.responseemail=digibib@hs-nb.de
+MCR.mail.urnadmin=digibib@myurl.de
+MCR.OAI.AdmineMail=digibib@myurl.de
+MCR.oai.epicur.responseemail=digibib@myurl.de
 
 
 #logging
