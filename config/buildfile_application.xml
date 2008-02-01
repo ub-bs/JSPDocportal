@@ -48,22 +48,22 @@
 	<property name="DOCPORTAL_HOME" value="${basedir}/../jspdocportal" />
 
 
-	<!-- Read in BaseDirectory from config/mycore.properties -->
+	<!-- Read in datadir from config/mycore.properties -->
     		<loadproperties srcfile="./config/mycore.properties">
     			<filterchain>
     				<linecontainsregexp>
-    				  <regexp pattern="\\AMCR.BaseDirectory"/>
+    				  <regexp pattern="\\AMCR.datadir"/>
     				</linecontainsregexp>
     			</filterchain>
     		</loadproperties>	
     		
-    		<!-- Read in all properties and replace %MCR.BaseDirectory% with above red MCR.BaseDirectory -->
+    		<!-- Read in all properties and replace %MCR.datadir% with above red MCR.datadir -->
     		<loadproperties srcfile="./config/mycore.properties">
     			<filterchain>
     		    	<filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
     		    	      <param type="tokenchar" name="begintoken" value="%"/>
     		              <param type="tokenchar" name="endtoken" value="%"/>
-    		              <param type="token" name="MCR.BaseDirectory" value="${MCR.BaseDirectory}"/>
+    		              <param type="token" name="MCR.datadir" value="${MCR.datadir}"/>
     		    	</filterreader>
     			</filterchain>
     		</loadproperties>
@@ -1535,18 +1535,18 @@
 	
 	
 	<target name="create.izpack.installer" depends="demo.jar">
-		<echo level="info" message="copy base dir: ${MCR.BaseDirectory}" />
+		<echo level="info" message="copy base dir: ${MCR.datadir}" />
 		<mkdir dir="${basedir}/../tmpsampledata"/>
 		<copy todir="${basedir}/../tmpsampledata">
-			<fileset dir="${MCR.BaseDirectory}" excludes="log/*.log" />
+			<fileset dir="${MCR.datadir}" excludes="log/*.log" />
 		</copy>			
 		<taskdef name="izpack" classpath="${DOCPORTAL_HOME}/lib/standalone-compiler.jar" classname="com.izforge.izpack.ant.IzPackTask"/>
 		<echo level="info" message="Makes the installer using IzPack"/>
 		<copy file="${DOCPORTAL_SYSTEM}/config/mycore.base.properties" tofile="${DOCPORTAL_SYSTEM}/config/izpack/mycore.properties.izpack" overwrite="true">
 			<filterchain>
 				<tokenfilter>
-				    <replaceregex pattern="^MCR\.BaseDirectory=.*$" replace="MCR.BaseDirectory=$INSTALL_PATH/sample-data" />
-					<replaceregex pattern="^MCR\.hibernate\.connection\.url=.*$" replace="MCR.hibernate.connection.url=jdbc:hsqldb:file:%MCR.BaseDirectory%/hsqldb-data/mycore" />
+				    <replaceregex pattern="^MCR\.datadir=.*$" replace="MCR.datadir=$INSTALL_PATH/sample-data" />
+					<replaceregex pattern="^MCR\.hibernate\.connection\.url=.*$" replace="MCR.hibernate.connection.url=jdbc:hsqldb:file:%MCR.datadir%/hsqldb-data/mycore" />
 					<replaceregex pattern="^MCR\.WorkflowEngine\.Administrator\.Email=.*$" replace="MCR.WorkflowEngine.Administrator.Email=$EMAILADDRESS" />
 					<replaceregex pattern="^MCR\.Mail\.Server=.*$" replace="MCR.Mail.Server=$MAILSERVER" />					
 				</tokenfilter>				

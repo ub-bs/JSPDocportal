@@ -15,11 +15,11 @@ MCR.SWF.Project.ID=DocPortal
 MCR.Metadata.ObjectID.NumberPattern=00000000
 
 #Windows
-MCR.BaseDirectory=c:/workspaces/mycoresample/working_content
+MCR.datadir=c:/workspaces/mycoresample/working_content
 MCR.basedir=c:/workspaces/mycoresample/mycoresample_project/jspdocportal
 
 #Linux
-#MCR.BaseDirectory=/home/mcradmin/mycoresample/working_content
+#MCR.datadir=/home/mcradmin/mycoresample/working_content
 #MCR.basedir=/home/mcradmin/mycoresample/mycoresample_project/jspdocportal
 
 MCR.AccessRuleEditor.defaultrules.iparea=<condition format="xml"><boolean operator="or"><condition field="ip" operator="" value="127.0.0.1/255.255.255.0"/></boolean></condition>
@@ -27,7 +27,7 @@ MCR.AccessRuleEditor.defaultrules.iparea=<condition format="xml"><boolean operat
 
 
 # needed for starting and stopping the hsqldb-database via ant
-#MCR.Persistence.SQL.Data.Directory=%MCR.BaseDirectory%/hsqldb-data
+#MCR.Persistence.SQL.Data.Directory=%MCR.datadir%/hsqldb-data
 
 # URNs: CHANGE: Subnamespace for Campus MyCoRe
 MCR.URN.SubNamespace.xmetadiss.Prefix=urn\:nbn\:de\:mycore-diss
