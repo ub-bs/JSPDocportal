@@ -1024,6 +1024,7 @@
 
     <target name="clean">
     	<delete dir="${DOCPORTAL_SYSTEM}" />
+    	<delete dir="${DOCPORTAL_HOME}/classes" />
     </target>
 
     <!-- =================================================================== -->
