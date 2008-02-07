@@ -47,7 +47,7 @@
 
     <!-- <hidden var="metadata/@lang" default="de" /> -->
 
-    <cell col="1" row="1" anchor="NORTHWEST" ref="HPName" />
+    <cell col="1" row="1" anchor="NORTHWEST" ref="Help.person.name" />
     <cell col="2" row="1" anchor="NORTHWEST" ref="LPNameP" />
     <cell col="3" row="1" anchor="NORTHWEST" ref="DPName_woPeerage" sortnr="1" />
     <cell col="4" row="1" anchor="NORTHWEST" >
@@ -55,14 +55,14 @@
     </cell>
 
 
-    <cell col="1" row="2" anchor="NORTHWEST" ref="HFemale" />
+    <cell col="1" row="2" anchor="NORTHWEST" ref="Help.person.salutation" />
     <cell col="2" row="2" anchor="NORTHWEST" ref="LFemaleP" />
     <cell col="3" row="2" anchor="NORTHWEST" ref="DFemale" sortnr="2"/>
     <cell col="4" row="2" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
 
-    <cell col="1" row="3" anchor="NORTHWEST" ref="HOrigin" />
+    <cell col="1" row="3" anchor="NORTHWEST" ref="Help.person.origin" />
     <cell col="2" row="3" anchor="NORTHWEST" ref="LOrigin_StrukturEinheit" />
     <cell col="3" row="3" anchor="NORTHWEST" ref="DOrigin" sortnr="3"/>
     <cell col="4" row="3" anchor="NORTHWEST" >
@@ -102,42 +102,42 @@
    </cell>
    <cell col="4" row="5" anchor="WEST" ref="HPhone" /> -->
 
-    <cell col="1" row="6" anchor="NORTHWEST" ref="HDateBirthP" />
+    <cell col="1" row="6" anchor="NORTHWEST" ref="Help.person.birthdate" />
     <cell col="2" row="6" anchor="NORTHWEST" ref="LBirthDateM" />
     <cell col="3" row="6" anchor="NORTHWEST" ref="DDateM" sortnr="6" />
     <cell col="4" row="6" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
 
-    <cell col="1" row="7" anchor="NORTHWEST" ref="HProfession" />
+    <cell col="1" row="7" anchor="NORTHWEST" ref="Help.person.profession" />
     <cell col="2" row="7" anchor="NORTHWEST" ref="LProfession" />
     <cell col="3" row="7" anchor="NORTHWEST" ref="DProfession_Only" sortnr="7" />
     <cell col="4" row="7" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
 
-    <cell col="1" row="8" anchor="NORTHWEST" ref="HNational" />
+    <cell col="1" row="8" anchor="NORTHWEST" ref="Help.person.nationality" />
     <cell col="2" row="8" anchor="NORTHWEST" ref="LNational" />
     <cell col="3" row="8" anchor="NORTHWEST" ref="DNational" sortnr="9" />
     <cell col="4" row="8" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
 
-    <cell col="1" row="9" anchor="NORTHWEST" ref="HURL" />
+    <cell col="1" row="9" anchor="NORTHWEST" ref="Help.person.homepage" />
     <cell col="2" row="9" anchor="NORTHWEST" ref="LHomepage" />
     <cell col="3" row="9" anchor="NORTHWEST" ref="DURL" sortnr="10"  />
     <cell col="4" row="9" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
 
-    <cell col="1" row="10" anchor="NORTHWEST" ref="HEmail" />
+    <cell col="1" row="10" anchor="NORTHWEST" ref="Help.person.email" />
     <cell col="2" row="10" anchor="NORTHWEST" ref="LEmail" />
     <cell col="3" row="10" anchor="NORTHWEST" ref="DEmail" sortnr="11" />
     <cell col="4" row="10" anchor="NORTHWEST" >
       <space width="20" height="0" />
     </cell>
 
-    <cell col="1" row="11" anchor="NORTHWEST" ref="Hpnd-number" />    
+    <cell col="1" row="11" anchor="NORTHWEST" ref="Help.person.pnd-number" />    
     <cell col="2" row="11" anchor="NORTHWEST" ref="Lpnd-number" />
     <cell col="3" row="11" anchor="NORTHWEST" ref="Dpnd-number" sortnr="16" />
     <cell col="4" row="11" anchor="NORTHWEST" >
@@ -151,7 +151,7 @@
     </cell>
     <cell col="4" row="11" anchor="WEST" ref="HReference" /> -->
 
-    <cell col="1" row="12" anchor="NORTHWEST" ref="HNote" />
+    <cell col="1" row="12" anchor="NORTHWEST" ref="Help.person.note" />
     <cell col="2" row="12" anchor="NORTHWEST" ref="LNote" />
     <cell col="3" row="12" anchor="NORTHWEST" ref="DNote" sortnr="13" />
     <cell col="4" row="12" anchor="NORTHWEST" >

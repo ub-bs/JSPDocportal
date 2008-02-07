@@ -149,7 +149,7 @@
 		<x:set var="derivateID" select="string(./@ID)" />
 		<x:set var="derivateLabel" select="string(./@label)" />
 	    <mcr:checkAccess var="modifyAllowed" permission="writedb"	key="${derivateID}" /> 
-		
+		<mcr:checkAccess var="commitAllowed" permission="commitdb"	key="${derivateID}" />
 		<table width=100% class="tasklistDerivate">
 		<tr>
 			<th align="left" valign="top">${derivateLabel}</th>
@@ -158,16 +158,17 @@
 			  <c:if	test="${modifyAllowed}">
 				<table>
 					<tr>
-						<td align="center" valign="top" width="30">
-						<form method="get" action="${baseURL}workflowaction">
-							<input	name="derivateID" value="${derivateID}" type="hidden"> 
-							<input	name="processid" value="${processid}" type="hidden"> 
-							<input	name="todo" value="WFAddNewFileToDerivate" type="hidden"> 
-							<input	title="<fmt:message key="WF.common.derivate.AddFile" />"
-								src="${baseURL}images/workflow_derivateaddfile.gif" type="image"
-								class="imagebutton">
-						</form>
-						</td>
+						<c:if test="${!fn:contains('disshab',itemDocType) or commitAllowed}">
+							<td align="center" valign="top" width="30">
+							<form method="get" action="${baseURL}workflowaction">
+								<input	name="derivateID" value="${derivateID}" type="hidden"> 
+								<input	name="processid" value="${processid}" type="hidden"> 
+								<input	name="todo" value="WFAddNewFileToDerivate" type="hidden"> 
+								<input	title="<fmt:message key="WF.common.derivate.AddFile" />"
+									src="${baseURL}images/workflow_derivateaddfile.gif" type="image"
+									class="imagebutton">
+							</form>
+							</td>
 						<td align="center" valign="top" width="30">
 						<form method="get" action="${baseURL}workflowaction">
 							<input	name="derivateID" value="${derivateID}" type="hidden"> 
@@ -183,7 +184,7 @@
 							<input	name="derivateID" value="${derivateID}" type="hidden"> 
 							<input	name="processid" value="${processid}" type="hidden"> 
 							<input	name="todo" value="WFRemoveDerivateFromWorkflowObject" type="hidden"> 
-							<input	title="<fmt:message key="WF.common.derivate.MoveDownDerivate" />"
+							<input	title="<fmt:message key="WF.common.derivate.DelFile" />"
 								src="${baseURL}images/workflow_derivatedelete.gif" type="image"
 								border="0" class="imagebutton">
 						</form>
@@ -234,8 +235,21 @@
 							</td>						
 						</x:otherwise>
 						</x:choose>
-						
+						</c:if>
 
+						<c:if test="${fn:contains('disshab',itemDocType) and !commitAllowed}">
+							<%-- for disshab only delete is allowed --%>
+							<td align="center" valign="top" width="30">
+							<form method="get" action="${baseURL}workflowaction">
+								<input	name="derivateID" value="${derivateID}" type="hidden"> 
+								<input	name="processid" value="${processid}" type="hidden"> 
+								<input	name="todo" value="WFRemoveDerivateFromWorkflowObject" type="hidden"> 
+								<input	title="<fmt:message key="WF.common.derivate.DelFile" />"
+									src="${baseURL}images/workflow_derivatedelete.gif" type="image"
+									border="0" class="imagebutton">
+							</form>
+							</td>
+						</c:if>
 					</tr>
 				</table>
 			</c:if></th>

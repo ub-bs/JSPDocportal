@@ -219,6 +219,41 @@
   </panel>
 <!-- citations fehlt -->
 
+	<helpPopup id="Help.xmetadiss.title" >
+		<label i18n="Editor.Help.xmetadiss.title" />
+	</helpPopup>
+	<helpPopup id="Help.xmetadiss.creatorlink" >
+		<label i18n="Editor.Help.xmetadiss.creatorlink" />
+	</helpPopup>
+	<helpPopup id="Help.xmetadiss.subject" >
+		<label i18n="Editor.Help.xmetadiss.subject" />
+	</helpPopup>
+	<helpPopup id="Help.xmetadiss.origin" >
+		<label i18n="Editor.Help.xmetadiss.origin" />
+	</helpPopup>
+	<helpPopup id="Help.xmetadiss.abstract" >
+		<label i18n="Editor.Help.xmetadiss.abstract" />
+	</helpPopup>
+	<helpPopup id="Help.xmetadiss.contributor" >
+		<label i18n="Editor.Help.xmetadiss.contributor" />
+	</helpPopup>
+	<helpPopup id="Help.xmetadiss.date" >
+		<label i18n="Editor.Help.xmetadiss.date" />
+	</helpPopup>
+	<helpPopup id="Help.xmetadiss.type" >
+		<label i18n="Editor.Help.xmetadiss.type" />
+	</helpPopup>
+	<helpPopup id="Help.xmetadiss.language" >
+		<label i18n="Editor.Help.xmetadiss.language" />
+	</helpPopup>
+	<helpPopup id="Help.xmetadiss.keywords" >
+		<label i18n="Editor.Help.xmetadiss.keywords" />
+	</helpPopup>
+	<helpPopup id="Help.xmetadiss.note" >
+		<label i18n="Editor.Help.xmetadiss.note" />
+	</helpPopup>
+	
+
 
 </imports>
 

@@ -570,6 +570,11 @@
 	<text id="AKeywordsFreetext">
 		<label css-style="editorHint" i18n="Editor.Label.KeywordsFreetext" />
 	</text>
+	
+	<text id="AKeywordsFreetextOrClassification">
+		<label css-style="editorHint" i18n="Editor.Label.KeywordsFreetextOrClassification" />
+	</text>
+	
 
 	<!--   <text id="AKeywordsSWD">
 		<label xml:lang="de">
@@ -600,6 +605,9 @@
 	<list id="SKeywordsClassifications" width="450px" type="dropdown">
 		<item value="">
 			<label i18n="Editor.Common.choose" />
+		</item>
+		<item value="freetext">
+			<label i18n="Editor.Document.classification.freetext" />
 		</item>
 		<item value="ccs1998">
 			<label i18n="Editor.Document.classification.ccs1998" />

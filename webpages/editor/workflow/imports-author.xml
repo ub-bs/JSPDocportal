@@ -51,7 +51,7 @@
 		</condition>
 	  </textfield>	
 	</cell>	
-    <cell col="3" row="1" anchor="NORTHWEST" ref="APNameSurname" />
+    <cell col="3" row="1" anchor="NORTHWEST" ref="APNameSurNameP" />
     <cell col="2" row="2" anchor="NORTHWEST" var="metadata/names/name/firstname" sortnr="1" >
 	  <textfield id="tf.FirstName"  width="30" maxlength="128"  class="mandatory" >		
 		<condition required="true" id="cond.FirstName1">
@@ -59,7 +59,7 @@
 		</condition>
 	  </textfield>	
 	</cell>	
-    <cell col="3" row="2" anchor="NORTHWEST" ref="APNameFirstName" sortnr="1" />
+    <cell col="3" row="2" anchor="NORTHWEST" ref="APNameFirstNameP" sortnr="1" />
     <cell col="2" row="3" anchor="NORTHWEST" ref="TFzeile32" var="metadata/names/name/prefix" sortnr="1" />
     <cell col="3" row="3" anchor="NORTHWEST" ref="APNamePrefix" sortnr="1" />
     <cell col="2" row="4" anchor="NORTHWEST" ref="TFzeile32" var="metadata/names/name/academic" sortnr="1" />
@@ -253,13 +253,7 @@
         <cell col="1" row="1" anchor="NORTHWEST" var="metadata/identifiers/identifier">
 	        <textfield id="tf.pnd-number"  width="30" maxlength="128"  />
 	    </cell>    
-  </panel>
-  
-  <helpPopup id="Hpnd-number" >
-		<label i18n="Editor.Help.Hpnd-number" />
-  </helpPopup>
-      
-  
+  </panel>  
   
 
 <!-- ** Data for the REFERENCE *** -->
@@ -339,6 +333,37 @@
     <text id="LHomepage">
 			<label i18n="Editor.Label.Homepage" />
 	</text>
+
+	<helpPopup id="Help.person.name" >
+		<label i18n="Editor.Help.person.name" />
+	</helpPopup>
+	<helpPopup id="Help.person.salutation" >
+		<label i18n="Editor.Help.person.salutation" />
+	</helpPopup>
+	<helpPopup id="Help.person.origin" >
+		<label i18n="Editor.Help.person.origin" />
+	</helpPopup>
+	<helpPopup id="Help.person.birthdate" >
+		<label i18n="Editor.Help.person.birthdate" />
+	</helpPopup>
+	<helpPopup id="Help.person.profession" >
+		<label i18n="Editor.Help.person.profession" />
+	</helpPopup>
+	<helpPopup id="Help.person.nationality" >
+		<label i18n="Editor.Help.person.nationality" />
+	</helpPopup>
+	<helpPopup id="Help.person.homepage" >
+		<label i18n="Editor.Help.person.homepage" />
+	</helpPopup>
+	<helpPopup id="Help.person.email" >
+		<label i18n="Editor.Help.person.email" />
+	</helpPopup>
+	<helpPopup id="Help.person.pnd-number" >
+		<label i18n="Editor.Help.person.pnd-number" />
+	</helpPopup>
+	<helpPopup id="Help.person.note" >
+		<label i18n="Editor.Help.person.note" />
+	</helpPopup>
 
 <!-- *** End *** -->
 </imports>
