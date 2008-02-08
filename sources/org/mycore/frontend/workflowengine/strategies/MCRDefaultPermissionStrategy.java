@@ -104,7 +104,7 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 		if (xmlRuleString == null) {
 			xmlRuleString = MCRConfiguration
 					.instance()
-					.getString("MMCR.AccessRuleEditor.defaultrules." + oRuletype.toString(),
+					.getString("MCR.AccessRuleEditor.defaultrules." + oRuletype.toString(),
 							   "<condition format=\"xml\"><boolean operator=\"true\" /></condition>");
 		}
 
