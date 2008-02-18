@@ -43,12 +43,20 @@
 	<fmt:setBundle basename='messages' />
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<fmt:message var="pageTitle" key="Title.${path}" />
-	<title><c:choose>
-		<c:when test="${fn:startsWith(pageTitle,'???')}">
-			<x:set var="altTitle"
-				select="string($youAreHere//navitem[last()]/@label)" />
-			<fmt:message key="${altTitle}" />
-		</c:when>
+	<title>
+		<c:choose>
+			<c:when test="${not empty param.id}">
+				<c:set var="docType" value="${fn:substringBefore(fn:substringAfter(param.id, '_'),'_')}" />
+				<jsp:include page="content/results-config/webpageitems/webpageitem-${docType}.jsp" >
+					<jsp:param name="pageFragment" value="pagetitle" />
+					<jsp:param name="mcrid" value="${param.id}" />
+				</jsp:include>
+			</c:when>
+			
+			<c:when test="${fn:startsWith(pageTitle,'???')}">
+				<x:set var="altTitle" select="string($youAreHere//navitem[last()]/@label)" />
+				<fmt:message key="${altTitle}" />
+			</c:when>
 		<c:otherwise>
 			<c:out value="${pageTitle}" />
 		</c:otherwise>
