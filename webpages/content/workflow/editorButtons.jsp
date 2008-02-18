@@ -84,7 +84,7 @@
 					<form method="get"	action="${baseURL}content/results-config/docdetails-disshab-deliver.jsp"	target="new">
 						<input name="id" value="${itemID}" type="hidden"> 
 						<input name="fromWForDB" value="workflow" type="hidden"> 
-						<input title="<fmt:message key="WF.common.object.DisshabPreview" />"
+						<input title="<fmt:message key="WF.common.object.DisshabAgreement" />"
 							src="${baseURL}images/workflow_disshabpreview.gif" type="image"
 							class="imagebutton">
 					</form>
