@@ -15,8 +15,8 @@
 
 <c:choose>
 	<c:when test="${pageFragment=='pagetitle'}">
-		<fmt:message key="WF.xmetadiss.Dissertation" />:
-		<mcr:simpleXpath jdom="${jdom}" xpath="/mycoreobject/metadata/titles/title[@type='original-main']" />		                         	
+		<mcr:simpleXpath jdom="${jdom}" xpath="/mycoreobject/metadata/firstnames/firstname" />
+		<mcr:simpleXpath jdom="${jdom}" xpath="/mycoreobject/metadata/surnames/surname" />				                         	
 	</c:when>
 		
 	<c:otherwise>
