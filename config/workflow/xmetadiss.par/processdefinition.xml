@@ -12,11 +12,18 @@
 	</assignment>  
   </swimlane>
   
+  <swimlane name="disssuspended">
+	<assignment class="org.mycore.frontend.workflowengine.jbpm.MCRPooledActorAssignmentHandler">
+		<groupName>suspenddisshab</groupName>
+	</assignment>  
+  </swimlane>
+  
   <swimlane name="technicalAdministration">
     <assignment class="org.mycore.frontend.workflowengine.jbpm.MCRPooledActorAssignmentHandler">
 		<groupName>admingroup</groupName>
 	</assignment>       
   </swimlane>
+  
   
   <swimlane name="subjectExpert">
     <!--   <assignment expression="user(ernie)" /> -->
@@ -89,8 +96,27 @@
             <varuserid>initiator</varuserid>
         </action>
      </transition>
+     <transition name="go2suspendDisshab" to="suspendDisshab" />
      <transition name="go2canDisshabBeCommitted" to="canDisshabBeCommitted" />
   </task-node>
+  
+  <task-node name="suspendDisshab">
+  	<task name="getEndOfSuspensionDate" swimlane="disseditor"/>
+  	<transition name="go2checkSuspensionDate" to="isSuspensionDateAvailable" />
+  </task-node>
+  
+    <decision name="isSuspensionDateAvailable">
+     <handler class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRDecisionHandlerXmetadiss" />
+     <transition name="yes" to="disshabSuspended" />
+     <transition name="no" to="suspendDisshab" />
+  </decision>
+  
+	<task-node name="disshabSuspended">
+     <task name="waitInSuspension" swimlane="disssuspended" />
+     <transition name="endSuspension" to="disshabSubmitted" />
+	 </task-node>
+
+  
   
   <task-node name="sendBackToDisshabCreated">
      <task name="taskEnterMessageData" swimlane="disseditor" />

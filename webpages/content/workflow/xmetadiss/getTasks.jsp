@@ -70,7 +70,25 @@
          <p><img title="" alt="" src="${baseURL}images/greenArrow.gif">
          <a href="${baseURL}nav?path=~xmetadiss&transition=go2sendBackToDisshabCreated&endTask=taskCheckCompleteness&processID=${requestScope.task.processID}"><fmt:message key="WF.common.MetadataNotOk_SendToInitiator" /></a>
          </p>
+         <p><img title="" alt="" src="${baseURL}images/greenArrow.gif">
+         <a href="${baseURL}nav?path=~xmetadiss&transition=go2suspendDisshab&endTask=taskCheckCompleteness&processID=${requestScope.task.processID}"><fmt:message key="WF.common.MetadataOk_Suspend" /></a>
+         </p>                                              
    </c:when>   
+   <c:when test="${requestScope.task.taskName eq 'getEndOfSuspensionDate'}">
+   	  <p><fmt:message key="WF.xmetadiss.getEndOfSuspensionDate" /></p>
+	     <c:import url="/content/workflow/setworkflowvariable.jsp" >
+	     	<c:param name="workflowType" value="xmetadiss" />
+	     	<c:param name="endTask" value="getEndOfSuspensionDate" />
+	     </c:import>
+   </c:when>   
+
+   <c:when test="${requestScope.task.taskName eq 'waitInSuspension'}">
+       <c:import url="/content/workflow/editorButtons.jsp" />
+	  <p><img title="" alt="" src="${baseURL}images/greenArrow.gif">   
+      <a href="${baseURL}nav?path=~xmetadiss&transition=endSuspension&endTask=waitInSuspension&processID=${requestScope.task.processID}"><fmt:message key="WF.xmetadiss.ReturnFromSuspension" /></a>
+      </p>
+   </c:when>   
+
    <c:when test="${requestScope.task.taskName eq 'taskEnterMessageData'}">
 	     <c:import url="/content/workflow/setworkflowvariable.jsp" >
 	     	<c:param name="workflowType" value="xmetadiss" />

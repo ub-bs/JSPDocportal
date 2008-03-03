@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
@@ -216,7 +217,22 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 			}else{
 				return "go2sendBackToDisshabCreated";
 			}
+		}else if(decisionNode.equals("isSuspensionDateAvailable")){
+			if(checkSubmitVariables(ctxI)){
+				String datePattern = "\\d\\d\\.\\d\\d\\.\\d\\d\\d\\d|\\d\\d\\d\\d-\\d\\d-\\d\\d";
+				String suspensionDate = (String)ctxI.getVariable(
+						MCRWorkflowConstants.WFM_VAR_END_OF_SUSPENSION);
+				if(suspensionDate != null && Pattern.matches(datePattern, suspensionDate)){
+					return "yes";
+				}else{
+					return "no";
+				}
+			}else{
+				return "go2sendBackToDisshabCreated";
+			}
 		}
+		
+		
 		return null;
 	}
 

@@ -16,6 +16,19 @@
 		}    	
 	  }
 
+     function checkDate()	{
+	    var val = document.setvar.endOfSuspension.value;
+    	if ( /[0-9][0-9].[0-9][0-9].[0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9].test(val)) {
+    	    //alert("OK");
+    		//document.setvar.submit.disabled=false;
+    		return true;
+    	}else {
+    	    alert(unescape("Bitte geben Sie ein g%FCltiges Datum ein."));
+    		return false;
+		}    	
+	  }
+
+
 	  function checkText()	{	  
     	if ( document.setvar.tmpTaskMessage.value !=  'Sie müssen noch...'  ) {
     		return true;

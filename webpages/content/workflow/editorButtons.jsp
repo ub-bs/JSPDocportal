@@ -41,7 +41,7 @@
 		<td colspan="3">
 		  <table>
 			<tr>
-				<mcr:checkAccess var="modifyAllowed" permission="writedb"	key="${itemID}" />
+				<mcr:checkAccess var="modifyAllowed" permission="writedb" key="${itemID}" />
 				
 				<c:if test="${modifyAllowed}">
 					<c:if test="${fn:contains('document,disshab,professorum,artwork',itemDocType)}">
@@ -134,11 +134,17 @@
 			  <br />[<fmt:message key="WF.xmetadiss.URN" />:&nbsp;<i><c:out value="${urn}" /></i>]
 		</c:if>		 
 		 <br/>
+		 <mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="date" workflowVar="endOfSuspension" />
+		<c:if test="${not(empty date)}">
+			  <br />[<fmt:message key="WF.xmetadiss.suspendedUntil" /><b><c:out value="${date}" /></b>]
+			  <br/>
+		</c:if>		 
+		 
 		 <mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="error" workflowVar="varnameERROR" /> 
 	     <font color="red">${error}</font>
 	     <mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="hint" workflowVar="hint" />
 		<c:if test="${not(empty hint)}">
-			  <br /><font color="red"><c:out value="${hint}" />
+			  <br /><font color="red"><c:out value="${hint}" /></font>
 		</c:if>		  
 	     <br/>	         
 		</td>

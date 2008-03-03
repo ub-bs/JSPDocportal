@@ -25,6 +25,7 @@ public class MCRWorkflowConstants {
 	public static final String WFM_VAR_DELETED_DERIVATES = "deletedDerivates";
 	public static final String WFM_VAR_DELETED_FILES_IN_DERIVATES = "deletedFiles";
 	public static final String WFM_VAR_BOOL_TEMPORARY_IN_DATABASE = "temporaryInDatabase";
+	public static final String WFM_VAR_END_OF_SUSPENSION="endOfSuspension";
 	
     public static final String WFM_VAR_ERROR = "varnameERROR";
     public static final String WFM_VAR_HINT = "hint";  

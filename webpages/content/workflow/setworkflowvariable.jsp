@@ -31,7 +31,13 @@
 		     <textarea name="tmpTaskMessage" cols="50" rows="4"   >Sie müssen noch...</textarea>  	     
    	 		 <input name="submit" type="submit"  onchange="return checkText();" value="<fmt:message key="WF.common.Send" />"/>      
 		 </c:when>
+	     <c:when test="${endTask eq 'getEndOfSuspensionDate'}" >
+	         <input name="jbpmVariableNames" value="endOfSuspension" type="hidden" /> 
+		     <input type="text" size="80" name="endOfSuspension" />
+	     	 <input name="submit" type="submit" onclick="return checkDate();" value="<fmt:message key="WF.common.OK" />"/>      
+		 </c:when>
 		 
+
 		 <c:when test="${endTask eq 'taskGetPublicationType'}" >
 	         <input name="jbpmVariableNames" value="/publication/Type" type="hidden" /> 
 	         <select size="1" name="/publication/Type" tabindex="1">
