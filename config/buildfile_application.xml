@@ -190,7 +190,7 @@
 		
 		<!-- integrate modules -->
 		<subant target="integrate" inheritall="true" inheritrefs="true">
-				    <fileset dir="${DOCPORTAL_HOME}" includes="**/modules/module-*/build.xml" />
+				    <fileset dir="${DOCPORTAL_HOME}" includes="**/modules/*/build.xml" excludes="**/modules/UNINSTALLED_*/build.xml"/>
 		</subant>
 		
 		<!-- copy myapplication -->
@@ -506,7 +506,7 @@
         	<param name="excludes" value="org/mycore/frontend/jsp/taglibs/**, org/mycore/start/demo/*" />
         </antcall>
 		<subant target="compile" inheritall="true" inheritrefs="true">
-		    <fileset dir="${DOCPORTAL_HOME}" includes="**/modules/module-*/build.xml" />
+		    <fileset dir="${DOCPORTAL_HOME}" includes="**/modules/*/build.xml" excludes="**/modules/UNINSTALLED_*/build.xml" />
 		</subant>
     </target>	
 
@@ -649,12 +649,12 @@
 	  	     <subant target="webapps" inheritall="true" inheritrefs="true">
                <property name="webapps-libdir" value="${docportal.webapps}/WEB-INF/lib"/>
 	  	       <property name="modules-home" value="${MYCORE_HOME}" />
-	  	       <fileset file="${MYCORE_HOME}/modules/module-webservices/build.xml" />
+	  	       <fileset file="${MYCORE_HOME}/modules/webservices/build.xml" />
 	  	     </subant>
 	  	         <!-- merge the web.xml of the module to the application -->
-	  	         <available property="web.xml.present" file="${mycore.modules}/module-webservices/config/web.xml" />
+	  	         <available property="web.xml.present" file="${mycore.modules}/webservices/config/web.xml" />
 	  	     <antcall target="do.merge" >
-	  	       <param name="web.xml.file"   value="${mycore.modules}/module-webservices/config/web.xml" />
+	  	       <param name="web.xml.file"   value="${mycore.modules}/webservices/config/web.xml" />
 	  	     </antcall>
     </target>	
 	
@@ -697,10 +697,10 @@
 
 	    <!-- Copy files  -->
 	    <copy todir="${docportal.webapps}">
-	      <fileset file="${MYCORE_HOME}/modules/module-useradmin/webapps/*.xml"/>
+	      <fileset file="${MYCORE_HOME}/modules/useradmin/webapps/*.xml"/>
 	    </copy>
 	    <copy todir="${docportal.webapps}/editor">
-	      <fileset file="${MYCORE_HOME}/modules/module-useradmin/webapps/editor/*.xml"/>
+	      <fileset file="${MYCORE_HOME}/modules/useradmin/webapps/editor/*.xml"/>
 	    </copy>
 	  </target>
 		
@@ -885,7 +885,7 @@
 
         <echo level="info">Updating modules...</echo>
         <subant target="webapps" inheritall="true" inheritrefs="true">
-            <fileset dir="${DOCPORTAL_HOME}" includes="**/modules/module-*/build.xml" /> 
+            <fileset dir="${DOCPORTAL_HOME}" includes="**/modules/*/build.xml" excludes="**/modules/UNINSTALLED_*/build.xml"/> 
 	    </subant>
     	
         <!-- Copy / Unpack fckEditor files (WYSIWYG HTML Editor) -->
