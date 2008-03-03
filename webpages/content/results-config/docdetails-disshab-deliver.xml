@@ -56,10 +56,10 @@
     <MCRDocDetail rowtype="standard" labelkey="OMD.class-subjects" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/subjects/subject" templatetype="tpl-classification" separator=", " languageRequired="yes" />
     </MCRDocDetail>
-    <MCRDocDetail rowtype="standard" labelkey="OMD.rights" >
+    <!-- <MCRDocDetail rowtype="standard" labelkey="OMD.rights" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/rights/right" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
         <MCRDocDetailContent xpath="/mycoreobject/metadata/rightslinks/rightslink" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
-    </MCRDocDetail>  
+    </MCRDocDetail> -->  
 	
     <MCRDocDetail rowtype="space" labelkey="" separator="" />   
 	

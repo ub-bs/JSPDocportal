@@ -11,7 +11,7 @@
 <%@page import="org.mycore.backend.hibernate.MCRHIBConnection"%>
 <html>
      <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">        
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">        
         <title>
          Abgabeformular - elektronische Dissertation 
         </title>
@@ -24,6 +24,7 @@
 <% Transaction tx = MCRHIBConnection.instance().getSession().beginTransaction(); %>
 <c:catch var="e">
 <fmt:setLocale value='${requestScope.lang}'/>
+
 <fmt:setBundle basename='messages'/>
 <c:set var="mcrid" value="${param.id}" /> 
 <c:set var="host" value="${param.host}" />
@@ -158,11 +159,11 @@ An error occured, hava a look in the logFiles!
 %>
 </c:if>
 <% tx.commit(); %>
-    </div>
+
    </td></tr>
   </table>
 <hr/>
-	<p>Bitte drucken Sie das Formular aus und geben es in der Dissertationsstelle der Universitätsbibliothek Rostock ab.</p>
+	<p>Bitte drucken Sie das Formular aus und geben es zusammen mit den Pflichtexemplaren in der Universitätsbibliothek Rostock ab.</p>
 
 </body>
 </html>
