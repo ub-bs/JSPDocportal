@@ -42,12 +42,12 @@
     <cell row="1" col="1" anchor="WEST" var="pathes/path">
       <file width="60" maxlength="50000000" />
     </cell>
-    <cell row="2" col="1" anchor="WEST" var="pathes/path[2]">
+    <!-- <cell row="2" col="1" anchor="WEST" var="pathes/path[2]">
       <file width="60" maxlength="50000000" />
     </cell>
     <cell row="3" col="1" anchor="WEST" var="pathes/path[3]">
       <file width="60" maxlength="50000000" />
-    </cell>
+    </cell> -->
   </panel>
 
 <!-- *** End *** -->
