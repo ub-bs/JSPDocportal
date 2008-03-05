@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root-container name="xmetadiss" width="1421" height="1275">
+  <node name="start" x="-139" y="-277" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="processInitialized" x="176" y="-204" width="132" height="36">
+    <edge>
+      <label x="-45" y="-14"/>
+    </edge>
+  </node>
+  <node name="processEditInitialized" x="324" y="-271" width="215" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="isInitiatorsEmailAddressAvailable" x="-64" y="-114" width="229" height="36">
+    <edge>
+      <label x="-7" y="-1"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="getInitiatorsEmailAddress" x="-86" y="-19" width="202" height="36">
+    <edge>
+      <label x="-96" y="-18"/>
+    </edge>
+  </node>
+  <node name="disshabCreated" x="247" y="-111" width="132" height="36">
+    <edge>
+      <label x="-29" y="11"/>
+    </edge>
+  </node>
+  <node name="canDisshabBeSubmitted" x="496" y="33" width="184" height="36">
+    <edge>
+      <label x="-104" y="-36"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="disshabSubmitted" x="499" y="164" width="132" height="36">
+    <edge>
+      <label x="-100" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="-52" y="-19"/>
+    </edge>
+  </node>
+  <node name="suspendDisshab" x="803" y="28" width="177" height="36">
+    <edge>
+      <label x="-39" y="0"/>
+    </edge>
+  </node>
+  <node name="isSuspensionDateAvailable" x="793" y="157" width="202" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="9" y="-21"/>
+    </edge>
+  </node>
+  <node name="disshabSuspended" x="806" y="228" width="183" height="36">
+    <edge>
+      <label x="-45" y="-4"/>
+    </edge>
+  </node>
+  <node name="sendBackToDisshabCreated" x="191" y="70" width="208" height="36">
+    <edge>
+      <label x="-39" y="-27"/>
+    </edge>
+  </node>
+  <node name="checkNonDigitalRequirements" x="449" y="300" width="244" height="36">
+    <edge>
+      <label x="-123" y="-21"/>
+    </edge>
+    <edge>
+      <label x="5" y="9"/>
+    </edge>
+  </node>
+  <node name="requireAffirmation" x="833" y="417" width="144" height="36">
+    <edge>
+      <label x="-117" y="-37"/>
+    </edge>
+    <edge>
+      <label x="-113" y="-13"/>
+    </edge>
+  </node>
+  <node name="canDisshabBeCommitted" x="25" y="218" width="179" height="36">
+    <edge>
+      <label x="-64" y="-11"/>
+    </edge>
+    <edge>
+      <label x="-28" y="5"/>
+    </edge>
+    <edge>
+      <label x="-78" y="-8"/>
+    </edge>
+  </node>
+  <node name="wasCommitmentSuccessful" x="2" y="429" width="222" height="36">
+    <edge>
+      <label x="-47" y="-11"/>
+    </edge>
+    <edge>
+      <label x="-72" y="-22"/>
+    </edge>
+  </node>
+  <node name="adminCheck" x="378" y="477" width="132" height="36">
+    <edge>
+      <label x="-50" y="-7"/>
+    </edge>
+  </node>
+  <node name="disshabCommitted" x="372" y="657" width="132" height="36">
+    <edge>
+      <label x="-87" y="-25"/>
+    </edge>
+  </node>
+  <node name="cleanUpWorkingDirectory" x="852" y="654" width="217" height="36"/>
+</root-container>
