@@ -54,7 +54,7 @@ public class MCRResultFormatter {
 	protected static MCRConfiguration CONFIG = MCRConfiguration.instance();
 	protected static String languageBundleBase = CONFIG.getString("MCR.languageResourceBundleBase","messages");
 	protected static String WebApplicationBaseURL ;
-	protected static String URN_RESOLVER;
+	protected static String URN_RESOLVER_URL;
 
 	protected static Map<String, Element> resultlistMap;
 	protected static Map<String, Element> docdetailsMap;
@@ -66,7 +66,7 @@ public class MCRResultFormatter {
         WebApplicationBaseURL = NavServlet.getNavigationBaseURL();
         String XLINK_URL = "http://www.w3.org/1999/xlink";
         xlinkNamespace = org.jdom.Namespace.getNamespace("xlink", XLINK_URL);
-        URN_RESOLVER = CONFIG.getString("MCR.URN_RESOLVER.URL", "http://nbn-resolving.de/urn/resolver.pl");
+        URN_RESOLVER_URL = CONFIG.getString("MCR.URN_RESOLVER.URL", "http://nbn-resolving.de/");
     }	
     
     private static MCRResultFormatter singleton;
@@ -587,7 +587,7 @@ public class MCRResultFormatter {
 			    }
 			    if ( urn != null && !urn.equals("")) {
 						Element metaValue = new Element("metavalue");
-						String href = URN_RESOLVER + "?urn=" + urn;
+						String href = URN_RESOLVER_URL+  urn;
 						metaValue.setAttribute("href", href);
 						metaValue.setAttribute("type",el.getName());
 						metaValue.setAttribute("text",urn);

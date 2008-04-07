@@ -142,10 +142,19 @@
     	<tr><td colspan="2" class="metanone">&nbsp;</td></tr>     
 	   <tr>
    			<td class="metaname"> <fmt:message key="OMD.selflink" />:</td>
-   			<td class="metavalue">
+   			   			<td class="metavalue">
+   				<c:set var="urn"><x:out select="$docDetails//metaname[@name='OMD.urns']/metavalues/metavalue/@text" /></c:set>
    				<table><tr><td>
-		   			<a href="${WebApplicationBaseURL}metadata/${param.id}">
-	    	      	${WebApplicationBaseURL}metadata/${param.id} </a>
+   					<c:choose>
+   						<c:when test="${not empty urn}">
+   							<a href="${WebApplicationBaseURL}resolve?urn=${urn}">
+	    			      	${WebApplicationBaseURL}resolve?urn=${urn} </a>
+   						</c:when>
+   						<c:otherwise>
+		   					<a href="${WebApplicationBaseURL}metadata/${param.id}">
+	    			      	${WebApplicationBaseURL}metadata/${param.id} </a>	
+   						</c:otherwise>
+  					</c:choose>
 	    	    </td></tr></table>
 			</td>
 	   </tr> 
