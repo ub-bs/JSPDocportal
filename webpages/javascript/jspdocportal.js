@@ -18,7 +18,7 @@
 
      function checkDate()	{
 	    var val = document.setvar.endOfSuspension.value;
-    	if ( /[0-9][0-9].[0-9][0-9].[0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9].test(val)) {
+    	if ( /[0-9][0-9].[0-9][0-9].[0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/.test(val)) {
     	    //alert("OK");
     		//document.setvar.submit.disabled=false;
     		return true;
