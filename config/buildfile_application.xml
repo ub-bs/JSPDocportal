@@ -85,7 +85,7 @@
     <property name="docportal.content"
         value="${DOCPORTAL_SYSTEM}/content" />
     <property name="docportal.doc"
-        value="${DOCPORTAL_SYSTEM}/documentation" />
+        value="${DOCPORTAL_SYSTEM}/docs" />
     <property name="docportal.languages"
         value="${DOCPORTAL_SYSTEM}/languages" />
     <property name="docportal.filestore"
@@ -678,7 +678,7 @@
                 <include name="**/*.jar" />
                 <include name="**/*.swf" />
                 <include name="**/*.txt" />
-                <include name="**/documentation/**" />
+                <include name="**/docs/**" />
                 <exclude name="**/CVS/**/*.*" />
                 <exclude name="**/.svn/**/*.*" />
                 <exclude name="**/web.xml" />
@@ -1387,7 +1387,7 @@
 				<include name="*.txt" />
 				<include name="modules/**" />
 				<include name="config/**" />
-				<include name="documentation/**" />
+				<include name="docs/**" />
 				<include name="lib/**" />
 				<include name="modules/**" />
 				<include name="stylesheets/**" />				
