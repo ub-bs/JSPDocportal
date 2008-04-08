@@ -145,7 +145,9 @@
     </x:forEach>
    </table>
   </div>
-  <hr/>
+  <hr />
+   <mcr:includeWebContent file="workflow/form_disshab_deliver_footer.html" />
+   <hr />
   <table border="0" width="100%">
   <tr height="50"><td>&#160;</td></tr>	
   <tr><td class="metaname" ><u><b>Datum</b></u></td><td class="metaname" ><u><b>Unterschrift</b></u></td><td class="metaname" ><u><b>Ort</b></u></td></tr>

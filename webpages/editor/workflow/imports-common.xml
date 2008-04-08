@@ -17,12 +17,13 @@
 	<textfield id="TFzeile64M" width="20" maxlength="64" class="mandatory" />
 	<textfield id="TFzeile128M" width="30" maxlength="128" class="mandatory" />
 	<textfield id="TFzeile1024M" width="60" maxlength="1024" class="mandatory" />
-
+	
 
 	<!-- *** Text area *** -->
 	<textarea id="TFarea4096" width="60" height="4" maxlength="4096" default="" />
 	<textarea id="TFarea4096x10" width="60" height="10" maxlength="4096" default="" />
 	<textarea id="TFarea4096x4" width="60" height="4" maxlength="4096" default="" />
+	<textarea id="TFarea1024x3M" width="60" height="3" maxlength="1024" default="" class="mandatory" />
 
 	<!-- *** mandatory Text area *** -->
 	<textarea id="TFarea4096M" width="60" height="4" maxlength="4096" default=" " class="mandatory" />

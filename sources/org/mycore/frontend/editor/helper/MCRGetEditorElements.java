@@ -146,6 +146,10 @@ public class MCRGetEditorElements implements MCRResolver {
 		if(emptyLeafs == null || emptyLeafs.equals("")){
 			emptyLeafs = "yes";
 		}
+		String withCounter = params.getProperty("withCounter");
+        if(withCounter == null || withCounter.equals("")){
+        	withCounter="true";
+        }
 		
         if(classid == null || classid.equals("")){
             String prop = params.getProperty("prop");
@@ -157,11 +161,11 @@ public class MCRGetEditorElements implements MCRResolver {
                 classid = defaultValue ;
             }
         }
-        return transformClassToItems(classid, emptyLeafs);        
+        return transformClassToItems(classid, emptyLeafs, withCounter.equalsIgnoreCase("true"));        
 	}
 	
-	private Element transformClassToItems(String classid, String emptyLeafs) throws TransformerException{
-        Document classJdom = MCRClassification.retrieveClassificationAsJDOM(classid, true);
+	private Element transformClassToItems(String classid, String emptyLeafs, boolean withCounter) throws TransformerException{
+        Document classJdom = MCRClassification.retrieveClassificationAsJDOM(classid, withCounter);
         
         boolean displayEmptyLeafs = (emptyLeafs.equalsIgnoreCase("yes")||emptyLeafs.equalsIgnoreCase("true"));
         return MCREditorClassificationHelper.transformClassificationtoItems(classJdom, displayEmptyLeafs).getRootElement();
@@ -180,10 +184,14 @@ public class MCRGetEditorElements implements MCRResolver {
 			emptyLeafs = "yes";
 		} else 
 			emptyLeafs = "no";		
+		String withCounter = params.getProperty("withCounter");
+        if(withCounter == null || withCounter.equals("")){
+        	withCounter="true";
+        }
 		String categoryProp = params.getProperty("categoryProp");
 		if(classProp != null && categoryProp != null) {
 			String classid = MCRConfiguration.instance().getString(classProp, "DocPortal_class_1");
-			Element items = transformClassToItems(classid, emptyLeafs);
+			Element items = transformClassToItems(classid, emptyLeafs, withCounter.equalsIgnoreCase("true"));
 			List values = null;
 			try{
 				values = Arrays.asList(CONFIG.getString(categoryProp).split(","));

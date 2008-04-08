@@ -19,7 +19,7 @@
 
   <panel id="RTitle">
     <hidden var="@inherited" default="0" />
-    <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile1024M" />
+    <cell col="1" row="1" anchor="NORTHWEST" ref="TFarea1024x3M" />
     <cell col="2" row="1" anchor="NORTHWEST" ref="Slang" var="@lang" default="de" />
     <cell col="3" row="1" anchor="NORTHWEST" ref="STitleType" var="@type" default="main" />
   </panel>
@@ -56,7 +56,7 @@
     <item value="">
       <label i18n="Editor.Common.choose" />
     </item>
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002" />              
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002&amp;withCounter=false" />              
     <condition id="COriginSelected" regexp=".+" required="true" >
 				<label i18n="Editor.Validate.Selection.Empty" />
     </condition>
@@ -74,10 +74,15 @@
 
   <panel id="RDescription">
     <hidden var="@inherited" default="0" />
-    <cell col="1" row="1" anchor="WEST" ref="TFarea4096x10M" />
+    <cell col="1" row="1" anchor="WEST" ref="TFabstract600x10M" />
     <cell col="2" row="1" anchor="NORTHWEST" ref="Slang" var="@lang" default="de"/>
     <hidden var="@type" default="abstract" />
   </panel>
+  <textarea id="TFabstract600x10M" width="60" height="10" maxlength="600" default="x" class="mandatory">
+      <condition id="CAbstractlength" maxLength="1200" required="true" >
+      	<label i18n="Editor.Validate.Abstract.Length" /> 
+         </condition>
+  </textarea>
 
   <panel id="DDescription">
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/descriptions&amp;classname=MCRMetaLangText" />
@@ -149,7 +154,7 @@
     <item value="">
 		<label i18n="Editor.Common.choose" />
     </item>
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getSpecialCategoriesInItems&amp;classProp=MCR.ClassificationID.Type&amp;categoryProp=MCR.Classification.Type.SelectCategoryIDs.xmetadiss" />                       
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getSpecialCategoriesInItems&amp;classProp=MCR.ClassificationID.Type&amp;categoryProp=MCR.Classification.Type.SelectCategoryIDs.xmetadiss&amp;withCounter=false" />                       
      <condition id="CTypeSelected" regexp=".+" required="true" >
 				<label i18n="Editor.Validate.Selection.Empty" />
      </condition>
@@ -184,7 +189,7 @@
     <item value="">
       <label i18n="Editor.Common.choose" />
     </item>
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getSpecialCategoriesInItems&amp;classProp=MCR.ClassificationID.Language&amp;categoryProp=MCR.Classification.Language.SelectCategoryIDs.xmetadiss" /> 
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getSpecialCategoriesInItems&amp;classProp=MCR.ClassificationID.Language&amp;categoryProp=MCR.Classification.Language.SelectCategoryIDs.xmetadiss&amp;withCounter=false" /> 
          <condition id="CLanguageSelected" regexp=".+" required="true" >
 				<label i18n="Editor.Validate.Selection.Empty" />
      </condition>

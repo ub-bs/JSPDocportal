@@ -630,13 +630,17 @@
         <xsl:variable name="message">
           <xsl:for-each select="//condition[@id=ancestor::editor/failed/field[@sortnr=$pos]/@condition]">
             <xsl:call-template name="output.label" />
+            <xsl:text>#</xsl:text>
           </xsl:for-each>
         </xsl:variable>
-        <img border="0" align="absbottom" src="{$WebApplicationBaseURL}images/validation-error.png" alt="{$message}" title="{$message}" />
+        <xsl:variable name="message1">
+        	<xsl:value-of select="substring-before($message, '#')" />
+        </xsl:variable>
+        <img border="0" align="absbottom" src="{$WebApplicationBaseURL}images/validation-error.png" alt="{$message1}" title="{$message1}" />
       </xsl:if>
     </xsl:if>
-  
-    <xsl:if test="contains('textfield textarea password file list checkbox display ', concat(name(),' '))">
+
+     <xsl:if test="contains('textfield textarea password file list checkbox display ', concat(name(),' '))">
       <!-- ======== hidden field for sorting the entry ======== -->
       <!-- ======== hidden field for identifying entry ======== -->
       <input type="hidden" name="{$editor.delimiter.internal}sortnr-{$var.new}" value="{$pos}" />
