@@ -78,8 +78,8 @@
     <cell col="2" row="1" anchor="NORTHWEST" ref="Slang" var="@lang" default="de"/>
     <hidden var="@type" default="abstract" />
   </panel>
-  <textarea id="TFabstract600x10M" width="60" height="10" maxlength="600" default="x" class="mandatory">
-      <condition id="CAbstractlength" maxLength="1200" required="true" >
+  <textarea id="TFabstract600x10M" width="60" height="10" maxlength="600" default="" class="mandatory">
+      <condition id="CAbstractlength" maxLength="2400" required="true" >
       	<label i18n="Editor.Validate.Abstract.Length" /> 
          </condition>
   </textarea>
