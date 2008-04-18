@@ -5,10 +5,17 @@
 <!-- =================================================================== -->
 
 <project name="mycoresample_build" default="usage" basedir=".">
-	<property name="MYAPPLICATION_NAME" value="myapplication" />
+	<property name="MYAPPLICATION_NAME" value="mycoresample" />
     <property environment="env" />
 	<!-- Provide a default value for MYCORE_HOME if not set in env -->
-    <property name="env.MYCORE_HOME" value="../mycore" /> 
+	<condition property="env.JAVA_HOME" value="/usr/lib/java" else="c:/Programme/Java/jdk1.6.0_03">
+			<os family="unix" />
+		</condition>
+		<condition property="ant.library.dir" value="${ant.home}/lib">
+				<os family="unix" />
+		</condition>
+
+	<property name="env.MYCORE_HOME" value="../mycore" /> 
 	<property name="MYCORE_HOME" value="../mycore" />
 	
 	<import file="./../jspdocportal/config/buildfile_application.xml"/>
