@@ -6,8 +6,8 @@ import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRSessionMgr;
-import org.mycore.datamodel.classifications.MCRCategoryItem;
-import org.mycore.datamodel.classifications.MCRClassificationManager;
+import org.mycore.datamodel.classifications2.MCRCategoryDAOFactory;
+import org.mycore.datamodel.classifications2.MCRCategoryID;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.frontend.workflowengine.strategies.MCRDefaultMetadataStrategy;
 
@@ -31,8 +31,7 @@ public class MCRDocumentMetadataStrategy extends MCRDefaultMetadataStrategy {
         String publicationType = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_PUBLICATIONTYPE);			
 		if ( publicationType != null) {
 			String clid = MCRConfiguration.instance().getString("MCR.ClassificationID.Type");
-			MCRCategoryItem clItem =MCRClassificationManager.instance().retrieveCategoryItem(clid,publicationType);
-			String label = clItem.retrieveLabel(MCRSessionMgr.getCurrentSession().getCurrentLanguage()).getDescription();
+			String label = MCRCategoryDAOFactory.getInstance().getCategory(new MCRCategoryID(clid, publicationType), 0).getLabels().get(MCRSessionMgr.getCurrentSession().getCurrentLanguage()).getDescription();
 			ctxI.setVariable("wfo-type", label);
 		}
 	}

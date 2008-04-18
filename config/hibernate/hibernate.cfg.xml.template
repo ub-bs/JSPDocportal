@@ -38,13 +38,19 @@
 
     <!-- second-level cache  -->
     <!-- disabled -->
+    <!--
     <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
     <property name="cache.use_second_level_cache">false</property>
     <property name="cache.use_query_cache">false</property>
-    <!-- net/sf/ehcache/hibernate/Provider -->
-    <!--
-      <property name="cache.provider_class">net.sf.ehcache.hibernate.EhCacheProvider</property>
     -->
+    <!-- net/sf/ehcache/hibernate/Provider -->
+    <property name="cache.provider_class">net.sf.ehcache.hibernate.SingletonEhCacheProvider</property>
+    <property name="cache.use_second_level_cache">true</property>
+    <property name="cache.use_query_cache">true</property>
+    <!-- more human readable cache entries -->
+    <property name="cache.use_structured_entries">true</property>
+    <!-- do not read to often from db just to save a few write operations -->
+    <property name="cache.use_minimal_puts">false</property>
 
     <!-- Echo all executed SQL to stdout -->
     <property name="show_sql">false</property>
@@ -68,14 +74,19 @@
     <property name="hibernate.bytecode.use_reflection_optimizer">true</property>
     <!-- Set batch_size to "0" in case of SQL batch Errors -->
     <property name="jdbc.batch_size">2000</property>
+    <property name="default_batch_fetch_size">100</property>
 
     <!-- mappings of mycore tables -->
     <mapping resource="mappings/MCRACCESS.hbm.xml" />
     <mapping resource="mappings/MCRACCESSRULE.hbm.xml" />
+    <mapping resource="mappings/MCRCategoryImpl.hbm.xml" />
+    <mapping resource="mappings/MCRCategoryLink.hbm.xml" />
+    <!-- Start old classification (leave until migration completed) -->
     <mapping resource="mappings/MCRCATEG.hbm.xml" />
     <mapping resource="mappings/MCRCATEGLAB.hbm.xml" />
     <mapping resource="mappings/MCRCLASS.hbm.xml" />
     <mapping resource="mappings/MCRCLASSLAB.hbm.xml" />
+    <!-- End of old classification system -->
     <mapping resource="mappings/MCRCSTORE.hbm.xml" />
     <mapping resource="mappings/MCRFSNODES.hbm.xml" />
     <mapping resource="mappings/MCRGROUPADMINS.hbm.xml" />

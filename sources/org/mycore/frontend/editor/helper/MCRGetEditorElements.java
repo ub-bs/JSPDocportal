@@ -24,7 +24,6 @@
 package org.mycore.frontend.editor.helper;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -40,7 +39,9 @@ import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.xml.MCRURIResolver.MCRResolver;
-import org.mycore.datamodel.classifications.MCRClassification;
+import org.mycore.datamodel.classifications2.MCRCategoryDAOFactory;
+import org.mycore.datamodel.classifications2.MCRCategoryID;
+import org.mycore.datamodel.classifications2.utils.MCRCategoryTransformer;
 import org.mycore.user.MCRUserMgr;
 
 /**
@@ -165,14 +166,14 @@ public class MCRGetEditorElements implements MCRResolver {
 	}
 	
 	private Element transformClassToItems(String classid, String emptyLeafs, boolean withCounter) throws TransformerException{
-        Document classJdom = MCRClassification.retrieveClassificationAsJDOM(classid, withCounter);
+        Document classJdom = MCRCategoryTransformer.getMetaDataDocument(MCRCategoryDAOFactory.getInstance().getRootCategory(MCRCategoryID.rootID(classid), -1),  withCounter);
         
         boolean displayEmptyLeafs = (emptyLeafs.equalsIgnoreCase("yes")||emptyLeafs.equalsIgnoreCase("true"));
         return MCREditorClassificationHelper.transformClassificationtoItems(classJdom, displayEmptyLeafs).getRootElement();
 	}
 	
 	private Element transformClassLabelsToItems(String classid) throws TransformerException{
-        Document classJdom = MCRClassification.retrieveClassificationAsJDOM(classid);
+        Document classJdom = MCRCategoryTransformer.getMetaDataDocument(MCRCategoryDAOFactory.getInstance().getRootCategory(MCRCategoryID.rootID(classid), -1),  false);
         return MCREditorClassificationHelper.transformClassificationLabeltoItems(classJdom, true).getRootElement();
 	}
 

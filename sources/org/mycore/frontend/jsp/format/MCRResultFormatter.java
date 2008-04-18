@@ -30,8 +30,10 @@ import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRUsageException;
 import org.mycore.common.xml.MCRURIResolver;
-import org.mycore.datamodel.classifications.MCRCategoryItem;
-import org.mycore.datamodel.classifications.MCRClassificationManager;
+import org.mycore.datamodel.classifications2.MCRCategory;
+import org.mycore.datamodel.classifications2.MCRCategoryDAO;
+import org.mycore.datamodel.classifications2.MCRCategoryDAOFactory;
+import org.mycore.datamodel.classifications2.MCRCategoryID;
 import org.mycore.datamodel.ifs.MCRDirectory;
 import org.mycore.datamodel.ifs.MCRFile;
 import org.mycore.datamodel.ifs.MCRFilesystemNode;
@@ -58,10 +60,11 @@ public class MCRResultFormatter {
 
 	protected static Map<String, Element> resultlistMap;
 	protected static Map<String, Element> docdetailsMap;
-	
+	protected static MCRCategoryDAO categoryDAO;
 	protected static org.jdom.Namespace xlinkNamespace;
 	
     static {
+    	categoryDAO = MCRCategoryDAOFactory.getInstance();
         logger=Logger.getLogger(MCRResultFormatter.class);
         WebApplicationBaseURL = NavServlet.getNavigationBaseURL();
         String XLINK_URL = "http://www.w3.org/1999/xlink";
@@ -167,9 +170,7 @@ public class MCRResultFormatter {
     		Element classification = (Element) XPath.selectSingleNode(jdom,xpath);
     		String classifID = classification.getAttributeValue("classid");
     		String categID = classification.getAttributeValue("categid");
-            org.mycore.datamodel.classifications.MCRCategoryItem categItem = 
-            	org.mycore.datamodel.classifications.MCRClassificationManager.instance().retrieveCategoryItem(classifID, categID); 
-            return categItem.retrieveLabel(lang).getText();    		
+    		return categoryDAO.getCategory(new MCRCategoryID(classifID, categID), 0).getLabels().get(lang).getText();    		
 		} catch (Exception e) {
 		   //logger.debug("wrong xpath expression: " + xpath);
 		}
@@ -383,9 +384,9 @@ public class MCRResultFormatter {
 				Element elClass = (Element) it.next();
 				String classID = elClass.getAttributeValue("classid");
 				String categID = elClass.getAttributeValue("categid");
-				MCRCategoryItem categItem = MCRClassificationManager.instance().retrieveCategoryItem(classID,categID);
+				//MCRCategoryItem categItem = MCRClassificationManager.instance().retrieveCategoryItem(classID,categID);
 				Element metaValue = new Element("metavalue");
-				String text = categItem.retrieveLabel(lang).getText();
+				String text = categoryDAO.getCategory(new MCRCategoryID(classID, categID), 0).getLabels().get(lang).getText();
 				metaValue.setAttribute("text", text);
 				metaValues.addContent(metaValue);
 			}
@@ -411,10 +412,11 @@ public class MCRResultFormatter {
 				String classID = elClass.getAttributeValue("classid");
 				String categID = elClass.getAttributeValue("categid");
 				if ( classID != null ) {
-					MCRCategoryItem categItem = MCRClassificationManager.instance().retrieveCategoryItem(classID,categID);
+				//	MCRCategoryItem categItem = MCRClassificationManager.instance().retrieveCategoryItem(classID,categID);
+					MCRCategory categ = categoryDAO.getCategory(new MCRCategoryID(classID, categID), 0);
 					Element metaValue = new Element("metavalue");
-					if (categItem.getLink().getHref().length() >0 ){
-						metaValue.setAttribute("href",categItem.getLink().getHref());
+					if (categ.getURI()!=null && categ.getURI().toString().length() >0 ){
+						metaValue.setAttribute("href",categ.getURI().toString());
 						metaValue.setAttribute("target","new");
 					} else {
 						//http://localhost:8080/atlibri/servlets/MCRJSPSearchServlet?query=ddc+=+9&mask=~searchstart-classddc
@@ -432,7 +434,7 @@ public class MCRResultFormatter {
 						}
 					}
 					
-					metaValue.setAttribute("text",categItem.retrieveLabel(lang).getText());
+					metaValue.setAttribute("text",categ.getLabels().get(lang).getText());
 					metaValue.setAttribute("classid",classID);
 					metaValue.setAttribute("categid",categID);
 					metaValues.addContent(metaValue);

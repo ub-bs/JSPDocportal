@@ -5,8 +5,8 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 
-import edu.stanford.ejalbert.BrowserLauncher;
-import edu.stanford.ejalbert.BrowserLauncherRunner;
+//import edu.stanford.ejalbert.BrowserLauncher;
+//import edu.stanford.ejalbert.BrowserLauncherRunner;
 
 
 /**
@@ -136,10 +136,10 @@ public class Main {
     
     public void launchBrowser(String url) throws Exception {
 
-		BrowserLauncher launcher = new BrowserLauncher(null);
-		BrowserLauncherRunner runner = new BrowserLauncherRunner(launcher, url, null);
-		Thread launcherThread = new Thread(runner);
-		launcherThread.start();
+//		BrowserLauncher launcher = new BrowserLauncher(null);
+//		BrowserLauncherRunner runner = new BrowserLauncherRunner(launcher, url, null);
+//		Thread launcherThread = new Thread(runner);
+//		launcherThread.start();
     }
     
     public static class JettyRunnable implements Runnable{
