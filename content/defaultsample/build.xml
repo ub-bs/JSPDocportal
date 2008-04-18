@@ -64,10 +64,11 @@
     <path id="this.classpath">
       <fileset dir="${env.MYCORE_HOME}/lib" includes="*.jar"/>
       <fileset dir="${env.DOCPORTAL_SYSTEM}/lib" includes="*.jar"/>
-      <fileset dir="C:\workspaces\mycoresample\projects\mycoresample_app\lib" includes="*.jar"/>
-      <pathelement location="C:\workspaces\mycoresample\projects\mycoresample_app\config" />
-      <pathelement location="C:\workspaces\mycoresample\projects\mycoresample_app\config\hibernate" />
-      <pathelement location="C:\workspaces\mycoresample\projects\mycoresample_app\working\classes" />
+      <fileset dir="${env.MYCORE_HOME}/../mycoresample_app/lib" includes="*.jar"/>
+      <fileset dir="${env.MYCORE_HOME}/../mycoresample_app/working/webapps/mycoresample/WEB-INF/lib" includes="docportal-for-hibernate.jar" /> 
+      <pathelement location="${env.MYCORE_HOME}/../mycoresample_app/config" />
+      <pathelement location="${env.MYCORE_HOME}/../mycoresample_app/config/hibernate" />
+          	
       <pathelement location="${env.MYCORE_HOME}/config" />
       <pathelement location="${env.MYCORE_HOME}/schema" />
       <pathelement location="${env.MYCORE_HOME}/stylesheets" />
@@ -155,7 +156,7 @@
   <!-- Load the date in this content tree to the MyCoReSample              -->
   <!-- =================================================================== -->
 
-  <target name="load" depends="load.institution,load.author,load.document"/>
+  <target name="load" depends="info,load.institution,load.author,load.document"/>
   
   <target name="load.institution">
     
