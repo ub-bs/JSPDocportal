@@ -85,10 +85,10 @@
 				<c:choose>
 	       		    <c:when test="${numDocs gt 0}" >
         	            <a href="${WebApplicationBaseURL}servlets/MCRJSPSearchServlet?query=${searchField}+=+${lineID }&mask=~searchstart-class${browserClass } "><x:out 
-        	            	select="string(./col[2])" /></a>
+        	            	select="string(./col[2]/text())" /></a>
        		        </c:when>
     	   	        <c:otherwise>
-	        	          <x:out select="string(./col[2])" />
+	        	          <x:out select="string(./col[2]/text())" />
 					</c:otherwise> 		
 				</c:choose>       	             
         	   </td>

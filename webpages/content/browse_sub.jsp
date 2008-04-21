@@ -111,7 +111,7 @@ select="concat('XSL.subselect.session.SESSION=',$subselectSession,'&amp;XSL.subs
         	      [ <code> <c:out value="${fmtnumDocs}" />  </code>  <fmt:message key="Webpage.browse.doc" />]
         	   </td>
         	   <td class="descr">
-    	          <a href="${subSelectItem}"><x:out select="string(./col[2])" /></a>
+    	          <a href="${subSelectItem}"><x:out select="string(./col[2]/text())" /></a>
         	   </td>
 	       	    <x:if select="./col[2]/comment">
 	       	       <td>
