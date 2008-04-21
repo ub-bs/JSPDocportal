@@ -646,13 +646,11 @@
 	  	 
 	  	       Add the module Webservices
 	  	     </echo>
-	  	     <subant target="webapps" inheritall="true" inheritrefs="true">
-               <property name="webapps-libdir" value="${docportal.webapps}/WEB-INF/lib"/>
-	  	       <property name="modules-home" value="${MYCORE_HOME}" />
-	  	       <fileset file="${MYCORE_HOME}/modules/webservices/build.xml" />
-	  	     </subant>
-	  	         <!-- merge the web.xml of the module to the application -->
-	  	         <available property="web.xml.present" file="${mycore.modules}/webservices/config/web.xml" />
+			<copy todir="${docportal.webapps}/WEB-INF/lib">
+		      <fileset dir="${MYCORE_HOME}/modules/webservices/lib" includes="*.jar" />
+		    </copy>
+	  	     <!-- merge the web.xml of the module to the application -->
+	  	    <available property="web.xml.present" file="${mycore.modules}/webservices/config/web.xml" />
 	  	     <antcall target="do.merge" >
 	  	       <param name="web.xml.file"   value="${mycore.modules}/webservices/config/web.xml" />
 	  	     </antcall>
@@ -1321,6 +1319,7 @@
 	<target name="load_default_content">
  	     <subant target="load" inheritall="false" inheritrefs="false">
  	       <fileset file="${DOCPORTAL_HOME}/content/defaultsample/build.xml" />
+ 	     	<property name="env.JAVA_HOME" value="${env.JAVA_HOME}" /> 	     	
  	     </subant>		
 	</target>	
 	
