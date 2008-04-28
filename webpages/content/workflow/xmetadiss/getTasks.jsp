@@ -96,6 +96,7 @@
 	     </c:import>
    </c:when>
    <c:when test="${requestScope.task.taskName eq 'taskCheckIfSignedAffirmationYetAvailable'}">
+	  <c:import url="/content/workflow/editorButtons.jsp" />
 	  <p><img title="" alt="" src="${baseURL}images/greenArrow.gif">   
       <a href="${baseURL}nav?path=~xmetadiss&transition=go2canDisshabBeCommitted&endTask=taskCheckIfSignedAffirmationYetAvailable&processID=${requestScope.task.processID}"><fmt:message key="WF.xmetadiss.AffirmationIsAvailableCanBeCommitted" /></a>
       </p>
