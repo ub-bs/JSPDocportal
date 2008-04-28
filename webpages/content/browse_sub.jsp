@@ -51,9 +51,10 @@ select="concat('XSL.subselect.session.SESSION=',$subselectSession,'&amp;XSL.subs
 
 <mcr:setClassBrowserTreeTag actUriPath="${param.actUriPath}" browserClass="${param.browserClass}"  lang="${lang}"  var="browser" />
 <mcr:getConfigProperty defaultValue="default" var="searchField" prop="MCR.ClassificationBrowser.${param.browserClass}.SearchField"/>
-
+ 
+ <fmt:message key="Webpage.browse.subitem" /><br /><br />
+ 
 <x:set var="hrefStart" select="concat($WebApplicationBaseURL, 'nav?path=', $path )" />
-
 <x:forEach select="$browser/classificationBrowse">    
     <table id="metaHeading" cellpadding="0" cellspacing="0">
 		<tr>
