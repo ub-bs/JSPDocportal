@@ -43,6 +43,7 @@ public class MCRDocDetailsTag extends SimpleTagSupport
 		formatter = (MCRResultFormatter) MCRConfiguration.instance().getSingleInstanceOf("MCR.ResultFormatter_class_name","org.mycore.frontend.jsp.format.MCRResultFormatter");
 	}
 	public void doTag() throws JspException, IOException {
+		if(lang==null || lang.equals("")) lang="de";
 		if (formatter == null) initialize();
 		
 		org.jdom.Document allMetaValues = formatter.getFormattedDocDetails(mcrObj,lang,style);

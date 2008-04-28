@@ -155,7 +155,8 @@
   
 </c:catch>
 <c:if test="${e!=null}">
-An error occured, hava a look in the logFiles!
+Es ist ein Fehler bei der Erzeugung des Abgabeformulars aufgetreten. Haben Sie alle Datenfelder ausgefüllt?
+Wenn ja, wenden Sie sich an den Administrator (digibib.ub@uni-rostock.de).
 <% 
   Logger.getLogger("test.jsp").error("error", (Throwable) pageContext.getAttribute("e"));   
 %>
