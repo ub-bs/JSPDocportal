@@ -270,10 +270,10 @@
     	        <xsl:variable name="categid" select="./@categid" />
     	        <!-- MyCoRe Classification URI Resolver: classification:{editor['['formatAlias']']|metadata}:{Levels}:{parents|children}:{ClassID}[:CategID]
 														 classification:metadata:-1:children:{ClassID} -->
-				<xsl:variable name="classification" select="concat('classification:metadata:-1:children:',$classid)" />
-   				<xsl:variable name="subject-nodes" select="document($classification)/mycoreclass//category[@ID=$categid]" /> 
-			
-				<xsl:for-each select="$subject-nodes">
+				<!-- <xsl:variable name="classification" select="concat('classification:metadata:-1:children:',$classid)" />
+   				<xsl:variable name="subject-nodes" select="document($classification)/mycoreclass//category[@ID=$categid]" /> --> 
+   				<xsl:variable name="classification" select="concat('classification:metadata:-1:children:',$classid,':',$categid)" />
+   				<xsl:for-each select="document($classification)//category"> 
 					<xsl:element name="dc:subject">
 						<xsl:attribute name="xsi:type">dcterms:DDC</xsl:attribute>
 						<xsl:value-of select="@ID" />
@@ -425,8 +425,8 @@
         <xsl:for-each select="./metadata/types/type"> 
 			<xsl:variable name="classid" select="./@classid" />
             <xsl:variable name="categid" select="./@categid" />
-   			<xsl:variable name="classification" select="concat('classification:metadata:-1:children:',$classid)" />
-			<xsl:for-each select="document($classification)/mycoreclass//category[@ID=$categid]"> 
+   			<xsl:variable name="classification" select="concat('classification:metadata:-1:children:',$classid,':',$categid)" />
+   			<xsl:for-each select="document($classification)//category"> 
 				<xsl:for-each select="./label[@xml:lang='x-dini']">
 				<xsl:if test="contains(./@text,'dissertation')" >
                     <xsl:element name="dc:type">
@@ -489,8 +489,8 @@
         <xsl:for-each select="./metadata/languages/language">
 			<xsl:variable name="classid" select="./@classid" />
             <xsl:variable name="categid" select="./@categid" />
-   			<xsl:variable name="classification" select="concat('classification:metadata:-1:children:',$classid)" />
-			<xsl:for-each select="document($classification)/mycoreclass//category[@ID=$categid]"> 
+   			<xsl:variable name="classification" select="concat('classification:metadata:-1:children:',$classid,':',$categid)" />
+   			<xsl:for-each select="document($classification)//category"> 
 				<xsl:for-each select="./label[@xml:lang='en']">
                 <xsl:element name="dc:language">
                    <xsl:attribute name="xsi:type">dcterms:ISO639-2</xsl:attribute>
@@ -579,8 +579,8 @@
 
 			<xsl:variable name="classid" select="./@classid" />
             <xsl:variable name="categid" select="./@categid" />
-   			<xsl:variable name="classification" select="concat('classification:metadata:-1:children:',$classid)" />
-			<xsl:for-each select="document($classification)/mycoreclass//category[@ID=$institutionCategid]/url"> 
+   			   			<xsl:variable name="classification" select="concat('classification:metadata:-1:children:',$classid,':',$categid)" />
+   			<xsl:for-each select="document($classification)//category[@ID=$institutionCategid]/url"> 
 
 						<!- TODO Check again after integration of institutions 
                           <xsl:variable name="institutionlinkURL">
