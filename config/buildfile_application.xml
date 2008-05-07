@@ -261,6 +261,9 @@
             refid="docportal.libpath" />	
     	
     	 <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask" classpathref="docportal.classpath" />
+	    <xmltask source="${DOCPORTAL_SYSTEM}/config/hibernate/ehcache.xml" dest="${DOCPORTAL_SYSTEM}/config/hibernate/ehcache.xml">
+	      <replace path="/ehcache/diskStore/@path" withText="${MCR.EHCache.diskStore.path}"/>
+	    </xmltask>
     </target>
 	
 	<target name="jdbcstore.path.1" if="MCR.JDBCStore.BaseDir">
@@ -375,6 +378,7 @@
         <mkdir dir="${MCR.WorkflowEngine.EditDirectory.institution}" />
         <mkdir dir="${MCR.WorkflowEngine.EditDirectory.user}" />    	
     	<mkdir dir="${MCR.WorkflowEngine.DeleteDirectory}" />
+    	<mkdir dir="${MCR.EHCache.diskStore.path}" />
     </target>
 
 
@@ -623,6 +627,7 @@
       	  <insert path="/web-app/session-config" position="before" file="${web.xml.file}" /> 
       	</xmltask> 
       	<replace file="${docportal.webapps}/WEB-INF/web.xml" token='xmlns=""' /> 
+    	
     </target>	
 
 	<target name="test.merge">
