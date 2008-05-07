@@ -21,6 +21,10 @@ import org.mycore.frontend.workflowengine.strategies.MCRDefaultDerivateStrategy;
 public class MCRDisshabDerivateStrategy extends MCRDefaultDerivateStrategy {
 	private static Logger logger = Logger.getLogger(MCRDisshabDerivateStrategy.class.getName());
 	
+	/**
+	 * TODO Cleanup that mess in saving dissertation derivates!!
+	 * Develop a concept how to handle 1 MainFile as PDF and 1 PDF or ZIP File as attachement 1!!
+	 */
 	public void saveFiles(List files, String dirname, ContextInstance ctxI, String newLabel) throws MCRException {
 	// a correct dissertation contains in the main derivate
 	//		exactly one pdf-file and optional an attachment zip-file
@@ -42,7 +46,7 @@ public class MCRDisshabDerivateStrategy extends MCRDefaultDerivateStrategy {
 		String derID = der.getId().getId();
 		
 		boolean containsPdf = false;
-		boolean containsZip = false;
+		boolean containsAttachement = false;
 		// save the files
 	
 		ArrayList<String> ffname = new ArrayList<String>();
@@ -71,30 +75,47 @@ public class MCRDisshabDerivateStrategy extends MCRDefaultDerivateStrategy {
 			}
 			fileextension = fileextension.toLowerCase();
 			if(fileextension.equals("zip")) {
-				if(containsZip) {
-					String errMsg = "just one zip-file allowed for each derivate";
+				if(containsAttachement) {
+					String errMsg = "just one file allowed for each derivate";
 					logger.error(errMsg);
 					throw new MCRException(errMsg);
 				}else{
-					containsZip = true;
+					containsAttachement = true;
 					//fname = "attachment.zip";
 					fname=normalizeFilename(fname);
 					der.setLabel(MCRConfiguration.instance().getString("MCR.Derivates.Labels.atachment", "Anhang"));
 				}
 			}else if(fileextension.equals("pdf")) {
 				if(containsPdf) {
-					String errMsg = "just one pdf-file allowed for one derivate, other files must be put in a zip file";
-					logger.error(errMsg);
-					throw new MCRException(errMsg);
-				}else{
-					containsPdf = true;
-					String wfPdf = (String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_CONTAINS_PDF); 
-					if(wfPdf != null && !wfPdf.equals(derID) && !wfPdf.equals("")){
-						String errMsg = "just one pdf-file for all derivates for one dissertation, please delete old derivates first";
+					if(!containsAttachement){
+						containsAttachement = true;
+						//fname = "attachment.zip";
+						fname=normalizeFilename(fname);
+						der.setLabel(MCRConfiguration.instance().getString("MCR.Derivates.Labels.atachment", "Anhang"));
+					}
+					else{
+						String errMsg = "just one pdf-file as main file and one pdf or zip file as attachement allowed for a dissertation, please delete old derivates first";
 						logger.error(errMsg);
 						throw new MCRException(errMsg);
+					}
+				}else{
+					String wfPdf = (String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_CONTAINS_PDF); 
+					if(wfPdf != null && !wfPdf.equals(derID) && !wfPdf.equals("")){
+						if(!containsAttachement){
+							containsAttachement = true;
+							containsPdf=false;
+							//fname = "attachment.zip";
+							fname=normalizeFilename(fname);
+							der.setLabel(MCRConfiguration.instance().getString("MCR.Derivates.Labels.atachment", "Anhang"));
+						}
+						else{
+							String errMsg = "just one pdf-file for all derivates for one dissertation, please delete old derivates first";
+							logger.error(errMsg);
+							throw new MCRException(errMsg);
+						}
 					}else{
 						//fname = "dissertation.pdf";
+						containsPdf=true;
 						fname=normalizeFilename(fname);
 						mainfile = fname;
 						der.setLabel(MCRConfiguration.instance().getString("MCR.Derivates.Labels.fulltext", "Volltext"));
@@ -153,7 +174,7 @@ public class MCRDisshabDerivateStrategy extends MCRDefaultDerivateStrategy {
 		}
 		if(containsPdf){
 			ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_CONTAINS_PDF, derID);
-			if(containsZip){
+			if(containsAttachement){
 				ctxI.setVariable("containsZIP", derID);
 			}
 		}
