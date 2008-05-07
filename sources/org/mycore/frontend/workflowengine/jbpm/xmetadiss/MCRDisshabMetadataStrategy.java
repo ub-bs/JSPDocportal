@@ -23,21 +23,34 @@ public class MCRDisshabMetadataStrategy extends MCRDefaultMetadataStrategy {
 		}
 		ctxI.setVariable("wfo-title", sbTitle.toString());	
 		
-		
+		StringBuffer sbAuthorNames = new StringBuffer("");
 		StringBuffer sbAuthors = new StringBuffer("");
 		for(Iterator it = metadata.getDescendants(new ElementFilter("creatorlink")); it.hasNext();){
 			Element creatorlink = (Element)it.next();
-			sbAuthors.append(creatorlink.getAttributeValue("href", Namespace.getNamespace("http://www.w3.org/1999/xlink")));
-			if(it.hasNext()){ sbAuthors.append(",");}
+			String x = null;
+			x = creatorlink.getAttributeValue("href", Namespace.getNamespace("http://www.w3.org/1999/xlink"));
+			if(x==null){
+				x = creatorlink.getAttributeValue("href");
+			}
+			sbAuthors.append(x);
+			x= null;
+			x=creatorlink.getAttributeValue("title", Namespace.getNamespace("http://www.w3.org/1999/xlink"));
+			if(x==null){
+				x=creatorlink.getAttributeValue("title");
+			}
+			
+			sbAuthorNames.append(x);
+			if(it.hasNext()){ sbAuthors.append(","); sbAuthorNames.append("; ");}
 		}
 		if(sbAuthors.length()==0){
 			for(Iterator it = metadata.getDescendants(new ElementFilter("creator")); it.hasNext();){
 				Element creator = (Element)it.next();
-				sbAuthors.append(creator.getText());
-				if(it.hasNext()){ sbAuthors.append(",");}
+				sbAuthorNames.append(creator.getText());
+				if(it.hasNext()){ sbAuthorNames.append("; ");}
 			}	
 		}
 		ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_AUTHOR_IDS, sbAuthors.toString());
+		ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_AUTHOR_NAMES, sbAuthorNames.toString());
 //		ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_CONTAINS_PDF, "true");
 	}
 }

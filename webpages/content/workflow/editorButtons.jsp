@@ -129,6 +129,10 @@
 	<tr>
 		<td class="description">
   	 	<fmt:message key="WF.${requestScope.task.workflowProcessType}.Description" />, ${itemID}
+		<mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="authors" workflowVar="authorNames" />
+		<c:if test="${not(empty authors)}">
+			<br /><fmt:message key="Editor.Search.Label.creator" />:&nbsp;<c:out value="${authors}" /></i>
+		</c:if>
 		<mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="urn" workflowVar="reservatedURN" />
 		<c:if test="${not(empty urn)}">
 			  <br />[<fmt:message key="WF.xmetadiss.URN" />:&nbsp;<i><c:out value="${urn}" /></i>]
