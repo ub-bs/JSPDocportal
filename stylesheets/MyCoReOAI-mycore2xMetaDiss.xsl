@@ -272,7 +272,7 @@
 														 classification:metadata:-1:children:{ClassID} -->
 				<!-- <xsl:variable name="classification" select="concat('classification:metadata:-1:children:',$classid)" />
    				<xsl:variable name="subject-nodes" select="document($classification)/mycoreclass//category[@ID=$categid]" /> --> 
-   				<xsl:variable name="classification" select="concat('classification:metadata:-1:children:',$classid,':',$categid)" />
+   				<xsl:variable name="classification" select="concat('classification:metadata:0:children:',$classid,':',$categid)" />
    				<xsl:for-each select="document($classification)//category"> 
 					<xsl:element name="dc:subject">
 						<xsl:attribute name="xsi:type">dcterms:DDC</xsl:attribute>

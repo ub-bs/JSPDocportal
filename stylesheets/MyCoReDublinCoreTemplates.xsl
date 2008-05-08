@@ -74,11 +74,10 @@
        <xsl:for-each select="./metadata/subjects/subject">
 			<xsl:variable name="classid" select="./@classid" />
 			<xsl:variable name="categid" select="./@categid" />
-			<xsl:variable name="classification" select="concat('mcrobject:',$classid)" />
-			<xsl:for-each select="document($classification)/mycoreclass/categories/category[@ID=$categid]/label">
+			<xsl:variable name="classification" select="concat('classification:metadata:0:children:',$classid,':',$categid)" />
+   			<xsl:for-each select="document($classification)//category"> 			
                <xsl:element name="dc:subject">
-                   <xsl:attribute name="xml:lang"><xsl:value-of select="@xml:lang" /></xsl:attribute>
-                   <xsl:value-of select="@text" />
+                         <xsl:value-of select="@ID" />
                </xsl:element>
            </xsl:for-each>
        </xsl:for-each>
@@ -100,11 +99,11 @@
        <xsl:for-each select="./metadata/subjects/subject[@classid != 'DocPortal_class_00000009']">
 			<xsl:variable name="classid" select="./@classid" />
 			<xsl:variable name="categid" select="./@categid" />
-			<xsl:variable name="classification" select="concat('mcrobject:',$classid)" />
-			<xsl:for-each select="document($classification)/mycoreclass/categories/category[@ID=$categid]/label">		
+			
+			<xsl:variable name="classification" select="concat('classification:metadata:0:children:',$classid,':',$categid)" />
+   			<xsl:for-each select="document($classification)//category"> 
 			   <xsl:element name="dc:subject">
-                   <xsl:attribute name="xml:lang"><xsl:value-of select="@xml:lang" /></xsl:attribute>
-                   <xsl:value-of select="@text" />
+                   <xsl:value-of select="@ID" />
                </xsl:element>
            </xsl:for-each>         
        </xsl:for-each>
@@ -213,9 +212,9 @@
         <xsl:for-each select="./metadata/formats/format">
 			<xsl:variable name="classid" select="./@classid" />
 			<xsl:variable name="categid" select="./@categid" />
-			<xsl:variable name="classification" select="concat('mcrobject:',$classid)" />
-			<xsl:for-each select="document($classification)/mycoreclass/categories/category[@ID=$categid]/label">	
-                <xsl:element name="dc:type">
+			<xsl:variable name="classification" select="concat('classification:metadata:0:children:',$classid,':',$categid)" />
+   			<xsl:for-each select="document($classification)//category/label"> 	
+			  <xsl:element name="dc:type">
                     <xsl:attribute name="xml:lang"><xsl:value-of select="@xml:lang" /></xsl:attribute>
                     <xsl:value-of select="@text" />
                 </xsl:element>
@@ -227,9 +226,9 @@
         <xsl:for-each select="./metadata/formats/format">
 			<xsl:variable name="classid" select="./@classid" />
 			<xsl:variable name="categid" select="./@categid" />
-			<xsl:variable name="classification" select="concat('mcrobject:',$classid)" />
-			<xsl:for-each select="document($classification)/mycoreclass/categories/category[@ID=$categid]/label">
-                <xsl:element name="dc:type">
+			<xsl:variable name="classification" select="concat('classification:metadata:0:children:',$classid,':',$categid)" />
+   			<xsl:for-each select="document($classification)//category/label"> 	
+			    <xsl:element name="dc:type">
                     <xsl:attribute name="xsi:type">dcterms:DCMIType</xsl:attribute>
                     <xsl:attribute name="xml:lang"><xsl:value-of select="@xml:lang" /></xsl:attribute>
                     <xsl:value-of select="@text" />
@@ -354,8 +353,9 @@
         <xsl:for-each select="./metadata/languages/language">
 			<xsl:variable name="classid" select="./@classid" />
 			<xsl:variable name="categid" select="./@categid" />
-			<xsl:variable name="classification" select="concat('mcrobject:',$classid)" />
-			<xsl:for-each select="document($classification)/mycoreclass/categories/category[@ID=$categid]/label[1]">
+			<xsl:variable name="classification" select="concat('classification:metadata:0:children:',$classid,':',$categid)" />
+   			<xsl:for-each select="document($classification)//category/label[1]"> 	
+			
                 <xsl:element name="dc:language">
                    <xsl:value-of select="substring-before(./@description,'#')" />
                 </xsl:element>
@@ -367,9 +367,9 @@
         <xsl:for-each select="./metadata/languages/language">
 			<xsl:variable name="classid" select="./@classid" />
 			<xsl:variable name="categid" select="./@categid" />
-			<xsl:variable name="classification" select="concat('mcrobject:',$classid)" />
-			<xsl:for-each select="document($classification)/mycoreclass/categories/category[@ID=$categid]/label">
-                <xsl:element name="dc:language">
+			<xsl:variable name="classification" select="concat('classification:metadata:0:children:',$classid,':',$categid)" />
+   			<xsl:for-each select="document($classification)//category/label"> 	
+			    <xsl:element name="dc:language">
                    <xsl:attribute name="xsi:type">dcterms:ISO639-2</xsl:attribute>
                    <xsl:value-of select="substring-before(./@description,'#')" />
                 </xsl:element>
