@@ -239,10 +239,11 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 	private boolean checkSubmitVariables(ContextInstance ctxI){
 		try{
 			String authorID = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_AUTHOR_IDS);
+			String authornames = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_AUTHOR_NAMES);
 			String reservatedURN = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN);
 			String createdDocID = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
 			String attachedDerivates = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES);
-			if(!MCRWorkflowUtils.isEmpty(authorID) && !MCRWorkflowUtils.isEmpty(reservatedURN) && 
+			if((!MCRWorkflowUtils.isEmpty(authorID) || !MCRWorkflowUtils.isEmpty(authornames)) && !MCRWorkflowUtils.isEmpty(reservatedURN) && 
 					!MCRWorkflowUtils.isEmpty(createdDocID) && !MCRWorkflowUtils.isEmpty(attachedDerivates)){
 				String strDocValid = (String) ctxI.getVariable(MCRMetadataStrategy.VALID_PREFIX + createdDocID );
 				String containsPDF = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_CONTAINS_PDF);
