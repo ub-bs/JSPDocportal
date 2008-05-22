@@ -11,8 +11,8 @@
         <MCRDocDetailContent xpath="/mycoreobject/metadata/identifiers/identifier" templatetype="tpl-text-values" separator=", " languageRequired="no" />
     </MCRDocDetail> 
    <MCRDocDetail rowtype="standard" labelkey="OMD.author" >
-        <MCRDocDetailContent xpath="/mycoreobject/metadata/creatorlinks/creatorlink" templatetype="tpl-author_links" separator=", " languageRequired="no" />
-        <MCRDocDetailContent xpath="/mycoreobject/metadata/creators/creator" templatetype="tpl-text-values" separator=", " languageRequired="no" />
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/creatorlinks/creatorlink" templatetype="tpl-author_links" separator="&lt;br /&gt;" languageRequired="no" />
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/creators/creator" templatetype="tpl-text-values" separator="&lt;br /&gt;" languageRequired="no" />
     </MCRDocDetail>
     <MCRDocDetail rowtype="standard" labelkey="OMD.contributors" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/contriblinks/contriblink" templatetype="tpl-author_links" separator=", " languageRequired="no" />
