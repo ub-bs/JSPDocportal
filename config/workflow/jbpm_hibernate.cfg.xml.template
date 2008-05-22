@@ -6,7 +6,8 @@
 
 <hibernate-configuration>
   <session-factory>
-    <property name="cache.provider_class">net.sf.ehcache.hibernate.EhCacheProvider</property>
+     <property name="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</property>
+	 <property name="hibernate.cache.provider_configuration_file_resource_path">/workflow/jbpm_ehcache.xml</property> 
     <!-- jdbc connection properties -->
     <!-- HSQLDB -->
     <!-- *****************************************************  -->
