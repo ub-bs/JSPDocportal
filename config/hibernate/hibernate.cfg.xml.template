@@ -10,7 +10,7 @@
     <!-- Database connection settings -->
     <!-- HSQLDB -->
     <property name="connection.driver_class">org.hsqldb.jdbcDriver</property>
-    <property name="connection.url">jdbc:hsqldb:hsql://localhost:8298</property>
+    <property name="connection.url">jdbc:hsqldb:hsql://localhost:9001/mycore</property>
     <property name="connection.username">sa</property>
     <property name="connection.password"></property>
     <property name="dialect">org.hibernate.dialect.HSQLDialect</property>
