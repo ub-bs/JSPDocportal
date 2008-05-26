@@ -1223,68 +1223,68 @@
     <!-- Start and Stop the HSQLDB Database                                  -->
     <!-- =================================================================== -->
 
-    <property name="docportal.hsqldb-datadir"
-        value="${MCR.Persistence.SQL.Data.Directory}" />
-    <target name="hsqldbstart" depends="init">
-        <echo message="Starting HSQLDB Server" />
-        <echo file="hsqlport.tmp" append="false">
-            hsqlport=${MCR.hibernate.connection.url}
-        </echo>
-        <loadproperties srcFile="hsqlport.tmp">
-            <filterchain>
-                <tokenfilter>
-                    <replaceregex pattern="hsqlport=.*:([0-9]+)$"
-                        replace="hsqlport=\1" flags='g' />
-                </tokenfilter>
-            </filterchain>
-        </loadproperties>
-        <mkdir dir="${docportal.hsqldb-datadir}" />
-        <java dir="${docportal.hsqldb-datadir}"
-            classname="org.hsqldb.Server"
-            classpathref="docportal.classpath" fork="yes">
-            <arg value="-database.0" />
-            <arg value="${MCR.Persistence.SQL.Data.Directory}/${MCR.Persistence.SQL.Database.Name}" />
-        	<arg value="-dbname.0" />
-            <arg value="${MCR.Persistence.SQL.Database.Name}" />
-        	<arg value="-database.1" />
-        	<arg value="${MCR.Persistence.SQL.Data.Directory}/${MCR.Persistence.SQL.WorkflowDatabase.Name}" />
-            <arg value="-dbname.1" />
-            <arg value="${MCR.Persistence.SQL.WorkflowDatabase.Name}" />        	
-            <arg value="-port" />
-            <arg value="${hsqlport}" />
-        </java>
-        <delete file="hsqlport.tmp" />
-    </target>
+	<property name="docportal.hsqldb-datadir"
+	        value="${MCR.Persistence.SQL.Data.Directory}" />
+	    <target name="hsqldbstart" depends="init">
+	        <echo message="Starting HSQLDB Server" />
+	        <echo file="hsqlport.tmp" append="false">
+	            hsqlport=${MCR.Hibernate.Connection.Url}
+	        </echo>
+	        <loadproperties srcFile="hsqlport.tmp">
+	            <filterchain>
+	                <tokenfilter>
+	                    <replaceregex pattern="hsqlport=.*:([0-9]+)$"
+	                        replace="hsqlport=\1" flags='g' />
+	                </tokenfilter>
+	            </filterchain>
+	        </loadproperties>
+	        <mkdir dir="${docportal.hsqldb-datadir}" />
+	        <java dir="${docportal.hsqldb-datadir}"
+	            classname="org.hsqldb.Server"
+	            classpathref="docportal.classpath" fork="yes">
+	            <arg value="-database.0" />
+	            <arg value="${MCR.Persistence.SQL.Data.Directory}/${MCR.Persistence.SQL.Database.Name}" />
+	        	<arg value="-dbname.0" />
+	            <arg value="${MCR.Persistence.SQL.Database.Name}" />
+	        	<arg value="-database.1" />
+	        	<arg value="${MCR.Persistence.SQL.Data.Directory}/${MCR.Persistence.SQL.WorkflowDatabase.Name}" />
+	            <arg value="-dbname.1" />
+	            <arg value="${MCR.Persistence.SQL.WorkflowDatabase.Name}" />        	
+	            <arg value="-port" />
+	            <arg value="${hsqlport}" />
+	        </java>
+	        <delete file="hsqlport.tmp" />
+	    </target>
 
 
-    <target name="hsqldbstop">
-        <echo message="Stopping HSQLDB Server" />
-        <echo file="connectionBase.tmp" append="false">
-                connectionBase=${MCR.hibernate.connection.url}
-       </echo>
-       <loadproperties srcFile="connectionBase.tmp">
-			<filterchain>
-                    <tokenfilter>
-                        <replaceregex pattern="connectionBase=(.*:[0-9]+)/.*$"
-                            replace="connectionBase=\1" flags='g' />
-                    </tokenfilter>
-            </filterchain>
-        </loadproperties>   
-    	<echo level="info">connectionBase:${connectionBase}</echo>
-        <java dir="${docportal.hsqldb-datadir}"
-            classname="org.hsqldb.util.ShutdownServer" fork="yes"
-            classpathref="docportal.classpath">
-            <arg value="-url" />
-            <arg value="${connectionBase}/${MCR.Persistence.SQL.Database.Name}" />
-        </java>
-        <java dir="${docportal.hsqldb-datadir}"
-            classname="org.hsqldb.util.ShutdownServer" fork="yes"
-            classpathref="docportal.classpath">
-            <arg value="-url" />
-            <arg value="${connectionBase}/${MCR.Persistence.SQL.WorkflowDatabase.Name}" />
-        </java>    	
-    	<delete file="connectionBase.tmp" />
-    </target>
+	    <target name="hsqldbstop">
+	        <echo message="Stopping HSQLDB Server" />
+	        <echo file="connectionBase.tmp" append="false">
+	                connectionBase=${MCR.Hibernate.Connection.Url}
+	       </echo>
+	       <loadproperties srcFile="connectionBase.tmp">
+				<filterchain>
+	                    <tokenfilter>
+	                        <replaceregex pattern="connectionBase=(.*:[0-9]+)/.*$"
+	                            replace="connectionBase=\1" flags='g' />
+	                    </tokenfilter>
+	            </filterchain>
+	        </loadproperties>   
+	    	<echo level="info">connectionBase:${connectionBase}</echo>
+	        <java dir="${docportal.hsqldb-datadir}"
+	            classname="org.hsqldb.util.ShutdownServer" fork="yes"
+	            classpathref="docportal.classpath">
+	            <arg value="-url" />
+	            <arg value="${connectionBase}/${MCR.Persistence.SQL.Database.Name}" />
+	        </java>
+	        <java dir="${docportal.hsqldb-datadir}"
+	            classname="org.hsqldb.util.ShutdownServer" fork="yes"
+	            classpathref="docportal.classpath">
+	            <arg value="-url" />
+	            <arg value="${connectionBase}/${MCR.Persistence.SQL.WorkflowDatabase.Name}" />
+	        </java>    	
+	    	<delete file="connectionBase.tmp" />
+	    </target>
 	
 	<target name="jettystart">
 		<echo message="Starting Jetty Server" />
@@ -1551,7 +1551,7 @@
 			<filterchain>
 				<tokenfilter>
 				    <replaceregex pattern="^MCR\.datadir=.*$" replace="MCR.datadir=$INSTALL_PATH/sample-data" />
-					<replaceregex pattern="^MCR\.hibernate\.connection\.url=.*$" replace="MCR.hibernate.connection.url=jdbc:hsqldb:file:%MCR.datadir%/hsqldb-data/mycore" />
+					<replaceregex pattern="^MCR\.Hibernate\.Connection\.Url=.*$" replace="MCR.Hibernate.Connection.Url=jdbc:hsqldb:file:%MCR.datadir%/hsqldb-data/mycore" />
 					<replaceregex pattern="^MCR\.WorkflowEngine\.Administrator\.Email=.*$" replace="MCR.WorkflowEngine.Administrator.Email=$EMAILADDRESS" />
 					<replaceregex pattern="^MCR\.Mail\.Server=.*$" replace="MCR.Mail.Server=$MAILSERVER" />					
 				</tokenfilter>				
