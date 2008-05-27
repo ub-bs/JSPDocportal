@@ -14,6 +14,10 @@ MCR.NameOfProject=Mycoresample
 MCR.SWF.Project.ID=DocPortal
 MCR.Metadata.ObjectID.NumberPattern=00000000
 
+MCR.Hibernate.Connection.Url=jdbc:hsqldb:hsql://localhost:9001
+MCR.Persistence.SQL.Database.Name=mycore
+MCR.Persistence.SQL.WorkflowDatabase.Name=mycore-workflow
+
 #Windows
 MCR.datadir=c:/workspaces/mycoresample/working_content
 MCR.basedir=c:/workspaces/mycoresample/projects/jspdocportal
