@@ -17,6 +17,7 @@
 
 	<property name="env.MYCORE_HOME" value="../mycore" /> 
 	<property name="MYCORE_HOME" value="../mycore" />
+	<property name="env.MYCORE_APP" location="." />
 	
 	<import file="./../jspdocportal/config/buildfile_application.xml"/>
     <!-- for a short description of the features of the import task look at

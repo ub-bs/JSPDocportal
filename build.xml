@@ -6,7 +6,7 @@
 <!-- =================================================================== -->
 
 <project default="usage" basedir=".">
-	<property name="MYAPPLICATION.DIRNAME" value="myapplication" />
+	<property name="MYAPPLICATION.DIRNAME" value="mycoresample_app" />
     <!-- =================================================================== -->
     <!-- Help on usage                                                       -->
     <!-- =================================================================== -->

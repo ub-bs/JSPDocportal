@@ -61,13 +61,14 @@
     <fail message="Environment variable MYCORE_HOME is not set!" unless="env.MYCORE_HOME" />
     <fail message="Environment variable DOCPORTAL_HOME is not set!" unless="env.DOCPORTAL_SYSTEM" />
 
+    <echo message="${env.MYCORE_APP}" />	
     <path id="this.classpath">
       <fileset dir="${env.MYCORE_HOME}/lib" includes="*.jar"/>
       <fileset dir="${env.DOCPORTAL_SYSTEM}/lib" includes="*.jar"/>
-      <fileset dir="${env.MYCORE_HOME}/../mycoresample_app/lib" includes="*.jar"/>
-      <fileset dir="${env.MYCORE_HOME}/../mycoresample_app/working/webapps/mycoresample/WEB-INF/lib" includes="docportal-for-hibernate.jar" /> 
-      <pathelement location="${env.MYCORE_HOME}/../mycoresample_app/config" />
-      <pathelement location="${env.MYCORE_HOME}/../mycoresample_app/config/hibernate" />
+      <fileset dir="${env.MYCORE_APP}/lib" includes="*.jar"/>
+      <fileset dir="${env.MYCORE_APP}/working/webapps/mycoresample/WEB-INF/lib" includes="docportal-for-hibernate.jar" /> 
+      <pathelement location="${env.MYCORE_APP}/config" />
+      <pathelement location="${env.MYCORE_APP}/config/hibernate" />
           	
       <pathelement location="${env.MYCORE_HOME}/config" />
       <pathelement location="${env.MYCORE_HOME}/schema" />
@@ -198,18 +199,18 @@
   <target name="load.document">
     <property name="commands.file" value="${env.DOCPORTAL_SYSTEM}/commands.txt"/>
     <echo file="${commands.file}" append="false">
-        load object from file docportal_document_00410901.xml
-        load derivate from file docportal_derivate_00410901.xml
-        load object from file docportal_document_00410902.xml
-        load derivate from file docportal_derivate_00410902.xml
-        load object from file docportal_document_00410903.xml
-        load derivate from file docportal_derivate_00410903.xml
-        load object from file docportal_document_00410904.xml
-        load derivate from file docportal_derivate_00410904.xml
-        load object from file docportal_document_07111101.xml
-        load derivate from file docportal_derivate_07111101.xml
-        load object from file docportal_document_07910403.xml    	
-        load derivate from file docportal_derivate_07910403.xml    	
+        update object from file docportal_document_00410901.xml
+        update derivate from file docportal_derivate_00410901.xml
+        update object from file docportal_document_00410902.xml
+        update derivate from file docportal_derivate_00410902.xml
+        update object from file docportal_document_00410903.xml
+        update derivate from file docportal_derivate_00410903.xml
+        update object from file docportal_document_00410904.xml
+        update derivate from file docportal_derivate_00410904.xml
+        update object from file docportal_document_07111101.xml
+        update derivate from file docportal_derivate_07111101.xml
+        update object from file docportal_document_07910403.xml    	
+        update derivate from file docportal_derivate_07910403.xml    	
       quit
     </echo>
     <antcall target="invoke.cli">
