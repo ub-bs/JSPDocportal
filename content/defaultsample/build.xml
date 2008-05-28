@@ -61,7 +61,9 @@
     <fail message="Environment variable MYCORE_HOME is not set!" unless="env.MYCORE_HOME" />
     <fail message="Environment variable DOCPORTAL_HOME is not set!" unless="env.DOCPORTAL_SYSTEM" />
 
-    <echo message="${env.MYCORE_APP}" />	
+    <echo message="MYCORE_APP=${env.MYCORE_APP}" />
+  	<echo message="MYCORE_HOME=${env.MYCORE_HOME}" />
+    <echo message="DOCPORTAL_SYSTEM=${env.DOCPORTAL_SYSTEM}" />
     <path id="this.classpath">
       <fileset dir="${env.MYCORE_HOME}/lib" includes="*.jar"/>
       <fileset dir="${env.DOCPORTAL_SYSTEM}/lib" includes="*.jar"/>
