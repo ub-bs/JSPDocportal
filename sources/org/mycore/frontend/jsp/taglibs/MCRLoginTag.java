@@ -205,7 +205,7 @@ public class MCRLoginTag extends SimpleTagSupport
 	        	MCRSessionMgr.getCurrentSession().setCurrentUserID(uid);
 	        	setNameIntoLoginResult(uid, loginresult);
 	            
-	        	List<String> allGroupIDS = MCRUserMgr.instance().retrieveUser(uid).getAllGroupIDs();
+	        	List<String> allGroupIDS = MCRUserMgr.instance().retrieveUser(uid).getGroupIDs();
 	        	Element eGroups = new Element ("groups");
 	        	for ( int i=0; i<allGroupIDS.size(); i++ ) {		        		
 	        		Element eGroup = new Element ("group");
