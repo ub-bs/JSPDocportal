@@ -170,6 +170,10 @@ public class NavServlet extends MCRServlet
         	logger.warn("wrong path" + path,ex);
         	navitem = (Element) XPath.selectSingleNode(navJdom, "/navigations//navitem[0]");
         }
+        if(navitem==null){
+        	logger.error("Path could not be resolved: "+path );
+        	navitem = (Element) XPath.selectSingleNode(navJdom, "/navigations//navitem[0]");
+        }
         String contentPage = navitem.getAttributeValue("href");
         String extern = navitem.getAttributeValue("extern");
         nodeID = navitem.getAttributeValue("systemID");
