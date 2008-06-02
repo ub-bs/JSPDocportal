@@ -430,7 +430,7 @@ public class MCRResultFormatter {
 							}
 						}catch (Exception all) {
 							//MCR.Class.SearchField.<classID> is not set
-							logger.info("Property MCR.Class.SearchField." + classID + " is not set!!");
+							logger.debug("Property MCR.Class.SearchField." + classID + " is not set!!");
 						}
 					}
 					
