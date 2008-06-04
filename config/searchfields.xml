@@ -15,8 +15,8 @@
     <!-- Search in all metadata fields (that have an xml:lang attribute) -->
     <field name="allMeta"       type="text"       source="objectMetadata" xpath="/mycoreobject | /mycoreobject/metadata//*" value="@ID | text() | @xlink:title" />
 
-    <field name="bkl"           type="identifier" source="objectCategory" objects="disshab document" xpath="/mycoreobject/metadata/bkls/bkl | /mycoreobject/metadata/subjects/subject" value="@ID" /> 
-    <field name="ddc"           type="identifier" source="objectCategory" objects="disshab document" xpath="/mycoreobject/metadata/subjects/subject" value="@ID" /> 
+    <field name="bkl"           type="identifier" source="objectCategory" objects="disshab document thesis" xpath="/mycoreobject/metadata/bkls/bkl | /mycoreobject/metadata/subjects/subject" value="@ID" /> 
+    <field name="ddc"           type="identifier" source="objectCategory" objects="disshab document thesis" xpath="/mycoreobject/metadata/subjects/subject" value="@ID" /> 
     
     <field name="type"          type="identifier" source="objectCategory" xpath="/mycoreobject/metadata/types/type" value="@ID" />
     <field name="format"        type="identifier" source="objectCategory" xpath="/mycoreobject/metadata/formats/format" value="@ID" />
@@ -30,22 +30,22 @@
     
     <!--  field name="title"         type="text"      sortable="true" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/titles/title" value="text()" / -->
     <field name="author"        type="name"       sortable="true" source="objectMetadata"  xpath="/mycoreobject/metadata/creators/creator | /mycoreobject/metadata/creatorlinks/creatorlink " value="text() | @xlink:title" />
-    <field name="authorID"      type="identifier" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/creatorlinks/creatorlink" value="@xlink:href" />
-    <field name="creator"       type="name"      sortable="true" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/creators/creator | /mycoreobject/metadata/creatorlinks/creatorlink " value="text() | @xlink:title" />
-    <field name="creatorID"     type="identifier" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/creatorlinks/creatorlink" value="@xlink:href" />
-    <field name="publisher"     type="name"       source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/publishers/publisher | /mycoreobject/metadata/publisherlinks/publisherlink" value="text() | @xlink:title" />
-    <field name="publisherID"   type="identifier" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/publisherlinks/publisherlink " value="@xlink:href" />
-    <field name="contributor"   type="name"       source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/contributors/contributor | /mycoreobject/metadata/contributorlinks/contributorlink" value="text() | @xlink:title" />
-    <field name="contributorID" type="identifier" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/contributorlinks/contributorlink" value="@xlink:href" />
-    <field name="keywords"      type="text"       source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/keywords/keyword" value="text()" />
-    <field name="description"   type="text"       source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/descriptions/description" value="text()" />
-    <field name="source"        type="text"       source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/sources/source" value="text()" />
-    <field name="coverage"      type="text"       source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/coverages/coverage" value="text()" />
-    <field name="rights"        type="text"       source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/rights/right" value="text()" />
-    <field name="relation"      type="text"       source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/relations/relation" value="text()" />
-    <field name="isbn"          type="identifier" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/isbns/isbn" value="text()" />
-    <field name="date"          type="date"      sortable="true" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/dates/date" value="ext:normalizeDate(string(normalize-space(text())))" />
-    <field name="identifier"    type="identifier" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/identifiers/identifier" value="text()" />
+    <field name="authorID"      type="identifier" source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/creatorlinks/creatorlink" value="@xlink:href" />
+    <field name="creator"       type="name"      sortable="true" source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/creators/creator | /mycoreobject/metadata/creatorlinks/creatorlink " value="text() | @xlink:title" />
+    <field name="creatorID"     type="identifier" source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/creatorlinks/creatorlink" value="@xlink:href" />
+    <field name="publisher"     type="name"       source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/publishers/publisher | /mycoreobject/metadata/publisherlinks/publisherlink" value="text() | @xlink:title" />
+    <field name="publisherID"   type="identifier" source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/publisherlinks/publisherlink " value="@xlink:href" />
+    <field name="contributor"   type="name"       source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/contributors/contributor | /mycoreobject/metadata/contributorlinks/contributorlink" value="text() | @xlink:title" />
+    <field name="contributorID" type="identifier" source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/contributorlinks/contributorlink" value="@xlink:href" />
+    <field name="keywords"      type="text"       source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/keywords/keyword" value="text()" />
+    <field name="description"   type="text"       source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/descriptions/description" value="text()" />
+    <field name="source"        type="text"       source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/sources/source" value="text()" />
+    <field name="coverage"      type="text"       source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/coverages/coverage" value="text()" />
+    <field name="rights"        type="text"       source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/rights/right" value="text()" />
+    <field name="relation"      type="text"       source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/relations/relation" value="text()" />
+    <field name="isbn"          type="identifier" source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/isbns/isbn" value="text()" />
+    <field name="date"          type="date"      sortable="true" source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/dates/date" value="ext:normalizeDate(string(normalize-space(text())))" />
+    <field name="identifier"    type="identifier" source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/identifiers/identifier" value="text()" />
 
     <!-- Search in author or institution metadata -->
     <field name="surname"       type="name"       sortable="true" source="objectMetadata" objects="person" xpath="/mycoreobject/metadata/names/name/surname"  value="text()" />

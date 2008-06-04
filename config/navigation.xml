@@ -133,6 +133,17 @@
                 <refitem name="~workflow-fileupload" label="" />
               </navitem>
             </navitem>
+            
+            <navitem name="thesis" label="WF.thesis" href="content/workflow/thesis/workflow.jsp" >
+              <refitem name="~thesis" label="" />
+              <navitem name="thesisbegin" label="WF.thesis.begin" href="content/workflow/thesis/begin.jsp" hidden="true" >
+                <refitem name="~thesisbegin" label="" />
+              </navitem>
+              <navitem name="workflow-fileupload" label="Nav.WorkflowFileupload" href="content/fileupload.jsp" hidden="true" >
+                <refitem name="~workflow-fileupload" label="" />
+              </navitem>
+            </navitem>
+            
             <navitem name="publication" label="WF.publication" href="content/workflow/publication/workflow.jsp" >
               <refitem name="~publication" label="" />
               <navitem name="publicationbegin" label="WF.publication.begin" href="content/workflow/publication/begin.jsp" hidden="true" >
@@ -268,6 +279,15 @@
             <refitem name="~process-xmetadiss" label="" />
           </navitem>
         </navitem>
+        <navitem name="thesis" label="Nav.Admin.Thesis" href="admin/main.jsp" right="administrate-thesis" >
+          <navitem name="workflow"	label="WF.thesis" href="content/workflow/thesis/workflow.jsp" right="administrate-thesis" >
+            <refitem name="~workflow-thesis" label="" />
+          </navitem>
+          <navitem name="process-thesis" label="Nav.Admin.Processes" href="admin/processes_list.jsp?workflowProcessType=thesis" right="administrate-thesis" >
+            <refitem name="~process-thesis" label="" />
+          </navitem>
+        </navitem>
+
         <navitem name="publication" label="Nav.Admin.Publication" href="admin/main.jsp"  right="administrate-publication" >
           <navitem name="workflow"	label="WF.publication" href="content/workflow/publication/workflow.jsp" right="administrate-publication" >
             <refitem name="~workflow-publication" label="" />

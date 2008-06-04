@@ -627,6 +627,19 @@
 			<label i18n="Editor.Document.classification.PACS2003" />
 		</item>
 	</list>
+  <panel id="DKeywords2">
+	<include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/keywords&amp;classname=MCRMetaLangText" />  
+     <cell row="1" col="1" anchor="NORTHWEST" var="metadata/keywords/keyword">
+     <repeater min="3" max="12" >  
+		<panel lines="off">
+     		<cell col="1" row="1" colspan="3" anchor="NORTHWEST" ref="AKeywordsFreetextOrClassification" />
+     		<cell col="1" row="2" colspan="3" anchor="NORTWEST" ref="SKeywordsClassifications" var="@type" default="freetext" />
+     		<cell col="1" row="3" anchor="WEST" ref="TFzeile1024" />
+     		<cell col="2" row="3" anchor="NORTHWEST" ref="Slang" var="@lang" default="de" />
+     	</panel>
+     </repeater> 
+     </cell>   
+  </panel> 
 
 	<helpPopup id="HKeywords" >
 		<label i18n="Editor.Help.HKeywords" />

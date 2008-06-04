@@ -40,6 +40,15 @@
     </boolean>
    </condition>
   </mcrpermission>
+
+  <mcrpermission name="administrate-thesis" description="Verwalten von Dissertations - Prozessen " ruledescription="Nur für Administratoren">
+   <condition format="xml">
+    <boolean operator="or">
+     <condition value="adminthesis" operator="=" field="group"/>
+     <condition value="admingroup" operator="=" field="group"/>
+    </boolean>
+   </condition>
+  </mcrpermission>
   
   <mcrpermission name="administrate-publication" description="Verwalten von Publikationen - Prozessen " ruledescription="Nur für Administratoren und Editoren von Publikationen">
    <condition format="xml">
@@ -166,6 +175,15 @@
      <condition value="admindisshab" operator="=" field="group"/>
      <condition value="createdisshab" operator="=" field="group"/>
      <condition value="suspenddisshab" operator="=" field="group"/>
+    </boolean>
+   </condition>
+  </mcrpermission>
+    <mcrpermission name="create-thesis" description="Erzeugen einer stud. Abschlussarbeit">
+   <condition format="xml">
+    <boolean operator="or">
+     <condition value="admingroup" operator="=" field="group"/>
+     <condition value="adminthesis" operator="=" field="group"/>
+     <condition value="createthesis" operator="=" field="group"/>
     </boolean>
    </condition>
   </mcrpermission>

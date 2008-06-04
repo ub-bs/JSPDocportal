@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO_8859-1"?>
+<!DOCTYPE MyCoReWebPage>
+
+<MyCoReWebPage>
+
+<section title="Neueingabe einer Studentischen Abschlussarbeit " xml:lang="de">
+<p></p>
+<br />
+<p></p>
+<editor id="author-thesis-de"><include uri="webapp:editor/workflow/editor-author-thesis.xml"/></editor>
+<p></p>
+<br />
+<p></p>
+</section>
+
+<section title="Create a new student final paper" xml:lang="en">
+<p></p>
+<br />
+<p></p>
+<editor id="author-thesis-en"><include uri="webapp:editor/workflow/editor-author-thesis.xml"/></editor>
+<p></p>
+<br />
+<p></p>
+</section>
+
+</MyCoReWebPage>
+
+

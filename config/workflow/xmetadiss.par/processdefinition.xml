@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<process-definition  xmlns="urn:jbpm.org:jpdl-3.1"  name="xmetadiss">
+<process-definition  xmlns="urn:jbpm.org:jpdl-3.1"  name="thesis">
 
 	<!-- SWIMLANES (= process roles) -->
 	<swimlane name="initiator" />
 
-	<swimlane name="disseditor">
+	<swimlane name="thesiseditor">
 		<assignment class="org.mycore.frontend.workflowengine.jbpm.MCRPooledActorAssignmentHandler">
-			<groupName>admindisshab</groupName>
-		</assignment>  
-	</swimlane>
-
-	<swimlane name="disssuspended">
-		<assignment class="org.mycore.frontend.workflowengine.jbpm.MCRPooledActorAssignmentHandler">
-			<groupName>suspenddisshab</groupName>
+			<groupName>adminthesis</groupName>
 		</assignment>  
 	</swimlane>
 
@@ -23,6 +17,11 @@
 		</assignment>       
 	</swimlane>
 
+	<swimlane name="inSuspension">
+		<assignment class="org.mycore.frontend.workflowengine.jbpm.MCRPooledActorAssignmentHandler">
+			<groupName>suspendthesis</groupName>
+		</assignment>  
+	</swimlane>
 
 	<swimlane name="subjectExpert">
 		<!--   <assignment expression="user(ernie)" /> -->
@@ -37,22 +36,21 @@
 
 	<task-node name="processInitialized">
 		<event type='node-enter'>
-			<action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRCreateAuthorAction" />
-			<action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRCreateDisshabAction" />                        
+			<action class="org.mycore.frontend.workflowengine.jbpm.thesis.MCRCreateThesisAction" />                        
 		</event>
 		<transition name="go2isInitiatorsEmailAddressAvailable" to="isInitiatorsEmailAddressAvailable" />  
 	</task-node>
 
 	<task-node name="processEditInitialized">
 		<task name="taskprocessEditInitialized" swimlane="initiator" />
-		<transition name="go2canDisshabBeSubmitted" to="canDisshabBeSubmitted" />
+		<transition name="go2canThesisBeSubmitted" to="canThesisBeSubmitted" />
 	</task-node>
 
 	<decision name="isInitiatorsEmailAddressAvailable">
 		<transition name="no" to="getInitiatorsEmailAddress"> 
 			<condition expression="#{empty(contextInstance.variables['initiatorEmail'])}"/>
 		</transition>
-		<transition name="yes" to="disshabCreated">
+		<transition name="yes" to="thesisCreated">
 			<condition expression="#{!empty(contextInstance.variables['initiatorEmail'])}"/>
 		</transition>
 	</decision>
@@ -62,67 +60,70 @@
 		<transition name="go2IsInitiatorsEmailAddressAvailable" to="isInitiatorsEmailAddressAvailable" />
 	</task-node>
 
-	<task-node name="disshabCreated">
-		<task name="taskCompleteDisshabAndSendToLibrary" swimlane="initiator" />
-		<transition name="go2canDisshabBeSubmitted" to="canDisshabBeSubmitted" />
+	<task-node name="thesisCreated">
+		<task name="taskCompleteThesisAndSendToLibrary" swimlane="initiator" />
+		<transition name="go2canThesisBeSubmitted" to="canThesisBeSubmitted" />
 	</task-node>
 
-	<decision name="canDisshabBeSubmitted">
-		<handler class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRDecisionHandlerXmetadiss" />
-		<transition name="disshabCantBeSubmitted" to="disshabCreated" />
-		<transition name="disshabCanBeSubmitted" to="disshabSubmitted" />
+	<decision name="canThesisBeSubmitted">
+		<handler class="org.mycore.frontend.workflowengine.jbpm.thesis.MCRDecisionHandlerThesis" />
+		<transition name="thesisCantBeSubmitted" to="thesisCreated" />
+		<transition name="thesisCanBeSubmitted" to="thesisSubmitted" />
 	</decision>
 
-	<task-node name="disshabSubmitted">
+	<task-node name="thesisSubmitted">
 		<event type='node-enter'>
-			<action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRDisshabSubmittedAction">
+			<action class="org.mycore.frontend.workflowengine.jbpm.thesis.MCRThesisSubmittedAction">
 				<lockedVariables>initiator,createdDocID,authorID,reservatedURN,attachedDerivates</lockedVariables>
 			</action>
 			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-				<from>MCR.WorkflowEngine.xmetadiss.from</from>
-				<to>MCR.WorkflowEngine.newtaskemail.xmetadiss</to>
-				<replyTo>MCR.WorkflowEngine.xmetadiss.replyto</replyTo>
-				<subject>MCR.WorkflowEngine.xmetadiss.subject.newtask</subject>
-				<body>MCR.WorkflowEngine.xmetadiss.body.newtask</body>  
+				<from>MCR.WorkflowEngine.thesis.from</from>
+				<to>MCR.WorkflowEngine.newtaskemail.thesis</to>
+				<replyTo>MCR.WorkflowEngine.thesis.replyto</replyTo>
+				<subject>MCR.WorkflowEngine.thesis.subject.newtask</subject>
+				<body>MCR.WorkflowEngine.thesis.body.newtask</body>  
 			</action>     
 
 		</event> 
-		<task name="taskCheckCompleteness" swimlane="disseditor">
+		<task name="taskCheckCompleteness" swimlane="thesiseditor">
 		</task> 
-		<transition name="go2sendBackToDisshabCreated" to="sendBackToDisshabCreated" >
+		<transition name="go2sendBackToThesisCreated" to="sendBackToThesisCreated" >
 			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSetDefaultAclsAction">
 				<varmcrid>createdDocID</varmcrid>
 				<varuserid>initiator</varuserid>
 			</action>
 		</transition>
-		<transition name="go2suspendDisshab" to="suspendDisshab" />
-		<transition name="go2canDisshabBeCommitted" to="canDisshabBeCommitted" />
+		<transition name="go2suspendThesis" to="suspendThesis" />
+		<transition name="go2canThesisBeCommitted" to="canThesisBeCommitted" />
 	</task-node>
-
-	<task-node name="suspendDisshab">
-		<task name="getEndOfSuspensionDate" swimlane="disseditor"/>
+	
+	<task-node name="suspendThesis">
+		<task name="getEndOfSuspensionDate" swimlane="thesiseditor"/>
 		<transition name="go2checkSuspensionDate" to="isSuspensionDateAvailable" />
 	</task-node>
 
 	<decision name="isSuspensionDateAvailable">
 		<handler class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRDecisionHandlerXmetadiss" />
-		<transition name="yes" to="disshabSuspended" />
-		<transition name="no" to="suspendDisshab" />
+		<transition name="yes" to="thesisSuspended" />
+		<transition name="no" to="suspendThesis" />
 	</decision>
 
-	<task-node name="disshabSuspended">
-		<task name="waitInSuspension" swimlane="disssuspended" />
-		<transition name="endSuspension" to="disshabSubmitted" />
+	<task-node name="thesisSuspended">
+		<task name="waitInSuspension" swimlane="inSuspension" />
+		<transition name="endSuspension" to="thesisSubmitted" />
 	</task-node>
+	
+	
+	
 
-	<task-node name="sendBackToDisshabCreated">
-		<task name="taskEnterMessageData" swimlane="disseditor" />
-		<transition name="go2disshabCreated2" to="disshabCreated">
+	<task-node name="sendBackToThesisCreated">
+		<task name="taskEnterMessageData" swimlane="thesiseditor" />
+		<transition name="go2thesisCreated2" to="thesisCreated">
 			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-				<from>MCR.WorkflowEngine.xmetadiss.from</from>
+				<from>MCR.WorkflowEngine.thesis.from</from>
 				<to>initiator</to>
-				<replyTo>MCR.WorkflowEngine.xmetadiss.from</replyTo>
-				<subject>MCR.WorkflowEngine.xmetadiss.subject</subject>
+				<replyTo>MCR.WorkflowEngine.thesis.from</replyTo>
+				<subject>MCR.WorkflowEngine.thesis.subject</subject>
 				<!-- <body>Mustertext</body> -->
 				<jbpmVariableName>tmpTaskMessage</jbpmVariableName>
 			</action>     
@@ -130,8 +131,8 @@
 	</task-node>
 
 	<task-node name="checkNonDigitalRequirements">
-		<task name="taskCheckIfSignedAffirmationYetAvailable" swimlane="disseditor" />
-		<transition name="go2canDisshabBeCommitted" to="canDisshabBeCommitted">
+		<task name="taskCheckIfSignedAffirmationYetAvailable" swimlane="thesiseditor" />
+		<transition name="go2canThesisBeCommitted" to="canThesisBeCommitted">
 			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSetWorkflowVariableAction">
 				<varname>signedAffirmationAvailable</varname>
 				<value>true</value>
@@ -141,13 +142,13 @@
 	</task-node>
 
 	<task-node name="requireAffirmation">
-		<task name="taskRequireSignedAffirmation" swimlane="disseditor" />
+		<task name="taskRequireSignedAffirmation" swimlane="thesiseditor" />
 		<transition name="go2checkNonDigitalRequirements" to="checkNonDigitalRequirements">
 			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-				<from>MCR.WorkflowEngine.xmetadiss.from</from>
+				<from>MCR.WorkflowEngine.thesis.from</from>
 				<to>initiator</to>
-				<replyTo>MCR.WorkflowEngine.xmetadiss.from</replyTo>
-				<subject>MCR.WorkflowEngine.xmetadiss.subject.aff</subject>
+				<replyTo>MCR.WorkflowEngine.thesis.from</replyTo>
+				<subject>MCR.WorkflowEngine.thesis.subject.aff</subject>
 				<!-- <body>Mustertext</body> -->
 				<jbpmVariableName>tmpTaskMessage</jbpmVariableName>
 				<dateOfSubmissionVariable>lastRequiredAffirmation</dateOfSubmissionVariable>
@@ -156,9 +157,9 @@
 		<transition name="go2checkNonDigitalRequirementsWithoutMail" to="checkNonDigitalRequirements" />
 	</task-node>
 
-	<decision name="canDisshabBeCommitted">
-		<handler class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRDecisionHandlerXmetadiss" />
-		<transition name="go2sendBackToDisshabCreated" to="sendBackToDisshabCreated" />
+	<decision name="canThesisBeCommitted">
+		<handler class="org.mycore.frontend.workflowengine.jbpm.thesis.MCRDecisionHandlerThesis" />
+		<transition name="go2sendBackToThesisCreated" to="sendBackToThesisCreated" />
 		<transition name="go2checkNonDigitalRequirements" to="checkNonDigitalRequirements" />
 		<transition name="go2wasCommitmentSuccessful" to="wasCommitmentSuccessful">
 			<action class="org.mycore.frontend.workflowengine.jbpm.MCRCommitObjectAction">
@@ -172,7 +173,7 @@
 		<transition name="go2adminCheck" to="adminCheck">  
 			<condition expression="#{!empty(contextInstance.variables['COMMITERROR'])}" />
 		</transition>
-		<transition name="go2disshabCommitted" to="disshabCommitted">  
+		<transition name="go2thesisCommitted" to="thesisCommitted">  
 			<condition expression="#{empty(contextInstance.variables['COMMITERROR'])}" />
 		</transition>     
 	</decision>
@@ -180,25 +181,25 @@
 	<task-node name="adminCheck">
 		<event type='node-enter'>
 			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-				<from>MCR.WorkflowEngine.xmetadiss.from</from>
-				<to>MCR.WorkflowEngine.xmetadiss.to</to>
-				<from>MCR.WorkflowEngine.xmetadiss.from</from>
-				<subject>MCR.WorkflowEngine.xmetadiss.subject.admin</subject>
-				<body>MCR.WorkflowEngine.xmetadiss.body.admin</body>
+				<from>MCR.WorkflowEngine.thesis.from</from>
+				<to>MCR.WorkflowEngine.thesis.to</to>
+				<from>MCR.WorkflowEngine.thesis.from</from>
+				<subject>MCR.WorkflowEngine.thesis.subject.admin</subject>
+				<body>MCR.WorkflowEngine.thesis.body.admin</body>
 				<jbpmVariableName>createdDocID</jbpmVariableName>
 			</action>          
 		</event>
 		<task name="taskAdminCheckCommitmentNotSuccessFul" swimlane="technicalAdministration" />
-		<transition name="go2disshabCommitted" to="disshabCommitted" />
+		<transition name="go2thesisCommitted" to="thesisCommitted" />
 	</task-node>     
 
-	<task-node name="disshabCommitted">
+	<task-node name="thesisCommitted">
 		<event type='node-enter'>
 			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-				<from>MCR.WorkflowEngine.xmetadiss.from</from>
+				<from>MCR.WorkflowEngine.thesis.from</from>
 				<to>initiator</to>
-				<subject>MCR.WorkflowEngine.xmetadiss.subject.commit</subject>
-				<body>MCR.WorkflowEngine.xmetadiss.body.commit</body>
+				<subject>MCR.WorkflowEngine.thesis.subject.commit</subject>
+				<body>MCR.WorkflowEngine.thesis.body.commit</body>
 				<jbpmVariableName>createdDocID</jbpmVariableName>
 			</action> 
 		</event>     
