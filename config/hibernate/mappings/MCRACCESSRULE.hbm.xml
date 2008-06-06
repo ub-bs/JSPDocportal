@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
-<hibernate-mapping>
-  <class name="org.mycore.backend.hibernate.tables.MCRACCESSRULE" table="MCRACCESSRULE" node="accessrule">
+<hibernate-mapping package="org.mycore.backend.hibernate.tables">
+  <class name="MCRACCESSRULE" table="MCRACCESSRULE" node="accessrule">
     <id column="RID" name="rid" type="string" node="@id">
       <generator class="assigned" />
     </id>

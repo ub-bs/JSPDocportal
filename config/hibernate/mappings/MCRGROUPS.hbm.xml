@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping package="org.mycore.backend.hibernate.tables">
-  <class name="MCRGROUPS">
+  <class name="MCRGROUPS" table="MCRGROUPS">
     <id name="gid" type="string" length="32">
       <generator class="assigned" />
     </id>
