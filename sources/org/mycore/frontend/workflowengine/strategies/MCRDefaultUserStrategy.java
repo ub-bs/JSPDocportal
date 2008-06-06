@@ -174,6 +174,7 @@ public class MCRDefaultUserStrategy extends MCRUserStrategy{
 				MCRUserCommands.createUserFromFile(filename);
 				
 			}
+			MCRUserCommands.enableUser(userid);
 		}catch(Exception e){
 			logger.error("could not commit user");
 			bSuccess = false;
