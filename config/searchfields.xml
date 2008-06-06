@@ -46,6 +46,7 @@
     <field name="isbn"          type="identifier" source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/isbns/isbn" value="text()" />
     <field name="date"          type="date"      sortable="true" source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/dates/date" value="ext:normalizeDate(string(normalize-space(text())))" />
     <field name="identifier"    type="identifier" source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/identifiers/identifier" value="text()" />
+	<field name="urn"           type="identifier" source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/urns/urn" value="text()" />
 
     <!-- Search in author or institution metadata -->
     <field name="surname"       type="name"       sortable="true" source="objectMetadata" objects="person" xpath="/mycoreobject/metadata/names/name/surname"  value="text()" />
