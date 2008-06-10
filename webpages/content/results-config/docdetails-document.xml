@@ -12,18 +12,18 @@
         <MCRDocDetailContent xpath="/mycoreobject/metadata/identifiers/identifier" templatetype="tpl-text-values" separator=", " languageRequired="no" />
    </MCRDocDetail> 
    <MCRDocDetail rowtype="standard" labelkey="OMD.author" >
-        <MCRDocDetailContent xpath="/mycoreobject/metadata/creatorlinks/creatorlink" templatetype="tpl-author_links" separator="," terminator="&lt;br&gt;" languageRequired="no" />
-        <MCRDocDetailContent xpath="/mycoreobject/metadata/creators/creator" templatetype="tpl-text-values" separator="," terminator="&lt;br&gt;" languageRequired="no" /> 
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/creatorlinks/creatorlink" templatetype="tpl-author_links" separator="&lt;br&gt;" terminator="&lt;br&gt;" languageRequired="no" />
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/creators/creator" templatetype="tpl-text-values" separator="&lt;br&gt;" terminator="&lt;br&gt;" languageRequired="no" /> 
     </MCRDocDetail>
     
     <MCRDocDetail rowtype="standard" labelkey="OMD.publisher" >
-        <MCRDocDetailContent xpath="/mycoreobject/metadata/publishlinks/publishlink" templatetype="tpl-author_links" separator="," terminator="&lt;br&gt;" languageRequired="no" />
-        <MCRDocDetailContent xpath="/mycoreobject/metadata/publishers/publisher[@type='publication']" templatetype="tpl-text-values" separator=";" terminator="&lt;br&gt;" languageRequired="no" /> 
-        <MCRDocDetailContent introkey="OMD.publisher.company" xpath="/mycoreobject/metadata/publishers/publisher[@type='publisher']" templatetype="tpl-text-values" separator=", " terminator="&lt;br&gt;" languageRequired="no" /> 
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/publishlinks/publishlink" templatetype="tpl-author_links" separator="&lt;br&gt;" terminator="&lt;br&gt;" languageRequired="no" />
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/publishers/publisher[@type='publication']" templatetype="tpl-text-values" separator="&lt;br&gt;" terminator="&lt;br&gt;" languageRequired="no" /> 
+        <MCRDocDetailContent introkey="OMD.publisher.company" xpath="/mycoreobject/metadata/publishers/publisher[@type='publisher']" templatetype="tpl-text-values" separator="&lt;br&gt;" terminator="&lt;br&gt;" languageRequired="no" /> 
     </MCRDocDetail>
     
     <MCRDocDetail rowtype="standard" labelkey="OMD.contributors" >
-      <MCRDocDetailContent xpath="/mycoreobject/metadata/contriblinks/contriblink" templatetype="tpl-author_links" separator=", " terminator="&lt;br&gt;" languageRequired="no" />
+      <MCRDocDetailContent xpath="/mycoreobject/metadata/contriblinks/contriblink" templatetype="tpl-author_links" separator="&lt;br&gt;" terminator="&lt;br&gt;" languageRequired="no" />
     </MCRDocDetail>
     <MCRDocDetail rowtype="table" labelkey="OMD.contributors" >
       <MCRDocDetailContent xpath="/mycoreobject/metadata/contributors/contributor/@type" templatetype="tpl-text-values" separator="td" languageRequired="yes" />        
@@ -70,7 +70,7 @@
     </MCRDocDetail>     
     
     <MCRDocDetail rowtype="standard" labelkey="OMD.keywords" >
-        <MCRDocDetailContent xpath="/mycoreobject/metadata/keywords/keyword" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/keywords/keyword" templatetype="tpl-text-values" separator="&lt;br&gt;" languageRequired="yes" />
     </MCRDocDetail>   
     
     <MCRDocDetail rowtype="standard" labelkey="OMD.class-subjects" >

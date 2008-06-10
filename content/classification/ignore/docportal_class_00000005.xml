@@ -18,12 +18,12 @@
         <label xml:lang="x-dini" text="pub-type:conf-proceeding" />
       </category>
       <category ID="TYPE0001.003">
-        <label xml:lang="de" text="Schriftenreihe" />
+        <label xml:lang="de" text="Band einer Schriftenreihe" />
         <label xml:lang="en" text="series" />
         <label xml:lang="x-dini" text="pub-type:monograph" />
       </category>
       <category ID="TYPE0001.004">
-        <label xml:lang="de" text="Zeitschrift" />
+        <label xml:lang="de" text="Band einer Zeitschrift" />
         <label xml:lang="en" text="journal" />
         <label xml:lang="x-dini" text="pub-type:journal" />        
       </category>

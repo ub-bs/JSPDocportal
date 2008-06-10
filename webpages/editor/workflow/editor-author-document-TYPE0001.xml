@@ -30,7 +30,7 @@
       
       <!--  Publikationsform -->
       <cell col="1" row="1" anchor="NORTHWEST" ref="LPublicationType" />
-      <cell col="2" row="1" anchor="NORTHWEST" ref="DPublicationType" sortnr="13" />
+      <cell col="2" row="1" anchor="NORTHWEST" ref="DPublicationType01" sortnr="13" />
       <cell col="3" row="1" anchor="NORTHWEST"><space width="20" height="0" /></cell>
       <cell col="4" row="1" anchor="WEST" ref="HPublicationType" />
       <cell col="1" row="2"  colspan="4" anchor="WEST" ><hr/> </cell>

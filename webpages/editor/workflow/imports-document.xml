@@ -10,17 +10,28 @@
       </cell> 
     </panel>
 
-    <list id="CPublicationType" type="dropdown" width="300px" disabled="true">
-      <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Type&amp;defaultValue=DocPortal_class_00000005" />
+    <list id="CPublicationType01" type="dropdown" width="300px" disabled="false">
+      <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getSpecialCategoriesInItems&amp;classProp=MCR.ClassificationID.Type&amp;categoryProp=MCR.Classification.Type.SelectCategoryIDs.publication01&amp;withCounter=false" />
     </list>
     
-    <panel id="DPublicationType">
+    <panel id="DPublicationType01">
       <include  uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/types&amp;classname=MCRMetaClassification" />
       <include  uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/types/type/@classid&amp;prop=MCR.ClassificationID.Type&amp;defaultValue=DocPortal_class_00000005" />
       <hidden   var="metadata/types/type/@inherited" default="0" />
-      <hidden   var="metadata/types/type/@categid"   />
-      <cell col="1" row="1" anchor="WEST" ref="CPublicationType" var="metadata/types/type/@categid" />    
+      	<cell col="1" row="1" anchor="WEST" ref="CPublicationType01" var="metadata/types/type/@categid" />    
     </panel>
+    
+    <list id="CPublicationType02" type="dropdown" width="300px" disabled="false">
+      <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getSpecialCategoriesInItems&amp;classProp=MCR.ClassificationID.Type&amp;categoryProp=MCR.Classification.Type.SelectCategoryIDs.publication02&amp;withCounter=false" />
+    </list>
+    
+    <panel id="DPublicationType02">
+      <include  uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/types&amp;classname=MCRMetaClassification" />
+      <include  uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/types/type/@classid&amp;prop=MCR.ClassificationID.Type&amp;defaultValue=DocPortal_class_00000005" />
+      <hidden   var="metadata/types/type/@inherited" default="0" />
+            <cell col="1" row="1" anchor="WEST" ref="CPublicationType02" var="metadata/types/type/@categid" />    
+    </panel>
+    
     
     <!-- *** Data for the TITLE ** sortnr="1" -->
     <panel id="RTitle">
@@ -263,11 +274,17 @@
         <label i18n="Editor.Common.choose.entry" />
       </condition>
     </list>
+    <panel id="DLanguageRef">
+    	 <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=@classid&amp;prop=MCR.ClassificationID.Language&amp;defaultValue=DocPortal_class_00000004" />
+         <hidden  var="@inherited" default="0" />
+         <cell col="1" row="1" anchor="NORTHWEST" ref="CLanguage" var="@categid" />
+    </panel>
+
     <panel id="DLanguage">
       <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/languages&amp;classname=MCRMetaClassification" />
-      <hidden  var="metadata/languages/language/@inherited" default="0" />
-      <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/languages/language/@classid&amp;prop=MCR.ClassificationID.Language&amp;defaultValue=DocPortal_class_00000004" />
-      <cell col="1" row="1" anchor="WEST" ref="CLanguage" var="metadata/languages/language/@categid"  />
+            <cell col="1" row="1" anchor="WEST" var="metadata/languages/language">
+           	<repeater min="1" max="5" ref="DLanguageRef" />
+           </cell>
     </panel>
     
     <!-- *** Data for the KEYWORDS ** 19 -->
@@ -430,7 +447,7 @@
          <hidden var="@type" default="locator" />
            <!-- configure this in mycore.properties  -->
            <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=@classid&amp;prop=MCR.ClassificationID.DDC&amp;defaultValue=DocPortal_class_00000009" />        
-         <hidden var="@title" default="Hello World!" />
+         <hidden var="@title" default="DDC" />
            <hidden var="@categid" />
            <cell row="1" col="1" width="100%">
              <output var="@title" default="DDC Klassifikation"/> <text label=" (" /><output var="@categid" default=" " /><text label=")" />
