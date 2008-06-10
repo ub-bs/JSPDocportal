@@ -352,8 +352,8 @@
 
 <panel id="DInstitution">
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/institutions&amp;classname=MCRMetaLangText" />
-	<cell col="1" row="1" anchor="NORTHWEST">
-		<textfield id= "tf.institution" var="metadata/institutions/institution" width="60" />
+	<cell col="1" row="1" anchor="NORTHWEST" var="metadata/institutions/institution">
+		<textfield id= "tf.institution" width="60" />
 	</cell>
  </panel>
   

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<MCRDocDetails name="field definition for documentdetails" >
+<MCRDocDetails name="field definition for documentdetails of thesis" >
     <MCRDocDetail rowtype="hidden" labelkey="OMD.maintitle" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/titles/title[@type='original-main']" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
     </MCRDocDetail> 
@@ -19,7 +19,8 @@
         <MCRDocDetailContent xpath="/mycoreobject/metadata/contributors/contributor" templatetype="tpl-text-values" separator=", " languageRequired="no" />
     </MCRDocDetail> 
     <MCRDocDetail rowtype="standard" labelkey="OMD.class-origins" >
-        <MCRDocDetailContent xpath="/mycoreobject/metadata/origins/origin" templatetype="tpl-classification" separator=", " languageRequired="yes" />
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/origins/origin" templatetype="tpl-classification" separator=", " languageRequired="yes" terminator="&lt;br&gt;" />
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/institutions/institution" templatetype="tpl-text-values" separator=", " languageRequired="no" />
     </MCRDocDetail>
     <MCRDocDetail rowtype="standard" labelkey="OMD.date" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/dates/date[@type='create']" templatetype="tpl-date-valuesMinimal" separator=", " languageRequired="no" introkey="datecreated" />
@@ -56,6 +57,9 @@
     <MCRDocDetail rowtype="standard" labelkey="OMD.coverages" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/coverages/coverage" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
     </MCRDocDetail>     
+    <MCRDocDetail rowtype="standard" labelkey="OMD.notes" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/notes/note" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
+    </MCRDocDetail>   
 	<!--
     <MCRDocDetail rowtype="standard" labelkey="OMD.rights" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/rights/right" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
