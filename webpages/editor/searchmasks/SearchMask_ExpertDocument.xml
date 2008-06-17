@@ -40,6 +40,9 @@
       <hidden var="conditions/boolean/boolean/condition[2]/@field"    default="objectType" />
       <hidden var="conditions/boolean/boolean/condition[2]/@operator" default="=" />
       <hidden var="conditions/boolean/boolean/condition[2]/@value"    default="disshab" />
+      <hidden var="conditions/boolean/boolean/condition[3]/@field"    default="objectType" />
+      <hidden var="conditions/boolean/boolean/condition[3]/@operator" default="=" />
+      <hidden var="conditions/boolean/boolean/condition[3]/@value"    default="thesis" />
       
       <!-- Search in metadata fields that are text -->
       <cell row="1" col="1" colspan="4" anchor="NORTHWEST" var="conditions/boolean/condition2">
