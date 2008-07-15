@@ -32,13 +32,19 @@
             <cell col="1" row="1" anchor="WEST" ref="CPublicationType02" var="metadata/types/type/@categid" />    
     </panel>
     
-    
-    <!-- *** Data for the TITLE ** sortnr="1" -->
+   <!-- *** Data for the TITLE ** sortnr="1" -->
     <panel id="RTitle">
+      <hidden var="@inherited" default="0" />
+      <cell col="1" row="1" anchor="NORTHWEST" ref="TFarea1024x3M" />
+      <cell col="2" row="1" anchor="NORTHWEST" ref="Slang" var="@lang" default="de" />
+      <cell col="3" row="1" anchor="NORTHWEST" ref="STitleType2" var="@type" default="main" />
+    </panel>
+    
+     <panel id="RTitle1">
       <hidden var="@inherited" default="0" />
       <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile1024M" />
       <cell col="2" row="1" anchor="NORTHWEST" ref="Slang" var="@lang" default="de" />
-      <cell col="3" row="1" anchor="NORTHWEST" ref="STitleType2" var="@type" default="main" />
+      <cell col="3" row="1" anchor="NORTHWEST" ref="STitleType" var="@type" default="main" />
     </panel>
 
     <panel id="DTitle">
@@ -488,6 +494,34 @@
     </panel>
     
     <!-- *** End *** -->
+    
+    <text id="LParent">
+        <label i18n="OMD.parent" />
+   </text>
+   <helpPopup id="HParent" >
+		<label i18n="Editor.Help.HParent" />
+	</helpPopup>
+
+    <panel id="DParent">
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=structure/parents&amp;classname=MCRMetaLinkID" /> 
+    <cell col="1" row="1" anchor="NORTHWEST" var="structure/parents/parent"  >
+        <repeater min="1" max="5">
+          <panel lines="off">
+            <hidden var="@inherited" default="0"  />
+            <hidden var="@type" default="locator"  />
+            <hidden var="@title" default="Parent Object" />
+            <hidden var="@href" default="" />
+            <cell row="1" col="1" width="100%">
+              <output var="@title" default=" Parent Object " />
+              <text label="&#160;&#160;&#160;" />
+            </cell>
+            <cell row="1" col="2">
+              <subselect i18n="Editor.Common.indexcreators" id="parent.select" type="webpage" href="nav?path=~indexSearchSeriesSub"  />
+            </cell>
+          </panel>
+        </repeater>
+      </cell>
+  </panel>
 
     
     

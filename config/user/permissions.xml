@@ -50,6 +50,15 @@
    </condition>
   </mcrpermission>
   
+  <mcrpermission name="administrate-series" description="Verwalten von Mehrbaendige Werke - Prozessen " ruledescription="Nur für Administratoren">
+   <condition format="xml">
+    <boolean operator="or">
+     <condition value="adminseries" operator="=" field="group"/>
+     <condition value="admingroup" operator="=" field="group"/>
+    </boolean>
+   </condition>
+  </mcrpermission>
+  
   <mcrpermission name="administrate-publication" description="Verwalten von Publikationen - Prozessen " ruledescription="Nur für Administratoren und Editoren von Publikationen">
    <condition format="xml">
     <boolean operator="or">
@@ -187,6 +196,17 @@
     </boolean>
    </condition>
   </mcrpermission>
+  
+  <mcrpermission name="create-series" description="Erzeugen einer stud. Abschlussarbeit">
+   <condition format="xml">
+    <boolean operator="or">
+     <condition value="admingroup" operator="=" field="group"/>
+     <condition value="adminseries" operator="=" field="group"/>
+     <condition value="createseries" operator="=" field="group"/>
+    </boolean>
+   </condition>
+  </mcrpermission>
+  
   <mcrpermission name="create-institution" description="Erzeugen einer Institution">
    <condition format="xml">
     <boolean operator="or">

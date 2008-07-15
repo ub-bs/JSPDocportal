@@ -222,7 +222,7 @@ public class MCRGetEditorElements implements MCRResolver {
 	//	if(parasearch == null || parasearch.equals("")) parasearch = "true";
 	//	if(textsearch == null || textsearch.equals("")) textsearch = "true";
 		if(notinherit == null || notinherit.equals("")) notinherit = "false";
-		if(heritable == null || heritable.equals("")) heritable = "true";
+		if(heritable == null || heritable.equals("")) heritable = "false";
 		
 		Element hiddens = new Element("hiddens");
 		Element hidden1 = new Element("hidden");

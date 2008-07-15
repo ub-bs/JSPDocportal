@@ -92,7 +92,7 @@ public class MCRWorkflowActions extends MCRServlet {
             	returnPath="/nav?path=" + nextPath;
             	return;            	
             }
-        	// leeren Editor für das Object includieren
+        	// leeren Editor fï¿½r das Object includieren
         	request.setAttribute("isNewEditorSource","false");
         	request.setAttribute("mcrid",mcrid);
         	request.setAttribute("processid",new Long(pid));        	
@@ -109,7 +109,7 @@ public class MCRWorkflowActions extends MCRServlet {
             	returnPath="/nav?path=" + nextPath;
             	return;            	
             }
-        	// befüllten Editor für das Object includieren
+        	// befï¿½llten Editor fï¿½r das Object includieren
         	String publicationType = (String) wfp.getContextInstance().getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_PUBLICATIONTYPE);
         	if ( publicationType == null )  
         		 publicationType="";
@@ -146,7 +146,7 @@ public class MCRWorkflowActions extends MCRServlet {
         			// delete unused Permissions from database
         			AI.removeAllRules(mcrid);
         		}
-    			// gesamten Prozess löschen!!
+    			// gesamten Prozess lï¿½schen!!
     			wfp.close();
     			MCRJbpmCommands.deleteProcess(String.valueOf(pid));
     		}
@@ -162,7 +162,7 @@ public class MCRWorkflowActions extends MCRServlet {
     	        	bSuccess = WFM.removeWorkflowFiles(wfp.getContextInstance());
     		}
     		if (bSuccess) {
-    			// gesamten Prozess löschen!!
+    			// gesamten Prozess lï¿½schen!!
     			wfp.close();
     			MCRJbpmCommands.deleteProcess(String.valueOf(pid));
     		}
@@ -180,10 +180,10 @@ public class MCRWorkflowActions extends MCRServlet {
     		WFM.setDefaultPermissions(derivateID, userid, wfp.getContextInstance());
     		
         	todo = "WFAddNewFileToDerivate";
-        	// kein requestforward sondern in den WFAddNewFileToDerivate Zweig übergehen! 
+        	// kein requestforward sondern in den WFAddNewFileToDerivate Zweig ï¿½bergehen! 
         }
         if ( "WFEditDerivateFromWorkflowObject".equals(todo) ) {
-        	//befüllten Editor für das Derivate includieren	um Label zu editieren		
+        	//befï¿½llten Editor fï¿½r das Derivate includieren	um Label zu editieren		
             if ( ! AI.checkPermission("create-"+documentType)) {
             	nextPath+="begin";
             	returnPath="/nav?path=" + nextPath;
@@ -269,7 +269,11 @@ public class MCRWorkflowActions extends MCRServlet {
             returnPath="/nav?path=" + nextPath;
         	return;
         }
-        
+        if ( "WFCreateURN".equals(todo) ){
+        	WFM.createURN(wfp.getContextInstance());
+        	returnPath="/nav?path=" + nextPath;
+        	return;
+        }
         
         
         

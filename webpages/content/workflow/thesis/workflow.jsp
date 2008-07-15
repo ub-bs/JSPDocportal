@@ -28,21 +28,24 @@
 
 <mcr:getWorkflowTaskBeanList var="myTaskList" mode="activeTasks" workflowTypes="thesis" 	varTotalSize="total1" />
 <mcr:getWorkflowTaskBeanList var="myProcessList" mode="initiatedProcesses" workflowTypes="thesis"    varTotalSize="total2" />
-
+<mcr:checkAccess var="createallowed" permission="administrate-thesis" />
 <c:choose>
-   <c:when test="${empty(myTaskList)&& empty(myProcessList)}">
-	  <div class="headline"><fmt:message key="WF.thesis" /></div>
-      <img title="" alt="" src="${baseURL}images/greenArrow.gif">
+    <c:when test="${empty(myTaskList)&& empty(myProcessList)}">
+  <div class="headline"><fmt:message key="WF.thesis" /></div>
+   
+   	<c:if test="${createallowed}">
+       <img title="" alt="" src="${baseURL}images/greenArrow.gif">
       <a target="_self" href="${baseURL}nav?path=~thesisbegin"><fmt:message key="WF.thesis.StartWorkflow" /></a>
       <br/>&nbsp;<br>
       <fmt:message key="WF.common.EmptyWorkflow" />   
-      <hr/>
+      <hr/> 
+    </c:if>
 	      <mcr:includeWebContent file="workflow/thesis_introtext.html"/>
     	  <br/>&nbsp;<br>
    </c:when>
    <c:otherwise>
         <div class="headline"><fmt:message key="WF.thesis" /></div>
-	   <mcr:checkAccess var="createallowed" permission="administrate-thesis" />
+	  
    		<c:if test="${createallowed}">    
 	    	<img title="" alt="" src="${baseURL}images/greenArrow.gif">
   		    <a target="_self" href="${baseURL}nav?path=~thesisbegin"><fmt:message key="WF.thesis.StartWorkflow" /></a>

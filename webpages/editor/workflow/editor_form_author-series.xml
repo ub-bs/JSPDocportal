@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO_8859-1"?>
+<!DOCTYPE MyCoReWebPage>
+
+<MyCoReWebPage>
+
+<section title="Neueingabe eines Mehrbänders oder Reihe " xml:lang="de">
+<p></p>
+<br />
+<p></p>
+<editor id="author-series-de"><include uri="webapp:editor/workflow/editor-author-series.xml"/></editor>
+<p></p>
+<br />
+<p></p>
+</section>
+
+<section title="Create a new multi-part item or series" xml:lang="en">
+<p></p>
+<br />
+<p></p>
+<editor id="author-series-en"><include uri="webapp:editor/workflow/editor-author-series.xml"/></editor>
+<p></p>
+<br />
+<p></p>
+</section>
+
+</MyCoReWebPage>
+
+

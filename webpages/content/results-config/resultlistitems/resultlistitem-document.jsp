@@ -10,17 +10,17 @@
 <c:choose>
 	<c:when test="${pageFragment=='icon'}">
 		<c:choose>
-			<c:when test="${fn:contains('TYPE0001.001', contentType)}">
+			<c:when test="${fn:contains('TYPE0001.001 TYPE0001.002 TYPE0001.003', contentType)}">
 				<img src="${WebApplicationBaseURL}/images/pubtype/monographie.gif"
-					alt="text" />
+					alt="text" align="middle"/>
 			</c:when>
-			<c:when test="${fn:contains('TYPE0001.002 TYPE0001.003 TYPE0001.004', contentType)}">
-				<img src="${WebApplicationBaseURL}/images/pubtype/periodical.gif"
-					alt="periodicals" />
+			<c:when test="${fn:contains('TYPE0001.004', contentType)}">
+				<img src="${WebApplicationBaseURL}/images/pubtype/zeitschrift.gif"
+					alt="periodicals" align="middle"/>
 			</c:when>
 			<c:when test="${fn:contains('TYPE0001.005', contentType)}">
 				<img src="${WebApplicationBaseURL}/images/pubtype/musikalie.gif"
-					alt="music" />
+					alt="music" align="middle"/>
 			</c:when>
 			<c:when test="${fn:contains('TYPE0001.006', contentType)}">
 				<img src="${WebApplicationBaseURL}/images/pubtype/patent.gif"
@@ -36,7 +36,7 @@
 			</c:when>
 			<c:when test="${fn:contains('TYPE0003', contentType)}">
 				<img src="${WebApplicationBaseURL}/images/pubtype/disshab.gif"
-					alt="disshab" />
+					alt="disshab" align="middle" />
 			</c:when>
 			<c:when test="${fn:contains('TYPE0010.001', contentType)}">
 				<img src="${WebApplicationBaseURL}/images/pubtype/rede.gif"

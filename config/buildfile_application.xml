@@ -348,10 +348,16 @@
             <param name="metadata.schema"
                 value="${MCR.Metadata.Config.institution}" />
         </antcall>
+    	<antcall target="do.transform">
+ 			<param name="metadata.schema" value="${MCR.Metadata.Config.series}" />
+	    </antcall>
+	 	<antcall target="do.transform">
+ 			<param name="metadata.schema" value="${MCR.Metadata.Config.series-volume}" />
+    	</antcall>
 
         <move todir="${docportal.schema}">
             <fileset dir="${docportal.schema}"
-                includes="${MCR.Metadata.Config.document} ${MCR.Metadata.Config.disshab} ${MCR.Metadata.Config.thesis} ${MCR.Metadata.Config.derivate} ${MCR.Metadata.Config.person} ${MCR.Metadata.Config.institution}" />
+                includes="${MCR.Metadata.Config.document} ${MCR.Metadata.Config.disshab} ${MCR.Metadata.Config.thesis} ${MCR.Metadata.Config.derivate} ${MCR.Metadata.Config.person} ${MCR.Metadata.Config.institution} ${MCR.Metadata.Config.series} ${MCR.Metadata.Config.series-volume}" />
             <mapper type="glob" from="*.xml" to="*.xsd" />
         </move>
     </target>
@@ -382,6 +388,7 @@
     	<mkdir dir="${MCR.WorkflowEngine.EditDirectory.thesis}" />
         <mkdir dir="${MCR.WorkflowEngine.EditDirectory.institution}" />
         <mkdir dir="${MCR.WorkflowEngine.EditDirectory.user}" />    	
+    	<mkdir dir="${MCR.WorkflowEngine.EditDirectory.series}" />
     	<mkdir dir="${MCR.WorkflowEngine.DeleteDirectory}" />
     	<mkdir dir="${MCR.EHCache.diskStore.path}" />
     </target>
@@ -1480,6 +1487,19 @@
             <param name="cli.command" value="process ${commands.file}" />
         </antcall>
         <delete file="${commands.file}" />		
+	</target>
+	
+	<target name="deploy.processdefinition.series">
+        <property name="commands.file" value="${basedir}/commands.txt" />
+        <echo file="${commands.file}" append="false">
+        	deploy jbpm processdefinition from file workflow/series.par/processdefinition.xml      	
+        </echo>
+        <antcall target="invoke.cli">
+            <param name="cli.directory"
+                value="${docportal.config}" />
+            <param name="cli.command" value="process ${commands.file}" />
+        </antcall>
+        <delete file="${commands.file}" />		
 	</target>	
 	
 	
@@ -1562,7 +1582,9 @@
 
     	   	deploy jbpm processdefinition from file workflow/institution.par/processdefinition.xml
         	
-        	deploy jbpm processdefinition from file workflow/thesis.par/processdefinition.xml      	    
+        	deploy jbpm processdefinition from file workflow/thesis.par/processdefinition.xml
+        	
+        	deploy jbpm processdefinition from file workflow/series.par/processdefinition.xml  
         </echo>
         <antcall target="invoke.cli">
             <param name="cli.directory"

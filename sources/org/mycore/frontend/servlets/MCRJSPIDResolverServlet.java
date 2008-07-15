@@ -23,22 +23,23 @@
 
 package org.mycore.frontend.servlets;
 
-import java.io.File;
-import java.io.OutputStream;
 import java.io.StringReader;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.jdom.Attribute;
 import org.jdom.Document;
+import org.jdom.Namespace;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
+import org.jdom.xpath.XPath;
 import org.mycore.datamodel.ifs.MCRDirectory;
 import org.mycore.datamodel.ifs.MCRFile;
-import org.mycore.datamodel.ifs.MCRFileNodeServlet;
 import org.mycore.datamodel.ifs.MCRFilesystemNode;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRObject;
@@ -90,6 +91,10 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
         String urn = request.getParameter("urn");
         String pdf = request.getParameter("pdf");
         String xml = request.getParameter("xml");
+        
+        String img = request.getParameter("img");
+        String page= request.getParameter("page");
+        String nr = request.getParameter("nr");
          
         StringBuffer queryString = null;
         if(id!=null){
@@ -157,6 +162,47 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     	    		response.setContentType("text/xml");
     	    		XMLOutputter xout = new XMLOutputter(Format.getPrettyFormat());
     	    		xout.output(doc, response.getOutputStream());
+    			}
+    			else if(img!=null){
+    				//Create URL for DFG ImageViewer and Forward to it
+    				//http://dfg-viewer.de/v1/?set%5Bmets%5D=http%3A%2F%2Frosdok.uni-rostock.de%2Fdata%2Fetwas%2Fetwas1737%2Fetwas1737.mets.xml&set%5Bzoom%5D=min
+    			
+    				StringBuffer sbDFGViewerURL = null; new StringBuffer("http://dfg-viewer.de/v1/"); //?set%5Bmets%5D=http%3A%2F%2Frosdok.uni-rostock.de%2Fdata%2Fetwas%2Fetwas1737%2Fetwas1737.mets.xml&set%5Bzoom%5D=min";
+    			
+    				MCRObject o = new MCRObject();
+    		    	o.receiveFromDatastore(mcrID);
+    				MCRObjectStructure structure = o.getStructure(); 
+    				MCRMetaLinkID derMetaLink = structure.getDerivate(0);
+        			MCRObjectID derID = derMetaLink.getXLinkHrefID();
+        			MCRDirectory root;
+        			root = MCRDirectory.getRootDirectory(derID.getId());;
+        			MCRFilesystemNode[] myfiles = root.getChildren();
+        			for (MCRFilesystemNode f: myfiles){
+    					if((f instanceof MCRFile) && ((MCRFile) f).getAbsolutePath().endsWith(".mets.xml")){
+    						sbDFGViewerURL = new StringBuffer("http://dfg-viewer.de/v1/");
+    						sbDFGViewerURL.append("?set%5Bmets%5D=");
+    						sbDFGViewerURL.append(URLEncoder.encode(getBaseURL()+"file/"+derID.getId()+"/"+f.getPath(), "UTF-8"));
+    						Document docMETS = ((MCRFile)f).getContentAsJDOM();
+    				
+    						if(page!=null){
+        						Namespace nsMets=Namespace.getNamespace("mets", "http://www.loc.gov/METS/");
+        						XPath xpID = XPath.newInstance("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
+        				    		"/mets:div[@TYPE='physSequence']/mets:div[starts-with(@ORDERLABEL, '33')]/@ORDER");
+        						xpID.addNamespace(nsMets);
+        						Attribute a = (Attribute)xpID.selectSingleNode(docMETS);
+        						if(a!=null){
+        							sbDFGViewerURL.append("&set[image]=").append(a.getValue());
+        						}        						
+    						}
+    						else if (nr!=null){
+    							sbDFGViewerURL.append("&set[image]=").append(nr);
+    						}
+    						sbDFGViewerURL.append("&set[zoom]=min");
+    						break;
+    					}
+        			}
+        			LOGGER.debug("DFGViewer URL: "+sbDFGViewerURL.toString());
+        			this.getServletContext().getRequestDispatcher(sbDFGViewerURL.toString()).forward(request, response);
     			}
     			else{
     				this.getServletContext().getRequestDispatcher("/nav?path=~docdetail&id=" +mcrID).forward(request, response);

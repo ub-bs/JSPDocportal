@@ -261,6 +261,7 @@
     <list id="STitleType2" type="dropdown">
       <item value="main" i18n="OMD.maintitle" />
       <item value="sub"  i18n="OMD.subtitle" />
+      <item value="short" i18n="OMD.shorttitle" />
     </list>
     
 	<list id="STitleType" type="dropdown">

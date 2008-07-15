@@ -7,11 +7,12 @@
 <fmt:setBundle basename='messages' />
 <c:set var="host" value="local" />
 <x:forEach select="$data">
- <x:set var="nameKey" select="string(./@name)" />
+	<x:set var="nameKey" select="string(./@name)" />
 	<tr>
 		<td class="metaname"><c:if test="${fn:length(nameKey) > 0 }">
 			<fmt:message key="${nameKey}" />:
-            </c:if></td>
+            </c:if>
+       </td>
 		<td class="metavalue">
 		<table border="0" cellpadding="0" cellspacing="0" width="100%">
 			<tr valign="top">
@@ -21,11 +22,12 @@
 					<table border="0" cellpadding="0" cellspacing="0" width="100%">
 					
 					<x:forEach select="./digitalobject">
-					      <x:set var="actlabel"  select="string(./@derivlabel)" />
+					  <x:set var="actlabel"  select="string(./@derivlabel)" />
 				      <x:set var="derivid"  select="string(./@derivid)" />
 				      
-					  <c:if test="${!fn:contains(label,actlabel)}">
-                    <mcr:checkAccess permission="read" var="accessallowed" key="${derivid}" />
+			        <c:if  test="${!fn:contains('Cover METS', actlabel)}">
+				    <c:if test="${!fn:contains(label,actlabel)}"> 
+				        <mcr:checkAccess permission="read" var="accessallowed" key="${derivid}" />
 						  <tr>										  
 							<td align="left" valign="bottom" >
 								<div class="derivateHeading">
@@ -75,8 +77,8 @@
 												</c:choose>
 												<x:out select="./@derivmain" /></a>&#160;
 								(<c:out value="${size}" /> Bytes)&#160;&#160;</td>
-								<c:if test="${fn:contains('gif-jpeg-png', contentType) && size < 100000}">
-									<td class="imageInResult"><a href="${URL}"><img	src="${URL}" width="100"></a></td>
+								<c:if test="${fn:contains('gif-jpeg-png', contentType) && size < 200000}">
+									<td class="imageInResult"><a href="${URL}"><img	src="${URL}" width="150"></a></td>
 								</c:if>
 							</tr>
 				 		  </table>
@@ -95,7 +97,11 @@
                        	 </tr>
                         </c:otherwise>
                        </c:choose>
-				      <c:set var="label" value="${actlabel}" />	     
+				     </c:if>			     
+				     <c:if  test="${fn:contains('METS', actlabel)}">
+				       	<a href="http://dfg-viewer.de/v1/?set%5Bmets%5D=${WebApplicationBaseURL}file/<x:out select="./@derivid" />/<x:out select="./@derivmain" />&set%5Bzoom%5D=min"><img src="${WebApplicationBaseURL}images/dfgviewer.gif" title = "Dokument anzeigen" alt="Dokument anzeigen"> <fmt:message key="Webpage.docdetails.showInDFGViewer" /></a>
+				     </c:if>			     
+				      <c:set var="label" value="${actlabel}" />			        
 					</x:forEach>
 				  </table>
 				</x:forEach>

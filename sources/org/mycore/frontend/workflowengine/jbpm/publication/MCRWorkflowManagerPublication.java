@@ -26,6 +26,8 @@
 package org.mycore.frontend.workflowengine.jbpm.publication;
 
 // Imported java classes
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -36,10 +38,13 @@ import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.JDOMException;
 import org.jdom.filter.ElementFilter;
+import org.jdom.input.SAXBuilder;
 import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRException;
+import org.mycore.datamodel.metadata.MCRMetaElement;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.guice.MCRPublicationWorkflowModule;
@@ -142,19 +147,19 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 			long processID = initWorkflowProcess(initiator, "go2processEditInitialized");
 			
 			MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processID);
-			String urn = (String)identifierStrategy.getIdentifierFromDocument(mcrid);
-			
-			if ( urn == null ) {
-				// a migration problem - old urns are in nbn, new in urn store
-				urn = (String)identifierStrategy.createNewIdentifier( mcrid, workflowProcessType, initiator);
-				Element eUrns = metadataStrategy.createURNElement(urn);
-				// mob.getMetadata().getMetadataElement("urns").setFromDOM(eUrns);
-				mob.getMetadata().getMetadataElement("urns").getElement(0).setFromDOM(eUrns.getChild("urn"));
-				
-			}
-            wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_PUBLICATIONTYPE,pubType);
+//			String urn = (String)identifierStrategy.getIdentifierFromDocument(mcrid);
+//			
+//			if ( urn == null ) {
+//				// a migration problem - old urns are in nbn, new in urn store
+//				urn = (String)identifierStrategy.createNewIdentifier( mcrid, workflowProcessType, initiator);
+//				Element eUrns = metadataStrategy.createURNElement(urn);
+//				// mob.getMetadata().getMetadataElement("urns").setFromDOM(eUrns);
+//				mob.getMetadata().getMetadataElement("urns").getElement(0).setFromDOM(eUrns.getChild("urn"));
+//				
+//			}
+//			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN, urn);
+			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_PUBLICATIONTYPE,pubType);
 			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS, mcrid);
-			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN, urn);	
 			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES, atachedDerivates);
 			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_DELETED_DERIVATES, "");
 
@@ -197,8 +202,8 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 			String reservatedURN = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN);
 			String createdDocID = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
 			String attachedDerivates = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES);
-			if(		!MCRWorkflowUtils.isEmpty(reservatedURN) 
-				&& 	!MCRWorkflowUtils.isEmpty(createdDocID)
+			if(	/*	!MCRWorkflowUtils.isEmpty(reservatedURN)
+				&& */ !MCRWorkflowUtils.isEmpty(createdDocID)
 				&&	!MCRWorkflowUtils.isEmpty(attachedDerivates)	){
 				
 				String strDocValid = (String) ctxI.getVariable(MCRMetadataStrategy.VALID_PREFIX + createdDocID );
@@ -222,15 +227,15 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 		try{
 			MCRObjectID nextFreeId = getNextFreeID(metadataStrategy.getDocumentType());
 			String initiator = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_INITIATOR);		
-			String identifier = (String)identifierStrategy.createNewIdentifier(nextFreeId.getId(), getWorkflowProcessType(), initiator);
+			/*String identifier = (String)identifierStrategy.createNewIdentifier(nextFreeId.getId(), getWorkflowProcessType(), initiator);
 			if(identifier != null && !identifier.equals("")){
 				ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN, identifier);
 			}
-			
+			*/
 			String publicationType = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_PUBLICATIONTYPE);			
 			String saveDirectory = MCRWorkflowDirectoryManager.getWorkflowDirectory(mainDocumentType);
 			Map<Integer, Object> identifiers = new HashMap<Integer, Object>();
-			identifiers.put(MCRWorkflowConstants.KEY_IDENTIFER_TYPE_URN, (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN));
+			//identifiers.put(MCRWorkflowConstants.KEY_IDENTIFER_TYPE_URN, (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN));
 			if(metadataStrategy.createEmptyMetadataObject(false,null,null, 
 					nextFreeId, initiator, identifiers, publicationType, saveDirectory) ){
 				
@@ -314,6 +319,47 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 		}finally{
 		
 		}
+		return bSuccess;
+	}
+	
+	public boolean createURN(ContextInstance ctxI){
+		boolean bSuccess = true;
+		String mcrid = (String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
+		
+		MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(ctxI.getProcessInstance().getId());
+		String urn = (String)identifierStrategy.getIdentifierFromDocument(mcrid);
+		if (urn == null) {
+			try {
+				urn = (String) identifierStrategy.createNewIdentifier(
+								mcrid,workflowProcessType,
+								(String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_INITIATOR));
+				MCRObjectID mcrObjID = new MCRObjectID(mcrid);
+				String filename = MCRWorkflowDirectoryManager.getWorkflowDirectory(mcrObjID.getTypeId())
+						+ File.separator + mcrid + ".xml";
+				Document doc = new SAXBuilder().build(new File(filename));
+				MCRObject mob = new MCRObject();
+				mob.setFromJDOM(doc);
+				Element eUrns = metadataStrategy.createURNElement(urn);
+				if(mob.getMetadata().getMetadataElement("urns")!=null){
+					mob.getMetadata().getMetadataElement("urns").getElement(0)
+						.setFromDOM(eUrns.getChild("urn"));
+				}
+				else{
+					MCRMetaElement metaURNs = new MCRMetaElement();
+					metaURNs.setFromDOM(eUrns);
+					mob.getMetadata().setMetadataElement(metaURNs, "urns");
+				}
+
+				JSPUtils.saveDirect(mob.createXML(), filename);
+			} catch (IOException e) {
+				logger.error("Error loading Object from WorkflowDirectory", e);
+				bSuccess=false;
+			} catch (JDOMException e) {
+				logger.error("Error loading Object from WorkflowDirectory", e);
+				bSuccess=false;
+			}
+		}
+        wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN, urn);		
 		return bSuccess;
 	}
 }

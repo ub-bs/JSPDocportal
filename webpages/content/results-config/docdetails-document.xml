@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <MCRDocDetails name="field definition for documentdetails" >
+     <MCRDocDetail rowtype="hidden" labelkey="OMD.parents" >    
+       <MCRDocDetailContent xpath="/mycoreobject/structure/parents/parent" type="document" templatetype="tpl-parent" separator="&lt;br&gt;" languageRequired="no" />    
+    </MCRDocDetail>
     <MCRDocDetail rowtype="hidden" labelkey="OMD.maintitle" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/titles/title[@type='main']" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
     </MCRDocDetail> 

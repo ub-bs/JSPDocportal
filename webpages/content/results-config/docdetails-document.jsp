@@ -93,7 +93,7 @@
    </td>
   </tr>
 
- <tr valign = "bottom" >
+ <tr valign = "top" >
   <td>
 
    <c:choose>
@@ -102,20 +102,47 @@
     <tr>
     	<td class="metaname"> <fmt:message key="OMD.${type}.title" />:</td>
 		
-		<td class="metaheadline">
+		<td class="metaheadline" colspan="2">
 		<table border="0" cellpadding="0" cellspacing="4">
 
 			<tbody><tr valign="top">
 			   <td class="derivateHeading">
-				   	<x:forEach select="$docDetails//metaname[@name='OMD.maintitle']/metavalues/metavalue">
-			 			<x:out select="./@text" escapeXml="./@escapeXml" />
-					</x:forEach> 
+			   
+			   	<x:forEach select="$docDetails//metaname[@name='OMD.parents']/parents/parent">
+					      <x:set var="parentID"  select="string(./@parentID)" />							
+								<jsp:include page="docdetailitems/docdetailitem-parents-sub.jsp" flush="true" >
+				    				<jsp:param name="mcrid" value="${parentID}" />
+								</jsp:include>				     
+					</x:forEach>
+			   		   
+				   	<%--<x:forEach select="$docDetails//metaname[@name='OMD.maintitle']/metavalues/metavalue">
+			 			<x:out select="./@text" escapeXml="./@escapeXml" /> 			 			
+					</x:forEach> --%>
+					 <c:set var="title"><mcr:simpleXpath jdom="${mycoreobject}" xpath="/mycoreobject/metadata/titles/title[@type='short']" /></c:set>
+					<c:if test="${empty(title)}">
+						<c:set var="title"><mcr:simpleXpath jdom="${mycoreobject}" xpath="/mycoreobject/metadata/titles/title[1]" /></c:set>
+					</c:if>
+					<c:out value="${title}" />
+					
 			</td></tr></tbody>
 			</table>
 			</td>
 			
 	</tr> 
-    
+	<tr><td /><td /><td rowspan="100" style="padding-left:20px;padding-top:20px" valign="top">
+	<x:forEach select="$docDetails//metaname/digitalobjects/digitalobject[@derivlabel='Cover']">
+ 		<x:set var="URL" select="concat($WebApplicationBaseURL,'file/',./@derivid,'/',./@derivmain)" />
+ 		<img src="${URL}" width="210" title="Cover" alt="Cover" />
+ 	</x:forEach>
+	</td>
+		<c:set var="volume"><mcr:simpleXpath jdom="${mycoreobject}" xpath="/mycoreobject/metadata/volumes/volume" /></c:set>
+    	<x:forEach select="$docDetails//metaname[@name='OMD.parents']/parents/parent">
+					      <x:set var="parentID"  select="string(./@parentID)" />							
+								<jsp:include page="docdetailitems/docdetailitem-parent-root-sub.jsp" flush="true" >
+				    				<jsp:param name="mcrid" value="${parentID}" />
+				    				<jsp:param name="volume" value="${volume}" />
+								</jsp:include>				     
+					</x:forEach>
     <x:forEach select="$docDetails//metaname">        
 				<x:set var="data" select="." scope="request" />
 				<c:set var="type"><x:out select = "./@type" /></c:set>

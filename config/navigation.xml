@@ -159,7 +159,20 @@
                   <navitem name="docdetail" label="Nav.DocumentDetails" href="content/docdetails.jsp" hidden="true" />              
                 </navitem>
               </navitem>                        
-            </navitem>           
+            </navitem>  
+            
+            <navitem name="series" label="WF.series" href="content/workflow/series/workflow.jsp" >
+              <refitem name="~series" label="" />
+              <navitem name="seriesbegin" label="WF.series.begin" href="content/workflow/series/begin.jsp" hidden="true" >
+                <refitem name="~seriesbegin" label="" />
+              </navitem>
+               <navitem name="seriesvolumebegin" label="WF.series.volumebegin" href="content/workflow/series/begin-volume.jsp" hidden="true" >
+                <refitem name="~seriesvolumebegin" label="" />
+              </navitem>
+              <navitem name="workflow-fileupload" label="Nav.WorkflowFileupload" href="content/fileupload.jsp" hidden="true" >
+                <refitem name="~workflow-fileupload" label="" />
+              </navitem>
+            </navitem>         
             
             <!--  hidden entries for editor include and previews -->
             <navitem name="workflow-edit" label="WF.Edit" href="content/workflow-editor.jsp" hidden="true">
@@ -248,6 +261,12 @@
         <navitem name="subSelectPerson" label="Nav.PersonSearch" href="content/indexSearch.jspx?searchclass=creators_sub" hidden="true">
           <refitem name="~indexSearchCreatorsSub" label="" />
         </navitem>
+        <navitem name="subSelectDocument" label="Nav.DocumentSearch" href="content/indexSearch.jspx?searchclass=documents_sub" hidden="true">
+          <refitem name="~indexSearchDocumentsSub" label="" />
+        </navitem>
+        <navitem name="subSelectSeries" label="Nav.SeriesSearch" href="content/indexSearch.jspx?searchclass=series_sub" hidden="true">
+          <refitem name="~indexSearchSeriesSub" label="" />
+        </navitem>
       </navigation>
       
       <navigation name="admin" label="Nav.AdminMenue" >
@@ -296,6 +315,15 @@
             <refitem name="~process-publication" label="" />
           </navitem>
         </navitem>
+        <navitem name="series" label="Nav.Admin.Thesis" href="admin/main.jsp" right="administrate-series" >
+          <navitem name="workflow"	label="WF.series" href="content/workflow/series/workflow.jsp" right="administrate-series" >
+            <refitem name="~workflow-series" label="" />
+          </navitem>
+          <navitem name="process-series" label="Nav.Admin.Processes" href="admin/processes_list.jsp?workflowProcessType=series" right="administrate-series" >
+            <refitem name="~process-series" label="" />
+          </navitem>
+        </navitem>
+        
         <navitem name="person" label="Nav.Admin.Person" href="admin/main.jsp"  right="administrate-person" >
           <navitem name="workflow"	label="WF.person" href="content/workflow/person/workflow.jsp"  right="administrate-person">
             <refitem name="~workflow-person" label="" />

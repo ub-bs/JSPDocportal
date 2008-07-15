@@ -494,6 +494,7 @@ public class MCRResultFormatter {
     				    }
     			    }
     				for ( int i=0; i< fileCnt; i++) {
+    					if(myfiles[i] instanceof MCRFile){
     			    	    MCRFile theFile = (MCRFile) myfiles[i];					    
     					    String size = String.valueOf(theFile.getSize());
     					    String lastModified = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format( theFile.getLastModified().getTime());
@@ -512,6 +513,7 @@ public class MCRResultFormatter {
     					    else if ( i+1 == fileCnt ) 	digitalObject.setAttribute("pos", "last");
     					    else     	digitalObject.setAttribute("pos", String.valueOf(i));
     					    digitalObjects.addContent(digitalObject);
+    					}
     			    }	
     			}
     		} catch (Exception e) {
@@ -552,7 +554,7 @@ public class MCRResultFormatter {
     	return metaValues;
     }
     
-    //Codiere Email durch umgekehrte Schreibweise -> Auflösung durch CSS  
+    //Codiere Email durch umgekehrte Schreibweise -> Auflï¿½sung durch CSS  
     //<div style="direction: rtl; unicode-bidi: bidi-override;">ed.liam@ofni</div> -> info@mail.de 
     
     private String decodeEMailAdress(String mail){
@@ -770,6 +772,29 @@ public class MCRResultFormatter {
     		return childObjects;
     	} 
 		return childObjects;
+    }
+    
+    public static Element getParentFromObject(Document doc, String xpath, String separator, String terminator, String lang, String introkey, String escapeXml) {
+    	Element parentObjects = new Element("parents");
+    	parentObjects.setAttribute("type","parent");
+    	parentObjects.setAttribute("separator",separator);
+    	parentObjects.setAttribute("terminator",terminator);    	
+    	parentObjects.setAttribute("introkey", introkey);
+    	parentObjects.setAttribute("escapeXml", escapeXml);    	
+    	//MCRObject mcr_obj = new MCRObject();
+    	try {
+			for(Iterator it = XPath.selectNodes(doc,xpath).iterator(); it.hasNext(); ) {
+			    String parentID = ((Element) it.next()).getAttributeValue("href",xlinkNamespace);
+			    //mcr_obj.receiveFromDatastore(childID);
+			    Element parentObject = new Element("parent");			    		
+			    parentObject.setAttribute("parentID",parentID);
+			    parentObjects.addContent(parentObject);
+			}
+    	} catch (Exception e) {
+    		logger.debug("error occured", e);
+    		return parentObjects;
+    	} 
+		return parentObjects;
     }    
 
     public Element getFormattedMCRDocDetailContent(org.jdom.Document doc, String xpath, 
@@ -819,7 +844,10 @@ public class MCRResultFormatter {
     		return getImagesFromObject(doc,xpath,separator,terminator,lang,introkey,escapeXml);    	
     	if (templatetype.equals("tpl-child"))
     		return getChildsFromObject(doc,xpath,separator,terminator,lang,introkey,escapeXml);    	
+    	if (templatetype.equals("tpl-parent"))
+    		return getParentFromObject(doc,xpath,separator,terminator,lang,introkey,escapeXml);    	
 
+    	
     	return null;
     }
     

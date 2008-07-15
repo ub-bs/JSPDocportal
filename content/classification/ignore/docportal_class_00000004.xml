@@ -64,6 +64,10 @@
   <label xml:lang="de" text="spanisch" description="spa#es"/>
   <label xml:lang="en" text="spanish" description="spa#es"/>
  </category>
+  <category ID="LANG0014">
+  <label xml:lang="de" text="latein" description="lat#la"/>
+  <label xml:lang="en" text="latin" description="lat#la"/>
+ </category>
 </categories>
 </mycoreclass>
 

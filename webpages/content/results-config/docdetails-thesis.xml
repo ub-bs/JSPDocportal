@@ -68,9 +68,9 @@
     <MCRDocDetail rowtype="standard" labelkey="OMD.sizes" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/sizes/size" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
     </MCRDocDetail>
-    <MCRDocDetail rowtype="standard" labelkey="OMD.urns" >
+    <!-- <MCRDocDetail rowtype="standard" labelkey="OMD.urns" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/urns/urn" templatetype="tpl-urn" separator=", " languageRequired="no" />
-    </MCRDocDetail>    
+    </MCRDocDetail> -->    
     <MCRDocDetail rowtype="space" labelkey="" separator="" />   
     <MCRDocDetail rowtype="standard" labelkey="OMD.created" >
         <MCRDocDetailContent xpath="/mycoreobject/service/servdates/servdate[@type='createdate']" templatetype="tpl-date-values" separator=", " languageRequired="no" />

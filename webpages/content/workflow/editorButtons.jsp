@@ -44,7 +44,7 @@
 				<mcr:checkAccess var="modifyAllowed" permission="writedb" key="${itemID}" />
 				
 				<c:if test="${modifyAllowed}">
-					<c:if test="${fn:contains('document,disshab,thesis,professorum,staff,artwork',itemDocType)}">
+					<c:if test="${fn:contains('document,disshab,thesis,series,professorum,staff,artwork',itemDocType)}">
 						<td align="center" valign="top" width="30">
 						<form method="get" action="${baseURL}workflowaction">
 							<input	name="processid" value="${processid}" type="hidden"> 
@@ -78,6 +78,19 @@
 					</form>
 					</td>
 				</c:if>
+				
+				<c:if test="${itemDocType == 'document' }">
+					<td align="center" valign="top" width="30">
+							<form method="get" action="${baseURL}workflowaction">
+						<input	name="processid" value="${processid}" type="hidden"> 
+						<input	name="todo" value="WFCreateURN" type="hidden"> 
+						<input	title="<fmt:message key="WF.common.object.CreateURN" />"
+							src="${baseURL}images/workflow_createurn.gif" type="image"
+							class="imagebutton">
+					</form>
+					</td>
+				</c:if>
+				
 
 				<c:if test="${itemDocType == 'disshab' && !fn:contains(itemID, 'dbhsnb') }">
 					<td align="center" valign="top" width="30">
@@ -90,7 +103,7 @@
 					</form>
 					</td>
 				</c:if>
-				<c:if test="${fn:contains('document,disshab,thesis, author,institution',itemDocType)&& !fn:contains(itemID, 'dbhsnb') && !fn:contains(itemID, 'rosdok')}">
+				<c:if test="${fn:contains('document,disshab,thesis,series,series-volume,author,institution',itemDocType)&& !fn:contains(itemID, 'dbhsnb') && !fn:contains(itemID, 'rosdok')}">
 				<td align="center" valign="top" width="30">   								
     			<!-- 			<form method="get" action="${baseURL}content/workflow/accessruleeditor.jsp">--> <!--  target="new"> -->
 				<form method="get" action="${baseURL}nav">
@@ -168,7 +181,7 @@
 			  <c:if	test="${modifyAllowed}">
 				<table>
 					<tr>
-						<c:if test="${!fn:contains('disshab,thesis',itemDocType) or commitAllowed}">
+						<c:if test="${!fn:contains('disshab,thesis,series',itemDocType) or commitAllowed}">
 							<td align="center" valign="top" width="30">
 							<form method="get" action="${baseURL}workflowaction">
 								<input	name="derivateID" value="${derivateID}" type="hidden"> 
@@ -247,7 +260,7 @@
 						</x:choose>
 						</c:if>
 
-						<c:if test="${fn:contains('disshab,thesis',itemDocType) and !commitAllowed}">
+						<c:if test="${fn:contains('disshab,thesis,series',itemDocType) and !commitAllowed}">
 							<%-- for disshab only delete is allowed --%>
 							<td align="center" valign="top" width="30">
 							<form method="get" action="${baseURL}workflowaction">

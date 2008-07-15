@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<MCRDocDetails name="field definition for documentdetails of thesis" >
+    <MCRDocDetail rowtype="hidden" labelkey="OMD.maintitle" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/titles/title[@type='original-main']" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
+    </MCRDocDetail> 
+    <MCRDocDetail rowtype="standard" labelkey="OMD.subtitle" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/titles/title[@type='original-sub']" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
+    </MCRDocDetail> 
+    <!-- -<MCRDocDetail rowtype="standard" labelkey="OMD.identifiers" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/identifiers/identifier" templatetype="tpl-text-values" separator=", " languageRequired="no" />
+    </MCRDocDetail> --> 
+   <MCRDocDetail rowtype="standard" labelkey="OMD.participants" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/participationlinks/participationlink" templatetype="tpl-author_links" separator="&lt;br /&gt;" languageRequired="no" />
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/participants/participant" templatetype="tpl-text-values" separator="&lt;br /&gt;" languageRequired="no" />
+    </MCRDocDetail>
+    <MCRDocDetail rowtype="standard" labelkey="OMD.date" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/dates/date[@type='create']" templatetype="tpl-date-valuesMinimal" separator=", " languageRequired="no" introkey="datecreated" />
+    </MCRDocDetail> 
+    <MCRDocDetail rowtype="space" labelkey="" separator="" />    
+	<MCRDocDetail rowtype="standard" labelkey="OMD.class-types" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/types/type" templatetype="tpl-classification" separator=", " languageRequired="yes" />
+    </MCRDocDetail>        
+    <MCRDocDetail rowtype="standard" labelkey="OMD.descriptions" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/descriptions/description" templatetype="tpl-text-values" separator="&lt;br&gt;&lt;br&gt;" languageRequired="no" escapeXml="false" />
+    </MCRDocDetail>     
+    <MCRDocDetail rowtype="standard" labelkey="OMD.keywords" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/keywords/keyword" templatetype="tpl-text-values" separator="&lt;br&gt;" languageRequired="no" />
+    </MCRDocDetail>     
+    <MCRDocDetail rowtype="space" labelkey="" separator="" />     
+    <MCRDocDetail rowtype="standard" labelkey="OMD.class-subjects" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/subjects/subject" templatetype="tpl-classification" separator="&lt;br&gt;" languageRequired="yes" />
+    </MCRDocDetail>    
+      
+    <MCRDocDetail rowtype="space" labelkey="" separator="" />     
+     <MCRDocDetail rowtype="standard" labelkey="OMD.notes" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/notes/note" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
+    </MCRDocDetail>   
+	<MCRDocDetail rowtype="space" labelkey="" separator="" />   
+     <MCRDocDetail rowtype="children" labelkey="OMD.children" >    
+       <MCRDocDetailContent xpath="/mycoreobject/structure/children/child" type="document" templatetype="tpl-child" separator="&lt;br&gt;" languageRequired="no" />    
+    </MCRDocDetail>
+    <MCRDocDetail rowtype="space" labelkey="" separator="" />
+    <MCRDocDetail rowtype="standard" labelkey="OMD.created" >
+        <MCRDocDetailContent xpath="/mycoreobject/service/servdates/servdate[@type='createdate']" templatetype="tpl-date-values" separator=", " languageRequired="no" />
+    </MCRDocDetail>
+    <MCRDocDetail rowtype="standard" labelkey="OMD.changed" >
+        <MCRDocDetailContent xpath="/mycoreobject/service/servdates/servdate[@type='modifydate']" templatetype="tpl-date-values" separator=", " languageRequired="no" />
+    </MCRDocDetail> 
+    <MCRDocDetail rowtype="hidden" labelkey="OMD.documents" >    
+       <MCRDocDetailContent xpath="/mycoreobject/structure/derobjects/derobject" type="document" templatetype="tpl-alldocument" separator="br" languageRequired="no" />    
+    </MCRDocDetail>
+</MCRDocDetails>

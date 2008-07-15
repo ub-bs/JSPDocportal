@@ -207,7 +207,7 @@ public abstract class MCRWorkflowManager {
 		try{
 			return derivateStrategy.moveDerivateObject(ctxI,derivateObjectID, direction);
 		}catch(MCRException ex){
-			logger.error("could not remove derivate");
+			logger.error("could not move derivate");
 		}finally{
 		
 		}
@@ -581,6 +581,15 @@ public abstract class MCRWorkflowManager {
 		metadataStrategy.storeMetadata(outxml, ID, fullname);
 	}
 	
-	
+	/**
+	 * This method can be used to create a new URN
+	 * The default implementation does nothing.
+	 * Subclasses may overwrite.
+	 * @return boolean: true if the creation was successful
+	 */
+	public boolean createURN(ContextInstance ctxI){
+		//does noting
+		return true;
+	}
 	
 }

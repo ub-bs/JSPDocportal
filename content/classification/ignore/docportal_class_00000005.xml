@@ -18,14 +18,14 @@
         <label xml:lang="x-dini" text="pub-type:conf-proceeding" />
       </category>
       <category ID="TYPE0001.003">
-        <label xml:lang="de" text="Band einer Schriftenreihe" />
-        <label xml:lang="en" text="series" />
+        <label xml:lang="de" text="Band eines mehrteiligen Werkes" />
+        <label xml:lang="en" text="part" />
         <label xml:lang="x-dini" text="pub-type:monograph" />
       </category>
       <category ID="TYPE0001.004">
-        <label xml:lang="de" text="Band einer Zeitschrift" />
-        <label xml:lang="en" text="journal" />
-        <label xml:lang="x-dini" text="pub-type:journal" />        
+        <label xml:lang="de" text="Ausgabe einer Zeitschrift" />
+        <label xml:lang="en" text="volume" />
+        <label xml:lang="x-dini" text="pub-type:monograph" />
       </category>
       <category ID="TYPE0001.005">
         <label xml:lang="de" text="Musikalie" />
@@ -57,7 +57,6 @@
         <label xml:lang="en" text="recension" />
         <label xml:lang="x-dini" text="pub-type:paper" />                
       </category>
-
     </category>
     <category ID="TYPE0003">
       <label xml:lang="de" text="Abschlussarbeit" />
@@ -98,6 +97,30 @@
         <label xml:lang="x-dini" text="pub-type:dissertation" />                
       </category>
     </category>
+    <category ID="TYPE0004">
+      <label xml:lang="de" text="Mehrteiliges Werk" />
+      <label xml:lang="en" text="multipart item" />
+      <category ID="TYPE0004.001">
+        <label xml:lang="de" text="Zeitung/Zeitschrift" />
+        <label xml:lang="en" text="journal" />
+        <label xml:lang="x-dini" text="pub-type:journal" />                
+      </category>
+      <category ID="TYPE0004.002">
+        <label xml:lang="de" text="Schriftenreihe" />
+        <label xml:lang="en" text="series" />
+        <label xml:lang="x-dini" text="pub-type:journal" />                
+      </category>
+      <category ID="TYPE0004.003">
+        <label xml:lang="de" text="begrenztes mehrbändiges Werk" />
+        <label xml:lang="en" text="" />
+        <label xml:lang="x-dini" text="pub-type:journal" />                
+      </category>
+    </category>
+    <category ID="TYPE0005">
+      <label xml:lang="de" text="Bandsatz eines mehrteiligen Werkes (z.B Jahrgang)" />
+      <label xml:lang="en" text="volume" />
+    </category>
+
 
     <category ID="TYPE0010">
       <label xml:lang="de" text="Andere" />
