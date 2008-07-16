@@ -10,9 +10,13 @@
     <!-- -<MCRDocDetail rowtype="standard" labelkey="OMD.identifiers" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/identifiers/identifier" templatetype="tpl-text-values" separator=", " languageRequired="no" />
     </MCRDocDetail> --> 
-   <MCRDocDetail rowtype="standard" labelkey="OMD.participants" >
-        <MCRDocDetailContent xpath="/mycoreobject/metadata/participationlinks/participationlink" templatetype="tpl-author_links" separator="&lt;br /&gt;" languageRequired="no" />
-        <MCRDocDetailContent xpath="/mycoreobject/metadata/participants/participant" templatetype="tpl-text-values" separator="&lt;br /&gt;" languageRequired="no" />
+   <MCRDocDetail rowtype="table" labelkey="OMD.participants" >
+   		<MCRDocDetailContent introkey="OMD.typeOfParticipation" xpath="/mycoreobject/metadata/participationlinks/participationlink/@xlink:label" templatetype="tpl-text-messagekey" separator=":&#160;&lt;br&gt;" terminator=":&#160;" languageRequired="no" />
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/participationlinks/participationlink" templatetype="tpl-author_links" separator=":&#160;&lt;br&gt;" languageRequired="no" terminator="&lt;br&gt;" />
+    </MCRDocDetail>
+   <MCRDocDetail rowtype="table" labelkey="OMD.participants" >
+        <MCRDocDetailContent introkey="OMD.typeOfParticipation" xpath="/mycoreobject/metadata/participants/participant/@type" templatetype="tpl-text-messagekey" separator=" " terminator=":&#160;" languageRequired="no" />
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/participants/participant" templatetype="tpl-text-values" separator=":&#160;&lt;br&gt;" languageRequired="no" terminator="&lt;br&gt;"/>
     </MCRDocDetail>
     <MCRDocDetail rowtype="standard" labelkey="OMD.date" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/dates/date[@type='create']" templatetype="tpl-date-valuesMinimal" separator=", " languageRequired="no" introkey="datecreated" />

@@ -24,7 +24,7 @@
                <table border="0" cellpadding="0" cellspacing="4px">
                 <c:if test="${colnum>1}">
 	                <colgroup>
-						<col width="80">
+						<col width="120">
 					</colgroup>
  			   </c:if>
                
@@ -53,10 +53,9 @@
 				                       </x:if>
 	                            	</x:otherwise>
 	                            </x:choose>
-	                                
-    
-							 </x:otherwise>   
-						  </x:choose>                              
+	                       </x:otherwise>   
+						  </x:choose>
+						  <x:out select="./metavalues[$j]/@terminator" escapeXml="false" />	                               
                         </td>
                         </c:forEach>
                        </tr>

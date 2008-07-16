@@ -36,38 +36,7 @@
     <MCRDocDetail rowtype="standard" labelkey="OMD.class-origins" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/origins/origin" templatetype="tpl-classification" separator=", " languageRequired="yes" />
     </MCRDocDetail>
-    <MCRDocDetail rowtype="standard" labelkey="OMD.Date.publishing" >
-        <MCRDocDetailContent  xpath="/mycoreobject/metadata/dates/date" templatetype="tpl-date-valuesMinimal" separator=", " languageRequired="yes"  />
-    </MCRDocDetail> 
-    <MCRDocDetail rowtype="standard" labelkey="OMD.class-types" >
-        <MCRDocDetailContent xpath="/mycoreobject/metadata/types/type" templatetype="tpl-classification" separator=", " languageRequired="yes" />
-    </MCRDocDetail>        
-    
-    <MCRDocDetail rowtype="standard" labelkey="OMD.class-formats" >
-        <MCRDocDetailContent xpath="/mycoreobject/metadata/formats/format" templatetype="tpl-classification" separator=", " languageRequired="yes" />
-    </MCRDocDetail>
-
-    <MCRDocDetail rowtype="standard" labelkey="OMD.journaltitle" >
-       <MCRDocDetailContent xpath="/mycoreobject/metadata/journaltitles/journaltitle" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
-    </MCRDocDetail> 
-
-    <MCRDocDetail rowtype="standard" labelkey="OMD.isbns" >
-         <MCRDocDetailContent xpath="/mycoreobject/metadata/isbns/isbn" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
-    </MCRDocDetail>    
-
-    <MCRDocDetail rowtype="standard" labelkey="OMD.yearofpublication" >
-       <MCRDocDetailContent xpath="/mycoreobject/metadata/yearofpublications/yearofpublication" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
-    </MCRDocDetail> 
-    
-    <MCRDocDetail rowtype="table" labelkey="OMD.volume" >
-       <MCRDocDetailContent xpath="/mycoreobject/metadata/volumes/volume" templatetype="tpl-text-values" separator="td" languageRequired="yes" />
-       <MCRDocDetailContent introkey="OMD.books" xpath="/mycoreobject/metadata/books/book" templatetype="tpl-text-values" separator="td" languageRequired="yes" />
-       <MCRDocDetailContent introkey="OMD.pages" xpath="/mycoreobject/metadata/pages/page" templatetype="tpl-text-values" separator="td" languageRequired="yes" />
-    </MCRDocDetail> 
         
-    <MCRDocDetail rowtype="line" labelkey="" separator="" /> 
-    
-    
     <MCRDocDetail rowtype="standard" labelkey="OMD.descriptions" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/descriptions/description" templatetype="tpl-text-values" separator=", " languageRequired="yes" escapeXml="false" />
     </MCRDocDetail>     
@@ -108,6 +77,40 @@
     </MCRDocDetail>  
 	-->
     <MCRDocDetail rowtype="line" labelkey="" separator="" />    
+
+<MCRDocDetail rowtype="standard" labelkey="OMD.Date.publishing" >
+        <MCRDocDetailContent  xpath="/mycoreobject/metadata/dates/date" templatetype="tpl-date-valuesMinimal" separator=", " languageRequired="yes"  />
+    </MCRDocDetail> 
+    <MCRDocDetail rowtype="standard" labelkey="OMD.class-types" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/types/type" templatetype="tpl-classification" separator=", " languageRequired="yes" />
+    </MCRDocDetail>        
+    
+    <MCRDocDetail rowtype="standard" labelkey="OMD.class-formats" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/formats/format" templatetype="tpl-classification" separator=", " languageRequired="yes" />
+    </MCRDocDetail>
+
+    <MCRDocDetail rowtype="standard" labelkey="OMD.journaltitle" >
+       <MCRDocDetailContent xpath="/mycoreobject/metadata/journaltitles/journaltitle" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
+    </MCRDocDetail> 
+
+    <MCRDocDetail rowtype="standard" labelkey="OMD.isbns" >
+         <MCRDocDetailContent xpath="/mycoreobject/metadata/isbns/isbn" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
+    </MCRDocDetail>    
+
+    <MCRDocDetail rowtype="standard" labelkey="OMD.yearofpublication" >
+       <MCRDocDetailContent xpath="/mycoreobject/metadata/yearofpublications/yearofpublication" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
+    </MCRDocDetail> 
+    
+<!--    <MCRDocDetail rowtype="table" labelkey="OMD.volume" >
+       <MCRDocDetailContent xpath="/mycoreobject/metadata/volumes/volume" templatetype="tpl-text-values" separator="td" languageRequired="yes" />
+       <MCRDocDetailContent introkey="OMD.books" xpath="/mycoreobject/metadata/books/book" templatetype="tpl-text-values" separator="td" languageRequired="yes" />
+       <MCRDocDetailContent introkey="OMD.pages" xpath="/mycoreobject/metadata/pages/page" templatetype="tpl-text-values" separator="td" languageRequired="yes" />
+    </MCRDocDetail> --> 
+        
+    <MCRDocDetail rowtype="line" labelkey="" separator="" /> 
+    
+
+
 
     <MCRDocDetail rowtype="standard" labelkey="OMD.created" >
         <MCRDocDetailContent xpath="/mycoreobject/service/servdates/servdate[@type='createdate']" templatetype="tpl-date-values" separator=", " languageRequired="yes" />

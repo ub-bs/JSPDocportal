@@ -13,9 +13,10 @@
 	<c:if test="${empty(title)}">
 		<c:set var="title"><mcr:simpleXpath jdom="${jdom}" xpath="/mycoreobject/metadata/titles/title[1]" /></c:set>
 	</c:if>
-<li><table><tr><td style="padding-right:10px">	<jsp:include page="../resultlistitems/resultlistitem-${fn:split(mcrid,'_')[1]}.jsp" >
+	<c:set var="c"><mcr:simpleXpath jdom="${jdom}" xpath="/mycoreobject/metadata/types/type/@categid" /></c:set>
+	<li><table><tr><td style="padding-right:10px">	<jsp:include page="../resultlistitems/resultlistitem-${fn:split(mcrid,'_')[1]}.jsp" >
 	      	<jsp:param name="pageFragment" value="icon" />
-	        <jsp:param name="contentType" value="" />
+	        <jsp:param name="contentType" value="${c}" />
    	        <jsp:param name="formatType" value="" /> 
 	</jsp:include></td>
 	<td><a href="${WebApplicationBaseURL}metadata/<c:out value='${mcrid}'/>">
