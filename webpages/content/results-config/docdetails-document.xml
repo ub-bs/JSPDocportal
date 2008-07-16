@@ -21,8 +21,7 @@
     
     <MCRDocDetail rowtype="standard" labelkey="OMD.publisher" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/publishlinks/publishlink" templatetype="tpl-author_links" separator="&lt;br&gt;" terminator="&lt;br&gt;" languageRequired="no" />
-        <MCRDocDetailContent xpath="/mycoreobject/metadata/publishers/publisher[@type='publication']" templatetype="tpl-text-values" separator="&lt;br&gt;" terminator="&lt;br&gt;" languageRequired="no" /> 
-        <MCRDocDetailContent introkey="OMD.publisher.company" xpath="/mycoreobject/metadata/publishers/publisher[@type='publisher']" templatetype="tpl-text-values" separator="&lt;br&gt;" terminator="&lt;br&gt;" languageRequired="no" /> 
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/publishers/publisher" templatetype="tpl-text-values" separator="&lt;br&gt;" terminator="&lt;br&gt;" languageRequired="no" /> 
     </MCRDocDetail>
     
     <MCRDocDetail rowtype="standard" labelkey="OMD.contributors" >
