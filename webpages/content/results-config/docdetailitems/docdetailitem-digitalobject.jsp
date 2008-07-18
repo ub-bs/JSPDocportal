@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr"%>
+<%@page import="java.net.URLEncoder"%>
 <fmt:setLocale value='${requestScope.lang}' />
 <fmt:setBundle basename='messages' />
 <c:set var="host" value="local" />
@@ -99,7 +100,8 @@
                        </c:choose>
 				     </c:if>			     
 				     <c:if  test="${fn:contains('METS', actlabel)}">
-				       	<a href="http://dfg-viewer.de/v1/?set%5Bmets%5D=${WebApplicationBaseURL}file/<x:out select="./@derivid" />/<x:out select="./@derivmain" />&set%5Bzoom%5D=min"><img src="${WebApplicationBaseURL}images/dfgviewer.gif" title = "Dokument anzeigen" alt="Dokument anzeigen"> <fmt:message key="Webpage.docdetails.showInDFGViewer" /></a>
+				     	<c:set var="metsurl">${WebApplicationBaseURL}file/<x:out select="./@derivid" />/<x:out select="./@derivmain" /></c:set>
+				       	<a href="http://dfg-viewer.de/v1/?set%5Bmets%5D=<%=URLEncoder.encode((String)pageContext.getAttribute("metsurl"),"UTF-8")%>&set%5Bzoom%5D=min"><img src="${WebApplicationBaseURL}images/dfgviewer.gif" title = "Dokument anzeigen" alt="Dokument anzeigen"> <fmt:message key="Webpage.docdetails.showInDFGViewer" /></a>
 				     </c:if>			     
 				      <c:set var="label" value="${actlabel}" />			        
 					</x:forEach>
