@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Transaction;
 import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Namespace;
@@ -38,6 +39,7 @@ import org.jdom.input.SAXBuilder;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 import org.jdom.xpath.XPath;
+import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.datamodel.ifs.MCRDirectory;
 import org.mycore.datamodel.ifs.MCRFile;
 import org.mycore.datamodel.ifs.MCRFilesystemNode;
@@ -147,11 +149,24 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
         			MCRDirectory root;
         			root = MCRDirectory.getRootDirectory(derID.getId());;
         			MCRFilesystemNode[] myfiles = root.getChildren();
-        			if(myfiles.length==1){
+        			if(myfiles.length==1){        				
+        				/* the following code does not change the URL in the browser, but I cannot set additional parameter to open the pdf */
+        				/*
         				response.setContentType( "application/pdf" );
         				response.setHeader("Content-Disposition", "attachment; filename=" + myfiles[0].getName());
         				if (myfiles[0] instanceof MCRFile) {
         					((MCRFile)myfiles[0]).getContentTo(response.getOutputStream());
+        				}*/
+        				if(myfiles[0] instanceof MCRFile && myfiles[0].getAbsolutePath().endsWith(".pdf")){
+        					StringBuffer sbPath = new StringBuffer(getBaseURL());
+        					sbPath.append("file/").append(myfiles[0].getPath());
+        					if(page!=null){
+        						sbPath.append("#page=").append(page);
+        					}
+        					else if(nr!=null){
+        						sbPath.append("#page=").append(nr);
+        					}
+        					response.sendRedirect(sbPath.toString());
         				}
         			}   				
     			}
@@ -181,13 +196,13 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     					if((f instanceof MCRFile) && ((MCRFile) f).getAbsolutePath().endsWith(".mets.xml")){
     						sbDFGViewerURL = new StringBuffer("http://dfg-viewer.de/v1/");
     						sbDFGViewerURL.append("?set%5Bmets%5D=");
-    						sbDFGViewerURL.append(URLEncoder.encode(getBaseURL()+"file/"+derID.getId()+"/"+f.getPath(), "UTF-8"));
+    						sbDFGViewerURL.append(URLEncoder.encode(getBaseURL()+"file/"+f.getPath(), "UTF-8"));
     						Document docMETS = ((MCRFile)f).getContentAsJDOM();
     				
     						if(page!=null){
         						Namespace nsMets=Namespace.getNamespace("mets", "http://www.loc.gov/METS/");
         						XPath xpID = XPath.newInstance("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
-        				    		"/mets:div[@TYPE='physSequence']/mets:div[starts-with(@ORDERLABEL, '33')]/@ORDER");
+        				    		"/mets:div[@TYPE='physSequence']/mets:div[starts-with(@ORDERLABEL, '" +page+"')]/@ORDER");
         						xpID.addNamespace(nsMets);
         						Attribute a = (Attribute)xpID.selectSingleNode(docMETS);
         						if(a!=null){
@@ -202,7 +217,7 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     					}
         			}
         			LOGGER.debug("DFGViewer URL: "+sbDFGViewerURL.toString());
-        			this.getServletContext().getRequestDispatcher(sbDFGViewerURL.toString()).forward(request, response);
+        			response.sendRedirect(sbDFGViewerURL.toString());
     			}
     			else{
     				this.getServletContext().getRequestDispatcher("/nav?path=~docdetail&id=" +mcrID).forward(request, response);
