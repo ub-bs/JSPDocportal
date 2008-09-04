@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO_8859-1"?>
 <mycoreuser xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:noNamespaceSchemaLocation="MCRUser.xsd">
-  <user numID="17" ID="editorI" id_enabled="true" update_allowed="true">
+  <user numID="13" ID="editorI" id_enabled="true" update_allowed="true">
     <user.password>editorI</user.password>
     <user.description>Berechtigter Editor für Institutionen (Workflow)</user.description>
     <user.primary_group>admininstitution</user.primary_group>

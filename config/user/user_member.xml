@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO_8859-1"?>
 <mycoreuser xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:noNamespaceSchemaLocation="MCRUser.xsd">
-  <user numID="20" ID="member" id_enabled="true" update_allowed="true">
+  <user numID="50" ID="member" id_enabled="true" update_allowed="true">
     <user.password>member</user.password>
     <user.description>Erweiterte Leserechte für Angehörige der Hochschule / Universität</user.description>
     <user.primary_group>membergroup</user.primary_group>

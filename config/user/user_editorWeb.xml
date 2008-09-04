@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO_8859-1"?>
 <mycoreuser xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:noNamespaceSchemaLocation="MCRUser.xsd">
-  <user numID="19" ID="editorweb" id_enabled="true" update_allowed="true">
+  <user numID="6" ID="editorweb" id_enabled="true" update_allowed="true">
     <user.password>editorweb</user.password>
     <user.description>Administration der WebContent Daten</user.description>
     <user.primary_group>adminwebcontent</user.primary_group>
