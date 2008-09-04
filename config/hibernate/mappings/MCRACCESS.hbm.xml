@@ -8,6 +8,7 @@
       <key-property name="objid" type="string" column="OBJID" length="128" node="@id" />
     </composite-id>
     <many-to-one name="rule" column="rid" class="MCRACCESSRULE" cascade="none" node="rule" embed-xml="false" not-null="true" />
+<!--    <property name="rid" type="string" column="RID" length="64" node="rule" />-->
     <property name="creator" type="string" column="CREATOR" length="64" not-null="true" unique="false" node="@creator" />
     <property name="creationdate" type="timestamp" column="CREATIONDATE" length="64" not-null="true" unique="false"
       node="@date" />

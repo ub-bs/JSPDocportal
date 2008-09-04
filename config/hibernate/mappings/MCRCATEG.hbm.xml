@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
-<hibernate-mapping package="org.mycore.backend.hibernate.tables">
-  <class name="MCRCATEG" table="MCRCATEG">
-    <composite-id class="MCRCATEGPK" name="key">
+<hibernate-mapping>
+  <class name="org.mycore.backend.hibernate.tables.MCRCATEG" table="MCRCATEG">
+    <composite-id class="org.mycore.backend.hibernate.tables.MCRCATEGPK" name="key">
       <key-property name="id" type="string">
         <column name="id" index="MCRCATEG_INDEX" length="128" />
       </key-property>
