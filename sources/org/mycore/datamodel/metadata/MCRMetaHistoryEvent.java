@@ -1,6 +1,7 @@
 package org.mycore.datamodel.metadata;
 
 import org.jdom.Element;
+import org.mycore.common.MCRCalendar;
 import org.mycore.common.MCRException;
 
 public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
@@ -147,7 +148,7 @@ public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
      */
     public Object clone() {
         MCRMetaHistoryEvent out = new MCRMetaHistoryEvent(datapart, subtag, lang, type, inherited);
-        out.setText(getText());
+        out.setText(getText("de").getText(), "de");
         out.setVonDate(getVon());
         out.setBisDate(getBis());
         out.setCalendar(getCalendar());
@@ -166,13 +167,13 @@ public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
     public void debug() {
         LOGGER.debug("Start Class : MCRMetaHistoryEvent");
         super.debugDefault();
-        LOGGER.debug("Text               = " + getText());
+        LOGGER.debug("Text               = " + getText("de"));
         LOGGER.debug("Calendar           = " + getCalendar());
-        if (getCalendar().equals(TAG_GREGORIAN)) {
+        if (getCalendar().equals(MCRCalendar.TAG_GREGORIAN)) {
             LOGGER.debug("Von (String)       = " + getVonToGregorianString());
         }
         LOGGER.debug("Von (JulianDay)    = " + getIvon());
-        if (getCalendar().equals(TAG_GREGORIAN)) {
+        if (getCalendar().equals(MCRCalendar.TAG_GREGORIAN)) {
             LOGGER.debug("Bis (String)       = " + getBisToGregorianString());
         }
         LOGGER.debug("Bis (JulianDay)    = " + getIbis());
@@ -181,5 +182,4 @@ public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
         LOGGER.debug("Stop");
         LOGGER.debug("");
     }
-
 }
