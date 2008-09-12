@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
-<hibernate-mapping>
-  <class name="org.mycore.backend.hibernate.tables.MCRCLASSLABEL" table="MCRCLASSLAB">
-    <composite-id class="org.mycore.backend.hibernate.tables.MCRCLASSLABELPK" name="key">
+<hibernate-mapping package="org.mycore.backend.hibernate.tables">
+  <class name="MCRCLASSLABEL" table="MCRCLASSLAB">
+    <composite-id class="MCRCLASSLABELPK" name="key">
       <key-property name="id" type="string" column="ID" length="64" />
       <key-property name="lang" type="string" column="LANG" length="8" />
     </composite-id>
