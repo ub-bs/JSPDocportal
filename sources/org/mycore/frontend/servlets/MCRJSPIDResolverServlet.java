@@ -200,6 +200,9 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     						Document docMETS = ((MCRFile)f).getContentAsJDOM();
     				
     						if(page!=null){
+    							while (page.startsWith("0")){
+    								page=page.substring(1);
+    							}
         						Namespace nsMets=Namespace.getNamespace("mets", "http://www.loc.gov/METS/");
         						XPath xpID = XPath.newInstance("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
         				    		"/mets:div[@TYPE='physSequence']/mets:div[starts-with(@ORDERLABEL, '" +page+"')]/@ORDER");
