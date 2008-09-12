@@ -143,8 +143,8 @@
    			<td class="metaname"> <fmt:message key="OMD.selflink" />:</td>
         	<td class="metavalue">
         		<table><tr><td>
-	        		<a href="${WebApplicationBaseURL}metadata/${param.id}">
-		          	${WebApplicationBaseURL}metadata/${param.id} </a>
+	        		<a href="${WebApplicationBaseURL}resolve?id=${param.id}">
+		          	${WebApplicationBaseURL}resolve?id=${param.id} </a>
 	          	</td></tr></table>
 			</td>
 	   </tr> 

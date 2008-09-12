@@ -178,8 +178,8 @@
 	    			      	${WebApplicationBaseURL}resolve?urn=${urn} </a>
    						</c:when>
    						<c:otherwise>
-		   					<a href="${WebApplicationBaseURL}metadata/${param.id}">
-	    			      	${WebApplicationBaseURL}metadata/${param.id} </a>	
+		   					<a href="${WebApplicationBaseURL}resolve?id=${param.id}">
+	    			      	${WebApplicationBaseURL}resolve?id=${param.id} </a>	
    						</c:otherwise>
   					</c:choose>
 	    	    </td></tr></table>

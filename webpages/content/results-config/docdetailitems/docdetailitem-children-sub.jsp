@@ -19,7 +19,7 @@
 	        <jsp:param name="contentType" value="${c}" />
    	        <jsp:param name="formatType" value="" /> 
 	</jsp:include></td>
-	<td><a href="${WebApplicationBaseURL}metadata/<c:out value='${mcrid}'/>">
+	<td><a href="${WebApplicationBaseURL}resolve?id=<c:out value='${mcrid}'/>">
 	<c:out value='${title}' /></a></td></tr></table>
  <ul style="line-height:1.5em; list-style:none;list-style-position: inside;">
 <x:forEach select="$dom/mycoreobject/structure/children/child">

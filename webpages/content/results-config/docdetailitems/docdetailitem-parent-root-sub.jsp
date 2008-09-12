@@ -43,7 +43,7 @@
 			<tbody><tr valign="top">
 			   <td>
 		
-		<a href="${WebApplicationBaseURL}metadata/<c:out value='${mcrid}'/>"><c:out value='${title}' /></a>
+		<a href="${WebApplicationBaseURL}resolve?id=<c:out value='${mcrid}'/>"><c:out value='${title}' /></a>
 		<c:if test="${not empty(param.volume)}">
 			&nbsp;;&nbsp;<c:out value="${param.volume}" />
 		</c:if>

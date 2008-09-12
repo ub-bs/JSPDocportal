@@ -30,7 +30,7 @@
 	        <jsp:param name="contentType" value="${type}" />
    	        <jsp:param name="formatType" value="" /> 
 		</jsp:include>
-		<a href="${WebApplicationBaseURL}metadata/<c:out value='${mcrid}'/>"><b><c:out value='${title}' /></b></a><br />
+		<a href="${WebApplicationBaseURL}resolve?id=<c:out value='${mcrid}'/>"><b><c:out value='${title}' /></b></a><br />
 	</c:if>
 </c:if>
 <c:if test="${(empty(jdom))}" ><br />Could not load document</c:if>
