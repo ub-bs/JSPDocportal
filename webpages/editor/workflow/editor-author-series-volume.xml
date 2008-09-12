@@ -32,6 +32,7 @@
     <cell col="2" row="1" anchor="NORTHEAST" ref="HPublicationType" />
     <cell col="1" row="2" colspan="2" anchor="NORTHWEST" ref="DType_SV" sortnr="10" />
     
+    <cell col="1" row="10"  colspan="2" anchor="WEST" ><hr/> </cell>
 
     <cell col="1" row="11" anchor="NORTHWEST" ref="LTitleP" />
     <cell col="2" row="11" anchor="NORTHEAST" ref="HTitle" />
@@ -46,24 +47,21 @@
     <cell col="1" row="61" anchor="NORTHWEST" ref="LIdentifier" />
     <cell col="2" row="61" anchor="NORTHEAST" ref="HIdentifier" /> 
 	<cell col="1" row="62" colspan="2" anchor="NORTHWEST" ref="DIdentifier_S" sortnr="32" />
+	
+	<cell col="1" row="80"  colspan="2" anchor="WEST" ><hr/> </cell>
 
-	<cell col="1" row="191" anchor="NORTHWEST" ref="LParent"  />
-    <cell col="2" row="191" anchor="WEST" ref="HParent" />
-    <cell col="1" row="192" anchor="NORTHWEST" ref="DParent" sortnr="2"  />
+	<cell col="1" row="81" anchor="NORTHWEST" ref="LParent"  />
+    <cell col="2" row="81" anchor="WEST" ref="HParent" />
+    <cell col="1" row="82" anchor="NORTHWEST" ref="DParent" sortnr="2"  />
 
-  
-	<cell col="1" row="201" anchor="NORTHWEST" ref="LParts_S"  />
-    <cell col="2" row="201" anchor="WEST" ref="HParts_S" />
-    <cell col="1" row="202" anchor="NORTHWEST" ref="DParts_S" sortnr="1"  />
+    <cell col="1" row="86" anchor="NORTHWEST" ref="LParts_S"  />
+    <cell col="2" row="86" anchor="WEST" ref="HParts_S" />
+    <cell col="1" row="87" anchor="NORTHWEST" ref="DParts_S" sortnr="1"  />
 
-    <cell col="1" row="240" colspan="2" anchor="NORTHWEST" ref="DHiddenFields" />
- 
-    <cell col="1" row="255" anchor="EAST" >
-      <space width="10" height="40" />
-    </cell>
-    <cell col="1" row="260" anchor="EAST" ref="BCancel"            />
-    <cell col="2" row="260" anchor="WEST" ref="BSubmit" var="save" />
-    
+    <cell col="1" row="90" colspan="2" anchor="NORTHWEST" ref="DHiddenFields" />
+    <cell col="1" row="91" anchor="EAST" ><space width="10" height="40" /></cell>
+    <cell col="1" row="95" anchor="EAST" ref="BCancel"            />
+    <cell col="2" row="95" anchor="WEST" ref="BSubmit" var="save" />
   </panel>
 
 

@@ -153,8 +153,7 @@
     <panel id="DPublisher_repeater">
       <hidden var="@inherited" default="0"  />
       <hidden var="@lang"   default="de"  />
-      <cell col="1" row="1" anchor="WEST" ref="TFzeile1024"  />
-      <cell col="2" row="1" anchor="WEST" ref="SPublisherType" var="@type"   />            
+      <cell col="1" row="1" anchor="WEST" ref="TFzeile1024"  />            
     </panel>
 
     <!-- metadata/publishers sortnr="8"  -->
@@ -163,8 +162,7 @@
       <cell col="1" row="2" anchor="NORTHWEST" var="metadata/publishers/publisher"   >
         <repeater min="0" max="10" anchor="NORTHWEST" ref="DPublisher_repeater"  />
       </cell>      
-    </panel>
-
+	</panel>
 
     <!-- *** Data for the Contributor sortnr="11" ** -->
     <panel id="DContributorLink">
@@ -194,7 +192,9 @@
       <hidden var="@lang"  default="de"  />
       <cell col="1" row="1" anchor="WEST" ref="TFzeile1024"  />
       <cell col="2" row="1" anchor="WEST" ref="TFzeile32" var="@type"  >            
-         <text i18n="Editor.Label.contributors.type" />      
+         <text>
+         	<label css-style="editorHint" i18n="Editor.Label.contributors.type" />
+         </text>      
       </cell>
     </panel>
 
@@ -208,9 +208,12 @@
     <!-- *** Data for the Date ** sortnr="12" -->
     <panel id="DDate">
       <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/dates&amp;classname=MCRMetaISO8601Date" />
+      <hidden var="metadata/dates/date/@format" default="YYYY" />
       <cell col="1" row="1" anchor="WEST" ref="TFzeile10M" var="metadata/dates/date"  />
       <cell col="2" row="1" var="metadata/dates/date/@type" default="submitted" >
-        <text i18n="Editor.Label.Date.publishing" />
+        <text>
+        	<label css-style="editorHint" i18n="Editor.Label.Date_Year.publishing" />
+        </text>
       </cell>
     </panel>
 
@@ -234,7 +237,7 @@
       <!--  item value="" i18n="Editor.Common.choose" / -->
       <item value="FORMAT0001" i18n="Editor.Item.text" />
       <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Format&amp;defaultValue=DocPortal_class_00000006" />
-      <condition id="CoTypeDoc" required="true" i18n="Editor.Common.choose.entry" />
+      <condition id="CoFormatDoc" required="true" i18n="Editor.Common.choose.entry" />
     </list>
     
     <panel id="DFormat">
@@ -245,10 +248,30 @@
     </panel>
     
     <!-- *** Data for the Identifier ** sortnr="15"-->
+    <!-- *** Data for the Identifier ** sortnr="15"-->
     <panel id="DIdentifier_repeater">
       <hidden var="@inherited" default="0"  />
       <hidden var="@lang" default="de"  />
-      <cell col="1" row="1" anchor="WEST" ref="TFzeile1024"  />
+      <cell col="1" row="1" anchor="WEST" ref="TFzeile128"  />
+      <cell col="2" row="1" anchor="NORTHWEST" var="@type">
+      	<list type="dropdown">
+      		<item value="free">
+      			<label i18n="OMD.id.free" />
+      		</item>
+      		<item value="gbv">
+      			<label i18n="OMD.id.gbv" />
+      		</item>
+      		<item value="gbv_original">
+      			<label i18n="OMD.id.gbv_original" />
+      		</item>
+      		<item value="zdb">
+      			<label i18n="OMD.id.zdb" />
+      		</item>
+      	</list>
+      </cell>
+      	
+      
+      
     </panel>
 
     <panel id="DIdentifier">
@@ -283,7 +306,7 @@
     <panel id="DLanguageRef">
     	 <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=@classid&amp;prop=MCR.ClassificationID.Language&amp;defaultValue=DocPortal_class_00000004" />
          <hidden  var="@inherited" default="0" />
-         <cell col="1" row="1" anchor="NORTHWEST" ref="CLanguage" var="@categid" />
+         <cell col="1" row="1" anchor="NORTHWEST" ref="CLanguage" var="@categid" default="de" />
     </panel>
 
     <panel id="DLanguage">
@@ -292,6 +315,66 @@
            	<repeater min="1" max="5" ref="DLanguageRef" />
            </cell>
     </panel>
+
+<!-- ** Data for the COLLECTION ***  18 -->
+    <text id="LCollections">
+		<label i18n="Editor.Label.Collection" />
+	</text>
+
+	<helpPopup id="HCollections" >
+		<label i18n="Editor.Help.HCollection" />
+	</helpPopup>
+    
+    
+    <list id="CCollections" width="300px" type="dropdown">
+      <item value="" i18n="Editor.Common.choose" />
+      <include  uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Collection&amp;defaultValue=DocPortal_class_00000022" />
+    </list>
+    <panel id="DCollectionsRef">
+    	 <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=@classid&amp;prop=MCR.ClassificationID.Collection&amp;defaultValue=DocPortal_class_00000022" />
+         <hidden  var="@inherited" default="0" />
+         <cell col="1" row="1" anchor="NORTHWEST" ref="CCollections" var="@categid" />
+    </panel>
+
+    <panel id="DCollections">
+      <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/collections&amp;classname=MCRMetaClassification" />
+            <cell col="1" row="1" anchor="WEST" var="metadata/collections/collection">
+           	<repeater min="1" max="5" ref="DCollectionsRef" />
+           </cell>
+    </panel>
+<!-- ** Data for the Count ***  45 -->
+    <text id="LCounts">
+		<label i18n="Editor.Label.Counts" />
+	</text>
+
+	<helpPopup id="HCounts" >
+		<label i18n="Editor.Help.HCounts" />
+	</helpPopup>
+
+	<panel id="DCounts">
+      <!-- *** Data for the Note ** sortnr="34"  -->
+      <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/counts&amp;classname=MCRMetaLangText" />
+      <hidden  var="metadata/counts/count/@inherited" default="0" />        
+      <hidden  var="metadata/counts/count/@lang" default="de" />
+      <cell col="1" row="1" anchor="WEST" ref="TFzeile128" var="metadata/counts/count" />
+    </panel>
+    
+    <!-- ** Data for the PublishingCompany ***  42 -->
+    <text id="LPublishingCompany">
+		<label i18n="Editor.Label.PublishingCompany" />
+	</text>
+
+	<helpPopup id="HPublishingCompany" >
+		<label i18n="Editor.Help.HPublishingCompany" />
+	</helpPopup>
+
+	<panel id="DPublishingCompany">
+      <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/publishingcompanies&amp;classname=MCRMetaLangText" />
+      <hidden  var="metadata/publishingcompanies/publishingcompany/@inherited" default="0" />        
+      <hidden  var="metadata/publishingcompanies/publishingcompany/@lang" default="de" />
+      <cell col="1" row="1" anchor="WEST" ref="TFzeile1024" var="metadata/publishingcompanies/publishingcompany" />
+    </panel>
+    
     
     <!-- *** Data for the KEYWORDS ** 19 -->
     <panel id="DKeywordsRef">

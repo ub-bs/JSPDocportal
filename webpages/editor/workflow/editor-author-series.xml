@@ -32,76 +32,90 @@
     <cell col="2" row="1" anchor="NORTHEAST" ref="HPublicationType" />
     <cell col="1" row="2" colspan="2" anchor="NORTHWEST" ref="DType_S" sortnr="10" />
     
+    <cell col="1" row="8"  colspan="2" anchor="WEST" ><hr/> </cell>
 
     <cell col="1" row="11" anchor="NORTHWEST" ref="LTitleP" />
     <cell col="2" row="11" anchor="NORTHEAST" ref="HTitle" />
 
     <cell col="1" row="12" colspan="2" anchor="NORTHWEST" ref="DTitle_NB" sortnr="11" />
 
+    <cell col="1" row="21" anchor="NORTHWEST" ref="LCreator" />
+    <cell col="2" row="21" anchor="NORTHEAST" ref="HCreator" />
+    <cell col="1" row="22" colspan="2" anchor="NORTHWEST" ref="DCreator" sortnr="12" />
+    <cell col="1" row="23" colspan="2" anchor="NORTHWEST" ref="DCreatorLink" sortnr="13" /> 
 
-    <cell col="1" row="21" anchor="NORTHWEST" ref="LParticipant_S" />
-    <cell col="2" row="21" anchor="NORTHEAST" ref="HPublisher" />
-    <cell col="1" row="22" colspan="2" anchor="NORTHWEST" ref="DParticipant_S" sortnr="12" />
-    <cell col="1" row="23" colspan="2" anchor="NORTHWEST" ref="DParticipationLinks_S" sortnr="13" /> 
+	<cell col="1" row="31" anchor="NORTHWEST" ref="LOriginP" />
+	<cell col="2" row="31" colspanchor="WEST" ref="HOrigin" />
+	<cell col="1" row="32" colspan="2" anchor="NORTHWEST" ref="DOrigin"  sortnr="16"  />
+	
+    <cell col="1" row="40"  colspan="2" anchor="WEST" ><hr/> </cell>
+    
+    <cell col="1" row="41" anchor="NORTHWEST" ref="LIdentifier" />
+    <cell col="2" row="41" anchor="NORTHEAST" ref="HIdentifier" /> 
+	<cell col="1" row="42" colspan="2" anchor="NORTHWEST" ref="DIdentifier" sortnr="32" />
+    
+    <cell col="1" row="51" anchor="NORTHWEST" ref="LCollections" />
+    <cell col="2" row="51" anchor="NORTHEAST" ref="HCollections" />
+    <cell col="1" row="52" colspan="2" anchor="NORTHWEST" ref="DCollections" sortnr="44" />    
+    
+    <cell col="1" row="60"  colspan="2" anchor="WEST" ><hr/> </cell>
+    
+    <cell col="1" row="61" anchor="NORTHWEST" ref="LParticipant_S" />
+    <cell col="2" row="61" anchor="NORTHEAST" ref="HPublisher" />
+    <cell col="1" row="62" colspan="2" anchor="NORTHWEST" ref="DParticipant_S" sortnr="14" />
+    <cell col="1" row="63" colspan="2" anchor="NORTHWEST" ref="DParticipationLinks_S" sortnr="15" /> 
 
-    <cell col="1" row="31" anchor="NORTHWEST" ref="LLanguageP" />
-    <cell col="2" row="31" anchor="NORTHEAST" ref="HLanguage" />
-    <cell col="1" row="32" colspan="2" anchor="NORTHWEST" ref="DLanguage" sortnr="20"/>
+    <cell col="1" row="70"  colspan="2" anchor="WEST" ><hr/> </cell>
+    
+    <cell col="1" row="71" anchor="NORTHWEST" ref="LPublishingTime_S" />
+    <cell col="2" row="71" anchor="NORTHEAST" ref="PublishingYear" />
+    <cell col="1" row="72" colspan="2" anchor="NORTHWEST" ref="DDate_From_To" sortnr="21"/>
+    
+    <cell col="1" row="81" anchor="NORTHWEST" ref="LLanguageP" />
+    <cell col="2" row="81" anchor="NORTHEAST" ref="HLanguage" />
+    <cell col="1" row="82" colspan="2" anchor="NORTHWEST" ref="DLanguage" sortnr="20"/>
 
-	<cell col="1" row="41" anchor="NORTHWEST" ref="LPublishingTime_S" />
-    <cell col="2" row="41" anchor="NORTHEAST" ref="PublishingYear" />
-    <cell col="1" row="42" colspan="2" anchor="NORTHWEST" ref="DDate_From_To" sortnr="21"/>
-
-   <!--  <cell col="1" row="51" anchor="NORTHWEST" ref="LUrnP" />
+	 <!--  <cell col="1" row="51" anchor="NORTHWEST" ref="LUrnP" />
     <cell col="2" row="51" anchor="NORTHEAST" ref="HUrn" /> 
 	<cell col="1" row="52" colspan="2" anchor="NORTHWEST" ref="DURN_NB" sortnr="32" /> -->
 
-    <cell col="1" row="61" anchor="NORTHWEST" ref="LIdentifier" />
-    <cell col="2" row="61" anchor="NORTHEAST" ref="HIdentifier" /> 
-	<cell col="1" row="62" colspan="2" anchor="NORTHWEST" ref="DIdentifier_S" sortnr="32" />
-
-
-    <cell col="1" row="71" anchor="NORTHWEST" ref="LSubjects" />
-    <cell col="2" row="71" anchor="NORTHEAST" ref="HSubject" /> 
-    <cell col="1" row="72" colspan="2" anchor="NORTHWEST" ref="DSubjects" sortnr="40" />    
+    <cell col="1" row="90"  colspan="2" anchor="WEST" ><hr/> </cell>
     
-        
-    <!--  <cell col="1" row="34" anchor="NORTHWEST" ref="LOriginP" />
-    <cell col="2" row="34" anchor="NORTHEAST" ref="HOrigin" />
-    <cell col="1" row="35" colspan="2" anchor="NORTHWEST" ref="DOrigin" sortnr="5" /> -->
-	
-
     <cell col="1" row="91" anchor="NORTHWEST" ref="LDescription"  />
     <cell col="2" row="91" anchor="WEST" ref="HDescription" />
     <cell col="1" row="92" anchor="NORTHWEST" ref="DDescription" sortnr="42"  />
+
+    <cell col="1" row="101" anchor="NORTHWEST" ref="LSubjects" />
+    <cell col="2" row="101" anchor="NORTHEAST" ref="HSubject" /> 
+    <cell col="1" row="102" colspan="2" anchor="NORTHWEST" ref="DSubjects" sortnr="40" />    
+              
+    <cell col="1" row="111" anchor="NORTHWEST" ref="LKeywords"  />
+    <cell col="2" row="111" anchor="WEST" ref="HKeywords" />
+    <cell col="1" row="112" anchor="NORTHWEST" ref="DKeywords_S" sortnr="43"  />
     
-    <cell col="1" row="101" anchor="NORTHWEST" ref="LKeywords"  />
-    <cell col="2" row="101" anchor="WEST" ref="HKeywords" />
-    <cell col="1" row="102" anchor="NORTHWEST" ref="DKeywords_S" sortnr="43"  />
+	<cell col="1" row="120"  colspan="2" anchor="WEST" ><hr/> </cell>
     
-    
-    <cell col="2" row="111" anchor="NORTHWEST">
-        <space width="20" height="0" />
-      </cell>
     <cell col="1" row="121" anchor="NORTHWEST" ref="LNote" />
     <cell col="2" row="121" anchor="NORTHEAST" ref="HNote" />
     <cell col="1" row="122" colspan="2" anchor="NORTHWEST" ref="DNote" sortnr="90"/>     
 
-	<cell col="1" row="191" anchor="NORTHWEST" ref="LParent"  />
-    <cell col="2" row="191" anchor="WEST" ref="HParent" />
-    <cell col="1" row="192" anchor="NORTHWEST" ref="DParent" sortnr="2"  />
+	<cell col="1" row="130"  colspan="2" anchor="WEST" ><hr/> </cell>
+	
+	<cell col="1" row="131" anchor="NORTHWEST" ref="LParent"  />
+    <cell col="2" row="131" anchor="WEST" ref="HParent" />
+    <cell col="1" row="132" anchor="NORTHWEST" ref="DParent" sortnr="2"  />
 
-	<cell col="1" row="201" anchor="NORTHWEST" ref="LParts_S"  />
-    <cell col="2" row="201" anchor="WEST" ref="HParts_S" />
-    <cell col="1" row="202" anchor="NORTHWEST" ref="DParts_S" sortnr="1"  />
+	<cell col="1" row="141" anchor="NORTHWEST" ref="LParts_S"  />
+    <cell col="2" row="141" anchor="WEST" ref="HParts_S" />
+    <cell col="1" row="142" anchor="NORTHWEST" ref="DParts_S" sortnr="1"  />
 
-    <cell col="1" row="240" colspan="2" anchor="NORTHWEST" ref="DHiddenFields" />
+    <cell col="1" row="150" colspan="2" anchor="NORTHWEST"><hr/> </cell>
+    <cell col="1" row="151" colspan="2" anchor="NORTHWEST" ref="DHiddenFields" />
  
-    <cell col="1" row="255" anchor="EAST" >
-      <space width="10" height="40" />
-    </cell>
-    <cell col="1" row="260" anchor="EAST" ref="BCancel"            />
-    <cell col="2" row="260" anchor="WEST" ref="BSubmit" var="save" />
+    <cell col="1" row="155" anchor="EAST" ><space width="10" height="40" /></cell>
+    
+    <cell col="1" row="160" anchor="EAST" ref="BCancel"            />
+    <cell col="2" row="160" anchor="WEST" ref="BSubmit" var="save" />
     
   </panel>
 
@@ -168,12 +182,12 @@
   
   
   	<list id="listTypeOfParticipation" type="dropdown">
-  		<item value="author">
+  		<!-- <item value="author">
   			<label i18n="OMD.typeOfParticipation.author" />
   		</item>
   		<item value="subauthor">
   			<label i18n="OMD.typeOfParticipation.subauthor" />
-  		</item>
+  		</item> -->
   		<item value="mainPublisher">
   			<label i18n="OMD.typeOfParticipation.mainPublisher" />
   		</item>
@@ -393,40 +407,6 @@
 	  </list>  
     </cell>
   </panel>
-
-
-<!-- *** Data for the Identifier ** sortnr="15"-->
-    <panel id="DIdentifier_S_repeater">
-      <hidden var="@inherited" default="0"  />
-      <hidden var="@lang" default="de"  />
-      <cell col="1" row="1" anchor="WEST" ref="TFzeile128"  />
-      <cell col="2" row="1" anchor="NORTHWEST" var="@type">
-      	<list type="dropdown">
-      		<item value="free">
-      			<label i18n="OMD.id.free" />
-      		</item>
-      		<item value="gbv">
-      			<label i18n="OMD.id.gbv" />
-      		</item>
-      		<item value="gbv_original">
-      			<label i18n="OMD.id.gbv_original" />
-      		</item>
-      		<item value="zdb">
-      			<label i18n="OMD.id.zdb" />
-      		</item>
-      	</list>
-      </cell>
-      	
-      
-      
-    </panel>
-
-    <panel id="DIdentifier_S">
-      <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/identifiers&amp;classname=MCRMetaLangText" />
-      <cell col="1" row="1" anchor="NORTHWEST" var="metadata/identifiers/identifier"  >
-        <repeater min="2" max="5" ref="DIdentifier_S_repeater"  />
-      </cell>      
-    </panel>
 
 	<text id="AKeywordsFreetextOrClassification_S">
 		<label css-style="editorHint" i18n="Editor.Label.KeywordsFreetextOrClassification" />

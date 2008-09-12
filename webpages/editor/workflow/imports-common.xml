@@ -273,6 +273,9 @@
 
 	<!-- *** Data for the Creator/Creatorlink ** -->
 
+	<text id="LCreator">
+		<label i18n="Editor.Label.Authors" />
+	</text>
 	<text id="LCreatorP">
 		<label i18n="Editor.Label.AuthorsM" />
 	</text>
@@ -441,6 +444,10 @@
 
 	<text id="LDateP">
 		<label i18n="Editor.Label.DateM" />
+	</text>
+	
+	<text id="LDate_YearP">
+		<label i18n="Editor.Label.Date_YearM" />
 	</text>
 
 	<text id="LBirthDate">
