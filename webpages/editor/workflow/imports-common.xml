@@ -361,7 +361,7 @@
 	</text>
 
 	<helpPopup id="HDescription">
-		<label i18n="Editor.Help.HDescrption" />
+		<label i18n="Editor.Help.HDescription" />
 	</helpPopup>
 
 	<helpPopup id="HDescriptionAbstract" >
@@ -471,7 +471,7 @@
 	</text>
 
 	<helpPopup id="HDate" >
-		<label i18n="Editor.Help.HDateSubmitted" />
+		<label i18n="Editor.Help.HDate" />
 	</helpPopup>
 
 	<helpPopup id="HDateBirthP"  >
