@@ -23,14 +23,26 @@
 		<element name="titles" minOccurs='1' maxOccurs='1'>
 			<mcrmetalangtext name="title" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="1024" />
 		</element>
-		<!-- 12 - Participant -->
+		  <!-- 12 - DC Creator -->
+    	<element name="creators" minOccurs='0' maxOccurs='1' parasearch="true" textsearch="true">
+    		<mcrmetalangtext name="creator" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="128" />
+    	 </element>
+    	 <!-- 13 - CreatorLink -->
+    	<element name="creatorlinks" minOccurs='0' maxOccurs='1' parasearch="true" textsearch="true">
+    		<mcrmetalinkid name="creatorlink" class="MCRMetaLinkID" minOccurs='1' maxOccurs='unbounded' />
+    	</element>
+		<!-- 14 - Participant -->
 		<element name="participants" minOccurs='0' maxOccurs='1'>
 			<mcrmetalangtext name="participant" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="128" />
 		</element>
-		<!-- 13 - ParticipantLink -->
+		<!-- 15 - ParticipantLink -->
 		<element name="participationlinks" minOccurs='0' maxOccurs='1'>
 			<mcrmetalinkid name="participationlink" class="MCRMetaLinkID" minOccurs='1' maxOccurs='unbounded' />
 		</element>
+		 <!-- 16 - Origin -->
+    	<element name="origins" minOccurs='1' maxOccurs='1' parasearch="true" textsearch="true">
+      		<mcrmetaclassification name="origin" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
+    	</element>
 
 		<!-- 20 - DC Language -->
 		<element name="languages" minOccurs='0' maxOccurs='1'>
@@ -69,6 +81,10 @@
 		<element name="keywords" minOccurs='0' maxOccurs='1'>
 			<mcrmetalangtext name="keyword" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="4096" />
 		</element>
+		<!-- 44 - Sammlungen -->
+    	<element name="collections" minOccurs='0' maxOccurs='1' parasearch="true" textsearch="true">
+      		<mcrmetaclassification name="collection" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
+    	</element>
 
 		<!-- 90 - Notes -->
 		<element name="notes" minOccurs='0' maxOccurs='1'>
