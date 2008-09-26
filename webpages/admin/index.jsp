@@ -33,9 +33,6 @@
        <c:otherwise>
         <table cellpadding="0" cellspacing="0" id="mytable" border="0">
             <tr valign="bottom"  >
-                <td class="adminheadline">
-                    <img src="images/white20px.gif" /><img src="${WebApplicationBaseURL}images/logo_atlibri.gif" alt="@libri" />
-                </td>
                 <td valign="bottom" align="right"  style="padding:10px" class="adminheadline" >
                     <fmt:message key="Webpage.intro.admin.Text2" />
                 </td>
