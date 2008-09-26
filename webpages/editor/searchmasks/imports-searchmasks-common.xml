@@ -277,7 +277,7 @@
             <item value="">
                   <label xml:lang="de">(bitte wählen)</label>
             </item>
-            <include cacheable="false" uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Bkl&amp;emptyLeafs=no&amp;defaultValue=DocPortal_class_00000020" />                                      
+           <!-- <include cacheable="false" uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Bkl&amp;emptyLeafs=no&amp;defaultValue=DocPortal_class_00000020" /> -->                                      
       </list>       
 
       <!-- *** Data for the Place of Birth ** -->

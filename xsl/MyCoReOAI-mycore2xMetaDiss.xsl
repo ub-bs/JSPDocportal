@@ -259,7 +259,7 @@
     </xsl:template>
     
     <xsl:template name="subject">
-<!--      <xsl:for-each select="./metadata/subjects/subject[@classid='mediaTUM_class_000000000000013']"> 
+<!--      <xsl:for-each select="./metadata/subjects/subject[@classid='docportal_class_000000000000013']"> 
            <xsl:element name="dc:subject">
               <xsl:attribute name="xsi:type">xMetaDiss:DDC-SG</xsl:attribute>
               <xsl:value-of select="@categid" />
