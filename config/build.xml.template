@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- =================================================================== -->
 <!-- MyCoRe sample application build file for use with Apache Ant        -->
 <!-- $Revision$ $Date$                      -->
@@ -15,11 +15,11 @@
 				<os family="unix" />
 		</condition>
 
-	<property name="env.MYCORE_HOME" value="../mycore" /> 
-	<property name="MYCORE_HOME" value="../mycore" />
+	<property name="env.MYCORE_HOME" value="${basedir}/../mycore" /> 
+	<property name="MYCORE_HOME" value="${basedir}/../mycore" />
 	<property name="env.MYCORE_APP" location="." />
 	
-	<import file="./../jspdocportal/config/buildfile_application.xml"/>
+	<import file="./../jspdocportal/buildfile_application.xml"/>
     <!-- for a short description of the features of the import task look at
 		  http://ant.apache.org/manual/CoreTasks/import.html
 		  - Tasks and properties can be overwritten.

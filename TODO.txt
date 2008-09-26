@@ -1,8 +1,0 @@
-TODO: subselect-wert macht anzeigeprobleme bei umlauten, fixen... (utf-8 ?)
-TODO: falsche URL bei anzeige der derivate fixen...
-TODO: removeFileFromDerivate, addFileToDerivate in WorkflowManagerInterface und Manager einbinden, 
-	  bei xmetadiss löschen der workflow-variablen von containsPDF und evtl. containsZIP berücksichtigen
-TODO: eine jpbm methode im wfo die alle vorhandenen Variable in einer hashmap speichert 
-      zB.: HashMap hvar = wfo.receiveVariables(pid)
-      	   Struktur: von hvar(Name,Value)
-      	   

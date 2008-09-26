@@ -75,29 +75,6 @@
     <!-- Set batch_size to "0" in case of SQL batch Errors -->
     <property name="jdbc.batch_size">2000</property>
     <property name="default_batch_fetch_size">100</property>
-
-    <!-- mappings of mycore tables -->
-    <mapping resource="mappings/MCRACCESS.hbm.xml" />
-    <mapping resource="mappings/MCRACCESSRULE.hbm.xml" />
-    <mapping resource="mappings/MCRCategoryImpl.hbm.xml" />
-    <mapping resource="mappings/MCRCategoryLink.hbm.xml" />
-    <!-- Start old classification (leave until migration completed) -->
-    <mapping resource="mappings/MCRCATEG.hbm.xml" />
-    <mapping resource="mappings/MCRCATEGLAB.hbm.xml" />
-    <mapping resource="mappings/MCRCLASS.hbm.xml" />
-    <mapping resource="mappings/MCRCLASSLAB.hbm.xml" />
-    <!-- End of old classification system -->
-    <mapping resource="mappings/MCRCSTORE.hbm.xml" />
-    <mapping resource="mappings/MCRFSNODES.hbm.xml" />
-    <mapping resource="mappings/MCRGROUPADMINS.hbm.xml" />
-    <mapping resource="mappings/MCRGROUPMEMBERS.hbm.xml" />
-    <mapping resource="mappings/MCRGROUPS.hbm.xml" />
-    <mapping resource="mappings/MCRLINKHREF.hbm.xml" />
-    <mapping resource="mappings/MCRURN.hbm.xml" />
-    <mapping resource="mappings/MCRUSERS.hbm.xml" />
-    <mapping resource="mappings/MCRXMLTABLE.hbm.xml" />
-    <mapping resource="mappings/MCRRESUMPTIONTOKEN.hbm.xml" />
-
   </session-factory>
 
 </hibernate-configuration>

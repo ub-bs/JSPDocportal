@@ -454,7 +454,7 @@
             <hidden var="@inherited" default="0" />
             <hidden var="@type" default="locator" />
             <!-- configure this in mycore.properties  -->
-            <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=@classid&amp;prop=MCR.ClassificationID.Bkl&amp;defaultValue=DocPortal_class_00000020" />        
+           <!-- <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=@classid&amp;prop=MCR.ClassificationID.Bkl&amp;defaultValue=DocPortal_class_00000020" /> -->        
             <hidden var="@categid" />
             <cell row="1" col="1" width="100%">
                <output var="@title" default="Basisklassifikation"/> <text label=" (" /><output var="@categid" default=" " /><text label=")" />

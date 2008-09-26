@@ -16,17 +16,17 @@ MCR.Metadata.ObjectID.NumberPattern=00000000
 
 MCR.Hibernate.Connection.Url=jdbc:hsqldb:hsql://localhost:9001
 MCR.Persistence.SQL.Database.Name=mycore
-MCR.Persistence.SQL.WorkflowDatabase.Name=mycore-workflow
+MCR.Persistence.SQL.WorkflowDatabase.Name=mycore_workflow
 
 #Windows
 MCR.datadir=c:/workspaces/mycoresample/working_content
-MCR.basedir=c:/workspaces/mycoresample/projects/jspdocportal
-MCR.baseurl=http://localhost:8080/mycoresample
+MCR.basedir=c:/workspaces/mycoresample/mycoresample_app/build/application
+MCR.baseurl=http://localhost:8080/mycoresample/
 
 #Linux
 #MCR.datadir=/home/mcradmin/mycoresample/working_content
 #MCR.basedir=/home/mcradmin/mycoresample/projects/jspdocportal
-#MCR.baseurl=http://localhost:8080/mycoresample
+#MCR.baseurl=http://localhost:8080/mycoresample/
 
 MCR.AccessRuleEditor.defaultrules.iparea=<condition format="xml"><boolean operator="or"><condition field="ip" operator="" value="127.0.0.1/255.255.255.0"/></boolean></condition>
 

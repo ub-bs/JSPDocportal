@@ -1,17 +1,17 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- =================================================================== -->
 <!-- MyCoRe sample application build file for use with Apache Ant        -->
 <!-- $Revision$ $Date$                      -->
 <!-- =================================================================== -->
 
-<project name="main_build" default="usage" basedir=".">
+<project name="main_build" default="usage">
 	<!-- !!! ATTENTION !!! -->
 	<!-- !!! basedir is overwritten by derrived build processes with the xxx_app directory !!! -->
 
 	<!-- =================================================================== -->
 	<!-- Global properties                                                   -->
 	<!-- =================================================================== -->
-
+	<import file="./common-modules.xml"/>
 	<property name="MYAPPLICATION_NAME" value="mycoresample" />
 	<property name="usemodule" value="true" />
 
@@ -21,7 +21,6 @@
 	<property name="deprecation" value="on" />
 	<property name="javatarget" value="1.5" />
 	<property name="sourcerelease" value="1.5" />
-
 	<property name="sourceencoding" value="ISO-8859-15" />
 
 	<!-- Maximum amount of memory to allocate to java VM when loading -->
@@ -34,81 +33,23 @@
 
 
 	<!-- Provide a default value for MYCORE_HOME if not set in env -->
-
 	<!-- <property name="env.MYCORE_HOME" value="../mycore" /> -->
 	<property name="MYCORE_HOME" value="${basedir}/../mycore" />
 
-	<property name="mycore.modules" value="${MYCORE_HOME}/modules" />
 
 	<!-- Read in properties from config/build.properties -->
 	<property file="${MYCORE_HOME}/config/build.properties" />
 
-
-
-	<!-- Provide a default value for DOCPORTAL_SYSTEM if not set in env -->
-
-	<property name="DOCPORTAL_SYSTEM" location="${basedir}/working" />
-
-	<property name="DOCPORTAL_HOME" value="${basedir}/../jspdocportal" />
-
-
-	<!-- Read in datadir from config/mycore.properties -->
-	<loadproperties srcfile="./config/mycore.properties">
-		<filterchain>
-			<linecontainsregexp>
-				<regexp pattern="\\AMCR.datadir" />
-
-			</linecontainsregexp>
-		</filterchain>
-	</loadproperties>
-
-	<!-- Read in all properties and replace %MCR.datadir% with above red MCR.datadir -->
-	<loadproperties srcfile="./config/mycore.properties">
-		<filterchain>
-			<filterreader classname="org.apache.tools.ant.filters.ReplaceTokens">
-				<param type="tokenchar" name="begintoken" value="%" />
-
-				<param type="tokenchar" name="endtoken" value="%" />
-				<param type="token" name="MCR.datadir" value="${MCR.datadir}" />
-			</filterreader>
-		</filterchain>
-	</loadproperties>
-
-
-
 	<!-- MyCoRe CVS repository root -->
 	<property name="CVSRoot" value="/cvs" />
-
-	<property name="docportal.bin" value="${DOCPORTAL_SYSTEM}/bin" />
-	<property name="docportal.classes" value="${DOCPORTAL_SYSTEM}/classes" />
-	<property name="docportal.javadocs" value="${DOCPORTAL_SYSTEM}/javadocs" />
-	<property name="docportal.changelogs" value="${DOCPORTAL_SYSTEM}/changelogs" />
-	<property name="docportal.config" value="${DOCPORTAL_SYSTEM}/config" />
-	<property name="docportal.content" value="${DOCPORTAL_SYSTEM}/content" />
-	<property name="docportal.doc" value="${DOCPORTAL_SYSTEM}/docs" />
-	<property name="docportal.languages" value="${DOCPORTAL_SYSTEM}/languages" />
-
-	<property name="docportal.filestore" value="${MCR.IFS.ContentStore.Lucene.BaseDirectory}" />
-	<property name="docportal.lib" value="${DOCPORTAL_SYSTEM}/lib" />
-	<property name="docportal.lucenestore" value="${MCR.IFS.ContentStore.Lucene.IndexDirectory}" />
-	<property name="docportal.save" value="${MCR.Save.FileSystem}" />
-
-	<property name="docportal.schema" value="${DOCPORTAL_SYSTEM}/schema" />
-	<property name="docportal.stylesheets" value="${DOCPORTAL_SYSTEM}/stylesheets" />
-	<property name="docportal.sources" value="${DOCPORTAL_SYSTEM}/sources" />
-	<property name="docportal.webpages" value="${DOCPORTAL_SYSTEM}/webpages" />
-
-	<property name="docportal.webapps" value="${DOCPORTAL_SYSTEM}/webapps/${MYAPPLICATION_NAME}" />
-	<property name="docportal.workflow" value="${MCR.editor_base_directory}" />
-
-	<property name="docportal.WEB-INF" value="${docportal.webapps}/WEB-INF" />
+	
+	
 
 	<!-- =================================================================== -->
 	<!-- Help on usage                                                       -->
 	<!-- =================================================================== -->
 
 	<target name="usage">
-
 		<echo>
             Usage: build.sh [target] or build.cmd [target] or ant
             [target]
@@ -152,147 +93,134 @@
 		<echo>DocPortal home dir : ${DOCPORTAL_SYSTEM}</echo>
 		<echo>Operating system   : ${os.name} Version ${os.version} on ${os.arch} </echo>
 		<echo>Java version       : JDK ${ant.java.version} Version ${java.version} from ${java.vendor}</echo>
-
 		<echo>Java home          : ${env.JAVA_HOME}</echo>
 		<echo>Ant build file     : $Revision$ $Date$</echo>
 		<echo>Ant version        : ${ant.version}</echo>
 		<echo>Ant home           : ${env.ANT_HOME}</echo>
-		<echo>XML Store type     : ${MCR.XMLStore.Type}</echo>
 		<echo>System CLASSPATH   : ${build.sysclasspath}</echo>
-
-		<echo>Active CLASSPATH   : ${docportal.classpath.translated}</echo>
-		<echo>Active LIBPATH     : ${docportal.libpath.translated}</echo>
-	</target>
-
-	<target name="test-sql" depends="init">
-		<sql driver="${MCR.persistence_sql_driver}" url="${MCR.persistence_sql_database_url}" src="${docportal.config}/show.${MCR.JDBCStore.Type}.sql" userid="${MCR.persistence_sql_database_userid}" password="${MCR.persistence_sql_database_passwd}" classpathref="docportal.classpath" print="true" />
+		<echo>Active CLASSPATH   : ${application.classpath.translated}</echo>
+		<echo>Active LIBPATH     : ${application.libpath.translated}</echo>
+		<echo>Application CP     : ${application.classpath}</echo>
+		<echo>TEST:		${build.lib} </echo>
 	</target>
 
 	<!-- =================================================================== -->
-
 	<!-- Initalization of directories and CLASSPATH, LIBPATH                 -->
 	<!-- =================================================================== -->
 
 	<target name="initDOCPORTAL_SYSTEM">
-		<mkdir dir="${DOCPORTAL_SYSTEM}" />
-		<copy todir="${DOCPORTAL_SYSTEM}" overwrite="true">
-			<fileset dir="${DOCPORTAL_HOME}" includes="**">
+		<mkdir dir="${application}" />
+		<copy todir="${application}" overwrite="true">
+			<fileset dir="${env.DOCPORTAL_HOME}">
+				<exclude name="./*.xml"/>
 			</fileset>
 		</copy>
+		<copy todir="${application.lib}" overwrite="true">
+			<fileset dir="${env.MYCORE_HOME}/lib" />
+			<fileset dir="${env.MYCORE_HOME}/build/lib" includes="mycore.jar" />
 
+		</copy>
+		<echo message="${basedir}" />
+		<!-- copy myapplication -->
+		<copy todir="${application}" overwrite="true">
+			<fileset dir=".">
+				<exclude name="build/**" />
+				<exclude name="bin/**" />
+			</fileset>
+		</copy>
+		
+		<mkdir dir="${build}/webapps/${MYAPPLICATION_NAME}" />
+		<mkdir dir="${application.bin}" />
+		<mkdir dir="${build.lib}" />
+		<mkdir dir="${build.config}/hibernate" />
+		
 		<!-- integrate modules -->
 		<subant target="integrate" inheritall="true" inheritrefs="true">
-			<fileset dir="${DOCPORTAL_HOME}" includes="**/modules/*/build.xml" excludes="**/modules/UNINSTALLED_*/build.xml" />
+			<fileset dir="${application}" includes="**/components/*/build.xml" excludes="**/components/UNINSTALLED_*/build.xml" />
 		</subant>
-
-		<!-- copy myapplication -->
-		<copy todir="${DOCPORTAL_SYSTEM}" overwrite="true">
-			<fileset dir="." excludes="${MYAPPLICATION_NAME}.war,jspdocportal-installer*,working/**">
-			</fileset>
-
-		</copy>
-		<mkdir dir="${docportal.webapps}" />
-		<mkdir dir="${docportal.bin}" />
 	</target>
 
-	<target name="init" depends="merge.my.properties, jdbcstore.path.1, jdbcstore.path.2, xmlstore.path.1, xmlstore.path.2, initDOCPORTAL_SYSTEM">
+	<target name="test">
+		<copy file="C:\workspaces\mycoresample-migration\projects\mycore\build\jarbase\config\mycore.properties" todir="${build.config}" overwrite="true"/>
 
-		<!-- Copy stylesheets from MyCoRe to MyCoRe Sample Application -->
-		<copy todir="${docportal.stylesheets}">
-			<fileset dir="${MYCORE_HOME}/stylesheets" excludes="MCRJdom*.xsl">
+		<mcr-config propertyfile="${build.config}/mycore.properties" mergeFile="${env.DOCPORTAL_HOME}/config/mycore.base.properties" />
+		<mcr-config propertyfile="${build.config}/mycore.properties" mergeFile="${basedir}/config/mymycore.properties" />
 
-				<include name="MCR*.xsl" />
-			</fileset>
+	</target>	
+	
+	<target name="config">
+		<modulePreHook target="config" />
+		
+		<copy file="${application.config}/hibernate/hibernate.cfg.xml" todir="${build.config}" />	
+		<copy file="${application.config}/hibernate/ehcache.xml" todir="${build.config}" />
+		
+		<mcr-integrate target="config" classpathref="mycore.jars" />	
+		<sequential>
+			<copy file="${env.DOCPORTAL_HOME}/config/mycore.base.properties" todir="${build.config}" overwrite="yes"/>
+			<mcr-config propertyfile="${build.config}/mycore.properties" mergeFile="${env.DOCPORTAL_HOME}/config/mycore.base.properties" />
+			<mcr-config propertyfile="${build.config}/mycore.properties" mergeFile="${basedir}/config/mymycore.properties" />
+		</sequential>
+		<copy file="${build.config}/mycore.properties" todir="${application.config}" />  
+			  <loadproperties srcFile="${build.config}/mycore.properties">
+			    <filterchain>
+			      <linecontains>
+			        <contains value="MCR.basedir=" />
+			      </linecontains>
+			    </filterchain>
+			    <filterchain>
+			      <linecontains>
+			        <contains value="MCR.datadir=" />
+			      </linecontains>
+			    </filterchain>
+			  </loadproperties>
+			  <loadproperties srcFile="${build.config}/mycore.properties">
+			    <filterchain>
+			      <tokenfilter>
+			        <replacestring from="%MCR.basedir%" to="${MCR.basedir}" />
+			        <replacestring from="%MCR.datadir%" to="${MCR.datadir}" />
+			      </tokenfilter>
+			    </filterchain>
+			  </loadproperties>
+
+		<!-- copy hibernate.cfg.xml.template if it isn't -->
+		<!--<copy file="${DOCPORTAL_HOME}/hibernate/hibernate.cfg.xml.template" tofile="${DOCPORTAL_HOME}/config/hibernate/hibernate.cfg.xml" overwrite="false" /> -->
+		<!-- copy DTD -->
+		<copy todir="${MCR.Hibernate.DTD.Directory}">
+			<fileset dir="${mycore.schema}" includes="hibernate-*.dtd" />
 		</copy>
+	 	
+		<echo message="Copied Hibernate DTDs to ${MCR.Hibernate.DTD.Directory}" />
+		<!--<copy todir="${build.config}" overwrite="true">
+			<fileset dir="${mycore.config}" includes="fieldtypes.xml" />
+			<fileset dir="${application.config}" includes="ContentStoreSelectionRules.xml" />
+			<fileset dir="${application.config}" includes="FileContentTypes.xml" />
+			<fileset dir="${application.config}" includes="searchfields.xml" />
+			<fileset dir="${application.config}" includes="hosts.xml" />
+			<fileset dir="${application.config}" includes="MCRRESUMPTIONTOKEN.hbm.xml" />
+			<fileset dir="${application.config}" includes="editor_default_acls_classification.xml" />
+			<fileset dir="${application.config}/hibernate" excludes="hibernate.cfg.xml" />
+		</copy> -->
+		<xmltask source="${build.config}/ehcache.xml" dest="${build.config}/ehcache.xml">
+			<replace path="/ehcache/diskStore/@path" withText="${MCR.EHCache.diskStore.path}" />
+		</xmltask>
+			<copy todir="${application.config}/hibernate">
+				<fileset dir="${build.config}" includes="hibernate.cfg.xml, ehcache.xml" />
+			</copy>
+		
+		<moduleHook target="config" />
+	</target>
 
+	<target name="init" depends="initDOCPORTAL_SYSTEM, config">
 		<!-- Fail if environment variables are not set -->
 		<fail message="Environment variable JAVA_HOME is not set!" unless="env.JAVA_HOME" />
 		<fail message="Environment variable MYCORE_HOME is not set!" unless="MYCORE_HOME" />
 
-		<path id="docportal.classpath">
-			<pathelement location="${docportal.classes}" />
-
-			<pathelement location="${docportal.config}" />
-			<pathelement location="${docportal.config}/hibernate" />
-			<pathelement location="${docportal.schema}" />
-			<pathelement location="${docportal.stylesheets}" />
-			<fileset dir="${MYCORE_HOME}/lib" includes="*.jar" />
-			<fileset dir="${DOCPORTAL_SYSTEM}/lib" includes="*.jar,jetty/lib/*.jar" />
-			<fileset dir="${env.JAVA_HOME}/jre/lib/ext" includes="jai*.jar" />
-			<path refid="jdbc.classpath" />
-			<path refid="xml.classpath" />
-
-		</path>
-
-		<path id="docportal.libpath">
-			<dirset dir="${env.JAVA_HOME}" includes="bin bin/classic" />
-			<path refid="jdbc.libpath" />
-			<path refid="xml.libpath" />
-		</path>
-
-		<condition property="detected.os" value="unix">
-			<os family="unix" />
-
-		</condition>
-		<condition property="detected.os" value="windows">
-			<os family="dos" />
-		</condition>
-		<condition property="os.is.unix">
-			<os family="unix" />
-		</condition>
-		<condition property="os.is.windows">
-			<os family="dos" />
-
-		</condition>
-
-		<condition property="store.is.cm8">
-			<equals arg1="${MCR.XMLStore.Type}" arg2="cm8" />
-		</condition>
-
-		<pathconvert targetos="${detected.os}" property="docportal.classpath.translated" refid="docportal.classpath" />
-		<pathconvert targetos="${detected.os}" property="docportal.libpath.translated" refid="docportal.libpath" />
-
-		<taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask" classpathref="docportal.classpath" />
-
-		<xmltask source="${DOCPORTAL_SYSTEM}/config/hibernate/ehcache.xml" dest="${DOCPORTAL_SYSTEM}/config/hibernate/ehcache.xml">
+		<xmltask source="${application.config}/hibernate/ehcache.xml" dest="${application.config}/hibernate/ehcache.xml">
 			<replace path="/ehcache/diskStore/@path" withText="${MCR.EHCache.diskStore.path}" />
 		</xmltask>
 	</target>
 
-	<target name="jdbcstore.path.1" if="MCR.JDBCStore.BaseDir">
-		<path id="jdbc.classpath">
-			<fileset dir="${MCR.JDBCStore.BaseDir}" includes="_dummy_ ${MCR.JDBCStore.Jars}" />
-			<dirset dir="${MCR.JDBCStore.BaseDir}" includes="_dummy_ ${MCR.JDBCStore.ClassesDirs}" />
-
-		</path>
-		<path id="jdbc.libpath">
-			<dirset dir="${MCR.JDBCStore.BaseDir}" includes="_dummy_ ${MCR.JDBCStore.LibPath}" />
-		</path>
-	</target>
-
-	<target name="jdbcstore.path.2" unless="MCR.JDBCStore.BaseDir">
-		<path id="jdbc.classpath" />
-		<path id="jdbc.libpath" />
-
-	</target>
-
-	<target name="xmlstore.path.1" if="MCR.XMLStore.BaseDir">
-		<path id="xml.classpath">
-			<fileset dir="${MCR.XMLStore.BaseDir}" includes="_dummy_ ${MCR.XMLStore.Jars}" />
-			<dirset dir="${MCR.XMLStore.BaseDir}" includes="_dummy_ ${MCR.XMLStore.ClassesDirs}" />
-		</path>
-		<path id="xml.libpath">
-			<dirset dir="${MCR.XMLStore.BaseDir}" includes="_dummy_ ${MCR.XMLStore.LibPath}" />
-
-		</path>
-	</target>
-
-	<target name="xmlstore.path.2" unless="MCR.XMLStore.BaseDir">
-		<path id="xml.classpath" />
-		<path id="xml.libpath" />
-	</target>
-
-	<!-- System CLASSPATH is completely ignored! -->
+		<!-- System CLASSPATH is completely ignored! -->
 	<property name="build.sysclasspath" value="ignore" />
 
 	<!-- =================================================================== -->
@@ -302,20 +230,18 @@
 	<target name="create.schema" depends="init">
 
 		<!-- Load the properties that define the XML metadata configuration files -->
-		<loadproperties srcFile="${docportal.config}/mycore.properties">
+		<loadproperties srcFile="${build.config}/mycore.properties">
 			<filterchain>
-
 				<linecontains>
 					<contains value="MCR.Metadata.Config." />
 				</linecontains>
 			</filterchain>
 		</loadproperties>
 
-		<mkdir dir="${docportal.schema}" />
+		<mkdir dir="${build.schema}" />
 
 		<!-- Translate *.xml to *.xsd using MCRMetadataSchema.xsl -->
 		<antcall target="do.transform">
-
 			<param name="metadata.schema" value="${MCR.Metadata.Config.document}" />
 		</antcall>
 		<antcall target="do.transform">
@@ -325,7 +251,6 @@
 			<param name="metadata.schema" value="${MCR.Metadata.Config.thesis}" />
 		</antcall>
 		<antcall target="do.transform">
-
 			<param name="metadata.schema" value="${MCR.Metadata.Config.derivate}" />
 		</antcall>
 		<antcall target="do.transform">
@@ -335,24 +260,22 @@
 			<param name="metadata.schema" value="${MCR.Metadata.Config.institution}" />
 		</antcall>
 		<antcall target="do.transform">
-
 			<param name="metadata.schema" value="${MCR.Metadata.Config.series}" />
 		</antcall>
 		<antcall target="do.transform">
 			<param name="metadata.schema" value="${MCR.Metadata.Config.series-volume}" />
 		</antcall>
 
-		<move todir="${docportal.schema}">
-			<fileset dir="${docportal.schema}" includes="${MCR.Metadata.Config.document} ${MCR.Metadata.Config.disshab} ${MCR.Metadata.Config.thesis} ${MCR.Metadata.Config.derivate} ${MCR.Metadata.Config.person} ${MCR.Metadata.Config.institution} ${MCR.Metadata.Config.series} ${MCR.Metadata.Config.series-volume}" />
+		<move todir="${build.schema}">
+			<fileset dir="${build.schema}" includes="${MCR.Metadata.Config.document} ${MCR.Metadata.Config.disshab} ${MCR.Metadata.Config.thesis} ${MCR.Metadata.Config.derivate} ${MCR.Metadata.Config.person} ${MCR.Metadata.Config.institution} ${MCR.Metadata.Config.series} ${MCR.Metadata.Config.series-volume}" />
 			<mapper type="glob" from="*.xml" to="*.xsd" />
-
 		</move>
 	</target>
 
 	<target name="do.transform">
 		<echo level="info">Transforming ${metadata.schema}...</echo>
-		<java classname="org.apache.xalan.xslt.Process" dir="${docportal.config}" fork="yes" maxmemory="${java.maxmemory}" classpathref="docportal.classpath">
-			<arg line="-IN ${metadata.schema} -XSL ${docportal.stylesheets}/MCRMetadataSchema.xsl -OUT ${docportal.schema}/${metadata.schema}" />
+		<java classname="org.apache.xalan.xslt.Process" dir="${application.config}" fork="yes" maxmemory="${java.maxmemory}" classpathref="application.classpath">
+			<arg line="-IN ${metadata.schema} -XSL ${env.MYCORE_HOME}/xsl/MCRMetadataSchema.xsl -OUT ${build.schema}/${metadata.schema}" />
 		</java>
 	</target>
 
@@ -365,7 +288,6 @@
 		<mkdir dir="${MCR.LogDirectory}" />
 		<mkdir dir="${MCR.Save.FileSystem}" />
 		<mkdir dir="${MCR.WebContent.SaveFolder}" />
-
 		<mkdir dir="${MCR.WorkflowEngine.EditDirectory.person}" />
 		<mkdir dir="${MCR.WorkflowEngine.EditDirectory.document}" />
 		<mkdir dir="${MCR.WorkflowEngine.EditDirectory.disshab}" />
@@ -375,7 +297,6 @@
 		<mkdir dir="${MCR.WorkflowEngine.EditDirectory.series}" />
 		<mkdir dir="${MCR.WorkflowEngine.DeleteDirectory}" />
 		<mkdir dir="${MCR.EHCache.diskStore.path}" />
-
 	</target>
 
 
@@ -386,7 +307,6 @@
 
 	<target name="script.windows" if="os.is.windows">
 		<antcall target="script.windows.write">
-
 			<param name="mycore.cmd.file" value="mycore.cmd" />
 			<param name="mycore.cmd.class" value="org.mycore.frontend.cli.MCRCommandLineInterface %1 %2 %3 %4 %5 %6 %7 %8 %9" />
 		</antcall>
@@ -405,12 +325,11 @@
 			<param name="mycore.cmd.file" value="listPlugins.sh" />
 			<param name="mycore.cmd.class" value="org.mycore.sample.PluginLister $*" />
 		</antcall>
-
 	</target>
 
 
 	<target name="script.windows.write">
-		<property name="tmp.cmd.file" value="${DOCPORTAL_SYSTEM}/bin/${mycore.cmd.file}" />
+		<property name="tmp.cmd.file" value="${application.bin}/${mycore.cmd.file}" />
 		<echo level="info">Creating ${mycore.cmd.file} to invoke ${mycore.cmd.class}</echo>
 		<echo file="${tmp.cmd.file}" append="false">@echo off
 
@@ -421,14 +340,14 @@
 	rem
 
 	set JAVA_HOME=${env.JAVA_HOME}
-	set CLASSPATH=${docportal.classpath.translated}
+	set CLASSPATH=${application.classpath.translated}
 
 	java -Xmx${java.maxmemory} ${mycore.cmd.class}
 	    </echo>
 	</target>
 
 	<target name="script.unix.write">
-		<property name="tmp.cmd.file" value="${DOCPORTAL_SYSTEM}/bin/${mycore.cmd.file}" />
+		<property name="tmp.cmd.file" value="${application.bin}/${mycore.cmd.file}" />
 		<echo level="info">Creating ${mycore.cmd.file} to invoke ${mycore.cmd.class}</echo>
 		<echo file="${tmp.cmd.file}" append="false">#!/bin/bash
 
@@ -441,10 +360,10 @@
 	JAVA_HOME=${env.JAVA_HOME}
 	export JAVA_HOME
 
-	CLASSPATH=${docportal.classpath.translated}
+	CLASSPATH=${application.classpath.translated}
 	export CLASSPATH
 
-	LIBPATH=${docportal.libpath.translated}
+	LIBPATH=${application.libpath.translated}
 	export LIBPATH
 
 	LD_LIBRARY_PATH=$LIBPATH
@@ -455,109 +374,70 @@
 		<chmod file="${tmp.cmd.file}" perm="755" />
 	</target>
 
-	<!-- =================================================================== -->
-
-	<!-- Invokes the MyCoRe Command Line Interface with a given command      -->
-	<!-- =================================================================== -->
-
-	<target name="invoke.cli" depends="init">
-		<java classname="org.mycore.frontend.cli.MCRCommandLineInterface" dir="${cli.directory}" fork="yes" maxmemory="${java.maxmemory}" classpathref="docportal.classpath" failonerror="true">
-			<arg line="${cli.command}" />
-			<env key="LIBPATH" value="${docportal.libpath.translated}" />
-			<env key="LD_LIBRARY_PATH" value="${docportal.libpath.translated}" />
-		</java>
-
-	</target>
-
+	
 	<!-- =================================================================== -->
 	<!-- Compiles all application classes                                    -->
 	<!-- =================================================================== -->
 
-	<target name="javac">
+	<target name="javac" depends="init">
 		<echo level="info">Compiling ${packages}</echo>
-		<javac srcdir="${docportal.sources}" destdir="${docportal.classes}" includes="${packages}" excludes="${excludes}" classpathref="docportal.classpath" debug="${debug}" optimize="${optimize}" target="${javatarget}" source="${sourcerelease}" encoding="${sourceencoding}" fork="yes" verbose="false" deprecation="${deprecation}" />
-
+		<javac srcdir="${application.sources}" destdir="${build.classes}" includes="${packages}" excludes="${excludes}" 
+			classpathref="application.classpath" debug="${debug}" optimize="${optimize}" 
+			target="${javatarget}" source="${sourcerelease}" encoding="${sourceencoding}" fork="yes" verbose="false" deprecation="${deprecation}" />
 		<echo level="info">
         	---------------------------------------------------------
         </echo>
 	</target>
 
 
-	<target name="compile">
-		<mkdir dir="${docportal.classes}" />
+	<target name="compile" depends="init">
+		<modulePreHook target="compile" />
+	    <mcr-integrate target="compile" classpathref="mycore.jars" />
+		<mkdir dir="${build.classes}" />
 		<echo level="info">Compiling all package from jspdocportal</echo>
 		<antcall target="javac">
-
 			<param name="packages" value="*/**" />
 			<param name="excludes" value="org/mycore/frontend/jsp/taglibs/**, org/mycore/start/demo/*" />
 		</antcall>
-		<subant target="compile" inheritall="true" inheritrefs="true">
-			<fileset dir="${DOCPORTAL_HOME}" includes="**/modules/*/build.xml" excludes="**/modules/UNINSTALLED_*/build.xml" />
-		</subant>
-	</target>
-
-	<target name="compile_demo">
-
-		<echo level="info">Compiling the start class for the demo out of the box</echo>
-		<antcall target="javac">
-			<param name="packages" value="org/mycore/start/demo/*" />
-		</antcall>
-	</target>
-
+		<moduleHook target="compile" />
+	</target>  
+	    
 	<!-- =================================================================== -->
 	<!-- Creates a docportal-for-*.jar file containing all compiled classes     -->
 	<!-- =================================================================== -->
 
-	<target name="jar" depends="compile" description="creates lib/docportal-for-*.jar">
-		<echo level="info">
-            Creating docportal-for-${MCR.XMLStore.Type}.jar containing
-            all compiled classes. ..
-        </echo>
-		<jar destfile="${docportal.lib}/docportal-for-${MCR.XMLStore.Type}.jar">
-			<fileset dir="${docportal.classes}" includes="**/*.class" />
-			<fileset dir="${docportal.schema}" includes="*.xsd *.dtd" />
-			<fileset dir="${MYCORE_HOME}/lib" includes="*.dtd" />
-		</jar>
-
-		<echo level="info">
-            ---------------------------------------------------------
-        </echo>
-	</target>
-
-	<!-- =================================================================== -->
-	<!-- Create all metadata stores for XML mapped stores                    -->
-	<!-- =================================================================== -->
-
-	<target name="create.metastore" depends="create.hibernate">
-
-		<echo level="info">	create.metastore finished </echo>
-	</target>
-
-	<target name="create.hibernate" depends="init">
-		<antcall target="invoke.cli">
-			<param name="cli.directory" value="${DOCPORTAL_SYSTEM}" />
-			<param name="cli.command" value="init hibernate" />
-		</antcall>
-
-	</target>
-
+	<target name="jar" depends="create.jar" />
+	
+<!-- 100$ Docportal -->
+	<target name="create.jar" depends="compile" description="creates lib/docportal.jar">
+	    <modulePreHook target="jar" />
+	    <echo level="info">Creating docportal.jar containing all compiled classes.</echo>
+	    <pathconvert property="mf.classpath" pathsep=" ">
+	      <path refid="application.classpath" />
+	      <flattenmapper />
+	    </pathconvert>
+		<delete file="${application.lib}/docportal.jar" />
+	    <jar destfile="${application.lib}/docportal.jar">
+	      <fileset dir="${build.classes}" includes="**/*.class" />
+	      <fileset dir="${build.schema}" includes="*.xsd *.dtd" />
+	      <manifest>
+	        <attribute name="Main-Class" value="org.mycore.frontend.cli.MCRCommandLineInterface" />
+	        <attribute name="Class-Path" value="${mf.classpath}" />
+	      </manifest>
+	    </jar>
+	    <echo level="info">---------------------------------------------------------</echo>
+	    <moduleHook target="jar" />
+	  </target>
+	
 	<!-- =================================================================== -->
 	<!-- Load all classifications                                            -->
 	<!-- =================================================================== -->
 
 	<target name="create.class" depends="init">
-		<property name="commands.file" value="${DOCPORTAL_SYSTEM}/commands.txt" />
-		<delete file="${commands.file}" />
-		<echo file="${commands.file}" append="false">
-
-            update all classifications from directory ${docportal.content}/classification
-
-        </echo>
-		<antcall target="invoke.cli">
-			<param name="cli.directory" value="${DOCPORTAL_SYSTEM}" />
-			<param name="cli.command" value="process ${commands.file}" />
-		</antcall>
-		<delete file="${commands.file}" />
+		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="application.classpath" />
+		<mcr-execute>
+            update all classifications from directory ${application.content}/classification
+		</mcr-execute>
 	</target>
 
 	<!-- =================================================================== -->
@@ -570,7 +450,6 @@
             Generating a key pair for signing applets ...
         </echo>
 		<mkdir dir="${SIGN.KeyStore}" />
-
 		<genkey alias="${SIGN.Alias}" keystore="${SIGN.KeyStore}/keys" storepass="${SIGN.Password}" keypass="${SIGN.Password}" validity="${SIGN.Validity}">
 			<dname>
 				<param name="CN" value="${SIGN.Name}" />
@@ -586,46 +465,25 @@
 	<!-- =================================================================== -->
 
 	<target name="do.merge" if="web.xml.present">
-
-		<!--      <copy file="${docportal.webapps}/WEB-INF/web.xml" tofile="${docportal.webapps}/WEB-INF/web1.xml" />
-      <copy file="${web.xml.file}" tofile="${docportal.webapps}/WEB-INF/web2.xml" />
-	  <loadfile srcfile="${web.xml.file}" property="tidy.web2.xml">
-			<filterchain>
-				<replaceregex pattern="&lt;!DOCTYPE[^&gt;].*&gt;" replace="" flags="gi"/>
-			</filterchain>
-	  </loadfile> 
-      <echo file="${docportal.webapps}/WEB-INF/web2.xml" append="false">${tidy.web2.xml}</echo>
-    	
-      <copy file="${docportal.stylesheets}/merge-web-xml.xsl" todir="${docportal.webapps}/WEB-INF" />
-      
-   	  <java classname="org.apache.xalan.xslt.Process" fork="yes" classpathref="docportal.classpath" dir="${docportal.webapps}/WEB-INF">
-        <arg line="-IN web2.xml -XSL merge-web-xml.xsl -OUT web.xml" />
-      </java>
-      <delete file="${docportal.webapps}/WEB-INF/web1.xml" />
-      <delete file="${docportal.webapps}/WEB-INF/web2.xml" />
-      <delete file="${docportal.webapps}/WEB-INF/merge-web-xml.xsl" /> -->
-
-		<xmltask source="${docportal.webapps}/WEB-INF/web.xml" dest="${docportal.webapps}/WEB-INF/web.xml">
+		<xmltask source="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/web.xml" dest="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/web.xml">
 			<insert path="/web-app/session-config" position="before" file="${web.xml.file}" />
-
 		</xmltask>
-		<replace file="${docportal.webapps}/WEB-INF/web.xml" token='xmlns=""' />
+		<replace file="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/web.xml" token='xmlns=""' />
 
 	</target>
 
 	<target name="test.merge">
-		<java classname="org.apache.xalan.xslt.Process" fork="yes" classpathref="docportal.classpath" dir="${docportal.webapps}/WEB-INF">
+		<java classname="org.apache.xalan.xslt.Process" fork="yes" classpathref="application.classpath" dir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF">
 			<arg line="-IN web2.xml -XSL merge-web-xml.xsl -OUT web.xml" />
 		</java>
 	</target>
-
 	<!-- =================================================================== -->
 	<!-- Build the web application directory and copy webpages               -->
 	<!-- =================================================================== -->
 
 	<target name="webapps" depends="init,webapps.base,webapps.useradmin, webapps.jsp, webapps.webservices">
 		<echo level="info">
-            Creating web application in directory ${docportal.webapps}
+            Creating web application in directory ${build.webapps}/${MYAPPLICATION_NAME}
         </echo>
 	</target>
 
@@ -634,22 +492,20 @@
 	  	 
 	  	       Add the module Webservices
 	  	     </echo>
-		<copy todir="${docportal.webapps}/WEB-INF/lib">
-			<fileset dir="${MYCORE_HOME}/modules/webservices/lib" includes="*.jar" />
+		<copy todir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/lib">
+			<fileset dir="${MYCORE_HOME}/components/webservices/lib" includes="*.jar" />
 		</copy>
 		<!-- merge the web.xml of the module to the application -->
 		<available property="web.xml.present" file="${mycore.modules}/webservices/config/web.xml" />
-
 		<antcall target="do.merge">
 			<param name="web.xml.file" value="${mycore.modules}/webservices/config/web.xml" />
 		</antcall>
 	</target>
 
 	<target name="webapps.jsp">
-		<copy todir="${docportal.webapps}">
-			<fileset dir="${docportal.webpages}">
+		<copy todir="${build.webapps}/${MYAPPLICATION_NAME}">
+			<fileset dir="${application.webpages}">
 				<include name="**/*.properties" />
-
 				<include name="**/*.jsp" />
 				<include name="**/*.jspx" />
 				<include name="**/*.xml" />
@@ -659,7 +515,6 @@
 				<include name="**/*.dtd" />
 				<include name="**/*.css" />
 				<include name="**/*.js" />
-
 				<include name="**/*.gif" />
 				<include name="**/*.ico" />
 				<include name="**/*.png" />
@@ -669,184 +524,111 @@
 				<include name="**/*.txt" />
 				<include name="**/docs/**" />
 				<exclude name="**/CVS/**/*.*" />
-
 				<exclude name="**/.svn/**/*.*" />
 				<exclude name="**/web.xml" />
 			</fileset>
 		</copy>
-		<copy todir="${docportal.webapps}/content/webcontent">
-			<fileset dir="${docportal.languages}/webcontent" />
+		<copy todir="${build.webapps}/${MYAPPLICATION_NAME}/content/webcontent">
+			<fileset dir="${application.languages}/webcontent" />
 		</copy>
 	</target>
 
 	<target name="webapps.useradmin">
-
 		<!-- Create necessary directories  -->
-		<mkdir dir="${docportal.webapps}" />
-		<mkdir dir="${docportal.webapps}/editor" />
-
-		<!-- Copy files  -->
-		<copy todir="${docportal.webapps}">
-			<fileset file="${MYCORE_HOME}/modules/useradmin/webapps/*.xml" />
-		</copy>
-
-		<copy todir="${docportal.webapps}/editor">
-			<fileset file="${MYCORE_HOME}/modules/useradmin/webapps/editor/*.xml" />
-		</copy>
+		<mkdir dir="${build.webapps}/${MYAPPLICATION_NAME}" />
+		<mkdir dir="${build.webapps}/${MYAPPLICATION_NAME}/editor" />
 	</target>
 
 	<target name="webapps.base">
 
 		<!-- Create necessary directories  -->
-		<mkdir dir="${docportal.webapps}" />
-		<mkdir dir="${docportal.webapps}/editor" />
+		<mkdir dir="${build.webapps}/${MYAPPLICATION_NAME}" />
+		<mkdir dir="${build.webapps}/${MYAPPLICATION_NAME}/editor" />
+		<mkdir dir="${build.webapps}/${MYAPPLICATION_NAME}/applet" />
+		<mkdir dir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF" />
+		<mkdir dir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes" />
+		<mkdir dir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/lib" />
+		<mkdir dir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes/xsl" />
 
-		<mkdir dir="${docportal.webapps}/applet" />
-		<mkdir dir="${docportal.webapps}/WEB-INF" />
-		<mkdir dir="${docportal.webapps}/WEB-INF/classes" />
-		<mkdir dir="${docportal.webapps}/WEB-INF/lib" />
-		<mkdir dir="${docportal.webapps}/WEB-INF/stylesheets" />
-
-		<mkdir dir="${DOCPORTAL_SYSTEM}/jettywork" />
+		<mkdir dir="${build}/jettywork" />
 
 		<!-- Copy editor stylesheets from MyCoRe and the DocPortal Application -->
 		<!--
         <copy file="${MYCORE_HOME}/stylesheets/MCRJDOMSearch.xsl"
-            todir="${docportal.webapps}/WEB-INF/classes" />
+            todir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes" />
         -->
+	
+	 	<copy file="${MYCORE_HOME}/xsl/editor/editor.xsl" todir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes/xsl" />
+		<copy file="${MYCORE_HOME}/xsl/editor/editor-common.xsl" todir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes/xsl" />
+		<copy file="${MYCORE_HOME}/xsl/editor/helpPopup.xsl" todir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes/xsl" />
+		<copy file="${MYCORE_HOME}/xsl/editor/imports-help-popup.xsl" todir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes/xsl" /> 
 
-		<copy file="${MYCORE_HOME}/stylesheets/editor/editor.xsl" todir="${docportal.webapps}/WEB-INF/stylesheets" />
-		<copy file="${MYCORE_HOME}/stylesheets/editor/editor-common.xsl" todir="${docportal.webapps}/WEB-INF/stylesheets" />
-		<copy file="${MYCORE_HOME}/stylesheets/editor/helpPopup.xsl" todir="${docportal.webapps}/WEB-INF/stylesheets" />
-		<copy file="${MYCORE_HOME}/stylesheets/editor/imports-help-popup.xsl" todir="${docportal.webapps}/WEB-INF/stylesheets" />
+		<mkdir dir="${build.webapps}/${MYAPPLICATION_NAME}/content/oai" />
+	
+		<copy file="${MYCORE_HOME}/xsl/oai2.xsl" todir="${build.webapps}/${MYAPPLICATION_NAME}/content/oai" />
+	
 
-		<mkdir dir="${docportal.webapps}/content/oai" />
-		<copy file="${MYCORE_HOME}/stylesheets/oai2.xsl" todir="${docportal.webapps}/content/oai" />
-
-		<!--
-        <copy
-            file="${MYCORE_HOME}/stylesheets/editor/mcr_results-classif-to-items.xsl"
-            todir="${docportal.webapps}/WEB-INF/stylesheets" />
-        <copy
-            file="${MYCORE_HOME}/stylesheets/editor/mcr_results-authors-to-items.xsl"
-            todir="${docportal.webapps}/WEB-INF/stylesheets" />
-        <copy
-            file="${MYCORE_HOME}/stylesheets/editor/mcr_results-inst-to-items.xsl"
-            todir="${docportal.webapps}/WEB-INF/stylesheets" />
-		-->
-		<!-- 
-            <copy file="${docportal.stylesheets}/editor/editor-config.xsl" todir="${docportal.webapps}/WEB-INF/stylesheets"/>
-        -->
-
-		<!-- Copy the files from various directories to build the webapps -->
-		<!--     <copy todir="${docportal.webapps}">
-              	
-                <fileset dir="${docportal.webpages}"/>
-                <fileset dir="${docportal.config}" includes="FileContentTypes.xml" />
-                <fileset dir="${docportal.doc}" includes="DocPortal.*" />
-                <fileset dir="${docportal.doc}" includes="Anleitung_Autor_Dokumente.*" />
-                <fileset dir="${docportal.doc}" includes="Anleitung_Bearbeiter_Documente.*" />
-        
-            <fileset
-                dir="${MYCORE_HOME}/documentation/StartingGuide"
-                includes="StartingGuide.*" />
-            <fileset dir="${MYCORE_HOME}/documentation/UserGuide"
-                includes="UserGuide.*" />
-            <fileset dir="${MYCORE_HOME}/documentation/ProgGuide"
-                includes="ProgGuide.*" />    
-        </copy> -->
-		<!--  	
-            <copy todir="${docportal.webapps}" overwrite="true">
-            <fileset dir="${docportal.webpages}" >
-            <exclude name="**/*.xsl" />				      	
-            </fileset>
-            </copy>
-        -->
-		<!--  	
-            <copy file="${DOCPORTAL_SYSTEM}/webpages/index.html" todir="${DOCPORTAL_SYSTEM}/webapps" overwrite="true" />				
-        -->
-		<!--  	
-            <copy todir="${docportal.webapps}/editor">
-            <fileset dir="${docportal.config}" includes="editor-*.xml" />
-            <fileset dir="${docportal.config}" includes="imports-*.xml" />
-            </copy>
-        -->
-		<copy todir="${docportal.webapps}/WEB-INF">
-			<fileset dir="${docportal.config}" includes="web.xml ibm*.xmi urlrewrite.xml server-config.wsdd" />
+		<copy todir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF">
+			<fileset dir="${application.config}" includes="web.xml ibm*.xmi urlrewrite.xml server-config.wsdd" />
 		</copy>
-
-		<copy todir="${docportal.webapps}/WEB-INF/lib">
-			<fileset dir="${DOCPORTAL_SYSTEM}/lib" includes="*.jar" excludes="jsp-api*.jar" />
-			<fileset dir="${MYCORE_HOME}/lib" includes="*.jar" excludes="servlet-api*,standalone-compiler*" />
+		<copy todir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/lib">
+			<fileset dir="${application.lib}" includes="*.jar" excludes="jsp-api*.jar" />
+			<!--<fileset dir="${MYCORE_HOME}/lib" includes="*.jar" excludes="servlet-api*,standalone-compiler*" />  -->
+			<fileset dir="${build.lib}" />
 		</copy>
-		<copy todir="${docportal.webapps}/WEB-INF/classes" overwrite="true">
-			<!-- <fileset dir="${docportal.classes}" /> -->
-			<fileset dir="${docportal.config}" excludes="user/* hibernate/*" />
-			<fileset dir="${docportal.schema}" />
-			<fileset dir="${docportal.stylesheets}" includes="mycoreobject-*-to-workflow.xsl" />
-
-			<fileset dir="${docportal.webpages}/content/results-config" includes="*.xml" />
-			<fileset dir="${docportal.config}/hibernate" includes="*" excludes="*.template" />
+		<copy todir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes" overwrite="true">
+			<!-- <fileset dir="${build}/classes" /> -->
+			<fileset dir="${application.config}" excludes="user/** hibernate/** lang/**" />
+			<fileset dir="${build.schema}" />
+			<!-- <fileset dir="${application.stylesheets}" includes="mycoreobject-*-to-workflow.xsl" /> -->
+			<fileset dir="${application.webpages}/content/results-config" includes="*.xml" />
+			<fileset dir="${application.config}/hibernate" includes="ehcache.xml hibernate.cfg.xml" />
+				
+			
 
 			<fileset dir="${MYCORE_HOME}/config">
 				<include name="fieldtypes.xml" />
 			</fileset>
 		</copy>
-		<copy todir="${docportal.webapps}/WEB-INF/classes/mappings" overwrite="true">
-			<fileset dir="${docportal.config}/hibernate/mappings" />
-
+		<copy todir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes/mappings" overwrite="true">
+			<fileset dir="${application.config}/hibernate/mappings" />
 		</copy>
 
 
 		<echo level="info"> Concat messagebundles to one messages_{locale}.properties</echo>
-		<taskdef name="mergepropertyfiles" classname="org.mycore.ant.customtasks.MergeProperties" classpath="${DOCPORTAL_HOME}/lib/ant-mycore.jar" />
-		<mergepropertyfiles basefile="${docportal.languages}/messages_de.properties" deltafile="${docportal.languages}/mymessages_de.properties" tofile="${docportal.webapps}/WEB-INF/classes/messages_de.properties" />
+		<taskdef name="mcr-mergepropertyfiles" classname="org.mycore.buildtools.anttasks.MCRMergePropertiesTask" classpath="${env.MYCORE_HOME}/build/lib/mycore.jar" />
+		<copy file ="${application.languages}/messages_de.properties" tofile="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes/messages_de.properties" />
+		<mcr-mergepropertyfiles basefile="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes/messages_de.properties" deltafile="${application.languages}/mymessages_de.properties" />
+		<copy file ="${application.languages}/messages_en.properties" tofile="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes/messages_en.properties" />
+		<mcr-mergepropertyfiles basefile="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes/messages_en.properties" deltafile="${application.languages}/mymessages_en.properties" />
 
-		<mergepropertyfiles basefile="${docportal.languages}/messages_en.properties" deltafile="${docportal.languages}/mymessages_en.properties" tofile="${docportal.webapps}/WEB-INF/classes/messages_en.properties" />
-
-		<!--
-    	<concat destfile="${docportal.webapps}/WEB-INF/classes/messages_de.properties">
-    		<filelist id="messagebundles_de" 
-  		    		dir="${docportal.languages}"
-    		    	files="mymessages_de.properties,messages_de.properties"/> 
-    	</concat>
-    	<concat destfile="${docportal.webapps}/WEB-INF/classes/messages_en.properties" >
-    		<filelist  id="messagebundles_en" 
-    			dir="${docportal.languages}"
-    		    files="mymessages_en.properties,messages_en.properties"/> 
-    	</concat> -->
-
-		<copy todir="${docportal.webapps}/WEB-INF/stylesheets" flatten="true">
-			<fileset dir="${MYCORE_HOME}/stylesheets" includes="**/*.xsl" />
-		</copy>
-		<copy todir="${docportal.webapps}/WEB-INF/stylesheets" flatten="true" overwrite="true">
-			<fileset dir="${docportal.stylesheets}" includes="**/*.xsl" />
+		
+		<copy todir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes/xsl" flatten="true" overwrite="true">
+			<fileset dir="${application.stylesheets}" includes="**/*.xsl" />
 		</copy>
 
 		<echo level="info">
 
             Building the upload applet used for file uploads...
         </echo>
-		<jar jarfile="${docportal.webapps}/applet/unsigned.jar">
-			<fileset dir="${MYCORE_HOME}/classes">
+		<jar jarfile="${build.webapps}/${MYAPPLICATION_NAME}/applet/unsigned.jar">
+			<fileset dir="${MYCORE_HOME}/build/classes">
 				<include name="org/mycore/frontend/fileupload/MCRUploadAppl*.class" />
 				<include name="org/mycore/frontend/fileupload/MCRUploadComm*r.class" />
 				<include name="org/mycore/frontend/fileupload/MCRUploadExce*.class" />
 				<include name="org/mycore/frontend/fileupload/MCRUploadProg*.class" />
 			</fileset>
-
 		</jar>
-		<loadproperties srcFile="${docportal.config}/mycore.properties">
+		<loadproperties srcFile="${build.config}/mycore.properties">
 			<filterchain>
 				<linecontains>
 					<contains value="SIGN." />
 				</linecontains>
 			</filterchain>
 		</loadproperties>
-		<signjar jar="${docportal.webapps}/applet/unsigned.jar" signedjar="${docportal.webapps}/applet/upload.jar" alias="${SIGN.Alias}" keystore="${SIGN.KeyStore}/keys" storepass="${SIGN.Password}" keypass="${SIGN.Password}" />
-
-		<delete file="${docportal.webapps}/applet/unsigned.jar" />
-		<chmod dir="${docportal.webapps}/applet" perm="ugo+r" />
+		<signjar jar="${build.webapps}/${MYAPPLICATION_NAME}/applet/unsigned.jar" signedjar="${build.webapps}/${MYAPPLICATION_NAME}/applet/upload.jar" alias="${SIGN.Alias}" keystore="${SIGN.KeyStore}/keys" storepass="${SIGN.Password}" keypass="${SIGN.Password}" />
+		<delete file="${build.webapps}/${MYAPPLICATION_NAME}/applet/unsigned.jar" />
+		<chmod dir="${build.webapps}/${MYAPPLICATION_NAME}/applet" perm="ugo+r" />
 
 		<antcall target="copy.webapp.shared.jars" />
 		<antcall target="webapp.info.shared.jars" />
@@ -854,15 +636,14 @@
 
 		<echo level="info">Updating modules...</echo>
 		<subant target="webapps" inheritall="true" inheritrefs="true">
-
-			<fileset dir="${DOCPORTAL_HOME}" includes="**/modules/*/build.xml" excludes="**/modules/UNINSTALLED_*/build.xml" />
+			<fileset dir="${application}" includes="**/components/*/build.xml" excludes="**/components/UNINSTALLED_*/build.xml" />
 		</subant>
 
 		<!-- Copy / Unpack fckEditor files (WYSIWYG HTML Editor) -->
-		<!--    <unzip src="${MYCORE_HOME}/lib/fckEditor.zip" dest="${docportal.webapps}" />
-        <copy file="${MYCORE_HOME}/config/fckconfig.js" todir="${docportal.webapps}/fck" /> -->
-		<copy todir="${docportal.webapps}/FCKeditor">
-			<fileset dir="${DOCPORTAL_HOME}/FCKeditor" />
+		<!--    <unzip src="${MYCORE_HOME}/lib/fckEditor.zip" dest="${build.webapps}/${MYAPPLICATION_NAME}" />
+        <copy file="${MYCORE_HOME}/config/fckconfig.js" todir="${build.webapps}/${MYAPPLICATION_NAME}/fck" /> -->
+		<copy todir="${build.webapps}/${MYAPPLICATION_NAME}/FCKeditor">
+			<fileset dir="${application}/FCKeditor" />
 		</copy>
 	</target>
 
@@ -892,23 +673,21 @@
             build.properties, MyCoRe suggests to set these variables as
             follows:
 
-            LIBPATH=${docportal.libpath.translated}
+            LIBPATH=${application.libpath.translated}
             LD_LIBRARY_PATH=$LIBPATH
 
         </echo>
-
 	</target>
 
 	<target name="copy.webapp.shared.jars">
-		<delete dir="${docportal.webapps}/WEB-INF/lib/tmp" />
-		<mkdir dir="${docportal.webapps}/WEB-INF/lib/tmp" />
+		<delete dir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/lib/tmp" />
+		<mkdir dir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/lib/tmp" />
 		<antcall target="copy.webapp.jdbc" />
 		<antcall target="copy.webapp.xml" />
 		<condition property="shared.jars.dir" value="${MCR.WebAppServer.SharedJarsDir}">
 			<available file="${MCR.WebAppServer.SharedJarsDir}" type="dir" />
-
 		</condition>
-		<condition property="shared.jars.dir" value="${docportal.webapps}/WEB-INF/lib">
+		<condition property="shared.jars.dir" value="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/lib">
 			<not>
 				<available file="${MCR.WebAppServer.SharedJarsDir}" type="dir" />
 			</not>
@@ -916,83 +695,48 @@
 		<antcall target="list.jars.unix" />
 		<antcall target="list.jars.windows" />
 		<copy toDir="${shared.jars.dir}">
-
-			<fileset dir="${docportal.webapps}/WEB-INF/lib/tmp" />
+			<fileset dir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/lib/tmp" />
 		</copy>
-		<delete dir="${docportal.webapps}/WEB-INF/lib/tmp" />
+		<delete dir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/lib/tmp" />
 	</target>
 
 	<target name="list.jars.unix" if="os.is.unix">
-		<exec dir="${docportal.webapps}/WEB-INF/lib/tmp" executable="ls" />
+		<exec dir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/lib/tmp" executable="ls" />
 	</target>
 
 	<target name="list.jars.windows" if="os.is.windows">
-
-		<exec dir="${docportal.webapps}/WEB-INF/lib/tmp" executable="cmd.exe">
+		<exec dir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/lib/tmp" executable="cmd.exe">
 			<arg line="/c dir *.*" />
 		</exec>
 	</target>
 
 
 	<target name="copy.webapp.jdbc" if="MCR.JDBCStore.BaseDir">
-		<copy todir="${docportal.webapps}/WEB-INF/lib/tmp" flatten="true">
+		<copy todir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/lib/tmp" flatten="true">
 			<fileset dir="${MCR.JDBCStore.BaseDir}" includes="_dummy_ ${MCR.JDBCStore.Jars}" />
 		</copy>
-
 	</target>
 
 	<target name="copy.webapp.xml" if="MCR.XMLStore.BaseDir">
-		<copy todir="${docportal.webapps}/WEB-INF/lib/tmp" flatten="true">
+		<copy todir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/lib/tmp" flatten="true">
 			<fileset dir="${MCR.XMLStore.BaseDir}" includes="_dummy_ ${MCR.XMLStore.Jars}" />
 		</copy>
 	</target>
 
 	<!-- =================================================================== -->
 	<!-- Build a web application archive                                     -->
-
 	<!-- =================================================================== -->
 
 	<target name="war" depends="clean, create.schema, jar, create.taglib, webapps, create.scripts">
-		<jar jarfile="../${MYAPPLICATION_NAME}.war" basedir="${docportal.webapps}" />
+		<jar jarfile="../${MYAPPLICATION_NAME}.war" basedir="${build.webapps}/${MYAPPLICATION_NAME}" />
 	</target>
-
-	<target name="fastdevelopwar" depends="jar,create.taglib">
-		<copy todir="${docportal.WEB-INF}/lib" file="${docportal.lib}/mycore-taglibs.jar" overwrite="true" />
-		<copy todir="${docportal.WEB-INF}/classes" overwrite="true">
-			<fileset dir="${docportal.classes}" />
-
-		</copy>
-		<copy todir="${docportal.webapps}" overwrite="true">
-			<fileset dir="${docportal.webpages}" />
-		</copy>
-	</target>
-
-	<!-- =================================================================== -->
-	<!-- Build the web application and copy it to a special folder           -->
-	<!-- =================================================================== -->
-
-	<target name="webtools" depends="clean, create.schema, jar, create.taglib, webapps">
-		<mkdir dir="../globalwebapps" />
-		<delete includeEmptyDirs="true">
-			<fileset dir="../globalwebapps">
-				<include name="/**" />
-			</fileset>
-		</delete>
-		<copy todir="../globalwebapps" overwrite="true">
-
-			<fileset dir="${docportal.webapps}" includes="**" />
-		</copy>
-	</target>
-
 
 	<!-- =================================================================== -->
 	<!-- Remove the user created directories and files                       -->
 	<!-- =================================================================== -->
 
 	<target name="clean">
-
-		<delete dir="${DOCPORTAL_SYSTEM}" />
-		<delete dir="${DOCPORTAL_HOME}/classes" />
+		<delete dir="${build}" />
 	</target>
 
 	<!-- =================================================================== -->
@@ -1001,7 +745,6 @@
 
 	<target name="update">
 		<cvs cvsroot="${CVSRoot}" command="update -dP" dest="${basedir}" />
-
 	</target>
 
 	<!-- =================================================================== -->
@@ -1012,42 +755,9 @@
 		<antcall target="update" />
 		<antcall target="javadocs" />
 		<antcall target="changelog" />
-
 	</target>
 
-	<!-- =================================================================== -->
-	<!-- Build CVS ChangeLog                                                 -->
-	<!-- =================================================================== -->
-
-	<target name="changelog" depends="init">
-		<echo level="info">
-
-            Building CVS ChangeLog, please be patient...
-        </echo>
-
-		<tstamp>
-			<format property="year" pattern="yyyy" />
-		</tstamp>
-
-		<mkdir dir="${basedir}/changelogs" />
-		<mkdir dir="${basedir}/changelogs/${year}" />
-
-		<exec executable="/mcr/applications/cvschangelogbuilder-2.0/cvschangelogbuilder.pl">
-			<arg value="-module=jspdocportal" />
-
-			<arg value="-output=buildhtmlreport" />
-			<arg value="-viewcvsurl=http://www.mycore.de/cvs/viewcvs.cgi" />
-			<arg value="-dir=${basedir}/changelogs/${year}" />
-		</exec>
-
-		<move file="${basedir}/changelogs/${year}/cvschangelogbuilder_jspdocportal.html" tofile="${basedir}/changelogs/${year}/index.html" />
-
-		<chmod dir="${basedir}/changelogs" perm="ugo+rx" />
-		<chmod dir="${basedir}/changelogs" type="dir" perm="ugo+rx" includes="**/*" />
-		<chmod dir="${basedir}/changelogs" type="file" perm="ugo+r" includes="**/*" />
-
-	</target>
-
+	
 	<!-- =================================================================== -->
 	<!-- Check if javadocs and pdf are up to date or outdated                -->
 	<!-- =================================================================== -->
@@ -1055,18 +765,16 @@
 	<target name="up2date" depends="init">
 
 		<path id="javadocs.classpath">
-			<fileset dir="${docportal.lib}" includes="*.jar" />
-
+			<fileset dir="${application}/lib" includes="*.jar" />
 			<fileset dir="${MYCORE_HOME}/lib" includes="*.jar" />
 		</path>
 
 		<condition property="javadocs.outdated">
 			<not>
 				<uptodate>
-					<srcfiles dir="${docportal.sources}" includes="**/*.java" />
+					<srcfiles dir="${application.sources}" includes="**/*.java" />
 					<mapper type="merge" to="${docportal.javadocs}/overview-tree.html" />
 				</uptodate>
-
 			</not>
 		</condition>
 	</target>
@@ -1078,8 +786,8 @@
 	<target name="javadocs" depends="up2date" if="javadocs.outdated" description="creates JavaDoc API documentation in HTML format">
 		<echo level="info">Building the DocPortal JavaDoc API documentation...</echo>
 
-		<mkdir dir="${docportal.javadocs}" />
-		<javadoc packagenames="org.mycore.*" sourcepath="${docportal.sources}" destdir="${docportal.javadocs}" classpathref="javadocs.classpath" author="true" version="true" use="true" access="package" splitindex="true" linksource="true" windowtitle="DocPortal JavaDoc Documentation" doctitle="DocPortal Source Code JavaDoc Documentation">
+		<mkdir dir="${application.javadocs}" />
+		<javadoc packagenames="org.mycore.*" sourcepath="${application.sources}" destdir="${application.javadocs}" classpathref="javadocs.classpath" author="true" version="true" use="true" access="package" splitindex="true" linksource="true" windowtitle="DocPortal JavaDoc Documentation" doctitle="DocPortal Source Code JavaDoc Documentation">
 			<group title="DocPortal Datamodel" packages="org.mycore.datamodel*" />
 			<group title="DocPortal Persistence Backend Implementations" packages="org.mycore.backend*" />
 			<group title="DocPortal User Interface Frontend" packages="org.mycore.frontend*" />
@@ -1087,7 +795,6 @@
 
 			<link href="http://java.sun.com/j2se/1.4.2/docs/api/" />
 			<link href="http://www.mycore.de/workdir/mycore/documentation/html" />
-
 			<link href="http://www.mycore.de/library/cm-eip/eip-8.2-javadocs/" />
 			<link href="http://jakarta.apache.org/tomcat/tomcat-5.0-doc/servletapi" />
 			<link href="http://java.sun.com/xml/jaxp/dist/1.1/docs/api/" />
@@ -1097,94 +804,87 @@
 			<link href="http://jakarta.apache.org/lucene/docs/api/" />
 		</javadoc>
 		<echo level="info">
-
             ---------------------------------------------------------
         </echo>
 
-		<chmod dir="${docportal.javadocs}" type="file" perm="ugo+r" includes="**/*" />
-		<chmod dir="${docportal.javadocs}" type="dir" perm="ugo+rx" includes="**/*" />
+		<chmod dir="${application.javadocs}" type="file" perm="ugo+r" includes="**/*" />
+		<chmod dir="${application.javadocs}" type="dir" perm="ugo+rx" includes="**/*" />
 	</target>
 
 	<!-- =================================================================== -->
 	<!-- Load privileges, users and groups into database                     -->
 	<!-- =================================================================== -->
 
+	
 	<target name="create.users" depends="init">
-		<property name="commands.file" value="${basedir}/commands.txt" />
-		<echo level="info" file="${commands.file}" append="false">
-            load permissions data from file permissions.xml
+		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="application.classpath" />
+		<mcr-execute>
+            load permissions data from file ${application.config}/user/permissions.xml
 
       	    init superuser
 
             change to user root with alleswirdgut
       			
-            create group data from file group_adminall.xml        	
+            create group data from file ${application.config}/user/group_adminall.xml        	
         	
-        	create group data from file group_adminperson.xml
-        	create group data from file group_createperson.xml
+        	create group data from file ${application.config}/user/group_adminperson.xml
+        	create group data from file ${application.config}/user/group_createperson.xml
         	
-        	create group data from file group_admindisshab.xml
-        	create group data from file group_createdisshab.xml
+        	create group data from file ${application.config}/user/group_admindisshab.xml
+        	create group data from file ${application.config}/user/group_createdisshab.xml
 
-        	create group data from file group_admininstitution.xml
-        	create group data from file group_createinstitution.xml
+        	create group data from file ${application.config}/user/group_admininstitution.xml
+        	create group data from file ${application.config}/user/group_createinstitution.xml
         	
-        	create group data from file group_adminpublication.xml
-        	create group data from file group_createpublication.xml
+        	create group data from file ${application.config}/user/group_adminpublication.xml
+        	create group data from file ${application.config}/user/group_createpublication.xml
         	
-        	create group data from file group_adminclassification.xml
+        	create group data from file ${application.config}/user/group_adminclassification.xml
         	
-        	create group data from file group_adminuser.xml
-        	create group data from file group_adminwebcontent.xml
+        	create group data from file ${application.config}/user/group_adminuser.xml
+        	create group data from file ${application.config}/user/group_adminwebcontent.xml
         	
-        	create user data from file user_administrator.xml  
-        	create user data from file user_editorUser.xml
-        	create user data from file user_editorClass.xml
-        	create user data from file user_editorWeb.xml
+        	create user data from file ${application.config}/user/user_administrator.xml  
+        	create user data from file ${application.config}/user/user_editorUser.xml
+        	create user data from file ${application.config}/user/user_editorClass.xml
+        	create user data from file ${application.config}/user/user_editorWeb.xml
 
-        	create user data from file user_authorA.xml
-        	create user data from file user_authorI.xml
-        	create user data from file user_authorP.xml
-        	create user data from file user_authorD.xml
+        	create user data from file ${application.config}/user/user_authorA.xml
+        	create user data from file ${application.config}/user/user_authorI.xml
+        	create user data from file ${application.config}/user/user_authorP.xml
+        	create user data from file ${application.config}/user/user_authorD.xml
 
-        	create user data from file user_editorA.xml
-        	create user data from file user_editorI.xml
-        	create user data from file user_editorP.xml
-        	create user data from file user_editorD.xml
+        	create user data from file ${application.config}/user/user_editorA.xml
+        	create user data from file ${application.config}/user/user_editorI.xml
+        	create user data from file ${application.config}/user/user_editorP.xml
+        	create user data from file ${application.config}/user/user_editorD.xml
         	
-        	create group data from file group_membergroup.xml
-        	create user data from file user_member.xml
+        	create group data from file ${application.config}/user/group_membergroup.xml
+        	create user data from file ${application.config}/user/user_member.xml
         	
-        	create group data from file group_adminthesis.xml
-        	create user data from file user_editorT.xml
+        	create group data from file ${application.config}/user/group_adminthesis.xml
+        	create user data from file ${application.config}/user/user_editorT.xml
         	
-        	create group data from file group_adminthesis.xml
-        	create user data from file user_editorT.xml
+        	create group data from file ${application.config}/user/group_adminthesis.xml
+        	create user data from file ${application.config}/user/user_editorT.xml
         	
-        	create group data from file group_suspendthesis.xml
-        	create user data from file user_editorTS.xml
+        	create group data from file ${application.config}/user/group_suspendthesis.xml
+        	create user data from file ${application.config}/user/user_editorTS.xml
         	
-        	create group data from file group_suspenddisshab.xml
-        	create user data from file user_editorDS.xml
+        	create group data from file ${application.config}/user/group_suspenddisshab.xml
+        	create user data from file ${application.config}/user/user_editorDS.xml
         	
             check user data consistency
-        </echo>
-		<antcall target="invoke.cli">
-			<param name="cli.directory" value="${docportal.config}/user" />
-			<param name="cli.command" value="process ${commands.file}" />
-		</antcall>
-
-		<delete file="${commands.file}" />
+    	</mcr-execute>
 	</target>
 
 	<!-- =================================================================== -->
 	<!-- Start and Stop the HSQLDB Database                                  -->
 	<!-- =================================================================== -->
 
-	<property name="docportal.hsqldb-datadir" value="${MCR.Persistence.SQL.Data.Directory}" />
+	<property name="application.hsqldb-datadir" value="${MCR.Persistence.SQL.Data.Directory}" />
 	<target name="hsqldbstart" depends="init">
 		<echo message="Starting HSQLDB Server" />
-
 		<echo file="hsqlport.tmp" append="false">
 	            hsqlport=${MCR.Hibernate.Connection.Url}
 	        </echo>
@@ -1194,17 +894,15 @@
 					<replaceregex pattern="hsqlport=.*:([0-9]+)$" replace="hsqlport=\1" flags='g' />
 				</tokenfilter>
 			</filterchain>
-
 		</loadproperties>
-		<mkdir dir="${docportal.hsqldb-datadir}" />
-		<java dir="${docportal.hsqldb-datadir}" classname="org.hsqldb.Server" classpathref="docportal.classpath" fork="yes">
+		<mkdir dir="${application.hsqldb-datadir}" />
+		<java dir="${application.hsqldb-datadir}" classname="org.hsqldb.Server" classpathref="application.classpath" fork="yes">
 			<arg value="-database.0" />
 			<arg value="${MCR.Persistence.SQL.Data.Directory}/${MCR.Persistence.SQL.Database.Name}" />
 			<arg value="-dbname.0" />
 			<arg value="${MCR.Persistence.SQL.Database.Name}" />
 			<arg value="-database.1" />
 			<arg value="${MCR.Persistence.SQL.Data.Directory}/${MCR.Persistence.SQL.WorkflowDatabase.Name}" />
-
 			<arg value="-dbname.1" />
 			<arg value="${MCR.Persistence.SQL.WorkflowDatabase.Name}" />
 			<arg value="-port" />
@@ -1215,7 +913,6 @@
 
 
 	<target name="hsqldbstop">
-
 		<echo message="Stopping HSQLDB Server" />
 		<echo file="connectionBase.tmp" append="false">
 	                connectionBase=${MCR.Hibernate.Connection.Url}
@@ -1225,16 +922,14 @@
 				<tokenfilter>
 					<replaceregex pattern="connectionBase=(.*:[0-9]+)/.*$" replace="connectionBase=\1" flags='g' />
 				</tokenfilter>
-
 			</filterchain>
 		</loadproperties>
 		<echo level="info">connectionBase:${connectionBase}</echo>
-		<java dir="${docportal.hsqldb-datadir}" classname="org.hsqldb.util.ShutdownServer" fork="yes" classpathref="docportal.classpath">
+		<java dir="${application.hsqldb-datadir}" classname="org.hsqldb.util.ShutdownServer" fork="yes" classpathref="application.classpath">
 			<arg value="-url" />
 			<arg value="${connectionBase}/${MCR.Persistence.SQL.Database.Name}" />
 		</java>
-		<java dir="${docportal.hsqldb-datadir}" classname="org.hsqldb.util.ShutdownServer" fork="yes" classpathref="docportal.classpath">
-
+		<java dir="${application.hsqldb-datadir}" classname="org.hsqldb.util.ShutdownServer" fork="yes" classpathref="application.classpath">
 			<arg value="-url" />
 			<arg value="${connectionBase}/${MCR.Persistence.SQL.WorkflowDatabase.Name}" />
 		</java>
@@ -1243,41 +938,27 @@
 
 	<target name="jettystart">
 		<echo message="Starting Jetty Server" />
-		<java jar="${docportal.lib}/jetty/start.jar" fork="yes">
-
-			<jvmarg value="-Djetty.home=${docportal.lib}/jetty" />
+		<java jar="${application}/lib/jetty/start.jar" fork="yes">
+			<jvmarg value="-Djetty.home=${application}/lib/jetty" />
 			<jvmarg value="-Djava.home=${env.JAVA_HOME}" />
-			<arg value="${docportal.lib}/jetty/webapp.xml" />
+			<arg value="${application}/lib/jetty/webapp.xml" />
 		</java>
 	</target>
 
 	<target name="jettystop">
-		<java jar="${docportal.lib}/jetty/stop.jar" fork="yes">
-			<jvmarg value="-Djetty.home=${docportal.lib}/jetty" />
-
+		<java jar="${application}/lib/jetty/stop.jar" fork="yes">
+			<jvmarg value="-Djetty.home=${application}/lib/jetty" />
 		</java>
 	</target>
 
 	<target name="jettypreparelib">
-		<move file="${docportal.webapps}/WEB-INF/lib/xercesImpl_2_7_1.jar" tofile="${docportal.webapps}/WEB-INF/lib/xercesImpl_2_7_1.jar.notallowedinjetty" />
-		<move file="${docportal.webapps}/WEB-INF/lib/xml-apis.jar" tofile="${docportal.webapps}/WEB-INF/lib/xml-apis.jar.notallowedinjetty" />
+		<move file="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/lib/xercesImpl_2_7_1.jar" tofile="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/lib/xercesImpl_2_7_1.jar.notallowedinjetty" />
+		<move file="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/lib/xml-apis.jar" tofile="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/lib/xml-apis.jar.notallowedinjetty" />
 	</target>
 
 	<target name="jettyrepairlib">
-		<move file="${docportal.webapps}/WEB-INF/lib/xercesImpl_2_7_1.jar.notallowedinjetty" tofile="${docportal.webapps}/WEB-INF/lib/xercesImpl_2_7_1.jar" />
-
-		<move file="${docportal.webapps}/WEB-INF/lib/xml-apis.jar.notallowedinjetty" tofile="${docportal.webapps}/WEB-INF/lib/xml-apis.jar" />
-	</target>
-
-	<target name="demo.jar" depends="compile_demo">
-		<jar jarfile="../demo.jar">
-			<manifest>
-				<attribute name="Main-Class" value="org.mycore.start.demo.Main" />
-				<attribute name="Class-Path" value="mycore/lib/BrowserLauncher2.jar ${MYAPPLICATION_NAME}_app/working/lib/jetty/start.jar ${MYAPPLICATION_NAME}_app/working/lib/jetty/stop.jar" />
-			</manifest>
-
-			<fileset dir="${docportal.classes}" includes="org/mycore/start/demo/**" />
-		</jar>
+		<move file="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/lib/xercesImpl_2_7_1.jar.notallowedinjetty" tofile="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/lib/xercesImpl_2_7_1.jar" />
+		<move file="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/lib/xml-apis.jar.notallowedinjetty" tofile="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/lib/xml-apis.jar" />
 	</target>
 
 	<target name="load_default_content">
@@ -1285,7 +966,6 @@
 			<fileset file="${DOCPORTAL_HOME}/content/defaultsample/build.xml" />
 			<property name="env.JAVA_HOME" value="${env.JAVA_HOME}" />
 			<property name="env.MYCORE_APP" value="${env.MYCORE_APP}" />
-
 		</subant>
 	</target>
 
@@ -1302,17 +982,15 @@
 	</target>
 
 	<!-- =================================================================== -->
-
 	<!-- Generate Hibernate getter/setter class                              -->
 	<!-- =================================================================== -->
 
 	<target name="create.hibindexer" description="dynamic class generation">
 		<echo level="info" message="Generating Hibernate getter/setter class for query" />
 		<!-- <property file="${DOCPORTAL_SYSTEM}/config/mycore.properties.query" /> -->
-		<mkdir dir="${docportal.sources}/org/mycore/backend/query" />
-		<java classname="org.mycore.backend.query.helper.GenClasses" classpathref="docportal.classpath" fork="true">
-			<arg value="${docportal.sources}/org/mycore/backend/query" />
-
+		<mkdir dir="${application.sources}/org/mycore/backend/query" />
+		<java classname="org.mycore.backend.query.helper.GenClasses" classpathref="application.classpath" fork="true">
+			<arg value="${application.sources}/org/mycore/backend/query" />
 		</java>
 	</target>
 
@@ -1323,194 +1001,81 @@
 	<target name="compile-mcr-taglib" description="generation of a taglib.jar for mycore">
 		<echo level="info" message="Generation of the MyCoRe-Taglib: mcr-taglib.jar" />
 		<antcall target="javac">
-
 			<param name="packages" value="org/mycore/frontend/jsp/taglibs/**" />
 		</antcall>
 	</target>
 
 	<target name="create.taglib" depends="compile-mcr-taglib">
-		<mkdir dir="${docportal.config}/tmp-tld" />
-		<copy file="${docportal.config}/mycore-taglibs.tld" tofile="${docportal.config}/tmp-tld/taglib.tld" />
-		<jar destfile="${docportal.lib}/mycore-taglibs.jar">
-			<fileset dir="${docportal.classes}" includes="org/mycore/frontend/jsp/taglibs/**/*.class" />
-
-			<metainf file="${docportal.config}/tmp-tld/taglib.tld" />
+		<mkdir dir="${build.config}/config/tmp-tld" />
+		<copy file="${application.config}/mycore-taglibs.tld" tofile="${build.config}/tmp-tld/taglib.tld" />
+		<jar destfile="${build.lib}/mycore-taglibs.jar">
+			<fileset dir="${build.classes}" includes="org/mycore/frontend/jsp/taglibs/**/*.class" />
+			<metainf file="${build.config}/tmp-tld/taglib.tld" />
 		</jar>
-		<delete dir="${docportal.config}/tmp-tld" />
+		<delete dir="${build.config}/tmp-tld" />
 	</target>
 
-	<target name="zip-mycore" description="generation of a zip-file with all necessary mycore-data">
-		<echo level="info" message="Generation of a zip-file with all necessary mycore-data" />
-		<mkdir dir="${DOCPORTAL_SYSTEM}/tmp-mycore-zip" />
-		<copy todir="${DOCPORTAL_SYSTEM}/tmp-mycore-zip">
-
-			<fileset dir="${MYCORE_HOME}">
-				<include name="*.xml" />
-				<include name="*.txt" />
-				<include name="modules/**" />
-				<include name="config/**" />
-				<include name="docs/**" />
-				<include name="lib/**" />
-				<include name="modules/**" />
-				<include name="stylesheets/**" />
-
-				<include name="schema/**" />
-				<include name="sources/**" />
-				<exclude name="config/build.properties" />
-				<exclude name="lib/mycore*.jar" />
-			</fileset>
-		</copy>
-		<zip destfile="mycore-installation.zip">
-			<zipfileset dir="${DOCPORTAL_SYSTEM}/tmp-mycore-zip" prefix="mycore" />
-		</zip>
-
-		<delete dir="${DOCPORTAL_SYSTEM}/tmp-mycore-zip" />
-	</target>
-
-	<target name="zip-jspdocportal" description="generation of a zip-file with all necessary jspdocportal-data">
-		<echo level="info" message="Generation of a zip-file with all necessary jspdocportal-data" />
-		<mkdir dir="${DOCPORTAL_SYSTEM}/tmp-jspdocportal-zip" />
-		<copy todir="${DOCPORTAL_SYSTEM}/tmp-jspdocportal-zip">
-			<fileset dir="${DOCPORTAL_SYSTEM}">
-				<include name="sources/**" />
-
-				<include name="*.xml" />
-				<include name="*.txt" />
-				<include name="config/**" />
-				<include name="content/**" />
-				<include name="gui-installation/**" />
-				<include name="languages/**" />
-				<include name="lib/**" />
-				<include name="stylesheets/**" />
-				<include name="webpages/**" />
-
-				<exclude name="config/mycore.properties" />
-				<exclude name="lib/docportal-for*.jar" />
-				<exclude name="lib/mycore*taglibs.jar" />
-				<exclude name="stylesheets/MCRJDOMSearch.xsl" />
-				<exclude name="stylesheets/MCRMetadataCoreTemplates.xsl" />
-				<exclude name="stylesheets/MCRMetadataCoreTypes.xsl" />
-				<exclude name="stylesheets/MCRMetadataSchema.xsl" />
-			</fileset>
-		</copy>
-
-		<zip destfile="jspdocportal-installation.zip">
-			<zipfileset dir="${DOCPORTAL_SYSTEM}/tmp-jspdocportal-zip" prefix="jspdocportal" />
-		</zip>
-		<delete dir="${DOCPORTAL_SYSTEM}/tmp-jspdocportal-zip" />
-	</target>
-
+	
 	<target name="create.workflowengine.database">
-		<property name="commands.file" value="${basedir}/commands.txt" />
-		<echo file="${commands.file}" append="false">
-
-        	create jbpm database schema       	
-        </echo>
-		<antcall target="invoke.cli">
-			<param name="cli.directory" value="${docportal.config}" />
-			<param name="cli.command" value="process ${commands.file}" />
-		</antcall>
-		<delete file="${commands.file}" />
+		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="application.classpath" />
+		<mcr-execute>
+			create jbpm database schema       	
+        </mcr-execute>
 	</target>
 
 	<target name="deploy.processdefinition.thesis">
-
-		<property name="commands.file" value="${basedir}/commands.txt" />
-		<echo file="${commands.file}" append="false">
+		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="application.classpath" />
+	<!-- loads processdefinition as resource from classpath -->
+		<mcr-execute>
         	deploy jbpm processdefinition from file workflow/thesis.par/processdefinition.xml      	
-        </echo>
-		<antcall target="invoke.cli">
-			<param name="cli.directory" value="${docportal.config}" />
-			<param name="cli.command" value="process ${commands.file}" />
-		</antcall>
-		<delete file="${commands.file}" />
-
+        </mcr-execute>
 	</target>
 
 	<target name="deploy.processdefinition.series">
-		<property name="commands.file" value="${basedir}/commands.txt" />
-		<echo file="${commands.file}" append="false">
+	<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="application.classpath" />
+		<mcr-execute>
         	deploy jbpm processdefinition from file workflow/series.par/processdefinition.xml      	
-        </echo>
-		<antcall target="invoke.cli">
-			<param name="cli.directory" value="${docportal.config}" />
-			<param name="cli.command" value="process ${commands.file}" />
-
-		</antcall>
-		<delete file="${commands.file}" />
+        </mcr-execute>
 	</target>
 
-
 	<target name="deploy.processdefinition.xmetadiss">
-		<property name="commands.file" value="${basedir}/commands.txt" />
-		<echo file="${commands.file}" append="false">
+	<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="application.classpath" />
+		<mcr-execute>
         	deploy jbpm processdefinition from file workflow/xmetadiss.par/processdefinition.xml      	
-        </echo>
-
-		<antcall target="invoke.cli">
-			<param name="cli.directory" value="${docportal.config}" />
-			<param name="cli.command" value="process ${commands.file}" />
-		</antcall>
-		<delete file="${commands.file}" />
+        </mcr-execute>
 	</target>
 
 	<target name="deploy.processdefinition.registeruser">
-		<property name="commands.file" value="${basedir}/commands.txt" />
-
-		<echo file="${commands.file}" append="false">
+	<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="application.classpath" />
+		<mcr-execute>
         	deploy jbpm processdefinition from file workflow/registeruser.par/processdefinition.xml      	
-        </echo>
-		<antcall target="invoke.cli">
-			<param name="cli.directory" value="${docportal.config}" />
-			<param name="cli.command" value="process ${commands.file}" />
-		</antcall>
-		<delete file="${commands.file}" />
+        </mcr-execute>
 	</target>
 
 	<target name="deploy.processdefinition.publication">
-		<property name="commands.file" value="${basedir}/commands.txt" />
-		<echo file="${commands.file}" append="false">
-        	deploy jbpm processdefinition from file workflow/publication.par/processdefinition.xml      	
-        </echo>
-		<antcall target="invoke.cli">
-			<param name="cli.directory" value="${docportal.config}" />
-			<param name="cli.command" value="process ${commands.file}" />
-		</antcall>
-
-		<delete file="${commands.file}" />
+	<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="application.classpath" />
+		<mcr-execute>
+        	deploy jbpm processdefinition from file workflow\publication.par\processdefinition.xml      	
+   		</mcr-execute>
 	</target>
 
 	<target name="deploy.processdefinition.institution">
-		<property name="commands.file" value="${basedir}/commands.txt" />
-		<echo file="${commands.file}" append="false">
+	<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="application.classpath" />
+		<mcr-execute>
         	deploy jbpm processdefinition from file workflow/institution.par/processdefinition.xml      	
-        </echo>
-		<antcall target="invoke.cli">
-			<param name="cli.directory" value="${docportal.config}" />
-
-			<param name="cli.command" value="process ${commands.file}" />
-		</antcall>
-		<delete file="${commands.file}" />
+        </mcr-execute>
 	</target>
 
 	<target name="deploy.processdefinition.person">
-		<property name="commands.file" value="${basedir}/commands.txt" />
-		<echo file="${commands.file}" append="false">
+	<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="application.classpath" />
+		<mcr-execute>
         	deploy jbpm processdefinition from file workflow/person.par/processdefinition.xml      	
-        </echo>
-
-		<antcall target="invoke.cli">
-			<param name="cli.directory" value="${docportal.config}" />
-			<param name="cli.command" value="process ${commands.file}" />
-		</antcall>
-		<delete file="${commands.file}" />
+        </mcr-execute>
 	</target>
 
-	<!-- depends is not possible because of process mode of hsqldb -->
 	<target name="deploy.workflow.processdefinitions">
-
-		<property name="commands.file" value="${basedir}/commands.txt" />
-		<echo file="${commands.file}" append="false">
+	<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="application.classpath" />
+		<mcr-execute>
         	deploy jbpm processdefinition from file workflow/person.par/processdefinition.xml      	
         	
         	deploy jbpm processdefinition from file workflow/publication.par/processdefinition.xml      	
@@ -1524,52 +1089,59 @@
         	deploy jbpm processdefinition from file workflow/thesis.par/processdefinition.xml
         	
         	deploy jbpm processdefinition from file workflow/series.par/processdefinition.xml  
-        </echo>
-		<antcall target="invoke.cli">
-			<param name="cli.directory" value="${docportal.config}" />
-			<param name="cli.command" value="process ${commands.file}" />
-		</antcall>
-		<delete file="${commands.file}" />
-
-	</target>
-
-
-	<target name="create.izpack.installer" depends="demo.jar">
-		<echo level="info" message="copy base dir: ${MCR.datadir}" />
-		<mkdir dir="${basedir}/../tmpsampledata" />
-		<copy todir="${basedir}/../tmpsampledata">
-			<fileset dir="${MCR.datadir}" excludes="log/*.log" />
-		</copy>
-		<taskdef name="izpack" classpath="${DOCPORTAL_HOME}/lib/standalone-compiler.jar" classname="com.izforge.izpack.ant.IzPackTask" />
-
-		<echo level="info" message="Makes the installer using IzPack" />
-		<copy file="${DOCPORTAL_SYSTEM}/config/mycore.base.properties" tofile="${DOCPORTAL_SYSTEM}/config/izpack/mycore.properties.izpack" overwrite="true">
-			<filterchain>
-				<tokenfilter>
-					<replaceregex pattern="^MCR\.datadir=.*$" replace="MCR.datadir=$INSTALL_PATH/sample-data" />
-					<replaceregex pattern="^MCR\.Hibernate\.Connection\.Url=.*$" replace="MCR.Hibernate.Connection.Url=jdbc:hsqldb:file:%MCR.datadir%/hsqldb-data/mycore" />
-					<replaceregex pattern="^MCR\.WorkflowEngine\.Administrator\.Email=.*$" replace="MCR.WorkflowEngine.Administrator.Email=$EMAILADDRESS" />
-					<replaceregex pattern="^MCR\.Mail\.Server=.*$" replace="MCR.Mail.Server=$MAILSERVER" />
-				</tokenfilter>
-
-			</filterchain>
-		</copy>
-		<copy file="${DOCPORTAL_SYSTEM}/config/workflow/jbpm_hibernate.cfg.xml.template" tofile="${DOCPORTAL_SYSTEM}/config/izpack/jbpm_hibernate.cfg.xml.izpack" overwrite="true">
-			<filterchain>
-				<tokenfilter>
-					<replaceregex pattern="^(\s*&lt;property name=&quot;hibernate\.connection\.url&quot;&gt;).*$" replace="\1jdbc:hsqldb:file:$INSTALL_PATH/sample-data/hsqldb-data/mycore-workflow&lt;/property&gt;" />
-				</tokenfilter>
-			</filterchain>
-		</copy>
-
-		<izpack input="${DOCPORTAL_SYSTEM}/config/izpack/install.xml" output="${basedir}/jspdocportal-installer.jar" installerType="standard" basedir="${DOCPORTAL_SYSTEM}" />
-		<delete dir="${basedir}/../tmpsampledata" />
-	</target>
-
-	<target name="merge.my.properties">
-		<taskdef name="mergepropertyfiles" classname="org.mycore.ant.customtasks.MergeProperties" classpath="${DOCPORTAL_HOME}/lib/ant-mycore.jar" />
-		<mergepropertyfiles basefile="${DOCPORTAL_HOME}/config/mycore.base.properties" deltafile="${basedir}/config/mymycore.properties" tofile="${basedir}/config/mycore.properties" />
-
-	</target>
+        </mcr-execute>
+	</target>	
+	
+	  <macrodef name="modulePreHook">
+	    <attribute name="target" />
+	    <sequential>
+	      <for list="${MCR.Modules.Application}" param="module" parallel="false">
+	        <sequential>
+	          <if>
+	            <resourcecount when="greater" count="0">
+	              <fileset dir="." includes="modules/@module/build.xml">
+	                <containsregexp expression="\u003ctarget.*name=\u0022pre.@{target}\u0022" />
+	              </fileset>
+	            </resourcecount>
+	            <then>
+	              <subant target="pre.@{target}" inheritall="true" inheritrefs="true">
+	                <fileset dir="." includes="modules/@module/build.xml">
+	                  <containsregexp expression="\u003ctarget.*name=\u0022pre.@{target}\u0022" />
+	                </fileset>
+	              </subant>
+	            </then>
+	            <else>
+	              <echo level="debug">No target pre.@{target} found in module @{module}.</echo>
+	            </else>
+	          </if>
+	        </sequential>
+	      </for>
+	    </sequential>
+	  </macrodef>
+	  <macrodef name="moduleHook">
+	    <attribute name="target" />
+	    <sequential>
+	      <for list="${MCR.Modules.Application}" param="module" parallel="false">
+	        <sequential>
+	          <if>
+	            <resourcecount when="greater" count="0">
+	              <fileset dir="." includes="modules/@{module}/build.xml">
+	                <containsregexp expression="\u003ctarget.*name=\u0022@{target}\u0022" />
+	              </fileset>
+	            </resourcecount>
+	            <then>
+	              <subant target="@{target}" inheritall="true" inheritrefs="true">
+	                <fileset dir="." includes="modules/@{module}/build.xml">
+	                  <containsregexp expression="\u003ctarget.*name=\u0022@{target}\u0022" />
+	                </fileset>
+	              </subant>
+	            </then>
+	            <else>
+	              <echo level="debug">No target @{target} found in module @{module}.</echo>
+	            </else>
+	          </if>
+	        </sequential>
+	      </for>
+	    </sequential>
+	  </macrodef>
 </project>
-

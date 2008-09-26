@@ -34,7 +34,6 @@
 		<!-- old build: <copy file="./config/buildfile_application.xml" tofile="../${MYAPPLICATION.DIRNAME}/build.xml" overwrite="true"/> -->
  		<copy file="./config/build.xml.template" tofile="../${MYAPPLICATION.DIRNAME}/build.xml.template" overwrite="true"/>
 		<copy file="./config/mymycore.properties.template" tofile="../${MYAPPLICATION.DIRNAME}/config/mymycore.properties.template" overwrite="true"/>
-		<copy file="./config/mycore.base.properties" tofile="../${MYAPPLICATION.DIRNAME}/config/mycore.properties" overwrite="true"/>
 		<copy file="./config/workflow/jbpm_hibernate.cfg.xml.template" tofile="../${MYAPPLICATION.DIRNAME}/config/workflow/jbpm_hibernate.cfg.xml.template" overwrite="true" />
 		<copy file="./config/hibernate/hibernate.cfg.xml.template" tofile="../${MYAPPLICATION.DIRNAME}/config/hibernate/hibernate.cfg.xml.template" overwrite="true" />
 	</target>
