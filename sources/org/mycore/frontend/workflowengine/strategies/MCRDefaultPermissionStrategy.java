@@ -54,7 +54,7 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 						.getString(propName,
 								"<condition format=\"xml\"><boolean operator=\"false\" /></condition>");
 				strRule = strRule.replaceAll("\\$\\{user\\}", userid);
-				Element rule = (Element) MCRXMLHelper.parseXML(strRule)
+				Element rule = (Element) MCRXMLHelper.parseXML(strRule, false)
 						.getRootElement().detach();
 				String permissionType = defaultPermissionTypes[i];
 				if (AI.hasRule(objID.getId(), permissionType)) {
@@ -79,7 +79,7 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 			String strReadRule = MCRConfiguration.instance()
 					.getString(propName);
 			String x = strReadRule.replaceAll("\\$\\{user\\}", userid);
-			Element readRule = (Element) MCRXMLHelper.parseXML(x)
+			Element readRule = (Element) MCRXMLHelper.parseXML(x, false)
 					.getRootElement().detach();
 			AI.addRule(mcrid, "read", readRule, "");
 		}
@@ -108,7 +108,7 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 							   "<condition format=\"xml\"><boolean operator=\"true\" /></condition>");
 		}
 
-		Element eRule = (Element) MCRXMLHelper.parseXML(xmlRuleString.toString())
+		Element eRule = (Element) MCRXMLHelper.parseXML(xmlRuleString.toString(),false)
 				.getRootElement().detach();
 		String rule = ACS.getNormalizedRuleString(eRule);
 

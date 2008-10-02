@@ -155,7 +155,7 @@ public class MCRDefaultUserStrategy extends MCRUserStrategy{
 		boolean bSuccess = true;
 		String filename = directory + "/" + "user_" + userid + ".xml";
 		try { 
-			MCRXMLHelper.parseURI(filename, true);
+			MCRXMLHelper.parseURI(filename, false);
 		}catch(Exception e){
 			logger.error("Check Metadata of user" +  filename);
 			logger.error( e.getMessage());

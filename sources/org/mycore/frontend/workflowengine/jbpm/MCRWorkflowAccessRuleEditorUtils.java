@@ -169,7 +169,7 @@ public class MCRWorkflowAccessRuleEditorUtils {
 		MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(lpid);
 		try{
 			String ruleRawXML = getLargeStringVariableFromWorkflow(MCRWorkflowConstants.WFM_VAR_READRULE_XMLSTRING, wfp.getContextInstance());
-			Element eRule = (Element)MCRXMLHelper.parseXML(ruleRawXML).getRootElement().detach();
+			Element eRule = (Element)MCRXMLHelper.parseXML(ruleRawXML, false).getRootElement().detach();
 			List listR = XPath.selectNodes(eRule, ".//condition[@field='group']");
 			ArrayList<String> listResults = new ArrayList<String>();
 			for(int i=0;i<listR.size();i++){
