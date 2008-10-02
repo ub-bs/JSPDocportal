@@ -908,8 +908,8 @@ public class MCRResultFormatter {
                             String start = content.getAttributeValue("start");
                             String withResultlistLink = content.getAttributeValue("withResultlistLink");
                             if (introkey == null) introkey = "";
-                            if (contentSeparator == null) contentSeparator = ", ";
-                            if (contentTerminator == null) contentTerminator = ", ";                        
+                            if (contentSeparator == null) contentSeparator = "";
+                            if (contentTerminator == null) contentTerminator = "";                        
                             if (escapeXml == null) escapeXml = "true";
                             if (start == null) start = "1";
                             Element metaValues = getFormattedMCRDocDetailContent(doc, xpath, 
