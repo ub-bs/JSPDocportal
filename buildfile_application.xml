@@ -150,7 +150,6 @@
 	
 	<target name="config">
 		<modulePreHook target="config" />
-		
 		<copy file="${application.config}/hibernate/hibernate.cfg.xml" todir="${build.config}" />	
 		<copy file="${application.config}/hibernate/ehcache.xml" todir="${build.config}" />
 		
@@ -582,14 +581,14 @@
 			<fileset dir="${build.schema}" />
 			<!-- <fileset dir="${application.stylesheets}" includes="mycoreobject-*-to-workflow.xsl" /> -->
 			<fileset dir="${application.webpages}/content/results-config" includes="*.xml" />
-			<fileset dir="${application.config}/hibernate" includes="ehcache.xml hibernate.cfg.xml" />
-				
-			
-
 			<fileset dir="${MYCORE_HOME}/config">
 				<include name="fieldtypes.xml" />
 			</fileset>
 		</copy>
+		<copy todir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes" overwrite="true">
+			<fileset dir="${build.config}" includes="ehcache.xml hibernate.cfg.xml mycore.properties" />
+		</copy>
+		
 		<copy todir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes/mappings" overwrite="true">
 			<fileset dir="${application.config}/hibernate/mappings" />
 		</copy>

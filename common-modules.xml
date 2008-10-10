@@ -115,7 +115,7 @@
   	<pathelement location="${application.config}/workflow" />
   	<pathelement location="${build.schema}" />
     <pathelement location="${build.stylesheets}" />
-  	 <pathelement location="${mycore.jar}" />
+  	<pathelement path="mycore.jar" />
   	<fileset dir="${build.lib}" includes="*.jar" />
   	
   	<fileset dir="${application.lib}" includes="*.jar" />
@@ -277,7 +277,7 @@
     <mkdir dir="${build.stylesheets}" />
 
 
-
+	 <getMyCoReJar classpathref="mycore.jars" property="mycore.jar"/>
 
     <pathconvert targetos="${detected.os}" property="script.classpath.translated" refid="script.classpath" />
     <pathconvert targetos="${detected.os}" property="application.classpath.translated" refid="application.classpath" />
@@ -285,7 +285,7 @@
 
     <property name="env.LIBPATH" value="${application.libpath.translated}" />
     <property name="env.LD_LIBRARY_PATH" value="${application.libpath.translated}" />
-    <getMyCoReJar classpathref="mycore.jars" property="mycore.jar"/>
+   
 	
   <!-- System CLASSPATH is completely ignored! -->
   <property name="build.sysclasspath" value="ignore" />
