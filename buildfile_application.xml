@@ -110,6 +110,10 @@
 
 	<target name="initDOCPORTAL_SYSTEM">
 		<mkdir dir="${application}" />
+		<copy todir="${application.stylesheets}" overwrite="true">
+			<fileset dir="${env.MYCORE_HOME}/xsl" includes="MCR*.xsl" />
+		</copy>
+		
 		<copy todir="${application}" overwrite="true">
 			<fileset dir="${env.DOCPORTAL_HOME}">
 				<exclude name="./*.xml"/>
@@ -120,6 +124,7 @@
 			<fileset dir="${env.MYCORE_HOME}/build/lib" includes="mycore.jar" />
 
 		</copy>
+		
 		<echo message="${basedir}" />
 		<!-- copy myapplication -->
 		<copy todir="${application}" overwrite="true">
@@ -274,7 +279,7 @@
 	<target name="do.transform">
 		<echo level="info">Transforming ${metadata.schema}...</echo>
 		<java classname="org.apache.xalan.xslt.Process" dir="${application.config}" fork="yes" maxmemory="${java.maxmemory}" classpathref="application.classpath">
-			<arg line="-IN ${metadata.schema} -XSL ${env.MYCORE_HOME}/xsl/MCRMetadataSchema.xsl -OUT ${build.schema}/${metadata.schema}" />
+			<arg line="-IN ${metadata.schema} -XSL ${application.stylesheets}/MCRMetadataSchema.xsl -OUT ${build.schema}/${metadata.schema}" />
 		</java>
 	</target>
 

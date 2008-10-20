@@ -90,6 +90,7 @@ public class MCRCheckMetadataServlet extends MCRServlet {
         MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processID);
         try{
         String publicationType = (String) wfp.getContextInstance().getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_PUBLICATIONTYPE);
+        if(publicationType == null) publicationType=type;
         LOGGER.debug("publicationType = " + publicationType);
         
         WFM.setMetadataValid(mcrid1, false, wfp.getContextInstance());
