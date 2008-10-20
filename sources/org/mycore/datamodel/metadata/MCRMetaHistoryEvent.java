@@ -1,6 +1,11 @@
 package org.mycore.datamodel.metadata;
 
+import java.util.Iterator;
+import java.util.List;
+
+import org.jdom.Attribute;
 import org.jdom.Element;
+import org.jdom.Namespace;
 import org.mycore.common.MCRCalendar;
 import org.mycore.common.MCRException;
 
@@ -65,13 +70,24 @@ public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
      * @param element
      *            a relevant JDOM element for the metadata
      */
-    public void setFromDOM(org.jdom.Element element) {
+    @SuppressWarnings("unchecked")
+	public void setFromDOM(org.jdom.Element element) {
         if(element.getChild("von")==null){
         	element.addContent(new Element("von"));
         }
         if(element.getChild("bis")==null){
         	element.addContent(new Element("bis"));
-        }	  
+        }
+        Iterator<org.jdom.Element> textchild = element.getChildren("text").iterator();
+        while (textchild.hasNext()) {
+            Element elmt = textchild.next();
+            Attribute attr = elmt.getAttribute("lang");
+            if (attr!=null){
+            	attr.setNamespace(Namespace.XML_NAMESPACE);
+            }
+        }
+     
+        
     	super.setFromDOM(element);
         setEvent(element.getChildTextTrim("event")); 
         setCalendar(element.getChildTextTrim("calendar"));
