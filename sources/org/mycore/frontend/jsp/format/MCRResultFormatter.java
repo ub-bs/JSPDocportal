@@ -318,6 +318,7 @@ public class MCRResultFormatter {
 			    		digitalObject.setAttribute("derivid",derivateID);
 			    		digitalObject.setAttribute("path",myfiles[i].getPath());
 			    		digitalObject.setAttribute("name",myfiles[i].getName());
+			    		digitalObject.setAttribute("derivatelabel", mcr_der.getLabel());
 					    digitalObjects.addContent(digitalObject);
 			    	}
 			    }	
@@ -893,6 +894,9 @@ public class MCRResultFormatter {
             	
             			metaname.setAttribute("name", field.getAttributeValue("labelkey"));
             			metaname.setAttribute("type",field.getAttributeValue("rowtype"));
+            			if(field.getAttributeValue("style")!=null){
+            				metaname.setAttribute("style",field.getAttributeValue("style"));
+            			}
                         List lContent = field.getChildren("MCRDocDetailContent");
                         for(Iterator it2 = lContent.iterator(); it2.hasNext();) {
                         	                        	

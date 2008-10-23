@@ -43,6 +43,7 @@
 								<c:if test="${!empty(ikey)}">   			                               					         
 			                        <fmt:message key="${ikey}" />
 	                            </c:if>
+	                             <x:if select="./@style = 'bold'"><b></x:if>
 	                            <x:choose>
 									<x:when select="./metavalues[$j]/metavalue[$i]/@href != ''">
                               			<a href="<x:out select="./metavalues[$j]/metavalue[$i]/@href" />" target="<x:out select="./metavalues[$j]/metavalue[$i]/@target" />"><x:out select="./metavalues[$j]/metavalue[$i]/@text" /></a>
@@ -53,6 +54,7 @@
 				                       </x:if>
 	                            	</x:otherwise>
 	                            </x:choose>
+	                             <x:if select="./@style = 'bold'"></b></x:if>
 	                       </x:otherwise>   
 						  </x:choose>
 						  <x:out select="./metavalues[$j]/@terminator" escapeXml="false" />	                               
