@@ -207,7 +207,7 @@
 		<xmltask source="${build.config}/ehcache.xml" dest="${build.config}/ehcache.xml">
 			<replace path="/ehcache/diskStore/@path" withText="${MCR.EHCache.diskStore.path}" />
 		</xmltask>
-			<copy todir="${application.config}/hibernate">
+			<copy todir="${application.config}/hibernate" overwrite="true">
 				<fileset dir="${build.config}" includes="hibernate.cfg.xml, ehcache.xml" />
 			</copy>
 		
