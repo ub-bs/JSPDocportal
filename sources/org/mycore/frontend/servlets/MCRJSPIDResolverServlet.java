@@ -187,35 +187,39 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     				MCRObject o = new MCRObject();
     		    	o.receiveFromDatastore(mcrID);
     				MCRObjectStructure structure = o.getStructure(); 
-    				MCRMetaLinkID derMetaLink = structure.getDerivate(0);
-        			MCRObjectID derID = derMetaLink.getXLinkHrefID();
-        			MCRDirectory root;
-        			root = MCRDirectory.getRootDirectory(derID.getId());;
-        			MCRFilesystemNode[] myfiles = root.getChildren();
-        			for (MCRFilesystemNode f: myfiles){
-    					if((f instanceof MCRFile) && ((MCRFile) f).getAbsolutePath().endsWith(".mets.xml")){
-    						sbDFGViewerURL = new StringBuffer("http://dfg-viewer.de/v1/");
-    						sbDFGViewerURL.append("?set%5Bmets%5D=");
-    						sbDFGViewerURL.append(URLEncoder.encode(getBaseURL()+"file/"+f.getPath(), "UTF-8"));
-    						Document docMETS = ((MCRFile)f).getContentAsJDOM();
-    				
-    						if(page!=null){
-    							while (page.startsWith("0")){
-    								page=page.substring(1);
+    				for(int i=0;i<structure.getDerivateSize();i++){
+    					MCRMetaLinkID derMetaLink = structure.getDerivate(0);
+    					if("METS".equals(derMetaLink.getXLinkLabel())){
+    						MCRObjectID derID = derMetaLink.getXLinkHrefID();
+    						MCRDirectory root = MCRDirectory.getRootDirectory(derID.getId());;
+    						MCRFilesystemNode[] myfiles = root.getChildren();
+    						for (MCRFilesystemNode f: myfiles){
+    							if((f instanceof MCRFile) && ((MCRFile) f).getAbsolutePath().endsWith(".mets.xml")){
+    								sbDFGViewerURL = new StringBuffer("http://dfg-viewer.de/v1/");
+    								sbDFGViewerURL.append("?set%5Bmets%5D=");
+    								sbDFGViewerURL.append(URLEncoder.encode(getBaseURL()+"file/"+f.getPath(), "UTF-8"));
+    								Document docMETS = ((MCRFile)f).getContentAsJDOM();
+    								
+    								if(page!=null){
+    									while (page.startsWith("0")){
+    										page=page.substring(1);
+    									}
+    									Namespace nsMets=Namespace.getNamespace("mets", "http://www.loc.gov/METS/");
+    									XPath xpID = XPath.newInstance("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
+    											"/mets:div[@TYPE='physSequence']/mets:div[starts-with(@ORDERLABEL, '" +page+"')]/@ORDER");
+    									xpID.addNamespace(nsMets);
+    									Attribute a = (Attribute)xpID.selectSingleNode(docMETS);
+    									if(a!=null){
+    										sbDFGViewerURL.append("&set[image]=").append(a.getValue());
+    									}        						
+    								}
+    								else if (nr!=null){
+    									sbDFGViewerURL.append("&set[image]=").append(nr);
+    								}
+    								sbDFGViewerURL.append("&set[zoom]=min");
+    								break;
     							}
-        						Namespace nsMets=Namespace.getNamespace("mets", "http://www.loc.gov/METS/");
-        						XPath xpID = XPath.newInstance("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
-        				    		"/mets:div[@TYPE='physSequence']/mets:div[starts-with(@ORDERLABEL, '" +page+"')]/@ORDER");
-        						xpID.addNamespace(nsMets);
-        						Attribute a = (Attribute)xpID.selectSingleNode(docMETS);
-        						if(a!=null){
-        							sbDFGViewerURL.append("&set[image]=").append(a.getValue());
-        						}        						
     						}
-    						else if (nr!=null){
-    							sbDFGViewerURL.append("&set[image]=").append(nr);
-    						}
-    						sbDFGViewerURL.append("&set[zoom]=min");
     						break;
     					}
         			}
