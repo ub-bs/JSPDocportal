@@ -21,8 +21,12 @@ public class MCRDisshabMetadataStrategy extends MCRDefaultMetadataStrategy {
 			if(title.getAttributeValue("type").equals("original-main"))
 				sbTitle.append(title.getText());
 		}
-		ctxI.setVariable("wfo-title", sbTitle.toString());	
-		
+		if(sbTitle.length()>240){
+			ctxI.setVariable("wfo-title", sbTitle.substring(0,240)+"...");
+		}
+		else{
+			ctxI.setVariable("wfo-title", sbTitle.toString());	
+		}
 		StringBuffer sbAuthorNames = new StringBuffer("");
 		StringBuffer sbAuthors = new StringBuffer("");
 		for(Iterator it = metadata.getDescendants(new ElementFilter("creatorlink")); it.hasNext();){
