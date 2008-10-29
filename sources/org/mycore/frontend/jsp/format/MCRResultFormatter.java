@@ -268,7 +268,7 @@ public class MCRResultFormatter {
 				}
 				
 				int max = CONFIG.getInt("MCR.Searchresults.description.maxlength", 250);
-				if ( !terminator.equals(", ") & text.length() > max){
+				if ( terminator.contains("...") & text.length() > max){
 					text = text.substring(0,max) + terminator;
 				}
 				
@@ -401,7 +401,7 @@ public class MCRResultFormatter {
     	return metaValues;
     }
     
-    public Element getLinkedCategoryTexts(Document doc, String xpath, String separator, String terminator, String lang, String escapeXml) {
+    public Element getLinkedCategoryTexts(Document doc, String xpath, String separator, String terminator, String lang, String escapeXml, boolean noLink) {
     	Element metaValues = new Element("metavalues");
     	metaValues.setAttribute("type","linkedCategory");
     	metaValues.setAttribute("separator",separator);
@@ -433,6 +433,9 @@ public class MCRResultFormatter {
 							//MCR.Class.SearchField.<classID> is not set
 							logger.debug("Property MCR.Class.SearchField." + classID + " is not set!!");
 						}
+					}
+					if(noLink){
+						metaValue.removeAttribute("href");
 					}
 					
 					metaValue.setAttribute("text",categ.getLabels().get(lang).getText());
@@ -818,8 +821,8 @@ public class MCRResultFormatter {
             return result;
         }
     	
-    	if (templatetype.equals("tpl-classification"))
-    		return getLinkedCategoryTexts(doc,xpath,separator,terminator,lang,escapeXml);
+    	if (templatetype.startsWith("tpl-classification"))
+    		return getLinkedCategoryTexts(doc,xpath,separator,terminator,lang,escapeXml, templatetype.length()>"tpl-classification".length());
     	if (templatetype.startsWith("tpl-date-values"))
     		return getDateValues(doc,xpath,separator,terminator,lang,introkey,escapeXml, templatetype.substring("tpl-date-values".length()));
     	if (templatetype.equals("tpl-document"))
