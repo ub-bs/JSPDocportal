@@ -301,4 +301,7 @@
             </label>
       </helpPopup>  
       
+      <text id="LMaxResult100">
+      		<label i18n="Editor.Search.MaxResult100" />
+      </text>
 </imports>
