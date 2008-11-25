@@ -68,7 +68,7 @@
             <form action="nav?path=~indexSearchCreators" method="post">
               <b>
                 <xsl:text> </xsl:text>
-                <xsl:value-of select="results/@numHits"/>
+                <xsl:value-of select="/indexpage/results/@numHits"/>
                 <xsl:text> Treffer </xsl:text>
               </b>
               <input type="submit" class="button" value="Filter aufheben" />

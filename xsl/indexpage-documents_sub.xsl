@@ -85,7 +85,7 @@
             <form action="{$WebApplicationBaseURL}nav?path=~indexSearchDocumentsSub" method="post">
               <b>
                 <xsl:text> </xsl:text>
-                <xsl:value-of select="results/@numHits"/>
+                <xsl:value-of select="/indexpage/results/@numHits"/>
                 <xsl:text> Treffer </xsl:text>
               </b>
               <input type="hidden" name="XSL.subselect.session.SESSION" value="{$subselect.session}" />
