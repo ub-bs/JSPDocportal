@@ -56,14 +56,14 @@
 
 <x:forEach select="$resultList/mcr_results">
 	<x:set var="resultid" select="string(./@id)" scope="page" />
-	<x:set var="totalhits" select="string(./@total-hitsize)" scope="page" />
+	<x:set var="totalhits" select="string(./@total-hitsize)" scope="request" />
 	<x:set var="mask" select="string(./@mask)" scope="page" />
 	<div class="headline"><fmt:message key="${headlineKey}" /></div>
-	<p><a
+	<%-- disabled, because not working - enable after fixing <p><a
 		href="${WebApplicationBaseURL}servlets/MCRJSPSearchServlet?mode=refine&mask=${mask}&id=${resultid}">
 	<b>Suche verfeinern</b> </a><b> | </b> <a
 		href="${WebApplicationBaseURL}servlets/MCRJSPSearchServlet?mode=renew&mask=${mask}">
-	<b>neue Suche</b></a></p>
+	<b>neue Suche</b></a></p> --%>
 	<jsp:include page="searchresult-resortform.jsp" />
 	
 	
