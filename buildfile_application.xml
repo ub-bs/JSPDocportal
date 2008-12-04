@@ -164,7 +164,7 @@
 			<mcr-config propertyfile="${build.config}/mycore.properties" mergeFile="${env.DOCPORTAL_HOME}/config/mycore.base.properties" />
 			<mcr-config propertyfile="${build.config}/mycore.properties" mergeFile="${basedir}/config/mymycore.properties" />
 		</sequential>
-		<copy file="${build.config}/mycore.properties" todir="${application.config}" />  
+		<copy file="${build.config}/mycore.properties" todir="${application.config}" overwrite="true" />  
 			  <loadproperties srcFile="${build.config}/mycore.properties">
 			    <filterchain>
 			      <linecontains>
