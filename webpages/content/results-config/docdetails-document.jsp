@@ -122,6 +122,13 @@
 					<c:if test="${empty(title)}">
 						<c:set var="title"><mcr:simpleXpath jdom="${mycoreobject}" xpath="/mycoreobject/metadata/titles/title[1]" /></c:set>
 					</c:if>
+					<c:if test="${empty(title)}">
+						<c:set var="title">
+							<x:forEach select="$docDetails//metaname[@name='OMD.maintitle']/metavalues/metavalue">
+		 						<x:out select="./@text" escapeXml="./@escapeXml" />
+		 					</x:forEach> 
+		 				</c:set>
+					</c:if>
 					<c:out value="${title}" />
 					
 			</td></tr></tbody>

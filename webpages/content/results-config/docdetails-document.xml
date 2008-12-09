@@ -77,8 +77,8 @@
 	-->
     <MCRDocDetail rowtype="line" labelkey="" separator="" />    
 
-<MCRDocDetail rowtype="standard" labelkey="OMD.Date.publishing" >
-        <MCRDocDetailContent  xpath="/mycoreobject/metadata/dates/date" templatetype="tpl-date-valuesMinimal" separator=", " languageRequired="yes"  />
+<MCRDocDetail rowtype="standard" labelkey="OMD.Date.publishingyear" >
+        <MCRDocDetailContent  xpath="/mycoreobject/metadata/dates/date" templatetype="tpl-date-valuesYearOnly" separator=", " languageRequired="yes"  />
     </MCRDocDetail> 
     <MCRDocDetail rowtype="standard" labelkey="OMD.class-types" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/types/type" templatetype="tpl-classification" separator=", " languageRequired="yes" />
