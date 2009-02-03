@@ -170,7 +170,7 @@ public class MCRResultFormatter {
     		Element classification = (Element) XPath.selectSingleNode(jdom,xpath);
     		String classifID = classification.getAttributeValue("classid");
     		String categID = classification.getAttributeValue("categid");
-    		return categoryDAO.getCategory(new MCRCategoryID(classifID, categID), 0).getLabels().get(lang).getText();    		
+    		return categoryDAO.getCategory(new MCRCategoryID(classifID, categID), 0).getLabel(lang).getText();    		
 		} catch (Exception e) {
 		   //logger.debug("wrong xpath expression: " + xpath);
 		}
@@ -387,7 +387,7 @@ public class MCRResultFormatter {
 				String categID = elClass.getAttributeValue("categid");
 				//MCRCategoryItem categItem = MCRClassificationManager.instance().retrieveCategoryItem(classID,categID);
 				Element metaValue = new Element("metavalue");
-				String text = categoryDAO.getCategory(new MCRCategoryID(classID, categID), 0).getLabels().get(lang).getText();
+				String text = categoryDAO.getCategory(new MCRCategoryID(classID, categID), 0).getLabel(lang).getText();
 				metaValue.setAttribute("text", text);
 				metaValues.addContent(metaValue);
 			}
@@ -438,7 +438,7 @@ public class MCRResultFormatter {
 						metaValue.removeAttribute("href");
 					}
 					
-					metaValue.setAttribute("text",categ.getLabels().get(lang).getText());
+					metaValue.setAttribute("text",categ.getLabel(lang).getText());
 					metaValue.setAttribute("classid",classID);
 					metaValue.setAttribute("categid",categID);
 					metaValues.addContent(metaValue);
