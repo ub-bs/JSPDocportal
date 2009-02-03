@@ -21,8 +21,8 @@ public class MCRDisshabMetadataStrategy extends MCRDefaultMetadataStrategy {
 			if(title.getAttributeValue("type").equals("original-main"))
 				sbTitle.append(title.getText());
 		}
-		if(sbTitle.length()>240){
-			ctxI.setVariable("wfo-title", sbTitle.substring(0,240)+"...");
+		if(sbTitle.length()>200){
+			ctxI.setVariable("wfo-title", sbTitle.substring(0,200)+"...");
 		}
 		else{
 			ctxI.setVariable("wfo-title", sbTitle.toString());	
