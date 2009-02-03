@@ -47,7 +47,7 @@
 		<c:choose>
 			<c:when test="${not empty param.id}">
 				<c:set var="docType" value="${fn:substringBefore(fn:substringAfter(param.id, '_'),'_')}" />
-				<c:if test="${not(empty(docType))}">
+				<c:if test="${not empty docType}">
 				<jsp:include page="content/results-config/webpageitems/webpageitem-${docType}.jsp" >
 					<jsp:param name="pageFragment" value="pagetitle" />
 					<jsp:param name="mcrid" value="${param.id}" />

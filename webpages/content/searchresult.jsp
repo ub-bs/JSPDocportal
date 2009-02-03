@@ -64,7 +64,9 @@
 	<b>Suche verfeinern</b> </a><b> | </b> <a
 		href="${WebApplicationBaseURL}servlets/MCRJSPSearchServlet?mode=renew&mask=${mask}">
 	<b>neue Suche</b></a></p> --%>
-	<jsp:include page="searchresult-resortform.jsp" />
+	<jsp:include page="searchresult-resortform.jsp">
+		<jsp:param name="oType" value="${oType}" />
+	</jsp:include>
 	
 	
 	<x:if select="./mcr_result">

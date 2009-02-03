@@ -12,7 +12,8 @@
 			<td class="resort">
 			<form action="${WebApplicationBaseURL}servlets/MCRJSPSearchServlet"	method="get">
 			<input type="hidden" name="mode" value="resort">
-			<input type="hidden" name="id" value="${resultid}"> 
+			<input type="hidden" name="id" value="${resultid}">
+			<c:set var="oType" value="${param.oType}" /> 
 			<select	name="field1">
 					<option value="title"
 						<mcr:ifSorted query="${query}" attributeName="name" attributeValue="title">selected</mcr:ifSorted>><fmt:message
