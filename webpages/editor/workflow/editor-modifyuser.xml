@@ -26,9 +26,9 @@
             </cell>
             <cell row="2" col="2" anchor="WEST" ref="TFzeile64M" var="user/@ID" sortnr="1" />
             <cell row="2" col="3" anchor="EAST" >
-                <helpPopup id="HAccount" width="400px" >
+                <helpHover id="HAccount" width="400px" >
                     <label i18n="Editor.Help.HNewUserAccount" />
-                </helpPopup>
+                </helpHover>
             </cell>
 
             <!-- *** Password *** -->
@@ -59,7 +59,7 @@
             </cell>
             <cell row="4" col="2" anchor="WEST" ref="TFarea4096" var="user/user.description" sortnr="3"/>            
             <cell row="4" col="3" anchor="EAST">
-                <helpPopup id="HDescription" width="400px"  >
+                <helpHover id="HDescription" width="400px"  >
                     <label xml:lang="de">
                         In diesem Feld steht zunächst die Vorhabensbeschreibung, die der Nutzer angegeben hat.
                         Sie können Sie einen Text zur Beschreibung des neuen
@@ -68,7 +68,7 @@
                     <label xml:lang="en">
                         Here you can specify a description of the new user account.
                     </label>
-                </helpPopup>
+                </helpHover>
             </cell>
 
             <!-- *** ID enabled? *** -->
@@ -111,7 +111,7 @@
                 </list>
             </cell>
             <cell row="7" col="3" anchor="EAST">
-                <helpPopup id="HPrimaryGroup" width="400px"  >
+                <helpHover id="HPrimaryGroup" width="400px"  >
                     <label xml:lang="de">
                         Jede(r) Benutzer(in) muß mindestens einer Gruppe angehören, da 
                         Privilegien im System durch die Gruppenzugehörigkeit geregelt wird.
@@ -120,7 +120,7 @@
                         Each user must belong to at least one group since the privileges
                         a user has in the system is managed by the group affiliations.
                     </label>
-                </helpPopup>
+                </helpHover>
             </cell>
 
             <!-- *** Additional groups *** -->
@@ -144,7 +144,7 @@
                 </list>
             </cell>
             <cell row="8" col="3" anchor="EAST">
-                <helpPopup id="HAdditionalGroups" width="400px"  >
+                <helpHover id="HAdditionalGroups" width="400px"  >
                     <label xml:lang="de">
                         Privilegien im System (Rollen) werden durch die Gruppenzugehörigkeit 
                         geregelt. Durch zusätzliche Gruppenzugehörigkeiten können die möglichen
@@ -155,7 +155,7 @@
                         group affiliations. Therefore the roles a user can take can be exactly
                         defined by assigning the user to different groups.
                     </label>
-                </helpPopup>
+                </helpHover>
             </cell>
 
             <!-- *** Contact information *** -->

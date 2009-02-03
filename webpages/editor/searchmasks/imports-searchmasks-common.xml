@@ -50,9 +50,9 @@
                   <checkbox value="selfremote" checked="false" label="entfernt" />
             </cell>            
       </panel>
-      <helpPopup id="HInstances" width="400px" >
+      <helpHover id="HInstances" width="400px" >
             <label i18n="Editor.Search.Help.instances" />l>
-      </helpPopup>
+      </helpHover>
       <!-- *** Data for the Institution ** -->
       <text id="LInstitution">
             <label i18n="Editor.Search.Label.institution" />
@@ -62,9 +62,9 @@
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="CInstitution" var="@value" />
       </panel>
-      <helpPopup id="HInstitution" width="400px" >
+      <helpHover id="HInstitution" width="400px" >
             <label i18n="Editor.Search.Help.institution" />
-      </helpPopup>
+      </helpHover>
       <list id="CInstitution" width="300px" type="dropdown">
             <item value="">
                   <label i18n="Editor.Common.choose" />
@@ -80,9 +80,9 @@
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="@value" />
       </panel>
-      <helpPopup id="HSurName" width="400px" >
+      <helpHover id="HSurName" width="400px" >
             <label i18n="Editor.Search.Help.surname" />
-      </helpPopup>      
+      </helpHover>      
       <!-- *** Data for the First Name ** -->
       <text id="LFirstName">
             <label i18n="Editor.Search.Label.firstname" />
@@ -92,9 +92,9 @@
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="@value" />
       </panel>
-      <helpPopup id="HFirstName" width="400px" >
+      <helpHover id="HFirstName" width="400px" >
             <label i18n="Editor.Search.Help.firstname" />
-      </helpPopup>      
+      </helpHover>      
       <!-- *** Data for the Titles ** -->
       <text id="LTitles">
             <label i18n="Editor.Search.Label.title" />
@@ -104,9 +104,9 @@
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="@value" />
       </panel>
-      <helpPopup id="HTitles" width="400px" >
+      <helpHover id="HTitles" width="400px" >
             <label i18n="Editor.Search.Help.title" />
-      </helpPopup>
+      </helpHover>
       <!-- *** Data for the Creator ** -->
       <text id="LCreators">
             <label i18n="Editor.Search.Label.creator" />
@@ -116,9 +116,9 @@
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="@value" />
       </panel>
-      <helpPopup id="HCreators" width="400px" >
+      <helpHover id="HCreators" width="400px" >
             <label i18n="Editor.Search.Help.creator" />
-      </helpPopup>
+      </helpHover>
       <!-- *** Data for the Origins ** -->
       <text id="LOrigins">
             <label i18n="Editor.Search.Label.origin" />
@@ -128,9 +128,9 @@
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="COrigins" var="@value" />
       </panel>
-      <helpPopup id="HOrigins" width="400px" >
+      <helpHover id="HOrigins" width="400px" >
             <label i18n="Editor.Search.Help.origin" />
-      </helpPopup>
+      </helpHover>
 
       <list id="COrigins" width="200px" type="dropdown">
             <item value="">
@@ -148,9 +148,9 @@
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="CTypes" var="@value" />
       </panel>
-      <helpPopup id="HTypes" width="400px" >
+      <helpHover id="HTypes" width="400px" >
             <label i18n="Editor.Search.Help.type" />
-      </helpPopup>
+      </helpHover>
       <list id="CTypes" width="100px" type="dropdown">
             <item value="">
         <label i18n="Editor.Common.choose" />              
@@ -168,9 +168,9 @@
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="CSubjects" var="@value" />
       </panel>
-      <helpPopup id="HSubjects" width="400px" >
+      <helpHover id="HSubjects" width="400px" >
             <label i18n="Editor.Search.Help.subject" />
-      </helpPopup>
+      </helpHover>
       <list id="CSubjects" width="200px" type="dropdown">
             <item value="">
         <label i18n="Editor.Common.choose" />                 
@@ -187,9 +187,9 @@
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="CFormats" var="@value" />
       </panel>
-      <helpPopup id="HFormats" width="400px" >
+      <helpHover id="HFormats" width="400px" >
             <label i18n="Editor.Search.Help.format" />
-      </helpPopup>
+      </helpHover>
       <list id="CFormats" width="100px" type="dropdown">
             <item value="">
         <label i18n="Editor.Common.choose" />                 
@@ -206,9 +206,9 @@
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="CLanguages" var="@value" />
       </panel>
-      <helpPopup id="HLanguages" width="400px" >
+      <helpHover id="HLanguages" width="400px" >
             <label i18n="Editor.Search.Help.language" />
-      </helpPopup>
+      </helpHover>
       <list id="CLanguages" width="100px" type="dropdown">
             <item value="">
         <label i18n="Editor.Common.choose" />                
@@ -237,9 +237,9 @@
             <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="@value" />
       </panel>
       
-      <helpPopup id="HMetadata" width="400px" >
+      <helpHover id="HMetadata" width="400px" >
             <label i18n="Editor.Search.Help.metadata" />
-      </helpPopup>
+      </helpHover>
       <!-- *** Data for the Content ** -->
       <text id="LContents">
             <label i18n="Editor.Search.Label.content" />
@@ -249,9 +249,9 @@
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="@value" />
       </panel>
-      <helpPopup id="HContents" width="400px" >
+      <helpHover id="HContents" width="400px" >
             <label i18n="Editor.Search.Help.content" />
-      </helpPopup>            
+      </helpHover>            
       
       <!-- *** Data for the basiklassification ** -->
       <text id="LBkl">
@@ -267,12 +267,12 @@
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="CBkl" var="@value" />
       </panel>
-      <helpPopup id="HBkl" width="400px" height="250px">
+      <helpHover id="HBkl" width="400px" height="250px">
             <label xml:lang="de">   Die Daten sind nach Fachgebieten klassifiziert.
             </label>
             <label xml:lang="en">   the Objects are classified
             </label>
-      </helpPopup>
+      </helpHover>
       <list id="CBkl" width="200px"  type="dropdown">
             <item value="">
                   <label xml:lang="de">(bitte wählen)</label>
@@ -294,12 +294,12 @@
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="@value" />
       </panel>
-      <helpPopup id="HPlaces" width="400px" height="250px">
+      <helpHover id="HPlaces" width="400px" height="250px">
             <label xml:lang="de">   Es ist der Geburtsort der Person einzugeben.
             </label>
             <label xml:lang="en">   Input the place of birth of this person. 
             </label>
-      </helpPopup>  
+      </helpHover>  
       
       <text id="LMaxResult100">
       		<label i18n="Editor.Search.MaxResult100" />

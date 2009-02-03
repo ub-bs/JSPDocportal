@@ -75,9 +75,9 @@
   	<label i18n="Editor.Label.Parts" />
   </text>
   
-  	<helpPopup id="HParts_S" >
+  	<helpHover id="HParts_S" >
 		<label i18n="Editor.Help.HParts" />
-	</helpPopup>
+	</helpHover>
 
  
     <panel id="DParts_S">
@@ -119,26 +119,20 @@
       					<textfield width="25" maxlength="64" />
 		    	 	</cell>
 			      	<cell col="2" row="1" anchor="NORTHWEST">
-      					<text>
-      						<label css-style="editorHint" i18n="Editor.Label.DateShown" />
-		      			</text>
+      					<text class="editorHint" i18n="Editor.Label.DateShown" />
 	      			</cell>
 	      			<cell col="3" row="1" anchor="NORTHWEST" var="von">
     	  				<textfield  width="13" maxlength="13" />
 					</cell>
 					<cell col="4" row="1" anchor="NORTHWEST">
-			      		<text>
-    	  					<label css-style="editorHint" i18n="Editor.Label.DateFrom" />
-      					</text>
+			      		<text class="editorHint" i18n="Editor.Label.DateFrom" />
       				</cell>
 
 		      		<cell col="5" row="1" anchor="NORTHWEST" var="bis">
 	      				<textfield width="13" maxlength="13" />
 				   	</cell>
 		    	  	<cell col="6" row="1" anchor="NORTHWEST">
-	      				<text>
-		      				<label css-style="editorHint" i18n="Editor.Label.DateTo" />
-    			  		</text>
+	      				<text class="editorHint" i18n="Editor.Label.DateTo" />
 		    	  	</cell>
 	      	</panel>
 

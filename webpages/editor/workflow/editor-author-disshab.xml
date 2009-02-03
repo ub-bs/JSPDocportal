@@ -101,9 +101,7 @@
   </panel>
 
 <!-- für Dissertationen STANDARD AUSSCHLIESSLICH CREATORLINK -->
-   <text id="LCreatorLinks">
-          <label css-style="editorlabel" i18n="Editor.Label.AuthorM" />
-   </text>
+   <text id="LCreatorLinks" class="editorlabel i18n="Editor.Label.AuthorM" />
 
     <panel id="DCreatorLinks">
       <!--creatorlink sortnr="3" -->
@@ -128,7 +126,9 @@
           </panel>
   
       </cell>
-      <cell col="2" row="1" anchor="WEST" ref="ACreatorLink" />      
+      <cell col="2" row="1" anchor="WEST">
+      	<text class="editorHint" i18n="Editor.Label.CreatorLinkID" />
+      </cell>      
    </panel>
 
 <!-- ** Data for the SUBJECT *** -->

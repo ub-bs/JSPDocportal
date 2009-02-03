@@ -50,14 +50,14 @@
             </cell>
             <cell row="2" col="2" anchor="WEST" ref="TFzeile64M" var="user/@ID" sortnr="1" />
             <cell row="2" col="3" anchor="EAST" >
-                <helpPopup id="HAccount" >
+                <helpHover id="HAccount" >
                     <label xml:lang="de">
                         In diesem Feld geben Sie bitte die Benutzerkennung, also Ihre Bibliothekskennung ein.						
                     </label>
                     <label xml:lang="en">
                         Please specify the account - this ist your library Account.
                     </label>
-                </helpPopup>
+                </helpHover>
             </cell>
 						
             <!-- *** Description *** -->
@@ -74,7 +74,7 @@
             <cell row="6" col="2" anchor="WEST" ref="CGroupDescription" var="user/user.groups/groups.groupID" sortnr="6"/>
             
             <cell row="6" col="3" anchor="EAST">
-                <helpPopup id="HDescription" width="400px" >
+                <helpHover id="HDescription" width="400px" >
                     <label xml:lang="de">
                         Wählen Sie entweder einen Wert aus der Liste aus oder beschreiben sie, 
                         wofür sie den Zugang benötigen, damit ihnen auch die
@@ -83,7 +83,7 @@
                     <label xml:lang="en">
                         Here you can choose your todos from the list or specify a description of your work. We need you description to give you the right Accessrules
                     </label>
-                </helpPopup>
+                </helpHover>
             </cell> 
             
             <cell row="7" col="1" ref="VSpace50" anchor="EAST" />
@@ -324,14 +324,14 @@
                 </checkbox>
             </cell>
 			<cell row="34" col="3" anchor="EAST">
-                <helpPopup id="HRights" width="400px" >
+                <helpHover id="HRights" width="400px" >
                  <label xml:lang="de">
                     Mit dem Antrag auf Benutzungsberechtigung gestatte ich der Universitätsbibliothek  die von mir eingebrachten Dokumente im Internet	zu publizieren, zu vervielfältigen und zu	verbreiten sowie gegebenenfalls eine Konvertierung des Datenformates vorzunehmen. <br />Davon unberührt bleibt das Recht zur	Publikation in anderer körperlicher Form, z.B. 	einem Verlag. Ich versichere, dass ich allein berechtigt bin, über die urheberrechtlichen Nutzungsrechte aller von mir auf dem Dokumentenserver eingebrachten Dokumente zu verfügen. Gleiches gilt auch für die von mir gelieferten Text und	Bildvorlagen, deren Nutzungsrechte bei mir 	liegen. <br />Ich übernehme für die von mir eingestellten Inhalte die volle Verantwortung	und versichere, dass die von mir verbreiteten	Dokumente wissenschaftlichen Charakter haben, insbesondere keine pornografischen und 	rechtsextremistischen Inhalte aufweisen und das Persönlichkeitsrecht Dritter nicht verletzen. <br />Mir ist bekannt, dass für den Fall einer späteren kommerziellen Verwertung der von mir eingebrachten Inhalte auf eine ggf. vorhandene elektronische Publikation in DocPortal hinzuweisen	ist. <br /> <b>Ich erkenne die o.g. Regelungen an.</b>
                   </label>
                   <label xml:lang="en">
 					Mit dem Antrag auf Benutzungsberechtigung gestatte ich der Universitätsbibliothek  die von mir eingebrachten Dokumente im Internet	zu publizieren, zu vervielfältigen und zu	verbreiten sowie gegebenenfalls eine Konvertierung des Datenformates vorzunehmen. <br />Davon unberührt bleibt das Recht zur	Publikation in anderer körperlicher Form, z.B. 	einem Verlag. Ich versichere, dass ich allein berechtigt bin, über die urheberrechtlichen Nutzungsrechte aller von mir auf dem Dokumentenserver eingebrachten Dokumente zu verfügen. Gleiches gilt auch für die von mir gelieferten Text und	Bildvorlagen, deren Nutzungsrechte bei mir 	liegen. <br />Ich übernehme für die von mir eingestellten Inhalte die volle Verantwortung	und versichere, dass die von mir verbreiteten	Dokumente wissenschaftlichen Charakter haben, insbesondere keine pornografischen und 	rechtsextremistischen Inhalte aufweisen und das Persönlichkeitsrecht Dritter nicht verletzen. <br />Mir ist bekannt, dass für den Fall einer späteren kommerziellen Verwertung der von mir eingebrachten Inhalte auf eine ggf. vorhandene elektronische Publikation in DocPortal hinzuweisen	ist. <br /> <b>Ich erkenne die o.g. Regelungen an.</b>
                   </label>
-                 </helpPopup> 
+                 </helpHover> 
             </cell>			
 			
             <!-- *** Buttons *** -->

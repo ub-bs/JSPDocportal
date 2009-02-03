@@ -32,14 +32,14 @@
     </label>
   </text>
 
-  <helpPopup id="HLabel" width="400px" height="250px">
+  <helpHover id="HLabel" width="400px" height="250px">
    <label xml:lang="de">
 Hier kann der Label des Derivates geändert werden.
    </label>
    <label xml:lang="en">
 You can change the label of the derivate here.
    </label>
-  </helpPopup>
+  </helpHover>
 
 <!-- *** End *** -->
 

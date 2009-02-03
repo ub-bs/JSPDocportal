@@ -202,14 +202,14 @@
 		</label>
 		</text>
 		
-		<helpPopup id="HFlags" >
+		<helpHover id="HFlags" >
 		<label xml:lang="de">
 		Hier können nun Leserechte vergeben werden. Weiterhin können Host- oder Domainnamen angegeben werden, welche Zugriffsberechtigung haben.<p/>Beispiel: myhost.mynet.com oder .mynet.com .
 		</label>
 		<label xml:lang="en">
 		Here you can add the read access of the object. Also you can add a host or domain name for the access host.<p/>Example: myhost.mynet.com or .mynet.com .
 		</label>
-		</helpPopup>
+		</helpHover>
 		
 		<text id="AFlagsAccess">
 		<label xml:lang="de">
@@ -244,12 +244,12 @@
 		<label i18n="Editor.Label.TitleM" />
 	</text>
 
-	<helpPopup id="HTitle" >
+	<helpHover id="HTitle" >
 		<label i18n="Editor.Help.HTitle" />
-	</helpPopup>
-	<!--   <helpPopup  id="SMTitle">
+	</helpHover>
+	<!--   <helpHover  id="SMTitle">
 		<label i18n="Editor.Help.SMTitle" />
-		</helpPopup> -->
+		</helpHover> -->
 	<text id="ATitleMain">
 		<label i18n="Editor.Label.MainTitleM" />
 	</text>
@@ -292,17 +292,17 @@
 		<label i18n="Editor.Label.CreatorLinkTitle" />
 	</text>
 
-	<helpPopup id="HCreator">
+	<helpHover id="HCreator">
 		<label i18n="Editor.Help.HCreator" />
-	</helpPopup>
+	</helpHover>
 
-	<!--   <helpPopup id="SMCreator">
+	<!--   <helpHover id="SMCreator">
 		<label i18n="Editor.Help.SMCreator" />>
-		</helpPopup> -->
+		</helpHover> -->
 
-	<helpPopup id="HCreatorLink">
+	<helpHover id="HCreatorLink">
 		<label i18n="Editor.Help.HCreatorLink" />
-	</helpPopup>
+	</helpHover>
 
 
 	<!-- *** Data for the Subject ** -->
@@ -315,9 +315,9 @@
 		<label i18n="Editor.Label.Subject" />
 	</text>
 
-	<helpPopup id="HSubject" >
+	<helpHover id="HSubject" >
 		<label i18n="Editor.Help.HSubject" />
-	</helpPopup>
+	</helpHover>
 
 	<!-- *** Data for the Origin ** -->
 
@@ -329,9 +329,9 @@
 		<label i18n="Editor.Label.Origin" />
 	</text>
 
-	<helpPopup id="HOrigin" >
+	<helpHover id="HOrigin" >
 		<label i18n="Editor.Help.HOrigin" />
-	</helpPopup>
+	</helpHover>
 
 	<!-- *** Data for the institution -->
 	<text id="LInstitutionP">
@@ -342,9 +342,9 @@
 		<label i18n="Editor.Label.Institution" />
 	</text>
 
-	<helpPopup id="HInstitution">
+	<helpHover id="HInstitution">
 		<label i18n="Editor.Help.HInstitution" />
-	</helpPopup>
+	</helpHover>
 
 	<!-- *** Data for the Description ** -->
 
@@ -360,13 +360,13 @@
 		<label i18n="Editor.Label.AbstractM" />
 	</text>
 
-	<helpPopup id="HDescription">
+	<helpHover id="HDescription">
 		<label i18n="Editor.Help.HDescription" />
-	</helpPopup>
+	</helpHover>
 
-	<helpPopup id="HDescriptionAbstract" >
+	<helpHover id="HDescriptionAbstract" >
 		<label i18n="Editor.Help.HDescriptionAbstract" />
-	</helpPopup>
+	</helpHover>
 
 	<list id="SDescriptType" type="dropdown">
 		<item value="abstract" i18n="OMD.abstract" />
@@ -380,9 +380,9 @@
 		<label i18n="Editor.Label.Publisher" />
 	</text>
 
-	<helpPopup id="HPublisher" >
+	<helpHover id="HPublisher" >
 		<label i18n="Editor.Help.HPublisher" />
-	</helpPopup>
+	</helpHover>
 
 	<list id="SPublisherType" type="dropdown">
 		<item value="publisher" i18n="Editor.Document.publishingcompany" />
@@ -401,9 +401,9 @@
 		<label i18n="Editor.Label.APublishLinkTitle=" />
 	</text>
 
-	<helpPopup id="HPublishLink">
+	<helpHover id="HPublishLink">
 		<label i18n="Editor.Help.HPublishLink" />
-	</helpPopup>
+	</helpHover>
 
 	<!-- *** Data for the Contributor ** -->
 
@@ -415,9 +415,9 @@
 		<label i18n="Editor.Label.ContributorsM" />
 	</text>
 
-	<helpPopup id="HContributor" >
+	<helpHover id="HContributor" >
 		<label i18n="Editor.Help.HContributors" />
-	</helpPopup>
+	</helpHover>
 
     <list id="SContributorTypeReferee" type="dropdown">
 		<item value="" i18n="Editor.Common.choose.type" />
@@ -458,29 +458,24 @@
 		<label i18n="Editor.Label.BirthdateM" />
 	</text>
 
-	<text id="ADateSubmitted">
-		<label css-style="editorHint" i18n="Editor.Label.DateSubmitted" />
-	</text>
+	<text id="ADateSubmitted" class="editorHint" i18n="Editor.Label.DateSubmitted" />
+		
 
-	<text id="ADateAccepted">
-		<label css-style="editorHint" i18n="Editor.Label.DateAccepted" />
-	</text>
+	<text id="ADateAccepted" class="editorHint" i18n="Editor.Label.DateAccepted" />
 
-	<text id="ADateFormat">
-		<label css-style="editorHint" i18n="Editor.Label.DateFormat" />
-	</text>
+	<text id="ADateFormat" class="editorHint" i18n="Editor.Label.DateFormat" />
 
-	<helpPopup id="HDate" >
+	<helpHover id="HDate" >
 		<label i18n="Editor.Help.HDate" />
-	</helpPopup>
+	</helpHover>
 
-	<helpPopup id="HDateBirthP"  >
+	<helpHover id="HDateBirthP"  >
 		<label i18n="Editor.Help.HDateBirth" />
-	</helpPopup>
+	</helpHover>
 
-	<helpPopup id="HDateP" >
+	<helpHover id="HDateP" >
 		<label i18n="Editor.Help.HDate" />
-	</helpPopup>
+	</helpHover>
 
 	<list id="SDateType" width="60" type="dropdown">
 		<item value="submitted">
@@ -491,14 +486,14 @@
 		</item>
 	</list>
 
-	<!--   <helpPopup id="SMDate" >
+	<!--   <helpHover id="SMDate" >
 		<label xml:lang="de">
 		Hier können Sie ein Datum eintragen, welches in den Objekt-Metadaten vorkommen soll.
 		</label>
 		<label xml:lang="en">
 		You can write a date in this area, which appears in the object metadata.
 		</label>
-		</helpPopup> -->
+		</helpHover> -->
 
 	<!-- *** Data for the Type ** -->
 
@@ -506,9 +501,9 @@
 		<label i18n="Editor.Label.TypeM" />
 	</text>
 
-	<helpPopup id="HType" >
+	<helpHover id="HType" >
 		<label i18n="Editor.Help.HType" />
-	</helpPopup>
+	</helpHover>
 
 
 	<!-- *** Data for the Format ** -->
@@ -517,9 +512,9 @@
 		<label i18n="Editor.Label.FormatM" />
 	</text>
 
-	<helpPopup id="HFormat" >
+	<helpHover id="HFormat" >
 		<label i18n="Editor.Help.HFormat" />
-	</helpPopup>
+	</helpHover>
 
 	<!-- *** Data for the Identifier ** -->
 
@@ -531,9 +526,9 @@
 		<label i18n="Editor.Label.Identifier" />
 	</text>
 
-	<helpPopup id="HIdentifier" >
+	<helpHover id="HIdentifier" >
 		<label i18n="Editor.Help.HIdentifier" />
-	</helpPopup>
+	</helpHover>
 
 	<text id="LSourceP">
 		<label i18n="Editor.Label.SourceM" />
@@ -543,9 +538,9 @@
 		<label i18n="Editor.Label.Source" />
 	</text>
 
-	<helpPopup id="HSource" >
+	<helpHover id="HSource" >
 		<label i18n="Editor.Help.HSource" />
-	</helpPopup>
+	</helpHover>
 
     <!-- *** Data for the BK classification ** -->
       <text id="Lbkl">
@@ -563,9 +558,9 @@
 		<label i18n="Editor.Label.LanguageM" />
 	</text>
 
-	<helpPopup id="HLanguage" >
+	<helpHover id="HLanguage" >
 		<label i18n="Editor.Help.HLanguage" />
-	</helpPopup>
+	</helpHover>
 
 	<!-- *** Data for the Keywords ** -->
 
@@ -577,13 +572,10 @@
 		<label i18n="Editor.Label.Keywords" />
 	</text>
 
-	<text id="AKeywordsFreetext">
-		<label css-style="editorHint" i18n="Editor.Label.KeywordsFreetext" />
-	</text>
+	<text id="AKeywordsFreetext"  class="editorHint" i18n="Editor.Label.KeywordsFreetext" />
 	
-	<text id="AKeywordsFreetextOrClassification">
-		<label css-style="editorHint" i18n="Editor.Label.KeywordsFreetextOrClassification" />
-	</text>
+	<text id="AKeywordsFreetextOrClassification" class="editorHint" i18n="Editor.Label.KeywordsFreetextOrClassification" />
+	
 	
 
 	<!--   <text id="AKeywordsSWD">
@@ -604,13 +596,9 @@
 		</label>
 		</text> -->
 
-	<text id="AKeywordsClassifications">
-		<label css-style="editorHint" i18n="Editor.Label.KeywordsClassifications" />
-	</text>
+	<text id="AKeywordsClassifications" class="editorHint" i18n="Editor.Label.KeywordsClassifications" />
 
-	<text id="AKeywordsClassificationsCode">
-		<label css-style="editorHint" i18n="Editor.Label.KeywordsClassificationsCode" />
-	</text>
+	<text id="AKeywordsClassificationsCode" class="editorHint" i18n="Editor.Label.KeywordsClassificationsCode" />
 
 	<list id="SKeywordsClassifications" width="450px" type="dropdown">
 		<item value="">
@@ -649,13 +637,13 @@
      </cell>   
   </panel> 
 
-	<helpPopup id="HKeywords" >
+	<helpHover id="HKeywords" >
 		<label i18n="Editor.Help.HKeywords" />
-	</helpPopup>
+	</helpHover>
 
-	<helpPopup id="HKeywordsClassifications" >
+	<helpHover id="HKeywordsClassifications" >
 		<label i18n="Editor.Help.HKeywordsClassifications" />
-	</helpPopup>
+	</helpHover>
 
 	<!-- *** Data for the Coverage ** -->
 
@@ -663,9 +651,9 @@
 		<label i18n="Editor.Label.Coverage" />
 	</text>
 
-	<helpPopup id="HCoverage" >
+	<helpHover id="HCoverage" >
 		<label i18n="Editor.Help.HCoverage" />
-	</helpPopup>
+	</helpHover>
 
 
 	<!-- *** Data for the Relation ** -->
@@ -674,9 +662,9 @@
 		<label i18n="Editor.Label.Relation" />
 	</text>
 
-	<helpPopup id="HRelation" >
+	<helpHover id="HRelation" >
 		<label i18n="Editor.Help.HRelation" />
-	</helpPopup>
+	</helpHover>
 
 
 	<!-- *** Data for the Rights ** -->
@@ -693,13 +681,13 @@
 		<label i18n="Editor.Label.Rights" />
 	</text>
 
-	<helpPopup id="HRight" >
+	<helpHover id="HRight" >
 		<label i18n="Editor.Help.HRights" />
-	</helpPopup>
+	</helpHover>
 
-	<helpPopup id="HRightsLink" >
+	<helpHover id="HRightsLink" >
 		<label i18n="Editor.Help.HRightsLink" />
-	</helpPopup>
+	</helpHover>
 
 	<!-- *** Data for the Size ** -->
 
@@ -711,9 +699,9 @@
 		<label i18n="Editor.Label.Size" />
 	</text>
 
-	<helpPopup id="HSize" >
+	<helpHover id="HSize" >
 		<label i18n="Editor.Help.HSize" />
-	</helpPopup>
+	</helpHover>
 
 	<!-- *** Data for the Place ** -->
 
@@ -725,9 +713,9 @@
 		<label i18n="Editor.Label.Place" />
 	</text>
 
-	<helpPopup id="HPlace" >
+	<helpHover id="HPlace" >
 		<label i18n="Editor.Help.HPlace" />
-	</helpPopup>
+	</helpHover>
 
 
 
@@ -740,9 +728,9 @@
 		<label i18n="Editor.Label.URN" />
 	</text>
 
-	<helpPopup id="HUrn" >
+	<helpHover id="HUrn" >
 		<label i18n="Editor.Label.HURN" />
-	</helpPopup>
+	</helpHover>
 
 
 	<!-- *** Data for the Contact ** -->
@@ -755,9 +743,9 @@
 		<label i18n="Editor.Label.ContactM" />
 	</text>
 
-	<helpPopup id="HContact" >
+	<helpHover id="HContact" >
 		<label i18n="Editor.Help.HContact" />
-	</helpPopup>
+	</helpHover>
 
 	<!-- *** Data for the Citation ** -->
 
@@ -769,9 +757,9 @@
 		<label i18n="Editor.Label.CitationM" />
 	</text>
 
-	<helpPopup id="HCitation" >
+	<helpHover id="HCitation" >
 		<label i18n="Editor.Help.HCitation" />
-	</helpPopup>
+	</helpHover>
 
 	<!-- *** Data for the PName ** -->
 
@@ -783,31 +771,19 @@
 		<label i18n="Editor.Label.PNameM" />
 	</text>
 
-	<text id="APNameFirstName">
-		<label css-style="editorHint" i18n="Editor.Label.PNameFirstname" />
-	</text>
-	<text id="APNameSurname">
-		<label css-style="editorHint" i18n="Editor.Label.PNameSurname" />
-	</text>
-	<text id="APNameFirstNameP">
-		<label css-style="editorHint" i18n="Editor.Label.PNameFirstnameM" />
-	</text>
-	<text id="APNameSurNameP">
-		<label css-style="editorHint" i18n="Editor.Label.PNameSurnameM" />
-	</text>
-	<text id="APNameAcademic">
-		<label css-style="editorHint" i18n="Editor.Label.PNameAcademic" />
-	</text>
-	<text id="APNamePrefix">
-		<label css-style="editorHint" i18n="Editor.Label.PNamePrefix" />
-	</text>
-	<text id="APNamePeerage">
-		<label css-style="editorHint" i18n="Editor.Label.PNamePeerage" />
-	</text>
+	<text id="APNameFirstName" class="editorHint" i18n="Editor.Label.PNameFirstname" />
+	
+	<text id="APNameSurname" class="editorHint" i18n="Editor.Label.PNameSurname" />
+		
+	<text id="APNameFirstNameP" class="editorHint" i18n="Editor.Label.PNameFirstnameM" />
+	<text id="APNameSurNameP" class="editorHint" i18n="Editor.Label.PNameSurnameM" />
+	<text id="APNameAcademic" class="editorHint" i18n="Editor.Label.PNameAcademic" />
+	<text id="APNamePrefix" class="editorHint" i18n="Editor.Label.PNamePrefix" />
+	<text id="APNamePeerage" class="editorHint" i18n="Editor.Label.PNamePeerage" />
 
-	<helpPopup id="HPName" >
+	<helpHover id="HPName" >
 		<label i18n="Editor.Help.HPName" />
-	</helpPopup>
+	</helpHover>
 
 
 
@@ -817,9 +793,9 @@
 		<label i18n="Editor.Label.GenderM" />
 	</text>
 
-	<helpPopup id="HFemale" >
+	<helpHover id="HFemale" >
 		<label i18n="Editor.Help.HGender" />
-	</helpPopup>
+	</helpHover>
 
 	<list id="SFemale" width="400" type="radio" cols="2" default="true">
 		<item value="true">
@@ -840,9 +816,9 @@
       <label i18n="Editor.Label.Profession" />
     </text>
 
-	<helpPopup id="HProfession" >
+	<helpHover id="HProfession" >
 		<label i18n="Editor.Help.HProfession" />
-	</helpPopup>
+	</helpHover>
 
 	<list id="SProfession" width="80" type="dropdown">
 
@@ -861,9 +837,9 @@
 		<label i18n="Editor.Label.Nationality" />
 	</text>
 
-	<helpPopup id="HNational" >
+	<helpHover id="HNational" >
 		<label i18n="Editor.Help.HNational" />
-	</helpPopup>
+	</helpHover>
 
 	<!-- *** Data for the Reference *** -->
 
@@ -871,9 +847,9 @@
 		<label i18n="Editor.Label.Reference" />
 	</text>
 
-	<helpPopup id="HReference" >
+	<helpHover id="HReference" >
 		<label i18n="Editor.Help.HReference" />
-	</helpPopup>
+	</helpHover>
 
 	<!-- *** Data for the Publication *** -->
 
@@ -881,9 +857,9 @@
 		<label i18n="Editor.Label.Publications" />
 	</text>
 
-	<helpPopup id="HPublication" >
+	<helpHover id="HPublication" >
 		<label i18n="Editor.Help.HPublication" />
-	</helpPopup>
+	</helpHover>
 
 	<!-- *** Data for the place of Birth (City) *** -->
 
@@ -897,9 +873,9 @@
 		</label>
 	</text>
 
-	<helpPopup id="HPlaceBirth" >
+	<helpHover id="HPlaceBirth" >
 		<label i18n="Editor.Help.HBirthPlace" />
-	</helpPopup>
+	</helpHover>
 
 	<!-- *** Data for the IName ** -->
 
@@ -907,19 +883,13 @@
 		<label i18n="Editor.Label.INameM" />
 	</text>
 
-	<text id="AINameName">
-		<label css-style="editorHint" i18n="Editor.Label.INameFull" />
-	</text>
-	<text id="AINameNick">
-		<label css-style="editorHint" i18n="Editor.Label.INameNick" />
-	</text>
-	<text id="AINameProp">
-		<label css-style="editorHint" i18n="Editor.Label.INameLegalForm" />
-	</text>
+	<text id="AINameName" class="editorHint" i18n="Editor.Label.INameFull" />
+	<text id="AINameNick" class="editorHint" i18n="Editor.Label.INameNick" />
+	<text id="AINameProp" class="editorHint" i18n="Editor.Label.INameLegalForm" />
 
-	<helpPopup id="HIName">
+	<helpHover id="HIName">
 		<label i18n="Editor.Help.HIName" />
-	</helpPopup>
+	</helpHover>
 
 	<!-- *** Data for the Address ** -->
 
@@ -930,22 +900,12 @@
 	<text id="LAddressM">
 		<label i18n="Editor.Label.AddressM" />
 	</text>
-	<text id="AAddressCountry">
-		<label css-style="editorHint" i18n="Editor.Label.AddressCountry" />
-	</text>
+	<text id="AAddressCountry" class="editorHint" i18n="Editor.Label.AddressCountry" />
 	<text id="AAddressState"></text>
-	<text id="AAddressZIP">
-		<label css-style="editorHint" i18n="Editor.Label.AddressZIP" />
-	</text>
-	<text id="AAddressCity">
-		<label css-style="editorHint" i18n="Editor.Label.AddressCity" />
-	</text>
-	<text id="AAddressStreet">
-		<label css-style="editorHint" i18n="Editor.Label.AddressStreet" />
-	</text>
-	<text id="AAddressNumber">
-		<label css-style="editorHint" i18n="Editor.Label.AddressNumber" />
-	</text>
+	<text id="AAddressZIP" class="editorHint" i18n="Editor.Label.AddressZIP" />
+	<text id="AAddressCity" class="editorHint" i18n="Editor.Label.AddressCity" />
+	<text id="AAddressStreet" class="editorHint" i18n="Editor.Label.AddressStreet" />
+	<text id="AAddressNumber" class="editorHint" i18n="Editor.Label.AddressNumber" />
 
 
 	<list id="Scountry" width="160" type="dropdown">
@@ -1020,9 +980,9 @@
 		</item>
 	</list>
 
-	<helpPopup id="HAddress" >
+	<helpHover id="HAddress" >
 		<label i18n="Editor.Help.HAddress" />
-	</helpPopup>
+	</helpHover>
 
 	<!-- *** Data for the Phone ** -->
 
@@ -1042,9 +1002,9 @@
 		</item>
 	</list>
 
-	<helpPopup id="HPhone">
+	<helpHover id="HPhone">
 		<label i18n="Editor.Help.HPhone" />
-	</helpPopup>
+	</helpHover>
 
 	<!-- *** Data for the URL ** -->
 
@@ -1052,16 +1012,12 @@
 		<label i18n="Editor.Label.URL" />
 	</text>
 
-	<text id="AURLTitle">
-		<label css-style="editorHint" i18n="Editor.Label.URLTitle" />
-	</text>
-	<text id="AURLReference">
-		<label css-style="editorHint" i18n="Editor.Label.URLLink" />
-	</text>
+	<text id="AURLTitle" class="editorHint" i18n="Editor.Label.URLTitle" />
+	<text id="AURLReference" class="editorHint" i18n="Editor.Label.URLLink" />
 
-	<helpPopup id="HURL" >
+	<helpHover id="HURL" >
 		<label i18n="Editor.Help.HURL" />
-	</helpPopup>
+	</helpHover>
 
 	<!-- *** Data for the EMAIL ** -->
 
@@ -1069,9 +1025,9 @@
 		<label i18n="Editor.Label.Email" />
 	</text>
 
-	<helpPopup id="HEmail" >
+	<helpHover id="HEmail" >
 		<label i18n="Editor.Help.HEmail" />
-	</helpPopup>
+	</helpHover>
 
 
 	<!-- *** Data for the Note ** -->
@@ -1080,9 +1036,9 @@
 		<label i18n="Editor.Label.Notes" />
 	</text>
 
-	<helpPopup id="HNote" >
+	<helpHover id="HNote" >
 		<label i18n="Editor.Help.HNotes" />
-	</helpPopup>
+	</helpHover>
 
 	<!-- *** Data for the file upload *** -->
 
@@ -1098,59 +1054,59 @@
 		<label i18n="Editor.Label.DigitalObjectsOther" />
 	</text>
 
-	<helpPopup id="HFile" >
+	<helpHover id="HFile" >
 		<label i18n="Editor.Help.HDigitalObjects" />
-	</helpPopup>
+	</helpHover>
 
 
     <!--  Data for JournalTitle -->
     <text id="LIsbn">
      <label i18n="Editor.Label.Isbn" />
     </text>
-    <helpPopup id="HIsbn" >
+    <helpHover id="HIsbn" >
       <label i18n="Editor.Help.HIsbn" />
-    </helpPopup>
+    </helpHover>
 
 
     <!--  Data for JournalTitle -->
     <text id="LJournalTitleM">
      <label i18n="Editor.Label.JournalTitle" />
     </text>
-    <helpPopup id="HJournalTitle" >
+    <helpHover id="HJournalTitle" >
       <label i18n="Editor.Help.HJournalTitle" />
-    </helpPopup>
+    </helpHover>
 
 
     <!--  Data for Book -->
     <text id="LBook">
      <label i18n="Editor.Label.Book" />
     </text>
-    <helpPopup id="HBook" >
+    <helpHover id="HBook" >
       <label i18n="Editor.Help.HBook" />
-    </helpPopup>
+    </helpHover>
      
     <!--  Data for Pages -->
     <text id="LPages">
      <label i18n="Editor.Label.Pages" />
     </text>
-    <helpPopup id="HPages" >
+    <helpHover id="HPages" >
       <label i18n="Editor.Help.HPages" />
-    </helpPopup>
+    </helpHover>
 
     <!--  Data for Pages -->
     <text id="LVolume">
      <label i18n="Editor.Label.Volume" />
     </text>
-    <helpPopup id="HVolume" >
+    <helpHover id="HVolume" >
       <label i18n="Editor.Help.HVolume" />
-    </helpPopup>
+    </helpHover>
 
     <text id="LPublishingYear">
      <label i18n="Editor.Label.Year" />
     </text>
-    <helpPopup id="HPublishingYear" >
+    <helpHover id="HPublishingYear" >
       <label i18n="Editor.Help.HPublishingYear" />
-    </helpPopup>
+    </helpHover>
 
 
 	<!-- *** End *** -->

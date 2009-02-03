@@ -424,13 +424,13 @@ table.tasklistDerivate tr td a:active{
 
 
 /* =================================================================== */
-/* Help Popup (button + messagebox on mouse over)                      */
+/* Help Hover (button + messagebox on mouse over)                      */
 /* =================================================================== */
-div.helppopup{
+div.helpHover{
 	margin-top:4px;
 }
 
-div.helppopup a {
+div.helpHover a {
 	font:bold 12px verdana, sans-serif;
 	text-decoration:none;
 	background:#15516E; 
@@ -439,16 +439,16 @@ div.helppopup a {
 
 }
 
-div.helppopup a:link, 
-div.helppopup a:visited,
-div.helppopup a:focus, 
-div.helppopup a:active{
+div.helpHover a:link, 
+div.helpHover a:visited,
+div.helpHover a:focus, 
+div.helpHover a:active{
 	font-weight:bold; 
 	color:#ffffff !important; 
 	text-decoration:none !important;
 }
 
-div.helppopup a:hover {
+div.helpHover a:hover {
 	text-decoration:none !important;
 	font-weight:bold;
 	color:black !important;
@@ -456,10 +456,10 @@ div.helppopup a:hover {
 	border: none;
 }
 
-div.helppopup a span {display:none;
+div.helpHover a span {display:none;
 }
 
-div.helppopup a:hover span {
+div.helpHover a:hover span {
 	position:fixed; bottom:20px; left:40px; z-index:30;
 	text-align:left;
 	display:block;
@@ -474,7 +474,7 @@ div.helppopup a:hover span {
 }
 /* Star Hack - this entry is only interpreted by IE 
    necessary, because it cannot handle position:fixed correctly */
-* html * div.helppopup a:hover span {
+* html * div.helpHover a:hover span {
 	position:absolute !important;
 }
 

@@ -91,7 +91,7 @@
           </panel>
         </repeater>
       </cell>
-      <cell col="2" row="1" anchor="WEST" ref="ACreatorLink" />      
+      <cell col="2" row="1" anchor="WEST" ref="ACreatorLinkID" />      
    </panel>
    
     <!-- ** sortnr="5"  Data for the ORIGIN *** -->
@@ -183,9 +183,7 @@
             </cell>
              <cell row="1" col="3" anchor="WEST" ref="TFzeile32" var="@label" />            
          	<cell row="1" col="4">
-         		<text>
-         			<label css-style="editorHint" i18n="Editor.Label.contributors.type" />
-         		</text>
+         		<text class="editorHint" i18n="Editor.Label.contributors.type" />
          	</cell>
       		
           </panel>
@@ -200,9 +198,7 @@
       <cell col="1" row="1" anchor="WEST" ref="TFzeile1024"  />
       <cell col="2" row="1" anchor="WEST" ref="TFzeile32" var="@type"  />            
          <cell col="3" row="1">
-         <text>
-         	<label css-style="editorHint" i18n="Editor.Label.contributors.type" />
-         </text>      
+         <text class="editorHint" i18n="Editor.Label.contributors.type" />    
       </cell>
     </panel>
 
@@ -219,9 +215,7 @@
       <hidden var="metadata/dates/date/@format" default="YYYY" />
       <cell col="1" row="1" anchor="WEST" ref="TFzeile10M" var="metadata/dates/date"  />
       <cell col="2" row="1" var="metadata/dates/date/@type" default="submitted" >
-        <text>
-        	<label css-style="editorHint" i18n="Editor.Label.Date_Year.publishing" />
-        </text>
+        <text class="editorHint" i18n="Editor.Label.Date_Year.publishing" />
       </cell>
     </panel>
 
@@ -329,9 +323,9 @@
 		<label i18n="Editor.Label.Collection" />
 	</text>
 
-	<helpPopup id="HCollections" >
+	<helpHover id="HCollections" >
 		<label i18n="Editor.Help.HCollection" />
-	</helpPopup>
+	</helpHover>
     
     
     <list id="CCollections" width="300px" type="dropdown">
@@ -355,9 +349,9 @@
 		<label i18n="Editor.Label.Counts" />
 	</text>
 
-	<helpPopup id="HCounts" >
+	<helpHover id="HCounts" >
 		<label i18n="Editor.Help.HCounts" />
-	</helpPopup>
+	</helpHover>
 
 	<panel id="DCounts">
       <!-- *** Data for the Note ** sortnr="34"  -->
@@ -372,9 +366,9 @@
 		<label i18n="Editor.Label.PublishingCompany" />
 	</text>
 
-	<helpPopup id="HPublishingCompany" >
+	<helpHover id="HPublishingCompany" >
 		<label i18n="Editor.Help.HPublishingCompany" />
-	</helpPopup>
+	</helpHover>
 
 	<panel id="DPublishingCompany">
       <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/publishingcompanies&amp;classname=MCRMetaLangText" />
@@ -589,9 +583,9 @@
     <text id="LParent">
         <label i18n="OMD.parent" />
    </text>
-   <helpPopup id="HParent" >
+   <helpHover id="HParent" >
 		<label i18n="Editor.Help.HParent" />
-	</helpPopup>
+	</helpHover>
 
     <panel id="DParent">
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=structure/parents&amp;classname=MCRMetaLinkID" /> 

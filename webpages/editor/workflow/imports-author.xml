@@ -334,36 +334,36 @@
 			<label i18n="Editor.Label.Homepage" />
 	</text>
 
-	<helpPopup id="Help.person.name" >
+	<helpHover id="Help.person.name" >
 		<label i18n="Editor.Help.person.name" />
-	</helpPopup>
-	<helpPopup id="Help.person.salutation" >
+	</helpHover>
+	<helpHover id="Help.person.salutation" >
 		<label i18n="Editor.Help.person.salutation" />
-	</helpPopup>
-	<helpPopup id="Help.person.origin" >
+	</helpHover>
+	<helpHover id="Help.person.origin" >
 		<label i18n="Editor.Help.person.origin" />
-	</helpPopup>
-	<helpPopup id="Help.person.birthdate" >
+	</helpHover>
+	<helpHover id="Help.person.birthdate" >
 		<label i18n="Editor.Help.person.birthdate" />
-	</helpPopup>
-	<helpPopup id="Help.person.profession" >
+	</helpHover>
+	<helpHover id="Help.person.profession" >
 		<label i18n="Editor.Help.person.profession" />
-	</helpPopup>
-	<helpPopup id="Help.person.nationality" >
+	</helpHover>
+	<helpHover id="Help.person.nationality" >
 		<label i18n="Editor.Help.person.nationality" />
-	</helpPopup>
-	<helpPopup id="Help.person.homepage" >
+	</helpHover>
+	<helpHover id="Help.person.homepage" >
 		<label i18n="Editor.Help.person.homepage" />
-	</helpPopup>
-	<helpPopup id="Help.person.email" >
+	</helpHover>
+	<helpHover id="Help.person.email" >
 		<label i18n="Editor.Help.person.email" />
-	</helpPopup>
-	<helpPopup id="Help.person.pnd-number" >
+	</helpHover>
+	<helpHover id="Help.person.pnd-number" >
 		<label i18n="Editor.Help.person.pnd-number" />
-	</helpPopup>
-	<helpPopup id="Help.person.note" >
+	</helpHover>
+	<helpHover id="Help.person.note" >
 		<label i18n="Editor.Help.person.note" />
-	</helpPopup>
+	</helpHover>
 
 <!-- *** End *** -->
 </imports>
