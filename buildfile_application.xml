@@ -601,9 +601,9 @@
 
 		<echo level="info"> Concat messagebundles to one messages_{locale}.properties</echo>
 		<taskdef name="mcr-mergepropertyfiles" classname="org.mycore.buildtools.anttasks.MCRMergePropertiesTask" classpath="${env.MYCORE_HOME}/build/lib/mycore.jar" />
-		<copy file ="${application.languages}/messages_de.properties" tofile="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes/messages_de.properties" />
+		<copy file ="${application.languages}/messages_de.properties" tofile="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes/messages_de.properties" overwrite="true" />
 		<mcr-mergepropertyfiles basefile="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes/messages_de.properties" deltafile="${application.languages}/mymessages_de.properties" />
-		<copy file ="${application.languages}/messages_en.properties" tofile="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes/messages_en.properties" />
+		<copy file ="${application.languages}/messages_en.properties" tofile="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes/messages_en.properties" overwrite="true" />
 		<mcr-mergepropertyfiles basefile="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes/messages_en.properties" deltafile="${application.languages}/mymessages_en.properties" />
 
 		
