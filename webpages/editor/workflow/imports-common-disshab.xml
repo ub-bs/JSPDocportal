@@ -53,14 +53,11 @@
 <!-- ** Data for the ORIGIN *** -->
 
   <list id="COrigin" width="425px" type="dropdown" class="mandatory">
-    <item value="">
-      <label i18n="Editor.Common.choose" />
-    </item>
+    <item value="" i18n="Editor.Common.choose" />
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002&amp;withCounter=false" />              
     <condition id="COriginSelected" regexp=".+" required="true" >
 				<label i18n="Editor.Validate.Selection.Empty" />
-    </condition>
-    
+    </condition>    
   </list>
 
   <panel id="DOrigin">
@@ -151,9 +148,7 @@
 <!-- ** Data for the TYPE *** -->
 
   <list id="CType" width="425px" type="dropdown" class="mandatory">
-    <item value="">
-		<label i18n="Editor.Common.choose" />
-    </item>
+    <item value="" i18n="Editor.Common.choose" />
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getSpecialCategoriesInItems&amp;classProp=MCR.ClassificationID.Type&amp;categoryProp=MCR.Classification.Type.SelectCategoryIDs.xmetadiss&amp;withCounter=false" />                       
      <condition id="CTypeSelected" regexp=".+" required="true" >
 				<label i18n="Editor.Validate.Selection.Empty" />
@@ -169,9 +164,7 @@
 
 <!-- *** only select list for formats -->
   <list id="SFormat" width="250px" type="dropdown">
-    <item value="">
-      <label i18n="Editor.Common.choose" />
-    </item>
+    <item value="" i18n="Editor.Common.choose" />
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Format&amp;defaultValue=DocPortal_class_00000006" />                   
       <condition id="CFormatSelected" regexp=".+" required="true" >
 				<label i18n="Editor.Validate.Selection.Empty" />
@@ -186,14 +179,11 @@
 <!-- ** Data for the LANGUAGE *** -->
 
   <list id="CLanguage" width="425px" type="dropdown" class="mandatory">
-    <item value="">
-      <label i18n="Editor.Common.choose" />
-    </item>
+    <item value="" i18n="Editor.Common.choose" />
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getSpecialCategoriesInItems&amp;classProp=MCR.ClassificationID.Language&amp;categoryProp=MCR.Classification.Language.SelectCategoryIDs.xmetadiss&amp;withCounter=false" /> 
          <condition id="CLanguageSelected" regexp=".+" required="true" >
 				<label i18n="Editor.Validate.Selection.Empty" />
-     </condition>
-    
+     </condition>    
   </list>
 
   <panel id="DLanguage">
@@ -224,39 +214,17 @@
   </panel>
 <!-- citations fehlt -->
 
-	<helpHover id="Help.xmetadiss.title" >
-		<label i18n="Editor.Help.xmetadiss.title" />
-	</helpHover>
-	<helpHover id="Help.xmetadiss.creatorlink" >
-		<label i18n="Editor.Help.xmetadiss.creatorlink" />
-	</helpHover>
-	<helpHover id="Help.xmetadiss.subject" >
-		<label i18n="Editor.Help.xmetadiss.subject" />
-	</helpHover>
-	<helpHover id="Help.xmetadiss.origin" >
-		<label i18n="Editor.Help.xmetadiss.origin" />
-	</helpHover>
-	<helpHover id="Help.xmetadiss.abstract" >
-		<label i18n="Editor.Help.xmetadiss.abstract" />
-	</helpHover>
-	<helpHover id="Help.xmetadiss.contributor" >
-		<label i18n="Editor.Help.xmetadiss.contributor" />
-	</helpHover>
-	<helpHover id="Help.xmetadiss.date" >
-		<label i18n="Editor.Help.xmetadiss.date" />
-	</helpHover>
-	<helpHover id="Help.xmetadiss.type" >
-		<label i18n="Editor.Help.xmetadiss.type" />
-	</helpHover>
-	<helpHover id="Help.xmetadiss.language" >
-		<label i18n="Editor.Help.xmetadiss.language" />
-	</helpHover>
-	<helpHover id="Help.xmetadiss.keywords" >
-		<label i18n="Editor.Help.xmetadiss.keywords" />
-	</helpHover>
-	<helpHover id="Help.xmetadiss.note" >
-		<label i18n="Editor.Help.xmetadiss.note" />
-	</helpHover>
+	<helpHover id="Help.xmetadiss.title" i18n="Editor.Help.xmetadiss.title" />
+	<helpHover id="Help.xmetadiss.creatorlink" i18n="Editor.Help.xmetadiss.creatorlink" />
+	<helpHover id="Help.xmetadiss.subject" i18n="Editor.Help.xmetadiss.subject" />
+	<helpHover id="Help.xmetadiss.origin" i18n="Editor.Help.xmetadiss.origin" />
+	<helpHover id="Help.xmetadiss.abstract" i18n="Editor.Help.xmetadiss.abstract" />
+	<helpHover id="Help.xmetadiss.contributor" i18n="Editor.Help.xmetadiss.contributor" />
+	<helpHover id="Help.xmetadiss.date" i18n="Editor.Help.xmetadiss.date" />
+	<helpHover id="Help.xmetadiss.type" i18n="Editor.Help.xmetadiss.type" />
+	<helpHover id="Help.xmetadiss.language" i18n="Editor.Help.xmetadiss.language" />
+	<helpHover id="Help.xmetadiss.keywords" i18n="Editor.Help.xmetadiss.keywords" />
+	<helpHover id="Help.xmetadiss.note" i18n="Editor.Help.xmetadiss.note" />
 	
 
 

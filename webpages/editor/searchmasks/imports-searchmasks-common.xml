@@ -39,9 +39,7 @@
             <cell col="2" row="1" anchor="WEST" ref="BSubmit" var="search" />
       </panel>      
       <!-- *** Data for the hosts ** -->
-      <text id="LInstances">
-            <label i18n="Editor.Search.Label.instances" />
-      </text>
+      <text id="LInstances" i18n="Editor.Search.Label.instances" />
       <panel id="DInstances">
             <cell col="1" row="1" anchor="NORTHWEST" var="hosts/host[1]/@field">
                   <checkbox value="local" checked="true" label="local" />
@@ -50,179 +48,122 @@
                   <checkbox value="selfremote" checked="false" label="entfernt" />
             </cell>            
       </panel>
-      <helpHover id="HInstances" width="400px" >
-            <label i18n="Editor.Search.Help.instances" />l>
-      </helpHover>
+      <helpHover id="HInstances" width="400px"  i18n="Editor.Search.Help.instances" />
       <!-- *** Data for the Institution ** -->
-      <text id="LInstitution">
-            <label i18n="Editor.Search.Label.institution" />
-      </text>
+      <text id="LInstitution" i18n="Editor.Search.Label.institution" />
       <panel id="DInstitution">
             <hidden var="@field" default="institution" />
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="CInstitution" var="@value" />
       </panel>
-      <helpHover id="HInstitution" width="400px" >
-            <label i18n="Editor.Search.Help.institution" />
-      </helpHover>
+      <helpHover id="HInstitution" width="400px"  i18n="Editor.Search.Help.institution" />
       <list id="CInstitution" width="300px" type="dropdown">
-            <item value="">
-                  <label i18n="Editor.Common.choose" />
-            </item>
+            <item value="" i18n="Editor.Common.choose" />
             <include cacheable="false" uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Institution&amp;emptyLeafs=no&amp;defaultValue=DocPortal_class_00000002" />                                      
       </list>       
+      
       <!-- *** Data for the Surname ** -->
-      <text id="LSurName">
-            <label i18n="Editor.Search.Label.surname" />xml:lang="de">
-      </text>
+      <text id="LSurName" i18n="Editor.Search.Label.surname" />
       <panel id="DSurName">
             <hidden var="@field" default="surname" />
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="@value" />
       </panel>
-      <helpHover id="HSurName" width="400px" >
-            <label i18n="Editor.Search.Help.surname" />
-      </helpHover>      
+      <helpHover id="HSurName" width="400px"  i18n="Editor.Search.Help.surname" />
       <!-- *** Data for the First Name ** -->
-      <text id="LFirstName">
-            <label i18n="Editor.Search.Label.firstname" />
-      </text>
+      <text id="LFirstName" i18n="Editor.Search.Label.firstname" />
       <panel id="DFirstName">
             <hidden var="@field" default="firstname" />
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="@value" />
       </panel>
-      <helpHover id="HFirstName" width="400px" >
-            <label i18n="Editor.Search.Help.firstname" />
-      </helpHover>      
+      <helpHover id="HFirstName" width="400px" i18n="Editor.Search.Help.firstname" />
       <!-- *** Data for the Titles ** -->
-      <text id="LTitles">
-            <label i18n="Editor.Search.Label.title" />
-      </text>
+      <text id="LTitles" i18n="Editor.Search.Label.title" />
       <panel id="DTitles">
             <hidden var="@field" default="title" />
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="@value" />
       </panel>
-      <helpHover id="HTitles" width="400px" >
-            <label i18n="Editor.Search.Help.title" />
-      </helpHover>
+      <helpHover id="HTitles" width="400px"  i18n="Editor.Search.Help.title" />
       <!-- *** Data for the Creator ** -->
-      <text id="LCreators">
-            <label i18n="Editor.Search.Label.creator" />
-      </text>
+      <text id="LCreators" i18n="Editor.Search.Label.creator" />
       <panel id="DCreators">
             <hidden var="@field" default="creator" />
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="@value" />
       </panel>
-      <helpHover id="HCreators" width="400px" >
-            <label i18n="Editor.Search.Help.creator" />
-      </helpHover>
+      <helpHover id="HCreators" width="400px"  i18n="Editor.Search.Help.creator" />
       <!-- *** Data for the Origins ** -->
-      <text id="LOrigins">
-            <label i18n="Editor.Search.Label.origin" />
-      </text>
+      <text id="LOrigins" i18n="Editor.Search.Label.origin" />
       <panel id="DOrigins">
             <hidden var="@field" default="origin" />
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="COrigins" var="@value" />
       </panel>
-      <helpHover id="HOrigins" width="400px" >
-            <label i18n="Editor.Search.Help.origin" />
-      </helpHover>
+      <helpHover id="HOrigins" width="400px"  i18n="Editor.Search.Help.origin" />
 
       <list id="COrigins" width="200px" type="dropdown">
-            <item value="">
-        <label i18n="Editor.Common.choose" />
-            </item>
+            <item value="" i18n="Editor.Common.choose" />
             <include cacheable="false" uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Origin&amp;emptyLeafs=no&amp;defaultValue=DocPortal_class_00000002" />                          
       </list>      
       
       <!-- *** Data for the Types ** -->
-      <text id="LTypes">
-            <label i18n="Editor.Search.Label.type" />
-      </text>
+      <text id="LTypes" i18n="Editor.Search.Label.type" />
       <panel id="DTypes">
             <hidden var="@field" default="type" />
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="CTypes" var="@value" />
       </panel>
-      <helpHover id="HTypes" width="400px" >
-            <label i18n="Editor.Search.Help.type" />
-      </helpHover>
+      <helpHover id="HTypes" width="400px"  i18n="Editor.Search.Help.type" />
       <list id="CTypes" width="100px" type="dropdown">
-            <item value="">
-        <label i18n="Editor.Common.choose" />              
-            </item>
+            <item value="" i18n="Editor.Common.choose" />
             <include cacheable="false" uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Type&amp;emptyLeafs=no&amp;defaultValue=DocPortal_class_00000005" />                          
       </list>       
       
 
       <!-- *** Data for the Subjects ** -->
-      <text id="LSubjects">
-            <label i18n="Editor.Search.Label.subject" />
-      </text>
+      <text id="LSubjects" i18n="Editor.Search.Label.subject" />
       <panel id="DSubjects">
             <hidden var="@field" default="type" />
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="CSubjects" var="@value" />
       </panel>
-      <helpHover id="HSubjects" width="400px" >
-            <label i18n="Editor.Search.Help.subject" />
-      </helpHover>
+      <helpHover id="HSubjects" width="400px" i18n="Editor.Search.Help.subject" />
       <list id="CSubjects" width="200px" type="dropdown">
-            <item value="">
-        <label i18n="Editor.Common.choose" />                 
-            </item>
+            <item value="" i18n="Editor.Common.choose" />        
             <include cacheable="false" uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.DDC&amp;emptyLeafs=no&amp;defaultValue=DocPortal_class_00000007" />                          
       </list>       
       
       <!-- *** Data for the Format ** -->
-      <text id="LFormats">
-            <label i18n="Editor.Search.Label.format" />
-      </text>
+      <text id="LFormats" i18n="Editor.Search.Label.format" />
       <panel id="DFormats">
             <hidden var="@field" default="type" />
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="CFormats" var="@value" />
       </panel>
-      <helpHover id="HFormats" width="400px" >
-            <label i18n="Editor.Search.Help.format" />
-      </helpHover>
+      <helpHover id="HFormats" width="400px"  i18n="Editor.Search.Help.format" />
       <list id="CFormats" width="100px" type="dropdown">
-            <item value="">
-        <label i18n="Editor.Common.choose" />                 
-            </item>
+            <item value="" i18n="Editor.Common.choose" />         
             <include cacheable="false" uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Format&amp;emptyLeafs=no&amp;defaultValue=DocPortal_class_00000006" />                          
       </list>       
       
       <!-- *** Data for the Format ** -->
-      <text id="LLanguages">
-            <label i18n="Editor.Search.Label.language" />
-      </text>
+      <text id="LLanguages" i18n="Editor.Search.Label.language" />
       <panel id="DLanguages">
             <hidden var="@field" default="type" />
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="CLanguages" var="@value" />
       </panel>
-      <helpHover id="HLanguages" width="400px" >
-            <label i18n="Editor.Search.Help.language" />
-      </helpHover>
+      <helpHover id="HLanguages" width="400px"  i18n="Editor.Search.Help.language" />
       <list id="CLanguages" width="100px" type="dropdown">
-            <item value="">
-        <label i18n="Editor.Common.choose" />                
-            </item>
+            <item value="" i18n="Editor.Common.choose" />      
             <include  cacheable="false" uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Language&amp;emptyLeafs=no&amp;defaultValue=DocPortal_class_00000004" />                          
       </list>       
 
       <!-- *** Data for the Metadata ** -->
-      <text id="LMetadata">
-            <label i18n="Editor.Search.Label.metadata" />
-      </text>
-      <text id="LMetadataFastSearch">
-            <label i18n="Editor.Search.Label.metadataFastSearch" />
-      </text>     
+      <text id="LMetadata" i18n="Editor.Search.Label.metadata" />
+      <text id="LMetadataFastSearch" i18n="Editor.Search.Label.metadataFastSearch" />
       
       <panel id="DOnlyMetadata">
             <hidden var="@field" default="allMeta" />
@@ -237,21 +178,15 @@
             <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="@value" />
       </panel>
       
-      <helpHover id="HMetadata" width="400px" >
-            <label i18n="Editor.Search.Help.metadata" />
-      </helpHover>
+      <helpHover id="HMetadata" width="400px" i18n="Editor.Search.Help.metadata" />
       <!-- *** Data for the Content ** -->
-      <text id="LContents">
-            <label i18n="Editor.Search.Label.content" />
-      </text>
+      <text id="LContents" i18n="Editor.Search.Label.content" />
       <panel id="DContents">
             <hidden var="@field" default="content" />
             <hidden var="@operator" default="like" />            
             <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="@value" />
       </panel>
-      <helpHover id="HContents" width="400px" >
-            <label i18n="Editor.Search.Help.content" />
-      </helpHover>            
+      <helpHover id="HContents" width="400px" i18n="Editor.Search.Help.content" />
       
       <!-- *** Data for the basiklassification ** -->
       <text id="LBkl">
@@ -301,7 +236,5 @@
             </label>
       </helpHover>  
       
-      <text id="LMaxResult100">
-      		<label i18n="Editor.Search.MaxResult100" />
-      </text>
+      <text id="LMaxResult100" i18n="Editor.Search.MaxResult100" />
 </imports>

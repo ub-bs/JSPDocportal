@@ -197,7 +197,7 @@
 <!-- ** Data for the NATIONAL *** -->
 
   <list id="CNational" width="300" type="dropdown" sortnr="9" >
-    <item value=""><label i18n="Editor.Common.choose" /></item>
+    <item value="" i18n="Editor.Common.choose" />
     <include  uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Nationality&amp;defaultValue=DocPortal_class_00000001" />
   </list>
 
@@ -310,60 +310,28 @@
 	 <cell col="2" row="1" anchor="WEST" ref="BSubmitAuthor" />
   </panel>		
 
-  <text id="LEmailMandatory">
-	<label i18n="Editor.Label.EmailM" />
-   </text>
+  <text id="LEmailMandatory" i18n="Editor.Label.EmailM" />
 
-  <text id="LAddressMandatory">
-    <label i18n="Editor.Label.AddressM" />   
-  </text>
+  <text id="LAddressMandatory" i18n="Editor.Label.AddressM" />   
 
-	<text id="LOrigin_StrukturEinheit">
-			<label i18n="Editor.Label.UnitM" />
-	   </text>
+	<text id="LOrigin_StrukturEinheit" i18n="Editor.Label.UnitM" />
 
-	<text id="ProfessionOnly">
-			<label i18n="Editor.Label.ProfessionOnly" />
-	   </text>
+	<text id="ProfessionOnly" i18n="Editor.Label.ProfessionOnly" />
 
-	<text id="LBirthDateM">
-			<label i18n="Editor.Label.BirthdateM" />
-	   </text>
+	<text id="LBirthDateM" i18n="Editor.Label.BirthdateM" />
 
-    <text id="LHomepage">
-			<label i18n="Editor.Label.Homepage" />
-	</text>
+    <text id="LHomepage" i18n="Editor.Label.Homepage" />
 
-	<helpHover id="Help.person.name" >
-		<label i18n="Editor.Help.person.name" />
-	</helpHover>
-	<helpHover id="Help.person.salutation" >
-		<label i18n="Editor.Help.person.salutation" />
-	</helpHover>
-	<helpHover id="Help.person.origin" >
-		<label i18n="Editor.Help.person.origin" />
-	</helpHover>
-	<helpHover id="Help.person.birthdate" >
-		<label i18n="Editor.Help.person.birthdate" />
-	</helpHover>
-	<helpHover id="Help.person.profession" >
-		<label i18n="Editor.Help.person.profession" />
-	</helpHover>
-	<helpHover id="Help.person.nationality" >
-		<label i18n="Editor.Help.person.nationality" />
-	</helpHover>
-	<helpHover id="Help.person.homepage" >
-		<label i18n="Editor.Help.person.homepage" />
-	</helpHover>
-	<helpHover id="Help.person.email" >
-		<label i18n="Editor.Help.person.email" />
-	</helpHover>
-	<helpHover id="Help.person.pnd-number" >
-		<label i18n="Editor.Help.person.pnd-number" />
-	</helpHover>
-	<helpHover id="Help.person.note" >
-		<label i18n="Editor.Help.person.note" />
-	</helpHover>
+	<helpHover id="Help.person.name"  i18n="Editor.Help.person.name" />
+	<helpHover id="Help.person.salutation"  i18n="Editor.Help.person.salutation" />
+	<helpHover id="Help.person.origin"  i18n="Editor.Help.person.origin" />
+	<helpHover id="Help.person.birthdate"  i18n="Editor.Help.person.birthdate" />
+	<helpHover id="Help.person.profession"  i18n="Editor.Help.person.profession" />
+	<helpHover id="Help.person.nationality"  i18n="Editor.Help.person.nationality" />
+	<helpHover id="Help.person.homepage"  i18n="Editor.Help.person.homepage" />
+	<helpHover id="Help.person.email"  i18n="Editor.Help.person.email" />
+	<helpHover id="Help.person.pnd-number"  i18n="Editor.Help.person.pnd-number" />
+	<helpHover id="Help.person.note"  i18n="Editor.Help.person.note" />
 
 <!-- *** End *** -->
 </imports>

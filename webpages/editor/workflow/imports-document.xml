@@ -257,18 +257,10 @@
       <cell col="1" row="1" anchor="WEST" ref="TFzeile128"  />
       <cell col="2" row="1" anchor="NORTHWEST" var="@type">
       	<list type="dropdown">
-      		<item value="free">
-      			<label i18n="OMD.id.free" />
-      		</item>
-      		<item value="gbv">
-      			<label i18n="OMD.id.gbv" />
-      		</item>
-      		<item value="gbv_original">
-      			<label i18n="OMD.id.gbv_original" />
-      		</item>
-      		<item value="zdb">
-      			<label i18n="OMD.id.zdb" />
-      		</item>
+      		<item value="free" i18n="OMD.id.free" />
+      		<item value="gbv" i18n="OMD.id.gbv" />
+      		<item value="gbv_original" i18n="OMD.id.gbv_original" />
+      		<item value="zdb" i18n="OMD.id.zdb" />
       	</list>
       </cell>
       	
@@ -319,13 +311,9 @@
     </panel>
 
 <!-- ** Data for the COLLECTION ***  18 -->
-    <text id="LCollections">
-		<label i18n="Editor.Label.Collection" />
-	</text>
+    <text id="LCollections" i18n="Editor.Label.Collection" />
 
-	<helpHover id="HCollections" >
-		<label i18n="Editor.Help.HCollection" />
-	</helpHover>
+	<helpHover id="HCollections" i18n="Editor.Help.HCollection" />
     
     
     <list id="CCollections" width="300px" type="dropdown">
@@ -345,13 +333,9 @@
            </cell>
     </panel>
 <!-- ** Data for the Count ***  45 -->
-    <text id="LCounts">
-		<label i18n="Editor.Label.Counts" />
-	</text>
+    <text id="LCounts" i18n="Editor.Label.Counts" />
 
-	<helpHover id="HCounts" >
-		<label i18n="Editor.Help.HCounts" />
-	</helpHover>
+	<helpHover id="HCounts"  i18n="Editor.Help.HCounts" />
 
 	<panel id="DCounts">
       <!-- *** Data for the Note ** sortnr="34"  -->
@@ -362,13 +346,9 @@
     </panel>
     
     <!-- ** Data for the PublishingCompany ***  42 -->
-    <text id="LPublishingCompany">
-		<label i18n="Editor.Label.PublishingCompany" />
-	</text>
+    <text id="LPublishingCompany" i18n="Editor.Label.PublishingCompany" />
 
-	<helpHover id="HPublishingCompany" >
-		<label i18n="Editor.Help.HPublishingCompany" />
-	</helpHover>
+	<helpHover id="HPublishingCompany" i18n="Editor.Help.HPublishingCompany" />
 
 	<panel id="DPublishingCompany">
       <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/publishingcompanies&amp;classname=MCRMetaLangText" />
@@ -606,8 +586,5 @@
           </panel>
         </repeater>
       </cell>
-  </panel>
-
-    
-    
+  </panel>    
 </imports>

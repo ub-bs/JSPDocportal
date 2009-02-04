@@ -50,9 +50,7 @@
     </label>
   </text>
 
-  <helpHover id="HLabel" >
-		<label i18n="Editor.Help.ChangeDerivateLabel" />
-  </helpHover>
+  <helpHover id="HLabel"  i18n="Editor.Help.ChangeDerivateLabel" />
 
  </components>
 </editor>

@@ -18,9 +18,7 @@
   <include uri="webapp:editor/workflow/imports-author.xml" />
   
   <headline anchor="CENTER">
-   <text>
-    <label i18n="Editor.Common.headline" />
-   </text>
+   <text i18n="Editor.Common.headline" />
   </headline>
   
   <panel id="author-person">

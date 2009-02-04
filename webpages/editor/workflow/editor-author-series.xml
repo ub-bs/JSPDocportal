@@ -19,9 +19,7 @@
   <include uri="webapp:editor/workflow/imports-document.xml" />    
 
   <headline anchor="CENTER">
-   <text>
-    <label i18n="Editor.Common.mandatoryFields" />
-   </text>
+   <text i18n="Editor.Common.mandatoryFields" />
   </headline>
 
   <panel id="author-series">
@@ -164,54 +162,26 @@
     <hidden var="metadata/publishers/publisher[2]/@type" default="publication" />    
     <cell col="1" row="1" anchor="WEST" />
   </panel> -->
-  <text id="LParticipant_S">
-  	<label i18n="OMD.participants" />
-  </text>
+  <text id="LParticipant_S" i18n="OMD.participants" />
   
-  <text id="LPublishingTime_S">
-  	<label i18n="Editor.Label.Time" />
-  </text>
+  <text id="LPublishingTime_S" i18n="Editor.Label.Time" />
   
-  <text id="LParts_S">
-  	<label i18n="Editor.Label.Parts" />
-  </text>
+  <text id="LParts_S" i18n="Editor.Label.Parts" />
   
-  	<helpHover id="HParts_S" >
-		<label i18n="Editor.Help.HParts" />
-	</helpHover>
+  	<helpHover id="HParts_S" i18n="Editor.Help.HParts" />
   
   
   	<list id="listTypeOfParticipation" type="dropdown">
-  		<!-- <item value="author">
-  			<label i18n="OMD.typeOfParticipation.author" />
-  		</item>
-  		<item value="subauthor">
-  			<label i18n="OMD.typeOfParticipation.subauthor" />
-  		</item> -->
-  		<item value="mainPublisher">
-  			<label i18n="OMD.typeOfParticipation.mainPublisher" />
-  		</item>
-  		<item value="subPublisher">
-  			<label i18n="OMD.typeOfParticipation.subPublisher" />
-  		</item>
-  		<item value="translator">
-  			<label i18n="OMD.typeOfParticipation.translator" />
-  		</item>
-  		<item value="composer">
-  			<label i18n="OMD.typeOfParticipation.composer" />
-  		</item>
-  		<item value="illustrator">
-  			<label i18n="OMD.typeOfParticipation.illustrator" />
-  		</item>
-  		<item value="editor">
-  			<label i18n="OMD.typeOfParticipation.editor" />
-  		</item>
-  		<item value="reviewer">
-  			<label i18n="OMD.typeOfParticipation.reviewer" />
-  		</item>
-  		<item value="misc">
-  			<label i18n="OMD.typeOfParticipation.misc" />
-  		</item>
+  		<!-- <item value="author" i18n="OMD.typeOfParticipation.author" />
+  		<item value="subauthor" i18n="OMD.typeOfParticipation.subauthor" /> -->
+  		<item value="mainPublisher" i18n="OMD.typeOfParticipation.mainPublisher" />
+  		<item value="subPublisher" i18n="OMD.typeOfParticipation.subPublisher" />
+  		<item value="translator" i18n="OMD.typeOfParticipation.translator" />
+  		<item value="composer" i18n="OMD.typeOfParticipation.composer" />
+  		<item value="illustrator" i18n="OMD.typeOfParticipation.illustrator" />
+  		<item value="editor" i18n="OMD.typeOfParticipation.editor" />
+  		<item value="reviewer" i18n="OMD.typeOfParticipation.reviewer" />
+  		<item value="misc" i18n="OMD.typeOfParticipation.misc" />
   	</list>
 
   	<!-- *** Data for the PublishLinks ** -->
@@ -376,15 +346,7 @@
 	      	</panel>
 
         </cell>
-      </panel>
-	
-	
-	
-	
-	
-  
-   
-  
+      </panel>  
 
   <panel id="DType_S">
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/types&amp;classname=MCRMetaClassification&amp;textsearch=false" />
@@ -404,15 +366,9 @@
 
 	<text id="AKeywordsFreetextOrClassification_S" class="editorHint" i18n="Editor.Label.KeywordsFreetextOrClassification" />
 	<list id="listKeywordsClassifications_S" width="450px" type="dropdown">
-		<item value="">
-			<label i18n="Editor.Common.choose" />
-		</item>
-		<item value="freetext">
-			<label i18n="Editor.Document.classification.freetext" />
-		</item>
-		<item value="aad">
-			<label i18n="Editor.Document.classification.aad" />
-		</item>		
+		<item value="" i18n="Editor.Common.choose" />
+		<item value="freetext" i18n="Editor.Document.classification.freetext" />
+		<item value="aad" i18n="Editor.Document.classification.aad" />
 	</list>
   <panel id="DKeywords_S">
 	<include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/keywords&amp;classname=MCRMetaLangText" />  

@@ -4,12 +4,7 @@
 <section title="Searchmask Expert Document" xml:lang="de">
 <editor id="SearchMask_ExpertDocument">
   <validationMessage>
-      <label xml:lang="de">
-        Eingabefehler: Bitte korrigieren Sie die markierten Felder 
-      </label>              
-      <label xml:lang="en">
-        input error: Please correct the highlighted items
-      </label>                    
+      <label  i18n="Editor.Common.validationMessageLong" />   
   </validationMessage>
 
 <!-- MyCore-Default: <source uri="request:servlets/MCRSearchServlet?mode=load&amp;id={id}" />

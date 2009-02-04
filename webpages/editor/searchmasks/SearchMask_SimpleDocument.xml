@@ -10,12 +10,7 @@
   <target type="servlet" url="/servlets/MCRJSPSearchServlet" method="post" format="xml" />
 
   <validationMessage>
-      <label xml:lang="de">
-        Eingabefehler: Bitte korrigieren Sie die markierten Felder 
-      </label>              
-      <label xml:lang="en">
-        input error: Please correct the highlighted items
-      </label>                    
+      <label i18n="Editor.Common.validationMessageLong" /> 
   </validationMessage>
 
 <components root="SearchMask_Alldocs" var="/query">

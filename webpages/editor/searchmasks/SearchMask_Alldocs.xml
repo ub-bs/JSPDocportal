@@ -4,12 +4,7 @@
 <section title="Searchmask for all Documents" xml:lang="de">
 <editor id="SearchMask_Alldocs">
   <validationMessage>
-      <label xml:lang="de">
-        Eingabefehler: Bitte korrigieren Sie die markierten Felder 
-      </label>              
-      <label xml:lang="en">
-        input error: Please correct the highlighted items
-      </label>                    
+      <label i18n="Editor.Common.validationMessageLong" />                    
   </validationMessage>
 
 <!-- <target type="debug" /> -->

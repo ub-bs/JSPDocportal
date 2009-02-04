@@ -53,30 +53,18 @@
 
 	<!-- *** AdressType List *** -->
 	<list id="SAdrType" type="dropdown">
-		<item value="office">
-			<label i18n="OMD.contact.address.Office" />
-		</item>
-		<item value="home">
-			<label i18n="OMD.contact.address.Private" />
-		</item>
+		<item value="office" i18n="OMD.contact.address.Office" />
+		<item value="home" i18n="OMD.contact.address.Private" />
 	</list>
   
   <list id="STypeYear" type="dropdown">
-    <item value="from">
-      <label i18n="OMD.from" />
-    </item>
-    <item value="to">
-      <label i18n="OMD.to" />
-    </item>
+    <item value="from" i18n="OMD.from" />
+    <item value="to" i18n="OMD.to" />
   </list>
 
   <list id="STypeDate" type="dropdown">
-    <item value="birth">
-      <label i18n="OMD.birth" />
-    </item>
-    <item value="death">
-      <label i18n="OMD.death" />
-    </item>
+    <item value="birth" i18n="OMD.birth" />   
+    <item value="death" i18n="OMD.death" />
   </list>
 
 	<!-- *** Language List *** -->
@@ -194,69 +182,15 @@
 		<cell col="1" row="1" anchor="WEST" ref="BChoose" var="save" />
 	</panel>
 
-	<!-- *** Data for the flags *** -->
-	<!-- 
-		<text id="LFlagsP">
-		<label xml:lang="de">
-		<span class="editorlabel">Schalter (*)</span>
-		</label>
-		</text>
-		
-		<helpHover id="HFlags" >
-		<label xml:lang="de">
-		Hier können nun Leserechte vergeben werden. Weiterhin können Host- oder Domainnamen angegeben werden, welche Zugriffsberechtigung haben.<p/>Beispiel: myhost.mynet.com oder .mynet.com .
-		</label>
-		<label xml:lang="en">
-		Here you can add the read access of the object. Also you can add a host or domain name for the access host.<p/>Example: myhost.mynet.com or .mynet.com .
-		</label>
-		</helpHover>
-		
-		<text id="AFlagsAccess">
-		<label xml:lang="de">
-		<span class="editorhints">Zugriff</span>
-		</label>
-		<label xml:lang="en">
-		<span class="editorhints">Access</span>
-		</label>
-		</text>
-		
-		<text id="AFlagsState">
-		<label xml:lang="de">
-		<span class="editorhints">Status</span>
-		</label>
-		<label xml:lang="en">
-		<span class="editorhints">State</span>
-		</label>
-		</text>
-		
-		<text id="AFlagsIP">
-		<label xml:lang="de">
-		<span class="editorhints">Rechnername oder Domäne</span>
-		</label>
-		<label xml:lang="en">
-		<span class="editorhints">Hostname od Domain</span>
-		</label>
-		</text>
-	-->
 	<!-- *** Data for the TITLE *** -->
 
-	<text id="LTitleP">
-		<label i18n="Editor.Label.TitleM" />
-	</text>
+	<text id="LTitleP" i18n="Editor.Label.TitleM" />
 
-	<helpHover id="HTitle" >
-		<label i18n="Editor.Help.HTitle" />
-	</helpHover>
-	<!--   <helpHover  id="SMTitle">
-		<label i18n="Editor.Help.SMTitle" />
-		</helpHover> -->
-	<text id="ATitleMain">
-		<label i18n="Editor.Label.MainTitleM" />
-	</text>
+	<helpHover id="HTitle" i18n="Editor.Help.HTitle" />
+	<!--   <helpHover  id="SMTitle" i18n="Editor.Help.SMTitle" /> -->
+	<text id="ATitleMain" i18n="Editor.Label.MainTitleM" />
 
-	<text id="ATitleSub">
-		<label i18n="Editor.Label.Subtitle" />
-	</text>
+	<text id="ATitleSub" i18n="Editor.Label.Subtitle" />
 
     <list id="STitleType2" type="dropdown">
       <item value="main" i18n="OMD.maintitle" />
@@ -273,100 +207,56 @@
 
 	<!-- *** Data for the Creator/Creatorlink ** -->
 
-	<text id="LCreator">
-		<label i18n="Editor.Label.Authors" />
-	</text>
-	<text id="LCreatorP">
-		<label i18n="Editor.Label.AuthorsM" />
-	</text>
+	<text id="LCreator" i18n="Editor.Label.Authors" />
+	<text id="LCreatorP" i18n="Editor.Label.AuthorsM" />
 
-	<text id="LCreatorLinkP">
-		<label i18n="Editor.Label.AuthorM" />
-	</text>
+	<text id="LCreatorLinkP" i18n="Editor.Label.AuthorM" />
 
-	<text id="ACreatorLinkID">
-		<label i18n="Editor.Label.CreatorLinkID" />
-	</text>
+	<text id="ACreatorLinkID" i18n="Editor.Label.CreatorLinkID" />
 
-	<text id="ACreatorLinkTitle">
-		<label i18n="Editor.Label.CreatorLinkTitle" />
-	</text>
+	<text id="ACreatorLinkTitle" i18n="Editor.Label.CreatorLinkTitle" />
 
-	<helpHover id="HCreator">
-		<label i18n="Editor.Help.HCreator" />
-	</helpHover>
+	<helpHover id="HCreator" i18n="Editor.Help.HCreator" />
 
-	<!--   <helpHover id="SMCreator">
-		<label i18n="Editor.Help.SMCreator" />>
-		</helpHover> -->
+	<!--   <helpHover id="SMCreator"  i18n="Editor.Help.SMCreator" /> -->
 
-	<helpHover id="HCreatorLink">
-		<label i18n="Editor.Help.HCreatorLink" />
-	</helpHover>
+	<helpHover id="HCreatorLink" i18n="Editor.Help.HCreatorLink" />
 
 
 	<!-- *** Data for the Subject ** -->
 
-	<text id="LSubjectP">
-		<label i18n="Editor.Label.SubjectM" />
-	</text>
+	<text id="LSubjectP" i18n="Editor.Label.SubjectM" />
 
-	<text id="LSubject">
-		<label i18n="Editor.Label.Subject" />
-	</text>
+	<text id="LSubject" i18n="Editor.Label.Subject" />
 
-	<helpHover id="HSubject" >
-		<label i18n="Editor.Help.HSubject" />
-	</helpHover>
+	<helpHover id="HSubject" i18n="Editor.Help.HSubject" />
 
 	<!-- *** Data for the Origin ** -->
 
-	<text id="LOriginP">
-		<label i18n="Editor.Label.OriginM" />
-	</text>
+	<text id="LOriginP" i18n="Editor.Label.OriginM" />
 
-	<text id="LOrigin">
-		<label i18n="Editor.Label.Origin" />
-	</text>
+	<text id="LOrigin" i18n="Editor.Label.Origin" />
 
-	<helpHover id="HOrigin" >
-		<label i18n="Editor.Help.HOrigin" />
-	</helpHover>
+	<helpHover id="HOrigin" i18n="Editor.Help.HOrigin" />
 
 	<!-- *** Data for the institution -->
-	<text id="LInstitutionP">
-		<label i18n="Editor.Label.InstitutionM" />
-	</text>
+	<text id="LInstitutionP" i18n="Editor.Label.InstitutionM" />
 
-	<text id="LInstitution">
-		<label i18n="Editor.Label.Institution" />
-	</text>
+	<text id="LInstitution" i18n="Editor.Label.Institution" />
 
-	<helpHover id="HInstitution">
-		<label i18n="Editor.Help.HInstitution" />
-	</helpHover>
+	<helpHover id="HInstitution" i18n="Editor.Help.HInstitution" />
 
 	<!-- *** Data for the Description ** -->
 
-	<text id="LDescriptionP">
-		<label i18n="Editor.Label.DescriptionM" />
-	</text>
+	<text id="LDescriptionP" i18n="Editor.Label.DescriptionM" />
 
-	<text id="LDescription">
-		<label i18n="Editor.Label.Description" />
-	</text>
+	<text id="LDescription" i18n="Editor.Label.Description" />
 
-	<text id="LDescriptionAbstractP">
-		<label i18n="Editor.Label.AbstractM" />
-	</text>
+	<text id="LDescriptionAbstractP" i18n="Editor.Label.AbstractM" />
 
-	<helpHover id="HDescription">
-		<label i18n="Editor.Help.HDescription" />
-	</helpHover>
+	<helpHover id="HDescription" i18n="Editor.Help.HDescription" />
 
-	<helpHover id="HDescriptionAbstract" >
-		<label i18n="Editor.Help.HDescriptionAbstract" />
-	</helpHover>
+	<helpHover id="HDescriptionAbstract" i18n="Editor.Help.HDescriptionAbstract" />
 
 	<list id="SDescriptType" type="dropdown">
 		<item value="abstract" i18n="OMD.abstract" />
@@ -376,48 +266,30 @@
 
 	<!-- *** Data for the Publisher ** -->
 
-	<text id="LPublisher">
-		<label i18n="Editor.Label.Publisher" />
-	</text>
+	<text id="LPublisher" i18n="Editor.Label.Publisher" />
 
-	<helpHover id="HPublisher" >
-		<label i18n="Editor.Help.HPublisher" />
-	</helpHover>
+	<helpHover id="HPublisher"  i18n="Editor.Help.HPublisher" />
 
 	<list id="SPublisherType" type="dropdown">
 		<item value="publisher" i18n="Editor.Document.publishingcompany" />
 		<item value="publication" i18n="Editor.Document.publisher" />
 	</list>
 
-	<text id="LPublishLink">
-		<label i18n="Editor.Label.PublishLink" />
-	</text>
+	<text id="LPublishLink" i18n="Editor.Label.PublishLink" />
 
-	<text id="APublishLinkID">
-		<label i18n="Editor.Label.APublishLinkID" />
-	</text>
+	<text id="APublishLinkID" i18n="Editor.Label.APublishLinkID" />
 
-	<text id="APublishLinkTitle">
-		<label i18n="Editor.Label.APublishLinkTitle=" />
-	</text>
+	<text id="APublishLinkTitle" i18n="Editor.Label.APublishLinkTitle=" />
 
-	<helpHover id="HPublishLink">
-		<label i18n="Editor.Help.HPublishLink" />
-	</helpHover>
+	<helpHover id="HPublishLink" i18n="Editor.Help.HPublishLink" />
 
 	<!-- *** Data for the Contributor ** -->
 
-	<text id="LContributor">
-		<label i18n="Editor.Label.Contributors" />
-	</text>
+	<text id="LContributor" i18n="Editor.Label.Contributors" />
 
-	<text id="LContributorP">
-		<label i18n="Editor.Label.ContributorsM" />
-	</text>
+	<text id="LContributorP" i18n="Editor.Label.ContributorsM" />
 
-	<helpHover id="HContributor" >
-		<label i18n="Editor.Help.HContributors" />
-	</helpHover>
+	<helpHover id="HContributor" i18n="Editor.Help.HContributors" />
 
     <list id="SContributorTypeReferee" type="dropdown">
 		<item value="" i18n="Editor.Common.choose.type" />
@@ -438,25 +310,15 @@
 
 	<!-- *** Data for the Date ** -->
 
-	<text id="LDate">
-		<label i18n="Editor.Label.Date" />
-	</text>
+	<text id="LDate" i18n="Editor.Label.Date" />
 
-	<text id="LDateP">
-		<label i18n="Editor.Label.DateM" />
-	</text>
+	<text id="LDateP" i18n="Editor.Label.DateM" />
 	
-	<text id="LDate_YearP">
-		<label i18n="Editor.Label.Date_YearM" />
-	</text>
+	<text id="LDate_YearP" i18n="Editor.Label.Date_YearM" />
 
-	<text id="LBirthDate">
-		<label i18n="Editor.Label.Birthdate" />
-	</text>
+	<text id="LBirthDate" i18n="Editor.Label.Birthdate" />
 
-	<text id="LBirthDateP">
-		<label i18n="Editor.Label.BirthdateM" />
-	</text>
+	<text id="LBirthDateP" i18n="Editor.Label.BirthdateM" />
 
 	<text id="ADateSubmitted" class="editorHint" i18n="Editor.Label.DateSubmitted" />
 		
@@ -465,164 +327,80 @@
 
 	<text id="ADateFormat" class="editorHint" i18n="Editor.Label.DateFormat" />
 
-	<helpHover id="HDate" >
-		<label i18n="Editor.Help.HDate" />
-	</helpHover>
+	<helpHover id="HDate" i18n="Editor.Help.HDate" />
 
-	<helpHover id="HDateBirthP"  >
-		<label i18n="Editor.Help.HDateBirth" />
-	</helpHover>
+	<helpHover id="HDateBirthP"  i18n="Editor.Help.HDateBirth" />
 
-	<helpHover id="HDateP" >
-		<label i18n="Editor.Help.HDate" />
-	</helpHover>
+	<helpHover id="HDateP" i18n="Editor.Help.HDate" />
 
 	<list id="SDateType" width="60" type="dropdown">
-		<item value="submitted">
-			<label i18n="Editor.Label.DateType.submitted" />
-		</item>
-		<item value="accepted">
-			<label i18n="Editor.Label.DateType.accepted" />
-		</item>
+		<item value="submitted" i18n="Editor.Label.DateType.submitted" />
+		<item value="accepted" i18n="Editor.Label.DateType.accepted" />
 	</list>
-
-	<!--   <helpHover id="SMDate" >
-		<label xml:lang="de">
-		Hier können Sie ein Datum eintragen, welches in den Objekt-Metadaten vorkommen soll.
-		</label>
-		<label xml:lang="en">
-		You can write a date in this area, which appears in the object metadata.
-		</label>
-		</helpHover> -->
 
 	<!-- *** Data for the Type ** -->
 
-	<text id="LTypeP">
-		<label i18n="Editor.Label.TypeM" />
-	</text>
+	<text id="LTypeP" i18n="Editor.Label.TypeM" />
 
-	<helpHover id="HType" >
-		<label i18n="Editor.Help.HType" />
-	</helpHover>
+	<helpHover id="HType" i18n="Editor.Help.HType" />
 
 
 	<!-- *** Data for the Format ** -->
 
-	<text id="LFormatP">
-		<label i18n="Editor.Label.FormatM" />
-	</text>
+	<text id="LFormatP" i18n="Editor.Label.FormatM" />
 
-	<helpHover id="HFormat" >
-		<label i18n="Editor.Help.HFormat" />
-	</helpHover>
+	<helpHover id="HFormat" i18n="Editor.Help.HFormat" />
 
 	<!-- *** Data for the Identifier ** -->
 
-	<text id="LIdentifierP">
-		<label i18n="Editor.Label.IdentifierM" />
-	</text>
+	<text id="LIdentifierP" i18n="Editor.Label.IdentifierM" />
 
-	<text id="LIdentifier">
-		<label i18n="Editor.Label.Identifier" />
-	</text>
+	<text id="LIdentifier" i18n="Editor.Label.Identifier" />
 
-	<helpHover id="HIdentifier" >
-		<label i18n="Editor.Help.HIdentifier" />
-	</helpHover>
+	<helpHover id="HIdentifier"  i18n="Editor.Help.HIdentifier" />
 
-	<text id="LSourceP">
-		<label i18n="Editor.Label.SourceM" />
-	</text>
+	<text id="LSourceP" i18n="Editor.Label.SourceM" />
 
-	<text id="LSource">
-		<label i18n="Editor.Label.Source" />
-	</text>
+	<text id="LSource" i18n="Editor.Label.Source" />
 
-	<helpHover id="HSource" >
-		<label i18n="Editor.Help.HSource" />
-	</helpHover>
+	<helpHover id="HSource" i18n="Editor.Help.HSource" />
 
     <!-- *** Data for the BK classification ** -->
-      <text id="Lbkl">
-        <label i18n="OMD.bkl" />
-      </text>
+      <text id="Lbkl" i18n="OMD.bkl" />
 
     <!-- *** Data for the ddc classification ** -->
-     <text id="LSubjects">
-        <label i18n="Editor.Document.classification" />
-     </text>
+     <text id="LSubjects" i18n="Editor.Document.classification" />
      
 	<!-- *** Data for the Language ** -->
 
-	<text id="LLanguageP">
-		<label i18n="Editor.Label.LanguageM" />
-	</text>
+	<text id="LLanguageP" i18n="Editor.Label.LanguageM" />
 
-	<helpHover id="HLanguage" >
-		<label i18n="Editor.Help.HLanguage" />
-	</helpHover>
+	<helpHover id="HLanguage" i18n="Editor.Help.HLanguage" />
 
 	<!-- *** Data for the Keywords ** -->
 
-	<text id="LKeywordsP">
-		<label i18n="Editor.Label.KeywordsM" />
-	</text>
+	<text id="LKeywordsP" i18n="Editor.Label.KeywordsM" />
 
-	<text id="LKeywords">
-		<label i18n="Editor.Label.Keywords" />
-	</text>
+	<text id="LKeywords" i18n="Editor.Label.Keywords" />
 
 	<text id="AKeywordsFreetext"  class="editorHint" i18n="Editor.Label.KeywordsFreetext" />
 	
 	<text id="AKeywordsFreetextOrClassification" class="editorHint" i18n="Editor.Label.KeywordsFreetextOrClassification" />
 	
-	
-
-	<!--   <text id="AKeywordsSWD">
-		<label xml:lang="de">
-		<span class="editorlabel">Schlagwortnormdatei (SWD)</span>
-		</label>
-		<label xml:lang="en">
-		<span class="editorlabel">Standardised controlled German Thesaurus (SWD)</span>
-		</label>
-		</text>
-		
-		<text id="AKeywordsTUBSystematik">
-		<label xml:lang="de">
-		<span class="editorlabel">TUB-Systematik (*)</span>
-		</label>
-		<label xml:lang="en">
-		<span class="editorlabel">TUB-Systematics (*)</span>
-		</label>
-		</text> -->
-
 	<text id="AKeywordsClassifications" class="editorHint" i18n="Editor.Label.KeywordsClassifications" />
 
 	<text id="AKeywordsClassificationsCode" class="editorHint" i18n="Editor.Label.KeywordsClassificationsCode" />
 
 	<list id="SKeywordsClassifications" width="450px" type="dropdown">
-		<item value="">
-			<label i18n="Editor.Common.choose" />
-		</item>
-		<item value="freetext">
-			<label i18n="Editor.Document.classification.freetext" />
-		</item>
-		<item value="ccs1998">
-			<label i18n="Editor.Document.classification.ccs1998" />
-		</item>
-		<item value="msc2000">
-			<label i18n="Editor.Document.classification.msc2000" />
-		</item>
-		<item value="ZDM">
-			<label i18n="Editor.Document.classification.ZDM" />
-		</item>
-		<item value="UMLS">
-			<label i18n="Editor.Document.classification.UMLS" />
-		</item>
-		<item value="PACS2003">
-			<label i18n="Editor.Document.classification.PACS2003" />
-		</item>
+		<item value="" i18n="Editor.Common.choose" />
+		<item value="freetext" i18n="Editor.Document.classification.freetext" />
+		<item value="ccs1998" i18n="Editor.Document.classification.ccs1998" />
+		<item value="msc2000" i18n="Editor.Document.classification.msc2000" />
+		<item value="ZDM" i18n="Editor.Document.classification.ZDM" />
+		<item value="UMLS" i18n="Editor.Document.classification.UMLS" />
+		<item value="PACS2003" i18n="Editor.Document.classification.PACS2003" />
 	</list>
+	
   <panel id="DKeywords2">
 	<include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/keywords&amp;classname=MCRMetaLangText" />  
      <cell row="1" col="1" anchor="NORTHWEST" var="metadata/keywords/keyword">
@@ -637,139 +415,82 @@
      </cell>   
   </panel> 
 
-	<helpHover id="HKeywords" >
-		<label i18n="Editor.Help.HKeywords" />
-	</helpHover>
+	<helpHover id="HKeywords"  i18n="Editor.Help.HKeywords" />
 
-	<helpHover id="HKeywordsClassifications" >
-		<label i18n="Editor.Help.HKeywordsClassifications" />
-	</helpHover>
+	<helpHover id="HKeywordsClassifications" i18n="Editor.Help.HKeywordsClassifications" />
 
 	<!-- *** Data for the Coverage ** -->
 
-	<text id="LCoverage">
-		<label i18n="Editor.Label.Coverage" />
-	</text>
+	<text id="LCoverage" i18n="Editor.Label.Coverage" />
 
-	<helpHover id="HCoverage" >
-		<label i18n="Editor.Help.HCoverage" />
-	</helpHover>
+	<helpHover id="HCoverage"  i18n="Editor.Help.HCoverage" />
 
 
 	<!-- *** Data for the Relation ** -->
 
-	<text id="LRelation">
-		<label i18n="Editor.Label.Relation" />
-	</text>
+	<text id="LRelation" i18n="Editor.Label.Relation" />
 
-	<helpHover id="HRelation" >
-		<label i18n="Editor.Help.HRelation" />
-	</helpHover>
+	<helpHover id="HRelation" i18n="Editor.Help.HRelation" />
 
 
 	<!-- *** Data for the Rights ** -->
 
-	<text id="LRightP">
-		<label i18n="Editor.Label.RightsM" />
-	</text>
+	<text id="LRightP" i18n="Editor.Label.RightsM" />
 
-	<text id="LRightsLinkP">
-		<label i18n="Editor.Label.RightsLink" />
-	</text>
+	<text id="LRightsLinkP" i18n="Editor.Label.RightsLink" />
 
-	<text id="LRight">
-		<label i18n="Editor.Label.Rights" />
-	</text>
+	<text id="LRight" i18n="Editor.Label.Rights" />
 
-	<helpHover id="HRight" >
-		<label i18n="Editor.Help.HRights" />
-	</helpHover>
+	<helpHover id="HRight" i18n="Editor.Help.HRights" />
 
-	<helpHover id="HRightsLink" >
-		<label i18n="Editor.Help.HRightsLink" />
-	</helpHover>
+	<helpHover id="HRightsLink" i18n="Editor.Help.HRightsLink" />
 
 	<!-- *** Data for the Size ** -->
 
-	<text id="LSizeP">
-		<label i18n="Editor.Label.SizeM" />
-	</text>
+	<text id="LSizeP" i18n="Editor.Label.SizeM" />
+	<text id="LSize" i18n="Editor.Label.Size" />
 
-	<text id="LSize">
-		<label i18n="Editor.Label.Size" />
-	</text>
-
-	<helpHover id="HSize" >
-		<label i18n="Editor.Help.HSize" />
-	</helpHover>
+	<helpHover id="HSize" i18n="Editor.Help.HSize" />
 
 	<!-- *** Data for the Place ** -->
 
-	<text id="LPlaceP">
-		<label i18n="Editor.Label.PlaceM" />
-	</text>
+	<text id="LPlaceP" i18n="Editor.Label.PlaceM" />
 
-	<text id="LPlace">
-		<label i18n="Editor.Label.Place" />
-	</text>
+	<text id="LPlace" i18n="Editor.Label.Place" />
 
-	<helpHover id="HPlace" >
-		<label i18n="Editor.Help.HPlace" />
-	</helpHover>
+	<helpHover id="HPlace" i18n="Editor.Help.HPlace" />
 
 
 
 	<!-- *** Data for the URN ** -->
-	<text id="LUrnP">
-		<label i18n="Editor.Label.URNM" />
-	</text>
+	<text id="LUrnP" i18n="Editor.Label.URNM" />
 
-	<text id="LUrn">
-		<label i18n="Editor.Label.URN" />
-	</text>
+	<text id="LUrn" i18n="Editor.Label.URN" />
 
-	<helpHover id="HUrn" >
-		<label i18n="Editor.Label.HURN" />
-	</helpHover>
+	<helpHover id="HUrn" i18n="Editor.Label.HURN" />
 
 
 	<!-- *** Data for the Contact ** -->
 
-	<text id="LContact">
-		<label i18n="Editor.Label.Contact" />
-	</text>
+	<text id="LContact" i18n="Editor.Label.Contact" />
 
-	<text id="LContactP">
-		<label i18n="Editor.Label.ContactM" />
-	</text>
+	<text id="LContactP" i18n="Editor.Label.ContactM" />
 
-	<helpHover id="HContact" >
-		<label i18n="Editor.Help.HContact" />
-	</helpHover>
+	<helpHover id="HContact" i18n="Editor.Help.HContact" />
 
 	<!-- *** Data for the Citation ** -->
 
-	<text id="LCitation">
-		<label i18n="Editor.Label.Citation" />
-	</text>
+	<text id="LCitation" i18n="Editor.Label.Citation" />
 
-	<text id="LCitationP">
-		<label i18n="Editor.Label.CitationM" />
-	</text>
+	<text id="LCitationP" i18n="Editor.Label.CitationM" />
 
-	<helpHover id="HCitation" >
-		<label i18n="Editor.Help.HCitation" />
-	</helpHover>
+	<helpHover id="HCitation"  i18n="Editor.Help.HCitation" />
 
 	<!-- *** Data for the PName ** -->
 
-	<text id="LPName">
-		<label i18n="Editor.Label.PName" />
-	</text>
+	<text id="LPName" i18n="Editor.Label.PName" />
 
-	<text id="LPNameP">
-		<label i18n="Editor.Label.PNameM" />
-	</text>
+	<text id="LPNameP" i18n="Editor.Label.PNameM" />
 
 	<text id="APNameFirstName" class="editorHint" i18n="Editor.Label.PNameFirstname" />
 	
@@ -781,127 +502,76 @@
 	<text id="APNamePrefix" class="editorHint" i18n="Editor.Label.PNamePrefix" />
 	<text id="APNamePeerage" class="editorHint" i18n="Editor.Label.PNamePeerage" />
 
-	<helpHover id="HPName" >
-		<label i18n="Editor.Help.HPName" />
-	</helpHover>
+	<helpHover id="HPName"  i18n="Editor.Help.HPName" />
 
 
 
 	<!-- *** Data for the Female ** -->
 
-	<text id="LFemaleP">
-		<label i18n="Editor.Label.GenderM" />
-	</text>
+	<text id="LFemaleP" i18n="Editor.Label.GenderM" />
 
-	<helpHover id="HFemale" >
-		<label i18n="Editor.Help.HGender" />
-	</helpHover>
+	<helpHover id="HFemale" i18n="Editor.Help.HGender" />
 
 	<list id="SFemale" width="400" type="radio" cols="2" default="true">
-		<item value="true">
-			<label i18n="Editor.Person.gender.female" />
-		</item>
-		<item value="false">
-			<label i18n="Editor.Person.gender.male" />
-		</item>
+		<item value="true" i18n="Editor.Person.gender.female" />
+		<item value="false" i18n="Editor.Person.gender.male" />
 	</list>
 
 	<!-- *** Data for the Profession ** -->
 
-	<text id="LProfessionM">
-		<label i18n="Editor.Label.ProfessionM" />
-	</text>
+	<text id="LProfessionM" i18n="Editor.Label.ProfessionM" />
 
-    <text id="LProfession">
-      <label i18n="Editor.Label.Profession" />
-    </text>
+    <text id="LProfession" i18n="Editor.Label.Profession" />
 
-	<helpHover id="HProfession" >
-		<label i18n="Editor.Help.HProfession" />
-	</helpHover>
+	<helpHover id="HProfession" i18n="Editor.Help.HProfession" />
 
 	<list id="SProfession" width="80" type="dropdown">
-
-		<item value="job">
-			<label i18n="Editor.Author.profession.job" />
-		</item>
-		<item value="profession">
-			<label i18n="Editor.Author.profession.profession" />
-		</item>
+		<item value="job" i18n="Editor.Author.profession.job" />
+		<item value="profession" i18n="Editor.Author.profession.profession" />
 	</list>
 
 
 	<!-- *** Data for the National ** -->
 
-	<text id="LNational">
-		<label i18n="Editor.Label.Nationality" />
-	</text>
+	<text id="LNational" i18n="Editor.Label.Nationality" />
 
-	<helpHover id="HNational" >
-		<label i18n="Editor.Help.HNational" />
-	</helpHover>
+	<helpHover id="HNational" i18n="Editor.Help.HNational" />
 
 	<!-- *** Data for the Reference *** -->
 
-	<text id="LReference">
-		<label i18n="Editor.Label.Reference" />
-	</text>
+	<text id="LReference" i18n="Editor.Label.Reference" />
 
-	<helpHover id="HReference" >
-		<label i18n="Editor.Help.HReference" />
-	</helpHover>
+	<helpHover id="HReference"  i18n="Editor.Help.HReference" />
 
 	<!-- *** Data for the Publication *** -->
 
-	<text id="LPublication">
-		<label i18n="Editor.Label.Publications" />
-	</text>
+	<text id="LPublication" i18n="Editor.Label.Publications" />
 
-	<helpHover id="HPublication" >
-		<label i18n="Editor.Help.HPublication" />
-	</helpHover>
+	<helpHover id="HPublication" i18n="Editor.Help.HPublication" />
 
 	<!-- *** Data for the place of Birth (City) *** -->
 
-	<text id="LPlaceBirthP">
-		<label i18n="Editor.Label.BirthPlaceM" />
-		<label xml:lang="de">
-			<span class="editorlabel">Geburtsort (*)</span>
-		</label>
-		<label xml:lang="en">
-			<span class="editorlabel">Place of Birth (*)</span>
-		</label>
-	</text>
+	<text id="LPlaceBirthP" i18n="Editor.Label.BirthPlaceM" />
 
-	<helpHover id="HPlaceBirth" >
-		<label i18n="Editor.Help.HBirthPlace" />
-	</helpHover>
+	<helpHover id="HPlaceBirth"  i18n="Editor.Help.HBirthPlace" />
 
 	<!-- *** Data for the IName ** -->
 
-	<text id="LINameP">
-		<label i18n="Editor.Label.INameM" />
-	</text>
+	<text id="LINameP" i18n="Editor.Label.INameM" />
 
 	<text id="AINameName" class="editorHint" i18n="Editor.Label.INameFull" />
 	<text id="AINameNick" class="editorHint" i18n="Editor.Label.INameNick" />
 	<text id="AINameProp" class="editorHint" i18n="Editor.Label.INameLegalForm" />
 
-	<helpHover id="HIName">
-		<label i18n="Editor.Help.HIName" />
-	</helpHover>
+	<helpHover id="HIName" i18n="Editor.Help.HIName" />
 
 	<!-- *** Data for the Address ** -->
 
-	<text id="LAddress">
-		<label i18n="Editor.Label.Address" />
-	</text>
+	<text id="LAddress" i18n="Editor.Label.Address" />
 
-	<text id="LAddressM">
-		<label i18n="Editor.Label.AddressM" />
-	</text>
+	<text id="LAddressM" i18n="Editor.Label.AddressM" />
 	<text id="AAddressCountry" class="editorHint" i18n="Editor.Label.AddressCountry" />
-	<text id="AAddressState"></text>
+	<text id="AAddressState" />
 	<text id="AAddressZIP" class="editorHint" i18n="Editor.Label.AddressZIP" />
 	<text id="AAddressCity" class="editorHint" i18n="Editor.Label.AddressCity" />
 	<text id="AAddressStreet" class="editorHint" i18n="Editor.Label.AddressStreet" />
@@ -909,204 +579,103 @@
 
 
 	<list id="Scountry" width="160" type="dropdown">
-
-		<item value="">
-			<label i18n="Editor.Common.choose" />
-		</item>
-		<item value="Deutschland">
-			<label i18n="Editor.Common.countries.Germany" />
-		</item>
-		<item value="Österreich">
-			<label i18n="Editor.Common.countries.Austria" />
-		</item>
-		<item value="Schweiz">
-			<label i18n="Editor.Common.countries.Switzerland" />
-		</item>
+		<item value="" i18n="Editor.Common.choose" />
+		<item value="Deutschland" i18n="Editor.Common.countries.Germany" />
+		<item value="Österreich" i18n="Editor.Common.countries.Austria" />
+		<item value="Schweiz" i18n="Editor.Common.countries.Switzerland" />
 	</list>
 
 	<list id="SAddressState" width="160" type="dropdown">
-		<item value="">
-			<label i18n="Editor.Common.choose" />
-		</item>
-		<item value="Baden-Württemberg">
-			<label i18n="Editor.Common.germanstates.Baden-Wuerttemberg" />
-		</item>
-		<item value="Bayern">
-			<label i18n="Editor.Common.germanstates.Bayern" />
-		</item>
-		<item value="Berlin">
-			<label i18n="Editor.Common.germanstates.Berlin" />
-		</item>
-		<item value="Brandenburg">
-			<label i18n="Editor.Common.germanstates.Brandenburg" />
-		</item>
-		<item value="Bremen">
-			<label i18n="Editor.Common.germanstates.Bremen" />
-		</item>
-		<item value="Hamburg">
-			<label i18n="Editor.Common.germanstates.Hamburg" />
-		</item>
-		<item value="Hessen">
-			<label i18n="Editor.Common.germanstates.Hessen" />
-		</item>
-		<item value="Mecklenburg-Vorpommern">
-			<label
-				i18n="Editor.Common.germanstates.Mecklenburg-Vorpommern" />
-		</item>
-		<item value="Niedersachsen">
-			<label i18n="Editor.Common.germanstates.Niedersachsen" />
-		</item>
-		<item value="Nordrhein-Westfalen">
-			<label
-				i18n="Editor.Common.germanstates.Nordrhein-Westfalen" />
-		</item>
-		<item value="Rheinland-Pfalz">
-			<label i18n="Editor.Common.germanstates.Rheinland-Pfalz" />
-		</item>
-		<item value="Saarland">
-			<label i18n="Editor.Common.germanstates.Saarland" />
-		</item>
-		<item value="Sachsen">
-			<label i18n="Editor.Common.germanstates.Sachsen" />
-		</item>
-		<item value="Sachsen-Anhalt">
-			<label i18n="Editor.Common.germanstates.Sachsen-Anhalt" />
-		</item>
-		<item value="Schleswig-Holstein">
-			<label i18n="Editor.Common.germanstates.Schleswig-Holstein" />
-		</item>
-		<item value="Thüringen">
-			<label i18n="Editor.Common.germanstates.Thueringen" />
-		</item>
+		<item value="" i18n="Editor.Common.choose" />
+		<item value="Baden-Württemberg" i18n="Editor.Common.germanstates.Baden-Wuerttemberg" />
+		<item value="Bayern" i18n="Editor.Common.germanstates.Bayern" />
+		<item value="Berlin" i18n="Editor.Common.germanstates.Berlin" />
+		<item value="Brandenburg" i18n="Editor.Common.germanstates.Brandenburg" />
+		<item value="Bremen" i18n="Editor.Common.germanstates.Bremen" />
+		<item value="Hamburg" i18n="Editor.Common.germanstates.Hamburg" />
+		<item value="Hessen" i18n="Editor.Common.germanstates.Hessen" />
+		<item value="Mecklenburg-Vorpommern" i18n="Editor.Common.germanstates.Mecklenburg-Vorpommern" />
+		<item value="Niedersachsen" i18n="Editor.Common.germanstates.Niedersachsen" />
+		<item value="Nordrhein-Westfalen" i18n="Editor.Common.germanstates.Nordrhein-Westfalen" />
+		<item value="Rheinland-Pfalz" i18n="Editor.Common.germanstates.Rheinland-Pfalz" />
+		<item value="Saarland" i18n="Editor.Common.germanstates.Saarland" />
+		<item value="Sachsen" i18n="Editor.Common.germanstates.Sachsen" />
+		<item value="Sachsen-Anhalt" i18n="Editor.Common.germanstates.Sachsen-Anhalt" />
+		<item value="Schleswig-Holstein" i18n="Editor.Common.germanstates.Schleswig-Holstein" />
+		<item value="Thüringen" i18n="Editor.Common.germanstates.Thueringen" />
 	</list>
 
-	<helpHover id="HAddress" >
-		<label i18n="Editor.Help.HAddress" />
-	</helpHover>
+	<helpHover id="HAddress" i18n="Editor.Help.HAddress" />
 
 	<!-- *** Data for the Phone ** -->
 
-	<text id="LPhone">
-		<label i18n="Editor.Label.Phone" />
-	</text>
+	<text id="LPhone" i18n="Editor.Label.Phone" />
 
 	<list id="Sphone" width="160" type="dropdown">
-		<item value="phone">
-			<label i18n="Editor.Common.phones.telephone" />
-		</item>
-		<item value="fax">
-			<label i18n="Editor.Common.phones.fax" />
-		</item>
-		<item value="mobil">
-			<label i18n="Editor.Common.phones.mobil" />
-		</item>
+		<item value="phone" i18n="Editor.Common.phones.telephone" />
+		<item value="fax" i18n="Editor.Common.phones.fax" />
+		<item value="mobil" i18n="Editor.Common.phones.mobil" />
 	</list>
 
-	<helpHover id="HPhone">
-		<label i18n="Editor.Help.HPhone" />
-	</helpHover>
+	<helpHover id="HPhone" i18n="Editor.Help.HPhone" />
 
 	<!-- *** Data for the URL ** -->
 
-	<text id="LURL">
-		<label i18n="Editor.Label.URL" />
-	</text>
+	<text id="LURL" i18n="Editor.Label.URL" />
 
 	<text id="AURLTitle" class="editorHint" i18n="Editor.Label.URLTitle" />
 	<text id="AURLReference" class="editorHint" i18n="Editor.Label.URLLink" />
 
-	<helpHover id="HURL" >
-		<label i18n="Editor.Help.HURL" />
-	</helpHover>
+	<helpHover id="HURL" i18n="Editor.Help.HURL" />
 
 	<!-- *** Data for the EMAIL ** -->
 
-	<text id="LEmail">
-		<label i18n="Editor.Label.Email" />
-	</text>
+	<text id="LEmail" i18n="Editor.Label.Email" />
 
-	<helpHover id="HEmail" >
-		<label i18n="Editor.Help.HEmail" />
-	</helpHover>
+	<helpHover id="HEmail" i18n="Editor.Help.HEmail" />
 
 
 	<!-- *** Data for the Note ** -->
 
-	<text id="LNote">
-		<label i18n="Editor.Label.Notes" />
-	</text>
+	<text id="LNote" i18n="Editor.Label.Notes" />
 
-	<helpHover id="HNote" >
-		<label i18n="Editor.Help.HNotes" />
-	</helpHover>
+	<helpHover id="HNote" i18n="Editor.Help.HNotes" />
 
 	<!-- *** Data for the file upload *** -->
 
-	<text id="LFileP">
-		<label i18n="Editor.Label.DigitalObjectsM" />
-	</text>
+	<text id="LFileP" i18n="Editor.Label.DigitalObjectsM" />
 
-	<text id="AFilePPDF">
-		<label i18n="Editor.Label.DigitalObjectsPDF" />
-	</text>
+	<text id="AFilePPDF" i18n="Editor.Label.DigitalObjectsPDF" />
 	
-	<text id="AFilePOther">
-		<label i18n="Editor.Label.DigitalObjectsOther" />
-	</text>
+	<text id="AFilePOther" i18n="Editor.Label.DigitalObjectsOther" />
 
-	<helpHover id="HFile" >
-		<label i18n="Editor.Help.HDigitalObjects" />
-	</helpHover>
+	<helpHover id="HFile"  i18n="Editor.Help.HDigitalObjects" />
 
 
     <!--  Data for JournalTitle -->
-    <text id="LIsbn">
-     <label i18n="Editor.Label.Isbn" />
-    </text>
-    <helpHover id="HIsbn" >
-      <label i18n="Editor.Help.HIsbn" />
-    </helpHover>
+    <text id="LIsbn" i18n="Editor.Label.Isbn" />
+    <helpHover id="HIsbn" i18n="Editor.Help.HIsbn" />
 
 
     <!--  Data for JournalTitle -->
-    <text id="LJournalTitleM">
-     <label i18n="Editor.Label.JournalTitle" />
-    </text>
-    <helpHover id="HJournalTitle" >
-      <label i18n="Editor.Help.HJournalTitle" />
-    </helpHover>
+    <text id="LJournalTitleM" i18n="Editor.Label.JournalTitle" />
+    <helpHover id="HJournalTitle"  i18n="Editor.Help.HJournalTitle" />
 
 
     <!--  Data for Book -->
-    <text id="LBook">
-     <label i18n="Editor.Label.Book" />
-    </text>
-    <helpHover id="HBook" >
-      <label i18n="Editor.Help.HBook" />
-    </helpHover>
+    <text id="LBook" i18n="Editor.Label.Book" />
+    <helpHover id="HBook" i18n="Editor.Help.HBook" />
      
     <!--  Data for Pages -->
-    <text id="LPages">
-     <label i18n="Editor.Label.Pages" />
-    </text>
-    <helpHover id="HPages" >
-      <label i18n="Editor.Help.HPages" />
-    </helpHover>
+    <text id="LPages" i18n="Editor.Label.Pages" />
+    <helpHover id="HPages"  i18n="Editor.Help.HPages" />
 
     <!--  Data for Pages -->
-    <text id="LVolume">
-     <label i18n="Editor.Label.Volume" />
-    </text>
-    <helpHover id="HVolume" >
-      <label i18n="Editor.Help.HVolume" />
-    </helpHover>
+    <text id="LVolume" i18n="Editor.Label.Volume" />
+    <helpHover id="HVolume"  i18n="Editor.Help.HVolume" />
 
-    <text id="LPublishingYear">
-     <label i18n="Editor.Label.Year" />
-    </text>
-    <helpHover id="HPublishingYear" >
-      <label i18n="Editor.Help.HPublishingYear" />
-    </helpHover>
+    <text id="LPublishingYear" i18n="Editor.Label.Year" />
+    <helpHover id="HPublishingYear"  i18n="Editor.Help.HPublishingYear" />
 
 
 	<!-- *** End *** -->

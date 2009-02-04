@@ -101,7 +101,7 @@
   </panel>
 
 <!-- für Dissertationen STANDARD AUSSCHLIESSLICH CREATORLINK -->
-   <text id="LCreatorLinks" class="editorlabel i18n="Editor.Label.AuthorM" />
+   <text id="LCreatorLinks" class="editorlabel" i18n="Editor.Label.AuthorM" />
 
     <panel id="DCreatorLinks">
       <!--creatorlink sortnr="3" -->

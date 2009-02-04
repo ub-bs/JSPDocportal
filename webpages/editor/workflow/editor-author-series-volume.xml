@@ -19,9 +19,7 @@
   <include uri="webapp:editor/workflow/imports-document.xml" />    
 
   <headline anchor="CENTER">
-   <text>
-    <label i18n="Editor.Common.mandatoryFields" />
-   </text>
+   <text i18n="Editor.Common.mandatoryFields" />
   </headline>
 
   <panel id="author-series">
@@ -63,21 +61,11 @@
     <cell col="1" row="95" anchor="EAST" ref="BCancel"            />
     <cell col="2" row="95" anchor="WEST" ref="BSubmit" var="save" />
   </panel>
-
-
-
   
-  <text id="LPublishingTime_S">
-  	<label i18n="Editor.Label.Time" />
-  </text>
+  <text id="LPublishingTime_S" i18n="Editor.Label.Time" />
+  <text id="LParts_S" i18n="Editor.Label.Parts" />
   
-  <text id="LParts_S">
-  	<label i18n="Editor.Label.Parts" />
-  </text>
-  
-  	<helpHover id="HParts_S" >
-		<label i18n="Editor.Help.HParts" />
-	</helpHover>
+  	<helpHover id="HParts_S" i18n="Editor.Help.HParts" />
 
  
     <panel id="DParts_S">
@@ -103,14 +91,10 @@
     <hidden var="metadata/titles/@class" default="MCRMetaLangText" />
     <hidden var="metadata/titles/@notinherit" default="false" />
     <hidden var="metadata/titles/@heritable" default="false" />
-
     <cell col="1" row="1" var="metadata/titles/title" >
        <repeater min="1" max="10" ref="RTitle" />
     </cell>
-
   </panel>
-  
-    	
 	<panel id="DDate_From_To">
         <hidden var="metadata/dates/@class" default="MCRMetaHistoryDate" />
         <cell col="1" row="1" var="metadata/dates/date" >
@@ -160,15 +144,9 @@
       <cell col="1" row="1" anchor="WEST" ref="TFzeile128"  />
       <cell col="2" row="1" anchor="NORTHWEST" var="@type">
       	<list type="dropdown">
-      		<item value="free">
-      			<label i18n="OMD.id.free" />
-      		</item>
-      		<item value="gbv">
-      			<label i18n="OMD.id.gbv" />
-      		</item>
-      		<item value="gbv_original">
-      			<label i18n="OMD.id.gbv_original" />
-      		</item>
+      		<item value="free" i18n="OMD.id.free" />
+      		<item value="gbv" i18n="OMD.id.gbv" />
+      		<item value="gbv_original" i18n="OMD.id.gbv_original" />
       	</list>
       </cell>      
     </panel>
