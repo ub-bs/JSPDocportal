@@ -223,7 +223,7 @@ public class MCRImageViewerTag extends SimpleTagSupport {
 		String url = request.getRequestURL().toString();
 		String queryString = request.getQueryString();
 		if (queryString != null && queryString.length() > 0) {
-			url = url.replace("frame.jsp", "nav")+"?"+java.net.URLEncoder.encode(queryString,"UTF-8");
+			url = url+"?"+java.net.URLEncoder.encode(queryString,"UTF-8");
 		}
 
 		return url;

@@ -13,7 +13,7 @@
      // the c:set tag with value="${param.XSL.subselect.session}" dos'nt work - maybe the reasons are the dots, only one is allowed !!!
      pageContext.setAttribute("subselectSession", request.getParameter("XSL.subselect.session.SESSION"));
      pageContext.setAttribute("subselectVarpath", request.getParameter("XSL.subselect.varpath.SESSION"));
-     pageContext.setAttribute("subselectWebpage", request.getParameter("XSL.subselect.webpage.SESSION").replace("frame.jsp?path=~editor-include", "nav?path=~editor-include"));
+     pageContext.setAttribute("subselectWebpage", request.getParameter("XSL.subselect.webpage.SESSION"));
 %>    
 
 <c:set var="debug" value="false" />

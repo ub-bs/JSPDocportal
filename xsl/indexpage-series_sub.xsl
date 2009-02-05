@@ -9,8 +9,7 @@
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:xalan="http://xml.apache.org/xalan"
   xmlns:encode="java.net.URLEncoder"
-  xmlns:string="java.lang.String"
-  extension-element-prefixes="encode string"
+  extension-element-prefixes="encode"
   
 >
 <xsl:param name="subselect.webpage" />
@@ -33,7 +32,7 @@
   <xsl:text>&amp;XSL.subselect.varpath.SESSION=</xsl:text>
   <xsl:value-of select="$subselect.varpath" />
   <xsl:text>&amp;XSL.subselect.webpage.SESSION=</xsl:text>
-  <xsl:value-of select="encode:encode(string:replaceFirst($subselect.webpage,'frame.jsp','nav'),'ISO-8859-1')" />
+  <xsl:value-of select="encode:encode($subselect.webpage, 'ISO-8859-1')" />
 </xsl:variable>
 
 <!-- ======== headline ======== -->
@@ -194,7 +193,7 @@
     <xsl:text>&amp;subselect.varpath=</xsl:text>
     <xsl:value-of select="$subselect.varpath" />
     <xsl:text>&amp;subselect.webpage=</xsl:text>
-    <xsl:value-of select="encode:encode(string:replaceFirst($subselect.webpage,'frame.jsp','nav'),'ISO-8859-1')" />
+    <xsl:value-of select="encode:encode($subselect.webpage, 'ISO-8859-1')" />
   </xsl:variable>
 
    <xsl:variable name="title">

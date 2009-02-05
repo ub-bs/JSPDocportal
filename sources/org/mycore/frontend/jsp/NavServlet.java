@@ -130,6 +130,7 @@ public class NavServlet extends MCRServlet
     {
     	HttpServletRequest request = job.getRequest();
     	HttpServletResponse response = job.getResponse();
+    	response.setCharacterEncoding("UTF-8");
     	
     	ServletContext context = this.getServletContext();
     	if ((baseURL == null) || baseURL.equals("") || (navJdom == null) || (navDom == null))  {
@@ -234,7 +235,7 @@ public class NavServlet extends MCRServlet
         }
         //response.setHeader("Expires", "Thu, 08 Dec 2005 16:00:00 GMT");
         try{
-        	context.getRequestDispatcher("/frame.jsp").forward(request, response);
+        	context.getRequestDispatcher("/frame.jsp").include(request, response);
         }catch(Exception e) {
         	deinitialize();
         	logger.error("catched error: ", e);
