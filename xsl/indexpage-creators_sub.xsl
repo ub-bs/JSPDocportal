@@ -9,7 +9,8 @@
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:xalan="http://xml.apache.org/xalan"
   xmlns:encode="java.net.URLEncoder"
-  extension-element-prefixes="encode"
+  xmlns:string="java.lang.String"
+  extension-element-prefixes="encode string"
   
 >
 <xsl:param name="subselect.webpage" />
@@ -32,7 +33,7 @@
   <xsl:text>&amp;XSL.subselect.varpath.SESSION=</xsl:text>
   <xsl:value-of select="$subselect.varpath" />
   <xsl:text>&amp;XSL.subselect.webpage.SESSION=</xsl:text>
-  <xsl:value-of select="$subselect.webpage" />
+  <xsl:value-of select="encode:encode(string:replaceFirst($subselect.webpage,'frame.jsp','nav'),'ISO-8859-1')"/>
 </xsl:variable>
 
 <!-- ======== headline ======== -->
@@ -193,7 +194,7 @@
     <xsl:text>&amp;subselect.varpath=</xsl:text>
     <xsl:value-of select="$subselect.varpath" />
     <xsl:text>&amp;subselect.webpage=</xsl:text>
-    <xsl:value-of select="$subselect.webpage" />
+    <xsl:value-of select="encode:encode(string:replaceFirst($subselect.webpage,'frame.jsp','nav'),'ISO-8859-1')"/>
   </xsl:variable>
 
    <xsl:variable name="title">
@@ -228,13 +229,15 @@
   </xsl:variable>
 
   <dd>
-    <img border="0" src="{$WebApplicationBaseURL}images/folder_plus.gif" align="middle"/>
-    <xsl:text> </xsl:text>
     <a href="{$url}" class="nav">
+    <img border="0" src="{$WebApplicationBaseURL}images/folder_plus.gif" align="middle"/>
+    </a>
+    <xsl:text> </xsl:text>
+    
       <xsl:value-of select="from/@short"/>
       <xsl:text> - </xsl:text>
       <xsl:value-of select="to/@short" />
-    </a>
+    
   </dd>
 </xsl:template>
 
