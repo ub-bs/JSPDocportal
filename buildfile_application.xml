@@ -605,13 +605,7 @@
 		<copy todir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes/xsl" flatten="true" overwrite="true">
 			<fileset dir="${application.stylesheets}" includes="**/*.xsl" />
 		</copy>
-		
-		<copy file="${MYCORE_HOME}/xsl/editor/editor.xsl" todir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes/xsl" overwrite="true" />
-			<copy file="${MYCORE_HOME}/xsl/editor/editor-common.xsl" todir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes/xsl" overwrite="true" />
-			<copy file="${MYCORE_HOME}/xsl/editor/helpPopup.xsl" todir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes/xsl" overwrite="true" />
-			<copy file="${MYCORE_HOME}/xsl/editor/imports-help-popup.xsl" todir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes/xsl" overwrite="true" /> 
-
-
+	
 		<echo level="info">
 
             Building the upload applet used for file uploads...
