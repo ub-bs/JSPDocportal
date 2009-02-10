@@ -79,7 +79,7 @@
 				</c:choose>
         	   </td>
         	   <td> 
-        	      [ <code> <c:out value="${fmtnumDocs}" />  </code>  <fmt:message key="Webpage.browse.doc" />]
+        	     <%-- [ <code> <c:out value="${fmtnumDocs}" />  </code>  <fmt:message key="Webpage.browse.doc" />] --%>
         	   </td>
         	   <td>
 				<c:choose>
