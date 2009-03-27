@@ -26,6 +26,7 @@ package org.mycore.frontend.workflowengine.jbpm;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
@@ -196,11 +197,12 @@ public class MCRWorkflowUtils {
 
 	
 	public static Map getAccessRulesMap(String objid) {
-		List liPerms = AI.getPermissionsForID(objid);        
+		Iterator<String> it = AI.getPermissionsForID(objid).iterator();        
         Map<String, Element> htRules = new Hashtable<String, Element>();
-        for (int  i = 0; i< liPerms.size(); i++) {
-        	Element eRule = AI.getRule( objid,(String)liPerms.get(i));
-        	htRules.put((String)liPerms.get(i), eRule);
+        while(it.hasNext()){
+        	String s = it.next();
+           	Element eRule = AI.getRule( objid, s);
+        	htRules.put(s, eRule);
         }
         return htRules;
 	}	

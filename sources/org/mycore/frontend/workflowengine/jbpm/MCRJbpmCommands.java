@@ -27,6 +27,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -178,10 +180,11 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
                  
             	 
 //               add ACL's
-                 List l = ACCESS_IMPL.getPermissionsForID(id.toString());
-                 for (int i = 0; i < l.size(); i++) {
-                     Element rule = ACCESS_IMPL.getRule(id.toString(), (String) l.get(i));
-                     mcrObj.getService().addRule((String) l.get(i), rule);
+                 Iterator<String> it = MCRAccessManager.getAccessImpl().getPermissionsForID(id.toString()).iterator();
+                 while(it.hasNext()){
+                	 String s = it.next();
+                     Element rule = ACCESS_IMPL.getRule(id.toString(), s);
+                     mcrObj.getService().addRule(s, rule);
                  }
                  // build JDOM
                  Document xml = mcrObj.createXML();
@@ -295,10 +298,11 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
         	    }
         	    	 
 //               add ACL's
-                 List l = ACCESS_IMPL.getPermissionsForID(id.toString());
-                 for (int i = 0; i < l.size(); i++) {
-                     Element rule = ACCESS_IMPL.getRule(id.toString(), (String) l.get(i));
-                     mcrObj.getService().addRule((String) l.get(i), rule);
+        	    Iterator<String> it = ACCESS_IMPL.getPermissionsForID(id.toString()).iterator();
+                while(it.hasNext()){
+                	 String s = it.next();
+                     Element rule = ACCESS_IMPL.getRule(id.toString(), s);
+                     mcrObj.getService().addRule(s, rule);
                  }               
         	}
         	catch(MCRActiveLinkException ale){

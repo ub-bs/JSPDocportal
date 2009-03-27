@@ -166,7 +166,7 @@ public class MCRJSPSearchServlet extends MCRSearchServlet {
         LOGGER.debug("MCRJSPSearchServlet total query time: " + qtime);
 
         // Store query and results in cache
-        new MCRCachedQueryData( result, clonedQuery, cond );
+        MCRCachedQueryData.cache(result, clonedQuery, cond );
         
         String npp = query.getRootElement().getAttributeValue("numPerPage", "0");
        

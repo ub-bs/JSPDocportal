@@ -35,6 +35,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.mycore.access.MCRAccessInterface;
+import org.mycore.access.MCRAccessManager;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.frontend.editor.MCRRequestParameters;
 import org.mycore.frontend.servlets.MCRServlet;
@@ -53,10 +55,12 @@ import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager
 public class MCRWorkflowActions extends MCRServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger LOGGER = Logger.getLogger(MCRWorkflowActions.class);
+	private static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
 
 	/**
      * This method overrides doGetPost of MCRServlet. <br />
      */
+	
     public void doGetPost(MCRServletJob job) throws Exception {
     	   	
     	HttpServletRequest request = job.getRequest();

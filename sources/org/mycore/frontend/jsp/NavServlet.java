@@ -5,6 +5,7 @@ import org.jdom.filter.ElementFilter;
 import org.jdom.xpath.XPath;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
+import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletContext;
 import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -252,7 +254,8 @@ public class NavServlet extends MCRServlet
 	 */
 	public static boolean createNonExistingAdminPermissions() {
 		try{
-			List savedPermissions = AI.getPermissions();
+			MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
+			Collection<String> savedPermissions = AI.getPermissions();
 			String permissions = MCRConfiguration.instance().getString("MCR.AccessAdminInterfacePermissions","admininterface-access,admininterface-user,admininterface-accessrules");
 			for (Iterator it = Arrays.asList(permissions.split(",")).iterator(); it.hasNext();) {
 				String permission = ((String) it.next()).trim().toLowerCase();

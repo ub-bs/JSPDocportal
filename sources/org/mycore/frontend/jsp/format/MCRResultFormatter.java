@@ -27,6 +27,7 @@ import org.jdom.input.SAXBuilder;
 import org.jdom.xpath.XPath;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
+import org.mycore.common.MCRConstants;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRUsageException;
 import org.mycore.common.xml.MCRURIResolver;
@@ -950,7 +951,7 @@ public class MCRResultFormatter {
 		mcr_results.setAttribute("resultlist-hitsize", numHits);
 		// int max = Math.min(until,Integer.parseInt(numHits));
 		// the resultset contains only the hits from page x from 0 to numPerPage - cutting is taken in MCRJSPSearchservlet
-		List hits = results.getChildren("hit",MCRFieldDef.mcrns);		
+		List hits = results.getChildren("hit",MCRConstants.MCR_NAMESPACE);		
 		//needed for calculation of the proper offset
 		int firstItemNumber;
 		try{

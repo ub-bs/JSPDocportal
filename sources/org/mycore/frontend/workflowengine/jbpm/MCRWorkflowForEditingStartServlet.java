@@ -28,6 +28,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.mycore.access.MCRAccessInterface;
+import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.datamodel.metadata.MCRObject;
@@ -48,6 +50,7 @@ import org.mycore.frontend.servlets.MCRServletJob;
 public class MCRWorkflowForEditingStartServlet extends MCRServlet {
 	protected static Logger logger = Logger.getLogger(MCRWorkflowForEditingStartServlet.class);
 	private static final long serialVersionUID = 1L;
+	private static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
     private String mcrid;
     
 	/**

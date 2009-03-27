@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.datamodel.metadata.MCRObjectID;
@@ -99,7 +100,7 @@ public class MCRCheckDerivateServlet extends MCRServlet {
 			return;
 		}
 
-		if (!AI.checkPermission(derid, "writedb" )) {
+		if (!MCRAccessManager.getAccessImpl().checkPermission(derid, "writedb" )) {
 			request.setAttribute("messageKey", "WorkflowEngine.PrivilegesError");
 			request.setAttribute("lang", lang);
 			request.getRequestDispatcher("/nav?path=~mycore-error").forward(request,response);
