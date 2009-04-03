@@ -55,7 +55,8 @@ public class MCRSetClassBrowserTreeTag extends SimpleTagSupport
 		    Document doc = mcrSession.BData.createXmlTree(lang);
 		    
    			domDoc = new DOMOutputter().output(doc);
-   	   		if(pageContext.getAttribute("debug") != null && pageContext.getAttribute("debug").equals("true")) {
+   	   		if((pageContext.getAttribute("debug") != null && pageContext.getAttribute("debug").equals("true")) ||
+   	   	       (pageContext.getRequest().getParameter("debug") != null && pageContext.getRequest().getParameter("debug").equals("true"))){
    	   			JspWriter out = pageContext.getOut();
    	   			StringBuffer debugSB = new StringBuffer("<textarea cols=\"80\" rows=\"30\">")
    	   				.append("found this result container:\r\n")
