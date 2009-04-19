@@ -531,6 +531,8 @@
 				<exclude name="**/.svn/**/*.*" />
 				<exclude name="**/web.xml" />
 			</fileset>
+			<fileset dir="${application}/tests" />
+
 		</copy>
 		<copy todir="${build.webapps}/${MYAPPLICATION_NAME}/content/webcontent">
 			<fileset dir="${application.languages}/webcontent" />
@@ -589,9 +591,9 @@
 			<fileset dir="${build.config}" includes="ehcache.xml hibernate.cfg.xml mycore.properties" />
 		</copy>
 		
-		<copy todir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes/mappings" overwrite="true">
+		<!--<copy todir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes/mappings" overwrite="true">
 			<fileset dir="${application.config}/hibernate/mappings" />
-		</copy>
+		</copy> -->
 
 
 		<echo level="info"> Concat messagebundles to one messages_{locale}.properties</echo>
