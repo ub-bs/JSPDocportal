@@ -218,9 +218,9 @@
     <cell col="1" row="1" anchor="NORTHWEST" >
       <space width="80" height="0" />
     </cell>
-    <cell col="2" row="1" anchor="NORTHWEST" ref="TFzeile128" var="metadata/urls/url/@title" sortnr="10" />
+    <cell col="2" row="1" anchor="NORTHWEST" ref="TFzeile128" var="metadata/urls/url/@xlink:title" sortnr="10" />
     <cell col="3" row="1" anchor="NORTHWEST" ref="AURLTitle" />
-    <cell col="2" row="2" anchor="NORTHWEST" ref="TFzeile128" var="metadata/urls/url/@href" ordernr="10" />
+    <cell col="2" row="2" anchor="NORTHWEST" ref="TFzeile128" var="metadata/urls/url/@xlink:href" ordernr="10" />
     <cell col="3" row="2" anchor="NORTHWEST" ref="AURLReference" />
   </panel>
 
@@ -267,9 +267,9 @@
     <cell col="1" row="1" anchor="NORTHWEST" >
       <space width="80" height="0" />
     </cell>
-    <cell col="2" row="1" anchor="NORTHWEST" ref="TFzeile128" var="metadata/references/reference/@title" sortnr="12" />
+    <cell col="2" row="1" anchor="NORTHWEST" ref="TFzeile128" var="metadata/references/reference/@xlink:title" sortnr="12" />
     <cell col="3" row="1" anchor="NORTHWEST" ref="AURLTitle" />
-    <cell col="2" row="2" anchor="NORTHWEST" ref="TFzeile128" var="metadata/references/reference/@href" sortnr="12" />
+    <cell col="2" row="2" anchor="NORTHWEST" ref="TFzeile128" var="metadata/references/reference/@xlink:href" sortnr="12" />
     <cell col="3" row="2" anchor="NORTHWEST" ref="AURLReference" />
   </panel>
 

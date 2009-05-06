@@ -154,9 +154,9 @@
     <cell col="1" row="1" anchor="NORTHWEST" >
       <space width="80" height="0" />
     </cell>
-    <cell col="2" row="1" anchor="NORTHWEST" ref="TFzeile128" var="metadata/urls/url/@title"  />
+    <cell col="2" row="1" anchor="NORTHWEST" ref="TFzeile128" var="metadata/urls/url/@xlink:title"  />
     <cell col="3" row="1" anchor="NORTHWEST" ref="AURLTitle" />
-    <cell col="2" row="2" anchor="NORTHWEST" ref="TFzeile128" var="metadata/urls/url/@href"  />
+    <cell col="2" row="2" anchor="NORTHWEST" ref="TFzeile128" var="metadata/urls/url/@xlink:href"  />
     <cell col="3" row="2" anchor="NORTHWEST" ref="AURLReference" />
   </panel>
 

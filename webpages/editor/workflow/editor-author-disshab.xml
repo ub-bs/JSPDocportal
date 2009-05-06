@@ -110,13 +110,13 @@
         
           <panel lines="off">
             <hidden var="@inherited" default="0"  />
-            <hidden var="@type" default="locator" />
-            <hidden var="@title" default="Person" />
-            <hidden var="@href" default="" />
+            <hidden var="@xlink:type" default="locator" />
+            <hidden var="@xlink:title" default="Person" />
+            <hidden var="@xlink:href" default="" />
             <cell row="1" col="1" width="100%">
-            <output var="@title" />
+            <output var="@xlink:title" />
 	        <text label=" (" />
-	         <output var="@href" />
+	         <output var="@xlink:href" />
 	        <text label=")" />
               <text label="&#160;&#160;&#160;" />
             </cell>
@@ -146,9 +146,7 @@
 				<!--  <hidden var="@classid" default="DocPortal_class_00000009" />  -->
 				 <hidden var="@categid" />
 				 <cell row="1" col="1" width="100%">
-			       <output var="@title" default="DDC Klassifikation"/> <text label=" (" /><output var="@categid" default=" " /><text label=")" />
-		           <text   label=" " />
-				   <output var="@href" />
+			       <output var="@type" default="DDC Klassifikation"/> <text label=" (" /><output var="@categid" default=" " /><text label=")" />
 				 </cell>
 				 <cell row="1" col="2">
 				   <subselect label="Auswählen" id="sub.select2" type="webpage" href="nav?path=~browse_subDDC" />

@@ -191,11 +191,11 @@
         <repeater min="1" max="5">
           <panel lines="off">
             <hidden var="@inherited" default="0"  />
-            <hidden var="@type" default="locator"  />
-            <hidden var="@title" default="Person/Körperschaft" />
-            <hidden var="@href" default="" />
+            <hidden var="@xlink:type" default="locator"  />
+            <hidden var="@xlink:title" default="Person/Körperschaft" />
+            <hidden var="@xlink:href" default="" />
             <cell row="1" col="1" width="100%">
-              <output var="@title" default=" Name " />
+              <output var="@xlink:title" default=" Name " />
               <text label="&#160;&#160;&#160;" />
             </cell>
             <cell row="1" col="2">
@@ -228,11 +228,11 @@
         <repeater min="1" max="25">
           <panel lines="off">
             <hidden var="@inherited" default="0"  />
-            <hidden var="@type" default="locator"  />
-            <hidden var="@title" default="Einheit" />
-            <hidden var="@href" default="" />
+            <hidden var="@xlink:type" default="locator"  />
+            <hidden var="@xlink:title" default="Einheit" />
+            <hidden var="@xlink:href" default="" />
             <cell row="1" col="1" width="100%">
-              <output var="@title" default=" Einheit " />
+              <output var="@xlink:title" default=" Einheit " />
               <text label="&#160;&#160;&#160;" />
             </cell>
            </panel>

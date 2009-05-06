@@ -128,13 +128,13 @@
         
           <panel lines="off">
             <hidden var="@inherited" default="0" />
-            <hidden var="@type" default="locator" />
-            <hidden var="@title" default="Person" />
-            <hidden var="@href" default="" />
+            <hidden var="@xlink:type" default="locator" />
+            <hidden var="@xlink:title" default="Person" />
+            <hidden var="@xlink:href" default="" />
             <cell row="1" col="1" width="100%">
-            <output var="@title" />
+            <output var="@xlink:title" />
 	        <text label=" (" />
-	         <output var="@href" />
+	         <output var="@xlink:href" />
 	        <text label=")" />
               <text label="&#160;&#160;&#160;" />
             </cell>
@@ -155,15 +155,12 @@
 		   <repeater min="1" max="5" >  
 				<panel lines="off">
 				 <hidden var="@inherited" default="0" />
-				 <hidden var="@type" default="locator" />
 			     <!-- configure this in mycore.properties  -->
 			     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=@classid&amp;prop=MCR.ClassificationID.DDC&amp;defaultValue=DocPortal_class_00000009" />				 
 				<!--  <hidden var="@classid" default="DocPortal_class_00000009" />  -->
 				 <hidden var="@categid" />
 				 <cell row="1" col="1" width="100%">
-			       <output var="@title" default="DDC Klassifikation"/> <text label=" (" /><output var="@categid" default=" " /><text label=")" />
-		           <text   label=" " />
-				   <output var="@href" />
+			       <output var="@type" default="DDC Klassifikation"/> <text label=" (" /><output var="@categid" default=" " /><text label=")" />
 				 </cell>
 				 <cell row="1" col="2">
 				   <subselect label="Auswählen" id="sub.select2" type="webpage" href="nav?path=~browse_subDDC" />
@@ -450,14 +447,11 @@
          <repeater min="1" max="5" >  
           <panel lines="off">
             <hidden var="@inherited" default="0" />
-            <hidden var="@type" default="locator" />
             <!-- configure this in mycore.properties  -->
-           <!-- <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=@classid&amp;prop=MCR.ClassificationID.Bkl&amp;defaultValue=DocPortal_class_00000020" /> -->        
+            <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=@classid&amp;prop=MCR.ClassificationID.Bkl&amp;defaultValue=DocPortal_class_00000020" />        
             <hidden var="@categid" />
             <cell row="1" col="1" width="100%">
-               <output var="@title" default="Basisklassifikation"/> <text label=" (" /><output var="@categid" default=" " /><text label=")" />
-               <text   label=" " />
-               <output var="@href" />
+               <output var="@type" default="Basisklassifikation"/> <text label=" (" /><output var="@categid" default=" " /><text label=")" />
             </cell>
             <cell row="1" col="2">
              <subselect label="Auswählen" id="sub.select5" type="webpage" href="nav?path=~browse_subBKL" />
