@@ -26,6 +26,7 @@ package org.mycore.frontend.jsp.taglibs.classbrowser;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -282,7 +283,7 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 		while(paramNames.hasMoreElements()){
 			String s = paramNames.nextElement().toString();
 			if(!s.equals("cbpath")){
-				url.append(s).append("=").append(request.getParameter(s)).append("&");
+				url.append(s).append("=").append(URLEncoder.encode(request.getParameter(s), Charset.defaultCharset().name())).append("&");
 			}
 		}
 		
@@ -314,7 +315,7 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 			hasLinkMap.putAll(CATEGLINKSERVICE.hasLinks(rootCateg));
 		}
 		
-		out.write("\n<ul style=\"list-style-type: none;\">\n");
+		out.write("\n<ul style=\"list-style-type: none\">\n");
 		for (MCRCategory categ:categories){
 			outputCategory(categ, MCRServlet.getBaseURL(), url.toString(),0);
 		}
@@ -394,7 +395,7 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 			out.write(indent+"   </table>\n");
 			if((expand || opened) && hasChildren){
 				if(curLevel+1<level){
-					out.write(indent+"   <ul style=\"list-style-type: none;\">\n");
+					out.write(indent+"   <ul style=\"list-style-type:none; margin:0px; padding-top:0px;padding-bottom:0px\">\n");
 			for(MCRCategory c: categ.getChildren()){
 				outputCategory(c, baseURL, cbURL, curLevel+1);
 			}
@@ -481,9 +482,9 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 				url.append("?_action=end.subselect");
 				url.append("&subselect.session="+request.getParameter("XSL.subselect.session.SESSION"));
 				url.append("&subselect.varpath="+request.getParameter("XSL.subselect.varpath.SESSION"));
-				url.append("&subselect.webpage="+URLEncoder.encode(request.getParameter("XSL.subselect.webpage.SESSION"), "UTF-8"));
+				url.append("&subselect.webpage="+URLEncoder.encode(request.getParameter("XSL.subselect.webpage.SESSION"), Charset.defaultCharset().name()));
 				url.append("&_var_@categid="+categ.getId().getID());
-				url.append("&_var_@title="+URLEncoder.encode(categ.getCurrentLabel().getText(), "UTF-8"));
+				url.append("&_var_@type="+URLEncoder.encode(categ.getCurrentLabel().getText(), Charset.defaultCharset().name()));
 				
 			}
 			else{

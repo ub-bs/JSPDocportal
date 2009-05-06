@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mycoreclass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="MCRClassification.xsd" 
-   ID="DocPortal_class_0020">
+   ID="DocPortal_class_00000020">
   <label xml:lang="de" text="Basisklassifikation" description="Hauptklassen der Basisklassifikation Übersicht" />
   <categories>
 

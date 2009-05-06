@@ -42,13 +42,13 @@
             <attribute>
              	<description>the searchfield to be used in MyCoRe Query to retrieve the relevant documents</description>
                 <name>searchfield</name>
-                <required>true</required>
+                <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>       
             <attribute>
                 <description>the searchmask to display the query result for relevant documents</description>
                 <name>searchmask</name>
-                <required>true</required>
+                <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
@@ -94,7 +94,7 @@
             </attribute>
             <attribute>
                 <description>Shall links for all (including empty) items be generated? Default value is false.</description>
-             	<name>expand</name>
+             	<name>linkall</name>
                 <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
                 <type>java.lang.Boolean</type>
