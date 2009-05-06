@@ -45,8 +45,7 @@
     String ServletsBaseURL = WebApplicationBaseURL+"servlets/";
     Document pageContent = id.getXMLContent();   
     
-    // 
-    System.out.println(    org.mycore.common.JSPUtils.getPrettyString(pageContent)) ;
+    //System.out.println(    org.mycore.common.JSPUtils.getPrettyString(pageContent)) ;
     
     
     byte[] xml = MCRUtils.getByteArray(pageContent);
