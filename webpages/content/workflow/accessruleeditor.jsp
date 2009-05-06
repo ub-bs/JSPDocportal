@@ -27,16 +27,17 @@
 	<c:if test="${empty(rule)}">
 	    <mcr:getAccessRulesTag var="rule" step="getCurrentRule" mcrid="${mcrid}" processid="${processid}" />
 	</c:if>
-	
-	<mcr:receiveMcrObjAsJdom var="mycoreobject" mcrid="${mcrid}" fromWForDB="workflow" />
+	<fmt:message key="WF.AcessRuleEditor.headline" />:
+	<c:catch var="e1">
+		<mcr:receiveMcrObjAsJdom var="mycoreobject" mcrid="${mcrid}" fromWForDB="workflow" />
+	</c:catch>
+	<c:if test="${e1==null}">
      <div class="headline">
-        <fmt:message key="WF.AcessRuleEditor.headline" />:
          <mcr:simpleXpath jdom="${mycoreobject}" xpath="/mycoreobject/metadata/titles/title[@xml:lang='${requestScope.lang}']" />
          <mcr:simpleXpath jdom="${mycoreobject}" xpath="/mycoreobject/metadata/names/name/fullname" />
 	     <mcr:simpleXpath jdom="${mycoreobject}" xpath="/user/@ID" />
      </div>
-
-
+     </c:if>
 	<form name="accessrules" action="${WebApplicationBaseURL}servlets/MCRWorkflowAccessRules" method="get">
 		<input type="hidden" name="path" value="~workflow-editaccess">
 		<input type="hidden" name="id" value="${mcrid}">

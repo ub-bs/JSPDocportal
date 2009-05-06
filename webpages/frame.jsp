@@ -45,13 +45,15 @@
 	<fmt:message var="pageTitle" key="Title.${path}" />
 	<title>
 		<c:choose>
-			<c:when test="${not empty param.id}">
+			<c:when test="${(not empty param.id) and (not fn:contains(param.path, '~workflow-editaccess'))}">
 				<c:set var="docType" value="${fn:substringBefore(fn:substringAfter(param.id, '_'),'_')}" />
 				<c:if test="${not empty docType}">
-				<jsp:include page="content/results-config/webpageitems/webpageitem-${docType}.jsp" >
-					<jsp:param name="pageFragment" value="pagetitle" />
-					<jsp:param name="mcrid" value="${param.id}" />
-				</jsp:include>
+				<c:catch var="e">
+					<jsp:include page="content/results-config/webpageitems/webpageitem-${docType}.jsp" >
+						<jsp:param name="pageFragment" value="pagetitle" />
+						<jsp:param name="mcrid" value="${param.id}" />
+					</jsp:include>
+				 </c:catch>
 				</c:if>
 			</c:when>
 			
