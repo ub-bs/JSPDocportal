@@ -37,6 +37,7 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 import org.apache.log4j.Logger;
+import org.apache.tools.ant.taskdefs.Sync.MyCopy;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.Namespace;
@@ -44,6 +45,7 @@ import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
+import org.mycore.common.MCRConstants;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.MCRUtils;
@@ -272,7 +274,13 @@ public class MCREditorOutValidator {
     
     private boolean checkMetaObjectWithLinks(Element datasubtag, Class metaClass) {
         String href = datasubtag.getAttributeValue("href");
+        if(href==null){
+        	href = datasubtag.getAttributeValue("href", MCRConstants.XLINK_NAMESPACE);
+        }
         String title = datasubtag.getAttributeValue("title");
+        if(title==null){
+        	title = datasubtag.getAttributeValue("title", MCRConstants.XLINK_NAMESPACE);
+        }
         if (href == null && title == null) {
             return false;
         }
@@ -356,6 +364,9 @@ public class MCREditorOutValidator {
      */
     private boolean checkMCRMetaLinkID(Element datasubtag) {
     	String href = datasubtag.getAttributeValue("href");
+    	if(href==null){
+    		href = datasubtag.getAttributeValue("href", MCRConstants.XLINK_NAMESPACE);
+    	}
     	if (href == null) {
              return false;
         }

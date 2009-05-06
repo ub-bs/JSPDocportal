@@ -206,7 +206,7 @@
         <img border="0" src="{$WebApplicationBaseURL}/images/folder_plain.gif"/>
       </td>
       <td class="td1" valign="top" style="padding-right:5px;">
-        <a href="{$url}&amp;_var_@href={./id}&amp;_var_@title={$titleEnc}">
+        <a href="{$url}&amp;_var_@xlink:href={./id}&amp;_var_@xlink:title={$titleEnc}">
           <xsl:value-of select="$title" />
         </a>
       </td>
