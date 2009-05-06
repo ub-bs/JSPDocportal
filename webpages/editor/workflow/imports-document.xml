@@ -10,6 +10,8 @@
       </cell> 
     </panel>
 
+	<helpHover id="HPublicationType" i18n="Editor.Help.HPublicationType" />
+
     <list id="CPublicationType01" type="dropdown" width="300px" disabled="false">
       <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getSpecialCategoriesInItems&amp;classProp=MCR.ClassificationID.Type&amp;categoryProp=MCR.Classification.Type.SelectCategoryIDs.publication01&amp;withCounter=false" />
     </list>
@@ -67,7 +69,7 @@
       <cell col="1" row="2" anchor="NORTHWEST" var="metadata/creators/creator"  >
         <repeater min="0" max="10" anchor="NORTHWEST" ref="DCreator_repeater"  />
       </cell>      
-      <cell col="2" row="2" anchor="NORTHWEST" ref="ACreator" />
+      <cell col="2" row="2" anchor="NORTHWEST" ref="ACreatorLinkTitle" />
     </panel>
 
     <!--  sortnr="3"  -->
@@ -78,11 +80,11 @@
         <repeater min="1" max="5">
           <panel lines="off">
             <hidden var="@inherited" default="0"  />
-            <hidden var="@type" default="locator"  />
-            <hidden var="@title" default="Person/Körperschaft" />
-            <hidden var="@href" default="" />
+            <hidden var="@xlink:type" default="locator"  />
+            <hidden var="@xlink:title" default="Person/Körperschaft" />
+            <hidden var="@xlink:href" default="" />
             <cell row="1" col="1" width="100%">
-              <output var="@title" default=" Name " />
+              <output var="@xlink:title" default=" Name " />
               <text label="&#160;&#160;&#160;" />
             </cell>
             <cell row="1" col="2">
@@ -376,7 +378,7 @@
       <!-- *** Data for the COVERAGE ** sortnr="20" -->    
       <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/coverages&amp;classname=MCRMetaLangText" />
       <hidden  var="metadata/coverages/coverage/@inherited" default="0" />
-      <cell col="1" row="1" anchor="WEST" ref="TFarea1024" var="metadata/coverages/coverage" />
+      <cell col="1" row="1" anchor="WEST" ref="TFarea1024x3" var="metadata/coverages/coverage" />
       <cell col="2" row="1" anchor="NORTHWEST" ref="Slang" var="metadata/coverages/coverage/@lang"  default="de" />      
     </panel>
     
@@ -384,7 +386,7 @@
       <!-- *** Data for the Relation ** sortnr="23" -->
       <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/relations&amp;classname=MCRMetaLangText" />
       <hidden  var="metadata/relations/relation/@inherited" default="0" />
-      <cell col="1" row="1" anchor="WEST" ref="TFarea1024" var="metadata/relations/relation" />
+      <cell col="1" row="1" anchor="WEST" ref="TFarea1024x3" var="metadata/relations/relation" />
       <cell col="2" row="1" anchor="NORTHWEST" ref="Slang" var="metadata/relations/relation/@lang"  default="de" />      
     </panel>
     
@@ -515,13 +517,12 @@
        <repeater min="1" max="5" >  
         <panel lines="off">
          <hidden var="@inherited" default="0" />
-         <hidden var="@type" default="locator" />
-           <!-- configure this in mycore.properties  -->
+         <!-- configure this in mycore.properties  -->
            <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=@classid&amp;prop=MCR.ClassificationID.DDC&amp;defaultValue=DocPortal_class_00000009" />        
-         <hidden var="@title" default="DDC" />
+         <hidden var="@type" default="DDC" />
            <hidden var="@categid" />
            <cell row="1" col="1" width="100%">
-             <output var="@title" default="DDC Klassifikation"/> <text label=" (" /><output var="@categid" default=" " /><text label=")" />
+             <output var="@type" default="DDC Klassifikation"/> <text label=" (" /><output var="@categid" default=" " /><text label=")" />
              <text   label=" " />
              <output var="@href" />
            </cell>
@@ -541,12 +542,11 @@
          <repeater min="1" max="5" >  
           <panel lines="off">
             <hidden var="@inherited" default="0" />
-            <hidden var="@type" default="locator" />
             <!-- configure this in mycore.properties  -->
             <!-- <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=@classid&amp;prop=MCR.ClassificationID.Bkl&amp;defaultValue=DocPortal_class_00000020" /> -->        
             <hidden var="@categid" />
             <cell row="1" col="1" width="100%">
-               <output var="@title" default="Basisklassifikation"/> <text label=" (" /><output var="@categid" default=" " /><text label=")" />
+               <output var="@type" default="Basisklassifikation"/> <text label=" (" /><output var="@categid" default=" " /><text label=")" />
                <text   label=" " />
                <output var="@href" />
             </cell>

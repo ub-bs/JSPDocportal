@@ -6,52 +6,50 @@
 <!--
  <target type="debug" />
 -->
- <source uri="{sourceUri}" />
- <cancel url="{cancelUrl}" />
- <target type="servlet" name="MCRPassToTargetServlet" method="post" format="xml" />
-  <validationMessage>
-      <label xml:lang="de">
-        Eingabefehler: Bitte korrigieren Sie die markierten Felder 
-      </label>              
-      <label xml:lang="en">
-        input error: Please correct the highlighted items
-      </label>                    
-  </validationMessage>
+ 	<source uri="{sourceUri}" />
+ 	<cancel url="{cancelUrl}" />
+ 	<target type="servlet" name="MCRPassToTargetServlet" method="post" format="xml" />
+  	<validationMessage>
+	 	<label i18n="Editor.Common.validationMessage" />
+	 </validationMessage>
+	 
+	 <components root="editor-derivate" var="/mycorederivate">
+	 	<headline anchor="CENTER">
+   			<text> <label i18n="Editor.derivate.label" /> </text>
+   		</headline>
+   		
+   		<panel id="editor-derivate">
+   			<cell col="1" row="1" anchor="NORTHWEST" ref="LLabel" />
+   			<cell col="2" row="1" anchor="NORTHWEST" ref="DLabel" />
+   			<cell col="3" row="1" anchor="NORTHWEST" >
+   				<space width="20" height="0" />
+   			</cell>
+   			<cell col="4" row="1" anchor="NORTHWEST" ref="HLabel" />
+   				 <cell col="1" row="3" />
+   			<cell col="2" row="3" anchor="EAST" ref="TwoButtons"  />
+   		</panel>
+   		
+   		<panel id="DLabel">
+   			<cell col="1" row="1" anchor="NORTHWEST" var="@label" ref="TFzeile1024M"/>    
+  		</panel>
+  		
+  		<text id="LLabel" i18n="Editor.Common.label" />
+  		
+  		<helpHover id="HLabel"  i18n="Editor.Help.ChangeDerivateLabel" />
+  		
+  		<panel id="TwoButtons">
+			<cell col="1" row="1" anchor="WEST" ref="BCancel" />
+			<cell col="2" row="1" anchor="WEST" ref="BSubmit" var="save" />
+		</panel>
+	
+		<submitButton id="BSubmit" width="100px" jsaction="return checkMyForm()">
+			<label i18n="Editor.Common.button.Submit" />
+		</submitButton>
 
- <components root="editor-derivate" var="/mycorederivate">
- 
-  <include uri="webapp:editor/workflow/imports-common.xml" />
-
-  <headline anchor="CENTER">
-   <text>    <label i18n="Editor.derivate.label" />   </text> 
-  </headline>
-  
-  <panel id="editor-derivate">
-    <cell col="1" row="1" anchor="NORTHWEST" ref="LLabel" />
-    <cell col="2" row="1" anchor="NORTHWEST" ref="DLabel" />
-    <cell col="3" row="1" anchor="NORTHWEST" >
-      <space width="20" height="0" />
-    </cell>
-    <cell col="4" row="1" anchor="NORTHWEST" ref="HLabel" />
-    <cell col="1" row="3" />
-    <cell col="2" row="3" anchor="EAST" ref="TwoButtons"  />  
-  </panel>
-
-  <panel id="DLabel">
-    <cell col="1" row="1" anchor="NORTHWEST" var="@label" ref="TFzeile1024M"/>    
-  </panel>
-
-  <text id="LLabel">
-    <label xml:lang="de">
-      <span class="editorlabel">&#160;&#160;&#160;Label&#160;&#160;&#160;</span>
-    </label>
-    <label xml:lang="en">
-      <span class="editorlabel">&#160;&#160;&#160;Label&#160;&#160;&#160;</span>
-    </label>
-  </text>
-
-  <helpHover id="HLabel"  i18n="Editor.Help.ChangeDerivateLabel" />
-
+		<cancelButton id="BCancel" width="100px">
+			<label i18n="Editor.Common.button.Cancel" />
+		</cancelButton>
+		
+		<textfield id="TFzeile1024M" width="60" maxlength="1024" class="mandatory" />
  </components>
 </editor>
-
