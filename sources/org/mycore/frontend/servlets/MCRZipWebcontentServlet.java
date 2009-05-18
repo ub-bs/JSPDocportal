@@ -75,7 +75,7 @@ public class MCRZipWebcontentServlet extends MCRServlet {
            
           	ArrayList<File> files = new ArrayList<File>();
            	collectAllFiles(webcontentDir, files);
-           	Iterator it = files.iterator();
+           	Iterator<?> it = files.iterator();
            	while(it.hasNext()){
            		File f = (File)it.next();
            	    FileInputStream in = new FileInputStream(f);
