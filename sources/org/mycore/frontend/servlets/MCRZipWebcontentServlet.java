@@ -40,6 +40,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
 
 /**
@@ -68,7 +69,7 @@ public class MCRZipWebcontentServlet extends MCRServlet {
         	SimpleDateFormat formatter = new SimpleDateFormat ("yyyyMMdd-HHmmss");
         	String zipfilename = "webcontent_"+formatter.format(new Date())+".zip";
           	ZipOutputStream out  = buildZipOutputStream(res, zipfilename);
-          	String foldername = "content/"+CONFIG.getString("MCR.WebContent.Folder");
+          	String foldername = "content/"+MCRConfiguration.instance().getString("MCR.WebContent.Folder");
     	   	File webcontentDir = new File(getServletContext().getRealPath(foldername));
           	int rootPathLength = webcontentDir.getParent().length(); 
            

@@ -36,6 +36,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.mycore.common.MCRConfiguration;
 
 /**
  * This Servlet overides only the output methods of mcrfilenodservlet for jsp docportal use 
@@ -77,7 +78,7 @@ public class MCRWFFileNodeServlet extends  MCRServlet{
         if (filename == null || type == null) {
         	getServletContext().getRequestDispatcher("/nav?path=~mycore-error&messageKey=IdNotGiven").forward(request,response);
         }
-        String basedir = CONFIG.getString("MCR.WorkflowEngine.EditDirectory." + type);
+        String basedir = MCRConfiguration.instance().getString("MCR.WorkflowEngine.EditDirectory." + type);
         File file = new File ( basedir + "/" + derivateID + "/" + filename );
         if ( file.exists() && file.canRead()) {
         	// 	 Set the headers.
