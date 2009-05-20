@@ -573,7 +573,7 @@
 			<fileset dir="${application.config}" includes="web.xml ibm*.xmi urlrewrite.xml server-config.wsdd" />
 		</copy>
 		<copy todir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/lib">
-			<fileset dir="${application.lib}" includes="*.jar" excludes="jsp-api*.jar" />
+			<fileset dir="${application.lib}" includes="*.jar" excludes="jsp-api*.jar servlet-api*,standalone-compiler*"/>
 			<!--<fileset dir="${MYCORE_HOME}/lib" includes="*.jar" excludes="servlet-api*,standalone-compiler*" />  -->
 			<fileset dir="${build.lib}" />
 		</copy>
@@ -613,12 +613,7 @@
             Building the upload applet used for file uploads...
         </echo>
 		<jar jarfile="${build.webapps}/${MYAPPLICATION_NAME}/applet/unsigned.jar">
-			<fileset dir="${MYCORE_HOME}/build/classes">
-				<include name="org/mycore/frontend/fileupload/MCRUploadAppl*.class" />
-				<include name="org/mycore/frontend/fileupload/MCRUploadComm*r.class" />
-				<include name="org/mycore/frontend/fileupload/MCRUploadExce*.class" />
-				<include name="org/mycore/frontend/fileupload/MCRUploadProg*.class" />
-			</fileset>
+			<fileset dir="${MYCORE_HOME}/build/upload-applet/classes" />
 		</jar>
 		<loadproperties srcFile="${build.config}/mycore.properties">
 			<filterchain>
