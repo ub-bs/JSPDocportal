@@ -564,10 +564,8 @@
             todir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes" />
         -->
 	
-	 	<mkdir dir="${build.webapps}/${MYAPPLICATION_NAME}/content/oai" />
-	
-		<copy file="${MYCORE_HOME}/xsl/oai2.xsl" todir="${build.webapps}/${MYAPPLICATION_NAME}/content/oai" />
-	
+		<mkdir dir="${build.webapps}/${MYAPPLICATION_NAME}/oai" />
+				<copy file="${MYCORE_HOME}/xsl/oai2.xsl" todir="${build.webapps}/${MYAPPLICATION_NAME}/oai" />	
 
 		<copy todir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF">
 			<fileset dir="${application.config}" includes="web.xml ibm*.xmi urlrewrite.xml server-config.wsdd" />
