@@ -35,6 +35,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.jbpm.context.exe.ContextInstance;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -263,12 +265,10 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 	
 	public boolean commitWorkflowObject(ContextInstance ctxI){
 		boolean bSuccess = false;
-		
 		try{
 			String documentID = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
 			String documentType = new MCRObjectID(documentID).getTypeId();
 			bSuccess = metadataStrategy.commitMetadataObject(documentID, MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType));
-			
 			List deletedDerIDs = Arrays.asList(((String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_DELETED_DERIVATES)).split(","));
 			for (Iterator it = deletedDerIDs.iterator(); it.hasNext();) {
 				String derivateID = (String) it.next();
@@ -285,7 +285,6 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 					}
 				}
 			}
-			
 			List derivateIDs = Arrays.asList(((String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES)).split(","));
 			for (Iterator it = derivateIDs.iterator(); it.hasNext();) {
 				String derivateID = (String) it.next();
