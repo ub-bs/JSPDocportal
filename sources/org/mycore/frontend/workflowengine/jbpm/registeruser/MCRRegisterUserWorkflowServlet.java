@@ -24,6 +24,7 @@
 package org.mycore.frontend.workflowengine.jbpm.registeruser;
 
 import java.io.File;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -285,7 +286,7 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
     public final Element setNewUserIDforUser(String newID, String userID, String fullname, String lang ) throws Exception {
     	 org.jdom.Element userElement = null;
          try {
-             org.jdom.Document doc = MCRXMLHelper.parseURI(fullname, false);
+             org.jdom.Document doc = MCRXMLHelper.parseURI(new File(fullname).toURI(), false);
              userElement = (Element) doc.getRootElement().getChild("user").clone();
              userElement.setAttribute("ID",newID);
              // delete OldFile

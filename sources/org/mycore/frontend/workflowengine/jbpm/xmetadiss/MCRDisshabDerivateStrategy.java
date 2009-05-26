@@ -36,7 +36,7 @@ public class MCRDisshabDerivateStrategy extends MCRDefaultDerivateStrategy {
 	boolean bUpdateDerivate=false;
 	
 	try {
-			der.setFromURI(dirname + ".xml");
+			der.setFromURI(new File(dirname + ".xml").toURI());
 		}catch(Exception ex){
 			String errMsg = "could not set derivate " + dirname + ".xml";
 			logger.error(errMsg, ex);

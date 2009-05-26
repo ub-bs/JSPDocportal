@@ -45,7 +45,7 @@ public class MCRReceiveMcrObjAsJdomTag extends SimpleTagSupport
 				String filename = savedir + "/" + mcrid + ".xml";			
 				File file = new File(filename);
 				if (file.isFile()) {
-					mcr_obj.setFromURI(file.getAbsolutePath());
+					mcr_obj.setFromURI(file.toURI());
 				}
 			} else {
 				mcr_obj.receiveFromDatastore(mcrid);

@@ -75,7 +75,7 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 			String path = pageContext.getServletContext().getRealPath(editorPath);
 			File editorFile = new File(path);
 			
-			Document xml = MCRXMLHelper.parseURI(editorFile.toURI().toString(), false);
+			Document xml = MCRXMLHelper.parseURI(editorFile.toURI(), false);
 			MCREditorServlet.replaceEditorElements((HttpServletRequest)pageContext.getRequest(), editorFile.toURI().toString(), xml);	
 			MCREditorServlet.getLayoutService().doLayout((HttpServletRequest)pageContext.getRequest(),(HttpServletResponse)pageContext.getResponse(), out, xml);
 		

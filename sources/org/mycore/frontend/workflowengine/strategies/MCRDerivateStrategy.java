@@ -213,7 +213,7 @@ public abstract class MCRDerivateStrategy {
 		protected final Element getDerivateMetaData( String filename){
 			Element derivateData = new Element("derivate");
 			try {
-				Element derivate = MCRXMLHelper.parseURI(filename, false).getRootElement();		
+				Element derivate = MCRXMLHelper.parseURI(new File(filename).toURI(), false).getRootElement();		
 				derivateData.setAttribute("label", derivate.getAttributeValue("label") );
 				derivateData.setAttribute("ID", derivate.getAttributeValue("ID") );
 				

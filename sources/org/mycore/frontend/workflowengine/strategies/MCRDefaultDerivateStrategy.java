@@ -38,8 +38,8 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 				// there exist no derivates
 				return true;
 			}
-			List attachedDerivates = Arrays.asList(sderids.split(","));
-			for (Iterator it = attachedDerivates.iterator(); it.hasNext();) {
+			List<?> attachedDerivates = Arrays.asList(sderids.split(","));
+			for (Iterator<?> it = attachedDerivates.iterator(); it.hasNext();) {
 				String derivateID = (String) it.next();
 				if ( derivateID != null && derivateID.length()> 0)
 					deleteDerivateObject(ctxI,saveDirectory, backupDirectory, null, derivateID, false);
@@ -183,7 +183,7 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 		}
 					
 		MCRDerivate der = new MCRDerivate();
-		der.setFromURI(dirname + ".xml");
+		der.setFromURI(new File(dirname + ".xml").toURI());
 		
 		if (der.getDerivate().getInternals().getMainDoc().equals("#####")) {
 			if ((mainfile.length() == 0) && (ffname.size() > 0)) {
