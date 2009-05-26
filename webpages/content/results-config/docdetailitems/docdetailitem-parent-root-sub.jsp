@@ -30,7 +30,7 @@
 		</c:if>
 		<tr>
    			<td class="metaname">
-   				<%out.write(MCRCategoryDAOFactory.getInstance().getCategory(new MCRCategoryID((String)pageContext.getAttribute("typeClassID"), (String)pageContext.getAttribute("type")), 0).getLabels().get((String)request.getAttribute("lang")).getText()); %>
+   				<%out.write(MCRCategoryDAOFactory.getInstance().getCategory(new MCRCategoryID((String)pageContext.getAttribute("typeClassID"), (String)pageContext.getAttribute("type")), 0).getLabel((String)request.getAttribute("lang")).getText()); %>
    			: </td>
    		<td class="metavalue">
 		  
