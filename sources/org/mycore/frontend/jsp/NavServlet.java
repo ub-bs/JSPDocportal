@@ -1,10 +1,18 @@
 package org.mycore.frontend.jsp;
 
+import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
 import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
 import org.jdom.xpath.XPath;
-import org.mycore.frontend.servlets.MCRServlet;
-import org.mycore.frontend.servlets.MCRServletJob;
 import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.JSPUtils;
@@ -12,17 +20,8 @@ import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRSession;
 import org.mycore.common.xml.MCRURIResolver;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.ServletContext;
-import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
-import org.apache.log4j.Logger;
+import org.mycore.frontend.servlets.MCRServlet;
+import org.mycore.frontend.servlets.MCRServletJob;
 
 public class NavServlet extends MCRServlet
 {
@@ -70,7 +69,7 @@ public class NavServlet extends MCRServlet
     	ServletContext context = getServletContext();
     	org.jdom.Element navigationEl = MCRURIResolver.instance().resolve("resource:navigation.xml");
     	int sysID = 0;
-    	for (Iterator it = navigationEl.getDescendants(new ElementFilter()); it.hasNext();) {
+    	for (Iterator<?> it = navigationEl.getDescendants(new ElementFilter()); it.hasNext();) {
 			Element navEl = (Element) it.next();
 			String path;
 			String extern = navEl.getAttributeValue("extern");
@@ -133,6 +132,7 @@ public class NavServlet extends MCRServlet
     	HttpServletRequest request = job.getRequest();
     	HttpServletResponse response = job.getResponse();
     	response.setCharacterEncoding("UTF-8");
+    	response.setContentType("text/html");
     	
     	ServletContext context = this.getServletContext();
     	if ((baseURL == null) || baseURL.equals("") || (navJdom == null) || (navDom == null))  {
@@ -257,7 +257,7 @@ public class NavServlet extends MCRServlet
 			MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
 			Collection<String> savedPermissions = AI.getPermissions();
 			String permissions = MCRConfiguration.instance().getString("MCR.AccessAdminInterfacePermissions","admininterface-access,admininterface-user,admininterface-accessrules");
-			for (Iterator it = Arrays.asList(permissions.split(",")).iterator(); it.hasNext();) {
+			for (Iterator<?> it = Arrays.asList(permissions.split(",")).iterator(); it.hasNext();) {
 				String permission = ((String) it.next()).trim().toLowerCase();
 				if(!permission.equals("") && !savedPermissions.contains(permission)) {
 					AI.addRule(permission, MCRAccessManager.getFalseRule(), "");

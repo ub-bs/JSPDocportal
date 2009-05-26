@@ -23,7 +23,7 @@ public class DebugServlet extends HttpServlet
         out.write("<h2>Servlet Path:</h2>");
         out.write(request.getServletPath());
 
-        Enumeration e = request.getParameterNames();
+        Enumeration<?> e = request.getParameterNames();
         out.write("<h2>Parameters:</h2>");
         while(e.hasMoreElements()) {
             String key = (String)e.nextElement();
