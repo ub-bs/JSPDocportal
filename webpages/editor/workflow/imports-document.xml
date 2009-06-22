@@ -88,7 +88,7 @@
               <text label="&#160;&#160;&#160;" />
             </cell>
             <cell row="1" col="2">
-              <subselect i18n="Editor.Common.indexcreators" id="sub.select1" type="webpage" href="nav?path=~indexSearchCreatorsSub"  />
+              <subselect i18n="Editor.Common.indexcreators" id="sub.select1" type="webpage" href="nav?path=~searchstart-index_creators_sub"  />
             </cell>
           </panel>
         </repeater>
@@ -144,7 +144,7 @@
               <text label="&#160;&#160;&#160;" />
             </cell>
             <cell row="1" col="2">
-              <subselect id="sub.select2" type="webpage" href="nav?path=~indexSearchCreatorsSub"  i18n="Editor.Common.indexcreators" />
+              <subselect id="sub.select2" type="webpage" href="nav?path=~searchstart-index_creators_sub"  i18n="Editor.Common.indexcreators" />
             </cell>
           </panel>
         </repeater>
@@ -181,7 +181,7 @@
               <text label="&#160;&#160;&#160;" />
             </cell>
             <cell row="1" col="2">
-              <subselect i18n="Editor.Common.indexcreators" id="sub.select3" type="webpage" href="nav?path=~indexSearchCreatorsSub"  />
+              <subselect i18n="Editor.Common.indexcreators" id="sub.select3" type="webpage" href="nav?path=~searchstart-index_creators_sub"  />
             </cell>
              <cell row="1" col="3" anchor="WEST" ref="TFzeile32" var="@label" />            
          	<cell row="1" col="4">
@@ -581,7 +581,7 @@
               <text label="&#160;&#160;&#160;" />
             </cell>
             <cell row="1" col="2">
-              <subselect i18n="Editor.Common.indexcreators" id="parent.select" type="webpage" href="nav?path=~indexSearchSeriesSub"  />
+              <subselect i18n="Editor.Common.indexcreators" id="parent.select" type="webpage" href="nav?path=~searchstart-index_series_sub"  />
             </cell>
           </panel>
         </repeater>

@@ -66,7 +66,7 @@
     <cell col="1" row="70"  colspan="2" anchor="WEST" ><hr/> </cell>
     
     <cell col="1" row="71" anchor="NORTHWEST" ref="LPublishingTime_S" />
-    <cell col="2" row="71" anchor="NORTHEAST" ref="PublishingYear" />
+    <cell col="2" row="71" anchor="NORTHEAST" ref="HPublishingYear" />
     <cell col="1" row="72" colspan="2" anchor="NORTHWEST" ref="DDate_From_To" sortnr="21"/>
     
     <cell col="1" row="81" anchor="NORTHWEST" ref="LLanguageP" />
@@ -199,7 +199,7 @@
               <text label="&#160;&#160;&#160;" />
             </cell>
             <cell row="1" col="2">
-               <subselect i18n="Editor.Common.indexcreators" id="sub.select1" type="webpage" href="nav?path=~indexSearchCreatorsSub"  /> 
+               <subselect i18n="Editor.Common.indexcreators" id="series.sub.select1" type="webpage" href="nav?path=~searchstart-index_creators_sub"  /> 
             </cell>
             <cell row="1" col="3" anchor="NORTHWEST" var="@label" ref="listTypeOfParticipation" />
           </panel>
@@ -241,20 +241,7 @@
   </panel>
   
   
-<!-- ** Data for the FORMAT *** -->
-
-  <panel id="DFormat">
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/formats&amp;classname=MCRMetaClassification&amp;textsearch=false" />
-    <hidden var="metadata/formats/format/@inherited" default="0" />
-	<!-- configure this in mycore.properties  -->
-	<include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.formats.format.@classid&amp;prop=MCR.ClassificationID.Format&amp;defaultValue=DocPortal_class_00000006" />				 
-	<include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.formats.format.@categid&amp;prop=MCR.Classification.Format.DefaultCategoryID.xmetadiss&amp;defaultValue=FORMAT0001" />				 
-    <!--  <hidden var="@classid" default="DocPortal_class_00000009" />  -->
-    <cell col="1" row="1" anchor="WEST" />
-  </panel>
-
-
-   <panel id="DTitle_NB">
+  <panel id="DTitle_NB">
     <hidden var="metadata/titles/@class" default="MCRMetaLangText" />
     <hidden var="metadata/titles/@notinherit" default="false" />
     <hidden var="metadata/titles/@heritable" default="true" />

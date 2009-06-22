@@ -121,7 +121,7 @@
               <text label="&#160;&#160;&#160;" />
             </cell>
             <cell row="1" col="2">
-              <subselect i18n="Editor.Common.indexcreators" id="sub.select1" type="webpage" href="nav?path=~indexSearchCreatorsSub" />
+              <subselect i18n="Editor.Common.indexcreators" id="sub.select1" type="webpage" href="nav?path=~searchstart-index_creators_sub" />
             </cell>
           </panel>
   
