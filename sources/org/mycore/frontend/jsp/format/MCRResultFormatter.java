@@ -43,7 +43,6 @@ import org.mycore.datamodel.metadata.MCRMetaISO8601Date;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.jsp.NavServlet;
-import org.mycore.services.fieldquery.MCRFieldDef;
 
 /**
  * @author Heiko Helmbrecht
@@ -266,7 +265,9 @@ public class MCRResultFormatter {
 				} else if (obj instanceof org.jdom.Attribute) {
 					org.jdom.Attribute at = (org.jdom.Attribute) obj;
 					text = at.getValue();
-				}
+				} else{
+					text = obj.toString();
+				} 
 				
 				int max = CONFIG.getInt("MCR.Searchresults.description.maxlength", 250);
 				if ( terminator.contains("...") & text.length() > max){
