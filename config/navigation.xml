@@ -25,8 +25,7 @@
           </navitem>
         </navitem>
         <navitem name="persons" label="Nav.PersonSearch" href="content/indexSearch.jspx?searchclass=creators">
-          <refitem name="~indexSearchCreators" label="" />
-          <refitem name="~searchstart-indexcreators" label="" />
+          <refitem name="~searchstart-index_creators" label="" />
           <navitem name="documents" label="Nav.PersonsDocuments" href="content/searchresult.jsp" hidden="true">
             <refitem name="~searchresult-indexcreators" label="" />
             <navitem name="docdetail" label="Nav.DocumentDetails" href="content/docdetails.jsp" hidden="true" />              
@@ -34,8 +33,7 @@
           <navitem name="docdetail" label="Nav.DocumentDetails" href="content/docdetails.jsp" hidden="true" />              
         </navitem>
         <navitem name="institution" label="Nav.InstitutionSearch" href="content/indexSearch.jspx?searchclass=institutions">
-          <refitem name="~indexSearchInstitutions" label="" />
-          <refitem name="~searchstart-indexinstitutions" label="" />
+          <refitem name="~searchstart-index_institutions" label="" />
           <navitem name="documents" label="Nav.PersonsDocuments" href="content/searchresult.jsp" hidden="true">
             <refitem name="~searchresult-indexinstitutions" label="" />
           </navitem>

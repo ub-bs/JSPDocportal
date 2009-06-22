@@ -3,6 +3,7 @@
 <!-- ============================================== -->
 <!-- $Revision: 1.3 $ $Date: 2006-11-06 14:36:54 $ -->
 <!-- ============================================== -->
+<!-- DEPRECATED - no longer needed for new index browser -->
 
 <xsl:stylesheet
   version="1.0"

@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr"%>
-<%@ taglib uri="http://www.mycore.de/jspdocportal/classificationbrowser" prefix="mcrcb" %>
+<%@ taglib uri="http://www.mycore.de/jspdocportal/browsing" prefix="mcrcb" %>
 
 <fmt:setBundle basename="messages" />
 <div class="headline"><fmt:message key="Webpage.browse.generalTitle" /></div>

@@ -21,7 +21,7 @@
  * 59 Temple Place - Suite 330, Boston, MA  02111-1307 USA
  *
  **/
-package org.mycore.frontend.jsp.taglibs.classbrowser;
+package org.mycore.frontend.jsp.taglibs.browsing;
 
 import java.io.IOException;
 import java.net.URI;

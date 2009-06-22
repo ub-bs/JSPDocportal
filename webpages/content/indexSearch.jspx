@@ -4,8 +4,8 @@
        xmlns:x="http://java.sun.com/jsp/jstl/xml"
        xmlns:fn="http://java.sun.com/jsp/jstl/function"
 >
-<jsp:directive.page import="org.apache.jasper.runtime.HttpJspBase"/>
-<jsp:directive.page import="org.mycore.frontend.indexbrowser.MCRIndexBrowserData" /> 
+<jsp:directive.page import="org.mycore.frontend.indexbrowser.lucene.MCRIndexBrowserXmlGenerator"/>
+<jsp:directive.page import="org.mycore.frontend.indexbrowser.lucene.MCRIndexBrowserIncomingData"/>
 <jsp:directive.page import="org.mycore.common.MCRUtils" />   
 <jsp:directive.page import="org.mycore.common.MCRSession" />
 <jsp:directive.page import="org.mycore.frontend.servlets.MCRServlet" />
@@ -31,8 +31,8 @@
     String navPath = (String) request.getAttribute("path");
     
         
-    MCRIndexBrowserData id = new MCRIndexBrowserData(search, mode, searchclass, fromTo, navPath);
-    Document jQuery =  id.getQuery();
+    MCRIndexBrowserIncomingData id = new MCRIndexBrowserIncomingData(search, mode, searchclass, fromTo, navPath);
+    //Document jQuery =  id.getQuery();
     MCRResults mcrResult =  id.getResultList();
 
     mcrsession.put(navPath + "-jdomQuery", jQuery);
@@ -43,7 +43,7 @@
 	String WebApplicationBaseURL = (String) getServletContext().getAttribute("WebApplicationBaseURL");
 	
     String ServletsBaseURL = WebApplicationBaseURL+"servlets/";
-    Document pageContent = id.getXMLContent();   
+    Document pageContent = new MCRIndexBrowserXmlGenerator(id.getXMLContent();   
     
     //System.out.println(    org.mycore.common.JSPUtils.getPrettyString(pageContent)) ;
     

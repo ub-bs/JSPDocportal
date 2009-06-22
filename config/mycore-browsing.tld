@@ -5,13 +5,13 @@
 	                       http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
 	   version="2.0">
 	<tlib-version>1.0</tlib-version>
-	<short-name>mycore-classificationbrowser-taglib</short-name>
-	<uri>http://www.mycore.de/jspdocportal/classificationbrowser</uri>
+	<short-name>mycore-browsing-taglib</short-name>
+	<uri>http://www.mycore.de/jspdocportal/browsing</uri>
 	
 	 <tag>
             <description>A Tag, that includes a classification browser for MyCoRe (state: new, still experimental)</description>
             <name>classificationBrowser</name>
-            <tag-class>org.mycore.frontend.jsp.taglibs.classbrowser.MCRClassificationBrowserTag</tag-class>
+            <tag-class>org.mycore.frontend.jsp.taglibs.browsing.MCRClassificationBrowserTag</tag-class>
             <body-content>empty</body-content> 
             <attribute>
             	<description>the classification to be shown</description>
@@ -98,6 +98,18 @@
                 <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
                 <type>java.lang.Boolean</type>
+            </attribute>
+        </tag>
+        <tag>
+            <description>A Tag, that includes an Lucene index browser for MyCoRe (state: new, still experimental)</description>
+            <name>indexBrowser</name>
+            <tag-class>org.mycore.frontend.jsp.taglibs.browsing.MCRIndexBrowserTag</tag-class>
+            <body-content>empty</body-content> 
+            <attribute>
+            	<description>the configuration parameter (suffix in MCR Configuration)</description>
+                <name>index</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
             </attribute>
         </tag>         
 </taglib>
