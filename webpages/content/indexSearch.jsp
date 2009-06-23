@@ -12,12 +12,28 @@
 <fmt:message key="Webpage.indexbrowser.${param.searchclass}.intro" />
 <br />
 <br />
-<mcrb:indexBrowser index="${param.searchclass}" varurl="url"
-	varxml="xml"
-	docdetailsurl="nav?path=left.search.indexsearch.docdetail&amp;id={0}">
-	<a href="${url}"><x:out select="$xml/value/col[@name='fullname']" />
-	</a>
-</mcrb:indexBrowser>
+<c:choose>
+	<c:when test="${param.searchclass eq 'series_sub'}">
+		<mcrb:indexBrowser index="${param.searchclass}" varurl="url" varxml="xml"
+			docdetailsurl="nav?path=~searchdocdetail-index_${param.searchclass}&amp;id={0}">
+			<div style="padding-bottom: 5px">
+				<img border="0" style="vertical-align: middle; padding-right: 10px"
+					 src="images/greenArrow.gif" alt="" />
+					<a href="${url}"> <x:out select="$xml/value/col[@name='title']" /></a>
+			</div>
+		</mcrb:indexBrowser>
+	</c:when>
+	<c:otherwise>
+		<mcrb:indexBrowser index="${param.searchclass}" varurl="url" varxml="xml"
+			docdetailsurl="nav?path=~searchdocdetail-index_${param.searchclass}&amp;id={0}">
+			<div style="padding-bottom: 5px">
+				<img border="0" style="vertical-align: middle; padding-right: 10px"
+					src="images/greenArrow.gif" alt="" />
+				<a href="${url}"> <x:out select="$xml/value/col[@name='fullname']" /> </a>
+			</div>
+		</mcrb:indexBrowser>
+	</c:otherwise>
+</c:choose>
 
 <%-- Sample index item:
     <value pos="17">

@@ -27,17 +27,21 @@
         <navitem name="persons" label="Nav.PersonSearch" href="content/indexSearch.jsp?searchclass=creators">
           <refitem name="~searchstart-index_creators" label="" />
           <navitem name="documents" label="Nav.PersonsDocuments" href="content/searchresult.jsp" hidden="true">
-            <refitem name="~searchresult-indexcreators" label="" />
-            <navitem name="docdetail" label="Nav.DocumentDetails" href="content/docdetails.jsp" hidden="true" />              
+            <refitem name="~searchresult-index_creators" label="" />
+            <navitem name="docdetail" label="Nav.DocumentDetails" href="content/docdetails.jsp" hidden="true" >
+            	<refitem name="~searchdocdetail-index_creators" label="" />
+            </navitem>              
           </navitem>
           <navitem name="docdetail" label="Nav.DocumentDetails" href="content/docdetails.jsp" hidden="true" />              
         </navitem>
         <navitem name="institution" label="Nav.InstitutionSearch" href="content/indexSearch.jsp?searchclass=institutions">
           <refitem name="~searchstart-index_institutions" label="" />
           <navitem name="documents" label="Nav.PersonsDocuments" href="content/searchresult.jsp" hidden="true">
-            <refitem name="~searchresult-indexinstitutions" label="" />
+            <refitem name="~searchresult-index_institutions" label="" />
           </navitem>
-          <navitem name="docdetail" label="Nav.DocumentDetails" href="content/docdetails.jsp" hidden="true" />                        
+          <navitem name="docdetail" label="Nav.DocumentDetails" href="content/docdetails.jsp" hidden="true">
+          	<refitem name="~searchdocdetail-index_institutions" label="" />
+          </navitem>                        
         </navitem>  
         <navitem name="docdetail" label="Nav.DocumentDetails" href="content/docdetails.jsp" hidden="true">
            <refitem name="~docdetail" label="" />
