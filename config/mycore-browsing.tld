@@ -101,15 +101,35 @@
             </attribute>
         </tag>
         <tag>
-            <description>A Tag, that includes an Lucene index browser for MyCoRe (state: new, still experimental)</description>
+            <description>A Tag, that includes a Lucene index browser for MyCoRe (state: new, still experimental)</description>
             <name>indexBrowser</name>
             <tag-class>org.mycore.frontend.jsp.taglibs.browsing.MCRIndexBrowserTag</tag-class>
-            <body-content>empty</body-content> 
+            <body-content>scriptless</body-content> 
             <attribute>
             	<description>the configuration parameter (suffix in MCR Configuration)</description>
                 <name>index</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
-        </tag>         
+             <attribute>
+            	<description>the name of the variable, which should contain the url</description>
+                <name>varurl</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+             <attribute>
+            	<description>the name of the variable which should contain the index item as xml</description>
+                <name>varxml</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+             <attribute>
+            	<description>the url which should be used to link to docdetails page of a single item
+            	             it should contain a parameter "{0}", which will be filled with the 
+            	             current document id</description>
+                <name>docdetailsurl</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+       </tag>         
 </taglib>

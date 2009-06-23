@@ -15,7 +15,7 @@ import org.apache.log4j.Logger;
 import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Element;
-import org.jdom.Text;
+import org.jdom.output.DOMOutputter;
 import org.jdom.xpath.XPath;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRSessionMgr;
@@ -23,6 +23,8 @@ import org.mycore.frontend.indexbrowser.lucene.MCRIndexBrowserConfig;
 import org.mycore.frontend.indexbrowser.lucene.MCRIndexBrowserIncomingData;
 import org.mycore.frontend.indexbrowser.lucene.MCRIndexBrowserUtils;
 import org.mycore.frontend.servlets.MCRServlet;
+
+import com.ibm.icu.text.MessageFormat;
 
 /**
  * Tag to include an IndexBrowser into a web page
@@ -37,11 +39,26 @@ public class MCRIndexBrowserTag extends SimpleTagSupport {
 	protected static String languageBundleBase = MCRConfiguration.instance().getString("MCR.languageResourceBundleBase","messages");
 	
 	private String indexname;
+	private String varURLName;
+	private String varXMLName;
+	private String docdetailsURL;
 	
     protected MCRIndexBrowserIncomingData incomingBrowserData;
     protected MCRIndexBrowserConfig config;
 	
-
+    /**
+     * required: the url which should be used to link to docdetails page of a single item
+     * 
+     * @param url - the url should contain a parameter "{0}", which will be filled with the current document id
+     */
+    public String getDocdetailsurl(){
+    	return docdetailsURL;
+    }
+    
+    public void setDocdetailsurl(String url){
+    	this.docdetailsURL = url;
+    }
+    
 	 /** 
      * required: the searchclass, the identifier which is used in MCR properties to set parameters
      * belong to a category
@@ -54,6 +71,32 @@ public class MCRIndexBrowserTag extends SimpleTagSupport {
 	public void setIndex(String indexname) {
 		this.indexname = indexname;
 	}
+	
+
+	 /** 
+     * required: the name of the variable which returns the index item as xml
+     * @param name - as string
+     */
+	public String getVarxml() {
+		return varXMLName;
+	}
+
+	public void setVarxml(String name) {
+		this.varXMLName = name;
+	}
+
+	 /** 
+     * required: the name of the variable which returns the url to docdetails
+     * belong to a category
+     * @param searchfield - as string
+     */
+	public String getVarurl() {
+		return varURLName;
+	}
+
+	public void setVarurl(String name) {
+		this.varURLName = name;
+	}	
 	
 	@SuppressWarnings("unchecked")
 	public void doTag(){
@@ -217,6 +260,9 @@ public class MCRIndexBrowserTag extends SimpleTagSupport {
 	 	 }
 	    out.write("</dt>\n");
 	    List<Element> lE = pageContent.getRootElement().getChild("results").getChildren();
+	    MessageFormat formDocdetailsURL = new MessageFormat(getDocdetailsurl());
+
+	    DOMOutputter domOut = new DOMOutputter();
 	    for(Element e: lE){
 	    	if(e.getName().equals("range")){
 	    		StringBuffer sbUrl = new StringBuffer(webApplicationBaseURL);
@@ -237,20 +283,8 @@ public class MCRIndexBrowserTag extends SimpleTagSupport {
 	    		out.write("</dd>\n");    		
 	    	}
 
-
 	    	if(e.getName().equals("value")){
-				String xpath = MCRConfiguration.instance().getString("MCR.IndexBrowser."+getIndex()+".OutputXPathExpr");
-				Object val = XPath.selectSingleNode(e, xpath);
-				String title = val.toString();
-				if(val instanceof Element){
-					title = ((Element)val).getText();
-				}
-				if(val instanceof Attribute){
-					title = ((Attribute)val).getValue();
-				}
-				if(val instanceof Text){
-					title = ((Text)val).getText();
-				}
+	    		String title = e.getChildText("idx");
 				String titleEnc = URLEncoder.encode(title, "ISO-8859-1");
 	    		StringBuffer sbUrl = new StringBuffer(webApplicationBaseURL);
 	    		if(isSubselect){
@@ -258,86 +292,30 @@ public class MCRIndexBrowserTag extends SimpleTagSupport {
 	    			sbUrl.append("&amp;subselect.session=").append(subselect_session);
 	    			sbUrl.append("&amp;subselect.varpath=").append(subselect_varpath);
 	    			sbUrl.append("&amp;subselect.webpage=").append(URLEncoder.encode(subselect_webpage, "ISO-8859-1"));
-	    		  
-		    			
-	    			out.write("<dd>\n");
-	    			out.write("<img border=\"0\" style=\"vertical-align:middle;padding-right:10px\" src=\""+webApplicationBaseURL+"images/folder_plain.gif\"/>");
-	    		    out.write("<a href=\""+sbUrl.toString()+"&amp;_var_@xlink:href="+e.getChildText("id")+"&amp;_var_@xlink:title="+titleEnc+"\">"+title+"</a></dd>\n");
+	        			
+	    		    getJspContext().setAttribute(varURLName, sbUrl.toString()+"&amp;_var_@xlink:href="+e.getChildText("id")+"&amp;_var_@xlink:title="+titleEnc);
 	    		}
 	    		else{
-	    			sbUrl.append(MCRConfiguration.instance().getString("MCR.IndexBrowser."+getIndex()+".DocDetailsURL"));
-	    			sbUrl.append("&amp;id=").append(e.getChildText("id"));
-	    			sbUrl.append("&amp;offset=").append(e.getAttributeValue("pos"));
-	    			out.write("<dd>\n");
-	    			out.write("<img border=\"0\" style=\"vertical-align:middle;padding-right:10px\" src=\"images/folder_plain.gif\"/>&nbsp;");
-	    			out.write("<a href=\""+sbUrl.toString()+"\" >"+title+"</a></dd>\n");    			
-	    		}    		
+	    			sbUrl.append(formDocdetailsURL.format(new Object[]{e.getChildText("id")}));
+	    			if(sbUrl.toString().contains("?")){
+	    				sbUrl.append("&amp;");
+	    			}
+	    			else{
+	    				sbUrl.append("?");
+	    			}
+	    			sbUrl.append("offset=").append(e.getAttributeValue("pos"));
+		    			getJspContext().setAttribute(varURLName, sbUrl.toString());
+	    		}
+	    		getJspContext().setAttribute(varXMLName, domOut.output(new Document((Element)e.clone())));
+	    		out.write("<dd>\n");
+	    		getJspBody().invoke(out);
+	    		out.write("</dd>\n");
 	    	}
 	    }
 	    out.write("</dl>");
+	    out.write("</td></tr></table>");
 		}catch(Exception e){
 			LOGGER.error("The following exception was thrown in MCRIndexBorserTag: ", e);
 		}
-	    
 	}
-	
-// old stylesheet based implementation (stays for documentation purposes):
-	
-//	public void doTagWorking(){
-//	    PageContext ctx = (PageContext)getJspContext();
-//	    incomingBrowserData = MCRIndexBrowserUtils.getIncomingBrowserData((HttpServletRequest)ctx.getRequest());
-//        config = new MCRIndexBrowserConfig(incomingBrowserData.getSearchclass());
-//	    Document pageContent = null;
-//        // if init is true, then create an empty document, otherwise create
-//        // the result list
-//        if(!incomingBrowserData.isInit()) {
-//            pageContent = MCRIndexBrowserUtils.createResultListDocument(incomingBrowserData, config);
-//        } else {
-//            pageContent = MCRIndexBrowserUtils.createEmptyDocument(incomingBrowserData);
-//        }
-//        
-//        String WebApplicationBaseURL = MCRServlet.getBaseURL();
-//    	String ServletsBaseURL = WebApplicationBaseURL+"servlets/";
-//        
-//        
-//    	String varpath = ctx.getRequest().getParameter("XSL.subselect.varpath.SESSION");
-//    	if(varpath==null){varpath="";}
-//    	String session = ctx.getRequest().getParameter("XSL.subselect.session.SESSION");
-//    	if(session==null){session="";}
-//    	String webpage = ctx.getRequest().getParameter("XSL.subselect.webpage.SESSION");
-//    	if(webpage==null){webpage="";}
-//    	String pft = ctx.getRequest().getParameter("prevFromTo");
-//        if(pft==null) {pft="";}
-//     
-//       	String resolver="resource:xsl/indexpage-"+indexname+".xsl";
-//        try{
-//           	Source xsl = MCRURIResolver.instance().resolve(resolver,"indexSearch.jspx");
-//        
-//        	TransformerFactory factory = TransformerFactory.newInstance();
-//        	Transformer transformer = factory.newTransformer(xsl);
-//
-//        	JDOMSource source = new JDOMSource(pageContent);
-//        	JDOMResult result = new JDOMResult();
-//       
-//        	transformer.setParameter("ServletsBaseURL", ServletsBaseURL);
-//        	transformer.setParameter("WebApplicationBaseURL", WebApplicationBaseURL);
-//        	transformer.setParameter("subselect.varpath", varpath);
-//        	transformer.setParameter("subselect.session", session);
-//        	transformer.setParameter("subselect.webpage", webpage);
-//        	transformer.setParameter("prevFromTo", pft);
-//        
-//        	transformer.transform(source, result);
-//
-//        	Document doc2 = result.getDocument();
-//        	XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
-//        	out.output(doc2, getJspContext().getOut());
-//        }
-//        catch(TransformerException te){
-//        	LOGGER.error("IndexBrowser XSL Transformation failed!", te);
-//        }
-//        catch(IOException ioe){
-//        	LOGGER.error("IndexBrowser Output failed!", ioe);
-//        }
-//        	
-//	}
 }

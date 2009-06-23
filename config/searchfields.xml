@@ -58,7 +58,7 @@
     <field name="profclass"     type="identifier" source="objectCategory" objects="person" xpath="/mycoreobject/metadata/profclasses/profclass" value="@ID" />
     <field name="userID"        type="text"  	  source="objectMetadata" objects="person" xpath="/mycoreobject/metadata/userids/userid" value="text()" />
   
-    <field name="index_creators" type="name" sortable="true" source="objectMetadata" objects="person" xpath="/mycoreobject/metadata/names/name/fullname" value="text()" />
+    <field name="index_creators" type="index" sortable="true" source="objectMetadata" objects="person" xpath="/mycoreobject/metadata/names/name/fullname" value="text()" />
   </index>
 
   <!-- Search in MCRFile metadata and content -->  
