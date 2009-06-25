@@ -244,6 +244,13 @@ public class MCRIndexBrowserTag extends SimpleTagSupport {
 		 if(isSubselect){
 			 sbUpUrl.append("&amp;"+subselect_params);
 		 }
+		 //http://localhost/cpr/nav?path=~searchstart-index_professorum&fromTo=24-31&prevFromTo=.
+		 //  &search=M&mode=prefix
+		
+		 if(search.length()>0){
+ 			sbUpUrl.append("&amp;search=").append(search);
+ 			sbUpUrl.append("&amp;mode=").append(mode);
+ 		 }
 	     out.write("<tr><td class=\"metavalue\">");
 	     out.write("<dl><dt>");
 	     String path = ((Attribute)XPath.selectSingleNode(pageContent, "/indexpage/@path")).getValue();
