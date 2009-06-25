@@ -583,6 +583,30 @@
             </attribute>                  
             <!-- A Tag, that parses the single-result-config-file, uses templates and builds a dom-object of the metadata for easy jstl-formatting-->
         </tag>
+      
+         <tag>
+            <name>displayClassificationCategory</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRDisplayClassificationCategoryTag</tagclass>
+            <bodycontent>empty</bodycontent>
+            <attribute>
+                <name>classid</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <name>categid</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <name>lang</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>                         
+            <!-- A Tag, that displays the text of a category in a MCR classification -->
+        </tag>
+      
+      
         <tag>
             <name>setClassBrowserTreeTag</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRSetClassBrowserTreeTag</tagclass>
