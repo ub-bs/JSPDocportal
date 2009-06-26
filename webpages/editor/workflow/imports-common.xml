@@ -230,6 +230,7 @@
 	<text id="LSubject" i18n="Editor.Label.Subject" />
 
 	<helpHover id="HSubject" i18n="Editor.Help.HSubject" />
+    <helpHover id="Hbkl"  i18n="Editor.Help.HBkl" />
 
 	<!-- *** Data for the Origin ** -->
 
@@ -494,7 +495,7 @@
 
 	<text id="APNameFirstName" class="editorHint" i18n="Editor.Label.PNameFirstname" />
 	
-	<text id="APNameSurname" class="editorHint" i18n="Editor.Label.PNameSurname" />
+	<text id="APNameSurName" class="editorHint" i18n="Editor.Label.PNameSurname" />
 		
 	<text id="APNameFirstNameP" class="editorHint" i18n="Editor.Label.PNameFirstnameM" />
 	<text id="APNameSurNameP" class="editorHint" i18n="Editor.Label.PNameSurnameM" />

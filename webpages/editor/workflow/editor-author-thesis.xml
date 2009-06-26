@@ -43,8 +43,8 @@
     <cell col="2" row="34" anchor="NORTHEAST" ref="HOrigin" />
     <cell col="1" row="35" colspan="2" anchor="NORTHWEST" ref="DOrigin" sortnr="5" />
 	
-	<cell col="1" row="36" anchor="NORTHWEST" ref="LInstitution2" />
-    <cell col="2" row="36" anchor="NORTHEAST" ref="HInstitution2" />
+	<cell col="1" row="36" anchor="NORTHWEST" ref="LInstitution" />
+    <cell col="2" row="36" anchor="NORTHEAST" ref="HInstitution" />
     <cell col="1" row="37" colspan="2" anchor="NORTHWEST" ref="DInstitution" sortnr="38" />
 	
 	<cell col="1" row="38"  colspan="2" anchor="WEST" ><hr/> </cell>
@@ -434,7 +434,7 @@
 			<label i18n="Editor.Common.choose" />
     	</item>
     	<include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getSpecialCategoriesInItems&amp;classProp=MCR.ClassificationID.Type&amp;categoryProp=MCR.Classification.Type.SelectCategoryIDs.thesis&amp;withCounter=false" />                       
-     	<condition id="CTypeSelected" regexp=".+" required="true" >
+     	<condition id="CTypeSelected_thesis" regexp=".+" required="true" >
 				<label i18n="Editor.Validate.Selection.Empty" />
      	</condition>
   </list>  
