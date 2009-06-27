@@ -60,6 +60,7 @@ import org.mycore.services.fieldquery.MCRQuery;
 import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.services.fieldquery.MCRQueryParser;
 import org.mycore.services.fieldquery.MCRResults;
+import org.mycore.services.i18n.MCRTranslation;
 
 /**
  * A JSP tag, that includes a classification browser. The displayed content is highly configurable.
@@ -316,8 +317,12 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 		}
 		
 		out.write("\n<ul style=\"list-style-type: none\">\n");
+		boolean didIt = false;
 		for (MCRCategory categ:categories){
-			outputCategory(categ, MCRServlet.getBaseURL(), url.toString(),0);
+			didIt = outputCategory(categ, MCRServlet.getBaseURL(), url.toString(),0, didIt);
+		}
+		if(!didIt){
+			out.write("<li><b>"+MCRTranslation.translate("Webpage.browse.empty")+"</b></li>\n");
 		}
 		out.write("\n</ul>\n");	
 		long d = System.currentTimeMillis()-start;
@@ -334,12 +339,14 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 	 * @param curLevel - the current level to calculate the depth
 	 * @throws IOException
 	 */
-	private void outputCategory(MCRCategory categ, String baseURL, String cbURL, int curLevel) throws IOException{
+	private boolean outputCategory(MCRCategory categ, String baseURL, String cbURL, int curLevel, boolean didIt) throws IOException{
 		JspWriter out = getJspContext().getOut();
+		boolean result = didIt;
 		boolean hasChildren = categ.hasChildren();
 		boolean hasLinks = hasLinks(categ);
 		boolean opened =  path.contains(categ.getId().getID());
 		if(!(hideemptyleaves && !hasLinks)){
+			result = true;
 			StringBuffer sbIndent = new StringBuffer("   ");
 			for(int i=0;i<curLevel;i++){sbIndent.append("   ");}
 			String indent = sbIndent.toString();
@@ -397,7 +404,7 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 				if(curLevel+1<level){
 					out.write(indent+"   <ul style=\"list-style-type:none; margin:0px; padding-top:0px;padding-bottom:0px\">\n");
 			for(MCRCategory c: categ.getChildren()){
-				outputCategory(c, baseURL, cbURL, curLevel+1);
+				outputCategory(c, baseURL, cbURL, curLevel+1, didIt);
 			}
 			out.write(indent+"   </ul>\n");
 			}
@@ -405,6 +412,7 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 		
 		out.write(indent+"</li>\n");
 		}
+		return result;
 	}
 	
 	/**
