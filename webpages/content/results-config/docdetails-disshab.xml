@@ -64,6 +64,12 @@
     <MCRDocDetail rowtype="standard" labelkey="OMD.sizes" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/sizes/size" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
     </MCRDocDetail>
+    <MCRDocDetail rowtype="standard" labelkey="OMD.referee" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/contributors/contributor/fullname" templatetype="tpl-text-values" separator="&lt;br /&gt;" languageRequired="yes" />
+    </MCRDocDetail>
+    <MCRDocDetail rowtype="standard" labelkey="OMD.notes" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/notes/note" templatetype="tpl-text-values" separator=", " languageRequired="yes" />
+    </MCRDocDetail>
     <MCRDocDetail rowtype="standard" labelkey="OMD.urns" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/urns/urn" templatetype="tpl-urn" separator=", " languageRequired="no" />
     </MCRDocDetail>    
