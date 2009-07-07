@@ -170,6 +170,15 @@
 			                               </x:otherwise>
 			                            </x:choose>                           
 									</x:forEach>
+									<x:forEach select="./metavalue[position() > 1]" >
+										<x:set var="text" select="string(./@text)" />
+										<x:set var="href" select="string(./@href)" />
+										
+										<x:if select="../../@name='OMD.author'">
+			            					  <c:out value=";" />
+			                                  <x:out select="./@text" escapeXml="false" /> 
+			                            </x:if>                           
+									</x:forEach>
 								  </x:forEach>	
 								  <br/>
 							     </x:if>									

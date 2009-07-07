@@ -37,6 +37,9 @@
     <MCRDocDetail rowtype="standard" labelkey="OMD.class-formats" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/formats/format" templatetype="tpl-classification" separator=", " languageRequired="yes" />
     </MCRDocDetail>
+    <MCRDocDetail rowtype="standard" labelkey="OMD.advisor" >
+        <MCRDocDetailContent xpath="/mycoreobject/metadata/contributors/contributor/fullname" templatetype="tpl-text-values" separator="&lt;br&gt;" languageRequired="no" />
+    </MCRDocDetail>    
     <MCRDocDetail rowtype="standard" labelkey="OMD.descriptions" >
         <MCRDocDetailContent xpath="/mycoreobject/metadata/descriptions/description" templatetype="tpl-text-values" separator="&lt;br&gt;&lt;br&gt;" languageRequired="no" escapeXml="false" />
     </MCRDocDetail>     
