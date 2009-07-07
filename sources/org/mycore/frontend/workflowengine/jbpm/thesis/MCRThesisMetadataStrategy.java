@@ -35,5 +35,14 @@ public class MCRThesisMetadataStrategy extends MCRDefaultMetadataStrategy {
 				if(it.hasNext()){ sbAuthorNames.append("; ");}
 			}	
 		ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_AUTHOR_NAMES, sbAuthorNames.toString());
+		
+		StringBuffer sbURN = new StringBuffer("");
+		for(Iterator it = metadata.getDescendants(new ElementFilter("urn")); it.hasNext();){
+			Element e = (Element)it.next();
+			sbURN.append(e.getText());
+			//should not happen!!!
+			if(it.hasNext()){ sbURN.append(", ");}
+		}
+		ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN, sbURN.toString());
 	}
 }
