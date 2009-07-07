@@ -87,8 +87,9 @@ public class MCRJSPSearchServlet extends MCRSearchServlet {
 		}
 		if ( editormask.startsWith("~searchstart-class")) {
 			// this comes from the browserclass and we have no searchmask
-			String browseuri  = session.BData.getUri();
-			furl +=editormask+"&actUriPath="+browseuri;
+			//String browseuri  = session.BData.getUri();
+			//furl +=editormask+"&actUriPath="+browseuri;
+			furl +=editormask;
 		} else if ( editormask.startsWith("~searchstart-index")) {
 				// this comes from the indexbrowser and we have no searchmask
 				furl +=editormask; 
