@@ -59,7 +59,7 @@
       <helpHover id="HInstitution" width="400px"  i18n="Editor.Search.Help.institution" />
       <list id="CInstitution" width="300px" type="dropdown">
             <item value="" i18n="Editor.Common.choose" />
-            <include cacheable="false" uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Institution&amp;emptyLeafs=no&amp;defaultValue=DocPortal_class_00000002" />                                      
+            <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Institution&amp;defaultValue=DocPortal_class_00000002&amp;withCounter=false" />                                      
       </list>       
       
       <!-- *** Data for the Surname ** -->
@@ -105,7 +105,7 @@
 
       <list id="COrigins" width="200px" type="dropdown">
             <item value="" i18n="Editor.Common.choose" />
-            <include cacheable="false" uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Origin&amp;emptyLeafs=no&amp;defaultValue=DocPortal_class_00000002" />                          
+            <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002&amp;withCounter=false" />                          
       </list>      
       
       <!-- *** Data for the Types ** -->
@@ -118,7 +118,7 @@
       <helpHover id="HTypes" width="400px"  i18n="Editor.Search.Help.type" />
       <list id="CTypes" width="100px" type="dropdown">
             <item value="" i18n="Editor.Common.choose" />
-            <include cacheable="false" uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Type&amp;emptyLeafs=no&amp;defaultValue=DocPortal_class_00000005" />                          
+            <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Type&amp;defaultValue=DocPortal_class_00000005&amp;withCounter=false" />                          
       </list>       
       
 
@@ -132,7 +132,7 @@
       <helpHover id="HSubjects" width="400px" i18n="Editor.Search.Help.subject" />
       <list id="CSubjects" width="200px" type="dropdown">
             <item value="" i18n="Editor.Common.choose" />        
-            <include cacheable="false" uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.DDC&amp;emptyLeafs=no&amp;defaultValue=DocPortal_class_00000007" />                          
+            <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.DDC&amp;defaultValue=DocPortal_class_00000007&amp;withCounter=false" />                          
       </list>       
       
       <!-- *** Data for the Format ** -->
@@ -144,8 +144,8 @@
       </panel>
       <helpHover id="HFormats" width="400px"  i18n="Editor.Search.Help.format" />
       <list id="CFormats" width="100px" type="dropdown">
-            <item value="" i18n="Editor.Common.choose" />         
-            <include cacheable="false" uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Format&amp;emptyLeafs=no&amp;defaultValue=DocPortal_class_00000006" />                          
+            <item value="" i18n="Editor.Common.choose" /> 
+              <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Format&amp;defaultValue=DocPortal_class_00000006&amp;withCounter=false" />                          
       </list>       
       
       <!-- *** Data for the Format ** -->
@@ -157,8 +157,8 @@
       </panel>
       <helpHover id="HLanguages" width="400px"  i18n="Editor.Search.Help.language" />
       <list id="CLanguages" width="100px" type="dropdown">
-            <item value="" i18n="Editor.Common.choose" />      
-            <include  cacheable="false" uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Language&amp;emptyLeafs=no&amp;defaultValue=DocPortal_class_00000004" />                          
+            <item value="" i18n="Editor.Common.choose" /> 
+             <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Language&amp;defaultValue=DocPortal_class_00000004&amp;withCounter=false" />
       </list>       
 
       <!-- *** Data for the Metadata ** -->
@@ -187,54 +187,7 @@
             <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="@value" />
       </panel>
       <helpHover id="HContents" width="400px" i18n="Editor.Search.Help.content" />
-      
-      <!-- *** Data for the basiklassification ** -->
-      <text id="LBkl">
-            <label xml:lang="de">
-                  <span class="editorlabel">Fachklassifikation</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">classification</span>
-            </label>
-      </text>
-      <panel id="DBkl">
-            <hidden var="@field" default="bkl" />
-            <hidden var="@operator" default="like" />            
-            <cell col="1" row="1" anchor="NORTHWEST" ref="CBkl" var="@value" />
-      </panel>
-      <helpHover id="HBkl" width="400px" height="250px">
-            <label xml:lang="de">   Die Daten sind nach Fachgebieten klassifiziert.
-            </label>
-            <label xml:lang="en">   the Objects are classified
-            </label>
-      </helpHover>
-      <list id="CBkl" width="200px"  type="dropdown">
-            <item value="">
-                  <label xml:lang="de">(bitte wählen)</label>
-            </item>
-           <!-- <include cacheable="false" uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Bkl&amp;emptyLeafs=no&amp;defaultValue=DocPortal_class_00000020" /> -->                                      
-      </list>       
-
-      <!-- *** Data for the Place of Birth ** -->
-      <text id="LPlaces">
-            <label xml:lang="de">
-                  <span class="editorlabel">Geburtsort</span>
-            </label>
-            <label xml:lang="en">
-                  <span class="editorlabel">place of birth</span>
-            </label>
-      </text>
-      <panel id="DPlaces">
-            <hidden var="@field" default="place" />
-            <hidden var="@operator" default="like" />            
-            <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile128" var="@value" />
-      </panel>
-      <helpHover id="HPlaces" width="400px" height="250px">
-            <label xml:lang="de">   Es ist der Geburtsort der Person einzugeben.
-            </label>
-            <label xml:lang="en">   Input the place of birth of this person. 
-            </label>
-      </helpHover>  
+        
       
       <text id="LMaxResult100" i18n="Editor.Search.MaxResult100" />
 </imports>
