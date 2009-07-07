@@ -47,12 +47,11 @@ public class MCRSetClassBrowserTreeTag extends SimpleTagSupport
     	org.w3c.dom.Document domDoc = null;
 
     	if (actUriPath.length() == 0) actUriPath = "/" + browserClass;
-	    MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
-	    
+	    MCRClassificationBrowserData bdata;
 	    try {
-	        mcrSession.BData = new MCRClassificationBrowserData(actUriPath,"","","");
+	        bdata = new MCRClassificationBrowserData(actUriPath,"","","");
 	        
-		    Document doc = mcrSession.BData.createXmlTree(lang);
+		    Document doc = bdata.createXmlTree(lang);
 		    
    			domDoc = new DOMOutputter().output(doc);
    	   		if((pageContext.getAttribute("debug") != null && pageContext.getAttribute("debug").equals("true")) ||
