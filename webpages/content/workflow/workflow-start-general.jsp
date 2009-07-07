@@ -27,7 +27,7 @@
 
 <div class="headline"><fmt:message key="WF.common.MyTasks" /></div>
 
-<mcr:getWorkflowTaskBeanList var="myTaskList" mode="activeTasks" debugUser="author1A" varTotalSize="total1" />
+<mcr:getWorkflowTaskBeanList var="myTaskList" mode="activeTasks" debugUser="author1A" varTotalSize="total1" size="100" />
 <table>
 <c:forEach var="task" items="${myTaskList}">
    <c:set var="task" scope="request" value="${task}" />
@@ -39,7 +39,7 @@
 
 <div class="headline"><fmt:message key="WF.common.MyInititiatedProcesses" /></div>
 
-<mcr:getWorkflowTaskBeanList var="myProcessList" mode="initiatedProcesses" debugUser="author1A" varTotalSize="total2" />
+<mcr:getWorkflowTaskBeanList var="myProcessList" mode="initiatedProcesses" debugUser="author1A" varTotalSize="total2" size="100" />
 <table>
 <c:forEach var="task" items="${myProcessList}">
    <c:set var="task" scope="request" value="${task}" />
