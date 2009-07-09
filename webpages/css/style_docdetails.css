@@ -1,0 +1,172 @@
+/* =================================================================== */
+/* $Revision: 1.18 $ $Date: 2005/02/10 11:55:03 $                      */
+/* =================================================================== */
+/* dunkelblau #0A50A1 rgb(10, 80, 161)                                 */
+/* tuerkis rgb(128, 197, 221);                                         */
+/* beige #9A5B11;  rgb(154,91, 17)                                     */
+/* helles beige rgb(174,111, 37);                                      */
+/* lichtes hellblau rgb(245, 255, 255);                                */
+/* hintergrund: beige: #FDEDDB                                         */
+/* =================================================================== */
+/* Docdetails                                                          */
+/* =================================================================== */
+	
+table.docdetails-table {
+	border-spacing: 0px;
+	font-family: verdana;
+	font-size: 12px;
+}
+
+th.docdetails-header {
+	font-size: 150%;
+	font-weight: bold;
+	background-color: #FDEDDB;
+	padding: 5px;
+	vertical-align: bottom;
+	border-bottom: 5px solid white;
+}
+
+td.docdetails-label {
+	text-align:right;
+	background-color: #FDEDDB;
+	padding: 4px;
+	vertical-align: top;
+	border-bottom: 4px solid white;
+}
+
+td.docdetails-values {
+	border-bottom: 4px solid white;
+	padding-left: 10px;
+}
+
+td.docdetails-preview {
+	vertical-align: top;
+}
+
+td.docdetails-preview img {
+	padding: 10px;
+	border: none;
+}
+
+table.docdetails-values-table {
+	border-spacing: 4px;
+}
+td.docdetails-value {
+     padding-left: 20px;
+}
+
+td.docdetails-separator hr {
+	border: none;
+	background-color: #0A50A1;
+	color: #0A50A1;
+	height: 1px;
+}
+
+dl.docdetails-derivate-list {
+	margin: 0px;
+	padding-bottom: 10px
+}
+
+dl.docdetails-derivate-list dd {
+	padding-top: 5px;
+	padding-bottom: 0px;
+}
+
+dl.docdetails-derivate-list img {
+	border: 0px;
+	padding-right: 10px;
+}
+
+.docdetails-value a {
+	color: #9A5B11;
+	text-decoration: none;
+}
+
+.docdetails-value a:hover {
+	text-decoration: underline;
+}
+
+.docdetails-value a img {
+	border: none;
+}
+
+/* =================================================================== */
+/* Resultdetails                                                       */
+/* =================================================================== */
+table.resultdetails-table {
+	border-spacing: 0px;
+	font-family: verdana;
+	font-size: 12px;
+	width: 95%;
+}
+td.resultdeails-header{
+	font-weight: bold;
+}
+td.resultdetails-id{
+	font-family: monospace;
+	text-align: right;
+}
+td.resultdetails-value{
+
+}
+
+td.resultdetails-icon{
+	vertical-align:top;
+	text-align: center;
+		
+}
+/* =================================================================== */
+/* Info Hover (button + messagebox on mouse over)                      */
+/* =================================================================== */
+div.docdetails-infohover a {
+	font: bold 10px courier, sans-serif;
+	text-decoration: none;
+	display: boxed;
+	padding: 1px;
+}
+
+div.docdetails-infohover a:link,
+div.docdetails-infohover a:visited,
+div.docdetails-infohover a:focus,
+div.docdetails-infohover a:active{
+	font-weight: bold;
+	color: #ffffff;
+	background: #0A50A1;
+	border: 1px solid #0A50A1;
+	text-decoration: none !important;
+}
+
+div.docdetails-infohover a:hover {
+	text-decoration: none !important;
+	font-weight: bold;
+	border: 1px solid #0A50A1;
+	color: #0000ff !important;
+	background: #ffff88;
+}
+
+div.docdetails-infohover a span {
+	display: none;
+}
+
+div.docdetails-infohover a:hover span {
+	position: fixed;
+	bottom: 20px;
+	left: 40px;
+	z-index: 30;
+	text-align: justify;
+	display: block;
+	color: #0A50A1;
+	width: 300px;
+	background: #ffff88;
+	font: normal 10px Verdana, Arial, Helvetica, sans-serif;
+	border-width: 3px;
+	border-color: #0A50A1;
+	border-style: outset;
+	padding: 10px;
+}
+
+/* Star Hack - this entry is only interpreted by IE 
+   necessary, because it cannot handle position:fixed correctly */
+* html * div.docdetails-infohover a:hover span {
+	position: absolute !important;
+}
