@@ -8,8 +8,10 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Transaction;
 import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
+import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.MCRSession;
 import org.mycore.frontend.servlets.MCRServlet;
 
@@ -35,7 +37,12 @@ public class MCRCheckAccessTag extends SimpleTagSupport
 		return;
 	}	
 	public void doTag() throws JspException, IOException {
-		try{
+		Transaction t1=null;
+		try {
+    		Transaction tx  = MCRHIBConnection.instance().getSession().getTransaction();
+	   		if(tx==null || !tx.isActive()){
+				t1 = MCRHIBConnection.instance().getSession().beginTransaction();
+			}
 
 			PageContext pageContext = (PageContext) getJspContext();			
 			//"HttpJspBase" is the name of the servlet that handles JSPs
@@ -52,6 +59,11 @@ public class MCRCheckAccessTag extends SimpleTagSupport
 		}catch(Exception e){
 			LOGGER.error("could not check access", e);
 		}
+		finally{
+    		if(t1!=null){
+    			t1.commit();
+    		}
+    	}
 	}	
 
 }
