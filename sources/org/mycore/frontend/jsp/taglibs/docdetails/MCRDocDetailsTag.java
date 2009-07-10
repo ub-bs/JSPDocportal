@@ -5,24 +5,31 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.hibernate.Transaction;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
 import org.mycore.backend.hibernate.MCRHIBConnection;
+import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
+
+import sun.reflect.ReflectionFactory.GetReflectionFactoryAction;
 
 public class MCRDocDetailsTag extends SimpleTagSupport {
 	private static final long serialVersionUID = 1L;
@@ -62,17 +69,15 @@ public class MCRDocDetailsTag extends SimpleTagSupport {
 		if (lang == null || lang.equals("")) {
 			lang = "de";
 		}
+		byte[] data = new byte[0];
 		try{
 			messages = PropertyResourceBundle.getBundle("messages",	new Locale(lang), MCRConfiguration.class.getClassLoader());
-			byte[] data = new byte[0];
+
 			if (fromWorkflow) {
 				String[] mcridParts = mcrID.split("_");
 				String savedir = MCRWorkflowDirectoryManager.getWorkflowDirectory(mcridParts[1]);
-				String filename = savedir + "/" + mcrID + ".xml";
-				//DEVELOPMENT MODE
-				filename="C:\\workspaces\\cpr\\projects\\docdetails\\WebContent\\data\\"+mcrID+".xml";
+				String filename = savedir + "/" + mcrID + ".xml";				
 				File file = new File(filename);
-				
 				if (file.isFile()) {
 					data=getBytesFromFile(file);
 				}
@@ -87,6 +92,24 @@ public class MCRDocDetailsTag extends SimpleTagSupport {
 			throw new JspException(e);
 		}
 		JspWriter out = getJspContext().getOut();
+		PageContext pageContext = (PageContext) getJspContext();	
+		
+		//DEBUG mode: output xml data as text
+		if(pageContext.getRequest().getParameter("debug") != null && pageContext.getRequest().getParameter("debug").equals("true")) {
+			SAXBuilder sb = new SAXBuilder();
+			try{
+				org.jdom.Document jdom = sb.build(new ByteArrayInputStream(data));
+				StringBuffer debugSB = new StringBuffer("<textarea cols=\"120\" rows=\"30\">")
+					.append("MCRObject:\r\n")
+					.append(JSPUtils.getPrettyString(jdom))
+					.append("</textarea>");
+				out.println(debugSB.toString());
+			}
+			catch(JDOMException e){
+				//do nothing
+			}
+		}
+			
 		out.write("<table class=\""+getStylePrimaryName()+"-table\" width=\"95%\" cellpadding=\"0\" cellspacing=\"0\">\n");
 		out.write("<tbody>\n");
 		
