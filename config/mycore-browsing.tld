@@ -131,5 +131,33 @@
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
-       </tag>         
+       </tag> 
+       <tag>
+            <description>A Tag, that includes a search result page (state: new, still experimental)</description>
+            <name>searchresultBrowser</name>
+            <tag-class>org.mycore.frontend.jsp.taglibs.browsing.MCRSearchresultBrowserTag</tag-class>
+            <body-content>scriptless</body-content> 
+             <attribute>
+            	<description>the name of the variable which should contain the index item as xml</description>
+                <name>varmcrid</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+            	<description>the name of the variable, which should contain the url</description>
+                <name>varurl</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+
+            <attribute>
+            	<description>the name of the sortfields</description>
+                <name>sortfields</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            
+       </tag>
+       
+               
 </taglib>
