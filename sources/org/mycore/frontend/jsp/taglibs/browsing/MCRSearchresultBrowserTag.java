@@ -254,7 +254,7 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 						+webBaseURL+"/servlets/MCRJSPSearchServlet?mode=results&id="+id+"&page="+Integer.toString(page-1)+"&numPerPage="+numPerPage
 						+"\">["+Integer.toString((page-2)*numPerPage+1)+"-"+Integer.toString((page-1)*numPerPage)+"]</a></td>");
 			}
-			out.write("   <td>["+Integer.toString((page-1)*numPerPage+1)+"-"+Integer.toString((page)*numPerPage)+"]</td>");
+			out.write("   <td>["+Integer.toString((page-1)*numPerPage+1)+"-"+Integer.toString(Math.min((page)*numPerPage, numHits))+"]</td>");
 			if(page+1<=numPages){
 				out.write("   <td><a href=\""
 						+webBaseURL+"/servlets/MCRJSPSearchServlet?mode=results&id="+id+"&page="+Integer.toString(page+1)+"&numPerPage="+numPerPage
