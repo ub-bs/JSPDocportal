@@ -814,4 +814,12 @@
                 <rtexprvalue>true</rtexprvalue>
             </attribute>     
         </tag>  
+         <tag>
+            <name>debugInfo</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRDebugInfoTag</tagclass>
+            <bodycontent>empty</bodycontent> 
+            <info>A Tag, that outputs debug information</info>
+         </tag>  
+        
+        
 </taglib>   
