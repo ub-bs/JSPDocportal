@@ -158,6 +158,10 @@
             </attribute>
             
        </tag>
-       
-               
+       <tag>
+            <description>A Tag, that includes a navigation menu for docdetail pages of a certain search result (state: new, still experimental)</description>
+            <name>searchDetailBrowser</name>
+            <tag-class>org.mycore.frontend.jsp.taglibs.browsing.MCRSearchDetailBrowserTag</tag-class>
+            <body-content>empty</body-content>     
+       </tag>
 </taglib>
