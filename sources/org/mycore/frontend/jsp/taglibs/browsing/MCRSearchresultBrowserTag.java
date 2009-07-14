@@ -15,12 +15,10 @@ import org.hibernate.Transaction;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.Namespace;
-import org.jdom.output.DOMOutputter;
 import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRSessionMgr;
-import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.frontend.servlets.MCRServlet;
 
 /**
@@ -123,16 +121,17 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 			}
 			if(sortfields.length()>0){
 				writeResortForm(out, sortfields, id, messages);
-				out.write("<br /><hr />");
 			}
 			if(numHits>0){
 				writePageNavigation(results, out, id, numHits, numPerPage, numPages, page);
-				out.write("<br /><hr />");
 			}
 			
 			List l = results.getRootElement().getChildren("hit", NS_MCR);
 			for(int j=0;j<l.size();j++){
 				if (j>=numPerPage){break;}
+					if(j>0){
+						out.write("<hr />");
+					}
 					Element e = (Element)l.get(j);
 					String mcrid = e.getAttributeValue("id");
 					ctx.setAttribute(varMCRID, mcrid);
@@ -142,9 +141,9 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 		    		//http://localhost:8080/cpr/nav?id=cpr_professor_000000001451&offset=9&doctype=professor&path=left.search.allmeta.searchresult-allmeta.docdetail&resultid=-xst2nllmkdqafx2bcdj2
 		    		StringBuffer sbURL = new StringBuffer(baseurl);
 		    		sbURL.append("nav?id=").append(mcrid);
-		    		sbURL.append("&offset=").append(((page-1)*numPerPage)+j+1);
+		    		sbURL.append("&offset=").append(((page-1)*numPerPage)+j);
 		    		sbURL.append("&doctype=").append(doctype);
-		    		sbURL.append("&path=").append("");
+		    		sbURL.append("&path=").append(ctx.getAttribute("path", PageContext.REQUEST_SCOPE)+".docdetail");
 		    		sbURL.append("&resultid=").append(id);
 		    		ctx.setAttribute(varURL, sbURL.toString());
 		    		
@@ -152,7 +151,9 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 		    		getJspBody().invoke(out);
 				
 			}
-			
+			if(numHits>0){
+				writePageNavigation(results, out, id, numHits, numPerPage, numPages, page);
+			}
 		} catch (Exception e) {
 			LOGGER.error("The following exception was thrown in MCRSearchResultBrowserTag: ", e);
 		}
@@ -166,7 +167,8 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 	private void writeResortForm(JspWriter out, String sortfields, String id, ResourceBundle messages) throws IOException{
 		String webBaseURL = MCRServlet.getBaseURL();
 		Document query = (Document) ((PageContext) getJspContext()).getAttribute("query", PageContext.REQUEST_SCOPE);
-
+		out.write("<div class=\"searchresult-resortform\">");
+			  
 		out.write("<form action=\""+webBaseURL+"servlets/MCRJSPSearchServlet\"	method=\"get\">");
 		out.write("   <input type=\"hidden\" name=\"mode\" value=\"resort\">");
 		out.write("   <input type=\"hidden\" name=\"id\" value=\""+id+"\">");
@@ -206,7 +208,7 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 			}
 			out.write("   </select>&nbsp;&nbsp;&nbsp;");
 			out.write("<input value=\""+messages.getString("Webpage.searchresults.resort")+"\" type=\"submit\">");
-			out.write("</form>");
+			out.write("</form></div>");
 	    }
 	}
 
