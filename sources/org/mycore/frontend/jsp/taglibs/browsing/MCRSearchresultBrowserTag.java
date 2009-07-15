@@ -113,7 +113,7 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 			}
 			//@TODO - only necessary for initial developement
 			if(numPerPage==0){
-				numPerPage = 10;
+				numPerPage = 25;
 			}
 			
 			if(numPages < Math.round((float)Math.ceil((float)numHits / numPerPage))){
@@ -175,7 +175,7 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 		String[]fieldnames = sortfields.trim().split("\\s");
 		int count;
 		try {
-			count = query.getRootElement().getChild("sortBy").getChildren("field").size();
+			count = Math.max(1, query.getRootElement().getChild("sortBy").getChildren("field").size());
 	    } catch ( Exception allE){
 		    count = 1;
 		}
