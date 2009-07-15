@@ -43,15 +43,14 @@ public class MCRSearchDetailBrowserTag extends SimpleTagSupport
 		
         if ( results != null) {
            	out.write("<!-- Searchresult PageNavigation -->");
-    		out.write("<div align=\"right\" style=\"width:95%\" />"+
-    				"<table class=\"searchdetail-navigation\" style=\"width:1%;\"><tr>");
+    		out.write("<table class=\"searchdetail-navigation\" style=\"width:1%;\"><tr>");
     	        	
         	int numHits = results.getNumHits();
         	pageContext.setAttribute("numHits", numHits);
-        	out.write("   <td style=\"text-align:right;\"><nobr><b>");
+        	out.write("   <td style=\"text-align:right;\"><nobr>");
         	out.write(messages.getString("Webpage.searchdetails.hits")+":&nbsp;&nbsp;");
     		out.write(Integer.toString(offset+1)+"&nbsp;/&nbsp;"+Integer.toString(numHits));
-    		out.write("   </b></nobr></td>");
+    		out.write("   </nobr></td>");
         	if (offset > 0) {
         		MCRHit hit = results.getHit(offset - 1);
         		if(hit!=null){
@@ -78,7 +77,7 @@ public class MCRSearchDetailBrowserTag extends SimpleTagSupport
         					+"\">["+messages.getString("Webpage.searchdetails.next")+"]</a></nobr></td>"); 
         		}
         	} 
-        	out.write("</tr></table></div>");
+        	out.write("</tr></table>");
         }
 	}	
 }

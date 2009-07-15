@@ -5,6 +5,7 @@ import java.util.MissingResourceException;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -66,6 +67,7 @@ public class MCRDocDetailsRowTag extends SimpleTagSupport
 		if (uselang) {
 			xp = xpath + "[@xml:lang='" + docdetails.getLang() + "']";
 		}
+		PageContext ctx = (PageContext)getJspContext();
 		JspWriter out = getJspContext().getOut();
 		try {
 			XPath xpath = MCRDocdetailsXMLHelper.createXPathObject();
@@ -77,7 +79,8 @@ public class MCRDocDetailsRowTag extends SimpleTagSupport
 				out.write("<tr>");
 				
 				out.write("   <td class=\""+docdetails.getStylePrimaryName()+"-label\">");
-				if(showinfo){
+				boolean print = "true".equals(ctx.getRequest().getParameter("print")); 
+				if(showinfo && !print){
 					String info = "";
 					try {
 						info = docdetails.getMessages().getString(labelkey+".info");

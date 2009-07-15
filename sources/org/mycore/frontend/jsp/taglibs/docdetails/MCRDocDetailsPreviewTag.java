@@ -31,48 +31,53 @@ public class MCRDocDetailsPreviewTag extends SimpleTagSupport {
 			XPath xpath = MCRDocdetailsXMLHelper.createXPathObject();
 			String xp = "/mycoreobject/structure/derobjects/derobject[contains(@xlink:label, '"+labelSubstring+"')]";
 			xpath.compile(xp);
-
+   		  	Object o =  getJspContext().getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE);
+   		  	if(o==null){
+   		  		o = new String("");
+   		  	}
+   		  	
 			NodeList nodes = (NodeList)xpath.evaluate(xp, docdetails.getXMLDocument(), XPathConstants.NODESET);
 	    	JspWriter out = getJspContext().getOut();
-	    	if(nodes.getLength()>0){
-	    		out.write("<tr><td colspan=\"3\">");
-	    		out.write("<td rowspan=\"1000\" class=\""+docdetails.getStylePrimaryName()+"-preview\">");
+	    	out.write("<tr><td colspan=\"3\">");
+    		out.write("<td rowspan=\"1000\" class=\""+docdetails.getStylePrimaryName()+"-preview\">");
+    	   	if(nodes.getLength()>0){
 	    		for(int i=0;i<nodes.getLength();i++){
 	    			Node n = (Node)nodes.item(i);
 	    			 
 	   		        //<img src="<x:out select="concat($WebApplicationBaseURL,'file/',./@derivid,'/',./@name,'?hosts=',$host)" />" 
 	   	     		//	border="0"  width="150" />      		
-	   		  	Object o =  getJspContext().getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE);
-	   		  	if(o==null){
-	   		  		o = new String("");
-	   		  	}
-	    		StringBuffer sbUrl = new StringBuffer(o.toString());
-	    		sbUrl.append("file/");
-	    		Element eN = (Element)n;
-	    		String derID = eN.getAttributeNS(MCRDocdetailsXMLHelper.getNamespaceURI("xlink"), "href");
-	    		sbUrl.append(derID);
-	    		sbUrl.append("/");
+	    			StringBuffer sbUrl = new StringBuffer(o.toString());
+	    			sbUrl.append("file/");
+	    			Element eN = (Element)n;
+	    			String derID = eN.getAttributeNS(MCRDocdetailsXMLHelper.getNamespaceURI("xlink"), "href");
+	    			sbUrl.append(derID);
+	    			sbUrl.append("/");
 	    		
-	    		MCRDirectory root = MCRDirectory.getRootDirectory(derID);
-	   		    MCRFilesystemNode[] myfiles = root.getChildren();
-	   		    for ( int j=0; j< myfiles.length; j++) {
-	   		    	MCRFile theFile = (MCRFile) myfiles[j];
-	   		    	if ( theFile.getContentTypeID().indexOf("jpeg")>= 0 ||
-	   		    			theFile.getContentTypeID().indexOf("gif")>= 0 ||
-	   		    			theFile.getContentTypeID().indexOf("png")>= 0) {
-	   		    		String url = sbUrl.toString()+myfiles[j].getName();
-	   				    out.write("<img src=\""+url+"\" border=\"0\" width=\""+getImageWidth()+"\" alt=\""+myfiles[j].getName()+"\" />");  
-	   				    out.write("<br />");
-	   			    }
-	   		    }
+	    			MCRDirectory root = MCRDirectory.getRootDirectory(derID);
+	    			MCRFilesystemNode[] myfiles = root.getChildren();
+	    			for ( int j=0; j< myfiles.length; j++) {
+	    				MCRFile theFile = (MCRFile) myfiles[j];
+	    				if ( theFile.getContentTypeID().indexOf("jpeg")>= 0 ||
+	    						theFile.getContentTypeID().indexOf("gif")>= 0 ||
+	    						theFile.getContentTypeID().indexOf("png")>= 0) {
+	    					String url = sbUrl.toString()+myfiles[j].getName();
+	    					out.write("<img src=\""+url+"\" border=\"0\" width=\""+getImageWidth()+"\" alt=\""+myfiles[j].getName()+"\" />");  
+	    					out.write("<br />");
+	    				}
+	    			}
 	   		   				    					
-	    	}
-	    	out.write("</td></tr>");    	
-	    }
+	    		}
+    	   	}
+	   	else{
+	   		String url = o.toString()+"images/emtyDot1Pix.gif";
+			out.write("<img src=\""+url+"\" border=\"0\" width=\""+getImageWidth()+"\" />");  
+		    
+	   	}
+	    out.write("</td></tr>");    	
 	    		//error
-	   }catch(Exception e){
+	}catch(Exception e){
 		throw new JspException("Error executing docdetails:outputitem tag", e);
-	   }
+	}
 	}
 
 	public void setLabelContains(String substring) {
