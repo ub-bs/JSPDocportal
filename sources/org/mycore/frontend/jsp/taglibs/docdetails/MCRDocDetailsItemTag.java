@@ -15,6 +15,7 @@ public class MCRDocDetailsItemTag extends SimpleTagSupport {
 	private static Logger LOGGER=Logger.getLogger(MCRDocDetailsItemTag.class);
 	private String xp;
 	private String messagekey="";
+	private String css=null;
 
 	public void setXpath(String xpath) {
 		this.xp = xpath;
@@ -22,6 +23,10 @@ public class MCRDocDetailsItemTag extends SimpleTagSupport {
 
 	public void setMessagekey(String messagekey) {
 		this.messagekey = messagekey;
+	}
+	
+	public void setStyleName(String style){
+		this.css=style;
 	}
 
 	public void doTag() throws JspException, IOException{
@@ -46,7 +51,17 @@ public class MCRDocDetailsItemTag extends SimpleTagSupport {
 	    	} catch (Exception e) {
 			   LOGGER.debug("wrong xpath expression: " + xp);
 			}
-	    	getJspContext().getOut().print("<td class=\""+docdetails.getStylePrimaryName()+"-value\">"+result+"</td>");	
+	    	if(result.equals("#")){
+	    		result = "";
+	    	}
+	    	String td = null;
+	    	if(css!=null && !"".equals(css)){
+	    		td = "<td class=\""+css+"\">";
+	    	}
+	    	else{
+	    		td = "<td class=\""+docdetails.getStylePrimaryName()+"-value\">";
+	    	}
+	    	getJspContext().getOut().print(td+result+"</td>");	
 		}
 	}
 	
