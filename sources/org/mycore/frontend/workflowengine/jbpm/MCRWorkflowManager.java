@@ -382,27 +382,26 @@ public abstract class MCRWorkflowManager {
 	final public synchronized MCRObjectID getNextFreeID(String objtype) {
 	    String base = MCRConfiguration.instance().getString("MCR.SWF.Project.ID","DocPortal")+ "_" + objtype; 	    
 		String workingDirectoryPath = MCRWorkflowDirectoryManager.getWorkflowDirectory(objtype);
-		
-		MCRObjectID IDMax = new MCRObjectID();
-		IDMax.setNextFreeId(base);
+		int maxwf =0;
 				
 		File workingDirectory = new File(workingDirectoryPath);
 		if (workingDirectory.isDirectory()) {
-			String[] list = workingDirectory.list();
-			for (int i = 0; i < list.length; i++) {
+			for (String filename: workingDirectory.list()) {
 				try {
-					MCRObjectID IDinWF = new MCRObjectID(list[i].substring(0, list[i].length() - 4));
-					if (IDinWF.getTypeId().equals(objtype) && IDMax.getNumberAsInteger() <= IDinWF.getNumberAsInteger()) {
-						IDinWF.setNumber(IDinWF.getNumberAsInteger() + 1);
-						IDMax = IDinWF;
+					MCRObjectID IDinWF = new MCRObjectID(filename.substring(0, filename.length() - 4));
+					if (IDinWF.getTypeId().equals(objtype) && maxwf < IDinWF.getNumberAsInteger()) {
+						maxwf = IDinWF.getNumberAsInteger();
 					}
 				} catch (Exception e) {
-					;   //other files can be ignored
+					  //other files can be ignored
 				}
 			}
-		}		
-		logger.debug("New ID is: " + IDMax.getId());
-		return IDMax;
+		}
+		MCRObjectID result = new MCRObjectID();
+		result.setNextFreeId(base,maxwf);
+	
+		logger.debug("New ID is: " + result.getId());
+		return result;
 	}
 	
 	protected boolean backupDerivateObject(String documentType, String metadataObject, String derivateObject, long pid) {

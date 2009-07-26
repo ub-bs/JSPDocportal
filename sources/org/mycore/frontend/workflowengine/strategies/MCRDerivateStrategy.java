@@ -110,13 +110,15 @@ public abstract class MCRDerivateStrategy {
 	}
 
 	final public synchronized MCRObjectID setNextFreeDerivateID(){
+		int maxwf=0;
 		if(nextWorkflowDerivateID == null){
 			List<String> allDerivateFileNames = new ArrayList<String>();
 			HashMap directoryMap = MCRWorkflowDirectoryManager.getEditWorkflowDirectories();
 			for (Iterator it = directoryMap.keySet().iterator(); it.hasNext();) {
 				File workDir = new File((String)directoryMap.get(it.next()));
 				if(workDir.isDirectory()){
-					for (Iterator it2 = getAllDerivateFiles(workDir).iterator(); it2.hasNext();) {
+					Iterator it2 = Arrays.asList(workDir.listFiles(new MCRDerivateFileFilter())).iterator(); 
+					while(it2.hasNext()){
 						File ff = (File) it2.next();
 						if ( (ff.isFile())) {
 								allDerivateFileNames.add(ff.getName());
@@ -128,33 +130,21 @@ public abstract class MCRDerivateStrategy {
 			MCRObjectID dbIDMax = new MCRObjectID();
 			dbIDMax.setNextFreeId(base);
 			if(allDerivateFileNames.size() == 0){
-				nextWorkflowDerivateID = dbIDMax;
+				maxwf=0;
 			}else{			
 				Collections.sort(allDerivateFileNames, Collections.reverseOrder());
 				String maxFilename = (String)allDerivateFileNames.get(0); 
-				nextWorkflowDerivateID = new MCRObjectID(maxFilename.substring(0, maxFilename.lastIndexOf(".")));
-				nextWorkflowDerivateID.setNumber(nextWorkflowDerivateID.getNumberAsInteger() + 1);
-				//neue ID = Maximum von DatenbankID und WorkflowDirectoryID
-				nextWorkflowDerivateID.setNumber(Math.max(nextWorkflowDerivateID.getNumberAsInteger(), dbIDMax.getNumberAsInteger()));
-				
+				MCRObjectID IDinWF = new MCRObjectID(maxFilename.substring(0, maxFilename.length() - 4));
+				maxwf = IDinWF.getNumberAsInteger();				
 			}
+			nextWorkflowDerivateID.setNextFreeId(base, maxwf);
 		}
+		
+		
 		MCRObjectID retID = new MCRObjectID(nextWorkflowDerivateID.toString());
 		nextWorkflowDerivateID.setNumber(retID.getNumberAsInteger() + 1);
 		return retID;
 	}	
-	
-    /**
-     * The method return a List of MyCoRe derivate files, the filename must follow the form
-     *    **_derivate_**
-     * 
-     * @param dir
-     *            File directory, that is searched for derivate files
-     * @return an List of Files
-     */
-	final protected List getAllDerivateFiles(File dir) {
-    	return Arrays.asList(dir.listFiles(new MCRDerivateFileFilter()));
-    }	
 	
 	/**
 	 * saves a list of files in a workflow directory, 
