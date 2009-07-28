@@ -269,9 +269,7 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 					+webBaseURL+"/servlets/MCRJSPSearchServlet?mode=results&id="+id+"&page="+numPages+"&numPerPage="+numPerPage
 					+"\">"+messages.getString("Webpage.searchresults.lastPage")+"</a></td>");
 		}
-		
-		
-		
+		out.write("</tr></table>");
 	}
 
 	public String getSortfields() {
