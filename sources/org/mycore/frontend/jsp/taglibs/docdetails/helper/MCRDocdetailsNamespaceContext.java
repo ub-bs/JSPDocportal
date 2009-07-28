@@ -14,20 +14,17 @@ public class MCRDocdetailsNamespaceContext implements NamespaceContext {
 		prefixMapping.put("xml", XMLConstants.XML_NS_URI);
 		prefixMapping.put("xlink", "http://www.w3.org/1999/xlink");
 	}
-	@Override
 	public String getNamespaceURI(String prefix) {
 		return prefixMapping.get(prefix);
 	}
 
 	//not needed for XPath processing
-	@Override
 	public String getPrefix(String arg0) {
 		throw new UnsupportedOperationException();
 	}
 
 	//not needed for XPath processing
 	@SuppressWarnings("unchecked")
-	@Override
 	public Iterator getPrefixes(String arg0) {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();

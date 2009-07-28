@@ -14,15 +14,10 @@ import org.w3c.dom.NodeList;
 
 public class MCRDocDetailsValueTag extends SimpleTagSupport {
 	private static Logger LOGGER=Logger.getLogger(MCRDocDetailsValueTag.class);
-	private boolean useLang = false;
 	private String xpath;
 	private String messagekey="";
 	private String dateformat="";
 
-
-	public void setUseLanguage(boolean b) {
-		useLang = b;
-	}
 
 	public void setXpath(String xpath) {
 		this.xpath = xpath;
@@ -43,9 +38,6 @@ public class MCRDocDetailsValueTag extends SimpleTagSupport {
 		MCRDocDetailsOutputItemTag item = (MCRDocDetailsOutputItemTag) findAncestorWithClass(this, MCRDocDetailsOutputItemTag.class);
 		String xp = xpath;
 		
-		if(useLang){
-		  xp=xpath+"[@xml:lang='"+docdetails.getLang()+"']";
-		}
 		String result = "";
 		try {
 			XPath xpath = MCRDocdetailsXMLHelper.createXPathObject();

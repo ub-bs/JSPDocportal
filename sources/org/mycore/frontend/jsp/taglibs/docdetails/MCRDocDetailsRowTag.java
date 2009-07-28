@@ -18,7 +18,6 @@ import org.w3c.dom.NodeList;
 public class MCRDocDetailsRowTag extends SimpleTagSupport
 {
 	private static final long serialVersionUID = -2264968071280327072L;
-	private boolean uselang = false;
 	private boolean showinfo = false;
 	private String xpath;
 	private String labelkey;
@@ -31,9 +30,6 @@ public class MCRDocDetailsRowTag extends SimpleTagSupport
 		return separator;
 	}
 
-	public void setUselanguage(boolean b) {
-		uselang = b;
-	}
 	public void setXpath(String s){
 		xpath = s;
 	}
@@ -64,9 +60,6 @@ public class MCRDocDetailsRowTag extends SimpleTagSupport
 		}
 		String xp = xpath;
 
-		if (uselang) {
-			xp = xpath + "[@xml:lang='" + docdetails.getLang() + "']";
-		}
 		PageContext ctx = (PageContext)getJspContext();
 		JspWriter out = getJspContext().getOut();
 		try {
@@ -78,7 +71,7 @@ public class MCRDocDetailsRowTag extends SimpleTagSupport
 				docdetails.setPreviousOutput(docdetails.getPreviousOutput() + 1);
 				out.write("<tr>");
 				
-				out.write("   <td class=\""+docdetails.getStylePrimaryName()+"-label\">");
+				out.write("   <td class=\""+docdetails.getStylePrimaryName()+"-infolabel\">");
 				boolean print = "true".equals(ctx.getRequest().getParameter("print")); 
 				if(showinfo && !print){
 					String info = "";

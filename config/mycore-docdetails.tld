@@ -40,16 +40,27 @@
 			<required>true</required>
 		</attribute>
 		<attribute>
-			<name>useLanguage</name>
-			<type>java.lang.Boolean</type>
-		</attribute>
-		<attribute>
 			<name>messageKeyPrefix</name>
 		</attribute>
 				<attribute>
 			<name>datePattern</name>
 		</attribute>
 	</tag>
+	<tag>
+		<description>returns a Docdetails text item or a linked text item</description>
+		<name>textlinkitem</name>
+		<tag-class>org.mycore.frontend.jsp.taglibs.docdetails.MCRDocDetailsTextOrLinkItemTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>xpath</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>styleName</name>
+		</attribute>  
+	</tag>
+	
 	<tag>
 		<description>shows a separator, which can be a space or a line</description>
 		<name>separator</name>
@@ -68,6 +79,7 @@
 		<attribute>
 			<name>xpath</name>
 			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
 			<name>showInfo</name>
@@ -77,10 +89,6 @@
 			<name>labelkey</name>
 			<required>true</required>
 		</attribute>		
-		<attribute>
-			<name>useLanguage</name>
-			<type>java.lang.Boolean</type>
-		</attribute>
 		<attribute>		
 			<name>lang</name>
 		</attribute>
@@ -102,6 +110,10 @@
 		</attribute>
 		<attribute>
 			<name>messagekey</name>
+		</attribute>
+		<attribute>
+			<description>see http://java.sun.com/j2se/1.5.0/docs/api/java/text/SimpleDateFormat.html for details</description>
+			<name>datePattern</name>
 		</attribute>
 		<attribute>
 			<name>styleName</name>

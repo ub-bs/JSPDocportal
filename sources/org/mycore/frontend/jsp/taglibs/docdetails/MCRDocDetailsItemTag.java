@@ -1,6 +1,7 @@
 package org.mycore.frontend.jsp.taglibs.docdetails;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
@@ -15,6 +16,7 @@ public class MCRDocDetailsItemTag extends SimpleTagSupport {
 	private static Logger LOGGER=Logger.getLogger(MCRDocDetailsItemTag.class);
 	private String xp;
 	private String messagekey="";
+	private String datepattern="";
 	private String css=null;
 
 	public void setXpath(String xpath) {
@@ -27,6 +29,10 @@ public class MCRDocDetailsItemTag extends SimpleTagSupport {
 	
 	public void setStyleName(String style){
 		this.css=style;
+	}
+	
+	public void setDatePattern(String pattern){
+		this.datepattern=pattern;
 	}
 
 	public void doTag() throws JspException, IOException{
@@ -43,10 +49,35 @@ public class MCRDocDetailsItemTag extends SimpleTagSupport {
 	    		NodeList nodes = (NodeList)xpath.evaluate(xp, docdetailsRow.getXML(), XPathConstants.NODESET);
 	    		if(nodes.getLength()>0){
 	    			result = nodes.item(0).getTextContent();
-	    			if(messagekey!=null && !"".equals(messagekey)){
+	    			if(!"".equals(messagekey)){
 	    				String key = messagekey+result;
 	    				result = docdetails.getMessages().getString(key);
 	    			}
+	    			if(!"".equals(datepattern)){
+	    				try{
+	    					SimpleDateFormat indf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+	    					SimpleDateFormat outdf = new SimpleDateFormat(datepattern);
+	    					result = outdf.format(indf.parse(result));
+	    				}
+	    				catch(Exception e){
+	    					try{
+		    					SimpleDateFormat indf = new SimpleDateFormat("yyyy-MM-dd");
+		    					SimpleDateFormat outdf = new SimpleDateFormat(datepattern);
+		    					result = outdf.format(indf.parse(result));
+		    				}
+		    				catch(Exception e2){
+		    					try{
+			    					SimpleDateFormat indf = new SimpleDateFormat("yyyy");
+			    					SimpleDateFormat outdf = new SimpleDateFormat(datepattern);
+			    					result = outdf.format(indf.parse(result));
+			    				}
+			    				catch(Exception e3){
+			    					result = nodes.item(0).getTextContent();
+			    				}	    	
+		    				}	    				
+	    				}	    				
+	    			}
+	    			
 	    		}
 	    	} catch (Exception e) {
 			   LOGGER.debug("wrong xpath expression: " + xp);
