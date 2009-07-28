@@ -30,6 +30,7 @@ import org.mycore.frontend.servlets.MCRServlet;
  * 
  */
 public class MCRSearchresultBrowserTag extends SimpleTagSupport {
+	private static final int DEFAULT_NUMPERPAGE=25;
 	private static final Logger LOGGER = Logger.getLogger(MCRSearchresultBrowserTag.class);
 	protected static String languageBundleBase = MCRConfiguration.instance().getString(
 			"MCR.languageResourceBundleBase", "messages");
@@ -113,7 +114,7 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 			}
 			//@TODO - only necessary for initial developement
 			if(numPerPage==0){
-				numPerPage = 25;
+				numPerPage = DEFAULT_NUMPERPAGE;
 			}
 			
 			if(numPages < Math.round((float)Math.ceil((float)numHits / numPerPage))){
