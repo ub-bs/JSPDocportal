@@ -28,8 +28,8 @@
     	<mcrdd:textlinkitem xpath="." />
     </mcrdd:row>
 
-    <mcrdd:row xpath="/mycoreobject/metadata/contriblinks/contriblink | /mycoreobject/metadata/contributors/contributor/fullname" 
-               labelkey="OMD.advisor_referee" showInfo="false">
+    <mcrdd:row xpath="/mycoreobject/metadata/contriblinks/contriblink | /mycoreobject/metadata/contributors/contributor[@type='advisor']/fullname" 
+               labelkey="OMD.advisor" showInfo="false">
     	<mcrdd:textlinkitem xpath="." />
     </mcrdd:row>
 
