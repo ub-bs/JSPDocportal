@@ -115,6 +115,28 @@ td.resultdetails-icon{
 	text-align: center;
 		
 }
+
+/* =================================================================== */
+/* Toolbar on docdetails page                                          */
+/* =================================================================== */
+
+
+/* =================================================================== */
+/* Toolbar on docdetails page                                          */
+/* =================================================================== */
+
+div.docdetails-toolbar{
+	padding:0px 0px 20px 0px;
+	width: 95%; 
+}
+
+div.docdetails-toolbar-item{
+    float:right;
+    padding-left:12px;
+    padding-right:12px;
+    padding-bottom:12px;
+}
+
 /* =================================================================== */
 /* Info Hover (button + messagebox on mouse over)                      */
 /* =================================================================== */

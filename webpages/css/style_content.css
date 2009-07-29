@@ -423,6 +423,47 @@ table.tasklistDerivate tr td a:active{
 
 
 
+         
+/* =================================================================== */
+/* SearchResults (Jul 2009)                                            */
+/* =================================================================== */                        
+div.searchresult-resortform{
+   margin-top:20px;
+   margin-bottom:10px;
+}
+
+table.searchresult-navigation{
+	width: 100%;
+	background-color: rgb(128, 197, 221);
+    border-style: solid none solid none;
+    border-color: #0a50a1;
+    border-width: 1px;
+    margin-top:14px;
+    margin-bottom:14px;
+}
+
+table.searchdetail-navigation{
+	background-color: rgb(128, 197, 221);
+    border-style: solid solid solid solid;
+    border-color: #0a50a1;
+    border-width: 1px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    margin-right: 4px;
+    margin-left: 30px;
+}
+table.searchdetail-navigation td,
+table.searchresult-navigation td{
+	padding-left:7px;
+	padding-right:7px;
+	white-space:nowrap;
+}
+
+td.resultdetails-icon{
+	width:64px;
+}
+
+
 /* =================================================================== */
 /* Help Hover (button + messagebox on mouse over)                      */
 /* =================================================================== */
@@ -477,6 +518,9 @@ div.helpHover a:hover span {
 * html * div.helpHover a:hover span {
 	position:absolute !important;
 }
+
+
+
 
 /* =================================================================== */
 /* WebContent Styles                                                   */
