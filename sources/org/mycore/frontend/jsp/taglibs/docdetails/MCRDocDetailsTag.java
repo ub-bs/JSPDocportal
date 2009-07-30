@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringWriter;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
@@ -28,8 +27,6 @@ import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
-
-import sun.reflect.ReflectionFactory.GetReflectionFactoryAction;
 
 public class MCRDocDetailsTag extends SimpleTagSupport {
 	private static final long serialVersionUID = 1L;
