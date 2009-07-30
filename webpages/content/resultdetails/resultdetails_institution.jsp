@@ -16,7 +16,7 @@
 <table class="resultdetails-table">
 	<tr>
 		<td class="resultdetails-icon" rowspan="10">
-			<img src="${WebApplicationBaseURL}images/pubtype/person.gif" alt="${type}">
+			<img src="${WebApplicationBaseURL}images/pubtype/institution.gif" alt="${type}">
 		</td>
 		<td class="resultdetails-header">
 			<c:set var="title"><x:out select="$xml/mycoreobject/metadata/names/name/fullname" /></c:set>
@@ -31,15 +31,20 @@
 		</td>
 	</tr>
  
-	<x:set var="data2" select="$xml/mycoreobject/metadata/institutions/institution" /> 
-	<x:if select="string-length($data2/@categid)>0">
+	<x:set var="data2" select="$xml/mycoreobject/metadata/addresses/address/city" /> 
+	<x:if select="string-length($data2)>0">
 		<tr>
 			<td class="resultdetails-value">
-			    <c:set var="classid"><x:out select="$data2/@classid" /></c:set>
-			    <c:set var="categid"><x:out select="$data2/@categid" /></c:set>
-			    
-				<fmt:message key="OMD.class-origins" />:&nbsp; 
-				<mcr:displayClassificationCategory lang="de" classid="${classid}" categid="${categid}"/>
+				<fmt:message key="OMD.city" />:&nbsp; <c:out value="${data2}"/>
+			</td>
+		</tr>
+	</x:if>
+	
+	<x:set var="data3" select="$xml/mycoreobject/metadata/urls/url/@*[local-name()='href']" /> 
+	<x:if select="string-length($data3)>0">
+		<tr>
+			<td class="resultdetails-value">
+				<fmt:message key="OMD.webpage" />:&nbsp; <c:out value="${data3}"/>
 			</td>
 		</tr>
 	</x:if>

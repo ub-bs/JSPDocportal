@@ -1,0 +1,15 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.mycore.de/jspdocportal/docdetails" prefix="mcrdd" %>
+<%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%-- Parameter: id - the MCR Object ID--%>
+<%-- Parameter: url - the result url--%>
+
+<c:import url="${applicationScope.WebApplicationBaseURL}content/resultdetails/resultdetails_disshab.jsp">
+	<c:param name="id" value="${param.id}" />
+	<c:param name="url" value="${param.url}" />
+</c:import>

@@ -19,19 +19,15 @@
    <mcr:debugInfo/>
    <mcrb:searchresultBrowser varmcrid="mcrid" varurl="url" sortfields="title author modified">
    		<c:set var="doctype" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
-   		<c:choose>
-   			<c:when test="${fn:contains('thesis disshab', doctype)}">
-   				<c:import url="${applicationScope.WebApplicationBaseURL}content/resultdetails/resultdetails_disshab_thesis.jsp">
-					<c:param name="id" value="${mcrid}" />
-					<c:param name="url" value="${url}" />
-				</c:import>
-			</c:when>
-			<c:when test="${fn:contains('person', doctype)}">
-   				<c:import url="${applicationScope.WebApplicationBaseURL}content/resultdetails/resultdetails_${doctype}.jsp">
-					<c:param name="id" value="${mcrid}" />
-					<c:param name="url" value="${url}" />
-				</c:import>
-			</c:when>
-			<c:otherwise>No resultlist details definied for: ${doctype}</c:otherwise>
-		</c:choose> 
+   		<c:catch var ="catchException">
+			<c:import url="${applicationScope.WebApplicationBaseURL}content/resultdetails/resultdetails_${doctype}.jsp">
+				<c:param name="id" value="${mcrid}" />
+				<c:param name="url" value="${url}" />
+			</c:import>
+		</c:catch>
+		<c:if test = "${catchException!=null}">
+			<br />
+			An error occured while displaying resultlist details for ${doctype} : ${catchException.message}
+			<br />
+		</c:if>
    </mcrb:searchresultBrowser>
