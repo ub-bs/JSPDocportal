@@ -13,6 +13,7 @@ import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.MCRSession;
+import org.mycore.common.MCRSessionMgr;
 import org.mycore.frontend.servlets.MCRServlet;
 
 public class MCRCheckAccessTag extends SimpleTagSupport
@@ -43,19 +44,17 @@ public class MCRCheckAccessTag extends SimpleTagSupport
 	   		if(tx==null || !tx.isActive()){
 				t1 = MCRHIBConnection.instance().getSession().beginTransaction();
 			}
-
 			PageContext pageContext = (PageContext) getJspContext();			
-			//"HttpJspBase" is the name of the servlet that handles JSPs
-			MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)pageContext.getRequest(), "HttpJspBase");
-			
-			if ( mcrSession.getCurrentUserID().equals("guest") )
+			MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
+			if ( mcrSession.getCurrentUserID().equals("guest") ){
 				pageContext.setAttribute(var, new Boolean(false));	
-			
-			else if ( key == null || "".equals(key)) // allgemeiner check des aktuellen Users
+			}
+			else if ( key == null || "".equals(key)){ // allgemeiner check des aktuellen Users
 				pageContext.setAttribute(var, new Boolean(AI.checkPermission(permission)));
-			else 
+			}
+			else{ 
 				pageContext.setAttribute(var, new Boolean(AI.checkPermission(key, permission)));
-			return;
+			}
 		}catch(Exception e){
 			LOGGER.error("could not check access", e);
 		}
