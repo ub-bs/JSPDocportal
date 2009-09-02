@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <imports>
-
   <include uri="webapp:editor/workflow/imports-common.xml" />
  
   <!-- *** Alle Datenfelder die in edit-author und author-author benötigt werden -->
@@ -20,7 +19,7 @@
 		</condition>
 	  </textfield>	
 	</cell>	
-    <cell col="3" row="1" anchor="NORTHWEST" ref="APNameSurname" sortnr="1" />
+    <cell col="3" row="1" anchor="NORTHWEST" ref="APNameSurName" sortnr="1" />
     <cell col="2" row="2" anchor="NORTHWEST" var="metadata/names/name/firstname" sortnr="1" >
 	  <textfield id="tf.FirstName"  width="30" maxlength="128"  class="mandatory">		
 		<condition required="true" id="cond.FirstName">
@@ -45,7 +44,7 @@
     <hidden var="metadata/names/name/@inherited" default="0" sortnr="1" />
     <hidden var="metadata/names/name/@lang" default="de" sortnr="1" />
     <cell col="2" row="1" anchor="NORTHWEST"  var="metadata/names/name/surname" sortnr="1" >
-	  <textfield id="tf.Surname"  width="30" maxlength="128"  class="mandatory" >		
+	  <textfield id="tf.Surname1"  width="30" maxlength="128"  class="mandatory" >		
 		<condition required="true" id="cond.Name1">
 					<label i18n="Editor.Validate.Name.Empty" />
 		</condition>
@@ -53,7 +52,7 @@
 	</cell>	
     <cell col="3" row="1" anchor="NORTHWEST" ref="APNameSurNameP" />
     <cell col="2" row="2" anchor="NORTHWEST" var="metadata/names/name/firstname" sortnr="1" >
-	  <textfield id="tf.FirstName"  width="30" maxlength="128"  class="mandatory" >		
+	  <textfield id="tf.FirstName1"  width="30" maxlength="128"  class="mandatory" >		
 		<condition required="true" id="cond.FirstName1">
 			<label i18n="Editor.Validate.Firstname.Empty" />
 		</condition>
@@ -185,7 +184,7 @@
     <hidden var="metadata/professions/profession/@lang" sortnr="7" default="de" />
     <hidden var="metadata/professions/profession/@type" default="profession" sortnr="7" />
     <cell col="2" row="1" anchor="WEST" var="metadata/professions/profession" sortnr="7">
-	<textfield id="TFProfession_OnlyMandatory"  width="30" maxlength="128"  class="mandatory" >		
+	<textfield id="TFProfession_Only"  width="30" maxlength="128" >		
 		  <!--  <condition id="CProfessionMandatory" regexp=".+" required="true" >
 				<label i18n="Editor.Validate.Profession.Empty" />
          </condition> -->
@@ -233,7 +232,7 @@
     <hidden var="metadata/emails/email/@inherited" default="0" sortnr="11" />
     <hidden var="metadata/emails/email/@lang" sortnr="11" default="de" />
     <cell col="2" row="1" anchor="NORTHWEST" var="metadata/emails/email" sortnr="11" >
-		<textfield id="tf.Email"  width="30" maxlength="128"  class="mandatory" >		
+		<textfield id="tf.Email"  width="30" maxlength="128"  >		
 		 <!--   <condition id="cond.DEmail" regexp="\S+@\S+\.\S+" required="true" >
 			  <label i18n="Editor.Validate.Email.Format" />
 		   </condition> -->

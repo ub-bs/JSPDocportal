@@ -110,11 +110,11 @@
          </condition>
       </textfield>	 
      </cell> -->
-    <cell col="1" row="2" anchor="WEST" ref="TFzeile1024" var="surname" />
+    <cell col="1" row="2" anchor="WEST" ref="TFzeile1024M" var="surname" />
     <cell col="2" row="2" anchor="NORTHWEST" ref="APNameSurName" />
-    <cell col="1" row="3" anchor="WEST" ref="TFzeile1024" var="firstname" />
+    <cell col="1" row="3" anchor="WEST" ref="TFzeile1024M" var="firstname" />
     <cell col="2" row="3" anchor="NORTHWEST" ref="APNameFirstName" />
-    <cell col="1" row="4" anchor="WEST" ref="TFzeile1024" var="academic" />
+    <cell col="1" row="4" anchor="WEST" ref="TFzeile1024M" var="academic" />
     <cell col="2" row="4" anchor="NORTHWEST" ref="APNameAcademic" />
   </panel>
 
