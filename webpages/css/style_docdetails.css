@@ -51,8 +51,15 @@ td.docdetails-preview img {
 table.docdetails-values-table {
 	border-spacing: 4px;
 }
+
 td.docdetails-value {
      padding-left: 20px;
+}
+
+td.docdetails-value-title {
+	font-size: 133%;
+	font-weight: bold;
+	padding: 5px 5px 5px 20px;
 }
 
 td.docdetails-separator hr {
