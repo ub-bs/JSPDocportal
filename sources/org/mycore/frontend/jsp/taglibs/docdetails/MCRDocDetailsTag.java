@@ -62,7 +62,11 @@ public class MCRDocDetailsTag extends SimpleTagSupport {
 	}
 
 	public void doTag() throws JspException, IOException {
-		Transaction tx  = MCRHIBConnection.instance().getSession().beginTransaction();
+		boolean isRoot = findAncestorWithClass(this, MCRDocDetailsTag.class)==null; 
+		Transaction tx  = null;
+		if(isRoot){
+			tx = MCRHIBConnection.instance().getSession().beginTransaction();
+		}
 		if (lang == null || lang.equals("")) {
 			lang = "de";
 		}
@@ -114,7 +118,9 @@ public class MCRDocDetailsTag extends SimpleTagSupport {
 		
 		out.write("</tbody>\n");
 		out.write("</table>\n");
-		tx.commit();
+		if(isRoot){
+			tx.commit();
+		}
 	}
 
 	public Document getXMLDocument() {
