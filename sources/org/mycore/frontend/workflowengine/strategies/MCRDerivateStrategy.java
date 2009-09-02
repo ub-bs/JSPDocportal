@@ -112,6 +112,7 @@ public abstract class MCRDerivateStrategy {
 	final public synchronized MCRObjectID setNextFreeDerivateID(){
 		int maxwf=0;
 		if(nextWorkflowDerivateID == null){
+			nextWorkflowDerivateID = new MCRObjectID();
 			List<String> allDerivateFileNames = new ArrayList<String>();
 			HashMap directoryMap = MCRWorkflowDirectoryManager.getEditWorkflowDirectories();
 			for (Iterator it = directoryMap.keySet().iterator(); it.hasNext();) {
