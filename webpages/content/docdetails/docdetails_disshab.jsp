@@ -44,8 +44,12 @@
 	<mcrdd:row xpath="/mycoreobject/metadata/dates/date[@type='submitted']" labelkey="OMD.yearsubmitted" showInfo="false">
 		<mcrdd:item xpath="./text()" datePattern="yyyy" />              
     </mcrdd:row>
-    
-     <mcrdd:separator showLine="true"/>  
+
+	<mcrdd:row xpath="/mycoreobject/metadata/dates/date[@type='accepted']" labelkey="OMD.yearaccepted" showInfo="false">
+		<mcrdd:item xpath="./text()" datePattern="yyyy" />              
+    </mcrdd:row>
+        
+    <mcrdd:separator showLine="true"/>  
      
     <mcrdd:row xpath="/mycoreobject/structure/derobjects/derobject" labelkey="OMD.documents" showInfo="false" >
   		<mcrdd:derivatelist xpath="." showsize="true" />
@@ -97,7 +101,18 @@
 		<mcrdd:item xpath="./text()" />              
     </mcrdd:row>
     
- 	<mcrdd:separator showLine="true"/>
+    <mcrdd:separator showLine="true"/>
+    
+    <mcrdd:row xpath="/mycoreobject/metadata/urns/urn" labelkey="OMD.urns" showInfo="false" >
+   		<mcrdd:outputitem xpath="." varxml="current">
+   		   <jsp:element name="a">
+   		   		<jsp:attribute name="href">http://nbn-resolving.de/<x:out select="string($current)"/></jsp:attribute>
+   		   		<jsp:body><x:out select="string($current)"/></jsp:body>
+   		   </jsp:element>
+   		</mcrdd:outputitem> 
+   	</mcrdd:row>  
+    
+    <mcrdd:separator showLine="true"/>
  	
  	<mcrdd:row xpath="/mycoreobject/service/servdates/servdate[@type='createdate']" labelkey="OMD.created" showInfo="false">
 		<mcrdd:item xpath="./text()" datePattern="dd. MMMM yyyy" />              
@@ -107,11 +122,11 @@
 		<mcrdd:item xpath="./text()" datePattern="dd. MMMM yyyy" />              
     </mcrdd:row>
  	
-   <mcrdd:row xpath="/mycoreobject" labelkey="OMD.selflink" showInfo="false" >
-   		<mcrdd:outputitem xpath="./@ID" varxml="current">
+   <mcrdd:row xpath="/mycoreobject/metadata/urns/urn" labelkey="OMD.selflink" showInfo="false" >
+   		<mcrdd:outputitem xpath="." varxml="current">
    		   <jsp:element name="a">
-   		   		<jsp:attribute name="href">${applicationScope.WebApplicationBaseURL}resolve?id=<x:out select="string($current)"/></jsp:attribute>
-   		   		<jsp:body>${applicationScope.WebApplicationBaseURL}resolve?id=<x:out select="string($current)"/></jsp:body>
+   		   		<jsp:attribute name="href">${applicationScope.WebApplicationBaseURL}resolve?urn=<x:out select="string($current)"/></jsp:attribute>
+   		   		<jsp:body>${applicationScope.WebApplicationBaseURL}resolve?urn=<x:out select="string($current)"/></jsp:body>
    		   </jsp:element>
    		</mcrdd:outputitem> 
    	</mcrdd:row>  
