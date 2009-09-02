@@ -94,9 +94,9 @@
 
 				<c:if test="${itemDocType == 'disshab' && !fn:contains(itemID, 'dbhsnb') }">
 					<td align="center" valign="top" width="30">
-					<form method="get"	action="${baseURL}content/results-config/docdetails-disshab-deliver.jsp"	target="new">
+					<form method="get"	action="${baseURL}content/docdetails/docdetails_disshab-deliver.jsp"	target="new">
 						<input name="id" value="${itemID}" type="hidden"> 
-						<input name="fromWForDB" value="workflow" type="hidden"> 
+						<input name="fromWF" value="true" type="hidden"> 
 						<input title="<fmt:message key="WF.common.object.DisshabAgreement" />"
 							src="${baseURL}images/workflow_disshabpreview.gif" type="image"
 							class="imagebutton">
@@ -121,7 +121,8 @@
 				<form method="get" action="${baseURL}nav">
 					<input	value="~workflow-preview" name="path" type="hidden"> 
 					<input	name="id" value="${itemID}" type="hidden"> 
-					<input name="fromWForDB" value="workflow" type="hidden"> 
+					<input name="fromWForDB" value="workflow" type="hidden">
+					<input name="fromWF" value="true" type="hidden">  
 					<input	title="<fmt:message key="WF.common.object.Preview" />"
 						src="${baseURL}images/workflow_objpreview.gif" type="image"
 						class="imagebutton">
