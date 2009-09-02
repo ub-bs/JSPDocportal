@@ -126,7 +126,7 @@
 
          
 	     <textarea name="tmpTaskMessage" cols="50" rows="4"><fmt:message key="WF.xmetadiss.mail.body.requireAffirmation" />
-	     ${baseURL}content/results-config/docdetails-disshab-deliver.jsp?id=${docID}&fromWForDB=workflow
+	     ${baseURL}content/docdetails/docdetails_disshab-deliver.jsp?id=${docID}&fromWForDB=workflow
 	     </textarea>  
 	     <br>&nbsp;<br>
          <input name=submit" type="submit" value="<fmt:message key="WF.common.Send" />"/>      
