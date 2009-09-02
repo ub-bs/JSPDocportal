@@ -285,7 +285,7 @@ public class MCRWorkflowActions extends MCRServlet {
         
         }
         catch(Exception e){
-        	
+        	LOGGER.error("Exception in MCRWorkflowActions", e);
         }
         finally{
         	if(!wfp.wasClosed()){
