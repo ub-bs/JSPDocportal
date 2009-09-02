@@ -17,11 +17,13 @@ public class MCRDocDetailsOutputItemTag extends SimpleTagSupport {
 	private String varxml;
 	private String varxmldoc;
 	private Node xmlnode;
+	private String css=null;
 	
 	public Node getXmlnode() {
 		return xmlnode;
 	}
 
+	
 	public void doTag() throws JspException, IOException {
 			
 		MCRDocDetailsRowTag docdetailsRow = (MCRDocDetailsRowTag) findAncestorWithClass(this, MCRDocDetailsRowTag.class);
@@ -42,7 +44,12 @@ public class MCRDocDetailsOutputItemTag extends SimpleTagSupport {
 	    			if(varxmldoc!=null){
 	    				getJspContext().setAttribute(varxmldoc, n.getOwnerDocument());
 	    			}
-	    			out.write("<td class=\""+docdetails.getStylePrimaryName()+"-value\">");
+	    			if(css!=null && !"".equals(css)){
+	    	    		out.write("<td class=\""+css+"\">");
+	    	    	}
+	    	    	else{
+	    	    		out.write("<td class=\""+docdetails.getStylePrimaryName()+"-value\">");
+	    	    	}
 	    			getJspBody().invoke(out);
 	    			out.write("</td>");	    					
 	    		}
@@ -66,5 +73,9 @@ public class MCRDocDetailsOutputItemTag extends SimpleTagSupport {
 
 	public void setVarxmldoc(String varxmldoc) {
 		this.varxmldoc = varxmldoc;
+	}
+	
+	public void setStyleName(String style){
+		this.css=style;
 	}
 }

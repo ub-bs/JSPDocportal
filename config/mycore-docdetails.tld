@@ -202,6 +202,9 @@
 		<attribute>
 			<name>varxmldoc</name>			
 		</attribute>
+		<attribute>
+			<name>styleName</name>
+		</attribute>
 	</tag>
 	
 	<tag>
