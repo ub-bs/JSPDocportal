@@ -35,7 +35,7 @@
 			
 			if ( request.getParameter("step").equalsIgnoreCase("register") ) {				
 			
-	            org.jdom.Document doc = MCRXMLHelper.parseURI(filename,false);
+	            org.jdom.Document doc = MCRXMLHelper.parseURI(new File(filename).toURI(),false);
            		Iterator it = doc.getDescendants(new ElementFilter("user"));
 				if (it.hasNext()) {
 					org.jdom.Element uElm =  (org.jdom.Element) it.next();
