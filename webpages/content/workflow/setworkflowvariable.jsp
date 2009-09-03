@@ -7,7 +7,9 @@
 <%@page import="org.mycore.frontend.editor.helper.MCRGetEditorElements"%>
 <%@page import="org.jdom.Element"%>
 <%@page import="org.jdom.output.XMLOutputter"%>
-<c:set  var="baseURL" value="${applicationScope.WebApplicationBaseURL}"/>
+
+<%@page import="org.mycore.common.MCRSessionMgr"%>
+<%@page import="org.jdom.Namespace"%><c:set  var="baseURL" value="${applicationScope.WebApplicationBaseURL}"/>
 <fmt:setLocale value="${requestScope.lang}" />
 <fmt:setBundle basename='messages' />
 <c:set var="processid" value="${requestScope.task.processID}" />
@@ -46,10 +48,21 @@
 				
 				<%MCRGetEditorElements helper = new MCRGetEditorElements();
 				Element content = helper.resolveElement("localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getSpecialCategoriesInItems&amp;classProp=MCR.ClassificationID.Type&amp;categoryProp=MCR.Classification.Type.SelectCategoryIDs.publication");
+				String currentLang = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
 				for(Object o : content.getChildren()){
 					Element e = (Element)o;
 					out.write("<option value=\""+e.getAttributeValue("value")+"\">");
-					out.write(e.getChildText("label"));
+					String label = null;
+					for(Object oLabel:e.getChildren("label")){
+						Element eLabel = (Element)oLabel;
+						if(eLabel.getAttributeValue("lang", Namespace.XML_NAMESPACE).equals(currentLang)){
+							label = eLabel.getText(); 
+						}
+					}
+					if(label==null){
+						label=e.getAttributeValue("value"); 
+					}
+					out.write(label);
 					out.write("</option>");
 				}
 				%>		     
