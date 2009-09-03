@@ -105,7 +105,7 @@
 
     <cell col="2" row="1" anchor="NORTHWEST" ref="Scountry" var="metadata/addresses/address/country"  />
     <cell col="3" row="1" anchor="NORTHWEST" ref="AAddressCountry" />
-    <cell col="2" row="2" anchor="NORTHWEST" ref="Sstate" var="metadata/addresses/address/state"  />
+    <!-- <cell col="2" row="2" anchor="NORTHWEST" ref="Sstate" var="metadata/addresses/address/state"  /> -->
     <cell col="3" row="2" anchor="NORTHWEST" ref="AAddressState" />
     <cell col="2" row="3" anchor="NORTHWEST" var="metadata/addresses/address/zipcode" >
 	  <textfield id="tf.ZipCode" width="10" maxlength="128"  >		
