@@ -130,7 +130,14 @@
 			<cell col="3" row="120" anchor="NORTHWEST"><space width="20" height="0" /></cell>
 			<cell col="4" row="120" anchor="WEST" ref="HKeywords" />
 			
-			<cell col="1" row="128"  colspan="4" anchor="WEST" ><hr/> </cell>
+			<cell col="1" row="122"  colspan="4" anchor="WEST" ><hr/> </cell>
+			
+			
+			<!--  Parent Object -->
+      		<cell col="1" row="125" anchor="NORTHWEST" ref="LParent" />
+      		<cell col="2" row="125" colspan="2" anchor="NORTHWEST" ref="DParent2" sortnr="0" />
+      		<cell col="3" row="125" anchor="NORTHWEST"><space width="20" height="0" /></cell>
+      		<cell col="4" row="125" anchor="WEST" ref="HParent" />
 			
 			<!--  Titel der Zeitschrift -->
 			<cell col="1" row="130" anchor="NORTHWEST" ref="LJournalTitleM" />
@@ -184,9 +191,10 @@
 			
 			<cell col="1" row="185"  colspan="4" anchor="WEST" ><hr/> </cell>
 			
+			
 			<!--   Buttons -->
-			<cell col="1" row="192" />
-			<cell col="2" colspan="3" row="192" ref="TwoButtons" />
+			<cell col="1" row="197" />
+			<cell col="2" colspan="3" row="197" ref="TwoButtons" />
 			
 			<!-- hidden fields -->
 			<cell col="1" row="200" colspan="4" anchor="NORTHWEST" ref="DRights" sortnr="26"  />

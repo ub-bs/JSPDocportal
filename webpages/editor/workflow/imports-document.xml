@@ -586,5 +586,46 @@
           </panel>
         </repeater>
       </cell>
-  </panel>    
+  </panel>   
+  <panel id="DParent2">
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=structure/parents&amp;classname=MCRMetaLinkID" /> 
+    <cell col="1" row="1" anchor="NORTHWEST" var="structure/parents/parent"  >
+        <repeater min="1" max="5">
+          <panel lines="off">
+            <hidden var="@inherited" default="0"  />
+            <hidden var="@xlink:type" default="locator"  />
+            <hidden var="@xlink:title" default="Parent Object" />
+            <hidden var="@xlink:href" default="" />
+            <cell row="1" col="1" width="100%">
+              <output var="@xlink:title" default=" Parent Object " />
+              <text label="&#160;&#160;&#160;" />
+            </cell>
+            <cell row="1" col="2">
+              <subselect i18n="Editor.Common.indexcreators" id="parent.select2" type="webpage" href="nav?path=~searchstart-index_document-series_sub"  />
+            </cell>
+          </panel>
+        </repeater>
+      </cell>
+  </panel>   
+  
+  <text id="LParts" i18n="Editor.Label.Parts" />
+  <helpHover id="HParts" i18n="Editor.Help.HParts" />
+  <panel id="DParts">
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=structure/children&amp;classname=MCRMetaLinkID" /> 
+    <cell col="1" row="1" anchor="NORTHWEST" var="structure/children/child"  >
+        <repeater min="1" max="30">
+          <panel lines="off">
+            <hidden var="@inherited" default="0"  />
+            <hidden var="@xlink:type" default="locator"  />
+            <hidden var="@xlink:title" default="Einheit" />
+            <hidden var="@xlink:href" default="" />
+            <cell row="1" col="1" width="100%">
+              <output var="@xlink:title" default=" Einheit " />
+              <text label="&#160;&#160;&#160;" />
+            </cell>
+          </panel>
+        </repeater>
+      </cell>
+  </panel>
+   
 </imports>

@@ -23,6 +23,17 @@
 			</div>
 		</mcrb:indexBrowser>
 	</c:when>
+	<c:when test="${param.searchclass eq 'document-series_sub'}">
+		<mcrb:indexBrowser index="${param.searchclass}" varurl="url" varxml="xml"
+			docdetailsurl="nav?path=~searchdocdetail-index_${param.searchclass}&amp;id={0}">
+			<div style="padding-bottom: 5px">
+				<img border="0" style="vertical-align: middle; padding-right: 10px"
+					 src="images/greenArrow.gif" alt="" />
+					<a href="${url}"> <x:out select="$xml/value/col[@name='title']" /></a>
+			</div>
+		</mcrb:indexBrowser>
+	</c:when>
+	
 	<c:otherwise>
 		<mcrb:indexBrowser index="${param.searchclass}" varurl="url" varxml="xml"
 			docdetailsurl="nav?path=~searchdocdetail-index_${param.searchclass}&amp;id={0}">

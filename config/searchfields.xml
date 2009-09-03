@@ -59,6 +59,8 @@
     <field name="userID"        type="text"  	  source="objectMetadata" objects="person" xpath="/mycoreobject/metadata/userids/userid" value="text()" />
   
     <field name="index_creators" type="index" sortable="true" source="objectMetadata" objects="person" xpath="/mycoreobject/metadata/names/name/fullname" value="text()" />
+    <field name="index_title"    type="identifier" sortable="true" objects="codice document disshab thesis series series-volume person artwork" source="objectMetadata" xpath="/mycoreobject/metadata/titles/title[1] | /mycoreobject/metadata/surnames/surname | /mycoreobject/metadata/names/name/fullname | /mycoreobject/metadata/names/name | /mycoreobject/metadata/contents/content" value="normalize-space(text())"  />
+ 
   </index>
 
   <!-- Search in MCRFile metadata and content -->  

@@ -266,6 +266,9 @@
         <navitem name="subSelectSeries" label="Nav.SeriesSearch" href="content/indexSearch.jsp?searchclass=series_sub" hidden="true">
           <refitem name="~searchstart-index_series_sub" label="" />
         </navitem>
+        <navitem name="subSelectDocument-Series" label="Nav.SeriesSearch" href="content/indexSearch.jsp?searchclass=document-series_sub" hidden="true">
+          <refitem name="~searchstart-index_document-series_sub" label="" />
+        </navitem>
       </navigation>
       
       <navigation name="admin" label="Nav.AdminMenue" >

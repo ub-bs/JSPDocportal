@@ -23,9 +23,9 @@
     
     <mcrdd:preview imageWidth="210" labelContains="Cover" /> 
     	
-    <mcrdd:row xpath="/mycoreobject/metadata/participationlinks/participationlink | /mycoreobject/metadata/participants/participants" 
+    <mcrdd:row xpath="/mycoreobject/metadata/participationlinks/participationlink | /mycoreobject/metadata/participants/participant" 
                labelkey="OMD.participants" showInfo="false">
-    	<mcrdd:item messagekey="OMD.typeOfParticipation" xpath="./@*[local-name()='label' || local-name()='type']" />
+    	<mcrdd:item messagekey="OMD.typeOfParticipation." xpath="./@*[local-name()='label' or local-name()='type']" />
     	<mcrdd:textlinkitem xpath="." />
     </mcrdd:row>
     

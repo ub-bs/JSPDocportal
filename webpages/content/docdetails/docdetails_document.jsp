@@ -46,7 +46,7 @@
     	<mcrdd:textlinkitem xpath="." />
     </mcrdd:row>
     <mcrdd:row xpath="/mycoreobject/metadata/publishlinks/publishlink | /mycoreobject/metadata/publishers/publisher" 
-               labelkey="OMD.author" showInfo="false">
+               labelkey="OMD.publisher" showInfo="false">
     	<mcrdd:textlinkitem xpath="." />
     </mcrdd:row>
 
@@ -136,6 +136,21 @@
    		   </jsp:element>
    		</mcrdd:outputitem> 
    	</mcrdd:row>  
+   	
+   	<mcrdd:separator showLine="true"/>
+   	
+   	 <mcrdd:row xpath="/mycoreobject/structure/children/child" labelkey="OMD.children" showInfo="false">
+		<mcrdd:outputitem xpath="." varxml="xml" >
+			<ul style="line-height:1.5em; list-style:none;list-style-position: inside;margin: 0px;padding: 0px;">
+					<x:forEach select="$xml">
+					      <x:set var="childID"  select="string(./@*[local-name()='href'])" />							
+								<jsp:include page="fragments/childdocs.jsp" flush="true" >
+				    				<jsp:param name="mcrid" value="${childID}" />
+								</jsp:include>						     
+					</x:forEach>
+			</ul>
+		</mcrdd:outputitem>              
+    </mcrdd:row>
     
 	<mcrdd:separator showLine="true"/>
  	
