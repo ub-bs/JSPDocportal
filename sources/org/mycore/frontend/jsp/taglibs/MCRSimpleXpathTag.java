@@ -2,17 +2,18 @@ package org.mycore.frontend.jsp.taglibs;
 
 import java.io.IOException;
 
-import javax.servlet.jsp.tagext.*;
-import javax.servlet.jsp.*;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.PageContext;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
-import org.mycore.common.MCRConfiguration;
-import org.mycore.frontend.jsp.format.MCRResultFormatter;
+import org.jdom.xpath.XPath;
 
 
 public class MCRSimpleXpathTag extends SimpleTagSupport
 {
-	private static MCRResultFormatter formatter;
+	private static Logger logger = Logger.getLogger(MCRSimpleXpathTag.class);
 	private org.jdom.Document jdom;
 	private String xpath;
 	
@@ -24,12 +25,9 @@ public class MCRSimpleXpathTag extends SimpleTagSupport
 		xpath = inputXpath;
 		return;
 	}
-	public void initialize() {
-		formatter = (MCRResultFormatter) MCRConfiguration.instance().getSingleInstanceOf("MCR.ResultFormatter_class_name","org.mycore.frontend.jsp.format.MCRResultFormatter");
-	}	
+
 	public void doTag() throws JspException, IOException {
-		if (formatter == null) initialize();
-		String value = formatter.getSingleXPathValue(jdom,xpath);
+		String value = getSingleXPathValue(jdom,xpath);
 		if (value == null) {
 			Logger.getLogger(MCRSimpleXpathTag.class).debug("no xpath value found for xpath-expression ###" + xpath + "### in jdom-Document");
 		}
@@ -39,5 +37,25 @@ public class MCRSimpleXpathTag extends SimpleTagSupport
         
 		return;
 	}	
+	
+	/**
+	 * returns the value of a given jdom-Content and the relative xpath expression
+	 * @param jdom a jdom Element
+	 * @param xpath xpath-expression, namespaces includable
+	 * @return String
+	 */
+    public String getSingleXPathValue(org.jdom.Document jdom,String xpath) {
+    	try {
+    		Object obj = XPath.selectSingleNode( jdom, xpath);
+    		if ( obj instanceof org.jdom.Attribute) 
+    			return ((org.jdom.Attribute) obj).getValue();
+    		if ( obj instanceof org.jdom.Element)
+    			return ((org.jdom.Element) obj).getText();
+		} catch (Exception e) {
+		   logger.debug("wrong xpath expression: " + xpath);
+		}
+    	return "";
+    }
+
 
 }

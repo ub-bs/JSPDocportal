@@ -182,7 +182,7 @@ public class MCRLoginTag extends SimpleTagSupport
 		try {
 			domDoc = new DOMOutputter().output(lgresult);
 		} catch (JDOMException e) {
-			Logger.getLogger(MCRSetResultListTag.class).error("Domoutput failed: ", e);
+			Logger.getLogger(MCRLoginTag.class).error("Domoutput failed: ", e);
 		}
 		if(pageContext.getAttribute("debug") != null && pageContext.getAttribute("debug").equals("true")) {
 			JspWriter out = pageContext.getOut();

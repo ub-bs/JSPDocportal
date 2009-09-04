@@ -79,7 +79,7 @@ public class MCRGetAccessRulesTag extends SimpleTagSupport
 			try {
 				domDoc = new DOMOutputter().output(domOptions);
 			} catch (JDOMException e) {
-				Logger.getLogger(MCRSetResultListTag.class).error("Domoutput failed: ", e);
+				Logger.getLogger(MCRGetAccessRulesTag.class).error("Domoutput failed: ", e);
 			}
 			pageContext.setAttribute(var, domDoc);
 		}
@@ -109,7 +109,7 @@ public class MCRGetAccessRulesTag extends SimpleTagSupport
 			try {
 				domDoc = new DOMOutputter().output(domOptions);
 			} catch (JDOMException e) {
-				Logger.getLogger(MCRSetResultListTag.class).error("Domoutput failed: ", e);
+				Logger.getLogger(MCRGetAccessRulesTag.class).error("Domoutput failed: ", e);
 			}
 			pageContext.setAttribute(var, domDoc);			
 		}

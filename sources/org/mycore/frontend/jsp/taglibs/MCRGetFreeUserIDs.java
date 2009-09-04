@@ -55,7 +55,7 @@ public class MCRGetFreeUserIDs extends SimpleTagSupport
 		try {
 			domDoc = new DOMOutputter().output(newIDs);
 		} catch (JDOMException e) {
-			Logger.getLogger(MCRSetResultListTag.class).error("Domoutput failed: ", e);
+			Logger.getLogger(MCRGetFreeUserIDs.class).error("Domoutput failed: ", e);
 		}
 		if(pageContext.getAttribute("debug") != null && pageContext.getAttribute("debug").equals("true")) {
 			JspWriter out = pageContext.getOut();

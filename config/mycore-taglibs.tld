@@ -557,33 +557,7 @@
             </attribute>            
             <!-- A Tag, that converts a MyCoRe Jdom-Query to the String-Representation and sets the String to a given Variable-->
         </tag>    
-        <tag>
-            <name>docDetails</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRDocDetailsTag</tagclass>
-            <bodycontent>empty</bodycontent>
-            <attribute>
-                <name>var</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>
-            <attribute>
-                <name>mcrObj</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>
-            <attribute>
-                <name>lang</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>            
-            <attribute>
-                <name>style</name>
-                <required>false</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>                  
-            <!-- A Tag, that parses the single-result-config-file, uses templates and builds a dom-object of the metadata for easy jstl-formatting-->
-        </tag>
-      
+              
          <tag>
             <name>displayClassificationCategory</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRDisplayClassificationCategoryTag</tagclass>
@@ -607,33 +581,6 @@
         </tag>
       
       
-        <tag>
-            <name>setClassBrowserTreeTag</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRSetClassBrowserTreeTag</tagclass>
-            <bodycontent>empty</bodycontent>
-            <attribute>
-                <name>var</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>
-            <attribute>
-                <name>actUriPath</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>            
-            <attribute>
-                <name>browserClass</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>            
-            <attribute>
-                <name>lang</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>            
-            <!-- A  Tag, that sets a pageContext variable with the Classification Browser Tree as jdom Document-->
-        </tag>    
-        
         <tag>
             <name>receiveMcrObjAsJdom</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRReceiveMcrObjAsJdomTag</tagclass>
@@ -693,95 +640,8 @@
             </attribute>            
             <!--  A Tag, that delivers a single xpath-value in a given jdom-Document-->
         </tag>
-        <tag>
-            <name>browseCtrl</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRBrowseCtrlTag</tagclass>
-            <bodycontent>scriptless</bodycontent>
-            <attribute>
-                <name>id</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>
-            <attribute>
-                <name>offset</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>            
-            <!--  A Tag, that sets the IDs of the last and next MCRResult.hit: lastHitID, nextHitID  -->
-        </tag>
-        <tag>
-            <name>setResultList</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRSetResultListTag</tagclass>
-            <bodycontent>empty</bodycontent>
-            <attribute>
-                <name>var</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>            
-            <attribute>
-                <name>from</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>
-            <attribute>
-                <name>until</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>              
-            <attribute>
-                <name>lang</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>             
-            <attribute>
-                <name>results</name>
-                <required>false</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>             
-            <attribute>
-                <name>objectType</name>
-                <required>false</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>             
-            
-            <!-- A Tag, that sets the current resultList to a given Variable, for a Query either from the Session or from a request-Attribute -->
-        </tag>
-        <tag>
-            <name>browsePageCtrl</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRBrowsePageCtrlTag</tagclass>
-            <bodycontent>empty</bodycontent>
-            <!-- A Tag, that set a simple DOM object for the resultlist-pages browse control -->
-            <attribute>
-                <name>var</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>
-            <attribute>
-                <name>numPerPage</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>
-            <attribute>
-                <name>currentPage</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>              
-            <attribute>
-                <name>totalhits</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>
-            <attribute>
-                <name>maxDisplayedPages</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>            
-            <attribute>
-                <name>resultid</name>
-                <required>true</required>
-                <rtexprvalue>true</rtexprvalue>
-            </attribute>            
-        </tag>          
+             
+                  
         <tag>
             <name>getConfigProperty</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRGetConfigPropertyTag</tagclass>
