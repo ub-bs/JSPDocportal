@@ -49,7 +49,7 @@
 				<c:set var="docType" value="${fn:substringBefore(fn:substringAfter(param.id, '_'),'_')}" />
 				<c:if test="${not empty docType}">
 				<c:catch var="e">
-					<jsp:include page="content/results-config/webpageitems/webpageitem-${docType}.jsp" >
+					<jsp:include page="content/webpageitems/webpageitem-${docType}.jsp" >
 						<jsp:param name="pageFragment" value="pagetitle" />
 						<jsp:param name="mcrid" value="${param.id}" />
 					</jsp:include>
