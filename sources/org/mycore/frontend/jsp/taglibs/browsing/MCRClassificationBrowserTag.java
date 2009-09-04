@@ -315,6 +315,22 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 		else{
 			hasLinkMap.putAll(CATEGLINKSERVICE.hasLinks(rootCateg));
 		}
+		String webApplicationBaseURL = MCRServlet.getBaseURL();
+		String subselect_webpage = context.getRequest().getParameter("XSL.subselect.webpage.SESSION");
+	    if(subselect_webpage==null){subselect_webpage="";}
+	    
+	    String subselect_session = context.getRequest().getParameter("XSL.subselect.session.SESSION");
+	    if(subselect_session==null){subselect_session="";}
+	    String subselect_varpath = context.getRequest().getParameter("XSL.subselect.varpath.SESSION");
+	    if(subselect_varpath==null){subselect_varpath="";}
+	    boolean isSubselect =!subselect_varpath.equals(""); 
+	       		
+	    //cancel subselect
+		if(isSubselect){
+			out.write("<form action=\""+webApplicationBaseURL+subselect_webpage+"XSL.editor.session.id="+subselect_session+"\" method=\"post\">\n");
+			out.write("   <input type=\"submit\" class=\"submit\" value=\""+MCRTranslation.translate("Editor.Common.button.CancelSelect")+"\" />\n");
+			out.write("</form><br/><br/>\n");
+		}
 		
 		out.write("\n<ul style=\"list-style-type: none\">\n");
 		boolean didIt = false;
