@@ -98,7 +98,9 @@
 </c:choose>
 
 <c:set  var="editorSessionID" value="${param['XSL.editor.session.id']}"/>
-
+<c:if test="${empty(editorSessionID)}">
+	<c:set  var="editorSessionID" value="${param.XSL.editor.session.id}"/>
+</c:if>
 
 <c:choose>
    <c:when test="${!empty(param.target)}">

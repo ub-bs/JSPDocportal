@@ -148,7 +148,7 @@ public class MCRIndexBrowserTag extends SimpleTagSupport {
 		
 		//cancel subselect
 		if(isSubselect){
-			out.write("<form action=\"{$WebApplicationBaseURL}{$subselect.webpage}?XSL.editor.session.id={$subselect.session}\" method=\"post\">\n");
+			out.write("<form action=\""+webApplicationBaseURL+subselect_webpage+"XSL.editor.session.id="+subselect_session+"\" method=\"post\">\n");
 			out.write("   <input type=\"submit\" class=\"submit\" value=\""+messages.getString("Editor.Common.button.CancelSelect")+"\" />\n");
 			out.write("</form><br/><br/>\n");
 		}
