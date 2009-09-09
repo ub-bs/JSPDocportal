@@ -57,7 +57,7 @@
    	<mcrdd:row xpath="/mycoreobject" labelkey="OMD.documents-by-author" showInfo="false" >
    		<mcrdd:outputitem xpath="./@ID" varxml="current">
    		   <jsp:element name="a">
-   		   		<jsp:attribute name="href">${applicationScope.WebApplicationBaseURL}servlets/MCRJSPSearchServlet?mask=~searchstart-index_creators&query=creatorID+=+<x:out select="string($current)"/></jsp:attribute>
+   		   		<jsp:attribute name="href">${applicationScope.WebApplicationBaseURL}servlets/MCRJSPSearchServlet?mask=~searchstart-index_creators&query=creatorID+=+<x:out select="string($current)"/>+OR+publisherID+=+<x:out select="string($current)"/></jsp:attribute>
    		   		<jsp:body><fmt:message key="OMD.authorjoin-start-search" /></jsp:body>
    		   </jsp:element>
    		</mcrdd:outputitem> 
