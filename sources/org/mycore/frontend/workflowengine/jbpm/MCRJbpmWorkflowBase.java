@@ -1,5 +1,6 @@
 package org.mycore.frontend.workflowengine.jbpm;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -67,7 +68,7 @@ public class MCRJbpmWorkflowBase {
 			
 			Session hibSession = jbpmContext.getSession();	
 			Query hibQuery = hibSession.getNamedQuery("MCRJbpmWorkflowBase.getCurrentProcessIDsForProcessType");
-			hibQuery.setString("processDefinitionId" , processDefinitionID);
+			hibQuery.setBigInteger("processDefinitionId" , new BigInteger(processDefinitionID));
 			List processInstances = hibQuery.list();
 			for (Iterator it = processInstances.iterator(); it.hasNext();) {
 				ProcessInstance processInstance = (ProcessInstance) it.next();
