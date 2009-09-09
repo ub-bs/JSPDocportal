@@ -25,7 +25,7 @@
 	<c:if test="${empty title}">
 		<c:set var="title"><mcr:simpleXpath jdom="${jdom}" xpath="/mycoreobject/metadata/titles/title[1]" /></c:set>
 	</c:if>
-	<jsp:include page="document_icon.jsp">
+	<jsp:include page="/content/resultdetails/fragments/document_icon.jsp">
 		<jsp:param name="contentType" value="${type}" />
 		<jsp:param name="formatType" value="${format}" />
 		<jsp:param name="docType" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
