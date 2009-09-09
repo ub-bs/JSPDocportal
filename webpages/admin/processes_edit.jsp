@@ -16,7 +16,7 @@
 
 <p> </p>
 
-<c:if test="${!empty(pid) && !empty(wfVar)}" >
+<c:if test="${not empty pid && not empty wfVar}" >
     <mcr:deleteWorkflowEngineVariable var="result" pid="${pid}" workflowVar="${wfVar}" />
 	<table class="access" cellspacing="1" cellpadding="0" >
 		<tr><td> Prozess: </td><td> <c:out value="${pid}" /></td></tr>

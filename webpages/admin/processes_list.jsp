@@ -15,7 +15,7 @@
 <c:set var="type" value="${param.workflowProcessType}" />
 
 
-<c:if test="${!empty(pid)}">
+<c:if test="${not empty pid}">
 	<mcr:deleteProcess result="result" pid="${pid}"
 		workflowProcessType="${type}" />
 	<table class="access" cellspacing="1" cellpadding="0">

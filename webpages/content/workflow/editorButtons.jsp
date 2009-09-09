@@ -4,10 +4,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
 <c:choose>
-   <c:when test="${!empty(param.debug)}">
+   <c:when test="${not empty param.debug}">
       <c:set var="debug" value="true" />
    </c:when>
-   <c:when test="${!empty(requestScope.debug)}">
+   <c:when test="${not empty requestScope.debug}">
       <c:set var="debug" value="true" />
    </c:when>   
    <c:otherwise>

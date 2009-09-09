@@ -8,7 +8,7 @@
 <fmt:setBundle basename='messages'/>
 
 <c:choose>
-   <c:when test="${!empty(param.processid)}">
+   <c:when test="${not empty param.processid}">
       <c:set  var="processid" value="${param.processid}"/>
    </c:when>
    <c:otherwise>
@@ -17,7 +17,7 @@
 </c:choose>
 
 <c:choose>
-   <c:when test="${!empty(param.mcrid)}">
+   <c:when test="${not empty param.mcrid}">
       <c:set  var="mcrid" value="${param.mcrid}"/>
    </c:when>
    <c:otherwise>
@@ -26,7 +26,7 @@
 </c:choose>
 
 <c:choose>
-   <c:when test="${!empty(param.isNewEditorSource)}">
+   <c:when test="${not empty param.isNewEditorSource}">
       <c:set  var="isNewEditorSource" value="${param.isNewEditorSource}"/>
    </c:when>
    <c:otherwise>
@@ -35,7 +35,7 @@
 </c:choose>
 
 <c:choose>
-   <c:when test="${!empty(param.type)}">
+   <c:when test="${not empty param.type}">
       <c:set  var="type" value="${param.type}"/>
    </c:when>
    <c:otherwise>
@@ -44,7 +44,7 @@
 </c:choose>
 
 <c:choose>
-   <c:when test="${!empty(param.workflowType)}">
+   <c:when test="${not empty param.workflowType}">
       <c:set  var="workflowType" value="${param.workflowType}"/>
    </c:when>
    <c:otherwise>
@@ -53,7 +53,7 @@
 </c:choose>
 
 <c:choose>
-   <c:when test="${!empty(param.publicationType)}">
+   <c:when test="${not empty param.publicationType}">
       <c:set  var="publicationType" value="${param.publicationType}"/>
    </c:when>
    <c:otherwise>
@@ -62,7 +62,7 @@
 </c:choose>
 
 <c:choose>
-   <c:when test="${!empty(param.step)}">
+   <c:when test="${not empty param.step}">
       <c:set  var="step" value="${param.step}"/>
    </c:when>
    <c:otherwise>
@@ -71,7 +71,7 @@
 </c:choose>
 
 <c:choose>
-   <c:when test="${!empty(param.nextPath)}">
+   <c:when test="${not empty param.nextPath}">
       <c:set  var="nextPath" value="${param.nextPath}"/>
    </c:when>
    <c:otherwise>
@@ -80,7 +80,7 @@
 </c:choose>
 
 <c:choose>
-   <c:when test="${!empty(param.uploadID)}">
+   <c:when test="${not empty param.uploadID}">
       <c:set  var="uploadID" value="${param.uploadID}"/>
    </c:when>
    <c:otherwise>
@@ -89,7 +89,7 @@
 </c:choose>
 
 <c:choose>
-   <c:when test="${!empty(param.mcrid2)}">
+   <c:when test="${not empty param.mcrid2}">
       <c:set  var="mcrid2" value="${param.mcrid2}"/>
    </c:when>
    <c:otherwise>
@@ -98,15 +98,15 @@
 </c:choose>
 
 <c:set  var="editorSessionID" value="${param['XSL.editor.session.id']}"/>
-<c:if test="${empty(editorSessionID)}">
+<c:if test="${empty editorSessionID}">
 	<c:set  var="editorSessionID" value="${param.XSL.editor.session.id}"/>
 </c:if>
 
 <c:choose>
-   <c:when test="${!empty(param.target)}">
+   <c:when test="${not empty param.target}">
       <c:set  var="target" value="${param.target}"/>
    </c:when>
-   <c:when test="${!empty(requestScope.target)}">
+   <c:when test="${not empty requestScope.target}">
       <c:set  var="target" value="${requestScope.target}"/>
    </c:when>   
    <c:otherwise>
@@ -115,10 +115,10 @@
 </c:choose>
 
 <c:choose>
-   <c:when test="${!empty(param.editorPath)}">
+   <c:when test="${not empty param.editorPath}">
       <c:set  var="editorPath" value="${param.editorPath}"/>
    </c:when>
-   <c:when test="${!empty(requestScope.editorPath)}">
+   <c:when test="${not empty requestScope.editorPath}">
       <c:set  var="editorPath" value="${requestScope.editorPath}"/>
    </c:when>   
    <c:otherwise>
@@ -127,10 +127,10 @@
 </c:choose>
 
 <c:choose>
-   <c:when test="${!empty(param.editorSource)}">
+   <c:when test="${not empty param.editorSource}">
       <c:set  var="editorSource" value="${param.editorSource}"/>
    </c:when>
-   <c:when test="${!empty(requestScope.editorSource)}">
+   <c:when test="${not empty requestScope.editorSource}">
       <c:set  var="editorSource" value="${requestScope.editorSource}"/>
    </c:when>   
    <c:otherwise>

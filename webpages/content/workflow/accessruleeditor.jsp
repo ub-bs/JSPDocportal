@@ -11,7 +11,7 @@
 <c:set var="WebApplicationBaseURL" value="${applicationScope.WebApplicationBaseURL}" /> 
 <c:set var="mcrid">
    <c:choose>
-      <c:when test="${!empty(requestScope.id)}">${requestScope.id}</c:when>
+      <c:when test="${not empty requestScope.id}">${requestScope.id}</c:when>
       <c:otherwise>${param.id}</c:otherwise>
    </c:choose>
 </c:set>
@@ -24,7 +24,7 @@
 
 
 <c:if test="${isAllowed}">
-	<c:if test="${empty(rule)}">
+	<c:if test="${empty rule}">
 	    <mcr:getAccessRulesTag var="rule" step="getCurrentRule" mcrid="${mcrid}" processid="${processid}" />
 	</c:if>
 	<fmt:message key="WF.AcessRuleEditor.headline" />:

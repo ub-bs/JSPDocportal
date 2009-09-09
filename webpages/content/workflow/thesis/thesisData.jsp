@@ -15,7 +15,7 @@
 
 <table cellspacing="3" cellpadding="3" >
      
-		<c:if test="${!empty(urn)}">
+		<c:if test="${not empty urn}">
 		   <tr valign="top">
 		        <td class="metaname"><fmt:message key="WF.xmetadiss.URN" /> </td>
 		        <td class="metavalue"><b><c:out value="${urn}" /></b> 

@@ -17,7 +17,7 @@
 </div>
 
 <table cellspacing="3" cellpadding="3" >
-<c:if test="${!empty(authorobject)}">
+<c:if test="${not empty authorobject}">
  <x:forEach select="$authorobject/mycoreobject" >
    <tr valign="top">
       <td class="metaname"><fmt:message key="WF.xmetadiss.Author" /> </td>
@@ -46,7 +46,7 @@
  </x:forEach>
 </c:if>
      
-		<c:if test="${!empty(urn)}">
+		<c:if test="${not empty urn}">
 		   <tr valign="top">
 		        <td class="metaname"><fmt:message key="WF.xmetadiss.URN" /> </td>
 		        <td class="metavalue"><b><c:out value="${urn}" /></b> 

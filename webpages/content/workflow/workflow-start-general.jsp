@@ -10,7 +10,7 @@
 <fmt:setLocale value="${requestScope.lang}" />
 <fmt:setBundle basename='messages' />
 <c:choose>
-   <c:when test="${!empty(param.debug)}">
+   <c:when test="${not empty param.debug}">
       <c:set var="debug" value="true" />
    </c:when>
    <c:otherwise>
@@ -19,7 +19,7 @@
 </c:choose>
 
 <c:choose>
-   <c:when test="${!empty(param.lastInitiatedAction)}">
+   <c:when test="${not empty param.lastInitiatedAction}">
    </c:when>
    <c:otherwise>
    </c:otherwise>

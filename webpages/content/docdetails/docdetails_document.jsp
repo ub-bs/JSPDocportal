@@ -24,7 +24,7 @@
 				</jsp:include>
 			</x:forEach>
 			<c:set var="title"><x:out select="$xml/title[@type='short']" /></c:set>
-			<c:if test="${empty(title)}">
+			<c:if test="${empty title}">
 				<c:set var="title"><x:out select="$xml/title[1]" /></c:set>
 			</c:if>
 			<c:out value="${title}" />		

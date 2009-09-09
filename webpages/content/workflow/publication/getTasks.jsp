@@ -53,21 +53,21 @@
 	    <mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="docType" workflowVar="wfo-type" /> 
 	    
 		<table cellspacing="3" cellpadding="3" >
-		<c:if test="${!empty(docID)}">
+		<c:if test="${not empty docID}">
 		   <tr valign="top">
 		        <td class="metaname"><fmt:message key="WF.publication.ID" /><br/></td>
 		        <td class="metavalue"> <b><c:out value="${docID}" /></b>
 		      </td>
 		   </tr>     
 		</c:if>		
-		<c:if test="${!empty(docType)}">
+		<c:if test="${not empty docType}">
 		   <tr valign="top">
 		        <td class="metaname"><fmt:message key="WF.publication.Type" /><br/></td>
 		        <td class="metavalue"><b><c:out value="${docType}" /></b>  <br/>
 		      </td>
 		   </tr>     
 		</c:if>
-		<c:if test="${!empty(urn)}">
+		<c:if test="${not empty urn}">
 		   <tr valign="top">
 		        <td class="metaname"><fmt:message key="WF.publication.URN" /><br/></td>
 		        <td class="metavalue"><b><c:out value="${urn}" /></b> 

@@ -14,7 +14,7 @@
 	<c:set var="target" value="${requestScope.target}" />
 	
 	<c:choose>
-   <c:when test="${!empty(param.processid)}">
+   <c:when test="${not empty param.processid}">
       <c:set  var="processid" value="${param.processid}"/>
    </c:when>
    <c:otherwise>

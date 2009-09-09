@@ -11,7 +11,7 @@
 
 <!--  debug handling -->
 <c:choose>
-   <c:when test="${!empty(param.debug)}">
+   <c:when test="${not empty param.debug}">
       <c:set var="debug" value="true" />
    </c:when>
    <c:otherwise>
@@ -20,7 +20,7 @@
 </c:choose>
 
 <!--  handle task ending parameters -->
-<c:if test="${!empty(param.endTask)}">
+<c:if test="${not empty param.endTask}">
 	<mcr:endTask success="success" processID="${param.processID}" 	taskName="${param.endTask}" transition="${param.transition}"/>
 </c:if>
 
@@ -59,7 +59,7 @@
 </table>
 	<c:out value="${task.workflowProcessType}" />
 <c:choose>
-	<c:when test="${empty(myTaskList)&& empty(myProcessList)}">
+	<c:when test="${empty myTaskList && empty myProcessList}">
       <fmt:message key="WF.common.EmptyWorkflow" />   
       <hr/>
       <mcr:includeWebContent file="workflow/institution_introtext.html"/>
@@ -77,7 +77,7 @@
 			    	</td>
 		    	</tr>       
 			</c:forEach>
-    	    <c:if test="${empty(myTaskList)}">
+    	    <c:if test="${empty myTaskList}">
 			  	<tr>
 		  			<td class="task">
 			           <fmt:message key="WF.common.NoTasks" />
@@ -96,7 +96,7 @@
 		           </td>
 				</tr>
 	        </c:forEach>
-    	    <c:if test="${empty(myProcessList)}">
+    	    <c:if test="${empty myProcessList}">
 				<tr>
 					<td class="task">
 			           <fmt:message key="WF.common.NoTasks" />

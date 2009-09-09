@@ -9,7 +9,7 @@
 <c:set var="type" value="${param.workflowProcessType}" />
 
 <c:choose>
-<c:when test="${empty(type)}">
+<c:when test="${empty type}">
 	<div class="headline"><fmt:message key="Nav.AdminMenue" /></div>
  	<p><fmt:message key="Webpage.admin.AllowedFunctions" />:</p>
 </c:when>

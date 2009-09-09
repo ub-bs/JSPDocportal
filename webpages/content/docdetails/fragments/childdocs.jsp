@@ -9,9 +9,9 @@
 <c:set var="mcrid" value="${param.mcrid}" />
 <mcr:receiveMcrObjAsJdom mcrid="${mcrid}" var="jdom" varDom="dom" fromWForDB="false"/>
 
-<c:if test="${not(empty(jdom))}" >
+<c:if test="${not empty jdom}" >
     <c:set var="title"><mcr:simpleXpath jdom="${jdom}" xpath="/mycoreobject/metadata/titles/title[@type='short']" /></c:set>
-	<c:if test="${empty(title)}">
+	<c:if test="${empty title}">
 		<c:set var="title"><mcr:simpleXpath jdom="${jdom}" xpath="/mycoreobject/metadata/titles/title[1]" /></c:set>
 	</c:if>
 	<c:set var="c"><mcr:simpleXpath jdom="${jdom}" xpath="/mycoreobject/metadata/types/type/@categid" /></c:set>

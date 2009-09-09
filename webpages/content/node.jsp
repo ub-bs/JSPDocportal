@@ -14,7 +14,7 @@
   <c:if  test="${hidden != true}">
 	<x:set var="right" select="string(./@right)" />
 	<c:set var="canDo" value="true" />
-    <c:if  test="${!empty(right) && right ne 'read'}">
+    <c:if  test="${not empty right && right ne 'read'}">
 		<mcr:checkAccess var="canDo" permission="${right}" key="" />
     </c:if> 
     <c:if test="${canDo}">

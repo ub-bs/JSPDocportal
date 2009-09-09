@@ -10,7 +10,7 @@
 <c:set var="WebApplicationBaseURL" value="${applicationScope.WebApplicationBaseURL}" />
 <c:set var="mcrid">
    <c:choose>
-      <c:when test="${!empty(requestScope.id)}">${requestScope.id}</c:when>
+      <c:when test="${not empty requestScope.id}">${requestScope.id}</c:when>
       <c:otherwise>${param.id}</c:otherwise>
    </c:choose>
 </c:set>
@@ -82,7 +82,7 @@
 
  <td>&nbsp;</td>
  <td align="center" valign="top" style="padding-top: 20px">
-     <c:if test="${empty(param.print) and !fn:contains(style,'user')}">
+     <c:if test="${empty param.print and !fn:contains(style,'user')}">
 		     <a href="${WebApplicationBaseURL}content/print_details.jsp?id=${param.id}&from=${param.fromWForDB}" target="_blank">
 	          	<img src="${WebApplicationBaseURL}images/workflow_print.gif" border="0" alt="<fmt:message key="WF.common.printdetails" />"  class="imagebutton" height="30"/>
 	         </a>

@@ -16,7 +16,7 @@
 <c:set var="langfreeRequestURL" value="${langfreeRequestURL}" />
 
 <c:choose>
-	<c:when test="${!empty(param.lang)}">
+	<c:when test="${!empty param.lang}">
 		<c:set var="lang" value="${param.lang}" />
 		<c:if test="${!fn:contains('de-en',lang)}">
 			<c:set var="lang" value="de" />

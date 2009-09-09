@@ -11,7 +11,7 @@
 <fmt:setBundle basename='messages' />
 <!--  debug handling -->
 <c:choose>
-   <c:when test="${!empty(param.debug)}">
+   <c:when test="${not empty param.debug}">
       <c:set var="debug" value="true" />
    </c:when>
    <c:otherwise>
@@ -20,7 +20,7 @@
 </c:choose>
 
 <!--  handle task ending parameters -->
-<c:if test="${!empty(param.endTask)}">
+<c:if test="${not empty param.endTask}">
 	<mcr:endTask success="success" processID="${param.processID}" 	taskName="${param.endTask}" transition="${param.transition}"/>
 </c:if>
 
@@ -30,7 +30,7 @@
 <mcr:getWorkflowTaskBeanList var="myProcessList" mode="initiatedProcesses" workflowTypes="thesis"    varTotalSize="total2" />
 <mcr:checkAccess var="createallowed" permission="administrate-thesis" />
 <c:choose>
-    <c:when test="${empty(myTaskList)&& empty(myProcessList)}">
+    <c:when test="${empty myTaskList && empty myProcessList }">
   <div class="headline"><fmt:message key="WF.thesis" /></div>
    
    	<c:if test="${createallowed}">
@@ -65,7 +65,7 @@
 		      
 		    </td></tr>       
 	        </c:forEach>
-        <c:if test="${empty(myTaskList)}">
+        <c:if test="${empty myTaskList}">
 			           <fmt:message key="WF.common.NoTasks" />
         </c:if>
         </table>
@@ -81,7 +81,7 @@
 	           <c:import url="/content/workflow/${task.workflowProcessType}/getTasks.jsp" />
 	        </td></tr>
         </c:forEach>
-        <c:if test="${empty(myProcessList)}">
+        <c:if test="${empty myProcessList}">
     		<tr> <td class="task">
 			           <fmt:message key="WF.common.NoTasks" />
 	        </td></tr>

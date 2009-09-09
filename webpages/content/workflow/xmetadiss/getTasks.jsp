@@ -107,7 +107,7 @@
    <c:when test="${requestScope.task.taskName eq 'taskRequireSignedAffirmation'}">
       <c:set var="lastSendDate"><x:out select="$dom/variables/variable[@name = 'lastRequiredAffirmation']/@value" /></c:set>
       <p>
-      <c:if test="${!empty(lastSendDate)}">
+      <c:if test="${not empty lastSendDate}">
          Letzte Mail wurde gesendet am <i>${lastSendDate}</i>
       </c:if>
 	  </p>

@@ -7,7 +7,7 @@
 <fmt:setLocale value="${requestScope.lang}" />
 <fmt:setBundle basename='messages' />
 <c:choose>
-	<c:when test="${!empty(param.debug)}">
+	<c:when test="${not empty param.debug}">
 		<c:set var="debug" value="true" />
 	</c:when>
 	<c:otherwise> 
@@ -18,7 +18,7 @@
 <mcr:checkAccess var="adminuser" permission="administrate-user" />
 
 <!--  handle task ending parameters -->
-<c:if test="${!empty(param.endTask)}">
+<c:if test="${not empty param.endTask}">
 	<mcr:endTask success="success" processID="${param.processID}" 	taskName="${param.endTask}" transition="${param.transition}"/>
     
 </c:if>
@@ -38,7 +38,7 @@
 			   </table>
 			 </td></tr>	
 			</c:forEach>
-			<c:if test="${empty(myTaskList)}">
+			<c:if test="${empty myTaskList}">
 			           <fmt:message key="WF.common.NoTasks" />
            	</c:if>			
 		</table>

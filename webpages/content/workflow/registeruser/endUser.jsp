@@ -19,7 +19,7 @@
  <tr>
   <td>
 	<c:choose>	
-    <c:when test="${empty(user)}">
+    <c:when test="${empty user}">
 		<br/>
 		<p>	<fmt:message key="WF.registerUser.ErrorMessage" />	</p>
 		<hr/>	
