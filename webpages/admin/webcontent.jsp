@@ -4,9 +4,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
 
-<fmt:setLocale value="${requestScope.lang}" />
-<fmt:setBundle basename='messages' />
-
 <div class="headline"><fmt:message key="Nav.Admin.EditWebcontent" /></div>
 <span class="subtitle"><fmt:message key="Webpage.admin.webcontent.Backup" /></span>
 <p><fmt:message key="Webpage.admin.webcontent.Description" /> </p>

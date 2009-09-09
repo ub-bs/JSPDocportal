@@ -3,8 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/xml" prefix="x"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
-<fmt:setLocale value="${requestScope.lang}" />
-<fmt:setBundle basename='messages' />
+
 <c:set var="debug" value="${param.debug}" />
 <!-- available user status  
 	 status = { user.login, user.invalid_password, user.welcome, user.disabled, user.unknown, user.unkwnown_error

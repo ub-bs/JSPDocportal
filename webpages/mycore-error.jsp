@@ -7,15 +7,6 @@
       <c:param name="messageKey" value="${param.messageKey}" />
    </c:redirect>
 </c:if>
-<c:choose>
-    <c:when test="${!empty requestScope.lang}">
-        <fmt:setLocale value="${requestScope.lang}" />
-    </c:when>
-    <c:otherwise>
-        <fmt:setLocale value="${requestScope.lang}" />
-    </c:otherwise>
-</c:choose>
-<fmt:setBundle basename='messages'/>
 
 <div class="headline">
 <c:choose>

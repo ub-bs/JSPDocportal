@@ -10,8 +10,6 @@
 
 <c:set  var="baseURL" value="${applicationScope.WebApplicationBaseURL}"/>
 
-<fmt:setLocale value="${requestScope.lang}" />
-<fmt:setBundle basename='messages' />
 <c:set var="debug" value="true" />
 <c:set var="dom" value="${requestScope.task.variables}" />
 <!-- 

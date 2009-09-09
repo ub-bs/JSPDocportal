@@ -4,8 +4,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr"%>
 <c:set var="baseURL" value="${applicationScope.WebApplicationBaseURL}" />
-<fmt:setLocale value="${requestScope.lang}" />
-<fmt:setBundle basename='messages' />
 
 <c:set var="processid" value="${requestScope.task.processID}" />
 <c:set var="dom" value="${requestScope.task.variables}" />

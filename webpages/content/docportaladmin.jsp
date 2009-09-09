@@ -4,8 +4,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
 
-<fmt:setLocale value="${requestScope.lang}" />
-<fmt:setBundle basename='messages' />
 <mcr:checkAccess var="adminuser" permission="administrate-user" key="" />
 <mcr:checkAccess var="adminxmetadiss" permission="administrate-xmetadiss" key="" />
 <mcr:checkAccess var="adminaccessrules" permission="administrate-accessrules" key="" />

@@ -4,9 +4,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
 <c:set var="debug" value="true" />
-<fmt:setLocale value="${requestScope.lang}" />
-<fmt:setBundle basename='messages'/>
-
 
 <mcr:session var="user" method="get" key="registereduser" />
 <c:set var="debug" value="true" />

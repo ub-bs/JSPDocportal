@@ -4,9 +4,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
 
-<fmt:setLocale value="${requestScope.lang}" />
-<fmt:setBundle basename='messages' />
-
 <c:set var="pageFragment" value="${param.pageFragment}" />
 <c:set var="mcrid" value="${param.mcrid}" />
 <c:set var="fromWForDB" value="${param.fromWForDB}" />

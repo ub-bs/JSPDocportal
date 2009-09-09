@@ -9,7 +9,7 @@
 <%-- Parameter: id - the MCR Object ID--%>
 <%-- Parameter: url - the result url--%>
 
-<c:import url="${applicationScope.WebApplicationBaseURL}content/resultdetails/resultdetails_disshab.jsp">
-	<c:param name="id" value="${param.id}" />
-	<c:param name="url" value="${param.url}" />
-</c:import>
+<jsp:include page="resultdetails_disshab.jsp">
+	<jsp:param name="id" value="${param.id}" />
+	<jsp:param name="url" value="${param.url}" />
+</jsp:include>

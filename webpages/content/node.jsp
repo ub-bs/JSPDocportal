@@ -7,8 +7,7 @@
 <c:set var="pathID" value="${requestScope.pathID}" />
 <c:set var="Navigation" value="${applicationScope.navDom}" />
 <c:set var="lang" value="${requestScope.lang}" />
-<fmt:setLocale value="${lang}" />
-<fmt:setBundle basename='messages'/>
+
 <x:forEach select="$Navigation//navitem[@systemID = $nodeID]/navitem">
   <x:set var="hidden" select="string(./@hidden)" />
   <c:if  test="${hidden != true}">

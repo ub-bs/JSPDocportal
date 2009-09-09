@@ -5,8 +5,6 @@
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
 
 <c:set  var="baseURL" value="${applicationScope.WebApplicationBaseURL}"/>
-<fmt:setLocale value="${requestScope.lang}" />
-<fmt:setBundle basename='messages' /> 
 <c:set var="dom" value="${requestScope.task.variables}" />
 <c:set var="userID">	<x:out select="$dom/variables/variable[@name = 'initiatorUserID']/@value" /></c:set>
 <c:set var="name">	<x:out select="$dom/variables/variable[@name = 'initiatorName']/@value" /></c:set>

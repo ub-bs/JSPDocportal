@@ -7,8 +7,7 @@
     String jSessionID = MCRConfiguration.instance().getString("MCR.session.param", ";jsessionid=");
     String sessionID = jSessionID + session.getId();
 %>
-<fmt:setLocale value="${requestScope.lang}" />
-<fmt:setBundle basename='messages'/>
+
 <div class="headline"><fmt:message key="Editor.FileuploadPageTitle" /></div>
 Sie können einzelne Dateien bis 50 MB Größe direkt mittels des folgenden Formulares hochladen.
 <c:url var="url" value="${applicationScope.WebApplicationBaseURL}editor/workflow/editor-author-addfile.xml">

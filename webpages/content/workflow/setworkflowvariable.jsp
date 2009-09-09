@@ -10,8 +10,7 @@
 
 <%@page import="org.mycore.common.MCRSessionMgr"%>
 <%@page import="org.jdom.Namespace"%><c:set  var="baseURL" value="${applicationScope.WebApplicationBaseURL}"/>
-<fmt:setLocale value="${requestScope.lang}" />
-<fmt:setBundle basename='messages' />
+
 <c:set var="processid" value="${requestScope.task.processID}" />
 <c:set var="workflowType" value="${param.workflowType}" />
 <c:set var="endTask" value="${param.endTask}" />

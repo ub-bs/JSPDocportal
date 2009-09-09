@@ -4,9 +4,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
 
-<fmt:setLocale value="${requestScope.lang}" />
-<fmt:setBundle basename='messages'/>
-
 <c:choose>
    <c:when test="${not empty param.processid}">
       <c:set  var="processid" value="${param.processid}"/>

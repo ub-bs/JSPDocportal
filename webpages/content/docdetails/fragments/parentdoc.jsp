@@ -3,8 +3,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
-<fmt:setLocale value="${requestScope.lang}" />
-<fmt:setBundle basename='messages' />
 <%--Parameter: mcrid --%>
 
 <c:set var="mcrid" value="${param.mcrid}" />
@@ -27,11 +25,11 @@
 	<c:if test="${empty title}">
 		<c:set var="title"><mcr:simpleXpath jdom="${jdom}" xpath="/mycoreobject/metadata/titles/title[1]" /></c:set>
 	</c:if>
-	<c:import url="${application.WebApplicationBaseURL}/content/resultdetails/fragments/document_icon.jsp">
-		<c:param name="contentType" value="${type}" />
-		<c:param name="formatType" value="${format}" />
-		<c:param name="docType" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
-	</c:import>		
+	<jsp:include page="document_icon.jsp">
+		<jsp:param name="contentType" value="${type}" />
+		<jsp:param name="formatType" value="${format}" />
+		<jsp:param name="docType" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
+	</jsp:include>		
 	<a href="${WebApplicationBaseURL}resolve?id=<c:out value='${mcrid}'/>"><b><c:out value='${title}' /></b></a>
 	<c:if test="${not empty param.volume}" >;&nbsp;<c:out value="${param.volume}" /></c:if>	
 	<br />

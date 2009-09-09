@@ -9,9 +9,6 @@
 <%-- Parameter: id - the MCR Object ID--%>
 <%-- Parameter: fromWF - from Workflow or database --%>
 
-<fmt:setLocale value="${requestScope.lang}" />
-<fmt:setBundle basename='messages' /> 
-
 <mcrdd:docdetails mcrID="${param.id}" lang="de" fromWorkflow="${param.fromWF}"> 
     <mcrdd:row xpath="/mycoreobject/metadata/names/name/fullname" labelkey="OMD.institution.title" showInfo="false">
 		<mcrdd:item xpath="./text()" styleName="docdetails-value-title" />              

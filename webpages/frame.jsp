@@ -39,8 +39,8 @@
 <c:import var="includePage" url='${contentPage}' />
 <html>
 <head>
-	<fmt:setLocale value="${lang}" />
-	<fmt:setBundle basename='messages' />
+	<fmt:setLocale value="${lang}" scope="session" />
+	<fmt:setBundle basename='messages' scope="session" />
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<fmt:message var="pageTitle" key="Title.${path}" />
 	<title>

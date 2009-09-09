@@ -5,8 +5,7 @@
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
 <%@ page import="org.apache.log4j.Logger" %>
 <c:catch var="e">
-<fmt:setLocale value='${requestScope.lang}'/>
-<fmt:setBundle basename='messages'/>
+
 <c:set var="WebApplicationBaseURL" value="${applicationScope.WebApplicationBaseURL}" />
 
 <c:set var="mcrdir" value="${requestScope.jDomMcrDir}" />

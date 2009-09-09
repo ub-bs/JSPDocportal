@@ -17,9 +17,6 @@
 <mcr:session method="get" var="username" type="userID" />
 <c:set  var="baseURL" value="${applicationScope.WebApplicationBaseURL}"/>
 
-<fmt:setLocale value="${requestScope.lang}" />
-<fmt:setBundle basename='messages' />
-
 <c:set var="processid" value="${requestScope.task.processID}" />
 <c:set var="dom" value="${requestScope.task.variables}" />
 <c:set var="itemID"><x:out select="$dom/variables/variable[@name = 'createdDocID']/@value" /></c:set>

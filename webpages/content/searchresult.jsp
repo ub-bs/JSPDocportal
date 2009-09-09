@@ -4,6 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr"%>
 <%@ taglib uri="http://www.mycore.de/jspdocportal/browsing" prefix="mcrb"%>
+<fmt:setLocale value="${requestScope.lang}"/>
 <fmt:setBundle basename="messages" />
 <c:choose>
 	<c:when test="${fn:contains(requestScope.path,'browse')}">
@@ -16,14 +17,14 @@
 	</c:otherwise>
 </c:choose>
 <div class="headline"><fmt:message key="${headlineKey}" /></div>
-   <mcr:debugInfo/>
+   <mcr:debugInfo />
    <mcrb:searchresultBrowser varmcrid="mcrid" varurl="url" sortfields="title author modified">
    		<c:set var="doctype" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
    		<c:catch var ="catchException">
-			<c:import url="${applicationScope.WebApplicationBaseURL}content/resultdetails/resultdetails_${doctype}.jsp">
-				<c:param name="id" value="${mcrid}" />
-				<c:param name="url" value="${url}" />
-			</c:import>
+			<jsp:include page="resultdetails/resultdetails_${doctype}.jsp">
+				<jsp:param name="id" value="${mcrid}" />
+				<jsp:param name="url" value="${url}" />
+			</jsp:include>
 		</c:catch>
 		<c:if test = "${catchException!=null}">
 			<br />

@@ -8,8 +8,6 @@
 
 
 <%-- creates the sitempa navigation menu by recursively calling itself--%>
-<fmt:setLocale value="${lang}" />
-<fmt:setBundle basename='messages' />
 <x:out select="./@level"/>
 <x:forEach select="$sessionScope:recNavPath/navitem[not(@hidden = 'true')]">
 	<x:set var="href" select="string(./@path)" />

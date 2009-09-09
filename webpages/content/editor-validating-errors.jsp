@@ -25,8 +25,7 @@
 	<c:set var="publicationType" value="${requestScope.publicationType}" />
 	
 	<c:set var="errorList" value="${requestScope.errorList}" />
-	<fmt:setLocale value='${requestScope.lang}'/>
-	<fmt:setBundle basename='messages'/>
+
 	<div class="headline"><fmt:message key="WF.editor.ValidatorError.Headline" /></div>
 	<table>
 	   <c:forEach items="${errorList}" var="errorEntry" varStatus="status">

@@ -9,21 +9,19 @@
 <%-- Parameter: id - the MCR Object ID--%>
 <%-- Parameter: url - the MCR Object ID--%>
 
-<fmt:setLocale value="${requestScope.lang}" />
-<fmt:setBundle basename='messages' />
 <mcr:receiveMcrObjAsJdom mcrid="${param.id}" varDom="xml"/>
 <c:set var="type" value="${fn:substringBefore(fn:substringAfter(param.id, '_'),'_')}" />
-
+<fmt:setLocale value="${requestScope.lang}"/>
 <c:set var="formatType"><x:out select="$xml/mycoreobject/metadata/formats/format/@categid"/></c:set>
 <c:set var="contentType"><x:out select="$xml/mycoreobject/metadata/types/type/@categid"/></c:set>
 
 <table class="resultdetails-table">
 	<tr>
 		<td class="resultdetails-icon" rowspan="10">
-			<c:import url="fragments/document_icon.jsp">
-				<c:param name="contentType" value="${contentType}" />
-				<c:param name="formatType" value="${formatType}" />
-			</c:import>		
+			<jsp:include page="fragments/document_icon.jsp">
+				<jsp:param name="contentType" value="${contentType}" />
+				<jsp:param name="formatType" value="${formatType}" />
+			</jsp:include>		
 		</td>
 		<td class="resultdetails-header">
 			<c:set var="title"><x:out select="$xml/mycoreobject/metadata/titles/title[1]" /></c:set>
@@ -32,9 +30,9 @@
 		<td class="resultdetails-id" rowspan="10">
 			[<x:out select="$xml/mycoreobject/@ID" />]
 			<br /><br />
-			<c:import url="fragments/showeditbutton.jsp">
-				<c:param name="mcrid">${param.id}</c:param>
-			</c:import>
+			<jsp:include page="fragments/showeditbutton.jsp">
+				<jsp:param name="mcrid" value="${param.id}" />
+			</jsp:include>
 		</td>
 	</tr>
  

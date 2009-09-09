@@ -5,8 +5,6 @@
 <mcr:session var="sessionID" method="get" type="ID" />
 
 <c:set var="WebApplicationBaseURL" value="${applicationScope.WebApplicationBaseURL}" />
-<fmt:setLocale value="${requestScope.lang}" />
-<fmt:setBundle basename='messages'/>
 
 <div class="headline"><fmt:message key="Nav.Search" /></div>
 

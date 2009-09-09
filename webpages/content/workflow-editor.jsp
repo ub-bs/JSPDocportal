@@ -9,11 +9,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/xml"  prefix="x" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
-<fmt:setLocale value="${requestScope.lang}" />
-<fmt:setBundle basename='messages'/>
+
 <%
     Map map = request.getParameterMap();
-    String sessionID = ((MCRSession)MCRServlet.getSession(request)).getID();
+    String sessionID = ((MCRSession)MCRServlet.getSession(request, "workflow-editor")).getID();
     StringBuffer sbURL = new StringBuffer((String)getServletContext().getAttribute("WebApplicationBaseURL"))
         .append("start_edit");
 

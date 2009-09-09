@@ -3,8 +3,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
-<fmt:setLocale value="${requestScope.lang}" />
-<fmt:setBundle basename='messages' />
 <%--Parameter: mcrid --%>
 <c:set var="mcrid" value="${param.mcrid}" />
 <mcr:receiveMcrObjAsJdom mcrid="${mcrid}" var="jdom" varDom="dom" fromWForDB="false"/>
@@ -18,11 +16,11 @@
 	<li>
 		<table><tr>
 			<td style="padding-right:10px">	
-				<c:import url="${application.WebApplicationBaseURL}/content/resultdetails/fragments/document_icon.jsp">
-					<c:param name="contentType" value="${type}" />
-					<c:param name="formatType" value="${format}" />
-					<c:param name="docType" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
-				</c:import>		
+				<jsp:include page="document_icon.jsp">
+					<jsp:param name="contentType" value="${type}" />
+					<jsp:param name="formatType" value="${format}" />
+					<jsp:param name="docType" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
+				</jsp:include>		
 			</td>
 			<td>
 				<a href="${WebApplicationBaseURL}resolve?id=<c:out value='${mcrid}'/>">

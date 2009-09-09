@@ -25,8 +25,6 @@
 <body>
 
 <c:catch var="e">
-<fmt:setLocale value='${requestScope.lang}'/>
-<fmt:setBundle basename='messages'/>
 <c:set var="mcrid" value="${param.id}" /> 
 <c:set var="host" value="${param.host}" />
 <c:set var="offset" value="${param.offset}" />
@@ -133,6 +131,8 @@
   		<tr height="50"><td>&#160;</td></tr>	
   		<tr><td class="metaname" ><u><b>Datum</b></u></td><td class="metaname" ><u><b>Unterschrift</b></u></td><td class="metaname" ><u><b>Ort</b></u></td></tr>
   	</table>
+  	</div>
+  	</td></tr></table>
   
 </c:catch>
 

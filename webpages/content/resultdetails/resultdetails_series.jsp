@@ -9,8 +9,6 @@
 <%-- Parameter: id - the MCR Object ID--%>
 <%-- Parameter: url - the MCR Object ID--%>
 
-<fmt:setLocale value="${requestScope.lang}" />
-<fmt:setBundle basename='messages' />
 <mcr:receiveMcrObjAsJdom mcrid="${param.id}" varDom="xml"/>
 <c:set var="type" value="${fn:substringBefore(fn:substringAfter(param.id, '_'),'_')}" />
 <c:set var="contentType"><x:out select="$xml/mycoreobject/metadata/types/type/@categid"/></c:set>
@@ -36,9 +34,9 @@
 		<td class="resultdetails-id" rowspan="10">
 			[<x:out select="$xml/mycoreobject/@ID" />]
 			<br /><br />
-			<c:import url="fragments/showeditbutton.jsp">
-				<c:param name="mcrid">${param.id}</c:param>
-			</c:import>
+			<jsp:include page="fragments/showeditbutton.jsp">
+				<jsp:param name="mcrid" value="${param.id}" />
+			</jsp:include>
 		</td>
 	</tr>
  
