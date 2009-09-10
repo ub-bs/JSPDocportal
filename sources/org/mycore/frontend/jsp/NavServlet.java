@@ -170,12 +170,12 @@ public class NavServlet extends MCRServlet
 	        	navitem = (Element) XPath.selectSingleNode(navJdom, xpath.toString());
 	        }
         }catch(Exception ex){
-        	logger.warn("wrong path" + path,ex);
-        	navitem = (Element) XPath.selectSingleNode(navJdom, "/navigations//navitem[0]");
+        	logger.warn("wrong path" + path+" : "+ex.getMessage());
+        	navitem = (Element) XPath.selectSingleNode(navJdom, "/navigations//navitem[1]");
         }
         if(navitem==null){
         	logger.error("Path could not be resolved: "+path );
-        	navitem = (Element) XPath.selectSingleNode(navJdom, "/navigations//navitem[0]");
+        	navitem = (Element) XPath.selectSingleNode(navJdom, "/navigations//navitem[1]");
         }
         String contentPage = navitem.getAttributeValue("href");
         String extern = navitem.getAttributeValue("extern");
