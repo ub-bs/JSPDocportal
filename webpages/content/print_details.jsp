@@ -15,8 +15,8 @@
 <c:set var="lang" value="${lang}" scope="request" />
 <c:set var="mcrid" value="${param.id}"/>
 <c:set var="from"  value="${param.from}" />
-<fmt:setLocale value="${lang}" />
-<fmt:setBundle basename="messages" />
+<fmt:setLocale value="${lang}" scope="request" />
+<fmt:setBundle basename="messages" scope="request" />
 
 <html>
 <head><title>Print Details</title>
