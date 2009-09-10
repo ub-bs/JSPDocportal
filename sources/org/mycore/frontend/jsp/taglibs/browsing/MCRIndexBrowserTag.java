@@ -175,8 +175,8 @@ public class MCRIndexBrowserTag extends SimpleTagSupport {
         out.write("    <form action=\""+webApplicationBaseURL+"nav?path=~searchstart-index_"+indexname+"\" method=\"post\">\n");
         out.write("       <b>"+messages.getString("Editor.Common.index.filter")+"</b>\n");
         out.write("         <select name=\"mode\" size=\"1\" class=\"button\">\n");
-        out.write("             <option value=\"wraps\"");
-        if("wraps".equals(mode)){
+        out.write("             <option value=\"contains\"");
+        if("contains".equals(mode)){
         	out.write(" selected=\"selected\"");
         }
         out.write(">"+messages.getString("Editor.Common.index.contains")+"</option>");
