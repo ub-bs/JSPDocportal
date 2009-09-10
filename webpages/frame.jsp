@@ -49,7 +49,7 @@
 				<c:set var="docType" value="${fn:substringBefore(fn:substringAfter(param.id, '_'),'_')}" />
 				<c:if test="${not empty docType}">
 				<c:catch var="e">
-					<jsp:include page="content/webpageitems/webpageitem-${docType}.jsp" >
+					<jsp:include page="/content/webpageitems/webpageitem-${docType}.jsp" >
 						<jsp:param name="pageFragment" value="pagetitle" />
 						<jsp:param name="mcrid" value="${param.id}" />
 					</jsp:include>
@@ -82,14 +82,14 @@
 				<!--Main Menu -->
 				<tr><td>
 					<x:set scope="session" var="recNavPath" select="$Navigation//navigation[@name='left']/navitem[@name='left']"/>
-					<c:import url="content/navi_left_rec.jsp" />
+					<c:import url="/content/navi_left_rec.jsp" />
 				</td></tr>
 				<%--style="padding-bottom" = additional inner border to bottom cell border -> creates some space --%>
 		
 				<!-- Admin Menu -->
 				<tr><td>
 					<x:set scope="session" var="recNavPath" select="$Navigation//navigation[@name='admin']/navitem[@name='admin']"/>
-					<c:import url="content/navi_left_rec.jsp" />
+					<c:import url="/content/navi_left_rec.jsp" />
 				</td></tr>
  			</table> 
 		</td>

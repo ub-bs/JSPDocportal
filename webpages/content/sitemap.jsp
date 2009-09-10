@@ -17,15 +17,15 @@
 	<tr valign="top">
 		<td>
 			<x:set scope="session" var="recNavPath" select="$Navigation//navigation[@name='left']/navitem[@name='left']"/>
-			<c:import url="content/sitemap_items_rec.jsp" />
+			<c:import url="/content/sitemap_items_rec.jsp" />
 		</td>
 		<td>
 			<x:set scope="session" var="recNavPath" select="$Navigation//navigation[@name='top']/navitem[@name='top']"/>
-			<c:import url="content/sitemap_items_rec.jsp" />
+			<c:import url="/content/sitemap_items_rec.jsp" />
 		</td>
 		<td>
 			<x:set scope="session" var="recNavPath" select="$Navigation//navigation[@name='admin']/navitem[@name='admin']"/>
-			<c:import url="content/sitemap_items_rec.jsp" />
+			<c:import url="/content/sitemap_items_rec.jsp" />
 		</td>
 	</tr>
 </table>

@@ -17,5 +17,5 @@
 	  </c:url>
 	<c:import url="${url}" /> --%>
 	<mcr:includeEditor editorPath="editor/searchmasks/SearchMask_AllMetadataFields.xml"/>
-<p><c:import url="content/node.jsp" /></p>
+<p><c:import url="/content/node.jsp" /></p>
 <mcr:includeWebContent file="search_introtext.html"/>
