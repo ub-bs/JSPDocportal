@@ -80,7 +80,7 @@
     <hidden var="metadata/names/@notinherit" default="false" />
     <hidden var="metadata/names/@heritable" default="true" />
     <hidden var="metadata/names/name/@inherited" default="0" />
-    <hidden var="metadata/names/name/@lang" default="de" />
+    <hidden var="metadata/names/name/@xml:lang" default="de" />
 
     <cell col="2" row="1" anchor="NORTHWEST" var="metadata/names/name/fullname"  >
 	  <textfield id="tf.fullname" width="30" maxlength="128"   >		
@@ -101,7 +101,7 @@
     <hidden var="metadata/addresses/@notinherit" default="false" />
     <hidden var="metadata/addresses/@heritable" default="true" />
     <hidden var="metadata/addresses/address/@inherited" default="0" />
-    <hidden var="metadata/addresses/address/@lang" default="de" />
+    <hidden var="metadata/addresses/address/@xml:lang" default="de" />
 
     <cell col="2" row="1" anchor="NORTHWEST" ref="Scountry" var="metadata/addresses/address/country"  />
     <cell col="3" row="1" anchor="NORTHWEST" ref="AAddressCountry" />
@@ -134,8 +134,8 @@
     <hidden var="metadata/phones/@notinherit" default="false" />
     <hidden var="metadata/phones/@heritable" default="true" />
     <hidden var="metadata/phones/phone/@inherited" default="0" />
-    <hidden var="metadata/phones/phone/@lang" default="de" />
-    <hidden var="metadata/phones/phone[2]/@lang" default="de" />
+    <hidden var="metadata/phones/phone/@xml:lang" default="de" />
+    <hidden var="metadata/phones/phone[2]/@xml:lang" default="de" />
 
     <cell col="2" row="1" anchor="NORTHWEST" ref="TFzeile128" var="metadata/phones/phone"  />
     <cell col="3" row="1" anchor="NORTHWEST" ref="Sphone" var="metadata/phones/phone/@type"  />
@@ -165,7 +165,7 @@
     <hidden var="metadata/emails/@notinherit" default="false" />
     <hidden var="metadata/emails/@heritable" default="true" />
     <hidden var="metadata/emails/email/@inherited" default="0" />
-    <hidden var="metadata/emails/email/@lang" default="de" />
+    <hidden var="metadata/emails/email/@xml:lang" default="de" />
 
     <cell col="2" row="1" anchor="NORTHWEST" ref="TFzeile128" var="metadata/emails/email" />
   </panel>
@@ -175,7 +175,7 @@
     <hidden var="metadata/notes/@notinherit" default="false" />
     <hidden var="metadata/notes/@heritable" default="true" />
     <hidden var="metadata/notes/note/@inherited" default="0" />
-    <hidden var="metadata/notes/note/@lang" default="de" />
+    <hidden var="metadata/notes/note/@xml:lang" default="de" />
     <cell col="2" row="1" anchor="NORTHWEST" ref="TFarea4096" var="metadata/notes/note"  default=""/>
   </panel>
 

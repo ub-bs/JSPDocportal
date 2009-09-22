@@ -38,14 +38,14 @@
     <panel id="RTitle">
       <hidden var="@inherited" default="0" />
       <cell col="1" row="1" anchor="NORTHWEST" ref="TFarea1024x3M" />
-      <cell col="2" row="1" anchor="NORTHWEST" ref="Slang" var="@lang" default="de" />
+      <cell col="2" row="1" anchor="NORTHWEST" ref="Slang" var="@xml:lang" default="de" />
       <cell col="3" row="1" anchor="NORTHWEST" ref="STitleType2" var="@type" default="main" />
     </panel>
     
      <panel id="RTitle1">
       <hidden var="@inherited" default="0" />
       <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile1024M" />
-      <cell col="2" row="1" anchor="NORTHWEST" ref="Slang" var="@lang" default="de" />
+      <cell col="2" row="1" anchor="NORTHWEST" ref="Slang" var="@xml:lang" default="de" />
       <cell col="3" row="1" anchor="NORTHWEST" ref="STitleType" var="@type" default="main" />
     </panel>
 
@@ -60,7 +60,7 @@
     <!-- *** Data for the CREATOR ** sortnr="2"-->
     <panel id="DCreator_repeater">
       <hidden var="@inherited" default="0"  />
-      <hidden var="@lang" default="de"  /> 
+      <hidden var="@xml:lang" default="de"  /> 
       <cell col="1" row="1" anchor="WEST" ref="TFzeile1024"  />
     </panel>
 
@@ -124,7 +124,7 @@
     <panel id="DDescriptionRep">
       <hidden var="@inherited" default="0" />
       <cell col="1" row="1" anchor="NORTHWEST" ref="TFarea4096"  />
-      <cell col="2" row="1" ref="Slang" var="@lang" default="de"   />
+      <cell col="2" row="1" anchor="NORTHWEST" ref="Slang" var="@xml:lang" default="de"   />
       <cell col="3" row="1" anchor="NORTHWEST" ref="SDescriptType" var="@type"  />
     </panel>
 
@@ -154,7 +154,7 @@
     
     <panel id="DPublisher_repeater">
       <hidden var="@inherited" default="0"  />
-      <hidden var="@lang"   default="de"  />
+      <hidden var="@xml:lang"   default="de"  />
       <cell col="1" row="1" anchor="WEST" ref="TFzeile1024"  />            
     </panel>
 
@@ -196,7 +196,7 @@
     <!-- *** Data for the Contributor sortnr="10" ** -->
     <panel id="DContributor_repeater">
       <hidden var="@inherited" default="0"  />
-      <hidden var="@lang"  default="de"  />
+      <hidden var="@xml:lang"  default="de"  />
       <cell col="1" row="1" anchor="WEST" ref="TFzeile1024"  />
       <cell col="2" row="1" anchor="WEST" ref="TFzeile32" var="@type"  />            
          <cell col="3" row="1">
@@ -255,7 +255,7 @@
     <!-- *** Data for the Identifier ** sortnr="15"-->
     <panel id="DIdentifier_repeater">
       <hidden var="@inherited" default="0"  />
-      <hidden var="@lang" default="de"  />
+      <hidden var="@xml:lang" default="de"  />
       <cell col="1" row="1" anchor="WEST" ref="TFzeile128"  />
       <cell col="2" row="1" anchor="NORTHWEST" var="@type">
       	<list type="dropdown">
@@ -282,7 +282,7 @@
     <panel id="DSource_repeater">
       <hidden var="@inherited" default="0" />
       <cell col="1" row="1" anchor="WEST" ref="TFzeile1024" />
-      <cell col="2" row="1" anchor="NORTHWEST" ref="Slang" var="@lang" default="de" />
+      <cell col="2" row="1" anchor="NORTHWEST" ref="Slang" var="@xml:lang" default="de" />
     </panel>
     <panel id="DSource">
       <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/sources&amp;classname=MCRMetaClassification" />
@@ -343,7 +343,7 @@
       <!-- *** Data for the Note ** sortnr="34"  -->
       <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/counts&amp;classname=MCRMetaLangText" />
       <hidden  var="metadata/counts/count/@inherited" default="0" />        
-      <hidden  var="metadata/counts/count/@lang" default="de" />
+      <hidden  var="metadata/counts/count/@xml:lang" default="de" />
       <cell col="1" row="1" anchor="WEST" ref="TFzeile128" var="metadata/counts/count" />
     </panel>
     
@@ -355,7 +355,7 @@
 	<panel id="DPublishingCompany">
       <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/publishingcompanies&amp;classname=MCRMetaLangText" />
       <hidden  var="metadata/publishingcompanies/publishingcompany/@inherited" default="0" />        
-      <hidden  var="metadata/publishingcompanies/publishingcompany/@lang" default="de" />
+      <hidden  var="metadata/publishingcompanies/publishingcompany/@xml:lang" default="de" />
       <cell col="1" row="1" anchor="WEST" ref="TFzeile1024" var="metadata/publishingcompanies/publishingcompany" />
     </panel>
     
@@ -364,7 +364,7 @@
     <panel id="DKeywordsRef">
       <hidden var="@inherited" default="0" />
       <cell col="1" row="1" anchor="NORTHWEST" ref="TFzeile1024M"  default="" />
-      <cell col="2" row="1" anchor="NORTHWEST" ref="Slang" var="@lang"  default="de" />
+      <cell col="2" row="1" anchor="NORTHWEST" ref="Slang" var="@xml:lang"  default="de" />
     </panel>
     
     <panel id="DKeywords">
@@ -379,7 +379,7 @@
       <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/coverages&amp;classname=MCRMetaLangText" />
       <hidden  var="metadata/coverages/coverage/@inherited" default="0" />
       <cell col="1" row="1" anchor="WEST" ref="TFarea1024x3" var="metadata/coverages/coverage" />
-      <cell col="2" row="1" anchor="NORTHWEST" ref="Slang" var="metadata/coverages/coverage/@lang"  default="de" />      
+      <cell col="2" row="1" anchor="NORTHWEST" ref="Slang" var="metadata/coverages/coverage/@xml:lang"  default="de" />      
     </panel>
     
     <panel id="DRelation">    
@@ -387,14 +387,14 @@
       <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/relations&amp;classname=MCRMetaLangText" />
       <hidden  var="metadata/relations/relation/@inherited" default="0" />
       <cell col="1" row="1" anchor="WEST" ref="TFarea1024x3" var="metadata/relations/relation" />
-      <cell col="2" row="1" anchor="NORTHWEST" ref="Slang" var="metadata/relations/relation/@lang"  default="de" />      
+      <cell col="2" row="1" anchor="NORTHWEST" ref="Slang" var="metadata/relations/relation/@xml:lang"  default="de" />      
     </panel>
     
     <!-- *** Data for the Size ** sortnr="28" -->
     <panel id="DSize">    
       <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/sizes&amp;classname=MCRMetaLangText" />
       <hidden var="metadata/sizes/size/@inherited" default="0" />
-      <hidden var="metadata/sizes/size/@lang" default="de"   />
+      <hidden var="metadata/sizes/size/@xml:lang" default="de"   />
       <cell col="1" row="1" anchor="WEST" ref="TFzeile1024" var="metadata/sizes/size"  />
     </panel>
     
@@ -402,7 +402,7 @@
     <panel id="DIsbn">
       <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/isbns&amp;classname=MCRMetaLangText" />
       <hidden  var="metadata/isbns/isbn/@inherited" default="0" />
-      <hidden  var="metadata/isbns/isbn/@lang"  default="de" />
+      <hidden  var="metadata/isbns/isbn/@xml:lang"  default="de" />
       <cell col="1" row="1" anchor="WEST" ref="TFzeile128" var="metadata/isbns/isbn"  />
     </panel>
 
@@ -410,9 +410,9 @@
       <!-- *** Data for the Rights ** sortnr="26"-->
         <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/rights&amp;classname=MCRMetaLangText" />
         <hidden  var="metadata/rights/right" default="Publikationen/Copyrightbestimmungen"  />
-        <hidden  var="metadata/rights/right/@lang" default="de"  />
+        <hidden  var="metadata/rights/right/@xml:lang" default="de"  />
         <hidden var="metadata/rights/right[2]" default="Publications/Copyright Terms"   />
-        <hidden var="metadata/rights/right[2]/@lang" default="en"  />
+        <hidden var="metadata/rights/right[2]/@xml:lang" default="en"  />
         <cell col="1" row="1" anchor="WEST" />
     </panel>
         
@@ -437,7 +437,7 @@
         <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/contacts&amp;classname=MCRMetaLangText" />
         <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/contacts/contact&amp;prop=MCR.WorkflowEngine.ContactIdDDB.xmetadiss" />
         <hidden  var="metadata/contacts/contact/@type" default="ddb"  />
-        <hidden  var="metadata/contacts/contact/@lang" default="de"  />
+        <hidden  var="metadata/contacts/contact/@xml:lang" default="de"  />
         <cell col="1" row="1" anchor="WEST" />
     </panel>
     
@@ -445,7 +445,7 @@
       <!-- *** Data for the Note ** sortnr="34"  -->
       <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/notes&amp;classname=MCRMetaLangText" />
       <hidden  var="metadata/notes/note/@inherited" default="0" />        
-      <hidden  var="metadata/notes/note/@lang" default="de" />
+      <hidden  var="metadata/notes/note/@xml:lang" default="de" />
       <cell col="1" row="1" anchor="WEST" ref="TFarea4096" var="metadata/notes/note" />
     </panel>
 
@@ -453,7 +453,7 @@
       <!-- *** Data for the Citation ** sortnr="35" -->
       <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/citations&amp;classname=MCRMetaLangText" />
       <hidden  var="metadata/citations/citation/@inherited" default="0" />
-      <hidden  var="metadata/citations/citation/@lang"  default="de" />
+      <hidden  var="metadata/citations/citation/@xml:lang"  default="de" />
       <cell col="1" row="1" anchor="WEST" ref="TFzeile1024" var="metadata/citations/citation" />
     </panel>
 
@@ -462,7 +462,7 @@
       <!-- *** Data for the Journaltitlen ** sortnr="36" -->
       <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/journaltitles&amp;classname=MCRMetaLangText" />
       <hidden  var="metadata/journaltitles/journaltitle/@inherited" default="0" />
-      <hidden  var="metadata/journaltitles/journaltitle/@lang"  default="de" />
+      <hidden  var="metadata/journaltitles/journaltitle/@xml:lang"  default="de" />
       <cell col="1" row="1" anchor="WEST" ref="TFzeile1024M" var="metadata/journaltitles/journaltitle"  />
     </panel>
     
@@ -470,7 +470,7 @@
     <panel id="DPublishingYear">
       <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/yearofpublications&amp;classname=MCRMetaLangText" />
       <hidden  var="metadata/yearofpublications/yearofpublication/@inherited" default="0" />
-      <hidden  var="metadata/yearofpublications/yearofpublication/@lang"  default="de" />
+      <hidden  var="metadata/yearofpublications/yearofpublication/@xml:lang"  default="de" />
       <cell col="1" row="1" anchor="WEST" ref="TFzeile10" var="metadata/yearofpublications/yearofpublication" />
     </panel>
 
@@ -478,7 +478,7 @@
       <!--  journal volume  sortnr="38" -->
       <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/volumes&amp;classname=MCRMetaLangText" />
       <hidden  var="metadata/volumes/volume/@inherited" default="0" />
-      <hidden  var="metadata/volumes/volume/@lang"  default="de" />
+      <hidden  var="metadata/volumes/volume/@xml:lang"  default="de" />
       <cell col="1" row="1" anchor="WEST" ref="TFzeile10" var="metadata/volumes/volume" />
     </panel>
    
@@ -486,7 +486,7 @@
       <!--  book sortnr="39" -->
       <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/books&amp;classname=MCRMetaLangText" />
       <hidden  var="metadata/books/book/@inherited" default="0" />
-      <hidden  var="metadata/books/book/@lang"  default="de" />
+      <hidden  var="metadata/books/book/@xml:lang"  default="de" />
       <cell col="1" row="1" anchor="WEST" ref="TFzeile10" var="metadata/books/book"  />
     </panel>
     
@@ -494,7 +494,7 @@
       <!-- place in sortnr="40" -->
       <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/places&amp;classname=MCRMetaLangText" />
       <hidden  var="metadata/places/place/@inherited" default="0" />
-      <hidden  var="metadata/places/place/@lang"  default="de" />
+      <hidden  var="metadata/places/place/@xml:lang"  default="de" />
       <cell col="1" row="1" anchor="WEST" ref="TFzeile10" var="metadata/places/place"  />
     </panel>
 
@@ -502,7 +502,7 @@
       <!--  sortnr="39" -->
       <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/pages&amp;classname=MCRMetaLangText" />
       <hidden  var="metadata/pages/page/@inherited" default="0" />
-      <hidden  var="metadata/pages/page/@lang"  default="de" />
+      <hidden  var="metadata/pages/page/@xml:lang"  default="de" />
       <cell col="1" row="1" anchor="WEST" ref="TFzeile10" var="metadata/pages/page"  />
     </panel>
 

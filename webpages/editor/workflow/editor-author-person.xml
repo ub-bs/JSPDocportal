@@ -28,7 +28,7 @@
     <hidden var="metadata/userids/@notinherit" default="false" sortnr="15" />
     <hidden var="metadata/userids/@heritable" default="true" sortnr="15" />
     <hidden var="metadata/userids/userid/@inherited" default="0"  />
-    <hidden var="metadata/userids/userid/@lang" default="de"  />
+    <hidden var="metadata/userids/userid/@xml:lang" default="de"  />
     <hidden var="metadata/userids/userid" />
     
     <hidden var="service/servdates/@class" default="MCRMetaISO8601Date"/>
@@ -42,7 +42,7 @@
     <hidden var="service/servdates/servdate[2]/@type" default="modifydate"/>
     <hidden var="service/servdates/servdate[2]" />  -->
 
-    <!-- <hidden var="metadata/@lang" default="de" /> -->
+    <!-- <hidden var="metadata/@xml:lang" default="de" /> -->
 
     <cell col="1" row="1" anchor="NORTHWEST" ref="Help.person.name" />
     <cell col="2" row="1" anchor="NORTHWEST" ref="LPNameP" />
@@ -80,7 +80,7 @@
     <hidden var="metadata/addresses/@heritable"  sortnr="4" default="true" />
     <hidden var="metadata/addresses/address/@inherited" default="0" />
     <hidden var="metadata/addresses/address/@type" default="office" />	     
-    <hidden var="metadata/addresses/address/@lang"  default="de" /> -->
+    <hidden var="metadata/addresses/address/@xml:lang"  default="de" /> -->
     
     <!-- getHiddenVar: Parameter: lang bundle prop defaultValue var -->
    <!--  <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/addresses/address/country&amp;prop=MCR.WorkflowEngine.MyInstitution.country&amp;default= " />  

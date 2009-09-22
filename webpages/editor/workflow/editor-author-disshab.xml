@@ -170,13 +170,13 @@
 	   <cell col="1" row="1" anchor="WEST" />
 <!-- we use publish link -->
 <!-- <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/publishers&amp;classname=MCRMetaLangText" />
-    <hidden var="metadata/publishers/publisher/@lang" default="de" />
+    <hidden var="metadata/publishers/publisher/@xml:lang" default="de" />
      configure this in messages_de.properties and messages_en.properties 
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.publishers.publisher&amp;prop=MCR.WorkflowEngine.PublisherDefaultName.xmetadiss&amp;lang=de&amp;bundle=messages" />
     hidden var="metadata/publishers/publisher" default="Universitätsbibliothek der MyCoRe-Freunde" />
     <hidden var="metadata/publishers/publisher/@type" default="publication" />
     <hidden var="metadata/publishers/publisher[2]/@inherited" default="0" />
-    <hidden var="metadata/publishers/publisher[2]/@lang" default="en" />
+    <hidden var="metadata/publishers/publisher[2]/@xml:lang" default="en" />
      configure this in messages_de.properties and messages_en.properties 
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.publishers.publisher[2]&amp;prop=MCR.WorkflowEngine.PublisherDefaultName.xmetadiss&amp;lang=en&amp;bundle=messages" />
     <hidden var="metadata/publishers/publisher[2]/@type" default="publication" />    
@@ -229,15 +229,15 @@
     
     <hidden var="metadata/keywords/keyword/@type" default="freetext" />
     <cell col="1" row="2" anchor="WEST" ref="TFzeile1024" var="metadata/keywords/keyword" />
-    <cell col="2" row="2" anchor="NORTHWEST" ref="Slang" var="metadata/keywords/keyword/@lang" default="de" />    
+    <cell col="2" row="2" anchor="NORTHWEST" ref="Slang" var="metadata/keywords/keyword/@xml:lang" default="de" />    
   
     <hidden var="metadata/keywords/keyword[2]/@type" default="freetext" />    
     <cell col="1" row="3" anchor="WEST" ref="TFzeile1024" var="metadata/keywords/keyword[2]" />
-    <cell col="2" row="3" anchor="NORTHWEST" ref="SlangEN" var="metadata/keywords/keyword[2]/@lang" default="en" />    
+    <cell col="2" row="3" anchor="NORTHWEST" ref="SlangEN" var="metadata/keywords/keyword[2]/@xml:lang" default="en" />    
 
     <cell col="1" row="8" colspan="3" anchor="NORTHWEST" ref="AKeywordsClassifications" /> 
     <cell col="1" row="9" colspan="3" anchor="NORTWEST" ref="SKeywordsClassifications" var="metadata/keywords/keyword[3]/@type" />
-    <hidden var="metadata/keywords/keyword[3]/@lang" default="de" /> 
+    <hidden var="metadata/keywords/keyword[3]/@xml:lang" default="de" /> 
     <cell col="1" row="10" anchor="WEST" ref="TFzeile1024" var="metadata/keywords/keyword[3]" />     
     <cell col="2" row="10" anchor="NORTHEAST" ref="AKeywordsClassificationsCode" />
     <cell col="3" row="10" width="150" anchor="NORTHEAST" ref="HKeywordsClassifications" />
@@ -246,7 +246,7 @@
 
     <cell col="1" row="12" colspan="3" anchor="NORTHWEST" ref="AKeywordsClassifications" /> 
     <cell col="1" row="13" colspan="3" anchor="NORTWEST" ref="SKeywordsClassifications" var="metadata/keywords/keyword[4]/@type" />
-    <hidden var="metadata/keywords/keyword[4]/@lang" default="de" /> 
+    <hidden var="metadata/keywords/keyword[4]/@xml:lang" default="de" /> 
     <cell col="1" row="14" anchor="WEST" ref="TFzeile1024" var="metadata/keywords/keyword[4]" />
     <cell col="2" row="14" anchor="NORTHEAST" ref="AKeywordsClassificationsCode" />
     <cell col="3" row="14" width="150" anchor="NORTHEAST" ref="HKeywordsClassifications" />     
@@ -259,9 +259,9 @@
 <!-- *** Data for the Rights 26 ** -->
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/rights&amp;classname=MCRMetaLangText" />  
     <hidden var="metadata/rights/right" default="Dissertation /Copyrightbestimmungen" />
-    <hidden var="metadata/rights/right/@lang"  default="de" />
+    <hidden var="metadata/rights/right/@xml:lang"  default="de" />
     <hidden var="metadata/rights/right[2]" default="Dissertation /Copyright Terms" />
-    <hidden var="metadata/rights/right[2]/@lang"  default="de" />
+    <hidden var="metadata/rights/right[2]/@xml:lang"  default="de" />
     <cell col="1" row="1"  />       
  </panel>
  
@@ -279,9 +279,9 @@
 <!--  Robert: decoded in grantorlink and publisherlink -->
 <!--    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/places&amp;classname=MCRMetaLangText" />  
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/places/place&amp;prop=MCR.WorkflowEngine.PlaceDefault_de.xmetadiss" />    
-    <hidden var="metadata/places/place/@lang" default="de" />    
+    <hidden var="metadata/places/place/@xml:lang" default="de" />    
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/places/place&amp;prop=MCR.WorkflowEngine.PlaceDefault_en.xmetadiss" />        
-    <hidden var="metadata/places/place[2]/@lang" default="en" />    
+    <hidden var="metadata/places/place[2]/@xml:lang" default="en" />    
     <cell col="1" row="1"  />       -->
  </panel>
  
@@ -298,7 +298,7 @@
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/contacts&amp;classname=MCRMetaLangText" />  
 	<include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/contacts/contact&amp;prop=MCR.WorkflowEngine.ContactIdDDB.xmetadiss" />    
     <hidden var="metadata/contacts/contact/@type" default="ddb" />
-    <hidden var="metadata/contacts/contact/@lang" default="de" />      
+    <hidden var="metadata/contacts/contact/@xml:lang" default="de" />      
     <cell col="1" row="1"  />       
   </panel>
 

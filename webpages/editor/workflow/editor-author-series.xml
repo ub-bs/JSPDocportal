@@ -150,13 +150,13 @@
 <!-- 
   <panel id="DPublisher">
 	<include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/publishers&amp;classname=MCRMetaLangText" />
-    <hidden var="metadata/publishers/publisher/@lang" default="de" />
+    <hidden var="metadata/publishers/publisher/@xml:lang" default="de" />
     <!-  configure this in messages_de.properties and messages_en.properties ->
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.publishers.publisher&amp;prop=MCR.WorkflowEngine.PublisherDefaultName.xmetadiss&amp;lang=de&amp;bundle=messages" />
     <!- hidden var="metadata/publishers/publisher" default="Universitätsbibliothek der MyCoRe-Freunde" / ->    
     <hidden var="metadata/publishers/publisher/@type" default="publication" />
     <hidden var="metadata/publishers/publisher[2]/@inherited" default="0" />
-    <hidden var="metadata/publishers/publisher[2]/@lang" default="en" />
+    <hidden var="metadata/publishers/publisher[2]/@xml:lang" default="en" />
     <!-  configure this in messages_de.properties and messages_en.properties ->
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.publishers.publisher[2]&amp;prop=MCR.WorkflowEngine.PublisherDefaultName.xmetadiss&amp;lang=en&amp;bundle=messages" />
     <hidden var="metadata/publishers/publisher[2]/@type" default="publication" />    
@@ -214,7 +214,7 @@
         <repeater min="0" max="10" anchor="NORTHWEST">
           <panel lines="off">
     	    <hidden var="@inherited" default="0"  />
-      		<hidden var="@lang"   default="de"  />
+      		<hidden var="@xml:lang"   default="de"  />
       		<cell col="1" row="1" anchor="WEST" ref="TFzeile1024"  />
       		<cell col="2" row="1" anchor="WEST" ref="listTypeOfParticipation" var="@type" />  
       	  </panel>	
@@ -261,7 +261,7 @@
     	</cell>
     </panel>
     
-  <!-- ???  <cell col="1" row="1" anchor="NORTHWEST" ref="Slang" var="metadata/creators/creator/@lang" ordernr="2" default="de" /> -->
+  <!-- ???  <cell col="1" row="1" anchor="NORTHWEST" ref="Slang" var="metadata/creators/creator/@xml:lang" ordernr="2" default="de" /> -->
     
    <panel id="RCreator_NB">
         <cell col="1" row="1" anchor="WEST" ref="TFzeile128" />
@@ -298,10 +298,10 @@
 	<cell col="1" row="1"><panel>
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/rights&amp;classname=MCRMetaLangText" />  
     <hidden var="metadata/rights/right" default="Dissertation /Copyrightbestimmungen" />
-    <hidden var="metadata/rights/right/@lang"  default="de" />
+    <hidden var="metadata/rights/right/@xml:lang"  default="de" />
 
     <hidden var="metadata/rights/right[2]" default="Dissertation /Copyright Terms" />
-    <hidden var="metadata/rights/right[2]/@lang"  default="en" /> -->
+    <hidden var="metadata/rights/right[2]/@xml:lang"  default="en" /> -->
 	</panel></cell>
    
    	</panel> 
@@ -365,7 +365,7 @@
      		<cell col="1" row="1" colspan="3" anchor="NORTHWEST" ref="AKeywordsFreetextOrClassification_S" />
      		<cell col="1" row="2" colspan="3" anchor="NORTWEST" ref="listKeywordsClassifications_S" var="@type" default="freetext" />
      		<cell col="1" row="3" anchor="WEST" ref="TFzeile1024" />
-     		<cell col="2" row="3" anchor="NORTHWEST" ref="Slang" var="@lang" default="de" />
+     		<cell col="2" row="3" anchor="NORTHWEST" ref="Slang" var="@xml:lang" default="de" />
      	</panel>
       </repeater> 
      </cell>   

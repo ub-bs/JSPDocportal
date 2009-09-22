@@ -11,7 +11,7 @@
     <hidden var="metadata/names/@notinherit" default="false" sortnr="1" />
     <hidden var="metadata/names/@heritable" default="true" sortnr="1" />
     <hidden var="metadata/names/name/@inherited" default="0" sortnr="1" />
-    <hidden var="metadata/names/name/@lang" ordernr="1" default="de" sortnr="1" />
+    <hidden var="metadata/names/name/@xml:lang" ordernr="1" default="de" sortnr="1" />
     <cell col="2" row="1" anchor="NORTHWEST"  var="metadata/names/name/surname" sortnr="1" >
 	  <textfield id="tf.Surname"  width="30" maxlength="128"  class="mandatory" >		
 		<condition required="true" id="cond.Name">
@@ -42,7 +42,7 @@
     <hidden var="metadata/names/@notinherit" default="false" sortnr="1" />
     <hidden var="metadata/names/@heritable" default="true" sortnr="1" />
     <hidden var="metadata/names/name/@inherited" default="0" sortnr="1" />
-    <hidden var="metadata/names/name/@lang" default="de" sortnr="1" />
+    <hidden var="metadata/names/name/@xml:lang" default="de" sortnr="1" />
     <cell col="2" row="1" anchor="NORTHWEST"  var="metadata/names/name/surname" sortnr="1" >
 	  <textfield id="tf.Surname1"  width="30" maxlength="128"  class="mandatory" >		
 		<condition required="true" id="cond.Name1">
@@ -98,7 +98,7 @@
     <hidden var="metadata/addresses/@notinherit" default="false" sortnr="4" />
     <hidden var="metadata/addresses/@heritable" default="true" sortnr="4" />
     <hidden var="metadata/addresses/address/@inherited" default="0" sortnr="4" />
-    <hidden var="metadata/addresses/address/@lang" sortnr="4" default="de" />
+    <hidden var="metadata/addresses/address/@xml:lang" sortnr="4" default="de" />
     <cell col="1" row="1" anchor="NORTHWEST" ref="SAdrType" var="metadata/addresses/address/@type" sortnr="4" default="home" />	  
     <cell col="2" row="1" anchor="NORTHWEST" ref="Scountry" var="metadata/addresses/address/country" sortnr="4" />
     <cell col="3" row="1" anchor="NORTHWEST" ref="AAddressCountry" />
@@ -129,11 +129,11 @@
     <hidden var="metadata/phones/@notinherit" default="false" sortnr="5" />
     <hidden var="metadata/phones/@heritable" default="true" sortnr="5" />
     <hidden var="metadata/phones/phone/@inherited" default="0" sortnr="5" />
-    <hidden var="metadata/phones/phone/@lang" sortnr="5"  default="de" />
+    <hidden var="metadata/phones/phone/@xml:lang" sortnr="5"  default="de" />
     <cell col="2" row="1" anchor="NORTHWEST" ref="TFzeile128" var="metadata/phones/phone" sortnr="5" />
     <cell col="3" row="1" anchor="NORTHWEST" ref="Sphone" var="metadata/phones/phone/@type" sortnr="5" />
     <hidden var="metadata/phones/phone[2]/@inherited" default="0" sortnr="5" />
-    <hidden var="metadata/phones/phone[2]/@lang" ordernr="5" default="de" sortnr="5" />
+    <hidden var="metadata/phones/phone[2]/@xml:lang" ordernr="5" default="de" sortnr="5" />
     <cell col="2" row="2" anchor="NORTHWEST" ref="TFzeile128" var="metadata/phones/phone[2]" sortnr="5"  />
     <cell col="3" row="2" anchor="NORTHWEST" ref="Sphone" var="metadata/phones/phone[2]/@type" sortnr="5"  />
   </panel>
@@ -171,7 +171,7 @@
     <hidden var="metadata/professions/@notinherit" default="false" sortnr="7" />
     <hidden var="metadata/professions/@heritable" default="true" sortnr="7" />
     <hidden var="metadata/professions/profession/@inherited" default="0" sortnr="7" />
-    <hidden var="metadata/professions/profession/@lang" sortnr="7"  default="de" />
+    <hidden var="metadata/professions/profession/@xml:lang" sortnr="7"  default="de" />
     <cell col="2" row="1" anchor="WEST" ref="TFzeile128" var="metadata/professions/profession" sortnr="7" />
     <cell col="3" row="1" anchor="NORTHWEST" ref="SProfession" var="metadata/professions/profession/@type" sortnr="7" default="profession" />
   </panel>
@@ -181,7 +181,7 @@
     <hidden var="metadata/professions/@notinherit" default="false" sortnr="7" />
     <hidden var="metadata/professions/@heritable" default="true" sortnr="7" />
     <hidden var="metadata/professions/profession/@inherited" default="0" sortnr="7" />
-    <hidden var="metadata/professions/profession/@lang" sortnr="7" default="de" />
+    <hidden var="metadata/professions/profession/@xml:lang" sortnr="7" default="de" />
     <hidden var="metadata/professions/profession/@type" default="profession" sortnr="7" />
     <cell col="2" row="1" anchor="WEST" var="metadata/professions/profession" sortnr="7">
 	<textfield id="TFProfession_Only"  width="30" maxlength="128" >		
@@ -230,7 +230,7 @@
     <hidden var="metadata/emails/@notinherit" default="false" sortnr="11" />
     <hidden var="metadata/emails/@heritable" default="true" sortnr="11" />
     <hidden var="metadata/emails/email/@inherited" default="0" sortnr="11" />
-    <hidden var="metadata/emails/email/@lang" sortnr="11" default="de" />
+    <hidden var="metadata/emails/email/@xml:lang" sortnr="11" default="de" />
     <cell col="2" row="1" anchor="NORTHWEST" var="metadata/emails/email" sortnr="11" >
 		<textfield id="tf.Email"  width="30" maxlength="128"  >		
 		 <!--   <condition id="cond.DEmail" regexp="\S+@\S+\.\S+" required="true" >
@@ -279,7 +279,7 @@
     <hidden var="metadata/notes/@notinherit" default="false" sortnr="13" />
     <hidden var="metadata/notes/@heritable" default="true" sortnr="13" />
     <hidden var="metadata/notes/note/@inherited" default="0" sortnr="13" />
-    <hidden var="metadata/notes/note/@lang" ordernr="13" default="de" sortnr="13" />
+    <hidden var="metadata/notes/note/@xml:lang" ordernr="13" default="de" sortnr="13" />
     <cell col="2" row="1" anchor="NORTHWEST" ref="TFarea4096" var="metadata/notes/note" sortnr="13" default=""/>
   </panel>
 
@@ -290,10 +290,10 @@
     <hidden var="metadata/publications/@notinherit" default="false" sortnr="14" />
     <hidden var="metadata/publications/@heritable" default="true" sortnr="14" />
     <hidden var="metadata/publications/publication/@inherited" default="0" sortnr="14" />
-    <cell col="1" row="1" anchor="NORTHWEST" ref="Slang" var="metadata/publications/publication/@lang" sortnr="14" default="de" />
+    <cell col="1" row="1" anchor="NORTHWEST" ref="Slang" var="metadata/publications/publication/@xml:lang" sortnr="14" default="de" />
     <cell col="2" row="1" anchor="NORTHWEST" ref="TFarea4096" var="metadata/publications/publication" sortnr="14" default=""/>
     <hidden var="metadata/publications/publication[2]/@inherited" default="0" />
-    <cell col="1" row="2" anchor="NORTHWEST" ref="Slang" var="metadata/publications/publication[2]/@lang" sortnr="14" default="de" />
+    <cell col="1" row="2" anchor="NORTHWEST" ref="Slang" var="metadata/publications/publication[2]/@xml:lang" sortnr="14" default="de" />
     <cell col="2" row="2" anchor="NORTHWEST" ref="TFarea4096" var="metadata/publications/publication[2]" sortnr="14" default=""/>
   </panel>
 
