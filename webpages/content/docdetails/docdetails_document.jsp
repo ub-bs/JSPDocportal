@@ -28,7 +28,7 @@
 		</mcrdd:outputitem>              
     </mcrdd:row>
 
-    <mcrdd:row xpath="/mycoreobject/metadata/titles/title[@type='original-sub']" labelkey="OMD.subtitle" showInfo="false">
+    <mcrdd:row xpath="/mycoreobject/metadata/titles/title[@type='sub']" labelkey="OMD.subtitle" showInfo="false">
 		<mcrdd:item xpath="./text()" />              
     </mcrdd:row>
     
@@ -123,6 +123,18 @@
 		<mcrdd:item xpath="./text()" />              
     </mcrdd:row>
 
+    <mcrdd:row xpath="/mycoreobject/metadata/volumes/volume" labelkey="OMD.volume" showInfo="false">
+		<mcrdd:item xpath="./text()" />              
+    </mcrdd:row>
+    
+    <mcrdd:row xpath="/mycoreobject/metadata/books/book" labelkey="OMD.books" showInfo="false">
+		<mcrdd:item xpath="./text()" />              
+    </mcrdd:row>
+    
+    <mcrdd:row xpath="/mycoreobject/metadata/pages/page" labelkey="OMD.pages" showInfo="false">
+		<mcrdd:item xpath="./text()" />              
+    </mcrdd:row>
+    
     <mcrdd:separator showLine="true"/>
     
     <mcrdd:row xpath="/mycoreobject/metadata/urns/urn" labelkey="OMD.urns" showInfo="false" >
