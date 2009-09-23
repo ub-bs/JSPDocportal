@@ -16,7 +16,7 @@
 	<li>
 		<table><tr>
 			<td style="padding-right:10px">	
-				<jsp:include page="document_icon.jsp">
+				<jsp:include page="/content/resultdetails/fragments/document_icon.jsp">
 					<jsp:param name="contentType" value="${type}" />
 					<jsp:param name="formatType" value="${format}" />
 					<jsp:param name="docType" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
