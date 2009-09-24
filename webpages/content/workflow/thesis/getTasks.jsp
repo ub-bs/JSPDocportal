@@ -124,7 +124,7 @@
 
          
 	     <textarea name="tmpTaskMessage" cols="50" rows="4"><fmt:message key="WF.thesis.mail.body.requireAffirmation" />
-	     ${baseURL}content/results-config/docdetails-thesis-deliver.jsp?id=${docID}&fromWForDB=workflow
+	     ${baseURL}content/results-config/docdetails-thesis-deliver.jsp?id=${docID}&fromWF=true
 	     </textarea>  
 	     <br>&nbsp;<br>
          <input name=submit" type="submit" value="<fmt:message key="WF.common.Send" />"/>      

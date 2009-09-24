@@ -27,7 +27,7 @@
 	</c:if>
 	<fmt:message key="WF.AcessRuleEditor.headline" />:
 	<c:catch var="e1">
-		<mcr:receiveMcrObjAsJdom var="mycoreobject" mcrid="${mcrid}" fromWForDB="workflow" />
+		<mcr:receiveMcrObjAsJdom var="mycoreobject" mcrid="${mcrid}" fromWF="true" />
 	</c:catch>
 	<c:if test="${e1==null}">
      <div class="headline">

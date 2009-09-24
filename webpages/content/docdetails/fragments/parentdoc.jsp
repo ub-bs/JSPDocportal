@@ -6,8 +6,8 @@
 <%--Parameter: mcrid --%>
 
 <c:set var="mcrid" value="${param.mcrid}" />
-<c:set var="fromWForDB" value="false" />
-<mcr:receiveMcrObjAsJdom mcrid="${mcrid}" var="jdom" varDom="dom" fromWForDB="${fromWForDB}"/>
+
+<mcr:receiveMcrObjAsJdom mcrid="${mcrid}" var="jdom" varDom="dom" fromWF="false"/>
 <c:if test="${not empty jdom}" >
 	<c:if test="${fn:contains(mcrid, 'series-volume')}" >
 		<x:forEach select="$dom/mycoreobject/structure/parents/parent">

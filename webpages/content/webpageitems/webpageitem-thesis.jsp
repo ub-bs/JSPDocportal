@@ -4,16 +4,13 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
 
-<c:set var="pageFragment" value="${param.pageFragment}" />
-<c:set var="mcrid" value="${param.mcrid}" />
-<c:set var="fromWForDB" value="${param.fromWForDB}" />
-
+<%--request parameter: mcrid, fromWF, pageFragment --%>
 <c:if test="${empty jdom}">
-	<mcr:receiveMcrObjAsJdom mcrid="${mcrid}" var="jdom" fromWForDB="${fromWForDB}"/>
+	<mcr:receiveMcrObjAsJdom mcrid="${param.mcrid}" var="jdom" fromWF="${param.fromWF}"/>
 </c:if>
 
 <c:choose>
-	<c:when test="${pageFragment=='pagetitle'}">
+	<c:when test="${param.pageFragment=='pagetitle'}">
 		<mcr:simpleXpath jdom="${jdom}" xpath="/mycoreobject/metadata/titles/title[1]" />				                         	
 	</c:when>
 		

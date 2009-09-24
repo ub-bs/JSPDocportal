@@ -60,7 +60,7 @@
 				<form method="get" action="${baseURL}nav">
 					<input value="~workflow-preview" name="path" type="hidden" />
 					<input name="id" value="${objid}" type="hidden" />
-					<input name="fromWForDB" value="workflow" type="hidden"/>
+					<input name="fromWF" value="true" type="hidden"/>
 					<input title="<fmt:message key="WF.common.object.Preview" />" src="${baseURL}images/workflow_objpreview.gif" type="image" class="imagebutton" />
 				</form>
 			</td>

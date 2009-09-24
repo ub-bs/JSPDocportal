@@ -118,7 +118,6 @@
 				<form method="get" action="${baseURL}nav">
 					<input	value="~workflow-preview" name="path" type="hidden"> 
 					<input	name="id" value="${itemID}" type="hidden"> 
-					<input name="fromWForDB" value="workflow" type="hidden">
 					<input name="fromWF" value="true" type="hidden">  
 					<input	title="<fmt:message key="WF.common.object.Preview" />"
 						src="${baseURL}images/workflow_objpreview.gif" type="image"
@@ -141,16 +140,16 @@
 		<td class="description">
   	 	<fmt:message key="WF.${requestScope.task.workflowProcessType}.Description" />, ${itemID}
 		<mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="authors" workflowVar="authorNames" />
-		<c:if test="${not(empty authors)}">
+		<c:if test="${not empty authors}">
 			<br /><fmt:message key="Editor.Search.Label.creator" />:&nbsp;<c:out value="${authors}" /></i>
 		</c:if>
 		<mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="urn" workflowVar="reservatedURN" />
-		<c:if test="${not(empty urn)}">
+		<c:if test="${not empty urn}">
 			  <br />[<fmt:message key="WF.xmetadiss.URN" />:&nbsp;<i><c:out value="${urn}" /></i>]
 		</c:if>		 
 		 <br/>
 		 <mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="date" workflowVar="endOfSuspension" />
-		<c:if test="${not(empty date)}">
+		<c:if test="${not empty date}">
 			  <br />[<fmt:message key="WF.xmetadiss.suspendedUntil" /><b><c:out value="${date}" /></b>]
 			  <br/>
 		</c:if>		 
@@ -158,7 +157,7 @@
 		 <mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="error" workflowVar="varnameERROR" /> 
 	     <font color="red">${error}</font>
 	     <mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="hint" workflowVar="hint" />
-		<c:if test="${not(empty hint)}">
+		<c:if test="${not empty hint}">
 			  <br /><font color="red"><c:out value="${hint}" /></font>
 		</c:if>		  
 	     <br/>	         

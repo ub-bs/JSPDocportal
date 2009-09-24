@@ -12,11 +12,13 @@
 <%@ taglib prefix="mcr" uri="/WEB-INF/lib/mycore-taglibs.jar" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<c:set var="lang" value="${lang}" scope="request" />
-<c:set var="mcrid" value="${param.id}"/>
+
 <c:set var="from"  value="${param.from}" />
-<fmt:setLocale value="${lang}" scope="request" />
-<fmt:setBundle basename="messages" scope="request" />
+
+
+<mcr:session method="get" type="language" var="lang" />
+<fmt:setLocale value="${lang}" scope="session" />
+<fmt:setBundle basename="messages" scope="session" />
 
 <html>
 <head><title>Print Details</title>

@@ -13,12 +13,12 @@
       <c:otherwise>${param.id}</c:otherwise>
    </c:choose>
 </c:set>
-<c:set var="from"  value="${param.fromWForDB}" /> 
+<c:set var="from"  value="${param.fromWF}" /> 
 <c:set var="debug" value="${param.debug}" />
 <c:set var="style" value="${param.style}" />
 <c:set var="type"  value="${fn:split(mcrid,'_')[1]}" /> 
 <c:choose>
- <c:when test="${fn:contains(from,'workflow')}" >
+ <c:when test="${from}" >
      <c:set var="layout" value="preview" />
  </c:when>
  <c:otherwise>
@@ -82,12 +82,12 @@
  <td>&nbsp;</td>
  <td align="center" valign="top" style="padding-top: 20px">
      <c:if test="${empty param.print and !fn:contains(style,'user')}">
-		     <a href="${WebApplicationBaseURL}content/print_details.jsp?id=${param.id}&from=${param.fromWForDB}" target="_blank">
+		     <a href="${WebApplicationBaseURL}content/print_details.jsp?id=${param.id}&fromWF=${param.fromWF}" target="_blank">
 	          	<img src="${WebApplicationBaseURL}images/workflow_print.gif" border="0" alt="<fmt:message key="WF.common.printdetails" />"  class="imagebutton" height="30"/>
 	         </a>
      </c:if>
  
-   <c:if test="${!(fn:contains(from,'workflow')) && !fn:contains(style,'user')}" > 
+   <c:if test="${(not from) && !fn:contains(style,'user')}" > 
      <mcr:checkAccess var="modifyAllowed" permission="writedb" key="${mcrid}" />
      <mcr:isObjectNotLocked var="bhasAccess" objectid="${mcrid}" />
       <c:if test="${modifyAllowed}">
@@ -108,17 +108,10 @@
         </c:choose>  
         <!-- icon for pica export -->
          <c:if test="${!(fn:contains(type,'professorum'))}" > 
-          	<br /><a href="${WebApplicationBaseURL}content/pica_export.jsp?id=${param.id}&from=${param.fromWForDB}" target="_blank">
+          	<br /><a href="${WebApplicationBaseURL}content/pica_export.jsp?id=${param.id}&fromWF=${param.fromWF}" target="_blank">
           		<img src="${WebApplicationBaseURL}images/workflow_pica_export.gif" border="0" alt="<fmt:message key="WF.common.picaexport" />"  class="imagebutton" height="30"/>
            </a>        
-         </c:if>
-         <c:if test="${(fn:contains(type,'professorum'))}" > 
-          	<br /> <a href="${WebApplicationBaseURL}servlets/CPR2RTFServlet?id=${param.id}" target="_blank">
-          		<img src="${WebApplicationBaseURL}images/workflow_rtf_export.gif" border="0" alt="<fmt:message key="WF.common.rtfexport" />"  class="imagebutton" height="30"/>
-           </a>        
-         </c:if>
-         
-               
+         </c:if>              
       </c:if>      
    </c:if>
  </td>

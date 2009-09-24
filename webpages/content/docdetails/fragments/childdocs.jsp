@@ -5,7 +5,7 @@
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
 <%--Parameter: mcrid --%>
 <c:set var="mcrid" value="${param.mcrid}" />
-<mcr:receiveMcrObjAsJdom mcrid="${mcrid}" var="jdom" varDom="dom" fromWForDB="false"/>
+<mcr:receiveMcrObjAsJdom mcrid="${mcrid}" var="jdom" varDom="dom" fromWF="false"/>
 
 <c:if test="${not empty jdom}" >
     <c:set var="title"><mcr:simpleXpath jdom="${jdom}" xpath="/mycoreobject/metadata/titles/title[@type='short']" /></c:set>

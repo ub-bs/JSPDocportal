@@ -20,7 +20,7 @@ public class MCRReceiveMcrObjAsJdomTag extends SimpleTagSupport
 	private String mcrid;
 	private String var;
 	private String varDom;
-	private String fromWForDB;
+	private boolean fromWF=false;
 	
 	public void setMcrid(String mcrid) {
 		this.mcrid = mcrid;
@@ -34,8 +34,8 @@ public class MCRReceiveMcrObjAsJdomTag extends SimpleTagSupport
 		this.var = var;
 	}
 	
-	public void setFromWForDB(String fromWForDB) {
-		this.fromWForDB = fromWForDB;
+	public void setFromWF(boolean b){
+		fromWF = b;
 	}
 	
 	public void doTag() throws JspException, IOException {
@@ -46,7 +46,7 @@ public class MCRReceiveMcrObjAsJdomTag extends SimpleTagSupport
 				t1 = MCRHIBConnection.instance().getSession().beginTransaction();
 			}
 			org.mycore.datamodel.metadata.MCRObject mcr_obj = new org.mycore.datamodel.metadata.MCRObject();
-			if ( fromWForDB != null && fromWForDB.equals("workflow") ) {
+			if (fromWF) {
 				String[] mcridParts = mcrid.split("_");
 				String savedir = MCRWorkflowDirectoryManager.getWorkflowDirectory(mcridParts[1]);
 				String filename = savedir + "/" + mcrid + ".xml";			

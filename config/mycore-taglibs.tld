@@ -600,8 +600,8 @@
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
-      <attribute>
-                <name>fromWForDB</name>
+      		<attribute>
+                <name>fromWF</name>
                 <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>        

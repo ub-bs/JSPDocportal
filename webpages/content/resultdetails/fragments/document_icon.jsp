@@ -12,7 +12,7 @@
 				<img src="${WebApplicationBaseURL}/images/pubtype/zeitschrift.gif" 
 					alt="icon" align="middle" />
 			</c:when>
-			<c:when test="${fn:contains(docType, 'series') and not(fn:contains('TYPE0004.001', contentType))}">
+			<c:when test="${fn:contains(docType, 'series') and not fn:contains('TYPE0004.001', contentType)}">
 				<img src="${WebApplicationBaseURL}/images/pubtype/series-volume.gif" alt="icon" align="middle" />
 			</c:when>
 			
