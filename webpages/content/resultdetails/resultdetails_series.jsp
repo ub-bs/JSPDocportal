@@ -74,13 +74,13 @@
 		
 	<x:set var="data4" select="$xml/mycoreobject/metadata/descriptions/description" /> 
 	<x:if select="string-length($data4)>0">
-		<c:set var="text"><x:out select="$data4" /></c:set>
+		<c:set var="text"><x:out select="$data4" escapeXml="false"/></c:set>
 		<c:if test="${fn:length(text)>300}">
-			<c:set var="text"><c:out value="${fn:substring(text,0,300)}"/>...</c:set>
+			<c:set var="text"><c:out value="${fn:substring(text,0,300)}" escapeXml="false"/>...</c:set>
 		</c:if>
 		<tr>
 			<td class="resultdetails-value">
-				<fmt:message key="OMD.descriptions" />:&nbsp; <c:out value="${text}"/>
+				<fmt:message key="OMD.descriptions" />:&nbsp; <c:out value="${text}" escapeXml="false"/>
 			</td>
 		</tr>
 	</x:if>
