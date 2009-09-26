@@ -75,7 +75,7 @@ public class MCRDocDetailsIncludeDerivateTag extends SimpleTagSupport {
 	   		    
 	   		    	String contentType = theFile.getContentTypeID();
 	   		    	
-	   		    	if(contentType.contains("html")){
+	   		    	if(contentType.contains("html") || contentType.contains("xml")) {
 	   		    		out.write("<font size=\"+1\" face=\"times\">");
 						String content = theFile.getContentAsString(encoding);
 						out.write(content);
