@@ -132,7 +132,9 @@
          </condition>
       </textfield>	 
     </cell>
-    <cell col="2" row="1" anchor="NORTHWEST" ref="ADateSubmitted" />
+    <cell col="2" row="1" anchor="NORTHWEST">
+    	<label i18n="Editor.Label.DateSubmitted" />
+    </cell>
     <hidden var="metadata/dates/date[2]/@type" default="accepted" />
     <cell col="1" row="2" anchor="NORTHWEST"  var="metadata/dates/date[2]" >
        <textfield id="TFDateAccepted"  width="30" maxlength="128" class="mandatory" >		
@@ -142,7 +144,9 @@
       </textfield>	 
 
     </cell>
-    <cell col="2" row="2" anchor="NORTHWEST" ref="ADateAccepted" />
+    <cell col="2" row="2" anchor="NORTHWEST">
+    	<label i18n="Editor.Label.DateAccepted" />
+    </cell>
   </panel>
 
 <!-- ** Data for the TYPE *** -->
