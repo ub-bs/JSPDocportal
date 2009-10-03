@@ -157,6 +157,7 @@
 		<modulePreHook target="config" />
 		<copy file="${application.config}/hibernate/hibernate.cfg.xml" todir="${build.config}" />	
 		<copy file="${application.config}/hibernate/ehcache.xml" todir="${build.config}" />
+		<copy file="${application.config}/hibernate/c3p0.properties" todir="${build.config}" />
 		
 		<mcr-integrate target="config" classpathref="mycore.jars" />	
 		<sequential>
@@ -208,7 +209,7 @@
 			<replace path="/ehcache/diskStore/@path" withText="${MCR.EHCache.diskStore.path}" />
 		</xmltask>
 			<copy todir="${application.config}/hibernate" overwrite="true">
-				<fileset dir="${build.config}" includes="hibernate.cfg.xml, ehcache.xml" />
+				<fileset dir="${build.config}" includes="hibernate.cfg.xml, ehcache.xml, c3p0.properties" />
 			</copy>
 		
 		<moduleHook target="config" />
@@ -586,7 +587,7 @@
 			</fileset>
 		</copy>
 		<copy todir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes" overwrite="true">
-			<fileset dir="${build.config}" includes="ehcache.xml hibernate.cfg.xml mycore.properties" />
+			<fileset dir="${build.config}" includes="ehcache.xml hibernate.cfg.xml mycore.properties c3p0.properties" />
 		</copy>
 		
 		<!--<copy todir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes/mappings" overwrite="true">
