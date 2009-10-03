@@ -63,7 +63,7 @@
 
     <cell col="1" row="121" anchor="NORTHEAST" ref="Help.xmetadiss.date" />
     <cell col="2" row="121" colspan="3" anchor="NORTHWEST" ref="LDateP" />
-    <cell col="3" row="122" colspan="2" anchor="NORTHWEST" ref="DDate" sortnr="12" />    
+    <cell col="3" row="122" colspan="2" anchor="NORTHWEST" ref="DDate_Diss" sortnr="12" />    
 
     <cell col="1" row="131" anchor="NORTHEAST" ref="Help.xmetadiss.type" />
     <cell col="2" row="131" colspan="3" anchor="NORTHWEST" ref="LTypeP" />
