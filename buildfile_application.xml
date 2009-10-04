@@ -581,8 +581,7 @@
 			<fileset dir="${application.config}" excludes="user/** hibernate/** lang/**" />
 			<fileset dir="${build.schema}" />
 			<!-- <fileset dir="${application.stylesheets}" includes="mycoreobject-*-to-workflow.xsl" /> -->
-			<fileset dir="${application.webpages}/content/results-config" includes="*.xml" />
-			<fileset dir="${MYCORE_HOME}/config">
+				<fileset dir="${MYCORE_HOME}/config">
 				<include name="fieldtypes.xml" />
 			</fileset>
 		</copy>
