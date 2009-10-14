@@ -55,8 +55,9 @@
 					<!-- Update from Formularserver for HS NB -->
 					<c:if test="${fn:contains('disshab,thesis',itemDocType) && fn:contains(itemID, 'dbhsnb')}">
 						<td align="center" valign="top" width="30">
-						<form method="get"	action="${baseURL}content/workflow/import-from-formserver.jsp"	target="new">
-							<input name="id" value="${itemID}" type="hidden"> 
+						<form method="get"	action="${baseURL}nav">
+							<input name="path" value="~importdata-thesis" type="hidden" />
+							<input name="id" value="${itemID}" type="hidden" /> 
 							<input name="returnPath" value="${path}" type="hidden" />
 							<input title="<fmt:message key="WF.common.object.ImportFromFormserver" />"
 									src="${baseURL}images/workflow_import_from_formserver.gif" type="image"
@@ -141,7 +142,7 @@
   	 	<fmt:message key="WF.${requestScope.task.workflowProcessType}.Description" />, ${itemID}
 		<mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="authors" workflowVar="authorNames" />
 		<c:if test="${not empty authors}">
-			<br /><fmt:message key="Editor.Search.Label.creator" />:&nbsp;<c:out value="${authors}" /></i>
+			<br /><fmt:message key="Editor.Search.Label.creator" />:&nbsp;<i><c:out value="${authors}" /></i>
 		</c:if>
 		<mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="urn" workflowVar="reservatedURN" />
 		<c:if test="${not empty urn}">
