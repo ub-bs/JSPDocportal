@@ -33,6 +33,7 @@ import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.XMLOutputter;
+import org.mycore.common.MCRException;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.parsers.bool.MCRCondition;
@@ -181,7 +182,8 @@ public class MCRJSPSearchServlet extends MCRSearchServlet {
      *  @author A.Schaar
      *  @see its from mycore and overwritten here 
      */
-    protected void sendToLayout(HttpServletRequest req, HttpServletResponse res, Document jdom) throws IOException {
+    @SuppressWarnings("unchecked")
+	protected void sendToLayout(HttpServletRequest req, HttpServletResponse res, Document jdom) throws IOException {
     	if ( "results".equalsIgnoreCase(jdom.getRootElement().getName()) ) {
     		String path = "/nav?path=";
 
@@ -193,7 +195,15 @@ public class MCRJSPSearchServlet extends MCRSearchServlet {
             }
     		//String id = jdom.getRootElement().getAttributeValue("id");
     		String mask = jdom.getRootElement().getAttributeValue("mask");
-    		Document query = (Document) getQueryData(req).getQuery();
+    		String id = req.getParameter("id");
+    		if(id==null) {id= jdom.getRootElement().getAttributeValue("id");}
+    		 MCRCachedQueryData qd = MCRCachedQueryData.getData( id );
+    	      if( qd == null )
+    	      {
+    	        throw new MCRException( "Result list is not in cache any more, please re-run query" );
+    	      }
+    		Document query = (Document) qd.getQuery();
+       		
     		req.setAttribute("query", query);
     		req.setAttribute("results", jdom);
     		
