@@ -6,7 +6,7 @@
 				<mcrmetalinkid name="child" class="MCRMetaLinkID" minOccurs='1' maxOccurs='unbounded' />
 		</element>
 		<!-- Object Parent -->
-		<element name="parents" minOccurs='0' maxOccurs='1' parasearch="false" textsearch="false">
+		<element name="parents" minOccurs='0' maxOccurs='1'>
 			<mcrmetalinkid name="parent" class="MCRMetaLinkID" minOccurs='1' maxOccurs='unbounded' />
 		</element>
 		<!-- Derivate Objects -->
@@ -24,11 +24,11 @@
 			<mcrmetalangtext name="title" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="1024" />
 		</element>
 		  <!-- 12 - DC Creator -->
-    	<element name="creators" minOccurs='0' maxOccurs='1' parasearch="true" textsearch="true">
+    	<element name="creators" minOccurs='0' maxOccurs='1'>
     		<mcrmetalangtext name="creator" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="128" />
     	 </element>
     	 <!-- 13 - CreatorLink -->
-    	<element name="creatorlinks" minOccurs='0' maxOccurs='1' parasearch="true" textsearch="true">
+    	<element name="creatorlinks" minOccurs='0' maxOccurs='1'>
     		<mcrmetalinkid name="creatorlink" class="MCRMetaLinkID" minOccurs='1' maxOccurs='unbounded' />
     	</element>
 		<!-- 14 - Participant -->
@@ -40,7 +40,7 @@
 			<mcrmetalinkid name="participationlink" class="MCRMetaLinkID" minOccurs='1' maxOccurs='unbounded' />
 		</element>
 		 <!-- 16 - Origin -->
-    	<element name="origins" minOccurs='1' maxOccurs='1' parasearch="true" textsearch="true">
+    	<element name="origins" minOccurs='1' maxOccurs='1'>
       		<mcrmetaclassification name="origin" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
     	</element>
 
@@ -82,7 +82,7 @@
 			<mcrmetalangtext name="keyword" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="4096" />
 		</element>
 		<!-- 44 - Sammlungen -->
-    	<element name="collections" minOccurs='0' maxOccurs='1' parasearch="true" textsearch="true">
+    	<element name="collections" minOccurs='0' maxOccurs='1'>
       		<mcrmetaclassification name="collection" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
     	</element>
 
