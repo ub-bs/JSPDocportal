@@ -296,6 +296,10 @@
                <servlet-name>MCRJSPSearchServlet</servlet-name>
                <url-pattern>/servlets/MCRJSPSearchServlet</url-pattern>
     </servlet-mapping>   
+    <servlet-mapping>
+               <servlet-name>MCRJSPSearchServlet</servlet-name>
+               <url-pattern>/servlets/MCRSearchServlet</url-pattern>
+    </servlet-mapping>
 
     <servlet-mapping>
          <servlet-name>MCRJSPObjectServlet</servlet-name>

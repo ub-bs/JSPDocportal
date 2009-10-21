@@ -1,7 +1,6 @@
 package org.mycore.frontend.jsp.taglibs.browsing;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
@@ -12,14 +11,16 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
-import org.jdom.Document;
 import org.jdom.Element;
-import org.jdom.Namespace;
 import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.frontend.servlets.MCRServlet;
+import org.mycore.services.fieldquery.MCRCachedQueryData;
+import org.mycore.services.fieldquery.MCRQuery;
+import org.mycore.services.fieldquery.MCRQueryManager;
+import org.mycore.services.fieldquery.MCRResults;
 
 /**
  * Tag to include an IndexBrowser into a web page implementation based on
@@ -34,7 +35,6 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 	private static final Logger LOGGER = Logger.getLogger(MCRSearchresultBrowserTag.class);
 	protected static String languageBundleBase = MCRConfiguration.instance().getString(
 			"MCR.languageResourceBundleBase", "messages");
-	private static Namespace NS_MCR = Namespace.getNamespace("http://www.mycore.org/");
 	
 	private String varMCRID;
 	private String varURL;
@@ -81,60 +81,49 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 					.getCurrentSession().getCurrentLanguage()));
 
 			PageContext ctx = (PageContext) getJspContext();
-			Document results = (Document) ctx.getAttribute("results", PageContext.REQUEST_SCOPE);
+			String qid = ctx.getRequest().getParameter("id");
+			MCRCachedQueryData qd = MCRCachedQueryData.getData(qid);
 
 			JspWriter out = ctx.getOut();
 			
 			if(ctx.getRequest().getParameter("debug") != null && ctx.getRequest().getParameter("debug").equals("true")) {
 				StringBuffer debugSB = new StringBuffer("<textarea cols=\"120\" rows=\"30\">")
 					.append("MCRResults as XML.\r\n")
-					.append(JSPUtils.getPrettyString(results))
+					.append(JSPUtils.getPrettyString(qd.getResults().buildXML()))
 					.append("</textarea>");
 				out.println(debugSB.toString());
 			}        
 			
-			int numPages = 1;
-			int numHits = 0;
-			int numPerPage = 1;
-			int page = 1;
-			String mask = "";
-			String id="";
+			int numHits = qd.getResults().getNumHits();
+			int numPerPage=qd.getNumPerPage();
+			if(numPerPage==0){numPerPage = DEFAULT_NUMPERPAGE;}
+			int numPages = Math.round((float)Math.ceil((float)numHits / numPerPage)); 
+			int page = qd.getPage();
+			String mask = ctx.getRequest().getParameter("mask");
+			String id = qd.getResults().getID();
 			
-			try{
-				numHits = Integer.parseInt(results.getRootElement().getAttributeValue("numHits"));
-				numPerPage = Integer.parseInt(results.getRootElement().getAttributeValue("numPerPage"));
-				numPages = Integer.parseInt(results.getRootElement().getAttributeValue("numPages"));
-				page = Integer.parseInt(results.getRootElement().getAttributeValue("page"));
-				mask = results.getRootElement().getAttributeValue("mask");
-				id = results.getRootElement().getAttributeValue("id");
 			
-			}
-			catch(Exception e){
-				//do nothing 
-			}
-			//@TODO - only necessary for initial developement
-			if(numPerPage==0){
-				numPerPage = DEFAULT_NUMPERPAGE;
-			}
-			
-			if(numPages < Math.round((float)Math.ceil((float)numHits / numPerPage))){
-				numPages = Math.round((float)Math.ceil((float)numHits / numPerPage)); 
-			}
 			if(sortfields.length()>0){
-				writeResortForm(out, sortfields, id, messages);
+				writeResortForm(qd.getQuery(), out, sortfields, id, messages, mask);
 			}
 			if(numHits>0){
-				writePageNavigation(results, out, id, numHits, numPerPage, numPages, page);
+				writePageNavigation(out, id, numHits, numPerPage, numPages, page, mask);
 			}
 			
-			List l = results.getRootElement().getChildren("hit", NS_MCR);
-			for(int j=0;j<l.size();j++){
-				if (j>=numPerPage){break;}
-					if(j>0){
+			int start =(page-1)*numPerPage; 
+			int stop = Math.min(numHits,page*numPerPage)-1;
+			
+			//TODO This is en expensive operation since the search is executed a 2nd
+			//     time - cleanup after new implementation of MCRSearch
+			
+			MCRResults results = MCRQueryManager.search(qd.getQuery());
+			results.buildXML(start, stop);
+
+			for(int j=start;j<stop;j++){
+					if(j>start){
 						out.write("<hr />");
 					}
-					Element e = (Element)l.get(j);
-					String mcrid = e.getAttributeValue("id");
+					String mcrid = results.getHit(j).getID();
 					ctx.setAttribute(varMCRID, mcrid);
 		    		
 		    		String doctype = mcrid.split("_")[1];
@@ -153,7 +142,7 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 				
 			}
 			if(numHits>0){
-				writePageNavigation(results, out, id, numHits, numPerPage, numPages, page);
+				writePageNavigation(out, id, numHits, numPerPage, numPages, page, mask);
 			}
 		} catch (Exception e) {
 			LOGGER.error("The following exception was thrown in MCRSearchResultBrowserTag: ", e);
@@ -165,18 +154,18 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
     	}
 	}
 	
-	private void writeResortForm(JspWriter out, String sortfields, String id, ResourceBundle messages) throws IOException{
+	private void writeResortForm(MCRQuery query, JspWriter out, String sortfields, String id, ResourceBundle messages, String searchmask) throws IOException{
 		String webBaseURL = MCRServlet.getBaseURL();
-		Document query = (Document) ((PageContext) getJspContext()).getAttribute("query", PageContext.REQUEST_SCOPE);
+		
 		out.write("<div class=\"searchresult-resortform\">");
-			  
 		out.write("<form action=\""+webBaseURL+"servlets/MCRJSPSearchServlet\"	method=\"get\">");
 		out.write("   <input type=\"hidden\" name=\"mode\" value=\"resort\">");
 		out.write("   <input type=\"hidden\" name=\"id\" value=\""+id+"\">");
+		out.write("   <input type=\"hidden\" name=\"mask\" value=\""+searchmask+"\">");
 		String[]fieldnames = sortfields.trim().split("\\s");
 		int count;
 		try {
-			count = Math.max(1, query.getRootElement().getChild("sortBy").getChildren("field").size());
+			count = Math.max(1, query.getSortBy().size());
 	    } catch ( Exception allE){
 		    count = 1;
 		}
@@ -214,9 +203,9 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 	}
 
 	
-	private boolean isSorted(Document query, String attributename, String fieldname, int sortorder){
+	private boolean isSorted(MCRQuery query, String attributename, String fieldname, int sortorder){
 	   try { 
-	    	Element sortField = (Element) query.getRootElement().getChild("sortBy").getChildren("field").get(sortorder);
+	    	Element sortField = (Element) query.buildXML().getRootElement().getChild("sortBy").getChildren("field").get(sortorder);
 			if (sortField != null) {
 				if (sortField.getAttributeValue(attributename) != null &&
 					sortField.getAttributeValue(attributename).equals(fieldname) ) {
@@ -232,7 +221,7 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 	
 	
 	//36.168 Publications	      Erste Seite | 11-20 | 21-30 | 31-40 | 41-50 | 51-60 | Nächste Seite
-	private void writePageNavigation(Document results, JspWriter out, String id, int numHits, int numPerPage, int numPages, int page) throws IOException{
+	private void writePageNavigation(JspWriter out, String id, int numHits, int numPerPage, int numPages, int page, String mask) throws IOException{
 		String webBaseURL = MCRServlet.getBaseURL();
 		ResourceBundle messages = PropertyResourceBundle.getBundle(languageBundleBase, new Locale(MCRSessionMgr
 				.getCurrentSession().getCurrentLanguage()));
@@ -243,31 +232,31 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 		out.write("   </b></td>");
 		if(numPages>1){
 			out.write("   <td><a href=\""
-					+webBaseURL+"/servlets/MCRJSPSearchServlet?mode=results&id="+id+"&page=1&numPerPage="+numPerPage
+					+webBaseURL+"/servlets/MCRJSPSearchServlet?mode=results&mask="+mask+"&id="+id+"&page=1&numPerPage="+numPerPage
 					+"\">"+messages.getString("Webpage.searchresults.firstPage")+"</a></td>");
 			if(page-2>0){
 				out.write("   <td><a href=\""
-						+webBaseURL+"/servlets/MCRJSPSearchServlet?mode=results&id="+id+"&page="+Integer.toString(page-2)+"&numPerPage="+numPerPage
+						+webBaseURL+"/servlets/MCRJSPSearchServlet?mode=results&mask="+mask+"&id="+id+"&page="+Integer.toString(page-2)+"&numPerPage="+numPerPage
 						+"\">["+Integer.toString((page-3)*numPerPage+1)+"-"+Integer.toString((page-2)*numPerPage)+"]</a></td>");
 			}
 			if(page-1>0){
 				out.write("   <td><a href=\""
-						+webBaseURL+"/servlets/MCRJSPSearchServlet?mode=results&id="+id+"&page="+Integer.toString(page-1)+"&numPerPage="+numPerPage
+						+webBaseURL+"/servlets/MCRJSPSearchServlet?mode=results&mask="+mask+"&id="+id+"&page="+Integer.toString(page-1)+"&numPerPage="+numPerPage
 						+"\">["+Integer.toString((page-2)*numPerPage+1)+"-"+Integer.toString((page-1)*numPerPage)+"]</a></td>");
 			}
 			out.write("   <td>["+Integer.toString((page-1)*numPerPage+1)+"-"+Integer.toString(Math.min((page)*numPerPage, numHits))+"]</td>");
 			if(page+1<=numPages){
 				out.write("   <td><a href=\""
-						+webBaseURL+"/servlets/MCRJSPSearchServlet?mode=results&id="+id+"&page="+Integer.toString(page+1)+"&numPerPage="+numPerPage
+						+webBaseURL+"/servlets/MCRJSPSearchServlet?mode=results&mask="+mask+"&id="+id+"&page="+Integer.toString(page+1)+"&numPerPage="+numPerPage
 						+"\">["+Integer.toString((page)*numPerPage+1)+"-"+Integer.toString(Math.min((page+1)*numPerPage,numHits))+"]</a></td>");
 			}
 			if(page+2<=numPages){
 				out.write("   <td><a href=\""
-						+webBaseURL+"/servlets/MCRJSPSearchServlet?mode=results&id="+id+"&page="+Integer.toString(page+2)+"&numPerPage="+numPerPage
+						+webBaseURL+"/servlets/MCRJSPSearchServlet?mode=results&mask="+mask+"&id="+id+"&page="+Integer.toString(page+2)+"&numPerPage="+numPerPage
 						+"\">["+Integer.toString((page+1)*numPerPage+1)+"-"+Integer.toString(Math.min((page+2)*numPerPage,numHits))+"]</a></td>");
 			}
 			out.write("   <td><a href=\""
-					+webBaseURL+"/servlets/MCRJSPSearchServlet?mode=results&id="+id+"&page="+numPages+"&numPerPage="+numPerPage
+					+webBaseURL+"/servlets/MCRJSPSearchServlet?mode=results&mask="+mask+"&id="+id+"&page="+numPages+"&numPerPage="+numPerPage
 					+"\">"+messages.getString("Webpage.searchresults.lastPage")+"</a></td>");
 		}
 		out.write("</tr></table>");

@@ -24,6 +24,7 @@
 package org.mycore.frontend.servlets;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -31,22 +32,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.jdom.Document;
-import org.jdom.Element;
 import org.jdom.output.XMLOutputter;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
-import org.mycore.parsers.bool.MCRCondition;
 import org.mycore.services.fieldquery.MCRCachedQueryData;
-import org.mycore.services.fieldquery.MCRQuery;
-import org.mycore.services.fieldquery.MCRQueryManager;
-import org.mycore.services.fieldquery.MCRResults;
+import org.mycore.services.fieldquery.MCRFieldDef;
 import org.mycore.services.fieldquery.MCRSearchServlet;
+import org.mycore.services.fieldquery.MCRSortBy;
 
 /**
  * This servlet executes queries and presents result pages.
  * 
  * @author Anja Schaar
+ * @author Robert Stephan
  * 
  */
 public class MCRJSPSearchServlet extends MCRSearchServlet {
@@ -57,12 +56,15 @@ public class MCRJSPSearchServlet extends MCRSearchServlet {
     public void doGetPost(MCRServletJob job) throws IOException {
         String mode = job.getRequest().getParameter("mode");
         
-        if ("resort".equals(mode))
+        if ("resort".equals(mode)){
         	resortQuery(job.getRequest(), job.getResponse());
-        else if ("refine".equals(mode))
+        }
+        else if ("refine".equals(mode)){
         	refineQuery(job.getRequest(), job.getResponse());
-        else if ("renew".equals(mode))
+       	}
+        else if ("renew".equals(mode)){
         	renewQuery(job.getRequest(), job.getResponse());
+        }
         else if("load".equals(mode)){
         	String sessionID = job.getRequest().getParameter("MCRSessionID");
         	if((sessionID!=null) && !sessionID.equals("")){
@@ -126,55 +128,29 @@ public class MCRJSPSearchServlet extends MCRSearchServlet {
     
     //this mode comes from the resort form in the resultlist
     private void resortQuery(HttpServletRequest req, HttpServletResponse res) throws IOException {
-    	MCRCachedQueryData queryData = getQueryData(req);
-    	// the id of the query
-		//String id = req.getParameter("id");
-		
-		Document query = (Document) queryData.getQuery();
-		//Document origquery = (Document) getQueryData(req).get(getCache(getQueriesKey()).get(id));
-		//MCRCondition cond = (MCRCondition) getQueryData(req).getCondition();
-		
-		Element sortBy = new Element("sortBy");
+    	String id = req.getParameter("id");
+        MCRCachedQueryData qd = MCRCachedQueryData.getData( id );
+
+		List<MCRSortBy> sortByList = qd.getQuery().getSortBy();
+		sortByList.clear();
 		int i = 1;
 		for ( i = 1; i < 4; i++) {
 			if (req.getParameter("field" + i) != null && !req.getParameter("field" + i).equals("")) {
-				Element sortField = new Element("field");
-				sortField.setAttribute("name",req.getParameter("field" + i));
+				String fieldname = req.getParameter("field" + i);
 				String order = (req.getParameter("order" + i) != null) ?
 						req.getParameter("order" + i) : "ascending" ;
-				sortField.setAttribute("order",order);
-				sortBy.addContent(sortField);
+				MCRSortBy sortBy = new MCRSortBy(MCRFieldDef.getDef(fieldname),order.equals("ascending"));
+				sortByList.add(sortBy);
+			
 			} else {break;}
 		}
-		
-		if ( i != 1) {
-			query.getRootElement().removeChild("sortBy");
-			query.getRootElement().addContent(sortBy);
-		}
-	    // Show incoming query document
+		qd.getQuery().setSortBy(sortByList);	
+		// Show incoming query document
         if (LOGGER.isDebugEnabled()) {
             XMLOutputter out = new XMLOutputter(org.jdom.output.Format.getPrettyFormat());
-            LOGGER.debug(out.outputString(query));
+            LOGGER.debug(out.outputString(qd.getQuery().buildXML()));
         }
-		
-       
-        Document clonedQuery = (Document)(query.clone()); // Keep for later re-use
-        //cleanupQuery
-        MCRCondition cond=cleanupQuery(query);
-        
-        long start = System.currentTimeMillis();
-        MCRResults result = MCRQueryManager.search(MCRQuery.parseXML(query));
-        long qtime = System.currentTimeMillis() - start;
-        LOGGER.debug("MCRJSPSearchServlet total query time: " + qtime);
-
-        // Store query and results in cache
-        MCRCachedQueryData.cache(result, clonedQuery, cond );
-        
-        String npp = query.getRootElement().getAttributeValue("numPerPage", "0");
-       
-        // Redirect browser to first results page
-        sendRedirect(req, res, result.getID(), npp);
-
+        showResults(req, res);
     }
     
     /** 
@@ -202,11 +178,7 @@ public class MCRJSPSearchServlet extends MCRSearchServlet {
     	      {
     	        throw new MCRException( "Result list is not in cache any more, please re-run query" );
     	      }
-    		Document query = (Document) qd.getQuery();
-       		
-    		req.setAttribute("query", query);
-    		req.setAttribute("results", jdom);
-    		
+    	    	   
     		String[] maskarray = mask.split("-");
     		
     		if ( maskarray.length > 1 ) {
@@ -225,19 +197,6 @@ public class MCRJSPSearchServlet extends MCRSearchServlet {
     		// reload the searchmask with in the query
             // Send query XML to editor
             getLayoutService().sendXML(req, res, jdom);
-            //super.forwardRequest(req,res,jdom);
     	}
-    }
-    
-    /** 
-     *  Redirect browser to results page
-     *  @author A.Schaar
-     *  @see its overwritten in jspdocportal 
-     */
-    protected void sendRedirect( HttpServletRequest req, HttpServletResponse res, String id, String numPerPage) throws IOException {
-	    // Redirect browser to first results page
-    	MCRSession session = MCRSessionMgr.getCurrentSession();
-	    String url = "MCRJSPSearchServlet?mode=results&id=" + id + "&numPerPage=" + numPerPage + "&session="+session.getID();
-	    res.sendRedirect(res.encodeRedirectURL(url));
     }
 }
