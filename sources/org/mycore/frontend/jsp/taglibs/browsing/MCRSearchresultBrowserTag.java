@@ -119,7 +119,7 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 			MCRResults results = MCRQueryManager.search(qd.getQuery());
 			results.buildXML(start, stop);
 
-			for(int j=start;j<stop;j++){
+			for(int j=start;j<=stop;j++){
 					if(j>start){
 						out.write("<hr />");
 					}
