@@ -309,10 +309,8 @@
    		<hidden var="metadata/types/type/@inherited" default="0" />
     	<include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/types/type/@classid&amp;prop=MCR.ClassificationID.Type&amp;defaultValue=DocPortal_class_00000005" />               
     	<cell col="1" row="1" anchor="WEST" var="metadata/types/type/@categid">
-  			<list width="425px" type="dropdown" class="mandatory">
-    			<item value="">
-					<label i18n="Editor.Common.choose" />
-    			</item>
+  			<list id="LiType_The" width="425px" type="dropdown" class="mandatory">
+    			<item value="" i18n="Editor.Common.choose" />
     			<include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getSpecialCategoriesInItems&amp;classProp=MCR.ClassificationID.Type&amp;categoryProp=MCR.Classification.Type.SelectCategoryIDs.thesis&amp;withCounter=false" />                       
      			<condition id="CTypeSelected_thesis" regexp=".+" required="true" >
 					<label i18n="Editor.Validate.Selection.Empty" />
@@ -340,7 +338,7 @@
 	<panel id="DLanguage">
 		<hidden var="metadata/languages/@class" default="MCRMetaClassification" />
 		<hidden var="metadata/languages/@notinherit" default="false" />
-   		<hidden var="metadata/langauges/@heritable" default="true" />
+   		<hidden var="metadata/languages/@heritable" default="true" />
    		<hidden var="metadata/languages/language/@inherited" default="0" />
    		<include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/languages/language/@classid&amp;prop=MCR.ClassificationID.Language&amp;defaultValue=DocPortal_class_00000004" />
    		<cell col="1" row="1" anchor="WEST" var="metadata/languages/language/@categid">
