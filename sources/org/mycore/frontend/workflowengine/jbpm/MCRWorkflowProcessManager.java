@@ -43,7 +43,7 @@ public class MCRWorkflowProcessManager {
 			}
 			
 			final public MCRWorkflowProcess getWorkflowProcess(long processID){
-				logger.warn("getting MCRWorkflowProcess: "+processID);
+				logger.debug("getting MCRWorkflowProcess: "+processID);
 				MCRWorkflowProcess wfp = (MCRWorkflowProcess) workflowprocesses.get(new Long(processID));
 				if(wfp==null || wfp.wasClosed()){
 					wfp = new MCRWorkflowProcess(processID);
@@ -56,7 +56,7 @@ public class MCRWorkflowProcessManager {
 				return wfp;
 			}
 				final public void removeWorkflowProcess(MCRWorkflowProcess wfp){
-					logger.warn("closing MCRWorkflowProcess: "+wfp.getProcessInstanceID());
+					logger.debug("closing MCRWorkflowProcess: "+wfp.getProcessInstanceID());
 					workflowprocesses.entrySet().remove(wfp);
 					
 			}
