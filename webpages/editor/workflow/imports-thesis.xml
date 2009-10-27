@@ -123,17 +123,16 @@
 	<helpHover id="HSubject" i18n="Editor.Help.HSubject" />
 	<panel id="DSubject" >
 		<hidden var="metadata/subjects/@class" default="MCRMetaClassification" />
-		<hidden var="metadata/subjects/@notinherit" default="false" />
-   		<hidden var="metadata/subjects/@heritable" default="true" />
 		<cell row="1" col="1" anchor="NORTHWEST" var="metadata/subjects/subject">
 		   <repeater min="1" max="5" >  
 				<panel lines="off">
 					<hidden var="@inherited" default="0" />
+					<hidden var="@type" default="DDC Classification" />
 					<!-- configure this in mycore.properties  -->
 			     	<include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=@classid&amp;prop=MCR.ClassificationID.DDC&amp;defaultValue=DocPortal_class_00000009" />				 
 				 	<hidden var="@categid" />
 				 	<cell row="1" col="1" width="100%">
-			       		<output var="@type" default="DDC Klassifikation"/> <text label=" (" /><output var="@categid" default=" " /><text label=")" />
+			       		<output var="@type"/> <text label=" (" /><output var="@categid" default=" " /><text label=")" />
 				 	</cell>
 				 	<cell row="1" col="2">
 				   		<subselect label="Auswählen" id="sub.select2" type="webpage" href="nav?path=~browse_subDDC" />
@@ -148,17 +147,16 @@
 	<helpHover id="Hbkl" i18n="Editor.Help.HBkl" />
 	<panel id="Dbkl">
 		<hidden var="metadata/bkls/@class" default="MCRMetaClassification" />
-		<hidden var="metadata/bkls/@notinherit" default="false" />
-   		<hidden var="metadata/bkls/@heritable" default="true" />
 		<cell row="1" col="1" anchor="NORTHWEST" var="metadata/bkls/bkl">
 			<repeater min="1" max="5" >
 				<panel lines="off">
 					<hidden var="@inherited" default="0" />
+					<hidden var="@type" default="Basisklassifikation" />
 					<!-- configure this in mycore.properties  -->
 					<include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=@classid&amp;prop=MCR.ClassificationID.Bkl&amp;defaultValue=DocPortal_class_00000020" />
 					<hidden var="@categid" />
 					<cell row="1" col="1" width="100%">
-						<output var="@type" default="Basisklassifikation"/> <text label=" (" /><output var="@categid" default=" " /><text label=")" />
+						<output var="@type" /> <text label=" (" /><output var="@categid" default=" " /><text label=")" />
 					</cell>
 					<cell row="1" col="2">
 						<subselect label="Auswählen" id="sub.select5" type="webpage" href="nav?path=~browse_subBKL" />
