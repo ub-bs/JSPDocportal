@@ -116,7 +116,9 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 			//TODO This is en expensive operation since the search is executed a 2nd
 			//     time - cleanup after new implementation of MCRSearch
 			
-			MCRResults results = MCRQueryManager.search(qd.getQuery());
+			qd = MCRCachedQueryData.cache(qd.getQuery(), qd.getInput());
+			MCRResults results = qd.getResults();
+			id = results.getID();
 			results.buildXML(start, stop);
 
 			for(int j=start;j<=stop;j++){
