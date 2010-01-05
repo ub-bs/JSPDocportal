@@ -16,6 +16,7 @@ import org.jdom.Document;
 import org.mycore.common.xml.MCRXMLHelper;
 import org.mycore.frontend.editor.MCREditorServlet;
 import org.mycore.frontend.jsp.NavServlet;
+import org.xml.sax.SAXParseException;
 
 
 public class MCRIncludeEditorTag extends SimpleTagSupport
@@ -87,6 +88,9 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 		    catch ( IOException e ) {
 		      logger.error( "IOException: " + e , e);
 	    }
+		    catch ( SAXParseException e){
+		    	logger.error( "SaxParseException: " + e , e);
+		    }
 		}
 	}
 	
