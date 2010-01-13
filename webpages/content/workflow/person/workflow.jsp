@@ -23,8 +23,8 @@
 
 <!--  task management part -->
 
-<mcr:getWorkflowTaskBeanList var="myTaskList" mode="activeTasks"  workflowTypes="person"  varTotalSize="total1" />
-<mcr:getWorkflowTaskBeanList var="myProcessList" mode="initiatedProcesses"  workflowTypes="person" varTotalSize="total2" />
+<mcr:getWorkflowTaskBeanList var="myTaskList" mode="activeTasks"  workflowTypes="person"  varTotalSize="total1" size="50" />
+<mcr:getWorkflowTaskBeanList var="myProcessList" mode="initiatedProcesses"  workflowTypes="person" varTotalSize="total2" size="50" />
 <div class="headline"><fmt:message key="WF.person" /></div>
 <table>
 	<tr>
