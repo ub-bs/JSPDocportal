@@ -176,6 +176,7 @@
   		<item value="subauthor" i18n="OMD.typeOfParticipation.subauthor" /> -->
   		<item value="mainPublisher" i18n="OMD.typeOfParticipation.mainPublisher" />
   		<item value="subPublisher" i18n="OMD.typeOfParticipation.subPublisher" />
+  		<item value="company" i18n="OMD.typeOfParticipation.company" />
   		<item value="translator" i18n="OMD.typeOfParticipation.translator" />
   		<item value="composer" i18n="OMD.typeOfParticipation.composer" />
   		<item value="illustrator" i18n="OMD.typeOfParticipation.illustrator" />
