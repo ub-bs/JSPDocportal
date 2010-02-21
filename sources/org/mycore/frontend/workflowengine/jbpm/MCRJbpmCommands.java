@@ -27,9 +27,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.jdom.Document;
@@ -49,7 +47,6 @@ import org.mycore.frontend.cli.MCRAbstractCommands;
 import org.mycore.frontend.cli.MCRCommand;
 import org.mycore.frontend.cli.MCRDerivateCommands;
 import org.mycore.frontend.cli.MCRObjectCommands;
-import org.xml.sax.SAXParseException;
 
 /**
  * This class provides a set of commands for the org.mycore.access management
@@ -172,7 +169,7 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
         }
         
         MCRXMLTableManager tm = MCRXMLTableManager.instance();
-        for (String id : tm.listIDsOfType(type)) {
+        for (String id : tm.retrieveAllIDs(type)) {
         	
              try {
                  // if object do'snt exist - no exception is catched!
@@ -308,9 +305,6 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
         	}
         	catch(MCRActiveLinkException ale){
         		LOGGER.error("Linkage error", ale);
-        	}
-        	catch(SAXParseException e){
-        		LOGGER.error("Could not parse Document: "+objectFile.getAbsolutePath(),e);
         	}
         }       
     }    

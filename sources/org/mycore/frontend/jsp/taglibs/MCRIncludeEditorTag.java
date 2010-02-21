@@ -85,12 +85,11 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 		    catch ( MalformedURLException e ) {
 		      logger.error( "MalformedURLException: " + e, e );
 	    }
+
 		    catch ( IOException e ) {
 		      logger.error( "IOException: " + e , e);
 	    }
-		    catch ( SAXParseException e){
-		    	logger.error( "SaxParseException: " + e , e);
-		    }
+		
 		}
 	}
 	

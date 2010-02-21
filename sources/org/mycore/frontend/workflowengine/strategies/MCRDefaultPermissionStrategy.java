@@ -1,11 +1,9 @@
 package org.mycore.frontend.workflowengine.strategies;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.Vector;
 
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
@@ -17,13 +15,11 @@ import org.mycore.access.mcrimpl.MCRAccessRule;
 import org.mycore.access.mcrimpl.MCRAccessStore;
 import org.mycore.access.mcrimpl.MCRRuleMapping;
 import org.mycore.access.mcrimpl.MCRRuleStore;
-import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.xml.MCRXMLHelper;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowAccessRuleEditorUtils;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
-import org.xml.sax.SAXParseException;
 
 public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 
@@ -57,7 +53,7 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 						.getString(propName,
 								"<condition format=\"xml\"><boolean operator=\"false\" /></condition>");
 				strRule = strRule.replaceAll("\\$\\{user\\}", userid);
-				try{
+			
 					Element rule = (Element) MCRXMLHelper.parseXML(strRule, false)
 							.getRootElement().detach();
 					String permissionType = defaultPermissionTypes[i];
@@ -66,10 +62,7 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 					} else {
 						AI.addRule(objID.getId(), permissionType, rule, "");
 					}
-				}
-				catch(SAXParseException saxE){
-					logger.error("Rule (from XML): \n"+strRule+"\n could not be parsed!", saxE);
-				}
+				
 			}
 		}
 		if (mode == MCRWorkflowConstants.PERMISSION_MODE_PUBLISH) {
@@ -87,14 +80,11 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 			String strReadRule = MCRConfiguration.instance()
 					.getString(propName);
 			String x = strReadRule.replaceAll("\\$\\{user\\}", userid);
-			try{	
+		
 				Element readRule = (Element) MCRXMLHelper.parseXML(x, false)
 						.getRootElement().detach();
 				AI.addRule(mcrid, "read", readRule, "");
-			}
-			catch(SAXParseException saxE){
-				logger.error("Rule (from XML): \n"+x+"\n could not be parsed!", saxE);
-			}
+		
 		}
 
 	}
@@ -120,8 +110,8 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 					.getString("MCR.AccessRuleEditor.defaultrules." + oRuletype.toString(),
 							   "<condition format=\"xml\"><boolean operator=\"true\" /></condition>");
 		}
-		Collection<String> ruleIDs = null;;
-		try{
+		Collection<String> ruleIDs = null;
+	
 			Element eRule = (Element) MCRXMLHelper.parseXML(xmlRuleString.toString(),false)
 			.getRootElement().detach();
 			String rule = ACS.getNormalizedRuleString(eRule);
@@ -179,10 +169,6 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 			accessStore.createAccessDefinition(ruleMapping);
 		} else {
 			accessStore.updateAccessDefinition(ruleMapping);
-		}
-		}
-		catch(SAXParseException saxE){
-			logger.error("Rule (from XML): \n"+xmlRuleString+"\n could not be parsed!", saxE);
 		}
 	}
 }
