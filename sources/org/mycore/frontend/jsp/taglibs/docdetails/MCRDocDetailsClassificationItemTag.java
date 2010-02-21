@@ -6,12 +6,12 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
 
 import org.apache.log4j.Logger;
 import org.mycore.datamodel.classifications2.MCRCategoryDAO;
 import org.mycore.datamodel.classifications2.MCRCategoryDAOFactory;
 import org.mycore.datamodel.classifications2.MCRCategoryID;
-import org.mycore.frontend.jsp.taglibs.docdetails.helper.MCRDocdetailsXMLHelper;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -31,10 +31,11 @@ public class MCRDocDetailsClassificationItemTag extends SimpleTagSupport {
 		MCRDocDetailsTag docdetails = (MCRDocDetailsTag) findAncestorWithClass(this, MCRDocDetailsTag.class);
 		Element result = null;
 		try {
-				XPath xpath = MCRDocdetailsXMLHelper.createXPathObject();
-				xpath.compile(xp);
+			XPath xpath = XPathFactory.newInstance().newXPath();
+			xpath.setNamespaceContext(docdetails.getNamespaceContext());
+			xpath.compile(xp);
 				
-	    		NodeList nodes = (NodeList)xpath.evaluate(xp, docdetailsRow.getXML(), XPathConstants.NODESET);
+	    		NodeList nodes = (NodeList)xpath.evaluate(xp, docdetailsRow.getContext(), XPathConstants.NODESET);
 	    		if(nodes.getLength()>0){
 	    			Node n = nodes.item(0);
 	    			if(n instanceof Element){

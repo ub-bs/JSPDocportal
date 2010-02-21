@@ -7,9 +7,9 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
 
 import org.apache.log4j.Logger;
-import org.mycore.frontend.jsp.taglibs.docdetails.helper.MCRDocdetailsXMLHelper;
 import org.w3c.dom.NodeList;
 
 public class MCRDocDetailsValueTag extends SimpleTagSupport {
@@ -40,7 +40,8 @@ public class MCRDocDetailsValueTag extends SimpleTagSupport {
 		
 		String result = "";
 		try {
-			XPath xpath = MCRDocdetailsXMLHelper.createXPathObject();
+			XPath xpath = XPathFactory.newInstance().newXPath();
+			xpath.setNamespaceContext(docdetails.getNamespaceContext());
 			xpath.compile(xp);
 			
     		NodeList nodes;
@@ -48,7 +49,7 @@ public class MCRDocDetailsValueTag extends SimpleTagSupport {
     			nodes = (NodeList)xpath.evaluate(xp, item.getXmlnode(), XPathConstants.NODESET);
     		}
     		else{
-    			nodes = (NodeList)xpath.evaluate(xp, docdetails.getXMLDocument(), XPathConstants.NODESET);    			
+    			nodes = (NodeList)xpath.evaluate(xp, docdetails.getContext(), XPathConstants.NODESET);    			
     		}
     		if(nodes.getLength()>0){
     			result = nodes.item(0).getTextContent();

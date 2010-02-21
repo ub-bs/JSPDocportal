@@ -10,6 +10,7 @@ import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
@@ -31,6 +32,7 @@ import org.xml.sax.SAXException;
 public class MCRDocDetailsTag extends SimpleTagSupport {
 	private static final long serialVersionUID = 1L;
 	private static DocumentBuilder builder;
+	private MCRDocdetailsNamespaceContext nsContext = new MCRDocdetailsNamespaceContext();
 	private String mcrID;
 	private boolean fromWorkflow;
 	private String lang;
@@ -38,6 +40,7 @@ public class MCRDocDetailsTag extends SimpleTagSupport {
 	private int previousOutput;
 	private ResourceBundle messages;
 	private String stylePrimaryName="docdetails";
+	
 	
 	static {
 		try {
@@ -61,6 +64,21 @@ public class MCRDocDetailsTag extends SimpleTagSupport {
 		this.lang = lang;
 	}
 
+	/**
+	 * add the namespaces, to be considered for XPath processing
+	 * @param namespaces the namespaces als space-separated list of key=value pairs
+	 */
+	public void setNamespaces(String namespaces){
+		String[] data = namespaces.split("\\s");
+		for(String s:data){
+			if(s.length()>0 && s.contains("=")){
+				int splitpos = s.indexOf("=");
+				String prefix = s.substring(0,splitpos);
+				String url = s.substring(splitpos+1);
+				nsContext.addNamespace(prefix, url);
+			}
+		}
+	}
 	public void doTag() throws JspException, IOException {
 		boolean isRoot = findAncestorWithClass(this, MCRDocDetailsTag.class)==null; 
 		Transaction tx  = null;
@@ -123,9 +141,11 @@ public class MCRDocDetailsTag extends SimpleTagSupport {
 		}
 	}
 
-	public Document getXMLDocument() {
-		return doc;
+	 public org.w3c.dom.Node getContext() throws JspTagException {
+		 // expose the current node as the context
+		 return doc;
 	}
+
 
 	public String getLang() {
 		return lang;
@@ -143,6 +163,9 @@ public class MCRDocDetailsTag extends SimpleTagSupport {
 		return messages;
 	}
 
+	public MCRDocdetailsNamespaceContext getNamespaceContext() {
+		return nsContext;
+	}
 
 	/**
 	 * implementation found in "The Java Developers Almanac 1.4"

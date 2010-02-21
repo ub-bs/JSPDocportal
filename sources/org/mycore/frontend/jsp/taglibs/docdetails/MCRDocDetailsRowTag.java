@@ -10,8 +10,8 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathException;
+import javax.xml.xpath.XPathFactory;
 
-import org.mycore.frontend.jsp.taglibs.docdetails.helper.MCRDocdetailsXMLHelper;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -46,7 +46,7 @@ public class MCRDocDetailsRowTag extends SimpleTagSupport
 		showinfo=b;
 	}
 		
-	protected Node getXML(){
+	protected Node getContext(){
 		return xml;
 	}
 	
@@ -63,9 +63,9 @@ public class MCRDocDetailsRowTag extends SimpleTagSupport
 		PageContext ctx = (PageContext)getJspContext();
 		JspWriter out = getJspContext().getOut();
 		try {
-			XPath xpath = MCRDocdetailsXMLHelper.createXPathObject();
-			NodeList l = (NodeList) xpath.evaluate(xp, docdetails
-					.getXMLDocument(), XPathConstants.NODESET);
+			XPath xpath = XPathFactory.newInstance().newXPath();
+			xpath.setNamespaceContext(docdetails.getNamespaceContext());
+			NodeList l = (NodeList) xpath.evaluate(xp, docdetails.getContext(), XPathConstants.NODESET);
 
 			if (l.getLength() > 0) {
 				docdetails.setPreviousOutput(docdetails.getPreviousOutput() + 1);

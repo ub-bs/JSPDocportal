@@ -7,8 +7,8 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
 
-import org.mycore.frontend.jsp.taglibs.docdetails.helper.MCRDocdetailsXMLHelper;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -32,10 +32,11 @@ public class MCRDocDetailsOutputItemTag extends SimpleTagSupport {
 		}
 		MCRDocDetailsTag docdetails= (MCRDocDetailsTag) findAncestorWithClass(this, MCRDocDetailsTag.class);
 		try {
-				XPath xpath = MCRDocdetailsXMLHelper.createXPathObject();
-				xpath.compile(xp);
-
-	    		NodeList nodes = (NodeList)xpath.evaluate(xp, docdetailsRow.getXML(), XPathConstants.NODESET);
+			XPath xpath = XPathFactory.newInstance().newXPath();
+			xpath.setNamespaceContext(docdetails.getNamespaceContext());
+			xpath.compile(xp);
+			
+	    		NodeList nodes = (NodeList)xpath.evaluate(xp, docdetailsRow.getContext(), XPathConstants.NODESET);
 	    		JspWriter out = getJspContext().getOut();
 	    		if(nodes.getLength()>0){
 	    			Node n = nodes.item(0);

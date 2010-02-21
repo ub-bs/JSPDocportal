@@ -9,13 +9,13 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
 
 import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.datamodel.ifs.MCRDirectory;
 import org.mycore.datamodel.ifs.MCRFile;
 import org.mycore.datamodel.ifs.MCRFilesystemNode;
-import org.mycore.frontend.jsp.taglibs.docdetails.helper.MCRDocdetailsXMLHelper;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -36,10 +36,11 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 			throw new JspException("This tag must be nested in tag called 'row' of the same tag library");
 		}
 		try {
-			XPath xpath = MCRDocdetailsXMLHelper.createXPathObject();
+			XPath xpath = XPathFactory.newInstance().newXPath();
+			xpath.setNamespaceContext(docdetails.getNamespaceContext());
 			xpath.compile(xp);
 
-			NodeList nodes = (NodeList)xpath.evaluate(xp, docdetailRow.getXML(), XPathConstants.NODESET);
+			NodeList nodes = (NodeList)xpath.evaluate(xp, docdetailRow.getContext(), XPathConstants.NODESET);
 	    	JspWriter out = getJspContext().getOut();
 	    	if(nodes.getLength()>0){
 	   		  	Object o =  getJspContext().getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE);
@@ -59,8 +60,8 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 	   	     		//	border="0"  width="150" />      		
 
 	    		Element eN = (Element)n;
-	    		String derID = eN.getAttributeNS(MCRDocdetailsXMLHelper.getNamespaceURI("xlink"), "href");
-	    		String title = eN.getAttributeNS(MCRDocdetailsXMLHelper.getNamespaceURI("xlink"), "label");
+	    		String derID = eN.getAttributeNS(docdetails.getNamespaceContext().getNamespaceURI("xlink"), "href");
+	    		String title = eN.getAttributeNS(docdetails.getNamespaceContext().getNamespaceURI("xlink"), "label");
 	    		if(title.contains("Cover")){
 	    			//do nothing - handled elsewhere
 	    		}

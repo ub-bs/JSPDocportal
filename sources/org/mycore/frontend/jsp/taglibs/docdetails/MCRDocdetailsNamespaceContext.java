@@ -1,4 +1,4 @@
-package org.mycore.frontend.jsp.taglibs.docdetails.helper;
+package org.mycore.frontend.jsp.taglibs.docdetails;
 
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -8,12 +8,14 @@ import javax.xml.XMLConstants;
 import javax.xml.namespace.NamespaceContext;
 
 public class MCRDocdetailsNamespaceContext implements NamespaceContext {
-	private static Map<String, String> prefixMapping;
-	static{
+	private Map<String, String> prefixMapping;
+	
+	public MCRDocdetailsNamespaceContext(){
 		prefixMapping = new Hashtable<String, String>();
 		prefixMapping.put("xml", XMLConstants.XML_NS_URI);
 		prefixMapping.put("xlink", "http://www.w3.org/1999/xlink");
 	}
+	
 	public String getNamespaceURI(String prefix) {
 		return prefixMapping.get(prefix);
 	}
@@ -28,6 +30,16 @@ public class MCRDocdetailsNamespaceContext implements NamespaceContext {
 	public Iterator getPrefixes(String arg0) {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
+	}
+	
+	
+	/**
+	 * register a new namespace
+	 * @param prefix the namespace prefix
+	 * @param url the namespace url
+	 */
+	public void addNamespace(String prefix, String url){
+		prefixMapping.put(prefix, url);
 	}
 
 }

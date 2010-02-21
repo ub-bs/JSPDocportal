@@ -8,11 +8,11 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
 
 import org.mycore.datamodel.ifs.MCRDirectory;
 import org.mycore.datamodel.ifs.MCRFile;
 import org.mycore.datamodel.ifs.MCRFilesystemNode;
-import org.mycore.frontend.jsp.taglibs.docdetails.helper.MCRDocdetailsXMLHelper;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -28,7 +28,8 @@ public class MCRDocDetailsPreviewTag extends SimpleTagSupport {
 			throw new JspException("This tag must be nested in tag called 'docdetails' of the same tag library");
 		}
 		try {
-			XPath xpath = MCRDocdetailsXMLHelper.createXPathObject();
+			XPath xpath = XPathFactory.newInstance().newXPath();
+			xpath.setNamespaceContext(docdetails.getNamespaceContext());
 			String xp = "/mycoreobject/structure/derobjects/derobject[contains(@xlink:label, '"+labelSubstring+"')]";
 			xpath.compile(xp);
    		  	Object o =  getJspContext().getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE);
@@ -36,7 +37,7 @@ public class MCRDocDetailsPreviewTag extends SimpleTagSupport {
    		  		o = new String("");
    		  	}
    		  	
-			NodeList nodes = (NodeList)xpath.evaluate(xp, docdetails.getXMLDocument(), XPathConstants.NODESET);
+			NodeList nodes = (NodeList)xpath.evaluate(xp, docdetails.getContext(), XPathConstants.NODESET);
 	    	JspWriter out = getJspContext().getOut();
 	    	out.write("<tr><td colspan=\"3\">");
     		out.write("<td rowspan=\"1000\" class=\""+docdetails.getStylePrimaryName()+"-preview\">");
@@ -49,7 +50,7 @@ public class MCRDocDetailsPreviewTag extends SimpleTagSupport {
 	    			StringBuffer sbUrl = new StringBuffer(o.toString());
 	    			sbUrl.append("file/");
 	    			Element eN = (Element)n;
-	    			String derID = eN.getAttributeNS(MCRDocdetailsXMLHelper.getNamespaceURI("xlink"), "href");
+	    			String derID = eN.getAttributeNS(docdetails.getNamespaceContext().getNamespaceURI("xlink"), "href");
 	    			sbUrl.append(derID);
 	    			sbUrl.append("/");
 	    		
