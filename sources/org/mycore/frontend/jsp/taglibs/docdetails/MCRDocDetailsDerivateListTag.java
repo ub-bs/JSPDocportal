@@ -1,25 +1,51 @@
+/*
+ * $RCSfile$
+ * $Revision: 16360 $ $Date: 2010-01-06 00:54:02 +0100 (Mi, 06 Jan 2010) $
+ *
+ * This file is part of ***  M y C o R e  ***
+ * See http://www.mycore.de/ for details.
+ *
+ * This program is free software; you can use it, redistribute it
+ * and / or modify it under the terms of the GNU General Public License
+ * (GPL) as published by the Free Software Foundation; either version 2
+ * of the License or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program, in a file called gpl.txt or license.txt.
+ * If not, write to the Free Software Foundation Inc.,
+ * 59 Temple Place - Suite 330, Boston, MA  02111-1307 USA
+ */
 package org.mycore.frontend.jsp.taglibs.docdetails;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.List;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathFactory;
 
+import org.apache.taglibs.standard.tag.common.xml.XPathUtil;
 import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
+import org.mycore.common.MCRConstants;
 import org.mycore.datamodel.ifs.MCRDirectory;
 import org.mycore.datamodel.ifs.MCRFile;
 import org.mycore.datamodel.ifs.MCRFilesystemNode;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
+/**
+ * display the list of attached derivates
+ * @author Robert Stephan
+ *
+ */
 public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 	private static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
 	private String xp;
@@ -31,18 +57,17 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 		if(docdetails==null){
 			throw new JspException("This tag must be nested in tag called 'docdetails' of the same tag library");
 		}
-		MCRDocDetailsRowTag docdetailRow= (MCRDocDetailsRowTag) findAncestorWithClass(this, MCRDocDetailsRowTag.class);
-		if(docdetailRow==null){
+		MCRDocDetailsRowTag docdetailsRow= (MCRDocDetailsRowTag) findAncestorWithClass(this, MCRDocDetailsRowTag.class);
+		if(docdetailsRow==null){
 			throw new JspException("This tag must be nested in tag called 'row' of the same tag library");
 		}
 		try {
-			XPath xpath = XPathFactory.newInstance().newXPath();
-			xpath.setNamespaceContext(docdetails.getNamespaceContext());
-			xpath.compile(xp);
-
-			NodeList nodes = (NodeList)xpath.evaluate(xp, docdetailRow.getContext(), XPathConstants.NODESET);
-	    	JspWriter out = getJspContext().getOut();
-	    	if(nodes.getLength()>0){
+			JspWriter out = getJspContext().getOut();
+			
+			XPathUtil xu = new XPathUtil((PageContext)getJspContext());
+			@SuppressWarnings("unchecked")
+			List nodes = xu.selectNodes(docdetailsRow.getContext(), xp);
+			if(nodes.size()>0){
 	   		  	Object o =  getJspContext().getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE);
 	   		  	if(o==null){
 	   		  		o = new String("");
@@ -50,18 +75,18 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 	   		  	out.write("<td class=\""+docdetails.getStylePrimaryName()+"-value\">");	
 	    		
 	    		
-	    		for(int i=0;i<nodes.getLength();i++){
+	    		for(int i=0;i<nodes.size();i++){
 	    		 	out.write("<dl class=\""+docdetails.getStylePrimaryName()+"-derivate-list\">");
 		    		
 		    		
-	    			Node n = (Node)nodes.item(i);
+	    			Node n = (Node)nodes.get(i);
 	    			 
 	   		        //<img src="<x:out select="concat($WebApplicationBaseURL,'file/',./@derivid,'/',./@name,'?hosts=',$host)" />" 
 	   	     		//	border="0"  width="150" />      		
 
 	    		Element eN = (Element)n;
-	    		String derID = eN.getAttributeNS(docdetails.getNamespaceContext().getNamespaceURI("xlink"), "href");
-	    		String title = eN.getAttributeNS(docdetails.getNamespaceContext().getNamespaceURI("xlink"), "label");
+	    		String derID = eN.getAttributeNS(MCRConstants.XLINK_NAMESPACE.getURI(), "href");
+	    		String title = eN.getAttributeNS(MCRConstants.XLINK_NAMESPACE.getURI(), "label");
 	    		if(title.contains("Cover")){
 	    			//do nothing - handled elsewhere
 	    		}
@@ -129,10 +154,18 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 	   }
 	}
 
-	public void setXpath(String xpath) {
+	/**
+	 * the XPath expression to the element that shall be displayed
+	 * @param xpath
+	 */
+	public void setSelect(String xpath) {
 		this.xp = xpath;
 	}
 
+	/**
+	 * if set to true, the file size is displayed
+	 * @param showsize
+	 */
 	public void setShowsize(boolean showsize) {
 		this.showsize = showsize;
 	}

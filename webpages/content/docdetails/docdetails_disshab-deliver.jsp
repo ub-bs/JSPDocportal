@@ -48,76 +48,76 @@
     
 		<mcrdd:docdetails mcrID="${mcrid}" lang="de" fromWorkflow="${from}">
 			
-			<mcrdd:row xpath="/mycoreobject/metadata/creatorlinks/creatorlink | /mycoreobject/metadata/creators/creator" 
+			<mcrdd:row select="/mycoreobject/metadata/creatorlinks/creatorlink | /mycoreobject/metadata/creators/creator" 
             		   labelkey="OMD.author" showInfo="false">
             	<mcrdd:textlinkitem xpath="." />
             </mcrdd:row>
             
-            <mcrdd:row xpath="/mycoreobject/metadata/titles/title[@type='original-main']" labelkey="OMD.maintitle" showInfo="false">
+            <mcrdd:row select="/mycoreobject/metadata/titles/title[@type='original-main']" labelkey="OMD.maintitle" showInfo="false">
             	<mcrdd:item xpath="./text()" />
             </mcrdd:row>
             
-            <mcrdd:row xpath="/mycoreobject/metadata/titles/title[@type='translated-main']" labelkey="OMD.translated-maintitle" showInfo="false">
+            <mcrdd:row select="/mycoreobject/metadata/titles/title[@type='translated-main']" labelkey="OMD.translated-maintitle" showInfo="false">
 				<mcrdd:item xpath="./text()" />
 			</mcrdd:row>
 			
-			<mcrdd:row xpath="/mycoreobject/metadata/titles/title[@type='original-sub']" labelkey="OMD.subtitle" showInfo="false">
+			<mcrdd:row select="/mycoreobject/metadata/titles/title[@type='original-sub']" labelkey="OMD.subtitle" showInfo="false">
 				<mcrdd:item xpath="./text()" />
 			</mcrdd:row>
 			
-			<mcrdd:row xpath="/mycoreobject/metadata/titles/title[@type='translated-sub']" labelkey="OMD.translated-subtitle" showInfo="false">
+			<mcrdd:row select="/mycoreobject/metadata/titles/title[@type='translated-sub']" labelkey="OMD.translated-subtitle" showInfo="false">
 				<mcrdd:item xpath="./text()" />
 			</mcrdd:row>
 			
-			<mcrdd:row xpath="/mycoreobject/metadata/urns/urn" labelkey="OMD.urns" showInfo="false" >
+			<mcrdd:row select="/mycoreobject/metadata/urns/urn" labelkey="OMD.urns" showInfo="false" >
 				<mcrdd:item xpath="./text()" />
 			</mcrdd:row>
 			
-			<mcrdd:row xpath="/mycoreobject/metadata/origins/origin" labelkey="OMD.class-origins" showInfo="false" >
+			<mcrdd:row select="/mycoreobject/metadata/origins/origin" labelkey="OMD.class-origins" showInfo="false" >
 				<mcrdd:classificationitem xpath="." />
 			</mcrdd:row>
 			
 			<mcrdd:separator showLine="false"/>
 			
-			<mcrdd:row xpath="/mycoreobject/metadata/descriptions/description" labelkey="OMD.descriptions" showInfo="false">
+			<mcrdd:row select="/mycoreobject/metadata/descriptions/description" labelkey="OMD.descriptions" showInfo="false">
 				<mcrdd:item xpath="./text()" />
 			</mcrdd:row>
 			
-			<mcrdd:row xpath="/mycoreobject/metadata/types/type" labelkey="OMD.class-types" showInfo="false" >
+			<mcrdd:row select="/mycoreobject/metadata/types/type" labelkey="OMD.class-types" showInfo="false" >
 				<mcrdd:classificationitem xpath="." />
 			</mcrdd:row>
 			
 			<mcrdd:separator showLine="false"/>
 			
-			<mcrdd:row xpath="/mycoreobject/metadata/dates/date[@type='submitted']" labelkey="OMD.yearsubmitted" showInfo="false">
+			<mcrdd:row select="/mycoreobject/metadata/dates/date[@type='submitted']" labelkey="OMD.yearsubmitted" showInfo="false">
 				<mcrdd:item xpath="./text()" datePattern="yyyy" />
 			</mcrdd:row>
 			
-			<mcrdd:row xpath="/mycoreobject/metadata/dates/date[@type='accepted']" labelkey="OMD.yearaccepted" showInfo="false">
+			<mcrdd:row select="/mycoreobject/metadata/dates/date[@type='accepted']" labelkey="OMD.yearaccepted" showInfo="false">
 				<mcrdd:item xpath="./text()" datePattern="yyyy" />
 			</mcrdd:row>
 			
-			<mcrdd:row xpath="/mycoreobject/metadata/contributors/contributor[@type='advisor']/fullname" labelkey="OMD.advisor" showInfo="false">
+			<mcrdd:row select="/mycoreobject/metadata/contributors/contributor[@type='advisor']/fullname" labelkey="OMD.advisor" showInfo="false">
 				<mcrdd:item xpath="./text()" />
 			</mcrdd:row>
 			
-			<mcrdd:row xpath="/mycoreobject/metadata/contributors/contributor[@type='referee']/fullname" labelkey="OMD.referee" showInfo="false">
+			<mcrdd:row select="/mycoreobject/metadata/contributors/contributor[@type='referee']/fullname" labelkey="OMD.referee" showInfo="false">
 				<mcrdd:item xpath="./text()" />
 			</mcrdd:row>
 			
 			<mcrdd:separator showLine="false"/>
 			
-			<mcrdd:row xpath="/mycoreobject/metadata/keywords/keyword" labelkey="OMD.keywords" showInfo="false">
+			<mcrdd:row select="/mycoreobject/metadata/keywords/keyword" labelkey="OMD.keywords" showInfo="false">
 				<mcrdd:item xpath="./text()" />
 			</mcrdd:row>
 			
-			<mcrdd:row xpath="/mycoreobject/metadata/subjects/subject" labelkey="OMD.class-subjects" showInfo="false" >
+			<mcrdd:row select="/mycoreobject/metadata/subjects/subject" labelkey="OMD.class-subjects" showInfo="false" >
 				<mcrdd:classificationitem xpath="." />
 			</mcrdd:row>
 			
 			<mcrdd:separator showLine="false"/>
 			
-			<mcrdd:row xpath="/mycoreobject/@ID" labelkey="OMD.id" showInfo="false">
+			<mcrdd:row select="/mycoreobject/@ID" labelkey="OMD.id" showInfo="false">
 				<mcrdd:item xpath="." />
 			</mcrdd:row>
 		</mcrdd:docdetails>

@@ -10,7 +10,7 @@
 <%-- Parameter: fromWF - from Workflow or database --%>
 
 <mcrdd:docdetails mcrID="${param.id}" lang="de" fromWorkflow="${param.fromWF}"> 
-    <mcrdd:row xpath="/mycoreobject/metadata/titles" labelkey="OMD.maintitle" showInfo="false">
+    <mcrdd:row select="/mycoreobject/metadata/titles" labelkey="OMD.maintitle" showInfo="false">
 		<mcrdd:outputitem xpath="." varxml="xml" varxmldoc="doc" styleName="docdetails-value-title" >
 			<x:forEach select="$doc/mycoreobject/structure/parents/parent">
 			    <c:set var="idparam"><x:out select="./@*[local-name()='href']" /></c:set>
@@ -28,21 +28,21 @@
 		</mcrdd:outputitem>              
     </mcrdd:row>
 
-    <mcrdd:row xpath="/mycoreobject/metadata/titles/title[@type='original-sub']" labelkey="OMD.subtitle" showInfo="false">
+    <mcrdd:row select="/mycoreobject/metadata/titles/title[@type='original-sub']" labelkey="OMD.subtitle" showInfo="false">
 		<mcrdd:item xpath="./text()" />              
     </mcrdd:row>
     
     <mcrdd:preview imageWidth="210" labelContains="Cover" /> 
     	
-    <mcrdd:row xpath="/mycoreobject/metadata/identifiers/identifier" labelkey="OMD.identifiers" showInfo="false">
+    <mcrdd:row select="/mycoreobject/metadata/identifiers/identifier" labelkey="OMD.identifiers" showInfo="false">
 		<mcrdd:item xpath="./text()" />              
     </mcrdd:row>
     
-    <mcrdd:row xpath="/mycoreobject/metadata/dates/date/text" labelkey="OMD.Date.publishingyear" showInfo="false">
+    <mcrdd:row select="/mycoreobject/metadata/dates/date/text" labelkey="OMD.Date.publishingyear" showInfo="false">
 		<mcrdd:item xpath="." />              
     </mcrdd:row>
     
-    <mcrdd:row xpath="/mycoreobject/structure/children/child" labelkey="OMD.children" showInfo="false">
+    <mcrdd:row select="/mycoreobject/structure/children/child" labelkey="OMD.children" showInfo="false">
 		<mcrdd:outputitem xpath="." varxml="xml" >
 			<ul style="line-height:1.5em; list-style:none;list-style-position: inside;margin: 0px;padding: 0px;">
 					<x:forEach select="$xml">
@@ -57,15 +57,15 @@
       
 	<mcrdd:separator showLine="true"/>
  	
- 	<mcrdd:row xpath="/mycoreobject/service/servdates/servdate[@type='createdate']" labelkey="OMD.created" showInfo="false">
+ 	<mcrdd:row select="/mycoreobject/service/servdates/servdate[@type='createdate']" labelkey="OMD.created" showInfo="false">
 		<mcrdd:item xpath="./text()" datePattern="dd. MMMM yyyy" />              
     </mcrdd:row>
  	
- 	<mcrdd:row xpath="/mycoreobject/service/servdates/servdate[@type='modifydate']" labelkey="OMD.changed" showInfo="false">
+ 	<mcrdd:row select="/mycoreobject/service/servdates/servdate[@type='modifydate']" labelkey="OMD.changed" showInfo="false">
 		<mcrdd:item xpath="./text()" datePattern="dd. MMMM yyyy" />              
     </mcrdd:row>
  	
-   <mcrdd:row xpath="/mycoreobject" labelkey="OMD.selflink" showInfo="false" >
+   <mcrdd:row select="/mycoreobject" labelkey="OMD.selflink" showInfo="false" >
    		<mcrdd:outputitem xpath="./@ID" varxml="current">
    		   <jsp:element name="a">
    		   		<jsp:attribute name="href">${applicationScope.WebApplicationBaseURL}resolve?id=<x:out select="string($current)"/></jsp:attribute>
