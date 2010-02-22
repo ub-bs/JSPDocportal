@@ -186,7 +186,7 @@
 			<required>true</required>
 		</attribute>
 	</tag>
-		<tag>
+	<tag>
 		<description>displays a docdetail output item</description>
 		<name>outputitem</name>
 		<tag-class>org.mycore.frontend.jsp.taglibs.docdetails.MCRDocDetailsOutputItemTag</tag-class>
@@ -207,10 +207,25 @@
 		</attribute>
 	</tag>
 	
+	
 	<tag>
 		<description>display the header</description>
 		<name>header</name>
 		<tag-class>org.mycore.frontend.jsp.taglibs.docdetails.MCRDocDetailsHeaderTag</tag-class>
 		<body-content>scriptless</body-content>
+	</tag>
+	<tag>
+		<description>add a namespace to be used by the JSTL XML Tag Library (using Java Reflection)</description>
+		<name>setnamespace</name>
+		<tag-class>org.mycore.frontend.jsp.taglibs.docdetails.MCRDocDetailsSetNamespaceTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>prefix</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>uri</name>
+			<required>true</required>
+		</attribute>
 	</tag>
 </taglib>
