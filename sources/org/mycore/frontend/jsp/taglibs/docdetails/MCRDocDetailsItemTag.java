@@ -25,6 +25,7 @@ package org.mycore.frontend.jsp.taglibs.docdetails;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
@@ -94,19 +95,19 @@ public class MCRDocDetailsItemTag extends SimpleTagSupport {
 	    			if(!"".equals(datepattern)){
 	    				try{
 	    					SimpleDateFormat indf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-	    					SimpleDateFormat outdf = new SimpleDateFormat(datepattern);
+	    					SimpleDateFormat outdf = new SimpleDateFormat(datepattern, new Locale("de", "DE"));
 	    					result = outdf.format(indf.parse(result));
 	    				}
 	    				catch(Exception e){
 	    					try{
 		    					SimpleDateFormat indf = new SimpleDateFormat("yyyy-MM-dd");
-		    					SimpleDateFormat outdf = new SimpleDateFormat(datepattern);
+		    					SimpleDateFormat outdf = new SimpleDateFormat(datepattern, new Locale("de", "DE"));
 		    					result = outdf.format(indf.parse(result));
 		    				}
 		    				catch(Exception e2){
 		    					try{
 			    					SimpleDateFormat indf = new SimpleDateFormat("yyyy");
-			    					SimpleDateFormat outdf = new SimpleDateFormat(datepattern);
+			    					SimpleDateFormat outdf = new SimpleDateFormat(datepattern, new Locale("de", "DE"));
 			    					result = outdf.format(indf.parse(result));
 			    				}
 			    				catch(Exception e3){
