@@ -317,11 +317,12 @@
                     </label>
                 </text>
             </cell>
-            <cell row="34" col="2" anchor="WEST" var="user/accept" sortnr="4">
-                <checkbox value="false" checked="true" class="mandatory" > 
+            <!-- <cell row="34" col="2" anchor="WEST" var="user/accept" sortnr="4"> -->
+            <cell row="34" col="2" anchor="WEST">
+                <text id="TextUAccount"> 
                     <label xml:lang="de">&#160;&#160;Ich erkenne die Regelungen	zur Nutzung der Digitalen Bibliothek an.</label>
                     <label xml:lang="en">&#160;&#160;i accept the licencse rights for using the digital library account. </label>
-                </checkbox>
+                </text>
             </cell>
 			<cell row="34" col="3" anchor="EAST">
                 <helpHover id="HURights" width="400px" >

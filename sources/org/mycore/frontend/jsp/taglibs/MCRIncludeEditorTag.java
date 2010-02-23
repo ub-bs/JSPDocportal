@@ -16,6 +16,7 @@ import org.jdom.Document;
 import org.mycore.common.xml.MCRXMLHelper;
 import org.mycore.frontend.editor.MCREditorServlet;
 import org.mycore.frontend.jsp.NavServlet;
+import org.xml.sax.SAXParseException;
 
 
 public class MCRIncludeEditorTag extends SimpleTagSupport
@@ -84,9 +85,11 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 		    catch ( MalformedURLException e ) {
 		      logger.error( "MalformedURLException: " + e, e );
 	    }
+
 		    catch ( IOException e ) {
 		      logger.error( "IOException: " + e , e);
 	    }
+		
 		}
 	}
 	

@@ -167,13 +167,13 @@ public class MCREditorOutValidator {
 
             // return the XML tree
             input = obj.createXML();
-        } catch (MCRException e) {
+        } catch (Exception e) {
             errorlog.add(e.getMessage());
 
-            Exception ex = e.getException();
+            Throwable t = e.getCause();
 
-            if (ex != null) {
-                errorlog.add(ex.getMessage());
+            if (t != null) {
+                errorlog.add(t.getMessage());
             }
         }
         return input;

@@ -29,6 +29,7 @@ import org.mycore.common.xml.MCRXMLHelper;
 import org.mycore.frontend.editor.MCREditorServlet;
 import org.mycore.frontend.jsp.NavServlet;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
+import org.xml.sax.SAXParseException;
 
 
 public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport

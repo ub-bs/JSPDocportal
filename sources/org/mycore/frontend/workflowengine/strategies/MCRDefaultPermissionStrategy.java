@@ -1,7 +1,6 @@
 package org.mycore.frontend.workflowengine.strategies;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -16,7 +15,6 @@ import org.mycore.access.mcrimpl.MCRAccessRule;
 import org.mycore.access.mcrimpl.MCRAccessStore;
 import org.mycore.access.mcrimpl.MCRRuleMapping;
 import org.mycore.access.mcrimpl.MCRRuleStore;
-import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.xml.MCRXMLHelper;
 import org.mycore.datamodel.metadata.MCRObjectID;
@@ -55,14 +53,16 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 						.getString(propName,
 								"<condition format=\"xml\"><boolean operator=\"false\" /></condition>");
 				strRule = strRule.replaceAll("\\$\\{user\\}", userid);
-				Element rule = (Element) MCRXMLHelper.parseXML(strRule, false)
-						.getRootElement().detach();
-				String permissionType = defaultPermissionTypes[i];
-				if (AI.hasRule(objID.getId(), permissionType)) {
-					AI.updateRule(objID.getId(), permissionType, rule, "");
-				} else {
-					AI.addRule(objID.getId(), permissionType, rule, "");
-				}
+			
+					Element rule = (Element) MCRXMLHelper.parseXML(strRule, false)
+							.getRootElement().detach();
+					String permissionType = defaultPermissionTypes[i];
+					if (AI.hasRule(objID.getId(), permissionType)) {
+						AI.updateRule(objID.getId(), permissionType, rule, "");
+					} else {
+						AI.addRule(objID.getId(), permissionType, rule, "");
+					}
+				
 			}
 		}
 		if (mode == MCRWorkflowConstants.PERMISSION_MODE_PUBLISH) {
@@ -80,9 +80,11 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 			String strReadRule = MCRConfiguration.instance()
 					.getString(propName);
 			String x = strReadRule.replaceAll("\\$\\{user\\}", userid);
-			Element readRule = (Element) MCRXMLHelper.parseXML(x, false)
-					.getRootElement().detach();
-			AI.addRule(mcrid, "read", readRule, "");
+		
+				Element readRule = (Element) MCRXMLHelper.parseXML(x, false)
+						.getRootElement().detach();
+				AI.addRule(mcrid, "read", readRule, "");
+		
 		}
 
 	}
@@ -108,21 +110,22 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 					.getString("MCR.AccessRuleEditor.defaultrules." + oRuletype.toString(),
 							   "<condition format=\"xml\"><boolean operator=\"true\" /></condition>");
 		}
+		Collection<String> ruleIDs = null;
+	
+			Element eRule = (Element) MCRXMLHelper.parseXML(xmlRuleString.toString(),false)
+			.getRootElement().detach();
+			String rule = ACS.getNormalizedRuleString(eRule);
 
-		Element eRule = (Element) MCRXMLHelper.parseXML(xmlRuleString.toString(),false)
-				.getRootElement().detach();
-		String rule = ACS.getNormalizedRuleString(eRule);
-
-		Collection<String> ruleIDs = rstore.retrieveRuleIDs(rule, "");
-		/* entferne alle nicht durch den Ruleeditor erzeugten regeln */
-		Iterator it = ruleIDs.iterator();
-		while (it.hasNext()) {
-			if (!((String) it.next())
-					.startsWith(MCRWorkflowConstants.ACCESSRULE_PREFIX + "_"+ oRuletype.toString().toUpperCase())) {
-				it.remove();
+			ruleIDs=rstore.retrieveRuleIDs(rule, "");
+			/* entferne alle nicht durch den Ruleeditor erzeugten regeln */
+			Iterator it = ruleIDs.iterator();
+			while (it.hasNext()) {
+				if (!((String) it.next())
+						.startsWith(MCRWorkflowConstants.ACCESSRULE_PREFIX + "_"+ oRuletype.toString().toUpperCase())) {
+					it.remove();
+				}
 			}
-		}
-
+		
 		if (ruleIDs.size() == 0) {
 			// if the rule does not exist - create new one and give it a special
 			// name, to be able to distinguish it
@@ -149,7 +152,8 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 				}
 			}
 		}
-
+	
+	
 		// reimplementation of to change creator
 		// MCRAccessManager.updateRule(mcrOID,EDITPOOL,eCond, "");
 
