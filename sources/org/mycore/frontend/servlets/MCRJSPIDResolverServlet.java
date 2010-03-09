@@ -88,6 +88,7 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     
     	String id = request.getParameter("id");
         String ppn = request.getParameter("ppn");
+        String pnd = request.getParameter("pnd");
         String urn = request.getParameter("urn");
         String pdf = request.getParameter("pdf");
         String xml = request.getParameter("xml");
@@ -126,6 +127,16 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     		queryString.append("      <boolean operator=\"AND\">");
     		//queryString.append("       <condition field=\"objectType\" operator=\"=\" value=\"professor\" />");
     		queryString.append("         <condition field=\"ppn\" operator=\"=\" value=\""+ppn+"\" />");
+    		queryString.append("      </boolean>");
+    		queryString.append("   </conditions>");
+    		queryString.append("</query>");
+		}
+    	if(pnd!=null){
+    		queryString = new StringBuffer();
+    		queryString.append("<query>");
+    		queryString.append("   <conditions format=\"xml\">");
+    		queryString.append("      <boolean operator=\"AND\">");
+    		queryString.append("         <condition field=\"pnd\" operator=\"=\" value=\""+pnd+"\" />");
     		queryString.append("      </boolean>");
     		queryString.append("   </conditions>");
     		queryString.append("</query>");
@@ -231,7 +242,7 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     	}   	
     	
         
-        if (id == null && ppn==null && urn==null) {
+        if (id == null && ppn==null && urn==null && pnd==null) {
         	getServletContext().getRequestDispatcher("/nav?path=~mycore-error&messageKey=IdNotGiven").forward(request,response);
         }
 
