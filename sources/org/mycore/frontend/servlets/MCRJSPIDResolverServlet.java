@@ -25,6 +25,7 @@ package org.mycore.frontend.servlets;
 
 import java.io.StringReader;
 import java.net.URLEncoder;
+import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -81,7 +82,8 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
      * @param job
      *            the MCRServletJob instance
      */
-    public void doGetPost(MCRServletJob job) throws ServletException, Exception {
+    @SuppressWarnings("unchecked")
+	public void doGetPost(MCRServletJob job) throws ServletException, Exception {
         // the urn with information about the MCRObjectID
     	HttpServletRequest request = job.getRequest();
     	HttpServletResponse response = job.getResponse();
@@ -238,6 +240,16 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     			else{
     				this.getServletContext().getRequestDispatcher("/nav?path=~docdetail&id=" +mcrID).forward(request, response);
     			}    			
+    		}
+    		else{
+    			String data ="";
+    			Enumeration en = request.getParameterNames();
+    			while(en.hasMoreElements()){
+    				String name = (String)en.nextElement();
+    				data=data+name+"="+request.getParameter(name)+ " ";
+    			}
+    			
+    			response.sendError(HttpServletResponse.SC_NOT_FOUND, data+ " could not be resolved!");
     		}
     	}   	
     	
