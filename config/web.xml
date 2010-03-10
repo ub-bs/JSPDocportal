@@ -160,6 +160,10 @@
          <servlet-name>MCRJSPObjectServlet</servlet-name>
          <servlet-class>org.mycore.frontend.servlets.MCRJSPObjectServlet</servlet-class>
     </servlet>
+	<servlet>
+         <servlet-name>MCRJSPPNDServlet</servlet-name>
+         <servlet-class>org.mycore.frontend.servlets.MCRJSPPNDServlet</servlet-class>
+    </servlet>
 
     <servlet>
         <servlet-name>MCRUserValidateServlet</servlet-name>
@@ -309,6 +313,11 @@
 	<servlet-mapping>
 		<servlet-name>MCRJSPObjectServlet</servlet-name>
 		<url-pattern>/metadata/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>MCRJSPPNDServlet</servlet-name>
+		<url-pattern>/pnd/*</url-pattern>
 	</servlet-mapping>
 
     <servlet-mapping>
