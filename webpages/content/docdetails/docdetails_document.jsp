@@ -24,7 +24,7 @@
 			<c:set var="title"><x:out select="$xml/title[@type='short']" /></c:set>
 			<c:if test="${empty title}">
 				<c:set var="title"><x:out select="$xml/title[1]" /></c:set>
-			</c:if>0
+			</c:if>
 			<c:out value="${title}" />		
 		</mcrdd:outputitem>              
     </mcrdd:row>

@@ -62,6 +62,7 @@
     <field name="institution"   type="identifier" source="objectCategory" objects="person" xpath="/mycoreobject/metadata/institutions/institution" value="@ID" />
     <field name="profclass"     type="identifier" source="objectCategory" objects="person" xpath="/mycoreobject/metadata/profclasses/profclass" value="@ID" />
     <field name="userID"        type="text"  	  source="objectMetadata" objects="person" xpath="/mycoreobject/metadata/userids/userid" value="text()" />
+    <field name="pnd"  			type="identifier" source="objectMetadata" objects="person" xpath="/mycoreobject/metadata/identifiers/identifier[@type='pnd']" value="text()" />
   
     <field name="index_creators" type="index" sortable="true" source="objectMetadata" objects="person" xpath="/mycoreobject/metadata/names/name[1]/fullname" value="text()" />
     <field name="index_title"    type="identifier" objects="codice document disshab thesis series series-volume person artwork" source="objectMetadata" xpath="/mycoreobject/metadata/titles/title[1] | /mycoreobject/metadata/surnames/surname | /mycoreobject/metadata/names/name/fullname | /mycoreobject/metadata/names/name | /mycoreobject/metadata/contents/content" value="normalize-space(text())"  />

@@ -129,8 +129,8 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     		queryString.append("      </boolean>");
     		queryString.append("   </conditions>");
     		queryString.append("</query>");
-		}    
-    
+		}
+		    	    
     	if(queryString!=null){
     		StringReader stringReader=new StringReader(queryString.toString());
     		SAXBuilder builder = new SAXBuilder();
