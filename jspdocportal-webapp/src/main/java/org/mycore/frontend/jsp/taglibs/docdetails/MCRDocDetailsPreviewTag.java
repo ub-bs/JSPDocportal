@@ -81,18 +81,19 @@ public class MCRDocDetailsPreviewTag extends SimpleTagSupport {
 	    			sbUrl.append("/");
 	    		
 	    			MCRDirectory root = MCRDirectory.getRootDirectory(derID);
-	    			MCRFilesystemNode[] myfiles = root.getChildren();
-	    			for ( int j=0; j< myfiles.length; j++) {
-	    				MCRFile theFile = (MCRFile) myfiles[j];
-	    				if ( theFile.getContentTypeID().indexOf("jpeg")>= 0 ||
-	    						theFile.getContentTypeID().indexOf("gif")>= 0 ||
-	    						theFile.getContentTypeID().indexOf("png")>= 0) {
-	    					String url = sbUrl.toString()+myfiles[j].getName();
-	    					out.write("<img src=\""+url+"\" border=\"0\" width=\""+getImageWidth()+"\" alt=\""+myfiles[j].getName()+"\" />");  
-	    					out.write("<br />");
+	    			if(root!=null){
+	    				MCRFilesystemNode[] myfiles = root.getChildren();
+	    				for ( int j=0; j< myfiles.length; j++) {
+	    					MCRFile theFile = (MCRFile) myfiles[j];
+	    					if ( theFile.getContentTypeID().indexOf("jpeg")>= 0 ||
+	    							theFile.getContentTypeID().indexOf("gif")>= 0 ||
+	    							theFile.getContentTypeID().indexOf("png")>= 0) {
+	    						String url = sbUrl.toString()+myfiles[j].getName();
+	    						out.write("<img src=\""+url+"\" border=\"0\" width=\""+getImageWidth()+"\" alt=\""+myfiles[j].getName()+"\" />");  
+	    						out.write("<br />");
+	    					}
 	    				}
-	    			}
-	   		   				    					
+	    			}				
 	    		}
     	   	}
 	   	else{

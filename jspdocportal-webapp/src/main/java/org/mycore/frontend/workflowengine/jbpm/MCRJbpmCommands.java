@@ -47,6 +47,7 @@ import org.mycore.frontend.cli.MCRAbstractCommands;
 import org.mycore.frontend.cli.MCRCommand;
 import org.mycore.frontend.cli.MCRDerivateCommands;
 import org.mycore.frontend.cli.MCRObjectCommands;
+import org.xml.sax.SAXParseException;
 
 /**
  * This class provides a set of commands for the org.mycore.access management
@@ -169,7 +170,7 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
         }
         
         MCRXMLTableManager tm = MCRXMLTableManager.instance();
-        for (String id : tm.retrieveAllIDs(type)) {
+        for (String id : tm.listIDsOfType(type)) {
         	
              try {
                  // if object do'snt exist - no exception is catched!
@@ -305,6 +306,9 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
         	}
         	catch(MCRActiveLinkException ale){
         		LOGGER.error("Linkage error", ale);
+        	}
+        	catch(SAXParseException spe){
+        		LOGGER.error("SAXParseException", spe);
         	}
         }       
     }    

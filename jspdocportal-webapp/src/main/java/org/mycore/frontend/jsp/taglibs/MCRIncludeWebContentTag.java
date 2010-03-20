@@ -12,7 +12,6 @@ import java.io.OutputStreamWriter;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.BodyContent;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.mycore.access.MCRAccessInterface;
@@ -21,8 +20,6 @@ import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.services.i18n.MCRTranslation;
-
-import com.fredck.FCKeditor.tags.FCKeditorTag;
 
 /**
  * @author Robert Stephan
@@ -111,9 +108,10 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 	 * @throws JspException
 	 * @throws IOException
 	 */
+	//TODO: Integrate new CK Editor 
 	private void showFCKEditor(File file2display)
 			throws JspException, IOException {
-		PageContext pageContext = (PageContext) getJspContext();
+	/*	PageContext pageContext = (PageContext) getJspContext();
 		JspWriter out = pageContext.getOut();
 		// create form header
 		out.write("<form action=\"\" method=\"post\">");
@@ -121,12 +119,12 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 
 		// include FCK Editor (by invoking the FCKeditorTag)
 
-		FCKeditorTag fck = new FCKeditorTag();
+		/*FCKeditorTag fck = new FCKeditorTag();
 		fck.setWidth(CONFIG.getString("MCR.fckeditor.width", "95%"));
 		fck.setHeight(CONFIG.getString("MCR.fckeditor.height", "450"));
 		fck.setToolbarSet(CONFIG.getString("MCR.fckeditor.toolbarset", "mcr"));
 		fck.setId(FCK_RESULT_PARAMETER);
-
+		
 		// add the content of the file to display to the body of the
 		// FCKeditorTag
 		BodyContent bc = pageContext.pushBody(); // creates a new pagecontext
@@ -158,6 +156,8 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 				+ "\" value=\""+lblCancel+"\">"
 				+ "</form>");
 		out.flush();
+		
+		*/
 	}
 
 	/**

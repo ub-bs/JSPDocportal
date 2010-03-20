@@ -89,7 +89,9 @@ public class MCRIncludeEditorTag extends SimpleTagSupport
 		    catch ( IOException e ) {
 		      logger.error( "IOException: " + e , e);
 	    }
-		
+		    catch ( SAXParseException e ) {
+			      logger.error( "SAXParseException: " + e , e);
+		}
 		}
 	}
 	

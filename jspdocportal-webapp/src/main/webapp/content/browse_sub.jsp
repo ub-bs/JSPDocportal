@@ -11,7 +11,7 @@
 
 
 <%--<mcr:getConfigProperty defaultValue="default" var="searchField" prop="MCR.ClassificationBrowser.${param.browserClass}.SearchField"/>--%>
-<c:if test="${param.browserClass=='ddc_sub'}">
+<c:if test="${param.browserClass eq 'ddc_sub'}">
 <mcrcb:classificationBrowser 
 		classification="DocPortal_class_00000009" 
 		count="false" hideemptyleaves="false" 
@@ -20,7 +20,7 @@
 		showdescription="true" showuri="false" showid="false" />
 </c:if>
 
-<c:if test="${param.browserClass} eq 'bkl_sub'">
+<c:if test="${param.browserClass eq 'bkl_sub'}">
 <mcrcb:classificationBrowser 
 		classification="DocPortal_class_00000020" 
 		count="true" hideemptyleaves="false" 

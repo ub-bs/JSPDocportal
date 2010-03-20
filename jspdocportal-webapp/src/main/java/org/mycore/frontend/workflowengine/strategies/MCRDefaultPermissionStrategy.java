@@ -20,6 +20,7 @@ import org.mycore.common.xml.MCRXMLHelper;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowAccessRuleEditorUtils;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
+import org.xml.sax.SAXParseException;
 
 public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 
@@ -53,7 +54,7 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 						.getString(propName,
 								"<condition format=\"xml\"><boolean operator=\"false\" /></condition>");
 				strRule = strRule.replaceAll("\\$\\{user\\}", userid);
-			
+				try{	
 					Element rule = (Element) MCRXMLHelper.parseXML(strRule, false)
 							.getRootElement().detach();
 					String permissionType = defaultPermissionTypes[i];
@@ -62,7 +63,9 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 					} else {
 						AI.addRule(objID.getId(), permissionType, rule, "");
 					}
-				
+				} catch(SAXParseException spe){
+					logger.error("SAXParseException: ", spe);
+				}
 			}
 		}
 		if (mode == MCRWorkflowConstants.PERMISSION_MODE_PUBLISH) {
@@ -80,11 +83,14 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 			String strReadRule = MCRConfiguration.instance()
 					.getString(propName);
 			String x = strReadRule.replaceAll("\\$\\{user\\}", userid);
-		
+			try{
 				Element readRule = (Element) MCRXMLHelper.parseXML(x, false)
 						.getRootElement().detach();
 				AI.addRule(mcrid, "read", readRule, "");
-		
+			} catch(SAXParseException spe){
+				logger.error("SAXParseException: ", spe);
+			}
+			
 		}
 
 	}
@@ -111,7 +117,7 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 							   "<condition format=\"xml\"><boolean operator=\"true\" /></condition>");
 		}
 		Collection<String> ruleIDs = null;
-	
+		try{
 			Element eRule = (Element) MCRXMLHelper.parseXML(xmlRuleString.toString(),false)
 			.getRootElement().detach();
 			String rule = ACS.getNormalizedRuleString(eRule);
@@ -170,5 +176,8 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 		} else {
 			accessStore.updateAccessDefinition(ruleMapping);
 		}
+	} catch(SAXParseException spe){
+		logger.error("SAXParseException: ", spe);
+	}
 	}
 }
