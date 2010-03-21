@@ -5,7 +5,7 @@
 	<artifactId>jspdocportal-mycore-war</artifactId>
 	<packaging>war</packaging>
 	<version>2.0.90-SNAPSHOT</version>
-	<name>jspdocportal-mycore-war Webapp</name>
+	<name>jspdocportal-mycore-war WebApp</name>
 	<description>
 		This module provides the necessary files from mycore project to create a webapp.
 		Most of the files are copied from mycore-complete.	
@@ -57,13 +57,30 @@
 										<exclude name="web.xml" />
 									</patternset>
 								</unzip>
+								<unzip
+									src="${project.build.directory}/lib/mycore-complete-${project.version}.jar"
+									dest="${project.build.directory}/${project.build.finalName}">
+									<patternset>
+										<include name="web/oai/**" />
+									</patternset>
+								</unzip>
+								<unzip
+									src="${project.build.directory}/lib/mycore-complete-${project.version}.jar"
+									dest="${project.build.directory}/${project.build.finalName}/WEB-INF/classes">
+									<patternset>
+										<include name="xsl/**" />
+									</patternset>
+								</unzip> 
 								<move
 									file="${project.build.directory}/${project.build.finalName}/WEB-INF/config/web.xml"
 									tofile="${project.build.directory}/${project.build.finalName}/WEB-INF/web.xml" />
 								<move
 									file="${project.build.directory}/${project.build.finalName}/WEB-INF/config"
 									tofile="${project.build.directory}/${project.build.finalName}/WEB-INF/classes" />
-
+								<move
+									file="${project.build.directory}/${project.build.finalName}/web/oai"
+									tofile="${project.build.directory}/${project.build.finalName}/oai" />
+								<delete dir="${project.build.directory}/${project.build.finalName}/web" />
 							</tasks>
 						</configuration>
 						<goals>
