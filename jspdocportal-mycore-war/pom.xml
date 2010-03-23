@@ -20,7 +20,7 @@
 				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>unpack</id>
+						<id>unpack-dependencies</id>
 						<phase>generate-sources</phase>
 						<goals>
 							<goal>copy</goal>
@@ -49,6 +49,9 @@
 						<phase>generate-sources</phase>
 						<configuration>
 							<tasks>
+							    <!-- TODO: instead of copy the maven-dependency-plugin should do the work -->
+						        <copy file="${project.build.directory}/../../mycore-complete/target/mycore-complete-${project.version}.jar"
+						              tofile="${project.build.directory}/lib/mycore-complete-${project.version}.jar" />
 								<unzip
 									src="${project.build.directory}/lib/mycore-complete-${project.version}.jar"
 									dest="${project.build.directory}/${project.build.finalName}/WEB-INF">
