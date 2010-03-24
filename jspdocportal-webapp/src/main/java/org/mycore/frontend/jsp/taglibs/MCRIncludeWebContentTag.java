@@ -22,16 +22,17 @@ import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.services.i18n.MCRTranslation;
 
 /**
- * @author Robert Stephan
- * a new tag that displayes the specified file in the proper language
+ * Tag, that displays the specified file in the proper language
  * by adding a "language-suffix" to the filename
  * If the current user has the permission a button to edit this file will be displayed.
- * If the button was clicked the OpenSource FCKeditor would be displayed to edit the file.
+ * If the button was clicked the OpenSource CKeditor would be opened to edit the file.
+ * 
+ * @author Robert Stephan
  */
 public class MCRIncludeWebContentTag extends SimpleTagSupport {
-	public static final String FCK_RESULT_PARAMETER = "fckresult";
 	public static final String OPENEDITOR_PARAMETER = "openeditor";
-	public static final String FCK_FORM_INPUT_CANCEL_NAME = "cancel";
+	public static final String CK_FORM_INPUT_CANCEL_NAME = "cancel";
+	public static final String VARNAME_CKEDITOR_LOADED = "ckeditor_loaded";
 
 	private static MCRConfiguration CONFIG = MCRConfiguration.instance();
 	private static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
@@ -58,8 +59,8 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 
 		adaptFiles();
 		
-		String result = pageContext.getRequest().getParameter(FCK_RESULT_PARAMETER);
-		String wasCanceled = pageContext.getRequest().getParameter(FCK_FORM_INPUT_CANCEL_NAME);
+		String result = pageContext.getRequest().getParameter(f_read.getName()); 
+		String wasCanceled = pageContext.getRequest().getParameter(CK_FORM_INPUT_CANCEL_NAME);
 		
 		if (result != null) {
 			 //the editor was closed (submitted or canceled)
@@ -76,88 +77,79 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 		//display the editor / the editbutton or nothing (depending from accessrights and parameter)
 		if (isEditallowed) {
 			if (isOpenEditor) {
-				showFCKEditor(f_read);
+				showCKEditor(f_read);
+				return; // do not show the text block
 			} else {
 				showEditButton(); 
-
-				BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(f_read), "UTF-8"));
-				String temp=null;
-				while ((temp = br.readLine()) != null) {
-					out.write(temp);
-					out.newLine();
-				}
-				br.close();
 			}
-		} else {
-			//editing not allowed simply display the file
-			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(f_read), "UTF-8"));
-			String temp=null;
-			while ((temp = br.readLine()) != null) {
-				out.write(temp);
-				out.newLine();
-			}
-			br.close();
 		}
+				
+		//editing not allowed simply display the file
+		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(f_read), "UTF-8"));
+		String temp=null;
+		while ((temp = br.readLine()) != null) {
+			out.write(temp);
+			out.newLine();
+		}
+		br.close();
 	}
 
 	/**
-	 * opens the FCKEditor
-	 * by calling the FCKEDitorTag with Java means
+	 * opens the CKEditor
+	 * by including the editor as described in:
+	 * http://docs.cksource.com/CKEditor_3.x/Developers_Guide/Integration
 	 * 
 	 * @param file2display - the file that should be displayed
 	 * @throws JspException
 	 * @throws IOException
 	 */
 	//TODO: Integrate new CK Editor 
-	private void showFCKEditor(File file2display)
+	private void showCKEditor(File file2display)
 			throws JspException, IOException {
-	/*	PageContext pageContext = (PageContext) getJspContext();
+		PageContext pageContext = (PageContext) getJspContext();
 		JspWriter out = pageContext.getOut();
-		// create form header
-		out.write("<form action=\"\" method=\"post\">");
-		out.flush();
-
-		// include FCK Editor (by invoking the FCKeditorTag)
-
-		/*FCKeditorTag fck = new FCKeditorTag();
-		fck.setWidth(CONFIG.getString("MCR.fckeditor.width", "95%"));
-		fck.setHeight(CONFIG.getString("MCR.fckeditor.height", "450"));
-		fck.setToolbarSet(CONFIG.getString("MCR.fckeditor.toolbarset", "mcr"));
-		fck.setId(FCK_RESULT_PARAMETER);
-		
-		// add the content of the file to display to the body of the
-		// FCKeditorTag
-		BodyContent bc = pageContext.pushBody(); // creates a new pagecontext
-													// and save the old one in a
-													// stack
+		/* <script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
+		<form method="post">
+			<p><textarea name="editor1">
+			    &lt;p&gt;Initial value.&lt;/p&gt;</textarea>
+				<script type="text/javascript">
+					CKEDITOR.replace( 'editor1', 
+					{customConfig : '/custom/ckeditor_config.js'});
+				</script>
+			</p>
+		</form>	*/
+		Boolean isLoaded = (Boolean)pageContext.findAttribute(VARNAME_CKEDITOR_LOADED);
+		String baseURL = (String) pageContext.findAttribute("WebApplicationBaseURL");  
+		if(isLoaded==null || !isLoaded){
+			out.write("<script type=\"text/javascript\" src=\""+baseURL+"ckeditor/ckeditor.js\" ></script>");
+			pageContext.setAttribute(VARNAME_CKEDITOR_LOADED, Boolean.TRUE, PageContext.PAGE_SCOPE);
+		}
+		out.write("<form method=\"post\"><p>");
+		out.write("<textarea name=\""+f_read.getName()+"\">");
+		out.newLine();
 		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file2display), "UTF-8"));
 		String temp=null;
 		while ((temp = br.readLine()) != null) {
-			bc.write(temp);
-			bc.newLine();
+			out.write(temp);
+			out.newLine();
 		}
 		br.close();
-		fck.setBodyContent(bc);
-		fck.setPageContext(pageContext);
-
-		// execute the FCKeditorTag
-		fck.doStartTag();
-		fck.doInitBody();
-		fck.doAfterBody();
-		fck.doEndTag();
-		out.flush();
-		pageContext.popBody();
-
-		//close the html form
+		out.newLine();		
+		out.write("</textarea>");
+		out.write("<script type=\"text/javascript\">");
+		out.write("CKEDITOR.replace( '"+f_read.getName()+"',");
+		out.write("{customConfig : '"+baseURL+"admin/ckeditor_config.js', ");
+     	out.write("toolbar : 'Full'");
+		out.write("});</script>");
+				
 		String lblSave = MCRTranslation.translate("Editor.Common.button.Save");
 		String lblCancel = MCRTranslation.translate("Editor.Common.button.Cancel");
-		out.write("<br>	<input type=\"submit\" value=\""+lblSave+"\">&nbsp;&nbsp;&nbsp;"
-				+ "<input type=\"submit\" name=\"" + FCK_FORM_INPUT_CANCEL_NAME
+		out.write("</p><p><input type=\"submit\" value=\""+lblSave+"\">&nbsp;&nbsp;&nbsp;"
+				+ "<input type=\"submit\" name=\"" + CK_FORM_INPUT_CANCEL_NAME
 				+ "\" value=\""+lblCancel+"\">"
-				+ "</form>");
+				+ "</p></form>");
 		out.flush();
 		
-		*/
 	}
 
 	/**
@@ -176,7 +168,6 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 				+ "images/edit_webcontent.gif\" type=\"image\""
 				+ "class=\"imagebutton\">");
 		out.write("</form>");
-
 	}
 	
 	

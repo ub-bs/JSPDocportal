@@ -632,13 +632,6 @@
 		<subant target="webapps" inheritall="true" inheritrefs="true">
 			<fileset dir="${application}" includes="**/components/*/build.xml" excludes="**/components/UNINSTALLED_*/build.xml" />
 		</subant>
-
-		<!-- Copy / Unpack fckEditor files (WYSIWYG HTML Editor) -->
-		<!--    <unzip src="${MYCORE_HOME}/lib/fckEditor.zip" dest="${build.webapps}/${MYAPPLICATION_NAME}" />
-        <copy file="${MYCORE_HOME}/config/fckconfig.js" todir="${build.webapps}/${MYAPPLICATION_NAME}/fck" /> -->
-		<copy todir="${build.webapps}/${MYAPPLICATION_NAME}/FCKeditor">
-			<fileset dir="${application}/FCKeditor" />
-		</copy>
 	</target>
 
 	<target name="webapp.info.shared.jars" unless="MCR.WebAppServer.SharedJarsDir">

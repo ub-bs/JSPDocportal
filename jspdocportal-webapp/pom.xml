@@ -52,12 +52,6 @@
 	</repositories>
 
 	<dependencies>
-
-		<!--
-			<dependency> <groupId>net.fckeditor</groupId>
-			<artifactId>java-core</artifactId> <version>2.6</version>
-			</dependency>
-		-->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
