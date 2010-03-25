@@ -20,7 +20,7 @@
 				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>unpack-dependencies</id>
+						<id>copy</id>
 						<phase>generate-sources</phase>
 						<goals>
 							<goal>copy</goal>
@@ -32,10 +32,10 @@
 									<artifactId>mycore-complete</artifactId>
 									<version>2.0.90-SNAPSHOT</version>
 									<type>jar</type>
-									<overWrite>true</overWrite>
-									<outputDirectory>${project.build.directory}/lib</outputDirectory>
+									<overWrite>true</overWrite>									
 								</artifactItem>
 							</artifactItems>
+							<outputDirectory>${project.build.directory}/lib</outputDirectory>
 							<overWriteReleases>false</overWriteReleases>
 							<overWriteSnapshots>true</overWriteSnapshots>
 						</configuration>
@@ -47,50 +47,40 @@
 				<executions>
 					<execution>
 						<phase>generate-sources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
 						<configuration>
 							<tasks>
-							    <!-- TODO: instead of copy the maven-dependency-plugin should do the work -->
-						        <copy file="${project.build.directory}/../../mycore-complete/target/mycore-complete-${project.version}.jar"
-						              tofile="${project.build.directory}/lib/mycore-complete-${project.version}.jar" />
-								<unzip
-									src="${project.build.directory}/lib/mycore-complete-${project.version}.jar"
-									dest="${project.build.directory}/${project.build.finalName}/WEB-INF">
-									<patternset>
-										<include name="config/**" />
-										<exclude name="web.xml" />
-									</patternset>
-								</unzip>
 								<unzip
 									src="${project.build.directory}/lib/mycore-complete-${project.version}.jar"
 									dest="${project.build.directory}/${project.build.finalName}">
 									<patternset>
+										<include name="config/**" />
+										<exclude name="web.xml" />
 										<include name="web/oai/**" />
-									</patternset>
-								</unzip>
-								<unzip
-									src="${project.build.directory}/lib/mycore-complete-${project.version}.jar"
-									dest="${project.build.directory}/${project.build.finalName}/WEB-INF/classes">
-									<patternset>
 										<include name="xsl/**" />
 									</patternset>
-								</unzip> 
-								<move
-									file="${project.build.directory}/${project.build.finalName}/WEB-INF/config/web.xml"
-									tofile="${project.build.directory}/${project.build.finalName}/WEB-INF/web.xml" />
-								<move
-									file="${project.build.directory}/${project.build.finalName}/WEB-INF/config"
-									tofile="${project.build.directory}/${project.build.finalName}/WEB-INF/classes" />
-								<move
-									file="${project.build.directory}/${project.build.finalName}/web/oai"
-									tofile="${project.build.directory}/${project.build.finalName}/oai" />
-								<delete dir="${project.build.directory}/${project.build.finalName}/web" />
+									<mapper>
+										<firstmatchmapper>
+											<globmapper from="config/web.xml" to="WEB-INF/web.xml" />
+											<globmapper from="config/*" to="WEB-INF/classes/*" />
+											<globmapper from="web/oai/*"  to="oai/*" />
+											<globmapper from="xsl/*"  to="WEB-INF/classes/xsl/*" />
+										</firstmatchmapper>									
+									</mapper>
+								</unzip>
 							</tasks>
 						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
 					</execution>
 				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.ant</groupId>
+						<artifactId>ant</artifactId>
+						<version>1.8.0</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>
