@@ -451,7 +451,7 @@
     </xsl:template>
     
     <xsl:template name="format">
-        <xsl:for-each select="./structure/derobjects/derobject">
+        <xsl:for-each select="./structure/derobjects/derobject[1]">
             <xsl:variable name="detailsURL">
                  <xsl:call-template name="linkDerDetailsURL">
                      <xsl:with-param name="id" select="./@xlink:href" />
@@ -670,7 +670,7 @@
     </xsl:template>
 
     <xsl:template name="file">
-        <xsl:for-each select="./structure/derobjects/derobject">
+        <xsl:for-each select="./structure/derobjects/derobject[1]">
             <xsl:variable name="detailsURL" select="concat($ServletsBaseURL,'MCRFileNodeServlet/')" />
             <xsl:variable name="filelink" select="concat($detailsURL,./@xlink:href,'/',
                '?hosts=local&amp;XSL.Style=xml')" />
