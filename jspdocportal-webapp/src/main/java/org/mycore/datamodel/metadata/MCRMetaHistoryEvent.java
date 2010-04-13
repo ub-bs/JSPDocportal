@@ -41,7 +41,7 @@ public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
     public final void setEvent(String set) {
         if (set == null) {
             event = "";
-            LOGGER.warn("The event field of MCRMeataHistoryEvent is empty.");
+            LOGGER.warn("The event field of MCRMetaHistoryEvent is empty.");
             return;
         }
         if (set.length() <= MCRHISTORYEVENT_MAX_EVENT) {
