@@ -23,18 +23,22 @@
 
 package org.mycore.frontend.workflowengine.jbpm;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.MCRUtils;
 import org.mycore.datamodel.metadata.MCRObjectID;
-import org.mycore.frontend.editor.MCREditorOutValidator;
+import org.mycore.datamodel.metadata.validator.MCREditorOutValidator;
 import org.mycore.frontend.editor.MCREditorSubmission;
 import org.mycore.frontend.editor.MCRRequestParameters;
 import org.mycore.frontend.servlets.MCRServlet;
@@ -178,17 +182,26 @@ public class MCRCheckMetadataServlet extends MCRServlet {
     protected org.jdom.Document prepareMetadata(org.jdom.Document jdom_in, MCRObjectID ID, MCRServletJob job, 
     		String lang, String step, String nextPath, String storePath, String workflowType, 
     		String processID , String publicationType) throws Exception {
-        try{
-        	EditorValidator ev = new EditorValidator(jdom_in, ID);
-        	errorHandlerValid(job, ev.getErrorLog(), ID, lang, step, nextPath, storePath, workflowType, processID, publicationType);        	
-        	Document jdom_out = ev.generateValidMyCoReObject();
-        	return jdom_out;
-        }catch(Exception e){
-        	
-        }
-        
-        return null;
-    }
+    	 MCREditorOutValidator ev = null;
+         try {
+             ev = new MCREditorOutValidator(jdom_in, ID);
+             Document jdom_out = ev.generateValidMyCoReObject();
+             if (LOGGER.getEffectiveLevel().isGreaterOrEqual(Level.INFO))
+                 for (String logMsg : ev.getErrorLog()) {
+                     LOGGER.info(logMsg);
+                 }
+             return jdom_out;
+         } catch (Exception e) {
+             List<String> errorLog = ev != null ? ev.getErrorLog() : new ArrayList<String>();
+             StringWriter sw = new StringWriter();
+             PrintWriter pw = new PrintWriter(sw);
+             e.printStackTrace(pw);
+             errorLog.add(sw.toString());
+             pw.close();
+             errorHandlerValid(job, ev.getErrorLog(), ID, lang, step, nextPath, storePath, workflowType, processID, publicationType);
+             return null;
+         }
+     }
 
     /**
      * A method to handle valid errors.
@@ -223,43 +236,6 @@ public class MCRCheckMetadataServlet extends MCRServlet {
         }
     }
     
-    /**
-     * provides a wrappe for editor validation and MCRObject creation.
-     * 
-     * For a new MetaDataType, e.g. MCRMetaFooBaar, create a method
-     * 
-     * <pre>
-     *   boolean checkMCRMetaFooBar(Element)
-     * </pre>
-     * 
-     * use the following methods in that method to do common tasks on element
-     * validation
-     * <ul>
-     * <li>checkMetaObject(Element,Class)</li>
-     * <li>checkMetaObjectWithLang(Element,Class)</li>
-     * <li>checkMetaObjectWithLangNotEmpty(Element,Class)</li>
-     * <li>checkMetaObjectWithLinks(Element,Class)</li>
-     * </ul>
-     * 
-     * @author Thomas Scheffler (yagee)
-     * 
-     * @version $Revision$ $Date$
-     */
-    protected class EditorValidator extends MCREditorOutValidator {
-        /**
-         * instantiate the validator with the editor input <code>jdom_in</code>.
-         * 
-         * <code>id</code> will be set as the MCRObjectID for the resulting
-         * object that can be fetched with
-         * <code>generateValidMyCoReObject()</code>
-         * 
-         * @param jdom_in
-         *            editor input
-         */
-        public EditorValidator(Document jdom_in, MCRObjectID id) {
-            super(jdom_in, id);
-        }
-
-    }    
-
+    
+    
 }
