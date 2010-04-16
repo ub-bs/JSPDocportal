@@ -2,21 +2,12 @@
 <!-- ============================================== -->
 <!-- $Revision: 1.2 $ $Date: 2007-04-16 12:04:31 $ -->
 <!-- ============================================== -->
-
 <xsl:stylesheet
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:xsd='http://www.w3.org/2001/XMLSchema'
   version="1.0">
 
 <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
-
-<xsl:param name="mycore_home"/>
-<xsl:param name="mycore_appl"/>
-
-<xsl:variable name="newline">
- <xsl:text>
- </xsl:text>
-</xsl:variable>
 
 <!-- Template for the application dependence metadata -->
 
