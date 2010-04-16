@@ -213,13 +213,6 @@
 							</includes>
 						</resource>
 						<resource>
-							<directory>src/main/config/datamodel</directory>
-							<targetPath>WEB-INF/classes</targetPath>
-							<includes>
-								<include>**/*.xsd</include>
-							</includes>
-						</resource>
-						<resource>
 							<directory>src/main/config</directory>
 							<targetPath>WEB-INF</targetPath>
 							<includes>
