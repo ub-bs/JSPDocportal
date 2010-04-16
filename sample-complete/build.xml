@@ -6,7 +6,6 @@
 
 <project name="CPR" default="usage" basedir=".">
 	<property name = "PARENT_BUILD_FILE" value="./../jspdocportal-webapp/buildfile_application.xml" />
-	<property name="HOME" value="${basedir}/target/sample-cli" />
 	<property name="APP_NAME" value="sample" />
 	
 	<property environment="env" />
@@ -36,7 +35,7 @@
 	</target>
 
 	<target name="create.users" depends="init">
-		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="application.classpath" />
+		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
 		<mcr-execute>
             load permissions data from file ${application.config}/user/permissions.xml
      	    init superuser
@@ -58,47 +57,5 @@
 	        check user data consistency
 
     	</mcr-execute>
-	</target>
-
-
-	<target name="deploy.workflow.processdefinitions" >
-		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="application.classpath" />
-		<mcr-execute>
-		   	deploy jbpm processdefinition from file workflow/professorum.par/processdefinition.xml      	
-       	</mcr-execute>
-	</target>
-
-	<target name="deploy.processdefinition.professorum">
-		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="application.classpath" />
-		<mcr-execute>
-			deploy jbpm processdefinition from file workflow/professorum.par/processdefinition.xml      	
-		</mcr-execute>
-	</target>
-
-
-	<target name="webapps">
-		<antcall target="main_build.webapps" />
-		<!--		<ant antfile="./../jspdocportal/modules/module-iview/build.xml" target="integrate">
-			<property name="usemodule" value="true" />
-	    </ant> -->
-	</target>
-
-	<target name="svnrevision">
-		<loadfile property="svnrevion"
-		          srcFile=".svn/entries" >
-			<filterchain>
-				<headfilter lines="1" skip="3" />
-			</filterchain>
-		</loadfile>
-		<echo message="${svnrevion}" />
-	</target>
-	
-	<target name="zip.projects">
-		<zip destfile="./../projects.zip" >
-		    <zipfileset dir="./../mycore" prefix="mycore" excludes="**/.svn build/**" />
-			<zipfileset file="./../mycore/.svn/entries" prefix="mycore/.svn" />
-			<zipfileset dir="./../jspdocportal" prefix="jspdocportal" excludes="**/.svn build/**" />
-			<zipfileset dir="./../cpr_app" prefix="cpr_app" excludes="**/.svn build/**" />
-		  </zip>
 	</target>
 </project>

@@ -93,9 +93,15 @@
 						<version>2.0.90-SNAPSHOT</version>
 					</dependency>
 				</dependencies>
-				<configuration>
-					<descriptor>src/assemble/merge.xml</descriptor>
-				</configuration>
+				<executions>
+					 <execution>
+					 	<phase>package</phase>
+					 	<configuration>
+							<descriptor>src/assemble/merge.xml</descriptor>
+						</configuration>					
+					</execution>
+				</executions>
+				
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -117,39 +123,12 @@
 									<overWrite>true</overWrite>
 								</artifactItem>
 							</artifactItems>
-							<outputDirectory>${project.build.directory}/${project.build.finalName}-cli/lib</outputDirectory>
+							<outputDirectory>${project.build.directory}/app/lib</outputDirectory>
 							<stripVersion>true</stripVersion>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>compile</phase>
-            <configuration>
-              <tasks>
-                <property name="compile_classpath" refid="maven.compile.classpath"/>
-                <property name="runtime_classpath" refid="maven.runtime.classpath"/>
-                <property name="test_classpath" refid="maven.test.classpath"/>
-                <property name="plugin_classpath" refid="maven.plugin.classpath"/>
-
-                <echo message="compile classpath: ${compile_classpath}"/>
-                <echo message="runtime classpath: ${runtime_classpath}"/>
-                <echo message="test classpath:    ${test_classpath}"/>
-                <echo message="plugin classpath:  ${plugin_classpath}"/>
-              </tasks>
-            </configuration>
-            <goals>
-              <goal>run</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-			
-			
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<executions>
@@ -159,7 +138,7 @@
 							<tasks>
 								<unzip
 									src="${project.build.directory}/${project.build.finalName}.war"
-									dest="${project.build.directory}/${project.build.finalName}-cli/${project.build.finalName}">
+									dest="${project.build.directory}/app/${project.build.finalName}">
 								</unzip>
 
 								<!-- create CLI jar -->
@@ -167,20 +146,20 @@
 
 								<path id="class-path">
 									<fileset
-										dir="${project.build.directory}/${project.build.finalName}-cli">
+										dir="${project.build.directory}/app">
 										<include name="${project.build.finalName}/WEB-INF/lib/*.jar" />
 									</fileset>
 								</path>
 								<mkdir dir="${project.build.directory}/classes" />
 								<copy todir="${project.build.directory}/classes">
 									<fileset
-										dir="${project.build.directory}/${project.build.finalName}-cli/${project.build.finalName}/WEB-INF/classes" />
+										dir="${project.build.directory}/app/${project.build.finalName}/WEB-INF/classes" />
 								</copy>
 
 								<pathconvert property="cpProp" dirsep="/" pathsep=" "
 									refid="class-path">
 									<map
-										from="${project.build.directory}/${project.build.finalName}-cli/${project.build.finalName}"
+										from="${project.build.directory}/app/${project.build.finalName}"
 										to="${project.build.finalName}" />
 								</pathconvert>
 
@@ -189,7 +168,7 @@
 									<attribute name="Class-Path" value="${cpProp} lib/servlet-api.jar" />
 								</manifest>
 								<jar
-									jarfile="${project.build.directory}/${project.build.finalName}-cli/${project.build.finalName}-cli.jar"
+									jarfile="${project.build.directory}/app/${project.build.finalName}-cli.jar"
 									basedir="${project.build.directory}/classes" manifest="${project.build.directory}/MANIFEST.MF" />
 
 							</tasks>
@@ -207,6 +186,9 @@
 					</dependency>
 				</dependencies>
 			</plugin>
+			
+			
+		
 		</plugins>
 	</build>
 </project>
