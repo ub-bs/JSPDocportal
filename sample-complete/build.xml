@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- =================================================================== -->
+<!-- MyCoRe sample application build file for use with Apache Ant        -->
+<!-- $Revision$ $Date$                      -->
+<!-- =================================================================== -->
+
+<project name="CPR" default="usage" basedir=".">
+	<property name = "PARENT_BUILD_FILE" value="./../jspdocportal-webapp/buildfile_application.xml" />
+	<property name="HOME" value="${basedir}/target/sample-cli" />
+	<property name="APP_NAME" value="sample" />
+	
+	<property environment="env" />
+	<condition property="env.JAVA_HOME" value="/usr/lib/java" else="c:/Programme/Java/jdk1.6.0_03">
+		<os family="unix" />
+	</condition>
+	<condition property="ant.library.dir" value="${ant.home}/lib">
+		<os family="unix" />
+	</condition>
+	
+	
+
+	<import file="${PARENT_BUILD_FILE}"/>
+
+	<target name="usage">
+		<antcall target="main_build.usage" />
+	</target>
+
+	<target name="create.schema" depends="init">
+		<antcall target="main_build.create.schema" />
+	</target>
+
+	<target name="create.directories" depends="init">
+		<antcall target="main_build.create.directories" />
+		<mkdir dir="${MCR.WorkflowEngine.EditDirectory.professor}" />
+		<mkdir dir="${MCR.WorkflowEngine.EditDirectory.staff}" />
+	</target>
+
+	<target name="create.users" depends="init">
+		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="application.classpath" />
+		<mcr-execute>
+            load permissions data from file ${application.config}/user/permissions.xml
+     	    init superuser
+            change to user root with alleswirdgut
+            create group data from file ${application.config}/user/group_adminall.xml        	
+        	
+	       	create group data from file ${application.config}/user/group_adminuser.xml
+        	create group data from file ${application.config}/user/group_adminwebcontent.xml
+        	
+        	create user data from file ${application.config}/user/user_administrator.xml  
+ 	    	create user data from file ${application.config}/user/user_editorWeb.xml
+
+    		create group data from file ${application.config}/user/group_EditorProfessorum.xml
+        	create user data from file ${application.config}/user/user_editorCP.xml
+        	
+			create user data from file ${application.config}/user/user_klabahn.xml
+			create user data from file ${application.config}/user/user_mglasow.xml
+        
+	        check user data consistency
+
+    	</mcr-execute>
+	</target>
+
+
+	<target name="deploy.workflow.processdefinitions" >
+		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="application.classpath" />
+		<mcr-execute>
+		   	deploy jbpm processdefinition from file workflow/professorum.par/processdefinition.xml      	
+       	</mcr-execute>
+	</target>
+
+	<target name="deploy.processdefinition.professorum">
+		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="application.classpath" />
+		<mcr-execute>
+			deploy jbpm processdefinition from file workflow/professorum.par/processdefinition.xml      	
+		</mcr-execute>
+	</target>
+
+
+	<target name="webapps">
+		<antcall target="main_build.webapps" />
+		<!--		<ant antfile="./../jspdocportal/modules/module-iview/build.xml" target="integrate">
+			<property name="usemodule" value="true" />
+	    </ant> -->
+	</target>
+
+	<target name="svnrevision">
+		<loadfile property="svnrevion"
+		          srcFile=".svn/entries" >
+			<filterchain>
+				<headfilter lines="1" skip="3" />
+			</filterchain>
+		</loadfile>
+		<echo message="${svnrevion}" />
+	</target>
+	
+	<target name="zip.projects">
+		<zip destfile="./../projects.zip" >
+		    <zipfileset dir="./../mycore" prefix="mycore" excludes="**/.svn build/**" />
+			<zipfileset file="./../mycore/.svn/entries" prefix="mycore/.svn" />
+			<zipfileset dir="./../jspdocportal" prefix="jspdocportal" excludes="**/.svn build/**" />
+			<zipfileset dir="./../cpr_app" prefix="cpr_app" excludes="**/.svn build/**" />
+		  </zip>
+	</target>
+</project>
