@@ -188,20 +188,22 @@
 			<mcrmetalink name="institutionlink" class="MCRMetaLink" minOccurs='1' maxOccurs='unbounded' />
 		</element>
 	    <!-- 40 - Basisklassifikation -->
-	    <element name="bkls" minOccurs='0' maxOccurs='1' parasearch="true" textsearch="true">
+	    <element name="bkls" minOccurs='0' maxOccurs='1'>
      		<mcrmetaclassification name="bkl" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
-    	</element>
-    
-		
+    	</element>		
 	</metadata>
 	<service>
-		<!-- Service Dates -->
-		<element name="servdates" minOccurs='0' maxOccurs='1'>
-			<mcrmetaiso8601date name="servdate" class="MCRMetaISO8601Date" minOccurs='1' maxOccurs='unbounded' />
-		</element>
-		<!-- Service Flags -->
-		<element name="servflags" minOccurs='0' maxOccurs='1'>
-			<mcrmetalangtext name="servflag" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="256" />
-		</element>
+	    <!-- Service Dates -->
+    	<element name="servdates" minOccurs='0' maxOccurs='1'>
+   	   		<mcrmetaiso8601date name="servdate" class="MCRMetaISO8601Date" minOccurs='1' maxOccurs='unbounded' />
+    	</element>
+    	<!-- Service Flags -->
+    	<element name="servflags" minOccurs='0' maxOccurs='1'>
+      		<mcrmetalangtext name="servflag" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="256" />
+    	</element>
+    	<!-- Service ACLs -->
+    	<element name="servacls" minOccurs='0' maxOccurs='1'>
+      		<mcrmetaaccessrule name="servacl" class="MCRMetaAccessRule" minOccurs='1' maxOccurs='unbounded' length="512" />
+    	</element>
 	</service>
 </configuration>
