@@ -76,7 +76,7 @@
    			<mcrmetalangtext name="userid" class="MCRMetaLangText" minOccurs='0'  maxOccurs='1' length="128"/>
   		</element>	
   		<!-- 16  Identifier (weitere ID z.B PND, PPN im GBV-Katalog) @type = pnd | ppn -->
-  		<element name="identifiers" minOccurs='0'>
+  		<element name="identifiers" minOccurs='0' maxOccurs="1">
      		<mcrmetalangtext name="identifier" class="MCRMetaLangText"  minOccurs='1'  maxOccurs='unbounded' length="128" />
   		</element>
 	</metadata>
