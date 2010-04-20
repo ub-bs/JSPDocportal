@@ -115,7 +115,7 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 	    			MCRFilesystemNode[] myfiles = root.getChildren(MCRDirectory.SORT_BY_NAME);
 	    			boolean accessAllowed = AI.checkPermission(derID, "read");	   		    
 	    			for ( int j=0; j< myfiles.length; j++) {
-	    				MCRFile theFile = (MCRFile) myfiles[j];
+	    				MCRFilesystemNode theFile = (MCRFilesystemNode) myfiles[j];
 	    				out.write("<dd>");
 	    				if(accessAllowed){
 	    					String fURL = sbUrl.toString()+theFile.getName();
