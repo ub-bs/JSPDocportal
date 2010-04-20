@@ -8,13 +8,13 @@
   label="ZOJE">
  <structure/>
  <metadata>
-  <names class="MCRMetaInstitutionName" heritable="true" textsearch="true">
+  <names class="MCRMetaInstitutionName" heritable="true">
    <name xml:lang="de" type="Verein">
     <fullname>Interessenverband Zittauer Schmalspurbahnen e. V.</fullname>
     <nickname>IV ZOJE</nickname>
    </name>
   </names>
-  <addresses class="MCRMetaAddress" parasearch="false">
+  <addresses class="MCRMetaAddress">
    <address xml:lang="de">
     <country>Germany</country>
     <state>Sachsen</state>
@@ -24,7 +24,7 @@
     <number>2</number>
    </address>
   </addresses>
-  <phones class="MCRMetaLangText" parasearch="false">
+  <phones class="MCRMetaLangText">
    <phone type="Telefon" xml:lang="de">
     03583 708659
    </phone>
@@ -38,19 +38,19 @@
     +49 (0)35844 70446
    </phone>
   </phones>
-  <urls class="MCRMetaLink" parasearch="false">
+  <urls class="MCRMetaLink">
    <url 
      xlink:type="locator" 
      xlink:href="http://www.zoje.de/"
      xlink:title="http://www.zoje.de/"
      />
   </urls>
-  <emails class="MCRMetaLangText" parasearch="false">
+  <emails class="MCRMetaLangText">
    <email>
     verein@zoje.de
    </email>
   </emails>
-  <notes class="MCRMetaLangText" parasearch="false">
+  <notes class="MCRMetaLangText">
    <note xml:lang="de">
     Dies ist die offizielle Adresse des Vereins.
    </note>

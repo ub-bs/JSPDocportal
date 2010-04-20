@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mycorederivate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" ID="DocPortal_derivate_07111101" label="Datenobjekte zu DocPortal_document_07111101" xsi:noNamespaceSchemaLocation="datamodel-derivate.xsd">
 <derivate>
-<linkmetas class="MCRMetaLinkID" heritable="false" parasearch="true" textsearch="false"><linkmeta inherited="0" xlink:type="locator" xlink:href="DocPortal_document_07111101"/>
+<linkmetas class="MCRMetaLinkID" heritable="false"><linkmeta inherited="0" xlink:type="locator" xlink:href="DocPortal_document_07111101"/>
 </linkmetas>
-<internals class="MCRMetaIFS" heritable="false" notinherit="true" parasearch="false" textsearch="false"><internal sourcepath="DocPortal_derivate_07111101" maindoc="04-08-24-rainbow1.jpg" />
+<internals class="MCRMetaIFS" heritable="false" notinherit="true"><internal sourcepath="DocPortal_derivate_07111101" maindoc="04-08-24-rainbow1.jpg" />
 </internals>
 </derivate>
 <service>

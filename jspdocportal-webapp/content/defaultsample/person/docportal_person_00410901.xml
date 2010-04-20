@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <mycoreobject 
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="datamodel-author.xsd"
+  xsi:noNamespaceSchemaLocation="datamodel-person.xsd"
   xmlns:xlink="http://www.w3.org/1999/xlink"
   xmlns:xml="http://www.w3.org/XML/1998/namespace"
   ID="DocPortal_person_00410901"
   label="Jens Kupferschmidt">
  <structure/>
  <metadata>
-  <names class="MCRMetaPersonName" textsearch="true">
+  <names class="MCRMetaPersonName">
    <name type="latest" xml:lang="de">
     <callname>Jens</callname>
     <surname>Kupferschmidt</surname>
@@ -19,7 +19,7 @@
   <females class="MCRMetaBoolean">
    <female xml:lang="en">false</female>
   </females>
-  <institutions class="MCRMetaClassification" parasearch="true">
+  <institutions class="MCRMetaClassification">
    <institution categid="Unis.Leipzig" classid="DocPortal_class_00000002" />
   </institutions>
   <addresses class="MCRMetaAddress">
@@ -49,31 +49,31 @@
   <dates class="MCRMetaISO8601Date">
    <date type="birth">1964-02-24</date>
   </dates>
-  <professions class="MCRMetaLangText" textsearch="true">
+  <professions class="MCRMetaLangText">
    <profession type="job" xml:lang="de">System-Administrator</profession>
    <profession type="job" xml:lang="de">System-Designer</profession>
    <profession type="profession" xml:lang="de">Diplom-Informatiker</profession>
   </professions>
-  <nationals class="MCRMetaClassification" parasearch="false">
+  <nationals class="MCRMetaClassification">
    <national classid="DocPortal_class_00000001" categid="NAT0001" />
   </nationals>
-  <urls class="MCRMetaLink" parasearch="false">
+  <urls class="MCRMetaLink">
    <url xlink:type="locator" xlink:href="http://www.uni-leipzig.de/urz/kupferschmidt" xlink:title="URL Jens Kupferschmidt" />
   </urls>
-  <emails class="MCRMetaLangText" parasearch="false">
+  <emails class="MCRMetaLangText">
    <email>
     kupferschmidt@rz.uni-leipzig.de
    </email>
   </emails>
-  <references class="MCRMetaLink" parasearch="false">
+  <references class="MCRMetaLink">
    <reference xlink:type="locator" xlink:href="http://www.mycore.de" xlink:title="URL von MyCoRe" />
   </references>
-  <notes class="MCRMetaLangText" parasearch="false">
+  <notes class="MCRMetaLangText">
    <note>
     Jens Kupferschmidt ist einer der Architekten von MyCoRe.
    </note>
   </notes>
-  <publications class="MCRMetaLangText" parasearch="false">
+  <publications class="MCRMetaLangText">
    <publication xml:lang="de">
     Dokumentationen für MyCoRe
    </publication>

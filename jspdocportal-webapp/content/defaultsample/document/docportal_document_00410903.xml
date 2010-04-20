@@ -7,7 +7,7 @@
   label="Basteltipp H0/H0e 1">
  <structure />
  <metadata >
-  <titles class="MCRMetaLangText" textsearch="true">
+  <titles class="MCRMetaLangText">
    <title  xml:lang="de">
     Ein Modellbaubasteltipp - Umbau eines Wagens zum Hühnerstall.
    </title>
@@ -15,7 +15,7 @@
     A model building tip - Modify a carriage to a hen-house.
    </title>
   </titles>
-  <creators class="MCRMetaLangText" textsearch="true">
+  <creators class="MCRMetaLangText">
    <creator  xml:lang="de">
     Jens Kupferschmidt
    </creator>
@@ -29,7 +29,7 @@
   <origins class="MCRMetaClassification">
    <origin classid="DocPortal_class_00000002" categid="Unis.Leipzig"/>
   </origins>
-  <descriptions class="MCRMetaLangText" textsearch="true">
+  <descriptions class="MCRMetaLangText">
    <description type="description" xml:lang="de">
      Dies ist eine Kurzanleitung für einen Modellumbau.
    </description>
@@ -46,14 +46,14 @@
   <formats class="MCRMetaClassification">
    <format classid="DocPortal_class_00000006" categid="FORMAT0001"/>
   </formats>
-  <sources class="MCRMetaLangText" textsearch="true">
+  <sources class="MCRMetaLangText">
    <source xml:lang="de">Dieser Artikel ist der Web-Seite des Autors entnommen.</source>
    <source xml:lang="en">The old web page of the author.</source>
   </sources>
   <languages class="MCRMetaClassification">
    <language classid="DocPortal_class_00000004" categid="LANG0001"/>
   </languages>
-  <keywords class="MCRMetaLangText" textsearch="true">
+  <keywords class="MCRMetaLangText">
    <keyword xml:lang="de"> Schmalspurbahn </keyword>
    <keyword xml:lang="en"> narrow gauge railway </keyword>
    <keyword xml:lang="de"> Eisenbahn </keyword>
@@ -61,7 +61,7 @@
    <keyword xml:lang="de"> Modelleisenbahn </keyword>
    <keyword xml:lang="en"> model railroad</keyword>
   </keywords>
-  <coverages class="MCRMetaLangText" textsearch="true">
+  <coverages class="MCRMetaLangText">
    <coverage  xml:lang="de">
     Modellbahnanlage 'Von Anneberg nach Johnsdorf'
    </coverage>
@@ -69,7 +69,7 @@
     Model railway 'Von Anneberg nach Johnsdorf'
    </coverage>
   </coverages>
-  <rights class="MCRMetaLangText" parasearch="false">
+  <rights class="MCRMetaLangText">
    <right xml:lang="de">
     Alle Rechte an dem Bild und Text hält Jens Kupferschmidt.
    </right>
@@ -77,7 +77,7 @@
     All rights of this image and text holds Jens Kupferschmidt.
    </right>
   </rights>
-  <sizes class="MCRMetaLangText" parasearch="false">
+  <sizes class="MCRMetaLangText">
    <size xml:lang="de">
     1 Seite
    </size>

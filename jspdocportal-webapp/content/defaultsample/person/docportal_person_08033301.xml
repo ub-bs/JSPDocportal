@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <mycoreobject 
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="datamodel-author.xsd"
+  xsi:noNamespaceSchemaLocation="datamodel-person.xsd"
   xmlns:xlink="http://www.w3.org/1999/xlink"
   xmlns:xml="http://www.w3.org/XML/1998/namespace"
   ID="DocPortal_person_08033301"
   label="Heiko Helmbrecht">
  <structure/>
  <metadata>
-  <names class="MCRMetaPersonName" textsearch="true">
+  <names class="MCRMetaPersonName">
    <name type="latest" xml:lang="de">
     <callname>Heiko</callname>
     <surname>Helmbrecht</surname>
@@ -18,7 +18,7 @@
   <females class="MCRMetaBoolean">
    <female xml:lang="en">false</female>
   </females>
-  <institutions class="MCRMetaClassification" parasearch="true">
+  <institutions class="MCRMetaClassification">
    <institution categid="Unis.TUMuenchen" classid="DocPortal_class_00000002" />
   </institutions>
   <addresses class="MCRMetaAddress">
@@ -43,19 +43,19 @@
    <phone type="phone" xml:lang="de">089-289-23934</phone>
    <phone type="phone" xml:lang="en">+49 (0)89-289-23934</phone>
   </phones>
-  <professions class="MCRMetaLangText" textsearch="true">
+  <professions class="MCRMetaLangText">
    <profession type="job" xml:lang="de">System-Administrator</profession>
    <profession type="job" xml:lang="de">System-Designer</profession>
   </professions>
-  <nationals class="MCRMetaClassification" parasearch="false">
+  <nationals class="MCRMetaClassification">
    <national classid="DocPortal_class_00000001" categid="NAT0001" />
   </nationals>
-  <emails class="MCRMetaLangText" parasearch="false">
+  <emails class="MCRMetaLangText">
    <email>
     helmbrecht@ub.tum.de
    </email>
   </emails>
-  <notes class="MCRMetaLangText" parasearch="false">
+  <notes class="MCRMetaLangText">
    <note>
     Heiko Helmbrecht ist einer der Architekten von MyCoRe.
    </note>

@@ -6,40 +6,27 @@
 <!-- =================================================================== -->
 
 <project default="usage" basedir=".">
+	<!-- You probably have to adjust this path -->
+	<path id="APP_CLASSPATH">
+		<pathelement path="./../../../sample-complete/target/app/sample-cli.jar" />
+	</path>
 
-  <!-- =================================================================== -->
-  <!-- Global properties                                                   -->
-  <!-- =================================================================== -->
+	<target name="init">
+		<echo>Hallo</echo>
+		<delete includeemptydirs="true" verbose="true">
+			<fileset dir="${basedir}" includes="**/.svn/**" defaultexcludes="false"/>
+		  </delete>
 
-  <!-- Maximum amount of memory to allocate to java VM when loading -->
-  <property name="java.maxmemory" value="256m" />
+		
+	</target>
 
-  <!-- Read in environment variables -->
-  <property environment="env" />
+	<!-- =================================================================== -->
+	<!-- Help on usage                                                       -->
+	<!-- =================================================================== -->
 
-  <!-- Provide a default value for MYCORE_HOME if not set in env -->
-  <property name="env.MYCORE_HOME" location="./../../../mycore" />
-
-  <!-- Read in properties from config/build.properties -->
-  <property file="${env.MYCORE_HOME}/config/build.properties" />
-
-  <!-- Provide a default value for DOCPORTAL_HOME if not set in env -->
-  <property name="env.DOCPORTAL_SYSTEM" location="${basedir}/../.." />	
-  <property name="this.institution"           value="${basedir}/institution"/>
-  <property name="this.person"                value="${basedir}/person"/>
-  <property name="this.document"              value="${basedir}/document"/>
-
-  <property name="build.sysclasspath" value="ignore"/>
-
-  <!-- =================================================================== -->
-  <!-- Help on usage                                                       -->
-  <!-- =================================================================== -->
-
-  <target name="usage">
-    <echo>
+	<target name="usage">
+		<echo>
       Usage:
-        build.sh [target]          or
-        build.cmd [target]         or
         ant [target]
 
       Available targets are:
@@ -48,253 +35,97 @@
         remove               --> Remove all this sample data from the MyCoReSample installation under $DOCPORTAL_HOME
 
       Please do not use any of the other targets, they are internal.
-    </echo>
-  </target>
+    	</echo>
+	</target>
 
-  <!-- =================================================================== -->
-  <!-- Initalization of directories and CLASSPATH, LIBPATH                 -->
-  <!-- =================================================================== -->
+	<!-- =================================================================== -->
+	<!-- Initalization of directories and CLASSPATH, LIBPATH                 -->
+	<!-- =================================================================== -->
 
-  <target name="init" depends="jdbcstore.path.1, jdbcstore.path.2, xmlstore.path.1, xmlstore.path.2">
-    <!-- Fail if environment variables are not set -->
-    <fail message="Environment variable JAVA_HOME is not set!"   unless="env.JAVA_HOME"   />
-    <fail message="Environment variable MYCORE_HOME is not set!" unless="env.MYCORE_HOME" />
-    <fail message="Environment variable DOCPORTAL_HOME is not set!" unless="env.DOCPORTAL_SYSTEM" />
+	<!-- =================================================================== -->
+	<!-- Output environment variables, software and operating system version -->
+	<!-- =================================================================== -->
 
-    <echo message="MYCORE_APP=${env.MYCORE_APP}" />
-  	<echo message="MYCORE_HOME=${env.MYCORE_HOME}" />
-    <echo message="DOCPORTAL_SYSTEM=${env.DOCPORTAL_SYSTEM}" />
-    <path id="this.classpath">
-      <fileset dir="${env.MYCORE_HOME}/lib" includes="*.jar"/>
-      <fileset dir="${env.DOCPORTAL_SYSTEM}/lib" includes="*.jar"/>
-      <fileset dir="${env.MYCORE_APP}/lib" includes="*.jar"/>
-      <fileset dir="${env.MYCORE_APP}/working/webapps/" includes="**/docportal-for-hibernate.jar" /> 
-      <pathelement location="${env.MYCORE_APP}/config" />
-      <pathelement location="${env.MYCORE_APP}/config/hibernate" />
-          	
-      <pathelement location="${env.MYCORE_HOME}/config" />
-      <pathelement location="${env.MYCORE_HOME}/schema" />
-      <pathelement location="${env.MYCORE_HOME}/stylesheets" />
-      <pathelement location="${env.DOCPORTAL_SYSTEM}/config" />
-      <pathelement location="${env.DOCPORTAL_SYSTEM}/schema" />
-      <pathelement location="${env.DOCPORTAL_SYSTEM}/stylesheets" />
-      <pathelement location="${env.DOCPORTAL_SYSTEM}/config/hibernate" />
-            
-      <path refid="jdbc.classpath" />
-      <path refid="xml.classpath"  />
-    </path>
+	<target name="info" depends="init">
+		<echo>Base directory     : ${basedir}</echo>
+		<echo>MyCoRe home dir    : ${env.MYCORE_HOME}</echo>
+		<echo>DocPortal home dir : ${env.DOCPORTAL_SYSTEM}</echo>
+		<echo>Operating system   : ${os.name} Version ${os.version} on ${os.arch} </echo>
+		<echo>Java version       : JDK ${ant.java.version} Version ${java.version} from ${java.vendor}</echo>
+		<echo>Java home          : ${env.JAVA_HOME}</echo>
+		<echo>Ant build file     : $Revision: 1.7 $ $Date: 2007-11-26 09:23:31 $</echo>
+		<echo>Ant version        : ${ant.version}</echo>
 
-    <path id="this.libpath">
-      <dirset dir="${env.JAVA_HOME}" includes="bin bin/classic" />
-      <path refid="jdbc.libpath" />
-      <path refid="xml.libpath"  />
-    </path>
+	</target>
 
-    <condition property="detected.os" value="unix"> <os family="unix"/> </condition>
-    <condition property="detected.os" value="windows"> <os family="dos"/> </condition>
-    <condition property="os.is.unix"> <os family="unix"/> </condition>
-    <condition property="os.is.windows"> <os family="dos"/> </condition>
+	<!-- =================================================================== -->
+	<!-- Load the date in this content tree to the MyCoReSample              -->
+	<!-- =================================================================== -->
+	<target name="load" depends="info,load.institution,load.author,load.document" />
 
-    <condition property="store.is.cm8">
-      <equals arg1="${MCR.XMLStore.Type}" arg2="cm8" />
-    </condition>
+	<target name="load.institution" depends="init">
+		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
+		<mcr-execute>
+  			    update object from file ${basedir}/institution/docportal_institution_00000001.xml
+    	</mcr-execute>
+	</target>
 
-    <pathconvert targetos="${detected.os}" property="this.classpath.translated" refid="this.classpath" />
-    <pathconvert targetos="${detected.os}" property="this.libpath.translated" refid="this.libpath"   />
-  </target>
+	<target name="load.author" depends="init">
+		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
+		<mcr-execute>
+			update object from file ${basedir}/person/docportal_person_00410901.xml
+      		update object from file ${basedir}/person/docportal_person_00410902.xml
+      		update object from file ${basedir}/person/docportal_person_00774301.xml
+      		update object from file ${basedir}/person/docportal_person_00774302.xml
+      		update object from file ${basedir}/person/docportal_person_04514101.xml
+      		update object from file ${basedir}/person/docportal_person_07111101.xml
+      		update object from file ${basedir}/person/docportal_person_07910401.xml
+      		update object from file ${basedir}/person/docportal_person_08033301.xml
+	   	</mcr-execute>
+	</target>
 
-  <target name="jdbcstore.path.1" if="MCR.JDBCStore.BaseDir">
-    <path id="jdbc.classpath">
-      <fileset dir="${MCR.JDBCStore.BaseDir}" includes="_dummy_ ${MCR.JDBCStore.Jars}"        />
-      <dirset  dir="${MCR.JDBCStore.BaseDir}" includes="_dummy_ ${MCR.JDBCStore.ClassesDirs}" />
-    </path>
-    <path id="jdbc.libpath">
-      <dirset dir="${MCR.JDBCStore.BaseDir}" includes="_dummy_ ${MCR.JDBCStore.LibPath}" />
-    </path>
-  </target>
+	<target name="load.document" depends="init">
+		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
+		<mcr-execute>
+        	update object from file ${basedir}/document/docportal_document_00410901.xml
+        	update derivate from file ${basedir}/document/docportal_derivate_00410901.xml
+        	update object from file ${basedir}/document/docportal_document_00410902.xml
+        	update derivate from file ${basedir}/document/docportal_derivate_00410902.xml
+        	update object from file ${basedir}/document/docportal_document_00410903.xml
+        	update derivate from file ${basedir}/document/docportal_derivate_00410903.xml
+        	update object from file ${basedir}/document/docportal_document_00410904.xml
+        	update derivate from file ${basedir}/document/docportal_derivate_00410904.xml
+        	update object from file ${basedir}/document/docportal_document_07111101.xml
+        	update derivate from file ${basedir}/document/docportal_derivate_07111101.xml
+        	update object from file ${basedir}/document/docportal_document_07910403.xml    	
+        	update derivate from file ${basedir}/document/docportal_derivate_07910403.xml    	
+    	</mcr-execute>
+	</target>
 
-  <target name="jdbcstore.path.2" unless="MCR.JDBCStore.BaseDir">
-    <path id="jdbc.classpath" />
-    <path id="jdbc.libpath"   />
-  </target>
+	<!-- =================================================================== -->
+	<!-- Remove the data of this content tree from the MyCoReSample          -->
+	<!-- =================================================================== -->
+	<target name="remove">
+		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
+		<mcr-execute>
+			delete object DocPortal_document_00410901
+      		delete object DocPortal_document_00410902
+      		delete object DocPortal_document_00410903
+      		delete object DocPortal_document_00410904
+      		delete object DocPortal_document_07111101
+      		delete object DocPortal_document_07910403
+			
+			delete object DocPortal_institution_00000001
 
-  <target name="xmlstore.path.1" if="MCR.XMLStore.BaseDir">
-    <path id="xml.classpath">
-      <fileset dir="${MCR.XMLStore.BaseDir}" includes="_dummy_ ${MCR.XMLStore.Jars}"        />
-      <dirset  dir="${MCR.XMLStore.BaseDir}" includes="_dummy_ ${MCR.XMLStore.ClassesDirs}" />
-    </path>
-    <path id="xml.libpath">
-      <dirset dir="${MCR.XMLStore.BaseDir}" includes="_dummy_ ${MCR.XMLStore.LibPath}" />
-    </path>
-  </target>
+      		delete object DocPortal_person_00410901
+      		delete object DocPortal_person_00410902
+      		delete object DocPortal_person_00774301
+      		delete object DocPortal_person_00774302
+      		delete object DocPortal_person_04514101
+      		delete object DocPortal_person_07111101
+      		delete object DocPortal_person_07910401
+      		delete object DocPortal_person_08033301
 
-  <target name="xmlstore.path.2" unless="MCR.XMLStore.BaseDir">
-    <path id="xml.classpath" />
-    <path id="xml.libpath" />
-  </target>
-
-  <!-- System CLASSPATH is completely ignored! -->
-  <property name="build.sysclasspath" value="ignore"/>
-
-  <!-- =================================================================== -->
-  <!-- Output environment variables, software and operating system version -->
-  <!-- =================================================================== -->
-
-  <target name="info" depends="init" >
-    <echo>Base directory     : ${basedir}</echo>
-    <echo>MyCoRe home dir    : ${env.MYCORE_HOME}</echo>
-    <echo>DocPortal home dir : ${env.DOCPORTAL_SYSTEM}</echo>
-    <echo>Operating system   : ${os.name} Version ${os.version} on ${os.arch} </echo>
-    <echo>Java version       : JDK ${ant.java.version} Version ${java.version} from ${java.vendor}</echo>
-    <echo>Java home          : ${env.JAVA_HOME}</echo>
-    <echo>Ant build file     : $Revision: 1.7 $ $Date: 2007-11-26 09:23:31 $</echo>
-    <echo>Ant version        : ${ant.version}</echo>
-    <echo>Ant home           : ${env.ANT_HOME}</echo>
-    <echo>System CLASSPATH   : ${build.sysclasspath}</echo>
-    <echo>Active CLASSPATH   : ${this.classpath.translated}</echo>
-    <echo>Active LIBPATH     : ${this.libpath.translated}</echo>
-  </target>
-
-  <!-- =================================================================== -->
-  <!-- Load the date in this content tree to the MyCoReSample              -->
-  <!-- =================================================================== -->
-
-  <target name="load" depends="info,load.institution,load.author,load.document"/>
-  
-  <target name="load.institution">
-    
-  	<property name="commands.file" value="${env.DOCPORTAL_SYSTEM}/commands.txt"/>
-  	<echo>MyCoRe home dir  x  : ${env.MYCORE_HOME}</echo>
-  	<echo>Docportal System x  : ${env.DOCPORTAL_SYSTEM}</echo>
-  	<echo>Basedir             : ${basedir}</echo>
-    <echo file="${commands.file}" append="false">
-      update object from file docportal_institution_00000001.xml
-      quit
-    </echo>
-    <antcall target="invoke.cli">
-      <param name="cli.directory" value="${this.institution}"  />
-      <param name="cli.command"   value="process ${commands.file}" />
-    </antcall>
-    <delete file="${commands.file}" />
-  </target>
-
-  <target name="load.author">
-    <property name="commands.file" value="${env.DOCPORTAL_SYSTEM}/commands.txt"/>
-    <echo file="${commands.file}" append="false">
-      update object from file docportal_person_00410901.xml
-      update object from file docportal_person_00410902.xml
-      update object from file docportal_person_00774301.xml
-      update object from file docportal_person_00774302.xml
-      update object from file docportal_person_04514101.xml
-      update object from file docportal_person_07111101.xml
-      update object from file docportal_person_07910401.xml
-      update object from file docportal_person_08033301.xml
-      quit
-    </echo>
-    <antcall target="invoke.cli">
-      <param name="cli.directory" value="${this.person}"  />
-      <param name="cli.command"   value="process ${commands.file}" />
-    </antcall>
-    <delete file="${commands.file}" />
-  </target>
-
-  <target name="load.document">
-    <property name="commands.file" value="${env.DOCPORTAL_SYSTEM}/commands.txt"/>
-    <echo file="${commands.file}" append="false">
-        update object from file docportal_document_00410901.xml
-        update derivate from file docportal_derivate_00410901.xml
-        update object from file docportal_document_00410902.xml
-        update derivate from file docportal_derivate_00410902.xml
-        update object from file docportal_document_00410903.xml
-        update derivate from file docportal_derivate_00410903.xml
-        update object from file docportal_document_00410904.xml
-        update derivate from file docportal_derivate_00410904.xml
-        update object from file docportal_document_07111101.xml
-        update derivate from file docportal_derivate_07111101.xml
-        update object from file docportal_document_07910403.xml    	
-        update derivate from file docportal_derivate_07910403.xml    	
-      quit
-    </echo>
-    <antcall target="invoke.cli">
-      <param name="cli.directory" value="${this.document}"  />
-      <param name="cli.command"   value="process ${commands.file}" />
-    </antcall>
-    <delete file="${commands.file}" />
-  </target>
-
-  <!-- =================================================================== -->
-  <!-- Remove the data of this content tree from the MyCoReSample          -->
-  <!-- =================================================================== -->
-
-  <target name="remove" depends="remove.document,remove.author,remove.institution" />
-  
-  <target name="remove.institution">
-    <property name="commands.file" value="${env.DOCPORTAL_SYSTEM}/commands.txt"/>
-    <echo file="${commands.file}" append="false">
-      delete object DocPortal_institution_00000001
-      quit
-    </echo>
-    <antcall target="invoke.cli">
-      <param name="cli.directory" value="${this.institution}"  />
-      <param name="cli.command"   value="process ${commands.file}" />
-    </antcall>
-    <delete file="${commands.file}" />
-  </target>
-
-  <target name="remove.author">
-    <property name="commands.file" value="${env.DOCPORTAL_SYSTEM}/commands.txt"/>
-    <echo file="${commands.file}" append="false">
-      delete object DocPortal_person_00410901
-      delete object DocPortal_person_00410902
-      delete object DocPortal_person_00774301
-      delete object DocPortal_person_00774302
-      delete object DocPortal_person_04514101
-      delete object DocPortal_person_07111101
-      delete object DocPortal_person_07910401
-      delete object DocPortal_person_08033301
-      quit
-    </echo>
-    <antcall target="invoke.cli">
-      <param name="cli.directory" value="${this.person}"  />
-      <param name="cli.command"   value="process ${commands.file}" />
-    </antcall>
-    <delete file="${commands.file}" />
-  </target>
-
-  <target name="remove.document">
-    <property name="commands.file" value="${env.DOCPORTAL_SYSTEM}/commands.txt"/>
-    <echo file="${commands.file}" append="false">
-      delete object DocPortal_document_00410901
-      delete object DocPortal_document_00410902
-      delete object DocPortal_document_00410903
-      delete object DocPortal_document_00410904
-      delete object DocPortal_document_07111101
-      delete object DocPortal_document_07910403
-      quit
-    </echo>
-    <antcall target="invoke.cli">
-      <param name="cli.directory" value="${this.document}"  />
-      <param name="cli.command"   value="process ${commands.file}" />
-    </antcall>
-    <delete file="${commands.file}" />
-  </target>
-
-  <!-- =================================================================== -->
-  <!-- Invokes the MyCoRe Command Line Interface with a given command      -->
-  <!-- =================================================================== -->
-
-  <target name="invoke.cli" depends="init">
-    <java classname="org.mycore.frontend.cli.MCRCommandLineInterface"
-          dir="${cli.directory}" fork="yes" maxmemory="${java.maxmemory}"
-          classpathref="this.classpath" failonerror="true">
-      <arg line="${cli.command}" />
-      <env key="LIBPATH"         value="${this.libpath.translated}" />
-      <env key="LD_LIBRARY_PATH" value="${this.libpath.translated}" />
-    </java>
-  </target>
-
+    	</mcr-execute>
+	</target>
 </project>
-
-<!-- ======================== End of file ======================== -->
-
-

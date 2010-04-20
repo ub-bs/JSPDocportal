@@ -1,23 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mycoreobject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" ID="DocPortal_person_07910401" label="Detlev Degenhardt" xsi:noNamespaceSchemaLocation="datamodel-author.xsd"><structure/><metadata xml:lang="de"><names class="MCRMetaPersonName" heritable="true" notinherit="false" parasearch="true" textsearch="true"><name xml:lang="de" inherited="0"><firstname>Detlev</firstname><callname>Detlev</callname><fullname>Dr. Detlev Degenhardt</fullname><surname>Degenhardt</surname><academic>Dr.</academic></name>
+<mycoreobject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+              xmlns:xlink="http://www.w3.org/1999/xlink" 
+              ID="DocPortal_person_07910401" 
+              label="Detlev Degenhardt" 
+              xsi:noNamespaceSchemaLocation="datamodel-person.xsd">
+<structure/>
+<metadata xml:lang="de"><names class="MCRMetaPersonName" heritable="true" notinherit="false"><name xml:lang="de" inherited="0"><firstname>Detlev</firstname><callname>Detlev</callname><fullname>Dr. Detlev Degenhardt</fullname><surname>Degenhardt</surname><academic>Dr.</academic></name>
 </names>
-<females class="MCRMetaBoolean" heritable="true" notinherit="false" parasearch="true" textsearch="false"><female xml:lang="de" inherited="0">false</female>
+<females class="MCRMetaBoolean" heritable="true" notinherit="false"><female xml:lang="de" inherited="0">false</female>
 </females>
-<institutions class="MCRMetaClassification" heritable="true" notinherit="false" parasearch="true" textsearch="false"><institution inherited="0" classid="DocPortal_class_00000002" categid="Unis.Freiburg"/>
+<institutions class="MCRMetaClassification" heritable="true" notinherit="false"><institution inherited="0" classid="DocPortal_class_00000002" categid="Unis.Freiburg"/>
 </institutions>
-<addresses class="MCRMetaAddress" heritable="true" notinherit="false" parasearch="false" textsearch="false"><address xml:lang="de" inherited="0"><country>Deutschland</country><state>Baden-Würtemberg</state><zipcode>79104</zipcode><city>Freiburg</city><street>Hermann-Herder Str.</street><number>10</number></address>
+<addresses class="MCRMetaAddress" heritable="true" notinherit="false"><address xml:lang="de" inherited="0"><country>Deutschland</country><state>Baden-Würtemberg</state><zipcode>79104</zipcode><city>Freiburg</city><street>Hermann-Herder Str.</street><number>10</number></address>
 </addresses>
-<phones class="MCRMetaLangText" heritable="true" notinherit="false" parasearch="false" textsearch="false"><phone xml:lang="de" inherited="0" form="plain" type="Telefon">0761/203-4655</phone>
+<phones class="MCRMetaLangText" heritable="true" notinherit="false"><phone xml:lang="de" inherited="0" form="plain" type="Telefon">0761/203-4655</phone>
 </phones>
-<professions class="MCRMetaLangText" heritable="true" notinherit="false" parasearch="true" textsearch="true"><profession xml:lang="de" inherited="0" form="plain" type="job">wiss. Mitarbeiter</profession>
+<professions class="MCRMetaLangText" heritable="true" notinherit="false"><profession xml:lang="de" inherited="0" form="plain" type="job">wiss. Mitarbeiter</profession>
 </professions>
-<!-- <profclasses class="MCRMetaClassification" heritable="true" notinherit="false" parasearch="true" textsearch="false"><profclass inherited="0" classid="DocPortal_class_00000008" categid="SWBB0186"/>
+<!-- <profclasses class="MCRMetaClassification" heritable="true" notinherit="false" ><profclass inherited="0" classid="DocPortal_class_00000008" categid="SWBB0186"/>
 </profclasses> -->
-<nationals class="MCRMetaClassification" heritable="true" notinherit="false" parasearch="true" textsearch="false"><national inherited="0" classid="DocPortal_class_00000001" categid="NAT0001"/>
+<nationals class="MCRMetaClassification" heritable="true" notinherit="false" ><national inherited="0" classid="DocPortal_class_00000001" categid="NAT0001"/>
 </nationals>
-<emails class="MCRMetaLangText" heritable="true" notinherit="false" parasearch="false" textsearch="false"><email xml:lang="de" inherited="0" form="plain">Detlev.Degenhardt@rz.uni-freiburg.de</email>
+<emails class="MCRMetaLangText" heritable="true" notinherit="false" ><email xml:lang="de" inherited="0" form="plain">Detlev.Degenhardt@rz.uni-freiburg.de</email>
 </emails>
-  <notes class="MCRMetaLangText" heritable="true" notinherit="false" parasearch="false" textsearch="false">
+  <notes class="MCRMetaLangText" heritable="true" notinherit="false" >
    <note xml:lang="de" inherited="0" form="plain">Detlev Degenhardt ist einer der MyCoRe Autoren.</note>
   </notes>
  </metadata>

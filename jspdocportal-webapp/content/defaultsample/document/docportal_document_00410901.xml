@@ -7,7 +7,7 @@
   label="Fotos saechs. Schmalspurbahnen 1">
  <structure />
  <metadata >
-  <titles class="MCRMetaLangText" textsearch="true">
+  <titles class="MCRMetaLangText">
    <title  xml:lang="de">
     Die 99 582 am Lokschuppen in Schönheide.
    </title>
@@ -15,7 +15,7 @@
     The 99 582 at the engine shed in Schoenheide.
    </title>
   </titles>
-  <creators class="MCRMetaLangText" textsearch="true">
+  <creators class="MCRMetaLangText">
    <creator  xml:lang="de">
     Jens Kupferschmidt
    </creator>
@@ -29,7 +29,7 @@
   <origins class="MCRMetaClassification">
    <origin classid="DocPortal_class_00000002" categid="Unis.Leipzig"/>
   </origins>
-  <descriptions class="MCRMetaLangText" textsearch="true">
+  <descriptions class="MCRMetaLangText">
    <description type="description" xml:lang="de">
     Dieses Bild wurde Pfingsten 2000 aufgenommen.
 Der Zug mit der Lok 99 582 steht in Schönheide zur Abfahrt bereit.
@@ -47,23 +47,23 @@ Der Zug mit der Lok 99 582 steht in Schönheide zur Abfahrt bereit.
   <formats class="MCRMetaClassification">
    <format classid="DocPortal_class_00000006" categid="FORMAT0002"/>
   </formats>
-  <identifiers class="MCRMetaLangText" textsearch="true">
+  <identifiers class="MCRMetaLangText">
    <identifier xml:lang="de">WCd Bild 1</identifier>
   </identifiers>
-  <sources class="MCRMetaLangText" textsearch="true">
+  <sources class="MCRMetaLangText">
    <source xml:lang="de">Fotosammlung sächsischer Schmalspurbahnen von J. Kupferschmidt.</source>
    <source xml:lang="en">Phot collection of saxonia narrow gauge railway form J. Kupferschmidt.</source>
   </sources>
   <languages class="MCRMetaClassification">
    <language classid="DocPortal_class_00000004" categid="LANG0001"/>
   </languages>
-  <keywords class="MCRMetaLangText" textsearch="true">
+  <keywords class="MCRMetaLangText">
    <keyword xml:lang="de"> Schmalspurbahn </keyword>
    <keyword xml:lang="en"> narrow gauge railway </keyword>
    <keyword xml:lang="de"> Eisenbahn </keyword>
    <keyword xml:lang="en"> railway </keyword>
   </keywords>
-  <coverages class="MCRMetaLangText" textsearch="true">
+  <coverages class="MCRMetaLangText">
    <coverage  xml:lang="de">
     Die wiederaufgebaute Schmalspurbahn in Schönheide.
    </coverage>
@@ -71,7 +71,7 @@ Der Zug mit der Lok 99 582 steht in Schönheide zur Abfahrt bereit.
     The narrow gauge railway in Schoenheide.
    </coverage>
   </coverages>
-  <rights class="MCRMetaLangText" parasearch="false">
+  <rights class="MCRMetaLangText">
    <right xml:lang="de">
     Alle Rechte an dem Bild hält Jens Kupferschmidt.
    </right>
@@ -79,7 +79,7 @@ Der Zug mit der Lok 99 582 steht in Schönheide zur Abfahrt bereit.
     All rights of this image and text holds Jens Kupferschmidt.
    </right>
   </rights>
-  <sizes class="MCRMetaLangText" parasearch="false">
+  <sizes class="MCRMetaLangText">
    <size xml:lang="de">
     1 Bild
    </size>

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <mycoreobject 
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="datamodel-author.xsd"
+  xsi:noNamespaceSchemaLocation="datamodel-person.xsd"
   xmlns:xlink="http://www.w3.org/1999/xlink"
   xmlns:xml="http://www.w3.org/XML/1998/namespace"
   ID="DocPortal_person_00410902"
   label="Ute Starke">
  <structure/>
  <metadata>
-  <names class="MCRMetaPersonName" textsearch="true">
+  <names class="MCRMetaPersonName">
    <name type="latest" xml:lang="de">
     <callname>Ute</callname>
     <surname>Starke</surname>
@@ -19,7 +19,7 @@
   <females class="MCRMetaBoolean">
    <female xml:lang="en">true</female>
   </females>
-  <institutions class="MCRMetaClassification" parasearch="true">
+  <institutions class="MCRMetaClassification">
    <institution categid="Unis.Leipzig" classid="DocPortal_class_00000002" />
   </institutions>
   <addresses class="MCRMetaAddress">
@@ -46,24 +46,24 @@
    <phone type="phone" xml:lang="en">+49 (0)341 9733328</phone>
    <phone type="fax" xml:lang="en">+49 (0)341 9733399</phone>
   </phones>
-  <professions class="MCRMetaLangText" textsearch="true">
+  <professions class="MCRMetaLangText" >
    <profession type="job" xml:lang="de">System-Administrator</profession>
    <profession type="job" xml:lang="de">System-Designer</profession>
   </professions>
-  <nationals class="MCRMetaClassification" parasearch="false">
+  <nationals class="MCRMetaClassification">
    <national classid="DocPortal_class_00000001" categid="NAT0001" />
   </nationals>
-  <emails class="MCRMetaLangText" parasearch="false">
+  <emails class="MCRMetaLangText">
    <email>
     starke@rz.uni-leipzig.de
    </email>
   </emails>
-  <notes class="MCRMetaLangText" parasearch="false">
+  <notes class="MCRMetaLangText">
    <note>
     Ute Starke arbeitet in Leipzig an MyCoRe-Applikationen mit.
    </note>
   </notes>
-  <publications class="MCRMetaLangText" parasearch="false">
+  <publications class="MCRMetaLangText">
    <publication xml:lang="de">
     Dokumentationen für MyCoRe
    </publication>
