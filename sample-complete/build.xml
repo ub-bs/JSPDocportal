@@ -5,7 +5,7 @@
 <!-- =================================================================== -->
 
 <project name="CPR" default="usage" basedir=".">
-	<property name = "PARENT_BUILD_FILE" value="./../jspdocportal-webapp/buildfile_application.xml" />
+	<property name = "PARENT_BUILD_FILE" value="${basedir}/../jspdocportal-webapp/buildfile_application.xml" />
 	<property name="APP_NAME" value="sample" />
 	
 	<property environment="env" />
@@ -30,32 +30,9 @@
 
 	<target name="create.directories" depends="init">
 		<antcall target="main_build.create.directories" />
-		<mkdir dir="${MCR.WorkflowEngine.EditDirectory.professor}" />
-		<mkdir dir="${MCR.WorkflowEngine.EditDirectory.staff}" />
 	</target>
 
 	<target name="create.users" depends="init">
-		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
-		<mcr-execute>
-            load permissions data from file ${application.config}/user/permissions.xml
-     	    init superuser
-            change to user root with alleswirdgut
-            create group data from file ${application.config}/user/group_adminall.xml        	
-        	
-	       	create group data from file ${application.config}/user/group_adminuser.xml
-        	create group data from file ${application.config}/user/group_adminwebcontent.xml
-        	
-        	create user data from file ${application.config}/user/user_administrator.xml  
- 	    	create user data from file ${application.config}/user/user_editorWeb.xml
-
-    		create group data from file ${application.config}/user/group_EditorProfessorum.xml
-        	create user data from file ${application.config}/user/user_editorCP.xml
-        	
-			create user data from file ${application.config}/user/user_klabahn.xml
-			create user data from file ${application.config}/user/user_mglasow.xml
-        
-	        check user data consistency
-
-    	</mcr-execute>
+		<antcall target="main_build.create.users" />
 	</target>
 </project>
