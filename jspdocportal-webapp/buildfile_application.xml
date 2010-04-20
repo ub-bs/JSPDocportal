@@ -10,12 +10,24 @@
 
 	<property name="APP_NAME" value="mycoresample" />
 
-	<property name="HOME" value="${basedir}/target/${APP_NAME}-cli" />
+	<property name="HOME" value="${basedir}/target/app" />
 	<property name="APP_HOME" value="${HOME}/${APP_NAME}" />
 
 	<path id="APP_CLASSPATH">
-		<pathelement path="$HOME/{APP_NAME}-cli.jar" />
+		<pathelement path="${HOME}/${APP_NAME}-cli.jar" />
 	</path>
+	
+	 <condition property="os.is.unix">
+	    <os family="unix" />
+	  </condition>
+	  <condition property="os.is.windows">
+	    <os family="dos" />
+	  </condition>
+	  <condition property="os.is.mac">
+	    <os name="Mac OS X" />
+	  </condition>
+	 <!-- Maximum amount of memory to allocate to java VM when loading -->
+	  <property name="java.maxmemory" value="512m" />
 
 	<!-- =================================================================== -->
 	<!-- Help on usage                                                       -->
@@ -81,23 +93,20 @@
 
 	<target name="show" depends="init">
 		<echo>Base directory     : ${basedir}</echo>
-		<echo>MyCoRe home dir    : ${MYCORE_HOME}</echo>
-		<echo>DocPortal home dir : ${DOCPORTAL_SYSTEM}</echo>
+		<echo>Application        : ${HOME}</echo>
 		<echo>Operating system   : ${os.name} Version ${os.version} on ${os.arch} </echo>
 		<echo>Java version       : JDK ${ant.java.version} Version ${java.version} from ${java.vendor}</echo>
 		<echo>Java home          : ${env.JAVA_HOME}</echo>
 		<echo>Ant build file     : $Revision$ $Date$</echo>
 		<echo>Ant version        : ${ant.version}</echo>
 		<echo>Ant home           : ${env.ANT_HOME}</echo>
-		<echo>System CLASSPATH   : ${build.sysclasspath}</echo>
-		<echo>Active CLASSPATH   : ${application.classpath.translated}</echo>
-		<echo>Active LIBPATH     : ${application.libpath.translated}</echo>
-		<echo>Application CP     : ${application.classpath}</echo>
-		<echo>TEST:		${build.lib} </echo>
+		<echo>Active CLASSPATH   : ${APP_CLASSPATH.translated}</echo>
+		
+		<echo>Application CP     : ${APP_CLASSPATH}</echo>
+		
 	</target>
 
-	
-	<!-- =================================================================== -->
+		<!-- =================================================================== -->
 	<!-- Create local working directories                                    -->
 	<!-- =================================================================== -->
 
@@ -147,7 +156,7 @@
 
 
 	<target name="script.windows.write">
-		<property name="tmp.cmd.file" value="${MYCORE_HOME}/${mycore.cmd.file}" />
+		<property name="tmp.cmd.file" value="${HOME}/${mycore.cmd.file}" />
 		<echo level="info">Creating ${mycore.cmd.file} to invoke ${mycore.cmd.class}</echo>
 		<echo file="${tmp.cmd.file}" append="false">@echo off
 
@@ -165,7 +174,7 @@
 	</target>
 
 	<target name="script.unix.write">
-		<property name="tmp.cmd.file" value="${application.bin}/${mycore.cmd.file}" />
+		<property name="tmp.cmd.file" value="${HOME}/${mycore.cmd.file}" />
 		<echo level="info">Creating ${mycore.cmd.file} to invoke ${mycore.cmd.class}</echo>
 		<echo file="${tmp.cmd.file}" append="false">#!/bin/bash
 
@@ -192,15 +201,10 @@
 		<chmod file="${tmp.cmd.file}" perm="755" />
 	</target>
 
-
-
-	
-
-
 	<target name="create.class" depends="init">
-		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpath="${APP_CLASSPATH}" />
+		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" loaderref="x" />
 		<mcr-execute>
-            update all classifications from directory ${application.content}/classification
+            update all classifications from directory ${basedir}/../${APP_NAME}-webapp/content/classification
 		</mcr-execute>
 	</target>
 
@@ -225,62 +229,63 @@
 	</target>
 
 	<target name="create.users" depends="init">
-		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="application.classpath" />
+		
+		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
 		<mcr-execute>
-            load permissions data from file ${application.config}/user/permissions.xml
+            load permissions data from file ${APP_HOME}/WEB-INF/config/user/permissions.xml
 
       	    init superuser
 
             change to user root with alleswirdgut
       			
-            create group data from file ${application.config}/user/group_adminall.xml        	
+            create group data from file ${APP_HOME}/WEB-INF/config/user/group_adminall.xml        	
         	
-        	create group data from file ${application.config}/user/group_adminperson.xml
-        	create group data from file ${application.config}/user/group_createperson.xml
+        	create group data from file ${APP_HOME}/WEB-INF/config/user/group_adminperson.xml
+        	create group data from file ${APP_HOME}/WEB-INF/config/user/group_createperson.xml
         	
-        	create group data from file ${application.config}/user/group_admindisshab.xml
-        	create group data from file ${application.config}/user/group_createdisshab.xml
+        	create group data from file ${APP_HOME}/WEB-INF/config/user/group_admindisshab.xml
+        	create group data from file ${APP_HOME}/WEB-INF/config/user/group_createdisshab.xml
 
-        	create group data from file ${application.config}/user/group_admininstitution.xml
-        	create group data from file ${application.config}/user/group_createinstitution.xml
+        	create group data from file ${APP_HOME}/WEB-INF/config/user/group_admininstitution.xml
+        	create group data from file ${APP_HOME}/WEB-INF/config/user/group_createinstitution.xml
         	
-        	create group data from file ${application.config}/user/group_adminpublication.xml
-        	create group data from file ${application.config}/user/group_createpublication.xml
+        	create group data from file ${APP_HOME}/WEB-INF/config/user/group_adminpublication.xml
+        	create group data from file ${APP_HOME}/WEB-INF/config/user/group_createpublication.xml
         	
-        	create group data from file ${application.config}/user/group_adminclassification.xml
+        	create group data from file ${APP_HOME}/WEB-INF/config/user/group_adminclassification.xml
         	
-        	create group data from file ${application.config}/user/group_adminuser.xml
-        	create group data from file ${application.config}/user/group_adminwebcontent.xml
+        	create group data from file ${APP_HOME}/WEB-INF/config/user/group_adminuser.xml
+        	create group data from file ${APP_HOME}/WEB-INF/config/user/group_adminwebcontent.xml
         	
-        	create user data from file ${application.config}/user/user_administrator.xml  
-        	create user data from file ${application.config}/user/user_editorUser.xml
-        	create user data from file ${application.config}/user/user_editorClass.xml
-        	create user data from file ${application.config}/user/user_editorWeb.xml
+        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_administrator.xml  
+        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_editorUser.xml
+        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_editorClass.xml
+        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_editorWeb.xml
 
-        	create user data from file ${application.config}/user/user_authorA.xml
-        	create user data from file ${application.config}/user/user_authorI.xml
-        	create user data from file ${application.config}/user/user_authorP.xml
-        	create user data from file ${application.config}/user/user_authorD.xml
+        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_authorA.xml
+        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_authorI.xml
+        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_authorP.xml
+        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_authorD.xml
 
-        	create user data from file ${application.config}/user/user_editorA.xml
-        	create user data from file ${application.config}/user/user_editorI.xml
-        	create user data from file ${application.config}/user/user_editorP.xml
-        	create user data from file ${application.config}/user/user_editorD.xml
+        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_editorA.xml
+        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_editorI.xml
+        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_editorP.xml
+        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_editorD.xml
         	
-        	create group data from file ${application.config}/user/group_membergroup.xml
-        	create user data from file ${application.config}/user/user_member.xml
+        	create group data from file ${APP_HOME}/WEB-INF/config/user/group_membergroup.xml
+        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_member.xml
         	
-        	create group data from file ${application.config}/user/group_adminthesis.xml
-        	create user data from file ${application.config}/user/user_editorT.xml
+        	create group data from file ${APP_HOME}/WEB-INF/config/user/group_adminthesis.xml
+        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_editorT.xml
         	
-        	create group data from file ${application.config}/user/group_adminthesis.xml
-        	create user data from file ${application.config}/user/user_editorT.xml
+        	create group data from file ${APP_HOME}/WEB-INF/config/user/group_adminthesis.xml
+        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_editorT.xml
         	
-        	create group data from file ${application.config}/user/group_suspendthesis.xml
-        	create user data from file ${application.config}/user/user_editorTS.xml
+        	create group data from file ${APP_HOME}/WEB-INF/config/user/group_suspendthesis.xml
+        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_editorTS.xml
         	
-        	create group data from file ${application.config}/user/group_suspenddisshab.xml
-        	create user data from file ${application.config}/user/user_editorDS.xml
+        	create group data from file ${APP_HOME}/WEB-INF/config/user/group_suspenddisshab.xml
+        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_editorDS.xml
         	
             check user data consistency
     	</mcr-execute>
@@ -296,14 +301,14 @@
 	</target>
 
 	<target name="create.workflowengine.database">
-		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="application.classpath" />
+		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
 		<mcr-execute>
 			create jbpm database schema       	
         </mcr-execute>
 	</target>
 
 	<target name="deploy.processdefinition.thesis">
-		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="application.classpath" />
+		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
 		<!-- loads processdefinition as resource from classpath -->
 		<mcr-execute>
         	deploy jbpm processdefinition from file workflow/thesis.par/processdefinition.xml      	
@@ -311,49 +316,49 @@
 	</target>
 
 	<target name="deploy.processdefinition.series">
-		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="application.classpath" />
+		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
 		<mcr-execute>
         	deploy jbpm processdefinition from file workflow/series.par/processdefinition.xml      	
         </mcr-execute>
 	</target>
 
 	<target name="deploy.processdefinition.xmetadiss">
-		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="application.classpath" />
+		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
 		<mcr-execute>
         	deploy jbpm processdefinition from file workflow/xmetadiss.par/processdefinition.xml      	
         </mcr-execute>
 	</target>
 
 	<target name="deploy.processdefinition.registeruser">
-		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="application.classpath" />
+		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
 		<mcr-execute>
         	deploy jbpm processdefinition from file workflow/registeruser.par/processdefinition.xml      	
         </mcr-execute>
 	</target>
 
 	<target name="deploy.processdefinition.publication">
-		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="application.classpath" />
+		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
 		<mcr-execute>
         	deploy jbpm processdefinition from file workflow\publication.par\processdefinition.xml      	
    		</mcr-execute>
 	</target>
 
 	<target name="deploy.processdefinition.institution">
-		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="application.classpath" />
+		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
 		<mcr-execute>
         	deploy jbpm processdefinition from file workflow/institution.par/processdefinition.xml      	
         </mcr-execute>
 	</target>
 
 	<target name="deploy.processdefinition.person">
-		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="application.classpath" />
+		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
 		<mcr-execute>
         	deploy jbpm processdefinition from file workflow/person.par/processdefinition.xml      	
         </mcr-execute>
 	</target>
 
 	<target name="deploy.workflow.processdefinitions">
-		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="application.classpath" />
+		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
 		<mcr-execute>
         	deploy jbpm processdefinition from file workflow/person.par/processdefinition.xml      	
         	
