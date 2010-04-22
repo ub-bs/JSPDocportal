@@ -112,6 +112,7 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 	    			sbUrl.append("/");
 	    		
 	    			MCRDirectory root = MCRDirectory.getRootDirectory(derID);
+	    			if(root!=null){
 	    			MCRFilesystemNode[] myfiles = root.getChildren(MCRDirectory.SORT_BY_NAME);
 	    			boolean accessAllowed = AI.checkPermission(derID, "read");	   		    
 	    			for ( int j=0; j< myfiles.length; j++) {
@@ -143,6 +144,7 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 	    					out.write("&nbsp;---&nbsp;"+docdetails.getMessages().getString("OMD.fileaccess.denied"));
 	    				}
 	    				out.write("</dd>");
+	    			}
 	    			}
 	    		}
 	    	}

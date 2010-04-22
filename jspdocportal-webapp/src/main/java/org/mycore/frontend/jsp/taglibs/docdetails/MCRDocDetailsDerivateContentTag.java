@@ -74,15 +74,12 @@ public class MCRDocDetailsDerivateContentTag extends SimpleTagSupport {
 	   		  		o = new String("");
 	   		  	}
 	   		  		
-	    		
 	    		Node n = (Node)nodes.get(0);
 	    		Element eN = (Element)n;
 	    		String derID = eN.getAttributeNS(MCRConstants.XLINK_NAMESPACE.getURI(), "href");
 	    		String title = eN.getAttributeNS(MCRConstants.XLINK_NAMESPACE.getURI(), "label");
 	    		
-
 	    		out.write("<td class=\""+docdetails.getStylePrimaryName()+"-value\">");
-	    		
 	    		
 	    		StringBuffer sbUrl = new StringBuffer(o.toString());
 	    		sbUrl.append("file/");
@@ -90,6 +87,7 @@ public class MCRDocDetailsDerivateContentTag extends SimpleTagSupport {
 	    		sbUrl.append("/");
 	    		
 	    		MCRDirectory root = MCRDirectory.getRootDirectory(derID);
+	    		if(root!=null){
 	   		    MCRFilesystemNode[] myfiles = root.getChildren();
 	   			boolean accessAllowed = AI.checkPermission(derID, "read");	   		    
 	   		    for ( int j=0; j< myfiles.length; j++) {
@@ -117,10 +115,8 @@ public class MCRDocDetailsDerivateContentTag extends SimpleTagSupport {
 	   		    	
 	   		    }
 	    	}
-	   		 out.write("</td>");   
-	    		
-	    	 	
-	    
+	    	}
+	    	out.write("</td>");   
 	    	}		//error
 	   }catch(Exception e){
 		throw new JspException("Error executing docdetails:derivatelist tag", e);
