@@ -39,7 +39,7 @@
     <field name="creator"       type="name"       source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/creators/creator | /mycoreobject/metadata/creatorlinks/creatorlink " value="text() | @xlink:title" />
     <field name="creatorID"     type="identifier" source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/creatorlinks/creatorlink" value="@xlink:href" />
     <field name="publisher"     type="name"       source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/publishers/publisher | /mycoreobject/metadata/publisherlinks/publisherlink" value="text() | @xlink:title" />
-    <field name="publisherID"   type="identifier" source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/publisherlinks/publisherlink " value="@xlink:href" />
+    <field name="publisherID"   type="identifier" source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/publishlinks/publishlink " value="@xlink:href" />
     <field name="contributor"   type="name"       source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/contributors/contributor | /mycoreobject/metadata/contributorlinks/contributorlink" value="text() | @xlink:title" />
     <field name="contributorID" type="identifier" source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/contributorlinks/contributorlink" value="@xlink:href" />
     <field name="keywords"      type="text"       source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/keywords/keyword" value="text()" />
