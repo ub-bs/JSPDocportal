@@ -1,7 +1,6 @@
 package org.mycore.frontend.jsp.taglibs.browsing;
 
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
@@ -142,7 +141,7 @@ public class MCRIndexBrowserTag extends SimpleTagSupport {
         sbParams.append("&amp;XSL.subselect.varpath.SESSION=");
         sbParams.append(subselect_varpath);
         sbParams.append("&amp;XSL.subselect.webpage.SESSION=");
-        sbParams.append(URLEncoder.encode(subselect_webpage, Charset.defaultCharset().name()));
+        sbParams.append(URLEncoder.encode(subselect_webpage, "ISO-8859-1"));
 	  
         String subselect_params = sbParams.toString(); 
 		JspWriter out = getJspContext().getOut();
@@ -293,13 +292,13 @@ public class MCRIndexBrowserTag extends SimpleTagSupport {
 
 	    	if(e.getName().equals("value")){
 	    		String title = e.getChildText("idx");
-				String titleEnc = URLEncoder.encode(title, Charset.defaultCharset().name());
+				String titleEnc = URLEncoder.encode(title, "ISO-8859-1");
 	    		StringBuffer sbUrl = new StringBuffer(webApplicationBaseURL);
 	    		if(isSubselect){
 	    			sbUrl.append("servlets/").append("XMLEditor?_action=end.subselect");
 	    			sbUrl.append("&amp;subselect.session=").append(subselect_session);
 	    			sbUrl.append("&amp;subselect.varpath=").append(subselect_varpath);
-	    			sbUrl.append("&amp;subselect.webpage=").append(URLEncoder.encode(subselect_webpage,  Charset.defaultCharset().name()));
+	    			sbUrl.append("&amp;subselect.webpage=").append(URLEncoder.encode(subselect_webpage, "ISO-8859-1"));
 	    		    getJspContext().setAttribute(varURLName, sbUrl.toString()+"&amp;_var_@xlink:href="+e.getChildText("id")+"&amp;_var_@xlink:title="+titleEnc);
 	    		}
 	    		else{
