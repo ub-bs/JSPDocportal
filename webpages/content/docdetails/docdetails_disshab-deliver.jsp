@@ -1,3 +1,4 @@
+<%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
@@ -12,7 +13,7 @@
 <%@page import="org.mycore.backend.hibernate.MCRHIBConnection"%>
 <html>
      <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">        
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">        
         <title>
          Abgabeformular - elektronische Dissertation 
         </title>
@@ -138,7 +139,7 @@
 </c:catch>
 
 <c:if test="${e!=null}">
-	Es ist ein Fehler bei der Erzeugung des Abgabeformulars aufgetreten. Haben Sie alle Datenfelder ausgefüllt?
+	Es ist ein Fehler bei der Erzeugung des Abgabeformulars aufgetreten. Haben Sie alle Datenfelder ausgefÃ¼llt?
 	Wenn ja, wenden Sie sich an den Administrator (digibib.ub@uni-rostock.de).
 	<% 
   		Logger.getLogger("test.jsp").error("error", (Throwable) pageContext.getAttribute("e"));   
@@ -149,7 +150,7 @@
    </td></tr>
   </table>
 <hr/>
-	<p>Bitte drucken Sie das Formular aus und geben es zusammen mit den Pflichtexemplaren in der Universitätsbibliothek Rostock ab.</p>
+	<p>Bitte drucken Sie das Formular aus und geben es zusammen mit den Pflichtexemplaren in der UniversitÃ¤tsbibliothek Rostock ab.</p>
 
 </body>
 </html>
