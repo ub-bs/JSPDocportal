@@ -3,8 +3,8 @@ package org.mycore.frontend.workflowengine.jbpm;
 import org.apache.log4j.Logger;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
+import org.jbpm.JbpmException;
 import org.jbpm.db.GraphSession;
-import org.jbpm.persistence.JbpmPersistenceException;
 
 public class MCRAbstractWorkflowObject {
 	protected final static JbpmConfiguration jbpmConfiguration = 
@@ -22,7 +22,7 @@ public class MCRAbstractWorkflowObject {
 		if(jbpmContext != null)
 			jbpmContext.close();
 		}
-		catch(JbpmPersistenceException e){
+		catch(JbpmException e){
 			Logger.getLogger(this.getClass()).error(e.getMessage(), e);
 		}
 	}
