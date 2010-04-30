@@ -244,7 +244,7 @@
 						<transformationSet>
 							<dir>src/main/config/datamodel</dir>
 							<outputDir>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</outputDir>
-							<stylesheet>./../mycore-base/src/main/resources/xsl/MCRMetadataSchema.xsl</stylesheet>
+							<stylesheet>src/main/resources/xsl/MCRMetadataSchema.xsl</stylesheet>
 							<fileMappers>
 								<fileMapper
 									implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
@@ -254,8 +254,15 @@
 						</transformationSet>
 					</transformationSets>
 				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>net.sf.saxon</groupId>
+						<artifactId>saxon</artifactId>
+						<version>8.7</version>
+					</dependency>
+				</dependencies>
 			</plugin>
-			      <plugin>
+	        <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
           <execution>
