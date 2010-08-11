@@ -106,36 +106,12 @@
            <br />  <img title="<fmt:message key="WF.common.object.EditObjectIsLocked" />" border="0" src="${WebApplicationBaseURL}images/workflow_locked.gif" height="30" />
          </c:otherwise>
         </c:choose>  
-        <!-- icon for pica export -->
-         <c:if test="${!(fn:contains(type,'professorum'))}" > 
-          	<br /><a href="${WebApplicationBaseURL}content/pica_export.jsp?id=${param.id}&fromWF=${param.fromWF}" target="_blank">
-          		<img src="${WebApplicationBaseURL}images/workflow_pica_export.gif" border="0" alt="<fmt:message key="WF.common.picaexport" />"  class="imagebutton" height="30"/>
-           </a>        
-         </c:if>              
-      </c:if>      
+       </c:if>      
    </c:if>
  </td>
  </tr>
 </table>
 <br />
-<%--
-<mcr:imageViewerGetSupport derivID="DocPortal_derivate_000000000401" var="iviewlink" /> 
-IviewLink(Liederbuch):&nbsp;[<c:out value="${iviewlink}" />]<br /> 
-
-<mcr:imageViewerGetSupport derivID="atlibri_derivate_000000000003" var="iviewlink" /> 
-IviewLink:&nbsp;[<c:out value="${iviewlink}" />]<br /> 
-
-<mcr:imageViewer derivID="atlibri_derivate_000000000003" pathOfImage="${iviewLink}"
-display="normal" height="500" width="800" scaleFactor="fitToWidth" style="image"/>  
-<br />
-<mcr:imageViewerGetEmbeddedThumbnail derivID="atlibri_derivate_000000000003" pathOfImage="\uni-haupt.jpg"/>
-<br />
-<c:set var="mylink"><mcr:imageViewerGetAddress derivID="DocPortal_derivate_000000000401" pathOfImage="${iviewLink}"
-display="normal" height="500" width="800" scaleFactor="fitToWidth" style="image"/></c:set>
-
-<a href="${mylink}">Vollbildmodus</a>
-
---%>
 
 </c:catch>
 <c:if test="${e!=null}">

@@ -42,7 +42,7 @@
 <table class="${layout}" >
 
 <tr><td id="contentArea">
-  <jsp:include page="docdetails.jsp" >
+  <jsp:include page="/content/docdetails.jsp" >
 		<jsp:param name="id" value="${param.id}"/>
 		<jsp:param name="print" value="${true}"/>
 	</jsp:include>
