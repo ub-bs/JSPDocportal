@@ -24,7 +24,7 @@
    			<mcrmetaboolean name="female" class="MCRMetaBoolean" minOccurs='1' maxOccurs='1'/>
    		</element>
    		<!-- 03 - Institution -->
-   		<element name="institutions" minOccurs='1' maxOccurs='1'>
+   		<element name="institutions" minOccurs='0' maxOccurs='1'>
    			<mcrmetaclassification name="institution" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded'/>
    		</element>
    		<!-- 04 - Address -->
