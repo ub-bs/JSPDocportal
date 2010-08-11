@@ -15,8 +15,7 @@
 			<c:when test="${fn:contains(docType, 'series') and not fn:contains('TYPE0004.001', contentType)}">
 				<img src="${WebApplicationBaseURL}/images/pubtype/series-volume.gif" alt="icon" align="middle" />
 			</c:when>
-			
-			<c:when test="${fn:contains('TYPE0001.001 TYPE0001.002 TYPE0001.003', contentType)}">
+			<c:when test="${fn:contains('TYPE0001.001 TYPE0001.002 TYPE0001.003 TYPE0010.003 TYPE0002.001', contentType)}">
 				<img src="${WebApplicationBaseURL}/images/pubtype/monographie.gif"
 					alt="text" align="middle"/>
 			</c:when>
