@@ -10,7 +10,7 @@
 
 	<property name="APP_NAME" value="mycoresample" />
 
-	<property name="HOME" value="${basedir}/target/app" />
+	<property name="HOME" value="${basedir}/target/${APP_NAME}-cli" />
 	<property name="APP_HOME" value="${HOME}/${APP_NAME}" />
 
 	<path id="APP_CLASSPATH">
