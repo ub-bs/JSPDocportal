@@ -39,7 +39,7 @@
     <field name="creator"       type="name"       source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/creators/creator | /mycoreobject/metadata/creatorlinks/creatorlink " value="text() | @xlink:title" />
     <field name="creatorID"     type="identifier" source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/creatorlinks/creatorlink" value="@xlink:href" />
     <field name="publisher"     type="name"       source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/publishers/publisher | /mycoreobject/metadata/publisherlinks/publisherlink" value="text() | @xlink:title" />
-    <field name="publisherID"   type="identifier" source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/publisherlinks/publisherlink " value="@xlink:href" />
+    <field name="publisherID"   type="identifier" source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/publishlinks/publishlink " value="@xlink:href" />
     <field name="contributor"   type="name"       source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/contributors/contributor | /mycoreobject/metadata/contributorlinks/contributorlink" value="text() | @xlink:title" />
     <field name="contributorID" type="identifier" source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/contributorlinks/contributorlink" value="@xlink:href" />
     <field name="keywords"      type="text"       source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/keywords/keyword" value="text()" />
@@ -65,8 +65,7 @@
     <field name="pnd"  			type="identifier" source="objectMetadata" objects="person" xpath="/mycoreobject/metadata/identifiers/identifier[@type='pnd']" value="text()" />
   
     <field name="index_creators" type="index" sortable="true" source="objectMetadata" objects="person" xpath="/mycoreobject/metadata/names/name[1]/fullname" value="text()" />
-    <field name="index_title"    type="identifier" objects="codice document disshab thesis series series-volume person artwork" source="objectMetadata" xpath="/mycoreobject/metadata/titles/title[1] | /mycoreobject/metadata/surnames/surname | /mycoreobject/metadata/names/name/fullname | /mycoreobject/metadata/names/name | /mycoreobject/metadata/contents/content" value="normalize-space(text())"  />
- 
+    <field name="index_title"    type="index" sortable="true" objects="codice document disshab thesis series series-volume person artwork" source="objectMetadata" xpath="/mycoreobject/metadata/titles/title[1] | /mycoreobject/metadata/surnames/surname[1] | /mycoreobject/metadata/names/name[1]/fullname | /mycoreobject/metadata/names/name[1] | /mycoreobject/metadata/contents/content[1]" value="normalize-space(text())"  />
   </index>
 
   <!-- Search in MCRFile metadata and content -->  
