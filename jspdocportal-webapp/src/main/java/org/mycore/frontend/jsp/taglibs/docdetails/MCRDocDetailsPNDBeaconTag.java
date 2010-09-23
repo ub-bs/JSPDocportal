@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Set;
+import java.util.Iterator;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
@@ -100,7 +100,7 @@ public class MCRDocDetailsPNDBeaconTag extends SimpleTagSupport {
 		    JSONArray titles = jsonArray.getJSONArray(1);
 		    //JSONArray institutions = jsonArray.getJSONArray(2);
 		    JSONArray links = jsonArray.getJSONArray(3);
-		    int size = links.size();
+		    int size = links.toArray().length;
 		    
 		    if(size>1){
 		    	
@@ -116,8 +116,9 @@ public class MCRDocDetailsPNDBeaconTag extends SimpleTagSupport {
 		    	else{
 		    		JSONObject jo = (JSONObject)JSONSerializer.toJSON(whitelist);
 		    		@SuppressWarnings("unchecked")
-		    		Set<String> keys = (Set<String>)jo.keySet();
-		    		for( String s: keys){
+		    		Iterator<String> keys = (Iterator<String>)jo.keys();
+		    		while(keys.hasNext()){
+		    		     String s= keys.next();
 		    			 if(pndLink.startsWith(s)){
 		    				 String title = jo.getString(s);
 		    				 if(title.length()==0){
@@ -127,7 +128,10 @@ public class MCRDocDetailsPNDBeaconTag extends SimpleTagSupport {
 		    			 }
 				     }
 		    		 for(int i=0;i<size;i++){
-		    			 for( String s: keys){
+		    			 @SuppressWarnings("unchecked")
+		    			 Iterator<String> keys2 = (Iterator<String>)jo.keys();
+		    			 while(keys2.hasNext()){
+			    		     String s= keys2.next();
 			    			 if(links.getString(i).startsWith(s)){
 			    				 String title = jo.getString(s);
 			    				 if(title.length()==0){
