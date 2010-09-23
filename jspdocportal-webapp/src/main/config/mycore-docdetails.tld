@@ -211,6 +211,24 @@
 		</attribute>
 	</tag>
 	
+	<tag>
+		<description>includes the content from PND Beacon Findbuch</description>
+		<name>pndbeacon</name>
+		<tag-class>org.mycore.frontend.jsp.taglibs.docdetails.MCRDocDetailsPNDBeaconTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>pnd</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>whitelist</name>
+		</attribute>
+		<attribute>
+			<name>styleName</name>
+		</attribute>
+	</tag>
+	
 	
 
 
