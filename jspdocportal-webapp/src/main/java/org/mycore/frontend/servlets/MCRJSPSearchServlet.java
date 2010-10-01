@@ -158,7 +158,7 @@ public class MCRJSPSearchServlet extends MCRSearchServlet {
      *  @author A.Schaar
      *  @see its from mycore and overwritten here 
      */
-    @SuppressWarnings("unchecked")
+
 	protected void sendToLayout(HttpServletRequest req, HttpServletResponse res, Document jdom) throws IOException {
     	if ( "results".equalsIgnoreCase(jdom.getRootElement().getName()) ) {
     		String path = "/nav?path=";

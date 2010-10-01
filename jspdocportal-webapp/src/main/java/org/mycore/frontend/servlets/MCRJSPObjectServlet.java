@@ -31,7 +31,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.jdom.Document;
-import org.mycore.datamodel.metadata.MCRObject;
+import org.mycore.datamodel.metadata.MCRMetadataManager;
+import org.mycore.datamodel.metadata.MCRObjectID;
 
 /**
  * This servlet response the MCRObject certain by the call path
@@ -92,7 +93,7 @@ public class MCRJSPObjectServlet extends MCRServlet {
         if (style != null && style.equals("xml")) {
             response.setContentType("text/xml");
             OutputStream out = response.getOutputStream();
-            Document jdom = new MCRObject().receiveJDOMFromDatastore(id);
+            Document jdom = MCRMetadataManager.retrieve(MCRObjectID.getInstance(id)).createXML();
             if (jdom != null) {
                 new org.jdom.output.XMLOutputter().output(jdom, out);        	
             }

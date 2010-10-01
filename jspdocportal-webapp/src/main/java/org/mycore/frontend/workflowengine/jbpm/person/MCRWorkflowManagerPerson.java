@@ -31,9 +31,9 @@ import java.util.PropertyResourceBundle;
 
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
-import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRException;
+import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.guice.MCRAuthorWorkflowModule;
@@ -160,8 +160,7 @@ public class MCRWorkflowManagerPerson extends MCRWorkflowManager {
 				// cannot be used in decision handlers - persistence problems with jbpm
 				// wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS, createdDocID);
 							
-				MCRObject mob = new MCRObject();
-				mob.receiveFromDatastore(createdDocID);
+				MCRObject mob = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(createdDocID));
 				setWorkflowVariablesFromMetadata(ctxI, mob.createXML().getRootElement().getChild("metadata"));
 				// cannot be used in decision handlers - persistence problems with jbpm
 				// setWorkflowVariablesFromMetadata(createdDocID, mob.createXML()
@@ -215,8 +214,8 @@ public String createNewAuthor(String userid, ContextInstance ctxI,
 			author = authorStrategy.createAuthor(userid, author,
 					isFillInUserData, false);
 	//		setStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS, author.getId(), processID);
-			setDefaultPermissions(author.getId(), userid, ctxI);
-			return author.getId();
+			setDefaultPermissions(author.toString(), userid, ctxI);
+			return author.toString();
 		} catch (MCRException ex) {
 			logger.error("an error occurred", ex);
 		} finally {
@@ -228,7 +227,7 @@ public String createNewAuthor(String userid, ContextInstance ctxI,
 	public boolean commitWorkflowObject(ContextInstance ctxI) {
 		try {
 			String documentID = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
-			String documentType = new MCRObjectID(documentID).getTypeId();
+			String documentType = MCRObjectID.getInstance(documentID).getTypeId();
 			if (!metadataStrategy.commitMetadataObject(documentID,
 					MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType))) {
 				throw new MCRException("error in committing " + documentID);
@@ -251,9 +250,8 @@ public String createNewAuthor(String userid, ContextInstance ctxI,
 		if(ctxI.hasVariable(MCRWorkflowConstants.WFM_VAR_BOOL_TEMPORARY_IN_DATABASE)
              &&((Boolean)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_BOOL_TEMPORARY_IN_DATABASE)).booleanValue()){
 			String createdDocID = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
-			MCRObject author = new MCRObject();
 			try{
-				author.deleteFromDatastore(createdDocID);
+				MCRMetadataManager.deleteMCRObject(MCRObjectID.getInstance(createdDocID));
 			}
 			 catch (Exception ex) {
 					logger.error("could not delete workflow files", ex);
@@ -276,10 +274,9 @@ public String createNewAuthor(String userid, ContextInstance ctxI,
 	}
 
 	public long initWorkflowProcessForEditing(String initiator, String mcrid ) throws MCRException {
-		if (mcrid != null && MCRObject.existInDatastore(mcrid)) {
+		if (mcrid != null && MCRMetadataManager.exists(MCRObjectID.getInstance(mcrid))) {
 			// Store Object in Workflow - Filesystem
-			MCRObject mob = new MCRObject();
-			mob.receiveFromDatastore(mcrid);
+			MCRObject mob = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrid));
 			String type = mob.getId().getTypeId();
 			JSPUtils.saveToDirectory(mob, MCRWorkflowDirectoryManager.getWorkflowDirectory(type));
 			long processID = initWorkflowProcess(initiator,  "go2DisplayPersonData");

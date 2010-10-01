@@ -20,7 +20,9 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
+import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
+import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.datamodel.metadata.MCRObjectStructure;
 import org.mycore.frontend.cli.MCRDerivateCommands;
 
@@ -227,20 +229,20 @@ public class JSPUtils {
 	// the workflow directory or to save it before deleteing - look to MCRStartEditorServlet - sdelobj
 	public static String saveToDirectory(MCRObject mob, String savedir){
 		MCRObjectStructure structure = mob.getStructure();
-		String mcrid = mob.getId().getId();
-		int derSize = structure.getDerivateSize();
+		String mcrid = mob.getId().toString();
+		int derSize = structure.getChildren().size();
 		String atachedDerivates = "";
 
 		for(int i = 0; i < derSize; i++) {
-			String derivateID = structure.getDerivate(i).getXLinkHref();
+			String derivateID = structure.getChildren().get(i).getXLinkHref();
 	        String derDir  = savedir ;
-	        if ( derivateID != null && MCRObject.existInDatastore(derivateID) ) {
+	        if ( derivateID != null && MCRMetadataManager.exists(MCRObjectID.getInstance(derivateID))) {
 				atachedDerivates += derivateID + ",";
 		        MCRDerivateCommands.show(derivateID, derDir);
 	        }				
 		}
 		for(int i = 0; i < derSize; i++) {
-			structure.removeDerivate(0);
+			structure.getChildren().remove(0);
 		}	
 		
 		saveDirect( mob.createXML(), savedir + "/" + mcrid + ".xml");

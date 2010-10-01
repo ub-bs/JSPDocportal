@@ -24,7 +24,6 @@
 package org.mycore.frontend.workflowengine.jbpm.registeruser;
 
 import java.io.File;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

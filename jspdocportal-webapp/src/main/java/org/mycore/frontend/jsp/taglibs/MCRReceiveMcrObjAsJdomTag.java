@@ -11,6 +11,8 @@ import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 import org.jdom.output.DOMOutputter;
 import org.mycore.backend.hibernate.MCRHIBConnection;
+import org.mycore.datamodel.metadata.MCRMetadataManager;
+import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 
 public class MCRReceiveMcrObjAsJdomTag extends SimpleTagSupport
@@ -55,7 +57,7 @@ public class MCRReceiveMcrObjAsJdomTag extends SimpleTagSupport
 					mcr_obj.setFromURI(file.toURI());
 				}
 			} else {
-				mcr_obj.receiveFromDatastore(mcrid);
+				MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrid));
 			}
 			PageContext pageContext = (PageContext) getJspContext();
 			org.jdom.Document docJdom = mcr_obj.createXML();

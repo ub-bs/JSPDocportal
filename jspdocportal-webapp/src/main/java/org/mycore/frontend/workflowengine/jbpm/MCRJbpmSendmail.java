@@ -35,6 +35,7 @@ public class MCRJbpmSendmail{
 	protected static String workflowAdminEmail = MCRConfiguration.instance().getString("MCR.WorkflowEngine.Administrator.Email", "admin@mycore.de");
 	
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void sendMail(String from,
 			String to, String replyTo, String bcc, 
 			String subject, String body, String mode,
@@ -107,7 +108,7 @@ public class MCRJbpmSendmail{
 		}		
 	}
 	
-	private static List getEmailAddressesFromStringList(String addresses,
+	private static List<String> getEmailAddressesFromStringList(String addresses,
 			ExecutionContext executionContext) {
 		List<String> ret = new ArrayList<String>();
 		if (addresses == null || addresses.equals(""))
@@ -160,8 +161,8 @@ public class MCRJbpmSendmail{
 		List<String> ret = new ArrayList<String>();
 		if (MCRUserMgr.instance().existGroup(groupid) ) {
 			MCRGroup group = MCRUserMgr.instance().retrieveGroup(groupid);
-			for (Iterator it = group.getMemberUserIDs().iterator(); it.hasNext();) {
-				String email = getUserEmailAddress((String)it.next());
+			for (Iterator<String> it = group.getMemberUserIDs().iterator(); it.hasNext();) {
+				String email = getUserEmailAddress(it.next());
 				if(email != null && email.indexOf("@") > -1){
 					ret.add(email);
 				}

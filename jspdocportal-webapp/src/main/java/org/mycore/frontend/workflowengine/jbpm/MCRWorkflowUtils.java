@@ -66,7 +66,7 @@ public class MCRWorkflowUtils {
     	logger.debug("Results found hits:" + mcrResult.getNumHits());    
     	if ( mcrResult.getNumHits() > 0 ) {
     		String authorID = mcrResult.getHit(0).getID();
-    		return new MCRObjectID(authorID);
+    		return MCRObjectID.getInstance(authorID);
     	}
     	return null;
 	}

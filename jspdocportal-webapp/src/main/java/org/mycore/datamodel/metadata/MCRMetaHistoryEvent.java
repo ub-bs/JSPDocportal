@@ -3,6 +3,7 @@ package org.mycore.datamodel.metadata;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.jdom.Attribute;
 import org.jdom.Element;
 import org.jdom.Namespace;
@@ -10,6 +11,7 @@ import org.mycore.common.MCRCalendar;
 import org.mycore.common.MCRException;
 
 public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
+	private static final Logger LOGGER = Logger.getLogger(MCRMetaHistoryEvent.class);
 	public static final int MCRHISTORYEVENT_MAX_EVENT = 1024;
 	private String event;
 	private MCRMetaClassification classification;
@@ -24,10 +26,10 @@ public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
 		
 	}
 
-	public MCRMetaHistoryEvent(String set_datapart, String set_subtag,
+	public MCRMetaHistoryEvent(String set_subtag,
 			String default_lang, String set_type, int set_inherted)
 			throws MCRException {
-		super(set_datapart, set_subtag, default_lang, set_type, set_inherted);
+		super(set_subtag, default_lang, set_type, set_inherted);
 		event = "";
 		classification = new MCRMetaClassification();
 		classification.setLang("de");
@@ -162,8 +164,8 @@ public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
     /**
      * This method make a clone of this class.
      */
-    public Object clone() {
-        MCRMetaHistoryEvent out = new MCRMetaHistoryEvent(datapart, subtag, lang, type, inherited);
+    public MCRMetaHistoryEvent clone() {
+        MCRMetaHistoryEvent out = new MCRMetaHistoryEvent(subtag, lang, type, inherited);
         out.setText(getText("de").getText(), "de");
         out.setVonDate(getVon());
         out.setBisDate(getBis());

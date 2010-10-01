@@ -33,11 +33,11 @@ public class MCRDocumentDerivateStrategy extends MCRDefaultDerivateStrategy {
 			throw new MCRException(errMsg);
 		}
 		
-		String derID = der.getId().getId();
+		String derID = der.getId().toString();
 		
 		// save the files
 	
-		ArrayList ffname = new ArrayList();
+		ArrayList<String> ffname = new ArrayList<String>();
 		String mainfile = "";
 		int newFileCnt = 0;
 		FileOutputStream fouts = null;
@@ -68,7 +68,7 @@ public class MCRDocumentDerivateStrategy extends MCRDefaultDerivateStrategy {
 			} 
 		}
 		if ((mainfile.length() == 0) && (ffname.size() > 0)) {
-			mainfile = (String) ffname.get(0);
+			mainfile = ffname.get(0);
 		}
 	
 		if (der.getDerivate().getInternals().getMainDoc().equals("#####")) {

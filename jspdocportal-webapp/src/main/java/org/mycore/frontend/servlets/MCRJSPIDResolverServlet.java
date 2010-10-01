@@ -42,6 +42,7 @@ import org.mycore.datamodel.ifs.MCRDirectory;
 import org.mycore.datamodel.ifs.MCRFile;
 import org.mycore.datamodel.ifs.MCRFilesystemNode;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
+import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.datamodel.metadata.MCRObjectStructure;
@@ -139,13 +140,12 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     		if(result.getNumHits()>0){
     			String mcrID = result.getHit(0).getID();
     			if(pdf!=null){
-    				MCRObject o = new MCRObject();
-    		    	o.receiveFromDatastore(mcrID);
+    				MCRObject o = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID));
     				MCRObjectStructure structure = o.getStructure(); 
-    				MCRMetaLinkID derMetaLink = structure.getDerivate(0);
+    				MCRMetaLinkID derMetaLink = structure.getChildren().get(0);
         			MCRObjectID derID = derMetaLink.getXLinkHrefID();
         			MCRDirectory root;
-        			root = MCRDirectory.getRootDirectory(derID.getId());;
+        			root = MCRDirectory.getRootDirectory(derID.toString());
         			MCRFilesystemNode[] myfiles = root.getChildren();
         			if(myfiles.length==1){        				
         				/* the following code does not change the URL in the browser, but I cannot set additional parameter to open the pdf */
@@ -169,9 +169,7 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
         			}   				
     			}
     			else if(xml!=null){
-    				MCRObject o = new MCRObject();
-    		    	o.receiveFromDatastore(id);
-    	    		Document doc = o.createXML();
+    				Document doc = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(id)).createXML();    	    		 
     	    		response.setContentType("text/xml");
     	    		XMLOutputter xout = new XMLOutputter(Format.getPrettyFormat());
     	    		xout.output(doc, response.getOutputStream());
@@ -182,14 +180,11 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     			
     				StringBuffer sbDFGViewerURL = null;
     			
-    				MCRObject o = new MCRObject();
-    		    	o.receiveFromDatastore(mcrID);
-    				MCRObjectStructure structure = o.getStructure(); 
-    				for(int i=0;i<structure.getDerivateSize();i++){
-    					MCRMetaLinkID derMetaLink = structure.getDerivate(0);
+    				MCRObject o = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID));
+    				for(MCRMetaLinkID derMetaLink: o.getStructure().getChildren()){    					 
     					if("METS".equals(derMetaLink.getXLinkLabel())){
     						MCRObjectID derID = derMetaLink.getXLinkHrefID();
-    						MCRDirectory root = MCRDirectory.getRootDirectory(derID.getId());;
+    						MCRDirectory root = MCRDirectory.getRootDirectory(derID.toString());
     						MCRFilesystemNode[] myfiles = root.getChildren();
     						for (MCRFilesystemNode f: myfiles){
     							if((f instanceof MCRFile) && ((MCRFile) f).getAbsolutePath().endsWith(".mets.xml")){

@@ -32,7 +32,8 @@ import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRSessionMgr;
-import org.mycore.datamodel.metadata.MCRObject;
+import org.mycore.datamodel.metadata.MCRMetadataManager;
+import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.editor.MCRRequestParameters;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
@@ -75,7 +76,7 @@ public class MCRWorkflowForEditingStartServlet extends MCRServlet {
 		
 		logger.debug("Document MCRID = " + mcrid);
 		
-		if ( mcrid != null && MCRObject.existInDatastore(mcrid) ) {
+		if ( mcrid != null && MCRMetadataManager.exists(MCRObjectID.getInstance(mcrid)) ) {
 			MCRWorkflowManager wfm = null; 
 			String type = mcrid.split("_")[1];
 			String workflowTypes[] = (MCRConfiguration.instance().getString("MCR.WorkflowEngine.WorkflowTypes")).split(",");

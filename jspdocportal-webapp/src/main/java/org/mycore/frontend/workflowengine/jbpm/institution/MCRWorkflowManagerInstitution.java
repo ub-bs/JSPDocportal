@@ -30,6 +30,7 @@ import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRException;
+import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.guice.MCRInstitutionWorkflowModule;
@@ -160,9 +161,9 @@ public String createNewInstitution(String userid, ContextInstance ctxI) {
 	try {
 			MCRObjectID institution = this.getNextFreeID(this.mainDocumentType);
 			institution = institutionStrategy.createInstitution(institution, false);
-			setDefaultPermissions(institution.getId(), userid, ctxI);
+			setDefaultPermissions(institution.toString(), userid, ctxI);
 		
-			return institution.getId();
+			return institution.toString();
 		} catch (MCRException ex) {
 			logger.error("an error occurred", ex);
 		} finally {
@@ -174,7 +175,7 @@ public String createNewInstitution(String userid, ContextInstance ctxI) {
 		
 		try {
 			String documentID = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
-			String documentType = new MCRObjectID(documentID).getTypeId();
+			String documentType = MCRObjectID.getInstance(documentID).getTypeId();
 			if (!metadataStrategy.commitMetadataObject(documentID,
 					MCRWorkflowDirectoryManager
 							.getWorkflowDirectory(documentType))) {
@@ -207,10 +208,9 @@ public String createNewInstitution(String userid, ContextInstance ctxI) {
 	}
 
 	public long initWorkflowProcessForEditing(String initiator, String mcrid ) throws MCRException {
-		if (mcrid != null && MCRObject.existInDatastore(mcrid)) {
+		if (mcrid != null && MCRMetadataManager.exists(MCRObjectID.getInstance(mcrid))) {
 			// Store Object in Workflow - Filesystem
-			MCRObject mob = new MCRObject();
-			mob.receiveFromDatastore(mcrid);
+			MCRObject mob = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrid));
 			String type = mob.getId().getTypeId();
 			JSPUtils.saveToDirectory(mob, MCRWorkflowDirectoryManager.getWorkflowDirectory(type));
 			long processID = initWorkflowProcess(initiator,  "go2DisplayInstitutionData");

@@ -1,6 +1,8 @@
 package org.mycore.frontend.workflowengine.strategies;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 import org.apache.log4j.Logger;
 import org.jdom.Document;
@@ -8,11 +10,14 @@ import org.jdom.Element;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 import org.mycore.common.MCRConfiguration;
+import org.mycore.common.xml.MCRXMLFunctions;
 
+import org.mycore.datamodel.common.MCRXMLMetadataManager;
 import org.mycore.datamodel.metadata.MCRMetaAddress;
 import org.mycore.datamodel.metadata.MCRMetaBoolean;
 import org.mycore.datamodel.metadata.MCRMetaLangText;
 import org.mycore.datamodel.metadata.MCRMetaPersonName;
+import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
@@ -20,6 +25,7 @@ import org.mycore.services.fieldquery.MCRResults;
 import org.mycore.user.MCRUser;
 import org.mycore.user.MCRUserContact;
 import org.mycore.user.MCRUserMgr;
+import org.xml.sax.SAXParseException;
 
 public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {
 	private static Logger logger = Logger.getLogger(MCRDefaultAuthorStrategy.class.getName());
@@ -43,7 +49,7 @@ public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {
 			if ( mcrResult.getNumHits() > 0 ) {
 				//workflow control should avoid getting here
 				String authorID = mcrResult.getHit(0).getID();
-				return new MCRObjectID(authorID);
+				return MCRObjectID.getInstance(authorID);
 			}
 			author = createAuthorFromUser(user, nextFreeAuthorId);
 		} else {
@@ -52,10 +58,10 @@ public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {
 		
 		try {
 			if ( inDatabase) {
-				author.createInDatastore();
+				MCRMetadataManager.create(author);
 			} else {
 				FileOutputStream fos = new FileOutputStream(
-						MCRWorkflowDirectoryManager.getWorkflowDirectory("person")	+ "/" + author.getId().getId() + ".xml");
+						MCRWorkflowDirectoryManager.getWorkflowDirectory("person")	+ "/" + author.getId().toString() + ".xml");
 						(new XMLOutputter(Format.getPrettyFormat())).output(author.createXML(),fos);
 				fos.close();
 			}
@@ -136,10 +142,18 @@ public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {
 //					.getUserContact().getCity(), userContact
 //					.getStreet(), "-");
 			
-			padr.set(userContact.getCountry(), "-", 
-					 userContact.getPostalCode(), user					
-					.getUserContact().getCity(), userContact
-					.getStreet(), "-");
+			  /*public final void set(String set_country, String set_state, 
+			   * String set_zipcode, String set_city, String set_street, String set_number) {
+			        if (set_country == null || set_state == null || set_zipcode == null || set_city == null || set_street == null || set_number == null) {
+			            throw new MCRException("One parameter is null.");
+			        }*/
+			
+			padr.setCountry(userContact.getCountry());
+			padr.setState("-");
+			padr.setZipCode(userContact.getPostalCode());
+			padr.setCity(userContact.getCity());
+			padr.setStreet(userContact.getStreet());
+			padr.setNumber("-");
 
 			MCRMetaLangText userID = new MCRMetaLangText();
 			userID.setSubTag("userid");
@@ -226,27 +240,20 @@ public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {
 			MCRConfiguration cfg = MCRConfiguration.instance();
 			
 		//	String instName=cfg.getString("McRCMCR.WorkflowEngine.MyInstitution.name","");
-			String instCountry=cfg.getString("MCR.WorkflowEngine.MyInstitution.country","");
-			String instState=cfg.getString("MCR.WorkflowEngine.MyInstitution.state","");
-			String instZipCode=cfg.getString("MCR.WorkflowEngine.MyInstitution.zipcode","");
-			String instCity=cfg.getString("MCR.WorkflowEngine.MyInstitution.city","");
-			String instStreet=cfg.getString("MCR.WorkflowEngine.MyInstitution.street","");
-			String instNumber=cfg.getString("MCR.WorkflowEngine.MyInstitution.number","");
-
 			
-			
-			padr.set(instCountry, instState, instZipCode, instCity, instStreet, instNumber);
+			padr.setCountry(cfg.getString("MCR.WorkflowEngine.MyInstitution.country",""));
+			padr.setState(cfg.getString("MCR.WorkflowEngine.MyInstitution.state",""));
+			padr.setZipCode(cfg.getString("MCR.WorkflowEngine.MyInstitution.zipcode",""));
+			padr.setCity(cfg.getString("MCR.WorkflowEngine.MyInstitution.city",""));
+			padr.setStreet(cfg.getString("MCR.WorkflowEngine.MyInstitution.street",""));
+			padr.setNumber(cfg.getString("MCR.WorkflowEngine.MyInstitution.number",""));
 			
 			Element ePadr = padr.createXML();
 			Element ePadrs = new Element("addresses");
 			ePadrs.setAttribute("class", "MCRMetaAddress");
 			ePadrs.addContent(ePadr);
 
-			metadata.addContent(ePadrs);
-			
-			
-			
-			
+			metadata.addContent(ePadrs);		
 			
 			//		metadata.addContent(new Element("females"));
 	//		metadata.addContent(new Element("institutions"));
@@ -259,8 +266,19 @@ public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {
 		xmlElemAuthor.addContent(service);
 
 		Document authordoc = new Document(xmlElemAuthor);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		XMLOutputter xop = new XMLOutputter();
+		try {
+			xop.output(authordoc, baos);
+			author.setFromXML(baos.toByteArray(), true);
 
-		author.setFromJDOM(authordoc);
+		} catch (IOException e) {
+			logger.error(e);
+		}
+		catch(SAXParseException e){
+			logger.error(e);
+		}
+		
 
 		// Robert: redundant?
 		author.setId(id);

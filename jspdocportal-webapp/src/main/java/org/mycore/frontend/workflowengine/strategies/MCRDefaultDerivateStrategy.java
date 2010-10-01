@@ -26,6 +26,7 @@ import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
+import org.xml.sax.SAXParseException;
 
 
 public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
@@ -183,7 +184,12 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 		}
 					
 		MCRDerivate der = new MCRDerivate();
-		der.setFromURI(new File(dirname + ".xml").toURI());
+		try{
+			der.setFromURI(new File(dirname + ".xml").toURI());
+		}
+		catch(SAXParseException e){
+			logger.error(e);
+		}
 		
 		if (der.getDerivate().getInternals().getMainDoc().equals("#####")) {
 			if ((mainfile.length() == 0) && (ffname.size() > 0)) {

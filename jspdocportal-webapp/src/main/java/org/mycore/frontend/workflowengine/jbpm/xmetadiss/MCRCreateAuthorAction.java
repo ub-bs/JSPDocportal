@@ -21,8 +21,8 @@ public class MCRCreateAuthorAction extends MCRAbstractAction{
 		if(authorID == null || authorID.equals("")){
 			MCRObjectID newAuthorID = WFM.getNextFreeID("person");
 			//TODO
-			authorID = WFM.createAuthor(initiator, newAuthorID,true,true).getId();
-			if(newAuthorID.getId().equals(authorID)){
+			authorID = WFM.createAuthor(initiator, newAuthorID,true,true).toString();
+			if(newAuthorID.toString().equals(authorID)){
 				//we have a new author -> must set default permissions
 				//Attention, workflowprocesstype is "person" because we want to set the default permissions from author workflow
 				//otherwise another set of properties is necessary

@@ -1,6 +1,8 @@
 package org.mycore.frontend.workflowengine.strategies;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 import org.apache.log4j.Logger;
 import org.jdom.Document;
@@ -9,8 +11,10 @@ import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
 import org.mycore.datamodel.metadata.MCRMetaInstitutionName;
+import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
+import org.xml.sax.SAXParseException;
 
 public class MCRDefaultInstitutionStrategy implements MCRInstitutionStrategy {
 	private static Logger logger = Logger.getLogger(MCRDefaultInstitutionStrategy.class.getName());
@@ -21,16 +25,16 @@ public class MCRDefaultInstitutionStrategy implements MCRInstitutionStrategy {
 		institution = createInstitutionObject(nextFreeInstitutionId);
 		try {
 			if ( inDatabase) {
-				institution.createInDatastore();
+				MCRMetadataManager.create(institution);
 			} else {
 				FileOutputStream fos = new FileOutputStream(
-						MCRWorkflowDirectoryManager.getWorkflowDirectory("institution")	+ "/" + institution.getId().getId() + ".xml");
+						MCRWorkflowDirectoryManager.getWorkflowDirectory("institution")	+ "/" + institution.getId().toString() + ".xml");
 						(new XMLOutputter(Format.getPrettyFormat())).output(institution.createXML(),fos);
 				fos.close();
 			}
 		} catch ( Exception ex){
 			//TODO Fehlermeldung
-			logger.warn("Could not Create institution object:  " + nextFreeInstitutionId.getId(), ex);
+			logger.warn("Could not Create institution object:  " + nextFreeInstitutionId.toString(), ex);
 			return null;
 		}
    	    return institution.getId();		
@@ -68,7 +72,19 @@ public class MCRDefaultInstitutionStrategy implements MCRInstitutionStrategy {
 		xmlElemInstitution.addContent(service);
 
 		Document institutiondoc = new Document(xmlElemInstitution);
-		institution.setFromJDOM(institutiondoc);
+		
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		XMLOutputter xop = new XMLOutputter();
+		try {
+			xop.output(institutiondoc, baos);
+			institution.setFromXML(baos.toByteArray(), true);
+
+		} catch (IOException e) {
+			logger.error(e);
+		}
+		catch(SAXParseException e){
+			logger.error(e);
+		}
 		institution.setId(id);
 			
 		XMLOutputter xout = new XMLOutputter(Format.getPrettyFormat());

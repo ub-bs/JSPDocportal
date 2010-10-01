@@ -29,10 +29,12 @@ import org.mycore.datamodel.ifs.MCRFilesystemNode;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRMetaIFS;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
+import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.cli.MCRDerivateCommands;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
+import org.xml.sax.SAXParseException;
 
 public abstract class MCRDerivateStrategy {
 	private static Logger logger = Logger.getLogger(MCRDefaultDerivateStrategy.class.getName());
@@ -85,34 +87,33 @@ public abstract class MCRDerivateStrategy {
 		
 		MCRObjectID IDMax = setNextFreeDerivateID();
 		
-		logger.debug("New derivate ID " + IDMax.getId());
+		logger.debug("New derivate ID " + IDMax.toString());
 
 		// create a new directory
-		File dir = new File(derivateDirectory + SEPARATOR + IDMax.getId());
+		File dir = new File(derivateDirectory + SEPARATOR + IDMax.toString());
 		dir.mkdir();
 		logger.debug("Directory " + dir.getAbsolutePath() + " created.");
 
 		// build the derivate XML file
 		MCRDerivate der = new MCRDerivate();
 		der.setId(IDMax);
-		der.setLabel(MCRConfiguration.instance().getString("MCR.Derivates.Labels.default", "Dataobject from " + IDMax.getId()));
+		der.setLabel(MCRConfiguration.instance().getString("MCR.Derivates.Labels.default", "Dataobject from " + IDMax.toString()));
 		der.setSchema("datamodel-derivate.xsd");
-		MCRMetaLinkID link = new MCRMetaLinkID("linkmetas", "linkmeta", lang , 0);
+		MCRMetaLinkID link = new MCRMetaLinkID("linkmeta", 0);
 		link.setReference(metadataObjectId, "", "");
 		der.getDerivate().setLinkMeta(link);
-		MCRMetaIFS internal = new MCRMetaIFS("internals", "internal", lang , IDMax.getId());
+		MCRMetaIFS internal = new MCRMetaIFS("internal", dir.getAbsolutePath());
 		internal.setMainDoc("#####");
 		der.getDerivate().setInternals(internal);
 		
 		JSPUtils.saveDirect( der.createXML(), dir.getAbsolutePath() + ".xml");
-		logger.info("Derivate " + IDMax.getId() + " stored under " + dir.getAbsolutePath() + ".xml");
-		return IDMax.getId();
+		logger.info("Derivate " + IDMax.toString() + " stored under " + dir.getAbsolutePath() + ".xml");
+		return IDMax.toString();
 	}
 
 	final public synchronized MCRObjectID setNextFreeDerivateID(){
 		int maxwf=0;
 		if(nextWorkflowDerivateID == null){
-			nextWorkflowDerivateID = new MCRObjectID();
 			List<String> allDerivateFileNames = new ArrayList<String>();
 			HashMap directoryMap = MCRWorkflowDirectoryManager.getEditWorkflowDirectories();
 			for (Iterator it = directoryMap.keySet().iterator(); it.hasNext();) {
@@ -128,8 +129,7 @@ public abstract class MCRDerivateStrategy {
 				}
 			}
 			String base = MCRConfiguration.instance().getString("MCR.SWF.Project.ID","DocPortal")+ "_derivate";
-			MCRObjectID dbIDMax = new MCRObjectID();
-			dbIDMax.setNextFreeId(base);
+			MCRObjectID dbIDMax = MCRObjectID.getNextFreeId(base);
 			if(allDerivateFileNames.size() == 0){
 				maxwf=0;
 			}else{			
@@ -138,13 +138,12 @@ public abstract class MCRDerivateStrategy {
 				MCRObjectID IDinWF = new MCRObjectID(maxFilename.substring(0, maxFilename.length() - 4));
 				maxwf = IDinWF.getNumberAsInteger();				
 			}
-			nextWorkflowDerivateID.setNextFreeId(base, maxwf);
+			nextWorkflowDerivateID = MCRObjectID.getNextFreeId(base, maxwf);
 		}
 		
 		
-		MCRObjectID retID = new MCRObjectID(nextWorkflowDerivateID.toString());
-		nextWorkflowDerivateID.setNumber(retID.getNumberAsInteger() + 1);
-		return retID;
+		return nextWorkflowDerivateID;
+		
 	}	
 	
 	/**
@@ -255,8 +254,8 @@ public abstract class MCRDerivateStrategy {
 		 * @return
 		 */
 		public boolean deleteDeletedDerivates(String derivateid) {	
-			if(MCRDerivate.existInDatastore(derivateid)){
-				MCRDerivateCommands.delete(derivateid);
+			if(MCRMetadataManager.exists(MCRObjectID.getInstance(derivateid))){
+				MCRMetadataManager.deleteMCRDerivate(MCRObjectID.getInstance(derivateid));
 			}
 			return true;
 		}
@@ -332,12 +331,17 @@ public abstract class MCRDerivateStrategy {
 		private boolean loadDerivate(String derivateid, String filename) {
 	        Map ruleMap = null;
 	        boolean result = false;
-			if (MCRDerivate.existInDatastore(derivateid)) {
+	        try{
+			if (MCRMetadataManager.exists(MCRObjectID.getInstance(derivateid))) {
 		        ruleMap = MCRWorkflowUtils.getAccessRulesMap(derivateid);
 				result = MCRDerivateCommands.updateFromFile(filename);
 			} else {
 				result = MCRDerivateCommands.loadFromFile(filename);
 			}
+	        }
+	        catch(SAXParseException e){
+	        	logger.error(e);
+	        }
 			
 			if ( ruleMap != null ) 
 				MCRWorkflowUtils.setAccessRulesMap(derivateid, ruleMap);

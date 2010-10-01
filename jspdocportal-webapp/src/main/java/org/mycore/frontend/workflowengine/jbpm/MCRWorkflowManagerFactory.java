@@ -16,7 +16,7 @@ public class MCRWorkflowManagerFactory {
 		workflowManagerImpls = new HashMap<String, Object>();
 		MCRConfiguration config = MCRConfiguration.instance();
 		Properties props = config.getProperties("MCR.WorkflowEngine.ManagerImpl.");
-		for (Enumeration e = props.keys(); e.hasMoreElements();) {
+		for (Enumeration<Object> e = props.keys(); e.hasMoreElements();) {
 			String prop = (String) e.nextElement();
 			String workflowProcessType = prop.substring("MCR.WorkflowEngine.ManagerImpl.".length());
 			workflowManagerImpls.put(workflowProcessType, config.getInstanceOf(prop));

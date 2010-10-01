@@ -37,7 +37,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
-import org.mycore.datamodel.metadata.MCRObject;
+import org.mycore.datamodel.metadata.MCRMetadataManager;
+import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.editor.MCRRequestParameters;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
@@ -146,7 +147,7 @@ public class MCRWorkflowActions extends MCRServlet {
     			bSuccess = WFM.removeWorkflowFiles(wfp.getContextInstance());
     		}
     		if (bSuccess) {
-        		if ( ! MCRObject.existInDatastore(mcrid) ) {
+        		if (!MCRMetadataManager.exists(MCRObjectID.getInstance(mcrid))){
         			// delete unused Permissions from database
         			AI.removeAllRules(mcrid);
         		}
@@ -315,7 +316,7 @@ public class MCRWorkflowActions extends MCRServlet {
 		StringBuffer redirectURL = new StringBuffer(baseURL);
 		boolean first = true;
 
-		for (Enumeration e = parameters.keys(); e.hasMoreElements();) {
+		for (Enumeration<Object> e = parameters.keys(); e.hasMoreElements();) {
 			if (first) {
 				redirectURL.append("?");
 				first = false;

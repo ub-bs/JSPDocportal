@@ -68,14 +68,8 @@ public class MCRCheckMetadataServlet extends MCRServlet {
         org.jdom.Document indoc = sub.getXML();
 
         // read the parameter
-        MCRRequestParameters parms;
-
-        if (sub == null) {
-            parms = new MCRRequestParameters(request);
-        } else {
-            parms = sub.getParameters();
-        }
-
+        MCRRequestParameters parms = sub.getParameters();
+        
         String mcrid1 = parms.getParameter("mcrid");
         String type = parms.getParameter("type");
         long processID = Long.parseLong(parms.getParameter("processid"));
@@ -121,26 +115,26 @@ public class MCRCheckMetadataServlet extends MCRServlet {
             mmcrid = mcrid1;
         }
 
-        MCRObjectID ID = new MCRObjectID(mmcrid);
+        MCRObjectID ID = MCRObjectID.getInstance(mmcrid);
 
         if (!ID.getTypeId().equals(type)) {
-            ID = new MCRObjectID(mcrid1);
+            ID = MCRObjectID.getInstance(mcrid1);
             hasid = false;
         }
 
         if (!hasid) {
-            indoc.getRootElement().setAttribute("ID", ID.getId());
+            indoc.getRootElement().setAttribute("ID", ID.toString());
         }
 
         // create a metadata object and prepare it
         org.jdom.Document outdoc;
         StringBuffer storePath = new StringBuffer(MCRWorkflowDirectoryManager.getWorkflowDirectory(ID.getTypeId()))
-			.append("/").append(ID.getId()).append(".xml");
+			.append("/").append(ID.toString()).append(".xml");
         
-        	WFM.storeMetadata(MCRUtils.getByteArray(indoc), ID.getId(), storePath.toString());
+        	WFM.storeMetadata(MCRUtils.getByteArray(indoc), ID.toString(), storePath.toString());
         	outdoc = prepareMetadata((org.jdom.Document) indoc.clone(), ID, job, lang, step, 
         			   nextPath, storePath.toString(), workflowType, String.valueOf(processID), publicationType);
-        	WFM.storeMetadata(MCRUtils.getByteArray(outdoc), ID.getId(), storePath.toString());
+        	WFM.storeMetadata(MCRUtils.getByteArray(outdoc), ID.toString(), storePath.toString());
         	WFM.setWorkflowVariablesFromMetadata(wfp.getContextInstance(), indoc.getRootElement().getChild("metadata"));
         	WFM.setMetadataValid(mcrid1, true, wfp.getContextInstance());
         	
@@ -206,7 +200,7 @@ public class MCRCheckMetadataServlet extends MCRServlet {
     /**
      * A method to handle valid errors.
      */
-    private final void errorHandlerValid(MCRServletJob job, List logtext, MCRObjectID ID, 
+    private final void errorHandlerValid(MCRServletJob job, @SuppressWarnings("rawtypes") List logtext, MCRObjectID ID, 
     		String lang, String step, String nextPath, String storePath, String workflowType, 
     		String processID, String publicationType) throws Exception {
         if (logtext.size() == 0) {
@@ -223,7 +217,7 @@ public class MCRCheckMetadataServlet extends MCRServlet {
 	        HttpServletRequest request = job.getRequest();
 	        request.setAttribute("errorList", logtext);
 	        request.setAttribute("workflowType", workflowType);
-	        request.setAttribute("mcrid", ID.getId());
+	        request.setAttribute("mcrid", ID.toString());
 	        request.setAttribute("type", ID.getTypeId());
 	        request.setAttribute("step", step);
 	        request.setAttribute("nextPath", nextPath);

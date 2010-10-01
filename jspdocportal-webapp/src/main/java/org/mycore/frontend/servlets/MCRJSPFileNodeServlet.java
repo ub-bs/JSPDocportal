@@ -37,7 +37,8 @@ import org.jdom.JDOMException;
 import org.jdom.output.DOMOutputter;
 import org.mycore.datamodel.ifs.MCRFileNodeServlet;
 import org.mycore.datamodel.metadata.MCRDerivate;
-import org.mycore.datamodel.metadata.MCRObject;
+import org.mycore.datamodel.metadata.MCRMetadataManager;
+import org.mycore.datamodel.metadata.MCRObjectID;
 
 /**
  * This Servlet overides only the output methods of mcrfilenodservlet for jsp docportal use 
@@ -54,16 +55,15 @@ public class MCRJSPFileNodeServlet extends  MCRFileNodeServlet{
     protected void layoutDirectory(HttpServletRequest req, HttpServletResponse res, Document jdom) throws IOException {
     	//the derivate
     	String derid = jdom.getRootElement().getChild("ownerID").getText();
-    	MCRDerivate mcr_der = new MCRDerivate();
-    	mcr_der.receiveFromDatastore(derid);
+    	MCRDerivate mcr_der = MCRMetadataManager.retrieveMCRDerivate(MCRObjectID.getInstance(derid));
     	
     	String mainDoc = mcr_der.getDerivate().getInternals().getMainDoc();
     	if ( mainDoc.length() < 1)
     		 mainDoc = jdom.getRootElement().getChild("children").getChild("child").getChildText("name");
 
     	String mcrid   =  mcr_der.getDerivate().getMetaLink().getXLinkHref();
-    	MCRObject mcr_obj = new MCRObject();
-    	Document jmcr_obj = mcr_obj.receiveJDOMFromDatastore(mcrid);
+    	//MCRObject mcr_obj = new MCRObject();
+    	Document jmcr_obj = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrid)).createXML();
     	String objTitle   = jmcr_obj.getRootElement().getAttributeValue("label");
     		
    		if ( jmcr_obj.getRootElement().getChild("metadata").getChild("titles") != null )

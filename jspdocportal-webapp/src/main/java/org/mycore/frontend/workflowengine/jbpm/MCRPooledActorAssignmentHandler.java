@@ -14,11 +14,11 @@ public class MCRPooledActorAssignmentHandler implements AssignmentHandler {
 	private String groupName;
 
 	public void assign(Assignable assignable, ExecutionContext executionContext) throws Exception {
-		List members = MCRUserMgr.instance().retrieveGroup(groupName).getMemberUserIDs();
+		List<String> members = MCRUserMgr.instance().retrieveGroup(groupName).getMemberUserIDs();
 		String[] pooledActors = new String[members.size()];
 		int i = 0;
-		for (Iterator it = members.iterator(); it.hasNext();) {
-			pooledActors[i] = (String) it.next();
+		for (Iterator<String> it = members.iterator(); it.hasNext();) {
+			pooledActors[i] = it.next();
 			i++;
 		}
 		assignable.setPooledActors( pooledActors );

@@ -18,6 +18,7 @@ import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRUtils;
+import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.strategies.MCRDerivateStrategy;
@@ -143,14 +144,12 @@ public abstract class MCRWorkflowManager {
 	
 	public boolean removeDatabaseObjects(ContextInstance ctxI) {
 		boolean bSuccess =false;
-		MCRObject mycore_obj = new MCRObject();
-		
 		try{
 			String documentID = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
-			if ( MCRObject.existInDatastore(documentID)) {
-				mycore_obj.deleteFromDatastore(documentID);
+			if (MCRMetadataManager.exists(MCRObjectID.getInstance(documentID))) {
+				MCRMetadataManager.deleteMCRObject(MCRObjectID.getInstance(documentID));
 				AI.removeAllRules(documentID);
-				logger.info(mycore_obj.getId().getId() + " deleted.");
+				logger.info(documentID + " deleted.");
 			}
 			bSuccess=true;
 			//wfp.setStringVariable("varnameERROR", '');						
@@ -234,7 +233,7 @@ public abstract class MCRWorkflowManager {
 	 * @param dirname
 	 * @param pid
 	 */
-	final public void saveUploadedFiles(List files, String dirname, ContextInstance ctxI, String newLabel) {
+	final public void saveUploadedFiles(@SuppressWarnings("rawtypes") List files, String dirname, ContextInstance ctxI, String newLabel) {
 		try{
 			derivateStrategy.saveFiles(files, dirname, ctxI, newLabel);
 		}catch(MCRException ex){
@@ -254,8 +253,8 @@ public abstract class MCRWorkflowManager {
 	 * 		a list of java beans
 	 */
 	@SuppressWarnings("unchecked")
-	final public static List getTasks(String userid, String mode, List workflowProcessTypes){
-		List ret = new ArrayList<Object>();
+	final public static List<Object> getTasks(String userid, String mode, List<Object> workflowProcessTypes){
+		List<Object> ret = new ArrayList<Object>();
 		if(mode == null) mode = "";
 		if(mode.equals("activeTasks")){
 			ret.addAll(MCRJbpmWorkflowBase.getTasks(userid, workflowProcessTypes));
@@ -388,7 +387,7 @@ public abstract class MCRWorkflowManager {
 		if (workingDirectory.isDirectory()) {
 			for (String filename: workingDirectory.list()) {
 				try {
-					MCRObjectID IDinWF = new MCRObjectID(filename.substring(0, filename.length() - 4));
+					MCRObjectID IDinWF = MCRObjectID.getInstance(filename.substring(0, filename.length() - 4));
 					if (IDinWF.getTypeId().equals(objtype) && maxwf < IDinWF.getNumberAsInteger()) {
 						maxwf = IDinWF.getNumberAsInteger();
 					}
@@ -397,10 +396,9 @@ public abstract class MCRWorkflowManager {
 				}
 			}
 		}
-		MCRObjectID result = new MCRObjectID();
-		result.setNextFreeId(base,maxwf);
+		MCRObjectID result = (MCRObjectID.getNextFreeId(base,maxwf));
 	
-		logger.debug("New ID is: " + result.getId());
+		logger.debug("New ID is: " + result.toString());
 		return result;
 	}
 	

@@ -47,7 +47,8 @@ import org.jdom.input.SAXBuilder;
 import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
-import org.mycore.datamodel.metadata.MCRObject;
+import org.mycore.datamodel.common.MCRXMLMetadataManager;
+import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -171,7 +172,7 @@ public class MCRDocDetailsTag extends SimpleTagSupport {
 					data = getBytesFromFile(file);
 				}
 			} else {
-				data = MCRObject.receiveXMLFromDatastore(mcrID);
+				data = MCRXMLMetadataManager.instance().retrieveBLOB(MCRObjectID.getInstance(mcrID));
 			}
 			doc = builder.parse(new ByteArrayInputStream(data));
 			if (var != null) {

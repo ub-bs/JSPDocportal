@@ -29,24 +29,24 @@ package org.mycore.frontend.workflowengine.jbpm.publication;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.jbpm.context.exe.ContextInstance;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.filter.ElementFilter;
 import org.jdom.input.SAXBuilder;
-import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRException;
+import org.mycore.datamodel.common.MCRXMLMetadataManager;
 import org.mycore.datamodel.metadata.MCRMetaElement;
+import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.guice.MCRPublicationWorkflowModule;
@@ -129,10 +129,9 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 	
 	
 	public long initWorkflowProcessForEditing(String initiator, String mcrid ){
-		if (mcrid != null && MCRObject.existInDatastore(mcrid)) {
+		if (mcrid != null && MCRMetadataManager.exists(MCRObjectID.getInstance(mcrid))) {
 			// Store Object in Workflow - Filesystem
-			MCRObject mob = new MCRObject();
-			mob.receiveFromDatastore(mcrid);
+			MCRObject mob = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrid));
 			String type = mob.getId().getTypeId();
 			Document job = mob.createXML();
 			String pubType="";
@@ -201,7 +200,7 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 	private boolean checkSubmitVariables(ContextInstance ctxI){
 		try{
 //			String authorID = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_AUTHOR_IDS);
-			String reservatedURN = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN);
+//			String reservatedURN = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN);
 			String createdDocID = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
 			String attachedDerivates = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES);
 			if(	/*	!MCRWorkflowUtils.isEmpty(reservatedURN)
@@ -267,7 +266,7 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 		boolean bSuccess = false;
 		try{
 			String documentID = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
-			String documentType = new MCRObjectID(documentID).getTypeId();
+			String documentType = MCRObjectID.getInstance(documentID).getTypeId();
 			bSuccess = metadataStrategy.commitMetadataObject(documentID, MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType));
 			List deletedDerIDs = Arrays.asList(((String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_DELETED_DERIVATES)).split(","));
 			for (Iterator it = deletedDerIDs.iterator(); it.hasNext();) {
@@ -332,12 +331,12 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 				urn = (String) identifierStrategy.createNewIdentifier(
 								mcrid,workflowProcessType,
 								(String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_INITIATOR));
-				MCRObjectID mcrObjID = new MCRObjectID(mcrid);
+				MCRObjectID mcrObjID = MCRObjectID.getInstance(mcrid);
 				String filename = MCRWorkflowDirectoryManager.getWorkflowDirectory(mcrObjID.getTypeId())
 						+ File.separator + mcrid + ".xml";
 				Document doc = new SAXBuilder().build(new File(filename));
-				MCRObject mob = new MCRObject();
-				mob.setFromJDOM(doc);
+				MCRXMLMetadataManager.instance().create(mcrObjID, doc, new Date());
+				MCRObject mob = MCRMetadataManager.retrieveMCRObject(mcrObjID);
 				Element eUrns = metadataStrategy.createURNElement(urn);
 				if(mob.getMetadata().getMetadataElement("urns")!=null){
 					mob.getMetadata().getMetadataElement("urns").getElement(0)
@@ -345,8 +344,9 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 				}
 				else{
 					MCRMetaElement metaURNs = new MCRMetaElement();
+					metaURNs.setTag("urns");
 					metaURNs.setFromDOM(eUrns);
-					mob.getMetadata().setMetadataElement(metaURNs, "urns");
+					mob.getMetadata().setMetadataElement(metaURNs);
 				}
 
 				JSPUtils.saveDirect(mob.createXML(), filename);

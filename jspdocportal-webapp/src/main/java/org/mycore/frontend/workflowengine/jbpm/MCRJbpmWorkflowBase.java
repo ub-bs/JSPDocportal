@@ -25,6 +25,7 @@ import org.jdom.Element;
 import org.jdom.output.DOMOutputter;
 import org.mycore.common.MCRException;
 
+@SuppressWarnings("rawtypes")
 public class MCRJbpmWorkflowBase {
 	
 	// A VARIABLE USED IN ALL WORKFLOW PROCESSES
@@ -57,6 +58,7 @@ public class MCRJbpmWorkflowBase {
 			
 		}
 	}
+
 
 	public static List getCurrentProcessIDsForProcessType(String processType) {
 		List<Long> ret = new ArrayList<Long>();

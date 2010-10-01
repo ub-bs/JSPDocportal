@@ -43,7 +43,7 @@ public class MCRSeriesDerivateStrategy extends MCRDefaultDerivateStrategy {
 			throw new MCRException(errMsg);
 		}
 		
-		String derID = der.getId().getId();
+		String derID = der.getId().toString();
 		
 		boolean containsPdf = false;
 		boolean containsAttachement = false;

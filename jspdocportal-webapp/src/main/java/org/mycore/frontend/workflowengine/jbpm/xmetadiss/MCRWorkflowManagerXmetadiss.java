@@ -39,6 +39,7 @@ import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRException;
 import org.mycore.datamodel.metadata.MCRDerivate;
+import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.guice.MCRRegisteruserWorkflowModule;
@@ -137,11 +138,10 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 	 * This is the start of editing an existing dissertation
 	 */
 	public long initWorkflowProcessForEditing(String initiator, String mcrid ){
-		if (mcrid != null && MCRObject.existInDatastore(mcrid)) {
+		if (mcrid != null && MCRMetadataManager.exists(MCRObjectID.getInstance(mcrid))) {
 			// Store Object in Workflow - Filesystem
 			
-			MCRObject mob = new MCRObject();
-			mob.receiveFromDatastore(mcrid);
+			MCRObject mob = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrid));
 			String type = mob.getId().getTypeId();			
 			String atachedDerivates = JSPUtils.saveToDirectory(mob, MCRWorkflowDirectoryManager.getWorkflowDirectory(type));
 
@@ -174,8 +174,7 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 			String[] derivateIDs = atachedDerivates.split(",");
 			for (int i=0;i<derivateIDs.length;i++){
 				if(derivateIDs[i].length()==0) continue;
-				MCRDerivate d = new MCRDerivate();
-				d.receiveFromDatastore(derivateIDs[i]);
+				MCRDerivate d = MCRMetadataManager.retrieveMCRDerivate(MCRObjectID.getInstance(derivateIDs[i]));
 				String filename = d.getDerivate().getInternals().getMainDoc();
 				logger.debug("**********MainDoc for derivate - "+d.getDerivate().getInternals().getMainDoc());
 				String fileextension = filename.substring(filename.lastIndexOf('.')+1, filename.length()); 
@@ -268,7 +267,7 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 			MCRObjectID nextFreeId = getNextFreeID(metadataStrategy.getDocumentType());
 			String initiator = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_INITIATOR);
 			String saveDirectory = MCRWorkflowDirectoryManager.getWorkflowDirectory(mainDocumentType);
-			String identifier = (String)identifierStrategy.createNewIdentifier(nextFreeId.getId(), getWorkflowProcessType(), initiator);
+			String identifier = (String)identifierStrategy.createNewIdentifier(nextFreeId.toString(), getWorkflowProcessType(), initiator);
 			if(identifier != null && !identifier.equals("")){
 				ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN, identifier);
 			}
@@ -309,7 +308,7 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 		
 		try{
 			String dissID = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
-			String documentType = new MCRObjectID(dissID).getTypeId();
+			String documentType = MCRObjectID.getInstance(dissID).getTypeId();
 			if(!metadataStrategy.commitMetadataObject(dissID, MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType))){
 				throw new MCRException("error in committing " + dissID);
 			}

@@ -23,28 +23,19 @@
 
 package org.mycore.frontend.servlets;
 
-import java.io.StringReader;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.jdom.Document;
-import org.jdom.input.SAXBuilder;
-import org.mycore.parsers.bool.MCRCondition;
 import org.mycore.services.fieldquery.MCRQuery;
-import org.mycore.services.fieldquery.MCRQueryCommands;
 import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.services.fieldquery.MCRQueryParser;
 import org.mycore.services.fieldquery.MCRResults;
 
 /**
- * This servlet response the MCRObject certain by the call path
- * <em>.../receive/MCRObjectID</em> or
- * <em>.../servlets/MCRObjectServlet/id=MCRObjectID[&XSL.Style=...]</em>.
- * 
- * @author Heiko Helmbrecht
+ * This servlet opens retrieves the object for the given PND and opens the docdetails view
+ * @author Robert Stephan
  * 
  * @see org.mycore.frontend.servlets.MCRServlet
  */

@@ -1,5 +1,6 @@
 package org.mycore.frontend.workflowengine.strategies;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -18,10 +19,12 @@ import org.mycore.common.MCRConfiguration;
 import org.mycore.datamodel.metadata.MCRMetaClassification;
 import org.mycore.datamodel.metadata.MCRMetaLangText;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
+import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.cli.MCRObjectCommands;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
+import org.xml.sax.SAXParseException;
 
 public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 	private String documentType;
@@ -67,7 +70,7 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 			for (Iterator it = authorIDs.iterator(); it.hasNext();) {
 				String authorID = (String) it.next();
 				if ( authorID != null ) {
-					Document jAuthor =  new MCRObject().receiveJDOMFromDatastore(authorID);
+					Document jAuthor =  MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(authorID)).createXML();
 					String sAuthorName = authorID;
 					if ( jAuthor != null ) {
 					    Iterator it2 = jAuthor.getDescendants(new ElementFilter("fullname"));
@@ -139,13 +142,25 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 		mycoreobject.addContent(service);
 	    
 		// ID Setzen
-		String nextID = nextFreeObjectId.getId();
+		String nextID = nextFreeObjectId.toString();
 		mycoreobject.setAttribute("ID", nextID);	 
 		mycoreobject.setAttribute("label", nextID);
 
 		Document mycoreobjectdoc = new Document(mycoreobject);
 		MCRObject disshab = new MCRObject();
-		disshab.setFromJDOM(mycoreobjectdoc);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		XMLOutputter xop = new XMLOutputter();
+		try {
+			xop.output(mycoreobjectdoc, baos);
+			disshab.setFromXML(baos.toByteArray(), true);
+
+		} catch (IOException e) {
+			logger.error(e);
+		}
+		catch(SAXParseException e){
+			logger.error(e);
+		}
+		
 		try {
 			FileOutputStream fos = new FileOutputStream(saveDirectory + "/" + nextID + ".xml");
 			(new XMLOutputter(Format.getPrettyFormat())).output(mycoreobject,fos);
@@ -239,7 +254,7 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 	public boolean commitMetadataObject(String mcrobjid, String directory) {
 		try { 
 	        String filename = directory + "/" + mcrobjid + ".xml";
-			if (MCRObject.existInDatastore(mcrobjid)) {
+			if (MCRMetadataManager.exists(MCRObjectID.getInstance(mcrobjid))) {
 				// updates changes not the accesrules
 				MCRObjectCommands.updateFromFile(filename);
 			} else {

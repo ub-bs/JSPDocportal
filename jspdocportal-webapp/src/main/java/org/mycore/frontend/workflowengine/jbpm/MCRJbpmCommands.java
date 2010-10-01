@@ -37,11 +37,13 @@ import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRException;
 import org.mycore.datamodel.common.MCRActiveLinkException;
-import org.mycore.datamodel.common.MCRXMLTableManager;
+import org.mycore.datamodel.common.MCRXMLMetadataManager;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRMetaAccessRule;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
+import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
+import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.datamodel.metadata.MCRObjectStructure;
 import org.mycore.frontend.cli.MCRAbstractCommands;
 import org.mycore.frontend.cli.MCRCommand;
@@ -169,14 +171,11 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
             return;
         }
         
-        MCRXMLTableManager tm = MCRXMLTableManager.instance();
-        for (String id : tm.listIDsOfType(type)) {
+        for (String id : MCRXMLMetadataManager.instance().listIDsOfType(type)) {
         	
              try {
                  // if object do'snt exist - no exception is catched!
-                 MCRObject mcrObj = new MCRObject();
-                 mcrObj.receiveFromDatastore(id);
-                 
+                 MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(id));                 
             	 
 //               add ACL's
                  Iterator<String> it = MCRAccessManager.getAccessImpl().getPermissionsForID(id.toString()).iterator();
@@ -197,13 +196,11 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
                  
                  MCRObjectStructure mcrStructure = mcrObj.getStructure();
                  if(mcrStructure == null) return;
-                 for(int i=0; i<mcrStructure.getDerivateSize();i++){
-                	 MCRMetaLinkID derivate = mcrStructure.getDerivate(i);
+                 for(MCRMetaLinkID derivate: mcrStructure.getChildren()){
                 	 String derID = derivate.getXLinkHref();
-                	 File subdir = new File(dirname,mcrObj.getId().getId());
+                	 File subdir = new File(dirname,mcrObj.getId().toString());
                 	 subdir.mkdir();
-                	 MCRDerivateCommands.export(derID, subdir.getPath(), null);           	 
-                	 
+                	 MCRDerivateCommands.export(derID, subdir.getPath(), null);                	 
                  }       	
 
                  LOGGER.info("Object " + id.toString() + " saved to " + xmlOutput.getCanonicalPath() + ".");
@@ -255,15 +252,15 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
         		MCRObject mcrObj = new MCRObject();
         	    mcrObj.setImportMode(true); //true = servdates are taken from xml file;
         	    mcrObj.setFromURI(objectFile.toURI());
-        	    mcrObj.updateInDatastore();
+        	    MCRMetadataManager.update(mcrObj);
         	    
         	    //load derivates first:
-        	    for(int i=0;i<mcrObj.getStructure().getDerivateSize();i++){
-        	    	MCRMetaLinkID derLinkID = mcrObj.getStructure().getDerivate(i);
+        	    for(MCRMetaLinkID derLinkID: mcrObj.getStructure().getChildren()){
+        	    	
         	    	String derID = derLinkID.getXLinkHref();
         	    	File f = new File(new File(dir, id), derID+".xml");
         	    	if(f.exists()){
-        	    		if(MCRDerivate.existInDatastore(derID)){
+        	    		if(MCRMetadataManager.exists(MCRObjectID.getInstance(derID))){
         	    			MCRDerivateCommands.updateFromFile(f.getAbsolutePath());
         	    		}
         	    		else{

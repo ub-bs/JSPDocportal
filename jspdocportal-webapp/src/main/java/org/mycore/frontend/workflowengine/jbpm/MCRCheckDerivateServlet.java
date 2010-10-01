@@ -61,14 +61,11 @@ public class MCRCheckDerivateServlet extends MCRServlet {
 		// read the XML data
 		MCREditorSubmission sub = (MCREditorSubmission) (job.getRequest().getAttribute("MCREditorSubmission"));
 
+		@SuppressWarnings("rawtypes")
 		List files = sub.getFiles();
 
 		// read the parameter
-		MCRRequestParameters parms;
-		if (sub == null)
-			parms = new MCRRequestParameters(job.getRequest());
-		else
-			parms = sub.getParameters();
+		MCRRequestParameters parms = sub.getParameters();
 		String objid = parms.getParameter("mcrid2");
 		String derid = parms.getParameter("mcrid");
 		long processID = Long.parseLong(parms.getParameter("processid"));
@@ -108,7 +105,7 @@ public class MCRCheckDerivateServlet extends MCRServlet {
 		}
 
 		// prepare the MCRObjectID of the document the derivate belongs to
-		MCRObjectID ID = new MCRObjectID(objid);
+		MCRObjectID ID = MCRObjectID.getInstance(objid);
 
 		String workdir = MCRWorkflowDirectoryManager.getWorkflowDirectory(ID.getTypeId());
 		

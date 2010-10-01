@@ -76,15 +76,14 @@ public class MCRWorkflowUploadHandler extends MCRUploadHandler {
         logger.debug("MCRUploadHandlerMyCoRe DocID: " + docId + " DerId: " + derId + " Mode: " + mode);
 
         try {
-            new MCRObjectID(docId);
-            this.docId = docId;
+            
+            this.docId = MCRObjectID.getInstance(docId).toString();
         } catch (Exception e) {
             logger.error("Error while creating MCRObjectID.",e);
         }
 
         try {
-            new MCRObjectID(derId);
-            this.derId = derId;
+        	this.derId = MCRObjectID.getInstance(derId).toString();
         } catch (Exception e) {
             logger.error("Error while creating MCRObjectID.",e);
         }
@@ -94,7 +93,7 @@ public class MCRWorkflowUploadHandler extends MCRUploadHandler {
      * Start Upload for MyCoRe
      */
     public void startUpload(int numFiles) throws Exception {
-        MCRObjectID ID = new MCRObjectID(docId);
+        MCRObjectID ID = MCRObjectID.getInstance(docId);
         String workdir = MCRWorkflowDirectoryManager.getWorkflowDirectory(ID.getTypeId()); 
         dirname = workdir + "/" + derId;
     }

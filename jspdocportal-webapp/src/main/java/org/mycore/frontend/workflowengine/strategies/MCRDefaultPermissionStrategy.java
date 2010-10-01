@@ -42,7 +42,7 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 	public void setPermissions(String mcrid, String userid,
 			String workflowProcessType, ContextInstance ctxI, int mode) {
 		if (mode == MCRWorkflowConstants.PERMISSION_MODE_DEFAULT) {
-			MCRObjectID objID = new MCRObjectID(mcrid);
+			MCRObjectID objID = MCRObjectID.getInstance(mcrid);
 			for (int i = 0; i < defaultPermissionTypes.length; i++) {
 				String propName = new StringBuffer(
 						"MCR.WorkflowEngine.defaultACL.").append(
@@ -58,10 +58,10 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 					Element rule = (Element) MCRXMLHelper.parseXML(strRule, false)
 							.getRootElement().detach();
 					String permissionType = defaultPermissionTypes[i];
-					if (AI.hasRule(objID.getId(), permissionType)) {
-						AI.updateRule(objID.getId(), permissionType, rule, "");
+					if (AI.hasRule(objID.toString(), permissionType)) {
+						AI.updateRule(objID.toString(), permissionType, rule, "");
 					} else {
-						AI.addRule(objID.getId(), permissionType, rule, "");
+						AI.addRule(objID.toString(), permissionType, rule, "");
 					}
 				} catch(SAXParseException spe){
 					logger.error("SAXParseException: ", spe);
@@ -76,7 +76,7 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 		}
 
 		if (mode == MCRWorkflowConstants.PERMISSION_MODE_CREATORRREAD) {
-			MCRObjectID objID = new MCRObjectID(mcrid);
+			MCRObjectID objID = MCRObjectID.getInstance(mcrid);
 			String propName = new StringBuffer("MCR.WorkflowEngine.defaultACL.")
 					.append(objID.getTypeId()).append(".").append("read")
 					.append(".").append(workflowProcessType).toString();

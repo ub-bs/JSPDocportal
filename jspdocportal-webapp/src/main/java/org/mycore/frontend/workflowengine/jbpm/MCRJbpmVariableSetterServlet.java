@@ -54,7 +54,8 @@ public class MCRJbpmVariableSetterServlet extends MCRServlet {
     	HttpServletRequest request = job.getRequest();
     	HttpServletResponse response = job.getResponse();
     	
-    	Map map = new HashMap();
+    	@SuppressWarnings("rawtypes")
+		Map map = new HashMap();
     	String jbpmVariableNames = request.getParameter("jbpmVariableNames");
     	String strProcessID = request.getParameter("processID");
     	String nextPath = request.getParameter("dispatcherForward");
