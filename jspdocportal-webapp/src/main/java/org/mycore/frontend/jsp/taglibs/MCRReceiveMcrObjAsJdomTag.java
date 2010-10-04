@@ -57,7 +57,7 @@ public class MCRReceiveMcrObjAsJdomTag extends SimpleTagSupport
 					mcr_obj.setFromURI(file.toURI());
 				}
 			} else {
-				MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrid));
+				mcr_obj = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrid));
 			}
 			PageContext pageContext = (PageContext) getJspContext();
 			org.jdom.Document docJdom = mcr_obj.createXML();
