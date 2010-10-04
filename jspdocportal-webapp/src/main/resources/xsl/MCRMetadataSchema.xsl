@@ -135,6 +135,7 @@
         
         <xsl:value-of select="$newline"/>
       </xsd:all>
+      <xsd:attribute name="display" type="xsd:boolean" use="optional"/>
       <xsd:attribute ref="xml:lang"/>
     </xsd:complexType>
     
