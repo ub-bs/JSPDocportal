@@ -142,7 +142,7 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     			if(pdf!=null){
     				MCRObject o = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID));
     				MCRObjectStructure structure = o.getStructure(); 
-    				MCRMetaLinkID derMetaLink = structure.getChildren().get(0);
+    				MCRMetaLinkID derMetaLink = structure.getDerivates().get(0);
         			MCRObjectID derID = derMetaLink.getXLinkHrefID();
         			MCRDirectory root;
         			root = MCRDirectory.getRootDirectory(derID.toString());
@@ -181,7 +181,7 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     				StringBuffer sbDFGViewerURL = null;
     			
     				MCRObject o = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID));
-    				for(MCRMetaLinkID derMetaLink: o.getStructure().getChildren()){    					 
+    				for(MCRMetaLinkID derMetaLink: o.getStructure().getDerivates()){    					 
     					if("METS".equals(derMetaLink.getXLinkLabel())){
     						MCRObjectID derID = derMetaLink.getXLinkHrefID();
     						MCRDirectory root = MCRDirectory.getRootDirectory(derID.toString());

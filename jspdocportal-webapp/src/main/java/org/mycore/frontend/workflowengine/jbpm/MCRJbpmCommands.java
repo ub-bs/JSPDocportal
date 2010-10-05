@@ -196,7 +196,7 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
                  
                  MCRObjectStructure mcrStructure = mcrObj.getStructure();
                  if(mcrStructure == null) return;
-                 for(MCRMetaLinkID derivate: mcrStructure.getChildren()){
+                 for(MCRMetaLinkID derivate: mcrStructure.getDerivates()){
                 	 String derID = derivate.getXLinkHref();
                 	 File subdir = new File(dirname,mcrObj.getId().toString());
                 	 subdir.mkdir();
@@ -255,7 +255,7 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
         	    MCRMetadataManager.update(mcrObj);
         	    
         	    //load derivates first:
-        	    for(MCRMetaLinkID derLinkID: mcrObj.getStructure().getChildren()){
+        	    for(MCRMetaLinkID derLinkID: mcrObj.getStructure().getDerivates()){
         	    	
         	    	String derID = derLinkID.getXLinkHref();
         	    	File f = new File(new File(dir, id), derID+".xml");

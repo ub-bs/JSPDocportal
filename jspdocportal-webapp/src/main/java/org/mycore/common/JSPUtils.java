@@ -20,10 +20,10 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
+import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
-import org.mycore.datamodel.metadata.MCRObjectStructure;
 import org.mycore.frontend.cli.MCRDerivateCommands;
 
 /**
@@ -228,22 +228,17 @@ public class JSPUtils {
     //  static method to save any Document Object to an give directory - uses to put idt into
 	// the workflow directory or to save it before deleteing - look to MCRStartEditorServlet - sdelobj
 	public static String saveToDirectory(MCRObject mob, String savedir){
-		MCRObjectStructure structure = mob.getStructure();
-		String mcrid = mob.getId().toString();
-		int derSize = structure.getChildren().size();
 		String atachedDerivates = "";
-
-		for(int i = 0; i < derSize; i++) {
-			String derivateID = structure.getChildren().get(i).getXLinkHref();
-	        String derDir  = savedir ;
-	        if ( derivateID != null && MCRMetadataManager.exists(MCRObjectID.getInstance(derivateID))) {
-				atachedDerivates += derivateID + ",";
-		        MCRDerivateCommands.show(derivateID, derDir);
+		String mcrid = mob.getId().toString();
+		
+		for(MCRMetaLinkID metalinkID: mob.getStructure().getDerivates()) {
+			MCRObjectID derID = metalinkID.getXLinkHrefID();
+			if ( derID != null && MCRMetadataManager.exists(derID)) {
+				atachedDerivates += derID.toString() + ",";
+		        MCRDerivateCommands.show(derID.toString(), savedir);
 	        }				
 		}
-		for(int i = 0; i < derSize; i++) {
-			structure.getChildren().remove(0);
-		}	
+		mob.getStructure().getDerivates().clear();
 		
 		saveDirect( mob.createXML(), savedir + "/" + mcrid + ".xml");
 		return atachedDerivates;
@@ -253,20 +248,22 @@ public class JSPUtils {
 		FileOutputStream fos =null;	
 		try {
 			fos = new FileOutputStream(filename);
-			(new XMLOutputter(Format.getPrettyFormat())).output(jdom,fos);
+			XMLOutputter xmlOut = new XMLOutputter(Format.getPrettyFormat()); 
+			xmlOut.output(jdom,fos);
 			fos.close();
 		} catch (Exception ex){
-			logger.error("Cant save Object" + filename);
+			logger.error("Cant save Object" + filename, ex);
 		} finally{
 			if ( fos != null ){
-				try {		fos.close(); }			
-				catch ( IOException io ) {; // cant clos the fos 
+				try {
+					fos.close(); 
+				}			
+				catch ( IOException ioe ) {
+					logger.error(ioe); 
 				}
 			}
 		}
-	}
-	
-	
+	}	
 	
 	/**
 	* deletes recursively a directory 
@@ -274,11 +271,11 @@ public class JSPUtils {
 	* 	java.io.File the directory to be deleted recursively
 	*/    
 	public static void recursiveDelete( File path ) throws MCRException{
-		File files[] = path.listFiles();
-		for ( int i = 0; i < files.length; i++ ){
-			if ( files[i].isDirectory() )
-				recursiveDelete( files[i] );
-	    	files[i].delete();
+		for(File f: path.listFiles()){
+			if(f.isDirectory()){
+				recursiveDelete(f);
+			}
+			f.delete();
 		}
 		path.delete();
 	}
@@ -289,26 +286,30 @@ public class JSPUtils {
 	* 	java.io.File the directory to be deleted recursively
 	*/    
 	public static void recursiveCopy( File input, File output ) throws Exception{
-		File files[] = input.listFiles();
-		
-		if ( files == null)		return;
-		
-		if(!output.mkdir()) throw new MCRException("could not create dir " + output.getAbsolutePath()); 
-		for ( int i = 0;  i < files.length; i++ ){
-			if ( files[i].isDirectory() ){
-				File output2 = new File(output.getAbsolutePath() + "/" + files[i].getName());
-				recursiveCopy( files[i], output2 );
-			}else{
-				File output2 = new File(output.getAbsolutePath() + "/" + files[i].getName());
-				FileInputStream fis = new FileInputStream(files[i]);
-				FileOutputStream fos = new FileOutputStream(output2); 
-				MCRUtils.copyStream(fis, fos);
-				fis.close();
-				fos.close();
+		if(input.isDirectory()){
+			if(!output.mkdir()){
+				throw new MCRException("could not create dir " + output.getAbsolutePath()); 
+			}
+			for (File f: input.listFiles()){
+				if ( f.isDirectory() ){
+					File output2 = new File(output.getAbsolutePath() + "/" + f.getName());
+					recursiveCopy( f, output2 );
+				} else {
+					File output2 = new File(output.getAbsolutePath() + "/" + f.getName());
+					FileInputStream fis = new FileInputStream(f);
+					FileOutputStream fos = new FileOutputStream(output2); 
+					MCRUtils.copyStream(fis, fos);
+					fis.close();
+					fos.close();
+				}
 			}
 		}
-	}	
+	}
 	
+	/**
+	 * some tests
+	 * @param args none
+	 */
      public static void main(String[] args) {
     	 initialize();
     	 //just for testing
