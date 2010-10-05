@@ -187,12 +187,8 @@ public class MCRCheckMetadataServlet extends MCRServlet {
              return jdom_out;
          } catch (Exception e) {
              List<String> errorLog = ev != null ? ev.getErrorLog() : new ArrayList<String>();
-             StringWriter sw = new StringWriter();
-             PrintWriter pw = new PrintWriter(sw);
-             e.printStackTrace(pw);
-             errorLog.add(sw.toString());
-             pw.close();
-             errorHandlerValid(job, ev.getErrorLog(), ID, lang, step, nextPath, storePath, workflowType, processID, publicationType);
+             errorLog.add(e.getLocalizedMessage());
+             errorHandlerValid(job, errorLog, ID, lang, step, nextPath, storePath, workflowType, processID, publicationType);
              return null;
          }
      }

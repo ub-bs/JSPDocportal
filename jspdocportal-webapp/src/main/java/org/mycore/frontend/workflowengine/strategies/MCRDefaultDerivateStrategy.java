@@ -13,18 +13,10 @@ import java.util.regex.Matcher;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.Namespace;
-import org.jdom.input.SAXBuilder;
-import org.jdom.output.Format;
-import org.jdom.output.XMLOutputter;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRUtils;
 import org.mycore.datamodel.metadata.MCRDerivate;
-import org.mycore.datamodel.metadata.MCRMetaLinkID;
-import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.xml.sax.SAXParseException;
 
@@ -48,7 +40,7 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 			ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES,"");
 			return true;
 		}catch(MCRException ex){
-			logger.error("could not remove derivate", ex);
+			logger.error("could not remove derivate in workflow", ex);
 		}
 		return false;
 	}
@@ -68,9 +60,9 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 			
 		}else{
 			if ( !derFile.exists()) {
-				logger.warn(derivateObjectId +  " not exist's - do nothing.");					
+				logger.warn("nothing to do, because derivate file does not exist in workflow: "+derivateObjectId);					
 			} else {
-				logger.warn(derFile.getName() + " is not a file, did not delete it");
+				logger.warn("nothing to do, because this is not a file: "+derFile.getName());
 				return false;
 			}
 		}
@@ -110,9 +102,9 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 				}
 			}else{
 				if (!derDir.exists()) {
-					logger.warn(derivateObjectId + " not exist's - do nothing.");					
+					logger.warn("nothing to do, because derivate does not exist: " + derivateObjectId);					
 				} else {
-					logger.warn(derDir.getName() + " is not a directory, did not delete it");
+					logger.warn("object not deleted, because it is no directory: "+ derDir.getName());
 					return false;
 				}
 			}

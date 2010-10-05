@@ -221,12 +221,12 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 				File fi = new File(filename);
 				if (fi.isFile() && fi.canWrite()) {				
 					fi.delete();
-					logger.debug("File " + filename + " removed.");
+					logger.debug("deleted file in workflow: " + filename);
 				} else {
 					if ( !fi.exists()) {
-						logger.warn("File not exist  " + filename + " do nothing.");
+						logger.warn("nothing to doc, because file does not exist: " + filename);
 					} else {
-						logger.error("Can't remove file " + filename);
+						logger.error("Cannot delete file in workflow" + filename);
 						return false;
 					}
 				}
