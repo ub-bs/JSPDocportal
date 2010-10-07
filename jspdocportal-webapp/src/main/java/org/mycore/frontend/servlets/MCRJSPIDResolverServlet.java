@@ -102,7 +102,7 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
         	queryString = new StringBuffer();
         	queryString.append("<query>");
            	queryString.append("   <conditions format=\"xml\">");
-           	queryString.append("      <boolean operator=\"AND\">");
+           	queryString.append("      <boolean operator=\"and\">");
            	//queryString.append("       <condition field=\"objectType\" operator=\"=\" value=\"professor\" />");
            	queryString.append("         <condition field=\"id\" operator=\"=\" value=\""+id+"\" />");
            	queryString.append("      </boolean>");
@@ -113,7 +113,7 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     		queryString = new StringBuffer();
     		queryString.append("<query>");
     		queryString.append("   <conditions format=\"xml\">");
-    		queryString.append("      <boolean operator=\"AND\">");
+    		queryString.append("      <boolean operator=\"and\">");
     		//queryString.append("       <condition field=\"objectType\" operator=\"=\" value=\"professor\" />");
     		queryString.append("         <condition field=\"urn\" operator=\"=\" value=\""+urn+"\" />");
     		queryString.append("      </boolean>");
@@ -124,7 +124,7 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     		queryString = new StringBuffer();
     		queryString.append("<query>");
     		queryString.append("   <conditions format=\"xml\">");
-    		queryString.append("      <boolean operator=\"AND\">");
+    		queryString.append("      <boolean operator=\"and\">");
     		//queryString.append("       <condition field=\"objectType\" operator=\"=\" value=\"professor\" />");
     		queryString.append("         <condition field=\"ppn\" operator=\"=\" value=\""+ppn+"\" />");
     		queryString.append("      </boolean>");
