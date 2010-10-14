@@ -48,7 +48,6 @@ import org.mycore.datamodel.metadata.MCRObjectStructure;
 import org.mycore.frontend.cli.MCRAbstractCommands;
 import org.mycore.frontend.cli.MCRCommand;
 import org.mycore.frontend.cli.MCRDerivateCommands;
-import org.mycore.frontend.cli.MCRObjectCommands;
 import org.xml.sax.SAXParseException;
 
 /**
@@ -253,14 +252,15 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
         	    mcrObj.setImportMode(true); //true = servdates are taken from xml file;
         	    mcrObj.setFromURI(objectFile.toURI());
         	    MCRMetadataManager.update(mcrObj);
-        	    
+              	       
         	    //load derivates first:
-        	    for(MCRMetaLinkID derLinkID: mcrObj.getStructure().getDerivates()){
-        	    	
-        	    	String derID = derLinkID.getXLinkHref();
-        	    	File f = new File(new File(dir, id), derID+".xml");
-        	    	if(f.exists()){
-        	    		if(MCRMetadataManager.exists(MCRObjectID.getInstance(derID))){
+        	    File objDir = new File(dir, id);
+        	    if(objDir.exists()){
+        	    for(File f: objDir.listFiles()){
+        	     	if(f.isFile() && f.getName().endsWith(".xml")){
+        	     		String derID = f.getName().substring(0, f.getName().length()-4);
+        	     		LOGGER.info("Loading derivate "+f.getAbsolutePath()+" : File exists = "+f.exists());
+        	     		if(MCRMetadataManager.exists(MCRObjectID.getInstance(derID))){
         	    			MCRDerivateCommands.updateFromFile(f.getAbsolutePath());
         	    		}
         	    		else{
@@ -270,7 +270,7 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
 	         	    	//set ACLs
 	         	    	MCRDerivate mcrDer = new MCRDerivate();
 	             	    mcrDer.setImportMode(true); //true = servdates are taken from xml file;
-	             	    mcrDer.setFromURI(new File(new File(dir, id), derID+".xml").toURI());
+	             	    mcrDer.setFromURI(f.toURI());
 	             	    while(mcrDer.getService().getRulesSize()>0){
 	             		   MCRMetaAccessRule rule = mcrDer.getService().getRule(0);
 	             		   String permission = mcrDer.getService().getRulePermission(0);
@@ -278,13 +278,15 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
 	             		   mcrDer.getService().removeRule(0);
 	             	   }
         	    	}
-        	    }        	    
-        	    MCRObjectCommands.updateFromFile(objectFile.getAbsolutePath());
+        	    }
+        	    }
+        	   // MCRObjectCommands.updateFromFile(objectFile.getAbsolutePath());
         	    
         	    //set AccessRules
         	    mcrObj = new MCRObject();
         	    mcrObj.setImportMode(true); //true = servdates are taken from xml file;
         	    mcrObj.setFromURI(objectFile.toURI());
+        	    MCRMetadataManager.update(mcrObj); 
         	    while(mcrObj.getService().getRulesSize()>0){
         	    	MCRMetaAccessRule rule = mcrObj.getService().getRule(0);
         	    	String permission = mcrObj.getService().getRulePermission(0);
