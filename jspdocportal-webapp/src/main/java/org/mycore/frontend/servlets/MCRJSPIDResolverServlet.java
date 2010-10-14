@@ -25,14 +25,15 @@ package org.mycore.frontend.servlets;
 
 import java.io.StringReader;
 import java.net.URLEncoder;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.jdom.Attribute;
 import org.jdom.Document;
+import org.jdom.Element;
 import org.jdom.Namespace;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.Format;
@@ -82,7 +83,7 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
      * @param job
      *            the MCRServletJob instance
      */
-    public void doGetPost(MCRServletJob job) throws ServletException, Exception {
+	public void doGetPost(MCRServletJob job) throws ServletException, Exception {
         // the urn with information about the MCRObjectID
     	HttpServletRequest request = job.getRequest();
     	HttpServletResponse response = job.getResponse();
@@ -90,12 +91,14 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     	String id = request.getParameter("id");
         String ppn = request.getParameter("ppn");
         String urn = request.getParameter("urn");
+        
         String pdf = request.getParameter("pdf");
         String xml = request.getParameter("xml");
-        
         String img = request.getParameter("img");
+        
         String page= request.getParameter("page");
         String nr = request.getParameter("nr");
+        String thumb = request.getParameter("thumb");
          
         StringBuffer queryString = null;
         if(id!=null){
@@ -132,7 +135,10 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     		queryString.append("</query>");
 		}
 		    	    
-    	if(queryString!=null){
+    	if(queryString==null){
+    		 getServletContext().getRequestDispatcher("/nav?path=~mycore-error&messageKey=IdNotGiven").forward(request,response);
+    	}
+    	else{
     		StringReader stringReader=new StringReader(queryString.toString());
     		SAXBuilder builder = new SAXBuilder();
     		Document input = builder.build(stringReader);
@@ -188,48 +194,74 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     						MCRFilesystemNode[] myfiles = root.getChildren();
     						for (MCRFilesystemNode f: myfiles){
     							if((f instanceof MCRFile) && ((MCRFile) f).getAbsolutePath().endsWith(".mets.xml")){
-    								sbDFGViewerURL = new StringBuffer("http://dfg-viewer.de/v1/");
-    								sbDFGViewerURL.append("?set%5Bmets%5D=");
-    								sbDFGViewerURL.append(URLEncoder.encode(getBaseURL()+"file/"+f.getPath(), "UTF-8"));
+    								Namespace nsMets=Namespace.getNamespace("mets", "http://www.loc.gov/METS/");
+    								Namespace nsXlink=Namespace.getNamespace("xlink", "http://www.w3.org/1999/xlink");
     								Document docMETS = ((MCRFile)f).getContentAsJDOM();
-    								
+    								Element eMETSPhysDiv = null;
     								if(page!=null){
     									while (page.startsWith("0")){
     										page=page.substring(1);
     									}
-    									Namespace nsMets=Namespace.getNamespace("mets", "http://www.loc.gov/METS/");
     									XPath xpID = XPath.newInstance("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
     											"/mets:div[@TYPE='physSequence']/mets:div[starts-with(@ORDERLABEL, '" +page+"')]/@ORDER");
     									xpID.addNamespace(nsMets);
-    									Attribute a = (Attribute)xpID.selectSingleNode(docMETS);
-    									if(a!=null){
-    										sbDFGViewerURL.append("&set[image]=").append(a.getValue());
-    									}        						
+    									eMETSPhysDiv = (Element)xpID.selectSingleNode(docMETS);
     								}
     								else if (nr!=null){
-    									sbDFGViewerURL.append("&set[image]=").append(nr);
+    									XPath xpID = XPath.newInstance("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
+    											"/mets:div[@TYPE='physSequence']/mets:div[@ORDER='" +nr+"')]/@ORDER");
+    									xpID.addNamespace(nsMets);
+    									eMETSPhysDiv = (Element)xpID.selectSingleNode(docMETS);
     								}
-    								sbDFGViewerURL.append("&set[zoom]=min");
-    								break;
-    							}
-    						}
-    						break;
-    					}
-        			}
-        			LOGGER.debug("DFGViewer URL: "+sbDFGViewerURL.toString());
-        			if(sbDFGViewerURL!=null) response.sendRedirect(sbDFGViewerURL.toString());
-    			}
-    			else{
-    				this.getServletContext().getRequestDispatcher("/nav?path=~docdetail&id=" +mcrID).forward(request, response);
-    			}    			
-    		}
-    	}   	
+    								
+    								if(eMETSPhysDiv!=null){
+    									if(thumb == null){
+    										//display in DFG-Viewer
+    	    								sbDFGViewerURL = new StringBuffer("http://dfg-viewer.de/v1/");
+    	    								sbDFGViewerURL.append("?set%5Bmets%5D=");
+    	    								sbDFGViewerURL.append(URLEncoder.encode(getBaseURL()+"file/"+f.getPath(), "UTF-8"));
+    										sbDFGViewerURL.append("&set[image]=").append(eMETSPhysDiv.getAttributeValue("ORDER"));
+    										sbDFGViewerURL.append("&set[zoom]=min");
+    									}
+    									else {
+    										//return thumb image    										
+    										@SuppressWarnings("unchecked")
+											List<Element> l = (List<Element>) eMETSPhysDiv.getChildren();
+    										String fileid = null;
+    										for(Element e: l){
+    											if(e.getAttributeValue("FILEID").startsWith("THUMB")){
+    												fileid = e.getAttributeValue("FILEID");
+    											}
+    										}
+    										if(fileid !=null){
+    											// <mets:file MIMETYPE="image/jpeg" ID="THUMBS.matrikel1760-1789-Buetzow_c0001">
+    									        //		<mets:FLocat LOCTYPE="URL" xlink:href="http://rosdok.uni-rostock.de/data/matrikel_handschriften/matrikel1760-1789-Buetzow/THUMBS/matrikel1760-1789-Buetzow_c0001.jpg" />
+    									        //  </mets:file>
+    											
+    											XPath xpFLocat = XPath.newInstance("//mets:file[@ID='"+fileid+"']/mets:FLocat");
+    	    									xpFLocat.addNamespace(nsMets);
+    	    									Element eFLocat = (Element)xpFLocat.selectSingleNode(docMETS);
+    	    									if(eFLocat!=null){
+    	    										sbDFGViewerURL = new StringBuffer(eFLocat.getAttributeValue("href", nsXlink));
+    	    									}
+    										}
+    									}
+    								} //end [if(eMETSPhysDiv!=null)]
+    							} //end if
+    						} //end for			
+    					} //end [if("METS" ...)]
+    				}   	
     	
-        
-        if (id == null && ppn==null && urn==null) {
-        	getServletContext().getRequestDispatcher("/nav?path=~mycore-error&messageKey=IdNotGiven").forward(request,response);
-        }
-
-       
-    }
+    				if(sbDFGViewerURL!=null){
+    					LOGGER.debug("DFGViewer URL: "+sbDFGViewerURL.toString());
+    					response.sendRedirect(sbDFGViewerURL.toString());
+    				}
+    				else{
+    					this.getServletContext().getRequestDispatcher("/nav?path=~docdetail&id=" +mcrID).forward(request, response);
+    				}
+    			} //end [if(img!=null)]
+    				
+    		} //end [if(result.getNumHits()>0)]
+    	}
+	}    
 }
