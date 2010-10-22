@@ -22,11 +22,11 @@ public class MCRDocumentDerivateStrategy extends MCRDefaultDerivateStrategy {
 	public void saveFiles(List files, String dirname, ContextInstance ctxI, String newLabel) throws MCRException {
 	// a correct document contains in the main derivate	one or more file 
 
-		MCRDerivate der = new MCRDerivate();
+		MCRDerivate der = null;
 		boolean bUpdateDerivate=false;
 		
 		try {
-			der.setFromURI(new File(dirname + ".xml").toURI());
+			der = new MCRDerivate(new File(dirname + ".xml").toURI());
 		}catch(Exception ex){
 			String errMsg = "could not set derivate " + dirname + ".xml";
 			logger.error(errMsg, ex);

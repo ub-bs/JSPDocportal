@@ -11,7 +11,9 @@ import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 import org.jdom.output.DOMOutputter;
 import org.mycore.backend.hibernate.MCRHIBConnection;
+import org.mycore.datamodel.common.MCRXMLMetadataManager;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
+import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 
@@ -54,7 +56,7 @@ public class MCRReceiveMcrObjAsJdomTag extends SimpleTagSupport
 				String filename = savedir + "/" + mcrid + ".xml";			
 				File file = new File(filename);
 				if (file.isFile()) {
-					mcr_obj.setFromURI(file.toURI());
+					mcr_obj = new MCRObject(file.toURI());
 				}
 			} else {
 				mcr_obj = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrid));

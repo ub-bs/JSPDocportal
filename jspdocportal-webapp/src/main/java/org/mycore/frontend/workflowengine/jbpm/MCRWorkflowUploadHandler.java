@@ -179,8 +179,7 @@ public class MCRWorkflowUploadHandler extends MCRUploadHandler {
     public void finishUpload() throws Exception {
         // add the mainfile entry
         try {
-            MCRDerivate der = new MCRDerivate();
-            der.setFromURI(new File(dirname + ".xml").toURI());
+            MCRDerivate der = new MCRDerivate(new File(dirname + ".xml").toURI());
 
             if (der.getDerivate().getInternals().getMainDoc().equals("#####")) {
                 der.getDerivate().getInternals().setMainDoc(mainfile);

@@ -77,7 +77,7 @@ public class MCRDefaultInstitutionStrategy implements MCRInstitutionStrategy {
 		XMLOutputter xop = new XMLOutputter();
 		try {
 			xop.output(institutiondoc, baos);
-			institution.setFromXML(baos.toByteArray(), false);
+			institution = new MCRObject(baos.toByteArray(), false);
 
 		} catch (IOException e) {
 			logger.error(e);

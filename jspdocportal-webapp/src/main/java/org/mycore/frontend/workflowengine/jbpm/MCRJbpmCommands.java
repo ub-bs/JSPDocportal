@@ -248,9 +248,8 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
         	if(objectFile.isDirectory()){continue;}
         	String id = objectFile.getName().substring(0, objectFile.getName().length()-4);
         	try{
-        		MCRObject mcrObj = new MCRObject();
+        		MCRObject mcrObj = new MCRObject(objectFile.toURI());
         	    mcrObj.setImportMode(true); //true = servdates are taken from xml file;
-        	    mcrObj.setFromURI(objectFile.toURI());
         	    MCRMetadataManager.update(mcrObj);
               	       
         	    //load derivates first:
@@ -268,9 +267,8 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
         	    		}
 	         	    	
 	         	    	//set ACLs
-	         	    	MCRDerivate mcrDer = new MCRDerivate();
+	         	    	MCRDerivate mcrDer = new MCRDerivate(f.toURI());
 	             	    mcrDer.setImportMode(true); //true = servdates are taken from xml file;
-	             	    mcrDer.setFromURI(f.toURI());
 	             	    while(mcrDer.getService().getRulesSize()>0){
 	             		   MCRMetaAccessRule rule = mcrDer.getService().getRule(0);
 	             		   String permission = mcrDer.getService().getRulePermission(0);
@@ -283,9 +281,8 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
         	   // MCRObjectCommands.updateFromFile(objectFile.getAbsolutePath());
         	    
         	    //set AccessRules
-        	    mcrObj = new MCRObject();
+        	    mcrObj = new MCRObject(objectFile.toURI());
         	    mcrObj.setImportMode(true); //true = servdates are taken from xml file;
-        	    mcrObj.setFromURI(objectFile.toURI());
         	    MCRMetadataManager.update(mcrObj); 
         	    while(mcrObj.getService().getRulesSize()>0){
         	    	MCRMetaAccessRule rule = mcrObj.getService().getRule(0);

@@ -32,11 +32,11 @@ public class MCRSeriesDerivateStrategy extends MCRDefaultDerivateStrategy {
 	//		in a derivate only one zip-file is allowed, it will be renamed
 	//		to attachment.zip
 
-	MCRDerivate der = new MCRDerivate();
+	MCRDerivate der = null;
 	boolean bUpdateDerivate=false;
 	
 	try {
-			der.setFromURI(new File(dirname + ".xml").toURI());
+			der = new MCRDerivate(new File(dirname + ".xml").toURI());
 		}catch(Exception ex){
 			String errMsg = "could not set derivate " + dirname + ".xml";
 			logger.error(errMsg, ex);

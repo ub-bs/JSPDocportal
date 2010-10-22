@@ -152,7 +152,7 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 		XMLOutputter xop = new XMLOutputter();
 		try {
 			xop.output(mycoreobjectdoc, baos);
-			disshab.setFromXML(baos.toByteArray(), false);
+			disshab = new MCRObject(baos.toByteArray(), false);
 
 		} catch (IOException e) {
 			logger.error(e);

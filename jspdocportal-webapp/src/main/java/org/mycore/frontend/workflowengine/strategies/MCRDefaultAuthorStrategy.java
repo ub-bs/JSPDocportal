@@ -270,7 +270,7 @@ public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {
 		XMLOutputter xop = new XMLOutputter();
 		try {
 			xop.output(authordoc, baos);
-			author.setFromXML(baos.toByteArray(), true);
+			author = new MCRObject(baos.toByteArray(), true);
 
 		} catch (IOException e) {
 			logger.error(e);

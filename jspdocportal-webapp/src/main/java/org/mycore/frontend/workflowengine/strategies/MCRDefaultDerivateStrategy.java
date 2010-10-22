@@ -177,7 +177,7 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 					
 		MCRDerivate der = new MCRDerivate();
 		try{
-			der.setFromURI(new File(dirname + ".xml").toURI());
+			der = new MCRDerivate(new File(dirname + ".xml").toURI());
 		}
 		catch(SAXParseException e){
 			logger.error(e);
