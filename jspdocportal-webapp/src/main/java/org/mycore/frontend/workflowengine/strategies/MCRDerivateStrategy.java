@@ -113,6 +113,7 @@ public abstract class MCRDerivateStrategy {
 
 	final public synchronized MCRObjectID setNextFreeDerivateID(){
 		int maxwf=0;
+		String base = MCRConfiguration.instance().getString("MCR.SWF.Project.ID","DocPortal")+ "_derivate";
 		if(nextWorkflowDerivateID == null){
 			List<String> allDerivateFileNames = new ArrayList<String>();
 			HashMap directoryMap = MCRWorkflowDirectoryManager.getEditWorkflowDirectories();
@@ -128,22 +129,21 @@ public abstract class MCRDerivateStrategy {
 					}
 				}
 			}
-			String base = MCRConfiguration.instance().getString("MCR.SWF.Project.ID","DocPortal")+ "_derivate";
-			MCRObjectID dbIDMax = MCRObjectID.getNextFreeId(base);
+			
 			if(allDerivateFileNames.size() == 0){
 				maxwf=0;
 			}else{			
 				Collections.sort(allDerivateFileNames, Collections.reverseOrder());
 				String maxFilename = (String)allDerivateFileNames.get(0); 
-				MCRObjectID IDinWF = new MCRObjectID(maxFilename.substring(0, maxFilename.length() - 4));
+				MCRObjectID IDinWF = MCRObjectID.getInstance(maxFilename.substring(0, maxFilename.length() - 4));
 				maxwf = IDinWF.getNumberAsInteger();				
 			}
 			nextWorkflowDerivateID = MCRObjectID.getNextFreeId(base, maxwf);
 		}
 		
-		
-		return nextWorkflowDerivateID;
-		
+		MCRObjectID retID = MCRObjectID.getInstance(nextWorkflowDerivateID.toString());
+		nextWorkflowDerivateID = MCRObjectID.getNextFreeId(base, retID.getNumberAsInteger());
+		return retID;	
 	}	
 	
 	/**
