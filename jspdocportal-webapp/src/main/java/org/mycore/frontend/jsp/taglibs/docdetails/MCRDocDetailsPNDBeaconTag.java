@@ -39,7 +39,7 @@ import net.sf.json.JSONSerializer;
 import org.apache.log4j.Logger;
 
 /**
- * resolves links from PND Beacon Resolve (http://beacon.findbuch.de/seealso/pnd-aks)
+ * resolves links from PND Beacon Resolver (http://beacon.findbuch.de/seealso/pnd-aks)
  * 
  * @author Robert Stephan
  *
@@ -75,13 +75,7 @@ public class MCRDocDetailsPNDBeaconTag extends SimpleTagSupport {
 		this.whitelist = wl;
 	}
 
-
-	public void doTag() throws JspException, IOException {
-		MCRDocDetailsRowTag docdetailsRow = (MCRDocDetailsRowTag) findAncestorWithClass(this, MCRDocDetailsRowTag.class);
-		if(docdetailsRow==null){
-			throw new JspException("This tag must be nested in tag called 'row' of the same tag library");
-		}
-		MCRDocDetailsTag docdetails = (MCRDocDetailsTag) findAncestorWithClass(this, MCRDocDetailsTag.class);
+	private String createHTML(){
 		StringBuffer result = new StringBuffer();
 		try {
 			
@@ -102,61 +96,90 @@ public class MCRDocDetailsPNDBeaconTag extends SimpleTagSupport {
 		    JSONArray links = jsonArray.getJSONArray(3);
 		    int size = links.toArray().length;
 		    
-		    if(size>1){
-		    	
-		    	result.append("<ul>");
-		    	if(whitelist==null){
-		    		result.append("<li><a href=\""+pndLink+"\">Eintrag in der Personennamendatei (PND)</a></li>");
-		    		for(int i=0;i<size;i++){
-		    			if(!links.getString(i).startsWith("http://cpr.uni-rostock.de")){
-		    				result.append("<li><a href=\""+links.getString(i)+"\">"+titles.getString(i)+"</a></li>");
-		    			}
+		   	if(whitelist==null){
+		   		if(pndLink.length()>0){
+		   			result.append("<li><a href=\""+pndLink+"\">Eintrag in der Personennamendatei (PND)</a></li>");
+		   		}
+		    	for(int i=0;i<size;i++){
+		    		if(!links.getString(i).startsWith("http://cpr.uni-rostock.de")){
+		    			result.append("<li><a href=\""+links.getString(i)+"\">"+titles.getString(i)+"</a></li>");
 		    		}
 		    	}
-		    	else{
-		    		JSONObject jo = (JSONObject)JSONSerializer.toJSON(whitelist);
-		    		@SuppressWarnings("unchecked")
-		    		Iterator<String> keys = (Iterator<String>)jo.keys();
-		    		while(keys.hasNext()){
-		    		     String s= keys.next();
-		    			 if(pndLink.startsWith(s)){
-		    				 String title = jo.getString(s);
-		    				 if(title.length()==0){
-		    					 title = "Eintrag in der Personennamendatei (PND)";
-		    				 }
-		    				 result.append("<li><a href=\""+pndLink+"\">"+title+"</a></li>");
+		    }
+		    else{
+		    	JSONObject jo = (JSONObject)JSONSerializer.toJSON(whitelist);
+		    	@SuppressWarnings("unchecked")
+		    	Iterator<String> keys = (Iterator<String>)jo.keys();
+		    	while(keys.hasNext()){
+		    	     String s= keys.next();
+		    		 if(pndLink.startsWith(s)){
+		    			 String title = jo.getString(s);
+		    			 if(title.length()==0){
+		    				 title = "Eintrag in der Personennamendatei (PND)";
 		    			 }
+		    			 result.append("<li><a href=\""+pndLink+"\">"+title+"</a></li>");
+		    		 }
+			     }
+		    	 for(int i=0;i<size;i++){
+		    		 @SuppressWarnings("unchecked")
+		    		 Iterator<String> keys2 = (Iterator<String>)jo.keys();
+		    		 while(keys2.hasNext()){
+			   		     String s= keys2.next();
+			   			 if(links.getString(i).startsWith(s)){
+			   				 String title = jo.getString(s);
+			   				 if(title.length()==0){
+			   					 title = titles.getString(i);
+			   				 }
+			   				 result.append("<li><a href=\""+links.getString(i)+"\">"+title+"</a></li>");
+			   			 }
 				     }
-		    		 for(int i=0;i<size;i++){
-		    			 @SuppressWarnings("unchecked")
-		    			 Iterator<String> keys2 = (Iterator<String>)jo.keys();
-		    			 while(keys2.hasNext()){
-			    		     String s= keys2.next();
-			    			 if(links.getString(i).startsWith(s)){
-			    				 String title = jo.getString(s);
-			    				 if(title.length()==0){
-			    					 title = titles.getString(i);
-			    				 }
-			    				 result.append("<li><a href=\""+links.getString(i)+"\">"+title+"</a></li>");
-			    			 }
-					     }
-			    	 }
-		    	}		    	
-		        result.append("</ul>");
-		    }			
-			
-	    	if(result.length()>0){
-	    		if(css!=null && !"".equals(css)){
-	    			getJspContext().getOut().print("<td class=\""+css+"\">");
-	    		}
-	    		else{
-	    			getJspContext().getOut().print("<td class=\""+docdetails.getStylePrimaryName()+"-value\">");
-	    		}
-	    		getJspContext().getOut().print(result.toString());		
-	    		getJspContext().getOut().print("</td>");
-	    	}
-	    } catch (Exception e) {
-		   LOGGER.debug("Exception in MCRDocDetailsPNDBeaconTag");
+			   	 }
+		    }		    	
+		 } catch (Exception e) {
+			   LOGGER.debug("Exception in MCRDocDetailsPNDBeaconTag");
 		}
+		 if(result.length()>0){
+			 return "<ul>"+result.toString()+"</ul>";	 
+		 }
+		 else{
+			 return "";
+		 }
+		 
+	}
+
+	public void doTag() throws JspException, IOException {
+		MCRDocDetailsRowTag docdetailsRow = (MCRDocDetailsRowTag) findAncestorWithClass(this, MCRDocDetailsRowTag.class);
+		if(docdetailsRow==null){
+			throw new JspException("This tag must be nested in tag called 'row' of the same tag library");
+		}
+		MCRDocDetailsTag docdetails = (MCRDocDetailsTag) findAncestorWithClass(this, MCRDocDetailsTag.class);
+		
+		String html = createHTML();
+		if(html.length()>0){
+	    	if(css!=null && !"".equals(css)){
+	    		getJspContext().getOut().print("<td class=\""+css+"\">");
+	    	}
+	    	else{
+	    		getJspContext().getOut().print("<td class=\""+docdetails.getStylePrimaryName()+"-value\">");
+	    	}
+	    	getJspContext().getOut().print(html.toString());		
+	    	getJspContext().getOut().print("</td>");
+	    }
+	}
+	
+	/**
+	 *example and test code
+	 */
+	public static void main(String[] args){
+		MCRDocDetailsPNDBeaconTag tag = new MCRDocDetailsPNDBeaconTag();
+		tag.setPnd("118558838");
+		String whitelist = "{'http://d-nb.info/gnd/':'Eintrag in der Personennamendatei (PND)',"
+           +"'http://www.deutsche-biographie.de/register':'Allgemeine/Neue Deutsche Biographie (ADB/NDB) Register',"
+           +"'http://www.uni-leipzig.de/unigeschichte/professorenkatalog/pnd/':'Catalogus Professorum Lipsiensis',"
+           +"'http://toolserver.org/~apper/pd/person/pnd-redirect/de':'Wikipedia-Personenartikel',"
+           +"'http://toolserver.org/~apper/pd/person/pnd-redirect/commons':'Wikimedia Commons',"
+           +"'http://beacon.findbuch.de/portraits/ps_usbk':'Portraitsammlung USB Köln'}";
+		tag.setWhitelist(whitelist);
+		System.out.println(tag.createHTML());
 	}
 }
