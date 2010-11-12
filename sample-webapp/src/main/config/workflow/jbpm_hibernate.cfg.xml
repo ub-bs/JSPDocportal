@@ -12,24 +12,23 @@
     <!-- jdbc connection properties -->
     <!-- Mysql -->
     <!-- *****************************************************  -->
-
+    <!--
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
     <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1/sample_workflow</property>
         <property name="hibernate.connection.username">mycoresample</property>
     <property name="hibernate.connection.password">mycoresample</property>
- 
+    -->
     
     <!-- Postgres SQL -->
     <!-- *****************************************************  -->
-    <!-- 
     <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
     <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
     <property name="hibernate.connection.url">jdbc:postgresql://127.0.0.1/mycoredb</property>
     <property name="hibernate.default_schema">sample_workflow</property>
     <property name="hibernate.connection.username">mycoresample</property>
     <property name="hibernate.connection.password">mycoresample</property>
- 	-->
+ 	
     <!-- configuration pool via c3p0-->
     <property name="connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
     <property name="c3p0.max_statements">20</property>

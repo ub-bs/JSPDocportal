@@ -4,7 +4,7 @@
   <groupId>org.mycore</groupId>
   <artifactId>sample-webapp</artifactId>
   <packaging>war</packaging>
- <version>2.0.90-SNAPSHOT</version>
+ <version>2.0.93-SNAPSHOT</version>
 	<name>JSPDocportal Sample Webapplication</name>
 	<url>http://mycoresample.uni-rostock.de</url>
 	<dependencies>
@@ -16,22 +16,25 @@
 			<scope>test</scope>
 			<optional>false</optional>
 		</dependency>
+		<!-- 
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.12</version>
 		</dependency>
-		<!--
+		-->
 		<dependency>
 			<groupId>postgresql</groupId>
-			<artifactId>postgresql</artifactId> <version>8.4-701.jdbc4</version>
+			<artifactId>postgresql</artifactId> 
+			<version>8.4-701.jdbc4</version>
 		</dependency>
-		-->
+		
 		<dependency>
 			<groupId>org.mycore</groupId>
 			<artifactId>jspdocportal-webapp</artifactId>
-			<version>2.0.90-SNAPSHOT</version>
+			<version>${project.version}</version>
 			<type>jar</type>
+			<classifier>classes</classifier>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

@@ -16,14 +16,23 @@
     <property name="connection.password"></property>
     <property name="dialect">org.hibernate.dialect.HSQLDialect</property>
     -->
+    <!--  Postgres -->
+    
+    <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+    <property name="connection.driver_class">org.postgresql.Driver</property>
+    <property name="connection.url">jdbc:postgresql://127.0.0.1/mycoredb</property>
+    <property name="default_schema">sample</property>
+    <property name="connection.username">mycoresample</property>
+    <property name="connection.password">mycoresample</property>
+    
     <!-- MySQL -->
-
+    <!-- 
     <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
     <property name="connection.url">jdbc:mysql://127.0.0.1/sample</property>
     <property name="connection.username">mycoresample</property>
     <property name="connection.password">mycoresample</property> 
     <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
-
+    -->
     <!-- MySQL Logging -->
     <!--  
     <property name="connection.driver_class">net.sf.log4jdbc.DriverSpy</property>
@@ -33,16 +42,6 @@
     <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
      -->
   
-    <!--  Postgres -->
-    <!-- 
-   	<property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
-    <property name="connection.driver_class">org.postgresql.Driver</property>
-    <property name="connection.url">jdbc:postgresql://127.0.0.1/mycoredb</property>
-    <property name="default_schema">sample</property>
-    <property name="connection.username">mycoresample</property>
-    <property name="connection.password">mycoresample</property>
- 	-->
-     
     <!-- DB2 -->
     <!--
     <property name="connection.driver_class">com.ibm.db2.jcc.DB2Driver</property>
@@ -110,7 +109,8 @@
     <mapping resource="org/mycore/backend/hibernate/tables/MCRRESUMPTIONTOKEN.hbm.xml"/>
     <mapping resource="org/mycore/backend/hibernate/tables/MCRURN.hbm.xml"/>
     <mapping resource="org/mycore/backend/hibernate/tables/MCRUSERS.hbm.xml"/>
-    <mapping resource="org/mycore/backend/hibernate/tables/MCRXMLTABLE.hbm.xml"/>
+    <!-- Metadaten sind jetzt im Filesystem
+    <mapping resource="org/mycore/backend/hibernate/tables/MCRXMLTABLE.hbm.xml"/> -->
     <mapping resource="org/mycore/datamodel/classifications2/impl/MCRCategoryImpl.hbm.xml"/>
     <mapping resource="org/mycore/datamodel/classifications2/impl/MCRCategoryLink.hbm.xml"/>
  </session-factory>
