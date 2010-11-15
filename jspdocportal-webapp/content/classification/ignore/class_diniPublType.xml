@@ -3,15 +3,7 @@
 	xsi:noNamespaceSchemaLocation="MCRClassification.xsd" ID="diniPublType">
 	<!--
 		Liste "Gemeinsames Vokabular für Publikations- und Dokumenttypen"
-		DINI Schriften 12-de [Version 1.0, Juni 2010]
-		
-		Offene Fragen
-		-------------
-		1) Other enthält in der englischen Beschreibung die Beispiele 
-		   research data, animation für die es eigene Terme gibt"
-		2) Was ist mit "Film"?
-		   audiovisual materials stehen in der englischen Beschreibung als Beispiel von other
-		   Moving image oder sound passsen nicht richtig.   
+		DINI Schriften 12-de [Version 1.0, Juni 2010]   
 	-->	
 	<label xml:lang="de" text="DINI Publikations- und Dokumenttypen"
 		   description="Gemeinsames Vokabular für Publikations- und Dokumenttypen" />
