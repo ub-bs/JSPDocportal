@@ -8,9 +8,9 @@
 	<!-- !!! ATTENTION !!! -->
 	<!-- !!! basedir is overwritten by derrived build processes with the xxx_app directory !!! -->
 
-	<property name="APP_NAME" value="mycoresample" />
+	<property name="APP_NAME" value="sample" />
 
-	<property name="HOME" value="${basedir}/target/${APP_NAME}-cli" />
+	<property name="HOME" value="${basedir}/${APP_NAME}-app" />
 	<property name="APP_HOME" value="${HOME}/${APP_NAME}" />
 
 	<path id="APP_CLASSPATH">
@@ -202,7 +202,7 @@
 	</target>
 
 	<target name="create.class" depends="init">
-		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" loaderref="x" />
+		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
 		<mcr-execute>
             update all classifications from directory ${basedir}/../${APP_NAME}-webapp/content/classification
 		</mcr-execute>
