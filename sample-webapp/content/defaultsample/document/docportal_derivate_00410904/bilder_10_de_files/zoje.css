@@ -1,0 +1,20 @@
+body            { color: #880000; background-color: #FFEDA3; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:10pt; font-weight:normal; margin-left:0px; margin-right:0px; margin-top:0px; margin-botton:0px; }
+a:link          { color: #0000FF; }
+a:visited       { color: #FF0000; }
+a:active        { color: #FF00FF; }
+.h1             { color: #880000; background-color: #FFEDA3; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:16pt; font-weight:bold; margin-left:0px; margin-right:0px; margin-top:0px; margin-botton:0px; }
+.h2             { color: #880000; background-color: #FFEDA3; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:14pt; font-weight:bold; margin-left:0px; margin-right:0px; margin-top:0px; margin-botton:0px; }
+.h3             { color: #880000; background-color: #FFEDA3; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12pt; font-weight:bold; margin-left:0px; margin-right:0px; margin-top:0px; margin-botton:0px; }
+.h3dark         { color: #880000; background-color: #F7CA7D; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12pt; font-weight:bold; margin-left:0px; margin-right:0px; margin-top:0px; margin-botton:0px; }
+.h3red          { color: red;     background-color: #FFEDA3; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12pt; font-weight:bold; margin-left:0px; margin-right:0px; margin-top:0px; margin-botton:0px; }
+.l1             { color: #880000; background-color: #FFEDA3; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:9pt; font-weight:bold; margin-left:0px; margin-right:0px; margin-top:0px; margin-botton:0px; }
+.l1green        { color: green;   background-color: #FFEDA3; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:9pt; font-weight:bold; margin-left:0px; margin-right:0px; margin-top:0px; margin-botton:0px; }
+.l2             { color: #880000; background-color: #FFEDA3; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:8pt; font-weight:bold; margin-left:0px; margin-right:0px; margin-top:0px; margin-botton:0px; }
+.l2thin         { color: #880000; background-color: #FFEDA3; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:8pt; font-weight:normal; margin-left:0px; margin-right:0px; margin-top:0px; margin-botton:0px; }
+.l2green        { color: green;   background-color: #FFEDA3; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:8pt; font-weight:bold; margin-left:0px; margin-right:0px; margin-top:0px; margin-botton:0px; }
+.text           { color: #880000; background-color: #FFEDA3; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:10pt; font-weight:bold; margin-left:0px; margin-right:0px; margin-top:0px; margin-botton:0px; }
+.textred        { color: red;     background-color: #FFEDA3; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:10pt; font-weight:bold; margin-left:0px; margin-right:0px; margin-top:0px; margin-botton:0px; }
+.textgreen      { color: green;   background-color: #FFEDA3; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:10pt; font-weight:bold; margin-left:0px; margin-right:0px; margin-top:0px; margin-botton:0px; }
+.textblue       { color: blue;    background-color: #FFEDA3; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:10pt; font-weight:bold; margin-left:0px; margin-right:0px; margin-top:0px; margin-botton:0px; }
+.tabletext      { color: #880000; background-color: #FFFFBC; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:10pt; font-weight:normal; margin-left:0px; margin-right:0px; margin-top:0px; margin-botton:0px; }
+.textdark       { color: #880000; background-color: #F7CA7D; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:10pt; font-weight:bold; margin-left:0px; margin-right:0px; margin-top:0px; margin-botton:0px; }

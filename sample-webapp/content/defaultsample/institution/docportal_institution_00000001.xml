@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mycoreobject 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="datamodel-institution.xsd"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:xml="http://www.w3.org/XML/1998/namespace"
+  ID="DocPortal_institution_00000001"
+  label="ZOJE">
+ <structure/>
+ <metadata>
+  <names class="MCRMetaInstitutionName" heritable="true" textsearch="true">
+   <name xml:lang="de" type="Verein">
+    <fullname>Interessenverband Zittauer Schmalspurbahnen e. V.</fullname>
+    <nickname>IV ZOJE</nickname>
+   </name>
+  </names>
+  <addresses class="MCRMetaAddress" parasearch="false">
+   <address xml:lang="de">
+    <country>Germany</country>
+    <state>Sachsen</state>
+    <zipcode>02785</zipcode>
+    <city>Olbersdorf</city>
+    <street>Am Bahnhof Bertsdorf</street>
+    <number>2</number>
+   </address>
+  </addresses>
+  <phones class="MCRMetaLangText" parasearch="false">
+   <phone type="Telefon" xml:lang="de">
+    03583 708659
+   </phone>
+   <phone type="phone" xml:lang="en">
+    +49 (0)3583 708659
+   </phone>
+   <phone type="Fax" xml:lang="de">
+    035844 70446
+   </phone>
+   <phone type="fax" xml:lang="en">
+    +49 (0)35844 70446
+   </phone>
+  </phones>
+  <urls class="MCRMetaLink" parasearch="false">
+   <url 
+     xlink:type="locator" 
+     xlink:href="http://www.zoje.de/"
+     xlink:title="http://www.zoje.de/"
+     />
+  </urls>
+  <emails class="MCRMetaLangText" parasearch="false">
+   <email>
+    verein@zoje.de
+   </email>
+  </emails>
+  <notes class="MCRMetaLangText" parasearch="false">
+   <note xml:lang="de">
+    Dies ist die offizielle Adresse des Vereins.
+   </note>
+   <note xml:lang="en">
+    This is the official address of the railroad club.
+   </note>
+  </notes>
+ </metadata>
+ <service>
+  <servacls class="MCRMetaAccessRule">
+   <servacl permission="read">
+    <condition format="xml">
+     <boolean operator="true" />
+    </condition>
+   </servacl>
+   <servacl permission="writedb">
+    <condition format="xml">
+     <boolean operator="or">
+      <condition value="admingroup" operator="=" field="group"/>
+     </boolean>
+    </condition>
+   </servacl>
+   <servacl permission="deletedb">
+    <condition format="xml">
+     <boolean operator="or">
+      <condition value="admingroup" operator="=" field="group"/>
+     </boolean>
+    </condition>
+   </servacl>
+   <servacl permission="commitdb">
+    <condition format="xml">
+     <boolean operator="or">
+      <condition value="admingroup" operator="=" field="group"/>
+     </boolean>
+    </condition>
+   </servacl>
+  </servacls>
+  <servflags class="MCRMetaLangText">
+   <servflag>State:original sample</servflag>
+  </servflags>
+ </service>
+</mycoreobject>

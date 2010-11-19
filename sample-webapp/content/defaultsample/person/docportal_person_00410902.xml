@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mycoreobject 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="datamodel-author.xsd"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:xml="http://www.w3.org/XML/1998/namespace"
+  ID="DocPortal_person_00410902"
+  label="Ute Starke">
+ <structure/>
+ <metadata>
+  <names class="MCRMetaPersonName" textsearch="true">
+   <name type="latest" xml:lang="de">
+    <callname>Ute</callname>
+    <surname>Starke</surname>
+    <fullname>Ute Starke</fullname>
+    <academic>Dipl. Betriebswirt FH</academic>
+   </name>
+  </names>
+  <females class="MCRMetaBoolean">
+   <female xml:lang="en">true</female>
+  </females>
+  <institutions class="MCRMetaClassification" parasearch="true">
+   <institution categid="Unis.Leipzig" classid="DocPortal_class_00000002" />
+  </institutions>
+  <addresses class="MCRMetaAddress">
+   <address type="office" xml:lang="de">
+    <country>Deutschland</country>
+    <state>Sachsen</state>
+    <zipcode>04109</zipcode>
+    <city>Leipzig</city>
+    <street>Augustusplatz</street>
+    <number>10/11</number>
+   </address>
+   <address type="office" xml:lang="en">
+    <country>Germany</country>
+    <state>Sachsen</state>
+    <zipcode>04109</zipcode>
+    <city>Leipzig</city>
+    <street>Augustusplatz</street>
+    <number>10/11</number>
+   </address>
+  </addresses>
+  <phones class="MCRMetaLangText">
+   <phone type="phone" xml:lang="de">0341 9733328</phone>
+   <phone type="fax" xml:lang="de">0341 9733399</phone>
+   <phone type="phone" xml:lang="en">+49 (0)341 9733328</phone>
+   <phone type="fax" xml:lang="en">+49 (0)341 9733399</phone>
+  </phones>
+  <professions class="MCRMetaLangText" textsearch="true">
+   <profession type="job" xml:lang="de">System-Administrator</profession>
+   <profession type="job" xml:lang="de">System-Designer</profession>
+  </professions>
+  <nationals class="MCRMetaClassification" parasearch="false">
+   <national classid="DocPortal_class_00000001" categid="NAT0001" />
+  </nationals>
+  <emails class="MCRMetaLangText" parasearch="false">
+   <email>
+    starke@rz.uni-leipzig.de
+   </email>
+  </emails>
+  <notes class="MCRMetaLangText" parasearch="false">
+   <note>
+    Ute Starke arbeitet in Leipzig an MyCoRe-Applikationen mit.
+   </note>
+  </notes>
+  <publications class="MCRMetaLangText" parasearch="false">
+   <publication xml:lang="de">
+    Dokumentationen für MyCoRe
+   </publication>
+  </publications>
+ </metadata>
+ <service>
+  <servacls class="MCRMetaAccessRule">
+   <servacl permission="read">
+    <condition format="xml">
+     <boolean operator="true" />
+    </condition>
+   </servacl>
+   <servacl permission="writedb">
+    <condition format="xml">
+     <boolean operator="or">
+      <condition value="admingroup" operator="=" field="group"/>
+     </boolean>
+    </condition>
+   </servacl>
+   <servacl permission="deletedb">
+    <condition format="xml">
+     <boolean operator="or">
+      <condition value="admingroup" operator="=" field="group"/>
+     </boolean>
+    </condition>
+   </servacl>
+   <servacl permission="commitdb">
+    <condition format="xml">
+     <boolean operator="or">
+      <condition value="admingroup" operator="=" field="group"/>
+     </boolean>
+    </condition>
+   </servacl>
+  </servacls>
+  <servflags class="MCRMetaLangText">
+   <servflag>State:original sample</servflag>
+  </servflags>
+ </service>
+</mycoreobject>

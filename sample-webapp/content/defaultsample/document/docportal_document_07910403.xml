@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mycoreobject 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:noNamespaceSchemaLocation="datamodel-document.xsd"
+  xmlns:xlink="http://www.w3.org/1999/xlink" 
+  ID="DocPortal_document_07910403" 
+  label="DocPortal_document_07910403">
+<structure/>
+<metadata xml:lang="de">
+  <titles class="MCRMetaLangText" heritable="true" notinherit="false" parasearch="true" textsearch="true">
+    <title xml:lang="de" inherited="0" form="plain" type="main">
+      Eindrücke aus Alaska
+    </title>
+    <title xml:lang="en" inherited="0" form="plain" type="main">
+      Impressions of Alaska
+    </title>
+  </titles>
+  <creators class="MCRMetaLangText" heritable="true" notinherit="false" parasearch="true" textsearch="true">
+    <creator xml:lang="de" inherited="0" form="plain">
+      Detlev Degenhardt
+    </creator>
+  </creators>
+  <creatorlinks class="MCRMetaLinkID" heritable="true" notinherit="false" parasearch="true" textsearch="false">
+    <creatorlink inherited="0" 
+      xlink:type="locator" 
+      xlink:href="DocPortal_person_07910401" 
+      xlink:label="Author"
+      xlink:title="Detlev Degenhardt"/>
+  </creatorlinks>
+  <origins class="MCRMetaClassification" heritable="true" notinherit="false" parasearch="true" textsearch="false">
+    <origin inherited="0" classid="DocPortal_class_00000002" categid="Unis.Freiburg"/>
+  </origins>
+  <descriptions class="MCRMetaLangText" heritable="true" notinherit="false" parasearch="true" textsearch="true">
+    <description xml:lang="de" inherited="0" form="plain" type="abstract">
+      Bilder vom Urlaub im Spätsommer 2002 in Alaska.
+    </description>
+  </descriptions>
+  <contributors class="MCRMetaLangText" heritable="true" notinherit="false" parasearch="true" textsearch="true">
+    <contributor xml:lang="de" inherited="0" form="plain" type="mentor">
+      Detlev Degenhardt
+    </contributor>
+  </contributors>
+  <dates class="MCRMetaISO8601Date" heritable="true" notinherit="false" parasearch="true" textsearch="false">
+    <date type="submitted">2002-10-08</date>
+  </dates>
+  <types class="MCRMetaClassification" heritable="true" notinherit="false" parasearch="true" textsearch="false">
+    <type inherited="0" classid="DocPortal_class_00000005" categid="TYPE0002"/>
+  </types>
+  <formats class="MCRMetaClassification" heritable="true" notinherit="false" parasearch="true" textsearch="false">
+    <format inherited="0" classid="DocPortal_class_00000006" categid="FORMAT0006"/>
+  </formats>
+  <languages class="MCRMetaClassification" heritable="true" notinherit="false" parasearch="true" textsearch="false">
+    <language inherited="0" classid="DocPortal_class_00000004" categid="LANG0001"/>
+  </languages>
+  <keywords class="MCRMetaLangText" heritable="true" notinherit="false" parasearch="true" textsearch="true">
+    <keyword xml:lang="de" inherited="0" form="plain">Alaska Reise</keyword>
+  </keywords>
+  <coverages class="MCRMetaLangText" heritable="true" notinherit="false" parasearch="true" textsearch="true">
+    <coverage xml:lang="de" inherited="0" form="plain">Verschiedene Landschaften in Alaska.</coverage>
+  </coverages>
+  <rights class="MCRMetaLangText" heritable="true" notinherit="false" parasearch="true" textsearch="true">
+    <right xml:lang="de" inherited="0" form="plain">
+      Alle Rechte an dem Dokument hält Detlev Degenhardt.
+    </right>
+  </rights>
+  <sizes class="MCRMetaLangText" heritable="true" notinherit="false" parasearch="true" textsearch="false">
+    <size xml:lang="de" inherited="0" form="plain">1 Vortrag</size>
+  </sizes>
+</metadata>
+<service>
+  <servacls class="MCRMetaAccessRule">
+   <servacl permission="read">
+    <condition format="xml">
+     <boolean operator="true" />
+    </condition>
+   </servacl>
+   <servacl permission="writedb">
+    <condition format="xml">
+     <boolean operator="or">
+      <condition value="admingroup" operator="=" field="group"/>
+     </boolean>
+    </condition>
+   </servacl>
+   <servacl permission="deletedb">
+    <condition format="xml">
+     <boolean operator="or">
+      <condition value="admingroup" operator="=" field="group"/>
+     </boolean>
+    </condition>
+   </servacl>
+   <servacl permission="commitdb">
+    <condition format="xml">
+     <boolean operator="or">
+      <condition value="admingroup" operator="=" field="group"/>
+     </boolean>
+    </condition>
+   </servacl>
+  </servacls>
+  <servflags class="MCRMetaLangText">
+   <servflag>State:original sample</servflag>
+  </servflags>
+</service>
+</mycoreobject>

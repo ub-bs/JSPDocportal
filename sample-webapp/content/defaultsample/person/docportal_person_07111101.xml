@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mycoreobject 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="datamodel-author.xsd"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:xml="http://www.w3.org/XML/1998/namespace"
+  ID="DocPortal_person_07111101"
+  label="Ursula Reber">
+ <structure/>
+ <metadata>
+  <names class="MCRMetaPersonName" textsearch="true">
+   <name type="latest" xml:lang="de">
+    <firstname>Ursula</firstname>
+    <callname>Ursula</callname>
+    <surname>Reber</surname>
+   </name>
+  </names>
+  <females class="MCRMetaBoolean">
+   <female xml:lang="en">true</female>
+  </females>
+  <institutions class="MCRMetaClassification" parasearch="true">
+   <institution categid="Firma.Reber" classid="DocPortal_class_00000002" />
+  </institutions>
+  <addresses class="MCRMetaAddress">
+   <address type="office" xml:lang="de">
+    <country>Deutschland</country>
+    <state>Baden-Württemberg</state>
+   </address>
+  </addresses>
+  <phones class="MCRMetaLangText">
+   <phone type="phone" xml:lang="de">0049 7157 20638</phone>
+   <phone type="phone" xml:lang="de">0049 172 711 9243</phone>
+  </phones>
+  <professions class="MCRMetaLangText" textsearch="true">
+   <profession type="job" xml:lang="de">System-Beraterin</profession>
+  </professions>
+  <nationals class="MCRMetaClassification" parasearch="false">
+   <national classid="DocPortal_class_00000001" categid="NAT0001" />
+  </nationals>
+  <emails class="MCRMetaLangText" parasearch="false">
+   <email>
+    uschi.reber@gmx.de
+   </email>
+  </emails>
+ </metadata>
+ <service>
+  <servacls class="MCRMetaAccessRule">
+   <servacl permission="read">
+    <condition format="xml">
+     <boolean operator="true" />
+    </condition>
+   </servacl>
+   <servacl permission="writedb">
+    <condition format="xml">
+     <boolean operator="or">
+      <condition value="admingroup" operator="=" field="group"/>
+     </boolean>
+    </condition>
+   </servacl>
+   <servacl permission="deletedb">
+    <condition format="xml">
+     <boolean operator="or">
+      <condition value="admingroup" operator="=" field="group"/>
+     </boolean>
+    </condition>
+   </servacl>
+   <servacl permission="commitdb">
+    <condition format="xml">
+     <boolean operator="or">
+      <condition value="admingroup" operator="=" field="group"/>
+     </boolean>
+    </condition>
+   </servacl>
+  </servacls>
+  <servflags class="MCRMetaLangText">
+   <servflag>State:original sample</servflag>
+  </servflags>
+ </service>
+</mycoreobject>
