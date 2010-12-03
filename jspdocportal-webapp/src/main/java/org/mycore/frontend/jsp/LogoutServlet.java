@@ -4,8 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRSession;
+import org.mycore.common.MCRSystemUserInformation;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
 
@@ -21,9 +21,9 @@ public class LogoutServlet extends MCRServlet {
         HttpServletRequest request = job.getRequest();
         HttpServletResponse response = job.getResponse();
         MCRSession session = MCRServlet.getSession(request, getServletName());
-        String uid = session.getCurrentUserID();
+        String uid = session.getUserInformation().getCurrentUserID();
         LOGGER.debug("Log out user "+uid);
-        session.setCurrentUserID(MCRConfiguration.instance().getString("MCR.Users.Guestuser.UserName", "gast"));
+        session.setUserInformation(MCRSystemUserInformation.getGuestInstance());
         this.getServletContext().getRequestDispatcher("/content/index.jsp").include(request,response);
     }
 }

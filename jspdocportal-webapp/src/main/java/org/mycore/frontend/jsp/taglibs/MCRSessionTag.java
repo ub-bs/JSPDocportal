@@ -1,11 +1,13 @@
 package org.mycore.frontend.jsp.taglibs;
 
 import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.tagext.*;
-import javax.servlet.jsp.*;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.PageContext;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
+
 import org.apache.log4j.Logger;
-import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRSession;
 import org.mycore.frontend.servlets.MCRServlet;
 
@@ -44,9 +46,7 @@ public class MCRSessionTag extends SimpleTagSupport
 		if (type != null && !type.equals("")) {
 			if (type.equals("userID")) {
 				if (method.equals("get"))
-					pageContext.setAttribute(var, mcrSession.getCurrentUserID());
-				else
-					mcrSession.setCurrentUserID((String)pageContext.getAttribute(var));
+					pageContext.setAttribute(var, mcrSession.getUserInformation().getCurrentUserID());								
 				
 			} else if (type.equals("language")) {
 				if (method.equals("get"))
@@ -58,13 +58,16 @@ public class MCRSessionTag extends SimpleTagSupport
 					pageContext.setAttribute(var, mcrSession.getCurrentIP());
 				else
 					mcrSession.setCurrentIP((String)pageContext.getAttribute(var));
-			} else if (type.equals("userName")) {
+			/*never used? - commented 20101203 
+			 } else if (type.equals("userName")) {
+			 
 				if (method.equals("get")) {
 					String userName = mcrSession.getCurrentUserName();
 					if (userName == null) userName = MCRConfiguration.instance().getString("MCR.Users.Guestuser.UserName","Gast");
 					pageContext.setAttribute(var, userName);
 				}else
 					mcrSession.setCurrentUserName((String)pageContext.getAttribute(var));
+			*/
 			} else if (type.equals("ID")) {
 				if (method.equals("get"))
 					pageContext.setAttribute(var, mcrSession.getID());

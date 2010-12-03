@@ -32,7 +32,7 @@ import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.jdom.Element;
 import org.mycore.common.MCRException;
-import org.mycore.frontend.cli.MCRUserCommands;
+
 import org.mycore.frontend.workflowengine.guice.MCRRegisteruserWorkflowModule;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
@@ -40,6 +40,7 @@ import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcessManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
 import org.mycore.frontend.workflowengine.strategies.MCRUserStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
+import org.mycore.user.MCRUserCommands;
 
 import com.google.inject.Guice;
 import com.google.inject.Inject;

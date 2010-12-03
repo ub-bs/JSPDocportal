@@ -13,9 +13,9 @@ import org.jbpm.context.exe.ContextInstance;
 import org.jdom.Element;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.xml.MCRXMLHelper;
-import org.mycore.frontend.cli.MCRUserCommands;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.user.MCRExternalUserLogin;
+import org.mycore.user.MCRUserCommands;
 import org.mycore.user.MCRUserMgr;
 
 

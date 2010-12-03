@@ -1,7 +1,6 @@
 package org.mycore.frontend.jsp.taglibs;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
@@ -21,10 +20,12 @@ import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
+import org.mycore.common.MCRSystemUserInformation;
 import org.mycore.user.MCRExternalUserLogin;
 import org.mycore.user.MCRGroup;
 import org.mycore.user.MCRUser;
 import org.mycore.user.MCRUserMgr;
+import org.mycore.user.MCRUserRoleProvider;
 
 
 public class MCRLoginTag extends SimpleTagSupport
@@ -57,9 +58,9 @@ public class MCRLoginTag extends SimpleTagSupport
        
         MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
 		
-        String oldID = mcrSession.getCurrentUserID();
-		String oldUsername = mcrSession.getCurrentUserName();
-		if ( oldUsername == null ) oldUsername = MCRSessionMgr.getCurrentSession().getCurrentUserID();
+        String oldID = mcrSession.getUserInformation().getCurrentUserID();
+		String oldUsername =  mcrSession.getUserInformation().getCurrentUserID();
+		
 
 		if (uid != null)
             uid = (uid.trim().length() == 0) ? null : uid.trim();
@@ -91,7 +92,8 @@ public class MCRLoginTag extends SimpleTagSupport
         MCRExternalUserLogin extLogin= null;
         if(classNameExtUserLogin.length()>0){
         	try{
-        		Class c = Class.forName(classNameExtUserLogin);
+        		@SuppressWarnings("unchecked")
+				Class<MCRExternalUserLogin> c = (Class<MCRExternalUserLogin>)Class.forName(classNameExtUserLogin);
         		extLogin = (MCRExternalUserLogin)c.newInstance();		
         	}       	
         	catch(Exception e){
@@ -126,10 +128,11 @@ public class MCRLoginTag extends SimpleTagSupport
 		if(extLoginOk && mcrLoginOK){
 			//the user exists in external system and MyCoRe -> everything is OK
 	     	mcrUser = MCRUserMgr.instance().retrieveUser(mcrUID);
-	       	mcrSession.setCurrentUserID("root");
+	       	 
+	     	mcrSession.setUserInformation(MCRSystemUserInformation.getSuperUserInstance()); //"root;"
 	       	extLogin.updateUserData(uid, "", mcrUser);
-	       	mcrSession.setCurrentUserID(mcrUID);
-		    mcrSession.setCurrentUserName(mcrUser.getUserContact().getFirstName() + " " + mcrUser.getUserContact().getLastName() );
+	     	mcrSession.setUserInformation(new MCRUserRoleProvider(mcrUser));
+	       	
 		    loginresult.setAttribute("loginOK", "true");
 		    setNameIntoLoginResult(uid, loginresult);
 		}
@@ -139,8 +142,7 @@ public class MCRLoginTag extends SimpleTagSupport
 			//but he could be validated against MyCoRe Loging 
 			//-> use MyCoRe
 	     	mcrUser = MCRUserMgr.instance().retrieveUser(mcrUID);
-	       	mcrSession.setCurrentUserID(mcrUID);
-		    mcrSession.setCurrentUserName(mcrUser.getUserContact().getFirstName() + " " + mcrUser.getUserContact().getLastName() );
+	     	mcrSession.setUserInformation(new MCRUserRoleProvider(mcrUser));
 		    loginresult.setAttribute("loginOK", "true");
 		}
 		if(extLoginOk && !mcrLoginOK){
@@ -202,7 +204,7 @@ public class MCRLoginTag extends SimpleTagSupport
             loginOk = ((uid != null) && (pwd != null) 
             		  && MCRUserMgr.instance().existUser(uid) && MCRUserMgr.instance().login(uid, pwd));
             if (loginOk) {
-	        	MCRSessionMgr.getCurrentSession().setCurrentUserID(uid);
+	        	MCRSessionMgr.getCurrentSession().setUserInformation(new MCRUserRoleProvider(MCRUserMgr.instance().getCurrentUser()));
 	        	setNameIntoLoginResult(uid, loginresult);
 	            
 	        	List<String> allGroupIDS = MCRUserMgr.instance().retrieveUser(uid).getGroupIDs();
@@ -241,8 +243,7 @@ public class MCRLoginTag extends SimpleTagSupport
 	}
 	
 	private void setNameIntoLoginResult(String uid, Element loginresult){
-    	loginresult.setAttribute("username",  
-    			MCRUserMgr.instance().retrieveUser(uid).getName());
+    	loginresult.setAttribute("username", uid);    			
     	StringBuffer name=new StringBuffer();
     	ResourceBundle messages = PropertyResourceBundle.getBundle("messages", new Locale(MCRSessionMgr.getCurrentSession().getCurrentLanguage()));
     	
