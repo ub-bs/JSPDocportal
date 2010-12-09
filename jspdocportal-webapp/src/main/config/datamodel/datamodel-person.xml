@@ -7,7 +7,7 @@
    		</element>
   		<!-- Object Parent -->
   		<element name="partents" minOccurs='0' maxOccurs='1'>
-   			<mcrmetalinkid name="derobject" class="MCRMetaLinkID" minOccurs='1' maxOccurs='unbounded' />
+   			<mcrmetalinkid name="parent" class="MCRMetaLinkID" minOccurs='1' maxOccurs='unbounded' />
   		</element>
   		<!-- Derivate Objects -->
   		<element name="derobjects" minOccurs='0' maxOccurs='1'>
