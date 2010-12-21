@@ -204,7 +204,7 @@
 	<target name="create.class" depends="init">
 		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
 		<mcr-execute>
-            update all classifications from directory ${basedir}/../${APP_NAME}-webapp/content/classification
+            update all classifications from directory ${basedir}/content/classification
 		</mcr-execute>
 	</target>
 
@@ -293,10 +293,8 @@
 
 
 	<target name="load_default_content">
-		<subant target="load" inheritall="false" inheritrefs="false">
-			<fileset file="${DOCPORTAL_HOME}/content/defaultsample/build.xml" />
-			<property name="env.JAVA_HOME" value="${env.JAVA_HOME}" />
-			<property name="env.MYCORE_APP" value="${env.MYCORE_APP}" />
+		<subant target="load" inheritall="false" inheritrefs="true">
+			<fileset file="${basedir}/content/defaultsample/build.xml" />
 		</subant>
 	</target>
 
