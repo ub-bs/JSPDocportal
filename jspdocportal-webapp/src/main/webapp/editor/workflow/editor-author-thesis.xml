@@ -91,6 +91,7 @@
     	<cell col="2" row="64" anchor="NORTHEAST" ref="HNote" />
     	<cell col="1" row="65" colspan="2" anchor="NORTHWEST" ref="DNote" sortnr="34"/>     
 
+		<hidden var="metadata/mappings" descendants="true" />
 		<cell col="1" row="71" colspan="2" anchor="NORTHWEST" ref="DHiddenVars_The" sortnr="49"/>
 		
 	    <cell col="1" row="72" anchor="EAST" >

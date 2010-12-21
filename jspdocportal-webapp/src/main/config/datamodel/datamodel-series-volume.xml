@@ -31,6 +31,11 @@
 		<element name="identifiers" minOccurs='0' maxOccurs='1'>
 			<mcrmetalangtext name="identifier" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="128" />
 		</element>
+		
+		<!-- 101 - Mapping of Classifications -->
+    	<element name="mappings" minOccurs='0' maxOccurs='1'>
+      		<mcrmetaclassification name="mapping" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
+    	</element>
 	</metadata>
 	<service>
     <!-- Service Dates -->

@@ -110,6 +110,7 @@
     <cell col="1" row="150" colspan="2" anchor="NORTHWEST"><hr/> </cell>
     <cell col="1" row="151" colspan="2" anchor="NORTHWEST" ref="DHiddenFields" />
  
+ 	<hidden var="metadata/mappings" descendants="true" />
     <cell col="1" row="155" anchor="EAST" ><space width="10" height="40" /></cell>
     
     <cell col="1" row="160" anchor="EAST" ref="BCancel"            />

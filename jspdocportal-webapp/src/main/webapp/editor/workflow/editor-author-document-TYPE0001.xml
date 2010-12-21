@@ -163,7 +163,9 @@
 			<cell col="1" row="152" colspan="4" anchor="NORTHWEST" ref="DRightsLinks" sortnr="27"  />
 			<cell col="1" row="153" colspan="4" anchor="NORTHWEST" ref="DUrn" sortnr="32"  />
 			<cell col="1" row="154" colspan="4" anchor="NORTHWEST" ref="DDdb" sortnr="33"  />      
-      
+  			
+  			<hidden var="metadata/mappings" descendants="true" />
+  			    
       		<cell col="1" row="160"  colspan="4" anchor="WEST" ><hr/> </cell>
       		
       		<!--  Buttons -->

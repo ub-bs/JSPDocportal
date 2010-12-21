@@ -85,8 +85,8 @@
     	<element name="collections" minOccurs='0' maxOccurs='1'>
       		<mcrmetaclassification name="collection" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
     	</element>
-
-		<!-- 90 - Notes -->
+    	
+    	<!-- 90 - Notes -->
 		<element name="notes" minOccurs='0' maxOccurs='1'>
 			<mcrmetalangtext name="note" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="4096" />
 		</element>
@@ -105,6 +105,11 @@
 		<element name="successors" minOccurs='0' maxOccurs='1'>
 			<mcrmetalinkid name="successor" class="MCRMetaLink" minOccurs='1' maxOccurs='unbounded' />
 		</element>
+		
+		<!-- 101 - Mapping of Classifications -->
+    	<element name="mappings" minOccurs='0' maxOccurs='1'>
+      		<mcrmetaclassification name="mapping" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
+    	</element>
 	</metadata>
 	<service>
     <!-- Service Dates -->

@@ -178,6 +178,11 @@
 		<element name="grantorlinks" minOccurs='0' maxOccurs='1'>
 			<mcrmetalinkid name="grantorlink" class="MCRMetaLinkID" minOccurs='1' maxOccurs='unbounded' />
 		</element>
+		
+		<!-- 38 - Mapping of Classifications -->
+    	<element name="mappings" minOccurs='0' maxOccurs='1'>
+      		<mcrmetaclassification name="mapping" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
+    	</element>
 	</metadata>
 	<service>
     <!-- Service Dates -->
