@@ -502,13 +502,7 @@
     </xsl:template>
 
     <xsl:template name="degree">
-       <xsl:variable name="institutionClassid">
-           <xsl:value-of select="./metadata/origins/origin/@classid" />
-       </xsl:variable>
-       <xsl:variable name="institutionCategid">
-           <xsl:value-of select="./metadata/origins/origin/@categid" />
-       </xsl:variable>       
-       <xsl:for-each select="./metadata/types/type">
+      <xsl:for-each select="./metadata/types/type">
            <xsl:if test="contains(./@categid,'TYPE0003')">
                <xsl:element name="thesis:degree">
                    <xsl:element name="thesis:level">
