@@ -38,7 +38,7 @@ public class MCRSessionTag extends SimpleTagSupport
 	public void doTag() throws JspException, IOException {
 		PageContext pageContext = (PageContext) getJspContext();
 		//"HttpJspBase" is the name of the servlet that handles JSPs
-		MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)pageContext.getRequest(), "HttpJspBase");
+		MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)pageContext.getRequest());
 		if (!method.equals("set") && !method.equals("get")) {
 			Logger.getLogger(MCRSessionTag.class).error("unknown method: " + method);
 			return;

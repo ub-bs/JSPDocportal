@@ -138,7 +138,7 @@ public class NavServlet extends MCRServlet
     	if ((baseURL == null) || baseURL.equals("") || (navJdom == null) || (navDom == null))  {
     		initializeParameters(request);
     	}
-        MCRSession session = MCRServlet.getSession(request, getServletName());
+        MCRSession session = MCRServlet.getSession(request);
         if(!"yes".equals(context.getAttribute("startup_done"))) {
             PrintWriter out = response.getWriter();
             out.write("<html><body><h1>Application offline</h1>The application is currently offline. Probably it's still starting up, or has been shut down.</body></html>");
