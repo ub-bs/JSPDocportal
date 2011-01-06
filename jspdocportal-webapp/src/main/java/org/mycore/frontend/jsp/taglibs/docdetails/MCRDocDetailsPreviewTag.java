@@ -62,7 +62,7 @@ public class MCRDocDetailsPreviewTag extends SimpleTagSupport {
    		  		o = new String("");
    		  	}
    			XPathUtil xu = new XPathUtil((PageContext)getJspContext());
-			@SuppressWarnings("unchecked")
+			@SuppressWarnings("rawtypes")
 			List nodes = xu.selectNodes(docdetails.getContext(), xp);
 			JspWriter out = getJspContext().getOut();
 			out.write("<tr><td colspan=\"3\">");
