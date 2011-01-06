@@ -88,54 +88,12 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     	HttpServletRequest request = job.getRequest();
     	HttpServletResponse response = job.getResponse();
     
-    	String id = request.getParameter("id");
-        String ppn = request.getParameter("ppn");
-        String urn = request.getParameter("urn");
-        
-        String pdf = request.getParameter("pdf");
+    	String pdf = request.getParameter("pdf");
         String xml = request.getParameter("xml");
         String img = request.getParameter("img");
-        
-        String page= request.getParameter("page");
-        String nr = request.getParameter("nr");
-        String thumb = request.getParameter("thumb");
-         
-        StringBuffer queryString = null;
-        if(id!=null){
-        	queryString = new StringBuffer();
-        	queryString.append("<query>");
-           	queryString.append("   <conditions format=\"xml\">");
-           	queryString.append("      <boolean operator=\"and\">");
-           	//queryString.append("       <condition field=\"objectType\" operator=\"=\" value=\"professor\" />");
-           	queryString.append("         <condition field=\"id\" operator=\"=\" value=\""+id+"\" />");
-           	queryString.append("      </boolean>");
-           	queryString.append("   </conditions>");
-    		queryString.append("</query>");
-    	}
-    	if(urn!=null){
-    		queryString = new StringBuffer();
-    		queryString.append("<query>");
-    		queryString.append("   <conditions format=\"xml\">");
-    		queryString.append("      <boolean operator=\"and\">");
-    		//queryString.append("       <condition field=\"objectType\" operator=\"=\" value=\"professor\" />");
-    		queryString.append("         <condition field=\"urn\" operator=\"=\" value=\""+urn+"\" />");
-    		queryString.append("      </boolean>");
-    		queryString.append("   </conditions>");
-    		queryString.append("</query>");
-		}
-    	if(ppn!=null){
-    		queryString = new StringBuffer();
-    		queryString.append("<query>");
-    		queryString.append("   <conditions format=\"xml\">");
-    		queryString.append("      <boolean operator=\"and\">");
-    		//queryString.append("       <condition field=\"objectType\" operator=\"=\" value=\"professor\" />");
-    		queryString.append("         <condition field=\"ppn\" operator=\"=\" value=\""+ppn+"\" />");
-    		queryString.append("      </boolean>");
-    		queryString.append("   </conditions>");
-    		queryString.append("</query>");
-		}
-		    	    
-    	if(queryString==null){
+                 
+        String queryString = createQuery(request);
+      	if(queryString.length()==0){
     		 getServletContext().getRequestDispatcher("/nav?path=~mycore-error&messageKey=IdNotGiven").forward(request,response);
     	}
     	else{
@@ -146,122 +104,185 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     		if(result.getNumHits()>0){
     			String mcrID = result.getHit(0).getID();
     			if(pdf!=null){
-    				MCRObject o = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID));
-    				MCRObjectStructure structure = o.getStructure(); 
-    				MCRMetaLinkID derMetaLink = structure.getDerivates().get(0);
-        			MCRObjectID derID = derMetaLink.getXLinkHrefID();
-        			MCRDirectory root;
-        			root = MCRDirectory.getRootDirectory(derID.toString());
-        			MCRFilesystemNode[] myfiles = root.getChildren();
-        			if(myfiles.length==1){        				
-        				/* the following code does not change the URL in the browser, but I cannot set additional parameter to open the pdf */
-        				/*
-        				response.setContentType( "application/pdf" );
-        				response.setHeader("Content-Disposition", "attachment; filename=" + myfiles[0].getName());
-        				if (myfiles[0] instanceof MCRFile) {
-        					((MCRFile)myfiles[0]).getContentTo(response.getOutputStream());
-        				}*/
-        				if(myfiles[0] instanceof MCRFile && myfiles[0].getAbsolutePath().endsWith(".pdf")){
-        					StringBuffer sbPath = new StringBuffer(getBaseURL());
-        					sbPath.append("file/").append(myfiles[0].getPath());
-        					if(page!=null){
-        						sbPath.append("#page=").append(page);
-        					}
-        					else if(nr!=null){
-        						sbPath.append("#page=").append(nr);
-        					}
-        					response.sendRedirect(sbPath.toString());
-        				}
-        			}   				
+    				String url = createURLForPDF(request, mcrID);
+    				if(url.length()>0){
+    					response.sendRedirect(url);
+    					return;
+    				}    				
     			}
     			else if(xml!=null){
-    				Document doc = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(id)).createXML();    	    		 
+    				Document doc = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID)).createXML();    	    		 
     	    		response.setContentType("text/xml");
     	    		XMLOutputter xout = new XMLOutputter(Format.getPrettyFormat());
     	    		xout.output(doc, response.getOutputStream());
+    	    		return;
     			}
     			else if(img!=null){
-    				//Create URL for DFG ImageViewer and Forward to it
-    				//http://dfg-viewer.de/v1/?set%5Bmets%5D=http%3A%2F%2Frosdok.uni-rostock.de%2Fdata%2Fetwas%2Fetwas1737%2Fetwas1737.mets.xml&set%5Bzoom%5D=min
-    			
-    				StringBuffer sbDFGViewerURL = null;
-    			
-    				MCRObject o = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID));
-    				for(MCRMetaLinkID derMetaLink: o.getStructure().getDerivates()){    					 
-    					if("METS".equals(derMetaLink.getXLinkLabel())){
-    						MCRObjectID derID = derMetaLink.getXLinkHrefID();
-    						MCRDirectory root = MCRDirectory.getRootDirectory(derID.toString());
-    						MCRFilesystemNode[] myfiles = root.getChildren();
-    						for (MCRFilesystemNode f: myfiles){
-    							if((f instanceof MCRFile) && ((MCRFile) f).getAbsolutePath().endsWith(".mets.xml")){
-    								Namespace nsMets=Namespace.getNamespace("mets", "http://www.loc.gov/METS/");
-    								Namespace nsXlink=Namespace.getNamespace("xlink", "http://www.w3.org/1999/xlink");
-    								Document docMETS = ((MCRFile)f).getContentAsJDOM();
-    								Element eMETSPhysDiv = null;
-    								if(page!=null){
-    									while (page.startsWith("0")){
-    										page=page.substring(1);
-    									}
-    									XPath xpID = XPath.newInstance("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
-    											"/mets:div[@TYPE='physSequence']/mets:div[starts-with(@ORDERLABEL, '" +page+"')]/@ORDER");
-    									xpID.addNamespace(nsMets);
-    									eMETSPhysDiv = (Element)xpID.selectSingleNode(docMETS);
-    								}
-    								else if (nr!=null){
-    									XPath xpID = XPath.newInstance("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
-    											"/mets:div[@TYPE='physSequence']/mets:div[@ORDER='" +nr+"')]/@ORDER");
-    									xpID.addNamespace(nsMets);
-    									eMETSPhysDiv = (Element)xpID.selectSingleNode(docMETS);
-    								}
-    								
-    								if(eMETSPhysDiv!=null){
-    									if(thumb == null){
-    										//display in DFG-Viewer
-    	    								sbDFGViewerURL = new StringBuffer("http://dfg-viewer.de/v1/");
-    	    								sbDFGViewerURL.append("?set%5Bmets%5D=");
-    	    								sbDFGViewerURL.append(URLEncoder.encode(getBaseURL()+"file/"+f.getPath(), "UTF-8"));
-    										sbDFGViewerURL.append("&set[image]=").append(eMETSPhysDiv.getAttributeValue("ORDER"));
-    										sbDFGViewerURL.append("&set[zoom]=min");
-    									}
-    									else {
-    										//return thumb image    										
-    										@SuppressWarnings("unchecked")
-											List<Element> l = (List<Element>) eMETSPhysDiv.getChildren();
-    										String fileid = null;
-    										for(Element e: l){
-    											if(e.getAttributeValue("FILEID").startsWith("THUMB")){
-    												fileid = e.getAttributeValue("FILEID");
-    											}
-    										}
-    										if(fileid !=null){
-    											// <mets:file MIMETYPE="image/jpeg" ID="THUMBS.matrikel1760-1789-Buetzow_c0001">
-    									        //		<mets:FLocat LOCTYPE="URL" xlink:href="http://rosdok.uni-rostock.de/data/matrikel_handschriften/matrikel1760-1789-Buetzow/THUMBS/matrikel1760-1789-Buetzow_c0001.jpg" />
-    									        //  </mets:file>
-    											
-    											XPath xpFLocat = XPath.newInstance("//mets:file[@ID='"+fileid+"']/mets:FLocat");
-    	    									xpFLocat.addNamespace(nsMets);
-    	    									Element eFLocat = (Element)xpFLocat.selectSingleNode(docMETS);
-    	    									if(eFLocat!=null){
-    	    										sbDFGViewerURL = new StringBuffer(eFLocat.getAttributeValue("href", nsXlink));
-    	    									}
-    										}
-    									}
-    								} //end [if(eMETSPhysDiv!=null)]
-    							} //end if
-    						} //end for			
-    					} //end [if("METS" ...)]
-    				}   	
-    	
-    				if(sbDFGViewerURL!=null){
-    					LOGGER.debug("DFGViewer URL: "+sbDFGViewerURL.toString());
-    					response.sendRedirect(sbDFGViewerURL.toString());
-    				}
-    				else{
-    					this.getServletContext().getRequestDispatcher("/nav?path=~docdetail&id=" +mcrID).forward(request, response);
+    			   	String url = createURLForDFGViewer(request, mcrID);
+    				if(url.length()>0){
+    					LOGGER.debug("DFGViewer URL: "+url);
+    					response.sendRedirect(url);
     				}
     			} //end [if(img!=null)]
-    				
+    			else{
+					this.getServletContext().getRequestDispatcher("/nav?path=~docdetail&id=" +mcrID).forward(request, response);
+				}
     		} //end [if(result.getNumHits()>0)]
     	}
-	}    
+	}
+	
+	private String createQuery(HttpServletRequest request) {
+		String id = request.getParameter("id");
+		String ppn = request.getParameter("ppn");
+		String urn = request.getParameter("urn");
+		StringBuffer queryString = new StringBuffer();
+		if (id != null) {
+			queryString = new StringBuffer();
+			queryString.append("<query>");
+			queryString.append("   <conditions format=\"xml\">");
+			queryString.append("      <boolean operator=\"and\">");
+			// queryString.append("       <condition field=\"objectType\" operator=\"=\" value=\"professor\" />");
+			queryString.append("         <condition field=\"id\" operator=\"=\" value=\"" + id + "\" />");
+			queryString.append("      </boolean>");
+			queryString.append("   </conditions>");
+			queryString.append("</query>");
+		}
+		if (urn != null) {
+			queryString = new StringBuffer();
+			queryString.append("<query>");
+			queryString.append("   <conditions format=\"xml\">");
+			queryString.append("      <boolean operator=\"and\">");
+			// queryString.append("       <condition field=\"objectType\" operator=\"=\" value=\"professor\" />");
+			queryString.append("         <condition field=\"urn\" operator=\"=\" value=\"" + urn + "\" />");
+			queryString.append("      </boolean>");
+			queryString.append("   </conditions>");
+			queryString.append("</query>");
+		}
+		if (ppn != null) {
+			queryString = new StringBuffer();
+			queryString.append("<query>");
+			queryString.append("   <conditions format=\"xml\">");
+			queryString.append("      <boolean operator=\"and\">");
+			// queryString.append("       <condition field=\"objectType\" operator=\"=\" value=\"professor\" />");
+			queryString.append("         <condition field=\"ppn\" operator=\"=\" value=\"" + ppn + "\" />");
+			queryString.append("      </boolean>");
+			queryString.append("   </conditions>");
+			queryString.append("</query>");
+		}
+		return queryString.toString();
+	}
+	
+	private String createURLForPDF(HttpServletRequest request, String mcrID){
+		String page= request.getParameter("page");
+	    String nr = request.getParameter("nr");
+		
+	    MCRObject o = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID));
+		MCRObjectStructure structure = o.getStructure(); 
+		MCRMetaLinkID derMetaLink = structure.getDerivates().get(0);
+		MCRObjectID derID = derMetaLink.getXLinkHrefID();
+		MCRDirectory root;
+		root = MCRDirectory.getRootDirectory(derID.toString());
+		MCRFilesystemNode[] myfiles = root.getChildren();
+		if(myfiles.length==1){        				
+			/* the following code does not change the URL in the browser, but I cannot set additional parameter to open the pdf */
+			/*
+			response.setContentType( "application/pdf" );
+			response.setHeader("Content-Disposition", "attachment; filename=" + myfiles[0].getName());
+			if (myfiles[0] instanceof MCRFile) {
+				((MCRFile)myfiles[0]).getContentTo(response.getOutputStream());
+			}*/
+			if(myfiles[0] instanceof MCRFile && myfiles[0].getAbsolutePath().endsWith(".pdf")){
+				StringBuffer sbPath = new StringBuffer(getBaseURL());
+				sbPath.append("file/").append(myfiles[0].getPath());
+				if(page!=null){
+					sbPath.append("#page=").append(page);
+				}
+				else if(nr!=null){
+					sbPath.append("#page=").append(nr);
+				}
+				return sbPath.toString();
+			}
+		} 
+		return "";
+	}
+
+	//Create URL for DFG ImageViewer and Forward to it
+	//http://dfg-viewer.de/v1/?set%5Bmets%5D=http%3A%2F%2Frosdok.uni-rostock.de%2Fdata%2Fetwas%2Fetwas1737%2Fetwas1737.mets.xml&set%5Bzoom%5D=min
+	private String createURLForDFGViewer(HttpServletRequest request, String mcrID){
+
+		String thumb = request.getParameter("thumb");
+		String page= request.getParameter("page");
+	    String nr = request.getParameter("nr");
+		StringBuffer sbURL = null;
+		try{
+		MCRObject o = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID));
+		for(MCRMetaLinkID derMetaLink: o.getStructure().getDerivates()){    					 
+			if("METS".equals(derMetaLink.getXLinkLabel())){
+				MCRObjectID derID = derMetaLink.getXLinkHrefID();
+				MCRDirectory root = MCRDirectory.getRootDirectory(derID.toString());
+				MCRFilesystemNode[] myfiles = root.getChildren();
+				for (MCRFilesystemNode f: myfiles){
+					if((f instanceof MCRFile) && ((MCRFile) f).getAbsolutePath().endsWith(".mets.xml")){
+						Namespace nsMets=Namespace.getNamespace("mets", "http://www.loc.gov/METS/");
+						Namespace nsXlink=Namespace.getNamespace("xlink", "http://www.w3.org/1999/xlink");
+						Document docMETS = ((MCRFile)f).getContentAsJDOM();
+						Element eMETSPhysDiv = null;
+						if(page!=null){
+							while (page.startsWith("0")){
+								page=page.substring(1);
+							}
+							XPath xpID = XPath.newInstance("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
+									"/mets:div[@TYPE='physSequence']/mets:div[starts-with(@ORDERLABEL, '" +page+"')]/@ORDER");
+							xpID.addNamespace(nsMets);
+							eMETSPhysDiv = (Element)xpID.selectSingleNode(docMETS);
+						}
+						else if (nr!=null){
+							XPath xpID = XPath.newInstance("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
+									"/mets:div[@TYPE='physSequence']/mets:div[@ORDER='" +nr+"')]/@ORDER");
+							xpID.addNamespace(nsMets);
+							eMETSPhysDiv = (Element)xpID.selectSingleNode(docMETS);
+						}
+						
+						if(eMETSPhysDiv!=null){
+							if(thumb == null){
+								//display in DFG-Viewer
+								sbURL = new StringBuffer("http://dfg-viewer.de/v1/");
+								sbURL.append("?set%5Bmets%5D=");
+								sbURL.append(URLEncoder.encode(getBaseURL()+"file/"+f.getPath(), "UTF-8"));
+								sbURL.append("&set[image]=").append(eMETSPhysDiv.getAttributeValue("ORDER"));
+								sbURL.append("&set[zoom]=min");
+							}
+							else {
+								//return thumb image    										
+								@SuppressWarnings("unchecked")
+								List<Element> l = (List<Element>) eMETSPhysDiv.getChildren();
+								String fileid = null;
+								for(Element e: l){
+									if(e.getAttributeValue("FILEID").startsWith("THUMB")){
+										fileid = e.getAttributeValue("FILEID");
+									}
+								}
+								if(fileid !=null){
+									// <mets:file MIMETYPE="image/jpeg" ID="THUMBS.matrikel1760-1789-Buetzow_c0001">
+							        //		<mets:FLocat LOCTYPE="URL" xlink:href="http://rosdok.uni-rostock.de/data/matrikel_handschriften/matrikel1760-1789-Buetzow/THUMBS/matrikel1760-1789-Buetzow_c0001.jpg" />
+							        //  </mets:file>
+									
+									XPath xpFLocat = XPath.newInstance("//mets:file[@ID='"+fileid+"']/mets:FLocat");
+									xpFLocat.addNamespace(nsMets);
+									Element eFLocat = (Element)xpFLocat.selectSingleNode(docMETS);
+									if(eFLocat!=null){
+										sbURL = new StringBuffer(eFLocat.getAttributeValue("href", nsXlink));
+									}
+								}
+							}
+						} //end [if(eMETSPhysDiv!=null)]
+					} //end if
+				} //end for			
+			} //end [if("METS" ...)]
+		}
+		}catch(Exception e){
+			return "";
+		}
+		return sbURL.toString();
+	}
 }
