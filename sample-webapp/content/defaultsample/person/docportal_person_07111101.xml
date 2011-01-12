@@ -18,7 +18,7 @@
   <females class="MCRMetaBoolean">
    <female xml:lang="en">true</female>
   </females>
-  <institutions class="MCRMetaClassification" parasearch="true">
+  <institutions class="MCRMetaClassification">
    <institution categid="Firma.Reber" classid="DocPortal_class_00000002" />
   </institutions>
   <addresses class="MCRMetaAddress">
@@ -34,10 +34,10 @@
   <professions class="MCRMetaLangText" textsearch="true">
    <profession type="job" xml:lang="de">System-Beraterin</profession>
   </professions>
-  <nationals class="MCRMetaClassification" parasearch="false">
+  <nationals class="MCRMetaClassification">
    <national classid="DocPortal_class_00000001" categid="NAT0001" />
   </nationals>
-  <emails class="MCRMetaLangText" parasearch="false">
+  <emails class="MCRMetaLangText">
    <email>
     uschi.reber@gmx.de
    </email>

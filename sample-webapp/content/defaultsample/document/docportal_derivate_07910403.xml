@@ -7,10 +7,10 @@
   ID="DocPortal_derivate_07910403" 
   label="Datenobjekte zu DocPortal_document_07910403">
 <derivate>
-  <linkmetas class="MCRMetaLinkID" heritable="false" parasearch="true" textsearch="false">
+  <linkmetas class="MCRMetaLinkID" heritable="false">
     <linkmeta inherited="0" xlink:type="locator" xlink:href="DocPortal_document_07910403"/>
   </linkmetas>
-  <internals class="MCRMetaIFS" heritable="false" notinherit="true" parasearch="false" textsearch="false">
+  <internals class="MCRMetaIFS" heritable="false" notinherit="true">
     <internal 
       sourcepath="DocPortal_derivate_07910403" 
       maindoc="Detlev_Alaska2002.ppt" />

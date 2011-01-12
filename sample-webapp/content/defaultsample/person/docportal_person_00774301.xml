@@ -19,7 +19,7 @@
   <females class="MCRMetaBoolean">
    <female xml:lang="en">true</female>
   </females>
-  <institutions class="MCRMetaClassification" parasearch="true">
+  <institutions class="MCRMetaClassification">
    <institution categid="Unis.Jena" classid="DocPortal_class_00000002" />
   </institutions>
   <addresses class="MCRMetaAddress">
@@ -49,23 +49,23 @@
    <profession type="job" xml:lang="de">System-Designer</profession>
    <profession type="profession" xml:lang="de">Diplom-Mathematikerin</profession>
   </professions>
-  <nationals class="MCRMetaClassification" parasearch="false">
+  <nationals class="MCRMetaClassification">
    <national classid="DocPortal_class_00000001" categid="NAT0001" />
   </nationals>
-  <emails class="MCRMetaLangText" parasearch="false">
+  <emails class="MCRMetaLangText">
    <email>
     Ulrike.Kroenert@uni-jena.de
    </email>
   </emails>
-  <references class="MCRMetaLink" parasearch="false">
+  <references class="MCRMetaLink">
    <reference xlink:type="locator" xlink:href="http://www.mycore.de" xlink:title="URL von MyCoRe" />
   </references>
-  <notes class="MCRMetaLangText" parasearch="false">
+  <notes class="MCRMetaLangText">
    <note>
     Ulrike Krönert ist eine der Architekten von MyCoRe.
    </note>
   </notes>
-  <publications class="MCRMetaLangText" parasearch="false">
+  <publications class="MCRMetaLangText">
    <publication xml:lang="de">
     Dokumentationen für MyCoRe
    </publication>

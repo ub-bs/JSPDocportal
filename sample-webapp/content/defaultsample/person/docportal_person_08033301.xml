@@ -18,7 +18,7 @@
   <females class="MCRMetaBoolean">
    <female xml:lang="en">false</female>
   </females>
-  <institutions class="MCRMetaClassification" parasearch="true">
+  <institutions class="MCRMetaClassification">
    <institution categid="Unis.TUMuenchen" classid="DocPortal_class_00000002" />
   </institutions>
   <addresses class="MCRMetaAddress">
@@ -47,15 +47,15 @@
    <profession type="job" xml:lang="de">System-Administrator</profession>
    <profession type="job" xml:lang="de">System-Designer</profession>
   </professions>
-  <nationals class="MCRMetaClassification" parasearch="false">
+  <nationals class="MCRMetaClassification">
    <national classid="DocPortal_class_00000001" categid="NAT0001" />
   </nationals>
-  <emails class="MCRMetaLangText" parasearch="false">
+  <emails class="MCRMetaLangText">
    <email>
     helmbrecht@ub.tum.de
    </email>
   </emails>
-  <notes class="MCRMetaLangText" parasearch="false">
+  <notes class="MCRMetaLangText">
    <note>
     Heiko Helmbrecht ist einer der Architekten von MyCoRe.
    </note>

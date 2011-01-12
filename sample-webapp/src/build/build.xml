@@ -5,7 +5,7 @@
 <!-- =================================================================== -->
 
 <project name="CPR" default="usage" basedir=".">
-	<property name = "PARENT_BUILD_FILE" value="${basedir}/../jspdocportal-webapp/buildfile_application.xml" />
+	<property name = "PARENT_BUILD_FILE" value="buildfile_application.xml" />
 	<property name="APP_NAME" value="sample" />
 	
 	<property environment="env" />

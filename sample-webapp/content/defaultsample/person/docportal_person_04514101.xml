@@ -8,7 +8,7 @@
 	>
 	<structure/>
 	<metadata xml:lang="de">
-		<names class="MCRMetaPersonName" heritable="true" notinherit="false" parasearch="true" textsearch="true">
+		<names class="MCRMetaPersonName" heritable="true" notinherit="false" textsearch="true">
 			<name xml:lang="de" inherited="0">
 				<firstname>Frank</firstname>
 				<callname>Frank</callname>
@@ -16,24 +16,24 @@
 				<surname>Lützenkirchen</surname>
 			</name>
 		</names>
-		<females class="MCRMetaBoolean" heritable="true" notinherit="false" parasearch="true" textsearch="false">
+		<females class="MCRMetaBoolean" heritable="true" notinherit="false" textsearch="false">
 			<female xml:lang="de" inherited="0">false</female>
 		</females>
-		<institutions class="MCRMetaClassification" heritable="true" notinherit="false" parasearch="true" textsearch="false">
+		<institutions class="MCRMetaClassification" heritable="true" notinherit="false" textsearch="false">
 			<institution inherited="0" classid="DocPortal_class_00000002" categid="Unis.Essen"/>
 		</institutions>
-<addresses class="MCRMetaAddress" heritable="true" notinherit="false" parasearch="false" textsearch="false"><address xml:lang="de" inherited="0"><country>Deutschland</country><state>Nordrhein-Westfalen</state><zipcode>45141</zipcode><city>Essen</city><street>Universitätsstrasse</street><number>9 - 11</number></address>
+<addresses class="MCRMetaAddress" heritable="true" notinherit="false" textsearch="false"><address xml:lang="de" inherited="0"><country>Deutschland</country><state>Nordrhein-Westfalen</state><zipcode>45141</zipcode><city>Essen</city><street>Universitätsstrasse</street><number>9 - 11</number></address>
 </addresses>
-<phones class="MCRMetaLangText" heritable="true" notinherit="false" parasearch="false" textsearch="false"><phone xml:lang="de" inherited="0" form="plain" type="Telefon">0201 / 183 - 2124</phone>
+<phones class="MCRMetaLangText" heritable="true" notinherit="false" textsearch="false"><phone xml:lang="de" inherited="0" form="plain" type="Telefon">0201 / 183 - 2124</phone>
 <phone xml:lang="de" inherited="0" form="plain" type="Fax">0201 / 183 - 3231</phone>
 </phones>
-<professions class="MCRMetaLangText" heritable="true" notinherit="false" parasearch="true" textsearch="true"><profession xml:lang="de" inherited="0" form="plain" type="job">wiss. Mitarbeiter</profession>
+<professions class="MCRMetaLangText" heritable="true" notinherit="false" textsearch="true"><profession xml:lang="de" inherited="0" form="plain" type="job">wiss. Mitarbeiter</profession>
 </professions>
-<nationals class="MCRMetaClassification" heritable="true" notinherit="false" parasearch="true" textsearch="false"><national inherited="0" classid="DocPortal_class_00000001" categid="NAT0001"/>
+<nationals class="MCRMetaClassification" heritable="true" notinherit="false" textsearch="false"><national inherited="0" classid="DocPortal_class_00000001" categid="NAT0001"/>
 </nationals>
-<emails class="MCRMetaLangText" heritable="true" notinherit="false" parasearch="false" textsearch="false"><email xml:lang="de" inherited="0" form="plain">luetzenkirchen@bibl.uni-essen.de</email>
+<emails class="MCRMetaLangText" heritable="true" notinherit="false" textsearch="false"><email xml:lang="de" inherited="0" form="plain">luetzenkirchen@bibl.uni-essen.de</email>
 </emails>
-<notes class="MCRMetaLangText" heritable="true" notinherit="false" parasearch="false" textsearch="false"><note xml:lang="de" inherited="0" form="plain">Frank Lützenkirchen ist der Kopf von MyCoRe.</note>
+<notes class="MCRMetaLangText" heritable="true" notinherit="false" textsearch="false"><note xml:lang="de" inherited="0" form="plain">Frank Lützenkirchen ist der Kopf von MyCoRe.</note>
 </notes>
 	</metadata>
 	<service>

@@ -19,7 +19,7 @@
   <females class="MCRMetaBoolean">
    <female xml:lang="en">true</female>
   </females>
-  <institutions class="MCRMetaClassification" parasearch="true">
+  <institutions class="MCRMetaClassification">
    <institution categid="Unis.Leipzig" classid="DocPortal_class_00000002" />
   </institutions>
   <addresses class="MCRMetaAddress">
@@ -50,20 +50,20 @@
    <profession type="job" xml:lang="de">System-Administrator</profession>
    <profession type="job" xml:lang="de">System-Designer</profession>
   </professions>
-  <nationals class="MCRMetaClassification" parasearch="false">
+  <nationals class="MCRMetaClassification">
    <national classid="DocPortal_class_00000001" categid="NAT0001" />
   </nationals>
-  <emails class="MCRMetaLangText" parasearch="false">
+  <emails class="MCRMetaLangText">
    <email>
     starke@rz.uni-leipzig.de
    </email>
   </emails>
-  <notes class="MCRMetaLangText" parasearch="false">
+  <notes class="MCRMetaLangText">
    <note>
     Ute Starke arbeitet in Leipzig an MyCoRe-Applikationen mit.
    </note>
   </notes>
-  <publications class="MCRMetaLangText" parasearch="false">
+  <publications class="MCRMetaLangText">
    <publication xml:lang="de">
     Dokumentationen für MyCoRe
    </publication>
