@@ -68,7 +68,7 @@
 			<label xml:lang="de" text="Studienarbeit"
 				   description="Textgeprägte Ausarbeitungen, die im Rahmen eines Studiums entstehen. Beispiele sind Haus- und Seminararbeiten, Untersuchungs- und Projektberichte, die nicht als Abschlussarbeit eingestuft sind." />
 			<label xml:lang="en" text="study thesis"
-				   descritpion="Textual compositions, produced in the course of studies. Examples are assignments, term papers, research and project reports, that do not classify as final thesis." />
+				   description="Textual compositions, produced in the course of studies. Examples are assignments, term papers, research and project reports, that do not classify as final thesis." />
 		</category>
 		<category ID="bachelorThesis">
 			<label xml:lang="de" text="Abschlussarbeit (Bachelor)"
@@ -190,6 +190,13 @@
 				   description="Speziell gedacht für Material, das nicht anderweitig zugeordnet werden kann." />
 			<label xml:lang="en" text="other resources, not textual"
 				   description="Especially meant for non-publication data, that cannot be classified by other terms." />
+		</category>
+		<category ID="Text">
+			<label xml:lang="de" text="Text"
+				   description="Text" />
+			<label xml:lang="en" text="text"
+				   description="text" />
+				   <!-- only mentioned in "DINI Zertifikat 2010, but not in "Gemeinsames Vokabular" -->
 		</category>
 	</categories>
 </mycoreclass>

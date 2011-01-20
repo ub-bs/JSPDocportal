@@ -34,7 +34,8 @@
 			<label xml:lang="en" text="Event"
 				   description="A non-persistent, time-based occurrence." />
 			<label xml:lang="x-rdf" text="http://purl.org/dc/dcmitype/Event"
-			       description="Metadata for an event provides descriptive information that is the basis for discovery of the purpose, location, duration, and responsible agents associated with an event. Examples include an exhibition, webcast, conference, workshop, open day, performance, battle, trial, wedding, tea party, conflagration." />
+			       description="Metadata for an event provides descriptive information that is the basis for discovery of the purpose, location, duration, and responsible agents associated with an event." />
+			       <!--  Examples include an exhibition, webcast, conference, workshop, open day, performance, battle, trial, wedding, tea party, conflagration. -->
 		</category>
 		<category ID="Image">
 			<label xml:lang="de" text="Bild"
@@ -42,14 +43,16 @@
 			<label xml:lang="en" text="Image"
 				   description="A visual representation other than text." />
 			<label xml:lang="x-rdf" text="http://purl.org/dc/dcmitype/Image"
-			       description="Examples include images and photographs of physical objects, paintings, prints, drawings, other images and graphics, animations and moving pictures, film, diagrams, maps, musical notation. Note that Image may include both electronic and physical representations." />
+			       description="Examples include images and photographs of physical objects, paintings, prints, drawings, other images and graphics, animations and moving pictures, film, diagrams, maps, musical notation." />
+			       <!--  Note that Image may include both electronic and physical representations. -->
 			<category ID="StillImage">
 				<label xml:lang="de" text="Einzelbild"
 					   description="Eine statische visuelle Darstellung." />
 				<label xml:lang="en" text="Still Image" 
 				       description="A static visual representation." />
 				<label xml:lang="x-rdf" text="http://purl.org/dc/dcmitype/StillImage"
-				       description="Examples include paintings, drawings, graphic designs, plans and maps. Recommended best practice is to assign the type Text to images of textual materials. Instances of the type Still Image must also be describable as instances of the broader type Image." />
+				       description="Examples include paintings, drawings, graphic designs, plans and maps. Recommended best practice is to assign the type Text to images of textual materials." />
+				       <!-- Instances of the type Still Image must also be describable as instances of the broader type Image. -->
 			</category>
 			<category ID="MovingImage">
 				<label xml:lang="de" text="Bewegte Bilder"
