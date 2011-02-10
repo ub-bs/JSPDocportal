@@ -42,6 +42,7 @@ import org.jdom.xpath.XPath;
 import org.mycore.datamodel.ifs.MCRDirectory;
 import org.mycore.datamodel.ifs.MCRFile;
 import org.mycore.datamodel.ifs.MCRFilesystemNode;
+import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
@@ -91,6 +92,7 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     	String pdf = request.getParameter("pdf");
         String xml = request.getParameter("xml");
         String img = request.getParameter("img");
+        String html = request.getParameter("html");
                  
         String queryString = createQuery(request);
       	if(queryString.length()==0){
@@ -109,6 +111,11 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     					response.sendRedirect(url);
     					return;
     				}    				
+    			}
+    			else if(html!=null){
+    				String url = createURLForHTML(request, mcrID);
+    				//this.getServletContext().getRequestDispatcher("/nav?path=~showHTML&url=" +url).forward(request, response);
+    				response.sendRedirect(url);
     			}
     			else if(xml!=null){
     				Document doc = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID)).createXML();    	    		 
@@ -206,6 +213,36 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 		return "";
 	}
 
+	//createURL for HTML Page
+	private String createURLForHTML(HttpServletRequest request, String mcrID){
+		String anchor= request.getParameter("anchor");
+	    		
+	    MCRObject o = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID));
+		MCRObjectStructure structure = o.getStructure();
+		MCRMetaLinkID derMetaLink= null;
+		for(MCRMetaLinkID der: structure.getDerivates()){
+			if(der.getXLinkLabel().equals("HTML")){
+				derMetaLink = der;
+			}
+		}
+		if(derMetaLink==null){
+			return "";
+		}
+		MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(derMetaLink.getXLinkHrefID());
+		String mainDoc = der.getDerivate().getInternals().getMainDoc();
+		if(mainDoc!=null && mainDoc.length()>0){
+			StringBuffer sbPath = new StringBuffer(getBaseURL());
+			sbPath.append("file/").append(der.getId().toString()).append("/").append(mainDoc);
+			if(anchor!=null){
+				sbPath.append("#").append(anchor);
+			}
+			return sbPath.toString();
+			
+		} 
+		return "";
+	}
+
+	
 	//Create URL for DFG ImageViewer and Forward to it
 	//http://dfg-viewer.de/v1/?set%5Bmets%5D=http%3A%2F%2Frosdok.uni-rostock.de%2Fdata%2Fetwas%2Fetwas1737%2Fetwas1737.mets.xml&set%5Bzoom%5D=min
 	private String createURLForDFGViewer(HttpServletRequest request, String mcrID){
