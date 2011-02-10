@@ -38,6 +38,7 @@ import org.apache.log4j.Logger;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
 import org.mycore.user.MCRUser;
+import org.mycore.user.MCRUserContact;
 import org.mycore.user.MCRUserMgr;
 
 /**
@@ -131,35 +132,34 @@ public class MCRUserValidateServlet extends MCRServlet {
     			creationdate = df.format(db_user.getCreationDate());
     		}
 
-    		user = new MCRUser(
-    			id,
-    			request.getParameter("uid"),
-    			request.getParameter("creator"),
-    			Timestamp.valueOf(creationdate),
-    			Timestamp.valueOf(request.getParameter("creationtime")),
-    			idEnabled,
-    			updateAllowed,			
-    			request.getParameter("udescr"),
-    			request.getParameter("upass"),
-    			request.getParameter("uprimgroup"),
-    			l,
-    			request.getParameter("usalutation"),
-    			request.getParameter("ufirstname"),
-    			request.getParameter("uname"),
-    			request.getParameter("uaddress"),
-    			request.getParameter("ucity"),
-    			request.getParameter("upostal"),
-    			request.getParameter("ucountry"),
-    			request.getParameter("ucountry"),
-    			request.getParameter("uinstitution"),
-    			request.getParameter("ufaculty"),
-    			request.getParameter("udept"),
-    			request.getParameter("uinstitute"),
-    			request.getParameter("utel"),
-    			request.getParameter("ufax"),
-    			request.getParameter("uemail"),
-    			request.getParameter("umobile"));
-
+    			user = new MCRUser(	id,
+        			request.getParameter("uid"),
+        			request.getParameter("creator"),
+        			Timestamp.valueOf(creationdate),
+        			Timestamp.valueOf(request.getParameter("creationtime")),
+        			idEnabled,
+        			updateAllowed,			
+        			request.getParameter("udescr"),
+        			request.getParameter("upass"),
+        			request.getParameter("uprimgroup"),
+        			l,
+        			new MCRUserContact(
+    						request.getParameter("usalutation"),
+    						request.getParameter("ufirstname"),
+    						request.getParameter("uname"),
+    						request.getParameter("uaddress"),
+    						request.getParameter("ucity"),
+    						request.getParameter("upostal"),
+    						request.getParameter("ucountry"),
+    						request.getParameter("ucountry"),
+    						request.getParameter("uinstitution"),
+    						request.getParameter("ufaculty"),
+    						request.getParameter("udept"),
+    						request.getParameter("uinstitute"),
+    						request.getParameter("utel"),
+    						request.getParameter("ufax"),
+    						request.getParameter("uemail"),
+    						request.getParameter("umobile")));
     		MCRUserMgr manager = MCRUserMgr.instance();
     		
     		if (request.getParameter("uid_orig").equals("")){
