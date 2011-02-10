@@ -38,6 +38,9 @@ import org.mycore.common.MCRConstants;
 import org.mycore.datamodel.ifs.MCRDirectory;
 import org.mycore.datamodel.ifs.MCRFile;
 import org.mycore.datamodel.ifs.MCRFilesystemNode;
+import org.mycore.datamodel.metadata.MCRDerivate;
+import org.mycore.datamodel.metadata.MCRMetadataManager;
+import org.mycore.datamodel.metadata.MCRObjectID;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -87,6 +90,7 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 	    		Element eN = (Element)n;
 	    		String derID = eN.getAttributeNS(MCRConstants.XLINK_NAMESPACE.getURI(), "href");
 	    		String title = eN.getAttributeNS(MCRConstants.XLINK_NAMESPACE.getURI(), "label");
+	    		String baseurl = getJspContext().getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE).toString();
 	    		if(title.contains("Cover")){
 	    			//do nothing - handled elsewhere
 	    		}
@@ -98,11 +102,43 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
     			    if(myfiles.length>0){
     			    	derivmain=myfiles[0].getName();
     			    }
-    			    String baseurl = getJspContext().getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE).toString();
+    			    
 				    String metsurl = baseurl +"file/"+derID+"/"+derivmain;
 				    out.write("<a href=\"http://dfg-viewer.de/v1/?set%5Bmets%5D="+URLEncoder.encode(metsurl,"UTF-8")+"&set%5Bzoom%5D=min\">");
 				    out.write("<img src=\""+baseurl+"images/dfgviewer.gif\" title = \"Dokument anzeigen\" alt=\"Dokument anzeigen\" />");
 				    out.write(docdetails.getMessages().getString("Webpage.docdetails.showInDFGViewer")+"</a>");	    			
+	    		}
+	    		
+	    		else if(title.startsWith("HTML")){
+	    			//show HMTL	    			
+	    			MCRObjectID oid = MCRObjectID.getInstance(derID);
+	    			MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(oid);
+	    			
+	    			String mcrid=der.getDerivate().getMetaLink().getXLinkHrefID().toString();	
+	    			String htmlURL = baseurl +"resolve?id="+mcrid+"&html";
+	    			/*
+	    			String derivmain = der.getDerivate().getInternals().getMainDoc();
+	    			if(derivmain==null){
+	    				MCRDirectory root = MCRDirectory.getRootDirectory(derID);
+	      			    MCRFilesystemNode[] myfiles = root.getChildren(MCRDirectory.SORT_BY_NAME);//getChildren();
+	      			    for(int j=0 ;i< myfiles.length;j++){
+	      			    	if(myfiles[j] instanceof MCRFile){
+	      			    		derivmain = myfiles[j].getName();
+	      			    		break;
+	      			    	}
+	      			    }
+	    			}	    			
+	    			if(derivmain!=null){
+	    			    htmlURL = baseurl +"file/"+derID+"/"+derivmain;
+	      			}
+	      			*/
+	    			
+	    			if(htmlURL!=null){
+	    			   out.write("<a href=\""+htmlURL+"\">");
+	    			   out.write("<img src=\""+baseurl+"images/fulltext.gif\" title = \"Volltext anzeigen\" alt=\"Volltext anzeigen\" />");
+	    			   out.write(docdetails.getMessages().getString("Webpage.docdetails.showFulltext")+"</a>");
+	    			}
+	    			
 	    		}
 	    		else{
 	    			out.write("<dt>"+title+"</dt>");
