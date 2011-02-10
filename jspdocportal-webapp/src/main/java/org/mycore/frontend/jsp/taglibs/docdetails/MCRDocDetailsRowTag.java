@@ -134,7 +134,8 @@ public class MCRDocDetailsRowTag extends SimpleTagSupport {
 					label = "???" + labelkey + "???";
 				}
 			}
-			out.write("   <td class=\"" + docdetails.getStylePrimaryName() + "-label\">" + label + ":</td>\n");
+			if(label.length()>0){label = label+":";}
+			out.write("   <td class=\"" + docdetails.getStylePrimaryName() + "-label\">" + label + "</td>\n");
 			out.write("   <td class=\"" + docdetails.getStylePrimaryName() + "-values\">\n");
 			out.write("   		<table class=\"" + docdetails.getStylePrimaryName() + "-values-table\">\n");
 			if (colWidths != null && !colWidths.equals("")) {
