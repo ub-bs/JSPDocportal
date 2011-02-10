@@ -87,7 +87,12 @@ public class MCRDocDetailsItemTag extends SimpleTagSupport {
 			@SuppressWarnings("unchecked")
 			List nodes = xu.selectNodes(context, xp);
 			if(nodes.size()>0){
-	    			result = ((Node)nodes.get(0)).getTextContent();
+					if(nodes.get(0) instanceof Node){
+						result = ((Node)nodes.get(0)).getTextContent();
+					}
+					else{
+						result = nodes.get(0).toString();
+					}
 	    			if(!"".equals(messagekey)){
 	    				String key = messagekey+result;
 	    				result = docdetails.getMessages().getString(key);
