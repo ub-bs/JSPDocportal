@@ -269,50 +269,50 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 								page=page.substring(1);
 							}
 							XPath xpID = XPath.newInstance("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
-									"/mets:div[@TYPE='physSequence']/mets:div[starts-with(@ORDERLABEL, '" +page+"')]/@ORDER");
+									"/mets:div[@TYPE='physSequence']/mets:div[starts-with(@ORDERLABEL, '" +page+"')]");
 							xpID.addNamespace(nsMets);
 							eMETSPhysDiv = (Element)xpID.selectSingleNode(docMETS);
 						}
 						else if (nr!=null){
 							XPath xpID = XPath.newInstance("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
-									"/mets:div[@TYPE='physSequence']/mets:div[@ORDER='" +nr+"')]/@ORDER");
+									"/mets:div[@TYPE='physSequence']/mets:div[@ORDER='" +nr+"']");
 							xpID.addNamespace(nsMets);
 							eMETSPhysDiv = (Element)xpID.selectSingleNode(docMETS);
 						}
-						
-						if(eMETSPhysDiv!=null){
-							if(thumb == null){
+						if(thumb == null){
 								//display in DFG-Viewer
-								sbURL = new StringBuffer("http://dfg-viewer.de/v1/");
-								sbURL.append("?set%5Bmets%5D=");
-								sbURL.append(URLEncoder.encode(getBaseURL()+"file/"+f.getPath(), "UTF-8"));
+							sbURL = new StringBuffer("http://dfg-viewer.de/v1/");
+							sbURL.append("?set%5Bmets%5D=");
+							sbURL.append(URLEncoder.encode(getBaseURL()+"file/"+f.getPath(), "UTF-8"));
+							if(eMETSPhysDiv!=null){
 								sbURL.append("&set[image]=").append(eMETSPhysDiv.getAttributeValue("ORDER"));
-								sbURL.append("&set[zoom]=min");
 							}
-							else {
-								//return thumb image    										
-								@SuppressWarnings("unchecked")
-								List<Element> l = (List<Element>) eMETSPhysDiv.getChildren();
-								String fileid = null;
-								for(Element e: l){
-									if(e.getAttributeValue("FILEID").startsWith("THUMB")){
-										fileid = e.getAttributeValue("FILEID");
-									}
+							sbURL.append("&set[zoom]=min");
+						}
+						else {
+							//return thumb image    										
+							@SuppressWarnings("unchecked")
+							List<Element> l = (List<Element>) eMETSPhysDiv.getChildren();
+							String fileid = null;
+							for(Element e: l){
+								if(e.getAttributeValue("FILEID").startsWith("THUMB")){
+									fileid = e.getAttributeValue("FILEID");
 								}
-								if(fileid !=null){
-									// <mets:file MIMETYPE="image/jpeg" ID="THUMBS.matrikel1760-1789-Buetzow_c0001">
+							}
+							if(fileid !=null){
+								// <mets:file MIMETYPE="image/jpeg" ID="THUMBS.matrikel1760-1789-Buetzow_c0001">
 							        //		<mets:FLocat LOCTYPE="URL" xlink:href="http://rosdok.uni-rostock.de/data/matrikel_handschriften/matrikel1760-1789-Buetzow/THUMBS/matrikel1760-1789-Buetzow_c0001.jpg" />
 							        //  </mets:file>
 									
-									XPath xpFLocat = XPath.newInstance("//mets:file[@ID='"+fileid+"']/mets:FLocat");
-									xpFLocat.addNamespace(nsMets);
-									Element eFLocat = (Element)xpFLocat.selectSingleNode(docMETS);
-									if(eFLocat!=null){
-										sbURL = new StringBuffer(eFLocat.getAttributeValue("href", nsXlink));
-									}
-								}
+							XPath xpFLocat = XPath.newInstance("//mets:file[@ID='"+fileid+"']/mets:FLocat");
+							xpFLocat.addNamespace(nsMets);
+							Element eFLocat = (Element)xpFLocat.selectSingleNode(docMETS);
+							if(eFLocat!=null){
+									sbURL = new StringBuffer(eFLocat.getAttributeValue("href", nsXlink));
 							}
-						} //end [if(eMETSPhysDiv!=null)]
+						}
+					}
+					 //end [if(eMETSPhysDiv!=null)]
 					} //end if
 				} //end for			
 			} //end [if("METS" ...)]
