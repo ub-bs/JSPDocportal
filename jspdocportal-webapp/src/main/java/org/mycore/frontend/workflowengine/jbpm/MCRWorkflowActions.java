@@ -35,7 +35,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObjectID;
@@ -56,8 +55,7 @@ import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager
 public class MCRWorkflowActions extends MCRServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger LOGGER = Logger.getLogger(MCRWorkflowActions.class);
-	private static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
-
+	
 	/**
      * This method overrides doGetPost of MCRServlet. <br />
      */
@@ -92,7 +90,7 @@ public class MCRWorkflowActions extends MCRServlet {
         wfp.getContextInstance().setVariable("varnameERROR", "");
         
         if ( "WFAddWorkflowObject".equals(todo) ) {
-            if ( ! AI.checkPermission("create-"+documentType)) {
+            if ( ! MCRAccessManager.checkPermission("create-"+documentType)) {
             	nextPath+="begin";
             	returnPath="/nav?path=" + nextPath;
             	return;            	
@@ -109,12 +107,12 @@ public class MCRWorkflowActions extends MCRServlet {
         	return;
         }
         if ( "WFEditWorkflowObject".equals(todo) ) {
-            if ( ! AI.checkPermission("create-"+documentType)) {
+            if ( ! MCRAccessManager.checkPermission("create-"+documentType)) {
             	nextPath+="begin";
             	returnPath="/nav?path=" + nextPath;
             	return;            	
             }
-        	// bef�llten Editor f�r das Object includieren
+        	// befuellten Editor fuer das Object includieren
         	String publicationType = (String) wfp.getContextInstance().getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_PUBLICATIONTYPE);
         	if ( publicationType == null )  
         		 publicationType="";
@@ -134,8 +132,8 @@ public class MCRWorkflowActions extends MCRServlet {
         	
         }
         if ( "WFCommitWorkflowObject".equals(todo) ) {
-    		if (  ( AI.checkPermission(mcrid, "commitdb")
-   	             && AI.checkPermission(derivateID,"deletedb")) ) {   			
+    		if (  ( MCRAccessManager.checkPermission(mcrid, "commitdb")
+   	             && MCRAccessManager.checkPermission(derivateID,"deletedb")) ) {   			
     			WFM.commitWorkflowObject(wfp.getContextInstance());
     		}
     		returnPath="/nav?path=" + nextPath;
@@ -143,13 +141,13 @@ public class MCRWorkflowActions extends MCRServlet {
         }
         if ( "WFDeleteWorkflowObject".equals(todo) ) {
         	boolean bSuccess =false;
-    		if ( AI.checkPermission(mcrid, "deletewf") ) {
+    		if ( MCRAccessManager.checkPermission(mcrid, "deletewf") ) {
     			bSuccess = WFM.removeWorkflowFiles(wfp.getContextInstance());
     		}
     		if (bSuccess) {
         		if (!MCRMetadataManager.exists(MCRObjectID.getInstance(mcrid))){
         			// delete unused Permissions from database
-        			AI.removeAllRules(mcrid);
+        			MCRAccessManager.getAccessImpl().removeAllRules(mcrid);
         		}
     			// gesamten Prozess l�schen!!
     			wfp.close();
@@ -161,7 +159,7 @@ public class MCRWorkflowActions extends MCRServlet {
         }
         if ( "WFDeleteObject".equals(todo) ) {
         	boolean bSuccess =false;
-    		if ( AI.checkPermission(mcrid, "deletedb")) {
+    		if ( MCRAccessManager.checkPermission(mcrid, "deletedb")) {
     	        bSuccess = WFM.removeDatabaseObjects(wfp.getContextInstance());
     	        if ( bSuccess )
     	        	bSuccess = WFM.removeWorkflowFiles(wfp.getContextInstance());
@@ -175,7 +173,7 @@ public class MCRWorkflowActions extends MCRServlet {
         	return;
         }        
         if ( "WFAddNewDerivateToWorkflowObject".equals(todo) ) {
-            if ( ! AI.checkPermission("create-"+documentType)) {
+            if ( ! MCRAccessManager.checkPermission("create-"+documentType)) {
             	nextPath+="begin";
             	returnPath="/nav?path=" + nextPath;
             	return;            	
@@ -189,7 +187,7 @@ public class MCRWorkflowActions extends MCRServlet {
         }
         if ( "WFEditDerivateFromWorkflowObject".equals(todo) ) {
         	//bef�llten Editor f�r das Derivate includieren	um Label zu editieren		
-            if ( ! AI.checkPermission("create-"+documentType)) {
+            if ( ! MCRAccessManager.checkPermission("create-"+documentType)) {
             	nextPath+="begin";
             	returnPath="/nav?path=" + nextPath;
             	return;            	
@@ -215,7 +213,7 @@ public class MCRWorkflowActions extends MCRServlet {
         }
        
         if ( "WFAddNewFileToDerivate".equals(todo) ) {
-            if ( ! AI.checkPermission("create-"+documentType)) {
+            if ( ! MCRAccessManager.checkPermission("create-"+documentType)) {
             	nextPath+="begin";
         		returnPath="/nav?path=" + nextPath;
             	return;            	
@@ -243,32 +241,32 @@ public class MCRWorkflowActions extends MCRServlet {
        	}
      
         if ( "WFRemoveFileFromDerivate".equals(todo) ) {
-    		if ( (  	AI.checkPermission(mcrid, "deletewf")
-   	             && AI.checkPermission(derivateID,"deletewf")) ) {    			
+    		if ( (  	MCRAccessManager.checkPermission(mcrid, "deletewf")
+   	             && MCRAccessManager.checkPermission(derivateID,"deletewf")) ) {    			
    		   	 WFM.removeFileFromDerivate(wfp.getContextInstance(), mcrid, derivateID, filename);
     		}
     		returnPath="/nav?path=" + nextPath;
         	return;
         }
         if ( "WFRemoveDerivateFromWorkflowObject".equals(todo) ) {
-    		if ( (  	AI.checkPermission(mcrid, "deletewf")
-    	             && AI.checkPermission(derivateID,"deletewf")) ) {    			
+    		if ( (  	MCRAccessManager.checkPermission(mcrid, "deletewf")
+    	             && MCRAccessManager.checkPermission(derivateID,"deletewf")) ) {    			
     		   	 WFM.removeDerivate(wfp.getContextInstance(), mcrid, derivateID);
     		}    		
             returnPath="/nav?path=" + nextPath;
         	return;
         }
         if ( "WFMoveDerivateUp".equals(todo) ) {
-    		if ( (  	AI.checkPermission(mcrid, "deletewf")
-    	             && AI.checkPermission(derivateID,"deletewf")) ) {    			
+    		if ( (  	MCRAccessManager.checkPermission(mcrid, "deletewf")
+    	             && MCRAccessManager.checkPermission(derivateID,"deletewf")) ) {    			
     		   	 WFM.moveDerivate(wfp.getContextInstance(), mcrid, derivateID,-1);
     		}    		
             returnPath="/nav?path=" + nextPath;
         	return;
         }
         if ( "WFMoveDerivateDown".equals(todo) ) {
-    		if ( (  	AI.checkPermission(mcrid, "deletewf")
-    	             && AI.checkPermission(derivateID,"deletewf")) ) {    			
+    		if ( (  	MCRAccessManager.checkPermission(mcrid, "deletewf")
+    	             && MCRAccessManager.checkPermission(derivateID,"deletewf")) ) {    			
     		   	 WFM.moveDerivate(wfp.getContextInstance(), mcrid, derivateID,+1);
     		}    		
             returnPath="/nav?path=" + nextPath;

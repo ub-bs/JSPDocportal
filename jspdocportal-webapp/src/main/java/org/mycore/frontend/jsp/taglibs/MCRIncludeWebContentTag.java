@@ -35,8 +35,7 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 	public static final String VARNAME_CKEDITOR_LOADED = "ckeditor_loaded";
 
 	private static MCRConfiguration CONFIG = MCRConfiguration.instance();
-	private static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
-
+	
 	private String file;
 	private File f_read, f_save;
 
@@ -53,7 +52,7 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 		JspWriter out = pageContext.getOut();
 		out.flush();
 
-		boolean isEditallowed = AI.checkPermission("administrate-webcontent");
+		boolean isEditallowed = MCRAccessManager.checkPermission("administrate-webcontent");
 		boolean isOpenEditor = "true".equalsIgnoreCase(pageContext
 				.getRequest().getParameter(OPENEDITOR_PARAMETER));
 

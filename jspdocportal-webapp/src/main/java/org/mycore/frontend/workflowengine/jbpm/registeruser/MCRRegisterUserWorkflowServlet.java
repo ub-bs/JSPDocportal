@@ -37,7 +37,6 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.output.DOMOutputter;
 import org.jdom.xpath.XPath;
-import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRSession;
@@ -66,7 +65,6 @@ import org.mycore.user.MCRUserMgr;
  * @version $Revision$ $Date$
  */
 public class MCRRegisterUserWorkflowServlet extends MCRServlet {
-	private static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = Logger.getLogger(MCRRegisterUserWorkflowServlet.class);
 	private static String XSI_URL = "http://www.w3.org/2001/XMLSchema-instance";
@@ -110,7 +108,7 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 		lang = mcrSession.getCurrentLanguage();
         String todo = parms.getParameter("todo");
 		
-   		if (  AI.checkPermission("administrate-user") &&  "WFModifyWorkflowUser".equals(todo) ) {
+   		if (  MCRAccessManager.checkPermission("administrate-user") &&  "WFModifyWorkflowUser".equals(todo) ) {
 			// nochmals editieren
 			/**
 			  <mcr:includeEditor 

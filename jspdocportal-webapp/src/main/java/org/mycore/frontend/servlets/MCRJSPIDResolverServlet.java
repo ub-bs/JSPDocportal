@@ -250,7 +250,7 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 		String thumb = request.getParameter("thumb");
 		String page= request.getParameter("page");
 	    String nr = request.getParameter("nr");
-		StringBuffer sbURL = null;
+		StringBuffer sbURL = new StringBuffer("");
 		try{
 		MCRObject o = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID));
 		for(MCRMetaLinkID derMetaLink: o.getStructure().getDerivates()){    					 

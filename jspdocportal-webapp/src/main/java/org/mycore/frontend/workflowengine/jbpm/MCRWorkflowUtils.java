@@ -26,17 +26,14 @@ package org.mycore.frontend.workflowengine.jbpm;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.XMLOutputter;
-import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.datamodel.metadata.MCRObjectID;
@@ -56,7 +53,6 @@ import org.mycore.services.fieldquery.MCRSearcherFactory;
 public class MCRWorkflowUtils {
 	private static Logger logger = Logger
 			.getLogger(MCRWorkflowUtils.class.getName());
-	private static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
 
 	protected static MCRConfiguration config = MCRConfiguration.instance();
 
@@ -197,12 +193,12 @@ public class MCRWorkflowUtils {
 
 	
 	public static Map getAccessRulesMap(String objid) {
-		Iterator<String> it = AI.getPermissionsForID(objid).iterator();        
+		Iterator<String> it = MCRAccessManager.getPermissionsForID(objid).iterator();        
         Map<String, Element> htRules = new Hashtable<String, Element>();
         while(it.hasNext()){
         	String s = it.next();
-           	Element eRule = AI.getRule( objid, s);
-        	htRules.put(s, eRule);
+           	Element eRule = MCRAccessManager.getAccessImpl().getRule( objid, s);
+           	htRules.put(s, eRule);
         }
         return htRules;
 	}	
@@ -212,11 +208,11 @@ public class MCRWorkflowUtils {
 			logger.warn("Can't reset AccessRules, they are empty");
 			return;
 		}
-		AI.removeAllRules(objid);
+		MCRAccessManager.getAccessImpl().removeAllRules(objid);
 		for (Iterator it = htRules.keySet().iterator(); it.hasNext();) {
 			String perm = (String) it.next();
 			Element eRule = (Element)htRules.get(perm);
-			AI.addRule(objid,perm,eRule,"");
+			MCRAccessManager.addRule(objid,perm,eRule,"");
 		}
 	}	
 	/**

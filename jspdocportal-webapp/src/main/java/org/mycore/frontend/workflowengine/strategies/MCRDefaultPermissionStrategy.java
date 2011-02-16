@@ -24,8 +24,6 @@ import org.xml.sax.SAXParseException;
 
 public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 
-	private static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
-
 	private static MCRConfiguration config = MCRConfiguration.instance();
 
 	private static Logger logger = Logger.getLogger(MCRWorkflowAccessRuleEditorUtils.class.getName());
@@ -58,10 +56,10 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 					Element rule = (Element) MCRXMLHelper.parseXML(strRule, false)
 							.getRootElement().detach();
 					String permissionType = defaultPermissionTypes[i];
-					if (AI.hasRule(objID.toString(), permissionType)) {
-						AI.updateRule(objID.toString(), permissionType, rule, "");
+					if (MCRAccessManager.hasRule(objID.toString(), permissionType)) {
+						MCRAccessManager.updateRule(objID.toString(), permissionType, rule, "");
 					} else {
-						AI.addRule(objID.toString(), permissionType, rule, "");
+						MCRAccessManager.addRule(objID.toString(), permissionType, rule, "");
 					}
 				} catch(SAXParseException spe){
 					logger.error("SAXParseException: ", spe);
@@ -86,7 +84,7 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 			try{
 				Element readRule = (Element) MCRXMLHelper.parseXML(x, false)
 						.getRootElement().detach();
-				AI.addRule(mcrid, "read", readRule, "");
+				MCRAccessManager.addRule(mcrid, "read", readRule, "");
 			} catch(SAXParseException spe){
 				logger.error("SAXParseException: ", spe);
 			}

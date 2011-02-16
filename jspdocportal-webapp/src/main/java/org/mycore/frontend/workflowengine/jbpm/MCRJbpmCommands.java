@@ -33,7 +33,6 @@ import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.Format;
-import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRException;
 import org.mycore.datamodel.common.MCRActiveLinkException;
@@ -59,8 +58,7 @@ import org.xml.sax.SAXParseException;
  */
 public class MCRJbpmCommands extends MCRAbstractCommands {
     /** The ACL interface */
-    private static final MCRAccessInterface ACCESS_IMPL = MCRAccessManager.getAccessImpl();
-    
+        
 	/** The logger */
     private static Logger LOGGER = Logger.getLogger(MCRJbpmCommands.class.getName());
 
@@ -177,10 +175,10 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
                  MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(id));                 
             	 
 //               add ACL's
-                 Iterator<String> it = MCRAccessManager.getAccessImpl().getPermissionsForID(id.toString()).iterator();
+                 Iterator<String> it = MCRAccessManager.getPermissionsForID(id.toString()).iterator();
                  while(it.hasNext()){
                 	 String s = it.next();
-                     Element rule = ACCESS_IMPL.getRule(id.toString(), s);
+                     Element rule = MCRAccessManager.getAccessImpl().getRule(id.toString(), s);
                      mcrObj.getService().addRule(s, rule);
                  }
                  // build JDOM
@@ -272,7 +270,7 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
 	             	    while(mcrDer.getService().getRulesSize()>0){
 	             		   MCRMetaAccessRule rule = mcrDer.getService().getRule(0);
 	             		   String permission = mcrDer.getService().getRulePermission(0);
-	             		   ACCESS_IMPL.updateRule(derID, permission, rule.getCondition(), "");
+	             		   MCRAccessManager.updateRule(derID, permission, rule.getCondition(), "");
 	             		   mcrDer.getService().removeRule(0);
 	             	   }
         	    	}
@@ -288,15 +286,15 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
         	    	MCRMetaAccessRule rule = mcrObj.getService().getRule(0);
         	    	String permission = mcrObj.getService().getRulePermission(0);
         	    	
-        	    	ACCESS_IMPL.updateRule(id, permission, rule.getCondition(), "");
+        	    	MCRAccessManager.updateRule(id, permission, rule.getCondition(), "");
         	    	mcrObj.getService().removeRule(0);
         	    }
         	    	 
 //               add ACL's
-        	    Iterator<String> it = ACCESS_IMPL.getPermissionsForID(id.toString()).iterator();
+        	    Iterator<String> it = MCRAccessManager.getPermissionsForID(id.toString()).iterator();
                 while(it.hasNext()){
                 	 String s = it.next();
-                     Element rule = ACCESS_IMPL.getRule(id.toString(), s);
+                     Element rule = MCRAccessManager.getAccessImpl().getRule(id.toString(), s);
                      mcrObj.getService().addRule(s, rule);
                  }               
         	}

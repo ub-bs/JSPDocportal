@@ -268,11 +268,10 @@ public class MCRWorkflowAccessRuleEditorUtils {
 	 * @param processid - the ProcessID
 	 */
 	public static void setWorkflowVariablesForAccessRuleEditor(String oid, ContextInstance ctxI){
-		MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
 		MCRAccessStore accessstore = MCRAccessStore.getInstance();
 		String ruletype=defaultRules[0];
 		String xmlRuleString = config.getString("MCR.AccessRuleEditor.defaultrules."+ruletype);
-		if(AI.hasRule(oid, "read")){
+		if(MCRAccessManager.hasRule(oid, "read")){
 			String ruleID= accessstore.getRuleID(oid, "read");
 			if(ruleID.startsWith(MCRWorkflowConstants.ACCESSRULE_PREFIX)){
 				String test = ruleID.split("_")[1];

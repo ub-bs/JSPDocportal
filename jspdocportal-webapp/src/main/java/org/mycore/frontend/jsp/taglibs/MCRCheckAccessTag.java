@@ -22,7 +22,6 @@ public class MCRCheckAccessTag extends SimpleTagSupport
 	private String var;
 	private String key;
 	
-	private static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
 	private static Logger LOGGER = Logger.getLogger(MCRCheckAccessTag.class);
 
 	public void setPermission(String inputPermission) {
@@ -46,14 +45,14 @@ public class MCRCheckAccessTag extends SimpleTagSupport
 			}
 			PageContext pageContext = (PageContext) getJspContext();			
 			MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
-			if ( mcrSession.getCurrentUserID().equals("guest") ){
+			if ( mcrSession.getUserInformation().getCurrentUserID().equals("guest") ){
 				pageContext.setAttribute(var, new Boolean(false));	
 			}
 			else if ( key == null || "".equals(key)){ // allgemeiner check des aktuellen Users
-				pageContext.setAttribute(var, new Boolean(AI.checkPermission(permission)));
+				pageContext.setAttribute(var, new Boolean(MCRAccessManager.checkPermission(permission)));
 			}
 			else{ 
-				pageContext.setAttribute(var, new Boolean(AI.checkPermission(key, permission)));
+				pageContext.setAttribute(var, new Boolean(MCRAccessManager.checkPermission(key, permission)));
 			}
 		}catch(Exception e){
 			LOGGER.error("could not check access", e);

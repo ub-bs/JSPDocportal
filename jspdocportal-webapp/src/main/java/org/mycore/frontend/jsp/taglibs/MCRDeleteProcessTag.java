@@ -50,8 +50,6 @@ public class MCRDeleteProcessTag extends SimpleTagSupport {
 	private long pid;
 	private String workflowProcessType;
 	
-	private static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
-
 	public void setworkflowProcessType(String workflowProcessType) {
 		this.workflowProcessType = workflowProcessType;
 	}
@@ -76,7 +74,7 @@ public class MCRDeleteProcessTag extends SimpleTagSupport {
 			return;
 		}  
 
-    	if ( AI.checkPermission("administrate-" + WFM.getMainDocumentType()) ) {
+    	if ( MCRAccessManager.checkPermission("administrate-" + WFM.getMainDocumentType()) ) {
 			try{ 
 				WFM.deleteWorkflowProcessInstance(pid);
 			} catch (Exception allEx) {

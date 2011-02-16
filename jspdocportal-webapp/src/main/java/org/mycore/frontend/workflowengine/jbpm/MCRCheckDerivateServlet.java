@@ -97,7 +97,7 @@ public class MCRCheckDerivateServlet extends MCRServlet {
 			return;
 		}
 
-		if (!MCRAccessManager.getAccessImpl().checkPermission(derid, "writedb" )) {
+		if (!MCRAccessManager.checkPermission(derid, "writedb" )) {
 			request.setAttribute("messageKey", "WorkflowEngine.PrivilegesError");
 			request.setAttribute("lang", lang);
 			request.getRequestDispatcher("/nav?path=~mycore-error").forward(request,response);

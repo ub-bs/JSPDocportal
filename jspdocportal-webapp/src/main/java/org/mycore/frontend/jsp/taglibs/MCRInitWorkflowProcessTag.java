@@ -62,7 +62,7 @@ public class MCRInitWorkflowProcessTag extends MCRSimpleTagSupport
 			return;
 		}			
 		String perm = "create-" + WFM.getMainDocumentType();
-		if ( !(MCRAccessManager.getAccessImpl().checkPermission(perm)) ){
+		if ( !(MCRAccessManager.checkPermission(perm)) ){
 			jspContext.setAttribute(status, "errorPermission", getScope(scope));
 			return;
 		}	

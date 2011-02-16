@@ -32,11 +32,9 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.taglibs.standard.tag.common.xml.XPathUtil;
-import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRConstants;
 import org.mycore.datamodel.ifs.MCRDirectory;
-import org.mycore.datamodel.ifs.MCRFile;
 import org.mycore.datamodel.ifs.MCRFilesystemNode;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
@@ -50,7 +48,6 @@ import org.w3c.dom.Node;
  *
  */
 public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
-	private static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
 	private String xp;
 	private boolean showsize=false;
 
@@ -68,7 +65,7 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 			JspWriter out = getJspContext().getOut();
 			
 			XPathUtil xu = new XPathUtil((PageContext)getJspContext());
-			@SuppressWarnings("unchecked")
+			@SuppressWarnings({"rawtypes" })
 			List nodes = xu.selectNodes(docdetailsRow.getContext(), xp);
 			if(nodes.size()>0){
 	   		  	Object o =  getJspContext().getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE);
@@ -148,7 +145,7 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 	    				MCRDirectory root = MCRDirectory.getRootDirectory(derID);
 	    				if(root!=null){
 	    					MCRFilesystemNode[] myfiles = root.getChildren(MCRDirectory.SORT_BY_NAME);
-	    					boolean accessAllowed = AI.checkPermission(derID, "read");	   		    
+	    					boolean accessAllowed = MCRAccessManager.checkPermission(derID, "read");	   		    
 	    					for ( int j=0; j< myfiles.length; j++) {
 	    						MCRFilesystemNode theFile = (MCRFilesystemNode) myfiles[j];
 	    						out.write("<dd>");

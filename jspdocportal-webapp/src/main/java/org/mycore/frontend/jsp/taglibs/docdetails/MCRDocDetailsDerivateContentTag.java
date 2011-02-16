@@ -47,7 +47,6 @@ import org.w3c.dom.Node;
  *
  */
 public class MCRDocDetailsDerivateContentTag extends SimpleTagSupport {
-	private static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
 	private String xp;
 	private String width="500px";
 	private String encoding="UTF-8";
@@ -66,7 +65,7 @@ public class MCRDocDetailsDerivateContentTag extends SimpleTagSupport {
 			JspWriter out = getJspContext().getOut();
 			
 			XPathUtil xu = new XPathUtil((PageContext)getJspContext());
-			@SuppressWarnings("unchecked")
+			@SuppressWarnings({ "unchecked", "rawtypes" })
 			List nodes = xu.selectNodes(docdetailsRow.getContext(), xp);
 			if(nodes.size()>0){
 	   		  	Object o =  getJspContext().getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE);
@@ -89,7 +88,7 @@ public class MCRDocDetailsDerivateContentTag extends SimpleTagSupport {
 	    		MCRDirectory root = MCRDirectory.getRootDirectory(derID);
 	    		if(root!=null){
 	   		    MCRFilesystemNode[] myfiles = root.getChildren();
-	   			boolean accessAllowed = AI.checkPermission(derID, "read");	   		    
+	   			boolean accessAllowed = MCRAccessManager.checkPermission(derID, "read");	   		    
 	   		    for ( int j=0; j< myfiles.length; j++) {
 	   		    	MCRFile theFile = (MCRFile) myfiles[j];
 	   		    	
@@ -119,7 +118,7 @@ public class MCRDocDetailsDerivateContentTag extends SimpleTagSupport {
 	    	out.write("</td>");   
 	    	}		//error
 	   }catch(Exception e){
-		throw new JspException("Error executing docdetails:derivatelist tag", e);
+		throw new JspException("Error executing docdetails:derivatecontent tag", e);
 	   }
 	}
 
