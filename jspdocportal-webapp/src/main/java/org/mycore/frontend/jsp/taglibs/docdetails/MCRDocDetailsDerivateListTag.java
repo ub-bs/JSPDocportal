@@ -105,13 +105,13 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 	    				out.write(docdetails.getMessages().getString("Webpage.docdetails.showInDFGViewer")+"</a>");	    			
 	    			}
 	    		
-	    			else if(title.startsWith("HTML")){
+	    			else if(title.startsWith("MJB")){
 	    				//show HMTL	    			
 	    				MCRObjectID oid = MCRObjectID.getInstance(derID);
 	    				MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(oid);
 	    			
 	    				String mcrid=der.getDerivate().getMetaLink().getXLinkHrefID().toString();	
-	    				String htmlURL = baseurl +"resolve?id="+mcrid+"&html";
+	    				String htmlURL = baseurl +"mjbrenderer?id="+mcrid;
 	    				/*
 	    				String derivmain = der.getDerivate().getInternals().getMainDoc();
 	    				if(derivmain==null){
