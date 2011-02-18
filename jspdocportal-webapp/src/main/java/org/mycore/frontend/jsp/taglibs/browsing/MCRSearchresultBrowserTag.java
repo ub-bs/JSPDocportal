@@ -173,6 +173,7 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 		}
 		
 	    for(int i=0;i<count;i++){
+	    	out.write(messages.getString("Webpage.searchresults.resort-label"));
 	    	out.write("   <select name=\"field"+Integer.toString(i+1)+"\">");
 	    	for(String fieldname:fieldnames){
 	    		if(fieldname.length()==0){
