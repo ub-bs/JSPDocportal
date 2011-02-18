@@ -279,7 +279,7 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 		StringBuffer url = request.getRequestURL();
 		url.append("?");
  
-		@SuppressWarnings("unchecked")
+		@SuppressWarnings("rawtypes")
 		Enumeration paramNames = request.getParameterNames();
 		while(paramNames.hasMoreElements()){
 			String s = paramNames.nextElement().toString();
@@ -377,30 +377,34 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 				out.write("                </a>");
 			}
 			out.write(indent+"      </td>\n");
-			out.write(indent+"      <td>");
-			if(showid){
-				out.write(categ.getId().getID()+":&nbsp;");
-			}
-			writeLinkedCategoryItemText(categ, baseURL, out);
-			
-			out.write("</td>\n");
 			if(count){
 				out.write(indent+"      <td>");
 				if(searchrestriction!=null){
-					out.write("["+countBySearch(categ.getId().getID())+"]");
+					out.write("&nbsp;&nbsp;&nbsp;("+countBySearch(categ.getId().getID())+")&nbsp;&nbsp;&nbsp;");
 				}
 				else{
 					countLinkMap.putAll(CATEGLINKSERVICE.countLinks(categ, true));
 					Number n = countLinkMap.get(categ.getId());
 					if(n!=null){
-						out.write("&nbsp;&nbsp;&nbsp;["+n.toString()+"]" );
+						out.write("&nbsp;&nbsp;&nbsp;("+n.toString()+")&nbsp;&nbsp;&nbsp;" );
 					}
 					else{
-						out.write("&nbsp;&nbsp;&nbsp;[0]" );
+						out.write("&nbsp;&nbsp;&nbsp;(0)&nbsp;&nbsp;&nbsp;" );
 					}
 				}
 				out.write("</td>\n");
 			}
+			out.write(indent+"      <td>");
+			if(showid){
+				out.write(categ.getId().getID()+":&nbsp;");
+			}
+			
+			out.write(categ.getCurrentLabel().getText());			
+			out.write("</td>\n");
+			
+			out.write(indent+"      <td>");
+			writeLinkedCategoryItemText(categ, baseURL, out);
+			out.write(indent+"      </td>");
 			out.write(indent+"      </tr>\n");		
 		
 			if(showdescription){
@@ -440,6 +444,10 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 	 * @return
 	 */
 	private String retrieveIconURL(boolean hasChildren, int curLevel, boolean hasLinks, boolean opened){
+		if(expand){
+			if(opened && hasChildren && hasLinks) return "images/folder_open.gif";
+			if(opened && hasChildren && !hasLinks) return "images/folder_open_empty.gif";
+		}
 		if(curLevel+1<level){
 			if(!opened && hasChildren && hasLinks) return "images/folder_plus.gif";
 			if(!opened && hasChildren && !hasLinks) return "images/folder_plus_empty.gif";
@@ -494,7 +502,7 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 	 */
 	private void writeLinkedCategoryItemText(MCRCategory categ, String baseURL, JspWriter out) throws IOException{
 		boolean showLinks = linkall || hasLinks(categ);
-	
+		out.write("&nbsp;&nbsp;&nbsp;");
 		if(showLinks){
 			PageContext context = (PageContext) getJspContext();
 			
@@ -516,13 +524,10 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 				url.append("servlets/MCRJSPSearchServlet");
 				url.append("?query="+generateQuery(categ.getId().getID()));
 				url.append("&mask="+searchmask);
-			}
-			
-			
-			
+			}			
 			out.write("<a href=\""+url.toString()+"\">");
 		}
-		out.write(categ.getCurrentLabel().getText());
+		out.write(MCRTranslation.translate("Editor.Common.button.Choose"));
 		if(showLinks){
 			out.write("</a>");
 		}
