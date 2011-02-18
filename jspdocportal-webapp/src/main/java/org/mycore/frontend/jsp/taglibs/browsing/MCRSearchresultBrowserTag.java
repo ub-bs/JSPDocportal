@@ -19,8 +19,8 @@ import org.mycore.common.MCRSessionMgr;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.services.fieldquery.MCRCachedQueryData;
 import org.mycore.services.fieldquery.MCRQuery;
-import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.services.fieldquery.MCRResults;
+import org.mycore.services.i18n.MCRTranslation;
 
 /**
  * Tag to include an IndexBrowser into a web page implementation based on
@@ -184,7 +184,7 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 	    			out.write(" selected=\"true\"");
 	    		}
 	    		out.write(">");
-	    		out.write(messages.getString("Webpage.searchresults.sortfield."+fieldname));
+	    		out.write(MCRTranslation.translate("Webpage.searchresults.sortfield."+fieldname));
 	    		out.write("</option>");
 	    	}
 	    	out.write("   </select>&nbsp;&nbsp;&nbsp;");
