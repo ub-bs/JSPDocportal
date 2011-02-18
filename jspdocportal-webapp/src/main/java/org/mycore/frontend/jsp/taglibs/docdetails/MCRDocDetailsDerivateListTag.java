@@ -100,7 +100,7 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 	    				}
     			    
 	    				String metsurl = baseurl +"file/"+derID+"/"+derivmain;
-	    				out.write("<a href=\"http://dfg-viewer.de/v1/?set%5Bmets%5D="+URLEncoder.encode(metsurl,"UTF-8")+"&set%5Bzoom%5D=min\">");
+	    				out.write("<a href=\"http://dfg-viewer.de/v1/?set%5Bmets%5D="+URLEncoder.encode(metsurl,"UTF-8")+"&set%5Bzoom%5D=min\" target=\"_blank\">");
 	    				out.write("<img src=\""+baseurl+"images/dfgviewer.gif\" title = \"Dokument anzeigen\" alt=\"Dokument anzeigen\" />");
 	    				out.write(docdetails.getMessages().getString("Webpage.docdetails.showInDFGViewer")+"</a>");	    			
 	    			}
@@ -130,7 +130,7 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 	    				*/
 	    			
 	    				if(htmlURL!=null){
-	    					out.write("<a href=\""+htmlURL+"\">");
+	    					out.write("<a href=\""+htmlURL+"\" target=\"blank\">");
 	    					out.write("<img src=\""+baseurl+"images/fulltext.gif\" title = \"Volltext anzeigen\" alt=\"Volltext anzeigen\" />");
 	    					out.write(docdetails.getMessages().getString("Webpage.docdetails.showFulltext")+"</a>");
 	    				}
