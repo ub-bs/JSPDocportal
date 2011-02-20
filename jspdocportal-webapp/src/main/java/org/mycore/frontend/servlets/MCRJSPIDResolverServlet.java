@@ -274,6 +274,9 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 							eMETSPhysDiv = (Element)xpID.selectSingleNode(docMETS);
 						}
 						else if (nr!=null){
+							while (nr.startsWith("0")){
+								nr=nr.substring(1);
+							}
 							XPath xpID = XPath.newInstance("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
 									"/mets:div[@TYPE='physSequence']/mets:div[@ORDER='" +nr+"']");
 							xpID.addNamespace(nsMets);
