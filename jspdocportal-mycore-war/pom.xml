@@ -52,7 +52,7 @@
 							<goal>run</goal>
 						</goals>
 						<configuration>
-							<tasks>
+							<target>
 								<unzip
 									src="${project.build.directory}/lib/mycore-complete-${project.version}.jar"
 									dest="${project.build.directory}/${project.build.finalName}">
@@ -71,7 +71,7 @@
 										</firstmatchmapper>									
 									</mapper>
 								</unzip>
-							</tasks>
+							</target>
 						</configuration>
 					</execution>
 				</executions>
