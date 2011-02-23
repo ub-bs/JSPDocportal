@@ -49,7 +49,7 @@
     <field name="rights"        type="text"       source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/rights/right" value="text()" />
     <field name="relation"      type="text"       source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/relations/relation" value="text()" />
     <field name="isbn"          type="identifier" source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/isbns/isbn" value="text()" />
-    <field name="date"          type="date"       source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/dates/date" value="ext:normalizeDate(string(normalize-space(text())))" />
+    <field name="date"          type="date"       source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/dates/date" value="ext:normalizeDate(string(normalize-space(text())))" sortable="true"/>
     <field name="identifier"    type="identifier" source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/identifiers/identifier" value="text()" />
 	<field name="urn"           type="identifier" source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/urns/urn" value="text()" />
 
