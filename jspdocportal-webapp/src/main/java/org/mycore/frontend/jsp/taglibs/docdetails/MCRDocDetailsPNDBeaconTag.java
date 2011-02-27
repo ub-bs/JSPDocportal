@@ -37,6 +37,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 
 import org.apache.log4j.Logger;
+import org.mycore.frontend.jsp.taglibs.docdetails.helper.UnibibliographieHRO;
 
 /**
  * resolves links from PND Beacon Resolver (http://beacon.findbuch.de/seealso/pnd-aks)
@@ -49,6 +50,7 @@ public class MCRDocDetailsPNDBeaconTag extends SimpleTagSupport {
 	private String pnd="";
 	private String css=null;
 	private String whitelist=null;
+	private String title=null;
 
 	/**
 	 * the CSS Style name applied to the output
@@ -82,68 +84,70 @@ public class MCRDocDetailsPNDBeaconTag extends SimpleTagSupport {
 			URL u = new URL("http://beacon.findbuch.de/seealso/pnd-aks?format=seealso&id="+pnd);
 		    URLConnection uc = u.openConnection();
 		    BufferedReader br = new BufferedReader(new InputStreamReader(uc.getInputStream()));
-		    String inputLine="";
-		        
-		    while(br.ready()){
-		    	inputLine = inputLine+br.readLine(); 
+		    String beaconString="";
+			 for (String line; (line = br.readLine()) != null;) {
+		    	beaconString = beaconString+line; 
 		    }		            
 		    br.close();
 		        
-		    JSONArray jsonArray = (JSONArray)JSONSerializer.toJSON( inputLine );
-		    String pndLink = jsonArray.getString(0);
-		    JSONArray titles = jsonArray.getJSONArray(1);
+		    JSONArray beaconArray = (JSONArray)JSONSerializer.toJSON( beaconString );
+		    String beaconPndLink = beaconArray.getString(0);
+		    JSONArray beaconTitles = beaconArray.getJSONArray(1);
 		    //JSONArray institutions = jsonArray.getJSONArray(2);
-		    JSONArray links = jsonArray.getJSONArray(3);
-		    int size = links.toArray().length;
-		    
-		   	if(whitelist==null){
-		   		if(pndLink.length()>0){
-		   			result.append("<li><a href=\""+pndLink+"\">Eintrag in der Personennamendatei (PND)</a></li>");
-		   		}
-		    	for(int i=0;i<size;i++){
-		    		if(!links.getString(i).startsWith("http://cpr.uni-rostock.de")){
-		    			result.append("<li><a href=\""+links.getString(i)+"\">"+titles.getString(i)+"</a></li>");
+		    JSONArray beaconLinks = beaconArray.getJSONArray(3);
+		    int size = beaconLinks.size();
+		    if(beaconPndLink.length()>0){
+		    	if(title!=null){
+		    		result.append(title+ " (");
+		    	}
+	   			result.append("PND: <a href=\""+beaconPndLink+"\" title=\"Eintrag in der Personennamendatei (PND)\">"+pnd+"</a>");
+	   			if(title!=null){
+		    		result.append(")");
+		    	}
+	   			result.append("<ul>");
+	   		
+		    	if(whitelist==null){
+		   			for(int i=0;i<size;i++){
+		    			if(!beaconLinks.getString(i).startsWith("http://cpr.uni-rostock.de")){
+		    				result.append("<li><a href=\""+beaconLinks.getString(i)+"\">"+beaconTitles.getString(i)+"</a></li>");
+		    			}
 		    		}
 		    	}
+		    	else{
+		    		JSONObject whiteListObject = (JSONObject)JSONSerializer.toJSON(whitelist);
+		    		@SuppressWarnings("unchecked")
+		    		Iterator<String> keys = (Iterator<String>)whiteListObject.keys();
+		    		while(keys.hasNext()){
+		    			String key= keys.next();
+		    			if(key.startsWith("http://katalog.ub.uni-rostock.de/DB=4/")){
+		    				UnibibliographieHRO biblioApp = UnibibliographieHRO.getInstance();
+		    				if(biblioApp.getHitCount(pnd)>0){
+		    					String title = whiteListObject.getString(key);
+		    					if(title==null || title.equals("")){
+		    						title = biblioApp.getMessage(pnd);
+		    					}
+		    					result.append("<li><a href=\""+biblioApp.getURL(pnd)+"\">"+title+"</a></li>");	
+		    				}
+		    			}
+		    			else{
+		    				for(int i=0;i<size;i++){
+		    				if(beaconLinks.getString(i).startsWith(key)){
+		    					String title = whiteListObject.getString(key);
+		    					if(title.length()==0){
+		    						title = beaconTitles.getString(i);
+		    					}
+		    					result.append("<li><a href=\""+beaconLinks.getString(i)+"\">"+title+"</a></li>");
+		    				}
+		    			}
+		    		}
+		    	}
+		    	result.append("</ul>");
+		    	}
 		    }
-		    else{
-		    	JSONObject jo = (JSONObject)JSONSerializer.toJSON(whitelist);
-		    	@SuppressWarnings("unchecked")
-		    	Iterator<String> keys = (Iterator<String>)jo.keys();
-		    	while(keys.hasNext()){
-		    	     String s= keys.next();
-		    		 if(pndLink.startsWith(s)){
-		    			 String title = jo.getString(s);
-		    			 if(title.length()==0){
-		    				 title = "Eintrag in der Personennamendatei (PND)";
-		    			 }
-		    			 result.append("<li><a href=\""+pndLink+"\">"+title+"</a></li>");
-		    		 }
-			     }
-		    	 for(int i=0;i<size;i++){
-		    		 @SuppressWarnings("unchecked")
-		    		 Iterator<String> keys2 = (Iterator<String>)jo.keys();
-		    		 while(keys2.hasNext()){
-			   		     String s= keys2.next();
-			   			 if(links.getString(i).startsWith(s)){
-			   				 String title = jo.getString(s);
-			   				 if(title.length()==0){
-			   					 title = titles.getString(i);
-			   				 }
-			   				 result.append("<li><a href=\""+links.getString(i)+"\">"+title+"</a></li>");
-			   			 }
-				     }
-			   	 }
-		    }		    	
 		 } catch (Exception e) {
 			   LOGGER.debug("Exception in MCRDocDetailsPNDBeaconTag");
 		}
-		 if(result.length()>0){
-			 return "<ul>"+result.toString()+"</ul>";	 
-		 }
-		 else{
-			 return "";
-		 }
+		return result.toString();
 		 
 	}
 
@@ -152,19 +156,7 @@ public class MCRDocDetailsPNDBeaconTag extends SimpleTagSupport {
 		if(docdetailsRow==null){
 			throw new JspException("This tag must be nested in tag called 'row' of the same tag library");
 		}
-		MCRDocDetailsTag docdetails = (MCRDocDetailsTag) findAncestorWithClass(this, MCRDocDetailsTag.class);
-		
-		String html = createHTML();
-		if(html.length()>0){
-	    	if(css!=null && !"".equals(css)){
-	    		getJspContext().getOut().print("<td class=\""+css+"\">");
-	    	}
-	    	else{
-	    		getJspContext().getOut().print("<td class=\""+docdetails.getStylePrimaryName()+"-value\">");
-	    	}
-	    	getJspContext().getOut().print(html.toString());		
-	    	getJspContext().getOut().print("</td>");
-	    }
+		getJspContext().getOut().print(createHTML());
 	}
 	
 	/**
@@ -181,5 +173,9 @@ public class MCRDocDetailsPNDBeaconTag extends SimpleTagSupport {
            +"'http://beacon.findbuch.de/portraits/ps_usbk':'Portraitsammlung USB Köln'}";
 		tag.setWhitelist(whitelist);
 		System.out.println(tag.createHTML());
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 }
