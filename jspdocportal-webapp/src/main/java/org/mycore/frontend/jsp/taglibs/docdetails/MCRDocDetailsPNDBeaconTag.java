@@ -48,18 +48,9 @@ import org.mycore.frontend.jsp.taglibs.docdetails.helper.UnibibliographieHRO;
 public class MCRDocDetailsPNDBeaconTag extends SimpleTagSupport {
 	private static Logger LOGGER=Logger.getLogger(MCRDocDetailsLinkItemTag.class);
 	private String pnd="";
-	private String css=null;
 	private String whitelist=null;
 	private String title=null;
 
-	/**
-	 * the CSS Style name applied to the output
-	 * @param style
-	 */
-	public void setStyleName(String style){
-		this.css=style;
-	}
-	
 	/**
 	 * the PND number
 	 * @param pnd
@@ -67,7 +58,7 @@ public class MCRDocDetailsPNDBeaconTag extends SimpleTagSupport {
 	public void setPnd(String pnd) {
 		this.pnd = pnd;
 	}
-	
+
 	/**
 	 * sets a white list of links and titles, that should be displayed
 	 * in JSON Object format eg: {'http://ws.gbv.de/seealso/pnd2gso':'Gemeinsamer Verbundkatalog','http://ws.gbv.de/seealso/pnd2vd17':'VD17'}
@@ -76,79 +67,90 @@ public class MCRDocDetailsPNDBeaconTag extends SimpleTagSupport {
 	public void setWhitelist(String wl){
 		this.whitelist = wl;
 	}
+	
+	/**
+	 * sets the title, which should be displayed in front of the list of items 
+	 * @param title
+	 */
+	
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
 	private String createHTML(){
-		StringBuffer result = new StringBuffer();
+		StringBuffer content = new StringBuffer();
+		String beaconPndLink="";
 		try {
-			
 			URL u = new URL("http://beacon.findbuch.de/seealso/pnd-aks?format=seealso&id="+pnd);
-		    URLConnection uc = u.openConnection();
-		    BufferedReader br = new BufferedReader(new InputStreamReader(uc.getInputStream()));
-		    String beaconString="";
-			 for (String line; (line = br.readLine()) != null;) {
-		    	beaconString = beaconString+line; 
-		    }		            
-		    br.close();
-		        
-		    JSONArray beaconArray = (JSONArray)JSONSerializer.toJSON( beaconString );
-		    String beaconPndLink = beaconArray.getString(0);
-		    JSONArray beaconTitles = beaconArray.getJSONArray(1);
-		    //JSONArray institutions = jsonArray.getJSONArray(2);
-		    JSONArray beaconLinks = beaconArray.getJSONArray(3);
-		    int size = beaconLinks.size();
-		    if(beaconPndLink.length()>0){
-		    	if(title!=null){
-		    		result.append(title+ " (");
-		    	}
-	   			result.append("PND: <a href=\""+beaconPndLink+"\" title=\"Eintrag in der Personennamendatei (PND)\">"+pnd+"</a>");
-	   			if(title!=null){
-		    		result.append(")");
-		    	}
-	   			result.append("<ul>");
-	   		
-		    	if(whitelist==null){
-		   			for(int i=0;i<size;i++){
-		    			if(!beaconLinks.getString(i).startsWith("http://cpr.uni-rostock.de")){
-		    				result.append("<li><a href=\""+beaconLinks.getString(i)+"\">"+beaconTitles.getString(i)+"</a></li>");
-		    			}
-		    		}
-		    	}
-		    	else{
-		    		JSONObject whiteListObject = (JSONObject)JSONSerializer.toJSON(whitelist);
-		    		@SuppressWarnings("unchecked")
-		    		Iterator<String> keys = (Iterator<String>)whiteListObject.keys();
-		    		while(keys.hasNext()){
-		    			String key= keys.next();
-		    			if(key.startsWith("http://katalog.ub.uni-rostock.de/DB=4/")){
-		    				UnibibliographieHRO biblioApp = UnibibliographieHRO.getInstance();
-		    				if(biblioApp.getHitCount(pnd)>0){
-		    					String title = whiteListObject.getString(key);
-		    					if(title==null || title.equals("")){
-		    						title = biblioApp.getMessage(pnd);
-		    					}
-		    					result.append("<li><a href=\""+biblioApp.getURL(pnd)+"\">"+title+"</a></li>");	
-		    				}
-		    			}
-		    			else{
-		    				for(int i=0;i<size;i++){
-		    				if(beaconLinks.getString(i).startsWith(key)){
-		    					String title = whiteListObject.getString(key);
-		    					if(title.length()==0){
-		    						title = beaconTitles.getString(i);
-		    					}
-		    					result.append("<li><a href=\""+beaconLinks.getString(i)+"\">"+title+"</a></li>");
-		    				}
-		    			}
-		    		}
-		    	}
-		    	result.append("</ul>");
-		    	}
-		    }
-		 } catch (Exception e) {
-			   LOGGER.debug("Exception in MCRDocDetailsPNDBeaconTag");
+			URLConnection uc = u.openConnection();
+			BufferedReader br = new BufferedReader(new InputStreamReader(uc.getInputStream()));
+			String beaconString="";
+			for (String line; (line = br.readLine()) != null;) {
+				beaconString = beaconString+line; 
+			}		            
+			br.close();
+
+			JSONArray beaconArray = (JSONArray)JSONSerializer.toJSON( beaconString );
+			beaconPndLink = beaconArray.getString(0);
+			JSONArray beaconTitles = beaconArray.getJSONArray(1);
+			//JSONArray institutions = jsonArray.getJSONArray(2);
+			JSONArray beaconLinks = beaconArray.getJSONArray(3);
+			int size = beaconLinks.size();
+			if(beaconPndLink.length()>0){
+				if(whitelist==null){
+					for(int i=0;i<size;i++){
+						if(!beaconLinks.getString(i).startsWith("http://cpr.uni-rostock.de")){
+							content.append("<li><a href=\""+beaconLinks.getString(i)+"\">"+beaconTitles.getString(i)+"</a></li>");
+						}
+					}
+				}
+				else{
+					JSONObject whiteListObject = (JSONObject)JSONSerializer.toJSON(whitelist);
+					@SuppressWarnings("unchecked")
+					Iterator<String> keys = (Iterator<String>)whiteListObject.keys();
+					while(keys.hasNext()){
+						String key= keys.next();
+						if(key.startsWith("http://katalog.ub.uni-rostock.de/DB=4/")){
+							UnibibliographieHRO biblioApp = UnibibliographieHRO.getInstance();
+							if(biblioApp.getHitCount(pnd)>0){
+								String title = whiteListObject.getString(key);
+								if(title==null || title.equals("")){
+									title = biblioApp.getMessage(pnd);
+								}
+								content.append("<li><a href=\""+biblioApp.getURL(pnd)+"\">"+title+"</a></li>");	
+							}
+						}
+						else{
+							for(int i=0;i<size;i++){
+								if(beaconLinks.getString(i).startsWith(key)){
+									String title = whiteListObject.getString(key);
+									if(title.length()==0){
+										title = beaconTitles.getString(i);
+									}
+									content.append("<li><a href=\""+beaconLinks.getString(i)+"\">"+title+"</a></li>");
+								}
+							}
+						}
+					}
+				}
+			}
+		} catch (Exception e) {
+			LOGGER.debug("Exception in MCRDocDetailsPNDBeaconTag");
+		}
+		StringBuffer result = new StringBuffer();
+		if(content.length()>0){
+			if(title!=null){
+				result.append(title+ " (");
+			}
+			result.append("PND: <a href=\""+beaconPndLink+"\" title=\"Eintrag in der Personennamendatei (PND)\">"+pnd+"</a>");
+			if(title!=null){
+				result.append(")");
+			}
+			result.append("<ul>");
+			result.append(content);
+			result.append("</ul>");
 		}
 		return result.toString();
-		 
 	}
 
 	public void doTag() throws JspException, IOException {
@@ -158,7 +160,7 @@ public class MCRDocDetailsPNDBeaconTag extends SimpleTagSupport {
 		}
 		getJspContext().getOut().print(createHTML());
 	}
-	
+
 	/**
 	 *example and test code
 	 */
@@ -166,16 +168,12 @@ public class MCRDocDetailsPNDBeaconTag extends SimpleTagSupport {
 		MCRDocDetailsPNDBeaconTag tag = new MCRDocDetailsPNDBeaconTag();
 		tag.setPnd("118558838");
 		String whitelist = "{'http://d-nb.info/gnd/':'Eintrag in der Personennamendatei (PND)',"
-           +"'http://www.deutsche-biographie.de/register':'Allgemeine/Neue Deutsche Biographie (ADB/NDB) Register',"
-           +"'http://www.uni-leipzig.de/unigeschichte/professorenkatalog/pnd/':'Catalogus Professorum Lipsiensis',"
-           +"'http://toolserver.org/~apper/pd/person/pnd-redirect/de':'Wikipedia-Personenartikel',"
-           +"'http://toolserver.org/~apper/pd/person/pnd-redirect/commons':'Wikimedia Commons',"
-           +"'http://beacon.findbuch.de/portraits/ps_usbk':'Portraitsammlung USB Köln'}";
+			+"'http://www.deutsche-biographie.de/register':'Allgemeine/Neue Deutsche Biographie (ADB/NDB) Register',"
+			+"'http://www.uni-leipzig.de/unigeschichte/professorenkatalog/pnd/':'Catalogus Professorum Lipsiensis',"
+			+"'http://toolserver.org/~apper/pd/person/pnd-redirect/de':'Wikipedia-Personenartikel',"
+			+"'http://toolserver.org/~apper/pd/person/pnd-redirect/commons':'Wikimedia Commons',"
+			+"'http://beacon.findbuch.de/portraits/ps_usbk':'Portraitsammlung USB Köln'}";
 		tag.setWhitelist(whitelist);
 		System.out.println(tag.createHTML());
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
 	}
 }
