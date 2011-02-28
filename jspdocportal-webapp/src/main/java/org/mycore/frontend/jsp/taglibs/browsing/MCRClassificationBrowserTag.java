@@ -48,6 +48,7 @@ import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 import org.mycore.backend.hibernate.MCRHIBConnection;
+import org.mycore.common.MCRConfiguration;
 import org.mycore.datamodel.classifications2.MCRCategLinkService;
 import org.mycore.datamodel.classifications2.MCRCategLinkServiceFactory;
 import org.mycore.datamodel.classifications2.MCRCategory;
@@ -369,14 +370,30 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 			out.write(indent+"<li>\n");
 			out.write(indent+"   <table valign=\"center\">\n");
 			out.write(indent+"      <tr><td rowspan=\"3\">\n");
+			String iconURL = retrieveIconURL(hasChildren, curLevel, hasLinks(categ), (expand || opened));
 			if(!expand && hasChildren && curLevel+1<level){
-				out.write(indent+"         <a href=\""+cbURL+"/"+categ.getId().getID()+"\">\n");
+				String title = "";
+				if(iconURL.endsWith("_plus.gif")){
+					title = MCRTranslation.translate("Webpage.browse.open");
+				}
+				if(iconURL.endsWith("_minus.gif")){
+					title = MCRTranslation.translate("Webpage.browse.close");
+				}
+				out.write(indent+"         <a href=\""+cbURL+"/"+categ.getId().getID()+"\" title=\""+title+"\">\n");
 			}
-			out.write(indent+"            <img class=\"borderless\" src=\""+baseURL+retrieveIconURL(hasChildren, curLevel, hasLinks(categ), (expand || opened))+"\" />\n");
+			out.write(indent+"            <img class=\"borderless\" src=\""+baseURL+iconURL+"\" />\n");
 			if(!expand && hasChildren && curLevel+1<level){
 				out.write("                </a>");
 			}
 			out.write(indent+"      </td>\n");
+			out.write(indent+"      <td>");
+			if(showid){
+				out.write(categ.getId().getID()+":&nbsp;");
+			}
+			
+			out.write(categ.getCurrentLabel().getText());			
+			out.write("</td>\n");
+			
 			if(count){
 				out.write(indent+"      <td>");
 				if(searchrestriction!=null){
@@ -394,13 +411,6 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 				}
 				out.write("</td>\n");
 			}
-			out.write(indent+"      <td>");
-			if(showid){
-				out.write(categ.getId().getID()+":&nbsp;");
-			}
-			
-			out.write(categ.getCurrentLabel().getText());			
-			out.write("</td>\n");
 			
 			out.write(indent+"      <td>");
 			writeLinkedCategoryItemText(categ, baseURL, out);
