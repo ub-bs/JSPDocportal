@@ -222,21 +222,23 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
-			<name>title</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
 			<name>whitelist</name>
 		</attribute>
 		<attribute>
 			<name>styleName</name>
 		</attribute>
 	</tag>
-	
-	
 
-
-	
+	<tag>
+		<description>includes the content from PND Beacon Findbuch</description>
+		<name>complexref</name>
+		<tag-class>org.mycore.frontend.jsp.taglibs.docdetails.MCRDocDetailsShowComplexRefTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>content</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
 
 </taglib>

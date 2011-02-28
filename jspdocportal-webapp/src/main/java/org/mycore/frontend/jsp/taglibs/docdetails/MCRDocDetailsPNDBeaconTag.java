@@ -49,7 +49,6 @@ public class MCRDocDetailsPNDBeaconTag extends SimpleTagSupport {
 	private static Logger LOGGER=Logger.getLogger(MCRDocDetailsLinkItemTag.class);
 	private String pnd="";
 	private String whitelist=null;
-	private String title=null;
 
 	/**
 	 * the PND number
@@ -68,15 +67,6 @@ public class MCRDocDetailsPNDBeaconTag extends SimpleTagSupport {
 		this.whitelist = wl;
 	}
 	
-	/**
-	 * sets the title, which should be displayed in front of the list of items 
-	 * @param title
-	 */
-	
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
 	private String createHTML(){
 		StringBuffer content = new StringBuffer();
 		String beaconPndLink="";
@@ -117,7 +107,7 @@ public class MCRDocDetailsPNDBeaconTag extends SimpleTagSupport {
 								if(title==null || title.equals("")){
 									title = biblioApp.getMessage(pnd);
 								}
-								content.append("<li><a href=\""+biblioApp.getURL(pnd)+"\">"+title+"</a></li>");	
+								content.append("<li><a href=\""+biblioApp.getURL(pnd)+"\" target=\"_blank\">"+title+"</a></li>");	
 							}
 						}
 						else{
@@ -139,13 +129,6 @@ public class MCRDocDetailsPNDBeaconTag extends SimpleTagSupport {
 		}
 		StringBuffer result = new StringBuffer();
 		if(content.length()>0){
-			if(title!=null){
-				result.append(title+ " (");
-			}
-			result.append("PND: <a href=\""+beaconPndLink+"\" title=\"Eintrag in der Personennamendatei (PND)\">"+pnd+"</a>");
-			if(title!=null){
-				result.append(")");
-			}
 			result.append("<ul>");
 			result.append(content);
 			result.append("</ul>");
