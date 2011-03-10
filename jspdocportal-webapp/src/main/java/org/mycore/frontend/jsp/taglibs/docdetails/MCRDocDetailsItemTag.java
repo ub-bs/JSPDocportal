@@ -84,7 +84,7 @@ public class MCRDocDetailsItemTag extends SimpleTagSupport {
 		String result ="";
 		try {
 			XPathUtil xu = new XPathUtil((PageContext)getJspContext());
-			@SuppressWarnings("unchecked")
+			@SuppressWarnings("rawtypes")
 			List nodes = xu.selectNodes(context, xp);
 			if(nodes.size()>0){
 					if(nodes.get(0) instanceof Node){

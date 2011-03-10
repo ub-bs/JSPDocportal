@@ -201,6 +201,7 @@
 			<mcrmetalangtext name="journaltitle" class="MCRMetaLangText"
 				minOccurs='1' maxOccurs='unbounded' length="4096" />
 		</element>
+		
 		<!-- 37 - Erscheinungsjahr -->
 		<element name="yearofpublications" minOccurs='0' maxOccurs='1'>
 			<mcrmetalangtext name="yearofpublication" class="MCRMetaLangText"
@@ -221,6 +222,7 @@
 			<mcrmetalangtext name="page" class="MCRMetaLangText"
 				minOccurs='1' maxOccurs='unbounded' length="256" />
 		</element>
+		
 		<!-- 42 - Verlag / Herausgeber des übergeordneten Werkes -->
 		<element name="publishingcompanies" minOccurs='0' maxOccurs='1'>
 			<mcrmetalangtext name="publishingcompany" class="MCRMetaLangText"
@@ -253,6 +255,17 @@
 		<!-- 46 - Mapping of Classifications -->
     	<element name="mappings" minOccurs='0' maxOccurs='1'>
       		<mcrmetaclassification name="mapping" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
+    	</element>
+    	<!-- 47 - Differenzierende Angaben zur Quelle (Nachbildung von Pica-Kategorie 4070 
+    	         <publishdetail>
+    	            <title>Titel</title>
+    	         	<v>Band</v><j>Jahr</j><a>Heft</a>
+    	         	<d>Tag</d><m>Monat</m><n>Sonderheft</n>
+    	         	<p>Seitenangabe</p><t>Gesamtzahl Seiten</t>
+    	         	<display>modifizierte Anzeigeform</display></publishdetail>
+    	  -->
+    	<element name="publishdetails" minOccurs='0' maxOccurs='1'>
+      		<mcrmetaxml name="publishdetail" class="MCRMetaXML" minOccurs='1' maxOccurs='1' />
     	</element>
 
 	</metadata>

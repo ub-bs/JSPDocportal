@@ -143,6 +143,21 @@
 			<name>styleName</name>
 		</attribute>  
 	</tag>
+	<tag>
+		<description>displays a docdetails publishedin item</description>
+		<name>publishedinitem</name>
+		<tag-class>org.mycore.frontend.jsp.taglibs.docdetails.MCRDocDetailsPublishedInItemTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>select</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>styleName</name>
+		</attribute>  
+	</tag>
+	
 	
 	<tag>
 		<description>displays a docdetail classification item</description>

@@ -203,6 +203,7 @@
 			<cell col="1" row="203" colspan="4" anchor="NORTHWEST" ref="DDdb" sortnr="33"  />
 			
 			<hidden var="metadata/mappings" descendants="true" />
+			<hidden var="metadata/publishdetails" descendants="true" /> <!-- sortnr="47" -->
 		</panel>
 	</components>
 </editor>
