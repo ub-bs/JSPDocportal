@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.StringTokenizer;
 
+import org.apache.log4j.Logger;
 import org.mycore.common.MCRUtils;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRObjectID;
@@ -48,7 +49,8 @@ import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager
  * @see MCRUploadHandler
  */
 public class MCRWorkflowUploadHandler extends MCRUploadHandler {
-    private String mainfile = "";
+	private static Logger logger = Logger.getLogger(MCRWorkflowUploadHandler.class.getName());
+	private String mainfile = "";
 
     private String dirname;
 
