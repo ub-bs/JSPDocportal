@@ -23,7 +23,6 @@
 package org.mycore.frontend.jsp.taglibs.docdetails;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.jsp.JspException;
@@ -92,15 +91,11 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 	    			}
 	    			else if(title.startsWith("METS")){
 	    				//show mets
-	    				String derivmain ="";
-	    				MCRDirectory root = MCRDirectory.getRootDirectory(derID);
-	    				MCRFilesystemNode[] myfiles = root.getChildren(MCRDirectory.SORT_BY_NAME);//getChildren();
-	    				if(myfiles.length>0){
-	    					derivmain=myfiles[0].getName();
-	    				}
-    			    
-	    				String metsurl = baseurl +"file/"+derID+"/"+derivmain;
-	    				out.write("<a href=\"http://dfg-viewer.de/v1/?set%5Bmets%5D="+URLEncoder.encode(metsurl,"UTF-8")+"&set%5Bzoom%5D=min\" target=\"_blank\">");
+	    				MCRObjectID oid = MCRObjectID.getInstance(derID);
+	    				MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(oid);
+	    				String mcrid=der.getDerivate().getMetaLink().getXLinkHrefID().toString();	
+	    				String metsurl = baseurl +"resolve/id/"+mcrid+"/"+title;
+	    				out.write("<a href=\""+metsurl+"\" target=\"_blank\">");
 	    				out.write("<img src=\""+baseurl+"images/dfgviewer.gif\" title = \"Dokument anzeigen\" alt=\"Dokument anzeigen\" />");
 	    				out.write(docdetails.getMessages().getString("Webpage.docdetails.showInDFGViewer")+"</a>");	    			
 	    			}
@@ -109,31 +104,13 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 	    				//show HMTL	    			
 	    				MCRObjectID oid = MCRObjectID.getInstance(derID);
 	    				MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(oid);
-	    			
 	    				String mcrid=der.getDerivate().getMetaLink().getXLinkHrefID().toString();	
 	    				String htmlURL = baseurl +"mjbrenderer?id="+mcrid;
-	    				/*
-	    				String derivmain = der.getDerivate().getInternals().getMainDoc();
-	    				if(derivmain==null){
-	    					MCRDirectory root = MCRDirectory.getRootDirectory(derID);
-	      			    	MCRFilesystemNode[] myfiles = root.getChildren(MCRDirectory.SORT_BY_NAME);//getChildren();
-	      			    	for(int j=0 ;i< myfiles.length;j++){
-	      			    		if(myfiles[j] instanceof MCRFile){
-	      			    			derivmain = myfiles[j].getName();
-	      			    			break;
-	      			    		}
-	      			    	}
-	    				}	    			
-	    				if(derivmain!=null){
-	    			    	htmlURL = baseurl +"file/"+derID+"/"+derivmain;
-	      				}
-	    				*/
 	    			
-	    				if(htmlURL!=null){
-	    					out.write("<a href=\""+htmlURL+"\" target=\"blank\">");
-	    					out.write("<img src=\""+baseurl+"images/fulltext.gif\" title = \"Volltext anzeigen\" alt=\"Volltext anzeigen\" />");
-	    					out.write(docdetails.getMessages().getString("Webpage.docdetails.showFulltext")+"</a>");
-	    				}
+	    				out.write("<a href=\""+htmlURL+"\" target=\"blank\">");
+	    				out.write("<img src=\""+baseurl+"images/fulltext.gif\" title = \"Volltext anzeigen\" alt=\"Volltext anzeigen\" />");
+	    				out.write(docdetails.getMessages().getString("Webpage.docdetails.showFulltext")+"</a>");
+	    			
 	    			}
 	    			else{
 	    				out.write("<dt>"+title+"</dt>");

@@ -27,10 +27,16 @@
          <servlet-class>org.mycore.frontend.servlets.MCRWFFileNodeServlet</servlet-class>
     </servlet>
 
-<servlet id="IDResolver">
+	<servlet id="IDResolver">
          <servlet-name>MCRJSPIDResolverServlet</servlet-name>
          <servlet-class>org.mycore.frontend.servlets.MCRJSPIDResolverServlet</servlet-class>
     </servlet>
+    
+    <servlet id="GlobalResolver">
+         <servlet-name>MCRJSPGlobalResolverServlet</servlet-name>
+         <servlet-class>org.mycore.frontend.servlets.MCRJSPGlobalResolverServlet</servlet-class>
+    </servlet>
+              
 
 
     <servlet>
@@ -270,7 +276,12 @@
           <url-pattern>/servlets/CPR2RTFServlet</url-pattern>
     </servlet-mapping>  
 
-<servlet-mapping>
+    <servlet-mapping>
+          <servlet-name>MCRJSPGlobalResolverServlet</servlet-name>
+          <url-pattern>/resolve/*</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
           <servlet-name>MCRJSPIDResolverServlet</servlet-name>
           <url-pattern>/resolve</url-pattern>
     </servlet-mapping>
