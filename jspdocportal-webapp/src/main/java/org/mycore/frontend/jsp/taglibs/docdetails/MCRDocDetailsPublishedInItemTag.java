@@ -193,7 +193,7 @@ public class MCRDocDetailsPublishedInItemTag extends SimpleTagSupport {
 			}
 			s = el.getChildTextNormalize("t");
 			if (s != null) {
-				result.append(", ").append(s).append(" S.");
+				result.append(" insges. ").append(s).append(" S.");
 			}
 
 		}
