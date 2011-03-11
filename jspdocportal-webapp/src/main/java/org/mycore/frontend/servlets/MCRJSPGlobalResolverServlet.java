@@ -140,7 +140,7 @@ public class MCRJSPGlobalResolverServlet extends MCRServlet {
         			//do nothing
         		}
     		}
-        	if(data.length==2){
+        	if(data.length==2 && mcrObjID!=null){
         		//show the metadata as xml or in docdetails
         		if("asXML".equals(open)){
         			Document doc = MCRMetadataManager.retrieveMCRObject(mcrObjID).createXML();    	    		 
@@ -164,7 +164,7 @@ public class MCRJSPGlobalResolverServlet extends MCRServlet {
         }
         
         
-        if(data.length==3 && "asXML".equals(open)){
+        if(data.length==3 && "asXML".equals(open) && mcrDerID!=null){
         	Document doc = MCRMetadataManager.retrieveMCRDerivate(mcrDerID).createXML();    	    		 
     		response.setContentType("text/xml");
     		XMLOutputter xout = new XMLOutputter(Format.getPrettyFormat());
