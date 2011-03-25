@@ -685,6 +685,7 @@
             <name>receiveMainDoc</name>
             <tagclass>org.mycore.frontend.jsp.taglibs.MCRReceiveMainDocTag</tagclass>
             <bodycontent>empty</bodycontent>
+            <info>A Tag, that retrieves the main file from a derivate</info>
             <attribute>
                 <name>derid</name>
                 <required>true</required>
@@ -694,9 +695,19 @@
                 <name>var</name>
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
-            </attribute>        
-            <!-- A Tag, that retrieves the main file from a derivate  -->
+            </attribute>
         </tag> 
         
+        <tag>
+            <name>formatPublishedIn</name>
+            <tagclass>org.mycore.frontend.jsp.taglibs.MCRFormatPublishedInTag</tagclass>
+            <bodycontent>empty</bodycontent> 
+            <info>A Tag, that formats published-in information</info>
+            <attribute>
+                <name>xml</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>     
+        </tag>  
         
 </taglib>   

@@ -33,6 +33,7 @@ import org.apache.log4j.Logger;
 import org.apache.taglibs.standard.tag.common.xml.XPathUtil;
 import org.jdom.Element;
 import org.jdom.input.DOMBuilder;
+import org.mycore.frontend.jsp.taglibs.docdetails.helper.MCRPublishedInFormatter;
 
 import org.w3c.dom.Node;
 
@@ -71,7 +72,7 @@ public class MCRDocDetailsPublishedInItemTag extends SimpleTagSupport {
 				DOMBuilder domBuilder = new DOMBuilder();
 				if (n instanceof org.w3c.dom.Element) {
 					Element el = domBuilder.build((org.w3c.dom.Element) n);
-					String result = formatOutput(el);
+					String result = MCRPublishedInFormatter.format(el);
 	
 					if (result.length() > 0) {
 						if (css != null && !"".equals(css)) {
@@ -88,118 +89,5 @@ public class MCRDocDetailsPublishedInItemTag extends SimpleTagSupport {
 			LOGGER.debug("wrong xpath expression: " + xp);
 		}
 	}
-		
-	
-	/**
-	 * Formatiert den Inhalt des Feldes
-	 * in Anlehnung an Katalogisierungsrichtlinie des GBV, Kat. 4070
-	 * Eingabeformat:
-	 * 	<title>Titel</title> <v>Band</v><j>Jahr</j><a>Heft</a>
-	 * <d>Tag</d><m>Monat</m><n>Sonderheft</n>
-	 * <p>Seitenangabe</p><t>Gesamtzahl Seiten</t>
-	 * <display>modifizierte
-	 * Anzeigeform</display></publishdetail>
-	
-	 * @param el
-	 * @return
-	 */
-	private String formatOutput(Element el){
-		StringBuffer result = new StringBuffer();
-		String s = null;
-		s = el.getChildTextNormalize("title");
-		if (s != null) {
-			result.append(s);
-		}
 
-		s = el.getChildTextNormalize("display");
-		if (s == null) {
-			s = el.getChildTextNormalize("v");
-			if (s != null) {
-				result.append(", Bd. ").append(s);
-			}
-			s = el.getChildTextNormalize("j");
-			if (s != null) {
-				result.append(" (").append(s).append(")");
-			}
-			s = el.getChildTextNormalize("a");
-			if (s != null) {
-				result.append(", Nr. ").append(s);
-			}
-			String tag = el.getChildTextNormalize("d");
-			String monat = el.getChildTextNormalize("m");
-			int iMonat = 0;
-			try {
-				iMonat = Integer.parseInt(monat);
-			} catch (NumberFormatException nfe) {
-				// do nothing
-			}
-			String[] monate = new String[] { "", "Jan.", "Febr.", "März", "Apr.", "Mai", "Jun.", "Jul.", "Aug.", "Sept.", "Okt.", "Nov.", "Dez." };
-			if (tag != null && monat != null) {
-				result.append(", ");
-				for (char c : tag.toCharArray()) {
-					if (Character.isDigit(c)) {
-						result.append(c);
-					} else {
-						result.append(".").append("c");
-					}
-				}
-				result.append(". ");
-				result.append(monate[iMonat]);
-			} else if (monat != null) {
-				result.append(", ");
-				if (monat.contains("-")) {
-					String[] x = monat.split("\\-");
-					for (String xx : x) {
-						int i = 0;
-						try {
-							i = Integer.parseInt(xx);
-							result.append(monate[i]);
-							if (xx != x[x.length - 1]) {
-								result.append("-");
-							}
-						} catch (NumberFormatException e) {
-
-						}
-					}
-				} else if (monat.contains("/")) {
-					String[] x = monat.split("\\/");
-					for (String xx : x) {
-						int i = 0;
-						try {
-							i = Integer.parseInt(xx);
-							result.append(monate[i]);
-							if (xx != x[x.length - 1]) {
-								result.append("/");
-							}
-						} catch (NumberFormatException e) {
-
-						}
-					}
-				} else {
-					int i = 0;
-					try {
-						i = Integer.parseInt(monat);
-						result.append(monate[i]);
-
-					} catch (NumberFormatException e) {
-
-					}
-				}
-
-			}
-			s = el.getChildTextNormalize("p");
-			if (s != null) {
-				result.append(", S. ").append(s);
-			}
-			s = el.getChildTextNormalize("t");
-			if (s != null) {
-				result.append(" insges. ").append(s).append(" S.");
-			}
-
-		}
-		else{
-			result.append(", ").append(s);
-		}
-		return result.toString();
-	}
 }
