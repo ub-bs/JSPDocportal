@@ -39,7 +39,7 @@
             <tr>
                 <td id="mainLeftColumn" >
                     <br />
-                    <jsp:include page='navigation.jsp'/>
+                   
                 </td>
 
                 <td valign="top">

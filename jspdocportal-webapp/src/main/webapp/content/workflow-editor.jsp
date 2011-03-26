@@ -12,7 +12,7 @@
 
 <%
     Map map = request.getParameterMap();
-    String sessionID = ((MCRSession)MCRServlet.getSession(request, "workflow-editor")).getID();
+    String sessionID = ((MCRSession)MCRServlet.getSession(request)).getID();
     StringBuffer sbURL = new StringBuffer((String)getServletContext().getAttribute("WebApplicationBaseURL"))
         .append("start_edit");
 

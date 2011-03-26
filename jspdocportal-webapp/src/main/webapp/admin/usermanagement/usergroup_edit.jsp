@@ -10,7 +10,7 @@
 
 <%
 	
-	MCRSession mcrSession = MCRServlet.getSession(request,"HttpJspBase");
+	MCRSession mcrSession = MCRServlet.getSession(request);
     String WebApplicationBaseURL = MCRServlet.getBaseURL();
     String operation = request.getParameter("operation");
 	DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -23,7 +23,7 @@
 
 
 	MCRGroup group = null;
-	ArrayList l = null;
+	ArrayList<String> l = null;
 	if (operation == null)
 		operation = "detail";
 
