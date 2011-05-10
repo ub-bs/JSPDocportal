@@ -252,11 +252,7 @@
 				minOccurs='1' maxOccurs='unbounded' length="256" />
 		</element>
 		
-		<!-- 46 - Mapping of Classifications -->
-    	<element name="mappings" minOccurs='0' maxOccurs='1'>
-      		<mcrmetaclassification name="mapping" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
-    	</element>
-    	<!-- 47 - Differenzierende Angaben zur Quelle (Nachbildung von Pica-Kategorie 4070 
+		<!-- 47 - Differenzierende Angaben zur Quelle (Nachbildung von Pica-Kategorie 4070 
     	         <publishdetail>
     	            <title>Titel</title>
     	         	<v>Band</v><j>Jahr</j><a>Heft</a>
@@ -266,6 +262,26 @@
     	  -->
     	<element name="publishdetails" minOccurs='0' maxOccurs='1'>
       		<mcrmetaxml name="publishdetail" class="MCRMetaXML" minOccurs='1' maxOccurs='1' />
+    	</element>
+    	<!-- 48 - Differenzierende Angaben zur Quelle (Nachbildung von Pica-Kategorie 4070 
+    	         <serial>
+    	            <title>Titel</title>
+    	         	<v>Band</v>
+    	         	<sort>Zeichkette f. Sortierung, enthaelt ggf. fuehrende Nullen</sort>
+    	         	<display>modifizierte Anzeigeform</display></publishdetail>
+    	  -->
+    	<element name="serieses" minOccurs='0' maxOccurs='1'>
+      		<mcrmetaxml name="series" class="MCRMetaXML" minOccurs='1' maxOccurs='unbounded' />
+    	</element>
+    	
+    	<!-- 59 - container for metadata in MODS format -->
+    	<element name="modsdatas" minOccurs='0' maxOccurs='1'>
+      		<mcrmetaxml name="modsdata" class="MCRMetaXML" minOccurs='1' maxOccurs='unbounded' />
+    	</element>    	
+    	
+    	<!-- 60 - Mapping of Classifications -->
+    	<element name="mappings" minOccurs='0' maxOccurs='1'>
+      		<mcrmetaclassification name="mapping" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
     	</element>
 
 	</metadata>
