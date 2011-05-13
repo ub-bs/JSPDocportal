@@ -275,8 +275,8 @@
     	</element>
     	
     	<!-- 59 - container for metadata in MODS format -->
-    	<element name="modsdatas" minOccurs='0' maxOccurs='1'>
-      		<mcrmetaxml name="modsdata" class="MCRMetaXML" minOccurs='1' maxOccurs='unbounded' />
+    	<element name="modsContainers" minOccurs='0' maxOccurs='1'>
+      		<mcrmetaxml name="modsContainer" class="MCRMetaXML" minOccurs='1' maxOccurs='unbounded' />
     	</element>    	
     	
     	<!-- 60 - Mapping of Classifications -->
