@@ -4,8 +4,8 @@
   <groupId>org.mycore</groupId>
   <artifactId>sample-webapp</artifactId>
   <packaging>war</packaging>
- <version>2.0.93-SNAPSHOT</version>
-	<name>JSPDocportal Sample Webapplication</name>
+ <version>2.1.1-SNAPSHOT</version>
+	<name>JSPDocportal Sample Web Application</name>
 	<url>http://mycoresample.uni-rostock.de</url>
 	<dependencies>
 		<dependency>
