@@ -61,7 +61,7 @@
   </list>
 
   <panel id="DOrigin">
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/origins&amp;classname=MCRMetaClassification&amp;textsearch=false" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/origins&amp;classname=MCRMetaClassification" />
     <hidden var="metadata/origins/origin/@inherited" default="0" />
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/origins/origin/@classid&amp;prop=MCR.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002" />               
     <cell col="1" row="1" anchor="WEST" ref="COrigin" var="metadata/origins/origin/@categid" />
@@ -160,7 +160,7 @@
   </list>
 
   <panel id="DType">
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/types&amp;classname=MCRMetaClassification&amp;textsearch=false" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/types&amp;classname=MCRMetaClassification" />
     <hidden var="metadata/types/type/@inherited" default="0" />
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/types/type/@classid&amp;prop=MCR.ClassificationID.Type&amp;defaultValue=DocPortal_class_00000005" />               
     <cell col="1" row="1" anchor="WEST" ref="CType" var="metadata/types/type/@categid" />
@@ -189,9 +189,8 @@
 				<label i18n="Editor.Validate.Selection.Empty" />
      </condition>    
   </list>
-
   <panel id="DLanguage">
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/languages&amp;classname=MCRMetaClassification&amp;textsearch=false" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/languages&amp;classname=MCRMetaClassification" />
     <hidden var="metadata/languages/language/@inherited" default="0" />
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/languages/language/@classid&amp;prop=MCR.ClassificationID.Language&amp;defaultValue=DocPortal_class_00000004" />
     <cell col="1" row="1" anchor="WEST" ref="CLanguage" var="metadata/languages/language/@categid" />

@@ -125,7 +125,7 @@
       </panel>
 	
   <panel id="DType_SV">
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/types&amp;classname=MCRMetaClassification&amp;textsearch=false" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/types&amp;classname=MCRMetaClassification" />
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/types/type/@classid&amp;prop=MCR.ClassificationID.Type&amp;defaultValue=DocPortal_class_00000005" />               
     <cell col="1" row="1" anchor="WEST" var="metadata/types/type/@categid">
   	<list width="425px" type="dropdown" class="mandatory">

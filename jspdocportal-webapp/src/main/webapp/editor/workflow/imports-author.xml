@@ -86,7 +86,7 @@
   </list>
 
   <panel id="DOrigin">
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/institutions&amp;classname=MCRMetaClassification&amp;textsearch=false" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/institutions&amp;classname=MCRMetaClassification" />
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/institutions/institution/@classid&amp;prop=MCR.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002" />
     <cell col="1" row="1" anchor="WEST" ref="COrigin" var="metadata/institutions/institution/@categid" sortnr="3" />
   </panel>
@@ -201,7 +201,7 @@
   </list>
 
   <panel id="DNational">
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/nationals&amp;classname=MCRMetaClassification&amp;textsearch=false" />    
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/nationals&amp;classname=MCRMetaClassification" />    
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/nationals/national/@classid&amp;prop=MCR.ClassificationID.Nationality&amp;defaultValue=DocPortal_class_00000001" />    
     <cell col="1" row="1" anchor="WEST" ref="CNational" var="metadata/nationals/national/@categid" sortnr="9" />
   </panel>
