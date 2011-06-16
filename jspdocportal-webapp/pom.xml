@@ -7,6 +7,9 @@
 	<version>2.1.1-SNAPSHOT</version>
 	<name>JSPDocportal WebApp</name>
 	<url>http://maven.apache.org</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 	<pluginRepositories>
 		<pluginRepository>
 			<id>MyCoRe HQ</id>
@@ -162,6 +165,7 @@
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
+					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -210,7 +214,7 @@
 						</resource>
 						<resource>
 							<directory>src/main/config/hibernate</directory>
-							<targetPath>WEB-INf/classes</targetPath>
+							<targetPath>WEB-INF/classes</targetPath>
 							<excludes>
 								<exclude>*.template</exclude>
 							</excludes>

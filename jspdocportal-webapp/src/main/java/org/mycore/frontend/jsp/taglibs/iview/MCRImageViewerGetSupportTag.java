@@ -26,7 +26,7 @@ import org.mycore.frontend.servlets.MCRServlet;
 public class MCRImageViewerGetSupportTag extends SimpleTagSupport
 {
 	private String derivID; 	//Derivate-ID
-	private String var; 		//Variable, die das Rückgabeergebnis aufnimmt.
+	private String var; 		//Variable, die das RÃ¼ckgabeergebnis aufnimmt.
 	
 	/**
 	 * Setzen der Derivate-ID
@@ -36,7 +36,7 @@ public class MCRImageViewerGetSupportTag extends SimpleTagSupport
 		this.derivID = derivID;
 	}
 
-	/**Setzen des Namens, der Variable, die den Rückgabewert enthält
+	/**Setzen des Namens, der Variable, die den RÃ¼ckgabewert enthÃ¤lt
 	 * @param var the name of the variable
 	 */
 	public void setVar(String var) {
@@ -78,7 +78,7 @@ public class MCRImageViewerGetSupportTag extends SimpleTagSupport
 //		try{
 //			Source xsltSource = MCRURIResolver.instance().resolve(resolver,"MCRImageViewerGetSupportTag.java");
 //			Source xmlSource = new StreamSource(new StringReader(xml));
-//           	// 	das Factory-Pattern unterstützt verschiedene XSLT-Prozessoren
+//           	// 	das Factory-Pattern unterstÃ¼tzt verschiedene XSLT-Prozessoren
 //        	TransformerFactory transFact = TransformerFactory.newInstance();
 //        	Transformer trans = transFact.newTransformer(xsltSource);
 //        	

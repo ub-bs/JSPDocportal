@@ -89,10 +89,10 @@ public class UnibibliographieHRO {
 	public String getMessage(String pnd){
 		int count = getHitCount(pnd);
 		if(count==1){
-			return "1 Nachweis in der Universit‰tsbibliographie Rostock";
+			return "1 Nachweis in der Universit√§tsbibliographie Rostock";
 		}
 		else{
-			return Integer.toString(count)+" Nachweise in der Universit‰tsbibliographie Rostock";
+			return Integer.toString(count)+" Nachweise in der Universit√§tsbibliographie Rostock";
 		}
 	}
 

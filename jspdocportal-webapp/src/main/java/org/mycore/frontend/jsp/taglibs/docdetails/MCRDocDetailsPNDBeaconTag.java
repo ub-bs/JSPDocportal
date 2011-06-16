@@ -155,7 +155,7 @@ public class MCRDocDetailsPNDBeaconTag extends SimpleTagSupport {
 			+"'http://www.uni-leipzig.de/unigeschichte/professorenkatalog/pnd/':'Catalogus Professorum Lipsiensis',"
 			+"'http://toolserver.org/~apper/pd/person/pnd-redirect/de':'Wikipedia-Personenartikel',"
 			+"'http://toolserver.org/~apper/pd/person/pnd-redirect/commons':'Wikimedia Commons',"
-			+"'http://beacon.findbuch.de/portraits/ps_usbk':'Portraitsammlung USB Köln'}";
+			+"'http://beacon.findbuch.de/portraits/ps_usbk':'Portraitsammlung USB KÃ¶ln'}";
 		tag.setWhitelist(whitelist);
 		System.out.println(tag.createHTML());
 	}

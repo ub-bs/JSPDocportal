@@ -117,8 +117,8 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 	          step=""  target="MCRCheckUserRegistrationServlet" nextPath="~workflow-registeruser" 
 	          editorPath="editor/workflow/editor-modifyuser.xml" />
 	          ***/   
-        	// befüllten Editor für das Object includieren
-			// aus dem wfo die Daten für die ID ... holen 
+        	// befÃ¼llten Editor fÃ¼r das Object includieren
+			// aus dem wfo die Daten fÃ¼r die ID ... holen 
 			MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(Long.parseLong(pid));
    			try{
 			ID = wfp.getStringVariable("initiatorUserID");
@@ -178,7 +178,7 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
             for(int i=0;  i < descriptions.size(); i++) {
             	String groupname = ((Element)descriptions.get(i)).getText();
             	if ( MCRUserMgr.instance().existGroup(groupname)) {
-            		// gruppe gewählt
+            		// gruppe gewÃ¤hlt
             		Element group = new Element("groups.groupID");
             		group.setText(groupname);
             		groups.addContent(group);

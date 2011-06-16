@@ -42,7 +42,7 @@ import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager
  * 
  * @author Harald Richter
  * @author Jens Kupferschmidt
- * @author Frank Lützenkirchen
+ * @author Frank LÃ¼tzenkirchen
  * 
  * @version $Revision$ $Date$
  * 

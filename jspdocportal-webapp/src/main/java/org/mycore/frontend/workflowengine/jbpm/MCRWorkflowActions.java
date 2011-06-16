@@ -95,7 +95,7 @@ public class MCRWorkflowActions extends MCRServlet {
             	returnPath="/nav?path=" + nextPath;
             	return;            	
             }
-        	// leeren Editor f�r das Object includieren
+        	// leeren Editor für das Object includieren
         	request.setAttribute("isNewEditorSource","false");
         	request.setAttribute("mcrid",mcrid);
         	request.setAttribute("processid",new Long(pid));        	
@@ -149,7 +149,7 @@ public class MCRWorkflowActions extends MCRServlet {
         			// delete unused Permissions from database
         			MCRAccessManager.getAccessImpl().removeAllRules(mcrid);
         		}
-    			// gesamten Prozess l�schen!!
+    			// gesamten Prozess löschen!!
     			wfp.close();
     			MCRJbpmCommands.deleteProcess(String.valueOf(pid));
     		}
@@ -165,7 +165,7 @@ public class MCRWorkflowActions extends MCRServlet {
     	        	bSuccess = WFM.removeWorkflowFiles(wfp.getContextInstance());
     		}
     		if (bSuccess) {
-    			// gesamten Prozess l�schen!!
+    			// gesamten Prozess löschen!!
     			wfp.close();
     			MCRJbpmCommands.deleteProcess(String.valueOf(pid));
     		}
@@ -183,10 +183,10 @@ public class MCRWorkflowActions extends MCRServlet {
     		WFM.setDefaultPermissions(derivateID, userid, wfp.getContextInstance());
     		
         	todo = "WFAddNewFileToDerivate";
-        	// kein requestforward sondern in den WFAddNewFileToDerivate Zweig �bergehen! 
+        	// kein requestforward sondern in den WFAddNewFileToDerivate Zweig übergehen! 
         }
         if ( "WFEditDerivateFromWorkflowObject".equals(todo) ) {
-        	//bef�llten Editor f�r das Derivate includieren	um Label zu editieren		
+        	//befüllten Editor für das Derivate includieren	um Label zu editieren		
             if ( ! MCRAccessManager.checkPermission("create-"+documentType)) {
             	nextPath+="begin";
             	returnPath="/nav?path=" + nextPath;

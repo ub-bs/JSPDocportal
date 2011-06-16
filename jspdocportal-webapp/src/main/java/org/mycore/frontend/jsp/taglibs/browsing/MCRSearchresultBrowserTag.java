@@ -224,7 +224,7 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 	
 	
 	
-	//36.168 Publications	      Erste Seite | 11-20 | 21-30 | 31-40 | 41-50 | 51-60 | Nächste Seite
+	//36.168 Publications	      Erste Seite | 11-20 | 21-30 | 31-40 | 41-50 | 51-60 | NÃ¤chste Seite
 	private void writePageNavigation(JspWriter out, String id, int numHits, int numPerPage, int numPages, int page, String mask) throws IOException{
 		String webBaseURL = MCRServlet.getBaseURL();
 		ResourceBundle messages = PropertyResourceBundle.getBundle(languageBundleBase, new Locale(MCRSessionMgr

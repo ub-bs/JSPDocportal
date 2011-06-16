@@ -30,7 +30,7 @@ public class MCRImageViewerTag extends SimpleTagSupport {
 
 	private String pathOfImage; // absoluter Pfad des Bildes oder Ordners
 
-	private String height; // Höhe des eingebetteten Fensters
+	private String height; // HÃ¶he des eingebetteten Fensters
 
 	private String width; // Breite des eingebetteten Fensters
 
@@ -39,8 +39,8 @@ public class MCRImageViewerTag extends SimpleTagSupport {
 	// 0.1 .. 1.0, "fitToWidth", "fitToScreen"
 	private String display; // Ansicht des Viewers
 
-	// "minimal" (nur Navibar), "normal" (obere Menüleiste), "extended" (obere
-	// und erweiterte Menüleiste)
+	// "minimal" (nur Navibar), "normal" (obere MenÃ¼leiste), "extended" (obere
+	// und erweiterte MenÃ¼leiste)
 
 	private String style; // Modus, in dem das Bild angezeigt wird
 
@@ -58,8 +58,8 @@ public class MCRImageViewerTag extends SimpleTagSupport {
 
 	/**
 	 * Setzen der Ansicht des Viewers erlaubte Werte sind: "minimal" (nur
-	 * Navibar) "normal" (obere Menüleiste) "extended" (obere und erweiterte
-	 * Menüleiste)
+	 * Navibar) "normal" (obere MenÃ¼leiste) "extended" (obere und erweiterte
+	 * MenÃ¼leiste)
 	 * 
 	 * @param display
 	 *            the display to set
@@ -69,7 +69,7 @@ public class MCRImageViewerTag extends SimpleTagSupport {
 	}
 
 	/**
-	 * Setzen der Höhe des eingebetteten Fensters
+	 * Setzen der HÃ¶he des eingebetteten Fensters
 	 * 
 	 * @param height
 	 *            the height to set
@@ -111,7 +111,7 @@ public class MCRImageViewerTag extends SimpleTagSupport {
 	}
 
 	/**
-	 * Setzen der Höhe des eingebetteten Fensters
+	 * Setzen der HÃ¶he des eingebetteten Fensters
 	 * 
 	 * @param width
 	 *            the width to set
@@ -157,7 +157,7 @@ public class MCRImageViewerTag extends SimpleTagSupport {
 //			Source xsltSource = MCRURIResolver.instance().resolve(resolver,
 //					"MCRImageViewerTag.java");
 //			Source xmlSource = new StreamSource(new StringReader(xml));
-//			// das Factory-Pattern unterstützt verschiedene XSLT-Prozessoren
+//			// das Factory-Pattern unterstÃ¼tzt verschiedene XSLT-Prozessoren
 //			TransformerFactory transFact = TransformerFactory.newInstance();
 //			Transformer trans = transFact.newTransformer(xsltSource);
 //

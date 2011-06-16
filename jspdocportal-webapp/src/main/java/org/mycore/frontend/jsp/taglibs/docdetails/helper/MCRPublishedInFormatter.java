@@ -93,7 +93,7 @@ public class MCRPublishedInFormatter {
 			} catch (NumberFormatException nfe) {
 				// do nothing
 			}
-			String[] monate = new String[] { "", "Jan.", "Febr.", "März", "Apr.", "Mai", "Jun.", "Jul.", "Aug.", "Sept.", "Okt.", "Nov.", "Dez." };
+			String[] monate = new String[] { "", "Jan.", "Febr.", "MÃ¤rz", "Apr.", "Mai", "Jun.", "Jul.", "Aug.", "Sept.", "Okt.", "Nov.", "Dez." };
 			if (tag != null && monat != null) {
 				result.append(", ");
 				for (char c : tag.toCharArray()) {
@@ -171,7 +171,7 @@ public class MCRPublishedInFormatter {
 	 * 
 	 * <relatedItem displayLabel="in" type="host">
      *       <titleInfo>
-     *         <title>Jahrbücher des Vereins für Mecklenburgische Geschichte und Altertumskunde</title>
+     *         <title>JahrbÃ¼cher des Vereins fÃ¼r Mecklenburgische Geschichte und Altertumskunde</title>
      *       </titleInfo>
      *       <part>
      *         <detail type="volume">

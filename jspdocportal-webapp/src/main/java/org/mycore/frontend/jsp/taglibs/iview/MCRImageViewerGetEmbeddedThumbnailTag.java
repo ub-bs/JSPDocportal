@@ -67,7 +67,7 @@ public class MCRImageViewerGetEmbeddedThumbnailTag extends SimpleTagSupport {
 //			Source xsltSource = MCRURIResolver.instance().resolve(resolver,
 //					"MCRImageViewerTag.java");
 //			Source xmlSource = new StreamSource(new StringReader(xml));
-//			// das Factory-Pattern unterstützt verschiedene XSLT-Prozessoren
+//			// das Factory-Pattern unterstuetzt verschiedene XSLT-Prozessoren
 //			TransformerFactory transFact = TransformerFactory.newInstance();
 //			Transformer trans = transFact.newTransformer(xsltSource);
 //

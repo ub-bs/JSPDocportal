@@ -120,7 +120,7 @@ public class MCRDocDetailsRowTag extends SimpleTagSupport {
 				try {
 					info = docdetails.getMessages().getString(labelkey + ".info");
 				} catch (MissingResourceException e) {
-					info = "???" + labelkey + ".info???<br /><i>Eine Beschreibung für das Feld wird gerade erstellt.</i>";
+					info = "???" + labelkey + ".info???<br /><i>Eine Beschreibung fÃ¼r das Feld wird gerade erstellt.</i>";
 				}
 				out.write("<div class=\"" + docdetails.getStylePrimaryName() + "-infohover\">" + "<a href=\"#\">i<span>" + info + "</span></a></div>");
 			}
