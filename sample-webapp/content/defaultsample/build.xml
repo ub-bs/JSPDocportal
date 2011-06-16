@@ -12,7 +12,7 @@
   <!-- =================================================================== -->
   <property name="APP_NAME" value="sample" />
 
-  <property name="HOME" value="${basedir}/../../${APP_NAME}-app" />
+  <property name="HOME" value="${basedir}/../../../${APP_NAME}-complete/target/${APP_NAME}-app" />
   <property name="APP_HOME" value="${HOME}/${APP_NAME}" />
 
   <path id="APP_CLASSPATH">
@@ -47,6 +47,7 @@
 
   <target name="info" depends="init" >
     <echo>Base directory     : ${basedir}</echo>
+  	<echo>Sample Home  : 	   ${APP_HOME}</echo>
     <echo>MyCoRe home dir    : ${env.MYCORE_HOME}</echo>
     <echo>DocPortal home dir : ${env.DOCPORTAL_SYSTEM}</echo>
     <echo>Operating system   : ${os.name} Version ${os.version} on ${os.arch} </echo>
@@ -72,7 +73,12 @@
       		update object from file ${basedir}/institution/docportal_institution_00000001.xml
        	</mcr-execute>
   	</target>
-
+	<target name="create.class" depends="init">
+			<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
+			<mcr-execute>
+	            update all classifications from directory ${basedir}/../classification
+			</mcr-execute>
+		</target> 
   	<target name="load.author">
     	<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
     	<mcr-execute>

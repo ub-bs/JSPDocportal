@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <mycoreobject 
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="datamodel-author.xsd"
+  xsi:noNamespaceSchemaLocation="datamodel-person.xsd"
   xmlns:xlink="http://www.w3.org/1999/xlink"
   xmlns:xml="http://www.w3.org/XML/1998/namespace"
   ID="DocPortal_person_00774302"
   label="Thomas Scheffler">
  <structure/>
  <metadata>
-  <names class="MCRMetaPersonName" textsearch="true">
+  <names class="MCRMetaPersonName">
    <name type="latest" xml:lang="de">
     <callname>Thomas</callname>
     <surname>Scheffler</surname>
@@ -46,7 +46,7 @@
   <dates class="MCRMetaISO8601Date">
    <date type="birth">1978-11-26</date>
   </dates>
-  <professions class="MCRMetaLangText" textsearch="true">
+  <professions class="MCRMetaLangText">
    <profession type="job" xml:lang="de">Student</profession>
    <profession type="profession" xml:lang="de">Student</profession>
   </professions>

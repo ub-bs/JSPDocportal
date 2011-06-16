@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <mycoreobject 
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="datamodel-author.xsd"
+  xsi:noNamespaceSchemaLocation="datamodel-person.xsd"
   xmlns:xlink="http://www.w3.org/1999/xlink"
   xmlns:xml="http://www.w3.org/XML/1998/namespace"
   ID="DocPortal_person_07111101"
   label="Ursula Reber">
  <structure/>
  <metadata>
-  <names class="MCRMetaPersonName" textsearch="true">
+  <names class="MCRMetaPersonName">
    <name type="latest" xml:lang="de">
     <firstname>Ursula</firstname>
     <callname>Ursula</callname>
@@ -31,7 +31,7 @@
    <phone type="phone" xml:lang="de">0049 7157 20638</phone>
    <phone type="phone" xml:lang="de">0049 172 711 9243</phone>
   </phones>
-  <professions class="MCRMetaLangText" textsearch="true">
+  <professions class="MCRMetaLangText">
    <profession type="job" xml:lang="de">System-Beraterin</profession>
   </professions>
   <nationals class="MCRMetaClassification">
