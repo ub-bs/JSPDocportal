@@ -4,12 +4,12 @@
 <!-- $Revision$ $Date$                      -->
 <!-- =================================================================== -->
 
-<project name="CPR" default="usage" basedir=".">
+<project name="JSPDocportal Sample App" default="usage" basedir=".">
 	<property name = "PARENT_BUILD_FILE" value="buildfile_application.xml" />
 	<property name="APP_NAME" value="sample" />
 	
 	<property environment="env" />
-	<condition property="env.JAVA_HOME" value="/usr/lib/java" else="c:/Programme/Java/jdk1.6.0_03">
+	<condition property="env.JAVA_HOME" value="/usr/lib/java" else="c:/Programme/Java/jdk1.6.0_24">
 		<os family="unix" />
 	</condition>
 	<condition property="ant.library.dir" value="${ant.home}/lib">
