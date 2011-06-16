@@ -7,6 +7,9 @@
  <version>2.1.1-SNAPSHOT</version>
 	<name>JSPDocportal Sample Web Application</name>
 	<url>http://mycoresample.uni-rostock.de</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -65,6 +68,7 @@
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
+					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -105,7 +109,7 @@
 						</resource>
 						<resource>
 							<directory>src/main/config/hibernate</directory>
-							<targetPath>WEB-INf/classes</targetPath>
+							<targetPath>WEB-INF/classes</targetPath>
 							<excludes>
 								<exclude>*.template</exclude>
 							</excludes>
