@@ -64,7 +64,7 @@
     <property name="cache.use_query_cache">false</property>
     -->
     <!-- net/sf/ehcache/hibernate/Provider -->
-    <property name="cache.provider_class">net.sf.ehcache.hibernate.SingletonEhCacheProvider</property>
+    <property name="cache.region.factory_class">net.sf.ehcache.hibernate.EhCacheRegionFactory</property>
     <property name="cache.use_second_level_cache">true</property>
     <property name="cache.use_query_cache">true</property>
     <!-- more human readable cache entries -->
@@ -102,13 +102,14 @@
     <mapping resource="org/mycore/backend/hibernate/tables/MCRACCESSRULE.hbm.xml"/>
     <mapping resource="org/mycore/backend/hibernate/tables/MCRCSTORE.hbm.xml"/>
     <mapping resource="org/mycore/backend/hibernate/tables/MCRFSNODES.hbm.xml"/>
-    <mapping resource="org/mycore/backend/hibernate/tables/MCRGROUPS.hbm.xml"/>
-    <mapping resource="org/mycore/backend/hibernate/tables/MCRGROUPADMINS.hbm.xml"/>
-    <mapping resource="org/mycore/backend/hibernate/tables/MCRGROUPMEMBERS.hbm.xml"/>
+    <mapping resource="org/mycore/user/hibernate/MCRGROUPS.hbm.xml"/>
+    <mapping resource="org/mycore/user/hibernate/MCRGROUPADMINS.hbm.xml"/>
+    <mapping resource="org/mycore/user/hibernate/MCRGROUPMEMBERS.hbm.xml"/>
+    <mapping resource="org/mycore/user/hibernate/MCRUSERS.hbm.xml"/>
     <mapping resource="org/mycore/backend/hibernate/tables/MCRLINKHREF.hbm.xml"/>
     <mapping resource="org/mycore/backend/hibernate/tables/MCRRESUMPTIONTOKEN.hbm.xml"/>
     <mapping resource="org/mycore/backend/hibernate/tables/MCRURN.hbm.xml"/>
-    <mapping resource="org/mycore/backend/hibernate/tables/MCRUSERS.hbm.xml"/>
+    
     <!-- Metadaten sind jetzt im Filesystem
     <mapping resource="org/mycore/backend/hibernate/tables/MCRXMLTABLE.hbm.xml"/> -->
     <mapping resource="org/mycore/datamodel/classifications2/impl/MCRCategoryImpl.hbm.xml"/>
