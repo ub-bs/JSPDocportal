@@ -1,8 +1,8 @@
-//Umlaute und Sonderzeichen in Messageboxen müssen mit unescape() und folgenden 
+//Umlaute und Sonderzeichen in Messageboxen mÃ¼ssen mit unescape() und folgenden 
 //Ersetzungen erzeugt werden:
-//Ä %C4 	Ö %D6 		Ü %DC 
-//ä %E4 	ö %F6 		ü %FC 
-//ß %DF 	? %u20AC 	$ %24 	% %25 
+//Ã„ %C4 	Ã– %D6 		Ãœ %DC 
+//Ã¤ %E4 	Ã¶ %F6 		Ã¼ %FC 
+//ÃŸ %DF 	? %u20AC 	$ %24 	% %25 
 
      function checkEmail()	{
 	    var val = document.setvar.initiatorEmail.value;
@@ -30,7 +30,7 @@
 
 
 	  function checkText()	{	  
-    	if ( document.setvar.tmpTaskMessage.value !=  'Sie müssen noch...'  ) {
+    	if ( document.setvar.tmpTaskMessage.value !=  'Sie mÃ¼ssen noch...'  ) {
     		return true;
     	}
    		return false;		    	

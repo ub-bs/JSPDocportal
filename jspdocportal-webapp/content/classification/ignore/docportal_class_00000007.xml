@@ -191,7 +191,7 @@
    <label xml:lang="de" text="Deutsche Sprach- und Literaturwissenschaft"/>
   </category>
   <category ID="DNB0007.D">
-   <label xml:lang="de" text="Sprach- und Literaturwissenschaft der �brigen germanischen Sprachen"/>
+   <label xml:lang="de" text="Sprach- und Literaturwissenschaft der übrigen germanischen Sprachen"/>
   </category>
   <category ID="DNB0007.E">
    <label xml:lang="de" text="Romanische Sprach- und Literaturwissenschaft"/>
@@ -212,7 +212,7 @@
  <category ID="DNB0008">
   <label xml:lang="de" text="Geographie, Geschichte"/>
   <category ID="DNB0008.A">
-   <label xml:lang="de" text="Archäologie, Vor- und Fr�hgeschichte"/>
+   <label xml:lang="de" text="Archäologie, Vor- und Frühgeschichte"/>
   </category>
   <category ID="DNB0008.B">
    <label xml:lang="de" text="Geographie, Heimat- und Länderkunde, Reisen"/>
