@@ -43,7 +43,7 @@ public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
     public final void setEvent(String set) {
         if (set == null) {
             event = "";
-            LOGGER.warn("The event field of MCRMetaHistoryEvent is empty.");
+            LOGGER.debug("The event field of MCRMetaHistoryEvent is empty.");
             return;
         }
         if (set.length() <= MCRHISTORYEVENT_MAX_EVENT) {
@@ -119,7 +119,7 @@ public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
     public org.jdom.Element createXML() throws MCRException {
     	if (!isValid()) {
             debug();
-            throw new MCRException("The content of MCRMetaHistoryEvent is not valid.");
+            throw new MCRException("The content of MCRMetaHistoryEvent '"+getSubTag()+"' is not valid.");
         }
 
         org.jdom.Element elm = super.createXML();
@@ -196,8 +196,9 @@ public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
         }
         LOGGER.debug("Bis (JulianDay)    = " + getIbis());
         LOGGER.debug("Event              = " + event);
-        classification.debug();
-        LOGGER.debug("Stop");
+        if(classification!=null){
+        	classification.debug();
+        }LOGGER.debug("Stop");
         LOGGER.debug("");
     }
 }
