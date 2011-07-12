@@ -1,7 +1,6 @@
 package org.mycore.datamodel.metadata;
 
 import java.util.Iterator;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.jdom.Attribute;
@@ -43,7 +42,6 @@ public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
     public final void setEvent(String set) {
         if (set == null) {
             event = "";
-            LOGGER.debug("The event field of MCRMetaHistoryEvent is empty.");
             return;
         }
         if (set.length() <= MCRHISTORYEVENT_MAX_EVENT) {
@@ -170,7 +168,9 @@ public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
         out.setVonDate(getVon());
         out.setBisDate(getBis());
         out.setCalendar(getCalendar());
-        out.setEvent(event);
+        if(event!=null){
+        	out.setEvent(event);
+        }
         if(classification!=null){
         	out.setClassification((MCRMetaClassification)classification.clone());
         }
