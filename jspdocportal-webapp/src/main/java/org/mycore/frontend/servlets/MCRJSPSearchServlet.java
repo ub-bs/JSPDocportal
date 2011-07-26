@@ -130,6 +130,9 @@ public class MCRJSPSearchServlet extends MCRSearchServlet {
     private void resortQuery(HttpServletRequest req, HttpServletResponse res) throws IOException {
     	String id = req.getParameter("id");
         MCRCachedQueryData qd = MCRCachedQueryData.getData( id );
+        if(qd==null){
+        	showResults(req,  res);
+        }
 
 		List<MCRSortBy> sortByList = qd.getQuery().getSortBy();
 		sortByList.clear();
