@@ -63,6 +63,7 @@ import org.mycore.services.fieldquery.MCRResults;
  * @see org.mycore.frontend.servlets.MCRServlet
  */
 public class MCRJSPIDResolverServlet extends MCRServlet {
+	protected enum OpenBy{page, nr};
 
 	private static final long serialVersionUID = 1L;
 
@@ -90,13 +91,20 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     	HttpServletResponse response = job.getResponse();
     
     	String pdf = request.getParameter("pdf");
-        String xml = request.getParameter("xml");
-        String img = request.getParameter("img");
-        String html = request.getParameter("html");
-                 
-        String queryString = createQuery(request);
-      	if(queryString.length()==0){
-    		 getServletContext().getRequestDispatcher("/nav?path=~mycore-error&messageKey=IdNotGiven").forward(request,response);
+    	String xml = request.getParameter("xml");
+    	String img = request.getParameter("img");
+    	String html = request.getParameter("html");
+
+    	String queryString = "";
+    	String[] keys =  new String[]{"id", "ppn", "urn"};
+    	for(String key: keys){
+    		if(request.getParameterMap().containsKey(key)){
+    			queryString = createQuery(key, request.getParameter(key));
+    			break;
+    		}
+    	}
+    	if(queryString.length()==0){
+    		getServletContext().getRequestDispatcher("/nav?path=~mycore-error&messageKey=IdNotGiven").forward(request,response);
     	}
     	else{
     		StringReader stringReader=new StringReader(queryString.toString());
@@ -106,7 +114,9 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     		if(result.getNumHits()>0){
     			String mcrID = result.getHit(0).getID();
     			if(pdf!=null){
-    				String url = createURLForPDF(request, mcrID);
+    				String page= request.getParameter("page");
+    				String nr = request.getParameter("nr");
+    				String url = createURLForPDF(request, mcrID, page, nr);
     				if(url.length()>0){
     					response.sendRedirect(url);
     					return;
@@ -119,70 +129,52 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     			}
     			else if(xml!=null){
     				Document doc = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID)).createXML();    	    		 
-    	    		response.setContentType("text/xml");
-    	    		XMLOutputter xout = new XMLOutputter(Format.getPrettyFormat());
-    	    		xout.output(doc, response.getOutputStream());
-    	    		return;
+    				response.setContentType("text/xml");
+    				XMLOutputter xout = new XMLOutputter(Format.getPrettyFormat());
+    				xout.output(doc, response.getOutputStream());
+    				return;
     			}
     			else if(img!=null){
-    			   	String url = createURLForDFGViewer(request, mcrID);
+    				String url="";
+    				String page= request.getParameter("page");
+    				if(page!=null){
+    					url = createURLForDFGViewer(request, mcrID, OpenBy.page, page);
+    				}
+    				String nr = request.getParameter("nr");
+    				if(nr!=null){
+    					url = createURLForDFGViewer(request, mcrID, OpenBy.nr, nr);
+    				}
     				if(url.length()>0){
     					LOGGER.debug("DFGViewer URL: "+url);
     					response.sendRedirect(url);
     				}
     			} //end [if(img!=null)]
     			else{
-					this.getServletContext().getRequestDispatcher("/nav?path=~docdetail&id=" +mcrID).forward(request, response);
-				}
+    				this.getServletContext().getRequestDispatcher("/nav?path=~docdetail&id=" +mcrID).forward(request, response);
+    			}
     		} //end [if(result.getNumHits()>0)]
-    	}
-	}
+    	}	
+	}	
 	
-	private String createQuery(HttpServletRequest request) {
-		String id = request.getParameter("id");
-		String ppn = request.getParameter("ppn");
-		String urn = request.getParameter("urn");
+	
+	
+	protected String createQuery(String key, String value) {
 		StringBuffer queryString = new StringBuffer();
-		if (id != null) {
-			queryString = new StringBuffer();
-			queryString.append("<query>");
-			queryString.append("   <conditions format=\"xml\">");
-			queryString.append("      <boolean operator=\"and\">");
-			// queryString.append("       <condition field=\"objectType\" operator=\"=\" value=\"professor\" />");
-			queryString.append("         <condition field=\"id\" operator=\"=\" value=\"" + id + "\" />");
-			queryString.append("      </boolean>");
-			queryString.append("   </conditions>");
-			queryString.append("</query>");
-		}
-		if (urn != null) {
-			queryString = new StringBuffer();
-			queryString.append("<query>");
-			queryString.append("   <conditions format=\"xml\">");
-			queryString.append("      <boolean operator=\"and\">");
-			// queryString.append("       <condition field=\"objectType\" operator=\"=\" value=\"professor\" />");
-			queryString.append("         <condition field=\"urn\" operator=\"=\" value=\"" + urn + "\" />");
-			queryString.append("      </boolean>");
-			queryString.append("   </conditions>");
-			queryString.append("</query>");
-		}
-		if (ppn != null) {
-			queryString = new StringBuffer();
-			queryString.append("<query>");
-			queryString.append("   <conditions format=\"xml\">");
-			queryString.append("      <boolean operator=\"and\">");
-			// queryString.append("       <condition field=\"objectType\" operator=\"=\" value=\"professor\" />");
-			queryString.append("         <condition field=\"ppn\" operator=\"=\" value=\"" + ppn + "\" />");
-			queryString.append("      </boolean>");
-			queryString.append("   </conditions>");
-			queryString.append("</query>");
-		}
+		queryString = new StringBuffer();
+		queryString.append("<query>");
+		queryString.append("   <conditions format=\"xml\">");
+		queryString.append("      <boolean operator=\"and\">");
+		// queryString.append("       <condition field=\"objectType\" operator=\"=\" value=\"professor\" />");
+		queryString.append("         <condition field=\""+key+"\" operator=\"=\" value=\"" + value + "\" />");
+		queryString.append("      </boolean>");
+		queryString.append("   </conditions>");
+		queryString.append("</query>");
+		
 		return queryString.toString();
 	}
 	
-	private String createURLForPDF(HttpServletRequest request, String mcrID){
-		String page= request.getParameter("page");
-	    String nr = request.getParameter("nr");
-		
+	protected String createURLForPDF(HttpServletRequest request, String mcrID, String page, String nr){
+				
 	    MCRObject o = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID));
 		MCRObjectStructure structure = o.getStructure(); 
 		MCRMetaLinkID derMetaLink = structure.getDerivates().get(0);
@@ -214,7 +206,7 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 	}
 
 	//createURL for HTML Page
-	private String createURLForHTML(HttpServletRequest request, String mcrID){
+	protected String createURLForHTML(HttpServletRequest request, String mcrID){
 		String anchor= request.getParameter("anchor");
 	    		
 	    MCRObject o = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID));
@@ -241,15 +233,13 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 		} 
 		return "";
 	}
-
 	
 	//Create URL for DFG ImageViewer and Forward to it
 	//http://dfg-viewer.de/v1/?set%5Bmets%5D=http%3A%2F%2Frosdok.uni-rostock.de%2Fdata%2Fetwas%2Fetwas1737%2Fetwas1737.mets.xml&set%5Bzoom%5D=min
-	private String createURLForDFGViewer(HttpServletRequest request, String mcrID){
+	protected String createURLForDFGViewer(HttpServletRequest request, String mcrID, OpenBy openBy, String nr){
 
 		String thumb = request.getParameter("thumb");
-		String page= request.getParameter("page");
-	    String nr = request.getParameter("nr");
+		
 		StringBuffer sbURL = new StringBuffer("");
 		try{
 		MCRObject o = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID));
@@ -264,19 +254,16 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 						Namespace nsXlink=Namespace.getNamespace("xlink", "http://www.w3.org/1999/xlink");
 						Document docMETS = ((MCRFile)f).getContentAsJDOM();
 						Element eMETSPhysDiv = null;
-						if(page!=null){
-							while (page.startsWith("0")){
-								page=page.substring(1);
-							}
+						while (nr.startsWith("0")){
+							nr=nr.substring(1);
+						}
+						if(openBy == OpenBy.page){
 							XPath xpID = XPath.newInstance("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
-									"/mets:div[@TYPE='physSequence']/mets:div[starts-with(@ORDERLABEL, '" +page+"')]");
+									"/mets:div[@TYPE='physSequence']/mets:div[starts-with(@ORDERLABEL, '" +nr+"')]");
 							xpID.addNamespace(nsMets);
 							eMETSPhysDiv = (Element)xpID.selectSingleNode(docMETS);
 						}
-						else if (nr!=null){
-							while (nr.startsWith("0")){
-								nr=nr.substring(1);
-							}
+						else if (openBy == OpenBy.nr){
 							XPath xpID = XPath.newInstance("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
 									"/mets:div[@TYPE='physSequence']/mets:div[@ORDER='" +nr+"']");
 							xpID.addNamespace(nsMets);

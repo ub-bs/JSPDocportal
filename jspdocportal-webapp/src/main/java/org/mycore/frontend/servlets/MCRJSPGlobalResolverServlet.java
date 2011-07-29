@@ -27,8 +27,6 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringReader;
-import java.net.URLEncoder;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -36,15 +34,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
-import org.jdom.xpath.XPath;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRConfiguration;
-import org.mycore.common.MCRException;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.datamodel.ifs.MCRDirectory;
 import org.mycore.datamodel.ifs.MCRFile;
@@ -55,6 +50,7 @@ import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.datamodel.metadata.MCRObjectStructure;
 import org.mycore.services.fieldquery.MCRQuery;
 import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.services.fieldquery.MCRResults;
@@ -69,11 +65,12 @@ import org.mycore.services.fieldquery.MCRResults;
  * 
  * @see org.mycore.frontend.servlets.MCRServlet
  */
-public class MCRJSPGlobalResolverServlet extends MCRServlet {
+public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
 
 	private static final long serialVersionUID = 1L;
 
 	private static Logger LOGGER = Logger.getLogger(MCRJSPGlobalResolverServlet.class);
+	
 
 
     /**
@@ -91,92 +88,146 @@ public class MCRJSPGlobalResolverServlet extends MCRServlet {
      * @param job
      *            the MCRServletJob instance
      */
-	public void doGetPost(MCRServletJob job) throws ServletException, Exception {
-        // the urn with information about the MCRObjectID
+    public void doGetPost(MCRServletJob job) throws ServletException, Exception {
     	HttpServletRequest request = job.getRequest();
     	HttpServletResponse response = job.getResponse();
-    	
-    	String path = request.getPathInfo();
-       	
-    	LOGGER.debug("path to resolve: "+path);
-    	//last entry contains whole path of file
-    	if(path.startsWith("/")){
-    		path = path.substring(1);
-    	}
-    	String[] data = (path).split("/", 4);
-    	
-    	String open = request.getParameter("open");
-    	MCRObjectID mcrObjID = null;
-    	MCRObjectID mcrDerID=null;
-    	if(data.length>2){
-    		try{
-    			mcrDerID = MCRObjectID.getInstance(data[2]);
-    		}
-    		catch(MCRException e){
-    			//do nothing
-    		}
-    	}
-    	
-        if(mcrDerID==null){
-        	if(data.length>1){
-        		try{
-        			if(data[0].equals("id")){
-        				mcrObjID = MCRObjectID.getInstance(data[1]);
-        			}
-        			else{
-        				if(" id pnd ppn urn ".contains(data[0])){
-        					String queryString = createQuery(data[0], data[1]);
-        					StringReader stringReader=new StringReader(queryString.toString());
-        					SAXBuilder builder = new SAXBuilder();
-        					Document input = builder.build(stringReader);
-        					MCRResults result = MCRQueryManager.search(MCRQuery.parseXML(input));
-        					if(result.getNumHits()>0){
-        						mcrObjID = MCRObjectID.getInstance(result.getHit(0).getID());
-        					}
-        				}
-        			}
-        		}
-        		catch(MCRException e){
-        			//do nothing
-        		}
-    		}
-        	if(data.length==2 && mcrObjID!=null){
-        		//show the metadata as xml or in docdetails
-        		if("asXML".equals(open)){
-        			Document doc = MCRMetadataManager.retrieveMCRObject(mcrObjID).createXML();    	    		 
-    	    		response.setContentType("text/xml");
-    	    		XMLOutputter xout = new XMLOutputter(Format.getPrettyFormat());
-    	    		xout.output(doc, response.getOutputStream());
-    	    		return;
-        		}
-        		this.getServletContext().getRequestDispatcher("/nav?path=~docdetail&id=" +mcrObjID.toString()).forward(request, response);
-        		return;
-        	}
-        	if(data.length>2 && mcrObjID!=null){
-        		String label = data[2];
-        		MCRObject o = MCRMetadataManager.retrieveMCRObject(mcrObjID);
-        		for(MCRMetaLinkID der: o.getStructure().getDerivates()){
-        			if(der.getXLinkLabel().startsWith(label)){
-        					mcrDerID = der.getXLinkHrefID();
-        			}
-        		}
-        	}
-        }
-        
-        
-        if(data.length==3 && "asXML".equals(open) && mcrDerID!=null){
-        	Document doc = MCRMetadataManager.retrieveMCRDerivate(mcrDerID).createXML();    	    		 
-    		response.setContentType("text/xml");
-    		XMLOutputter xout = new XMLOutputter(Format.getPrettyFormat());
-    		xout.output(doc, response.getOutputStream());
+
+    	String uri = request.getRequestURI();
+    	String path[] = uri.substring(uri.indexOf("/resolve/")+9).split("/");
+
+    	if(path.length<2){
+    		getServletContext().getRequestDispatcher("/nav?path=~mycore-error&messageKey=Resolver.error.unknownUrlSchema").forward(request,response);
     		return;
-        }
-        
-        MCRFilesystemNode mainFile = null;
+    	}
+    	String key = path[0];
+    	String value = path[1];			
+
+    	String mcrID = null;
+    	if("id".equals(key)){
+    		mcrID = value;
+    	}
+    	else{
+    		StringReader stringReader=new StringReader(createQuery(key, value));
+    		SAXBuilder builder = new SAXBuilder();
+    		Document input = null;
+    		try{
+    			input = builder.build(stringReader);
+    		}
+    		catch(JDOMException e){
+    			LOGGER.error("Error parsing query in url resolver", e);
+    		}
+
+    		MCRResults result = MCRQueryManager.search(MCRQuery.parseXML(input));
+    		if(result.getNumHits()==0){
+    			getServletContext().getRequestDispatcher("/nav?path=~mycore-error&messageKey=Resolver.error.noObjectFound").forward(request,response);
+    			return;
+    		}
+
+    		mcrID = result.getHit(0).getID();
+    	}
+
+    	if(path.length==2){
+    		if("xml".equals(request.getParameter("open"))){
+    			Document doc = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID)).createXML();    	    		 
+    			response.setContentType("text/xml");
+    			XMLOutputter xout = new XMLOutputter(Format.getPrettyFormat());
+    			xout.output(doc, response.getOutputStream());
+    		}
+    		else{
+    			//show metadata as docdetails view
+    			this.getServletContext().getRequestDispatcher("/nav?path=~docdetail&id=" +mcrID).forward(request, response);
+    		}
+    		return;
+    	}
+    	String action = path[2];
+    	//possible actions are: image,xml, pdf, file
+    	if(action.equals("image")&&path.length>4){
+    		String url = "";
+    		if(path[3].equals("page")){
+    			url = createURLForDFGViewer(request, mcrID, OpenBy.page, path[4]);
+    		}
+    		if(path[3].equals("nr")){
+    			url = createURLForDFGViewer(request, mcrID, OpenBy.nr, path[4]);
+    		}
+    		if(url.length()>0){
+    			LOGGER.debug("DFGViewer URL: "+url);
+    			response.sendRedirect(url);				
+    		}
+    		return;
+    	}
+    	if(action.equals("pdf")&&path.length>4){
+    		String url = "";
+    		if(path[3].equals("page")){
+    			url = createURLForPDF(request, mcrID, path[4], null);
+    		}
+    		if(action.equals("nr")){
+    			url = createURLForPDF(request, mcrID, null, path[4]);
+    		}
+    		if(url.length()>0){
+    			LOGGER.debug("PDF URL: "+url);
+    			response.sendRedirect(url);				
+    		}
+    		return;
+    	}
+    	if(action.equals("file") && path.length>3){
+    		String label = path[3];
+    		long id=-1;
+    		try{
+    			id = Integer.parseInt(label);
+    		}
+    		catch(NumberFormatException nfe){
+    			//do nothing -> id = -1;
+    		}
+
+    		MCRObjectID mcrDerID = null;
+    		if(id==-1){
+    			MCRObject o = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID));
+    			MCRObjectStructure structure = o.getStructure();
+    			for(MCRMetaLinkID der: structure.getDerivates()){
+    				if(der.getXLinkLabel().equals("label")){
+    					mcrDerID = der.getXLinkHrefID();
+    					break;
+    				}
+    			}
+    		}
+    		else{
+    			MCRObjectID mcrMetaID = MCRObjectID.getInstance(mcrID);
+    			mcrDerID = MCRObjectID.getInstance(mcrMetaID.getProjectId()+"_derivate_"+label);
+    		}
+
+    		if(mcrDerID!=null){
+    			StringBuffer  filepath= new StringBuffer();
+    			if(path.length==4){
+    				//display main document
+    				MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(mcrDerID);
+    				String mainDoc = der.getDerivate().getInternals().getMainDoc();
+    				if(mainDoc!=null && mainDoc.length()>0){
+    					filepath.append("/").append(mainDoc);
+    				}
+    			}
+    			else{
+    				//display file on remaining path
+    				for(int i=4;i<path.length;i++){
+    					filepath.append("/").append(path[i]);
+    				}
+    			}
+    			StringBuffer url = new StringBuffer();
+    			url.append(getBaseURL()).append("file/").append(mcrDerID.toString()).append(filepath); 
+    			response.sendRedirect(url.toString());
+    		}
+    	}
+    }
+
+	//CODE under development - try to solve the "Open Large PDF file" problem
+	@SuppressWarnings("unused")
+	private void showDerivateFile(MCRObjectID mcrDerID, String path, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+		// OLD CODE
+		// the urn with information about the MCRObjectID
+    	MCRFilesystemNode mainFile = null;
         if(mcrDerID!=null){
         	MCRDirectory root = MCRDirectory.getRootDirectory(mcrDerID.toString());
-        	if(data.length>3){
-        		mainFile = root.getChildByPath(data[3]);
+        	if(path!=null){
+        		mainFile = root.getChildByPath(path);
         	}
         	else{
         		MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(mcrDerID);
@@ -198,10 +249,7 @@ public class MCRJSPGlobalResolverServlet extends MCRServlet {
                 response.sendRedirect(response.encodeRedirectURL(getBaseURL() + accessErrorPage));
                 return;
             }
-        	if("DFGViewer".equals(open)||((open==null && mainFile.getName().endsWith(".mets.xml")))){
-        		openDFGViewer(request, response, (MCRFile)mainFile);
-        		return;
-        	}
+        	
         	if(mainFile.getPath().endsWith(".pdf")){
         		openPDF(request, response, (MCRFile)mainFile);
         		return;
@@ -235,94 +283,6 @@ public class MCRJSPGlobalResolverServlet extends MCRServlet {
 		
 	}
 
-	
-	//Create URL for DFG ImageViewer and Forward to it
-	//http://dfg-viewer.de/v1/?set%5Bmets%5D=http%3A%2F%2Frosdok.uni-rostock.de%2Fdata%2Fetwas%2Fetwas1737%2Fetwas1737.mets.xml&set%5Bzoom%5D=min
-	private void openDFGViewer(HttpServletRequest request, HttpServletResponse response, MCRFile mcrFile) throws IOException{
-
-		String thumb = request.getParameter("thumb");
-		String page= request.getParameter("page");
-	    String nr = request.getParameter("nr");
-		StringBuffer sbURL = new StringBuffer("");
-		try{
-			Namespace nsMets=Namespace.getNamespace("mets", "http://www.loc.gov/METS/");
-			Namespace nsXlink=Namespace.getNamespace("xlink", "http://www.w3.org/1999/xlink");
-			Document docMETS = mcrFile.getContentAsJDOM();
-			Element eMETSPhysDiv = null;
-			if(page!=null){
-				while (page.startsWith("0")){
-					page=page.substring(1);
-				}
-				XPath xpID = XPath.newInstance("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
-						"/mets:div[@TYPE='physSequence']/mets:div[starts-with(@ORDERLABEL, '" +page+"')]");
-				xpID.addNamespace(nsMets);
-				eMETSPhysDiv = (Element)xpID.selectSingleNode(docMETS);
-			}
-			else if (nr!=null){
-				while (nr.startsWith("0")){
-					nr=nr.substring(1);
-				}
-				XPath xpID = XPath.newInstance("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
-						"/mets:div[@TYPE='physSequence']/mets:div[@ORDER='" +nr+"']");
-				xpID.addNamespace(nsMets);
-				eMETSPhysDiv = (Element)xpID.selectSingleNode(docMETS);
-			}
-			if(thumb == null){
-					//display in DFG-Viewer
-				sbURL = new StringBuffer("http://dfg-viewer.de/v1/");
-				sbURL.append("?set%5Bmets%5D=");
-				sbURL.append(URLEncoder.encode(getBaseURL()+"file/"+mcrFile.getPath(), "UTF-8"));
-				if(eMETSPhysDiv!=null){
-					sbURL.append("&set[image]=").append(eMETSPhysDiv.getAttributeValue("ORDER"));
-				}
-				sbURL.append("&set[zoom]=min");
-			}
-			else {
-				//return thumb image    										
-				@SuppressWarnings("unchecked")
-				List<Element> l = (List<Element>) eMETSPhysDiv.getChildren();
-				String fileid = null;
-				for(Element e: l){
-					if(e.getAttributeValue("FILEID").startsWith("THUMB")){
-							fileid = e.getAttributeValue("FILEID");
-					}
-				}
-				if(fileid !=null){
-					// <mets:file MIMETYPE="image/jpeg" ID="THUMBS.matrikel1760-1789-Buetzow_c0001">
-				        //		<mets:FLocat LOCTYPE="URL" xlink:href="http://rosdok.uni-rostock.de/data/matrikel_handschriften/matrikel1760-1789-Buetzow/THUMBS/matrikel1760-1789-Buetzow_c0001.jpg" />
-				        //  </mets:file>
-									
-				XPath xpFLocat = XPath.newInstance("//mets:file[@ID='"+fileid+"']/mets:FLocat");
-				xpFLocat.addNamespace(nsMets);
-				Element eFLocat = (Element)xpFLocat.selectSingleNode(docMETS);
-				if(eFLocat!=null){
-					sbURL = new StringBuffer(eFLocat.getAttributeValue("href", nsXlink));
-				}
-			}
-		}
-		
-		
-		}catch(Exception e){
-			
-		}
-		String url = sbURL.toString();
-		if(url.length()>0){
-			response.sendRedirect(url);
-		}    		
-	}
-	
-	private String createQuery(String key, String value) {
-		StringBuffer queryString = new StringBuffer();
-		queryString = new StringBuffer();
-		queryString.append("<query>");
-		queryString.append("   <conditions format=\"xml\">");
-		queryString.append("      <boolean operator=\"and\">");
-		queryString.append("         <condition field=\""+key+"\" operator=\"=\" value=\"" + value + "\" />");
-		queryString.append("      </boolean>");
-		queryString.append("   </conditions>");
-		queryString.append("</query>");
-		return queryString.toString();
-	}
 	private static String accessErrorPage = MCRConfiguration.instance().getString("MCR.Access.Page.Error", "");
 	 /**
      * Sends the contents of an MCRFile to the client. 
