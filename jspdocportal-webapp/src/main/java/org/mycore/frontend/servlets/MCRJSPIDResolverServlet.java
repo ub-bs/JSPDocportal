@@ -63,7 +63,7 @@ import org.mycore.services.fieldquery.MCRResults;
  * @see org.mycore.frontend.servlets.MCRServlet
  */
 public class MCRJSPIDResolverServlet extends MCRServlet {
-	protected enum OpenBy{page, nr};
+	protected enum OpenBy{page, nr, empty};
 
 	private static final long serialVersionUID = 1L;
 
@@ -269,6 +269,7 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 							xpID.addNamespace(nsMets);
 							eMETSPhysDiv = (Element)xpID.selectSingleNode(docMETS);
 						}
+						
 						if(thumb == null){
 								//display in DFG-Viewer
 							sbURL = new StringBuffer("http://dfg-viewer.de/v1/");
@@ -279,7 +280,7 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 							}
 							sbURL.append("&set[zoom]=min");
 						}
-						else {
+						else if(eMETSPhysDiv!=null){
 							//return thumb image    										
 							@SuppressWarnings("unchecked")
 							List<Element> l = (List<Element>) eMETSPhysDiv.getChildren();
@@ -290,24 +291,24 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 								}
 							}
 							if(fileid !=null){
-								// <mets:file MIMETYPE="image/jpeg" ID="THUMBS.matrikel1760-1789-Buetzow_c0001">
-							        //		<mets:FLocat LOCTYPE="URL" xlink:href="http://rosdok.uni-rostock.de/data/matrikel_handschriften/matrikel1760-1789-Buetzow/THUMBS/matrikel1760-1789-Buetzow_c0001.jpg" />
-							        //  </mets:file>
-									
-							XPath xpFLocat = XPath.newInstance("//mets:file[@ID='"+fileid+"']/mets:FLocat");
-							xpFLocat.addNamespace(nsMets);
-							Element eFLocat = (Element)xpFLocat.selectSingleNode(docMETS);
-							if(eFLocat!=null){
+							// <mets:file MIMETYPE="image/jpeg" ID="THUMBS.matrikel1760-1789-Buetzow_c0001">
+							//		<mets:FLocat LOCTYPE="URL" xlink:href="http://rosdok.uni-rostock.de/data/matrikel_handschriften/matrikel1760-1789-Buetzow/THUMBS/matrikel1760-1789-Buetzow_c0001.jpg" />
+							//  </mets:file>
+								
+								XPath xpFLocat = XPath.newInstance("//mets:file[@ID='"+fileid+"']/mets:FLocat");
+								xpFLocat.addNamespace(nsMets);
+								Element eFLocat = (Element)xpFLocat.selectSingleNode(docMETS);
+								if(eFLocat!=null){
 									sbURL = new StringBuffer(eFLocat.getAttributeValue("href", nsXlink));
+								}
 							}
 						}
-					}
-					 //end [if(eMETSPhysDiv!=null)]
 					} //end if
 				} //end for			
 			} //end [if("METS" ...)]
 		}
 		}catch(Exception e){
+			LOGGER.error("Error creating URL for DFG Viewer", e);
 			return "";
 		}
 		return sbURL.toString();

@@ -140,13 +140,15 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
     		return;
     	}
     	String action = path[2];
-    	//possible actions are: image,xml, pdf, file
-    	if(action.equals("image")&&path.length>4){
+    	if(action.equals("image")){
     		String url = "";
-    		if(path[3].equals("page")){
+    		if(path.length==3){
+    			url = createURLForDFGViewer(request, mcrID, OpenBy.empty, "");
+    		}
+    		if(path.length>4 && path[3].equals("page")){
     			url = createURLForDFGViewer(request, mcrID, OpenBy.page, path[4]);
     		}
-    		if(path[3].equals("nr")){
+    		if(path.length>4 &&path[3].equals("nr")){
     			url = createURLForDFGViewer(request, mcrID, OpenBy.nr, path[4]);
     		}
     		if(url.length()>0){
@@ -169,6 +171,13 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
     		}
     		return;
     	}
+    	if(action.equals("fulltext")){
+    		if(mcrID.startsWith("mvdok")){
+    			String url = getBaseURL()+"mjbrenderer?id="+mcrID;
+    			response.sendRedirect(url);
+    		}
+    	}
+    	
     	if(action.equals("file") && path.length>3){
     		String label = path[3];
     		long id=-1;

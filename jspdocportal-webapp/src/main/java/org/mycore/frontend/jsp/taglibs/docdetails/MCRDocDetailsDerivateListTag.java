@@ -94,7 +94,7 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 	    				MCRObjectID oid = MCRObjectID.getInstance(derID);
 	    				MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(oid);
 	    				String mcrid=der.getDerivate().getMetaLink().getXLinkHrefID().toString();	
-	    				String metsurl = baseurl +"resolve/id/"+mcrid+"/"+title;
+	    				String metsurl = baseurl +"resolve/id/"+mcrid+"/image";
 	    				out.write("<a href=\""+metsurl+"\" target=\"_blank\">");
 	    				out.write("<img src=\""+baseurl+"images/dfgviewer.gif\" title = \"Dokument anzeigen\" alt=\"Dokument anzeigen\" />");
 	    				out.write(docdetails.getMessages().getString("Webpage.docdetails.showInDFGViewer")+"</a>");	    			
@@ -105,7 +105,7 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 	    				MCRObjectID oid = MCRObjectID.getInstance(derID);
 	    				MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(oid);
 	    				String mcrid=der.getDerivate().getMetaLink().getXLinkHrefID().toString();	
-	    				String htmlURL = baseurl +"mjbrenderer?id="+mcrid;
+	    				String htmlURL = baseurl +"resolve/id/"+mcrid+"/fulltext";
 	    			
 	    				out.write("<a href=\""+htmlURL+"\" target=\"blank\">");
 	    				out.write("<img src=\""+baseurl+"images/fulltext.gif\" title = \"Volltext anzeigen\" alt=\"Volltext anzeigen\" />");
