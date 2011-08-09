@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!-- <!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN"
+ "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd"> -->
+ 
+<taglib>
+        <tag>
+        	<name>imageViewer</name>
+        	<tagclass>org.mycore.frontend.jsp.taglibs.iview.MCRImageViewerTag</tagclass>
+			<bodycontent>empty</bodycontent>
+			<info>A Tag, that includes the imageviewer</info>
+			<attribute> <!-- Derivate-ID -->
+				<name>derivID</name>
+				<required>true</required>
+				<rtexprvalue>true</rtexprvalue>
+			</attribute>
+			<attribute> <!-- absoluter Pfad des Bildes oder Ordners -->
+				<name>pathOfImage</name>
+				<required>true</required>
+				<rtexprvalue>true</rtexprvalue>
+			</attribute>
+			<attribute> <!-- Hoehe des eingebetteten Fensters -->
+				<name>height</name>
+				<required>true</required>
+				<rtexprvalue>true</rtexprvalue>
+			</attribute>
+			<attribute> <!-- Breite des eingebetteten Fensters -->
+				<name>width</name>
+				<required>true</required>
+				<rtexprvalue>true</rtexprvalue>
+			</attribute>
+			<attribute> <!-- Zoom: 0.1 .. 1.0, "fitToWidth", "fitToScreen"  -ID -->
+				<name>scaleFactor</name>
+				<required>true</required>
+				<rtexprvalue>true</rtexprvalue>
+			</attribute>
+			<attribute> <!-- Ansicht des Viewers: "minimal" (nur Navibar), "normal" (obere Menueleiste), "extended" (obere und erweiterte Menueleiste) -->
+				<name>display</name>
+				<required>true</required>
+				<rtexprvalue>true</rtexprvalue>
+			</attribute>
+			<attribute> <!--Modus, in dem das Bild angezeigt wird: "thumbnail", "image", "text" (technische Metadaten)-->
+				<name>style</name>
+				<required>true</required>
+				<rtexprvalue>true</rtexprvalue>
+			</attribute>			
+		</tag>
+		<tag>
+        	<name>imageViewerGetAddress</name>
+        	<tagclass>org.mycore.frontend.jsp.taglibs.iview.MCRImageViewerGetAddressTag</tagclass>
+			<bodycontent>empty</bodycontent>
+			<info>A Tag, that includes the imageviewer</info>
+			<attribute> <!-- Derivate-ID -->
+				<name>derivID</name>
+				<required>true</required>
+				<rtexprvalue>true</rtexprvalue>
+			</attribute>
+			<attribute> <!-- absoluter Pfad des Bildes oder Ordners -->
+				<name>pathOfImage</name>
+				<required>true</required>
+				<rtexprvalue>true</rtexprvalue>
+			</attribute>
+			<attribute> <!-- Hoehe des eingebetteten Fensters -->
+				<name>height</name>
+				<required>true</required>
+				<rtexprvalue>true</rtexprvalue>
+			</attribute>
+			<attribute> <!-- Breite des eingebetteten Fensters -->
+				<name>width</name>
+				<required>true</required>
+				<rtexprvalue>true</rtexprvalue>
+			</attribute>
+			<attribute> <!-- Zoom: 0.1 .. 1.0, "fitToWidth", "fitToScreen"  -ID -->
+				<name>scaleFactor</name>
+				<required>true</required>
+				<rtexprvalue>true</rtexprvalue>
+			</attribute>
+			<attribute> <!-- Ansicht des Viewers: "minimal" (nur Navibar), "normal" (obere Menueleiste), "extended" (obere und erweiterte Menueleiste) -->
+				<name>display</name>
+				<required>true</required>
+				<rtexprvalue>true</rtexprvalue>
+			</attribute>
+			<attribute> <!--Modus, in dem das Bild angezeigt wird: "thumbnail", "image", "text" (technische Metadaten)-->
+				<name>style</name>
+				<required>true</required>
+				<rtexprvalue>true</rtexprvalue>
+			</attribute>			
+		</tag>
+		<tag>
+        	<name>imageViewerGetEmbeddedThumbnail</name>
+        	<tagclass>org.mycore.frontend.jsp.taglibs.iview.MCRImageViewerGetEmbeddedThumbnailTag</tagclass>
+			<bodycontent>empty</bodycontent>
+			<info>A Tag, that includes the imageviewer</info>
+			<attribute> <!-- Derivate-ID -->
+				<name>derivID</name>
+				<required>true</required>
+				<rtexprvalue>true</rtexprvalue>
+			</attribute>
+			<attribute> <!-- absoluter Pfad des Bildes oder Ordners -->
+				<name>pathOfImage</name>
+				<required>true</required>
+				<rtexprvalue>true</rtexprvalue>
+			</attribute>
+		</tag>
+		
+		 <tag>
+        	<name>imageViewerGetSupport</name>
+        	<tagclass>org.mycore.frontend.jsp.taglibs.iview.MCRImageViewerGetSupportTag</tagclass>
+			<bodycontent>empty</bodycontent>
+			<info>A Tag, that includes the imageviewer</info>
+			<attribute> <!-- Derivate-ID -->
+				<name>derivID</name>
+				<required>true</required>
+				<rtexprvalue>true</rtexprvalue>
+			</attribute>
+			<attribute> <!-- the result: Pfad zur Hauptdatei oder leer -->
+				<name>var</name>
+				<required>true</required>
+				<rtexprvalue>true</rtexprvalue>
+			</attribute>
+		</tag>
+
+</taglib>   

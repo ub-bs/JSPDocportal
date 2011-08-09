@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO_8859-1"?>
+<mycoreuser xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:noNamespaceSchemaLocation="MCRUser.xsd">
+  <user numID="18" ID="editorP" id_enabled="true" update_allowed="true">
+    <user.password>editorP</user.password>
+    <user.description>Berechtigter Editor für  Publikationen (Workflow)</user.description>
+    <user.primary_group>adminpublication</user.primary_group>
+    <user.contact>
+      <contact.salutation />
+      <contact.firstname />
+      <contact.lastname>Editor Publikationen (Workflow)</contact.lastname>
+      <contact.street />
+      <contact.city />
+      <contact.postalcode />
+      <contact.country />
+      <contact.state />
+      <contact.institution />
+      <contact.faculty />
+      <contact.department />
+      <contact.institute />
+      <contact.telephone />
+      <contact.fax />
+      <contact.email />
+      <contact.cellphone />
+    </user.contact>
+  </user>
+</mycoreuser>
+

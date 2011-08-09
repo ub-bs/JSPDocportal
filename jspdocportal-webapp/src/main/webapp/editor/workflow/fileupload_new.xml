@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE MyCoReWebPage>
+
+<MyCoReWebPage>
+
+<section title="Dateien oder Verzeichnisse hochladen" xml:lang="de">
+<p /><br /><p />
+
+Sie können einzelne Dateien bis 50 MB Größe direkt mittels des folgenden Formulares hochladen.
+<p></p>
+<br />
+<p></p>
+<editor id="author-addfile-de"><include uri="webapp:editor/workflow/editor-author-addfile-new.xml" /></editor>
+<p></p>
+<br />
+<p></p>
+
+</section>
+
+<section title="Upload files or directories" xml:lang="en">
+<p /><br /><p />
+
+You can upload files with a maximum of size of 50 MB directly with this formular.
+<p></p>
+<br />
+<p></p>
+<editor id="author-addfile-en"><include uri="webapp:editor/workflow/editor-author-addfile-new.xml" /></editor>
+<p></p>
+<br />
+<p></p>
+
+</section>
+
+</MyCoReWebPage>
+

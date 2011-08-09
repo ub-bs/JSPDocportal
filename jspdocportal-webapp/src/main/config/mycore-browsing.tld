@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+	    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
+	                       http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+	   version="2.0">
+	<tlib-version>1.0</tlib-version>
+	<short-name>mycore-browsing-taglib</short-name>
+	<uri>http://www.mycore.de/jspdocportal/browsing</uri>
+	
+	 <tag>
+            <description>A Tag, that includes a classification browser for MyCoRe (state: new, still experimental)</description>
+            <name>classificationBrowser</name>
+            <tag-class>org.mycore.frontend.jsp.taglibs.browsing.MCRClassificationBrowserTag</tag-class>
+            <body-content>empty</body-content> 
+            <attribute>
+            	<description>the classification to be shown</description>
+                <name>classification</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>only children of the specified category will be shown</description>
+                <name>category</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>Shall all children be displayed? Default value is true.</description>
+             	<name>hideemptyleaves</name>
+             	<required>false</required>
+             	<rtexprvalue>true</rtexprvalue>
+             	<type>java.lang.Boolean</type>
+            </attribute>
+            <attribute>
+                <description>Shall the number of children be shown? Default value is false.</description>
+             	<name>count</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+                <type>java.lang.Boolean</type>
+            </attribute>
+            <attribute>
+             	<description>the searchfield to be used in MyCoRe Query to retrieve the relevant documents</description>
+                <name>searchfield</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>       
+            <attribute>
+                <description>the searchmask to display the query result for relevant documents</description>
+                <name>searchmask</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <description>and aditional query in textual MyCoRe Query Syntax to restrict the search for relevant documents</description>
+                <name>searchrestriction</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+             <attribute>
+                <description>Shall the category id be shown? Default value is false.</description>
+             	<name>showid</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+                <type>java.lang.Boolean</type>
+            </attribute>
+             <attribute>
+                <description>Shall the description be shown? Default value is false.</description>
+             	<name>showdescription</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+                <type>java.lang.Boolean</type>
+            </attribute>
+             <attribute>
+                <description>Shall the URI be shown? Default value is false.</description>
+             	<name>showuri</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+                <type>java.lang.Boolean</type>
+            </attribute>
+            <attribute>
+                <description>To which level shall the classification be expanded? Default value is -1 = indefinite.</description>
+             	<name>level</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+                <type>java.lang.Integer</type>
+            </attribute>
+            <attribute>
+                <description>Shall the whole classification tree be expanded when opened? Default value is false.</description>
+             	<name>expand</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+                <type>java.lang.Boolean</type>
+            </attribute>
+            <attribute>
+                <description>Shall links for all (including empty) items be generated? Default value is false.</description>
+             	<name>linkall</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+                <type>java.lang.Boolean</type>
+            </attribute>
+        </tag>
+        <tag>
+            <description>A Tag, that includes a Lucene index browser for MyCoRe (state: new, still experimental)</description>
+            <name>indexBrowser</name>
+            <tag-class>org.mycore.frontend.jsp.taglibs.browsing.MCRIndexBrowserTag</tag-class>
+            <body-content>scriptless</body-content> 
+            <attribute>
+            	<description>the configuration parameter (suffix in MCR Configuration)</description>
+                <name>index</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+             <attribute>
+            	<description>the name of the variable, which should contain the url</description>
+                <name>varurl</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+             <attribute>
+            	<description>the name of the variable which should contain the index item as xml</description>
+                <name>varxml</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+             <attribute>
+            	<description>the url which should be used to link to docdetails page of a single item
+            	             it should contain a parameter "{0}", which will be filled with the 
+            	             current document id</description>
+                <name>docdetailsurl</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+       </tag> 
+       <tag>
+            <description>A Tag, that includes a search result page (state: new, still experimental)</description>
+            <name>searchresultBrowser</name>
+            <tag-class>org.mycore.frontend.jsp.taglibs.browsing.MCRSearchresultBrowserTag</tag-class>
+            <body-content>scriptless</body-content> 
+             <attribute>
+            	<description>the name of the variable which should contain the index item as xml</description>
+                <name>varmcrid</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+            	<description>the name of the variable, which should contain the url</description>
+                <name>varurl</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+
+            <attribute>
+            	<description>the name of the sortfields</description>
+                <name>sortfields</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            
+       </tag>
+       <tag>
+            <description>A Tag, that includes a navigation menu for docdetail pages of a certain search result (state: new, still experimental)</description>
+            <name>searchDetailBrowser</name>
+            <tag-class>org.mycore.frontend.jsp.taglibs.browsing.MCRSearchDetailBrowserTag</tag-class>
+            <body-content>empty</body-content>     
+       </tag>
+</taglib>

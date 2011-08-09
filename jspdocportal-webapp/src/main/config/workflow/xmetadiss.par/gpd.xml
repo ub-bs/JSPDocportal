@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root-container name="thesis" width="951" height="1243">
+  <node name="start" x="-139" y="-277" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="processInitialized" x="176" y="-204" width="132" height="36">
+    <edge>
+      <label x="-45" y="-14"/>
+    </edge>
+  </node>
+  <node name="processEditInitialized" x="324" y="-271" width="215" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="isInitiatorsEmailAddressAvailable" x="-64" y="-114" width="229" height="36">
+    <edge>
+      <label x="-7" y="-1"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="getInitiatorsEmailAddress" x="-86" y="-19" width="202" height="36">
+    <edge>
+      <label x="-96" y="-18"/>
+    </edge>
+  </node>
+  <node name="thesisCreated" x="247" y="-111" width="132" height="36">
+    <edge>
+      <label x="-29" y="11"/>
+    </edge>
+  </node>
+  <node name="canThesisBeSubmitted" x="496" y="33" width="184" height="36">
+    <edge>
+      <label x="-104" y="-36"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="thesisSubmitted" x="499" y="164" width="132" height="36">
+    <edge>
+      <label x="-100" y="-10"/>
+    </edge>
+    <edge>
+      <label x="-52" y="-19"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="suspendThesis" x="0" y="0" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="isSuspensionDateAvailable" x="0" y="0" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="thesisSuspended" x="0" y="0" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="sendBackToThesisCreated" x="191" y="70" width="208" height="36">
+    <edge>
+      <label x="-39" y="-27"/>
+    </edge>
+  </node>
+  <node name="checkNonDigitalRequirements" x="449" y="300" width="244" height="36">
+    <edge>
+      <label x="5" y="9"/>
+    </edge>
+    <edge>
+      <label x="-123" y="-21"/>
+    </edge>
+    <edge>
+      <label x="5" y="9"/>
+    </edge>
+  </node>
+  <node name="requireAffirmation" x="833" y="417" width="144" height="36">
+    <edge>
+      <label x="-113" y="-13"/>
+    </edge>
+    <edge>
+      <label x="-117" y="-37"/>
+    </edge>
+  </node>
+</root-container>

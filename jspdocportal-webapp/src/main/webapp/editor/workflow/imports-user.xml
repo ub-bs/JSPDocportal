@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<imports>
+
+  <include uri="webapp:editor/workflow/imports-common.xml" />
+ 
+  <!-- *** Alle Datenfelder die in registeruser und modifyuser benötigt werden -->
+  
+    <list id="COrigin" width="300px" type="dropdown" class="mandatory">
+      <item value="">
+        <label xml:lang="de">(bitte wählen)</label>
+        <label xml:lang="en">(please choose)</label>
+      </item>
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationLabelInItems&amp;prop=MCR.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002" />              
+    </list>
+    
+    <list id="CInstitution" width="300px" type="dropdown" class="mandatory">
+      <item value="">
+        <label xml:lang="de">(bitte wählen)</label>
+        <label xml:lang="en">(please choose)</label>
+      </item>
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationLabelInItems&amp;prop=MCR.ClassificationID.Institution&amp;defaultValue=DocPortal_class_00000002" />              
+    </list>
+
+    <list id="CGroupDescription" width="300px" type="multirow"  multiple="true" rows="5" class="mandatory" >
+      <item value="" >
+        <label xml:lang="de">(bitte wählen - Mehrfachauswahl ist möglich)</label>
+        <label xml:lang="en">(please choose -  multiple choice )</label>
+      </item>
+      <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getGroupItemAndLabelForUser" />              
+    </list>
+  
+  <!-- *** End *** -->
+</imports>

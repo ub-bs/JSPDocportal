@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE MyCoReWebPage>
+<MyCoReWebPage>
+  <section title="getPublicationTypes" xml:lang="de">
+    <editor id="getPublicationTypes">
+
+      <!-- <target type="debug" /> -->
+
+      <target type="servlet" url="/setworkflowvariable" method="post" format="xml" />
+
+      <components root="getPublicationTypes" var="/publication">
+     
+        <include uri="webapp:editor/workflow/imports-common.xml" />
+        
+        <panel id="getPublicationTypes">
+          <cell col="1" row="1" anchor="NORTHWEST" ref="LTypes" />
+          <cell col="2" row="1" anchor="NORTHWEST" ref="CTypes"  var="Type" />          
+          <cell col="3" row="1" anchor="WEST" ref="OneButton" />
+        </panel>
+
+        <list id="CTypes" type="dropdown" >
+          <!--  include  
+            uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Type&amp;defaultValue=DocPortal_class_00000005" 
+           / -->
+          <include 
+            uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getSpecialCategoriesInItems&amp;classProp=MCR.ClassificationID.Type&amp;categoryProp=MCR.Classification.Type.SelectCategoryIDs.publication" />                       
+          
+        </list>
+        
+      </components>
+    </editor>
+  </section>
+</MyCoReWebPage>
