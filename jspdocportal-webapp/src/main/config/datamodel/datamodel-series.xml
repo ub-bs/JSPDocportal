@@ -40,7 +40,7 @@
 			<mcrmetalinkid name="participationlink" class="MCRMetaLinkID" minOccurs='1' maxOccurs='unbounded' />
 		</element>
 		 <!-- 16 - Origin -->
-    	<element name="origins" minOccurs='1' maxOccurs='1'>
+    	<element name="origins" minOccurs='0' maxOccurs='1'>
       		<mcrmetaclassification name="origin" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
     	</element>
 
