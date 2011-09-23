@@ -35,8 +35,6 @@ import org.mycore.frontend.cli.MCRDerivateCommands;
 public class JSPUtils {
 
 	protected static Logger logger=Logger.getLogger(JSPUtils.class);
-	private static int uniqueNumber ;
-	//private static Document allAuthorsQuery;
 	
 	// "dd.MM.YYYY" 
 	private static Pattern germanDatePattern = Pattern.compile("(\\d{1,2})\\.(\\d{1,2})\\.(\\d{4})");
@@ -44,107 +42,6 @@ public class JSPUtils {
 	private static Pattern englishDatePattern2 = Pattern.compile("(\\d{4})/(\\d{1,2})/(\\d{1,2})");
 	private static GregorianCalendar cal = new GregorianCalendar();
 	
-
-	public static void initialize() {
-		uniqueNumber = 0;
-	//	allAuthorsQuery = createAllAuthorsQuery("DocPortal_author");
-	}
-	
-	public static void deinitialize() {
-		uniqueNumber = 0;
-	//	allAuthorsQuery = null;
-	}	
-	
-	/*
-	public static Map getSessionParameterMap(HttpServletRequest request) {
-	    Map map = request.getParameterMap();
-	    HttpSession session = request.getSession();
-	    //MCRSession session = MCRSessionMgr.getCurrentSession();
-	    String sessionID = session.getId();
-	    if (sessionID == null) {
-	        Logger.getLogger("workflow-editor.jsp").error("session is null");
-	    }
-	    String jSessionID = MCRConfiguration.instance().getString("MCR.session.param", ";jsessionid=");
-	    if ((session != null) && !request.isRequestedSessionIdFromCookie()) {
-	        String[] values = {jSessionID + session.getId()};
-	        map.put("HttpSession", values);
-	    }
-	    if (session != null) {
-	        String[] values = {jSessionID + session.getId()};
-	        map.put("JSessionID", values);
-	    }  
-	    if(map.get("lang") == null) {
-	    	String lang = (String)request.getAttribute("lang");
-	    	if (lang == null) lang = "de";
-	        String[] values = {lang};
-	        map.put("lang",values);
-	    }
-	    return map;
-	}
-	
-	private static Document createAllAuthorsQuery(String prefix) {
-		
-        Element query = new Element("query");
-        query.setAttribute("maxResults","1000");
-        
-        Element conditions = new Element("conditions");
-        conditions.setAttribute("format","xml");
-        
-        Element or = new Element("boolean");
-        or.setAttribute("operator", "OR");
-        
-        Element personCondition = new Element("condition");
-        personCondition.setAttribute("field","id");
-        personCondition.setAttribute("value",prefix + "*");
-        personCondition.setAttribute("operator","like");
-        
-        Element hosts = new Element("hosts");
-        
-        Element host = new Element("host");
-        host.setAttribute("field","local");
-        
-        Element types = new Element("types");
-        
-        Element type = new Element("type");
-        type.setAttribute("field","allpers");
-        
-        Element sortby = new Element("sortby");
-        
-        Element sortfield = new Element("field");
-        sortfield.setAttribute("field","surname");
-        sortfield.setAttribute("order","ascending");
-
-        sortby.addContent(sortfield);
-        
-        types.addContent(type);
-        hosts.addContent(host);
-        
-        or.addContent(personCondition);
-        conditions.addContent(or);
-        query.addContent(conditions);
-        query.addContent(hosts);
-        query.addContent(types);
-        query.addContent(sortby); 		
-		
-		return new Document(query);
-	}
-	
-    public static boolean isAuthor(String docType) {
-        if (docType.equals("author"))
-           return true;
-        else
-           return false;
-     }
-   	 public static boolean isDocument(String docType) {
-   	   String searchTypes = MCRConfiguration.instance().getString("MCR.Metadata.Type.alldocs", "alldocs");
- 	   return (searchTypes.indexOf(docType) >= 0);
-     }    
-     public static boolean isInstitution(String docType) {
-        if (docType.equals("institution"))
-           return true;
-        else
-           return false;
-     }*/ 
      
      public static String fillToConstantLength(String value,String fillsign,int length) {
     	 int valueLength = value.length();
@@ -156,10 +53,6 @@ public class JSPUtils {
     	 ret.append(value);
     	 return ret.toString();
      }
-     
-     public static synchronized int getNextUniqueNumber() {
-    	 return ++uniqueNumber;
-	 }
      
      public static String getPrettyString(Element el) {
     	 XMLOutputter output = new XMLOutputter(Format.getPrettyFormat());
@@ -311,8 +204,7 @@ public class JSPUtils {
 	 * @param args none
 	 */
      public static void main(String[] args) {
-    	 initialize();
-    	 //just for testing
+      	 //just for testing
     	 System.out.println(convertToISO8601String("2003"));
     	 System.out.println(convertToISO8601String("2003-3-28"));
     	 System.out.println(convertToISO8601String("2003/03/30"));

@@ -4,15 +4,21 @@
 
     <display-name>JSP DOCPORTAL</display-name>
     <description>(A MyCoRe Sample)</description>
-    <listener>
-       <listener-class>org.mycore.frontend.jsp.ContextListener</listener-class>
-    </listener>
-    <listener>
-       <listener-class>org.mycore.common.events.MCRServletContextListener</listener-class>
-    </listener>
-    <listener>
-      <listener-class>org.mycore.common.events.MCRHttpSessionListener</listener-class>
-    </listener> 
+   	<listener>
+		<listener-class>
+			org.mycore.frontend.jsp.MCRJSPServletContextListener
+		</listener-class>
+	</listener>
+	<listener>
+		<listener-class>
+			org.mycore.common.events.MCRServletContextListener
+		</listener-class>
+	</listener>
+	<listener>
+		<listener-class>
+			org.mycore.common.events.MCRHttpSessionListener
+		</listener-class>
+	</listener>
 
 
     

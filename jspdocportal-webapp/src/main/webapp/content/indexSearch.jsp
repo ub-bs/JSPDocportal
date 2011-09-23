@@ -2,49 +2,55 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/xml" prefix="x"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr"%>
-<%@ taglib uri="http://www.mycore.de/jspdocportal/browsing"
-	prefix="mcrb"%>
+<%@ taglib prefix="mcr" uri="/WEB-INF/lib/mycore-taglibs.jar" %>
+<%@ taglib prefix="mcrb" uri="http://www.mycore.de/jspdocportal/browsing" %>
+<%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
 <fmt:setBundle basename="messages" />
-<div class="headline"><fmt:message
-	key="Webpage.indexbrowser.${param.searchclass}.title" /></div>
-<fmt:message key="Webpage.indexbrowser.${param.searchclass}.intro" />
-<br />
-<br />
-<c:choose>
-	<c:when test="${param.searchclass eq 'series_sub'}">
-		<mcrb:indexBrowser index="${param.searchclass}" varurl="url" varxml="xml"
-			docdetailsurl="nav?path=~searchdocdetail-index_${param.searchclass}&amp;id={0}">
-			<div style="padding-bottom: 5px">
-				<img border="0" style="vertical-align: middle; padding-right: 10px"
-					 src="images/greenArrow.gif" alt="" />
-					<a href="${url}"> <x:out select="$xml/value/col[@name='title']" /></a>
-			</div>
-		</mcrb:indexBrowser>
-	</c:when>
-	<c:when test="${param.searchclass eq 'document-series_sub'}">
-		<mcrb:indexBrowser index="${param.searchclass}" varurl="url" varxml="xml"
-			docdetailsurl="nav?path=~searchdocdetail-index_${param.searchclass}&amp;id={0}">
-			<div style="padding-bottom: 5px">
-				<img border="0" style="vertical-align: middle; padding-right: 10px"
-					 src="images/greenArrow.gif" alt="" />
-					<a href="${url}"> <x:out select="$xml/value/col[@name='title']" /></a>
-			</div>
-		</mcrb:indexBrowser>
-	</c:when>
-	
-	<c:otherwise>
-		<mcrb:indexBrowser index="${param.searchclass}" varurl="url" varxml="xml"
-			docdetailsurl="nav?path=~searchdocdetail-index_${param.searchclass}&amp;id={0}">
-			<div style="padding-bottom: 5px">
-				<img border="0" style="vertical-align: middle; padding-right: 10px"
-					src="images/greenArrow.gif" alt="" />
-				<a href="${url}"> <x:out select="$xml/value/col[@name='fullname']" /> </a>
-			</div>
-		</mcrb:indexBrowser>
-	</c:otherwise>
-</c:choose>
+<fmt:message var="pageTitle" key="Webpage.title.indexbrowser.${param.searchclass}" /> 
+<stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}" currentPath="${param.path}">
+	<stripes:layout-component name="contents">
+		<div class="headline">
+			<fmt:message key="Webpage.indexbrowser.${param.searchclass}.title" />
+		</div>
+		<fmt:message key="Webpage.indexbrowser.${param.searchclass}.intro" />
+		<br />
+		<br />
+		<c:choose>
+			<c:when test="${param.searchclass eq 'series_sub'}">
+				<mcrb:indexBrowser index="${param.searchclass}" varurl="url" varxml="xml"
+					docdetailsurl="nav?path=~searchdocdetail-index_${param.searchclass}&amp;id={0}">
+					<div style="padding-bottom: 5px">
+						<img border="0" style="vertical-align: middle; padding-right: 10px"
+				 			 src="images/greenArrow.gif" alt="" />
+						<a href="${url}"> <x:out select="$xml/value/col[@name='title']" /></a>
+					</div>
+				</mcrb:indexBrowser>
+			</c:when>
+			<c:when test="${param.searchclass eq 'document-series_sub'}">
+				<mcrb:indexBrowser index="${param.searchclass}" varurl="url" varxml="xml"
+					docdetailsurl="nav?path=~searchdocdetail-index_${param.searchclass}&amp;id={0}">
+					<div style="padding-bottom: 5px">
+						<img border="0" style="vertical-align: middle; padding-right: 10px"
+				 			 src="images/greenArrow.gif" alt="" />
+						<a href="${url}"> <x:out select="$xml/value/col[@name='title']" /></a>
+					</div>
+				</mcrb:indexBrowser>
+			</c:when>
+
+			<c:otherwise>
+				<mcrb:indexBrowser index="${param.searchclass}" varurl="url" varxml="xml"
+					docdetailsurl="nav?path=~searchdocdetail-index_${param.searchclass}&amp;id={0}">
+					<div style="padding-bottom: 5px">
+						<img border="0" style="vertical-align: middle; padding-right: 10px"
+							 src="images/greenArrow.gif" alt="" />
+							<a href="${url}"> <x:out select="$xml/value/col[@name='fullname']" /> </a>
+					</div>
+				</mcrb:indexBrowser>
+			</c:otherwise>
+		</c:choose>
+	</stripes:layout-component>
+</stripes:layout-render>
 
 <%-- Sample index item:
     <value pos="17">

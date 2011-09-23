@@ -14,8 +14,9 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.mycore.access.MCRAccessInterface;
+import org.hibernate.Transaction;
 import org.mycore.access.MCRAccessManager;
+import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.frontend.servlets.MCRServlet;
@@ -51,8 +52,9 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 		PageContext pageContext = (PageContext) getJspContext();
 		JspWriter out = pageContext.getOut();
 		out.flush();
-
+		Transaction tx = MCRHIBConnection.instance().getSession().beginTransaction();
 		boolean isEditallowed = MCRAccessManager.checkPermission("administrate-webcontent");
+		tx.commit();
 		boolean isOpenEditor = "true".equalsIgnoreCase(pageContext
 				.getRequest().getParameter(OPENEDITOR_PARAMETER));
 

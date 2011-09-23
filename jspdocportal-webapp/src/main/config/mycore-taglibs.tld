@@ -1,17 +1,19 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
-<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN"
- "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
- 
-<taglib>
-    <tlibversion>1.0</tlibversion>
-    <jspversion>2.0</jspversion>
-    <shortname>mcr</shortname>
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+	    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
+	                       http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+	   version="2.0">
+    <description>MyCoRe JSPDocportal Tag library </description>
+    <tlib-version>1.0</tlib-version>
+    <short-name>mcr</short-name>
     <uri>/WEB-INF/lib/mycore-taglibs.jar</uri>
-    <info>MyCoRe Sample Tag library </info>
+    
      <tag>
+     	<description>A tag, that loged in an user</description>
             <name>login</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRLoginTag</tagclass>
-            <bodycontent>empty</bodycontent>
+            <tag-class>org.mycore.frontend.jsp.taglibs.MCRLoginTag</tag-class>
+            <body-content>empty</body-content>
             <attribute>
                 <name>uid</name>
                 <required>true</required>
@@ -27,13 +29,13 @@
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>           
-            <!-- A tag, that loged in an user -->
      </tag>         
 
   	<tag>
+  		<description>A tag, that displays a link for a right after login</description>
             <name>login_startlink</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRLogin_StartLinkTag</tagclass>
-            <bodycontent>empty</bodycontent>
+            <tag-class>org.mycore.frontend.jsp.taglibs.MCRLogin_StartLinkTag</tag-class>
+            <body-content>empty</body-content>
             <attribute>
                 <name>group_id</name>
                 <required>true</required>
@@ -44,12 +46,60 @@
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>  
-            <!-- A tag, that displays a link for a right after login-->
+            
+   </tag>
+     <tag>
+     		<description>A tag, that renders the navigation</description>
+            <name>outputNavigation</name>
+            <tag-class>org.mycore.frontend.jsp.taglibs.MCROutputNavigationTag</tag-class>
+            <body-content>empty</body-content>
+             <attribute>
+                <name>id</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <name>currentPath</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>      
+            <attribute>
+                <name>mode</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <name>expanded</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+                <type>java.lang.Boolean</type>
+            </attribute>
+            <attribute>
+                <name>separatorString</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>  
    </tag> 
    <tag>
+     		<description>A tag, that renders the navigation</description>
+            <name>outputLanguageSelector</name>
+            <tag-class>org.mycore.frontend.jsp.taglibs.MCROutputLanguageSelectorTag</tag-class>
+            <body-content>empty</body-content>
+             <attribute>
+                <name>languages</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <attribute>
+                <name>separatorString</name>
+                <required>false</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>  
+   </tag>   
+   <tag>
             <name>endTask</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCREndTaskTag</tagclass>
-            <bodycontent>empty</bodycontent>
+            <tag-class>org.mycore.frontend.jsp.taglibs.MCREndTaskTag</tag-class>
+            <body-content>empty</body-content>
             <attribute>
                 <name>success</name>
                 <required>true</required>
@@ -74,8 +124,8 @@
      </tag>         
    <tag>
             <name>checkDecisionNode</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRCheckDecisionNodeTag</tagclass>
-            <bodycontent>empty</bodycontent>
+            <tag-class>org.mycore.frontend.jsp.taglibs.MCRCheckDecisionNodeTag</tag-class>
+            <body-content>empty</body-content>
             <attribute>
                 <name>var</name>
                 <required>true</required>
@@ -100,8 +150,8 @@
      </tag>     
    <tag>
             <name>listWorkflowProcess</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRListWorkflowProcessTag</tagclass>
-            <bodycontent>empty</bodycontent>
+            <tag-class>org.mycore.frontend.jsp.taglibs.MCRListWorkflowProcessTag</tag-class>
+            <body-content>empty</body-content>
             <attribute>
                 <name>var</name>
                 <required>true</required>
@@ -116,8 +166,8 @@
      </tag>    
    <tag>
             <name>listWorkflowDerivates</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRListWorkflowDerivatesTag</tagclass>
-            <bodycontent>empty</bodycontent>
+            <tag-class>org.mycore.frontend.jsp.taglibs.MCRListWorkflowDerivatesTag</tag-class>
+            <body-content>empty</body-content>
             <attribute>
                 <name>varDom</name>
                 <required>true</required>
@@ -147,8 +197,8 @@
      </tag>    
      <tag>
          <name>getAccessRulesTag</name>
-         <tagclass>org.mycore.frontend.jsp.taglibs.MCRGetAccessRulesTag</tagclass>
-         <bodycontent>empty</bodycontent>
+         <tag-class>org.mycore.frontend.jsp.taglibs.MCRGetAccessRulesTag</tag-class>
+         <body-content>empty</body-content>
          <attribute>
            <name>var</name>
            <required>true</required>
@@ -177,8 +227,8 @@
      </tag>
      <tag>
             <name>getWorkflowTaskBeanList</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRGetWorkflowTaskBeanListTag</tagclass>
-            <bodycontent>empty</bodycontent>
+            <tag-class>org.mycore.frontend.jsp.taglibs.MCRGetWorkflowTaskBeanListTag</tag-class>
+            <body-content>empty</body-content>
             <attribute>
                 <name>var</name>
                 <required>true</required>
@@ -219,8 +269,8 @@
     
      <tag>
             <name>deleteProcess</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRDeleteProcessTag</tagclass>
-            <bodycontent>empty</bodycontent>
+            <tag-class>org.mycore.frontend.jsp.taglibs.MCRDeleteProcessTag</tag-class>
+            <body-content>empty</body-content>
             <attribute>
                 <name>pid</name>
                 <required>true</required>
@@ -240,8 +290,8 @@
      </tag> 
      <tag>
             <name>getWorkflowEngineVariable</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRGetWorkflowEngineVariableTag</tagclass>
-            <bodycontent>empty</bodycontent>
+            <tag-class>org.mycore.frontend.jsp.taglibs.MCRGetWorkflowEngineVariableTag</tag-class>
+            <body-content>empty</body-content>
             <attribute>
                 <name>var</name>
                 <required>true</required>
@@ -261,8 +311,8 @@
      </tag>
      <tag>
             <name>initWorkflowProcess</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRInitWorkflowProcessTag</tagclass>
-            <bodycontent>empty</bodycontent>
+            <tag-class>org.mycore.frontend.jsp.taglibs.MCRInitWorkflowProcessTag</tag-class>
+            <body-content>empty</body-content>
             <attribute>
                 <name>workflowProcessType</name>
                 <required>true</required>
@@ -297,8 +347,8 @@
         </tag>     
         <tag>
             <name>includeEditorInWorkflow</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRIncludeEditorInWorkflowTag</tagclass>
-            <bodycontent>empty</bodycontent>
+            <tag-class>org.mycore.frontend.jsp.taglibs.MCRIncludeEditorInWorkflowTag</tag-class>
+            <body-content>empty</body-content>
             <attribute>
                 <name>nextPath</name>
                 <required>true</required>
@@ -380,8 +430,8 @@
 
         <tag>
             <name>includeEditor</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRIncludeEditorTag</tagclass>
-            <bodycontent>empty</bodycontent>
+            <tag-class>org.mycore.frontend.jsp.taglibs.MCRIncludeEditorTag</tag-class>
+            <body-content>empty</body-content>
             <!-- <attribute>
                 <name>editorSessionID</name>
                 <required>false</required>
@@ -407,8 +457,8 @@
 
         <tag>
             <name>getFreeUserIDs</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRGetFreeUserIDs</tagclass>
-            <bodycontent>empty</bodycontent>
+            <tag-class>org.mycore.frontend.jsp.taglibs.MCRGetFreeUserIDs</tag-class>
+            <body-content>empty</body-content>
             <attribute>
                 <name>var</name>
                 <required>true</required>
@@ -428,8 +478,8 @@
         </tag>      
         <tag>
             <name>setAccessRuleEditorData</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRSetAccessRuleEditorDataTag</tagclass>
-            <bodycontent>empty</bodycontent>
+            <tag-class>org.mycore.frontend.jsp.taglibs.MCRSetAccessRuleEditorDataTag</tag-class>
+            <body-content>empty</body-content>
             <attribute>
                 <name>var</name>
                 <required>true</required>
@@ -454,8 +504,8 @@
         </tag>        
         <tag>
             <name>isObjectNotLocked</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRIsObjectNotLockedTag</tagclass>
-            <bodycontent>empty</bodycontent>
+            <tag-class>org.mycore.frontend.jsp.taglibs.MCRIsObjectNotLockedTag</tag-class>
+            <body-content>empty</body-content>
             <attribute>           
                 <name>var</name>
                 <required>true</required>
@@ -470,8 +520,8 @@
         </tag>     
         <tag>
             <name>checkAccess</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRCheckAccessTag</tagclass>
-            <bodycontent>empty</bodycontent>
+            <tag-class>org.mycore.frontend.jsp.taglibs.MCRCheckAccessTag</tag-class>
+            <body-content>empty</body-content>
             <attribute>
                 <name>permission</name>
                 <required>true</required>
@@ -491,8 +541,8 @@
         </tag>     
         <tag>
             <name>session</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRSessionTag</tagclass>
-            <bodycontent>empty</bodycontent>
+            <tag-class>org.mycore.frontend.jsp.taglibs.MCRSessionTag</tag-class>
+            <body-content>empty</body-content>
             <attribute>
                 <name>method</name>
                 <required>true</required>
@@ -517,8 +567,8 @@
         </tag>     
         <tag>
             <name>ifSorted</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRIfSortedTag</tagclass>
-            <bodycontent>scriptless</bodycontent>
+            <tag-class>org.mycore.frontend.jsp.taglibs.MCRIfSortedTag</tag-class>
+            <body-content>scriptless</body-content>
             <attribute>
                 <name>query</name>
                 <required>true</required>
@@ -543,8 +593,8 @@
         </tag> 
         <tag>
             <name>setQueryAsString</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRSetQueryAsStringTag</tagclass>
-            <bodycontent>empty</bodycontent>
+            <tag-class>org.mycore.frontend.jsp.taglibs.MCRSetQueryAsStringTag</tag-class>
+            <body-content>empty</body-content>
             <attribute>
                 <name>jdom</name>
                 <required>true</required>
@@ -560,8 +610,8 @@
               
          <tag>
             <name>displayClassificationCategory</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRDisplayClassificationCategoryTag</tagclass>
-            <bodycontent>empty</bodycontent>
+            <tag-class>org.mycore.frontend.jsp.taglibs.MCRDisplayClassificationCategoryTag</tag-class>
+            <body-content>empty</body-content>
             <attribute>
                 <name>classid</name>
                 <required>true</required>
@@ -583,16 +633,16 @@
       
         <tag>
             <name>receiveMcrObjAsJdom</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRReceiveMcrObjAsJdomTag</tagclass>
-            <bodycontent>empty</bodycontent>
+            <tag-class>org.mycore.frontend.jsp.taglibs.MCRReceiveMcrObjAsJdomTag</tag-class>
+            <body-content>empty</body-content>
             <attribute>
                 <name>varDom</name>
-                <required>optional</required>
+                <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>            
             <attribute>
                 <name>var</name>
-                <required>optional</required>
+                <required>false</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
             <attribute>
@@ -610,8 +660,8 @@
 
         <tag>
             <name>receiveUserAsJdom</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRReceiveUserAsJdomTag</tagclass>
-            <bodycontent>empty</bodycontent>
+            <tag-class>org.mycore.frontend.jsp.taglibs.MCRReceiveUserAsJdomTag</tag-class>
+            <body-content>empty</body-content>
             <attribute>
                 <name>var</name>
                 <required>true</required>
@@ -626,8 +676,8 @@
         </tag>    
         <tag>
             <name>simpleXpath</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRSimpleXpathTag</tagclass>
-            <bodycontent>empty</bodycontent>
+            <tag-class>org.mycore.frontend.jsp.taglibs.MCRSimpleXpathTag</tag-class>
+            <body-content>empty</body-content>
             <attribute>
                 <name>jdom</name>
                 <required>true</required>
@@ -644,8 +694,8 @@
                   
         <tag>
             <name>getConfigProperty</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRGetConfigPropertyTag</tagclass>
-            <bodycontent>empty</bodycontent>
+            <tag-class>org.mycore.frontend.jsp.taglibs.MCRGetConfigPropertyTag</tag-class>
+            <body-content>empty</body-content>
             <attribute>
                 <name>prop</name>
                 <required>true</required>
@@ -664,10 +714,10 @@
             <!-- A Tag, that sets the value of a Configuration Property to a specific value  -->
         </tag> 
         <tag>
+            <description>A Tag, that includes another web page trying to load it in the current language</description>
             <name>includeWebContent</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRIncludeWebContentTag</tagclass>
-            <bodycontent>empty</bodycontent> 
-            <info>A Tag, that includes another web page trying to load it in the current language</info>
+            <tag-class>org.mycore.frontend.jsp.taglibs.MCRIncludeWebContentTag</tag-class>
+            <body-content>empty</body-content> 
             <attribute>
                 <name>file</name>
                 <required>true</required>
@@ -675,17 +725,18 @@
             </attribute>     
         </tag>  
          <tag>
+            <description>A Tag, that outputs debug information</description>
             <name>debugInfo</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRDebugInfoTag</tagclass>
-            <bodycontent>empty</bodycontent> 
-            <info>A Tag, that outputs debug information</info>
+            <tag-class>org.mycore.frontend.jsp.taglibs.MCRDebugInfoTag</tag-class>
+            <body-content>empty</body-content> 
+            
          </tag>  
         
          <tag>
+            <description>A Tag, that retrieves the main file from a derivate</description>
             <name>receiveMainDoc</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRReceiveMainDocTag</tagclass>
-            <bodycontent>empty</bodycontent>
-            <info>A Tag, that retrieves the main file from a derivate</info>
+            <tag-class>org.mycore.frontend.jsp.taglibs.MCRReceiveMainDocTag</tag-class>
+            <body-content>empty</body-content>
             <attribute>
                 <name>derid</name>
                 <required>true</required>
@@ -699,10 +750,10 @@
         </tag> 
         
         <tag>
+            <description>A Tag, that formats published-in information</description>
             <name>formatPublishedIn</name>
-            <tagclass>org.mycore.frontend.jsp.taglibs.MCRFormatPublishedInTag</tagclass>
-            <bodycontent>empty</bodycontent> 
-            <info>A Tag, that formats published-in information</info>
+            <tag-class>org.mycore.frontend.jsp.taglibs.MCRFormatPublishedInTag</tag-class>
+            <body-content>empty</body-content> 
             <attribute>
                 <name>xml</name>
                 <required>true</required>

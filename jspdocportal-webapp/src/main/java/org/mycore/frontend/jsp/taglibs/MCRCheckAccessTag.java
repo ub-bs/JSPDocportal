@@ -2,19 +2,16 @@ package org.mycore.frontend.jsp.taglibs;
 
 import java.io.IOException;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
-import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
-import org.mycore.frontend.servlets.MCRServlet;
 
 public class MCRCheckAccessTag extends SimpleTagSupport
 {

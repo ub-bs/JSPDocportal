@@ -1,14 +1,9 @@
 package org.mycore.frontend.jsp.taglibs;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Enumeration;
 import java.util.Properties;
@@ -197,11 +192,12 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 	
 	private Properties getParameters(){
 		Properties params = new Properties();
+		PageContext pageContext = (PageContext) getJspContext();
 		if(cancelPage == null || cancelPage.equals("")){
 			//cancelPage 		=  NavServlet.getBaseURL() + "nav?path=~workflow-" + type;
-			cancelPage = NavServlet.getNavigationBaseURL()+"~"+workflowType;
+			cancelPage = pageContext.getServletContext().getRealPath("/nav?path=~"+workflowType);
 		}		
-		PageContext pageContext = (PageContext) getJspContext();
+		
 		HttpSession session = pageContext.getSession();		
 	    String jSessionID = MCRConfiguration.instance().getString("MCR.session.param", ";jsessionid=");		
 	    String sessionID = jSessionID + session.getId();
