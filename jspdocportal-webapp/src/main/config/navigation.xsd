@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.mycore.org/jspdocportal/navigation" 
+	targetNamespace="http://www.mycore.org/jspdocportal/navigation" elementFormDefault="qualified">
+
+	<xs:element name="navigations" type="navigationsType" />
+
+	<xs:complexType name="navigationsType">
+		<xs:sequence>
+			<xs:element name="navigation" type="navigationType" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="navigationType">
+		<xs:sequence>
+			<xs:element name="navitem" type="navitemType" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:string" />
+	</xs:complexType>
+
+	<xs:complexType name="navitemType">
+		<xs:sequence>
+			<xs:element name="refitem" type="refitemType" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="navitem" type="navitemType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:string" use="required" />
+		<xs:attribute name="i18n" type="xs:string" use="required"  />
+		<xs:attribute name="href" type="xs:string" use="required" />
+		<xs:attribute name="permission" type="xs:string" />
+		<xs:attribute name="hidden" type="xs:boolean" />
+		<xs:attribute name="_path" type="xs:string" />
+		<xs:attribute name="_level" type="xs:integer" />
+	</xs:complexType>
+
+	<xs:complexType name="refitemType">
+		<!-- empty element -->
+		<xs:attribute name="id" type="refIDType" />
+	</xs:complexType>
+	<xs:simpleType name="refIDType">
+		<xs:restriction base="xs:string">
+      		<xs:pattern value="~.*"/> <!-- start with tilde ~ -->
+    	</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>
