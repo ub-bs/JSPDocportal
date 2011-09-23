@@ -7,6 +7,7 @@
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr"%>
 <%@ taglib prefix="mcrdd" uri="http://www.mycore.de/jspdocportal/docdetails" %>
 <stripes:layout-definition>
+	<%-- parameters: pageTitle, currentPath  --%>
 	<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 	
 	<mcrdd:setnamespace prefix="nav" uri="http://www.mycore.org/jspdocportal/navigation" />
