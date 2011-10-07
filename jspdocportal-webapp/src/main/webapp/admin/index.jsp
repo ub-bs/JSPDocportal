@@ -1,31 +1,31 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="org.mycore.user.MCRUserMgr,
     org.mycore.user.MCRUser,
     org.mycore.user.MCRGroup,
     org.mycore.common.MCRSession,
     org.mycore.frontend.servlets.MCRServlet"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/xml" prefix="x"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
 
-<mcr:session method="get" var="username" type="userID" />
-<c:set var="pageurl" value="${requestScope.page}" />
-<mcr:checkAccess var="hasAccess" permission="admininterface-access" />
-<c:if test="${!hasAccess}">
-   <c:set var="pageurl" value="error.jsp" />
-</c:if>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html>
-    <head>
-        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-        <title>Administration Interface</title>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="mcr" uri="/WEB-INF/lib/mycore-taglibs.jar" %>
+<%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld" %>
+
+<c:set var="pageTitle" value="Administration Interface" /> 
+<stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
+   	<stripes:layout-component name="html_head">
         <script src="${WebApplicationBaseURL}admin/admin.js" type=text/javascript></script>
         <link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}admin/css/admin.css" />
-    </head>
-    <body>
-    <c:choose>
+    </stripes:layout-component>
+    <stripes:layout-component name="contents">
+		<mcr:session method="get" var="username" type="userID" />
+		<c:set var="pageurl" value="${requestScope.page}" />
+		<mcr:checkAccess var="hasAccess" permission="admininterface-access" />
+		<c:if test="${!hasAccess}">
+			<c:set var="pageurl" value="error.jsp" />
+   		</c:if>
+   		<c:choose>
        <c:when test="${pageurl eq 'rules_editor_jsp'}">
           <c:import url="${pageurl}"/>
        </c:when>
@@ -64,5 +64,5 @@
         </table>       
        </c:otherwise>
     </c:choose>
-    </body>
-</html>
+	</stripes:layout-component>
+</stripes:layout-render>

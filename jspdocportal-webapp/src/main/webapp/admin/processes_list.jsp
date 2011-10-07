@@ -1,11 +1,16 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/xml" prefix="x"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="x"uri="http://java.sun.com/jsp/jstl/xml" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="mcr" uri="/WEB-INF/lib/mycore-taglibs.jar" %>
+<%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
+<fmt:message var="pageTitle" key="Webpage.admin.Process" /> 
+<stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
+	<stripes:layout-component name="contents">
 <div class="headline"><fmt:message key="Webpage.admin.Process" /></div>
-<br />
+
 <c:set var="debug" value="false" />
 
 <c:set var="pid" value="${param.pid}" />
@@ -17,7 +22,7 @@
 		workflowProcessType="${type}" />
 	<table class="access" cellspacing="1" cellpadding="0">
 		<tr>
-			<td>zu löschender Prozess: <c:out value="${pid}" /></td>
+			<td>zu lÃ¶schender Prozess: <c:out value="${pid}" /></td>
 		</tr>
 		<tr>
 			<td>Typ: <c:out value="${type}" /></td>
@@ -37,7 +42,7 @@
 		<x:set var="type" select="string(./@type)" />
 		<tr >
 			<th colspan="2">Prozessdaten vom Typ: ${type}</th>
-			<th>Löschen</th>
+			<th>LÃ¶schen</th>
 		</tr>
 		<x:forEach select="./process">
 			<x:set var="pid" select="string(./@pid)" />
@@ -65,7 +70,7 @@
 					action="${applicationScope.WebApplicationBaseURL}nav"><input
 					type=hidden name="path" value="~process-${type}" /> <input
 					type=hidden name="pid" value="${pid}" /> <input type="image"
-					title="Prozess löschen"
+					title="Prozess lÃ¶schen"
 					src="${applicationScope.WebApplicationBaseURL}admin/images/delete.gif"
 					onClick="return questionDel()"></form>
 				</td>
@@ -74,4 +79,5 @@
 		</x:forEach>
 	</x:forEach>
 </table>
-
+	</stripes:layout-component>
+</stripes:layout-render>    

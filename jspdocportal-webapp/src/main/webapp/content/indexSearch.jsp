@@ -6,7 +6,7 @@
 <%@ taglib prefix="mcrb" uri="http://www.mycore.de/jspdocportal/browsing" %>
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
-<fmt:setBundle basename="messages" />
+
 <fmt:message var="pageTitle" key="Webpage.title.indexbrowser.${param.searchclass}" /> 
 <stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}" currentPath="${param.path}">
 	<stripes:layout-component name="contents">

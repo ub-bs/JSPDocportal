@@ -1,9 +1,12 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/xml" prefix="x"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr"%>
-<%@ taglib uri="http://www.mycore.de/jspdocportal/browsing" prefix="mcrb"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"   %>
+<%@ taglib prefix="mcrb" uri="http://www.mycore.de/jspdocportal/browsing" %>
+<%@ taglib prefix="mcr" uri="/WEB-INF/lib/mycore-taglibs.jar" %>
+<%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld" %>
+
 <fmt:setLocale value="${requestScope.lang}"/>
 <fmt:setBundle basename="messages" />
 <c:choose>
@@ -16,6 +19,10 @@
 			value="Webpage.searchresults.result-document-search" />
 	</c:otherwise>
 </c:choose>
+
+<stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${headlineKey}">
+	<stripes:layout-component name="contents">
+
 <div class="headline"><fmt:message key="${headlineKey}" /></div>
    <mcr:debugInfo />
    <mcrb:searchresultBrowser varmcrid="mcrid" varurl="url" sortfields="title author modified">
@@ -32,3 +39,5 @@
 			<br />
 		</c:if>
    </mcrb:searchresultBrowser>
+	</stripes:layout-component>
+</stripes:layout-render>      

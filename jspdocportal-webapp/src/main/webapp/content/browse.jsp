@@ -4,6 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr"%>
 <%@ taglib uri="http://www.mycore.de/jspdocportal/browsing" prefix="mcrb" %>
+<%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
 <%--	MCR.ClassificationID.Institution=dbhsnb_class_0000000002
 		MCR.ClassificationID.Nationality=dbhsnb_class_0000000001
@@ -16,7 +17,9 @@
 		MCR.ClassificationID.Bkl		=dbhsnb_class_0000000020
 		MCR.ClassificationID.Collection =dbhsnb_class_0000000022
 --%>
-<fmt:setBundle basename="messages" />
+<fmt:message var="pageTitle" key="Webpage.browse.title.${param.browserClass}" /> 
+<stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
+	<stripes:layout-component name="contents">
 
 <c:if test="${param.browserClass=='ddc'}">
 	<div class="headline"><fmt:message key="Webpage.browse.title.ddc" /></div>
@@ -82,3 +85,5 @@
 		searchfield="format" searchmask="~searchstart-classformat" 
 		showdescription="false" showuri="false" showid="false" />
 </c:if>
+	</stripes:layout-component>
+</stripes:layout-render>    

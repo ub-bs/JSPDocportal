@@ -1,9 +1,15 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/xml"  prefix="x" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="org.apache.log4j.Logger" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr" %>
-<%@ page import="org.apache.log4j.Logger" %>
+<%@ taglib prefix="mcr" uri="/WEB-INF/lib/mycore-taglibs.jar" %>
+<%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld" %>
+
+<fmt:message var="pageTitle" key="Nav.DigitalisatDetails" /> 
+<stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
+	<stripes:layout-component name="contents">
 <c:catch var="e">
 
 <c:set var="WebApplicationBaseURL" value="${applicationScope.WebApplicationBaseURL}" />
@@ -102,5 +108,6 @@ An error occured, hava a look in the logFiles!
   Logger.getLogger("deviatedetails.jsp").error("error", (Throwable) pageContext.getAttribute("e"));   
 %>
 </c:if>
-
+	</stripes:layout-component>
+</stripes:layout-render>    
        

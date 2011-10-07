@@ -1,3 +1,14 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"   %>
+<%@ taglib prefix="mcr" uri="/WEB-INF/lib/mycore-taglibs.jar" %>
+<%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld" %>
+
+<fmt:message var="pageTitle" key="Editor.FileuploadPageTitle" /> 
+<stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
+	<stripes:layout-component name="contents">
 <%@ page import="org.mycore.common.MCRConfiguration" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -9,7 +20,7 @@
 %>
 
 <div class="headline"><fmt:message key="Editor.FileuploadPageTitle" /></div>
-Sie können einzelne Dateien bis 50 MB Größe direkt mittels des folgenden Formulares hochladen.
+Sie kÃ¶nnen einzelne Dateien bis 50 MB GrÃ¶ÃŸe direkt mittels des folgenden Formulares hochladen.
 <c:url var="url" value="${applicationScope.WebApplicationBaseURL}editor/workflow/editor-author-addfile.xml">
 	<c:param name="XSL.UploadID" value="${param['XSL.UploadID']}" />
 	<c:param name="XSL.editor.source.new" value="${param['XSL.editor.source.new']}" />
@@ -22,3 +33,5 @@ Sie können einzelne Dateien bis 50 MB Größe direkt mittels des folgenden Formula
 	<c:param name="JSessionID" value="<%= sessionID %>" />			
 </c:url>
 <c:import url="${url}" />
+	</stripes:layout-component>
+</stripes:layout-render>    
