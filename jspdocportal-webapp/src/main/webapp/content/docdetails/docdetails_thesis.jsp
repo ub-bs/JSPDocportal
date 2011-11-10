@@ -4,8 +4,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="mcr" uri="/WEB-INF/lib/mycore-taglibs.jar" %>
-<%@ taglib prefix="mcrdd" uri="http://www.mycore.de/jspdocportal/docdetails" %>
+<%@ taglib prefix="mcr" uri="http://www.mycore.org/jspdocportal/base.tld" %>
+<%@ taglib prefix="mcrdd" uri="http://www.mycore.org/jspdocportal/docdetails.tld" %>
 <%-- Parameter: id - the MCR Object ID--%>
 <%-- Parameter: fromWF - from workflow or database --%>
 

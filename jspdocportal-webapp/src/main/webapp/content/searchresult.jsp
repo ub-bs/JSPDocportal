@@ -3,8 +3,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"   %>
-<%@ taglib prefix="mcrb" uri="http://www.mycore.de/jspdocportal/browsing" %>
-<%@ taglib prefix="mcr" uri="/WEB-INF/lib/mycore-taglibs.jar" %>
+<%@ taglib prefix="mcrb" uri="http://www.mycore.org/jspdocportal/browsing.tld" %>
+<%@ taglib prefix="mcr" uri="http://www.mycore.org/jspdocportal/base.tld" %>
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
 <fmt:setLocale value="${requestScope.lang}"/>

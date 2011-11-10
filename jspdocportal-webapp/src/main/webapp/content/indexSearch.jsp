@@ -2,13 +2,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/xml" prefix="x"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="mcr" uri="/WEB-INF/lib/mycore-taglibs.jar" %>
-<%@ taglib prefix="mcrb" uri="http://www.mycore.de/jspdocportal/browsing" %>
+<%@ taglib prefix="mcr" uri="http://www.mycore.org/jspdocportal/base.tld" %>
+<%@ taglib prefix="mcrb" uri="http://www.mycore.org/jspdocportal/browsing.tld" %>
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
 
 <fmt:message var="pageTitle" key="Webpage.title.indexbrowser.${param.searchclass}" /> 
-<stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}" currentPath="${param.path}">
+<stripes:layout-render name="../WEB-INF/layout/cpr.jsp" pageTitle = "${pageTitle}" currentPath="${param.path}">
 	<stripes:layout-component name="contents">
 		<div class="headline">
 			<fmt:message key="Webpage.indexbrowser.${param.searchclass}.title" />

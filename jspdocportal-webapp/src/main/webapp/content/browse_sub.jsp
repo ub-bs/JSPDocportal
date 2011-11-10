@@ -2,8 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/xml" prefix="x"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib uri="/WEB-INF/lib/mycore-taglibs.jar" prefix="mcr"%>
-<%@ taglib uri="http://www.mycore.de/jspdocportal/browsing" prefix="mcrcb" %>
+<%@ taglib uri="http://www.mycore.org/jspdocportal/base.tld" prefix="mcr"%>
+<%@ taglib uri="http://www.mycore.org/jspdocportal/browsing.tld" prefix="mcrcb" %>
 
 <fmt:setBundle basename="messages" />
 <div class="headline"><fmt:message key="Webpage.browse.generalTitle" /></div>
