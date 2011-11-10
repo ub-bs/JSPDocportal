@@ -197,7 +197,12 @@ public class MCROutputNavigationTag extends SimpleTagSupport
 	 */
 	private void printLeftNav(String[] path, Element currentNode, JspWriter out){
 		if(currentNode == null){
-			LOGGER.error("No navigation item found for navigation: "+id+", path: "+currentPath+", item: "+path[0]);
+			if(path==null || path.length==0){
+				LOGGER.error("No navigation item found for navigation: "+id+", path: "+currentPath);
+			}
+			else{
+				LOGGER.error("No navigation item found for navigation: "+id+", path: "+currentPath+", item: "+path[0]);
+			}
 			return;
 		}
 		NodeList nl = currentNode.getChildNodes();
@@ -229,11 +234,15 @@ public class MCROutputNavigationTag extends SimpleTagSupport
 				String msg = retrieveI18N(el.getAttribute("i18n"));
 				out.append("<div class=\""+cssClass+"\">");
 				out.append("   <a target=\"_self\" href=\""+baseURL+"nav?path="+el.getAttribute("_path")+"\">"+msg+"</a>");
-				if(path.length>0){
-					if(expanded || path[0].equals(el.getAttribute("id"))){
-						printLeftNav(Arrays.copyOfRange(path, 1, path.length), el, out);				
+				
+				if(expanded || (path.length>0 && path[0].equals(el.getAttribute("id")))){
+					String[] subpath = path;
+					if(path.length>0){
+						subpath = Arrays.copyOfRange(path, 1, path.length);
 					}
+					printLeftNav(subpath, el, out);				
 				}
+				
 				out.append("</div>");
 				out.flush();
 			}
