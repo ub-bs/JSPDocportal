@@ -28,6 +28,7 @@
 		<xs:attribute name="href" type="xs:string" use="required" />
 		<xs:attribute name="permission" type="xs:string" />
 		<xs:attribute name="hidden" type="xs:boolean" />
+		<xs:attribute name="extern" type="xs:boolean" />
 		<xs:attribute name="_path" type="xs:string" />
 		<xs:attribute name="_level" type="xs:integer" />
 	</xs:complexType>
