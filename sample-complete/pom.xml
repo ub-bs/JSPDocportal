@@ -117,7 +117,7 @@
 									<overWrite>true</overWrite>
 								</artifactItem>
 							</artifactItems>
-							<outputDirectory>${project.build.directory}/${project.build.finalName}-app/lib</outputDirectory>
+							<outputDirectory>${project.build.directory}/app/lib</outputDirectory>
 							<stripVersion>true</stripVersion>
 						</configuration>
 					</execution>
@@ -133,7 +133,7 @@
 							<tasks>
 								<unzip
 									src="${project.build.directory}/${project.build.finalName}.war"
-									dest="${project.build.directory}/${project.build.finalName}-app/${project.build.finalName}">
+									dest="${project.build.directory}/app/${project.build.finalName}">
 								</unzip>
 
 								<!-- create CLI jar -->
@@ -141,20 +141,20 @@
 
 								<path id="class-path">
 									<fileset
-										dir="${project.build.directory}/${project.build.finalName}-app">
+										dir="${project.build.directory}/app">
 										<include name="${project.build.finalName}/WEB-INF/lib/*.jar" />
 									</fileset>
 								</path>
 								<mkdir dir="${project.build.directory}/classes" />
 								<copy todir="${project.build.directory}/classes">
 									<fileset
-										dir="${project.build.directory}/${project.build.finalName}-app/${project.build.finalName}/WEB-INF/classes" />
+										dir="${project.build.directory}/app/${project.build.finalName}/WEB-INF/classes" />
 								</copy>
 
 								<pathconvert property="cpProp" dirsep="/" pathsep=" "
 									refid="class-path">
 									<map
-										from="${project.build.directory}/${project.build.finalName}-app/${project.build.finalName}"
+										from="${project.build.directory}/app/${project.build.finalName}"
 										to="${project.build.finalName}" />
 								</pathconvert>
 
@@ -163,7 +163,7 @@
 									<attribute name="Class-Path" value="${cpProp} lib/servlet-api.jar" />
 								</manifest>
 								<jar
-									jarfile="${project.build.directory}/${project.build.finalName}-app/${project.build.finalName}-cli.jar"
+									jarfile="${project.build.directory}/app/${project.build.finalName}-cli.jar"
 									basedir="${project.build.directory}/classes" manifest="${project.build.directory}/MANIFEST.MF" />
 
 								<!-- build dateien kopieren -->
@@ -171,7 +171,6 @@
 									  file="${project.build.directory}/../../${mcr.local-app}/src/build/build.xml" />
 									  <copy tofile="${project.build.directory}/buildfile_application.xml"
 									  file="${project.build.directory}/../../jspdocportal-webapp/buildfile_application.xml" />
-       								
 							</tasks>
 						</configuration>
 						<goals>
@@ -186,10 +185,7 @@
 						<version>1.8.0</version>
 					</dependency>
 				</dependencies>
-			</plugin>
-			
-			
-		
+			</plugin>		
 		</plugins>
 	</build>
 </project>
