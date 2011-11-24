@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mcrpermissions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="MCRPermissions.xsd" xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:xml="http://www.w3.org/XML/1998/namespace">
+	<mcrpermission name="administrate" description="Administrationsaufgaben "
+		ruledescription="Administratoren, Editoren mit Teiladminsitrationsrechten">
+		<condition format="xml">
+			<boolean operator="or">
+				<condition value="admingroup" operator="=" field="group" />
+				<condition value="rootgroup" operator="=" field="group" />
+			</boolean>
+		</condition>
+	</mcrpermission>
+
+	<mcrpermission name="administrate-webcontent"
+		description="Editieren der statischen WebContent Dateien via FCK"
+		ruledescription="Nur für Administratoren">
+		<condition format="xml">
+			<boolean operator="or">
+				<condition value="adminwebcontent" operator="=" field="group" />
+				<condition value="admingroup" operator="=" field="group" />
+			</boolean>
+		</condition>
+	</mcrpermission>
+
+	<mcrpermission name="administrate-institution"
+		description="Verwalten von Dissertations - Prozessen "
+		ruledescription="Nur für Administratoren">
+		<condition format="xml">
+			<boolean operator="or">
+				<condition value="admininstitution" operator="=" field="group" />
+				<condition value="admingroup" operator="=" field="group" />
+			</boolean>
+		</condition>
+	</mcrpermission>
+
+	<mcrpermission name="administrate-xmetadiss"
+		description="Verwalten von Dissertations - Prozessen "
+		ruledescription="Nur für Administratoren">
+		<condition format="xml">
+			<boolean operator="or">
+				<condition value="admindisshab" operator="=" field="group" />
+				<condition value="admingroup" operator="=" field="group" />
+			</boolean>
+		</condition>
+	</mcrpermission>
+	<mcrpermission name="administrate-thesis"
+		description="Verwalten von Dissertations - Prozessen "
+		ruledescription="Nur für Administratoren">
+		<condition format="xml">
+			<boolean operator="or">
+				<condition value="adminthesis" operator="=" field="group" />
+				<condition value="admingroup" operator="=" field="group" />
+			</boolean>
+		</condition>
+	</mcrpermission>
+
+	<mcrpermission name="administrate-series"
+		description="Verwalten von Mehrbaendige Werke - Prozessen "
+		ruledescription="Nur für Administratoren">
+		<condition format="xml">
+			<boolean operator="or">
+				<condition value="adminseries" operator="=" field="group" />
+				<condition value="admingroup" operator="=" field="group" />
+			</boolean>
+		</condition>
+	</mcrpermission>
+
+	<mcrpermission name="administrate-publication"
+		description="Verwalten von Publikationen - Prozessen "
+		ruledescription="Nur für Administratoren und Editoren von Publikationen">
+		<condition format="xml">
+			<boolean operator="or">
+				<condition value="adminpublication" operator="=" field="group" />
+				<condition value="admingroup" operator="=" field="group" />
+			</boolean>
+		</condition>
+	</mcrpermission>
+
+	<mcrpermission name="administrate-person" description="Verwalten von Personen - Prozessen "
+		ruledescription="Nur für Administratoren und Editoren von Autorendaten">
+		<condition format="xml">
+			<boolean operator="or">
+				<condition value="adminperson" operator="=" field="group" />
+				<condition value="admingroup" operator="=" field="group" />
+			</boolean>
+		</condition>
+	</mcrpermission>
+
+	<mcrpermission name="administrate-accessrules"
+		description="Verwalten von Zugriffsrechten für Dokumente "
+		ruledescription="Nur für Administratoren">
+		<condition format="xml">
+			<boolean operator="or">
+				<condition value="admingroup" operator="=" field="group" />
+				<condition value="adminuser" operator="=" field="group" />
+			</boolean>
+		</condition>
+	</mcrpermission>
+
+	<mcrpermission name="administrate-registeruser"
+		description="Verwalten von Nutzer Neuregistrierungen" ruledescription="Nur für Administratoren">
+		<condition format="xml">
+			<boolean operator="or">
+				<condition value="admingroup" operator="=" field="group" />
+				<condition value="adminuser" operator="=" field="group" />
+			</boolean>
+		</condition>
+	</mcrpermission>
+
+	<mcrpermission name="administrate-user" description="Verwalten von Usern"
+		ruledescription="Nur für Administratoren">
+		<condition format="xml">
+			<boolean operator="or">
+				<condition value="admingroup" operator="=" field="group" />
+				<condition value="adminuser" operator="=" field="group" />
+			</boolean>
+		</condition>
+	</mcrpermission>
+	<mcrpermission name="create-user" description="Anlegen von Benutzern"
+		ruledescription="Nur für Administratoren">
+		<condition format="xml">
+			<boolean operator="or">
+				<condition value="admingroup" operator="=" field="group" />
+				<condition value="adminuser" operator="=" field="group" />
+			</boolean>
+		</condition>
+	</mcrpermission>
+	<mcrpermission name="modify-user" description="Verändern von Benutzern"
+		ruledescription="Nur für Administratoren">
+		<condition format="xml">
+			<boolean operator="or">
+				<condition value="admingroup" operator="=" field="group" />
+				<condition value="adminuser" operator="=" field="group" />
+			</boolean>
+		</condition>
+	</mcrpermission>
+	<mcrpermission name="delete-user" description="Löschen von Benutzern"
+		ruledescription="Nur für Administratoren">
+		<condition format="xml">
+			<boolean operator="or">
+				<condition value="admingroup" operator="=" field="group" />
+				<condition value="adminuser" operator="=" field="group" />
+			</boolean>
+		</condition>
+	</mcrpermission>
+	<mcrpermission name="create-group" description="Anlegen von Gruppen">
+		<condition format="xml">
+			<boolean operator="or">
+				<condition value="admingroup" operator="=" field="group" />
+				<condition value="adminuser" operator="=" field="group" />
+			</boolean>
+		</condition>
+	</mcrpermission>
+	<mcrpermission name="modify-group" description="Verändern von Gruppen">
+		<condition format="xml">
+			<boolean operator="or">
+				<condition value="admingroup" operator="=" field="group" />
+				<condition value="adminuser" operator="=" field="group" />
+			</boolean>
+		</condition>
+	</mcrpermission>
+	<mcrpermission name="delete-group" description="Löschen von Gruppen">
+		<condition format="xml">
+			<boolean operator="or">
+				<condition value="admingroup" operator="=" field="group" />
+				<condition value="adminuser" operator="=" field="group" />
+			</boolean>
+		</condition>
+	</mcrpermission>
+	<mcrpermission name="create-classification" description="Erzeugen einer Klassifikation">
+		<condition format="xml">
+			<boolean operator="or">
+				<condition value="admingroup" operator="=" field="group" />
+				<condition value="adminclassification" operator="=" field="group" />
+			</boolean>
+		</condition>
+	</mcrpermission>
+	<mcrpermission name="create-person" description="Erzeugen einer Person">
+		<condition format="xml">
+			<boolean operator="or">
+				<condition value="admingroup" operator="=" field="group" />
+				<condition value="adminperson" operator="=" field="group" />
+				<condition value="createperson" operator="=" field="group" />
+			</boolean>
+		</condition>
+	</mcrpermission>
+	<mcrpermission name="create-document" description="Erzeugen eines Dokuments">
+		<condition format="xml">
+			<boolean operator="or">
+				<condition value="admingroup" operator="=" field="group" />
+				<condition value="adminpublication" operator="=" field="group" />
+				<condition value="createpublication" operator="=" field="group" />
+			</boolean>
+		</condition>
+	</mcrpermission>
+	<mcrpermission name="create-disshab" description="Erzeugen einer Dissertation">
+		<condition format="xml">
+			<boolean operator="or">
+				<condition value="admingroup" operator="=" field="group" />
+				<condition value="admindisshab" operator="=" field="group" />
+				<condition value="createdisshab" operator="=" field="group" />
+				<condition value="suspenddisshab" operator="=" field="group" />
+			</boolean>
+		</condition>
+	</mcrpermission>
+	<mcrpermission name="create-thesis"
+		description="Erzeugen einer stud. Abschlussarbeit">
+		<condition format="xml">
+			<boolean operator="or">
+				<condition value="admingroup" operator="=" field="group" />
+				<condition value="adminthesis" operator="=" field="group" />
+				<condition value="createthesis" operator="=" field="group" />
+			</boolean>
+		</condition>
+	</mcrpermission>
+
+	<mcrpermission name="create-series"
+		description="Erzeugen einer stud. Abschlussarbeit">
+		<condition format="xml">
+			<boolean operator="or">
+				<condition value="admingroup" operator="=" field="group" />
+				<condition value="adminseries" operator="=" field="group" />
+				<condition value="createseries" operator="=" field="group" />
+			</boolean>
+		</condition>
+	</mcrpermission>
+
+	<mcrpermission name="create-institution" description="Erzeugen einer Institution">
+		<condition format="xml">
+			<boolean operator="or">
+				<condition value="admingroup" operator="=" field="group" />
+				<condition value="admininstitution" operator="=" field="group" />
+				<condition value="createinstitution" operator="=" field="group" />
+			</boolean>
+		</condition>
+	</mcrpermission>
+	<mcrpermission name="admininterface-access" description="Zugang zum Admininterface">
+		<condition format="xml">
+			<boolean operator="or">
+				<condition value="admingroup" operator="=" field="group" />
+				<condition value="adminuser" operator="=" field="group" />
+			</boolean>
+		</condition>
+	</mcrpermission>
+	<mcrpermission name="admininterface-user" description="Zugang zur Benutzerverwaltung">
+		<condition format="xml">
+			<boolean operator="or">
+				<condition value="admingroup" operator="=" field="group" />
+				<condition value="adminuser" operator="=" field="group" />
+			</boolean>
+		</condition>
+	</mcrpermission>
+	<mcrpermission name="admininterface-accessrule"
+		description="Zugang zum Regeleditor">
+		<condition format="xml">
+			<boolean operator="or">
+				<condition value="admingroup" operator="=" field="group" />
+				<condition value="adminuser" operator="=" field="group" />
+			</boolean>
+		</condition>
+	</mcrpermission>
+</mcrpermissions>

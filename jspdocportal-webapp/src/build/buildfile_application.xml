@@ -232,60 +232,60 @@
 		
 		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
 		<mcr-execute>
-            load permissions data from file ${APP_HOME}/WEB-INF/config/user/permissions.xml
+            load permissions data from file content/user/permissions.xml
 
       	    init superuser
 
             change to user root with alleswirdgut
       			
-            create group data from file ${APP_HOME}/WEB-INF/config/user/group_adminall.xml        	
+            create group data from file content/user/group_adminall.xml        	
         	
-        	create group data from file ${APP_HOME}/WEB-INF/config/user/group_adminperson.xml
-        	create group data from file ${APP_HOME}/WEB-INF/config/user/group_createperson.xml
+        	create group data from file content/user/group_adminperson.xml
+        	create group data from file content/user/group_createperson.xml
         	
-        	create group data from file ${APP_HOME}/WEB-INF/config/user/group_admindisshab.xml
-        	create group data from file ${APP_HOME}/WEB-INF/config/user/group_createdisshab.xml
+        	create group data from file content/user/group_admindisshab.xml
+        	create group data from file content/user/group_createdisshab.xml
 
-        	create group data from file ${APP_HOME}/WEB-INF/config/user/group_admininstitution.xml
-        	create group data from file ${APP_HOME}/WEB-INF/config/user/group_createinstitution.xml
+        	create group data from file content/user/group_admininstitution.xml
+        	create group data from file content/user/group_createinstitution.xml
         	
-        	create group data from file ${APP_HOME}/WEB-INF/config/user/group_adminpublication.xml
-        	create group data from file ${APP_HOME}/WEB-INF/config/user/group_createpublication.xml
+        	create group data from file content/user/group_adminpublication.xml
+        	create group data from file content/user/group_createpublication.xml
         	
-        	create group data from file ${APP_HOME}/WEB-INF/config/user/group_adminclassification.xml
+        	create group data from file content/user/group_adminclassification.xml
         	
-        	create group data from file ${APP_HOME}/WEB-INF/config/user/group_adminuser.xml
-        	create group data from file ${APP_HOME}/WEB-INF/config/user/group_adminwebcontent.xml
+        	create group data from file content/user/group_adminuser.xml
+        	create group data from file content/user/group_adminwebcontent.xml
         	
-        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_administrator.xml  
-        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_editorUser.xml
-        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_editorClass.xml
-        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_editorWeb.xml
+        	create user data from file content/user/user_administrator.xml  
+        	create user data from file content/user/user_editorUser.xml
+        	create user data from file content/user/user_editorClass.xml
+        	create user data from file content/user/user_editorWeb.xml
 
-        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_authorA.xml
-        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_authorI.xml
-        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_authorP.xml
-        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_authorD.xml
+        	create user data from file content/user/user_authorA.xml
+        	create user data from file content/user/user_authorI.xml
+        	create user data from file content/user/user_authorP.xml
+        	create user data from file content/user/user_authorD.xml
 
-        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_editorA.xml
-        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_editorI.xml
-        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_editorP.xml
-        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_editorD.xml
+        	create user data from file content/user/user_editorA.xml
+        	create user data from file content/user/user_editorI.xml
+        	create user data from file content/user/user_editorP.xml
+        	create user data from file content/user/user_editorD.xml
         	
-        	create group data from file ${APP_HOME}/WEB-INF/config/user/group_membergroup.xml
-        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_member.xml
+        	create group data from file content/user/group_membergroup.xml
+        	create user data from file content/user/user_member.xml
         	
-        	create group data from file ${APP_HOME}/WEB-INF/config/user/group_adminthesis.xml
-        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_editorT.xml
+        	create group data from file content/user/group_adminthesis.xml
+        	create user data from file content/user/user_editorT.xml
         	
-        	create group data from file ${APP_HOME}/WEB-INF/config/user/group_adminthesis.xml
-        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_editorT.xml
+        	create group data from file content/user/group_adminthesis.xml
+        	create user data from file content/user/user_editorT.xml
         	
-        	create group data from file ${APP_HOME}/WEB-INF/config/user/group_suspendthesis.xml
-        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_editorTS.xml
+        	create group data from file content/user/group_suspendthesis.xml
+        	create user data from file content/user/user_editorTS.xml
         	
-        	create group data from file ${APP_HOME}/WEB-INF/config/user/group_suspenddisshab.xml
-        	create user data from file ${APP_HOME}/WEB-INF/config/user/user_editorDS.xml
+        	create group data from file content/user/group_suspenddisshab.xml
+        	create user data from file content/user/user_editorDS.xml
         	
             check user data consistency
     	</mcr-execute>

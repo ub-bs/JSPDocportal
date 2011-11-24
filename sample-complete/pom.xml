@@ -170,7 +170,11 @@
 								<copy tofile="${project.build.directory}/build.xml"
 									  file="${project.build.directory}/../../${mcr.local-app}/src/build/build.xml" />
 									  <copy tofile="${project.build.directory}/buildfile_application.xml"
-									  file="${project.build.directory}/../../jspdocportal-webapp/buildfile_application.xml" />
+									  file="${project.build.directory}/../../jspdocportal-webapp/src/build/buildfile_application.xml" />
+								<!-- base content kopieren -->
+								<copy todir="${project.build.directory}/content">
+									<fileset dir="${project.build.directory}/../../${mcr.local-app}/content" />
+								</copy>
 							</tasks>
 						</configuration>
 						<goals>
