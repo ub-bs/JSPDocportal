@@ -213,13 +213,6 @@
 							</excludes>
 						</resource>
 						<resource>
-							<directory>src/main/config/user</directory>
-							<targetPath>WEB-INF/config/user</targetPath>
-							<includes>
-								<include>*.*</include>
-							</includes>
-						</resource>
-						<resource>
 							<directory>src/main/config/lang/webcontent</directory>
 							<targetPath>content/webcontent</targetPath>
 						</resource>
