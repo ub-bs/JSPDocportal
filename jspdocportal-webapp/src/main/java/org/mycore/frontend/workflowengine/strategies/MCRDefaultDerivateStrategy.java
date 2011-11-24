@@ -181,6 +181,8 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 		}
 		catch(SAXParseException e){
 			logger.error(e);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		
 		if (der.getDerivate().getInternals().getMainDoc().equals("#####")) {

@@ -1,6 +1,7 @@
 package org.mycore.frontend.workflowengine.strategies;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -14,13 +15,11 @@ import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
-import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRDerivateFileFilter;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRPersistenceException;
-import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.MCRUtils;
 import org.mycore.common.xml.MCRXMLHelper;
@@ -32,7 +31,6 @@ import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.cli.MCRDerivateCommands;
-import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
 import org.xml.sax.SAXParseException;
 
@@ -341,7 +339,9 @@ public abstract class MCRDerivateStrategy {
 	        }
 	        catch(SAXParseException e){
 	        	logger.error(e);
-	        }
+	        } catch (IOException e) {
+				e.printStackTrace();
+			}
 			
 			if ( ruleMap != null ) 
 				MCRWorkflowUtils.setAccessRulesMap(derivateid, ruleMap);

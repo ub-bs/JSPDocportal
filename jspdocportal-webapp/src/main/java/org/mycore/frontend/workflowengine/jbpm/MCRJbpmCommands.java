@@ -303,7 +303,9 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
         	}
         	catch(SAXParseException spe){
         		LOGGER.error("SAXParseException", spe);
-        	}
+        	} catch (IOException e) {
+        		LOGGER.error("IOException" , e);
+			}
         }       
     }    
 }
