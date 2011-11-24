@@ -5,7 +5,7 @@
 <!-- =================================================================== -->
 
 <project name="JSPDocportal Sample App" default="usage" basedir=".">
-	<property name = "PARENT_BUILD_FILE" value="buildfile_application.xml" />
+	<property name="PARENT_BUILD_FILE" value="buildfile_application.xml" />
 	<property name="APP_NAME" value="sample" />
 	
 	<property environment="env" />
@@ -16,16 +16,13 @@
 		<os family="unix" />
 	</condition>
 	
-	
-
 	<import file="${PARENT_BUILD_FILE}"/>
-
+	
+	<target name="init">
+		<antcall target="main_build.init" />
+	</target>
 	<target name="usage">
 		<antcall target="main_build.usage" />
-	</target>
-
-	<target name="create.schema" depends="init">
-		<antcall target="main_build.create.schema" />
 	</target>
 
 	<target name="create.directories" depends="init">
