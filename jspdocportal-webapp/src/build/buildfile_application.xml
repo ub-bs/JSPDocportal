@@ -257,51 +257,51 @@
         	create group data from file content/user/group_adminuser.xml
         	create group data from file content/user/group_adminwebcontent.xml
         	
-			encrypt passwords in user xml file content/user/user_administrator.xml to file target/user_encrypted/user_administrator.xml
-			encrypt passwords in user xml file content/user/user_editorUser.xml to file target/user_encrypted/user_editorUser.xml
-			encrypt passwords in user xml file content/user/user_editorClass.xml to file target/user_encrypted/user_editorClass.xml
-			encrypt passwords in user xml file content/user/user_editorWeb.xml to file target/user_encrypted/user_editorWeb.xml
+			encrypt passwords in user xml file content/user/user_administrator.xml to file content/user_encrypted/user_administrator.xml
+			encrypt passwords in user xml file content/user/user_editorUser.xml to file content/user_encrypted/user_editorUser.xml
+			encrypt passwords in user xml file content/user/user_editorClass.xml to file content/user_encrypted/user_editorClass.xml
+			encrypt passwords in user xml file content/user/user_editorWeb.xml to file content/user_encrypted/user_editorWeb.xml
 
-        	create user data from file target/user_encrypted/user_administrator.xml  
-        	create user data from file target/user_encrypted/user_editorUser.xml
-        	create user data from file target/user_encrypted/user_editorClass.xml
-        	create user data from file target/user_encrypted/user_editorWeb.xml
+        	create user data from file content/user_encrypted/user_administrator.xml  
+        	create user data from file content/user_encrypted/user_editorUser.xml
+        	create user data from file content/user_encrypted/user_editorClass.xml
+        	create user data from file content/user_encrypted/user_editorWeb.xml
 			
-			encrypt passwords in user xml file content/user/user_authorA.xml to file target/user_encrypted/user_authorA.xml
-			encrypt passwords in user xml file content/user/user_authorI.xml to file target/user_encrypted/user_authorI.xml
-			encrypt passwords in user xml file content/user/user_authorP.xml to file target/user_encrypted/user_authorP.xml
-			encrypt passwords in user xml file content/user/user_authorD.xml to file target/user_encrypted/user_authorD.xml
+			encrypt passwords in user xml file content/user/user_authorA.xml to file content/user_encrypted/user_authorA.xml
+			encrypt passwords in user xml file content/user/user_authorI.xml to file content/user_encrypted/user_authorI.xml
+			encrypt passwords in user xml file content/user/user_authorP.xml to file content/user_encrypted/user_authorP.xml
+			encrypt passwords in user xml file content/user/user_authorD.xml to file content/user_encrypted/user_authorD.xml
 
-        	create user data from file target/user_encrypted/user_authorA.xml
-        	create user data from file target/user_encrypted/user_authorI.xml
-        	create user data from file target/user_encrypted/user_authorP.xml
-        	create user data from file target/user_encrypted/user_authorD.xml
+        	create user data from file content/user_encrypted/user_authorA.xml
+        	create user data from file content/user_encrypted/user_authorI.xml
+        	create user data from file content/user_encrypted/user_authorP.xml
+        	create user data from file content/user_encrypted/user_authorD.xml
 
-			encrypt passwords in user xml file content/user/user_editorA.xml to file target/user_encrypted/user_editorA.xml
-			encrypt passwords in user xml file content/user/user_editorI.xml to file target/user_encrypted/user_editorI.xml
-			encrypt passwords in user xml file content/user/user_editorP.xml to file target/user_encrypted/user_editorP.xml
-			encrypt passwords in user xml file content/user/user_editorD.xml to file target/user_encrypted/user_editorD.xml
+			encrypt passwords in user xml file content/user/user_editorA.xml to file content/user_encrypted/user_editorA.xml
+			encrypt passwords in user xml file content/user/user_editorI.xml to file content/user_encrypted/user_editorI.xml
+			encrypt passwords in user xml file content/user/user_editorP.xml to file content/user_encrypted/user_editorP.xml
+			encrypt passwords in user xml file content/user/user_editorD.xml to file content/user_encrypted/user_editorD.xml
 			
-        	create user data from file target/user_encrypted/user_editorA.xml
-        	create user data from file target/user_encrypted/user_editorI.xml
-        	create user data from file target/user_encrypted/user_editorP.xml
-        	create user data from file target/user_encrypted/user_editorD.xml
+        	create user data from file content/user_encrypted/user_editorA.xml
+        	create user data from file content/user_encrypted/user_editorI.xml
+        	create user data from file content/user_encrypted/user_editorP.xml
+        	create user data from file content/user_encrypted/user_editorD.xml
         	
-        	create group data from file target/user_encrypted/group_membergroup.xml
-			encrypt passwords in user xml file content/user/user_member.xml to file target/user_encrypted/user_member.xml
-        	create user data from file target/user_encrypted/user_member.xml
+        	create group data from file content/user_encrypted/group_membergroup.xml
+			encrypt passwords in user xml file content/user/user_member.xml to file content/user_encrypted/user_member.xml
+        	create user data from file content/user_encrypted/user_member.xml
         	
-        	create group data from file target/user_encrypted/group_adminthesis.xml
-			encrypt passwords in user xml file content/user/user_editorT.xml to file target/user_encrypted/user_editorT.xml
-        	create user data from file target/user_encrypted/user_editorT.xml
+        	create group data from file content/user_encrypted/group_adminthesis.xml
+			encrypt passwords in user xml file content/user/user_editorT.xml to file content/user_encrypted/user_editorT.xml
+        	create user data from file content/user_encrypted/user_editorT.xml
         	
-        	create group data from file target/user_encrypted/group_suspendthesis.xml
-			encrypt passwords in user xml file content/user/user_editorTS.xml to file target/user_encrypted/user_editorTS.xml
-        	create user data from file target/user_encrypted/user_editorTS.xml
+        	create group data from file content/user_encrypted/group_suspendthesis.xml
+			encrypt passwords in user xml file content/user/user_editorTS.xml to file content/user_encrypted/user_editorTS.xml
+        	create user data from file content/user_encrypted/user_editorTS.xml
         	
-        	create group data from file target/user_encrypted/group_suspenddisshab.xml
-			encrypt passwords in user xml file content/user/user_editorDS.xml to file target/user_encrypted/user_editorDS.xml
-        	create user data from file target/user_encrypted/user_editorDS.xml
+        	create group data from file content/user_encrypted/group_suspenddisshab.xml
+			encrypt passwords in user xml file content/user/user_editorDS.xml to file content/user_encrypted/user_editorDS.xml
+        	create user data from file content/user_encrypted/user_editorDS.xml
         	
             check user data consistency
     	</mcr-execute>
