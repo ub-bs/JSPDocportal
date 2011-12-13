@@ -15,6 +15,8 @@
 	<c:set var="WebApplicationBaseURL"	value="${applicationScope.WebApplicationBaseURL}" />
 	<c:set var="path" value="${requestScope.path}" />
 	<%-- set the current language --%>
+	<fmt:setBundle basename="messages"/>
+	<fmt:setLocale value="de"/>
 	<c:choose>
 		<c:when test="${!empty(param.lang)}">
 			<c:set var="lang" value="${param.lang}" />
