@@ -70,6 +70,12 @@
     <category ID="TYPE0003">
       <label xml:lang="de" text="Abschlussarbeit" />
       <label xml:lang="en" text="examines" />
+      <category ID="TYPE0003.101">
+        <label xml:lang="de" text="Belegarbeit" />
+        <label xml:lang="en" text="assignment" />
+        <label xml:lang="x-dini" text="pub-type:paper" />
+        <label xml:lang="x-mapper" text="diniPublType:StudyThesis dctermsDCMIType:Text" />          
+      </category>
       <category ID="TYPE0003.001">
         <label xml:lang="de" text="Examensarbeit" />
         <label xml:lang="en" text="examination" />
