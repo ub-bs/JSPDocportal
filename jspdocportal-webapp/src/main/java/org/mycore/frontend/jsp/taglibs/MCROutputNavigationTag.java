@@ -285,15 +285,15 @@ public class MCROutputNavigationTag extends SimpleTagSupport
 				}
 				
 				if(!beforeFirst){
-					out.append("\n"+separatorString);
+					out.append("\n<div class=\"separator\">"+separatorString+"</div>");					
 				}
-				else{
+				else {
 					beforeFirst = false;
 				}
 				String msg = retrieveI18N(el.getAttribute("i18n"));
-				out.append("\n<span style=\"padding-left:6px; padding-right:6px;\">");							
+				out.append("\n<div class=\"item\">");							
 			    out.append("\n   <a target=\"_self\" href=\""+baseURL+"nav?path="+el.getAttribute("_path")+"\">"+msg+"</a>");
-			    out.append("\n</span>");				
+			    out.append("\n</div>");				
 			}
 			out.flush();
 		}
