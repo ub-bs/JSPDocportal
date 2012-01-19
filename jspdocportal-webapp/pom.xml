@@ -109,9 +109,9 @@
 		</dependency>
 		<dependency>
       		<groupId>net.sf.ehcache</groupId>
-      		<artifactId>ehcache-core</artifactId>
-      		<version>2.4.2</version>
-   		 </dependency>
+     		 <artifactId>ehcache-core</artifactId>
+     		 <version>2.5.0</version>
+  		  </dependency>
 
 	<!--  sl4j dependency because of problems with inconsistent versions used by mycore -->
   	<dependency>
@@ -128,13 +128,6 @@
   		<type>jar</type>
   		<optional>false</optional>
   	</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-			<version>1.1.2</version>
-			<type>jar</type>
-			<optional>false</optional>
-		</dependency>
 		<dependency>
 			<groupId>jboss</groupId>
 			<artifactId>jbpm</artifactId>
@@ -160,12 +153,11 @@
     		<version>1.5.6</version>
 		</dependency>
 	
-<dependency>
-  <groupId>org.hibernate</groupId>
-  <artifactId>hibernate-c3p0</artifactId>
-  <version>3.6.1.Final</version>
-</dependency>
-
+		<dependency>
+		  <groupId>org.hibernate</groupId>
+		  <artifactId>hibernate-c3p0</artifactId>
+		  <version>3.6.1.Final</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -310,6 +302,27 @@
 											org.apache.maven.plugins
 										</groupId>
 										<artifactId>
+											maven-resources-plugin
+										</artifactId>
+										<versionRange>
+											[2.4,)
+										</versionRange>
+								
+										<goals>
+											<goal>run</goal>
+										</goals>
+										
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.maven.plugins
+										</groupId>
+										<artifactId>
 											maven-antrun-plugin
 										</artifactId>
 										<versionRange>
@@ -337,12 +350,13 @@
 										<goals>
 											<goal>transform</goal>
 										</goals>
+										
 									</pluginExecutionFilter>
 									<action>
 										<ignore></ignore>
 									</action>
 								</pluginExecution>
-							</pluginExecutions>
+							</pluginExecutions>							
 						</lifecycleMappingMetadata>
 					</configuration>
 				</plugin>
