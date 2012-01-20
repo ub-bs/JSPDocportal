@@ -24,6 +24,7 @@
 package org.mycore.frontend.jsp.taglibs;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -205,8 +206,9 @@ public class MCROutputNavigationTag extends SimpleTagSupport
 			}
 			return;
 		}
-		NodeList nl = currentNode.getChildNodes();
 		
+		List<Element> printableElements = new ArrayList<Element>();
+		NodeList nl = currentNode.getChildNodes();
 		for(int i=0;i<nl.getLength(); i++){
 			if(!(nl.item(i) instanceof Element)){
 				continue;
@@ -225,33 +227,59 @@ public class MCROutputNavigationTag extends SimpleTagSupport
 					continue;
 				}
 			}
-			try{
-				String cssClass = "navi_left_subentry";
-				if("1".equals(el.getAttribute("_level"))){
-					cssClass = "navi_left_mainentry";
-				}
+			printableElements.add(el);
+		}
+		if(printableElements.size()==0){
+			return;
+		}
+		int level = 0;
+		try{
+			level = Integer.parseInt(currentNode.getAttribute("_level"));
+		}
+		catch(NumberFormatException nfe){
+			//ignore
+		}
+		String indent = "\n      ";
+		for(int j=0;j<level;j++){
+			indent += "   ";
+		}
+		try{
+			if(level>0){
+				out.append(indent+"<div class=\"subitems\">");
+			}
 			
+			for(Element el: printableElements){
+				String cssClass = "item";
+				String id = el.getAttribute("id");
+				boolean active = path.length>0 && path[0].equals(id);
+				if(active){
+					cssClass = "item active";
+				}
+
 				String msg = retrieveI18N(el.getAttribute("i18n"));
-				out.append("<div class=\""+cssClass+"\">");
-				out.append("   <a target=\"_self\" href=\""+baseURL+"nav?path="+el.getAttribute("_path")+"\">"+msg+"</a>");
+				out.append(indent+"   <div class=\""+cssClass+"\">");
+				out.append(indent+"      <a target=\"_self\" href=\""+baseURL+"nav?path="+el.getAttribute("_path")+"\">"+msg+"</a>");
+				out.append(indent+"   </div>");
 				
-				if(expanded || (path.length>0 && path[0].equals(el.getAttribute("id")))){
+				if(expanded || active){
 					String[] subpath = path;
 					if(path.length>0){
-						subpath = Arrays.copyOfRange(path, 1, path.length);
+						subpath = Arrays.copyOfRange(path, 1, path.length);						
 					}
-					printLeftNav(subpath, el, out);				
-				}
-				
-				out.append("</div>");
-				out.flush();
+					printLeftNav(subpath, el, out);
+				}				
 			}
-			catch(Exception e){
-				LOGGER.error(e);
+			
+			if(level>0){
+				out.append(indent+"</div>");
 			}
+			out.flush();
 		}
+		catch(Exception e){
+			LOGGER.error(e);
+		}		
 	}
-	
+
 	/**
 	 * prints top nav (horizontal navigation)
 	 * (only with direct sub items of the given navigation item
@@ -301,21 +329,6 @@ public class MCROutputNavigationTag extends SimpleTagSupport
 			LOGGER.error(e);
 		}
 	}
-	/*
-	<x:forEach
-	select="$Navigation//nav:navigation[@name='top']/nav:navitem[not(@hidden = 'true')]">
-	<x:set var="href1" select="string(./@href)" />
-	<x:set var="labelKey1" select="string(./@i18n)" />
-	<a target="_self" href="${href1}"><fmt:message key="${labelKey1}" /></a>
-	<x:choose>
-		<x:when select="../nav:navitem[last()]/@nodeID != ./@nodeID">
-			<img alt="" style="width:6px; height:1px;" src="${WebApplicationBaseURL}images/emtyDot1Pix.gif">
-			|
-			<img alt="" style="width:6px; height:1px;" src="${WebApplicationBaseURL}images/emtyDot1Pix.gif">
-		</x:when>
-	</x:choose>
-</x:forEach>
-	*/
 	
 	/**
 	 * prints the navigation items as left side main navigation
