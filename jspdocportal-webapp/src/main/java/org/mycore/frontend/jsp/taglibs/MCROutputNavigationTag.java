@@ -239,27 +239,30 @@ public class MCROutputNavigationTag extends SimpleTagSupport
 		catch(NumberFormatException nfe){
 			//ignore
 		}
-		String indent = "\n      ";
-		for(int j=0;j<level;j++){
-			indent += "   ";
+		String indent = "\n         ";
+		for(int j=0;j<=level;j++){
+			indent += "      ";
 		}
 		try{
-			if(level>0){
-				out.append(indent+"<div class=\"subitems\">");
-			}
+			out.append(indent+"   <ol>");
 			
 			for(Element el: printableElements){
-				String cssClass = "item";
+				String cssClass = "";
 				String id = el.getAttribute("id");
 				boolean active = path.length>0 && path[0].equals(id);
 				if(active){
-					cssClass = "item active";
+					cssClass = "active";
 				}
 
 				String msg = retrieveI18N(el.getAttribute("i18n"));
-				out.append(indent+"   <div class=\""+cssClass+"\">");
-				out.append(indent+"      <a target=\"_self\" href=\""+baseURL+"nav?path="+el.getAttribute("_path")+"\">"+msg+"</a>");
-				out.append(indent+"   </div>");
+				if (cssClass.length()>0){
+					out.append(indent+"      <li class=\""+cssClass+"\">");
+				}
+				else{
+					out.append(indent+"      <li>");
+				}
+				out.append(indent+"         <a target=\"_self\" href=\""+baseURL+"nav?path="+el.getAttribute("_path")+"\">"+msg+"</a>");
+				
 				
 				if(expanded || active){
 					String[] subpath = path;
@@ -267,12 +270,11 @@ public class MCROutputNavigationTag extends SimpleTagSupport
 						subpath = Arrays.copyOfRange(path, 1, path.length);						
 					}
 					printLeftNav(subpath, el, out);
-				}				
+				}
+				out.append(indent+"      </li>");
 			}
 			
-			if(level>0){
-				out.append(indent+"</div>");
-			}
+			out.append(indent+"   </ol>");
 			out.flush();
 		}
 		catch(Exception e){
@@ -291,42 +293,47 @@ public class MCROutputNavigationTag extends SimpleTagSupport
 			return;
 		}
 		NodeList nl = currentNode.getChildNodes();
-		try{
-			boolean beforeFirst = true;
-			for(int i=0;i<nl.getLength(); i++){
-				if(!(nl.item(i) instanceof Element)){
-					continue;
-				}
-				Element el = (Element)nl.item(i);
-				if(!el.getNodeName().equals("navitem")){
-					continue;
-				}
-				boolean hidden = "true".equals(el.getAttribute("hidden"));
-				if(hidden){
-					continue;
-				}					
-				String permission = el.getAttribute("permission");
-				if(!permission.equals("")){
-					if(!MCRAccessManager.checkPermission(permission)){
+		if(nl.getLength()>0){
+			try{
+				out.append("<ol>");
+				boolean beforeFirst = true;
+				for(int i=0;i<nl.getLength(); i++){
+					if(!(nl.item(i) instanceof Element)){
 						continue;
-					}	
+					}
+					Element el = (Element)nl.item(i);
+					if(!el.getNodeName().equals("navitem")){
+						continue;
+					}
+					boolean hidden = "true".equals(el.getAttribute("hidden"));
+					if(hidden){
+						continue;
+					}					
+					String permission = el.getAttribute("permission");
+					if(!permission.equals("")){
+						if(!MCRAccessManager.checkPermission(permission)){
+							continue;
+						}	
+					}
+					
+					if(!beforeFirst){
+						out.append("\n   <li class=\"separator\">"+separatorString+"</li>");					
+					}
+					else {
+						beforeFirst = false;
+					}
+					String msg = retrieveI18N(el.getAttribute("i18n"));
+					out.append("\n   <li>");							
+				    out.append("\n      <a target=\"_self\" href=\""+baseURL+"nav?path="+el.getAttribute("_path")+"\">"+msg+"</a>");
+				    out.append("\n   </li>");				
 				}
-				
-				if(!beforeFirst){
-					out.append("\n<div class=\"separator\">"+separatorString+"</div>");					
-				}
-				else {
-					beforeFirst = false;
-				}
-				String msg = retrieveI18N(el.getAttribute("i18n"));
-				out.append("\n<div class=\"item\">");							
-			    out.append("\n   <a target=\"_self\" href=\""+baseURL+"nav?path="+el.getAttribute("_path")+"\">"+msg+"</a>");
-			    out.append("\n</div>");				
+				out.append("</ol>");
+				out.flush();
 			}
-			out.flush();
-		}
-		catch(IOException e){
-			LOGGER.error(e);
+		
+			catch(IOException e){
+				LOGGER.error(e);
+			}
 		}
 	}
 	
@@ -344,7 +351,7 @@ public class MCROutputNavigationTag extends SimpleTagSupport
 		}
 		NodeList nl = currentNode.getChildNodes();
 		try{
-			out.append("\n<ul style=\"list-style-image: url("+baseURL+"images/greenArrow.gif);\">"); 
+			out.append("\n<ol>\">"); 
 			for(int i=0;i<nl.getLength(); i++){
 				if(!(nl.item(i) instanceof Element)){
 					continue;
@@ -372,7 +379,7 @@ public class MCROutputNavigationTag extends SimpleTagSupport
 				}
 				out.append("\n</li>");
 			}
-			out.append("\n</ul>");
+			out.append("\n</ol>");
 			out.flush();
 		}
 		catch(IOException e){
@@ -393,17 +400,19 @@ public class MCROutputNavigationTag extends SimpleTagSupport
 	    }
 		StringBuffer sbOut = new StringBuffer();
 		String msg = retrieveI18N(currentNode.getAttribute("i18n"));
-		sbOut.append("\n<span style=\"padding-left:6px; padding-right:6px;\">");
-		sbOut.append("\n   <a target=\"_self\" href=\""+baseURL+"nav?path="+currentNode.getAttribute("_path")+"\">"+msg+"</a>");
-	    sbOut.append("\n</span>");
+		sbOut.append("\n   <li>");
+		sbOut.append("\n      <a target=\"_self\" href=\""+baseURL+"nav?path="+currentNode.getAttribute("_path")+"\">"+msg+"</a>");
+	    sbOut.append("\n   </li>");
+	    sbOut.append("\n</ol>");
 		while(currentNode.getParentNode().getLocalName().equals("navitem")){
 	    	currentNode = (Element) currentNode.getParentNode();
 	    	msg = retrieveI18N(currentNode.getAttribute("i18n"));
-	    	sbOut.insert(0, separatorString);
-	    	sbOut.insert(0, "\n</span>");		
-	    	sbOut.insert(0, "\n   <a target=\"_self\" href=\""+baseURL+"nav?path="+currentNode.getAttribute("_path")+"\">"+msg+"</a>");
-	    	sbOut.insert(0, "\n<span style=\"padding-left:6px; padding-right:6px;\">");
+	    	sbOut.insert(0, "\n   <li class=\"separator\">"+separatorString+"</li>");
+	    	sbOut.insert(0, "\n   </li>");		
+	    	sbOut.insert(0, "\n      <a target=\"_self\" href=\""+baseURL+"nav?path="+currentNode.getAttribute("_path")+"\">"+msg+"</a>");
+	    	sbOut.insert(0, "\n   <li>");
 	    }
+		sbOut.insert(0, "\n<ol>");
 	    try{
 	    	out.append(sbOut.toString());
 	    }
