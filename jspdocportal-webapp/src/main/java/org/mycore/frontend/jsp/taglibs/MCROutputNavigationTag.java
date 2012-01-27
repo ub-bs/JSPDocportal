@@ -54,27 +54,35 @@ public class MCROutputNavigationTag extends SimpleTagSupport
 	private static final List<String> MODES = Arrays.asList(new String[]{"left", "top", "breadcrumbs", "toc"});
 
 	private String mode;
-	private String currentPath;
 	private boolean expanded = false;
 	private String id;
 	private String separatorString="";
 	
 	private ResourceBundle rbMessages;
 	private String baseURL;
+	
+	private String currentPath;
 		
 	private static Logger LOGGER = Logger.getLogger(MCROutputNavigationTag.class);
 
 	public void doTag() throws JspException, IOException {
 		if(!MODES.contains(mode)){
 			return;
+
+		}
+		currentPath = (String)MCRSessionMgr.getCurrentSession().get("navPath");
+		if(currentPath==null){
+			currentPath="";
 		}
 		
 		String lang = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
 		if(lang == null){lang = "de";}
+		
 		rbMessages = ResourceBundle.getBundle("messages", new Locale(lang));
 		baseURL = (String)getJspContext().getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE);
 		
 		Element nav = retrieveNavigation();
+
 		String[] path = currentPath.split("\\.");
 		if(path.length>0){
 			if(path[0].equals(id)){
@@ -99,14 +107,6 @@ public class MCROutputNavigationTag extends SimpleTagSupport
 			Element eNav = findNavItem(nav, path);
 			printBreadcrumbs(eNav, getJspContext().getOut());
 		}
-	}
-	
-	/**
-	 * set the current navigation path
-	 * @param currentPath - the path, separated by "."
-	 */
-	public void setCurrentPath(String currentPath) {
-		this.currentPath = currentPath;
 	}
 	
 	/**
@@ -351,7 +351,7 @@ public class MCROutputNavigationTag extends SimpleTagSupport
 		}
 		NodeList nl = currentNode.getChildNodes();
 		try{
-			out.append("\n<ol>\">"); 
+			out.append("\n<ol>"); 
 			for(int i=0;i<nl.getLength(); i++){
 				if(!(nl.item(i) instanceof Element)){
 					continue;

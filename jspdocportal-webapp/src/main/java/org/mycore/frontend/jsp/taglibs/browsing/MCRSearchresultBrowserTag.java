@@ -121,27 +121,26 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 			id = results.getID();
 			results.buildXML(start, stop);
 
+			String path = (String)MCRSessionMgr.getCurrentSession().get("navPath");
+			if(path==null){
+				path="";
+			}
 			for(int j=start;j<=stop;j++){
-					if(j>start){
-						out.write("<hr />");
-					}
-					String mcrid = results.getHit(j).getID();
-					ctx.setAttribute(varMCRID, mcrid);
-		    		
-		    		String doctype = mcrid.split("_")[1];
-		    		
-		    		//http://localhost:8080/cpr/nav?id=cpr_professor_000000001451&offset=9&doctype=professor&path=left.search.allmeta.searchresult-allmeta.docdetail&resultid=-xst2nllmkdqafx2bcdj2
-		    		StringBuffer sbURL = new StringBuffer(baseurl);
-		    		sbURL.append("nav?id=").append(mcrid);
-		    		sbURL.append("&offset=").append(j);
-		    		sbURL.append("&doctype=").append(doctype);
-		    		sbURL.append("&path=").append(ctx.getAttribute("path", PageContext.REQUEST_SCOPE)+".docdetail");
-		    		sbURL.append("&resultid=").append(id);
-		    		ctx.setAttribute(varURL, sbURL.toString());
-		    		
-		    		
-		    		getJspBody().invoke(out);
-				
+				if(j>start){
+					out.write("<hr />");
+				}
+				String mcrid = results.getHit(j).getID();
+				ctx.setAttribute(varMCRID, mcrid);
+		    	
+		    	//http://localhost:8080/cpr/nav?id=cpr_professor_000000001451&offset=9&path=left.search.allmeta.searchresult-allmeta.docdetail&resultid=-xst2nllmkdqafx2bcdj2
+		    	StringBuffer sbURL = new StringBuffer(baseurl);
+		    	sbURL.append("nav?id=").append(mcrid);
+		    	sbURL.append("&offset=").append(j);
+		    	sbURL.append("&path=").append(path+".docdetail");
+		    	sbURL.append("&resultid=").append(id);
+		    	ctx.setAttribute(varURL, sbURL.toString());
+		    	
+		    	getJspBody().invoke(out);
 			}
 			if(numHits>0){
 				writePageNavigation(out, id, numHits, numPerPage, numPages, page, mask);
@@ -173,7 +172,7 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 		}
 		
 	    for(int i=0;i<count;i++){
-	    	out.write(messages.getString("Webpage.searchresults.resort-label"));
+	    	out.write(messages.getString("Webpage.Searchresult.resort-label"));
 	    	out.write("   <select name=\"field"+Integer.toString(i+1)+"\">");
 	    	out.write("      <option value=\""+"\"></option>");
 	    	for(String fieldname:fieldnames){
@@ -197,11 +196,11 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 					out.write(" selected=\"true\"");
 				}
 				out.write(">");
-				out.write(messages.getString("Webpage.searchresults.order."+ordername));
+				out.write(messages.getString("Webpage.Searchresult.order."+ordername));
 				out.write("</option>");
 			}
 			out.write("   </select>&nbsp;&nbsp;&nbsp;");
-			out.write("<input value=\""+messages.getString("Webpage.searchresults.resort")+"\" type=\"submit\">");
+			out.write("<input value=\""+messages.getString("Webpage.Searchresult.resort")+"\" type=\"submit\">");
 			out.write("</form></div>");
 	    }
 	}
@@ -230,40 +229,44 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 		ResourceBundle messages = PropertyResourceBundle.getBundle(languageBundleBase, new Locale(MCRSessionMgr
 				.getCurrentSession().getCurrentLanguage()));
 		out.write("<!-- Searchresult PageNavigation -->");
-		out.write("<table class=\"searchresult-navigation\"><tr>");
-		out.write("   <td style=\"width:100%\"><b>");
-		out.write(Integer.toString(numHits)+" "+messages.getString("Webpage.searchresults.foundMCRObjects"));
-		out.write("   </b></td>");
+		out.write("\n<div class=\"searchresult-navigation\">");
+		out.write("   <div class=\"numhits\">");
+		out.write(Integer.toString(numHits)+" "+messages.getString("Webpage.Searchresult.numHits"));
+		out.write("   </div>");
+		out.write("\n   <div class=\"navi\">");
+		out.write("\n   <ol>");
 		if(numPages>1){
-			out.write("   <td><a href=\""
+			out.write("\n      <li class=\"item\"><a href=\""
 					+webBaseURL+"/servlets/MCRJSPSearchServlet?mode=results&id="+id+"&page=1&numPerPage="+numPerPage
-					+"\">"+messages.getString("Webpage.searchresults.firstPage")+"</a></td>");
+					+"\">"+messages.getString("Webpage.Searchresult.firstPage")+"</a></li>");
 			if(page-2>0){
-				out.write("   <td><a href=\""
+				out.write("\n      <li class=\"item\"><a href=\""
 						+webBaseURL+"/servlets/MCRJSPSearchServlet?mode=results&id="+id+"&page="+Integer.toString(page-2)+"&numPerPage="+numPerPage
-						+"\">["+Integer.toString((page-3)*numPerPage+1)+"-"+Integer.toString((page-2)*numPerPage)+"]</a></td>");
+						+"\">["+Integer.toString((page-3)*numPerPage+1)+"-"+Integer.toString((page-2)*numPerPage)+"]</a></li>");
 			}
 			if(page-1>0){
-				out.write("   <td><a href=\""
+				out.write("\n      <li class=\"item\"><a href=\""
 						+webBaseURL+"/servlets/MCRJSPSearchServlet?mode=results&id="+id+"&page="+Integer.toString(page-1)+"&numPerPage="+numPerPage
-						+"\">["+Integer.toString((page-2)*numPerPage+1)+"-"+Integer.toString((page-1)*numPerPage)+"]</a></td>");
+						+"\">["+Integer.toString((page-2)*numPerPage+1)+"-"+Integer.toString((page-1)*numPerPage)+"]</a></li>");
 			}
-			out.write("   <td>["+Integer.toString((page-1)*numPerPage+1)+"-"+Integer.toString(Math.min((page)*numPerPage, numHits))+"]</td>");
+			out.write("\n      <li class=\"item active\">["+Integer.toString((page-1)*numPerPage+1)+"-"+Integer.toString(Math.min((page)*numPerPage, numHits))+"]</li>");
 			if(page+1<=numPages){
-				out.write("   <td><a href=\""
+				out.write("\n      <li><a href=\""
 						+webBaseURL+"/servlets/MCRJSPSearchServlet?mode=results&id="+id+"&page="+Integer.toString(page+1)+"&numPerPage="+numPerPage
-						+"\">["+Integer.toString((page)*numPerPage+1)+"-"+Integer.toString(Math.min((page+1)*numPerPage,numHits))+"]</a></td>");
+						+"\">["+Integer.toString((page)*numPerPage+1)+"-"+Integer.toString(Math.min((page+1)*numPerPage,numHits))+"]</a></li>");
 			}
 			if(page+2<=numPages){
-				out.write("   <td><a href=\""
+				out.write("\n      <li class=\"item\"><a href=\""
 						+webBaseURL+"/servlets/MCRJSPSearchServlet?mode=results&id="+id+"&page="+Integer.toString(page+2)+"&numPerPage="+numPerPage
-						+"\">["+Integer.toString((page+1)*numPerPage+1)+"-"+Integer.toString(Math.min((page+2)*numPerPage,numHits))+"]</a></td>");
+						+"\">["+Integer.toString((page+1)*numPerPage+1)+"-"+Integer.toString(Math.min((page+2)*numPerPage,numHits))+"]</a></li>");
 			}
-			out.write("   <td><a href=\""
+			out.write("\n      <li class=\"item\"><a href=\""
 					+webBaseURL+"/servlets/MCRJSPSearchServlet?mode=results&id="+id+"&page="+numPages+"&numPerPage="+numPerPage
-					+"\">"+messages.getString("Webpage.searchresults.lastPage")+"</a></td>");
+					+"\">"+messages.getString("Webpage.Searchresult.lastPage")+"</a></li>");
 		}
-		out.write("</tr></table>");
+		out.write("\n   </ol></div>");
+		out.write("\n   <div style=\"clear:both\"></div>");
+		out.write("\n</div>");
 	}
 
 	public String getSortfields() {

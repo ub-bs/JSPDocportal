@@ -10,6 +10,7 @@ import org.jdom.Namespace;
 import org.jdom.input.DOMBuilder;
 import org.jdom.xpath.XPath;
 import org.mycore.common.MCRSession;
+import org.mycore.common.MCRSessionMgr;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
 
@@ -79,7 +80,8 @@ public class NavServlet extends MCRServlet
         	xp.addNamespace(Namespace.getNamespace("n", "http://www.mycore.org/jspdocportal/navigation"));
         	navitem = (Element) xp.selectSingleNode(navJdom);
         }
-        
+      
+        MCRSessionMgr.getCurrentSession().put("navPath", createPath(navitem, null));
         String contentPage = navitem.getAttributeValue("href");
         String extern = navitem.getAttributeValue("extern");
         if ( extern != null && extern.equals("true")) {
@@ -130,4 +132,21 @@ public class NavServlet extends MCRServlet
     		logger.debug("baseURL now set to: " + baseURL);
     	}    		
     }	
+    
+    private String createPath(Element navItem, String subPath){
+    	if(navItem==null){
+    		return "";
+    	}
+    	if(subPath==null){
+    		subPath="";
+    	}
+    	if(subPath.length()>0){
+    		subPath = "."+subPath;
+    	}
+    	subPath=navItem.getAttributeValue("id")+subPath;
+    	if(!navItem.getParentElement().getName().equals("navigations")){
+    		subPath = createPath(navItem.getParentElement(), subPath);
+    	}
+    	return subPath;
+    }
 }
