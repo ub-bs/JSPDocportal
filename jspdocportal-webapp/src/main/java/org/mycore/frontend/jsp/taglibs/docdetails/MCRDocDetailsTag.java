@@ -200,7 +200,7 @@ public class MCRDocDetailsTag extends SimpleTagSupport {
 			}
 		}
 
-		out.write("<table class=\"" + getStylePrimaryName() + "-table\" width=\"95%\" cellpadding=\"0\" cellspacing=\"0\">\n");
+		out.write("<table class=\"" + getStylePrimaryName() + "-table\" cellpadding=\"0\" cellspacing=\"0\">\n");
 		out.write("<tbody>\n");
 
 		getJspBody().invoke(out);

@@ -51,6 +51,7 @@ public class MCRSearchDetailBrowserTag extends SimpleTagSupport
         	out.write(messages.getString("Webpage.searchdetails.hits")+":&nbsp;&nbsp;");
     		out.write(Integer.toString(offset+1)+"&nbsp;/&nbsp;"+Integer.toString(numHits));
     		out.write("   </nobr></td>");
+    		out.write("   </tr><tr>");
         	if (offset > 0) {
         		MCRHit hit = results.getHit(offset - 1);
         		if(hit!=null){
