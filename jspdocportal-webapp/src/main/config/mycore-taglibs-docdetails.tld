@@ -33,6 +33,12 @@
 		<attribute>		
 			<name>stylePrimaryName</name>
 		</attribute>
+		<attribute>		
+			<description>allowed values are "table" and "headline"</description>
+			<name>outputStyle</name>
+			<required>true</required>
+			<type>java.lang.String</type>	
+		</attribute>		
 	</tag>
 	
 	<tag>

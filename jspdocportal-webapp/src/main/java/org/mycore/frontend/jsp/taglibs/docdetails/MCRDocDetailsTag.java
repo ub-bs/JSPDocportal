@@ -68,9 +68,8 @@ import org.xml.sax.SAXException;
  *          2010) $
  */
 public class MCRDocDetailsTag extends SimpleTagSupport {
-	private static final long serialVersionUID = 1L;
 	private static DocumentBuilder builder;
-
+	private String outputStyle="";
 	private String mcrID;
 	private boolean fromWorkflow = false;
 	private String lang="de";
@@ -199,15 +198,21 @@ public class MCRDocDetailsTag extends SimpleTagSupport {
 				// do nothing
 			}
 		}
+		if(outputStyle.equals("table")){
+			out.write("<table class=\"" + getStylePrimaryName() + "-table\" cellpadding=\"0\" cellspacing=\"0\">\n");
+			out.write("<tbody>\n");
 
-		out.write("<table class=\"" + getStylePrimaryName() + "-table\" cellpadding=\"0\" cellspacing=\"0\">\n");
-		out.write("<tbody>\n");
+			getJspBody().invoke(out);
 
-		getJspBody().invoke(out);
-
-		out.write("</tbody>\n");
-		out.write("</table>\n");
-	
+			out.write("</tbody>\n");
+			out.write("</table>\n");
+		}
+		if(outputStyle.equals("headlines")){
+			out.write("<div class=\"" + getStylePrimaryName()+"\">\n");
+			getJspBody().invoke(out);
+			out.write("</div>\n");			
+		}
+		
 		if (isRoot) {
 			tx.commit();
 		}
@@ -297,5 +302,13 @@ public class MCRDocDetailsTag extends SimpleTagSupport {
 		}
 		is.close();
 		return bytes;
+	}
+
+	public String getOutputStyle() {
+		return outputStyle;
+	}
+
+	public void setOutputStyle(String outputStyle) {
+		this.outputStyle = outputStyle;
 	}
 }

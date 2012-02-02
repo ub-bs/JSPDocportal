@@ -43,8 +43,15 @@ public class MCRDocDetailsHeaderTag extends SimpleTagSupport {
 			throw new JspException(
 					"This tag must be nested in tag called 'docdetails' of the same tag library");
 		}
-		out.write("<tr><th class=\""+docdetails.getStylePrimaryName()+"-header\" colspan=\"4\">\n");
-		getJspBody().invoke(out);
-		out.write("</th></tr>");
+		if(docdetails.getOutputStyle().equals("table")){
+			out.write("<tr><th class=\""+docdetails.getStylePrimaryName()+"-header\" colspan=\"4\">\n");
+			getJspBody().invoke(out);
+			out.write("</th></tr>");
+		}
+		if(docdetails.getOutputStyle().equals("headlines")){
+			out.write("<div class=\""+docdetails.getStylePrimaryName()+"-header\">\n");
+			getJspBody().invoke(out);
+			out.write("</div>");
+		}
 	}
 }

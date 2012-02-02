@@ -55,14 +55,26 @@ public class MCRDocDetailsSeparatorTag extends SimpleTagSupport {
 		}
 		if(docdetails.getPreviousOutput()>0){
 			JspWriter out = getJspContext().getOut();
-			out.print("<tr><td colspan=\"3\" class=\""+docdetails.getStylePrimaryName()+"-separator\">");
-			if(showLine){
-				out.print("<hr />");
+			if(docdetails.getOutputStyle().equals("table")){
+				out.print("<tr><td colspan=\"3\" class=\""+docdetails.getStylePrimaryName()+"-separator\">");
+				if(showLine){
+					out.print("<hr />");
+				}
+				else{
+					out.print("&nbsp;");
+				}
+				out.println("</td></tr>");
 			}
-			else{
-				out.print("&nbsp;");
+			if(docdetails.getOutputStyle().equals("headlines")){
+				out.print("<div class=\""+docdetails.getStylePrimaryName()+"-separator\">");
+				if(showLine){
+					out.print("<hr />");
+				}
+				else{
+					out.print("&nbsp;");
+				}
+				out.println("</div>");
 			}
-			out.println("</td></tr>");
 		}
 		docdetails.setPreviousOutput(0);		
 	}

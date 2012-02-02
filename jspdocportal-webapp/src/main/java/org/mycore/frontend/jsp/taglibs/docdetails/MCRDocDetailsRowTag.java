@@ -42,7 +42,6 @@ import org.w3c.dom.Node;
  * 
  */
 public class MCRDocDetailsRowTag extends SimpleTagSupport {
-	private static final long serialVersionUID = -2264968071280327072L;
 	private boolean showinfo = false;
 	private String xpath;
 	private String labelkey;
@@ -108,54 +107,83 @@ public class MCRDocDetailsRowTag extends SimpleTagSupport {
 
 		JspWriter out = getJspContext().getOut();
 		XPathUtil xu = new XPathUtil((PageContext) getJspContext());
-		@SuppressWarnings("unchecked")
+		@SuppressWarnings("rawtypes")
 		List nodes = xu.selectNodes(docdetails.getContext(), xp);
 		if (nodes.size() > 0) {
 			docdetails.setPreviousOutput(docdetails.getPreviousOutput() + 1);
-			out.write("<tr>");
-			out.write("   <td class=\"" + docdetails.getStylePrimaryName() + "-infolabel\">");
-			boolean print = "true".equals(ctx.getRequest().getParameter("print"));
-			if (showinfo && !print) {
-				String info = "";
-				try {
-					info = docdetails.getMessages().getString(labelkey + ".info");
-				} catch (MissingResourceException e) {
-					info = "???" + labelkey + ".info???<br /><i>Eine Beschreibung für das Feld wird gerade erstellt.</i>";
-				}
-				out.write("<div class=\"" + docdetails.getStylePrimaryName() + "-infohover\">" + "<a href=\"#\">i<span>" + info + "</span></a></div>");
-			}
-			out.write("</td>\n");
-
-			String label = "";
-			if (labelkey.length() > 0) {
-				try {
-					label = docdetails.getMessages().getString(labelkey);
-				} catch (MissingResourceException e) {
-					label = "???" + labelkey + "???";
-				}
-			}
-			if(label.length()>0){label = label+":";}
-			out.write("   <td class=\"" + docdetails.getStylePrimaryName() + "-label\">" + label + "</td>\n");
-			out.write("   <td class=\"" + docdetails.getStylePrimaryName() + "-values\">\n");
-			out.write("   		<table class=\"" + docdetails.getStylePrimaryName() + "-values-table\">\n");
-			if (colWidths != null && !colWidths.equals("")) {
-				String[] ss = colWidths.split("\\s");
-				out.write("   	   	<colgroup>");
-				for (String s : ss) {
-					out.write(" <col width=\"" + s + "\">");
-				}
-				out.write("   	   	</colgroup>\n");
-			}
-			out.write("   	   	<tbody>\n");
-			for (int i = 0; i < nodes.size(); i++) {
-				xml = (Node) nodes.get(i);
+			if(docdetails.getOutputStyle().equals("table")){
 				out.write("<tr>");
-				getJspBody().invoke(out);
-				out.write("</tr>");
+				out.write("   <td class=\"" + docdetails.getStylePrimaryName() + "-infolabel\">");
+				printInfoLabel(ctx, out);
+				out.write("</td>\n");
+			
+				String label = getLabel();
+				out.write("   <td class=\"" + docdetails.getStylePrimaryName() + "-label\">" + label + "</td>\n");
+				out.write("   <td class=\"" + docdetails.getStylePrimaryName() + "-values\">\n");
+				printValuesTable(nodes, out);
+				out.write("</td></tr>");
 			}
-
-			out.write("   	   	</tbody></table>\n");
-			out.write("</td></tr>");
+			if(docdetails.getOutputStyle().equals("headlines")){
+				out.write(" <div class=\"" + docdetails.getStylePrimaryName() + "-block\">\n");
+				printInfoLabel(ctx, out);
+				String label = getLabel().replace("<br>", " ").replace("<br />", " ").replace("<br/>", " ");
+				out.write("      <div class=\"" + docdetails.getStylePrimaryName() + "-label\">" + label + "</div>\n");
+				out.write("      <div class=\"" + docdetails.getStylePrimaryName() + "-values\">\n");
+				printValuesTable(nodes, out);
+				out.write("   </div>");
+				out.write("</div>");
+				
+				
+			}
 		}
 	}
+	
+	@SuppressWarnings("rawtypes")
+	private void printValuesTable(List nodes, JspWriter out) throws JspException, IOException{
+		out.write("   		<table class=\"" + docdetails.getStylePrimaryName() + "-values-table\">\n");
+		if (colWidths != null && !colWidths.equals("")) {
+			String[] ss = colWidths.split("\\s");
+			out.write("   	   	<colgroup>");
+			for (String s : ss) {
+				out.write(" <col width=\"" + s + "\">");
+			}
+			out.write("   	   	</colgroup>\n");
+		}
+		out.write("   	   	<tbody>\n");
+		for (int i = 0; i < nodes.size(); i++) {
+			xml = (Node) nodes.get(i);
+			out.write("<tr>");
+			getJspBody().invoke(out);
+			out.write("</tr>");
+		}
+
+		out.write("   	   	</tbody></table>\n");
+	}
+	
+	private void printInfoLabel(PageContext ctx, JspWriter out) throws JspException, IOException{
+	boolean print = "true".equals(ctx.getRequest().getParameter("print"));
+		if (showinfo && !print) {
+			String info = "";
+			try {
+				info = docdetails.getMessages().getString(labelkey + ".info");
+			} catch (MissingResourceException e) {
+				info = "???" + labelkey + ".info???<br /><i>Eine Beschreibung für das Feld wird gerade erstellt.</i>";
+			}
+			out.write("<div class=\"" + docdetails.getStylePrimaryName() + "-infohover\">" + "<a href=\"#\">i<span>" + info + "</span></a></div>");
+		}
+	}
+	
+	private String getLabel(){
+		String label = "";
+		if (labelkey.length() > 0) {
+			try {
+				label = docdetails.getMessages().getString(labelkey);
+			} catch (MissingResourceException e) {
+				label = "???" + labelkey + "???";
+			}
+		}
+		if(label.length()>0){label = label+":";}
+		return label;
+	}
+	
 }
