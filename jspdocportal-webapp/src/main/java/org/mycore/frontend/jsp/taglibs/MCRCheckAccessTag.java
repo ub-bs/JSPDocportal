@@ -42,7 +42,7 @@ public class MCRCheckAccessTag extends SimpleTagSupport
 			}
 			PageContext pageContext = (PageContext) getJspContext();			
 			MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
-			if ( mcrSession.getUserInformation().getCurrentUserID().equals("guest") ){
+			if ( mcrSession.getUserInformation().getUserID().equals("guest") ){
 				pageContext.setAttribute(var, new Boolean(false));	
 			}
 			else if ( key == null || "".equals(key)){ // allgemeiner check des aktuellen Users

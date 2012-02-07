@@ -58,8 +58,8 @@ public class MCRLoginTag extends SimpleTagSupport
        
         MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
 		
-        String oldID = mcrSession.getUserInformation().getCurrentUserID();
-		String oldUsername =  mcrSession.getUserInformation().getCurrentUserID();
+        String oldID = mcrSession.getUserInformation().getUserID();
+		String oldUsername =  mcrSession.getUserInformation().getUserID();
 		
 
 		if (uid != null)

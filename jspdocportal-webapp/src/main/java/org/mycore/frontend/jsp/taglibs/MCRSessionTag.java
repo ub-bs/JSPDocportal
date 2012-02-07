@@ -46,7 +46,7 @@ public class MCRSessionTag extends SimpleTagSupport
 		if (type != null && !type.equals("")) {
 			if (type.equals("userID")) {
 				if (method.equals("get"))
-					pageContext.setAttribute(var, mcrSession.getUserInformation().getCurrentUserID());								
+					pageContext.setAttribute(var, mcrSession.getUserInformation().getUserID());								
 				
 			} else if (type.equals("language")) {
 				if (method.equals("get"))
