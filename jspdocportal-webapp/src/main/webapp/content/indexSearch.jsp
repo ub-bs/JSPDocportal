@@ -56,9 +56,9 @@
     <value pos="17">
       <sort>wustenberg_peter-wilhelm</sort>
       <idx>wustenberg</idx>
-      <id>cpr_professor_000000001914</id>
+      <id>cpr_person_00001914</id>
       <col name="surname">Wüstenberg</col>
       <col name="firstname">Peter-Wilhelm</col>
       <col name="//nameaffixes/nameaffix" />
-      <col name="id">cpr_professor_000000001914</col>
+      <col name="id">cpr_professor_00001914</col>
     </value>  --%>

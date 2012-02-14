@@ -10,7 +10,6 @@
 <fmt:message key="Webpage.browse.subitem" /><br /><br />
 
 
-<%--<mcr:getConfigProperty defaultValue="default" var="searchField" prop="MCR.ClassificationBrowser.${param.browserClass}.SearchField"/>--%>
 <c:if test="${param.browserClass eq 'ddc_sub'}">
 <mcrcb:classificationBrowser 
 		classification="DocPortal_class_00000009" 
