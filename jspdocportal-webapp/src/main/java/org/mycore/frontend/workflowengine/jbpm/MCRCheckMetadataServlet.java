@@ -34,6 +34,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.jdom.Document;
+import org.jdom.output.Format;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.MCRUtils;
@@ -131,10 +132,10 @@ public class MCRCheckMetadataServlet extends MCRServlet {
         StringBuffer storePath = new StringBuffer(MCRWorkflowDirectoryManager.getWorkflowDirectory(ID.getTypeId()))
 			.append("/").append(ID.toString()).append(".xml");
         
-        	WFM.storeMetadata(MCRUtils.getByteArray(indoc), ID.toString(), storePath.toString());
+        	WFM.storeMetadata(MCRUtils.getByteArray(indoc, Format.getPrettyFormat()), ID.toString(), storePath.toString());
         	outdoc = prepareMetadata((org.jdom.Document) indoc.clone(), ID, job, lang, step, 
         			   nextPath, storePath.toString(), workflowType, String.valueOf(processID), publicationType);
-        	WFM.storeMetadata(MCRUtils.getByteArray(outdoc), ID.toString(), storePath.toString());
+        	WFM.storeMetadata(MCRUtils.getByteArray(outdoc, Format.getPrettyFormat()), ID.toString(), storePath.toString());
         	WFM.setWorkflowVariablesFromMetadata(wfp.getContextInstance(), indoc.getRootElement().getChild("metadata"));
         	WFM.setMetadataValid(mcrid1, true, wfp.getContextInstance());
         	
