@@ -1,9 +1,16 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/xml"  prefix="x" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib uri="http://www.mycore.org/jspdocportal/base.tld" prefix="mcr" %>
+<%@ taglib  prefix="mcr" uri="http://www.mycore.org/jspdocportal/base.tld" %>
+<%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld" %>
 <%@ page import="org.apache.log4j.Logger" %>
+
+
+<fmt:setBundle basename="messages"/>
+<fmt:message var="pageTitle" key="WF.editor.ValidatorError.Headline" /> 
+<stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}" layout="1column">
+	<stripes:layout-component name="contents">
 
 <c:catch var="e">
 	<c:set var="mcrid" value="${requestScope.mcrid}" />
@@ -26,7 +33,7 @@
 	
 	<c:set var="errorList" value="${requestScope.errorList}" />
 
-	<div class="headline"><fmt:message key="WF.editor.ValidatorError.Headline" /></div>
+	<h2>${pageTitle}></h2>
 	<table>
 	   <c:forEach items="${errorList}" var="errorEntry" varStatus="status">
 	      <tr>
@@ -52,3 +59,5 @@ An error occured, hava a look in the logFiles!
   Logger.getLogger("test.jsp").error("error", (Throwable) pageContext.getAttribute("e"));   
 %>
 </c:if>
+	</stripes:layout-component>
+</stripes:layout-render>

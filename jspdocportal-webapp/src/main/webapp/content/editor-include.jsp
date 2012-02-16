@@ -1,9 +1,14 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/xml" prefix="x"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib uri="http://www.mycore.org/jspdocportal/base.tld" prefix="mcr" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="mcr" uri="http://www.mycore.org/jspdocportal/base.tld" %>
+<%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
+<fmt:setBundle basename="messages"/>
+<fmt:message var="pageTitle" key="WF.editor.ValidatorError.Headline" /> 
+<stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "Editor" layout="1column">
+	<stripes:layout-component name="contents">
 <c:choose>
    <c:when test="${not empty param.processid}">
       <c:set  var="processid" value="${param.processid}"/>
@@ -166,3 +171,5 @@
 
        
 <hr/>	
+</stripes:layout-component>
+</stripes:layout-render>

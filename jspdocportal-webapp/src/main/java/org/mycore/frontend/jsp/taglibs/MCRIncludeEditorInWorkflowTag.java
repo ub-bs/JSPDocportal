@@ -2,25 +2,33 @@ package org.mycore.frontend.jsp.taglibs;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
-import java.net.URLEncoder;
-import java.util.Enumeration;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
 import org.apache.log4j.Logger;
 import org.jdom.Document;
+import org.jdom.transform.JDOMSource;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRSessionMgr;
-import org.mycore.common.xml.MCRXMLHelper;
+import org.mycore.common.xml.MCRLayoutService;
+import org.mycore.common.xml.MCRURIResolver;
+import org.mycore.common.xml.MCRXMLParserFactory;
+import org.mycore.datamodel.ifs2.MCRContent;
 import org.mycore.frontend.editor.MCREditorServlet;
 import org.mycore.frontend.jsp.NavServlet;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
@@ -114,6 +122,7 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 		PageContext pageContext = (PageContext) getJspContext();
 		
 		Properties parameters = new Properties();
+		parameters = getParameters();
 		String editorBase = "";
 		if(editorSessionID != null && !editorSessionID.equals("")){			
 			parameters.put("XSL.editor.session.id",editorSessionID);				
@@ -135,7 +144,7 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 				}
 			}else if(uploadID == null || uploadID.equals("") ) {
 				StringBuffer base = new StringBuffer(NavServlet.getBaseURL()).
-						append("editor/workflow/editor_form_").append(step).append('-').append(type);			
+						append("editor/workflow/editor-").append(step).append('-').append(type);			
 				if (publicationType != null && !publicationType.equals("")) {
 					if ( publicationType.endsWith("TYPE0002") )
 						base.append("-").append("TYPE0002");
@@ -149,7 +158,7 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 				editorBase = new StringBuffer(NavServlet.getBaseURL())
 				.append("editor/workflow/fileupload_new.xml").toString();
 			}
-			parameters = getParameters();
+
 			pageContext.getSession().setAttribute("editorPath", editorBase);			
 		}
 		JspWriter out = pageContext.getOut();
@@ -173,20 +182,42 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 				request.getParameterMap().put(key, new String[]{parameters.getProperty((String)key)});
 			}
 			
-			Document xml = MCRXMLHelper.parseURI(editorFile.toURI(), false);
-			MCREditorServlet.replaceEditorElements(request, editorFile.toURI().toString(), xml);	
-			MCREditorServlet.getLayoutService().doLayout(request,(HttpServletResponse)pageContext.getResponse(), out, xml);
-		
-		}
+			Source xmlSource = new StreamSource(editorFile);
+
+
+			try{
+				Document xml = MCRXMLParserFactory.getParser(false).parseXML(MCRContent.readFrom(editorFile.toURI()));
+				MCREditorServlet.replaceEditorElements(request, editorFile.toURI().toString(), xml);
+				xmlSource = new JDOMSource(xml);
 			
-		    catch ( MalformedURLException e ) {
-		      logger.error( "MalformedURLException: " + e, e );
-	    }
-		    catch ( IOException e ) {
-		      logger.error( "IOException: " + e , e);
-	    }
-		    catch ( SAXParseException e ) {
-			      logger.error( "SAXParseException: " + e , e);
+			}
+			catch(SAXParseException e){
+				//do nothing
+			}
+			
+	        Source xsltSource = new StreamSource(getClass().getResourceAsStream("/xsl/editor_standalone.xsl"));
+
+	        // das Factory-Pattern unterstützt verschiedene XSLT-Prozessoren
+	        TransformerFactory transFact = TransformerFactory.newInstance();
+	        transFact.setURIResolver(MCRURIResolver.instance());
+	        Transformer transformer = transFact.newTransformer(xsltSource);
+	        transformer.setOutputProperty(OutputKeys.INDENT, "yes"); 
+	        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+	        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+		
+	        transformer.clearParameters();
+	        Properties props = MCRLayoutService.buildXSLParameters((HttpServletRequest)pageContext.getRequest());
+	        props.putAll(parameters);
+	        MCRLayoutService.setXSLParameters(transformer, props);	
+	       
+	        transformer.transform(xmlSource, new StreamResult(out));
+		}
+		
+		catch ( TransformerConfigurationException e ) {
+		      logger.error( "TransformerConfigurationExceptio: " + e , e);
+		}
+		catch ( TransformerException e ) {
+		      logger.error( "TransformerException: " + e , e);
 		}
 	}
 	
@@ -194,8 +225,7 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 		Properties params = new Properties();
 		PageContext pageContext = (PageContext) getJspContext();
 		if(cancelPage == null || cancelPage.equals("")){
-			//cancelPage 		=  NavServlet.getBaseURL() + "nav?path=~workflow-" + type;
-			cancelPage = pageContext.getServletContext().getRealPath("/nav?path=~"+workflowType);
+			cancelPage 	=  NavServlet.getBaseURL() + "nav?path=~workflow-" + workflowType;			
 		}		
 		
 		HttpSession session = pageContext.getSession();		
@@ -239,48 +269,13 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 				logger.error("Wrong URL", mue);
 			}			
 		}
+		//params.put("XSL.editor.source.url", url);
 		params.put("sourceUri", url);
+		
 		if(nextPath != null && !nextPath.equals("")){
 			params.put("nextPath", nextPath);
 		}
 
 		return params;
 	}
-	
-	/**
-	 * Builds an url that can be used to redirect the client browser to another
-	 * page, including http request parameters. The request parameters will be
-	 * encoded as http get request.
-	 * 
-	 * @param baseURL
-	 *            the base url of the target webpage
-	 * @param parameters
-	 *            the http request parameters
-	 */
-	private String buildEncodedURL(String baseURL, Properties parameters) {
-		StringBuffer url = new StringBuffer(baseURL);
-		boolean first = true;
-
-		for (Enumeration e = parameters.keys(); e.hasMoreElements();) {
-			if (first) {
-				url.append("?");
-				first = false;
-			} else
-				url.append("&");
-
-			String name = (String) (e.nextElement());
-			String value = null;
-			try {
-				value = URLEncoder
-						.encode(parameters.getProperty(name), "UTF-8");
-			} catch (UnsupportedEncodingException ex) {
-				value = parameters.getProperty(name);
-			}
-
-			url.append(name).append("=").append(value);
-		}
-
-		logger.debug("including editor via the encoded url " + url.toString());
-		return url.toString();
-	}	
 }

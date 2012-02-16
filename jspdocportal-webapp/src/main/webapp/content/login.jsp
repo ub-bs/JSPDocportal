@@ -9,30 +9,22 @@
 <fmt:message var="pageTitle" key="Webpage.login.ChangeUserID" /> 
 <stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
 	<stripes:layout-component name="contents">
+		<c:set var="debug" value="${param.debug}" />
+		<!-- available user status  
+	 			status = { user.login, user.invalid_password, user.welcome, user.disabled, user.unknown, user.unkwnown_error
+          -->
 
-<c:set var="debug" value="${param.debug}" />
-<!-- available user status  
-	 status = { user.login, user.invalid_password, user.welcome, user.disabled, user.unknown, user.unkwnown_error
-             
--->
+		<mcr:login uid="${param.uid}" pwd="${param.pwd}" var="loginresult" />
 
-<mcr:login uid="${param.uid}" pwd="${param.pwd}" var="loginresult" />
+		<h2><fmt:message key="Webpage.login.ChangeUserID" /></h2>
+		<x:forEach select="$loginresult">
+  			<x:set var="status" select="string(./@status)" />
+  			<x:set var="username" select="string(./@username)" />
+  			<x:set var="loginOK" select="string(./@loginOK)" />
+  			<x:set var="name" select="string(./@name)" />
+		</x:forEach>	
 
-<div class="headline"><fmt:message key="Webpage.login.ChangeUserID" /></div>
-<x:forEach select="$loginresult">
-  <x:set var="status" select="string(./@status)" />
-  <x:set var="username" select="string(./@username)" />
-  <x:set var="loginOK" select="string(./@loginOK)" />
-  <x:set var="name" select="string(./@name)" />
-</x:forEach>	
-
-<table id="metaHeading" cellpadding="0" cellspacing="0">
-	<tbody>
-		<tr>
-			<td><fmt:message key="Webpage.login.YouAreLoggedInAs" />:&nbsp;	<c:out value="${username}"></c:out></td>
-		</tr>
-	</tbody>
-</table>
+		<fmt:message key="Webpage.login.YouAreLoggedInAs" />:&nbsp;	<c:out value="${username}"></c:out>
 <hr>
 
 <c:choose>
