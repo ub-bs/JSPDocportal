@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- ============================================== -->
-<!-- $Revision: 1.3 $ $Date: 2008/05/23 13:12:14 $ -->
-<!--  !!! COPY FROM mycore-base: r15646            -->
-<!-- ============================================== -->
-
 <xsl:stylesheet
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:xsd='http://www.w3.org/2001/XMLSchema'
@@ -47,7 +42,7 @@
          <xsd:attribute name="type" use="optional" type="mcrdefaulttype" />
          <xsd:attribute name="form" use="optional" type="mcrdefaultform" />
          <xsd:attribute name="inherited" use="optional" type="xsd:integer" />
-         <xsd:attribute ref="xml:lang" />
+         <xsd:attribute ref="xml:lang" use="optional"/>
        </xsd:extension>
      </xsd:simpleContent>
    </xsd:complexType>
@@ -68,7 +63,7 @@
          <xsd:attribute name="type" use="optional" type="mcrdefaulttype" />
          <xsd:attribute name="form" use="optional" type="mcrdefaultform" />
          <xsd:attribute name="inherited" use="optional" type="xsd:integer" />
-         <xsd:attribute ref="xml:lang" />
+         <xsd:attribute ref="xml:lang" use="optional"/>
        </xsd:extension>
      </xsd:simpleContent>
    </xsd:complexType>
@@ -137,6 +132,27 @@
 </xsd:sequence>
 <xsd:attribute name="class" type="xsd:string" use="required" 
   fixed="MCRMetaLinkID"/>
+</xsl:template>
+
+<!-- Template for the metadata MCRMetaDerivateLink -->
+
+<xsl:template match="mcrmetaderivatelink">
+<xsd:sequence>
+ <xsd:element name="{@name}" minOccurs="{@minOccurs}" maxOccurs="{@maxOccurs}">
+   <xsd:complexType>
+     <xsd:attribute name="inherited" use="optional" type="xsd:integer" />
+     <xsd:attribute name="type" use="optional" type="mcrdefaulttype" />
+     <xsd:attribute ref="xlink:type" />
+     <xsd:attribute ref="xlink:href" use="optional"/>
+     <xsd:attribute ref="xlink:title" use="optional"/>
+     <xsd:attribute ref="xlink:label" use="optional"/>
+     <xsd:attribute ref="xlink:from" use="optional"/>
+     <xsd:attribute ref="xlink:to" use="optional"/>
+   </xsd:complexType>
+  </xsd:element>
+</xsd:sequence>
+<xsd:attribute name="class" type="xsd:string" use="required" 
+  fixed="MCRMetaDerivateLink"/>
 </xsl:template>
 
 <!-- Template for the metadata MCRMetaClassification -->
@@ -236,7 +252,7 @@
 <xsd:sequence>
  <xsd:element name="{@name}" minOccurs="{@minOccurs}" maxOccurs="{@maxOccurs}">
    <xsd:complexType>
-     <xsd:attribute name="sourcepath" use="required" type="xsd:string" />
+     <xsd:attribute name="sourcepath" use="optional" type="xsd:string" />
      <xsd:attribute name="maindoc" use="required" type="xsd:string"/>
      <xsd:attribute name="ifsid" use="optional" type="xsd:string"/>
      <xsd:attribute name="type" use="optional" type="mcrdefaulttype" />
@@ -259,7 +275,7 @@
        <xsd:extension base="xsd:string">
          <xsd:attribute name="type" use="optional" type="mcrdefaulttype" />
          <xsd:attribute name="inherited" use="optional" type="xsd:integer" />
-         <xsd:attribute ref="xml:lang" />
+         <xsd:attribute ref="xml:lang" use="optional"/>
          <xsd:attribute name="dimension" use="optional" type="mcrdimension" />
          <xsd:attribute name="measurement" use="optional" type="mcrmeasurement" />
        </xsd:extension>
@@ -351,7 +367,7 @@
        <xsd:extension base="xsd:string">
          <xsd:attribute name="type" use="optional" type="mcrdefaulttype" />
          <xsd:attribute name="inherited" use="optional" type="xsd:integer" />
-         <xsd:attribute ref="xml:lang" />
+         <xsd:attribute ref="xml:lang" use="optional"/>
        </xsd:extension>
      </xsd:simpleContent>
    </xsd:complexType>
@@ -373,7 +389,7 @@
     <xsd:attribute name="permission" use="required" type="xsd:string" />
     <xsd:attribute name="inherited" use="optional" type="xsd:string" />
     <xsd:attribute name="type" use="optional" type="mcrdefaulttype" />
-    <xsd:attribute ref="xml:lang" />
+    <xsd:attribute ref="xml:lang" use="optional"/>
    </xsd:complexType>
  </xsd:element>
 </xsd:sequence>
