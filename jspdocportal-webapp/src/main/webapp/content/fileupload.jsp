@@ -19,7 +19,7 @@
     String sessionID = jSessionID + session.getId();
 %>
 
-<div class="headline"><fmt:message key="Editor.FileuploadPageTitle" /></div>
+<h2><fmt:message key="Editor.FileuploadPageTitle" /></h2>
 Sie können einzelne Dateien bis 50 MB Größe direkt mittels des folgenden Formulares hochladen.
 <c:url var="url" value="${applicationScope.WebApplicationBaseURL}editor/workflow/editor-author-addfile.xml">
 	<c:param name="XSL.UploadID" value="${param['XSL.UploadID']}" />

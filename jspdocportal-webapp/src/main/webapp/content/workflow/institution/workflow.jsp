@@ -28,7 +28,7 @@
 							 workflowTypes="institution"  varTotalSize="total1" />
 <mcr:getWorkflowTaskBeanList var="myProcessList" mode="initiatedProcesses" 
 							 workflowTypes="institution" varTotalSize="total2" />
-<div class="headline"><fmt:message key="WF.institution" /></div>
+<h2><fmt:message key="WF.institution" /></h2>
 <table>
 	<tr>
 		<td><img title="" alt="" src="${baseURL}images/greenArrow.gif"></td>
@@ -65,7 +65,7 @@
 	</c:when>
 	<c:otherwise>
 		<br />&nbsp;<br />
-		<div class="headline"><fmt:message key="WF.common.MyTasks" /></div>   
+		<h3><fmt:message key="WF.common.MyTasks" /></h3>   
     	<table cellspacing="3">       
 			<c:forEach var="task" items="${myTaskList}">
 				<tr>
@@ -84,7 +84,7 @@
 			</c:if>
 		</table>
     	<br />&nbsp;<br />
-    	<div class="headline"><fmt:message key="WF.common.MyInitiatedProcesses" /></div>
+    	<h3><fmt:message key="WF.common.MyInitiatedProcesses" /></h3>
 		<table>
     		<c:forEach var="task" items="${myProcessList}">
 				<tr>

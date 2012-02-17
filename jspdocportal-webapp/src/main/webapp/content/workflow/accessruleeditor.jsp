@@ -35,11 +35,11 @@
 		<mcr:receiveMcrObjAsJdom var="mycoreobject" mcrid="${mcrid}" fromWF="true" />
 	</c:catch>
 	<c:if test="${e1==null}">
-     <div class="headline">
+     <h3>
          <mcr:simpleXpath jdom="${mycoreobject}" xpath="/mycoreobject/metadata/titles/title[@xml:lang='${requestScope.lang}']" />
          <mcr:simpleXpath jdom="${mycoreobject}" xpath="/mycoreobject/metadata/names/name/fullname" />
 	     <mcr:simpleXpath jdom="${mycoreobject}" xpath="/user/@ID" />
-     </div>
+     </h3>
      </c:if>
 	<form name="accessrules" action="${WebApplicationBaseURL}servlets/MCRWorkflowAccessRules" method="get">
 		<input type="hidden" name="path" value="~workflow-editaccess">

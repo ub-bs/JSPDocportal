@@ -29,7 +29,7 @@
 
 <c:choose>
    <c:when test="${empty myTaskList && empty myProcessList}">
-	  <div class="headline"><fmt:message key="WF.xmetadiss.info" /></div>
+	  <h2><fmt:message key="WF.xmetadiss.info" /></h2>
       <img title="" alt="" src="${baseURL}images/greenArrow.gif">
       <a target="_self" href="${baseURL}nav?path=~xmetadissbegin"><fmt:message key="WF.xmetadiss.StartWorkflow" /></a>
       <br/>&nbsp;<br>
@@ -39,7 +39,7 @@
     	  <br/>&nbsp;<br>
    </c:when>
    <c:otherwise>
-        <div class="headline"><fmt:message key="WF.xmetadiss" /></div>
+        <h2><fmt:message key="WF.xmetadiss" /></h2>
 	   <mcr:checkAccess var="createallowed" permission="administrate-xmetadiss" />
    		<c:if test="${createallowed}">    
 	    	<img title="" alt="" src="${baseURL}images/greenArrow.gif">
@@ -49,7 +49,7 @@
    
    
         <br />&nbsp;<br />
-        <div class="headline"><fmt:message key="WF.common.MyTasks" /></div>   
+        <h3><fmt:message key="WF.common.MyTasks" /></h3>   
         
         <table>       
 	        <c:forEach var="task" items="${myTaskList}">
@@ -67,7 +67,7 @@
         
         <br>&nbsp;<br>
         
-        <div class="headline"><fmt:message key="WF.common.MyInititiatedProcesses" /></div>
+        <h3><fmt:message key="WF.common.MyInititiatedProcesses" /></h3>
         
         <table>
         <c:forEach var="task" items="${myProcessList}">

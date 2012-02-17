@@ -6,7 +6,7 @@
 <%@ taglib uri="http://www.mycore.org/jspdocportal/browsing.tld" prefix="mcrcb" %>
 
 <fmt:setBundle basename="messages" />
-<div class="headline"><fmt:message key="Webpage.browse.generalTitle" /></div>
+<h2><fmt:message key="Webpage.browse.generalTitle" /></h2>
 <fmt:message key="Webpage.browse.subitem" /><br /><br />
 
 

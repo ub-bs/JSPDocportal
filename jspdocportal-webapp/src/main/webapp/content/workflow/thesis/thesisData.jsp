@@ -7,9 +7,9 @@
 <mcr:getWorkflowEngineVariable pid="${requestScope.pid}" var="urn" workflowVar="${applicationScope.constants.reservatedUrnWorkflowVariable}" /> 
 
 
-<div class="headline">
+<h2>
    <fmt:message key="WF.thesis.begin" />
-</div>
+</h2>
 
 <table cellspacing="3" cellpadding="3" >
      

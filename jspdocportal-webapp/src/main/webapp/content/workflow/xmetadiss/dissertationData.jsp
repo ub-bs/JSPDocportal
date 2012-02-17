@@ -10,9 +10,9 @@
 
 <mcr:receiveMcrObjAsJdom varDom="authorobject" mcrid="${authorID}" />
 
-<div class="headline">
+<h2>
    <fmt:message key="WF.xmetadiss.begin" />
-</div>
+</h2>
 
 <table cellspacing="3" cellpadding="3" >
 <c:if test="${not empty authorobject}">

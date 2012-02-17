@@ -23,7 +23,7 @@
 <stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${headlineKey}">
 	<stripes:layout-component name="contents">
 
-<div class="headline"><fmt:message key="${headlineKey}" /></div>
+<h2><fmt:message key="${headlineKey}" /></h2>
    <mcr:debugInfo />
    <mcrb:searchresultBrowser varmcrid="mcrid" varurl="url" sortfields="title author modified">
    		<c:set var="doctype" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />

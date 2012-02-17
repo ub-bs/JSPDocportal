@@ -31,7 +31,7 @@
 <c:choose>
    <c:when test="${empty myTaskList && empty myProcessList}">   
     <mcr:session var="sessionID" method="get" type="ID" />
-	<div class="headline"><fmt:message key="WF.publication.info" /></div>
+	<h2><fmt:message key="WF.publication.info" /></h2>
 	<table>
 	<tr><td>  
 	      <img title="" alt="" src="${baseURL}images/greenArrow.gif">
@@ -65,12 +65,12 @@
     </table> 
    </c:when>
    <c:otherwise>
-        <div class="headline"><fmt:message key="WF.publication" /></div>
+        <h2><fmt:message key="WF.publication" /></h2>
         <img title="" alt="" src="${baseURL}images/greenArrow.gif">
         <a target="_self" href="${baseURL}nav?path=~publicationbegin"><fmt:message key="WF.publication.StartWorkflow" /></a>
         <br/>&nbsp;<br>
         <br>&nbsp;<br>
-        <div class="headline"><fmt:message key="WF.common.MyTasks" /></div>   
+        <h3><fmt:message key="WF.common.MyTasks" /></h3>   
         
         <table cellspacing="3" >       
 	        <c:forEach var="task" items="${myTaskList}">
@@ -88,7 +88,7 @@
         
         <br>&nbsp;<br>
         
-        <div class="headline"><fmt:message key="WF.publication.MyInititiatedProcesses" /></div>
+        <h3><fmt:message key="WF.publication.MyInititiatedProcesses" /></h3>
         
         <table>
 	        <c:forEach var="task" items="${myProcessList}">

@@ -29,7 +29,7 @@
 <mcr:checkAccess var="createallowed" permission="administrate-thesis" />
 <c:choose>
     <c:when test="${empty myTaskList && empty myProcessList }">
-  <div class="headline"><fmt:message key="WF.thesis" /></div>
+  <h2><fmt:message key="WF.thesis" /></h2>
    
    	<c:if test="${createallowed}">
        <img title="" alt="" src="${baseURL}images/greenArrow.gif">
@@ -42,7 +42,7 @@
     	  <br/>&nbsp;<br>
    </c:when>
    <c:otherwise>
-        <div class="headline"><fmt:message key="WF.thesis" /></div>
+        <h2><fmt:message key="WF.thesis" /></h2>
 	  
    		<c:if test="${createallowed}">    
 	    	<img title="" alt="" src="${baseURL}images/greenArrow.gif">
@@ -52,7 +52,7 @@
    
    
         <br />&nbsp;<br />
-        <div class="headline"><fmt:message key="WF.common.MyTasks" /></div>   
+        <h3><fmt:message key="WF.common.MyTasks" /></h3>   
         
         <table>       
 	        <c:forEach var="task" items="${myTaskList}">
@@ -70,7 +70,7 @@
         
         <br>&nbsp;<br>
         
-        <div class="headline"><fmt:message key="WF.common.MyInititiatedProcesses" /></div>
+        <h3><fmt:message key="WF.common.MyInititiatedProcesses" /></h3>
         
         <table>
         <c:forEach var="task" items="${myProcessList}">

@@ -11,7 +11,7 @@
 	<stripes:layout-component name="contents">
 
 <c:set var="Navigation" value="${applicationScope.navDom}" />
-<div class="headline"><fmt:message key="Nav.Sitemap" /></div>
+<h2><fmt:message key="Nav.Sitemap" /></h2>
 <table class="max" cellspacing="0" cellpadding="0">
 	<tr width="100%">
 		<th class="sitemap"><fmt:message key="Nav.MainmenueLeft" /></th>

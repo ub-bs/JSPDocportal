@@ -8,7 +8,7 @@
 <fmt:message var="pageTitle" key="Nav.Manuals" /> 
 <stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
 	<stripes:layout-component name="contents">
-		<div class="headline"><fmt:message key="Nav.Manuals" /></div>
+		<h2><fmt:message key="Nav.Manuals" /></h2>
  		<div class="textblock2">
         	<div>
         		<mcr:outputNavigation currentPath="left.manuals" mode="toc" id="left"/>

@@ -8,9 +8,9 @@
 <mcr:session var="user" method="get" key="registereduser" />
 <c:set var="debug" value="true" />
 
-<div class="headline">
+<h2>
  <fmt:message key="WF.registeruser.RegisterUser" /> - <fmt:message key="WF.registerUser.Intro" />
-</div>
+</h2>
 
 <table  class="bg_background" >
  <tr>

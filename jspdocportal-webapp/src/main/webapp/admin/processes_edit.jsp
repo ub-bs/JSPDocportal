@@ -14,7 +14,7 @@
 		<c:set var="wfVar" value="${param.workflowVar}" />
 		<c:set var="type" value="${param.workflowProcessType}" />
 
-		<div class="headline"><fmt:message key="Webpage.admin.Process" /></div>
+		<h2><fmt:message key="Webpage.admin.Process" /></h2>
 		<p> </p>
 
 		<c:if test="${not empty pid && not empty wfVar}" >

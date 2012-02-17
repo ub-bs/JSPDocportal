@@ -19,9 +19,9 @@
 
 <mcr:getFreeUserIDs var="userIDList" count="${count}"  userid="${userID}" />
 
-<div class="headline">
+<h2>
 	<fmt:message key="Nav.AccountChangeID" />
-</div>
+</h2>
 
 <table  class="bg_background" width="90%" >
  <tr>

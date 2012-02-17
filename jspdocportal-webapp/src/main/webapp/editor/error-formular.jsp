@@ -5,7 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/xml"  prefix="x" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
 
-<div class="headline"><fmt:message key="Webpage.editor.CheckFormData" /></div>
+<h2><fmt:message key="Webpage.editor.CheckFormData" /></h2>
     <p></p>
     <br />
     <p></p>

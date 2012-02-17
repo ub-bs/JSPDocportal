@@ -23,7 +23,7 @@
  <x:set var="host" select="local" /> 
  <x:set var="mcrid" select="string(./details/@mcrid)" />
    
- <div class="headline"><fmt:message key="IFS.header" /></div>
+ <h2><fmt:message key="IFS.header" /></h2>
 
   <table id="metaHeading" cellpadding="0" cellspacing="0">
        <tr>

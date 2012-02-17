@@ -8,7 +8,7 @@
 <fmt:message var="pageTitle" key="Nav.Admin.UserManagement" /> 
 <stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
 	<stripes:layout-component name="contents">
-		<div class="headline"><fmt:message key="Nav.Admin.UserManagement" /></div>
+		<h2><fmt:message key="Nav.Admin.UserManagement" /></h2>
  		<div class="textblock2">
         	<div>
         		<mcr:outputNavigation currentPath="admin.admin.usermanagement" mode="toc" id="admin"/>

@@ -8,7 +8,7 @@
 <fmt:message var="pageTitle" key="Webpage.admin.DocumentManagement" /> 
 <stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
 	<stripes:layout-component name="contents">
-		<div class="headline"><fmt:message key="Webpage.admin.DocumentManagement" /></div>
+		<h2><fmt:message key="Webpage.admin.DocumentManagement" /></h2>
  		<div class="textblock2">
         	<div>
         		<mcr:outputNavigation currentPath="publish.publish" mode="toc" id="publish"/>

@@ -11,7 +11,7 @@
 <stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
 	<stripes:layout-component name="contents">
 	
-<div class="headline"><fmt:message key="Webpage.intro.Webpage.intro" /></div>
+<h2><fmt:message key="Webpage.intro.Webpage.intro" /></h2>
 <mcr:includeWebContent file="index_introtext.html" />
 
 <p style="text-align:right">

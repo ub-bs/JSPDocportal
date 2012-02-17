@@ -23,13 +23,13 @@
 	
 <c:choose>
 <c:when test="${fn:contains(status,'errorPermission')}">
-  <div class="headline"><fmt:message key="Webpage.intro.publications.Subtitle1" /></div>
+  <h2><fmt:message key="Webpage.intro.publications.Subtitle1" /></h2>
 	<p><fmt:message key="WF.publication.errorUserGuest" /></p>
 	<p><fmt:message key="WF.publication.errorUserGuest2" /></p>
 	<p><fmt:message key="Webpage.admin.DocumentManagement.FetchLogin" /></p>
 </c:when>
 <c:when test="${fn:contains(status,'errorWFM')}">
-  <div class="headline"><fmt:message key="Webpage.intro.publications.Subtitle1" /></div>
+  <h2><fmt:message key="Webpage.intro.publications.Subtitle1" /></h2>
   	<p><fmt:message key="WF.xmetadiss.errorWfM" /></p>
 	<p><fmt:message key="WF.xmetadiss.errorWfM2" /></p>
 </c:when>

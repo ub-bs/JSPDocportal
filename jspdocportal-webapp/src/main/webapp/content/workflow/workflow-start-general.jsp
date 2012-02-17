@@ -29,7 +29,7 @@
    </c:otherwise>
 </c:choose>
 
-<div class="headline"><fmt:message key="WF.common.MyTasks" /></div>
+<h3><fmt:message key="WF.common.MyTasks" /></h3>
 
 <mcr:getWorkflowTaskBeanList var="myTaskList" mode="activeTasks" debugUser="author1A" varTotalSize="total1" size="100" />
 <table>
@@ -41,7 +41,7 @@
 
 <br>&nbsp;<br>
 
-<div class="headline"><fmt:message key="WF.common.MyInititiatedProcesses" /></div>
+<h3><fmt:message key="WF.common.MyInititiatedProcesses" /></h3>
 
 <mcr:getWorkflowTaskBeanList var="myProcessList" mode="initiatedProcesses" debugUser="author1A" varTotalSize="total2" size="100" />
 <table>

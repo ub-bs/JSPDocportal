@@ -12,7 +12,7 @@
 			<mcr:session var="sessionID" method="get" type="ID" />
 			<c:set var="WebApplicationBaseURL" value="${applicationScope.WebApplicationBaseURL}" />
 		--%>
-		<div class="headline"><fmt:message key="Nav.Search" /></div>
+		<h2><fmt:message key="Nav.Search" /></h2>
 			<p><fmt:message key="Webpage.intro.search.Possibilities" /> </p>
 			<p><mcr:includeEditor editorPath="editor/searchmasks/SearchMask_AllMetadataFields.xml"/></p>
 

@@ -9,9 +9,9 @@
 	pid="${requestScope.pid}" var="personID" 
 	workflowVar="<%= MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS %>" /> --%>
 
-<div class="headline">
+<h2>
    <fmt:message key="WF.person.StartWorkflow" />
-</div>
+</h2>
 
 <table cellspacing="3" cellpadding="3" >
    <tr>

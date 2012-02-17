@@ -30,7 +30,7 @@
    </c:redirect>
 </c:if>
 
-<div class="headline">${pageTitle}</div>
+<h2>${pageTitle}</h2>
 
 <p>
 <c:if test="${!empty param.message}">

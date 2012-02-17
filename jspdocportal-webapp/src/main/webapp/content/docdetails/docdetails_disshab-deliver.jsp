@@ -38,9 +38,9 @@
 <tr>
 	<td id="contentArea" width="100%">
 	<div id="contentWrapper">
-		<div class="headline"> 
+		<h2> 
 		   <fmt:message key="Webpage.intro.xmetadiss.deliver" />
-		</div>
+		</h2>
 		<% Transaction tx = MCRHIBConnection.instance().getSession().beginTransaction(); %>
 	  <mcr:includeWebContent file="workflow/form_disshab_deliver.html" />
 	  <% tx.commit(); %>

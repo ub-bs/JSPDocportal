@@ -6,11 +6,11 @@
 
 <c:set var="WebApplicationBaseURL" value="${applicationScope.WebApplicationBaseURL}" />
 
-  <div class="headline">
+  <h2>
 	   <fmt:message key="WF.registeruser.RegisterUser" /> - 
 	   <fmt:message key="WF.registerUser.Intro" /> 
 	   <fmt:message key="Nav.MyCoRe" /> 
-  </div>
+  </h2>
 
   <table>
    <tr>	<td>

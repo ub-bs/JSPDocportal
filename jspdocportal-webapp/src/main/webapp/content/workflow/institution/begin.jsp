@@ -19,13 +19,13 @@
 
 <c:choose>
 <c:when test="${fn:contains(status,'errorPermission')}">
-<div class="headline"><fmt:message key="WF.institution.StartWorkflow" /></div>
+<h2><fmt:message key="WF.institution.StartWorkflow" /></h2>
 	<p><fmt:message key="WF.common.errorUserGuest" /></p>
 	<p><fmt:message key="WF.institution.errorUserGuest2" /></p>
 	<p><fmt:message key="Webpage.admin.DocumentManagement.FetchLogin" /></p>
 </c:when>
 <c:when test="${fn:contains(status,'errorWFM')}">
-<div class="headline"><fmt:message key="WF.institution.StartWorkflow" /></div>
+<h2><fmt:message key="WF.institution.StartWorkflow" /></h2>
 	<p><fmt:message key="WF.institution.errorWfM" /></p>
 	<p><fmt:message key="WF.institution.errorWfM2" /></p>
 </c:when>

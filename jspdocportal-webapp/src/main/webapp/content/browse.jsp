@@ -22,7 +22,7 @@
 	<stripes:layout-component name="contents">
 
 <c:if test="${param.browserClass=='ddc'}">
-	<div class="headline"><fmt:message key="Webpage.browse.title.ddc" /></div>
+	<h2><fmt:message key="Webpage.browse.title.ddc" /></h2>
 	<fmt:message key="Webpage.browse.intro.ddc" /><br /><br />
 	<fmt:message key="Webpage.browse.subitem" />
 	<mcr:getConfigProperty var="clf" prop="MCR.ClassificationID.DDC" defaultValue="DocPortal_class_00000009"/>
@@ -35,7 +35,7 @@
 </c:if>
 
 <c:if test="${param.browserClass=='bkl'}">
-	<div class="headline"><fmt:message key="Webpage.browse.title.bkl" /></div>
+	<h2><fmt:message key="Webpage.browse.title.bkl" /></h2>
 	<fmt:message key="Webpage.browse.intro.bkl" /><br /><br />
 	<fmt:message key="Webpage.browse.subitem" />
 	<mcr:getConfigProperty var="clf" prop="MCR.ClassificationID.Bkl" defaultValue="DocPortal_class_00000020"/>
@@ -48,7 +48,7 @@
 </c:if>
 
 <c:if test="${param.browserClass=='origin'}">
-	<div class="headline"><fmt:message key="Webpage.browse.title.origin" /></div>
+	<h2><fmt:message key="Webpage.browse.title.origin" /></h2>
 	<fmt:message key="Webpage.browse.intro.origin" /><br /><br />
 	<fmt:message key="Webpage.browse.subitem" />
 	<mcr:getConfigProperty var="clf" prop="MCR.ClassificationID.Origin" defaultValue="DocPortal_class_00000002"/>
@@ -61,7 +61,7 @@
 </c:if>
 
 <c:if test="${param.browserClass=='type'}">
-	<div class="headline"><fmt:message key="Webpage.browse.title.type" /></div>
+	<h2><fmt:message key="Webpage.browse.title.type" /></h2>
 	<fmt:message key="Webpage.browse.intro.type" /><br /><br />
 	<fmt:message key="Webpage.browse.subitem" />
 	<mcr:getConfigProperty var="clf" prop="MCR.ClassificationID.Type" defaultValue="DocPortal_class_00000005"/>
@@ -74,7 +74,7 @@
 </c:if>
 
 <c:if test="${param.browserClass=='format'}">
-	<div class="headline"><fmt:message key="Webpage.browse.title.format" /></div>
+	<h2><fmt:message key="Webpage.browse.title.format" /></h2>
 	<fmt:message key="Webpage.browse.intro.format" /><br /><br />
 	<fmt:message key="Webpage.browse.subitem" />
 	<mcr:getConfigProperty var="clf" prop="MCR.ClassificationID.Format" defaultValue="DocPortal_class_00000006"/>
