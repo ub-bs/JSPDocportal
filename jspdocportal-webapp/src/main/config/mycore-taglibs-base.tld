@@ -75,7 +75,7 @@
 		</attribute>
 	</tag>
 	<tag>
-		<description>A tag, that renders the navigation</description>
+		<description>A tag, that displays the language selector</description>
 		<name>outputLanguageSelector</name>
 		<tag-class>org.mycore.frontend.jsp.taglibs.MCROutputLanguageSelectorTag</tag-class>
 		<body-content>empty</body-content>

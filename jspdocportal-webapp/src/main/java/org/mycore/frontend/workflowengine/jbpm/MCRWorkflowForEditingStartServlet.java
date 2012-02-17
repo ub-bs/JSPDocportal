@@ -86,8 +86,8 @@ public class MCRWorkflowForEditingStartServlet extends MCRServlet {
 				if ( wfm != null && wfm.getDocumentTypes().contains(type)) {
 					bOK = true;
 					//initiator, mcrid, transition name
-					wfm.initWorkflowProcessForEditing(MCRSessionMgr.getCurrentSession().getCurrentUserID(),	mcrid);	
-					String url = "nav?path=~" + workflowTypes[i];
+					wfm.initWorkflowProcessForEditing(MCRSessionMgr.getCurrentSession().getUserInformation().getUserID(),	mcrid);	
+					String url = "nav?path=~workflow-" + workflowTypes[i];
 					logger.debug("nextpage = " + url);
 					response.sendRedirect(response.encodeRedirectURL(getBaseURL() + url));
 				}

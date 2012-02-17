@@ -17,7 +17,7 @@
 	
 	  
    <form action="${baseURL}setworkflowvariable" accept-charset="utf-8" name="setvar" >
-     <input name="dispatcherForward" value="/nav?path=~${workflowType}" type="hidden" />
+     <input name="dispatcherForward" value="/nav?path=~workflow-${workflowType}" type="hidden" />
    	 <input name="transition" value="" type="hidden" />
      <input name="endTask" value="${endTask}" type="hidden" />
      <input name="processID" value="${requestScope.task.processID}" type="hidden" />

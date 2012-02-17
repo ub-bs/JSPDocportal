@@ -11,14 +11,14 @@
 		<c:set var="type" value="${param.workflowProcessType}" />
 		<c:choose>
 			<c:when test="${empty type}">
-				<div class="headline"><fmt:message key="Nav.AdminMenue" /></div>
+				<h2><fmt:message key="Nav.AdminMenue" /></h2>
  				<div class="textblock2"><fmt:message key="Webpage.admin.AllowedFunctions" />:
  				<br />
-				<mcr:outputNavigation currentPath="admin.admin" mode="toc" id="admin"/>
+				<mcr:outputNavigation mode="toc" id="admin"/>
 				</div>
 			</c:when>
 			<c:otherwise>
-				<div class="headline"><fmt:message key="Nav.Admin.${type}" /></div>
+				<h2><fmt:message key="Nav.Admin.${type}" /></h2>
 			</c:otherwise>
 		</c:choose>
 		<p><fmt:message key="Webpage.admin.AllowedFunctions.Text" /></p>                
