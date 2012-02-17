@@ -6,7 +6,6 @@ import java.net.MalformedURLException;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
@@ -23,7 +22,6 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.transform.JDOMSource;
-import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.xml.MCRLayoutService;
 import org.mycore.common.xml.MCRURIResolver;
@@ -121,8 +119,7 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 	public void doTag() throws JspException, IOException {
 		PageContext pageContext = (PageContext) getJspContext();
 		
-		Properties parameters = new Properties();
-		parameters = getParameters();
+		Properties parameters = getParameters();
 		String editorBase = "";
 		if(editorSessionID != null && !editorSessionID.equals("")){			
 			parameters.put("XSL.editor.session.id",editorSessionID);				
@@ -132,9 +129,6 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 				.append((String) pageContext.getAttribute("editorPath")).toString();
 			}
 		}else{
-			if(cancelPage == null || cancelPage.equals("")){
-				cancelPage 		=  NavServlet.getBaseURL() + "nav?path=~"+workflowType;
-			}
 			if(editorPath != null && !editorPath.equals("")) {
 				if(editorPath.startsWith("http")){
 					editorBase = editorPath;
@@ -156,7 +150,7 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 
 			}else{
 				editorBase = new StringBuffer(NavServlet.getBaseURL())
-				.append("editor/workflow/fileupload_new.xml").toString();
+				.append("editor/workflow/editor-author-addfile-new.xml").toString();
 			}
 
 			pageContext.getSession().setAttribute("editorPath", editorBase);			
@@ -164,15 +158,6 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 		JspWriter out = pageContext.getOut();
 	
 		try{
-			/*URL url = new URL(buildEncodedURL(editorBase, parameters));
-			Reader is = new InputStreamReader( url.openStream(), "utf-8");
-		    BufferedReader in = new BufferedReader( is );
-		    for ( String s; ( s = in.readLine() ) != null; ){
-		        out.print( s );
-		    }
-		    in.close();*/
-		
-		
 			String path = pageContext.getServletContext().getRealPath(editorBase.substring(NavServlet.getBaseURL().length()));
 			File editorFile = new File(path);
 			
@@ -182,20 +167,12 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 				request.getParameterMap().put(key, new String[]{parameters.getProperty((String)key)});
 			}
 			
-			Source xmlSource = new StreamSource(editorFile);
-
-
-			try{
-				Document xml = MCRXMLParserFactory.getParser(false).parseXML(MCRContent.readFrom(editorFile.toURI()));
-				MCREditorServlet.replaceEditorElements(request, editorFile.toURI().toString(), xml);
-				xmlSource = new JDOMSource(xml);
 			
-			}
-			catch(SAXParseException e){
-				//do nothing
-			}
+			Document xml = MCRXMLParserFactory.getParser(false).parseXML(MCRContent.readFrom(editorFile.toURI()));
+			MCREditorServlet.replaceEditorElements(request, editorFile.toURI().toString(), xml);
+			Source  xmlSource = new JDOMSource(xml);
 			
-	        Source xsltSource = new StreamSource(getClass().getResourceAsStream("/xsl/editor_standalone.xsl"));
+			Source xsltSource = new StreamSource(getClass().getResourceAsStream("/xsl/editor_standalone.xsl"));
 
 	        // das Factory-Pattern unterstützt verschiedene XSLT-Prozessoren
 	        TransformerFactory transFact = TransformerFactory.newInstance();
@@ -219,22 +196,19 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 		catch ( TransformerException e ) {
 		      logger.error( "TransformerException: " + e , e);
 		}
+		catch(SAXParseException e){
+				logger.error( "SaxParseException: " + e , e);
+		}
 	}
 	
 	private Properties getParameters(){
 		Properties params = new Properties();
-		PageContext pageContext = (PageContext) getJspContext();
+
 		if(cancelPage == null || cancelPage.equals("")){
 			cancelPage 	=  NavServlet.getBaseURL() + "nav?path=~workflow-" + workflowType;			
 		}		
 		
-		HttpSession session = pageContext.getSession();		
-	    String jSessionID = MCRConfiguration.instance().getString("MCR.session.param", ";jsessionid=");		
-	    String sessionID = jSessionID + session.getId();
-
 		params.put("lang" , MCRSessionMgr.getCurrentSession().getCurrentLanguage());
-		params.put("MCRSessionID" , MCRSessionMgr.getCurrentSession().getID());
-		params.put("cancelUrl", cancelPage);
 		params.put("XSL.editor.source.new", isNewEditorSource);
 		params.put("mcrid", mcrid);
 		params.put("processid", String.valueOf(processid));
@@ -242,10 +216,7 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 		params.put("step", step);
 		params.put("target", target);
 		params.put("workflowType", workflowType);
-		params.put("HttpSessionID",sessionID);	
-		params.put("JSessionID",sessionID);	
-		
-		
+			
 		if(mcrid2 != null && !mcrid2.equals("")) {
 			params.put("mcrid2", mcrid2);
 		}
@@ -269,8 +240,13 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 				logger.error("Wrong URL", mue);
 			}			
 		}
-		//params.put("XSL.editor.source.url", url);
+		//params.put("XSL.editor.source.uri", url);
 		params.put("sourceUri", url);
+		
+		params.put("cancelUrl", cancelPage);
+		//params.put("XSL.editor.cancel.url", cancelPage);
+		
+		//params.put("sourceUri", url);
 		
 		if(nextPath != null && !nextPath.equals("")){
 			params.put("nextPath", nextPath);

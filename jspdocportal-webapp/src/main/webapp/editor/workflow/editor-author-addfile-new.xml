@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE Editor>
-<editor>
+<editor id="editor-author-addfile">
 	 <!-- this is a special editor - do not enable this: <source uri="{sourceUri}" /> -->
 	 <cancel url="{cancelUrl}" />
 	 <target type="servlet" name="MCRPassToTargetServlet" method="post" format="xml" />
