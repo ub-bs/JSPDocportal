@@ -266,7 +266,7 @@ public class MCRWorkflowManagerSeries extends MCRWorkflowManager{
 		
 		MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(pid);
 		try{
-			derivateStrategy.saveFiles(files, dirname, wfp.getContextInstance(), newLabel);
+			derivateStrategy.saveFiles(files, dirname, wfp.getContextInstance(), newLabel, "");
 		}catch(MCRException ex){
 			
 		}finally{

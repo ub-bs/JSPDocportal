@@ -23,7 +23,9 @@
 package org.mycore.frontend.jsp.taglibs.docdetails;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.MissingResourceException;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
@@ -84,15 +86,15 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 
 	    			Element eN = (Element)n;
 	    			String derID = eN.getAttributeNS(MCRConstants.XLINK_NAMESPACE.getURI(), "href");
-	    			String title = eN.getAttributeNS(MCRConstants.XLINK_NAMESPACE.getURI(), "label");
+	    			String label = eN.getAttributeNS(MCRConstants.XLINK_NAMESPACE.getURI(), "label");
 	    			String baseurl = getJspContext().getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE).toString();
-	    			if(title.contains("Cover")){
+    				MCRObjectID oid = MCRObjectID.getInstance(derID);
+    				MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(oid);
+	    			if(label.equals("Cover")){
 	    				//do nothing - handled elsewhere
 	    			}
-	    			else if(title.startsWith("METS")){
+	    			else if(label.equals("METS")){
 	    				//show mets
-	    				MCRObjectID oid = MCRObjectID.getInstance(derID);
-	    				MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(oid);
 	    				String mcrid=der.getDerivate().getMetaLink().getXLinkHrefID().toString();	
 	    				String metsurl = baseurl +"resolve/id/"+mcrid+"/image";
 	    				out.write("<a href=\""+metsurl+"\" target=\"_blank\">");
@@ -100,10 +102,8 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 	    				out.write(docdetails.getMessages().getString("Webpage.docdetails.showInDFGViewer")+"</a>");	    			
 	    			}
 	    		
-	    			else if(title.startsWith("MJB")){
+	    			else if(label.equals("MJB")){
 	    				//show HMTL	    			
-	    				MCRObjectID oid = MCRObjectID.getInstance(derID);
-	    				MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(oid);
 	    				String mcrid=der.getDerivate().getMetaLink().getXLinkHrefID().toString();	
 	    				String htmlURL = baseurl +"resolve/id/"+mcrid+"/fulltext";
 	    			
@@ -113,7 +113,15 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 	    			
 	    			}
 	    			else{
-	    				out.write("<dt>"+title+"</dt>");
+	    				String displayLabel = label;
+	    				try{
+	    					displayLabel=docdetails.getMessages().getString("OMD.derivatelabel."+label);
+	    				}
+	    				catch(MissingResourceException e){
+	    					//use the default
+	    				}
+	    				
+	    				out.write("<dt>"+displayLabel+"</dt>");
 	    				StringBuffer sbUrl = new StringBuffer(o.toString());
 	    				sbUrl.append("file/");
 	    				sbUrl.append(derID);
@@ -126,6 +134,10 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 	    					for ( int j=0; j< myfiles.length; j++) {
 	    						MCRFilesystemNode theFile = (MCRFilesystemNode) myfiles[j];
 	    						out.write("<dd>");
+	    						ArrayList<String>titles = der.getService().getFlags("title"); 
+	    						for(String t: titles){
+	    							out.write("<div class=\"derivate-title\">"+t+"</div>");	    							
+	    						}
 	    						if(accessAllowed){
 	    							String fURL = sbUrl.toString()+theFile.getName();
 	    							out.write("<a href=\""+fURL+"\" target=\"_blank\">");

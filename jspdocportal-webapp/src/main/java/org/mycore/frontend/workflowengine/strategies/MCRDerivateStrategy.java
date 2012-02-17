@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
+import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
 import org.mycore.common.JSPUtils;
@@ -23,8 +24,10 @@ import org.mycore.common.MCRPersistenceException;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.MCRUtils;
 import org.mycore.common.xml.MCRXMLHelper;
+import org.mycore.common.xml.MCRXMLParserFactory;
 import org.mycore.datamodel.ifs.MCRDirectory;
 import org.mycore.datamodel.ifs.MCRFilesystemNode;
+import org.mycore.datamodel.ifs2.MCRContent;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRMetaIFS;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
@@ -154,7 +157,7 @@ public abstract class MCRDerivateStrategy {
 	 * @throws MCRException
 	 * TODO a better javadoc
 	 */	
-	public abstract void saveFiles(List files, String dirname, ContextInstance ctxI, String newLabel) throws MCRException ;
+	public abstract void saveFiles(List files, String dirname, ContextInstance ctxI, String newLabel, String newTitle) throws MCRException ;
 	
 	public Element getDerivateData(String derivateDirectory, String docID, String derivateID) {
 		String fileName = new StringBuffer(derivateDirectory)
@@ -201,7 +204,8 @@ public abstract class MCRDerivateStrategy {
 		protected final Element getDerivateMetaData( String filename){
 			Element derivateData = new Element("derivate");
 			try {
-				Element derivate = MCRXMLHelper.parseURI(new File(filename).toURI(), false).getRootElement();		
+				Document derDoc = MCRXMLParserFactory.getParser(false).parseXML(MCRContent.readFrom(new File(filename))); 
+				Element derivate = derDoc.getRootElement();				
 				derivateData.setAttribute("label", derivate.getAttributeValue("label") );
 				derivateData.setAttribute("ID", derivate.getAttributeValue("ID") );
 				
@@ -211,6 +215,15 @@ public abstract class MCRDerivateStrategy {
 			      String href = el.getAttributeValue("href",org.jdom.Namespace.getNamespace("xlink",XLINK_URL));
 			      if ( href==null)  	href = "";      
 		          derivateData.setAttribute("href", href);
+			    } 
+				
+				derivateData.setAttribute("title", "");
+				it = derivate.getDescendants(new ElementFilter("servflag"));
+				while( it.hasNext() ) {
+			      Element el = (Element) it.next();
+			      if("title".equals(el.getAttributeValue("type"))){
+			    	  derivateData.setAttribute("title", el.getText());
+			      }		          
 			    } 
 				
 				it = derivate.getDescendants(new ElementFilter("internal"));		

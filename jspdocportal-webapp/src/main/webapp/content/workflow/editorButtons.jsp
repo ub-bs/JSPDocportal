@@ -169,11 +169,14 @@
 	<x:forEach select="$der/derivates/derivate">
 		<x:set var="derivateID" select="string(./@ID)" />
 		<x:set var="derivateLabel" select="string(./@label)" />
+		<x:set var="derivateTitle" select="string(./@title)" />
 	    <mcr:checkAccess var="modifyAllowed" permission="writedb"	key="${derivateID}" /> 
 		<mcr:checkAccess var="commitAllowed" permission="commitdb"	key="${derivateID}" />
 		<table width=100% class="tasklistDerivate">
 		<tr>
-			<th align="left" valign="top">${derivateLabel}</th>
+			<th align="left" valign="top">
+				<fmt:message key="OMD.CPR.derivatelabel.${derivateLabel}" /><br />				
+			</th>
 			<th width="30">&nbsp;</th>
 			<th align="right">
 			  <c:if	test="${modifyAllowed}">
@@ -275,6 +278,7 @@
 				</table>
 			</c:if></th>
 		</tr>
+		<tr><td colspan="3">${derivateTitle}</td></tr>
 
 		<x:set var="numFiles" select="count(./file)" />
 		<x:forEach select="file">

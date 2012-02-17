@@ -254,7 +254,7 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 	public void saveFiles(List files, String dirname, long pid, String newLabel) throws MCRException {		
 		MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(pid);
 		try{
-			derivateStrategy.saveFiles(files, dirname, wfp.getContextInstance(), newLabel);
+			derivateStrategy.saveFiles(files, dirname, wfp.getContextInstance(), newLabel, "");
 		}catch(MCRException ex){
 			
 		}finally{

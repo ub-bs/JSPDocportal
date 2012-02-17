@@ -43,7 +43,10 @@ import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager
 /**
  * This class checks uploades files
  * 
- * @author Jens Kupferschmidt
+ * TODO - Check this code! 
+ * In my opinion it should be possible to save the derivate directly from editor (editor-author-derivate).
+ * Maybe some more hidden values are necessary. Robert
+ *  
  * @version $Revision$ $Date$
  */
 
@@ -73,6 +76,7 @@ public class MCRCheckDerivateServlet extends MCRServlet {
 		String step = parms.getParameter("step");
 		String nextPath = parms.getParameter("nextPath");
 		String newLabel = parms.getParameter("/mycorederivate/@label");
+		String newTitle = parms.getParameter("/mycorederivate/service/servflags/servflag__type__title");
 		
 		if(nextPath == null) nextPath = "";
 		
@@ -111,14 +115,14 @@ public class MCRCheckDerivateServlet extends MCRServlet {
 		
 		String dirname = workdir + "/" + derid;
 		if(nextPath.equals("")){
-			nextPath = "~workflow-" + ID.getTypeId();
+			nextPath = "~workflow-" + WFM.getWorkflowProcessType();
 		}
 		String requestPath = "/nav?path=" + nextPath;
 		MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processID);
 		
 		try{
 			
-			WFM.saveUploadedFiles(files, dirname, wfp.getContextInstance(), newLabel);
+			WFM.saveUploadedFiles(files, dirname, wfp.getContextInstance(), newLabel, newTitle);
 		}catch(Exception ex){
 			request.setAttribute("messageKey", "WorkflowEngine.UploadNotSuccessful");
 			request.setAttribute("lang", lang);

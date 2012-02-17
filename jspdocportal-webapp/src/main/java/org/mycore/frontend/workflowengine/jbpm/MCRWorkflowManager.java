@@ -233,9 +233,9 @@ public abstract class MCRWorkflowManager {
 	 * @param dirname
 	 * @param pid
 	 */
-	final public void saveUploadedFiles(@SuppressWarnings("rawtypes") List files, String dirname, ContextInstance ctxI, String newLabel) {
+	final public void saveUploadedFiles(@SuppressWarnings("rawtypes") List files, String dirname, ContextInstance ctxI, String newLabel, String newTitle) {
 		try{
-			derivateStrategy.saveFiles(files, dirname, ctxI, newLabel);
+			derivateStrategy.saveFiles(files, dirname, ctxI, newLabel, newTitle);
 		}catch(MCRException ex){
 			logger.error("could not save uploaded files");
 		}finally{

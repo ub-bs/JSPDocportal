@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE editor>
 
-<editor>
+<editor id="editor-derivate">
  <!-- <target type="servlet" name="MCRCheckEditDataServlet" method="post" format="xml" /> -->
 <!--
  <target type="debug" />
@@ -13,20 +13,23 @@
 	 	<label i18n="Editor.Common.validationMessage" />
 	 </validationMessage>
 	 
-	 <components root="editor-derivate" var="/mycorederivate">
+	 <components root="derivate" var="/mycorederivate">
 	 	<headline anchor="CENTER">
    			<text> <label i18n="Editor.derivate.label" /> </text>
    		</headline>
    		
-   		<panel id="editor-derivate">
-   			<cell col="1" row="1" anchor="NORTHWEST" ref="LLabel" />
-   			<cell col="2" row="1" anchor="NORTHWEST" ref="DLabel" />
-   			<cell col="3" row="1" anchor="NORTHWEST" >
+   		<panel id="derivate">
+   			<cell row="10" col="1" anchor="NORTHWEST" ref="LLabel" />
+   			<cell row="10" col="2" anchor="NORTHWEST" ref="DLabel" />
+   			<cell row="10" col="3" anchor="NORTHWEST" >
    				<space width="20" height="0" />
    			</cell>
-   			<cell col="4" row="1" anchor="NORTHWEST" ref="HLabel" />
-   				 <cell col="1" row="3" />
-   			<cell col="2" row="3" anchor="EAST" ref="TwoButtons"  />
+   			<cell row="10" col="4" anchor="NORTHWEST" ref="HLabel" />
+   			
+   			
+   			
+   			<cell row="30" col="1"  />
+   			<cell row="30" col="2" anchor="EAST" ref="TwoButtons"  />
    		</panel>
    		
    		<panel id="DLabel">

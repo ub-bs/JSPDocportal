@@ -137,8 +137,8 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 	}	
 	
 	
-	public void saveFiles(List files, String dirname, ContextInstance ctxI, String newLabel) throws MCRException {
-		logger.debug("!! You Enters the saveFiles-DUMMY implementation, must be implemented in subclasses, for workflow-specific file checks");
+	public void saveFiles(List files, String dirname, ContextInstance ctxI, String newLabel, String newTitle) throws MCRException {
+		logger.debug("!! You are using the saveFiles-DUMMY implementation, must be implemented in subclasses, for workflow-specific file checks");
 		
 		// save the files
 		boolean bUpdateDerivate=false;
