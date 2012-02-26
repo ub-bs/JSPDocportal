@@ -121,7 +121,7 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 		</form>	*/
 		Boolean isLoaded = (Boolean)pageContext.findAttribute(VARNAME_CKEDITOR_LOADED);
 		String baseURL = (String) pageContext.findAttribute("WebApplicationBaseURL");  
-		if(isLoaded==null || !isLoaded){
+		if(isLoaded==null || !isLoaded.booleanValue()){
 			out.write("<script type=\"text/javascript\" src=\""+baseURL+"ckeditor/ckeditor.js\" ></script>");
 			pageContext.setAttribute(VARNAME_CKEDITOR_LOADED, Boolean.TRUE, PageContext.PAGE_SCOPE);
 		}

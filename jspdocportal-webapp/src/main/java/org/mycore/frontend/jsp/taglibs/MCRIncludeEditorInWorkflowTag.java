@@ -21,12 +21,12 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.apache.log4j.Logger;
 import org.jdom.Document;
+import org.jdom.JDOMException;
 import org.jdom.transform.JDOMSource;
 import org.mycore.common.MCRSessionMgr;
+import org.mycore.common.content.MCRFileContent;
 import org.mycore.common.xml.MCRLayoutService;
 import org.mycore.common.xml.MCRURIResolver;
-import org.mycore.common.xml.MCRXMLParserFactory;
-import org.mycore.datamodel.ifs2.MCRContent;
 import org.mycore.frontend.editor.MCREditorServlet;
 import org.mycore.frontend.jsp.NavServlet;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
@@ -168,7 +168,7 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 			}
 			
 			
-			Document xml = MCRXMLParserFactory.getParser(false).parseXML(MCRContent.readFrom(editorFile.toURI()));
+			Document xml = new MCRFileContent(editorFile).asXML();
 			MCREditorServlet.replaceEditorElements(request, editorFile.toURI().toString(), xml);
 			Source  xmlSource = new JDOMSource(xml);
 			
@@ -199,6 +199,9 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 		catch(SAXParseException e){
 				logger.error( "SaxParseException: " + e , e);
 		}
+		catch(JDOMException e){
+			logger.error( "JDOMException: " + e , e);
+	}
 	}
 	
 	private Properties getParameters(){

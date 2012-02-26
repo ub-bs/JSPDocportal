@@ -20,11 +20,11 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.apache.log4j.Logger;
 import org.jdom.Document;
+import org.jdom.JDOMException;
 import org.jdom.transform.JDOMSource;
+import org.mycore.common.content.MCRFileContent;
 import org.mycore.common.xml.MCRLayoutService;
 import org.mycore.common.xml.MCRURIResolver;
-import org.mycore.common.xml.MCRXMLParserFactory;
-import org.mycore.datamodel.ifs2.MCRContent;
 import org.mycore.frontend.editor.MCREditorServlet;
 import org.mycore.frontend.jsp.NavServlet;
 import org.xml.sax.SAXParseException;
@@ -62,8 +62,8 @@ public class MCRIncludeEditorTag extends SimpleTagSupport {
 					.getRequest();
 			File editorFile = new File(pageContext.getServletContext()
 					.getRealPath(editorPath));
-			Document xml = MCRXMLParserFactory.getParser(false).parseXML(
-					MCRContent.readFrom(editorFile.toURI()));
+			
+			Document xml = new MCRFileContent(editorFile).asXML();
 
 			MCREditorServlet.replaceEditorElements(request, editorFile.toURI()
 					.toString(), xml);
@@ -104,7 +104,9 @@ public class MCRIncludeEditorTag extends SimpleTagSupport {
 		} catch (TransformerException e) {
 			logger.error("TransformerException " + e, e);
 		} catch (SAXParseException e) {
-			logger.error("TransformerException " + e, e);
+			logger.error("SAXParseException " + e, e);
+		} catch (JDOMException e) {
+			logger.error("JDOMException " + e, e);
 		}
 	}
 }
