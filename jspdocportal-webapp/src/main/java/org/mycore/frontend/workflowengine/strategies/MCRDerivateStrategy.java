@@ -23,11 +23,9 @@ import org.mycore.common.MCRException;
 import org.mycore.common.MCRPersistenceException;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.MCRUtils;
-import org.mycore.common.xml.MCRXMLHelper;
-import org.mycore.common.xml.MCRXMLParserFactory;
+import org.mycore.common.content.MCRFileContent;
 import org.mycore.datamodel.ifs.MCRDirectory;
 import org.mycore.datamodel.ifs.MCRFilesystemNode;
-import org.mycore.datamodel.ifs2.MCRContent;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRMetaIFS;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
@@ -204,7 +202,7 @@ public abstract class MCRDerivateStrategy {
 		protected final Element getDerivateMetaData( String filename){
 			Element derivateData = new Element("derivate");
 			try {
-				Document derDoc = MCRXMLParserFactory.getParser(false).parseXML(MCRContent.readFrom(new File(filename))); 
+				Document derDoc = new MCRFileContent(new File(filename)).asXML(); 
 				Element derivate = derDoc.getRootElement();				
 				derivateData.setAttribute("label", derivate.getAttributeValue("label") );
 				derivateData.setAttribute("ID", derivate.getAttributeValue("ID") );
