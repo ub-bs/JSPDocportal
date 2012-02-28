@@ -107,7 +107,6 @@
     <mapping resource="org/mycore/user/hibernate/MCRGROUPMEMBERS.hbm.xml"/>
     <mapping resource="org/mycore/user/hibernate/MCRUSERS.hbm.xml"/>
     <mapping resource="org/mycore/backend/hibernate/tables/MCRLINKHREF.hbm.xml"/>
-    <mapping resource="org/mycore/backend/hibernate/tables/MCRRESUMPTIONTOKEN.hbm.xml"/>
     <mapping resource="org/mycore/backend/hibernate/tables/MCRURN.hbm.xml"/>
     
     <!-- Metadaten sind jetzt im Filesystem
