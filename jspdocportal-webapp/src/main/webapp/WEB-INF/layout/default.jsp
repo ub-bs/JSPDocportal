@@ -75,7 +75,7 @@
 		 					<tr>
 		  						<td align="center" >
 								<!-- NAVIGATION TOP RIGHT -->
-									<mcr:outputNavigation id="top" currentPath="top" mode="top" separatorString="|"/>
+									<mcr:outputNavigation id="top" mode="top" separatorString="|"/>
 									<span style="padding-left:10px;padding-right:10px">
 										<mcr:outputLanguageSelector languages="de,en" separatorString="&nbsp;&nbsp;|&nbsp;&nbsp;" />
 									</span>		    
@@ -116,7 +116,7 @@
 		  						<td class="navi_history" >
 			    					<!-- Navigation history -->
  		        					<fmt:message key="Nav.Navigation" />:&nbsp;
- 		        					<mcr:outputNavigation id="left" currentPath="${currentPath}" mode="breadcrumbs" separatorString="&gt;&gt;"/>				
+ 		        					<mcr:outputNavigation id="left" mode="breadcrumbs" separatorString="&gt;&gt;"/>				
 		   						</td>
 		  					</tr>
 						</table>
@@ -130,24 +130,13 @@
 							<!--Main Menu -->
 								<tr>
 									<td>
-										<mcr:outputNavigation id="left" expanded="false" currentPath="${currentPath}" mode="left"/>
+										<mcr:outputNavigation id="left" expanded="false" mode="left"/>
 									</td>
-								</tr>
-								<!--Services Tips -->
-								<tr>
-									<td>
-										<mcr:outputNavigation id="tips" expanded="false" currentPath="${currentPath}" mode="left"/>
-									</td>				
-								</tr>
-								<tr>
-									<td>
-										<mcr:outputNavigation id="publish" expanded="false" currentPath="${currentPath}" mode="left"/>
-									</td>				
 								</tr>
 								<!-- Admin Menu -->
 								<tr>
 									<td>
-										<mcr:outputNavigation id="admin" expanded="false" currentPath="${currentPath}" mode="left"/>
+										<mcr:outputNavigation id="admin" expanded="false" mode="left"/>
 									</td>				
 								</tr>
 							</table>
