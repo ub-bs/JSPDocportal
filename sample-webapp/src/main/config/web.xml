@@ -3,18 +3,6 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
     <display-name>JSPDocportal Sample</display-name>
-    <description>Sample Web Application for JSPDocportal</description>
-    <listener>
-       <listener-class>org.mycore.frontend.jsp.MCRJSPServletContextListener</listener-class>
-    </listener>
-    <listener>
-       <listener-class>org.mycore.common.events.MCRServletContextListener</listener-class>
-    </listener>
-    <listener>
-      <listener-class>org.mycore.common.events.MCRHttpSessionListener</listener-class>
-    </listener> 
-
-        
     
     <!-- servlets -->    
     <servlet id="FileNode">
