@@ -11,7 +11,7 @@
 		<h2><fmt:message key="Nav.Admin.UserManagement" /></h2>
  		<div class="textblock2">
         	<div>
-        		<mcr:outputNavigation currentPath="admin.admin.usermanagement" mode="toc" id="admin"/>
+        		<mcr:outputNavigation mode="toc" id="admin"/>
         	</div>
         	<div style="padding-bottom: 50px;">
             	<mcr:includeWebContent file="index_introtext.html" />

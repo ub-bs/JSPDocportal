@@ -11,7 +11,7 @@
 		<h2><fmt:message key="Nav.Manuals" /></h2>
  		<div class="textblock2">
         	<div>
-        		<mcr:outputNavigation currentPath="left.manuals" mode="toc" id="left"/>
+        		<mcr:outputNavigation mode="toc" id="left"/>
         	</div>
         	<div style="padding-bottom: 50px;">
             	<mcr:includeWebContent file="manuals_introtext.html" />

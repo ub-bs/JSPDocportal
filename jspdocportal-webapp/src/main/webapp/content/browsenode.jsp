@@ -11,7 +11,7 @@
 		<h2><fmt:message key="Webpage.browse.generalTitle" /></h2>
  		<div class="textblock2">
         	<div>
-        		<mcr:outputNavigation currentPath="${param.path}" mode="toc" id="left"/>
+        		<mcr:outputNavigation mode="toc" id="left"/>
         	</div>
         	<div style="padding-bottom: 50px;">
             	<mcr:includeWebContent file="browsenode.html" />

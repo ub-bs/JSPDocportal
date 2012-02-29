@@ -8,7 +8,7 @@
 
 
 <fmt:message var="pageTitle" key="Webpage.title.indexbrowser.${param.searchclass}" /> 
-<stripes:layout-render name="../WEB-INF/layout/cpr.jsp" pageTitle = "${pageTitle}" currentPath="${param.path}">
+<stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
 	<stripes:layout-component name="contents">
 		<h2>
 			<fmt:message key="Webpage.indexbrowser.${param.searchclass}.title" />

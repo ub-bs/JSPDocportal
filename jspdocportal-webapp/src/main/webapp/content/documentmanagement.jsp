@@ -11,7 +11,7 @@
 		<h2><fmt:message key="Webpage.admin.DocumentManagement" /></h2>
  		<div class="textblock2">
         	<div>
-        		<mcr:outputNavigation currentPath="publish.publish" mode="toc" id="publish"/>
+        		<mcr:outputNavigation mode="toc" id="publish"/>
         	</div>
         	<div style="padding-bottom: 50px;">
             	<mcr:includeWebContent file="documentmanagement_introtext.html"/>
