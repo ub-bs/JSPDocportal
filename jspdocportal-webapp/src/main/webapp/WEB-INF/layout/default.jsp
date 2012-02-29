@@ -8,175 +8,117 @@
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
 <stripes:layout-definition>
-	<%-- parameters: pageTitle, currentPath  --%>
-	<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-	
+	<%-- Parameters: heading1: The overall heading of the page, usually hidden by CSS
+	                 (useful for screen readers) 
+	--%>
+	<!DOCTYPE html>
 	<mcrdd:setnamespace prefix="nav" uri="http://www.mycore.org/jspdocportal/navigation" />
-	<c:set var="WebApplicationBaseURL"	value="${applicationScope.WebApplicationBaseURL}" />
+	<c:set var="WebApplicationBaseURL" value="${applicationScope.WebApplicationBaseURL}" />
 	<c:set var="path" value="${requestScope.path}" />
 	<%-- set the current language --%>
-	<fmt:setBundle basename="messages"/>
-	<fmt:setLocale value="de"/>
-	<c:choose>
-		<c:when test="${!empty(param.lang)}">
-			<c:set var="lang" value="${param.lang}" />
-			<c:if test="${!fn:contains('de,en',lang)}">
-				<c:set var="lang" value="de" />
-			</c:if>
-			<mcr:session method="set" type="language" var="lang" />
-		</c:when>
-		<c:otherwise>
-			<mcr:session method="get" type="language" var="lang" />
-		</c:otherwise>
-	</c:choose>
-
+	<mcr:setLanguage var="lang" allowedLanguages="de" />
+	<fmt:setLocale value="${lang}" scope="request" />
+	<fmt:setBundle basename='messages' scope="request" />
 	<html>
-		<head>
-			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-			<title>
-				<c:if test="${empty (pageTitle)}">
-					<fmt:message var="pageTitle" key="Title.${path}" />
-					<c:choose>
-						<c:when test="${not empty param.id}">
-							<c:set var="docType" value="${fn:substringBefore(fn:substringAfter(param.id, '_'),'_')}" />
-							<c:if test="${not empty docType}">
-								<jsp:include page="content/webpageitems/webpageitem-${docType}.jsp" >
-									<jsp:param name="pageFragment" value="pagetitle" />
-									<jsp:param name="mcrid" value="${param.id}" />
-								</jsp:include>
-							</c:if>
-						</c:when>
-						<c:otherwise>
-							<c:out value="${pageTitle}" />
-						</c:otherwise>
-					</c:choose>
-					@ <fmt:message key="Webpage.intro.title" />
-				</c:if>
-				<c:if test="${not empty (pageTitle)}">
-					${pageTitle} @ <fmt:message key="Webpage.intro.title" />
-				</c:if>
-			</title>
-			<script src="${WebApplicationBaseURL}javascript/jspdocportal.js"	type="text/javascript"></script>
-			<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_general.css">
-			<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_navigation.css">
-			<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_content.css">
-			<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_docdetails.css">
-			<link rel="shortcut icon" href="${WebApplicationBaseURL}images/icon_rosdok.ico">
-			<stripes:layout-component name="html_head"/>
-		</head>
-		<body topmargin="0" rightmargin="0" leftmargin="0">
-			<table id="maintable" cellpadding="0" cellspacing="0">
-				<tr valign="top" >
-					<td rowspan="7" width="5">
-		  				<span style="padding-left:5px">&nbsp;</span>
-					</td>
-					<td id="navi_line" colspan="2">
-		 				<table class="navi_line" cellspacing="0" border="0" cellpadding="0" width="100%" >
-		 					<tr>
-		  						<td align="center" >
-								<!-- NAVIGATION TOP RIGHT -->
-									<mcr:outputNavigation id="top" mode="top" separatorString="|"/>
-									<span style="padding-left:10px;padding-right:10px">
-										<mcr:outputLanguageSelector languages="de,en" separatorString="&nbsp;&nbsp;|&nbsp;&nbsp;" />
-									</span>		    
-								</td>
-							</tr>
-						</table>
-	  				</td>
-				</tr>
-				<tr>
-					<td width="126" valign="bottom">
-		  				<a href="${WebApplicationBaseURL}">
-		   					<img id="logo" alt="Logo RosDok" src="${WebApplicationBaseURL}images/logo_rosdok.gif"  />
-		   				</a>
-					</td>
-					<td>
-						<table cellpadding="0" cellspacing="0" width="100%">
-							<tr>
-								<td valign="bottom">
-									<!--Schriftzug RosDok--> 
-									<img src="${WebApplicationBaseURL}/images/logo_rosdok_lang.gif" border="0" alt="Rostocker Dokumentenserver" />
-								</td>
-								<td valign="bottom" align="right">
-									<img src="${WebApplicationBaseURL}/images/ub_pictures.jpg" border="0" alt="" />
-								</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2" >
-		 				<table class="navi_below_line" cellspacing="0" cellpadding="0">
-		 					<tr>
-		  						<td style="width:212px" class="navi_history_user" >
-				   					<mcr:session method="get" var="username" type="userID" />
-				   					<fmt:message key="Webpage.user" />: 
-   				   					<a href="${WebApplicationBaseURL}nav?path=~userdetail">${username}</a>
-								</td>		  
-		  						<td class="navi_history" >
-			    					<!-- Navigation history -->
- 		        					<fmt:message key="Nav.Navigation" />:&nbsp;
- 		        					<mcr:outputNavigation id="left" mode="breadcrumbs" separatorString="&gt;&gt;"/>				
-		   						</td>
-		  					</tr>
-						</table>
-					</td>
-				</tr>
-				<tr class="max">
-					<td id="mainLeftColumn" class="navi_table" >
-						<!-- NAVIGATION LEFT BEGIN -->
-						<div  class="navi_left"  >
-							<table class="navi_left" cellpadding="0" cellspacing="0">
-							<!--Main Menu -->
-								<tr>
-									<td>
-										<mcr:outputNavigation id="left" expanded="false" mode="left"/>
-									</td>
-								</tr>
-								<!-- Admin Menu -->
-								<tr>
-									<td>
-										<mcr:outputNavigation id="admin" expanded="false" mode="left"/>
-									</td>				
-								</tr>
-							</table>
-						</div>
-					</td>
-					<!-- NAVIGATION LEFT END -->
+	<head>
+		<meta charset="UTF-8" />
+		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_reset.css" />
+		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_layout.css" />
+		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_general.css" />
+		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_navigation.css" />
+		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_content.css" />
+		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_docdetails.css" />
+		<link rel="shortcut icon" href="${WebApplicationBaseURL}images/icon_rosdok.ico" />
+		<stripes:layout-component name="html_header">
+			<%-- any additional HTML header content --%>
+		</stripes:layout-component>		
+	</head>
+	<body>
+		<fmt:message var="gotoContents" key="Webpage.gotoContents" />  
+		<div class="none">
+			<h1>${heading1}</h1>
+			<p><a href="#contents" title="${gotoContents}">${gotoContents}</a></p>
+		</div>
+		<div id="wrapper">
+			<div id="header">
+				<div class="top_navigation">
+					<mcr:outputNavigation id="top" mode="top" separatorString="|"/>
+					<ol>
+						<li class="separator">|</li> 
+						<li class="userinfo">
+							<mcr:session method="get" var="username" type="userID" />
+							<c:if test="${not (username eq 'gast' || username eq 'guest')}">
+								<span class="label"><fmt:message key="Webpage.user" />:&nbsp;</span>
+								<span class="username">							 
+									<a href="${WebApplicationBaseURL}nav?path=~userdetail">${username}</a>
+								</span>
+								[<span class="action">
+									<a href="${WebApplicationBaseURL}nav?path=~logout">
+										<fmt:message key="Nav.Logout" />
+									</a>
+								</span>]							
+							</c:if>							
+							<c:if test="${(username eq 'gast' || username eq 'guest')}">
+								[<span class="action">
+									<a href="${WebApplicationBaseURL}nav?path=~login">
+											<fmt:message key="Nav.Login" />
+									</a>
+								</span>]
+							</c:if>			
+						</li>
+					</ol>
+					<ol>
+						<li class="separator">|</li> 
+						<li>
+							<mcr:outputLanguageSelector languages="de,en" separatorString="&nbsp;&nbsp;|&nbsp;&nbsp;" />
+						</li>
+					</ol>		
+				</div>
+				<div class="logo">
+					<a href="${WebApplicationBaseURL}">
+		  					<span style="font-size:36px; font-family:Verdana; color: darkblue;"><fmt:message key="Webpage.application.title" /></span>
+					</a>
+				</div>
+			</div> <!-- END OF header -->
+			<div id="left_col" class="left_col">
+				<div class="base_box">
+					<div class="main_navigation">
+						<mcr:outputNavigation id="left" expanded="false" mode="left" />
+					</div>
+					<div style="padding-top:32px;padding-bottom:32px; text-align: center;">
+						<a href="http://www.mycore.org">
+							<img alt="powered by MyCoRe 2.2"
+								 src="${WebApplicationBaseURL}images/poweredByMyCoRe2.gif"
+							 	 style="border:0;text-align:center; width:90%">
+						</a>
+					</div>
+					<div class="main_navigation">
+						<mcr:outputNavigation id="admin" expanded="false" mode="left" />
+					</div>
+				</div>
+			</div><!-- END OF left_col -->
+			<div id="center_col" class="center_col">
+				<div class="base_box breadcrumbs">
+					<mcr:outputNavigation id="left" mode="breadcrumbs" separatorString="»" />				
+				</div>
+				
+				<div id="contents" class="base_content text">
+					<stripes:layout-component name="contents">
+						<%--<div>This is the main page ...</div>--%>
+					</stripes:layout-component>			
+				</div>
+			</div><!-- END of content -->
+			<div id="right_col" class="right_col">
+				<stripes:layout-component name="right_side">
+				
+				</stripes:layout-component>
+				
+			</div> <!--  END OF right-->
+		<div id="footer" >
+	        <a href="${WebApplicationBaseURL}nav?path=~impressum">Impressum</a>
+	  	</div>
+	  </div>
 
-					<td class="max autowidth">
-						<table class="max" cellpadding="0" cellspacing="0">
-							<tr>
-								<td id="contentArea">
-									<!--  MAIN CONTENT -->
-									<div id="contentWrapper">									 
-									<c:catch var="e">
-					 					<stripes:layout-component name="contents">
-	                						<div>This is the main page ...</div>
-    	        						</stripes:layout-component>  
-									</c:catch>
-				 					<c:if test="${e!=null}">
-										<%Throwable error = (Throwable) pageContext.getAttribute("e");
-										  org.apache.log4j.Logger.getLogger("frame.jsp").error("error", error); %>
-										<c:import url="${WebApplicationBaseURL}mycore-error.jsp">
-											<c:param name="message">${e.class} ${e.message} $e.localisedMessage} hh</c:param>
-										</c:import>
-											<textarea cols="100" rows="25">
-                            					<%error.printStackTrace(new java.io.PrintWriter(out)); %>
-                        					</textarea>
-									</c:if>
-									</div>
-								</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-				<tr>
-	  				<td id="footer" colspan="2" >
-	        			<a href="${WebApplicationBaseURL}nav?path=~impressum">Impressum</a>
-	  				</td>
-				</tr>	
-			</table>
-		</body>
+	</body>
 	</html>
 </stripes:layout-definition>

@@ -1,0 +1,288 @@
+/* =================================================================== */
+/* $Revision: 1.13 $ $Date: 2011/01/31 04:00:23 $                      */
+/* CSS für BasisLayout                                                 */
+/* =================================================================== */
+
+/* ------------------------------------------------------------------- */
+/*  Outer Framework, 3 column design + header                          */
+/* ------------------------------------------------------------------- */  
+body{
+	background:#ffffff url('../images/layout/CPR-header_HG3.jpg') no-repeat center top;
+	font-family:    Arial, Helvetica, sans-serif;
+	font-size:13px;
+}
+
+div#wrapper {
+	width: 990px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+div#header{
+	background: url('../images/layout/CPR-header_Detail3.png') no-repeat left bottom;
+	height: 100px;	
+}
+
+div#left_col{
+	float:left;
+	width: 190px;	
+}
+
+div#center_col{	
+	width: 610px;
+	float:left;   
+}
+
+div#right_col{
+	float: left;
+	width: 190px;
+}
+div#footer{
+	clear:both;
+	text-align: center;
+	padding-top:6px;
+	border-top: 1px solid black;
+}
+
+
+/* ------------------------------------------------------------------- */
+/*  Basic page elements                                                */
+/* ------------------------------------------------------------------- */  
+div.none{
+	display:none;
+}
+
+div.base_box{
+	margin: 4px;
+	padding: 10px 8px 8px 8px;
+	border-top: 1px solid #004A99;
+	border-left: 1px solid #004A99;
+	border-right: 1px solid #004A99;
+	border-radius: 12px 12px 0px 0px;
+	background: url('../images/layout/gradient.png') repeat-x left top;
+}
+
+div.base_content{
+	margin: 4px;
+	padding: 4px 12px 4px 12px;
+	border-top: 1px solid #FFFFFF;
+	border-left: 1px solid #FFFFFF;
+	border-right: 1px solid #FFFFFF;	
+}
+
+/* ------------------------------------------------------------------- */
+/*  Uni Logo
+/* ------------------------------------------------------------------- */  
+div.logo{
+	float: left;
+	padding:36px 10px 10px 10px;
+}
+
+div.logo a{
+	text-decoration: none;
+}
+
+/* ------------------------------------------------------------------- */
+/*  Top Navigation      (as ordered list)                              */
+/* ------------------------------------------------------------------- */  
+div.top_navigation{
+	float: right;
+	font-family: Arial, sans-serif;
+	font-size:11px;
+	color: #C6C6C6;
+	padding-top:10px;
+}
+
+div.top_navigation ol{
+	float:left;
+}
+
+div.top_navigation ol li{
+	float:left;
+	padding-left:6px; 
+	padding-right:6px;
+}
+
+div.top_navigation ol li.separator{
+	color: #666666;
+}
+
+div.top_navigation a{
+	text-decoration: none;
+	color: #666666;	
+}
+
+div.top_navigation a:VISITED{
+	color: #666666;
+}
+
+/* ------------------------------------------------------------------- */
+/*  Main Navigation  on left side    (as ordered list)                 */
+/* ------------------------------------------------------------------- */  
+div.main_navigation ol li {
+	padding-top: 4px;
+	padding-bottom: 4px;	
+}
+
+/* 2nd level and below */
+div.main_navigation > ol > li > ol li a{
+	text-decoration: none;
+	color: #666666;       
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1em;
+}
+div.main_navigation ol > li > ol li.active a{
+	font-weight: bold;
+}
+div.main_navigation ol > li > ol li{
+	margin-top: 4px;
+	margin-left: 0px;
+	margin-bottom: 4px;	
+	padding-left: 16px;
+	padding-bottom: 8px;
+}
+
+/* 1st level */
+div.main_navigation > ol > li {
+	margin-bottom: 8px;
+}
+div.main_navigation > ol > li > a{
+    text-decoration: none;
+    color: darkblue;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight:bold;
+    font-size: 1.25em;
+}
+div.main_navigation > ol > li.active > a{
+    color: #004A99;    
+}
+
+/* 2nd level */
+div.main_navigation > ol > li > ol > li{
+	border-bottom: 1px solid #B6B6B6;
+}
+div.main_navigation > ol > li > ol > li:FIRST-CHILD{
+	border-top: 1px solid #B6B6B6;
+	margin-top: 8px;
+}
+
+/* ------------------------------------------------------------------- */
+/*  Breadcrumb Navigation  on top of content  (as ordered list)        */
+/* ------------------------------------------------------------------- */  
+div.breadcrumbs{
+	min-height: 16px;
+	font-family: Arial, sans-serif;
+	font-size:10px;
+	color: #C6C6C6;
+}
+
+div.breadcrumbs ol {
+	float:left;
+}
+
+div.breadcrumbs ol li{
+	float:left;
+	padding-left:6px; 
+	padding-right:6px;
+}
+
+div.breadcrumbs ol li.separator{
+	color: #565656;
+}
+
+div.breadcrumbs a{
+	text-decoration: none;
+	color: #565656;	
+}
+
+div.breadcrumbs a:VISITED{
+	color: #565656;
+}
+
+
+/* ------------------------------------------------------------------- */
+/*  Infobox content layout                                             */
+/* ------------------------------------------------------------------- */  
+div.infobox{
+	min-height: 48px;
+	margin-bottom: 48px;
+	font-size: 0.9em;
+	line-height: 1.25em;
+}
+
+div.infobox h3{
+	color: #336EAD;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	padding-bottom:6px;
+	font-size: 1.2em;
+}
+div.infobox p{
+	padding-bottom:6px;	
+}
+
+div.infobox ul li{
+	list-style-type: disc;
+	padding-bottom:6px;
+	margin-left: 16px;
+}
+div.infobox ul.news li{
+	list-style-position:inside;
+	text-align: justify;
+	margin-left: 0px;
+}
+div.infobox a{
+	text-decoration: none;
+	color: #336EAD;
+	font-size:1.1em;
+}
+
+div.infobox a:VISITED{
+	color: #336EAD;
+}
+
+/* ------------------------------------------------------------------- */
+/*  Style of normal text on a content page                             */
+/* ------------------------------------------------------------------- */  
+div.text{
+}
+
+div.text ul li{
+	line-height: 1.5em;
+}
+
+div.text h1{
+	color: #004A99;
+	font-size: 1.75em;
+	padding-bottom:6px;
+}
+
+div.text h2{
+	color: #004A99;
+	font-size: 1.5em;
+	padding-bottom:6px;
+}
+div.text h3{
+	color: #004A99;
+	font-size: 1.2em;
+	padding-top:12px;
+	padding-bottom:6px;
+}
+
+div.text h4{
+	font-weight: bold;
+	padding-top:12px;
+}
+
+div.text p{
+	line-height: 1.25em;
+	padding-top:6px;
+}
+
+div.text a{
+	text-decoration: none;
+	color: #336EAD;
+}
+
+div.text a:VISITED{
+	color: #336EAD;
+}

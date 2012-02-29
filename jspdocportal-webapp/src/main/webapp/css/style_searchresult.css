@@ -1,0 +1,88 @@
+/* =================================================================== */
+/* SearchResults                                                       */
+/* =================================================================== */
+
+table.searchresult-table {
+	border-spacing: 0px;
+	font-family: verdana;
+	font-size: 12px;
+	width: 95%;
+}
+td.searchresult-table-header{
+	font-weight: bold;
+}
+td.searchresult-table-id{
+	font-family: monospace;
+	text-align: right;
+	vertical-align:top;
+}
+td.searchresult-table-value{
+
+}
+
+td.searchresult-table-icon{
+	vertical-align:top;
+	text-align: center;
+	width: 64px;
+		
+}
+
+
+div.searchresult-resortform{
+   margin-top:20px;
+   margin-bottom:10px;
+}
+
+
+div.searchresult-navigation{
+	position:relative;
+	background-color: #DDDDDD;
+    border-style: solid none solid none;
+    border-color: #333333;
+    border-width: 1px; 
+    padding: 6px 12px; /* top left */
+    
+    
+    margin-top: 24px;
+    margin-bottom: 24px;
+    
+}
+
+
+div.searchresult-navigation div.numhits{
+	float:left;
+	padding-top:auto;
+	padding-bottom:auto;
+}
+
+div.searchresult-navigation div.navi{
+	min-height: 16px;
+	float:right;
+}
+
+div.searchresult-navigation div.navi ol {
+	float:left;
+}
+
+div.searchresult-navigation div.navi ol li{
+	float:left;
+	padding-left:6px; 
+	padding-right:6px;
+}
+
+div.searchresult-navigation div.navi ol li.active{
+	font-weight: bold;
+}
+
+div.searchresult-navigation div.navi ol li.separator{
+	color: #666666;
+}
+
+div.searchresult-navigation div.navi a{
+	text-decoration: none;
+	color: #336EAD;	
+}
+
+div.searchresult-navigation div.navi a:VISITED{
+	color: #336EAD;
+}
