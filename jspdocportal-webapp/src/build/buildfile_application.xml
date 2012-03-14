@@ -67,7 +67,9 @@
 
 	<target name="info" depends="show" />
 
-	<target name="init">
+	<target name="init" depends="loadproperties" />
+	
+	<target name="loadproperties">
 		<loadproperties srcFile="${APP_HOME}/WEB-INF/classes/mycore.properties">
 			<filterchain>
 				<linecontains>
@@ -110,7 +112,7 @@
 	<!-- Create local working directories                                    -->
 	<!-- =================================================================== -->
 
-	<target name="create.directories" depends="init">
+	<target name="create.directories" depends="loadproperties">
 		<mkdir dir="${MCR.Editor.FileUpload.TempStoragePath}" />
 		<mkdir dir="${MCR.LogDirectory}" />
 		<mkdir dir="${MCR.Save.FileSystem}" />
