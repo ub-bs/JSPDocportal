@@ -46,7 +46,7 @@ public class MCRDefaultInstitutionStrategy implements MCRInstitutionStrategy {
 		xmlElemInstitution.addNamespaceDeclaration(org.jdom.Namespace.getNamespace(
 				"xsi", XSI_URL));
 		xmlElemInstitution.setAttribute("noNamespaceSchemaLocation",
-				"datamodel-author.xsd", org.jdom.Namespace.getNamespace("xsi",
+				"datamodel-institution.xsd", org.jdom.Namespace.getNamespace("xsi",
 						XSI_URL));
 		xmlElemInstitution.setAttribute("ID", id.toString());
 		xmlElemInstitution.setAttribute("label", id.toString());
@@ -59,7 +59,6 @@ public class MCRDefaultInstitutionStrategy implements MCRInstitutionStrategy {
 		
 		Element eInames = new Element("names");
 		eInames.setAttribute("class", "MCRMetaInstitutionName");
-		eInames.setAttribute("textsearch", "true");
 		MCRMetaInstitutionName iname = new MCRMetaInstitutionName();
 		iname.setSubTag("name");
 		iname.setLang("de");

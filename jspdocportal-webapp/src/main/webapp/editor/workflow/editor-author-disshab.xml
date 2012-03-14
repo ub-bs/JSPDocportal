@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE editor>
 
-<editor>
+<editor class="editor" id="editor-author-disshab">
 
 
  
@@ -91,7 +91,6 @@
     <cell col="3" row="212" colspan="2" anchor="NORTHWEST" ref="DNote" sortnr="34" />      
 
 	 <cell col="2" row="213" colspan="2" anchor="NORTHWEST" ref="DGrantorLink" sortnr="37" />     
-	 <cell col="2" row="213" colspan="2" anchor="NORTHWEST" ref="DGrantorLink" sortnr="37" />
 	 
 	 <hidden var="metadata/mappings" descendants="true" />
     

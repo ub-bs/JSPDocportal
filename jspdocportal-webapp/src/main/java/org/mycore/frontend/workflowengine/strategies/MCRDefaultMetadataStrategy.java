@@ -86,8 +86,7 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 	
 					MCRMetaLinkID creatorlink = new MCRMetaLinkID();
 					creatorlink.setSubTag("creatorlink");
-					creatorlink.setLang("de");
-					creatorlink.setReference(authorID,sAuthorName,sAuthorName);
+					creatorlink.setReference(authorID,"author",sAuthorName);
 					
 					Element eCreator = creator.createXML();
 					eCreators.addContent(eCreator);
@@ -292,7 +291,6 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 		eUrn.setAttribute("type", "urn_new");				
 		Element eUrns = new Element("urns");
 		eUrns.setAttribute("class","MCRMetaLangText");
-	//	eUrns.setAttribute("textsearch", "true");
 		eUrns.addContent(eUrn);
 		
 		return eUrns;

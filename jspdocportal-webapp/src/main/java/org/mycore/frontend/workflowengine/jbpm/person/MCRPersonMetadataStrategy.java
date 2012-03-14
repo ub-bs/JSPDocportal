@@ -54,7 +54,7 @@ public class MCRPersonMetadataStrategy extends MCRDefaultMetadataStrategy {
 //		 - <mycoreobject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:noNamespaceSchemaLocation="datamodel-author.xsd" ID="DocPortal_author_00000007" label="DocPortal_author_00000007" version="Version 1.3">
 //		  <structure /> 
 //		- <metadata xml:lang="de">
-//		- <names class="MCRMetaPersonName" heritable="false" notinherit="false" parasearch="true" textsearch="true">
+//		- <names class="MCRMetaPersonName" heritable="false" notinherit="false">
 //		- <name xml:lang="de" inherited="0">
 //		  <firstname>Friedrich</firstname> 
 //		  <callname>Friedrich</callname> 

@@ -1,11 +1,14 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib uri="http://www.mycore.org/jspdocportal/base.tld" prefix="mcr" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="mcr" uri="http://www.mycore.org/jspdocportal/base.tld" %>
+<%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld" %>
 <%@ page pageEncoding="UTF-8" %>
 
 <c:set  var="baseURL" value="${applicationScope.WebApplicationBaseURL}"/>
+<fmt:message var="pageTitle" key="WF.person" /> 
+<stripes:layout-render name="../../../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
+	<stripes:layout-component name="contents">
 
 <!--  debug handling -->
 <c:choose>
@@ -20,7 +23,6 @@
 <!--  handle task ending parameters -->
 <c:if test="${not empty param.endTask}">
 	<mcr:endTask success="success" processID="${param.processID}" 	taskName="${param.endTask}" transition="${param.transition}"/>
-    
 </c:if>
 
 <!--  task management part -->
@@ -105,3 +107,5 @@
         </table>   
    </c:otherwise>
 </c:choose>        
+</stripes:layout-component>
+</stripes:layout-render>

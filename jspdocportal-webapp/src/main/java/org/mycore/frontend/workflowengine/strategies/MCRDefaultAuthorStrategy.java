@@ -34,6 +34,7 @@ public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {
 	public MCRObjectID createAuthor(String userid, MCRObjectID nextFreeAuthorId, boolean fromUserData, boolean inDatabase){
 		MCRObject author = null;
 		
+		/*
 		if (fromUserData){
 			MCRUser user = null;
 			try {
@@ -55,6 +56,8 @@ public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {
 		} else {
 			author = createAuthorFromUser(null, nextFreeAuthorId);
 		}
+		*/
+		author =  createAuthorFromUser(null, nextFreeAuthorId);
 		
 		try {
 			if ( inDatabase) {
@@ -79,7 +82,7 @@ public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {
 		xmlElemAuthor.addNamespaceDeclaration(org.jdom.Namespace.getNamespace(
 				"xsi", XSI_URL));
 		xmlElemAuthor.setAttribute("noNamespaceSchemaLocation",
-				"datamodel-author.xsd", org.jdom.Namespace.getNamespace("xsi",
+				"datamodel-person.xsd", org.jdom.Namespace.getNamespace("xsi",
 						XSI_URL));
 		xmlElemAuthor.setAttribute("ID", id.toString());
 		xmlElemAuthor.setAttribute("label", id.toString());
@@ -164,7 +167,6 @@ public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {
 			Element ePname = pname.createXML();
 			Element ePnames = new Element("names");
 			ePnames.setAttribute("class", "MCRMetaPersonName");
-			ePnames.setAttribute("textsearch", "true");
 			ePnames.addContent(ePname);
 
 			Element eFemale = female.createXML();
@@ -223,7 +225,6 @@ public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {
 			//metadata needs dummy data otherwise  author.createXML() failes
 			Element ePnames = new Element("names");
 			ePnames.setAttribute("class", "MCRMetaPersonName");
-			ePnames.setAttribute("textsearch", "true");
 						
 			MCRMetaPersonName pname = new MCRMetaPersonName();
 			pname.setSubTag("name");

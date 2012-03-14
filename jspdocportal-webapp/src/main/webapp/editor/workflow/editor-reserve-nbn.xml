@@ -6,7 +6,7 @@
 
 <!DOCTYPE editor>
 
-<editor>
+<editor class="editor" id="editor-reserve-nbn">
 
 <title
   prefix  = "NBN reservieren"

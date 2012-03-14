@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE editor>
 
-<editor id="editor-derivate">
+<editor class="editor" id="editor-derivate">
  <!-- <target type="servlet" name="MCRCheckEditDataServlet" method="post" format="xml" /> -->
 <!--
  <target type="debug" />

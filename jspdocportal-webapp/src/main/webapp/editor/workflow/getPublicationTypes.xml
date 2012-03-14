@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE MyCoReWebPage>
-<MyCoReWebPage>
-  <section title="getPublicationTypes" xml:lang="de">
-    <editor id="getPublicationTypes">
+<!DOCTYPE editor>
+    <editor id="getPublicationTypes" class="editor">
 
       <!-- <target type="debug" /> -->
 
@@ -29,5 +27,3 @@
         
       </components>
     </editor>
-  </section>
-</MyCoReWebPage>

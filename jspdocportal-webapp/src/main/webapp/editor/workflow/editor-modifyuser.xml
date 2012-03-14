@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE MyCoReWebPage>
-<MyCoReWebPage>
-<section title="Registering for a user" xml:lang="de">
+<!DOCTYPE editor>
 
-<editor id="modify-user">
+<editor class="editor" id="modify-user">
 	 <source uri="{sourceUri}" />
      <cancel url="nav?path=~workflow-user" />
     <target type="servlet" name="MCRPassToTargetServlet" method="post" format="xml" /> 
@@ -365,7 +363,3 @@
 
     </components>    
 </editor>
-
-
-</section>
-</MyCoReWebPage>

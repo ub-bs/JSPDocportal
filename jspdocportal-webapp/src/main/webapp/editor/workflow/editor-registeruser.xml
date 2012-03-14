@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE MyCoReWebPage>
-<MyCoReWebPage>
-<section title="Registering for a user" xml:lang="de">
 
-<editor id="register-user">
+<editor class="editor" id="register-user">
 	<!-- this is a "special" editor - do nto enable this: <source uri="{sourceUri}" /> -->
      <cancel url="{cancelUrl}" />
    <!-- target type="debug" / -->
@@ -348,5 +345,3 @@
         </panel>
     </components>
  </editor>
-</section>
-</MyCoReWebPage>

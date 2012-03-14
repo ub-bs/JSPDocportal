@@ -1,9 +1,16 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/xml" prefix="x"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib uri="http://www.mycore.org/jspdocportal/base.tld" prefix="mcr"%>
-<c:set var="baseURL" value="${applicationScope.WebApplicationBaseURL}" />
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt"uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="mcr" uri="http://www.mycore.org/jspdocportal/base.tld" %>
+<%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld" %>
+<%@ page pageEncoding="UTF-8" %>
+
+<c:set  var="baseURL" value="${applicationScope.WebApplicationBaseURL}"/>
+<fmt:message var="pageTitle" key="WF.registeruser" /> 
+<stripes:layout-render name="../../../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
+	<stripes:layout-component name="contents">
+
 <c:choose>
 	<c:when test="${not empty param.debug}">
 		<c:set var="debug" value="true" />
@@ -31,7 +38,7 @@
 		<table>
 			<c:forEach var="task" items="${myTaskList}">
 			 <tr><td class="task">
-			   <table width="100%">			
+			   <table style="width:100%">			
 				<c:set var="task" scope="request" value="${task}" />
 				<c:import url="/content/workflow/${task.workflowProcessType}/getTasks.jsp" />
 			   </table>
@@ -46,3 +53,5 @@
 		<fmt:message key="Admin.PrivilegesError" />
 	</c:otherwise>
 </c:choose>
+</stripes:layout-component>
+</stripes:layout-render>

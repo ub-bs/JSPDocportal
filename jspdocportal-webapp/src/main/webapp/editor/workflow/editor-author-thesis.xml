@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE editor>
-<editor>
+<editor class="editor" id="editor-author-thesis">
  	<target type="servlet" name="MCRPassToTargetServlet" method="post" format="xml" />
 	<!-- <target type="debug" /> -->
  	<source uri="{sourceUri}" />
