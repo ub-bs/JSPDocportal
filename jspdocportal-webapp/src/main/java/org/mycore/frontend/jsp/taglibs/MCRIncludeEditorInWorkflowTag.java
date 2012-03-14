@@ -25,8 +25,8 @@ import org.jdom.JDOMException;
 import org.jdom.transform.JDOMSource;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.content.MCRFileContent;
-import org.mycore.common.xml.MCRLayoutService;
 import org.mycore.common.xml.MCRURIResolver;
+import org.mycore.common.xsl.MCRParameterCollector;
 import org.mycore.frontend.editor.MCREditorServlet;
 import org.mycore.frontend.jsp.NavServlet;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
@@ -183,10 +183,8 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 	        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
 		
 	        transformer.clearParameters();
-	        Properties props = MCRLayoutService.buildXSLParameters((HttpServletRequest)pageContext.getRequest());
-	        props.putAll(parameters);
-	        MCRLayoutService.setXSLParameters(transformer, props);	
-	       
+	        MCRParameterCollector paramColl = new MCRParameterCollector((HttpServletRequest)pageContext.getRequest());
+		    paramColl.setParametersTo(transformer);
 	        transformer.transform(xmlSource, new StreamResult(out));
 		}
 		

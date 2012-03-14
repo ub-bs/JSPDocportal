@@ -2,7 +2,6 @@ package org.mycore.frontend.jsp.taglibs;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
@@ -23,8 +22,8 @@ import org.jdom.Document;
 import org.jdom.JDOMException;
 import org.jdom.transform.JDOMSource;
 import org.mycore.common.content.MCRFileContent;
-import org.mycore.common.xml.MCRLayoutService;
 import org.mycore.common.xml.MCRURIResolver;
+import org.mycore.common.xsl.MCRParameterCollector;
 import org.mycore.frontend.editor.MCREditorServlet;
 import org.mycore.frontend.jsp.NavServlet;
 import org.xml.sax.SAXParseException;
@@ -91,14 +90,13 @@ public class MCRIncludeEditorTag extends SimpleTagSupport {
 			 * name="HttpSession" /> <xsl:param name="JSessionID" />
 			 */
 			transformer.clearParameters();
-			Properties props = MCRLayoutService
-					.buildXSLParameters((HttpServletRequest) pageContext
-							.getRequest());
-			if (cancelPage != null && cancelPage.length() > 0) {
-				props.put("cancelUrl", cancelPage);
+	        MCRParameterCollector paramColl = new MCRParameterCollector((HttpServletRequest)pageContext.getRequest());
+		    paramColl.setParametersTo(transformer);
+		    if (cancelPage != null && cancelPage.length() > 0) {
+				paramColl.setParameter("cancelUrl", cancelPage);
 			}
-			MCRLayoutService.setXSLParameters(transformer, props);
-			transformer.transform(xmlSource, new StreamResult(out));
+		    paramColl.setParametersTo(transformer);
+	        transformer.transform(xmlSource, new StreamResult(out));
 		} catch (TransformerConfigurationException e) {
 			logger.error("TransformerConfigurationException: " + e, e);
 		} catch (TransformerException e) {
