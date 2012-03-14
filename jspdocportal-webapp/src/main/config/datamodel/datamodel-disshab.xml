@@ -16,7 +16,7 @@
 	</structure>
 	<metadata>
 		<!-- 01 - DC Titel -->
-		<element name="titles" minOccurs='1' maxOccurs='1'>
+		<element name="titles" minOccurs='0' maxOccurs='1'>
 			<mcrmetalangtext name="title" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="1024" />
 		</element>
 		<!-- 02 - DC Creator -->
@@ -33,7 +33,7 @@
 			<mcrmetaclassification name="subject" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
 		</element>
 		<!-- 05 - Origin -->
-		<element name="origins" minOccurs='1' maxOccurs='1'>
+		<element name="origins" minOccurs='0' maxOccurs='1'>
 			<mcrmetaclassification name="origin" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
 		</element>
 		
@@ -66,17 +66,17 @@
 		</element>
     
 		<!-- 12 - DC Date -->
-		<element name="dates" minOccurs='1' maxOccurs='1'>
+		<element name="dates" minOccurs='0' maxOccurs='1'>
 			<mcrmetaiso8601date name="date" class="MCRMetaISO8601Date"
 				minOccurs='1' maxOccurs='unbounded' />
 		</element>
 		<!-- 13 - DC Type -->
-		<element name="types" minOccurs='1' maxOccurs='1'>
+		<element name="types" minOccurs='0' maxOccurs='1'>
 			<mcrmetaclassification name="type" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
 		</element>
     
 		<!-- 14 - DC Format -->
-		<element name="formats" minOccurs='1' maxOccurs='1'>
+		<element name="formats" minOccurs='0' maxOccurs='1'>
 			<mcrmetaclassification name="format" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
 		</element>
     
@@ -95,7 +95,7 @@
 		</element>
     
 		<!-- 18 - DC Language -->
-		<element name="languages" minOccurs='1' maxOccurs='1'>
+		<element name="languages" minOccurs='0' maxOccurs='1'>
 			<mcrmetaclassification name="language" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
 		</element>
     
