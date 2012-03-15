@@ -47,7 +47,7 @@
     <hr/>
     <div>
     
-		<mcrdd:docdetails mcrID="${mcrid}" lang="de" fromWorkflow="${from}">
+		<mcrdd:docdetails mcrID="${mcrid}" lang="de" fromWorkflow="${from}" outputStyle="table">
 			<mcrdd:setnamespace prefix="xlink" uri="http://www.w3.org/1999/xlink" />
 			
 			<mcrdd:row select="/mycoreobject/metadata/creatorlinks/creatorlink | /mycoreobject/metadata/creators/creator" 

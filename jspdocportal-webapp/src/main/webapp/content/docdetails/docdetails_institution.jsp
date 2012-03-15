@@ -9,7 +9,7 @@
 <%-- Parameter: id - the MCR Object ID--%>
 <%-- Parameter: fromWF - from Workflow or database --%>
 
-<mcrdd:docdetails mcrID="${param.id}" lang="de" fromWorkflow="${param.fromWF}"> 
+<mcrdd:docdetails mcrID="${param.id}" lang="de" fromWorkflow="${param.fromWF}" outputStyle="table"> 
 	<mcrdd:setnamespace prefix="xlink" uri="http://www.w3.org/1999/xlink" />
     <mcrdd:row select="/mycoreobject/metadata/names/name/fullname" labelkey="OMD.institution.title" showInfo="false">
 		<mcrdd:item select="./text()" styleName="docdetails-value-title" />              
