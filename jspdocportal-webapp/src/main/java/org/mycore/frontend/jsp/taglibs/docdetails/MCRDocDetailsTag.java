@@ -69,7 +69,8 @@ import org.xml.sax.SAXException;
  */
 public class MCRDocDetailsTag extends SimpleTagSupport {
 	private static DocumentBuilder builder;
-	private String outputStyle="";
+	//allowed values are "table" or "headlines"
+	private String outputStyle="table";
 	private String mcrID;
 	private boolean fromWorkflow = false;
 	private String lang="de";
