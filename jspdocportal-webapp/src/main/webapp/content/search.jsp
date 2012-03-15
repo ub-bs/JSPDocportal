@@ -4,9 +4,11 @@
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
 <fmt:setBundle basename="messages" />
-<fmt:setBundle basename="messages"/>
 <fmt:message var="pageTitle" key="Nav.Search" /> 
 <stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
+	<stripes:layout-component name="html_header">
+			<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_editor.css" />
+	</stripes:layout-component>
 	<stripes:layout-component name="contents">
 		<%--
 			<mcr:session var="sessionID" method="get" type="ID" />

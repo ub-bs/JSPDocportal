@@ -8,6 +8,9 @@
 
 <fmt:message var="pageTitle" key="Nav.Archive" /> 
 <stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
+	<stripes:layout-component name="html_header">
+		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_editor.css" />
+	</stripes:layout-component>
 	<stripes:layout-component name="contents">
 		<h2><fmt:message key="Webpage.editor.title.${fn:replace(param.editor,'/','.')}" /></h2>
 
