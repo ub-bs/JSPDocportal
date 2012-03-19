@@ -84,7 +84,7 @@ public class MCRJSPObjectServlet extends MCRServlet {
         } else {
             id = getProperty(job.getRequest(), "id");
         }
-        
+        id = id.replace("cpr_staff_0000", "cpr_person_").replace("cpr_professor_0000", "cpr_person_");
         if (id == null) {
         	getServletContext().getRequestDispatcher("/nav?path=~mycore-error&messageKey=IdNotGiven").forward(request,response);
         }

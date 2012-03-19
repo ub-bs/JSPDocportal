@@ -99,7 +99,11 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     	String[] keys =  new String[]{"id", "ppn", "urn"};
     	for(String key: keys){
     		if(request.getParameterMap().containsKey(key)){
-    			queryString = createQuery(key, request.getParameter(key));
+    			String value = request.getParameter(key);
+    			if(key.equals("id")){
+    				value = value.replace("cpr_staff_0000", "cpr_person_").replace("cpr_professor_0000", "cpr_person_");
+    			}
+    			queryString = createQuery(key, value);
     			break;
     		}
     	}
