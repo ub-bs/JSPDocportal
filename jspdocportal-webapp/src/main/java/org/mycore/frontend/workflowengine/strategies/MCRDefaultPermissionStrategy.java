@@ -8,7 +8,6 @@ import java.util.Iterator;
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.jdom.Element;
-import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.access.mcrimpl.MCRAccessControlSystem;
 import org.mycore.access.mcrimpl.MCRAccessRule;
@@ -16,7 +15,8 @@ import org.mycore.access.mcrimpl.MCRAccessStore;
 import org.mycore.access.mcrimpl.MCRRuleMapping;
 import org.mycore.access.mcrimpl.MCRRuleStore;
 import org.mycore.common.MCRConfiguration;
-import org.mycore.common.xml.MCRXMLHelper;
+import org.mycore.common.content.MCRStringContent;
+import org.mycore.common.xml.MCRXMLParserFactory;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowAccessRuleEditorUtils;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
@@ -52,8 +52,8 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 						.getString(propName,
 								"<condition format=\"xml\"><boolean operator=\"false\" /></condition>");
 				strRule = strRule.replaceAll("\\$\\{user\\}", userid);
-				try{	
-					Element rule = (Element) MCRXMLHelper.parseXML(strRule, false)
+				try{
+					Element rule = (Element) MCRXMLParserFactory.getParser(false).parseXML(new MCRStringContent(strRule))
 							.getRootElement().detach();
 					String permissionType = defaultPermissionTypes[i];
 					if (MCRAccessManager.hasRule(objID.toString(), permissionType)) {
@@ -82,8 +82,8 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 					.getString(propName);
 			String x = strReadRule.replaceAll("\\$\\{user\\}", userid);
 			try{
-				Element readRule = (Element) MCRXMLHelper.parseXML(x, false)
-						.getRootElement().detach();
+				Element readRule = (Element) MCRXMLParserFactory.getParser(false).parseXML(new MCRStringContent(x))
+							.getRootElement().detach();
 				MCRAccessManager.addRule(mcrid, "read", readRule, "");
 			} catch(SAXParseException spe){
 				logger.error("SAXParseException: ", spe);
@@ -91,6 +91,10 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 			
 		}
 
+	}
+	
+	public void removeAllPermissions(String mcrid){
+		MCRAccessManager.removeAllRules(MCRObjectID.getInstance(mcrid));
 	}
 
 	private void createReadRuleFromWorkflow(String mcrid, ContextInstance ctxI) {
@@ -116,16 +120,15 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 		}
 		Collection<String> ruleIDs = null;
 		try{
-			Element eRule = (Element) MCRXMLHelper.parseXML(xmlRuleString.toString(),false)
-			.getRootElement().detach();
+			Element eRule = (Element) MCRXMLParserFactory.getParser(false).parseXML(new MCRStringContent(xmlRuleString.toString()))
+				.getRootElement().detach();
 			String rule = ACS.getNormalizedRuleString(eRule);
 
 			ruleIDs=rstore.retrieveRuleIDs(rule, "");
 			/* entferne alle nicht durch den Ruleeditor erzeugten regeln */
-			Iterator it = ruleIDs.iterator();
+			Iterator<String> it = ruleIDs.iterator();
 			while (it.hasNext()) {
-				if (!((String) it.next())
-						.startsWith(MCRWorkflowConstants.ACCESSRULE_PREFIX + "_"+ oRuletype.toString().toUpperCase())) {
+				if (! it.next().startsWith(MCRWorkflowConstants.ACCESSRULE_PREFIX + "_"+ oRuletype.toString().toUpperCase())) {
 					it.remove();
 				}
 			}

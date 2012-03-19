@@ -20,4 +20,10 @@ public interface MCRPermissionStrategy {
 	 */
 	public void setPermissions(String mcrid, String userid, String workflowProcessType, ContextInstance ctxI, int mode);	
 	
+	/**
+	 * removes all permissions for a given MCRObject ID 
+	 * 
+	 * @param mcrid	 
+	 */
+	public void removeAllPermissions(String mcrid);
 }
