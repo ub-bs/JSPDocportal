@@ -23,8 +23,6 @@
 
 package org.mycore.frontend.workflowengine.jbpm;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,9 +65,14 @@ public class MCRCheckMetadataServlet extends MCRServlet {
     	// read the XML data
         MCREditorSubmission sub = (MCREditorSubmission) (request.getAttribute("MCREditorSubmission"));
         org.jdom.Document indoc = sub.getXML();
-
+ 
         // read the parameter
         MCRRequestParameters parms = sub.getParameters();
+        
+        if(parms.getParameter("processid").equals("0")){
+        	doGetPost_NoWorkflow(job);
+        	return;
+        }
         
         String mcrid1 = parms.getParameter("mcrid");
         String type = parms.getParameter("type");
@@ -84,7 +87,7 @@ public class MCRCheckMetadataServlet extends MCRServlet {
         LOGGER.debug("step = " + step);
         LOGGER.debug("mcrid2 = " + mcrid2);
         LOGGER.debug("nextPath = " + nextPath);
-        
+               
         MCRWorkflowManager WFM = MCRWorkflowManagerFactory.getImpl(workflowType);
         MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processID);
         try{
@@ -227,6 +230,99 @@ public class MCRCheckMetadataServlet extends MCRServlet {
         }
     }
     
+    /**
+     * will be used if no jbpm workflow engine is present
+     * (test of YAWL)
+     * @param job
+     * @throws Exception
+     * 
+     * @author Robert Stephan
+     */
+    public void doGetPost_NoWorkflow(MCRServletJob job) throws Exception {
+    	HttpServletRequest request = job.getRequest();
+    	HttpServletResponse response = job.getResponse();
+    	// read the XML data
+        MCREditorSubmission sub = (MCREditorSubmission) (request.getAttribute("MCREditorSubmission"));
+        org.jdom.Document indoc = sub.getXML();
+
+        // read the parameter
+        MCRRequestParameters parms = sub.getParameters();
+        
+        String mcrid1 = parms.getParameter("mcrid");
+        String type = parms.getParameter("type");
+        long processID = Long.parseLong(parms.getParameter("processid"));
+        String workflowType = parms.getParameter("workflowType");
+        String step = parms.getParameter("step");
+        String mcrid2 = parms.getParameter("mcrid2");
+        String nextPath = parms.getParameter("nextPath");
+        LOGGER.debug("mcrid1 = " + mcrid1);
+        LOGGER.debug("type = " + type);
+        LOGGER.debug("workflowType = " + workflowType);
+        LOGGER.debug("step = " + step);
+        LOGGER.debug("mcrid2 = " + mcrid2);
+        LOGGER.debug("nextPath = " + nextPath);
+        
+        MCRWorkflowManager WFM = MCRWorkflowManagerFactory.getImpl(workflowType);
+        try{
+       
+     
+        
+        // get the MCRSession object for the current thread from the session
+        // manager.
+        MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
+        String lang = mcrSession.getCurrentLanguage();
+        LOGGER.info("LANG = " + lang);
+
+        // prepare the MCRObjectID's for the Metadata
+        String mmcrid = "";
+        boolean hasid = false;
+
+        try {
+            mmcrid = indoc.getRootElement().getAttributeValue("ID");
+
+            if (mmcrid == null) {
+                mmcrid = mcrid1;
+            } else {
+                hasid = true;
+            }
+        } catch (Exception e) {
+            mmcrid = mcrid1;
+        }
+
+        MCRObjectID ID = MCRObjectID.getInstance(mmcrid);
+
+        if (!ID.getTypeId().equals(type)) {
+            ID = MCRObjectID.getInstance(mcrid1);
+            hasid = false;
+        }
+
+        if (!hasid) {
+            indoc.getRootElement().setAttribute("ID", ID.toString());
+        }
+
+        // create a metadata object and prepare it
+        org.jdom.Document outdoc;
+        StringBuffer storePath = new StringBuffer(MCRWorkflowDirectoryManager.getWorkflowDirectory(ID.getTypeId()))
+			.append("/").append(ID.toString()).append(".xml");
+        
+        	WFM.storeMetadata(MCRUtils.getByteArray(indoc, Format.getPrettyFormat()), ID.toString(), storePath.toString());
+        	outdoc = prepareMetadata((org.jdom.Document) indoc.clone(), ID, job, lang, step, 
+        			   nextPath, storePath.toString(), workflowType, String.valueOf(processID), "person");
+        	WFM.storeMetadata(MCRUtils.getByteArray(outdoc, Format.getPrettyFormat()), ID.toString(), storePath.toString());
+        		
+        	
+        }catch(java.lang.IllegalStateException ill){
+        	LOGGER.debug("because of error, forwarding to success page could not be executed [" + ill.getMessage() + "]");        	
+        }catch(Exception e){
+        	LOGGER.error("catched error:" , e);
+        
+        }
+        finally{
+        	
+        	 request.getRequestDispatcher("/nav?path=" + nextPath).forward(request, response);
+        }
+  
+    }
     
     
 }
