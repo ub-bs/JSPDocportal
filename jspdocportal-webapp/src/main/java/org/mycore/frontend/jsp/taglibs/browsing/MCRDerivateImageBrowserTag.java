@@ -93,17 +93,14 @@ public class MCRDerivateImageBrowserTag extends SimpleTagSupport {
 				}
 			}
 			
-	   	
-	        	
-	  //error
-	}catch(Exception e){
-		throw new JspException("Error executing docdetails:outputitem tag", e);
-	}
-	finally{
-		if(t1!=null){
-			t1.commit();
+		}catch(Exception e){
+			throw new JspException("Error executing docdetails:outputitem tag", e);
 		}
-	}
+		finally{
+			if(t1!=null){
+				t1.commit();
+			}
+		}
 	}
 
 	/**
@@ -133,6 +130,4 @@ public class MCRDerivateImageBrowserTag extends SimpleTagSupport {
 	public int getImageWidth() {
 		return imgWidth;
 	}
-
-
 }
