@@ -28,6 +28,7 @@ import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -40,6 +41,7 @@ import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 import org.jdom.xpath.XPath;
 import org.mycore.datamodel.ifs.MCRDirectory;
+import org.mycore.datamodel.ifs.MCRDirectoryXML;
 import org.mycore.datamodel.ifs.MCRFile;
 import org.mycore.datamodel.ifs.MCRFilesystemNode;
 import org.mycore.datamodel.metadata.MCRDerivate;
@@ -92,6 +94,7 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     
     	String pdf = request.getParameter("pdf");
     	String xml = request.getParameter("xml");
+    	String xmlextended = request.getParameter("xmlextended");
     	String img = request.getParameter("img");
     	String html = request.getParameter("html");
 
@@ -136,6 +139,11 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     				response.setContentType("text/xml");
     				XMLOutputter xout = new XMLOutputter(Format.getPrettyFormat());
     				xout.output(doc, response.getOutputStream());
+    				return;
+    			}
+    			else if(xmlextended!=null){
+    				response.setContentType("text/xml");
+    				outputExtendedXML(mcrID,  response.getOutputStream());
     				return;
     			}
     			else if(img!=null){
@@ -317,4 +325,37 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 		}
 		return sbURL.toString();
 	}
+	
+	/**
+	 * <mycoreobject >
+  	 * 	<structure>
+     *   <derobjects class="MCRMetaLinkID">
+	 * @param mcrID
+	 * @param out
+	 */
+	@SuppressWarnings("unchecked")
+	protected void outputExtendedXML(String mcrID, ServletOutputStream out) throws Exception{
+		Namespace nsXlink=Namespace.getNamespace("xlink", "http://www.w3.org/1999/xlink");
+		Document doc = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID)).createXML();    	    		 
+		Element eStructure = doc.getRootElement().getChild("structure");
+		if(eStructure==null) return;
+		Element eDerObjects = eStructure.getChild("derobjects");
+		if(eDerObjects == null) return;
+		for(Element eDer: (List<Element>)eDerObjects.getChildren("derobject")){
+			String derID = eDer.getAttributeValue("href", nsXlink);
+			Document docDer = MCRMetadataManager.retrieveMCRDerivate(MCRObjectID.getInstance(derID)).createXML();
+			eDer.addContent(docDer.getRootElement().detach());
+			
+			//<mycorederivate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:noNamespaceSchemaLocation="datamodel-derivate.xsd" ID="cpr_derivate_00003760" label="display_image" version="1.3">
+			//  <derivate display="true">
+
+			eDer = eDer.getChild("mycorederivate").getChild("derivate");
+			Document fileDoc = MCRDirectoryXML.getInstance().getDirectory("/"+derID, false);
+			eDer.addContent(fileDoc.getRootElement().detach());
+			
+			
+		}
+		XMLOutputter xout = new XMLOutputter(Format.getPrettyFormat());
+		xout.output(doc, out);
+	}		
 }
