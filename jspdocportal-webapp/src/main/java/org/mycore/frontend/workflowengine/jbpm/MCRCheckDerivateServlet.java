@@ -138,10 +138,10 @@ public class MCRCheckDerivateServlet extends MCRServlet {
 		}
 		else{
 			if(nextPath.equals("")){
-				String requestPath = "/nav?path=" + nextPath;
 				nextPath = "~start";
-				request.getRequestDispatcher(requestPath).forward(request,response);
 			}
+			String requestPath = "/nav?path=" + nextPath;
+			request.getRequestDispatcher(requestPath).forward(request,response);
 		}
 	}		
 }
