@@ -89,7 +89,10 @@ public class MCRCheckDerivateServlet extends MCRServlet {
 		// get the MCRSession object for the current thread from the session
 		// manager.
 		MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
-		String lang = mcrSession.getCurrentLanguage();		
+		String lang = mcrSession.getCurrentLanguage();
+		MCRObjectID ID = MCRObjectID.getInstance(objid);
+		String workdir = MCRWorkflowDirectoryManager.getWorkflowDirectory(ID.getTypeId());
+		String dirname = workdir + "/" + derid;
 		if(processID!=0){
 			MCRWorkflowManager WFM;
 			try{
@@ -108,37 +111,37 @@ public class MCRCheckDerivateServlet extends MCRServlet {
 				return;
 			}
 	
-		// prepare the MCRObjectID of the document the derivate belongs to
-		MCRObjectID ID = MCRObjectID.getInstance(objid);
+			// prepare the MCRObjectID of the document the derivate belongs to
 
-		String workdir = MCRWorkflowDirectoryManager.getWorkflowDirectory(ID.getTypeId());
+
+
+			if(nextPath.equals("")){
+				nextPath = "~workflow-" + WFM.getWorkflowProcessType();
+			}
+			String requestPath = "/nav?path=" + nextPath;
+			MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processID);
 		
-		String dirname = workdir + "/" + derid;
-		if(nextPath.equals("")){
-			nextPath = "~workflow-" + WFM.getWorkflowProcessType();
-		}
-		String requestPath = "/nav?path=" + nextPath;
-		MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processID);
-		
-		try{
+			try{
 			
-			WFM.saveUploadedFiles(files, dirname, wfp.getContextInstance(), newLabel, newTitle);
-		}catch(Exception ex){
-			request.setAttribute("messageKey", "WorkflowEngine.UploadNotSuccessful");
-			request.setAttribute("lang", lang);
-			requestPath="/nav?path=~mycore-error";
+				WFM.saveUploadedFiles(files, dirname, wfp.getContextInstance(), newLabel, newTitle);
+			}catch(Exception ex){
+				request.setAttribute("messageKey", "WorkflowEngine.UploadNotSuccessful");
+				request.setAttribute("lang", lang);
+				requestPath="/nav?path=~mycore-error";
 			
-			return;
-		}
-		finally{
-			wfp.close();
-			request.getRequestDispatcher(requestPath).forward(request,response);
-		}
+				return;
+			}
+			finally{
+				wfp.close();
+				request.getRequestDispatcher(requestPath).forward(request,response);
+			}
 
 		}
 		else{
+			MCRWorkflowManager WFM = MCRWorkflowManagerFactory.getImpl(ID.getTypeId());
+			WFM.saveUploadedFiles(files, dirname, null, newLabel, newTitle);
 			if(nextPath.equals("")){
-				nextPath = "~start";
+				nextPath = "~workflow-" + WFM.getWorkflowProcessType();
 			}
 			String requestPath = "/nav?path=" + nextPath;
 			request.getRequestDispatcher(requestPath).forward(request,response);
