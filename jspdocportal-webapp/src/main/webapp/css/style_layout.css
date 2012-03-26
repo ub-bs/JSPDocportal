@@ -29,6 +29,32 @@ div#left_col{
 }
 
 div#center_col{	
+	float:left;   
+}
+
+div#right_col{
+	float: left;
+	width: 190px;
+}
+
+div.left_col_1column {display:none; }
+div.left_col_2columns {}
+div.left_col_3columns {}
+
+div.center_col_1column {width: 990px;}
+div.center_col_3columns {width: 610px;}
+div.center_col_2columns {width: 800px;}
+
+div.right_col_1column {display:none;}
+div.right_col_2columns {display:none;}
+div.right_col_3columns {}
+
+div#left_col{
+	float:left;
+	width: 190px;	
+}
+
+div#center_col{	
 	width: 610px;
 	float:left;   
 }
