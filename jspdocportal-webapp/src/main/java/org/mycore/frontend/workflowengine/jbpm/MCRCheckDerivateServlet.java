@@ -90,24 +90,24 @@ public class MCRCheckDerivateServlet extends MCRServlet {
 		// manager.
 		MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
 		String lang = mcrSession.getCurrentLanguage();		
+		if(processID!=0){
+			MCRWorkflowManager WFM;
+			try{
+				WFM = MCRWorkflowManagerFactory.getImpl(processID);
+			}catch(IllegalStateException ex){
+				request.setAttribute("messageKey", "WorkflowEngine.DocumentNotAvailable");
+				request.setAttribute("lang", lang);
+				request.getRequestDispatcher("/nav?path=~mycore-error").forward(request,response);
+				return;
+			}
 
-		MCRWorkflowManager WFM;
-		try{
-			WFM = MCRWorkflowManagerFactory.getImpl(processID);
-		}catch(IllegalStateException ex){
-			request.setAttribute("messageKey", "WorkflowEngine.DocumentNotAvailable");
-			request.setAttribute("lang", lang);
-			request.getRequestDispatcher("/nav?path=~mycore-error").forward(request,response);
-			return;
-		}
-
-		if (!MCRAccessManager.checkPermission(derid, "writedb" )) {
-			request.setAttribute("messageKey", "WorkflowEngine.PrivilegesError");
-			request.setAttribute("lang", lang);
-			request.getRequestDispatcher("/nav?path=~mycore-error").forward(request,response);
-			return;
-		}
-
+			if (!MCRAccessManager.checkPermission(derid, "writedb" )) {
+				request.setAttribute("messageKey", "WorkflowEngine.PrivilegesError");
+				request.setAttribute("lang", lang);
+				request.getRequestDispatcher("/nav?path=~mycore-error").forward(request,response);
+				return;
+			}
+	
 		// prepare the MCRObjectID of the document the derivate belongs to
 		MCRObjectID ID = MCRObjectID.getInstance(objid);
 
@@ -133,6 +133,15 @@ public class MCRCheckDerivateServlet extends MCRServlet {
 		finally{
 			wfp.close();
 			request.getRequestDispatcher(requestPath).forward(request,response);
-		}		
-	}
+		}
+
+		}
+		else{
+			if(nextPath.equals("")){
+				String requestPath = "/nav?path=" + nextPath;
+				nextPath = "~start";
+				request.getRequestDispatcher(requestPath).forward(request,response);
+			}
+		}
+	}		
 }
