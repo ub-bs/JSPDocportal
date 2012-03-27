@@ -255,14 +255,13 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
         	    if(objDir.exists()){
         	    for(File f: objDir.listFiles()){
         	     	if(f.isFile() && f.getName().endsWith(".xml")){
-        	     		String derID = f.getName().substring(0, f.getName().length()-4);
+        	     		MCRObjectID derID = MCRObjectID.getInstance(f.getName().substring(0, f.getName().length()-4));
         	     		LOGGER.info("Loading derivate "+f.getAbsolutePath()+" : File exists = "+f.exists());
-        	     		if(MCRMetadataManager.exists(MCRObjectID.getInstance(derID))){
-        	    			MCRDerivateCommands.updateFromFile(f.getAbsolutePath());
+        	     		if(MCRMetadataManager.exists(derID)){
+        	    			MCRDerivateCommands.delete(derID.toString());
         	    		}
-        	    		else{
-        	    			MCRDerivateCommands.loadFromFile(f.getAbsolutePath());
-        	    		}
+        	    		MCRDerivateCommands.loadFromFile(f.getAbsolutePath());
+        	    		
 	         	    	
 	         	    	//set ACLs
 	         	    	MCRDerivate mcrDer = new MCRDerivate(f.toURI());
