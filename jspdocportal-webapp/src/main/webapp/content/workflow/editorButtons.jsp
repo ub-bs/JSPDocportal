@@ -175,7 +175,7 @@
 		<table width=100% class="tasklistDerivate">
 		<tr>
 			<th align="left" valign="top">
-				<fmt:message key="OMD.derivatelabel.${derivateLabel}" /><br />				
+				<fmt:message key="OMD.derivatedisplay.${derivateLabel}" /><br />				
 			</th>
 			<th width="30">&nbsp;</th>
 			<th align="right">
