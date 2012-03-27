@@ -115,7 +115,7 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 	    			else{
 	    				String displayLabel = label;
 	    				try{
-	    					displayLabel=docdetails.getMessages().getString("OMD.derivatelabel."+label);
+	    					displayLabel=docdetails.getMessages().getString("OMD.derivatedisplay."+label);
 	    				}
 	    				catch(MissingResourceException e){
 	    					//use the default
