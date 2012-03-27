@@ -89,11 +89,13 @@
 		</attribute>
 		<attribute>
 			<name>showInfo</name>
+			<rtexprvalue>true</rtexprvalue>
 			<type>java.lang.Boolean</type>
 		</attribute>
 		<attribute>
 			<name>labelkey</name>
 			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
 		</attribute>		
 		<attribute>
 			<name>colWidths</name>
