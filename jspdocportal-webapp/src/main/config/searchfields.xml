@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<searchfields xmlns="http://www.mycore.org/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mycore.org/ searchfields.xsd">
+<searchfields xmlns="http://www.mycore.org/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	          xsi:schemaLocation="http://www.mycore.org/ searchfields.xsd"
+ 			  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	 		  xmlns:mcr="http://www.mycore.org/"
+ 			  xmlns:mods="http://www.loc.gov/mods/v3"
+ 	          xmlns:xalan="http://xml.apache.org/xalan"
+ 	          xmlns:xlink="http://www.w3.org/1999/xlink"
+>
 
   <!-- Search in MCRObject metadata -->
   <index id="metadata">
-	<!-- Search in service/structural metadata -->  
+	<!-- Search in service/structural metadata -->
     <field name="id"            type="identifier" source="objectMetadata" xpath="/mycoreobject" value="@ID" />
     <field name="objectProject" type="identifier" source="objectMetadata" xpath="/mycoreobject" value="substring-before(@ID,'_')" />
     <field name="objectType"    type="identifier" source="objectMetadata" xpath="/mycoreobject" value="substring-before(substring-after(@ID,'_'),'_')" />
-    <field name="link"          type="identifier" source="objectMetadata" xpath="/mycoreobject/descendant::*[@xlink:href]" value="@xlink:href" />
+
+    <field name="link"          type="identifier" source="objectMetadata" xpath="/mycoreobject/descendant::*[@xlink:href]" value="@xlink:href" /> 
     <field name="parent"        type="identifier" source="objectMetadata" xpath="/mycoreobject/structure/parents/parent" value="@xlink:href" />
     <field name="modified"      type="timestamp"  source="objectMetadata" xpath="/mycoreobject/service/servdates/servdate[@type='modifydate']" value="concat(substring(.,1,10),' ',substring(.,12,8))" i18n="editor.search.document.datemod" />
     <field name="created"       type="timestamp"  source="objectMetadata" xpath="/mycoreobject/service/servdates/servdate[@type='createdate']" value="concat(substring(.,1,10),' ',substring(.,12,8))" sortable="true" />
-
+  
     <!-- Search in all metadata fields (that have an xml:lang attribute) -->
-    <field name="allMeta"       type="text"       source="objectMetadata" xpath="/mycoreobject/metadata/*/*" value="text()|@xlink:title" i18n="editor.search.metadata" />
+    <field name="allMeta"       type="text"       source="objectMetadata" xpath="/mycoreobject/metadata//*" value="text()|@xlink:title|@xlink:label" i18n="editor.search.metadata" />
 
     <!-- Field for sorting by score -->
     <field name="score" type="decimal" source="searcherHitMetadata" sortable="true" />
-	
+
 	<!--  application specific search fields -->	
     <field name="bkl"           type="identifier" source="objectCategory" objects="disshab document thesis" xpath="/mycoreobject/metadata/bkls/bkl | /mycoreobject/metadata/subjects/subject" value="@ID" /> 
     <field name="ddc"           type="identifier" source="objectCategory" objects="disshab document thesis" xpath="/mycoreobject/metadata/subjects/subject" value="@ID" /> 
@@ -31,9 +38,8 @@
 	<field name="national"      type="identifier" source="objectCategory" objects="person" xpath="/mycoreobject/metadata/nationals/national" value="@ID" />
 
     <!-- Search in document metadata -->    
-    <field name="title"     type="text" sortable="false" source="objectMetadata" xpath="/mycoreobject/metadata/titles/title | /mycoreobject/metadata/surnames/surname | mycoreobject/metadata/names/name | mycoreobject/metadata/contents/content" value="text() | @xlink:title"  />
-    
-    <!--  field name="title"         type="text"      sortable="true" source="objectMetadata" objects="document disshab" xpath="/mycoreobject/metadata/titles/title" value="text()" / -->
+
+    <field name="title"     type="text" sortable="true" source="objectMetadata" xpath="/mycoreobject/metadata/titles/title | /mycoreobject/metadata/surnames/surname | mycoreobject/metadata/names/name | mycoreobject/metadata/contents/content" value="text() | @xlink:title"  />
     <field name="author"        type="name"       source="objectMetadata"  xpath="/mycoreobject/metadata/creators/creator | /mycoreobject/metadata/creatorlinks/creatorlink " value="text() | @xlink:title" />
     <field name="authorID"      type="identifier" source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/creatorlinks/creatorlink" value="@xlink:href" />
     <field name="creator"       type="name"       source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/creators/creator | /mycoreobject/metadata/creatorlinks/creatorlink " value="text() | @xlink:title" />
@@ -52,7 +58,7 @@
     <field name="date"          type="date"       source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/dates/date" value="ext:normalizeDate(string(normalize-space(text())))" sortable="true"/>
     <field name="identifier"    type="identifier" source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/identifiers/identifier" value="text()" />
 	<field name="urn"           type="identifier" source="objectMetadata" objects="document disshab thesis" xpath="/mycoreobject/metadata/urns/urn" value="text()" />
-
+	
     <!-- Search in author or institution metadata -->
     <field name="surname"       type="name"       source="objectMetadata" objects="person" xpath="/mycoreobject/metadata/names/name/surname"  value="text()" />
     <field name="firstname"     type="name"       source="objectMetadata" objects="person" xpath="/mycoreobject/metadata/names/name/firstname"  value="text()" />
