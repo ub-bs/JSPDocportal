@@ -205,7 +205,7 @@ public class MCRDocDetailsPNDBeaconTag extends SimpleTagSupport {
 				}
 				ids= orderedIds;
 			}
-			
+			result.append("\n<!--"+u.toString()+"-->");
 			if(ids.size()>0){
 				result.append("\n<ul class=\"pndbeaconlist\">");
 				for(String s: ids){
