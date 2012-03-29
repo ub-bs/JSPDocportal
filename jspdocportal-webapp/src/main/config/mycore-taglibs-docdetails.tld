@@ -248,8 +248,11 @@
 			<name>whitelist</name>
 		</attribute>
 		<attribute>
-			<name>styleName</name>
+ 			<name>blacklist</name>
 		</attribute>
+		<attribute>
+			<name>replaceLabels</name>
+		</attribute>		
 	</tag>
 
 	<tag>

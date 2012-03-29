@@ -8,23 +8,23 @@ import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
 
-public class UnibibliographieHRO {
+public class UBRBibliographie {
 	private static final String BEACON_URL="http://web10.ub.uni-rostock.de/uploads/uni_bibliographie/daten/ubhro_bibliographie_pnd_beacon.txt";
-	private static UnibibliographieHRO instance;
+	private static UBRBibliographie instance;
 	
 	private String biblioPNDBeaconEtag;
 	private TreeMap<String, Integer> biblioPNDMap;
 
 	
 	//Singleton Pattern
-	public static synchronized UnibibliographieHRO getInstance(){
+	public static synchronized UBRBibliographie getInstance(){
 		if(instance==null){
-			instance = new UnibibliographieHRO();
+			instance = new UBRBibliographie();
 		}
 		return instance;
 	}
 	
-	public UnibibliographieHRO(){
+	public UBRBibliographie(){
 		biblioPNDBeaconEtag = "";			
 		biblioPNDMap = new TreeMap<String, Integer>();
 
