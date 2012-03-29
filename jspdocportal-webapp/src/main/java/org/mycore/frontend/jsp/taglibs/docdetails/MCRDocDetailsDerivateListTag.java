@@ -121,7 +121,12 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 	    					//use the default
 	    				}
 	    				
-	    				out.write("<dt>"+displayLabel+"</dt>");
+	    				out.write("\n<dt title=\""+displayLabel+"\">");
+	    				ArrayList<String>titles = der.getService().getFlags("title"); 
+						for(String t: titles){
+							out.write(t);	    							
+						}
+						out.write("</dt>");
 	    				StringBuffer sbUrl = new StringBuffer(o.toString());
 	    				sbUrl.append("file/");
 	    				sbUrl.append(derID);
@@ -134,10 +139,7 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 	    					for ( int j=0; j< myfiles.length; j++) {
 	    						MCRFilesystemNode theFile = (MCRFilesystemNode) myfiles[j];
 	    						out.write("<dd>");
-	    						ArrayList<String>titles = der.getService().getFlags("title"); 
-	    						for(String t: titles){
-	    							out.write("<div class=\"derivate-title\">"+t+"</div>");	    							
-	    						}
+	    						
 	    						if(accessAllowed){
 	    							String fURL = sbUrl.toString()+theFile.getName();
 	    							out.write("<a href=\""+fURL+"\" target=\"_blank\">");
