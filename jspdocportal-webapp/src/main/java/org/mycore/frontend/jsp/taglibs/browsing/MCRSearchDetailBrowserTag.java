@@ -42,44 +42,44 @@ public class MCRSearchDetailBrowserTag extends SimpleTagSupport
 		}
 		
         if ( results != null) {
-           	out.write("<!-- Searchresult PageNavigation -->");
-    		out.write("<table class=\"searchdetail-navigation\" style=\"width:1%;margin-bottom:16px;\"><tr>");
-    	        	
+           	out.write("\n<!-- Searchresult PageNavigation -->");
+    		out.write("\n<div class=\"searchdetail-navigation\">");
+    	    out.write("\n   <div class=\"headline\">"+messages.getString("Webpage.searchdetails.headline")+"</div>");    	
         	int numHits = results.getNumHits();
         	pageContext.setAttribute("numHits", numHits);
-        	out.write("   <td colspan=\"3\" style=\"text-align:center;\"><nobr>");
-        	out.write(messages.getString("Webpage.searchdetails.hits")+":&nbsp;&nbsp;");
+        	out.write("\n   <div class=\"hitcount\">");
+        	out.write("\n      "+messages.getString("Webpage.searchdetails.hits")+":&nbsp;&nbsp;");
     		out.write(Integer.toString(offset+1)+"&nbsp;/&nbsp;"+Integer.toString(numHits));
-    		out.write("   </nobr></td>");
-    		out.write("   </tr><tr><td>");
-        	
+    		out.write("\n   </div>");
+    		        	
     		if (offset > 0) {
         		MCRHit hit = results.getHit(offset - 1);
         		if(hit!=null){
-        			out.write("<nobr><a href=\""+pageContext.getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE)
-        					+"nav?path="+pageContext.getAttribute("path", PageContext.REQUEST_SCOPE)
+        			out.write("\n   <div class=\"button\" style=\"float:left\"><a href=\""+pageContext.getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE)
+        					+"nav?path="+pageContext.getRequest().getParameter("path")
         					+"&id="+hit.getID()
         					+"&offset="+Integer.toString(offset-1)
         					+"&resultid="+id
-        					+"\">["+messages.getString("Webpage.searchdetails.previous")+"]</a></nobr>");      			
+        					+"\">"+messages.getString("Webpage.searchdetails.previous")+"</a></div>");      			
         		}
         	}
-        	
-        	out.write("</td><td><nobr><a href=\""+pageContext.getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE)
-        			+"servlets/MCRJSPSearchServlet?mode=results&id="+id+"\">["+messages.getString("Webpage.searchdetails.back")+"]</a></nobr></td><td>");
-        	
+
         	if (offset < numHits - 1) {
         		MCRHit hit = results.getHit(offset + 1);
         		if(hit!=null){
-        			out.write("<nobr><a href=\""+pageContext.getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE)
-        					+"nav?path="+pageContext.getAttribute("path", PageContext.REQUEST_SCOPE)
+        			out.write("\n   <div class=\"button\" style=\"float:right\"><a href=\""+pageContext.getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE)
+        					+"nav?path="+pageContext.getRequest().getParameter("path")
         					+"&id="+hit.getID()
         					+"&offset="+Integer.toString(offset+1)
         					+"&resultid="+id
-        					+"\">["+messages.getString("Webpage.searchdetails.next")+"]</a></nobr>"); 
+        					+"\">"+messages.getString("Webpage.searchdetails.next")+"</a></div>"); 
         		}
         	} 
-        	out.write("</td></tr></table>");
+    		
+        	out.write("\n   <div class=\"button centerbutton\"><a href=\""+pageContext.getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE)
+        			+"servlets/MCRJSPSearchServlet?mode=results&id="+id+"\">"+messages.getString("Webpage.searchdetails.back")+"</a></div>");
+        	
+        	out.write("\n</div>");
         }
 	}	
 }
