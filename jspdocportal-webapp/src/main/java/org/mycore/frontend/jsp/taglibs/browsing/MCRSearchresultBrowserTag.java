@@ -230,7 +230,7 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 				.getCurrentSession().getCurrentLanguage()));
 		out.write("<!-- Searchresult PageNavigation -->");
 		out.write("\n<div class=\"searchresult-navigation\">");
-		out.write("   <div class=\"numhits\">");
+		out.write("\n   <div class=\"hitcount\">");
 		out.write(Integer.toString(numHits)+" "+messages.getString("Webpage.Searchresult.numHits"));
 		out.write("   </div>");
 		out.write("\n   <div class=\"navi\">");
