@@ -28,25 +28,17 @@
     Transaction tx  = MCRHIBConnection.instance().getSession().beginTransaction();
 	try{
 		 MCRQuery query = new MCRQuery((new MCRQueryParser()).parse("(objectType = "+type+")"));
-			MCRResults result = MCRQueryManager.search(query);
-			if(result.getNumHits()>0){
-				String url = application.getAttribute("WebApplicationBaseURL").toString()+"resolve?id=${id}&amp;xml";
-				out.append("<ul>\n");
-				for(int i=0;i<result.getNumHits();i++){
-					String id = result.getHit(i).getID();
-					String u = url.replace("${id}", id);
-					out.append("<li><a href=\""+u+"\">"+id+"</a></li>\n");
-				}		
-				out.append("</ul>\n");
-				
-				String mcrID = result.getHit(0).getID();
-				this.getServletContext().getRequestDispatcher("/nav?path=~docdetail&id=" +mcrID).forward(request, response);
+		MCRResults result = MCRQueryManager.search(query);
+		if(result.getNumHits()>0){
+			String url = application.getAttribute("WebApplicationBaseURL").toString()+"resolve?id=${id}&amp;xml";
+			out.append("<ul>\n");
+			for(int i=0;i<result.getNumHits();i++){
+				String id = result.getHit(i).getID();
+				String u = url.replace("${id}", id);
+				out.append("<li><a href=\""+u+"\">"+id+"</a></li>\n");
 			}
-			
-		
-		
-		
-		
+			out.append("</ul>\n");
+		}
     }	
 	catch(MCRException e){
 		logger.error(e);
