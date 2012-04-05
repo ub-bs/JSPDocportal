@@ -48,7 +48,6 @@ import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 import org.mycore.backend.hibernate.MCRHIBConnection;
-import org.mycore.common.MCRConfiguration;
 import org.mycore.datamodel.classifications2.MCRCategLinkService;
 import org.mycore.datamodel.classifications2.MCRCategLinkServiceFactory;
 import org.mycore.datamodel.classifications2.MCRCategory;
@@ -137,7 +136,7 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 			 * it will be stored in cache automatically
 			 */
 			public Object createEntry(Object key) throws Exception {
-				MCRCondition cond = (new MCRQueryParser()).parse(key.toString());
+				MCRCondition<Object> cond = (new MCRQueryParser()).parse(key.toString());
 				MCRQuery query = new MCRQuery(cond);
 				MCRResults result = MCRQueryManager.search(query);
 				return result.getNumHits();
@@ -302,16 +301,14 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 			out.write(rootClassifID.getID()+"does not exist!");
 			return;
 		}
+		
 		MCRCategory rootCateg = CATEGDAO.getCategory(rootClassifID, 0);
-		
-		
 		List<MCRCategory> categories = CATEGDAO.getChildren(rootClassifID);
 		
 		if(count){
 			if(searchrestriction==null){
 				countLinkMap.putAll(CATEGLINKSERVICE.countLinks(rootCateg, true));
 			}
-		
 		}
 		else{
 			hasLinkMap.putAll(CATEGLINKSERVICE.hasLinks(rootCateg));
@@ -333,15 +330,16 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 			out.write("</form><br/><br/>\n");
 		}
 		
-		out.write("\n<ul style=\"list-style-type: none\">\n");
+		out.write("\n<div class=\"classification-browser\">");
 		boolean didIt = false;
 		for (MCRCategory categ:categories){
 			didIt = outputCategory(categ, MCRServlet.getBaseURL(), url.toString(),0, didIt);
 		}
 		if(!didIt){
-			out.write("<li><b>"+MCRTranslation.translate("Webpage.browse.empty")+"</b></li>\n");
+			out.write("\n<b>"+MCRTranslation.translate("Webpage.browse.empty")+"</b>");
 		}
-		out.write("\n</ul>\n");	
+		out.write("\n   <div style=\"clear:both\"></div>");
+		out.write("\n</div>");
 		long d = System.currentTimeMillis()-start;
 		out.write("\n\n<!-- ClassificationBrowser ENDE ("+Long.toString(d)+"ms) -->");
 		Logger.getLogger(this.getClass()).debug("ClassificationBrowser displayed for: "+rootCateg.getId().getID()+"   ("+d+" ms)");
@@ -364,12 +362,11 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 		boolean opened =  path.contains(categ.getId().getID());
 		if(!(hideemptyleaves && !hasLinks)){
 			result = true;
-			StringBuffer sbIndent = new StringBuffer("   ");
+			StringBuffer sbIndent = new StringBuffer("\n   ");
 			for(int i=0;i<curLevel;i++){sbIndent.append("   ");}
 			String indent = sbIndent.toString();
-			out.write(indent+"<li>\n");
-			out.write(indent+"   <table valign=\"center\">\n");
-			out.write(indent+"      <tr><td rowspan=\"3\">\n");
+			out.write(indent+"   <div class=\"item\">");
+			out.write(indent+"      <div class=\"icon\">");
 			String iconURL = retrieveIconURL(hasChildren, curLevel, hasLinks(categ), (expand || opened));
 			if(!expand && hasChildren && curLevel+1<level){
 				String title = "";
@@ -379,68 +376,64 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 				if(iconURL.endsWith("_minus.gif")){
 					title = MCRTranslation.translate("Webpage.browse.close");
 				}
-				out.write(indent+"         <a href=\""+cbURL+"/"+categ.getId().getID()+"\" title=\""+title+"\">\n");
+				out.write(indent+"         <a href=\""+cbURL+"/"+categ.getId().getID()+"\" title=\""+title+"\">");
 			}
-			out.write(indent+"            <img class=\"borderless\" src=\""+baseURL+iconURL+"\" />\n");
+			out.write(indent+"            <img class=\"borderless\" src=\""+baseURL+iconURL+"\" />");
 			if(!expand && hasChildren && curLevel+1<level){
-				out.write("                </a>");
+				out.write("\n                </a>");
 			}
-			out.write(indent+"      </td>\n");
-			out.write(indent+"      <td>");
+			out.write(indent+"      </div>");
+			out.write(indent+"      <div class=\"label\">");
 			if(showid){
-				out.write(categ.getId().getID()+":&nbsp;");
+				out.write(indent+"         <span class=\"id\">"+categ.getId().getID()+"</span>");
 			}
 			
-			out.write(categ.getCurrentLabel().getText());			
-			out.write("</td>\n");
+			out.write(indent+"         <span class=\"text\">"+categ.getCurrentLabel().getText()+"</span>" );			
 			
 			if(count){
-				out.write(indent+"      <td>");
+				out.write(indent+"         <span class=\"count\">");
 				if(searchrestriction!=null){
-					out.write("&nbsp;&nbsp;&nbsp;("+countBySearch(categ.getId().getID())+")&nbsp;&nbsp;&nbsp;");
+					out.write("("+countBySearch(categ.getId().getID())+")");
 				}
 				else{
 					countLinkMap.putAll(CATEGLINKSERVICE.countLinks(categ, true));
 					Number n = countLinkMap.get(categ.getId());
 					if(n!=null){
-						out.write("&nbsp;&nbsp;&nbsp;("+n.toString()+")&nbsp;&nbsp;&nbsp;" );
+						out.write("("+n.toString()+")" );
 					}
 					else{
-						out.write("&nbsp;&nbsp;&nbsp;(0)&nbsp;&nbsp;&nbsp;" );
+						out.write("(0)" );
 					}
 				}
-				out.write("</td>\n");
+				out.write("         </span>");
 			}
-			
-			out.write(indent+"      <td>");
+			out.write(indent+"      </div>");
+			out.write(indent+"      <div class=\"button\">");
 			writeLinkedCategoryItemText(categ, baseURL, out);
-			out.write(indent+"      </td>");
-			out.write(indent+"      </tr>\n");		
+			out.write("</div>");	
 		
 			if(showdescription){
 				String descr = categ.getCurrentLabel().getDescription();
 				if(descr!=null && descr.length()>0){
-					out.write(indent+"      <tr><td>"+descr+"</td></tr>\n");
+					out.write(indent+"      <div class=\"description\">"+descr+"</div>");
 				}
 			}
 			if(showuri){
 				URI uri = categ.getURI();
 				if(uri!=null && uri.toString().length()>0){
-					out.write(indent+"      <tr><td>"+uri.toString()+"</td></tr>\n");
+					out.write(indent+"      <div class=\"url\">"+uri.toString()+"</div>");
 				}
 			}
-			out.write(indent+"   </table>\n");
+			
+			
 			if((expand || opened) && hasChildren){
 				if(curLevel+1<level){
-					out.write(indent+"   <ul style=\"list-style-type:none; margin:0px; padding-top:0px;padding-bottom:0px\">\n");
-			for(MCRCategory c: categ.getChildren()){
-				outputCategory(c, baseURL, cbURL, curLevel+1, didIt);
+					for(MCRCategory c: categ.getChildren()){
+						outputCategory(c, baseURL, cbURL, curLevel+1, didIt);
+					}
+				}
 			}
-			out.write(indent+"   </ul>\n");
-			}
-		}
-		
-		out.write(indent+"</li>\n");
+			out.write(indent+"   </div>");
 		}
 		return result;
 	}
@@ -512,7 +505,6 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 	 */
 	private void writeLinkedCategoryItemText(MCRCategory categ, String baseURL, JspWriter out) throws IOException{
 		boolean showLinks = linkall || hasLinks(categ);
-		out.write("&nbsp;&nbsp;&nbsp;");
 		if(showLinks){
 			PageContext context = (PageContext) getJspContext();
 			
@@ -536,11 +528,9 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 				url.append("&mask="+searchmask);
 			}			
 			out.write("<a href=\""+url.toString()+"\">");
-		}
-		out.write(MCRTranslation.translate("Editor.Common.button.Choose"));
-		if(showLinks){
+			out.write(MCRTranslation.translate("Editor.Common.Choose"));
 			out.write("</a>");
-		}
+		}		
 	}
 	
     /**

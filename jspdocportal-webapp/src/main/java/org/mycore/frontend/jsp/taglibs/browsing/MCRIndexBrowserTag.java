@@ -145,7 +145,7 @@ public class MCRIndexBrowserTag extends SimpleTagSupport {
 	  
         String subselect_params = sbParams.toString(); 
 		JspWriter out = getJspContext().getOut();
-		
+		out.write("\n<div class=\"index-browser\">\n");
 		//cancel subselect
 		if(isSubselect){
 			out.write("<form action=\""+webApplicationBaseURL+subselect_webpage+"XSL.editor.session.id="+subselect_session+"\" method=\"post\">\n");
@@ -173,7 +173,7 @@ public class MCRIndexBrowserTag extends SimpleTagSupport {
         out.write("<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tr>\n");
         out.write("  <td class=\"metavalue\">\n");
         out.write("    <form action=\""+webApplicationBaseURL+"nav?path=~searchstart-index_"+indexname+"\" method=\"post\">\n");
-        out.write("       <b>"+messages.getString("Editor.Common.index.filter")+"</b>\n");
+        out.write("       "+messages.getString("Editor.Common.index.filter")+"\n");
         out.write("         <select name=\"mode\" size=\"1\" class=\"button\">\n");
         out.write("             <option value=\"contains\"");
         if("contains".equals(mode)){
@@ -198,8 +198,7 @@ public class MCRIndexBrowserTag extends SimpleTagSupport {
 		if(search.length()>0){
 			out.write("  <td class=\"metavalue\">\n");
 			out.write("      <form action=\""+webApplicationBaseURL+"nav?path=~searchstart-index_"+indexname+"\" method=\"post\">\n");
-			out.write("     <b> ");
-			out.write(((Attribute)XPath.selectSingleNode(pageContent, "/indexpage/results/@numHits")).getValue()+" "+messages.getString("Editor.Common.index.searchhits")+"</b>\n");
+			out.write(((Attribute)XPath.selectSingleNode(pageContent, "/indexpage/results/@numHits")).getValue()+" "+messages.getString("Editor.Common.index.searchhits")+"\n");
 			if(isSubselect){
 				out.write("         <input type=\"hidden\" name=\"XSL.subselect.session.SESSION\" value=\""+subselect_session+"\" />\n");
 				out.write("         <input type=\"hidden\" name=\"XSL.subselect.varpath.SESSION\" value=\""+subselect_varpath+"\" />\n");
@@ -257,13 +256,13 @@ public class MCRIndexBrowserTag extends SimpleTagSupport {
 	     
 	     out.write("<img border=\"0\" src=\""+webApplicationBaseURL+"images/folder_plain.gif\" align=\"middle\"/>");
 	    if(path.contains("-")){
-	    	 out.write("<b><a class=\"nav\" href=\""+sbUpUrl.toString()+"\">"+messages.getString("Editor.Common.index.return")+"</a></b>");	
+	    	 out.write("<span class=\"return\"><a class=\"nav\" href=\""+sbUpUrl.toString()+"\">"+messages.getString("Editor.Common.index.return")+"</a></span>");	
 	     }
 	     else if(search.length()>0){
-	 	   	out.write("<b>"+messages.getString("Editor.Common.index.result.filtered")+"</b>");
+	 	   	out.write("<span class=\"title\">"+messages.getString("Editor.Common.index.result.filtered")+"</span>");
 	 	   }
 	 	   else{
-	 	   	out.write("<b>"+messages.getString("Editor.Common.index.result")+"</b>");
+	 	   	out.write("<span class=\"title\">"+messages.getString("Editor.Common.index.result")+"</span>");
 	 	 }
 	    out.write("</dt>\n");
 	    List<Element> lE = pageContent.getRootElement().getChild("results").getChildren();
@@ -320,9 +319,12 @@ public class MCRIndexBrowserTag extends SimpleTagSupport {
 	    	}
 	    }
 	    out.write("</dl>");
-	    out.write("</td></tr></table>");
+	    out.write("\n</td></tr></table>");
+	    out.write("\n</div>");
 		}catch(Exception e){
 			LOGGER.error("The following exception was thrown in MCRIndexBorserTag: ", e);
 		}
+		
+		
 	}
 }

@@ -84,8 +84,9 @@ public class MCRDerivateImageBrowserTag extends SimpleTagSupport {
 	    							theFile.getContentTypeID().indexOf("gif")>= 0 ||
 	    							theFile.getContentTypeID().indexOf("png")>= 0) {
 	    						String url = sbUrl.toString()+derId.getXLinkHref()+"/"+myfiles[j].getName();
+	    						out.write("\n<div class=\"docdetails-image\">");
 	    						out.write("<img src=\""+url+"\" border=\"0\" width=\""+getImageWidth()+"\" alt=\""+myfiles[j].getName()+"\" />");  
-	    						out.write("<br />");
+	    						out.write("</div>");
 	    					}
 	    				}
 	    			}			
