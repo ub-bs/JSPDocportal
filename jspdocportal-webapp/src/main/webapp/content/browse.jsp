@@ -19,6 +19,11 @@
 --%>
 <fmt:message var="pageTitle" key="Webpage.browse.title.${param.browserClass}" /> 
 <stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
+	<stripes:layout-component name="html_header">
+		<title><fmt:message key="Nav.ClassificationsSearch" /> @ <fmt:message key="Webpage.title" /></title>
+		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_classification-browser.css">
+	</stripes:layout-component>
+
 	<stripes:layout-component name="contents">
 
 <c:if test="${param.browserClass=='ddc'}">
