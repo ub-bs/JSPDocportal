@@ -49,7 +49,7 @@ div.searchresult-navigation{
 }
 
 
-div.searchresult-navigation div.numhits{
+div.searchresult-navigation div.hitcount{
 	float:left;
 	padding-top:auto;
 	padding-bottom:auto;
