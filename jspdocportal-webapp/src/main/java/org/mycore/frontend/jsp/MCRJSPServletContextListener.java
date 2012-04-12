@@ -33,7 +33,6 @@ import javax.servlet.ServletContextListener;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
-import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.MCRConfiguration;
@@ -92,13 +91,12 @@ public class MCRJSPServletContextListener implements ServletContextListener
 	private boolean createNonExistingAdminPermissions() {
 		try{
 			Transaction tx = MCRHIBConnection.instance().getSession().beginTransaction();
-			MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
-			Collection<String> savedPermissions = AI.getPermissions();
+			Collection<String> savedPermissions = MCRAccessManager.getAccessImpl().getPermissions();
 			String permissions = MCRConfiguration.instance().getString("MCR.AccessAdminInterfacePermissions","admininterface-access,admininterface-user,admininterface-accessrules");
 			for (Iterator<?> it = Arrays.asList(permissions.split(",")).iterator(); it.hasNext();) {
 				String permission = ((String) it.next()).trim().toLowerCase();
 				if(!permission.equals("") && !savedPermissions.contains(permission)) {
-					AI.addRule(permission, MCRAccessManager.getFalseRule(), "");
+					MCRAccessManager.getAccessImpl().addRule(permission, MCRAccessManager.getFalseRule(), "");
 				}
 			}
 			tx.commit();

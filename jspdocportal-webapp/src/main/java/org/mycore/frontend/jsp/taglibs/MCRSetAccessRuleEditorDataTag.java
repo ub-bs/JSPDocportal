@@ -2,20 +2,11 @@ package org.mycore.frontend.jsp.taglibs;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.apache.log4j.Logger;
-import org.jdom.JDOMException;
-import org.jdom.output.DOMOutputter;
-import org.mycore.access.MCRAccessInterface;
-import org.mycore.access.MCRAccessManager;
-import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
 
 
@@ -33,7 +24,6 @@ public class MCRSetAccessRuleEditorDataTag extends SimpleTagSupport
 	private int start;
 	private int step;
 	
-	private static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
 	private static String[] permissions = MCRConfiguration.instance().getString("MCR.AccessPools", "read,modify,delete").split(",");
 	
 

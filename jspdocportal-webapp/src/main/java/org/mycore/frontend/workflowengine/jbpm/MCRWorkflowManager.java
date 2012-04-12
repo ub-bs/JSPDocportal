@@ -12,14 +12,12 @@ import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.graph.def.Node;
 import org.jdom.Element;
-import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRUtils;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
-import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.strategies.MCRDerivateStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRMetadataStrategy;
@@ -47,8 +45,6 @@ public abstract class MCRWorkflowManager {
 	@Inject protected MCRMetadataStrategy 	metadataStrategy;
 	@Inject protected MCRDerivateStrategy 	derivateStrategy;
 	@Inject public MCRPermissionStrategy    permissionStrategy;
-	
-	protected MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
 	
 	protected String workflowProcessType;
 	protected String mainDocumentType;
@@ -146,9 +142,10 @@ public abstract class MCRWorkflowManager {
 		boolean bSuccess =false;
 		try{
 			String documentID = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
-			if (MCRMetadataManager.exists(MCRObjectID.getInstance(documentID))) {
-				MCRMetadataManager.deleteMCRObject(MCRObjectID.getInstance(documentID));
-				AI.removeAllRules(documentID);
+			MCRObjectID docID = MCRObjectID.getInstance(documentID);
+			if (MCRMetadataManager.exists(docID)) {
+				MCRMetadataManager.deleteMCRObject(docID);
+				MCRAccessManager.removeAllRules(docID);
 				logger.info(documentID + " deleted.");
 			}
 			bSuccess=true;

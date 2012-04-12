@@ -28,7 +28,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.mycore.access.MCRAccessInterface;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRSessionMgr;
@@ -51,7 +50,6 @@ import org.mycore.frontend.servlets.MCRServletJob;
 public class MCRWorkflowForEditingStartServlet extends MCRServlet {
 	protected static Logger logger = Logger.getLogger(MCRWorkflowForEditingStartServlet.class);
 	private static final long serialVersionUID = 1L;
-	private static MCRAccessInterface AI = MCRAccessManager.getAccessImpl();
     private String mcrid;
     
 	/**
@@ -66,7 +64,7 @@ public class MCRWorkflowForEditingStartServlet extends MCRServlet {
 		parms = new MCRRequestParameters(request);
 		mcrid = parms.getParameter("mcrid");
 
-		if (!AI.checkPermission(mcrid, "writedb" )) {
+		if (!MCRAccessManager.checkPermission(mcrid, "writedb" )) {
 			String lang   = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
 			String usererrorpage = "nav?path=~mycore-error?messageKey=WF.common.PrivilegesError&lang=" + lang;
 			logger.debug("Access denied for current user to start workflow for object " + mcrid);				
