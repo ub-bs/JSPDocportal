@@ -228,7 +228,14 @@
 							<includes>
 								<include>web.xml</include>
 							</includes>
-						</resource>						
+						</resource>
+						<resource>
+							<directory>src/main/config/tld</directory>
+							<targetPath>WEB-INF/tld</targetPath>
+							<includes>
+								<include>*.tld</include>
+							</includes>
+						</resource>								
 					</webResources>
 				</configuration>
 			</plugin>
