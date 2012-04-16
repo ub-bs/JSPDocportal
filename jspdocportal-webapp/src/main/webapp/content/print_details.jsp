@@ -1,3 +1,7 @@
+<%@page import="org.mycore.backend.hibernate.MCRHIBConnection"%>
+<%@page import="org.mycore.common.MCRException"%>
+<%@page import="org.hibernate.Transaction"%>
+<%@page import="org.apache.log4j.Logger"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ page import="java.util.*" %>
 <%--
@@ -22,31 +26,77 @@
 
 <html>
 <head><title>Print Details</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<link type="text/css" rel="stylesheet" href="${applicationScope.WebApplicationBaseURL}css/style_general.css">
-	<link type="text/css" rel="stylesheet" href="${applicationScope.WebApplicationBaseURL}css/style_navigation.css">
-	<link type="text/css" rel="stylesheet" href="${applicationScope.WebApplicationBaseURL}css/style_content.css">
-	<link type="text/css" rel="stylesheet" href="${applicationScope.WebApplicationBaseURL}css/style_docdetails.css">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="shortcut icon" href="${applicationScope.WebApplicationBaseURL}images/icon_cpr.ico" />
+	<link type="text/css" rel="stylesheet" href="${applicationScope.WebApplicationBaseURL}css/style_reset.css" />
+	<link type="text/css" rel="stylesheet" href="${applicationScope.WebApplicationBaseURL}css/style_layout.css" />
+	<link type="text/css" rel="stylesheet" href="${applicationScope.WebApplicationBaseURL}css/style_content.css" />
+	<link type="text/css" rel="stylesheet" href="${applicationScope.WebApplicationBaseURL}css/style_docdetails_headlines.css" />
+	<style type="text/css">
+		body{
+		background: white;
+		}
+	</style>
 </head>
+<body bgcolor="#FFFFFF">
+<%
+    Logger logger = Logger.getLogger(this.getClass());
+    Transaction tx  = MCRHIBConnection.instance().getSession().beginTransaction();
+	try{
+%>
+<div class="base_content text">
+
+<c:set var="mcrid" value="${param.id}" />
 
 <c:choose>
- <c:when test="${fn:contains(from,'workflow')}" >
-     <c:set var="layout" value="preview" />
+ <c:when test="${fn:contains(mcrid,'codice')}">
+     <c:import url="docdetails/docdetails-codice.jsp" />
  </c:when>
+ 
+ <c:when test="${fn:contains(mcrid,'thesis')}">
+     <c:import url="docdetails/docdetails_thesis.jsp" />
+ </c:when>
+ 
+ <c:when test="${fn:contains(mcrid,'disshab')}">
+     <c:import url="docdetails/docdetails_disshab.jsp" />
+ </c:when>
+ 
+ 
+ <c:when test="${fn:contains(mcrid,'person')}">
+     <c:import url="docdetails/docdetails_person.jsp" />
+ </c:when>
+ 
+  <c:when test="${fn:contains(mcrid,'institution')}">
+     <c:import url="docdetails/docdetails_institution.jsp" />
+ </c:when> 
+ 
+  <c:when test="${fn:contains(mcrid,'document')}">
+     <c:import url="docdetails/docdetails_document.jsp" />
+ </c:when>
+
+ <c:when test="${fn:contains(mcrid,'_series_')}">
+     <c:import url="docdetails/docdetails_series.jsp" />
+ </c:when>
+ 
+ <c:when test="${fn:contains(mcrid,'_series-volume_')}">
+     <c:import url="docdetails/docdetails_series-volume.jsp" />
+ </c:when>
+ 
  <c:otherwise>
-     <c:set var="layout" value="normal" />
- </c:otherwise> 
-</c:choose>
-
-<body bgcolor="#FFFFFF">
-<table class="${layout}" >
-
-<tr><td id="contentArea">
-  <jsp:include page="/content/docdetails.jsp" >
-		<jsp:param name="id" value="${param.id}"/>
-		<jsp:param name="print" value="${true}"/>
-	</jsp:include>
-</td></tr>
-</table>
+     <c:import url="docdetails/docdetails-document.jsp" />
+ </c:otherwise>
+ </c:choose>
+ </div>
+<% }	
+	catch(MCRException e){
+		logger.error(e);
+		pageContext.getOut().append(e.getMessage());
+	}
+	finally{
+		if (!tx.wasCommitted()){
+			tx.commit();
+		}
+	}
+	%>
 </body>
 </html>
