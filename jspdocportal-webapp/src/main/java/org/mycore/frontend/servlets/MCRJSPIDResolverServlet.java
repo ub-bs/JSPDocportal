@@ -340,20 +340,19 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 		Element eStructure = doc.getRootElement().getChild("structure");
 		if(eStructure==null) return;
 		Element eDerObjects = eStructure.getChild("derobjects");
-		if(eDerObjects == null) return;
-		for(Element eDer: (List<Element>)eDerObjects.getChildren("derobject")){
-			String derID = eDer.getAttributeValue("href", nsXlink);
-			Document docDer = MCRMetadataManager.retrieveMCRDerivate(MCRObjectID.getInstance(derID)).createXML();
-			eDer.addContent(docDer.getRootElement().detach());
+		if(eDerObjects != null){
+			for(Element eDer: (List<Element>)eDerObjects.getChildren("derobject")){
+				String derID = eDer.getAttributeValue("href", nsXlink);
+				Document docDer = MCRMetadataManager.retrieveMCRDerivate(MCRObjectID.getInstance(derID)).createXML();
+				eDer.addContent(docDer.getRootElement().detach());
 			
-			//<mycorederivate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:noNamespaceSchemaLocation="datamodel-derivate.xsd" ID="cpr_derivate_00003760" label="display_image" version="1.3">
-			//  <derivate display="true">
+				//<mycorederivate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:noNamespaceSchemaLocation="datamodel-derivate.xsd" ID="cpr_derivate_00003760" label="display_image" version="1.3">
+				//  <derivate display="true">
 
-			eDer = eDer.getChild("mycorederivate").getChild("derivate");
-			Document fileDoc = MCRDirectoryXML.getInstance().getDirectory("/"+derID, false);
-			eDer.addContent(fileDoc.getRootElement().detach());
-			
-			
+				eDer = eDer.getChild("mycorederivate").getChild("derivate");
+				Document fileDoc = MCRDirectoryXML.getInstance().getDirectory("/"+derID, false);
+				eDer.addContent(fileDoc.getRootElement().detach());			
+			}
 		}
 		XMLOutputter xout = new XMLOutputter(Format.getPrettyFormat());
 		xout.output(doc, out);
