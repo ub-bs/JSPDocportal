@@ -102,6 +102,6 @@ public class UBRBibliographie {
 	 * @return
 	 */
 	public String getURL(String pnd){
-		return "http://katalog.ub.uni-rostock.de/DB=4/CMD?ACT=SRCHA&SRT=YOP&IKT=5047&TRM="+pnd;
+		return "http://katalog.ub.uni-rostock.de/DB=4/CMD?ACT=SRCHA&SRT=YOP&IKT=8029&TRM="+pnd;
 	}
 }
