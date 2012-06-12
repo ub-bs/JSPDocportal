@@ -242,23 +242,23 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 			if(page-2>0){
 				out.write("\n      <li class=\"item\"><a href=\""
 						+webBaseURL+"/servlets/MCRJSPSearchServlet?mode=results&id="+id+"&page="+Integer.toString(page-2)+"&numPerPage="+numPerPage
-						+"\">["+Integer.toString((page-3)*numPerPage+1)+"-"+Integer.toString((page-2)*numPerPage)+"]</a></li>");
+						+"\">"+Integer.toString((page-3)*numPerPage+1)+"-"+Integer.toString((page-2)*numPerPage)+"</a></li>");
 			}
 			if(page-1>0){
 				out.write("\n      <li class=\"item\"><a href=\""
 						+webBaseURL+"/servlets/MCRJSPSearchServlet?mode=results&id="+id+"&page="+Integer.toString(page-1)+"&numPerPage="+numPerPage
-						+"\">["+Integer.toString((page-2)*numPerPage+1)+"-"+Integer.toString((page-1)*numPerPage)+"]</a></li>");
+						+"\">"+Integer.toString((page-2)*numPerPage+1)+"-"+Integer.toString((page-1)*numPerPage)+"</a></li>");
 			}
-			out.write("\n      <li class=\"item active\">["+Integer.toString((page-1)*numPerPage+1)+"-"+Integer.toString(Math.min((page)*numPerPage, numHits))+"]</li>");
+			out.write("\n      <li class=\"item active\">"+Integer.toString((page-1)*numPerPage+1)+"-"+Integer.toString(Math.min((page)*numPerPage, numHits))+"</li>");
 			if(page+1<=numPages){
 				out.write("\n      <li><a href=\""
 						+webBaseURL+"/servlets/MCRJSPSearchServlet?mode=results&id="+id+"&page="+Integer.toString(page+1)+"&numPerPage="+numPerPage
-						+"\">["+Integer.toString((page)*numPerPage+1)+"-"+Integer.toString(Math.min((page+1)*numPerPage,numHits))+"]</a></li>");
+						+"\">"+Integer.toString((page)*numPerPage+1)+"-"+Integer.toString(Math.min((page+1)*numPerPage,numHits))+"</a></li>");
 			}
 			if(page+2<=numPages){
 				out.write("\n      <li class=\"item\"><a href=\""
 						+webBaseURL+"/servlets/MCRJSPSearchServlet?mode=results&id="+id+"&page="+Integer.toString(page+2)+"&numPerPage="+numPerPage
-						+"\">["+Integer.toString((page+1)*numPerPage+1)+"-"+Integer.toString(Math.min((page+2)*numPerPage,numHits))+"]</a></li>");
+						+"\">"+Integer.toString((page+1)*numPerPage+1)+"-"+Integer.toString(Math.min((page+2)*numPerPage,numHits))+"</a></li>");
 			}
 			out.write("\n      <li class=\"item\"><a href=\""
 					+webBaseURL+"/servlets/MCRJSPSearchServlet?mode=results&id="+id+"&page="+numPages+"&numPerPage="+numPerPage
