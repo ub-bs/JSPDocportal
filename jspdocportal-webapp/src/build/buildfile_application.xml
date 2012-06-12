@@ -233,6 +233,7 @@
 	<target name="create.users" depends="init">
 		
 		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
+		<mkdir dir="content/user_encrypted" />
 		<mcr-execute>
             load permissions data from file content/user/permissions.xml
 
