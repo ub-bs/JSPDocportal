@@ -115,6 +115,7 @@ public class MCRDocDetailsPNDBeaconTag extends SimpleTagSupport {
 	public void setReplaceLabels(String replaceLabels) {
 		for(String s: replaceLabels.split("\\|")){
 			if(s.contains(":")){
+				s=s.trim();
 				this.replaceLabels.put(s.substring(0, s.indexOf(":")), s.substring(s.indexOf(":")+1));
 			}
 		}
@@ -209,7 +210,7 @@ public class MCRDocDetailsPNDBeaconTag extends SimpleTagSupport {
 			if(ids.size()>0){
 				result.append("\n<ul class=\"pndbeaconlist\">");
 				for(String s: ids){
-					result.append("\n   <li><!--"+s+"--><a href=\""+urls.get(s)+"\">"+labels.get(s)+"</a></li>");
+					result.append("\n   <li><!--"+s+"--><a target=\"_blank\" href=\""+urls.get(s)+"\">"+labels.get(s)+"</a></li>");
 				}
 				result.append("\n</ul>");
 			}
