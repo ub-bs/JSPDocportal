@@ -34,7 +34,7 @@ import org.mycore.services.fieldquery.MCRQueryParser;
 import org.mycore.services.fieldquery.MCRResults;
 
 /**
- * This servlet opens retrieves the object for the given PND and opens the docdetails view
+ * This servlet opens retrieves the object for the given GND and opens the docdetails view
  * @author Robert Stephan
  * 
  * @see org.mycore.frontend.servlets.MCRServlet
@@ -69,24 +69,25 @@ public class MCRJSPPNDServlet extends MCRServlet {
     	LOGGER.debug("servletPath=" + request.getServletPath());
 
         String uri = request.getPathInfo();
-        String pnd = null;
+        String gnd = null;
         if (uri != null) {
-            pnd = uri.substring(1);
+            gnd = uri.substring(1);
         }
-        if (pnd == null || pnd.length()==0) {
+        if (gnd == null || gnd.length()==0) {
         	//getServletContext().getRequestDispatcher("/nav?path=~mycore-error&messageKey=IdNotGiven").forward(request,response);
         	getServletContext().getRequestDispatcher("/").forward(request,response);
         	return;
         }
        
-        MCRQuery query = new MCRQuery((new MCRQueryParser()).parse("(pnd = "+pnd+")"));
+        MCRQuery query = new MCRQuery((new MCRQueryParser()).parse("(pnd = "+gnd+")"));
 		MCRResults result = MCRQueryManager.search(query);
 		if(result.getNumHits()>0){
 			String mcrID = result.getHit(0).getID();
 			this.getServletContext().getRequestDispatcher("/nav?path=~docdetail&id=" +mcrID).forward(request, response);
 		}
 		else{
-			response.sendError(HttpServletResponse.SC_NOT_FOUND, "No data found for PND " +pnd+"!");
+			//response.sendError(HttpServletResponse.SC_NOT_FOUND, "No data found for gnd+ " +gnd++"!");
+			this.getServletContext().getRequestDispatcher("/nav?path=~error-gnd-404&gnd="+gnd).forward(request, response);
 		}
 	}   
 }
