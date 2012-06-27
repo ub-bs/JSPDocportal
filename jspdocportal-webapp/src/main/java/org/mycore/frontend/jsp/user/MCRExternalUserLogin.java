@@ -1,4 +1,4 @@
-package org.mycore.user;
+package org.mycore.frontend.jsp.user;
 
 import org.mycore.user.MCRUser;
 

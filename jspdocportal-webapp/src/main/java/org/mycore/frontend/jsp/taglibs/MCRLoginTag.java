@@ -21,7 +21,7 @@ import org.mycore.common.MCRException;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.MCRSystemUserInformation;
-import org.mycore.user.MCRExternalUserLogin;
+import org.mycore.frontend.jsp.user.MCRExternalUserLogin;
 import org.mycore.user.MCRGroup;
 import org.mycore.user.MCRUser;
 import org.mycore.user.MCRUserMgr;
