@@ -19,9 +19,10 @@ import org.jbpm.graph.exe.ExecutionContext;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRMailer;
-import org.mycore.user.MCRGroup;
-import org.mycore.user.MCRUser;
-import org.mycore.user.MCRUserMgr;
+import org.mycore.user2.MCRRole;
+import org.mycore.user2.MCRRoleManager;
+import org.mycore.user2.MCRUser;
+import org.mycore.user2.MCRUserManager;
 
 /**
  * @author mcradmin
@@ -129,8 +130,8 @@ public class MCRJbpmSendmail{
 				}
 				ret.add(email);
 			} else if (array[i].trim().equals("user")){
-				MCRUser user = MCRUserMgr.instance().getCurrentUser();
-				String email = user.getUserContact().getEmail();
+				MCRUser user = MCRUserManager.getCurrentUser();
+				String email = user.getEMailAddress();
 				if(email!=null && !email.equals("")){
 					ret.add(email);
 				}
@@ -150,18 +151,19 @@ public class MCRJbpmSendmail{
 	}
 	
 	private static String getUserEmailAddress(String userid){
-		if ( MCRUserMgr.instance().existUser(userid) ) {
-			MCRUser user = MCRUserMgr.instance().retrieveUser(userid);
-			return user.getUserContact().getEmail();
+		if ( MCRUserManager.exists(userid) ) {
+			MCRUser user = MCRUserManager.getUser(userid);
+			return user.getEMailAddress();
 		}
 		return null;
 	}
 	
 	private static List<String> getGroupMembersEmailAddresses(String groupid){
 		List<String> ret = new ArrayList<String>();
-		if (MCRUserMgr.instance().existGroup(groupid) ) {
-			MCRGroup group = MCRUserMgr.instance().retrieveGroup(groupid);
-			for (Iterator<String> it = group.getMemberUserIDs().iterator(); it.hasNext();) {
+		MCRRole group = MCRRoleManager.getRole(groupid);
+		if (group !=null) {
+			
+			for (Iterator<String> it = MCRRoleManager.listUserIDs(group).iterator(); it.hasNext();) {
 				String email = getUserEmailAddress(it.next());
 				if(email != null && email.indexOf("@") > -1){
 					ret.add(email);

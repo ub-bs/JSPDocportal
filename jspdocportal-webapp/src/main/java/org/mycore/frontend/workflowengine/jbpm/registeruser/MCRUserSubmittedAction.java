@@ -10,8 +10,8 @@ import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
-import org.mycore.user.MCRUser;
-import org.mycore.user.MCRUserMgr;
+import org.mycore.user2.MCRUser;
+import org.mycore.user2.MCRUserManager;
 
 public class MCRUserSubmittedAction extends MCRAbstractAction{
 	
@@ -26,14 +26,14 @@ public class MCRUserSubmittedAction extends MCRAbstractAction{
 		// set access control to admin mode, the user  has no rights anymore
 		String id = (String) contextInstance.getVariable("userID");
 		String initiator = contextInstance.getVariable(MCRWorkflowConstants.WFM_VAR_INITIATOR).toString();
-		MCRUser user = MCRUserMgr.instance().retrieveUser(initiator);
+		MCRUser user = MCRUserManager.getUser(initiator);
 	
 		long processID = contextInstance.getProcessInstance().getId();
 		String workflowType = MCRJbpmWorkflowBase.getWorkflowProcessType(processID);
 		MCRWorkflowManager wfm = MCRWorkflowManagerFactory.getImpl(workflowType);
 		
 		 						//(mcrid, userid, wftype, mode)
-		wfm.permissionStrategy.setPermissions(id, user.getID(), workflowType,contextInstance, MCRWorkflowConstants.PERMISSION_MODE_EDITING);
+		wfm.permissionStrategy.setPermissions(id, user.getUserID(), workflowType,contextInstance, MCRWorkflowConstants.PERMISSION_MODE_EDITING);
 	}
 
 

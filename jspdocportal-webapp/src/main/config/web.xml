@@ -103,16 +103,6 @@
     </servlet>
 
     <servlet>
-        <servlet-name>MCRUserValidateServlet</servlet-name>
-        <servlet-class>org.mycore.frontend.admin.MCRUserValidateServlet</servlet-class>
-    </servlet> 
-    
-    <servlet>
-        <servlet-name>MCRUserGroupValidateServlet</servlet-name>
-        <servlet-class>org.mycore.frontend.admin.MCRUserGroupValidateServlet</servlet-class>
-    </servlet> 
-        
-    <servlet>
         <servlet-name>MCRRegisterUserWorkflowServlet</servlet-name>
         <servlet-class>org.mycore.frontend.workflowengine.jbpm.registeruser.MCRRegisterUserWorkflowServlet</servlet-class>
     </servlet> 
@@ -242,17 +232,7 @@
 		<url-pattern>/pnd/*</url-pattern>
 	</servlet-mapping>
 
-    <servlet-mapping>
-        <servlet-name>MCRUserValidateServlet</servlet-name>
-        <url-pattern>/servlets/MCRUserValidateServlet</url-pattern>
-    </servlet-mapping> 
-
-    <servlet-mapping>
-        <servlet-name>MCRUserGroupValidateServlet</servlet-name>
-        <url-pattern>/servlets/MCRUserGroupValidateServlet</url-pattern>
-    </servlet-mapping> 
-
-    <servlet-mapping>
+   <servlet-mapping>
         <servlet-name>MCRRegisterUserWorkflowServlet</servlet-name>
         <url-pattern>/servlets/MCRRegisterUserWorkflowServlet</url-pattern>
     </servlet-mapping> 

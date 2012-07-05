@@ -22,9 +22,8 @@ import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
 import org.mycore.services.fieldquery.MCRResults;
-import org.mycore.user.MCRUser;
-import org.mycore.user.MCRUserContact;
-import org.mycore.user.MCRUserMgr;
+import org.mycore.user2.MCRUser;
+import org.mycore.user2.MCRUserManager;
 import org.xml.sax.SAXParseException;
 
 public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {
@@ -93,53 +92,22 @@ public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {
 
 		if (user != null) {
 			MCRMetaPersonName pname = new MCRMetaPersonName();
-			StringBuffer sbFullname=new StringBuffer();
-			sbFullname.append(user.getUserContact().getLastName());
-			if(user.getUserContact().getFirstName().length()>0){
-				sbFullname.append(", ");
-				sbFullname.append(user.getUserContact().getFirstName());
-			}
-			String fullname = sbFullname.toString();
+			String fullname = user.getRealName();
 			pname.setSubTag("name");
 			pname.setLang("de");
-			pname.set(user.getUserContact().getFirstName(), user
-					.getUserContact().getLastName(), user.getUserContact()
-					.getLastName(), fullname, "", "", user.getUserContact()
-					.getSalutation());
-
+			pname.set("", "", "", user.getRealName(), "", "", "");
+				
 			MCRMetaBoolean female = new MCRMetaBoolean();
 			female.setSubTag("female");
 			female.setLang("de");
 			female.setValue("false");
-			if (user.getUserContact().getState().equalsIgnoreCase("true"))
-				female.setValue("true");
+			female.setValue("female".equals(user.getAttributes().get("sex")));
 
 			MCRMetaAddress padr = new MCRMetaAddress();
 			padr.setSubTag("address");
 			padr.setLang("de");
 			
-			MCRUserContact userContact = user.getUserContact();
-
-			if (userContact.getCountry().length() == 0) {
-				userContact.setCountry("-");
-			}
-			if (userContact.getState().length() == 0) {
-				userContact.setState("-");
-			}
-			if (userContact.getPostalCode().length() == 0) {
-				userContact.setPostalCode("-");
-			}
-			if (userContact.getCity().length() == 0) {
-				userContact.setCity("-");
-			}
-			if (userContact.getStreet().length() == 0) {
-				userContact.setStreet("-");
-			}
-			if (userContact.getEmail().length() == 0) {
-				userContact.setEmail("-");
-			}
-
-			
+					
 //			padr.set(userContact.getCountry(), userContact
 //					.getState(), userContact.getPostalCode(), user
 //					.getUserContact().getCity(), userContact
@@ -151,17 +119,17 @@ public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {
 			            throw new MCRException("One parameter is null.");
 			        }*/
 			
-			padr.setCountry(userContact.getCountry());
+			padr.setCountry("DE");
 			padr.setState("-");
-			padr.setZipCode(userContact.getPostalCode());
-			padr.setCity(userContact.getCity());
-			padr.setStreet(userContact.getStreet());
+			padr.setZipCode(user.getAttributes().get("postalcode"));
+			padr.setCity(user.getAttributes().get("city"));
+			padr.setStreet(user.getAttributes().get("street"));
 			padr.setNumber("-");
 
 			MCRMetaLangText userID = new MCRMetaLangText();
 			userID.setSubTag("userid");
 			userID.setLang("de");
-			userID.setText(user.getID());
+			userID.setText(user.getUserID());
 
 			
 			Element ePname = pname.createXML();
@@ -187,7 +155,7 @@ public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {
 			MCRMetaLangText email = new MCRMetaLangText();
 			email.setSubTag("email");
 			email.setLang("de");
-			email.setText(userContact.getEmail());
+			email.setText(user.getEMailAddress());
 				
 			Element eEmail = email.createXML();
 			Element eEmails = new Element("emails");

@@ -12,7 +12,7 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.output.DOMOutputter;
 import org.mycore.common.JSPUtils;
-import org.mycore.user.MCRUserMgr;
+import org.mycore.user2.MCRUserManager;
 
 
 public class MCRGetFreeUserIDs extends SimpleTagSupport
@@ -42,7 +42,7 @@ public class MCRGetFreeUserIDs extends SimpleTagSupport
 		}
 		for(int childcnt=0, forcnt=0; childcnt < count; forcnt++ ) {
 			String testID = getRandomID(childcnt, forcnt);
-			if (!MCRUserMgr.instance().existUser(testID)){
+			if (!MCRUserManager.exists(testID)){
 				childcnt++;
 				Element child = new Element("userid");
 				child.setAttribute("ID", testID);

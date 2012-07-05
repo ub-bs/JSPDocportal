@@ -23,8 +23,9 @@ import org.mycore.frontend.workflowengine.strategies.MCRDerivateStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRMetadataStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRPermissionStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
-import org.mycore.user.MCRUser;
 import org.mycore.user.MCRUserMgr;
+import org.mycore.user2.MCRUser;
+import org.mycore.user2.MCRUserManager;
 
 import com.google.inject.Inject;
 
@@ -272,10 +273,10 @@ public abstract class MCRWorkflowManager {
 	 * @return true|false
 	 */
 	final public boolean endTask(long processID, String taskName, String transitionName){
-		MCRUser user = MCRUserMgr.instance().getCurrentUser();
+		MCRUser user = MCRUserManager.getCurrentUser();
 		MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(processID);
 		try{
-			return wfp.endTask(taskName, user.getID(), transitionName);
+			return wfp.endTask(taskName, user.getUserID(), transitionName);
 		}catch(MCRException ex){
 			logger.error("could not end task",ex);
 		}finally{
@@ -435,9 +436,8 @@ public abstract class MCRWorkflowManager {
 	final public static boolean isUserValid(String userid){
 		boolean isValid= !GUEST_ID.equals(userid);				
 		try {
-			MCRUser user = MCRUserMgr.instance().retrieveUser(userid);
-			isValid &= user.isEnabled();
-			isValid &= user.isValid();
+			MCRUser user = MCRUserManager.getUser(userid);
+			isValid &= user.loginAllowed();
 		} catch (Exception noUser) {
 			//TODO Fehlermeldung
 			logger.warn("user dos'nt exist userid=" + userid);

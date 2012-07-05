@@ -10,9 +10,9 @@ import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.mycore.common.MCRException;
-import org.mycore.common.MCRSessionMgr;
-import org.mycore.user.MCRUser;
-import org.mycore.user.MCRUserMgr;
+import org.mycore.user2.MCRUser;
+import org.mycore.user2.MCRUserManager;
+import org.mycore.user2.utils.MCRUserTransformer;
 public class MCRReceiveUserAsJdomTag extends SimpleTagSupport
 {
 	private static Logger logger = Logger.getLogger(MCRReceiveUserAsJdomTag.class);
@@ -32,19 +32,18 @@ public class MCRReceiveUserAsJdomTag extends SimpleTagSupport
 	public void doTag() throws JspException, IOException {
     	try {
     		if ( userID == null || userID.length() == 0) {
-    			userID = MCRSessionMgr.getCurrentSession().getCurrentUserID();
+    			userID = MCRUserManager.getCurrentUser().getUserID();
     		}
     		MCRUser u = new MCRUser(userID);
     		String sNoUser = "User with ID " + userID + " dos'nt exit";
     		try {
-    			u = MCRUserMgr.instance().retrieveUser(userID);   		
+    			u = MCRUserManager.getUser(userID);   		
 			} catch (MCRException noUser) {
 				logger.warn(sNoUser);
-				u.setDescription(sNoUser);
+				u.getAttributes().put("description", sNoUser);
 			}
 			
-			Document jUser = u.toJDOMDocument();    	
-			Element eUser = (Element)jUser.getRootElement().getChild("user").clone();
+			Element eUser = MCRUserTransformer.buildExportableSafeXML(u).getRootElement();
 			PageContext pageContext = (PageContext) getJspContext();
 	    	//org.w3c.dom.Document domDoc = null;
     		//domDoc =  new DOMOutputter().output( jUser);

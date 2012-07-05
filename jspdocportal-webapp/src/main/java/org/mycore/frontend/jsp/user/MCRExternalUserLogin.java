@@ -1,6 +1,6 @@
 package org.mycore.frontend.jsp.user;
 
-import org.mycore.user.MCRUser;
+import org.mycore.user2.MCRUser;
 
 /**
  * Interface that should be implemented if you want to use login data from

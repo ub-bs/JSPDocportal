@@ -13,8 +13,8 @@ import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
-import org.mycore.user.MCRUser;
-import org.mycore.user.MCRUserMgr;
+import org.mycore.user2.MCRUser;
+import org.mycore.user2.MCRUserManager;
 
 public class MCRInstitutionSubmittedAction extends MCRAbstractAction {
 	
@@ -32,7 +32,7 @@ public class MCRInstitutionSubmittedAction extends MCRAbstractAction {
 		ids.add(contextInstance.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS));
 		
 		String initiator = contextInstance.getVariable(MCRWorkflowConstants.WFM_VAR_INITIATOR).toString();
-		MCRUser user = MCRUserMgr.instance().retrieveUser(initiator);
+		MCRUser user = MCRUserManager.getUser(initiator);
 	
 		long processID = contextInstance.getProcessInstance().getId();
 		String workflowType = MCRJbpmWorkflowBase.getWorkflowProcessType(processID);
@@ -41,8 +41,8 @@ public class MCRInstitutionSubmittedAction extends MCRAbstractAction {
 		for (Iterator it = ids.iterator(); it.hasNext();) {
 			String id = (String) it.next();
 			 						//(mcrid, userid, wftype, mode)
-			wfm.permissionStrategy.setPermissions(id, user.getID(), workflowType,contextInstance, MCRWorkflowConstants.PERMISSION_MODE_EDITING);
-			wfm.permissionStrategy.setPermissions(id, user.getID(), workflowType,contextInstance, MCRWorkflowConstants.PERMISSION_MODE_CREATORRREAD);;
+			wfm.permissionStrategy.setPermissions(id, user.getUserID(), workflowType,contextInstance, MCRWorkflowConstants.PERMISSION_MODE_EDITING);
+			wfm.permissionStrategy.setPermissions(id, user.getUserID(), workflowType,contextInstance, MCRWorkflowConstants.PERMISSION_MODE_CREATORRREAD);;
 		}		
 	}
 

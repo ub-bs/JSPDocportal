@@ -15,8 +15,8 @@ import org.mycore.common.MCRConfiguration;
 import org.mycore.common.xml.MCRXMLHelper;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.frontend.jsp.user.MCRExternalUserLogin;
-import org.mycore.user.MCRUserCommands;
-import org.mycore.user.MCRUserMgr;
+import org.mycore.user2.MCRUserCommands;
+import org.mycore.user2.MCRUserManager;
 
 
 public class MCRDefaultUserStrategy extends MCRUserStrategy{
@@ -168,7 +168,7 @@ public class MCRDefaultUserStrategy extends MCRUserStrategy{
 		boolean bSuccess = true;
 		String filename = directory + "/" + "user_" + userid + ".xml";
 		try { 
-			if ( MCRUserMgr.instance().existUser(userid) ) {
+			if ( MCRUserManager.exists(userid) ) {
 				MCRUserCommands.updateUserFromFile(filename);
 			} else {
 				MCRUserCommands.createUserFromFile(filename);
@@ -179,7 +179,7 @@ public class MCRDefaultUserStrategy extends MCRUserStrategy{
 			logger.error("could not commit user");
 			bSuccess = false;
 		}
-		if ( MCRUserMgr.instance().existUser(userid) ) {
+		if ( MCRUserManager.exists(userid) ) {
 			logger.info("The user object: " + filename + " is loaded.");
 			bSuccess=true;
 		}

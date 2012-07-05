@@ -16,7 +16,8 @@ import org.jdom.output.DOMOutputter;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowAccessRuleEditorUtils;
-import org.mycore.user.MCRUserMgr;
+import org.mycore.user2.MCRRole;
+import org.mycore.user2.MCRRoleManager;
 
 
 public class MCRGetAccessRulesTag extends SimpleTagSupport
@@ -48,7 +49,6 @@ public class MCRGetAccessRulesTag extends SimpleTagSupport
 		this.choosenRule = choosenRule;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void doTag() throws JspException, IOException {
 		PageContext pageContext = (PageContext) getJspContext();
 		String lang = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
@@ -85,18 +85,18 @@ public class MCRGetAccessRulesTag extends SimpleTagSupport
 		}
 				
 		else if ( step == "getGroups") {
-			String[] availGroups = (String[]) MCRUserMgr.instance().getAllGroupIDs().toArray(new String[]{});
+			MCRRole[] availGroups = MCRRoleManager.listSystemRoles().toArray(new MCRRole[]{});
 			String[] selectedGroups = MCRWorkflowAccessRuleEditorUtils.getChoosenGroups(mcrid, processid);
 			options = new Element("groups");
 			Element currGroups = new Element("currGroups");
 			for(int i=0;i<availGroups.length;i++){
 				Element option = new Element("group");
-				option.setAttribute("name",  availGroups[i]);
-				option.setAttribute("value", availGroups[i]);
-				if(java.util.Arrays.asList(selectedGroups).contains(availGroups[i])){
+				option.setAttribute("name",  availGroups[i].getName());
+				option.setAttribute("value", availGroups[i].getName());
+				if(java.util.Arrays.asList(selectedGroups).contains(availGroups[i].getName())){
 					option.setAttribute("aktiv", "selected");						
 					Element currGroup = new Element("currGroup");
-					currGroup.setAttribute("name", availGroups[i]);						
+					currGroup.setAttribute("name", availGroups[i].getName());						
 					currGroups.addContent(currGroup);
 					
 				}

@@ -53,7 +53,7 @@ import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcessManager;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 import org.mycore.frontend.jsp.user.MCRExternalUserLogin;
-import org.mycore.user.MCRUserMgr;
+import org.mycore.user2.MCRUserManager;
 
 
 /**
@@ -213,9 +213,6 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 					logger.debug("New Password: default password from properties File");	
 				}
 	
-				int numID = MCRUserMgr.instance().getMaxUserNumID();
-				userElement.setAttribute("numID", String.valueOf(numID +1)) ;
-			
 				addImplicitGroupIDs(userElement);
 			
 		       	StringBuffer storePath = new StringBuffer(MCRWorkflowDirectoryManager.getWorkflowDirectory(this.documentType))
@@ -226,7 +223,7 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 				org.jdom.Document outDoc =  new org.jdom.Document (root);	        
 				WFM.storeMetadata(MCRUtils.getByteArray(outDoc), ID, storePath.toString());
 					
-				if ( MCRUserMgr.instance().existUser(ID) ) {
+				if ( MCRUserManager.exists(ID) ) {
 					// we have another user with that ID 
 			        logger.warn("User registration - duplicate IDs");
 			        if(MCRConfiguration.instance().getString("MCR.Application.ExternalUserLogin.Class").length()>1){

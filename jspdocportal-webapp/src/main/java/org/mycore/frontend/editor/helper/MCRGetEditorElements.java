@@ -42,7 +42,9 @@ import org.mycore.common.xml.MCRURIResolver.MCRResolver;
 import org.mycore.datamodel.classifications2.MCRCategoryDAOFactory;
 import org.mycore.datamodel.classifications2.MCRCategoryID;
 import org.mycore.datamodel.classifications2.utils.MCRCategoryTransformer;
-import org.mycore.user.MCRUserMgr;
+import org.mycore.user2.MCRRole;
+import org.mycore.user2.MCRRoleManager;
+import org.mycore.user2.MCRUserManager;
 
 /**
  * this class delivers xml objects that can be included
@@ -99,10 +101,11 @@ public class MCRGetEditorElements implements MCRResolver {
 
 	private Element getGroupItems(Properties params) throws TransformerException{
 		Element retitems = new Element("items");
-		List<String> groupIDs = MCRUserMgr.instance().getAllGroupIDs();
+		List<MCRRole> groupIDs = MCRRoleManager.listSystemRoles();
+		
 
         for (int i = 0; i < groupIDs.size(); i++) {
-            org.jdom.Element item = new org.jdom.Element("item").setAttribute("value", (String) groupIDs.get(i)).setAttribute("label", (String) groupIDs.get(i));
+            org.jdom.Element item = new org.jdom.Element("item").setAttribute("value", (String) groupIDs.get(i).getName()).setAttribute("label", (String) groupIDs.get(i).getName());
             retitems.addContent(item);
         }
         return retitems;        
@@ -110,14 +113,14 @@ public class MCRGetEditorElements implements MCRResolver {
 	
 	private Element getGroupItemAndLabelForUser(Properties params) throws TransformerException {
 		Element retitems = new Element("items");
-		Document groups  = MCRUserMgr.instance().getAllGroups();
-		Iterator itGroup = groups.getDescendants(new ElementFilter("group"));
+		List<MCRRole> groups  = MCRRoleManager.listSystemRoles();
+		Iterator<MCRRole> itGroup = groups.iterator();
 		while (itGroup.hasNext()) {
-			Element group = (Element) itGroup.next();
-			String ID = group.getAttributeValue("ID");
+			MCRRole group = (MCRRole) itGroup.next();
+			String ID = group.getName();
 			if ( ID.startsWith("create")) {
 	            org.jdom.Element item = new org.jdom.Element("item").setAttribute("value", ID)
-	            	.setAttribute("label", group.getChild("group.description").getText());			
+	            	.setAttribute("label", group.getName());			
 	            retitems.addContent(item);
 			}
         }

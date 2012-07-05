@@ -18,7 +18,6 @@ public class MCRWorkflowConstants {
 	public static final String WFM_VAR_INITIATOR = "initiator";
 	public static final String WFM_VAR_AUTHOR_IDS = "authorIds";
 	public static final String WFM_VAR_AUTHOR_NAMES = "authorNames";
-	public static final String WFM_VAR_INITIATORSALUTATION = "initiatorSalutation";
 	public static final String WFM_VAR_INITIATOREMAIL = "initiatorEmail";
 	public static final String WFM_VAR_RESERVATED_URN = "reservatedURN";
 	public static final String WFM_VAR_METADATA_OBJECT_IDS = "createdDocID";

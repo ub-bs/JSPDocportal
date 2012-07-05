@@ -40,7 +40,7 @@ import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcessManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
 import org.mycore.frontend.workflowengine.strategies.MCRUserStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
-import org.mycore.user.MCRUserCommands;
+import org.mycore.user2.MCRUserCommands;
 
 import com.google.inject.Guice;
 import com.google.inject.Inject;

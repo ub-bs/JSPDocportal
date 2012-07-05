@@ -1,7 +1,6 @@
 package org.mycore.frontend.jsp.taglibs;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
@@ -22,10 +21,11 @@ import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.MCRSystemUserInformation;
 import org.mycore.frontend.jsp.user.MCRExternalUserLogin;
-import org.mycore.user.MCRGroup;
-import org.mycore.user.MCRUser;
-import org.mycore.user.MCRUserMgr;
-import org.mycore.user.MCRUserRoleProvider;
+import org.mycore.user2.MCRRole;
+import org.mycore.user2.MCRRoleManager;
+import org.mycore.user2.MCRUser;
+import org.mycore.user2.MCRUserManager;
+
 
 
 public class MCRLoginTag extends SimpleTagSupport
@@ -110,7 +110,7 @@ public class MCRLoginTag extends SimpleTagSupport
        	if(extLoginOk){
    		    mcrUID = extLogin.retrieveMyCoReUserID(uid, pwd);
   		    mcrPWD = extLogin.retrieveMyCoRePassword(uid, pwd);
-   		   	if (  MCRUserMgr.instance().existUser(mcrUID) ) { 
+   		   	if (  MCRUserManager.exists(mcrUID) ) { 
    		  	       	mcrLoginOK = loginInMyCore(mcrUID, mcrPWD, loginresult);  			        		
    		    } 
        	} else {
@@ -120,18 +120,18 @@ public class MCRLoginTag extends SimpleTagSupport
 	       mcrLoginOK=loginInMyCore(mcrUID, mcrPWD, loginresult);
        	}
 		if(mcrLoginOK){
-			mcrUser = MCRUserMgr.instance().retrieveUser(mcrUID);
-			mcrLoginOK = mcrUser.isEnabled() && mcrUser.isValid();
+			mcrUser = MCRUserManager.getUser(mcrUID);
+			mcrLoginOK = mcrUser.loginAllowed();
 		}
        			
 		//interprete the results
 		if(extLoginOk && mcrLoginOK){
 			//the user exists in external system and MyCoRe -> everything is OK
-	     	mcrUser = MCRUserMgr.instance().retrieveUser(mcrUID);
+	     	mcrUser = MCRUserManager.getUser(mcrUID);
 	       	 
 	     	mcrSession.setUserInformation(MCRSystemUserInformation.getSuperUserInstance()); //"root;"
 	       	extLogin.updateUserData(uid, "", mcrUser);
-	     	mcrSession.setUserInformation(new MCRUserRoleProvider(mcrUser));
+	     	mcrSession.setUserInformation(mcrUser);
 	       	
 		    loginresult.setAttribute("loginOK", "true");
 		    setNameIntoLoginResult(uid, loginresult);
@@ -141,8 +141,8 @@ public class MCRLoginTag extends SimpleTagSupport
 			//the user could not be validated against external system
 			//but he could be validated against MyCoRe Loging 
 			//-> use MyCoRe
-	     	mcrUser = MCRUserMgr.instance().retrieveUser(mcrUID);
-	     	mcrSession.setUserInformation(new MCRUserRoleProvider(mcrUser));
+	     	mcrUser = MCRUserManager.getUser(mcrUID);
+	     	mcrSession.setUserInformation(mcrUser);
 		    loginresult.setAttribute("loginOK", "true");
 		}
 		if(extLoginOk && !mcrLoginOK){
@@ -202,18 +202,19 @@ public class MCRLoginTag extends SimpleTagSupport
 		 boolean loginOk=false;
 		try {
             loginOk = ((uid != null) && (pwd != null) 
-            		  && MCRUserMgr.instance().existUser(uid) && MCRUserMgr.instance().login(uid, pwd));
-            if (loginOk) {
-	        	MCRSessionMgr.getCurrentSession().setUserInformation(new MCRUserRoleProvider(MCRUserMgr.instance().getCurrentUser()));
+            		  && MCRUserManager.exists(uid));
+            MCRUser mcrUser = MCRUserManager.login(uid, pwd);
+            if (loginOk && mcrUser!=null) {
+	        	MCRSessionMgr.getCurrentSession().setUserInformation(mcrUser);
 	        	setNameIntoLoginResult(uid, loginresult);
 	            
-	        	List<String> allGroupIDS = MCRUserMgr.instance().retrieveUser(uid).getGroupIDs();
+	        	String[] allGroupIDS = mcrUser.getSystemRoleIDs().toArray(new String[]{});
 	        	Element eGroups = new Element ("groups");
-	        	for ( int i=0; i<allGroupIDS.size(); i++ ) {		        		
+	        	for ( int i=0; i<allGroupIDS.length; i++ ) {		        		
 	        		Element eGroup = new Element ("group");
-	        		MCRGroup mcrgroup = MCRUserMgr.instance().retrieveGroup(allGroupIDS.get(i));		        				        		
-	        		eGroup.setAttribute("gid", allGroupIDS.get(i));
-	        		eGroup.setAttribute("description", mcrgroup.getDescription());
+	        		MCRRole mcrgroup = MCRRoleManager.getRole(allGroupIDS[i]);		        				        		
+	        		eGroup.setAttribute("gid", allGroupIDS[i]);
+	        		eGroup.setAttribute("description", mcrgroup.getName());
 	        		eGroups.addContent(eGroup);
             	}
 	        	loginresult.setAttribute("status", "user.welcome");
@@ -246,19 +247,17 @@ public class MCRLoginTag extends SimpleTagSupport
     	loginresult.setAttribute("username", uid);    			
     	StringBuffer name=new StringBuffer();
     	ResourceBundle messages = PropertyResourceBundle.getBundle("messages", new Locale(MCRSessionMgr.getCurrentSession().getCurrentLanguage()));
-    	
-    	if(MCRUserMgr.instance().retrieveUser(uid).getUserContact().getState().equalsIgnoreCase("true")){
+    	MCRUser mcrUser = MCRUserManager.getUser(uid);
+    	if("female".equals(mcrUser.getAttributes().get("sex"))){
     		//Frau
     		name.append(messages.getString("Editor.Person.gender.female"));
     	}
-    	if(MCRUserMgr.instance().retrieveUser(uid).getUserContact().getState().equalsIgnoreCase("false")){
+    	else{
     		//Herr
     		name.append(messages.getString("Editor.Person.gender.male"));
     	}
     	name.append(" ");
-    	name.append(MCRUserMgr.instance().retrieveUser(uid).getUserContact().getSalutation());
-    	name.append(" ");
-        name.append(MCRUserMgr.instance().retrieveUser(uid).getUserContact().getLastName());
+    	name.append(mcrUser.getRealName());
         loginresult.setAttribute("name", name.toString());
 	}
 }

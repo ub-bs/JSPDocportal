@@ -51,8 +51,8 @@ import org.mycore.services.fieldquery.MCRQuery;
 import org.mycore.services.fieldquery.MCRQueryCondition;
 import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.services.fieldquery.MCRResults;
-import org.mycore.user.MCRUser;
-import org.mycore.user.MCRUserMgr;
+import org.mycore.user2.MCRUser;
+import org.mycore.user2.MCRUserManager;
 
 import com.google.inject.Guice;
 import com.google.inject.Inject;
@@ -98,18 +98,13 @@ public class MCRWorkflowManagerPerson extends MCRWorkflowManager {
 			wfp.initialize(initiator);
 			wfp.save();
 			
-			MCRUser user = MCRUserMgr.instance().retrieveUser(initiator);
-			String email = user.getUserContact().getEmail();
+			MCRUser user = MCRUserManager.getUser(initiator);
+			String email = user.getEMailAddress();
 			if (email != null && !email.equals("")) {
 				wfp.setStringVariable(
 						MCRWorkflowConstants.WFM_VAR_INITIATOREMAIL, email);
 			}
-			String salutation = user.getUserContact().getSalutation();
-			if (salutation != null && !salutation.equals("")) {
-				wfp.setStringVariable(
-						MCRWorkflowConstants.WFM_VAR_INITIATORSALUTATION,
-						salutation);
-			}
+			
 			wfp.endTask("initialization", initiator, transitionName);
 			return wfp.getProcessInstanceID();
 		} catch (MCRException ex) {
