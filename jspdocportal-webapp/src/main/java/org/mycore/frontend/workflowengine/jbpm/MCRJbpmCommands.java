@@ -71,19 +71,19 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
         MCRCommand com = null;
 
         com = new MCRCommand("create jbpm database schema", "org.mycore.frontend.workflowengine.jbpm.MCRJbpmCommands.createSchema", "The command DELETES the old workflow database schema and is loading a new empty schema from configuration");
-        command.add(com);
+        addCommand(com);
         
         com = new MCRCommand("deploy jbpm processdefinition from file {0}", "org.mycore.frontend.workflowengine.jbpm.MCRJbpmCommands.deployProcessDefinition String", "The command deploys a process definition to the database from the file {0}");
-        command.add(com);
+        addCommand(com);
         
         com = new MCRCommand("delete jbpm process {0}", "org.mycore.frontend.workflowengine.jbpm.MCRJbpmCommands.deleteProcess String", "The command deletes a processinstance of the jbpm workflow engine {0}");
-        command.add(com);     
+        addCommand(com);     
         
         com = new MCRCommand("backup all objects of type {0} to directory {1}", "org.mycore.frontend.workflowengine.jbpm.MCRJbpmCommands.backupAllObjects String String", "The command backups all objects of type {0} into the directory {1} including all derivates");
-        command.add(com);
+        addCommand(com);
         
         com = new MCRCommand("restore all objects from directory {0}", "org.mycore.frontend.workflowengine.jbpm.MCRJbpmCommands.restoreAllObjects String", "The command restores all objects from directory {0} including all derivates");
-        command.add(com);
+        addCommand(com);
         
     }
 
