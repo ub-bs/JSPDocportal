@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mycoreclass xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="MCRClassification.xsd" ID="mcr-roles">
+	
+	<label xml:lang="en" text="system user roles" />
+	<label xml:lang="de" text="Systemnutzerrollen" />
+	<categories>
+		<category ID="admin">
+			<label xml:lang="en" text="administration of the whole application" />
+			<label xml:lang="de" text="Administration der gesamten Anwendung" />
+		</category>
+		<category ID="adminuser">
+			<label xml:lang="en" text="administration of users" />
+			<label xml:lang="de" text="Administration der Benutzer" />
+		</category>
+		<category ID="adminwebcontent">
+			<label xml:lang="en" text="administration of static webpage content" />
+			<label xml:lang="de" text="Administration der statischen Webseiteinhalte" />
+		</category>
+		<category ID="adminclassification">
+			<label xml:lang="de" text="Administration der Klassifikationen" />
+		</category>
+
+		<category ID="admindisshab">
+			<label xml:lang="de" text="Administration der Dissertationen" />
+		</category>
+		<category ID="admininstitution">
+			<label xml:lang="de" text="Administration der Institutionsdaten" />
+		</category>
+		<category ID="adminperson">
+			<label xml:lang="de" text="Administration der Personendaten" />
+		</category>
+		<category ID="adminpublication">
+			<label xml:lang="de" text="Administration der Publikationen" />
+		</category>
+		<category ID="adminseries">
+			<label xml:lang="de" text="Administration von Mehrbaendern u. Reihen" />
+		</category>
+		<category ID="adminthesis">
+			<label xml:lang="de" text="Administration der stud. Abschlussarbeiten" />
+		</category>
+
+		<category ID="createdisshab">
+			<label xml:lang="de" text="Erstellen von Dissertationen" />
+		</category>
+		<category ID="createinstitution">
+			<label xml:lang="de" text="Erstellen von Institutionsdaten" />
+		</category>
+		<category ID="createperson">
+			<label xml:lang="de" text="Erstellen von Personendaten" />
+		</category>
+		<category ID="createpublication">
+			<label xml:lang="de" text="Erstellen von Publikationen" />
+		</category>
+		<category ID="createseries">
+			<label xml:lang="de" text="Erstellen von Mehrbändern und Reihen" />
+		</category>
+		<category ID="createthesis">
+			<label xml:lang="de" text="Erstellen von stud. Abschlussarbeiten" />
+		</category>
+
+		<category ID="suspenddisshab">
+			<label xml:lang="de" text="Verwaltung der Sperrfrist" />
+		</category>
+		<category ID="suspendthesis">
+			<label xml:lang="de" text="Verwaltung der Sperrfrist für Stud. Abschlussarbeiten" />
+		</category>
+		
+		<category ID="membergroup">
+    		<label xml:lang="de" text="Erweiterte Leserechte für Angehörige der Hochschule/Universität" />
+  		</category>
+    	<category ID="gastgroup">
+ 			<label xml:lang="de" text="Suchen/Browsen in Dokumentenbestand" />
+   		</category>
+	</categories>
+</mycoreclass>

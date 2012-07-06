@@ -6,7 +6,7 @@
 		ruledescription="Administratoren, Editoren mit Teiladminsitrationsrechten">
 		<condition format="xml">
 			<boolean operator="or">
-				<condition value="admingroup" operator="=" field="group" />
+				<condition value="admin" operator="=" field="group" />
 				<condition value="rootgroup" operator="=" field="group" />
 			</boolean>
 		</condition>
@@ -18,7 +18,7 @@
 		<condition format="xml">
 			<boolean operator="or">
 				<condition value="adminwebcontent" operator="=" field="group" />
-				<condition value="admingroup" operator="=" field="group" />
+				<condition value="admin" operator="=" field="group" />
 			</boolean>
 		</condition>
 	</mcrpermission>
@@ -29,7 +29,7 @@
 		<condition format="xml">
 			<boolean operator="or">
 				<condition value="admininstitution" operator="=" field="group" />
-				<condition value="admingroup" operator="=" field="group" />
+				<condition value="admin" operator="=" field="group" />
 			</boolean>
 		</condition>
 	</mcrpermission>
@@ -40,7 +40,7 @@
 		<condition format="xml">
 			<boolean operator="or">
 				<condition value="admindisshab" operator="=" field="group" />
-				<condition value="admingroup" operator="=" field="group" />
+				<condition value="admin" operator="=" field="group" />
 			</boolean>
 		</condition>
 	</mcrpermission>
@@ -50,7 +50,7 @@
 		<condition format="xml">
 			<boolean operator="or">
 				<condition value="adminthesis" operator="=" field="group" />
-				<condition value="admingroup" operator="=" field="group" />
+				<condition value="admin" operator="=" field="group" />
 			</boolean>
 		</condition>
 	</mcrpermission>
@@ -61,7 +61,7 @@
 		<condition format="xml">
 			<boolean operator="or">
 				<condition value="adminseries" operator="=" field="group" />
-				<condition value="admingroup" operator="=" field="group" />
+				<condition value="admin" operator="=" field="group" />
 			</boolean>
 		</condition>
 	</mcrpermission>
@@ -72,7 +72,7 @@
 		<condition format="xml">
 			<boolean operator="or">
 				<condition value="adminpublication" operator="=" field="group" />
-				<condition value="admingroup" operator="=" field="group" />
+				<condition value="admin" operator="=" field="group" />
 			</boolean>
 		</condition>
 	</mcrpermission>
@@ -82,7 +82,7 @@
 		<condition format="xml">
 			<boolean operator="or">
 				<condition value="adminperson" operator="=" field="group" />
-				<condition value="admingroup" operator="=" field="group" />
+				<condition value="admin" operator="=" field="group" />
 			</boolean>
 		</condition>
 	</mcrpermission>
@@ -92,7 +92,7 @@
 		ruledescription="Nur für Administratoren">
 		<condition format="xml">
 			<boolean operator="or">
-				<condition value="admingroup" operator="=" field="group" />
+				<condition value="admin" operator="=" field="group" />
 				<condition value="adminuser" operator="=" field="group" />
 			</boolean>
 		</condition>
@@ -102,7 +102,7 @@
 		description="Verwalten von Nutzer Neuregistrierungen" ruledescription="Nur für Administratoren">
 		<condition format="xml">
 			<boolean operator="or">
-				<condition value="admingroup" operator="=" field="group" />
+				<condition value="admin" operator="=" field="group" />
 				<condition value="adminuser" operator="=" field="group" />
 			</boolean>
 		</condition>
@@ -112,7 +112,7 @@
 		ruledescription="Nur für Administratoren">
 		<condition format="xml">
 			<boolean operator="or">
-				<condition value="admingroup" operator="=" field="group" />
+				<condition value="admin" operator="=" field="group" />
 				<condition value="adminuser" operator="=" field="group" />
 			</boolean>
 		</condition>
@@ -121,7 +121,7 @@
 		ruledescription="Nur für Administratoren">
 		<condition format="xml">
 			<boolean operator="or">
-				<condition value="admingroup" operator="=" field="group" />
+				<condition value="admin" operator="=" field="group" />
 				<condition value="adminuser" operator="=" field="group" />
 			</boolean>
 		</condition>
@@ -130,7 +130,7 @@
 		ruledescription="Nur für Administratoren">
 		<condition format="xml">
 			<boolean operator="or">
-				<condition value="admingroup" operator="=" field="group" />
+				<condition value="admin" operator="=" field="group" />
 				<condition value="adminuser" operator="=" field="group" />
 			</boolean>
 		</condition>
@@ -139,7 +139,7 @@
 		ruledescription="Nur für Administratoren">
 		<condition format="xml">
 			<boolean operator="or">
-				<condition value="admingroup" operator="=" field="group" />
+				<condition value="admin" operator="=" field="group" />
 				<condition value="adminuser" operator="=" field="group" />
 			</boolean>
 		</condition>
@@ -147,7 +147,7 @@
 	<mcrpermission name="create-group" description="Anlegen von Gruppen">
 		<condition format="xml">
 			<boolean operator="or">
-				<condition value="admingroup" operator="=" field="group" />
+				<condition value="admin" operator="=" field="group" />
 				<condition value="adminuser" operator="=" field="group" />
 			</boolean>
 		</condition>
@@ -155,7 +155,7 @@
 	<mcrpermission name="modify-group" description="Verändern von Gruppen">
 		<condition format="xml">
 			<boolean operator="or">
-				<condition value="admingroup" operator="=" field="group" />
+				<condition value="admin" operator="=" field="group" />
 				<condition value="adminuser" operator="=" field="group" />
 			</boolean>
 		</condition>
@@ -163,7 +163,7 @@
 	<mcrpermission name="delete-group" description="Löschen von Gruppen">
 		<condition format="xml">
 			<boolean operator="or">
-				<condition value="admingroup" operator="=" field="group" />
+				<condition value="admin" operator="=" field="group" />
 				<condition value="adminuser" operator="=" field="group" />
 			</boolean>
 		</condition>
@@ -171,7 +171,7 @@
 	<mcrpermission name="create-classification" description="Erzeugen einer Klassifikation">
 		<condition format="xml">
 			<boolean operator="or">
-				<condition value="admingroup" operator="=" field="group" />
+				<condition value="admin" operator="=" field="group" />
 				<condition value="adminclassification" operator="=" field="group" />
 			</boolean>
 		</condition>
@@ -179,7 +179,7 @@
 	<mcrpermission name="create-person" description="Erzeugen einer Person">
 		<condition format="xml">
 			<boolean operator="or">
-				<condition value="admingroup" operator="=" field="group" />
+				<condition value="admin" operator="=" field="group" />
 				<condition value="adminperson" operator="=" field="group" />
 				<condition value="createperson" operator="=" field="group" />
 			</boolean>
@@ -188,7 +188,7 @@
 	<mcrpermission name="create-document" description="Erzeugen eines Dokuments">
 		<condition format="xml">
 			<boolean operator="or">
-				<condition value="admingroup" operator="=" field="group" />
+				<condition value="admin" operator="=" field="group" />
 				<condition value="adminpublication" operator="=" field="group" />
 				<condition value="createpublication" operator="=" field="group" />
 			</boolean>
@@ -197,7 +197,7 @@
 	<mcrpermission name="create-disshab" description="Erzeugen einer Dissertation">
 		<condition format="xml">
 			<boolean operator="or">
-				<condition value="admingroup" operator="=" field="group" />
+				<condition value="admin" operator="=" field="group" />
 				<condition value="admindisshab" operator="=" field="group" />
 				<condition value="createdisshab" operator="=" field="group" />
 				<condition value="suspenddisshab" operator="=" field="group" />
@@ -208,7 +208,7 @@
 		description="Erzeugen einer stud. Abschlussarbeit">
 		<condition format="xml">
 			<boolean operator="or">
-				<condition value="admingroup" operator="=" field="group" />
+				<condition value="admin" operator="=" field="group" />
 				<condition value="adminthesis" operator="=" field="group" />
 				<condition value="createthesis" operator="=" field="group" />
 			</boolean>
@@ -219,7 +219,7 @@
 		description="Erzeugen einer stud. Abschlussarbeit">
 		<condition format="xml">
 			<boolean operator="or">
-				<condition value="admingroup" operator="=" field="group" />
+				<condition value="admin" operator="=" field="group" />
 				<condition value="adminseries" operator="=" field="group" />
 				<condition value="createseries" operator="=" field="group" />
 			</boolean>
@@ -229,7 +229,7 @@
 	<mcrpermission name="create-institution" description="Erzeugen einer Institution">
 		<condition format="xml">
 			<boolean operator="or">
-				<condition value="admingroup" operator="=" field="group" />
+				<condition value="admin" operator="=" field="group" />
 				<condition value="admininstitution" operator="=" field="group" />
 				<condition value="createinstitution" operator="=" field="group" />
 			</boolean>
@@ -238,7 +238,7 @@
 	<mcrpermission name="admininterface-access" description="Zugang zum Admininterface">
 		<condition format="xml">
 			<boolean operator="or">
-				<condition value="admingroup" operator="=" field="group" />
+				<condition value="admin" operator="=" field="group" />
 				<condition value="adminuser" operator="=" field="group" />
 			</boolean>
 		</condition>
@@ -246,7 +246,7 @@
 	<mcrpermission name="admininterface-user" description="Zugang zur Benutzerverwaltung">
 		<condition format="xml">
 			<boolean operator="or">
-				<condition value="admingroup" operator="=" field="group" />
+				<condition value="admin" operator="=" field="group" />
 				<condition value="adminuser" operator="=" field="group" />
 			</boolean>
 		</condition>
@@ -255,7 +255,7 @@
 		description="Zugang zum Regeleditor">
 		<condition format="xml">
 			<boolean operator="or">
-				<condition value="admingroup" operator="=" field="group" />
+				<condition value="admin" operator="=" field="group" />
 				<condition value="adminuser" operator="=" field="group" />
 			</boolean>
 		</condition>

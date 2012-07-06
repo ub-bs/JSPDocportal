@@ -1,27 +1,19 @@
 <?xml version="1.0" encoding="ISO_8859-1"?>
-<mycoreuser xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:noNamespaceSchemaLocation="MCRUser.xsd">
-  <user numID="11" ID="editorA" id_enabled="true" update_allowed="true">
-    <user.password>editorA</user.password>
-    <user.description>Berechtigter Editor für Autoren (Workflow)</user.description>
-    <user.primary_group>adminperson</user.primary_group>
-    <user.contact>
-      <contact.salutation />
-      <contact.firstname />
-      <contact.lastname>Editor für Autoren (Workflow)</contact.lastname>
-      <contact.street />
-      <contact.city />
-      <contact.postalcode />
-      <contact.country />
-      <contact.state />
-      <contact.institution />
-      <contact.faculty />
-      <contact.department />
-      <contact.institute />
-      <contact.telephone />
-      <contact.fax />
-      <contact.email />
-      <contact.cellphone />
-    </user.contact>
-  </user>
-</mycoreuser>
-
+<user name="editorA" realm="local">
+	<owner name="administrator" realm="local" />
+	<realName>Bearbeiter für Personen</realName>
+	<eMail>editorA@my-email.xy</eMail>
+	<roles>
+		<role name="adminperson" />
+	</roles>
+	<attributes>
+		<attribute name="description" value="Berechtigter Editor für Personen (Workflow)" />
+		<attribute name="sex" value="male" />
+		<attribute name="institution" value="" />
+		<attribute name="street" value="" />
+		<attribute name="city" value="" />
+		<attribute name="postalcode" value="" />
+		<attribute name="tel" value="" />
+	</attributes>
+	 <password hashType="sha1" hash="editorA" />
+</user>
