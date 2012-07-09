@@ -104,7 +104,7 @@ public class MCRGetWorkflowTaskBeanListTag extends SimpleTagSupport {
 			HttpSession jspSession = pageContext.getSession();
 			
 			MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
-			String userid = mcrSession.getCurrentUserID();
+			String userid = mcrSession.getUserInformation().getUserID();
 			
 			if(debugUser != null && !debugUser.equals("")){
 				userid = debugUser;
@@ -135,7 +135,7 @@ public class MCRGetWorkflowTaskBeanListTag extends SimpleTagSupport {
 			
 			// resort by prozessid
 			Collections.sort(displayedBeans,				
-					new Comparator() {
+					new Comparator<Object>() {
 						public int compare(Object o1, Object o2) {
 				        long id1 = ((MCRJbpmTaskBean)o1).getProcessID();
 				        long id2 = ((MCRJbpmTaskBean)o2).getProcessID();
