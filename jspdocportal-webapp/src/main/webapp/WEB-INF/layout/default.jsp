@@ -10,8 +10,13 @@
 <stripes:layout-definition>
 	<%-- Parameters: heading1: The overall heading of the page, usually hidden by CSS
 	                 (useful for screen readers) 
+	                 
+	                 layout: "1column", "2columns", "3columns" (=default)
 	--%>
 	<!DOCTYPE html>
+	<c:if test="${empty layout}">
+		<c:set var="layout" value="3columns" />
+	</c:if>
 	<mcrdd:setnamespace prefix="nav" uri="http://www.mycore.org/jspdocportal/navigation" />
 	<c:set var="WebApplicationBaseURL" value="${applicationScope.WebApplicationBaseURL}" />
 	<c:set var="path" value="${requestScope.path}" />
@@ -28,7 +33,8 @@
 		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_navigation.css" />
 		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_content.css" />
 		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_docdetails.css" />
-		<link rel="shortcut icon" href="${WebApplicationBaseURL}images/icon_rosdok.ico" />
+		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_editor.css" />
+		<link rel="shortcut icon" href="${WebApplicationBaseURL}images/mycore_favicon.ico" />
 		<stripes:layout-component name="html_header">
 			<%-- any additional HTML header content --%>
 		</stripes:layout-component>		
@@ -80,7 +86,7 @@
 					</a>
 				</div>
 			</div> <!-- END OF header -->
-			<div id="left_col" class="left_col">
+			<div id="left_col" class="left_col_${layout}">
 				<div class="base_box">
 					<div class="main_navigation">
 						<mcr:outputNavigation id="left" expanded="false" mode="left" />
@@ -97,7 +103,7 @@
 					</div>
 				</div>
 			</div><!-- END OF left_col -->
-			<div id="center_col" class="center_col">
+			<div id="center_col" class="center_col_${layout}">
 				<div class="base_box breadcrumbs">
 					<mcr:outputNavigation id="left" mode="breadcrumbs" separatorString="»" />				
 				</div>
@@ -108,7 +114,7 @@
 					</stripes:layout-component>			
 				</div>
 			</div><!-- END of content -->
-			<div id="right_col" class="right_col">
+			<div id="right_col" class="right_col_${layout}">
 				<stripes:layout-component name="right_side">
 				
 				</stripes:layout-component>

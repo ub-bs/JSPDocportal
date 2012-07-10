@@ -24,8 +24,7 @@ div#header{
 }
 
 div#left_col{
-	float:left;
-	width: 190px;	
+	float:left;	
 }
 
 div#center_col{	
@@ -34,7 +33,6 @@ div#center_col{
 
 div#right_col{
 	float: left;
-	width: 190px;
 }
 
 div.left_col_print {display:none; }
@@ -52,27 +50,12 @@ div.right_col_1column {display:none;}
 div.right_col_2columns {display:none;}
 div.right_col_3columns {}
 
-div#left_col{
-	float:left;
-	width: 190px;	
-}
-
-div#center_col{	
-	width: 610px;
-	float:left;   
-}
-
-div#right_col{
-	float: left;
-	width: 190px;
-}
 div#footer{
 	clear:both;
 	text-align: center;
 	padding-top:6px;
 	border-top: 1px solid black;
 }
-
 
 /* ------------------------------------------------------------------- */
 /*  Basic page elements                                                */
