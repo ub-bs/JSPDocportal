@@ -5,7 +5,7 @@
 <!-- =================================================================== -->
 
 <project name="JSPDocportal Sample App" default="usage" basedir=".">
-	<property name="PARENT_BUILD_FILE" value="buildfile_application.xml" />
+	<property name="PARENT_BUILD_FILE" value="target/buildfile_application.xml" />
 	<property name="APP_NAME" value="sample" />
 	
 	<property environment="env" />
@@ -33,11 +33,11 @@
 		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
 		<mkdir dir="target/user_encrypted" />
 		<mcr-execute>
-			update classification from file content/user/mcr-roles.xml
+			update classification from file ${basedir}/../sample-webapp/content/user/mcr-roles.xml
 		</mcr-execute>
 					
 		<mcr-execute>
-            load permissions data from file content/user/permissions.xml
+            load permissions data from file ${basedir}/../sample-webapp/content/user/permissions.xml
 
       	    init superuser
 
@@ -67,11 +67,11 @@
 			encrypt passwords in user xml file ${basedir}/../sample-webapp/content/user/user_editorD.xml to file ${basedir}/target/user_encrypted/user_editorD.xml
 			encrypt passwords in user xml file ${basedir}/../sample-webapp/content/user/user_editorT.xml to file ${basedir}/target/user_encrypted/user_editorT.xml
 				
-	        update user from file ${basedir}/../sample-webapp/content/user_encrypted/user_editorA.xml
-	        update user from file ${basedir}/../sample-webapp/content/user_encrypted/user_editorI.xml
-	        update user from file ${basedir}/../sample-webapp/content/user_encrypted/user_editorP.xml
-	        update user from file ${basedir}/../sample-webapp/content/user_encrypted/user_editorD.xml
-			update user from file ${basedir}/../sample-webapp/content/user_encrypted/user_editorT.xml
+	        update user from file ${basedir}/target/user_encrypted/user_editorA.xml
+	        update user from file ${basedir}/target/user_encrypted/user_editorI.xml
+	        update user from file ${basedir}/target/user_encrypted/user_editorP.xml
+	        update user from file ${basedir}/target/user_encrypted/user_editorD.xml
+			update user from file ${basedir}/target/user_encrypted/user_editorT.xml
 	        	
 			encrypt passwords in user xml file ${basedir}/../sample-webapp/content/user/user_member.xml to file ${basedir}/target/user_encrypted/user_member.xml
 	        update user from file ${basedir}/target/user_encrypted/user_member.xml
@@ -83,4 +83,11 @@
 	        update user from file ${basedir}/target/user_encrypted/user_editorDS.xml
 	    </mcr-execute>
 	</target>
+	
+	<target name="create.class" depends="init">
+			<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
+			<mcr-execute>
+	            update all classifications from directory ${basedir}/../sample-webapp/content/classification
+			</mcr-execute>
+		</target>
 </project>
