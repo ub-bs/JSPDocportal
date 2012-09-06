@@ -2,6 +2,7 @@
 <!DOCTYPE Editor>
 <editor class="editor" id="editor-author-addfile">
 	 <!-- this is a special editor - do not enable this: <source uri="{sourceUri}" /> -->
+	 <source uri="{sourceUri}" />
 	 <cancel url="{cancelUrl}" />
 	 <target type="servlet" name="MCRPassToTargetServlet" method="post" format="xml" />
 	 <validationMessage>
@@ -10,7 +11,7 @@
 	 
 	 <components root="author-addfile" var="/mycorederivate">
 	 	<headline anchor="CENTER">
-	 		<text><label i18n="Editor.Common.addFiles" /></text>
+	 		<text><h2><label i18n="Editor.Common.addFiles" /></h2></text>
 	 	</headline>
 	 	
 	 	<panel id="author-addfile">
