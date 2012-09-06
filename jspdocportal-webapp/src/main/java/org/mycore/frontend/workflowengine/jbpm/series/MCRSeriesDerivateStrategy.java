@@ -25,7 +25,7 @@ public class MCRSeriesDerivateStrategy extends MCRDefaultDerivateStrategy {
 	 * TODO Cleanup that mess in saving thesis derivates!!
 	 * Develop a concept how to handle 1 MainFile as PDF and 1 PDF or ZIP File as attachement 1!!
 	 */
-	public void saveFiles(List files, String dirname, ContextInstance ctxI, String newLabel) throws MCRException {
+	public void saveFiles(List files, String dirname, ContextInstance ctxI, String newLabel, String newTitle) throws MCRException {
 	// a correct dissertation contains in the main derivate
 	//		exactly one pdf-file and optional an attachment zip-file
 	//		the pdf file will be renamed to dissertation.pdf

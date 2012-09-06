@@ -96,10 +96,10 @@ public abstract class MCRDerivateStrategy {
 		// build the derivate XML file
 		MCRDerivate der = new MCRDerivate();
 		der.setId(IDMax);
-		der.setLabel(MCRConfiguration.instance().getString("MCR.Derivates.Labels.default", "Dataobject from " + IDMax.toString()));
+		der.setLabel(MCRConfiguration.instance().getString("MCR.Derivates.Labels.default", "dataobject_from_" + IDMax.toString()));
 		der.setSchema("datamodel-derivate.xsd");
 		MCRMetaLinkID link = new MCRMetaLinkID("linkmeta", 0);
-		link.setReference(metadataObjectId, "", "");
+		link.setReference(metadataObjectId, null, null);
 		der.getDerivate().setLinkMeta(link);
 		MCRMetaIFS internal = new MCRMetaIFS("internal", dir.getAbsolutePath());
 		internal.setMainDoc("#####");

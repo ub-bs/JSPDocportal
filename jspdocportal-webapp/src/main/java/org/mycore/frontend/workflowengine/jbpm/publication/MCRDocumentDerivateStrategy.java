@@ -19,7 +19,7 @@ import org.mycore.frontend.workflowengine.strategies.MCRDefaultDerivateStrategy;
 public class MCRDocumentDerivateStrategy extends MCRDefaultDerivateStrategy {
 	private static Logger logger = Logger.getLogger(MCRDocumentDerivateStrategy.class.getName());
 	
-	public void saveFiles(List files, String dirname, ContextInstance ctxI, String newLabel) throws MCRException {
+	public void saveFiles(List files, String dirname, ContextInstance ctxI, String newLabel, String newTitle) throws MCRException {
 	// a correct document contains in the main derivate	one or more file 
 
 		MCRDerivate der = null;

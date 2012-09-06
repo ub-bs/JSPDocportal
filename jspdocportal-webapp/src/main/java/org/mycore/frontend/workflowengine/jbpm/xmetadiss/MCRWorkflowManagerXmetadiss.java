@@ -283,23 +283,6 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 		}
 		return null;
 	}	
-
-	public void saveFiles(List files, String dirname, long pid, String newLabel) throws MCRException {
-		// a correct dissertation contains in the main derivate
-		//		exactly one pdf-file and optional an attachment zip-file
-		//		the pdf file will be renamed to dissertation.pdf
-		//		in a derivate only one zip-file is allowed, it will be renamed
-		//		to attachment.zip
-		
-		MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(pid);
-		try{
-			derivateStrategy.saveFiles(files, dirname, wfp.getContextInstance(), newLabel, "");
-		}catch(MCRException ex){
-			
-		}finally{
-			wfp.close();
-		}
-	}
 	
 	public boolean commitWorkflowObject(ContextInstance ctxI){
 		
