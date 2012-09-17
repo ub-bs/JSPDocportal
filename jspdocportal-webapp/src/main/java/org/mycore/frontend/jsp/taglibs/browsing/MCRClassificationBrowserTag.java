@@ -408,9 +408,8 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 				out.write("         </span>");
 			}
 			out.write(indent+"      </div>");
-			out.write(indent+"      <div class=\"button\">");
+
 			writeLinkedCategoryItemText(categ, baseURL, out);
-			out.write("</div>");	
 		
 			if(showdescription){
 				String descr = categ.getCurrentLabel().getDescription();
@@ -506,6 +505,8 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 	private void writeLinkedCategoryItemText(MCRCategory categ, String baseURL, JspWriter out) throws IOException{
 		boolean showLinks = linkall || hasLinks(categ);
 		if(showLinks){
+		    out.write("<div class=\"button\">");
+		    
 			PageContext context = (PageContext) getJspContext();
 			
 			HttpServletRequest request = (HttpServletRequest) context.getRequest();
@@ -530,6 +531,8 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 			out.write("<a href=\""+url.toString()+"\">");
 			out.write(MCRTranslation.translate("Editor.Common.Choose"));
 			out.write("</a>");
+			
+			out.write("</div>");
 		}		
 	}
 	
