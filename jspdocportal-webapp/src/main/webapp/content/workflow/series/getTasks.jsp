@@ -12,15 +12,20 @@
 <c:set var="dom" value="${requestScope.task.variables}" />
 
 <c:if test="${requestScope.task.taskName ne 'initialization'}">
-   <fmt:message key="WF.series.Series" /> <fmt:message key="WF.common.Processnumber" /> <b>${requestScope.task.processID}</b>: <br>
+	<h4>
+   		<fmt:message key="WF.series.Series" /><br />
+   		<fmt:message key="WF.common.Processnumber" /> <strong>${requestScope.task.processID}</strong>
+   	</h4>
 </c:if>
 <c:choose>
    <c:when test="${requestScope.task.taskName eq 'initialization'}">
-      <p><fmt:message key="WF.series.ActualStateOfYourSeries" />(<fmt:message key="WF.common.Processnumber" /> <b>${requestScope.task.processID}</b>): 
-      </p>
-      <p><b><fmt:message key="WF.series.status.${requestScope.task.workflowStatus}" /></b>
-      </p>
+      <h4>
+      	<fmt:message key="WF.series.ActualStateOfYourSeries" /><br />
+      	(<fmt:message key="WF.common.Processnumber" /> <strong>${requestScope.task.processID}</strong>) 
+      </h4>
+      <fmt:message key="WF.series.status.${requestScope.task.workflowStatus}" />     
    </c:when>
+   
    <c:when test="${requestScope.task.taskName eq 'taskprocessEditInitialized' }" >
       <p><img title="" alt="" src="${baseURL}images/greenArrow.gif"><fmt:message key="WF.series.completeseriesandsendtolibrary" />
       </p>

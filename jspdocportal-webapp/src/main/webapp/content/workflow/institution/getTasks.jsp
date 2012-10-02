@@ -14,14 +14,18 @@
 <c:set var="objid" value="" />
 
 <c:if test="${requestScope.task.taskName ne 'taskInitialization'}">
-   <fmt:message key="WF.institution.Institution" /> <fmt:message key="WF.common.Processnumber" /> <b>${requestScope.task.processID}</b>: <br>
+	<h4>
+   		<fmt:message key="WF.institution.Institution" /><br />
+   		<fmt:message key="WF.common.Processnumber" /> <strong>${requestScope.task.processID}</strong>
+   	</h4>
 </c:if>
 <c:choose>
    <c:when test="${requestScope.task.taskName eq 'initialization'}">
-      <fmt:message key="WF.institution.ActualStateOfYourInstitution" />
-      (<fmt:message key="WF.common.Processnumber" /> <b>${requestScope.task.processID}</b>): <br>
-       <b><fmt:message key="WF.institution.status.${requestScope.task.workflowStatus}" /></b>
-       <br />&nbsp;<br />
+		<h4>
+      		<fmt:message key="WF.institution.ActualStateOfYourInstitution" /><br />
+      		(<fmt:message key="WF.common.Processnumber" /> <strong>${requestScope.task.processID}</strong>)
+    	</h4>
+		<fmt:message key="WF.institution.status.${requestScope.task.workflowStatus}" />
    </c:when>
    
      <c:when test="${requestScope.task.taskName eq 'taskDisplayInstitutionData'}">

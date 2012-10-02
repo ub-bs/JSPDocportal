@@ -12,18 +12,22 @@
 
 <c:set var="debug" value="true" />
 <c:set var="dom" value="${requestScope.task.variables}" />
-<!-- 
-<b><c:out value="${requestScope.task.taskName}"></c:out></b><br/>
- -->
+
 <c:if test="${requestScope.task.taskName ne 'initialization'}">
-   <fmt:message key="WF.publication.Publication" /> <fmt:message key="WF.common.Processnumber" /> <b>${requestScope.task.processID}</b>: <br>
+	<h4>
+   		<fmt:message key="WF.publication.Publication" /><br />
+   		<fmt:message key="WF.common.Processnumber" /> <strong>${requestScope.task.processID}</strong>
+   	</h4>
 </c:if>
 <c:choose>
    <c:when test="${requestScope.task.taskName eq 'initialization' }">
-      <p><fmt:message key="WF.publication.ActualStateOfYourDocument" />(<fmt:message key="WF.common.Processnumber" /> <b>${requestScope.task.processID}</b>): 
-	  </p>
-	  <p><b><fmt:message key="WF.publication.status.${requestScope.task.workflowStatus}" /></b></p>
+   	<h4>
+      	<fmt:message key="WF.publication.ActualStateOfYourDocument" /><br />
+      	(<fmt:message key="WF.common.Processnumber" /> <strong>${requestScope.task.processID}</strong>): 
+	</h4>
+	<fmt:message key="WF.publication.status.${requestScope.task.workflowStatus}" />
    </c:when>
+   
 	<c:when	test="${requestScope.task.taskName eq 'taskGetPublicationType'}">
 		<p><fmt:message key="WF.publication.GetPublicationType" /></p>
 		 <c:import url="/content/workflow/setworkflowvariable.jsp" >

@@ -14,16 +14,19 @@
 <c:set var="objid" value="" />
 
 <c:if test="${requestScope.task.taskName ne 'initialization'}">
-   <fmt:message key="WF.person.Person" /> <fmt:message key="WF.common.Processnumber" /> <b>${requestScope.task.processID}</b>: <br>
+	<h4>
+   		<fmt:message key="WF.person.Person" /><br />
+   		<fmt:message key="WF.common.Processnumber" /> <strong>${requestScope.task.processID}</strong>
+   	</h4>
 </c:if>
 <c:choose>
    <c:when test="${requestScope.task.taskName eq 'initialization'}">
-      <fmt:message key="WF.person.ActualStateOfYourPerson" />
-      (<fmt:message key="WF.common.Processnumber" /> <b>${requestScope.task.processID}</b>): <br>
-       <b><fmt:message key="WF.person.status.${requestScope.task.workflowStatus}" /></b>
-       <br />&nbsp;<br />
+   		<h4>
+      		<fmt:message key="WF.person.ActualStateOfYourPerson" /><br />
+      		(<fmt:message key="WF.common.Processnumber" /> <strong>${requestScope.task.processID}</strong>)
+    	</h4>
+   		<fmt:message key="WF.person.status.${requestScope.task.workflowStatus}" />       
    </c:when>
-
 
     <c:when test="${requestScope.task.taskName eq 'taskInputPersonEqualsInitator'}">
 		<p>
