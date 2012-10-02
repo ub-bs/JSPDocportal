@@ -130,7 +130,7 @@
 		<navitem id="publish" i18n="Nav.DocumentManagement" href="content/documentmanagement.jsp">
 			<refitem id="~documentmanagement" />
 			<navitem id="person" i18n="WF.person"
-				href="content/workflow/person/workflow.jsp">
+				href="content/workflow/workflow.jsp?wftype=person">
 				<refitem id="~person" />
 				<navitem id="personbegin" i18n="WF.person.begin"
 					href="content/workflow/person/begin.jsp" hidden="true">
@@ -154,7 +154,7 @@
 			</navitem>
 
 			<navitem id="institution" i18n="WF.institution"
-				href="content/workflow/institution/workflow.jsp">
+				href="content/workflow/workflow.jsp?wftype=institution">
 				<refitem id="~institution" />
 				<navitem id="institutionbegin" i18n="WF.institution.begin"
 					href="content/workflow/institution/begin.jsp" hidden="true">
@@ -178,7 +178,7 @@
 			</navitem>
 
 			<navitem id="xmetadiss" i18n="WF.xmetadiss"
-				href="content/workflow/xmetadiss/workflow.jsp">
+				href="content/workflow/workflow.jsp?wftype=xmetadiss">
 				<refitem id="~xmetadiss" />
 				<navitem id="xmetadissbegin" i18n="WF.xmetadiss.begin"
 					href="content/workflow/xmetadiss/begin.jsp" hidden="true">
@@ -191,7 +191,7 @@
 			</navitem>
 
 			<navitem id="thesis" i18n="WF.thesis"
-				href="content/workflow/thesis/workflow.jsp">
+				href="content/workflow/workflow.jsp?wftype=thesis">
 				<refitem id="~thesis" />
 				<navitem id="thesisbegin" i18n="WF.thesis.begin"
 					href="content/workflow/thesis/begin.jsp" hidden="true">
@@ -204,7 +204,7 @@
 			</navitem>
 
 			<navitem id="publication" i18n="WF.publication"
-				href="content/workflow/publication/workflow.jsp">
+				href="content/workflow/workflow.jsp?wftype=publication">
 				<refitem id="~publication" />
 				<navitem id="publicationbegin" i18n="WF.publication.begin"
 					href="content/workflow/publication/begin.jsp" hidden="true">
@@ -228,7 +228,7 @@
 			</navitem>
 
 			<navitem id="series" i18n="WF.series"
-				href="content/workflow/series/workflow.jsp">
+				href="content/workflow/workflow.jsp?wftype=series">
 				<refitem id="~series" />
 				<navitem id="seriesbegin" i18n="WF.series.begin"
 					href="content/workflow/series/begin.jsp" hidden="true">
@@ -392,7 +392,7 @@
 			<navitem id="xmetadiss" i18n="Nav.Admin.Xmetadiss" href="admin/main.jsp"
 				permission="administrate-xmetadiss">
 				<navitem id="workflow" i18n="WF.xmetadiss"
-					href="content/workflow/xmetadiss/workflow.jsp" permission="administrate-xmetadiss">
+					href="content/workflow/workflow.jsp?wftype=xmetadiss" permission="administrate-xmetadiss">
 					<refitem id="~workflow-xmetadiss" />
 				</navitem>
 				<navitem id="process-xmetadiss" i18n="Nav.Admin.Processes"
@@ -404,7 +404,7 @@
 			<navitem id="thesis" i18n="Nav.Admin.Thesis" href="admin/main.jsp"
 				permission="administrate-thesis">
 				<navitem id="workflow" i18n="WF.thesis"
-					href="content/workflow/thesis/workflow.jsp" permission="administrate-thesis">
+					href="content/workflow/workflow.jsp?wftype=thesis" permission="administrate-thesis">
 					<refitem id="~workflow-thesis" />
 				</navitem>
 				<navitem id="process-thesis" i18n="Nav.Admin.Processes"
@@ -417,7 +417,7 @@
 			<navitem id="publication" i18n="Nav.Admin.Publication" href="admin/main.jsp"
 				permission="administrate-publication">
 				<navitem id="workflow" i18n="WF.publication"
-					href="content/workflow/publication/workflow.jsp" permission="administrate-publication">
+					href="content/workflow/workflow.jsp?wftype=publication" permission="administrate-publication">
 					<refitem id="~workflow-publication" />
 				</navitem>
 				<navitem id="process-publication" i18n="Nav.Admin.Processes"
@@ -429,7 +429,7 @@
 			<navitem id="series" i18n="Nav.Admin.Thesis" href="admin/main.jsp"
 				permission="administrate-series">
 				<navitem id="workflow" i18n="WF.series"
-					href="content/workflow/series/workflow.jsp" permission="administrate-series">
+					href="content/workflow/workflow.jsp?wftype=series" permission="administrate-series">
 					<refitem id="~workflow-series" />
 				</navitem>
 				<navitem id="process-series" i18n="Nav.Admin.Processes"
@@ -442,7 +442,7 @@
 			<navitem id="person" i18n="Nav.Admin.Person" href="admin/main.jsp"
 				permission="administrate-person">
 				<navitem id="workflow" i18n="WF.person"
-					href="content/workflow/person/workflow.jsp" permission="administrate-person">
+					href="content/workflow/workflow.jsp?wftype=person" permission="administrate-person">
 					<refitem id="~workflow-person" />
 				</navitem>
 				<navitem id="process-person" i18n="Nav.Admin.Processes"
@@ -455,7 +455,7 @@
 			<navitem id="institution" i18n="Nav.Admin.Institution" href="admin/main.jsp"
 				permission="administrate-institution">
 				<navitem id="workflow" i18n="WF.institution"
-					href="content/workflow/institution/workflow.jsp" permission="administrate-institution">
+					href="content/workflow/workflow.jsp?wftype=institution" permission="administrate-institution">
 					<refitem id="~workflow-institution" />
 				</navitem>
 				<navitem id="process-institution" i18n="Nav.Admin.Processes"
