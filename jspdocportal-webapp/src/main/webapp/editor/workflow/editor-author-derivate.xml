@@ -33,7 +33,16 @@
    		</panel>
    		
    		<panel id="DLabel">
-   			<cell col="1" row="1" anchor="NORTHWEST" var="@label" ref="TFzeile1024M"/>    
+   		 <cell col="1" row="1" anchor="NORTHWEST" var="@label">
+   				<list id="SDerivateLabel" type="dropdown" class="intern" >
+   					<item value="" i18n="Editor.Common.choose" />  
+					<item value="Volltext" i18n="OMD.derivatedisplay.Volltext" />
+					<item value="Anhang" i18n="OMD.derivatedisplay.Anhang" />
+					<item value="METS" i18n="OMD.derivatedisplay.METS" />					
+					<item value="Cover" i18n="OMD.derivatedisplay.Cover" />
+					<!-- <item value="MJB" i18n="OMD.derivatedisplay.MJB" />  -->
+				</list>
+   			</cell>   			    
   		</panel>
   		
   		<text id="LLabel" i18n="Editor.Common.label" />
