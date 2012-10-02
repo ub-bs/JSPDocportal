@@ -9,7 +9,7 @@
 <%--Parameter: wftype = workflow type --%>
 
 <fmt:message var="pageTitle" key="WF.${param.wftype}" /> 
-<stripes:layout-render name="../../../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
+<stripes:layout-render name="../../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
 	<stripes:layout-component name="contents">
 		<c:set  var="baseURL" value="${applicationScope.WebApplicationBaseURL}"/>
 		
@@ -23,7 +23,7 @@
 
 		<mcr:getWorkflowTaskBeanList var="myTaskList" mode="activeTasks" workflowTypes="${param.wftype}" 	varTotalSize="total1" size="50" />
 		<mcr:getWorkflowTaskBeanList var="myProcessList" mode="initiatedProcesses" workflowTypes="${param.wftype}"    varTotalSize="total2" size="50" />
-<%--
+
 		<c:choose>
    			<c:when test="${empty myTaskList && empty myProcessList}">
 	  			<h2><fmt:message key="WF.${param.wftype}.info" /></h2>
@@ -75,6 +75,5 @@
 	     			</div>      
 				  </c:otherwise>
 			</c:choose>
-			 --%>
 </stripes:layout-component>
 </stripes:layout-render>
