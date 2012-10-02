@@ -30,9 +30,7 @@ import org.mycore.user2.MCRUserManager;
 
 public class MCRLoginTag extends SimpleTagSupport
 {
-
-
-	private String var;
+    private String var;
 	private String uid;
 	private String pwd;
 	private static Logger logger = Logger.getLogger(MCRLoginTag.class);
@@ -121,9 +119,11 @@ public class MCRLoginTag extends SimpleTagSupport
        	}
 		if(mcrLoginOK){
 			mcrUser = MCRUserManager.getUser(mcrUID);
-			mcrLoginOK = mcrUser.loginAllowed();
-		}
-       			
+			if(loginresult.getAttribute("loginOK")!=null){
+			    mcrLoginOK =  loginresult.getAttribute("loginOK").getValue().equals(Boolean.toString(Boolean.TRUE));
+		
+			}
+		}	
 		//interprete the results
 		if(extLoginOk && mcrLoginOK){
 			//the user exists in external system and MyCoRe -> everything is OK
@@ -169,7 +169,6 @@ public class MCRLoginTag extends SimpleTagSupport
 		}
 		
 		setTagResult(loginresult);
-		return;
 	}	
 		
 	
@@ -201,11 +200,10 @@ public class MCRLoginTag extends SimpleTagSupport
 	private boolean loginInMyCore(String uid, String pwd, Element loginresult){
 		 boolean loginOk=false;
 		try {
-            loginOk = ((uid != null) && (pwd != null) 
-            		  && MCRUserManager.exists(uid));
             MCRUser mcrUser = MCRUserManager.login(uid, pwd);
-            if (loginOk && mcrUser!=null) {
-	        	MCRSessionMgr.getCurrentSession().setUserInformation(mcrUser);
+            if (mcrUser!=null) {
+                loginOk=true;
+               	MCRSessionMgr.getCurrentSession().setUserInformation(mcrUser);
 	        	setNameIntoLoginResult(uid, loginresult);
 	            
 	        	String[] allGroupIDS = mcrUser.getSystemRoleIDs().toArray(new String[]{});
