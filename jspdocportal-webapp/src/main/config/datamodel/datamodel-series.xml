@@ -15,6 +15,10 @@
 		</element>
 	</structure>
 	<metadata>
+		<!-- 00 - container for metadata in MODS format -->
+    	<element name="def.modsContainer" minOccurs='0' maxOccurs='1'>
+      		<mcrmetaxml name="modsContainer" class="MCRMetaXML" minOccurs='1' maxOccurs='unbounded' />
+    	</element>
 		<!-- 10 - DC Type -->
 		<element name="types" minOccurs='1' maxOccurs='1'>
 			<mcrmetaclassification name="type" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />

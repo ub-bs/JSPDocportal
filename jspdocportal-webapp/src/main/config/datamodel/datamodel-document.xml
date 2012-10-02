@@ -18,6 +18,10 @@
 		</element>
 	</structure>
 	<metadata>
+		<!-- 00 - container for metadata in MODS format -->
+    	<element name="def.modsContainer" minOccurs='0' maxOccurs='1'>
+      		<mcrmetaxml name="modsContainer" class="MCRMetaXML" minOccurs='1' maxOccurs='unbounded' />
+    	</element> 
 		<!-- 01 - DC Titel -->
 		<element name="titles" minOccurs='1' maxOccurs='1'>
 			<mcrmetalangtext name="title" class="MCRMetaLangText"
@@ -274,12 +278,7 @@
       		<mcrmetaxml name="series" class="MCRMetaXML" minOccurs='1' maxOccurs='unbounded' />
     	</element>
     	
-    	<!-- 59 - container for metadata in MODS format -->
-    	<element name="modsContainers" minOccurs='0' maxOccurs='1'>
-      		<mcrmetaxml name="modsContainer" class="MCRMetaXML" minOccurs='1' maxOccurs='unbounded' />
-    	</element>    	
-    	
-    	<!-- 60 - Mapping of Classifications -->
+       	<!-- 60 - Mapping of Classifications -->
     	<element name="mappings" minOccurs='0' maxOccurs='1'>
       		<mcrmetaclassification name="mapping" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
     	</element>
