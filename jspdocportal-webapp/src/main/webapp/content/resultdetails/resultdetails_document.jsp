@@ -15,19 +15,19 @@
 <c:set var="formatType"><x:out select="$xml/mycoreobject/metadata/formats/format/@categid"/></c:set>
 <c:set var="contentType"><x:out select="$xml/mycoreobject/metadata/types/type/@categid"/></c:set>
 
-<table class="resultdetails-table">
+<table class="searchresult-table">
 	<tr>
-		<td class="resultdetails-icon" rowspan="10">
+		<td class="searchresult-table-icon" rowspan="10">
 			<jsp:include page="fragments/document_icon.jsp">
 				<jsp:param name="contentType" value="${contentType}" />
 				<jsp:param name="formatType" value="${formatType}" />
 			</jsp:include>		
 		</td>
-		<td class="resultdetails-header">
+		<td class="searchresult-table-header">
 			<c:set var="title"><x:out select="$xml/mycoreobject/metadata/titles/title[1]" /></c:set>
 			<a href="${param.url}"><b>${title}</b></a>
 		</td>
-		<td class="resultdetails-id" rowspan="10">
+		<td class="searchresult-table-id" rowspan="10">
 			[<x:out select="$xml/mycoreobject/@ID" />]
 			<br /><br />
 			<jsp:include page="fragments/showeditbutton.jsp">
@@ -49,7 +49,7 @@
 	</x:if>
 	<c:if test="${fn:length(data1) > 0}"> 
 		<tr>
-			<td class="resultdetails-value">
+			<td class="searchresult-table-value">
 				<fmt:message key="OMD.author" />:&nbsp; <c:out value="${data1}" escapeXml="false"/>
 			</td>
 		</tr>
@@ -57,7 +57,7 @@
 	<x:set var="data2" select="$xml/mycoreobject/metadata/types/type" /> 
 	<x:if select="string-length($data2/@categid)>0">
 		<tr>
-			<td class="resultdetails-value">
+			<td class="searchresult-table-value">
 			    <c:set var="classid"><x:out select="$data2/@classid" /></c:set>
 			    <c:set var="categid"><x:out select="$data2/@categid" /></c:set>
 			    
@@ -69,7 +69,7 @@
 	<x:set var="data3" select="$xml/mycoreobject/metadata/formats/format" /> 
 	<x:if select="string-length($data3/@categid)>0">
 		<tr>
-			<td class="resultdetails-value">
+			<td class="searchresult-table-value">
 			    <c:set var="classid"><x:out select="$data3/@classid" /></c:set>
 			    <c:set var="categid"><x:out select="$data3/@categid" /></c:set>
 			    
@@ -86,7 +86,7 @@
 			<c:set var="text"><c:out value="${fn:substring(text,0,300)}" escapeXml="false"/>...</c:set>
 		</c:if>
 		<tr>
-			<td class="resultdetails-value">
+			<td class="searchresult-table-value">
 				<fmt:message key="OMD.descriptions" />:&nbsp; <c:out value="${text}" escapeXml="false"/>
 			</td>
 		</tr>
@@ -95,7 +95,7 @@
 	<x:set var="data5" select="$xml/mycoreobject/service/servdates/servdate[@type='modifydate']" />
 	<x:if select="string-length($data5)>0">
 		<tr>
-			<td class="resultdetails-value">
+			<td class="searchresult-table-value">
 			    <c:set var="x"><x:out select="$data5" /></c:set>
 			    <fmt:parseDate value="${x}" pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" var="moddate" />
 			    <fmt:message key="OMD.changed" />:&nbsp; <fmt:formatDate value="${moddate}" dateStyle="full" />
