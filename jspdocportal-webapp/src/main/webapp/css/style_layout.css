@@ -24,7 +24,8 @@ div#header{
 }
 
 div#left_col{
-	float:left;	
+	float:left;
+	width: 190px;	
 }
 
 div#center_col{	
@@ -33,6 +34,7 @@ div#center_col{
 
 div#right_col{
 	float: left;
+	width: 190px;
 }
 
 div.left_col_print {display:none; }
@@ -160,10 +162,9 @@ div.main_navigation > ol > li {
 }
 div.main_navigation > ol > li > a{
     text-decoration: none;
-    color: darkblue;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight:bold;
-    font-size: 1.25em;
+    color: #336EAD;
+    font-family:    Verdana, Arial, Helvetica, sans-serif;
+    font-size:    1.5em;
 }
 div.main_navigation > ol > li.active > a{
     color: #004A99;    
@@ -297,4 +298,12 @@ div.text a{
 
 div.text a:VISITED{
 	color: #336EAD;
+}
+
+div.text strong{
+	font-weight: bold;
+}
+
+div.text em{
+	font-style: italic;
 }
