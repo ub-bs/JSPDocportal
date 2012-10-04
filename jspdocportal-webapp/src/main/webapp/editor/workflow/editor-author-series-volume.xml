@@ -58,6 +58,7 @@
 
     <cell col="1" row="90" colspan="2" anchor="NORTHWEST" ref="DHiddenFields" />
     <hidden var="metadata/mappings" descendants="true" />
+    <hidden var="metadata/def.modsContainer" descendants="true" />
     <cell col="1" row="91" anchor="EAST" ><space width="10" height="40" /></cell>
     <cell col="1" row="95" anchor="EAST" ref="BCancel"            />
     <cell col="2" row="95" anchor="WEST" ref="BSubmit" var="save" />

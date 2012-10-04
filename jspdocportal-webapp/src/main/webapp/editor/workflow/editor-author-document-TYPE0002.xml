@@ -204,6 +204,7 @@
 			
 			<hidden var="metadata/mappings" descendants="true" />
 			<hidden var="metadata/publishdetails" descendants="true" /> <!-- sortnr="47" -->
+			<hidden var="metadata/def.modsContainer" descendants="true" />
 		</panel>
 	</components>
 </editor>

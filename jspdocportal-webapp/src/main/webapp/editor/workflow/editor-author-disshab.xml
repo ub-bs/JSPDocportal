@@ -93,6 +93,7 @@
 	 <cell col="2" row="213" colspan="2" anchor="NORTHWEST" ref="DGrantorLink" sortnr="37" />     
 	 
 	 <hidden var="metadata/mappings" descendants="true" />
+	 <hidden var="metadata/def.modsContainer" descendants="true" />
     
      <cell col="1" row="255" colspan="3" anchor="EAST">
       <space width="10" height="40" />
