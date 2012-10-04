@@ -20,7 +20,7 @@ table.docdetails-table {
 th.docdetails-header {
 	font-size: 150%;
 	font-weight: bold;
-	background-color: #FDEDDB;
+	background-color: #B3C9E0;
 	padding: 5px;
 	vertical-align: bottom;
 	border-bottom: 5px solid white;
@@ -28,7 +28,7 @@ th.docdetails-header {
 
 td.docdetails-label {
 	text-align:right;
-	background-color: #FDEDDB;
+	background-color: #B3C9E0;
 	padding: 4px;
 	vertical-align: top;
 	border-bottom: 4px solid white;
@@ -64,8 +64,8 @@ td.docdetails-value-title {
 
 td.docdetails-separator hr {
 	border: none;
-	background-color: #0A50A1;
-	color: #0A50A1;
+	background-color: #004A99;
+	color: #004A99;
 	height: 1px;
 }
 
@@ -85,7 +85,7 @@ dl.docdetails-derivate-list img {
 }
 
 .docdetails-value a {
-	color: #9A5B11;
+	color: #336EAD;
 	text-decoration: none;
 }
 
