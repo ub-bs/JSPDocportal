@@ -109,8 +109,9 @@
     <panel id="DCreatorLinks">
       <!--creatorlink sortnr="3" -->
       <include  uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/creatorlinks&amp;classname=MCRMetaLinkID" />      
+          
       <cell col="1" row="1" anchor="NORTHWEST" var="metadata/creatorlinks/creatorlink" >
-        
+        <repeater min="1" max="5" >  
           <panel lines="off">
             <hidden var="@inherited" default="0"  />
             <hidden var="@xlink:type" default="locator" />
@@ -127,6 +128,7 @@
               <subselect i18n="Editor.Common.indexcreators" id="sub.select1" type="webpage" href="nav?path=~searchstart-index_creators_sub" />
             </cell>
           </panel>
+        </repeater>
   
       </cell>
       <cell col="2" row="1" anchor="WEST">
