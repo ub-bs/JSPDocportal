@@ -19,6 +19,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import net.sourceforge.stripes.controller.StripesRequestWrapper;
+
 import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.JDOMException;
@@ -162,11 +164,14 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 			File editorFile = new File(path);
 			
 			HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
+			if(request instanceof StripesRequestWrapper){
+			    request = (HttpServletRequest)((StripesRequestWrapper) request).getRequest();
+			}
 			request.getParameterMap().clear();
+		
 			for(Object key: parameters.keySet()){
 				request.getParameterMap().put(key, new String[]{parameters.getProperty((String)key)});
 			}
-			
 			
 			Document xml = new MCRFileContent(editorFile).asXML();
 			MCREditorServlet.replaceEditorElements(request, editorFile.toURI().toString(), xml);
