@@ -10,6 +10,9 @@
 
 <fmt:message var="pageTitle" key="WF.${param.wftype}" /> 
 <stripes:layout-render name="../../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
+<stripes:layout-component name="html_header">
+	<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_tasks.css">
+</stripes:layout-component>
 	<stripes:layout-component name="contents">
 		<c:set  var="baseURL" value="${applicationScope.WebApplicationBaseURL}"/>
 		

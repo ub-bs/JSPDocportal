@@ -33,6 +33,6 @@
 	<p><fmt:message key="WF.xmetadiss.errorWfM2" /></p>
 </c:when>
 <c:otherwise>
-     <c:import url="/content/workflow/${workflowType}/workflow.jsp" /> 
+         <c:import url="/content/workflow/workflow.jsp?wftype=${workflowType}" />  
 </c:otherwise>
 </c:choose>

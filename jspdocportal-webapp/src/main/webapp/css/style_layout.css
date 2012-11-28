@@ -257,6 +257,16 @@ div.infobox a:VISITED{
 /*  Style of normal text on a content page                             */
 /* ------------------------------------------------------------------- */  
 div.text{
+	line-height: 125%;
+}
+div.text td {
+	padding:3px;
+}
+
+div.text th {
+	padding:3px;
+	text-align: left;
+	font-weight: bold;
 }
 
 div.text ul li{
