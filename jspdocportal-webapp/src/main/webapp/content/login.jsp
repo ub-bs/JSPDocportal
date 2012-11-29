@@ -24,7 +24,7 @@
   			<x:set var="name" select="string(./@name)" />
 		</x:forEach>	
 
-		<fmt:message key="Webpage.login.YouAreLoggedInAs" />:&nbsp;	<c:out value="${username}"></c:out>
+		<fmt:message key="Webpage.login.YouAreLoggedInAs" />:&nbsp;	<strong><c:out value="${username}"></c:out></strong>
 <hr>
 
 <c:choose>

@@ -9,7 +9,7 @@
 <%--Parameter: wftype = workflow type --%>
 
 <fmt:message var="pageTitle" key="WF.${param.wftype}" /> 
-<stripes:layout-render name="../../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
+<stripes:layout-render name="../../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}" layout="2columns">
 <stripes:layout-component name="html_header">
 	<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_tasks.css">
 </stripes:layout-component>
@@ -30,12 +30,12 @@
 		<c:choose>
    			<c:when test="${empty myTaskList && empty myProcessList}">
 	  			<h2><fmt:message key="WF.${param.wftype}.info" /></h2>
-	  			<p>
-	  					<img title="" alt="" src="${baseURL}images/greenArrow.gif">
-      						<a target="_self" href="${baseURL}nav?path=~${param.wftype}begin"><fmt:message key="WF.${param.wftype}.StartWorkflow" /></a>
-      						<br/>&nbsp;<br>
-      						<fmt:message key="WF.common.EmptyWorkflow" />   
-      			</p>
+	  			<ul class="action">    
+	    			<li><a target="_self" href="${baseURL}nav?path=~${param.wftype}begin"><fmt:message key="WF.${param.wftype}.StartWorkflow" /></a></li>
+	    		</ul>
+      			<p>
+      				<fmt:message key="WF.common.EmptyWorkflow" />
+      			</p>   
       			<hr/>
 	      		<mcr:includeWebContent file="workflow/${param.wftype}_introtext.html"/>
     	  		<br/>&nbsp;<br>
@@ -43,9 +43,10 @@
    			<c:otherwise>
         		<h2><fmt:message key="WF.${param.wftype}" /></h2>
 	   				<mcr:checkAccess var="createallowed" permission="administrate-${param.wftype}" />
-   					<c:if test="${createallowed}">    
-	    				<img title="" alt="" src="${baseURL}images/greenArrow.gif">
-  		    				<a target="_self" href="${baseURL}nav?path=~${param.wftype}begin"><fmt:message key="WF.${param.wftype}.StartWorkflow" /></a>
+   					<c:if test="${createallowed}">
+   						<ul class="action">    
+	    					<li><a target="_self" href="${baseURL}nav?path=~${param.wftype}begin"><fmt:message key="WF.${param.wftype}.StartWorkflow" /></a></li>
+	    				</ul>	    				
   					</c:if>
    
    					<br />&nbsp;<br />
