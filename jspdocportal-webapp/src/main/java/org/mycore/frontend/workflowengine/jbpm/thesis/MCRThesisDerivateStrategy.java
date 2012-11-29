@@ -83,7 +83,7 @@ public class MCRThesisDerivateStrategy extends MCRDefaultDerivateStrategy {
 					containsAttachement = true;
 					//fname = "attachment.zip";
 					fname=normalizeFilename(fname);
-					der.setLabel(MCRConfiguration.instance().getString("MCR.Derivates.Labels.atachment", "Anhang"));
+					der.setLabel("Anhang");
 				}
 			}else if(fileextension.equals("pdf")) {
 				if(containsPdf) {
@@ -91,7 +91,7 @@ public class MCRThesisDerivateStrategy extends MCRDefaultDerivateStrategy {
 						containsAttachement = true;
 						//fname = "attachment.zip";
 						fname=normalizeFilename(fname);
-						der.setLabel(MCRConfiguration.instance().getString("MCR.Derivates.Labels.atachment", "Anhang"));
+						der.setLabel("Anhang");
 					}
 					else{
 						String errMsg = "just one pdf-file as main file and one pdf or zip file as attachement allowed for a thesis, please delete old derivates first";
@@ -106,7 +106,7 @@ public class MCRThesisDerivateStrategy extends MCRDefaultDerivateStrategy {
 							containsPdf=false;
 							//fname = "attachment.zip";
 							fname=normalizeFilename(fname);
-							der.setLabel(MCRConfiguration.instance().getString("MCR.Derivates.Labels.atachment", "Anhang"));
+							der.setLabel("Anhang");
 						}
 						else{
 							String errMsg = "just one pdf-file for all derivates for one thesis, please delete old derivates first";
@@ -118,7 +118,7 @@ public class MCRThesisDerivateStrategy extends MCRDefaultDerivateStrategy {
 						containsPdf=true;
 						fname=normalizeFilename(fname);
 						mainfile = fname;
-						der.setLabel(MCRConfiguration.instance().getString("MCR.Derivates.Labels.fulltext", "Volltext"));
+						der.setLabel("Volltext");
 					}
 				}
 			}
