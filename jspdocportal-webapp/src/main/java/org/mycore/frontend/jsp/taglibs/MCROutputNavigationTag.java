@@ -99,9 +99,8 @@ public class MCROutputNavigationTag extends SimpleTagSupport
 			Element eNav = findNavItem(nav, path);
 			printTOC(eNav, getJspContext().getOut());
 		}
-		if(mode.equals("top")){
-			Element eNav = findNavItem(nav, path);
-			printTopNav(eNav, getJspContext().getOut());
+		if(mode.equals("top")){			
+			printTopNav(nav, getJspContext().getOut());
 		}
 		if(mode.equals("breadcrumbs")){
 			Element eNav = findNavItem(nav, path);
@@ -244,7 +243,7 @@ public class MCROutputNavigationTag extends SimpleTagSupport
 			indent += "      ";
 		}
 		try{
-			out.append(indent+"   <ol>");
+			out.append(indent+"   <ul>");
 			
 			for(Element el: printableElements){
 				String cssClass = "";
@@ -274,7 +273,7 @@ public class MCROutputNavigationTag extends SimpleTagSupport
 				out.append(indent+"      </li>");
 			}
 			
-			out.append(indent+"   </ol>");
+			out.append(indent+"   </ul>");
 			out.flush();
 		}
 		catch(Exception e){
@@ -295,7 +294,7 @@ public class MCROutputNavigationTag extends SimpleTagSupport
 		NodeList nl = currentNode.getChildNodes();
 		if(nl.getLength()>0){
 			try{
-				out.append("<ol>");
+				out.append("<ul>");
 				boolean beforeFirst = true;
 				for(int i=0;i<nl.getLength(); i++){
 					if(!(nl.item(i) instanceof Element)){
@@ -327,7 +326,7 @@ public class MCROutputNavigationTag extends SimpleTagSupport
 				    out.append("\n      <a target=\"_self\" href=\""+baseURL+"nav?path="+el.getAttribute("_path")+"\">"+msg+"</a>");
 				    out.append("\n   </li>");				
 				}
-				out.append("</ol>");
+				out.append("</ul>");
 				out.flush();
 			}
 		
@@ -351,7 +350,7 @@ public class MCROutputNavigationTag extends SimpleTagSupport
 		}
 		NodeList nl = currentNode.getChildNodes();
 		try{
-			out.append("\n<ol>"); 
+			out.append("\n<ul>"); 
 			for(int i=0;i<nl.getLength(); i++){
 				if(!(nl.item(i) instanceof Element)){
 					continue;
@@ -379,7 +378,7 @@ public class MCROutputNavigationTag extends SimpleTagSupport
 				}
 				out.append("\n</li>");
 			}
-			out.append("\n</ol>");
+			out.append("\n</ul>");
 			out.flush();
 		}
 		catch(IOException e){
@@ -403,7 +402,7 @@ public class MCROutputNavigationTag extends SimpleTagSupport
 		sbOut.append("\n   <li>");
 		sbOut.append("\n      <a target=\"_self\" href=\""+baseURL+"nav?path="+currentNode.getAttribute("_path")+"\">"+msg+"</a>");
 	    sbOut.append("\n   </li>");
-	    sbOut.append("\n</ol>");
+	    sbOut.append("\n</ul>");
 		while(currentNode.getParentNode().getLocalName().equals("navitem")){
 	    	currentNode = (Element) currentNode.getParentNode();
 	    	msg = retrieveI18N(currentNode.getAttribute("i18n"));
@@ -412,7 +411,7 @@ public class MCROutputNavigationTag extends SimpleTagSupport
 	    	sbOut.insert(0, "\n      <a target=\"_self\" href=\""+baseURL+"nav?path="+currentNode.getAttribute("_path")+"\">"+msg+"</a>");
 	    	sbOut.insert(0, "\n   <li>");
 	    }
-		sbOut.insert(0, "\n<ol>");
+		sbOut.insert(0, "\n<ul>");
 	    try{
 	    	out.append(sbOut.toString());
 	    }
