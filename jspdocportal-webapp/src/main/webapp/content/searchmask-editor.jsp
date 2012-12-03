@@ -7,7 +7,7 @@
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
 <fmt:message var="pageTitle" key="Nav.Archive" /> 
-<stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
+<stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}"  layout="2columns">
 	<stripes:layout-component name="html_header">
 		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_editor.css" />
 	</stripes:layout-component>

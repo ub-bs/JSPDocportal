@@ -57,7 +57,7 @@
             <cell col="1" row="1" anchor="NORTHWEST" ref="CInstitution" var="@value" />
       </panel>
       <helpHover id="HInstitution" width="400px"  i18n="Editor.Search.Help.institution" />
-      <list id="CInstitution" width="300px" type="dropdown">
+      <list id="CInstitution" width="350px" type="dropdown">
             <item value="" i18n="Editor.Common.choose" />
             <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Institution&amp;defaultValue=DocPortal_class_00000002&amp;withCounter=false" />                                      
       </list>       
@@ -103,7 +103,7 @@
       </panel>
       <helpHover id="HOrigins" width="400px"  i18n="Editor.Search.Help.origin" />
 
-      <list id="COrigins" style="width:400px;" type="dropdown">
+      <list id="COrigins" style="width:325px;" type="dropdown">
             <item value="" i18n="Editor.Common.choose" />
             <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002&amp;withCounter=false" />                          
       </list>      
@@ -116,7 +116,7 @@
             <cell col="1" row="1" anchor="NORTHWEST" ref="CTypes" var="@value" />
       </panel>
       <helpHover id="HTypes" width="400px"  i18n="Editor.Search.Help.type" />
-      <list id="CTypes" style="width:200px" type="dropdown">
+      <list id="CTypes" style="width:150px" type="dropdown">
             <item value="" i18n="Editor.Common.choose" />
             <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Type&amp;defaultValue=DocPortal_class_00000005&amp;withCounter=false" />                          
       </list>       
@@ -130,7 +130,7 @@
             <cell col="1" row="1" anchor="NORTHWEST" ref="CSubjects" var="@value" />
       </panel>
       <helpHover id="HSubjects" width="400px" i18n="Editor.Search.Help.subject" />
-      <list id="CSubjects" style="width:400px" type="dropdown">
+      <list id="CSubjects" style="width:325px" type="dropdown">
             <item value="" i18n="Editor.Common.choose" />        
             <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.DDC&amp;defaultValue=DocPortal_class_00000007&amp;withCounter=false" />                          
       </list>       
@@ -143,7 +143,7 @@
             <cell col="1" row="1" anchor="NORTHWEST" ref="CFormats" var="@value" />
       </panel>
       <helpHover id="HFormats" width="400px"  i18n="Editor.Search.Help.format" />
-      <list id="CFormats" style="width:200px;" type="dropdown">
+      <list id="CFormats" style="width:150px;" type="dropdown">
             <item value="" i18n="Editor.Common.choose" /> 
               <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Format&amp;defaultValue=DocPortal_class_00000006&amp;withCounter=false" />                          
       </list>       
