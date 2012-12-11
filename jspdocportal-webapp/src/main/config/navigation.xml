@@ -477,7 +477,11 @@
 				href="admin/webcontent.jsp" permission="administrate-webcontent">
 				<refitem id="~editwebcontent" />
 			</navitem>
-
+			
+			<navitem id="importdata-mods-gvk" i18n="Nav.Admin.Importdata" hidden="true"
+			  	href="content/workflow/import-mods-from-gvk.jsp"  permission="administrate-document" >
+        		<refitem id="~importdata-mods-gvk" />        		                
+        	</navitem>
 		</navitem>
 	</navigation>
 </navigations>

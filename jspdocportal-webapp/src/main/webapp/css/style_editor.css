@@ -22,9 +22,10 @@ table.editorPanel {
         top: 4px;
 }
 
+td.editorValidationMessage     { color:#FFFFFF; background-color:#FF0000; padding:3px; }
 /*
 td.editorHeadline              { color:#FFFFFF; background-color:#15516E; padding:3px; }
-td.editorValidationMessage     { color:#FFFFFF; background-color:#FF0000; padding:3px; }
+
 td.editorCellWithPanelLinesOff { }
 td.editorCellWithPanelLinesOn  { border-left:1px solid #7791ac }
 td.editorCellWithCompLinesOff  { padding:3px; }
