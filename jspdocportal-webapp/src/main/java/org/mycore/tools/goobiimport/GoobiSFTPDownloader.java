@@ -50,31 +50,30 @@ public class GoobiSFTPDownloader {
               
             
             channelSftp.cd(MCRConfiguration.instance().getString("goobi.basedir"));
+            channelSftp.cd("metadata");
+            String goobiProcessName = goobiFolderID.split("__")[0];
             String goobiProcessID = goobiFolderID.split("__")[1];
             goobiProcessID = goobiProcessID.replace("[", "").replace("]", "").trim();
             channelSftp.cd(goobiProcessID);
             
             try {
                 File fMeta = new File(downloadDir, "meta.xml");
-                OutputStream fOut = new BufferedOutputStream(new FileOutputStream(fMeta));
-                channelSftp.get("meta.xml", fOut);
-                /*
+                channelSftp.get("meta.xml", fMeta.getPath());
+                               
+                channelSftp.cd("images");
+                channelSftp.cd("orig_"+goobiProcessName+"_tif");
                 @SuppressWarnings("unchecked")
-                Vector<LsEntry> v = channelSftp.ls(process);
+                Vector<LsEntry> v = channelSftp.ls("*");
+                File dirImages = new File(downloadDir, "images");
+                dirImages.mkdir();
                 if (v.size() > 0) {
-
                     for (LsEntry lse : v) {
                         if (lse.getFilename().equals(".") || lse.getFilename().equals("..")) {
                             continue;
                         }
-                        channelSftp.rm(channelSftp.pwd() + "/" + process + "/" + lse.getFilename());
-                    }
-
-                    channelSftp.rmdir(channelSftp.pwd() + "/" + process);
-                    
-                    
-                }
-                 */
+                        channelSftp.get(lse.getFilename(), new File(dirImages, lse.getFilename()).getPath());
+                    }                   
+                }                
             } catch (SftpException e) {
                 if (!e.getMessage().contains("No such file")) {
                     System.err.println("SFTPUpload Error:");

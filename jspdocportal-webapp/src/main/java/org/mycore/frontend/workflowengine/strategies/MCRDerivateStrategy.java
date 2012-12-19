@@ -110,7 +110,7 @@ public abstract class MCRDerivateStrategy {
 		return IDMax.toString();
 	}
 
-	final public synchronized MCRObjectID setNextFreeDerivateID(){
+	final public static synchronized MCRObjectID setNextFreeDerivateID(){
 		int maxwf=0;
 		String base = MCRConfiguration.instance().getString("MCR.SWF.Project.ID","DocPortal")+ "_derivate";
 		if(nextWorkflowDerivateID == null){

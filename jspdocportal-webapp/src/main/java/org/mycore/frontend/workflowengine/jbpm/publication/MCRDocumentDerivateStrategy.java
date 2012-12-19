@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.mycore.common.MCRException;
@@ -55,7 +56,7 @@ public class MCRDocumentDerivateStrategy extends MCRDefaultDerivateStrategy {
 				File fout = new File(dirname, fname);
 				InputStream fin = item.getInputStream();
 				fouts = new FileOutputStream(fout);
-				MCRUtils.copyStream(fin, fouts);
+				IOUtils.copy(fin, fouts);
 				fin.close();
 				fouts.flush();
 				fouts.close();

@@ -161,7 +161,7 @@ public abstract class MCRWorkflowManager {
 		return bSuccess;
 	}
 	
-	final protected void setDefaultPermissions(String objid, String userid, ContextInstance ctxI){
+	final public void setDefaultPermissions(String objid, String userid, ContextInstance ctxI){
 		permissionStrategy.setPermissions(objid, userid, workflowProcessType, ctxI, MCRWorkflowConstants.PERMISSION_MODE_DEFAULT);
 	}
 	
@@ -171,12 +171,12 @@ public abstract class MCRWorkflowManager {
 	 * @param metadataObjectId
 	 * @return
 	 */
-	final protected String addDerivate(ContextInstance ctxI, String metadataObjectId){
+	final public String addDerivate(ContextInstance ctxI, String metadataObjectId){
 		return derivateStrategy.addNewDerivateToWorkflowObject(MCRWorkflowDirectoryManager.getWorkflowDirectory(mainDocumentType),
 				metadataObjectId);
 	}
 	
-	final protected boolean removeDerivate(ContextInstance ctxI, String metadataObjectID, String derivateObjectID){
+	final public boolean removeDerivate(ContextInstance ctxI, String metadataObjectID, String derivateObjectID){
 		try{
 			return derivateStrategy.deleteDerivateObject(ctxI, MCRWorkflowDirectoryManager.getWorkflowDirectory(mainDocumentType),
 					deleteDir, metadataObjectID, derivateObjectID, true);
@@ -188,7 +188,7 @@ public abstract class MCRWorkflowManager {
 		return false;
 	}
 
-	final protected boolean removeFileFromDerivate(ContextInstance ctxI, String metadataObjectID, String derivateObjectID, String filename){
+	final public boolean removeFileFromDerivate(ContextInstance ctxI, String metadataObjectID, String derivateObjectID, String filename){
 		try{
 			return derivateStrategy.deleteDerivateFile(ctxI, MCRWorkflowDirectoryManager.getWorkflowDirectory(mainDocumentType),
 					deleteDir, metadataObjectID, derivateObjectID, true, filename);

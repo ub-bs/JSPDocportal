@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.StringReader;
+import java.util.ArrayList;
 
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
@@ -18,17 +19,27 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.controller.LifecycleStage;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.log4j.Logger;
+import org.hibernate.Transaction;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
-import org.jdom.Namespace;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
-import org.jdom.xpath.XPath;
+import org.mycore.backend.hibernate.MCRHIBConnection;
+import org.mycore.common.MCRUtils;
+import org.mycore.datamodel.metadata.MCRDerivate;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcess;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcessManager;
+import org.mycore.frontend.workflowengine.jbpm.publication.MCRDocumentDerivateStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 import org.mycore.tools.goobiimport.GoobiSFTPDownloader;
 import org.mycore.tools.gvkmods.GVKMODSImport;
+import org.xml.sax.SAXParseException;
 
 @UrlBinding("/importFromGoobi.action")
 public class ImportFromGoobiAction implements ActionBean {
@@ -39,6 +50,7 @@ public class ImportFromGoobiAction implements ActionBean {
     private String mcrID = "";
     private String goobiFolderID = "";
     private String output = "";
+    private String processid="";
 
     public ActionBeanContext getContext() {
         return context;
@@ -59,6 +71,9 @@ public class ImportFromGoobiAction implements ActionBean {
         }
         if (getContext().getRequest().getParameter("returnPath") != null) {
             returnPath = getContext().getRequest().getParameter("returnPath");
+        }
+        if (getContext().getRequest().getParameter("processid") != null) {
+            processid = getContext().getRequest().getParameter("processid");
         }
     }
 
@@ -84,14 +99,56 @@ public class ImportFromGoobiAction implements ActionBean {
             
             
             String[] mcridParts = mcrID.split("_");
-            String savedir = MCRWorkflowDirectoryManager.getWorkflowDirectory(mcridParts[1]);
-            String filename = savedir + "/" + mcrID + ".xml";
+            File dirSave = new File(MCRWorkflowDirectoryManager.getWorkflowDirectory(mcridParts[1]));
             
-            GoobiSFTPDownloader.sftpDownload(goobiFolderID, new File(savedir));
-            File file = new File(filename);
+            long pid = Long.parseLong(processid);
+            MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(pid);
+            String mcrid = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS);
+         
+            MCRWorkflowManager WFM = wfp.getCurrentWorkflowManager();
+           	String derivateID = WFM.addDerivate(wfp.getContextInstance(), mcrid);
+            String userid = wfp.getStringVariable(MCRWorkflowConstants.WFM_VAR_INITIATOR);
+            Transaction tx = MCRHIBConnection.instance().getSession().beginTransaction();
+        	WFM.setDefaultPermissions(derivateID, userid, wfp.getContextInstance());
+        	tx.commit();
+        	
+        	File dirDerivate = new File(dirSave, derivateID);
+        	MCRDocumentDerivateStrategy derivateStrategy = new MCRDocumentDerivateStrategy();
+        	      	
+        	GoobiSFTPDownloader.sftpDownload(goobiFolderID, dirDerivate);
+        	File fx = new File(dirDerivate, "meta.xml");
+        	File fMets = new File(dirDerivate, "mets.xml");
+        	fx.renameTo(fMets);
+        	
+        	ArrayList<FileItem> files = new ArrayList<FileItem>();
+        	derivateStrategy.saveFiles(files, dirDerivate.getPath(), wfp.getContextInstance(), "METS", null);
+        	
+        	
+        	File fDerivate = new File(dirDerivate.getAbsolutePath()+".xml");
+        	try {
+				MCRDerivate der = new MCRDerivate(fDerivate.toURI());
+				der.getDerivate().getInternals().setMainDoc("mets.xml");
+				
+				byte[] outxml = MCRUtils.getByteArray(der.createXML());
+				FileOutputStream out = new FileOutputStream(fDerivate);
+				out.write(outxml);				
+				out.close();
+				
+			} catch (SAXParseException e1) {
+				Logger.getLogger(ImportFromGoobiAction.class).error("Exception reading derivate", e1);
+				
+			} catch (IOException e1) {
+				Logger.getLogger(ImportFromGoobiAction.class).error("Exception reading derivate", e1);
+			}
+        	
+        	
+        	
+        	
+            //Store Metadata
+          
             try {
                 SAXBuilder sb = new SAXBuilder(false);
-                Document docJdom = sb.build(new InputStreamReader(new FileInputStream(file), "UTF-8"));
+                Document docJdom = sb.build(new InputStreamReader(new FileInputStream(fMets), "UTF-8"));
                 Element eMeta = docJdom.getRootElement().getChild("metadata");
                 if(eMeta!=null){
                     Element eDefMods = eMeta.getChild("def.modsContainer");
@@ -106,17 +163,18 @@ public class ImportFromGoobiAction implements ActionBean {
                     Element eModsData = sb.build(new StringReader(output)).getRootElement();
                     eMods.addContent(eModsData.detach());
                 }
-                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
+                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fDerivate), "UTF-8"));
                 XMLOutputter xout = new XMLOutputter(Format.getPrettyFormat());
                 xout.output(docJdom, bw);
-            } catch (JDOMException jdome) {
+            } 
+            catch (JDOMException jdome) {
             //do nothing
             } catch (IOException e) {
             //do nothing
             }
-    }
-        
-        
+    
+        	
+        	}
         
         
         return new ForwardResolution(returnPath);

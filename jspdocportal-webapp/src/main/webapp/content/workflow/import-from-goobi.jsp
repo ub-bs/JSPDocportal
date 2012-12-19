@@ -44,6 +44,7 @@
 					<stripes:messages />
 				</div>
 				<stripes:hidden name="returnPath" />
+				<stripes:hidden name="processid" />
 				<%-- load first time from request parameter "returnPath --%>
 
 				<table>
