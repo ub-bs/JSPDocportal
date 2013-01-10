@@ -29,6 +29,7 @@ import java.util.UUID;
 import javax.servlet.ServletContext;
 
 import org.apache.log4j.Logger;
+import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.Namespace;
 import org.mycore.common.xml.MCRURIResolver;
@@ -55,9 +56,15 @@ public class MCRNavigationUtil {
     protected static void loadNavigation(ServletContext sce){
     	Element eNav = MCRURIResolver.instance().resolve("resource:navigation.xml");
     	annoteNavigation(eNav);
+    	
+    	Document jdomDoc = eNav.getDocument();
+    	if(jdomDoc==null){
+    		jdomDoc = new Document(eNav);    		
+    	}
+    	
     	org.w3c.dom.Document domDoc = null;
 		try {
-			domDoc = new org.jdom.output.DOMOutputter().output(eNav.getDocument());
+			domDoc = new org.jdom.output.DOMOutputter().output(jdomDoc);
 		} catch (org.jdom.JDOMException e) {
 			Logger.getLogger(NavServlet.class).error("Domoutput failed: ", e);
 		}  
