@@ -7,8 +7,6 @@
 <%@ page pageEncoding="UTF-8" %>
 
 <fmt:message var="pageTitle" key="WF.series" /> 
-<stripes:layout-render name="../../../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
-	<stripes:layout-component name="contents">
 <mcr:session method="get" var="username" type="userID" />
 <c:set var="WebApplicationBaseURL" value="${applicationScope.WebApplicationBaseURL}" />
 <c:choose>
@@ -27,20 +25,26 @@
 
 
 <c:choose>
-<c:when test="${fn:contains(status,'errorPermission')}">
-<h2><fmt:message key="WF.series.begin" /></h2>
-	<p><fmt:message key="WF.xmetadiss.errorUserGuest" /></p>
-	<p><fmt:message key="WF.xmetadiss.errorUserGuest2" /></p>
-	<p><fmt:message key="Webpage.admin.DocumentManagement.FetchLogin" /></p>
-</c:when>
-<c:when test="${fn:contains(status,'errorWFM')}">
-<h2><fmt:message key="WF.series.begin" /></h2>
-	<p><fmt:message key="WF.xmetadiss.errorWfM" /></p>
-	<p><fmt:message key="WF.xmetadiss.errorWfM2" /></p>
-</c:when>
-<c:otherwise>
+	<c:when test="${fn:contains(status,'errorPermission')}">
+		<stripes:layout-render name="../../../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
+			<stripes:layout-component name="contents">
+				<h2><fmt:message key="WF.series.begin" /></h2>
+				<p><fmt:message key="WF.xmetadiss.errorUserGuest" /></p>
+				<p><fmt:message key="WF.xmetadiss.errorUserGuest2" /></p>
+				<p><fmt:message key="Webpage.admin.DocumentManagement.FetchLogin" /></p>
+			</stripes:layout-component>
+		</stripes:layout-render>
+	</c:when>
+	<c:when test="${fn:contains(status,'errorWFM')}">
+		<stripes:layout-render name="../../../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
+			<stripes:layout-component name="contents">
+				<h2><fmt:message key="WF.series.begin" /></h2>
+				<p><fmt:message key="WF.xmetadiss.errorWfM" /></p>
+				<p><fmt:message key="WF.xmetadiss.errorWfM2" /></p>
+			</stripes:layout-component>
+		</stripes:layout-render>
+	</c:when>
+	<c:otherwise>
        <c:import url="/content/workflow/workflow.jsp?wftype=${workflowType}" />  
 </c:otherwise>
 </c:choose>
-</stripes:layout-component>
-</stripes:layout-render>
