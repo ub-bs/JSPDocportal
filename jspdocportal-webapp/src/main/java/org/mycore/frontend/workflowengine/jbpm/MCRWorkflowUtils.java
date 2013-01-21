@@ -25,17 +25,21 @@
 package org.mycore.frontend.workflowengine.jbpm;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.jbpm.bytes.ByteArray;
+import org.jbpm.context.exe.ContextInstance;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.XMLOutputter;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRConfiguration;
+import org.mycore.common.MCRException;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 import org.mycore.services.fieldquery.MCRQuery;
@@ -226,5 +230,48 @@ public class MCRWorkflowUtils {
 		}else{
 			return false;
 		}
-	}	
+	}
+    
+	/**
+	 * returns a large String variable from Workflow;
+	 * JBPM allowes only 255 Characters (definition of the MySQL table) 
+	 * @param varName -the veriable name
+	 * @param processID - the processID
+	 * @return
+	 */
+	public static String getLargeStringVariableFromWorkflow(String varName, ContextInstance ctxI){
+		try{
+			byte[] b = ((ByteArray)ctxI.getVariable(varName)).getBytes();
+			String s = new String(b, "UTF-8");
+			return s;			
+		}
+		catch(Exception e){
+			logger.error("could not deserialize workflow variable [" + varName + "] for process [" + ctxI.getProcessInstance().getId()+ "]",e);
+			return null;
+		}finally{
+		}
+	}
+	
+	/**
+	 * set a larger String as workflow variable
+	 * JBPM allowes only 255 Characters (definition of the MySQL table)
+	 * so we simply wrap the String into an object
+	 * @param varName - the name of the variable
+	 * @param varValue - the value of the variable
+	 * @param processID - the ProcessID
+	 */
+	public static void setLargeStringVariableInWorkflow(String varName, String varValue, ContextInstance ctxI){
+		try{
+			ctxI.setVariable(varName, new ByteArray(varValue.getBytes("UTF-8")));
+		}
+		catch(UnsupportedEncodingException use){
+			//do nothing
+		
+		}catch(MCRException e){
+			logger.error("could not get workflow variable [" + varName + "] for process [" + ctxI.getProcessInstance().getId() + "]",e);
+		}finally{
+			//jbpmContext.close();
+		}			
+	}
+	
 }

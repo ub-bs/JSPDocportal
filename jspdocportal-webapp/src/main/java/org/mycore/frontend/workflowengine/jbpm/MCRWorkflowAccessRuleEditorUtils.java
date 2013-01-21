@@ -25,11 +25,14 @@
 package org.mycore.frontend.workflowengine.jbpm;
 
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.jbpm.bytes.ByteArray;
 import org.jbpm.context.exe.ContextInstance;
+import org.jbpm.context.exe.variableinstance.HibernateStringInstance;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.XMLOutputter;
@@ -116,7 +119,7 @@ public class MCRWorkflowAccessRuleEditorUtils {
 		MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(lpid);
 		setStringVariableInWorkflow(MCRWorkflowConstants.WFM_VAR_READRULE_TYPE, rulename, wfp.getContextInstance());
 		XMLOutputter xmlOut = new XMLOutputter();
-		setLargeStringVariableInWorkflow(MCRWorkflowConstants.WFM_VAR_READRULE_XMLSTRING, xmlOut.outputString(eRule), wfp.getContextInstance());
+		MCRWorkflowUtils.setLargeStringVariableInWorkflow(MCRWorkflowConstants.WFM_VAR_READRULE_XMLSTRING, xmlOut.outputString(eRule), wfp.getContextInstance());
 		wfp.close();
 		
  	}
@@ -167,7 +170,7 @@ public class MCRWorkflowAccessRuleEditorUtils {
 		long lpid = Long.parseLong(processid);
 		MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(lpid);
 		try{
-			String ruleRawXML = getLargeStringVariableFromWorkflow(MCRWorkflowConstants.WFM_VAR_READRULE_XMLSTRING, wfp.getContextInstance());
+			String ruleRawXML = MCRWorkflowUtils.getLargeStringVariableFromWorkflow(MCRWorkflowConstants.WFM_VAR_READRULE_XMLSTRING, wfp.getContextInstance());
 			Element eRule = (Element)MCRXMLHelper.parseXML(ruleRawXML, false).getRootElement().detach();
 			@SuppressWarnings("rawtypes")
 			List listR = XPath.selectNodes(eRule, ".//condition[@field='group']");
@@ -208,16 +211,7 @@ public class MCRWorkflowAccessRuleEditorUtils {
 		}	
 		return "";		
 	}
-	/**
-	 * returns a large String variable from Workflow;
-	 * JBPM allowes only 255 Characters (definition of the MySQL table) 
-	 * @param varName -the veriable name
-	 * @param processID - the processID
-	 * @return
-	 */
-	public static String getLargeStringVariableFromWorkflow(String varName, ContextInstance ctxI){
-		return getStringVariableFromWorkflow(varName, ctxI);
-	}
+
 	
 	/**
 	 * sets a workflow variable
@@ -238,27 +232,6 @@ public class MCRWorkflowAccessRuleEditorUtils {
 		}			
 	}
 
-	/**
-	 * set a larger String as workflow variable
-	 * JBPM allowes only 255 Characters (definition of the MySQL table)
-	 * so we simply wrap the String into an object
-	 * @param varName - the name of the variable
-	 * @param varValue - the value of the variable
-	 * @param processID - the ProcessID
-	 */
-	private static void setLargeStringVariableInWorkflow(String varName, String varValue, ContextInstance ctxI){
-		//JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
-		try{
-			//ContextInstance ctxI = jbpmContext.loadProcessInstance(processID).getContextInstance();
-			ctxI.setVariable(varName, new MCRWorkflowLargeStringObject(varValue));
-		}catch(MCRException e){
-			logger.error("could not get workflow variable [" + varName + "] for process [" + ctxI.getProcessInstance().getId() + "]",e);
-		}finally{
-			//jbpmContext.close();
-		}			
-	}
-	
-	
 	/**
 	 * retrieves an AccessRule from the Database and
 	 * sets the workflow variables, that the AcessRule can be edited
@@ -299,6 +272,6 @@ public class MCRWorkflowAccessRuleEditorUtils {
 			xmlRuleString = outputter.outputString(rule);
 		}	
 		setStringVariableInWorkflow(MCRWorkflowConstants.WFM_VAR_READRULE_TYPE, ruletype, ctxI);
-		setLargeStringVariableInWorkflow(MCRWorkflowConstants.WFM_VAR_READRULE_XMLSTRING, xmlRuleString, ctxI);
+		MCRWorkflowUtils.setLargeStringVariableInWorkflow(MCRWorkflowConstants.WFM_VAR_READRULE_XMLSTRING, xmlRuleString, ctxI);
 	}
 }

@@ -20,6 +20,7 @@ import org.mycore.common.xml.MCRXMLParserFactory;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowAccessRuleEditorUtils;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
 import org.xml.sax.SAXParseException;
 
 public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
@@ -102,8 +103,7 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 		MCRAccessControlSystem ACS = (MCRAccessControlSystem) MCRAccessControlSystem
 				.instance();
 
-		Object xmlRuleString = ctxI.getVariable(
-				MCRWorkflowConstants.WFM_VAR_READRULE_XMLSTRING);
+		String xmlRuleString = MCRWorkflowUtils.getLargeStringVariableFromWorkflow(MCRWorkflowConstants.WFM_VAR_READRULE_XMLSTRING, ctxI);
 		Object oRuletype = ctxI.getVariable(
 				MCRWorkflowConstants.WFM_VAR_READRULE_TYPE);
 		//default value		
