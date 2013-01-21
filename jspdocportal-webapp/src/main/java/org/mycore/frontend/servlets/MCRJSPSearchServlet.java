@@ -53,7 +53,7 @@ public class MCRJSPSearchServlet extends MCRSearchServlet {
     protected static final Logger LOGGER = Logger.getLogger(MCRJSPSearchServlet.class);
     private String resultlistType = "simple";
     
-    public void doGetPost(MCRServletJob job) throws IOException {
+    public void doGetPost(MCRServletJob job) throws IOException, ServletException {
         String mode = job.getRequest().getParameter("mode");
         
         if ("resort".equals(mode)){
@@ -127,7 +127,7 @@ public class MCRJSPSearchServlet extends MCRSearchServlet {
     }    
     
     //this mode comes from the resort form in the resultlist
-    private void resortQuery(HttpServletRequest req, HttpServletResponse res) throws IOException {
+    private void resortQuery(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
     	String id = req.getParameter("id");
         MCRCachedQueryData qd = MCRCachedQueryData.getData( id );
         if(qd==null){
