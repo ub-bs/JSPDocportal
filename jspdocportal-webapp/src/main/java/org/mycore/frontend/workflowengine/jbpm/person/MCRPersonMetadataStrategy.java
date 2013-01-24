@@ -2,16 +2,17 @@ package org.mycore.frontend.workflowengine.jbpm.person;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.jdom2.Document;
 import org.jdom2.Element;
+import org.jdom2.filter.Filters;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
-import org.jdom2.xpath.XPath;
+import org.jdom2.xpath.XPathExpression;
+import org.jdom2.xpath.XPathFactory;
 import org.mycore.common.MCRException;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.frontend.workflowengine.strategies.MCRDefaultMetadataStrategy;
@@ -25,11 +26,11 @@ public class MCRPersonMetadataStrategy extends MCRDefaultMetadataStrategy {
 	public boolean commitMetadataObject(String mcrobjid, String directory) {
 		try{
 			String filename = directory + "/" + mcrobjid + ".xml";
-			Document d = new SAXBuilder().build(new File(filename)); 
-			XPath xName = XPath.newInstance("/mycoreobject/metadata/names/name");
-			List resultList = xName.selectNodes(d);
-			for(int i=0;i<resultList.size();i++){
-				Element eName = (Element)resultList.get(i);
+			Document d = new SAXBuilder().build(new File(filename));	
+			
+			XPathExpression<Element> xpe = XPathFactory.instance().compile("/mycoreobject/metadata/names/name", Filters.element());
+			for(Element eName : xpe.evaluate(d)){
+				
 				Element eFullname = eName.getChild("fullname");
 				if(eFullname==null){
 					eFullname = new Element("fullname");

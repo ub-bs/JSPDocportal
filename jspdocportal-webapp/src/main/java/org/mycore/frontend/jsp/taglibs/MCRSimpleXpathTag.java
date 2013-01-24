@@ -8,8 +8,7 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
-import org.jdom2.xpath.XPath;
-
+import org.jdom2.xpath.XPathFactory;
 
 public class MCRSimpleXpathTag extends SimpleTagSupport
 {
@@ -46,7 +45,7 @@ public class MCRSimpleXpathTag extends SimpleTagSupport
 	 */
     public String getSingleXPathValue(org.jdom2.Document jdom,String xpath) {
     	try {
-    		Object obj = XPath.selectSingleNode( jdom, xpath);
+    		Object obj = XPathFactory.instance().compile(xpath).evaluateFirst(jdom);
     		if ( obj instanceof org.jdom2.Attribute) 
     			return ((org.jdom2.Attribute) obj).getValue();
     		if ( obj instanceof org.jdom2.Element)

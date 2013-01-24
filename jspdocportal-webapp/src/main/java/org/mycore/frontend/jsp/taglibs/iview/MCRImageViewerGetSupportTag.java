@@ -9,8 +9,9 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.jdom2.JDOMException;
+import org.jdom2.filter.Filters;
 import org.jdom2.input.SAXBuilder;
-import org.jdom2.xpath.XPath;
+import org.jdom2.xpath.XPathFactory;
 import org.mycore.frontend.servlets.MCRServlet;
 
 /**
@@ -55,11 +56,10 @@ public class MCRImageViewerGetSupportTag extends SimpleTagSupport
 		    "?mode=getMetadata&type=support&XSL.Style=xml";
 	
 		String result ="";
-    	SAXBuilder saxBuilder=new SAXBuilder("org.apache.xerces.parsers.SAXParser");
+    	SAXBuilder saxBuilder=new SAXBuilder();
     	try{
     		org.jdom2.Document jdomDocument=saxBuilder.build(url);
-    		XPath xpath = XPath.newInstance("/mcr-module/support/@mainFile");
-    		result = xpath.valueOf(jdomDocument);    		
+    		result = XPathFactory.instance().compile("/mcr-module/support/@mainFile", Filters.attribute()).evaluateFirst(jdomDocument).getValue();
     	}
     	catch(JDOMException jde){
     		result="";

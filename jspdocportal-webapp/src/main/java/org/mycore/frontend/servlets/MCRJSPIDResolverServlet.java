@@ -36,10 +36,12 @@ import org.apache.log4j.Logger;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
+import org.jdom2.filter.Filters;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
-import org.jdom2.xpath.XPath;
+import org.jdom2.xpath.XPathFactory;
+
 import org.mycore.datamodel.ifs.MCRDirectory;
 import org.mycore.datamodel.ifs.MCRDirectoryXML;
 import org.mycore.datamodel.ifs.MCRFile;
@@ -270,16 +272,12 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 							nr=nr.substring(1);
 						}
 						if(openBy == OpenBy.page){
-							XPath xpID = XPath.newInstance("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
-									"/mets:div[@TYPE='physSequence']/mets:div[starts-with(@ORDERLABEL, '" +nr+"')]");
-							xpID.addNamespace(nsMets);
-							eMETSPhysDiv = (Element)xpID.selectSingleNode(docMETS);
+							eMETSPhysDiv = XPathFactory.instance().compile("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
+									"/mets:div[@TYPE='physSequence']/mets:div[starts-with(@ORDERLABEL, '" +nr+"')]", Filters.element(), null, nsMets).evaluateFirst(docMETS);
 						}
 						else if (openBy == OpenBy.nr){
-							XPath xpID = XPath.newInstance("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
-									"/mets:div[@TYPE='physSequence']/mets:div[@ORDER='" +nr+"']");
-							xpID.addNamespace(nsMets);
-							eMETSPhysDiv = (Element)xpID.selectSingleNode(docMETS);
+							eMETSPhysDiv = XPathFactory.instance().compile("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
+									"/mets:div[@TYPE='physSequence']/mets:div[@ORDER='" +nr+"']", Filters.element(), null, nsMets).evaluateFirst(docMETS);
 						}
 						
 						if(thumb == null){
@@ -294,7 +292,6 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 						}
 						else if(eMETSPhysDiv!=null){
 							//return thumb image    										
-							@SuppressWarnings("unchecked")
 							List<Element> l = (List<Element>) eMETSPhysDiv.getChildren();
 							String fileid = null;
 							for(Element e: l){
@@ -306,10 +303,7 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 							// <mets:file MIMETYPE="image/jpeg" ID="THUMBS.matrikel1760-1789-Buetzow_c0001">
 							//		<mets:FLocat LOCTYPE="URL" xlink:href="http://rosdok.uni-rostock.de/data/matrikel_handschriften/matrikel1760-1789-Buetzow/THUMBS/matrikel1760-1789-Buetzow_c0001.jpg" />
 							//  </mets:file>
-								
-								XPath xpFLocat = XPath.newInstance("//mets:file[@ID='"+fileid+"']/mets:FLocat");
-								xpFLocat.addNamespace(nsMets);
-								Element eFLocat = (Element)xpFLocat.selectSingleNode(docMETS);
+								Element eFLocat = XPathFactory.instance().compile("//mets:file[@ID='"+fileid+"']/mets:FLocat", Filters.element(), null, nsMets).evaluateFirst(docMETS);
 								if(eFLocat!=null){
 									sbURL = new StringBuffer(eFLocat.getAttributeValue("href", nsXlink));
 								}
@@ -333,8 +327,7 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 	 * @param mcrID
 	 * @param out
 	 */
-	@SuppressWarnings("unchecked")
-	protected void outputExtendedXML(String mcrID, ServletOutputStream out) throws Exception{
+		protected void outputExtendedXML(String mcrID, ServletOutputStream out) throws Exception{
 		Namespace nsXlink=Namespace.getNamespace("xlink", "http://www.w3.org/1999/xlink");
 		Document doc = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID)).createXML();    	    		 
 		Element eStructure = doc.getRootElement().getChild("structure");

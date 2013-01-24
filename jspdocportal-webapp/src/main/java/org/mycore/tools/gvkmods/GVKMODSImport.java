@@ -12,10 +12,11 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.Namespace;
+import org.jdom2.filter.Filters;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
-import org.jdom2.xpath.XPath;
+import org.jdom2.xpath.XPathFactory;
 
 public class GVKMODSImport {
     private static String SRU_URL = "http://sru.gbv.de/opac-de-28?version=1.1&operation=searchRetrieve&maximumRecords=1";
@@ -25,7 +26,7 @@ public class GVKMODSImport {
         //      xmlns="http://www.loc.gov/mods/v3" version="3.4" 
         //      xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-4.xsd">
         Namespace nsMODS = Namespace.getNamespace("mods", "http://www.loc.gov/mods/v3");
-        Namespace nsXSI = Namespace.getNamespace("xsi", "http://www.w3.org/2000/10/XMLSchema-instance");
+        //Namespace nsXSI = Namespace.getNamespace("xsi", "http://www.w3.org/2000/10/XMLSchema-instance");
         Namespace nsZS = Namespace.getNamespace("zs", "http://www.loc.gov/zing/srw/");
         
         Element eMODS = null;
@@ -33,16 +34,14 @@ public class GVKMODSImport {
             URL urlSRU = new URL(SRU_URL + "&recordSchema=mods&query=pica.ppn%3D"+ ppn);
             BufferedReader br = new BufferedReader(new InputStreamReader(urlSRU.openStream(), "UTF-8"));
 
-            SAXBuilder sb = new SAXBuilder(false);
+            SAXBuilder sb = new SAXBuilder();
             Document docJdom = sb.build(br, "UTF-8");
             br.close();            
             
-            @SuppressWarnings("unchecked")
+            
             Element e = ((List<Element>)docJdom.getRootElement().getChild("records", nsZS).getChild("record", nsZS).getChild("recordData", nsZS).getChildren()).get(0);
             eMODS = (Element)e.detach();
-            XPath xpMods = XPath.newInstance("//*[namespace-uri()='http://www.loc.gov/mods/v3']");
-            List l = xpMods.selectNodes(eMODS);
-            for(Object o: l){
+            for(Object o: XPathFactory.instance().compile("//*[namespace-uri()='http://www.loc.gov/mods/v3']").evaluate(eMODS)){
                 if(o instanceof Element){
                     ((Element)o).setNamespace(nsMODS);
                 }
@@ -83,15 +82,13 @@ public class GVKMODSImport {
         return eMODS;
     }
 
-    @SuppressWarnings("unchecked")
     public static Element retrievePicaXML(String ppn) {
         Element e = null;
         try {
             URL urlSRU = new URL(SRU_URL + "&recordSchema=picaxml&query=pica.ppn%3D"+ ppn);
             BufferedReader br = new BufferedReader(new InputStreamReader(urlSRU.openStream(), "UTF-8"));
 
-            SAXBuilder sb = new SAXBuilder(false);
-            Document docJdom = sb.build(br, "UTF-8");
+            Document docJdom = new SAXBuilder().build(br, "UTF-8");
             br.close();
 
             /*<zs:searchRetrieveResponse xmlns:zs="http://www.loc.gov/zing/srw/">

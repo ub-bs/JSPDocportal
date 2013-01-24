@@ -25,25 +25,23 @@
 package org.mycore.frontend.workflowengine.jbpm;
 
 import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.jbpm.bytes.ByteArray;
 import org.jbpm.context.exe.ContextInstance;
-import org.jbpm.context.exe.variableinstance.HibernateStringInstance;
 import org.jdom2.Element;
+import org.jdom2.filter.Filters;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.XMLOutputter;
-import org.jdom2.xpath.XPath;
+import org.jdom2.xpath.XPathFactory;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.access.mcrimpl.MCRAccessRule;
 import org.mycore.access.mcrimpl.MCRAccessStore;
 import org.mycore.access.mcrimpl.MCRRuleStore;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
-import org.mycore.common.xml.MCRXMLHelper;
+import org.mycore.common.content.MCRStringContent;
+import org.mycore.common.xml.MCRXMLParserFactory;
 
 /**
  * This class holds methods for the simple accessrule editor.
@@ -97,8 +95,7 @@ public class MCRWorkflowAccessRuleEditorUtils {
 			SAXBuilder builder = new SAXBuilder();
 			eRule = builder.build(new StringReader(rawRuleString)).getRootElement();
 			if(rulename.equals("groups")){
-				XPath x = XPath.newInstance(".//condition[@value='${group}']");
-				Element e = (Element)x.selectSingleNode(eRule); 
+				Element e = XPathFactory.instance().compile(".//condition[@value='${group}']", Filters.element()).evaluateFirst(eRule);
 				if(e!=null && parameter!=null && !parameter.equals("")){
 					Element p = e.getParentElement();
 					p.removeChildren(e.getName());
@@ -171,12 +168,11 @@ public class MCRWorkflowAccessRuleEditorUtils {
 		MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(lpid);
 		try{
 			String ruleRawXML = MCRWorkflowUtils.getLargeStringVariableFromWorkflow(MCRWorkflowConstants.WFM_VAR_READRULE_XMLSTRING, wfp.getContextInstance());
-			Element eRule = (Element)MCRXMLHelper.parseXML(ruleRawXML, false).getRootElement().detach();
-			@SuppressWarnings("rawtypes")
-			List listR = XPath.selectNodes(eRule, ".//condition[@field='group']");
+			Element eRule = (Element)MCRXMLParserFactory.getParser(false).parseXML(new MCRStringContent(ruleRawXML)).getRootElement().detach();
+			
 			ArrayList<String> listResults = new ArrayList<String>();
-			for(int i=0;i<listR.size();i++){
-				listResults.add(((Element)listR.get(i)).getAttributeValue("value"));
+			for(Element e: XPathFactory.instance().compile(".//condition[@field='group']", Filters.element()).evaluate(eRule)){
+				listResults.add(e.getAttributeValue("value"));
 			}
 			return (String[])listResults.toArray(new String[]{});
 		}catch(Exception e){

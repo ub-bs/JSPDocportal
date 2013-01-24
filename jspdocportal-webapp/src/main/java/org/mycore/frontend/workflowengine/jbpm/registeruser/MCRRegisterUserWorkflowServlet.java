@@ -35,8 +35,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
+import org.jdom2.filter.Filters;
 import org.jdom2.output.DOMOutputter;
-import org.jdom2.xpath.XPath;
+import org.jdom2.xpath.XPathFactory;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRSession;
@@ -327,18 +328,11 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
     	 //<groups.groupID>createperson</groups.groupID>
     		Properties props = MCRConfiguration.instance().getProperties("MCR.Users.Implicitgroups.");
 			List<String> gl = new ArrayList<String>();
-			try{
-				String path = "user.groups/groups.groupID";
-				Iterator itElems = XPath.selectNodes(user, path).iterator();
-				while(itElems.hasNext()){
-					Element e = (Element)itElems.next();
-					gl.add(e.getTextNormalize());
-				}
+			for(Element e: XPathFactory.instance().compile("user.groups/groups.groupID", Filters.element()).evaluate(user)){
+				gl.add(e.getTextNormalize());
 			}
-			catch(JDOMException jde){
-				//do nothing
-			}
-    		List<String> newGIDs = new ArrayList<String>();			
+			
+			List<String> newGIDs = new ArrayList<String>();			
     		for(String id:gl){
 					if(props.containsKey("MCR.Users.Implicitgroups."+id)){
 					String value = props.getProperty("MCR.Users.Implicitgroups."+id);
