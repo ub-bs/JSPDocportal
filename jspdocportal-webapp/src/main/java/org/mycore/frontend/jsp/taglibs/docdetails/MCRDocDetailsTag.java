@@ -42,8 +42,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.hibernate.Transaction;
-import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
 import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
@@ -191,7 +191,7 @@ public class MCRDocDetailsTag extends SimpleTagSupport {
 		if (pageContext.getRequest().getParameter("debug") != null && pageContext.getRequest().getParameter("debug").equals("true")) {
 			SAXBuilder sb = new SAXBuilder();
 			try {
-				org.jdom.Document jdom = sb.build(new ByteArrayInputStream(data));
+				org.jdom2.Document jdom = sb.build(new ByteArrayInputStream(data));
 				StringBuffer debugSB = new StringBuffer("<textarea cols=\"120\" rows=\"30\">").append("MCRObject:\r\n").append(JSPUtils.getPrettyString(jdom))
 						.append("</textarea>");
 				out.println(debugSB.toString());

@@ -1,18 +1,15 @@
 package org.mycore.frontend.jsp.query;
 
 import java.util.Comparator;
-import org.jdom.Element;
+
 import org.apache.log4j.Logger;
+import org.jdom2.Element;
 
 
-public class MCRDerivateComparator implements Comparator
+public class MCRDerivateComparator implements Comparator<Element>
 {
-  public int compare( Object o1, Object o2 )
-  {
+  public int compare( Element child1, Element child2) {
 	  try{
-		Element child1 = (Element) o1;
-		Element child2 = (Element) o2;
-		
 		int firstOrder = child1.getAttributeValue("type").compareTo(child2.getAttributeValue("type"));
 		if (firstOrder != 0) return firstOrder;
 		

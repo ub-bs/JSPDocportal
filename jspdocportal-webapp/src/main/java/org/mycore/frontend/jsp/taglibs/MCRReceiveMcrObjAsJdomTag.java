@@ -9,7 +9,7 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
-import org.jdom.output.DOMOutputter;
+import org.jdom2.output.DOMOutputter;
 import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.datamodel.common.MCRXMLMetadataManager;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
@@ -62,7 +62,7 @@ public class MCRReceiveMcrObjAsJdomTag extends SimpleTagSupport
 				mcr_obj = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrid));
 			}
 			PageContext pageContext = (PageContext) getJspContext();
-			org.jdom.Document docJdom = mcr_obj.createXML();
+			org.jdom2.Document docJdom = mcr_obj.createXML();
 			if(var != null && !var.equals("")) {
 				pageContext.setAttribute(var, docJdom);
 			}

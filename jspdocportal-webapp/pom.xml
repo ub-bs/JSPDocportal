@@ -62,7 +62,11 @@
 			<type>jar</type>
 			<optional>false</optional>
 		</dependency>
-		
+		<dependency>
+        	<groupId>org.jdom</groupId>
+        	<artifactId>jdom2</artifactId>
+        	<version>2.0.4</version>
+      	</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

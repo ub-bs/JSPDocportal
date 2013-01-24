@@ -10,9 +10,9 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.output.DOMOutputter;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.output.DOMOutputter;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowAccessRuleEditorUtils;
@@ -74,7 +74,7 @@ public class MCRGetAccessRulesTag extends SimpleTagSupport
 				}
 				options.addContent(option);
 			}
-			org.jdom.Document domOptions = new org.jdom.Document(options);
+			org.jdom2.Document domOptions = new org.jdom2.Document(options);
 			org.w3c.dom.Document domDoc = null;
 			try {
 				domDoc = new DOMOutputter().output(domOptions);
@@ -104,7 +104,7 @@ public class MCRGetAccessRulesTag extends SimpleTagSupport
 			}
 			options.addContent(currGroups);
 
-			org.jdom.Document domOptions = new org.jdom.Document(options);
+			org.jdom2.Document domOptions = new org.jdom2.Document(options);
 			org.w3c.dom.Document domDoc = null;
 			try {
 				domDoc = new DOMOutputter().output(domOptions);

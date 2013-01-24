@@ -10,11 +10,11 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.filter.ElementFilter;
-import org.jdom.output.Format;
-import org.jdom.output.XMLOutputter;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.filter.ElementFilter;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.datamodel.metadata.MCRMetaClassification;
 import org.mycore.datamodel.metadata.MCRMetaLangText;
@@ -51,10 +51,10 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 		}
 		
 		Element mycoreobject = new Element ("mycoreobject");				
-		mycoreobject.addNamespaceDeclaration(org.jdom.Namespace.getNamespace("xsi", XSI_URL));
+		mycoreobject.addNamespaceDeclaration(org.jdom2.Namespace.getNamespace("xsi", XSI_URL));
 		mycoreobject.setAttribute("noNamespaceSchemaLocation", 
 					"datamodel-" + nextFreeObjectId.getTypeId() +".xsd", 
-					org.jdom.Namespace.getNamespace("xsi", XSI_URL));		
+					org.jdom2.Namespace.getNamespace("xsi", XSI_URL));		
 		
 		Element structure = new Element ("structure");			
 		Element metadata = new Element ("metadata");	

@@ -32,8 +32,8 @@ import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.JspException;
 
 import org.apache.log4j.Logger;
-import org.jdom.Element;
-import org.jdom.output.DOMOutputter;
+import org.jdom2.Element;
+import org.jdom2.output.DOMOutputter;
 import org.mycore.frontend.workflowengine.strategies.MCRDefaultDerivateStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 
@@ -90,7 +90,7 @@ public class MCRListWorkflowDerivatesTag extends MCRSimpleTagSupport {
 				}
 			}
 			jspContext.setAttribute(varDom, 
-					new DOMOutputter().output(new org.jdom.Document(elDerivates)),
+					new DOMOutputter().output(new org.jdom2.Document(elDerivates)),
 					iScope);
 		}catch(Exception e){
 			LOGGER.error("could not list derivates of " + docID);

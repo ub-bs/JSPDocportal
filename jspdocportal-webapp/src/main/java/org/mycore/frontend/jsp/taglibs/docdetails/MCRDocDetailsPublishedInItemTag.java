@@ -31,8 +31,8 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
 import org.apache.taglibs.standard.tag.common.xml.XPathUtil;
-import org.jdom.Element;
-import org.jdom.input.DOMBuilder;
+import org.jdom2.Element;
+import org.jdom2.input.DOMBuilder;
 import org.mycore.frontend.jsp.taglibs.docdetails.helper.MCRPublishedInFormatter;
 
 import org.w3c.dom.Node;

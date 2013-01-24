@@ -6,8 +6,8 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.jdom.Document;
-import org.jdom.output.XMLOutputter;
+import org.jdom2.Document;
+import org.jdom2.output.XMLOutputter;
 
 
 
@@ -27,7 +27,7 @@ public class MCRSetQueryAsStringTag extends SimpleTagSupport
 	public void doTag() throws JspException, IOException {
 		PageContext pageContext = (PageContext) getJspContext();
 	
-		XMLOutputter output = new XMLOutputter(org.jdom.output.Format.getRawFormat());		
+		XMLOutputter output = new XMLOutputter(org.jdom2.output.Format.getRawFormat());		
 		String str = output.escapeAttributeEntities(output.escapeElementEntities(output.outputString(jdom)));		
 		
 		pageContext.setAttribute(var, str);

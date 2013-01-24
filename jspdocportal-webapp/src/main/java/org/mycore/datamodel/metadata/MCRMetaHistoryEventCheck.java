@@ -1,11 +1,11 @@
 package org.mycore.datamodel.metadata;
 
-import static org.jdom.Namespace.XML_NAMESPACE;
+import static org.jdom2.Namespace.XML_NAMESPACE;
 
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.jdom.Element;
+import org.jdom2.Element;
 import org.mycore.datamodel.metadata.validator.MCREditorMetadataValidator;
 import org.mycore.datamodel.metadata.validator.MCREditorOutValidator;
 

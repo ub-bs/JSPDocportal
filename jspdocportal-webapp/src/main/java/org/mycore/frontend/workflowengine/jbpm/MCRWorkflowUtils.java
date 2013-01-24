@@ -34,9 +34,9 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.jbpm.bytes.ByteArray;
 import org.jbpm.context.exe.ContextInstance;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.output.XMLOutputter;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.output.XMLOutputter;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
@@ -166,7 +166,7 @@ public class MCRWorkflowUtils {
 		hosts.addContent(host);
 		host.setAttribute("field", "local");
 
-		XMLOutputter out = new XMLOutputter(org.jdom.output.Format
+		XMLOutputter out = new XMLOutputter(org.jdom2.output.Format
 				.getPrettyFormat());
 		logger.debug("generated query: \n" + out.outputString(query));
 		Document jQuery = new Document(query);
@@ -241,7 +241,9 @@ public class MCRWorkflowUtils {
 	 */
 	public static String getLargeStringVariableFromWorkflow(String varName, ContextInstance ctxI){
 		try{
-			byte[] b = ((ByteArray)ctxI.getVariable(varName)).getBytes();
+			ByteArray ba = (ByteArray)ctxI.getVariable(varName);
+			if(ba==null){return null;}
+			byte[] b = ba.getBytes();
 			String s = new String(b, "UTF-8");
 			return s;			
 		}

@@ -22,9 +22,9 @@ import javax.xml.transform.stream.StreamSource;
 import net.sourceforge.stripes.controller.StripesRequestWrapper;
 
 import org.apache.log4j.Logger;
-import org.jdom.Document;
-import org.jdom.JDOMException;
-import org.jdom.transform.JDOMSource;
+import org.jdom2.Document;
+import org.jdom2.JDOMException;
+import org.jdom2.transform.JDOMSource;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.content.MCRFileContent;
 import org.mycore.common.xml.MCRURIResolver;

@@ -29,9 +29,9 @@ import java.util.UUID;
 import javax.servlet.ServletContext;
 
 import org.apache.log4j.Logger;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 import org.mycore.common.xml.MCRURIResolver;
 
 /**
@@ -64,8 +64,8 @@ public class MCRNavigationUtil {
     	
     	org.w3c.dom.Document domDoc = null;
 		try {
-			domDoc = new org.jdom.output.DOMOutputter().output(jdomDoc);
-		} catch (org.jdom.JDOMException e) {
+			domDoc = new org.jdom2.output.DOMOutputter().output(jdomDoc);
+		} catch (org.jdom2.JDOMException e) {
 			Logger.getLogger(NavServlet.class).error("Domoutput failed: ", e);
 		}  
 	

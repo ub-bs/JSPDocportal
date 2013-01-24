@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.jdom.Document;
+import org.jdom2.Document;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObjectID;
 
@@ -95,7 +95,7 @@ public class MCRJSPObjectServlet extends MCRServlet {
             OutputStream out = response.getOutputStream();
             Document jdom = MCRMetadataManager.retrieve(MCRObjectID.getInstance(id)).createXML();
             if (jdom != null) {
-                new org.jdom.output.XMLOutputter().output(jdom, out);        	
+                new org.jdom2.output.XMLOutputter().output(jdom, out);        	
             }
             out.close();
             return;

@@ -9,9 +9,9 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.log4j.Logger;
-import org.jdom.Document;
-import org.jdom.JDOMException;
-import org.jdom.output.DOMOutputter;
+import org.jdom2.Document;
+import org.jdom2.JDOMException;
+import org.jdom2.output.DOMOutputter;
 import org.mycore.common.JSPUtils;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
@@ -45,12 +45,12 @@ public class MCRListWorkflowProcessTag extends MCRSimpleTagSupport
 		}			
 		List lpids = WFM.getCurrentProcessIDsForProcessType(workflowProcessType) ;
 		
-		org.jdom.Element processlist = new org.jdom.Element ("processlist");
+		org.jdom2.Element processlist = new org.jdom2.Element ("processlist");
 		processlist.setAttribute("type", workflowProcessType);
 		
 		for (int i = 0; i < lpids.size(); i++) {
 			long pid = ((Long)lpids.get(i)).longValue();
-			org.jdom.Element process = new org.jdom.Element ("process");
+			org.jdom2.Element process = new org.jdom2.Element ("process");
 			process.setAttribute("pid", String.valueOf(pid));
 			process.setAttribute("status", WFM.getStatus(pid));
 			MCRWorkflowProcess wfp = MCRWorkflowProcessManager.getInstance().getWorkflowProcess(pid);
@@ -58,7 +58,7 @@ public class MCRListWorkflowProcessTag extends MCRSimpleTagSupport
 			for ( Iterator it = allVars.keySet().iterator(); it.hasNext(); ) {
 				String nextKey  =  (String) it.next();				
 				Object nextVal  =  allVars.get(nextKey);
-				org.jdom.Element pvar = new org.jdom.Element ("variable");
+				org.jdom2.Element pvar = new org.jdom2.Element ("variable");
 				pvar.setAttribute("name", nextKey);
 				pvar.setAttribute("value", (nextVal!=null?nextVal.toString():""));
 				process.addContent(pvar);
@@ -66,7 +66,7 @@ public class MCRListWorkflowProcessTag extends MCRSimpleTagSupport
 			processlist.addContent(process);			
 			wfp.close();
 		}
-		org.jdom.Document result = new Document(processlist);			
+		org.jdom2.Document result = new Document(processlist);			
 		org.w3c.dom.Document domDoc = null;
 		try {
 			domDoc = new DOMOutputter().output(result);

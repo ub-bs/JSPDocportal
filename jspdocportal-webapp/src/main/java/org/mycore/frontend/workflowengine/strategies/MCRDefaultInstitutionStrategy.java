@@ -5,10 +5,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.apache.log4j.Logger;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.output.Format;
-import org.jdom.output.XMLOutputter;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 
 import org.mycore.datamodel.metadata.MCRMetaInstitutionName;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
@@ -43,10 +43,10 @@ public class MCRDefaultInstitutionStrategy implements MCRInstitutionStrategy {
 	private MCRObject createInstitutionObject(MCRObjectID id) {
 		MCRObject institution = new MCRObject();
 		Element xmlElemInstitution = new Element("mycoreobject");
-		xmlElemInstitution.addNamespaceDeclaration(org.jdom.Namespace.getNamespace(
+		xmlElemInstitution.addNamespaceDeclaration(org.jdom2.Namespace.getNamespace(
 				"xsi", XSI_URL));
 		xmlElemInstitution.setAttribute("noNamespaceSchemaLocation",
-				"datamodel-institution.xsd", org.jdom.Namespace.getNamespace("xsi",
+				"datamodel-institution.xsd", org.jdom2.Namespace.getNamespace("xsi",
 						XSI_URL));
 		xmlElemInstitution.setAttribute("ID", id.toString());
 		xmlElemInstitution.setAttribute("label", id.toString());

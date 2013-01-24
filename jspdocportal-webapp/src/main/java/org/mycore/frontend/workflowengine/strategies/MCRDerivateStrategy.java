@@ -13,9 +13,9 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.filter.ElementFilter;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.filter.ElementFilter;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRDerivateFileFilter;
@@ -170,7 +170,7 @@ public abstract class MCRDerivateStrategy {
 			if (dir.isDirectory()) {
 				ArrayList dirlist = MCRUtils.getAllFileNames(dir);
 				for (int k = 0; k < dirlist.size(); k++) {
-					org.jdom.Element file = new org.jdom.Element("file");
+					org.jdom2.Element file = new org.jdom2.Element("file");
 					file.setText(derivatePath + "/" + (String) dirlist.get(k));
 					File thisfile = new File(dir, (String) dirlist.get(k));
 					file.setAttribute("size", String.valueOf(thisfile.length()));
@@ -210,7 +210,7 @@ public abstract class MCRDerivateStrategy {
 				Iterator it = derivate.getDescendants(new ElementFilter("linkmeta"));
 				if ( it.hasNext() ) {
 			      Element el = (Element) it.next();
-			      String href = el.getAttributeValue("href",org.jdom.Namespace.getNamespace("xlink",XLINK_URL));
+			      String href = el.getAttributeValue("href",org.jdom2.Namespace.getNamespace("xlink",XLINK_URL));
 			      if ( href==null)  	href = "";      
 		          derivateData.setAttribute("href", href);
 			    } 

@@ -1,7 +1,7 @@
 package org.mycore.frontend.workflowengine.jbpm.institution;
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
-import org.jdom.Element;
+import org.jdom2.Element;
 import org.mycore.common.MCRException;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.frontend.workflowengine.strategies.MCRDefaultMetadataStrategy;

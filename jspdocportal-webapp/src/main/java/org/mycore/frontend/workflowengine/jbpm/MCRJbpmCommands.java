@@ -30,9 +30,9 @@ import java.io.IOException;
 import java.util.Iterator;
 
 import org.apache.log4j.Logger;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.output.Format;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.output.Format;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRException;
 import org.mycore.datamodel.common.MCRActiveLinkException;
@@ -187,7 +187,7 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
                  File xmlOutput = new File(dir, id.toString() + ".xml");
                  FileOutputStream out = new FileOutputStream(xmlOutput);
                  
-                 new org.jdom.output.XMLOutputter(Format.getPrettyFormat()).output(xml, out);
+                 new org.jdom2.output.XMLOutputter(Format.getPrettyFormat()).output(xml, out);
                  out.flush();
                  out.close();
                  

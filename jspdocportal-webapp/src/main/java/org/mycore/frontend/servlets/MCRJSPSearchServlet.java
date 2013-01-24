@@ -31,8 +31,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.jdom.Document;
-import org.jdom.output.XMLOutputter;
+import org.jdom2.Document;
+import org.jdom2.output.XMLOutputter;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
@@ -150,7 +150,7 @@ public class MCRJSPSearchServlet extends MCRSearchServlet {
 		qd.getQuery().setSortBy(sortByList);	
 		// Show incoming query document
         if (LOGGER.isDebugEnabled()) {
-            XMLOutputter out = new XMLOutputter(org.jdom.output.Format.getPrettyFormat());
+            XMLOutputter out = new XMLOutputter(org.jdom2.output.Format.getPrettyFormat());
             LOGGER.debug(out.outputString(qd.getQuery().buildXML()));
         }
         showResults(req, res);
@@ -169,7 +169,7 @@ public class MCRJSPSearchServlet extends MCRSearchServlet {
     		//<mcr:results xmlns:mcr="http://www.mycore.org/" id="1iljqgz8zqp6merg8xiel" 
             // Show incoming result document
             if (LOGGER.isDebugEnabled()) {
-                XMLOutputter out = new XMLOutputter(org.jdom.output.Format.getPrettyFormat());
+                XMLOutputter out = new XMLOutputter(org.jdom2.output.Format.getPrettyFormat());
                 LOGGER.debug(out.outputString(jdom));
             }
     		//String id = jdom.getRootElement().getAttributeValue("id");

@@ -8,9 +8,9 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
-import org.jdom.xpath.XPath;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.xpath.XPath;
 import org.mycore.frontend.servlets.MCRServlet;
 
 /**
@@ -57,7 +57,7 @@ public class MCRImageViewerGetSupportTag extends SimpleTagSupport
 		String result ="";
     	SAXBuilder saxBuilder=new SAXBuilder("org.apache.xerces.parsers.SAXParser");
     	try{
-    		org.jdom.Document jdomDocument=saxBuilder.build(url);
+    		org.jdom2.Document jdomDocument=saxBuilder.build(url);
     		XPath xpath = XPath.newInstance("/mcr-module/support/@mainFile");
     		result = xpath.valueOf(jdomDocument);    		
     	}
@@ -98,7 +98,7 @@ public class MCRImageViewerGetSupportTag extends SimpleTagSupport
 //        	Reader stringReader=new StringReader(strW.toString());
 //        
 //        	try{
-//        		org.jdom.Document jdomDocument=saxBuilder.build(stringReader);
+//        		org.jdom2.Document jdomDocument=saxBuilder.build(stringReader);
 //        		result = jdomDocument.getContent(0).getValue();
 //        	}
 //        	catch(JDOMException jde){

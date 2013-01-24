@@ -34,9 +34,9 @@ import java.util.PropertyResourceBundle;
 import javax.xml.transform.TransformerException;
 
 import org.apache.log4j.Logger;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.filter.ElementFilter;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.filter.ElementFilter;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.xml.MCRURIResolver.MCRResolver;
 import org.mycore.datamodel.classifications2.MCRCategoryDAOFactory;
@@ -105,7 +105,7 @@ public class MCRGetEditorElements implements MCRResolver {
 		
 
         for (int i = 0; i < groupIDs.size(); i++) {
-            org.jdom.Element item = new org.jdom.Element("item").setAttribute("value", (String) groupIDs.get(i).getName()).setAttribute("label", (String) groupIDs.get(i).getName());
+            org.jdom2.Element item = new org.jdom2.Element("item").setAttribute("value", (String) groupIDs.get(i).getName()).setAttribute("label", (String) groupIDs.get(i).getName());
             retitems.addContent(item);
         }
         return retitems;        
@@ -119,7 +119,7 @@ public class MCRGetEditorElements implements MCRResolver {
 			MCRRole group = (MCRRole) itGroup.next();
 			String ID = group.getName();
 			if ( ID.startsWith("create")) {
-	            org.jdom.Element item = new org.jdom.Element("item").setAttribute("value", ID)
+	            org.jdom2.Element item = new org.jdom2.Element("item").setAttribute("value", ID)
 	            	.setAttribute("label", group.getName());			
 	            retitems.addContent(item);
 			}

@@ -31,10 +31,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.output.DOMOutputter;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.output.DOMOutputter;
 import org.mycore.datamodel.ifs.MCRFileNodeServlet;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
@@ -90,7 +90,7 @@ public class MCRJSPFileNodeServlet extends  MCRFileNodeServlet{
             res.setContentType("text/xml");
             OutputStream out = res.getOutputStream();
             if (jdom != null) {
-                new org.jdom.output.XMLOutputter().output(jdom, out);        	
+                new org.jdom2.output.XMLOutputter().output(jdom, out);        	
             }
             out.close();
             return;

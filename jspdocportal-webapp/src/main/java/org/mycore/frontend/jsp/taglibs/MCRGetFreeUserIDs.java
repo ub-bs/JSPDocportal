@@ -8,9 +8,9 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.output.DOMOutputter;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.output.DOMOutputter;
 import org.mycore.common.JSPUtils;
 import org.mycore.user2.MCRUserManager;
 
@@ -50,7 +50,7 @@ public class MCRGetFreeUserIDs extends SimpleTagSupport
 			}			
 		}
 		
-		org.jdom.Document newIDs = new org.jdom.Document(newUserID);
+		org.jdom2.Document newIDs = new org.jdom2.Document(newUserID);
 		org.w3c.dom.Document domDoc = null;
 		try {
 			domDoc = new DOMOutputter().output(newIDs);

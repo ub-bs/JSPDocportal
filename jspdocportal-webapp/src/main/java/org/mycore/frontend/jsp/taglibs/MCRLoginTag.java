@@ -11,9 +11,9 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.output.DOMOutputter;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.output.DOMOutputter;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
@@ -178,7 +178,7 @@ public class MCRLoginTag extends SimpleTagSupport
         
 	private void setTagResult(Element loginresult) throws IOException{
 		PageContext pageContext = (PageContext) getJspContext();
-		org.jdom.Document lgresult = new org.jdom.Document(loginresult);
+		org.jdom2.Document lgresult = new org.jdom2.Document(loginresult);
 		org.w3c.dom.Document domDoc = null;
 		try {
 			domDoc = new DOMOutputter().output(lgresult);

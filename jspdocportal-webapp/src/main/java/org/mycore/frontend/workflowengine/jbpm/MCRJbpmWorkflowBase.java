@@ -20,9 +20,9 @@ import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.taskmgmt.exe.TaskInstance;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.output.DOMOutputter;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.output.DOMOutputter;
 import org.mycore.common.MCRException;
 
 @SuppressWarnings("rawtypes")

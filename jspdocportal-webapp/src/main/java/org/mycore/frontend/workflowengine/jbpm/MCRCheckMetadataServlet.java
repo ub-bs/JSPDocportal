@@ -31,8 +31,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.jdom.Document;
-import org.jdom.output.Format;
+import org.jdom2.Document;
+import org.jdom2.output.Format;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.MCRUtils;
@@ -64,7 +64,7 @@ public class MCRCheckMetadataServlet extends MCRServlet {
     	HttpServletResponse response = job.getResponse();
     	// read the XML data
         MCREditorSubmission sub = (MCREditorSubmission) (request.getAttribute("MCREditorSubmission"));
-        org.jdom.Document indoc = sub.getXML();
+        org.jdom2.Document indoc = sub.getXML();
  
         // read the parameter
         MCRRequestParameters parms = sub.getParameters();
@@ -131,12 +131,12 @@ public class MCRCheckMetadataServlet extends MCRServlet {
         }
 
         // create a metadata object and prepare it
-        org.jdom.Document outdoc;
+        org.jdom2.Document outdoc;
         StringBuffer storePath = new StringBuffer(MCRWorkflowDirectoryManager.getWorkflowDirectory(ID.getTypeId()))
 			.append("/").append(ID.toString()).append(".xml");
         
         	WFM.storeMetadata(MCRUtils.getByteArray(indoc, Format.getPrettyFormat()), ID.toString(), storePath.toString());
-        	outdoc = prepareMetadata((org.jdom.Document) indoc.clone(), ID, job, lang, step, 
+        	outdoc = prepareMetadata((org.jdom2.Document) indoc.clone(), ID, job, lang, step, 
         			   nextPath, storePath.toString(), workflowType, String.valueOf(processID), publicationType);
         	WFM.storeMetadata(MCRUtils.getByteArray(outdoc, Format.getPrettyFormat()), ID.toString(), storePath.toString());
         	WFM.setWorkflowVariablesFromMetadata(wfp.getContextInstance(), indoc.getRootElement().getChild("metadata"));
@@ -177,7 +177,7 @@ public class MCRCheckMetadataServlet extends MCRServlet {
      * @param lang
      *            the current language
      */
-    protected org.jdom.Document prepareMetadata(org.jdom.Document jdom_in, MCRObjectID ID, MCRServletJob job, 
+    protected org.jdom2.Document prepareMetadata(org.jdom2.Document jdom_in, MCRObjectID ID, MCRServletJob job, 
     		String lang, String step, String nextPath, String storePath, String workflowType, 
     		String processID , String publicationType) throws Exception {
     	 MCREditorOutValidator ev = null;
@@ -243,7 +243,7 @@ public class MCRCheckMetadataServlet extends MCRServlet {
     	HttpServletResponse response = job.getResponse();
     	// read the XML data
         MCREditorSubmission sub = (MCREditorSubmission) (request.getAttribute("MCREditorSubmission"));
-        org.jdom.Document indoc = sub.getXML();
+        org.jdom2.Document indoc = sub.getXML();
 
         // read the parameter
         MCRRequestParameters parms = sub.getParameters();
@@ -301,12 +301,12 @@ public class MCRCheckMetadataServlet extends MCRServlet {
         }
 
         // create a metadata object and prepare it
-        org.jdom.Document outdoc;
+        org.jdom2.Document outdoc;
         StringBuffer storePath = new StringBuffer(MCRWorkflowDirectoryManager.getWorkflowDirectory(ID.getTypeId()))
 			.append("/").append(ID.toString()).append(".xml");
         
         	WFM.storeMetadata(MCRUtils.getByteArray(indoc, Format.getPrettyFormat()), ID.toString(), storePath.toString());
-        	outdoc = prepareMetadata((org.jdom.Document) indoc.clone(), ID, job, lang, step, 
+        	outdoc = prepareMetadata((org.jdom2.Document) indoc.clone(), ID, job, lang, step, 
         			   nextPath, storePath.toString(), workflowType, String.valueOf(processID), "person");
         	WFM.storeMetadata(MCRUtils.getByteArray(outdoc, Format.getPrettyFormat()), ID.toString(), storePath.toString());
         		

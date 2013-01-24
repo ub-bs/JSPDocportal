@@ -33,10 +33,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.output.DOMOutputter;
-import org.jdom.xpath.XPath;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.output.DOMOutputter;
+import org.jdom2.xpath.XPath;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRSession;
@@ -153,7 +153,7 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
     
     private void assignUserRegistration(MCREditorSubmission sub) throws Exception { 
         Element root = new Element("mycoreuser");        
- 		root.setAttribute("noNamespaceSchemaLocation", "MCRUser.xsd", org.jdom.Namespace.getNamespace("xsi", XSI_URL));
+ 		root.setAttribute("noNamespaceSchemaLocation", "MCRUser.xsd", org.jdom2.Namespace.getNamespace("xsi", XSI_URL));
         Element userElement = new Element("user");
 		
         if ( newUserID != null ) {
@@ -167,7 +167,7 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 				userElement = (Element) setNewUserIDforUser(newUserID, ID, storePath.toString(), lang);
 			}
 		} else {
-	        org.jdom.Document   indoc = sub.getXML();
+	        org.jdom2.Document   indoc = sub.getXML();
             userElement = (Element) indoc.getRootElement().getChild("user").clone();
             /**
             // remove the n- Entry and put it into one descrition...
@@ -220,7 +220,7 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 					.append(ID).append(".xml");
 		       	
 		       	root.addContent(userElement);
-				org.jdom.Document outDoc =  new org.jdom.Document (root);	        
+				org.jdom2.Document outDoc =  new org.jdom2.Document (root);	        
 				WFM.storeMetadata(MCRUtils.getByteArray(outDoc), ID, storePath.toString());
 					
 				if ( MCRUserManager.exists(ID) ) {
@@ -278,9 +278,9 @@ public class MCRRegisterUserWorkflowServlet extends MCRServlet {
 	}
 	  
     public final Element setNewUserIDforUser(String newID, String userID, String fullname, String lang ) throws Exception {
-    	 org.jdom.Element userElement = null;
+    	 org.jdom2.Element userElement = null;
          try {
-             org.jdom.Document doc = MCRXMLHelper.parseURI(new File(fullname).toURI(), false);
+             org.jdom2.Document doc = MCRXMLHelper.parseURI(new File(fullname).toURI(), false);
              userElement = (Element) doc.getRootElement().getChild("user").clone();
              userElement.setAttribute("ID",newID);
              // delete OldFile

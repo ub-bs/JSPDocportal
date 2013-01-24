@@ -3,9 +3,9 @@ package org.mycore.datamodel.metadata;
 import java.util.Iterator;
 
 import org.apache.log4j.Logger;
-import org.jdom.Attribute;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Attribute;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 import org.mycore.common.MCRCalendar;
 import org.mycore.common.MCRException;
 
@@ -71,14 +71,14 @@ public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
      *            a relevant JDOM element for the metadata
      */
     @SuppressWarnings("unchecked")
-	public void setFromDOM(org.jdom.Element element) {
+	public void setFromDOM(org.jdom2.Element element) {
         if(element.getChild("von")==null){
         	element.addContent(new Element("von"));
         }
         if(element.getChild("bis")==null){
         	element.addContent(new Element("bis"));
         }
-        Iterator<org.jdom.Element> textchild = element.getChildren("text").iterator();
+        Iterator<org.jdom2.Element> textchild = element.getChildren("text").iterator();
         while (textchild.hasNext()) {
             Element elmt = textchild.next();
             Attribute attr = elmt.getAttribute("lang");
@@ -114,15 +114,15 @@ public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
      *                if the content of this class is not valid
      * @return a JDOM Element with the XML MCRMetaHistoryDate part
      */
-    public org.jdom.Element createXML() throws MCRException {
+    public org.jdom2.Element createXML() throws MCRException {
     	if (!isValid()) {
             debug();
             throw new MCRException("The content of MCRMetaHistoryEvent '"+getSubTag()+"' is not valid.");
         }
 
-        org.jdom.Element elm = super.createXML();
+        org.jdom2.Element elm = super.createXML();
         if ((event = event.trim()).length() != 0) {
-            elm.addContent(new org.jdom.Element("event").addContent(event));
+            elm.addContent(new org.jdom2.Element("event").addContent(event));
         }
 
 //        if(classification!=null && !classification.isValid()){

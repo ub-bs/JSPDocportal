@@ -25,7 +25,7 @@ package org.mycore.frontend.jsp.taglibs.docdetails.helper;
 
 import java.util.List;
 
-import org.jdom.Element;
+import org.jdom2.Element;
 import org.mycore.common.MCRConstants;
 
 /**

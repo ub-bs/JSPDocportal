@@ -2,8 +2,8 @@ package org.mycore.frontend.workflowengine.jbpm.publication;
 import java.util.Iterator;
 
 import org.jbpm.context.exe.ContextInstance;
-import org.jdom.Element;
-import org.jdom.filter.ElementFilter;
+import org.jdom2.Element;
+import org.jdom2.filter.ElementFilter;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.datamodel.classifications2.MCRCategoryDAOFactory;

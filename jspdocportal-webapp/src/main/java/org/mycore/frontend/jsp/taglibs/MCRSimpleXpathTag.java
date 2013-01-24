@@ -8,16 +8,16 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
-import org.jdom.xpath.XPath;
+import org.jdom2.xpath.XPath;
 
 
 public class MCRSimpleXpathTag extends SimpleTagSupport
 {
 	private static Logger logger = Logger.getLogger(MCRSimpleXpathTag.class);
-	private org.jdom.Document jdom;
+	private org.jdom2.Document jdom;
 	private String xpath;
 	
-	public void setJdom(org.jdom.Document inputDoc) {
+	public void setJdom(org.jdom2.Document inputDoc) {
 		jdom = inputDoc;
 		return;
 	}
@@ -44,13 +44,13 @@ public class MCRSimpleXpathTag extends SimpleTagSupport
 	 * @param xpath xpath-expression, namespaces includable
 	 * @return String
 	 */
-    public String getSingleXPathValue(org.jdom.Document jdom,String xpath) {
+    public String getSingleXPathValue(org.jdom2.Document jdom,String xpath) {
     	try {
     		Object obj = XPath.selectSingleNode( jdom, xpath);
-    		if ( obj instanceof org.jdom.Attribute) 
-    			return ((org.jdom.Attribute) obj).getValue();
-    		if ( obj instanceof org.jdom.Element)
-    			return ((org.jdom.Element) obj).getText();
+    		if ( obj instanceof org.jdom2.Attribute) 
+    			return ((org.jdom2.Attribute) obj).getValue();
+    		if ( obj instanceof org.jdom2.Element)
+    			return ((org.jdom2.Element) obj).getText();
 		} catch (Exception e) {
 		   logger.debug("wrong xpath expression: " + xpath);
 		}

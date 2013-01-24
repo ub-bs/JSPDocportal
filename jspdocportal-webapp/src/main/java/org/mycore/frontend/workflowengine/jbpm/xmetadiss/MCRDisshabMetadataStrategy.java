@@ -2,9 +2,9 @@ package org.mycore.frontend.workflowengine.jbpm.xmetadiss;
 import java.util.Iterator;
 
 import org.jbpm.context.exe.ContextInstance;
-import org.jdom.Element;
-import org.jdom.Namespace;
-import org.jdom.filter.ElementFilter;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
+import org.jdom2.filter.ElementFilter;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.frontend.workflowengine.strategies.MCRDefaultMetadataStrategy;
 

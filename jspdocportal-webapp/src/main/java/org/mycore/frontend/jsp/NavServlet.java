@@ -5,10 +5,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.jdom.Element;
-import org.jdom.Namespace;
-import org.jdom.input.DOMBuilder;
-import org.jdom.xpath.XPath;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
+import org.jdom2.input.DOMBuilder;
+import org.jdom2.xpath.XPath;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.frontend.servlets.MCRServlet;
@@ -19,7 +19,7 @@ public class NavServlet extends MCRServlet
 	private static final long serialVersionUID = 1L;
     private static Logger logger = Logger.getLogger(NavServlet.class);
 
-    private static org.jdom.Document navJdom;
+    private static org.jdom2.Document navJdom;
    
     protected void doGetPost(MCRServletJob job) throws Exception
     {
@@ -50,7 +50,7 @@ public class NavServlet extends MCRServlet
 	        	
 	        	XPath xp = XPath.newInstance("/n:navigations//n:refitem[@id='" + path + "']");
 	        	xp.addNamespace(Namespace.getNamespace("n", "http://www.mycore.org/jspdocportal/navigation"));
-	        	org.jdom.Element refitem = (Element) xp.selectSingleNode(navJdom);
+	        	org.jdom2.Element refitem = (Element) xp.selectSingleNode(navJdom);
 	        	navitem = refitem.getParentElement();
 	        }else{
 	        	String[] nodes = path.split("\\.");
@@ -91,8 +91,8 @@ public class NavServlet extends MCRServlet
         
         org.w3c.dom.Document domYouAreHere = null;
 		try {
-			domYouAreHere = new org.jdom.output.DOMOutputter().output(new org.jdom.Document((Element)navitem.clone()));
-		} catch (org.jdom.JDOMException e) {
+			domYouAreHere = new org.jdom2.output.DOMOutputter().output(new org.jdom2.Document((Element)navitem.clone()));
+		} catch (org.jdom2.JDOMException e) {
 			Logger.getLogger(NavServlet.class).error("Domoutput failed: ", e);
 		}  
         

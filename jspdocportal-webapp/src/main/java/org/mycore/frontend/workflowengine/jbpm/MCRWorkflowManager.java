@@ -11,7 +11,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.graph.def.Node;
-import org.jdom.Element;
+import org.jdom2.Element;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;

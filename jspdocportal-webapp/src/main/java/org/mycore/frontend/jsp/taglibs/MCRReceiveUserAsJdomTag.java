@@ -7,8 +7,8 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
-import org.jdom.Document;
-import org.jdom.Element;
+import org.jdom2.Document;
+import org.jdom2.Element;
 import org.mycore.common.MCRException;
 import org.mycore.user2.MCRUser;
 import org.mycore.user2.MCRUserManager;

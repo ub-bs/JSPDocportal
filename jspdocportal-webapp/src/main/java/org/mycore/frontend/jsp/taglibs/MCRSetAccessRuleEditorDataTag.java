@@ -93,29 +93,29 @@ public class MCRSetAccessRuleEditorDataTag extends SimpleTagSupport
 		}
 		if(step == 0) step = 25;
 		
-		org.jdom.Element root = new org.jdom.Element("accessrule-index");
+		org.jdom2.Element root = new org.jdom2.Element("accessrule-index");
 		root.setAttribute("type", indexType);
 		
-		org.jdom.Element permissionsEl = new org.jdom.Element("permissions");
+		org.jdom2.Element permissionsEl = new org.jdom2.Element("permissions");
 		permissionsEl.setAttribute("numHits",String.valueOf(permissions.length));
 		for (int i = 0; i < permissions.length; i++) {
-			org.jdom.Element permissionEl = new org.jdom.Element("permission");
+			org.jdom2.Element permissionEl = new org.jdom2.Element("permission");
 			permissionEl.setText(permissions[i]);
 			permissionsEl.addContent(permissionEl);
 		}
 		root.addContent(permissionsEl);
 		
-		org.jdom.Element results = new org.jdom.Element("result");
+		org.jdom2.Element results = new org.jdom2.Element("result");
 		results.setAttribute("numHits", String.valueOf(merged.size()));
 		int i;
 		for (i = start; i < merged.size() && i < start + step; i++ ) {
-			org.jdom.Element value = new org.jdom.Element("value");
+			org.jdom2.Element value = new org.jdom2.Element("value");
 			value.setAttribute("pos", String.valueOf(i));
-			org.jdom.Element idx = new org.jdom.Element("idx");
+			org.jdom2.Element idx = new org.jdom2.Element("idx");
 			idx.setText(String.valueOf(merged.get(i)));
 			value.addContent(idx);
 			for (int j = 0; j < permissions.length; j++) {
-				org.jdom.Element permissionForId = new org.jdom.Element("permission");
+				org.jdom2.Element permissionForId = new org.jdom2.Element("permission");
 				permissionForId.setAttribute("name", permissions[j]);
 				if(AI.hasRule((String)merged.get(i),permissions[j]))
 					permissionForId.setAttribute("value","X");
@@ -128,7 +128,7 @@ public class MCRSetAccessRuleEditorDataTag extends SimpleTagSupport
 		}
 		results.setAttribute("displayedHits", String.valueOf(i - start));
 		root.addContent(results);
-		org.jdom.Document doc = new org.jdom.Document(root);
+		org.jdom2.Document doc = new org.jdom2.Document(root);
 		
    		org.w3c.dom.Document domDoc = null;
    		try {
