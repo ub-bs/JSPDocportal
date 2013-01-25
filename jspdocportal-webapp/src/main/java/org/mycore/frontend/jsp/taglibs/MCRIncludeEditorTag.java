@@ -26,7 +26,7 @@ import org.mycore.common.xml.MCRURIResolver;
 import org.mycore.common.xsl.MCRParameterCollector;
 import org.mycore.frontend.editor.MCREditorServlet;
 import org.mycore.frontend.jsp.NavServlet;
-import org.xml.sax.SAXParseException;
+import org.xml.sax.SAXException;
 
 public class MCRIncludeEditorTag extends SimpleTagSupport {
 	private static Logger logger = Logger.getLogger("MCRIncludeEditorTag.class");
@@ -101,8 +101,8 @@ public class MCRIncludeEditorTag extends SimpleTagSupport {
 			logger.error("TransformerConfigurationException: " + e, e);
 		} catch (TransformerException e) {
 			logger.error("TransformerException " + e, e);
-		} catch (SAXParseException e) {
-			logger.error("SAXParseException " + e, e);
+		} catch (SAXException e) {
+			logger.error("SAXException " + e, e);
 		} catch (JDOMException e) {
 			logger.error("JDOMException " + e, e);
 		}

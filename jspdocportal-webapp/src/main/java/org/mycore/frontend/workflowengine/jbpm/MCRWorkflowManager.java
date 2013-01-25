@@ -23,7 +23,6 @@ import org.mycore.frontend.workflowengine.strategies.MCRDerivateStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRMetadataStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRPermissionStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
-import org.mycore.user.MCRUserMgr;
 import org.mycore.user2.MCRUser;
 import org.mycore.user2.MCRUserManager;
 

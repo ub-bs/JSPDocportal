@@ -32,7 +32,7 @@ import org.mycore.common.xsl.MCRParameterCollector;
 import org.mycore.frontend.editor.MCREditorServlet;
 import org.mycore.frontend.jsp.NavServlet;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
-import org.xml.sax.SAXParseException;
+import org.xml.sax.SAXException;
 
 
 public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
@@ -199,7 +199,7 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 		catch ( TransformerException e ) {
 		      logger.error( "TransformerException: " + e , e);
 		}
-		catch(SAXParseException e){
+		catch(SAXException e){
 				logger.error( "SaxParseException: " + e , e);
 		}
 		catch(JDOMException e){
