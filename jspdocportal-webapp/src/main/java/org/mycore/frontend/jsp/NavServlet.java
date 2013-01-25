@@ -63,7 +63,7 @@ public class NavServlet extends MCRServlet {
 					xpath.append("/n:navitem[@id='").append(nodes[i]).append("']");
 				}
 			}
-			navitem = XPathFactory.instance().compile("/n:navigations//n:refitem[@id='" + path + "']", Filters.element(), null, NS_NAV).evaluateFirst(navJdom);
+			navitem = XPathFactory.instance().compile(xpath.toString(), Filters.element(), null, NS_NAV).evaluateFirst(navJdom); 
 		}
 
 		if (navitem == null) {
