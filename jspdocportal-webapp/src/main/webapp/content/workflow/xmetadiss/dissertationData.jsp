@@ -4,27 +4,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://www.mycore.org/jspdocportal/base.tld" prefix="mcr" %>
 
-<mcr:getWorkflowEngineVariable pid="${requestScope.pid}" var="authorID" workflowVar="${applicationScope.constants.authorIdWorkflowVariable}" /> 
 <mcr:getWorkflowEngineVariable pid="${requestScope.pid}" var="urn" workflowVar="${applicationScope.constants.reservatedUrnWorkflowVariable}" /> 
-
-<mcr:receiveMcrObjAsJdom varDom="authorobject" mcrid="${authorID}" />
 
 <h2>
    <fmt:message key="WF.xmetadiss.begin" />
 </h2>
 
 <table>
-	<c:if test="${not empty authorobject}">
- 		<x:forEach select="$authorobject/mycoreobject" >
-   			<tr valign="top">
-      			<th><fmt:message key="WF.xmetadiss.Author" />: </th>
-      			<td>  
-        			<x:out select="./metadata/names/name/fullname" escapeXml="false" />
-         			(<x:out select="./@ID" />)
-      			</td>
-   			</tr>  
- 		</x:forEach>
-	</c:if>
 	<c:if test="${not empty urn}">
 		<tr>
 			<th><fmt:message key="WF.xmetadiss.URN" />: </th>
