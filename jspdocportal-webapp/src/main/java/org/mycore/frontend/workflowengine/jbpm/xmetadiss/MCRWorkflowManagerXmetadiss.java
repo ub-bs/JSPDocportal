@@ -35,14 +35,12 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
-import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRException;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
-import org.mycore.frontend.workflowengine.guice.MCRRegisteruserWorkflowModule;
 import org.mycore.frontend.workflowengine.guice.MCRXmetadissWorkflowModule;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowAccessRuleEditorUtils;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
@@ -92,43 +90,29 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 		return singleton;
 	}
 	
-	
-	
 	public long initWorkflowProcess(String initiator, String transitionName) throws MCRException {
-
 		
-		List processIDs = getCurrentProcessIDsForProcessType(initiator, workflowProcessType);
-//		if (processIDs == null || processIDs.size() == 0) {
-//		allow multiple workflowproccesses - same code as in MCRWorkflowManagerPublication		
+		getCurrentProcessIDsForProcessType(initiator, workflowProcessType);
 		
-		if(true){
-			MCRWorkflowProcess wfp = createWorkflowProcess(workflowProcessType);
-			try{
-				wfp.initialize(initiator);
-				wfp.save();
-				MCRUser user = MCRUserManager.getUser(initiator);
-				String email = user.getEMailAddress();
-				if(email != null && !email.equals("")){
-					wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_INITIATOREMAIL, email);
-				}
+		MCRWorkflowProcess wfp = createWorkflowProcess(workflowProcessType);
+		try{
+			wfp.initialize(initiator);
+			wfp.save();
+			MCRUser user = MCRUserManager.getUser(initiator);
+			String email = user.getEMailAddress();
+			if(email != null && !email.equals("")){
+				wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_INITIATOREMAIL, email);
+			}
 				
-				wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_FILECNT, "0");
-				wfp.endTask("initialization", initiator, transitionName);
-				return wfp.getProcessInstanceID();
-			}catch(MCRException ex){
-				logger.error("MCRWorkflow Error, could not initialize the workflow process", ex);
-				throw new MCRException("MCRWorkflow Error, could not initialize the workflow process");
-			}finally{
-				if(wfp != null)
-					wfp.close();
-			}				
-		}else if(processIDs != null && processIDs.size() > 1){
-			String errMsg = "there exists another workflow process of " + workflowProcessType + " for initiator " + initiator;
-			logger.warn(errMsg);
-			throw new MCRException(errMsg);
-		}else{
-			return ((Long)processIDs.get(0)).longValue();
-		}
+			wfp.setStringVariable(MCRWorkflowConstants.WFM_VAR_FILECNT, "0");
+			wfp.endTask("initialization", initiator, transitionName);
+			return wfp.getProcessInstanceID();
+		}catch(MCRException ex){
+			logger.error("MCRWorkflow Error, could not initialize the workflow process", ex);
+			throw new MCRException("MCRWorkflow Error, could not initialize the workflow process");
+		}finally{
+			if(wfp != null) wfp.close();
+		}				
 	}
 	
 	/**
@@ -260,7 +244,6 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 	public String createEmptyMetadataObject(ContextInstance ctxI){
 		
 		try{			
-			String[] authors = ((String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_AUTHOR_IDS)).split(",");
 			MCRObjectID nextFreeId = getNextFreeID(metadataStrategy.getDocumentType());
 			String initiator = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_INITIATOR);
 			String saveDirectory = MCRWorkflowDirectoryManager.getWorkflowDirectory(mainDocumentType);
@@ -270,7 +253,7 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 			}
 			Map<Integer, String> identifiers = new HashMap<Integer, String>();
 			identifiers.put(MCRWorkflowConstants.KEY_IDENTIFER_TYPE_URN, (String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_RESERVATED_URN));
-			if(metadataStrategy.createEmptyMetadataObject(true, Arrays.asList(authors), null,
+			if(metadataStrategy.createEmptyMetadataObject(false, null, null,
 					nextFreeId, initiator, identifiers, null, saveDirectory) ){
 						permissionStrategy.setPermissions(nextFreeId.toString(), initiator, 
 								getWorkflowProcessType(), ctxI, MCRWorkflowConstants.PERMISSION_MODE_DEFAULT );
@@ -292,17 +275,17 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 			if(!metadataStrategy.commitMetadataObject(dissID, MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType))){
 				throw new MCRException("error in committing " + dissID);
 			}
-			List deletedDerIDs = Arrays.asList(((String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_DELETED_DERIVATES)).split(","));
-			for (Iterator it = deletedDerIDs.iterator(); it.hasNext();) {
-				String derivateID = (String) it.next();
+			List<String> deletedDerIDs = Arrays.asList(((String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_DELETED_DERIVATES)).split(","));
+			for (Iterator<String> it = deletedDerIDs.iterator(); it.hasNext();) {
+				String derivateID = it.next();
 				if ( derivateID != null && derivateID.length() > 0 ) {
 					derivateStrategy.deleteDeletedDerivates(derivateID);
 				}
 			}
 			if(ctxI.hasVariable(MCRWorkflowConstants.WFM_VAR_DELETED_FILES_IN_DERIVATES)){
-				List deletedDerFiles = Arrays.asList(((String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_DELETED_FILES_IN_DERIVATES)).split(","));
-				for (Iterator it = deletedDerFiles.iterator(); it.hasNext();) {
-					String derivateFile= (String) it.next();
+				List<String> deletedDerFiles = Arrays.asList(((String)ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_DELETED_FILES_IN_DERIVATES)).split(","));
+				for (Iterator<String> it = deletedDerFiles.iterator(); it.hasNext();) {
+					String derivateFile= it.next();
 					if ( derivateFile != null && derivateFile.length() > 0 ) {
 						derivateStrategy.deleteDeletedDerivateFile(derivateFile);
 					}
@@ -310,10 +293,10 @@ public class MCRWorkflowManagerXmetadiss extends MCRWorkflowManager{
 			}
 			
 			
-			List derivateIDs = Arrays.asList(((String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES)).split(","));
-			for (Iterator it = derivateIDs.iterator(); it.hasNext();) {
+			List<String> derivateIDs = Arrays.asList(((String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_ATTACHED_DERIVATES)).split(","));
+			for (Iterator<String> it = derivateIDs.iterator(); it.hasNext();) {
 	
-				String derivateID = (String) it.next();
+				String derivateID = it.next();
 				if(!derivateStrategy.commitDerivateObject(derivateID, MCRWorkflowDirectoryManager.getWorkflowDirectory(documentType))){
 					throw new MCRException("error in committing " + derivateID);
 				}
