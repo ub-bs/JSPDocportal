@@ -125,18 +125,21 @@
   <panel id="DDate_Diss">
     <hidden var="metadata/dates/@class" default="MCRMetaISO8601Date" />
     <hidden var="metadata/dates/date/@type" default="submitted" />
-    <cell col="1" row="1" anchor="NORTHWEST" var="metadata/dates/date">
+    <cell col="1" row="1" anchor="NORTHWEST">
+      <text class="editorHint" i18n="Editor.Label.DateSubmitted" />
+    </cell>
+    <cell col="2" row="1" anchor="NORTHWEST" var="metadata/dates/date">
        <textfield id="TFDateSubmitted"  width="30" maxlength="128" class="mandatory" >		
 		   <condition id="CDateSubmitted" regexp="(\d\d\.\d\d\.\d\d\d\d)|(\d\d\d\d\-\d\d\-\d\d)" required="true" >
 				<label i18n="Editor.Validate.Date.Format" />
          </condition>
       </textfield>	 
     </cell>
-    <cell col="2" row="1" anchor="NORTHWEST">
-    	<text class="editorHint" i18n="Editor.Label.DateSubmitted" />
-    </cell>
     <hidden var="metadata/dates/date[2]/@type" default="accepted" />
-    <cell col="1" row="2" anchor="NORTHWEST"  var="metadata/dates/date[2]" >
+    <cell col="1" row="2" anchor="NORTHWEST">
+      <text class="editorHint" i18n="Editor.Label.DateAccepted" />
+    </cell>
+    <cell col="2" row="2" anchor="NORTHWEST"  var="metadata/dates/date[2]" >
        <textfield id="TFDateAccepted"  width="30" maxlength="128" class="mandatory" >		
 		   <condition id="CDateAccepted" regexp="(\d\d\.\d\d\.\d\d\d\d)|(\d\d\d\d\-\d\d\-\d\d)" required="true" >
 				<label i18n="Editor.Validate.Date.Format" />

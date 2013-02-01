@@ -3,9 +3,6 @@
 
 <editor class="editor" id="editor-author-disshab">
 
-
- 
-
  <source uri="{sourceUri}" />
  <cancel url="{cancelUrl}" />
 <!-- <target type="debug" /> -->
@@ -60,8 +57,8 @@
     <cell col="2" row="61" colspan="3" anchor="NORTHWEST" ref="LDescriptionAbstractP" />
     <cell col="3" row="62" colspan="2" anchor="NORTHWEST" ref="DDescription" sortnr="6" />
 
-<!-- <cell col="2" row="71" colspan="2" anchor="NORTHWEST" ref="DPublisher" sortnr="8" /> -->
-    <cell col="2" row="81" colspan="2" anchor="NORTHWEST" ref="DPublishLink" sortnr="9" />   
+    <cell col="2" row="71" colspan="2" anchor="NORTHWEST" ref="DPublisherXMetaDiss" sortnr="8" />
+       
 
     <cell col="1" row="101" anchor="NORTHEAST" ref="Help.xmetadiss.contributor" />
     <cell col="2" row="101" colspan="3" anchor="NORTHWEST" ref="LContributorXMetaPersM" />
@@ -84,19 +81,21 @@
     <cell col="1" row="191" anchor="NORTHEAST" ref="Help.xmetadiss.keywords" />
     <cell col="2" row="191" colspan="3" anchor="NORTHWEST" ref="LKeywords" />
     <cell col="3" row="192" colspan="2" anchor="NORTHWEST" ref="DKeywords2" sortnr="19" />    
-    
+   
+   <!-- 
     <cell col="2" row="200" colspan="2" anchor="NORTHWEST" ref="DRights" sortnr="26" />    
-    <cell col="2" row="201" colspan="2" anchor="NORTHWEST" ref="DRightsLinks" sortnr="27" />    
+    <cell col="2" row="201" colspan="2" anchor="NORTHWEST" ref="DRightsLinks" sortnr="27" />
+    -->    
     <cell col="2" row="202" colspan="2" anchor="NORTHWEST" ref="DPlace" sortnr="29" />    
     <cell col="2" row="203" colspan="2" anchor="NORTHWEST" ref="DUrn" sortnr="32" />    
-    <cell col="2" row="204" colspan="2" anchor="NORTHWEST" ref="DDdb" sortnr="33" />    
+    <cell col="2" row="204" colspan="2" anchor="NORTHWEST" ref="DIdentifier" sortnr="15" />    
        
     
     <cell col="1" row="211" anchor="NORTHEAST" ref="Help.xmetadiss.note" />
     <cell col="2" row="211" colspan="3" anchor="NORTHWEST" ref="LNote" />
     <cell col="3" row="212" colspan="2" anchor="NORTHWEST" ref="DNote" sortnr="34" />      
 
-	 <cell col="2" row="213" colspan="2" anchor="NORTHWEST" ref="DGrantorLink" sortnr="37" />     
+	 <cell col="2" row="213" colspan="2" anchor="NORTHWEST" ref="DGrantorXMetaDiss" sortnr="37" />     
 	 
 	 <hidden var="metadata/mappings" descendants="true" />
 	 <hidden var="metadata/def.modsContainer" descendants="true" />
@@ -304,12 +303,18 @@
     <cell col="1" row="1"  />       
  </panel>
  
- <panel id="DDdb" >    
-<!-- *** Data for the ddb contact id ** 33 -->
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/contacts&amp;classname=MCRMetaLangText" />  
-	<include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/contacts/contact&amp;prop=MCR.WorkflowEngine.ContactIdDDB.xmetadiss" />    
-    <hidden var="metadata/contacts/contact/@type" default="ddb" />
-    <hidden var="metadata/contacts/contact/@xml:lang" default="de" />      
+ <panel id="DIdentifier" >    
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/identifiers&amp;classname=MCRMetaLangText" /> 
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/identifiers/identifier&amp;prop=MCR.WorkflowEngine.ContactIdDDB.xmetadiss" />
+    <hidden var="metadata/identifiers/identifier/@type" default="ddb:contactID" />
+    <hidden var="metadata/identifiers/identifier/@inherited" default="0" />
+    <hidden var="metadata/identifiers/identifier/@form" default="plain" />
+    <hidden var="metadata/identifiers/identifier/@xml:lang"  default="de" />
+    <hidden var="metadata/identifiers/identifier[2]" descendants="true" />
+    <hidden var="metadata/identifiers/identifier[3]" descendants="true" />
+    <hidden var="metadata/identifiers/identifier[4]" descendants="true" />
+    <hidden var="metadata/identifiers/identifier[5]" descendants="true" />
+          
     <cell col="1" row="1"  />       
   </panel>
 
@@ -318,4 +323,3 @@
 
  </components>
 </editor>
-
