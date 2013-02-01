@@ -51,13 +51,9 @@
 		</element>
 		<!-- 08 - DC Publisher -->
 		<element name="publishers" minOccurs='0' maxOccurs='1'>
-			<mcrmetalangtext name="publisher" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="128" />
+			<mcrmetaxml name="publisher" class="MCRMetaXML" minOccurs='1' maxOccurs='unbounded' length="128" />
 		</element>
-		<!-- 09 - PublisherLink -->
-		<element name="publishlinks" minOccurs='0' maxOccurs='1'>
-			<mcrmetalinkid name="publishlink" class="MCRMetaLinkID" minOccurs='1' maxOccurs='unbounded' />
-		</element>
-    
+		    
 		<!-- 10 - DC Contributor -->
 		<element name="contributors" minOccurs='0' maxOccurs='1'>
 			<mcrmetaxml name="contributor" class="MCRMetaXML" minOccurs="1" maxOccurs="unbounded" />
@@ -177,9 +173,9 @@
 		<element name="urls" minOccurs='0' maxOccurs='1'>
 			<mcrmetalangtext name="url" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="4096" />
 		</element>
-		<!-- 37 - GrantorLink (the Universtity) -->
-		<element name="grantorlinks" minOccurs='0' maxOccurs='1'>
-			<mcrmetalinkid name="grantorlink" class="MCRMetaLinkID" minOccurs='1' maxOccurs='unbounded' />
+		<!-- 37 - Grantor (the Universtity) -->
+		<element name="grantors" minOccurs='0' maxOccurs='1'>
+			<mcrmetaxml name="grantor" class="MCRMetaXML" minOccurs='1' maxOccurs='unbounded' />
 		</element>
 		
 		<!-- 38 - Mapping of Classifications -->
