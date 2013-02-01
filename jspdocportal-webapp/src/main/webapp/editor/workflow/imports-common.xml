@@ -393,7 +393,6 @@
 	<text id="AKeywordsClassificationsCode" class="editorHint" i18n="Editor.Label.KeywordsClassificationsCode" />
 
 	<list id="SKeywordsClassifications" width="450px" type="dropdown">
-		<item value="" i18n="Editor.Common.choose" />
 		<item value="freetext" i18n="Editor.Document.classification.freetext" />
 		<item value="ccs1998" i18n="Editor.Document.classification.ccs1998" />
 		<item value="msc2000" i18n="Editor.Document.classification.msc2000" />
