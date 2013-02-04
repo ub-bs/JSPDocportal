@@ -105,6 +105,7 @@ public class MCRDocDetailsSetNamespaceTag extends SimpleTagSupport {
 			JSTLPrefixResolver prefixResolver = (JSTLPrefixResolver)field.get(null);
 			if(prefixResolver == null){
 				prefixResolver = new JSTLPrefixResolver();
+				field.set(null, prefixResolver);
 			}
 			
 			// JSTLXPathNamespaceContext

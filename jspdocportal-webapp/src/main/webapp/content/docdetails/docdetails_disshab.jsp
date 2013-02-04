@@ -11,6 +11,12 @@
 
 <mcrdd:docdetails mcrID="${param.id}" lang="de" fromWorkflow="${param.fromWF}" outputStyle="table"> 
 	<mcrdd:setnamespace prefix="xlink" uri="http://www.w3.org/1999/xlink" />
+	<mcrdd:setnamespace prefix="cc" uri="http://www.d-nb.de/standards/cc/" />
+	<mcrdd:setnamespace prefix="pc" uri="http://www.d-nb.de/standards/pc/" />
+	
+	<mcrdd:row select="/mycoreobject/metadata/types/type" labelkey="OMD.class-types" showInfo="false" >
+	  	<mcrdd:classificationitem select="." />  
+    </mcrdd:row>
     <mcrdd:row select="/mycoreobject/metadata/titles/title[@type='original-main']" labelkey="OMD.maintitle" showInfo="false">
 		<mcrdd:item select="./text()" styleName="docdetails-value-title" />              
     </mcrdd:row>
@@ -21,15 +27,19 @@
 		<mcrdd:item select="./text()" />              
     </mcrdd:row>
     
-    <mcrdd:row select="/mycoreobject/metadata/creatorlinks/creatorlink | /mycoreobject/metadata/creators/creator" 
-               labelkey="OMD.author" showInfo="false">
-    	<mcrdd:linkitem select="." />
+    <mcrdd:row select="/mycoreobject/metadata/creators/creator" labelkey="OMD.author" showInfo="false">
+    	<mcrdd:outputitem select="." var="current">
+    		<x:out select="$current//pc:foreName" /> 
+    		<x:if select="$current//pc:prefix">
+    			<x:out select="$current//pc:prefix" />
+    		</x:if>
+    		<x:out select="$current//pc:surName" />
+    		<x:if select="$current//pc:academicTitle">
+    			(<x:out select="$current//pc:academicTitle" />)
+    		</x:if>   		   
+   		</mcrdd:outputitem> 
     </mcrdd:row>
 
-    <mcrdd:row select="/mycoreobject/metadata/contriblinks/contriblink | /mycoreobject/metadata/contributors/contributor[@type='advisor']/fullname" 
-               labelkey="OMD.advisor" showInfo="false">
-    	<mcrdd:linkitem select="." />
-    </mcrdd:row>
 
     <mcrdd:row select="/mycoreobject/metadata/origins/origin" labelkey="OMD.class-origins" showInfo="false" >
 	  	<mcrdd:classificationitem select="." />  
@@ -55,12 +65,24 @@
 	
 	<mcrdd:separator showLine="true"/>  
 	
-	<mcrdd:row select="/mycoreobject/metadata/types/type" labelkey="OMD.class-types" showInfo="false" >
-	  	<mcrdd:classificationitem select="." />  
-    </mcrdd:row>
-    
     <mcrdd:row select="/mycoreobject/metadata/formats/format" labelkey="OMD.class-formats" showInfo="false" >
 	  	<mcrdd:classificationitem select="." />  
+    </mcrdd:row>
+      
+    <mcrdd:row select="/mycoreobject/metadata/contributors/contributor" labelkey="OMD.referee" showInfo="false">
+    	<mcrdd:outputitem select="." var="current">
+    		<x:out select="$current//pc:foreName" /> 
+    		<x:if select="$current//pc:prefix">
+    			<x:out select="$current//pc:prefix" />
+    		</x:if>
+    		<x:out select="$current//pc:surName" />
+    		<x:if select="$current//pc:academicTitle">
+    			(<x:out select="$current//pc:academicTitle" />)
+    		</x:if>
+    		<x:if select="$current//pc:affiliation">
+    			<br /><x:out select="$current//pc:affiliation//cc:name" />
+    		</x:if>   		   
+   		</mcrdd:outputitem>
     </mcrdd:row>
     
     <mcrdd:row select="/mycoreobject/metadata/descriptions/description" labelkey="OMD.descriptions" showInfo="false">
