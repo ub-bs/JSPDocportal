@@ -99,6 +99,9 @@
 						</a>
 					</div>
 					<div class="main_navigation">
+						<mcr:outputNavigation id="edit" expanded="false" mode="left" />
+					</div>
+					<div class="main_navigation">
 						<mcr:outputNavigation id="admin" expanded="false" mode="left" />
 					</div>
 				</div>
