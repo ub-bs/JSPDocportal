@@ -166,7 +166,7 @@
       <!-- mycore servlets -->
       <servlet id="OAIProvider">
             <servlet-name>MCROAIProvider</servlet-name>
-            <servlet-class>org.mycore.services.oai.MCROAIProvider</servlet-class>
+            <servlet-class>org.mycore.oai.MCROAIDataProvider</servlet-class>
       </servlet>
       <servlet id="StaticXMLFile">
             <servlet-name>MCRStaticXMLFileServlet</servlet-name>
