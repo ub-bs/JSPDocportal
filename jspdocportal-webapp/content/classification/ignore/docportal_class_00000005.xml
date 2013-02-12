@@ -116,7 +116,7 @@
         <label xml:lang="de" text="Habilitation" />
         <label xml:lang="en" text="habilitation" />
         <label xml:lang="x-dini" text="pub-type:dissertation" />
-        <label xml:lang="x-mapper" text="diniPublType:doctoralThesis dctermsDCMIType:Text  XMetaDissPlusThesisLevel:thesis.habilitation" />                 
+        <label xml:lang="x-mapper" text="diniPublType:doctoralThesis dctermsDCMIType:Text XMetaDissPlusThesisLevel:thesis.habilitation" />                 
       </category>
     </category>
     <category ID="TYPE0004">
