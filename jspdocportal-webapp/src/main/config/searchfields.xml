@@ -15,6 +15,7 @@
 	<!--  application specific search fields -->	
     <field name="bkl"           type="identifier" source="objectCategory" objects="disshab document thesis" xpath="/mycoreobject/metadata/bkls/bkl | /mycoreobject/metadata/subjects/subject" value="@ID" /> 
     <field name="ddc"           type="identifier" source="objectCategory" objects="disshab document thesis" xpath="/mycoreobject/metadata/subjects/subject" value="@ID" /> 
+    <field name="accessright"   type="identifier" source="objectCategory" objects="disshab document thesis" xpath="/mycoreobject/metadata/accessrights/accessright" value="@ID" />
     
     <field name="type"          type="identifier" source="objectCategory" xpath="/mycoreobject/metadata/types/type" value="@ID" />
     <field name="format"        type="identifier" source="objectCategory" xpath="/mycoreobject/metadata/formats/format" value="@ID" />

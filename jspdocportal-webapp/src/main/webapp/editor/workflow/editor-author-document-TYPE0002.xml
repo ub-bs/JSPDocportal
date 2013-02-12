@@ -180,6 +180,8 @@
 			<cell col="2" row="160" anchor="NORTHWEST" ref="DPages" sortnr="40"  />
 			<cell col="3" row="160" anchor="NORTHWEST">  <space width="20" height="0" />  </cell>
 			<cell col="4" row="160" anchor="WEST" ref="HPages" />
+      
+            <cell col="1" row="165" colspan="4" anchor="NORTHWEST" ref="DAccessRights" sortnr="59"  />  
 			
 			<cell col="1" row="175"  colspan="4" anchor="WEST" ><hr/> </cell>
 			

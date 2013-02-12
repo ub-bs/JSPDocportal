@@ -149,7 +149,9 @@
 			<cell col="3" row="140" anchor="NORTHWEST"><space width="20" height="0" /></cell>
 			<cell col="4" row="140" anchor="WEST" ref="HSource" />
 			-->
-			
+		
+            <cell col="1" row="145" colspan="4" anchor="NORTHWEST" ref="DAccessRights" sortnr="59"  />	
+      
 			<cell col="1" row="149"  colspan="4" anchor="WEST" ><hr/> </cell>
 			
 			<!--  Anmerkungen -->
@@ -162,7 +164,8 @@
 			<cell col="1" row="151" colspan="4" anchor="NORTHWEST" ref="DRights" sortnr="26"  />
 			<cell col="1" row="152" colspan="4" anchor="NORTHWEST" ref="DRightsLinks" sortnr="27"  />
 			<cell col="1" row="153" colspan="4" anchor="NORTHWEST" ref="DUrn" sortnr="32"  />
-			<cell col="1" row="154" colspan="4" anchor="NORTHWEST" ref="DDdb" sortnr="33"  />      
+			<cell col="1" row="154" colspan="4" anchor="NORTHWEST" ref="DDdb" sortnr="33"  /> 
+      
   			
   			<hidden var="metadata/mappings" descendants="true" />
   			<hidden var="metadata/publishdetails" descendants="true" />

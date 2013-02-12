@@ -95,7 +95,10 @@
     <cell col="2" row="211" colspan="3" anchor="NORTHWEST" ref="LNote" />
     <cell col="3" row="212" colspan="2" anchor="NORTHWEST" ref="DNote" sortnr="34" />      
 
-	 <cell col="2" row="213" colspan="2" anchor="NORTHWEST" ref="DGrantorXMetaDiss" sortnr="37" />     
+	<cell col="2" row="213" colspan="2" anchor="NORTHWEST" ref="DGrantorXMetaDiss" sortnr="37" />
+   
+    <cell col="2" row="215" colspan="2" anchor="NORTHWEST" ref="DAccessRights_OpenAccess" sortnr="38" />
+   
 	 
 	 <hidden var="metadata/mappings" descendants="true" />
 	 <hidden var="metadata/def.modsContainer" descendants="true" />
@@ -262,8 +265,17 @@
     <cell col="3" row="14" width="150" anchor="NORTHEAST" ref="HKeywordsClassifications" />     
     
     <cell col="1" row="15" colspan="3" />       
-   
- </panel> 
+
+ </panel>
+
+ <panel id="DAccessRights_OpenAccess" >
+<!-- *** Data for the Rights 26 ** -->
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/accessrights&amp;classname=MCRMetaClassification" />  
+    <hidden var="metadata/accessrights/accessright/@classid" default="eprintsAccessRights" />
+    <hidden var="metadata/accessrights/accessright/@categid" default="OpenAccess" />
+    <cell col="1" row="1"  />       
+ </panel>
+
 
  <panel id="DRights" >
 <!-- *** Data for the Rights 26 ** -->

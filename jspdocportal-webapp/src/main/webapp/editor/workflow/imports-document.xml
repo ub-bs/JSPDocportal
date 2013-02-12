@@ -627,5 +627,18 @@
         </repeater>
       </cell>
   </panel>
+  
+  <!-- ** Data for AccessRights *** -->
+  <panel id="DAccessRights">
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/accessrights&amp;classname=MCRMetaClassification" />
+    <hidden var="metadata/origins/origin/@inherited" default="0" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/accessrights/accessright/@classid&amp;prop=MCR.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002" />               
+    <cell col="1" row="1" anchor="WEST" var="metadata/accessrights/accessright/@categid">
+      <list id="COrigin" width="425px" type="dropdown" class="mandatory">
+            <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.accessRights&amp;defaultValue=eprintsAccessRights&amp;withCounter=false" />              
+      </list>  
+    </cell>
+  </panel>
+  
    
 </imports>
