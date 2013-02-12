@@ -137,6 +137,7 @@
 		<element name="rightslinks" minOccurs='0' maxOccurs='1' >
 			<mcrmetalink name="rightslink" class="MCRMetaLink" minOccurs='1' maxOccurs='unbounded' />
 		</element>
+       
 		<!-- 28 - Size -->
 		<element name="sizes" minOccurs='0' maxOccurs='1'>
 			<mcrmetalangtext name="size" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="1024" />
@@ -177,8 +178,12 @@
 		<element name="grantors" minOccurs='0' maxOccurs='1'>
 			<mcrmetaxml name="grantor" class="MCRMetaXML" minOccurs='1' maxOccurs='unbounded' />
 		</element>
+        <!-- 38 - AccessRights -->                       
+        <element name="accessrights" minOccurs='0' maxOccurs='1'>                                         
+            <mcrmetaclassification name="accessright" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
+        </element>
 		
-		<!-- 38 - Mapping of Classifications -->
+		<!-- 39 - Mapping of Classifications -->
     	<element name="mappings" minOccurs='0' maxOccurs='1'>
       		<mcrmetaclassification name="mapping" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
     	</element>

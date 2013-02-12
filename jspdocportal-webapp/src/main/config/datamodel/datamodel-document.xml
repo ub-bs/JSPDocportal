@@ -277,6 +277,11 @@
     	<element name="serieses" minOccurs='0' maxOccurs='1'>
       		<mcrmetaxml name="series" class="MCRMetaXML" minOccurs='1' maxOccurs='unbounded' />
     	</element>
+      
+      <!-- 59 - AccessRights -->
+        <element name="accessrights" minOccurs='0' maxOccurs='1'>
+            <mcrmetaclassification name="accessright" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
+        </element>
     	
        	<!-- 60 - Mapping of Classifications -->
     	<element name="mappings" minOccurs='0' maxOccurs='1'>
