@@ -76,7 +76,7 @@
     
     <cell col="1" row="181" anchor="NORTHEAST" ref="Help.xmetadiss.language" />
     <cell col="2" row="181" colspan="3" anchor="NORTHWEST" ref="LLanguageP" />
-    <cell col="3" row="182" colspan="2" anchor="NORTHWEST" ref="DLanguage" sortnr="18" />    
+    <cell col="3" row="182" colspan="2" anchor="NORTHWEST" ref="DLanguage_RFC4646" sortnr="18" />    
   
     <cell col="1" row="191" anchor="NORTHEAST" ref="Help.xmetadiss.keywords" />
     <cell col="2" row="191" colspan="3" anchor="NORTHWEST" ref="LKeywords" />

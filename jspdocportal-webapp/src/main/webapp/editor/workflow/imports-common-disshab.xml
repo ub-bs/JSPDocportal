@@ -198,6 +198,21 @@
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/languages/language/@classid&amp;prop=MCR.ClassificationID.Language&amp;defaultValue=DocPortal_class_00000004" />
     <cell col="1" row="1" anchor="WEST" ref="CLanguage" var="metadata/languages/language/@categid" />
   </panel>
+  
+  <panel id="DLanguage_RFC4646">
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/languages&amp;classname=MCRMetaClassification" />
+    <hidden var="metadata/languages/language/@inherited" default="0" />
+    <hidden var="metadata/languages/language/@classid" default="rfc4646" />
+    <cell col="1" row="1" anchor="WEST" var="metadata/languages/language/@categid">
+      <list id="CLanguage_RFC4646" width="425px" type="dropdown" class="mandatory">
+         <item value="de" i18n="Editor.Common.language.de" />
+         <item value="en" i18n="Editor.Common.language.en" />
+         <item value="fr" i18n="Editor.Common.language.fr" />
+         <item value="es" i18n="Editor.Common.language.es" />
+         <item value="la" i18n="Editor.Common.language.la" />         
+      </list>
+    </cell>
+  </panel>
 
 <!-- coveragelink fehlt -->
 <!-- coveragedate fehlt -->
