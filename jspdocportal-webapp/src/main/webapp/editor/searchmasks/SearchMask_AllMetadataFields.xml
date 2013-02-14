@@ -16,7 +16,7 @@
 			<components root="SearchMask_AllMetadataFields" var="/query">
 				<panel id="SearchMask_AllMetadataFields">
 					<hidden var="@mask" default="~searchstart-allmeta" />
-					<hidden var="@maxResults" default="100" />
+					 <hidden var="@numPerPage" default="50" />
 					<hidden var="conditions/@format" default="xml" />
 					<hidden var="conditions/boolean/@operator" default="AND" />
 

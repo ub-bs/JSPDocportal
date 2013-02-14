@@ -18,7 +18,7 @@
   <include uri="webapp:editor/searchmasks/imports-searchmasks-common.xml" />
   <panel id="SearchMask_Alldocs">
     <hidden var="@mask" default="~searchstart-simple" />
-    <hidden var="@maxResults" default="100" />
+     <hidden var="@numPerPage" default="50" />
     
     <hidden var="conditions/@format" default="xml" />
     <hidden var="conditions/boolean/@operator" default="AND" />
