@@ -15,72 +15,66 @@
 	<tr>
 		<td class="searchresult-table-icon" rowspan="10">
 			<img src="${WebApplicationBaseURL}images/pubtype/${type}.gif" alt="${type}">
-		</td>
-		<td class="searchresult-table-header">
-			<c:set var="title"><x:out select="$xml/mycoreobject/metadata/titles/title[1]" /></c:set>
-			<a href="${param.url}"><b>${title}</b></a>
-		</td>
-		<td class="searchresult-table-id" rowspan="10">
-			[<x:out select="$xml/mycoreobject/@ID" />]
-			<br /><br />
+		</td> 
+	
+		<td class="searchresult-table-value" colspan="2">
+			<x:forEach select="$xml/mycoreobject/metadata/creators/creator" varStatus="status" var="here">
+            	<x:out select="$here//*[local-name()='foreName']"/>
+            	<x:out select="$here//*[local-name()='surName']"/>
+            	<x:if select="$here//*[local-name()='academicTitle']">
+            		(<x:out select="$here//*[local-name()='academicTitle']" />)
+            	</x:if>
+            	<c:if test="${not status.last}">,</c:if>                            
+            </x:forEach>
+		
+	</td>
+	<td class="searchresult-table-id" rowspan="10">
 			<jsp:include page="fragments/showeditbutton.jsp">
 				<jsp:param name="mcrid" value="${param.id}" />
 			</jsp:include>
 		</td>
 	</tr>
- 
-	<x:set var="data1a" select="substring-before(concat($xml/metadata/creatorlinks/creatorlink[1]/@*[local-name()='title'],'; ',$xml/metadata/creatorlinks/creatorlink[2]/@*[local-name()='title'],'; ',$xml/creatorlinks/creatorlink[3]/@*[local-name()='title'],'; ,'),'; ;')" /> 
-	<x:set var="data1b" select="substring-before(concat($xml/metadata/creators/creator[1],'; ',$xml/metadata/creators/creator[2],'; ',$xml/metadata/creators/creator[3],'; ,'),'; ;')" />
-	<c:set var="data1"><x:out select="$data1a" /></c:set>
-	<x:if select="string-length($data1b)>0">
-		<c:if test="${fn:length(data1) > 0}">
-			<c:set var="data1"><c:out value="${data1}" />;&nbsp;<x:out select="$data1b" /></c:set>
-		</c:if>
-		<c:if test="${fn:length(data1) eq 0}">
-			<c:set var="data1"><x:out select="$data1b" /></c:set>
-		</c:if>
-	</x:if>
-	<c:if test="${fn:length(data1) > 0}"> 
-		<tr>
-			<td class="searchresult-table-value">
-				<fmt:message key="OMD.author" />:&nbsp; <c:out value="${data1}" />
-			</td>
-		</tr>
-	</c:if>
+	
+	<tr>
+		<td class="searchresult-table-header" colspan="2">
+			<c:set var="title"><x:out select="$xml/mycoreobject/metadata/titles/title[1]" /></c:set>
+			<a href="${param.url}"><b>${title}</b></a>
+		</td>
+	</tr>
 	<x:set var="data2" select="$xml/mycoreobject/metadata/types/type" /> 
 	<x:if select="string-length($data2/@categid)>0">
 		<tr>
+			<td><fmt:message key="OMD.class-types" />:&nbsp;</td>
 			<td class="searchresult-table-value">
-			    <c:set var="classid"><x:out select="$data2/@classid" /></c:set>
-			    <c:set var="categid"><x:out select="$data2/@categid" /></c:set>
-			    
-				<fmt:message key="OMD.class-types" />:&nbsp; 
-				<mcr:displayClassificationCategory lang="de" classid="${classid}" categid="${categid}"/>
-			</td>
-		</tr>
-	</x:if>
-	<x:set var="data3" select="$xml/mycoreobject/metadata/formats/format" /> 
-	<x:if select="string-length($data3/@categid)>0">
-		<tr>
-			<td class="searchresult-table-value">
-			    <c:set var="classid"><x:out select="$data3/@classid" /></c:set>
-			    <c:set var="categid"><x:out select="$data3/@categid" /></c:set>
-			    
-				<fmt:message key="OMD.class-formats" />:&nbsp; 
+ 				<x:set var="classid" select="string($data2/@classid)" />
+			    <x:set var="categid" select="string($data2/@categid)" />
 				<mcr:displayClassificationCategory lang="de" classid="${classid}" categid="${categid}"/>
 			</td>
 		</tr>
 	</x:if>
 	
+	<x:set var="data3" select="$xml/mycoreobject/metadata/dates/date[@type='accepted']" /> 
+	<x:if select="string-length($data3)>0">
+		<tr>
+			<td><fmt:message key="OMD.yearofpublication" />:&nbsp; </td>
+			<td class="searchresult-table-value">
+				<x:set var="text" select="string($data3)" />
+				<c:out value="${fn:substring(text,0,4)}"/>
+			</td>
+		</tr>
+	</x:if>
+	
+	
 	<x:set var="data4" select="$xml/mycoreobject/metadata/descriptions/description" /> 
 	<x:if select="string-length($data4)>0">
 		<c:set var="text"><x:out select="$data4" /></c:set>
-		<c:if test="${fn:length(text)>300}">
-			<c:set var="text"><c:out value="${fn:substring(text,0,300)}"/>...</c:set>
+		<c:if test="${fn:length(text)>255}">
+			<c:set var="text"><c:out value="${fn:substring(text,0,250)}"/>...</c:set>
 		</c:if>
 		<tr>
+			<td><fmt:message key="OMD.descriptions" />:&nbsp; </td>
 			<td class="searchresult-table-value">
-				<fmt:message key="OMD.descriptions" />:&nbsp; <c:out value="${text}"/>
+				<c:out value="${text}"/>
 			</td>
 		</tr>
 	</x:if>
@@ -88,10 +82,12 @@
 	<x:set var="data5" select="$xml/mycoreobject/service/servdates/servdate[@type='modifydate']" />
 	<x:if select="string-length($data5)>0">
 		<tr>
+			<td><fmt:message key="OMD.id" />:&nbsp;</td>
 			<td class="searchresult-table-value">
 			    <c:set var="x"><x:out select="$data5" /></c:set>
 			    <fmt:parseDate value="${x}" pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" var="moddate" />
-			    <fmt:message key="OMD.changed" />:&nbsp; <fmt:formatDate value="${moddate}" dateStyle="full" />
+			    <x:out select="$xml/mycoreobject/@ID" />&nbsp;
+			    <em>(<fmt:message key="OMD.changed-at" />: <fmt:formatDate value="${moddate}" dateStyle="medium" />)</em>
 			</td>
 		</tr>
 	</x:if>
