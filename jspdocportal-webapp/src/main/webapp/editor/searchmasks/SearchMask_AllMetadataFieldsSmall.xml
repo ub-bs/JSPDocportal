@@ -35,6 +35,7 @@
                       </submitButton>                      
                     </cell>
 					<hidden var="/host/host/@field" default="local" />
+                    <hidden var="@numPerPage" default="50" />
 				</panel>
 			</components>
 		</editor>
