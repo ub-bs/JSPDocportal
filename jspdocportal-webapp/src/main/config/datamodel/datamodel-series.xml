@@ -36,13 +36,10 @@
     		<mcrmetalinkid name="creatorlink" class="MCRMetaLinkID" minOccurs='1' maxOccurs='unbounded' />
     	</element>
 		<!-- 14 - Participant -->
-		<element name="participants" minOccurs='0' maxOccurs='1'>
-			<mcrmetalangtext name="participant" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="128" />
+		<element name="publishers" minOccurs='0' maxOccurs='1'>
+			<mcrmetalangtext name="publisher" class="MCRMetaXML" minOccurs='1' maxOccurs='unbounded' length="128" />
 		</element>
-		<!-- 15 - ParticipantLink -->
-		<element name="participationlinks" minOccurs='0' maxOccurs='1'>
-			<mcrmetalinkid name="participationlink" class="MCRMetaLinkID" minOccurs='1' maxOccurs='unbounded' />
-		</element>
+		
 		 <!-- 16 - Origin -->
     	<element name="origins" minOccurs='0' maxOccurs='1'>
       		<mcrmetaclassification name="origin" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
@@ -53,8 +50,8 @@
 			<mcrmetaclassification name="language" 	class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
 		</element>
 		<!-- 21 - DC Date -->
-		<element name="dates" minOccurs='0' maxOccurs='1'>
-			<mcrmetahistorydate name="date" class="MCRMetaHistoryDate" minOccurs='1' maxOccurs='unbounded' />
+		<element name="periods" minOccurs='0' maxOccurs='1'>
+			<mcrmetahistorydate name="period" class="MCRMetaHistoryDate" minOccurs='1' maxOccurs='unbounded' />
 		</element>
 
 		<!-- 30 - URN -->
@@ -73,7 +70,7 @@
 		</element>
 
 		<!-- 41 - Content Classification (other than DDC) -->
-		<element name="classis" minOccurs='0' maxOccurs='1'>
+		<element name="contentclassifications" minOccurs='0' maxOccurs='1'>
 			<mcrmetaclassification name="contentclassification" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
 		</element>
 		
