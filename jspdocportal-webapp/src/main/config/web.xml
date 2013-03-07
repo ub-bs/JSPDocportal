@@ -200,6 +200,13 @@
             <servlet-name>CPR2RTFServlet</servlet-name>
             <servlet-class>de.uni_rostock.ub.rosdok.cpr2rtf.CPR2RTFServlet</servlet-class>
       </servlet>
+      
+      <servlet id="MCRDataAPIGetClassificationServlet">
+            <servlet-name>MCRDataAPIGetClassificationServlet</servlet-name>
+            <servlet-class>org.mycore.frontend.jsp.dataapi.MCRDataAPIGetClassificationServlet</servlet-class>
+      </servlet>
+      
+      
     <!-- servlet mappings -->
     
    
@@ -394,7 +401,11 @@
             <url-pattern>/sitemap_google.xml</url-pattern>
      </servlet-mapping>
      
-    <!-- specific servlets -->
+      <servlet-mapping>
+            <servlet-name>MCRDataAPIGetClassificationServlet</servlet-name>
+            <url-pattern>/data-api/get_classification</url-pattern>
+      </servlet-mapping>
+    
 
   <session-config>
     <session-timeout>30</session-timeout>
