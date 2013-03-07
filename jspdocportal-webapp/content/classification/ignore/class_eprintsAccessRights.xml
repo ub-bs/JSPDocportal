@@ -6,10 +6,10 @@
 		from EPrints
 		www.ukoln.ac.uk/repositories/digirep/index/Eprints_AccessRights_Vocabulary_Encoding_Scheme
 	-->
-	<label xml:lang="de" text="Version/Begutachtungsstatus"
-		   description="Kennzeichnung des Status im Veröffentlichungsprozess" />
-	<label xml:lang="en" text="version / state of review"
-		   description="tagging the state of publication process" />
+	<label xml:lang="de" text="Rechte Vokabular"
+		   description="Kennzeichnung des Rechte Statusses" />
+	<label xml:lang="en" text="AccessRights Vocabulary Encoding Scheme"
+		   description="tagging the state of access right" />
 	<categories>
 		<category ID="OpenAccess">
 			<label xml:lang="de" text="frei zugänglich (Open Access)" />
