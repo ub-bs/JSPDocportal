@@ -229,6 +229,11 @@ div.infobox h3{
 	padding-bottom:6px;
 	font-size: 1.2em;
 }
+
+div.infobox h4{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-weight:bold;
+}
 div.infobox p{
 	padding-bottom:6px;	
 }
@@ -307,7 +312,8 @@ div.text h3{
 }
 
 div.text h4{
-	font-weight: bold;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-weight:bold;
 	padding-top:12px;
 }
 
