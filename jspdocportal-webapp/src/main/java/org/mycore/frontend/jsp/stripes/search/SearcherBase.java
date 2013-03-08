@@ -22,15 +22,16 @@
  */
 package org.mycore.frontend.jsp.stripes.search;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.mycore.parsers.bool.MCRCondition;
+import org.mycore.services.fieldquery.MCRFieldDef;
+import org.mycore.services.fieldquery.MCRQuery;
+import org.mycore.services.fieldquery.MCRQueryManager;
+import org.mycore.services.fieldquery.MCRQueryParser;
+import org.mycore.services.fieldquery.MCRResults;
+import org.mycore.services.fieldquery.MCRSortBy;
 
 /**
  * base class for Searcher Object
@@ -39,7 +40,7 @@ import org.w3c.dom.Element;
  *
  */
 public abstract class SearcherBase {
-	private static DocumentBuilderFactory DOC_BUILDER_FACTORY = DocumentBuilderFactory.newInstance();
+	//private static DocumentBuilderFactory DOC_BUILDER_FACTORY = DocumentBuilderFactory.newInstance();
 	private String solrBaseURL;
 	private String id;
 	private String searchmaskURL;
@@ -47,7 +48,7 @@ public abstract class SearcherBase {
 	//Stripes seems to have problems reloading form content with other datatypes than Strings
 	private int rows = 50;
 	private int start = 0;
-	private SearcherResultDataBean result = null;
+	private MCRSearcherResultDataBean result = null;
 
 	public SearcherBase() {
 
@@ -93,7 +94,7 @@ public abstract class SearcherBase {
 		this.rows = rows;
 	}
 
-	public SearcherResultDataBean getResult() {
+	public MCRSearcherResultDataBean getResult() {
 		return result;
 	}
 
@@ -106,8 +107,45 @@ public abstract class SearcherBase {
 		rows = 50;
 		result = null;
 	}
+	
+	
 
-	public String getSolrQuery() {
+		public void doSearch() {
+			result = new MCRSearcherResultDataBean();
+			MCRQueryParser queryParser = new MCRQueryParser();
+			MCRCondition<Object> cond = queryParser.parse(getGeneratedSearchQuery());
+					
+			List<MCRSortBy> sortBys= new ArrayList<MCRSortBy>();
+			for(String s: getGeneratedSortQuery().split("\\,")){
+				if(s.trim().length()>0){
+					
+					String[] data = s.split("\\:");
+					if(data.length==2){
+						boolean order = true;
+						if(data[1].equals("asc")){
+							order = MCRSortBy.ASCENDING;
+						}
+						if(data[1].equals("desc")){
+							order = MCRSortBy.DESCENDING;							
+						}
+						sortBys.add(new MCRSortBy(MCRFieldDef.getDef(data[0]), order));
+					}
+				}			
+			}
+			
+			MCRQuery query = new MCRQuery(cond);
+			query.setSortBy(sortBys);
+			MCRResults queryResult = MCRQueryManager.search(query);
+			result.setNumFound(queryResult.getNumHits());
+			result.setRows(rows);
+			result.setStart(start);
+			for(int i=start;i<Math.min(rows,  queryResult.getNumHits());i++){
+				result.getMcrIDs().add(queryResult.getHit(i).getID());
+			}			
+		}
+/******************* SOLR Implementation - start *******************************
+  	public String getSolrQuery() {
+ 
 		StringBuffer sb = new StringBuffer();
 		sb.append(solrBaseURL);
 		sb.append("?q=");
@@ -146,6 +184,8 @@ public abstract class SearcherBase {
 			result.setErrorMsg(e.getMessage());
 		}
 	}
+	
+************SOLR-Implementation  END *****************************************************************/
 
 	protected String prepareSearchterm(String term) {
 

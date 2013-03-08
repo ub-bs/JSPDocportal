@@ -30,7 +30,7 @@ import org.w3c.dom.Document;
  * @author Robert Stephan
  *
  */
-public class SearcherResultDataBean {
+public class SOLRSearcherResultDataBean {
 	private int numFound;
 	private Document xml;
 	private String errorMsg = null;
