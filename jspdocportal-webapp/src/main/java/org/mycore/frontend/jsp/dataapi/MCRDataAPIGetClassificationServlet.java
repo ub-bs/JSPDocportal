@@ -69,11 +69,33 @@ public class MCRDataAPIGetClassificationServlet extends HttpServlet {
 	private static final MCRCategoryDAO DAO = new MCRCategoryDAOImpl();
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String format = request.getParameter("format");
-		String classID = request.getParameter("classid");
-		String rootCateg = request.getParameter("categid");
-		String lang = request.getParameter("lang");
+		String uri = request.getRequestURI();
+		String format= FORMAT_JSON;
+		if(uri.endsWith(".xml")){
+			format = FORMAT_XML;
+		}
+		
 		String style = request.getParameter("style");
+		
+		String rootCateg = null;
+		String lang = null;
+		String filter = request.getParameter("filter");
+		if(filter!=null){
+		for(String f: filter.split(";")){
+			if(f.startsWith("root:")){
+				rootCateg = f.substring(5);
+			}
+			if(f.startsWith("lang:")){
+				lang = f.substring(5);
+			}
+		}
+		}
+		
+		String[]uriParts = uri.split("/");
+		String classID = uriParts[uriParts.length-1];
+		classID = classID.split("\\.")[0];
+
+		
 
 		if (format == null || classID == null) {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND, "Please specify parameters format and classid.");

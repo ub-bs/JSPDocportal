@@ -403,7 +403,7 @@
      
       <servlet-mapping>
             <servlet-name>MCRDataAPIGetClassificationServlet</servlet-name>
-            <url-pattern>/data-api/get_classification</url-pattern>
+            <url-pattern>/api/v1/classifications/*</url-pattern>
       </servlet-mapping>
     
 
