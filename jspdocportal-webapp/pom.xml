@@ -201,7 +201,7 @@
               <targetPath>WEB-INF/classes/xsl</targetPath>
             </resource>
             <resource>
-              <directory>src/main/config</directory>
+              <directory>src/main/resources/config</directory>
               <targetPath>WEB-INF/classes</targetPath>
               <includes>
                 <include>*.*</include>
@@ -213,7 +213,7 @@
               </excludes>
             </resource>
             <resource>
-              <directory>src/main/config/lang</directory>
+              <directory>src/main/resources/config/lang</directory>
               <targetPath>WEB-INF/classes</targetPath>
               <includes>
                 <include>*.*</include>
@@ -223,32 +223,32 @@
               </excludes>
             </resource>
             <resource>
-              <directory>src/main/config/lang/webcontent</directory>
+              <directory>src/main/resources/config/lang/webcontent</directory>
               <targetPath>content/webcontent</targetPath>
             </resource>
             <resource>
-              <directory>src/main/config/hibernate</directory>
+              <directory>src/main/resources/config/hibernate</directory>
               <targetPath>WEB-INF/classes</targetPath>
               <excludes>
                 <exclude>*.template</exclude>
               </excludes>
             </resource>
             <resource>
-              <directory>src/main/config/workflow</directory>
+              <directory>src/main/resources/config/workflow</directory>
               <targetPath>WEB-INF/classes/workflow</targetPath>
               <includes>
                 <include>**/*.xml</include>
               </includes>
             </resource>
             <resource>
-              <directory>src/main/config</directory>
+              <directory>src/main/resources/config</directory>
               <targetPath>WEB-INF</targetPath>
               <includes>
                 <include>web.xml</include>
               </includes>
             </resource>
             <resource>
-              <directory>src/main/config/tld</directory>
+              <directory>src/main/resources/config/tld</directory>
               <targetPath>WEB-INF/tld</targetPath>
               <includes>
                 <include>*.tld</include>
@@ -274,7 +274,7 @@
         <configuration>
           <transformationSets>
             <transformationSet>
-              <dir>src/main/config/datamodel</dir>
+              <dir>src/main/resources/config/datamodel</dir>
               <outputDir>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</outputDir>
               <stylesheet>src/main/resources/xsl/MCRMetadataSchema.xsl</stylesheet>
               <fileMappers>
