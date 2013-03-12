@@ -2,6 +2,9 @@
 /* SearchResults                                                       */
 /* =================================================================== */
 
+hr.searchresult-separator{
+	color:#E6E6E6;
+}
 table.searchresult-table {
 	border-spacing: 0px;
 	font-family: verdana;
