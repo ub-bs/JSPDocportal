@@ -104,7 +104,7 @@ public abstract class SearcherBase {
 
 	public void reset() {
 		start = 0;
-		rows = 50;
+		rows = 25;
 		result = null;
 	}
 	
@@ -139,7 +139,7 @@ public abstract class SearcherBase {
 			result.setNumFound(queryResult.getNumHits());
 			result.setRows(rows);
 			result.setStart(start);
-			for(int i=start;i<Math.min(rows,  queryResult.getNumHits());i++){
+			for(int i=start;i<Math.min(start+rows,  queryResult.getNumHits());i++){
 				result.getMcrIDs().add(queryResult.getHit(i).getID());
 			}			
 		}

@@ -71,6 +71,10 @@ public class MCRSearcherResultDataBean {
 	public void setRows(int rows) {
 		this.rows = rows;
 	}
+	
+	public int getNumPages(){
+		return Math.round((float)Math.ceil((float)numFound / rows)); 
+	}
 
 	public List<String> getMcrIDs() {
 		return mcrIDs;

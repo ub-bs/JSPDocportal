@@ -52,6 +52,7 @@ div.searchresult-navigation div.hitcount{
 	float:left;
 	padding-top:auto;
 	padding-bottom:auto;
+
 }
 
 div.searchresult-navigation div.navi{
@@ -87,5 +88,54 @@ div.searchresult-navigation div.navi ol li.active{
 }
 
 div.searchresult-navigation div.navi ol li.separator{
+	color: #666666;
+}
+
+
+div.browseresult-navigation{
+	margin-top:12px;
+	margin-bottom:12px;
+    border-top: 1px solid #666666;
+	border-bottom: 1px solid #666666;
+	min-height: 30px;
+	
+}
+
+div.browseresult-navigation div.hitcount{
+	float:left;
+	padding-top:8px;
+	
+	
+}
+
+div.browseresult-navigation div.navi{
+	padding-top:4px;
+	float:right;
+}
+
+
+div.browseresult-navigation div.navi ol li{
+		float:left;
+}
+
+div.browseresult-navigation div.navi ol li input,
+input.button{
+	font-size:85%;
+	text-align:center;
+	color: #FFFFFF;
+  	border: 1px solid #565656;
+  	border-radius: 3px;
+  	background-color:#969696;
+  	padding: 2px 2px;
+  	margin: 0px 2px;  	
+}
+
+div.browseresult-navigation div.navi ol li.active input{
+	font-weight: bold;
+	background-color:#FFFFFF;
+	color:#000000;
+}
+
+div.browseresult-navigation div.navi ol li.separator{
 	color: #666666;
 }

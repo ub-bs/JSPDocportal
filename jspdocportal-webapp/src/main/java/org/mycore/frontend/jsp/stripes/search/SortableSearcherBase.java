@@ -68,19 +68,19 @@ public abstract class SortableSearcherBase extends SearcherBase {
 	 * finish this method with super.reset()!
 	 */
 	public void reset() {
-		sortiere_nach = "reihenfolge_sort";
-		sortiere_wie = "asc";
+		sortiere_nach = "date";
+		sortiere_wie = "desc";
 		super.reset();
 	}
 
 	@Override
 	public String getGeneratedSortQuery() {
-		if (!Arrays.asList(new String[] { "reihenfolge_sort", "nachname_sort", "vorname_sort", "herkunft_sort" })
+		if (!Arrays.asList(new String[] { "date", "modified", "author_sort", "title_sort" })
 		        .contains(sortiere_nach)) {
-			sortiere_nach = "reihenfolge_sort";
+			sortiere_nach = "date";
 		}
 		if (!Arrays.asList(new String[] { "asc", "desc" }).contains(sortiere_wie)) {
-			sortiere_wie = "asc";
+			sortiere_wie = "desc";
 		}
 		return sortiere_nach + "+" + sortiere_wie;
 	}
