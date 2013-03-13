@@ -197,29 +197,6 @@
 -->            
   </panel>
 
-<!-- *** Data for the PublishLinks ** -->
-  <panel id="DPublishLink">
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/publishlinks&amp;classname=MCRMetaLinkID" /> 
-    <hidden var="metadata/publishlinks/publishlink/@label" default="institution" />
-    <hidden var="metadata/publishlinks/publishlink/@type" default="locator" />      
-    <!-- configure this in mycore.properties  -->
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.publishlinks.publishlink.@href&amp;prop=MCR.WorkflowEngine.PublisherDefaultID.xmetadiss&amp;defaultValue=DocPortal_institution_00000002" />
-    <!--  configure this in messages_de.properties and messages_en.properties -->    
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.publishlinks.publishlink.@title&amp;prop=MCR.WorkflowEngine.PublisherDefaultName.xmetadiss&amp;defaultValue=My_Library" />    
-    <cell col="1" row="1" anchor="WEST" />
-  </panel>
-  <!-- *** Data for the Grantor ** -->
-  <panel id="DGrantorLink">
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/grantorlinks&amp;classname=MCRMetaLinkID" /> 
-    <hidden var="metadata/grantorlinks/grantorlink/@label" default="institution" />
-    <hidden var="metadata/grantorlinks/grantorlink/@type" default="locator" />      
-    <!-- configure this in mycore.properties  -->
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.grantorlinks.grantorlink.@href&amp;prop=MCR.WorkflowEngine.GrantorDefaultID.xmetadiss&amp;defaultValue=DocPortal_institution_00000001" />
-    <!--  configure this in messages_de.properties and messages_en.properties -->    
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.grantorlinks.grantorlink.@title&amp;prop=MCR.WorkflowEngine.GrantorDefaultName.xmetadiss&amp;defaultValue=My_University" />    
-    <cell col="1" row="1" anchor="WEST" />
-  </panel>
-
 <!-- ** Data for the FORMAT *** -->
 
   <panel id="DFormat">
