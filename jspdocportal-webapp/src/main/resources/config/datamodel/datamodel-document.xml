@@ -29,7 +29,7 @@
 		</element>
 		<!-- 02 - DC Creator -->
 		<element name="creators" minOccurs='0' maxOccurs='1'>
-			<mcrmetalangtext name="creator" class="MCRMetaLangText"
+			<mcrmetaxml name="creator" class="MCRMetaXML"
 				minOccurs='1' maxOccurs='unbounded' length="128" />
 		</element>
 		<!-- 04 - DC Subject -->
@@ -49,7 +49,7 @@
 		</element>
 		<!-- 08 - DC Publisher -->
 		<element name="publishers" minOccurs='0' maxOccurs='1'>
-			<mcrmetalangtext name="publisher" class="MCRMetaLangText"
+			<mcrmetaxml name="publisher" class="MCRMetaXML"
 				minOccurs='1' maxOccurs='unbounded' length="128" />
 		</element>
 		<!-- 10 - DC Contributor -->

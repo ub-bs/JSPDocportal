@@ -29,7 +29,7 @@
 		</element>
 		  <!-- 12 - DC Creator -->
     	<element name="creators" minOccurs='0' maxOccurs='1'>
-    		<mcrmetalangtext name="creator" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="128" />
+    		<mcrmetaxml name="creator" class="MCRMetaXML" minOccurs='1' maxOccurs='unbounded' length="128" />
     	 </element>
     	 <!-- 13 - CreatorLink -->
     	<element name="creatorlinks" minOccurs='0' maxOccurs='1'>
@@ -37,7 +37,7 @@
     	</element>
 		<!-- 14 - Participant -->
 		<element name="publishers" minOccurs='0' maxOccurs='1'>
-			<mcrmetalangtext name="publisher" class="MCRMetaXML" minOccurs='1' maxOccurs='unbounded' length="128" />
+			<mcrmetaxml name="publisher" class="MCRMetaXML" minOccurs='1' maxOccurs='unbounded' length="128" />
 		</element>
 		
 		 <!-- 16 - Origin -->
