@@ -119,7 +119,7 @@ public abstract class SearcherBase {
 			for(String s: getGeneratedSortQuery().split("\\,")){
 				if(s.trim().length()>0){
 					
-					String[] data = s.split("\\:");
+					String[] data = s.split("\\+");
 					if(data.length==2){
 						boolean order = true;
 						if(data[1].equals("asc")){

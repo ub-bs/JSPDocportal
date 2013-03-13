@@ -31,8 +31,8 @@ import java.util.Arrays;
  *
  */
 public abstract class SortableSearcherBase extends SearcherBase {
-	private String sortiere_nach = null;
-	private String sortiere_wie = null;
+	private String sortiere_nach = "date";
+	private String sortiere_wie = "desc";
 
 	public SortableSearcherBase() {
 		super();
