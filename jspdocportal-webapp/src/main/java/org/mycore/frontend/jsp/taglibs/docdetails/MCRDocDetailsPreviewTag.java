@@ -43,8 +43,11 @@ import org.w3c.dom.Node;
  * shows them at the right side of the docdetails table
  * 
  * @author Robert Stephan
+ * 
+ * @deprecated use <mcrb:derivateImageBrowser ...> instead
  *
  */
+
 public class MCRDocDetailsPreviewTag extends SimpleTagSupport {
 	
 	private int imgWidth=0;
@@ -56,7 +59,7 @@ public class MCRDocDetailsPreviewTag extends SimpleTagSupport {
 			throw new JspException("This tag must be nested in tag called 'docdetails' of the same tag library");
 		}
 		try {
-			String xp = "/mycoreobject/structure/derobjects/derobject[contains(@xlink:label, '"+labelSubstring+"')]";
+			String xp = "/mycoreobject/structure/derobjects/derobject[contains(@xlink:title, '"+labelSubstring+"')]";
 			Object o =  getJspContext().getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE);
    		  	if(o==null){
    		  		o = new String("");

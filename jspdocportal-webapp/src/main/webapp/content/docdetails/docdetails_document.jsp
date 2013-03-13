@@ -25,7 +25,7 @@
 			<c:if test="${empty title}">
 				<c:set var="title"><x:out select="$xml/title[1]" /></c:set>
 			</c:if>
-			<c:out value="${title}" />		
+			<c:out value="${title}" escapeXml="false" />		
 		</mcrdd:outputitem>              
     </mcrdd:row>
 
@@ -33,8 +33,6 @@
 		<mcrdd:item select="./text()" />              
     </mcrdd:row>
     
-    <mcrdd:preview imageWidth="210" labelContains="Cover" /> 
-    	
     <mcrdd:row select="/mycoreobject/metadata/identifiers/identifier" labelkey="OMD.identifiers" showInfo="false">
 		<mcrdd:item select="./text()" />              
     </mcrdd:row>

@@ -74,7 +74,7 @@ public class MCRDerivateImageBrowserTag extends SimpleTagSupport {
 			}
 
 			for(MCRMetaLinkID derId: obj.getStructure().getDerivates()){
-				if(derId.getXLinkLabel().contains(labelSubstring)){
+				if(derId.getXLinkTitle()!=null && derId.getXLinkTitle().contains(labelSubstring)){
 					MCRDirectory root = MCRDirectory.getRootDirectory(derId.getXLinkHref());
 	    			if(root!=null){
 	    				MCRFilesystemNode[] myfiles = root.getChildren();

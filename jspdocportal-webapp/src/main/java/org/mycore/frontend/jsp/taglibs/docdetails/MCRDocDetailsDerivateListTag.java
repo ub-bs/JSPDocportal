@@ -86,7 +86,7 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 
 	    			Element eN = (Element)n;
 	    			String derID = eN.getAttributeNS(MCRConstants.XLINK_NAMESPACE.getURI(), "href");
-	    			String label = eN.getAttributeNS(MCRConstants.XLINK_NAMESPACE.getURI(), "label");
+	    			String label = eN.getAttributeNS(MCRConstants.XLINK_NAMESPACE.getURI(), "title");
 	    			String baseurl = getJspContext().getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE).toString();
     				MCRObjectID oid = MCRObjectID.getInstance(derID);
     				MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(oid);

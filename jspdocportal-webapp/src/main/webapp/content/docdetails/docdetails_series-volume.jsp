@@ -33,8 +33,6 @@
 		<mcrdd:item select="./text()" />              
     </mcrdd:row>
     
-    <mcrdd:preview imageWidth="210" labelContains="Cover" /> 
-    	
     <mcrdd:row select="/mycoreobject/metadata/identifiers/identifier" labelkey="OMD.identifiers" showInfo="false">
 		<mcrdd:item select="./text()" />              
     </mcrdd:row>

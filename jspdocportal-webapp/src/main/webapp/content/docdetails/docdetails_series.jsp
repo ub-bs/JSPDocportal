@@ -18,8 +18,6 @@
     <mcrdd:row select="/mycoreobject/metadata/titles/title[@type='original-sub']" labelkey="OMD.subtitle" showInfo="false">
 		<mcrdd:item select="./text()" styleName="docdetails-value-title" />              
     </mcrdd:row>
-    
-    <mcrdd:preview imageWidth="210" labelContains="Cover" /> 
     	
     <mcrdd:row select="/mycoreobject/metadata/participationlinks/participationlink | /mycoreobject/metadata/participants/participant" 
                labelkey="OMD.participants" showInfo="false">
