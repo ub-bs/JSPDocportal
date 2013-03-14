@@ -147,10 +147,21 @@
       </textfield>	 
 
     </cell>
-    <cell col="2" row="2" anchor="NORTHWEST">
-    	<text class="editorHint" i18n="Editor.Label.DateAccepted" />
+    
+    <hidden var="metadata/dates/date[3]/@type" default="published" />
+    <cell col="1" row="3" anchor="NORTHWEST">
+      <text class="editorHint" i18n="Editor.Label.Date_Year.publishing" />
     </cell>
+    <cell col="2" row="3" anchor="NORTHWEST"  var="metadata/dates/date[3]" >
+       <textfield id="TFDatePublished"  width="30" maxlength="128" class="mandatory" >   
+       <condition id="CDatePublished" regexp="(\d\d\.\d\d\.\d\d\d\d)|(\d\d\d\d\-\d\d\-\d\d)|(\d\d\d\d)" required="true" >
+        <label i18n="Editor.Validate.Date.Format" />
+         </condition>
+      </textfield>  
+    </cell>
+    
   </panel>
+  
 
 <!-- ** Data for the TYPE *** -->
 

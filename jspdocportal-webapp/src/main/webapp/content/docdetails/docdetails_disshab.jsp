@@ -54,6 +54,10 @@
 	<mcrdd:row select="/mycoreobject/metadata/dates/date[@type='accepted']" labelkey="OMD.yearaccepted" showInfo="false">
 		<mcrdd:item select="./text()" datePattern="yyyy" />              
     </mcrdd:row>
+    
+    <mcrdd:row select="/mycoreobject/metadata/dates/date[@type='published']" labelkey="OMD.yearpublished" showInfo="false">
+      <mcrdd:item select="./text()" datePattern="yyyy" />              
+    </mcrdd:row>
         
     <mcrdd:separator showLine="true"/>  
      
