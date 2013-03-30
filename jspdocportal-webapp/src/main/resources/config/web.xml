@@ -196,11 +196,7 @@
             <servlet-name> MCRZipWebcontentServlet</servlet-name>
             <servlet-class> org.mycore.frontend.servlets.MCRZipWebcontentServlet</servlet-class>
       </servlet>
-      <servlet id="CPR2RTFServlet">
-            <servlet-name>CPR2RTFServlet</servlet-name>
-            <servlet-class>de.uni_rostock.ub.rosdok.cpr2rtf.CPR2RTFServlet</servlet-class>
-      </servlet>
-      
+
       <servlet id="MCRDataAPIGetClassificationServlet">
             <servlet-name>MCRDataAPIGetClassificationServlet</servlet-name>
             <servlet-class>org.mycore.frontend.jsp.dataapi.MCRDataAPIGetClassificationServlet</servlet-class>
@@ -238,8 +234,12 @@
 		<servlet-name>MCRJSPPNDServlet</servlet-name>
 		<url-pattern>/pnd/*</url-pattern>
 	</servlet-mapping>
+    <servlet-mapping>
+    	<servlet-name>MCRJSPPNDServlet</servlet-name>
+		<url-pattern>/gnd/*</url-pattern>
+	</servlet-mapping>
 
-   <servlet-mapping>
+	<servlet-mapping>
         <servlet-name>MCRRegisterUserWorkflowServlet</servlet-name>
         <url-pattern>/servlets/MCRRegisterUserWorkflowServlet</url-pattern>
     </servlet-mapping> 
@@ -303,11 +303,7 @@
          <servlet-name>MCRWFFileNodeServlet</servlet-name>
          <url-pattern>/wffile/*</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-          <servlet-name>CPR2RTFServlet</servlet-name>
-          <url-pattern>/servlets/CPR2RTFServlet</url-pattern>
-    </servlet-mapping>  
-
+   
     <servlet-mapping>
           <servlet-name>MCRJSPGlobalResolverServlet</servlet-name>
           <url-pattern>/resolve/*</url-pattern>
@@ -424,7 +420,7 @@
       <url-pattern>*.jsp</url-pattern>
     </jsp-property-group>
     <jsp-property-group>
-      <description>Indicate that the files with 'xjsp' extension are JSP documents</description>
+      <description>Indicate that the files with 'jspx' extension are JSP documents</description>
       <url-pattern>*.jspx</url-pattern>
       <is-xml>true</is-xml>
     </jsp-property-group>    
