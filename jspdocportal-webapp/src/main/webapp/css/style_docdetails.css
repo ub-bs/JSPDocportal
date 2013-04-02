@@ -57,8 +57,9 @@ td.docdetails-value {
 }
 
 td.docdetails-value-title {
-	font-size: 133%;
 	font-weight: bold;
+	font-size: 133%;
+	line-height: 133%;
 	padding: 5px 5px 5px 20px;
 }
 
