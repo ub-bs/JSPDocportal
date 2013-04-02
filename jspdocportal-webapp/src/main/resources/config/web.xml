@@ -196,13 +196,7 @@
             <servlet-name> MCRZipWebcontentServlet</servlet-name>
             <servlet-class> org.mycore.frontend.servlets.MCRZipWebcontentServlet</servlet-class>
       </servlet>
-
-      <servlet id="MCRDataAPIGetClassificationServlet">
-            <servlet-name>MCRDataAPIGetClassificationServlet</servlet-name>
-            <servlet-class>org.mycore.frontend.jsp.dataapi.MCRDataAPIGetClassificationServlet</servlet-class>
-      </servlet>
-      
-      
+          
     <!-- servlet mappings -->
     
    
@@ -396,12 +390,24 @@
             <servlet-name>MCRGoogleSitemapServlet</servlet-name>
             <url-pattern>/sitemap_google.xml</url-pattern>
      </servlet-mapping>
-     
-      <servlet-mapping>
-            <servlet-name>MCRDataAPIGetClassificationServlet</servlet-name>
-            <url-pattern>/api/v1/classifications/*</url-pattern>
-      </servlet-mapping>
-    
+      
+  <!-- **************************************************************** -->
+  <!-- MyCoRe REST API v1                                                 -->
+  <!-- **************************************************************** -->
+  
+   <servlet>
+    <servlet-name>MyCoRe REST API v1</servlet-name>
+    <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+    <init-param>
+      <param-name>com.sun.jersey.config.property.packages</param-name>
+      <param-value>org.mycore.frontend.restapi.v1</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MyCoRe REST API v1</servlet-name>
+    <url-pattern>/api/v1/*</url-pattern>
+  </servlet-mapping>
 
   <session-config>
     <session-timeout>30</session-timeout>
