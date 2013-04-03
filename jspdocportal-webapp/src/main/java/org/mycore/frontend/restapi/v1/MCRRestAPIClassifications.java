@@ -21,6 +21,7 @@
  * 59 Temple Place - Suite 330, Boston, MA  02111-1307 USA
  */
 package org.mycore.frontend.restapi.v1;
+
 import java.io.IOException;
 import java.io.StringWriter;
 
@@ -31,9 +32,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
@@ -69,186 +72,228 @@ import com.google.gson.stream.JsonWriter;
  */
 @Path("/classifications")
 public class MCRRestAPIClassifications extends HttpServlet {
-    private static final long serialVersionUID = 1L;
-    public static final String FORMAT_JSON = "json";
-    public static final String FORMAT_XML = "xml";
+	private static final long serialVersionUID = 1L;
+	public static final String FORMAT_JSON = "json";
+	public static final String FORMAT_XML = "xml";
 
-    private static final MCRCategoryDAO DAO = new MCRCategoryDAOImpl();
+	private static final MCRCategoryDAO DAO = new MCRCategoryDAOImpl();
 
-    @GET
-    @Path("/id/{value}")  
-    @Produces({MediaType.TEXT_XML +";charset=UTF-8", MediaType.APPLICATION_JSON +";charset=UTF-8"})
-    public Response showObject(@PathParam("value") String classID,
-                               @QueryParam("filter") String filter,
-                               @QueryParam("style") String style){
-        return showObject(classID, "html", filter, style);
-    }
-             
-    @GET
-    //@Path("/id/{value}{format:(\\.[^/]+?)?}")  -> working, but returns empty string instead of default value
-    @Path("/id/{value}.{format:([^/]*)}")  
-    @Produces({MediaType.TEXT_XML +";charset=UTF-8", MediaType.APPLICATION_JSON +";charset=UTF-8"})
-    public Response showObject(@PathParam("value") String classID,
-                               @PathParam("format") String format,
-                               @QueryParam("filter") String filter,
-                               @QueryParam("style") String style){
-             
-        String rootCateg = null;
-        String lang = null;
-     
-        if(filter!=null){
-        for(String f: filter.split(";")){
-            if(f.startsWith("root:")){
-                rootCateg = f.substring(5);
-            }
-            if(f.startsWith("lang:")){
-                lang = f.substring(5);
-            }
-        }
-        }
-        if (format == null || classID == null) {
-            return Response.serverError().status(Status.BAD_REQUEST).build();
-            //TODO response.sendError(HttpServletResponse.SC_NOT_FOUND, "Please specify parameters format and classid.");
-           
-        }
-        Transaction tx = MCRHIBConnection.instance().getSession().beginTransaction();
-        try {
-            MCRCategory cl = DAO.getCategory(MCRCategoryID.rootID(classID), -1);
-            Document docClass = MCRCategoryTransformer.getMetaDataDocument(cl, false);
-            Element eRoot = docClass.getRootElement();
-            if (rootCateg != null) {
-                XPathExpression<Element> xpe = XPathFactory.instance().compile("//category[@ID='" + rootCateg + "']",
-                        Filters.element());
-                Element e = xpe.evaluateFirst(docClass);
-                if (e != null) {
-                    eRoot = e;
-                }
-            }
-            if (FORMAT_JSON.equals(format)) {
-                String json = writeJSON(eRoot, lang, style);
-                return Response.ok(json).type("application/json").build(); 
-               
-            }
+	@GET
+	@Path("")
+	@Produces({ MediaType.TEXT_XML + ";charset=UTF-8" })
+	public Response listClassifications(@Context UriInfo info, 
+			@QueryParam("format") @DefaultValue("json") String format) {
+		if (FORMAT_XML.equals(format)) {
+			StringWriter sw = new StringWriter();
 
-            if (FORMAT_XML.equals(format)) {
-                String xml = writeXML(eRoot, lang);
-                return Response.ok(xml).type("application/xml").build(); 
-            }
-        }
+			XMLOutputter xout = new XMLOutputter(Format.getPrettyFormat());
+			Document docOut = new Document();
+			Element eRoot = new Element("mycoreclassifications");
+			docOut.setRootElement(eRoot);
+			Transaction tx = MCRHIBConnection.instance().getSession().beginTransaction();
+			for (MCRCategory cat : DAO.getRootCategories()) {
+				eRoot.addContent(new Element("mycoreclass").setAttribute("ID", cat.getId().getRootID())
+						.setAttribute("url",info.getAbsolutePathBuilder().path("id").path(cat.getId().getRootID())
+						.build((Object[]) null).toString()));
+			}
+			tx.commit();
 
-        catch (Exception e) {
-            Logger.getLogger(this.getClass()).error("Error outputting classification", e);
-            //TODO response.sendError(HttpServletResponse.SC_NOT_FOUND, "Error outputting classification");
-        } finally {
-            tx.commit();
-        }
-        return null;
-    }
+			try {
+				xout.output(docOut, sw);
+				return Response.ok(sw.toString()).type("application/xml").build();
+			} catch (IOException e) {
+				//ToDo
+			}
+		}
+		
+		if (FORMAT_JSON.equals(format)) {
+			StringWriter sw = new StringWriter();
+			try {
+				JsonWriter writer = new JsonWriter(sw);
+				writer.beginObject();
+				writer.name("mycoreclass");
+				writer.beginArray();
+				Transaction tx = MCRHIBConnection.instance().getSession().beginTransaction();
+				for (MCRCategory cat : DAO.getRootCategories()) {
+					writer.beginObject();
+					writer.name("ID").value(cat.getId().getRootID());
+					writer.name("url").value(
+					        info.getAbsolutePathBuilder().path("id").path(cat.getId().getRootID())
+					                .build((Object[]) null).toString());
+					writer.endObject();
+				}
+				tx.commit();
+				writer.endArray();
+				writer.endObject();
 
-    private static String writeXML(Element eRoot, String lang) throws IOException {
-       StringWriter sw = new StringWriter();
+				writer.close();
 
-        if (lang != null) {
-            // <label xml:lang="en" text="part" />
-            XPathExpression<Element> xpE = XPathFactory.instance().compile("//label[xml:lang!='" + lang + "']",
-                    Filters.element(), null, Namespace.XML_NAMESPACE);
-            for (Element e : xpE.evaluate(eRoot)) {
-                e.getParentElement().removeContent(e);
-            }
-        }
-        XMLOutputter xout = new XMLOutputter(Format.getPrettyFormat());
-        Document docOut = new Document(eRoot.detach());
-        xout.output(docOut, sw);
-        return sw.toString();
-    }
+				return Response.ok(sw.toString()).type("application/json").build();
+			} catch (IOException e) {
+				//toDo
+			}
+		}
+		return Response.status(com.sun.jersey.api.client.ClientResponse.Status.BAD_REQUEST).build();
+	}
 
-    private String writeJSON(Element eRoot, String lang, String style)
-            throws IOException {
-        StringWriter sw = new StringWriter();
-        JsonWriter writer = new JsonWriter(sw);
-        writer.setIndent("  ");
-        if ("checkboxtree".equals(style)) {
-            if (lang == null) {
-                lang = "de";
-            }
-            if (eRoot.equals(eRoot.getDocument().getRootElement())) {
-                eRoot = eRoot.getChild("categories");
-            }
-            writer.beginObject(); // {
-            writer.name("identifier").value("ID");
-            writer.name("label").value("ID");
-            writer.name("items");
+	@GET
+	//@Path("/id/{value}{format:(\\.[^/]+?)?}")  -> working, but returns empty string instead of default value
+	@Path("/id/{value}")
+	@Produces({ MediaType.TEXT_XML + ";charset=UTF-8", MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+	public Response showObject(@PathParam("value") String classID,
+	        @QueryParam("format") @DefaultValue("xml") String format, 
+	        @QueryParam("filter") String filter,
+	        @QueryParam("style") String style) {
 
-            writeChildrenAsJSONCBTree(eRoot, writer, lang);
+		String rootCateg = null;
+		String lang = null;
 
-            writer.endObject(); // }
-            
-        } else {
-            writer.beginObject(); // {
-            writer.name("ID").value("ID");
-            writer.name("label");
-            writer.beginArray();
-            for (Element eLabel : eRoot.getChildren("label")) {
-                writer.beginObject();
-                writer.name("lang").value(eLabel.getAttributeValue("lang", Namespace.XML_NAMESPACE));
-                writer.name("text").value(eLabel.getAttributeValue("text"));
-                writer.endObject();
-            }
-            writer.endArray();
-            writer.name("categories");
-            
-            writeChildrenAsJSON(eRoot.getChild("categories"), writer);
-            
-            writer.endObject();
-        }
-        writer.close();
-        return sw.toString();
-    }
+		if (filter != null) {
+			for (String f : filter.split(";")) {
+				if (f.startsWith("root:")) {
+					rootCateg = f.substring(5);
+				}
+				if (f.startsWith("lang:")) {
+					lang = f.substring(5);
+				}
+			}
+		}
+		if (format == null || classID == null) {
+			return Response.serverError().status(Status.BAD_REQUEST).build();
+			//TODO response.sendError(HttpServletResponse.SC_NOT_FOUND, "Please specify parameters format and classid.");
+		}
+		Transaction tx = MCRHIBConnection.instance().getSession().beginTransaction();
+		try {
+			MCRCategory cl = DAO.getCategory(MCRCategoryID.rootID(classID), -1);
+			Document docClass = MCRCategoryTransformer.getMetaDataDocument(cl, false);
+			Element eRoot = docClass.getRootElement();
+			if (rootCateg != null) {
+				XPathExpression<Element> xpe = XPathFactory.instance().compile("//category[@ID='" + rootCateg + "']",
+				        Filters.element());
+				Element e = xpe.evaluateFirst(docClass);
+				if (e != null) {
+					eRoot = e;
+				}
+			}
+			if (FORMAT_JSON.equals(format)) {
+				String json = writeJSON(eRoot, lang, style);
+				return Response.ok(json).type("application/json").build();
 
-    private static void writeChildrenAsJSON(Element eParent, JsonWriter writer) throws IOException {
-        writer.beginArray();
-        for (Element e : eParent.getChildren("category")) {
-            writer.beginObject();
-            writer.name("ID").value(e.getAttributeValue("ID"));
-            writer.name("labels").beginArray();
-            for (Element eLabel : e.getChildren("label")) {
-                writer.beginObject();
-                writer.name("lang").value(eLabel.getAttributeValue("lang", Namespace.XML_NAMESPACE));
-                writer.name("text").value(eLabel.getAttributeValue("text"));
-                writer.endObject();
-            }
-            writer.endArray();
+			}
 
-            if (e.getChildren("category").size() > 0) {
-                writer.name("categories");
-                writeChildrenAsJSON(e, writer);
-            }
-            writer.endObject();
-        }
-        writer.endArray();
-    }
+			if (FORMAT_XML.equals(format)) {
+				String xml = writeXML(eRoot, lang);
+				return Response.ok(xml).type("application/xml").build();
+			}
+		}
 
-    /**
-     * output children in JSON format used as input for Dijit Checkbox Tree
-     */
-    private static void writeChildrenAsJSONCBTree(Element eParent, JsonWriter writer, String lang) throws IOException {
-        writer.beginArray();
-        for (Element e : eParent.getChildren("category")) {
-            writer.beginObject();
-            writer.name("ID").value(e.getAttributeValue("ID"));
-            for (Element eLabel : e.getChildren("label")) {
-                if (lang.equals(eLabel.getAttributeValue("lang", Namespace.XML_NAMESPACE))) {
-                    writer.name("text").value(eLabel.getAttributeValue("text"));
-                }
-            }
-            writer.name("checked").value(false);
-            if (e.getChildren("category").size() > 0) {
-                writer.name("children");
-                writeChildrenAsJSONCBTree(e, writer, lang);
-            }
-            writer.endObject();
-        }
-        writer.endArray();
-    }
+		catch (Exception e) {
+			Logger.getLogger(this.getClass()).error("Error outputting classification", e);
+			//TODO response.sendError(HttpServletResponse.SC_NOT_FOUND, "Error outputting classification");
+		} finally {
+			tx.commit();
+		}
+		return null;
+	}
+
+	private static String writeXML(Element eRoot, String lang) throws IOException {
+		StringWriter sw = new StringWriter();
+		if (lang != null) {
+			// <label xml:lang="en" text="part" />
+			XPathExpression<Element> xpE = XPathFactory.instance().compile("//label[@xml:lang!='" + lang + "']",
+			        Filters.element(), null, Namespace.XML_NAMESPACE);
+			for (Element e : xpE.evaluate(eRoot)) {
+				e.getParentElement().removeContent(e);
+			}
+		}
+		XMLOutputter xout = new XMLOutputter(Format.getPrettyFormat());
+		Document docOut = new Document(eRoot.detach());
+		xout.output(docOut, sw);
+		return sw.toString();
+	}
+
+	private String writeJSON(Element eRoot, String lang, String style) throws IOException {
+		StringWriter sw = new StringWriter();
+		JsonWriter writer = new JsonWriter(sw);
+		writer.setIndent("  ");
+		if ("checkboxtree".equals(style)) {
+			if (lang == null) {
+				lang = "de";
+			}
+			if (eRoot.equals(eRoot.getDocument().getRootElement())) {
+				eRoot = eRoot.getChild("categories");
+			}
+			writer.beginObject(); // {
+			writer.name("identifier").value("ID");
+			writer.name("label").value("ID");
+			writer.name("items");
+
+			writeChildrenAsJSONCBTree(eRoot, writer, lang);
+			writer.endObject(); // }
+		} else {
+			writer.beginObject(); // {
+			writer.name("ID").value("ID");
+			writer.name("label");
+			writer.beginArray();
+			for (Element eLabel : eRoot.getChildren("label")) {
+				writer.beginObject();
+				writer.name("lang").value(eLabel.getAttributeValue("lang", Namespace.XML_NAMESPACE));
+				writer.name("text").value(eLabel.getAttributeValue("text"));
+				writer.endObject();
+			}
+			writer.endArray();
+			writer.name("categories");
+
+			writeChildrenAsJSON(eRoot.getChild("categories"), writer);
+			writer.endObject();
+		}
+		writer.close();
+		return sw.toString();
+	}
+
+	private static void writeChildrenAsJSON(Element eParent, JsonWriter writer) throws IOException {
+		writer.beginArray();
+		for (Element e : eParent.getChildren("category")) {
+			writer.beginObject();
+			writer.name("ID").value(e.getAttributeValue("ID"));
+			writer.name("labels").beginArray();
+			for (Element eLabel : e.getChildren("label")) {
+				writer.beginObject();
+				writer.name("lang").value(eLabel.getAttributeValue("lang", Namespace.XML_NAMESPACE));
+				writer.name("text").value(eLabel.getAttributeValue("text"));
+				writer.endObject();
+			}
+			writer.endArray();
+
+			if (e.getChildren("category").size() > 0) {
+				writer.name("categories");
+				writeChildrenAsJSON(e, writer);
+			}
+			writer.endObject();
+		}
+		writer.endArray();
+	}
+
+	/**
+	 * output children in JSON format used as input for Dijit Checkbox Tree
+	 */
+	private static void writeChildrenAsJSONCBTree(Element eParent, JsonWriter writer, String lang) throws IOException {
+		writer.beginArray();
+		for (Element e : eParent.getChildren("category")) {
+			writer.beginObject();
+			writer.name("ID").value(e.getAttributeValue("ID"));
+			for (Element eLabel : e.getChildren("label")) {
+				if (lang.equals(eLabel.getAttributeValue("lang", Namespace.XML_NAMESPACE))) {
+					writer.name("text").value(eLabel.getAttributeValue("text"));
+				}
+			}
+			writer.name("checked").value(false);
+			if (e.getChildren("category").size() > 0) {
+				writer.name("children");
+				writeChildrenAsJSONCBTree(e, writer, lang);
+			}
+			writer.endObject();
+		}
+		writer.endArray();
+	}
 }
-
