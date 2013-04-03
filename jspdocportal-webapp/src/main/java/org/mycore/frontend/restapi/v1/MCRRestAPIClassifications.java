@@ -83,6 +83,7 @@ public class MCRRestAPIClassifications extends HttpServlet {
 	@Produces({ MediaType.TEXT_XML + ";charset=UTF-8", MediaType.APPLICATION_JSON + ";charset=UTF-8" })
 	public Response listClassifications(@Context UriInfo info, 
 			@QueryParam("format") @DefaultValue("json") String format) {
+		Transaction tx = MCRHIBConnection.instance().getSession().beginTransaction();
 		if (FORMAT_XML.equals(format)) {
 			StringWriter sw = new StringWriter();
 
@@ -90,17 +91,15 @@ public class MCRRestAPIClassifications extends HttpServlet {
 			Document docOut = new Document();
 			Element eRoot = new Element("mycoreclassifications");
 			docOut.setRootElement(eRoot);
-			Transaction tx = MCRHIBConnection.instance().getSession().beginTransaction();
+		
 			for (MCRCategory cat : DAO.getRootCategories()) {
 				eRoot.addContent(new Element("mycoreclass").setAttribute("ID", cat.getId().getRootID())
 						.setAttribute("href",info.getAbsolutePathBuilder().path("id").path(cat.getId().getRootID())
 						.build((Object[]) null).toString()));
 			}
-			tx.commit();
-
 			try {
 				xout.output(docOut, sw);
-				return Response.ok(sw.toString()).type("application/xml").build();
+				return Response.ok(sw.toString()).type("application/xml; charset=UTF-8").build();
 			} catch (IOException e) {
 				//ToDo
 			}
@@ -114,7 +113,6 @@ public class MCRRestAPIClassifications extends HttpServlet {
 				writer.beginObject();
 				writer.name("mycoreclass");
 				writer.beginArray();
-				Transaction tx = MCRHIBConnection.instance().getSession().beginTransaction();
 				for (MCRCategory cat : DAO.getRootCategories()) {
 					writer.beginObject();
 					writer.name("ID").value(cat.getId().getRootID());
@@ -123,16 +121,16 @@ public class MCRRestAPIClassifications extends HttpServlet {
 					                .build((Object[]) null).toString());
 					writer.endObject();
 				}
-				tx.commit();
 				writer.endArray();
 				writer.endObject();
 
 				writer.close();
 
-				return Response.ok(sw.toString()).type("application/json").build();
+				return Response.ok(sw.toString()).type("application/json; charset=UTF-8").build();
 			} catch (IOException e) {
 				//toDo
 			}
+			tx.commit();
 		}
 		return Response.status(com.sun.jersey.api.client.ClientResponse.Status.BAD_REQUEST).build();
 	}

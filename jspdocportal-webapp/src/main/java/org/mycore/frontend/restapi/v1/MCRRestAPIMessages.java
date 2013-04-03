@@ -50,6 +50,7 @@ import org.jdom2.output.XMLOutputter;
 import org.mycore.services.i18n.MCRTranslation;
 
 import com.google.gson.stream.JsonWriter;
+import com.sun.jersey.api.client.ClientResponse;
 
 /**
  * Rest API for messages.
@@ -173,7 +174,7 @@ public class MCRRestAPIMessages extends HttpServlet {
 		} catch (IOException e) {
 			//toDo
 		}
-		return Response.status(com.sun.jersey.api.client.ClientResponse.Status.BAD_REQUEST).build();
+		return Response.status(ClientResponse.Status.BAD_REQUEST).build();
 	}
 
 	/** 
