@@ -64,8 +64,9 @@ import com.google.gson.stream.JsonWriter;
  *  - classid - the ID of the MyCoRe classification (required)
  *  - categid - the root category, if only a part of the classification should be returned
  *  - format = json | xml (required)
- *  - style = checkboxtree - JSON format used as input for a Dijit CheckBox Tree (lang attribute must be provided!)
- *  - lang - the language of the returned labels, if ommited all labels in all languages will be returned
+ *  - filter - ';'-separated list of ':'-separated key-value pairs, possible keys are:
+ *    - lang - the language of the returned labels, if ommited all labels in all languages will be returned
+ *    - root - an id for a category which will be used as root
  *  
  * @author Robert Stephan
  *
@@ -178,7 +179,6 @@ public class MCRRestAPIClassifications extends HttpServlet {
 			if (FORMAT_JSON.equals(format)) {
 				String json = writeJSON(eRoot, lang, style);
 				return Response.ok(json).type("application/json").build();
-
 			}
 
 			if (FORMAT_XML.equals(format)) {
@@ -236,38 +236,56 @@ public class MCRRestAPIClassifications extends HttpServlet {
 			writer.name("label");
 			writer.beginArray();
 			for (Element eLabel : eRoot.getChildren("label")) {
-				writer.beginObject();
-				writer.name("lang").value(eLabel.getAttributeValue("lang", Namespace.XML_NAMESPACE));
-				writer.name("text").value(eLabel.getAttributeValue("text"));
-				writer.endObject();
+				if(lang==null || lang.equals(eLabel.getAttributeValue("lang", Namespace.XML_NAMESPACE))){
+					writer.beginObject();
+					writer.name("lang").value(eLabel.getAttributeValue("lang", Namespace.XML_NAMESPACE));
+					writer.name("text").value(eLabel.getAttributeValue("text"));
+					if(eLabel.getAttributeValue("description")!=null){
+						writer.name("description").value(eLabel.getAttributeValue("description"));
+					}
+					writer.endObject();
+				}
 			}
 			writer.endArray();
-			writer.name("categories");
+			
+			if (eRoot.equals(eRoot.getDocument().getRootElement())) {
+				writeChildrenAsJSON(eRoot.getChild("categories"), writer, lang);
+			}
+			else{
+				writeChildrenAsJSON(eRoot, writer, lang);
+			}
 
-			writeChildrenAsJSON(eRoot.getChild("categories"), writer);
 			writer.endObject();
 		}
 		writer.close();
 		return sw.toString();
 	}
 
-	private static void writeChildrenAsJSON(Element eParent, JsonWriter writer) throws IOException {
+	private static void writeChildrenAsJSON(Element eParent, JsonWriter writer, String lang) throws IOException {
+		if(eParent.getChildren("category").size()==0) return;
+		
+		writer.name("categories");
 		writer.beginArray();
 		for (Element e : eParent.getChildren("category")) {
 			writer.beginObject();
 			writer.name("ID").value(e.getAttributeValue("ID"));
 			writer.name("labels").beginArray();
 			for (Element eLabel : e.getChildren("label")) {
+				if(lang==null || lang.equals(eLabel.getAttributeValue("lang", Namespace.XML_NAMESPACE))){
 				writer.beginObject();
-				writer.name("lang").value(eLabel.getAttributeValue("lang", Namespace.XML_NAMESPACE));
-				writer.name("text").value(eLabel.getAttributeValue("text"));
-				writer.endObject();
+					writer.name("lang").value(eLabel.getAttributeValue("lang", Namespace.XML_NAMESPACE));
+					writer.name("text").value(eLabel.getAttributeValue("text"));
+					if(eLabel.getAttributeValue("description")!=null){
+						writer.name("description").value(eLabel.getAttributeValue("description"));
+					}
+					writer.endObject();
+				}
 			}
 			writer.endArray();
 
 			if (e.getChildren("category").size() > 0) {
 				writer.name("categories");
-				writeChildrenAsJSON(e, writer);
+				writeChildrenAsJSON(e, writer, lang);
 			}
 			writer.endObject();
 		}
