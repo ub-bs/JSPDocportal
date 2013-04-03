@@ -58,15 +58,8 @@ import org.mycore.datamodel.classifications2.utils.MCRCategoryTransformer;
 import com.google.gson.stream.JsonWriter;
 
 /**
- * Rest API to download classification objects in different formats.
+ * Rest API for classification objects.
  * 
- *  Possible request parameters are:
- *  - classid - the ID of the MyCoRe classification (required)
- *  - categid - the root category, if only a part of the classification should be returned
- *  - format = json | xml (required)
- *  - filter - ';'-separated list of ':'-separated key-value pairs, possible keys are:
- *    - lang - the language of the returned labels, if ommited all labels in all languages will be returned
- *    - root - an id for a category which will be used as root
  *  
  * @author Robert Stephan
  *
@@ -79,9 +72,15 @@ public class MCRRestAPIClassifications extends HttpServlet {
 
 	private static final MCRCategoryDAO DAO = new MCRCategoryDAOImpl();
 
+	/**
+	 * 
+	 * @param info - a Jersey Context Object for URI
+	 *     Possible values are: json | xml (required)
+	 * @param format 
+	 * @return
+	 */
 	@GET
-	@Path("")
-	@Produces({ MediaType.TEXT_XML + ";charset=UTF-8" })
+	@Produces({ MediaType.TEXT_XML + ";charset=UTF-8", MediaType.APPLICATION_JSON + ";charset=UTF-8" })
 	public Response listClassifications(@Context UriInfo info, 
 			@QueryParam("format") @DefaultValue("json") String format) {
 		if (FORMAT_XML.equals(format)) {
@@ -94,7 +93,7 @@ public class MCRRestAPIClassifications extends HttpServlet {
 			Transaction tx = MCRHIBConnection.instance().getSession().beginTransaction();
 			for (MCRCategory cat : DAO.getRootCategories()) {
 				eRoot.addContent(new Element("mycoreclass").setAttribute("ID", cat.getId().getRootID())
-						.setAttribute("url",info.getAbsolutePathBuilder().path("id").path(cat.getId().getRootID())
+						.setAttribute("href",info.getAbsolutePathBuilder().path("id").path(cat.getId().getRootID())
 						.build((Object[]) null).toString()));
 			}
 			tx.commit();
@@ -111,6 +110,7 @@ public class MCRRestAPIClassifications extends HttpServlet {
 			StringWriter sw = new StringWriter();
 			try {
 				JsonWriter writer = new JsonWriter(sw);
+				writer.setIndent("    ");
 				writer.beginObject();
 				writer.name("mycoreclass");
 				writer.beginArray();
@@ -118,7 +118,7 @@ public class MCRRestAPIClassifications extends HttpServlet {
 				for (MCRCategory cat : DAO.getRootCategories()) {
 					writer.beginObject();
 					writer.name("ID").value(cat.getId().getRootID());
-					writer.name("url").value(
+					writer.name("href").value(
 					        info.getAbsolutePathBuilder().path("id").path(cat.getId().getRootID())
 					                .build((Object[]) null).toString());
 					writer.endObject();
@@ -137,11 +137,26 @@ public class MCRRestAPIClassifications extends HttpServlet {
 		return Response.status(com.sun.jersey.api.client.ClientResponse.Status.BAD_REQUEST).build();
 	}
 
+	/**
+	 *  returns a single classification object
+	 *  
+	 * @param classID - the classfication id
+	 * @param format
+	 *   Possible values are: json | xml (required)
+	 * @param filter
+	 * 	 a ';'-separated list of ':'-separated key-value pairs, possible keys are:
+     *      - lang - the language of the returned labels, if ommited all labels in all languages will be returned
+     *      - root - an id for a category which will be used as root
+	 * @param style
+	 *   only value is 'cbtree' to create a json syntax which can be used as input for a dojo checkboxtree;
+	 *    
+	 * @return a Jersey Response object
+	 */
 	@GET
 	//@Path("/id/{value}{format:(\\.[^/]+?)?}")  -> working, but returns empty string instead of default value
-	@Path("/id/{value}")
+	@Path("/id/{classID}")
 	@Produces({ MediaType.TEXT_XML + ";charset=UTF-8", MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-	public Response showObject(@PathParam("value") String classID,
+	public Response showObject(@PathParam("classID") String classID,
 	        @QueryParam("format") @DefaultValue("xml") String format, 
 	        @QueryParam("filter") String filter,
 	        @QueryParam("style") String style) {
@@ -196,6 +211,13 @@ public class MCRRestAPIClassifications extends HttpServlet {
 		return null;
 	}
 
+	/**
+	 * Output xml
+	 * @param eRoot - the root element
+	 * @param lang - the language which should be filtered or null for no filter
+	 * @return a string representation of the XML
+	 * @throws IOException
+	 */
 	private static String writeXML(Element eRoot, String lang) throws IOException {
 		StringWriter sw = new StringWriter();
 		if (lang != null) {
@@ -211,7 +233,15 @@ public class MCRRestAPIClassifications extends HttpServlet {
 		xout.output(docOut, sw);
 		return sw.toString();
 	}
-
+	
+	/**
+	 * Output JSON
+	 * @param eRoot - the category element
+	 * @param lang - the language to be filtered for or null if all languages should be displayed
+	 * @param style - the style
+	 * @return a string representation of a JSON object
+	 * @throws IOException
+	 */
 	private String writeJSON(Element eRoot, String lang, String style) throws IOException {
 		StringWriter sw = new StringWriter();
 		JsonWriter writer = new JsonWriter(sw);
@@ -261,6 +291,14 @@ public class MCRRestAPIClassifications extends HttpServlet {
 		return sw.toString();
 	}
 
+	/**
+	 * output categories in JSON format
+	 * @param eParent - the parent xml element
+	 * @param writer - the JSON writer
+	 * @param lang - the language to be filtered or null if all languages should be displayed
+	 * 
+	 * @throws IOException
+	 */
 	private static void writeChildrenAsJSON(Element eParent, JsonWriter writer, String lang) throws IOException {
 		if(eParent.getChildren("category").size()==0) return;
 		
@@ -294,6 +332,12 @@ public class MCRRestAPIClassifications extends HttpServlet {
 
 	/**
 	 * output children in JSON format used as input for Dijit Checkbox Tree
+	 * 
+	 * @param eParent - the parent xml element
+	 * @param writer - the JSON writer
+	 * @param lang - the language to be filtered or null if all languages should be displayed
+	 * 
+	 * @throws IOException
 	 */
 	private static void writeChildrenAsJSONCBTree(Element eParent, JsonWriter writer, String lang) throws IOException {
 		writer.beginArray();
@@ -301,7 +345,7 @@ public class MCRRestAPIClassifications extends HttpServlet {
 			writer.beginObject();
 			writer.name("ID").value(e.getAttributeValue("ID"));
 			for (Element eLabel : e.getChildren("label")) {
-				if (lang.equals(eLabel.getAttributeValue("lang", Namespace.XML_NAMESPACE))) {
+				if (lang==null || lang.equals(eLabel.getAttributeValue("lang", Namespace.XML_NAMESPACE))) {
 					writer.name("text").value(eLabel.getAttributeValue("text"));
 				}
 			}
