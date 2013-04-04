@@ -57,7 +57,7 @@ import org.mycore.datamodel.metadata.MCRObjectID;
 
 import com.google.gson.stream.JsonWriter;
 
-@Path("/objects")
+@Path("/v1/objects")
 public class MCRRestAPIObjects {
 	public static final String STYLE_DERIVATEDETAILS="derivatedetails";
 	public static final String FORMAT_JSON = "json";

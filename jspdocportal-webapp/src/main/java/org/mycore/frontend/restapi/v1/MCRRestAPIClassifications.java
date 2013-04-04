@@ -64,7 +64,7 @@ import com.google.gson.stream.JsonWriter;
  * @author Robert Stephan
  *
  */
-@Path("/classifications")
+@Path("/v1/classifications")
 public class MCRRestAPIClassifications extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	public static final String FORMAT_JSON = "json";

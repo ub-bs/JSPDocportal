@@ -60,7 +60,7 @@ import com.sun.jersey.api.client.ClientResponse;
  * @author Robert Stephan
  *
  */
-@Path("/messages")
+@Path("/v1/messages")
 public class MCRRestAPIMessages extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	public static final String FORMAT_JSON = "json";
