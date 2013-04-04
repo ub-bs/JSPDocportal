@@ -277,17 +277,21 @@ public class MCRRestAPIObjects {
 		}
 		@Override
         public int compare(MCRObjectIDDate o1, MCRObjectIDDate o2) {
-			if("id".equals(_sortField) && "asc".equals(_sortOrder)){
-				return o1.getId().compareTo(o2.getId());
+			if("id".equals(_sortField)){
+				if("asc".equals(_sortOrder)){
+					return o1.getId().compareTo(o2.getId());
+				}
+				if("desc".equals(_sortOrder)){
+					return o2.getId().compareTo(o1.getId());
+				}
 			}
-			if("id".equals(_sortField) && "desc".equals(_sortOrder)){
-				return o2.getId().compareTo(o1.getId());
-			}
-			if("modifydate".equals(_sortField) && "asc".equals(_sortOrder)){
-				return o1.getLastModified().compareTo(o2.getLastModified());
-			}
-			if("modifydate".equals(_sortField) && "desc".equals(_sortOrder)){
-				return o2.getLastModified().compareTo(o1.getLastModified());
+			if("lastmodified".equals(_sortField)){
+				if("asc".equals(_sortOrder)){
+					return o1.getLastModified().compareTo(o2.getLastModified());
+				}
+				if("desc".equals(_sortOrder)){
+					return o2.getLastModified().compareTo(o1.getLastModified());
+				}
 			}
 			
             return 0;
