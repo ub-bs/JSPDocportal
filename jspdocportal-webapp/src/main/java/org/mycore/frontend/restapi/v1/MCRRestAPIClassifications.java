@@ -320,7 +320,6 @@ public class MCRRestAPIClassifications extends HttpServlet {
 			writer.endArray();
 
 			if (e.getChildren("category").size() > 0) {
-				writer.name("categories");
 				writeChildrenAsJSON(e, writer, lang);
 			}
 			writer.endObject();
