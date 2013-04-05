@@ -9,7 +9,8 @@
 body{
 	background:#ffffff url('../images/layout/CPR-header_HG3.jpg') no-repeat center top;
 	font-family:    Arial, Helvetica, sans-serif;
-	font-size:13px;
+	/*default browser font-size is 16px */
+	line-height: normal;
 }
 
 div#wrapper {
@@ -81,7 +82,8 @@ div.base_content{
 	padding: 4px 12px 4px 12px;
 	border-top: 1px solid #FFFFFF;
 	border-left: 1px solid #FFFFFF;
-	border-right: 1px solid #FFFFFF;	
+	border-right: 1px solid #FFFFFF;
+	font-size: 0.8em;	
 }
 
 /* ------------------------------------------------------------------- */
@@ -102,7 +104,7 @@ div.logo a{
 div.top_navigation{
 	float: right;
 	font-family: Arial, sans-serif;
-	font-size:11px;
+	font-size:0.7em;
 	color: #C6C6C6;
 	padding-top:10px;
 }
@@ -132,7 +134,10 @@ div.top_navigation a:VISITED{
 
 /* ------------------------------------------------------------------- */
 /*  Main Navigation  on left side    (as ordered list)                 */
-/* ------------------------------------------------------------------- */  
+/* ------------------------------------------------------------------- */
+div.main_navigation {
+	font-size:0.8em;
+}
 div.main_navigation ul li {
 	padding-top: 4px;
 	padding-bottom: 4px;	
@@ -183,9 +188,9 @@ div.main_navigation > ul > li > ul > li:FIRST-CHILD{
 /*  Breadcrumb Navigation  on top of content  (as ordered list)        */
 /* ------------------------------------------------------------------- */  
 div.breadcrumbs{
-	min-height: 16px;
+	min-height: 1em;
 	font-family: Arial, sans-serif;
-	font-size:10px;
+	font-size:0.7em;
 	color: #C6C6C6;
 }
 
@@ -219,15 +224,14 @@ div.breadcrumbs a:VISITED{
 div.infobox{
 	min-height: 48px;
 	margin-bottom: 48px;
-	font-size: 0.9em;
-	line-height: 1.25em;
+	font-size: 0.75em;	
 }
 
 div.infobox h3{
 	color: #336EAD;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	padding-bottom:6px;
-	font-size: 1.2em;
+	font-size: 1.15em;
 }
 
 div.infobox h4{
@@ -262,7 +266,7 @@ div.infobox a:VISITED{
 /*  Style of normal text on a content page                             */
 /* ------------------------------------------------------------------- */  
 div.text{
-	line-height: 125%;
+	
 }
 div.text td {
 	padding:3px;
@@ -318,7 +322,6 @@ div.text h4{
 }
 
 div.text p{
-	line-height: 1.25em;
 	padding-top:6px;
 }
 
