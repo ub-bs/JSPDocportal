@@ -54,6 +54,10 @@ import org.mycore.datamodel.classifications2.MCRCategoryDAO;
 import org.mycore.datamodel.classifications2.MCRCategoryID;
 import org.mycore.datamodel.classifications2.impl.MCRCategoryDAOImpl;
 import org.mycore.datamodel.classifications2.utils.MCRCategoryTransformer;
+import org.mycore.services.fieldquery.MCRQuery;
+import org.mycore.services.fieldquery.MCRQueryManager;
+import org.mycore.services.fieldquery.MCRQueryParser;
+import org.mycore.services.fieldquery.MCRResults;
 
 import com.google.gson.stream.JsonWriter;
 
@@ -144,9 +148,12 @@ public class MCRRestAPIClassifications extends HttpServlet {
 	 * @param filter
 	 * 	 a ';'-separated list of ':'-separated key-value pairs, possible keys are:
      *      - lang - the language of the returned labels, if ommited all labels in all languages will be returned
-     *      - root - an id for a category which will be used as root
+     *      - root - an id for a category which will be used as root     
+     *      - nonempty - hide empty categories      
 	 * @param style
-	 *   only value is 'cbtree' to create a json syntax which can be used as input for a dojo checkboxtree;
+	 * 	a ';'-separated list of values, possible keys are:		
+	 *   	- 'cbtree'    - create a json syntax which can be used as input for a dojo checkboxtree;
+	 *      
 	 *    
 	 * @return a Jersey Response object
 	 */
@@ -156,13 +163,13 @@ public class MCRRestAPIClassifications extends HttpServlet {
 	@Produces({ MediaType.TEXT_XML + ";charset=UTF-8", MediaType.APPLICATION_JSON + ";charset=UTF-8" })
 	public Response showObject(@PathParam("classID") String classID,
 	        @QueryParam("format") @DefaultValue("xml") String format, 
-	        @QueryParam("filter") String filter,
-	        @QueryParam("style") String style) {
+	        @QueryParam("filter") @DefaultValue("") String filter,
+	        @QueryParam("style") @DefaultValue("") String style) {
 
 		String rootCateg = null;
 		String lang = null;
+		boolean filterNonEmpty = false;
 
-		if (filter != null) {
 			for (String f : filter.split(";")) {
 				if (f.startsWith("root:")) {
 					rootCateg = f.substring(5);
@@ -170,8 +177,11 @@ public class MCRRestAPIClassifications extends HttpServlet {
 				if (f.startsWith("lang:")) {
 					lang = f.substring(5);
 				}
+				if (f.startsWith("nonempty")) {
+					filterNonEmpty = true;
+				}
 			}
-		}
+			
 		if (format == null || classID == null) {
 			return Response.serverError().status(Status.BAD_REQUEST).build();
 			//TODO response.sendError(HttpServletResponse.SC_NOT_FOUND, "Please specify parameters format and classid.");
@@ -189,6 +199,14 @@ public class MCRRestAPIClassifications extends HttpServlet {
 					eRoot = e;
 				}
 			}
+			if(filterNonEmpty){
+				Element eFilter = eRoot;
+				if(eFilter.getName().equals("mycoreclass")){
+					eFilter = eFilter.getChild("categories");
+				}
+				filterNonEmpty(docClass.getRootElement().getAttributeValue("ID"), eFilter);
+			}
+			
 			if (FORMAT_JSON.equals(format)) {
 				String json = writeJSON(eRoot, lang, style);
 				return Response.ok(json).type("application/json").build();
@@ -354,5 +372,19 @@ public class MCRRestAPIClassifications extends HttpServlet {
 			writer.endObject();
 		}
 		writer.endArray();
+	}
+	
+	private void filterNonEmpty(String classId, Element e){
+		for(int i=0;i<e.getChildren("category").size();i++){
+			Element cat = e.getChildren("category").get(i);
+			MCRQuery query = new MCRQuery((new MCRQueryParser()).parse("(category = \""+classId+":"+cat.getAttributeValue("ID")+"\")"));
+			MCRResults result = MCRQueryManager.search(query);
+			if(result.getNumHits()==0){
+				e.removeContent(cat);
+			}
+		}
+		for(int i=0;i<e.getChildren("category").size();i++){
+			filterNonEmpty(classId, e.getChildren("category").get(i));			
+		}	
 	}
 }
