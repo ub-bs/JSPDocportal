@@ -152,7 +152,8 @@ public class MCRRestAPIClassifications extends HttpServlet {
      *      - nonempty - hide empty categories      
 	 * @param style
 	 * 	a ';'-separated list of values, possible keys are:		
-	 *   	- 'cbtree'    - create a json syntax which can be used as input for a dojo checkboxtree;
+	 *   	- 'checkboxtree'    - create a json syntax which can be used as input for a dojo checkboxtree;
+	 *      - 'checked'   - together with 'checkboxtree' all checkboxed will be checked
 	 *      
 	 *    
 	 * @return a Jersey Response object
@@ -262,7 +263,7 @@ public class MCRRestAPIClassifications extends HttpServlet {
 		StringWriter sw = new StringWriter();
 		JsonWriter writer = new JsonWriter(sw);
 		writer.setIndent("  ");
-		if ("checkboxtree".equals(style)) {
+		if (style.contains("checkboxtree")) {
 			if (lang == null) {
 				lang = "de";
 			}
@@ -274,7 +275,7 @@ public class MCRRestAPIClassifications extends HttpServlet {
 			writer.name("label").value("ID");
 			writer.name("items");
 
-			writeChildrenAsJSONCBTree(eRoot, writer, lang);
+			writeChildrenAsJSONCBTree(eRoot, writer, lang, style.contains("checked"));
 			writer.endObject(); // }
 		} else {
 			writer.beginObject(); // {
@@ -354,7 +355,7 @@ public class MCRRestAPIClassifications extends HttpServlet {
 	 * 
 	 * @throws IOException
 	 */
-	private static void writeChildrenAsJSONCBTree(Element eParent, JsonWriter writer, String lang) throws IOException {
+	private static void writeChildrenAsJSONCBTree(Element eParent, JsonWriter writer, String lang, boolean checked) throws IOException {
 		writer.beginArray();
 		for (Element e : eParent.getChildren("category")) {
 			writer.beginObject();
@@ -364,10 +365,10 @@ public class MCRRestAPIClassifications extends HttpServlet {
 					writer.name("text").value(eLabel.getAttributeValue("text"));
 				}
 			}
-			writer.name("checked").value(false);
+			writer.name("checked").value(checked);
 			if (e.getChildren("category").size() > 0) {
 				writer.name("children");
-				writeChildrenAsJSONCBTree(e, writer, lang);
+				writeChildrenAsJSONCBTree(e, writer, lang, checked);
 			}
 			writer.endObject();
 		}
