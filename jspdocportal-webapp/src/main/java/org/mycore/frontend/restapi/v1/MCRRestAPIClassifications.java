@@ -382,6 +382,7 @@ public class MCRRestAPIClassifications extends HttpServlet {
 			MCRResults result = MCRQueryManager.search(query);
 			if(result.getNumHits()==0){
 				e.removeContent(cat);
+				i--;
 			}
 		}
 		for(int i=0;i<e.getChildren("category").size();i++){
