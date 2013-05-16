@@ -55,7 +55,6 @@ div.searchresult-navigation div.hitcount{
 	float:left;
 	padding-top:auto;
 	padding-bottom:auto;
-
 }
 
 div.searchresult-navigation div.navi{
@@ -104,8 +103,16 @@ div.browseresult-navigation{
 	
 }
 
+div.browseresult-navigation div.tool-menu {
+	float:right; 
+	margin-right:6px;
+	margin-left:36px;
+	padding-top:4px;	
+}
+
 div.browseresult-navigation div.hitcount{
 	float:left;
+	padding-left:6px;
 	padding-top:8px;
 	
 	
