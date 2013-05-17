@@ -139,6 +139,7 @@ public abstract class SearcherBase {
 			result.setNumFound(queryResult.getNumHits());
 			result.setRows(rows);
 			result.setStart(start);
+			result.setId(queryResult.getID());
 			for(int i=start;i<Math.min(start+rows,  queryResult.getNumHits());i++){
 				result.getMcrIDs().add(queryResult.getHit(i).getID());
 			}			

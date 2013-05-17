@@ -35,6 +35,7 @@ public class MCRSearcherResultDataBean {
 	private int numFound;
 	private int start;
 	private int rows;
+	private String id;
 	
 	private List<String> mcrIDs = new ArrayList<String>();
 	private String errorMsg = null;
@@ -82,5 +83,13 @@ public class MCRSearcherResultDataBean {
 
 	public void setMcrIDs(List<String> mcrIDs) {
 		this.mcrIDs = mcrIDs;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 }
