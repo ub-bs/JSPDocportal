@@ -78,7 +78,7 @@ public class MCRReceiveMcrObjAsJdomTag extends SimpleTagSupport
     		logger.error("error in receiving mcr_obj for jdom and dom", e);
     	}
     	finally{
-    		if(t1!=null){
+    		if(t1!=null && t1.isActive()){
     			t1.commit();
     		}
     	}
