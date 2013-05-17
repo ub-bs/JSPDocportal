@@ -136,6 +136,7 @@ public abstract class SearcherBase {
 			MCRQuery query = new MCRQuery(cond);
 			query.setSortBy(sortBys);
 			MCRResults queryResult = MCRQueryManager.search(query);
+			result.setCurrent(0);
 			result.setNumFound(queryResult.getNumHits());
 			result.setRows(rows);
 			result.setStart(start);

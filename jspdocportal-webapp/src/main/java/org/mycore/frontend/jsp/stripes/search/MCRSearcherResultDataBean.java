@@ -32,6 +32,7 @@ import java.util.List;
  *
  */
 public class MCRSearcherResultDataBean {
+	private int current=0;
 	private int numFound;
 	private int start;
 	private int rows;
@@ -91,5 +92,13 @@ public class MCRSearcherResultDataBean {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public int getCurrent() {
+		return current;
+	}
+
+	public void setCurrent(int current) {
+		this.current = current;
 	}
 }
