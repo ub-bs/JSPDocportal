@@ -25,8 +25,7 @@ div#header{
 }
 
 div#left_col{
-	float:left;
-	width: 190px;	
+	float:left;	
 }
 
 div#center_col{	
@@ -35,23 +34,26 @@ div#center_col{
 
 div#right_col{
 	float: left;
-	width: 190px;
 }
 
 div.left_col_print {display:none; }
 div.left_col_1column {display:none; }
-div.left_col_2columns {}
-div.left_col_3columns {}
+div.left_col_2columns {width: 190px;}
+div.left_col_2columns_wide {width: 240px;}
+div.left_col_3columns {width: 190px;}
+
 
 div.center_col_print {width: 800px;}
 div.center_col_1column {width: 990px;}
-div.center_col_3columns {width: 610px;}
 div.center_col_2columns {width: 800px;}
+div.center_col_2columns_wide {width: 750px;}
+div.center_col_3columns {width: 610px;}
 
 div.right_col_print {}
 div.right_col_1column {display:none;}
 div.right_col_2columns {display:none;}
-div.right_col_3columns {}
+div.right_col_2columns_wide {display:none;}
+div.right_col_3columns {width: 190px;}
 
 div#footer{
 	clear:both;
