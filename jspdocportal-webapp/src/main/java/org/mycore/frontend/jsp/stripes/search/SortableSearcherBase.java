@@ -38,8 +38,8 @@ public abstract class SortableSearcherBase extends SearcherBase {
 		super();
 	}
 
-	public SortableSearcherBase(String solrBaseURL, String id, String searchmaskURL) {
-		super(solrBaseURL, id, searchmaskURL);
+	public SortableSearcherBase(String solrBaseURL, String searchmaskURL) {
+		super(solrBaseURL, searchmaskURL);
 	}
 
 	public void deepCopy(SortableSearcherBase result) {

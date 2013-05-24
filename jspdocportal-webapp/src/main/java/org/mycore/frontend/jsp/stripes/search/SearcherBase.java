@@ -24,6 +24,7 @@ package org.mycore.frontend.jsp.stripes.search;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.mycore.parsers.bool.MCRCondition;
 import org.mycore.services.fieldquery.MCRFieldDef;
@@ -51,13 +52,13 @@ public abstract class SearcherBase {
 	private MCRSearcherResultDataBean result = null;
 
 	public SearcherBase() {
-
+		id = UUID.randomUUID().toString();
 	}
 
-	public SearcherBase(String solrBaseURL, String id, String searchmaskURL) {
+	public SearcherBase(String solrBaseURL, String searchmaskURL) {
+		id = UUID.randomUUID().toString();
 		this.solrBaseURL = solrBaseURL;
-		this.searchmaskURL = searchmaskURL;
-		this.id = id;
+		this.searchmaskURL = searchmaskURL;		
 	}
 
 	protected void deepCopy(SearcherBase result) {
@@ -139,6 +140,9 @@ public abstract class SearcherBase {
 			result.setCurrent(0);
 			result.setNumFound(queryResult.getNumHits());
 			result.setRows(rows);
+			if(start>result.getNumFound()){
+				start = result.getNumFound() - (result.getNumFound() % rows);
+			}
 			result.setStart(start);
 			result.setId(queryResult.getID());
 			for(int i=start;i<Math.min(start+rows,  queryResult.getNumHits());i++){
