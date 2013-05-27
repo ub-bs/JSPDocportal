@@ -15,6 +15,7 @@ table.docdetails-table {
 	border-spacing: 0px;
 	font-family: verdana;
 	font-size: 12px;
+	width:100%;
 }
 
 th.docdetails-header {
@@ -28,8 +29,10 @@ th.docdetails-header {
 
 td.docdetails-label {
 	text-align:right;
-	background-color: #B3C9E0;
+	background-color: #E6E6E6;
+	color:#666666;
 	padding: 4px;
+	padding-top:5.5px;
 	vertical-align: top;
 	border-bottom: 4px solid white;
 }
@@ -65,8 +68,8 @@ td.docdetails-value-title {
 
 td.docdetails-separator hr {
 	border: none;
-	background-color: #004A99;
-	color: #004A99;
+	background-color: #A6A6A6;
+	color: #A6A6A6;
 	height: 1px;
 }
 
