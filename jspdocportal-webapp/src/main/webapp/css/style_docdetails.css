@@ -31,10 +31,10 @@ td.docdetails-label {
 	text-align:right;
 	background-color: #E6E6E6;
 	color:#666666;
-	padding: 4px;
-	padding-top:5.5px;
+	padding-top:5.5px !important;
 	vertical-align: top;
 	border-bottom: 4px solid white;
+	min-width:110px;
 }
 
 td.docdetails-values {
