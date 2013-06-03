@@ -347,3 +347,32 @@ div.text strong{
 div.text em{
 	font-style: italic;
 }
+
+/* ------------------------------------------------------------------- */
+/*  Links / Texts with Icons                                           */
+/* ------------------------------------------------------------------- */  
+
+div.text a.link_internal{
+	padding-left:18px; 
+	background: url(../images/ub/link_internal.gif) center left no-repeat;
+}
+
+div.text a.link_external{
+	padding-left:18px; 
+	background: url(../images/ub/link_external.gif) center left no-repeat;
+}
+
+div.text a.link_e-mail{
+	padding-left:18px; 
+	background: url(../images/ub/mail2.gif) center left no-repeat;
+}
+
+div.text span.telefon{
+	padding-left:16px; 
+	background: url(../images/ub/tel.gif) center left no-repeat;	
+}
+
+div.text span.fax{
+	padding-left:18px; 
+	background: url(../images/ub/fax.gif) center left no-repeat;
+}
