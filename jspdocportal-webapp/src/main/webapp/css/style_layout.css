@@ -1,6 +1,6 @@
 /* =================================================================== */
 /* $Revision: 1.13 $ $Date: 2011/01/31 04:00:23 $                      */
-/* CSS für BasisLayout                                                 */
+/* CSS fï¿½r BasisLayout                                                 */
 /* =================================================================== */
 
 /* ------------------------------------------------------------------- */
@@ -274,14 +274,22 @@ div.infobox a:VISITED{
 div.text{
 	
 }
+
+div.text table{
+	margin: 6px 0px;
+}
 div.text td {
 	padding:3px;
 }
 
 div.text th {
+	color:white;
+	background-color: #004A99;
 	padding:3px;
 	text-align: left;
 	font-weight: bold;
+	border-left: 2px solid white;
+	border-right: 2px solid white;
 }
 
 div.text ul li{
@@ -329,6 +337,7 @@ div.text h4{
 
 div.text p{
 	padding-top:6px;
+	text-align:justify;
 }
 
 div.text a{
