@@ -122,12 +122,42 @@ div.browseresult-navigation div.tool-menu {
 	padding-top:4px;	
 }
 
+div.browseresult-navigation div.menu {
+	float:left; 
+	margin-left:6px;
+	margin-right:36px;
+	padding-top:4px;	
+}
+
+div.tool-menu div.button, 
+div.menu div.button {
+	font-size:85%;
+	text-align:center;
+	color: #FFFFFF;
+  	border: 1px solid #565656;
+  	border-radius: 3px;
+  	background-color:#969696;
+  	padding: 0px 0px;
+  	margin: 0px 2px; 
+  	min-height: 20px;
+  	min-width: 20px;
+}
+
+div.btn-tools-techdata{
+	background-image: url('../images/icon_technische_daten.png');
+	background-size: 20px 20px;
+}
+
+div.btn-tools-techdata-checked{
+	background-image: url('../images/icon_technische_daten-checked.png') !important;
+	background-size: 20px 20px !important;
+	background-color:#FFFFFF !important;
+}
+
 div.browseresult-navigation div.hitcount{
 	float:left;
 	padding-left:6px;
 	padding-top:8px;
-	
-	
 }
 
 div.browseresult-navigation div.navi{
