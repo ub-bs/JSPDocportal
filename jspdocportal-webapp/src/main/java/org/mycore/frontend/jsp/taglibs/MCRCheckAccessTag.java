@@ -2,6 +2,7 @@ package org.mycore.frontend.jsp.taglibs;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
@@ -12,6 +13,7 @@ import org.mycore.access.MCRAccessManager;
 import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
+import org.mycore.frontend.servlets.MCRServlet;
 
 public class MCRCheckAccessTag extends SimpleTagSupport
 {
@@ -40,9 +42,15 @@ public class MCRCheckAccessTag extends SimpleTagSupport
 	   		if(tx==null || !tx.isActive()){
 				t1 = MCRHIBConnection.instance().getSession().beginTransaction();
 			}
-			PageContext pageContext = (PageContext) getJspContext();			
-			MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
-			if ( mcrSession.getUserInformation().getUserID().equals("guest") ){
+			PageContext pageContext = (PageContext) getJspContext();
+			MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)pageContext.getRequest());
+			if(! MCRSessionMgr.getCurrentSession().equals(mcrSession)){
+				MCRSessionMgr.releaseCurrentSession();
+				MCRSessionMgr.setCurrentSession(mcrSession);
+			}
+			
+			String userID = mcrSession.getUserInformation().getUserID();
+			if ("guest gast".contains(userID)){
 				pageContext.setAttribute(var, new Boolean(false));	
 			}
 			else if ( key == null || "".equals(key)){ // allgemeiner check des aktuellen Users
