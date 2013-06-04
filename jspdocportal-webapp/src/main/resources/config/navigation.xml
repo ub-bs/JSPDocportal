@@ -309,7 +309,7 @@
 		<navitem id="login" i18n="Nav.Login" href="content/login.jsp" hidden="true">
 			<refitem id="~login" />
 			<navitem id="showuser" i18n="Nav.UserDetails"
-				href="content/docdetails.jsp?style=user">
+				href="content/userdetails.jsp">
 				<refitem id="~userdetail" />
 			</navitem>
 		</navitem>
