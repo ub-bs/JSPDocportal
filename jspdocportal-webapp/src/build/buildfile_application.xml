@@ -293,13 +293,6 @@
         </mcr-execute>
 	</target>
 
-	<target name="deploy.processdefinition.registeruser">
-		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
-		<mcr-execute>
-        	deploy jbpm processdefinition from file workflow/registeruser.par/processdefinition.xml      	
-        </mcr-execute>
-	</target>
-
 	<target name="deploy.processdefinition.publication">
 		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
 		<mcr-execute>
@@ -327,8 +320,6 @@
         	deploy jbpm processdefinition from file workflow/person.par/processdefinition.xml      	
         	
         	deploy jbpm processdefinition from file workflow/publication.par/processdefinition.xml      	
-        	
-        	deploy jbpm processdefinition from file workflow/registeruser.par/processdefinition.xml      	
         	
         	deploy jbpm processdefinition from file workflow/xmetadiss.par/processdefinition.xml      	        	
 
