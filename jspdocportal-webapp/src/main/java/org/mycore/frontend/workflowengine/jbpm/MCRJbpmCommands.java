@@ -39,6 +39,8 @@ import org.mycore.datamodel.common.MCRActiveLinkException;
 import org.mycore.datamodel.common.MCRXMLMetadataManager;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRMetaAccessRule;
+import org.mycore.datamodel.metadata.MCRMetaElement;
+import org.mycore.datamodel.metadata.MCRMetaLangText;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
@@ -47,6 +49,7 @@ import org.mycore.datamodel.metadata.MCRObjectStructure;
 import org.mycore.frontend.cli.MCRAbstractCommands;
 import org.mycore.frontend.cli.MCRCommand;
 import org.mycore.frontend.cli.MCRDerivateCommands;
+import org.mycore.services.urn.MCRURNManager;
 import org.xml.sax.SAXParseException;
 
 /**
@@ -83,6 +86,9 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
         addCommand(com);
         
         com = new MCRCommand("restore all objects from directory {0}", "org.mycore.frontend.workflowengine.jbpm.MCRJbpmCommands.restoreAllObjects String", "The command restores all objects from directory {0} including all derivates");
+        addCommand(com);
+        
+        com = new MCRCommand("repair urn store", "org.mycore.frontend.workflowengine.jbpm.MCRJbpmCommands.repairURNStore", "The command parses through all metadata objects and updates the urns in the URN store if necessary");
         addCommand(com);
         
     }
@@ -306,5 +312,36 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
         		LOGGER.error("IOException" , e);
 			}
         }       
-    }    
+    }
+    
+    /**
+     * Updates the URN Store by parsing all Metadata Objects
+     * 
+     */
+    public static final void repairURNStore() throws MCRException{
+    	try{
+    		 for (String mcrid : MCRXMLMetadataManager.instance().listIDs()) {
+    			 // if object do'snt exist - no exception is catched!
+                 MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrid));                 
+                 MCRMetaElement me = mcrObj.getMetadata().getMetadataElement("urns");
+                 if(me!=null){
+                	 MCRMetaLangText mltUrn = (MCRMetaLangText)me.getElement(0);
+                	 String urnNew = mltUrn.getText();
+                	 if(MCRURNManager.hasURNAssigned(mcrid)){
+                		 if(!(MCRURNManager.getURNforDocument(mcrid).equals(urnNew))){
+                			 MCRURNManager.removeURNByObjectID(mcrid);
+                			 MCRURNManager.assignURN(urnNew, mcrid);
+                		 }
+                	 }
+                	 else{
+                	 		MCRURNManager.assignURN(urnNew, mcrid);
+                	 }
+                	 
+                }
+    		 }
+        } catch (Exception e) {
+        	throw new MCRException("Error while repairing URN Store", e);
+        }   
+    }  
+   
 }
