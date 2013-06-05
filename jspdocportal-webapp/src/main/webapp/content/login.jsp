@@ -17,7 +17,7 @@
 		<mcr:login uid="${param.uid}" pwd="${param.pwd}" var="loginresult" />
 
 		<h2><fmt:message key="Webpage.login.ChangeUserID" /></h2>
-        <div><fmt:message key="Webpage.login.info" /></div>
+        <p><fmt:message key="Webpage.login.info" /></p>
         
 		<x:forEach select="$loginresult">
   			<x:set var="status" select="string(./@status)" />
@@ -26,7 +26,7 @@
   			<x:set var="name" select="string(./@name)" />
 		</x:forEach>	
 
-		<fmt:message key="Webpage.login.YouAreLoggedInAs" />:&nbsp;	<strong><c:out value="${username}"></c:out></strong>
+		<p><fmt:message key="Webpage.login.YouAreLoggedInAs" />:&nbsp;	<strong><c:out value="${username}"></c:out></strong></p>
 <hr>
 
 <c:choose>
