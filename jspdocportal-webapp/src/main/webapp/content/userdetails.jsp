@@ -11,7 +11,7 @@
 <%@ taglib prefix="mcr" uri="http://www.mycore.org/jspdocportal/base.tld" %>
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
-<fmt:message var="pageTitle" key="Nav.Archive" /> 
+<fmt:message var="pageTitle" key="ebpage.userdetails.title"" /> 
 <stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
 	<stripes:layout-component name="contents">
       <h2><fmt:message key="Webpage.userdetails.title" /></h2>
