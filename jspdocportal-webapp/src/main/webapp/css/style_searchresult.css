@@ -119,14 +119,12 @@ div.browseresult-navigation div.tool-menu {
 	float:right; 
 	margin-right:6px;
 	margin-left:36px;
-	padding-top:4px;	
 }
 
 div.browseresult-navigation div.menu {
 	float:left; 
 	margin-left:6px;
 	margin-right:36px;
-	padding-top:4px;	
 }
 
 div.tool-menu div.button, 
@@ -138,7 +136,7 @@ div.menu div.button {
   	border-radius: 3px;
   	background-color:#969696;
   	padding: 0px 0px;
-  	margin: 0px 2px; 
+  	margin: 4px 4px; 
   	min-height: 20px;
   	min-width: 20px;
 }

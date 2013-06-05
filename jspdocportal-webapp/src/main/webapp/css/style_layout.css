@@ -24,6 +24,16 @@ div#header{
 	height: 100px;	
 }
 
+div#footer{
+	border-top: 1px solid #004A99;
+	padding-top:6px;
+	margin-bottom:24px;
+	
+	text-align:center;
+	font-size:0.7em;
+}
+
+
 div#left_col{
 	float:left;	
 }
@@ -55,12 +65,7 @@ div.right_col_2columns {display:none;}
 div.right_col_2columns_wide {display:none;}
 div.right_col_3columns {width: 190px;}
 
-div#footer{
-	clear:both;
-	text-align: center;
-	padding-top:6px;
-	border-top: 1px solid black;
-}
+
 
 /* ------------------------------------------------------------------- */
 /*  Basic page elements                                                */
@@ -360,26 +365,32 @@ div.text em{
 /*  Links / Texts with Icons                                           */
 /* ------------------------------------------------------------------- */  
 
+div.infobox a.link_internal,
 div.text a.link_internal{
 	padding-left:18px; 
 	background: url(../images/ub/link_internal.gif) center left no-repeat;
 }
 
+div.infobox a.link_external,
 div.text a.link_external{
 	padding-left:18px; 
 	background: url(../images/ub/link_external.gif) center left no-repeat;
 }
 
+div.infobox a.link_e-mail,
 div.text a.link_e-mail{
 	padding-left:18px; 
 	background: url(../images/ub/mail2.gif) center left no-repeat;
 }
 
+div.infobox span.telefon,
 div.text span.telefon{
 	padding-left:16px; 
 	background: url(../images/ub/tel.gif) center left no-repeat;	
 }
 
+
+div.infobox span.fax,
 div.text span.fax{
 	padding-left:18px; 
 	background: url(../images/ub/fax.gif) center left no-repeat;
