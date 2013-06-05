@@ -31,15 +31,15 @@ table.tasklistObject td.tasklistTitle{
 
 table.tasklistDerivate{
 	background-color: #80A5CC;
-	margin-bottom:6px; 
+	margin-bottom:12px !important; 
 	
 }
 
 table.tasklistDerivate th{
 	padding-left:8px;
-	color: black;
 	font-weight: bold;
 	vertical-align: middle;
+	border:none;
 }
 
 table.tasklistDerivate td{
@@ -50,14 +50,9 @@ table.tasklistDerivate td{
 	
 }
 
-table.tasklistDerivate tr td{
-	padding:4px;
-	vertical-align: middle;
-	color: #000000;
-	font-weight: normal;
-	
+table.tasklistDerivate tr td a{
+	padding-left:4px;
 }
-
 table.tasklistDerivate tr td a:link, 
 table.tasklistDerivate tr td a:visited,
 table.tasklistDerivate tr td a:focus, 
