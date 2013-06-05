@@ -71,7 +71,7 @@ public class MCRReceiveMcrObjAsJdomTag extends SimpleTagSupport
 	    		domDoc =  new DOMOutputter().output( mcr_obj.createXML());
 	    		pageContext.setAttribute(varDom, domDoc);
 			}
-			if(tx==null || !tx.isActive()){
+			if((tx==null || !tx.isActive()) && t1.isActive()){
 				t1.commit();
 			}
     	} catch (Exception e) {
