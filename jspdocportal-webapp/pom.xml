@@ -4,7 +4,7 @@
   <groupId>org.mycore</groupId>
   <artifactId>jspdocportal-webapp</artifactId>
   <packaging>war</packaging>
-  <version>2.1.81-SNAPSHOT</version>
+  <version>2013.06-SNAPSHOT</version>
   <name>JSPDocportal WebApp</name>
   <url>http://maven.apache.org</url>
   <properties>
