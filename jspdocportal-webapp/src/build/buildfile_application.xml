@@ -9,6 +9,7 @@
 	<!-- !!! basedir is overwritten by derrived build processes with the xxx_app directory !!! -->
 
 	<property name="APP_NAME" value="sample" />
+    <property name="CONTENT_DIR" value="${basedir}/content" />
 
 	<property name="HOME" value="${basedir}/target/app" />
 	<property name="APP_HOME" value="${HOME}/${APP_NAME}" />
@@ -206,28 +207,8 @@
 	<target name="create.class" depends="init">
 		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
 		<mcr-execute>
-            update all classifications from directory ${basedir}/content/classification
+            update all classifications from directory ${CONTENT_DIR}/classification
 		</mcr-execute>
-	</target>
-
-	<!-- =================================================================== -->
-	<!-- Generates the keys to sign the applets                              -->
-	<!-- =================================================================== -->
-
-	<target name="create.genkeys" depends="init">
-		<echo level="info">
-
-            Generating a key pair for signing applets ...
-        </echo>
-		<mkdir dir="${SIGN.KeyStore}" />
-		<genkey alias="${SIGN.Alias}" keystore="${SIGN.KeyStore}/keys" storepass="${SIGN.Password}" keypass="${SIGN.Password}" validity="${SIGN.Validity}">
-			<dname>
-				<param name="CN" value="${SIGN.Name}" />
-				<param name="OU" value="${SIGN.OrgUnit}" />
-				<param name="O" value="${SIGN.Organization}" />
-				<param name="C" value="${SIGN.Country}" />
-			</dname>
-		</genkey>
 	</target>
 
 	<target name="create.users" depends="init">
@@ -235,25 +216,25 @@
 		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
 		<mkdir dir="content/user_encrypted" />
 		<mcr-execute>
-			update classification from file content/user/mcr-roles.xml
+			update classification from file ${CONTENT_DIR}/user/mcr-roles.xml
 		</mcr-execute>
 		
 		<mcr-execute>
-            load permissions data from file content/user/permissions.xml
+            load permissions data from file ${CONTENT_DIR}/user/permissions.xml
 
       	    init superuser
 
             change to user root with alleswirdgut
 			
-         	encrypt passwords in user xml file content/user/user_administrator.xml to file content/user_encrypted/user_administrator.xml
-			encrypt passwords in user xml file content/user/user_editorUser.xml to file content/user_encrypted/user_editorUser.xml
-			encrypt passwords in user xml file content/user/user_editorClass.xml to file content/user_encrypted/user_editorClass.xml
-			encrypt passwords in user xml file content/user/user_editorWeb.xml to file content/user_encrypted/user_editorWeb.xml
+         	encrypt passwords in user xml file ${CONTENT_DIR}/user/user_administrator.xml to file ${basedir}/target/content/user_encrypted/user_administrator.xml
+			encrypt passwords in user xml file ${CONTENT_DIR}/user/user_editorUser.xml to file ${basedir}/target/content/user_encrypted/user_editorUser.xml
+			encrypt passwords in user xml file ${CONTENT_DIR}/user/user_editorClass.xml to file ${basedir}/target/content/user_encrypted/user_editorClass.xml
+			encrypt passwords in user xml file ${CONTENT_DIR}/user/user_editorWeb.xml to file ${basedir}/target/content/user_encrypted/user_editorWeb.xml
 
-        	update user from file content/user_encrypted/user_administrator.xml  
-        	update user from file content/user_encrypted/user_editorUser.xml
-        	update user from file content/user_encrypted/user_editorClass.xml
-        	update user from file content/user_encrypted/user_editorWeb.xml
+        	update user from file ${basedir}/target/content/user_encrypted/user_administrator.xml  
+        	update user from file ${basedir}/target/content/user_encrypted/user_editorUser.xml
+        	update user from file ${basedir}/target/content/user_encrypted/user_editorClass.xml
+        	update user from file ${basedir}/target/content/user_encrypted/user_editorWeb.xml
     	</mcr-execute>
 	</target>
 
