@@ -177,7 +177,7 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 			MCREditorServlet.replaceEditorElements(request, editorFile.toURI().toString(), xml);
 			Source  xmlSource = new JDOMSource(xml);
 			
-			Source xsltSource = new StreamSource(getClass().getResourceAsStream("/xsl/editor.xsl"));
+			Source xsltSource = new StreamSource(getClass().getResourceAsStream("/xsl/editor_standalone.xsl"));
 
 	        // das Factory-Pattern unterstützt verschiedene XSLT-Prozessoren
 	        TransformerFactory transFact = TransformerFactory.newInstance();
