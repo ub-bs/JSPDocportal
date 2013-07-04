@@ -69,7 +69,7 @@ public class MCRIncludeEditorTag extends SimpleTagSupport {
 
 			Source xmlSource = new JDOMSource(xml);
 			Source xsltSource = new StreamSource(getClass()
-					.getResourceAsStream("/xsl/editor_standalone.xsl"));
+					.getResourceAsStream("/xsl/editor.xsl"));
 
 			// das Factory-Pattern unterstützt verschiedene XSLT-Prozessoren
 			TransformerFactory transFact = TransformerFactory.newInstance();
