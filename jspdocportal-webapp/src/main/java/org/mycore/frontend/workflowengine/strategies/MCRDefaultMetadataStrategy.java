@@ -145,27 +145,12 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 		mycoreobject.setAttribute("ID", nextID);	 
 		mycoreobject.setAttribute("label", nextID);
 
-		Document mycoreobjectdoc = new Document(mycoreobject);
-		MCRObject disshab = new MCRObject();
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		XMLOutputter xop = new XMLOutputter();
-		try {
-			xop.output(mycoreobjectdoc, baos);
-			disshab = new MCRObject(baos.toByteArray(), false);
-
-		} catch (IOException e) {
-			logger.error(e);
-		}
-		catch(SAXParseException e){
-			logger.error(e);
-		}
-		
 		try {
 			FileOutputStream fos = new FileOutputStream(saveDirectory + "/" + nextID + ".xml");
 			(new XMLOutputter(Format.getPrettyFormat())).output(mycoreobject,fos);
 			fos.close();
 		} catch ( Exception ex){
-			logger.warn("Could not create disshab object " +  nextID );
+			logger.warn("Could not create metadata object " +  nextID, ex );
 			return false;
 		}
 
