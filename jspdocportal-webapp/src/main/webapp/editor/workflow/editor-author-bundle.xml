@@ -16,8 +16,8 @@
 
  <components root="author-bundle" var="/mycoreobject">
 
-  <include uri="webapp:editor/workflow/imports-document.xml" />    
-
+  <include uri="webapp:editor/workflow/imports-document.xml" />
+  <include uri="webapp:editor/workflow/imports-common-xmetadiss.xml" />
   <headline anchor="CENTER">
    <text i18n="Editor.Common.mandatoryFields" />
   </headline>
@@ -39,7 +39,7 @@
 
     <cell col="1" row="21" anchor="NORTHWEST" ref="LCreator" />
     <cell col="2" row="21" anchor="NORTHEAST" ref="HCreator" />
-    <cell col="1" row="22" colspan="2" anchor="NORTHWEST" ref="DCreator" sortnr="12" />
+    <cell col="1" row="22" colspan="2" anchor="NORTHWEST" ref="DCreatorXMetaPers" sortnr="12" />
     <cell col="1" row="23" colspan="2" anchor="NORTHWEST" ref="DCreatorLink" sortnr="13" /> 
 
 	<cell col="1" row="31" anchor="NORTHWEST" ref="LOriginP" />
@@ -61,8 +61,7 @@
     <cell col="1" row="61" anchor="NORTHWEST" ref="LParticipant_S" />
     <cell col="2" row="61" anchor="NORTHEAST" ref="HPublisher" />
     <cell col="1" row="62" colspan="2" anchor="NORTHWEST" ref="DParticipant_S" sortnr="14" />
-    <cell col="1" row="63" colspan="2" anchor="NORTHWEST" ref="DParticipationLinks_S" sortnr="15" /> 
-
+    
     <cell col="1" row="70"  colspan="2" anchor="WEST" ><hr/> </cell>
     
     <cell col="1" row="71" anchor="NORTHWEST" ref="LPublishingTime_S" />
@@ -187,33 +186,12 @@
   		<item value="misc" i18n="OMD.typeOfParticipation.misc" />
   	</list>
 
-  	<!-- *** Data for the PublishLinks ** -->
-  <panel id="DParticipationLinks_S">
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/participationlinks&amp;classname=MCRMetaLinkID" /> 
-    <cell col="1" row="1" anchor="NORTHWEST" var="metadata/participationlinks/participationlink"  >
-        <repeater min="1" max="5">
-          <panel lines="off">
-            <hidden var="@inherited" default="0"  />
-            <hidden var="@xlink:type" default="locator"  />
-            <hidden var="@xlink:title" default="Person/Körperschaft" />
-            <hidden var="@xlink:href" default="" />
-            <cell row="1" col="1" width="100%">
-              <output var="@xlink:title" default=" Name " />
-              <text label="&#160;&#160;&#160;" />
-            </cell>
-            <cell row="1" col="2">
-               <subselect i18n="Editor.Common.indexcreators" id="bundle.sub.select1" type="webpage" href="nav?path=~searchstart-index_creators_sub"  /> 
-            </cell>
-            <cell row="1" col="3" anchor="NORTHWEST" var="@label" ref="listTypeOfParticipation" />
-          </panel>
-        </repeater>
-      </cell>
-  </panel>
-  
     <!-- metadata/publishers sortnr="8"  -->
     <panel id="DParticipant_S">
-      <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/participants&amp;classname=MCRMetaLangText" />
-      <cell col="1" row="2" anchor="NORTHWEST" var="metadata/participants/participant">
+        <hidden var="metadata/publishers/@class" default="MCRMetaXML" />
+    	<hidden var="metadata/publishers/@notinherit" default="false" />
+    	<hidden var="metadata/publishers/@heritable" default="true" />
+      <cell col="1" row="2" anchor="NORTHWEST" var="metadata/publishers/publisher">
         <repeater min="0" max="10" anchor="NORTHWEST">
           <panel lines="off">
     	    <hidden var="@inherited" default="0"  />
@@ -304,34 +282,35 @@
     <hidden var="metadata/rights/right/@xml:lang"  default="de" />
 
     <hidden var="metadata/rights/right[2]" default="Dissertation /Copyright Terms" />
-    <hidden var="metadata/rights/right[2]/@xml:lang"  default="en" /> -->
+    <hidden var="metadata/rights/right[2]/@xml:lang"  default="en" />
 	</panel></cell>
    
    	</panel> 
 
     	
 	<panel id="DDate_From_To">
-        <hidden var="metadata/dates/@class" default="MCRMetaHistoryDate" />
-        <cell col="1" row="1" var="metadata/dates/date" >
+        <hidden var="metadata/periods/@class" default="MCRMetaHistoryDate" />
+        <cell col="1" row="1" var="metadata/periods/period" >
 			  <panel>
+			        <hidden var="@xml:lang"  default="de" />
 			      	<cell col="1" row="1" anchor="NORTHWEST" var="text">
       					<textfield width="25" maxlength="64" />
 		    	 	</cell>
 			      	<cell col="2" row="1" anchor="NORTHWEST">
-      					<text class="editorHint" i18n="Editor.Label.DateShown" />
+      					<text class="editorHint" i18n="Editor.Label.Date.shown" />
 	      			</cell>
 	      			<cell col="3" row="1" anchor="NORTHWEST" var="von">
     	  				<textfield  width="13" maxlength="13" />
 					</cell>
 					<cell col="4" row="1" anchor="NORTHWEST">
-			      		<text class="editorHint" i18n="Editor.Label.DateFrom" />
+			      		<text class="editorHint" i18n="Editor.Label.Date.from" />
       				</cell>
 
 		      		<cell col="5" row="1" anchor="NORTHWEST" var="bis">
 	      				<textfield width="13" maxlength="13" />
 				   	</cell>
 		    	  	<cell col="6" row="1" anchor="NORTHWEST">
-	      				<text class="editorHint" i18n="Editor.Label.DateTo" />
+	      				<text class="editorHint" i18n="Editor.Label.Date.to" />
 		    	  	</cell>
 	      	</panel>
 

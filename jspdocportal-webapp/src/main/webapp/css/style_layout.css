@@ -296,6 +296,10 @@ div.text th {
 	border-right: 2px solid white;
 }
 
+div.text th h3{
+	color:white;
+}
+
 div.text ul li{
 	line-height: 1.5em;
 }

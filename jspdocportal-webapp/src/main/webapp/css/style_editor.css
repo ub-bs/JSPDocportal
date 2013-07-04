@@ -22,6 +22,11 @@ table.editorPanel {
         top: 4px;
 }
 
+.editorFile{
+	background-color:white;
+	width: 660px;
+}
+
 td.editorValidationMessage     { color:#FFFFFF; background-color:#FF0000; padding:3px; }
 /*
 td.editorHeadline              { color:#FFFFFF; background-color:#15516E; padding:3px; }
