@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 
-<process-definition  xmlns="urn:jbpm.org:jpdl-3.1"  name="series">
+<process-definition  xmlns="urn:jbpm.org:jpdl-3.1"  name="bundle">
 
 	<!-- SWIMLANES (= process roles) -->
 	<swimlane name="initiator" />
 
-	<swimlane name="serieseditor">
+	<swimlane name="bundleeditor">
 		<assignment class="org.mycore.frontend.workflowengine.jbpm.MCRPooledActorAssignmentHandler">
-			<groupName>adminseries</groupName>
+			<groupName>adminbundle</groupName>
 		</assignment>  
 	</swimlane>
 
@@ -28,19 +28,19 @@
 
 	<task-node name="processInitialized">
 		<event type='node-enter'>
-			<action class="org.mycore.frontend.workflowengine.jbpm.series.MCRCreateSeriesAction" />                        
+			<action class="org.mycore.frontend.workflowengine.jbpm.bundle.MCRCreateBundleAction" />                        
 		</event>
 		<transition name="go2isInitiatorsEmailAddressAvailable" to="isInitiatorsEmailAddressAvailable" />  
 	</task-node>
 
 	<task-node name="processEditInitialized">
 		<task name="taskprocessEditInitialized" swimlane="initiator" />
-		<transition name="go2canSeriesBeSubmitted" to="canSeriesBeSubmitted" />
+		<transition name="go2canBundleBeSubmitted" to="canbundleBeSubmitted" />
 	</task-node>
 
 	<task-node name="volumeInitialized">
 		<event type='node-enter'>
-			<action class="org.mycore.frontend.workflowengine.jbpm.series.MCRCreateVolumeAction" />                        
+			<action class="org.mycore.frontend.workflowengine.jbpm.bundle.MCRCreateVolumeAction" />                        
 		</event>
 		<transition name="go2isVolumeInitiatorsEmailAddressAvailable" to="isVolumeInitiatorsEmailAddressAvailable" />  
 	</task-node>
@@ -55,7 +55,7 @@
 		<transition name="no" to="getInitiatorsEmailAddress"> 
 			<condition expression="#{empty(contextInstance.variables['initiatorEmail'])}"/>
 		</transition>
-		<transition name="yes" to="seriesCreated">
+		<transition name="yes" to="bundleCreated">
 			<condition expression="#{!empty(contextInstance.variables['initiatorEmail'])}"/>
 		</transition>
 	</decision>
@@ -79,9 +79,9 @@
 		<transition name="go2IsVolumeInitiatorsEmailAddressAvailable" to="isVolumeInitiatorsEmailAddressAvailable" />
 	</task-node>
 
-	<task-node name="seriesCreated">
-		<task name="taskCompleteSeriesAndSendToLibrary" swimlane="initiator" />
-		<transition name="go2canSeriesBeSubmitted" to="canSeriesBeSubmitted" />
+	<task-node name="bundleCreated">
+		<task name="taskCompleteBundleAndSendToLibrary" swimlane="initiator" />
+		<transition name="go2canBundleBeSubmitted" to="canBundleBeSubmitted" />
 	</task-node>
 	
 	<task-node name="volumeCreated">
@@ -89,56 +89,56 @@
 		<transition name="go2canVolumeBeSubmitted" to="canVolumeBeSubmitted" />
 	</task-node>
 
-	<decision name="canSeriesBeSubmitted">
-		<handler class="org.mycore.frontend.workflowengine.jbpm.series.MCRDecisionHandlerSeries" />
-		<transition name="seriesCantBeSubmitted" to="seriesCreated" />
-		<transition name="seriesCanBeSubmitted" to="seriesSubmitted" />
+	<decision name="canBundleBeSubmitted">
+		<handler class="org.mycore.frontend.workflowengine.jbpm.bundle.MCRDecisionHandlerBundle" />
+		<transition name="bundleCantBeSubmitted" to="bundleCreated" />
+		<transition name="bundleCanBeSubmitted" to="bundleSubmitted" />
 	</decision>
 	
 	<decision name="canVolumeBeSubmitted">
-		<handler class="org.mycore.frontend.workflowengine.jbpm.series.MCRDecisionHandlerSeries" />
+		<handler class="org.mycore.frontend.workflowengine.jbpm.bundle.MCRDecisionHandlerBundle" />
 		<transition name="volumeCantBeSubmitted" to="volumeCreated" />
 		<transition name="volumeCanBeSubmitted" to="volumeSubmitted" />
 	</decision>
 
-	<task-node name="seriesSubmitted">
+	<task-node name="bundleSubmitted">
 		<event type='node-enter'>
-			<action class="org.mycore.frontend.workflowengine.jbpm.series.MCRSeriesSubmittedAction">
+			<action class="org.mycore.frontend.workflowengine.jbpm.bundle.MCRBundleSubmittedAction">
 				<lockedVariables>initiator,createdDocID,authorID,reservatedURN,attachedDerivates</lockedVariables>
 			</action>
 			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-				<from>MCR.WorkflowEngine.series.from</from>
-				<to>MCR.WorkflowEngine.newtaskemail.series</to>
-				<replyTo>MCR.WorkflowEngine.series.replyto</replyTo>
-				<subject>MCR.WorkflowEngine.series.subject.newtask</subject>
-				<body>MCR.WorkflowEngine.series.body.newtask</body>  
+				<from>MCR.WorkflowEngine.bundle.from</from>
+				<to>MCR.WorkflowEngine.newtaskemail.bundle</to>
+				<replyTo>MCR.WorkflowEngine.bundle.replyto</replyTo>
+				<subject>MCR.WorkflowEngine.bundle.subject.newtask</subject>
+				<body>MCR.WorkflowEngine.bundle.body.newtask</body>  
 			</action>     
 		</event> 
-		<task name="taskCheckCompleteness" swimlane="serieseditor">
+		<task name="taskCheckCompleteness" swimlane="bundleeditor">
 		</task> 
-		<transition name="go2sendBackToSeriesCreated" to="sendBackToSeriesCreated" >
+		<transition name="go2sendBackToBundleCreated" to="sendBackToBundleCreated" >
 			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSetDefaultAclsAction">
 				<varmcrid>createdDocID</varmcrid>
 				<varuserid>initiator</varuserid>
 			</action>
 		</transition>
-		<transition name="go2canSeriesBeCommitted" to="canSeriesBeCommitted" />
+		<transition name="go2canBundleBeCommitted" to="canBundleBeCommitted" />
 	</task-node>
 
 <task-node name="volumeSubmitted">
 		<event type='node-enter'>
-			<action class="org.mycore.frontend.workflowengine.jbpm.series.MCRVolumeSubmittedAction">
+			<action class="org.mycore.frontend.workflowengine.jbpm.bundle.MCRVolumeSubmittedAction">
 				<lockedVariables>initiator,createdDocID,authorID,reservatedURN,attachedDerivates</lockedVariables>
 			</action>
 			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-				<from>MCR.WorkflowEngine.series.from</from>
-				<to>MCR.WorkflowEngine.newtaskemail.series</to>
-				<replyTo>MCR.WorkflowEngine.series.replyto</replyTo>
-				<subject>MCR.WorkflowEngine.series.subject.newtask</subject>
-				<body>MCR.WorkflowEngine.series.body.newtask.volume</body>  
+				<from>MCR.WorkflowEngine.bundle.from</from>
+				<to>MCR.WorkflowEngine.newtaskemail.bundle</to>
+				<replyTo>MCR.WorkflowEngine.bundle.replyto</replyTo>
+				<subject>MCR.WorkflowEngine.bundle.subject.newtask</subject>
+				<body>MCR.WorkflowEngine.bundle.body.newtask.volume</body>  
 			</action>     
 		</event> 
-		<task name="taskCheckVolumeCompleteness" swimlane="serieseditor">
+		<task name="taskCheckVolumeCompleteness" swimlane="bundleeditor">
 		</task> 
 		<transition name="go2sendBackToVolumeCreated" to="sendBackToVolumeCreated" >
 			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSetDefaultAclsAction">
@@ -149,14 +149,14 @@
 		<transition name="go2canVolumeBeCommitted" to="canVolumeBeCommitted" />
 	</task-node>
 
-	<task-node name="sendBackToSeriesCreated">
-		<task name="taskEnterMessageData" swimlane="serieseditor" />
-		<transition name="go2seriesCreated2" to="seriesCreated">
+	<task-node name="sendBackToBundleCreated">
+		<task name="taskEnterMessageData" swimlane="bundleeditor" />
+		<transition name="go2bundleCreated2" to="bundleCreated">
 			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-				<from>MCR.WorkflowEngine.series.from</from>
+				<from>MCR.WorkflowEngine.bundle.from</from>
 				<to>initiator</to>
-				<replyTo>MCR.WorkflowEngine.series.from</replyTo>
-				<subject>MCR.WorkflowEngine.series.subject</subject>
+				<replyTo>MCR.WorkflowEngine.bundle.from</replyTo>
+				<subject>MCR.WorkflowEngine.bundle.subject</subject>
 				<!-- <body>Mustertext</body> -->
 				<jbpmVariableName>tmpTaskMessage</jbpmVariableName>
 			</action>     
@@ -164,13 +164,13 @@
 	</task-node>
 	
 	<task-node name="sendBackToVolumeCreated">
-		<task name="taskEnterVolumeMessageData" swimlane="serieseditor" />
+		<task name="taskEnterVolumeMessageData" swimlane="bundleeditor" />
 		<transition name="go2VolumeCreated2" to="volumeCreated">
 			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-				<from>MCR.WorkflowEngine.series.from</from>
+				<from>MCR.WorkflowEngine.bundle.from</from>
 				<to>initiator</to>
-				<replyTo>MCR.WorkflowEngine.series.from</replyTo>
-				<subject>MCR.WorkflowEngine.series.subject</subject>
+				<replyTo>MCR.WorkflowEngine.bundle.from</replyTo>
+				<subject>MCR.WorkflowEngine.bundle.subject</subject>
 				<!-- <body>Mustertext</body> -->
 				<jbpmVariableName>tmpTaskMessage</jbpmVariableName>
 			</action>     
@@ -178,9 +178,9 @@
 	</task-node>
 	
 
-	<decision name="canSeriesBeCommitted">
-		<handler class="org.mycore.frontend.workflowengine.jbpm.series.MCRDecisionHandlerSeries" />
-		<transition name="go2sendBackToSeriesCreated" to="sendBackToSeriesCreated" />
+	<decision name="canBundleBeCommitted">
+		<handler class="org.mycore.frontend.workflowengine.jbpm.bundle.MCRDecisionHandlerBundle" />
+		<transition name="go2sendBackToBundleCreated" to="sendBackToBundleCreated" />
 		<transition name="go2wasCommitmentSuccessful" to="wasCommitmentSuccessful">
 			<action class="org.mycore.frontend.workflowengine.jbpm.MCRCommitObjectAction">
 				<varnameOBJID>createdDocID</varnameOBJID>
@@ -190,7 +190,7 @@
 	</decision>  
 	
 	<decision name="canVolumeBeCommitted">
-		<handler class="org.mycore.frontend.workflowengine.jbpm.series.MCRDecisionHandlerSeries" />
+		<handler class="org.mycore.frontend.workflowengine.jbpm.bundle.MCRDecisionHandlerBundle" />
 		<transition name="go2sendBackToVolumeCreated" to="sendBackToVolumeCreated" />
 		<transition name="go2wasVolumeCommitmentSuccessful" to="wasVolumeCommitmentSuccessful">
 			<action class="org.mycore.frontend.workflowengine.jbpm.MCRCommitObjectAction">
@@ -204,7 +204,7 @@
 		<transition name="go2adminCheck" to="adminCheck">  
 			<condition expression="#{!empty(contextInstance.variables['COMMITERROR'])}" />
 		</transition>
-		<transition name="go2seriesCommitted" to="seriesCommitted">  
+		<transition name="go2bundleCommitted" to="bundleCommitted">  
 			<condition expression="#{empty(contextInstance.variables['COMMITERROR'])}" />
 		</transition>     
 	</decision>
@@ -221,26 +221,26 @@
 	<task-node name="adminCheck">
 		<event type='node-enter'>
 			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-				<from>MCR.WorkflowEngine.series.from</from>
-				<to>MCR.WorkflowEngine.series.to</to>
-				<from>MCR.WorkflowEngine.series.from</from>
-				<subject>MCR.WorkflowEngine.series.subject.admin</subject>
-				<body>MCR.WorkflowEngine.series.body.admin</body>
+				<from>MCR.WorkflowEngine.bundle.from</from>
+				<to>MCR.WorkflowEngine.bundle.to</to>
+				<from>MCR.WorkflowEngine.bundle.from</from>
+				<subject>MCR.WorkflowEngine.bundle.subject.admin</subject>
+				<body>MCR.WorkflowEngine.bundle.body.admin</body>
 				<jbpmVariableName>createdDocID</jbpmVariableName>
 			</action>          
 		</event>
 		<task name="taskAdminCheckCommitmentNotSuccessFul" swimlane="technicalAdministration" />
-		<transition name="go2seriesCommitted" to="seriesCommitted" />
+		<transition name="go2bundleCommitted" to="bundleCommitted" />
 	</task-node>     
 
 	<task-node name="volumeAdminCheck">
 		<event type='node-enter'>
 			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-				<from>MCR.WorkflowEngine.series.from</from>
-				<to>MCR.WorkflowEngine.series.to</to>
-				<from>MCR.WorkflowEngine.series.from</from>
-				<subject>MCR.WorkflowEngine.series.subject.admin</subject>
-				<body>MCR.WorkflowEngine.series.body.admin</body>
+				<from>MCR.WorkflowEngine.bundle.from</from>
+				<to>MCR.WorkflowEngine.bundle.to</to>
+				<from>MCR.WorkflowEngine.bundle.from</from>
+				<subject>MCR.WorkflowEngine.bundle.subject.admin</subject>
+				<body>MCR.WorkflowEngine.bundle.body.admin</body>
 				<jbpmVariableName>createdDocID</jbpmVariableName>
 			</action>          
 		</event>
@@ -249,13 +249,13 @@
 	</task-node>     
 
 
-	<task-node name="seriesCommitted">
+	<task-node name="bundleCommitted">
 		<event type='node-enter'>
 			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-				<from>MCR.WorkflowEngine.series.from</from>
+				<from>MCR.WorkflowEngine.bundle.from</from>
 				<to>initiator</to>
-				<subject>MCR.WorkflowEngine.series.subject.commit</subject>
-				<body>MCR.WorkflowEngine.series.body.commit</body>
+				<subject>MCR.WorkflowEngine.bundle.subject.commit</subject>
+				<body>MCR.WorkflowEngine.bundle.body.commit</body>
 				<jbpmVariableName>createdDocID</jbpmVariableName>
 			</action> 
 		</event>     
@@ -265,10 +265,10 @@
 	<task-node name="volumeCommitted">
 		<event type='node-enter'>
 			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
-				<from>MCR.WorkflowEngine.series.from</from>
+				<from>MCR.WorkflowEngine.bundle.from</from>
 				<to>initiator</to>
-				<subject>MCR.WorkflowEngine.series.subject.commit</subject>
-				<body>MCR.WorkflowEngine.series.body.commit.volume</body>
+				<subject>MCR.WorkflowEngine.bundle.subject.commit</subject>
+				<body>MCR.WorkflowEngine.bundle.body.commit.volume</body>
 				<jbpmVariableName>createdDocID</jbpmVariableName>
 			</action> 
 		</event>     

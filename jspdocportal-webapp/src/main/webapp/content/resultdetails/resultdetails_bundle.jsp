@@ -17,7 +17,7 @@
 	<tr>
 		<td class="searchresult-table-icon" rowspan="10">
 		<c:choose>
-			<c:when test="${fn:contains('series', type) and fn:contains('TYPE0004.001', contentType)}">
+			<c:when test="${fn:contains('bundle', type) and fn:contains('TYPE0004.001', contentType)}">
 				<img src="${WebApplicationBaseURL}/images/pubtype/zeitschrift.gif" align="middle"
 					alt="icon" />
 			</c:when>

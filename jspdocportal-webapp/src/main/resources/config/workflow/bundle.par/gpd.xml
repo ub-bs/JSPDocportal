@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<root-container name="series" width="802" height="521">
+<root-container name="bundle" width="802" height="521">
   <node name="start" x="0" y="0" width="132" height="36">
     <edge>
       <label x="5" y="-10"/>
@@ -61,7 +61,7 @@
       <label x="5" y="-10"/>
     </edge>
   </node>
-  <node name="seriesCreated" x="0" y="0" width="132" height="36">
+  <node name="bundleCreated" x="0" y="0" width="132" height="36">
     <edge>
       <label x="5" y="-10"/>
     </edge>
@@ -71,7 +71,7 @@
       <label x="5" y="-10"/>
     </edge>
   </node>
-  <node name="canSeriesBeSubmitted" x="0" y="0" width="132" height="36">
+  <node name="canBundleBeSubmitted" x="0" y="0" width="132" height="36">
     <edge>
       <label x="5" y="-10"/>
     </edge>
@@ -79,7 +79,8 @@
       <label x="5" y="-10"/>
     </edge>
   </node>
-  <node name="canVolumeBeSubmitted" x="0" y="0" width="132" height="36">
+  </node>
+  <node name="bundleSubmitted" x="0" y="0" width="132" height="36">
     <edge>
       <label x="5" y="-10"/>
     </edge>
@@ -87,23 +88,7 @@
       <label x="5" y="-10"/>
     </edge>
   </node>
-  <node name="seriesSubmitted" x="0" y="0" width="132" height="36">
-    <edge>
-      <label x="5" y="-10"/>
-    </edge>
-    <edge>
-      <label x="5" y="-10"/>
-    </edge>
-  </node>
-  <node name="volumeSubmitted" x="0" y="0" width="132" height="36">
-    <edge>
-      <label x="5" y="-10"/>
-    </edge>
-    <edge>
-      <label x="5" y="-10"/>
-    </edge>
-  </node>
-  <node name="sendBackToSeriesCreated" x="0" y="0" width="132" height="36">
+  <node name="sendBackToBundleCreated" x="0" y="0" width="132" height="36">
     <edge>
       <label x="5" y="-10"/>
     </edge>
@@ -113,7 +98,7 @@
       <label x="5" y="-10"/>
     </edge>
   </node>
-  <node name="canSeriesBeCommitted" x="0" y="0" width="132" height="36">
+  <node name="canBundleBeCommitted" x="0" y="0" width="132" height="36">
     <edge>
       <label x="5" y="-10"/>
     </edge>
@@ -155,7 +140,7 @@
       <label x="5" y="-10"/>
     </edge>
   </node>
-  <node name="seriesCommitted" x="0" y="0" width="132" height="36">
+  <node name="bundleCommitted" x="0" y="0" width="132" height="36">
     <edge>
       <label x="5" y="-10"/>
     </edge>

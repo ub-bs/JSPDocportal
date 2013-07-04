@@ -5,11 +5,11 @@
 <%@ taglib uri="http://www.mycore.org/jspdocportal/base.tld" prefix="mcr" %>
 
 <%@page import="org.mycore.frontend.editor.helper.MCRGetEditorElements"%>
-<%@page import="org.jdom.Element"%>
-<%@page import="org.jdom.output.XMLOutputter"%>
+<%@page import="org.jdom2.Element"%>
+<%@page import="org.jdom2.output.XMLOutputter"%>
 
 <%@page import="org.mycore.common.MCRSessionMgr"%>
-<%@page import="org.jdom.Namespace"%><c:set  var="baseURL" value="${applicationScope.WebApplicationBaseURL}"/>
+<%@page import="org.jdom2.Namespace"%><c:set  var="baseURL" value="${applicationScope.WebApplicationBaseURL}"/>
 
 <c:set var="processid" value="${requestScope.task.processID}" />
 <c:set var="workflowType" value="${param.workflowType}" />

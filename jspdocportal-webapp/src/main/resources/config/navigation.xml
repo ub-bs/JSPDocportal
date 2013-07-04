@@ -227,16 +227,16 @@
 				</navitem>
 			</navitem>
 
-			<navitem id="series" i18n="WF.series"
-				href="content/workflow/workflow.jsp?wftype=series">
-				<refitem id="~series" />
-				<navitem id="seriesbegin" i18n="WF.series.begin"
-					href="content/workflow/series/begin.jsp" hidden="true">
-					<refitem id="~seriesbegin" />
+			<navitem id="bundle" i18n="WF.bundle"
+				href="content/workflow/workflow.jsp?wftype=bundle">
+				<refitem id="~bundle" />
+				<navitem id="bundlebegin" i18n="WF.bundle.begin"
+					href="content/workflow/bundle/begin.jsp" hidden="true">
+					<refitem id="~bundlebegin" />
 				</navitem>
-				<navitem id="seriesvolumebegin" i18n="WF.series.volumebegin"
-					href="content/workflow/series/begin-volume.jsp" hidden="true">
-					<refitem id="~seriesvolumebegin" />
+				<navitem id="bundlevolumebegin" i18n="WF.bundle.volumebegin"
+					href="content/workflow/bundle/begin-volume.jsp" hidden="true">
+					<refitem id="~bundlevolumebegin" />
 				</navitem>
 				<navitem id="workflow-fileupload" i18n="Nav.WorkflowFileupload"
 					href="content/fileupload.jsp" hidden="true">
@@ -350,14 +350,14 @@
 			href="content/indexSearch.jsp?searchclass=creators_sub" hidden="true">
 			<refitem id="~searchstart-index_creators_sub" />
 		</navitem>
-		<navitem id="subSelectSeries" i18n="Nav.SeriesSearch"
-			href="content/indexSearch.jsp?searchclass=series_sub" hidden="true">
-			<refitem id="~searchstart-index_series_sub" />
+		<navitem id="subSelectBundle" i18n="Nav.BundleSearch"
+			href="content/indexSearch.jsp?searchclass=bundle_sub" hidden="true">
+			<refitem id="~searchstart-index_bundle_sub" />
 		</navitem>
-		<navitem id="subSelectDocument-Series" i18n="Nav.SeriesSearch"
-			href="content/indexSearch.jsp?searchclass=document-series_sub"
+		<navitem id="subSelectDocument-Bundle" i18n="Nav.BundleSearch"
+			href="content/indexSearch.jsp?searchclass=document-bundle_sub"
 			hidden="true">
-			<refitem id="~searchstart-index_document-series_sub" />
+			<refitem id="~searchstart-index_document-bundle_sub" />
 		</navitem>
 	</navigation>
 
@@ -426,16 +426,16 @@
 					<refitem id="~process-publication" />
 				</navitem>
 			</navitem>
-			<navitem id="series" i18n="Nav.Admin.Thesis" href="admin/main.jsp"
-				permission="administrate-series">
-				<navitem id="workflow" i18n="WF.series"
-					href="content/workflow/workflow.jsp?wftype=series" permission="administrate-series">
-					<refitem id="~workflow-series" />
+			<navitem id="bundle" i18n="Nav.Admin.Bundle" href="admin/main.jsp"
+				permission="administrate-bundle">
+				<navitem id="workflow" i18n="WF.bundle"
+					href="content/workflow/workflow.jsp?wftype=bundle" permission="administrate-bundle">
+					<refitem id="~workflow-bundle" />
 				</navitem>
-				<navitem id="process-series" i18n="Nav.Admin.Processes"
-					href="admin/processes_list.jsp?workflowProcessType=series"
-					permission="administrate-series">
-					<refitem id="~process-series" />
+				<navitem id="process-bundle" i18n="Nav.Admin.Processes"
+					href="admin/processes_list.jsp?workflowProcessType=bundle"
+					permission="administrate-bundle">
+					<refitem id="~process-bundle" />
 				</navitem>
 			</navitem>
 

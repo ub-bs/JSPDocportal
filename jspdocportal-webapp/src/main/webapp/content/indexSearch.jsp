@@ -17,7 +17,7 @@
 		<br />
 		<br />
 		<c:choose>
-			<c:when test="${param.searchclass eq 'series_sub'}">
+			<c:when test="${param.searchclass eq 'bundle_sub'}">
 				<mcrb:indexBrowser index="${param.searchclass}" varurl="url" varxml="xml"
 					docdetailsurl="nav?path=~searchdocdetail-index_${param.searchclass}&amp;id={0}">
 					<div style="padding-bottom: 5px">
@@ -27,7 +27,7 @@
 					</div>
 				</mcrb:indexBrowser>
 			</c:when>
-			<c:when test="${param.searchclass eq 'document-series_sub'}">
+			<c:when test="${param.searchclass eq 'document-bundle_sub'}">
 				<mcrb:indexBrowser index="${param.searchclass}" varurl="url" varxml="xml"
 					docdetailsurl="nav?path=~searchdocdetail-index_${param.searchclass}&amp;id={0}">
 					<div style="padding-bottom: 5px">

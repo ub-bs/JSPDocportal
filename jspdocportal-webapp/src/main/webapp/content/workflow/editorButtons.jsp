@@ -41,7 +41,7 @@
 				<mcr:checkAccess var="modifyAllowed" permission="writedb" key="${itemID}" />
 				
 				<c:if test="${modifyAllowed}">
-					<c:if test="${fn:contains('document,disshab,thesis,series',itemDocType)
+					<c:if test="${fn:contains('document,disshab,thesis,bundle',itemDocType)
 					|| (fn:contains('person', itemDocType) && fn:contains(itemID, 'cpr'))}">
 						<td align="center" valign="top" width="30">
 						<form method="get" action="${baseURL}workflowaction">
@@ -130,7 +130,7 @@
 					</form>
 					</td>
 				</c:if>
-				<c:if test="${fn:contains('document,disshab,thesis,series,series-volume,author,institution',itemDocType)&& !fn:contains(itemID, 'dbhsnb') && !fn:contains(itemID, 'rosdok')}">
+				<c:if test="${fn:contains('document,disshab,thesis,bundle,author,institution',itemDocType)&& !fn:contains(itemID, 'dbhsnb') && !fn:contains(itemID, 'rosdok')}">
 				<td align="center" valign="top" width="30">   								
     			<!-- 			<form method="get" action="${baseURL}content/workflow/accessruleeditor.jsp">--> <!--  target="new"> -->
 				<form method="get" action="${baseURL}nav">
@@ -211,7 +211,7 @@
 			  <c:if	test="${modifyAllowed}">
 				<table>
 					<tr>
-						<c:if test="${!fn:contains('disshab,thesis,series',itemDocType) or commitAllowed}">
+						<c:if test="${!fn:contains('disshab,thesis,bundle',itemDocType) or commitAllowed}">
 							<td align="center" valign="top" width="30">
 							<form method="get" action="${baseURL}workflowaction">
 								<input	name="derivateID" value="${derivateID}" type="hidden"> 
@@ -290,7 +290,7 @@
 						</x:choose>
 						</c:if>
 
-						<c:if test="${fn:contains('disshab,thesis,series',itemDocType) and !commitAllowed}">
+						<c:if test="${fn:contains('disshab,thesis,bundle',itemDocType) and !commitAllowed}">
 							<%-- for disshab only delete is allowed --%>
 							<td align="center" valign="top" width="30">
 							<form method="get" action="${baseURL}workflowaction">

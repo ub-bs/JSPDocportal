@@ -9,16 +9,6 @@
 
 <mcr:receiveMcrObjAsJdom mcrid="${mcrid}" var="jdom" varDom="dom" fromWF="false"/>
 <c:if test="${not empty jdom}" >
-	<c:if test="${fn:contains(mcrid, 'series-volume')}" >
-		<x:forEach select="$dom/mycoreobject/structure/parents/parent">
-			<%--instead of string(./@xlink:href) to avoid  XPathStylesheetDOM3Exception: Prefix must resolve to a namespace: xlink--%>
-			<c:set var="parentID"><x:out select="string(./@*[local-name()='href'])" /></c:set>
-			<jsp:include page="parentdoc.jsp" flush="true">
-				<jsp:param name="mcrid" value="${parentID}"/>
-				<jsp:param name="volume" value=""/>
-			</jsp:include>
-		</x:forEach>
-	</c:if>
 	<c:set var="type"><mcr:simpleXpath jdom="${jdom}" xpath="/mycoreobject/metadata/types/type/@categid" /></c:set>
 	<c:set var="format"><mcr:simpleXpath jdom="${jdom}" xpath="/mycoreobject/metadata/formats/format/@categid"/></c:set>
 	<c:set var="title"><mcr:simpleXpath jdom="${jdom}" xpath="/mycoreobject/metadata/titles/title[@type='short']" /></c:set>

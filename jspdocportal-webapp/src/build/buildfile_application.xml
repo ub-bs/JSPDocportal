@@ -124,7 +124,7 @@
 		<mkdir dir="${MCR.WorkflowEngine.EditDirectory.thesis}" />
 		<mkdir dir="${MCR.WorkflowEngine.EditDirectory.institution}" />
 		<mkdir dir="${MCR.WorkflowEngine.EditDirectory.user}" />
-		<mkdir dir="${MCR.WorkflowEngine.EditDirectory.series}" />
+		<mkdir dir="${MCR.WorkflowEngine.EditDirectory.bundle}" />
 		<mkdir dir="${MCR.WorkflowEngine.DeleteDirectory}" />
 		<mkdir dir="${MCR.EHCache.diskStore.path}" />
 	</target>
@@ -260,10 +260,10 @@
         </mcr-execute>
 	</target>
 
-	<target name="deploy.processdefinition.series">
+	<target name="deploy.processdefinition.bundle">
 		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
 		<mcr-execute>
-        	deploy jbpm processdefinition from file workflow/series.par/processdefinition.xml      	
+        	deploy jbpm processdefinition from file workflow/bundle.par/processdefinition.xml      	
         </mcr-execute>
 	</target>
 
@@ -308,7 +308,7 @@
         	
         	deploy jbpm processdefinition from file workflow/thesis.par/processdefinition.xml
         	
-        	deploy jbpm processdefinition from file workflow/series.par/processdefinition.xml  
+        	deploy jbpm processdefinition from file workflow/bundle.par/processdefinition.xml  
         </mcr-execute>
 	</target>
 </project>

@@ -581,7 +581,7 @@
               <text label="&#160;&#160;&#160;" />
             </cell>
             <cell row="1" col="2">
-              <subselect i18n="Editor.Common.indexcreators" id="parent.select" type="webpage" href="nav?path=~searchstart-index_series_sub"  />
+              <subselect i18n="Editor.Common.indexcreators" id="parent.select" type="webpage" href="nav?path=~searchstart-index_bundle_sub"  />
             </cell>
           </panel>
         </repeater>
@@ -601,7 +601,7 @@
               <text label="&#160;&#160;&#160;" />
             </cell>
             <cell row="1" col="2">
-              <subselect i18n="Editor.Common.indexcreators" id="parent.select2" type="webpage" href="nav?path=~searchstart-index_document-series_sub"  />
+              <subselect i18n="Editor.Common.indexcreators" id="parent.select2" type="webpage" href="nav?path=~searchstart-index_document-bundle_sub"  />
             </cell>
           </panel>
         </repeater>
@@ -634,7 +634,7 @@
     <hidden var="metadata/origins/origin/@inherited" default="0" />
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/accessrights/accessright/@classid&amp;prop=MCR.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002" />               
     <cell col="1" row="1" anchor="WEST" var="metadata/accessrights/accessright/@categid">
-      <list id="COrigin" width="425px" type="dropdown" class="mandatory">
+      <list id="DAccessRights_COrigin" width="425px" type="dropdown" class="mandatory">
             <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.accessRights&amp;defaultValue=eprintsAccessRights&amp;withCounter=false" />              
       </list>  
     </cell>

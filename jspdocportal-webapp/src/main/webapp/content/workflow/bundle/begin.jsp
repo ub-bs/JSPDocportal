@@ -1,17 +1,17 @@
-<%@ page pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="x"uri="http://java.sun.com/jsp/jstl/xml"   %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"  %>
-<%@ taglib prefix="mcr" uri="http://www.mycore.org/jspdocportal/base.tld"  %>
+<%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="mcr" uri="http://www.mycore.org/jspdocportal/base.tld" %>
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld" %>
+<%@ page pageEncoding="UTF-8" %>
 
-<fmt:message var="pageTitle" key="WF.series" /> 
+<fmt:message var="pageTitle" key="WF.bundle" /> 
 <mcr:session method="get" var="username" type="userID" />
 <c:set var="WebApplicationBaseURL" value="${applicationScope.WebApplicationBaseURL}" />
 <c:choose>
    <c:when test="${empty param.workflowType}">
-      <c:set var="workflowType" value="series-volume" />
+      <c:set var="workflowType" value="bundle" />
    </c:when>
    <c:otherwise>
       <c:set var="workflowType" value="${param.workflowType}" />
@@ -20,7 +20,7 @@
 <mcr:initWorkflowProcess userid="${username}" status="status" 
 	workflowProcessType="${workflowType}" 
 	processidVar="pid" 
-    transition="go2volumeInitialized"	
+    transition="go2processInitialized"	
 	scope="request" />
 
 
@@ -28,7 +28,7 @@
 	<c:when test="${fn:contains(status,'errorPermission')}">
 		<stripes:layout-render name="../../../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
 			<stripes:layout-component name="contents">
-				<h2><fmt:message key="WF.series.volume.begin" /></h2>
+				<h2><fmt:message key="WF.bundle.begin" /></h2>
 				<p><fmt:message key="WF.xmetadiss.errorUserGuest" /></p>
 				<p><fmt:message key="WF.xmetadiss.errorUserGuest2" /></p>
 				<p><fmt:message key="Webpage.admin.DocumentManagement.FetchLogin" /></p>
@@ -38,13 +38,13 @@
 	<c:when test="${fn:contains(status,'errorWFM')}">
 		<stripes:layout-render name="../../../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
 			<stripes:layout-component name="contents">
-				<h2><fmt:message key="WF.series.volume.begin" /></h2>
+				<h2><fmt:message key="WF.bundle.begin" /></h2>
 				<p><fmt:message key="WF.xmetadiss.errorWfM" /></p>
 				<p><fmt:message key="WF.xmetadiss.errorWfM2" /></p>
 			</stripes:layout-component>
 		</stripes:layout-render>
 	</c:when>
 	<c:otherwise>
-    	<c:import url="/content/workflow/workflow.jsp?wftype=${workflowType}" />  
-	</c:otherwise>
+       <c:import url="/content/workflow/workflow.jsp?wftype=${workflowType}" />  
+</c:otherwise>
 </c:choose>

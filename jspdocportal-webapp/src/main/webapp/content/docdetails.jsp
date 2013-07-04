@@ -71,12 +71,8 @@
      <c:import url="content/docdetails/docdetails_document.jsp" />
  </c:when>
 
- <c:when test="${fn:contains(mcrid,'_series_')}">
-     <c:import url="content/docdetails/docdetails_series.jsp" />
- </c:when>
- 
- <c:when test="${fn:contains(mcrid,'_series-volume_')}">
-     <c:import url="content/docdetails/docdetails_series-volume.jsp" />
+ <c:when test="${fn:contains(mcrid,'_bundle_')}">
+     <c:import url="content/docdetails/docdetails_bundle.jsp" />
  </c:when>
  
  <c:otherwise>

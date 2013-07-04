@@ -8,12 +8,9 @@
    <c:set var="formatType" value="${param.formatType}" />
    <c:set var="docType" value="${param.docType}" />
 	<c:choose>
-			<c:when test="${fn:contains('series', docType) and fn:contains('TYPE0004.001', contentType)}">
+			<c:when test="${fn:contains('bundle', docType) and fn:contains('TYPE0004.001', contentType)}">
 				<img src="${WebApplicationBaseURL}/images/pubtype/zeitschrift.gif" 
 					alt="icon" align="middle" />
-			</c:when>
-			<c:when test="${fn:contains(docType, 'series') and not fn:contains('TYPE0004.001', contentType)}">
-				<img src="${WebApplicationBaseURL}/images/pubtype/series-volume.gif" alt="icon" align="middle" />
 			</c:when>
 			<c:when test="${fn:contains('TYPE0001.001 TYPE0001.002 TYPE0001.003 TYPE0010.003 TYPE0002.001', contentType)}">
 				<img src="${WebApplicationBaseURL}/images/pubtype/monographie.gif"

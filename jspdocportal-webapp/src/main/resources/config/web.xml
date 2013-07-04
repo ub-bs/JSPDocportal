@@ -48,7 +48,7 @@
     		<param-value> org.mycore.frontend.jsp.MCRJSPStripesLocalePicker</param-value>
 		</init-param>
  	</filter>
-	-->
+
 	<filter-mapping>
 		<filter-name>StripesFilter</filter-name>
 		<url-pattern>*.jsp</url-pattern>
@@ -57,10 +57,16 @@
 	
 	<filter-mapping>
 		<filter-name>StripesFilter</filter-name>
+		<servlet-name>NavServlet</servlet-name>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>StripesFilter</filter-name>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
-
+	-->
     
     <!-- servlets -->    
     <servlet id="FileNode">
@@ -322,14 +328,6 @@
          <url-pattern>/file/*</url-pattern>
     </servlet-mapping>
 
-    <servlet-mapping>
-    <servlet-name>MCROAIProvider</servlet-name>
-         <url-pattern>/servlets/MCROAIProvider</url-pattern>
-    </servlet-mapping>
-        <servlet-mapping>
-         <servlet-name>MCROAIProvider</servlet-name>
-         <url-pattern>/oai</url-pattern>
-    </servlet-mapping>
 
     <servlet-mapping>
          <servlet-name>MCRStaticXMLFileServlet</servlet-name>
@@ -421,8 +419,22 @@
         <exception-type>java.lang.Throwable</exception-type>
         <location>/error.jsp</location>
     </error-page>
+    
+    <!-- default resource bundle -->
+ 	<context-param>
+  		<param-name>
+    		javax.servlet.jsp.jstl.fmt.localizationContext
+  		</param-name>
+  		<param-value>messages</param-value>
+	</context-param>
 
   <jsp-config>
+  	<taglib>
+		<taglib-uri>/WEB-INF/lib/mycore-taglibs.jar</taglib-uri>
+		<taglib-location>
+			/WEB-INF/lib/mycore-taglibs.jar
+		</taglib-location>
+    </taglib>
     <jsp-property-group>
       <url-pattern>*.jsp</url-pattern>
     </jsp-property-group>
