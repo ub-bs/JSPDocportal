@@ -118,11 +118,9 @@
 		<mkdir dir="${MCR.LogDirectory}" />
 		<mkdir dir="${MCR.Save.FileSystem}" />
 		<mkdir dir="${MCR.WebContent.SaveFolder}" />
-		<mkdir dir="${MCR.WorkflowEngine.EditDirectory.person}" />
 		<mkdir dir="${MCR.WorkflowEngine.EditDirectory.document}" />
 		<mkdir dir="${MCR.WorkflowEngine.EditDirectory.disshab}" />
 		<mkdir dir="${MCR.WorkflowEngine.EditDirectory.thesis}" />
-		<mkdir dir="${MCR.WorkflowEngine.EditDirectory.institution}" />
 		<mkdir dir="${MCR.WorkflowEngine.EditDirectory.user}" />
 		<mkdir dir="${MCR.WorkflowEngine.EditDirectory.bundle}" />
 		<mkdir dir="${MCR.WorkflowEngine.DeleteDirectory}" />
@@ -281,31 +279,13 @@
    		</mcr-execute>
 	</target>
 
-	<target name="deploy.processdefinition.institution">
-		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
-		<mcr-execute>
-        	deploy jbpm processdefinition from file workflow/institution.par/processdefinition.xml      	
-        </mcr-execute>
-	</target>
-
-	<target name="deploy.processdefinition.person">
-		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
-		<mcr-execute>
-        	deploy jbpm processdefinition from file workflow/person.par/processdefinition.xml      	
-        </mcr-execute>
-	</target>
-
 	<target name="deploy.workflow.processdefinitions">
 		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
 		<mcr-execute>
-        	deploy jbpm processdefinition from file workflow/person.par/processdefinition.xml      	
-        	
         	deploy jbpm processdefinition from file workflow/publication.par/processdefinition.xml      	
         	
         	deploy jbpm processdefinition from file workflow/xmetadiss.par/processdefinition.xml      	        	
 
-    	   	deploy jbpm processdefinition from file workflow/institution.par/processdefinition.xml
-        	
         	deploy jbpm processdefinition from file workflow/thesis.par/processdefinition.xml
         	
         	deploy jbpm processdefinition from file workflow/bundle.par/processdefinition.xml  

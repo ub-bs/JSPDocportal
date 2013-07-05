@@ -39,32 +39,6 @@
 						hidden="true" />
 				</navitem>
 			</navitem>
-			<navitem id="persons" i18n="Nav.PersonSearch"
-				href="content/indexSearch.jsp?searchclass=creators">
-				<refitem id="~searchstart-index_creators" />
-				<navitem id="documents" i18n="Nav.PersonsDocuments" href="content/searchresult.jsp"
-					hidden="true">
-					<refitem id="~searchresult-index_creators" />
-					<navitem id="docdetail" i18n="Nav.DocumentDetails" href="content/docdetails.jsp"
-						hidden="true">
-						<refitem id="~searchdocdetail-index_creators" />
-					</navitem>
-				</navitem>
-				<navitem id="docdetail" i18n="Nav.DocumentDetails" href="content/docdetails.jsp"
-					hidden="true" />
-			</navitem>
-			<navitem id="institution" i18n="Nav.InstitutionSearch"
-				href="content/indexSearch.jsp?searchclass=institutions">
-				<refitem id="~searchstart-index_institutions" />
-				<navitem id="documents" i18n="Nav.PersonsDocuments" href="content/searchresult.jsp"
-					hidden="true">
-					<refitem id="~searchresult-index_institutions" />
-				</navitem>
-				<navitem id="docdetail" i18n="Nav.DocumentDetails" href="content/docdetails.jsp"
-					hidden="true">
-					<refitem id="~searchdocdetail-index_institutions" />
-				</navitem>
-			</navitem>
 			<navitem id="docdetail" i18n="Nav.DocumentDetails" href="content/docdetails.jsp"
 				hidden="true">
 				<refitem id="~docdetail" />
@@ -129,54 +103,6 @@
 
 		<navitem id="publish" i18n="Nav.DocumentManagement" href="content/documentmanagement.jsp">
 			<refitem id="~documentmanagement" />
-			<navitem id="person" i18n="WF.person"
-				href="content/workflow/workflow.jsp?wftype=person">
-				<refitem id="~person" />
-				<navitem id="personbegin" i18n="WF.person.begin"
-					href="content/workflow/person/begin.jsp" hidden="true">
-					<refitem id="~personbegin" />
-				</navitem>
-				<navitem id="personinfo" i18n="WF.person.info"
-					href="content/workflow/person/information.jsp" hidden="true">
-					<refitem id="~personinfo" />
-				</navitem>
-				<navitem id="personsearch"
-					href="content/searchmask-editor.jsp?editor=editor/searchmasks/SearchMask_PersonEdit.xml"
-					i18n="" hidden="true">
-					<refitem id="~searchstart-wfperson" />
-					<navitem id="searchresult-wfperson" href="content/searchresult.jsp"
-						hidden="true" i18n="">
-						<refitem id="~searchresult-wfperson" />
-						<navitem id="docdetail" i18n="Nav.DocumentDetails" href="content/docdetails.jsp"
-							hidden="true" />
-					</navitem>
-				</navitem>
-			</navitem>
-
-			<navitem id="institution" i18n="WF.institution"
-				href="content/workflow/workflow.jsp?wftype=institution">
-				<refitem id="~institution" />
-				<navitem id="institutionbegin" i18n="WF.institution.begin"
-					href="content/workflow/institution/begin.jsp" hidden="true">
-					<refitem id="~institutionbegin" />
-				</navitem>
-				<navitem id="institutioninfo" i18n="WF.institution.info"
-					href="content/workflow/institution/information.jsp" hidden="true">
-					<refitem id="~institutioninfo" />
-				</navitem>
-				<navitem id="institutionsearch"
-					href="content/searchmask-editor.jsp?editor=editor/searchmasks/SearchMask_InstitutionEdit.xml"
-					i18n="" hidden="true">
-					<refitem id="~searchstart-wfinstitution" />
-					<navitem id="searchresult-wfinstitution" href="content/searchresult.jsp"
-						hidden="true" i18n="">
-						<refitem id="~searchresult-wfinstitution" />
-						<navitem id="docdetail" i18n="Nav.DocumentDetails" href="content/docdetails.jsp"
-							hidden="true" />
-					</navitem>
-				</navitem>
-			</navitem>
-
 			<navitem id="xmetadiss" i18n="WF.xmetadiss"
 				href="content/workflow/workflow.jsp?wftype=xmetadiss">
 				<refitem id="~xmetadiss" />
@@ -346,10 +272,6 @@
 			href="content/browse_sub.jsp?browserClass=bkl_sub" hidden="true">
 			<refitem id="~browse_subBKL" />
 		</navitem>
-		<navitem id="subSelectPerson" i18n="Nav.PersonSearch"
-			href="content/indexSearch.jsp?searchclass=creators_sub" hidden="true">
-			<refitem id="~searchstart-index_creators_sub" />
-		</navitem>
 		<navitem id="subSelectBundle" i18n="Nav.BundleSearch"
 			href="content/indexSearch.jsp?searchclass=bundle_sub" hidden="true">
 			<refitem id="~searchstart-index_bundle_sub" />
@@ -436,32 +358,6 @@
 					href="admin/processes_list.jsp?workflowProcessType=bundle"
 					permission="administrate-bundle">
 					<refitem id="~process-bundle" />
-				</navitem>
-			</navitem>
-
-			<navitem id="person" i18n="Nav.Admin.Person" href="admin/main.jsp"
-				permission="administrate-person">
-				<navitem id="workflow" i18n="WF.person"
-					href="content/workflow/workflow.jsp?wftype=person" permission="administrate-person">
-					<refitem id="~workflow-person" />
-				</navitem>
-				<navitem id="process-person" i18n="Nav.Admin.Processes"
-					href="admin/processes_list.jsp?workflowProcessType=person"
-					permission="administrate-person">
-					<refitem id="~process-person" />
-				</navitem>
-			</navitem>
-
-			<navitem id="institution" i18n="Nav.Admin.Institution" href="admin/main.jsp"
-				permission="administrate-institution">
-				<navitem id="workflow" i18n="WF.institution"
-					href="content/workflow/workflow.jsp?wftype=institution" permission="administrate-institution">
-					<refitem id="~workflow-institution" />
-				</navitem>
-				<navitem id="process-institution" i18n="Nav.Admin.Processes"
-					href="admin/processes_list.jsp?workflowProcessType=institution"
-					permission="administrate-institution">
-					<refitem id="~process-institution" />
 				</navitem>
 			</navitem>
 
