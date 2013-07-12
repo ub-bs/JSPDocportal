@@ -180,7 +180,7 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
         try {
             FileOutputStream out = new FileOutputStream(fullname);
             out.write(outxml);
-            out.flush();
+            out.close();
         } catch (IOException ex) {
         	logger.error(ex.getMessage());
         	logger.error("Exception while store to file " + fullname);
