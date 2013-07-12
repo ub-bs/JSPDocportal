@@ -287,8 +287,10 @@
  <panel id="DUrn" >
     <!-- *** Data for the URN ** 32 -->
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/urns&amp;classname=MCRMetaLangText" />    
-    <hidden var="metadata/urns/urn/@type" />
     <hidden var="metadata/urns/urn" />
+    <hidden var="metadata/urns/urn/@type" />
+    <hidden var="metadata/urns/urn/@xml:lang"  default="de" />
+    
     <cell col="1" row="1"  />       
  </panel>
  
