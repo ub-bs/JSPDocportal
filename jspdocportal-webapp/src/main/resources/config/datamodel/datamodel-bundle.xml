@@ -107,6 +107,12 @@
 			<mcrmetalinkid name="successor" class="MCRMetaLink" minOccurs='1' maxOccurs='unbounded' />
 		</element>
 		
+       <!-- 100 - Sammlungen -->
+		<element name="collections" minOccurs='0' maxOccurs='1'>
+			<mcrmetaclassification name="collection"
+				class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
+		</element>
+		
 		<!-- 101 - Mapping of Classifications -->
     	<element name="mappings" minOccurs='0' maxOccurs='1'>
       		<mcrmetaclassification name="mapping" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
