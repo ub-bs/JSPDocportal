@@ -65,11 +65,9 @@
     <cell col="1" row="1"  />       
  </panel>
  
+ <!--  -->
     <panel id="HiddenServDates">
-    <hidden var="service/servdates/@class" default="MCRMetaISO8601Date"/>
-      <hidden var="service/servdates/@heritable" default="false" />
-      <hidden var="service/servdates/@notinherit" default="false" />
-      <hidden var="service/servdates/servdate" descendants="true"/> <!-- create date -->
+    <hidden var="service/servdates" descendants="true" />
 
       <cell col="1" row="1" /> 
   </panel>

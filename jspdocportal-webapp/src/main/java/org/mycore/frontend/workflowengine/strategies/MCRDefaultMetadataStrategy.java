@@ -1,6 +1,5 @@
 package org.mycore.frontend.workflowengine.strategies;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,11 +19,10 @@ import org.mycore.datamodel.metadata.MCRMetaClassification;
 import org.mycore.datamodel.metadata.MCRMetaLangText;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
-import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.datamodel.metadata.MCRObjectService;
 import org.mycore.frontend.cli.MCRObjectCommands;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
-import org.xml.sax.SAXParseException;
 
 public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 	private String documentType;
@@ -58,8 +56,7 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 		
 		Element structure = new Element ("structure");			
 		Element metadata = new Element ("metadata");	
-		Element service = new Element ("service");
-
+		
 		Element eCreators = new Element("creators");
 		eCreators.setAttribute("class","MCRMetaLangText");
 		
@@ -138,7 +135,9 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 		      
 		mycoreobject.addContent(structure);
 		mycoreobject.addContent(metadata);
-		mycoreobject.addContent(service);
+		
+		MCRObjectService service = new MCRObjectService();
+		mycoreobject.addContent(service.createXML());
 	    
 		// ID Setzen
 		String nextID = nextFreeObjectId.toString();
