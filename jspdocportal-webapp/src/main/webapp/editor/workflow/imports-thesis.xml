@@ -266,37 +266,61 @@
      <!-- Date -->
      <text id="LDateP" i18n="Editor.Label.DateM" />
      <helpHover id="HDate" i18n="Editor.Help.HDate" />
-     <panel id="DDate_The">
-     	<hidden var="metadata/dates/@class" default="MCRMetaISO8601Date" />
-   		<hidden var="metadata/dates/@notinherit" default="false" />
-   		<hidden var="metadata/dates/@heritable" default="true" />  
-   		   	
-     	<hidden var="metadata/dates/date/@type" default="submitted" />
-    	<cell col="1" row="1" anchor="NORTHWEST" var="metadata/dates/date">
-    	 	<textfield id="TFDateSubmitted"  width="30" maxlength="128" class="mandatory" >		
-		   		<condition id="CDateSubmitted" regexp="(\d\d\.\d\d\.\d\d\d\d)|(\d\d\d\d\-\d\d\-\d\d)" required="true" >
-					<label i18n="Editor.Validate.Date.Format" />
-         		</condition>
-      		</textfield>	 
-    	</cell>
-    	
-    	<cell col="2" row="1" anchor="NORTHEAST">
-    		<text class="editorHint" i18n="Editor.Label.DateSubmitted" />
-    	</cell>
-    	<hidden var="metadata/dates/date[2]/@type" default="accepted" />
-    	<!-- optional -->
-    	<cell col="1" row="2" anchor="NORTHWEST" var="metadata/dates/date[2]">
-     	 	<textfield id="TFDateAccepted"  width="30" maxlength="128" class="mandatory" >		
-		   		<condition id="CDateAccepted" regexp="(\d\d\.\d\d\.\d\d\d\d)|(\d\d\d\d\-\d\d\-\d\d)" required="true" >
-					<label i18n="Editor.Validate.Date.Format" />
-         		</condition>
-      		</textfield>	    	
-    	</cell>
-    	<cell col="2" row="2" anchor="NORTHEAST">
-    		<text class="editorHint" i18n="Editor.Label.DateAccepted" />	
-    	</cell>
-  </panel>
+    <!-- *** Data for the Date ** -->
+
+  <panel id="DDate_The">
+    <hidden var="metadata/dates/@class" default="MCRMetaISO8601Date" />
+    <hidden var="metadata/dates/date/@type" default="submitted" />
+    <cell col="1" row="1" anchor="NORTHWEST">
+      <text class="editorHint" i18n="Editor.Label.DateSubmitted" />
+    </cell>
+    <cell col="2" row="1" anchor="NORTHWEST" var="metadata/dates/date">
+       <textfield id="TFDateSubmitted"  width="30" maxlength="128" class="mandatory" >		
+		   <condition id="CDateSubmitted" regexp="(\d\d\.\d\d\.\d\d\d\d)|(\d\d\d\d\-\d\d\-\d\d)" required="true" >
+				<label i18n="Editor.Validate.Date.Format" />
+         </condition>
+      </textfield>	 
+    </cell>
+    <hidden var="metadata/dates/date[2]/@type" default="accepted" />
+    <cell col="1" row="2" anchor="NORTHWEST">
+      <text class="editorHint" i18n="Editor.Label.DateAccepted" />
+    </cell>
+    <cell col="2" row="2" anchor="NORTHWEST"  var="metadata/dates/date[2]" >
+       <textfield id="TFDateAccepted"  width="30" maxlength="128" class="mandatory" >		
+		   <condition id="CDateAccepted" regexp="(\d\d\.\d\d\.\d\d\d\d)|(\d\d\d\d\-\d\d\-\d\d)" required="true" >
+				<label i18n="Editor.Validate.Date.Format" />
+         </condition>
+      </textfield>	 
+
+    </cell>
     
+    <hidden var="metadata/dates/date[3]/@type" default="published" />
+    <cell col="1" row="3" anchor="NORTHWEST">
+      <text class="editorHint" i18n="Editor.Label.Date_Year.publishing" />
+    </cell>
+    <cell col="2" row="3" anchor="NORTHWEST"  var="metadata/dates/date[3]" >
+       <textfield id="TFDatePublished"  width="30" maxlength="128" class="mandatory" >   
+       <condition id="CDatePublished" regexp="(\d\d\.\d\d\.\d\d\d\d)|(\d\d\d\d\-\d\d\-\d\d)|(\d\d\d\d)" required="true" >
+        <label i18n="Editor.Validate.Date.Format" />
+         </condition>
+      </textfield>  
+    </cell>
+    
+  </panel>
+    <panel id="DLanguage_RFC4646">
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/languages&amp;classname=MCRMetaClassification" />
+    <hidden var="metadata/languages/language/@inherited" default="0" />
+    <hidden var="metadata/languages/language/@classid" default="rfc4646" />
+    <cell col="1" row="1" anchor="WEST" var="metadata/languages/language/@categid">
+      <list id="CLanguage_RFC4646" width="425px" type="dropdown" class="mandatory">
+         <item value="de" i18n="Editor.Common.language.de" />
+         <item value="en" i18n="Editor.Common.language.en" />
+         <item value="fr" i18n="Editor.Common.language.fr" />
+         <item value="es" i18n="Editor.Common.language.es" />
+         <item value="la" i18n="Editor.Common.language.la" />         
+      </list>
+    </cell>
+  </panel>
     <!-- Type -->
     <text id="LTypeP" i18n="Editor.Label.TypeM" />
 	<helpHover id="HType" i18n="Editor.Help.HType" />
@@ -405,6 +429,14 @@
         <hidden var="service/servdates/servdate/@type" default="createdate"/>
         <cell col="1" row="1" /> 
 	</panel>
+  
+   <panel id="DAccessRights_OpenAccess" >
+<!-- *** Data for the Rights 26 ** -->
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/accessrights&amp;classname=MCRMetaClassification" />  
+    <hidden var="metadata/accessrights/accessright/@classid" default="eprintsAccessRights" />
+    <hidden var="metadata/accessrights/accessright/@categid" default="OpenAccess" />
+    <cell col="1" row="1"  />       
+ </panel>
   
 
 	<!-- Buttons -->

@@ -467,7 +467,7 @@
 
 	<text id="LUrn" i18n="Editor.Label.URN" />
 
-	<helpHover id="HUrn" i18n="Editor.Label.HURN" />
+	<helpHover id="HUrn" i18n="Editor.Help.HURN" />
 
 
 	<!-- *** Data for the Contact ** -->
@@ -502,7 +502,7 @@
 	<text id="APNamePrefix" class="editorHint" i18n="Editor.Label.PNamePrefix" />
 	<text id="APNamePeerage" class="editorHint" i18n="Editor.Label.PNamePeerage" />
 
-	<helpHover id="HPName"  i18n="Editor.Help.HPName" />
+	
 
 
 

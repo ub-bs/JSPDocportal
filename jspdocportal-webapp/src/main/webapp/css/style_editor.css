@@ -27,6 +27,16 @@ table.editorPanel {
 	width: 660px;
 }
 
+.editorHint{
+	font-size:90%;
+}
+
+td.editorHeadline{
+	border: 1px solid #004A99;
+	padding: 4px;
+	background: #E6EDF5;
+}
+
 td.editorValidationMessage     { color:#FFFFFF; background-color:#FF0000; padding:3px; }
 /*
 td.editorHeadline              { color:#FFFFFF; background-color:#15516E; padding:3px; }

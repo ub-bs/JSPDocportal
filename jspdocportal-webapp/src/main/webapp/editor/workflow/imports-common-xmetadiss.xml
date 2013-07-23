@@ -170,18 +170,18 @@
 		</cell>
 	</panel>
   
-   <panel id="DGrantorXMetaDiss">
+   <panel id="HiddenGrantorXMetaDiss">
     <hidden var="metadata/grantors/@class" default="MCRMetaXML" />
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/grantors/grantor/cc:universityOrInstitution/cc:name&amp;prop=MCR.WorkflowEngine.Grantor.Name.xmetadiss" />
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/grantors/grantor/cc:universityOrInstitution/cc:place&amp;prop=MCR.WorkflowEngine.Grantor.Place.xmetadiss" />
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/grantors/grantor/cc:universityOrInstitution/@GKD-Nr&amp;prop=MCR.WorkflowEngine.Grantor.GKD-Nr.xmetadiss" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/grantors/grantor/cc:universityOrInstitution/cc:name&amp;prop=MCR.XMetaDissPlus.Grantor.Name" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/grantors/grantor/cc:universityOrInstitution/cc:place&amp;prop=MCR.XMetaDissPlus.Grantor.Place" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/grantors/grantor/cc:universityOrInstitution/@GKD-Nr&amp;prop=MCR.XMetaDissPlus.Grantor.GKD-Nr" />
     <cell col="1" row="1"  />   
    </panel>
-   <panel id="DPublisherXMetaDiss">
+   <panel id="HiddenPublisherXMetaDiss">
     <hidden var="metadata/publishers/@class" default="MCRMetaXML" />
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/publishers/publisher/cc:universityOrInstitution/cc:name&amp;prop=MCR.WorkflowEngine.Publisher.Name.xmetadiss" />
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/publishers/publisher/cc:universityOrInstitution/cc:place&amp;prop=MCR.WorkflowEngine.Publisher.Place.xmetadiss" />
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/publishers/publisher/cc:universityOrInstitution/@GKD-Nr&amp;prop=MCR.WorkflowEngine.Publisher.GKD-Nr.xmetadiss" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/publishers/publisher/cc:universityOrInstitution/cc:name&amp;prop=MCR.XMetaDissPlus.Publisher.Name" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/publishers/publisher/cc:universityOrInstitution/cc:place&amp;prop=MCR.XMetaDissPlus.Publisher.Place" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/publishers/publisher/cc:universityOrInstitution/@GKD-Nr&amp;prop=MCR.XMetaDissPlus.Publisher.GKD-Nr" />
     <cell col="1" row="1"  />   
-   </panel>   
+   </panel> 
 </imports>

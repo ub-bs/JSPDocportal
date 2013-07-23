@@ -4,123 +4,146 @@
 
   <include uri="webapp:editor/workflow/imports-common.xml" />
 
-
-  <submitButton id="BSubmitDisshab" width="100px" jsaction="return checkMyFormDisshab();">
-    <label i18n="Editor.Common.button.Save" />
-  </submitButton>
-
-<!-- *** Data for the TITLE *** -->
-
-  <text id="LTitleDissP">
-    <label i18n="Editor.Label.TitleDissM" />
-  </text>
-
-<!-- *** Data for the TITLE ** sortnr="1"-->
-
-  <panel id="RTitle_Diss">
-    <hidden var="@inherited" default="0" />
-    <cell col="1" row="1" anchor="NORTHWEST" ref="TFarea1024x3M" />
-    <cell col="2" row="1" anchor="NORTHWEST" ref="Slang" var="@xml:lang" default="de" />
-    <cell col="3" row="1" anchor="NORTHWEST" ref="STitleType" var="@type" default="main" />
+  <helpHover id="Help.xmetadiss.title" i18n="Editor.Help.xmetadiss.title" />
+  <helpHover id="Help.xmetadiss.creator" i18n="Editor.Help.xmetadiss.creator" />
+  <helpHover id="Help.xmetadiss.subject" i18n="Editor.Help.xmetadiss.subject" />
+  <helpHover id="Help.xmetadiss.origin" i18n="Editor.Help.xmetadiss.origin" />
+  <helpHover id="Help.xmetadiss.abstract" i18n="Editor.Help.xmetadiss.abstract" />
+  <helpHover id="Help.xmetadiss.contributor" i18n="Editor.Help.xmetadiss.contributor" />
+  <helpHover id="Help.xmetadiss.date" i18n="Editor.Help.xmetadiss.date" />
+  <helpHover id="Help.xmetadiss.type" i18n="Editor.Help.xmetadiss.type" />
+  <helpHover id="Help.xmetadiss.language" i18n="Editor.Help.xmetadiss.language" />
+  <helpHover id="Help.xmetadiss.keywords" i18n="Editor.Help.xmetadiss.keywords" />
+  <helpHover id="Help.xmetadiss.note" i18n="Editor.Help.xmetadiss.note" />
+  
+  <panel id="HiddenMODS">
+      <hidden var="metadata/def.modsContainer" descendants="true" />
+    <cell col="1" row="1" />
   </panel>
 
+
+  <panel id="HiddenUrn">
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/urns&amp;classname=MCRMetaLangText" />
+    <hidden var="metadata/urns/urn" />
+    <hidden var="metadata/urns/urn/@type" />
+    <hidden var="metadata/urns/urn/@xml:lang" default="de" />
+    <cell col="1" row="1" />
+  </panel>
+
+
+  <panel id="HiddenIdentifierWithDDBContactID">
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/identifiers&amp;classname=MCRMetaLangText" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/identifiers/identifier&amp;prop=MCR.XMetaDissPlus.ContactIdDDB" />
+    <hidden var="metadata/identifiers/identifier/@type" default="ddb:contactID" />
+    <hidden var="metadata/identifiers/identifier/@inherited" default="0" />
+    <hidden var="metadata/identifiers/identifier/@form" default="plain" />
+    <hidden var="metadata/identifiers/identifier/@xml:lang" default="de" />
+    <hidden var="metadata/identifiers/identifier[2]" descendants="true" />
+    <hidden var="metadata/identifiers/identifier[3]" descendants="true" />
+    <hidden var="metadata/identifiers/identifier[4]" descendants="true" />
+    <hidden var="metadata/identifiers/identifier[5]" descendants="true" />
+    <cell col="1" row="1" />
+  </panel>
+
+
+  <panel id="HiddenFormat">
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/formats&amp;classname=MCRMetaClassification" />
+    <hidden var="metadata/formats/format/@inherited" default="0" />
+  <!-- configure this in mycore.properties  -->
+  <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.formats.format.@classid&amp;prop=MCR.ClassificationID.Format&amp;defaultValue=DocPortal_class_00000006" />        
+  <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.formats.format.@categid&amp;prop=MCR.Classification.Format.DefaultCategoryID.xmetadiss&amp;defaultValue=FORMAT0001" />        
+    <!--  <hidden var="@classid" default="DocPortal_class_00000009" />  -->
+    <cell col="1" row="1" anchor="WEST" />
+  </panel>
+  
+  
+   <panel id="HiddenAccessRights_OpenAccess" >
+<!-- *** Data for the Rights 26 ** -->
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/accessrights&amp;classname=MCRMetaClassification" />  
+    <hidden var="metadata/accessrights/accessright/@classid" default="eprintsAccessRights" />
+    <hidden var="metadata/accessrights/accessright/@categid" default="OpenAccess" />
+    <cell col="1" row="1"  />       
+ </panel>
+ 
+    <panel id="HiddenServDates">
+    <hidden var="service/servdates/@class" default="MCRMetaISO8601Date"/>
+      <hidden var="service/servdates/@heritable" default="false" />
+      <hidden var="service/servdates/@notinherit" default="false" />
+      <hidden var="service/servdates/servdate" descendants="true"/> <!-- create date -->
+
+      <cell col="1" row="1" /> 
+  </panel>
+ 
+  <text id="LTitleDissM">
+    <label i18n="Editor.Label.TitleDissM" />
+  </text>
+  
   <panel id="DTitle">
     <hidden var="metadata/titles/@class" default="MCRMetaLangText" />
     <hidden var="metadata/titles/@notinherit" default="false" />
     <hidden var="metadata/titles/@heritable" default="true" />
 
-    <cell col="1" row="1" var="metadata/titles/title" >
-       <repeater min="1" max="4" ref="RTitle_Diss" />
+    <cell col="1" row="1" var="metadata/titles/title">
+      <repeater min="1" max="4">
+        <panel id="RTitle_Diss">
+          <hidden var="@inherited" default="0" />
+          <cell col="1" row="1" anchor="NORTHWEST" ref="TFarea1024x3M" />
+          <cell col="2" row="1" anchor="NORTHWEST" ref="Slang" var="@xml:lang" default="de" />
+          <cell col="3" row="1" anchor="NORTHWEST" ref="STitleType" var="@type" default="main" />
+      </panel>    
+      </repeater>
     </cell>
-
   </panel>
 
-<!-- *** Data for the CREATOR (as TextField)** -->
-  <panel id="DCreator">
-    <hidden var="metadata/creators/@class" default="MCRMetaLangText" />
-    <hidden var="metadata/creators/@notinherit" default="false" />
-    <hidden var="metadata/creators/@heritable" default="true" />
-    <hidden var="metadata/creators/creator/@inherited" default="0" />
-  <!-- ???  <cell col="1" row="1" anchor="NORTHWEST" ref="Slang" var="metadata/creators/creator/@xml:lang" ordernr="2" default="de" /> -->
-    <cell col="2" row="1" anchor="WEST" ref="TFzeile128" var="metadata/creators/creator" ordernr="2" />
-  </panel>
-
-
-<!-- CREATORLINK is in the MASKS itself -->
-
-<!-- SUBJECTS are in the MASKS itself -->
-
-<!-- ** Data for the ORIGIN *** -->
-
-  <list id="COrigin" width="425px" type="dropdown" class="mandatory">
-    <item value="" i18n="Editor.Common.choose" />
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002&amp;withCounter=false" />              
-    <condition id="COriginSelected" regexp=".+" required="true" >
-				<label i18n="Editor.Validate.Selection.Empty" />
-    </condition>    
-  </list>
-
-  <panel id="DOrigin">
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/origins&amp;classname=MCRMetaClassification" />
-    <hidden var="metadata/origins/origin/@inherited" default="0" />
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/origins/origin/@classid&amp;prop=MCR.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002" />               
-    <cell col="1" row="1" anchor="WEST" ref="COrigin" var="metadata/origins/origin/@categid" />
-  </panel>
-
-<!-- *** Data for the Description ** -->
-
-  <panel id="RDescription" anchor="NORTHWEST">
-    <hidden var="@inherited" default="0" />
-    <cell col="1" row="1" anchor="WEST" ref="TFabstract600x10M" />
-    <cell col="2" row="1" anchor="NORTHWEST" ref="Slang" var="@xml:lang" default="de"/>
-    <hidden var="@type" default="abstract" />
-  </panel>
-  <textarea id="TFabstract600x10M" width="60" height="10" maxlength="600" default="" class="mandatory">
-      <condition id="CAbstractlength" maxLength="2400" required="true" >
-      	<label i18n="Editor.Validate.Abstract.Length" /> 
-         </condition>
-  </textarea>
+ <panel id="DSubjects" >
+    <hidden var="metadata/subjects/@class" default="MCRMetaClassification" />
+    <hidden var="metadata/subjects/@notinherit" default="false" />
+    <hidden var="metadata/subjects/@heritable" default="true" />
+    <cell row="1" col="1" anchor="NORTHWEST" var="metadata/subjects/subject">
+       <repeater min="1" max="5" >  
+        <panel lines="off">
+         <hidden var="@inherited" default="0" />
+         <hidden var="@type" default="DDC Classification" />
+           <!-- configure this in mycore.properties  -->
+           <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=@classid&amp;prop=MCR.ClassificationID.DDC&amp;defaultValue=DocPortal_class_00000009" />        
+        <!--  <hidden var="@classid" default="DocPortal_class_00000009" />  -->
+         <hidden var="@categid" />
+         <cell row="1" col="1" width="100%">
+             <output var="@type" /> <text label=" (" /><output var="@categid" default=" " /><text label=")" />
+         </cell>
+         <cell row="1" col="2">
+           <subselect label="Auswählen" id="sub.select2" type="webpage" href="nav?path=~browse_subDDC" />
+         </cell>
+      <!--   <condition id="CSubjectEmtpy" class="org.mycore.frontend.editor.helper.MCREditorClassificationHelper" method="isClassificationSet">
+          <label i18n="Editor.Validate.Selection.Empty" />
+           </condition> 
+           <condition id="CSubjectEmtpy" xsl="count(@categid) &gt; 0" >
+            <label i18n="Editor.Validate.Selection.Empty" />
+           </condition> -->
+         </panel>
+      </repeater>
+    </cell>
+    </panel>
 
   <panel id="DDescription">
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/descriptions&amp;classname=MCRMetaLangText" />
     <cell col="1" row="1" var="metadata/descriptions/description">
-       <repeater min="2" max="5" ref="RDescription" />
+      <repeater min="2" max="5">
+        <panel anchor="NORTHWEST">
+          <hidden var="@inherited" default="0" />
+          <cell col="1" row="1" anchor="WEST">
+            <textarea width="60" height="10" maxlength="600" default="" class="mandatory">
+              <condition id="CAbstractlength" maxLength="2400" required="true">
+                 <label i18n="Editor.Validate.Abstract.Length" />
+              </condition>
+            </textarea>
+          </cell>
+          <cell col="2" row="1" anchor="NORTHWEST" ref="Slang" var="@xml:lang" default="de" />
+          <hidden var="@type" default="abstract" />
+      </panel>
+      </repeater>
     </cell>
   </panel>
-
-<!-- desripturls fehlen -->
-
-<!-- *** Data for the Contributor ** -->
-
-  <panel id="DContributor">
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/contributors&amp;classname=MCRMetaPersonName" />
-    <cell row="1" col="1" anchor="NORTHWEST" var="metadata/contributors/contributor">
-       <repeater min="3" max="8" ref="RContributorReferee" />
-    </cell>
-  </panel>
-
-  <panel id="RContributorReferee">
-    <!-- <hidden var="@xml:lang" default="de" />
-    <hidden var="@inherited" default="0" /> -->
-    <cell col="1" row="1" anchor="WEST" ref="SContributorTypeReferee" var="@type" />
-   <!--  <cell col="1" row="2" anchor="WEST" var="surname">
-    <textfield id="TFContributorSurname"  width="60" maxlength="1024" class="mandatory" >		
-		   <condition id="CContributorSurnameMandatory" regexp=".+" required="true" >
-				<label i18n="Editor.Validate.Name.Empty" />
-         </condition>
-      </textfield>	 
-     </cell> -->
-    <cell col="1" row="2" anchor="WEST" ref="TFzeile1024M" var="surname" />
-    <cell col="2" row="2" anchor="NORTHWEST" ref="APNameSurName" />
-    <cell col="1" row="3" anchor="WEST" ref="TFzeile1024M" var="firstname" />
-    <cell col="2" row="3" anchor="NORTHWEST" ref="APNameFirstName" />
-    <cell col="1" row="4" anchor="WEST" ref="TFzeile1024M" var="academic" />
-    <cell col="2" row="4" anchor="NORTHWEST" ref="APNameAcademic" />
-  </panel>
-
-<!-- contributorlink fehlt -->
-
-<!-- *** Data for the Date ** -->
 
   <panel id="DDate_Diss">
     <hidden var="metadata/dates/@class" default="MCRMetaISO8601Date" />
@@ -129,136 +152,106 @@
       <text class="editorHint" i18n="Editor.Label.DateSubmitted" />
     </cell>
     <cell col="2" row="1" anchor="NORTHWEST" var="metadata/dates/date">
-       <textfield id="TFDateSubmitted"  width="30" maxlength="128" class="mandatory" >		
-		   <condition id="CDateSubmitted" regexp="(\d\d\.\d\d\.\d\d\d\d)|(\d\d\d\d\-\d\d\-\d\d)" required="true" >
-				<label i18n="Editor.Validate.Date.Format" />
-         </condition>
-      </textfield>	 
+      <textfield id="TFDateSubmitted" width="30" maxlength="128" class="mandatory">
+        <condition id="CDateSubmitted" regexp="(\d\d\.\d\d\.\d\d\d\d)|(\d\d\d\d\-\d\d\-\d\d)" required="true">
+          <label i18n="Editor.Validate.Date.Format" />
+        </condition>
+      </textfield>
     </cell>
     <hidden var="metadata/dates/date[2]/@type" default="accepted" />
     <cell col="1" row="2" anchor="NORTHWEST">
       <text class="editorHint" i18n="Editor.Label.DateAccepted" />
     </cell>
-    <cell col="2" row="2" anchor="NORTHWEST"  var="metadata/dates/date[2]" >
-       <textfield id="TFDateAccepted"  width="30" maxlength="128" class="mandatory" >		
-		   <condition id="CDateAccepted" regexp="(\d\d\.\d\d\.\d\d\d\d)|(\d\d\d\d\-\d\d\-\d\d)" required="true" >
-				<label i18n="Editor.Validate.Date.Format" />
-         </condition>
-      </textfield>	 
+    <cell col="2" row="2" anchor="NORTHWEST" var="metadata/dates/date[2]">
+      <textfield id="TFDateAccepted" width="30" maxlength="128" class="mandatory">
+        <condition id="CDateAccepted" regexp="(\d\d\.\d\d\.\d\d\d\d)|(\d\d\d\d\-\d\d\-\d\d)" required="true">
+          <label i18n="Editor.Validate.Date.Format" />
+        </condition>
+      </textfield>
 
     </cell>
-    
+
     <hidden var="metadata/dates/date[3]/@type" default="published" />
     <cell col="1" row="3" anchor="NORTHWEST">
       <text class="editorHint" i18n="Editor.Label.Date_Year.publishing" />
     </cell>
-    <cell col="2" row="3" anchor="NORTHWEST"  var="metadata/dates/date[3]" >
-       <textfield id="TFDatePublished"  width="30" maxlength="128" class="mandatory" >   
-       <condition id="CDatePublished" regexp="(\d\d\.\d\d\.\d\d\d\d)|(\d\d\d\d\-\d\d\-\d\d)|(\d\d\d\d)" required="true" >
-        <label i18n="Editor.Validate.Date.Format" />
-         </condition>
-      </textfield>  
+    <cell col="2" row="3" anchor="NORTHWEST" var="metadata/dates/date[3]">
+      <textfield id="TFDatePublished" width="30" maxlength="128" class="mandatory">
+        <condition id="CDatePublished" regexp="(\d\d\.\d\d\.\d\d\d\d)|(\d\d\d\d\-\d\d\-\d\d)|(\d\d\d\d)"
+          required="true">
+          <label i18n="Editor.Validate.Date.Format" />
+        </condition>
+      </textfield>
     </cell>
-    
+
   </panel>
   
-
-<!-- ** Data for the TYPE *** -->
-
-  <list id="CType" width="425px" type="dropdown" class="mandatory">
-    <item value="" i18n="Editor.Common.choose" />
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getSpecialCategoriesInItems&amp;classProp=MCR.ClassificationID.Type&amp;categoryProp=MCR.Classification.Type.SelectCategoryIDs.xmetadiss&amp;withCounter=false" />                       
-     <condition id="CTypeSelected" regexp=".+" required="true" >
-				<label i18n="Editor.Validate.Selection.Empty" />
-     </condition>
-  </list>
-
   <panel id="DType">
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/types&amp;classname=MCRMetaClassification" />
     <hidden var="metadata/types/type/@inherited" default="0" />
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/types/type/@classid&amp;prop=MCR.ClassificationID.Type&amp;defaultValue=DocPortal_class_00000005" />               
-    <cell col="1" row="1" anchor="WEST" ref="CType" var="metadata/types/type/@categid" />
-  </panel>
-
-<!-- *** only select list for formats -->
-  <list id="SFormat" width="250px" type="dropdown">
-    <item value="" i18n="Editor.Common.choose" />
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Format&amp;defaultValue=DocPortal_class_00000006" />                   
-      <condition id="CFormatSelected" regexp=".+" required="true"  >
-			<label i18n="Editor.Validate.Selection.Empty" />
-     </condition>
-    
-  </list>
-
-<!-- IDENTIFIER fehlt -->
-<!-- SOURCE fehlt -->
-<!-- SOURCELINK fehlt -->
-
-<!-- ** Data for the LANGUAGE *** -->
-
-  <list id="CLanguage" width="425px" type="dropdown" class="mandatory">
-    <item value="" i18n="Editor.Common.choose" />
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getSpecialCategoriesInItems&amp;classProp=MCR.ClassificationID.Language&amp;categoryProp=MCR.Classification.Language.SelectCategoryIDs.xmetadiss&amp;withCounter=false" /> 
-         <condition id="CLanguageSelected" regexp=".+" required="true" >
-				<label i18n="Editor.Validate.Selection.Empty" />
-     </condition>    
-  </list>
-  <panel id="DLanguage">
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/languages&amp;classname=MCRMetaClassification" />
-    <hidden var="metadata/languages/language/@inherited" default="0" />
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/languages/language/@classid&amp;prop=MCR.ClassificationID.Language&amp;defaultValue=DocPortal_class_00000004" />
-    <cell col="1" row="1" anchor="WEST" ref="CLanguage" var="metadata/languages/language/@categid" />
+    <include
+      uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/types/type/@classid&amp;prop=MCR.ClassificationID.Type&amp;defaultValue=DocPortal_class_00000005" />
+    <cell col="1" row="1" anchor="WEST" var="metadata/types/type/@categid">
+      <list id="CType" width="425px" type="dropdown" class="mandatory">
+        <item value="" i18n="Editor.Common.choose" />
+        <include
+          uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getSpecialCategoriesInItems&amp;classProp=MCR.ClassificationID.Type&amp;categoryProp=MCR.Classification.Type.SelectCategoryIDs.xmetadiss&amp;withCounter=false" />
+        <condition id="CTypeSelected" regexp=".+" required="true">
+          <label i18n="Editor.Validate.Selection.Empty" />
+        </condition>
+      </list>
+    </cell>
   </panel>
   
+    
+  <panel id="DOrigin">
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/origins&amp;classname=MCRMetaClassification" />
+    <hidden var="metadata/origins/origin/@inherited" default="0" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/origins/origin/@classid&amp;prop=MCR.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002" />
+    <cell col="1" row="1" anchor="WEST" var="metadata/origins/origin/@categid">
+        <list id="COrigin" width="425px" type="dropdown" class="mandatory">
+          <item value="" i18n="Editor.Common.choose" />
+          <include  uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002&amp;withCounter=false" />
+          <condition id="COriginSelected" regexp=".+" required="true">
+            <label i18n="Editor.Validate.Selection.Empty" />
+          </condition>
+        </list>    
+    </cell>
+  </panel>
+  
+  
   <panel id="DLanguage_RFC4646">
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/languages&amp;classname=MCRMetaClassification" />
+    <include
+      uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/languages&amp;classname=MCRMetaClassification" />
     <hidden var="metadata/languages/language/@inherited" default="0" />
     <hidden var="metadata/languages/language/@classid" default="rfc4646" />
     <cell col="1" row="1" anchor="WEST" var="metadata/languages/language/@categid">
       <list id="CLanguage_RFC4646" width="425px" type="dropdown" class="mandatory">
-         <item value="de" i18n="Editor.Common.language.de" />
-         <item value="en" i18n="Editor.Common.language.en" />
-         <item value="fr" i18n="Editor.Common.language.fr" />
-         <item value="es" i18n="Editor.Common.language.es" />
-         <item value="la" i18n="Editor.Common.language.la" />         
+        <item value="de" i18n="Editor.Common.language.de" />
+        <item value="en" i18n="Editor.Common.language.en" />
+        <item value="fr" i18n="Editor.Common.language.fr" />
+        <item value="es" i18n="Editor.Common.language.es" />
+        <item value="la" i18n="Editor.Common.language.la" />
       </list>
     </cell>
   </panel>
-
-<!-- coveragelink fehlt -->
-<!-- coveragedate fehlt -->
-<!-- relationlink fehlt -->
-<!-- relationisbn fehlt -->
-
-<!-- size fehlt -->
-
-<!-- isbn fehlt -->
-<!-- nbn fehlt -->
-<!-- *** Data for the Note ** -->
-  <panel id="DNote">
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/notes&amp;classname=MCRMetaLangText" />  
+  
+    <panel id="DNote">
+    <include
+      uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/notes&amp;classname=MCRMetaLangText" />
     <hidden var="metadata/notes/note/@inherited" default="0" />
     <cell col="1" row="1" anchor="WEST" ref="TFarea1024x3" var="metadata/notes/note" />
     <cell col="2" row="1" anchor="NORTHWEST" ref="Slang" var="metadata/notes/note/@xml:lang" default="de" />
     <hidden var="metadata/notes/note[2]/@inherited" default="0" />
     <cell col="1" row="2" anchor="WEST" ref="TFarea1024x3" var="metadata/notes/note[2]" />
-    <cell col="2" row="2" anchor="NORTHWEST" ref="SlangEN" var="metadata/notes/note[2]/@xml:lang" default="en" />            
+    <cell col="2" row="2" anchor="NORTHWEST" ref="SlangEN" var="metadata/notes/note[2]/@xml:lang" default="en" />
   </panel>
-<!-- citations fehlt -->
 
-	<helpHover id="Help.xmetadiss.title" i18n="Editor.Help.xmetadiss.title" />
-	<helpHover id="Help.xmetadiss.creatorlink" i18n="Editor.Help.xmetadiss.creatorlink" />
-	<helpHover id="Help.xmetadiss.subject" i18n="Editor.Help.xmetadiss.subject" />
-	<helpHover id="Help.xmetadiss.origin" i18n="Editor.Help.xmetadiss.origin" />
-	<helpHover id="Help.xmetadiss.abstract" i18n="Editor.Help.xmetadiss.abstract" />
-	<helpHover id="Help.xmetadiss.contributor" i18n="Editor.Help.xmetadiss.contributor" />
-	<helpHover id="Help.xmetadiss.date" i18n="Editor.Help.xmetadiss.date" />
-	<helpHover id="Help.xmetadiss.type" i18n="Editor.Help.xmetadiss.type" />
-	<helpHover id="Help.xmetadiss.language" i18n="Editor.Help.xmetadiss.language" />
-	<helpHover id="Help.xmetadiss.keywords" i18n="Editor.Help.xmetadiss.keywords" />
-	<helpHover id="Help.xmetadiss.note" i18n="Editor.Help.xmetadiss.note" />
-	
+  <submitButton id="BSubmitDisshab" width="100px" jsaction="return checkMyFormDisshab();">
+    <label i18n="Editor.Common.button.Save" />
+  </submitButton>
 
+  <!-- OLD OLD OLD OLD OLD OLD OLD OLD OLD -->
 
 </imports>
 
