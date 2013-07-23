@@ -39,7 +39,8 @@
 				<table style="max-width: 600px;margin-top:24px;">
 				<tr>
 					<th><h3>Prozess Nr: <x:out select="./@pid" /></h3></th>
-					<th>
+					<th></th>
+					<th style="text-align: right;">
 						<form method="get" action="${applicationScope.WebApplicationBaseURL}nav">
 							<input type=hidden name="path" value="~process-${type}" /> 
 							<input type=hidden name="pid" value="${pid}" /> 
@@ -48,8 +49,8 @@
 						       	   onClick="return questionDel()" />
 						</form>
 					</th>
-					<th></th>
 				</tr>
+	
 				<tr>
 					<td>Status</td>
 					<td width="30px">&nbsp;</td>
