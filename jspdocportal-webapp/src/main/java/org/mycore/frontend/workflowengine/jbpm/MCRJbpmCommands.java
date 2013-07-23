@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Iterator;
 
 import org.apache.log4j.Logger;
@@ -34,6 +35,7 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.mycore.access.MCRAccessManager;
+import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.MCRException;
 import org.mycore.datamodel.common.MCRActiveLinkException;
 import org.mycore.datamodel.common.MCRXMLMetadataManager;
@@ -247,14 +249,18 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
             LOGGER.error(dirname + " is not a dirctory.");
             return;
         }
-        for(File objectFile:dir.listFiles()){
+        File[] files = dir.listFiles();
+        Arrays.sort(files);
+        for(File objectFile:files){
         	//ignore directories
         	if(objectFile.isDirectory()){continue;}
         	String id = objectFile.getName().substring(0, objectFile.getName().length()-4);
+        	LOGGER.info(" ... processing object " + id);
         	try{
         		MCRObject mcrObj = new MCRObject(objectFile.toURI());
         	    mcrObj.setImportMode(true); //true = servdates are taken from xml file;
         	    MCRMetadataManager.update(mcrObj);
+        	    MCRHIBConnection.instance().getSession().flush();
               	       
         	    //load derivates first:
         	    File objDir = new File(dir, id);
@@ -262,6 +268,7 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
         	    for(File f: objDir.listFiles()){
         	     	if(f.isFile() && f.getName().endsWith(".xml")){
         	     		MCRObjectID derID = MCRObjectID.getInstance(f.getName().substring(0, f.getName().length()-4));
+        	     		LOGGER.info(" ... processing derivate " + derID.toString());
         	     		LOGGER.info("Loading derivate "+f.getAbsolutePath()+" : File exists = "+f.exists());
         	     		if(MCRMetadataManager.exists(derID)){
         	    			MCRDerivateCommands.delete(derID.toString());
@@ -278,6 +285,7 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
 	             		   MCRAccessManager.updateRule(derID, permission, rule.getCondition(), "");
 	             		   mcrDer.getService().removeRule(0);
 	             	   }
+	             	   MCRHIBConnection.instance().getSession().flush(); 
         	    	}
         	    }
         	    }
@@ -286,7 +294,7 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
         	    //set AccessRules
         	    mcrObj = new MCRObject(objectFile.toURI());
         	    mcrObj.setImportMode(true); //true = servdates are taken from xml file;
-        	    MCRMetadataManager.update(mcrObj); 
+        	    MCRMetadataManager.update(mcrObj);
         	    while(mcrObj.getService().getRulesSize()>0){
         	    	MCRMetaAccessRule rule = mcrObj.getService().getRule(0);
         	    	String permission = mcrObj.getService().getRulePermission(0);
