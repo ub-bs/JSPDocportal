@@ -119,17 +119,6 @@
 				</c:if>
 				
 
-				<c:if test="${itemDocType == 'disshab' && !fn:contains(itemID, 'dbhsnb') }">
-					<td align="center" valign="top" width="30">
-					<form method="get"	action="${baseURL}content/docdetails/docdetails_disshab-deliver.jsp"	target="new">
-						<input name="id" value="${itemID}" type="hidden"> 
-						<input name="fromWF" value="true" type="hidden"> 
-						<input title="<fmt:message key="WF.common.object.DisshabAgreement" />"
-							src="${baseURL}images/workflow_disshabpreview.gif" type="image"
-							class="imagebutton">
-					</form>
-					</td>
-				</c:if>
 				<c:if test="${fn:contains('document,disshab,thesis,bundle',itemDocType)&& !fn:contains(itemID, 'dbhsnb') && !fn:contains(itemID, 'rosdok')}">
 				<td align="center" valign="top" width="30">   								
     			<!-- 			<form method="get" action="${baseURL}content/workflow/accessruleeditor.jsp">--> <!--  target="new"> -->
