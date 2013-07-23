@@ -8,6 +8,12 @@ form.editor, div.editor {
 	padding: 8px;
 	border:1px solid #666666; 
 }
+
+table.editor{
+	margin-left:auto;
+	margin-right:auto;
+}
+
 table.editorPanel {  
 	
 }
@@ -38,6 +44,17 @@ td.editorHeadline{
 }
 
 td.editorValidationMessage     { color:#FFFFFF; background-color:#FF0000; padding:3px; }
+
+table.editorRepeater{
+	border-spacing: 4px;
+	border-collapse: separate;
+}
+
+td.editorRepeater{
+	border:1px solid #C6C6C6;
+	background-color: #E6E6E6;
+	padding: 4px;
+}
 /*
 td.editorHeadline              { color:#FFFFFF; background-color:#15516E; padding:3px; }
 
