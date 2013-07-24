@@ -23,7 +23,7 @@
 				</jsp:include>		
 			</td>
 			<td>
-				<a href="${WebApplicationBaseURL}resolve?id=<c:out value='${mcrid}'/>">
+				<a href="${WebApplicationBaseURL}resolve/id/${mcrid}">
 				<c:out value='${title}' /></a>
 			</td>
 		</tr></table>

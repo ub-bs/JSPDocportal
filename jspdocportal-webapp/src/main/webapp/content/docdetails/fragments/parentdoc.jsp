@@ -20,7 +20,7 @@
 		<jsp:param name="formatType" value="${format}" />
 		<jsp:param name="docType" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
 	</jsp:include>		
-	<a href="${WebApplicationBaseURL}resolve?id=<c:out value='${mcrid}'/>"><b><c:out value='${title}' /></b></a>
+	<a href="${WebApplicationBaseURL}resolve/id/${mcrid}"><b><c:out value='${title}' /></b></a>
 	<c:if test="${not empty param.volume}" >;&nbsp;<c:out value="${param.volume}" /></c:if>	
 	<br />
 </c:if>

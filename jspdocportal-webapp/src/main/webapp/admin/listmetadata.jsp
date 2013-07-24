@@ -24,7 +24,7 @@
     Transaction tx  = MCRHIBConnection.instance().getSession().beginTransaction();
 	try{
 		List<String> ids = MCRXMLMetadataManager.instance().listIDsOfType(type);
-		String url = application.getAttribute("WebApplicationBaseURL").toString()+"resolve?id=${id}&amp;xml";
+		String url = application.getAttribute("WebApplicationBaseURL").toString()+"resolve/id/${id}?open=xml";
 		out.append("<ul>\n");
 		for(String id: ids){
 			String u = url.replace("${id}", id);

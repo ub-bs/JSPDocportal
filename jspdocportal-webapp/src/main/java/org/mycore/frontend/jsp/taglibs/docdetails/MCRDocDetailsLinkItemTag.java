@@ -62,8 +62,8 @@ public class MCRDocDetailsLinkItemTag extends SimpleTagSupport {
 		StringBuffer result = new StringBuffer();
 		try {
 			XPathUtil xu = new XPathUtil((PageContext)getJspContext());
-			@SuppressWarnings("unchecked")
-			List nodes = xu.selectNodes(docdetailsRow.getContext(), xp);
+			@SuppressWarnings("rawtypes")
+            List nodes = xu.selectNodes(docdetailsRow.getContext(), xp);
 			if(nodes.size()>0){
 	    		Node n = (Node)nodes.get(0);
 	    		if(n instanceof Element){
@@ -76,7 +76,7 @@ public class MCRDocDetailsLinkItemTag extends SimpleTagSupport {
 		    			}
 		    			else{
 		    				String baseurl = getJspContext().getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE).toString();
-		    				result.append("<a href=\""+baseurl+"resolve?id="+href+"\">"+title+"</a>");
+		    				result.append("<a href=\""+baseurl+"resolve/id/"+href+"\">"+title+"</a>");
 		    			}
 	    			}
 	    			else{

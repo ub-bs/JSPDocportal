@@ -65,7 +65,6 @@ public class MCRDocDetailsShowComplexRefTag extends SimpleTagSupport {
 	 * 
 	 */
 	
-	@SuppressWarnings("unchecked")
 	private String createHTML(){
 		StringBuffer result = new StringBuffer();
 		SAXBuilder sb = new SAXBuilder();
@@ -81,7 +80,7 @@ public class MCRDocDetailsShowComplexRefTag extends SimpleTagSupport {
 				Element eBand = lstBand.get(j);
 				result.append(eBand.getAttributeValue("titel"));
 				result.append(", ");
-				String baseURL = "http://rosdok.uni-rostock.de/resolve?id="+eBand.getAttributeValue("docid")+"&img&page=";
+				String baseURL = "http://rosdok.uni-rostock.de/resolve/id/"+eBand.getAttributeValue("docid")+"/image/page/";
 				String[] pages =eBand.getAttributeValue("seiten").split("\\s");
 				for(int k=0;k<pages.length;k++){
 					String pageLabel = pages[k];

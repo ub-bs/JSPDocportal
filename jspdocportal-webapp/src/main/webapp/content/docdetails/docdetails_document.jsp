@@ -173,8 +173,8 @@
    <mcrdd:row select="/mycoreobject" labelkey="OMD.selflink" showInfo="false" >
    		<mcrdd:outputitem select="./@ID" var="current">
    		   <jsp:element name="a">
-   		   		<jsp:attribute name="href">${applicationScope.WebApplicationBaseURL}resolve?id=<x:out select="string($current)"/></jsp:attribute>
-   		   		<jsp:body>${applicationScope.WebApplicationBaseURL}resolve?id=<x:out select="string($current)"/></jsp:body>
+   		   		<jsp:attribute name="href">${applicationScope.WebApplicationBaseURL}resolve/id/<x:out select="string($current)"/></jsp:attribute>
+   		   		<jsp:body>${applicationScope.WebApplicationBaseURL}resolve/id/<x:out select="string($current)"/></jsp:body>
    		   </jsp:element>
    		</mcrdd:outputitem> 
    	</mcrdd:row>  
