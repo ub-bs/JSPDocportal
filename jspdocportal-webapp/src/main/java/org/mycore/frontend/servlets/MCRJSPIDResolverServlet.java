@@ -39,6 +39,7 @@ import org.jdom2.filter.Filters;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.jdom2.xpath.XPathFactory;
+import org.mycore.common.MCRException;
 import org.mycore.datamodel.ifs.MCRDirectory;
 import org.mycore.datamodel.ifs.MCRDirectoryXML;
 import org.mycore.datamodel.ifs.MCRFile;
@@ -104,9 +105,11 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     		if(request.getParameterMap().containsKey(key)){
     			String value = request.getParameter(key);
     			if(key.equals("id")){
-    				value = value.replace("cpr_staff_0000", "cpr_person_").replace("cpr_professor_0000", "cpr_person_");
+    				value = recalculateMCRObjectID(value);
     			}
-    			queryString = "("+key+" = "+value+")";
+    			if(value!=null){
+    			    queryString = "("+key+" = "+value+")";
+    			}
     			break;
     		}
     	}
@@ -166,6 +169,20 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     		} //end [if(result.getNumHits()>0)]
     	}	
 	}	
+	
+	protected String recalculateMCRObjectID(String oldID){
+	    String result = oldID.replace("cpr_staff_0000", "cpr_person_").replace("cpr_professor_0000", "cpr_person_");
+	    result = result.replace("_series_", "_bundle_");
+	    try{
+	        MCRObjectID mcrID = MCRObjectID.getInstance(result);
+	        return mcrID.toString();
+	    }
+	    catch(MCRException ex){
+	        LOGGER.error(ex.getMessage(), ex);
+	    }
+	    
+	    return null;
+	}
 	
 	protected String createURLForPDF(HttpServletRequest request, String mcrID, String page, String nr){
 				

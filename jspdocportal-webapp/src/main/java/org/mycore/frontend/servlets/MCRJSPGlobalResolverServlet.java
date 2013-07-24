@@ -102,7 +102,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
 
     	String mcrID = null;
     	if("id".equals(key)){
-    		mcrID = value;
+    		mcrID = recalculateMCRObjectID(value);
     	}
     	else{
     		String queryString = "("+key+" = "+value+")";
@@ -148,14 +148,19 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
     		}
     		return;
     	}
-    	if(action.equals("pdf")&&path.length>4){
-    		String url = "";
-    		if(path[3].equals("page")){
-    			url = createURLForPDF(request, mcrID, path[4], null);
-    		}
-    		if(action.equals("nr")){
-    			url = createURLForPDF(request, mcrID, null, path[4]);
-    		}
+    	if(action.equals("pdf")){
+    	    String url = "";
+    	    if(path.length>4){
+    	        if(path[3].equals("page")){
+    	            url = createURLForPDF(request, mcrID, path[4], null);
+    	        }
+    	        if(action.equals("nr")){
+    	            url = createURLForPDF(request, mcrID, null, path[4]);
+    	        }
+    	    }
+    	    else{
+    	        url = createURLForPDF(request, mcrID, null, null);
+    	    }
     		if(url.length()>0){
     			LOGGER.debug("PDF URL: "+url);
     			response.sendRedirect(url);				
