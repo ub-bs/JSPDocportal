@@ -26,7 +26,6 @@ package org.mycore.frontend.servlets;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.StringReader;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -34,8 +33,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.jdom2.Document;
-import org.jdom2.JDOMException;
-import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.mycore.access.MCRAccessManager;
@@ -53,6 +50,7 @@ import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.datamodel.metadata.MCRObjectStructure;
 import org.mycore.services.fieldquery.MCRQuery;
 import org.mycore.services.fieldquery.MCRQueryManager;
+import org.mycore.services.fieldquery.MCRQueryParser;
 import org.mycore.services.fieldquery.MCRResults;
 
 
@@ -107,18 +105,11 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
     		mcrID = value;
     	}
     	else{
-    		StringReader stringReader=new StringReader(createQuery(key, value));
-    		SAXBuilder builder = new SAXBuilder();
-    		Document input = null;
-    		try{
-    			input = builder.build(stringReader);
-    		}
-    		catch(JDOMException e){
-    			LOGGER.error("Error parsing query in url resolver", e);
-    		}
-
-    		MCRResults result = MCRQueryManager.search(MCRQuery.parseXML(input));
-    		if(result.getNumHits()==0){
+    		String queryString = "("+key+" = "+value+")";
+            MCRQuery query = new MCRQuery((new MCRQueryParser()).parse(queryString));
+            MCRResults result = MCRQueryManager.search(query);
+            
+            if(result.getNumHits()>0){
     			getServletContext().getRequestDispatcher("/nav?path=~mycore-error&messageKey=Resolver.error.noObjectFound").forward(request,response);
     			return;
     		}

@@ -23,7 +23,6 @@
 
 package org.mycore.frontend.servlets;
 
-import java.io.StringReader;
 import java.net.URLEncoder;
 import java.util.List;
 
@@ -37,11 +36,9 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 import org.jdom2.filter.Filters;
-import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.jdom2.xpath.XPathFactory;
-
 import org.mycore.datamodel.ifs.MCRDirectory;
 import org.mycore.datamodel.ifs.MCRDirectoryXML;
 import org.mycore.datamodel.ifs.MCRFile;
@@ -54,6 +51,7 @@ import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.datamodel.metadata.MCRObjectStructure;
 import org.mycore.services.fieldquery.MCRQuery;
 import org.mycore.services.fieldquery.MCRQueryManager;
+import org.mycore.services.fieldquery.MCRQueryParser;
 import org.mycore.services.fieldquery.MCRResults;
 
 
@@ -108,7 +106,7 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     			if(key.equals("id")){
     				value = value.replace("cpr_staff_0000", "cpr_person_").replace("cpr_professor_0000", "cpr_person_");
     			}
-    			queryString = createQuery(key, value);
+    			queryString = "("+key+" = "+value+")";
     			break;
     		}
     	}
@@ -116,10 +114,9 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     		getServletContext().getRequestDispatcher("/nav?path=~mycore-error&messageKey=IdNotGiven").forward(request,response);
     	}
     	else{
-    		StringReader stringReader=new StringReader(queryString.toString());
-    		SAXBuilder builder = new SAXBuilder();
-    		Document input = builder.build(stringReader);
-    		MCRResults result = MCRQueryManager.search(MCRQuery.parseXML(input));
+            MCRQuery query = new MCRQuery((new MCRQueryParser()).parse(queryString));
+            MCRResults result = MCRQueryManager.search(query);
+    		
     		if(result.getNumHits()>0){
     			String mcrID = result.getHit(0).getID();
     			if(pdf!=null){
@@ -170,23 +167,6 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     	}	
 	}	
 	
-	
-	
-	protected String createQuery(String key, String value) {
-		StringBuffer queryString = new StringBuffer();
-		queryString = new StringBuffer();
-		queryString.append("<query>");
-		queryString.append("   <conditions format=\"xml\">");
-		queryString.append("      <boolean operator=\"and\">");
-		// queryString.append("       <condition field=\"objectType\" operator=\"=\" value=\"professor\" />");
-		queryString.append("         <condition field=\""+key+"\" operator=\"=\" value=\"" + value + "\" />");
-		queryString.append("      </boolean>");
-		queryString.append("   </conditions>");
-		queryString.append("</query>");
-		
-		return queryString.toString();
-	}
-	
 	protected String createURLForPDF(HttpServletRequest request, String mcrID, String page, String nr){
 				
 	    MCRObject o = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID));
@@ -227,7 +207,7 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 		MCRObjectStructure structure = o.getStructure();
 		MCRMetaLinkID derMetaLink= null;
 		for(MCRMetaLinkID der: structure.getDerivates()){
-			if(der.getXLinkLabel().equals("HTML")){
+			if(der.getXLinkTitle().equals("HTML")){
 				derMetaLink = der;
 			}
 		}
@@ -258,7 +238,7 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 		try{
 		MCRObject o = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID));
 		for(MCRMetaLinkID derMetaLink: o.getStructure().getDerivates()){    					 
-			if("METS".equals(derMetaLink.getXLinkLabel())){
+			if("METS".equals(derMetaLink.getXLinkTitle())){
 				MCRObjectID derID = derMetaLink.getXLinkHrefID();
 				MCRDirectory root = MCRDirectory.getRootDirectory(derID.toString());
 				MCRFilesystemNode[] myfiles = root.getChildren();
