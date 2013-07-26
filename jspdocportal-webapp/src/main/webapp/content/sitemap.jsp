@@ -6,32 +6,29 @@
 <%@ taglib prefix="mcr" uri="http://www.mycore.org/jspdocportal/base.tld" %>
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld" %>
 <fmt:setBundle basename="messages"/>
-<fmt:message var="pageTitle" key="Nav.Archive" /> 
+<fmt:message var="pageTitle" key="Nav.Sitemap" /> 
 <stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
 	<stripes:layout-component name="contents">
 
-<c:set var="Navigation" value="${applicationScope.navDom}" />
-<h2><fmt:message key="Nav.Sitemap" /></h2>
-<table class="max" cellspacing="0" cellpadding="0">
-	<tr width="100%">
-		<th class="sitemap"><fmt:message key="Nav.MainmenueLeft" /></th>
-		<th class="sitemap"><fmt:message key="Nav.MenuAbove" /></th>
-		<th class="sitemap"><fmt:message key="Nav.AdminMenue" /></th>
-	</tr>	
-	<tr valign="top">
-		<td>
-			<x:set scope="session" var="recNavPath" select="$Navigation//navigation[@name='left']/navitem[@name='left']"/>
-			<c:import url="/content/sitemap_items_rec.jsp" />
-		</td>
-		<td>
-			<x:set scope="session" var="recNavPath" select="$Navigation//navigation[@name='top']/navitem[@name='top']"/>
-			<c:import url="/content/sitemap_items_rec.jsp" />
-		</td>
-		<td>
-			<x:set scope="session" var="recNavPath" select="$Navigation//navigation[@name='admin']/navitem[@name='admin']"/>
-			<c:import url="/content/sitemap_items_rec.jsp" />
-		</td>
-	</tr>
-</table>
+		<h2><fmt:message key="Nav.Sitemap" /></h2>
+		<table class="sitemap">
+			<tr width="100%">
+				<th class="sitemap"><fmt:message key="Nav.MainmenueLeft" /></th>
+				<th class="sitemap"><fmt:message key="Nav.MenuAbove" /></th>
+			</tr>	
+			<tr valign="top">
+				<td>
+					<x:set scope="session" var="recNavPath" select="$applicationScope:navDom//*[local-name()='navigation' and @id='left']"/>
+					<c:import url="/content/sitemap_items_rec.jsp" />
+					<x:set scope="session" var="recNavPath" select="$applicationScope:navDom//*[local-name()='navigation' and @id='publish']"/>
+					<c:import url="/content/sitemap_items_rec.jsp" />
+				</td>
+				<td>
+					<x:set scope="session" var="recNavPath" select="$applicationScope:navDom//*[local-name()='navigation' and @id='top']"/>
+					<c:import url="/content/sitemap_items_rec.jsp" />
+				</td>
+			</tr>
+		</table>
+		
 	</stripes:layout-component>
 </stripes:layout-render>    
