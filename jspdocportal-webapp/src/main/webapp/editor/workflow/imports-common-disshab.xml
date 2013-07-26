@@ -191,7 +191,7 @@
       uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/types/type/@classid&amp;prop=MCR.ClassificationID.Type&amp;defaultValue=DocPortal_class_00000005" />
     <cell col="1" row="1" anchor="WEST" var="metadata/types/type/@categid">
       <list id="CType" width="425px" type="dropdown" class="mandatory">
-        <item value="" i18n="Editor.Common.choose" />
+        <!-- <item value="" i18n="Editor.Common.choose" /> -->
         <include
           uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getSpecialCategoriesInItems&amp;classProp=MCR.ClassificationID.Type&amp;categoryProp=MCR.Classification.Type.SelectCategoryIDs.xmetadiss&amp;withCounter=false" />
         <condition id="CTypeSelected" regexp=".+" required="true">
@@ -238,10 +238,10 @@
     <include
       uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/notes&amp;classname=MCRMetaLangText" />
     <hidden var="metadata/notes/note/@inherited" default="0" />
-    <cell col="1" row="1" anchor="WEST" ref="TFarea1024x3" var="metadata/notes/note" />
+    <cell col="1" row="1" anchor="WEST" ref="TFarea4096x4" var="metadata/notes/note" />
     <cell col="2" row="1" anchor="NORTHWEST" ref="Slang" var="metadata/notes/note/@xml:lang" default="de" />
     <hidden var="metadata/notes/note[2]/@inherited" default="0" />
-    <cell col="1" row="2" anchor="WEST" ref="TFarea1024x3" var="metadata/notes/note[2]" />
+    <cell col="1" row="2" anchor="WEST" ref="TFarea4096x4" var="metadata/notes/note[2]" />
     <cell col="2" row="2" anchor="NORTHWEST" ref="SlangEN" var="metadata/notes/note[2]/@xml:lang" default="en" />
   </panel>
 

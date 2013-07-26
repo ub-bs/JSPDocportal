@@ -28,14 +28,13 @@
       <cell col="3" row="2" colspan="2" anchor="NORTHWEST" ref="HiddenUrn" sortnr="2"  />
       <cell col="3" row="3" colspan="2" anchor="NORTHWEST" ref="HiddenIdentifierWithDDBContactID" sortnr="3"  />
 
+    <cell col="1" row="11" anchor="NORTHEAST" ref="Help.xmetadiss.creator" />
+    <cell col="2" row="11" colspan="3" anchor="NORTHWEST" ref="LCreatorXMetaPersM" />
+    <cell col="3" row="12" colspan="2" anchor="NORTHWEST" ref="DCreatorXMetaPers" sortnr="5" />
 
-    <cell col="1" row="11" anchor="NORTHEAST" ref="Help.xmetadiss.title" />
-    <cell col="2" row="11" colspan="3" anchor="NORTHWEST" ref="LTitleDissM" />
-    <cell col="3" row="12" colspan="2" anchor="NORTHWEST" ref="DTitle" sortnr="4" />
-
-    <cell col="1" row="21" anchor="NORTHEAST" ref="Help.xmetadiss.creator" />
-    <cell col="2" row="21" colspan="3" anchor="NORTHWEST" ref="LCreatorXMetaPersM" />
-    <cell col="3" row="22" colspan="2" anchor="NORTHWEST" ref="DCreatorXMetaPers" sortnr="5" />
+    <cell col="1" row="21" anchor="NORTHEAST" ref="Help.xmetadiss.title" />
+    <cell col="2" row="21" colspan="3" anchor="NORTHWEST" ref="LTitleDissM" />
+    <cell col="3" row="22" colspan="2" anchor="NORTHWEST" ref="DTitle" sortnr="4" />    
     
     <cell col="1" row="31" anchor="NORTHEAST" ref="Help.xmetadiss.subject" />
     <cell col="2" row="31" colspan="3" anchor="NORTHWEST" ref="LSubjects" />
