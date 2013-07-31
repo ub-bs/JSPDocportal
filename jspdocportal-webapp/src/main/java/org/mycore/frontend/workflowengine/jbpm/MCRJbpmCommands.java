@@ -49,52 +49,27 @@ import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.datamodel.metadata.MCRObjectStructure;
 import org.mycore.frontend.cli.MCRAbstractCommands;
-import org.mycore.frontend.cli.MCRCommand;
 import org.mycore.frontend.cli.MCRDerivateCommands;
+import org.mycore.frontend.cli.annotation.MCRCommand;
+import org.mycore.frontend.cli.annotation.MCRCommandGroup;
 import org.mycore.services.urn.MCRURNManager;
 import org.xml.sax.SAXParseException;
 
 /**
- * This class provides a set of commands for the org.mycore.access management
- * which can be used by the command line interface.
+ * This class provides a set of commands specific to JSPDocportal
  * 
+ *  
  * @author Heiko Helmbrecht
+ * @author Robert Stephan
+ * 
  * @version $Revision$ $Date$
  */
+
+@MCRCommandGroup(name = "JSPDocportal Commands")
 public class MCRJbpmCommands extends MCRAbstractCommands {
-    /** The ACL interface */
-        
-	/** The logger */
+    /** The logger */
     private static Logger LOGGER = Logger.getLogger(MCRJbpmCommands.class.getName());
-
-    /**
-     * The constructor.
-     */
-    public MCRJbpmCommands() {
-        super();
-
-        MCRCommand com = null;
-
-        com = new MCRCommand("create jbpm database schema", "org.mycore.frontend.workflowengine.jbpm.MCRJbpmCommands.createSchema", "The command DELETES the old workflow database schema and is loading a new empty schema from configuration");
-        addCommand(com);
-        
-        com = new MCRCommand("deploy jbpm processdefinition from file {0}", "org.mycore.frontend.workflowengine.jbpm.MCRJbpmCommands.deployProcessDefinition String", "The command deploys a process definition to the database from the file {0}");
-        addCommand(com);
-        
-        com = new MCRCommand("delete jbpm process {0}", "org.mycore.frontend.workflowengine.jbpm.MCRJbpmCommands.deleteProcess String", "The command deletes a processinstance of the jbpm workflow engine {0}");
-        addCommand(com);     
-        
-        com = new MCRCommand("backup all objects of type {0} to directory {1}", "org.mycore.frontend.workflowengine.jbpm.MCRJbpmCommands.backupAllObjects String String", "The command backups all objects of type {0} into the directory {1} including all derivates");
-        addCommand(com);
-        
-        com = new MCRCommand("restore all objects from directory {0}", "org.mycore.frontend.workflowengine.jbpm.MCRJbpmCommands.restoreAllObjects String", "The command restores all objects from directory {0} including all derivates");
-        addCommand(com);
-        
-        com = new MCRCommand("repair urn store", "org.mycore.frontend.workflowengine.jbpm.MCRJbpmCommands.repairURNStore", "The command parses through all metadata objects and updates the urns in the URN store if necessary");
-        addCommand(com);
-        
-    }
-
+    
     /**
      * The command deletes a process instance of the workflow engine
      * 	if you've got to do this, you must restart your application server
@@ -103,6 +78,8 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
      *        		String processId as String
      * @throws MCRException
      */
+    
+    @MCRCommand(syntax = "delete jbpm process {0}", help = "The command deletes a process instance of the jbpm workflow engine {0}")
     public static final void deleteProcess(String strProcessID) throws MCRException{
     	try{
     		long processID = Long.valueOf(strProcessID).longValue();
@@ -121,6 +98,7 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
      * @param resource 
      *               the filename of a class resource with the jbpm-processdefinition
      */
+    @MCRCommand(syntax = "deploy jbpm processdefinition from file {0}", help = "The command deploys a process definition to the database from the file {0}")
     public static final void deployProcessDefinition(String resource) throws MCRException{
     	try{
     		MCRJbpmWorkflowBase wfb = new MCRJbpmWorkflowBase();
@@ -137,6 +115,7 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
      * and deletes the old one
      * 
      */
+    @MCRCommand(syntax = "create jbpm database schema", help = "The command DELETES the old workflow database schema and is loading a new empty schema from configuration")
     public static final void createSchema() throws MCRException{
     	try{
     		MCRJbpmWorkflowBase.createSchema();
@@ -167,6 +146,7 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
      * @param dirname
      *            the filename to store the object 
      */
+    @MCRCommand(syntax = "backup all objects of type {0} to directory {1}", help = "The command backups all objects of type {0} into the directory {1} including all derivates")
     public static final void backupAllObjects(String type, String dirname) {
         // check dirname
         File dir = new File(dirname);
@@ -242,6 +222,7 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
      *            the directory name from where to restore the objects
      * 
      */
+    @MCRCommand(syntax = "restore all objects from directory {0}", help = "The command restores all objects from directory {0} including all derivates")
     public static final void restoreAllObjects(String dirname) {
         // check dirname
         File dir = new File(dirname);
@@ -326,6 +307,8 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
      * Updates the URN Store by parsing all Metadata Objects
      * 
      */
+    
+    @MCRCommand(syntax = "repair urn store", help = "The command parses through all metadata objects and updates the urns in the URN store if necessary")
     public static final void repairURNStore() throws MCRException{
     	try{
     		 for (String mcrid : MCRXMLMetadataManager.instance().listIDs()) {
