@@ -9,8 +9,18 @@
 <%-- Parameter: id - the MCR Object ID--%>
 <%-- Parameter: fromWF - from Workflow or database --%>
 
+
 <mcrdd:docdetails mcrID="${param.id}" lang="de" fromWorkflow="${param.fromWF}" outputStyle="table"> 
 	<mcrdd:setnamespace prefix="xlink" uri="http://www.w3.org/1999/xlink" />
+	<mcrdd:row select="/mycoreobject/structure/parents/parent" labelkey="" showInfo="false">
+			<mcrdd:outputitem select="." var="xml" >
+			<x:forEach select="$xml">
+				<c:set var="idparam"><x:out select="./@*[local-name()='href']" /></c:set>
+  					<span class="button"><a href="${WebApplicationBaseURL}resolve/id/${idparam}"><fmt:message key="Webpage.docdetails.gotoParent" /></a></span>
+  				</x:forEach>
+		</mcrdd:outputitem>     
+	</mcrdd:row>
+
     <mcrdd:row select="/mycoreobject/metadata/titles/title[@type='original-main']" labelkey="OMD.maintitle" showInfo="false">
 		<mcrdd:item select="./text()"  styleName="docdetails-value-title" />              
     </mcrdd:row>
