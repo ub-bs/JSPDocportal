@@ -279,8 +279,7 @@ public class MCROutputNavigationTag extends SimpleTagSupport {
 			}
 
 			out.append(indent + "   </ul>");
-			out.flush();
-
+			
 			if (tx == null || !tx.isActive()) {
 				t1.commit();
 			}
