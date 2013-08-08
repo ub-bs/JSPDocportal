@@ -104,22 +104,26 @@ public class NavServlet extends MCRServlet {
 	 * retrieves the baseURL - this can only be done by a servlet
 	 */
 	public void setBaseURL(HttpServletRequest request) {
-		ServletContext context = getServletContext();
-		if (context.getAttribute("WebApplicationBaseURL") == null) {
-			logger.debug("baseURL is null");
+		initWebApplicationBaseURL(getServletContext(), request);
+		
+	}
+	
+	public static void initWebApplicationBaseURL(ServletContext context, HttpServletRequest request){
+	    if (context.getAttribute("WebApplicationBaseURL") == null) {
+            logger.debug("baseURL is null");
 
-			String contextPath = request.getContextPath();
-			if (contextPath == null) {
-				contextPath = "";
-			}
-			contextPath += "/";
-			String requestURL = request.getRequestURL().toString();
-			int pos = requestURL.indexOf(contextPath, 9);
-			String baseURL = requestURL.substring(0, pos) + contextPath;
+            String contextPath = request.getContextPath();
+            if (contextPath == null) {
+                contextPath = "";
+            }
+            contextPath += "/";
+            String requestURL = request.getRequestURL().toString();
+            int pos = requestURL.indexOf(contextPath, 9);
+            String baseURL = requestURL.substring(0, pos) + contextPath;
 
-			context.setAttribute("WebApplicationBaseURL", baseURL);
-			logger.debug("baseURL now set to: " + baseURL);
-		}
+            context.setAttribute("WebApplicationBaseURL", baseURL);
+            logger.debug("baseURL now set to: " + baseURL);
+        }
 	}
 
 	private String createPath(Element navItem, String subPath) {
