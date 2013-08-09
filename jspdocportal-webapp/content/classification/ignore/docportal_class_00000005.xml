@@ -5,7 +5,7 @@
     <label xml:lang="x-dini" text="pub-type" description="DINI formal publication type" />
   <categories>
     <category ID="TYPE0001">
-      <label xml:lang="de" text="selbständige Publikation" />
+      <label xml:lang="de" text="selbstständige Publikation" />
       <label xml:lang="en" text="independent publication" />
       <category ID="TYPE0001.001">
         <label xml:lang="de" text="Monographie" />
@@ -52,7 +52,7 @@
 
     </category>
     <category ID="TYPE0002">
-      <label xml:lang="de" text="unselbständige Publikation" />
+      <label xml:lang="de" text="unselbstständige Publikation" />
       <label xml:lang="en" text="dependent publication" />
       <category ID="TYPE0002.001">
         <label xml:lang="de" text="Aufsatz/Artikel" />
