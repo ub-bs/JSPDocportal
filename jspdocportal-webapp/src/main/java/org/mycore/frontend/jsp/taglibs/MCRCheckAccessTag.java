@@ -44,10 +44,15 @@ public class MCRCheckAccessTag extends SimpleTagSupport
 			}
 			PageContext pageContext = (PageContext) getJspContext();
 			MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)pageContext.getRequest());
-			if(! MCRSessionMgr.getCurrentSession().equals(mcrSession)){
-				MCRSessionMgr.releaseCurrentSession();
+			
+			if(! MCRSessionMgr.hasCurrentSession()){
 				MCRSessionMgr.setCurrentSession(mcrSession);
 			}
+			/*
+		     if(! MCRSessionMgr.getCurrentSession().equals(mcrSession)){
+	                MCRSessionMgr.releaseCurrentSession();
+	                MCRSessionMgr.setCurrentSession(mcrSession);
+	        }*/
 			
 			String userID = mcrSession.getUserInformation().getUserID();
 			if ("guest gast".contains(userID)){
