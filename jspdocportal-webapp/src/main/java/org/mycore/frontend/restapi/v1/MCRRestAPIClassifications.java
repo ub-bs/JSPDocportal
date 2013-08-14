@@ -38,6 +38,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 import org.jdom2.Document;
@@ -54,6 +55,7 @@ import org.mycore.datamodel.classifications2.MCRCategoryDAO;
 import org.mycore.datamodel.classifications2.MCRCategoryID;
 import org.mycore.datamodel.classifications2.impl.MCRCategoryDAOImpl;
 import org.mycore.datamodel.classifications2.utils.MCRCategoryTransformer;
+import org.mycore.services.fieldquery.MCRDefaultQueryEngine;
 import org.mycore.services.fieldquery.MCRQuery;
 import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.services.fieldquery.MCRQueryParser;
@@ -376,8 +378,15 @@ public class MCRRestAPIClassifications extends HttpServlet {
 	}
 	
 	private void filterNonEmpty(String classId, Element e){
-		for(int i=0;i<e.getChildren("category").size();i++){
+	    //reduce log level
+	    Logger loggerQueryEngine = Logger.getLogger(MCRDefaultQueryEngine.class); 
+	    Level oldDebugLevel = loggerQueryEngine.getLevel();
+	    loggerQueryEngine.setLevel(Level.WARN);
+	    
+	    for(int i=0;i<e.getChildren("category").size();i++){
 			Element cat = e.getChildren("category").get(i);
+			
+			
 			MCRQuery query = new MCRQuery((new MCRQueryParser()).parse("(category = \""+classId+":"+cat.getAttributeValue("ID")+"\")"));
 			MCRResults result = MCRQueryManager.search(query);
 			if(result.getNumHits()==0){
@@ -387,6 +396,8 @@ public class MCRRestAPIClassifications extends HttpServlet {
 		}
 		for(int i=0;i<e.getChildren("category").size();i++){
 			filterNonEmpty(classId, e.getChildren("category").get(i));			
-		}	
+		}
+		
+		loggerQueryEngine.setLevel(oldDebugLevel);
 	}
 }
