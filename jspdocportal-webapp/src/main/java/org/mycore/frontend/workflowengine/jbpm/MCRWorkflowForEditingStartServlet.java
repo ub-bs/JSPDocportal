@@ -63,7 +63,10 @@ public class MCRWorkflowForEditingStartServlet extends MCRServlet {
 		MCRRequestParameters parms;
 		parms = new MCRRequestParameters(request);
 		mcrid = parms.getParameter("mcrid");
-
+		if(!MCRSessionMgr.hasCurrentSession()){
+		    MCRSessionMgr.setCurrentSession(MCRServlet.getSession(request));
+		}
+		
 		if (!MCRAccessManager.checkPermission(mcrid, "writedb" )) {
 			String lang   = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
 			String usererrorpage = "nav?path=~mycore-error?messageKey=WF.common.PrivilegesError&lang=" + lang;

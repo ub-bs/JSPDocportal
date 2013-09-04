@@ -46,7 +46,9 @@ public class MCRSessionTag extends SimpleTagSupport
 		if(method.equals("init")){
 		    if(!MCRSessionMgr.hasCurrentSession()){
 		        //init session
-		        MCRServlet.getSession((HttpServletRequest)pageContext.getRequest());		        
+		        
+		         MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)pageContext.getRequest());
+		         MCRSessionMgr.setCurrentSession(mcrSession);
 		    }
 		    return;
 		}
