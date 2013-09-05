@@ -157,7 +157,7 @@ public class MCRIndexBrowserTag extends SimpleTagSupport {
 			sbParams.append("&amp;XSL.subselect.varpath.SESSION=");
 			sbParams.append(subselect_varpath);
 			sbParams.append("&amp;XSL.subselect.webpage.SESSION=");
-			sbParams.append(URLEncoder.encode(subselect_webpage, "ISO-8859-1"));
+			sbParams.append(URLEncoder.encode(subselect_webpage, "UTF-8"));
 
 			String subselect_params = sbParams.toString();
 			JspWriter out = getJspContext().getOut();
@@ -307,13 +307,13 @@ public class MCRIndexBrowserTag extends SimpleTagSupport {
 
 				if (e.getName().equals("value")) {
 					String title = e.getChildText("idx");
-					String titleEnc = URLEncoder.encode(title, "ISO-8859-1");
+					String titleEnc = URLEncoder.encode(title, "UTF-8");
 					StringBuffer sbUrl = new StringBuffer(webApplicationBaseURL);
 					if (isSubselect) {
 						sbUrl.append("servlets/").append("XMLEditor?_action=end.subselect");
 						sbUrl.append("&amp;subselect.session=").append(subselect_session);
 						sbUrl.append("&amp;subselect.varpath=").append(subselect_varpath);
-						sbUrl.append("&amp;subselect.webpage=").append(URLEncoder.encode(subselect_webpage, "ISO-8859-1"));
+						sbUrl.append("&amp;subselect.webpage=").append(URLEncoder.encode(subselect_webpage, "UTF-8"));
 
 						getJspContext().setAttribute(varURLName,
 								sbUrl.toString() + "&amp;_var_@xlink:href=" + e.getChildText("id") + "&amp;_var_@xlink:title=" + titleEnc);

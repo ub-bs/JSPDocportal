@@ -517,9 +517,9 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 				url.append("?_action=end.subselect");
 				url.append("&subselect.session="+request.getParameter("XSL.subselect.session.SESSION"));
 				url.append("&subselect.varpath="+request.getParameter("XSL.subselect.varpath.SESSION"));
-				url.append("&subselect.webpage="+URLEncoder.encode(request.getParameter("XSL.subselect.webpage.SESSION"), "ISO-8859-1"));
+				url.append("&subselect.webpage="+URLEncoder.encode(request.getParameter("XSL.subselect.webpage.SESSION"), "UTF-8"));
 				url.append("&_var_@categid="+categ.getId().getID());
-				url.append("&_var_@type="+URLEncoder.encode(categ.getCurrentLabel().getText(), "ISO-8859-1"));
+				url.append("&_var_@type="+URLEncoder.encode(categ.getCurrentLabel().getText(), "UTF-8"));
 				
 			}
 			else{
