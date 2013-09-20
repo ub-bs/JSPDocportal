@@ -20,9 +20,9 @@ public class MCRDocumentMetadataStrategy extends MCRDefaultMetadataStrategy {
 	public void setWorkflowVariablesFromMetadata(ContextInstance ctxI, Element metadata) {
 		super.setWorkflowVariablesFromMetadata(ctxI, metadata);
         StringBuffer sbTitle = new StringBuffer("");
-        for(Iterator it = metadata.getDescendants(new ElementFilter("title")); it.hasNext();){
-            Element title = (Element)it.next();
-            if(title.getAttributeValue("type").equals("main"))
+        for(Iterator<Element> it = metadata.getDescendants(new ElementFilter("title")); it.hasNext();){
+            Element title = it.next();
+            if(title.getParentElement().getName().equals("titles") && title.getAttributeValue("type").equals("main"))
                 sbTitle.append(title.getText());
                 break;
         }

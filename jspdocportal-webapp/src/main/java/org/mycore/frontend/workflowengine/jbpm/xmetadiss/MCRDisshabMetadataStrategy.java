@@ -21,7 +21,7 @@ public class MCRDisshabMetadataStrategy extends MCRDefaultMetadataStrategy {
 		StringBuffer sbTitle = new StringBuffer("");
 		for(Iterator<Element> it = metadata.getDescendants(new ElementFilter("title")); it.hasNext();){
 			Element title = it.next();
-			if(title.getAttributeValue("type").equals("original-main"))
+			if(title.getParentElement().getName().equals("titles") && title.getAttributeValue("type").equals("original-main"))
 				sbTitle.append(title.getText());
 		}
 		if(sbTitle.length()>200){

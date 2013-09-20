@@ -15,16 +15,16 @@ public class MCRBundleMetadataStrategy extends MCRDefaultMetadataStrategy {
 	
 	public void setWorkflowVariablesFromMetadata(ContextInstance ctxI, Element metadata) {
 		StringBuffer sbTitle = new StringBuffer("");
-		for(Iterator it = metadata.getDescendants(new ElementFilter("title")); it.hasNext();){
-			Element title = (Element)it.next();
-			if(title.getAttributeValue("type").equals("original-main"))
+		for(Iterator<Element> it = metadata.getDescendants(new ElementFilter("title")); it.hasNext();){
+			Element title = it.next();
+			if(title.getParentElement().getName().equals("titles") && title.getAttributeValue("type").equals("original-main"))
 				sbTitle.append(title.getText());
 		}
 		ctxI.setVariable("wfo-title", sbTitle.toString());	
 		
 		StringBuffer sbAuthorNames = new StringBuffer("");
-		for(Iterator it = metadata.getDescendants(new ElementFilter("creator")); it.hasNext();){
-				Element creator = (Element)it.next();
+		for(Iterator<Element> it = metadata.getDescendants(new ElementFilter("creator")); it.hasNext();){
+				Element creator = it.next();
 				sbAuthorNames.append(creator.getText());
 				if(it.hasNext()){ sbAuthorNames.append("; ");}
 			}	

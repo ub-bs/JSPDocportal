@@ -15,9 +15,9 @@ public class MCRThesisMetadataStrategy extends MCRDefaultMetadataStrategy {
 	
 	public void setWorkflowVariablesFromMetadata(ContextInstance ctxI, Element metadata) {
 		StringBuffer sbTitle = new StringBuffer("");
-		for(Iterator it = metadata.getDescendants(new ElementFilter("title")); it.hasNext();){
-			Element title = (Element)it.next();
-			if(title.getAttributeValue("type").equals("original-main"))
+		for(Iterator<Element> it = metadata.getDescendants(new ElementFilter("title")); it.hasNext();){
+			Element title = it.next();
+			if(title.getParentElement().getName().equals("titles") && title.getAttributeValue("type").equals("original-main"))
 				sbTitle.append(title.getText());
 		}
         if(sbTitle.length()>200){
@@ -29,16 +29,16 @@ public class MCRThesisMetadataStrategy extends MCRDefaultMetadataStrategy {
 			
 		
 		StringBuffer sbAuthorNames = new StringBuffer("");
-		for(Iterator it = metadata.getDescendants(new ElementFilter("creator")); it.hasNext();){
-				Element creator = (Element)it.next();
+		for(Iterator<Element> it = metadata.getDescendants(new ElementFilter("creator")); it.hasNext();){
+				Element creator = it.next();
 				sbAuthorNames.append(creator.getText());
 				if(it.hasNext()){ sbAuthorNames.append("; ");}
 			}	
 		ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_AUTHOR_NAMES, sbAuthorNames.toString());
 		
 		StringBuffer sbURN = new StringBuffer("");
-		for(Iterator it = metadata.getDescendants(new ElementFilter("urn")); it.hasNext();){
-			Element e = (Element)it.next();
+		for(Iterator<Element> it = metadata.getDescendants(new ElementFilter("urn")); it.hasNext();){
+			Element e = it.next();
 			sbURN.append(e.getText());
 			//should not happen!!!
 			if(it.hasNext()){ sbURN.append(", ");}
