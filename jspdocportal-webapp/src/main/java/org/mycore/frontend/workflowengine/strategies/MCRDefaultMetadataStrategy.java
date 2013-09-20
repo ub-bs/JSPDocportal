@@ -223,8 +223,8 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 
 	public void setWorkflowVariablesFromMetadata(ContextInstance ctxI, Element metadata) {
 		StringBuffer sbTitle = new StringBuffer("");
-		for(Iterator it = metadata.getDescendants(new ElementFilter("title")); it.hasNext();){
-			Element title = (Element)it.next();
+		for(Iterator<Element> it = metadata.getDescendants(new ElementFilter("title")); it.hasNext();){
+			Element title = it.next();
 			sbTitle.append(title.getText());
 		}
 		if(sbTitle.length() == 0){
