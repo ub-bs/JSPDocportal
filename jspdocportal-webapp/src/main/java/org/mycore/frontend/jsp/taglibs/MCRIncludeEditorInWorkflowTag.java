@@ -25,12 +25,13 @@ import org.apache.log4j.Logger;
 import org.jdom2.Document;
 import org.jdom2.JDOMException;
 import org.jdom2.transform.JDOMSource;
-import org.mycore.common.MCRSessionMgr;
+import org.mycore.common.MCRSession;
 import org.mycore.common.content.MCRFileContent;
 import org.mycore.common.xml.MCRURIResolver;
 import org.mycore.common.xsl.MCRParameterCollector;
 import org.mycore.frontend.editor.MCREditorServlet;
 import org.mycore.frontend.jsp.NavServlet;
+import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 import org.xml.sax.SAXException;
 
@@ -214,7 +215,8 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 			cancelPage 	=  NavServlet.getBaseURL() + "nav?path=~workflow-" + workflowType;			
 		}		
 		
-		params.put("lang" , MCRSessionMgr.getCurrentSession().getCurrentLanguage());
+		MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)((PageContext) getJspContext()).getRequest());
+		params.put("lang" , mcrSession.getCurrentLanguage());
 		params.put("XSL.editor.source.new", isNewEditorSource);
 		params.put("mcrid", mcrid);
 		params.put("processid", String.valueOf(processid));

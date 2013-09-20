@@ -82,8 +82,6 @@ public abstract class MCRDerivateStrategy {
 	 * TODO check, why is here a userid required???
 	 */
 	public String addNewDerivateToWorkflowObject(String derivateDirectory, String metadataObjectId){
-		String lang = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
-		
 		MCRObjectID IDMax = setNextFreeDerivateID();
 		
 		logger.debug("New derivate ID " + IDMax.toString());

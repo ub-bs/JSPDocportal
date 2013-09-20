@@ -5,6 +5,7 @@ import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
@@ -15,6 +16,7 @@ import org.jdom2.Element;
 import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
+import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.services.fieldquery.MCRCachedQueryData;
@@ -77,10 +79,13 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 	   		if(tx==null || !tx.isActive()){
 				t1 = MCRHIBConnection.instance().getSession().beginTransaction();
 			}
-			ResourceBundle messages = PropertyResourceBundle.getBundle(languageBundleBase, new Locale(MCRSessionMgr
-					.getCurrentSession().getCurrentLanguage()));
-
-			PageContext ctx = (PageContext) getJspContext();
+			 
+	   		PageContext ctx = (PageContext) getJspContext();
+			 MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest) ctx.getRequest());
+		     String lang = mcrSession.getCurrentLanguage();
+		     ResourceBundle messages = PropertyResourceBundle.getBundle(languageBundleBase, new Locale(lang));
+			
+			
 			String qid = ctx.getRequest().getParameter("id");
 			MCRCachedQueryData qd = MCRCachedQueryData.getData(qid);
 
@@ -121,7 +126,7 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 			id = results.getID();
 			results.buildXML(start, stop);
 
-			String path = (String)MCRSessionMgr.getCurrentSession().get("navPath");
+			String path = (String)mcrSession.get("navPath");
 			if(path==null){
 				path="";
 			}
@@ -226,8 +231,11 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 	//36.168 Publications	      Erste Seite | 11-20 | 21-30 | 31-40 | 41-50 | 51-60 | Nächste Seite
 	private void writePageNavigation(JspWriter out, String id, int numHits, int numPerPage, int numPages, int page, String mask) throws IOException{
 		String webBaseURL = MCRServlet.getBaseURL();
-		ResourceBundle messages = PropertyResourceBundle.getBundle(languageBundleBase, new Locale(MCRSessionMgr
-				.getCurrentSession().getCurrentLanguage()));
+		PageContext pageContext = (PageContext) getJspContext();
+		MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest) pageContext.getRequest());
+	    String lang = mcrSession.getCurrentLanguage();
+	    ResourceBundle messages = PropertyResourceBundle.getBundle(languageBundleBase, new Locale(lang));
+		
 		out.write("<!-- Searchresult PageNavigation -->");
 		out.write("\n<div class=\"searchresult-navigation\">");
 		out.write("\n   <div class=\"hitcount\">");

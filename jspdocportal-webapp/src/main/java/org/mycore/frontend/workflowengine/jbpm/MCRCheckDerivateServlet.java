@@ -32,7 +32,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRSession;
-import org.mycore.common.MCRSessionMgr;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.editor.MCREditorSubmission;
 import org.mycore.frontend.editor.MCRRequestParameters;
@@ -88,7 +87,7 @@ public class MCRCheckDerivateServlet extends MCRServlet {
 		
 		// get the MCRSession object for the current thread from the session
 		// manager.
-		MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
+		MCRSession mcrSession = MCRServlet.getSession(request);
 		String lang = mcrSession.getCurrentLanguage();
 		MCRObjectID ID = MCRObjectID.getInstance(objid);
 		String workdir = MCRWorkflowDirectoryManager.getWorkflowDirectory(ID.getTypeId());

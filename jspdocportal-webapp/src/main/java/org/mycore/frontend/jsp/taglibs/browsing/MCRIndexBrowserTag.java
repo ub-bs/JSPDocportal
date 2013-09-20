@@ -19,7 +19,7 @@ import org.jdom2.filter.Filters;
 import org.jdom2.output.DOMOutputter;
 import org.jdom2.xpath.XPathFactory;
 import org.mycore.common.MCRConfiguration;
-import org.mycore.common.MCRSessionMgr;
+import org.mycore.common.MCRSession;
 import org.mycore.frontend.indexbrowser.lucene.MCRIndexBrowserConfig;
 import org.mycore.frontend.indexbrowser.lucene.MCRIndexBrowserIncomingData;
 import org.mycore.frontend.indexbrowser.lucene.MCRIndexBrowserUtils;
@@ -109,7 +109,9 @@ public class MCRIndexBrowserTag extends SimpleTagSupport {
 
 	public void doTag() {
 		try {
-			ResourceBundle messages = PropertyResourceBundle.getBundle(languageBundleBase, new Locale(MCRSessionMgr.getCurrentSession().getCurrentLanguage()));
+		    MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)((PageContext) getJspContext()).getRequest());
+	        String lang = mcrSession.getCurrentLanguage();
+			ResourceBundle messages = PropertyResourceBundle.getBundle(languageBundleBase, new Locale(lang));
 
 			PageContext ctx = (PageContext) getJspContext();
 			incomingBrowserData = MCRIndexBrowserUtils.getIncomingBrowserData((HttpServletRequest) ctx.getRequest());

@@ -11,7 +11,6 @@ import org.jdom2.filter.Filters;
 import org.jdom2.input.DOMBuilder;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
-import org.mycore.common.MCRSessionMgr;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
 
@@ -42,7 +41,7 @@ public class NavServlet extends MCRServlet {
 		if (path == null) {
 			path = "left.start";
 		}
-		logger.debug("Navigation servlet called with path " + path + " (session " + MCRSessionMgr.getCurrentSessionID() + ")");
+		logger.debug("Navigation servlet called with path " + path + " (session " + MCRServlet.getSession(request).getID() + ")");
 
 		Element navitem = null;
 
@@ -68,7 +67,7 @@ public class NavServlet extends MCRServlet {
 			navitem = XPathFactory.instance().compile("/n:navigations//n:navitem[1]", Filters.element(), null, NS_NAV).evaluateFirst(navJdom);
 		}
 
-		MCRSessionMgr.getCurrentSession().put("navPath", createPath(navitem, null));
+		MCRServlet.getSession(request).put("navPath", createPath(navitem, null));
 		String contentPage = navitem.getAttributeValue("href");
 		String extern = navitem.getAttributeValue("extern");
 		if (extern != null && extern.equals("true")) {

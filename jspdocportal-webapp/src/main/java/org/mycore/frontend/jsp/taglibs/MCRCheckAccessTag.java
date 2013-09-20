@@ -45,7 +45,8 @@ public class MCRCheckAccessTag extends SimpleTagSupport
 			PageContext pageContext = (PageContext) getJspContext();
 			MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)pageContext.getRequest());
 			
-			if(! MCRSessionMgr.hasCurrentSession()){
+			if(! mcrSession.getID().equals(MCRSessionMgr.getCurrentSessionID()) ){
+			    MCRSessionMgr.releaseCurrentSession();
 				MCRSessionMgr.setCurrentSession(mcrSession);
 			}
 			/*

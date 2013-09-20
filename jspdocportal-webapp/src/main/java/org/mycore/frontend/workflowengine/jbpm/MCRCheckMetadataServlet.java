@@ -34,7 +34,6 @@ import org.apache.log4j.Logger;
 import org.jdom2.Document;
 import org.jdom2.output.Format;
 import org.mycore.common.MCRSession;
-import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.MCRUtils;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.datamodel.metadata.validator.MCREditorOutValidator;
@@ -99,7 +98,7 @@ public class MCRCheckMetadataServlet extends MCRServlet {
         
         // get the MCRSession object for the current thread from the session
         // manager.
-        MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
+        MCRSession mcrSession = MCRServlet.getSession(request);
         String lang = mcrSession.getCurrentLanguage();
         LOGGER.info("LANG = " + lang);
 
@@ -269,7 +268,7 @@ public class MCRCheckMetadataServlet extends MCRServlet {
         
         // get the MCRSession object for the current thread from the session
         // manager.
-        MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
+        MCRSession mcrSession = MCRServlet.getSession(request);
         String lang = mcrSession.getCurrentLanguage();
         LOGGER.info("LANG = " + lang);
 

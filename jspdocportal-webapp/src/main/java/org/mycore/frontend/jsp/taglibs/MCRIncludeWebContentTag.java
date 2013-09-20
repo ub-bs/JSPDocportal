@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
@@ -18,7 +19,7 @@ import org.hibernate.Transaction;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.MCRConfiguration;
-import org.mycore.common.MCRSessionMgr;
+import org.mycore.common.MCRSession;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.services.i18n.MCRTranslation;
 
@@ -180,7 +181,8 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 	 * @throws IOException
 	 */
 	private void adaptFiles()throws IOException{
-		String lang = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
+	    MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)((PageContext) getJspContext()).getRequest());
+		String lang = mcrSession.getCurrentLanguage();
 		String foldername = CONFIG.getString("MCR.WebContent.Folder");
 		String storeFolderName=CONFIG.getString("MCR.WebContent.SaveFolder");
 		PageContext pageContext = (PageContext) getJspContext();

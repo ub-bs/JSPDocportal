@@ -5,6 +5,7 @@ import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
@@ -18,9 +19,9 @@ import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRSession;
-import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.MCRSystemUserInformation;
 import org.mycore.frontend.jsp.user.MCRExternalUserLogin;
+import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.user2.MCRRole;
 import org.mycore.user2.MCRRoleManager;
 import org.mycore.user2.MCRUser;
@@ -54,7 +55,10 @@ public class MCRLoginTag extends SimpleTagSupport
         String mcrUID = "";
         String mcrPWD = "";
        
-        MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
+        PageContext pageContext = (PageContext) getJspContext();  
+        HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();  
+        
+        MCRSession mcrSession = MCRServlet.getSession(request);
 		
         String oldID = mcrSession.getUserInformation().getUserID();
 		String oldUsername =  mcrSession.getUserInformation().getUserID();
@@ -109,13 +113,13 @@ public class MCRLoginTag extends SimpleTagSupport
    		    mcrUID = extLogin.retrieveMyCoReUserID(uid, pwd);
   		    mcrPWD = extLogin.retrieveMyCoRePassword(uid, pwd);
    		   	if (  MCRUserManager.exists(mcrUID) ) { 
-   		  	       	mcrLoginOK = loginInMyCore(mcrUID, mcrPWD, loginresult);  			        		
+   		  	       	mcrLoginOK = loginInMyCore(mcrUID, mcrPWD, loginresult, mcrSession);  			        		
    		    } 
        	} else {
 	       logger.info("No External User Login - check for MyCoRe User");
 	       mcrUID = uid;
 	       mcrPWD = pwd;
-	       mcrLoginOK=loginInMyCore(mcrUID, mcrPWD, loginresult);
+	       mcrLoginOK=loginInMyCore(mcrUID, mcrPWD, loginresult, mcrSession);
        	}
 		if(mcrLoginOK){
 			mcrUser = MCRUserManager.getUser(mcrUID);
@@ -134,7 +138,7 @@ public class MCRLoginTag extends SimpleTagSupport
 	     	mcrSession.setUserInformation(mcrUser);
 	       	
 		    loginresult.setAttribute("loginOK", "true");
-		    setNameIntoLoginResult(uid, loginresult);
+		    setNameIntoLoginResult(uid, loginresult, mcrSession);
 		}
 		
 		if(!extLoginOk && mcrLoginOK){
@@ -151,7 +155,7 @@ public class MCRLoginTag extends SimpleTagSupport
 			mcrUID=MCRConfiguration.instance().getString("MCR.Application.ExternalUserLogin.DefaultUser.uid", "gast").trim();
 			mcrPWD=MCRConfiguration.instance().getString("MCR.Application.ExternalUserLogin.DefaultUser.pwd", "gast").trim();
 			String oldStatus = loginresult.getAttributeValue("status");
-			loginInMyCore(mcrUID, mcrPWD, loginresult);
+			loginInMyCore(mcrUID, mcrPWD, loginresult, mcrSession);
 			if((oldStatus!=null) && oldStatus.equals("user.disabled")){
 				loginresult.setAttribute("status", "user.disabled_member");	
 			}
@@ -197,14 +201,14 @@ public class MCRLoginTag extends SimpleTagSupport
 		pageContext.setAttribute(var, domDoc);	
 	}	
 
-	private boolean loginInMyCore(String uid, String pwd, Element loginresult){
+	private boolean loginInMyCore(String uid, String pwd, Element loginresult, MCRSession mcrSession){
 		 boolean loginOk=false;
 		try {
             MCRUser mcrUser = MCRUserManager.login(uid, pwd);
             if (mcrUser!=null) {
                 loginOk=true;
-               	MCRSessionMgr.getCurrentSession().setUserInformation(mcrUser);
-	        	setNameIntoLoginResult(uid, loginresult);
+               	mcrSession.setUserInformation(mcrUser);
+	        	setNameIntoLoginResult(uid, loginresult, mcrSession);
 	            
 	        	String[] allGroupIDS = mcrUser.getSystemRoleIDs().toArray(new String[]{});
 	        	Element eGroups = new Element ("groups");
@@ -241,10 +245,10 @@ public class MCRLoginTag extends SimpleTagSupport
         return loginOk;
 	}
 	
-	private void setNameIntoLoginResult(String uid, Element loginresult){
+	private void setNameIntoLoginResult(String uid, Element loginresult, MCRSession mcrSession){
     	loginresult.setAttribute("username", uid);    			
     	StringBuffer name=new StringBuffer();
-    	ResourceBundle messages = PropertyResourceBundle.getBundle("messages", new Locale(MCRSessionMgr.getCurrentSession().getCurrentLanguage()));
+    	ResourceBundle messages = PropertyResourceBundle.getBundle("messages", new Locale(mcrSession.getCurrentLanguage()));
     	MCRUser mcrUser = MCRUserManager.getUser(uid);
     	if("female".equals(mcrUser.getAttributes().get("sex"))){
     		//Frau

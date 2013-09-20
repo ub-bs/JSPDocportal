@@ -34,6 +34,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
@@ -44,7 +45,7 @@ import org.apache.log4j.Logger;
 import org.jdom2.input.DOMBuilder;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRSession;
-import org.mycore.common.MCRSessionMgr;
+import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.workflowengine.jbpm.MCRJbpmTaskBean;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 
@@ -103,7 +104,7 @@ public class MCRGetWorkflowTaskBeanListTag extends SimpleTagSupport {
 			PageContext pageContext = (PageContext) getJspContext();
 			HttpSession jspSession = pageContext.getSession();
 			
-			MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
+			MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)((PageContext) getJspContext()).getRequest());
 			String userid = mcrSession.getUserInformation().getUserID();
 			
 			if(debugUser != null && !debugUser.equals("")){

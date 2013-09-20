@@ -34,7 +34,8 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.mycore.common.MCRSessionMgr;
+import org.mycore.common.MCRSession;
+import org.mycore.frontend.servlets.MCRServlet;
 
 /**
  * Tag that renders the navigation
@@ -51,7 +52,8 @@ public class MCROutputLanguageSelectorTag extends SimpleTagSupport
 	private String baseURL;
 		
 	public void doTag() throws JspException, IOException {
-		String currentLang = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
+	    MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)((PageContext) getJspContext()).getRequest());
+		String currentLang = mcrSession.getCurrentLanguage();
 		if(currentLang == null){currentLang = "de";}
 		rbMessages = ResourceBundle.getBundle("messages", new Locale(currentLang));
 		baseURL = (String)getJspContext().getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE);

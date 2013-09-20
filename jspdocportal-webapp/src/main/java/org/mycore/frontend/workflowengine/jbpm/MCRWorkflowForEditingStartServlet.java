@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRConfiguration;
+import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObjectID;
@@ -63,8 +64,10 @@ public class MCRWorkflowForEditingStartServlet extends MCRServlet {
 		MCRRequestParameters parms;
 		parms = new MCRRequestParameters(request);
 		mcrid = parms.getParameter("mcrid");
-		if(!MCRSessionMgr.hasCurrentSession()){
-		    MCRSessionMgr.setCurrentSession(MCRServlet.getSession(request));
+		MCRSession sessionFromRequest = MCRServlet.getSession(request);
+		if(!sessionFromRequest.getID().equals(MCRSessionMgr.getCurrentSessionID())){
+		    MCRSessionMgr.releaseCurrentSession();
+		    MCRSessionMgr.setCurrentSession(sessionFromRequest);
 		}
 		
 		if (!MCRAccessManager.checkPermission(mcrid, "writedb" )) {

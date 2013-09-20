@@ -37,18 +37,16 @@ public class MCRSessionTag extends SimpleTagSupport
 		return;
 	}	
 	public void doTag() throws JspException, IOException {
-		PageContext pageContext = (PageContext) getJspContext();
+	    PageContext pageContext = (PageContext) getJspContext();
 		//"HttpJspBase" is the name of the servlet that handles JSPs
 		if (!method.equals("set") && !method.equals("get") && !method.equals("init")) {
 			Logger.getLogger(MCRSessionTag.class).error("unknown method: " + method);
 			return;
 		}
 		if(method.equals("init")){
-		    if(!MCRSessionMgr.hasCurrentSession()){
-		        //init session
-		        
-		         MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)pageContext.getRequest());
-		         MCRSessionMgr.setCurrentSession(mcrSession);
+		    MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)pageContext.getRequest());
+		    if(!mcrSession.getID().equals(MCRSessionMgr.getCurrentSessionID())){
+		        MCRSessionMgr.setCurrentSession(mcrSession);
 		    }
 		    return;
 		}

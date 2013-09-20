@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
@@ -39,7 +40,8 @@ import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.backend.hibernate.MCRHIBConnection;
-import org.mycore.common.MCRSessionMgr;
+import org.mycore.common.MCRSession;
+import org.mycore.frontend.servlets.MCRServlet;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -71,12 +73,13 @@ public class MCROutputNavigationTag extends SimpleTagSupport {
 			return;
 
 		}
-		currentPath = (String) MCRSessionMgr.getCurrentSession().get("navPath");
+		MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)((PageContext) getJspContext()).getRequest());
+		currentPath = (String) mcrSession.get("navPath");
 		if (currentPath == null) {
 			currentPath = "";
 		}
 
-		String lang = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
+		String lang = mcrSession.getCurrentLanguage();
 		if (lang == null) {
 			lang = "de";
 		}

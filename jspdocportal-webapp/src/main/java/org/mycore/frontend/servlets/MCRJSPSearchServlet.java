@@ -67,8 +67,9 @@ public class MCRJSPSearchServlet extends MCRSearchServlet {
         }
         else if("load".equals(mode)){
         	String sessionID = job.getRequest().getParameter("MCRSessionID");
-        	if((sessionID!=null) && !sessionID.equals("")){
-        		MCRSessionMgr.setCurrentSession(MCRSessionMgr.getSession(sessionID));
+        	if((sessionID!=null) && !sessionID.equals("") && !MCRSessionMgr.getCurrentSessionID().equals(sessionID)){
+        		MCRSessionMgr.releaseCurrentSession();
+        	    MCRSessionMgr.setCurrentSession(MCRSessionMgr.getSession(sessionID));
         	}
         	super.doGetPost(job);
         }

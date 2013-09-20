@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
@@ -14,7 +15,8 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.output.DOMOutputter;
 import org.mycore.common.JSPUtils;
-import org.mycore.common.MCRSessionMgr;
+import org.mycore.common.MCRSession;
+import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowAccessRuleEditorUtils;
 import org.mycore.user2.MCRRole;
 import org.mycore.user2.MCRRoleManager;
@@ -51,7 +53,8 @@ public class MCRGetAccessRulesTag extends SimpleTagSupport
 	
 	public void doTag() throws JspException, IOException {
 		PageContext pageContext = (PageContext) getJspContext();
-		String lang = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
+		MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)pageContext.getRequest());
+		String lang = mcrSession.getCurrentLanguage();
 		Element options = new Element("rules");
 		
 		if ( step == "getCurrentRule" ) {

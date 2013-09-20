@@ -37,7 +37,6 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRConfiguration;
-import org.mycore.common.MCRSessionMgr;
 import org.mycore.datamodel.ifs.MCRDirectory;
 import org.mycore.datamodel.ifs.MCRFile;
 import org.mycore.datamodel.ifs.MCRFileNodeServlet;
@@ -259,7 +258,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
         		openPDF(request, response, (MCRFile)mainFile);
         		return;
         	}
-        	sendFile(response, (MCRFile)mainFile);
+        	sendFile(request, response, (MCRFile)mainFile);
         	return;
     	}
     	
@@ -295,7 +294,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
      * 
      * 
      */
-    private void sendFile(HttpServletResponse res, MCRFile file) throws IOException {
+    private void sendFile(HttpServletRequest req, HttpServletResponse res, MCRFile file) throws IOException {
         LOGGER.info("Sending file " + file.getName());
 
         res.setContentType(file.getContentType().getMimeType());
@@ -303,7 +302,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
         res.addHeader("Accept-Ranges", "none"); // Advice client not to attempt range requests
         
         // no transaction needed to copy long streams over slow connections
-        MCRSessionMgr.getCurrentSession().commitTransaction();
+        MCRServlet.getSession(req).commitTransaction();
         OutputStream out = new BufferedOutputStream(res.getOutputStream());
         file.getContentTo(out);
         out.close();
