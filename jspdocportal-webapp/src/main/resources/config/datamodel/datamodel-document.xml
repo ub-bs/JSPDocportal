@@ -18,119 +18,119 @@
 		</element>
 	</structure>
 	<metadata>
-		<!-- 00 - container for metadata in MODS format -->
+		<!-- 01 - container for metadata in MODS format -->
     	<element name="def.modsContainer" minOccurs='0' maxOccurs='1'>
       		<mcrmetaxml name="modsContainer" class="MCRMetaXML" minOccurs='1' maxOccurs='unbounded' />
     	</element> 
-		<!-- 01 - DC Titel -->
+		<!-- 10 - DC Titel -->
 		<element name="titles" minOccurs='1' maxOccurs='1'>
 			<mcrmetalangtext name="title" class="MCRMetaLangText"
 				minOccurs='1' maxOccurs='unbounded' length="1024" />
 		</element>
-		<!-- 02 - DC Creator -->
+		<!-- 11 - DC Creator -->
 		<element name="creators" minOccurs='0' maxOccurs='1'>
 			<mcrmetaxml name="creator" class="MCRMetaXML"
 				minOccurs='1' maxOccurs='unbounded' length="128" />
 		</element>
-		<!-- 04 - DC Subject -->
+		<!-- 12 - DC Subject -->
 		<element name="subjects" minOccurs='0' maxOccurs='1'>
 			<mcrmetaclassification name="subject"
 				class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
 		</element>
-		<!-- 05 - Origin -->
+		<!-- 13 - Origin -->
 		<element name="origins" minOccurs='1' maxOccurs='1'>
 			<mcrmetaclassification name="origin"
 				class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
 		</element>
-		<!-- 06 - DC Description -->
+		<!-- 14 - DC Description -->
 		<element name="descriptions" minOccurs='0' maxOccurs='1'>
 			<mcrmetalangtext name="description" class="MCRMetaLangText"
 				minOccurs='1' maxOccurs='unbounded' length="4096" />
 		</element>
-		<!-- 08 - DC Publisher -->
+		<!-- 15 - DC Publisher -->
 		<element name="publishers" minOccurs='0' maxOccurs='1'>
 			<mcrmetaxml name="publisher" class="MCRMetaXML"
 				minOccurs='1' maxOccurs='unbounded' length="128" />
 		</element>
-		<!-- 10 - DC Contributor -->
+		<!-- 16 - DC Contributor -->
 		<element name="contributors" minOccurs='0' maxOccurs='1'>
 			<mcrmetalangtext name="contributor" class="MCRMetaLangText"
 				minOccurs='1' maxOccurs='unbounded' length="128" />
 		</element>
-		<!-- 12 - DC Date -->
+		<!-- 17 - DC Date -->
 		<element name="dates" minOccurs='0' maxOccurs='1'>
 			<mcrmetaiso8601date name="date" class="MCRMetaISO8601Date"
 				minOccurs='1' maxOccurs='unbounded' />
 		</element>
-		<!-- 13 - DC Type -->
+		<!-- 18 - DC Type -->
 		<element name="types" minOccurs='1' maxOccurs='1'>
 			<mcrmetaclassification name="type"
 				class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
 		</element>
-		<!-- 14 - DC Format -->
+		<!-- 19 - DC Format -->
 		<element name="formats" minOccurs='1' maxOccurs='1'>
 			<mcrmetaclassification name="format"
 				class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
 		</element>
-		<!-- 15 - DC Identifier -->
+		<!-- 20 - DC Identifier -->
 		<element name="identifiers" minOccurs='0' maxOccurs='1'>
 			<mcrmetalangtext name="identifier" class="MCRMetaLangText"
 				minOccurs='1' maxOccurs='unbounded' length="128" />
 		</element>
-		<!-- 18 - DC Language -->
+		<!-- 21 - DC Language -->
 		<element name="languages" minOccurs='0' maxOccurs='1'>
 			<mcrmetaclassification name="language"
 				class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
 		</element>
-		<!-- 19 - DC Keyword -->
+		<!-- 22 - DC Keyword -->
 		<element name="keywords" minOccurs='0' maxOccurs='1'>
 			<mcrmetalangtext name="keyword" class="MCRMetaLangText"
 				minOccurs='1' maxOccurs='unbounded' length="128" />
 		</element>
 		
-		<!-- 24 - RelationLink --> <!-- used in MVDok für DFG-Viewer Link -->
+		<!-- 23 - RelationLink --> <!-- used in MVDok für DFG-Viewer Link -->
 		<element name="relationlinks" minOccurs='0' maxOccurs='1'>
 			<mcrmetalink name="relationlink" class="MCRMetaLink"
 				minOccurs='1' maxOccurs='unbounded' />
 		</element>
 		
-		<!-- 26 - DC Rights -->
+		<!-- 24 - DC Rights -->
 		<element name="rights" minOccurs='0' maxOccurs='1'>
 			<mcrmetalangtext name="right" class="MCRMetaLangText"
 				minOccurs='1' maxOccurs='unbounded' length="1024" />
 		</element>
 	
-		<!-- 32 - URN -->
+		<!-- 25 - URN -->
 		<element name="urns" minOccurs='0' maxOccurs='1'>
 			<mcrmetalangtext name="urn" class="MCRMetaLangText"
 				minOccurs='1' maxOccurs='unbounded' />
 		</element>
-		<!-- 34 - Notes -->
+		<!-- 26 - Notes -->
 		<element name="notes" minOccurs='0' maxOccurs='1'>
 			<mcrmetalangtext name="note" class="MCRMetaLangText"
 				minOccurs='1' maxOccurs='unbounded' length="4096" />
 		</element>
 		
 		<!--  für alle Publikationen -->
-		<!-- 41 - Basisklassifikation -->
+		<!-- 31 - Basisklassifikation -->
 		<element name="bkls" minOccurs='0' maxOccurs='1'>
 			<mcrmetaclassification name="bkl"
 				class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
 		</element>
 
 
-		<!-- 44 - Sammlungen -->
+		<!-- 32 - Sammlungen -->
 		<element name="collections" minOccurs='0' maxOccurs='1'>
 			<mcrmetaclassification name="collection"
 				class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
 		</element>
 		      
-      <!-- 59 - AccessRights -->
+      <!-- 33 - AccessRights -->
         <element name="accessrights" minOccurs='0' maxOccurs='1'>
             <mcrmetaclassification name="accessright" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
         </element>
     	
-       	<!-- 60 - Mapping of Classifications -->
+       	<!-- 40 - Mapping of Classifications -->
     	<element name="mappings" minOccurs='0' maxOccurs='1'>
       		<mcrmetaclassification name="mapping" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
     	</element>

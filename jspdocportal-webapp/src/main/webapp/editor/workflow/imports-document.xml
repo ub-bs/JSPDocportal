@@ -11,6 +11,22 @@
     </panel>
 
 	<helpHover id="HPublicationType" i18n="Editor.Help.HPublicationType" />
+  
+  
+  <panel id="DPublicationType">
+    <hidden var="metadata/types/@class" default="MCRMetaClassification" />
+    <hidden var="metadata/types/@notinherit" default="false" />
+    <hidden var="metadata/types/@heritable" default="true" />
+    <hidden var="metadata/types/type/@inherited" default="0" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.types.type.@classid&amp;prop=MCR.ClassificationID.Type&amp;defaultValue=DocPortal_class_00000005" />   
+    <cell col="1" row="1" anchor="WEST" ref="CPublicationType" var="metadata/types/type/@categid" />    
+ </panel>    
+  
+   <list id="CPublicationType" width="300px" type="dropdown">    
+      <item    value="" i18n="Editor.Common.choose" />      
+      <include  uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Type&amp;defaultValue=DocPortal_class_00000002" />
+      <condition id="CoOrigin" required="true" i18n="Editor.Common.choose.entry" />
+    </list>
 
     <list id="CPublicationType01" type="dropdown" width="300px" disabled="false">
       <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getSpecialCategoriesInItems&amp;classProp=MCR.ClassificationID.Type&amp;categoryProp=MCR.Classification.Type.SelectCategoryIDs.publication01&amp;withCounter=false" />

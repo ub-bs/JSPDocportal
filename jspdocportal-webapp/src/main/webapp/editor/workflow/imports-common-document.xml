@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<imports>
+   <include uri="webapp:editor/workflow/imports-common.xml" />
+     
+    <!-- *** Data for the PublicationType ** sortnr="13" -->
+    <panel id="LPublicationType">
+      <cell row="1" col="1">
+       <text i18n="Editor.Document.publicationtype" />
+      </cell> 
+    </panel>
+
+	<helpHover id="HPublicationType" i18n="Editor.Help.HPublicationType" />
+  
+  
+  <panel id="DPublicationType">
+    <hidden var="metadata/types/@class" default="MCRMetaClassification" />
+    <hidden var="metadata/types/@notinherit" default="false" />
+    <hidden var="metadata/types/@heritable" default="true" />
+    <hidden var="metadata/types/type/@inherited" default="0" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.types.type.@classid&amp;prop=MCR.ClassificationID.Type&amp;defaultValue=DocPortal_class_00000005" />   
+    <cell col="1" row="1" anchor="WEST" ref="CPublicationType" var="metadata/types/type/@categid" />    
+ </panel>    
+  
+   <list id="CPublicationType" width="300px" type="dropdown">    
+      <item    value="" i18n="Editor.Common.choose" />      
+      <include  uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Type&amp;defaultValue=DocPortal_class_00000002" />
+      <condition id="CoPublType" required="true" i18n="Editor.Common.choose.entry" />
+    </list>
+    
+  
+  <list id="CTitleType" type="dropdown">
+    <item value="main" i18n="OMD.maintitle" />
+    <item value="sub"  i18n="OMD.subtitle" />
+    <item value="short" i18n="OMD.shorttitle" />
+    <item value="original-main" i18n="OMD.original-maintitle" />
+    <item value="translated-main" i18n="OMD.translated-maintitle" />
+    <item value="original-sub" i18n="OMD.original-subtitle" />
+    <item value="translated-sub" i18n="OMD.translated-subtitle" />
+  </list>
+
+    <panel id="DTitle">
+      <hidden var="metadata/titles/@class" default="MCRMetaLangText" />
+      <hidden var="metadata/titles/@notinherit" default="false" />
+      <hidden var="metadata/titles/@heritable" default="true" />
+      <cell col="1" row="1" var="metadata/titles/title">
+        <repeater min="1" max="10">
+           <panel>
+            <hidden var="@inherited" default="0" />
+            <cell col="1" row="1"><label></label></cell>
+            <cell col="1" row="2" anchor="NORTHWEST" ref="TFarea1024x3M" />
+            <cell col="2" row="2" anchor="NORTHWEST" ref="Slang" var="@xml:lang" default="de" />
+            <cell col="3" row="2" anchor="NORTHWEST" ref="CTitleType" var="@type" default="main" />
+            </panel>
+        </repeater>
+      </cell>
+    </panel>
+
+   
+    <!-- ** sortnr="5"  Data for the ORIGIN *** -->
+    
+    <list id="COrigin" width="300px" type="dropdown">    
+      <item    value="" i18n="Editor.Common.choose" />      
+      <include  uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002" />
+      <condition id="CoOrigin" required="true" i18n="Editor.Common.choose.entry" />
+    </list>
+    <panel id="DOrigin">
+      <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/origins&amp;classname=MCRMetaClassification" />
+      <cell col="1" row="1" anchor="NORTHWEST" var="metadata/origins/origin"  >
+        <repeater min="1" max="5">
+          <panel>
+            <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=@classid&amp;prop=MCR.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002" />
+            <cell col="1" row="1" anchor="WEST" ref="COrigin" var="@categid"   />
+          </panel>        
+        </repeater>
+      </cell>
+    </panel>
+    
+    <panel id="DIdentifier">
+      <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/identifiers&amp;classname=MCRMetaLangText" />
+      <cell col="1" row="1" anchor="NORTHWEST" var="metadata/identifiers/identifier"  >
+        <repeater min="1" max="5">
+            <panel id="DIdentifier_repeater">
+              <hidden var="@inherited" default="0"  />
+              <hidden var="@xml:lang" default="de"  />
+              <cell col="1" row="1" anchor="WEST" ref="TFzeile128"  />
+              <cell col="2" row="1" anchor="NORTHWEST" var="@type">
+                <list type="dropdown">
+                  <item value="free" i18n="OMD.id.free" />
+                  <item value="gbv" i18n="OMD.id.gbv" />
+                  <item value="gbv_original" i18n="OMD.id.gbv_original" />
+                  <item value="zdb" i18n="OMD.id.zdb" />
+                </list>
+              </cell>
+            </panel>    
+        </repeater>
+      </cell>      
+    </panel>
+    
+    <!-- ** Data for the COLLECTION ***  18 -->
+    <text id="LCollections" i18n="Editor.Label.Collection" />
+    <helpHover id="HCollections" i18n="Editor.Help.HCollection" />
+    
+    <panel id="DCollections">
+      <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/collections&amp;classname=MCRMetaClassification" />
+            <cell col="1" row="1" anchor="WEST" var="metadata/collections/collection">
+            <repeater min="1" max="5">
+              <panel id="DCollectionsRef">
+               <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=@classid&amp;prop=MCR.ClassificationID.Collection&amp;defaultValue=DocPortal_class_00000022" />
+               <hidden  var="@inherited" default="0" />
+                <cell col="1" row="1" anchor="NORTHWEST" var="@categid">
+                  <list id="CCollections" width="300px" type="dropdown">
+                    <item value="" i18n="Editor.Common.choose" />
+                    <include  uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Collection&amp;defaultValue=DocPortal_class_00000022" />
+                  </list>
+                 </cell>
+              </panel>
+            </repeater>
+           </cell>
+    </panel>
+    
+    <!-- *** Data for the Contributor sortnr="10" ** -->
+    <panel id="DContributor">
+      <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/contributors&amp;classname=MCRMetaLangText" />
+      <cell col="1" row="2" anchor="NORTHWEST" var="metadata/contributors/contributor"   >
+        <repeater min="0" max="10" anchor="NORTHWEST">
+          <panel id="DContributor_repeater">
+            <hidden var="@inherited" default="0"  />
+            <hidden var="@xml:lang"  default="de"  />
+            <cell col="1" row="1" anchor="WEST" ref="TFzeile1024"  />
+            <cell col="2" row="1" anchor="WEST" ref="TFzeile32" var="@type"  />            
+            <cell col="3" row="1">
+              <text class="editorHint" i18n="Editor.Label.contributors.type" />    
+            </cell>
+          </panel>
+        </repeater>
+      </cell>      
+    </panel>
+    
+    <!-- *** Data for the Date ** sortnr="12" -->
+    <panel id="DDate">
+      <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/dates&amp;classname=MCRMetaISO8601Date" />
+      <hidden var="metadata/dates/date/@format" default="YYYY" />
+      <hidden var="metadata/dates/date/@type" default="published" />
+      <cell col="1" row="1" anchor="WEST" ref="TFzeile10M" var="metadata/dates/date"  />
+      <cell col="2" row="1">
+        <text class="editorHint" i18n="Editor.Label.Date_Year.publishing" />
+      </cell>
+    </panel>
+    
+        <!-- ** Data for the LANGUAGE ***  18 -->
+    
+    
+
+    <panel id="DLanguage">
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/languages&amp;classname=MCRMetaClassification" />
+        <cell col="1" row="1" anchor="WEST" var="metadata/languages/language">
+            <repeater min="1" max="5">
+              <panel>
+                  <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=@classid&amp;prop=MCR.ClassificationID.Language&amp;defaultValue=DocPortal_class_00000004" />
+                  <hidden  var="@inherited" default="0" />
+                  <cell col="1" row="1" anchor="NORTHWEST" var="@categid" default="de">
+                      <list id="CLanguage" width="300px" type="dropdown">
+                        <item value="" i18n="Editor.Common.choose" />
+                        <include  uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Language&amp;defaultValue=DocPortal_class_00000004" />
+                        <condition id="CoLangDoc" required="true">
+                            <label i18n="Editor.Common.choose.entry" />
+                        </condition>
+                      </list>              
+                  </cell>
+                </panel>
+            </repeater>
+         </cell>
+    </panel>
+    
+        <!-- ** Data for the FORMAT *** sortnr="14" -->
+    
+    <panel id="DFormat">
+      <include  uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/formats&amp;classname=MCRMetaClassification" />
+      <include  uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/formats/format/@classid&amp;prop=MCR.ClassificationID.Format&amp;defaultValue=DocPortal_class_00000006" />
+      <hidden   var="metadata/formats/format/@inherited" default="0" />
+      <cell col="1" row="1" anchor="WEST" var="metadata/formats/format/@categid">
+          <list id="CFormat" width="300px" type="dropdown">
+            <!--  item value="" i18n="Editor.Common.choose" / -->
+            <item value="FORMAT0001" i18n="Editor.Item.text" />
+            <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Format&amp;defaultValue=DocPortal_class_00000006" />
+            <condition id="CoFormatDoc" required="true" i18n="Editor.Common.choose.entry" />
+          </list>
+      </cell>
+    </panel>
+    
+    <!-- *** Data for the DESCRIPTION ** sortnr="6" -->
+    <panel id="DDescription">
+        <include  uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/descriptions&amp;classname=MCRMetaLangText" />      
+        <cell col="1" row="1" anchor="NORTHWEST" var="metadata/descriptions/description" >
+            <repeater min="1" max="5" anchor="NORTHWEST">
+                <panel>
+                    <hidden var="@inherited" default="0" />
+                    <cell col="1" row="1"><label></label></cell>
+                    <cell col="1" row="2" anchor="NORTHWEST" ref="TFarea4096"  />
+                    <cell col="2" row="2" anchor="NORTHWEST" ref="Slang" var="@xml:lang" default="de"   />
+                    <cell col="3" row="2" anchor="NORTHWEST" ref="SDescriptType" var="@type"  />
+                </panel>
+              </repeater>
+         </cell>
+    </panel>
+    
+       <!-- ** Data for the SUBJECT *** sortnr="4" -->
+   <panel id="DSubjects" >
+    <hidden var="metadata/subjects/@class" default="MCRMetaClassification"  />
+    
+    <cell row="1" col="1" anchor="NORTHWEST" var="metadata/subjects/subject"  >
+       <repeater min="1" max="5" >  
+        <panel lines="off">
+         <hidden var="@inherited" default="0" />
+         <!-- configure this in mycore.properties  -->
+           <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=@classid&amp;prop=MCR.ClassificationID.DDC&amp;defaultValue=DocPortal_class_00000009" />        
+         <hidden var="@type" default="DDC" />
+           <hidden var="@categid" />
+           <cell row="1" col="1" width="100%">
+             <output var="@type" default="DDC Klassifikation"/> <text label=" (" /><output var="@categid" default=" " /><text label=")" />
+             <text   label=" " />
+             <output var="@href" />
+           </cell>
+           <cell row="1" col="2">
+             <subselect label="Auswählen" id="sub.select4" type="webpage" href="nav?path=~browse_subDDC" />
+           </cell>
+          </panel>
+         </repeater>
+     </cell>
+    </panel>
+    
+      <panel id="DNote">
+      <!-- *** Data for the Note ** sortnr="34"  -->
+      <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/notes&amp;classname=MCRMetaLangText" />
+      <hidden  var="metadata/notes/note/@inherited" default="0" />        
+      <hidden  var="metadata/notes/note/@xml:lang" default="de" />
+      <cell col="1" row="1"><label></label></cell> 
+      <cell col="1" row="2" anchor="WEST" ref="TFarea4096" var="metadata/notes/note" />
+    </panel>
+    
+    
+    <text id="LAccessRights" i18n="Editor.Label.AccessRights" />
+    <helpHover id="HAccessRights" i18n="Editor.Help.HAccessRights" />
+  <panel id="DAccessRights">
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/accessrights&amp;classname=MCRMetaClassification" />
+    <hidden var="metadata/origins/origin/@inherited" default="0" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/accessrights/accessright/@classid&amp;prop=MCR.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002" />               
+    <cell col="1" row="1" anchor="WEST" var="metadata/accessrights/accessright/@categid">
+      <list id="DAccessRights_COrigin" width="425px" type="dropdown" class="mandatory">
+            <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.accessRights&amp;defaultValue=eprintsAccessRights&amp;withCounter=false" />              
+      </list>  
+    </cell>
+  </panel>   
+    
+    
+     <panel id="DUrn">
+        <!-- *** Data for the URN ** sortnr="32" -->
+        <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/urns&amp;classname=MCRMetaLink" />
+        <hidden  var="metadata/urns/urn/@type"  />
+        <hidden  var="metadata/urns/urn"  />
+        <cell col="1" row="1" anchor="WEST" />
+    </panel>
+    
+    <text id="LParent" i18n="OMD.parent" />
+    <helpHover id="HParent" i18n="Editor.Help.HParent" />
+    <panel id="DParent">
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=structure/parents&amp;classname=MCRMetaLinkID" /> 
+    <cell col="1" row="1" anchor="NORTHWEST" var="structure/parents/parent"  >
+        <repeater min="1" max="5">
+          <panel lines="off">
+            <hidden var="@inherited" default="0"  />
+            <hidden var="@xlink:type" default="locator"  />
+            <hidden var="@xlink:title" default="Parent Object" />
+            <hidden var="@xlink:href" default="" />
+            <cell row="1" col="1" width="100%">
+              <output var="@xlink:title" default=" Parent Object " />
+              <text label="&#160;&#160;&#160;" />
+            </cell>
+            <cell row="1" col="2">
+              <subselect i18n="Editor.Common.indexcreators" id="parent.select" type="webpage" href="nav?path=~searchstart-index_document-bundle_sub"  />
+            </cell>
+          </panel>
+        </repeater>
+      </cell>
+  </panel>   
+  
+  <text id="LParts" i18n="Editor.Label.Parts" />
+  <helpHover id="HParts" i18n="Editor.Help.HParts" />
+  <panel id="DParts">
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=structure/children&amp;classname=MCRMetaLinkID" /> 
+    <cell col="1" row="1" anchor="NORTHWEST" var="structure/children/child"  >
+        <repeater min="1" max="30">
+          <panel lines="off">
+            <hidden var="@inherited" default="0"  />
+            <hidden var="@xlink:type" default="locator"  />
+            <hidden var="@xlink:title" default="Einheit" />
+            <hidden var="@xlink:href" default="" />
+            <cell row="1" col="1" width="100%">
+              <output var="@xlink:title" default=" Einheit " />
+              <text label="&#160;&#160;&#160;" />
+            </cell>
+          </panel>
+        </repeater>
+      </cell>
+  </panel>
+  
+    <text id="LMODSRelatedItem" i18n="Editor.Label.MODS.RelatedItem" />
+   <helpHover id="HMODSRelatedItem" i18n="Editor.Help.HMODSRelatedItem" />
+    <panel id="DMODSRelatedItem">
+          <hidden var="metadata/def.modsContainer/@class" default="MCRMetaXML" />
+          <hidden var="metadata/def.modsContainer/@notinherit" default="false" />
+          <hidden var="metadata/def.modsContainer/@heritable" default="true" />
+            <cell row="1" col="1" var="metadata/def.modsContainer/modsContainer/mods:mods" ref="DMODSRelatedItemInternal" />
+    </panel>  
+    
+    <!-- ############################################################ -->    
+
+    <panel id="Dbkl">
+      <hidden var="metadata/bkls/@class" default="MCRMetaClassification" />
+       <cell row="1" col="1" anchor="NORTHWEST" var="metadata/bkls/bkl"  >
+         <repeater min="1" max="5" >  
+          <panel lines="off">
+            <hidden var="@inherited" default="0" />
+            <!-- configure this in mycore.properties  -->
+            <!-- <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=@classid&amp;prop=MCR.ClassificationID.Bkl&amp;defaultValue=DocPortal_class_00000020" /> -->        
+            <hidden var="@categid" />
+            <cell row="1" col="1" width="100%">
+               <output var="@type" default="Basisklassifikation"/> <text label=" (" /><output var="@categid" default=" " /><text label=")" />
+               <text   label=" " />
+               <output var="@href" />
+            </cell>
+            <cell row="1" col="2">
+             <subselect label="Auswählen" id="sub.select5" type="webpage" href="nav?path=~browse_subBKL" />
+            </cell>
+           </panel>
+        </repeater>
+     </cell>
+    </panel>
+</imports>

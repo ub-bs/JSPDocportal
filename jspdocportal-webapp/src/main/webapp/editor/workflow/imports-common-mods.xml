@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<imports>
+  <panel id="DMODSRelatedItemInternal">
+    <cell row="1" col="2">
+      <text class="editorHint" i18n="Editor.Label.MODS.RelatedItem.Type" />
+    </cell>
+    <cell row="1" col="3" var="mods:relatedItem/@type">
+      <list width="200px" type="dropdown">
+        <item value="host" i18n="Editor.Label.MODS.RelatedItem.Type.host" />
+        <item value="series" i18n="Editor.Label.MODS.RelatedItem.Type.series" />
+        <item value="original" i18n="Editor.Label.MODS.RelatedItem.Type.original" />
+        <item value="reviewOf" i18n="Editor.Label.MODS.RelatedItem.Type.reviewOf" />
+      </list>
+    </cell>
+    <cell row="1" col="4">
+      <text class="editorHint" i18n="Editor.Label.MODS.RelatedItem.DisplayLabel" />
+    </cell>
+    <cell row="1" col="5" var="mods:relatedItem/@displayLabel">
+      <textfield width="15" maxlength="256" default="in" />
+    </cell>
+    <cell row="1" col="6">
+      <text class="editorHint" i18n="Editor.Label.MODS.RelatedItem.Part.Date" />
+    </cell>
+    <hidden var="mods:relatedItem/mods:part/mods:date/@type" default="w3cdtf" />
+    <cell row="1" col="7" var="mods:relatedItem/mods:part/mods:date">
+      <textfield width="15" maxlength="256" />
+    </cell>
+
+    <cell row="2" col="1">
+      <text class="editorHint" i18n="Editor.Label.MODS.RelatedItem.TitleInfo.Title" />
+    </cell>
+    <cell row="2" col="2" colspan="6" var="mods:relatedItem/mods:titleInfo/mods:title">
+      <textfield width="90" maxlength="1024" />
+    </cell>
+
+    <cell row="3" col="1">
+      <text class="editorHint" i18n="Editor.Label.MODS.RelatedItem.Part.Detail" />
+    </cell>
+    <cell row="3" col="2" colspan="6" var="mods:relatedItem/mods:part/mods:detail">
+      <repeater min="1" max="6">
+        <panel>
+          <cell row="1" col="1">
+            <text class="editorHint" i18n="Editor.Label.MODS.RelatedItem.Part.Detail.Type" />
+          </cell>
+          <cell row="1" col="2" var="@type">
+            <list width="200px;" type="dropdown">
+              <item value="part" i18n="Editor.Label.MODS.RelatedItem.Part.Detail.Type.part" />
+              <item value="volume" i18n="Editor.Label.MODS.RelatedItem.Part.Detail.Type.volume" />
+              <item value="issue" i18n="Editor.Label.MODS.RelatedItem.Part.Detail.Type.issue" />
+              <item value="chapter" i18n="Editor.Label.MODS.RelatedItem.Part.Detail.Type.chapter" />
+              <item value="section" i18n="Editor.Label.MODS.RelatedItem.Part.Detail.Type.section" />
+              <item value="paragraph" i18n="Editor.Label.MODS.RelatedItem.Part.Detail.Type.paragraph" />
+              <item value="track" i18n="Editor.Label.MODS.RelatedItem.Part.Detail.Type.track" />
+              <item value="other" i18n="Editor.Label.MODS.RelatedItem.Part.Detail.Type.other" />
+            </list>
+          </cell>
+          <cell row="1" col="3"><space width="30px" height="0" /></cell>
+          <cell row="1" col="4">
+            <text class="editorHint" i18n="Editor.Label.MODS.RelatedItem.Part.Detail.Number" />
+          </cell>
+          <cell row="1" col="5" var="mods:number">
+            <textfield width="40" maxlength="256" />
+          </cell>
+        </panel>
+      </repeater>      
+    </cell>
+
+    <hidden var="mods:relatedItem/mods:part/mods:extend/@unit" default="pages" />
+    <cell row="4" col="1">
+      <text class="editorHint" i18n="Editor.Label.MODS.RelatedItem.Part.Extend.Pages" />
+    </cell>
+    <cell row="4" col="2">
+      <text class="editorHint" i18n="Editor.Label.MODS.RelatedItem.Part.Extend.Pages.Start" />
+    </cell>
+    <cell row="4" col="3" var="mods:relatedItem/mods:part/mods:extend/mods:start">
+      <textfield width="15" maxlength="128" />
+    </cell>
+    <cell row="4" col="4">
+      <text class="editorHint" i18n="Editor.Label.MODS.RelatedItem.Part.Extend.Pages.End" />
+    </cell>
+    <cell row="4" col="5" var="mods:relatedItem/mods:part/mods:extend/mods:end">
+      <textfield width="15" maxlength="128" />
+    </cell>
+    <cell row="4" col="6">
+      <text class="editorHint" i18n="Editor.Label.MODS.RelatedItem.Part.Extend.Pages.Total" />
+    </cell>
+    <cell row="4" col="7" var="mods:relatedItem/mods:part/mods:extend/mods:total">
+      <textfield width="15" maxlength="128" />
+    </cell>
+  </panel>
+</imports>
