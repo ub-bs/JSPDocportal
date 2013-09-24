@@ -13,7 +13,6 @@
  		<c:when test="${bhasAccess}">
  			<!--  Editbutton -->
  			<form method="get" action="${applicationScope.WebApplicationBaseURL}StartEdit" class="resort">                 
-				<%--<input name="page" value="nav?path=~workflowEditor-${doctype}"  type="hidden"> --%>                                       
 				<input name="mcrid" value="${param.mcrid}" type="hidden"/>
 				<input title="<fmt:message key="WF.common.object.EditObject" />" border="0" 
 				       src="${applicationScope.WebApplicationBaseURL}images/workflow1.gif" type="image"  class="imagebutton" height="30" />

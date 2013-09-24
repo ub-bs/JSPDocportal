@@ -100,9 +100,8 @@
 	         <br />
 
 	         <form method="get" action="${WebApplicationBaseURL}StartEdit" class="resort">                 
-	            <input name="page" value="nav?path=~workflowEditor-${type}"  type="hidden">                                       
 	            <input name="mcrid" value="${mcrid}" type="hidden"/>
-					<input title="<fmt:message key="WF.common.object.EditObject" />" border="0" src="${WebApplicationBaseURL}images/workflow1.gif" type="image"  class="imagebutton" height="30" />
+				<input title="<fmt:message key="WF.common.object.EditObject" />" border="0" src="${WebApplicationBaseURL}images/workflow1.gif" type="image"  class="imagebutton" height="30" />
 	         </form> 
          </c:when>
          <c:otherwise>
