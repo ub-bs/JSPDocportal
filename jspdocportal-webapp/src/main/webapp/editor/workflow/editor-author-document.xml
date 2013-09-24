@@ -10,6 +10,8 @@
 	<validationMessage>
 		<label i18n="Editor.Common.validationMessageLong" />
 	</validationMessage>
+	<!-- XML post processing in class: org.mycore.frontend.editor.MCREditorMetadatValidator4MCRMetaXML
+	     (cleanup empty pc:person elements and some mods fields -->
 	
 	<components root="author-document" var="/mycoreobject" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xlink="http://www.w3.org/1999/xlink"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
@@ -87,7 +89,7 @@
       		
       		<!--  Sprache -->
       		<cell col="1" row="80" anchor="NORTHWEST" ref="LLanguageP" />
-      		<cell col="2" row="80" anchor="NORTHWEST" ref="DLanguage" sortnr="21"  />
+      		<cell col="2" row="80" anchor="NORTHWEST" ref="DLanguage_RFC4646" sortnr="21"  />
       		<cell col="3" row="80" anchor="NORTHWEST"><space width="20" height="0" /></cell>
       		<cell col="4" row="80" anchor="WEST" ref="HLanguage" />
       		
@@ -129,8 +131,8 @@
       		<cell col="4" row="135" anchor="WEST" ref="HParent" />
       		
       		<!--  Zählung bei Mehrbändern -->
-      		<cell col="1" row="138" anchor="NORTHWEST" ref="LMODSRelatedItem" sortnr="1"/>
-      		<cell col="2" row="138" colspan="2" anchor="NORTHWEST" ref="DMODSRelatedItem"  />
+      		<cell col="1" row="138" anchor="NORTHWEST" ref="LMODSRelatedItem" />
+      		<cell col="2" row="138" colspan="2" anchor="NORTHWEST" ref="DMODSRelatedItem" sortnr="1" />
       		<cell col="4" row="138" anchor="WEST" ref="HMODSRelatedItem" />
             
 		    <cell col="1" row="140" anchor="NORTHWEST" ref="LParts"  />
@@ -152,6 +154,8 @@
             <cell col="3" row="160" anchor="NORTHWEST"><space width="20" height="0" /></cell>
             <cell col="4" row="160" anchor="WEST" ref="HAccessRights" />
 		
+    
+    
              	
 			
       <!--  Hidden fields -->
@@ -161,6 +165,8 @@
   			
   			<hidden var="metadata/mappings" descendants="true" />
   			<hidden var="metadata/publishdetails" descendants="true" />
+            <hidden var="service/servdates" descendants="true" />
+        
   			  			    
       		<cell col="1" row="200"  colspan="4" anchor="WEST" ><hr/> </cell>
       		

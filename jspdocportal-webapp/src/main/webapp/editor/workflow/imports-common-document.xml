@@ -239,16 +239,33 @@
       <cell col="1" row="2" anchor="WEST" ref="TFarea4096" var="metadata/notes/note" />
     </panel>
     
+    <panel id="DLanguage_RFC4646">
+    <include
+      uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/languages&amp;classname=MCRMetaClassification" />
+    <hidden var="metadata/languages/language/@inherited" default="0" />
+    <hidden var="metadata/languages/language/@classid" default="rfc4646" />
+    <cell col="1" row="1" anchor="WEST" var="metadata/languages/language/@categid">
+      <list id="CLanguage_RFC4646" width="425px" type="dropdown" class="mandatory">
+        <item value="de" i18n="Editor.Common.language.de" />
+        <item value="en" i18n="Editor.Common.language.en" />
+        <item value="fr" i18n="Editor.Common.language.fr" />
+        <item value="es" i18n="Editor.Common.language.es" />
+        <item value="la" i18n="Editor.Common.language.la" />
+      </list>
+    </cell>
+  </panel>
+    
     
     <text id="LAccessRights" i18n="Editor.Label.AccessRights" />
     <helpHover id="HAccessRights" i18n="Editor.Help.HAccessRights" />
   <panel id="DAccessRights">
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/accessrights&amp;classname=MCRMetaClassification" />
     <hidden var="metadata/origins/origin/@inherited" default="0" />
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/accessrights/accessright/@classid&amp;prop=MCR.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002" />               
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/accessrights/accessright/@classid&amp;prop=MCR.ClassificationID.AccessRights&amp;defaultValue=eprintsAccessRights" />               
     <cell col="1" row="1" anchor="WEST" var="metadata/accessrights/accessright/@categid">
       <list id="DAccessRights_COrigin" width="425px" type="dropdown" class="mandatory">
-            <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.accessRights&amp;defaultValue=eprintsAccessRights&amp;withCounter=false" />              
+            <item value="" i18n="Editor.Common.choose" />
+            <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.AccessRights&amp;defaultValue=eprintsAccessRights&amp;withCounter=false" />              
       </list>  
     </cell>
   </panel>   
@@ -312,7 +329,7 @@
           <hidden var="metadata/def.modsContainer/@notinherit" default="false" />
           <hidden var="metadata/def.modsContainer/@heritable" default="true" />
             <cell row="1" col="1" var="metadata/def.modsContainer/modsContainer/mods:mods" ref="DMODSRelatedItemInternal" />
-    </panel>  
+    </panel>
     
     <!-- ############################################################ -->    
 
