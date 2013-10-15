@@ -204,16 +204,22 @@
     
   <panel id="DOrigin">
     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/origins&amp;classname=MCRMetaClassification" />
-    <hidden var="metadata/origins/origin/@inherited" default="0" />
-    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/origins/origin/@classid&amp;prop=MCR.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002" />
-    <cell col="1" row="1" anchor="WEST" var="metadata/origins/origin/@categid">
-        <list id="COrigin" width="425px" type="dropdown" class="mandatory">
-          <item value="" i18n="Editor.Common.choose" />
-          <include  uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002&amp;withCounter=false" />
-          <condition id="COriginSelected" regexp=".+" required="true">
-            <label i18n="Editor.Validate.Selection.Empty" />
-          </condition>
-        </list>    
+     <cell col="1" row="1" anchor="WEST" var="metadata/origins/origin">      
+         <repeater min="1" max="3">
+          <panel anchor="NORTHWEST">
+             <hidden var="@inherited" default="0" />
+             <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=@classid&amp;prop=MCR.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002" />
+             <cell col="1" row="1" var="@categid">
+              <list id="COrigin" width="425px" type="dropdown" class="mandatory" >
+                <item value="" i18n="Editor.Common.choose" />
+                <include  uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Origin&amp;defaultValue=DocPortal_class_00000002&amp;withCounter=false" />
+                <condition id="COriginSelected" regexp=".+" required="true">
+                  <label i18n="Editor.Validate.Selection.Empty" />
+                </condition>
+             </list>
+             </cell>
+           </panel>
+         </repeater>    
     </cell>
   </panel>
   
@@ -248,8 +254,5 @@
   <submitButton id="BSubmitDisshab" width="100px" jsaction="return checkMyFormDisshab();">
     <label i18n="Editor.Common.button.Save" />
   </submitButton>
-
-  <!-- OLD OLD OLD OLD OLD OLD OLD OLD OLD -->
-
 </imports>
 

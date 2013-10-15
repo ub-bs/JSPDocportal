@@ -138,17 +138,9 @@
           <cell col="4" row="4" anchor="NORTHWEST" var="pc:person/pc:dateOfBirth" sortnr="8">
             <textfield width="20" maxlength="64" />           
           </cell>
-		->
-		
-          <cell col="1" row="4" anchor="NORTHWEST">
-            <text class="editorHint" i18n="Editor.Label.XMetaPers.affiliation" />
-          </cell>
-          
-          <cell col="2" row="4" anchor="NORTHWEST" var="pc:person/pc:affiliation/cc:universityOrInstitution/cc:name" sortnr="9">
-            <textfield width="40" maxlength="256" />
-          </cell>
-          
-               
+		-->
+		  
+          <!--      
           <cell col="3" row="4" anchor="NORTHWEST">
             <text class="editorHint" i18n="Editor.Label.XMetaPers.gender" />
           </cell>
@@ -161,22 +153,31 @@
               <item value="m" i18n="Editor.Label.XMetaPers.gender.m" />
             </list>                         
           </cell>
-            
-          <cell col="1" row="5" anchor="NORTHWEST">
+            -->
+          <cell col="1" row="4" anchor="NORTHWEST">
             <text class="editorHint" i18n="Editor.Label.XMetaPers.academicTitle" />
           </cell>
           
-          <cell col="2" row="5" anchor="NORTHWEST" var="pc:person/pc:academicTitle" sortnr="7">
+          <cell col="2" row="4" anchor="NORTHWEST" var="pc:person/pc:academicTitle" sortnr="7">
             <textfield width="40" maxlength="256" />            
           </cell>
           
-          <cell col="3" row="5" anchor="NORTHWEST">
+          <cell col="3" row="4" anchor="NORTHWEST">
             <text class="editorHint" i18n="Editor.Label.XMetaPers.PND-Nr" />
           </cell>
           
-          <cell col="4" row="5" anchor="NORTHWEST" var="pc:person/@PND-Nr" sortnr="2">
+          <cell col="4" row="4" anchor="NORTHWEST" var="pc:person/@PND-Nr" sortnr="2">
             <textfield width="20" maxlength="64" />           
           </cell>
+          
+          <cell col="1" row="5" anchor="NORTHWEST">
+            <text class="editorHint" i18n="Editor.Label.XMetaPers.affiliation" />
+          </cell>
+          
+          <cell col="2" row="5" colspan="3" anchor="NORTHWEST" var="pc:person/pc:affiliation/cc:universityOrInstitution/cc:name" sortnr="9">
+            <textfield width="78" maxlength="256" />
+          </cell>
+          
         </panel>
   
 
