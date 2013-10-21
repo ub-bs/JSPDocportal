@@ -1,6 +1,6 @@
 /* =================================================================== */
 /* $Revision: 1.13 $ $Date: 2011/01/31 04:00:23 $                      */
-/* CSS f�r BasisLayout                                                 */
+/* CSS für BasisLayout                                                 */
 /* =================================================================== */
 
 /* ------------------------------------------------------------------- */
@@ -300,8 +300,20 @@ div.text th h3{
 	color:white;
 }
 
+div.text ul{
+    list-style: none;
+    padding-left: 1.5em;
+}
+
 div.text ul li{
 	line-height: 1.5em;
+	text-indent:-1.1em;
+}
+
+div.text ul li:before{
+    content: "●";
+    padding-right:0.5em;
+    color:#004A99;
 }
 
 div.text ul.action {	
@@ -318,6 +330,9 @@ div.text ul.action li{
 	padding-left:16px;	
 }
 
+div.text ul.action li:before{
+    content:none;
+}
 
 div.text h1{
 	color: #004A99;
