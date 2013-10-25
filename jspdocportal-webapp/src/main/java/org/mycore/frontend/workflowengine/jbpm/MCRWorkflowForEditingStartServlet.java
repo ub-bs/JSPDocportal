@@ -29,7 +29,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.mycore.access.MCRAccessManager;
-import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
@@ -80,24 +79,17 @@ public class MCRWorkflowForEditingStartServlet extends MCRServlet {
 		
 		logger.debug("Document MCRID = " + mcrid);
 		
-		if ( mcrid != null && MCRMetadataManager.exists(MCRObjectID.getInstance(mcrid)) ) {
-			MCRWorkflowManager wfm = null; 
-			String type = mcrid.split("_")[1];
-			String workflowTypes[] = (MCRConfiguration.instance().getString("MCR.WorkflowEngine.WorkflowTypes")).split(",");
-			for ( int i = 0; i< workflowTypes.length; i++ ) {
-				workflowTypes[i]=workflowTypes[i].trim();
-				wfm = MCRWorkflowManagerFactory.getImpl(workflowTypes[i]);
-				if ( wfm != null && wfm.getDocumentTypes().contains(type)) {
-					bOK = true;
-					//initiator, mcrid, transition name
-					wfm.initWorkflowProcessForEditing(MCRSessionMgr.getCurrentSession().getUserInformation().getUserID(),	mcrid);	
-					String url = "nav?path=~workflow-" + workflowTypes[i];
-					logger.debug("nextpage = " + url);
-					response.sendRedirect(response.encodeRedirectURL(getBaseURL() + url));
-				}
-					
+		if ( mcrid != null){
+		    MCRObjectID mcrObjID = MCRObjectID.getInstance(mcrid);
+		    MCRWorkflowManager wfm = MCRWorkflowManagerFactory.getImpl(mcrObjID);
+		    if(wfm!=null && MCRMetadataManager.exists(mcrObjID) ) {
+				bOK = true;
+				//initiator, mcrid, transition name
+				wfm.initWorkflowProcessForEditing(MCRSessionMgr.getCurrentSession().getUserInformation().getUserID(),	mcrid);	
+				String url = "nav?path=~workflow-" + wfm.getWorkflowProcessType();
+				logger.debug("nextpage = " + url);
+				response.sendRedirect(response.encodeRedirectURL(getBaseURL() + url));
 			}
-			
 		}
 		
 		if ( !bOK) {

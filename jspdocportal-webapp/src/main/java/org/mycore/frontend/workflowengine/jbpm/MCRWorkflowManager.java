@@ -394,6 +394,14 @@ public abstract class MCRWorkflowManager {
 			}
 		}
 		MCRObjectID result = (MCRObjectID.getNextFreeId(base,maxwf));
+		//create dummy in workflow
+		File f = new File(workingDirectory, result.toString()+".xml");
+		try{
+		    f.createNewFile();
+		}
+		catch(Exception e){
+		    logger.error("could not create new file", e);
+		}
 	
 		logger.debug("New ID is: " + result.toString());
 		return result;

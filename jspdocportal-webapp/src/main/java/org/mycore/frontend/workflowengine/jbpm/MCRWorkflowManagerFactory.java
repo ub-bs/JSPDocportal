@@ -6,6 +6,7 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.mycore.common.MCRConfiguration;
+import org.mycore.datamodel.metadata.MCRObjectID;
 
 
 public class MCRWorkflowManagerFactory {
@@ -37,5 +38,18 @@ public class MCRWorkflowManagerFactory {
     		logger.error(errMsg);
     		throw new IllegalStateException(errMsg);
     	}
-    }    
+    }
+    
+    public static MCRWorkflowManager getImpl(MCRObjectID mcrid){
+        String type = mcrid.getTypeId();
+        String workflowTypes[] = (MCRConfiguration.instance().getString("MCR.WorkflowEngine.WorkflowTypes")).split(",");
+        for ( int i = 0; i< workflowTypes.length; i++ ) {
+            workflowTypes[i]=workflowTypes[i].trim();
+            MCRWorkflowManager wfm = MCRWorkflowManagerFactory.getImpl(workflowTypes[i]);
+            if ( wfm != null && wfm.getDocumentTypes().contains(type)) {
+                return wfm;
+            }            
+        }
+        return null;
+    }
 }

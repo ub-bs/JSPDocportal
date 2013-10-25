@@ -21,7 +21,6 @@ import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRDerivateFileFilter;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRPersistenceException;
-import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.MCRUtils;
 import org.mycore.common.content.MCRFileContent;
 import org.mycore.datamodel.ifs.MCRDirectory;
@@ -40,7 +39,6 @@ public abstract class MCRDerivateStrategy {
 	private static String XLINK_URL = "http://www.w3.org/1999/xlink";
 	
 	protected static String SEPARATOR = "/";
-	private static MCRObjectID nextWorkflowDerivateID = null;
 	
 	// pattern for the stringpart after the last [/\]
 	protected static Pattern filenamePattern = Pattern.compile("([^\\\\/]+)\\z");
@@ -82,12 +80,13 @@ public abstract class MCRDerivateStrategy {
 	 * TODO check, why is here a userid required???
 	 */
 	public String addNewDerivateToWorkflowObject(String derivateDirectory, String metadataObjectId){
-		MCRObjectID IDMax = setNextFreeDerivateID();
+		File derivateParentDir = new File(derivateDirectory);
+	    MCRObjectID IDMax = setNextFreeDerivateID(derivateParentDir);
 		
 		logger.debug("New derivate ID " + IDMax.toString());
 
 		// create a new directory
-		File dir = new File(derivateDirectory + SEPARATOR + IDMax.toString());
+		File dir = new File(derivateParentDir, IDMax.toString());
 		dir.mkdir();
 		logger.debug("Directory " + dir.getAbsolutePath() + " created.");
 
@@ -108,40 +107,44 @@ public abstract class MCRDerivateStrategy {
 		return IDMax.toString();
 	}
 
-	final public static synchronized MCRObjectID setNextFreeDerivateID(){
-		int maxwf=0;
-		String base = MCRConfiguration.instance().getString("MCR.SWF.Project.ID","DocPortal")+ "_derivate";
-		if(nextWorkflowDerivateID == null){
-			List<String> allDerivateFileNames = new ArrayList<String>();
-			HashMap directoryMap = MCRWorkflowDirectoryManager.getEditWorkflowDirectories();
-			for (Iterator it = directoryMap.keySet().iterator(); it.hasNext();) {
-				File workDir = new File((String)directoryMap.get(it.next()));
-				if(workDir.isDirectory()){
-					Iterator it2 = Arrays.asList(workDir.listFiles(new MCRDerivateFileFilter())).iterator(); 
-					while(it2.hasNext()){
-						File ff = (File) it2.next();
-						if ( (ff.isFile())) {
-								allDerivateFileNames.add(ff.getName());
-						}
-					}
-				}
-			}
-			
-			if(allDerivateFileNames.size() == 0){
-				maxwf=0;
-			}else{			
-				Collections.sort(allDerivateFileNames, Collections.reverseOrder());
-				String maxFilename = (String)allDerivateFileNames.get(0); 
-				MCRObjectID IDinWF = MCRObjectID.getInstance(maxFilename.substring(0, maxFilename.length() - 4));
-				maxwf = IDinWF.getNumberAsInteger();				
-			}
-			nextWorkflowDerivateID = MCRObjectID.getNextFreeId(base, maxwf);
-		}
-		
-		MCRObjectID retID = MCRObjectID.getInstance(nextWorkflowDerivateID.toString());
-		nextWorkflowDerivateID = MCRObjectID.getNextFreeId(base, retID.getNumberAsInteger());
-		return retID;	
-	}	
+    final public static synchronized MCRObjectID setNextFreeDerivateID(File parentDir) {
+        int maxwf = 0;
+        String base = MCRConfiguration.instance().getString("MCR.SWF.Project.ID", "DocPortal") + "_derivate";
+        List<String> allDerivateFileNames = new ArrayList<String>();
+        HashMap directoryMap = MCRWorkflowDirectoryManager.getEditWorkflowDirectories();
+        for (Iterator it = directoryMap.keySet().iterator(); it.hasNext();) {
+            File workDir = new File((String) directoryMap.get(it.next()));
+            if (workDir.isDirectory()) {
+                Iterator<File> it2 = Arrays.asList(workDir.listFiles(new MCRDerivateFileFilter())).iterator();
+                while (it2.hasNext()) {
+                    File ff = (File) it2.next();
+                    if ((ff.isFile())) {
+                        allDerivateFileNames.add(ff.getName());
+                    }
+                }
+            }
+        }
+
+        if (allDerivateFileNames.size() == 0) {
+            maxwf = 0;
+        } else {
+            Collections.sort(allDerivateFileNames, Collections.reverseOrder());
+            String maxFilename = (String) allDerivateFileNames.get(0);
+            MCRObjectID IDinWF = MCRObjectID.getInstance(maxFilename.substring(0, maxFilename.length() - 4));
+            maxwf = IDinWF.getNumberAsInteger();
+        }
+
+        MCRObjectID retID = MCRObjectID.getNextFreeId(base, maxwf);
+        //create dummy in workflow
+        File f = new File(parentDir, retID.toString() + ".xml");
+        try {
+            f.createNewFile();
+        } catch (Exception e) {
+            logger.error("could not create new file", e);
+        }
+
+        return retID;
+    }
 	
 	/**
 	 * saves a list of files in a workflow directory, 
@@ -383,6 +386,6 @@ public abstract class MCRDerivateStrategy {
 				}
 			}
 			return workfiles;
-		}	
+    }
 
 }
