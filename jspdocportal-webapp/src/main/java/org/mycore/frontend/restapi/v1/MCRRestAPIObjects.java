@@ -27,11 +27,11 @@ import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -47,13 +47,10 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
-import org.mycore.common.MCRConstants;
 import org.mycore.datamodel.common.MCRObjectIDDate;
 import org.mycore.datamodel.common.MCRXMLMetadataManager;
-import org.mycore.datamodel.ifs.MCRDirectoryXML;
-import org.mycore.datamodel.metadata.MCRMetadataManager;
-import org.mycore.datamodel.metadata.MCRObject;
-import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.frontend.restapi.v1.utils.MCRRestAPIObjectsHelper;
+import org.mycore.frontend.restapi.v1.utils.MCRRestAPISortFieldComparator;
 
 import com.google.gson.stream.JsonWriter;
 
@@ -167,7 +164,7 @@ public class MCRRestAPIObjects {
 			}
 		}
 		if(sortOrder != null && sortField!=null){
-			Collections.sort(objIdDates, new SortFieldComparator(sortField, sortOrder));
+			Collections.sort(objIdDates, new MCRRestAPISortFieldComparator(sortField, sortOrder));
 		}
 		
 		if (FORMAT_XML.equals(format)) {
@@ -178,7 +175,7 @@ public class MCRRestAPIObjects {
 				Element eMcrObject = new Element("mycoreobject");
 				eMcrObject.setAttribute("ID", oid.getId());
 				eMcrObject.setAttribute("lastModified", SDF_UTC.format(oid.getLastModified()));
-				eMcrObject.setAttribute("href", info.getAbsolutePathBuilder().path("id").path(oid.getId()).build((Object[]) null).toString());
+				eMcrObject.setAttribute("href", info.getAbsolutePathBuilder().path(oid.getId()).build((Object[]) null).toString());
 					
 				eMcrobjects.addContent(eMcrObject);
 			}
@@ -198,13 +195,14 @@ public class MCRRestAPIObjects {
 				JsonWriter writer = new JsonWriter(sw);
 				writer.setIndent("    ");
 				writer.beginObject();
+				writer.name("numFound").value(Integer.toString(objIdDates.size()));
 				writer.name("mycoreobject");
 				writer.beginArray();
 				for(MCRObjectIDDate oid: objIdDates){
 					writer.beginObject();
 					writer.name("ID").value(oid.getId());
 					writer.name("lastModified").value(SDF_UTC.format(oid.getLastModified()));
-					writer.name("href").value(info.getAbsolutePathBuilder().path("id").path(oid.getId()).build((Object[]) null).toString());
+					writer.name("href").value(info.getAbsolutePathBuilder().path(oid.getId()).build((Object[]) null).toString());
 					writer.endObject();
 				}	
 				writer.endArray();
@@ -221,81 +219,25 @@ public class MCRRestAPIObjects {
 	}
 	/**
 	 * returns a single object in XML Format
-	 * @param id the MCRObjectID
+	 * @param an object identifier of syntax [id] or [prefix]:[id]
 	 * 
-	 * Parameter style (derivatedetails)
+	 * Allowed Prefixes are "mcr"
+	 * "mcr" is the default prefix for MyCoRe IDs.
+	 * 
+	 * @param style allowed values are "derivatedetails"
+	 * derivate details will be integrated into the output.
+	 * 
 	 * @return
 	 */
 	@GET
 	@Produces(MediaType.TEXT_XML)
-	@Path("/id/{value}")	
-	public Response returnXMLObject(@PathParam("value") String id,
+	@Path("/{value}")	
+	public Response returnXMLObject(
+	        @Context HttpServletRequest request,
+	        @PathParam("value") String id,
 			@QueryParam("style") String style){
-		try{
-		MCRObjectID mcrID = MCRObjectID.getInstance(id);
-		if(MCRMetadataManager.exists(mcrID)){
-			MCRObject mcrO = MCRMetadataManager.retrieveMCRObject(mcrID);
-			Document doc = mcrO.createXML();
-			Element eStructure = doc.getRootElement().getChild("structure");
-			if(STYLE_DERIVATEDETAILS.equals(style) && eStructure!=null){
-				Element eDerObjects = eStructure.getChild("derobjects");
-				if(eDerObjects != null){
-					for(Element eDer: (List<Element>)eDerObjects.getChildren("derobject")){
-						String derID = eDer.getAttributeValue("href", MCRConstants.XLINK_NAMESPACE);
-						Document docDer = MCRMetadataManager.retrieveMCRDerivate(MCRObjectID.getInstance(derID)).createXML();
-						eDer.addContent(docDer.getRootElement().detach());
-				
-						//<mycorederivate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:noNamespaceSchemaLocation="datamodel-derivate.xsd" ID="cpr_derivate_00003760" label="display_image" version="1.3">
-						//  <derivate display="true">
-
-						eDer = eDer.getChild("mycorederivate").getChild("derivate");
-						Document fileDoc = MCRDirectoryXML.getInstance().getDirectory("/"+derID, false);
-						eDer.addContent(fileDoc.getRootElement().detach());			
-					}
-				}
-			}
-
-			StringWriter sw = new StringWriter();
-			XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
-			outputter.output(doc, sw);
-			return Response.ok(sw.toString()).type("application/xml").build();
-		}
-		}
-		catch(IOException e){
-			//TODO
-		}
+	    return MCRRestAPIObjectsHelper.showMCRObject(id, style, request);
 		
-		return Response.status(com.sun.jersey.api.client.ClientResponse.Status.BAD_REQUEST).build();
-	}
-	
-	class SortFieldComparator implements Comparator<MCRObjectIDDate> {
-		private String _sortField = null;
-		private String _sortOrder = null;
-		public SortFieldComparator(String sortField, String sortOrder){
-			_sortField = sortField.toLowerCase();
-			_sortOrder = sortOrder.toLowerCase();
-		}
-		@Override
-        public int compare(MCRObjectIDDate o1, MCRObjectIDDate o2) {
-			if("id".equals(_sortField)){
-				if("asc".equals(_sortOrder)){
-					return o1.getId().compareTo(o2.getId());
-				}
-				if("desc".equals(_sortOrder)){
-					return o2.getId().compareTo(o1.getId());
-				}
-			}
-			if("lastmodified".equals(_sortField)){
-				if("asc".equals(_sortOrder)){
-					return o1.getLastModified().compareTo(o2.getLastModified());
-				}
-				if("desc".equals(_sortOrder)){
-					return o2.getLastModified().compareTo(o1.getLastModified());
-				}
-			}
-			
-            return 0;
-        }
 	}
 	
 }

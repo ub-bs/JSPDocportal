@@ -32,6 +32,8 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
@@ -73,6 +75,7 @@ import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.cli.MCRObjectCommands;
+import org.mycore.frontend.restapi.v1.utils.MCREncryptionHelper;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
@@ -231,14 +234,43 @@ public class MCRRestAPIUploads {
     public Response uploadFile(@Context UriInfo info, @Context HttpServletRequest request,
             @PathParam("mcrObjID") String mcrObjID, @PathParam("mcrDerID") String mcrDerID,
             @FormDataParam("file") InputStream uploadedInputStream,
-            @FormDataParam("file") FormDataContentDisposition fileDetails, @FormDataParam("path") String path,
-            @DefaultValue("false") @FormDataParam("maindoc") boolean maindoc) {
+            @FormDataParam("file") FormDataContentDisposition fileDetails, 
+            @FormDataParam("rest-client") String clientID,
+            @FormDataParam("path") String path,
+            @DefaultValue("false") @FormDataParam("maindoc") boolean maindoc,
+            @FormDataParam("sha1") String sha1,
+            @FormDataParam("size") Long size){
+        
         Response response = Response.status(Status.FORBIDDEN).build();
+        if (checkAccess(request)) {
+            
+        SortedMap<String, String> parameter = new TreeMap<>();
+        parameter.put("rest-client", clientID);
+        parameter.put("path", path);
+        parameter.put("maindoc", Boolean.toString(maindoc));
+        parameter.put("sha1", sha1);
+        parameter.put("size", Long.toString(size));
+    
+        
+        String keyFileLocation = MCRConfiguration.instance().getString("MCR.RestAPI.v1.Client."+clientID+".PublicKeyFile");
+        if(keyFileLocation == null){
+            //ToDo error
+        }
+        String base64Signature = request.getHeader("X-MyCoRe-RestAPI-Signature");
+        if(base64Signature== null){
+            //ToDo error handling
+        }
+        if(!MCREncryptionHelper.verifyPropertiesWithSignature(parameter, base64Signature, new File(keyFileLocation))){
+            //validation failed -> error handling
+  
+        }
+        else {
+        
         //MCRSession session = MCRServlet.getSession(request);
         MCRSession session = MCRSessionMgr.getCurrentSession();
         MCRUserInformation currentUser = session.getUserInformation();
        
-        if (checkAccess(request)) {
+     
           
             session.beginTransaction();
             MCRUserInformation workingUser = new MCRUserInformation() {
@@ -274,9 +306,10 @@ public class MCRRestAPIUploads {
 
                 MCRWorkflowManager wfm = MCRWorkflowManagerFactory.getImpl(objID);
                 if (wfm != null) {
+                    File saveDir = new File(MCRWorkflowDirectoryManager.getWorkflowDirectory(wfm
+                            .getMainDocumentType()));
                     try {
-                        File saveDir = new File(MCRWorkflowDirectoryManager.getWorkflowDirectory(wfm
-                                .getMainDocumentType()));
+                        
                         derDir = new File(saveDir, derID.toString());
                         MCRUtils.deleteDirectory(derDir);
                         path = path.replace("\\","/").replace("../", "");
@@ -307,25 +340,29 @@ public class MCRRestAPIUploads {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                }
+              
                 
                 MCRUtils.deleteDirectory(derDir);
                 
                 if (maindoc) {
                     der.getDerivate().getInternals().setMainDoc(path);
                     try{
+                        derDir = new File(saveDir, derID.toString());
+                        derDir.mkdirs();
                         MCRMetadataManager.update(der);
+                        MCRUtils.deleteDirectory(derDir);
                     }
                     catch(MCRException e){
                         //will be handled tomorrow
                         Logger.getLogger(this.getClass()).error(e);
                     }
-                    
+                }
 
                 }
             }
 
             session.commitTransaction();
+            session.setUserInformation(currentUser);
             response = Response
                     .created(
                             info.getBaseUriBuilder()
@@ -333,10 +370,12 @@ public class MCRRestAPIUploads {
                                             + derID.toString()+"/files").build()).type("application/xml; charset=UTF-8")
                     .build();
 
+        
         }
         }
-        session.setUserInformation(currentUser);
+        }
         return response;
+        
     }
 
     private boolean checkAccess(HttpServletRequest request) {

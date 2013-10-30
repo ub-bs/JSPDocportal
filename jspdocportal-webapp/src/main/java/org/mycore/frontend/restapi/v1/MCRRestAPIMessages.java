@@ -123,7 +123,7 @@ public class MCRRestAPIMessages extends HttpServlet {
 		} catch (IOException e) {
 			//toDo
 		}
-		return Response.status(com.sun.jersey.api.client.ClientResponse.Status.BAD_REQUEST).build();
+		return Response.status(Response.Status.BAD_REQUEST).build();
 	}
 	
 	/**
