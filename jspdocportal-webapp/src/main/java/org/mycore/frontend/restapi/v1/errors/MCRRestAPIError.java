@@ -36,7 +36,7 @@ public class MCRRestAPIError {
             JsonWriter writer = new JsonWriter(sw);
             writer.setIndent("    ");
             writer.beginObject();
-            writer.name("stats").value(status.getStatusCode());
+            writer.name("status").value(status.getStatusCode());
             writer.name("message").value(message);
             if(details!=null){
                 writer.name("details").value(details);
@@ -64,5 +64,9 @@ public class MCRRestAPIError {
     
     public Response createHttpResponse(){
         return Response.status(status).type(MediaType.APPLICATION_JSON_TYPE).entity(toJSONString()).build();
+    }
+    
+    public List<MCRRestAPIFieldError> getFieldErrors(){
+        return errors;
     }
 }
