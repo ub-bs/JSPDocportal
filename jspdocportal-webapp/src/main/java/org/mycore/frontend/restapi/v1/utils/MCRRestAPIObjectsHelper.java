@@ -70,7 +70,7 @@ public class MCRRestAPIObjectsHelper {
                             //  <derivate display="true">
 
                             eDer = eDer.getChild("mycorederivate").getChild("derivate");
-                            eDer.addContent(listDerivateContent(derID));
+                            eDer.addContent(listDerivateContent(MCRObjectID.getInstance(derID)));
                         } catch (MCRException e) {
                             eDer.addContent(new Comment("Error: Derivate not found."));
                         }
@@ -97,100 +97,28 @@ public class MCRRestAPIObjectsHelper {
     }
 
     public static Response showMCRDerivate(String pathParamMcrID, String pathParamDerID, HttpServletRequest request) {
-        String mcrIDString = pathParamMcrID;
-        String key = "mcr"; // the default value for the key
-        if (mcrIDString.contains(":")) {
-            int pos = mcrIDString.indexOf(":");
-            key = mcrIDString.substring(0, pos);
-            mcrIDString = mcrIDString.substring(pos + 1);
-            if (!key.equals("mcr")) {
-                return MCRRestAPIError.create(Response.Status.BAD_REQUEST, "The ID is not valid.",
-                        "The prefix is unkown. Only 'mcr' is allowed.").createHttpResponse();
-            }
-        }
-
-        MCRObjectID mcrID = null;
-        try {
-            mcrID = MCRObjectID.getInstance(mcrIDString);
-        } catch (Exception e) {
-            return MCRRestAPIError.create(
-                    Response.Status.BAD_REQUEST,
-                    "The MyCoRe ID '" + mcrIDString
-                            + "' is not valid. Did you use the proper format: '{project}_{type}_{number}'?",
-                    e.getMessage()).createHttpResponse();
-        }
-
-        if (!MCRMetadataManager.exists(mcrID)) {
-            return MCRRestAPIError.create(Response.Status.NOT_FOUND,
-                    "There is no object with the given MyCoRe ID '" + mcrIDString + "'.", null).createHttpResponse();
-        }
-
-        String derIDString = pathParamDerID;
-        String derKey = "mcr"; // the default value for the key
-        if (derIDString.contains(":")) {
-            int pos = derIDString.indexOf(":");
-            derKey = derIDString.substring(0, pos);
-            derIDString = derIDString.substring(pos + 1);
-            if (!derKey.equals("mcr") && !derKey.equals("label")) {
-                return MCRRestAPIError.create(Response.Status.BAD_REQUEST, "The ID is not valid.",
-                        "The prefix is unkown. Only 'mcr' or 'label' are allowed.").createHttpResponse();
-            }
-        }
-
-        MCRObject mcrO = MCRMetadataManager.retrieveMCRObject(mcrID);
-
-        String matchedDerID = null;
-
         MCRSession session = MCRServlet.getSession(request);
         session.beginTransaction();
         try {
-            for (MCRMetaLinkID check : mcrO.getStructure().getDerivates()) {
-                if (derKey.equals("mcr")) {
-                    if (check.getXLinkHref().equals(derIDString)) {
-                        matchedDerID = check.getXLinkHref();
-                        break;
-                    }
-                }
-                if (derKey.equals("label")) {
-                    if (check.getXLinkLabel().equals(derIDString) || check.getXLinkTitle().equals(derIDString)) {
-                        matchedDerID = check.getXLinkHref();
-                        break;
-                    }
-                }
-            }
+            MCRObject mcrObj = retrieveMCRObject(pathParamMcrID);
+            MCRDerivate derObj = retrieveMCRDerivate(mcrObj, pathParamDerID);
 
-            if (matchedDerID == null) {
-                return MCRRestAPIError.create(
-                        Response.Status.NOT_FOUND,
-                        "Derivate not found.",
-                        "The MyCoRe Object with id '" + pathParamMcrID + "' does not contain a derivate with id '"
-                                + pathParamDerID + "'.").createHttpResponse();
-            }
-
-            MCRObjectID derID = MCRObjectID.getInstance(matchedDerID);
-            if (!MCRMetadataManager.exists(derID)) {
-                return MCRRestAPIError.create(Response.Status.NOT_FOUND,
-                        "There is no derivate with the id '" + matchedDerID + "'.", null).createHttpResponse();
-            }
-
-            MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(derID);
-            Document doc = der.createXML();
-            doc.getRootElement().addContent(listDerivateContent(matchedDerID));
+            Document doc = derObj.createXML();
+            doc.getRootElement().addContent(listDerivateContent(derObj.getId()));
 
             StringWriter sw = new StringWriter();
             XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
             try {
                 outputter.output(doc, sw);
             } catch (IOException e) {
-                return MCRRestAPIError.create(Response.Status.INTERNAL_SERVER_ERROR,
-                        "Unable to display derivate content", e.getMessage()).createHttpResponse();
+                throw new MCRRestAPIException(MCRRestAPIError.create(Response.Status.INTERNAL_SERVER_ERROR,
+                        "Unable to display derivate content", e.getMessage()));
             }
 
             return Response.ok(sw.toString()).type("application/xml").build();
 
-        } catch (MCRException e) {
-            return MCRRestAPIError.create(Response.Status.INTERNAL_SERVER_ERROR, "Unable to display derivate content",
-                    e.getMessage()).createHttpResponse();
+        } catch (MCRRestAPIException e) {
+            return e.getError().createHttpResponse();
         } finally {
             session.commitTransaction();
         }
@@ -199,10 +127,10 @@ public class MCRRestAPIObjectsHelper {
         //       "Please contact a developer!").createHttpResponse();
     }
 
-    private static Element listDerivateContent(String derID) {
-        Element eContents = new Element("contents");
+    private static Element listDerivateContent(MCRObjectID derID) {
+        Element eContents = new Element("files");
 
-        MCRFilesystemNode root = MCRFilesystemNode.getRootNode(derID);
+        MCRFilesystemNode root = MCRFilesystemNode.getRootNode(derID.toString());
         if (root != null) {
             eContents.setAttribute("ID", root.getID());
             eContents.setAttribute("ownerID", root.getOwnerID());
@@ -224,6 +152,43 @@ public class MCRRestAPIObjectsHelper {
             }
         }
         return eContents;
+    }
+
+    private static String listDerivateContentAsJson(MCRObjectID derID) throws MCRRestAPIException {
+        StringWriter sw = new StringWriter();
+        try {
+
+            MCRFilesystemNode root = MCRFilesystemNode.getRootNode(derID.toString());
+            if (root != null) {
+                JsonWriter writer = new JsonWriter(sw);
+                writer.setIndent("    ");
+                writer.beginObject();
+
+                writer.name("ID").value(root.getID());
+                writer.name("ownerID").value(root.getOwnerID());
+                writer.name("path").value(root.getPath());
+                writer.name("size").value(String.valueOf(root.getSize()));
+                writer.name("lastModified").value(SDF_UTC.format(root.getLastModified().getTime()));
+                String label = root.getLabel();
+                if (label != null) {
+                    writer.name("label").value(label);
+                }
+                if (root instanceof MCRDirectory) {
+                    MCRDirectory dir = (MCRDirectory) root;
+                    writer.name("total_directories").value(
+                            dir.getNumChildren(MCRDirectory.DIRECTORIES, MCRDirectory.TOTAL));
+                    writer.name("total_files").value(dir.getNumChildren(MCRDirectory.FILES, MCRDirectory.TOTAL));
+                    listDirectoryContentAsJson(writer, dir);
+                }
+                writer.endObject();
+
+                writer.close();
+            }
+        } catch (IOException e) {
+            throw new MCRRestAPIException(MCRRestAPIError.create(Response.Status.INTERNAL_SERVER_ERROR,
+                    "A problem occurred while fetching the data", e.getMessage()));
+        }
+        return sw.toString();
     }
 
     private static void listDirectoryContent(Element current, MCRDirectory dir) {
@@ -251,10 +216,46 @@ public class MCRRestAPIObjectsHelper {
                 node.setAttribute("md5", file.getMD5());
             }
             if (element instanceof MCRDirectory) {
-                MCRDirectory subDir = (MCRDirectory) element;
-                listDirectoryContent(node, subDir);
+                listDirectoryContent(node, (MCRDirectory) element);
             }
         }
+    }
+
+    private static void listDirectoryContentAsJson(JsonWriter writer, MCRDirectory dir) throws IOException {
+        if (dir.getChildren().length > 0) {
+            writer.name("files");
+            writer.beginArray();
+
+            for (MCRFilesystemNode element : dir.getChildren()) {
+                writer.beginObject();
+                if (element instanceof MCRFile) {
+                    writer.name("node").value("file");
+                } else {
+                    writer.name("node").value("directory");
+                }
+
+                writer.name("ID").value(element.getID());
+                writer.name("name").value(element.getName());
+                String label = element.getLabel();
+                if (label != null) {
+                    writer.name("label").value(label);
+                }
+                writer.name("size").value(element.getSize());
+                writer.name("lastModified").value(SDF_UTC.format(element.getLastModified().getTime()));
+
+                if (element instanceof MCRFile) {
+                    MCRFile file = (MCRFile) element;
+                    writer.name("contentType").value(file.getContentTypeID());
+                    writer.name("md5").value(file.getMD5());
+                }
+                if (element instanceof MCRDirectory) {
+                    listDirectoryContentAsJson(writer, (MCRDirectory) element);
+                }
+                writer.endObject();
+            }
+            writer.endArray();
+        }
+
     }
 
     /**
@@ -540,8 +541,8 @@ public class MCRRestAPIObjectsHelper {
                         eDerObject.setAttribute("label", der.getLabel());
                     }
                     eDerObject.setAttribute("lastModified", SDF_UTC.format(oid.getLastModified()));
-                    eDerObject.setAttribute("href", info.getAbsolutePathBuilder().path(oid.getId())
-                                    .build((Object[]) null).toString());
+                    eDerObject.setAttribute("href",
+                            info.getAbsolutePathBuilder().path(oid.getId()).build((Object[]) null).toString());
 
                     eDerObjects.addContent(eDerObject);
                 }
@@ -576,7 +577,8 @@ public class MCRRestAPIObjectsHelper {
                             writer.name("label").value(der.getLabel());
                         }
                         writer.name("lastModified").value(SDF_UTC.format(oid.getLastModified()));
-                        writer.name("href").value(info.getAbsolutePathBuilder().path(oid.getId()).build((Object[]) null).toString());
+                        writer.name("href").value(
+                                info.getAbsolutePathBuilder().path(oid.getId()).build((Object[]) null).toString());
                         writer.endObject();
                     }
                     writer.endArray();
@@ -586,8 +588,8 @@ public class MCRRestAPIObjectsHelper {
 
                     return Response.ok(sw.toString()).type("application/json; charset=UTF-8").build();
                 } catch (IOException e) {
-                    return MCRRestAPIError.create(Response.Status.INTERNAL_SERVER_ERROR,
-                            "A problem occurred while fetching the data", e.getMessage()).createHttpResponse();
+                    throw new MCRRestAPIException(MCRRestAPIError.create(Response.Status.INTERNAL_SERVER_ERROR,
+                            "A problem occurred while fetching the data", e.getMessage()));
                 }
             }
         } catch (MCRRestAPIException rae) {
@@ -596,6 +598,54 @@ public class MCRRestAPIObjectsHelper {
 
         return MCRRestAPIError.create(Response.Status.INTERNAL_SERVER_ERROR, "Unexepected program flow termination.",
                 "Please contact a developer!").createHttpResponse();
+    }
+
+    public static Response listFiles(HttpServletRequest request, String mcrIDString, String derIDString,
+            String format) {
+        MCRSession session = MCRServlet.getSession(request);
+        session.beginTransaction();
+        try {
+
+            if (format.equals(MCRRestAPIObjects.FORMAT_JSON) || format.equals(MCRRestAPIObjects.FORMAT_XML)) {
+                //ok
+            } else {
+                MCRRestAPIError error = MCRRestAPIError.create(Response.Status.BAD_REQUEST,
+                        "The syntax of one or more query parameters is wrong.", null);
+                error.addFieldError(MCRRestAPIFieldError.create("format",
+                        "Allowed values for format are 'json' or 'xml'."));
+                throw new MCRRestAPIException(error);
+            }
+            MCRObject mcrObj = retrieveMCRObject(mcrIDString);
+            MCRDerivate derObj = retrieveMCRDerivate(mcrObj, derIDString);
+
+            //output as XML
+            if (MCRRestAPIObjects.FORMAT_XML.equals(format)) {
+                Document docOut = new Document(listDerivateContent(derObj.getId()));
+                try {
+                    StringWriter sw = new StringWriter();
+                    XMLOutputter xout = new XMLOutputter(Format.getPrettyFormat());
+                    xout.output(docOut, sw);
+                    return Response.ok(sw.toString()).type("application/xml; charset=UTF-8").build();
+                } catch (IOException e) {
+                    return MCRRestAPIError.create(Response.Status.INTERNAL_SERVER_ERROR,
+                            "A problem occurred while fetching the data", e.getMessage()).createHttpResponse();
+                }
+            }
+
+            //output as JSON
+            if (MCRRestAPIObjects.FORMAT_JSON.equals(format)) {
+                String result = listDerivateContentAsJson(derObj.getId());
+                return Response.ok(result).type("application/json; charset=UTF-8").build();
+            }
+
+            return MCRRestAPIError.create(Response.Status.INTERNAL_SERVER_ERROR,
+                    "Unexepected program flow termination.", "Please contact a developer!").createHttpResponse();
+
+        } catch (MCRRestAPIException rae) {
+            return rae.getError().createHttpResponse();
+        } finally {
+            session.commitTransaction();
+        }
     }
 
     /**
@@ -684,5 +734,49 @@ public class MCRRestAPIObjectsHelper {
         throw new MCRRestAPIException(MCRRestAPIError.create(Response.Status.NOT_FOUND,
                 "There is no object with the given MyCoRe ID '" + idString + "'.", null));
 
+    }
+
+    private static MCRDerivate retrieveMCRDerivate(MCRObject mcrObj, String derIDString) throws MCRRestAPIException {
+
+        String derKey = "mcr"; // the default value for the key
+        if (derIDString.contains(":")) {
+            int pos = derIDString.indexOf(":");
+            derKey = derIDString.substring(0, pos);
+            derIDString = derIDString.substring(pos + 1);
+            if (!derKey.equals("mcr") && !derKey.equals("label")) {
+                throw new MCRRestAPIException(MCRRestAPIError.create(Response.Status.BAD_REQUEST,
+                        "The ID is not valid.", "The prefix is unkown. Only 'mcr' or 'label' are allowed."));
+            }
+        }
+
+        String matchedDerID = null;
+        for (MCRMetaLinkID check : mcrObj.getStructure().getDerivates()) {
+            if (derKey.equals("mcr")) {
+                if (check.getXLinkHref().equals(derIDString)) {
+                    matchedDerID = check.getXLinkHref();
+                    break;
+                }
+            }
+            if (derKey.equals("label")) {
+                if (check.getXLinkLabel().equals(derIDString) || check.getXLinkTitle().equals(derIDString)) {
+                    matchedDerID = check.getXLinkHref();
+                    break;
+                }
+            }
+        }
+
+        if (matchedDerID == null) {
+            throw new MCRRestAPIException(MCRRestAPIError.create(Response.Status.NOT_FOUND, "Derivate not found.",
+                    "The MyCoRe Object with id '" + mcrObj.getId().toString()
+                            + "' does not contain a derivate with id '" + derIDString + "'."));
+        }
+
+        MCRObjectID derID = MCRObjectID.getInstance(matchedDerID);
+        if (!MCRMetadataManager.exists(derID)) {
+            throw new MCRRestAPIException(MCRRestAPIError.create(Response.Status.NOT_FOUND,
+                    "There is no derivate with the id '" + matchedDerID + "'.", null));
+        }
+
+        return MCRMetadataManager.retrieveMCRDerivate(derID);
     }
 }

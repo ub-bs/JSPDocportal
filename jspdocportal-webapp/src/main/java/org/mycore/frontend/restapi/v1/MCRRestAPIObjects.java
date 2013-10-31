@@ -145,5 +145,26 @@ public class MCRRestAPIObjects {
         return MCRRestAPIObjectsHelper.showMCRDerivate(mcrid, derid, request);
         
     }
+    
+    /** returns a list of derivates for a given MyCoRe Object 
+    *
+    * Parameter
+    * ---------
+    * 
+    * format - parameter for return format, values are
+    *     * xml (default value)
+    *     * json
+    */
+   
+   @GET
+   @Produces({ MediaType.TEXT_XML + ";charset=UTF-8", MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+   @Path("/{mcrid}/derivates/{derid}/files")    
+   public Response listFiles(@Context UriInfo info,
+           @Context HttpServletRequest request,
+           @PathParam("mcrid") String mcrID,
+           @PathParam("derid") String derID,
+           @QueryParam("format") @DefaultValue("xml") String format){
+           return MCRRestAPIObjectsHelper.listFiles(request, mcrID, derID, format);
+   }
 	
 }
