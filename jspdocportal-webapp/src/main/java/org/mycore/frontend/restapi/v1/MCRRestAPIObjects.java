@@ -74,6 +74,31 @@ public class MCRRestAPIObjects {
 			return MCRRestAPIObjectsHelper.listObjects(info, format, filter, sort);
 	}
 	
+   /** returns a list of derivates for a given MyCoRe Object 
+    *
+    * Parameter
+    * ---------
+    * sort - sortfield and sortorder combined by ':'
+    *     * sortfield = ID | lastModified
+    *     * sortorder = asc | desc 
+    * 
+    * format - parameter for return format, values are
+    *     * xml (default value)
+    *     * json
+    */
+   
+   @GET
+   @Produces({ MediaType.TEXT_XML + ";charset=UTF-8", MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+   @Path("/{mcrid}/derivates")    
+   public Response listDerivates(@Context UriInfo info,
+                               @PathParam("mcrid") String mcrID,
+                               @QueryParam("format") @DefaultValue("xml") String format,
+                               @QueryParam("sort")  @DefaultValue("ID:asc") String sort)
+                               {
+                       
+           return MCRRestAPIObjectsHelper.listDerivates(info, mcrID, format, sort);
+   }
+   
 	/**
 	 * returns a single object in XML Format
 	 * @param an object identifier of syntax [id] or [prefix]:[id]
