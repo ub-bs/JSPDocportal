@@ -44,9 +44,7 @@ public class MCRRestAPIObjects {
 	public static final String SORT_ASC = "asc";
 	public static final String SORT_DESC = "desc";
 
-   
-	
-	/** returns a list of mcrObjects 
+   /** returns a list of mcrObjects 
 	 *
 	 * Parameter
 	 * ---------
@@ -91,12 +89,36 @@ public class MCRRestAPIObjects {
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	@Path("/{value}")	
-	public Response returnXMLObject(
+	public Response returnMCRObject(
 	        @Context HttpServletRequest request,
 	        @PathParam("value") String id,
 			@QueryParam("style") String style){
 	    return MCRRestAPIObjectsHelper.showMCRObject(id, style, request);
 		
 	}
+	
+	/**
+     * returns a single object in XML Format
+     * @param an object identifier of syntax [id] or [prefix]:[id]
+     * 
+     * Allowed Prefixes are "mcr"
+     * "mcr" is the default prefix for MyCoRe IDs.
+     * 
+     * @param style allowed values are "derivatedetails"
+     * derivate details will be integrated into the output.
+     * 
+     * @return
+     */
+    @GET
+    @Produces(MediaType.TEXT_XML)
+    @Path("/{mcrid}/derivates/{derid}")   
+    public Response returnDerivate(
+            @Context HttpServletRequest request,
+            @PathParam("mcrid") String mcrid,
+            @PathParam("derid") String derid,
+            @QueryParam("style") String style){
+        return MCRRestAPIObjectsHelper.showMCRDerivate(mcrid, derid, request);
+        
+    }
 	
 }

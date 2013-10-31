@@ -28,6 +28,7 @@ import org.mycore.datamodel.ifs.MCRDirectory;
 import org.mycore.datamodel.ifs.MCRFile;
 import org.mycore.datamodel.ifs.MCRFilesystemNode;
 import org.mycore.datamodel.metadata.MCRDerivate;
+import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
@@ -122,6 +123,108 @@ public class MCRRestAPIObjectsHelper {
                 "Please contact a developer!").createHttpResponse();
     }
 
+    public static Response showMCRDerivate(String pathParamMcrID, String pathParamDerID, HttpServletRequest request) {
+        String mcrIDString = pathParamMcrID;
+        String key = "mcr"; // the default value for the key
+        if (mcrIDString.contains(":")) {
+            int pos = mcrIDString.indexOf(":");
+            key = mcrIDString.substring(0, pos);
+            mcrIDString = mcrIDString.substring(pos + 1);
+            if (!key.equals("mcr")) {
+                return MCRRestAPIError.create(Response.Status.BAD_REQUEST, "The ID is not valid.",
+                        "The prefix is unkown. Only 'mcr' is allowed.").createHttpResponse();
+            }
+        }
+
+        MCRObjectID mcrID = null;
+        try {
+            mcrID = MCRObjectID.getInstance(mcrIDString);
+        } catch (Exception e) {
+            return MCRRestAPIError.create(
+                    Response.Status.BAD_REQUEST,
+                    "The MyCoRe ID '" + mcrIDString
+                            + "' is not valid. Did you use the proper format: '{project}_{type}_{number}'?",
+                    e.getMessage()).createHttpResponse();
+        }
+
+        if (!MCRMetadataManager.exists(mcrID)) {
+            return MCRRestAPIError.create(Response.Status.NOT_FOUND,
+                    "There is no object with the given MyCoRe ID '" + mcrIDString + "'.", null).createHttpResponse();
+        }
+
+        String derIDString = pathParamDerID;
+        String derKey = "mcr"; // the default value for the key
+        if (derIDString.contains(":")) {
+            int pos = derIDString.indexOf(":");
+            derKey = derIDString.substring(0, pos);
+            derIDString = derIDString.substring(pos + 1);
+            if (!derKey.equals("mcr") && !derKey.equals("label")) {
+                return MCRRestAPIError.create(Response.Status.BAD_REQUEST, "The ID is not valid.",
+                        "The prefix is unkown. Only 'mcr' or 'label' are allowed.").createHttpResponse();
+            }
+        }
+
+        MCRObject mcrO = MCRMetadataManager.retrieveMCRObject(mcrID);
+
+        String matchedDerID = null;
+
+        MCRSession session = MCRServlet.getSession(request);
+        session.beginTransaction();
+        try {
+            for (MCRMetaLinkID check : mcrO.getStructure().getDerivates()) {
+                if (derKey.equals("mcr")) {
+                    if (check.getXLinkHref().equals(derIDString)) {
+                        matchedDerID = check.getXLinkHref();
+                        break;
+                    }
+                }
+                if (derKey.equals("label")) {
+                    if (check.getXLinkLabel().equals(derIDString) || check.getXLinkTitle().equals(derIDString)) {
+                        matchedDerID = check.getXLinkHref();
+                        break;
+                    }
+                }
+            }
+            
+            if (matchedDerID == null) {
+                return MCRRestAPIError.create(
+                        Response.Status.NOT_FOUND, "Derivate not found.",
+                        "The MyCoRe Object with id '" + pathParamMcrID + "' does not contain a derivate with id '"
+                                + pathParamDerID + "'.").createHttpResponse();
+            }
+
+            MCRObjectID derID = MCRObjectID.getInstance(matchedDerID);
+            if (!MCRMetadataManager.exists(derID)) {
+                return MCRRestAPIError.create(Response.Status.NOT_FOUND,
+                        "There is no derivate with the id '" + matchedDerID + "'.", null).createHttpResponse();
+            }
+
+            MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(derID);
+            Document doc = der.createXML();
+            doc.getRootElement().addContent(listDerivateContent(matchedDerID));
+
+            StringWriter sw = new StringWriter();
+            XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
+            try {
+                outputter.output(doc, sw);
+            } catch (IOException e) {
+                return MCRRestAPIError.create(Response.Status.INTERNAL_SERVER_ERROR,
+                        "Unable to display derivate content", e.getMessage()).createHttpResponse();
+            }
+
+            return Response.ok(sw.toString()).type("application/xml").build();
+
+        } catch (MCRException e) {
+            return MCRRestAPIError.create(Response.Status.INTERNAL_SERVER_ERROR, "Unable to display derivate content",
+                    e.getMessage()).createHttpResponse();
+        } finally {
+            session.commitTransaction();
+        }
+
+        // return MCRRestAPIError.create(Response.Status.INTERNAL_SERVER_ERROR, "Unexepected program flow termination.",
+        //       "Please contact a developer!").createHttpResponse();
+    }
+
     private static Element listDerivateContent(String derID) {
         Element eContents = new Element("contents");
 
@@ -180,7 +283,6 @@ public class MCRRestAPIObjectsHelper {
         }
     }
 
-    
     /**
      * 
      * @param info
@@ -193,7 +295,8 @@ public class MCRRestAPIObjectsHelper {
      */
     public static Response listObjects(UriInfo info, String format, String filter, String sort) {
         //analyze sort
-        MCRRestAPIError error = MCRRestAPIError.create(Response.Status.BAD_REQUEST, "The syntax of one or more query parameters is wrong.", null);
+        MCRRestAPIError error = MCRRestAPIError.create(Response.Status.BAD_REQUEST,
+                "The syntax of one or more query parameters is wrong.", null);
         String sortField = null;
         String sortOrder = null;
         if (sort != null) {
@@ -201,24 +304,25 @@ public class MCRRestAPIObjectsHelper {
             if (data.length == 2) {
                 sortField = data[0].replace("|", "");
                 sortOrder = data[1].toLowerCase().replace("|", "");
-                if(!"|ID|lastModified|".contains(sortField)){
-                    error.addFieldError(MCRRestAPIFieldError.create("sort", "Allowed values for sortField are 'ID' and 'lastModified'."));
+                if (!"|ID|lastModified|".contains(sortField)) {
+                    error.addFieldError(MCRRestAPIFieldError.create("sort",
+                            "Allowed values for sortField are 'ID' and 'lastModified'."));
                 }
-                if(!"|asc|desc|".contains(sortOrder)){
-                    error.addFieldError(MCRRestAPIFieldError.create("sort", "Allowed values for sortOrder are 'asc' and 'desc'."));
+                if (!"|asc|desc|".contains(sortOrder)) {
+                    error.addFieldError(MCRRestAPIFieldError.create("sort",
+                            "Allowed values for sortOrder are 'asc' and 'desc'."));
                 }
-            }
-            else{
-                error.addFieldError(MCRRestAPIFieldError.create("sort", "The syntax should be [sortField]:[sortOrder]."));
+            } else {
+                error.addFieldError(MCRRestAPIFieldError
+                        .create("sort", "The syntax should be [sortField]:[sortOrder]."));
             }
         }
-        
+
         //analyze format
-        
-        if(format.equals(MCRRestAPIObjects.FORMAT_JSON) || format.equals(MCRRestAPIObjects.FORMAT_XML)){
+
+        if (format.equals(MCRRestAPIObjects.FORMAT_JSON) || format.equals(MCRRestAPIObjects.FORMAT_XML)) {
             //ok
-        }
-        else{
+        } else {
             error.addFieldError(MCRRestAPIFieldError.create("format", "Allowed values for format are 'json' or 'xml'."));
         }
 
@@ -238,44 +342,49 @@ public class MCRRestAPIObjectsHelper {
                     continue;
                 }
                 if (s.startsWith("lastModifiedBefore:")) {
-                    if(!validateDateInput(s.substring(19))){
-                        error.addFieldError(MCRRestAPIFieldError.create("filter", "The value of lastModifiedBefore could not be parsed. Please use UTC syntax: yyyy-MM-dd'T'HH:mm:ss'Z'."));
+                    if (!validateDateInput(s.substring(19))) {
+                        error.addFieldError(MCRRestAPIFieldError
+                                .create("filter",
+                                        "The value of lastModifiedBefore could not be parsed. Please use UTC syntax: yyyy-MM-dd'T'HH:mm:ss'Z'."));
                         continue;
                     }
-                    if(lastModifiedBefore==null){
+                    if (lastModifiedBefore == null) {
                         lastModifiedBefore = s.substring(19);
-                    }
-                    else if(s.substring(19).compareTo(lastModifiedBefore)<0){
-                            lastModifiedBefore = s.substring(19);
+                    } else if (s.substring(19).compareTo(lastModifiedBefore) < 0) {
+                        lastModifiedBefore = s.substring(19);
                     }
                     continue;
                 }
-                
+
                 if (s.startsWith("lastModifiedAfter:")) {
-                    if(!validateDateInput(s.substring(18))){
-                        error.addFieldError(MCRRestAPIFieldError.create("filter", "The value of lastModifiedAfter could not be parsed. Please use UTC syntax: yyyy-MM-dd'T'HH:mm:ss'Z'."));
+                    if (!validateDateInput(s.substring(18))) {
+                        error.addFieldError(MCRRestAPIFieldError
+                                .create("filter",
+                                        "The value of lastModifiedAfter could not be parsed. Please use UTC syntax: yyyy-MM-dd'T'HH:mm:ss'Z'."));
                         continue;
                     }
-                    if(lastModifiedAfter == null){
-                        lastModifiedAfter = s.substring(18);         
-                    }
-                    else if(s.substring(18).compareTo(lastModifiedAfter)>0){
+                    if (lastModifiedAfter == null) {
+                        lastModifiedAfter = s.substring(18);
+                    } else if (s.substring(18).compareTo(lastModifiedAfter) > 0) {
                         lastModifiedAfter = s.substring(18);
                     }
                     continue;
                 }
-                
-                error.addFieldError(MCRRestAPIFieldError.create("filter", "The syntax of the filter '"+s+"'could not be parsed. The syntax should be [filterName]:[value]. Allowed filterNames are 'project', 'type', 'modifiedBefore' and 'modifiedAfter'."));
+
+                error.addFieldError(MCRRestAPIFieldError
+                        .create("filter",
+                                "The syntax of the filter '"
+                                        + s
+                                        + "'could not be parsed. The syntax should be [filterName]:[value]. Allowed filterNames are 'project', 'type', 'modifiedBefore' and 'modifiedAfter'."));
             }
         }
-        
-        if(error.getFieldErrors().size()>0){
+
+        if (error.getFieldErrors().size() > 0) {
             return error.createHttpResponse();
         }
-        
-        
+
         //Parameters are checked - continue tor retrieve data
-        
+
         //retrieve MCRIDs by Type and Project ID
         Set<String> mcrIDs = new HashSet<String>();
         if (projectIDs.isEmpty()) {
@@ -307,7 +416,7 @@ public class MCRRestAPIObjectsHelper {
                 }
             }
         }
-        
+
         //Filter by modifiedBefore and modifiedAfter
         List<String> l = new ArrayList<String>();
         l.addAll(mcrIDs);
@@ -330,12 +439,12 @@ public class MCRRestAPIObjectsHelper {
                 objIdDates.add(oid);
             }
         }
-        
+
         //sort if necessary
         if (sortOrder != null && sortField != null) {
             Collections.sort(objIdDates, new MCRRestAPISortFieldComparator(sortField, sortOrder));
         }
-        
+
         //output as XML
         if (MCRRestAPIObjects.FORMAT_XML.equals(format)) {
             Element eMcrobjects = new Element("mycoreobjects");
@@ -356,7 +465,8 @@ public class MCRRestAPIObjectsHelper {
                 xout.output(docOut, sw);
                 return Response.ok(sw.toString()).type("application/xml; charset=UTF-8").build();
             } catch (IOException e) {
-                return MCRRestAPIError.create(Response.Status.INTERNAL_SERVER_ERROR, "A problem occurred while fetching the data", e.getMessage()).createHttpResponse();
+                return MCRRestAPIError.create(Response.Status.INTERNAL_SERVER_ERROR,
+                        "A problem occurred while fetching the data", e.getMessage()).createHttpResponse();
             }
         }
 
@@ -385,26 +495,27 @@ public class MCRRestAPIObjectsHelper {
 
                 return Response.ok(sw.toString()).type("application/json; charset=UTF-8").build();
             } catch (IOException e) {
-                return MCRRestAPIError.create(Response.Status.INTERNAL_SERVER_ERROR, "A problem occurred while fetching the data", e.getMessage()).createHttpResponse();
+                return MCRRestAPIError.create(Response.Status.INTERNAL_SERVER_ERROR,
+                        "A problem occurred while fetching the data", e.getMessage()).createHttpResponse();
             }
         }
-        return MCRRestAPIError.create(Response.Status.INTERNAL_SERVER_ERROR, "A problem in programm flow", null).createHttpResponse();
+        return MCRRestAPIError.create(Response.Status.INTERNAL_SERVER_ERROR, "A problem in programm flow", null)
+                .createHttpResponse();
     }
-    
-    
+
     /**
      * validates the given String if it matches the UTC syntax or the beginning of it
      * @param test
      * @return true, if it is valid
      */
-    private static boolean validateDateInput(String test){
+    private static boolean validateDateInput(String test) {
         String base = "0000-00-00T00:00:00Z";
-        if(test.length()>base.length()) return false;
+        if (test.length() > base.length())
+            return false;
         test = test + base.substring(test.length());
-        try{
+        try {
             SDF_UTC.parse(test);
-        }
-        catch(ParseException e){
+        } catch (ParseException e) {
             return false;
         }
         return true;
