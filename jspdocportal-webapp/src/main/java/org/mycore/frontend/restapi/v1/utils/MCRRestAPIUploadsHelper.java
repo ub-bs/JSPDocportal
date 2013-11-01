@@ -20,7 +20,7 @@
  * If not, write to the Free Software Foundation Inc.,
  * 59 Temple Place - Suite 330, Boston, MA  02111-1307 USA
  */
-package org.mycore.frontend.restapi.v1;
+package org.mycore.frontend.restapi.v1.utils;
 
 import static org.mycore.access.MCRAccessManager.PERMISSION_WRITE;
 
@@ -35,17 +35,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import javax.annotation.Resource;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
@@ -75,7 +65,6 @@ import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.cli.MCRObjectCommands;
-import org.mycore.frontend.restapi.v1.utils.MCREncryptionHelper;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
@@ -84,15 +73,10 @@ import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager
 import org.xml.sax.SAXParseException;
 
 import com.sun.jersey.core.header.FormDataContentDisposition;
-import com.sun.jersey.multipart.FormDataParam;
 
-@Path("/v1/uploads")
-public class MCRRestAPIUploads {
+public class MCRRestAPIUploadsHelper {
     public static final String FORMAT_XML = "xml";
-    @Resource
-    ServletContext context;
 
-    //private static SimpleDateFormat SDF_UTC = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
     /** returns a list of mcrObjects 
      *
@@ -116,13 +100,14 @@ public class MCRRestAPIUploads {
      * http://puspendu.wordpress.com/2012/08/23/restful-webservice-file-upload-with-jersey/
      */
 
-    @POST
+   /**
+    
     @Path("/objects/")
     @Produces({ MediaType.TEXT_XML + ";charset=UTF-8" })
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response uploadObject(@Context UriInfo info, @Context HttpServletRequest request,
-            @FormDataParam("file") InputStream uploadedInputStream,
-            @FormDataParam("file") FormDataContentDisposition fileDetails) {
+    */
+    public static Response uploadObject(UriInfo info, HttpServletRequest request,
+            InputStream uploadedInputStream, FormDataContentDisposition fileDetails) {
 
         if (checkAccess(request)) {
             MCRSession session = MCRServlet.getSession(request);
@@ -152,7 +137,7 @@ public class MCRRestAPIUploads {
                     setDefaultPermission(mcrObjID,  wfm.getWorkflowProcessType(), "admin" );
                     
                     return Response
-                            .created(info.getBaseUriBuilder().path("v1/objects/id/" + mcrObjID.toString()).build())
+                            .created(info.getBaseUriBuilder().path("v1/objects/" + mcrObjID.toString()).build())
                             .type("application/xml; charset=UTF-8").build();
                 }
             } catch (Exception e) {
@@ -169,12 +154,14 @@ public class MCRRestAPIUploads {
 
     }
 
+    /**
     @POST
     @Path("/objects/id/{mcrObjID}/derivates")
     @Produces({ MediaType.TEXT_XML + ";charset=UTF-8" })
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response uploadDerivate(@Context UriInfo info, @Context HttpServletRequest request,
-            @PathParam("mcrObjID") String mcrObjID, @FormDataParam("label") String label) {
+    */
+    public static Response uploadDerivate(UriInfo info, HttpServletRequest request,
+            String pathParamMcrObjID, String formParamlabel) {
 
         Response response = Response.status(Status.FORBIDDEN).build();
         if (checkAccess(request)) {
@@ -182,7 +169,7 @@ public class MCRRestAPIUploads {
             session.beginTransaction();
             File fXML = null;
             try {
-                MCRObjectID objID = MCRObjectID.getInstance(mcrObjID);
+                MCRObjectID objID = MCRObjectID.getInstance(pathParamMcrObjID);
                 MCRWorkflowManager wfm = MCRWorkflowManagerFactory.getImpl(objID);
                 if (wfm != null) {
                     File saveDir = new File(MCRWorkflowDirectoryManager.getWorkflowDirectory(wfm.getMainDocumentType()));
@@ -190,7 +177,7 @@ public class MCRRestAPIUploads {
                     MCRObjectID derID = MCRDerivateStrategy.setNextFreeDerivateID(saveDir);
 
                     MCRDerivate mcrDerivate = new MCRDerivate();
-                    mcrDerivate.setLabel(label);
+                    mcrDerivate.setLabel(formParamlabel);
                     mcrDerivate.setId(derID);
                     mcrDerivate.setSchema("datamodel-derivate.xsd");
                     mcrDerivate.getDerivate().setLinkMeta(new MCRMetaLinkID("linkmeta", objID, null, null));
@@ -198,7 +185,7 @@ public class MCRRestAPIUploads {
                             new MCRMetaIFS("internal", new File(saveDir, derID.toString()).getPath()));
 
                     MCRMetadataManager.create(mcrDerivate);
-                    MCRMetadataManager.addDerivateToObject(objID, new MCRMetaLinkID("derObject", derID, null, label));
+                    MCRMetadataManager.addDerivateToObject(objID, new MCRMetaLinkID("derObject", derID, null, formParamlabel));
 
                     fXML = new File(saveDir, derID.toString() + ".xml");
                     
@@ -209,12 +196,12 @@ public class MCRRestAPIUploads {
                     response = Response
                             .created(
                                     info.getBaseUriBuilder()
-                                            .path("v1/objects/id/" + objID.toString() + "/derivates/id/"
+                                            .path("v1/objects/" + objID.toString() + "/derivates/"
                                                     + derID.toString()).build()).type("application/xml; charset=UTF-8")
                             .build();
                 }
             } catch (Exception e) {
-                Logger.getLogger(this.getClass()).error("Exeption while uploading derivate", e);
+                Logger.getLogger(MCRRestAPIUploadsHelper.class).error("Exeption while uploading derivate", e);
             }
 
             session.commitTransaction();
@@ -227,32 +214,35 @@ public class MCRRestAPIUploads {
 
     }
 
+    /**
     @POST
     @Path("/objects/id/{mcrObjID}/derivates/id/{mcrDerID}/files")
     @Produces({ MediaType.TEXT_XML + ";charset=UTF-8" })
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response uploadFile(@Context UriInfo info, @Context HttpServletRequest request,
-            @PathParam("mcrObjID") String mcrObjID, @PathParam("mcrDerID") String mcrDerID,
-            @FormDataParam("file") InputStream uploadedInputStream,
-            @FormDataParam("file") FormDataContentDisposition fileDetails, 
-            @FormDataParam("rest-client") String clientID,
-            @FormDataParam("path") String path,
-            @DefaultValue("false") @FormDataParam("maindoc") boolean maindoc,
-            @FormDataParam("sha1") String sha1,
-            @FormDataParam("size") Long size){
+    */
+    public static Response uploadFile(UriInfo info, HttpServletRequest request,
+            String pathParamMcrObjID, 
+            String pathParamMcrDerID,
+            InputStream uploadedInputStream,
+            FormDataContentDisposition fileDetails, 
+            String formParamClientID,
+            String formParamPath,
+            boolean formParamMaindoc,
+            String formParamSha1,
+            Long formParamSize){
         
         Response response = Response.status(Status.FORBIDDEN).build();
         if (checkAccess(request)) {
             
         SortedMap<String, String> parameter = new TreeMap<>();
-        parameter.put("rest-client", clientID);
-        parameter.put("path", path);
-        parameter.put("maindoc", Boolean.toString(maindoc));
-        parameter.put("sha1", sha1);
-        parameter.put("size", Long.toString(size));
+        parameter.put("rest-client", formParamClientID);
+        parameter.put("path", formParamPath);
+        parameter.put("maindoc", Boolean.toString(formParamMaindoc));
+        parameter.put("sha1", formParamSha1);
+        parameter.put("size", Long.toString(formParamSize));
     
         
-        String keyFileLocation = MCRConfiguration.instance().getString("MCR.RestAPI.v1.Client."+clientID+".PublicKeyFile");
+        String keyFileLocation = MCRConfiguration.instance().getString("MCR.RestAPI.v1.Client."+formParamClientID+".PublicKeyFile");
         if(keyFileLocation == null){
             //ToDo error
         }
@@ -291,8 +281,8 @@ public class MCRRestAPIUploads {
 
             }; 
             session.setUserInformation(workingUser);
-            MCRObjectID objID = MCRObjectID.getInstance(mcrObjID);
-            MCRObjectID derID = MCRObjectID.getInstance(mcrDerID);
+            MCRObjectID objID = MCRObjectID.getInstance(pathParamMcrObjID);
+            MCRObjectID derID = MCRObjectID.getInstance(pathParamMcrDerID);
             
             //MCRAccessManager.checkPermission(uses CACHE, which seems to be dirty from other calls and cannot be deleted)????
             if (MCRAccessManager.getAccessImpl().checkPermission(derID.toString(), PERMISSION_WRITE)) {
@@ -302,6 +292,7 @@ public class MCRRestAPIUploads {
 
             File derDir = null;
             File saveFile = null;
+            String path=null;
             if (der.getOwnerID().equals(objID)) {
 
                 MCRWorkflowManager wfm = MCRWorkflowManagerFactory.getImpl(objID);
@@ -312,7 +303,7 @@ public class MCRRestAPIUploads {
                         
                         derDir = new File(saveDir, derID.toString());
                         MCRUtils.deleteDirectory(derDir);
-                        path = path.replace("\\","/").replace("../", "");
+                        path = formParamPath.replace("\\","/").replace("../", "");
                         saveFile = new File(derDir, path);
                         
                         saveFile.getParentFile().mkdirs();
@@ -331,7 +322,7 @@ public class MCRRestAPIUploads {
                                 fsn.delete();
                             }
                             catch(MCRPersistenceException pe){
-                                Logger.getLogger(this.getClass()).error(pe);
+                                Logger.getLogger(MCRRestAPIUploadsHelper.class).error(pe);
                             }
                         }
                         MCRFileImportExport.importFiles(derDir, difs);
@@ -344,7 +335,7 @@ public class MCRRestAPIUploads {
                 
                 MCRUtils.deleteDirectory(derDir);
                 
-                if (maindoc) {
+                if (formParamMaindoc) {
                     der.getDerivate().getInternals().setMainDoc(path);
                     try{
                         derDir = new File(saveDir, derID.toString());
@@ -354,7 +345,7 @@ public class MCRRestAPIUploads {
                     }
                     catch(MCRException e){
                         //will be handled tomorrow
-                        Logger.getLogger(this.getClass()).error(e);
+                        Logger.getLogger(MCRRestAPIUploadsHelper.class).error(e);
                     }
                 }
 
@@ -366,7 +357,7 @@ public class MCRRestAPIUploads {
             response = Response
                     .created(
                             info.getBaseUriBuilder()
-                                    .path("v1/objects/id/" + objID.toString() + "/derivates/id/"
+                                    .path("v1/objects/" + objID.toString() + "/derivates/"
                                             + derID.toString()+"/files").build()).type("application/xml; charset=UTF-8")
                     .build();
 
@@ -378,12 +369,12 @@ public class MCRRestAPIUploads {
         
     }
 
-    private boolean checkAccess(HttpServletRequest request) {
+    private static boolean checkAccess(HttpServletRequest request) {
         return ",127.0.0.1,::1,".contains("," + request.getRemoteAddr() + ",");
     }
     
     
-    private void setDefaultPermission(MCRObjectID objID, String workflowProcessType, String userid){
+    private static void setDefaultPermission(MCRObjectID objID, String workflowProcessType, String userid){
         MCRConfiguration config = MCRConfiguration.instance();
         String[] defaultPermissionTypes = config
                 .getString("MCR.WorkflowEngine.DefaultPermissionTypes", 
@@ -411,15 +402,8 @@ public class MCRRestAPIUploads {
                     MCRAccessManager.addRule(objID.toString(), permissionType, rule, "");
                 }
             } catch(SAXParseException spe){
-                Logger.getLogger(this.getClass()).error("SAXParseException: ", spe);
+                Logger.getLogger(MCRRestAPIObjectsHelper.class).error("SAXParseException: ", spe);
             }
         }
-    }
-    /*
-    MyCoRe-Objekte: /upload/objects
-    MyCoRe-Derivate /uploads/id/rosdok_document_123/derivate
-    Dateien /uploads/id/rosdok_document_123/derivate/rosdok_derivate_12346/file
-        as multipart_formdata name="" content=""
-    
-    */
+    }    
 }

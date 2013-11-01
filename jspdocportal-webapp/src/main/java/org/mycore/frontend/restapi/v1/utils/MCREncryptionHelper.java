@@ -44,9 +44,9 @@ public class MCREncryptionHelper {
         return f.length();
     }
 
-    public static boolean verifySHA1Checksum(String file, String testChecksum) throws NoSuchAlgorithmException,
+    public static boolean verifyMD5Checksum(String file, String testChecksum) throws NoSuchAlgorithmException,
             IOException {
-        MessageDigest sha1 = MessageDigest.getInstance("SHA1");
+        MessageDigest sha1 = MessageDigest.getInstance("MD5");
 
         byte[] data = new byte[1024];
         try (FileInputStream fis = new FileInputStream(file)) {
@@ -67,10 +67,16 @@ public class MCREncryptionHelper {
         return fileHash.equals(testChecksum);
     }
 
-    public static String createSHA1Checksum(File file) {
+    /**
+     * 
+     * @param file
+     * 
+     * @@return
+     */
+    public static String createMD5Checksum(File file) {
         MessageDigest sha1 = null;
         try {
-            sha1 = MessageDigest.getInstance("SHA1");
+            sha1 = MessageDigest.getInstance("MD5");
         } catch (NoSuchAlgorithmException nsae) {
             //do nothing
         }
