@@ -73,8 +73,9 @@ public class MCRJSPFileNodeServlet extends MCRFileNodeServlet {
         String ownerID = getOwnerID(request);
 
         try {
-            root = MCRFilesystemNode.getRootNode(ownerID);
-        } catch (org.mycore.common.MCRPersistenceException e) {
+            MCRObjectID derID = MCRObjectID.getInstance(ownerID);
+            root = MCRFilesystemNode.getRootNode(derID.toString());
+        } catch (org.mycore.common.MCRException e) {
             // Could not get value from JDBC result set
             LOGGER.error("MCRFileNodeServlet: Error while getting root node!", e);
             root = null;
