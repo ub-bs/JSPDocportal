@@ -65,7 +65,7 @@ public class MCRRestAPIMessages extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	public static final String FORMAT_JSON = "json";
 	public static final String FORMAT_XML = "xml";
-	public static final String FORMAT_PROPERTIES = "props";
+	public static final String FORMAT_PROPERTY = "property";
 
 	/**
 	 * 
@@ -81,7 +81,7 @@ public class MCRRestAPIMessages extends HttpServlet {
 	@Produces({ MediaType.TEXT_XML + ";charset=UTF-8", MediaType.APPLICATION_JSON + ";charset=UTF-8",
 	        MediaType.TEXT_PLAIN + ";charset=ISO-8859-1" })
 	public Response listMessages(@Context UriInfo info, @QueryParam("lang") @DefaultValue("de") String lang,
-	        @QueryParam("format") @DefaultValue("props") String format,
+	        @QueryParam("format") @DefaultValue("property") String format,
 	        @QueryParam("filter") @DefaultValue("") String filter) {
 
 		Locale locale = Locale.forLanguageTag(lang);
@@ -92,7 +92,7 @@ public class MCRRestAPIMessages extends HttpServlet {
 			data.putAll(MCRTranslation.translatePrefix(prefix, locale));
 		}
 		try {
-			if (FORMAT_PROPERTIES.equals(format)) {
+			if (FORMAT_PROPERTY.equals(format)) {
 				StringWriter sw = new StringWriter();
 				data.store(sw, "MyCoRe Messages (charset='ISO-8859-1')");
 				return Response.ok(sw.toString().getBytes("ISO-8859-1")).type("text/plain; charset=ISO-8859-1").build();
@@ -135,19 +135,19 @@ public class MCRRestAPIMessages extends HttpServlet {
 	 * @return
 	 */
 	@GET
-	@Path("/key/{value}")	
+	@Path("/{value}")	
 	@Produces({ MediaType.TEXT_XML + ";charset=UTF-8", MediaType.APPLICATION_JSON + ";charset=UTF-8",
 	        MediaType.TEXT_PLAIN + ";charset=UTF-8" })
 	public Response getMessage(@Context UriInfo info,
 			@PathParam("value") String key,			
 			@QueryParam("lang") @DefaultValue("de") String lang,
-	        @QueryParam("format") @DefaultValue("props") String format) {
+	        @QueryParam("format") @DefaultValue("text") String format) {
 
 		Locale locale = Locale.forLanguageTag(lang);
 		String result = MCRTranslation.translate(key, locale);		
 		try {
-			if (FORMAT_PROPERTIES.equals(format)) {
-				return Response.ok(result.getBytes("ISO-8859-1")).type("text/plain; charset=ISO-8859-1").build();
+			if (FORMAT_PROPERTY.equals(format)) {
+				return Response.ok(key+"="+result).type("text/plain; charset=ISO-8859-1").build();
 			}
 			if (FORMAT_XML.equals(format)) {
 				Document doc = new Document();
@@ -158,7 +158,7 @@ public class MCRRestAPIMessages extends HttpServlet {
 				StringWriter sw = new StringWriter();
 				XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
 				outputter.output(doc, sw);
-				return Response.ok(sw.toString()).type("application/xml").build();
+				return Response.ok(sw.toString()).type("application/xml; charset=UTF-8").build();
 			}
 			if (FORMAT_JSON.equals(format)) {
 				StringWriter sw = new StringWriter();
@@ -169,8 +169,10 @@ public class MCRRestAPIMessages extends HttpServlet {
 				writer.value(result);
 				writer.endObject();
 				writer.close();
-				return Response.ok(sw.toString()).type("application/json").build();
+				return Response.ok(sw.toString()).type("application/json; charset=UTF-8").build();
 			}
+			//text only
+			return Response.ok(result).type("text/plain; charset=UTF-8").build();
 		} catch (IOException e) {
 			//toDo
 		}

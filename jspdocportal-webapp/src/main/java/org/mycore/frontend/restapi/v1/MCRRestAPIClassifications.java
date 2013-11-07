@@ -55,6 +55,7 @@ import org.mycore.datamodel.classifications2.MCRCategoryDAO;
 import org.mycore.datamodel.classifications2.MCRCategoryID;
 import org.mycore.datamodel.classifications2.impl.MCRCategoryDAOImpl;
 import org.mycore.datamodel.classifications2.utils.MCRCategoryTransformer;
+import org.mycore.frontend.restapi.v1.errors.MCRRestAPIError;
 import org.mycore.services.fieldquery.MCRDefaultQueryEngine;
 import org.mycore.services.fieldquery.MCRQuery;
 import org.mycore.services.fieldquery.MCRQueryManager;
@@ -86,6 +87,7 @@ public class MCRRestAPIClassifications extends HttpServlet {
 	 * @return
 	 */
 	@GET
+	@Path("/")
 	@Produces({ MediaType.TEXT_XML + ";charset=UTF-8", MediaType.APPLICATION_JSON + ";charset=UTF-8" })
 	public Response listClassifications(@Context UriInfo info, 
 			@QueryParam("format") @DefaultValue("json") String format) {
@@ -100,7 +102,7 @@ public class MCRRestAPIClassifications extends HttpServlet {
 		
 			for (MCRCategory cat : DAO.getRootCategories()) {
 				eRoot.addContent(new Element("mycoreclass").setAttribute("ID", cat.getId().getRootID())
-						.setAttribute("href",info.getAbsolutePathBuilder().path("id").path(cat.getId().getRootID())
+						.setAttribute("href",info.getAbsolutePathBuilder().path(cat.getId().getRootID())
 						.build((Object[]) null).toString()));
 			}
 			try {
@@ -123,7 +125,7 @@ public class MCRRestAPIClassifications extends HttpServlet {
 					writer.beginObject();
 					writer.name("ID").value(cat.getId().getRootID());
 					writer.name("href").value(
-					        info.getAbsolutePathBuilder().path("id").path(cat.getId().getRootID())
+					        info.getAbsolutePathBuilder().path(cat.getId().getRootID())
 					                .build((Object[]) null).toString());
 					writer.endObject();
 				}
@@ -162,7 +164,7 @@ public class MCRRestAPIClassifications extends HttpServlet {
 	 */
 	@GET
 	//@Path("/id/{value}{format:(\\.[^/]+?)?}")  -> working, but returns empty string instead of default value
-	@Path("/id/{classID}")
+	@Path("/{classID}")
 	@Produces({ MediaType.TEXT_XML + ";charset=UTF-8", MediaType.APPLICATION_JSON + ";charset=UTF-8" })
 	public Response showObject(@PathParam("classID") String classID,
 	        @QueryParam("format") @DefaultValue("xml") String format, 
@@ -192,6 +194,10 @@ public class MCRRestAPIClassifications extends HttpServlet {
 		Transaction tx = MCRHIBConnection.instance().getSession().beginTransaction();
 		try {
 			MCRCategory cl = DAO.getCategory(MCRCategoryID.rootID(classID), -1);
+			if(cl==null){
+			   return MCRRestAPIError.create(Response.Status.BAD_REQUEST,
+                        "Classification not found.", "There is no classification with the given ID.").createHttpResponse();
+			}
 			Document docClass = MCRCategoryTransformer.getMetaDataDocument(cl, false);
 			Element eRoot = docClass.getRootElement();
 			if (rootCateg != null) {
@@ -200,6 +206,10 @@ public class MCRRestAPIClassifications extends HttpServlet {
 				Element e = xpe.evaluateFirst(docClass);
 				if (e != null) {
 					eRoot = e;
+				}
+				else{
+				    return MCRRestAPIError.create(Response.Status.BAD_REQUEST,
+	                        "Category not found.", "The classfication does not contain a category with the given ID.").createHttpResponse();
 				}
 			}
 			if(filterNonEmpty){
@@ -212,12 +222,12 @@ public class MCRRestAPIClassifications extends HttpServlet {
 			
 			if (FORMAT_JSON.equals(format)) {
 				String json = writeJSON(eRoot, lang, style);
-				return Response.ok(json).type("application/json").build();
+				return Response.ok(json).type("application/json; charset=UTF-8").build();
 			}
 
 			if (FORMAT_XML.equals(format)) {
 				String xml = writeXML(eRoot, lang);
-				return Response.ok(xml).type("application/xml").build();
+				return Response.ok(xml).type("application/xml; charset=UTF-8").build();
 			}
 		}
 
