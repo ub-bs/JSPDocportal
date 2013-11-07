@@ -178,7 +178,7 @@ public class MCRRestAPIObjects {
    /*********************************************************************/
    
    @POST
-   @Path("/objects/")
+   @Path("/")
    @Produces({ MediaType.TEXT_XML + ";charset=UTF-8" })
    @Consumes(MediaType.MULTIPART_FORM_DATA)
    public Response uploadObject(@Context UriInfo info, @Context HttpServletRequest request,
@@ -189,7 +189,7 @@ public class MCRRestAPIObjects {
    }
    
    @POST
-   @Path("/objects/{mcrObjID}/derivates")
+   @Path("/{mcrObjID}/derivates")
    @Produces({ MediaType.TEXT_XML + ";charset=UTF-8" })
    @Consumes(MediaType.MULTIPART_FORM_DATA)
    public Response uploadDerivate(@Context UriInfo info, @Context HttpServletRequest request,
@@ -198,7 +198,7 @@ public class MCRRestAPIObjects {
    }
    
    @POST
-   @Path("/objects/{mcrObjID}/derivates/{mcrDerID}/files")
+   @Path("/{mcrObjID}/derivates/{mcrDerID}/files")
    @Produces({ MediaType.TEXT_XML + ";charset=UTF-8" })
    @Consumes(MediaType.MULTIPART_FORM_DATA)
    public Response uploadFile(@Context UriInfo info, @Context HttpServletRequest request,
