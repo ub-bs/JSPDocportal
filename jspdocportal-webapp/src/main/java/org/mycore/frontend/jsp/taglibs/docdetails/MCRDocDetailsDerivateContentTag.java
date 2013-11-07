@@ -81,6 +81,8 @@ public class MCRDocDetailsDerivateContentTag extends SimpleTagSupport {
 	    		
 	    		StringBuffer sbUrl = new StringBuffer(o.toString());
 	    		sbUrl.append("file/");
+	    		sbUrl.append(docdetails.getContext().getOwnerDocument().getDocumentElement().getAttribute("ID"));
+	    		sbUrl.append("/");
 	    		sbUrl.append(derID);
 	    		sbUrl.append("/");
 	    		

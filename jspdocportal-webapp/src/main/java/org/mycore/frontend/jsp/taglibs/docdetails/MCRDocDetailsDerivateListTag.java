@@ -129,6 +129,7 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 						out.write("</dt>");
 	    				StringBuffer sbUrl = new StringBuffer(o.toString());
 	    				sbUrl.append("file/");
+	    				sbUrl.append(der.getOwnerID().toString()).append("/");
 	    				sbUrl.append(derID);
 	    				sbUrl.append("/");
 	    		
