@@ -19,6 +19,7 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
+import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRConstants;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRSession;
@@ -70,7 +71,7 @@ public class MCRRestAPIObjectsHelper {
                             //  <derivate display="true">
 
                             eDer = eDer.getChild("mycorederivate").getChild("derivate");
-                            eDer.addContent(listDerivateContent(MCRObjectID.getInstance(derID)));
+                            eDer.addContent(listDerivateContent(MCRMetadataManager.retrieveMCRDerivate(MCRObjectID.getInstance(derID)), request));
                         } catch (MCRException e) {
                             eDer.addContent(new Comment("Error: Derivate not found."));
                         }
@@ -104,7 +105,7 @@ public class MCRRestAPIObjectsHelper {
             MCRDerivate derObj = retrieveMCRDerivate(mcrObj, pathParamDerID);
 
             Document doc = derObj.createXML();
-            doc.getRootElement().addContent(listDerivateContent(derObj.getId()));
+            doc.getRootElement().addContent(listDerivateContent(derObj, request));
 
             StringWriter sw = new StringWriter();
             XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
@@ -127,10 +128,9 @@ public class MCRRestAPIObjectsHelper {
         //       "Please contact a developer!").createHttpResponse();
     }
 
-    private static Element listDerivateContent(MCRObjectID derID) {
+    private static Element listDerivateContent(MCRDerivate derObj, HttpServletRequest request) {
         Element eContents = new Element("files");
-
-        MCRFilesystemNode root = MCRFilesystemNode.getRootNode(derID.toString());
+        MCRFilesystemNode root = MCRFilesystemNode.getRootNode(derObj.getId().toString());
         if (root != null) {
             eContents.setAttribute("ID", root.getID());
             eContents.setAttribute("ownerID", root.getOwnerID());
@@ -148,17 +148,19 @@ public class MCRRestAPIObjectsHelper {
                         String.valueOf(dir.getNumChildren(MCRDirectory.DIRECTORIES, MCRDirectory.TOTAL)));
                 eContents.setAttribute("total_files",
                         String.valueOf(dir.getNumChildren(MCRDirectory.FILES, MCRDirectory.TOTAL)));
-                listDirectoryContent(eContents, dir);
+                 String baseurl = MCRServlet.getBaseURL()+MCRConfiguration.instance().getString("MCR.RestAPI.v1.Files.baseurl.path", "");
+                 if(!baseurl.endsWith("/")){baseurl+="/";}
+                listDirectoryContent(eContents, dir, baseurl+derObj.getOwnerID().toString()+"/"+derObj.getId().toString()+"/");
             }
         }
         return eContents;
     }
 
-    private static String listDerivateContentAsJson(MCRObjectID derID) throws MCRRestAPIException {
+    private static String listDerivateContentAsJson(MCRDerivate derObj) throws MCRRestAPIException {
         StringWriter sw = new StringWriter();
         try {
 
-            MCRFilesystemNode root = MCRFilesystemNode.getRootNode(derID.toString());
+            MCRFilesystemNode root = MCRFilesystemNode.getRootNode(derObj.getId().toString());
             if (root != null) {
                 JsonWriter writer = new JsonWriter(sw);
                 writer.setIndent("    ");
@@ -178,7 +180,9 @@ public class MCRRestAPIObjectsHelper {
                     writer.name("total_directories").value(
                             dir.getNumChildren(MCRDirectory.DIRECTORIES, MCRDirectory.TOTAL));
                     writer.name("total_files").value(dir.getNumChildren(MCRDirectory.FILES, MCRDirectory.TOTAL));
-                    listDirectoryContentAsJson(writer, dir);
+                    String baseurl = MCRServlet.getBaseURL()+MCRConfiguration.instance().getString("MCR.RestAPI.v1.Files.baseurl.path", "");
+                    if(!baseurl.endsWith("/")){baseurl+="/";}
+                    listDirectoryContentAsJson(writer, dir, baseurl+derObj.getOwnerID().toString()+"/"+derObj.getId().toString()+"/");
                 }
                 writer.endObject();
 
@@ -191,7 +195,7 @@ public class MCRRestAPIObjectsHelper {
         return sw.toString();
     }
 
-    private static void listDirectoryContent(Element current, MCRDirectory dir) {
+    private static void listDirectoryContent(Element current, MCRDirectory dir, String filesBaseURL) {
         for (MCRFilesystemNode element : dir.getChildren()) {
             Element node = null;
             if (element instanceof MCRFile) {
@@ -214,14 +218,16 @@ public class MCRRestAPIObjectsHelper {
                 MCRFile file = (MCRFile) element;
                 node.setAttribute("contentType", file.getContentTypeID());
                 node.setAttribute("md5", file.getMD5());
+                node.setAttribute("href", filesBaseURL+element.getName());
+               
             }
             if (element instanceof MCRDirectory) {
-                listDirectoryContent(node, (MCRDirectory) element);
+                listDirectoryContent(node, (MCRDirectory) element, filesBaseURL+element.getName()+"/");
             }
         }
     }
 
-    private static void listDirectoryContentAsJson(JsonWriter writer, MCRDirectory dir) throws IOException {
+    private static void listDirectoryContentAsJson(JsonWriter writer, MCRDirectory dir, String baseURL) throws IOException {
         if (dir.getChildren().length > 0) {
             writer.name("files");
             writer.beginArray();
@@ -247,9 +253,10 @@ public class MCRRestAPIObjectsHelper {
                     MCRFile file = (MCRFile) element;
                     writer.name("contentType").value(file.getContentTypeID());
                     writer.name("md5").value(file.getMD5());
+                    writer.name("href").value(baseURL+element.getName());
                 }
                 if (element instanceof MCRDirectory) {
-                    listDirectoryContentAsJson(writer, (MCRDirectory) element);
+                    listDirectoryContentAsJson(writer, (MCRDirectory) element, baseURL+element.getName()+"/");
                 }
                 writer.endObject();
             }
@@ -339,7 +346,7 @@ public class MCRRestAPIObjectsHelper {
                         .create("filter",
                                 "The syntax of the filter '"
                                         + s
-                                        + "'could not be parsed. The syntax should be [filterName]:[value]. Allowed filterNames are 'project', 'type', 'modifiedBefore' and 'modifiedAfter'."));
+                                        + "'could not be parsed. The syntax should be [filterName]:[value]. Allowed filterNames are 'project', 'type', 'lastModifiedBefore' and 'lastModifiedAfter'."));
             }
         }
 
@@ -620,7 +627,7 @@ public class MCRRestAPIObjectsHelper {
 
             //output as XML
             if (MCRRestAPIObjects.FORMAT_XML.equals(format)) {
-                Document docOut = new Document(listDerivateContent(derObj.getId()));
+                Document docOut = new Document(listDerivateContent(derObj, request));
                 try {
                     StringWriter sw = new StringWriter();
                     XMLOutputter xout = new XMLOutputter(Format.getPrettyFormat());
@@ -634,7 +641,7 @@ public class MCRRestAPIObjectsHelper {
 
             //output as JSON
             if (MCRRestAPIObjects.FORMAT_JSON.equals(format)) {
-                String result = listDerivateContentAsJson(derObj.getId());
+                String result = listDerivateContentAsJson(derObj);
                 return Response.ok(result).type("application/json; charset=UTF-8").build();
             }
 
@@ -758,7 +765,7 @@ public class MCRRestAPIObjectsHelper {
                 }
             }
             if (derKey.equals("label")) {
-                if (check.getXLinkLabel().equals(derIDString) || check.getXLinkTitle().equals(derIDString)) {
+                if (derIDString.equals(check.getXLinkLabel()) || derIDString.equals(check.getXLinkTitle())) {
                     matchedDerID = check.getXLinkHref();
                     break;
                 }

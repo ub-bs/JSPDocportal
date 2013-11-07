@@ -228,7 +228,7 @@ public class MCRRestAPIUploadsHelper {
             String formParamClientID,
             String formParamPath,
             boolean formParamMaindoc,
-            String formParamSha1,
+            String formParamMD5,
             Long formParamSize){
         
         Response response = Response.status(Status.FORBIDDEN).build();
@@ -238,7 +238,7 @@ public class MCRRestAPIUploadsHelper {
         parameter.put("rest-client", formParamClientID);
         parameter.put("path", formParamPath);
         parameter.put("maindoc", Boolean.toString(formParamMaindoc));
-        parameter.put("sha1", formParamSha1);
+        parameter.put("md5", formParamMD5);
         parameter.put("size", Long.toString(formParamSize));
     
         
