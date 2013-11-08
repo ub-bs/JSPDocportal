@@ -40,7 +40,7 @@
 	<p><fmt:message key="WF.xmetadiss.errorWfM2" /></p>
 </c:when>
 	<c:otherwise>
-       <c:import url="/content/workflow/workflow.jsp?wftype=${workflowType}" />  
+       <c:import url="/content/workflow/thesis/thesisData.jsp" />  
 </c:otherwise>
 </c:choose>
 </stripes:layout-component>

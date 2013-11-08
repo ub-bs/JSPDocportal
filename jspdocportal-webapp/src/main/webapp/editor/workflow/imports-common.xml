@@ -10,7 +10,6 @@
 	<textfield id="TFzeile64" width="20" maxlength="128" />
 	<textfield id="TFzeile128" width="30" maxlength="256" />
 	<textfield id="TFzeile1024" width="60" maxlength="1024" />
-	<textarea id="TFarea1024x3" width="60" height="3" maxlength="1024" />
 
 	<!-- ** mandatory Input fields *** -->
 	<textfield id="TFzeile10M" width="10" maxlength="10" class="mandatory" />
@@ -24,7 +23,8 @@
 	<textarea id="TFarea4096" width="60" height="4" maxlength="4096" default="" />
 	<textarea id="TFarea4096x10" width="60" height="10" maxlength="4096" default="" />
 	<textarea id="TFarea4096x4" width="60" height="4" maxlength="4096" default="" />
-	<textarea id="TFarea1024x3M" width="60" height="3" maxlength="1024" default="" class="mandatory" />
+	<textarea id="TFarea1024x3" width="60" height="3" maxlength="1024" />
+    <textarea id="TFarea1024x3M" width="60" height="3" maxlength="1024" default="" class="mandatory" />
 
 	<!-- *** mandatory Text area *** -->
 	<textarea id="TFarea4096M" width="60" height="4" maxlength="4096" default=" " class="mandatory" />
@@ -69,83 +69,23 @@
 
 	<!-- *** Language List *** -->
 
-	<list id="Slang" width="60" type="dropdown">
-		<item value="de">
-			<label xml:lang="de">de</label>
-		</item>
-		<item value="en">
-			<label xml:lang="de">en</label>
-		</item>
-		<item value="fr">
-			<label xml:lang="de">fr</label>
-		</item>
-		<item value="es">
-			<label xml:lang="de">es</label>
-		</item>
-		<item value="it">
-			<label xml:lang="de">it</label>
-		</item>
-		<item value="nl">
-			<label xml:lang="de">nl</label>
-		</item>
-		<item value="no">
-			<label xml:lang="de">no</label>
-		</item>
-		<item value="sv">
-			<label xml:lang="de">sv</label>
-		</item>
-		<item value="ru">
-			<label xml:lang="de">ru</label>
-		</item>
-		<item value="iw">
-			<label xml:lang="de">iw</label>
-		</item>
-		<item value="ar">
-			<label xml:lang="de">ar</label>
-		</item>
-		<item value="da">
-			<label xml:lang="de">da</label>
-		</item>
-	</list>
+  <list id="Slang" width="60" type="dropdown">
+    <item value="de"><label xml:lang="de">de</label></item>
+    <item value="en"><label xml:lang="de">en</label></item>
+    <item value="fr"><label xml:lang="de">fr</label></item>
+    <item value="es"><label xml:lang="de">es</label></item>
+    <item value="it"><label xml:lang="de">it</label></item>
+    <item value="ru"><label xml:lang="de">ru</label></item>
+  </list>
 
-	<list id="SlangEN" width="60" type="dropdown">
-		<item value="en">
-			<label xml:lang="de">en</label>
-		</item>
-		<item value="de">
-			<label xml:lang="de">de</label>
-		</item>
-		<item value="fr">
-			<label xml:lang="de">fr</label>
-		</item>
-		<item value="es">
-			<label xml:lang="de">es</label>
-		</item>
-		<item value="it">
-			<label xml:lang="de">it</label>
-		</item>
-		<item value="nl">
-			<label xml:lang="de">nl</label>
-		</item>
-		<item value="no">
-			<label xml:lang="de">no</label>
-		</item>
-		<item value="sv">
-			<label xml:lang="de">sv</label>
-		</item>
-		<item value="ru">
-			<label xml:lang="de">ru</label>
-		</item>
-		<item value="iw">
-			<label xml:lang="de">iw</label>
-		</item>
-		<item value="ar">
-			<label xml:lang="de">ar</label>
-		</item>
-		<item value="da">
-			<label xml:lang="de">da</label>
-		</item>
-	</list>
+  <list id="SlangEN" width="60" type="dropdown">
+    <item value="en"><label xml:lang="de">en</label></item>
+    <item value="de"><label xml:lang="de">de</label></item>
+    <item value="fr"><label xml:lang="de">fr</label></item>
+    <item value="es"><label xml:lang="de">es</label></item>
+    <item value="it"><label xml:lang="de">it</label></item>
+    <item value="ru"><label xml:lang="de">ru</label></item>
+  </list>
 
 	<!-- *** Data for the buttons ** -->
 	<submitButton id="BSubmitDoc" width="100px" jsaction="return checkMyFormDocument()">
