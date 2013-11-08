@@ -3,7 +3,11 @@ import java.util.Iterator;
 
 import org.jbpm.context.exe.ContextInstance;
 import org.jdom2.Element;
+import org.jdom2.Text;
 import org.jdom2.filter.ElementFilter;
+import org.jdom2.filter.Filters;
+import org.jdom2.xpath.XPathExpression;
+import org.jdom2.xpath.XPathFactory;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.frontend.workflowengine.strategies.MCRDefaultMetadataStrategy;
 
@@ -26,15 +30,19 @@ public class MCRThesisMetadataStrategy extends MCRDefaultMetadataStrategy {
         else{
         	ctxI.setVariable("wfo-title", sbTitle.toString());
         }
-			
-		
-		StringBuffer sbAuthorNames = new StringBuffer("");
-		for(Iterator<Element> it = metadata.getDescendants(new ElementFilter("creator")); it.hasNext();){
-				Element creator = it.next();
-				sbAuthorNames.append(creator.getText());
-				if(it.hasNext()){ sbAuthorNames.append("; ");}
-			}	
-		ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_AUTHOR_NAMES, sbAuthorNames.toString());
+
+        StringBuffer sbAuthorNames = new StringBuffer("");
+        XPathExpression<Text> xpeText = XPathFactory.instance().compile(".//*/text()", Filters.text());
+
+        for(Iterator<Element> it = metadata.getDescendants(new ElementFilter("creator")); it.hasNext();){
+            Element creator = it.next();
+            for(Text t: xpeText.evaluate(creator)){
+                sbAuthorNames.append(t.getTextNormalize()).append(" ");
+            }
+            if(it.hasNext()){ sbAuthorNames.append("; ");}
+        }   
+        
+        ctxI.setVariable(MCRWorkflowConstants.WFM_VAR_AUTHOR_NAMES, sbAuthorNames.toString());
 		
 		StringBuffer sbURN = new StringBuffer("");
 		for(Iterator<Element> it = metadata.getDescendants(new ElementFilter("urn")); it.hasNext();){
