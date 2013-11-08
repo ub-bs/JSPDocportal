@@ -327,7 +327,7 @@ div.text ul.action li{
 	background-image: url(../images/greenArrow.gif);
 	background-repeat: no-repeat;
 	background-position: 0px 6px;
-	padding-left:16px;	
+	padding-left:32px;	
 }
 
 div.text ul.action li:before{
