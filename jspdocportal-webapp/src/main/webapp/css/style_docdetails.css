@@ -101,6 +101,10 @@ dl.docdetails-derivate-list img {
 	border: none;
 }
 
+.docdetails-value ul li:before {
+	content: none !important;
+}
+
 /* =================================================================== */
 /* Resultdetails                                                       */
 /* =================================================================== */
