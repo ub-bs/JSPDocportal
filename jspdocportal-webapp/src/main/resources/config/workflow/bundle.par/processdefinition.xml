@@ -35,7 +35,7 @@
 
 	<task-node name="processEditInitialized">
 		<task name="taskprocessEditInitialized" swimlane="initiator" />
-		<transition name="go2canBundleBeSubmitted" to="canbundleBeSubmitted" />
+		<transition name="go2canBundleBeSubmitted" to="canBundleBeSubmitted" />
 	</task-node>
 
 	<task-node name="volumeInitialized">
