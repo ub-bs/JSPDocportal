@@ -23,7 +23,7 @@
       		<mcrmetaxml name="modsContainer" class="MCRMetaXML" minOccurs='1' maxOccurs='unbounded' />
     	</element> 
 		<!-- 10 - DC Titel -->
-		<element name="titles" minOccurs='1' maxOccurs='1'>
+		<element name="titles" minOccurs='0' maxOccurs='1'>
 			<mcrmetalangtext name="title" class="MCRMetaLangText"
 				minOccurs='1' maxOccurs='unbounded' length="1024" />
 		</element>
@@ -38,7 +38,7 @@
 				class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
 		</element>
 		<!-- 13 - Origin -->
-		<element name="origins" minOccurs='1' maxOccurs='1'>
+		<element name="origins" minOccurs='0' maxOccurs='1'>
 			<mcrmetaclassification name="origin"
 				class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
 		</element>
@@ -63,12 +63,12 @@
 				minOccurs='1' maxOccurs='unbounded' />
 		</element>
 		<!-- 18 - DC Type -->
-		<element name="types" minOccurs='1' maxOccurs='1'>
+		<element name="types" minOccurs='0' maxOccurs='1'>
 			<mcrmetaclassification name="type"
 				class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
 		</element>
 		<!-- 19 - DC Format -->
-		<element name="formats" minOccurs='1' maxOccurs='1'>
+		<element name="formats" minOccurs='0' maxOccurs='1'>
 			<mcrmetaclassification name="format"
 				class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
 		</element>

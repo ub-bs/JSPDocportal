@@ -20,11 +20,11 @@
       		<mcrmetaxml name="modsContainer" class="MCRMetaXML" minOccurs='1' maxOccurs='unbounded' />
     	</element>
 		<!-- 10 - DC Type -->
-		<element name="types" minOccurs='1' maxOccurs='1'>
+		<element name="types" minOccurs='0' maxOccurs='1'>
 			<mcrmetaclassification name="type" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
 		</element>
 		<!-- 11 - DC Title -->
-		<element name="titles" minOccurs='1' maxOccurs='1'>
+		<element name="titles" minOccurs='0' maxOccurs='1'>
 			<mcrmetalangtext name="title" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="1024" />
 		</element>
 		  <!-- 12 - DC Creator -->
