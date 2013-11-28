@@ -13,14 +13,14 @@
   <pluginRepositories>
     <pluginRepository>
       <id>MyCoRe HQ</id>
-      <url>http://www.mycore.de/artifactory/mycore-releases</url>
+      <url>http://artifactory.mycore.de/mycore-releases</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
     </pluginRepository>
     <pluginRepository>
       <id>MyCoRe HQ Snapshots</id>
-      <url>http://www.mycore.de/artifactory/mycore-snapshots</url>
+      <url>http://artifactory.mycore.de/mycore-snapshots</url>
       <releases>
         <enabled>false</enabled>
       </releases>
@@ -33,18 +33,18 @@
     <repository>
       <id>JBoss JBPM</id>
       <!-- <url>http://repository.jboss.org/maven2</url> -->
-      <url>http://repository.jboss.org/maven2</url>
+      <url>http://repository.jboss.org/nexus/content/groups/public-jboss</url>
     </repository>
     <repository>
       <id>MyCoRe HQ</id>
-      <url>http://www.mycore.de/artifactory/mycore-releases</url>
+      <url>http://artifactory.mycore.de/mycore-releases</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
     </repository>
     <repository>
       <id>MyCoRe HQ Snapshots</id>
-      <url>http://www.mycore.de/artifactory/mycore-snapshots</url>
+      <url>http://artifactory.mycore.de/mycore-snapshots</url>
       <releases>
         <enabled>false</enabled>
       </releases>
@@ -94,14 +94,14 @@
    
 
     <dependency>
-      <groupId>apache-taglibs</groupId>
+      <groupId>jstl</groupId>
       <artifactId>jstl</artifactId>
       <version>1.1.2</version>
       <type>jar</type>
       <optional>false</optional>
     </dependency>
     <dependency>
-      <groupId>apache-taglibs</groupId>
+      <groupId>taglibs</groupId>
       <artifactId>standard</artifactId>
       <version>1.1.2</version>
       <type>jar</type>

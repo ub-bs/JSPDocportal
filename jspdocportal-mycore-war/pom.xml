@@ -11,6 +11,30 @@
 		Most of the files are copied from mycore-complete.	
 	</description>
 	<url>http://www.mycore.de</url>
+  <repositories>
+    <repository>
+      <id>JBoss JBPM</id>
+      <!-- <url>http://repository.jboss.org/maven2</url> -->
+      <url>http://repository.jboss.org/nexus/content/groups/public-jboss</url>
+    </repository>
+    <repository>
+      <id>MyCoRe HQ</id>
+      <url>http://artifactory.mycore.de/mycore-releases</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>MyCoRe HQ Snapshots</id>
+      <url>http://artifactory.mycore.de/mycore-snapshots</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
 	<build>
 		<finalName>jspdocportal-mycore-war</finalName>
 		<plugins>
