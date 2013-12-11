@@ -75,6 +75,29 @@
 		</attribute>
 	</tag>
 	<tag>
+		<description>A tag, that renders the navigation</description>
+		<name>outputLeftNavigation</name>
+		<tag-class>org.mycore.frontend.jsp.taglibs.MCROutputLeftNavigationTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>id</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>expanded</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.Boolean</type>
+		</attribute>
+		<attribute>
+			<name>var</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
 		<description>A tag, that displays a language selector.
           Within the JSP body the following page scoped variables may be used:
           - lang_currentlang - the language currently used in the application

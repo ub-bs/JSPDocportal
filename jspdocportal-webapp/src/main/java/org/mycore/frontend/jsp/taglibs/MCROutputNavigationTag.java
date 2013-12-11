@@ -50,6 +50,8 @@ import org.w3c.dom.NodeList;
  * Tag that renders the navigation
  * 
  * @author Robert Stephan
+ * 
+ * @deprecated use MCROutputLeftNavigationTag or similar tags instead
  *
  */
 public class MCROutputNavigationTag extends SimpleTagSupport {
