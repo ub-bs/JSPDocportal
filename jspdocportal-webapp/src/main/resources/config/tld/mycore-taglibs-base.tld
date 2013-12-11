@@ -75,18 +75,20 @@
 		</attribute>
 	</tag>
 	<tag>
-		<description>A tag, that displays the language selector</description>
+		<description>A tag, that displays a language selector.
+          Within the JSP body the following page scoped variables may be used:
+          - lang_currentlang - the language currently used in the application
+          - lang_first - the first language in the list of available languages
+          - lang_lang - the current language while iterating through the list of languages
+          - lang_href - the link to be displayed for the current language
+          - lang_imageURL - the URL to the image to be displayed for the current language
+        </description>
 		<name>outputLanguageSelector</name>
 		<tag-class>org.mycore.frontend.jsp.taglibs.MCROutputLanguageSelectorTag</tag-class>
-		<body-content>empty</body-content>
+		<body-content>scriptless</body-content>
 		<attribute>
 			<name>languages</name>
 			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>separatorString</name>
-			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>

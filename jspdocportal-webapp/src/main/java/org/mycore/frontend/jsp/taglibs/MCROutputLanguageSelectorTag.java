@@ -23,81 +23,116 @@
 
 package org.mycore.frontend.jsp.taglibs;
 
+import static javax.servlet.jsp.PageContext.PAGE_SCOPE;
+
 import java.io.IOException;
 import java.util.Enumeration;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
+import javax.servlet.jsp.tagext.JspFragment;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.mycore.common.MCRSession;
 import org.mycore.frontend.servlets.MCRServlet;
 
 /**
- * Tag that renders the navigation
+ * Tag that renders the language selector
  * 
+ * It uses "languages" attribute to define a comma-separated list of available languages.
+ * It iterates through this list of languages and executes its body.
+ * 
+ * You may use the following page variables within the JSP body:
+ * - lang_currentlang - the language currently used in the application
+ * - lang_first - the first language in the list of available languages
+ * - lang_lang - the current language while iterating through the list of languages
+ * - lang_href - the link to be displayed for the current language
+ * - lang_imageURL - the URL to the image to be displayed for the current language
+ *  
+ *  Sample Usage (simple):
+ *  
+ *  <mcr:outputLanguageSelector languages="de,en">
+ *    <c:if test="${lang_currentLang != lang_lang}">
+ *       <a href="${lang_href}">
+ *       <img src="${lang_imageURL}"
+ *           style="border-style: none; width: 24px; height: 12px; vertical-align: bottom;" />
+ *       </a>
+ *    </c:if>
+ *  </mcr:outputLanguageSelector>
+ *  
+ *  Sample Usage (advanced):
+ *  
+ *  <mcr:outputLanguageSelector languages="de,en">
+ *   <fmt:message var="lang_label" key="Webpage.lang.${lang_lang }" />
+ *   <fmt:message var="lang_title" key="Webpage.lang.${lang_lang }.title" />
+ *   <c:if test="${!lang_first}">&nbsp;|&nbsp;</c:if>                     
+ *   <c:choose>
+ *      <c:when test="${lang_lang == lang_currentLang }">
+ *          <span class="lang_link_active">${lang_label}</span>
+ *      </c:when>
+ *      <c:otherwise>
+ *         <a href="${lang_href}" title="${lang_title }" class="lang_link">${lang_label}</a>
+ *      </c:otherwise>
+ *   </c:choose>                     
+ * </mcr:outputLanguageSelector>
+ *
+ *  
+ *  
  * @author Robert Stephan
  *
  */
 public class MCROutputLanguageSelectorTag extends SimpleTagSupport
 {
 	private String languages;
-	private String separatorString="";
-	
-	private ResourceBundle rbMessages;
 	private String baseURL;
 		
 	public void doTag() throws JspException, IOException {
 	    MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)((PageContext) getJspContext()).getRequest());
 		String currentLang = mcrSession.getCurrentLanguage();
 		if(currentLang == null){currentLang = "de";}
-		rbMessages = ResourceBundle.getBundle("messages", new Locale(currentLang));
 		baseURL = (String)getJspContext().getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE);
 		HttpServletRequest request = (HttpServletRequest)((PageContext)getJspContext()).getRequest();
 		StringBuffer url = request.getRequestURL();
 		url.append("?");
-		JspWriter out = getJspContext().getOut(); 
+		JspWriter out = getJspContext().getOut();
+		JspContext context = getJspContext();
+		JspFragment body = getJspBody();
 		
 		@SuppressWarnings("unchecked")
 		Enumeration<String>pnames = (Enumeration<String>)request.getParameterNames();
+		
+		context.setAttribute("lang_currentLang", currentLang, PAGE_SCOPE);
+		
 		while(pnames.hasMoreElements()){
 			String pName = pnames.nextElement();
 			if(pName.equals("lang")){
 				continue;			
 			}
+			
 			url.append(pName).append("=").append(request.getParameter(pName));
 		}
+		
 		boolean first = true;
 		for(String lang: languages.split(",")){
 			lang = lang.trim();
-			if(lang.equals(currentLang)){
-				continue;
-			}
+			context.setAttribute("lang_first", first, PAGE_SCOPE);
 			if(first){
 				first = false;
 			}
-			else{
-				out.append(separatorString);
-			}
-			out.append("<a href =\""+url+"&lang="+lang+"\">");
-			out.append("<img style=\"border-style: none; width: 24px; height: 12px; vertical-align: bottom;\"");
-			out.append(" alt=\""+retrieveI18N("secondLanguage")+"\"");
-			out.append(" src=\""+baseURL+"images/lang-"+lang+".gif\"></a>");			
+			
+			context.setAttribute("lang_href", url.toString() + "&lang=" + lang, PAGE_SCOPE);
+			context.setAttribute("lang_lang", lang, PAGE_SCOPE);
+			StringBuilder imageURL = new StringBuilder(baseURL);
+			imageURL.append("images/lang-").append(lang).append(".png"); 
+			context.setAttribute("lang_imageURL", imageURL, PAGE_SCOPE);
+			
+			body.invoke(out);
 		}		
 	}
 			
-	/**
-	 * set the separator string
-	 * @param separatorString - the String which should be printed between items 
-	 */
-	public void setSeparatorString(String separatorString) {
-		this.separatorString = separatorString;
-	}
-	
 	/**
 	 * set the available languages (use comma separated list)
 	 * @param languages
@@ -105,23 +140,4 @@ public class MCROutputLanguageSelectorTag extends SimpleTagSupport
 	public void setLanguages(String languages) {
 		this.languages = languages;
 	}
-	
-	
-	
-	private String retrieveI18N(String key){
-		if(key==null || key.equals("")){
-			return "";
-		}
-		else{
-			if(rbMessages.containsKey(key)){
-				return rbMessages.getString(key);
-			}
-			else{
-				return "???"+key+"???";
-			}
-		}
-	}
-
-	
-	
 }
