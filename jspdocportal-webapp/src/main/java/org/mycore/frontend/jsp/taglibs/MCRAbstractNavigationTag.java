@@ -22,17 +22,15 @@
  */
 package org.mycore.frontend.jsp.taglibs;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.mycore.common.MCRSession;
-import org.mycore.frontend.servlets.MCRServlet;
+import org.apache.log4j.Logger;
+import org.codehaus.plexus.util.StringUtils;
+import org.mycore.access.MCRAccessManager;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -43,42 +41,64 @@ import org.w3c.dom.NodeList;
  * 
  * It does not even provide a doTag() method.
  * 
- * It is meant to provide useful methods and variables for the {@link MCROutputLeftNavigationTag} class.
+ * It is meant to provide useful methods and variables for the {@link MCRCustomNavigationTag} and {@link MCROutputNavigationTag} class.
  * 
  * @author Robert Stephan, Christian Windolf
  * @version $Revision: 1.8 $ $Date: 2008/05/28 13:43:31 $
  *
  */
-public abstract class MCRAbstractNavigationTag extends SimpleTagSupport{
+public abstract class MCRAbstractNavigationTag extends MCRAbstractTag{
+	private static final Logger LOGGER = Logger.getLogger(MCRAbstractNavigationTag.class);
 	protected static final String NS_NAVIGATION = "http://www.mycore.org/jspdocportal/navigation";
 	
 	protected String currentPath;
-	protected ResourceBundle rbMessages;
-	protected String baseURL;
-	
-	
-	protected Element nav;
-	protected String[] path;
-	
-	protected String id;
-	protected boolean expanded = false;
-	protected String var;
 	
 	/**
-	 * retrieves all information needed to create a {@link NavigationVariables} object.
+	 * the current navigation node
+	 */
+	protected Element nav;
+	
+	/**
+	 * The path. It's elements are separated by dots.
+	 * In this array, they are already separated and the dots are omitted
+	 */
+	protected String[] path;
+	
+	/**
+	 * The id of the navigation that should be retrieved.
+	 * It is set by subclasses tag attribute
+	 */
+	protected String id;
+	
+	/**
+	 * if the whole navigation should be shown, this should be true.
+	 * It is set by subclasses tag attribute
+	 */
+	protected boolean expanded = false;
+	
+	
+	/**
+	 * retrieves all information needed to create a navigation bar, line or whatever
 	 */
 	protected void init(){
-		MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)((PageContext) getJspContext()).getRequest());
+		super.init();
+		
 		currentPath = (String) mcrSession.get("navPath");
 		if (currentPath == null) {
 			currentPath = "";
 		}
 		
-		String lang = mcrSession.getCurrentLanguage();
-		rbMessages = ResourceBundle.getBundle("messages", new Locale(lang));
-		
 		nav = retrieveNavigation();
-		baseURL = (String) getJspContext().getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE);
+		
+		if(nav == null){
+			if (path == null || path.length == 0) {
+				LOGGER.error("No navigation item found for navigation: " + id + ", path: " + currentPath);
+			} else {
+				LOGGER.error("No navigation item found for navigation: " + id + ", path: " + currentPath + ", item: "
+				        + path[0]);
+			}
+			return;
+		}
 		
 		path = currentPath.split("\\.");
 		if (path.length > 0) {
@@ -136,13 +156,7 @@ public abstract class MCRAbstractNavigationTag extends SimpleTagSupport{
 	public void setId(String id){
 		this.id = id;
 	}
-	/**
-	 * The name of the variable to store the result
-	 * @param var - the variable name
-	 */
-	public void setVar(String var){
-		this.var = var;
-	}
+
 	
 	/**
 	 * If the NavigationVariables should have children, set it to true. If not, set it to false
@@ -155,70 +169,72 @@ public abstract class MCRAbstractNavigationTag extends SimpleTagSupport{
 	}
 	
 	/**
-	 * Holds all navigation variables for the JSP to build the navigation
-	 * @author Christian Windolf
-	 *
+	 * retrieves the element inside the currentNode on which the path is pointing to.
+	 * @param currentNode
+	 * @param path
+	 * @return
 	 */
-	public static class NavigationVariables{
-		private String label;
-		private String href;
-		private List<NavigationVariables> children;
-		private String id;
-		
-		/**
-		 * The localized link label for this item.
-		 * @return
-		 */
-		public String getLabel() {
-			return label;
+	protected Element findNavItem(Element currentNode, String[] path) {
+		if (path.length == 0) {
+			return currentNode;
 		}
-		public void setLabel(String label) {
-			this.label = label;
-		}
-		
-		/**
-		 * The URL that links to the target
-		 * @return
-		 */
-		public String getHref() {
-			return href;
-		}
-		public void setHref(String href) {
-			this.href = href;
-		}
-		
-		/**
-		 * If this navigation item has children they are stored here
-		 * @return may be null, if it has no children.
-		 */
-		public List<NavigationVariables> getChildren() {
-			return children;
-		}
-		public void setChildren(List<NavigationVariables> children) {
-			this.children = children;
-		}
-		/**
-		 * 
-		 * @return true, if {@link MCRNavigation.NavigationVariables#getChildren()} ist not null or empty
-		 */
-		public boolean isActive() {
-			if(children == null){
-				return false;
+
+		NodeList nl = currentNode.getChildNodes();
+		for (int i = 0; i < nl.getLength(); i++) {
+			if (!(nl.item(i) instanceof Element)) {
+				continue;
 			}
-			return !children.isEmpty();
+			Element el = (Element) nl.item(i);
+			if (!el.getNodeName().equals("navitem")) {
+				continue;
+			}
+			if (path.length > 0) {
+				String id = path[0];
+				if (el.getAttribute("id").equals(id)) {
+					return findNavItem(el, Arrays.copyOfRange(path, 1, path.length));
+				}
+			}
 		}
-		
-		public void setId(String id){
-			this.id = id;
+		//if the path is wrong - return the give node
+		return currentNode;
+
+	}
+	
+
+	
+	/**
+	 * retrieves all child elements, that are printable in this context.
+	 * Printable means, that first, the user has permission to see this link
+	 * and second, it is not marked as hidden. 
+	 * Child elements, that are not "navitem"-elements are filtered out as well.
+	 * 
+	 * This method just retrieves elements one level below. It does not traverse them recursively!
+	 * @param e
+	 * @return An array list with all elements that should be visible for this user in the current session.
+	 */
+	protected List<Element> printableElements(Element e){
+		List<Element> peList = new ArrayList<>();
+		NodeList nl = e.getChildNodes();
+		for (int i = 0; i < nl.getLength(); i++) {
+			if (!(nl.item(i) instanceof Element)) {
+				continue;
+			}
+			Element el = (Element) nl.item(i);
+			if (!el.getNodeName().equals("navitem")) {
+				continue;
+			}
+			boolean hidden = "true".equals(el.getAttribute("hidden"));
+			if (hidden) {
+				continue;
+			}
+			String permission = el.getAttribute("permission");
+			if (StringUtils.isNotEmpty(permission)) {
+				if (!MCRAccessManager.checkPermission(permission)) {
+					continue;
+				}
+			}
+			peList.add(el);
 		}
-		
-		/**
-		 * The id of this navigation element
-		 * @return
-		 */
-		public String getId(){
-			return this.id;
-		}
-		
+		return peList;
 	}
 }

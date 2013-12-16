@@ -24,81 +24,61 @@
 package org.mycore.frontend.jsp.taglibs;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.SimpleTagSupport;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
-import org.mycore.access.MCRAccessManager;
 import org.mycore.backend.hibernate.MCRHIBConnection;
-import org.mycore.common.MCRSession;
-import org.mycore.frontend.servlets.MCRServlet;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 /**
- * Tag that renders the navigation
+ * <p>
+ * Tag that renders the navigation.
+ * </p>
+ * <p>
+ * It receives the following attribute:
+ * </p>
+ * <ul>
+ * <li>id: The id of the navigation, that should be printed</li>
+ * <li>mode: The mode the is used for the output. Valid values are:
+ * <ul>
+ * <li>left</li>
+ * <li>top</li>
+ * <li>toc</li>
+ * <li>breadcrumbs</li>
+ * </ul>
+ * </li>
+ * <li>expanded: Should the whole navigation tree be printed or just</li>
+ * </ul>
+ * 
  * 
  * @author Robert Stephan
  * 
- * @deprecated use MCROutputLeftNavigationTag or similar tags instead
- *
+ * 
  */
-public class MCROutputNavigationTag extends SimpleTagSupport {
-	private static final String NS_NAVIGATION = "http://www.mycore.org/jspdocportal/navigation";
-	private static final List<String> MODES = Arrays.asList(new String[] { "left", "top", "breadcrumbs", "toc" });
+public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
+	private static final List<String> MODES = Arrays.asList(new String[] {
+			"left", "top", "breadcrumbs", "toc" });
+	private static final String INDENT = "\n       ";
 
 	private String mode;
-	private boolean expanded = false;
-	private String id;
-	private String separatorString = "";
 
-	private ResourceBundle rbMessages;
-	private String baseURL;
-
-	private String currentPath;
-
-	private static Logger LOGGER = Logger.getLogger(MCROutputNavigationTag.class);
+	private static Logger LOGGER = Logger
+			.getLogger(MCROutputNavigationTag.class);
 
 	public void doTag() throws JspException, IOException {
+		init();
 		if (!MODES.contains(mode)) {
+			LOGGER.warn("The attribute mode has to be one of these values: "
+					+ MODES);
 			return;
-
-		}
-		MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)((PageContext) getJspContext()).getRequest());
-		currentPath = (String) mcrSession.get("navPath");
-		if (currentPath == null) {
-			currentPath = "";
 		}
 
-		String lang = mcrSession.getCurrentLanguage();
-		if (lang == null) {
-			lang = "de";
-		}
-
-		rbMessages = ResourceBundle.getBundle("messages", new Locale(lang));
-		baseURL = (String) getJspContext().getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE);
-
-		Element nav = retrieveNavigation();
-
-		String[] path = currentPath.split("\\.");
-		if (path.length > 0) {
-			if (path[0].equals(id)) {
-				path = Arrays.copyOfRange(path, 1, path.length);
-			} else {
-				path = new String[] {};
-			}
-		}
 		if (mode.equals("left")) {
 			printLeftNav(path, nav, getJspContext().getOut());
 		}
@@ -117,144 +97,48 @@ public class MCROutputNavigationTag extends SimpleTagSupport {
 
 	/**
 	 * sets the current mode
-	 * @param mode - the current mode. Allowed values are: left, top, breadcrumbs, toc
+	 * 
+	 * @param mode
+	 *            - the current mode. Allowed values are: left, top,
+	 *            breadcrumbs, toc
 	 */
 	public void setMode(String mode) {
 		this.mode = mode;
 	}
 
 	/**
-	 * set the expanded option
-	 * @param expaned - set true, if the whole navigation tree should be displayed expanded
-	 */
-	public void setExpanded(boolean expanded) {
-		this.expanded = expanded;
-	}
-
-	/**
-	 * set the separator string
-	 * only used in modes "top" and "breadcrumbs" 
-	 * @param separatorString - the String which should be printed between items 
-	 */
-	public void setSeparatorString(String separatorString) {
-		this.separatorString = separatorString;
-	}
-
-	/**
-	 * sets the navigation id
-	 * @param id - the navigation id
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	/**
-	 * retrieves the proper navigation element from navigation DOM object in application scope 
-	 */
-	private Element retrieveNavigation() {
-		Document navDom = (org.w3c.dom.Document) getJspContext().getAttribute("navDom", PageContext.APPLICATION_SCOPE);
-		NodeList nl = navDom.getElementsByTagNameNS(NS_NAVIGATION, "navigations");
-		if (nl.getLength() == 0)
-			return null;
-
-		Element navigations = (Element) (nl.item(0));
-		nl = navigations.getElementsByTagNameNS(NS_NAVIGATION, "navigation");
-		for (int i = 0; i < nl.getLength(); i++) {
-			Element e = (Element) nl.item(i);
-			if (e.getAttribute("id").equals(id)) {
-				return e;
-			}
-		}
-		return null;
-	}
-
-	private Element findNavItem(Element currentNode, String[] path) {
-		if (path.length == 0) {
-			return currentNode;
-		}
-
-		NodeList nl = currentNode.getChildNodes();
-		for (int i = 0; i < nl.getLength(); i++) {
-			if (!(nl.item(i) instanceof Element)) {
-				continue;
-			}
-			Element el = (Element) nl.item(i);
-			if (!el.getNodeName().equals("navitem")) {
-				continue;
-			}
-			if (path.length > 0) {
-				String id = path[0];
-				if (el.getAttribute("id").equals(id)) {
-					return findNavItem(el, Arrays.copyOfRange(path, 1, path.length));
-				}
-			}
-		}
-		//if the path is wrong - return the give node
-		return currentNode;
-
-	}
-
-	/**
-	 * prints the navigation items as left side main navigation
-	 * can be called recursively
-	 * @param path - the navigation path (separated by ".")
-	 * @param currentNode - the current navigation item
-	 * @param out - the JSPOutputWriter
+	 * prints the navigation items as left side main navigation can be called
+	 * recursively
+	 * 
+	 * @param path
+	 *            - the navigation path (separated by ".")
+	 * @param currentNode
+	 *            - the current navigation item
+	 * @param out
+	 *            - the JSPOutputWriter
 	 */
 	private void printLeftNav(String[] path, Element currentNode, JspWriter out) {
-		if (currentNode == null) {
-			if (path == null || path.length == 0) {
-				LOGGER.error("No navigation item found for navigation: " + id + ", path: " + currentPath);
-			} else {
-				LOGGER.error("No navigation item found for navigation: " + id + ", path: " + currentPath + ", item: "
-				        + path[0]);
-			}
-			return;
-		}
 		Transaction t1 = null;
 		try {
-			Transaction tx = MCRHIBConnection.instance().getSession().getTransaction();
+			Transaction tx = MCRHIBConnection.instance().getSession()
+					.getTransaction();
 			if (tx == null || !tx.isActive()) {
-				t1 = MCRHIBConnection.instance().getSession().beginTransaction();
+				t1 = MCRHIBConnection.instance().getSession()
+						.beginTransaction();
 			}
-
-			List<Element> printableElements = new ArrayList<Element>();
-			NodeList nl = currentNode.getChildNodes();
-			for (int i = 0; i < nl.getLength(); i++) {
-				if (!(nl.item(i) instanceof Element)) {
-					continue;
-				}
-				Element el = (Element) nl.item(i);
-				if (!el.getNodeName().equals("navitem")) {
-					continue;
-				}
-				boolean hidden = "true".equals(el.getAttribute("hidden"));
-				if (hidden) {
-					continue;
-				}
-				String permission = el.getAttribute("permission");
-				if (!permission.equals("")) {
-					if (!MCRAccessManager.checkPermission(permission)) {
-						continue;
-					}
-				}
-				printableElements.add(el);
-			}
-			if (printableElements.size() == 0) {
+			List<Element> printableElements = printableElements(currentNode);
+			if (printableElements.isEmpty()) {
 				return;
 			}
-			int level = 0;
-			try {
-				level = Integer.parseInt(currentNode.getAttribute("_level"));
-			} catch (NumberFormatException nfe) {
-				//ignore
-			}
-			String indent = "\n         ";
-			for (int j = 0; j <= level; j++) {
-				indent += "      ";
-			}
+			int level = NumberUtils
+					.toInt(currentNode.getAttribute("_level"), 0);
+			StringBuffer indentBuffer = new StringBuffer(INDENT);
 
-			out.append(indent + "   <ul>");
+			for (int j = 0; j < level; j++) {
+				indentBuffer.append("    ");
+			}
+			String indent = indentBuffer.toString();
+			out.append(indent).append("  <ul>");
 
 			for (Element el : printableElements) {
 				String cssClass = "";
@@ -266,12 +150,15 @@ public class MCROutputNavigationTag extends SimpleTagSupport {
 
 				String msg = retrieveI18N(el.getAttribute("i18n"));
 				if (cssClass.length() > 0) {
-					out.append(indent + "      <li class=\"" + cssClass + "\">");
+					out.append(indent).append(
+							" <li class=\"" + cssClass + "\">");
 				} else {
-					out.append(indent + "      <li>");
+					out.append(indent).append(" <li>");
 				}
-				out.append(indent + "         <a target=\"_self\" href=\"" + baseURL + "nav?path="
-				        + el.getAttribute("_path") + "\">" + msg + "</a>");
+				out.append(indent);
+				out.append(" <a target=\"_self\" href=\"" + baseURL
+						+ "nav?path=" + el.getAttribute("_path") + "\">" + msg
+						+ "</a>");
 
 				if (expanded || active) {
 					String[] subpath = path;
@@ -280,16 +167,12 @@ public class MCROutputNavigationTag extends SimpleTagSupport {
 					}
 					printLeftNav(subpath, el, out);
 				}
-				out.append(indent + "      </li>");
+				out.append(indent).append(" </li>");
 			}
 
-			out.append(indent + "   </ul>");
-			
-			if (tx == null || !tx.isActive()) {
-				t1.commit();
-			}
-		} catch (Exception e) {
-			LOGGER.error(e);
+			out.append(indent).append(" </ul>");
+		} catch (Exception ex) {
+			LOGGER.error(ex);
 		} finally {
 			if (t1 != null && t1.isActive()) {
 				t1.commit();
@@ -298,51 +181,34 @@ public class MCROutputNavigationTag extends SimpleTagSupport {
 	}
 
 	/**
-	 * prints top nav (horizontal navigation)
-	 * (only with direct sub items of the given navigation item
-	 * @param currentNode - the current navigation item
-	 * @param out - the JSPOutputWriter
+	 * prints top nav (horizontal navigation) (only with direct sub items of the
+	 * given navigation item
+	 * 
+	 * @param currentNode
+	 *            - the current navigation item
+	 * @param out
+	 *            - the JSPOutputWriter
 	 */
 	private void printTopNav(Element currentNode, JspWriter out) {
 		if (currentNode == null) {
 			return;
 		}
-		NodeList nl = currentNode.getChildNodes();
-		if (nl.getLength() > 0) {
+		List<Element> printableElements = printableElements(currentNode);
+
+		if (!printableElements.isEmpty()) {
 			try {
 				out.append("<ul>");
-				boolean beforeFirst = true;
-				for (int i = 0; i < nl.getLength(); i++) {
-					if (!(nl.item(i) instanceof Element)) {
-						continue;
-					}
-					Element el = (Element) nl.item(i);
-					if (!el.getNodeName().equals("navitem")) {
-						continue;
-					}
-					boolean hidden = "true".equals(el.getAttribute("hidden"));
-					if (hidden) {
-						continue;
-					}
-					String permission = el.getAttribute("permission");
-					if (!permission.equals("")) {
-						if (!MCRAccessManager.checkPermission(permission)) {
-							continue;
-						}
-					}
+				for (Element el : printableElements) {
 
-					if (!beforeFirst) {
-						out.append("\n   <li class=\"separator\">" + separatorString + "</li>");
-					} else {
-						beforeFirst = false;
-					}
 					String msg = retrieveI18N(el.getAttribute("i18n"));
-					out.append("\n   <li>");
-					out.append("\n      <a target=\"_self\" href=\"" + baseURL + "nav?path=" + el.getAttribute("_path")
-					        + "\">" + msg + "</a>");
-					out.append("\n   </li>");
+					out.append(INDENT).append("    <li>");
+					out.append(INDENT).append(
+							"    <a target=\"_self\" href=\"" + baseURL
+									+ "nav?path=" + el.getAttribute("_path")
+									+ "\">" + msg + "</a>");
+					out.append(INDENT).append("   </li>");
 				}
-				out.append("</ul>");
+				out.append(INDENT).append("</ul>");
 				out.flush();
 			}
 
@@ -353,100 +219,80 @@ public class MCROutputNavigationTag extends SimpleTagSupport {
 	}
 
 	/**
-	 * prints the navigation items as left side main navigation
-	 * can be called recursively
-	 * @param path - the navigation path (separated by ".")
-	 * @param currentNode - the current navigation item
-	 * @param out - the JSPOutputWriter
+	 * prints the navigation items as left side main navigation can be called
+	 * recursively
+	 * 
+	 * @param path
+	 *            - the navigation path (separated by ".")
+	 * @param currentNode
+	 *            - the current navigation item
+	 * @param out
+	 *            - the JSPOutputWriter
 	 */
 	private void printTOC(Element currentNode, JspWriter out) {
 		if (currentNode == null) {
-			LOGGER.error("No navigation item found for navigation: " + id + ", path: " + currentPath);
+			LOGGER.error("No navigation item found for navigation: " + id
+					+ ", path: " + currentPath);
 			return;
 		}
-		NodeList nl = currentNode.getChildNodes();
-		try {
-			out.append("\n<ul>");
-			for (int i = 0; i < nl.getLength(); i++) {
-				if (!(nl.item(i) instanceof Element)) {
-					continue;
-				}
-				Element el = (Element) nl.item(i);
-				if (!el.getNodeName().equals("navitem")) {
-					continue;
-				}
-				boolean hidden = "true".equals(el.getAttribute("hidden"));
-				if (hidden) {
-					continue;
-				}
-				String permission = el.getAttribute("permission");
-				if (!permission.equals("")) {
-					if (!MCRAccessManager.checkPermission(permission)) {
-						continue;
+		List<Element> printableElements = printableElements(currentNode);
+		if (!printableElements.isEmpty()) {
+			try {
+				out.append(INDENT).append("<ul>");
+				for (Element el : printableElements) {
+					String msg = retrieveI18N(el.getAttribute("i18n"));
+					out.append(INDENT).append("<li>");
+					out.append(INDENT).append(
+							"<a target=\"_self\" href=\"" + baseURL
+									+ "nav?path=" + el.getAttribute("_path")
+									+ "\">" + msg + "</a>");
+					if (expanded) {
+						printTOC(el, out);
 					}
+					out.append(INDENT).append("</li>");
 				}
-
-				String msg = retrieveI18N(el.getAttribute("i18n"));
-				out.append("\n<li>");
-				out.append("\n<a target=\"_self\" href=\"" + baseURL + "nav?path=" + el.getAttribute("_path") + "\">"
-				        + msg + "</a>");
-				if (expanded) {
-					printTOC(el, out);
-				}
-				out.append("\n</li>");
+				out.append(INDENT).append("</ul>");
+				out.flush();
+			} catch (IOException e) {
+				LOGGER.error(e);
 			}
-			out.append("\n</ul>");
-			out.flush();
-		} catch (IOException e) {
-			LOGGER.error(e);
 		}
 	}
 
 	/**
-	 * prints a breadcrumb navigation for the given node
-	 * by retrieving its parents.
-	 * @param currentNode - the current navigation item
-	 * @param out - the JSPOutputWriter
+	 * prints a breadcrumb navigation for the given node by retrieving its
+	 * parents.
+	 * 
+	 * @param currentNode
+	 *            - the current navigation item
+	 * @param out
+	 *            - the JSPOutputWriter
 	 */
 
 	private void printBreadcrumbs(Element currentNode, JspWriter out) {
-		if (currentNode == null) {
-			return;
-		}
 		StringBuffer sbOut = new StringBuffer();
 		String msg = retrieveI18N(currentNode.getAttribute("i18n"));
-		sbOut.append("\n   <li>");
-		sbOut.append("\n      <a target=\"_self\" href=\"" + baseURL + "nav?path=" + currentNode.getAttribute("_path")
-		        + "\">" + msg + "</a>");
-		sbOut.append("\n   </li>");
-		sbOut.append("\n</ul>");
+		sbOut.append(INDENT).append("   <li>");
+		sbOut.append(INDENT).append(
+				"      <a target=\"_self\" href=\"" + baseURL + "nav?path="
+						+ currentNode.getAttribute("_path") + "\">" + msg
+						+ "</a>");
+		sbOut.append(INDENT).append("   </li>");
+		sbOut.append(INDENT).append("</ul>");
 		while (currentNode.getParentNode().getLocalName().equals("navitem")) {
 			currentNode = (Element) currentNode.getParentNode();
 			msg = retrieveI18N(currentNode.getAttribute("i18n"));
-			sbOut.insert(0, "\n   <li class=\"separator\">" + separatorString + "</li>");
-			sbOut.insert(0, "\n   </li>");
-			sbOut.insert(0,
-			        "\n      <a target=\"_self\" href=\"" + baseURL + "nav?path=" + currentNode.getAttribute("_path")
-			                + "\">" + msg + "</a>");
-			sbOut.insert(0, "\n   <li>");
+			sbOut.insert(0, INDENT + "   </li>");
+			sbOut.insert(0, INDENT + "      <a target=\"_self\" href=\""
+					+ baseURL + "nav?path=" + currentNode.getAttribute("_path")
+					+ "\">" + msg + "</a>");
+			sbOut.insert(0, INDENT + "   <li>");
 		}
-		sbOut.insert(0, "\n<ul>");
+		sbOut.insert(0, INDENT + "<ul>");
 		try {
 			out.append(sbOut.toString());
 		} catch (IOException e) {
 			LOGGER.error(e);
-		}
-	}
-
-	private String retrieveI18N(String key) {
-		if (key == null || key.equals("")) {
-			return "";
-		} else {
-			if (rbMessages.containsKey(key)) {
-				return rbMessages.getString(key);
-			} else {
-				return "???" + key + "???";
-			}
 		}
 	}
 
