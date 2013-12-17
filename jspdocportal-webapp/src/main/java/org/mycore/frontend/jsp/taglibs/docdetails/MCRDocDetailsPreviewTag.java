@@ -80,6 +80,7 @@ public class MCRDocDetailsPreviewTag extends SimpleTagSupport {
 	    			sbUrl.append("file/");
 	    			Element eN = (Element)n;
 	    			String derID = eN.getAttributeNS(MCRConstants.XLINK_NAMESPACE.getURI(), "href");
+	    	        sbUrl.append(docdetails.getContext().getOwnerDocument().getDocumentElement().getAttribute("ID")).append("/");
 	    			sbUrl.append(derID);
 	    			sbUrl.append("/");
 	    		

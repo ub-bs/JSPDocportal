@@ -203,7 +203,7 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 			}*/
 			if(myfiles[0] instanceof MCRFile && myfiles[0].getAbsolutePath().endsWith(".pdf")){
 				StringBuffer sbPath = new StringBuffer(getBaseURL());
-				sbPath.append("file/").append(myfiles[0].getPath());
+				sbPath.append("file/").append(mcrID).append("/").append(myfiles[0].getPath());
 				if(page!=null){
 					sbPath.append("#page=").append(page);
 				}
@@ -235,7 +235,7 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 		String mainDoc = der.getDerivate().getInternals().getMainDoc();
 		if(mainDoc!=null && mainDoc.length()>0){
 			StringBuffer sbPath = new StringBuffer(getBaseURL());
-			sbPath.append("file/").append(der.getId().toString()).append("/").append(mainDoc);
+			sbPath.append("file/").append(mcrID).append("/").append(der.getId().toString()).append("/").append(mainDoc);
 			if(anchor!=null){
 				sbPath.append("#").append(anchor);
 			}
@@ -279,9 +279,9 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 						
 						if(thumb == null){
 								//display in DFG-Viewer
-							sbURL = new StringBuffer("http://dfg-viewer.de/v1/");
-							sbURL.append("?set%5Bmets%5D=");
-							sbURL.append(URLEncoder.encode(getBaseURL()+"file/"+f.getPath(), "UTF-8"));
+							sbURL = new StringBuffer("http://dfg-viewer.de/show/");
+							sbURL.append("?set[mets]=");
+							sbURL.append(URLEncoder.encode(getBaseURL()+"file/"+mcrID+"/"+f.getPath(), "UTF-8"));
 							if(eMETSPhysDiv!=null){
 								sbURL.append("&set[image]=").append(eMETSPhysDiv.getAttributeValue("ORDER"));
 							}

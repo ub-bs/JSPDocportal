@@ -216,7 +216,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
     				}
     			}
     			StringBuffer url = new StringBuffer();
-    			url.append(getBaseURL()).append("file/").append(mcrDerID.toString()).append(filepath); 
+    			url.append(getBaseURL()).append("file/").append(mcrID).append("/").append(mcrDerID.toString()).append(filepath); 
     			response.sendRedirect(url.toString());
     		}
     	}
@@ -224,7 +224,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
 
 	//CODE under development - try to solve the "Open Large PDF file" problem
 	@SuppressWarnings("unused")
-	private void showDerivateFile(MCRObjectID mcrDerID, String path, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+	private void showDerivateFile(MCRObjectID mcrID, MCRObjectID mcrDerID, String path, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		// OLD CODE
 		// the urn with information about the MCRObjectID
     	MCRFilesystemNode mainFile = null;
@@ -255,7 +255,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
             }
         	
         	if(mainFile.getPath().endsWith(".pdf")){
-        		openPDF(request, response, (MCRFile)mainFile);
+        		openPDF(request, response, mcrID.toString(), (MCRFile)mainFile);
         		return;
         	}
         	sendFile(request, response, (MCRFile)mainFile);
@@ -267,12 +267,12 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
     }
 	
 	//openPDF	
-	private void openPDF(HttpServletRequest request, HttpServletResponse response, MCRFile mcrFile) throws IOException{
+	private void openPDF(HttpServletRequest request, HttpServletResponse response, String mcrid, MCRFile mcrFile) throws IOException{
 		String page= request.getParameter("page");
 	    String nr = request.getParameter("nr");
 		
 	  	StringBuffer sbURL = new StringBuffer(getBaseURL());
-		sbURL.append("file/").append(mcrFile.getPath());
+		sbURL.append("file/").append(mcrid).append("/").append(mcrFile.getPath());
 		if(page!=null){
 			sbURL.append("#page=").append(page);
 		}
