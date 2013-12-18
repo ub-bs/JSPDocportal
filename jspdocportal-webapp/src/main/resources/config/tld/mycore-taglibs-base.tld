@@ -51,7 +51,7 @@
 		<description>A tag, that renders the navigation</description>
 		<name>outputNavigation</name>
 		<tag-class>org.mycore.frontend.jsp.taglibs.MCROutputNavigationTag</tag-class>
-		<body-content>empty</body-content>
+		<body-content>scriptless</body-content>
 		<attribute>
 			<name>id</name>
 			<required>true</required>
@@ -70,13 +70,37 @@
 		</attribute>
 	</tag>
 	<tag>
+		<description>A tag, that appends all nacessary information about the navigation into PAGE_SCOPE.</description>
+		<name>customNavigation</name>
+		<tag-class>org.mycore.frontend.jsp.taglibs.MCRCustomNavigationTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>id</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>expanded</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.Boolean</type>
+		</attribute>
+		<attribute>
+			<name>var</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
 		<description>A tag, that displays a language selector.
-          Within the JSP body the following page scoped variables may be used:
-          - lang_currentlang - the language currently used in the application
-          - lang_first - the first language in the list of available languages
-          - lang_lang - the current language while iterating through the list of languages
-          - lang_href - the link to be displayed for the current language
-          - lang_imageURL - the URL to the image to be displayed for the current language
+          The "var" attribute tells the tag, on wich variable it should bind the
+          necessary information for output.
+          You can access easily the needed information by: 
+          (e.g. if you chose var="lang")
+          ${lang.label}
+          ${lang.href} and so on. 
+          For the list of parameters look at the documentation of this class.
         </description>
 		<name>outputLanguageSelector</name>
 		<tag-class>org.mycore.frontend.jsp.taglibs.MCROutputLanguageSelectorTag</tag-class>
@@ -86,6 +110,11 @@
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
+        <attribute>
+       		<name>var</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
 	</tag>
 	<tag>
 		<name>endTask</name>
