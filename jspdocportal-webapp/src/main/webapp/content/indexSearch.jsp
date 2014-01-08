@@ -7,7 +7,7 @@
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
 
-<fmt:message var="pageTitle" key="Webpage.title.indexbrowser.${param.searchclass}" /> 
+<fmt:message var="pageTitle" key="Webpage.indexbrowser.${param.searchclass}.title" /> 
 <stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}" layout="2columns">
 	<stripes:layout-component name="contents">
 		<h2>
