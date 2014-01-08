@@ -1,5 +1,7 @@
 package org.mycore.frontend.jsp.taglibs;
 
+import static javax.servlet.jsp.PageContext.PAGE_SCOPE;
+
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,23 +12,19 @@ import javax.servlet.jsp.JspException;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Element;
 
-import static javax.servlet.jsp.PageContext.PAGE_SCOPE;
-
 /**
  * <p>
  * Appends a JavaBean to the PAGE_SCOPE, that can be traversed with JSTL tags.
  * </p>
  * 
- * </p>
- * The name of the variable is passed by the attribute "var"
+ * </p> The name of the variable is passed by the attribute "var" </p>
+ * <p>
+ * Also it requires the attribute "id". The id is used to retrieve the
+ * navigation from the navitation.xml.
  * </p>
  * <p>
- * Also it requires the attribute "id".
- * The id is used to retrieve the navigation from the navitation.xml.
- * </p>
- * <p>
- * The attribute "expanded" just points out, if the whole navigation tree should be passed
- * to the been or just the first level.
+ * The attribute "expanded" just points out, if the whole navigation tree should
+ * be passed to the been or just the first level.
  * </p>
  * 
  * Example usage:
@@ -79,15 +77,15 @@ public class MCRCustomNavigationTag extends MCRAbstractNavigationTag {
 
 	/**
 	 * Puts all navigation variables into a list of {@link NavigationVariables}.
-	 * If the {@link MCRAbstractNavigationTag#path} points to a child of e, 
-	 * it retrieves also its children.
-	 * The index is used to determine, on which level of the path this method is working
+	 * If the {@link MCRAbstractNavigationTag#path} points to a child of e, it
+	 * retrieves also its children. The index is used to determine, on which
+	 * level of the path this method is working
+	 * 
 	 * @param e
-	 * @param index 
+	 * @param index
 	 * @return
 	 */
-	private List<NavigationVariables> getNavigation(
-			Element e, int index) {
+	private List<NavigationVariables> getNavigation(Element e, int index) {
 		List<NavigationVariables> navigation = new LinkedList<>();
 		List<Element> peList = printableElements(e);
 		for (Element el : peList) {
@@ -96,10 +94,19 @@ public class MCRCustomNavigationTag extends MCRAbstractNavigationTag {
 			n.setId(id);
 			n.setLabel(retrieveI18N(el.getAttribute("i18n")));
 			n.setHref(baseURL + "nav?path=" + el.getAttribute("_path"));
+			if (index >= path.length) {
+				n.setActive(false);
+			} else {
+				n.setActive(path[index].equals(id));
+			}
 
 			if (index < path.length) {
-				if (expanded && path[index].equals(id)) {
-					n.setChildren(getNavigation(el, index + 1));
+				if (expanded || path[index].equals(id)) {
+					if (index < path.length - 1) {
+						n.setChildren(getNavigation(el, index + 1));
+					} else {
+						n.setChildren(getNavigation(el, index));
+					}
 				}
 			}
 
@@ -109,85 +116,106 @@ public class MCRCustomNavigationTag extends MCRAbstractNavigationTag {
 
 	}
 
-	private List<NavigationVariables> getNavigation(
-			Element e) {
+	private List<NavigationVariables> getNavigation(Element e) {
 		return getNavigation(e, 0);
 	}
 
 	/**
-	 * The variable that is used to bind the {@link NavigationVariables} to the PAGE_SCOPE
+	 * The variable that is used to bind the {@link NavigationVariables} to the
+	 * PAGE_SCOPE
+	 * 
 	 * @param var
 	 */
 	public void setVar(String var) {
 		this.var = var;
 	}
-	
+
 	/**
 	 * Holds all navigation variables for the JSP to build the navigation
+	 * 
 	 * @author Christian Windolf
-	 *
+	 * 
 	 */
-	public static class NavigationVariables{
+	public static class NavigationVariables {
 		private String label;
 		private String href;
 		private List<NavigationVariables> children;
 		private String id;
-		
+		private boolean active;
+
 		/**
 		 * The localized link label for this item.
+		 * 
 		 * @return
 		 */
 		public String getLabel() {
 			return label;
 		}
+
 		public void setLabel(String label) {
 			this.label = label;
 		}
-		
+
 		/**
 		 * The URL that links to the target
+		 * 
 		 * @return
 		 */
 		public String getHref() {
 			return href;
 		}
+
 		public void setHref(String href) {
 			this.href = href;
 		}
-		
+
 		/**
 		 * If this navigation item has children they are stored here
+		 * 
 		 * @return may be null, if it has no children.
 		 */
 		public List<NavigationVariables> getChildren() {
 			return children;
 		}
+
 		public void setChildren(List<NavigationVariables> children) {
 			this.children = children;
 		}
+
+		public boolean isActive() {
+			return active;
+		}
+
 		/**
 		 * 
-		 * @return true, if {@link MCRNavigation.NavigationVariables#getChildren()} ist not null or empty
+		 * @return true, if
+		 *         {@link MCRNavigation.NavigationVariables#getChildren()} ist
+		 *         not null or empty
 		 */
-		public boolean isActive() {
-			if(children == null){
+		public boolean isExpanded() {
+			if (children == null) {
 				return false;
 			}
 			return !children.isEmpty();
 		}
-		
-		public void setId(String id){
+
+		public void setId(String id) {
 			this.id = id;
 		}
-		
+
 		/**
 		 * The id of this navigation element
+		 * 
 		 * @return
 		 */
-		public String getId(){
+		public String getId() {
 			return this.id;
 		}
-		
+
+		public void setActive(boolean active) {
+			this.active = active;
+		}
+
 	}
 
 }
