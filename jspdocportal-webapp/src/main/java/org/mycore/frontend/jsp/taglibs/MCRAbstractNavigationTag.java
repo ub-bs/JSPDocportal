@@ -165,7 +165,7 @@ public abstract class MCRAbstractNavigationTag extends MCRAbstractTag{
 	 * @param expanded
 	 */
 	public void setExpanded(boolean expanded){
-		this.expanded = true;
+		this.expanded = expanded;
 	}
 	
 	/**

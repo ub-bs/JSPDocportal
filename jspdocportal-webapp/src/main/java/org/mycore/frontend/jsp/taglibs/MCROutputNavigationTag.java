@@ -270,6 +270,10 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
 	 */
 
 	private void printBreadcrumbs(Element currentNode, JspWriter out) {
+	    if(currentNode==null || !currentNode.getLocalName().equals("navitem")){
+	        return;
+	    }
+	    
 		StringBuffer sbOut = new StringBuffer();
 		String msg = retrieveI18N(currentNode.getAttribute("i18n"));
 		sbOut.append(INDENT).append("   <li>");

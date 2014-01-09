@@ -70,7 +70,7 @@
 		</attribute>
 	</tag>
 	<tag>
-		<description>A tag, that appends all nacessary information about the navigation into PAGE_SCOPE.</description>
+		<description>A tag, that appends all necessary information about the navigation into PAGE_SCOPE.</description>
 		<name>customNavigation</name>
 		<tag-class>org.mycore.frontend.jsp.taglibs.MCRCustomNavigationTag</tag-class>
 		<body-content>empty</body-content>
