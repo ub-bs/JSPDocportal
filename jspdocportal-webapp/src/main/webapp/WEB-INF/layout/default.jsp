@@ -108,7 +108,7 @@
 			</div><!-- END OF left_col -->
 			<div id="center_col" class="center_col_${layout}">
 				<div class="base_box breadcrumbs">
-					<mcr:outputNavigation id="left" mode="breadcrumbs" separatorString="»" />				
+					<mcr:outputNavigation id="left" mode="breadcrumbs" />				
 				</div>
 				
 				<div id="contents" class="base_content text">
