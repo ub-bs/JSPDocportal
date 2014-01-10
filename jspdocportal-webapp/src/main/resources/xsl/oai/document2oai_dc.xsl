@@ -4,8 +4,8 @@
 <xsl:include href="document-dc.xsl"/>
 <xsl:include href="document2record.xsl"/>
 
-<xsl:template match="document" mode="metadata">
-  <oai_dc:dc>
+<xsl:template match="mycoreobject" mode="metadata">
+  <oai_dc:dc xmlns:dc="http://purl.org/dc/elements/1.1/" >
     <xsl:apply-templates select="." mode="dc"/>
   </oai_dc:dc> 
 </xsl:template>
