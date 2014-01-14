@@ -21,6 +21,7 @@
 <c:set var="dom" value="${requestScope.task.variables}" />
 <c:set var="itemID"><x:out select="$dom/variables/variable[@name = 'createdDocID']/@value" /></c:set>
 <c:set var="itemDocType" value="${fn:split(itemID,'_')[1]}" />
+<c:set var="itemProject" value="${fn:split(itemID,'_')[0]}" />
 <c:set var="attachedDerivates"><x:out select="$dom/variables/variable[@name = 'attachedDerivates']/@value" /></c:set> 
 <c:set var="wfoTitle"><x:out select="$dom/variables/variable[@name = 'wfo-title']/@value" /></c:set>
 
@@ -62,6 +63,20 @@
 							<input name="returnPath" value="${path}" type="hidden" />
 							<input title="<fmt:message key="WF.common.object.ImportFromFormserver" />"
 									src="${baseURL}images/workflow_import_from_formserver.gif" type="image"
+									class="imagebutton">
+						</form>
+						</td>
+					</c:if>
+					
+					<!-- Update from Formular for HS NB and RosDok -->
+					<c:if test="${fn:contains('disshab,thesis',itemDocType) && fn:contains('dbhsnb, rosdok', itemProject)}">
+						<td align="center" valign="top" width="30">
+						<form method="get"	action="${baseURL}nav">
+							<input name="path" value="~importdata-from-form" type="hidden" />
+							<input name="mcrid" value="${itemID}" type="hidden" /> 
+							<input name="returnPath" value="nav?path=${param.path}" type="hidden" />
+							<input title="<fmt:message key="WF.common.object.ImportFromForm" />"
+									src="${baseURL}images/workflow_form_import.gif" type="image"
 									class="imagebutton">
 						</form>
 						</td>
