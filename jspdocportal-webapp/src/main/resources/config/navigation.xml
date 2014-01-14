@@ -187,7 +187,11 @@
 				href="content/workflow/accessruleeditor.jsp" hidden="true">
 				<refitem id="~workflow-editaccess" />
 			</navitem>
-		</navitem>
+            <navitem id="importdata-from-form" i18n="WF.common.object.ImportFromForm"
+                href="content/workflow/import-from-form.jsp" hidden="true">
+                <refitem id="~importdata-from-form" />
+            </navitem>
+      	</navitem>
 
 		<navitem id="registeruser" i18n="Nav.OrderAuthorAccount"
 			href="content/workflow/registeruser/beginUser.jsp">
