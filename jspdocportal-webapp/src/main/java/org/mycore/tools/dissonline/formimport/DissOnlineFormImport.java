@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -131,6 +132,7 @@ public class DissOnlineFormImport {
             
 
             transformer.setParameter("formData", doc.getChildNodes());
+            transformer.setParameter("currentYear", String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
             
             File mcrOutFile = mcrFile;
             //debugging: 

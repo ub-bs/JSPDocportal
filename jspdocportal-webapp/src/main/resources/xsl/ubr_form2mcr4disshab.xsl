@@ -3,6 +3,7 @@
   xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:pc="http://www.d-nb.de/standards/pc/">
   <xsl:output method="xml" indent="yes" />
   <xsl:param name="formData" />
+  <xsl:param name="currentYear" />
   <xsl:variable name="props" select="$formData/properties" />
 
   <xsl:template match="/mycoreobject">
@@ -166,7 +167,7 @@
      <dates class="MCRMetaISO8601Date" heritable="false" notinherit="false">
       <date type="submitted" inherited="0"><xsl:value-of select="$props/entry[@key='datum_abgabe']" /></date>
       <date type="accepted" inherited="0"><xsl:value-of select="$props/entry[@key='datum_verteidigung']" /></date>
-      <date type="published" inherited="0"><xsl:value-of select="substring($props/entry[@key='datum_verteidigung'],7,4)" /></date>
+      <date type="published" inherited="0"><xsl:value-of select="$currentYear" /></date>
     </dates>
      <types class="MCRMetaClassification" heritable="false" notinherit="true">
       <type inherited="0" classid="rosdok_class_000000000005">
