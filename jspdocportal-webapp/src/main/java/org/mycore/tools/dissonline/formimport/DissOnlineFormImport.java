@@ -68,6 +68,7 @@ public class DissOnlineFormImport {
         return result.toArray(new String[]{});
     }
 
+    //can return null
     public static Document retrieveMetadataContent(String folderName, String metadataVersion) {
         Document doc = null;
             MCRConfiguration config = MCRConfiguration.instance();
@@ -84,10 +85,16 @@ public class DissOnlineFormImport {
                     ftp.changeWorkingDirectory(config.getString("dissonline.upload.ftp.basedir"));
                     ftp.changeWorkingDirectory(folderName);
                     ftp.changeWorkingDirectory(metadataVersion);
-                    String fileName = folderName+"_"+metadataVersion+".xml";
-                    is = ftp.retrieveFileStream(fileName);
-                    doc = new SAXBuilder().build(is, "UTF-8");
-                    
+                    String filename=null;
+                    for(FTPFile file: ftp.listFiles()){
+                        if(file.getName().endsWith(".xml")){
+                            filename = file.getName();
+                        }
+                    }
+                    if(filename!=null){
+                        is = ftp.retrieveFileStream(filename);
+                        doc = new SAXBuilder().build(is, "UTF-8");
+                    }
                 }
                 
             } catch (SocketException ex) {

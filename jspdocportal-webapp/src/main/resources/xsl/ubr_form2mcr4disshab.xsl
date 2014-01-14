@@ -131,7 +131,7 @@
           </contributor>
         </xsl:if>
         <xsl:if test="$props/entry[@key='gutachter2_nachname']/text()">
-          <contributor inherited="0">
+          <contributor inherited="0" type="referee">
             <pc:person xmlns:pc="http://www.d-nb.de/standards/pc/">
               <pc:name type="nameUsedByThePerson" Scheme="PND">
                 <pc:foreName><xsl:value-of select="$props/entry[@key='gutachter2_vorname']" /></pc:foreName>
@@ -147,7 +147,7 @@
           </contributor>
         </xsl:if>
         <xsl:if test="$props/entry[@key='gutachter3_nachname']/text()">
-          <contributor inherited="0">
+          <contributor inherited="0" type="referee">
             <pc:person xmlns:pc="http://www.d-nb.de/standards/pc/">
               <pc:name type="nameUsedByThePerson" Scheme="PND">
                 <pc:foreName><xsl:value-of select="$props/entry[@key='gutachter3_vorname']" /></pc:foreName>

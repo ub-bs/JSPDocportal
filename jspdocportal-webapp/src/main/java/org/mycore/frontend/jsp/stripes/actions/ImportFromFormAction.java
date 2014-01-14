@@ -84,8 +84,10 @@ public class ImportFromFormAction implements ActionBean {
     }
     
     public Resolution doRetrieveMetadataContent() {
+        metadataContent=null;
         if(folderName!=null){
             Document  data = DissOnlineFormImport.retrieveMetadataContent(folderName, metadataVersion);
+            if(data!=null){
             StringWriter sw = new StringWriter();
             XMLOutputter xmlout = new XMLOutputter(Format.getPrettyFormat());
             try{
@@ -95,7 +97,7 @@ public class ImportFromFormAction implements ActionBean {
                 e.printStackTrace();
             }
             metadataContent = sw.toString();
-            
+            }
         }        
         return fwdResolution;
     }
