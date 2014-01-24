@@ -99,7 +99,7 @@ public class MCRRestAPISearch extends HttpServlet {
                 eResult.setAttribute("start", "0");
 
                 for (int i = 0; i < result.getNumHits(); i++) {
-                    String mcrID = result.getHit(0).getID();
+                    String mcrID = result.getHit(i).getID();
                     Element eDoc = new Element("doc");
                     eResult.addContent(eDoc);
                     eDoc.setAttribute("href", info.getAbsolutePathBuilder().path(mcrID).build((Object[]) null)
