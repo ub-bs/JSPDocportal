@@ -56,6 +56,7 @@ import org.mycore.common.MCRUserInformation;
 import org.mycore.common.MCRUtils;
 import org.mycore.common.content.MCRStringContent;
 import org.mycore.common.xml.MCRXMLParserFactory;
+import org.mycore.datamodel.common.MCRXMLMetadataManager;
 import org.mycore.datamodel.ifs.MCRDirectory;
 import org.mycore.datamodel.ifs.MCRFileImportExport;
 import org.mycore.datamodel.ifs.MCRFilesystemNode;
@@ -70,6 +71,7 @@ import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
 import org.mycore.frontend.workflowengine.strategies.MCRDerivateStrategy;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
+import org.mycore.user2.MCRUserManager;
 import org.xml.sax.SAXParseException;
 
 import com.sun.jersey.core.header.FormDataContentDisposition;
@@ -117,36 +119,45 @@ public class MCRRestAPIUploadsHelper {
                 SAXBuilder sb = new SAXBuilder();
                 Document docOut = sb.build(uploadedInputStream);
 
-                MCRObjectID oldID = MCRObjectID.getInstance(docOut.getRootElement().getAttributeValue("ID"));
-                MCRWorkflowManager wfm = MCRWorkflowManagerFactory.getImpl(oldID);
+                MCRObjectID mcrID = MCRObjectID.getInstance(docOut.getRootElement().getAttributeValue("ID"));
+                MCRWorkflowManager wfm = MCRWorkflowManagerFactory.getImpl(mcrID);
                 if (wfm != null) {
                     String saveDirectory = MCRWorkflowDirectoryManager.getWorkflowDirectory(wfm.getMainDocumentType());
-                    MCRObjectID mcrObjID = wfm.getNextFreeID(oldID.getTypeId());
-                    fXML = new File(new File(saveDirectory), mcrObjID.toString() + ".xml");
+                    
+                    boolean isUpdate = MCRXMLMetadataManager.instance().exists(mcrID); 
+                    if(!isUpdate){
+                        mcrID = wfm.getNextFreeID(mcrID.getTypeId());
+                    }
+                                        
+                    fXML = new File(new File(saveDirectory), mcrID.toString() + ".xml");
 
-                    docOut.getRootElement().setAttribute("ID", mcrObjID.toString());
-                    docOut.getRootElement().setAttribute("label", mcrObjID.toString());
+                    docOut.getRootElement().setAttribute("ID", mcrID.toString());
+                    docOut.getRootElement().setAttribute("label", mcrID.toString());
                     XMLOutputter xmlOut = new XMLOutputter(Format.getPrettyFormat());
                     try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fXML),
                             "UTF-8"))) {
                         xmlOut.output(docOut, bw);
                     }
 
-                    MCRObjectCommands.loadFromFile(fXML.getPath());
-
-                    setDefaultPermission(mcrObjID,  wfm.getWorkflowProcessType(), "admin" );
+                    MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
+                    MCRUserInformation currentUser = mcrSession.getUserInformation();
+                    mcrSession.setUserInformation(MCRUserManager.getUser("editorP"));
+                    MCRObjectCommands.updateFromFile(fXML.getPath()); // handles "create" as well
+                    setDefaultPermission(mcrID,  wfm.getWorkflowProcessType(), "editorP" );
+                    mcrSession.setUserInformation(currentUser);
                     
                     return Response
-                            .created(info.getBaseUriBuilder().path("v1/objects/" + mcrObjID.toString()).build())
+                            .created(info.getBaseUriBuilder().path("v1/objects/" + mcrID.toString()).build())
                             .type("application/xml; charset=UTF-8").build();
                 }
             } catch (Exception e) {
-                //do nothing
+                e.printStackTrace();
             }
-
-            session.commitTransaction();
-            if (fXML != null) {
-                fXML.delete();
+            finally{
+                session.commitTransaction();
+                if (fXML != null) {
+                    fXML.delete();
+                }
             }
 
         }
