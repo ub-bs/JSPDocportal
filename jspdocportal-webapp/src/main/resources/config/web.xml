@@ -20,6 +20,12 @@
 			org.mycore.common.events.MCRHttpSessionListener
 		</listener-class>
 	</listener>
+  <listener>
+    <listener-class>
+      org.mycore.frontend.cli.server.MCRCLIServerServletContextListener
+    </listener-class>
+  </listener>
+  
 
    <!-- specified in web.xml of the application  !!! 
 	<filter>
