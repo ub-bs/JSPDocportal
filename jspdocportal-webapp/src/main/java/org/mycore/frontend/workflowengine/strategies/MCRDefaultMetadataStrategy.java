@@ -239,9 +239,9 @@ public class MCRDefaultMetadataStrategy extends MCRMetadataStrategy{
 	        String filename = directory + "/" + mcrobjid + ".xml";
 			if (MCRMetadataManager.exists(MCRObjectID.getInstance(mcrobjid))) {
 				// updates changes not the accesrules
-				MCRObjectCommands.updateFromFile(filename);
+				MCRObjectCommands.updateFromFile(filename, false);
 			} else {
-				MCRObjectCommands.loadFromFile(filename);
+				MCRObjectCommands.loadFromFile(filename, false);
 			}
 			logger.info("The metadata object: " + filename + " is loaded.");
 			return true;

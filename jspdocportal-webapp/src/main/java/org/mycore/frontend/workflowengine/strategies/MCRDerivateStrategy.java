@@ -344,9 +344,9 @@ public abstract class MCRDerivateStrategy {
 	        try{
 			if (MCRMetadataManager.exists(MCRObjectID.getInstance(derivateid))) {
 		        ruleMap = MCRWorkflowUtils.getAccessRulesMap(derivateid);
-				result = MCRDerivateCommands.updateFromFile(filename);
+				result = MCRDerivateCommands.updateFromFile(filename, false);
 			} else {
-				result = MCRDerivateCommands.loadFromFile(filename);
+				result = MCRDerivateCommands.loadFromFile(filename, false);
 			}
 	        }
 	        catch(SAXParseException e){
