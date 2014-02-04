@@ -174,6 +174,7 @@ public class MCRRestAPIClassifications extends HttpServlet {
 		String rootCateg = null;
 		String lang = null;
 		boolean filterNonEmpty = false;
+		boolean filterNoChildren = false;
 
 			for (String f : filter.split(";")) {
 				if (f.startsWith("root:")) {
@@ -185,6 +186,9 @@ public class MCRRestAPIClassifications extends HttpServlet {
 				if (f.startsWith("nonempty")) {
 					filterNonEmpty = true;
 				}
+                if (f.startsWith("nochildren")) {
+                    filterNoChildren = true;
+                }
 			}
 			
 		if (format == null || classID == null) {
@@ -218,6 +222,9 @@ public class MCRRestAPIClassifications extends HttpServlet {
 					eFilter = eFilter.getChild("categories");
 				}
 				filterNonEmpty(docClass.getRootElement().getAttributeValue("ID"), eFilter);
+			}
+			if(filterNoChildren){
+			    eRoot.removeChildren("category");
 			}
 			
 			if (FORMAT_JSON.equals(format)) {
