@@ -225,7 +225,7 @@ public class MCRRestAPIUploadHelper {
                             .build();
                 
             } catch (Exception e) {
-                Logger.getLogger(MCRRestAPIUploadsHelper.class).error("Exeption while uploading derivate", e);
+                Logger.getLogger(MCRRestAPIUploadHelper.class).error("Exeption while uploading derivate", e);
             }
 
             session.commitTransaction();
@@ -319,7 +319,7 @@ public class MCRRestAPIUploadHelper {
                                     try {
                                         fsn.delete();
                                     } catch (MCRPersistenceException pe) {
-                                        Logger.getLogger(MCRRestAPIUploadsHelper.class).error(pe);
+                                        Logger.getLogger(MCRRestAPIUploadHelper.class).error(pe);
                                     }
                                 }
                                 MCRFileImportExport.importFiles(derDir, difs);
