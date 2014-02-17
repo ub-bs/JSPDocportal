@@ -13,7 +13,7 @@
 <c:set var="type" value="${fn:substringBefore(fn:substringAfter(param.id, '_'),'_')}" />
 <c:set var="contentType"><x:out select="$xml/mycoreobject/metadata/types/type/@categid"/></c:set>
 
-<table class="searchresult-table">
+<table class="table searchresult-table">
 	<tr>
 		<td class="searchresult-table-icon" rowspan="10">
 		<c:choose>

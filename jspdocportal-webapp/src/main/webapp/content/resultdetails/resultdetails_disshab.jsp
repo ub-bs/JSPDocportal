@@ -11,7 +11,7 @@
 
 <mcr:receiveMcrObjAsJdom mcrid="${param.id}" varDom="xml"/>
 <c:set var="type" value="${fn:substringBefore(fn:substringAfter(param.id, '_'),'_')}" />
-<table class="searchresult-table">
+<table class="table searchresult-table">
 	<tr>
 		<td class="searchresult-table-icon" rowspan="10">
 			<img src="${WebApplicationBaseURL}images/pubtype/${type}.gif" alt="${type}">

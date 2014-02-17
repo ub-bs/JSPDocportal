@@ -31,7 +31,7 @@ td.docdetails-label {
 	text-align:right;
 	background-color: #E6E6E6;
 	color:#666666;
-	padding-top:5.5px !important;
+	padding: 3px;
 	vertical-align: top;
 	border-bottom: 4px solid white;
 	min-width:110px;
@@ -39,7 +39,7 @@ td.docdetails-label {
 
 td.docdetails-values {
 	border-bottom: 4px solid white;
-	padding-left: 10px;
+	padding: 3px 3px 3px 12px;
 }
 
 td.docdetails-preview {
@@ -55,15 +55,17 @@ table.docdetails-values-table {
 	border-spacing: 4px;
 }
 
-td.docdetails-value {
-     padding-left: 20px;
-}
-
 td.docdetails-value-title {
 	font-weight: bold;
-	font-size: 133%;
-	line-height: 133%;
+	font-size: 115%;
+	line-height: 130%;
 	padding: 5px 5px 5px 20px;
+	color:#004A99;
+	
+}
+
+td.docdetails-separator {
+	padding: 0px 0px 3px 0px;
 }
 
 td.docdetails-separator hr {

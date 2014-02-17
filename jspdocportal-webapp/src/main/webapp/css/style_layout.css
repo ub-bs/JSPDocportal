@@ -286,14 +286,19 @@ div.text{
 	
 }
 
-div.text table{
+div.text abbr{
+	border-bottom: 1px dotted black;
+	padding: 0px;
+}
+
+div.text table.table{
 	margin: 6px 0px;
 }
-div.text td {
+div.text table.table td {
 	padding:3px;
 }
 
-div.text th {
+div.text table.table th {
 	color:white;
 	background-color: #004A99;
 	padding:3px;
@@ -303,11 +308,11 @@ div.text th {
 	border-right: 2px solid white;
 }
 
-div.text th h3{
+div.text table.table th h3{
 	color:white;
 }
 
-div.text ul{
+div.text table.table ul{
     list-style: none;
     padding-left: 1.5em;
 }

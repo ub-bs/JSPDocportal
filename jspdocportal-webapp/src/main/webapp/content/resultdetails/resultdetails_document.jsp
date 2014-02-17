@@ -15,7 +15,7 @@
 <c:set var="formatType"><x:out select="$xml/mycoreobject/metadata/formats/format/@categid"/></c:set>
 <c:set var="contentType"><x:out select="$xml/mycoreobject/metadata/types/type/@categid"/></c:set>
 
-<table class="searchresult-table">
+<table class="table searchresult-table">
 	<tr>
 		<td class="searchresult-table-icon" rowspan="10">
 			<jsp:include page="fragments/document_icon.jsp">
