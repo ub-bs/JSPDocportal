@@ -89,6 +89,11 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 	    			String label = eN.getAttributeNS(MCRConstants.XLINK_NAMESPACE.getURI(), "title");
 	    			String baseurl = getJspContext().getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE).toString();
     				MCRObjectID oid = MCRObjectID.getInstance(derID);
+    				if(!MCRMetadataManager.exists(oid)){
+    				    out.write("<span class=\"error\" >Derivate with id "+oid.toString()+" does not exist.</span>");
+    				    continue;
+    				}
+    				
     				MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(oid);
 	    			if(label.equals("Cover")){
 	    				//do nothing - handled elsewhere
@@ -97,9 +102,11 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 	    				//show mets
 	    				String mcrid=der.getDerivate().getMetaLink().getXLinkHrefID().toString();	
 	    				String metsurl = baseurl +"resolve/id/"+mcrid+"/image";
+	    				out.write("<span class=\"button\" style=\"display:inline-block\" >");
 	    				out.write("<a href=\""+metsurl+"\" target=\"_blank\">");
-	    				out.write("<img src=\""+baseurl+"images/dfgviewer.gif\" title = \"Dokument anzeigen\" alt=\"Dokument anzeigen\" />");
-	    				out.write(docdetails.getMessages().getString("Webpage.docdetails.showInDFGViewer")+"</a>");	    			
+	    				out.write("<img style=\"vertical-align:middle\" src=\""+baseurl+"images/dfgviewer.gif\" title = \"Dokument anzeigen\" alt=\"Dokument anzeigen\" />");
+	    				out.write(docdetails.getMessages().getString("Webpage.docdetails.showInDFGViewer")+"</a>");
+	    				out.write("</span>");	    				
 	    			}
 	    		
 	    			else if(label.equals("MJB")){
