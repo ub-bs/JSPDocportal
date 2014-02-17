@@ -118,7 +118,7 @@ public class MCRJSPFileNodeServlet extends MCRFileNodeServlet {
      *  retrieves the derivate ID of the owning derivate from request path.
      *  @param request - the http request object
      */
-    
+    @Override
     protected String getOwnerID(HttpServletRequest request) {
         String[] path = StringUtils.split(request.getPathInfo(), "/");
         //apache commons StringUtils.split ignores leading and trailing separators and removes empty parts
@@ -139,6 +139,8 @@ public class MCRJSPFileNodeServlet extends MCRFileNodeServlet {
      *  Retrieves the path of the file to display from request path.
      *  @param request - the http request object
      */
+
+    @Override
     protected String getPath(HttpServletRequest request) {
         String[] path = StringUtils.split(request.getPathInfo(), "/");
         //Apache Commons StringUtils.split ignores leading and trailing separators and remove empty parts
