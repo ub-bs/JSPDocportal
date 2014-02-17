@@ -43,6 +43,7 @@ import org.mycore.services.fieldquery.MCRQuery;
 import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.services.fieldquery.MCRQueryParser;
 import org.mycore.services.fieldquery.MCRResults;
+import org.mycore.services.fieldquery.MCRSortBy;
 
 /**
  * Rest API for messages.
@@ -59,19 +60,21 @@ public class MCRRestAPISearch extends HttpServlet {
     public static final String FORMAT_XML = "xml";
 
     /**
+     * see http://wiki.apache.org/solr/CommonQueryParameters for syntax of parameters
      * 
      * @param info - a Jersey Context Object for URI
      *      
-     * @param format
-     * 		Possible values are: props (default) | json | xml
-     * @param filter
-     * 		';'-separated list of message key prefixes
+     * @param q
+     * 		the Query in SOLR Query Syntax
+     * @param sort
+     * 		only one sort field with sort direction "asc" or "desc" is currently supported
      * @return
      */
     @GET
     @Produces({ MediaType.TEXT_XML + ";charset=UTF-8", MediaType.APPLICATION_JSON + ";charset=UTF-8",
             MediaType.TEXT_PLAIN + ";charset=ISO-8859-1" })
-    public Response listMessages(@Context UriInfo info, @QueryParam("q") String query,
+    public Response search(@Context UriInfo info, @QueryParam("q") String query,
+            @QueryParam("sort") String sort,
             @QueryParam("format") @DefaultValue("xml") String format) {
 
         try {
@@ -86,6 +89,15 @@ public class MCRRestAPISearch extends HttpServlet {
                 q = q.replace(" = ", " like ");
             }
             MCRQuery mcrQuery = new MCRQuery((new MCRQueryParser()).parse(q));
+            
+            if(sort!=null && sort.length()>0){
+                String[] sortData = sort.split(" ");
+                if(sortData.length==2){
+                    MCRSortBy sortBy = new MCRSortBy(sortData[0], "asc".equals(sortData[1]));
+                    mcrQuery.setSortBy(sortBy);
+                }
+            }
+            
             MCRResults result = MCRQueryManager.search(mcrQuery);
 
             if (FORMAT_XML.equals(format)) {
