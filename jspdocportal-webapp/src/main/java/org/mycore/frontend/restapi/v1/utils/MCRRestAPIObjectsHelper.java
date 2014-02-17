@@ -2,6 +2,8 @@ package org.mycore.frontend.restapi.v1.utils;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,6 +41,11 @@ import org.mycore.frontend.restapi.v1.errors.MCRRestAPIException;
 import org.mycore.frontend.restapi.v1.errors.MCRRestAPIFieldError;
 import org.mycore.frontend.restapi.v1.utils.MCRRestAPISortObject.SortOrder;
 import org.mycore.frontend.servlets.MCRServlet;
+import org.mycore.services.fieldquery.MCRQuery;
+import org.mycore.services.fieldquery.MCRQueryManager;
+import org.mycore.services.fieldquery.MCRQueryParser;
+import org.mycore.services.fieldquery.MCRResults;
+import org.mycore.services.fieldquery.MCRSortBy;
 
 import com.google.gson.stream.JsonWriter;
 
@@ -716,8 +723,16 @@ public class MCRRestAPIObjectsHelper {
             key = idString.substring(0, pos);
             idString = idString.substring(pos + 1);
             if (!key.equals("mcr")) {
-                throw new MCRRestAPIException(MCRRestAPIError.create(Response.Status.BAD_REQUEST,
-                        "The ID is not valid.", "The prefix is unkown. Only 'mcr' is allowed."));
+                try{
+                    idString = URLDecoder.decode(idString, "UTF-8");
+                }
+                catch(UnsupportedEncodingException e){
+                    //will not happen
+                }
+                //ToDo - Shall we restrict the key set with a property?
+                
+                //throw new MCRRestAPIException(MCRRestAPIError.create(Response.Status.BAD_REQUEST,
+                //        "The ID is not valid.", "The prefix is unkown. Only 'mcr' is allowed."));
             }
         }
         if (key.equals("mcr")) {
@@ -738,9 +753,25 @@ public class MCRRestAPIObjectsHelper {
 
             return MCRMetadataManager.retrieveMCRObject(mcrID);
         }
-        throw new MCRRestAPIException(MCRRestAPIError.create(Response.Status.NOT_FOUND,
-                "There is no object with the given MyCoRe ID '" + idString + "'.", null));
-
+        else{
+            MCRQuery mcrQuery = new MCRQuery((new MCRQueryParser()).parse("("+key+" = "+idString+")"));
+            MCRResults result = MCRQueryManager.search(mcrQuery);
+            
+            if(result.getNumHits()==1){
+                String id = result.getHit(0).getID();
+                return MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(id));
+            }
+            else{
+                if(result.getNumHits()==0){
+                    throw new MCRRestAPIException(MCRRestAPIError.create(Response.Status.NOT_FOUND,
+                            "There is no object with the given ID '" + key+":"+idString + "'.", null));
+                }
+                else{
+                    throw new MCRRestAPIException(MCRRestAPIError.create(Response.Status.NOT_FOUND,
+                            "The ID is not unique. There are "+result.getNumHits()+" objecst fore the given ID '" + key+":"+idString + "'.", null));
+                }
+            }
+        }
     }
 
     private static MCRDerivate retrieveMCRDerivate(MCRObject mcrObj, String derIDString) throws MCRRestAPIException {
