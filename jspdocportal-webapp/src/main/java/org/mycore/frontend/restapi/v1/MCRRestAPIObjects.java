@@ -22,13 +22,9 @@
  */
 package org.mycore.frontend.restapi.v1;
 
-import java.io.InputStream;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -39,10 +35,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.mycore.frontend.restapi.v1.utils.MCRRestAPIObjectsHelper;
-import org.mycore.frontend.restapi.v1.utils.MCRRestAPIUploadsHelper;
-
-import com.sun.jersey.core.header.FormDataContentDisposition;
-import com.sun.jersey.multipart.FormDataParam;
 
 @Path("/v1/objects")
 public class MCRRestAPIObjects {
@@ -173,45 +165,6 @@ public class MCRRestAPIObjects {
            @PathParam("derid") String derID,
            @QueryParam("format") @DefaultValue("xml") String format){
            return MCRRestAPIObjectsHelper.listFiles(request, mcrID, derID, format);
-   }
-
-   /*********************************************************************/
-   
-   @POST
-   @Path("/")
-   @Produces({ MediaType.TEXT_XML + ";charset=UTF-8" })
-   @Consumes(MediaType.MULTIPART_FORM_DATA)
-   public Response uploadObject(@Context UriInfo info, @Context HttpServletRequest request,
-           @FormDataParam("file") InputStream uploadedInputStream,
-           @FormDataParam("file") FormDataContentDisposition fileDetails) {
-       return MCRRestAPIUploadsHelper.uploadObject(info, request, uploadedInputStream, fileDetails);
-
-   }
-   
-   @POST
-   @Path("/{mcrObjID}/derivates")
-   @Produces({ MediaType.TEXT_XML + ";charset=UTF-8" })
-   @Consumes(MediaType.MULTIPART_FORM_DATA)
-   public Response uploadDerivate(@Context UriInfo info, @Context HttpServletRequest request,
-           @PathParam("mcrObjID") String mcrObjID, @FormDataParam("label") String label) {
-       return MCRRestAPIUploadsHelper.uploadDerivate(info, request, mcrObjID, label);
-   }
-   
-   @POST
-   @Path("/{mcrObjID}/derivates/{mcrDerID}/files")
-   @Produces({ MediaType.TEXT_XML + ";charset=UTF-8" })
-   @Consumes(MediaType.MULTIPART_FORM_DATA)
-   public Response uploadFile(@Context UriInfo info, @Context HttpServletRequest request,
-           @PathParam("mcrObjID") String mcrObjID, @PathParam("mcrDerID") String mcrDerID,
-           @FormDataParam("file") InputStream uploadedInputStream,
-           @FormDataParam("file") FormDataContentDisposition fileDetails, 
-           @FormDataParam("rest-client") String clientID,
-           @FormDataParam("path") String path,
-           @DefaultValue("false") @FormDataParam("maindoc") boolean maindoc,
-           @FormDataParam("md5") String md5,
-           @FormDataParam("size") Long size){
-       return MCRRestAPIUploadsHelper.uploadFile(info, request, mcrObjID, mcrDerID, uploadedInputStream, fileDetails, clientID, path, maindoc, md5, size);
-       
    }
 	
 }
