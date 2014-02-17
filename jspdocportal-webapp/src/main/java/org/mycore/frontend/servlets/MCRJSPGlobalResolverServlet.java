@@ -26,6 +26,8 @@ package org.mycore.frontend.servlets;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -104,11 +106,17 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
     		mcrID = recalculateMCRObjectID(value);
     	}
     	else{
+    	    try{
+    	        value = URLDecoder.decode(URLDecoder.decode(value, "UTF-8"), "UTF-8");
+    	    }
+    	    catch(UnsupportedEncodingException e){
+    	        //will not happen
+    	    }
     		String queryString = "("+key+" = "+value+")";
             MCRQuery query = new MCRQuery((new MCRQueryParser()).parse(queryString));
             MCRResults result = MCRQueryManager.search(query);
             
-            if(result.getNumHits()>0){
+            if(result.getNumHits()!=1){
     			getServletContext().getRequestDispatcher("/nav?path=~mycore-error&messageKey=Resolver.error.noObjectFound").forward(request,response);
     			return;
     		}
