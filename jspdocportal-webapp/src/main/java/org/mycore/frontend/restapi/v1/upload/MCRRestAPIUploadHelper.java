@@ -214,7 +214,7 @@ public class MCRRestAPIUploadHelper {
 
                         session.commitTransaction();
                         session.beginTransaction();
-                        setDefaultPermission(derID, wfm.getWorkflowProcessType(), "admin");
+                        setDefaultPermission(derID, wfm.getWorkflowProcessType(), "api");
                     }
                 }
                     response = Response
@@ -306,8 +306,7 @@ public class MCRRestAPIUploadHelper {
 
                                 saveFile.getParentFile().mkdirs();
                                 Files.copy(uploadedInputStream, saveFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                                uploadedInputStream.close();
-
+                                
                                 MCRDirectory difs = MCRDirectory.getRootDirectory(derID.toString());
                                 if (difs == null) {
                                     difs = new MCRDirectory(derID.toString());
