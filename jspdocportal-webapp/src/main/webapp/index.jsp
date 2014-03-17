@@ -8,7 +8,7 @@
 
 <fmt:setBundle basename="messages"/>
 <fmt:message var="pageTitle" key="Nav.Start" /> 
-<stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
+<stripes:layout-render name="WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
 	<stripes:layout-component name="contents">
 	
 <h2><fmt:message key="Webpage.intro.Webpage.intro" /></h2>
