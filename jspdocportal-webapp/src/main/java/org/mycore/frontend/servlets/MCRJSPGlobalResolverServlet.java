@@ -161,7 +161,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
     	        if(path[3].equals("page")){
     	            url = createURLForPDF(request, mcrID, path[4], null);
     	        }
-    	        if(action.equals("nr")){
+    	        if(path[3].equals("nr")){
     	            url = createURLForPDF(request, mcrID, null, path[4]);
     	        }
     	    }
@@ -174,6 +174,11 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
     		}
     		return;
     	}
+    	
+    	if(action.equals("pdfdownload")){
+    	    this.getServletContext().getRequestDispatcher("/content/pdfdownload.jsp?id=" +mcrID).forward(request, response);
+    	}
+    	
     	if(action.equals("fulltext")){
     		if(mcrID.startsWith("mvdok")){
     			String url = getBaseURL()+"mjbrenderer?id="+mcrID;
