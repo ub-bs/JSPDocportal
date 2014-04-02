@@ -217,13 +217,12 @@ public class MCRRestAPIUploadHelper {
                         setDefaultPermission(derID, wfm.getWorkflowProcessType(), "api");
                     }
                 }
-                    response = Response
-                            .created(
-                                    info.getBaseUriBuilder()
-                                            .path("v1/objects/" + mcrObjID.toString() + "/derivates/"
-                                                    + derID.toString()).build()).type("application/xml; charset=UTF-8")
-                            .build();
-                
+                response = Response
+                        .created(
+                                info.getBaseUriBuilder()
+                                        .path("v1/objects/" + mcrObjID.toString() + "/derivates/" + derID.toString())
+                                        .build()).type("application/xml; charset=UTF-8").build();
+
             } catch (Exception e) {
                 Logger.getLogger(MCRRestAPIUploadHelper.class).error("Exeption while uploading derivate", e);
             }
@@ -246,21 +245,25 @@ public class MCRRestAPIUploadHelper {
     */
     public static Response uploadFile(UriInfo info, HttpServletRequest request, String pathParamMcrObjID,
             String pathParamMcrDerID, InputStream uploadedInputStream, FormDataContentDisposition fileDetails,
-            String formParamClientID, String formParamPath, boolean formParamMaindoc, String formParamMD5,
+            String formParamPath, boolean formParamMaindoc, String formParamMD5,
             Long formParamSize) {
 
         Response response = Response.status(Status.FORBIDDEN).build();
         if (checkAccess(request)) {
 
             SortedMap<String, String> parameter = new TreeMap<>();
-            parameter.put("rest-client", formParamClientID);
+            
+            parameter.put("mcrObjectID", pathParamMcrObjID);
+            parameter.put("mcrDerivateID", pathParamMcrDerID);
             parameter.put("path", formParamPath);
             parameter.put("maindoc", Boolean.toString(formParamMaindoc));
             parameter.put("md5", formParamMD5);
             parameter.put("size", Long.toString(formParamSize));
 
+            
+            String clientID = request.getHeader("X-MyCoRe-RestAPI-ClientID");;
             String keyFileLocation = MCRConfiguration.instance().getString(
-                    "MCR.RestAPI.v1.Client." + formParamClientID + ".PublicKeyFile");
+                    "MCR.RestAPI.v1.Client." + clientID + ".PublicKeyFile");
             if (keyFileLocation == null) {
                 //ToDo error
             }
@@ -306,7 +309,7 @@ public class MCRRestAPIUploadHelper {
 
                                 saveFile.getParentFile().mkdirs();
                                 Files.copy(uploadedInputStream, saveFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                                
+
                                 MCRDirectory difs = MCRDirectory.getRootDirectory(derID.toString());
                                 if (difs == null) {
                                     difs = new MCRDirectory(derID.toString());
@@ -324,13 +327,13 @@ public class MCRRestAPIUploadHelper {
                                 MCRFileImportExport.importFiles(derDir, difs);
                                 der.getDerivate().getInternals().setIFSID(difs.getID());
                                 der.getDerivate().getInternals().setSourcePath(derDir.getPath());
-                                
+
                                 if (formParamMaindoc) {
                                     der.getDerivate().getInternals().setMainDoc(path);
                                 }
-                                
+
                                 MCRMetadataManager.update(der);
-                                MCRUtils.deleteDirectory(derDir);    
+                                MCRUtils.deleteDirectory(derDir);
 
                             } catch (IOException e) {
                                 e.printStackTrace();
@@ -348,6 +351,74 @@ public class MCRRestAPIUploadHelper {
                                                     + "/files").build()).type("application/xml; charset=UTF-8").build();
 
                 }
+            }
+        }
+        return response;
+
+    }
+
+    /**
+    @DELETE
+    @Path("/objects/id/{mcrObjID}/derivates/id/{mcrDerID}/files")
+    @Produces({ MediaType.TEXT_XML + ";charset=UTF-8" })
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    */
+    public static Response deleteAllFiles(UriInfo info, HttpServletRequest request, String pathParamMcrObjID,
+            String pathParamMcrDerID) {
+
+        Response response = Response.status(Status.FORBIDDEN).build();
+        if (checkAccess(request)) {
+
+            SortedMap<String, String> parameter = new TreeMap<>();
+            parameter.put("mcrObjectID", pathParamMcrObjID);
+            parameter.put("mcrDerivateID", pathParamMcrDerID);
+
+            String clientID = request.getHeader("X-MyCoRe-RestAPI-ClientID");
+            String keyFileLocation = MCRConfiguration.instance().getString(
+                    "MCR.RestAPI.v1.Client." + clientID + ".PublicKeyFile");
+            if (keyFileLocation == null) {
+                //ToDo error
+            }
+            String base64Signature = request.getHeader("X-MyCoRe-RestAPI-Signature");
+            if (base64Signature == null) {
+                //ToDo error handling
+            }
+            if (!MCREncryptionHelper.verifyPropertiesWithSignature(parameter, base64Signature,
+                    new File(keyFileLocation))) {
+                //validation failed -> error handling
+
+            } else {
+
+                //MCRSession session = MCRServlet.getSession(request);
+                MCRSession session = MCRSessionMgr.getCurrentSession();
+                MCRUserInformation currentUser = session.getUserInformation();
+
+                session.beginTransaction();
+                session.setUserInformation(MCRUserManager.getUser("api"));
+                MCRObjectID objID = MCRObjectID.getInstance(pathParamMcrObjID);
+                MCRObjectID derID = MCRObjectID.getInstance(pathParamMcrDerID);
+
+                //MCRAccessManager.checkPermission(uses CACHE, which seems to be dirty from other calls and cannot be deleted)????
+                if (MCRAccessManager.getAccessImpl().checkPermission(derID.toString(), PERMISSION_WRITE)) {
+                    MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(derID);
+                    try{
+                        MCRDirectory dir = der.receiveDirectoryFromIFS();
+                        dir.delete();
+                    }
+                    catch(MCRPersistenceException pe){
+                        //dir does not exist - do nothing
+                    }
+                    //create new root directory
+                    new MCRDirectory(derID.toString());
+                }
+
+                session.commitTransaction();
+                session.setUserInformation(currentUser);
+                response = Response
+                        .created(
+                                info.getBaseUriBuilder()
+                                        .path("v1/objects/" + objID.toString() + "/derivates/" + derID.toString()
+                                                + "/files").build()).type("application/xml; charset=UTF-8").build();
             }
         }
         return response;
@@ -384,13 +455,15 @@ public class MCRRestAPIUploadHelper {
                 Logger.getLogger(MCRRestAPIObjectsHelper.class).error("SAXParseException: ", spe);
             }
         }
-        
+
         //set read to true;
         if (MCRAccessManager.hasRule(objID.toString(), MCRAccessManager.PERMISSION_READ)) {
-            MCRAccessManager.updateRule(objID.toString(), MCRAccessManager.PERMISSION_READ, MCRAccessManager.getTrueRule(), "");
+            MCRAccessManager.updateRule(objID.toString(), MCRAccessManager.PERMISSION_READ,
+                    MCRAccessManager.getTrueRule(), "");
         } else {
-            MCRAccessManager.addRule(objID.toString(), MCRAccessManager.PERMISSION_READ, MCRAccessManager.getTrueRule(), "");
+            MCRAccessManager.addRule(objID.toString(), MCRAccessManager.PERMISSION_READ,
+                    MCRAccessManager.getTrueRule(), "");
         }
-        
+
     }
 }

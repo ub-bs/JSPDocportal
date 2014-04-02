@@ -26,6 +26,7 @@ import java.io.InputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -111,12 +112,18 @@ public class MCRRestAPIUploadObjects {
            @PathParam("mcrObjID") String mcrObjID, @PathParam("mcrDerID") String mcrDerID,
            @FormDataParam("file") InputStream uploadedInputStream,
            @FormDataParam("file") FormDataContentDisposition fileDetails, 
-           @FormDataParam("rest-client") String clientID,
            @FormDataParam("path") String path,
            @DefaultValue("false") @FormDataParam("maindoc") boolean maindoc,
            @FormDataParam("md5") String md5,
            @FormDataParam("size") Long size){
-       return MCRRestAPIUploadHelper.uploadFile(info, request, mcrObjID, mcrDerID, uploadedInputStream, fileDetails, clientID, path, maindoc, md5, size);
+       return MCRRestAPIUploadHelper.uploadFile(info, request, mcrObjID, mcrDerID, uploadedInputStream, fileDetails, path, maindoc, md5, size);
+   }
+   
+   @DELETE
+   @Path("/{mcrObjID}/derivates/{mcrDerID}/files")
+   public Response deleteFiles(@Context UriInfo info, @Context HttpServletRequest request,
+           @PathParam("mcrObjID") String mcrObjID, @PathParam("mcrDerID") String mcrDerID){
+       return MCRRestAPIUploadHelper.deleteAllFiles(info, request, mcrObjID, mcrDerID);
        
    }
 	
