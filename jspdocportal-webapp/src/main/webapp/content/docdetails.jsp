@@ -39,17 +39,6 @@
 <td>
 
 <c:choose>
- <c:when test="${fn:contains(mcrid,'codice')}">
-     <c:import url="content/results-config/docdetails-codice.jsp" />
- </c:when>
-  <c:when test="${fn:contains(mcrid,'_artwork_')}">
-     <c:import url="content/results-config/docdetails-artwork.jsp" />
- </c:when>
-  <c:when test="${fn:contains(mcrid,'_artwork-person_')}">
-     <c:import url="content/results-config/docdetails-artwork-person.jsp" />
- </c:when>
- 
- 
  <c:when test="${fn:contains(mcrid,'thesis')}">
      <c:import url="content/docdetails/docdetails_thesis.jsp" />
  </c:when>
