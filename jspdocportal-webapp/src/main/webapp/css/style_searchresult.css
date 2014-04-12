@@ -1,0 +1,209 @@
+/* =================================================================== */
+/* SearchResults                                                       */
+/* =================================================================== */
+
+hr.searchresult-separator{
+	color:#E6E6E6;
+}
+table.searchresult-table {
+	border-spacing: 0px;
+	font-family: verdana;
+	font-size: 12px;
+	width: 95%;
+}
+td.searchresult-table-header{
+	font-weight: bold;
+	padding-left:0px !important;
+}
+td.searchresult-table-id{
+	font-family: monospace;
+	text-align: right;
+	vertical-align:top;
+}
+
+td.searchresult-table-value{
+    line-height:120%;
+}
+
+td.searchresult-table-icon{
+	vertical-align:top;
+	text-align: center;
+    width: 32px;		
+}
+
+div.searchresult-resortform{
+   margin-top:20px;
+   margin-bottom:10px;
+}
+
+
+div.searchresult-navigation{
+	position:relative;
+	background-color: #DDDDDD;
+    border-style: solid none solid none;
+    border-color: #333333;
+    border-width: 1px; 
+    padding: 6px 12px; /* top left */
+    
+    
+    margin-top: 24px;
+    margin-bottom: 24px;
+    
+}
+
+table.searchresult-table input.title{
+    background: none repeat scroll 0% 0% transparent;
+    font-weight: bold;
+    color: #004A99;
+    white-space: pre-wrap;
+    text-align: left;
+    border: none;
+	padding: 0px;
+}
+	}
+
+
+div.searchresult-navigation div.hitcount{
+	float:left;
+	padding-top:auto;
+	padding-bottom:auto;
+}
+
+div.searchresult-navigation div.navi{
+	min-height: 16px;
+	float:right;
+}
+
+div.searchresult-navigation div.navi ol {
+	float:left;
+}
+
+div.searchresult-navigation div.navi ol li{
+	float:left;
+	text-align:center;
+	color: #FFFFFF;
+  	border: 1px solid #565656;
+  	border-radius: 3px;
+  	background-color:#969696;
+  	padding: 3px 6px;
+  	margin: 0px 6px;  	
+}
+
+div.searchresult-navigation div.navi a,
+div.searchresult-navigation div.navi a:VISITED{
+	text-decoration: none;
+	color: #FFFFFF;	
+}
+
+div.searchresult-navigation div.navi ol li.active{
+	font-weight: bold;
+	background-color:#FFFFFF;
+	color:#000000;
+}
+
+div.searchresult-navigation div.navi ol li.separator{
+	color: #666666;
+}
+
+
+div.browseresult-navigation{
+	margin-top:12px;
+	margin-bottom:12px;
+	padding: 3px 0 3px 0px;
+    border-top: 1px solid #666666;
+	border-bottom: 1px solid #666666;
+	min-height: 30px;
+	
+}
+
+div.browseresult-navigation div.tool-menu {
+	float:right; 
+	margin-right:6px;
+	margin-left:36px;
+}
+
+div.browseresult-navigation div.menu {
+	float:left; 
+	margin-left:6px;
+	margin-right:36px;
+}
+
+div.tool-menu div.button, 
+div.menu div.button {
+	font-size:85%;
+	text-align:center;
+	color: #FFFFFF;
+  	border: 1px solid #565656;
+  	border-radius: 3px;
+  	background-color:#969696;
+   	margin: 4px 3px;  	
+  	min-height: 22px;
+  	min-width: 22px;
+  	
+  	/*
+	
+	font-size:85%;
+	text-align:center;
+	color: #FFFFFF;
+  	border: 1px solid #565656;
+  	border-radius: 3px;
+  	background-color:#969696;
+  	padding: 0px 0px;
+  	margin: 4px 4px; 
+
+  	*/
+}
+
+div.btn-tools-techdata{
+	background-image: url('../images/icon_technische_daten.png');
+	background-size: 22px 22px;
+}
+
+div.btn-tools-techdata-checked{
+	background-image: url('../images/icon_technische_daten-checked.png') !important;
+	background-size: 22px 22px !important;
+	background-color:#FFFFFF !important;
+}
+
+div.browseresult-navigation div.hitcount{
+	float:left;
+	padding-left:6px;
+	padding-top:8px;
+}
+
+div.browseresult-navigation div.navi{
+	padding-top:4px;
+	float:right;
+}
+
+
+div.browseresult-navigation div.navi ol li{
+		float:left;
+}
+
+div.browseresult-navigation div.navi ol li input,
+input.button,
+span.button{
+	font-size:85%;
+	text-align:center;
+	color: #FFFFFF;
+  	border: 1px solid #565656;
+  	border-radius: 3px;
+  	background-color:#969696;
+  	padding: 3px;
+  	margin: 0px 3px;  	
+}
+
+span.button a{
+	color:white !important;
+}
+
+div.browseresult-navigation div.navi ol li.active input{
+	font-weight: bold;
+	background-color:#FFFFFF;
+	color:#000000;
+}
+
+div.browseresult-navigation div.navi ol li.separator{
+	color: #666666;
+}

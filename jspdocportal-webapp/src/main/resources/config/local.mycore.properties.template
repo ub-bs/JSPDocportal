@@ -1,0 +1,87 @@
+#####################################################
+# fix entrys for your own institution
+#####################################################
+
+MCR.WorkflowEngine.MyInstitution.name=MyCoRe Community
+MCR.WorkflowEngine.MyInstitution.country=Deutschland (Germany)
+MCR.WorkflowEngine.MyInstitution.state= HH
+MCR.WorkflowEngine.MyInstitution.zipcode=20146
+MCR.WorkflowEngine.MyInstitution.city=Hamburg
+MCR.WorkflowEngine.MyInstitution.street=Schlüterstr.
+MCR.WorkflowEngine.MyInstitution.number=70
+
+MCR.NameOfProject=Mycoresample
+MCR.SWF.Project.ID=DocPortal
+MCR.Metadata.ObjectID.NumberPattern=00000000
+
+MCR.Hibernate.Connection.Url=jdbc:mysql://127.0.0.1/sample
+MCR.Persistence.SQL.Database.Name=sample
+MCR.Persistence.SQL.WorkflowDatabase.Name=sample_workflow
+
+#Windows
+MCR.datadir=c:/workspaces/mycoresample/working_content
+MCR.basedir=c:/workspaces/mycoresample/mycoresample_app/build/application
+MCR.baseurl=http://localhost:8080/mycoresample/
+
+#Linux
+#MCR.datadir=/home/mcradmin/mycoresample/working_content
+#MCR.basedir=/home/mcradmin/mycoresample/projects/jspdocportal
+#MCR.baseurl=http://localhost:8080/mycoresample/
+
+MCR.AccessRuleEditor.defaultrules.iparea=<condition format="xml"><boolean operator="or"><condition field="ip" operator="" value="127.0.0.1/255.255.255.0"/></boolean></condition>
+
+
+
+# needed for starting and stopping the hsqldb-database via ant
+#MCR.Persistence.SQL.Data.Directory=%MCR.datadir%/hsqldb-data
+
+# URNs: CHANGE: Subnamespace for Campus MyCoRe
+MCR.URN.SubNamespace.xmetadiss.Prefix=urn\:nbn\:de\:mycore-diss
+MCR.URN.SubNamespace.xmetadiss.NISSBuilder=org.mycore.services.urn.MCRNISSBuilderDateCounter
+MCR.URN.SubNamespace.xmetadiss.NISSPattern=yyyyMMdd-HHmmss000-
+
+MCR.URN.SubNamespace.publication.Prefix=urn\:nbn\:de\:mycore-document
+MCR.URN.SubNamespace.publication.NISSBuilder=org.mycore.services.urn.MCRNISSBuilderDateCounter
+MCR.URN.SubNamespace.publication.NISSPattern=yyyyMMdd-HHmmss000-
+
+
+
+#Email Adresses
+MCR.Mail.Server=localhost
+
+MCR.WorkflowEngine.Administrator.Email=digibib@myurl.de
+
+MCR.WorkflowEngine.newtaskemail.person=digibib@myurl.de
+MCR.WorkflowEngine.contactemail.person=digibib@myurl.de
+MCR.WorkflowEngine.person.admin=digibib@myurl.de
+MCR.WorkflowEngine.person.from=digibib@myurl.de
+MCR.WorkflowEngine.person.replyto=digibib@myurl.de
+
+MCR.WorkflowEngine.newtaskemail.institution=digibib@myurl.de
+MCR.WorkflowEngine.contactemail.institution=digibib@myurl.de
+MCR.WorkflowEngine.institution.admin=digibib@myurl.de
+MCR.WorkflowEngine.institution.from=digibib@myurl.de
+MCR.WorkflowEngine.institution.replyto=digibib@myurl.de
+
+MCR.WorkflowEngine.newtaskemail.xmetadiss=digibib@myurl.de
+MCR.WorkflowEngine.contactemail.xmetadiss=digibib@myurl.de
+MCR.WorkflowEngine.xmetadiss.admin=digibib@myurl.de
+MCR.WorkflowEngine.xmetadiss.from=digibib@myurl.de
+MCR.WorkflowEngine.xmetadiss.replyto=digibib@myurl.de
+
+MCR.WorkflowEngine.newtaskemail.publication=digibib@myurl.de
+MCR.WorkflowEngine.contactemail.publication=digibib@myurl.de
+MCR.WorkflowEngine.publication.admin=digibib@myurl.de
+MCR.WorkflowEngine.publication.from=digibib@myurl.de
+MCR.WorkflowEngine.publication.replyto=digibib@myurl.de
+
+MCR.mail.urnadmin=digibib@myurl.de
+MCR.OAI.AdmineMail=digibib@myurl.de
+MCR.oai.epicur.responseemail=digibib@myurl.de
+
+
+#logging
+log4j.rootLogger=INFO, stdout
+log4j.logger.org.apache.jasper.servlet=ERROR, stdout, R
+log4j.logger.org.mycore.common.xml.MCRLayoutServlet=ERROR, stdout, R
+log4j.logger.net.sf.ehcache.Cache=ERROR, stdout, R

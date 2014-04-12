@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<imports>
+  <text id="LCreatorXMetaPersM" i18n="Editor.Label.AuthorM" />
+  <panel id="DCreatorXMetaPers">
+		<hidden var="metadata/creators/@class" default="MCRMetaXML" />
+		<cell col="1" row="1" var="metadata/creators/creator">
+			<repeater min="1" max="6">
+				<panel>
+					<hidden var="pc:person/pc:name/@type" default="nameUsedByThePerson" />
+					<hidden var="pc:person/pc:name/@Scheme" default="PND" />
+					
+					<cell col="1" row="1" anchor="NORTHWEST">
+						<text class="editorHint" i18n="Editor.Label.XMetaPers.foreName" />
+					</cell>
+					
+					<cell col="2" row="1" colspan="3" anchor="NORTHWEST" var="pc:person/pc:name/pc:foreName" sortnr="3">
+						<textfield width="78" maxlength="256" />						
+					</cell>
+					
+					<cell col="1" row="2" anchor="NORTHWEST">
+						<text class="editorHint" i18n="Editor.Label.XMetaPers.surName" />
+					</cell>
+					
+					<cell col="2" row="2" anchor="NORTHWEST" var="pc:person/pc:name/pc:surName" sortnr="4">
+						<textfield width="40" maxlength="256" />						
+					</cell>
+					
+					<cell col="3" row="2" anchor="NORTHWEST">
+						<text class="editorHint" i18n="Editor.Label.XMetaPers.prefix" />
+					</cell>
+					
+					<cell col="4" row="2" anchor="NORTHWEST" var="pc:person/pc:name/pc:prefix" sortnr="5">
+						<textfield width="20" maxlength="64" />						
+					</cell>
+					
+					<cell col="1" row="3" anchor="NORTHWEST">
+						<text class="editorHint" i18n="Editor.Label.XMetaPers.gender" />
+					</cell>
+					
+					<cell col="2" row="3" anchor="NORTHWEST" var="pc:person/@gender" sortnr="1">
+						<list id="SGender" type="dropdown" width="40">
+							<item value="" i18n="Editor.Common.choose" />
+							<item value="f" i18n="Editor.Label.XMetaPers.gender.f" />
+							<item value="m" i18n="Editor.Label.XMetaPers.gender.m" />
+						</list>													
+					</cell>
+					
+					<cell col="3" row="3" anchor="NORTHWEST">
+						<text class="editorHint" i18n="Editor.Label.XMetaPers.yearOfBirth" />
+					</cell>
+					
+					<cell col="4" row="3" anchor="NORTHWEST" var="pc:person/pc:dateOfBirth" sortnr="8">
+						<textfield width="20" maxlength="64" />						
+					</cell>
+						
+					<cell col="1" row="4" anchor="NORTHWEST">
+						<text class="editorHint" i18n="Editor.Label.XMetaPers.academicTitle" />
+					</cell>
+					
+					<cell col="2" row="4" anchor="NORTHWEST" var="pc:person/pc:academicTitle" sortnr="7">
+						<textfield width="40" maxlength="256" />						
+					</cell>
+					
+					<cell col="3" row="4" anchor="NORTHWEST">
+						<text class="editorHint" i18n="Editor.Label.XMetaPers.PND-Nr" />
+					</cell>
+					
+					<cell col="4" row="4" anchor="NORTHWEST" var="pc:person/@PND-Nr" sortnr="2">
+						<textfield width="20" maxlength="64" />						
+					</cell>
+				</panel>
+			</repeater>
+		</cell>
+	</panel>
+  
+  <panel id="InternalCCInstitutionDefault">
+          <cell col="1" row="1" anchor="NORTHWEST">
+            <text class="editorHint" i18n="Editor.Label.CCInstitution.name" />
+          </cell>
+          
+          <cell col="2" row="1" colspan="3" anchor="NORTHWEST" var="cc:universityOrInstitution/cc:name" sortnr="2">
+            <textfield width="78" maxlength="256" />            
+          </cell>
+            
+          <cell col="1" row="2" anchor="NORTHWEST">
+            <text class="editorHint" i18n="Editor.Label.CCInstitution.place" />
+          </cell>
+          
+          <cell col="2" row="2" anchor="NORTHWEST" var="cc:universityOrInstitution/cc:place" sortnr="3">
+            <textfield width="40" maxlength="256" />            
+          </cell>
+          
+          <cell col="3" row="2" anchor="NORTHWEST">
+            <text class="editorHint" i18n="Editor.Label.CCInstitution.GKD-Nr" />
+          </cell>
+          
+          <cell col="4" row="2" anchor="NORTHWEST" var="cc:universityOrInstitution/@GKD-Nr" sortnr="1">
+            <textfield width="20" maxlength="64" />           
+          </cell>
+        </panel>
+  
+  
+  
+    <panel id="InternalXMetaPersDefault">
+          <hidden var="pc:person/pc:name/@type" default="nameUsedByThePerson" />
+          <hidden var="pc:person/pc:name/@Scheme" default="PND" />
+             
+          <cell col="1" row="2" anchor="NORTHWEST">
+            <text class="editorHint" i18n="Editor.Label.XMetaPers.foreName" />
+          </cell>
+          
+          <cell col="2" row="2" colspan="3" anchor="NORTHWEST" var="pc:person/pc:name/pc:foreName" sortnr="3">
+            <textfield width="78" maxlength="256" />            
+          </cell>
+          
+          <cell col="1" row="3" anchor="NORTHWEST">
+            <text class="editorHint" i18n="Editor.Label.XMetaPers.surName" />
+          </cell>
+          
+          <cell col="2" row="3" anchor="NORTHWEST" var="pc:person/pc:name/pc:surName" sortnr="4">
+            <textfield width="40" maxlength="256" />            
+          </cell>
+          
+          <cell col="3" row="3" anchor="NORTHWEST">
+            <text class="editorHint" i18n="Editor.Label.XMetaPers.prefix" />
+          </cell>
+          
+          <cell col="4" row="3" anchor="NORTHWEST" var="pc:person/pc:name/pc:prefix" sortnr="5">
+            <textfield width="20" maxlength="64" />           
+          </cell>
+        
+		<!--
+          <cell col="3" row="4" anchor="NORTHWEST">
+            <text class="editorHint" i18n="Editor.Label.XMetaPers.yearOfBirth" />
+          </cell>
+          
+          <cell col="4" row="4" anchor="NORTHWEST" var="pc:person/pc:dateOfBirth" sortnr="8">
+            <textfield width="20" maxlength="64" />           
+          </cell>
+		-->
+		  
+          <!--      
+          <cell col="3" row="4" anchor="NORTHWEST">
+            <text class="editorHint" i18n="Editor.Label.XMetaPers.gender" />
+          </cell>
+          
+        
+          <cell col="4" row="4" anchor="NORTHWEST" var="pc:person/@gender" sortnr="1">
+            <list id="SContributorGender" type="dropdown" width="40">
+              <item value="" i18n="Editor.Common.choose" />
+              <item value="f" i18n="Editor.Label.XMetaPers.gender.f" />
+              <item value="m" i18n="Editor.Label.XMetaPers.gender.m" />
+            </list>                         
+          </cell>
+            -->
+          <cell col="1" row="4" anchor="NORTHWEST">
+            <text class="editorHint" i18n="Editor.Label.XMetaPers.academicTitle" />
+          </cell>
+          
+          <cell col="2" row="4" anchor="NORTHWEST" var="pc:person/pc:academicTitle" sortnr="7">
+            <textfield width="40" maxlength="256" />            
+          </cell>
+          
+          <cell col="3" row="4" anchor="NORTHWEST">
+            <text class="editorHint" i18n="Editor.Label.XMetaPers.PND-Nr" />
+          </cell>
+          
+          <cell col="4" row="4" anchor="NORTHWEST" var="pc:person/@PND-Nr" sortnr="2">
+            <textfield width="20" maxlength="64" />           
+          </cell>
+          
+          <cell col="1" row="5" anchor="NORTHWEST">
+            <text class="editorHint" i18n="Editor.Label.XMetaPers.affiliation" />
+          </cell>
+          
+          <cell col="2" row="5" colspan="3" anchor="NORTHWEST" var="pc:person/pc:affiliation/cc:universityOrInstitution/cc:name" sortnr="9">
+            <textfield width="78" maxlength="256" />
+          </cell>
+          
+        </panel>
+  
+
+	
+  <panel id="DPublisherXMetaDissPersonOrInstitution">
+    <hidden var="metadata/publishers/@class" default="MCRMetaXML" />
+    <cell col="1" row="1" var="metadata/publishers/publisher">
+      <repeater min="1" max="6">
+              <panel>
+                  <cell col="1" row="1" colspan="4" anchor="WEST">
+                      <text class="editorHint" i18n="Editor.Label.Publisher.fillOneOnly" />
+                  </cell>
+                  <cell col="1" row="2" colspan="4" anchor="WEST">
+                      <text i18n="Editor.Label.Publisher.person" />
+                  </cell>
+                  <cell col="1" row="3" colspan="4" anchor="WEST" ref="InternalXMetaPersDefault" />
+                  <cell col="1" row="4" colspan="4" anchor="WEST">
+                      <text i18n="Editor.Label.Publisher.institution" />
+                  </cell>
+                  <cell col="1" row="5" colspan="4" anchor="WEST" ref="InternalCCInstitutionDefault" />
+              </panel>
+            </repeater>           
+    </cell>
+  </panel>
+  
+  <text id="LContributorXMetaPersM" i18n="Editor.Label.ContributorsM" />
+  <panel id="DContributorXMetaPers">
+		<hidden var="metadata/contributors/@class" default="MCRMetaXML" />
+		<cell col="1" row="1" var="metadata/contributors/contributor">
+			<repeater min="1" max="6">
+              <panel>
+                 <cell col="1" row="1" anchor="NORTHWEST">
+                  <text class="editorHint" i18n="Editor.Label.contributors.type" />
+                </cell>
+          
+                <cell col="2" row="1" colspan="3" anchor="WEST" var="@type">
+                  <list id="SContributorTypeReferee2" type="dropdown">
+                    <item value="" i18n="Editor.Common.choose.type" />
+                    <item value="referee" i18n="Editor.Label.contributors.referee" />
+                    <item value="advisor" i18n="Editor.Label.contributors.advisor" />
+                  </list>         
+                </cell>
+                <cell col="1" row="2" colspan="4" anchor="WEST" ref="InternalXMetaPersDefault" />
+              </panel>
+            </repeater>						
+		</cell>
+	</panel>
+  
+   <panel id="HiddenGrantorXMetaDiss">
+    <hidden var="metadata/grantors/@class" default="MCRMetaXML" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/grantors/grantor/cc:universityOrInstitution/cc:name&amp;prop=MCR.XMetaDissPlus.Grantor.Name" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/grantors/grantor/cc:universityOrInstitution/cc:place&amp;prop=MCR.XMetaDissPlus.Grantor.Place" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/grantors/grantor/cc:universityOrInstitution/@GKD-Nr&amp;prop=MCR.XMetaDissPlus.Grantor.GKD-Nr" />
+    <cell col="1" row="1"  />   
+   </panel>
+   <panel id="HiddenPublisherXMetaDiss">
+    <hidden var="metadata/publishers/@class" default="MCRMetaXML" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/publishers/publisher/cc:universityOrInstitution/cc:name&amp;prop=MCR.XMetaDissPlus.Publisher.Name" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/publishers/publisher/cc:universityOrInstitution/cc:place&amp;prop=MCR.XMetaDissPlus.Publisher.Place" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/publishers/publisher/cc:universityOrInstitution/@GKD-Nr&amp;prop=MCR.XMetaDissPlus.Publisher.GKD-Nr" />
+    <cell col="1" row="1"  />   
+   </panel> 
+</imports>

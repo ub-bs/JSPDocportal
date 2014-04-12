@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE editor>
+
+<editor class="editor" id="editor-derivate">
+ <!-- <target type="servlet" name="MCRCheckEditDataServlet" method="post" format="xml" /> -->
+<!--
+ <target type="debug" />
+-->
+ 	<source uri="{sourceUri}" />
+ 	<cancel url="{cancelUrl}" />
+ 	<target type="servlet" name="MCRPassToTargetServlet" method="post" format="xml" />
+  	<validationMessage>
+	 	<label i18n="Editor.Common.validationMessage" />
+	 </validationMessage>
+	 
+	 <components root="derivate" var="/mycorederivate">
+	 	<headline anchor="CENTER">
+   			<text> <label i18n="Editor.derivate.label" /> </text>
+   		</headline>
+   		
+   		<panel id="derivate">
+   			<cell row="10" col="1" anchor="NORTHWEST" ref="LLabel" />
+   			<cell row="10" col="2" anchor="NORTHWEST" ref="DLabel" />
+   			<cell row="10" col="3" anchor="NORTHWEST" >
+   				<space width="20" height="0" />
+   			</cell>
+   			<cell row="10" col="4" anchor="NORTHWEST" ref="HLabel" />
+   			
+   			
+   			
+   			<cell row="30" col="1"  />
+   			<cell row="30" col="2" anchor="EAST" ref="TwoButtons"  />
+   		</panel>
+   		
+   		<panel id="DLabel">
+   		 <cell col="1" row="1" anchor="NORTHWEST" var="@label">
+   				<list id="SDerivateLabel" type="dropdown" class="intern" >
+   					<item value="" i18n="Editor.Common.choose" />  
+					<item value="Volltext" i18n="OMD.derivatedisplay.Volltext" />
+					<item value="Anhang" i18n="OMD.derivatedisplay.Anhang" />
+					<item value="METS" i18n="OMD.derivatedisplay.METS" />					
+					<item value="Cover" i18n="OMD.derivatedisplay.Cover" />
+					<!-- <item value="MJB" i18n="OMD.derivatedisplay.MJB" />  -->
+				</list>
+   			</cell>   			    
+  		</panel>
+  		
+  		<text id="LLabel" i18n="Editor.Common.label" />
+  		
+  		<helpHover id="HLabel"  i18n="Editor.Help.ChangeDerivateLabel" />
+  		
+  		<panel id="TwoButtons">
+			<cell col="1" row="1" anchor="WEST" ref="BCancel" />
+			<cell col="2" row="1" anchor="WEST" ref="BSubmit" var="save" />
+		</panel>
+	
+		<submitButton id="BSubmit" width="100px" jsaction="return checkMyForm()">
+			<label i18n="Editor.Common.button.Submit" />
+		</submitButton>
+
+		<cancelButton id="BCancel" width="100px">
+			<label i18n="Editor.Common.button.Cancel" />
+		</cancelButton>
+		
+		<textfield id="TFzeile1024M" width="60" maxlength="1024" class="mandatory" />
+ </components>
+</editor>

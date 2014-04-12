@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<navigations xmlns="http://www.mycore.org/jspdocportal/navigation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mycore.org/jspdocportal/navigation navigation.xsd">
+	<navigation id="left">
+		<navitem id="start" i18n="Nav.Start" href="content/index.jsp"
+			hidden="true">
+			<refitem id="~start" />
+		</navitem>
+		<navitem id="search" i18n="Nav.Search" href="content/search.jsp">
+			<navitem id="allmeta" i18n="Nav.SimpleDocumentSearch"
+				href="content/searchmask-editor.jsp?editor=editor/searchmasks/SearchMask_AllMetadataFields.xml"
+				hidden="true">
+				<refitem id="~searchstart-allmeta" />
+				<navitem id="searchresult-allmeta" i18n="Nav.Search"
+					href="content/searchresult.jsp" hidden="true">
+					<refitem id="~searchresult-allmeta" />
+					<navitem id="docdetail" i18n="Nav.DocumentDetails" href="content/docdetails.jsp"
+						hidden="true" />
+				</navitem>
+			</navitem>
+			<navitem id="simple" i18n="Nav.SimpleDocumentSearch"
+				href="content/searchmask-editor.jsp?editor=editor/searchmasks/SearchMask_SimpleDocument.xml">
+				<refitem id="~searchstart-simple" />
+				<navitem id="searchresult-simple" i18n="Nav.Searchresults"
+					href="content/searchresult.jsp" hidden="true">
+					<refitem id="~searchresult-simple" />
+					<navitem id="docdetail" i18n="Nav.DocumentDetails" href="content/docdetails.jsp"
+						hidden="true" />
+				</navitem>
+			</navitem>
+			<navitem id="extended" i18n="Nav.ExtendedDocumentSearch"
+				href="content/searchmask-editor.jsp?editor=editor/searchmasks/SearchMask_ExpertDocument.xml">
+				<refitem id="~searchstart-extended" />
+				<navitem id="searchresult-extended" i18n="Nav.Searchresults"
+					href="content/searchresult.jsp" hidden="true">
+					<refitem id="~searchresult-extended" />
+					<navitem id="docdetail" i18n="Nav.DocumentDetails" href="content/docdetails.jsp"
+						hidden="true" />
+				</navitem>
+			</navitem>
+			<navitem id="docdetail" i18n="Nav.DocumentDetails" href="content/docdetails.jsp"
+				hidden="true">
+				<refitem id="~docdetail" />
+				<navitem id="derivatedetails" i18n="Nav.DigitalisatDetails"
+					href="content/derivatedetails.jsp" hidden="true">
+					<refitem id="~derivatedetails" />
+				</navitem>
+			</navitem>
+		</navitem>
+
+		<navitem id="browse" i18n="Nav.ClassificationsSearch" href="content/browsenode.jsp">
+			<navitem id="origin" i18n="Nav.Origin"
+				href="content/browse.jsp?browserClass=origin">
+				<refitem id="~searchstart-classorigin" />
+				<navitem id="result" i18n="Results" href="content/searchresult.jsp"
+					hidden="true">
+					<refitem id="~searchresult-classorigin" />
+					<navitem id="docdetail" i18n="Nav.DocumentDetails" href="content/docdetails.jsp"
+						hidden="true" />
+				</navitem>
+			</navitem>
+			<navitem id="type" i18n="Nav.Type"
+				href="content/browse.jsp?browserClass=type">
+				<refitem id="~searchstart-classtype" />
+				<navitem id="result" i18n="Results" href="content/searchresult.jsp"
+					hidden="true">
+					<refitem id="~searchresult-classtype" />
+					<navitem id="docdetail" i18n="Nav.DocumentDetails" href="content/docdetails.jsp"
+						hidden="true" />
+				</navitem>
+			</navitem>
+			<navitem id="format" i18n="Nav.Format"
+				href="content/browse.jsp?browserClass=format">
+				<refitem id="~searchstart-classformat" />
+				<navitem id="result" i18n="Results" href="content/searchresult.jsp"
+					hidden="true">
+					<refitem id="~searchresult-classformat" />
+					<navitem id="docdetail" i18n="Nav.DocumentDetails" href="content/docdetails.jsp"
+						hidden="true" />
+				</navitem>
+			</navitem>
+			<navitem id="ddc" i18n="Nav.DDC" href="content/browse.jsp?browserClass=ddc">
+				<refitem id="~searchstart-classddc" />
+				<navitem id="result" i18n="Results" href="content/searchresult.jsp"
+					hidden="true">
+					<refitem id="~searchresult-classddc" />
+					<navitem id="docdetail" i18n="Nav.DocumentDetails" href="content/docdetails.jsp"
+						hidden="true" />
+				</navitem>
+			</navitem>
+			<navitem id="bkl" i18n="Nav.BKL" href="content/browse.jsp?browserClass=bkl">
+				<refitem id="~searchstart-classbkl" />
+				<navitem id="result" i18n="Results" href="content/searchresult.jsp"
+					hidden="true">
+					<refitem id="~searchresult-classbkl" />
+					<navitem id="docdetail" i18n="Nav.DocumentDetails" href="content/docdetails.jsp"
+						hidden="true" />
+				</navitem>
+			</navitem>
+		</navitem>
+
+
+		<navitem id="publish" i18n="Nav.DocumentManagement" href="content/documentmanagement.jsp">
+			<refitem id="~documentmanagement" />
+			<navitem id="xmetadiss" i18n="WF.xmetadiss"
+				href="content/workflow/workflow.jsp?wftype=xmetadiss">
+				<refitem id="~xmetadiss" />
+				<navitem id="xmetadissbegin" i18n="WF.xmetadiss.begin"
+					href="content/workflow/xmetadiss/begin.jsp" hidden="true">
+					<refitem id="~xmetadissbegin" />
+				</navitem>
+				<navitem id="workflow-fileupload" i18n="Nav.WorkflowFileupload"
+					href="content/fileupload.jsp" hidden="true">
+					<refitem id="~workflow-fileupload" />
+				</navitem>
+			</navitem>
+
+			<navitem id="thesis" i18n="WF.thesis"
+				href="content/workflow/workflow.jsp?wftype=thesis">
+				<refitem id="~thesis" />
+				<navitem id="thesisbegin" i18n="WF.thesis.begin"
+					href="content/workflow/thesis/begin.jsp" hidden="true">
+					<refitem id="~thesisbegin" />
+				</navitem>
+				<navitem id="workflow-fileupload" i18n="Nav.WorkflowFileupload"
+					href="content/fileupload.jsp" hidden="true">
+					<refitem id="~workflow-fileupload" />
+				</navitem>
+			</navitem>
+
+			<navitem id="publication" i18n="WF.publication"
+				href="content/workflow/workflow.jsp?wftype=publication">
+				<refitem id="~publication" />
+				<navitem id="publicationbegin" i18n="WF.publication.begin"
+					href="content/workflow/publication/begin.jsp" hidden="true">
+					<refitem id="~publicationbegin" />
+				</navitem>
+				<navitem id="workflow-fileupload" i18n="Nav.WorfklowFileUpload"
+					href="content/fileupload.jsp" hidden="true">
+					<refitem id="~workflow-fileupload" />
+				</navitem>
+				<navitem id="publicationsearch"
+					href="content/searchmask-editor.jsp?editor=editor/searchmasks/SearchMask_PublicationEdit.xml"
+					i18n="" hidden="true">
+					<refitem id="~searchstart-wfpublication" />
+					<navitem id="searchresult-wfpublication" href="content/searchresult.jsp"
+						hidden="true" i18n="">
+						<refitem id="~searchresult-wfpublication" />
+						<navitem id="docdetail" i18n="Nav.DocumentDetails" href="content/docdetails.jsp"
+							hidden="true" />
+					</navitem>
+				</navitem>
+			</navitem>
+
+			<navitem id="bundle" i18n="WF.bundle"
+				href="content/workflow/workflow.jsp?wftype=bundle">
+				<refitem id="~bundle" />
+				<navitem id="bundlebegin" i18n="WF.bundle.begin"
+					href="content/workflow/bundle/begin.jsp" hidden="true">
+					<refitem id="~bundlebegin" />
+				</navitem>
+				<navitem id="bundlevolumebegin" i18n="WF.bundle.volumebegin"
+					href="content/workflow/bundle/begin-volume.jsp" hidden="true">
+					<refitem id="~bundlevolumebegin" />
+				</navitem>
+				<navitem id="workflow-fileupload" i18n="Nav.WorkflowFileupload"
+					href="content/fileupload.jsp" hidden="true">
+					<refitem id="~workflow-fileupload" />
+				</navitem>
+			</navitem>         
+            
+            <!-- hidden entries for editor include and previews -->
+			<navitem id="workflow-edit" i18n="WF.Edit"
+				href="content/workflow-editor.jsp" hidden="true">
+				<refitem id="~workflow-edit" />
+			</navitem>
+			<navitem id="editor-include" i18n="WF.Edit"
+				href="content/editor-include.jsp" hidden="true">
+				<refitem id="~editor-include" />
+			</navitem>
+			<navitem id="workflow-preview" i18n="WF.Preview" href="content/docdetails.jsp"
+				hidden="true">
+				<refitem id="~workflow-preview" />
+			</navitem>
+			<navitem id="workflow-editaccess" i18n="WF.EditAccess"
+				href="content/workflow/accessruleeditor.jsp" hidden="true">
+				<refitem id="~workflow-editaccess" />
+			</navitem>
+            <navitem id="importdata-from-form" i18n="WF.common.object.ImportFromForm"
+                href="content/workflow/import-from-form.jsp" hidden="true">
+                <refitem id="~importdata-from-form" />
+            </navitem>
+      	</navitem>
+
+		<navitem id="registeruser" i18n="Nav.OrderAuthorAccount"
+			href="content/workflow/registeruser/beginUser.jsp">
+			<refitem id="~registeruser" />
+			<navitem id="registered" i18n="Nav.AccountRegister"
+				href="content/workflow/registeruser/endUser.jsp" hidden="true">
+				<refitem id="~registered" />
+			</navitem>
+			<navitem id="chooseIDwhenDuplicate" i18n="Nav.AccountChangeID"
+				href="content/workflow/registeruser/chooseIDwhenDuplicate.jsp"
+				hidden="true">
+				<refitem id="~chooseIDwhenDuplicate" />
+			</navitem>
+			<navitem id="breakIfDuplicateUserID" i18n="Nav.AccountChangeID"
+				href="content/workflow/registeruser/breakIfDuplicateUserID.jsp"
+				hidden="true">
+				<refitem id="~breakIfDuplicateUserID" />
+			</navitem>
+			<navitem id="workflow-registeruser" i18n="Nav.AccountRegister"
+				href="content/workflow/registeruser/workflow.jsp" hidden="true">
+				<refitem id="~workflow-registeruser" />
+			</navitem>
+			<navitem id="workflow-registeruser-modify" i18n="Nav.AccountRegister"
+				href="content/workflow/registeruser/modifyUser.jsp" hidden="true">
+				<refitem id="~workflow-registeruser-modify" />
+			</navitem>
+		</navitem>
+
+		<navitem id="manuals" i18n="Nav.Manuals" href="content/manuals.jsp">
+			<navitem id="technics" i18n="Nav.TechnicalBackground" href="content/docu/general.jsp" />
+			<navitem id="mycore" i18n="Nav.MyCoRe" href="http://www.mycore.de/" extern="true" />
+			<navitem id="starting-guide" i18n="Nav.StartingGuide"
+				href="content/docu/StartingGuide.pdf" />
+			<navitem id="user-guide" i18n="Nav.UserGuide" href="content/docu/UserGuide.pdf" extern="true" />
+			<navitem id="programmer-guide" i18n="Nav.ProgrammerGuide"
+				href="content/docu/ProgrammerGuide.pdf" />
+			<navitem id="docportal" i18n="Nav.DocPortal" href="content/docu/docportal.pdf" extern="true" />
+		</navitem>
+	</navigation>
+	<navigation id="top">
+		<navitem id="start" i18n="Nav.Start" href="content/index.jsp">
+			<refitem id="~index" />
+		</navitem>
+		<navitem id="sitemap" i18n="Nav.Sitemap" href="content/sitemap.jsp" />
+		<navitem id="login" i18n="Nav.Login" href="content/login.jsp" hidden="true">
+			<refitem id="~login" />
+			<navitem id="showuser" i18n="Nav.UserDetails"
+				href="content/userdetails.jsp">
+				<refitem id="~userdetail" />
+			</navitem>
+		</navitem>
+		<navitem id="logout" i18n="Nav.Logout" href="logout" hidden="true">
+			<refitem id="~logout" />
+		</navitem>
+
+		<navitem id="mycore-message" i18n="MyCoReMessage" href="mycore-message.jsp"
+			hidden="true">
+			<refitem id="~mycore-message" />
+		</navitem>
+		<navitem id="editor-form-error" i18n="EditorFormError"
+			href="editor/error-formular.jsp" hidden="true">
+			<refitem id="~editor-form-error" />
+		</navitem>
+		<navitem id="editor-error" i18n="EditorError" href="editor/editor-error.jsp"
+			hidden="true">
+			<refitem id="~editor-error" />
+		</navitem>
+		<navitem id="error" i18n="Webpage.error.Error" hidden="true"
+			href="mycore-error.jsp">
+			<refitem id="~mycore-error" />
+		</navitem>
+		<navitem id="error-editor" i18n="Webpage.error.Error" hidden="true"
+			href="content/editor-validating-errors.jsp">
+			<refitem id="~editor-validating-errors" />
+		</navitem>
+		<!-- hidden subselects -->
+		<navitem id="subselectDDC" i18n="Nav.DDC"
+			href="content/browse_sub.jsp?browserClass=ddc_sub" hidden="true">
+			<refitem id="~browse_subDDC" />
+		</navitem>
+		<navitem id="subselectBKL" i18n="Nav.BKL"
+			href="content/browse_sub.jsp?browserClass=bkl_sub" hidden="true">
+			<refitem id="~browse_subBKL" />
+		</navitem>
+		<navitem id="subSelectBundle" i18n="Nav.BundleSearch"
+			href="content/indexSearch.jsp?searchclass=bundle_sub" hidden="true">
+			<refitem id="~searchstart-index_bundle_sub" />
+		</navitem>
+		<navitem id="subSelectDocument-Bundle" i18n="Nav.BundleSearch"
+			href="content/indexSearch.jsp?searchclass=document-bundle_sub"
+			hidden="true">
+			<refitem id="~searchstart-index_document-bundle_sub" />
+		</navitem>
+	</navigation>
+
+	<navigation id="admin">
+		<navitem id="admin" i18n="Nav.AdminMenue" href="admin/main.jsp">
+			<navitem id="usermanagement" i18n="Nav.Admin.UserManagement"
+				href="admin/usermanagement.jsp" permission="administrate-user">
+				<navitem id="usergroup" i18n="Nav.Admin.UserManagement.Usergroup"
+					href="admin/usermanagement/usergroup.jsp" permission="administrate-user">
+					<navitem id="edit" i18n="Nav.Admin.UserManagement.Usergroup.Edit"
+						href="admin/usermanagement/usergroup_edit.jsp" permission="administrate-user">
+						<refitem id="~usergroupedit" />
+					</navitem>
+				</navitem>
+				<navitem id="user" i18n="Nav.Admin.UserManagement.User"
+					href="admin/usermanagement/user.jsp" permission="administrate-user">
+					<navitem id="edit" i18n="Nav.Admin.UserManagement.User.Edit"
+						href="admin/usermanagement/user_edit.jsp" permission="administrate-user">
+						<refitem id="~useredit" />
+					</navitem>
+				</navitem>
+				<navitem id="workflow-user" i18n="Nav.Admin.UserManagement.UserRegistration"
+					href="content/workflow/registeruser/workflow.jsp" permission="administrate-user">
+					<refitem id="~workflow-user" />
+				</navitem>
+				<navitem id="process-registeruser" i18n="Nav.Admin.Processes"
+					href="admin/processes_list.jsp?workflowProcessType=registeruser"
+					permission="administrate-user">
+					<refitem id="~process-registeruser" />
+				</navitem>
+			</navitem>
+			<navitem id="xmetadiss" i18n="Nav.Admin.Xmetadiss" href="admin/main.jsp"
+				permission="administrate-xmetadiss">
+				<navitem id="workflow" i18n="WF.xmetadiss"
+					href="content/workflow/workflow.jsp?wftype=xmetadiss" permission="administrate-xmetadiss">
+					<refitem id="~workflow-xmetadiss" />
+				</navitem>
+				<navitem id="process-xmetadiss" i18n="Nav.Admin.Processes"
+					href="admin/processes_list.jsp?workflowProcessType=xmetadiss"
+					permission="administrate-xmetadiss">
+					<refitem id="~process-xmetadiss" />
+				</navitem>
+			</navitem>
+			<navitem id="thesis" i18n="Nav.Admin.Thesis" href="admin/main.jsp"
+				permission="administrate-thesis">
+				<navitem id="workflow" i18n="WF.thesis"
+					href="content/workflow/workflow.jsp?wftype=thesis" permission="administrate-thesis">
+					<refitem id="~workflow-thesis" />
+				</navitem>
+				<navitem id="process-thesis" i18n="Nav.Admin.Processes"
+					href="admin/processes_list.jsp?workflowProcessType=thesis"
+					permission="administrate-thesis">
+					<refitem id="~process-thesis" />
+				</navitem>
+			</navitem>
+
+			<navitem id="publication" i18n="Nav.Admin.Publication" href="admin/main.jsp"
+				permission="administrate-publication">
+				<navitem id="workflow" i18n="WF.publication"
+					href="content/workflow/workflow.jsp?wftype=publication" permission="administrate-publication">
+					<refitem id="~workflow-publication" />
+				</navitem>
+				<navitem id="process-publication" i18n="Nav.Admin.Processes"
+					href="admin/processes_list.jsp?workflowProcessType=publication"
+					permission="administrate-publication">
+					<refitem id="~process-publication" />
+				</navitem>
+			</navitem>
+			<navitem id="bundle" i18n="Nav.Admin.Bundle" href="admin/main.jsp"
+				permission="administrate-bundle">
+				<navitem id="workflow" i18n="WF.bundle"
+					href="content/workflow/workflow.jsp?wftype=bundle" permission="administrate-bundle">
+					<refitem id="~workflow-bundle" />
+				</navitem>
+				<navitem id="process-bundle" i18n="Nav.Admin.Processes"
+					href="admin/processes_list.jsp?workflowProcessType=bundle"
+					permission="administrate-bundle">
+					<refitem id="~process-bundle" />
+				</navitem>
+			</navitem>
+
+			<!-- <navitem id="accessrules" i18n="Nav.Admin.AccessRules" href="admin/accessrules.jsp" 
+				permission="administrate-accessrules" > <navitem id="ruleseditor" i18n="Nav.Admin.AccessRules.Editor" 
+				href="admin/accessrules/rules.jsp" permission="administrate-accessrules" 
+				> <refitem id="~ruleseditor" /> </navitem> <navitem id="rulesassignment" 
+				i18n="Nav.Admin.AccessRules.Assignment" href="admin/accessrules/access.jsp" 
+				permission="administrate-accessrules" > <refitem id="~rulesassignment" /> 
+				</navitem> </navitem> -->
+
+			<navitem id="editwebcontent" i18n="Nav.Admin.EditWebcontent"
+				href="admin/webcontent.jsp" permission="administrate-webcontent">
+				<refitem id="~editwebcontent" />
+			</navitem>
+			
+			<navitem id="importdata-mods-gvk" i18n="Nav.Admin.Importdata" hidden="true"
+			  	href="content/workflow/import-mods-from-gvk.jsp"  permission="administrate-document" >
+        		<refitem id="~importdata-mods-gvk" />        		                
+        	</navitem>
+		</navitem>
+	</navigation>
+</navigations>

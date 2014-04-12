@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+  
+    <display-name>JSP DOCPORTAL</display-name>
+    <description>(A MyCoRe Sample)</description>
+   	<listener>
+		<listener-class>
+			org.mycore.frontend.jsp.MCRJSPServletContextListener
+		</listener-class>
+	</listener>
+	<listener>
+		<listener-class>
+			org.mycore.common.events.MCRServletContextListener
+		</listener-class>
+	</listener>
+	<listener>
+		<listener-class>
+			org.mycore.common.events.MCRHttpSessionListener
+		</listener-class>
+	</listener>
+	<!-- 
+  <listener>
+    <listener-class>
+      org.mycore.frontend.cli.server.MCRCLIServerServletContextListener
+    </listener-class>
+  </listener>
+  	-->
+
+   <!-- specified in web.xml of the application  !!! 
+	<filter>
+		<display-name>Stripes Filter</display-name>
+		<filter-name>StripesFilter</filter-name>
+		<!- <filter-class>de.uni.rostock.ub.rosdok.fileupload.UTF8StripesFilter</filter-class> 
+		   configured Encoding in Locale Picker instead ->
+		<filter-class>net.sourceforge.stripes.controller.StripesFilter</filter-class>
+		<init-param>
+			<param-name>ActionResolver.Packages</param-name>
+			<param-value>org.mycore.frontend.jsp.stripes,net.sourceforge.stripes.examples</param-value>
+		</init-param>
+		<init-param>
+    		<param-name>MultipartWrapper.Class</param-name>
+    		<param-value>net.sourceforge.stripes.controller.multipart.CommonsMultipartWrapper</param-value>
+		</init-param>
+		<init-param>
+        	<param-name>FileUpload.MaximumPostSize</param-name>
+        	<param-value>101m</param-value>
+    	</init-param>
+    	<init-param>
+    		<param-name>LocalePicker.Locales</param-name>
+    		<param-value>de:UTF-8,en:UTF-8</param-value>
+		</init-param>
+    	<init-param>
+    		<param-name>LocalePicker.Class</param-name>
+    		<param-value> org.mycore.frontend.jsp.MCRJSPStripesLocalePicker</param-value>
+		</init-param>
+ 	</filter>
+
+	<filter-mapping>
+		<filter-name>StripesFilter</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>StripesFilter</filter-name>
+		<servlet-name>NavServlet</servlet-name>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>StripesFilter</filter-name>
+		<servlet-name>StripesDispatcher</servlet-name>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	-->
+    
+    <!-- servlets -->    
+    <servlet id="FileNode">
+         <servlet-name>MCRFileNodeServlet</servlet-name>
+         <servlet-class>org.mycore.frontend.servlets.MCRJSPFileNodeServlet</servlet-class>
+    </servlet>
+
+    <servlet id="WFFileNode">
+         <servlet-name>MCRWFFileNodeServlet</servlet-name>
+         <servlet-class>org.mycore.frontend.servlets.MCRWFFileNodeServlet</servlet-class>
+    </servlet>
+
+	<servlet id="IDResolver">
+         <servlet-name>MCRJSPIDResolverServlet</servlet-name>
+         <servlet-class>org.mycore.frontend.servlets.MCRJSPIDResolverServlet</servlet-class>
+    </servlet>
+    
+    <servlet id="GlobalResolver">
+         <servlet-name>MCRJSPGlobalResolverServlet</servlet-name>
+         <servlet-class>org.mycore.frontend.servlets.MCRJSPGlobalResolverServlet</servlet-class>
+    </servlet>
+              
+
+
+    <servlet>
+        <servlet-name>MCRWorkflowAccessRuleEditorServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.workflowengine.jbpm.MCRWorkflowAccessRuleEditorServlet</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>MCRJSPSearchServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.servlets.MCRJSPSearchServlet</servlet-class>
+    </servlet>    
+    <servlet>
+         <servlet-name>MCRJSPObjectServlet</servlet-name>
+         <servlet-class>org.mycore.frontend.servlets.MCRJSPObjectServlet</servlet-class>
+    </servlet>
+	<servlet>
+         <servlet-name>MCRJSPPNDServlet</servlet-name>
+         <servlet-class>org.mycore.frontend.servlets.MCRJSPPNDServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>MCRRegisterUserWorkflowServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.workflowengine.jbpm.registeruser.MCRRegisterUserWorkflowServlet</servlet-class>
+    </servlet> 
+
+    <servlet>
+        <servlet-name>MCRJbpmVariableSetterServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.workflowengine.jbpm.MCRJbpmVariableSetterServlet</servlet-class>
+    </servlet>     
+    
+    <servlet>
+        <servlet-name>MCRCheckDerivateServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.workflowengine.jbpm.MCRCheckDerivateServlet</servlet-class>
+    </servlet>    
+    
+	<servlet>
+        <servlet-name>MCRWorkflowActions</servlet-name>
+        <servlet-class>org.mycore.frontend.workflowengine.jbpm.MCRWorkflowActions</servlet-class>
+    </servlet>     
+	
+    <servlet>
+        <servlet-name>NavServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.jsp.NavServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.jsp.LogoutServlet</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>MCREditorForwardServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.servlets.MCREditorForwardServlet</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>EditorSubmitted</servlet-name>
+        <servlet-class>org.mycore.frontend.jsp.DebugServlet</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>DebugServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.jsp.DebugServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>MCRPassToTargetServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.workflowengine.jbpm.MCRPassToTargetServlet</servlet-class>
+    </servlet>     
+    
+    <servlet>
+        <servlet-name>MCRCheckMetadataServlet</servlet-name>
+        <servlet-class>org.mycore.frontend.workflowengine.jbpm.MCRCheckMetadataServlet</servlet-class>
+    </servlet>      
+            
+    <servlet>
+    	  <servlet-name>MCRWorkflowForEditingStartServlet</servlet-name>
+      	  <servlet-class>org.mycore.frontend.workflowengine.jbpm.MCRWorkflowForEditingStartServlet</servlet-class>
+    </servlet>
+    
+      
+      <!-- mycore servlets -->
+      <servlet id="OAIProvider">
+            <servlet-name>MCROAIProvider</servlet-name>
+            <servlet-class>org.mycore.oai.MCROAIDataProvider</servlet-class>
+      </servlet>
+      <servlet id="StaticXMLFile">
+            <servlet-name>MCRStaticXMLFileServlet</servlet-name>
+            <servlet-class>org.mycore.frontend.servlets.MCRStaticXMLFileServlet</servlet-class>
+      </servlet>
+      <servlet id="XMLEditor">
+            <servlet-name>XMLEditor</servlet-name>
+            <servlet-class> org.mycore.frontend.editor.MCREditorServlet </servlet-class>
+      </servlet>
+      <servlet id="MCRUpload">
+            <servlet-name>MCRUploadServlet</servlet-name>
+            <servlet-class>org.mycore.frontend.fileupload.MCRUploadServlet</servlet-class>
+      </servlet>
+      <servlet id="Zip">
+            <servlet-name>MCRZipServlet</servlet-name>
+            <servlet-class>org.mycore.services.zipper.MCRZipServlet</servlet-class>
+      </servlet>    
+      <servlet id="IndexBrowser">
+            <servlet-name>MCRIndexServlet</servlet-name>
+            <servlet-class>org.mycore.frontend.indexbrowser.MCRIndexServlet</servlet-class>
+      </servlet>    
+      <servlet id="MCRAccessCheckServlet">
+            <servlet-name>MCRAccessCheckServlet</servlet-name>
+            <servlet-class>org.mycore.access.MCRAccessCheckServlet</servlet-class>
+      </servlet>
+      <servlet id=" MCRZipWebcontentServlet">
+            <servlet-name> MCRZipWebcontentServlet</servlet-name>
+            <servlet-class> org.mycore.frontend.servlets.MCRZipWebcontentServlet</servlet-class>
+      </servlet>
+          
+    <!-- servlet mappings -->
+    
+   
+    <servlet-mapping>
+        <servlet-name>MCRWorkflowAccessRuleEditorServlet</servlet-name>
+        <url-pattern>/servlets/MCRWorkflowAccessRules</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+               <servlet-name>MCRJSPSearchServlet</servlet-name>
+               <url-pattern>/servlets/MCRJSPSearchServlet</url-pattern>
+    </servlet-mapping>   
+    <servlet-mapping>
+               <servlet-name>MCRJSPSearchServlet</servlet-name>
+               <url-pattern>/servlets/MCRSearchServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+         <servlet-name>MCRJSPObjectServlet</servlet-name>
+         <url-pattern>/receive/*</url-pattern>
+    </servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>MCRJSPObjectServlet</servlet-name>
+		<url-pattern>/metadata/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>MCRJSPPNDServlet</servlet-name>
+		<url-pattern>/pnd/*</url-pattern>
+	</servlet-mapping>
+    <servlet-mapping>
+    	<servlet-name>MCRJSPPNDServlet</servlet-name>
+		<url-pattern>/gnd/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+        <servlet-name>MCRRegisterUserWorkflowServlet</servlet-name>
+        <url-pattern>/servlets/MCRRegisterUserWorkflowServlet</url-pattern>
+    </servlet-mapping> 
+    
+    <servlet-mapping>
+        <servlet-name>MCRJbpmVariableSetterServlet</servlet-name>
+        <url-pattern>/setworkflowvariable</url-pattern>
+    </servlet-mapping>     
+
+    <servlet-mapping>
+        <servlet-name>MCRCheckDerivateServlet</servlet-name>
+        <url-pattern>/servlets/MCRCheckDerivateServlet</url-pattern>
+    </servlet-mapping>
+
+   <servlet-mapping>
+        <servlet-name>MCRWorkflowActions</servlet-name>
+        <url-pattern>/workflowaction</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+	    <servlet-name>NavServlet</servlet-name>
+	    <url-pattern>/nav</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>MCREditorForwardServlet</servlet-name>
+        <url-pattern>/editor-forward/*</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>EditorSubmitted</servlet-name>
+        <url-pattern>/submitted</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>DebugServlet</servlet-name>
+        <url-pattern>/debug</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>MCRPassToTargetServlet</servlet-name>
+        <url-pattern>/servlets/MCRPassToTargetServlet/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>MCRCheckMetadataServlet</servlet-name>
+        <url-pattern>/servlets/MCRCheckMetadataServlet/*</url-pattern>
+    </servlet-mapping>    
+
+    <servlet-mapping>
+    	<servlet-name>MCRWorkflowForEditingStartServlet</servlet-name>
+		<url-pattern>/StartEdit</url-pattern>
+    </servlet-mapping> 
+
+    <servlet-mapping>
+         <servlet-name>MCRWFFileNodeServlet</servlet-name>
+         <url-pattern>/wffile/*</url-pattern>
+    </servlet-mapping>
+   
+    <servlet-mapping>
+          <servlet-name>MCRJSPGlobalResolverServlet</servlet-name>
+          <url-pattern>/resolve/*</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+          <servlet-name>MCRJSPIDResolverServlet</servlet-name>
+          <url-pattern>/resolve</url-pattern>
+    </servlet-mapping>
+
+
+	<!--  mycore servlets mapping  -->
+
+    <servlet-mapping>
+         <servlet-name>MCRFileNodeServlet</servlet-name>
+         <url-pattern>/servlets/MCRFileNodeServlet/*</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+         <servlet-name>MCRFileNodeServlet</servlet-name>
+         <url-pattern>/file/*</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet-mapping>
+         <servlet-name>MCRStaticXMLFileServlet</servlet-name>
+         <url-pattern>*.xml</url-pattern>
+    </servlet-mapping>
+
+     <servlet-mapping>
+           <servlet-name>XMLEditor</servlet-name>
+           <url-pattern>/servlets/XMLEditor</url-pattern>
+     </servlet-mapping>
+
+
+     <servlet-mapping>
+           <servlet-name>MCRUploadServlet</servlet-name>
+           <url-pattern>/servlets/MCRUploadServlet</url-pattern>
+     </servlet-mapping>
+
+     <servlet-mapping>
+           <servlet-name>MCRZipServlet</servlet-name>
+           <url-pattern>/servlets/MCRZipServlet</url-pattern>
+     </servlet-mapping>
+
+     <servlet-mapping>
+           <servlet-name>MCRZipServlet</servlet-name>
+           <url-pattern>/zip</url-pattern>
+     </servlet-mapping>
+     
+      
+     <servlet-mapping>
+        <servlet-name>MCRIndexServlet</servlet-name>
+        <url-pattern>/servlets/IndexServlet/*</url-pattern>
+     </servlet-mapping>
+      
+     <servlet-mapping>
+        <servlet-name>MCRIndexServlet</servlet-name>
+        <url-pattern>/index/*</url-pattern>
+     </servlet-mapping>
+
+     <servlet-mapping>
+           <servlet-name>MCRAccessCheckServlet</servlet-name>
+           <url-pattern>/servlets/MCRAccessCheckServlet</url-pattern>
+     </servlet-mapping>
+
+     <servlet-mapping>
+           <servlet-name>MCRZipWebcontentServlet</servlet-name>
+           <url-pattern>/zipwebcontent</url-pattern>
+     </servlet-mapping>
+     
+     <servlet id="MCRGoogleSitemapServlet">
+            <servlet-name>MCRGoogleSitemapServlet</servlet-name>
+            <servlet-class>org.mycore.frontend.indexbrowser.MCRGoogleSitemapServlet</servlet-class>
+      </servlet>
+
+	 <servlet-mapping>
+            <servlet-name>MCRGoogleSitemapServlet</servlet-name>
+            <url-pattern>/servlets/MCRGoogleSitemapServlet</url-pattern>
+     </servlet-mapping>
+ 	 <servlet-mapping>
+            <servlet-name>MCRGoogleSitemapServlet</servlet-name>
+            <url-pattern>/sitemap_google.xml</url-pattern>
+     </servlet-mapping>
+      
+  <!-- **************************************************************** -->
+  <!-- MyCoRe REST API v1                                                 -->
+  <!-- **************************************************************** -->
+  
+   <servlet>
+    <servlet-name>MyCoRe REST API v1</servlet-name>
+    <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+    <init-param>
+      <param-name>com.sun.jersey.config.property.packages</param-name>
+      <param-value>org.mycore.frontend.restapi.v1</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MyCoRe REST API v1</servlet-name>
+    <url-pattern>/api/*</url-pattern>
+  </servlet-mapping>
+
+  <session-config>
+    <session-timeout>30</session-timeout>
+  </session-config>
+  
+    <welcome-file-list>
+    <welcome-file>nav</welcome-file>
+    </welcome-file-list>
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/error.jsp</location>
+    </error-page>
+    
+    <!-- default resource bundle -->
+ 	<context-param>
+  		<param-name>
+    		javax.servlet.jsp.jstl.fmt.localizationContext
+  		</param-name>
+  		<param-value>messages</param-value>
+	</context-param>
+
+  <jsp-config>
+  	<taglib>
+		<taglib-uri>/WEB-INF/lib/mycore-taglibs.jar</taglib-uri>
+		<taglib-location>
+			/WEB-INF/lib/mycore-taglibs.jar
+		</taglib-location>
+    </taglib>
+    <jsp-property-group>
+      <url-pattern>*.jsp</url-pattern>
+    </jsp-property-group>
+    <jsp-property-group>
+      <description>Indicate that the files with 'jspx' extension are JSP documents</description>
+      <url-pattern>*.jspx</url-pattern>
+      <is-xml>true</is-xml>
+    </jsp-property-group>    
+  </jsp-config>  
+  
+</web-app>

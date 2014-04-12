@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<configuration type="bundle">
+	<structure>
+		<!-- Object Children -->
+		<element name="children" minOccurs='0' maxOccurs='1'>
+				<mcrmetalinkid name="child" class="MCRMetaLinkID" minOccurs='1' maxOccurs='unbounded' />
+		</element>
+		<!-- Object Parent -->
+		<element name="parents" minOccurs='0' maxOccurs='1'>
+			<mcrmetalinkid name="parent" class="MCRMetaLinkID" minOccurs='1' maxOccurs='unbounded' />
+		</element>
+		<!-- Derivate Objects -->
+		<element name="derobjects" minOccurs='0' maxOccurs='1'>
+			<mcrmetalinkid name="derobject" class="MCRMetaLinkID" minOccurs='1' maxOccurs='unbounded' />
+		</element>
+	</structure>
+	<metadata>
+		<!-- 00 - container for metadata in MODS format -->
+    	<element name="def.modsContainer" minOccurs='0' maxOccurs='1'>
+      		<mcrmetaxml name="modsContainer" class="MCRMetaXML" minOccurs='1' maxOccurs='unbounded' />
+    	</element>
+		<!-- 10 - DC Type -->
+		<element name="types" minOccurs='0' maxOccurs='1'>
+			<mcrmetaclassification name="type" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
+		</element>
+		<!-- 11 - DC Title -->
+		<element name="titles" minOccurs='0' maxOccurs='1'>
+			<mcrmetalangtext name="title" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="1024" />
+		</element>
+		  <!-- 12 - DC Creator -->
+    	<element name="creators" minOccurs='0' maxOccurs='1'>
+    		<mcrmetaxml name="creator" class="MCRMetaXML" minOccurs='1' maxOccurs='unbounded' length="128" />
+    	 </element>
+    	 <!-- 13 - CreatorLink -->
+    	<element name="creatorlinks" minOccurs='0' maxOccurs='1'>
+    		<mcrmetalinkid name="creatorlink" class="MCRMetaLinkID" minOccurs='1' maxOccurs='unbounded' />
+    	</element>
+		<!-- 14 - Participant -->
+		<element name="publishers" minOccurs='0' maxOccurs='1'>
+			<mcrmetaxml name="publisher" class="MCRMetaXML" minOccurs='1' maxOccurs='unbounded' length="128" />
+		</element>
+		
+		 <!-- 16 - Origin -->
+    	<element name="origins" minOccurs='0' maxOccurs='1'>
+      		<mcrmetaclassification name="origin" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
+    	</element>
+
+		<!-- 20 - DC Language -->
+		<element name="languages" minOccurs='0' maxOccurs='1'>
+			<mcrmetaclassification name="language" 	class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
+		</element>
+		<!-- 21 - DC Date -->
+		<element name="periods" minOccurs='0' maxOccurs='1'>
+			<mcrmetahistorydate name="period" class="MCRMetaHistoryDate" minOccurs='1' maxOccurs='unbounded' />
+		</element>
+
+		<!-- 30 - URN -->
+		<element name="urns" minOccurs='0' maxOccurs='1'>
+			<mcrmetalangtext name="urn" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' />
+		</element>
+
+		<!-- 31 - DC Identifier -->
+		<element name="identifiers" minOccurs='0' maxOccurs='1'>
+			<mcrmetalangtext name="identifier" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="128" />
+		</element>
+
+		<!-- 40 - DC Subject (DDC) -->
+		<element name="subjects" minOccurs='0' maxOccurs='1'>
+			<mcrmetaclassification name="subject" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
+		</element>
+
+		<!-- 41 - Content Classification (other than DDC) -->
+		<element name="contentclassifications" minOccurs='0' maxOccurs='1'>
+			<mcrmetaclassification name="contentclassification" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
+		</element>
+		
+		<!-- 42 - DC Description -->
+		<element name="descriptions" minOccurs='0' maxOccurs='1'>
+			<mcrmetalangtext name="description" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="4096" />
+		</element>
+		<!-- 43 - Keywords -->
+		<element name="keywords" minOccurs='0' maxOccurs='1'>
+			<mcrmetalangtext name="keyword" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="4096" />
+		</element>
+		<!-- 44 - Sammlungen -->
+    	<element name="collections" minOccurs='0' maxOccurs='1'>
+      		<mcrmetaclassification name="collection" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
+    	</element>
+    	
+    	<!-- 90 - Notes -->
+		<element name="notes" minOccurs='0' maxOccurs='1'>
+			<mcrmetalangtext name="note" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="4096" />
+		</element>
+
+		<!-- 91 - DC Rights -->
+		<element name="rights" minOccurs='0' maxOccurs='1'>
+			<mcrmetalangtext name="right" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="1024" />
+		</element>
+		
+		<!-- 98 - Predeces -->
+		<element name="predeces" minOccurs='0' maxOccurs='1'>
+			<mcrmetalinkid name="predece" class="MCRMetaLink" minOccurs='1' maxOccurs='unbounded' />
+		</element>
+		
+		<!-- 99 - Successor -->
+		<element name="successors" minOccurs='0' maxOccurs='1'>
+			<mcrmetalinkid name="successor" class="MCRMetaLink" minOccurs='1' maxOccurs='unbounded' />
+		</element>
+		
+       <!-- 100 - Sammlungen -->
+		<element name="collections" minOccurs='0' maxOccurs='1'>
+			<mcrmetaclassification name="collection"
+				class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
+		</element>
+		
+		<!-- 101 - Mapping of Classifications -->
+    	<element name="mappings" minOccurs='0' maxOccurs='1'>
+      		<mcrmetaclassification name="mapping" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
+    	</element>
+	</metadata>
+	<service>
+    <!-- Service Dates -->
+    <element name="servdates" minOccurs='0' maxOccurs='1'>
+      <mcrmetaiso8601date name="servdate" class="MCRMetaISO8601Date" minOccurs='1' maxOccurs='unbounded' />
+    </element>
+    <!-- Service Flags -->
+    <element name="servflags" minOccurs='0' maxOccurs='1'>
+      <mcrmetalangtext name="servflag" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="256" />
+    </element>
+    <!-- Service ACLs -->
+    <element name="servacls" minOccurs='0' maxOccurs='1'>
+      <mcrmetaaccessrule name="servacl" class="MCRMetaAccessRule" minOccurs='1' maxOccurs='unbounded' length="512" />
+    </element>
+  </service>
+</configuration>

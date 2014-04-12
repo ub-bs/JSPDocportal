@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<configuration type="disshab">
+  <structure>
+    <!-- Object Children -->
+    <element name="children" minOccurs='0' maxOccurs='1'>
+      <mcrmetalinkid name="child" class="MCRMetaLinkID" minOccurs='1' maxOccurs='unbounded' />
+    </element>
+    <!-- Object Parent -->
+    <element name="parents" minOccurs='0' maxOccurs='1'>
+      <mcrmetalinkid name="parent" class="MCRMetaLinkID" minOccurs='1' maxOccurs='unbounded' />
+    </element>
+    <!-- Derivate Objects -->
+    <element name="derobjects" minOccurs='0' maxOccurs='1'>
+      <mcrmetalinkid name="derobject" class="MCRMetaLinkID" minOccurs='1' maxOccurs='unbounded' />
+    </element>
+  </structure>
+  <metadata>
+    <!-- 01 - container for metadata in MODS format -->
+    <element name="def.modsContainer" minOccurs='0' maxOccurs='1'>
+      <mcrmetaxml name="modsContainer" class="MCRMetaXML" minOccurs='1' maxOccurs='unbounded' />
+    </element>
+
+    <!-- 02 - URN -->
+    <element name="urns" minOccurs='0' maxOccurs='1'>
+      <mcrmetalangtext name="urn" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' />
+    </element>
+
+    <!-- 03 - DC Identifier -->
+    <element name="identifiers" minOccurs='0' maxOccurs='1'>
+      <mcrmetalangtext name="identifier" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded'
+        length="128" />
+    </element>
+
+    <!-- 04 - DC Titel -->
+    <element name="titles" minOccurs='0' maxOccurs='1'>
+      <mcrmetalangtext name="title" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="1024" />
+    </element>
+
+    <!-- 05 - DC Creator -->
+    <element name="creators" minOccurs='0' maxOccurs='1'>
+      <mcrmetaxml name="creator" class="MCRMetaXML" minOccurs='1' maxOccurs='unbounded' />
+    </element>
+
+    <!-- 06 - DC Subject -->
+    <element name="subjects" minOccurs='0' maxOccurs='1'>
+      <mcrmetaclassification name="subject" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
+    </element>
+
+    <!-- 07 - Basisklassifikation -->
+    <element name="bkls" minOccurs='0' maxOccurs='1'>
+      <mcrmetaclassification name="bkl" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
+    </element>
+
+    <!-- 08 - DC Description -->
+    <element name="descriptions" minOccurs='0' maxOccurs='1'>
+      <mcrmetalangtext name="description" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded'
+        length="4096" />
+    </element>
+
+     <!-- 09 - DC Contributor -->
+    <element name="contributors" minOccurs='0' maxOccurs='1'>
+      <mcrmetaxml name="contributor" class="MCRMetaXML" minOccurs="1" maxOccurs="unbounded" />
+    </element>
+    
+    <!-- 10 - DC Date -->
+    <element name="dates" minOccurs='0' maxOccurs='1'>
+      <mcrmetaiso8601date name="date" class="MCRMetaISO8601Date" minOccurs='1' maxOccurs='unbounded' />
+    </element>
+    
+     <!-- 11 - DC Type -->
+    <element name="types" minOccurs='0' maxOccurs='1'>
+      <mcrmetaclassification name="type" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
+    </element>
+
+    <!-- 12 - DC Format -->
+    <element name="formats" minOccurs='0' maxOccurs='1'>
+      <mcrmetaclassification name="format" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
+    </element>
+    
+    <!-- 13 - DC Language -->
+    <element name="languages" minOccurs='0' maxOccurs='1'>
+      <mcrmetaclassification name="language" class="MCRMetaClassification" minOccurs='1'
+        maxOccurs='unbounded' />
+    </element>
+
+    <!-- 14 - DC Keyword -->
+    <element name="keywords" minOccurs='0' maxOccurs='1'>
+      <mcrmetalangtext name="keyword" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded'
+        length="128" />
+    </element>
+    
+    <!-- 15 - Grantor (the Universtity) -->
+    <element name="grantors" minOccurs='0' maxOccurs='1'>
+      <mcrmetaxml name="grantor" class="MCRMetaXML" minOccurs='1' maxOccurs='unbounded' />
+    </element>
+    
+    <!-- 16 - Origin -->
+    <element name="origins" minOccurs='0' maxOccurs='1'>
+      <mcrmetaclassification name="origin" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
+    </element>
+    
+    <!-- 17 - Institutions -->
+    <element name="institutions" minOccurs='0' maxOccurs='1'>
+      <mcrmetalangtext name="institution" class="MCRMetaLangText" minOccurs='1' maxOccurs="unbounded" />
+    </element>
+
+    <!-- 18 - DC Publisher -->
+    <element name="publishers" minOccurs='0' maxOccurs='1'>
+      <mcrmetaxml name="publisher" class="MCRMetaXML" minOccurs='1' maxOccurs='unbounded' length="128" />
+    </element>
+
+    <!-- 19 - Notes -->
+    <element name="notes" minOccurs='0' maxOccurs='1'>
+      <mcrmetalangtext name="note" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded' length="4096" />
+    </element>
+    
+    <!-- 20 - AccessRights -->
+    <element name="accessrights" minOccurs='0' maxOccurs='1'>
+      <mcrmetaclassification name="accessright" class="MCRMetaClassification" minOccurs='1'
+        maxOccurs='unbounded' />
+    </element>
+
+    <!-- 21 - Mapping of Classifications -->
+    <element name="mappings" minOccurs='0' maxOccurs='1'>
+      <mcrmetaclassification name="mapping" class="MCRMetaClassification" minOccurs='1' maxOccurs='unbounded' />
+    </element>
+  </metadata>
+  
+  <service>
+    <!-- Service Dates -->
+    <element name="servdates" minOccurs='0' maxOccurs='1'>
+      <mcrmetaiso8601date name="servdate" class="MCRMetaISO8601Date" minOccurs='1' maxOccurs='unbounded' />
+    </element>
+    <!-- Service Flags -->
+    <element name="servflags" minOccurs='0' maxOccurs='1'>
+      <mcrmetalangtext name="servflag" class="MCRMetaLangText" minOccurs='1' maxOccurs='unbounded'
+        length="256" />
+    </element>
+    <!-- Service ACLs -->
+    <element name="servacls" minOccurs='0' maxOccurs='1'>
+      <mcrmetaaccessrule name="servacl" class="MCRMetaAccessRule" minOccurs='1' maxOccurs='unbounded'
+        length="512" />
+    </element>
+  </service>
+</configuration>

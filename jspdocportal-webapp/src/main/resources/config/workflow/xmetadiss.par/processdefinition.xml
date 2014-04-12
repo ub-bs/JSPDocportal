@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns="urn:jbpm.org:jpdl-3.1"  name="xmetadiss">
+
+	<!-- SWIMLANES (= process roles) -->
+	<swimlane name="initiator" />
+
+	<swimlane name="disseditor">
+		<assignment class="org.mycore.frontend.workflowengine.jbpm.MCRPooledActorAssignmentHandler">
+			<groupName>admindisshab</groupName>
+		</assignment>  
+	</swimlane>
+
+	<swimlane name="disssuspended">
+		<assignment class="org.mycore.frontend.workflowengine.jbpm.MCRPooledActorAssignmentHandler">
+			<groupName>suspenddisshab</groupName>
+		</assignment>  
+	</swimlane>
+
+	<swimlane name="technicalAdministration">
+		<assignment class="org.mycore.frontend.workflowengine.jbpm.MCRPooledActorAssignmentHandler">
+			<groupName>admingroup</groupName>
+		</assignment>       
+	</swimlane>
+
+
+	<swimlane name="subjectExpert">
+		<!--   <assignment expression="user(ernie)" /> -->
+	</swimlane>  
+
+	<start-state name="start">
+		<task name="initialization" swimlane="initiator">
+		</task>     
+		<transition name="go2processInitialized" to="processInitialized" />
+		<transition name="go2processEditInitialized" to="processEditInitialized" />     
+	</start-state>
+
+	<task-node name="processInitialized">
+		<event type='node-enter'>
+			<action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRCreateDisshabAction" />                        
+		</event>
+		<transition name="go2isInitiatorsEmailAddressAvailable" to="isInitiatorsEmailAddressAvailable" />  
+	</task-node>
+
+	<task-node name="processEditInitialized">
+		<task name="taskprocessEditInitialized" swimlane="initiator" />
+		<transition name="go2canDisshabBeSubmitted" to="canDisshabBeSubmitted" />
+	</task-node>
+
+	<decision name="isInitiatorsEmailAddressAvailable">
+		<transition name="no" to="getInitiatorsEmailAddress"> 
+			<condition expression="#{empty(contextInstance.variables['initiatorEmail'])}"/>
+		</transition>
+		<transition name="yes" to="disshabCreated">
+			<condition expression="#{!empty(contextInstance.variables['initiatorEmail'])}"/>
+		</transition>
+	</decision>
+
+	<task-node name="getInitiatorsEmailAddress">
+		<task name="taskGetInitiatorsEmailAddress" swimlane="initiator" />
+		<transition name="go2IsInitiatorsEmailAddressAvailable" to="isInitiatorsEmailAddressAvailable" />
+	</task-node>
+
+	<task-node name="disshabCreated">
+		<task name="taskCompleteDisshabAndSendToLibrary" swimlane="initiator" />
+		<transition name="go2canDisshabBeSubmitted" to="canDisshabBeSubmitted" />
+	</task-node>
+
+	<decision name="canDisshabBeSubmitted">
+		<handler class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRDecisionHandlerXmetadiss" />
+		<transition name="disshabCantBeSubmitted" to="disshabCreated" />
+		<transition name="disshabCanBeSubmitted" to="disshabSubmitted" />
+	</decision>
+
+	<task-node name="disshabSubmitted">
+		<event type='node-enter'>
+			<action class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRDisshabSubmittedAction">
+				<lockedVariables>initiator,createdDocID,authorID,reservatedURN,attachedDerivates</lockedVariables>
+			</action>
+			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+				<from>MCR.WorkflowEngine.xmetadiss.from</from>
+				<to>MCR.WorkflowEngine.newtaskemail.xmetadiss</to>
+				<replyTo>MCR.WorkflowEngine.xmetadiss.replyto</replyTo>
+				<subject>MCR.WorkflowEngine.xmetadiss.subject.newtask</subject>
+				<body>MCR.WorkflowEngine.xmetadiss.body.newtask</body>  
+			</action>     
+
+		</event> 
+		<task name="taskCheckCompleteness" swimlane="disseditor">
+		</task> 
+		<transition name="go2sendBackToDisshabCreated" to="sendBackToDisshabCreated" >
+			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSetDefaultAclsAction">
+				<varmcrid>createdDocID</varmcrid>
+				<varuserid>initiator</varuserid>
+			</action>
+		</transition>
+		<transition name="go2suspendDisshab" to="suspendDisshab" />
+		<transition name="go2canDisshabBeCommitted" to="canDisshabBeCommitted" />
+	</task-node>
+
+	<task-node name="suspendDisshab">
+		<task name="getEndOfSuspensionDate" swimlane="disseditor"/>
+		<transition name="go2checkSuspensionDate" to="isSuspensionDateAvailable" />
+	</task-node>
+
+	<decision name="isSuspensionDateAvailable">
+		<handler class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRDecisionHandlerXmetadiss" />
+		<transition name="yes" to="disshabSuspended" />
+		<transition name="no" to="suspendDisshab" />
+	</decision>
+
+	<task-node name="disshabSuspended">
+		<task name="waitInSuspension" swimlane="disssuspended" />
+		<transition name="endSuspension" to="disshabSubmitted" />
+	</task-node>
+
+	<task-node name="sendBackToDisshabCreated">
+		<task name="taskEnterMessageData" swimlane="disseditor" />
+		<transition name="go2disshabCreated2" to="disshabCreated">
+			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+				<from>MCR.WorkflowEngine.xmetadiss.from</from>
+				<to>initiator</to>
+				<replyTo>MCR.WorkflowEngine.xmetadiss.from</replyTo>
+				<subject>MCR.WorkflowEngine.xmetadiss.subject</subject>
+				<!-- <body>Mustertext</body> -->
+				<jbpmVariableName>tmpTaskMessage</jbpmVariableName>
+			</action>     
+		</transition>
+	</task-node>
+
+	<task-node name="checkNonDigitalRequirements">
+		<task name="taskCheckIfSignedAffirmationYetAvailable" swimlane="disseditor" />
+		<transition name="go2canDisshabBeCommitted" to="canDisshabBeCommitted">
+			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSetWorkflowVariableAction">
+				<varname>signedAffirmationAvailable</varname>
+				<value>true</value>
+			</action>
+		</transition>
+		<transition name="go2requireAffirmation" to="requireAffirmation" />
+	</task-node>
+
+	<task-node name="requireAffirmation">
+		<task name="taskRequireSignedAffirmation" swimlane="disseditor" />
+		<transition name="go2checkNonDigitalRequirements" to="checkNonDigitalRequirements">
+			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+				<from>MCR.WorkflowEngine.xmetadiss.from</from>
+				<to>initiator</to>
+				<replyTo>MCR.WorkflowEngine.xmetadiss.from</replyTo>
+				<subject>MCR.WorkflowEngine.xmetadiss.subject.aff</subject>
+				<!-- <body>Mustertext</body> -->
+				<jbpmVariableName>tmpTaskMessage</jbpmVariableName>
+				<dateOfSubmissionVariable>lastRequiredAffirmation</dateOfSubmissionVariable>
+			</action>     
+		</transition>
+		<transition name="go2checkNonDigitalRequirementsWithoutMail" to="checkNonDigitalRequirements" />
+	</task-node>
+
+	<decision name="canDisshabBeCommitted">
+		<handler class="org.mycore.frontend.workflowengine.jbpm.xmetadiss.MCRDecisionHandlerXmetadiss" />
+		<transition name="go2sendBackToDisshabCreated" to="sendBackToDisshabCreated" />
+		<transition name="go2checkNonDigitalRequirements" to="checkNonDigitalRequirements" />
+		<transition name="go2wasCommitmentSuccessful" to="wasCommitmentSuccessful">
+			<action class="org.mycore.frontend.workflowengine.jbpm.MCRCommitObjectAction">
+				<varnameOBJID>createdDocID</varnameOBJID>
+				<varnameERROR>COMMITERROR</varnameERROR>
+			</action>
+		</transition>
+	</decision>  
+
+	<decision name="wasCommitmentSuccessful">
+		<transition name="go2adminCheck" to="adminCheck">  
+			<condition expression="#{!empty(contextInstance.variables['COMMITERROR'])}" />
+		</transition>
+		<transition name="go2disshabCommitted" to="disshabCommitted">  
+			<condition expression="#{empty(contextInstance.variables['COMMITERROR'])}" />
+		</transition>     
+	</decision>
+
+	<task-node name="adminCheck">
+		<event type='node-enter'>
+			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+				<from>MCR.WorkflowEngine.xmetadiss.from</from>
+				<to>MCR.WorkflowEngine.xmetadiss.to</to>
+				<from>MCR.WorkflowEngine.xmetadiss.from</from>
+				<subject>MCR.WorkflowEngine.xmetadiss.subject.admin</subject>
+				<body>MCR.WorkflowEngine.xmetadiss.body.admin</body>
+				<jbpmVariableName>createdDocID</jbpmVariableName>
+			</action>          
+		</event>
+		<task name="taskAdminCheckCommitmentNotSuccessFul" swimlane="technicalAdministration" />
+		<transition name="go2disshabCommitted" to="disshabCommitted" />
+	</task-node>     
+
+	<task-node name="disshabCommitted">
+		<event type='node-enter'>
+			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+				<from>MCR.WorkflowEngine.xmetadiss.from</from>
+				<to>initiator</to>
+				<subject>MCR.WorkflowEngine.xmetadiss.subject.commit</subject>
+				<body>MCR.WorkflowEngine.xmetadiss.body.commit</body>
+				<jbpmVariableName>createdDocID</jbpmVariableName>
+			</action> 
+		</event>     
+		<transition name="go2cleanUpWorkingDirectory" to="cleanUpWorkingDirectory" />     
+	</task-node>
+
+	<end-state name="cleanUpWorkingDirectory">
+		<event type='node-enter'>
+			<action class="org.mycore.frontend.workflowengine.jbpm.MCRCleanUpWorkflowAction">
+				<varnameOBJID>createdDocID</varnameOBJID>
+				<varnameERROR>CLEANUPERROR</varnameERROR>
+			</action>               
+		</event>   
+	</end-state>
+
+</process-definition>

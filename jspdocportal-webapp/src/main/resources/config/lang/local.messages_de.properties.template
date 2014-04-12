@@ -1,0 +1,14 @@
+
+#Attributes to set in your own application
+#here you can add and configure your messages
+Admin.MailRef=<a href="mailto:admin@mycore.de">admin@mycore.de</a>
+Login.ChangeUserID=MyCoRe: Nutzerkennung wechseln
+MessageKey.Headline=MyCoRe Nachricht
+MCR.WorkflowEngine.PlaceDefault.xmetadiss=Essen
+MCR.WorkflowEngine.PublisherDefaultName.xmetadiss=MyCoRe Community
+
+Nav.Application=DocPortal 
+OMD.ID=DocPortal ID
+Webpage.intro.title=MyCoReSample - JSPDocPortal
+
+

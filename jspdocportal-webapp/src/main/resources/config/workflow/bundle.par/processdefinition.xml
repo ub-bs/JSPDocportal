@@ -1,0 +1,287 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns="urn:jbpm.org:jpdl-3.1"  name="bundle">
+
+	<!-- SWIMLANES (= process roles) -->
+	<swimlane name="initiator" />
+
+	<swimlane name="bundleeditor">
+		<assignment class="org.mycore.frontend.workflowengine.jbpm.MCRPooledActorAssignmentHandler">
+			<groupName>adminbundle</groupName>
+		</assignment>  
+	</swimlane>
+
+	<swimlane name="technicalAdministration">
+		<assignment class="org.mycore.frontend.workflowengine.jbpm.MCRPooledActorAssignmentHandler">
+			<groupName>admingroup</groupName>
+		</assignment>       
+	</swimlane>	
+
+	<start-state name="start">
+		<task name="initialization" swimlane="initiator">
+		</task>     
+		<transition name="go2processInitialized" to="processInitialized" />
+		<transition name="go2processEditInitialized" to="processEditInitialized" />
+		<transition name="go2volumeInitialized" to="volumeInitialized" />
+		<transition name="go2volumeEditInitialized" to="volumeEditInitialized" />     
+	</start-state>
+
+	<task-node name="processInitialized">
+		<event type='node-enter'>
+			<action class="org.mycore.frontend.workflowengine.jbpm.bundle.MCRCreateBundleAction" />                        
+		</event>
+		<transition name="go2isInitiatorsEmailAddressAvailable" to="isInitiatorsEmailAddressAvailable" />  
+	</task-node>
+
+	<task-node name="processEditInitialized">
+		<task name="taskprocessEditInitialized" swimlane="initiator" />
+		<transition name="go2canBundleBeSubmitted" to="canBundleBeSubmitted" />
+	</task-node>
+
+	<task-node name="volumeInitialized">
+		<event type='node-enter'>
+			<action class="org.mycore.frontend.workflowengine.jbpm.bundle.MCRCreateVolumeAction" />                        
+		</event>
+		<transition name="go2isVolumeInitiatorsEmailAddressAvailable" to="isVolumeInitiatorsEmailAddressAvailable" />  
+	</task-node>
+
+	<task-node name="volumeEditInitialized">
+		<task name="taskvolumeEditInitialized" swimlane="initiator" />
+		<transition name="go2canVolumeBeSubmitted" to="canVolumeBeSubmitted" />
+	</task-node>
+
+
+	<decision name="isInitiatorsEmailAddressAvailable">
+		<transition name="no" to="getInitiatorsEmailAddress"> 
+			<condition expression="#{empty(contextInstance.variables['initiatorEmail'])}"/>
+		</transition>
+		<transition name="yes" to="bundleCreated">
+			<condition expression="#{!empty(contextInstance.variables['initiatorEmail'])}"/>
+		</transition>
+	</decision>
+	
+	<decision name="isVolumeInitiatorsEmailAddressAvailable">
+		<transition name="no" to="getVolumeInitiatorsEmailAddress"> 
+			<condition expression="#{empty(contextInstance.variables['initiatorEmail'])}"/>
+		</transition>
+		<transition name="yes" to="volumeCreated">
+			<condition expression="#{!empty(contextInstance.variables['initiatorEmail'])}"/>
+		</transition>
+	</decision>
+
+	<task-node name="getInitiatorsEmailAddress">
+		<task name="taskGetInitiatorsEmailAddress" swimlane="initiator" />
+		<transition name="go2IsInitiatorsEmailAddressAvailable" to="isInitiatorsEmailAddressAvailable" />
+	</task-node>
+	
+	<task-node name="getVolumeInitiatorsEmailAddress">
+		<task name="taskGetVolumeInitiatorsEmailAddress" swimlane="initiator" />
+		<transition name="go2IsVolumeInitiatorsEmailAddressAvailable" to="isVolumeInitiatorsEmailAddressAvailable" />
+	</task-node>
+
+	<task-node name="bundleCreated">
+		<task name="taskCompleteBundleAndSendToLibrary" swimlane="initiator" />
+		<transition name="go2canBundleBeSubmitted" to="canBundleBeSubmitted" />
+	</task-node>
+	
+	<task-node name="volumeCreated">
+		<task name="taskCompleteVolumeAndSendToLibrary" swimlane="initiator" />
+		<transition name="go2canVolumeBeSubmitted" to="canVolumeBeSubmitted" />
+	</task-node>
+
+	<decision name="canBundleBeSubmitted">
+		<handler class="org.mycore.frontend.workflowengine.jbpm.bundle.MCRDecisionHandlerBundle" />
+		<transition name="bundleCantBeSubmitted" to="bundleCreated" />
+		<transition name="bundleCanBeSubmitted" to="bundleSubmitted" />
+	</decision>
+	
+	<decision name="canVolumeBeSubmitted">
+		<handler class="org.mycore.frontend.workflowengine.jbpm.bundle.MCRDecisionHandlerBundle" />
+		<transition name="volumeCantBeSubmitted" to="volumeCreated" />
+		<transition name="volumeCanBeSubmitted" to="volumeSubmitted" />
+	</decision>
+
+	<task-node name="bundleSubmitted">
+		<event type='node-enter'>
+			<action class="org.mycore.frontend.workflowengine.jbpm.bundle.MCRBundleSubmittedAction">
+				<lockedVariables>initiator,createdDocID,authorID,reservatedURN,attachedDerivates</lockedVariables>
+			</action>
+			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+				<from>MCR.WorkflowEngine.bundle.from</from>
+				<to>MCR.WorkflowEngine.newtaskemail.bundle</to>
+				<replyTo>MCR.WorkflowEngine.bundle.replyto</replyTo>
+				<subject>MCR.WorkflowEngine.bundle.subject.newtask</subject>
+				<body>MCR.WorkflowEngine.bundle.body.newtask</body>  
+			</action>     
+		</event> 
+		<task name="taskCheckCompleteness" swimlane="bundleeditor">
+		</task> 
+		<transition name="go2sendBackToBundleCreated" to="sendBackToBundleCreated" >
+			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSetDefaultAclsAction">
+				<varmcrid>createdDocID</varmcrid>
+				<varuserid>initiator</varuserid>
+			</action>
+		</transition>
+		<transition name="go2canBundleBeCommitted" to="canBundleBeCommitted" />
+	</task-node>
+
+<task-node name="volumeSubmitted">
+		<event type='node-enter'>
+			<action class="org.mycore.frontend.workflowengine.jbpm.bundle.MCRVolumeSubmittedAction">
+				<lockedVariables>initiator,createdDocID,authorID,reservatedURN,attachedDerivates</lockedVariables>
+			</action>
+			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+				<from>MCR.WorkflowEngine.bundle.from</from>
+				<to>MCR.WorkflowEngine.newtaskemail.bundle</to>
+				<replyTo>MCR.WorkflowEngine.bundle.replyto</replyTo>
+				<subject>MCR.WorkflowEngine.bundle.subject.newtask</subject>
+				<body>MCR.WorkflowEngine.bundle.body.newtask.volume</body>  
+			</action>     
+		</event> 
+		<task name="taskCheckVolumeCompleteness" swimlane="bundleeditor">
+		</task> 
+		<transition name="go2sendBackToVolumeCreated" to="sendBackToVolumeCreated" >
+			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSetDefaultAclsAction">
+				<varmcrid>createdDocID</varmcrid>
+				<varuserid>initiator</varuserid>
+			</action>
+		</transition>
+		<transition name="go2canVolumeBeCommitted" to="canVolumeBeCommitted" />
+	</task-node>
+
+	<task-node name="sendBackToBundleCreated">
+		<task name="taskEnterMessageData" swimlane="bundleeditor" />
+		<transition name="go2bundleCreated2" to="bundleCreated">
+			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+				<from>MCR.WorkflowEngine.bundle.from</from>
+				<to>initiator</to>
+				<replyTo>MCR.WorkflowEngine.bundle.from</replyTo>
+				<subject>MCR.WorkflowEngine.bundle.subject</subject>
+				<!-- <body>Mustertext</body> -->
+				<jbpmVariableName>tmpTaskMessage</jbpmVariableName>
+			</action>     
+		</transition>
+	</task-node>
+	
+	<task-node name="sendBackToVolumeCreated">
+		<task name="taskEnterVolumeMessageData" swimlane="bundleeditor" />
+		<transition name="go2VolumeCreated2" to="volumeCreated">
+			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+				<from>MCR.WorkflowEngine.bundle.from</from>
+				<to>initiator</to>
+				<replyTo>MCR.WorkflowEngine.bundle.from</replyTo>
+				<subject>MCR.WorkflowEngine.bundle.subject</subject>
+				<!-- <body>Mustertext</body> -->
+				<jbpmVariableName>tmpTaskMessage</jbpmVariableName>
+			</action>     
+		</transition>
+	</task-node>
+	
+
+	<decision name="canBundleBeCommitted">
+		<handler class="org.mycore.frontend.workflowengine.jbpm.bundle.MCRDecisionHandlerBundle" />
+		<transition name="go2sendBackToBundleCreated" to="sendBackToBundleCreated" />
+		<transition name="go2wasCommitmentSuccessful" to="wasCommitmentSuccessful">
+			<action class="org.mycore.frontend.workflowengine.jbpm.MCRCommitObjectAction">
+				<varnameOBJID>createdDocID</varnameOBJID>
+				<varnameERROR>COMMITERROR</varnameERROR>
+			</action>
+		</transition>
+	</decision>  
+	
+	<decision name="canVolumeBeCommitted">
+		<handler class="org.mycore.frontend.workflowengine.jbpm.bundle.MCRDecisionHandlerBundle" />
+		<transition name="go2sendBackToVolumeCreated" to="sendBackToVolumeCreated" />
+		<transition name="go2wasVolumeCommitmentSuccessful" to="wasVolumeCommitmentSuccessful">
+			<action class="org.mycore.frontend.workflowengine.jbpm.MCRCommitObjectAction">
+				<varnameOBJID>createdDocID</varnameOBJID>
+				<varnameERROR>COMMITERROR</varnameERROR>
+			</action>
+		</transition>
+	</decision>
+
+	<decision name="wasCommitmentSuccessful">
+		<transition name="go2adminCheck" to="adminCheck">  
+			<condition expression="#{!empty(contextInstance.variables['COMMITERROR'])}" />
+		</transition>
+		<transition name="go2bundleCommitted" to="bundleCommitted">  
+			<condition expression="#{empty(contextInstance.variables['COMMITERROR'])}" />
+		</transition>     
+	</decision>
+
+	<decision name="wasVolumeCommitmentSuccessful">
+		<transition name="go2volumeAdminCheck" to="volumeAdminCheck">  
+			<condition expression="#{!empty(contextInstance.variables['COMMITERROR'])}" />
+		</transition>
+		<transition name="go2volumeCommitted" to="volumeCommitted">  
+			<condition expression="#{empty(contextInstance.variables['COMMITERROR'])}" />
+		</transition>     
+	</decision>
+
+	<task-node name="adminCheck">
+		<event type='node-enter'>
+			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+				<from>MCR.WorkflowEngine.bundle.from</from>
+				<to>MCR.WorkflowEngine.bundle.to</to>
+				<from>MCR.WorkflowEngine.bundle.from</from>
+				<subject>MCR.WorkflowEngine.bundle.subject.admin</subject>
+				<body>MCR.WorkflowEngine.bundle.body.admin</body>
+				<jbpmVariableName>createdDocID</jbpmVariableName>
+			</action>          
+		</event>
+		<task name="taskAdminCheckCommitmentNotSuccessFul" swimlane="technicalAdministration" />
+		<transition name="go2bundleCommitted" to="bundleCommitted" />
+	</task-node>     
+
+	<task-node name="volumeAdminCheck">
+		<event type='node-enter'>
+			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+				<from>MCR.WorkflowEngine.bundle.from</from>
+				<to>MCR.WorkflowEngine.bundle.to</to>
+				<from>MCR.WorkflowEngine.bundle.from</from>
+				<subject>MCR.WorkflowEngine.bundle.subject.admin</subject>
+				<body>MCR.WorkflowEngine.bundle.body.admin</body>
+				<jbpmVariableName>createdDocID</jbpmVariableName>
+			</action>          
+		</event>
+		<task name="taskAdminCheckVolumeCommitmentNotSuccessFul" swimlane="technicalAdministration" />
+		<transition name="go2volumeCommitted" to="volumeCommitted" />
+	</task-node>     
+
+
+	<task-node name="bundleCommitted">
+		<event type='node-enter'>
+			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+				<from>MCR.WorkflowEngine.bundle.from</from>
+				<to>initiator</to>
+				<subject>MCR.WorkflowEngine.bundle.subject.commit</subject>
+				<body>MCR.WorkflowEngine.bundle.body.commit</body>
+				<jbpmVariableName>createdDocID</jbpmVariableName>
+			</action> 
+		</event>     
+		<transition name="go2cleanUpWorkingDirectory" to="cleanUpWorkingDirectory" />     
+	</task-node>
+	
+	<task-node name="volumeCommitted">
+		<event type='node-enter'>
+			<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+				<from>MCR.WorkflowEngine.bundle.from</from>
+				<to>initiator</to>
+				<subject>MCR.WorkflowEngine.bundle.subject.commit</subject>
+				<body>MCR.WorkflowEngine.bundle.body.commit.volume</body>
+				<jbpmVariableName>createdDocID</jbpmVariableName>
+			</action> 
+		</event>     
+		<transition name="go2cleanUpWorkingDirectory" to="cleanUpWorkingDirectory" />     
+	</task-node>
+
+	<end-state name="cleanUpWorkingDirectory">
+		<event type='node-enter'>
+			<action class="org.mycore.frontend.workflowengine.jbpm.MCRCleanUpWorkflowAction">
+				<varnameOBJID>createdDocID</varnameOBJID>
+				<varnameERROR>CLEANUPERROR</varnameERROR>
+			</action>               
+		</event>   
+	</end-state>
+
+</process-definition>

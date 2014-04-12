@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
+<processing>
+	<job name="do xyz">
+		<os family="windows" />
+		<executefile name="$INSTALL_PATH\start.bat">
+			<!-- <arg>doit</arg><arg>$variable</arg> -->
+		</executefile>
+	</job>
+	<job name="do xyz">
+		<os family="unix" />
+		<executefile name="$INSTALL_PATH/scripts/xyz.sh">
+			<arg>doit</arg><arg>$variable</arg>
+		</executefile>
+	</job>
+</processing>

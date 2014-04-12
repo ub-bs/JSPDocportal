@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE editor>
+<editor class="editor" id="editor-author-thesis">
+ 	<target type="servlet" name="MCRPassToTargetServlet" method="post" format="xml" />
+	<!-- <target type="debug" /> -->
+ 	<source uri="{sourceUri}" />
+ 	<cancel url="{cancelUrl}" />
+	<validationMessage>
+   		<label i18n="Editor.Common.validationMessageLong" />
+ 	</validationMessage>
+	<components root="author-thesis" var="/mycoreobject">
+ 	
+ 	<include uri="webapp:editor/workflow/imports-thesis.xml" />
+    <include uri="webapp:editor/workflow/imports-common-disshab.xml" />
+    <include uri="webapp:editor/workflow/imports-common-xmetadiss.xml" />       
+ 	
+ 	<headline anchor="CENTER">
+ 		<text><label i18n="Editor.Common.mandatoryFields" /></text>
+ 	</headline>
+ 	
+ 	<panel id="author-thesis">
+ 		<hidden var="@ID" />
+ 		<hidden var="@label" />
+     
+        <cell col="1" row="5" anchor="NORTHEAST" ref="HUrn" />
+        <cell col="2" row="5" anchor="NORTHWEST" ref="LUrnP" />
+        <cell col="3" row="6" colspan="2" anchor="NORTHWEST" ref="DURN_The" sortnr="32" />
+    
+        <cell col="1" row="7"  colspan="3" anchor="WEST" ><label><hr /></label></cell>
+    
+ 	    <cell col="1" row="11" anchor="NORTHEAST" ref="HTitle" />	
+        <cell col="2"  row="11" colspan="3" anchor="NORTHWEST" ref="LTitleP" />
+    	<cell col="3"  row="12" colspan="2" anchor="NORTHWEST" ref="DTitle_The" sortnr="1" />
+
+	    <cell col="1" row="31" anchor="NORTHEAST" ref="HCreator" />
+        <cell col="2" row="31" colspan="3" anchor="NORTHWEST" ref="LCreatorXMetaPersM" />
+        <cell col="3" row="32" colspan="2" anchor="NORTHWEST" ref="DCreatorXMetaPers" sortnr="3" />
+
+
+    <cell col="1" row="41" anchor="NORTHEAST" ref="HOrigin" />
+    <cell col="2" row="41" colspan="3" anchor="NORTHWEST" ref="LOriginP" />
+    <cell col="3" row="42" colspan="2" anchor="NORTHWEST" ref="DOrigin_The" sortnr="5" />
+
+      <cell col="1" row="46" anchor="NORTHEAST" ref="HInstitution" />
+      <cell col="2" row="46" anchor="NORTHWEST" ref="LInstitution" />
+      <cell col="3" row="47" colspan="2" anchor="NORTHWEST" ref="DInstitution" sortnr="38" />
+      
+      
+    <cell col="1" row="51" anchor="NORTHEAST" ref="HSubject" />
+    <cell col="2" row="51" colspan="3" anchor="NORTHWEST" ref="LSubject" />
+    <cell col="3" row="52" colspan="2" anchor="NORTHWEST" ref="DSubject" sortnr="4" />
+    
+    <cell col="1" row="55" anchor="NORTHEAST" ref="Hbkl" />
+    <cell col="2" row="55" colspan="3" anchor="NORTHWEST" ref="Lbkl" />
+    <cell col="3" row="56" colspan="2" anchor="NORTHWEST" ref="Dbkl" sortnr="40"/> 
+		
+    	
+    <cell col="1" row="59"  colspan="2" anchor="WEST" ><hr/></cell>
+    
+    <cell col="1" row="61"  anchor="NORTHEAST" ref="HDescription" />
+    <cell col="2" row="61" colspan="3" anchor="NORTHWEST" ref="LDescriptionP" />
+    <cell col="3" row="62" colspan="2" anchor="NORTHWEST" ref="DDescription_The" sortnr="6"/>    
+
+    <cell col="1" row="101" anchor="NORTHEAST" ref="HContributor" />
+    <cell col="2" row="101" colspan="3" anchor="NORTHWEST" ref="LContributorXMetaPersM" />
+    <cell col="3" row="102" colspan="2" anchor="NORTHWEST" ref="DContributorXMetaPers" sortnr="10" />   
+    	
+	<cell col="1" row="139"  colspan="2" anchor="WEST" ><hr/> </cell>   
+
+    <cell col="1" row="121" anchor="NORTHEAST" ref="HDate" />
+    <cell col="2" row="121" colspan="3" anchor="NORTHWEST" ref="LDateP" />
+    <cell col="3" row="122" colspan="2" anchor="NORTHWEST" ref="DDate_The" sortnr="12" />    
+
+    <cell col="1" row="131" anchor="NORTHEAST" ref="HType" />
+    <cell col="2" row="131" colspan="3" anchor="NORTHWEST" ref="LTypeP" />
+    <cell col="3" row="132" colspan="2" anchor="NORTHWEST" ref="DType_The" sortnr="13" />    
+
+    <cell col="2" row="141" colspan="2" anchor="NORTHWEST" ref="DFormat_The" sortnr="14" />    
+    
+    <cell col="1" row="181" anchor="NORTHEAST" ref="HLanguage" />
+    <cell col="2" row="181" colspan="3" anchor="NORTHWEST" ref="LLanguageP" />
+    <cell col="3" row="182" colspan="2" anchor="NORTHWEST" ref="DLanguage_RFC4646" sortnr="18" />    
+  
+    <cell col="1" row="191" anchor="NORTHEAST" ref="HKeywords" />
+    <cell col="2" row="191" colspan="3" anchor="NORTHWEST" ref="LKeywords" />
+    <cell col="3" row="192" colspan="2" anchor="NORTHWEST" ref="DKeywords2" sortnr="19" />
+    	
+        <cell col="1" row="211" anchor="NORTHEAST" ref="HNote" />
+    <cell col="2" row="211" colspan="3" anchor="NORTHWEST" ref="LNote" />
+    <cell col="3" row="212" colspan="2" anchor="NORTHWEST" ref="DNote" sortnr="34" />  
+    
+    <cell col="2" row="213" colspan="2" anchor="NORTHWEST" ref="HiddenGrantorXMetaDiss" sortnr="37" />
+    <cell col="2" row="215" colspan="2" anchor="NORTHWEST" ref="DAccessRights_OpenAccess" sortnr="38" />
+ 
+		<hidden var="metadata/mappings" descendants="true" />
+		<hidden var="metadata/def.modsContainer" descendants="true" />
+		
+		<cell col="1" row="271" colspan="2" anchor="NORTHWEST" ref="DHiddenVars_The" sortnr="49"/>
+		
+	    <cell col="1" row="272" anchor="EAST" >
+      		<space width="10" height="50" />
+    	</cell>
+    	<cell col="1" row="285" anchor="EAST" ref="BCancel" />
+    	<cell col="2" row="285" anchor="WEST" ref="BSubmitDisshab" var="save" />    
+  	</panel>
+  	</components>
+</editor>
+
