@@ -50,10 +50,6 @@ import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.datamodel.metadata.MCRObjectStructure;
-import org.mycore.services.fieldquery.MCRQuery;
-import org.mycore.services.fieldquery.MCRQueryManager;
-import org.mycore.services.fieldquery.MCRQueryParser;
-import org.mycore.services.fieldquery.MCRResults;
 
 
 /**
@@ -117,6 +113,8 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     		getServletContext().getRequestDispatcher("/nav?path=~mycore-error&messageKey=IdNotGiven").forward(request,response);
     	}
     	else{
+    		//TODO SOLR Migration
+    		/*
             MCRQuery query = new MCRQuery((new MCRQueryParser()).parse(queryString));
             MCRResults result = MCRQueryManager.search(query);
     		
@@ -167,6 +165,7 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     				this.getServletContext().getRequestDispatcher("/nav?path=~docdetail&id=" +mcrID).forward(request, response);
     			}
     		} //end [if(result.getNumHits()>0)]
+    		*/
     	}	
 	}	
 	

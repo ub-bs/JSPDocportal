@@ -20,9 +20,6 @@ import org.jdom2.output.DOMOutputter;
 import org.jdom2.xpath.XPathFactory;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRSession;
-import org.mycore.frontend.indexbrowser.lucene.MCRIndexBrowserConfig;
-import org.mycore.frontend.indexbrowser.lucene.MCRIndexBrowserIncomingData;
-import org.mycore.frontend.indexbrowser.lucene.MCRIndexBrowserUtils;
 import org.mycore.frontend.servlets.MCRServlet;
 
 import com.ibm.icu.text.MessageFormat;
@@ -44,8 +41,8 @@ public class MCRIndexBrowserTag extends SimpleTagSupport {
 	private String varXMLName;
 	private String docdetailsURL;
 
-	protected MCRIndexBrowserIncomingData incomingBrowserData;
-	protected MCRIndexBrowserConfig config;
+	//protected MCRIndexBrowserIncomingData incomingBrowserData;
+	//protected MCRIndexBrowserConfig config;
 
 	/**
 	 * required: the url which should be used to link to docdetails page of a
@@ -112,11 +109,13 @@ public class MCRIndexBrowserTag extends SimpleTagSupport {
 		    MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)((PageContext) getJspContext()).getRequest());
 	        String lang = mcrSession.getCurrentLanguage();
 			ResourceBundle messages = PropertyResourceBundle.getBundle(languageBundleBase, new Locale(lang));
-
+			
 			PageContext ctx = (PageContext) getJspContext();
-			incomingBrowserData = MCRIndexBrowserUtils.getIncomingBrowserData((HttpServletRequest) ctx.getRequest());
-			config = new MCRIndexBrowserConfig(incomingBrowserData.getSearchclass());
 			Document pageContent = null;
+			
+/*			incomingBrowserData = MCRIndexBrowserUtils.getIncomingBrowserData((HttpServletRequest) ctx.getRequest());
+			config = new MCRIndexBrowserConfig(incomingBrowserData.getSearchclass());
+			
 			// if init is true, then create an empty document, otherwise create
 			// the result list
 			if (!incomingBrowserData.isInit()) {
@@ -124,7 +123,7 @@ public class MCRIndexBrowserTag extends SimpleTagSupport {
 			} else {
 				pageContent = MCRIndexBrowserUtils.createEmptyDocument(incomingBrowserData);
 			}
-
+*/
 			String webApplicationBaseURL = MCRServlet.getBaseURL();
 
 			String subselect_varpath = ctx.getRequest().getParameter("XSL.subselect.varpath.SESSION");

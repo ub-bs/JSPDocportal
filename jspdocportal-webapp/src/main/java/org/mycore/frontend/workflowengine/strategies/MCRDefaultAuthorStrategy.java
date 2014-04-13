@@ -10,9 +10,6 @@ import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.mycore.common.MCRConfiguration;
-import org.mycore.common.xml.MCRXMLFunctions;
-
-import org.mycore.datamodel.common.MCRXMLMetadataManager;
 import org.mycore.datamodel.metadata.MCRMetaAddress;
 import org.mycore.datamodel.metadata.MCRMetaBoolean;
 import org.mycore.datamodel.metadata.MCRMetaLangText;
@@ -20,10 +17,7 @@ import org.mycore.datamodel.metadata.MCRMetaPersonName;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
-import org.mycore.services.fieldquery.MCRResults;
 import org.mycore.user2.MCRUser;
-import org.mycore.user2.MCRUserManager;
 import org.xml.sax.SAXParseException;
 
 public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {

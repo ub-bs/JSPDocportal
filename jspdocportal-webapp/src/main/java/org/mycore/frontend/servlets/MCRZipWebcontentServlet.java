@@ -40,8 +40,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
+import org.xml.sax.SAXException;
+
 
 /**
  * This servlet delivers the Webcontent of the application as a zipfile
@@ -98,7 +101,12 @@ public class MCRZipWebcontentServlet extends MCRServlet {
         } catch (Exception e) {
             String msg = "Das Zip-File konnte nicht ordnungsgemäss erstellt werden, " + "Bitte überprüfen Sie die eingegebenen Parameter";
             res.reset();
-            generateErrorPage(req, res, HttpServletResponse.SC_BAD_REQUEST, msg, new MCRException("zip-Error!",e), false);
+            try{
+            	generateErrorPage(req, res, HttpServletResponse.SC_BAD_REQUEST, msg, new MCRException("zip-Error!",e), false);
+            }
+            catch(Exception e2){
+            	Logger.getLogger(getClass()).error("Fehler", e2);
+            }
         }
     }
 

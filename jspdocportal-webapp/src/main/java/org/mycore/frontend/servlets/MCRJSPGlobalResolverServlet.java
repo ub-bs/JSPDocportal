@@ -50,9 +50,7 @@ import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.datamodel.metadata.MCRObjectStructure;
 import org.mycore.services.fieldquery.MCRQuery;
-import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.services.fieldquery.MCRQueryParser;
-import org.mycore.services.fieldquery.MCRResults;
 
 
 /**
@@ -114,14 +112,17 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
     	    }
     		String queryString = "("+key+" = "+value+")";
             MCRQuery query = new MCRQuery((new MCRQueryParser()).parse(queryString));
+            //TODO SOLR Migration
+            /*
             MCRResults result = MCRQueryManager.search(query);
             
             if(result.getNumHits()!=1){
     			getServletContext().getRequestDispatcher("/nav?path=~mycore-error&messageKey=Resolver.error.noObjectFound").forward(request,response);
     			return;
     		}
-
+            
     		mcrID = result.getHit(0).getID();
+    		*/
     	}
 
     	if(path.length==2){

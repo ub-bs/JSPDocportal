@@ -34,18 +34,11 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.jbpm.bytes.ByteArray;
 import org.jbpm.context.exe.ContextInstance;
-import org.jdom2.Document;
 import org.jdom2.Element;
-import org.jdom2.output.XMLOutputter;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
-import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
-import org.mycore.services.fieldquery.MCRQuery;
-import org.mycore.services.fieldquery.MCRResults;
-import org.mycore.services.fieldquery.MCRSearcher;
-import org.mycore.services.fieldquery.MCRSearcherFactory;
 
 /**
  * This class holds useful methods for the workflow.
@@ -60,16 +53,6 @@ public class MCRWorkflowUtils {
 
 	protected static MCRConfiguration config = MCRConfiguration.instance();
 
-	public final static MCRObjectID retrieveUsersAuthorId(String userid){
-		
-    	MCRResults mcrResult =  MCRWorkflowUtils.queryMCRForAuthorByUserid(userid);
-    	logger.debug("Results found hits:" + mcrResult.getNumHits());    
-    	if ( mcrResult.getNumHits() > 0 ) {
-    		String authorID = mcrResult.getHit(0).getID();
-    		return MCRObjectID.getInstance(authorID);
-    	}
-    	return null;
-	}
 	
 	/**
 	 * The method return a ArrayList of file names from objects of a special
@@ -131,70 +114,7 @@ public class MCRWorkflowUtils {
 		return workfiles;
 	}
 
-	/**
-	 * returns all authors (hopefully just one ;-) which are associated with the
-	 * given user id
-	 * 
-	 * @param userid
-	 * @return the query result as MCRResult
-	 */
-	public static MCRResults queryMCRForAuthorByUserid(String userid) {
-		Element query = new Element("query");
-		query.setAttribute("maxResults", "1");
-		Element conditions = new Element("conditions");
-		conditions.setAttribute("format", "xml");
-		query.addContent(conditions);
-		Element op = new Element("boolean");
-		op.setAttribute("operator", "AND");
-		conditions.addContent(op);
-
-		Element condition = new Element("condition");
-		condition.setAttribute("operator", "=");
-		condition.setAttribute("field", "userID");
-		condition.setAttribute("value", userid);
-		op.addContent(condition);
-
-		condition = new Element("condition");
-		condition.setAttribute("operator", "=");
-		condition.setAttribute("field", "objectType");
-		condition.setAttribute("value", "person");
-		op.addContent(condition);
-
-		Element hosts = new Element("hosts");
-		query.addContent(hosts);
-		Element host = new Element("host");
-		hosts.addContent(host);
-		host.setAttribute("field", "local");
-
-		XMLOutputter out = new XMLOutputter(org.jdom2.output.Format
-				.getPrettyFormat());
-		logger.debug("generated query: \n" + out.outputString(query));
-		Document jQuery = new Document(query);
-		
-//		BUGFIX by Robert:
-//		The original lines of code cannot be executed properly. The method fails to search data for ??? remote query ???
-//      Look  into method: search(MCRQuery query, boolean comesFromRemoteHost) in MCRQueryManager
-//		line:  MCRQueryClient.search(query, results) does not come back properly;
-//		The problem only occurs when the "local" result ist empty.
-//		
-//
-//Original:		
-//		MCRResults mcrResult = MCRQueryManager.search(MCRQuery.parseXML(jQuery));
-//		
-//
-//Workaround:		
-//	     simplification based on org.myocre.services.fieldquery.MCRQueryManager
-//		 only considering local results
-//	     - line 154: Method buildResults(...)
-			MCRQuery mcrQuery = MCRQuery.parseXML(jQuery);
-	        String index="metadata";
-	        MCRSearcher searcher = MCRSearcherFactory.getSearcherForIndex(index);
-            MCRResults mcrResult = searcher.search(mcrQuery.getCondition(), mcrQuery.getMaxResults(), mcrQuery.getSortBy(), false);
-//Workaround - end
-
-		return mcrResult;
-	}
-
+	
 	
 	public static Map getAccessRulesMap(String objid) {
 		Iterator<String> it = MCRAccessManager.getPermissionsForID(objid).iterator();        

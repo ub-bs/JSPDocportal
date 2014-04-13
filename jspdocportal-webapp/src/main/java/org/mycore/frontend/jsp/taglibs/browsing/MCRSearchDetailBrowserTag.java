@@ -1,23 +1,11 @@
 package org.mycore.frontend.jsp.taglibs.browsing;
 
 import java.io.IOException;
-import java.util.Locale;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.mycore.common.MCRConfiguration;
-import org.mycore.common.MCRSession;
-import org.mycore.common.MCRSessionMgr;
-import org.mycore.frontend.servlets.MCRServlet;
-import org.mycore.services.fieldquery.MCRCachedQueryData;
-import org.mycore.services.fieldquery.MCRHit;
-import org.mycore.services.fieldquery.MCRResults;
 
 
 public class MCRSearchDetailBrowserTag extends SimpleTagSupport
@@ -26,12 +14,15 @@ public class MCRSearchDetailBrowserTag extends SimpleTagSupport
 			"MCR.languageResourceBundleBase", "messages");
 	
 	public void doTag() throws JspException, IOException {
-	    PageContext pageContext = (PageContext) getJspContext();
+		//TODO SOLR Migration
+		/*
+		PageContext pageContext = (PageContext) getJspContext();
 	    MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest) pageContext.getRequest());
         String lang = mcrSession.getCurrentLanguage();
         ResourceBundle messages = PropertyResourceBundle.getBundle(languageBundleBase, new Locale(lang));
 		JspWriter out = getJspContext().getOut();
 		
+		/*
 		MCRResults results = null;
 		String id = pageContext.getRequest().getParameter("resultid");
 		int offset=-1; 
@@ -45,6 +36,7 @@ public class MCRSearchDetailBrowserTag extends SimpleTagSupport
 			results = null;
 			offset = -1;
 		}
+	
 		
         if ( results != null) {
            	out.write("\n<!-- Searchresult PageNavigation -->");
@@ -86,5 +78,6 @@ public class MCRSearchDetailBrowserTag extends SimpleTagSupport
         	
         	out.write("\n</div>");
         }
+        */
 	}	
 }

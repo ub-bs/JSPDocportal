@@ -29,9 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.mycore.services.fieldquery.MCRQuery;
-import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.services.fieldquery.MCRQueryParser;
-import org.mycore.services.fieldquery.MCRResults;
 
 /**
  * This servlet opens retrieves the object for the given GND and opens the docdetails view
@@ -80,7 +78,9 @@ public class MCRJSPPNDServlet extends MCRServlet {
         }
        
         MCRQuery query = new MCRQuery((new MCRQueryParser()).parse("(pnd = "+gnd+")"));
-		MCRResults result = MCRQueryManager.search(query);
+		//TODO SOLR Migration
+        /*
+        MCRResults result = MCRQueryManager.search(query);
 		if(result.getNumHits()>0){
 			String mcrID = result.getHit(0).getID();
 			this.getServletContext().getRequestDispatcher("/nav?path=~docdetail&id=" +mcrID).forward(request, response);
@@ -89,5 +89,6 @@ public class MCRJSPPNDServlet extends MCRServlet {
 			//response.sendError(HttpServletResponse.SC_NOT_FOUND, "No data found for gnd+ " +gnd++"!");
 			this.getServletContext().getRequestDispatcher("/nav?path=~error-gnd-404&gnd="+gnd).forward(request, response);
 		}
+		*/
 	}   
 }

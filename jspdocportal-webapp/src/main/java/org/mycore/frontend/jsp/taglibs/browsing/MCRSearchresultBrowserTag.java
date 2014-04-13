@@ -11,17 +11,11 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
-import org.hibernate.Transaction;
 import org.jdom2.Element;
-import org.mycore.backend.hibernate.MCRHIBConnection;
-import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRSession;
-import org.mycore.common.MCRSessionMgr;
 import org.mycore.frontend.servlets.MCRServlet;
-import org.mycore.services.fieldquery.MCRCachedQueryData;
 import org.mycore.services.fieldquery.MCRQuery;
-import org.mycore.services.fieldquery.MCRResults;
 import org.mycore.services.i18n.MCRTranslation;
 
 /**
@@ -72,6 +66,8 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 	}
 
 	public void doTag() {
+		//TODO SOLR Migration
+		/*
 		Transaction t1=null;
 		String baseurl = MCRServlet.getBaseURL();
 		try {
@@ -158,6 +154,7 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
     			t1.commit();
     		}
     	}
+    	*/
 	}
 	
 	private void writeResortForm(MCRQuery query, JspWriter out, String sortfields, String id, ResourceBundle messages, String searchmask) throws IOException{

@@ -23,23 +23,6 @@
 
 package org.mycore.frontend.servlets;
 
-import java.io.IOException;
-import java.util.List;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.log4j.Logger;
-import org.jdom2.Document;
-import org.jdom2.output.XMLOutputter;
-import org.mycore.common.MCRException;
-import org.mycore.common.MCRSession;
-import org.mycore.common.MCRSessionMgr;
-import org.mycore.services.fieldquery.MCRCachedQueryData;
-import org.mycore.services.fieldquery.MCRFieldDef;
-import org.mycore.services.fieldquery.MCRSearchServlet;
-import org.mycore.services.fieldquery.MCRSortBy;
 
 /**
  * This servlet executes queries and presents result pages.
@@ -48,8 +31,13 @@ import org.mycore.services.fieldquery.MCRSortBy;
  * @author Robert Stephan
  * 
  */
-public class MCRJSPSearchServlet extends MCRSearchServlet {
-    private static final long serialVersionUID = 1L;
+
+
+public class MCRJSPSearchServlet {
+//TODO SOLR Migration
+//extends MCRsolSearchServlet {
+	/*
+	private static final long serialVersionUID = 1L;
     protected static final Logger LOGGER = Logger.getLogger(MCRJSPSearchServlet.class);
     private String resultlistType = "simple";
     
@@ -156,13 +144,14 @@ public class MCRJSPSearchServlet extends MCRSearchServlet {
         }
         showResults(req, res);
     }
-    
+    /*
     /** 
      *  Forwards the document to the output
      *  @author A.Schaar
      *  @see its from mycore and overwritten here 
      */
 
+	/*
 	protected void sendToLayout(HttpServletRequest req, HttpServletResponse res, Document jdom) throws IOException {
     	if ( "results".equalsIgnoreCase(jdom.getRootElement().getName()) ) {
     		String path = "/nav?path=";
@@ -202,5 +191,6 @@ public class MCRJSPSearchServlet extends MCRSearchServlet {
             // Send query XML to editor
             getLayoutService().sendXML(req, res, jdom);
     	}
-    }
+    	
+    }*/
 }

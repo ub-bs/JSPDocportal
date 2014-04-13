@@ -22,8 +22,6 @@
  */
 package org.mycore.frontend.restapi.v1;
 
-import java.io.StringWriter;
-
 import javax.servlet.http.HttpServlet;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -35,14 +33,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.output.Format;
-import org.jdom2.output.XMLOutputter;
 import org.mycore.services.fieldquery.MCRQuery;
-import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.services.fieldquery.MCRQueryParser;
-import org.mycore.services.fieldquery.MCRResults;
 import org.mycore.services.fieldquery.MCRSortBy;
 
 /**
@@ -98,8 +90,9 @@ public class MCRRestAPISearch extends HttpServlet {
                 }
             }
             
-            MCRResults result = MCRQueryManager.search(mcrQuery);
-
+            //TODO SOLR Migration
+            //MCRResults result = MCRQueryManager.search(mcrQuery);
+            /*
             if (FORMAT_XML.equals(format)) {
                 Document doc = new Document();
                 Element root = new Element("response");
@@ -127,6 +120,7 @@ public class MCRRestAPISearch extends HttpServlet {
                 outputter.output(doc, sw);
                 return Response.ok(sw.toString()).type("application/xml; charset=UTF-8").build();
             }
+            */
 
         } catch (Exception e) {
             //toDo

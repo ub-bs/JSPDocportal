@@ -27,11 +27,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.mycore.parsers.bool.MCRCondition;
-import org.mycore.services.fieldquery.MCRFieldDef;
-import org.mycore.services.fieldquery.MCRQuery;
-import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.services.fieldquery.MCRQueryParser;
-import org.mycore.services.fieldquery.MCRResults;
 import org.mycore.services.fieldquery.MCRSortBy;
 
 /**
@@ -111,6 +107,7 @@ public abstract class SearcherBase {
 	
 	
 
+	//TODO SOLR Migration
 		public void doSearch() {
 			result = new MCRSearcherResultDataBean();
 			MCRQueryParser queryParser = new MCRQueryParser();
@@ -129,11 +126,12 @@ public abstract class SearcherBase {
 						if(data[1].equals("desc")){
 							order = MCRSortBy.DESCENDING;							
 						}
-						sortBys.add(new MCRSortBy(MCRFieldDef.getDef(data[0]), order));
+						//sortBys.add(new MCRSortBy(MCRFieldDef.getDef(data[0]), order));
 					}
 				}			
 			}
 			
+			/*
 			MCRQuery query = new MCRQuery(cond);
 			query.setSortBy(sortBys);
 			MCRResults queryResult = MCRQueryManager.search(query);
@@ -147,7 +145,8 @@ public abstract class SearcherBase {
 			result.setId(queryResult.getID());
 			for(int i=start;i<Math.min(start+rows,  queryResult.getNumHits());i++){
 				result.getMcrIDs().add(queryResult.getHit(i).getID());
-			}			
+			}
+			*/			
 		}
 /******************* SOLR Implementation - start *******************************
   	public String getSolrQuery() {

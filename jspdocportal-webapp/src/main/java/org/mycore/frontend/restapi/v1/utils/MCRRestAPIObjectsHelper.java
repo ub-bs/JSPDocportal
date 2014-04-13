@@ -41,11 +41,6 @@ import org.mycore.frontend.restapi.v1.errors.MCRRestAPIException;
 import org.mycore.frontend.restapi.v1.errors.MCRRestAPIFieldError;
 import org.mycore.frontend.restapi.v1.utils.MCRRestAPISortObject.SortOrder;
 import org.mycore.frontend.servlets.MCRServlet;
-import org.mycore.services.fieldquery.MCRQuery;
-import org.mycore.services.fieldquery.MCRQueryManager;
-import org.mycore.services.fieldquery.MCRQueryParser;
-import org.mycore.services.fieldquery.MCRResults;
-import org.mycore.services.fieldquery.MCRSortBy;
 
 import com.google.gson.stream.JsonWriter;
 
@@ -754,7 +749,9 @@ public class MCRRestAPIObjectsHelper {
             return MCRMetadataManager.retrieveMCRObject(mcrID);
         }
         else{
-            MCRQuery mcrQuery = new MCRQuery((new MCRQueryParser()).parse("("+key+" = "+idString+")"));
+        	//TODO SOLR Migration
+           /*
+        	MCRQuery mcrQuery = new MCRQuery((new MCRQueryParser()).parse("("+key+" = "+idString+")"));
             MCRResults result = MCRQueryManager.search(mcrQuery);
             
             if(result.getNumHits()==1){
@@ -771,6 +768,8 @@ public class MCRRestAPIObjectsHelper {
                             "The ID is not unique. There are "+result.getNumHits()+" objecst fore the given ID '" + key+":"+idString + "'.", null));
                 }
             }
+            */
+        	return null;
         }
     }
 

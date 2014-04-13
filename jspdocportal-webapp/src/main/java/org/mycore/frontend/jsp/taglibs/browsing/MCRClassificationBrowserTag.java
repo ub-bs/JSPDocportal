@@ -57,9 +57,7 @@ import org.mycore.datamodel.classifications2.MCRCategoryID;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.parsers.bool.MCRCondition;
 import org.mycore.services.fieldquery.MCRQuery;
-import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.services.fieldquery.MCRQueryParser;
-import org.mycore.services.fieldquery.MCRResults;
 import org.mycore.services.i18n.MCRTranslation;
 
 /**
@@ -138,8 +136,12 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 			public Object createEntry(Object key) throws Exception {
 				MCRCondition<Object> cond = (new MCRQueryParser()).parse(key.toString());
 				MCRQuery query = new MCRQuery(cond);
+				//TODO SOLR Migration
+				/*
 				MCRResults result = MCRQueryManager.search(query);
 				return result.getNumHits();
+				*/
+				return null;
 			}
 		});
 	}
