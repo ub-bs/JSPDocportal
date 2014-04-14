@@ -4,7 +4,7 @@
 	<groupId>org.mycore</groupId>
 	<artifactId>jspdocportal-mycore-war</artifactId>
 	<packaging>war</packaging>
-	<version>2013.06.0.3-SNAPSHOT</version>
+	<version>2014.04-SNAPSHOT</version>
 	<name>jspdocportal-mycore-war WebApp</name>
 	<description>
 		This module provides the necessary files from mycore project to create a webapp.

@@ -30,7 +30,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
-import org.apache.taglibs.standard.tag.common.xml.JSTLPrefixResolver;
+import org.apache.taglibs.standard.tag.common.xml.JSTLXPathNamespaceContext;
 
 /**
  * This class will add namespace declarations (prefix-uri pairs) to the XPathUtil class
@@ -63,7 +63,7 @@ public class MCRDocDetailsSetNamespaceTag extends SimpleTagSupport {
 		this.uri = uri;
 	}
 	
-	/* Sun Glassfish implementaton 
+	/* Sun Glassfish implementaton  */
 	@SuppressWarnings("unchecked")
 	public void doTag() throws JspException, IOException {
 		try
@@ -90,9 +90,10 @@ public class MCRDocDetailsSetNamespaceTag extends SimpleTagSupport {
 			Logger.getLogger(MCRDocDetailsSetNamespaceTag.class).error("Something went wrong adding the namespace", e);
 		}
 	}
-	*/
+
 	
 	/* Apache Tomcat Taglib implementation  */
+	/*
 	@SuppressWarnings("unchecked")
 	public void doTag() throws JspException, IOException {
 		try
@@ -120,6 +121,7 @@ public class MCRDocDetailsSetNamespaceTag extends SimpleTagSupport {
 			Logger.getLogger(MCRDocDetailsSetNamespaceTag.class).error("Something went wrong adding the namespace", e);
 		}
 	}
+	*/
 
 	
 	

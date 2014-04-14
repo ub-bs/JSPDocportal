@@ -171,7 +171,7 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 			request.getParameterMap().clear();
 		
 			for(Object key: parameters.keySet()){
-				request.getParameterMap().put(key, new String[]{parameters.getProperty((String)key)});
+				request.getParameterMap().put(key.toString(), new String[]{parameters.getProperty((String)key)});
 			}
 			
 			Document xml = new MCRFileContent(editorFile).asXML();
