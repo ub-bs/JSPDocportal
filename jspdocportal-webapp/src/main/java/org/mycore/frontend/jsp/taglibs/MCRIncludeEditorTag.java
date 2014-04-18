@@ -2,6 +2,7 @@ package org.mycore.frontend.jsp.taglibs;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
@@ -21,7 +22,7 @@ import org.apache.log4j.Logger;
 import org.jdom2.Document;
 import org.jdom2.JDOMException;
 import org.jdom2.transform.JDOMSource;
-import org.mycore.common.content.MCRFileContent;
+import org.mycore.common.content.MCRStreamContent;
 import org.mycore.common.xml.MCRURIResolver;
 import org.mycore.common.xsl.MCRParameterCollector;
 import org.mycore.frontend.editor.MCREditorServlet;
@@ -62,10 +63,10 @@ public class MCRIncludeEditorTag extends SimpleTagSupport {
 			File editorFile = new File(pageContext.getServletContext()
 					.getRealPath(editorPath));
 			
-			Document xml = new MCRFileContent(editorFile).asXML();
-
-			MCREditorServlet.replaceEditorElements(request, editorFile.toURI()
-					.toString(), xml);
+			//Document xml = new MCRFileContent(editorFile).asXML();
+			InputStream is = getClass().getResourceAsStream("/META-INF/resources/"+editorPath);
+			Document xml = new MCRStreamContent(is).asXML();
+			MCREditorServlet.replaceEditorElements(request, editorBase, xml);
 
 			Source xmlSource = new JDOMSource(xml);
 			Source xsltSource = new StreamSource(getClass()
