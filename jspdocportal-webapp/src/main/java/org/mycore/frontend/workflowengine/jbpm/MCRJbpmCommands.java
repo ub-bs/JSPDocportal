@@ -52,7 +52,7 @@ import org.mycore.frontend.cli.MCRAbstractCommands;
 import org.mycore.frontend.cli.MCRDerivateCommands;
 import org.mycore.frontend.cli.annotation.MCRCommand;
 import org.mycore.frontend.cli.annotation.MCRCommandGroup;
-import org.mycore.services.urn.MCRURNManager;
+import org.mycore.urn.services.MCRURNManager;
 import org.xml.sax.SAXParseException;
 
 /**

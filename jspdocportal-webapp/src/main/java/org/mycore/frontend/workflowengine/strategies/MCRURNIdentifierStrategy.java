@@ -1,6 +1,6 @@
 package org.mycore.frontend.workflowengine.strategies;
 
-import org.mycore.services.urn.MCRURNManager;
+import org.mycore.urn.services.MCRURNManager;
 
 
 public class MCRURNIdentifierStrategy implements MCRIdentifierStrategy{
