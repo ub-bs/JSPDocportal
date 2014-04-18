@@ -6,6 +6,18 @@
   <!-- @metadata-complete -> do not process annotations -->
     <display-name>JSP DOCPORTAL</display-name>
     <description>(A MyCoRe Sample)</description>
+    <name>jspdocportal</name>
+    <ordering>
+        <after>
+            <name>mycore</name>
+        </after>
+        <before>
+            <others/>
+        </before>
+    </ordering> 
+    
+   
+    
    	<listener>
 		<listener-class>
 			org.mycore.frontend.jsp.MCRJSPServletContextListener
@@ -78,10 +90,6 @@
 	-->
     
     <!-- servlets -->    
-    <servlet id="FileNode">
-         <servlet-name>MCRFileNodeServlet</servlet-name>
-         <servlet-class>org.mycore.frontend.servlets.MCRJSPFileNodeServlet</servlet-class>
-    </servlet>
 
     <servlet id="WFFileNode">
          <servlet-name>MCRWFFileNodeServlet</servlet-name>
@@ -184,10 +192,6 @@
             <servlet-name>MCROAIProvider</servlet-name>
             <servlet-class>org.mycore.oai.MCROAIDataProvider</servlet-class>
       </servlet>
-      <servlet id="StaticXMLFile">
-            <servlet-name>MCRStaticXMLFileServlet</servlet-name>
-            <servlet-class>org.mycore.frontend.servlets.MCRStaticXMLFileServlet</servlet-class>
-      </servlet>
       <servlet id="XMLEditor">
             <servlet-name>XMLEditor</servlet-name>
             <servlet-class> org.mycore.frontend.editor.MCREditorServlet </servlet-class>
@@ -231,11 +235,6 @@
     </servlet-mapping>
 
     <servlet-mapping>
-         <servlet-name>MCRJSPObjectServlet</servlet-name>
-         <url-pattern>/receive/*</url-pattern>
-    </servlet-mapping>
-
-	<servlet-mapping>
 		<servlet-name>MCRJSPObjectServlet</servlet-name>
 		<url-pattern>/metadata/*</url-pattern>
 	</servlet-mapping>
@@ -329,75 +328,22 @@
 
     <servlet-mapping>
          <servlet-name>MCRFileNodeServlet</servlet-name>
-         <url-pattern>/servlets/MCRFileNodeServlet/*</url-pattern>
-    </servlet-mapping>
-    
-    <servlet-mapping>
-         <servlet-name>MCRFileNodeServlet</servlet-name>
          <url-pattern>/file/*</url-pattern>
     </servlet-mapping>
 
-
-    <servlet-mapping>
-         <servlet-name>MCRStaticXMLFileServlet</servlet-name>
-         <url-pattern>*.xml</url-pattern>
-    </servlet-mapping>
-
-     <servlet-mapping>
-           <servlet-name>XMLEditor</servlet-name>
-           <url-pattern>/servlets/XMLEditor</url-pattern>
-     </servlet-mapping>
-
-
-     <servlet-mapping>
-           <servlet-name>MCRUploadServlet</servlet-name>
-           <url-pattern>/servlets/MCRUploadServlet</url-pattern>
-     </servlet-mapping>
-
-     <servlet-mapping>
-           <servlet-name>MCRZipServlet</servlet-name>
-           <url-pattern>/servlets/MCRZipServlet</url-pattern>
-     </servlet-mapping>
-
+ 
      <servlet-mapping>
            <servlet-name>MCRZipServlet</servlet-name>
            <url-pattern>/zip</url-pattern>
      </servlet-mapping>
      
-      
-     <servlet-mapping>
-        <servlet-name>MCRIndexServlet</servlet-name>
-        <url-pattern>/servlets/IndexServlet/*</url-pattern>
-     </servlet-mapping>
-      
-     <servlet-mapping>
-        <servlet-name>MCRIndexServlet</servlet-name>
-        <url-pattern>/index/*</url-pattern>
-     </servlet-mapping>
-
-     <servlet-mapping>
-           <servlet-name>MCRAccessCheckServlet</servlet-name>
-           <url-pattern>/servlets/MCRAccessCheckServlet</url-pattern>
-     </servlet-mapping>
 
      <servlet-mapping>
            <servlet-name>MCRZipWebcontentServlet</servlet-name>
            <url-pattern>/zipwebcontent</url-pattern>
      </servlet-mapping>
      
-     <servlet id="MCRGoogleSitemapServlet">
-            <servlet-name>MCRGoogleSitemapServlet</servlet-name>
-            <servlet-class>org.mycore.frontend.indexbrowser.MCRGoogleSitemapServlet</servlet-class>
-      </servlet>
-
-	 <servlet-mapping>
-            <servlet-name>MCRGoogleSitemapServlet</servlet-name>
-            <url-pattern>/servlets/MCRGoogleSitemapServlet</url-pattern>
-     </servlet-mapping>
- 	 <servlet-mapping>
-            <servlet-name>MCRGoogleSitemapServlet</servlet-name>
-            <url-pattern>/sitemap_google.xml</url-pattern>
-     </servlet-mapping>
+   
       
   <!-- **************************************************************** -->
   <!-- MyCoRe REST API v1                                                 -->
@@ -424,11 +370,12 @@
     <welcome-file-list>
     <welcome-file>nav</welcome-file>
     </welcome-file-list>
+    <!-- 
     <error-page>
         <exception-type>java.lang.Throwable</exception-type>
         <location>/error.jsp</location>
     </error-page>
-    
+    -->
     <!-- default resource bundle -->
  	<context-param>
   		<param-name>
@@ -438,12 +385,12 @@
 	</context-param>
 
   <jsp-config>
-  	<taglib>
+  	<!-- <taglib>
 		<taglib-uri>/WEB-INF/lib/mycore-taglibs.jar</taglib-uri>
 		<taglib-location>
 			/WEB-INF/lib/mycore-taglibs.jar
 		</taglib-location>
-    </taglib>
+    </taglib>  -->
     <jsp-property-group>
       <url-pattern>*.jsp</url-pattern>
     </jsp-property-group>
