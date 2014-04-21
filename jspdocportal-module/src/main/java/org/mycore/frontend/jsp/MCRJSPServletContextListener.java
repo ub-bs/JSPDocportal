@@ -26,10 +26,13 @@ package org.mycore.frontend.jsp;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Locale;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.jsp.jstl.core.Config;
+import javax.servlet.jsp.jstl.fmt.LocalizationContext;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
@@ -38,72 +41,103 @@ import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
+import org.mycore.services.i18n.MCRTranslation;
 
 /**
- * This class implements a ServletContextListener.
- * After the web app has started, some basic initialisation will be done.
- * - loading the navigation as DOM tree into memory
- * - load some constants into sessionContext / applicationScope
- * - create some permissions for admin interface, if they do not exist
+ * This class implements a ServletContextListener. After the web app has
+ * started, some basic initialisation will be done. - loading the navigation as
+ * DOM tree into memory - load some constants into sessionContext /
+ * applicationScope - create some permissions for admin interface, if they do
+ * not exist
  * 
  * 
  * @author Robert Stephan
  * @version $Revision: 1.8 $ $Date: 2008/05/28 13:43:31 $
- *
+ * 
  */
-public class MCRJSPServletContextListener implements ServletContextListener
-{
-    private static Logger LOGGER = Logger.getLogger(MCRJSPServletContextListener.class);
-   
-    @Override
+public class MCRJSPServletContextListener implements ServletContextListener {
+	private static Logger LOGGER = Logger
+			.getLogger(MCRJSPServletContextListener.class);
+
+	@Override
 	public void contextInitialized(ServletContextEvent sce) {
-    	LOGGER.debug("Application " + sce.getServletContext().getServletContextName()+" started");
+		LOGGER.debug("Application "
+				+ sce.getServletContext().getServletContextName() + " started");
 		MCRNavigationUtil.loadNavigation(sce.getServletContext());
 		loadConstants(sce.getServletContext());
 		createNonExistingAdminPermissions();
+		registerDefaultMessageBundle(sce.getServletContext());
 	}
 
 	@Override
 	public void contextDestroyed(ServletContextEvent sce) {
-		LOGGER.debug("Application " + sce.getServletContext().getServletContextName()+" stopped");
-		
-	}     
-		
-	 /**
-     * sets application scope attributes
-     * 	nav-attributes are set in the nav servlet
-     * used in dissertationData
-     * 
-     * TODO REFACTORING
-     */
-    public final void loadConstants(ServletContext context){
-    	context.setAttribute( "constants", new MCRWorkflowConstants() );
-    }
-	
+		LOGGER.debug("Application "
+				+ sce.getServletContext().getServletContextName() + " stopped");
+
+	}
+
+	/**
+	 * sets application scope attributes nav-attributes are set in the nav
+	 * servlet used in dissertationData
+	 * 
+	 * TODO REFACTORING
+	 */
+	public final void loadConstants(ServletContext context) {
+		context.setAttribute("constants", new MCRWorkflowConstants());
+	}
+
 	/**
 	 * sets default-rules for the use of the admin functions
 	 * 
 	 * @param objid
 	 * @param userid
-	 * @return boolean  false if there was an Exception
+	 * @return boolean false if there was an Exception
 	 */
-    
+
 	private boolean createNonExistingAdminPermissions() {
-		try{
-			Transaction tx = MCRHIBConnection.instance().getSession().beginTransaction();
-			Collection<String> savedPermissions = MCRAccessManager.getAccessImpl().getPermissions();
-			String permissions = MCRConfiguration.instance().getString("MCR.AccessAdminInterfacePermissions","admininterface-access,admininterface-user,admininterface-accessrules");
-			for (Iterator<?> it = Arrays.asList(permissions.split(",")).iterator(); it.hasNext();) {
+		try {
+			Transaction tx = MCRHIBConnection.instance().getSession()
+					.beginTransaction();
+			Collection<String> savedPermissions = MCRAccessManager
+					.getAccessImpl().getPermissions();
+			String permissions = MCRConfiguration
+					.instance()
+					.getString("MCR.AccessAdminInterfacePermissions",
+							"admininterface-access,admininterface-user,admininterface-accessrules");
+			for (Iterator<?> it = Arrays.asList(permissions.split(","))
+					.iterator(); it.hasNext();) {
 				String permission = ((String) it.next()).trim().toLowerCase();
-				if(!permission.equals("") && !savedPermissions.contains(permission)) {
-					MCRAccessManager.getAccessImpl().addRule(permission, MCRAccessManager.getFalseRule(), "");
+				if (!permission.equals("")
+						&& !savedPermissions.contains(permission)) {
+					MCRAccessManager.getAccessImpl().addRule(permission,
+							MCRAccessManager.getFalseRule(), "");
 				}
 			}
 			tx.commit();
-		}catch(MCRException e) {
+		} catch (MCRException e) {
 			LOGGER.error("could not create admin interface permissions", e);
 			return false;
 		}
 		return true;
+	}
+
+	private void registerDefaultMessageBundle(ServletContext sc) {
+		LocalizationContext locCtxt = (LocalizationContext) Config.get(sc,
+				Config.FMT_LOCALIZATION_CONTEXT);
+		if (locCtxt == null) {
+			Locale loc = (Locale) Config.get(sc, Config.FMT_LOCALE);
+			if (loc == null) {
+				loc = Locale.getDefault();
+				Config.set(sc, Config.FMT_LOCALE, loc);
+			}
+			locCtxt = new LocalizationContext(MCRTranslation.getResourceBundle(
+					"messages", loc));
+		} else {
+			locCtxt = new LocalizationContext(MCRTranslation.getResourceBundle(
+					"messages", locCtxt.getLocale()));
+		}
+
+		Config.set(sc, Config.FMT_LOCALIZATION_CONTEXT, locCtxt);
+
 	}
 }

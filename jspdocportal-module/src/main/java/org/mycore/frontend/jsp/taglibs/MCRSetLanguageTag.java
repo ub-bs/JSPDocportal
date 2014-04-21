@@ -25,10 +25,12 @@ package org.mycore.frontend.jsp.taglibs;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
+import javax.servlet.jsp.jstl.core.Config;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.mycore.common.MCRSession;
@@ -79,6 +81,7 @@ public class MCRSetLanguageTag extends SimpleTagSupport
 			}
 			if(languages.contains(requestParamLang)){
 				mcrSession.setCurrentLanguage(requestParamLang);
+				Config.set(pageContext, Config.FMT_LOCALE, new Locale(requestParamLang), PageContext.SESSION_SCOPE);
 			}		
 		}
 		pageContext.setAttribute(var, mcrSession.getCurrentLanguage());
