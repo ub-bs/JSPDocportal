@@ -29,9 +29,7 @@ import org.mycore.services.i18n.MCRTranslation;
 public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 	private static final int DEFAULT_NUMPERPAGE=25;
 	private static final Logger LOGGER = Logger.getLogger(MCRSearchresultBrowserTag.class);
-	protected static String languageBundleBase = MCRConfiguration.instance().getString(
-			"MCR.languageResourceBundleBase", "messages");
-	
+		
 	private String varMCRID;
 	private String varURL;
 	private String sortfields="";
@@ -231,7 +229,7 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 		PageContext pageContext = (PageContext) getJspContext();
 		MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest) pageContext.getRequest());
 	    String lang = mcrSession.getCurrentLanguage();
-	    ResourceBundle messages = PropertyResourceBundle.getBundle(languageBundleBase, new Locale(lang));
+	    ResourceBundle messages = MCRTranslation.getResourceBundle("messages",   new Locale(lang));
 		
 		out.write("<!-- Searchresult PageNavigation -->");
 		out.write("\n<div class=\"searchresult-navigation\">");

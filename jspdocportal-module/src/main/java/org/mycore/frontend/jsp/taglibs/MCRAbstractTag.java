@@ -32,6 +32,7 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 import org.codehaus.plexus.util.StringUtils;
 import org.mycore.common.MCRSession;
 import org.mycore.frontend.servlets.MCRServlet;
+import org.mycore.services.i18n.MCRTranslation;
 
 
 /**
@@ -67,7 +68,7 @@ public class MCRAbstractTag extends SimpleTagSupport {
 		if(StringUtils.isEmpty(lang)){
 			lang = "de";
 		}
-		rbMessages = ResourceBundle.getBundle("messages", new Locale(lang));
+		rbMessages = MCRTranslation.getResourceBundle("messages", new Locale(lang));
 		baseURL = (String) getJspContext().getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE);
 	}
 	

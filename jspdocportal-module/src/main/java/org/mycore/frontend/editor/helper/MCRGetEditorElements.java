@@ -29,7 +29,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
-import java.util.PropertyResourceBundle;
 
 import javax.xml.transform.TransformerException;
 
@@ -42,9 +41,9 @@ import org.mycore.common.xml.MCRURIResolver.MCRResolver;
 import org.mycore.datamodel.classifications2.MCRCategoryDAOFactory;
 import org.mycore.datamodel.classifications2.MCRCategoryID;
 import org.mycore.datamodel.classifications2.utils.MCRCategoryTransformer;
+import org.mycore.services.i18n.MCRTranslation;
 import org.mycore.user2.MCRRole;
 import org.mycore.user2.MCRRoleManager;
-import org.mycore.user2.MCRUserManager;
 
 /**
  * this class delivers xml objects that can be included
@@ -263,7 +262,7 @@ public class MCRGetEditorElements implements MCRResolver {
         	if(lang == null || lang.equals("")) {
         		lang = "de";
         	}
-        	propValue = PropertyResourceBundle.getBundle(bundle, new Locale(lang)).getString(prop);
+        	propValue = MCRTranslation.translate(prop, new Locale(lang));
         }else{
         	if(defaultValue == null) defaultValue = "";
         	propValue = CONFIG.getString(prop, defaultValue);

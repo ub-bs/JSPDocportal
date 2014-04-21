@@ -2,7 +2,6 @@ package org.mycore.frontend.jsp.taglibs;
 
 import java.io.IOException;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
@@ -18,6 +17,7 @@ import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRSession;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowAccessRuleEditorUtils;
+import org.mycore.services.i18n.MCRTranslation;
 import org.mycore.user2.MCRRole;
 import org.mycore.user2.MCRRoleManager;
 
@@ -69,8 +69,7 @@ public class MCRGetAccessRulesTag extends SimpleTagSupport
 			for (int  i=0; i< defRules.length; i++) {
 				Element option = new Element("rule");
 				option.setAttribute("name",
-						PropertyResourceBundle.getBundle("messages",
-						new Locale(lang)).getString("MCR.AccessRuleEditor.defaultrules." + defRules[i]));
+						MCRTranslation.translate("MCR.AccessRuleEditor.defaultrules." + defRules[i], new Locale(lang)));
 				option.setAttribute("value", defRules[i]);
 				if ( choosenRule != null &&  choosenRule.equals(defRules[i]) ) {
 					option.setAttribute("aktiv", "selected");

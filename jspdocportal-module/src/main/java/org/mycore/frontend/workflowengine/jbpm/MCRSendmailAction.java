@@ -8,6 +8,7 @@ import org.jbpm.graph.def.ActionHandler;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
+import org.mycore.services.i18n.MCRTranslation;
 
 public class MCRSendmailAction implements ActionHandler{
 	
@@ -37,7 +38,7 @@ public class MCRSendmailAction implements ActionHandler{
 			myreplyTo = MCRConfiguration.instance().getString(replyTo,replyTo);
 		if ( bcc != null)
 			mybcc = MCRConfiguration.instance().getString(bcc,bcc);
-		ResourceBundle rb = ResourceBundle.getBundle("messages", new Locale("de"));
+		ResourceBundle rb = MCRTranslation.getResourceBundle("messages", new Locale("de"));
 		
 		String mysubject = null;
 		try{

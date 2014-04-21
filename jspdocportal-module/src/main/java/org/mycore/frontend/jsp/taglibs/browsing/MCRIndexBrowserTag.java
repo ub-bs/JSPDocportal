@@ -3,7 +3,6 @@ package org.mycore.frontend.jsp.taglibs.browsing;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,9 +17,9 @@ import org.jdom2.Element;
 import org.jdom2.filter.Filters;
 import org.jdom2.output.DOMOutputter;
 import org.jdom2.xpath.XPathFactory;
-import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRSession;
 import org.mycore.frontend.servlets.MCRServlet;
+import org.mycore.services.i18n.MCRTranslation;
 
 import com.ibm.icu.text.MessageFormat;
 
@@ -34,8 +33,7 @@ import com.ibm.icu.text.MessageFormat;
  */
 public class MCRIndexBrowserTag extends SimpleTagSupport {
 	private static final Logger LOGGER = Logger.getLogger(MCRIndexBrowserTag.class);
-	protected static String languageBundleBase = MCRConfiguration.instance().getString("MCR.languageResourceBundleBase", "messages");
-
+	
 	private String indexname;
 	private String varURLName;
 	private String varXMLName;
@@ -108,7 +106,7 @@ public class MCRIndexBrowserTag extends SimpleTagSupport {
 		try {
 		    MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)((PageContext) getJspContext()).getRequest());
 	        String lang = mcrSession.getCurrentLanguage();
-			ResourceBundle messages = PropertyResourceBundle.getBundle(languageBundleBase, new Locale(lang));
+			ResourceBundle messages = MCRTranslation.getResourceBundle("messages", new Locale(lang));
 			
 			PageContext ctx = (PageContext) getJspContext();
 			Document pageContent = null;

@@ -2,7 +2,6 @@ package org.mycore.frontend.jsp.taglibs;
 
 import java.io.IOException;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +21,7 @@ import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSystemUserInformation;
 import org.mycore.frontend.jsp.user.MCRExternalUserLogin;
 import org.mycore.frontend.servlets.MCRServlet;
+import org.mycore.services.i18n.MCRTranslation;
 import org.mycore.user2.MCRRole;
 import org.mycore.user2.MCRRoleManager;
 import org.mycore.user2.MCRUser;
@@ -248,7 +248,7 @@ public class MCRLoginTag extends SimpleTagSupport
 	private void setNameIntoLoginResult(String uid, Element loginresult, MCRSession mcrSession){
     	loginresult.setAttribute("username", uid);    			
     	StringBuffer name=new StringBuffer();
-    	ResourceBundle messages = PropertyResourceBundle.getBundle("messages", new Locale(mcrSession.getCurrentLanguage()));
+    	ResourceBundle messages = MCRTranslation.getResourceBundle("messages", new Locale(mcrSession.getCurrentLanguage()));
     	MCRUser mcrUser = MCRUserManager.getUser(uid);
     	if("female".equals(mcrUser.getAttributes().get("sex"))){
     		//Frau

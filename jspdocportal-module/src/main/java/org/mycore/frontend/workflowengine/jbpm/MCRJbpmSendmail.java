@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.MissingResourceException;
-import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
@@ -19,6 +18,7 @@ import org.jbpm.graph.exe.ExecutionContext;
 import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRMailer;
+import org.mycore.services.i18n.MCRTranslation;
 import org.mycore.user2.MCRRole;
 import org.mycore.user2.MCRRoleManager;
 import org.mycore.user2.MCRUser;
@@ -50,7 +50,7 @@ public class MCRJbpmSendmail{
 		}
 		
 		if(subject == null || subject.equals("")){
-			subject = PropertyResourceBundle.getBundle("messages", new Locale("de")).getString("WorkflowEngine.Mails.DefaultSubject");
+			subject = MCRTranslation.translate("WorkflowEngine.Mails.DefaultSubject", new Locale("de"));
 		}
 		subject = replaceMessageKeys(subject);
 		subject += " (Bearbeitungsnummer: " + executionContext.getProcessInstance().getId() + ")";
@@ -189,7 +189,7 @@ public class MCRJbpmSendmail{
 	 * @author Robert Stephan
 	 */
 	public static String replaceMessageKeys(String text){
-		ResourceBundle rb = ResourceBundle.getBundle("messages", new Locale("de"));
+		ResourceBundle rb = MCRTranslation.getResourceBundle("messages", new Locale("de"));
 		Pattern p = Pattern.compile("\\$\\{[^\\}]*\\}");
 		Matcher m = p.matcher(text);
 		StringBuffer sb = new StringBuffer();

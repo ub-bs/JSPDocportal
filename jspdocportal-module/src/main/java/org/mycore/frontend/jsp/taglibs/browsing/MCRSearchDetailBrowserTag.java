@@ -19,7 +19,7 @@ public class MCRSearchDetailBrowserTag extends SimpleTagSupport
 		PageContext pageContext = (PageContext) getJspContext();
 	    MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest) pageContext.getRequest());
         String lang = mcrSession.getCurrentLanguage();
-        ResourceBundle messages = PropertyResourceBundle.getBundle(languageBundleBase, new Locale(lang));
+        ResourceBundle messages = MCRTranslation.getResourceBundle(languageBundleBase, new Locale(lang));
 		JspWriter out = getJspContext().getOut();
 		
 		/*

@@ -50,6 +50,7 @@ import org.mycore.common.MCRConfiguration;
 import org.mycore.datamodel.common.MCRXMLMetadataManager;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
+import org.mycore.services.i18n.MCRTranslation;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -161,7 +162,7 @@ public class MCRDocDetailsTag extends SimpleTagSupport {
 		}
 		byte[] data = new byte[0];
 		try {
-			messages = PropertyResourceBundle.getBundle("messages", new Locale(lang), MCRConfiguration.class.getClassLoader());
+			messages = MCRTranslation.getResourceBundle("messages", new Locale(lang));
 
 			if (fromWorkflow) {
 				String[] mcridParts = mcrID.split("_");
