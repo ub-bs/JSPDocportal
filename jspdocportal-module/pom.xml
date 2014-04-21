@@ -9,7 +9,7 @@
 		<relativePath>../mycore/pom.xml</relativePath>
 	</parent>
 
-	<artifactId>jspdocportal-webapp</artifactId>
+	<artifactId>jspdocportal-module</artifactId>
 	<packaging>jar</packaging>
 	<name>JSPDocportal WebApp</name>
 	<url>http://maven.apache.org</url>
@@ -240,7 +240,7 @@
 				<directory>src/main/resources</directory>
 			</resource>
 			<resource>
-				<directory>src/main/config</directory>
+				<directory>src/main/resources/config</directory>
 				<includes>
 					<include>*.*</include>
 				</includes>
@@ -252,7 +252,7 @@
 				
 			</resource>
 			<resource>
-				<directory>src/main/config/lang</directory>
+				<directory>src/main/resources/config/lang</directory>
 				<includes>
 					<include>*.*</include>
 				</includes>
@@ -261,23 +261,23 @@
 				</excludes>
 			</resource>
 			<resource>
-				<directory>src/main/config/lang/webcontent</directory>
+				<directory>src/main/resources/config/lang/webcontent</directory>
 				<targetPath>META-INF/resources/content/webcontent</targetPath>
 			</resource>
 			<resource>
-				<directory>src/main/config/hibernate</directory>
+				<directory>src/main/resources/config/hibernate</directory>
 				<excludes>
 					<exclude>*.template</exclude>
 				</excludes>
 			</resource>
 			<resource>
-				<directory>src/main/config/workflow</directory>
+				<directory>src/main/resources/config/workflow</directory>
 				<includes>
 					<include>**/*.xml</include>
 				</includes>
 			</resource>
 			<resource>
-				<directory>src/main/config/tld</directory>
+				<directory>src/main/resources/config/tld</directory>
 				<targetPath>META-INF/resources/WEB-INF/tld</targetPath>
 				<includes>
 					<include>*.tld</include>
@@ -310,6 +310,7 @@
 						</manifest>
 						<manifestEntries>
 							<MCR-Application-Module>${project.name}</MCR-Application-Module>
+							<Priority>11</Priority>
 						</manifestEntries>
 					</archive>
 				</configuration>
@@ -363,7 +364,7 @@
 				<configuration>
 					<transformationSets>
 						<transformationSet>
-							<dir>src/main/config/datamodel</dir>
+							<dir>src/main/resources/config/datamodel</dir>
 							<outputDir>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</outputDir>
 							<stylesheet>src/main/resources/xsl/MCRMetadataSchema.xsl</stylesheet>
 							<fileMappers>
