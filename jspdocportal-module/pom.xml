@@ -339,18 +339,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archiveClasses>true</archiveClasses>
-					<attachClasses>true</attachClasses>
-					<webResources>
-
-
-					</webResources>
-				</configuration>
-			</plugin>
+			
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>xml-maven-plugin</artifactId>
