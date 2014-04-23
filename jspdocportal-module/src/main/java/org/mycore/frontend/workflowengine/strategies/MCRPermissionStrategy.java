@@ -1,7 +1,7 @@
 package org.mycore.frontend.workflowengine.strategies;
 
 import org.jbpm.context.exe.ContextInstance;
-import org.mycore.common.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration;
 
 public interface MCRPermissionStrategy {
 

@@ -11,7 +11,6 @@ import java.util.regex.Matcher;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
-import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRUtils;
 import org.mycore.datamodel.metadata.MCRDerivate;

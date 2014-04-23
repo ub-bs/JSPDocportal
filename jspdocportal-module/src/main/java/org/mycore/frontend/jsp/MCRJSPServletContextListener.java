@@ -38,7 +38,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.backend.hibernate.MCRHIBConnection;
-import org.mycore.common.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.services.i18n.MCRTranslation;

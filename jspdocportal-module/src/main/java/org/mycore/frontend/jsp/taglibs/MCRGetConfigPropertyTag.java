@@ -4,7 +4,7 @@ import java.io.IOException;
 import javax.servlet.jsp.tagext.*;
 import javax.servlet.jsp.*;
 
-import org.mycore.common.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration;
 
 public class MCRGetConfigPropertyTag extends SimpleTagSupport
 {

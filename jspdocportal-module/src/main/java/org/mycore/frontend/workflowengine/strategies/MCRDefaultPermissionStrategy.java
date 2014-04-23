@@ -14,7 +14,7 @@ import org.mycore.access.mcrimpl.MCRAccessRule;
 import org.mycore.access.mcrimpl.MCRAccessStore;
 import org.mycore.access.mcrimpl.MCRRuleMapping;
 import org.mycore.access.mcrimpl.MCRRuleStore;
-import org.mycore.common.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration;
 import org.mycore.common.content.MCRStringContent;
 import org.mycore.common.xml.MCRXMLParserFactory;
 import org.mycore.datamodel.metadata.MCRObjectID;

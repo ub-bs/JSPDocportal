@@ -1,11 +1,10 @@
 package org.mycore.frontend.workflowengine.jbpm;
 
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Properties;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.mycore.common.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration;
 import org.mycore.datamodel.metadata.MCRObjectID;
 
 
@@ -16,9 +15,8 @@ public class MCRWorkflowManagerFactory {
 	static{
 		workflowManagerImpls = new HashMap<String, Object>();
 		MCRConfiguration config = MCRConfiguration.instance();
-		Properties props = config.getProperties("MCR.WorkflowEngine.ManagerImpl.");
-		for (Enumeration<Object> e = props.keys(); e.hasMoreElements();) {
-			String prop = (String) e.nextElement();
+		Map<String, String> props = config.getPropertiesMap("MCR.WorkflowEngine.ManagerImpl.");
+		for (String prop: props.keySet()) {
 			String workflowProcessType = prop.substring("MCR.WorkflowEngine.ManagerImpl.".length());
 			workflowManagerImpls.put(workflowProcessType, config.getInstanceOf(prop));
 		}

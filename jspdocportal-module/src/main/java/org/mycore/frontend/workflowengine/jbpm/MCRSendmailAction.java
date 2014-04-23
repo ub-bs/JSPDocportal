@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 
 import org.jbpm.graph.def.ActionHandler;
 import org.jbpm.graph.exe.ExecutionContext;
-import org.mycore.common.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.services.i18n.MCRTranslation;
 

@@ -8,7 +8,7 @@ import java.io.OutputStream;
 import java.util.Properties;
 import java.util.Vector;
 
-import org.mycore.common.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;

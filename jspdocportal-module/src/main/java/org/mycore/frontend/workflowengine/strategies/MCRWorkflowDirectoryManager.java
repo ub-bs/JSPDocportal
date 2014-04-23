@@ -1,10 +1,9 @@
 package org.mycore.frontend.workflowengine.strategies;
 
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Properties;
+import java.util.Map;
 
-import org.mycore.common.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration;
 
 final public class MCRWorkflowDirectoryManager {
 	
@@ -12,11 +11,10 @@ final public class MCRWorkflowDirectoryManager {
 	
 	static{
 		editWorkflowDirectories = new HashMap<String, Object>();
-		Properties props = MCRConfiguration.instance().getProperties("MCR.WorkflowEngine.EditDirectory.");
-		for(Enumeration e = props.keys(); e.hasMoreElements();){
-			String propKey = (String)e.nextElement();
+		Map<String, String> props = MCRConfiguration.instance().getPropertiesMap("MCR.WorkflowEngine.EditDirectory.");
+		for(String propKey: props.keySet()){
 			String hashKey = propKey.substring("MCR.WorkflowEngine.EditDirectory.".length());
-			editWorkflowDirectories.put(hashKey,props.getProperty(propKey));
+			editWorkflowDirectories.put(hashKey,props.get(propKey));
 		}	
 
 	}

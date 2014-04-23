@@ -14,7 +14,7 @@ import org.jbpm.graph.def.Node;
 import org.jdom2.Element;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.JSPUtils;
-import org.mycore.common.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRUtils;
 import org.mycore.datamodel.metadata.MCRMetadataManager;

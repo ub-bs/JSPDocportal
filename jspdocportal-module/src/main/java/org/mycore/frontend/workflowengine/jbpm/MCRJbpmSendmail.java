@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.jbpm.graph.exe.ExecutionContext;
-import org.mycore.common.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRMailer;
 import org.mycore.services.i18n.MCRTranslation;

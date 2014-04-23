@@ -41,9 +41,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.mycore.common.MCRConfiguration;
 import org.mycore.common.MCRException;
-import org.xml.sax.SAXException;
+import org.mycore.common.config.MCRConfiguration;
 
 
 /**

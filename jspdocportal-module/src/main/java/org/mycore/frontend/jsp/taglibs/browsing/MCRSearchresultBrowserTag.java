@@ -12,7 +12,7 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
 import org.jdom2.Element;
-import org.mycore.common.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration;
 import org.mycore.common.MCRSession;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.services.fieldquery.MCRQuery;

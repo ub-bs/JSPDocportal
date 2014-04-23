@@ -11,7 +11,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.jdom2.Element;
-import org.mycore.common.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration;
 import org.mycore.common.xml.MCRXMLHelper;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.frontend.jsp.user.MCRExternalUserLogin;

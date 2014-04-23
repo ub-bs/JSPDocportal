@@ -4,7 +4,7 @@ import java.util.Iterator;
 import org.jbpm.context.exe.ContextInstance;
 import org.jdom2.Element;
 import org.jdom2.filter.ElementFilter;
-import org.mycore.common.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.datamodel.classifications2.MCRCategoryDAOFactory;
 import org.mycore.datamodel.classifications2.MCRCategoryID;
