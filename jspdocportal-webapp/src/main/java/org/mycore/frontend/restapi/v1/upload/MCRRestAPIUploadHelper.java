@@ -22,6 +22,7 @@
  */
 package org.mycore.frontend.restapi.v1.upload;
 
+import static org.mycore.access.MCRAccessManager.PERMISSION_DELETE;
 import static org.mycore.access.MCRAccessManager.PERMISSION_WRITE;
 
 import java.io.BufferedWriter;
@@ -399,7 +400,7 @@ public class MCRRestAPIUploadHelper {
                 MCRObjectID derID = MCRObjectID.getInstance(pathParamMcrDerID);
 
                 //MCRAccessManager.checkPermission(uses CACHE, which seems to be dirty from other calls and cannot be deleted)????
-                if (MCRAccessManager.getAccessImpl().checkPermission(derID.toString(), PERMISSION_WRITE)) {
+                if (MCRAccessManager.getAccessImpl().checkPermission(derID.toString(), PERMISSION_DELETE)) {
                     MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(derID);
                     try{
                         MCRDirectory dir = der.receiveDirectoryFromIFS();
@@ -419,6 +420,69 @@ public class MCRRestAPIUploadHelper {
                                 info.getBaseUriBuilder()
                                         .path("v1/objects/" + objID.toString() + "/derivates/" + derID.toString()
                                                 + "/files").build()).type("application/xml; charset=UTF-8").build();
+            }
+        }
+        return response;
+
+    }
+    
+    /**
+    @DELETE
+    @Path("/objects/id/{mcrObjID}/derivates/id/{mcrDerID}")
+    @Produces({ MediaType.TEXT_XML + ";charset=UTF-8" })
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    */
+    public static Response deleteDerivate(UriInfo info, HttpServletRequest request, String pathParamMcrObjID,
+            String pathParamMcrDerID) {
+
+        Response response = Response.status(Status.FORBIDDEN).build();
+        if (checkAccess(request)) {
+
+            SortedMap<String, String> parameter = new TreeMap<>();
+            parameter.put("mcrObjectID", pathParamMcrObjID);
+            parameter.put("mcrDerivateID", pathParamMcrDerID);
+
+            String clientID = request.getHeader("X-MyCoRe-RestAPI-ClientID");
+            String keyFileLocation = MCRConfiguration.instance().getString(
+                    "MCR.RestAPI.v1.Client." + clientID + ".PublicKeyFile");
+            if (keyFileLocation == null) {
+                //ToDo error
+            }
+            String base64Signature = request.getHeader("X-MyCoRe-RestAPI-Signature");
+            if (base64Signature == null) {
+                //ToDo error handling
+            }
+            if (!MCREncryptionHelper.verifyPropertiesWithSignature(parameter, base64Signature,
+                    new File(keyFileLocation))) {
+                //validation failed -> error handling
+
+            } else {
+
+                //MCRSession session = MCRServlet.getSession(request);
+                MCRSession session = MCRSessionMgr.getCurrentSession();
+                MCRUserInformation currentUser = session.getUserInformation();
+
+                session.beginTransaction();
+                session.setUserInformation(MCRUserManager.getUser("api"));
+                MCRObjectID objID = MCRObjectID.getInstance(pathParamMcrObjID);
+                MCRObjectID derID = MCRObjectID.getInstance(pathParamMcrDerID);
+
+                //MCRAccessManager.checkPermission(uses CACHE, which seems to be dirty from other calls and cannot be deleted)????
+                if (MCRAccessManager.getAccessImpl().checkPermission(derID.toString(), PERMISSION_DELETE)) {
+                    try{
+                        MCRMetadataManager.deleteMCRDerivate(derID);
+                    }
+                    catch(MCRPersistenceException pe){
+                        //dir does not exist - do nothing
+                    }
+                }
+
+                session.commitTransaction();
+                session.setUserInformation(currentUser);
+                response = Response
+                        .created(
+                                info.getBaseUriBuilder()
+                                        .path("v1/objects/" + objID.toString() + "/derivates").build()).type("application/xml; charset=UTF-8").build();
             }
         }
         return response;

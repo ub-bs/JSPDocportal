@@ -126,5 +126,13 @@ public class MCRRestAPIUploadObjects {
        return MCRRestAPIUploadHelper.deleteAllFiles(info, request, mcrObjID, mcrDerID);
        
    }
+   
+   @DELETE
+   @Path("/{mcrObjID}/derivates/{mcrDerID}")
+   public Response deleteDerivate(@Context UriInfo info, @Context HttpServletRequest request,
+           @PathParam("mcrObjID") String mcrObjID, @PathParam("mcrDerID") String mcrDerID){
+       return MCRRestAPIUploadHelper.deleteDerivate(info, request, mcrObjID, mcrDerID);
+       
+   }
 	
 }
