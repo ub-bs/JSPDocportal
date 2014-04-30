@@ -180,6 +180,8 @@ public class MCRRestAPIUploadHelper {
             session.beginTransaction();
             File fXML = null;
 
+            MCRUserInformation currentUser = session.getUserInformation();
+            session.setUserInformation(MCRUserManager.getUser("api"));
             try {
                 MCRObjectID mcrObjID = MCRObjectID.getInstance(pathParamMcrObjID);
                 MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(mcrObjID);
@@ -232,6 +234,7 @@ public class MCRRestAPIUploadHelper {
             if (fXML != null) {
                 fXML.delete();
             }
+            session.setUserInformation(currentUser);
 
         }
         return response;
