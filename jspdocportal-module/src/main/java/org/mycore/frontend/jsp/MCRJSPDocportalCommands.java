@@ -21,7 +21,7 @@
  * 59 Temple Place - Suite 330, Boston, MA  02111-1307 USA
  */
 
-package org.mycore.frontend.workflowengine.jbpm;
+package org.mycore.frontend.jsp;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -53,6 +53,7 @@ import org.mycore.frontend.cli.MCRAbstractCommands;
 import org.mycore.frontend.cli.MCRDerivateCommands;
 import org.mycore.frontend.cli.annotation.MCRCommand;
 import org.mycore.frontend.cli.annotation.MCRCommandGroup;
+import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase;
 import org.mycore.urn.services.MCRURNManager;
 import org.xml.sax.SAXParseException;
 
@@ -67,9 +68,9 @@ import org.xml.sax.SAXParseException;
  */
 
 @MCRCommandGroup(name = "JSPDocportal Commands")
-public class MCRJbpmCommands extends MCRAbstractCommands {
+public class MCRJSPDocportalCommands extends MCRAbstractCommands {
     /** The logger */
-    private static Logger LOGGER = Logger.getLogger(MCRJbpmCommands.class.getName());
+    private static Logger LOGGER = Logger.getLogger(MCRJSPDocportalCommands.class.getName());
     
     /**
      * The command deletes a process instance of the workflow engine

@@ -39,6 +39,7 @@ import org.mycore.access.MCRAccessManager;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.editor.MCRRequestParameters;
+import org.mycore.frontend.jsp.MCRJSPDocportalCommands;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
@@ -151,7 +152,7 @@ public class MCRWorkflowActions extends MCRServlet {
         		}
     			// gesamten Prozess löschen!!
     			wfp.close();
-    			MCRJbpmCommands.deleteProcess(String.valueOf(pid));
+    			MCRJSPDocportalCommands.deleteProcess(String.valueOf(pid));
     		}
 
     		returnPath="/nav?path=" + nextPath;
@@ -167,7 +168,7 @@ public class MCRWorkflowActions extends MCRServlet {
     		if (bSuccess) {
     			// gesamten Prozess löschen!!
     			wfp.close();
-    			MCRJbpmCommands.deleteProcess(String.valueOf(pid));
+    			MCRJSPDocportalCommands.deleteProcess(String.valueOf(pid));
     		}
     		returnPath="/nav?path=" + nextPath;
         	return;

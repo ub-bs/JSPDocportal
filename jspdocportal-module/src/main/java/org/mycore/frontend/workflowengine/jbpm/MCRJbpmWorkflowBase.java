@@ -46,7 +46,7 @@ public class MCRJbpmWorkflowBase {
 	}
 	
 	
-	static void deleteProcessInstance(long procID){
+	public static void deleteProcessInstance(long procID){
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try{
 			GraphSession graphSession = jbpmContext.getGraphSession();
@@ -289,11 +289,11 @@ public class MCRJbpmWorkflowBase {
 		return jbpmConfiguration;
 	}
 	
-	static void createSchema() {
+	public static void createSchema() {
 		getJbpmConfiguration().createSchema();
 	}	
 	
-	void deployProcess(String resource) {
+	public static void deployProcess(String resource) {
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try{
 			ProcessDefinition processDefinition = 
