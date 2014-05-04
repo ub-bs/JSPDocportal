@@ -15,7 +15,6 @@
 	</stripes:layout-component>
 
 	<stripes:layout-component name="contents">
-		<fmt:setBundle basename="messages" />
 		<h2><fmt:message key="Webpage.browse.generalTitle" /></h2>
 		<fmt:message key="Webpage.browse.subitem" /><br /><br />
 

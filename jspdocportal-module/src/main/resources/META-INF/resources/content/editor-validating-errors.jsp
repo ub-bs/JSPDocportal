@@ -7,7 +7,6 @@
 <%@ page import="org.apache.log4j.Logger" %>
 
 
-<fmt:setBundle basename="messages"/>
 <fmt:message var="pageTitle" key="WF.editor.ValidatorError.Headline" /> 
 <stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}" layout="1column">
 	<stripes:layout-component name="contents">

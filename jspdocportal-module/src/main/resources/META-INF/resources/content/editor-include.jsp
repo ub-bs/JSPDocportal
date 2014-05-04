@@ -5,7 +5,6 @@
 <%@ taglib prefix="mcr" uri="http://www.mycore.org/jspdocportal/base.tld" %>
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
-<fmt:setBundle basename="messages"/>
 <fmt:message var="pageTitle" key="WF.editor.ValidatorError.Headline" /> 
 <stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "Editor" layout="1column">
 	<stripes:layout-component name="contents">

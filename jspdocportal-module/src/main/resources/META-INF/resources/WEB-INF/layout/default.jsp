@@ -23,7 +23,7 @@
 	<%-- set the current language --%>
 	<mcr:setLanguage var="lang" allowedLanguages="de" />
 	<fmt:setLocale value="${lang}" scope="request" />
-	<fmt:setBundle basename='messages' scope="request" />
+
 	<html>
 	<head>
 		<meta charset="UTF-8" />
