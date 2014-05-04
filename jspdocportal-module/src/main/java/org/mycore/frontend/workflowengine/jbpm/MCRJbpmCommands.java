@@ -37,6 +37,7 @@ import org.jdom2.output.Format;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.MCRException;
+import org.mycore.common.config.MCRConfiguration;
 import org.mycore.datamodel.common.MCRActiveLinkException;
 import org.mycore.datamodel.common.MCRXMLMetadataManager;
 import org.mycore.datamodel.metadata.MCRDerivate;
@@ -335,4 +336,23 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
         }   
     }  
    
+    @MCRCommand(syntax = "create directory {0}", help = "The command creates a directory. If MyCoRe Properties are specified as part of the path, they will be replaced.")
+    public static final void createDirectory(String dirname) {
+    	while(dirname.contains("${")){
+    		int start = dirname.indexOf("${");
+    		int end = dirname.indexOf("}", start);
+    	
+    		if(end>start && end < dirname.length()){
+    			String prop = dirname.substring(start+2, end);
+    			if(prop.length()>0){
+    				String value = MCRConfiguration.instance().getString(prop, "");
+    				dirname = dirname.substring(0,start) + value + dirname.substring(end+1);
+    			}
+    		}
+    	}
+    	// check dirname
+    	File dir = new File(dirname);
+    	dir.mkdirs();
+    }
+    
 }
