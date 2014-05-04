@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
-<langpack>
-	<str id="staticText.email" txt="Zum Testen der Workflow Engine werden Ihre E-Mail-Addresse und Ihr Mailserver benötigt"/>
-	<str id="text.email" txt="Ihre E-Mail Addresse" />
-	<str id="text.mailserver" txt="Ihr Mail Server"/>
-</langpack>
