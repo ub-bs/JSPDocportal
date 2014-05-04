@@ -290,13 +290,6 @@
 				</excludes>
 			</resource>
 			<resource>
-				<directory>src/main/resources/config/tld</directory>
-				<targetPath>META-INF/resources/WEB-INF/tld</targetPath>
-				<includes>
-					<include>*.tld</include>
-				</includes>
-			</resource>
-			<resource>
 				<directory>target/dependency/components/oai/web</directory>
 			</resource>
 
