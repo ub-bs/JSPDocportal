@@ -67,7 +67,7 @@ import org.mycore.services.fieldquery.MCRResults;
  * @see org.mycore.frontend.servlets.MCRServlet
  */
 public class MCRJSPIDResolverServlet extends MCRServlet {
-	protected enum OpenBy{page, nr, empty};
+	protected enum OpenBy{page, nr, part, empty};
 
 	private static final long serialVersionUID = 1L;
 
@@ -159,6 +159,10 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
     				if(nr!=null){
     					url = createURLForDFGViewer(request, mcrID, OpenBy.nr, nr);
     				}
+    				String part = request.getParameter("part");
+                    if(part!=null){
+                        url = createURLForDFGViewer(request, mcrID, OpenBy.part, part);
+                    }
     				if(url.length()>0){
     					LOGGER.debug("DFGViewer URL: "+url);
     					response.sendRedirect(url);
@@ -277,6 +281,22 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 							eMETSPhysDiv = XPathFactory.instance().compile("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
 									"/mets:div[@TYPE='physSequence']/mets:div[@ORDER='" +nr+"']", Filters.element(), null, nsMets).evaluateFirst(docMETS);
 						}
+						else if (openBy == OpenBy.part){
+						    eMETSPhysDiv = XPathFactory.instance().compile("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
+                                    "//mets:div[@ID='" +nr+"']", Filters.element(), null, nsMets).evaluateFirst(docMETS);
+						    if(eMETSPhysDiv == null){
+						        Element eMETSLogDiv = XPathFactory.instance().compile("/mets:mets/mets:structMap[@TYPE='LOGICAL']" +
+	                                    "//mets:div[@ID='" +nr+"']", Filters.element(), null, nsMets).evaluateFirst(docMETS);
+						        if(eMETSLogDiv!=null){
+						            Element eMETSSmLink = XPathFactory.instance().compile("/mets:mets/mets:structLink" +
+	                                        "//mets:smLink[@xlink:from='" +eMETSLogDiv.getAttributeValue("ID")+"']", Filters.element(), null, nsMets, nsXlink).evaluateFirst(docMETS);
+						            if(eMETSSmLink!=null){
+						                eMETSPhysDiv = XPathFactory.instance().compile("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
+			                                    "//mets:div[@ID='" +eMETSSmLink.getAttributeValue("to", nsXlink)+"']", Filters.element(), null, nsMets).evaluateFirst(docMETS);
+						            }
+						        }
+						    }
+						}
 						
 						if(thumb == null){
 								//display in DFG-Viewer
@@ -284,9 +304,12 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 							sbURL.append("?set[mets]=");
 							sbURL.append(URLEncoder.encode(getBaseURL()+"file/"+mcrID+"/"+f.getPath(), "UTF-8"));
 							if(eMETSPhysDiv!=null){
-								sbURL.append("&set[image]=").append(eMETSPhysDiv.getAttributeValue("ORDER"));
-							}
-							sbURL.append("&set[zoom]=min");
+							    String order = eMETSPhysDiv.getAttributeValue("ORDER");
+							    if(order!=null){
+							        sbURL.append("&set[image]=").append(order);
+							    }
+							    //else: phys_000 -> goto first page
+							}							
 						}
 						else if(eMETSPhysDiv!=null){
 							//return thumb image    										

@@ -149,6 +149,9 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
     		if(path.length>4 &&path[3].equals("nr")){
     			url = createURLForDFGViewer(request, mcrID, OpenBy.nr, path[4]);
     		}
+    		if(path.length>4 &&path[3].equals("part")){
+                url = createURLForDFGViewer(request, mcrID, OpenBy.part, path[4]);
+            }
     		if(url.length()>0){
     			LOGGER.debug("DFGViewer URL: "+url);
     			response.sendRedirect(url);				
