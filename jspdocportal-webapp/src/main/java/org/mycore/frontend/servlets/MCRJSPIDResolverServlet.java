@@ -308,14 +308,15 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 							}
 						}
 					} //end if
-				} //end for			
+				} //end for
+	            break;
 			} //end [if("METS" ...)]
-			break;
 		}
 		}catch(Exception e){
 			LOGGER.error("Error creating URL for DFG Viewer", e);
 			return "";
 		}
+		LOGGER.debug("created DFG-ViewerURL: "+request.getContextPath()+ " -> "+sbURL.toString());
 		return sbURL.toString();
 	}
 	
