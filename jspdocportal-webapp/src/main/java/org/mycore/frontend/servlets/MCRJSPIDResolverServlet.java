@@ -273,33 +273,35 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 						while (nr.startsWith("0")){
 							nr=nr.substring(1);
 						}
-						if(openBy == OpenBy.page){
-							eMETSPhysDiv = XPathFactory.instance().compile("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
+						if(!nr.isEmpty()){
+						    if(openBy == OpenBy.page){
+						        eMETSPhysDiv = XPathFactory.instance().compile("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
 									"/mets:div[@TYPE='physSequence']/mets:div[starts-with(@ORDERLABEL, '" +nr+"')]", Filters.element(), null, nsMets).evaluateFirst(docMETS);
-						}
-						else if (openBy == OpenBy.nr){
-							eMETSPhysDiv = XPathFactory.instance().compile("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
+						    }
+						    else if (openBy == OpenBy.nr){
+						        eMETSPhysDiv = XPathFactory.instance().compile("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
 									"/mets:div[@TYPE='physSequence']/mets:div[@ORDER='" +nr+"']", Filters.element(), null, nsMets).evaluateFirst(docMETS);
-						}
-						else if (openBy == OpenBy.part){
-						    eMETSPhysDiv = XPathFactory.instance().compile("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
+						    }
+						    else if (openBy == OpenBy.part){
+						        eMETSPhysDiv = XPathFactory.instance().compile("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
                                     "//mets:div[@ID='" +nr+"']", Filters.element(), null, nsMets).evaluateFirst(docMETS);
-						    if(eMETSPhysDiv == null){
-						        Element eMETSLogDiv = XPathFactory.instance().compile("/mets:mets/mets:structMap[@TYPE='LOGICAL']" +
+						        if(eMETSPhysDiv == null){
+						            Element eMETSLogDiv = XPathFactory.instance().compile("/mets:mets/mets:structMap[@TYPE='LOGICAL']" +
 	                                    "//mets:div[@ID='" +nr+"']", Filters.element(), null, nsMets).evaluateFirst(docMETS);
-						        if(eMETSLogDiv!=null){
-						            Element eMETSSmLink = XPathFactory.instance().compile("/mets:mets/mets:structLink" +
+						            if(eMETSLogDiv!=null){
+						                Element eMETSSmLink = XPathFactory.instance().compile("/mets:mets/mets:structLink" +
 	                                        "//mets:smLink[@xlink:from='" +eMETSLogDiv.getAttributeValue("ID")+"']", Filters.element(), null, nsMets, nsXlink).evaluateFirst(docMETS);
-						            if(eMETSSmLink!=null){
-						                eMETSPhysDiv = XPathFactory.instance().compile("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
+						                if(eMETSSmLink!=null){
+						                    eMETSPhysDiv = XPathFactory.instance().compile("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
 			                                    "//mets:div[@ID='" +eMETSSmLink.getAttributeValue("to", nsXlink)+"']", Filters.element(), null, nsMets).evaluateFirst(docMETS);
+						                }
 						            }
 						        }
 						    }
 						}
 						
 						if(thumb == null){
-								//display in DFG-Viewer
+							//display "first page" in DFG-Viewer
 							sbURL = new StringBuffer(MCRConfiguration.instance().getString("MCR.JSPDocportal.DFG-Viewer.BaseURL").trim());
 							sbURL.append("?set[mets]=");
 							sbURL.append(URLEncoder.encode(getBaseURL()+"file/"+mcrID+"/"+f.getPath(), "UTF-8"));
