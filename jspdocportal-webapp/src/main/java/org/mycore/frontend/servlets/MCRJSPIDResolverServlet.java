@@ -335,14 +335,19 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 					} //end if
 				} //end for
 	            break;
+	            
 			} //end [if("METS" ...)]
 		}
 		}catch(Exception e){
 			LOGGER.error("Error creating URL for DFG Viewer", e);
 			return "";
 		}
-		LOGGER.debug("created DFG-ViewerURL: "+request.getContextPath()+ " -> "+sbURL.toString());
-		return sbURL.toString();
+		String url = sbURL.toString();
+		if(!url.contains(".dv.mets.xml")){
+		    url = url.replace("dfg-viewer.de/v3", "dfg-viewer.de/show");
+		}
+		LOGGER.debug("created DFG-ViewerURL: "+request.getContextPath()+ " -> "+ url);
+		return url;
 	}
 	
 	/**
