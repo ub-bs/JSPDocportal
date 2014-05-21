@@ -81,7 +81,16 @@ public class MCRRestAPISearch extends HttpServlet {
 
             String q = "(allMeta like *)";
             if (query.contains(":")) {
-                q = "(" + query.replace(":", " = ") + ")";
+            	q="(";
+            	String[] terms = query.split(" ");
+            	for(int i=0;i<terms.length;i++){
+            		if(i>0){
+            			q=q+" ";
+            		}
+            		q = q+ terms[i].replaceFirst(":", " = ");
+            		
+            	}
+                q = q + ")";
             } else {
                 q = "(allMeta = " + query + ")";
             }
