@@ -41,53 +41,61 @@
   </listener>
   	-->
 
-   <!-- specified in web.xml of the application  !!! 
-	<filter>
+  <filter>
 		<display-name>Stripes Filter</display-name>
 		<filter-name>StripesFilter</filter-name>
-		<!- <filter-class>de.uni.rostock.ub.rosdok.fileupload.UTF8StripesFilter</filter-class> 
-		   configured Encoding in Locale Picker instead ->
 		<filter-class>net.sourceforge.stripes.controller.StripesFilter</filter-class>
 		<init-param>
 			<param-name>ActionResolver.Packages</param-name>
-			<param-value>org.mycore.frontend.jsp.stripes,net.sourceforge.stripes.examples</param-value>
+			<param-value>org.mycore.frontend.jsp.stripes.actions,de.uni_rostock.ub.rosdok.stripes.actions,de.uni_rostock.ub.rosdok.dissonline.action</param-value>
+		</init-param>
+		
+		<init-param>
+			<param-name>Stripes.EncryptionKey</param-name>
+			<param-value>Q3Zmqb74TbgfssmZ</param-value>
 		</init-param>
 		<init-param>
-    		<param-name>MultipartWrapper.Class</param-name>
-    		<param-value>net.sourceforge.stripes.controller.multipart.CommonsMultipartWrapper</param-value>
-		</init-param>
-		<init-param>
-        	<param-name>FileUpload.MaximumPostSize</param-name>
-        	<param-value>101m</param-value>
-    	</init-param>
-    	<init-param>
     		<param-name>LocalePicker.Locales</param-name>
-    		<param-value>de:UTF-8,en:UTF-8</param-value>
+    		<param-value>de:UTF-8,en:UTF-8,de_DE:UTF-8,en_US:UTF-8,en_GB:UTF-8</param-value>
 		</init-param>
     	<init-param>
     		<param-name>LocalePicker.Class</param-name>
-    		<param-value> org.mycore.frontend.jsp.MCRJSPStripesLocalePicker</param-value>
+    		<param-value>org.mycore.frontend.jsp.stripes.JSPDocportalStripesLocalePicker</param-value>
 		</init-param>
+		<init-param>
+      		<param-name>PopulationStrategy.Class</param-name>
+      		<param-value>net.sourceforge.stripes.tag.BeanFirstPopulationStrategy</param-value>
+    	</init-param>
+        <init-param>
+            <param-name>FileUpload.MaximumPostSize</param-name>
+            <param-value>101m</param-value>
+        </init-param>
  	</filter>
-
 	<filter-mapping>
 		<filter-name>StripesFilter</filter-name>
 		<url-pattern>*.jsp</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
-	</filter-mapping>
-	
+	</filter-mapping>	
 	<filter-mapping>
 		<filter-name>StripesFilter</filter-name>
 		<servlet-name>NavServlet</servlet-name>
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
-	
 	<filter-mapping>
 		<filter-name>StripesFilter</filter-name>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
-	-->
+	
+	<servlet>
+		<servlet-name>StripesDispatcher</servlet-name>
+		<servlet-class>net.sourceforge.stripes.controller.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>StripesDispatcher</servlet-name>
+		<url-pattern>*.action</url-pattern>
+	</servlet-mapping>
     
     <!-- servlets -->    
 
