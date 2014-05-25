@@ -125,6 +125,7 @@ public class MCRActivitiGroupManager extends GroupEntityManager {
 					g.setName(mcrRole.getLabel().getText());
 				}
 				g.setType("fromMyCoRe");
+				groupList.add(g);
 			}
 		}
 		return groupList;

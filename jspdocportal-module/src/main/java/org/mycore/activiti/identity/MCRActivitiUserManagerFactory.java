@@ -2,7 +2,7 @@ package org.mycore.activiti.identity;
 
 import org.activiti.engine.impl.interceptor.Session;
 import org.activiti.engine.impl.interceptor.SessionFactory;
-import org.activiti.engine.impl.persistence.entity.UserEntityManager;
+import org.activiti.engine.impl.persistence.entity.UserIdentityManager;
 
 /**
  * MCRActivitiUserManagerFactory 
@@ -21,7 +21,7 @@ public class MCRActivitiUserManagerFactory implements SessionFactory {
 
 	@Override
 	public Class<?> getSessionType() {
-		return UserEntityManager.class;
+		return UserIdentityManager.class;
 	}
 
 	@Override

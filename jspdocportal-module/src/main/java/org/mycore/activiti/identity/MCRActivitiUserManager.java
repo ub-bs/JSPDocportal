@@ -84,6 +84,7 @@ public class MCRActivitiUserManager extends UserEntityManager {
 			if(x!=null){
 				u.setFirstName(x);
 			}
+			return u;
 		}
 		return null;
 	}
