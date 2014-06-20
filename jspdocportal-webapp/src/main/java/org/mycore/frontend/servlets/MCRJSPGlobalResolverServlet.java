@@ -182,6 +182,14 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
     	    this.getServletContext().getRequestDispatcher("/content/pdfdownload.jsp?id=" +mcrID).forward(request, response);
     	}
     	
+    	if(action.equals("cover")){
+    	    String url = createURLForCover(request, mcrID);
+    	    if(url.length()>0){
+    	        LOGGER.debug("Cover URL: "+url);
+    	        response.sendRedirect(url);             
+    	    }  
+    	}
+    	
     	if(action.equals("fulltext")){
     		if(mcrID.startsWith("mvdok")){
     			String url = getBaseURL()+"mjbrenderer?id="+mcrID;

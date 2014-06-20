@@ -250,6 +250,30 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 		return "";
 	}
 	
+	//createURL for Cover Image
+    protected String createURLForCover(HttpServletRequest request, String mcrID){
+        MCRObject o = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID));
+        MCRObjectStructure structure = o.getStructure();
+        MCRMetaLinkID derMetaLink= null;
+        for(MCRMetaLinkID der: structure.getDerivates()){
+            if(der.getXLinkTitle().equals("Cover")){
+                derMetaLink = der;
+            }
+        }
+        if(derMetaLink==null){
+            return "";
+        }
+        MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(derMetaLink.getXLinkHrefID());
+        String mainDoc = der.getDerivate().getInternals().getMainDoc();
+        if(mainDoc!=null && mainDoc.length()>0){
+            StringBuffer sbPath = new StringBuffer(getBaseURL());
+            sbPath.append("file/").append(mcrID).append("/").append(der.getId().toString()).append("/").append(mainDoc);
+            return sbPath.toString();
+            
+        } 
+        return "";
+    }
+	
 	//Create URL for DFG ImageViewer and Forward to it
 	//http://dfg-viewer.de/v1/?set%5Bmets%5D=http%3A%2F%2Frosdok.uni-rostock.de%2Fdata%2Fetwas%2Fetwas1737%2Fetwas1737.mets.xml&set%5Bzoom%5D=min
 	protected String createURLForDFGViewer(HttpServletRequest request, String mcrID, OpenBy openBy, String nr){
