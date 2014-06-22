@@ -70,7 +70,7 @@ public class MCRJSPFileNodeServlet extends MCRFileNodeServlet {
             return;
         }
 
-        String ownerID = getOwnerID(request);
+        String ownerID = getOwnerID2(request);
 
         try {
             MCRObjectID derID = MCRObjectID.getInstance(ownerID);
@@ -118,8 +118,8 @@ public class MCRJSPFileNodeServlet extends MCRFileNodeServlet {
      *  retrieves the derivate ID of the owning derivate from request path.
      *  @param request - the http request object
      */
-    @Override
-    protected String getOwnerID(HttpServletRequest request) {
+    
+    protected String getOwnerID2(HttpServletRequest request) {
         String[] path = StringUtils.split(request.getPathInfo(), "/");
         //apache commons StringUtils.split ignores leading and trailing separators and removes empty parts
         
