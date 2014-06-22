@@ -100,9 +100,13 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 			variables.put(MCRActivitiMgr.WF_VAR_OBJECT_TYPE, objectType);
 			variables.put(MCRActivitiMgr.WF_VAR_PROJECT_ID, projectID);
 			
-			RuntimeService runtimeService = MCRActivitiMgr.getWorfklowProcessEngine().getRuntimeService();
-			ProcessInstance pi = runtimeService.startProcessInstanceByKey("create_object_simple", variables);
+			RuntimeService rs = MCRActivitiMgr.getWorfklowProcessEngine().getRuntimeService();
+			ProcessInstance pi = rs.startProcessInstanceByKey("create_object_simple", variables);
 			messages.add("New Activiti Process Instance " + pi.getId() +" created.");
+			TaskService ts = MCRActivitiMgr.getWorfklowProcessEngine().getTaskService();
+			for(Task t: ts.createTaskQuery().processInstanceId(pi.getId()).list()){
+				ts.setAssignee(t.getId(), MCRUserManager.getCurrentUser().getUserID());
+			}
 		}
 		else{
 			messages.add("You don't have the Permission to create a new workflow instance");

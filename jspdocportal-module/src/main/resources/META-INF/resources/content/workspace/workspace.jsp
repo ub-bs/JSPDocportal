@@ -41,9 +41,14 @@
 				<stripes:submit name="doCreateNewTask" value="Neues Objekt erstellen" class="submit" />
 
 				<h3>Übernommene Aufgaben</h3>
-				<c:forEach var="task" items="${actionBean.myTasks}">
+				<c:forEach var="task" items="${actionBean.myTasks}" >
 					<div>
-						Aufgabe: <c:out value="${task.id}" /> <stripes:submit name="doReleaseTask_${task.id}">Aufgabe abgeben</stripes:submit>
+						Aufgabe: <c:out value="${task.id}" />
+						<c:if test="${not empty actionBean.objectType}">
+							<c:set var="currentTask" value="${task}" scope="request" />
+							<jsp:include page="edit-${actionBean.objectType}.jsp" />
+						</c:if>
+						<stripes:submit name="doReleaseTask_${task.id}">Aufgabe abgeben</stripes:submit>
 					
 					</div>
 				</c:forEach>

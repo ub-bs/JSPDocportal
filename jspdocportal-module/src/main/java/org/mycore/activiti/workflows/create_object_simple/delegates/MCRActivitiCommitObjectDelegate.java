@@ -1,4 +1,4 @@
-package org.mycore.activiti.workflows.create_object_simple;
+package org.mycore.activiti.workflows.create_object_simple.delegates;
 
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.JavaDelegate;

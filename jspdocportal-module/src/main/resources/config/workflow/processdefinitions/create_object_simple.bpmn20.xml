@@ -3,17 +3,17 @@
    <process id="create_object_simple" name="Simple workflow to create a MyCoRe object" isExecutable="true">
     <startEvent id="start" name="Start"></startEvent>
     <endEvent id="end" name="Ende"></endEvent>
-    <serviceTask id="create_object" name="Neues Objekt erzeugen" activiti:class="org.mycore.activiti.workflows.create_object_simple.MCRActivitiCreateObjectDelegate"></serviceTask>
+    <serviceTask id="create_object" name="Neues Objekt erzeugen" activiti:class="org.mycore.activiti.workflows.create_object_simple.delegates.MCRActivitiCreateObjectDelegate"></serviceTask>
     <userTask id="edit_object" name="Objekt bearbeiten">
     	<extensionElements>
     		<activiti:taskListener event="create" class="org.mycore.activiti.MCRActivitiAssignmentHandler" />
   		</extensionElements>
     
     </userTask>
-    <serviceTask id="commit_object" name="Objekt speichern" activiti:class="org.mycore.activiti.workflows.create_object_simple.MCRActivitiCommitObjectDelegate"></serviceTask>
-    <serviceTask id="cancel_object" name="Objekt verwerfen" activiti:class="org.mycore.activiti.workflows.create_object_simple.MCRActivitiCancelObjectDelegate"></serviceTask>
+    <serviceTask id="commit_object" name="Objekt speichern" activiti:class="org.mycore.activiti.workflows.create_object_simple.delegates.MCRActivitiCommitObjectDelegate"></serviceTask>
+    <serviceTask id="cancel_object" name="Objekt verwerfen" activiti:class="org.mycore.activiti.workflows.create_object_simple.delegates.MCRActivitiCancelObjectDelegate"></serviceTask>
     <exclusiveGateway id="is_valid" default="is_valid_2_edit_object"></exclusiveGateway>
-    <serviceTask id="validate_object" name="Objekt validieren" activiti:class="org.mycore.activiti.workflows.create_object_simple.MCRActivitiCancelObjectDelegate"></serviceTask>
+    <serviceTask id="validate_object" name="Objekt validieren" activiti:class="org.mycore.activiti.workflows.create_object_simple.delegates.MCRActivitiValidateObjectDelegate"></serviceTask>
     <sequenceFlow id="cancel_object_2_end" sourceRef="cancel_object" targetRef="end"></sequenceFlow>
     <sequenceFlow id="commit_object_2_end" sourceRef="commit_object" targetRef="end"></sequenceFlow>
     <sequenceFlow id="validate_object_2_is_valid" sourceRef="validate_object" targetRef="is_valid"></sequenceFlow>
