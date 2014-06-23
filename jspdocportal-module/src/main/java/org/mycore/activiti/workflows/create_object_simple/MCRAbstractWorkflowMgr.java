@@ -2,6 +2,7 @@ package org.mycore.activiti.workflows.create_object_simple;
 
 import org.activiti.engine.delegate.DelegateExecution;
 import org.mycore.activiti.MCRActivitiMgr;
+import org.mycore.activiti.MCRActivitiUtils;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
@@ -26,6 +27,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr{
 		MCRMetadataManager.create(mcrObj);
 		execution.setVariable(MCRActivitiMgr.WF_VAR_OBJECT_ID, mcrObj.getId().toString());
 
+		MCRActivitiUtils.saveToWorkflowDirectory(mcrObj);
 		return mcrObj;
 		
 	}
