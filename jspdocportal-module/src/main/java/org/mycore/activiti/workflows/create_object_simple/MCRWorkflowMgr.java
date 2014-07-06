@@ -5,4 +5,6 @@ import org.mycore.datamodel.metadata.MCRObject;
 
 public interface MCRWorkflowMgr {
 	public MCRObject createMCRObject(DelegateExecution execution);
+
+	public boolean deleteProcessInstance(String processInstanceId);
 }
