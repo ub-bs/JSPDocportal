@@ -39,6 +39,8 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
+import org.mycore.services.fieldquery.MCRFieldValue;
+import org.mycore.services.fieldquery.MCRHit;
 import org.mycore.services.fieldquery.MCRQuery;
 import org.mycore.services.fieldquery.MCRQueryManager;
 import org.mycore.services.fieldquery.MCRQueryParser;
@@ -120,7 +122,9 @@ public class MCRRestAPISearch extends HttpServlet {
                 eResult.setAttribute("start", "0");
 
                 for (int i = 0; i < result.getNumHits(); i++) {
-                    String mcrID = result.getHit(i).getID();
+                    MCRHit hit = result.getHit(i);
+                    String mcrID = hit.getID();
+                    MCRFieldValue field = hit.getMetaData("recordIdentifier");
                     Element eDoc = new Element("doc");
                     eResult.addContent(eDoc);
                     eDoc.setAttribute("href", info.getAbsolutePathBuilder().path(mcrID).build((Object[]) null)
@@ -130,6 +134,9 @@ public class MCRRestAPISearch extends HttpServlet {
                     eDoc.addContent(new Element("str").setAttribute("name", "objectProject").setText(
                             mcrID.split("_")[0]));
                     eDoc.addContent(new Element("str").setAttribute("name", "objectType").setText(mcrID.split("_")[1]));
+                    if(field!=null){
+                        eDoc.addContent(new Element("str").setAttribute("name", "recordIdentifier").setText(field.getValue()));
+                    }
                 }
                 StringWriter sw = new StringWriter();
                 XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
