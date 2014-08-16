@@ -7,7 +7,7 @@
 	<tlib-version>2.0</tlib-version>
 	<short-name>mcr</short-name>
 	<uri>http://www.mycore.org/jspdocportal/base.tld</uri>
-
+	
 	<tag>
 		<description>A tag, that loged in an user</description>
 		<name>login</name>
@@ -121,6 +121,36 @@
             <rtexprvalue>true</rtexprvalue>
         </attribute>
 	</tag>
+	
+	<tag>
+		<name>includeXEditor</name>
+		<tag-class>org.mycore.frontend.jsp.taglibs.MCRIncludeXEditorTag</tag-class>
+		<body-content>scriptless</body-content>
+		<attribute>
+			<name>editorPath</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			 <name>cancelURL</name>
+			  <required>false</required>
+			  <rtexprvalue>true</rtexprvalue> 
+			</attribute>
+		<attribute>
+			 <name>sourceURI</name>
+			  <required>false</required>
+			  <rtexprvalue>true</rtexprvalue> 
+			</attribute>	
+		<!-- A Tag, that includes a MyCoRe-XEditor (Input Forms and Search Masks) -->
+	</tag>
+	
+	
+	
+<!-- *************************************************************************
+	 *  OLD Tags, check if still needed !!!                                  *   
+	 ************************************************************************* -->
+
+	
 	<tag>
 		<name>endTask</name>
 		<tag-class>org.mycore.frontend.jsp.taglibs.MCREndTaskTag</tag-class>
@@ -474,27 +504,7 @@
 	</tag>
 
 
-	<tag>
-		<name>includeXEditor</name>
-		<tag-class>org.mycore.frontend.jsp.taglibs.MCRIncludeXEditorTag</tag-class>
-		<body-content>scriptless</body-content>
-		<attribute>
-			<name>editorPath</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			 <name>cancelURL</name>
-			  <required>false</required>
-			  <rtexprvalue>true</rtexprvalue> 
-			</attribute>
-		<attribute>
-			 <name>sourceURI</name>
-			  <required>false</required>
-			  <rtexprvalue>true</rtexprvalue> 
-			</attribute>	
-		<!-- A Tag, that includes a MyCoRe-XEditor (Input Forms and Search Masks) -->
-	</tag>
+
 
 
 

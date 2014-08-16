@@ -71,7 +71,17 @@ public class MCRLoginTag extends SimpleTagSupport
         
         MCRUser mcrUser = null;
         Element loginresult = new Element("loginresult");
-       
+
+        if(uid==null && pwd == null && !"gast|guest".contains(oldUsername)){
+            logger.debug("loading data");
+            loginresult.setAttribute("loginOK", "true");
+            loginresult.setAttribute("status",  "user.welcome");
+            loginresult.setAttribute("username",  oldUsername);
+            addGroupsIntoResult(MCRUserManager.getUser(oldID), loginresult);
+            setTagResult(loginresult);
+            return;
+        }
+        
         if(uid==null || pwd == null ){
             logger.debug("ID or Password cannot be empty");
             loginresult.setAttribute("loginOK", "false");
@@ -209,19 +219,9 @@ public class MCRLoginTag extends SimpleTagSupport
                 loginOk=true;
                	mcrSession.setUserInformation(mcrUser);
 	        	setNameIntoLoginResult(uid, loginresult, mcrSession);
-	            
-	        	String[] allGroupIDS = mcrUser.getSystemRoleIDs().toArray(new String[]{});
-	        	Element eGroups = new Element ("groups");
-	        	for ( int i=0; i<allGroupIDS.length; i++ ) {		        		
-	        		Element eGroup = new Element ("group");
-	        		MCRRole mcrgroup = MCRRoleManager.getRole(allGroupIDS[i]);		        				        		
-	        		eGroup.setAttribute("gid", allGroupIDS[i]);
-	        		eGroup.setAttribute("description", mcrgroup.getName());
-	        		eGroups.addContent(eGroup);
-            	}
+	            addGroupsIntoResult(mcrUser, loginresult);
 	        	loginresult.setAttribute("status", "user.welcome");
 	            logger.info("user " + uid + " logged in ");
-	            loginresult.addContent(eGroups);
             } else {
 	            if (uid != null) {
 	            	loginresult.setAttribute("status", "user.invalid_password");
@@ -262,4 +262,18 @@ public class MCRLoginTag extends SimpleTagSupport
     	name.append(mcrUser.getRealName());
         loginresult.setAttribute("name", name.toString());
 	}
+	
+    private void addGroupsIntoResult(MCRUser mcrUser, Element loginresult){
+    	String[] allGroupIDS = mcrUser.getSystemRoleIDs().toArray(new String[]{});
+    	Element eGroups = new Element ("groups");
+    	for ( int i=0; i<allGroupIDS.length; i++ ) {		        		
+    		Element eGroup = new Element ("group");
+    		MCRRole mcrgroup = MCRRoleManager.getRole(allGroupIDS[i]);		        				        		
+    		eGroup.setAttribute("gid", allGroupIDS[i]);
+    		eGroup.setAttribute("description", mcrgroup.getName());
+    		eGroups.addContent(eGroup);
+    	}
+        loginresult.addContent(eGroups);
+    }
+
 }
