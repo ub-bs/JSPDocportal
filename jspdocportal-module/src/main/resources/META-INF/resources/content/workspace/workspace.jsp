@@ -42,13 +42,13 @@
 
 				<h3>Übernommene Aufgaben</h3>
 				<c:forEach var="task" items="${actionBean.myTasks}" >
-					<div>
+					<div id="task_${task.id}">
 						Aufgabe: <c:out value="${task.id}" />
 						<c:if test="${not empty actionBean.objectType}">
 							<c:set var="currentTask" value="${task}" scope="request" />
 							<jsp:include page="edit-${actionBean.objectType}.jsp" />
 						</c:if>
-						<stripes:submit name="doReleaseTask_${task.id}">Aufgabe abgeben</stripes:submit>
+						<stripes:submit name="doReleaseTask-task_${task.id}">Aufgabe abgeben</stripes:submit>
 					
 					</div>
 				</c:forEach>
@@ -58,7 +58,7 @@
 					<div>
 						Aufgabe: <c:out value="${task.id}" />
 						<c:if test="${empty task.assignee}">
-							<stripes:submit name="doAcceptTask_${task.id}">Aufgabe übernehmen</stripes:submit>
+							<stripes:submit name="doAcceptTask-task_${task.id}">Aufgabe übernehmen</stripes:submit>
 						</c:if>
 					</div>
 				</c:forEach>

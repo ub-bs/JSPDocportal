@@ -473,6 +473,34 @@
 		<!-- A Tag, that includes MyCoRe-Editor-Pages (also Search Masks) -->
 	</tag>
 
+
+	<tag>
+		<name>includeXEditor</name>
+		<tag-class>org.mycore.frontend.jsp.taglibs.MCRIncludeXEditorTag</tag-class>
+		<body-content>scriptless</body-content>
+		<attribute>
+			<name>editorPath</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			 <name>cancelURL</name>
+			  <required>false</required>
+			  <rtexprvalue>true</rtexprvalue> 
+			</attribute>
+		<attribute>
+			 <name>sourceURI</name>
+			  <required>false</required>
+			  <rtexprvalue>true</rtexprvalue> 
+			</attribute>	
+		<!-- A Tag, that includes a MyCoRe-XEditor (Input Forms and Search Masks) -->
+	</tag>
+
+
+
+
+
+
 	<tag>
 		<name>getFreeUserIDs</name>
 		<tag-class>org.mycore.frontend.jsp.taglibs.MCRGetFreeUserIDs</tag-class>
