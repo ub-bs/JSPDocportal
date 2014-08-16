@@ -1,5 +1,6 @@
 package org.mycore.frontend.jsp.stripes.actions;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,8 +21,10 @@ import org.activiti.engine.task.Task;
 import org.apache.log4j.Logger;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.activiti.MCRActivitiMgr;
+import org.mycore.activiti.MCRActivitiUtils;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.user2.MCRUser;
 import org.mycore.user2.MCRUserManager;
 
@@ -37,7 +40,9 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 	private List<Task> myTasks = new ArrayList<Task>();
 	private List<Task> availableTasks = new ArrayList<Task>();
 
-	
+	private String editorPath;
+	private String sourceURI;
+	private String cancelURL;
 
 	public ShowWorkspaceAction() {
 
@@ -59,20 +64,31 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 
 	@DefaultHandler
 	public Resolution defaultRes() {
-		if(!MCRSessionMgr.getCurrentSession().isTransactionActive()){
-			MCRSessionMgr.getCurrentSession().beginTransaction();
-		}
+
 		for(String s: getContext().getRequest().getParameterMap().keySet()){
-			if(s.startsWith("doAcceptTask_")){
+			if(s.startsWith("doAcceptTask-task_")){
 				String id = s.substring(s.indexOf("_")+1);
 				acceptTask(id);
 			}
-			if(s.startsWith("doReleaseTask_")){
+			if(s.startsWith("doReleaseTask-task_")){
 				String id = s.substring(s.indexOf("_")+1);
 				releaseTask(id);
 			}
+			//doEditObject-task_[ID]-[mcrObjID]
+			if(s.startsWith("doEditObject-")){
+				String id = s.substring(s.indexOf("-")+1);
+				String taskID = id.substring(0,id.indexOf("-"));
+				taskID = taskID.substring(taskID.indexOf("_")+1);
+				String mcrObjID = id.substring(id.indexOf("-")+1);
+				return editObject(mcrObjID, taskID);
+			}
 		}
 		
+		boolean doCommitTransaction = false;
+		if(!MCRSessionMgr.getCurrentSession().isTransactionActive()){
+			doCommitTransaction = true;
+			MCRSessionMgr.getCurrentSession().beginTransaction();
+		}
 		MCRUser user = MCRUserManager.getCurrentUser();
 		
 		TaskService ts = MCRActivitiMgr.getWorfklowProcessEngine()
@@ -88,7 +104,9 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 				.processVariableValueEquals(MCRActivitiMgr.WF_VAR_OBJECT_TYPE,
 						objectType).orderByTaskCreateTime().desc().list();
 	
-		MCRSessionMgr.getCurrentSession().commitTransaction();
+		if(doCommitTransaction){
+			MCRSessionMgr.getCurrentSession().commitTransaction();
+		}
 		return fwdResolution;
 
 	}
@@ -111,6 +129,7 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 		else{
 			messages.add("You don't have the Permission to create a new workflow instance");
 		}
+		MCRSessionMgr.getCurrentSession().commitTransaction();
 
 	
 		return defaultRes();
@@ -127,6 +146,22 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 		LOGGER.debug("Accepted Task" +taskId );
 		TaskService ts = MCRActivitiMgr.getWorfklowProcessEngine().getTaskService();
 		ts.setAssignee(taskId, null);
+	}
+	
+	private Resolution editObject(String mcrID, String taskID){
+		MCRObjectID mcrObjID = MCRObjectID.getInstance(mcrID);
+		editorPath = "/editor/metadata/editor-"+mcrObjID.getTypeId()+"-default.xed";
+		File wfFile = new File(MCRActivitiUtils.getWorkflowDirectory(mcrObjID), mcrID+".xml");
+		sourceURI = wfFile.toURI().toString();
+		ForwardResolution res = new ForwardResolution("/content/editor/fullpageEditor.jsp");
+		StringBuffer sbCancel = new StringBuffer(MCRServlet.getBaseURL()+"showWorkspace.action?");
+		if(!objectType.isEmpty()){sbCancel.append("&objectType=").append(objectType);}
+		if(!projectID.isEmpty()){sbCancel.append("&projectID=").append(projectID);}
+		sbCancel.append("#task_").append(taskID);
+		cancelURL = sbCancel.toString();
+	
+		
+		return res;
 	}
 	
 	public String getObjectType() {
@@ -151,6 +186,30 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 
 	public List<Task> getAvailableTasks() {
 		return availableTasks;
+	}
+
+	public static Logger getLOGGER() {
+		return LOGGER;
+	}
+
+	public ForwardResolution getFwdResolution() {
+		return fwdResolution;
+	}
+
+	public List<String> getMessages() {
+		return messages;
+	}
+
+	public String getEditorPath() {
+		return editorPath;
+	}
+
+	public String getSourceURI() {
+		return sourceURI;
+	}
+
+	public String getCancelURL() {
+		return cancelURL;
 	}
 
 }
