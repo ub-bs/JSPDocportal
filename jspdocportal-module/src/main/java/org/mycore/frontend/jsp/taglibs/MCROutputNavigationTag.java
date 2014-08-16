@@ -66,6 +66,7 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
 			"left", "top", "breadcrumbs", "toc" });
 	private static final String INDENT = "\n       ";
 
+	private String cssClass;
 	private String mode;
 
 	private static Logger LOGGER = Logger
@@ -80,7 +81,7 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
 		}
 
 		if (mode.equals("left")) {
-			printLeftNav(path, nav, getJspContext().getOut());
+			printLeftNav(path, nav, cssClass, getJspContext().getOut());
 		}
 		if (mode.equals("toc")) {
 			Element eNav = findNavItem(nav, path);
@@ -105,6 +106,10 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
 	public void setMode(String mode) {
 		this.mode = mode;
 	}
+	
+	public void setCssClass(String cssClass){
+		this.cssClass = cssClass;
+	}
 
 	/**
 	 * prints the navigation items as left side main navigation can be called
@@ -117,7 +122,7 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
 	 * @param out
 	 *            - the JSPOutputWriter
 	 */
-	private void printLeftNav(String[] path, Element currentNode, JspWriter out) {
+	private void printLeftNav(String[] path, Element currentNode, String cssClass, JspWriter out) {
 		Transaction t1 = null;
 		try {
 			Transaction tx = MCRHIBConnection.instance().getSession()
@@ -138,20 +143,24 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
 				indentBuffer.append("    ");
 			}
 			String indent = indentBuffer.toString();
-			out.append(indent).append("  <ul>");
-
+			if(cssClass!=null){
+				out.append(indent).append("  <ul class=\""+cssClass+"\">");
+			}
+			else{
+				out.append(indent).append("  <ul>");
+			}
 			for (Element el : printableElements) {
-				String cssClass = "";
+				String cssLiClass = "";
 				String id = el.getAttribute("id");
 				boolean active = path.length > 0 && path[0].equals(id);
 				if (active) {
-					cssClass = "active";
+					cssLiClass = "active";
 				}
 
 				String msg = retrieveI18N(el.getAttribute("i18n"));
-				if (cssClass.length() > 0) {
+				if (cssLiClass.length() > 0) {
 					out.append(indent).append(
-							" <li class=\"" + cssClass + "\">");
+							" <li class=\"" + cssLiClass + "\">");
 				} else {
 					out.append(indent).append(" <li>");
 				}
@@ -165,7 +174,7 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
 					if (path.length > 0) {
 						subpath = Arrays.copyOfRange(path, 1, path.length);
 					}
-					printLeftNav(subpath, el, out);
+					printLeftNav(subpath, el, null, out);
 				}
 				out.append(indent).append(" </li>");
 			}
@@ -190,14 +199,18 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
 	 *            - the JSPOutputWriter
 	 */
 	private void printTopNav(Element currentNode, JspWriter out) {
-		if (currentNode == null) {
-			return;
-		}
+		if (currentNode != null) {
+			
 		List<Element> printableElements = printableElements(currentNode);
 
 		if (!printableElements.isEmpty()) {
 			try {
-				out.append("<ul>");
+				if(cssClass!=null){
+					out.append("  <ul class=\""+cssClass+"\">");
+				}
+				else{
+					out.append("  <ul>");
+				}
 				for (Element el : printableElements) {
 
 					String msg = retrieveI18N(el.getAttribute("i18n"));
@@ -208,14 +221,19 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
 									+ "\">" + msg + "</a>");
 					out.append(INDENT).append("   </li>");
 				}
+				
+				getJspBody().invoke(out);
 				out.append(INDENT).append("</ul>");
 				out.flush();
 			}
 
-			catch (IOException e) {
+			catch (IOException | JspException e) {
 				LOGGER.error(e);
 			}
 		}
+		}
+	
+		
 	}
 
 	/**
@@ -238,6 +256,12 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
 		List<Element> printableElements = printableElements(currentNode);
 		if (!printableElements.isEmpty()) {
 			try {
+				if(cssClass!=null){
+					out.append(INDENT).append("<ul class=\""+cssClass+"\">");
+				}
+				else{
+					out.append(INDENT).append("<ul>");
+				}
 				out.append(INDENT).append("<ul>");
 				for (Element el : printableElements) {
 					String msg = retrieveI18N(el.getAttribute("i18n"));
@@ -292,7 +316,14 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
 					+ "\">" + msg + "</a>");
 			sbOut.insert(0, INDENT + "   <li>");
 		}
-		sbOut.insert(0, INDENT + "<ul>");
+		
+		if(cssClass!=null){
+			sbOut.insert(0, INDENT + "<ul class=\""+cssClass+"\">");
+		}
+		else{
+			sbOut.insert(0, INDENT + "<ul>");
+		}
+		
 		try {
 			out.append(sbOut.toString());
 		} catch (IOException e) {

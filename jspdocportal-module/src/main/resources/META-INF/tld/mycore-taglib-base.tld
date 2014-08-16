@@ -68,6 +68,11 @@
 			<rtexprvalue>true</rtexprvalue>
 			<type>java.lang.Boolean</type>
 		</attribute>
+		<attribute>
+			<name>cssClass</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
 	</tag>
 	<tag>
 		<description>A tag, that appends all necessary information about the navigation into PAGE_SCOPE.</description>
@@ -467,11 +472,6 @@
 			</attribute> -->
 		<!-- A Tag, that includes MyCoRe-Editor-Pages (also Search Masks) -->
 	</tag>
-
-
-
-
-
 
 	<tag>
 		<name>getFreeUserIDs</name>
