@@ -14,17 +14,20 @@
     <serviceTask id="cancel_object" name="Objekt verwerfen" activiti:class="org.mycore.activiti.workflows.create_object_simple.delegates.MCRActivitiCancelObjectDelegate"></serviceTask>
     <exclusiveGateway id="is_valid" default="is_valid-TO-edit_object"></exclusiveGateway>
     <serviceTask id="validate_object" name="Objekt validieren" activiti:class="org.mycore.activiti.workflows.create_object_simple.delegates.MCRActivitiValidateObjectDelegate"></serviceTask>
+    <serviceTask id="drop_object" name="Objekt entfernen" activiti:class="org.mycore.activiti.workflows.create_object_simple.delegates.MCRActivitiDropObjectDelegate"></serviceTask>
     <sequenceFlow id="cancel_object-TO-end" sourceRef="cancel_object" targetRef="end"></sequenceFlow>
     <sequenceFlow id="commit_object-TO-end" sourceRef="commit_object" targetRef="end"></sequenceFlow>
+    <sequenceFlow id="drop_object-TO-end" sourceRef="drop_object" targetRef="end"></sequenceFlow>
     <sequenceFlow id="validate_object-TO-is_valid" sourceRef="validate_object" targetRef="is_valid"></sequenceFlow>
     <sequenceFlow id="is_valid-TO-edit_object" sourceRef="is_valid" targetRef="edit_object"></sequenceFlow>
     <sequenceFlow id="create_object-TO-edit_object" sourceRef="create_object" targetRef="edit_object"></sequenceFlow>
     <sequenceFlow id="start-TO-create_object" sourceRef="start" targetRef="create_object"></sequenceFlow>
-    <sequenceFlow id="is_valid-TO-commit_object" sourceRef="is_valid" targetRef="commit_object"></sequenceFlow>
-    <sequenceFlow id="validate_object.do_save" name="Speichern" sourceRef="edit_object" targetRef="validate_object">
+    <sequenceFlow id="is_valid-TO-commit_object" sourceRef="is_valid" targetRef="commit_object">
     	<conditionExpression xsi:type="tFormalExpression">${validationResult == true}</conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="validate_object.do_cancel" name="Bearbeitung abbrechen" sourceRef="edit_object" targetRef="cancel_object"></sequenceFlow>
+    <sequenceFlow id="edit_object.do_save" name="Speichern" sourceRef="edit_object" targetRef="validate_object"></sequenceFlow>
+    <sequenceFlow id="edit_object.do_cancel" name="Bearbeitung abbrechen" sourceRef="edit_object" targetRef="cancel_object"></sequenceFlow>
+    <sequenceFlow id="edit_object.do_drop" name="Entfernen" sourceRef="edit_object" targetRef="drop_object"></sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_process">
     <bpmndi:BPMNPlane bpmnElement="create_object_simple" id="BPMNPlane_create_object_simple">
@@ -52,7 +55,7 @@
       <bpmndi:BPMNShape bpmnElement="validate_object" id="BPMNShape_validate_object">
         <omgdc:Bounds height="80.0" width="100.0" x="615.0" y="105.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge bpmnElement="validate_object.do_cancel" id="BPMNEdge_validate_object.do_cancel">
+      <bpmndi:BPMNEdge bpmnElement="edit_object.do_cancel" id="BPMNEdge_validate_object.do_cancel">
         <omgdi:waypoint x="445.0" y="243.51851851851853"></omgdi:waypoint>
         <omgdi:waypoint x="615.0" y="306.48148148148147"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
@@ -68,7 +71,7 @@
         <omgdi:waypoint x="715.0" y="145.0"></omgdi:waypoint>
         <omgdi:waypoint x="750.0" y="145.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="validate_object.do_save" id="BPMNEdge_validate_object.do_save">
+      <bpmndi:BPMNEdge bpmnElement="edit_object.do_save" id="BPMNEdge_validate_object.do_save">
         <omgdi:waypoint x="445.0" y="206.9004524886878"></omgdi:waypoint>
         <omgdi:waypoint x="615.0" y="145.36199095022624"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
