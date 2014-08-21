@@ -7,46 +7,7 @@
 	<tlib-version>2.0</tlib-version>
 	<short-name>mcr</short-name>
 	<uri>http://www.mycore.org/jspdocportal/base.tld</uri>
-	
-	<tag>
-		<description>A tag, that loged in an user</description>
-		<name>login</name>
-		<tag-class>org.mycore.frontend.jsp.taglibs.MCRLoginTag</tag-class>
-		<body-content>empty</body-content>
-		<attribute>
-			<name>uid</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>pwd</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>var</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-	</tag>
-
-	<tag>
-		<description>A tag, that displays a link for a right after login</description>
-		<name>login_startlink</name>
-		<tag-class>org.mycore.frontend.jsp.taglibs.MCRLogin_StartLinkTag</tag-class>
-		<body-content>empty</body-content>
-		<attribute>
-			<name>group_id</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>group_description</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-
-	</tag>
+		
 	<tag>
 		<description>A tag, that renders the navigation</description>
 		<name>outputNavigation</name>

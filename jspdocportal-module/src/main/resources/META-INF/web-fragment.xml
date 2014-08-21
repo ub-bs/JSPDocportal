@@ -160,11 +160,6 @@
     </servlet>
 
     <servlet>
-        <servlet-name>LogoutServlet</servlet-name>
-        <servlet-class>org.mycore.frontend.jsp.LogoutServlet</servlet-class>
-    </servlet>
-    
-    <servlet>
         <servlet-name>MCREditorForwardServlet</servlet-name>
         <servlet-class>org.mycore.frontend.servlets.MCREditorForwardServlet</servlet-class>
     </servlet>
@@ -279,11 +274,6 @@
     <servlet-mapping>
 	    <servlet-name>NavServlet</servlet-name>
 	    <url-pattern>/nav</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>LogoutServlet</servlet-name>
-        <url-pattern>/logout</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
