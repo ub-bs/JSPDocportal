@@ -88,9 +88,14 @@ public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBe
 			if (mcrUserInfo != null && !mcrUserInfo.getUserID().equals("gast") && !mcrUserInfo.getUserID().equals("gast")) {
 				loginStatus = "user.welcome";
 				loginOK = true;
-				mcrSession.beginTransaction();
+				boolean handleTA = !mcrSession.isTransactionActive();
+				if(handleTA){
+					mcrSession.beginTransaction();
+				}
 				updateData(mcrSession);
-				mcrSession.commitTransaction();
+				if(handleTA){
+					mcrSession.commitTransaction();
+				}
 			}
 		}
 
