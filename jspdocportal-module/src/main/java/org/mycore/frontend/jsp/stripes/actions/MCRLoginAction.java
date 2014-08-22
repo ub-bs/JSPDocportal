@@ -272,7 +272,8 @@ public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBe
 		if (loginOK) {
 			StringBuffer name = new StringBuffer();
 			ResourceBundle messages = MCRTranslation.getResourceBundle("messages", new Locale(mcrSession.getCurrentLanguage()));
-			MCRUser mcrUser = MCRUserManager.getUser(userID);
+			MCRUser mcrUser = MCRUserManager.getCurrentUser();
+			userID = mcrUser.getUserID();
 			if ("female".equals(mcrUser.getAttributes().get("sex"))) {
 				// Frau
 				name.append(messages.getString("Editor.Person.gender.female"));
