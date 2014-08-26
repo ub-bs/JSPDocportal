@@ -62,7 +62,7 @@
 				
 			
 			<c:if test="${not empty actionBean.nextSteps}">
-				<div class="panel panel-default">
+				<div class="panel panel-default" style="margin-top:64px">
   					<div class="panel-heading"><fmt:message key="Webpage.login.your_options" /></div>
   					<div class="list-group">
     					<c:forEach var="nextStep" items="${actionBean.nextSteps}">
