@@ -98,7 +98,7 @@ public class MCRIncludeXEditorTag extends SimpleTagSupport {
 					editorContent.setDocType("MyCoReWebPage");
 					editorContent = MCRStaticXEditorFileServlet.doExpandEditorElements(editorContent, (HttpServletRequest) pageContext.getRequest());
 
-					out.append(editorContent.asString());
+					out.append(editorContent.asString().replaceAll("<\\?xml.*?\\?>", ""));
 				} else {
 					LOGGER.error("JSPTag <mcr:includeXEditor> can only contain an <xed:form> element");
 					out.append("<span class=\"error\">Please provide an &lt;xed:form&gt; element here!</span>");
