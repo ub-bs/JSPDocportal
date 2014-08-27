@@ -1,10 +1,13 @@
 package org.mycore.frontend.jsp.stripes.actions;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.Before;
@@ -25,6 +28,9 @@ import org.mycore.activiti.MCRActivitiUtils;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.servlets.MCRServlet;
+import org.mycore.frontend.xeditor.MCREditorSession;
+import org.mycore.frontend.xeditor.MCREditorSessionStore;
+import org.mycore.frontend.xeditor.MCREditorSessionStoreFactory;
 import org.mycore.user2.MCRUser;
 import org.mycore.user2.MCRUserManager;
 
@@ -64,6 +70,27 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 
 	@DefaultHandler
 	public Resolution defaultRes() {
+		if(getContext().getRequest().getParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM)!=null){
+			String xEditorStepID =  getContext().getRequest().getParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM);
+			String sessionID = xEditorStepID.split("-")[0];
+		        MCREditorSession session = MCREditorSessionStoreFactory.getSessionStore().getSession(sessionID);
+
+		        if (session == null) {
+		            LOGGER.error("Editor session invalid !!!");
+		            //ToDo - Forward to error page
+		        	//String msg = getErrorI18N("xeditor.error", "noSession", sessionID);
+		            try{
+		            getContext().getResponse().sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "EditorSession not found: "+sessionID);
+		            }
+		            catch(IOException e){
+		            	LOGGER.error(e);
+		            }
+		            return null;
+		        }
+
+		        String mcrID = session.getEditedXML().getRootElement().getAttributeValue("ID");
+		        return editObject(mcrID, null);
+		}
 
 		for(String s: getContext().getRequest().getParameterMap().keySet()){
 			if(s.startsWith("doAcceptTask-task_")){
@@ -167,7 +194,9 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 		StringBuffer sbCancel = new StringBuffer(MCRServlet.getBaseURL()+"showWorkspace.action?");
 		if(!objectType.isEmpty()){sbCancel.append("&objectType=").append(objectType);}
 		if(!projectID.isEmpty()){sbCancel.append("&projectID=").append(projectID);}
-		sbCancel.append("#task_").append(taskID);
+		if(taskID!=null){
+			sbCancel.append("#task_").append(taskID);
+		}
 		cancelURL = sbCancel.toString();
 	
 		
