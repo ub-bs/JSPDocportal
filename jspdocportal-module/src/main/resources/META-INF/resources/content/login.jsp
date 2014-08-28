@@ -49,11 +49,11 @@
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10 container">
 							<div class="col-sm-6 text-center">
-								<input name="doLogin" class="btn btn-primary" value="<fmt:message key="Webpage.login.Login" />" type="submit"> 
+								<input name="doLogin" class="btn btn-primary" value="<fmt:message key="Webpage.login.Login" />" type="submit" /> 
 							</div>
 							<c:if test="${actionBean.loginOK}">
 								<div class="col-sm-6 text-center">
-									<input name="doLogout" class="btn btn-danger" value="<fmt:message key="Webpage.login.Logout" />" type="submit"> 
+									<input name="doLogout" class="btn btn-danger" value="<fmt:message key="Webpage.login.Logout" />" type="submit" /> 
 								</div>
 							</c:if>
 						</div>
@@ -66,7 +66,8 @@
   					<div class="panel-heading"><fmt:message key="Webpage.login.your_options" /></div>
   					<div class="list-group">
     					<c:forEach var="nextStep" items="${actionBean.nextSteps}">
-							<a class="list-group-item" href="${nextStep.url}">${nextStep.label}</a>
+    						<c:set var="href"><c:out escapeXml="true" value="${nextStep.url}"/></c:set>
+							<a class="list-group-item" href="${href}">${nextStep.label}</a>
 						</c:forEach>
 					 </div>
 				</div>
