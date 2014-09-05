@@ -60,7 +60,7 @@
 					<div class="panel panel-default" id="task_${task.id}">
 						<div class="panel-heading clearfix">
 							<stripes:submit class="btn btn-default btn-sm pull-right" name="doReleaseTask-task_${task.id}">Aufgabe abgeben</stripes:submit>
-							<h5 class="panel-title" style="margin-top:0.33em;"><span class="badge" style="margin-right:3em">${task.id}</span> Aufgabe: ${task.name}</h5>
+							<h5 class="panel-title" style="margin-top:0.33em;"><span class="badge" style="margin-right:3em">${task.executionId}</span> Aufgabe: ${task.name}</h5>
 	
 							
 						</div>
@@ -81,7 +81,7 @@
 				
 					<c:forEach var="task" items="${actionBean.availableTasks}">
 						<div class="list-group-item">
-							<span class="badge pull-left" style="margin-right:3em;margin-top:0.66em">${task.id}</span>
+							<span class="badge pull-left" style="margin-right:3em;margin-top:0.66em">${task.executionId}</span>
 							<c:if test="${empty task.assignee}">
 								<stripes:submit class="btn btn-default" name="doAcceptTask-task_${task.id}">Aufgabe übernehmen</stripes:submit>
 							</c:if>
