@@ -23,11 +23,17 @@
     <sequenceFlow id="create_object-TO-edit_object" sourceRef="create_object" targetRef="edit_object"></sequenceFlow>
     <sequenceFlow id="start-TO-create_object" sourceRef="start" targetRef="create_object"></sequenceFlow>
     <sequenceFlow id="is_valid-TO-commit_object" sourceRef="is_valid" targetRef="commit_object">
-    	<conditionExpression xsi:type="tFormalExpression">${validationResult == true}</conditionExpression>
+    	<conditionExpression xsi:type="tFormalExpression">${validationResult}</conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="edit_object.do_save" name="Speichern" sourceRef="edit_object" targetRef="validate_object"></sequenceFlow>
-    <sequenceFlow id="edit_object.do_cancel" name="Bearbeitung abbrechen" sourceRef="edit_object" targetRef="cancel_object"></sequenceFlow>
-    <sequenceFlow id="edit_object.do_drop" name="Entfernen" sourceRef="edit_object" targetRef="drop_object"></sequenceFlow>
+    <sequenceFlow id="edit_object.do_save" name="Speichern" sourceRef="edit_object" targetRef="validate_object">
+    	<conditionExpression xsi:type="tFormalExpression">${goto == 'edit_object.do_save'}</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="edit_object.do_cancel" name="Bearbeitung abbrechen" sourceRef="edit_object" targetRef="cancel_object">
+    	<conditionExpression xsi:type="tFormalExpression">${goto == 'edit_object.do_cancel'}</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="edit_object.do_drop" name="Entfernen" sourceRef="edit_object" targetRef="drop_object">
+    	<conditionExpression xsi:type="tFormalExpression">${goto == 'edit_object.do_drop'}</conditionExpression>
+    </sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_process">
     <bpmndi:BPMNPlane bpmnElement="create_object_simple" id="BPMNPlane_create_object_simple">

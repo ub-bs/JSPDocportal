@@ -12,7 +12,9 @@ import org.mycore.common.config.MCRConfigurationException;
 public class MCRActivitiMgr {
 	public static final String WF_VAR_PROJECT_ID = "projectID";
 	public static final String WF_VAR_OBJECT_TYPE = "objectType";
-	public static final String WF_VAR_OBJECT_ID = "objectID";
+	public static final String WF_VAR_MCR_OBJECT_ID = "mcrObjectID";
+	public static final String WF_VAR_VALIDATION_RESULT = "validationResult";
+	public static final String WF_VAR_VALIDATION_MESSAGE = "validationMessage";
 
 	private static ProcessEngine activitiProcessEngine;
 

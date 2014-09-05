@@ -102,7 +102,7 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 				releaseTask(id);
 			}
 			//doFollowt-task_[ID]-[mcrObjID]
-			if(s.startsWith("doFollow-task_")){
+			if(s.startsWith("doGoto-task_")){
 				String id = s.substring(s.indexOf("-")+1);
 				String taskID = id.substring(0,id.indexOf("-"));
 				taskID = taskID.substring(taskID.indexOf("_")+1);
@@ -203,7 +203,11 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 		return res;
 	}
 	
-	private void followTransaction(String taskID, String transactionID){
+	private void followTransaction(String taskId, String transactionID){
+		TaskService ts = MCRActivitiMgr.getWorfklowProcessEngine().getTaskService();
+		ts.setVariable(taskId, "goto", transactionID);
+		ts.complete(taskId);
+		
 		
 		
 

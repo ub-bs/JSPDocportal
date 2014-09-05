@@ -156,7 +156,7 @@ public class MCRDocDetailsTag extends SimpleTagSupport {
 		boolean isRoot = findAncestorWithClass(this, MCRDocDetailsTag.class) == null;
 		Transaction tx = null;
 		if (isRoot) {
-			tx = MCRHIBConnection.instance().getSession().beginTransaction();
+			//tx = MCRHIBConnection.instance().getSession().beginTransaction();
 		}
 		byte[] data = new byte[0];
 		try {
@@ -214,7 +214,7 @@ public class MCRDocDetailsTag extends SimpleTagSupport {
 		}
 		
 		if (isRoot) {
-			tx.commit();
+			//tx.commit();
 		}
 	}
 
