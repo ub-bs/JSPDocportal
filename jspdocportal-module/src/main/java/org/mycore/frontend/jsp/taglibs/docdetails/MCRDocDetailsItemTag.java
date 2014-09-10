@@ -152,7 +152,7 @@ public class MCRDocDetailsItemTag extends SimpleTagSupport {
 			<td class="metavalue">
 				<table border="0" cellpadding="0" cellspacing="4">
 				<colgroup>
-					<col width="80">
+					<col width="80" />
 				</colgroup>
 				<tbody>
 				<tr>

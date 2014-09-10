@@ -74,14 +74,14 @@
  <td>&nbsp;</td>
  <td align="center" valign="top" style="padding-top: 20px">
      <c:if test="${empty param.print and !fn:contains(style,'user')}">
-		     <a href="${WebApplicationBaseURL}content/print_details.jsp?id=${param.id}&fromWF=${param.fromWF}" target="_blank">
+		     <a href="${WebApplicationBaseURL}content/print_details.jsp?id=${param.id}&amp;fromWF=${param.fromWF}" target="_blank">
 	          	<img src="${WebApplicationBaseURL}images/workflow_print.gif" border="0" alt="<fmt:message key="WF.common.printdetails" />"  class="imagebutton" height="30"/>
 	         </a>
      </c:if>
  
    <c:if test="${(not from) && !fn:contains(style,'user')}" > 
      <mcr:checkAccess var="modifyAllowed" permission="writedb" key="${mcrid}" />
-     <mcr:isObjectNotLocked var="bhasAccess" objectid="${mcrid}" />
+     <mcr:isObjectNotLocked var="bhasAccess" mcrObjectID="${mcrid}" />
       <c:if test="${modifyAllowed}">
         <c:choose>
          <c:when test="${bhasAccess}"> 

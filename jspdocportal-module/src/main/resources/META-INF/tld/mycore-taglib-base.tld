@@ -105,7 +105,23 @@
 		<!-- A Tag, that includes a MyCoRe-XEditor (Input Forms and Search Masks) -->
 	</tag>
 	
-	
+	<tag>
+		<name>isObjectNotLocked</name>
+		<tag-class>org.mycore.frontend.jsp.taglibs.MCRIsObjectNotLockedTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>var</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>mcrObjectID</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<!-- A Tag, that checks if the object is in work, in another workflow and 
+			return bhasAccess=true if it is not locked -->
+	</tag>
 	
 <!-- *************************************************************************
 	 *  OLD Tags, check if still needed !!!                                  *   
@@ -520,23 +536,7 @@
 		<!-- A Tag, that sets a DOM Object with all needed data for assigning accessrules 
 			to objects to a given variable name -->
 	</tag>
-	<tag>
-		<name>isObjectNotLocked</name>
-		<tag-class>org.mycore.frontend.jsp.taglibs.MCRIsObjectNotLockedTag</tag-class>
-		<body-content>empty</body-content>
-		<attribute>
-			<name>var</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>objectid</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<!-- A Tag, that checks if the object is in work, in another workflow and 
-			return bhasAccess=true if it is not locked -->
-	</tag>
+
 	<tag>
 		<name>checkAccess</name>
 		<tag-class>org.mycore.frontend.jsp.taglibs.MCRCheckAccessTag</tag-class>

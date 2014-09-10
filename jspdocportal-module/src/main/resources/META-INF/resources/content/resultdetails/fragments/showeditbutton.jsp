@@ -8,7 +8,7 @@
 
  <mcr:checkAccess var="modifyAllowed" permission="writedb" key="${param.mcrid}" />
  <c:if test="${modifyAllowed}">
- 	<mcr:isObjectNotLocked var="bhasAccess" objectid="${param.mcrid}" />
+ 	<mcr:isObjectNotLocked var="bhasAccess" mcrObjectID="${param.mcrid}" />
  	<c:choose>
  		<c:when test="${bhasAccess}">
  			<!--  Editbutton -->

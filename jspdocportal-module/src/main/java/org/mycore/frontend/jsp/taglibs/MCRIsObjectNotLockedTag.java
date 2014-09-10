@@ -1,22 +1,21 @@
 package org.mycore.frontend.jsp.taglibs;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
-import org.mycore.common.config.MCRConfiguration;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
+import org.mycore.common.MCRPersistenceException;
+import org.mycore.datamodel.metadata.MCRBase;
+import org.mycore.datamodel.metadata.MCRMetadataManager;
+import org.mycore.datamodel.metadata.MCRObjectID;
 
 public class MCRIsObjectNotLockedTag extends SimpleTagSupport
 {
 	private String var;
-	private String objectid;
+	private String mcrObjectID;
 	
 	private static Logger LOGGER = Logger.getLogger(MCRIsObjectNotLockedTag.class);
 
@@ -25,35 +24,37 @@ public class MCRIsObjectNotLockedTag extends SimpleTagSupport
 		return;
 	}
 	
-	public void setObjectid(String objectid) {
-		this.objectid = objectid;
+	public void setMcrObjectID(String mcrObjectID) {
+		this.mcrObjectID = mcrObjectID;
 	}
 	
 	public void doTag() throws JspException, IOException {
+		PageContext pageContext = (PageContext) getJspContext();
+		boolean bhasAccess = true;
 		try{
-			boolean bhasAccess = false;
-			PageContext pageContext = (PageContext) getJspContext();
-			MCRWorkflowManager	WFM = null; 
-			String type = objectid.split("_")[1];
-			String workflowTypes[] = (MCRConfiguration.instance().getString("MCR.WorkflowEngine.WorkflowTypes")).split(",");
-			for ( int i = 0; i< workflowTypes.length; i++ ) {
-				workflowTypes[i]=workflowTypes[i].trim();
-				WFM = MCRWorkflowManagerFactory.getImpl(workflowTypes[i]);
-				if ( WFM != null && WFM.getDocumentTypes().contains(type)) {
-					List lpids = WFM.getCurrentProcessIDsForVariable(MCRWorkflowConstants.WFM_VAR_METADATA_OBJECT_IDS, objectid);
-					if( lpids == null || lpids.size() == 0 ){
-						// not in use by another process
-						bhasAccess = true;
-						break;
-					}						
+				MCRBase mcrBase = MCRMetadataManager.retrieve(MCRObjectID.getInstance(mcrObjectID));
+				if(mcrBase.getService().getFlags("status").size()>0){
+					for(String s: mcrBase.getService().getFlags("status")){
+						if(s.equals("ok")){
+							bhasAccess &= true;
+						}
+						else{
+							bhasAccess &= false;
+						}
+					}
 				}
-				
+				else{
+					bhasAccess=true;
+				}
 			}
+			catch(MCRPersistenceException e){
+				LOGGER.debug(e.getMessage());
+			}
+
+			
 			pageContext.setAttribute(var, new Boolean(bhasAccess));
 			return;
-		}catch(Exception e){
-			LOGGER.error("could not check access", e);
-		}
+		
 	}	
 
 }
