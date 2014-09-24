@@ -2,7 +2,6 @@ package org.mycore.frontend.jsp.taglibs.browsing;
 
 import java.io.IOException;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,8 +11,8 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
 import org.jdom2.Element;
-import org.mycore.common.config.MCRConfiguration;
 import org.mycore.common.MCRSession;
+import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.services.fieldquery.MCRQuery;
 import org.mycore.services.i18n.MCRTranslation;
@@ -67,7 +66,7 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 		//TODO SOLR Migration
 		/*
 		Transaction t1=null;
-		String baseurl = MCRServlet.getBaseURL();
+		String baseurl = MCRFrontendUtil.getBaseURL();
 		try {
     		Transaction tx  = MCRHIBConnection.instance().getSession().getTransaction();
 	   		if(tx==null || !tx.isActive()){
@@ -156,7 +155,7 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 	}
 	
 	private void writeResortForm(MCRQuery query, JspWriter out, String sortfields, String id, ResourceBundle messages, String searchmask) throws IOException{
-		String webBaseURL = MCRServlet.getBaseURL();
+		String webBaseURL = MCRFrontendUtil.getBaseURL();
 		
 		out.write("<div class=\"searchresult-resortform\">");
 		out.write("<form action=\""+webBaseURL+"servlets/MCRJSPSearchServlet\"	method=\"get\">");
@@ -225,7 +224,7 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 	
 	//36.168 Publications	      Erste Seite | 11-20 | 21-30 | 31-40 | 41-50 | 51-60 | Nächste Seite
 	private void writePageNavigation(JspWriter out, String id, int numHits, int numPerPage, int numPages, int page, String mask) throws IOException{
-		String webBaseURL = MCRServlet.getBaseURL();
+		String webBaseURL = MCRFrontendUtil.getBaseURL();
 		PageContext pageContext = (PageContext) getJspContext();
 		MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest) pageContext.getRequest());
 	    String lang = mcrSession.getCurrentLanguage();

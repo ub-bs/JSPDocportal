@@ -27,7 +27,7 @@ import org.mycore.activiti.MCRActivitiMgr;
 import org.mycore.activiti.MCRActivitiUtils;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.datamodel.metadata.MCRObjectID;
-import org.mycore.frontend.servlets.MCRServlet;
+import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.xeditor.MCREditorSession;
 import org.mycore.frontend.xeditor.MCREditorSessionStore;
 import org.mycore.frontend.xeditor.MCREditorSessionStoreFactory;
@@ -191,7 +191,7 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 		File wfFile = new File(MCRActivitiUtils.getWorkflowDirectory(mcrObjID), mcrID+".xml");
 		sourceURI = wfFile.toURI().toString();
 		ForwardResolution res = new ForwardResolution("/content/editor/fullpageEditor.jsp");
-		StringBuffer sbCancel = new StringBuffer(MCRServlet.getBaseURL()+"showWorkspace.action?");
+		StringBuffer sbCancel = new StringBuffer(MCRFrontendUtil.getBaseURL()+"showWorkspace.action?");
 		if(!objectType.isEmpty()){sbCancel.append("&objectType=").append(objectType);}
 		if(!projectID.isEmpty()){sbCancel.append("&projectID=").append(projectID);}
 		if(taskID!=null){

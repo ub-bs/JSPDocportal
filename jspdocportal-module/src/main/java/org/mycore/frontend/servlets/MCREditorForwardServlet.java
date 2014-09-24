@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.mycore.frontend.MCRFrontendUtil;
 
 /**
  * This servlet forwards the Editor Redirect Pages 
@@ -64,7 +65,7 @@ public class MCREditorForwardServlet extends MCRServlet {
         if (requestPath == null) {
             String msg = "Error: HTTP request path is null";
             LOGGER.error(msg);
-            response.sendRedirect(getBaseURL() + "mycore-error.jsp?messageKey=SWF.EditorError&lang=" + 
+            response.sendRedirect(MCRFrontendUtil.getBaseURL() + "mycore-error.jsp?messageKey=SWF.EditorError&lang=" + 
             		MCRServlet.getSession(request).getCurrentLanguage());
             return;
         }
@@ -79,7 +80,7 @@ public class MCREditorForwardServlet extends MCRServlet {
         }
         String msg = "Error: HTTP request path has wrong format, no '/' given";
         LOGGER.error(msg);
-        response.sendRedirect(getBaseURL() + "mycore-error.jsp?messageKey=SWF.EditorError&lang=" + 
+        response.sendRedirect(MCRFrontendUtil.getBaseURL() + "mycore-error.jsp?messageKey=SWF.EditorError&lang=" + 
         		MCRServlet.getSession(request).getCurrentLanguage());
         return;
     }

@@ -18,6 +18,7 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRSession;
 import org.mycore.common.config.MCRConfiguration;
+import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.services.i18n.MCRTranslation;
 
@@ -156,7 +157,7 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 	 */
 	private void showEditButton() throws IOException {
 		PageContext pageContext = (PageContext) getJspContext();
-		String myURL = MCRServlet.getBaseURL();
+		String myURL = MCRFrontendUtil.getBaseURL();
 		String label = MCRTranslation.translate("Webpage.editwebcontent");
 		JspWriter out = pageContext.getOut();
 		out.write("<form method=\"post\" action=\"\">");

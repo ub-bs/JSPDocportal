@@ -50,6 +50,7 @@ import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.datamodel.metadata.MCRObjectStructure;
+import org.mycore.frontend.MCRFrontendUtil;
 
 
 /**
@@ -201,7 +202,7 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 				((MCRFile)myfiles[0]).getContentTo(response.getOutputStream());
 			}*/
 			if(myfiles[0] instanceof MCRFile && myfiles[0].getAbsolutePath().endsWith(".pdf")){
-				StringBuffer sbPath = new StringBuffer(getBaseURL());
+				StringBuffer sbPath = new StringBuffer(MCRFrontendUtil.getBaseURL());
 				sbPath.append("file/").append(mcrID).append("/").append(myfiles[0].getPath());
 				if(page!=null){
 					sbPath.append("#page=").append(page);
@@ -233,7 +234,7 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 		MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(derMetaLink.getXLinkHrefID());
 		String mainDoc = der.getDerivate().getInternals().getMainDoc();
 		if(mainDoc!=null && mainDoc.length()>0){
-			StringBuffer sbPath = new StringBuffer(getBaseURL());
+			StringBuffer sbPath = new StringBuffer(MCRFrontendUtil.getBaseURL());
 			sbPath.append("file/").append(mcrID).append("/").append(der.getId().toString()).append("/").append(mainDoc);
 			if(anchor!=null){
 				sbPath.append("#").append(anchor);
@@ -280,7 +281,7 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 								//display in DFG-Viewer
 							sbURL = new StringBuffer("http://dfg-viewer.de/show/");
 							sbURL.append("?set[mets]=");
-							sbURL.append(URLEncoder.encode(getBaseURL()+"file/"+mcrID+"/"+f.getPath(), "UTF-8"));
+							sbURL.append(URLEncoder.encode(MCRFrontendUtil.getBaseURL()+"file/"+mcrID+"/"+f.getPath(), "UTF-8"));
 							if(eMETSPhysDiv!=null){
 								sbURL.append("&set[image]=").append(eMETSPhysDiv.getAttributeValue("ORDER"));
 							}

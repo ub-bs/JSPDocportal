@@ -42,6 +42,7 @@ import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSystemUserInformation;
 import org.mycore.common.MCRUserInformation;
 import org.mycore.common.config.MCRConfiguration;
+import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.jsp.user.MCRExternalUserLogin;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.services.i18n.MCRTranslation;
@@ -288,7 +289,7 @@ public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBe
 			for (String groupID : mcrUser.getSystemRoleIDs()) {
 				MCRRole mcrgroup = MCRRoleManager.getRole(groupID);
 				String link = MCRConfiguration.instance().getString("MCR.Application.Login.StartLink." + groupID, "").trim();
-				nextSteps.add(new MCRLoginNextStep(MCRServlet.getBaseURL() + link, mcrgroup.getLabel().getText() + " (" + mcrgroup.getName()+")"));
+				nextSteps.add(new MCRLoginNextStep(MCRFrontendUtil.getBaseURL() + link, mcrgroup.getLabel().getText() + " (" + mcrgroup.getName()+")"));
 			}
 		}
 	}

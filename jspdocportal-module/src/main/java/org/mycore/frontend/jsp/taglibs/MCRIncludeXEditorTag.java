@@ -20,7 +20,7 @@ import org.mycore.common.content.MCRContent;
 import org.mycore.common.content.MCRJDOMContent;
 import org.mycore.common.content.MCRStringContent;
 import org.mycore.common.content.MCRURLContent;
-import org.mycore.frontend.jsp.NavServlet;
+import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.xeditor.MCRStaticXEditorFileServlet;
 import org.xml.sax.SAXException;
 
@@ -71,7 +71,7 @@ public class MCRIncludeXEditorTag extends SimpleTagSupport {
 			if (editorPath.startsWith("http")) {
 				editorContent = new MCRURLContent(new URL(editorPath));
 			} else {
-				editorContent = new MCRURLContent(new URL(NavServlet.getBaseURL() + editorPath));
+				editorContent = new MCRURLContent(new URL(MCRFrontendUtil.getBaseURL() + editorPath));
 			}
 		} else {
 			StringWriter sw = new StringWriter();

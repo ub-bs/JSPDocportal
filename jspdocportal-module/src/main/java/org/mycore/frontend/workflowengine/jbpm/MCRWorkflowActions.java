@@ -38,6 +38,7 @@ import org.apache.log4j.Logger;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.editor.MCRRequestParameters;
 import org.mycore.frontend.jsp.MCRJSPDocportalCommands;
 import org.mycore.frontend.servlets.MCRServlet;
@@ -221,7 +222,7 @@ public class MCRWorkflowActions extends MCRServlet {
             }
         	//leeren upload Editor includieren
 			String fuhid = new MCRWorkflowUploadHandler( mcrid, derivateID, "new", nextPath).getID();
-			String base = getBaseURL() + "nav";
+			String base = MCRFrontendUtil.getBaseURL() + "nav";
 			Properties params = new Properties();
 			params.put("path","~editor-include");
 			params.put("uploadID", fuhid);

@@ -49,6 +49,7 @@ import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.datamodel.metadata.MCRObjectStructure;
+import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.services.fieldquery.MCRQuery;
 import org.mycore.services.fieldquery.MCRQueryParser;
 
@@ -182,7 +183,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
     	
     	if(action.equals("fulltext")){
     		if(mcrID.startsWith("mvdok")){
-    			String url = getBaseURL()+"mjbrenderer?id="+mcrID;
+    			String url = MCRFrontendUtil.getBaseURL()+"mjbrenderer?id="+mcrID;
     			response.sendRedirect(url);
     		}
     	}
@@ -230,7 +231,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
     				}
     			}
     			StringBuffer url = new StringBuffer();
-    			url.append(getBaseURL()).append("file/").append(mcrID).append("/").append(mcrDerID.toString()).append(filepath); 
+    			url.append(MCRFrontendUtil.getBaseURL()).append("file/").append(mcrID).append("/").append(mcrDerID.toString()).append(filepath); 
     			response.sendRedirect(url.toString());
     		}
     	}
@@ -264,7 +265,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
     	if(mainFile!=null){
     		if (!MCRAccessManager.checkPermissionForReadingDerivate(mainFile.getOwnerID())) {
                 LOGGER.info("MCRFileNodeServlet: AccessForbidden to " + mainFile.getName());
-                response.sendRedirect(response.encodeRedirectURL(getBaseURL() + accessErrorPage));
+                response.sendRedirect(response.encodeRedirectURL(MCRFrontendUtil.getBaseURL() + accessErrorPage));
                 return;
             }
         	
@@ -285,7 +286,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
 		String page= request.getParameter("page");
 	    String nr = request.getParameter("nr");
 		
-	  	StringBuffer sbURL = new StringBuffer(getBaseURL());
+	  	StringBuffer sbURL = new StringBuffer(MCRFrontendUtil.getBaseURL());
 		sbURL.append("file/").append(mcrid).append("/").append(mcrFile.getPath());
 		if(page!=null){
 			sbURL.append("#page=").append(page);

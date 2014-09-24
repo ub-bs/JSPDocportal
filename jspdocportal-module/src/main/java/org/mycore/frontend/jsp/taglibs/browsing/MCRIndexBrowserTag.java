@@ -18,6 +18,7 @@ import org.jdom2.filter.Filters;
 import org.jdom2.output.DOMOutputter;
 import org.jdom2.xpath.XPathFactory;
 import org.mycore.common.MCRSession;
+import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.services.i18n.MCRTranslation;
 
@@ -122,7 +123,7 @@ public class MCRIndexBrowserTag extends SimpleTagSupport {
 				pageContent = MCRIndexBrowserUtils.createEmptyDocument(incomingBrowserData);
 			}
 */
-			String webApplicationBaseURL = MCRServlet.getBaseURL();
+			String webApplicationBaseURL = MCRFrontendUtil.getBaseURL();
 
 			String subselect_varpath = ctx.getRequest().getParameter("XSL.subselect.varpath.SESSION");
 			if (subselect_varpath == null) {

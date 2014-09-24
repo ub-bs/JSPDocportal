@@ -33,6 +33,7 @@ import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.editor.MCRRequestParameters;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
@@ -73,7 +74,7 @@ public class MCRWorkflowForEditingStartServlet extends MCRServlet {
 			String lang   = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
 			String usererrorpage = "nav?path=~mycore-error?messageKey=WF.common.PrivilegesError&lang=" + lang;
 			logger.debug("Access denied for current user to start workflow for object " + mcrid);				
-			response.sendRedirect(getBaseURL() + usererrorpage);
+			response.sendRedirect(MCRFrontendUtil.getBaseURL() + usererrorpage);
 			return;
 		}
 		
@@ -88,7 +89,7 @@ public class MCRWorkflowForEditingStartServlet extends MCRServlet {
 				wfm.initWorkflowProcessForEditing(MCRSessionMgr.getCurrentSession().getUserInformation().getUserID(),	mcrid);	
 				String url = "nav?path=~workflow-" + wfm.getWorkflowProcessType();
 				logger.debug("nextpage = " + url);
-				response.sendRedirect(response.encodeRedirectURL(getBaseURL() + url));
+				response.sendRedirect(response.encodeRedirectURL(MCRFrontendUtil.getBaseURL() + url));
 			}
 		}
 		
@@ -96,7 +97,7 @@ public class MCRWorkflowForEditingStartServlet extends MCRServlet {
 			String lang   = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
 			String usererrorpage = "mycore-error.jsp?messageKey=WF.xmetadiss.errorWfM&lang=" + lang;
 			logger.debug("The document (to open for editing) is not in the database: " + mcrid);				
-			response.sendRedirect(getBaseURL() + usererrorpage);
+			response.sendRedirect(MCRFrontendUtil.getBaseURL() + usererrorpage);
 		}
 	}
 }	

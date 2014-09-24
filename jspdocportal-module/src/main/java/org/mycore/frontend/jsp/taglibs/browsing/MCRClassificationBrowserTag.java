@@ -54,7 +54,7 @@ import org.mycore.datamodel.classifications2.MCRCategory;
 import org.mycore.datamodel.classifications2.MCRCategoryDAO;
 import org.mycore.datamodel.classifications2.MCRCategoryDAOFactory;
 import org.mycore.datamodel.classifications2.MCRCategoryID;
-import org.mycore.frontend.servlets.MCRServlet;
+import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.parsers.bool.MCRCondition;
 import org.mycore.services.fieldquery.MCRQuery;
 import org.mycore.services.fieldquery.MCRQueryParser;
@@ -315,7 +315,7 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 		else{
 			hasLinkMap.putAll(CATEGLINKSERVICE.hasLinks(rootCateg));
 		}
-		String webApplicationBaseURL = MCRServlet.getBaseURL();
+		String webApplicationBaseURL = MCRFrontendUtil.getBaseURL();
 		String subselect_webpage = context.getRequest().getParameter("XSL.subselect.webpage.SESSION");
 	    if(subselect_webpage==null){subselect_webpage="";}
 	    
@@ -335,7 +335,7 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 		out.write("\n<div class=\"classification-browser\">");
 		boolean didIt = false;
 		for (MCRCategory categ:categories){
-			didIt = outputCategory(categ, MCRServlet.getBaseURL(), url.toString(),0, didIt);
+			didIt = outputCategory(categ, MCRFrontendUtil.getBaseURL(), url.toString(),0, didIt);
 		}
 		if(!didIt){
 			out.write("\n<b>"+MCRTranslation.translate("Webpage.browse.empty")+"</b>");

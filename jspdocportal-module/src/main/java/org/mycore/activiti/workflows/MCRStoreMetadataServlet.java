@@ -6,6 +6,7 @@ import org.jdom2.Document;
 import org.mycore.activiti.MCRActivitiUtils;
 import org.mycore.common.content.MCRJDOMContent;
 import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.servlets.MCRServletJob;
 
@@ -29,7 +30,7 @@ public class MCRStoreMetadataServlet extends MCRServlet{
 		MCRJDOMContent content = new MCRJDOMContent(xml);
 		content.sendTo(wfFile);
 		
-		job.getResponse().sendRedirect(MCRServlet.getBaseURL()+"showWorkspace.action?projectID="+mcrObjID.getProjectId()+"&objectType="+mcrObjID.getTypeId());
+		job.getResponse().sendRedirect(MCRFrontendUtil.getBaseURL()+"showWorkspace.action?projectID="+mcrObjID.getProjectId()+"&objectType="+mcrObjID.getTypeId());
 	}
 
 }

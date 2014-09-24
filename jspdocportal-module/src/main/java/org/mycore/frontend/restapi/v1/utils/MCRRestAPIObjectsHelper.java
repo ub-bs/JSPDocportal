@@ -21,10 +21,10 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
-import org.mycore.common.config.MCRConfiguration;
 import org.mycore.common.MCRConstants;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRSession;
+import org.mycore.common.config.MCRConfiguration;
 import org.mycore.datamodel.common.MCRObjectIDDate;
 import org.mycore.datamodel.common.MCRXMLMetadataManager;
 import org.mycore.datamodel.ifs.MCRDirectory;
@@ -35,6 +35,7 @@ import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.restapi.v1.MCRRestAPIObjects;
 import org.mycore.frontend.restapi.v1.errors.MCRRestAPIError;
 import org.mycore.frontend.restapi.v1.errors.MCRRestAPIException;
@@ -150,7 +151,7 @@ public class MCRRestAPIObjectsHelper {
                         String.valueOf(dir.getNumChildren(MCRDirectory.DIRECTORIES, MCRDirectory.TOTAL)));
                 eContents.setAttribute("total_files",
                         String.valueOf(dir.getNumChildren(MCRDirectory.FILES, MCRDirectory.TOTAL)));
-                 String baseurl = MCRServlet.getBaseURL()+MCRConfiguration.instance().getString("MCR.RestAPI.v1.Files.baseurl.path", "");
+                 String baseurl = MCRFrontendUtil.getBaseURL()+MCRConfiguration.instance().getString("MCR.RestAPI.v1.Files.baseurl.path", "");
                  if(!baseurl.endsWith("/")){baseurl+="/";}
                 listDirectoryContent(eContents, dir, baseurl+derObj.getOwnerID().toString()+"/"+derObj.getId().toString()+"/");
             }
@@ -182,7 +183,7 @@ public class MCRRestAPIObjectsHelper {
                     writer.name("total_directories").value(
                             dir.getNumChildren(MCRDirectory.DIRECTORIES, MCRDirectory.TOTAL));
                     writer.name("total_files").value(dir.getNumChildren(MCRDirectory.FILES, MCRDirectory.TOTAL));
-                    String baseurl = MCRServlet.getBaseURL()+MCRConfiguration.instance().getString("MCR.RestAPI.v1.Files.baseurl.path", "");
+                    String baseurl = MCRFrontendUtil.getBaseURL()+MCRConfiguration.instance().getString("MCR.RestAPI.v1.Files.baseurl.path", "");
                     if(!baseurl.endsWith("/")){baseurl+="/";}
                     listDirectoryContentAsJson(writer, dir, baseurl+derObj.getOwnerID().toString()+"/"+derObj.getId().toString()+"/");
                 }

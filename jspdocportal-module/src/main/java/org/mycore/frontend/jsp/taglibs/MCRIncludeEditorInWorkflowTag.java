@@ -29,8 +29,8 @@ import org.mycore.common.MCRSession;
 import org.mycore.common.content.MCRFileContent;
 import org.mycore.common.xml.MCRURIResolver;
 import org.mycore.common.xsl.MCRParameterCollector;
+import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.editor.MCREditorServlet;
-import org.mycore.frontend.jsp.NavServlet;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 import org.xml.sax.SAXException;
@@ -118,7 +118,6 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 		this.processid = processid;
 	}
 
-	@SuppressWarnings("unchecked")
 	public void doTag() throws JspException, IOException {
 		PageContext pageContext = (PageContext) getJspContext();
 		
@@ -128,7 +127,7 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 			parameters.put("XSL.editor.session.id",editorSessionID);				
 			editorBase = (String)pageContext.getSession().getAttribute("editorPath");	
 			if (editorBase == null ) {
-				editorBase = new StringBuffer(NavServlet.getBaseURL())
+				editorBase = new StringBuffer(MCRFrontendUtil.getBaseURL())
 				.append((String) pageContext.getAttribute("editorPath")).toString();
 			}
 		}else{
@@ -137,10 +136,10 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 					editorBase = editorPath;
 				}
 				else{
-					editorBase = NavServlet.getBaseURL() + editorPath;
+					editorBase = MCRFrontendUtil.getBaseURL() + editorPath;
 				}
 			}else if(uploadID == null || uploadID.equals("") ) {
-				StringBuffer base = new StringBuffer(NavServlet.getBaseURL()).
+				StringBuffer base = new StringBuffer(MCRFrontendUtil.getBaseURL()).
 						append("editor/workflow/editor-").append(step).append('-').append(type);			
 				if (publicationType != null && !publicationType.equals("")) {
 					if ( publicationType.endsWith("TYPE0002") )
@@ -152,7 +151,7 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 				editorBase = base.toString();
 
 			}else{
-				editorBase = new StringBuffer(NavServlet.getBaseURL())
+				editorBase = new StringBuffer(MCRFrontendUtil.getBaseURL())
 				.append("editor/workflow/editor-author-addfile-new.xml").toString();
 			}
 
@@ -161,7 +160,7 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 		JspWriter out = pageContext.getOut();
 	
 		try{
-			String path = pageContext.getServletContext().getRealPath(editorBase.substring(NavServlet.getBaseURL().length()));
+			String path = pageContext.getServletContext().getRealPath(editorBase.substring(MCRFrontendUtil.getBaseURL().length()));
 			File editorFile = new File(path);
 			
 			HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
@@ -212,7 +211,7 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 		Properties params = new Properties();
 
 		if(cancelPage == null || cancelPage.equals("")){
-			cancelPage 	=  NavServlet.getBaseURL() + "nav?path=~workflow-" + workflowType;			
+			cancelPage 	=  MCRFrontendUtil.getBaseURL() + "nav?path=~workflow-" + workflowType;			
 		}		
 		
 		MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)((PageContext) getJspContext()).getRequest());

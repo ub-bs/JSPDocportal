@@ -25,8 +25,8 @@ import org.jdom2.transform.JDOMSource;
 import org.mycore.common.content.MCRStreamContent;
 import org.mycore.common.xml.MCRURIResolver;
 import org.mycore.common.xsl.MCRParameterCollector;
+import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.editor.MCREditorServlet;
-import org.mycore.frontend.jsp.NavServlet;
 import org.xml.sax.SAXException;
 
 public class MCRIncludeEditorTag extends SimpleTagSupport {
@@ -51,7 +51,7 @@ public class MCRIncludeEditorTag extends SimpleTagSupport {
 			if (editorPath.startsWith("http")) {
 				editorBase = editorPath;
 			} else {
-				editorBase = NavServlet.getBaseURL() + editorPath;
+				editorBase = MCRFrontendUtil.getBaseURL() + editorPath;
 			}
 			pageContext.getSession().setAttribute("editorPath", editorBase);
 		}
