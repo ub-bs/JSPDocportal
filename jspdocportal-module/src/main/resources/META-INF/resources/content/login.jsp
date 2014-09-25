@@ -26,7 +26,7 @@
 				</div>
 			
 			<c:if test="${actionBean.loginOK}">
-				<p><fmt:message key="Webpage.login.YouAreLoggedInAs" />:&nbsp;	<strong><c:out value="${actionBean.userID}"></c:out></strong></p>
+				<p><fmt:message key="Webpage.login.YouAreLoggedInAs" />:&#160;	<strong><c:out value="${actionBean.userID}"></c:out></strong></p>
 			</c:if>
 			<c:if test="${not empty actionBean.loginStatus}">
 				<div class="alert alert-info" role="alert"><fmt:message key="Webpage.login.status.${actionBean.loginStatus}" >

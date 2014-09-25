@@ -44,7 +44,7 @@
 	<x:set var="data2" select="$xml/mycoreobject/metadata/types/type" /> 
 	<x:if select="string-length($data2/@categid)>0">
 		<tr>
-			<td><fmt:message key="OMD.class-types" />:&nbsp;</td>
+			<td><fmt:message key="OMD.class-types" />:&#160;</td>
 			<td class="searchresult-table-value">
  				<x:set var="classid" select="string($data2/@classid)" />
 			    <x:set var="categid" select="string($data2/@categid)" />
@@ -56,7 +56,7 @@
 	<x:set var="data3" select="$xml/mycoreobject/metadata/dates/date[@type='accepted']" /> 
 	<x:if select="string-length($data3)>0">
 		<tr>
-			<td><fmt:message key="OMD.yearofpublication" />:&nbsp; </td>
+			<td><fmt:message key="OMD.yearofpublication" />:&#160; </td>
 			<td class="searchresult-table-value">
 				<x:set var="text" select="string($data3)" />
 				<c:out value="${fn:substring(text,0,4)}"/>
@@ -72,7 +72,7 @@
 			<c:set var="text"><c:out value="${fn:substring(text,0,250)}"/>...</c:set>
 		</c:if>
 		<tr>
-			<td><fmt:message key="OMD.descriptions" />:&nbsp; </td>
+			<td><fmt:message key="OMD.descriptions" />:&#160; </td>
 			<td class="searchresult-table-value">
 				<c:out value="${text}"/>
 			</td>
@@ -82,11 +82,11 @@
 	<x:set var="data5" select="$xml/mycoreobject/service/servdates/servdate[@type='modifydate']" />
 	<x:if select="string-length($data5)>0">
 		<tr>
-			<td><fmt:message key="OMD.id" />:&nbsp;</td>
+			<td><fmt:message key="OMD.id" />:&#160;</td>
 			<td class="searchresult-table-value">
 			    <c:set var="x"><x:out select="$data5" /></c:set>
 			    <fmt:parseDate value="${x}" pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" var="moddate" />
-			    <x:out select="$xml/mycoreobject/@ID" />&nbsp;
+			    <x:out select="$xml/mycoreobject/@ID" />&#160;
 			    <em>(<fmt:message key="OMD.changed-at" />: <fmt:formatDate value="${moddate}" dateStyle="medium" />)</em>
 			</td>
 		</tr>

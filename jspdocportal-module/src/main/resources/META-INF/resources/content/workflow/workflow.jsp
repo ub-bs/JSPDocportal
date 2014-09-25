@@ -38,7 +38,7 @@
       			</p>   
       			<hr/>
 	      		<mcr:includeWebContent file="workflow/${param.wftype}_introtext.html"/>
-    	  		<br/>&nbsp;<br>
+    	  		<br/>&#160;<br>
    			</c:when>
    			<c:otherwise>
         		<h2><fmt:message key="WF.${param.wftype}" /></h2>
@@ -49,7 +49,7 @@
 	    				</ul>	    				
   					</c:if>
    
-   					<br />&nbsp;<br />
+   					<br />&#160;<br />
         
         			<h3><fmt:message key="WF.common.MyTasks" /></h3>   
         			<div class="tasklist">

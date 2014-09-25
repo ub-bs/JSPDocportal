@@ -50,7 +50,7 @@
 </p>
 <table class="access" cellspacing="1" cellpadding="0" >
 	<tr>
-		<td >&nbsp;	</td>
+		<td >&#160;	</td>
 		<td>
 			<input type="image" title="Neuen Benutzer anlegen" name="new" src="<%= WebApplicationBaseURL %>admin/images/install.png">
 		</td>
@@ -79,4 +79,4 @@
 <input type="hidden" name="operation" value="detail">
 
 </form>
-<br>&nbsp;<br>
+<br>&#160;<br>

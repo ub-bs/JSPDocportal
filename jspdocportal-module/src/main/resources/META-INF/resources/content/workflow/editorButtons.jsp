@@ -165,7 +165,7 @@
 	<tr>
 	
 		<td class="tasklistTitle"><c:out value="${wfoTitle}" /></td>
-		<td width="30" rowspan="2">&nbsp;</td>
+		<td width="30" rowspan="2">&#160;</td>
 		<td align="right" rowspan="2">
 
 		</td>
@@ -175,11 +175,11 @@
   	 	<fmt:message key="WF.${requestScope.task.workflowProcessType}.Description" />, ${itemID}
 		<mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="authors" workflowVar="authorNames" />
 		<c:if test="${not empty authors}">
-			<br /><fmt:message key="Editor.Search.Label.creator" />:&nbsp;<i><c:out value="${authors}" /></i>
+			<br /><fmt:message key="Editor.Search.Label.creator" />:&#160;<i><c:out value="${authors}" /></i>
 		</c:if>
 		<mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="urn" workflowVar="reservatedURN" />
 		<c:if test="${not empty urn}">
-			  <br />[<fmt:message key="WF.xmetadiss.URN" />:&nbsp;<i><c:out value="${urn}" /></i>]
+			  <br />[<fmt:message key="WF.xmetadiss.URN" />:&#160;<i><c:out value="${urn}" /></i>]
 		</c:if>		 
 		 <br/>
 		 <mcr:getWorkflowEngineVariable pid="${requestScope.task.processID}" var="date" workflowVar="endOfSuspension" />
@@ -210,7 +210,7 @@
 			<th align="left" valign="top">
 				<fmt:message key="OMD.derivatedisplay.${derivateLabel}" /><br />				
 			</th>
-			<th width="30">&nbsp;</th>
+			<th width="30">&#160;</th>
 			<th align="right">
 			  <c:if	test="${modifyAllowed}">
 				<table>
@@ -322,7 +322,7 @@
 				 <a 				
 					href="${baseURL}wffile/<x:out select="."/>?type=${itemDocType}"
 					target="_blank"> <x:out select="." /> </a> [ ${fileSize} ]</td>
-				<td width="30">&nbsp;</td>
+				<td width="30">&#160;</td>
 				<td>
 					<c:if test="${modifyAllowed && numFiles gt 1}">
 					<table>
@@ -347,7 +347,7 @@
 	</x:forEach>
 	</td>
 
-		<td>&nbsp;</td>
+		<td>&#160;</td>
 		<td align="right" style="vertical-align: bottom;" height="100%">
 		<table>
 			<tr>

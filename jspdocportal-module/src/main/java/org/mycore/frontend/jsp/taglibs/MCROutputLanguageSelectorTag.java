@@ -72,7 +72,7 @@ import javax.servlet.jsp.tagext.JspFragment;
  *  Sample Usage (advanced):
  *  
  *  <mcr:outputLanguageSelector languages="de,en" var="lang">
- *   <c:if test="${!lang.first}">&nbsp;|&nbsp;</c:if>                     
+ *   <c:if test="${!lang.first}">&#160;|&#160;</c:if>                     
  *   <c:choose>
  *      <c:when test="${lang_lang == lang.currentLang }">
  *          <span class="lang_link_active">${lang.label}</span>

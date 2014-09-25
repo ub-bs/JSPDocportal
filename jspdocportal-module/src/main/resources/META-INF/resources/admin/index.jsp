@@ -59,7 +59,7 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="2" valign="bottom"><div id="footer"><small>User: ${username}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ver. 0.3</small></div></td>
+                <td colspan="2" valign="bottom"><div id="footer"><small>User: ${username}&#160;&#160;&#160;ver. 0.3</small></div></td>
             </tr>
         </table>       
        </c:otherwise>

@@ -11,7 +11,7 @@
 			<p class="error">Sie besitzen nicht die notwendige Berechtigung, um den Administrationsbereich zu nutzen.<br />
 				Bitte wenden Sie sich an Ihren Administrator, falls Sie weitere Fragen haben</p>
 
-			<p>&nbsp;</p><p>&nbsp;</p>
+			<p>&#160;</p><p>&#160;</p>
 			<p align="center"><a href="<%= MCRServlet.getBaseURL() %>">Sie müssen Sich erst in der Digitalen Bibliothek anmelden</a>
 	</stripes:layout-component>
 </stripes:layout-render>    

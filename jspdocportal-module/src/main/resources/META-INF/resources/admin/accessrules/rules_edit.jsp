@@ -62,7 +62,7 @@
 			<td><textarea name="description" cols="50" rows="3"><%=rule.getDescription()%></textarea></td>
 		</tr>
 		<tr>
-			<td>&nbsp;
+			<td>
 				<input type="hidden" name="creator" value="<%=rule.getCreator()%>">
 				<input type="hidden" name="creationtime" value="<%=df.format(rule.getCreationTime())%>">
 				<input type="hidden" name="operation" value="<%=operation%>">
@@ -75,8 +75,8 @@
 			</td>
 		</tr>
 		<tr>
-			<td>&nbsp;</td>
-			<td><input type="reset">&nbsp;<input type="submit" value="Speichern"></td>
+			<td>&#160;</td>
+			<td><input type="reset">&#160;<input type="submit" value="Speichern"></td>
 		</tr>
 
 	</table>

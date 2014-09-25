@@ -98,7 +98,7 @@
 			<fmt:message key="Webpage.admin.access.Permissions" />
 		</td>
 		<td rowspan="2">
-			&nbsp;
+			&#160;
 		</td>
 	</tr>
 	<tr>
@@ -110,15 +110,15 @@
        <tr>
           <td><x:out select="./idx" /></td>
           <x:forEach select="./permission">
-             <td class="pool"><x:out select="./@value" />&nbsp;</td>
+             <td class="pool"><x:out select="./@value" />&#160;</td>
           </x:forEach>
-          <td><input type="checkbox" name="<x:out select="./idx" />" onclick="setValue(this)">&nbsp;&nbsp;<input type="image" src="./admin/images/edit.png" onclick="setID('<x:out select="./idx" />')" /></td>
+          <td><input type="checkbox" name="<x:out select="./idx" />" onclick="setValue(this)">&#160;&#160;<input type="image" src="./admin/images/edit.png" onclick="setID('<x:out select="./idx" />')" /></td>
        </tr>
     </x:forEach>
     <tr>
        <td><input type="text" name="objID" id="objID" size="25"></td>
        <td colspan="${poolNum + 1}">
-        &nbsp;&nbsp;<input type="image" src="./admin/images/edit.png" onclick="setIDFromInputField()" />&nbsp;&nbsp;
+       &#160;&#160;<input type="image" src="./admin/images/edit.png" onclick="setIDFromInputField()" />&#160;&#160;
         <fmt:message key="Webpage.admin.access.EnterObjIDDirectly" />
        </td>
     </tr>    

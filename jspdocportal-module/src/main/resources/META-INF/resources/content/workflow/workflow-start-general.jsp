@@ -39,7 +39,7 @@
 </c:forEach>
 </table>
 
-<br>&nbsp;<br>
+<br>&#160;<br>
 
 <h3><fmt:message key="WF.common.MyInititiatedProcesses" /></h3>
 

@@ -45,7 +45,7 @@
 	<c:set var="data1"><x:out select="$data1a" /></c:set>
 	<x:if select="string-length($data1b)>0">
 		<c:if test="${fn:length(data1) > 0}">
-			<c:set var="data1"><c:out value="${data1}" />;&nbsp;<x:out select="$data1b" /></c:set>
+			<c:set var="data1"><c:out value="${data1}" />;&#160;<x:out select="$data1b" /></c:set>
 		</c:if>
 		<c:if test="${fn:length(data1) eq 0}">
 			<c:set var="data1"><x:out select="$data1b" /></c:set>
@@ -54,7 +54,7 @@
 	<c:if test="${fn:length(data1) > 0}"> 
 		<tr>
 			<td class="searchresult-table-value">
-				<fmt:message key="OMD.author" />:&nbsp; <c:out value="${data1}" />
+				<fmt:message key="OMD.author" />:&#160; <c:out value="${data1}" />
 			</td>
 		</tr>
 	</c:if>
@@ -66,7 +66,7 @@
 			    <c:set var="classid"><x:out select="$data2/@classid" /></c:set>
 			    <c:set var="categid"><x:out select="$data2/@categid" /></c:set>
 			    
-				<fmt:message key="OMD.class-types" />:&nbsp; 
+				<fmt:message key="OMD.class-types" />:&#160; 
 				<mcr:displayClassificationCategory lang="de" classid="${classid}" categid="${categid}"/>
 			</td>
 		</tr>
@@ -80,7 +80,7 @@
 		</c:if>
 		<tr>
 			<td class="searchresult-table-value">
-				<fmt:message key="OMD.descriptions" />:&nbsp; <c:out value="${text}" escapeXml="false"/>
+				<fmt:message key="OMD.descriptions" />:&#160; <c:out value="${text}" escapeXml="false"/>
 			</td>
 		</tr>
 	</x:if>
@@ -91,7 +91,7 @@
 			<td class="searchresult-table-value">
 			    <c:set var="x"><x:out select="$data5" /></c:set>
 			    <fmt:parseDate value="${x}" pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" var="moddate" />
-			    <fmt:message key="OMD.changed" />:&nbsp; <fmt:formatDate value="${moddate}" dateStyle="full" />
+			    <fmt:message key="OMD.changed" />:&#160; <fmt:formatDate value="${moddate}" dateStyle="full" />
 			</td>
 		</tr>
 	</x:if>

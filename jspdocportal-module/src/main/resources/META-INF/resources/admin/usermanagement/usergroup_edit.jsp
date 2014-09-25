@@ -82,7 +82,7 @@
 		</tr>
 		<tr>
 			<td colspan="2">
-				&nbsp;
+				&#160;
 			</td>
 		</tr>
 		<tr>
@@ -167,18 +167,18 @@
 			</td>
 		</tr>
 		<tr>
-			<td>&nbsp;</td>
+			<td>&#160;</td>
 			<td><sup class="required">* Pflichtfeld</sup></td>
 		</tr>
 		<tr>
-			<td>&nbsp;
+			<td>&#160;
 				<input type="hidden" name="creator" value="<%=group.getCreator()%>">
 				<input type="hidden" name="creationtime" value="<%=df.format(group.getCreationDate())%>">
 				<input type="hidden" name="operation" value="<%=operation%>">
 			</td>
 			<td>
 				<small>
-					<%=group.getCreator()%>,&nbsp;
+					<%=group.getCreator()%>,&#160;
 					<%=df.format(group.getCreationDate())%>
 				</small>
 			</td>

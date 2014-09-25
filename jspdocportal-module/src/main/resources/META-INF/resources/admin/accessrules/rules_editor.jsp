@@ -112,16 +112,16 @@
 				document.getElementById("ruleop").disabled = false;
 			}else if(obj.name=="users" || obj.name=="groups"){
 				document.getElementById("rule_part").innerHTML += document.getElementById(obj.name).value;
-				document.getElementById("argspan").innerHTML="&nbsp;";
+				document.getElementById("argspan").innerHTML="&#160;";
 			}else if(obj.name=="dateselect"){
 				if (document.getElementById("datevalue").value.length==10){
 					document.getElementById("rule_part").innerHTML += document.getElementById("datevalue").value;
-					document.getElementById("argspan").innerHTML = "&nbsp;";
+					document.getElementById("argspan").innerHTML = "&#160;";
 				}
 			}else if(obj.name=="ipselect"){
 				if (document.getElementById("ipvalue").value!=""){
 					document.getElementById("rule_part").innerHTML += document.getElementById("ipvalue").value;
-					document.getElementById("argspan").innerHTML = "&nbsp;";
+					document.getElementById("argspan").innerHTML = "&#160;";
 				}
 
 			}else if(obj.name=="ruletype"){
@@ -150,7 +150,7 @@
 			option = new Option(value, value, false, false);
 			document.getElementById("parts").options[document.getElementById("parts").length] = option;
 			document.getElementById("rule_part").innerHTML ="";
-			document.getElementById("argspan").innerHTML ="&nbsp;";
+			document.getElementById("argspan").innerHTML ="&#160;";
 		}
 
 		function changePart(){
@@ -228,7 +228,7 @@
 			<td>
 				<br>Regel bearbeiten:
 			</td>
-			<td colspan="2" width="300px">&nbsp;</td>
+			<td colspan="2" width="300px">&#160;</td>
 			<td align="right">
 				<button type="button" ONCLICK="changePart()" title="Regel übernehmen">Übernehmen</button>
 			</td>
@@ -266,7 +266,7 @@
 				</table>
 			</td>
 			<td valign="top" colspan="2">
-				<span id="argspan">&nbsp;
+				<span id="argspan">&#160;
 					<!-- dummy span - do not delete-->
 				</span>
 			</td>
@@ -304,8 +304,8 @@
 		</tr>
 		<tr>
 			<td colspan="4" align="right">
-				&nbsp;</br>&nbsp;</br>
-				<button type="button" ONCLICK="setReturn()"> OK </button>&nbsp;&nbsp;&nbsp;
+				&#160;</br>&#160;</br>
+				<button type="button" ONCLICK="setReturn()"> OK </button>&#160;&#160;&#160;
 				<button type="button" ONCLICK="window.close()">  Abbrechen  </button>
 			</td>
 		</tr>

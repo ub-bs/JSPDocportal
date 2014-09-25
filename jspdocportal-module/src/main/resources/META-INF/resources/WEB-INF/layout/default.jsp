@@ -54,7 +54,7 @@
 						<li class="userinfo">
 							<mcr:session method="get" var="username" type="userID" />
 							<c:if test="${not (username eq 'gast' || username eq 'guest')}">
-								<span class="label"><fmt:message key="Webpage.user" />:&nbsp;</span>
+								<span class="label"><fmt:message key="Webpage.user" />:&#160;</span>
 								<span class="username">							 
 									<a href="${WebApplicationBaseURL}nav?path=~userdetail">${username}</a>
 								</span>
@@ -76,7 +76,7 @@
 					<ol>
 						<li class="separator">|</li> 
 						<li>
-							<mcr:outputLanguageSelector languages="de,en" separatorString="&nbsp;&nbsp;|&nbsp;&nbsp;" />
+							<mcr:outputLanguageSelector languages="de,en" separatorString="&#160;&#160;|&#160;&#160;" />
 						</li>
 					</ol>		
 				</div>

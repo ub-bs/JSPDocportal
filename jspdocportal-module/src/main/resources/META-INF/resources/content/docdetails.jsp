@@ -71,7 +71,7 @@
 
  </td>
 
- <td>&nbsp;</td>
+ <td>&#160;</td>
  <td align="center" valign="top" style="padding-top: 20px">
      <c:if test="${empty param.print and !fn:contains(style,'user')}">
 		     <a href="${WebApplicationBaseURL}content/print_details.jsp?id=${param.id}&amp;fromWF=${param.fromWF}" target="_blank">

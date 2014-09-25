@@ -186,7 +186,7 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 	    		out.write(MCRTranslation.translate("Webpage.searchresults.sortfield."+fieldname));
 	    		out.write("</option>");
 	    	}
-	    	out.write("   </select>&nbsp;&nbsp;&nbsp;");
+	    	out.write("   </select>&#160;&#160;&#160;");
 	    	
 			out.write("   <select name=\"order"+Integer.toString(i+1)+"\">");
 			for(String ordername:"ascending descending".split("\\s")){
@@ -198,7 +198,7 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 				out.write(messages.getString("Webpage.Searchresult.order."+ordername));
 				out.write("</option>");
 			}
-			out.write("   </select>&nbsp;&nbsp;&nbsp;");
+			out.write("   </select>&#160;&#160;&#160;");
 			out.write("<input value=\""+messages.getString("Webpage.Searchresult.resort")+"\" type=\"submit\">");
 			out.write("</form></div>");
 	    }

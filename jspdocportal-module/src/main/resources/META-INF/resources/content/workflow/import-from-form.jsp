@@ -61,7 +61,7 @@
 						<td><stripes:label for="folderName">Metadaten-Versionen:</stripes:label></td>
 						<td>
 							<c:forEach var="item" items="${actionBean.listOfMetadataVersions}">
-								<stripes:radio value="${item}" name="metadataVersion" />&nbsp;${item}<br />
+								<stripes:radio value="${item}" name="metadataVersion" />&#160;${item}<br />
 							</c:forEach>
 						</td>
 						<td>

@@ -49,7 +49,7 @@
 						<b><a href="${WebApplicationBaseURL}resolve/id/${r.mcrid}">${r.label}</a></b>
 						<table style="font-size:90%">
 							<c:forEach var="d" items="${r.data}">
-								<tr><th><fmt:message key="Webpage.indexbrowser.${actionBean.modus}.label.${d.key}" />:&nbsp;</th>
+								<tr><th><fmt:message key="Webpage.indexbrowser.${actionBean.modus}.label.${d.key}" />:&#160;</th>
 								<c:choose>
 									<c:when test="${fn:endsWith(d.key, '_msg')}"><td><fmt:message key="${d.value}" /></td></c:when>
 									<c:when test="${fn:endsWith(d.key, '_class')}"><td><mcr:displayClassificationCategory classid="${fn:substringBefore(d.value,':')}" categid="${fn:substringAfter(d.value,':')}"  lang="de" /></td></c:when>

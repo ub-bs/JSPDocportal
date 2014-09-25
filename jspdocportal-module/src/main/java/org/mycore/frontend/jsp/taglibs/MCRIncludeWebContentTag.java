@@ -143,7 +143,7 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 				
 		String lblSave = MCRTranslation.translate("Editor.Common.button.Save");
 		String lblCancel = MCRTranslation.translate("Editor.Common.button.Cancel");
-		out.write("</p><p><input type=\"submit\" value=\""+lblSave+"\">&nbsp;&nbsp;&nbsp;"
+		out.write("</p><p><input type=\"submit\" value=\""+lblSave+"\">&#160;&#160;&#160;"
 				+ "<input type=\"submit\" name=\"" + CK_FORM_INPUT_CANCEL_NAME
 				+ "\" value=\""+lblCancel+"\">"
 				+ "</p></form>");

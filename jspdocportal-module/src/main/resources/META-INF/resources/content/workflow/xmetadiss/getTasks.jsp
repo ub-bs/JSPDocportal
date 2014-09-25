@@ -130,7 +130,7 @@
 	     <textarea name="tmpTaskMessage" cols="50" rows="4"><fmt:message key="WF.xmetadiss.mail.body.requireAffirmation" />
 	     ${baseURL}content/docdetails/docdetails_disshab-deliver.jsp?id=${docID}&fromWF=true
 	     </textarea>  
-	     <br>&nbsp;<br>
+	     <br>&#160;<br>
          <input name=submit" type="submit" value="<fmt:message key="WF.common.Send" />"/>      
       </form>
    </c:when>

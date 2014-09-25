@@ -61,7 +61,7 @@ public class MCRDocDetailsSeparatorTag extends SimpleTagSupport {
 					out.print("<hr />");
 				}
 				else{
-					out.print("&nbsp;");
+					out.print("&#160;");
 				}
 				out.println("</td></tr>");
 			}
@@ -71,7 +71,7 @@ public class MCRDocDetailsSeparatorTag extends SimpleTagSupport {
 					out.print("<hr />");
 				}
 				else{
-					out.print("&nbsp;");
+					out.print("&#160;");
 				}
 				out.println("</div>");
 			}

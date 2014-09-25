@@ -53,13 +53,13 @@
 	
 				<tr>
 					<td>Status</td>
-					<td width="30px">&nbsp;</td>
+					<td width="30px">&#160;</td>
 					<td> <x:out select="./@status" /></td>
 				</tr>
 				<x:forEach select="./variable">
 					<tr valign="top">
 						<td><x:out select="./@name" /></td>
-						<td width="30px">&nbsp;</td>
+						<td width="30px">&#160;</td>
 						<td><x:out select="./@value" /></td>
 					</tr>
 				</x:forEach>

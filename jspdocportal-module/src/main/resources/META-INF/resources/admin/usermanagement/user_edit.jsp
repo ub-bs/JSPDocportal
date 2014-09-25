@@ -124,7 +124,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td>&nbsp;</td>
+			<td>&#160;</td>
 			<td>
 				<input type="checkbox" name="uenabled" value="true"
 				<% if (user.isEnabled()) out.print("checked"); %>
@@ -132,7 +132,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td>&nbsp;</td>
+			<td>&#160;</td>
 			<td>
 				<input type="checkbox" name="uupdate" value="true"
 					<% if (user.isUpdateAllowed()) out.print("checked"); %>
@@ -269,31 +269,31 @@
 			</td>
 		</tr>
 		<tr>
-			<td>&nbsp;</td>
+			<td>&#160;</td>
 			<td><sup class="required">* Pflichtfeld</sup></td>
 		</tr>
 		<tr>
-			<td>&nbsp;
+			<td>&#160;
 				<input type="hidden" name="creator" value="<%=user.getCreator()%>">
 				<input type="hidden" name="creationtime" value="<%=df.format(user.getCreationDate())%>">
 				<input type="hidden" name="operation" value="edit">
 			</td>
 			<td>
 				<small>
-					<%=user.getCreator()%>,&nbsp;
+					<%=user.getCreator()%>,&#160;;
 					<%=df.format(user.getCreationDate())%>					
 				</small>
 			</td>
 		</tr>
 		<tr>
-			<td>&nbsp;</td>
+			<td>&#160;</td>
 			<td>
 				<input type="reset">
-				&nbsp;
+				&#160;
 				<input type="submit" onclick="return validateOnSubmit()"  value="Speichern">
 			</td>
 		</tr>
 	</table>
 
 </form>
-<br>&nbsp;<br>
+<br>&#160;<br>

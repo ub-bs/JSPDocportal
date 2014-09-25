@@ -21,7 +21,7 @@
 		<jsp:param name="docType" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
 	</jsp:include>		
 	<b><c:out value='${title}' /></b>
-	<c:if test="${not empty param.volume}" >;&nbsp;<c:out value="${param.volume}" /></c:if>	
+	<c:if test="${not empty param.volume}" >;&#160;<c:out value="${param.volume}" /></c:if>	
 	:<br />
 </c:if>
 <c:if test="${empty jdom}" ><br />Could not load document</c:if>

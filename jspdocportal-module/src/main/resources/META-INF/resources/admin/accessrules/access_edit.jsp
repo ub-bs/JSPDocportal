@@ -31,7 +31,7 @@ if(id.length==1){
 	<form method=post action="<%= WebApplicationBaseURL %>admin/accessrules/access_validate.jsp">
 	<table  class="access" cellspacing="1" cellpadding="0">
 		<tr>
-			<td rowspan="2">&nbsp;</td>
+			<td rowspan="2">&#160;</td>
 			<td colspan="<%=pool.size()%>" class="pool">Pools</td>
 		</tr>
 		<tr>
@@ -43,7 +43,7 @@ if(id.length==1){
 			%>
 		</tr>
 		<tr>
-			<td><%=id[0]%>&nbsp;&nbsp;&nbsp;</td>
+			<td><%=id[0]%>&#160;&#160;&#160;</td>
 			<%
 				List l = accStore.getRules(id[0]);
 				for(int i=0; i<pool.size(); i++){
@@ -61,7 +61,7 @@ if(id.length==1){
 	</table><br />
 		<input type="hidden" value="<%=ids%>" name="ids">
 		<input type="hidden" value="save" name="operation">
-		<input type="reset">&nbsp;<input type="submit" value="Speichern">
+		<input type="reset">&#160;<input type="submit" value="Speichern">
 	<form>
 <%
 
@@ -76,7 +76,7 @@ if(id.length==1){
 
 	<table  class="access" cellspacing="1" cellpadding="0">
 		<tr>
-			<td rowspan="2">&nbsp;</td>
+			<td rowspan="2">&#160;</td>
 			<td colspan="<%=pool.size()%>" class="pool">Pools</td>
 		</tr>
 		<tr>
@@ -108,7 +108,7 @@ if(id.length==1){
 	</table><br />
 		<input type="hidden" value="<%=ids%>" name="ids">
 		<input type="hidden" value="save" name="operation">
-		<input type="reset">&nbsp;<input type="submit" value="Speichern">
+		<input type="reset">&#160;<input type="submit" value="Speichern">
 	</form>
 <%
 
