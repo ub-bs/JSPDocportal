@@ -32,6 +32,7 @@ import com.ibm.icu.text.MessageFormat;
  * @author Robert Stephan
  * 
  */
+@Deprecated
 public class MCRIndexBrowserTag extends SimpleTagSupport {
 	private static final Logger LOGGER = Logger.getLogger(MCRIndexBrowserTag.class);
 	
