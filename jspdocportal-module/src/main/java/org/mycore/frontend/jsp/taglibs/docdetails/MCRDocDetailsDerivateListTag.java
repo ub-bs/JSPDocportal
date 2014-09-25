@@ -166,7 +166,7 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 	    							out.write("<img src=\""+imgURL+"\" />");
 	    							out.write(theFile.getName());
 	    							out.write("</a>");
-	    							if(showsize){out.write(&#160;("+theFile.getSizeFormatted()+")");}
+	    							if(showsize){out.write("&#160;("+theFile.getSizeFormatted()+")");}
 	    						}
 	    						else{
 	    							out.write(theFile.getName());
