@@ -36,20 +36,8 @@ div.classification-browser div.cb-item div.cb-label span.cb-count{
  
 }
 
-div.classification-browser div.cb-item div.cb-button{
-  float:left;
-  text-align:center;
+div.classification-browser div.cb-item div.cb-btn{
   margin-left:12px;
-  border: 1px solid #565656;
-  border-radius: 3px;
-  background-color:#969696;
-  padding-left:3px;
-  padding-right:3px;
-}
-
-div.classification-browser div.cb-item div.cb-button a{
-  color:white;
-  font-size:85%;
 }
 
 div.classification-browser div.cb-item div.cb-description{

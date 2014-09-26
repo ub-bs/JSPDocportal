@@ -512,7 +512,7 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 	private void writeLinkedCategoryItemText(MCRCategory categ, String baseURL, JspWriter out) throws IOException{
 		boolean showLinks = linkall || hasLinks(categ);
 		if(showLinks){
-		    out.write("<div class=\"cb-button\">");
+		    out.write("<div class=\"btn btn-default btn-xs cb-btn\">");
 		    
 			PageContext context = (PageContext) getJspContext();
 			
