@@ -19,65 +19,76 @@
 			<h1>
 				<fmt:message key="Webpage.indexbrowser.${actionBean.modus}.title" />
 			</h1>
-			<fmt:message key="Webpage.indexbrowser.${actionBean.modus}.intro" />
-		
+			<p>
+				<fmt:message key="Webpage.indexbrowser.${actionBean.modus}.intro" />
+			</p>
 			<div class="row">
-					<div class="col-xs-12">
-						<c:forEach var="x" items="${actionBean.firstSelector}">
-							<c:set var="active"></c:set>
-							<c:if test="${fn:startsWith(actionBean.select, x)}"><c:set var="active">active</c:set></c:if>
-							<a href="${WebApplicationBaseURL}indexbrowser.action?modus=${actionBean.modus}&amp;select=${x}"
-								class="btn btn-default btn-sm ${active}" style="padding:0.4em 0.6em" role="button">${x}</a>
-						</c:forEach>
-					</div>
-				</div>
-				<c:if test="${not empty actionBean.secondSelector}">
-					<div class="row">
-						<div class="col-xs-12">
-							<c:forEach var="x" items="${actionBean.secondSelector}">
-							<c:set var="active"></c:set>
-							<c:if test="${fn:startsWith(actionBean.select, x.key)}"><c:set var="active">active</c:set></c:if>
-								<a href="${WebApplicationBaseURL}indexbrowser.action?modus=${actionBean.modus}&amp;select=${x.key}"
-									class="btn btn-default btn-sm ${active}" style="padding:0.4em 0.6em"  role="button">${x.key} <span class="badge" style="font-size:80%;margin-left:8px">${x.value}</span></a>
+				<div class="col-xs-12">
+					<div class="navbar navbar-default" style="padding:10px">
+						<div>
+							<c:forEach var="x" items="${actionBean.firstSelector}">
+								<c:set var="active"></c:set>
+								<c:if test="${fn:startsWith(actionBean.select, x)}"><c:set var="active">active</c:set></c:if>
+									<a href="${WebApplicationBaseURL}indexbrowser.action?modus=${actionBean.modus}&amp;select=${x}"
+									   class="btn btn-default btn-sm navbar-btn ${active}" style="padding:0.4em 0.5em" role="button">${x}</a>
 							</c:forEach>
-					</div>
-				</div>
-				</c:if>
-				<div class="row">
-					<div class="col-xs-12">
-						<stripes:form beanclass="org.mycore.frontend.jsp.stripes.actions.IndexBrowserAction"
-							id="indexbrowserForm" enctype="multipart/form-data" acceptcharset="UTF-8">
-							<stripes:hidden name="modus">${actionBean.modus}</stripes:hidden>
+						</div>
+						<c:if test="${not empty actionBean.secondSelector}">
 							<div>
-								<stripes:label for="txtSelect"><fmt:message key="Webpage.indexbrowser.form.label" />:</stripes:label>
-								<stripes:text id="txtSelect" name="select" />
-								<fmt:message var="output" key="Webpage.indexbrowser.form.button" />
-								<stripes:submit name="doSearch" value="${output}" class="submit" />
+								<c:forEach var="x" items="${actionBean.secondSelector}">
+									<c:set var="active"></c:set>
+									<c:if test="${fn:startsWith(actionBean.select, x.key)}"><c:set var="active">active</c:set></c:if>
+										<a href="${WebApplicationBaseURL}indexbrowser.action?modus=${actionBean.modus}&amp;select=${x.key}"
+										   class="btn btn-default btn-sm ${active}" style="margin-top:5px;" role="button">${x.key} <span class="badge" style="font-size:80%;margin-left:8px">${x.value}</span></a>
+								</c:forEach>
 							</div>
-						</stripes:form>
+						</c:if>
 					</div>
 				</div>
-				
-				<c:forEach var="r" items="${actionBean.results}">
-				<div class="row">
-					<div class="col-xs_12">
-						<b><a href="${WebApplicationBaseURL}resolve/id/${r.mcrid}">${r.label}</a></b>
-						<table style="font-size:90%">
-							<c:forEach var="d" items="${r.data}">
-								<tr><th><fmt:message key="Webpage.indexbrowser.${actionBean.modus}.label.${d.key}" />:&#160;</th>
-								<c:choose>
-									<c:when test="${fn:endsWith(d.key, '_msg')}"><td><fmt:message key="${d.value}" /></td></c:when>
-									<c:when test="${fn:endsWith(d.key, '_class')}"><td><mcr:displayClassificationCategory classid="${fn:substringBefore(d.value,':')}" categid="${fn:substringAfter(d.value,':')}"  lang="de" /></td></c:when>
-									<c:otherwise>
-										<td>${d.value}</td>
-									</c:otherwise>
-								</c:choose>
-								</tr>
-							</c:forEach>
-						</table>
-					</div>
-				</div>
-				</c:forEach>
 			</div>
+			
+			<div class="row">
+				<div class="col-xs-12">
+					<stripes:form beanclass="org.mycore.frontend.jsp.stripes.actions.IndexBrowserAction"
+					   	          id="indexbrowserForm" enctype="multipart/form-data" acceptcharset="UTF-8">
+						<stripes:hidden name="modus">${actionBean.modus}</stripes:hidden>
+						<div>
+							<stripes:label for="txtSelect"><fmt:message key="Webpage.indexbrowser.form.label" />:</stripes:label>
+							<stripes:text id="txtSelect" name="select" />
+							<fmt:message var="output" key="Webpage.indexbrowser.form.button" />
+							<stripes:submit name="doSearch" value="${output}" class="submit" />
+						</div>
+					</stripes:form>
+				</div>
+			</div>
+				
+			<c:forEach var="r" items="${actionBean.results}">
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title"><a href="${WebApplicationBaseURL}resolve/id/${r.mcrid}">${r.label}</a></h4>
+							</div>
+							<div class="panel-body">
+								<table style="border-spacing:5px;border-collapse:separate;font-size:100%">
+									<c:forEach var="d" items="${r.data}">
+										<tr>
+											<th style="min-width:120px"><fmt:message key="Webpage.indexbrowser.${actionBean.modus}.label.${d.key}" />:&#160;</th>
+											<c:choose>
+												<c:when test="${fn:endsWith(d.key, '_msg')}"><td><fmt:message key="${d.value}" /></td></c:when>
+												<c:when test="${fn:endsWith(d.key, '_class')}"><td><mcr:displayClassificationCategory classid="${fn:substringBefore(d.value,':')}" categid="${fn:substringAfter(d.value,':')}"  lang="de" /></td></c:when>
+												<c:otherwise>
+													<td>${d.value}</td>
+												</c:otherwise>
+											</c:choose>
+										</tr>
+									</c:forEach>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</c:forEach>
+		</div>
 	</stripes:layout-component>
 </stripes:layout-render>
