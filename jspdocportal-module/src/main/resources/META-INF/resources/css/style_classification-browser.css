@@ -7,36 +7,36 @@ div.classification-browser{
   line-height:120%;
 }
 
-div.classification-browser div.item{
+div.classification-browser div.cb-item{
   clear:both;  
   padding-left:24px;
   padding-top:9px;
   
 }
 
-div.classification-browser div.item div.icon{
+div.classification-browser div.cb-item div.cb-icon{
   float:left;
 }
-div.classification-browser div.item div.label{
+div.classification-browser div.cb-item div.cb-label{
   float:left;
   max-width:400px;
   padding-top:3px;
   margin-left:12px;
 
 }
-div.classification-browser div.item div.label span.id{
+div.classification-browser div.cb-item div.cb-label span.cb-id{
    margin-right:6px;
 }
 
-div.classification-browser div.item div.label span.text{
+div.classification-browser div.cb-item div.cb-label span.cb-text{
   margin-right:12px;
 }
 
-div.classification-browser div.item div.label span.count{
+div.classification-browser div.cb-item div.cb-label span.cb-count{
  
 }
 
-div.classification-browser div.item div.button{
+div.classification-browser div.cb-item div.cb-button{
   float:left;
   text-align:center;
   margin-left:12px;
@@ -47,12 +47,12 @@ div.classification-browser div.item div.button{
   padding-right:3px;
 }
 
-div.classification-browser div.item div.button a{
+div.classification-browser div.cb-item div.cb-button a{
   color:white;
   font-size:85%;
 }
 
-div.classification-browser div.item div.description{
+div.classification-browser div.cb-item div.cb-description{
   clear:both;
   padding-top:4px;
   padding-left:30px;

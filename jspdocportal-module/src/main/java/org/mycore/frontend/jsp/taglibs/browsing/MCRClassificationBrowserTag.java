@@ -46,8 +46,12 @@ import net.sf.ehcache.constructs.blocking.SelfPopulatingCache;
 import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
 
 import org.apache.log4j.Logger;
-import org.hibernate.Transaction;
-import org.mycore.backend.hibernate.MCRHIBConnection;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocumentList;
+import org.mycore.common.MCRSessionMgr;
 import org.mycore.datamodel.classifications2.MCRCategLinkService;
 import org.mycore.datamodel.classifications2.MCRCategLinkServiceFactory;
 import org.mycore.datamodel.classifications2.MCRCategory;
@@ -55,10 +59,8 @@ import org.mycore.datamodel.classifications2.MCRCategoryDAO;
 import org.mycore.datamodel.classifications2.MCRCategoryDAOFactory;
 import org.mycore.datamodel.classifications2.MCRCategoryID;
 import org.mycore.frontend.MCRFrontendUtil;
-import org.mycore.parsers.bool.MCRCondition;
-import org.mycore.services.fieldquery.MCRQuery;
-import org.mycore.services.fieldquery.MCRQueryParser;
 import org.mycore.services.i18n.MCRTranslation;
+import org.mycore.solr.MCRSolrServerFactory;
 
 /**
  * A JSP tag, that includes a classification browser. The displayed content is highly configurable.
@@ -85,7 +87,6 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 	private Vector<String> path = new Vector<String>();
 	private int level=-1;
 	private boolean expand=false;
-	private String searchfield;
 	private String searchmask;
 	
 	private boolean showdescription=false;
@@ -134,13 +135,19 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 			 * it will be stored in cache automatically
 			 */
 			public Object createEntry(Object key) throws Exception {
-				MCRCondition<Object> cond = (new MCRQueryParser()).parse(key.toString());
-				MCRQuery query = new MCRQuery(cond);
-				//TODO SOLR Migration
-				/*
-				MCRResults result = MCRQueryManager.search(query);
-				return result.getNumHits();
-				*/
+				SolrServer solrServer = MCRSolrServerFactory.getSolrServer();
+				SolrQuery query = new SolrQuery();
+				query.setQuery(String.valueOf(key));
+			   
+			    try{
+			    	QueryResponse response = solrServer.query(query);
+			    	SolrDocumentList solrResults = response.getResults();
+			    	return solrResults.getNumFound();
+			    }
+			    catch(SolrServerException e){
+			    	LOGGER.error(e);
+			    }
+			
 				return null;
 			}
 		});
@@ -182,15 +189,6 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 	 */
 	public void setHideemptyleaves(boolean b){
 		hideemptyleaves = b;
-	}
-	
-    /** 
-     * required: the searchfield, that should be used to query the items, that
-     * belong to a category
-     * @param searchfield - as string
-     */
-    public void setSearchfield(String searchfield) {
-		this.searchfield = searchfield;
 	}
 	
     /**
@@ -286,7 +284,7 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 		while(paramNames.hasMoreElements()){
 			String s = paramNames.nextElement().toString();
 			if(!s.equals("cbpath")){
-				url.append(s).append("=").append(URLEncoder.encode(request.getParameter(s), Charset.defaultCharset().name())).append("&");
+				url.append(s).append("=").append(URLEncoder.encode(request.getParameter(s), Charset.defaultCharset().name())).append("&amp;");
 			}
 		}
 		
@@ -294,7 +292,11 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 		url.append("cbpath=").append(clearPath(requestPath));
 			
 		JspWriter out = getJspContext().getOut();
-		Transaction tx = MCRHIBConnection.instance().getSession().beginTransaction();
+		boolean doCommitTransaction = false;
+		if(!MCRSessionMgr.getCurrentSession().isTransactionActive()){
+			doCommitTransaction = true;
+			MCRSessionMgr.getCurrentSession().beginTransaction();
+		}
 	
 		out.write("\n\n<!-- ClassificationBrowser START -->");
 		out.write(rootClassifID.getID()+"\n\n");
@@ -345,7 +347,10 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 		long d = System.currentTimeMillis()-start;
 		out.write("\n\n<!-- ClassificationBrowser ENDE ("+Long.toString(d)+"ms) -->");
 		Logger.getLogger(this.getClass()).debug("ClassificationBrowser displayed for: "+rootCateg.getId().getID()+"   ("+d+" ms)");
-		tx.commit();
+		
+		if(doCommitTransaction){
+			MCRSessionMgr.getCurrentSession().commitTransaction();
+		}
 	}
 	
 	/**
@@ -367,8 +372,8 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 			StringBuffer sbIndent = new StringBuffer("\n   ");
 			for(int i=0;i<curLevel;i++){sbIndent.append("   ");}
 			String indent = sbIndent.toString();
-			out.write(indent+"   <div class=\"item\">");
-			out.write(indent+"      <div class=\"icon\">");
+			out.write(indent+"   <div class=\"cb-item\">");
+			out.write(indent+"      <div class=\"cb-icon\">");
 			String iconURL = retrieveIconURL(hasChildren, curLevel, hasLinks(categ), (expand || opened));
 			if(!expand && hasChildren && curLevel+1<level){
 				String title = "";
@@ -385,15 +390,15 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 				out.write("\n                </a>");
 			}
 			out.write(indent+"      </div>");
-			out.write(indent+"      <div class=\"label\">");
+			out.write(indent+"      <div class=\"cb-label\">");
 			if(showid){
-				out.write(indent+"         <span class=\"id\">"+categ.getId().getID()+"</span>");
+				out.write(indent+"         <span class=\"cb-id\">"+categ.getId().getID()+"</span>");
 			}
 			
-			out.write(indent+"         <span class=\"text\">"+categ.getCurrentLabel().getText()+"</span>" );			
+			out.write(indent+"         <span class=\"cb-text\">"+categ.getCurrentLabel().getText()+"</span>" );			
 			
 			if(count){
-				out.write(indent+"         <span class=\"count\">");
+				out.write(indent+"         <span class=\"cb-count\">");
 				if(searchrestriction!=null){
 					out.write("("+countBySearch(categ.getId().getID())+")");
 				}
@@ -416,13 +421,13 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 			if(showdescription){
 				String descr = categ.getCurrentLabel().getDescription();
 				if(descr!=null && descr.length()>0){
-					out.write(indent+"      <div class=\"description\">"+descr+"</div>");
+					out.write(indent+"      <div class=\"cb-description\">"+descr+"</div>");
 				}
 			}
 			if(showuri){
 				URI uri = categ.getURI();
 				if(uri!=null && uri.toString().length()>0){
-					out.write(indent+"      <div class=\"url\">"+uri.toString()+"</div>");
+					out.write(indent+"      <div class=\"cb-url\">"+uri.toString()+"</div>");
 				}
 			}
 			
@@ -507,7 +512,7 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 	private void writeLinkedCategoryItemText(MCRCategory categ, String baseURL, JspWriter out) throws IOException{
 		boolean showLinks = linkall || hasLinks(categ);
 		if(showLinks){
-		    out.write("<div class=\"button\">");
+		    out.write("<div class=\"cb-button\">");
 		    
 			PageContext context = (PageContext) getJspContext();
 			
@@ -517,18 +522,18 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 				//do a subselect / create a url, that returns to an editor
 				url.append("servlets/XMLEditor");
 				url.append("?_action=end.subselect");
-				url.append("&subselect.session="+request.getParameter("XSL.subselect.session.SESSION"));
-				url.append("&subselect.varpath="+request.getParameter("XSL.subselect.varpath.SESSION"));
-				url.append("&subselect.webpage="+URLEncoder.encode(request.getParameter("XSL.subselect.webpage.SESSION"), "UTF-8"));
-				url.append("&_var_@categid="+categ.getId().getID());
-				url.append("&_var_@type="+URLEncoder.encode(categ.getCurrentLabel().getText(), "UTF-8"));
+				url.append("&amp;subselect.session="+request.getParameter("XSL.subselect.session.SESSION"));
+				url.append("&amp;subselect.varpath="+request.getParameter("XSL.subselect.varpath.SESSION"));
+				url.append("&amp;subselect.webpage="+URLEncoder.encode(request.getParameter("XSL.subselect.webpage.SESSION"), "UTF-8"));
+				url.append("&amp;_var_@categid="+categ.getId().getID());
+				url.append("&amp;_var_@type="+URLEncoder.encode(categ.getCurrentLabel().getText(), "UTF-8"));
 				
 			}
 			else{
 				//"normal" classification browser - do a search
 				url.append("servlets/MCRJSPSearchServlet");
-				url.append("?query="+generateQuery(categ.getId().getID()));
-				url.append("&mask="+searchmask);
+				url.append("?query="+URLEncoder.encode(generateQuery(categ.getId().getID()), Charset.defaultCharset().name()));
+				url.append("&amp;mask="+searchmask);
 			}			
 			out.write("<a href=\""+url.toString()+"\">");
 			out.write(MCRTranslation.translate("Editor.Common.Choose"));
@@ -576,15 +581,10 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
     private String generateQuery(String categid){
     	StringBuffer result = new StringBuffer();
     	if(searchrestriction!=null){
-    		result.append("("+searchrestriction.replace("=", "+=+").replace(" ", "+")+")");
-    		result.append("+and+");
-    		result.append("("+searchfield+"+=+"+categid+")");
-    	}
-    	else{
-    		result.append(searchfield+"+=+"+categid);
-    	}
+    		result.append("+"+searchrestriction.replace("=", ":"));
+       	}
+    	result.append(" +category.top:\""+classification+"\\:"+categid+"\"");
     	return result.toString();
-    	
     }
     
     /**
@@ -595,8 +595,8 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
      * @param categid - the category iD
      * @return the number of results of the query for the given ID
      */
-    private int countBySearch(String categid) {
-		String qs = generateQuery(categid).replace("+"," ");
-    	return ((Integer)cbHitCountCache.get(qs).getObjectValue()).intValue();
+    private long countBySearch(String categid) {
+		String qs = generateQuery(categid);
+    	return (Long)cbHitCountCache.get(qs).getObjectValue();
 	}
 }
