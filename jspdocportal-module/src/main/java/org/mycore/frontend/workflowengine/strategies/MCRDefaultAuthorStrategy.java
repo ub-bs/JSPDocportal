@@ -86,10 +86,9 @@ public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {
 
 		if (user != null) {
 			MCRMetaPersonName pname = new MCRMetaPersonName();
-			String fullname = user.getRealName();
 			pname.setSubTag("name");
 			pname.setLang("de");
-			pname.set("", "", "", user.getRealName(), "", "", "");
+			pname.setSurName(user.getRealName());
 				
 			MCRMetaBoolean female = new MCRMetaBoolean();
 			female.setSubTag("female");
@@ -191,7 +190,7 @@ public class MCRDefaultAuthorStrategy implements MCRAuthorStrategy {
 			MCRMetaPersonName pname = new MCRMetaPersonName();
 			pname.setSubTag("name");
 			pname.setLang("de");
-			pname.set("", "", "Neuer Autor", "", "", "", "");
+			pname.setSurName("Neuer Autor");
 			ePnames.addContent(pname.createXML());
 						
 			metadata.addContent(ePnames);

@@ -15,7 +15,7 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.taskmgmt.exe.PooledActor;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 import org.jbpm.taskmgmt.exe.TaskMgmtInstance;
-import org.mycore.common.MCRConfigurationException;
+import org.mycore.common.config.MCRConfigurationException;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.datamodel.metadata.MCRMetaISO8601Date;
@@ -67,7 +67,7 @@ public class MCRWorkflowProcess extends MCRAbstractWorkflowObject{
 	}
 	
 	private void createNewProcessInstance(String processType) {
-		jbpmContext.setActorId(MCRSessionMgr.getCurrentSession().getCurrentUserID());
+		jbpmContext.setActorId(MCRSessionMgr.getCurrentSession().getUserInformation().getUserID());
 		ProcessDefinition processDefinition = graphSession.findLatestProcessDefinition(processType);
 		if(processDefinition==null){
 			throw new MCRConfigurationException("Process definition for process type \""+processType+"\" not found.");
