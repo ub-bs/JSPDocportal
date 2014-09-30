@@ -24,9 +24,12 @@
 	</stripes:layout-component>
 
 	<stripes:layout-component name="contents">
-		<h2>${headline}</h2>
-		<mcr:debugInfo />
-		<mcrb:searchresultBrowser varmcrid="mcrid" varurl="url" sortfields="title author modified">
+		<div class="ur-box">
+			<div class="ur-text">
+			<h1>${headline}</h1>
+			<mcr:debugInfo />
+		</div>
+		<mcrb:searchresultBrowser varmcrid="mcrid" varurl="url" result ="${actionBean.result}" sortfields="profkat_idx_profkat modified">
 			<c:set var="doctype" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
 			<c:catch var="catchException">
 				<jsp:include page="resultdetails/resultdetails_${doctype}.jsp">
@@ -39,6 +42,8 @@
 					An error occured while displaying resultlist details for ${doctype} : ${catchException.message}
 				<br />
 			</c:if>
+			
 		</mcrb:searchresultBrowser>
+	</div>
 	</stripes:layout-component>
 </stripes:layout-render>

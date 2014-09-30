@@ -1,6 +1,7 @@
 package org.mycore.frontend.jsp.taglibs.browsing;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -10,11 +11,12 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
-import org.jdom2.Element;
+import org.hibernate.Transaction;
+import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.MCRSession;
 import org.mycore.frontend.MCRFrontendUtil;
+import org.mycore.frontend.jsp.stripes.search.MCRSearcherResultDataBean;
 import org.mycore.frontend.servlets.MCRServlet;
-import org.mycore.services.fieldquery.MCRQuery;
 import org.mycore.services.i18n.MCRTranslation;
 
 /**
@@ -32,6 +34,7 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 	private String varMCRID;
 	private String varURL;
 	private String sortfields="";
+	private MCRSearcherResultDataBean result;
 
 	/**
 	 * required: the name of the variable which holds the MCRObject as xml
@@ -63,8 +66,7 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 	}
 
 	public void doTag() {
-		//TODO SOLR Migration
-		/*
+
 		Transaction t1=null;
 		String baseurl = MCRFrontendUtil.getBaseURL();
 		try {
@@ -75,59 +77,35 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 			 
 	   		PageContext ctx = (PageContext) getJspContext();
 			 MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest) ctx.getRequest());
-		     String lang = mcrSession.getCurrentLanguage();
-		     ResourceBundle messages = PropertyResourceBundle.getBundle(languageBundleBase, new Locale(lang));
-			
-			
-			String qid = ctx.getRequest().getParameter("id");
-			MCRCachedQueryData qd = MCRCachedQueryData.getData(qid);
-
+		  
 			JspWriter out = ctx.getOut();
 			
-			if(ctx.getRequest().getParameter("debug") != null && ctx.getRequest().getParameter("debug").equals("true")) {
-				StringBuffer debugSB = new StringBuffer("<textarea cols=\"120\" rows=\"30\">")
-					.append("MCRResults as XML.\r\n")
-					.append(JSPUtils.getPrettyString(qd.getResults().buildXML()))
-					.append("</textarea>");
-				out.println(debugSB.toString());
-			}        
-			
-			int numHits = qd.getResults().getNumHits();
-			int numPerPage=qd.getNumPerPage();
+			long numHits = result.getNumFound();
+			int numPerPage=result.getRows();
 			if(numPerPage==0){numPerPage = DEFAULT_NUMPERPAGE;}
-			int numPages = Math.round((float)Math.ceil((float)numHits / numPerPage)); 
-			int page = qd.getPage();
+			
 			String mask = ctx.getRequest().getParameter("mask");
-			String id = qd.getResults().getID();
-			
-			
+						
 			if(sortfields.length()>0){
-				writeResortForm(qd.getQuery(), out, sortfields, id, messages, mask);
+				writeResortForm(result, out, sortfields, mask);
 			}
+			
+			out.write("<div class=\"panel panel-default\">");
 			if(numHits>0){
-				writePageNavigation(out, id, numHits, numPerPage, numPages, page, mask);
+				out.write("<div class=\"panel-heading\">");
+				writePageNavigation(out, result, mask);
+				out.write("</div>");
 			}
 			
-			int start =(page-1)*numPerPage; 
-			int stop = Math.min(numHits,page*numPerPage)-1;
-			
-			//TODO This is en expensive operation since the search is executed a 2nd
-			//     time - cleanup after new implementation of MCRSearch
-			
-			qd = MCRCachedQueryData.cache(qd.getQuery(), qd.getInput());
-			MCRResults results = qd.getResults();
-			id = results.getID();
-			results.buildXML(start, stop);
-
+		
+			out.write("<ul class=\"list-group\">");
 			String path = (String)mcrSession.get("navPath");
 			if(path==null){
 				path="";
 			}
-			for(int j=start;j<=stop;j++){
-				if(j>start){
-					out.write("<hr />");
-				}
-				String mcrid = results.getHit(j).getID();
+			for(int j=0;j<result.getMcrIDs().size();j++){
+				out.write("<li class=\"list-group-item\">");
+				String mcrid = result.getMcrIDs().get(j);
 				ctx.setAttribute(varMCRID, mcrid);
 		    	
 		    	//http://localhost:8080/cpr/nav?id=cpr_professor_000000001451&offset=9&path=left.search.allmeta.searchresult-allmeta.docdetail&resultid=-xst2nllmkdqafx2bcdj2
@@ -135,14 +113,19 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 		    	sbURL.append("nav?id=").append(mcrid);
 		    	sbURL.append("&offset=").append(j);
 		    	sbURL.append("&path=").append(path+".docdetail");
-		    	sbURL.append("&resultid=").append(id);
+		    	
 		    	ctx.setAttribute(varURL, sbURL.toString());
 		    	
 		    	getJspBody().invoke(out);
+		    	out.write("</li>");
 			}
+			out.write("</ul>");
 			if(numHits>0){
-				writePageNavigation(out, id, numHits, numPerPage, numPages, page, mask);
+				out.write("<div class=\"panel-footer\">");
+				writePageNavigation(out, result, mask);
+				out.write("</div>");
 			}
+			out.write("</div>");
 		} catch (Exception e) {
 			LOGGER.error("The following exception was thrown in MCRSearchResultBrowserTag: ", e);
 		}
@@ -151,35 +134,29 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
     			t1.commit();
     		}
     	}
-    	*/
+    	
 	}
 	
-	private void writeResortForm(MCRQuery query, JspWriter out, String sortfields, String id, ResourceBundle messages, String searchmask) throws IOException{
+	private void writeResortForm(MCRSearcherResultDataBean result, JspWriter out, String sortfields, String searchmask) throws IOException{
 		String webBaseURL = MCRFrontendUtil.getBaseURL();
 		
-		out.write("<div class=\"searchresult-resortform\">");
-		out.write("<form action=\""+webBaseURL+"servlets/MCRJSPSearchServlet\"	method=\"get\">");
-		out.write("   <input type=\"hidden\" name=\"mode\" value=\"resort\">");
-		out.write("   <input type=\"hidden\" name=\"id\" value=\""+id+"\">");
-		out.write("   <input type=\"hidden\" name=\"mask\" value=\""+searchmask+"\">");
+		out.write("<div class=\"panel panel-default\">");
+		out.write("<div class=\"panel-body\">");
+		out.write("<form style=\"margin-bottom:0px;\" action=\""+webBaseURL+"simpleSearch.action\"	method=\"post\" accept-charset=\"UTF-8\">");
+		out.write("   <input type=\"hidden\" name=\"rows\" value=\""+result.getRows()+"\">");
+		out.write("   <input type=\"hidden\" name=\"q\" value=\""+result.getQuery()+"\">");
 		String[]fieldnames = sortfields.trim().split("\\s");
-		int count;
-		try {
-			count = Math.max(1, query.getSortBy().size());
-	    } catch ( Exception allE){
-		    count = 1;
-		}
 		
-	    for(int i=0;i<count;i++){
-	    	out.write(messages.getString("Webpage.Searchresult.resort-label"));
-	    	out.write("   <select name=\"field"+Integer.toString(i+1)+"\">");
+
+	    	out.write(MCRTranslation.translate("Webpage.Searchresult.resort-label"));
+	    	out.write("   <select name=\"sortfieldName\">");
 	    	out.write("      <option value=\""+"\"></option>");
 	    	for(String fieldname:fieldnames){
 	    		if(fieldname.length()==0){
 	    			continue;
 	    		}
 	    		out.write("      <option value=\""+fieldname+"\"");
-	    		if(isSorted(query, "name", fieldname, i)){
+	    		if(result.getSort().startsWith(fieldname)){
 	    			out.write(" selected=\"true\"");
 	    		}
 	    		out.write(">");
@@ -188,42 +165,25 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 	    	}
 	    	out.write("   </select>&#160;&#160;&#160;");
 	    	
-			out.write("   <select name=\"order"+Integer.toString(i+1)+"\">");
-			for(String ordername:"ascending descending".split("\\s")){
+			out.write("   <select name=\"sortfieldDirection\">");
+			for(String ordername:"asc desc".split("\\s")){
 				out.write("      <option value=\""+ordername+"\"");
-				if(isSorted(query, "order", ordername, i)){
+				if(result.getSort().endsWith(ordername)){
 					out.write(" selected=\"true\"");
 				}
 				out.write(">");
-				out.write(messages.getString("Webpage.Searchresult.order."+ordername));
+				out.write(MCRTranslation.translate("Webpage.Searchresult.order."+ordername));
 				out.write("</option>");
 			}
 			out.write("   </select>&#160;&#160;&#160;");
-			out.write("<input value=\""+messages.getString("Webpage.Searchresult.resort")+"\" type=\"submit\">");
-			out.write("</form></div>");
-	    }
+			out.write("<input class=\"btn btn-primary btn-sm\" value=\""+MCRTranslation.translate("Webpage.Searchresult.resort")+"\" type=\"submit\">");
+			out.write("</form></div></div>");
+	    
 	}
 
 	
-	private boolean isSorted(MCRQuery query, String attributename, String fieldname, int sortorder){
-	   try { 
-	    	Element sortField = (Element) query.buildXML().getRootElement().getChild("sortBy").getChildren("field").get(sortorder);
-			if (sortField != null) {
-				if (sortField.getAttributeValue(attributename) != null &&
-					sortField.getAttributeValue(attributename).equals(fieldname) ) {
-						return true;
-				}
-			} 
-	    } catch ( Exception allE){
-	    	//No sortField in query -
-	    }
-		return false;	
-	}
-	
-	
-	
 	//36.168 Publications	      Erste Seite | 11-20 | 21-30 | 31-40 | 41-50 | 51-60 | Nächste Seite
-	private void writePageNavigation(JspWriter out, String id, int numHits, int numPerPage, int numPages, int page, String mask) throws IOException{
+	private void writePageNavigation(JspWriter out, MCRSearcherResultDataBean result, String mask) throws IOException{
 		String webBaseURL = MCRFrontendUtil.getBaseURL();
 		PageContext pageContext = (PageContext) getJspContext();
 		MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest) pageContext.getRequest());
@@ -231,44 +191,52 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 	    ResourceBundle messages = MCRTranslation.getResourceBundle("messages",   new Locale(lang));
 		
 		out.write("<!-- Searchresult PageNavigation -->");
-		out.write("\n<div class=\"searchresult-navigation\">");
-		out.write("\n   <div class=\"hitcount\">");
-		out.write(Integer.toString(numHits)+" "+messages.getString("Webpage.Searchresult.numHits"));
-		out.write("   </div>");
-		out.write("\n   <div class=\"navi\">");
-		out.write("\n   <ol>");
-		if(numPages>1){
-			out.write("\n      <li class=\"item\"><a href=\""
-					+webBaseURL+"/servlets/MCRJSPSearchServlet?mode=results&id="+id+"&page=1&numPerPage="+numPerPage
+		out.write(Long.toString(result.getNumFound())+" "+messages.getString("Webpage.Searchresult.numHits"));
+		out.write("\n <ul class=\"pagination pull-right\" style=\"margin-top:-7px \">");
+		String q = URLEncoder.encode(result.getQuery(), "UTF-8");
+		String sort = URLEncoder.encode(result.getSort(), "UTF-8");
+		if(result.getNumPages()>1){
+			long page = Math.round(Math.floor((double)result.getStart() / result.getRows())+1);
+			int start = 0;
+			out.write("\n      <li><a href=\""
+					+webBaseURL+"simpleSearch.action?q="+ q+"&amp;sort="+sort+"&amp;start="+start+"&amp;rows="+result.getRows()
 					+"\">"+messages.getString("Webpage.Searchresult.firstPage")+"</a></li>");
 			if(page-2>0){
-				out.write("\n      <li class=\"item\"><a href=\""
-						+webBaseURL+"/servlets/MCRJSPSearchServlet?mode=results&id="+id+"&page="+Integer.toString(page-2)+"&numPerPage="+numPerPage
-						+"\">"+Integer.toString((page-3)*numPerPage+1)+"-"+Integer.toString((page-2)*numPerPage)+"</a></li>");
+				start = result.getStart()-result.getRows()-result.getRows();
+				out.write("\n      <li><a href=\""
+						+webBaseURL+"simpleSearch.action?q="+ q+"&amp;sort="+sort+"&amp;start="+start+"&amp;rows="+result.getRows()
+						+"\">"+Integer.toString(start+1)+"-"+Integer.toString(start+result.getRows())+"</a></li>");
 			}
 			if(page-1>0){
-				out.write("\n      <li class=\"item\"><a href=\""
-						+webBaseURL+"/servlets/MCRJSPSearchServlet?mode=results&id="+id+"&page="+Integer.toString(page-1)+"&numPerPage="+numPerPage
-						+"\">"+Integer.toString((page-2)*numPerPage+1)+"-"+Integer.toString((page-1)*numPerPage)+"</a></li>");
-			}
-			out.write("\n      <li class=\"item active\">"+Integer.toString((page-1)*numPerPage+1)+"-"+Integer.toString(Math.min((page)*numPerPage, numHits))+"</li>");
-			if(page+1<=numPages){
+				start = result.getStart()-result.getRows();
 				out.write("\n      <li><a href=\""
-						+webBaseURL+"/servlets/MCRJSPSearchServlet?mode=results&id="+id+"&page="+Integer.toString(page+1)+"&numPerPage="+numPerPage
-						+"\">"+Integer.toString((page)*numPerPage+1)+"-"+Integer.toString(Math.min((page+1)*numPerPage,numHits))+"</a></li>");
+						+webBaseURL+"simpleSearch.action?q="+ q+"&amp;sort="+sort+"&amp;start="+start+"&amp;rows="+result.getRows()
+						+"\">"+Integer.toString(start+1)+"-"+Integer.toString(start+result.getRows())+"</a></li>");
 			}
-			if(page+2<=numPages){
-				out.write("\n      <li class=\"item\"><a href=\""
-						+webBaseURL+"/servlets/MCRJSPSearchServlet?mode=results&id="+id+"&page="+Integer.toString(page+2)+"&numPerPage="+numPerPage
-						+"\">"+Integer.toString((page+1)*numPerPage+1)+"-"+Integer.toString(Math.min((page+2)*numPerPage,numHits))+"</a></li>");
+			
+			start=result.getStart();
+			out.write("\n      <li class=\"active\"><a href=\""
+					+webBaseURL+"simpleSearch.action?q="+ q+"&amp;sort="+sort+"&amp;start="+start+"&amp;rows="+result.getRows()
+					+"\">"+Integer.toString(start+1)+"-"+Long.toString(Math.min(start+result.getRows(),result.getNumFound()))+"</a></li>");
+	
+			if(page+1<=result.getNumPages()){
+				start = result.getStart()+result.getRows();
+				out.write("\n      <li><a href=\""
+						+webBaseURL+"simpleSearch.action?q="+ q+"&amp;sort="+sort+"&amp;start="+start+"&amp;rows="+result.getRows()
+						+"\">"+Integer.toString(start+1)+"-"+Long.toString(Math.min(start+result.getRows(),result.getNumFound()))+"</a></li>");
 			}
+			if(page+2<=result.getNumPages()){
+				start = result.getStart()+result.getRows()+result.getRows();
+				out.write("\n      <li><a href=\""
+						+webBaseURL+"simpleSearch.action?q="+ q+"&amp;sort="+sort+"&amp;start="+start+"&amp;rows="+result.getRows()
+						+"\">"+Integer.toString(start+1)+"-"+Long.toString(Math.min(start+result.getRows(),result.getNumFound()))+"</a></li>");
+			}
+			start = Math.round((result.getNumPages()-1)*result.getRows());
 			out.write("\n      <li class=\"item\"><a href=\""
-					+webBaseURL+"/servlets/MCRJSPSearchServlet?mode=results&id="+id+"&page="+numPages+"&numPerPage="+numPerPage
+					+webBaseURL+"simpleSearch.action?q="+ q+"&amp;sort="+sort+"&amp;start="+start+"&amp;rows="+result.getRows()
 					+"\">"+messages.getString("Webpage.Searchresult.lastPage")+"</a></li>");
 		}
-		out.write("\n   </ol></div>");
-		out.write("\n   <div style=\"clear:both\"></div>");
-		out.write("\n</div>");
+		out.write("\n   </ul>");
 	}
 
 	public String getSortfields() {
@@ -277,6 +245,14 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 
 	public void setSortfields(String sortfields) {
 		this.sortfields = sortfields;
+	}
+
+	public MCRSearcherResultDataBean getResult() {
+		return result;
+	}
+
+	public void setResult(MCRSearcherResultDataBean result) {
+		this.result = result;
 	}
 	
 }

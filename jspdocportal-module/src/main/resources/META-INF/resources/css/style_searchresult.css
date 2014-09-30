@@ -79,6 +79,7 @@ div.searchresult-navigation div.navi ol {
 }
 
 div.searchresult-navigation div.navi ol li{
+	list-style:none;
 	float:left;
 	text-align:center;
 	color: #FFFFFF;

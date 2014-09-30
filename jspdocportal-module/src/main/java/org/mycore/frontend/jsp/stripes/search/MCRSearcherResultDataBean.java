@@ -33,19 +33,20 @@ import java.util.List;
  */
 public class MCRSearcherResultDataBean {
 	private int current=0;
-	private int numFound;
+	private long numFound;
 	private int start;
 	private int rows;
-	private String id;
+	private String query;
+	private String sort;
 	
 	private List<String> mcrIDs = new ArrayList<String>();
 	private String errorMsg = null;
 
-	public int getNumFound() {
+	public long getNumFound() {
 		return numFound;
 	}
 
-	public void setNumFound(int numFound) {
+	public void setNumFound(long numFound) {
 		this.numFound = numFound;
 	}
 
@@ -86,12 +87,12 @@ public class MCRSearcherResultDataBean {
 		this.mcrIDs = mcrIDs;
 	}
 
-	public String getId() {
-		return id;
+	public String getQuery() {
+		return query;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setQuery(String query) {
+		this.query = query;
 	}
 
 	public int getCurrent() {
@@ -100,5 +101,13 @@ public class MCRSearcherResultDataBean {
 
 	public void setCurrent(int current) {
 		this.current = current;
+	}
+
+	public String getSort() {
+		return sort;
+	}
+
+	public void setSort(String sort) {
+		this.sort = sort;
 	}
 }

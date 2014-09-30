@@ -149,7 +149,12 @@
                 <required>true</required>
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
-
+  			<attribute>
+            	<description>the searchresult data bean</description>
+                <name>result</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
             <attribute>
             	<description>the name of the sortfields</description>
                 <name>sortfields</name>
