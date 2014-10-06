@@ -99,6 +99,12 @@
 		</dependency>
 		<dependency>
 			<groupId>org.mycore</groupId>
+			<artifactId>mycore-oai</artifactId>
+			<version>${project.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mycore</groupId>
 			<artifactId>mycore-buildtools</artifactId>
 			<version>${project.version}</version>
 			<scope>runtime</scope>
