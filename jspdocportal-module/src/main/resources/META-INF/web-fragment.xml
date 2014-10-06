@@ -191,11 +191,7 @@
     
       
       <!-- mycore servlets -->
-      <servlet id="OAIProvider">
-            <servlet-name>MCROAIProvider</servlet-name>
-            <servlet-class>org.mycore.oai.MCROAIDataProvider</servlet-class>
-      </servlet>
-      <servlet id="XMLEditor">
+     <servlet id="XMLEditor">
             <servlet-name>XMLEditor</servlet-name>
             <servlet-class> org.mycore.frontend.editor.MCREditorServlet </servlet-class>
       </servlet>
@@ -350,6 +346,21 @@
     <servlet-name>MCRStoreMetadataServlet</servlet-name>
     <url-pattern>/servlets/MCRStoreMetadataServlet</url-pattern>
   </servlet-mapping>
+  
+  <!-- **************************************************************** -->
+  <!-- MyCoRe REST API v1                                                 -->
+  <!-- **************************************************************** -->
+  
+  
+      <servlet id="OAI2Provider">
+            <servlet-name>OAI2</servlet-name>
+            <servlet-class>org.mycore.oai.MCROAIDataProvider</servlet-class>
+      </servlet>
+
+      <servlet-mapping>
+         <servlet-name>OAI2</servlet-name>
+         <url-pattern>/oai</url-pattern>
+      </servlet-mapping>
       
   <!-- **************************************************************** -->
   <!-- MyCoRe REST API v1                                                 -->
