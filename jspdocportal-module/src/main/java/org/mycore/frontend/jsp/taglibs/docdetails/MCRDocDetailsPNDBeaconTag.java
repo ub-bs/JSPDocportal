@@ -168,7 +168,7 @@ public class MCRDocDetailsPNDBeaconTag extends SimpleTagSupport {
 
 				if ((whitelist.isEmpty() || whitelist.contains(id)) && !blacklist.contains(id)) {
 					ids.add(id);
-					urls.put(id, e.getChild("a", NS_XHTML).getAttributeValue("href"));
+					urls.put(id, e.getChild("a", NS_XHTML).getAttributeValue("href").replace("&", "&amp;"));
 					if (replaceLabels.containsKey(id)) {
 						labels.put(id, replaceLabels.get(id));
 					} else {
