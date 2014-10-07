@@ -8,13 +8,10 @@
     <description>(A MyCoRe Sample)</description>
     <name>jspdocportal</name>
     <ordering>
-        <after>
-            <name>mycore</name>
-        </after>
         <before>
-            <others/>
+            <name>mycore</name>
         </before>
-    </ordering> 
+       </ordering> 
     
    
     
@@ -97,12 +94,24 @@
 		<url-pattern>*.action</url-pattern>
 	</servlet-mapping>
     
-    <!-- servlets -->    
+    <!-- servlets -->
+    
+    <servlet>
+         <servlet-name>MCRJSPFileNodeServlet</servlet-name>
+         <servlet-class>org.mycore.frontend.servlets.MCRJSPFileNodeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+         <servlet-name>MCRJSPFileNodeServlet</servlet-name>
+         <url-pattern>/file/*</url-pattern>
+    </servlet-mapping>
+    
 
     <servlet id="WFFileNode">
          <servlet-name>MCRWFFileNodeServlet</servlet-name>
          <servlet-class>org.mycore.frontend.servlets.MCRWFFileNodeServlet</servlet-class>
     </servlet>
+    
+    
 
 	<servlet id="IDResolver">
          <servlet-name>MCRJSPIDResolverServlet</servlet-name>
@@ -320,10 +329,7 @@
 
 	<!--  mycore servlets mapping  -->
 
-    <servlet-mapping>
-         <servlet-name>MCRFileNodeServlet</servlet-name>
-         <url-pattern>/file/*</url-pattern>
-    </servlet-mapping>
+   
 
  
      <servlet-mapping>
@@ -348,7 +354,7 @@
   </servlet-mapping>
   
   <!-- **************************************************************** -->
-  <!-- MyCoRe REST API v1                                                 -->
+  <!-- MyCoRe OAI                                                       -->
   <!-- **************************************************************** -->
   
   
