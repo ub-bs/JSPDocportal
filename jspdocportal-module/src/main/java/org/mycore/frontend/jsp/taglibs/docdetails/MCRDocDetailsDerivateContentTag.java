@@ -36,6 +36,7 @@ import org.mycore.common.MCRConstants;
 import org.mycore.datamodel.ifs.MCRDirectory;
 import org.mycore.datamodel.ifs.MCRFile;
 import org.mycore.datamodel.ifs.MCRFilesystemNode;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -64,7 +65,7 @@ public class MCRDocDetailsDerivateContentTag extends SimpleTagSupport {
 			JspWriter out = getJspContext().getOut();
 			
 			XPathUtil xu = new XPathUtil((PageContext)getJspContext());
-			@SuppressWarnings({ "unchecked", "rawtypes" })
+			@SuppressWarnings("rawtypes")
 			List nodes = xu.selectNodes(docdetailsRow.getContext(), xp);
 			if(nodes.size()>0){
 	   		  	Object o =  getJspContext().getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE);
@@ -81,7 +82,15 @@ public class MCRDocDetailsDerivateContentTag extends SimpleTagSupport {
 	    		
 	    		StringBuffer sbUrl = new StringBuffer(o.toString());
 	    		sbUrl.append("file/");
-	    		sbUrl.append(docdetails.getContext().getOwnerDocument().getDocumentElement().getAttribute("ID"));
+	    		Document doc = null;
+	    		Node nd = docdetails.getContext();
+	    		if(nd instanceof Document){
+	    			doc = (Document)nd;
+	    		}
+	    		else{
+	    			doc = nd.getOwnerDocument();
+	    		}
+	    		sbUrl.append(doc.getDocumentElement().getAttribute("ID"));
 	    		sbUrl.append("/");
 	    		sbUrl.append(derID);
 	    		sbUrl.append("/");
