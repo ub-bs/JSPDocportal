@@ -40,10 +40,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.hibernate.Transaction;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
-import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.JSPUtils;
 import org.mycore.datamodel.common.MCRXMLMetadataManager;
 import org.mycore.datamodel.metadata.MCRObjectID;
@@ -153,11 +151,6 @@ public class MCRDocDetailsTag extends SimpleTagSupport {
 	 * executes the tag
 	 */
 	public void doTag() throws JspException, IOException {
-		boolean isRoot = findAncestorWithClass(this, MCRDocDetailsTag.class) == null;
-		Transaction tx = null;
-		if (isRoot) {
-			//tx = MCRHIBConnection.instance().getSession().beginTransaction();
-		}
 		byte[] data = new byte[0];
 		try {
 			messages = MCRTranslation.getResourceBundle("messages", new Locale(lang));
@@ -174,6 +167,7 @@ public class MCRDocDetailsTag extends SimpleTagSupport {
 				data = MCRXMLMetadataManager.instance().retrieveBLOB(MCRObjectID.getInstance(mcrID));
 			}
 			doc = builder.parse(new ByteArrayInputStream(data));
+			System.out.println(doc.getDocumentElement().getAttribute("ID"));
 			if (var != null) {
 				getJspContext().setAttribute(var, doc, PageContext.REQUEST_SCOPE);
 			}
@@ -199,7 +193,7 @@ public class MCRDocDetailsTag extends SimpleTagSupport {
 			}
 		}
 		if(outputStyle.equals("table")){
-			out.write("<table class=\"" + getStylePrimaryName() + "-table\" cellpadding=\"0\" cellspacing=\"0\">\n");
+			out.write("<table class=\"" + getStylePrimaryName() + "-table ur-embedded ur-text\" cellpadding=\"0\" cellspacing=\"0\">\n");
 			out.write("<tbody>\n");
 
 			getJspBody().invoke(out);
@@ -208,13 +202,9 @@ public class MCRDocDetailsTag extends SimpleTagSupport {
 			out.write("</table>\n");
 		}
 		if(outputStyle.equals("headlines")){
-			out.write("<div class=\"" + getStylePrimaryName()+"\">\n");
+			out.write("<div class=\"" + getStylePrimaryName()+" ur-embedded ur-text\">\n");
 			getJspBody().invoke(out);
 			out.write("</div>\n");			
-		}
-		
-		if (isRoot) {
-			//tx.commit();
 		}
 	}
 
@@ -286,22 +276,23 @@ public class MCRDocDetailsTag extends SimpleTagSupport {
 	 * @throws IOException
 	 */
 	private static byte[] getBytesFromFile(File file) throws IOException {
-		InputStream is = new FileInputStream(file);
-		long length = file.length();
-		if (length > Integer.MAX_VALUE) {
-			return new byte[0];
+		try(InputStream is = new FileInputStream(file)){
+			long length = file.length();
+			if (length > Integer.MAX_VALUE) {
+				return new byte[0];
+			}
+			byte[] bytes = new byte[(int) length];
+			int offset = 0;
+			int numRead = 0;
+			while (offset < bytes.length && (numRead = is.read(bytes, offset, bytes.length - offset)) >= 0) {
+				offset += numRead;
+			}
+			if (offset < bytes.length) {
+				throw new IOException("Could not completely read file " + file.getName());
+			}
+			
+			return bytes;
 		}
-		byte[] bytes = new byte[(int) length];
-		int offset = 0;
-		int numRead = 0;
-		while (offset < bytes.length && (numRead = is.read(bytes, offset, bytes.length - offset)) >= 0) {
-			offset += numRead;
-		}
-		if (offset < bytes.length) {
-			throw new IOException("Could not completely read file " + file.getName());
-		}
-		is.close();
-		return bytes;
 	}
 
 	public String getOutputStyle() {

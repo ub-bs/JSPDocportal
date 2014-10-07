@@ -169,7 +169,7 @@ public class MCRDocDetailsRowTag extends SimpleTagSupport {
 			} catch (MissingResourceException e) {
 				info = "???" + labelkey + ".info???<br /><i>Eine Beschreibung für das Feld wird gerade erstellt.</i>";
 			}
-			out.write("<div class=\"" + docdetails.getStylePrimaryName() + "-infohover\">" + "<a href=\"#\">i<span>" + info + "</span></a></div>");
+			out.write("<div class=\"" + docdetails.getStylePrimaryName() + "-infohover\">" + "<a href=\"#\"><i class=\"glyphicon glyphicon-info-sign\"></i><span>" + info + "</span></a></div>");
 		}
 	}
 	
