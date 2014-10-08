@@ -266,12 +266,13 @@
 			<artifactId>commons-fileupload</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.ibm.icu</groupId>
-			<artifactId>icu4j</artifactId>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
+			<version>4.0</version>
 		</dependency>
 		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
+			<groupId>com.ibm.icu</groupId>
+			<artifactId>icu4j</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
