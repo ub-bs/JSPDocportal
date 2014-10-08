@@ -262,7 +262,6 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
 				else{
 					out.append(INDENT).append("<ul>");
 				}
-				out.append(INDENT).append("<ul>");
 				for (Element el : printableElements) {
 					String msg = retrieveI18N(el.getAttribute("i18n"));
 					out.append(INDENT).append("<li>");
