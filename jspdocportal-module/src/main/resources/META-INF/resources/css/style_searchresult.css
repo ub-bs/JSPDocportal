@@ -2,20 +2,8 @@
 /* SearchResults                                                       */
 /* =================================================================== */
 
-table.ur-searchresult-table{
-	margin-bottom: 0px;
-}
-table.ur-searchresult-table td{
-	border:none !important;
-}
-
-table.ur-searchresult-table td:first-child{
-	width:4.5em;
-	text-align: right;
-}
-
-table.ur-searchresult-table th{
-	border:none !important;
+div.ur-searchresult-item-panel div.panel-heading{
+	background:none !important;
 }
 
 /* OLD ... */

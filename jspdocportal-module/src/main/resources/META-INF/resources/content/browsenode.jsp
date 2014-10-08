@@ -8,7 +8,7 @@
 <fmt:message var="pageTitle" key="Webpage.browse.generalTitle" /> 
 <stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
 	<stripes:layout-component name="contents">
-		<h2><fmt:message key="Webpage.browse.generalTitle" /></h2>
+		<h1><fmt:message key="Webpage.browse.generalTitle" /></h1>
  		<div class="textblock2">
         	<div>
         		<mcr:outputNavigation mode="toc" id="left"/>

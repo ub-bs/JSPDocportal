@@ -89,7 +89,7 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 				writeResortForm(result, out, sortfields, mask);
 			}
 			
-			out.write("<div class=\"panel panel-default\">");
+			out.write("<div class=\"panel panel-default ur-searchresult-panel\">");
 			if(numHits>0){
 				out.write("<div class=\"panel-heading\">");
 				writePageNavigation(out, result, mask);
@@ -97,13 +97,13 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 			}
 			
 		
-			out.write("<ul class=\"list-group\">");
+			out.write("<div class=\"panel-body ur-text\">");
 			String path = (String)mcrSession.get("navPath");
 			if(path==null){
 				path="";
 			}
 			for(int j=0;j<result.getMcrIDs().size();j++){
-				out.write("<li class=\"list-group-item\">");
+				//out.write("<li class=\"list-group-item\">");
 				String mcrid = result.getMcrIDs().get(j);
 				ctx.setAttribute(varMCRID, mcrid);
 		    	
@@ -115,9 +115,9 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 		    	ctx.setAttribute(varURL, sbURL.toString());
 		    	
 		    	getJspBody().invoke(out);
-		    	out.write("</li>");
+		    	//out.write("</li>");
 			}
-			out.write("</ul>");
+			out.write("</div>");
 			if(numHits>0){
 				out.write("<div class=\"panel-footer\">");
 				writePageNavigation(out, result, mask);

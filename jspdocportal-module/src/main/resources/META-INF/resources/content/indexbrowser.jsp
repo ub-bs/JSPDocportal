@@ -16,12 +16,12 @@
 	</stripes:layout-component>
 	<stripes:layout-component name="contents">
 		<div class="ur-box ur-text">
-			<h1>
-				<fmt:message key="Webpage.indexbrowser.${actionBean.modus}.title" />
-			</h1>
-			<p>
-				<fmt:message key="Webpage.indexbrowser.${actionBean.modus}.intro" />
-			</p>
+			   <h1>
+				   <fmt:message key="Webpage.indexbrowser.${actionBean.modus}.title" />
+			   </h1>
+			   <p>
+				   <fmt:message key="Webpage.indexbrowser.${actionBean.modus}.intro" />
+			   </p>
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="navbar navbar-default" style="padding:10px">
@@ -70,7 +70,7 @@
 								<h4 class="panel-title"><a href="${WebApplicationBaseURL}resolve/id/${r.mcrid}">${r.label}</a></h4>
 							</div>
 							<div class="panel-body">
-								<table style="border-spacing:5px;border-collapse:separate;font-size:100%">
+								<table style="border-spacing:4px;border-collapse:separate;font-size:100%">
 									<c:forEach var="d" items="${r.data}">
 										<tr>
 											<th style="min-width:120px"><fmt:message key="Webpage.indexbrowser.${actionBean.modus}.label.${d.key}" />:&#160;</th>
