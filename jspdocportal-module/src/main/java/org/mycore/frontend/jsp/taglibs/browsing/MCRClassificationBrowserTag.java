@@ -531,9 +531,8 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 			}
 			else{
 				//"normal" classification browser - do a search
-				url.append("servlets/MCRJSPSearchServlet");
-				url.append("?query="+URLEncoder.encode(generateQuery(categ.getId().getID()), Charset.defaultCharset().name()));
-				url.append("&amp;mask="+searchmask);
+				url.append("simpleSearch.action");
+				url.append("?q="+URLEncoder.encode(generateQuery(categ.getId().getID()), Charset.defaultCharset().name()));
 			}			
 			out.write("<a href=\""+url.toString()+"\">");
 			out.write(MCRTranslation.translate("Editor.Common.Choose"));
