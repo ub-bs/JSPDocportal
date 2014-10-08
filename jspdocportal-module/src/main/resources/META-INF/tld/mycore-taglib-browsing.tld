@@ -191,7 +191,6 @@
 		<attribute>
 			<name>imageWidth</name>
 			<required>true</required>
-			<type>java.lang.Integer</type>
 		</attribute> 
 	</tag>
        

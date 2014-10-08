@@ -48,7 +48,7 @@ import org.mycore.datamodel.metadata.MCRObjectID;
  */
 public class MCRDerivateImageBrowserTag extends SimpleTagSupport {
 	
-	private int imgWidth=0;
+	private String imgWidth="100%";
 	private String labelSubstring="";
 	private String mcrid="";
 
@@ -122,14 +122,14 @@ public class MCRDerivateImageBrowserTag extends SimpleTagSupport {
 	}
 
 	/**
-	 * the width (in pixel) to which the images shall be resized
+	 * the width (html conform) to which the images shall be resized
 	 * @param imgWidth
 	 */
-	public void setImageWidth(int imgWidth) {
+	public void setImageWidth(String imgWidth) {
 		this.imgWidth = imgWidth;
 	}
 	
-	public int getImageWidth() {
+	public String getImageWidth() {
 		return imgWidth;
 	}
 }
