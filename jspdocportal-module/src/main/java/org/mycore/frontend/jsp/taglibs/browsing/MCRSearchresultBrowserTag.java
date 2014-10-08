@@ -1,7 +1,6 @@
 package org.mycore.frontend.jsp.taglibs.browsing;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -15,7 +14,7 @@ import org.hibernate.Transaction;
 import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.MCRSession;
 import org.mycore.frontend.MCRFrontendUtil;
-import org.mycore.frontend.jsp.stripes.search.MCRSearcherResultDataBean;
+import org.mycore.frontend.jsp.search.MCRSearchResultDataBean;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.services.i18n.MCRTranslation;
 
@@ -34,7 +33,7 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 	private String varMCRID;
 	private String varURL;
 	private String sortfields="";
-	private MCRSearcherResultDataBean result;
+	private MCRSearchResultDataBean result;
 
 	/**
 	 * required: the name of the variable which holds the MCRObject as xml
@@ -110,10 +109,9 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 		    	
 		    	//http://localhost:8080/cpr/nav?id=cpr_professor_000000001451&offset=9&path=left.search.allmeta.searchresult-allmeta.docdetail&resultid=-xst2nllmkdqafx2bcdj2
 		    	StringBuffer sbURL = new StringBuffer(baseurl);
-		    	sbURL.append("nav?id=").append(mcrid);
-		    	sbURL.append("&offset=").append(j);
-		    	sbURL.append("&path=").append(path+".docdetail");
-		    	
+		    	sbURL.append("resolve/id/").append(mcrid);
+		    	sbURL.append("?_search=").append(result.getId());
+			    	
 		    	ctx.setAttribute(varURL, sbURL.toString());
 		    	
 		    	getJspBody().invoke(out);
@@ -137,7 +135,7 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
     	
 	}
 	
-	private void writeResortForm(MCRSearcherResultDataBean result, JspWriter out, String sortfields, String searchmask) throws IOException{
+	private void writeResortForm(MCRSearchResultDataBean result, JspWriter out, String sortfields, String searchmask) throws IOException{
 		String webBaseURL = MCRFrontendUtil.getBaseURL();
 		
 		out.write("<div class=\"panel panel-default\">");
@@ -183,7 +181,7 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 
 	
 	//36.168 Publications	      Erste Seite | 11-20 | 21-30 | 31-40 | 41-50 | 51-60 | Nächste Seite
-	private void writePageNavigation(JspWriter out, MCRSearcherResultDataBean result, String mask) throws IOException{
+	private void writePageNavigation(JspWriter out, MCRSearchResultDataBean result, String mask) throws IOException{
 		String webBaseURL = MCRFrontendUtil.getBaseURL();
 		PageContext pageContext = (PageContext) getJspContext();
 		MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest) pageContext.getRequest());
@@ -193,47 +191,46 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 		out.write("<!-- Searchresult PageNavigation -->");
 		out.write(Long.toString(result.getNumFound())+" "+messages.getString("Webpage.Searchresult.numHits"));
 		out.write("\n <ul class=\"pagination pull-right\" style=\"margin-top:-7px \">");
-		String q = URLEncoder.encode(result.getQuery(), "UTF-8");
-		String sort = URLEncoder.encode(result.getSort(), "UTF-8");
+		
 		if(result.getNumPages()>1){
 			long page = Math.round(Math.floor((double)result.getStart() / result.getRows())+1);
 			int start = 0;
 			out.write("\n      <li><a href=\""
-					+webBaseURL+"simpleSearch.action?q="+ q+"&amp;sort="+sort+"&amp;start="+start+"&amp;rows="+result.getRows()
+					+webBaseURL+"searchresult.action?_search="+ result.getId()+"&amp;_start="+start
 					+"\">"+messages.getString("Webpage.Searchresult.firstPage")+"</a></li>");
 			if(page-2>0){
 				start = result.getStart()-result.getRows()-result.getRows();
 				out.write("\n      <li><a href=\""
-						+webBaseURL+"simpleSearch.action?q="+ q+"&amp;sort="+sort+"&amp;start="+start+"&amp;rows="+result.getRows()
+						+webBaseURL+"searchresult.action?_search="+ result.getId()+"&amp;_start="+start
 						+"\">"+Integer.toString(start+1)+"-"+Integer.toString(start+result.getRows())+"</a></li>");
 			}
 			if(page-1>0){
 				start = result.getStart()-result.getRows();
 				out.write("\n      <li><a href=\""
-						+webBaseURL+"simpleSearch.action?q="+ q+"&amp;sort="+sort+"&amp;start="+start+"&amp;rows="+result.getRows()
+						+webBaseURL+"searchresult.action?_search="+ result.getId()+"&amp;_start="+start
 						+"\">"+Integer.toString(start+1)+"-"+Integer.toString(start+result.getRows())+"</a></li>");
 			}
 			
 			start=result.getStart();
 			out.write("\n      <li class=\"active\"><a href=\""
-					+webBaseURL+"simpleSearch.action?q="+ q+"&amp;sort="+sort+"&amp;start="+start+"&amp;rows="+result.getRows()
+					+webBaseURL+"searchresult.action?_search="+ result.getId()+"&amp;_start="+start
 					+"\">"+Integer.toString(start+1)+"-"+Long.toString(Math.min(start+result.getRows(),result.getNumFound()))+"</a></li>");
 	
 			if(page+1<=result.getNumPages()){
 				start = result.getStart()+result.getRows();
 				out.write("\n      <li><a href=\""
-						+webBaseURL+"simpleSearch.action?q="+ q+"&amp;sort="+sort+"&amp;start="+start+"&amp;rows="+result.getRows()
+						+webBaseURL+"searchresult.action?_search="+ result.getId()+"&amp;_start="+start
 						+"\">"+Integer.toString(start+1)+"-"+Long.toString(Math.min(start+result.getRows(),result.getNumFound()))+"</a></li>");
 			}
 			if(page+2<=result.getNumPages()){
 				start = result.getStart()+result.getRows()+result.getRows();
 				out.write("\n      <li><a href=\""
-						+webBaseURL+"simpleSearch.action?q="+ q+"&amp;sort="+sort+"&amp;start="+start+"&amp;rows="+result.getRows()
+						+webBaseURL+"searchresult.action?_search="+ result.getId()+"&amp;_start="+start
 						+"\">"+Integer.toString(start+1)+"-"+Long.toString(Math.min(start+result.getRows(),result.getNumFound()))+"</a></li>");
 			}
 			start = Math.round((result.getNumPages()-1)*result.getRows());
 			out.write("\n      <li class=\"item\"><a href=\""
-					+webBaseURL+"simpleSearch.action?q="+ q+"&amp;sort="+sort+"&amp;start="+start+"&amp;rows="+result.getRows()
+					+webBaseURL+"searchresult.action?_search="+ result.getId()+"&amp;_start="+start
 					+"\">"+messages.getString("Webpage.Searchresult.lastPage")+"</a></li>");
 		}
 		out.write("\n   </ul>");
@@ -247,11 +244,11 @@ public class MCRSearchresultBrowserTag extends SimpleTagSupport {
 		this.sortfields = sortfields;
 	}
 
-	public MCRSearcherResultDataBean getResult() {
+	public MCRSearchResultDataBean getResult() {
 		return result;
 	}
 
-	public void setResult(MCRSearcherResultDataBean result) {
+	public void setResult(MCRSearchResultDataBean result) {
 		this.result = result;
 	}
 	

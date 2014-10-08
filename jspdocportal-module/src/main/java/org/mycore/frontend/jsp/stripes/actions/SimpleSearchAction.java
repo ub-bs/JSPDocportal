@@ -1,7 +1,5 @@
 package org.mycore.frontend.jsp.stripes.actions;
 
-import java.util.Iterator;
-
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -11,23 +9,13 @@ import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.controller.LifecycleStage;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.SolrQuery.SortClause;
-import org.apache.solr.client.solrj.SolrServer;
-import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.common.SolrDocument;
-import org.apache.solr.common.SolrDocumentList;
-import org.mycore.frontend.jsp.stripes.search.MCRSearcherResultDataBean;
-import org.mycore.solr.MCRSolrServerFactory;
+import org.mycore.frontend.jsp.search.MCRSearchResultDataBean;
 
 @UrlBinding("/simpleSearch.action")
 public class SimpleSearchAction extends MCRAbstractStripesAction implements ActionBean {
 	public static int DEFAULT_ROWS = Integer.MAX_VALUE;
-	private static Logger LOGGER = Logger.getLogger(SimpleSearchAction.class);
-	ForwardResolution fwdResolution = new ForwardResolution("/content/searchresult.jsp");
-	                                                             
+	
+                    
 	ForwardResolution fwdResolutionForm = new ForwardResolution("/content/search/searchSimple.jsp");
 
 	private String q = "";
@@ -38,7 +26,7 @@ public class SimpleSearchAction extends MCRAbstractStripesAction implements Acti
 	private String sortfieldDirection="";
 	private int start = 0;
 	private int rows = DEFAULT_ROWS;
-	private MCRSearcherResultDataBean result;
+	private MCRSearchResultDataBean result;
 
 	public SimpleSearchAction() {
 
@@ -73,6 +61,7 @@ public class SimpleSearchAction extends MCRAbstractStripesAction implements Acti
 
 	@DefaultHandler
 	public Resolution defaultRes() {
+		result = new MCRSearchResultDataBean();
 		if (q.isEmpty()) {
 			if(StringUtils.isNotEmpty(searchfieldName) && StringUtils.isNotEmpty(searchfieldValue)){
 				q = searchfieldName + ":" + searchfieldValue;
@@ -86,41 +75,13 @@ public class SimpleSearchAction extends MCRAbstractStripesAction implements Acti
 				sort = sortfieldName + " " + sortfieldDirection;
 			}
 		}
-		SolrServer solrServer = MCRSolrServerFactory.getSolrServer();
-		SolrQuery query = new SolrQuery();
-		query.setQuery(q);
-		query.setRows(rows);
-		query.setStart(start);
-		if(!sort.isEmpty()){
-			String[] x = sort.split("\\s|,");
-			if(x.length>1){
-				query.setSort(SortClause.create(x[0],  x[1]));
-			}
-		}
-
-		try {
-			if(q.length() > 0){
-			QueryResponse response = solrServer.query(query);
-			SolrDocumentList solrResults = response.getResults();
-
-			result = new MCRSearcherResultDataBean();
-			result.setStart(start);
-			result.setRows(rows);
-			result.setQuery(q);
-			result.setSort(sort);
-			
-			result.setCurrent(0);
-			result.setNumFound(solrResults.getNumFound());
-			Iterator<SolrDocument> it = solrResults.iterator();
-			while (it.hasNext()) {
-				SolrDocument doc = it.next();
-				result.getMcrIDs().add(String.valueOf(doc.getFirstValue("returnId")));
-			}
-			}
-		} catch (SolrServerException e) {
-			LOGGER.error(e);
-		}
-		return fwdResolution;
+		result.setQuery(q);
+		result.setSort(sort);
+		result.setStart(start);
+		result.setRows(rows);
+		MCRSearchResultDataBean.addSearchresultToSession(getContext().getRequest(), result);
+		result.doSearch();
+		return new ForwardResolution("/searchresult.action?_search="+result.getId());
 	}
 
 	public String getQ() {
@@ -163,11 +124,11 @@ public class SimpleSearchAction extends MCRAbstractStripesAction implements Acti
 		this.rows = rows;
 	}
 
-	public MCRSearcherResultDataBean getResult() {
+	public MCRSearchResultDataBean getResult() {
 		return result;
 	}
 
-	public void setResult(MCRSearcherResultDataBean result) {
+	public void setResult(MCRSearchResultDataBean result) {
 		this.result = result;
 	}
 
