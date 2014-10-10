@@ -6,15 +6,12 @@
 		<artifactId>mycore</artifactId>
 		<groupId>org.mycore</groupId>
 		<version>2014.07-SNAPSHOT</version>
-		<relativePath>../mycore/pom.xml</relativePath>
 	</parent>
 
 	<artifactId>jspdocportal-module</artifactId>
 	<packaging>jar</packaging>
 	<name>JSPDocportal WebApp</name>
 	<url>http://maven.apache.org</url>
-
-
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
