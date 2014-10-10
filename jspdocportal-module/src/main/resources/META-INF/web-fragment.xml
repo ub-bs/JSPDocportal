@@ -96,12 +96,8 @@
     
     <!-- servlets -->
     
-    <servlet>
-         <servlet-name>MCRJSPFileNodeServlet</servlet-name>
-         <servlet-class>org.mycore.frontend.servlets.MCRJSPFileNodeServlet</servlet-class>
-    </servlet>
     <servlet-mapping>
-         <servlet-name>MCRJSPFileNodeServlet</servlet-name>
+         <servlet-name>MCRFileNodeServlet</servlet-name>
          <url-pattern>/file/*</url-pattern>
     </servlet-mapping>
     
