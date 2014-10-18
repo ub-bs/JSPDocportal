@@ -88,7 +88,7 @@
 	         <!--  Editbutton -->
 	         <br />
 
-	         <form method="get" action="${WebApplicationBaseURL}StartEdit" class="resort">                 
+	         <form method="get" action="${WebApplicationBaseURL}startedit.action" class="resort">                 
 	            <input name="mcrid" value="${mcrid}" type="hidden"/>
 				<input title="<fmt:message key="WF.common.object.EditObject" />" border="0" src="${WebApplicationBaseURL}images/workflow1.gif" type="image"  class="imagebutton" height="30" />
 	         </form> 

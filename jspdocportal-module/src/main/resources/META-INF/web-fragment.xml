@@ -189,13 +189,7 @@
         <servlet-class>org.mycore.frontend.workflowengine.jbpm.MCRCheckMetadataServlet</servlet-class>
     </servlet>      
             
-    <servlet>
-    	  <servlet-name>MCRWorkflowForEditingStartServlet</servlet-name>
-      	  <servlet-class>org.mycore.frontend.workflowengine.jbpm.MCRWorkflowForEditingStartServlet</servlet-class>
-    </servlet>
-    
-      
-      <!-- mycore servlets -->
+     <!-- mycore servlets -->
      <servlet id="XMLEditor">
             <servlet-name>XMLEditor</servlet-name>
             <servlet-class> org.mycore.frontend.editor.MCREditorServlet </servlet-class>
@@ -301,11 +295,6 @@
         <servlet-name>MCRCheckMetadataServlet</servlet-name>
         <url-pattern>/servlets/MCRCheckMetadataServlet/*</url-pattern>
     </servlet-mapping>    
-
-    <servlet-mapping>
-    	<servlet-name>MCRWorkflowForEditingStartServlet</servlet-name>
-		<url-pattern>/StartEdit</url-pattern>
-    </servlet-mapping> 
 
     <servlet-mapping>
          <servlet-name>MCRWFFileNodeServlet</servlet-name>
