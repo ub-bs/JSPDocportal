@@ -3,7 +3,6 @@
 <!-- MyCoRe sample application build file for use with Apache Ant        -->
 <!-- $Revision$ $Date$                      -->
 <!-- =================================================================== -->
-
 <project name="main_build" default="usage">
 	<!-- !!! ATTENTION !!! -->
 	<!-- !!! basedir is overwritten by derrived build processes with the xxx_app directory !!! -->
@@ -16,7 +15,6 @@
 
 	<path id="APP_CLASSPATH">
 		<pathelement path="${HOME}/${APP_NAME}-cli.jar" />
-		<!--<pathelement path="${HOME}/${APP_NAME}/WEB-INF/classes" /> -->
 	</path>
 	
 	 <condition property="os.is.unix">
@@ -144,6 +142,7 @@
 	</target>
 
 
+	<!-- DEPRECATED:
 	<target name="load_default_content">
 		<subant target="load" inheritall="false" inheritrefs="true">
 			<fileset file="${basedir}/content/defaultsample/build.xml" />
@@ -159,7 +158,7 @@
 
 	<target name="deploy.processdefinition.thesis">
 		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="APP_CLASSPATH" />
-		<!-- loads processdefinition as resource from classpath -->
+		<!- loads processdefinition as resource from classpath ->
 		<mcr-execute>
         	deploy jbpm processdefinition from file config/workflow/thesis.par/processdefinition.xml      	
         </mcr-execute>
@@ -198,4 +197,5 @@
         	deploy jbpm processdefinition from file config/workflow/bundle.par/processdefinition.xml  
         </mcr-execute>
 	</target>
+	-->
 </project>
