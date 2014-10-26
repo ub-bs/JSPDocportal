@@ -23,7 +23,10 @@
 
 package org.mycore.activiti;
 
+import org.activiti.engine.ProcessEngine;
+import org.activiti.engine.ProcessEngineConfiguration;
 import org.activiti.engine.RepositoryService;
+import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.apache.log4j.Logger;
 import org.mycore.common.MCRException;
 import org.mycore.frontend.cli.MCRAbstractCommands;
@@ -53,12 +56,16 @@ public class MCRActivitiCommands extends MCRAbstractCommands {
     @MCRCommand(syntax = "deploy workflow processdefinition from resource {0}", help = "The command deploys a process definition to the database from a *.bpm20.xml file {0} available on classpath")
     public static final void deployProcessDefinition(String resource) throws MCRException{
     	try{
-    		RepositoryService repositoryService = MCRActivitiMgr.getWorfklowProcessEngine().getRepositoryService();
+        	ProcessEngine processEngine = ProcessEngineConfiguration.createProcessEngineConfigurationFromResource(MCRActivitiMgr.ACTIVITI_CONFIG_FILE)
+            .setDatabaseSchemaUpdate(ProcessEngineConfigurationImpl.DB_SCHEMA_UPDATE_TRUE)
+            .buildProcessEngine();
+
+    		RepositoryService repositoryService = processEngine.getRepositoryService();
     		repositoryService.createDeployment()
     		  .addClasspathResource(resource)
     		  .deploy();
+    		
     		LOGGER.info(resource +" successfully deployed");
-   
     	}catch(Exception e){
     		LOGGER.error("Error in deploying a workflow process definition", e);
             throw new MCRException("Error in deploying a workflow process definition", e);

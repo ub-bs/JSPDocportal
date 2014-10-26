@@ -191,7 +191,7 @@
 		<dependency>
 			<groupId>org.activiti</groupId>
 			<artifactId>activiti-engine</artifactId>
-			<version>5.15.1</version>
+			<version>5.16.4</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-dbcp</groupId>

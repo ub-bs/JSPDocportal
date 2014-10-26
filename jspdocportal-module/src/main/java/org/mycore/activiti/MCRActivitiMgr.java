@@ -15,13 +15,15 @@ public class MCRActivitiMgr {
 	public static final String WF_VAR_MCR_OBJECT_ID = "mcrObjectID";
 	public static final String WF_VAR_VALIDATION_RESULT = "validationResult";
 	public static final String WF_VAR_VALIDATION_MESSAGE = "validationMessage";
+	
+	public static final String ACTIVITI_CONFIG_FILE="/config/workflow/activiti.cfg.xml";
 
 	private static ProcessEngine activitiProcessEngine;
 
 	// Workflow Engine
 	public static synchronized ProcessEngine getWorfklowProcessEngine() {
 		if (activitiProcessEngine == null) {
-			activitiProcessEngine = ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("/config/workflow/activiti.cfg.xml")
+			activitiProcessEngine = ProcessEngineConfiguration.createProcessEngineConfigurationFromResource(ACTIVITI_CONFIG_FILE)
 					.buildProcessEngine();
 		}
 		return activitiProcessEngine;

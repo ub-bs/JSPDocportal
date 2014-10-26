@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- origin at X=0.0 Y=0.0 -->
+<!-- origin at X=0.0 Y=0.0 -->                            
 <definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:ext="http://org.eclipse.bpmn2/ext" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsd="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.1.0.201409091530" targetNamespace="http://www.activiti.org/processdef">
+  <message id="msg_start_create" name="start_create" />
+  <message id="msg_start_load" name="start_load" />
   <process id="create_object_simple" name="Simple workflow to create a MyCoRe object" isExecutable="true">
     <startEvent id="start_create" name="Mit neuem Objekt starten">
       <outgoing>start_create.create_object</outgoing>
+      <messageEventDefinition messageRef="msg_start_create" />
     </startEvent>
     <startEvent id="start_load" name="Mit bestehendem Objekt starten">
-      <extensionElements>
+     <extensionElements>
         <ext:style ext:labelPosition="Above Figure"/>
       </extensionElements>
       <outgoing>start_load.load_object</outgoing>
+      <messageEventDefinition messageRef="msg_start_load" />
     </startEvent>
     <endEvent id="end" name="Ende">
-      <extensionElements>
+       <extensionElements>
         <ext:style ext:labelPosition="Right of Figure"/>
       </extensionElements>
       <incoming>cancel_object.end</incoming>
@@ -73,7 +77,7 @@
       <outgoing>load_object.edit_object</outgoing>
     </serviceTask>
     <sequenceFlow id="load_object.edit_object" sourceRef="load_object" targetRef="edit_object"/>
-    <serviceTask id="drop_object" name="Objekt löschen">
+    <serviceTask id="drop_object" name="Objekt löschen" activiti:class="org.mycore.activiti.workflows.create_object_simple.delegates.MCRActivitiDropObjectDelegate">
       <incoming>edit_object.do_drop</incoming>
       <outgoing>drop_object.end</outgoing>
     </serviceTask>

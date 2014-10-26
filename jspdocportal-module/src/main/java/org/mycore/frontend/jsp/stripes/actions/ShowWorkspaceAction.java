@@ -156,7 +156,8 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 			variables.put(MCRActivitiMgr.WF_VAR_PROJECT_ID, projectID);
 			
 			RuntimeService rs = MCRActivitiMgr.getWorfklowProcessEngine().getRuntimeService();
-			ProcessInstance pi = rs.startProcessInstanceByKey("create_object_simple", variables);
+			//ProcessInstance pi = rs.startProcessInstanceByKey("create_object_simple", variables);
+			ProcessInstance pi = rs.startProcessInstanceByMessage("start_create", variables);
 			messages.add("New Activiti Process Instance " + pi.getId() +" created.");
 			TaskService ts = MCRActivitiMgr.getWorfklowProcessEngine().getTaskService();
 			for(Task t: ts.createTaskQuery().processInstanceId(pi.getId()).list()){
