@@ -156,7 +156,7 @@ public class Main {
 	    	try{
 	    		// without this complicated procedere jsp-file cannot be compiled and tools.jar is not found
 	    		System.setProperty("jetty.home", jettyHome);
-	    		URL[] urls = {new File(jettyHomeAbsolutePath + File.separator + mode + ".jar").toURL()};
+	    		URL[] urls = {new File(jettyHomeAbsolutePath + File.separator + mode + ".jar").toURI().toURL()};
 	    		URLClassLoader ucl = new URLClassLoader(urls);
 	    		Class cl = ucl.loadClass("org.mortbay." + mode + ".Main");
 	    		Class[] classes = new Class[1];

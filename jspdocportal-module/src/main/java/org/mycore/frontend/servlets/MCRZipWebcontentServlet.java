@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.zip.Deflater;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -68,7 +69,7 @@ public class MCRZipWebcontentServlet extends MCRServlet {
 
         try{
         	byte[] buffer = new byte[18024];
-        	SimpleDateFormat formatter = new SimpleDateFormat ("yyyyMMdd-HHmmss");
+        	SimpleDateFormat formatter = new SimpleDateFormat ("yyyyMMdd-HHmmss", Locale.US);
         	String zipfilename = "webcontent_"+formatter.format(new Date())+".zip";
           	ZipOutputStream out  = buildZipOutputStream(res, zipfilename);
           	String foldername = "content/"+MCRConfiguration.instance().getString("MCR.WebContent.Folder");

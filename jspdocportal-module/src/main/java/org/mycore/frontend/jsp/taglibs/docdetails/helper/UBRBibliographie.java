@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
@@ -48,7 +49,7 @@ public class UBRBibliographie {
 			int rsp = urlConnection.getResponseCode();
 			if(rsp == 200){
 				biblioPNDMap.clear();
-				BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+				BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), StandardCharsets.UTF_8));
 				 for (String line; (line = br.readLine()) != null;) {
 					 if(line.startsWith("#")){
 						 continue;

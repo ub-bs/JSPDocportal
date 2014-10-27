@@ -29,10 +29,9 @@ import org.mycore.user2.MCRUserManager;
  *
  */
 public class MCRJbpmSendmail{
-	
-	private static final long serialVersionUID = 1L;
+
 	protected static Logger logger = Logger.getLogger(MCRJbpmSendmail.class);
-	private static Calendar cal = new GregorianCalendar( TimeZone.getTimeZone("ECT"));
+	private static Calendar cal = new GregorianCalendar( TimeZone.getTimeZone("ECT"), Locale.US);
 	protected static String workflowAdminEmail = MCRConfiguration.instance().getString("MCR.WorkflowEngine.Administrator.Email", "admin@mycore.de");
 	
 	
@@ -98,7 +97,7 @@ public class MCRJbpmSendmail{
 			String fromAddress = (String)getEmailAddressesFromStringList(from, executionContext).iterator().next();
 			MCRMailer.send(fromAddress, listReplyTo, listTo, listBcc, subject, body, null);
 			if(dateOfSubmissionVariable != null && !dateOfSubmissionVariable.equals("")) {
-				SimpleDateFormat formater = new SimpleDateFormat();
+				SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
 			    executionContext.setVariable(dateOfSubmissionVariable, formater.format( cal.getTime() ) );	
 			}
 		}catch(Exception e){

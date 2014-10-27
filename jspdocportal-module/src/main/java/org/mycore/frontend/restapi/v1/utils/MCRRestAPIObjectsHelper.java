@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,7 +47,7 @@ import org.mycore.frontend.servlets.MCRServlet;
 import com.google.gson.stream.JsonWriter;
 
 public class MCRRestAPIObjectsHelper {
-    private static SimpleDateFormat SDF_UTC = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+    private static SimpleDateFormat SDF_UTC = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
 
     public static Response showMCRObject(String pathParamId, String queryParamStyle, HttpServletRequest request) {
         try {
@@ -686,7 +687,7 @@ public class MCRRestAPIObjectsHelper {
         String[] data = input.split(":");
         if (data.length == 2) {
             result.setField(data[0].replace("|", ""));
-            String sortOrder = data[1].toLowerCase().replace("|", "");
+            String sortOrder = data[1].toLowerCase(Locale.GERMAN).replace("|", "");
             if (!"ID".equals(result.getField()) && !"lastModified".equals(result.getField())) {
                 error.addFieldError(MCRRestAPIFieldError.create("sort",
                         "Allowed values for sortField are 'ID' and 'lastModified'."));

@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,7 +41,7 @@ public class JSPUtils {
 	private static Pattern germanDatePattern = Pattern.compile("(\\d{1,2})\\.(\\d{1,2})\\.(\\d{4})");
 	private static Pattern englishDatePattern1 = Pattern.compile("(\\d{4})-(\\d{1,2})-(\\d{1,2})");
 	private static Pattern englishDatePattern2 = Pattern.compile("(\\d{4})/(\\d{1,2})/(\\d{1,2})");
-	private static GregorianCalendar cal = new GregorianCalendar();
+	private static GregorianCalendar cal = new GregorianCalendar(Locale.GERMANY);
 	
      
      public static String fillToConstantLength(String value,String fillsign,int length) {

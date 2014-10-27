@@ -26,6 +26,7 @@ package org.mycore.frontend.workflowengine.jbpm;
 
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
@@ -244,7 +245,7 @@ public class MCRWorkflowAccessRuleEditorUtils {
 			if(ruleID.startsWith(MCRWorkflowConstants.ACCESSRULE_PREFIX)){
 				String test = ruleID.split("_")[1];
 				for(int i=0;i<defaultRules.length;i++){
-					if(defaultRules[i].toUpperCase().equals(test)){
+					if(defaultRules[i].toUpperCase(Locale.GERMAN).equals(test)){
 						ruletype=defaultRules[i];
 					}
 				}	

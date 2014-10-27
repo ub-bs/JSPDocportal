@@ -25,6 +25,7 @@ package org.mycore.frontend.jsp.taglibs.docdetails;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.MissingResourceException;
 
 import javax.servlet.jsp.JspException;
@@ -152,15 +153,15 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 	    							String fURL = sbUrl.toString()+theFile.getName();
 	    							out.write("<a href=\""+fURL+"\" target=\"_blank\">");
 	    							String imgURL = o.toString()+"images/derivate_unknown.gif";
-	    							if(theFile.getName().toLowerCase().endsWith(".pdf")){
+	    							if(theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".pdf")){
 	    								imgURL = o.toString()+"images/derivate_pdf.gif";
 	    							}
-	    							if(theFile.getName().toLowerCase().endsWith(".jpg")||
-	    									theFile.getName().toLowerCase().endsWith(".jpeg")){
+	    							if(theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".jpg")||
+	    									theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".jpeg")){
 	    								imgURL = o.toString()+"images/derivate_portrait.gif";
 	    							}
-	    							if(theFile.getName().toLowerCase().endsWith(".doc")||
-	    									theFile.getName().toLowerCase().endsWith(".txt")){
+	    							if(theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".doc")||
+	    									theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".txt")){
 	    								imgURL = o.toString()+"images/derivate_doc.gif";
 	    							}
 	    							out.write("<img src=\""+imgURL+"\" />");

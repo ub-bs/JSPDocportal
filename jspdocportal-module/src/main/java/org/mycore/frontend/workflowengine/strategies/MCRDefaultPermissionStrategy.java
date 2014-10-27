@@ -1,9 +1,11 @@
 package org.mycore.frontend.workflowengine.strategies;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Locale;
 
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
@@ -128,7 +130,7 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 			/* entferne alle nicht durch den Ruleeditor erzeugten regeln */
 			Iterator<String> it = ruleIDs.iterator();
 			while (it.hasNext()) {
-				if (! it.next().startsWith(MCRWorkflowConstants.ACCESSRULE_PREFIX + "_"+ oRuletype.toString().toUpperCase())) {
+				if (! it.next().startsWith(MCRWorkflowConstants.ACCESSRULE_PREFIX + "_"+ oRuletype.toString().toUpperCase(Locale.GERMAN))) {
 					it.remove();
 				}
 			}
@@ -138,11 +140,11 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 			// name, to be able to distinguish it
 			// MCRAccessManager will later pickup this rule and use it
 			DecimalFormat nrFormat = new DecimalFormat(
-					MCRWorkflowConstants.ACCESSRULE_NUMBERFORMAT);
+					MCRWorkflowConstants.ACCESSRULE_NUMBERFORMAT, DecimalFormatSymbols.getInstance(Locale.GERMANY));
 
-			String ruleID = MCRWorkflowConstants.ACCESSRULE_PREFIX + "_"+ oRuletype.toString().toUpperCase()+ "_"
+			String ruleID = MCRWorkflowConstants.ACCESSRULE_PREFIX + "_"+ oRuletype.toString().toUpperCase(Locale.GERMAN)+ "_"
 					+ nrFormat.format(rstore.getNextFreeRuleID(MCRWorkflowConstants.ACCESSRULE_PREFIX
-											+ "_"+ oRuletype.toString().toUpperCase()+ "_"));
+											+ "_"+ oRuletype.toString().toUpperCase(Locale.GERMAN)+ "_"));
 			// (String id, String creator, Date creationTime, String rule,
 			// String description)
 			MCRAccessRule mcrARule = new MCRAccessRule(ruleID, "RuleEditor",

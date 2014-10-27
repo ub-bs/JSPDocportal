@@ -106,7 +106,7 @@ public class MCRJSPServletContextListener implements ServletContextListener {
 							"admininterface-access,admininterface-user,admininterface-accessrules");
 			for (Iterator<?> it = Arrays.asList(permissions.split(","))
 					.iterator(); it.hasNext();) {
-				String permission = ((String) it.next()).trim().toLowerCase();
+				String permission = ((String) it.next()).trim().toLowerCase(Locale.GERMAN);
 				if (!permission.equals("")
 						&& !savedPermissions.contains(permission)) {
 					MCRAccessManager.getAccessImpl().addRule(permission,

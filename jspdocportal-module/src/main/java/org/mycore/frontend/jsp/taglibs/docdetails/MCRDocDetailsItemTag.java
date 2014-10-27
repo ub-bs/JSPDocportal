@@ -99,19 +99,19 @@ public class MCRDocDetailsItemTag extends SimpleTagSupport {
 	    			}
 	    			if(!"".equals(datepattern)){
 	    				try{
-	    					SimpleDateFormat indf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+	    					SimpleDateFormat indf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.GERMANY);
 	    					SimpleDateFormat outdf = new SimpleDateFormat(datepattern, new Locale("de", "DE"));
 	    					result = outdf.format(indf.parse(result));
 	    				}
 	    				catch(Exception e){
 	    					try{
-		    					SimpleDateFormat indf = new SimpleDateFormat("yyyy-MM-dd");
+		    					SimpleDateFormat indf = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMANY);
 		    					SimpleDateFormat outdf = new SimpleDateFormat(datepattern, new Locale("de", "DE"));
 		    					result = outdf.format(indf.parse(result));
 		    				}
 		    				catch(Exception e2){
 		    					try{
-			    					SimpleDateFormat indf = new SimpleDateFormat("yyyy");
+			    					SimpleDateFormat indf = new SimpleDateFormat("yyyy", Locale.GERMANY);
 			    					SimpleDateFormat outdf = new SimpleDateFormat(datepattern, new Locale("de", "DE"));
 			    					result = outdf.format(indf.parse(result));
 			    				}

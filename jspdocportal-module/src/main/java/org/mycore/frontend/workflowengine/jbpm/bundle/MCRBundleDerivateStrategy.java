@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 
 import org.apache.commons.fileupload.FileItem;
@@ -72,7 +73,7 @@ public class MCRBundleDerivateStrategy extends MCRDefaultDerivateStrategy {
 			while(mat.find()) {
 				fileextension = mat.group(1);
 			}
-			fileextension = fileextension.toLowerCase();
+			fileextension = fileextension.toLowerCase(Locale.US);
 			if(fileextension.equals("zip")) {
 				if(containsAttachement) {
 					String errMsg = "just one file allowed for each derivate";
