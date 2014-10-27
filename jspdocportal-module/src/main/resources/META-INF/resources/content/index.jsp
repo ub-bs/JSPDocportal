@@ -13,14 +13,5 @@
 <h2><fmt:message key="Webpage.intro.Webpage.intro" /></h2>
 <mcr:includeWebContent file="index_introtext.html" />
 
-<p style="text-align:right">
-<a style="color:white" href="<c:out value="${requestScope.WebApplicationBaseURL}" />/index/robotd/index.html"><fmt:message key="Webpage.intro.AccessForRobots" /> (<fmt:message key="documents" />)</a>
-</p>
-<p style="text-align:right">
-<a style="color:white" href="<c:out value="${requestScope.WebApplicationBaseURL}" />/index/robotp/index.html"><fmt:message key="Webpage.intro.AccessForRobots" /> (<fmt:message key="authors" />)</a>
-</p>
-<p style="text-align:right">
-<a style="color:white" href="<c:out value="${requestScope.WebApplicationBaseURL}" />/index/roboti/index.html"><fmt:message key="Webpage.intro.AccessForRobots" /> (<fmt:message key="institutions" />)</a>
-</p>
 	</stripes:layout-component>
 </stripes:layout-render>   
