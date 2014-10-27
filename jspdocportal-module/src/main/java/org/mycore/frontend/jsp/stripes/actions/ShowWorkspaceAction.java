@@ -142,6 +142,7 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 	}
 
 	public Resolution doCreateNewTask() {
+		if(mcrobjid_base!=null){
 		MCRSessionMgr.getCurrentSession().beginTransaction();
 		String projectID = mcrobjid_base.substring(0, mcrobjid_base.indexOf("_"));
 		String objectType = mcrobjid_base.substring(mcrobjid_base.indexOf("_")+1);
@@ -163,7 +164,7 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 			messages.add("You don't have the Permission to create a new workflow instance");
 		}
 		MCRSessionMgr.getCurrentSession().commitTransaction();
-
+		}
 	
 		return defaultRes();
 	}
