@@ -199,9 +199,10 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 			}
 		}
 		if (!f_read.canRead()) {
-			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(f_read), "UTF-8"));
-			bw.write("New["+f_read.getName()+"] ...");
+			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(f_save), "UTF-8"));
+			bw.write("New["+f_save.getName()+"] ...");
 			bw.close();
+			f_read=f_save;
 		}
 	}
 }
