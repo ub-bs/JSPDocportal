@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -202,7 +203,7 @@ public class MCREncryptionHelper {
         try {
             PrivateKey privateKey = readPrivateKey(privateKeyFile);
             signature.initSign(privateKey);
-            signature.update(message.getBytes());
+            signature.update(message.getBytes(StandardCharsets.UTF_8));
 
             byte[] sigBytes = signature.sign();
 
@@ -220,7 +221,7 @@ public class MCREncryptionHelper {
 
             Signature signature = Signature.getInstance("SHA1withRSA");
             signature.initVerify(publicKey);
-            signature.update(message.getBytes());
+            signature.update(message.getBytes(StandardCharsets.UTF_8));
 
             return signature.verify(Base64.decodeBase64(base64Signature));
 
