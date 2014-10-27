@@ -30,7 +30,7 @@ public class MCRStoreMetadataServlet extends MCRServlet{
 		MCRJDOMContent content = new MCRJDOMContent(xml);
 		content.sendTo(wfFile);
 		
-		job.getResponse().sendRedirect(MCRFrontendUtil.getBaseURL()+"showWorkspace.action?projectID="+mcrObjID.getProjectId()+"&objectType="+mcrObjID.getTypeId());
+		job.getResponse().sendRedirect(MCRFrontendUtil.getBaseURL()+"showWorkspace.action?mcrobjid_base="+mcrObjID.getProjectId()+"_"+mcrObjID.getTypeId());
 	}
 
 }

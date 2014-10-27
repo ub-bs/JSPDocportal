@@ -28,14 +28,13 @@
 			<stripes:form
 				beanclass="org.mycore.frontend.jsp.stripes.actions.ShowWorkspaceAction"
 				id="workspaceForm" enctype="multipart/form-data" acceptcharset="UTF-8">
-				<stripes:hidden name="projectID" />
-				<stripes:hidden name="objectType" />
+				<stripes:hidden name="mcrobjid_base" />
 
 
 				<%-- load first time from request parameter "returnPath --%>
 
 				<div>
-					ProjektID: ${actionBean.projectID}, ObjectType: ${actionBean.objectType}
+					Base of MCRObjID: ${actionBean.mcrobjid_base}
 				</div>	
 				
 				<div class="panel panel-info">

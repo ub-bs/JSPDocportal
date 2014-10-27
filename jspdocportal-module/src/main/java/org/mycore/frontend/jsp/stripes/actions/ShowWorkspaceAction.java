@@ -41,8 +41,7 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 			"/content/workspace/workspace.jsp");
 
 	private List<String> messages = new ArrayList<String>();
-	private String objectType = "";
-	private String projectID = "";
+	private String mcrobjid_base = "";
 	private List<Task> myTasks = new ArrayList<Task>();
 	private List<Task> availableTasks = new ArrayList<Task>();
 
@@ -57,14 +56,8 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 	@Before(stages = LifecycleStage.BindingAndValidation)
 	public void rehydrate() {
 		super.rehydrate();
-		if (getContext().getRequest().getParameter("objectType") != null) {
-			String type = getContext().getRequest().getParameter("objectType");
-			if(MCRObjectID.isValidType(type)){
-				objectType = type;
-			}
-		}
-		if (getContext().getRequest().getParameter("projectID") != null) {
-			projectID = getContext().getRequest().getParameter("projectID");
+		if (getContext().getRequest().getParameter("mcrobjid_base") != null) {
+			mcrobjid_base = getContext().getRequest().getParameter("mcrobjid_base");
 		}
 	}
 
@@ -128,8 +121,8 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 		}
 		MCRUser user = MCRUserManager.getCurrentUser();
 		
-		TaskService ts = MCRActivitiMgr.getWorfklowProcessEngine()
-				.getTaskService();
+		String objectType = mcrobjid_base.substring(mcrobjid_base.indexOf("_")+1);
+		TaskService ts = MCRActivitiMgr.getWorfklowProcessEngine().getTaskService();
 		myTasks = ts
 				.createTaskQuery()
 				.taskAssignee(user.getUserID())
@@ -150,6 +143,8 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 
 	public Resolution doCreateNewTask() {
 		MCRSessionMgr.getCurrentSession().beginTransaction();
+		String projectID = mcrobjid_base.substring(0, mcrobjid_base.indexOf("_"));
+		String objectType = mcrobjid_base.substring(mcrobjid_base.indexOf("_")+1);
 		if(MCRAccessManager.checkPermission("create-"+objectType)){
 			Map<String, Object> variables = new HashMap<String, Object>();
 			variables.put(MCRActivitiMgr.WF_VAR_OBJECT_TYPE, objectType);
@@ -193,8 +188,7 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 		sourceURI = wfFile.toURI().toString();
 		ForwardResolution res = new ForwardResolution("/content/editor/fullpageEditor.jsp");
 		StringBuffer sbCancel = new StringBuffer(MCRFrontendUtil.getBaseURL()+"showWorkspace.action?");
-		if(!objectType.isEmpty()){sbCancel.append("&objectType=").append(objectType);}
-		if(!projectID.isEmpty()){sbCancel.append("&projectID=").append(projectID);}
+		if(!mcrobjid_base.isEmpty()){sbCancel.append("&mcrobjid_base=").append(mcrobjid_base);}
 		if(taskID!=null){
 			sbCancel.append("#task_").append(taskID);
 		}
@@ -214,20 +208,16 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 
 	}
 	
+	public String getMcrobjid_base() {
+		return mcrobjid_base;
+	}
+	
 	public String getObjectType() {
-		return objectType;
+		return mcrobjid_base.substring(mcrobjid_base.indexOf("_")+1);
 	}
 
-	public void setObjectType(String objectType) {
-		this.objectType = objectType;
-	}
-
-	public String getProjectID() {
-		return projectID;
-	}
-
-	public void setProjectID(String projectID) {
-		this.projectID = projectID;
+	public String setMcrobjid_base() {
+		return mcrobjid_base;
 	}
 	
 	public List<Task> getMyTasks() {
