@@ -156,7 +156,7 @@ public class MCRDefaultPermissionStrategy implements MCRPermissionStrategy {
 			while (it.hasNext()) {
 				if (!((String) it.next())
 						.startsWith(MCRWorkflowConstants.ACCESSRULE_PREFIX
-								+ "_" + oRuletype.toString().toUpperCase())) {
+								+ "_" + oRuletype.toString().toUpperCase(Locale.GERMAN))) {
 					it.remove();
 				}
 			}

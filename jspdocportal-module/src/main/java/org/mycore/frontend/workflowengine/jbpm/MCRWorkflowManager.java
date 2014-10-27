@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
@@ -417,7 +418,7 @@ public abstract class MCRWorkflowManager {
 			File inputFile = new File(derivateFileName);
 			
 			SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMddhhmmss", Locale.GERMANY);
-		    GregorianCalendar cal = new GregorianCalendar(Locale.GERMANY);
+		    GregorianCalendar cal = new GregorianCalendar(TimeZone.getTimeZone("CET"), Locale.GERMANY);
 		    File curBackupDir = null;
 		    boolean dirCreated = false;
 		    while(!dirCreated) {
