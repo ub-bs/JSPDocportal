@@ -9,6 +9,8 @@ import org.apache.log4j.Logger;
 import org.mycore.activiti.MCRActivitiMgr;
 import org.mycore.activiti.MCRActivitiUtils;
 import org.mycore.common.MCRSessionMgr;
+import org.mycore.common.config.MCRConfiguration;
+import org.mycore.datamodel.classifications2.MCRCategoryID;
 import org.mycore.datamodel.common.MCRActiveLinkException;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
@@ -33,8 +35,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 		if (defaultMetadata != null) {
 			mcrObj.getMetadata().appendMetadata(defaultMetadata);
 		}
-		mcrObj.getService().removeFlags("status");
-		mcrObj.getService().addFlag("status", "new");
+		mcrObj.getService().setState(new MCRCategoryID(MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.categid", "state"), "new"));
 		mcrObj.getStructure();
 		MCRMetadataManager.create(mcrObj);
 		execution.setVariable(MCRActivitiMgr.WF_VAR_MCR_OBJECT_ID, mcrObj.getId().toString());
