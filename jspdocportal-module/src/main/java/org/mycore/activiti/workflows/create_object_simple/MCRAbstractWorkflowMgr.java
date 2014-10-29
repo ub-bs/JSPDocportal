@@ -35,7 +35,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 		if (defaultMetadata != null) {
 			mcrObj.getMetadata().appendMetadata(defaultMetadata);
 		}
-		mcrObj.getService().setState(new MCRCategoryID(MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.categid", "state"), "new"));
+		mcrObj.getService().setState(new MCRCategoryID(MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.ID", "state"), "new"));
 		mcrObj.getStructure();
 		MCRMetadataManager.create(mcrObj);
 		execution.setVariable(MCRActivitiMgr.WF_VAR_MCR_OBJECT_ID, mcrObj.getId().toString());
@@ -48,7 +48,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 	@Override
 	public MCRObject loadMCRObject(DelegateExecution execution) {
 		MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(String.valueOf(execution.getVariable(MCRActivitiMgr.WF_VAR_MCR_OBJECT_ID))));
-		mcrObj.getService().setState(new MCRCategoryID(MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.categid", "state"), "review"));
+		mcrObj.getService().setState(new MCRCategoryID(MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.ID", "state"), "review"));
 		try{
 			boolean doCommitTransaction = false;
 			if(!MCRSessionMgr.getCurrentSession().isTransactionActive()){
@@ -102,7 +102,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 				}
 				mcrObjMeta.appendMetadata(mcrWFObj.getMetadata());
 				
-				mcrObj.getService().setState(new MCRCategoryID(MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.categid", "state"), "published"));
+				mcrObj.getService().setState(new MCRCategoryID(MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.ID", "state"), "published"));
 				
 				
 				boolean doCommitTransaction = false;
@@ -165,7 +165,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 			MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(mcrObjID);
 			String state = mcrObj.getService().getState().getID();
 			if(state.equals("review")){
-				mcrObj.getService().setState(new MCRCategoryID(MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.categid", "state"), "published"));	
+				mcrObj.getService().setState(new MCRCategoryID(MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.ID", "state"), "published"));	
 				try {
 					boolean doCommitTransaction = false;
 					if(!MCRSessionMgr.getCurrentSession().isTransactionActive()){
