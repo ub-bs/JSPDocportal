@@ -387,12 +387,11 @@
 				<configuration>
 					<transformationSets>
 						<transformationSet>
-							<dir>src/main/resources/config/datamodel</dir>
-							<outputDir>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</outputDir>
-							<stylesheet>src/main/resources/xsl/MCRMetadataSchema.xsl</stylesheet>
+							<dir>src/main/config/datamodel</dir>
+							<outputDir>target/classes</outputDir>
+							<stylesheet>xsl/MCRMetadataSchema.xsl</stylesheet>
 							<fileMappers>
-								<fileMapper
-									implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
+								<fileMapper implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
 									<targetExtension>.xsd</targetExtension>
 								</fileMapper>
 							</fileMappers>
@@ -401,9 +400,9 @@
 				</configuration>
 				<dependencies>
 					<dependency>
-						<groupId>net.sf.saxon</groupId>
-						<artifactId>saxon</artifactId>
-						<version>8.7</version>
+						<groupId>org.mycore</groupId>
+						<artifactId>mycore-base</artifactId>
+						<version>${project.version}</version>
 					</dependency>
 				</dependencies>
 			</plugin>
