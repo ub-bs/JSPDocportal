@@ -48,9 +48,13 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 	@Override
 	public boolean deleteProcessInstance(String processInstanceId) {
 		RuntimeService rs = MCRActivitiMgr.getWorfklowProcessEngine().getRuntimeService();
+		String id = String.valueOf(rs.getVariable(processInstanceId, MCRActivitiMgr.WF_VAR_MCR_OBJECT_ID));
 		rs.deleteProcessInstance(processInstanceId, "Deletion requested by admin");
-
-		return true;
+		if (!id.equals("null")) {
+			MCRObjectID mcrObjID = MCRObjectID.getInstance(id);
+			return resetState(mcrObjID);
+		}
+		return false;
 	}
 
 	/**
@@ -76,8 +80,8 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 				}
 				mcrObjMeta.appendMetadata(mcrWFObj.getMetadata());
 				
-				mcrObj.getService().removeFlags("status");
-				mcrObj.getService().addFlag("status", "ok");
+				mcrObj.getService().setState(new MCRCategoryID(MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.categid", "state"), "published"));
+				
 				
 				boolean doCommitTransaction = false;
 				if(!MCRSessionMgr.getCurrentSession().isTransactionActive()){
@@ -104,17 +108,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 		String id = String.valueOf(execution.getVariable(MCRActivitiMgr.WF_VAR_MCR_OBJECT_ID));
 		if (!id.equals("null")) {
 			MCRObjectID mcrObjID = MCRObjectID.getInstance(id);
-			if (MCRMetadataManager.exists(mcrObjID)) {
-				MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(mcrObjID);
-				mcrObj.getService().removeFlags("status");
-				mcrObj.getService().addFlag("status", "ok");
-				try {
-					MCRMetadataManager.update(mcrObj);
-				} catch (MCRActiveLinkException e) {
-					LOGGER.error(e);
-				}
-			}
-			return true;
+			return resetState(mcrObjID);
 		} else {
 			return false;
 		}
@@ -143,4 +137,31 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 	}
 	
 	protected abstract String validate(MCRObjectID mcrObjID);
+	
+	public boolean resetState(MCRObjectID mcrObjID){
+		if (MCRMetadataManager.exists(mcrObjID)) {
+			MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(mcrObjID);
+			String state = mcrObj.getService().getState().getID();
+			if(state.equals("review")){
+				mcrObj.getService().setState(new MCRCategoryID(MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.categid", "state"), "published"));	
+				try {
+					MCRMetadataManager.update(mcrObj);
+				} catch (MCRActiveLinkException e) {
+					LOGGER.error(e);
+					return false;
+				}
+			}
+			if(state.equals("new")){
+				try{
+					MCRMetadataManager.delete(mcrObj);
+				}
+				catch(MCRActiveLinkException e){
+					LOGGER.error(e);
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
 }
