@@ -44,6 +44,28 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 
 		return mcrObj;
 	}
+	
+	@Override
+	public MCRObject loadMCRObject(DelegateExecution execution) {
+		MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(String.valueOf(execution.getVariable(MCRActivitiMgr.WF_VAR_MCR_OBJECT_ID))));
+		mcrObj.getService().setState(new MCRCategoryID(MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.categid", "state"), "review"));
+		try{
+			boolean doCommitTransaction = false;
+			if(!MCRSessionMgr.getCurrentSession().isTransactionActive()){
+				doCommitTransaction = true;
+				MCRSessionMgr.getCurrentSession().beginTransaction();
+			}
+			MCRMetadataManager.update(mcrObj);
+			if(doCommitTransaction){
+				MCRSessionMgr.getCurrentSession().commitTransaction();
+			}
+		}
+		catch(MCRActiveLinkException e){
+			LOGGER.error(e);
+		}
+		MCRActivitiUtils.saveToWorkflowDirectory(mcrObj);
+		return mcrObj;
+	}
 
 	@Override
 	public boolean deleteProcessInstance(String processInstanceId) {
@@ -145,7 +167,15 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 			if(state.equals("review")){
 				mcrObj.getService().setState(new MCRCategoryID(MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.categid", "state"), "published"));	
 				try {
+					boolean doCommitTransaction = false;
+					if(!MCRSessionMgr.getCurrentSession().isTransactionActive()){
+						doCommitTransaction = true;
+						MCRSessionMgr.getCurrentSession().beginTransaction();
+					}
 					MCRMetadataManager.update(mcrObj);
+					if(doCommitTransaction){
+						MCRSessionMgr.getCurrentSession().commitTransaction();
+					}
 				} catch (MCRActiveLinkException e) {
 					LOGGER.error(e);
 					return false;
@@ -153,7 +183,15 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 			}
 			if(state.equals("new")){
 				try{
+					boolean doCommitTransaction = false;
+					if(!MCRSessionMgr.getCurrentSession().isTransactionActive()){
+						doCommitTransaction = true;
+						MCRSessionMgr.getCurrentSession().beginTransaction();
+					}
 					MCRMetadataManager.delete(mcrObj);
+					if(doCommitTransaction){
+						MCRSessionMgr.getCurrentSession().commitTransaction();
+					}
 				}
 				catch(MCRActiveLinkException e){
 					LOGGER.error(e);

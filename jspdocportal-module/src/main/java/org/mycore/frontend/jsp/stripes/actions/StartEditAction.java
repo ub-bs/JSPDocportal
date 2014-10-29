@@ -1,5 +1,8 @@
 package org.mycore.frontend.jsp.stripes.actions;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -9,16 +12,18 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.controller.LifecycleStage;
 
+import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
 import org.apache.log4j.Logger;
 import org.mycore.access.MCRAccessManager;
+import org.mycore.activiti.MCRActivitiMgr;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
-import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObjectID;
-import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.servlets.MCRServlet;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
+import org.mycore.user2.MCRUserManager;
 
 @UrlBinding("/startedit.action")
 public class StartEditAction extends MCRAbstractStripesAction implements ActionBean {
@@ -39,8 +44,6 @@ public class StartEditAction extends MCRAbstractStripesAction implements ActionB
 
 	@DefaultHandler
 	public Resolution defaultRes() {
-	
-		boolean bOK = false;
 		MCRSession sessionFromRequest = MCRServlet.getSession(getContext().getRequest());
 		if(!sessionFromRequest.getID().equals(MCRSessionMgr.getCurrentSessionID())){
 		    MCRSessionMgr.releaseCurrentSession();
@@ -49,39 +52,31 @@ public class StartEditAction extends MCRAbstractStripesAction implements ActionB
 		
 		if (!MCRAccessManager.checkPermission(mcrid, "writedb" )) {
 			String lang   = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
-			String usererrorpage = "nav?path=~mycore-error?messageKey=WF.common.PrivilegesError&lang=" + lang;
+			String usererrorpage = "/nav?path=~mycore-error?messageKey=WF.common.PrivilegesError&lang=" + lang;
 			LOGGER.debug("Access denied for current user to start workflow for object " + mcrid);				
-			return new ForwardResolution(MCRFrontendUtil.getBaseURL() + usererrorpage);
+			return new ForwardResolution(usererrorpage);
 			
 		}
 		
 		LOGGER.debug("Document MCRID = " + mcrid);
 		
 		if ( mcrid != null){
-		    MCRObjectID mcrObjID = MCRObjectID.getInstance(mcrid);
-		   
-		    MCRWorkflowManager wfm = MCRWorkflowManagerFactory.getImpl(mcrObjID);
-		    if(wfm!=null && MCRMetadataManager.exists(mcrObjID) ) {
-				bOK = true;
-				//initiator, mcrid, transition name
-				wfm.initWorkflowProcessForEditing(MCRSessionMgr.getCurrentSession().getUserInformation().getUserID(),	mcrid);	
-				String url = "nav?path=~workflow-" + wfm.getWorkflowProcessType();
-				LOGGER.debug("nextpage = " + url);
-				return new RedirectResolution(getContext().getResponse().encodeRedirectURL(MCRFrontendUtil.getBaseURL() + url));
+			if(MCRAccessManager.checkPermission(mcrid, "writedb")){
+				MCRObjectID mcrObjID = MCRObjectID.getInstance(mcrid);
+				Map<String, Object> variables = new HashMap<String, Object>();
+				variables.put(MCRActivitiMgr.WF_VAR_OBJECT_TYPE, mcrObjID.getTypeId());
+				variables.put(MCRActivitiMgr.WF_VAR_PROJECT_ID, mcrObjID.getProjectId());
+				variables.put(MCRActivitiMgr.WF_VAR_MCR_OBJECT_ID, mcrObjID.toString());
+					
+				RuntimeService rs = MCRActivitiMgr.getWorfklowProcessEngine().getRuntimeService();
+				//ProcessInstance pi = rs.startProcessInstanceByKey("create_object_simple", variables);
+				ProcessInstance pi = rs.startProcessInstanceByMessage("start_load", variables);
+				TaskService ts = MCRActivitiMgr.getWorfklowProcessEngine().getTaskService();
+				for(Task t: ts.createTaskQuery().processInstanceId(pi.getId()).list()){
+					ts.setAssignee(t.getId(), MCRUserManager.getCurrentUser().getUserID());
+				}
+				return new RedirectResolution("/showWorkspace.action?mcrobjid_base="+mcrObjID.getBase());
 			}
-		}
-		
-		if ( !bOK) {
-			String lang   = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
-			String usererrorpage = "mycore-error.jsp?messageKey=WF.xmetadiss.errorWfM&lang=" + lang;
-			LOGGER.debug("The document (to open for editing) is not in the database: " + mcrid);				
-			new RedirectResolution(MCRFrontendUtil.getBaseURL() + usererrorpage);
-		}
-		
-		
-		if(mcrid!=null){
-			MCRObjectID mcrObjID = MCRObjectID.getInstance(mcrid);
-			return new ForwardResolution("/searchresult.action?projectID="+mcrObjID.getProjectId()+"objectType="+mcrObjID.getTypeId());
 		}
 		return null;
 	}

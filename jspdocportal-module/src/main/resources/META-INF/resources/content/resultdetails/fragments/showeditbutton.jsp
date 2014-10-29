@@ -12,15 +12,16 @@
  	<c:choose>
  		<c:when test="${bhasAccess}">
  			<!--  Editbutton -->
- 			<form method="get" action="${applicationScope.WebApplicationBaseURL}startedit.action" class="resort">                 
-				<input name="mcrid" value="${param.mcrid}" type="hidden" />
-				<input title="<fmt:message key="WF.common.object.EditObject" />" border="0" 
-				       src="${applicationScope.WebApplicationBaseURL}images/workflow1.gif" type="image"  class="imagebutton" height="30" />
-			</form> 
+ 			<a class="btn btn-primary btn-lg pull-right" style="padding:6px" 
+				href="${WebApplicationBaseURL}startedit.action?mcrid=${mcrid}" title="<fmt:message key="WF.common.object.EditObject" />">
+		   		<span class="glyphicon glyphicon-pencil"></span>
+		   	</a> 
 		</c:when>
 		<c:otherwise>
-			<img title="<fmt:message key="WF.common.object.EditObjectIsLocked" />" border="0" 
-			     src="${applicationScope.WebApplicationBaseURL}images/workflow_locked.gif" height="30" />
+			<button class="btn btn-default btn-lg pull-right" style="padding:6px" disabled="disabled" 
+           			title="<fmt:message key="WF.common.object.EditObjectIsLocked" />">
+		   			<span class="glyphicon glyphicon-ban-circle"></span>
+           	</button>
 		</c:otherwise>
 	</c:choose>         
 </c:if>   
