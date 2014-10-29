@@ -21,7 +21,7 @@
 			<stripes:form
 				beanclass="org.mycore.frontend.jsp.stripes.actions.AdminWorkflowProcessesAction"
 				id="workspaceForm" enctype="multipart/form-data" acceptcharset="UTF-8">
-				<h1>Administration der WorkflowProzesse</h1>
+				<h2>Administration der WorkflowProzesse</h2>
 				<div class="stripesinfo">
 					<stripes:errors />
 					<stripes:messages />

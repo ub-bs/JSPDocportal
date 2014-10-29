@@ -29,12 +29,12 @@
 <html>
 <body bgcolor="#ffffff">
 
-<h1>
+<h2>
 <pre>
 Error:
 <%=message%>
 </pre>
-</h1>
+</h2>
 
 <pre>
 <font color="#ffffff">

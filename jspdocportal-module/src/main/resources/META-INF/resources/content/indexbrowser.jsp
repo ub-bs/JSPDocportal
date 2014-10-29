@@ -16,9 +16,9 @@
 	</stripes:layout-component>
 	<stripes:layout-component name="contents">
 		<div class="ur-box ur-text">
-			   <h1>
+			   <h2>
 				   <fmt:message key="Webpage.indexbrowser.${actionBean.modus}.title" />
-			   </h1>
+			   </h2>
 			   <p>
 				   <fmt:message key="Webpage.indexbrowser.${actionBean.modus}.intro" />
 			   </p>

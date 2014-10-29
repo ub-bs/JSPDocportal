@@ -15,9 +15,9 @@
 	</stripes:layout-component>
 	<stripes:layout-component name="contents">
 		<div class="ur-box ur-text">
-			<h1>
+			<h2>
 				Einfache Suche
-			</h1>
+			</h2>
 			<p>
 				Das ist die Einfache Suche
 			</p>
