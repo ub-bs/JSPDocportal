@@ -53,11 +53,11 @@ public class MCRActivitiMgr {
 		String prop = "";
 		try {
 			try {
-				prop = "MCR.Activiti.WorkflowMgr.class.create_object_simple." + projectID + "_" + objectType;
+				prop = "MCR.Activiti.WorkflowMgr.Class.create_object_simple." + projectID + "_" + objectType;
 				mgr = (MCRWorkflowMgr) MCRConfiguration.instance().getInstanceOf(prop);
 			} catch (MCRConfigurationException cnfe) {
 				// use default;
-				prop = "MCR.Activiti.WorkflowMgr.class.create_object_simple.default_" + objectType;
+				prop = "MCR.Activiti.WorkflowMgr.Class.create_object_simple.default_" + objectType;
 				mgr = (MCRWorkflowMgr) MCRConfiguration.instance().getInstanceOf(prop);
 			}
 		} catch (ClassCastException cce) {

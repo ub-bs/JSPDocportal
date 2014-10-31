@@ -7,6 +7,8 @@ public interface MCRWorkflowMgr {
 	public MCRObject createMCRObject(DelegateExecution execution);
 	
 	public MCRObject loadMCRObject(DelegateExecution execution);
+	
+	public MCRObject dropMCRObject(DelegateExecution execution);
 
 	public boolean deleteProcessInstance(String processInstanceId);
 	

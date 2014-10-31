@@ -66,6 +66,28 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 		MCRActivitiUtils.saveToWorkflowDirectory(mcrObj);
 		return mcrObj;
 	}
+	
+	@Override
+	public MCRObject dropMCRObject(DelegateExecution execution) {
+		MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(String.valueOf(execution.getVariable(MCRActivitiMgr.WF_VAR_MCR_OBJECT_ID))));
+		mcrObj.getService().setState(new MCRCategoryID(MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.ID", "state"), "deleted"));
+		try{
+			boolean doCommitTransaction = false;
+			if(!MCRSessionMgr.getCurrentSession().isTransactionActive()){
+				doCommitTransaction = true;
+				MCRSessionMgr.getCurrentSession().beginTransaction();
+			}
+			MCRMetadataManager.delete(mcrObj);
+			if(doCommitTransaction){
+				MCRSessionMgr.getCurrentSession().commitTransaction();
+			}
+		}
+		catch(MCRActiveLinkException e){
+			LOGGER.error(e);
+		}
+		MCRActivitiUtils.saveToWorkflowDirectory(mcrObj);
+		return mcrObj;
+	}
 
 	@Override
 	public boolean deleteProcessInstance(String processInstanceId) {
@@ -163,6 +185,9 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 	public boolean resetState(MCRObjectID mcrObjID){
 		if (MCRMetadataManager.exists(mcrObjID)) {
 			MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(mcrObjID);
+			if(mcrObj.getService().getState()==null){
+				return true;
+			}
 			String state = mcrObj.getService().getState().getID();
 			if(state.equals("review")){
 				mcrObj.getService().setState(new MCRCategoryID(MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.ID", "state"), "published"));	
