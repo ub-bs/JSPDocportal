@@ -39,7 +39,7 @@
 		<td colspan="3">
 		  <table>
 			<tr>
-				<mcr:checkAccess var="modifyAllowed" permission="writedb" key="${itemID}" />
+				<mcr:hasAccess var="modifyAllowed" permission="writedb" mcrid="${itemID}" />
 				
 				<c:if test="${modifyAllowed}">
 					<c:if test="${fn:contains('document,disshab,thesis,bundle',itemDocType)
@@ -203,8 +203,8 @@
 		<x:set var="derivateID" select="string(./@ID)" />
 		<x:set var="derivateLabel" select="string(./@label)" />
 		<x:set var="derivateTitle" select="string(./@title)" />
-	    <mcr:checkAccess var="modifyAllowed" permission="writedb"	key="${derivateID}" /> 
-		<mcr:checkAccess var="commitAllowed" permission="commitdb"	key="${derivateID}" />
+	    <mcr:hasAccess var="modifyAllowed" permission="writedb"	mcrid="${derivateID}" /> 
+		<mcr:hasAccess var="commitAllowed" permission="commitdb" mcrid="${derivateID}" />
 		<table width=100% class="tasklistDerivate">
 		<tr>
 			<th align="left" valign="top">
@@ -351,7 +351,7 @@
 		<td align="right" style="vertical-align: bottom;" height="100%">
 		<table>
 			<tr>
-				<mcr:checkAccess var="modifyAllowed" permission="deletewf"	key="${itemID}" />
+				<mcr:hasAccess var="modifyAllowed" permission="deletewf" mcrid="${itemID}" />
 				<c:if test="${modifyAllowed}">
 					<td align="center" valign="bottom" width="30">
 					<form method="get" action="${baseURL}workflowaction">
@@ -364,7 +364,7 @@
 					</td>
 				</c:if>
 
-				<mcr:checkAccess var="modifyAllowed" permission="deletedb"	key="${itemID}" />
+				<mcr:hasAccess var="modifyAllowed" permission="deletedb" mcrid="${itemID}" />
 				<c:if test="${modifyAllowed}">
 					<td align="center" valign="bottom" width="30">
 					<form method="get" onSubmit="return reallyDeletefromDB();" action="${baseURL}workflowaction">

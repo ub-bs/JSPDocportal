@@ -20,7 +20,7 @@
 
 <stripes:useActionBean beanclass="org.mycore.frontend.jsp.stripes.actions.ImportFromFormAction" var="actionBean"/>
  
-<mcr:checkAccess var="isAllowed" permission="writedb" key="${actionBean.mcrid}" />
+<mcr:hasAccess var="isAllowed" permission="writedb" mcrid="${actionBean.mcrid}" />
 <c:if test="${isAllowed}">
 	<stripes:layout-render name="../../WEB-INF/layout/default.jsp"
 		pageTitle="Daten / Dateienimport aus Goobi">

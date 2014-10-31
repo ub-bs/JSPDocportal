@@ -21,7 +21,7 @@
     <stripes:layout-component name="contents">
 		<mcr:session method="get" var="username" type="userID" />
 		<c:set var="pageurl" value="${requestScope.page}" />
-		<mcr:checkAccess var="hasAccess" permission="admininterface-access" />
+		<mcr:hasAccess var="hasAccess" permission="admininterface-access" />
 		<c:if test="${!hasAccess}">
 			<c:set var="pageurl" value="error.jsp" />
    		</c:if>

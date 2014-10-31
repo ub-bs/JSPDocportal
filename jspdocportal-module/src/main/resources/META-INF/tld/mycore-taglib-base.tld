@@ -106,8 +106,10 @@
 	</tag>
 	
 	<tag>
-		<name>isObjectNotLocked</name>
-		<tag-class>org.mycore.frontend.jsp.taglibs.MCRIsObjectNotLockedTag</tag-class>
+		<description> A Tag, that checks if a MyCoRe object is currently processed by 
+		    the workflow</description>
+		<name>isLocked</name>
+		<tag-class>org.mycore.frontend.jsp.taglibs.MCRIsObjectLockedTag</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
 			<name>var</name>
@@ -115,19 +117,39 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
-			<name>mcrObjectID</name>
+			<name>mcrid</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
-		<!-- A Tag, that checks if the object is in work, in another workflow and 
-			return bhasAccess=true if it is not locked -->
+	</tag>
+	
+	<tag>
+		<description>A Tag, that checks via MCRAccessManager if the user 
+		 	has the specified access permission for a given object
+		 </description>
+		<name>hasAccess</name>
+		<tag-class>org.mycore.frontend.jsp.taglibs.MCRHasAccessTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>permission</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>var</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>mcrid</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
 	</tag>
 	
 <!-- *************************************************************************
 	 *  OLD Tags, check if still needed !!!                                  *   
 	 ************************************************************************* -->
-
-	
 	<tag>
 		<name>endTask</name>
 		<tag-class>org.mycore.frontend.jsp.taglibs.MCREndTaskTag</tag-class>
@@ -537,28 +559,7 @@
 			to objects to a given variable name -->
 	</tag>
 
-	<tag>
-		<name>checkAccess</name>
-		<tag-class>org.mycore.frontend.jsp.taglibs.MCRCheckAccessTag</tag-class>
-		<body-content>empty</body-content>
-		<attribute>
-			<name>permission</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>var</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>key</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<!-- A Tag, that checks via MCRAccessManager the access rights of a given 
-			objID and a given Access-Permission -->
-	</tag>
+	
 	<tag>
 		<name>setLanguage</name>
 		<tag-class>org.mycore.frontend.jsp.taglibs.MCRSetLanguageTag</tag-class>

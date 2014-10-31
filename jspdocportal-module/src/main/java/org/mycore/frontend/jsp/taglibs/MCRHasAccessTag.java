@@ -15,26 +15,26 @@ import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.frontend.servlets.MCRServlet;
 
-public class MCRCheckAccessTag extends SimpleTagSupport
+public class MCRHasAccessTag extends SimpleTagSupport
 {
 	private String permission;
 	private String var;
-	private String key;
+	private String mcrid;
 	
-	private static Logger LOGGER = Logger.getLogger(MCRCheckAccessTag.class);
+	private static Logger LOGGER = Logger.getLogger(MCRHasAccessTag.class);
 
-	public void setPermission(String inputPermission) {
-		permission = inputPermission;
-		return;
+	public void setPermission(String permission) {
+		this.permission = permission;
+
 	}
-	public void setVar(String inputVar) {
-		var = inputVar;
-		return;
+	public void setVar(String var) {
+		this.var = var;
 	}
-	public void setKey(String inputKey) {
-		key = inputKey;
-		return;
-	}	
+	
+	public void setMcrid(String mcrid) {
+		this.mcrid = mcrid;
+	}
+	
 	public void doTag() throws JspException, IOException {
 		Transaction t1=null;
 		try {
@@ -59,11 +59,11 @@ public class MCRCheckAccessTag extends SimpleTagSupport
 			if ("guest gast".contains(userID)){
 				pageContext.setAttribute(var, new Boolean(false));	
 			}
-			else if ( key == null || "".equals(key)){ // allgemeiner check des aktuellen Users
+			else if ( mcrid == null || "".equals(mcrid)){ // allgemeiner check des aktuellen Users
 				pageContext.setAttribute(var, new Boolean(MCRAccessManager.checkPermission(permission)));
 			}
 			else{ 
-				pageContext.setAttribute(var, new Boolean(MCRAccessManager.checkPermission(key, permission)));
+				pageContext.setAttribute(var, new Boolean(MCRAccessManager.checkPermission(mcrid, permission)));
 			}
 		}catch(Exception e){
 			LOGGER.error("could not check access", e);

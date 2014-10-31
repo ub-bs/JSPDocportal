@@ -23,7 +23,7 @@
 	<c:set var="mcrid" value="${actionBean.mcrID}" />
 </c:if>
  
-<mcr:checkAccess var="isAllowed" permission="writedb" key="${mcrid}" />
+<mcr:hasAccess var="isAllowed" permission="writedb" mcrid="${mcrid}" />
 <c:set var="isAllowed" value="true" />
 <c:out value="${mcrid}: ${isAllowed}" />
 <c:if test="${isAllowed}">

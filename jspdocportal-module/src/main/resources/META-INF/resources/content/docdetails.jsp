@@ -80,11 +80,11 @@
      </c:if>
  
    <c:if test="${(not from) && !fn:contains(style,'user')}" > 
-     <mcr:checkAccess var="modifyAllowed" permission="writedb" key="${mcrid}" />
-     <mcr:isObjectNotLocked var="bhasAccess" mcrObjectID="${mcrid}" />
+     <mcr:hasAccess var="modifyAllowed" permission="writedb" mcrid="${mcrid}" />
+     <mcr:isLocked var="locked" mcrObjectID="${mcrid}" />
       <c:if test="${modifyAllowed}">
         <c:choose>
-         <c:when test="${bhasAccess}"> 
+         <c:when test="${not locked}"> 
 	         <!--  Editbutton -->
 	         <br />
 

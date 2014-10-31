@@ -6,11 +6,11 @@
 
 <%-- parameter: mcrid --%>
 
- <mcr:checkAccess var="modifyAllowed" permission="writedb" key="${param.mcrid}" />
+ <mcr:hasAccess var="modifyAllowed" permission="writedb" mcrid="${param.mcrid}" />
  <c:if test="${modifyAllowed}">
- 	<mcr:isObjectNotLocked var="bhasAccess" mcrObjectID="${param.mcrid}" />
+ 	<mcr:isLocked var="locked" mcrid="${param.mcrid}" />
  	<c:choose>
- 		<c:when test="${bhasAccess}">
+ 		<c:when test="${not locked}">
  			<!--  Editbutton -->
  			<a class="btn btn-primary btn-lg pull-right" style="padding:6px" 
 				href="${WebApplicationBaseURL}startedit.action?mcrid=${mcrid}" title="<fmt:message key="WF.common.object.EditObject" />">

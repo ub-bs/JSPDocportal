@@ -42,7 +42,7 @@
    			</c:when>
    			<c:otherwise>
         		<h2><fmt:message key="WF.${param.wftype}" /></h2>
-	   				<mcr:checkAccess var="createallowed" permission="administrate-${param.wftype}" />
+	   				<mcr:hasAccess var="createallowed" permission="administrate-${param.wftype}" />
    					<c:if test="${createallowed}">
    						<ul class="action">    
 	    					<li><a target="_self" href="${baseURL}nav?path=~${param.wftype}begin"><fmt:message key="WF.${param.wftype}.StartWorkflow" /></a></li>

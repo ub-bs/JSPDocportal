@@ -20,7 +20,7 @@
 	</c:otherwise>
 </c:choose>
 
-<mcr:checkAccess var="adminuser" permission="administrate-user" />
+<mcr:hasAccess var="adminuser" permission="administrate-user" />
 
 <!--  handle task ending parameters -->
 <c:if test="${not empty param.endTask}">

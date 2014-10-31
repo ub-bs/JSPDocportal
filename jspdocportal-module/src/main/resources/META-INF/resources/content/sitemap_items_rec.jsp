@@ -15,7 +15,7 @@
 	<x:set var="labelKey" select="string(./@i18n)" />
     <x:set var="right" select="string(./@permission)" /> 
     <c:if test="${right!=''}">
-		<mcr:checkAccess var="canDo" permission="${right}" key="" /> 
+		<mcr:hasAccess var="canDo" permission="${right}" /> 
     </c:if>
 	<c:if test="${right=='' or canDo or true}">						
 		<div class="sitemap-item" style="margin:6px 24px 6px 24px;  ">

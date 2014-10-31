@@ -23,7 +23,7 @@
 <c:set var="returnPath" value="${param.returnPath}" />
 <c:set var="processid" value="${param.processid}" />
 
-<mcr:checkAccess var="isAllowed" permission="writedb" key="${mcrid}" />
+<mcr:hasAccess var="isAllowed" permission="writedb" key="${mcrid}" />
 
 
 <c:if test="${isAllowed}">
