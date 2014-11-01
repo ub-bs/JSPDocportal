@@ -17,6 +17,7 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRSession;
+import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.servlets.MCRServlet;
@@ -52,6 +53,13 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 		PageContext pageContext = (PageContext) getJspContext();
 		JspWriter out = pageContext.getOut();
 		out.flush();
+		
+		boolean doCommitTransaction = false;
+		if(!MCRSessionMgr.getCurrentSession().isTransactionActive()){
+			doCommitTransaction = true;
+			MCRSessionMgr.getCurrentSession().beginTransaction();
+		}
+		
 		boolean isEditallowed = MCRAccessManager.checkPermission("administrate-webcontent");
 		boolean isOpenEditor = "true".equalsIgnoreCase(pageContext
 				.getRequest().getParameter(OPENEDITOR_PARAMETER));
@@ -91,6 +99,10 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 			out.newLine();
 		}
 		br.close();
+		
+		if(doCommitTransaction){
+			MCRSessionMgr.getCurrentSession().commitTransaction();
+		}
 	}
 
 	/**
