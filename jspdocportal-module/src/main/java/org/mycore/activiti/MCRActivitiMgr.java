@@ -1,30 +1,37 @@
 package org.mycore.activiti;
 
+import java.util.Arrays;
+
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngineConfiguration;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.delegate.DelegateExecution;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.SimpleEmail;
+import org.apache.log4j.Logger;
 import org.mycore.activiti.workflows.create_object_simple.MCRWorkflowMgr;
 import org.mycore.common.MCRException;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.common.config.MCRConfigurationException;
 
 public class MCRActivitiMgr {
+	private static final Logger LOGGER = Logger.getLogger(MCRActivitiMgr.class);
 	public static final String WF_VAR_PROJECT_ID = "projectID";
 	public static final String WF_VAR_OBJECT_TYPE = "objectType";
 	public static final String WF_VAR_MCR_OBJECT_ID = "mcrObjectID";
 	public static final String WF_VAR_VALIDATION_RESULT = "validationResult";
 	public static final String WF_VAR_VALIDATION_MESSAGE = "validationMessage";
-	
-	public static final String ACTIVITI_CONFIG_FILE="/config/workflow/activiti.cfg.xml";
+
+	public static final String ACTIVITI_CONFIG_FILE = "/config/workflow/activiti.cfg.xml";
 
 	private static ProcessEngine activitiProcessEngine;
 
 	// Workflow Engine
 	public static synchronized ProcessEngine getWorfklowProcessEngine() {
 		if (activitiProcessEngine == null) {
-			activitiProcessEngine = ProcessEngineConfiguration.createProcessEngineConfigurationFromResource(ACTIVITI_CONFIG_FILE)
-					.buildProcessEngine();
+			ProcessEngineConfiguration pec = ProcessEngineConfiguration.createProcessEngineConfigurationFromResource(ACTIVITI_CONFIG_FILE);
+			activitiProcessEngine = pec.buildProcessEngine();
 		}
 		return activitiProcessEngine;
 	}
@@ -65,5 +72,53 @@ public class MCRActivitiMgr {
 		}
 
 		return mgr;
+	}
+
+	public static SimpleEmail createNewEmailFromConfig() {
+		SimpleEmail email = new SimpleEmail();
+		MCRConfiguration config = MCRConfiguration.instance();
+
+		String host = config.getString("MCR.Workflow.Email.MailServerHost");
+		if (host == null) {
+			LOGGER.error("Email is not configured!");
+			return null;
+		}
+		email.setHostName(host);
+		if (StringUtils.isNotBlank(config.getString("MCR.Workflow.Email.MailServerPort"))) {
+			try {
+				email.setSmtpPort(config.getInt("MCR.Workflow.Email.MailServerPort"));
+			} catch (NumberFormatException nfe) {
+				LOGGER.debug(nfe);
+			}
+		}
+		if (StringUtils.isNotBlank(config.getString("MCR.Workflow.Email.MailServerUseSSL"))) {
+			email.setSSL(config.getBoolean("MCR.Workflow.Email.MailServerUseSSL", false));
+		}
+		if (StringUtils.isNotBlank(config.getString("MCR.Workflow.Email.MailServerUseTLS"))) {
+			email.setTLS(config.getBoolean("MCR.Workflow.Email.MailServerUseTLS", false));
+		}
+		if (StringUtils.isNoneBlank(config.getString("MCR.Workflow.Email.MailServerUsername"), config.getString("MCR.Workflow.Email.MailServerPassword"))) {
+			email.setAuthentication(config.getString("MCR.Workflow.Email.MailServerUsername"), config.getString("MCR.Workflow.Email.MailServerPassword"));
+		}
+		if (StringUtils.isNotBlank(config.getString("MCR.Workflow.Email.MailServerUseTLS"))) {
+			email.setTLS(config.getBoolean("MCR.Workflow.Email.MailServerUseTLS", false));
+		}
+
+		try {
+			if (StringUtils.isNotBlank(config.getString("MCR.Workflow.Email.From"))) {
+				email.setFrom(config.getString("MCR.Workflow.Email.From"));
+			}
+
+			if (StringUtils.isNoneBlank(config.getString("MCR.Workflow.Email.From"), config.getString("MCR.Workflow.Email.Sender"))) {
+				email.setFrom(config.getString("MCR.Workflow.Email.From"), config.getString("MCR.Workflow.Email.Sender"));
+			}
+			if (StringUtils.isNotBlank(config.getString("MCR.Workflow.Email.CC"))) {
+				email.setCc(Arrays.asList(config.getString("MCR.Workflow.Email.CC").split(",")));
+			}
+		} catch (EmailException e) {
+			LOGGER.error(e);
+		}
+
+		return email;
 	}
 }

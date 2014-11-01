@@ -133,6 +133,20 @@
         	<artifactId>commons-lang</artifactId>
 		</dependency>
 		<dependency>
+  			<groupId>org.apache.commons</groupId>
+  			<artifactId>commons-lang3</artifactId>
+  			<version>3.3.2</version>
+		</dependency>
+		<dependency>
+  			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-email</artifactId>
+ 			 <version>1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<type>jar</type>
