@@ -1,26 +1,24 @@
 package org.mycore.frontend.jsp.taglibs;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.mycore.access.MCRAccessManager;
-import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.config.MCRConfiguration;
-import org.mycore.frontend.MCRFrontendUtil;
-import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.services.i18n.MCRTranslation;
 
 /**
@@ -32,22 +30,14 @@ import org.mycore.services.i18n.MCRTranslation;
  * @author Robert Stephan
  */
 public class MCRIncludeWebContentTag extends SimpleTagSupport {
-	public static final String OPENEDITOR_PARAMETER = "openeditor";
-	public static final String CK_FORM_INPUT_CANCEL_NAME = "cancel";
-	public static final String VARNAME_CKEDITOR_LOADED = "ckeditor_loaded";
-
-	private static MCRConfiguration CONFIG = MCRConfiguration.instance();
-	
 	private String file;
-	private File f_read, f_save;
+	private String id;
 
 	/**
 	 * used to set the filname as tag attribute
 	 * @param file - the filename
 	 */
-	public void setFile(String file) {
-		this.file = file;
-	}
+	
 
 	public void doTag() throws JspException, IOException {
 		PageContext pageContext = (PageContext) getJspContext();
@@ -60,65 +50,30 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 			MCRSessionMgr.getCurrentSession().beginTransaction();
 		}
 		
-		boolean isEditallowed = MCRAccessManager.checkPermission("administrate-webcontent");
-		boolean isOpenEditor = "true".equalsIgnoreCase(pageContext
-				.getRequest().getParameter(OPENEDITOR_PARAMETER));
-
-		adaptFiles();
-		
-		String result = pageContext.getRequest().getParameter(f_read.getName()); 
-		String wasCanceled = pageContext.getRequest().getParameter(CK_FORM_INPUT_CANCEL_NAME);
-		
-		if (result != null) {
-			 //the editor was closed (submitted or canceled)
-			isOpenEditor = false;
-			if (wasCanceled == null) {
-				//editor was submitted -> save file
-				BufferedWriter bwResult = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(f_save), "UTF-8"));
-				bwResult.write(result);
-				bwResult.close();
-				f_read = f_save;
+		if(MCRAccessManager.checkPermission("administrate-webcontent")){
+			if(getOpenEditorsFromSession().contains(id)){
+				showEditor(out);
+			}
+			else{
+				showEditorButton(out);
+				showText(out);
 			}
 		}
+		else{
+			showText(out);
+		}
 
-		//display the editor / the editbutton or nothing (depending from accessrights and parameter)
-		if (isEditallowed) {
-			if (isOpenEditor) {
-				showCKEditor(f_read);
-				return; // do not show the text block
-			} else {
-				showEditButton(); 
-			}
-		}
-				
-		//editing not allowed simply display the file
-		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(f_read), "UTF-8"));
-		String temp=null;
-		while ((temp = br.readLine()) != null) {
-			out.write(temp);
-			out.newLine();
-		}
-		br.close();
-		
 		if(doCommitTransaction){
 			MCRSessionMgr.getCurrentSession().commitTransaction();
 		}
 	}
-
 	/**
 	 * opens the CKEditor
 	 * by including the editor as described in:
-	 * http://docs.cksource.com/CKEditor_3.x/Developers_Guide/Integration
+	 * http://docs.ckeditor.com/#!/guide/dev_installation
 	 * 
-	 * @param file2display - the file that should be displayed
-	 * @throws JspException
-	 * @throws IOException
 	 */
-	//TODO: Integrate new CK Editor 
-	private void showCKEditor(File file2display)
-			throws JspException, IOException {
-		PageContext pageContext = (PageContext) getJspContext();
-		JspWriter out = pageContext.getOut();
+	private void showEditor(JspWriter out) throws IOException{
 		/* <script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
 		<form method="post">
 			<p><textarea name="editor1">
@@ -129,92 +84,96 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 				</script>
 			</p>
 		</form>	*/
-		Boolean isLoaded = (Boolean)pageContext.findAttribute(VARNAME_CKEDITOR_LOADED);
-		String baseURL = (String) pageContext.findAttribute("WebApplicationBaseURL");  
-		if(isLoaded==null || !isLoaded.booleanValue()){
-			out.write("<script type=\"text/javascript\" src=\""+baseURL+"ckeditor/ckeditor.js\" ></script>");
-			pageContext.setAttribute(VARNAME_CKEDITOR_LOADED, Boolean.TRUE, PageContext.PAGE_SCOPE);
-		}
-		out.write("<form method=\"post\"><p>");
-		out.write("<textarea name=\""+f_read.getName()+"\">");
-		out.newLine();
-		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file2display), "UTF-8"));
-		String temp=null;
-		while ((temp = br.readLine()) != null) {
-			out.write(temp);
-			out.newLine();
-		}
-		br.close();
-		out.newLine();		
-		out.write("</textarea>");
-		out.write("<script type=\"text/javascript\">");
-		out.write("CKEDITOR.replace( '"+f_read.getName()+"',");
-		out.write("{customConfig : '"+baseURL+"admin/ckeditor_config.js', ");
-     	out.write("toolbar : 'Full'");
-		out.write("});</script>");
-				
-		String lblSave = MCRTranslation.translate("Editor.Common.button.Save");
-		String lblCancel = MCRTranslation.translate("Editor.Common.button.Cancel");
-		out.write("</p><p><input type=\"submit\" value=\""+lblSave+"\">&#160;&#160;&#160;"
-				+ "<input type=\"submit\" name=\"" + CK_FORM_INPUT_CANCEL_NAME
-				+ "\" value=\""+lblCancel+"\">"
-				+ "</p></form>");
-		out.flush();
-		
-	}
+	
+		//out.write("\n<script src=\""+MCRFrontendUtil.getBaseURL()+"ckeditor/ckeditor.js\"></script>");
+		out.write("\n<form id=\"editWebcontent_"+id+"\" method=\"post\" action=\"saveWebcontent.action\">");
+		out.write("\n    <input type=\"hidden\" name=\"file_"+id+"\" value=\""+file+"\" />"); 
+		out.write("\n    <textarea  id=\"taedit_"+id+"\" name=\"content_"+id+"\" rows=\"10\" cols=\"80\">");
+		//showText(out);
+		out.write("\n    </textarea>");
+		out.write("\n<script type=\"text/javascript\">");
+		out.write("\n    $(document).ready( function() {$('textarea#taedit_"+id+"').ckeditor(); alert('CKEditor loaded!'); });");
+		//out.write("\n    CKEDITOR.replace( 'taedit_"+id+"');");
+		//out.write("\n        ,{customConfig : '"+MCRFrontendUtil.getBaseURL() +"admin/ckeditor_config.js'}");
+		//out.write("\n    );");
+		out.write("\n</script>");
+		out.write("\n    <div class=\"panel-body bg-warning\">");
+		out.write("\n        <input type=\"submit\"  name=\"doSave_"+id+"\" class=\"btn btn-primary\" title=\""
+				+MCRTranslation.translate("Webpage.editwebcontent.save")+"\"><span class=\"glyphicon glyphicon-floppy-disk\"></span> "+MCRTranslation.translate("Webpage.editwebcontent.save")+"</input>");
 
-	/**
-	 * display the button, which opens the FCK-Editor
-	 * @throws IOException
-	 */
-	private void showEditButton() throws IOException {
-		PageContext pageContext = (PageContext) getJspContext();
-		String myURL = MCRFrontendUtil.getBaseURL();
-		String label = MCRTranslation.translate("Webpage.editwebcontent");
-		JspWriter out = pageContext.getOut();
-		out.write("<form method=\"post\" action=\"\">");
-		out.write("<input	name=\"" + OPENEDITOR_PARAMETER
-				+ "\" value=\"true\" type=\"hidden\"> ");
-		out.write("	<input	title=\""+label+"\" src=\"" + myURL
-				+ "images/edit_webcontent.gif\" type=\"image\""
-				+ "class=\"imagebutton\">");
-		out.write("</form>");
+		out.write("\n        <input type=\"submit\"  name=\"doCancel_"+id+"\" class=\"btn btn-danger\" title=\""
+				+MCRTranslation.translate("Webpage.editwebcontent.cancel")+"\"><span class=\"glyphicon glyphicon-remove\"></span> "+MCRTranslation.translate("Webpage.editwebcontent.cancel")+"</input>");
+
+		out.write("\n    </div>");
+		out.write("\n</form>");
 	}
 	
+	private void showEditorButton(JspWriter out) throws IOException{
+		out.write("\n<div class=\"pull-right\">");
+		out.write("\n    <form id=\"editWebcontent_"+id+"\" method=\"post\" action=\"saveWebcontent.action\">");
+		out.write("\n        <input type=\"hidden\" name=\"file_"+id+"\" value=\""+file+"\" />"); 
+		out.write("\n        <input type=\"submit\"  name=\"doOpen_"+id+"\" value=\"&#9997;\" style=\"font-size:200%;padding:0px 6px\" class=\"btn btn-default\" title=\""
+		+MCRTranslation.translate("Webpage.editwebcontent")+"\" />");
+		out.write("\n    </form>");
+		out.write("\n</div>");
+	}
 	
-	/**
-	 * tries to adapt the filename by adding the language as suffix
-	 * If such a file exists, it will be taken otherwise the "default" file will be displayed.
-	 * If the file (after beeing edited) is saved - the name + language suffix is used. 
-	 * 
-	 * @throws IOException
-	 */
-	private void adaptFiles()throws IOException{
-	    MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)((PageContext) getJspContext()).getRequest());
-		String lang = mcrSession.getCurrentLanguage();
-		String foldername = CONFIG.getString("MCR.WebContent.Folder");
-		String storeFolderName=CONFIG.getString("MCR.WebContent.SaveFolder");
-		PageContext pageContext = (PageContext) getJspContext();
-
-		String[] s = file.split("\\."); //split the filename into path and extension
-		f_read = new File(new File(storeFolderName), s[0] + "_" + lang + "." + s[1]);
+	private void showText(JspWriter out) throws IOException{
+		String lang = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
+		File dirSaveWebcontent = new File(MCRConfiguration.instance().getString("MCR.WebContent.SaveFolder"));
+		dirSaveWebcontent = new File(dirSaveWebcontent, lang);
+		File fText = new File(dirSaveWebcontent, file);
+		String path = fText.getPath();
 		
-		f_save = f_read;
-		
-		if(!f_read.exists()){
-			String path = foldername + "/" + s[0] + "_" + lang + "." + s[1];
-			File dir = new File(pageContext.getServletContext().getRealPath("content"));
-			f_read = new File(dir, path);
-			if (!f_read.exists()) {
-				path = foldername + "/" + file;
-				f_read = new File(dir, path);
+		InputStream  is = null;
+		if(fText.exists()){
+			is = new FileInputStream(fText);
+		}
+		else{
+			is = getClass().getResourceAsStream("/config/webcontent/"+lang+"/"+file);
+		}
+		if(is!=null){
+			try(BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"))){
+				String line=null;
+				while((line=br.readLine())!=null){
+					out.println(line);
+				}
+			}	
+			catch(UnsupportedEncodingException | FileNotFoundException e){
+				//do nothing
 			}
+		
 		}
-		if (!f_read.canRead()) {
-			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(f_save), "UTF-8"));
-			bw.write("New["+f_save.getName()+"] ...");
-			bw.close();
-			f_read=f_save;
+		else{
+			out.println("<p class=\"bg-warning panel-body\">");
+			String dataDir = new File(MCRConfiguration.instance().getString("MCR.datadir")).getPath();
+			out.println(MCRTranslation.translate("Webpage.editwebcontent.nofile", path.replace(dataDir, "%MCR.datadir% ")));
+			out.println("</p>");
 		}
+	}
+	
+	private Set<String> getOpenEditorsFromSession(){
+		@SuppressWarnings("unchecked")
+		Set<String> openEditors = (Set<String>)((PageContext) getJspContext()).getSession().getAttribute("open_webcontent_editors");
+		if(openEditors == null){
+			openEditors = new HashSet<String>();
+		}
+		return openEditors;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getFile() {
+		return file;
+	}
+	
+	public void setFile(String file) {
+		this.file = file;
 	}
 }
