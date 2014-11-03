@@ -8,7 +8,7 @@
 <%@ taglib prefix="mcr" uri="http://www.mycore.org/jspdocportal/base.tld"%>
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
 
-<fmt:setLocale value="${requestScope.lang}" />
+<fmt:setLocale value="${requestScope.lang}" scope="session"/>
 <c:choose>
 	<c:when test="${fn:contains(requestScope.path,'browse')}">
 		<fmt:message var="headline" key="Webpage.searchresults.result-document-browse" />
