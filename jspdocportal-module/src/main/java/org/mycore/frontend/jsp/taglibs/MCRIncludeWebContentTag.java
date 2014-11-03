@@ -74,6 +74,9 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 	 * 
 	 */
 	private void showEditor(JspWriter out) throws IOException{
+		//until we know why the CKEditor cannot be integrated here, we use an external form on a new jsp page;
+		showEditorButton(out);
+		showText(out);
 		/* <script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
 		<form method="post">
 			<p><textarea name="editor1">
@@ -86,6 +89,7 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 		</form>	*/
 	
 		//out.write("\n<script src=\""+MCRFrontendUtil.getBaseURL()+"ckeditor/ckeditor.js\"></script>");
+		/*
 		out.write("\n<form id=\"editWebcontent_"+id+"\" method=\"post\" action=\"saveWebcontent.action\">");
 		out.write("\n    <input type=\"hidden\" name=\"file_"+id+"\" value=\""+file+"\" />"); 
 		out.write("\n    <textarea  id=\"taedit_"+id+"\" name=\"content_"+id+"\" rows=\"10\" cols=\"80\">");
@@ -106,6 +110,7 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 
 		out.write("\n    </div>");
 		out.write("\n</form>");
+		*/
 	}
 	
 	private void showEditorButton(JspWriter out) throws IOException{
