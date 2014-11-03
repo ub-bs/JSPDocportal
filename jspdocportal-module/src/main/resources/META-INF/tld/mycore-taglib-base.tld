@@ -146,6 +146,22 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>
+		<tag>
+		<description>A Tag, that includes another web page trying to load it in the current language</description>
+		<name>includeWebcontent</name>
+		<tag-class>org.mycore.frontend.jsp.taglibs.MCRIncludeWebContentTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>id</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>file</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
 	
 <!-- *************************************************************************
 	 *  OLD Tags, check if still needed !!!                                  *   
@@ -755,17 +771,6 @@
 		</attribute>
 		<!-- A Tag, that sets the value of a Configuration Property to a specific 
 			value -->
-	</tag>
-	<tag>
-		<description>A Tag, that includes another web page trying to load it in the current language</description>
-		<name>includeWebContent</name>
-		<tag-class>org.mycore.frontend.jsp.taglibs.MCRIncludeWebContentTag</tag-class>
-		<body-content>empty</body-content>
-		<attribute>
-			<name>file</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
 	</tag>
 	<tag>
 		<description>A Tag, that outputs debug information</description>
