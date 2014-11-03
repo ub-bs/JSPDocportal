@@ -14,7 +14,7 @@
         		<mcr:outputNavigation mode="toc" id="left"/>
         	</div>
         	<div style="padding-bottom: 50px;">
-            	<mcr:includeWebContent file="manuals_introtext.html" />
+            	<mcr:includeWebcontent id="manuals" file="manuals_introtext.html" />
            	</div>
         </div>        
 	 </stripes:layout-component>

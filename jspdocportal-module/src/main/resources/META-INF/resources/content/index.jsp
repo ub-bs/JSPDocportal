@@ -11,7 +11,7 @@
 	<stripes:layout-component name="contents">
 	
 <h2><fmt:message key="Webpage.intro.Webpage.intro" /></h2>
-<mcr:includeWebContent file="index_introtext.html" />
+<mcr:includeWebcontent id="index" file="index_introtext.html" />
 
 	</stripes:layout-component>
 </stripes:layout-render>   

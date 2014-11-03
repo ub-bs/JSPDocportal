@@ -14,7 +14,7 @@
         		<mcr:outputNavigation mode="toc" id="publish"/>
         	</div>
         	<div style="padding-bottom: 50px;">
-            	<mcr:includeWebContent file="documentmanagement_introtext.html"/>
+            	<mcr:includeWebcontent id="dms" file="documentmanagement_introtext.html"/>
            	</div>
         </div>        
 	 </stripes:layout-component>

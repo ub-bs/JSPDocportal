@@ -37,7 +37,7 @@
       				<fmt:message key="WF.common.EmptyWorkflow" />
       			</p>   
       			<hr/>
-	      		<mcr:includeWebContent file="workflow/${param.wftype}_introtext.html"/>
+	      		<mcr:includeWebcontent id="wf_${param.wftype}_intro" file="workflow/${param.wftype}_introtext.html"/>
     	  		<br/>&#160;<br>
    			</c:when>
    			<c:otherwise>

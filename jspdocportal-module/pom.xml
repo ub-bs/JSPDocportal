@@ -313,19 +313,6 @@
 
 			</resource>
 			<resource>
-				<directory>src/main/resources/config/lang</directory>
-				<includes>
-					<include>*.*</include>
-				</includes>
-				<excludes>
-					<exclude>*.template</exclude>
-				</excludes>
-			</resource>
-			<resource>
-				<directory>src/main/resources/config/lang/webcontent</directory>
-				<targetPath>META-INF/resources/content/webcontent</targetPath>
-			</resource>
-			<resource>
 				<directory>src/main/resources/config/hibernate</directory>
 				<excludes>
 					<exclude>*.template</exclude>
@@ -424,12 +411,13 @@
 				<artifactId>maven-antrun-plugin</artifactId>
 				<executions>
 					<execution>
-						<phase>process-resources</phase>
+						<phase>generate-sources</phase>
 						<configuration>
 							<tasks>
-								<unzip src="${basedir}/src/main/ckeditor_3.2.zip"
-									dest="${project.build.directory}/${project.build.finalName}" />
-
+								<get src="http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.5/ckeditor_4.4.5_standard.zip" 
+  									 dest="${basedir}/src/build/ckeditor_4.4.5_standard.zip" skipexisting="true" />
+								<unzip src="${basedir}/src/build/ckeditor_4.4.5_standard.zip"
+									dest="${project.build.directory}/classes/META-INF/resources" />
 							</tasks>
 						</configuration>
 						<goals>

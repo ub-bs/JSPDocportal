@@ -11,7 +11,7 @@
 <h2>${pageTitle}</h2>
 
 <div class="ur-text">
-	<mcr:includeWebContent file="feedback.html" />
+	<mcr:includeWebcontent id="feedback" file="feedback.html" />
 </div>
 <div>
 
