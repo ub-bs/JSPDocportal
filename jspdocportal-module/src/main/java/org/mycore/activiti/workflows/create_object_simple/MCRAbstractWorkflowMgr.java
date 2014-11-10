@@ -5,13 +5,19 @@ import java.io.IOException;
 
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.delegate.DelegateExecution;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.mycore.access.MCRAccessManager;
 import org.mycore.activiti.MCRActivitiMgr;
 import org.mycore.activiti.MCRActivitiUtils;
+import org.mycore.common.MCRPersistenceException;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.datamodel.classifications2.MCRCategoryID;
 import org.mycore.datamodel.common.MCRActiveLinkException;
+import org.mycore.datamodel.metadata.MCRDerivate;
+import org.mycore.datamodel.metadata.MCRMetaIFS;
+import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
@@ -40,7 +46,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 		MCRMetadataManager.create(mcrObj);
 		execution.setVariable(MCRActivitiMgr.WF_VAR_MCR_OBJECT_ID, mcrObj.getId().toString());
 
-		MCRActivitiUtils.saveToWorkflowDirectory(mcrObj);
+		MCRActivitiUtils.saveMCRObjectToWorkflowDirectory(mcrObj);
 
 		return mcrObj;
 	}
@@ -63,7 +69,8 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 		catch(MCRActiveLinkException e){
 			LOGGER.error(e);
 		}
-		MCRActivitiUtils.saveToWorkflowDirectory(mcrObj);
+		MCRActivitiUtils.saveMCRObjectToWorkflowDirectory(mcrObj);
+		execution.setVariable(MCRActivitiMgr.WF_VAR_MCR_OBJECT_ID, mcrObj.getId().toString());
 		return mcrObj;
 	}
 	
@@ -85,8 +92,50 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 		catch(MCRActiveLinkException e){
 			LOGGER.error(e);
 		}
-		MCRActivitiUtils.saveToWorkflowDirectory(mcrObj);
+		MCRActivitiUtils.saveMCRObjectToWorkflowDirectory(mcrObj);
 		return mcrObj;
+	}
+	
+	@Override
+	public MCRDerivate createMCRDerivate(MCRObjectID owner, String label, String title){
+		MCRDerivate der = new MCRDerivate();
+		der.setId(MCRObjectID.getInstance(owner.getProjectId()+"_derivate_0"));
+		der.setSchema("datamodel-derivate.xsd");
+		der.getDerivate().setLinkMeta(new MCRMetaLinkID("linkmeta", owner, null, null));
+		
+		der.getDerivate().setInternals(new MCRMetaIFS("internal", null));
+		der.getService().setState(new MCRCategoryID(MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.ID", "state"), "new"));
+		if(!StringUtils.isBlank(title)){
+			der.getService().addFlag("title", title);
+		}
+		if(!StringUtils.isBlank(label)){
+			der.setLabel(label);
+		}
+		else{
+			der.setLabel(der.getId().toString());
+		}
+		
+		
+		if (MCRAccessManager.checkPermission("create-" + owner.getBase())
+				|| MCRAccessManager.checkPermission("create-" + owner.getTypeId())) {
+			if (der.getId().getNumberAsInteger() == 0) {
+
+				MCRObjectID newDerID = MCRObjectID.getNextFreeId(der.getId().getBase());
+				if (der.getLabel().equals(der.getId()))
+					der.setLabel(newDerID.toString());
+				der.setId(newDerID);
+			
+				MCRMetadataManager.create(der);
+				MCRActivitiUtils.saveMCRDerivateToWorkflowDirectory(der);
+			}
+			MCRObject mcrObj = MCRActivitiUtils.loadMCRObjectFromWorkflowDirectory(owner);
+			mcrObj.getStructure().addChild(new MCRMetaLinkID("derobject", der.getId(), der.getLabel(), null));
+			MCRActivitiUtils.saveMCRObjectToWorkflowDirectory(mcrObj);
+
+		} else {
+			throw new MCRPersistenceException("You do not have \"create\" permission on " + der.getId().getTypeId() + ".");
+		}
+		return der;
 	}
 
 	@Override

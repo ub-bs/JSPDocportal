@@ -26,9 +26,9 @@ public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
 	}
 
 	public MCRMetaHistoryEvent(String set_subtag,
-			String default_lang, String set_type, int set_inherted)
+			String set_type, int set_inherted)
 			throws MCRException {
-		super(set_subtag, default_lang, set_type, set_inherted);
+		super(set_subtag, set_type, set_inherted);
 		event = "";
 		classification = new MCRMetaClassification();
 		classification.setLang("de");
@@ -70,7 +70,6 @@ public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
      * @param element
      *            a relevant JDOM element for the metadata
      */
-    @SuppressWarnings("unchecked")
 	public void setFromDOM(org.jdom2.Element element) {
         if(element.getChild("von")==null){
         	element.addContent(new Element("von"));
@@ -163,7 +162,7 @@ public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
      * This method make a clone of this class.
      */
     public MCRMetaHistoryEvent clone() {
-        MCRMetaHistoryEvent out = new MCRMetaHistoryEvent(subtag, lang, type, inherited);
+        MCRMetaHistoryEvent out = new MCRMetaHistoryEvent(subtag, type, inherited);
         out.setText(getText("de").getText(), "de");
         out.setVonDate(getVon());
         out.setBisDate(getBis());

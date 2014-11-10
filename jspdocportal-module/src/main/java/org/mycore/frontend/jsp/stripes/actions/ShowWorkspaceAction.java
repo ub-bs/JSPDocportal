@@ -105,13 +105,26 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 
 			
 			//doEditObject-task_[ID]-[mcrObjID]
-			if(s.startsWith("doEditObject-")){
+			if(s.startsWith("doEditObject-task_")){
 				String id = s.substring(s.indexOf("-")+1);
 				String taskID = id.substring(0,id.indexOf("-"));
 				taskID = taskID.substring(taskID.indexOf("_")+1);
 				String mcrObjID = id.substring(id.indexOf("-")+1);
 				return editObject(mcrObjID, taskID);
 			}
+			
+			//doEditDerivates-task_[ID]-[mcrObjID]
+			if(s.startsWith("doEditDerivates-task_")){
+				String id = s.substring(s.indexOf("-")+1);
+				String taskID = id.substring(0,id.indexOf("-"));
+				taskID = taskID.substring(taskID.indexOf("_")+1);
+				String mcrObjID = id.substring(id.indexOf("-")+1);
+				ForwardResolution res = new ForwardResolution("/editDerivates.action?taskid="+taskID+"&mcrobjid="+mcrObjID);
+				
+				return res;
+			}
+			
+	
 		}
 		
 		boolean doCommitTransaction = false;
