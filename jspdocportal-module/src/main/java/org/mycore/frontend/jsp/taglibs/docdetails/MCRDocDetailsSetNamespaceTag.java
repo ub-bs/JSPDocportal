@@ -76,6 +76,7 @@ public class MCRDocDetailsSetNamespaceTag extends SimpleTagSupport {
 			JSTLXPathNamespaceContext nsContext = (JSTLXPathNamespaceContext)field.get(null);
 			if(nsContext == null){
 				nsContext = new JSTLXPathNamespaceContext();
+				field.set(null,  nsContext);
 			}
 			
 			// JSTLXPathNamespaceContext

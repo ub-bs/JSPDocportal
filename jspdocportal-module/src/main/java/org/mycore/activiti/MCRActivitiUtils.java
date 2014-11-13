@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 import org.apache.log4j.Logger;
-import org.jdom2.Document;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
@@ -71,18 +70,32 @@ public class MCRActivitiUtils {
 		}
 	}
 	
-	public static MCRObject loadMCRDerivateFromWorkflowDirectory(MCRObjectID owner, MCRObjectID mcrderid){
+	public static MCRDerivate loadMCRDerivateFromWorkflowDirectory(MCRObjectID owner, MCRObjectID mcrderid){
 		try{
 			File wfFile = new File(new File(MCRActivitiUtils.getWorkflowDirectory(owner), owner.toString()), mcrderid.toString() +".xml");
 			if(wfFile.exists()){
 				SAXBuilder sax = new SAXBuilder();
-				return new MCRObject(sax.build(wfFile));
+				return new MCRDerivate(sax.build(wfFile));
 			}
 		}
 		catch(Exception e){
-			LOGGER.error(e);;
+			LOGGER.error(e);
 		}
 		return null;
+	}
+	
+	public static void deleteMCRDerivateFromWorkflowDirectory(MCRObjectID owner, MCRObjectID mcrderid){
+		try{
+			File wfDerFile = new File(new File(MCRActivitiUtils.getWorkflowDirectory(owner), owner.toString()), mcrderid.toString() +".xml");
+			if(wfDerFile.exists()){
+				wfDerFile.delete();
+			}
+			File wfDerDir = new File(new File(MCRActivitiUtils.getWorkflowDirectory(owner), owner.toString()), mcrderid.toString());
+			deleteDirectory(wfDerDir);
+		}
+		catch(Exception e){
+			LOGGER.error(e);
+		}
 	}
 
 	public static File getWorkflowDirectory(MCRObjectID mcrObjID) {
@@ -94,5 +107,16 @@ public class MCRActivitiUtils {
 		}
 		return f;
 	}
-
+	
+	public static void deleteDirectory(File dir){
+		for(File f: dir.listFiles()){
+			if(f.isDirectory()){
+				deleteDirectory(f);
+			}
+			else{
+				f.delete();
+			}
+		}
+		dir.delete();
+	}
 }

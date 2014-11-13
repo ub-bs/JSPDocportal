@@ -5,6 +5,7 @@ import java.io.StringWriter;
 import java.net.URL;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
@@ -96,7 +97,7 @@ public class MCRIncludeXEditorTag extends SimpleTagSupport {
 					
 					editorContent = new MCRJDOMContent(doc);
 					editorContent.setDocType("MyCoReWebPage");
-					editorContent = MCRStaticXEditorFileServlet.doExpandEditorElements(editorContent, (HttpServletRequest) pageContext.getRequest());
+					editorContent = MCRStaticXEditorFileServlet.doExpandEditorElements(editorContent, (HttpServletRequest) pageContext.getRequest(), (HttpServletResponse) pageContext.getResponse());
 
 					out.append(editorContent.asString().replaceAll("<\\?xml.*?\\?>", ""));
 				} else {
