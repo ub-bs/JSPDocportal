@@ -75,9 +75,11 @@ public class MCRIncludeXEditorTag extends SimpleTagSupport {
 				editorContent = new MCRURLContent(new URL(MCRFrontendUtil.getBaseURL() + editorPath));
 			}
 		} else {
-			StringWriter sw = new StringWriter();
-			getJspBody().invoke(sw);
-			editorContent = new MCRStringContent(sw.toString());
+			if(getJspBody()!=null){
+				StringWriter sw = new StringWriter();
+				getJspBody().invoke(sw);
+				editorContent = new MCRStringContent(sw.toString());
+			}
 		}
 		if (editorContent != null) {
 			try {
@@ -97,7 +99,14 @@ public class MCRIncludeXEditorTag extends SimpleTagSupport {
 					
 					editorContent = new MCRJDOMContent(doc);
 					editorContent.setDocType("MyCoReWebPage");
-					editorContent = MCRStaticXEditorFileServlet.doExpandEditorElements(editorContent, (HttpServletRequest) pageContext.getRequest(), (HttpServletResponse) pageContext.getResponse());
+					
+					HttpServletRequest request = (HttpServletRequest) pageContext.getRequest(); 
+					String pageURL = request.getRequestURL().toString();
+					String referer = request.getHeader("Referer");
+		            if(referer!=null){
+		            	pageURL = referer;
+		            }
+		            editorContent = MCRStaticXEditorFileServlet.doExpandEditorElements(editorContent, request, (HttpServletResponse) pageContext.getResponse(), pageURL);
 
 					out.append(editorContent.asString().replaceAll("<\\?xml.*?\\?>", ""));
 				} else {
