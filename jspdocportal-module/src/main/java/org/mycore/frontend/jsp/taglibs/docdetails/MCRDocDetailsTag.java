@@ -185,7 +185,9 @@ public class MCRDocDetailsTag extends SimpleTagSupport {
 			SAXBuilder sb = new SAXBuilder();
 			try {
 				org.jdom2.Document jdom = sb.build(new ByteArrayInputStream(data));
-				StringBuffer debugSB = new StringBuffer("<textarea cols=\"120\" rows=\"30\">").append("MCRObject:\r\n").append(JSPUtils.getPrettyString(jdom))
+				StringBuffer debugSB = new StringBuffer("<textarea cols=\"120\" rows=\"30\">").append("MCRObject:\r\n")
+						//.append(JSPUtils.getPrettyString(jdom).replace("<", "&lt;").replace(">", "&gt;").replace("&", "&amp;"))
+						.append(JSPUtils.getPrettyString(jdom).replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", ""))
 						.append("</textarea>");
 				out.println(debugSB.toString());
 			} catch (JDOMException e) {

@@ -73,7 +73,7 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 		            //ToDo - Forward to error page
 		        	//String msg = getErrorI18N("xeditor.error", "noSession", sessionID);
 		            try{
-		            getContext().getResponse().sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "EditorSession not found: "+sessionID);
+		            	getContext().getResponse().sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "EditorSession not found: "+sessionID);
 		            }
 		            catch(IOException e){
 		            	LOGGER.error(e);

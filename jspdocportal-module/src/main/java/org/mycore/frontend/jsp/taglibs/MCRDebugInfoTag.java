@@ -23,7 +23,7 @@ public class MCRDebugInfoTag extends MCRSimpleTagSupport
 			JspWriter out = getJspContext().getOut();
 			out.write("<div class=\"debuginfo\">");
 			out.write("<h3>Variablen</h3>");
-			out.write("<table width=\"100%\"");
+			out.write("<table width=\"100%\">");
 			out.write("<tr><th>Scope</th><th>Name</th><th>Typ</th><th>Wert</th></tr>");
 			writeVariables(out, PageContext.APPLICATION_SCOPE);
 			writeVariables(out, PageContext.SESSION_SCOPE);
@@ -91,6 +91,7 @@ public class MCRDebugInfoTag extends MCRSimpleTagSupport
 			if(s.length()>200){
 				s = s.substring(0,200)+"...";
 			}
+			s=s.replace("<", "&lt;").replace(">", "&gt;").replace("&", "&amp;");
 			out.write("<td>"+s+"</td>");
 			out.write("</tr>");
 		}

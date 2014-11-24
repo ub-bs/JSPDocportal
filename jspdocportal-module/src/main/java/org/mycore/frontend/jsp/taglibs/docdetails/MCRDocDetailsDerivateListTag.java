@@ -174,10 +174,11 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 	    							if(showsize){out.write("&#160;("+theFile.getSizeFormatted()+")<br />");}
 	    							out.write("&#160;---&#160;"+docdetails.getMessages().getString("OMD.fileaccess.denied"));
 	    						}
-	    						out.write("</dd></dl>");
+	    						out.write("</dd>");
 	    					}
 	    				}
 	    			}
+	    			out.write("</dl>");
 	    		}
 	    		out.write("</td>");    	
 			}
