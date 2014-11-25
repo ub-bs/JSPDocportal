@@ -21,4 +21,6 @@ public interface MCRWorkflowMgr {
 	public boolean rollbackMCRObject(DelegateExecution execution);
 	
 	public boolean validateMCRObject(DelegateExecution execution);
+	
+	public boolean cleanupWorkflow(DelegateExecution execution);
 }
