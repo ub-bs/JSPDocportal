@@ -17,6 +17,8 @@
     </startEvent>
     <endEvent id="end" name="Ende">
        <extensionElements>
+        <activiti:executionListener class="org.mycore.activiti.workflows.create_object_simple.delegates.MCRActivitiEndEventDelegate" event="start" />
+        <!-- Activiti Documentation: Listeners can be captured at ... starting an end event -->
         <ext:style ext:labelPosition="Right of Figure"/>
       </extensionElements>
       <incoming>cancel_object.end</incoming>
