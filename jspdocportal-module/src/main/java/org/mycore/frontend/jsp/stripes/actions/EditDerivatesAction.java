@@ -29,19 +29,14 @@ import net.sourceforge.stripes.controller.StripesRequestWrapper;
 import org.activiti.engine.TaskService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.jdom2.filter.Filters;
-import org.jdom2.xpath.XPathExpression;
-import org.jdom2.xpath.XPathFactory;
 import org.mycore.activiti.MCRActivitiMgr;
 import org.mycore.activiti.MCRActivitiUtils;
 import org.mycore.activiti.workflows.create_object_simple.MCRWorkflowMgr;
 import org.mycore.common.MCRSessionMgr;
-import org.mycore.common.config.MCRConfiguration;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
-import org.mycore.services.i18n.MCRTranslation;
 import org.w3c.dom.Document;
 
 @UrlBinding("/editDerivates.action")
@@ -54,8 +49,6 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
 	private List<String> messages = new ArrayList<String>();
 	private String mcrobjid;
 	private String taskid;
-	private String wfTitle;
-
 	
 	static{
 		try{
@@ -152,9 +145,6 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
 				doCommitTransaction = true;
 				MCRSessionMgr.getCurrentSession().beginTransaction();
 			}
-
-			updateWFObjectMetadata(taskid, MCRObjectID.getInstance(mcrobjid));
-
 			if(doCommitTransaction){
 				MCRSessionMgr.getCurrentSession().commitTransaction();
 			}
@@ -333,27 +323,6 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
 			LOGGER.error(e);
 		}
 	}
-	
-	
-	private void updateWFObjectMetadata(String taskid, MCRObjectID mcrObjID){
-		if(mcrobjid==null){
-			LOGGER.error("WFObject could not be read.");
-		}
-		
-		MCRObject mcrObj = MCRActivitiUtils.loadMCRObjectFromWorkflowDirectory(mcrObjID);
-		
-		String xpTitle = MCRConfiguration.instance().getString("MCR.Activiti.MCRObject.Display.Title.XPath."+mcrObjID.getBase(), "/mycoreobject/@ID");
-		XPathExpression<String> xpath =
-				XPathFactory.instance().compile(xpTitle, Filters.fstring());
-		String txt = xpath.evaluateFirst(mcrObj.createXML());
-		if (txt != null) {
-			wfTitle = txt;
-			MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(taskid, MCRActivitiMgr.WF_VAR_DISPLAY_TITLE, wfTitle);
-		}
-		else{
-			wfTitle=MCRTranslation.translate("Wf.common.newObject");
-		}
-	}
 		
 	public String getMcrobjid_base() {
 		return MCRObjectID.getInstance(mcrobjid).getBase();
@@ -398,27 +367,6 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
 	}
 	
 	public Map<String, List<String>> getDerivateFiles(){
-		HashMap<String, List<String>> result = new HashMap<String, List<String>>();
-		File baseDir = new File(MCRActivitiUtils.getWorkflowDirectory(MCRObjectID.getInstance(mcrobjid)), mcrobjid);
-		MCRObject obj = MCRActivitiUtils.loadMCRObjectFromWorkflowDirectory(MCRObjectID.getInstance(mcrobjid));
-		try{
-			for(MCRMetaLinkID derID: obj.getStructure().getDerivates()){
-				String id = derID.getXLinkHref();
-				List<String> fileNames = new ArrayList<String>();
-				try{
-					File root = new File(baseDir, id);
-					for(File f: root.listFiles()){
-						fileNames.add(f.getName());
-					}
-				}
-				catch(Exception e){
-					LOGGER.error(e);
-				}
-				result.put(id, fileNames);
-			}
-		} catch(Exception e){
-			LOGGER.error(e);
-		}
-		return result;
+		return MCRActivitiUtils.getDerivateFiles(MCRObjectID.getInstance(mcrobjid));
 	}
 }

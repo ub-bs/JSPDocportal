@@ -1,3 +1,5 @@
+<%@page import="org.activiti.engine.task.Task"%>
+<%@page import="org.mycore.activiti.MCRActivitiMgr"%>
 <%@ page pageEncoding="UTF-8" contentType="application/xhtml+xml; charset=UTF-8"%>
 <%@page import="org.mycore.frontend.servlets.MCRServlet"%>
 <%@page import="org.mycore.common.MCRSessionMgr"%>
@@ -60,12 +62,49 @@
 						<div class="panel-heading clearfix">
 							<stripes:submit class="btn btn-default btn-sm pull-right" name="doReleaseTask-task_${task.id}">Aufgabe abgeben</stripes:submit>
 							<h5 class="panel-title" style="margin-top:0.33em;"><span class="badge" style="margin-right:3em">${task.executionId}</span> Aufgabe: ${task.name}</h5>
-	
-							
 						</div>
 						<c:if test="${not empty actionBean.objectType}">
 							<c:set var="currentTask" value="${task}" scope="request" />
-							<jsp:include page="edit-${actionBean.objectType}.jsp" />
+							
+							<c:choose>
+								<c:when test="${currentTask.name eq 'Objekt bearbeiten'}">
+							 		<div class="panel-body">
+							 	   		<%request.setAttribute("currentVariables", MCRActivitiMgr.getWorfklowProcessEngine().getRuntimeService().getVariables(((Task)request.getAttribute("currentTask")).getExecutionId())); %>
+							  			<c:if test="${not empty currentVariables.validationMessage}">
+											<div class="alert alert-danger" role="alert">${currentVariables.validationMessage}</div>
+										</c:if>	
+										<div>
+											<span class="badge pull-left" style="margin-right:24px;margin-top:3px">${currentVariables.mcrObjectID}</span>
+											<div class="pull-left">
+												<h3 style="margin-top:0px">${currentVariables.wfObjectDisplayTitle}</h3>
+												<c:out value="${currentVariables.wfObjectDisplayDescription}" escapeXml="false" />
+											</div>
+											<div style="clear:both">
+												<c:if test="${not empty currentVariables.wfObjectDisplayDerivateList}">
+													<c:out value="${currentVariables.wfObjectDisplayDerivateList}" escapeXml="false" />
+												</c:if>
+											</div>
+										</div>
+									</div>
+									<div class="panel-body" style="margin-top:1px solid lightgrey">
+							     		<button name="doEditObject-task_${currentTask.id}-${currentVariables.mcrObjectID}" value="" class="btn btn-default" type="submit">
+							     			<span class="glyphicon glyphicon-tag"></span> Metadaten bearbeiten
+							     		</button>
+							     		<button name="doEditDerivates-task_${currentTask.id}-${currentVariables.mcrObjectID}" value="" class="btn btn-default" type="submit">
+							    	 		<span class="glyphicon glyphicon-file"></span> Derivate bearbeiten
+							     		</button>	
+							    	</div>
+								  	<div class="panel-footer">
+								  		<button name="doGoto-task_${currentTask.id}-edit_object.do_save" value="" class="btn btn-default" type="submit"><span class="glyphicon glyphicon-floppy-disk"></span> Speichern</button>
+										<button name="doGoto-task_${currentTask.id}-edit_object.do_cancel" value="" class="btn btn-default" type="submit"><span class="glyphicon glyphicon-remove"></span> Bearbeitung abbrechen</button>
+							  			<button name="doGoto-task_${currentTask.id}-edit_object.do_drop" value="" class="btn btn-danger btn-sm pull-right" style="margin-top:0.2em" type="submit"><span class="glyphicon glyphicon-trash"></span> Objekt löschen</button>
+							  		</div> 
+							   	</c:when>
+							   
+							   	<c:otherwise>
+									<p> Nothing ToDo for TASK: = ${task.name} </p>
+							   	</c:otherwise>
+							</c:choose>
 						</c:if>			
 					</div>
 				</c:forEach>

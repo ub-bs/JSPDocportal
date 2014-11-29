@@ -5,8 +5,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -19,9 +22,9 @@ import org.mycore.common.MCRException;
 import org.mycore.common.MCRUtils;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.datamodel.ifs.MCRDirectory;
-import org.mycore.datamodel.ifs.MCRFile;
 import org.mycore.datamodel.ifs.MCRFilesystemNode;
 import org.mycore.datamodel.metadata.MCRDerivate;
+import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 
@@ -123,6 +126,31 @@ public class MCRActivitiUtils {
 			f.mkdirs();
 		}
 		return f;
+	}
+	
+	public static Map<String, List<String>> getDerivateFiles(MCRObjectID mcrObjID){
+		HashMap<String, List<String>> result = new HashMap<String, List<String>>();
+		File baseDir = new File(MCRActivitiUtils.getWorkflowDirectory(mcrObjID), mcrObjID.toString());
+		MCRObject obj = MCRActivitiUtils.loadMCRObjectFromWorkflowDirectory(mcrObjID);
+		try{
+			for(MCRMetaLinkID derID: obj.getStructure().getDerivates()){
+				String id = derID.getXLinkHref();
+				List<String> fileNames = new ArrayList<String>();
+				try{
+					File root = new File(baseDir, id);
+					for(File f: root.listFiles()){
+						fileNames.add(f.getName());
+					}
+				}
+				catch(Exception e){
+					LOGGER.error(e);
+				}
+				result.put(id, fileNames);
+			}
+		} catch(Exception e){
+			LOGGER.error(e);
+		}
+		return result;
 	}
 	
 	public static void deleteDirectory(File dir){

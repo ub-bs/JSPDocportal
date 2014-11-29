@@ -23,6 +23,8 @@ public class MCRActivitiMgr {
 	public static final String WF_VAR_VALIDATION_RESULT = "validationResult";
 	public static final String WF_VAR_VALIDATION_MESSAGE = "validationMessage";
 	public static final String WF_VAR_DISPLAY_TITLE = "wfObjectDisplayTitle";
+	public static final String WF_VAR_DISPLAY_DESCRIPTION = "wfObjectDisplayDescription";
+	public static final String WF_VAR_DISPLAY_DERIVATELIST = "wfObjectDisplayDerivateList";
 
 	public static final String ACTIVITI_CONFIG_FILE = "/config/workflow/activiti.cfg.xml";
 

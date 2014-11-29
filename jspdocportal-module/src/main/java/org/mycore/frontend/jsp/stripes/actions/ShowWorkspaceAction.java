@@ -2,6 +2,7 @@ package org.mycore.frontend.jsp.stripes.actions;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,15 +23,23 @@ import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.log4j.Logger;
+import org.jdom2.filter.Filters;
+import org.jdom2.xpath.XPathExpression;
+import org.jdom2.xpath.XPathFactory;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.activiti.MCRActivitiMgr;
 import org.mycore.activiti.MCRActivitiUtils;
 import org.mycore.common.MCRSessionMgr;
+import org.mycore.common.config.MCRConfiguration;
+import org.mycore.datamodel.metadata.MCRDerivate;
+import org.mycore.datamodel.metadata.MCRMetaLinkID;
+import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.xeditor.MCREditorSession;
 import org.mycore.frontend.xeditor.MCREditorSessionStore;
 import org.mycore.frontend.xeditor.MCREditorSessionStoreFactory;
+import org.mycore.services.i18n.MCRTranslation;
 import org.mycore.user2.MCRUser;
 import org.mycore.user2.MCRUserManager;
 
@@ -141,6 +150,12 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 				.taskAssignee(user.getUserID())
 				.processVariableValueEquals(MCRActivitiMgr.WF_VAR_OBJECT_TYPE,
 						objectType).orderByTaskCreateTime().desc().list();
+		
+		for(Task t: myTasks ){
+			updateWFObjectMetadata(t);
+			updateWFDerivateList(t);
+		}
+		
 		availableTasks = ts
 				.createTaskQuery()
 				.taskCandidateUser(user.getUserID())
@@ -216,10 +231,75 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 		TaskService ts = MCRActivitiMgr.getWorfklowProcessEngine().getTaskService();
 		ts.setVariable(taskId, "goto", transactionID);
 		ts.complete(taskId);
+	}
+	
+	private void updateWFObjectMetadata(Task t){
+		MCRObjectID mcrObjID = MCRObjectID.getInstance(String.valueOf(MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().getVariable(t.getId(), MCRActivitiMgr.WF_VAR_MCR_OBJECT_ID)));
+		if(mcrObjID==null){
+			LOGGER.error("WFObject could not be read.");
+		}
 		
+		MCRObject mcrObj = MCRActivitiUtils.loadMCRObjectFromWorkflowDirectory(mcrObjID);
 		
+		String xpTitle = MCRConfiguration.instance().getString("MCR.Activiti.MCRObject.Display.Title.XPath."+mcrObjID.getBase(), "/mycoreobject/@ID");
+		XPathExpression<String> xpath = XPathFactory.instance().compile(xpTitle, Filters.fstring());
+		String txt = xpath.evaluateFirst(mcrObj.createXML());
+		if (txt != null) {
+			MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(t.getId(), MCRActivitiMgr.WF_VAR_DISPLAY_TITLE, txt);
+		}
+		else{
+			MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(t.getId(), MCRActivitiMgr.WF_VAR_DISPLAY_TITLE,MCRTranslation.translate("Wf.common.newObject"));
+		}
 		
-
+		String xpDescr = MCRConfiguration.instance().getString("MCR.Activiti.MCRObject.Display.Description.XPath."+mcrObjID.getBase(), "/mycoreobject/@label");
+		xpath = XPathFactory.instance().compile(xpDescr, Filters.fstring());
+		txt = xpath.evaluateFirst(mcrObj.createXML());
+		if (txt != null) {
+			MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(t.getId(), MCRActivitiMgr.WF_VAR_DISPLAY_DESCRIPTION, txt);
+		}
+		else{
+			MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(t.getId(), MCRActivitiMgr.WF_VAR_DISPLAY_DESCRIPTION, "");	
+		}
+	}
+	
+	private void updateWFDerivateList(Task t){
+		MCRObjectID mcrObjID = MCRObjectID.getInstance(String.valueOf(MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().getVariable(t.getId(), MCRActivitiMgr.WF_VAR_MCR_OBJECT_ID)));
+		if(mcrObjID==null){
+			LOGGER.error("WFObject could not be read.");
+		}
+		
+		MCRObject mcrObj = MCRActivitiUtils.loadMCRObjectFromWorkflowDirectory(mcrObjID);
+		StringWriter result = new StringWriter();
+		if(mcrObj.getStructure().getDerivates().size()>0){
+			Map<String, List<String>> derivateFiles = MCRActivitiUtils.getDerivateFiles(mcrObjID);
+			for(MCRMetaLinkID derID: mcrObj.getStructure().getDerivates()){
+				result.append("<span class=\"badge pull-left\" style=\"margin-left:128px; margin-right:24px; margin-top:3px;\">"+derID.getXLinkHref()+"</span>");
+				MCRDerivate der = MCRActivitiUtils.loadMCRDerivateFromWorkflowDirectory(mcrObjID,  derID.getXLinkHrefID());
+				result.append("<div class=\"pull-left\">");
+				result.append("    <strong>["+MCRTranslation.translate("OMD.derivatelabel."+mcrObjID.getBase()+"."+der.getLabel())+"]</strong>");
+				for(String s:der.getService().getFlags("title")){
+					result.append("<br />"+s);
+				}
+				result.append("</div>");
+				result.append("<div style=\"clear:both; padding-top:12px; margin-left:192px;\">");
+				result.append("\n    <ul style=\"list-style-type: none;\">");
+				for(String fileName: derivateFiles.get(derID.getXLinkHref()) ){
+					result.append("\n        <li>");
+					if(fileName.contains(".")){
+						result.append("<span class=\"glyphicon glyphicon-file\"></span> ");
+					}
+					else{
+						result.append("<span class=\"glyphicon glyphicon-folder-open\"></span> ");
+					}
+					result.append(fileName);
+					result.append("</li>");
+				}
+				result.append("\n    </ul>");
+				result.append("</div>");
+			}
+		}
+		MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(t.getId(), MCRActivitiMgr.WF_VAR_DISPLAY_DERIVATELIST, result.toString());	
+		
 	}
 	
 	public String getMcrobjid_base() {
@@ -265,5 +345,4 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 	public String getCancelURL() {
 		return cancelURL;
 	}
-
 }
