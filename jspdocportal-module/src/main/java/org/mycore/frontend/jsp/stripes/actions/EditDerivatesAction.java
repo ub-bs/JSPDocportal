@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -207,6 +209,9 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
 		catch(IOException e){
 			LOGGER.error(e);
 		}
+		if(der.getDerivate().getInternals().getMainDoc().equals(fileName)){
+			updateMainFile(der, derDir);
+		}
 	}
 	
 	//File: renameFile_new-task_${actionBean.taskid}-derivate_${derID}-file_${f}
@@ -223,6 +228,11 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
 		
 				File fNew = new File(f.getParentFile(), newName);
 				f.renameTo(fNew);
+				
+				if(der.getDerivate().getInternals().getMainDoc().equals(fileName)){
+					der.getDerivate().getInternals().setMainDoc(newName);
+					MCRActivitiUtils.saveMCRDerivateToWorkflowDirectory(der);
+				}
 			}
 		}
 	
@@ -248,9 +258,49 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
 			catch(IOException e){
 				LOGGER.error(e);
 			}
+			updateMainFile(der, derDir);
 		}
 	}
+	
+	 private void updateMainFile(MCRDerivate der, File derDir) {
+	        String mainFile = der.getDerivate().getInternals().getMainDoc();
+	        if ((mainFile == null) || mainFile.trim().isEmpty() || !(new File(derDir, mainFile).exists())) {
+	            mainFile = getPathOfMainFile(derDir);
+	            if(mainFile.equals("")){
+	            	der.getDerivate().getInternals().setMainDoc("");
+	            }
+	            else{
+	            	der.getDerivate().getInternals().setMainDoc(mainFile.substring(derDir.getPath().length()+1));
+	            }
+	            MCRActivitiUtils.saveMCRDerivateToWorkflowDirectory(der);
+	        }
+	    }
 
+	 protected static String getPathOfMainFile(File parent) {
+		 while (parent.isDirectory()) {
+			 File[] children = parent.listFiles();
+			 Arrays.sort(children, new Comparator<File>() {
+				 @Override
+				 public int compare(File f0, File f1) {
+					 // TODO Auto-generated method stub
+					 return f0.getPath().compareTo(f1.getPath());
+				 }
+			 });
+			 if (children.length==0){
+				 return "";
+			 }
+			 if(children[0].isDirectory()) {
+				 parent = children[0];
+			 }
+			 for (File element : children) {
+				 if (element.isFile()) {
+					 return element.getPath();
+				 }
+			 }
+		 }
+		 return "";
+	 }
+	    
 	private void createNewDerivate(){
 		TaskService ts = MCRActivitiMgr.getWorfklowProcessEngine().getTaskService();
 		MCRDerivate der =  null;
@@ -314,6 +364,7 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
 	public String getTaskid(){
 		return taskid;
 	}
+	
 	public Document getMcrobjXML(){
 		Document doc = null;
 		try{
