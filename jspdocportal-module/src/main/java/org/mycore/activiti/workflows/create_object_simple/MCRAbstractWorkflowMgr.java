@@ -137,8 +137,12 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 				if (der.getLabel().equals(der.getId()))
 					der.setLabel(newDerID.toString());
 				der.setId(newDerID);
-
-				MCRMetadataManager.create(der);
+				try{
+					MCRMetadataManager.create(der);
+				}
+				catch(IOException e){
+					LOGGER.error(e);
+				}
 				MCRActivitiUtils.saveMCRDerivateToWorkflowDirectory(der);
 			}
 			MCRObject mcrObj = MCRActivitiUtils.loadMCRObjectFromWorkflowDirectory(owner);
@@ -265,7 +269,12 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 						if (state.equals("review")) {
 							derObj.getService().setState(
 									new MCRCategoryID(MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.ID", "state"), "published"));
-							MCRMetadataManager.update(derObj);
+							try{
+								MCRMetadataManager.update(derObj);
+							}
+							catch(IOException e){
+								LOGGER.error(e);
+							}
 						}
 					}
 				}
@@ -311,8 +320,12 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 				MCRDerivate mcrDer = MCRMetadataManager.retrieveMCRDerivate(derID);
 				mcrDer.getService().setState(
 						new MCRCategoryID(MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.ID", "state"), "review"));
-				MCRMetadataManager.update(mcrDer);
-				
+				try{
+					MCRMetadataManager.update(mcrDer);
+				}
+				catch(IOException e){
+					LOGGER.error(e);
+				}
 				File derBaseDir = new File(wfDir, mcrObj.getId().toString());
 				derBaseDir.mkdirs();
 				MCRActivitiUtils.deleteDirectory(new File(derBaseDir, derID.toString()));

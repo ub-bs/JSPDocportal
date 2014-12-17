@@ -30,8 +30,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
+import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardCopyOption;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -47,12 +51,12 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.mycore.access.MCRAccessManager;
-import org.mycore.common.config.MCRConfiguration;
 import org.mycore.common.MCRPersistenceException;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.MCRUserInformation;
 import org.mycore.common.MCRUtils;
+import org.mycore.common.config.MCRConfiguration;
 import org.mycore.common.content.MCRStringContent;
 import org.mycore.common.xml.MCRXMLParserFactory;
 import org.mycore.datamodel.common.MCRXMLMetadataManager;
@@ -65,6 +69,7 @@ import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.datamodel.niofs.MCRPath;
 import org.mycore.frontend.cli.MCRObjectCommands;
 import org.mycore.frontend.restapi.v1.utils.MCREncryptionHelper;
 import org.mycore.frontend.restapi.v1.utils.MCRRestAPIObjectsHelper;
@@ -207,8 +212,7 @@ public class MCRRestAPIUploadHelper {
                                 new MCRMetaIFS("internal", new File(saveDir, derID.toString()).getPath()));
 
                         MCRMetadataManager.create(mcrDerivate);
-                        MCRMetadataManager.addDerivateToObject(mcrObjID, new MCRMetaLinkID("derobject", derID, null,
-                                formParamlabel));
+                        MCRMetadataManager.addOrUpdateDerivateToObject(mcrObjID, new MCRMetaLinkID("derobject", derID, null, formParamlabel));
 
                         fXML = new File(saveDir, derID.toString() + ".xml");
 
@@ -399,18 +403,33 @@ public class MCRRestAPIUploadHelper {
                 MCRObjectID derID = MCRObjectID.getInstance(pathParamMcrDerID);
 
                 //MCRAccessManager.checkPermission(uses CACHE, which seems to be dirty from other calls and cannot be deleted)????
-                if (MCRAccessManager.getAccessImpl().checkPermission(derID.toString(), PERMISSION_WRITE)) {
-                    MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(derID);
-                    try{
-                        MCRDirectory dir = der.receiveDirectoryFromIFS();
-                        dir.delete();
-                    }
-                    catch(MCRPersistenceException pe){
-                        //dir does not exist - do nothing
-                    }
-                    //create new root directory
-                    new MCRDirectory(derID.toString());
-                }
+				if (MCRAccessManager.getAccessImpl().checkPermission(derID.toString(), PERMISSION_WRITE)) {
+					MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(derID);
+
+					final MCRPath rootPath = MCRPath.getPath(der.getId().toString(), "/");
+					try {
+						Files.walkFileTree(rootPath, new SimpleFileVisitor<Path>() {
+							@Override
+							public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+								Files.delete(file);
+								return FileVisitResult.CONTINUE;
+							}
+
+							@Override
+							public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+								if (exc == null && !rootPath.equals(dir)) {
+									Files.delete(dir);
+									return FileVisitResult.CONTINUE;
+								} else {
+									throw exc;
+								}
+							}
+
+						});
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
 
                 session.commitTransaction();
                 session.setUserInformation(currentUser);
@@ -422,7 +441,6 @@ public class MCRRestAPIUploadHelper {
             }
         }
         return response;
-
     }
 
     private static boolean checkAccess(HttpServletRequest request) {
