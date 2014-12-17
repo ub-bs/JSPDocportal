@@ -2,6 +2,7 @@ package org.mycore.frontend.workflowengine.strategies;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,19 +18,17 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.filter.ElementFilter;
 import org.mycore.common.JSPUtils;
-import org.mycore.common.config.MCRConfiguration;
 import org.mycore.common.MCRDerivateFileFilter;
 import org.mycore.common.MCRException;
-import org.mycore.common.MCRPersistenceException;
 import org.mycore.common.MCRUtils;
+import org.mycore.common.config.MCRConfiguration;
 import org.mycore.common.content.MCRFileContent;
-import org.mycore.datamodel.ifs.MCRDirectory;
-import org.mycore.datamodel.ifs.MCRFilesystemNode;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRMetaIFS;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.datamodel.niofs.MCRPath;
 import org.mycore.frontend.cli.MCRDerivateCommands;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowUtils;
 import org.xml.sax.SAXParseException;
@@ -279,17 +278,12 @@ public abstract class MCRDerivateStrategy {
 			logger.debug("Delete File from Derivate: "+fileName);
 			int split = fileName.indexOf(SEPARATOR);
 			String derID = fileName.substring(0, split);
-			MCRDirectory root = MCRDirectory.getRootDirectory(derID);
-			if(root!=null){
-				MCRFilesystemNode myfile = root.getChildByPath(fileName.substring(split));
-				if (myfile!=null){
-					try{
-						myfile.delete();
-					}
-					catch(MCRPersistenceException pe){
-						logger.error("Could not delete file: "+myfile.getAbsolutePath(), pe);
-					}
-				}
+			MCRPath path = MCRPath.getPath(derID, fileName.substring(split));
+			try{
+				Files.delete(path);
+			}
+			catch(IOException e){
+				logger.error(e);
 			}
 			return true;
 		}

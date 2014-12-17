@@ -30,12 +30,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
-import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardCopyOption;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -51,6 +47,7 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.mycore.access.MCRAccessManager;
+import org.mycore.activiti.MCRActivitiUtils;
 import org.mycore.common.MCRPersistenceException;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
@@ -407,28 +404,7 @@ public class MCRRestAPIUploadHelper {
 					MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(derID);
 
 					final MCRPath rootPath = MCRPath.getPath(der.getId().toString(), "/");
-					try {
-						Files.walkFileTree(rootPath, new SimpleFileVisitor<Path>() {
-							@Override
-							public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-								Files.delete(file);
-								return FileVisitResult.CONTINUE;
-							}
-
-							@Override
-							public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-								if (exc == null && !rootPath.equals(dir)) {
-									Files.delete(dir);
-									return FileVisitResult.CONTINUE;
-								} else {
-									throw exc;
-								}
-							}
-
-						});
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+					MCRActivitiUtils.deleteDirectoryContent(rootPath);
 				}
 
                 session.commitTransaction();

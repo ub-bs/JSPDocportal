@@ -87,6 +87,15 @@
   											<button id="btnEditDerMetaCancel_${derID}" type="button" style="display:none; border:1px solid darkgray;" class="btn btn-sm" onclick="disableDerMetaEditing('${derID}')"><span class="glyphicon glyphicon-remove"></span> Abbrechen</button>
   											<button id="btnEditDerMetaEdit_${derID}" type="button" class="btn btn-default" onclick="enableDerMetaEditing('${derID}')"><span class="glyphicon glyphicon-pencil"></span> Bearbeiten</button>
   										</div>
+  										
+  										<div class="pull-right" style="margin-right:48px">
+  											<x:if select="$doc/mycoreobject/structure/derobjects/derobject[1]/@xlink:href != $x/@xlink:href">
+  												<button id="btnEditDerMoveUp_${derID}" name="doMoveUpDerivate-task_${actionBean.taskid}-derivate_${derID}" class="btn btn-default" title="Nach oben verschieben"><span class="glyphicon glyphicon-arrow-up"></span></button>
+  											</x:if>
+  											<x:if select="$doc/mycoreobject/structure/derobjects/derobject[last()]/@xlink:href != $x/@xlink:href">
+  												<button id="btnEditDerMoveUp_${derID}" name="doMoveDownDerivate-task_${actionBean.taskid}-derivate_${derID}" class="btn btn-default" title="Nach unten verschieben"><span class="glyphicon glyphicon-arrow-down"></span></button>
+  											</x:if>
+  										</div>
   										<c:set var="derDoc" value="${actionBean.derivateXMLs[derID]}" />
   										<span class="badge pull-left" style="margin-right:24px; margin-top:6px;">${derID}</span>
   										<h4 class="panel-title">

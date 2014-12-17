@@ -4,6 +4,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,8 +26,6 @@ import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRUtils;
 import org.mycore.common.config.MCRConfiguration;
-import org.mycore.datamodel.ifs.MCRDirectory;
-import org.mycore.datamodel.ifs.MCRFilesystemNode;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRObject;
@@ -168,50 +171,29 @@ public class MCRActivitiUtils {
 		dir.delete();
 	}
 	
-	/*
-	public static void synchronizeDerivateContentBetweenIFSAndWorkflowDir(MCRObjectID derID, File wfDerDir){
-		MCRDirectory root = MCRDirectory.getRootDirectory(derID.toString());
-		if(root!=null){
-			synchronizeDerivateContent(root, wfDerDir);
-		}
-	}
-	
-	private static void synchronizeDerivateContent(MCRFilesystemNode fsNode, File wfDerDir){
-		if(fsNode==null){
-			return;
-		}
-		if(fsNode instanceof MCRDirectory){
-			File check = new File(wfDerDir, fsNode.getAbsolutePath());
-			if(check.exists()){
-				for(MCRFilesystemNode fsn: ((MCRDirectory) fsNode).getChildren()){
-					synchronizeDerivateContent(fsn, wfDerDir);
+	public static void deleteDirectoryContent(Path path) {
+		try {
+			final Path rootPath = path;
+				Files.walkFileTree(rootPath, new SimpleFileVisitor<Path>() {
+				@Override
+				public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+					Files.delete(file);
+					return FileVisitResult.CONTINUE;
 				}
-			}
-			else{
-				deleteInIFS(fsNode);
-			}
-		}
-		if(fsNode instanceof MCRFile){
-			File check = new File(wfDerDir, fsNode.getAbsolutePath());
-			if(check.exists() && MCRActivitiUtils.getMD5Sum(check).equals(((MCRFile) fsNode).getMD5())){
-				//files are not changed
-			}
-			else{
-				deleteInIFS(fsNode);
-			}
-		}
-	}
-	
-	*/
-	public static void deleteInIFS(MCRFilesystemNode fsNode, boolean deleteSelf){
-		if(fsNode == null) return;
-		if(fsNode instanceof MCRDirectory){
-			for(MCRFilesystemNode fsn: ((MCRDirectory) fsNode).getChildren()){
-				deleteInIFS(fsn, true);
-			}
-		}
-		if(deleteSelf){
-			fsNode.delete();
+
+				@Override
+				public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+					if (exc != null){
+						throw exc;
+					}
+					if(!rootPath.equals(dir)) {
+						Files.delete(dir);
+					}
+					return FileVisitResult.CONTINUE;
+				}
+			});
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	

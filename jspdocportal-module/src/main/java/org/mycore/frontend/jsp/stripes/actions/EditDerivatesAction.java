@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +42,8 @@ import org.w3c.dom.Document;
 
 @UrlBinding("/editDerivates.action")
 public class EditDerivatesAction extends MCRAbstractStripesAction implements ActionBean {
+	public static enum Direction{MOVE_UP, MOVE_DOWN};
+	
 	private static Logger LOGGER = Logger.getLogger(EditDerivatesAction.class);
 	ForwardResolution fwdResolution = new ForwardResolution(
 			"/content/workspace/edit-derivates.jsp");
@@ -84,6 +87,26 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
 				mcrobjid = ts.getVariable(taskid, MCRActivitiMgr.WF_VAR_MCR_OBJECT_ID, String.class);
 				createNewDerivate();
 			}
+			//doMoveUpDerivate-task_${actionBean.taskid}-derivate_${derID}
+			if(s.startsWith("doMoveUpDerivate-")){
+				int start = s.indexOf("task_")+5;
+				taskid = s.substring(start, s.indexOf("-", start));
+				mcrobjid = ts.getVariable(taskid, MCRActivitiMgr.WF_VAR_MCR_OBJECT_ID, String.class);
+				start = s.indexOf("derivate_")+9;
+				String derid = s.substring(start);
+				moveDerivate(taskid, derid, Direction.MOVE_UP);
+			}
+			
+			//doMoveDownDerivate-task_${actionBean.taskid}-derivate_${derID}
+			if(s.startsWith("doMoveDownDerivate-")){
+				int start = s.indexOf("task_")+5;
+				taskid = s.substring(start, s.indexOf("-", start));
+				mcrobjid = ts.getVariable(taskid, MCRActivitiMgr.WF_VAR_MCR_OBJECT_ID, String.class);
+				start = s.indexOf("derivate_")+9;
+				String derid = s.substring(start);
+				moveDerivate(taskid, derid, Direction.MOVE_DOWN);
+			}
+			
 			//doSaveDerivateMeta-task_${actionBean.taskid}-derivate_${derID}
 			if(s.startsWith("doSaveDerivateMeta-")){
 				int start = s.indexOf("task_")+5;
@@ -180,6 +203,23 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
 		for(MCRMetaLinkID link: mcrObj.getStructure().getDerivates()){
 			if(link.getXLinkHrefID().equals(der.getId())){
 				link.setXLinkLabel(label);
+				break;
+			}
+		}
+		MCRActivitiUtils.saveMCRObjectToWorkflowDirectory(mcrObj);
+	}
+	
+	private void moveDerivate(String taskid, String derid, Direction dir){
+		MCRObject mcrObj = MCRActivitiUtils.loadMCRObjectFromWorkflowDirectory(MCRObjectID.getInstance(mcrobjid));
+		List<MCRMetaLinkID> derList = mcrObj.getStructure().getDerivates();
+		for(int pos=0;pos<derList.size();pos++){
+			if(derList.get(pos).getXLinkHref().equals(derid)){
+				if(dir == Direction.MOVE_UP && pos > 0){
+					Collections.swap(derList, pos,  pos-1);
+				}
+				if(dir == Direction.MOVE_DOWN && pos < derList.size()-1){
+					Collections.swap(derList, pos,  pos+1);
+				}
 				break;
 			}
 		}

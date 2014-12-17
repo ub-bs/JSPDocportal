@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -20,7 +21,6 @@ import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.datamodel.classifications2.MCRCategoryID;
 import org.mycore.datamodel.common.MCRActiveLinkException;
-import org.mycore.datamodel.ifs.MCRFilesystemNode;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRMetaIFS;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
@@ -28,6 +28,7 @@ import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.datamodel.metadata.MCRObjectMetadata;
+import org.mycore.datamodel.niofs.MCRPath;
 import org.mycore.frontend.cli.MCRDerivateCommands;
 import org.xml.sax.SAXParseException;
 
@@ -193,6 +194,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 				processDerivatesOnCommit(mcrObj, mcrWFObj);
 
 				MCRObjectMetadata mcrObjMeta = mcrObj.getMetadata();
+				mcrObjMeta.removeInheritedMetadata();
 				while (mcrObjMeta.size() > 0) {
 					mcrObjMeta.removeMetadataElement(0);
 				}
@@ -337,7 +339,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 	// stores changes on Derivates in Workflow into the MyCoRe Object
 	private void processDerivatesOnCommit(MCRObject mcrObj, MCRObject mcrWFObj) {
 		// delete derivates if necessary
-		Set<String> wfDerivateIDs = new HashSet<String>();
+		List<String> wfDerivateIDs = new ArrayList<String>();
 		for (MCRMetaLinkID derID : mcrWFObj.getStructure().getDerivates()) {
 			wfDerivateIDs.add(derID.getXLinkHref());
 		}
@@ -364,16 +366,21 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 				MCRObjectID derIDObj = MCRObjectID.getInstance(derID);
 				if (MCRMetadataManager.exists(derIDObj)) {
 					ruleMap = MCRActivitiUtils.getAccessRulesMap(derID);
-					MCRActivitiUtils.deleteInIFS(MCRFilesystemNode.getRootNode(derID), false);
+					MCRActivitiUtils.deleteDirectoryContent(MCRPath.getPath(derID, "/"));
 					MCRDerivateCommands.updateFromFile(filename, false);
 				} else {
 					MCRDerivateCommands.loadFromFile(filename, false);
 				}
-			} catch (SAXParseException e) {
+				/*
+				if (MCRMetadataManager.exists(derIDObj)) {
+					ruleMap = MCRActivitiUtils.getAccessRulesMap(derID);
+					MCRDerivateCommands.delete(derID);
+				}
+				MCRDerivateCommands.loadFromFile(filename, false);
+				*/
+			} catch (SAXParseException | IOException e) {
 				LOGGER.error(e);
-			} catch (IOException e) {
-				LOGGER.error(e);
-			}
+			} 
 			if (ruleMap != null) {
 				MCRActivitiUtils.setAccessRulesMap(derID, ruleMap);
 			}
