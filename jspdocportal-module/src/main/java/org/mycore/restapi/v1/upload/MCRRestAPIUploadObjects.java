@@ -20,7 +20,7 @@
  * If not, write to the Free Software Foundation Inc.,
  * 59 Temple Place - Suite 330, Boston, MA  02111-1307 USA
  */
-package org.mycore.frontend.restapi.v1.upload;
+package org.mycore.restapi.v1.upload;
 
 import java.io.InputStream;
 
@@ -39,19 +39,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import org.mycore.frontend.restapi.v1.utils.MCRRestAPIObjectsHelper;
+import org.mycore.restapi.v1.utils.MCRRestAPIObjectsHelper;
 
 import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
 
 @Path("/v1/upload/objects")
 public class MCRRestAPIUploadObjects {
-	public static final String STYLE_DERIVATEDETAILS="derivatedetails";
-	public static final String FORMAT_JSON = "json";
-	public static final String FORMAT_XML = "xml";
-	public static final String SORT_ASC = "asc";
-	public static final String SORT_DESC = "desc";
-
    /** returns a list of mcrObjects 
 	 *
 	 * Parameter

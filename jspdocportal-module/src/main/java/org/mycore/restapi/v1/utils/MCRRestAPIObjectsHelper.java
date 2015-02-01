@@ -1,4 +1,4 @@
-package org.mycore.frontend.restapi.v1.utils;
+package org.mycore.restapi.v1.utils;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -37,12 +37,12 @@ import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.MCRFrontendUtil;
-import org.mycore.frontend.restapi.v1.MCRRestAPIObjects;
-import org.mycore.frontend.restapi.v1.errors.MCRRestAPIError;
-import org.mycore.frontend.restapi.v1.errors.MCRRestAPIException;
-import org.mycore.frontend.restapi.v1.errors.MCRRestAPIFieldError;
-import org.mycore.frontend.restapi.v1.utils.MCRRestAPISortObject.SortOrder;
 import org.mycore.frontend.servlets.MCRServlet;
+import org.mycore.restapi.v1.MCRRestAPIObjects;
+import org.mycore.restapi.v1.errors.MCRRestAPIError;
+import org.mycore.restapi.v1.errors.MCRRestAPIException;
+import org.mycore.restapi.v1.errors.MCRRestAPIFieldError;
+import org.mycore.restapi.v1.utils.MCRRestAPISortObject.SortOrder;
 
 import com.google.gson.stream.JsonWriter;
 

@@ -1,4 +1,4 @@
-package org.mycore.frontend.restapi.v1.errors;
+package org.mycore.restapi.v1.errors;
 
 
 public class MCRRestAPIException extends Exception{

@@ -20,7 +20,7 @@
  * If not, write to the Free Software Foundation Inc.,
  * 59 Temple Place - Suite 330, Boston, MA  02111-1307 USA
  */
-package org.mycore.frontend.restapi.v1.upload;
+package org.mycore.restapi.v1.upload;
 
 import static org.mycore.access.MCRAccessManager.PERMISSION_WRITE;
 
@@ -68,8 +68,6 @@ import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.datamodel.niofs.MCRPath;
 import org.mycore.frontend.cli.MCRObjectCommands;
-import org.mycore.frontend.restapi.v1.utils.MCREncryptionHelper;
-import org.mycore.frontend.restapi.v1.utils.MCRRestAPIObjectsHelper;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
@@ -446,7 +444,7 @@ public class MCRRestAPIUploadHelper {
                     MCRAccessManager.addRule(objID.toString(), permissionType, rule, "");
                 }
             } catch (SAXParseException spe) {
-                Logger.getLogger(MCRRestAPIObjectsHelper.class).error("SAXParseException: ", spe);
+                Logger.getLogger(MCRRestAPIUploadHelper.class).error("SAXParseException: ", spe);
             }
         }
 

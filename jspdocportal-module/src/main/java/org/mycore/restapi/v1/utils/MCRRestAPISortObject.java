@@ -1,4 +1,4 @@
-package org.mycore.frontend.restapi.v1.utils;
+package org.mycore.restapi.v1.utils;
 
 public class MCRRestAPISortObject {
     enum SortOrder{

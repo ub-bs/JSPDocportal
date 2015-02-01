@@ -1,10 +1,10 @@
-package org.mycore.frontend.restapi.v1.utils;
+package org.mycore.restapi.v1.utils;
 
 import java.util.Comparator;
 import java.util.Locale;
 
 import org.mycore.datamodel.common.MCRObjectIDDate;
-import org.mycore.frontend.restapi.v1.utils.MCRRestAPISortObject.SortOrder;
+import org.mycore.restapi.v1.utils.MCRRestAPISortObject.SortOrder;
 
 public class MCRRestAPISortObjectComparator implements Comparator<MCRObjectIDDate> {
 	private MCRRestAPISortObject _sortObj = null;
