@@ -65,7 +65,7 @@ public class MCRActivitiUtils {
 			}
 		}
 		catch(Exception e){
-			LOGGER.error(e);;
+			LOGGER.error(e);
 		}
 		return null;
 	}
