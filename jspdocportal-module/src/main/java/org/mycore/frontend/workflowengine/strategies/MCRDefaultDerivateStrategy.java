@@ -228,13 +228,13 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 			if(test=='-') {newName.append(test); continue;}
 			if(test=='_') {newName.append(test); continue;}
 			
-			if(test=='ä') {newName.append("ae"); continue;}
-			if(test=='ö') {newName.append("oe"); continue;}
-			if(test=='ü') {newName.append("ue"); continue;}
-			if(test=='Ä') {newName.append("AE"); continue;}
-			if(test=='Ö') {newName.append("OE"); continue;}
-			if(test=='Ü') {newName.append("UE"); continue;}
-			if(test=='ß') {newName.append("ss"); continue;}
+//			if(test=='ä') {newName.append("ae"); continue;}
+//			if(test=='ö') {newName.append("oe"); continue;}
+//			if(test=='ü') {newName.append("ue"); continue;}
+//			if(test=='Ä') {newName.append("AE"); continue;}
+//			if(test=='Ö') {newName.append("OE"); continue;}
+//			if(test=='Ü') {newName.append("UE"); continue;}
+//			if(test=='ß') {newName.append("ss"); continue;}
 			if(test==' ') {newName.append("_"); continue;}
 			//every other char will be ignored.
 			newName.append("");
