@@ -20,7 +20,6 @@ public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
 		super();
 		event = "";
 		classification = new MCRMetaClassification();
-		classification.setLang("de");
 		classification.setSubTag("classification");
 		
 	}
@@ -31,7 +30,6 @@ public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
 		super(set_subtag, set_type, set_inherted);
 		event = "";
 		classification = new MCRMetaClassification();
-		classification.setLang("de");
 		classification.setSubTag("classification");
 		
 	}
@@ -94,7 +92,6 @@ public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
         if(eClassi!=null){
         	if(classification==null){
         		classification = new MCRMetaClassification();
-        		classification.setLang("de");
         		classification.setSubTag("classification");
         	}
         	classification.setFromDOM(eClassi);
