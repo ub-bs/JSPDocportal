@@ -20,7 +20,7 @@
  * If not, write to the Free Software Foundation Inc.,
  * 59 Temple Place - Suite 330, Boston, MA  02111-1307 USA
  */
-package org.mycore.restapi.v1.upload;
+package org.mycore.restapi.v1.upload.util;
 
 import static org.mycore.access.MCRAccessManager.PERMISSION_WRITE;
 
@@ -36,6 +36,12 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
@@ -81,34 +87,16 @@ import com.sun.jersey.core.header.FormDataContentDisposition;
 public class MCRRestAPIUploadHelper {
     public static final String FORMAT_XML = "xml";
 
-    /** returns a list of mcrObjects 
-     *
-     * Parameter
-     * ---------
-     * filter - parameter with filters as colon-separated key-value-pairs, repeatable, allowed values are
-     *     * project - the MyCoRe ProjectID - first Part of a MyCoRe ID
-     *     * type - the MyCoRe ObjectType - middle Part of a MyCoRe ID 
-     *     * lastModifiedBefore - last modified date in UTC is lesser than or equals to given value 
-     *     * lastModifiedAfter - last modified date in UTC is greater than or equals to given value;
-     * 
-     * sort - sortfield and sortorder combined by ':'
-     *     * sortfield = ID | lastModified
-     *     * sortorder = asc | desc 
-     * 
-     * format - parameter for return format, values are
-     *     * xml (default value)
-     *     * json
-     *     
+    /**
+     * uploads a mycore mobject    
      * based upon:    
      * http://puspendu.wordpress.com/2012/08/23/restful-webservice-file-upload-with-jersey/
      */
 
-    /**
-     
-     @Path("/objects/")
-     @Produces({ MediaType.TEXT_XML + ";charset=UTF-8" })
-     @Consumes(MediaType.MULTIPART_FORM_DATA)
-     */
+    @POST
+    @Path("/objects/")
+    @Produces({ MediaType.TEXT_XML + ";charset=UTF-8" })
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
     public static Response uploadObject(UriInfo info, HttpServletRequest request, InputStream uploadedInputStream,
             FormDataContentDisposition fileDetails) {
 
@@ -164,12 +152,10 @@ public class MCRRestAPIUploadHelper {
 
     }
 
-    /**
     @POST
     @Path("/objects/id/{mcrObjID}/derivates")
     @Produces({ MediaType.TEXT_XML + ";charset=UTF-8" })
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    */
     public static Response uploadDerivate(UriInfo info, HttpServletRequest request, String pathParamMcrObjID,
             String formParamlabel) {
 
@@ -236,12 +222,10 @@ public class MCRRestAPIUploadHelper {
 
     }
 
-    /**
     @POST
     @Path("/objects/id/{mcrObjID}/derivates/id/{mcrDerID}/files")
     @Produces({ MediaType.TEXT_XML + ";charset=UTF-8" })
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    */
     public static Response uploadFile(UriInfo info, HttpServletRequest request, String pathParamMcrObjID,
             String pathParamMcrDerID, InputStream uploadedInputStream, FormDataContentDisposition fileDetails,
             String formParamPath, boolean formParamMaindoc, String formParamMD5,
@@ -356,12 +340,11 @@ public class MCRRestAPIUploadHelper {
 
     }
 
-    /**
+  
     @DELETE
     @Path("/objects/id/{mcrObjID}/derivates/id/{mcrDerID}/files")
     @Produces({ MediaType.TEXT_XML + ";charset=UTF-8" })
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    */
     public static Response deleteAllFiles(UriInfo info, HttpServletRequest request, String pathParamMcrObjID,
             String pathParamMcrDerID) {
 

@@ -39,6 +39,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.mycore.restapi.v1.upload.util.MCRRestAPIUploadHelper;
 import org.mycore.restapi.v1.utils.MCRRestAPIObjectsHelper;
 
 import com.sun.jersey.core.header.FormDataContentDisposition;

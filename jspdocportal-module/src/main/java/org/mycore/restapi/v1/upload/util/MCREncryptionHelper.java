@@ -1,4 +1,4 @@
-package org.mycore.restapi.v1.upload;
+package org.mycore.restapi.v1.upload.util;
 
 import java.io.File;
 import java.io.FileInputStream;
