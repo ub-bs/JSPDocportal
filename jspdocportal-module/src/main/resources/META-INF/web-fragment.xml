@@ -352,24 +352,6 @@
          <servlet-name>OAI2</servlet-name>
          <url-pattern>/oai</url-pattern>
       </servlet-mapping>
-      
-  <!-- **************************************************************** -->
-  <!-- MyCoRe REST API v1                                                 -->
-  <!-- **************************************************************** -->
-  
-   <servlet>
-    <servlet-name>MyCoRe REST API v1</servlet-name>
-    <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
-    <init-param>
-      <param-name>com.sun.jersey.config.property.packages</param-name>
-      <param-value>org.mycore.restapi.v1</param-value>
-    </init-param>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>MyCoRe REST API v1</servlet-name>
-    <url-pattern>/api/*</url-pattern>
-  </servlet-mapping>
 
   <session-config>
     <session-timeout>30</session-timeout>
