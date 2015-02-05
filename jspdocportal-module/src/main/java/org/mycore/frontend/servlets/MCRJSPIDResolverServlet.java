@@ -44,6 +44,7 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.jdom2.xpath.XPathFactory;
 import org.mycore.common.MCRException;
+import org.mycore.common.config.MCRConfiguration;
 import org.mycore.common.content.MCRPathContent;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
@@ -247,7 +248,7 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 		try {
 			MCRObject o = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID));
 			for (MCRMetaLinkID derMetaLink : o.getStructure().getDerivates()) {
-				if ("METS".equals(derMetaLink.getXLinkTitle())) {
+				if ("METS".equals(derMetaLink.getXLinkTitle()) || "DV_METS".equals(derMetaLink.getXLinkTitle())){
 					MCRObjectID derID = derMetaLink.getXLinkHrefID();
 					/*
 					 * MCRDirectoryStream root =
@@ -284,7 +285,7 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 
 								if (thumb == null) {
 									// display in DFG-Viewer
-									sbURL = new StringBuffer("http://dfg-viewer.de/show/");
+								    sbURL = new StringBuffer(MCRConfiguration.instance().getString("MCR.JSPDocportal.DFG-Viewer.BaseURL").trim());
 									sbURL.append("?set[mets]=");
 									sbURL.append(URLEncoder.encode(MCRFrontendUtil.getBaseURL() + "file/" + mcrID + p.toString(), "UTF-8"));
 									if (eMETSPhysDiv != null) {
@@ -332,6 +333,7 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 			LOGGER.error("Error creating URL for DFG Viewer", e);
 			return "";
 		}
+		LOGGER.debug("created DFG-ViewerURL: "+request.getContextPath()+ " -> "+sbURL.toString());
 		return sbURL.toString();
 	}
 
