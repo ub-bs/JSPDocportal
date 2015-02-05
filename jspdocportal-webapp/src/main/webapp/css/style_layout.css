@@ -35,6 +35,7 @@ div#footer{
 
 
 div#left_col{
+	clear:both;
 	float:left;	
 }
 
