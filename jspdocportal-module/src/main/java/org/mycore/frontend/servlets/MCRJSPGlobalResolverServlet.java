@@ -91,8 +91,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
     	HttpServletResponse response = job.getResponse();
 
     	String uri = request.getRequestURI();
-    	String path[] = uri.substring(uri.indexOf("/resolve/")+9).split("/");
-
+    	String path[] = uri.substring(uri.indexOf("/resolve/")+9).split("/", -1);
     	if(path.length<2){
     		getServletContext().getRequestDispatcher("/nav?path=~mycore-error&messageKey=Resolver.error.unknownUrlSchema").forward(request,response);
     		return;
@@ -142,7 +141,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
     	String action = path[2];
     	if(action.equals("image")){
     		String url = "";
-    		if(path.length==3){
+    		if(path.length==3 || path.length==4){
     			url = createURLForDFGViewer(request, mcrID, OpenBy.empty, "");
     		}
     		if(path.length>4 && path[3].equals("page")){
@@ -151,6 +150,9 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
     		if(path.length>4 &&path[3].equals("nr")){
     			url = createURLForDFGViewer(request, mcrID, OpenBy.nr, path[4]);
     		}
+    		if(path.length>4 &&path[3].equals("part")){
+                url = createURLForDFGViewer(request, mcrID, OpenBy.part, path[4]);
+            }
     		if(url.length()>0){
     			LOGGER.debug("DFGViewer URL: "+url);
     			response.sendRedirect(url);				
@@ -180,6 +182,14 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
     	if(action.equals("pdfdownload")){
     	    this.getServletContext().getRequestDispatcher("/content/pdfdownload.jsp?id=" +mcrID).forward(request, response);
     	}
+    	
+    	if(action.equals("cover")){
+            String url = createURLForCover(request, mcrID);
+            if(url.length()>0){
+                LOGGER.debug("Cover URL: "+url);
+                response.sendRedirect(url);             
+            }  
+        }
     	
     	if(action.equals("fulltext")){
     		if(mcrID.startsWith("mvdok")){

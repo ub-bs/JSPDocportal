@@ -67,7 +67,7 @@ import org.mycore.frontend.MCRFrontendUtil;
  */
 public class MCRJSPIDResolverServlet extends MCRServlet {
 	protected enum OpenBy {
-		page, nr, empty
+		page, nr, part, empty
 	};
 
 	private static final long serialVersionUID = 1L;
@@ -145,6 +145,10 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 			 * createURLForDFGViewer(request, mcrID, OpenBy.page, page); }
 			 * String nr = request.getParameter("nr"); if(nr!=null){ url =
 			 * createURLForDFGViewer(request, mcrID, OpenBy.nr, nr); }
+			 *   String part = request.getParameter("part");
+                    if(part!=null){
+                        url = createURLForDFGViewer(request, mcrID, OpenBy.part, part);
+                    }
 			 * if(url.length()>0){ LOGGER.debug("DFGViewer URL: "+url);
 			 * response.sendRedirect(url); } } //end [if(img!=null)] else{
 			 * this.getServletContext
@@ -237,6 +241,30 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 		}
 		return "";
 	}
+	
+	//createURL for Cover Image
+    protected String createURLForCover(HttpServletRequest request, String mcrID){
+        MCRObject o = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID));
+        MCRObjectStructure structure = o.getStructure();
+        MCRMetaLinkID derMetaLink= null;
+        for(MCRMetaLinkID der: structure.getDerivates()){
+            if(der.getXLinkTitle().equals("Cover")){
+                derMetaLink = der;
+            }
+        }
+        if(derMetaLink==null){
+            return "";
+        }
+        MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(derMetaLink.getXLinkHrefID());
+        String mainDoc = der.getDerivate().getInternals().getMainDoc();
+        if(mainDoc!=null && mainDoc.length()>0){
+            StringBuffer sbPath = new StringBuffer(MCRFrontendUtil.getBaseURL());
+            sbPath.append("file/").append(mcrID).append("/").append(der.getId().toString()).append("/").append(mainDoc);
+            return sbPath.toString();
+            
+        } 
+        return "";
+    }
 
 	// Create URL for DFG ImageViewer and Forward to it
 	// http://dfg-viewer.de/v1/?set%5Bmets%5D=http%3A%2F%2Frosdok.uni-rostock.de%2Fdata%2Fetwas%2Fetwas1737%2Fetwas1737.mets.xml&set%5Bzoom%5D=min
@@ -268,30 +296,44 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 								while (nr.startsWith("0")) {
 									nr = nr.substring(1);
 								}
-								if (openBy == OpenBy.page) {
-									eMETSPhysDiv = XPathFactory
-											.instance()
-											.compile(
-													"/mets:mets/mets:structMap[@TYPE='PHYSICAL']"
-															+ "/mets:div[@TYPE='physSequence']/mets:div[starts-with(@ORDERLABEL, '" + nr + "')]",
-													Filters.element(), null, nsMets).evaluateFirst(docMETS);
-								} else if (openBy == OpenBy.nr) {
-									eMETSPhysDiv = XPathFactory
-											.instance()
-											.compile(
-													"/mets:mets/mets:structMap[@TYPE='PHYSICAL']" + "/mets:div[@TYPE='physSequence']/mets:div[@ORDER='" + nr
-															+ "']", Filters.element(), null, nsMets).evaluateFirst(docMETS);
-								}
-
+								if(!nr.isEmpty()){
+		                            if(openBy == OpenBy.page){
+		                                eMETSPhysDiv = XPathFactory.instance().compile("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
+		                                    "/mets:div[@TYPE='physSequence']/mets:div[starts-with(@ORDERLABEL, '" +nr+"')]", Filters.element(), null, nsMets).evaluateFirst(docMETS);
+		                            }
+		                            else if (openBy == OpenBy.nr){
+		                                eMETSPhysDiv = XPathFactory.instance().compile("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
+		                                    "/mets:div[@TYPE='physSequence']/mets:div[@ORDER='" +nr+"']", Filters.element(), null, nsMets).evaluateFirst(docMETS);
+		                            }
+		                            else if (openBy == OpenBy.part){
+		                                eMETSPhysDiv = XPathFactory.instance().compile("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
+		                                    "//mets:div[@ID='" +nr+"']", Filters.element(), null, nsMets).evaluateFirst(docMETS);
+		                                if(eMETSPhysDiv == null){
+		                                    Element eMETSLogDiv = XPathFactory.instance().compile("/mets:mets/mets:structMap[@TYPE='LOGICAL']" +
+		                                        "//mets:div[@ID='" +nr+"']", Filters.element(), null, nsMets).evaluateFirst(docMETS);
+		                                    if(eMETSLogDiv!=null){
+		                                        Element eMETSSmLink = XPathFactory.instance().compile("/mets:mets/mets:structLink" +
+		                                            "//mets:smLink[@xlink:from='" +eMETSLogDiv.getAttributeValue("ID")+"']", Filters.element(), null, nsMets, nsXlink).evaluateFirst(docMETS);
+		                                        if(eMETSSmLink!=null){
+		                                            eMETSPhysDiv = XPathFactory.instance().compile("/mets:mets/mets:structMap[@TYPE='PHYSICAL']" +
+		                                                "//mets:div[@ID='" +eMETSSmLink.getAttributeValue("to", nsXlink)+"']", Filters.element(), null, nsMets).evaluateFirst(docMETS);
+		                                        }
+		                                    }
+		                                }
+		                            }
+		                        }
 								if (thumb == null) {
 									// display in DFG-Viewer
 								    sbURL = new StringBuffer(MCRConfiguration.instance().getString("MCR.JSPDocportal.DFG-Viewer.BaseURL").trim());
 									sbURL.append("?set[mets]=");
 									sbURL.append(URLEncoder.encode(MCRFrontendUtil.getBaseURL() + "file/" + mcrID + p.toString(), "UTF-8"));
-									if (eMETSPhysDiv != null) {
-										sbURL.append("&set[image]=").append(eMETSPhysDiv.getAttributeValue("ORDER"));
-									}
-									sbURL.append("&set[zoom]=min");
+									if(eMETSPhysDiv!=null){
+		                                String order = eMETSPhysDiv.getAttributeValue("ORDER");
+		                                if(order!=null){
+		                                    sbURL.append("&set[image]=").append(order);
+		                                }
+		                                //else: phys_000 -> goto first page
+		                            }   
 								} else if (eMETSPhysDiv != null) {
 									// return thumb image
 									List<Element> l = (List<Element>) eMETSPhysDiv.getChildren();
@@ -333,8 +375,12 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 			LOGGER.error("Error creating URL for DFG Viewer", e);
 			return "";
 		}
-		LOGGER.debug("created DFG-ViewerURL: "+request.getContextPath()+ " -> "+sbURL.toString());
-		return sbURL.toString();
+		String url = sbURL.toString();
+        if(!url.contains(".dv.mets.xml")){
+            url = url.replace("dfg-viewer.de/v3", "dfg-viewer.de/show");
+        }
+        LOGGER.debug("created DFG-ViewerURL: "+request.getContextPath()+ " -> "+ url);
+        return url;
 	}
 
 	/**
