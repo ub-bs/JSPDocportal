@@ -94,7 +94,7 @@
 					<div style="padding-top:32px;padding-bottom:32px; text-align: center;">
 						<a href="http://www.mycore.org">
 							<img alt="powered by MyCoRe 2.2"
-								 src="${WebApplicationBaseURL}images/poweredByMyCoRe2.gif"
+								 src="${WebApplicationBaseURL}images/poweredByMyCoRe2.png"
 							 	 style="border:0;text-align:center; width:90%">
 						</a>
 					</div>
