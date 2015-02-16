@@ -23,13 +23,21 @@
 
 package org.mycore.frontend.servlets;
 
+import java.util.Iterator;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.mycore.services.fieldquery.MCRQuery;
-import org.mycore.services.fieldquery.MCRQueryParser;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
+import org.mycore.solr.MCRSolrServerFactory;
+import org.mycore.solr.MCRSolrUtils;
 
 /**
  * This servlet opens retrieves the object for the given GND and opens the docdetails view
@@ -39,10 +47,9 @@ import org.mycore.services.fieldquery.MCRQueryParser;
  */
 public class MCRJSPPNDServlet extends MCRServlet {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private static Logger LOGGER = Logger.getLogger(MCRJSPPNDServlet.class);
-
+    private static Logger LOGGER = Logger.getLogger(MCRJSPPNDServlet.class);
 
     /**
      * The initalization of the servlet.
@@ -61,34 +68,39 @@ public class MCRJSPPNDServlet extends MCRServlet {
      */
     public void doGetPost(MCRServletJob job) throws ServletException, Exception {
         // the urn with information about the MCRObjectID
-    	HttpServletRequest request = job.getRequest();
-    	HttpServletResponse response = job.getResponse();
-    	LOGGER.debug("contextPath=" + request.getContextPath());
-    	LOGGER.debug("servletPath=" + request.getServletPath());
+        HttpServletRequest request = job.getRequest();
+        HttpServletResponse response = job.getResponse();
+        LOGGER.debug("contextPath=" + request.getContextPath());
+        LOGGER.debug("servletPath=" + request.getServletPath());
 
         String uri = request.getPathInfo();
         String gnd = null;
         if (uri != null) {
             gnd = uri.substring(1);
         }
-        if (gnd == null || gnd.length()==0) {
-        	//getServletContext().getRequestDispatcher("/nav?path=~mycore-error&messageKey=IdNotGiven").forward(request,response);
-        	getServletContext().getRequestDispatcher("/").forward(request,response);
-        	return;
+        if (gnd == null || gnd.length() == 0) {
+            getServletContext().getRequestDispatcher("/").forward(request, response);
+            return;
         }
-       
-        MCRQuery query = new MCRQuery((new MCRQueryParser()).parse("(pnd = "+gnd+")"));
-		//TODO SOLR Migration
-        /*
-        MCRResults result = MCRQueryManager.search(query);
-		if(result.getNumHits()>0){
-			String mcrID = result.getHit(0).getID();
-			this.getServletContext().getRequestDispatcher("/nav?path=~docdetail&id=" +mcrID).forward(request, response);
-		}
-		else{
-			//response.sendError(HttpServletResponse.SC_NOT_FOUND, "No data found for gnd+ " +gnd++"!");
-			this.getServletContext().getRequestDispatcher("/nav?path=~error-gnd-404&gnd="+gnd).forward(request, response);
-		}
-		*/
-	}   
+
+        //"gnd_uri": "http://d-nb.info/gnd/14075444X"
+        try {
+            SolrServer solrServer = MCRSolrServerFactory.getSolrServer();
+            SolrQuery solrQuery = new SolrQuery();
+            solrQuery.setQuery(MCRSolrUtils.escapeSearchValue("gnd_uri:http://d-nb.info/gnd/" + gnd));
+
+            QueryResponse solrResponse = solrServer.query(solrQuery);
+            SolrDocumentList solrResults = solrResponse.getResults();
+
+            Iterator<SolrDocument> it = solrResults.iterator();
+            if (it.hasNext()) {
+                SolrDocument doc = it.next();
+                String id = String.valueOf(doc.getFirstValue("id"));
+                getServletContext().getRequestDispatcher("/resolve/id/" + id).forward(request, response);
+            }
+
+        } catch (SolrServerException e) {
+            LOGGER.error(e);
+        }
+    }
 }
