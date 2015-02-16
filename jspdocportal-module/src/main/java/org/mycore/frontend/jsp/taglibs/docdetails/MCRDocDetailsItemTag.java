@@ -31,141 +31,141 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.log4j.Logger;
 import org.apache.taglibs.standard.tag.common.xml.XPathUtil;
 import org.w3c.dom.Node;
+
 /**
  * Displays / stores a simple item in docdetails table
  * @author mcradmin
  *
  */
 public class MCRDocDetailsItemTag extends SimpleTagSupport {
-	private static Logger LOGGER=Logger.getLogger(MCRDocDetailsItemTag.class);
-	private String xp;
-	private String messagekey="";
-	private String datepattern="";
-	private String css="";
-	private String var="";
+    private static Logger LOGGER = Logger.getLogger(MCRDocDetailsItemTag.class);
 
-	public void setSelect(String xpath) {
-		this.xp = xpath;
-	}
+    private String xp;
 
-	public void setLabelkeyPrefix(String messagekey) {
-		this.messagekey = messagekey;
-	}
-	
-	public void setStyleName(String style){
-		this.css=style;
-	}
-	
-	public void setDatePattern(String pattern){
-		this.datepattern=pattern;
-	}
-	
-	public void setVar(String name){
-		this.var = name;
-	}
+    private String messagekey = "";
 
-	public void doTag() throws JspException, IOException{
-		MCRDocDetailsRowTag docdetailsRow = (MCRDocDetailsRowTag) findAncestorWithClass(this, MCRDocDetailsRowTag.class);
-		MCRDocDetailsTag docdetails = (MCRDocDetailsTag) findAncestorWithClass(this, MCRDocDetailsTag.class);
-		if(docdetailsRow==null && docdetails==null){
-			throw new JspException("This tag must be nested in tag called 'row' or 'docdetails' of the same tag library");
-		}
-		Node context;
-		if(docdetailsRow!=null){
-			context = docdetailsRow.getContext();
-		}
-		else{
-			context = docdetails.getContext();
-		}
-		
-		String result ="";
-		try {
-			XPathUtil xu = new XPathUtil((PageContext)getJspContext());
-			@SuppressWarnings("rawtypes")
-			List nodes = xu.selectNodes(context, xp);
-			if(nodes.size()>0){
-					if(nodes.get(0) instanceof Node){
-						result = ((Node)nodes.get(0)).getTextContent();
-					}
-					else{
-						result = nodes.get(0).toString();
-					}
-	    			if(!"".equals(messagekey)){
-	    				String key = messagekey+result;
-	    				result = docdetails.getMessages().getString(key);
-	    			}
-	    			if(!"".equals(datepattern)){
-	    				try{
-	    					SimpleDateFormat indf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.GERMANY);
-	    					SimpleDateFormat outdf = new SimpleDateFormat(datepattern, new Locale("de", "DE"));
-	    					result = outdf.format(indf.parse(result));
-	    				}
-	    				catch(Exception e){
-	    					try{
-		    					SimpleDateFormat indf = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMANY);
-		    					SimpleDateFormat outdf = new SimpleDateFormat(datepattern, new Locale("de", "DE"));
-		    					result = outdf.format(indf.parse(result));
-		    				}
-		    				catch(Exception e2){
-		    					try{
-			    					SimpleDateFormat indf = new SimpleDateFormat("yyyy", Locale.GERMANY);
-			    					SimpleDateFormat outdf = new SimpleDateFormat(datepattern, new Locale("de", "DE"));
-			    					result = outdf.format(indf.parse(result));
-			    				}
-			    				catch(Exception e3){
-			    					result = ((Node)nodes.get(0)).getTextContent();
-			    				}	    	
-		    				}	    				
-	    				}	    				
-	    			}
-	    			
-	    		}
-	    	} catch (Exception e) {
-			   LOGGER.debug("wrong xpath expression: " + xp);
-			}
-	    	if(result.equals("#")){
-	    		result = "";
-	    	}
-	    	if(var.length()>0){
-	    		getJspContext().setAttribute(var, result);
-	    	}
-	    	else{
-	    		String td = null;
-	    		if(css.length()>0){
-	    			td = "<td class=\""+css+"\">";
-	    		}
-	    		else{
-	    			td = "<td class=\""+docdetails.getStylePrimaryName()+"-value\">";
-	    		}
-	    		getJspContext().getOut().print(td+result+"</td>");
-	    	}	    		
-		}
-	}
-	
+    private String datepattern = "";
 
-	/*
-		<tr>
-			<td class="metaname">akademische Selbstverwaltung:</td>
-			<td class="metavalue">
-				<table border="0" cellpadding="0" cellspacing="4">
-				<colgroup>
-					<col width="80" />
-				</colgroup>
-				<tbody>
-				<tr>
-					<td style="text-align: left;" valign="top">1975-79</td>
-					<td style="text-align: left;" valign="top">Mitglied im
-					Senat</td>
-				</tr>
-				<tr>
-					<td style="text-align: left;" valign="top">1981-84</td>
-					<td style="text-align: left;" valign="top">Dekan</td>
-				</tr>
- 				</tbody></table>
-			</td>
-	</tr>
-	*/
+    private String css = "";
+
+    private String var = "";
+
+    public void setSelect(String xpath) {
+        this.xp = xpath;
+    }
+
+    public void setLabelkeyPrefix(String messagekey) {
+        this.messagekey = messagekey;
+    }
+
+    public void setStyleName(String style) {
+        this.css = style;
+    }
+
+    public void setDatePattern(String pattern) {
+        this.datepattern = pattern;
+    }
+
+    public void setVar(String name) {
+        this.var = name;
+    }
+
+    public void doTag() throws JspException, IOException {
+        MCRDocDetailsRowTag docdetailsRow = (MCRDocDetailsRowTag) findAncestorWithClass(this, MCRDocDetailsRowTag.class);
+        MCRDocDetailsTag docdetails = (MCRDocDetailsTag) findAncestorWithClass(this, MCRDocDetailsTag.class);
+        if (docdetailsRow == null && docdetails == null) {
+            throw new JspException(
+                "This tag must be nested in tag called 'row' or 'docdetails' of the same tag library");
+        }
+        Node context;
+        if (docdetailsRow != null) {
+            context = docdetailsRow.getContext();
+        } else {
+            context = docdetails.getContext();
+        }
+
+        String result = "";
+        try {
+            XPathUtil xu = new XPathUtil((PageContext) getJspContext());
+            @SuppressWarnings("rawtypes")
+            List nodes = xu.selectNodes(context, xp);
+            if (nodes.size() > 0) {
+                if (nodes.get(0) instanceof Node) {
+                    result = ((Node) nodes.get(0)).getTextContent();
+                } else {
+                    result = nodes.get(0).toString();
+                }
+                if (!"".equals(messagekey)) {
+                    String key = messagekey + result;
+                    result = docdetails.getMessages().getString(key);
+                }
+                if (!"".equals(datepattern)) {
+                    try {
+                        SimpleDateFormat indf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.GERMANY);
+                        SimpleDateFormat outdf = new SimpleDateFormat(datepattern, new Locale("de", "DE"));
+                        result = outdf.format(indf.parse(result));
+                    } catch (Exception e) {
+                        try {
+                            SimpleDateFormat indf = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMANY);
+                            SimpleDateFormat outdf = new SimpleDateFormat(datepattern, new Locale("de", "DE"));
+                            result = outdf.format(indf.parse(result));
+                        } catch (Exception e2) {
+                            try {
+                                SimpleDateFormat indf = new SimpleDateFormat("yyyy", Locale.GERMANY);
+                                SimpleDateFormat outdf = new SimpleDateFormat(datepattern, new Locale("de", "DE"));
+                                result = outdf.format(indf.parse(result));
+                            } catch (Exception e3) {
+                                result = ((Node) nodes.get(0)).getTextContent();
+                            }
+                        }
+                    }
+                }
+
+            }
+        } catch (Exception e) {
+            LOGGER.debug("wrong xpath expression: " + xp);
+        }
+        if (result.equals("#")) {
+            result = "";
+        }
+        if (var.length() > 0) {
+            getJspContext().setAttribute(var, result);
+        } else {
+            String td = null;
+            if (css.length() > 0) {
+                td = "<td class=\"" + css + "\">";
+            } else {
+                td = "<td class=\"" + docdetails.getStylePrimaryName() + "-value\">";
+            }
+            getJspContext().getOut().print(td + StringEscapeUtils.escapeXml10(result) + "</td>");
+        }
+    }
+}
+
+/*
+	<tr>
+		<td class="metaname">akademische Selbstverwaltung:</td>
+		<td class="metavalue">
+			<table border="0" cellpadding="0" cellspacing="4">
+			<colgroup>
+				<col width="80" />
+			</colgroup>
+			<tbody>
+			<tr>
+				<td style="text-align: left;" valign="top">1975-79</td>
+				<td style="text-align: left;" valign="top">Mitglied im
+				Senat</td>
+			</tr>
+			<tr>
+				<td style="text-align: left;" valign="top">1981-84</td>
+				<td style="text-align: left;" valign="top">Dekan</td>
+			</tr>
+			</tbody></table>
+		</td>
+</tr>
+*/
 
