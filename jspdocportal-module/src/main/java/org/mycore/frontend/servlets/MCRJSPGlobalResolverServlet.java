@@ -180,8 +180,17 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
     	}
     	
     	if(action.equals("pdfdownload")){
-    	    this.getServletContext().getRequestDispatcher("/content/pdfdownload.jsp?id=" +mcrID).forward(request, response);
-    	}
+            // "pdf download is beeing implemented" page 
+            //this.getServletContext().getRequestDispatcher("/content/pdfdownload.jsp?id=" +mcrID).forward(request, response);
+            if(key.equals("recordIdentifier")){
+                response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/pdfdownload/recordIdentifier/" +value));
+            }
+            //TODO - SOLR Migration
+            //allow mcrids and other identifiers which can be looked up in SOLR index
+            else{
+                response.sendRedirect(response.encodeRedirectURL(request.getContextPath()));
+            }
+        }
     	
     	if(action.equals("cover")){
             String url = createURLForCover(request, mcrID);
