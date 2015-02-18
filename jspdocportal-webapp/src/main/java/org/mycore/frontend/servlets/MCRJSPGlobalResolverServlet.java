@@ -179,7 +179,14 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
     	}
     	
     	if(action.equals("pdfdownload")){
-    	    this.getServletContext().getRequestDispatcher("/content/pdfdownload.jsp?id=" +mcrID).forward(request, response);
+    	    // "pdf download is beeing implemented" page 
+    	    //this.getServletContext().getRequestDispatcher("/content/pdfdownload.jsp?id=" +mcrID).forward(request, response);
+    	    if(key.equals("recordIdentifier")){
+    	        response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/pdfdownload/recordIdentifier/" +value));
+    	    }
+    	    else{
+    	        response.sendRedirect(response.encodeRedirectURL(request.getContextPath()));
+    	    }
     	}
     	
     	if(action.equals("cover")){
