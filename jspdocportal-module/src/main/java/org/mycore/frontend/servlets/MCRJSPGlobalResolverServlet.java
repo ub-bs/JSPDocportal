@@ -207,6 +207,33 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
     		}
     	}
     	
+    	if (action.equals("dv_mets")) {
+            //shall not be used, use "/file/DV_METS" with redirect to MCR file instead
+            String label = "DV_METS";
+            MCRObjectID mcrDerID = null;
+            MCRObject o = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID));
+            MCRObjectStructure structure = o.getStructure();
+            for (MCRMetaLinkID der : structure.getDerivates()) {
+                if (label.equals(der.getXLinkHref()) || label.equals(der.getXLinkLabel())
+                        || label.equals(der.getXLinkTitle())) {
+                    mcrDerID = der.getXLinkHrefID();
+                    break;
+                }
+            }
+            if (mcrDerID != null) {
+                StringBuffer filepath = new StringBuffer();
+                //display main document
+                MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(mcrDerID);
+                String mainDoc = der.getDerivate().getInternals().getMainDoc();
+                if (mainDoc != null && mainDoc.length() > 0) {
+                    filepath.append("/").append(mainDoc);
+                }
+                MCRDirectory root = MCRDirectory.getRootDirectory(mcrDerID.toString());
+                MCRFilesystemNode mainFile = root.getChildByPath(mainDoc);
+                sendFile(request, response, (MCRFile)mainFile);
+            }
+        } 
+    	
     	if(action.equals("file") && path.length>3){
     		String label = path[3];
     		long id=-1;
@@ -222,7 +249,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
     			MCRObject o = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID));
     			MCRObjectStructure structure = o.getStructure();
     			for(MCRMetaLinkID der: structure.getDerivates()){
-    				if(der.getXLinkLabel().equals("label")){
+    				if(label.equals(der.getXLinkHref()) || label.equals(der.getXLinkLabel()) || label.equals(der.getXLinkTitle())){
     					mcrDerID = der.getXLinkHrefID();
     					break;
     				}
