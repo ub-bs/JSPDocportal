@@ -23,6 +23,7 @@
 
 package org.mycore.frontend.servlets;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
@@ -31,12 +32,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.output.DOMOutputter;
+import org.mycore.access.MCRAccessManager;
 import org.mycore.datamodel.ifs.MCRDirectory;
 import org.mycore.datamodel.ifs.MCRFile;
 import org.mycore.datamodel.ifs.MCRFileNodeServlet;
@@ -122,13 +125,13 @@ public class MCRJSPFileNodeServlet extends MCRFileNodeServlet {
     protected String getOwnerID(HttpServletRequest request) {
         String[] path = StringUtils.split(request.getPathInfo(), "/");
         //apache commons StringUtils.split ignores leading and trailing separators and removes empty parts
-        
-      //path begins with object id followed by derivate id 
-        if(path.length>1 && path[1].contains("_derivate_")){
-                return path[1];
+
+        //path begins with object id followed by derivate id 
+        if (path.length > 1 && path[1].contains("_derivate_")) {
+            return path[1];
         }
-        
-        if(path.length>0){
+
+        if (path.length > 0) {
             return path[0];
         }
 
@@ -145,12 +148,12 @@ public class MCRJSPFileNodeServlet extends MCRFileNodeServlet {
         String[] path = StringUtils.split(request.getPathInfo(), "/");
         //Apache Commons StringUtils.split ignores leading and trailing separators and remove empty parts
         int pos = 0;
-        if(path.length>0){
-            pos=1;
+        if (path.length > 0) {
+            pos = 1;
         }
-        if(path.length>1){
-            if(path[1].contains("_derivate_")){
-                pos=2;
+        if (path.length > 1) {
+            if (path[1].contains("_derivate_")) {
+                pos = 2;
             }
         }
         return StringUtils.join(path, "/", pos, path.length);
@@ -164,7 +167,7 @@ public class MCRJSPFileNodeServlet extends MCRFileNodeServlet {
      * parameters that contain the timecodes where to start and/or stop
      * streaming.
      */
-    private void sendFile(MCRServletJob job, MCRFile file) throws IOException {
+/*    private void sendFile(MCRServletJob job, MCRFile file) throws IOException {
         @SuppressWarnings("rawtypes")
         Class[] parameterTypes = new Class[2];
         parameterTypes[0] = job.getClass();
@@ -179,6 +182,37 @@ public class MCRJSPFileNodeServlet extends MCRFileNodeServlet {
             parameters[1] = file;
 
             m.invoke(mcrFileNodeServlet, parameters);
+        } catch (Exception e) {
+            LOGGER.error("Error executing sendFile", e);
+        }
+    }
+*/
+    private void sendFile(MCRServletJob job, MCRFile file) throws IOException {
+        HttpServletResponse res = job.getResponse();
+
+        if (!MCRAccessManager.checkPermissionForReadingDerivate(file.getOwnerID())) {
+            LOGGER.info("MCRFileNodeServlet: AccessForbidden to " + file.getName());
+            res.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            res.getWriter().println("<html><body><p>Access denied to <br />" + file.getName() + "</p></body></html>");
+            return;
+        }
+        try {
+            res.setContentType(file.getContentType().getMimeType());
+            //res.setContentLength((int) file.getSize());
+            res.addHeader("Accept-Ranges", "none");
+
+            File javaFile = file.getLocalFile();
+            long length = javaFile.length();
+            if (length <= Integer.MAX_VALUE) {
+                res.setContentLength((int) length);
+            } else {
+                res.addHeader("Content-Length", Long.toString(length));
+            }
+
+            //res.setContentLength((int) l);
+            LOGGER.info("File length of " + file.getAbsolutePath() + ": mcr->" + file.getSize() + " / java->" + length);
+            FileUtils.copyFile(javaFile, res.getOutputStream());
+            res.getOutputStream().close();
         } catch (Exception e) {
             LOGGER.error("Error executing sendFile", e);
         }
