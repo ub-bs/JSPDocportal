@@ -81,7 +81,7 @@ public class MCRWorkflowManagerPublication extends MCRWorkflowManager{
 	@Inject protected MCRIdentifierStrategy identifierStrategy;
 	
 	protected MCRWorkflowManagerPublication() throws Exception {
-		super("document", "publication");
+		super("document", "document,data", "publication");
 	}
 
 	
