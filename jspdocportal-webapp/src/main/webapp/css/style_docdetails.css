@@ -90,6 +90,9 @@ dl.docdetails-derivate-list img {
 	padding-right: 10px;
 }
 
+.docdetails-value{
+	padding-bottom:4px;
+}
 .docdetails-value a {
 	color: #336EAD;
 	text-decoration: none;
