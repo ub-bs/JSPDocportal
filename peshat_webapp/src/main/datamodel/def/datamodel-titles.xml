@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objecttype xmlns:mods="http://www.loc.gov/mods/v3" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="titles" isChild="false" isParent="false" hasDerivates="true" xsi:noNamespaceSchemaLocation="datamodel.xsd">
+  <metadata>
+    <element name="author_id" wrapper="box.author_id" type="link" minOccurs="1" maxOccurs="1" />
+    <element name="written_to_e_bce" wrapper="box.written_to_e_bce" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="exact_year_h" wrapper="box.exact_year_h" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="range_from_e" wrapper="box.range_from_e" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="translator_id" wrapper="box.translator_id" type="link" minOccurs="1" maxOccurs="1" />
+    <element name="written_from_h" wrapper="box.written_from_h" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="exact_year_e" wrapper="box.exact_year_e" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="range_from_h" wrapper="box.range_from_h" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="written_from_e" wrapper="box.written_from_e" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="written_to_e" wrapper="box.written_to_e" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="original_title_id" wrapper="box.original_title_id" type="link" minOccurs="1" maxOccurs="1" />
+    <element name="translation_flag" wrapper="box.translation_flag" type="boolean" minOccurs="1" maxOccurs="1" />
+    <element name="written_to_h" wrapper="box.written_to_h" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="range_from_e_bce" wrapper="box.range_from_e_bce" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="year_e_notes" wrapper="box.year_e_notes" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="year_e" wrapper="box.year_e" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="language_id" wrapper="box.language_id" type="classification" minOccurs="1" maxOccurs="1" />
+    <element name="title_type_id" wrapper="box.title_type_id" type="classification" minOccurs="1" maxOccurs="1" />
+    <element name="circa_year_e_bec" wrapper="box.circa_year_e_bec" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="year_h_notes" wrapper="box.year_h_notes" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="year_h" wrapper="box.year_h" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="title_h" wrapper="box.title_h" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="earliest_possible_h" wrapper="box.earliest_possible_h" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="range_to_h" wrapper="box.range_to_h" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="title_e" wrapper="box.title_e" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="latest_possible_e_bce" wrapper="box.latest_possible_e_bce" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="comments" wrapper="box.comments" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="range_to_e" wrapper="box.range_to_e" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="author_certain_flag" wrapper="box.author_certain_flag" type="boolean" minOccurs="1" maxOccurs="1" />
+    <element name="earliest_possible_e" wrapper="box.earliest_possible_e" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="exact_year_e_bce" wrapper="box.exact_year_e_bce" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="latest_possible_e" wrapper="box.latest_possible_e" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="title" wrapper="box.title" type="text" minOccurs="1" maxOccurs="1" />
+    <element name="circa_year_h" wrapper="box.circa_year_h" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="year_h_type_id" wrapper="box.year_h_type_id" type="classification" minOccurs="0" maxOccurs="1" />
+    <element name="translator_certain_flag" wrapper="box.translator_certain_flag" type="boolean" minOccurs="1" maxOccurs="1" />
+    <element name="circa_year_e" wrapper="box.circa_year_e" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="latest_possible_h" wrapper="box.latest_possible_h" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="year_e_type_id" wrapper="box.year_e_type_id" type="classification" minOccurs="0" maxOccurs="1" />
+    <element name="written_from_e_bce" wrapper="box.written_from_e_bce" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="status_id" wrapper="box.status_id" type="classification" minOccurs="1" maxOccurs="1" />
+    <element name="earliest_possible_e_bce" wrapper="box.earliest_possible_e_bce" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="range_to_e_bce" wrapper="box.range_to_e_bce" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="title_language" wrapper="box.title_language" type="classification" minOccurs="1" maxOccurs="1" />
+    <element name="research_status_type_id" wrapper="box.research_status_type_id" type="classification" minOccurs="1" maxOccurs="1" />
+  </metadata>
+</objecttype>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objecttype xmlns:mods="http://www.loc.gov/mods/v3" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="lemmas" isChild="false" isParent="false" hasDerivates="true" xsi:noNamespaceSchemaLocation="datamodel.xsd">
+  <metadata>
+    <element name="comments" wrapper="box.comments" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="plural_form" wrapper="box.plural_form" type="text" minOccurs="0" maxOccurs="unbounded" />
+    <element name="other_spelling1" wrapper="box.other_spelling1" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="other_spelling2" wrapper="box.other_spelling2" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="vocalized_spelling" wrapper="box.vocalized_spelling" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="root" wrapper="box.root" type="text" minOccurs="1" maxOccurs="unbounded" />
+    <element name="standard_spelling" wrapper="box.standard_spelling" type="text" minOccurs="1" maxOccurs="1" />
+    <element name="status_id" wrapper="box.status_id" type="classification" minOccurs="1" maxOccurs="1" />
+    <element name="word_class_id" wrapper="box.word_class_id" type="classification" minOccurs="1" maxOccurs="1" />
+    <element name="gender_id" wrapper="box.gender_id" type="classification" minOccurs="1" maxOccurs="1" />
+    <element name="verb_stem_id" wrapper="box.verb_stem_id" type="classification" minOccurs="1" maxOccurs="1" />
+    <element name="bibliography_secondary_title_id" wrapper="box.bibliography_secondary_title_id" type="link" minOccurs="0" maxOccurs="1" />
+  </metadata>
+</objecttype>

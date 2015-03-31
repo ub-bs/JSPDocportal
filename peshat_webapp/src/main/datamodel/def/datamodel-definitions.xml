@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objecttype xmlns:mods="http://www.loc.gov/mods/v3" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="definitions" isChild="false" isParent="false" hasDerivates="true" xsi:noNamespaceSchemaLocation="datamodel.xsd">
+  <metadata>
+    <element name="quotation_id" wrapper="box.quotation_id" type="link" minOccurs="0" maxOccurs="1" />
+    <element name="keyword_id" wrapper="box.keyword_id" type="classification" minOccurs="0" maxOccurs="1" />
+    <element name="comments" wrapper="box.comments" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="definition_from_id" wrapper="box.definition_from_id" type="link" minOccurs="0" maxOccurs="1" />
+    <element name="status_id" wrapper="box.status_id" type="classification" minOccurs="1" maxOccurs="1" />
+    <element name="bibliography_secondary_title_id" wrapper="box.bibliography_secondary_title_id" type="link" minOccurs="0" maxOccurs="1" />
+    <element name="definition_e" wrapper="box.definition_e" type="text" minOccurs="1" maxOccurs="1" />
+    <element name="definition_to_id" wrapper="box.definition_to_id" type="link" minOccurs="0" maxOccurs="1" />
+    <element name="lemma_id" wrapper="box.lemma_id" type="link" minOccurs="1" maxOccurs="1" />
+    <element name="term" wrapper="box.term" type="text" minOccurs="0" maxOccurs="unbounded" />
+    <element name="definition_h" wrapper="box.definition_h" type="text" minOccurs="1" maxOccurs="1" />
+  </metadata>
+</objecttype>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objecttype xmlns:mods="http://www.loc.gov/mods/v3" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="cities" isChild="false" isParent="false" hasDerivates="true" xsi:noNamespaceSchemaLocation="datamodel.xsd">
+  <metadata>
+    <element name="name_h" wrapper="box.name_h" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="country_id" wrapper="box.country_id" type="classification" minOccurs="1" maxOccurs="1" />
+    <element name="name_e" wrapper="box.name_e" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="status_id" wrapper="box.status_id" type="classification" minOccurs="1" maxOccurs="1" />
+  </metadata>
+</objecttype>

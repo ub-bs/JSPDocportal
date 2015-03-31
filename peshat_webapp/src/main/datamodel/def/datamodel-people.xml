@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objecttype xmlns:mods="http://www.loc.gov/mods/v3" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="people" isChild="false" isParent="false" hasDerivates="true" xsi:noNamespaceSchemaLocation="datamodel.xsd">
+  <metadata>
+    <element name="circa_year_birth_h" wrapper="box.circa_year_birth_h" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="latest_possible_death_e" wrapper="box.latest_possible_death_e" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="name_h" wrapper="box.name_h" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="range_from_death_e" wrapper="box.range_from_death_e" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="circa_year_birth_e" wrapper="box.circa_year_birth_e" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="latest_possible_death_h" wrapper="box.latest_possible_death_h" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="name_e" wrapper="box.name_e" type="text" minOccurs="1" maxOccurs="1" />
+    <element name="latest_possible_birth_e" wrapper="box.latest_possible_birth_e" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="range_to_birth_e_bce" wrapper="box.range_to_birth_e_bce" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="range_from_death_h" wrapper="box.range_from_death_h" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="exact_year_death_e_bce" wrapper="box.exact_year_death_e_bce" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="city_birth_id" wrapper="box.city_birth_id" type="link" minOccurs="1" maxOccurs="1" />
+    <element name="city_death_id" wrapper="box.city_death_id" type="link" minOccurs="1" maxOccurs="1" />
+    <element name="earliest_possible_birth_e_bce" wrapper="box.earliest_possible_birth_e_bce" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="yob_e_notes" wrapper="box.yob_e_notes" type="text" minOccurs="" maxOccurs="1" />
+    <element name="vocalized_name_h" wrapper="box.vocalized_name_h" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="latest_possible_birth_h" wrapper="box.latest_possible_birth_h" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="range_from_birth_e_bce" wrapper="box.range_from_birth_e_bce" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="yod_e_notes" wrapper="box.yod_e_notes" type="text" minOccurs="" maxOccurs="1" />
+    <element name="religion_id" wrapper="box.religion_id" type="classification" minOccurs="1" maxOccurs="1" />
+    <element name="range_from_birth_h" wrapper="box.range_from_birth_h" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="range_to_death_h" wrapper="box.range_to_death_h" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="comments" wrapper="box.comments" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="range_to_death_e" wrapper="box.range_to_death_e" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="country_death_id" wrapper="box.country_death_id" type="classification" minOccurs="1" maxOccurs="1" />
+    <element name="range_from_birth_e" wrapper="box.range_from_birth_e" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="circa_year_death_h" wrapper="box.circa_year_death_h" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="circa_year_death_e" wrapper="box.circa_year_death_e" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="yod_h_notes" wrapper="box.yod_h_notes" type="text" minOccurs="" maxOccurs="1" />
+    <element name="yob_h_type_id" wrapper="box.yob_h_type_id" type="classification" minOccurs="" maxOccurs="1" />
+    <element name="status_id" wrapper="box.status_id" type="classification" minOccurs="1" maxOccurs="1" />
+    <element name="range_to_birth_h" wrapper="box.range_to_birth_h" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="yod_h" wrapper="box.yod_h" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="yod_e" wrapper="box.yod_e" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="earliest_possible_birth_h" wrapper="box.earliest_possible_birth_h" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="range_to_birth_e" wrapper="box.range_to_birth_e" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="earliest_possible_birth_e" wrapper="box.earliest_possible_birth_e" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="yob_h" wrapper="box.yob_h" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="yod_e_type_id" wrapper="box.yod_e_type_id" type="classification" minOccurs="" maxOccurs="1" />
+    <element name="yob_h_notes" wrapper="box.yob_h_notes" type="text" minOccurs="" maxOccurs="1" />
+    <element name="yob_e" wrapper="box.yob_e" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="yod_h_type_id" wrapper="box.yod_h_type_id" type="classification" minOccurs="" maxOccurs="1" />
+    <element name="latest_possible_birth_e_bce" wrapper="box.latest_possible_birth_e_bce" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="exact_year_death_e" wrapper="box.exact_year_death_e" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="exact_year_death_h" wrapper="box.exact_year_death_h" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="earliest_possible_death_e_bce" wrapper="box.earliest_possible_death_e_bce" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="range_to_death_e_bce" wrapper="box.range_to_death_e_bce" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="range_from_death_e_bce" wrapper="box.range_from_death_e_bce" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="circa_year_birth_e_bce" wrapper="box.circa_year_birth_e_bce" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="country_birth_id" wrapper="box.country_birth_id" type="classification" minOccurs="1" maxOccurs="1" />
+    <element name="exact_year_birth_e_bce" wrapper="box.exact_year_birth_e_bce" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="latest_possible_death_e_bce" wrapper="box.latest_possible_death_e_bce" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="earliest_possible_death_h" wrapper="box.earliest_possible_death_h" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="earliest_possible_death_e" wrapper="box.earliest_possible_death_e" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="circa_year_death_e_bce" wrapper="box.circa_year_death_e_bce" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="yob_e_type_id" wrapper="box.yob_e_type_id" type="classification" minOccurs="" maxOccurs="1" />
+    <element name="exact_year_birth_e" wrapper="box.exact_year_birth_e" type="historydate" minOccurs="" maxOccurs="1" />
+    <element name="exact_year_birth_h" wrapper="box.exact_year_birth_h" type="historydate" minOccurs="" maxOccurs="1" />
+  </metadata>
+</objecttype>

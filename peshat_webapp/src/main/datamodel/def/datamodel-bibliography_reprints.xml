@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objecttype xmlns:mods="http://www.loc.gov/mods/v3" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="bibliography_reprints" isChild="false" isParent="false" hasDerivates="true" xsi:noNamespaceSchemaLocation="datamodel.xsd">
+  <metadata>
+    <element name="year_secondary" wrapper="box.year_secondary" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="subtitle" wrapper="box.subtitle" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="place" wrapper="box.place" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="language_direction" wrapper="box.language_direction" type="classification" minOccurs="1" maxOccurs="1" />
+    <element name="comments" wrapper="box.comments" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="title_secondary" wrapper="box.title_secondary" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="series_volume_secondary" wrapper="box.series_volume_secondary" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="pages" wrapper="box.pages" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="volume" wrapper="box.volume" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="series_volume" wrapper="box.series_volume" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="volume_secondary" wrapper="box.volume_secondary" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="series_secondary" wrapper="box.series_secondary" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="editors_secondary" wrapper="box.editors_secondary" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="editors" wrapper="box.editors" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="pages_secondary" wrapper="box.pages_secondary" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="title" wrapper="box.title" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="publisher" wrapper="box.publisher" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="year" wrapper="box.year" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="subtitle_secondary" wrapper="box.subtitle_secondary" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="series" wrapper="box.series" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="status_id" wrapper="box.status_id" type="classification" minOccurs="1" maxOccurs="1" />
+    <element name="place_secondary" wrapper="box.place_secondary" type="text" minOccurs="0" maxOccurs="1" />
+    <element name="bibliography_source_id" wrapper="box.bibliography_source_id" type="link" minOccurs="1" maxOccurs="1" />
+    <element name="publisher_secondary" wrapper="box.publisher_secondary" type="text" minOccurs="0" maxOccurs="1" />
+  </metadata>
+</objecttype>
