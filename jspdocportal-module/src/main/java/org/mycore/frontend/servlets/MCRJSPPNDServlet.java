@@ -30,13 +30,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
-import org.mycore.solr.MCRSolrServerFactory;
+import org.mycore.solr.MCRSolrClientFactory;
 import org.mycore.solr.MCRSolrUtils;
 
 /**
@@ -85,11 +85,11 @@ public class MCRJSPPNDServlet extends MCRServlet {
 
         //"gnd_uri": "http://d-nb.info/gnd/14075444X"
         try {
-            SolrServer solrServer = MCRSolrServerFactory.getSolrServer();
+            SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
             SolrQuery solrQuery = new SolrQuery();
             solrQuery.setQuery(MCRSolrUtils.escapeSearchValue("gnd_uri:http://d-nb.info/gnd/" + gnd));
 
-            QueryResponse solrResponse = solrServer.query(solrQuery);
+            QueryResponse solrResponse = solrClient.query(solrQuery);
             SolrDocumentList solrResults = solrResponse.getResults();
 
             Iterator<SolrDocument> it = solrResults.iterator();

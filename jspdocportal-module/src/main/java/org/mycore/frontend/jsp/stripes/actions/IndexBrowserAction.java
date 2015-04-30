@@ -17,7 +17,7 @@ import net.sourceforge.stripes.controller.LifecycleStage;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
-import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.FacetField.Count;
@@ -26,7 +26,7 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.frontend.jsp.stripes.actions.util.IndexBrowserResultObject;
-import org.mycore.solr.MCRSolrServerFactory;
+import org.mycore.solr.MCRSolrClientFactory;
 
 @UrlBinding("/indexbrowser.action")
 public class IndexBrowserAction extends MCRAbstractStripesAction implements ActionBean {
@@ -61,7 +61,7 @@ public class IndexBrowserAction extends MCRAbstractStripesAction implements Acti
 		MCRConfiguration config = MCRConfiguration.instance();
 	
 		if(select!=null){
-			SolrServer solrServer = MCRSolrServerFactory.getSolrServer();
+			SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
 			SolrQuery query = new SolrQuery();
 			String searchfield = config.getString("MCR.IndexBrowser."+modus+".Searchfield");
 		    query.setQuery(searchfield+":"+select+"*");
@@ -71,7 +71,7 @@ public class IndexBrowserAction extends MCRAbstractStripesAction implements Acti
 		    query.setStart(0);    
 		 
 		    try{
-		    QueryResponse response = solrServer.query(query);
+		    QueryResponse response = solrClient.query(query);
 		    SolrDocumentList solrResults = response.getResults();
 		   
 		    List<FacetField> facets = response.getFacetFields();

@@ -46,8 +46,8 @@ import net.sf.ehcache.constructs.blocking.SelfPopulatingCache;
 import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
 
 import org.apache.log4j.Logger;
+import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
@@ -60,7 +60,7 @@ import org.mycore.datamodel.classifications2.MCRCategoryDAOFactory;
 import org.mycore.datamodel.classifications2.MCRCategoryID;
 import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.services.i18n.MCRTranslation;
-import org.mycore.solr.MCRSolrServerFactory;
+import org.mycore.solr.MCRSolrClientFactory;
 
 /**
  * A JSP tag, that includes a classification browser. The displayed content is highly configurable.
@@ -135,12 +135,12 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 			 * it will be stored in cache automatically
 			 */
 			public Object createEntry(Object key) throws Exception {
-				SolrServer solrServer = MCRSolrServerFactory.getSolrServer();
+				SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
 				SolrQuery query = new SolrQuery();
 				query.setQuery(String.valueOf(key));
 			   
 			    try{
-			    	QueryResponse response = solrServer.query(query);
+			    	QueryResponse response = solrClient.query(query);
 			    	SolrDocumentList solrResults = response.getResults();
 			    	return solrResults.getNumFound();
 			    }

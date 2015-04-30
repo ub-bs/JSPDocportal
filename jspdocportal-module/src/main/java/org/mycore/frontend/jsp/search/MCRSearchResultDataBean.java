@@ -31,14 +31,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections4.map.LRUMap;
 import org.apache.log4j.Logger;
+import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.SortClause;
-import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
-import org.mycore.solr.MCRSolrServerFactory;
+import org.mycore.solr.MCRSolrClientFactory;
 
 /**
  * bean that holds searchresult data
@@ -97,7 +97,7 @@ public class MCRSearchResultDataBean {
 	}
 	
 	public void doSearch(){
-		SolrServer solrServer = MCRSolrServerFactory.getSolrServer();
+		SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
 		SolrQuery solrQquery = new SolrQuery();
 		solrQquery.setQuery(query);
 		solrQquery.setRows(rows);
@@ -111,7 +111,7 @@ public class MCRSearchResultDataBean {
 
 		try {
 			if(query.length() > 0){
-			QueryResponse response = solrServer.query(solrQquery);
+			QueryResponse response = solrClient.query(solrQquery);
 			SolrDocumentList solrResults = response.getResults();
 
 			
