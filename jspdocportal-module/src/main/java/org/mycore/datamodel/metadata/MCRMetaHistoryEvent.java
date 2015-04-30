@@ -6,7 +6,6 @@ import org.apache.log4j.Logger;
 import org.jdom2.Attribute;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
-import org.mycore.common.MCRCalendar;
 import org.mycore.common.MCRException;
 
 public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
@@ -183,13 +182,9 @@ public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
         super.debugDefault();
         LOGGER.debug("Text               = " + getText("de"));
         LOGGER.debug("Calendar           = " + getCalendar());
-        if (getCalendar().equals(MCRCalendar.TAG_GREGORIAN)) {
-            LOGGER.debug("Von (String)       = " + getVonToGregorianString());
-        }
+        LOGGER.debug("Von (String)       = " + getVonToString());
         LOGGER.debug("Von (JulianDay)    = " + getIvon());
-        if (getCalendar().equals(MCRCalendar.TAG_GREGORIAN)) {
-            LOGGER.debug("Bis (String)       = " + getBisToGregorianString());
-        }
+        LOGGER.debug("Bis (String)       = " + getBisToString());
         LOGGER.debug("Bis (JulianDay)    = " + getIbis());
         LOGGER.debug("Event              = " + event);
         if(classification!=null){
