@@ -16,7 +16,9 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <mycore.version>2015.03-SNAPSHOT</mycore.version>
+    <manifest.priority>11</manifest.priority>
   </properties>
+
   <pluginRepositories>
     <pluginRepository>
       <id>MyCoRe HQ</id>
@@ -295,6 +297,10 @@
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-core</artifactId>
     </dependency>
+    <dependency>
+      <groupId>javax.ws.rs</groupId>
+      <artifactId>jsr311-api</artifactId>
+    </dependency>
   </dependencies>
   <build>
     <resources>
@@ -344,10 +350,7 @@
               <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
               <addExtensions />
             </manifest>
-            <manifestEntries>
-              <MCR-Application-Module>${project.name}</MCR-Application-Module>
-              <Priority>11</Priority>
-            </manifestEntries>
+            <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
           </archive>
         </configuration>
       </plugin>
