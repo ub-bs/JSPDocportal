@@ -43,6 +43,7 @@ import org.mycore.common.MCRSystemUserInformation;
 import org.mycore.common.MCRUserInformation;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.frontend.MCRFrontendUtil;
+import org.mycore.frontend.jsp.stripes.actions.util.MCRLoginNextStep;
 import org.mycore.frontend.jsp.user.MCRExternalUserLogin;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.services.i18n.MCRTranslation;
