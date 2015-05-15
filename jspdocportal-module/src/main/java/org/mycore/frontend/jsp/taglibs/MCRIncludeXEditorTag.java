@@ -22,6 +22,7 @@ import org.mycore.common.content.MCRJDOMContent;
 import org.mycore.common.content.MCRStringContent;
 import org.mycore.common.content.MCRURLContent;
 import org.mycore.frontend.MCRFrontendUtil;
+import org.mycore.frontend.xeditor.MCREditorSessionStore;
 import org.mycore.frontend.xeditor.MCRStaticXEditorFileServlet;
 import org.xml.sax.SAXException;
 
@@ -106,7 +107,11 @@ public class MCRIncludeXEditorTag extends SimpleTagSupport {
 		            if(referer!=null){
 		            	pageURL = referer;
 		            }
-		            editorContent = MCRStaticXEditorFileServlet.doExpandEditorElements(editorContent, request, (HttpServletResponse) pageContext.getResponse(), pageURL);
+		            String sessionID = request.getParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM);
+		            if(sessionID!=null && sessionID.contains("-")){
+		            	sessionID = sessionID.split("-")[0];
+		            }
+		            editorContent = MCRStaticXEditorFileServlet.doExpandEditorElements(editorContent, request, (HttpServletResponse) pageContext.getResponse(), sessionID, pageURL);
 
 					out.append(editorContent.asString().replaceAll("<\\?xml.*?\\?>", ""));
 				} else {
