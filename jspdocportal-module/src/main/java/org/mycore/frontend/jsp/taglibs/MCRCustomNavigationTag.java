@@ -93,7 +93,8 @@ public class MCRCustomNavigationTag extends MCRAbstractNavigationTag {
 			String id = el.getAttribute("id");
 			n.setId(id);
 			n.setLabel(retrieveI18N(el.getAttribute("i18n")));
-			n.setHref(baseURL + "nav?path=" + el.getAttribute("_path"));
+			//n.setHref(baseURL + "nav?path=" + el.getAttribute("_path"));
+			n.setHref(baseURL + el.getAttribute("href"));
 			if (index >= path.length) {
 				n.setActive(false);
 			} else {

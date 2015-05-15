@@ -166,8 +166,9 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
 				}
 				out.append(indent);
 				out.append(" <a target=\"_self\" href=\"" + baseURL
-						+ "nav?path=" + el.getAttribute("_path") + "\">" + msg
-						+ "</a>");
+						//+ "nav?path=" + el.getAttribute("_path")
+						  + el.getAttribute("href") 
+						  + "\">" + msg + "</a>");
 
 				if (expanded || active) {
 					String[] subpath = path;
@@ -217,7 +218,8 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
 					out.append(INDENT).append("    <li>");
 					out.append(INDENT).append(
 							"    <a target=\"_self\" href=\"" + baseURL
-									+ "nav?path=" + el.getAttribute("_path")
+									//+ "nav?path=" + el.getAttribute("_path")
+							        + el.getAttribute("href")
 									+ "\">" + msg + "</a>");
 					out.append(INDENT).append("   </li>");
 				}
@@ -269,8 +271,9 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
 					out.append(INDENT).append("<li>");
 					out.append(INDENT).append(
 							"<a target=\"_self\" href=\"" + baseURL
-									+ "nav?path=" + el.getAttribute("_path")
-									+ "\">" + msg + "</a>");
+									//+ "nav?path=" + el.getAttribute("_path")
+							        + el.getAttribute("href")
+							        + "\">" + msg + "</a>");
 					if (expanded) {
 						printTOC(el, out);
 					}
@@ -303,8 +306,10 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
 		String msg = retrieveI18N(currentNode.getAttribute("i18n"));
 		sbOut.append(INDENT).append("   <li>");
 		sbOut.append(INDENT).append(
-				"      <a target=\"_self\" href=\"" + baseURL + "nav?path="
-						+ currentNode.getAttribute("_path") + "\">" + msg
+				"      <a target=\"_self\" href=\"" + baseURL
+				        //+ "nav?path=" + currentNode.getAttribute("_path") 
+				        + currentNode.getAttribute("href")
+				        + "\">" + msg
 						+ "</a>");
 		sbOut.append(INDENT).append("   </li>");
 		sbOut.append(INDENT).append("</ul>");
@@ -313,7 +318,9 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
 			msg = retrieveI18N(currentNode.getAttribute("i18n"));
 			sbOut.insert(0, INDENT + "   </li>");
 			sbOut.insert(0, INDENT + "      <a target=\"_self\" href=\""
-					+ baseURL + "nav?path=" + currentNode.getAttribute("_path")
+					+ baseURL 
+					//+ "nav?path=" + currentNode.getAttribute("_path")
+					 + currentNode.getAttribute("href")
 					+ "\">" + msg + "</a>");
 			sbOut.insert(0, INDENT + "   <li>");
 		}
