@@ -101,7 +101,12 @@
 			 <name>sourceURI</name>
 			  <required>false</required>
 			  <rtexprvalue>true</rtexprvalue> 
-			</attribute>	
+		</attribute>
+        <attribute>
+          <name>pageURL</name>
+          <required>false</required>
+          <rtexprvalue>true</rtexprvalue> 
+        </attribute>
 		<!-- A Tag, that includes a MyCoRe-XEditor (Input Forms and Search Masks) -->
 	</tag>
 	

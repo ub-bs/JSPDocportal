@@ -35,103 +35,115 @@ import org.xml.sax.SAXException;
  *
  */
 public class MCRIncludeXEditorTag extends SimpleTagSupport {
-	private static Logger LOGGER = Logger.getLogger(MCRIncludeXEditorTag.class);
-	public static Namespace NS_XED = Namespace.getNamespace("xed", "http://www.mycore.de/xeditor");
+    private static Logger LOGGER = Logger.getLogger(MCRIncludeXEditorTag.class);
 
-	private String editorPath = null;
-	private String cancelURL = null;
-	private String sourceURI = null;
+    public static Namespace NS_XED = Namespace.getNamespace("xed", "http://www.mycore.de/xeditor");
 
-	/**
-	 * Path to external editor definition
-	 * 
-	 * @param editorPath
-	 */
-	public void setEditorPath(String editorPath) {
-		this.editorPath = editorPath;
-	}
-	
-	/**
-	 * Path to cancel URL
-	 * 
-	 * @param editorPath
-	 */
-	public void setCancelURL(String cancelURL) {
-		this.cancelURL = cancelURL;
-	}
+    private String editorPath = null;
 
-	public void doTag() throws JspException, IOException {
-		PageContext pageContext = (PageContext) getJspContext();
+    private String cancelURL = null;
 
-		boolean doCommitTransaction = false;
-		if(!MCRSessionMgr.getCurrentSession().isTransactionActive()){
-			doCommitTransaction = true;
-			MCRSessionMgr.getCurrentSession().beginTransaction();
-		}
-		MCRContent editorContent = null;
-		if (editorPath != null && !editorPath.equals("")) {
-			if (editorPath.startsWith("http")) {
-				editorContent = new MCRURLContent(new URL(editorPath));
-			} else {
-				editorContent = new MCRURLContent(new URL(MCRFrontendUtil.getBaseURL() + editorPath));
-			}
-		} else {
-			if(getJspBody()!=null){
-				StringWriter sw = new StringWriter();
-				getJspBody().invoke(sw);
-				editorContent = new MCRStringContent(sw.toString());
-			}
-		}
-		if (editorContent != null) {
-			try {
-				JspWriter out = pageContext.getOut();
-				Document doc = editorContent.asXML();
-				if (doc.getRootElement().getName().equals("form") && doc.getRootElement().getNamespace().equals(NS_XED)) {
-					if (cancelURL != null && cancelURL.length() > 0) {
-						// setze xed:cancel
-						Element elCancel = new Element("cancel", NS_XED).setAttribute("url", cancelURL);
-						doc.getRootElement().addContent(0, elCancel);
-					}
-					if (sourceURI != null && sourceURI.length() > 0) {
-						// setze xed:cancel
-						Element elSource = new Element("source", NS_XED).setAttribute("uri", sourceURI);
-						doc.getRootElement().addContent(0, elSource);
-					}
-					
-					editorContent = new MCRJDOMContent(doc);
-					editorContent.setDocType("MyCoReWebPage");
-					
-					HttpServletRequest request = (HttpServletRequest) pageContext.getRequest(); 
-					String pageURL = request.getRequestURL().toString();
-					String referer = request.getHeader("Referer");
-		            if(referer!=null){
-		            	pageURL = referer;
-		            }
-		            String sessionID = request.getParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM);
-		            if(sessionID!=null && sessionID.contains("-")){
-		            	sessionID = sessionID.split("-")[0];
-		            }
-		            editorContent = MCRStaticXEditorFileServlet.doExpandEditorElements(editorContent, request, (HttpServletResponse) pageContext.getResponse(), sessionID, pageURL);
+    private String sourceURI = null;
 
-					out.append(editorContent.asString().replaceAll("<\\?xml.*?\\?>", ""));
-				} else {
-					LOGGER.error("JSPTag <mcr:includeXEditor> can only contain an <xed:form> element");
-					out.append("<span class=\"error\">Please provide an &lt;xed:form&gt; element here!</span>");
+    private String pageURL = null;
 
-				}
-			} catch (SAXException e) {
-				LOGGER.error("SAXException " + e, e);
-			} catch (JDOMException e) {
-				LOGGER.error("JDOMException " + e, e);
-			}
-		}
-		if(doCommitTransaction){
-			MCRSessionMgr.getCurrentSession().commitTransaction();
-		}
-		
-	}
+    /**
+     * Path to external editor definition
+     * 
+     * @param editorPath
+     */
+    public void setEditorPath(String editorPath) {
+        this.editorPath = editorPath;
+    }
 
-	public void setSourceURI(String sourceURI) {
-		this.sourceURI = sourceURI;
-	}
+    /**
+     * Path to cancel URL
+     * 
+     * @param editorPath
+     */
+    public void setCancelURL(String cancelURL) {
+        this.cancelURL = cancelURL;
+    }
+
+    public void doTag() throws JspException, IOException {
+        PageContext pageContext = (PageContext) getJspContext();
+
+        boolean doCommitTransaction = false;
+        if (!MCRSessionMgr.getCurrentSession().isTransactionActive()) {
+            doCommitTransaction = true;
+            MCRSessionMgr.getCurrentSession().beginTransaction();
+        }
+        MCRContent editorContent = null;
+        if (editorPath != null && !editorPath.equals("")) {
+            if (editorPath.startsWith("http")) {
+                editorContent = new MCRURLContent(new URL(editorPath));
+            } else {
+                editorContent = new MCRURLContent(new URL(MCRFrontendUtil.getBaseURL() + editorPath));
+            }
+        } else {
+            if (getJspBody() != null) {
+                StringWriter sw = new StringWriter();
+                getJspBody().invoke(sw);
+                editorContent = new MCRStringContent(sw.toString());
+            }
+        }
+        if (editorContent != null) {
+            try {
+                JspWriter out = pageContext.getOut();
+                Document doc = editorContent.asXML();
+                if (doc.getRootElement().getName().equals("form") && doc.getRootElement().getNamespace().equals(NS_XED)) {
+                    if (cancelURL != null && cancelURL.length() > 0) {
+                        // setze xed:cancel
+                        Element elCancel = new Element("cancel", NS_XED).setAttribute("url", cancelURL);
+                        doc.getRootElement().addContent(0, elCancel);
+                    }
+                    if (sourceURI != null && sourceURI.length() > 0) {
+                        // setze xed:cancel
+                        Element elSource = new Element("source", NS_XED).setAttribute("uri", sourceURI);
+                        doc.getRootElement().addContent(0, elSource);
+                    }
+
+                    editorContent = new MCRJDOMContent(doc);
+                    editorContent.setDocType("MyCoReWebPage");
+
+                    HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
+                    if (pageURL == null) {
+                        pageURL = request.getRequestURL().toString();
+                        String referer = request.getHeader("Referer");
+                        if (referer != null) {
+                            pageURL = referer;
+                        }
+                    }
+                    String sessionID = request.getParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM);
+                    if (sessionID != null && sessionID.contains("-")) {
+                        sessionID = sessionID.split("-")[0];
+                    }
+                    editorContent = MCRStaticXEditorFileServlet.doExpandEditorElements(editorContent, request,
+                        (HttpServletResponse) pageContext.getResponse(), sessionID, pageURL);
+
+                    out.append(editorContent.asString().replaceAll("<\\?xml.*?\\?>", ""));
+                } else {
+                    LOGGER.error("JSPTag <mcr:includeXEditor> can only contain an <xed:form> element");
+                    out.append("<span class=\"error\">Please provide an &lt;xed:form&gt; element here!</span>");
+
+                }
+            } catch (SAXException e) {
+                LOGGER.error("SAXException " + e, e);
+            } catch (JDOMException e) {
+                LOGGER.error("JDOMException " + e, e);
+            }
+        }
+        if (doCommitTransaction) {
+            MCRSessionMgr.getCurrentSession().commitTransaction();
+        }
+
+    }
+
+    public void setSourceURI(String sourceURI) {
+        this.sourceURI = sourceURI;
+    }
+
+    public void setPageURL(String pageURL) {
+        this.pageURL = pageURL;
+    }
 }

@@ -29,7 +29,7 @@
 			<h2>${headline}</h2>
 			<mcr:debugInfo />
 		</div>
-		<mcrb:searchresultBrowser varmcrid="mcrid" varurl="url" result ="${actionBean.result}" sortfields="profkat_idx_profkat modified">
+		<mcrb:searchresultBrowser varmcrid="mcrid" varurl="url" result ="${actionBean.result}" sortfields="profkat_idx_headline modified">
 			<c:set var="doctype" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
 			<c:catch var="catchException">
 				<jsp:include page="resultdetails/resultdetails_${doctype}.jsp">

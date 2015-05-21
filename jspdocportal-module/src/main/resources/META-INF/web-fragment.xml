@@ -75,12 +75,22 @@
 	</filter-mapping>	
 	<filter-mapping>
 		<filter-name>StripesFilter</filter-name>
+		<url-pattern>*.action</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>	
+	<filter-mapping>
+		<filter-name>StripesFilter</filter-name>
 		<servlet-name>NavServlet</servlet-name>
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>StripesFilter</filter-name>
-		<servlet-name>StripesDispatcher</servlet-name>
+		<url-pattern>*.jsp</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>StripesFilter</filter-name>
+		<url-pattern>/servlets/XEditor</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
 	
@@ -337,6 +347,16 @@
     <servlet-name>MCRStoreMetadataServlet</servlet-name>
     <url-pattern>/servlets/MCRStoreMetadataServlet</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>MCRSearchmaskDataServlet</servlet-name>
+    <servlet-class>org.mycore.frontend.servlets.MCRSearchmaskDataServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MCRSearchmaskDataServlet</servlet-name>
+    <url-pattern>/servlets/MCRSearchmaskDataServlet</url-pattern>
+  </servlet-mapping>
+  
   
   <!-- **************************************************************** -->
   <!-- MyCoRe OAI                                                       -->
