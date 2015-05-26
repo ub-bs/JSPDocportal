@@ -1,5 +1,6 @@
 package org.mycore.frontend.jsp.stripes.actions;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -101,7 +102,7 @@ public class IndexBrowserAction extends MCRAbstractStripesAction implements Acti
 		    			
 		    }
 		    }
-		    catch(SolrServerException e){
+		    catch(SolrServerException  | IOException e){
 		    	LOGGER.error(e);
 		    }
 		}

@@ -118,10 +118,15 @@ public class MCRIncludeXEditorTag extends SimpleTagSupport {
                     if (sessionID != null && sessionID.contains("-")) {
                         sessionID = sessionID.split("-")[0];
                     }
-                    editorContent = MCRStaticXEditorFileServlet.doExpandEditorElements(editorContent, request,
+                    
+                    MCRContent newContent = MCRStaticXEditorFileServlet.doExpandEditorElements(editorContent, request,
                         (HttpServletResponse) pageContext.getResponse(), sessionID, pageURL);
-
-                    out.append(editorContent.asString().replaceAll("<\\?xml.*?\\?>", ""));
+                    if(newContent!=null){
+                        out.append(newContent.asString().replaceAll("<\\?xml.*?\\?>", ""));
+                    }
+                    else{
+                        out.append(editorContent.asString().replaceAll("<\\?xml.*?\\?>", ""));
+                    }
                 } else {
                     LOGGER.error("JSPTag <mcr:includeXEditor> can only contain an <xed:form> element");
                     out.append("<span class=\"error\">Please provide an &lt;xed:form&gt; element here!</span>");

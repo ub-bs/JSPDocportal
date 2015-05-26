@@ -29,7 +29,7 @@ public class MCRAbstractStripesAction implements ActionBean {
 	@Before(stages = LifecycleStage.BindingAndValidation)
 	public void rehydrate() {
 		MCRSession mcrSessionFromRequest = MCRServlet.getSession(context.getRequest());
-		if (mcrSessionFromRequest == null) {
+		if (mcrSessionFromRequest == null || mcrSessionFromRequest.getID() == null ) {
 			LOGGER.debug("The HTTP Session does not contain an MCRSession object");
 		} else {
 

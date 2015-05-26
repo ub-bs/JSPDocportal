@@ -1,5 +1,8 @@
 package org.mycore.frontend.jsp.stripes.actions;
 
+import java.io.IOException;
+import java.util.Enumeration;
+
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -33,6 +36,8 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
     ForwardResolution fwdResolutionForm = new ForwardResolution("/content/search/search.jsp");
 
     private String mask;
+    
+    private boolean hideMask;
 
     private String pageURL;
 
@@ -92,6 +97,7 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
                 }
             }
         }
+        
         if (queryDoc != null) {
             XMLOutputter xml = new XMLOutputter(Format.getPrettyFormat());
             LOGGER.debug(xml.outputString(queryDoc));
@@ -106,7 +112,7 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
 
                 try {
                     solrResponse = solrClient.query(solrQuery);
-                } catch (SolrServerException e) {
+                } catch (SolrServerException | IOException e) {
                     LOGGER.error(e);
                 }
             }
@@ -115,6 +121,15 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
         }
         if (getMask() == null) {
             setMask(queryDoc.getRootElement().getAttributeValue("mask"));
+        }
+        
+        hideMask = false;
+        Enumeration<String> enumParamNames = getContext().getRequest().getParameterNames();
+        while(enumParamNames.hasMoreElements()){
+            if(enumParamNames.nextElement().startsWith("_xed_submit_")){
+                hideMask = true;
+                break;
+            }
         }
 
         if (getContext().getRequest().getParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM) != null) {
@@ -204,5 +219,9 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
 
     public void setPageURL(String pageURL) {
         this.pageURL = pageURL;
+    }
+
+    public boolean isHideMask() {
+        return hideMask;
     }
 }

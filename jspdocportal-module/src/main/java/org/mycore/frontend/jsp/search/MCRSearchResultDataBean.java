@@ -22,6 +22,7 @@
  */
 package org.mycore.frontend.jsp.search;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -124,7 +125,7 @@ public class MCRSearchResultDataBean {
 				getMcrIDs().add(String.valueOf(doc.getFirstValue("returnId")));
 			}
 			}
-		} catch (SolrServerException e) {
+		} catch (SolrServerException | IOException e) {
 			LOGGER.error(e);
 		}
 	}
