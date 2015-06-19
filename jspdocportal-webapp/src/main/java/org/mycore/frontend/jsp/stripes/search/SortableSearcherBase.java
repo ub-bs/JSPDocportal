@@ -31,7 +31,7 @@ import java.util.Arrays;
  *
  */
 public abstract class SortableSearcherBase extends SearcherBase {
-	private String sortiere_nach = "date";
+	private String sortiere_nach = "modified";
 	private String sortiere_wie = "desc";
 
 	public SortableSearcherBase() {
@@ -68,7 +68,7 @@ public abstract class SortableSearcherBase extends SearcherBase {
 	 * finish this method with super.reset()!
 	 */
 	public void reset() {
-		sortiere_nach = "date";
+		sortiere_nach = "modified";
 		sortiere_wie = "desc";
 		super.reset();
 	}
