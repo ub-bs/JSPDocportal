@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- There could be a bug in Cargo WebXML Merger Maven Plugin when merging different versions of web.xml
      (2.4 vs 2.5)  Namespaces are not properly handled 
-      - - - - >We may use the Version of the MyCoRe web.xml = 2.4    !!!! --> 
+
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+      - - - - >We should use the Version of the MyCoRe web.xml = 2.4    !!!!       
+--> 
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" version="2.4">
   
     <display-name>JSP DOCPORTAL</display-name>
     <description>(A MyCoRe Sample)</description>
@@ -226,7 +232,8 @@
     <servlet-mapping>
                <servlet-name>MCRJSPSearchServlet</servlet-name>
                <url-pattern>/servlets/MCRJSPSearchServlet</url-pattern>
-    </servlet-mapping>   
+    </servlet-mapping>
+    <!--    
     <servlet-mapping>
                <servlet-name>MCRJSPSearchServlet</servlet-name>
                <url-pattern>/servlets/MCRSearchServlet</url-pattern>
@@ -236,7 +243,7 @@
          <servlet-name>MCRJSPObjectServlet</servlet-name>
          <url-pattern>/receive/*</url-pattern>
     </servlet-mapping>
-
+	-->
 	<servlet-mapping>
 		<servlet-name>MCRJSPObjectServlet</servlet-name>
 		<url-pattern>/metadata/*</url-pattern>
