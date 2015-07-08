@@ -5,7 +5,7 @@
   <parent>
     <artifactId>mycore</artifactId>
     <groupId>org.mycore</groupId>
-    <version>2015.03-SNAPSHOT</version>
+    <version>2015.05.0.1-SNAPSHOT</version>
   </parent>
 
   <artifactId>jspdocportal-module</artifactId>
@@ -15,7 +15,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <mycore.version>2015.03-SNAPSHOT</mycore.version>
+    <mycore.version>2015.05.0.1-SNAPSHOT</mycore.version>
     <manifest.priority>11</manifest.priority>
   </properties>
 
