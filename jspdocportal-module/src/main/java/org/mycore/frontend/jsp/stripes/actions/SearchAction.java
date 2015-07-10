@@ -202,12 +202,8 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
     }
 
     public String getEditorPath() {
-        if (getMask() != null) {
-            return "editor/search/" + getMask();
-        } else {
-            return "editor/search/default.xed";
-        }
-    }
+        return "editor/search/default.xed";
+     }
 
     public QueryResponse getSolrResponse() {
         return solrResponse;
