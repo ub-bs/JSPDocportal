@@ -37,7 +37,9 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
 
     private String mask;
     
-    private boolean hideMask;
+    private boolean showMask;
+    
+    private boolean showResults;
 
     private String pageURL;
 
@@ -79,6 +81,8 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
 
     @DefaultHandler
     public Resolution defaultRes() {
+        showMask = true;
+        showResults = false;
         getContext().getResponse().setCharacterEncoding("UTF-8");
         getContext().getResponse().setContentType("application/xhtml+xml; charset=UTF-8");
         setPageURL(getContext().getRequest().getRequestURI());
@@ -123,11 +127,11 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
             setMask(queryDoc.getRootElement().getAttributeValue("mask"));
         }
         
-        hideMask = false;
         Enumeration<String> enumParamNames = getContext().getRequest().getParameterNames();
         while(enumParamNames.hasMoreElements()){
             if(enumParamNames.nextElement().startsWith("_xed_submit_")){
-                hideMask = true;
+                showMask = false;
+                showResults = true;
                 break;
             }
         }
@@ -221,7 +225,11 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
         this.pageURL = pageURL;
     }
 
-    public boolean isHideMask() {
-        return hideMask;
+    public boolean isShowMask() {
+        return showMask;
+    }
+    
+    public boolean isShowResults(){
+        return showResults;
     }
 }

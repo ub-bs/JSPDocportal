@@ -21,7 +21,7 @@
 	<stripes:layout-component name="contents">
 		<div class="ur-box ur-text">
 			<c:set var="classCollapse" value="" />
-			<c:if test="${actionBean.hideMask}">
+			<c:if test="${not actionBean.showMask}">
 				<button id="buttonCollapseSearchmask"
 					class="btn btn-default pull-right" type="button"
 					data-toggle="collapse" data-target="#searchmask"
@@ -42,7 +42,7 @@
         		})
              </script>
 		</div>
-		<c:if test="${not empty actionBean.solrResponse}">
+		<c:if test="${not empty actionBean.solrResponse and actionBean.showResults}">
 			<c:set var="solrResponse" value="${actionBean.solrResponse}" />
 			<div class="panel panel-default">
 				<div class="panel-heading">
