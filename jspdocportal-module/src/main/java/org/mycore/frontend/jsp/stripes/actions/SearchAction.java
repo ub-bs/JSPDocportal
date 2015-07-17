@@ -1,7 +1,6 @@
 package org.mycore.frontend.jsp.stripes.actions;
 
 import java.io.IOException;
-import java.util.Enumeration;
 
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.Before;
@@ -88,6 +87,12 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
         setPageURL(getContext().getRequest().getRequestURI());
 
         Document queryDoc = (Document) getContext().getRequest().getAttribute("MCRXEditorSubmission");
+        
+        if(queryDoc !=null){
+            showMask = false;
+            showResults = true;
+        }
+        
         if (queryDoc == null) {
             String sessionID = getContext().getRequest().getParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM);
             if (sessionID != null) {
@@ -97,7 +102,7 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
 
                 MCREditorSession session = MCREditorSessionStoreFactory.getSessionStore().getSession(sessionID);
                 if (session != null) {
-                    queryDoc = session.getXMLCleaner().clean(session.getEditedXML());
+                   queryDoc = session.getXMLCleaner().clean(session.getEditedXML());
                 }
             }
         }
@@ -126,7 +131,11 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
         if (getMask() == null) {
             setMask(queryDoc.getRootElement().getAttributeValue("mask"));
         }
+        else{
+            queryDoc.getRootElement().setAttribute("mask", getMask());
+        }
         
+        /*
         Enumeration<String> enumParamNames = getContext().getRequest().getParameterNames();
         while(enumParamNames.hasMoreElements()){
             if(enumParamNames.nextElement().startsWith("_xed_submit_")){
@@ -135,7 +144,7 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
                 break;
             }
         }
-
+         */
         if (getContext().getRequest().getParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM) != null) {
             getContext().getRequest().getSession()
                 .removeAttribute(MCREditorSessionStore.XEDITOR_SESSION_PARAM + "_" + getMask());
