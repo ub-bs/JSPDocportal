@@ -106,8 +106,11 @@
          <servlet-class>org.mycore.frontend.servlets.MCRJSPGlobalResolverServlet</servlet-class>
     </servlet>
               
-
-
+	<servlet id="DepotAPIResolver">
+         <servlet-name>MCRDepotAPIServlet</servlet-name>
+         <servlet-class>org.mycore.frontend.servlets.MCRDepotAPIServlet</servlet-class>
+    </servlet>
+    
     <servlet>
         <servlet-name>MCRWorkflowAccessRuleEditorServlet</servlet-name>
         <servlet-class>org.mycore.frontend.workflowengine.jbpm.MCRWorkflowAccessRuleEditorServlet</servlet-class>
@@ -331,6 +334,11 @@
     <servlet-mapping>
           <servlet-name>MCRJSPIDResolverServlet</servlet-name>
           <url-pattern>/resolve</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+          <servlet-name>MCRDepotAPIServlet</servlet-name>
+          <url-pattern>/depot/*</url-pattern>
     </servlet-mapping>
 
 
