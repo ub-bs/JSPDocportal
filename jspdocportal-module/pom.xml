@@ -155,6 +155,12 @@
       <artifactId>mail</artifactId>
     </dependency>
     <dependency>
+	  <groupId>org.webjars</groupId>
+	  <artifactId>ckeditor</artifactId>
+	  <version>4.4.7</version>
+	  <scope>runtime</scope>
+    </dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <type>jar</type>
@@ -411,25 +417,6 @@
           </dependency>
         </dependencies>
       </plugin>
-      <plugin>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>generate-sources</phase>
-            <configuration>
-              <tasks>
-                <get src="http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.5/ckeditor_4.4.5_standard.zip"
-                  dest="${basedir}/src/build/ckeditor_4.4.5_standard.zip" skipexisting="true" />
-                <unzip src="${basedir}/src/build/ckeditor_4.4.5_standard.zip" dest="${project.build.directory}/classes/META-INF/resources" />
-              </tasks>
-            </configuration>
-            <goals>
-              <goal>run</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
     </plugins>
     <pluginManagement>
       <plugins>
