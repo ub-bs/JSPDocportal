@@ -76,6 +76,8 @@
     					<c:set var="doc" value="${actionBean.mcrobjXML}" />
     					<x:forEach var="x" select="$doc/mycoreobject/structure/derobjects/derobject">
     						<c:set var="derID"><x:out select="$x/@xlink:href" /></c:set>
+    						<c:set var="derDoc" value="${actionBean.derivateXMLs[derID]}" />
+    						<c:set var="maindoc"><x:out select="$derDoc/mycorederivate/derivate/internals/internal/@maindoc" /></c:set>
     						<li class="list-group-item container-fluid">
     							<div class="panel panel-info">
   									<div class="panel-heading" style="min-height:78px">
@@ -141,6 +143,10 @@
     												</c:otherwise>
     											</c:choose>
     											${f}
+    											<c:if test="${maindoc eq f}">
+    												<c:set var="info"><fmt:message key="Editor.Common.derivate.maindoc" /></c:set>
+    												<span style="margin-left:24px" class="badge glyphicon glyphicon-star" title="${info}">&nbsp;</span>
+    											</c:if>
     											<input type="hidden" id="hiddenRenameFileNew_${derID}_${f}" name="renameFile_new-task_${actionBean.taskid}-derivate_${derID}-file_${f}" value="${f}" />
     											<button id="btnDeleteFile_${derID}_${f}" title="Datei löschen" name="doDeleteFile-task_${actionBean.taskid}-derivate_${derID}-file_${f}" 
     											        onclick="return confirm('Wollen Sie die Datei &quot;${f}&quot; wirklich löschen?');" class="btn btn-sm btn-danger pull-right" style="margin-left:48px"><span class="glyphicon glyphicon-trash"></span></button>

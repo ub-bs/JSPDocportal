@@ -197,6 +197,10 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
 			der.getService().addFlag("title", title);
 		}
 		
+		File derDir = new File(new File(MCRActivitiUtils.getWorkflowDirectory(MCRObjectID.getInstance(mcrobjid)), mcrobjid), der.getId().toString());
+		derDir.mkdirs();
+		updateMainFile(der, derDir);
+		
 		MCRActivitiUtils.saveMCRDerivateToWorkflowDirectory(der);
 		
 		MCRObject mcrObj = MCRActivitiUtils.loadMCRObjectFromWorkflowDirectory(MCRObjectID.getInstance(mcrobjid));
@@ -306,6 +310,11 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
 	        }
 	    }
 
+	 /** 
+	  * the first file in the directory becomes the main file of the derivate
+	  * @param the derivate directory
+	  * @return
+	  */
 	 protected static String getPathOfMainFile(File parent) {
 		 while (parent.isDirectory()) {
 			 File[] children = parent.listFiles();
@@ -352,6 +361,7 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
 				Files.copy(fb.getInputStream(), new File(derDir, fb.getFileName()).toPath(), StandardCopyOption.REPLACE_EXISTING);
 			
 				der.getDerivate().getInternals().setSourcePath(derDir.toString());
+				updateMainFile(der, derDir);
 				MCRActivitiUtils.saveMCRDerivateToWorkflowDirectory(der);
 			}
 

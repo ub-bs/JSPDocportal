@@ -275,7 +275,7 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 			for(MCRMetaLinkID derID: mcrObj.getStructure().getDerivates()){
 				result.append("<span class=\"badge pull-left\" style=\"margin-left:128px; margin-right:24px; margin-top:3px;\">"+derID.getXLinkHref()+"</span>");
 				MCRDerivate der = MCRActivitiUtils.loadMCRDerivateFromWorkflowDirectory(mcrObjID,  derID.getXLinkHrefID());
-				result.append("<div class=\"pull-left\">");
+				result.append("<div style=\"margin-left:300px\">");
 				result.append("    <strong>["+MCRTranslation.translate("OMD.derivatelabel."+mcrObjID.getBase()+"."+der.getLabel())+"]</strong>");
 				for(String s:der.getService().getFlags("title")){
 					result.append("<br />"+s);
@@ -292,6 +292,10 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 						result.append("<span class=\"glyphicon glyphicon-folder-open\"></span> ");
 					}
 					result.append(fileName);
+				
+					if(fileName.equals(der.getDerivate().getInternals().getMainDoc())){
+						result.append("<span style=\"margin-left:16px; color:grey;\" class=\"glyphicon glyphicon-star\" title=\""+MCRTranslation.translate("Editor.Common.derivate.maindoc")+"\"></span>");
+					}
 					result.append("</li>");
 				}
 				result.append("\n    </ul>");
