@@ -34,8 +34,8 @@ public class IndexBrowserAction extends MCRAbstractStripesAction implements Acti
 	private static Logger LOGGER = Logger.getLogger(IndexBrowserAction.class);
 	ForwardResolution fwdResolution = new ForwardResolution("/content/indexbrowser.jsp");
 
-	private List<String> firstSelector = Arrays.asList(new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
-			"S", "T", "U", "V", "W", "X", "Y", "Z" });
+	private List<String> firstSelector = Arrays.asList(new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
+			"K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" });
 	private Map<String, Long> secondSelector = new TreeMap<String, Long>();
 	private String modus = "";
 	private String select;
@@ -60,51 +60,61 @@ public class IndexBrowserAction extends MCRAbstractStripesAction implements Acti
 	@DefaultHandler
 	public Resolution defaultRes() {
 		MCRConfiguration config = MCRConfiguration.instance();
-	
-		if(select!=null){
+
+		if (select != null) {
 			SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
 			SolrQuery query = new SolrQuery();
-			String searchfield = config.getString("MCR.IndexBrowser."+modus+".Searchfield");
-		    query.setQuery(searchfield+":"+select+"*");
-		    query.addFacetField(searchfield+"_facet");
-		    query.addSort(searchfield, ORDER.asc);
-		    query.setRows(Integer.MAX_VALUE);
-		    query.setStart(0);    
-		 
-		    try{
-		    QueryResponse response = solrClient.query(query);
-		    SolrDocumentList solrResults = response.getResults();
-		   
-		    List<FacetField> facets = response.getFacetFields();
-		    secondSelector.clear();
-		    if(solrResults.getNumFound()>20 || select.length()>1){
-		    for(Count c: facets.get(0).getValues()){
-		    	if(c.getCount()>0){
-		    		secondSelector.put(c.getName(), c.getCount());
-		    	}
-		     }
-		    }
-		    results.clear();
-		    if(solrResults.getNumFound()<=20 || select.length()>1){
-		    	String labelfield = config.getString("MCR.IndexBrowser."+modus+".Labelfield");
-				String[]datafields = config.getString("MCR.IndexBrowser."+modus+".Datafields").split(",");
-		    	for(int i=0;i<solrResults.size();i++){
-		    		SolrDocument solrDoc = solrResults.get(i);
-		    		IndexBrowserResultObject ibro = new IndexBrowserResultObject(String.valueOf(solrDoc.getFirstValue("id")), String.valueOf(solrDoc.getFirstValue(labelfield)));
-		    		for(String df: datafields){
-		    			Object o = solrDoc.getFirstValue(df);
-		    			if(o!=null){
-		    				ibro.addData(df, String.valueOf(o));
-		    			}
-		    		}
-		    		results.add(ibro);
-		    	}
-		    			
-		    }
-		    }
-		    catch(SolrServerException  | IOException e){
-		    	LOGGER.error(e);
-		    }
+			String searchfield = config.getString("MCR.IndexBrowser." + modus + ".Searchfield");
+			String facetfield = config.getString("MCR.IndexBrowser." + modus + ".Facetfield");
+			query.setQuery(searchfield + ":" + select + "*");
+			query.addFacetField(facetfield);
+			query.addSort(searchfield, ORDER.asc);
+			query.setRows(Integer.MAX_VALUE);
+			query.setStart(0);
+
+			try {
+				QueryResponse response = solrClient.query(query);
+				SolrDocumentList solrResults = response.getResults();
+
+				List<FacetField> facets = response.getFacetFields();
+				secondSelector.clear();
+				if (solrResults.getNumFound() > 20 || select.length() > 1) {
+					for (Count c : facets.get(0).getValues()) {
+						if (c.getCount() > 0) {
+							secondSelector.put(c.getName(), c.getCount());
+						}
+					}
+				}
+				results.clear();
+				if (solrResults.getNumFound() <= 20 || select.length() > 1) {
+					String labelfield = config.getString("MCR.IndexBrowser." + modus + ".Headerfield");
+					String[] datafields = config.getString("MCR.IndexBrowser." + modus + ".Datafields").split(",");
+					for (int i = 0; i < solrResults.size(); i++) {
+						SolrDocument solrDoc = solrResults.get(i);
+						IndexBrowserResultObject ibro = new IndexBrowserResultObject(
+								String.valueOf(solrDoc.getFirstValue("id")),
+								String.valueOf(solrDoc.getFirstValue(labelfield)));
+						for (String df : datafields) {
+							Object o = solrDoc.getFirstValue(df);
+							if (o != null) {
+								ibro.addData(df, String.valueOf(o));
+							}
+						}
+						Object o = solrDoc.getFirstValue("cover_url");
+						if (o != null) {
+							ibro.setCoverURL(String.valueOf(o));
+						}
+						else{
+							if(ibro.getMcrid().contains("_person_")){
+								ibro.setCoverURL("images/cover/placeholder_"+String.valueOf(String.valueOf(solrDoc.getFirstValue("profkat.sex")))+".jpg");
+							}
+						}
+						results.add(ibro);
+					}
+				}
+			} catch (SolrServerException | IOException e) {
+				LOGGER.error(e);
+			}
 		}
 		return fwdResolution;
 

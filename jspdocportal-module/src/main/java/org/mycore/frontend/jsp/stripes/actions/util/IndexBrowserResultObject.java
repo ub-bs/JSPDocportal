@@ -34,6 +34,8 @@ import java.util.LinkedHashMap;
 public class IndexBrowserResultObject{
 	private String mcrid;
 	private String label;
+	private String coverURL;
+	
 	private LinkedHashMap<String, String> data = new LinkedHashMap<String, String>();
 	
 	public IndexBrowserResultObject(String mcrid, String label) {
@@ -56,6 +58,14 @@ public class IndexBrowserResultObject{
 
 	public LinkedHashMap<String, String> getData() {
 		return data;
+	}
+
+	public String getCoverURL() {
+		return coverURL;
+	}
+
+	public void setCoverURL(String coverURL) {
+		this.coverURL = coverURL;
 	}
 
 	

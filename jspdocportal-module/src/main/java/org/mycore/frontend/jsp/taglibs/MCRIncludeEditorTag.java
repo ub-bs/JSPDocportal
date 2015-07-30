@@ -31,7 +31,7 @@ import org.xml.sax.SAXException;
 
 public class MCRIncludeEditorTag extends SimpleTagSupport {
 	private static Logger logger = Logger.getLogger("MCRIncludeEditorTag.class");
-	
+
 	private String editorPath;
 	private String cancelPage;
 
@@ -58,29 +58,23 @@ public class MCRIncludeEditorTag extends SimpleTagSupport {
 		JspWriter out = pageContext.getOut();
 
 		try {
-			HttpServletRequest request = (HttpServletRequest) pageContext
-					.getRequest();
-			File editorFile = new File(pageContext.getServletContext()
-					.getRealPath(editorPath));
-			
-			//Document xml = new MCRFileContent(editorFile).asXML();
-			InputStream is = getClass().getResourceAsStream("/META-INF/resources/"+editorPath);
+			HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
+
+			// Document xml = new MCRFileContent(editorFile).asXML();
+			InputStream is = getClass().getResourceAsStream("/META-INF/resources/" + editorPath);
 			Document xml = new MCRStreamContent(is).asXML();
 			MCREditorServlet.replaceEditorElements(request, editorBase, xml);
 
 			Source xmlSource = new JDOMSource(xml);
-			Source xsltSource = new StreamSource(getClass()
-					.getResourceAsStream("/xsl/editor_standalone.xsl"));
+			Source xsltSource = new StreamSource(getClass().getResourceAsStream("/xsl/editor_standalone.xsl"));
 
 			// das Factory-Pattern unterstützt verschiedene XSLT-Prozessoren
 			TransformerFactory transFact = TransformerFactory.newInstance();
 			transFact.setURIResolver(MCRURIResolver.instance());
 			Transformer transformer = transFact.newTransformer(xsltSource);
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-			transformer.setOutputProperty(
-					"{http://xml.apache.org/xslt}indent-amount", "2");
-			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION,
-					"yes");
+			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
 
 			/*
 			 * <!-- editor-common.xsl ============ Parameter aus MyCoRe
@@ -91,13 +85,13 @@ public class MCRIncludeEditorTag extends SimpleTagSupport {
 			 * name="HttpSession" /> <xsl:param name="JSessionID" />
 			 */
 			transformer.clearParameters();
-	        MCRParameterCollector paramColl = new MCRParameterCollector((HttpServletRequest)pageContext.getRequest());
-		    paramColl.setParametersTo(transformer);
-		    if (cancelPage != null && cancelPage.length() > 0) {
+			MCRParameterCollector paramColl = new MCRParameterCollector((HttpServletRequest) pageContext.getRequest());
+			paramColl.setParametersTo(transformer);
+			if (cancelPage != null && cancelPage.length() > 0) {
 				paramColl.setParameter("cancelUrl", cancelPage);
 			}
-		    paramColl.setParametersTo(transformer);
-	        transformer.transform(xmlSource, new StreamResult(out));
+			paramColl.setParametersTo(transformer);
+			transformer.transform(xmlSource, new StreamResult(out));
 		} catch (TransformerConfigurationException e) {
 			logger.error("TransformerConfigurationException: " + e, e);
 		} catch (TransformerException e) {

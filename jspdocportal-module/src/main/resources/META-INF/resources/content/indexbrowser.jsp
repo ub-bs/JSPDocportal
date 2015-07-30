@@ -63,31 +63,32 @@
 			</div>
 				
 			<c:forEach var="r" items="${actionBean.results}">
-				<div class="row">
-					<div class="col-xs-12">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h4 class="panel-title"><a href="${WebApplicationBaseURL}resolve/id/${r.mcrid}">${r.label}</a></h4>
-							</div>
-							<div class="panel-body">
-								<table style="border-spacing:4px;border-collapse:separate;font-size:100%">
-									<c:forEach var="d" items="${r.data}">
-										<tr>
-											<th style="min-width:120px"><fmt:message key="Webpage.indexbrowser.${actionBean.modus}.label.${d.key}" />:&#160;</th>
-											<c:choose>
-												<c:when test="${fn:endsWith(d.key, '_msg')}"><td><fmt:message key="${d.value}" /></td></c:when>
-												<c:when test="${fn:endsWith(d.key, '_class')}"><td><mcr:displayClassificationCategory classid="${fn:substringBefore(d.value,':')}" categid="${fn:substringAfter(d.value,':')}"  lang="de" /></td></c:when>
-												<c:otherwise>
-													<td><c:out value="${fn:replace(d.value, '|', '<br />')}" escapeXml="false" /></td>
-												</c:otherwise>
-											</c:choose>
-										</tr>
-									</c:forEach>
-								</table>
-							</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<c:if test="${not empty r.coverURL}">
+								<img src="${WebApplicationBaseURL}${r.coverURL}" style="max-height: 150px;max-width: 150px" class="pull-right img-thumbnail" alt="Portrait" />
+							</c:if>
+							<h4><a href="${WebApplicationBaseURL}resolve/id/${r.mcrid}">${r.label}</a></h4>
+							<table style="border-spacing:4px;border-collapse:separate;font-size:100%;margin-right:180px;">
+								<c:forEach var="d" items="${r.data}">
+								<tr>
+									<th style="min-width:120px; vertical-align: top"><fmt:message key="Webpage.indexbrowser.${actionBean.modus}.label.${d.key}" />:&#160;</th>
+									<c:choose>
+										<c:when test="${fn:endsWith(d.key, '_msg')}"><td><fmt:message key="${d.value}" /></td></c:when>
+										<c:when test="${fn:endsWith(d.key, '_class')}"><td><mcr:displayClassificationCategory classid="${fn:substringBefore(d.value,':')}" categid="${fn:substringAfter(d.value,':')}"  lang="de" /></td></c:when>
+										<c:otherwise>
+											<td><c:out value="${fn:replace(d.value, '|', '<br />')}" escapeXml="false" /></td>
+										</c:otherwise>
+									</c:choose>
+								</tr>
+								</c:forEach>
+							</table>
 						</div>
 					</div>
 				</div>
+			</div>
 			</c:forEach>
 		</div>
 	</stripes:layout-component>
