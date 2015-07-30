@@ -16,7 +16,7 @@ import org.mycore.frontend.servlets.MCRServletJob;
 
 public class NavServlet extends MCRServlet {
 	private static final long serialVersionUID = 1L;
-	private static Logger logger = Logger.getLogger(NavServlet.class);
+	private static Logger LOGGER = Logger.getLogger(NavServlet.class);
 
 	private static org.jdom2.Document navJdom;
 
@@ -41,30 +41,38 @@ public class NavServlet extends MCRServlet {
 		if (path == null) {
 			path = "left.start";
 		}
-		logger.debug("Navigation servlet called with path " + path + " (session " + MCRServlet.getSession(request).getID() + ")");
+		LOGGER.debug("Navigation servlet called with path " + path + " (session "
+				+ MCRServlet.getSession(request).getID() + ")");
 
 		Element navitem = null;
 
 		if (path.startsWith("~")) {
-			XPathExpression<Element> xpe = XPathFactory.instance().compile("/n:navigations//n:refitem[@id='" + path + "']", Filters.element(), null, NS_NAV);
+			XPathExpression<Element> xpe = XPathFactory.instance()
+					.compile("/n:navigations//n:refitem[@id='" + path + "']", Filters.element(), null, NS_NAV);
 			Element refitem = xpe.evaluateFirst(navJdom);
-			navitem = refitem.getParentElement();
+			if (refitem != null) {
+				navitem = refitem.getParentElement();
+			} else {
+				LOGGER.error("navigation.xml does not contain an entry for " + path);
+			}
 		} else {
 			String[] nodes = path.split("\\.");
 			StringBuffer xpath = new StringBuffer("/n:navigations");
 			for (int i = 0; i < nodes.length; i++) {
-				logger.debug("i = " + i);
+				LOGGER.debug("i = " + i);
 				if (i == 0) {
 					xpath.append("/n:navigation[@id='").append(nodes[i]).append("']");
 				} else {
 					xpath.append("/n:navitem[@id='").append(nodes[i]).append("']");
 				}
 			}
-			navitem = XPathFactory.instance().compile(xpath.toString(), Filters.element(), null, NS_NAV).evaluateFirst(navJdom); 
+			navitem = XPathFactory.instance().compile(xpath.toString(), Filters.element(), null, NS_NAV)
+					.evaluateFirst(navJdom);
 		}
 
 		if (navitem == null) {
-			navitem = XPathFactory.instance().compile("/n:navigations//n:navitem[1]", Filters.element(), null, NS_NAV).evaluateFirst(navJdom);
+			navitem = XPathFactory.instance().compile("/n:navigations//n:navitem[1]", Filters.element(), null, NS_NAV)
+					.evaluateFirst(navJdom);
 		}
 
 		MCRServlet.getSession(request).put("navPath", createPath(navitem, null));
@@ -77,7 +85,8 @@ public class NavServlet extends MCRServlet {
 
 		org.w3c.dom.Document domYouAreHere = null;
 		try {
-			domYouAreHere = new org.jdom2.output.DOMOutputter().output(new org.jdom2.Document((Element) navitem.clone()));
+			domYouAreHere = new org.jdom2.output.DOMOutputter()
+					.output(new org.jdom2.Document((Element) navitem.clone()));
 		} catch (org.jdom2.JDOMException e) {
 			Logger.getLogger(NavServlet.class).error("Domoutput failed: ", e);
 		}
@@ -92,7 +101,7 @@ public class NavServlet extends MCRServlet {
 			context.getRequestDispatcher("/" + contentPage).include(request, response);
 		} catch (Exception e) {
 
-			logger.error("catched error: ", e);
+			LOGGER.error("catched error: ", e);
 		}
 
 	}
@@ -102,25 +111,25 @@ public class NavServlet extends MCRServlet {
 	 */
 	public void setBaseURL(HttpServletRequest request) {
 		initWebApplicationBaseURL(getServletContext(), request);
-		
+
 	}
-	
-	public static void initWebApplicationBaseURL(ServletContext context, HttpServletRequest request){
-	    if (context.getAttribute("WebApplicationBaseURL") == null) {
-            logger.debug("baseURL is null");
 
-            String contextPath = request.getContextPath();
-            if (contextPath == null) {
-                contextPath = "";
-            }
-            contextPath += "/";
-            String requestURL = request.getRequestURL().toString();
-            int pos = requestURL.indexOf(contextPath, 9);
-            String baseURL = requestURL.substring(0, pos) + contextPath;
+	public static void initWebApplicationBaseURL(ServletContext context, HttpServletRequest request) {
+		if (context.getAttribute("WebApplicationBaseURL") == null) {
+			LOGGER.debug("baseURL is null");
 
-            context.setAttribute("WebApplicationBaseURL", baseURL);
-            logger.debug("baseURL now set to: " + baseURL);
-        }
+			String contextPath = request.getContextPath();
+			if (contextPath == null) {
+				contextPath = "";
+			}
+			contextPath += "/";
+			String requestURL = request.getRequestURL().toString();
+			int pos = requestURL.indexOf(contextPath, 9);
+			String baseURL = requestURL.substring(0, pos) + contextPath;
+
+			context.setAttribute("WebApplicationBaseURL", baseURL);
+			LOGGER.debug("baseURL now set to: " + baseURL);
+		}
 	}
 
 	private String createPath(Element navItem, String subPath) {
