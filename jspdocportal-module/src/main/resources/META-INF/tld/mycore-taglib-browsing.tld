@@ -14,6 +14,13 @@
             <tag-class>org.mycore.frontend.jsp.taglibs.browsing.MCRClassificationBrowserTag</tag-class>
             <body-content>empty</body-content> 
             <attribute>
+            	<description>the classification browser modus (property prefix)</description>
+                <name>modus</name>
+                <required>true</required>
+                <rtexprvalue>true</rtexprvalue>
+            </attribute>
+            <!-- 
+            <attribute>
             	<description>the classification to be shown</description>
                 <name>classification</name>
                 <required>true</required>
@@ -99,6 +106,7 @@
                 <rtexprvalue>true</rtexprvalue>
                 <type>java.lang.Boolean</type>
             </attribute>
+            -->
         </tag>
         <tag>
             <description>A Tag, that includes a Lucene index browser for MyCoRe (state: new, still experimental)</description>
