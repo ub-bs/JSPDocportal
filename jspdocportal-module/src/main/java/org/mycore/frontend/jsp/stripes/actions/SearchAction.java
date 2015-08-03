@@ -1,244 +1,286 @@
 package org.mycore.frontend.jsp.stripes.actions;
 
-import java.io.IOException;
+import java.io.StringWriter;
+import java.net.URL;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.jdom2.Document;
+import org.jdom2.Namespace;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
+import org.mycore.common.MCRSessionMgr;
+import org.mycore.common.content.MCRContent;
+import org.mycore.common.content.MCRJDOMContent;
+import org.mycore.common.content.MCRURLContent;
+import org.mycore.frontend.MCRFrontendUtil;
+import org.mycore.frontend.jsp.search.MCRSearchResultDataBean;
+import org.mycore.frontend.xeditor.MCREditorSession;
+import org.mycore.frontend.xeditor.MCREditorSessionStore;
+import org.mycore.frontend.xeditor.MCREditorSessionStoreFactory;
+import org.mycore.frontend.xeditor.MCRStaticXEditorFileServlet;
+import org.mycore.services.fieldquery.MCRQuery;
+import org.mycore.solr.search.MCRQLSearchUtils;
 
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.controller.LifecycleStage;
 
-import org.apache.log4j.Logger;
-import org.apache.solr.client.solrj.SolrClient;
-import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.solr.client.solrj.response.QueryResponse;
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.output.Format;
-import org.jdom2.output.XMLOutputter;
-import org.mycore.frontend.xeditor.MCREditorSession;
-import org.mycore.frontend.xeditor.MCREditorSessionStore;
-import org.mycore.frontend.xeditor.MCREditorSessionStoreFactory;
-import org.mycore.services.fieldquery.MCRQuery;
-import org.mycore.solr.MCRSolrClientFactory;
-import org.mycore.solr.search.MCRQLSearchUtils;
-
+/**
+ * Action Bean for Search Handling ... Query Parameters:
+ * 
+ * _hit=n and _search=UUID -> retrieves the information of the given searcher
+ * and redirects to then n-th hit mask=abc.xed -> Opens a new Editor with the
+ * given XED File
+ * 
+ * @author Stephan
+ *
+ */
 @UrlBinding("/search.action")
 public class SearchAction extends MCRAbstractStripesAction implements ActionBean {
-    private static Logger LOGGER = Logger.getLogger(SearchAction.class);
+	private static Logger LOGGER = Logger.getLogger(SearchAction.class);
+	public static Namespace NS_XED = Namespace.getNamespace("xed", "http://www.mycore.de/xeditor");
 
-    public static int DEFAULT_ROWS = Integer.MAX_VALUE;
+	public static int DEFAULT_ROWS = 100;
 
-    ForwardResolution fwdResolutionForm = new ForwardResolution("/content/search/search.jsp");
+	ForwardResolution fwdResolutionForm = new ForwardResolution("/content/search/search.jsp");
 
-    private String mask;
-    
-    private boolean showMask;
-    
-    private boolean showResults;
+	private boolean showMask;
 
-    private String pageURL;
+	private boolean showResults;
 
-    private int start = 0;
+	private MCRSearchResultDataBean result;
 
-    private int rows = DEFAULT_ROWS;
+	public SearchAction() {
 
-    //private MCRSearchResultDataBean result;
-    private QueryResponse solrResponse;
+	}
 
-    private SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
+	@Before(stages = LifecycleStage.BindingAndValidation)
+	public void rehydrate() {
+		super.rehydrate();
+	}
 
-    public SearchAction() {
+	@DefaultHandler
+	public Resolution defaultRes() {
+		getContext().getResponse().setCharacterEncoding("UTF-8");
+		getContext().getResponse().setContentType("application/xhtml+xml; charset=UTF-8");
+		
+		HttpServletRequest request = getContext().getRequest();
+		if (request.getParameter("_search") != null) {
+			result = MCRSearchResultDataBean.retrieveSearchresultFromSession(request,
+					request.getParameter("_search"));
+		}
+		Integer hit = null;
+		if (request.getParameter("_hit") != null) {
+			try {
+				hit = Integer.parseInt(request.getParameter("_hit"));
+			} catch (NumberFormatException nfe) {
+				hit = null;
+			}
+		}
+		if (request.getParameter("_start") != null) {
+			try {
+				result.setStart(Integer.parseInt(request.getParameter("_start")));
+			} catch (NumberFormatException nfe) {
+				result.setStart(0);
+			}
+		}
 
-    }
+		if (hit != null && result != null && hit >=0 && hit < result.getNumFound()) {
+			String mcrid = result.getHit(hit).getMcrid();
+			return new RedirectResolution("/resolve/id/" + mcrid + "?_search=" + result.getId());
+		}
 
-    @Before(stages = LifecycleStage.BindingAndValidation)
-    public void rehydrate() {
-        super.rehydrate();
-        if (getContext().getRequest().getParameter("mask") != null) {
-            mask = getContext().getRequest().getParameter("mask");
-        }
+		showMask = true;
+		showResults = false;
+		
+		if (request.getParameter("q") != null) {
+			result = new MCRSearchResultDataBean();
+			result.setAction("search.action");
+			result.setQueryDoc(null);
+			result.setQuery(request.getParameter("q"));
+			result.setMask("");
+		}
+		
+		if (request.getParameter("searchField") != null
+				&& request.getParameter("searchValue") != null) {
+			result = new MCRSearchResultDataBean();
+			result.setAction("search.action");
+			result.setQueryDoc(null);
+			result.setQuery("+" + request.getParameter("searchField") + ":"
+					+ request.getParameter("searchValue"));
+			result.setMask("");
+		}
+		if (request.getParameter("sortField") != null
+				&& request.getParameter("sortValue") != null) {
+			result.setSort("+" + request.getParameter("sortField") + ":"
+					+ request.getParameter("sortValue"));
+		}
 
-        if (getContext().getRequest().getParameter("rows") != null) {
-            try {
-                rows = Integer.valueOf(getContext().getRequest().getParameter("rows"));
-            } catch (NumberFormatException nfe) {
-                rows = DEFAULT_ROWS;
-            }
-        }
-        if (getContext().getRequest().getParameter("start") != null) {
-            try {
-                start = Integer.valueOf(getContext().getRequest().getParameter("start"));
-            } catch (NumberFormatException nfe) {
-                start = 0;
-            }
-        }
-    }
+		if (result == null) {
+			result = new MCRSearchResultDataBean();
+			result.setAction("search.action");
+			if (request.getParameter("mask") != null) {
+				result.setMask(request.getParameter("mask"));
+			}
+		}
+		
+		if("".equals(result.getMask())){
+			showMask = false;
+			showResults = true;
+		}
+		else{
+		Document queryDoc = (Document) request.getAttribute("MCRXEditorSubmission");
+		if (queryDoc == null && result != null) {
+			queryDoc = result.getQueryDoc();
+		}
 
-    @DefaultHandler
-    public Resolution defaultRes() {
-        showMask = true;
-        showResults = false;
-        getContext().getResponse().setCharacterEncoding("UTF-8");
-        getContext().getResponse().setContentType("application/xhtml+xml; charset=UTF-8");
-        setPageURL(getContext().getRequest().getRequestURI());
+		if (queryDoc != null) {
+			request.setAttribute("MCRXEditorSubmission", queryDoc);
+			showMask = false;
+			showResults = true;
+		}
 
-        Document queryDoc = (Document) getContext().getRequest().getAttribute("MCRXEditorSubmission");
-        
-        if(queryDoc !=null){
-            showMask = false;
-            showResults = true;
-        }
-        
-        if (queryDoc == null) {
-            String sessionID = getContext().getRequest().getParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM);
-            if (sessionID != null) {
-                if (sessionID.contains("-")) {
-                    sessionID = sessionID.split("-")[0];
-                }
+		if (queryDoc == null) {
+			String sessionID = request.getParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM);
+			if (sessionID != null) {
+				if (sessionID.contains("-")) {
+					sessionID = sessionID.split("-")[0];
+				}
 
-                MCREditorSession session = MCREditorSessionStoreFactory.getSessionStore().getSession(sessionID);
-                if (session != null) {
-                   queryDoc = session.getXMLCleaner().clean(session.getEditedXML());
-                }
-            }
-        }
-        
-        if (queryDoc != null) {
-            XMLOutputter xml = new XMLOutputter(Format.getPrettyFormat());
-            LOGGER.debug(xml.outputString(queryDoc));
-            if (queryDoc.getRootElement().getChild("conditions").getChildren().size() > 0) {
-                MCRQuery query = MCRQLSearchUtils.buildFormQuery(queryDoc.getRootElement());
+				MCREditorSession session = MCREditorSessionStoreFactory.getSessionStore().getSession(sessionID);
+				if (session != null) {
+					queryDoc = session.getXMLCleaner().clean(session.getEditedXML());
+				}
+			}
+		}
 
-                SolrQuery solrQuery = MCRQLSearchUtils.getSolrQuery(query, queryDoc, getContext().getRequest());
+		if (queryDoc != null) {
+			XMLOutputter xml = new XMLOutputter(Format.getPrettyFormat());
+			LOGGER.debug(xml.outputString(queryDoc));
+			if(queryDoc.getRootElement().getAttribute("mask")!=null){
+				result.setMask(queryDoc.getRootElement().getAttributeValue("mask"));
+			}
+			if (queryDoc.getRootElement().getChild("conditions").getChildren().size() > 0) {
+				result.setQueryDoc(queryDoc);
+				MCRQuery query = MCRQLSearchUtils.buildFormQuery(queryDoc.getRootElement());
 
-                solrQuery.setRows(rows);
-                solrQuery.setStart(start);
-                //solrQquery.setSort(SortClause.create(x[0],  x[1]));
+				SolrQuery solrQuery = MCRQLSearchUtils.getSolrQuery(query, queryDoc, request);
+				result.setSolrQuery(solrQuery);
 
-                try {
-                    solrResponse = solrClient.query(solrQuery);
-                } catch (SolrServerException | IOException e) {
-                    LOGGER.error(e);
-                }
-            }
-        } else {
-            queryDoc = new Document(new Element("query").setAttribute("mask", getMask()));
-        }
-        if (getMask() == null) {
-            setMask(queryDoc.getRootElement().getAttributeValue("mask"));
-        }
-        else{
-            queryDoc.getRootElement().setAttribute("mask", getMask());
-        }
-        
-        /*
-        Enumeration<String> enumParamNames = getContext().getRequest().getParameterNames();
-        while(enumParamNames.hasMoreElements()){
-            if(enumParamNames.nextElement().startsWith("_xed_submit_")){
-                showMask = false;
-                showResults = true;
-                break;
-            }
-        }
-         */
-        if (getContext().getRequest().getParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM) != null) {
-            getContext().getRequest().getSession()
-                .removeAttribute(MCREditorSessionStore.XEDITOR_SESSION_PARAM + "_" + getMask());
-            getContext()
-                .getRequest()
-                .getSession()
-                .setAttribute(MCREditorSessionStore.XEDITOR_SESSION_PARAM + "_" + getMask(),
-                    getContext().getRequest().getParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM));
-        }
+				MCRSearchResultDataBean.addSearchresultToSession(request, result);
+			}
+		}
 
-        fwdResolutionForm.getParameters().remove(MCREditorSessionStore.XEDITOR_SESSION_PARAM);
-        if (getContext().getRequest().getSession()
-            .getAttribute(MCREditorSessionStore.XEDITOR_SESSION_PARAM + "_" + getMask()) != null) {
+		if (request.getParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM) != null) {
+			request.getSession()
+					.removeAttribute(MCREditorSessionStore.XEDITOR_SESSION_PARAM + "_" + result.getMask());
+			request.getSession().setAttribute(
+					MCREditorSessionStore.XEDITOR_SESSION_PARAM + "_" + result.getMask(),
+					request.getParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM));
+		}
 
-            fwdResolutionForm.addParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM, getContext().getRequest()
-                .getSession().getAttribute(MCREditorSessionStore.XEDITOR_SESSION_PARAM + "_" + getMask()));
-        }
-        /*
-        result = new MCRSearchResultDataBean();
-        if (q.isEmpty()) {
-        if(StringUtils.isNotEmpty(searchfieldName) && StringUtils.isNotEmpty(searchfieldValue)){
-        	q = searchfieldName + ":" + searchfieldValue;
-        }
-        }
-        if(q.length()==0){
-        return fwdResolutionForm;
-        }
-        if (sort.isEmpty()) {
-        if(StringUtils.isNotEmpty(sortfieldName) && StringUtils.isNotEmpty(sortfieldDirection)){
-        	sort = sortfieldName + " " + sortfieldDirection;
-        }
-        }
-        result.setQuery(q);
-        result.setSort(sort);
-        result.setStart(start);
-        result.setRows(rows);
-        MCRSearchResultDataBean.addSearchresultToSession(getContext().getRequest(), result);
-        result.doSearch();
-        return new ForwardResolution("/searchresult.action?_search="+result.getId());
-        */
-        fwdResolutionForm.addParameter("mask", getMask());
+		fwdResolutionForm.getParameters().remove(MCREditorSessionStore.XEDITOR_SESSION_PARAM);
+		if (request.getSession()
+				.getAttribute(MCREditorSessionStore.XEDITOR_SESSION_PARAM + "_" + result.getMask()) != null) {
 
-        return fwdResolutionForm;
-    }
+			fwdResolutionForm.addParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM, request
+					.getSession().getAttribute(MCREditorSessionStore.XEDITOR_SESSION_PARAM + "_" + result.getMask()));
+		}
+		}
+		if(result.getRows()<=0){
+			result.setRows(DEFAULT_ROWS);
+		}
+		if (request.getParameter("rows") != null) {
+			try {
+				result.setRows(Integer.valueOf(request.getParameter("rows")));
+			} catch (NumberFormatException nfe) {
+				//do nothing, use default
+			}
+		}
+		if(result.getSolrQuery()!=null){
+			result.doSearch();
+		}
+		
+		return fwdResolutionForm;
+	}
 
-    public int getStart() {
-        return start;
-    }
+	public String getXeditorHtml() {
+		StringWriter out = new StringWriter();
 
-    public void setStart(int start) {
-        this.start = start;
-    }
+		boolean doCommitTransaction = false;
+		if (!MCRSessionMgr.getCurrentSession().isTransactionActive()) {
+			doCommitTransaction = true;
+			MCRSessionMgr.getCurrentSession().beginTransaction();
+		}
+		MCRContent editorContent = null;
+		try {
 
-    public int getRows() {
-        return rows;
-    }
+			editorContent = new MCRURLContent(
+					new URL(MCRFrontendUtil.getBaseURL() + "editor/search/" + result.getMask()));
 
-    public void setRows(int rows) {
-        this.rows = rows;
-    }
+			if (editorContent != null) {
 
-    public String getMask() {
-        return mask;
-    }
+				Document doc = editorContent.asXML();
+				if (doc.getRootElement().getName().equals("form")
+						&& doc.getRootElement().getNamespace().equals(NS_XED)) {
+					editorContent = new MCRJDOMContent(doc);
+					editorContent.setDocType("MyCoReWebPage");
 
-    public void setMask(String mask) {
-        this.mask = mask;
-    }
+					HttpServletRequest request = getContext().getRequest();
 
-    public String getEditorPath() {
-        return "editor/search/default.xed";
-     }
+					String sessionID = request.getParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM);
+					if(sessionID!=null){
+						result.setXedSessionId(sessionID);
+						sessionID = sessionID.split("-")[0];
+					}
 
-    public QueryResponse getSolrResponse() {
-        return solrResponse;
-    }
+					MCRContent newContent = MCRStaticXEditorFileServlet.doExpandEditorElements(editorContent, request,
+							(HttpServletResponse) getContext().getResponse(), sessionID, MCRFrontendUtil.getBaseURL()+"search.action");
+					if (newContent != null) {
+						out.append(newContent.asString().replaceAll("<\\?xml.*?\\?>", ""));
+					} else {
+						out.append(editorContent.asString().replaceAll("<\\?xml.*?\\?>", ""));
+					}
+				} else {
+					LOGGER.error("JSPTag <mcr:includeXEditor> can only contain an <xed:form> element");
+					out.append("<span class=\"error\">Please provide an &lt;xed:form&gt; element here!</span>");
 
-    public long getNumFound() {
-        return solrResponse.getResults().getNumFound();
-    }
+				}
+			}
+		} catch (Exception e) {
+			LOGGER.error("SAXException " + e, e);
+		}
 
-    public String getPageURL() {
-        return pageURL;
-    }
+		if (doCommitTransaction) {
+			MCRSessionMgr.getCurrentSession().commitTransaction();
+		}
 
-    public void setPageURL(String pageURL) {
-        this.pageURL = pageURL;
-    }
+		return out.toString();
+	}
 
-    public boolean isShowMask() {
-        return showMask;
-    }
-    
-    public boolean isShowResults(){
-        return showResults;
-    }
+	public boolean isShowMask() {
+		return showMask;
+	}
+
+	public boolean isShowResults() {
+		return showResults;
+	}
+
+	public MCRSearchResultDataBean getResult() {
+		return result;
+	}
+
+	public void setResult(MCRSearchResultDataBean result) {
+		this.result = result;
+	}
+
 }

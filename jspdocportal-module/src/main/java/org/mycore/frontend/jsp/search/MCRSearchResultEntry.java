@@ -21,9 +21,12 @@
  * 59 Temple Place - Suite 330, Boston, MA  02111-1307 USA
  *
  */
-package org.mycore.frontend.jsp.stripes.actions.util;
+package org.mycore.frontend.jsp.search;
 
 import java.util.LinkedHashMap;
+
+import org.apache.solr.common.SolrDocument;
+import org.mycore.common.config.MCRConfiguration;
 
 /**
  * This Java bean class represents a indexbrowser result data object.
@@ -31,25 +34,52 @@ import java.util.LinkedHashMap;
  * @author Robert Stephan
  *
  */
-public class IndexBrowserResultObject{
+public class MCRSearchResultEntry {
 	private String mcrid;
 	private String label;
 	private String coverURL;
-	
+
 	private LinkedHashMap<String, String> data = new LinkedHashMap<String, String>();
-	
-	public IndexBrowserResultObject(String mcrid, String label) {
-		super();
-		this.mcrid = mcrid;
-		this.label = label;
+
+	private static MCRConfiguration CONFIG = MCRConfiguration.instance();
+
+	public MCRSearchResultEntry(SolrDocument solrDoc) {
+		String objectType = String.valueOf(solrDoc.getFirstValue("objectType"));
+		String labelfield = CONFIG.getString("MCR.SearchResult." + objectType + ".Headerfield");
+		String[] datafields = CONFIG.getString("MCR.SearchResult." + objectType + ".Datafields").split(",");
+
+		this.mcrid = String.valueOf(solrDoc.getFirstValue("returnId"));
+		this.label = String.valueOf(solrDoc.getFirstValue(labelfield));
+		for (String df : datafields) {
+			Object o = solrDoc.getFirstValue(df);
+			if (o != null) {
+				addData(df, String.valueOf(o));
+			}
+		}
+		Object o = solrDoc.getFirstValue("cover_url");
+		if (o != null) {
+			setCoverURL(String.valueOf(o));
+		} else {
+			String coverField = CONFIG.getString("MCR.SearchResult." + objectType + ".DefaultCoverfield", "");
+			if(solrDoc.getFirstValue(coverField)==null){
+				setCoverURL("images/cover/default.jpg");
+			}
+			else{
+				setCoverURL("images/cover/default_"	+ String.valueOf(solrDoc.getFirstValue(coverField)) + ".jpg");
+			}
+		}
 	}
-	
-	public void addData(String key, String value){
+
+	public void addData(String key, String value) {
 		data.put(key, value);
 	}
 
 	public String getMcrid() {
 		return mcrid;
+	}
+	
+	public String getObjectType(){
+		return mcrid.split("_")[1];
 	}
 
 	public String getLabel() {
@@ -68,5 +98,4 @@ public class IndexBrowserResultObject{
 		this.coverURL = coverURL;
 	}
 
-	
 }

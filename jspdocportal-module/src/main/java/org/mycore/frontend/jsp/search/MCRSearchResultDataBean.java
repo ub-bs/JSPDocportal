@@ -39,6 +39,7 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
+import org.jdom2.Document;
 import org.mycore.solr.MCRSolrClientFactory;
 
 /**
@@ -52,12 +53,18 @@ public class MCRSearchResultDataBean {
 	private String id;
 	private int current=0;
 	private long numFound;
-	private int start;
-	private int rows;
-	private String query;
-	private String sort;
+	private int start=0;
+	private int rows=0;
+	private String sort="";
+	private String action="";
+	private String mask=null;
+	private String xedSessionId;
 	
-	private List<String> mcrIDs = new ArrayList<String>();
+	private Document queryDoc;
+	
+	private SolrQuery solrQuery;
+	
+	private List<MCRSearchResultEntry> entries = new ArrayList<MCRSearchResultEntry>();
 	private String errorMsg = null;
 
 	
@@ -84,50 +91,69 @@ public class MCRSearchResultDataBean {
 		return map.get(searchID);
 	}
 	
-	public String getHit(int hit){
+	public MCRSearchResultEntry getHit(int hit){
 		if(hit<0 || hit>numFound) return null;
 		int pos = hit-start;
 		if(pos<0 || pos>=rows){
-			start = hit / rows;
+			start = (hit / rows) * rows;
 			doSearch();
 			current = hit;
 			return getHit(hit);
 		}
 		
-		return mcrIDs.get(pos);
+		return entries.get(pos);
 	}
 	
 	public void doSearch(){
 		SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
-		SolrQuery solrQquery = new SolrQuery();
-		solrQquery.setQuery(query);
-		solrQquery.setRows(rows);
-		solrQquery.setStart(start);
+		if(solrQuery != null){
+			
+		
+		if(rows>=0){
+			solrQuery.setRows(rows);
+		}
+
+		start=Math.max(0,  start);
+		solrQuery.setStart(start);
+		
 		if(!sort.isEmpty()){
 			String[] x = sort.split("\\s|,");
 			if(x.length>1){
-				solrQquery.setSort(SortClause.create(x[0],  x[1]));
+				solrQuery.setSort(SortClause.create(x[0],  x[1]));
 			}
 		}
-
+		
 		try {
-			if(query.length() > 0){
-			QueryResponse response = solrClient.query(solrQquery);
+			
+			QueryResponse response = solrClient.query(solrQuery);
 			SolrDocumentList solrResults = response.getResults();
-
+			if(solrResults.getNumFound()<start){
+				start=0;
+				doSearch();
+				return;
+			}
 			
 			setCurrent(start);
 			setNumFound(solrResults.getNumFound());
-			getMcrIDs().clear();
+			getEntries().clear();
 			Iterator<SolrDocument> it = solrResults.iterator();
 			while (it.hasNext()) {
 				SolrDocument doc = it.next();
-				getMcrIDs().add(String.valueOf(doc.getFirstValue("returnId")));
-			}
+				getEntries().add(new MCRSearchResultEntry(doc));
 			}
 		} catch (SolrServerException | IOException e) {
 			LOGGER.error(e);
 		}
+		}
+	}
+	
+	public int findEntryPosition(String mcrid){
+		for(int i=0;i<entries.size();i++){
+			if(entries.get(i).getMcrid().equals(mcrid)){
+				return i;
+			}
+		}
+		return -1;
 	}
 	
 	//setter and getter methods
@@ -169,20 +195,13 @@ public class MCRSearchResultDataBean {
 		return Math.round((float)Math.ceil((float)numFound / rows)); 
 	}
 
-	public List<String> getMcrIDs() {
-		return mcrIDs;
-	}
-
-	public void setMcrIDs(List<String> mcrIDs) {
-		this.mcrIDs = mcrIDs;
-	}
-
-	public String getQuery() {
-		return query;
+	public List<MCRSearchResultEntry> getEntries() {
+		return entries;
 	}
 
 	public void setQuery(String query) {
-		this.query = query;
+		solrQuery = new SolrQuery();
+		solrQuery.setQuery(query);
 	}
 
 	public int getCurrent() {
@@ -207,6 +226,46 @@ public class MCRSearchResultDataBean {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public SolrQuery getSolrQuery() {
+		return solrQuery;
+	}
+
+	public void setSolrQuery(SolrQuery solrQuery) {
+		this.solrQuery = solrQuery;
+	}
+
+	public String getAction() {
+		return action;
+	}
+
+	public void setAction(String action) {
+		this.action = action;
+	}
+
+	public Document getQueryDoc() {
+		return queryDoc;
+	}
+
+	public void setQueryDoc(Document queryDoc) {
+		this.queryDoc = queryDoc;
+	}
+
+	public String getMask() {
+		return mask;
+	}
+
+	public void setMask(String mask) {
+		this.mask = mask;
+	}
+
+	public String getXedSessionId() {
+		return xedSessionId;
+	}
+
+	public void setXedSessionId(String xedSessionId) {
+		this.xedSessionId = xedSessionId;
 	}
 	
 	

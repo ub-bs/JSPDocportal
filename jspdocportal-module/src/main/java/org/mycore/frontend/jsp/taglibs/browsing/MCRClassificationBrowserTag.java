@@ -459,7 +459,7 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 
 			} else {
 				// "normal" classification browser - do a search
-				url.append("simpleSearch.action");
+				url.append("search.action");
 				url.append("?q="
 						+ URLEncoder.encode(generateQuery(cb, categ.getId().getID()), Charset.defaultCharset().name()));
 			}

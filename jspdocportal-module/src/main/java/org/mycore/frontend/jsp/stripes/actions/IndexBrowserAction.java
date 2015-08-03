@@ -7,6 +7,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.log4j.Logger;
+import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrQuery.ORDER;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.response.FacetField;
+import org.apache.solr.client.solrj.response.FacetField.Count;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocumentList;
+import org.mycore.common.config.MCRConfiguration;
+import org.mycore.frontend.jsp.search.MCRSearchResultEntry;
+import org.mycore.solr.MCRSolrClientFactory;
+
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -14,20 +27,6 @@ import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.controller.LifecycleStage;
-
-import org.apache.log4j.Logger;
-import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.SolrQuery.ORDER;
-import org.apache.solr.client.solrj.SolrClient;
-import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.solr.client.solrj.response.FacetField;
-import org.apache.solr.client.solrj.response.FacetField.Count;
-import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.common.SolrDocument;
-import org.apache.solr.common.SolrDocumentList;
-import org.mycore.common.config.MCRConfiguration;
-import org.mycore.frontend.jsp.stripes.actions.util.IndexBrowserResultObject;
-import org.mycore.solr.MCRSolrClientFactory;
 
 @UrlBinding("/indexbrowser.action")
 public class IndexBrowserAction extends MCRAbstractStripesAction implements ActionBean {
@@ -39,7 +38,7 @@ public class IndexBrowserAction extends MCRAbstractStripesAction implements Acti
 	private Map<String, Long> secondSelector = new TreeMap<String, Long>();
 	private String modus = "";
 	private String select;
-	private List<IndexBrowserResultObject> results = new ArrayList<IndexBrowserResultObject>();
+	private List<MCRSearchResultEntry> results = new ArrayList<MCRSearchResultEntry>();
 
 	public IndexBrowserAction() {
 
@@ -87,29 +86,8 @@ public class IndexBrowserAction extends MCRAbstractStripesAction implements Acti
 				}
 				results.clear();
 				if (solrResults.getNumFound() <= 20 || select.length() > 1) {
-					String labelfield = config.getString("MCR.IndexBrowser." + modus + ".Headerfield");
-					String[] datafields = config.getString("MCR.IndexBrowser." + modus + ".Datafields").split(",");
 					for (int i = 0; i < solrResults.size(); i++) {
-						SolrDocument solrDoc = solrResults.get(i);
-						IndexBrowserResultObject ibro = new IndexBrowserResultObject(
-								String.valueOf(solrDoc.getFirstValue("id")),
-								String.valueOf(solrDoc.getFirstValue(labelfield)));
-						for (String df : datafields) {
-							Object o = solrDoc.getFirstValue(df);
-							if (o != null) {
-								ibro.addData(df, String.valueOf(o));
-							}
-						}
-						Object o = solrDoc.getFirstValue("cover_url");
-						if (o != null) {
-							ibro.setCoverURL(String.valueOf(o));
-						}
-						else{
-							if(ibro.getMcrid().contains("_person_")){
-								ibro.setCoverURL("images/cover/placeholder_"+String.valueOf(String.valueOf(solrDoc.getFirstValue("profkat.sex")))+".jpg");
-							}
-						}
-						results.add(ibro);
+						results.add(new MCRSearchResultEntry(solrResults.get(i)));
 					}
 				}
 			} catch (SolrServerException | IOException e) {
@@ -144,7 +122,7 @@ public class IndexBrowserAction extends MCRAbstractStripesAction implements Acti
 		return secondSelector;
 	}
 
-	public List<IndexBrowserResultObject> getResults() {
+	public List<MCRSearchResultEntry> getResults() {
 		return results;
 	}
 

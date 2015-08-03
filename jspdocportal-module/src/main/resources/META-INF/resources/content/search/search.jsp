@@ -1,66 +1,52 @@
-<%@ page pageEncoding="UTF-8"
-	contentType="application/xhtml+xml; charset=UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/xml" prefix="x"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="mcr"
-	uri="http://www.mycore.org/jspdocportal/base.tld"%>
-<%@ taglib prefix="mcrb"
-	uri="http://www.mycore.org/jspdocportal/browsing.tld"%>
-<%@ taglib prefix="stripes"
-	uri="http://stripes.sourceforge.net/stripes.tld"%>
+<%@ page pageEncoding="UTF-8" contentType="application/xhtml+xml; charset=UTF-8"%>
+<%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="x"       uri="http://java.sun.com/jsp/jstl/xml"%>
+<%@ taglib prefix="fmt"     uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn"      uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="mcr" 	uri="http://www.mycore.org/jspdocportal/base.tld"%>
+<%@ taglib prefix="mcrb"	uri="http://www.mycore.org/jspdocportal/browsing.tld"%>
+<%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
+	
+<%@ taglib prefix="search" tagdir="/WEB-INF/tags/search"%>
 
-<fmt:message var="pageTitle"
-	key="Webpage.search.title.${actionBean.mask}" />
-<stripes:layout-render name="../../WEB-INF/layout/default.jsp"
-	pageTitle="${pageTitle}" layout="2columns">
+<fmt:message var="pageTitle" key="Webpage.search.title.${actionBean.result.mask}" />
+<stripes:layout-render name="../../WEB-INF/layout/default.jsp" pageTitle="${pageTitle}" layout="2columns">
 	<stripes:layout-component name="html_header">
-
 	</stripes:layout-component>
 	<stripes:layout-component name="contents">
-		<div class="ur-box ur-text">
-			<c:set var="classCollapse" value="" />
-			<c:if test="${not actionBean.showMask}">
-				<button id="buttonCollapseSearchmask"
-					class="btn btn-default pull-right" type="button"
-					data-toggle="collapse" data-target="#searchmask"
-					aria-expanded="false" aria-controls="searchmask">
-                    Suche verfeinern</button>
-				<c:set var="classCollapse">collapse</c:set>
-			</c:if>
+		<c:if test="${not empty actionBean.result.mask}">
+			<div class="ur-box ur-text">
+				<c:set var="classCollapse" value="" />
+				<c:if test="${not actionBean.showMask and actionBean.result.numFound>0}">
+					<button id="buttonCollapseSearchmask" class="btn btn-default pull-right" type="button"
+						    data-toggle="collapse" data-target="#searchmask" aria-expanded="false" aria-controls="searchmask">
+						<fmt:message key="Webpage.Searchresult.redefine" />
+					</button>
+					<c:set var="classCollapse">collapse</c:set> 
+				</c:if>
+			
+				<h2>${pageTitle}</h2>
 
-			<h2>${pageTitle}</h2>
-
-			<div class="${classCollapse}" id="searchmask">
-				<mcr:includeXEditor editorPath="${actionBean.editorPath}"
-					pageURL="${actionBean.pageURL}" />
-			</div>
-			<script type="text/javascript">
-              	$('#searchmask').on('show.bs.collapse', function () {
-            		$('#buttonCollapseSearchmask').hide();
-        		})
-             </script>
-		</div>
-		<c:if test="${not empty actionBean.solrResponse and actionBean.showResults}">
-			<c:set var="solrResponse" value="${actionBean.solrResponse}" />
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h3 class="panel-title">Treffer: ${actionBean.numFound}</h3>
+				<div class="${classCollapse}" id="searchmask">
+					<c:out value="${actionBean.xeditorHtml}" escapeXml="false" />
 				</div>
-				<ul class="list-group">
-					<c:forEach var="result" items="${actionBean.solrResponse.results}">
-						<c:set var="objectType"
-							value="${result.getFieldValueMap()['objectType']}" />
-						<li class="list-group-item"><c:set var="resultDoc"
-								value="${result}" scope="request" /> <jsp:include
-								page="result_${objectType}.jsp" /></li>
-					</c:forEach>
-				</ul>
-
-				<div class="panel-footer">${actionBean.solrResponse.getRequestUrl()}</div>
+				<script type="text/javascript">
+              		$('#searchmask').on('show.bs.collapse', function () {
+            			$('#buttonCollapseSearchmask').hide();
+        			})
+            	 </script>
 			</div>
-
+		</c:if>
+		<c:if test="${actionBean.showResults}">
+			<div class="ur-box">
+ 				<mcrb:searchResultBrowser varmcrid="mcrid" varurl="url" varentry="entry" result ="${actionBean.result}" sortfields="profkat.idx_profname.headline modified">
+			  		<c:set var="doctype" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
+			  		<li class="list-group-item">
+						<search:show-edit-button mcrid="${mcrid}" /> 
+						<search:result-entry data="${entry}" url="${url}" />
+					</li>
+			  	</mcrb:searchResultBrowser>
+			</div>
 		</c:if>
 	</stripes:layout-component>
 </stripes:layout-render>

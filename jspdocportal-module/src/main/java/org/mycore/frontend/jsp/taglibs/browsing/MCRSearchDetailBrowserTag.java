@@ -27,7 +27,7 @@ public class MCRSearchDetailBrowserTag extends SimpleTagSupport
 
 		MCRSearchResultDataBean result = MCRSearchResultDataBean.retrieveSearchresultFromSession(((HttpServletRequest)pageContext.getRequest()), searchID);
 		if(result!=null){
-			int pos = result.getMcrIDs().indexOf(mcrid); 
+			int pos = result.findEntryPosition(mcrid); 
 			if(pos >= 0){
 				result.setCurrent(result.getStart()+pos);
 			}
@@ -39,7 +39,7 @@ public class MCRSearchDetailBrowserTag extends SimpleTagSupport
 			out.write("\n   <div class=\"panel-heading\" style=\"text-align:center\">"+MCRTranslation.translate("Webpage.Searchresult.hitXofY", result.getCurrent()+1, numHits)+"</div>");    	
 			out.write("\n   <div class=\"panel-body\">");
 			out.write("\n       <a style=\"font-size:1.5em\" class=\"btn btn-default btn-xs\" href=\""+pageContext.getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE)
-				+"searchresult.action?_search="+result.getId()+"\""
+				+result.getAction()+"?_search="+result.getId()+"\""
 				+" title=\""+MCRTranslation.translate("Webpage.Searchresult.back.hint")+"\">▲</a>");
 
 		
@@ -47,14 +47,14 @@ public class MCRSearchDetailBrowserTag extends SimpleTagSupport
 
 			if (result.getCurrent() > 0) {
 				out.write("\n           <a style=\"font-size:1.5em\" class=\"btn btn-default btn-xs\" href=\""+pageContext.getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE)
-						+"searchresult.action?_search="+result.getId()+"&amp;_hit="+Integer.toString(result.getCurrent()-1)+"\""
+						+result.getAction()+"?_search="+result.getId()+"&amp;_hit="+Integer.toString(result.getCurrent()-1)+"\""
 						+" title=\""+MCRTranslation.translate("Webpage.Searchresult.prevPage.hint")+"\">◀</a>");
 			}
 
 
 			if (result.getCurrent() < numHits - 1) {
 				out.write("\n           <a style=\"font-size:1.5em\" class=\"btn btn-default btn-xs\" href=\""+pageContext.getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE)
-						+"searchresult.action?_search="+result.getId()+"&amp;_hit="+Integer.toString(result.getCurrent()+1)+"\""
+						+result.getAction()+"?_search="+result.getId()+"&amp;_hit="+Integer.toString(result.getCurrent()+1)+"\""
 						+" title=\""+MCRTranslation.translate("Webpage.Searchresult.nextPage.hint")+"\">▶</a>");
 			}
 			out.write("\n      </div>");
@@ -66,11 +66,7 @@ public class MCRSearchDetailBrowserTag extends SimpleTagSupport
 
 	}
 
-	public String getMcrid() {
-		return mcrid;
-	}
-
 	public void setMcrid(String mcrid) {
 		this.mcrid = mcrid;
-	}	
+	}
 }
