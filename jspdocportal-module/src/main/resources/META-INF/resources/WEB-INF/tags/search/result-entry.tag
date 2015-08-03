@@ -8,7 +8,7 @@
 
 
 <c:if test="${not empty data.coverURL}">
-	<img src="${WebApplicationBaseURL}${data.coverURL}" style="max-height: 150px; max-width: 150px" class="pull-right img-thumbnail" alt="Portrait" />
+	<img src="${pageContext.request.contextPath}/${data.coverURL}" style="max-height: 150px; max-width: 150px" class="pull-right img-thumbnail" alt="Portrait" />
 </c:if>
 
 <h4><a href="${url}">${data.label}</a></h4>

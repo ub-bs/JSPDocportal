@@ -39,13 +39,11 @@
 		</c:if>
 		<c:if test="${actionBean.showResults}">
 			<div class="ur-box">
- 				<mcrb:searchResultBrowser varmcrid="mcrid" varurl="url" varentry="entry" result ="${actionBean.result}" sortfields="profkat.idx_profname.headline modified">
+			  	<search:result-browser result ="${actionBean.result}" sortfields="profkat.idx_profname.headline modified">
 			  		<c:set var="doctype" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
-			  		<li class="list-group-item">
 						<search:show-edit-button mcrid="${mcrid}" /> 
 						<search:result-entry data="${entry}" url="${url}" />
-					</li>
-			  	</mcrb:searchResultBrowser>
+			  	</search:result-browser>
 			</div>
 		</c:if>
 	</stripes:layout-component>
