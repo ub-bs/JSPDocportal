@@ -30,18 +30,18 @@
 		</div>
 		<div class="panel-body">
 			<a style="font-size:1.5em" class="btn btn-default btn-xs" 
-			    href="${pageContext.request.contextPath}/${result.action?_search=${result.id}"
+			    href="${pageContext.request.contextPath}/${result.action}?_search=${result.id}"
 				title="<fmt:message key="Webpage.Searchresult.back.hint" />">▲</a>
 
 			<div class="btn-group pull-right">
 				<c:if test="${result.current > 0}">
 					<a style="font-size:1.5em" class="btn btn-default btn-xs" 
-					   href="${pageContext.request.contextPath}/${result.action}?_search=${result.id}&_hit=${result.current-1}"
+					   href="${pageContext.request.contextPath}/${result.action}?_search=${result.id}&amp;_hit=${result.current-1}"
 					   title="<fmt:message key="Webpage.Searchresult.prevPage.hint" />">◀</a>
 				</c:if>
 				<c:if test="${result.current < numHits - 1}">
 					<a style="font-size:1.5em" class="btn btn-default btn-xs" 
-					   href="${pageContext.request.contextPath}/${result.action}?_search=${result.id}&_hit=${result.current+1}"
+					   href="${pageContext.request.contextPath}/${result.action}?_search=${result.id}&amp;_hit=${result.current+1}"
 					   title="<fmt:message key="Webpage.Searchresult.nextPage.hint" />">▶</a>
 				</c:if>
 			</div>
