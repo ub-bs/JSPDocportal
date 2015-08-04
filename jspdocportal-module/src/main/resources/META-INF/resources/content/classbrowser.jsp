@@ -3,7 +3,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="mcr" uri="http://www.mycore.org/jspdocportal/base.tld" %>
-<%@ taglib prefix="mcrb" uri="http://www.mycore.org/jspdocportal/browsing.tld" %>
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
 <fmt:message var="pageTitle" key="Nav.ClassificationsSearch" />
@@ -16,7 +15,7 @@
 			<h2><fmt:message key="Webpage.classbrowser.${actionBean.modus}.title" /></h2>
 			<mcr:includeWebcontent id="classbrowser_${actionBean.modus}" file="classbrowser_${actionBean.modus}_intro.html" />
 
-			<mcrb:classificationBrowser modus="${actionBean.modus}"/>
+			<mcr:classificationBrowser modus="${actionBean.modus}"/>
 			<div style="min-height:100px">&#160;</div>
 		</div>
 	</stripes:layout-component>

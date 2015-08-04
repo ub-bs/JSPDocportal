@@ -814,4 +814,17 @@
 		</attribute>
 	</tag>
 
+	<tag>
+		<description>A Tag, that includes a classification browser for MyCoRe (state: new, still experimental)</description>
+		<name>classificationBrowser</name>
+		<tag-class>org.mycore.frontend.jsp.taglibs.MCRClassificationBrowserTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<description>the classification browser modus (property prefix)</description>
+			<name>modus</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
 </taglib>   
