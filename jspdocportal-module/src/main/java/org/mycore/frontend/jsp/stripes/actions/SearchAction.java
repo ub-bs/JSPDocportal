@@ -44,7 +44,7 @@ import net.sourceforge.stripes.controller.LifecycleStage;
  * @author Stephan
  *
  */
-@UrlBinding("/search.action")
+@UrlBinding("/search/{mask}")
 public class SearchAction extends MCRAbstractStripesAction implements ActionBean {
 	private static Logger LOGGER = Logger.getLogger(SearchAction.class);
 	public static Namespace NS_XED = Namespace.getNamespace("xed", "http://www.mycore.de/xeditor");
@@ -53,6 +53,8 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
 
 	ForwardResolution fwdResolutionForm = new ForwardResolution("/content/search/search.jsp");
 
+	private String mask=null;
+	
 	private boolean showMask;
 
 	private boolean showResults;
@@ -104,7 +106,7 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
 		
 		if (request.getParameter("q") != null) {
 			result = new MCRSearchResultDataBean();
-			result.setAction("search.action");
+			result.setAction("search");
 			result.setQueryDoc(null);
 			result.setQuery(request.getParameter("q"));
 			result.setMask("");
@@ -113,7 +115,7 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
 		if (request.getParameter("searchField") != null
 				&& request.getParameter("searchValue") != null) {
 			result = new MCRSearchResultDataBean();
-			result.setAction("search.action");
+			result.setAction("search");
 			result.setQueryDoc(null);
 			result.setQuery("+" + request.getParameter("searchField") + ":"
 					+ request.getParameter("searchValue"));
@@ -127,17 +129,18 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
 
 		if (result == null) {
 			result = new MCRSearchResultDataBean();
-			result.setAction("search.action");
-			if (request.getParameter("mask") != null) {
-				result.setMask(request.getParameter("mask"));
-			}
 		}
+		result.setMask(mask);
 		
-		if("".equals(result.getMask())){
+		if(mask==null){
 			showMask = false;
 			showResults = true;
+			result.setAction("search");
 		}
 		else{
+			result.setAction("search/"+mask);
+		}
+		
 		Document queryDoc = (Document) request.getAttribute("MCRXEditorSubmission");
 		if (queryDoc == null && result != null) {
 			queryDoc = result.getQueryDoc();
@@ -195,7 +198,7 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
 			fwdResolutionForm.addParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM, request
 					.getSession().getAttribute(MCREditorSessionStore.XEDITOR_SESSION_PARAM + "_" + result.getMask()));
 		}
-		}
+	
 		if(result.getRows()<=0){
 			result.setRows(DEFAULT_ROWS);
 		}
@@ -225,7 +228,7 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
 		try {
 
 			editorContent = new MCRURLContent(
-					new URL(MCRFrontendUtil.getBaseURL() + "editor/search/" + result.getMask()));
+					new URL(MCRFrontendUtil.getBaseURL() + "editor/search/" + result.getMask()+".xed"));
 
 			if (editorContent != null) {
 
@@ -244,14 +247,14 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
 					}
 
 					MCRContent newContent = MCRStaticXEditorFileServlet.doExpandEditorElements(editorContent, request,
-							(HttpServletResponse) getContext().getResponse(), sessionID, MCRFrontendUtil.getBaseURL()+"search.action");
+							(HttpServletResponse) getContext().getResponse(), sessionID, MCRFrontendUtil.getBaseURL()+"search");
 					if (newContent != null) {
 						out.append(newContent.asString().replaceAll("<\\?xml.*?\\?>", ""));
 					} else {
 						out.append(editorContent.asString().replaceAll("<\\?xml.*?\\?>", ""));
 					}
 				} else {
-					LOGGER.error("JSPTag <mcr:includeXEditor> can only contain an <xed:form> element");
+					LOGGER.error("Search does only allow an <xed:form> element as root.");
 					out.append("<span class=\"error\">Please provide an &lt;xed:form&gt; element here!</span>");
 
 				}
@@ -282,5 +285,15 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
 	public void setResult(MCRSearchResultDataBean result) {
 		this.result = result;
 	}
+
+	public String getMask() {
+		return mask;
+	}
+
+	public void setMask(String mask) {
+		this.mask = mask;
+	}
+	
+	
 
 }
