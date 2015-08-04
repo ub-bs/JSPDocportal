@@ -45,9 +45,6 @@ public class SaveWebcontentAction extends MCRAbstractStripesAction implements Ac
 	@Before(stages = LifecycleStage.BindingAndValidation)
 	public void rehydrate() {
 		super.rehydrate();
-		// if (getContext().getRequest().getParameter("q") != null) {
-		//	q = getContext().getRequest().getParameter("q");
-		// }
 	}
 
 	@DefaultHandler
@@ -73,6 +70,9 @@ public class SaveWebcontentAction extends MCRAbstractStripesAction implements Ac
 					break;
 				}
 			}
+		}
+		if(referer==null){
+			referer = "";
 		}
 		//return new RedirectResolution(getContext().getRequest().getHeader("Referer"), false);
 		return new RedirectResolution(referer, false);
