@@ -20,25 +20,5 @@
                 <rtexprvalue>true</rtexprvalue>
             </attribute>
       </tag>
-      
-      
-      <tag>
-		<description>displays a preview image</description>
-		<name>derivateImageBrowser</name>
-		<tag-class>org.mycore.frontend.jsp.taglibs.browsing.MCRDerivateImageBrowserTag</tag-class>
-		<body-content>empty</body-content>
-		<attribute>
-			<name>mcrid</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>labelContains</name>
-		</attribute>
-		<attribute>
-			<name>imageWidth</name>
-			<required>true</required>
-		</attribute> 
-	</tag>
        
 </taglib>
