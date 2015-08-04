@@ -4,7 +4,6 @@
 <%@ taglib prefix="fmt"     uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn"      uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="mcr" 	uri="http://www.mycore.org/jspdocportal/base.tld"%>
-<%@ taglib prefix="mcrb"	uri="http://www.mycore.org/jspdocportal/browsing.tld"%>
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
 	
 <%@ taglib prefix="search" tagdir="/WEB-INF/tags/search"%>
