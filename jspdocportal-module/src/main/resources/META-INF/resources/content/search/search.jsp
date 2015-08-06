@@ -42,6 +42,7 @@
 			  		<c:set var="doctype" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
 						<search:show-edit-button mcrid="${mcrid}" /> 
 						<search:result-entry data="${entry}" url="${url}" />
+						<div style="clear:both"></div>
 			  	</search:result-browser>
 			</div>
 		</c:if>
