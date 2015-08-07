@@ -156,10 +156,6 @@
     </servlet>
     
     <servlet>
-        <servlet-name>MCRJSPSearchServlet</servlet-name>
-        <servlet-class>org.mycore.frontend.servlets.MCRJSPSearchServlet</servlet-class>
-    </servlet>    
-    <servlet>
          <servlet-name>MCRJSPObjectServlet</servlet-name>
          <servlet-class>org.mycore.frontend.servlets.MCRJSPObjectServlet</servlet-class>
     </servlet>
@@ -250,15 +246,6 @@
     <servlet-mapping>
         <servlet-name>MCRWorkflowAccessRuleEditorServlet</servlet-name>
         <url-pattern>/servlets/MCRWorkflowAccessRules</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-               <servlet-name>MCRJSPSearchServlet</servlet-name>
-               <url-pattern>/servlets/MCRJSPSearchServlet</url-pattern>
-    </servlet-mapping>   
-    <servlet-mapping>
-               <servlet-name>MCRJSPSearchServlet</servlet-name>
-               <url-pattern>/servlets/MCRSearchServlet</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
