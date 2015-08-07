@@ -46,6 +46,7 @@ public class SendFeedbackAction extends MCRAbstractStripesAction implements Acti
 	
 	public SendFeedbackAction() {
 		recipient = MCRConfiguration.instance().getString("MCRWorkflow.Email.Feedback.Recipient", "");
+		subject = MCRConfiguration.instance().getString("MCRWorkflow.Email.Feedback.Subject", "");
 	}
 
 	@Before(stages = LifecycleStage.BindingAndValidation)
