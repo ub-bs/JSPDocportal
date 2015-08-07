@@ -65,10 +65,7 @@ public class MCRWorkflowForEditingStartServlet extends MCRServlet {
 		parms = new MCRRequestParameters(request);
 		mcrid = parms.getParameter("mcrid");
 		MCRSession sessionFromRequest = MCRServlet.getSession(request);
-		if(!sessionFromRequest.getID().equals(MCRSessionMgr.getCurrentSessionID())){
-		    MCRSessionMgr.releaseCurrentSession();
-		    MCRSessionMgr.setCurrentSession(sessionFromRequest);
-		}
+		MCRSessionMgr.switchCurrentSession(sessionFromRequest);
 		
 		if (!MCRAccessManager.checkPermission(mcrid, "writedb" )) {
 			String lang   = MCRSessionMgr.getCurrentSession().getCurrentLanguage();

@@ -1,9 +1,5 @@
 package org.mycore.frontend.jsp.stripes.actions;
 
-import java.lang.reflect.Field;
-
-import org.apache.log4j.Logger;
-import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.frontend.servlets.MCRServlet;
 
@@ -13,7 +9,6 @@ import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.controller.LifecycleStage;
 
 public class MCRAbstractStripesAction implements ActionBean {
-	private static Logger LOGGER = Logger.getLogger(MCRAbstractStripesAction.class);
 	private ActionBeanContext context;
 
 	@Override
@@ -28,6 +23,9 @@ public class MCRAbstractStripesAction implements ActionBean {
 
 	@Before(stages = LifecycleStage.BindingAndValidation)
 	public void rehydrate() {
+		MCRSessionMgr.switchCurrentSession(MCRServlet.getSession(context.getRequest()));
+		/*
+		 * old code - used Java Reflection to set the MCRSession into the thread
 		MCRSession mcrSessionFromRequest = MCRServlet.getSession(context.getRequest());
 		if (mcrSessionFromRequest == null || mcrSessionFromRequest.getID() == null ) {
 			LOGGER.debug("The HTTP Session does not contain an MCRSession object");
@@ -58,5 +56,6 @@ public class MCRAbstractStripesAction implements ActionBean {
 				}
 			}
 		}
+		*/
 	}
 }
