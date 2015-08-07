@@ -18,10 +18,12 @@ import org.mycore.common.content.MCRJDOMContent;
 import org.mycore.common.content.MCRURLContent;
 import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.jsp.search.MCRSearchResultDataBean;
+
 import org.mycore.frontend.xeditor.MCREditorSession;
 import org.mycore.frontend.xeditor.MCREditorSessionStore;
 import org.mycore.frontend.xeditor.MCREditorSessionStoreFactory;
 import org.mycore.frontend.xeditor.MCRStaticXEditorFileServlet;
+import org.mycore.frontend.xeditor.tracker.MCRChangeData;
 import org.mycore.services.fieldquery.MCRQuery;
 import org.mycore.solr.search.MCRQLSearchUtils;
 
@@ -162,6 +164,18 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
 				MCREditorSession session = MCREditorSessionStoreFactory.getSessionStore().getSession(sessionID);
 				if (session != null) {
 					queryDoc = session.getXMLCleaner().clean(session.getEditedXML());
+					//if we come from a repeater button we should show mask and hide result
+					MCRChangeData changeData = session.getChangeTracker().findLastChange(queryDoc);
+					if(changeData!=null){
+						if(changeData.getText().contains("target org.mycore.frontend.xeditor.target.MCRInsertTarget") ||
+								changeData.getText().contains("target org.mycore.frontend.xeditor.target.MCRRemoveTarget") ||
+								changeData.getText().contains("target remove") ||
+										changeData.getText().contains("org.mycore.frontend.xeditor.target.MCRSwapTarget")){
+							showMask = true;
+							showResults=false;
+						
+						}
+					}
 				}
 			}
 		}
@@ -209,7 +223,7 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
 				//do nothing, use default
 			}
 		}
-		if(result.getSolrQuery()!=null){
+		if(result.getSolrQuery()!=null && showResults){
 			result.doSearch();
 		}
 		
