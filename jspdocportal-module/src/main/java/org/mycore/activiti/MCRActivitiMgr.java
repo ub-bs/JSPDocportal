@@ -1,7 +1,5 @@
 package org.mycore.activiti;
 
-import java.util.Arrays;
-
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngineConfiguration;
 import org.activiti.engine.RuntimeService;
@@ -79,6 +77,7 @@ public class MCRActivitiMgr {
 
 	public static SimpleEmail createNewEmailFromConfig() {
 		SimpleEmail email = new SimpleEmail();
+		email.setCharset("UTF-8");
 		MCRConfiguration config = MCRConfiguration.instance();
 
 		String host = config.getString("MCR.Workflow.Email.MailServerHost");
@@ -116,7 +115,9 @@ public class MCRActivitiMgr {
 				email.setFrom(config.getString("MCR.Workflow.Email.From"), config.getString("MCR.Workflow.Email.Sender"));
 			}
 			if (StringUtils.isNotBlank(config.getString("MCR.Workflow.Email.CC"))) {
-				email.setCc(Arrays.asList(config.getString("MCR.Workflow.Email.CC").split(",")));
+				for(String s: config.getString("MCR.Workflow.Email.CC").split(",")){
+					email.addCc(s.trim());
+				}
 			}
 		} catch (EmailException e) {
 			LOGGER.error(e);
