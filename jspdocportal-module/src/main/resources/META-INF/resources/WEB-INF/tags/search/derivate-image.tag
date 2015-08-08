@@ -58,8 +58,10 @@
 	jspContext.setAttribute("data", sb.toString());
 %>
 
-<c:forEach var="x" items="${fn:split(data, ';')}">
-	<div class="docdetails-image">
-		<img src="${pageContext.request.contextPath}/${fn:substringAfter(x,'=')}" border="0" width="${width}" alt="${fn:substringBefore(x, '=')}" />  
-	</div>
-</c:forEach>
+<c:if test="${not empty data}">
+	<c:forEach var="x" items="${fn:split(data, ';')}">
+		<div class="docdetails-image">
+			<img src="${pageContext.request.contextPath}/${fn:substringAfter(x,'=')}" border="0" width="${width}" alt="${fn:substringBefore(x, '=')}" />  
+		</div>
+	</c:forEach>
+</c:if>
