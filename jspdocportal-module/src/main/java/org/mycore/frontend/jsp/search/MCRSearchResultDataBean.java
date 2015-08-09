@@ -54,7 +54,7 @@ public class MCRSearchResultDataBean {
 	private int current=0;
 	private long numFound;
 	private int start=0;
-	private int rows=0;
+	private int rows=-1;
 	private String sort="";
 	private String action="";
 	private String mask=null;
@@ -63,6 +63,7 @@ public class MCRSearchResultDataBean {
 	private Document queryDoc;
 	
 	private SolrQuery solrQuery;
+	private QueryResponse solrQueryResponse;
 	
 	private List<MCRSearchResultEntry> entries = new ArrayList<MCRSearchResultEntry>();
 	private String errorMsg = null;
@@ -105,6 +106,7 @@ public class MCRSearchResultDataBean {
 	}
 	
 	public void doSearch(){
+		solrQueryResponse = null;
 		SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
 		if(solrQuery != null){
 			
@@ -125,8 +127,8 @@ public class MCRSearchResultDataBean {
 		
 		try {
 			
-			QueryResponse response = solrClient.query(solrQuery);
-			SolrDocumentList solrResults = response.getResults();
+			solrQueryResponse = solrClient.query(solrQuery);
+			SolrDocumentList solrResults = solrQueryResponse.getResults();
 			if(solrResults.getNumFound()<start){
 				start=0;
 				doSearch();
@@ -266,6 +268,10 @@ public class MCRSearchResultDataBean {
 
 	public void setXedSessionId(String xedSessionId) {
 		this.xedSessionId = xedSessionId;
+	}
+
+	public QueryResponse getSolrQueryResponse() {
+		return solrQueryResponse;
 	}
 	
 	
