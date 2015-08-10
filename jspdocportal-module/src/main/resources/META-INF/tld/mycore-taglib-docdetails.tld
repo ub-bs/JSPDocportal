@@ -134,6 +134,10 @@
 		</attribute>
 		<attribute>
 			<name>var</name>
+		</attribute>
+		<attribute>
+			<name>escapeXml</name>
+			<type>java.lang.Boolean</type>
 		</attribute>    
 	</tag>	
 	

@@ -53,6 +53,8 @@ public class MCRDocDetailsItemTag extends SimpleTagSupport {
     private String css = "";
 
     private String var = "";
+    
+    private boolean escapeXml=true;
 
     public void setSelect(String xpath) {
         this.xp = xpath;
@@ -73,6 +75,10 @@ public class MCRDocDetailsItemTag extends SimpleTagSupport {
     public void setVar(String name) {
         this.var = name;
     }
+	
+    public void setEscapeXml(boolean escapeXml) {
+		this.escapeXml = escapeXml;
+	}
 
     public void doTag() throws JspException, IOException {
         MCRDocDetailsRowTag docdetailsRow = (MCRDocDetailsRowTag) findAncestorWithClass(this, MCRDocDetailsRowTag.class);
@@ -141,7 +147,10 @@ public class MCRDocDetailsItemTag extends SimpleTagSupport {
             } else {
                 td = "<td class=\"" + docdetails.getStylePrimaryName() + "-value\">";
             }
-            getJspContext().getOut().print(td + StringEscapeUtils.escapeXml10(result) + "</td>");
+            if(escapeXml){
+            	result = StringEscapeUtils.escapeXml10(result); 
+            }
+            getJspContext().getOut().print(td + result + "</td>");
         }
     }
 }
