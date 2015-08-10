@@ -40,7 +40,7 @@
 	<c:if test="${not empty data.coverURL}">
 		<div class="col-sm-3">
 			<img src="${pageContext.request.contextPath}/${data.coverURL}"
-				class="pull-right img-thumbnail" alt="Portrait" style="max-width:150px" />
+				class="pull-right img-thumbnail" alt="Portrait" style="max-width:120px" />
 		</div>
 	</c:if>
 </div>
