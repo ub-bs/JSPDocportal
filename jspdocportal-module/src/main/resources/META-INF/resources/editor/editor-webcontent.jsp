@@ -34,7 +34,8 @@
 		 	    entities_additional: 'gt,lt,amp', //remove &nbsp; from entities (not allowed in XHTML)
 				entities:false,
 				entities_latin:false,
-				entities_greek:false
+				entities_greek:false,
+				allowedContent:true
          	};
 
 		    $(document).ready( function() {$('textarea#taedit_${jsid}').ckeditor(config); });
