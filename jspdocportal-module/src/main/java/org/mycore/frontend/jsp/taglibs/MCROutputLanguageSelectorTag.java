@@ -28,7 +28,6 @@ import static javax.servlet.jsp.PageContext.PAGE_SCOPE;
 import java.io.IOException;
 import java.util.Enumeration;
 
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.JspException;
@@ -129,7 +128,7 @@ public class MCROutputLanguageSelectorTag extends MCRAbstractTag
 			lv.setHref(url.toString() + "&lang=" + l);
 			lv.setLabel(getLabel(l));
 			lv.setTitle(getTitle(l));
-			StringBuilder imageURL = new StringBuilder(MCRFrontendUtil.getBaseURL(((PageContext)getJspContext()).getRequest()));
+			StringBuilder imageURL = new StringBuilder(MCRFrontendUtil.getBaseURL());
 			lv.setImageURL(imageURL.append("images/lang-").append(l).append(".png").toString());
 			l = l.trim();
 			if(first){
