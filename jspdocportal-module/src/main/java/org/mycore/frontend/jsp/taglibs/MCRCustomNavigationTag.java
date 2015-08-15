@@ -8,8 +8,10 @@ import java.util.List;
 
 import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.PageContext;
 
 import org.apache.log4j.Logger;
+import org.mycore.frontend.MCRFrontendUtil;
 import org.w3c.dom.Element;
 
 /**
@@ -94,7 +96,7 @@ public class MCRCustomNavigationTag extends MCRAbstractNavigationTag {
 			n.setId(id);
 			n.setLabel(retrieveI18N(el.getAttribute("i18n")));
 			//n.setHref(baseURL + "nav?path=" + el.getAttribute("_path"));
-			n.setHref(baseURL + el.getAttribute("href"));
+			n.setHref(MCRFrontendUtil.getBaseURL(((PageContext)getJspContext()).getRequest()) + el.getAttribute("href"));
 			if (index >= path.length) {
 				n.setActive(false);
 			} else {

@@ -29,11 +29,13 @@ import java.util.List;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 import org.mycore.backend.hibernate.MCRHIBConnection;
+import org.mycore.frontend.MCRFrontendUtil;
 import org.w3c.dom.Element;
 
 /**
@@ -165,7 +167,7 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
 					out.append(indent).append(" <li>");
 				}
 				out.append(indent);
-				out.append(" <a target=\"_self\" href=\"" + baseURL
+				out.append(" <a target=\"_self\" href=\"" + MCRFrontendUtil.getBaseURL(((PageContext)getJspContext()).getRequest())
 						//+ "nav?path=" + el.getAttribute("_path")
 						  + el.getAttribute("href") 
 						  + "\">" + msg + "</a>");
@@ -217,7 +219,7 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
 					String msg = retrieveI18N(el.getAttribute("i18n"));
 					out.append(INDENT).append("    <li>");
 					out.append(INDENT).append(
-							"    <a target=\"_self\" href=\"" + baseURL
+							"    <a target=\"_self\" href=\"" + MCRFrontendUtil.getBaseURL(((PageContext)getJspContext()).getRequest())
 									//+ "nav?path=" + el.getAttribute("_path")
 							        + el.getAttribute("href")
 									+ "\">" + msg + "</a>");
@@ -270,7 +272,7 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
 					String msg = retrieveI18N(el.getAttribute("i18n"));
 					out.append(INDENT).append("<li>");
 					out.append(INDENT).append(
-							"<a target=\"_self\" href=\"" + baseURL
+							"<a target=\"_self\" href=\"" + MCRFrontendUtil.getBaseURL(((PageContext)getJspContext()).getRequest())
 									//+ "nav?path=" + el.getAttribute("_path")
 							        + el.getAttribute("href")
 							        + "\">" + msg + "</a>");
@@ -306,7 +308,7 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
 		String msg = retrieveI18N(currentNode.getAttribute("i18n"));
 		sbOut.append(INDENT).append("   <li>");
 		sbOut.append(INDENT).append(
-				"      <a target=\"_self\" href=\"" + baseURL
+				"      <a target=\"_self\" href=\"" + MCRFrontendUtil.getBaseURL(((PageContext)getJspContext()).getRequest())
 				        //+ "nav?path=" + currentNode.getAttribute("_path") 
 				        + currentNode.getAttribute("href")
 				        + "\">" + msg
@@ -318,7 +320,7 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
 			msg = retrieveI18N(currentNode.getAttribute("i18n"));
 			sbOut.insert(0, INDENT + "   </li>");
 			sbOut.insert(0, INDENT + "      <a target=\"_self\" href=\""
-					+ baseURL 
+					+ MCRFrontendUtil.getBaseURL(((PageContext)getJspContext()).getRequest()) 
 					//+ "nav?path=" + currentNode.getAttribute("_path")
 					 + currentNode.getAttribute("href")
 					+ "\">" + msg + "</a>");

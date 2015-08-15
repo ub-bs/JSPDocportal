@@ -36,6 +36,8 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.JspFragment;
 
+import org.mycore.frontend.MCRFrontendUtil;
+
 
 
 
@@ -106,7 +108,6 @@ public class MCROutputLanguageSelectorTag extends MCRAbstractTag
 		JspContext context = getJspContext();
 		JspFragment body = getJspBody();
 		
-		@SuppressWarnings("unchecked")
 		Enumeration<String>pnames = (Enumeration<String>)request.getParameterNames();
 
 		while(pnames.hasMoreElements()){
@@ -128,7 +129,7 @@ public class MCROutputLanguageSelectorTag extends MCRAbstractTag
 			lv.setHref(url.toString() + "&lang=" + l);
 			lv.setLabel(getLabel(l));
 			lv.setTitle(getTitle(l));
-			StringBuilder imageURL = new StringBuilder(baseURL);
+			StringBuilder imageURL = new StringBuilder(MCRFrontendUtil.getBaseURL(((PageContext)getJspContext()).getRequest()));
 			lv.setImageURL(imageURL.append("images/lang-").append(l).append(".png").toString());
 			l = l.trim();
 			if(first){

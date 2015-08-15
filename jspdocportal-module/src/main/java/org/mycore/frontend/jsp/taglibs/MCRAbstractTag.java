@@ -56,11 +56,6 @@ public class MCRAbstractTag extends SimpleTagSupport {
 	 */
 	protected String lang;
 	
-	/**
-	 * An abbreviation that frees you from writing down
-	 * <code>baseURL = (String) getJspContext().getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE);</code>
-	 */
-	protected String baseURL;
 	
 	protected void init(){
 		mcrSession = MCRServlet.getSession((HttpServletRequest)((PageContext) getJspContext()).getRequest());
@@ -69,7 +64,6 @@ public class MCRAbstractTag extends SimpleTagSupport {
 			lang = "de";
 		}
 		rbMessages = MCRTranslation.getResourceBundle("messages", new Locale(lang));
-		baseURL = (String) getJspContext().getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE);
 	}
 	
 	/**
