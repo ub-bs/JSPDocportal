@@ -1,4 +1,4 @@
-<%@ page pageEncoding="UTF-8" contentType="application/xhtml+xml; charset=UTF-8"%>
+<%@ page pageEncoding="UTF-8" contentType="text/html;charset=UTF-8"%>
 <%@ page import="org.mycore.frontend.servlets.MCRServlet"%>
 <%@ page import="org.mycore.common.MCRSessionMgr"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>

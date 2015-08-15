@@ -75,8 +75,7 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
 	@DefaultHandler
 	public Resolution defaultRes() {
 		getContext().getResponse().setCharacterEncoding("UTF-8");
-		getContext().getResponse().setContentType("application/xhtml+xml; charset=UTF-8");
-		
+		getContext().getResponse().setContentType("text/html;charset=utf-8");
 		HttpServletRequest request = getContext().getRequest();
 		if (request.getParameter("_search") != null) {
 			result = MCRSearchResultDataBean.retrieveSearchresultFromSession(request,

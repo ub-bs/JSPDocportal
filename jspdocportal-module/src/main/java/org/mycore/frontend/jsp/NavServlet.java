@@ -26,7 +26,7 @@ public class NavServlet extends MCRServlet {
 		HttpServletRequest request = job.getRequest();
 		HttpServletResponse response = job.getResponse();
 		response.setCharacterEncoding("UTF-8");
-		response.setContentType("application/xhtml+xml; charset=UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
 
 		ServletContext context = this.getServletContext();
 
