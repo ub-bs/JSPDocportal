@@ -1,5 +1,7 @@
 package org.mycore.frontend.jsp.stripes.actions;
 
+import org.apache.commons.lang3.StringUtils;
+
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -27,12 +29,11 @@ import net.sourceforge.stripes.controller.LifecycleStage;
  * @author Stephan
  *
  */
-@UrlBinding("/webpage.action")
+@UrlBinding("/site/{path}")
 public class WebpageAction extends MCRAbstractStripesAction implements ActionBean {
 	
-	private String show = "start";
+    private String path;
 	
-	String main = null;
 	String info = null;
 	
 
@@ -43,12 +44,6 @@ public class WebpageAction extends MCRAbstractStripesAction implements ActionBea
 	@Before(stages = LifecycleStage.BindingAndValidation)
 	public void rehydrate() {
 		super.rehydrate();
-		if (getContext().getRequest().getParameter("show") != null) {
-			show = cleanParameter(getContext().getRequest().getParameter("show"));
-		}
-		if (getContext().getRequest().getParameter("main") != null) {
-			main = cleanParameter(getContext().getRequest().getParameter("main"));
-		}
 		if (getContext().getRequest().getParameter("info") != null) {
 			info = cleanParameter(getContext().getRequest().getParameter("info"));
 		}
@@ -56,28 +51,31 @@ public class WebpageAction extends MCRAbstractStripesAction implements ActionBea
 
 	@DefaultHandler
 	public Resolution defaultRes() {
-		if(main == null){
-			return new ForwardResolution("/content/"+show.replace(".", "/")+".jsp");
-		}
-		else{
-			return new ForwardResolution("/content/webpage.jsp");
-		}
+	    if(path!=null){
+	        path = path.replace("\\", "/");
+	        if(!path.contains("..") && StringUtils.countMatches(path, "/")<=3){
+	            return new ForwardResolution("/content/webpage.jsp");
+	        }
+	    }
+	    return new ForwardResolution("/");
+	    
 	}
 	
 	private String cleanParameter(String s){
 		return s.replaceAll("[^a-zA-Z_0-9.,]", "");
 	}
 
-	public String getShow() {
-		return show;
-	}
-
-	public String getMain() {
-		return main;
-	}
 
 	public String getInfo() {
 		return info;
 	}
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
 	
 }

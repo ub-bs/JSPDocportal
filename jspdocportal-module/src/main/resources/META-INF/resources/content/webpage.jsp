@@ -6,14 +6,15 @@
 <%@ taglib prefix="mcr" uri="http://www.mycore.org/jspdocportal/base.tld" %>
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
-<fmt:message var="pageTitle" key="Webpage.title.${actionBean.main}" />
+<fmt:message var="pageTitle" key="Webpage.title.${fn:replace(actionBean.path, '/', '.')}" />
 <c:set var="layout">2columns</c:set>
 <c:if test="${not empty actionBean.info}"><c:set var="layout">3columns</c:set></c:if>
 
 <stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}" layout="${layout}">
 	<stripes:layout-component name="contents">
 		<div class="ur-box ur-text">
-			<mcr:includeWebcontent id="${actionBean.main}" file="${fn:replace(actionBean.main, '.', '/')}.html" />
+			<h2>Pfad: ${actionBean.path}</h2>
+			<mcr:includeWebcontent id="${fn:replace(actionBean.path, '/', '.')}" file="${actionBean.path}.html" />
 		</div>
 	</stripes:layout-component>
 	<stripes:layout-component name="right_side">
