@@ -35,10 +35,6 @@
 
 				<%-- load first time from request parameter "returnPath --%>
 
-				<div>
-					Base of MCRObjID: ${actionBean.mcrobjid_base}
-				</div>	
-				
 				<div class="panel panel-info">
   					<div class="panel-heading">
     					<h3 class="panel-title">Neu</h3>
