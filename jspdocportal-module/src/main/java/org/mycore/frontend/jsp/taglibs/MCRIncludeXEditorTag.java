@@ -2,7 +2,8 @@ package org.mycore.frontend.jsp.taglibs;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,14 +22,13 @@ import org.mycore.common.content.MCRContent;
 import org.mycore.common.content.MCRJDOMContent;
 import org.mycore.common.content.MCRStringContent;
 import org.mycore.common.content.MCRURLContent;
-import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.xeditor.MCREditorSessionStore;
 import org.mycore.frontend.xeditor.MCRStaticXEditorFileServlet;
 import org.xml.sax.SAXException;
 
 /**
- * This tag includes an xeditor definition, which can be provided
- * as attribute editorPath or in the body of the tag.
+ * This tag includes an xeditor definition, which can be provided as attribute
+ * editorPath or in the body of the tag.
  * 
  * 
  * @author Robert Stephan
@@ -38,6 +38,8 @@ public class MCRIncludeXEditorTag extends SimpleTagSupport {
     private static Logger LOGGER = Logger.getLogger(MCRIncludeXEditorTag.class);
 
     public static Namespace NS_XED = Namespace.getNamespace("xed", "http://www.mycore.de/xeditor");
+
+    private static Pattern REGEX_XML_EMPTY_ELEMENTS = Pattern.compile("<(a|i|span|div)\\s([^/>]*)?(\\s)?/>");
 
     private String editorPath = null;
 
@@ -75,11 +77,10 @@ public class MCRIncludeXEditorTag extends SimpleTagSupport {
         }
         MCRContent editorContent = null;
         if (editorPath != null && !editorPath.equals("")) {
-            if (editorPath.startsWith("http")) {
-                editorContent = new MCRURLContent(new URL(editorPath));
-            } else {
-                editorContent = new MCRURLContent(new URL(MCRFrontendUtil.getBaseURL() + editorPath));
+            if (!editorPath.startsWith("/")) {
+                editorPath = "/" + editorPath;
             }
+            editorContent = new MCRURLContent(getClass().getResource(editorPath));
         } else {
             if (getJspBody() != null) {
                 StringWriter sw = new StringWriter();
@@ -91,7 +92,8 @@ public class MCRIncludeXEditorTag extends SimpleTagSupport {
             try {
                 JspWriter out = pageContext.getOut();
                 Document doc = editorContent.asXML();
-                if (doc.getRootElement().getName().equals("form") && doc.getRootElement().getNamespace().equals(NS_XED)) {
+                if (doc.getRootElement().getName().equals("form")
+                    && doc.getRootElement().getNamespace().equals(NS_XED)) {
                     if (cancelURL != null && cancelURL.length() > 0) {
                         // setze xed:cancel
                         Element elCancel = new Element("cancel", NS_XED).setAttribute("url", cancelURL);
@@ -118,15 +120,21 @@ public class MCRIncludeXEditorTag extends SimpleTagSupport {
                     if (sessionID != null && sessionID.contains("-")) {
                         sessionID = sessionID.split("-")[0];
                     }
-                    
+
                     MCRContent newContent = MCRStaticXEditorFileServlet.doExpandEditorElements(editorContent, request,
                         (HttpServletResponse) pageContext.getResponse(), sessionID, pageURL);
-                    if(newContent!=null){
-                        out.append(newContent.asString().replaceAll("<\\?xml.*?\\?>", ""));
+                    String content = null;
+                    if (newContent != null) {
+                        content = newContent.asString().replaceAll("<\\?xml.*?\\?>", "");
+                    } else {
+                        content = editorContent.asString().replaceAll("<\\?xml.*?\\?>", "");
                     }
-                    else{
-                        out.append(editorContent.asString().replaceAll("<\\?xml.*?\\?>", ""));
-                    }
+                    // for proper display of glyhicons
+                    // replace "<i class='glyphicon glyphicon-plus' /> with "<i class='glyphicon glyphicon-plus'></i>"
+                    Matcher m = REGEX_XML_EMPTY_ELEMENTS.matcher(content);
+                    content = m.replaceAll("<$1 $2></$1>");
+
+                    out.append(content);
                 } else {
                     LOGGER.error("JSPTag <mcr:includeXEditor> can only contain an <xed:form> element");
                     out.append("<span class=\"error\">Please provide an &lt;xed:form&gt; element here!</span>");

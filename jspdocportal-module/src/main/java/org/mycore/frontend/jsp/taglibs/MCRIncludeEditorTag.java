@@ -1,8 +1,9 @@
 package org.mycore.frontend.jsp.taglibs;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.StringWriter;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
@@ -22,10 +23,10 @@ import org.apache.log4j.Logger;
 import org.jdom2.Document;
 import org.jdom2.JDOMException;
 import org.jdom2.transform.JDOMSource;
-import org.mycore.common.content.MCRStreamContent;
+import org.mycore.common.content.MCRContent;
+import org.mycore.common.content.MCRURLContent;
 import org.mycore.common.xml.MCRURIResolver;
 import org.mycore.common.xsl.MCRParameterCollector;
-import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.editor.MCREditorServlet;
 import org.xml.sax.SAXException;
 
@@ -45,25 +46,21 @@ public class MCRIncludeEditorTag extends SimpleTagSupport {
 
 	public void doTag() throws JspException, IOException {
 		PageContext pageContext = (PageContext) getJspContext();
-		String editorBase = "";
-
+		
 		if (editorPath != null && !editorPath.equals("")) {
-			if (editorPath.startsWith("http")) {
-				editorBase = editorPath;
-			} else {
-				editorBase = MCRFrontendUtil.getBaseURL() + editorPath;
+			if(!editorPath.startsWith("/")){
+				editorPath = "/"+editorPath;
 			}
-			pageContext.getSession().setAttribute("editorPath", editorBase);
+			pageContext.getSession().setAttribute("editorPath", editorPath);
 		}
-		JspWriter out = pageContext.getOut();
+		StringWriter out = new StringWriter();
 
 		try {
 			HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
-
-			// Document xml = new MCRFileContent(editorFile).asXML();
-			InputStream is = getClass().getResourceAsStream("/META-INF/resources/" + editorPath);
-			Document xml = new MCRStreamContent(is).asXML();
-			MCREditorServlet.replaceEditorElements(request, editorBase, xml);
+			URL editorXML = getClass().getResource(editorPath);
+			MCRContent editorContent = new MCRURLContent(getClass().getResource(editorPath));
+			Document xml = editorContent.asXML();
+			MCREditorServlet.replaceEditorElements(request, editorXML.toURI().toString(), xml);
 
 			Source xmlSource = new JDOMSource(xml);
 			Source xsltSource = new StreamSource(getClass().getResourceAsStream("/xsl/editor_standalone.xsl"));
@@ -92,6 +89,9 @@ public class MCRIncludeEditorTag extends SimpleTagSupport {
 			}
 			paramColl.setParametersTo(transformer);
 			transformer.transform(xmlSource, new StreamResult(out));
+			
+			pageContext.getOut().append(out.toString());
+			
 		} catch (TransformerConfigurationException e) {
 			logger.error("TransformerConfigurationException: " + e, e);
 		} catch (TransformerException e) {
@@ -100,6 +100,8 @@ public class MCRIncludeEditorTag extends SimpleTagSupport {
 			logger.error("SAXException " + e, e);
 		} catch (JDOMException e) {
 			logger.error("JDOMException " + e, e);
+		} catch (URISyntaxException e) {
+			logger.error("URISyntaxException " + e, e);
 		}
 	}
 }
