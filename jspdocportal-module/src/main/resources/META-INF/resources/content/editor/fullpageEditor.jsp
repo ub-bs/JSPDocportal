@@ -12,7 +12,7 @@
 <%--Parameter: objectType --%>
 
 <fmt:message var="pageTitle" key="WF.editobject" /> 
-<stripes:layout-render name="../../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}" layout="1column">
+<stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}" layout="1column">
 <stripes:layout-component name="html_header">
 	<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_workspace.css" />
 </stripes:layout-component>
