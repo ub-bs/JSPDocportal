@@ -39,7 +39,7 @@ public class MCRIncludeXEditorTag extends SimpleTagSupport {
 
     public static Namespace NS_XED = Namespace.getNamespace("xed", "http://www.mycore.de/xeditor");
 
-    private static Pattern REGEX_XML_EMPTY_ELEMENTS = Pattern.compile("<(a|i|span|div)\\s([^/>]*)?(\\s)?/>");
+    private static Pattern REGEX_XML_EMPTY_ELEMENTS = Pattern.compile("<(a|i|span|div|textarea)\\s([^>]*)?(\\s)?/>");
 
     private String editorPath = null;
 
