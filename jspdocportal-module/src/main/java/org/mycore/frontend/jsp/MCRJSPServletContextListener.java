@@ -40,6 +40,7 @@ import org.mycore.access.MCRAccessManager;
 import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.common.MCRException;
+import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.services.i18n.MCRTranslation;
 
@@ -67,6 +68,7 @@ public class MCRJSPServletContextListener implements ServletContextListener {
 		loadConstants(sce.getServletContext());
 		createNonExistingAdminPermissions();
 		registerDefaultMessageBundle(sce.getServletContext());
+		sce.getServletContext().setAttribute("WebApplicationBaseURL", MCRFrontendUtil.getBaseURL());
 	}
 
 	@Override
