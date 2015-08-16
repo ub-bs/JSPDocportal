@@ -55,9 +55,10 @@
 	<stripes:layout-component name="contents">
 		<div class="ur-box ur-text">
 		 	<h2><fmt:message key="WF.EditDerivates" /></h2>
-		</div>	
-		<c:set  var="baseURL" value="${applicationScope.WebApplicationBaseURL}" />
-			 <%request.setAttribute("currentVariables", MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().getVariables(((EditDerivatesAction)request.getAttribute("actionBean")).getTaskid())); %>
+		</div>
+		<div class="ur-box">	
+			<c:set  var="baseURL" value="${applicationScope.WebApplicationBaseURL}" />
+			<%request.setAttribute("currentVariables", MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().getVariables(((EditDerivatesAction)request.getAttribute("actionBean")).getTaskid())); %>
 			
 			<stripes:form
 				beanclass="org.mycore.frontend.jsp.stripes.actions.EditDerivatesAction"
@@ -210,5 +211,6 @@
     				</div>
 				</div>
 			</stripes:form>
+		</div>
 	</stripes:layout-component>
 </stripes:layout-render>
