@@ -12,7 +12,6 @@ import org.mycore.datamodel.metadata.validator.MCREditorOutValidator;
 public class MCRMetaHistoryEventCheck implements MCREditorMetadataValidator {
 	  private static Logger LOGGER = Logger.getLogger(MCRMetaHistoryEventCheck.class);
       public String checkDataSubTag(Element datasubtag) {
-            @SuppressWarnings("unchecked")
             List<Element> children = datasubtag.getChildren("text");
             for (int i = 0; i < children.size(); i++) {
                 Element child = children.get(i);
