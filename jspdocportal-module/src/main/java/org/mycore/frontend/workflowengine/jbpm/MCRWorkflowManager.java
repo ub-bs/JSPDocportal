@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.graph.def.Node;
@@ -429,7 +430,7 @@ public abstract class MCRWorkflowManager {
 			JSPUtils.recursiveCopy(inputDir, outputDir);
 			FileInputStream fin = new FileInputStream(inputFile);
 			FileOutputStream fout = new FileOutputStream(new File(curBackupDir.getAbsolutePath() + "/" + inputFile.getName()));
-			MCRUtils.copyStream(fin, fout);
+			IOUtils.copy(fin, fout);
 			fin.close();
 			fout.flush();
 			fout.close();

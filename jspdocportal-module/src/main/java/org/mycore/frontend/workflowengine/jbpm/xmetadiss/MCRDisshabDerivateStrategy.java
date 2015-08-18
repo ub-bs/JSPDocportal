@@ -10,6 +10,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.mycore.common.MCRException;
@@ -130,7 +131,7 @@ public class MCRDisshabDerivateStrategy extends MCRDefaultDerivateStrategy {
 				FileOutputStream fouts = new FileOutputStream(fout);
 				InputStream fin = item.getInputStream();
 				fouts = new FileOutputStream(fout);
-				MCRUtils.copyStream(fin, fouts);
+				IOUtils.copy(fin, fouts);
 				fin.close();
 				fouts.flush();
 				fouts.close();

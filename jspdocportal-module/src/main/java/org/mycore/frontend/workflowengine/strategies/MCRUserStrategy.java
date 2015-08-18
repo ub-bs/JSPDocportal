@@ -4,10 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.jdom2.Element;
-import org.mycore.common.MCRUtils;
 
 
 public abstract class MCRUserStrategy {
@@ -85,7 +85,7 @@ public abstract class MCRUserStrategy {
 
 			FileInputStream fin = new FileInputStream(fInputFile);
 			FileOutputStream fout = new FileOutputStream(new File(fBackupDirectory.getAbsolutePath() + "/" + fInputFile.getName()));
-			MCRUtils.copyStream(fin, fout);			
+			IOUtils.copy(fin, fout);			
 			fin.close();
 			fout.flush();
 			fout.close();

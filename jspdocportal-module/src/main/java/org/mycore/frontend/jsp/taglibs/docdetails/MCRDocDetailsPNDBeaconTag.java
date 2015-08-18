@@ -150,7 +150,7 @@ public class MCRDocDetailsPNDBeaconTag extends SimpleTagSupport {
 
 			UBRBibliographie biblioApp;
 
-			if (whitelist.isEmpty() && !blacklist.contains(UBR_BIBLIOGRAPHY_KEY)) {
+			if (whitelist.isEmpty() || whitelist.contains(UBR_BIBLIOGRAPHY_KEY) && !blacklist.contains(UBR_BIBLIOGRAPHY_KEY)) {
 				biblioApp = UBRBibliographie.getInstance();
 				if (biblioApp.getHitCount(pnd) > 0) {
 					ids.add(UBR_BIBLIOGRAPHY_KEY);

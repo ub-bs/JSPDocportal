@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.StringTokenizer;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.mycore.common.MCRUtils;
 import org.mycore.datamodel.metadata.MCRDerivate;
@@ -159,7 +160,7 @@ public class MCRWorkflowUploadHandler extends MCRUploadHandler {
 
         try {
             FileOutputStream fouts = new FileOutputStream(fout);
-            MCRUtils.copyStream(in, fouts);
+            IOUtils.copy(in, fouts);
             fouts.flush();
             fouts.close();
             logger.info("Data object stored under " + fout.getName());

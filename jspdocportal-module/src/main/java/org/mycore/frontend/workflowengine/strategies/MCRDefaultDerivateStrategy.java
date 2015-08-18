@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.mycore.common.JSPUtils;
@@ -163,7 +164,7 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 				File fout = new File(dirname, fname);
 				InputStream fin = item.getInputStream();				
 				FileOutputStream fouts = new FileOutputStream(fout);
-				MCRUtils.copyStream(fin, fouts);
+				IOUtils.copy(fin, fouts);
 				fin.close();
 				fouts.flush();
 				fouts.close();

@@ -17,6 +17,7 @@ import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -193,7 +194,7 @@ public class JSPUtils {
 					File output2 = new File(output.getAbsolutePath() + "/" + f.getName());
 					FileInputStream fis = new FileInputStream(f);
 					FileOutputStream fos = new FileOutputStream(output2); 
-					MCRUtils.copyStream(fis, fos);
+					IOUtils.copy(fis, fos);
 					fis.close();
 					fos.close();
 				}

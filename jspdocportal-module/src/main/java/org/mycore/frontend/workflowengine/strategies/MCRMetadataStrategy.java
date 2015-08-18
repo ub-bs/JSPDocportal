@@ -6,10 +6,10 @@ import java.io.FileOutputStream;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.jdom2.Element;
-import org.mycore.common.MCRUtils;
 import org.mycore.datamodel.metadata.MCRObjectID;
 
 
@@ -109,7 +109,7 @@ public abstract class MCRMetadataStrategy {
 			File fBackupDirectory = new File(backupDirectory);
 			FileInputStream fin = new FileInputStream(fInputFile);
 			FileOutputStream fout = new FileOutputStream(new File(fBackupDirectory.getAbsolutePath() + "/" + fInputFile.getName()));
-			MCRUtils.copyStream(fin, fout);
+			IOUtils.copy(fin, fout);
 			
 			fin.close();
 			fout.flush();
