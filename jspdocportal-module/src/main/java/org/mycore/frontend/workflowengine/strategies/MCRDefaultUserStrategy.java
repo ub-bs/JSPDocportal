@@ -12,9 +12,10 @@ import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.jdom2.Element;
 import org.mycore.common.config.MCRConfiguration;
-import org.mycore.common.xml.MCRXMLHelper;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
+import org.mycore.common.content.MCRVFSContent;
+import org.mycore.common.xml.MCRXMLParserFactory;
 import org.mycore.frontend.jsp.user.MCRExternalUserLogin;
+import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.user2.MCRUserCommands;
 import org.mycore.user2.MCRUserManager;
 
@@ -48,8 +49,7 @@ public class MCRDefaultUserStrategy extends MCRUserStrategy{
         if (outxml == null) {
             return;
         }
-        try {
-            FileOutputStream out = new FileOutputStream(fullname);
+        try (FileOutputStream out = new FileOutputStream(fullname)){
             out.write(outxml);
             out.flush();
         } catch (IOException ex) {
@@ -155,7 +155,7 @@ public class MCRDefaultUserStrategy extends MCRUserStrategy{
 		boolean bSuccess = true;
 		String filename = directory + "/" + "user_" + userid + ".xml";
 		try { 
-			MCRXMLHelper.parseURI(new File(filename).toURI(), false);
+		    MCRXMLParserFactory.getParser(false).parseXML(new MCRVFSContent(new File(filename).toURI()));
 		}catch(Exception e){
 			logger.error("Check Metadata of user" +  filename);
 			logger.error( e.getMessage());

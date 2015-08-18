@@ -200,8 +200,7 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 		try {
 			if(bUpdateDerivate){
 				byte[] outxml = MCRUtils.getByteArray(der.createXML());
-				try {
-					FileOutputStream out = new FileOutputStream(dirname	+ ".xml");
+				try (FileOutputStream out = new FileOutputStream(dirname	+ ".xml")){
 					out.write(outxml);
 					out.flush();
 				} catch (IOException ex) {
