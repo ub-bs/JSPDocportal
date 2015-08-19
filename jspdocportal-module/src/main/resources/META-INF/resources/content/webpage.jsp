@@ -10,10 +10,9 @@
 <c:set var="layout">2columns</c:set>
 <c:if test="${not empty actionBean.info}"><c:set var="layout">3columns</c:set></c:if>
 
-<stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}" layout="${layout}">
+<stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}" layout="${layout}">
 	<stripes:layout-component name="contents">
 		<div class="ur-box ur-text">
-			<h2>Pfad: ${actionBean.path}</h2>
 			<mcr:includeWebcontent id="${fn:replace(actionBean.path, '/', '.')}" file="${actionBean.path}.html" />
 		</div>
 	</stripes:layout-component>
