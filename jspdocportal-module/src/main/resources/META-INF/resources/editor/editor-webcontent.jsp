@@ -37,6 +37,7 @@
 				entities_greek:false,
 				allowedContent:true
          	};
+		 	CKEDITOR.dtd.$removeEmpty.span = false;
 
 		    $(document).ready( function() {$('textarea#taedit_${jsid}').ckeditor(config); });
 		</script>
