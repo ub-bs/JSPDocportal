@@ -14,7 +14,7 @@
         		<mcr:outputNavigation mode="toc" id="admin"/>
         	</div>
         	<div style="padding-bottom: 50px;">
-            	<mcr:includeWebContent file="index_introtext.html" />
+            	<mcr:includeWebcontent id="index" file="index_introtext.html" />
            	</div>
         </div>        
 	 </stripes:layout-component>
