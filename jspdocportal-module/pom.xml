@@ -316,24 +316,6 @@
 				<directory>src/main/resources</directory>
 			</resource>
 			<resource>
-				<directory>src/main/resources/config</directory>
-				<includes>
-					<include>*.*</include>
-				</includes>
-				<excludes>
-					<exclude>web.xml</exclude>
-					<exclude>*.template</exclude>
-					<exclude>datamodel-*.xml</exclude>
-				</excludes>
-
-			</resource>
-			<resource>
-				<directory>src/main/resources/config/hibernate</directory>
-				<excludes>
-					<exclude>*.template</exclude>
-				</excludes>
-			</resource>
-			<resource>
 				<directory>target/dependency/components/oai/web</directory>
 			</resource>
 
