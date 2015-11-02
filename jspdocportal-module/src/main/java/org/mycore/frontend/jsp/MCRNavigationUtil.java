@@ -24,7 +24,6 @@
 package org.mycore.frontend.jsp;
 
 import java.util.List;
-import java.util.UUID;
 
 import javax.servlet.ServletContext;
 
@@ -54,7 +53,7 @@ public class MCRNavigationUtil {
      * @param session - the HTTPSession
      */
     protected static void loadNavigation(ServletContext sce){
-    	Element eNav = MCRURIResolver.instance().resolve("resource:navigation.xml");
+    	Element eNav = MCRURIResolver.instance().resolve("resource:config/navigation.xml");
     	annoteNavigation(eNav);
     	
     	Document jdomDoc = eNav.getDocument();
