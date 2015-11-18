@@ -1,5 +1,8 @@
 package org.mycore.activiti;
 
+import java.io.File;
+import java.io.FileInputStream;
+
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngineConfiguration;
 import org.activiti.engine.RuntimeService;
@@ -11,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.mycore.activiti.workflows.create_object_simple.MCRWorkflowMgr;
 import org.mycore.common.MCRException;
 import org.mycore.common.config.MCRConfiguration;
+import org.mycore.common.config.MCRConfigurationDir;
 import org.mycore.common.config.MCRConfigurationException;
 
 public class MCRActivitiMgr {
@@ -24,15 +28,31 @@ public class MCRActivitiMgr {
 	public static final String WF_VAR_DISPLAY_DESCRIPTION = "wfObjectDisplayDescription";
 	public static final String WF_VAR_DISPLAY_DERIVATELIST = "wfObjectDisplayDerivateList";
 
+	@Deprecated
 	public static final String ACTIVITI_CONFIG_FILE = "/config/workflow/activiti.cfg.xml";
+	public static final String MCR_ACTIVITI_CONFIG_FILE = "activiti.cfg.xml";
 
 	private static ProcessEngine activitiProcessEngine;
 
+	public static ProcessEngineConfiguration getWorkflowProcessEngineConfiguration() {
+		File configFile = MCRConfigurationDir.getConfigFile(MCR_ACTIVITI_CONFIG_FILE);
+		if (configFile != null && configFile.canRead()) {
+			try (FileInputStream fis = new FileInputStream(configFile)) {
+				return ProcessEngineConfiguration.createProcessEngineConfigurationFromInputStream(fis);
+			} catch (Exception e) {
+				LOGGER.warn("Error while loading activiti configuration for: " + configFile, e);
+			}
+		}
+		
+		//fallback - TODO cleanup
+		return ProcessEngineConfiguration.createProcessEngineConfigurationFromResource(ACTIVITI_CONFIG_FILE);
+	}
+	
 	// Workflow Engine
 	public static synchronized ProcessEngine getWorfklowProcessEngine() {
 		if (activitiProcessEngine == null) {
-			ProcessEngineConfiguration pec = ProcessEngineConfiguration.createProcessEngineConfigurationFromResource(ACTIVITI_CONFIG_FILE);
-			activitiProcessEngine = pec.buildProcessEngine();
+			
+			activitiProcessEngine = getWorkflowProcessEngineConfiguration().buildProcessEngine();
 		}
 		return activitiProcessEngine;
 	}

@@ -23,13 +23,15 @@
 
 package org.mycore.activiti;
 
+import java.lang.reflect.Method;
+
 import org.activiti.engine.ProcessEngine;
-import org.activiti.engine.ProcessEngineConfiguration;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.apache.log4j.Logger;
 import org.mycore.common.MCRException;
 import org.mycore.frontend.cli.MCRAbstractCommands;
+import org.mycore.frontend.cli.MCRBasicCommands;
 import org.mycore.frontend.cli.annotation.MCRCommand;
 import org.mycore.frontend.cli.annotation.MCRCommandGroup;
 
@@ -56,7 +58,7 @@ public class MCRActivitiCommands extends MCRAbstractCommands {
     @MCRCommand(syntax = "deploy workflow processdefinition from resource {0}", help = "The command deploys a process definition to the database from a *.bpm20.xml file {0} available on classpath")
     public static final void deployProcessDefinition(String resource) throws MCRException{
     	try{
-        	ProcessEngine processEngine = ProcessEngineConfiguration.createProcessEngineConfigurationFromResource(MCRActivitiMgr.ACTIVITI_CONFIG_FILE)
+    		ProcessEngine processEngine = MCRActivitiMgr.getWorkflowProcessEngineConfiguration()
             .setDatabaseSchemaUpdate(ProcessEngineConfigurationImpl.DB_SCHEMA_UPDATE_TRUE)
             .buildProcessEngine();
 
@@ -71,4 +73,28 @@ public class MCRActivitiCommands extends MCRAbstractCommands {
             throw new MCRException("Error in deploying a workflow process definition", e);
     	}
     }
+    
+    /**
+     * The command creates the activitiv.cfg.xml file in mycore configuration directory
+     * 
+     *@deprecated - this should be handled by a more generic "create configuration directory" command
+     * 
+     */
+    
+    @MCRCommand(syntax = "create activiti configuration file", help = "The command creates the activiti configuration file")
+    public static final void createActivitiConfigurationFile() throws MCRException{
+    	try{
+    		
+    		Method m = MCRBasicCommands.class.getDeclaredMethod("createSampleConfigFile", String.class);
+    		m.setAccessible(true); //if security settings allow this
+    		m.invoke(null, MCRActivitiMgr.MCR_ACTIVITI_CONFIG_FILE); //use null if the method is static
+    		
+    		LOGGER.info(MCRActivitiMgr.MCR_ACTIVITI_CONFIG_FILE +" copied to mycore configuration directory");
+    	}catch(Exception e){
+    		LOGGER.error("Error while copying acitiviti config file to mycore config directory", e);
+            throw new MCRException("Error while copying acitiviti config file to mycore config directory", e);
+    	}
+    }
+    
+    
 }
