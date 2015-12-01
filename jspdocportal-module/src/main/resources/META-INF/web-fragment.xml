@@ -161,11 +161,7 @@
          <servlet-name>MCRJSPObjectServlet</servlet-name>
          <servlet-class>org.mycore.frontend.servlets.MCRJSPObjectServlet</servlet-class>
     </servlet>
-	<servlet>
-         <servlet-name>MCRJSPPNDServlet</servlet-name>
-         <servlet-class>org.mycore.frontend.servlets.MCRJSPPNDServlet</servlet-class>
-    </servlet>
-
+	
     <servlet>
         <servlet-name>MCRRegisterUserWorkflowServlet</servlet-name>
         <servlet-class>org.mycore.frontend.workflowengine.jbpm.registeruser.MCRRegisterUserWorkflowServlet</servlet-class>
@@ -255,15 +251,6 @@
 		<url-pattern>/metadata/*</url-pattern>
 	</servlet-mapping>
 	
-	<servlet-mapping>
-		<servlet-name>MCRJSPPNDServlet</servlet-name>
-		<url-pattern>/pnd/*</url-pattern>
-	</servlet-mapping>
-    <servlet-mapping>
-    	<servlet-name>MCRJSPPNDServlet</servlet-name>
-		<url-pattern>/gnd/*</url-pattern>
-	</servlet-mapping>
-
 	<servlet-mapping>
         <servlet-name>MCRRegisterUserWorkflowServlet</servlet-name>
         <url-pattern>/servlets/MCRRegisterUserWorkflowServlet</url-pattern>
