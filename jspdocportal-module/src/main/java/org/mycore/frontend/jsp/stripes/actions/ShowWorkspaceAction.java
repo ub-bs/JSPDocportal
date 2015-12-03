@@ -310,12 +310,12 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 		return mcrobjid_base;
 	}
 	
+	public void setMcrobjid_base(String mcrobjid_base) {
+		this.mcrobjid_base = mcrobjid_base;
+	}
+	
 	public String getObjectType() {
 		return mcrobjid_base.substring(mcrobjid_base.indexOf("_")+1);
-	}
-
-	public String setMcrobjid_base() {
-		return mcrobjid_base;
 	}
 	
 	public List<Task> getMyTasks() {

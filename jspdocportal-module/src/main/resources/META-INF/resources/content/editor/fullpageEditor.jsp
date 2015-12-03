@@ -14,7 +14,7 @@
 <fmt:message var="pageTitle" key="WF.editobject" /> 
 <stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}" layout="1column">
 <stripes:layout-component name="html_header">
-	<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_workspace.css" />
+	
 </stripes:layout-component>
 	<stripes:layout-component name="contents">
 		<mcr:includeXEditor editorPath="${actionBean.editorPath}" cancelURL="${actionBean.cancelURL}" sourceURI="${actionBean.sourceURI}" />
