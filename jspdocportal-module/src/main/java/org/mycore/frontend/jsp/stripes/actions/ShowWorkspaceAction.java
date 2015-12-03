@@ -240,20 +240,31 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 		}
 		
 		MCRObject mcrObj = MCRActivitiUtils.loadMCRObjectFromWorkflowDirectory(mcrObjID);
-		
-		String xpTitle = MCRConfiguration.instance().getString("MCR.Activiti.MCRObject.Display.Title.XPath."+mcrObjID.getBase(), "/mycoreobject/@ID");
-		XPathExpression<String> xpath = XPathFactory.instance().compile(xpTitle, Filters.fstring());
-		String txt = xpath.evaluateFirst(mcrObj.createXML());
+		String txt = null;
+		try{
+			String xpTitle = MCRConfiguration.instance().getString("MCR.Activiti.MCRObject.Display.Title.XPath."+mcrObjID.getBase(), "/mycoreobject/@ID");
+			XPathExpression<String> xpath = XPathFactory.instance().compile(xpTitle, Filters.fstring());
+			txt = xpath.evaluateFirst(mcrObj.createXML());
+		}
+		catch(Exception e){
+			LOGGER.error(e);
+			txt = e.getMessage();
+		}
 		if (txt != null) {
 			MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(t.getId(), MCRActivitiMgr.WF_VAR_DISPLAY_TITLE, txt);
 		}
 		else{
 			MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(t.getId(), MCRActivitiMgr.WF_VAR_DISPLAY_TITLE,MCRTranslation.translate("Wf.common.newObject"));
 		}
-		
-		String xpDescr = MCRConfiguration.instance().getString("MCR.Activiti.MCRObject.Display.Description.XPath."+mcrObjID.getBase(), "/mycoreobject/@label");
-		xpath = XPathFactory.instance().compile(xpDescr, Filters.fstring());
-		txt = xpath.evaluateFirst(mcrObj.createXML());
+		try{
+			String xpDescr = MCRConfiguration.instance().getString("MCR.Activiti.MCRObject.Display.Description.XPath."+mcrObjID.getBase(), "/mycoreobject/@label");
+			XPathExpression<String> xpath = XPathFactory.instance().compile(xpDescr, Filters.fstring());
+			txt = xpath.evaluateFirst(mcrObj.createXML());
+		}
+		catch(Exception e){
+			LOGGER.error(e);
+			txt = e.getMessage();
+		}
 		if (txt != null) {
 			MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(t.getId(), MCRActivitiMgr.WF_VAR_DISPLAY_DESCRIPTION, txt);
 		}
@@ -270,7 +281,7 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 		
 		MCRObject mcrObj = MCRActivitiUtils.loadMCRObjectFromWorkflowDirectory(mcrObjID);
 		StringWriter result = new StringWriter();
-		if(mcrObj.getStructure().getDerivates().size()>0){
+		if(mcrObj!=null && mcrObj.getStructure().getDerivates().size()>0){
 			Map<String, List<String>> derivateFiles = MCRActivitiUtils.getDerivateFiles(mcrObjID);
 			for(MCRMetaLinkID derID: mcrObj.getStructure().getDerivates()){
 				result.append("<span class=\"badge pull-left\" style=\"margin-left:128px; margin-right:24px; margin-top:3px;\">"+derID.getXLinkHref()+"</span>");
