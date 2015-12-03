@@ -34,16 +34,9 @@
 
 				<div class="panel panel-info">
   					<div class="panel-heading">
+  						<stripes:submit class="btn btn-default btn-sm pull-right"  name="doCreateNewTask" value="Neues Objekt erstellen" style="margin-top:-6px"/>
     					<h3 class="panel-title">Neue Aufgabe</h3>
   					</div>
-  					<div class="panel-body">
-  						<div class="panel panel-default" id="new_task">
-							<div class="panel-heading clearfix">
-								<stripes:submit class="btn btn-default btn-sm pull-right"  name="doCreateNewTask" value="Neues Objekt erstellen"/>
-								<h5 class="panel-title" style="margin-top:0.33em;"><span class="badge" style="margin-right:3em">Neu</span></h5>
-							</div>
-						</div>
-					</div>
   				</div>
 			
 				<div class="panel panel-info">
@@ -62,11 +55,15 @@
 									<c:choose>
 										<c:when test="${currentTask.name eq 'Objekt bearbeiten'}">
 							 				<div class="panel-body">
+							 				
 							 	   				<%pageContext.setAttribute("currentVariables", MCRActivitiMgr.getWorfklowProcessEngine().getRuntimeService().getVariables(((Task)request.getAttribute("currentTask")).getExecutionId()), PageContext.REQUEST_SCOPE); %>
 							  					<c:if test="${not empty currentVariables.validationMessage}">
 													<div class="alert alert-danger" role="alert">${currentVariables.validationMessage}</div>
 												</c:if>	
 												<div>
+													<a href="${WebApplicationBaseURL}resolve/id/${currentVariables.mcrObjectID}?fromWF=true" class="btn btn-default pull-right">
+							    	 					<span class="glyphicon glyphicon-blackboard"></span> Vorschau
+							     					</a>	
 													<span class="badge pull-left" style="margin-right:24px;margin-top:3px">${currentVariables.mcrObjectID}</span>
 													<div class="pull-left">
 														<h3 style="margin-top:0px">${currentVariables.wfObjectDisplayTitle}</h3>
@@ -85,7 +82,7 @@
 							     				</button>
 							     				<button name="doEditDerivates-task_${currentTask.id}-${currentVariables.mcrObjectID}" value="" class="btn btn-default" type="submit">
 							    	 				<span class="glyphicon glyphicon-file"></span> Derivate bearbeiten
-							     				</button>	
+							     				</button>
 							   			 	</div>
 								  			<div class="panel-footer">
 								  				<button name="doGoto-task_${currentTask.id}-edit_object.do_save" value="" class="btn btn-default" type="submit"><span class="glyphicon glyphicon-floppy-disk"></span> Speichern</button>
