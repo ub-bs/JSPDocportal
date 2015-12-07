@@ -123,7 +123,7 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
             result.setMask("");
         }
         if (request.getParameter("sortField") != null && request.getParameter("sortValue") != null) {
-            result.setSort("+" + request.getParameter("sortField") + ":" + request.getParameter("sortValue"));
+            result.setSort(request.getParameter("sortField") + " " + request.getParameter("sortValue"));
         }
 
         if (result == null) {

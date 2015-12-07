@@ -38,7 +38,7 @@
 		</c:if>
 		<c:if test="${actionBean.showResults}">
 			<div class="ur-box">
-			  	<search:result-browser result ="${actionBean.result}" sortfields="profkat.idx_profname.headline modified">
+			  	<search:result-browser result="${actionBean.result}">
 			  		<c:set var="doctype" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
 						<search:show-edit-button mcrid="${mcrid}" /> 
 						<search:result-entry data="${entry}" url="${url}" />

@@ -40,6 +40,7 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.jdom2.Document;
+import org.mycore.common.config.MCRConfiguration;
 import org.mycore.solr.MCRSolrClientFactory;
 
 /**
@@ -260,6 +261,10 @@ public class MCRSearchResultDataBean {
 
 	public void setMask(String mask) {
 		this.mask = mask;
+	}
+	
+	public String getSortfields(){
+		return MCRConfiguration.instance().getString("MCR.Searchmask."+ (mask!=null ? mask : "default")+".sortfields", MCRConfiguration.instance().getString("MCR.Searchmask.default.sortfields", "")).trim();
 	}
 
 	public String getXedSessionId() {

@@ -5,7 +5,6 @@
 
 <%@ taglib prefix="search" tagdir="/WEB-INF/tags/search"%>
 
-<%@ attribute name="sortfields" required="true" type="java.lang.String" %>
 <%@ attribute name="result" required="true" type="org.mycore.frontend.jsp.search.MCRSearchResultDataBean" %>
 
 <%@ variable name-given="mcrid" %>
@@ -14,16 +13,16 @@
  
 <c:set var="numHits" value="${result.numFound}" />
 
-<c:if test="${not empty sortfields and numHits>0}">
+<c:if test="${not empty result.sortfields and numHits>0}">
 	<%--Resort Form --%>
 	<div class="panel panel-default">
 		<div class="panel-body">
 		<form style="margin-bottom:0px;" action="${pageContext.request.contextPath}/${result.action}" method="get" accept-charset="UTF-8">
 			 <input type="hidden" name="_search" value="<%= java.net.URLEncoder.encode(result.getId() , "UTF-8") %>" />
 			 <fmt:message key="Webpage.Searchresult.resort-label" />
-			 <select name="sortfieldName">
+			 <select name="sortField">
 			 	<option value=""></option>
-			 	<c:forEach var="field" items="${fn:split(fn:trim(sortfields), ' ')}">
+			 	<c:forEach var="field" items="${fn:split(fn:trim(result.sortfields), ',')}">
 			 		<c:if test="${not empty field}">
 			 			<c:choose>
 			 				<c:when test="${fn:startsWith(result.sort, field)}">
@@ -36,7 +35,7 @@
 			 		</c:if>
 				</c:forEach>
 			</select>&#160;&#160;&#160;
-			<select name="sortfieldValue">
+			<select name="sortValue">
 				<option value=""></option>
 			 	<c:forEach var="order" items="${fn:split('asc desc', ' ')}">
 			 		<c:choose>
