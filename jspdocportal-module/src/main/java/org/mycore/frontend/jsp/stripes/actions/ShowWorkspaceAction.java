@@ -205,7 +205,7 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 
 	
 	private void releaseTask(String taskId) {
-		LOGGER.debug("Accepted Task" +taskId );
+		LOGGER.debug("Release Task" +taskId );
 		TaskService ts = MCRActivitiMgr.getWorfklowProcessEngine().getTaskService();
 		ts.setAssignee(taskId, null);
 	}
