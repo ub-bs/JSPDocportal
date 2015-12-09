@@ -124,6 +124,7 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
         }
         if (request.getParameter("sortField") != null && request.getParameter("sortValue") != null) {
             result.setSort(request.getParameter("sortField") + " " + request.getParameter("sortValue"));
+            result.setStart(0);
         }
 
         if (result == null) {
@@ -190,8 +191,6 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
 
                 SolrQuery solrQuery = MCRQLSearchUtils.getSolrQuery(query, queryDoc, request);
                 result.setSolrQuery(solrQuery);
-
-                MCRSearchResultDataBean.addSearchresultToSession(request, result);
             }
         }
 
@@ -220,7 +219,8 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
             }
         }
         if (result.getSolrQuery() != null && showResults) {
-            result.doSearch();
+        	MCRSearchResultDataBean.addSearchresultToSession(request, result);
+        	result.doSearch();
         }
 
         return fwdResolutionForm;
