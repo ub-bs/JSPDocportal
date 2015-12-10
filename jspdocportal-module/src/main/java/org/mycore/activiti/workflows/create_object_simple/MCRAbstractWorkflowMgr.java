@@ -147,7 +147,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 				MCRActivitiUtils.saveMCRDerivateToWorkflowDirectory(der);
 			}
 			MCRObject mcrObj = MCRActivitiUtils.loadMCRObjectFromWorkflowDirectory(owner);
-			mcrObj.getStructure().addDerivate(new MCRMetaLinkID("derobject", der.getId(), der.getLabel(), null));
+			mcrObj.getStructure().addDerivate(new MCRMetaLinkID("derobject", der.getId(), null, der.getLabel()));
 			MCRActivitiUtils.saveMCRObjectToWorkflowDirectory(mcrObj);
 
 		} else {
