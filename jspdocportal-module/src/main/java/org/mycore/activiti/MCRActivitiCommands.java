@@ -23,15 +23,12 @@
 
 package org.mycore.activiti;
 
-import java.lang.reflect.Method;
-
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.apache.log4j.Logger;
 import org.mycore.common.MCRException;
 import org.mycore.frontend.cli.MCRAbstractCommands;
-import org.mycore.frontend.cli.MCRBasicCommands;
 import org.mycore.frontend.cli.annotation.MCRCommand;
 import org.mycore.frontend.cli.annotation.MCRCommandGroup;
 
