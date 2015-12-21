@@ -73,28 +73,4 @@ public class MCRActivitiCommands extends MCRAbstractCommands {
             throw new MCRException("Error in deploying a workflow process definition", e);
     	}
     }
-    
-    /**
-     * The command creates the activitiv.cfg.xml file in mycore configuration directory
-     * 
-     *@deprecated - this should be handled by a more generic "create configuration directory" command
-     * 
-     */
-    
-    @MCRCommand(syntax = "create activiti configuration file", help = "The command creates the activiti configuration file")
-    public static final void createActivitiConfigurationFile() throws MCRException{
-    	try{
-    		
-    		Method m = MCRBasicCommands.class.getDeclaredMethod("createSampleConfigFile", String.class);
-    		m.setAccessible(true); //if security settings allow this
-    		m.invoke(null, MCRActivitiMgr.MCR_ACTIVITI_CONFIG_FILE); //use null if the method is static
-    		
-    		LOGGER.info(MCRActivitiMgr.MCR_ACTIVITI_CONFIG_FILE +" copied to mycore configuration directory");
-    	}catch(Exception e){
-    		LOGGER.error("Error while copying acitiviti config file to mycore config directory", e);
-            throw new MCRException("Error while copying acitiviti config file to mycore config directory", e);
-    	}
-    }
-    
-    
 }
