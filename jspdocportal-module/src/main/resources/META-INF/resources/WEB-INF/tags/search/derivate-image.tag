@@ -13,6 +13,7 @@
 <%@ attribute name="mcrid" required="true" type="java.lang.String" %>
 <%@ attribute name="labelContains" type="java.lang.String" %>
 <%@ attribute name="width" type="java.lang.String"  %>
+<%@ attribute name="showFooter" type="java.lang.Boolean"  %>
 
 <c:if test="${empty width}">
 	<c:set var="width" value="100%" />
@@ -60,8 +61,13 @@
 
 <c:if test="${not empty data}">
 	<c:forEach var="x" items="${fn:split(data, ';')}">
-		<div class="docdetails-image">
-			<img src="${pageContext.request.contextPath}/${fn:substringAfter(x,'=')}" border="0" width="${width}" alt="${fn:substringBefore(x, '=')}" />  
+		<div class="docdetails-image" style="z-index: 1000">
+			<img src="${pageContext.request.contextPath}/${fn:substringAfter(fn:substringBefore(x, '#'),'=')}" border="0" width="${width}" alt="${fn:substringBefore(x, '=')}" />  
+		<c:if test="${showFooter}">
+			<p style="font-size: 80%">
+				${fn:substringAfter(x,'#')}
+			</p>
+		</c:if>
 		</div>
 	</c:forEach>
 </c:if>
