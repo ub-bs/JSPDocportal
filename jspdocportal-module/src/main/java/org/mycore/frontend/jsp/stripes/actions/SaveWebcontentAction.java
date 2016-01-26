@@ -99,10 +99,10 @@ public class SaveWebcontentAction extends MCRAbstractStripesAction implements Ac
 	
 	private Set<String> getOpenEditorsFromSession(){
 		@SuppressWarnings("unchecked")
-		Set<String> openEditors = (Set<String>)getContext().getRequest().getSession().getAttribute("open_webcontent_editors");
+		Set<String> openEditors = (Set<String>)MCRSessionMgr.getCurrentSession().get("open_webcontent_editors");
 		if(openEditors == null){
 			openEditors = new HashSet<String>();
-			getContext().getRequest().getSession().setAttribute("open_webcontent_editors", openEditors);
+			MCRSessionMgr.getCurrentSession().put("open_webcontent_editors", openEditors);
 		}
 		return openEditors;
 	}

@@ -160,7 +160,9 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 	
 	private Set<String> getOpenEditorsFromSession(){
 		@SuppressWarnings("unchecked")
-		Set<String> openEditors = (Set<String>)((PageContext) getJspContext()).getSession().getAttribute("open_webcontent_editors");
+		//Set<String> openEditors = (Set<String>)((PageContext) getJspContext()).getSession().getAttribute("open_webcontent_editors");
+		Set<String> openEditors = (Set<String>)MCRSessionMgr.getCurrentSession().get("open_webcontent_editors");
+
 		if(openEditors == null){
 			openEditors = new HashSet<String>();
 		}
