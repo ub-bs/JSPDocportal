@@ -23,6 +23,7 @@
 package org.mycore.frontend.jsp.search;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -49,7 +50,9 @@ import org.mycore.solr.MCRSolrClientFactory;
  * @author Robert Stephan
  *
  */
-public class MCRSearchResultDataBean {
+public class MCRSearchResultDataBean implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	private static Logger LOGGER = Logger.getLogger(MCRSearchResultDataBean.class);
 	private String id;
 	private int current=0;
