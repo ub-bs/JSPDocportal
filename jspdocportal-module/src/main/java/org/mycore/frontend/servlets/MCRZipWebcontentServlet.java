@@ -102,7 +102,7 @@ public class MCRZipWebcontentServlet extends MCRServlet {
             String msg = "Das Zip-File konnte nicht ordnungsgemäss erstellt werden, " + "Bitte überprüfen Sie die eingegebenen Parameter";
             res.reset();
             try{
-            	generateErrorPage(req, res, HttpServletResponse.SC_BAD_REQUEST, msg, new MCRException("zip-Error!",e), false);
+            	res.sendError(HttpServletResponse.SC_BAD_REQUEST, msg);
             }
             catch(Exception e2){
             	Logger.getLogger(getClass()).error("Fehler", e2);
