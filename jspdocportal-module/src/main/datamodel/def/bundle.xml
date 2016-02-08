@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objecttype xmlns:mods="http://www.loc.gov/mods/v3" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	name="bundle" isChild="true" isParent="true" hasDerivates="true" xsi:noNamespaceSchemaLocation="datamodel.xsd">
+	<metadata>
+		<element name="modsContainer" type="xml" minOccurs="0" maxOccurs="unbounded" />
+		<element name="type" type="classification" minOccurs="0" maxOccurs="unbounded">
+			<classification id="rosdok_class_000000000005" />
+		</element>
+		<element name="title" type="text" minOccurs="0" maxOccurs="unbounded" />
+		<element name="creator" type="xml" minOccurs="0" maxOccurs="unbounded">
+			<!-- ROOT-Element: pc:person -->
+		</element>
+		<element name="creatorlink" type="link" minOccurs="0" maxOccurs="unbounded" />
+		<element name="publisher" type="xml" minOccurs="0" maxOccurs="unbounded">
+			<!-- ROOT-Element:  cc:universityOrInstitution -->
+		</element>
+		<element name="origin" type="classification" minOccurs="0" maxOccurs="unbounded">
+			<classification id="rosdok_class_000000000002" />
+		</element>
+		<element name="language" type="classification" minOccurs="0" maxOccurs="unbounded">
+			<classification id="rfc4646" />
+		</element>
+		<element name="period" type="historydate" minOccurs="0" maxOccurs="unbounded" />
+		<element name="urn" type="text" minOccurs="0" maxOccurs="unbounded" />
+		<element name="identifier" type="text" minOccurs="0" maxOccurs="unbounded" />
+		<element name="subject" type="classification" minOccurs="0" maxOccurs="unbounded">
+			<classification id="rosdok_class_000000000009" />
+		</element>
+		<element name="contentclassification" type="classification" minOccurs="0" maxOccurs="unbounded">
+			<!-- all classifications possible -->
+		</element>
+		<element name="description" type="text" minOccurs="0" maxOccurs="unbounded" />
+		<element name="keyword" type="text" minOccurs="0" maxOccurs="unbounded" />
+		<element name="collection" type="classification" minOccurs="0" maxOccurs="unbounded">
+			<classification id="collections" />
+		</element>
+		<element name="note" type="text" minOccurs="0" maxOccurs="unbounded" />
+		<element name="right" type="text" minOccurs="0" maxOccurs="unbounded" />
+		<element name="predece" type="href" minOccurs="0" maxOccurs="unbounded" />
+		<element name="successor" type="href" minOccurs="0" maxOccurs="unbounded" />
+      	<element name="collection" type="classification" minOccurs="0" maxOccurs="unbounded">
+			<classification id="collections" />
+		</element>
+		<element name="accessright" type="classification" minOccurs="0" maxOccurs="unbounded">
+			<classification id="eprintsAccessRights" />
+		</element>
+		<element name="mapping" type="classification" minOccurs="0" maxOccurs="unbounded">
+			<!-- all classifications possible -->
+		</element>
+	</metadata>
+</objecttype>

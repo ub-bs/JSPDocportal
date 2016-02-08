@@ -378,39 +378,16 @@
 					</execution>
 				</executions>
 			</plugin>
-
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>xml-maven-plugin</artifactId>
+				<groupId>org.mycore.plugins</groupId>
+				<artifactId>datamodel-plugin</artifactId>
 				<executions>
 					<execution>
 						<goals>
-							<goal>transform</goal>
+							<goal>schema</goal>
 						</goals>
 					</execution>
 				</executions>
-				<configuration>
-					<transformationSets>
-						<transformationSet>
-							<dir>src/main/config/datamodel</dir>
-							<outputDir>target/classes</outputDir>
-							<stylesheet>xsl/MCRMetadataSchema.xsl</stylesheet>
-							<fileMappers>
-								<fileMapper
-									implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
-									<targetExtension>.xsd</targetExtension>
-								</fileMapper>
-							</fileMappers>
-						</transformationSet>
-					</transformationSets>
-				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>org.mycore</groupId>
-						<artifactId>mycore-base</artifactId>
-						<version>${project.version}</version>
-					</dependency>
-				</dependencies>
 			</plugin>
 		</plugins>
 		<pluginManagement>
