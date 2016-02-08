@@ -81,20 +81,7 @@
 						</form>
 						</td>
 					</c:if>
-					<c:if test="${fn:contains('document',itemDocType) && fn:contains(itemID, 'rosdok')}">
-						<td align="center" valign="top" width="30">
-						<form method="get"	action="${baseURL}nav">
-							<input name="path" value="~importdata-goobi" type="hidden" />
-							<input name="mcrid" value="${itemID}" type="hidden" />
-							<input	name="processid" value="${processid}" type="hidden"> 
-							<input name="returnPath" value="nav?path=${param.path}" type="hidden" />
-							<input title="<fmt:message key="WF.common.object.ImportGoobi" />"
-									src="${baseURL}images/workflow_goobi_import.gif" type="image"
-									class="imagebutton">
-						</form>
-						</td>
-					</c:if>
-					
+										
 					<c:if test="${fn:contains('document',itemDocType) && fn:contains(itemID, 'rosdok')}">
 						<td align="center" valign="top" width="30">
 						<form method="get"	action="${baseURL}nav">
@@ -108,7 +95,6 @@
 						</form>
 						</td>
 					</c:if>
-					
 					
 					<td align="center" valign="top" width="30">
 					<form method="get" action="${baseURL}workflowaction">
