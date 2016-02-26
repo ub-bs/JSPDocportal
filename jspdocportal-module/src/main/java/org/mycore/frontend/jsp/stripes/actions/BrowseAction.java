@@ -47,9 +47,9 @@ import net.sourceforge.stripes.controller.LifecycleStage;
  * @author Stephan
  *
  */
-@UrlBinding("/search/{mask}")
-public class SearchAction extends MCRAbstractStripesAction implements ActionBean {
-    private static Logger LOGGER = Logger.getLogger(SearchAction.class);
+@UrlBinding("/browse/{mask}")
+public class BrowseAction extends MCRAbstractStripesAction implements ActionBean {
+    private static Logger LOGGER = Logger.getLogger(BrowseAction.class);
 
     public static Namespace NS_XED = Namespace.getNamespace("xed", "http://www.mycore.de/xeditor");
 
@@ -57,7 +57,7 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
 
     public static int DEFAULT_ROWS = 100;
 
-    ForwardResolution fwdResolutionForm = new ForwardResolution("/content/search/search.jsp");
+    ForwardResolution fwdResolutionForm = new ForwardResolution("/content/search/browse.jsp");
 
     private String mask = null;
 
@@ -67,7 +67,7 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
 
     private MCRSearchResultDataBean result;
 
-    public SearchAction() {
+    public BrowseAction() {
 
     }
 
