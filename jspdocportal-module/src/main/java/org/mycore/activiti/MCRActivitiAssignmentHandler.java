@@ -4,8 +4,6 @@ import org.activiti.engine.delegate.DelegateTask;
 import org.activiti.engine.delegate.TaskListener;
 import org.apache.log4j.Logger;
 import org.mycore.common.config.MCRConfiguration;
-import org.mycore.common.config.MCRConfigurationException;
-
 
 /**
  * MCRActivitiAssignmentHandler assigns the proper users and groups to the given task
@@ -24,38 +22,50 @@ import org.mycore.common.config.MCRConfigurationException;
  *
  */
 public class MCRActivitiAssignmentHandler implements TaskListener {
-	private static final long serialVersionUID = 1L;
-	private static Logger LOGGER = Logger.getLogger(MCRActivitiAssignmentHandler.class);
+    private static final long serialVersionUID = 1L;
 
-	public void notify(DelegateTask delegateTask) {
-		String projectID = String.valueOf(delegateTask.getVariable(MCRActivitiMgr.WF_VAR_PROJECT_ID));
-		String objectType = String.valueOf(delegateTask.getVariable(MCRActivitiMgr.WF_VAR_OBJECT_TYPE));
-		
-		int errorCount=0;
-		String propKeyGroups = "MCR.Activiti.TaskAssignment.CandidateGroups."+delegateTask.getProcessDefinitionId().split(":")[0]+"."+projectID+"_"+objectType;
-		try{
-			String groups = MCRConfiguration.instance().getString(propKeyGroups);
-			for(String g: groups.split(",")){
-				delegateTask.addCandidateGroup(g.trim());
-			}
-		}
-		catch(MCRConfigurationException e){
-			errorCount++;
-		}
-		
-		String propKeyUser = "MCR.Activiti.TaskAssignment.CandidateUsers."+delegateTask.getProcessDefinitionId().split(":")[0]+"."+projectID+"_"+objectType;
-		try{
-			String users = MCRConfiguration.instance().getString(propKeyUser);
-			for(String u: users.split(",")){
-				delegateTask.addCandidateUser(u.trim());
-			}
-		}
-		catch(MCRConfigurationException e){
-			errorCount++;
-		}
-		if(errorCount==2){
-			LOGGER.error("Please define candidate users or groups for the following workflow: "+delegateTask.getProcessDefinitionId().split(":")[0]);
-			LOGGER.error("Set one of the following properties: "+propKeyGroups+" or "+propKeyUser+".");
-		}
-	}
+    private static Logger LOGGER = Logger.getLogger(MCRActivitiAssignmentHandler.class);
+
+    public void notify(DelegateTask delegateTask) {
+        String projectID = String.valueOf(delegateTask.getVariable(MCRActivitiMgr.WF_VAR_PROJECT_ID));
+        String objectType = String.valueOf(delegateTask.getVariable(MCRActivitiMgr.WF_VAR_OBJECT_TYPE));
+
+        int errorCount = 0;
+        String wfID = delegateTask.getProcessDefinitionId().split(":")[0];
+
+        String groups = null;
+        String propKeyGrp = "MCR.Activiti.TaskAssignment.CandidateGroups." + wfID + "." + projectID + "_" + objectType;
+        groups = MCRConfiguration.instance().getString(propKeyGrp, null);
+        if (groups == null) {
+            propKeyGrp = "MCR.Activiti.TaskAssignment.CandidateGroups." + wfID + ".default_" + objectType;
+            groups = MCRConfiguration.instance().getString(propKeyGrp, null);
+        }
+        if (groups != null) {
+            for (String g : groups.split(",")) {
+                delegateTask.addCandidateGroup(g.trim());
+            }
+        } else {
+            errorCount++;
+        }
+
+        String users = null;
+        String propKeyUser = "MCR.Activiti.TaskAssignment.CandidateUsers." + wfID + "." + projectID + "_" + objectType;
+        users = MCRConfiguration.instance().getString(propKeyUser, null);
+        if (users == null) {
+            propKeyUser = "MCR.Activiti.TaskAssignment.CandidateUsers." + wfID + ".default_" + objectType;
+            users = MCRConfiguration.instance().getString(propKeyUser, null);
+        }
+        if (users != null) {
+            for (String u : users.split(",")) {
+                delegateTask.addCandidateUser(u.trim());
+            }
+        } else {
+            errorCount++;
+        }
+        if (errorCount == 2) {
+            LOGGER.error("Please define candidate users or groups for the following workflow: "
+                + delegateTask.getProcessDefinitionId().split(":")[0]);
+            LOGGER.error("Set at least one of the following properties: " + propKeyGrp + " or " + propKeyUser + ".");
+        }
+    }
 }

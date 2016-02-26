@@ -242,7 +242,10 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 		MCRObject mcrObj = MCRActivitiUtils.loadMCRObjectFromWorkflowDirectory(mcrObjID);
 		String txt = null;
 		try{
-			String xpTitle = MCRConfiguration.instance().getString("MCR.Activiti.MCRObject.Display.Title.XPath."+mcrObjID.getBase(), "/mycoreobject/@ID");
+			String xpTitle = MCRConfiguration.instance().getString("MCR.Activiti.MCRObject.Display.Title.XPath."+mcrObjID.getBase(), null);
+			if(xpTitle==null){
+			     xpTitle = MCRConfiguration.instance().getString("MCR.Activiti.MCRObject.Display.Title.XPath.default_"+mcrObjID.getTypeId(), "/mycoreobject/@ID");
+			}
 			XPathExpression<String> xpath = XPathFactory.instance().compile(xpTitle, Filters.fstring());
 			txt = xpath.evaluateFirst(mcrObj.createXML());
 		}
@@ -257,7 +260,10 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 			MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(t.getId(), MCRActivitiMgr.WF_VAR_DISPLAY_TITLE,MCRTranslation.translate("Wf.common.newObject"));
 		}
 		try{
-			String xpDescr = MCRConfiguration.instance().getString("MCR.Activiti.MCRObject.Display.Description.XPath."+mcrObjID.getBase(), "/mycoreobject/@label");
+			String xpDescr = MCRConfiguration.instance().getString("MCR.Activiti.MCRObject.Display.Description.XPath."+mcrObjID.getBase(), null);
+			if(xpDescr == null){
+			    xpDescr = MCRConfiguration.instance().getString("MCR.Activiti.MCRObject.Display.Description.XPath.default_"+mcrObjID.getTypeId(), "/mycoreobject/@label");
+			}
 			XPathExpression<String> xpath = XPathFactory.instance().compile(xpDescr, Filters.fstring());
 			txt = xpath.evaluateFirst(mcrObj.createXML());
 		}
