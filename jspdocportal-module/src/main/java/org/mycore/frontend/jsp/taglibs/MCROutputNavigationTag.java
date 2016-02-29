@@ -63,281 +63,269 @@ import org.w3c.dom.Element;
  * 
  */
 public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
-	private static final List<String> MODES = Arrays.asList(new String[] {
-			"left", "top", "breadcrumbs", "toc" });
-	private static final String INDENT = "\n       ";
+    private static final List<String> MODES = Arrays.asList(new String[] { "left", "top", "breadcrumbs", "toc" });
 
-	private String cssClass;
-	private String mode;
+    private static final String INDENT = "\n       ";
 
-	private static Logger LOGGER = Logger
-			.getLogger(MCROutputNavigationTag.class);
+    private String cssClass;
 
-	public void doTag() throws JspException, IOException {
-		init();
-		if (!MODES.contains(mode)) {
-			LOGGER.warn("The attribute mode has to be one of these values: "
-					+ MODES);
-			return;
-		}
+    private String mode;
 
-		if (mode.equals("left")) {
-			printLeftNav(path, nav, cssClass, getJspContext().getOut());
-		}
-		if (mode.equals("toc")) {
-			Element eNav = findNavItem(nav, path);
-			printTOC(eNav, getJspContext().getOut());
-		}
-		if (mode.equals("top")) {
-			printTopNav(nav, getJspContext().getOut());
-		}
-		if (mode.equals("breadcrumbs")) {
-			Element eNav = findNavItem(nav, path);
-			printBreadcrumbs(eNav, getJspContext().getOut());
-		}
-	}
+    private static Logger LOGGER = Logger.getLogger(MCROutputNavigationTag.class);
 
-	/**
-	 * sets the current mode
-	 * 
-	 * @param mode
-	 *            - the current mode. Allowed values are: left, top,
-	 *            breadcrumbs, toc
-	 */
-	public void setMode(String mode) {
-		this.mode = mode;
-	}
-	
-	public void setCssClass(String cssClass){
-		this.cssClass = cssClass;
-	}
+    public void doTag() throws JspException, IOException {
+        init();
+        if (!MODES.contains(mode)) {
+            LOGGER.warn("The attribute mode has to be one of these values: " + MODES);
+            return;
+        }
 
-	/**
-	 * prints the navigation items as left side main navigation can be called
-	 * recursively
-	 * 
-	 * @param path
-	 *            - the navigation path (separated by ".")
-	 * @param currentNode
-	 *            - the current navigation item
-	 * @param out
-	 *            - the JSPOutputWriter
-	 */
-	private void printLeftNav(String[] path, Element currentNode, String cssClass, JspWriter out) {
-		Transaction t1 = null;
-		try {
-			Transaction tx = MCRHIBConnection.instance().getSession()
-					.getTransaction();
-			if (tx == null || !tx.isActive()) {
-				t1 = MCRHIBConnection.instance().getSession()
-						.beginTransaction();
-			}
-			List<Element> printableElements = printableElements(currentNode);
-			if (printableElements.isEmpty()) {
-				return;
-			}
-			int level = NumberUtils
-					.toInt(currentNode.getAttribute("_level"), 0);
-			StringBuffer indentBuffer = new StringBuffer(INDENT);
+        if (mode.equals("left")) {
+            printLeftNav(path, nav, cssClass, getJspContext().getOut());
+        }
+        if (mode.equals("toc")) {
+            Element eNav = findNavItem(nav, path);
+            printTOC(eNav, getJspContext().getOut());
+        }
+        if (mode.equals("top")) {
+            printTopNav(nav, getJspContext().getOut());
+        }
+        if (mode.equals("breadcrumbs")) {
+            Element eNav = findNavItem(nav, path);
+            printBreadcrumbs(eNav, getJspContext().getOut());
+        }
+    }
 
-			for (int j = 0; j < level; j++) {
-				indentBuffer.append("    ");
-			}
-			String indent = indentBuffer.toString();
-			if(cssClass!=null){
-				out.append(indent).append("  <ul class=\""+cssClass+"\">");
-			}
-			else{
-				out.append(indent).append("  <ul>");
-			}
-			for (Element el : printableElements) {
-				String cssLiClass = "";
-				String id = el.getAttribute("id");
-				boolean active = path.length > 0 && path[0].equals(id);
-				if (active) {
-					cssLiClass = "active";
-				}
+    /**
+     * sets the current mode
+     * 
+     * @param mode
+     *            - the current mode. Allowed values are: left, top,
+     *            breadcrumbs, toc
+     */
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
 
-				String msg = retrieveI18N(el.getAttribute("i18n"));
-				if (cssLiClass.length() > 0) {
-					out.append(indent).append(
-							" <li class=\"" + cssLiClass + "\">");
-				} else {
-					out.append(indent).append(" <li>");
-				}
-				out.append(indent);
-				out.append(" <a target=\"_self\" href=\"" + MCRFrontendUtil.getBaseURL()
-						//+ "nav?path=" + el.getAttribute("_path")
-						  + el.getAttribute("href") 
-						  + "\">" + msg + "</a>");
+    public void setCssClass(String cssClass) {
+        this.cssClass = cssClass;
+    }
 
-				if (expanded || active) {
-					String[] subpath = path;
-					if (path.length > 0) {
-						subpath = Arrays.copyOfRange(path, 1, path.length);
-					}
-					printLeftNav(subpath, el, null, out);
-				}
-				out.append(indent).append(" </li>");
-			}
+    /**
+     * prints the navigation items as left side main navigation can be called
+     * recursively
+     * 
+     * @param path
+     *            - the navigation path (separated by ".")
+     * @param currentNode
+     *            - the current navigation item
+     * @param out
+     *            - the JSPOutputWriter
+     */
+    private void printLeftNav(String[] path, Element currentNode, String cssClass, JspWriter out) {
+        Transaction t1 = null;
+        try {
+            Transaction tx = MCRHIBConnection.instance().getSession().getTransaction();
+            if (tx == null || !tx.isActive()) {
+                t1 = MCRHIBConnection.instance().getSession().beginTransaction();
+            }
+            List<Element> printableElements = printableElements(currentNode);
+            if (printableElements.isEmpty()) {
+                return;
+            }
+            int level = NumberUtils.toInt(currentNode.getAttribute("_level"), 0);
+            StringBuffer indentBuffer = new StringBuffer(INDENT);
 
-			out.append(indent).append(" </ul>");
-		} catch (Exception ex) {
-			LOGGER.error(ex);
-		} finally {
-			if (t1 != null && t1.isActive()) {
-				t1.commit();
-			}
-		}
-	}
+            for (int j = 0; j < level; j++) {
+                indentBuffer.append("    ");
+            }
+            String indent = indentBuffer.toString();
+            if (cssClass != null) {
+                out.append(indent).append("  <ul class=\"" + cssClass + "\">");
+            } else {
+                out.append(indent).append("  <ul>");
+            }
+            for (Element el : printableElements) {
+                String cssLiClass = "";
+                String id = el.getAttribute("id");
+                boolean active = path.length > 0 && path[0].equals(id);
+                if (active) {
+                    cssLiClass = "active";
+                }
 
-	/**
-	 * prints top nav (horizontal navigation) (only with direct sub items of the
-	 * given navigation item
-	 * 
-	 * @param currentNode
-	 *            - the current navigation item
-	 * @param out
-	 *            - the JSPOutputWriter
-	 */
-	private void printTopNav(Element currentNode, JspWriter out) {
-		if (currentNode != null) {
-			
-		List<Element> printableElements = printableElements(currentNode);
+                String msg = retrieveI18N(el.getAttribute("i18n"));
+                if (cssLiClass.length() > 0) {
+                    out.append(indent).append(" <li class=\"" + cssLiClass + "\">");
+                } else {
+                    out.append(indent).append(" <li>");
+                }
+                out.append(indent);
+                String href = el.getAttribute("href");
+                if (!href.startsWith("http")) {
+                    href = MCRFrontendUtil.getBaseURL() + href;
+                }
+                out.append(" <a target=\"_self\" href=\"" + href + "\">" + msg + "</a>");
+                if (expanded || active) {
+                    String[] subpath = path;
+                    if (path.length > 0) {
+                        subpath = Arrays.copyOfRange(path, 1, path.length);
+                    }
+                    printLeftNav(subpath, el, null, out);
+                }
+                out.append(indent).append(" </li>");
+            }
 
-		if (!printableElements.isEmpty()) {
-			try {
-				if(cssClass!=null){
-					out.append("  <ul class=\""+cssClass+"\">");
-				}
-				else{
-					out.append("  <ul>");
-				}
-				for (Element el : printableElements) {
+            out.append(indent).append(" </ul>");
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+        } finally {
+            if (t1 != null && t1.isActive()) {
+                t1.commit();
+            }
+        }
+    }
 
-					String msg = retrieveI18N(el.getAttribute("i18n"));
-					out.append(INDENT).append("    <li>");
-					out.append(INDENT).append(
-							"    <a target=\"_self\" href=\"" + MCRFrontendUtil.getBaseURL()
-									//+ "nav?path=" + el.getAttribute("_path")
-							        + el.getAttribute("href")
-									+ "\">" + msg + "</a>");
-					out.append(INDENT).append("   </li>");
-				}
-				
-				if(getJspBody()!=null){
-					getJspBody().invoke(out);
-				}
-				out.append(INDENT).append("</ul>");
-				out.flush();
-			}
+    /**
+     * prints top nav (horizontal navigation) (only with direct sub items of the
+     * given navigation item
+     * 
+     * @param currentNode
+     *            - the current navigation item
+     * @param out
+     *            - the JSPOutputWriter
+     */
+    private void printTopNav(Element currentNode, JspWriter out) {
+        if (currentNode != null) {
 
-			catch (IOException | JspException e) {
-				LOGGER.error(e);
-			}
-		}
-		}
-	
-		
-	}
+            List<Element> printableElements = printableElements(currentNode);
 
-	/**
-	 * prints the navigation items as left side main navigation can be called
-	 * recursively
-	 * 
-	 * @param path
-	 *            - the navigation path (separated by ".")
-	 * @param currentNode
-	 *            - the current navigation item
-	 * @param out
-	 *            - the JSPOutputWriter
-	 */
-	private void printTOC(Element currentNode, JspWriter out) {
-		if (currentNode == null) {
-			LOGGER.error("No navigation item found for navigation: " + id
-					+ ", path: " + currentPath);
-			return;
-		}
-		List<Element> printableElements = printableElements(currentNode);
-		if (!printableElements.isEmpty()) {
-			try {
-				if(cssClass!=null){
-					out.append(INDENT).append("<ul class=\""+cssClass+"\">");
-				}
-				else{
-					out.append(INDENT).append("<ul>");
-				}
-				for (Element el : printableElements) {
-					String msg = retrieveI18N(el.getAttribute("i18n"));
-					out.append(INDENT).append("<li>");
-					out.append(INDENT).append(
-							"<a target=\"_self\" href=\"" + MCRFrontendUtil.getBaseURL()
-									//+ "nav?path=" + el.getAttribute("_path")
-							        + el.getAttribute("href")
-							        + "\">" + msg + "</a>");
-					if (expanded) {
-						printTOC(el, out);
-					}
-					out.append(INDENT).append("</li>");
-				}
-				out.append(INDENT).append("</ul>");
-				out.flush();
-			} catch (IOException e) {
-				LOGGER.error(e);
-			}
-		}
-	}
+            if (!printableElements.isEmpty()) {
+                try {
+                    if (cssClass != null) {
+                        out.append("  <ul class=\"" + cssClass + "\">");
+                    } else {
+                        out.append("  <ul>");
+                    }
+                    for (Element el : printableElements) {
 
-	/**
-	 * prints a breadcrumb navigation for the given node by retrieving its
-	 * parents.
-	 * 
-	 * @param currentNode
-	 *            - the current navigation item
-	 * @param out
-	 *            - the JSPOutputWriter
-	 */
+                        String msg = retrieveI18N(el.getAttribute("i18n"));
+                        out.append(INDENT).append("    <li>");
+                        String href = el.getAttribute("href");
+                        if (!href.startsWith("http")) {
+                            href = MCRFrontendUtil.getBaseURL() + href;
+                        }
+                        out.append(INDENT).append("    <a target=\"_self\" href=\"" + href + "\">" + msg + "</a>");
+                        out.append(INDENT).append("   </li>");
+                    }
 
-	private void printBreadcrumbs(Element currentNode, JspWriter out) {
-	    if(currentNode==null || !currentNode.getLocalName().equals("navitem")){
-	        return;
-	    }
-	    
-		StringBuffer sbOut = new StringBuffer();
-		String msg = retrieveI18N(currentNode.getAttribute("i18n"));
-		sbOut.append(INDENT).append("   <li>");
-		sbOut.append(INDENT).append(
-				"      <a target=\"_self\" href=\"" + MCRFrontendUtil.getBaseURL()
-				        //+ "nav?path=" + currentNode.getAttribute("_path") 
-				        + currentNode.getAttribute("href")
-				        + "\">" + msg
-						+ "</a>");
-		sbOut.append(INDENT).append("   </li>");
-		sbOut.append(INDENT).append("</ul>");
-		while (currentNode.getParentNode().getLocalName().equals("navitem")) {
-			currentNode = (Element) currentNode.getParentNode();
-			msg = retrieveI18N(currentNode.getAttribute("i18n"));
-			sbOut.insert(0, INDENT + "   </li>");
-			sbOut.insert(0, INDENT + "      <a target=\"_self\" href=\""
-					+ MCRFrontendUtil.getBaseURL()
-					//+ "nav?path=" + currentNode.getAttribute("_path")
-					 + currentNode.getAttribute("href")
-					+ "\">" + msg + "</a>");
-			sbOut.insert(0, INDENT + "   <li>");
-		}
-		
-		if(cssClass!=null){
-			sbOut.insert(0, INDENT + "<ul class=\""+cssClass+"\">");
-		}
-		else{
-			sbOut.insert(0, INDENT + "<ul>");
-		}
-		
-		try {
-			out.append(sbOut.toString());
-		} catch (IOException e) {
-			LOGGER.error(e);
-		}
-	}
+                    if (getJspBody() != null) {
+                        getJspBody().invoke(out);
+                    }
+                    out.append(INDENT).append("</ul>");
+                    out.flush();
+                }
+
+                catch (IOException | JspException e) {
+                    LOGGER.error(e);
+                }
+            }
+        }
+
+    }
+
+    /**
+     * prints the navigation items as left side main navigation can be called
+     * recursively
+     * 
+     * @param path
+     *            - the navigation path (separated by ".")
+     * @param currentNode
+     *            - the current navigation item
+     * @param out
+     *            - the JSPOutputWriter
+     */
+    private void printTOC(Element currentNode, JspWriter out) {
+        if (currentNode == null) {
+            LOGGER.error("No navigation item found for navigation: " + id + ", path: " + currentPath);
+            return;
+        }
+        List<Element> printableElements = printableElements(currentNode);
+        if (!printableElements.isEmpty()) {
+            try {
+                if (cssClass != null) {
+                    out.append(INDENT).append("<ul class=\"" + cssClass + "\">");
+                } else {
+                    out.append(INDENT).append("<ul>");
+                }
+                for (Element el : printableElements) {
+                    String msg = retrieveI18N(el.getAttribute("i18n"));
+                    out.append(INDENT).append("<li>");
+                    String href = el.getAttribute("href");
+                    if (!href.startsWith("http")) {
+                        href = MCRFrontendUtil.getBaseURL() + href;
+                    }
+                    out.append(INDENT).append("<a target=\"_self\" href=\"" + href + "\">" + msg + "</a>");
+                    if (expanded) {
+                        printTOC(el, out);
+                    }
+                    out.append(INDENT).append("</li>");
+                }
+                out.append(INDENT).append("</ul>");
+                out.flush();
+            } catch (IOException e) {
+                LOGGER.error(e);
+            }
+        }
+    }
+
+    /**
+     * prints a breadcrumb navigation for the given node by retrieving its
+     * parents.
+     * 
+     * @param currentNode
+     *            - the current navigation item
+     * @param out
+     *            - the JSPOutputWriter
+     */
+
+    private void printBreadcrumbs(Element currentNode, JspWriter out) {
+        if (currentNode == null || !currentNode.getLocalName().equals("navitem")) {
+            return;
+        }
+
+        StringBuffer sbOut = new StringBuffer();
+        String msg = retrieveI18N(currentNode.getAttribute("i18n"));
+        sbOut.append(INDENT).append("   <li>");
+        String href = currentNode.getAttribute("href");
+        if (!href.startsWith("http")) {
+            href = MCRFrontendUtil.getBaseURL() + href;
+        }
+        sbOut.append(INDENT).append("      <a target=\"_self\" href=\"" + href + "\">" + msg + "</a>");
+        sbOut.append(INDENT).append("   </li>");
+        sbOut.append(INDENT).append("</ul>");
+        while (currentNode.getParentNode().getLocalName().equals("navitem")) {
+            currentNode = (Element) currentNode.getParentNode();
+            msg = retrieveI18N(currentNode.getAttribute("i18n"));
+            sbOut.insert(0, INDENT + "   </li>");
+            String href2 = currentNode.getAttribute("href");
+            if (!href.startsWith("http")) {
+                href = MCRFrontendUtil.getBaseURL() + href;
+            }
+            sbOut.insert(0, INDENT + "      <a target=\"_self\" href=\"" + href2 + "\">" + msg + "</a>");
+            sbOut.insert(0, INDENT + "   <li>");
+        }
+
+        if (cssClass != null) {
+            sbOut.insert(0, INDENT + "<ul class=\"" + cssClass + "\">");
+        } else {
+            sbOut.insert(0, INDENT + "<ul>");
+        }
+
+        try {
+            out.append(sbOut.toString());
+        } catch (IOException e) {
+            LOGGER.error(e);
+        }
+    }
 
 }
