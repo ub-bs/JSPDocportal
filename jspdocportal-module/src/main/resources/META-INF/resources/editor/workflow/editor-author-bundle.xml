@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE editor>
+
+<editor class="editor" id="editor-author-bundle">
+   	 <source uri="{sourceUri}" />
+     <cancel url="{cancelUrl}" />
+
+<!--
+ <target type="debug" />
+-->
+
+ <target type="servlet" name="MCRPassToTargetServlet" method="post" format="xml" />
+  <validationMessage>
+   <label i18n="Editor.Common.validationMessageLong" />
+ </validationMessage>
+
+ <components root="author-bundle" var="/mycoreobject">
+
+  <include uri="webapp:editor/workflow/imports-document.xml" />
+  <include uri="webapp:editor/workflow/imports-common-xmetadiss.xml" />
+  <headline anchor="CENTER">
+   <text i18n="Editor.Common.mandatoryFields" />
+  </headline>
+
+  <panel id="author-bundle">
+    <hidden var="ID" />
+    <hidden var="label" />
+    
+    <cell col="1" row="1" anchor="NORTHWEST" ref="LPublicationType" />
+    <cell col="2" row="1" anchor="NORTHEAST" ref="HPublicationType" />
+    <cell col="1" row="2" colspan="2" anchor="NORTHWEST" ref="DType_S" sortnr="10" />
+    
+    <cell col="1" row="8"  colspan="2" anchor="WEST" ><hr/> </cell>
+
+    <cell col="1" row="11" anchor="NORTHWEST" ref="LTitleP" />
+    <cell col="2" row="11" anchor="NORTHEAST" ref="HTitle" />
+
+    <cell col="1" row="12" colspan="2" anchor="NORTHWEST" ref="DTitle_NB" sortnr="11" />
+
+    <cell col="1" row="21" anchor="NORTHWEST" ref="LCreator" />
+    <cell col="2" row="21" anchor="NORTHEAST" ref="HCreator" />
+    <cell col="1" row="22" colspan="2" anchor="NORTHWEST" ref="DCreatorXMetaPers" sortnr="12" />
+    <cell col="1" row="23" colspan="2" anchor="NORTHWEST" ref="DCreatorLink" sortnr="13" /> 
+
+	<cell col="1" row="31" anchor="NORTHWEST" ref="LOriginP" />
+	<cell col="2" row="31" colspanchor="WEST" ref="HOrigin" />
+	<cell col="1" row="32" colspan="2" anchor="NORTHWEST" ref="DOrigin"  sortnr="16"  />
+	
+    <cell col="1" row="40"  colspan="2" anchor="WEST" ><hr/> </cell>
+    
+    <cell col="1" row="41" anchor="NORTHWEST" ref="LIdentifier" />
+    <cell col="2" row="41" anchor="NORTHEAST" ref="HIdentifier" /> 
+	<cell col="1" row="42" colspan="2" anchor="NORTHWEST" ref="DIdentifier" sortnr="32" />
+    
+    <cell col="1" row="51" anchor="NORTHWEST" ref="LCollections" />
+    <cell col="2" row="51" anchor="NORTHEAST" ref="HCollections" />
+    <cell col="1" row="52" colspan="2" anchor="NORTHWEST" ref="DCollections" sortnr="44" />    
+    
+    <cell col="1" row="60"  colspan="2" anchor="WEST" ><hr/> </cell>
+    
+    <cell col="1" row="61" anchor="NORTHWEST" ref="LParticipant_S" />
+    <cell col="2" row="61" anchor="NORTHEAST" ref="HPublisher" />
+    <cell col="1" row="62" colspan="2" anchor="NORTHWEST" ref="DParticipant_S" sortnr="14" />
+    
+    <cell col="1" row="70"  colspan="2" anchor="WEST" ><hr/> </cell>
+    
+    <cell col="1" row="71" anchor="NORTHWEST" ref="LPublishingTime_S" />
+    <cell col="2" row="71" anchor="NORTHEAST" ref="HPublishingYear" />
+    <cell col="1" row="72" colspan="2" anchor="NORTHWEST" ref="DDate_From_To" sortnr="21"/>
+    
+    <cell col="1" row="81" anchor="NORTHWEST" ref="LLanguageP" />
+    <cell col="2" row="81" anchor="NORTHEAST" ref="HLanguage" />
+    <cell col="1" row="82" colspan="2" anchor="NORTHWEST" ref="DLanguage" sortnr="20"/>
+
+	 <!--  <cell col="1" row="51" anchor="NORTHWEST" ref="LUrnP" />
+    <cell col="2" row="51" anchor="NORTHEAST" ref="HUrn" /> 
+	<cell col="1" row="52" colspan="2" anchor="NORTHWEST" ref="DURN_NB" sortnr="32" /> -->
+
+    <cell col="1" row="90"  colspan="2" anchor="WEST" ><hr/> </cell>
+    
+    <cell col="1" row="91" anchor="NORTHWEST" ref="LDescription"  />
+    <cell col="2" row="91" anchor="WEST" ref="HDescription" />
+    <cell col="1" row="92" anchor="NORTHWEST" ref="DDescription" sortnr="42"  />
+
+    <cell col="1" row="101" anchor="NORTHWEST" ref="LSubjects" />
+    <cell col="2" row="101" anchor="NORTHEAST" ref="HSubject" /> 
+    <cell col="1" row="102" colspan="2" anchor="NORTHWEST" ref="DSubjects" sortnr="40" />    
+              
+    <cell col="1" row="111" anchor="NORTHWEST" ref="LKeywords"  />
+    <cell col="2" row="111" anchor="WEST" ref="HKeywords" />
+    <cell col="1" row="112" anchor="NORTHWEST" ref="DKeywords_S" sortnr="43"  />
+    
+	<cell col="1" row="120"  colspan="2" anchor="WEST" ><hr/> </cell>
+    
+    <cell col="1" row="121" anchor="NORTHWEST" ref="LNote" />
+    <cell col="2" row="121" anchor="NORTHEAST" ref="HNote" />
+    <cell col="1" row="122" colspan="2" anchor="NORTHWEST" ref="DNote" sortnr="90"/>     
+
+	<cell col="1" row="130"  colspan="2" anchor="WEST" ><hr/> </cell>
+	
+	<cell col="1" row="131" anchor="NORTHWEST" ref="LParent"  />
+    <cell col="2" row="131" anchor="WEST" ref="HParent" />
+    <cell col="1" row="132" anchor="NORTHWEST" ref="DParent" sortnr="2"  />
+
+	<cell col="1" row="141" anchor="NORTHWEST" ref="LParts_S"  />
+    <cell col="2" row="141" anchor="WEST" ref="HParts_S" />
+    <cell col="1" row="142" anchor="NORTHWEST" ref="DParts_S" sortnr="1"  />
+
+    <cell col="1" row="150" colspan="2" anchor="NORTHWEST"><hr/> </cell>
+    <cell col="1" row="151" colspan="2" anchor="NORTHWEST" ref="DHiddenFields" />
+ 
+ 	<hidden var="metadata/mappings" descendants="true" />
+ 	<hidden var="metadata/def.modsContainer" descendants="true" />
+    <cell col="1" row="155" anchor="EAST" ><space width="10" height="40" /></cell>
+    
+    <cell col="1" row="160" anchor="EAST" ref="BCancel"            />
+    <cell col="2" row="160" anchor="WEST" ref="BSubmit" var="save" />
+    
+  </panel>
+
+
+
+<!-- ** Data for the SUBJECT *** -->
+<!-- 
+	 <panel id="DSubjects" >
+		<hidden var="metadata/subjects/@class" default="MCRMetaClassification" />
+		<cell row="1" col="1" anchor="NORTHWEST" var="metadata/subjects/subject">
+		   <repeater min="1" max="5" >  
+				<panel lines="off">
+				  <hidden var="@type" default="locator" />
+			     <!- configure this in mycore.properties  ->
+			     <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=@classid&amp;prop=MCR.ClassificationID.DDC&amp;defaultValue=DocPortal_class_00000009" />				 
+				<!-  <hidden var="@classid" default="DocPortal_class_00000009" />  ->
+				 <hidden var="@categid" />
+				 <cell row="1" col="1" width="100%">
+			       <output var="@title" default="DDC Klassifikation"/> <text label=" (" /><output var="@categid" default=" " /><text label=")" />
+		           <text   label=" " />
+				   <output var="@href" />
+				 </cell>
+				 <cell row="1" col="2">
+				   <subselect label="Auswählen" id="sub.select2" type="webpage" href="nav?path=~browse_subDDC" />
+				 </cell>
+			   </panel>
+			</repeater>
+		</cell>
+	  </panel>
+
+-->
+
+<!-- *** Data for the Publisher ** -->
+<!-- 
+  <panel id="DPublisher">
+	<include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/publishers&amp;classname=MCRMetaLangText" />
+    <hidden var="metadata/publishers/publisher/@xml:lang" default="de" />
+    <!-  configure this in messages_de.properties and messages_en.properties ->
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.publishers.publisher&amp;prop=MCR.WorkflowEngine.PublisherDefaultName.xmetadiss&amp;lang=de&amp;bundle=messages" />
+    <!- hidden var="metadata/publishers/publisher" default="Universitätsbibliothek der MyCoRe-Freunde" / ->    
+    <hidden var="metadata/publishers/publisher/@type" default="publication" />
+    <hidden var="metadata/publishers/publisher[2]/@inherited" default="0" />
+    <hidden var="metadata/publishers/publisher[2]/@xml:lang" default="en" />
+    <!-  configure this in messages_de.properties and messages_en.properties ->
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata.publishers.publisher[2]&amp;prop=MCR.WorkflowEngine.PublisherDefaultName.xmetadiss&amp;lang=en&amp;bundle=messages" />
+    <hidden var="metadata/publishers/publisher[2]/@type" default="publication" />    
+    <cell col="1" row="1" anchor="WEST" />
+  </panel> -->
+  <text id="LParticipant_S" i18n="OMD.participants" />
+  
+  <text id="LPublishingTime_S" i18n="Editor.Label.Time" />
+  
+  <text id="LParts_S" i18n="Editor.Label.Parts" />
+  
+  	<helpHover id="HParts_S" i18n="Editor.Help.HParts" />
+  
+  
+  	<list id="listTypeOfParticipation" type="dropdown">
+  		<!-- <item value="author" i18n="OMD.typeOfParticipation.author" />
+  		<item value="subauthor" i18n="OMD.typeOfParticipation.subauthor" /> -->
+  		<item value="mainPublisher" i18n="OMD.typeOfParticipation.mainPublisher" />
+  		<item value="subPublisher" i18n="OMD.typeOfParticipation.subPublisher" />
+  		<item value="company" i18n="OMD.typeOfParticipation.company" />
+  		<item value="translator" i18n="OMD.typeOfParticipation.translator" />
+  		<item value="composer" i18n="OMD.typeOfParticipation.composer" />
+  		<item value="illustrator" i18n="OMD.typeOfParticipation.illustrator" />
+  		<item value="editor" i18n="OMD.typeOfParticipation.editor" />
+  		<item value="reviewer" i18n="OMD.typeOfParticipation.reviewer" />
+  		<item value="misc" i18n="OMD.typeOfParticipation.misc" />
+  	</list>
+
+    <!-- metadata/publishers sortnr="8"  -->
+    <panel id="DParticipant_S">
+        <hidden var="metadata/publishers/@class" default="MCRMetaXML" />
+    	<hidden var="metadata/publishers/@notinherit" default="false" />
+    	<hidden var="metadata/publishers/@heritable" default="true" />
+      <cell col="1" row="2" anchor="NORTHWEST" var="metadata/publishers/publisher">
+        <repeater min="0" max="10" anchor="NORTHWEST">
+          <panel lines="off">
+    	    <hidden var="@inherited" default="0"  />
+      		<hidden var="@xml:lang"   default="de"  />
+      		<cell col="1" row="1" anchor="WEST" ref="TFzeile1024"  />
+      		<cell col="2" row="1" anchor="WEST" ref="listTypeOfParticipation" var="@type" />  
+      	  </panel>	
+        </repeater>
+      </cell>      
+    </panel>
+    
+    <panel id="DParts_S">
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=structure/children&amp;classname=MCRMetaLinkID" /> 
+    <cell col="1" row="1" anchor="NORTHWEST" var="structure/children/child"  >
+        <repeater min="1" max="25">
+          <panel lines="off">
+            <hidden var="@inherited" default="0"  />
+            <hidden var="@xlink:type" default="locator"  />
+            <hidden var="@xlink:title" default="Einheit" />
+            <hidden var="@xlink:href" default="" />
+            <cell row="1" col="1" width="100%">
+              <output var="@xlink:title" default=" Einheit " />
+              <text label="&#160;&#160;&#160;" />
+            </cell>
+           </panel>
+        </repeater>
+      </cell>
+  </panel>
+  
+  
+  <panel id="DTitle_NB">
+    <hidden var="metadata/titles/@class" default="MCRMetaLangText" />
+    <hidden var="metadata/titles/@notinherit" default="false" />
+    <hidden var="metadata/titles/@heritable" default="true" />
+
+    <cell col="1" row="1" var="metadata/titles/title" >
+       <repeater min="1" max="10" ref="RTitle1" />
+    </cell>
+
+  </panel>
+  
+    <panel id="DCreator_NB">
+    	<hidden var="metadata/creators/@class" default="MCRMetaLangText" />
+    	<hidden var="metadata/creators/@notinherit" default="false" />
+    	<hidden var="metadata/creators/@heritable" default="true" />
+    	<cell row="1" col="1" anchor="NORTHWEST" var="metadata/creators/creator">   
+       		<repeater min="1" max="3" ref="RCreator_NB" />
+    	</cell>
+    </panel>
+    
+  <!-- ???  <cell col="1" row="1" anchor="NORTHWEST" ref="Slang" var="metadata/creators/creator/@xml:lang" ordernr="2" default="de" /> -->
+    
+   <panel id="RCreator_NB">
+        <cell col="1" row="1" anchor="WEST" ref="TFzeile128" />
+   </panel>
+     
+    
+  
+  <panel id="DURN_NB">
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/urns&amp;classname=MCRMetaLangText" />    
+
+    <hidden var="metadata/urns/urn[2]/@type" />
+    <hidden var="metadata/urns/urn[2]" />
+    <hidden var="metadata/urns/urn[3]/@type" />
+    <hidden var="metadata/urns/urn[3]" />
+    <hidden var="metadata/urns/urn[4]/@type" />
+    <hidden var="metadata/urns/urn[4]" />
+    <hidden var="metadata/urns/urn[5]/@type" />
+    <hidden var="metadata/urns/urn[5]" />
+    <hidden var="metadata/urns/urn/@type" />
+	<!--  sortnr="32" -->
+	<cell col="1" row="1" anchor="NORTHWEST" var="metadata/urns/urn">
+		<textfield id= "tf.urn" width="60">
+			<condition id="cond.urn" class="org.mycore.services.urn.MCRURNManager" method="isValid">
+				<label i18n="Editor.Validate.URN.Syntax" /> 
+			</condition>
+		</textfield>
+	</cell>
+	</panel>
+
+  
+  <panel id="DHiddenFields" >
+    <!--  after this the hidden fields !!! in the same paneel  -->
+   
+	<cell col="1" row="1"><panel>
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/rights&amp;classname=MCRMetaLangText" />  
+    <hidden var="metadata/rights/right" default="Dissertation /Copyrightbestimmungen" />
+    <hidden var="metadata/rights/right/@xml:lang"  default="de" />
+
+    <hidden var="metadata/rights/right[2]" default="Dissertation /Copyright Terms" />
+    <hidden var="metadata/rights/right[2]/@xml:lang"  default="en" />
+	</panel></cell>
+   
+   	</panel> 
+
+    	
+	<panel id="DDate_From_To">
+        <hidden var="metadata/periods/@class" default="MCRMetaHistoryDate" />
+        <cell col="1" row="1" var="metadata/periods/period" >
+			  <panel>
+			        <hidden var="@xml:lang"  default="de" />
+			      	<cell col="1" row="1" anchor="NORTHWEST" var="text">
+      					<textfield width="25" maxlength="64" />
+		    	 	</cell>
+			      	<cell col="2" row="1" anchor="NORTHWEST">
+      					<text class="editorHint" i18n="Editor.Label.Date.shown" />
+	      			</cell>
+	      			<cell col="3" row="1" anchor="NORTHWEST" var="von">
+    	  				<textfield  width="13" maxlength="13" />
+					</cell>
+					<cell col="4" row="1" anchor="NORTHWEST">
+			      		<text class="editorHint" i18n="Editor.Label.Date.from" />
+      				</cell>
+
+		      		<cell col="5" row="1" anchor="NORTHWEST" var="bis">
+	      				<textfield width="13" maxlength="13" />
+				   	</cell>
+		    	  	<cell col="6" row="1" anchor="NORTHWEST">
+	      				<text class="editorHint" i18n="Editor.Label.Date.to" />
+		    	  	</cell>
+	      	</panel>
+
+        </cell>
+      </panel>  
+
+  <panel id="DType_S">
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/types&amp;classname=MCRMetaClassification" />
+    <include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenVar&amp;var=metadata/types/type/@classid&amp;prop=MCR.ClassificationID.Type&amp;defaultValue=DocPortal_class_00000005" />               
+    <cell col="1" row="1" anchor="WEST" var="metadata/types/type/@categid">
+  	<list width="425px" type="dropdown" class="mandatory">
+    	<item value="">
+			<label i18n="Editor.Common.choose" />
+    	</item>
+    	<include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getSpecialCategoriesInItems&amp;classProp=MCR.ClassificationID.Type&amp;categoryProp=MCR.Classification.Type.SelectCategoryIDs.bundle&amp;withCounter=false" />                       
+     	<condition id="CTypeSelected" regexp=".+" required="true" >
+				<label i18n="Editor.Validate.Selection.Empty" />
+     	</condition>
+	  </list>  
+    </cell>
+  </panel>
+
+	<text id="AKeywordsFreetextOrClassification_S" class="editorHint" i18n="Editor.Label.KeywordsFreetextOrClassification" />
+	<list id="listKeywordsClassifications_S" width="450px" type="dropdown">
+		<item value="" i18n="Editor.Common.choose" />
+		<item value="freetext" i18n="Editor.Document.classification.freetext" />
+		<item value="aad" i18n="Editor.Document.classification.aad" />
+	</list>
+  <panel id="DKeywords_S">
+	<include uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getHiddenAttributesForClass&amp;var=metadata/keywords&amp;classname=MCRMetaLangText" />  
+     <cell row="1" col="1" anchor="NORTHWEST" var="metadata/keywords/keyword">
+     <repeater min="3" max="12" >  
+		<panel lines="off">
+     		<cell col="1" row="1" colspan="3" anchor="NORTHWEST" ref="AKeywordsFreetextOrClassification_S" />
+     		<cell col="1" row="2" colspan="3" anchor="NORTWEST" ref="listKeywordsClassifications_S" var="@type" default="freetext" />
+     		<cell col="1" row="3" anchor="WEST" ref="TFzeile1024" />
+     		<cell col="2" row="3" anchor="NORTHWEST" ref="Slang" var="@xml:lang" default="de" />
+     	</panel>
+      </repeater> 
+     </cell>   
+  </panel> 
+
+<!-- *** End *** -->
+
+ </components>
+</editor>
+

@@ -1,0 +1,57 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"   %>
+<%@ taglib prefix="mcr" uri="http://www.mycore.org/jspdocportal/base.tld" %>
+<%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld" %>
+
+
+<fmt:message var="pageTitle" key="Webpage.editwebcontent.form.headline" />
+<stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}" layout="1column">
+	<stripes:layout-component name="html_header">
+		<title>${pageTitle}</title> 
+		<%-- Jquery from Layout: <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> --%>
+   		<%-- Bootstrap from Layout: <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> --%>
+   		<script src="${pageContext.request.contextPath}/webjars/ckeditor/4.4.7-1/standard/ckeditor.js"></script>
+   		<script src="${pageContext.request.contextPath}/webjars/ckeditor/4.4.7-1/standard/adapters/jquery.js"></script>
+	</stripes:layout-component>
+	
+	<stripes:layout-component name="contents">
+		<div class="ur-box ur-text">
+			<h2><fmt:message key="Webpage.editwebcontent.form.headline" /></h2>
+			<p><strong>Datei: ${actionBean.file}</strong></p>
+		<form id="editWebcontent_${actionBean.id}" method="post" action="saveWebcontent.action" accept-charset="UTF-8">
+		    <input type="hidden" name="file_${actionBean.id}" value="${actionBean.file}" />
+		    <input type="hidden" name="referer_${actionBean.id}" value="${actionBean.referer}" />
+		    <textarea  id="taedit_${actionBean.id}" name="content_${actionBean.id}" rows="10" cols="80">${actionBean.content}</textarea>
+		
+		<c:set var="jsid" value="${fn:replace(actionBean.id, '.', '\\\\\\\\.')}" />
+		<script type="text/javascript">
+		
+		 	var config = {
+		 		basicEntities:false,
+		 	    entities_additional: 'gt,lt,amp', //remove &nbsp; from entities (not allowed in XHTML)
+				entities:false,
+				entities_latin:false,
+				entities_greek:false,
+				allowedContent:true
+         	};
+		 	CKEDITOR.dtd.$removeEmpty.span = false;
+
+		    $(document).ready( function() {$('textarea#taedit_${jsid}').ckeditor(config); });
+		</script>
+		    <div class="panel-body bg-warning">
+		        <input type="submit"  name="doSave_${actionBean.id}" class="btn btn-primary" 
+		               title="<fmt:message key="Webpage.editwebcontent.save"/>" value="Speichern" /> 
+		                 <%-- <span class="glyphicon glyphicon-floppy-disk"></span> <fmt:message key="Webpage.editwebcontent.save" /> --%>
+				
+
+		        <input type="submit"  name="doCancel_${actionBean.id}" class="btn btn-danger" 
+		        	title="<fmt:message key="Webpage.editwebcontent.cancel" />" value="Abbrechen" />
+		        		<%-- <span class="glyphicon glyphicon-remove"></span> <fmt:message key="Webpage.editwebcontent.cancel" /> --%>
+		    </div>
+		</form>
+		</div>
+	</stripes:layout-component>
+</stripes:layout-render>   

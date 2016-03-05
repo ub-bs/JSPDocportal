@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE MyCoReWebPage>
+<MyCoReWebPage>
+	<section title="Searchmask for all Documents" xml:lang="de">
+		<editor id="SearchMask_AllMetadataFields">
+			<!-- <target type="debug" /> -->
+
+			<!-- MyCore-Default: <source uri="request:servlets/MCRSearchServlet?mode=load&amp;id={id}" />
+				<target type="servlet" name="MCRSearchServlet" method="post" format="xml" />  -->
+			<source uri="request:servlets/MCRJSPSearchServlet?mode=load&amp;id={XSL.editor.source.id}&amp;MCRSessionID={MCRSessionID}" />
+			<target type="servlet" url="/servlets/MCRJSPSearchServlet" method="post" format="xml" />
+			<validationMessage>
+				<label i18n="Editor.Common.validationMessage" />
+			</validationMessage>
+
+			<components root="SearchMask_AllMetadataFields" var="/query">
+				<panel id="SearchMask_AllMetadataFields">
+					<hidden var="@mask" default="~searchstart-allmeta" />
+					<hidden var="conditions/@format" default="xml" />
+					<hidden var="conditions/boolean/@operator" default="AND" />
+				
+                    <hidden var="conditions/boolean/condition/@field" default="allMeta" />
+                    <hidden var="conditions/boolean/condition/@operator" default="contains" />
+					<cell col="1" row="1" anchor="NORTHWEST" var="conditions/boolean/condition/@value">
+                       <textfield id="TFAllMetadata" maxlength="64" width="18">
+                          <condition id="cond.minlength" minLength="3" required="true">
+                              <label i18n="Editor.Validate.minlength" />
+                          </condition>
+                        </textfield>
+                    </cell>
+
+					<cell col="1" row="2" anchor="WEST">
+                      <submitButton id="BSubmit" width="150px">
+                        <label i18n="Editor.Search.search" />
+                      </submitButton>                      
+                    </cell>
+					<hidden var="/host/host/@field" default="local" />
+                    <hidden var="@numPerPage" default="50" />
+				</panel>
+			</components>
+		</editor>
+	</section>
+</MyCoReWebPage>

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition
+  xmlns="urn:jbpm.org:jpdl-3.1"  name="institution">
+
+  <!-- SWIMLANES (= process roles) -->
+
+  <swimlane name="initiator" />
+  
+  <swimlane name="adminInstitution">
+	<assignment class="org.mycore.frontend.workflowengine.jbpm.MCRPooledActorAssignmentHandler">
+		<groupName>admininstitution</groupName>
+	</assignment>  
+  </swimlane>
+  
+  <swimlane name="technicalAdministration">
+    <assignment class="org.mycore.frontend.workflowengine.jbpm.MCRPooledActorAssignmentHandler">
+		<groupName>admingroup</groupName>
+	</assignment>       
+  </swimlane>
+  
+  <start-state name="start">
+     <task name="taskInitialization" swimlane="initiator">
+     </task>     
+     <transition name="go2IsInitiatorsEmailAddressAvailable" to="isInitiatorsEmailAddressAvailable" /> 
+     <transition name="go2DisplayInstitutionData" to="tnDisplayInstitutionData" />
+  </start-state>
+                  
+  <decision name="isInitiatorsEmailAddressAvailable">
+     <transition name="emailAvailable_no" to="tnGetInitiatorsEmailAddress"> 
+        <condition expression="#{empty(contextInstance.variables['initiatorEmail'])}"/>
+     </transition>
+       <transition name="emailAvailable_yes" to="tnInstitutionCreated">
+        <condition expression="#{!empty(contextInstance.variables['initiatorEmail'])}"/>
+        <action class="org.mycore.frontend.workflowengine.jbpm.institution.MCRCreateNewInstitutionAction"/>
+     </transition> 
+  </decision>
+  
+  <task-node name="tnGetInitiatorsEmailAddress">
+     <task name="taskGetInitiatorsEmailAddress" swimlane="initiator" />
+     <transition name="go2IsInitiatorsEmailAddressAvailable2" to="isInitiatorsEmailAddressAvailable" />
+  </task-node> 
+
+  <task-node name="tnInstitutionCreated">
+     <task name="taskCompleteInstitutionAndSendToLibrary" swimlane="initiator" />
+     <transition name="go2CanInstitutionBeSubmitted" to="canInstitutionBeSubmitted" /> 
+  </task-node>
+
+  <decision name="canInstitutionBeSubmitted">
+     <handler class="org.mycore.frontend.workflowengine.jbpm.institution.MCRDecisionHandlerInstitution" />
+     <transition name="canInstitutionBeSubmitted_no"  to="tnInstitutionCreated" />
+     <transition name="canInstitutionBeSubmitted_yes" to="tnInstitutionSubmitted" />
+  </decision>
+  
+  <task-node name="tnInstitutionSubmitted">
+     <event type='node-enter'>    
+        <action class="org.mycore.frontend.workflowengine.jbpm.MCRCommitObjectAction">
+           <varnameOBJID>createdDocID</varnameOBJID>
+           <varnameERROR>COMMITERROR</varnameERROR>
+        </action>                                            
+        <action class="org.mycore.frontend.workflowengine.jbpm.institution.MCRInstitutionSubmittedAction">
+           <lockedVariables>initiator,createdDocID</lockedVariables>
+        </action>
+        <action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+		   <from>MCR.WorkflowEngine.Administrator.Email</from>
+		   <to>MCR.WorkflowEngine.newtaskemail.institution</to>
+		   <replyTo>MCR.WorkflowEngine.Administrator.Email</replyTo>
+		   <subject>MCR.WorkflowEngine.institution.subject.newtask</subject>
+           <body>MCR.WorkflowEngine.institution.body.newtask</body>  
+		</action>     
+        
+     </event> 
+     <task name="taskCheckCompleteness" swimlane="adminInstitution"/>
+     <transition name="go2SendBackToInstitutionCreated" to="tnSendBackToInstitutionCreated" >
+        <action class="org.mycore.frontend.workflowengine.jbpm.MCRSetDefaultAclsAction">
+            <varmcrid>createdDocID</varmcrid>
+            <varuserid>initiator</varuserid>
+        </action>
+     </transition>
+     <transition name="go2CanInstitutionBeCommitted" to="canInstitutionBeCommitted" />
+  </task-node>
+  
+  <task-node name="tnSendBackToInstitutionCreated">
+     <task name="taskEnterMessageData" swimlane="adminInstitution" />
+     <transition name="go2InstitutionCreated" to="tnInstitutionCreated">
+		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+		   <from>MCR.WorkflowEngine.institution.from</from>
+		   <to>initiator</to>
+		   <replyTo>MCR.WorkflowEngine.institution.replyTo</replyTo>
+		   <subject>MCR.WorkflowEngine.institution.subject.sendback</subject>
+           <body>Messagetext</body>  
+		   <jbpmVariableName>tmpTaskMessage</jbpmVariableName>
+		</action>     
+     </transition>
+  </task-node>
+                  
+  <decision name="canInstitutionBeCommitted">
+     <handler class="org.mycore.frontend.workflowengine.jbpm.institution.MCRDecisionHandlerInstitution" />
+     <transition name="canInstitutionBeCommitted_yes" to="wasCommitSuccessful">
+       <action class="org.mycore.frontend.workflowengine.jbpm.MCRCommitObjectAction">
+           <varnameOBJID>createdDocID</varnameOBJID>
+           <varnameERROR>COMMITERROR</varnameERROR>
+        </action>  
+     </transition>
+      <transition name="canInstitutionBeCommitted_no" to="tnInstitutionSubmitted"></transition>
+  </decision>  
+  
+  <decision name="wasCommitSuccessful">
+     <transition name="go2adminCheck" to="tnAdminCheck">  
+        <condition expression="#{!empty(contextInstance.variables['COMMITERROR'])}" />
+     </transition>
+     <transition name="go2InstitutionCommitted" to="tnInstitutionCommitted">  
+        <condition expression="#{empty(contextInstance.variables['COMMITERROR'])}" />
+     </transition>     
+  </decision>
+
+  <task-node name="tnAdminCheck">
+     <event type='node-enter'>
+		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+		   <from>MCR.WorkflowEngine.institution.from</from>
+		   <to>MCR.WorkflowEngine.institution.to</to>
+		   <replyTo>MCR.WorkflowEngine.institution.replyTo</replyTo>
+           <subject>MCR.WorkflowEngine.institution.subject.admin</subject>
+           <body>MCR.WorkflowEngine.institution.body.admin</body>
+		</action>          
+     </event>
+     <task name="taskAdminCheckCommitNotSuccessful" swimlane="technicalAdministration" />
+     <transition name="go2InstitutionCommitted2" to="tnInstitutionCommitted" />
+  </task-node>  
+
+  <task-node name="tnInstitutionCommitted">
+     <event type='node-enter'>
+		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+		   <from>MCR.WorkflowEngine.institution.from</from>
+		   <to>initiator</to>
+           <subject>MCR.WorkflowEngine.institution.subject.commit</subject>
+           <body>MCR.WorkflowEngine.institution.body.commit</body>
+		   <mode>success</mode>
+		</action> 
+     </event>     
+     <transition name="go2CleanupWorkflow" to="tnCleanupWorkflow" />
+  </task-node> 
+  
+  <task-node name="tnDisplayInstitutionData">
+      <task name="taskDisplayInstitutionData" swimlane="initiator" />
+	  <transition name="go2CanChangesBeCommitted" to="canChangesBeCommitted" />
+  </task-node>
+                
+  <decision name="canChangesBeCommitted">
+     <handler class="org.mycore.frontend.workflowengine.jbpm.institution.MCRDecisionHandlerInstitution" />
+     <transition name="canChangesBeCommitted_yes" to="tnCleanupWorkflow">
+       <action class="org.mycore.frontend.workflowengine.jbpm.MCRCommitObjectAction">
+           <varnameOBJID>createdDocID</varnameOBJID>
+           <varnameERROR>COMMITERROR</varnameERROR>
+        </action>  
+     </transition>
+      <transition name="canChangesBeCommitted_no" to="tnDisplayInstitutionData"></transition>
+  </decision>
+  
+  <task-node name="tnCleanupWorkflow">
+     <event type='node-enter'>
+        <action class="org.mycore.frontend.workflowengine.jbpm.MCRCleanUpWorkflowAction">
+           <varnameOBJID>createdDocID</varnameOBJID>
+           <varnameERROR>CLEANUPERROR</varnameERROR>
+        </action>                  
+     </event>   
+     <transition name="go2IntitutionFinished" to="institutionFinished" />
+  </task-node>
+                  
+  <end-state name="institutionFinished">
+  </end-state>
+</process-definition>

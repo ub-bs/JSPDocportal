@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition
+  xmlns="urn:jbpm.org:jpdl-3.1"  name="person">
+
+  <!-- SWIMLANES (= process roles) -->
+
+  <swimlane name="initiator" />
+  
+  <swimlane name="personeditor">
+	<assignment class="org.mycore.frontend.workflowengine.jbpm.MCRPooledActorAssignmentHandler">
+		<groupName>adminperson</groupName>
+	</assignment>  
+  </swimlane>
+  
+  <swimlane name="technicalAdministration">
+    <assignment class="org.mycore.frontend.workflowengine.jbpm.MCRPooledActorAssignmentHandler">
+		<groupName>admingroup</groupName>
+	</assignment>       
+  </swimlane>
+  
+  <start-state name="start">
+     <task name="initialization" swimlane="initiator">
+     </task>     
+     <transition name="go2IsInitiatorsEmailAddressAvailable" to="isInitiatorsEmailAddressAvailable" /> 
+     <transition name="go2DisplayPersonData" to="tnDisplayPersonData" />
+  </start-state>
+                  
+  <decision name="isInitiatorsEmailAddressAvailable">
+     <transition name="emailAvailable_no" to="getInitiatorsEmailAddress"> 
+        <condition expression="#{empty(contextInstance.variables['initiatorEmail'])}"/>
+     </transition>
+       <transition name="emailAvailable_yes" to="askForPersonEqualsInitiator">
+        <condition expression="#{!empty(contextInstance.variables['initiatorEmail'])}"/>
+     </transition> 
+  </decision>
+  
+  <task-node name="getInitiatorsEmailAddress">
+     <task name="taskGetInitiatorsEmailAddress" swimlane="initiator" />
+     <transition name="go2IsInitiatorsEmailAddressAvailable2" to="isInitiatorsEmailAddressAvailable" />
+  </task-node> 
+
+
+  <task-node name="askForPersonEqualsInitiator">
+ 	<task name="taskInputPersonEqualsInitator" swimlane="initiator"/>
+ 	<transition name="go2CreatePersonFromInitiator" to="doesPersonForUserExist">
+ 	 	</transition>
+ 	<transition name="go2CreateNewPerson" to="personCreated">
+ 		<action class="org.mycore.frontend.workflowengine.jbpm.person.MCRCreateNewPersonAction"/>
+ 	</transition>
+ </task-node>
+
+ <decision name="doesPersonForUserExist">
+     <handler class="org.mycore.frontend.workflowengine.jbpm.person.MCRDecisionHandlerPerson" />
+     <transition name="personForUserExists_yes" to="tnDisplayPersonForUser" /> 
+    <transition name="personForUserExists_no" to="personCreated">
+    	<action class="org.mycore.frontend.workflowengine.jbpm.person.MCRCreatePersonFromInitiatorAction"/>
+    </transition> 
+ </decision>
+ 
+ <task-node name="tnDisplayPersonForUser">
+ 	<task name="displayPersonForUser" swimlane="initiator" />
+ 	<transition name="go2End" to="personFinished" />
+ </task-node>
+
+  <task-node name="personCreated">
+     <task name="taskCompletePersonAndSendToLibrary" swimlane="initiator" />
+     <transition name="go2canPersonBeSubmitted" to="canPersonBeSubmitted" /> 
+  </task-node>
+
+  <decision name="canPersonBeSubmitted">
+     <handler class="org.mycore.frontend.workflowengine.jbpm.person.MCRDecisionHandlerPerson" />
+     <transition name="personCantBeSubmitted" to="personCreated" />
+     <transition name="personCanBeSubmitted" to="personSubmitted" />
+  </decision>
+  
+  <task-node name="personSubmitted">
+     <event type='node-enter'>    
+        <action class="org.mycore.frontend.workflowengine.jbpm.MCRCommitObjectAction">
+           <varnameOBJID>createdDocID</varnameOBJID>
+           <varnameERROR>COMMITERROR</varnameERROR>
+        </action>                                            
+        <action class="org.mycore.frontend.workflowengine.jbpm.person.MCRPersonSubmittedAction">
+           <lockedVariables>initiator,createdDocID</lockedVariables>
+        </action>
+		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+		   <from>MCR.WorkflowEngine.person.from</from>
+		   <to>MCR.WorkflowEngine.newtaskemail.person</to>
+		   <replyTo>MCR.WorkflowEngine.person.replyto</replyTo>
+		   <subject>MCR.WorkflowEngine.person.subject.newtask</subject>
+           <body>MCR.WorkflowEngine.person.body.newtask</body>  
+		</action>     
+     </event> 
+     <task name="taskCheckCompleteness" swimlane="personeditor"/>
+     <transition name="go2sendBackToPersonCreated" to="sendBackToPersonCreated" >
+        <action class="org.mycore.frontend.workflowengine.jbpm.MCRSetDefaultAclsAction">
+            <varmcrid>createdDocID</varmcrid>
+            <varuserid>initiator</varuserid>
+        </action>
+     </transition>
+     <transition name="go2canPersonBeCommitted" to="canPersonBeCommitted" />
+  </task-node>
+  
+  <task-node name="sendBackToPersonCreated">
+     <task name="taskEnterMessageData" swimlane="personeditor" />
+     <transition name="go2personCreated2" to="personCreated">
+		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+		   <from>MCR.WorkflowEngine.person.from</from>
+		   <to>initiator</to>
+		   <replyTo>MCR.WorkflowEngine.person.replyTo</replyTo>
+		   <subject>MCR.WorkflowEngine.person.subject.sendback</subject>
+           <body>Messagetext</body>  
+		   <jbpmVariableName>tmpTaskMessage</jbpmVariableName>
+		</action>     
+     </transition>
+  </task-node>
+                  
+  <decision name="canPersonBeCommitted">
+     <handler class="org.mycore.frontend.workflowengine.jbpm.person.MCRDecisionHandlerPerson" />
+     <transition name="personCanBeCommitted" to="wasCommitmentSuccessful">
+       <action class="org.mycore.frontend.workflowengine.jbpm.person.MCRCommitPersonAction">
+           <varnameOBJID>createdDocID</varnameOBJID>
+           <varnameERROR>COMMITERROR</varnameERROR>
+        </action> 
+      </transition>
+      <transition name="personCantBeCommitted" to="personSubmitted"></transition>
+  </decision>  
+  
+  <decision name="wasCommitmentSuccessful">
+     <transition name="go2adminCheck" to="adminCheck">  
+        <condition expression="#{!empty(contextInstance.variables['COMMITERROR'])}" />
+     </transition>
+     <transition name="go2personCommitted" to="personCommitted">  
+        <condition expression="#{empty(contextInstance.variables['COMMITERROR'])}" />
+     </transition>     
+  </decision>
+
+  <task-node name="adminCheck">
+     <event type='node-enter'>
+		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+		   <from>MCR.WorkflowEngine.person.from</from>
+		   <to>MCR.WorkflowEngine.person.to</to>
+		   <replyTo>MCR.WorkflowEngine.person.replyTo</replyTo>
+           <subject>MCR.WorkflowEngine.person.subject.admin</subject>
+           <body>MCR.WorkflowEngine.person.body.admin</body>
+		</action>          
+     </event>
+     <task name="taskAdminCheckCommitmentNotSuccessFul" swimlane="technicalAdministration" />
+     <transition name="go2personCommitted2" to="personCommitted" />
+  </task-node>  
+
+  <task-node name="personCommitted">
+     <event type='node-enter'>
+		<action class="org.mycore.frontend.workflowengine.jbpm.MCRSendmailAction">
+		   <from>MCR.WorkflowEngine.person.replyTo</from>
+		   <to>initiator</to>
+           <subject>MCR.WorkflowEngine.person.subject.commit</subject>
+           <body>MCR.WorkflowEngine.person.body.commit</body>
+		   <mode>success</mode>
+		</action> 
+     </event>     
+     <transition name="go2cleanupWorkflow" to="cleanupWorkflow" />
+  </task-node> 
+  
+  <task-node name="tnDisplayPersonData">
+      <task name="taskDisplayPersonData" swimlane="initiator" />
+	  <transition name="go2canChangesBeCommitted" to="canChangesBeCommitted" />
+  </task-node>
+                
+  <decision name="canChangesBeCommitted">
+     <handler class="org.mycore.frontend.workflowengine.jbpm.person.MCRDecisionHandlerPerson" />
+     <transition name="changesCanBeCommitted" to="cleanupWorkflow">
+       <action class="org.mycore.frontend.workflowengine.jbpm.MCRCommitObjectAction">
+           <varnameOBJID>createdDocID</varnameOBJID>
+           <varnameERROR>COMMITERROR</varnameERROR>
+        </action>  
+     </transition>
+      <transition name="changesCantBeCommitted" to="tnDisplayPersonData"></transition>
+  </decision>
+  
+  <task-node name="cleanupWorkflow">
+     <event type='node-enter'>
+        <action class="org.mycore.frontend.workflowengine.jbpm.MCRCleanUpWorkflowAction">
+           <varnameOBJID>createdDocID</varnameOBJID>
+           <varnameERROR>CLEANUPERROR</varnameERROR>
+        </action>                  
+     </event>   
+     <transition name="go2personFinished" to="personFinished" />
+  </task-node>
+  
+  <end-state name="personFinished">
+   </end-state>
+  
+</process-definition>

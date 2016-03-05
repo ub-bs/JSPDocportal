@@ -1,0 +1,48 @@
+/* =================================================================== */
+/* style_classificcation-browser.css                                     */
+/* $Revision: 1.18 $ $Date: 2005/02/10 11:55:03 $                      */
+/* =================================================================== */
+
+div.classification-browser{
+  line-height:120%;
+}
+
+div.classification-browser div.cb-item{
+  clear:both;  
+  padding-left:24px;
+  padding-top:9px;
+  
+}
+
+div.classification-browser div.cb-item div.cb-icon{
+  float:left;
+}
+div.classification-browser div.cb-item div.cb-label{
+  float:left;
+  max-width:400px;
+  padding-top:3px;
+  margin-left:12px;
+
+}
+div.classification-browser div.cb-item div.cb-label span.cb-id{
+   margin-right:6px;
+}
+
+div.classification-browser div.cb-item div.cb-label span.cb-text{
+  margin-right:12px;
+}
+
+div.classification-browser div.cb-item div.cb-label span.cb-count{
+ 
+}
+
+div.classification-browser div.cb-item div.cb-btn{
+  margin-left:12px;
+}
+
+div.classification-browser div.cb-item div.cb-description{
+  clear:both;
+  padding-top:4px;
+  padding-left:30px;
+  font-style:italic;
+}
