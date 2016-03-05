@@ -45,7 +45,7 @@ public class StartEditAction extends MCRAbstractStripesAction implements ActionB
 	@DefaultHandler
 	public Resolution defaultRes() {
 		MCRSession sessionFromRequest = MCRServlet.getSession(getContext().getRequest());
-		MCRSessionMgr.switchCurrentSession(sessionFromRequest);
+		MCRSessionMgr.setCurrentSession(sessionFromRequest);
 		
 		if (!MCRAccessManager.checkPermission(mcrid, "writedb" )) {
 			String lang   = MCRSessionMgr.getCurrentSession().getCurrentLanguage();

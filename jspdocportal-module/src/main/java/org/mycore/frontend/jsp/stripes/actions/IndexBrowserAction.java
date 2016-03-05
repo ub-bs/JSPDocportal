@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
 import org.apache.solr.client.solrj.response.FacetField;
@@ -25,7 +24,6 @@ import net.sourceforge.stripes.controller.LifecycleStage;
 
 @UrlBinding("/indexbrowser.action")
 public class IndexBrowserAction extends MCRAbstractStripesAction implements ActionBean {
-	private static Logger LOGGER = Logger.getLogger(IndexBrowserAction.class);
 	ForwardResolution fwdResolution = new ForwardResolution("/content/indexbrowser.jsp");
 
 	private List<String> firstSelector = Arrays.asList(new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",

@@ -9,6 +9,7 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
+import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.MCRSession;
@@ -39,12 +40,12 @@ public class MCRHasAccessTag extends SimpleTagSupport
 		Transaction t1=null;
 		try {
     		Transaction tx  = MCRHIBConnection.instance().getSession().getTransaction();
-	   		if(tx==null || !tx.isActive()){
+	   		if(tx==null || tx.getStatus() != TransactionStatus.ACTIVE){
 				t1 = MCRHIBConnection.instance().getSession().beginTransaction();
 			}
 			PageContext pageContext = (PageContext) getJspContext();
 			MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)pageContext.getRequest());
-			MCRSessionMgr.switchCurrentSession(mcrSession);
+			MCRSessionMgr.setCurrentSession(mcrSession);
 			
 			String userID = mcrSession.getUserInformation().getUserID();
 			if ("guest gast".contains(userID)){

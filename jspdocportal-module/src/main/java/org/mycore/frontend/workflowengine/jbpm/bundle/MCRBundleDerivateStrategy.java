@@ -14,7 +14,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.mycore.common.MCRException;
-import org.mycore.common.MCRUtils;
+import org.mycore.common.content.MCRJDOMContent;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.frontend.workflowengine.strategies.MCRDefaultDerivateStrategy;
@@ -26,7 +26,7 @@ public class MCRBundleDerivateStrategy extends MCRDefaultDerivateStrategy {
 	 * TODO Cleanup that mess in saving thesis derivates!!
 	 * Develop a concept how to handle 1 MainFile as PDF and 1 PDF or ZIP File as attachement 1!!
 	 */
-	public void saveFiles(List files, String dirname, ContextInstance ctxI, String newLabel, String newTitle) throws MCRException {
+	public void saveFiles(List<FileItem> files, String dirname, ContextInstance ctxI, String newLabel, String newTitle) throws MCRException {
 	// a correct dissertation contains in the main derivate
 	//		exactly one pdf-file and optional an attachment zip-file
 	//		the pdf file will be renamed to dissertation.pdf
@@ -126,11 +126,10 @@ public class MCRBundleDerivateStrategy extends MCRDefaultDerivateStrategy {
 			else{
 				fname=normalizeFilename(fname);
 			}
-			try{
-				File fout = new File(dirname, fname);
+            File fout = new File(dirname, fname);
+			try(
 				FileOutputStream fouts = new FileOutputStream(fout);
-				InputStream fin = item.getInputStream();
-				fouts = new FileOutputStream(fout);
+				InputStream fin = item.getInputStream()){
 				IOUtils.copy(fin, fouts);
 				fin.close();
 				fouts.flush();
@@ -155,7 +154,7 @@ public class MCRBundleDerivateStrategy extends MCRDefaultDerivateStrategy {
 		// update the Derivate...xml file
 		try{
 			if ( bUpdateDerivate ){
-				byte[] outxml = MCRUtils.getByteArray(der.createXML());
+				byte[] outxml = new MCRJDOMContent(der.createXML()).asByteArray();
 				try {
 					FileOutputStream out = new FileOutputStream(dirname	+ ".xml");
 					out.write(outxml);

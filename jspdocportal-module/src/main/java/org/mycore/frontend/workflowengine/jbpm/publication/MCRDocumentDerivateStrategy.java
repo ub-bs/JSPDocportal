@@ -12,7 +12,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.mycore.common.MCRException;
-import org.mycore.common.MCRUtils;
+import org.mycore.common.content.MCRJDOMContent;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.frontend.workflowengine.strategies.MCRDefaultDerivateStrategy;
@@ -20,7 +20,8 @@ import org.mycore.frontend.workflowengine.strategies.MCRDefaultDerivateStrategy;
 public class MCRDocumentDerivateStrategy extends MCRDefaultDerivateStrategy {
 	private static Logger logger = Logger.getLogger(MCRDocumentDerivateStrategy.class.getName());
 	
-	public void saveFiles(List files, String dirname, ContextInstance ctxI, String newLabel, String newTitle) throws MCRException {
+	@Override
+	public void saveFiles(List<FileItem> files, String dirname, ContextInstance ctxI, String newLabel, String newTitle) throws MCRException {
 	// a correct document contains in the main derivate	one or more file 
 
 		MCRDerivate der = null;
@@ -84,7 +85,8 @@ public class MCRDocumentDerivateStrategy extends MCRDefaultDerivateStrategy {
 		// update the Derivate...xml file
 		try{
 			if ( bUpdateDerivate ){
-				byte[] outxml = MCRUtils.getByteArray(der.createXML());
+			    MCRJDOMContent jdomC = new MCRJDOMContent(der.createXML());
+				byte[] outxml = jdomC.asByteArray();
 				try {
 					FileOutputStream out = new FileOutputStream(dirname	+ ".xml");
 					out.write(outxml);

@@ -13,6 +13,7 @@ import org.activiti.engine.delegate.DelegateExecution;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.jdom2.Element;
+import org.mycore.access.MCRAccessException;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.activiti.MCRActivitiMgr;
 import org.mycore.activiti.MCRActivitiUtils;
@@ -51,11 +52,15 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 		}
 		mcrObj.getService().setState(new MCRCategoryID(MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.ID", "state"), "new"));
 		mcrObj.getStructure();
+		try{
 		MCRMetadataManager.create(mcrObj);
 		execution.setVariable(MCRActivitiMgr.WF_VAR_MCR_OBJECT_ID, mcrObj.getId().toString());
 
 		MCRActivitiUtils.saveMCRObjectToWorkflowDirectory(mcrObj);
-
+		}
+		catch(MCRAccessException e){
+		    LOGGER.error(e);
+		}
 		return mcrObj;
 	}
 
@@ -79,7 +84,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 			if (doCommitTransaction) {
 				MCRSessionMgr.getCurrentSession().commitTransaction();
 			}
-		} catch (MCRActiveLinkException e) {
+		} catch (MCRActiveLinkException | MCRAccessException e) {
 			LOGGER.error(e);
 		}
 
@@ -105,7 +110,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 				if (doCommitTransaction) {
 					MCRSessionMgr.getCurrentSession().commitTransaction();
 				}
-			} catch (MCRActiveLinkException e) {
+			} catch (MCRActiveLinkException | MCRAccessException e) {
 				LOGGER.error(e);
 			}
 		}
@@ -141,7 +146,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 				try{
 					MCRMetadataManager.create(der);
 				}
-				catch(IOException e){
+				catch(IOException | MCRAccessException e){
 					LOGGER.error(e);
 				}
 				MCRActivitiUtils.saveMCRDerivateToWorkflowDirectory(der);
@@ -209,7 +214,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 					MCRSessionMgr.getCurrentSession().commitTransaction();
 				}
 
-			} catch (IOException | SAXParseException | MCRActiveLinkException e) {
+			} catch (IOException | SAXParseException | MCRActiveLinkException | MCRAccessException e) {
 				LOGGER.error(e);
 			}
 
@@ -293,7 +298,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 						MCRMetadataManager.update(mcrObj);
 					}
 				}
-			} catch (MCRActiveLinkException e) {
+			} catch (MCRActiveLinkException | MCRAccessException e) {
 				LOGGER.error(e);
 			}
 
@@ -325,7 +330,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 				try{
 					MCRMetadataManager.update(mcrDer);
 				}
-				catch(IOException e){
+				catch(IOException | MCRAccessException e){
 					LOGGER.error(e);
 				}
 				File derBaseDir = new File(wfDir, mcrObj.getId().toString());
@@ -350,9 +355,13 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 			}
 		}
 		for (MCRObjectID derID : derIDsToDelete) {
-			MCRMetadataManager.deleteMCRDerivate(derID);
+		    try{
+		        MCRMetadataManager.deleteMCRDerivate(derID);
+		    }
+		    catch(MCRAccessException e){
+		        LOGGER.error(e);
+		    }
 		}
-
 		// update derivates in MyCoRe
 		for (String derID : wfDerivateIDs) {
 			MCRDerivate der = MCRActivitiUtils.loadMCRDerivateFromWorkflowDirectory(mcrObj.getId(), MCRObjectID.getInstance(derID));
@@ -378,7 +387,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 				}
 				MCRDerivateCommands.loadFromFile(filename, false);
 				*/
-			} catch (SAXParseException | IOException e) {
+			} catch (SAXParseException | IOException | MCRAccessException e) {
 				LOGGER.error(e);
 			} 
 			if (ruleMap != null) {

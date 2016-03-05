@@ -34,6 +34,7 @@ import org.apache.log4j.Logger;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.output.Format;
+import org.mycore.access.MCRAccessException;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.MCRException;
@@ -103,8 +104,7 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
     @MCRCommand(syntax = "deploy jbpm processdefinition from file {0}", help = "The command deploys a process definition to the database from the file {0}")
     public static final void deployProcessDefinition(String resource) throws MCRException{
     	try{
-    		MCRJbpmWorkflowBase wfb = new MCRJbpmWorkflowBase();
-    		wfb.deployProcess(resource);	
+    		MCRJbpmWorkflowBase.deployProcess(resource);	
     	}catch(Exception e){
     		LOGGER.error("Error in deploying a workflow process definition", e);
             throw new MCRException("Error in deploying a workflow process definition", e);
@@ -294,13 +294,8 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
                      mcrObj.getService().addRule(s, rule);
                  }               
         	}
-        	catch(MCRActiveLinkException ale){
-        		LOGGER.error("Linkage error", ale);
-        	}
-        	catch(SAXParseException spe){
-        		LOGGER.error("SAXParseException", spe);
-        	} catch (IOException e) {
-        		LOGGER.error("IOException" , e);
+        	catch(MCRActiveLinkException | MCRAccessException | SAXParseException | IOException e) {
+        		LOGGER.error(e);
 			}
         }       
     }

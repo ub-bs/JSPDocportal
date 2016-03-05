@@ -72,7 +72,7 @@ public class MCRDocDetailsClassificationItemTag extends SimpleTagSupport {
 	    				String categid = result.getAttribute("categid");
 	    				String text="";
 	    				try{
-	    					text = categoryDAO.getCategory(new MCRCategoryID(classid, categid), 0).getLabel(lang).getText();
+	    					text = categoryDAO.getCategory(new MCRCategoryID(classid, categid), 0).getLabel(lang).get().getText();
 	    				}
 	    				catch(NullPointerException npe){
 	    					text = "No classification entry found for id: "+categid+" in classfication: "+classid+"!";

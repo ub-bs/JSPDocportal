@@ -58,6 +58,7 @@ public class MCRCheckMetadataServlet extends MCRServlet {
     /**
      * This method overrides doGetPost of MCRServlet. <br />
      */
+    @SuppressWarnings("deprecation")
     public void doGetPost(MCRServletJob job) throws Exception {
     	HttpServletRequest request = job.getRequest();
     	HttpServletResponse response = job.getResponse();
@@ -237,6 +238,7 @@ public class MCRCheckMetadataServlet extends MCRServlet {
      * 
      * @author Robert Stephan
      */
+    @SuppressWarnings("deprecation")
     public void doGetPost_NoWorkflow(MCRServletJob job) throws Exception {
     	HttpServletRequest request = job.getRequest();
     	HttpServletResponse response = job.getResponse();

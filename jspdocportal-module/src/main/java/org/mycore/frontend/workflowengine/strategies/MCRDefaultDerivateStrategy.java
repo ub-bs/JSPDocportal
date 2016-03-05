@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRException;
-import org.mycore.common.MCRUtils;
+import org.mycore.common.content.MCRJDOMContent;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.xml.sax.SAXParseException;
@@ -138,7 +138,7 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 	}	
 	
 	
-	public void saveFiles(List files, String dirname, ContextInstance ctxI, String newLabel, String newTitle) throws MCRException {
+	public void saveFiles(List<FileItem> files, String dirname, ContextInstance ctxI, String newLabel, String newTitle) throws MCRException {
 		logger.debug("!! You are using the saveFiles-DUMMY implementation, must be implemented in subclasses, for workflow-specific file checks");
 		
 		// save the files
@@ -199,7 +199,8 @@ public class MCRDefaultDerivateStrategy extends MCRDerivateStrategy {
 		}		
 		try {
 			if(bUpdateDerivate){
-				byte[] outxml = MCRUtils.getByteArray(der.createXML());
+			    MCRJDOMContent jdc = new MCRJDOMContent(der.createXML());
+				byte[] outxml = jdc.asByteArray();
 				try (FileOutputStream out = new FileOutputStream(dirname	+ ".xml")){
 					out.write(outxml);
 					out.flush();

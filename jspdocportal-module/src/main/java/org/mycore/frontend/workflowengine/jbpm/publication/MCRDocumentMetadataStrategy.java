@@ -36,7 +36,7 @@ public class MCRDocumentMetadataStrategy extends MCRDefaultMetadataStrategy {
         String publicationType = (String) ctxI.getVariable(MCRWorkflowConstants.WFM_VAR_METADATA_PUBLICATIONTYPE);			
 		if ( publicationType != null) {
 			String clid = MCRConfiguration.instance().getString("MCR.ClassificationID.Type");
-			String label = MCRCategoryDAOFactory.getInstance().getCategory(new MCRCategoryID(clid, publicationType), 0).getLabel(MCRSessionMgr.getCurrentSession().getCurrentLanguage()).getDescription();
+			String label = MCRCategoryDAOFactory.getInstance().getCategory(new MCRCategoryID(clid, publicationType), 0).getLabel(MCRSessionMgr.getCurrentSession().getCurrentLanguage()).get().getDescription();
 			ctxI.setVariable("wfo-type", label);
 		}
 	}

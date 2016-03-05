@@ -31,7 +31,7 @@ import java.util.StringTokenizer;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
-import org.mycore.common.MCRUtils;
+import org.mycore.common.content.MCRJDOMContent;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.fileupload.MCRUploadHandler;
@@ -187,10 +187,9 @@ public class MCRWorkflowUploadHandler extends MCRUploadHandler {
             if (der.getDerivate().getInternals().getMainDoc().equals("#####")) {
                 der.getDerivate().getInternals().setMainDoc(mainfile);
 
-                byte[] outxml = MCRUtils.getByteArray(der.createXML());
+                byte[] outxml = new MCRJDOMContent(der.createXML()).asByteArray();
 
-                try {
-                    FileOutputStream out = new FileOutputStream(dirname + ".xml");
+                try (FileOutputStream out = new FileOutputStream(dirname + ".xml")){
                     out.write(outxml);
                     out.flush();
                 } catch (IOException ex) {

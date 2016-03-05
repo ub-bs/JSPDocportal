@@ -9,6 +9,7 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
+import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.jdom2.output.DOMOutputter;
 import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
@@ -45,7 +46,7 @@ public class MCRReceiveMcrObjAsJdomTag extends SimpleTagSupport
 		Transaction t1=null;
 		try {
     		Transaction tx  = MCRHIBConnection.instance().getSession().getTransaction();
-	   		if(tx==null || !tx.isActive()){
+	   		if(tx==null || tx.getStatus() != TransactionStatus.ACTIVE){
 				t1 = MCRHIBConnection.instance().getSession().beginTransaction();
 			}
 			org.mycore.datamodel.metadata.MCRObject mcr_obj = new org.mycore.datamodel.metadata.MCRObject();
@@ -70,14 +71,14 @@ public class MCRReceiveMcrObjAsJdomTag extends SimpleTagSupport
 	    		domDoc =  new DOMOutputter().output( mcr_obj.createXML());
 	    		pageContext.setAttribute(varDom, domDoc);
 			}
-			if((tx==null || !tx.isActive()) && t1.isActive()){
+			if((tx==null || tx.getStatus() != TransactionStatus.ACTIVE) && t1.getStatus() == TransactionStatus.ACTIVE){
 				t1.commit();
 			}
     	} catch (Exception e) {
     		logger.error("error in receiving mcr_obj for jdom and dom", e);
     	}
     	finally{
-    		if(t1!=null && t1.isActive()){
+    		if(t1!=null && t1.getStatus() == TransactionStatus.ACTIVE){
     			t1.commit();
     		}
     	}

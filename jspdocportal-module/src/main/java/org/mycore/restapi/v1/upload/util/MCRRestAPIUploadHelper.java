@@ -53,13 +53,13 @@ import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
+import org.mycore.access.MCRAccessException;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.activiti.MCRActivitiUtils;
 import org.mycore.common.MCRPersistenceException;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.MCRUserInformation;
-import org.mycore.common.MCRUtils;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.common.content.MCRStringContent;
 import org.mycore.common.xml.MCRXMLParserFactory;
@@ -74,6 +74,7 @@ import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.datamodel.niofs.MCRPath;
+import org.mycore.datamodel.niofs.utils.MCRRecursiveDeleter;
 import org.mycore.frontend.cli.MCRObjectCommands;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
@@ -99,7 +100,7 @@ public class MCRRestAPIUploadHelper {
     @Produces({ MediaType.TEXT_XML + ";charset=UTF-8" })
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public static Response uploadObject(UriInfo info, HttpServletRequest request, InputStream uploadedInputStream,
-            FormDataContentDisposition fileDetails) {
+        FormDataContentDisposition fileDetails) {
 
         if (checkAccess(request)) {
             MCRSession session = MCRServlet.getSession(request);
@@ -124,8 +125,8 @@ public class MCRRestAPIUploadHelper {
                     docOut.getRootElement().setAttribute("ID", mcrID.toString());
                     docOut.getRootElement().setAttribute("label", mcrID.toString());
                     XMLOutputter xmlOut = new XMLOutputter(Format.getPrettyFormat());
-                    try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fXML),
-                            "UTF-8"))) {
+                    try (BufferedWriter bw = new BufferedWriter(
+                        new OutputStreamWriter(new FileOutputStream(fXML), "UTF-8"))) {
                         xmlOut.output(docOut, bw);
                     }
 
@@ -137,7 +138,7 @@ public class MCRRestAPIUploadHelper {
                     mcrSession.setUserInformation(currentUser);
 
                     return Response.created(info.getBaseUriBuilder().path("v1/objects/" + mcrID.toString()).build())
-                            .type("application/xml; charset=UTF-8").build();
+                        .type("application/xml; charset=UTF-8").build();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -158,7 +159,7 @@ public class MCRRestAPIUploadHelper {
     @Produces({ MediaType.TEXT_XML + ";charset=UTF-8" })
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public static Response uploadDerivate(UriInfo info, HttpServletRequest request, String pathParamMcrObjID,
-            String formParamlabel) {
+        String formParamlabel) {
 
         Response response = Response.status(Status.FORBIDDEN).build();
         if (checkAccess(request)) {
@@ -174,7 +175,7 @@ public class MCRRestAPIUploadHelper {
                 MCRObjectID derID = null;
                 for (MCRMetaLinkID derLink : mcrObj.getStructure().getDerivates()) {
                     if (formParamlabel.equals(derLink.getXLinkLabel())
-                            || formParamlabel.equals(derLink.getXLinkTitle())) {
+                        || formParamlabel.equals(derLink.getXLinkTitle())) {
                         derID = derLink.getXLinkHrefID();
                     }
                 }
@@ -182,8 +183,8 @@ public class MCRRestAPIUploadHelper {
                 if (derID == null) {
                     MCRWorkflowManager wfm = MCRWorkflowManagerFactory.getImpl(mcrObjID);
                     if (wfm != null) {
-                        File saveDir = new File(MCRWorkflowDirectoryManager.getWorkflowDirectory(wfm
-                                .getMainDocumentType()));
+                        File saveDir = new File(
+                            MCRWorkflowDirectoryManager.getWorkflowDirectory(wfm.getMainDocumentType()));
 
                         derID = MCRDerivateStrategy.setNextFreeDerivateID(saveDir);
 
@@ -192,11 +193,12 @@ public class MCRRestAPIUploadHelper {
                         mcrDerivate.setId(derID);
                         mcrDerivate.setSchema("datamodel-derivate.xsd");
                         mcrDerivate.getDerivate().setLinkMeta(new MCRMetaLinkID("linkmeta", mcrObjID, null, null));
-                        mcrDerivate.getDerivate().setInternals(
-                                new MCRMetaIFS("internal", new File(saveDir, derID.toString()).getPath()));
+                        mcrDerivate.getDerivate()
+                            .setInternals(new MCRMetaIFS("internal", new File(saveDir, derID.toString()).getPath()));
 
                         MCRMetadataManager.create(mcrDerivate);
-                        MCRMetadataManager.addOrUpdateDerivateToObject(mcrObjID, new MCRMetaLinkID("derobject", derID, null, formParamlabel));
+                        MCRMetadataManager.addOrUpdateDerivateToObject(mcrObjID,
+                            new MCRMetaLinkID("derobject", derID, null, formParamlabel));
 
                         fXML = new File(saveDir, derID.toString() + ".xml");
 
@@ -206,10 +208,9 @@ public class MCRRestAPIUploadHelper {
                     }
                 }
                 response = Response
-                        .created(
-                                info.getBaseUriBuilder()
-                                        .path("v1/objects/" + mcrObjID.toString() + "/derivates/" + derID.toString())
-                                        .build()).type("application/xml; charset=UTF-8").build();
+                    .created(info.getBaseUriBuilder()
+                        .path("v1/objects/" + mcrObjID.toString() + "/derivates/" + derID.toString()).build())
+                    .type("application/xml; charset=UTF-8").build();
 
             } catch (Exception e) {
                 Logger.getLogger(MCRRestAPIUploadHelper.class).error("Exeption while uploading derivate", e);
@@ -231,15 +232,14 @@ public class MCRRestAPIUploadHelper {
     @Produces({ MediaType.TEXT_XML + ";charset=UTF-8" })
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public static Response uploadFile(UriInfo info, HttpServletRequest request, String pathParamMcrObjID,
-            String pathParamMcrDerID, InputStream uploadedInputStream, FormDataContentDisposition fileDetails,
-            String formParamPath, boolean formParamMaindoc, String formParamMD5,
-            Long formParamSize) {
+        String pathParamMcrDerID, InputStream uploadedInputStream, FormDataContentDisposition fileDetails,
+        String formParamPath, boolean formParamMaindoc, String formParamMD5, Long formParamSize) {
 
         Response response = Response.status(Status.FORBIDDEN).build();
         if (checkAccess(request)) {
 
             SortedMap<String, String> parameter = new TreeMap<>();
-            
+
             parameter.put("mcrObjectID", pathParamMcrObjID);
             parameter.put("mcrDerivateID", pathParamMcrDerID);
             parameter.put("path", formParamPath);
@@ -247,10 +247,10 @@ public class MCRRestAPIUploadHelper {
             parameter.put("md5", formParamMD5);
             parameter.put("size", Long.toString(formParamSize));
 
-            
-            String clientID = request.getHeader("X-MyCoRe-RestAPI-ClientID");;
-            String keyFileLocation = MCRConfiguration.instance().getString(
-                    "MCR.RestAPI.v1.Client." + clientID + ".PublicKeyFile");
+            String clientID = request.getHeader("X-MyCoRe-RestAPI-ClientID");
+            ;
+            String keyFileLocation = MCRConfiguration.instance()
+                .getString("MCR.RestAPI.v1.Client." + clientID + ".PublicKeyFile");
             if (keyFileLocation == null) {
                 //ToDo error
             }
@@ -259,7 +259,7 @@ public class MCRRestAPIUploadHelper {
                 //ToDo error handling
             }
             if (!MCREncryptionHelper.verifyPropertiesWithSignature(parameter, base64Signature,
-                    new File(keyFileLocation))) {
+                new File(keyFileLocation))) {
                 //validation failed -> error handling
 
             } else {
@@ -285,12 +285,12 @@ public class MCRRestAPIUploadHelper {
 
                         MCRWorkflowManager wfm = MCRWorkflowManagerFactory.getImpl(objID);
                         if (wfm != null) {
-                            File saveDir = new File(MCRWorkflowDirectoryManager.getWorkflowDirectory(wfm
-                                    .getMainDocumentType()));
+                            File saveDir = new File(
+                                MCRWorkflowDirectoryManager.getWorkflowDirectory(wfm.getMainDocumentType()));
                             try {
 
                                 derDir = new File(saveDir, derID.toString());
-                                MCRUtils.deleteDirectory(derDir);
+                                Files.walkFileTree(derDir.toPath(), MCRRecursiveDeleter.instance());
                                 path = formParamPath.replace("\\", "/").replace("../", "");
                                 saveFile = new File(derDir, path);
 
@@ -320,9 +320,8 @@ public class MCRRestAPIUploadHelper {
                                 }
 
                                 MCRMetadataManager.update(der);
-                                MCRUtils.deleteDirectory(derDir);
-
-                            } catch (IOException e) {
+                                Files.walkFileTree(derDir.toPath(), MCRRecursiveDeleter.instance());
+                            } catch (IOException | MCRAccessException e) {
                                 e.printStackTrace();
                             }
 
@@ -331,11 +330,9 @@ public class MCRRestAPIUploadHelper {
 
                     session.commitTransaction();
                     session.setUserInformation(currentUser);
-                    response = Response
-                            .created(
-                                    info.getBaseUriBuilder()
-                                            .path("v1/objects/" + objID.toString() + "/derivates/" + derID.toString()
-                                                    + "/files").build()).type("application/xml; charset=UTF-8").build();
+                    response = Response.created(info.getBaseUriBuilder()
+                        .path("v1/objects/" + objID.toString() + "/derivates/" + derID.toString() + "/files").build())
+                        .type("application/xml; charset=UTF-8").build();
 
                 }
             }
@@ -344,13 +341,12 @@ public class MCRRestAPIUploadHelper {
 
     }
 
-  
     @DELETE
     @Path("/objects/id/{mcrObjID}/derivates/id/{mcrDerID}/files")
     @Produces({ MediaType.TEXT_XML + ";charset=UTF-8" })
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public static Response deleteAllFiles(UriInfo info, HttpServletRequest request, String pathParamMcrObjID,
-            String pathParamMcrDerID) {
+        String pathParamMcrDerID) {
 
         Response response = Response.status(Status.FORBIDDEN).build();
         if (checkAccess(request)) {
@@ -360,8 +356,8 @@ public class MCRRestAPIUploadHelper {
             parameter.put("mcrDerivateID", pathParamMcrDerID);
 
             String clientID = request.getHeader("X-MyCoRe-RestAPI-ClientID");
-            String keyFileLocation = MCRConfiguration.instance().getString(
-                    "MCR.RestAPI.v1.Client." + clientID + ".PublicKeyFile");
+            String keyFileLocation = MCRConfiguration.instance()
+                .getString("MCR.RestAPI.v1.Client." + clientID + ".PublicKeyFile");
             if (keyFileLocation == null) {
                 //ToDo error
             }
@@ -370,7 +366,7 @@ public class MCRRestAPIUploadHelper {
                 //ToDo error handling
             }
             if (!MCREncryptionHelper.verifyPropertiesWithSignature(parameter, base64Signature,
-                    new File(keyFileLocation))) {
+                new File(keyFileLocation))) {
                 //validation failed -> error handling
 
             } else {
@@ -385,25 +381,24 @@ public class MCRRestAPIUploadHelper {
                 MCRObjectID derID = MCRObjectID.getInstance(pathParamMcrDerID);
 
                 //MCRAccessManager.checkPermission(uses CACHE, which seems to be dirty from other calls and cannot be deleted)????
-				if (MCRAccessManager.getAccessImpl().checkPermission(derID.toString(), PERMISSION_WRITE)) {
-					MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(derID);
+                if (MCRAccessManager.getAccessImpl().checkPermission(derID.toString(), PERMISSION_WRITE)) {
+                    MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(derID);
 
-					final MCRPath rootPath = MCRPath.getPath(der.getId().toString(), "/");
-					MCRActivitiUtils.deleteDirectoryContent(rootPath);
-				}
+                    final MCRPath rootPath = MCRPath.getPath(der.getId().toString(), "/");
+                    MCRActivitiUtils.deleteDirectoryContent(rootPath);
+                }
 
                 session.commitTransaction();
                 session.setUserInformation(currentUser);
                 response = Response
-                        .created(
-                                info.getBaseUriBuilder()
-                                        .path("v1/objects/" + objID.toString() + "/derivates/" + derID.toString()
-                                                + "/files").build()).type("application/xml; charset=UTF-8").build();
+                    .created(info.getBaseUriBuilder()
+                        .path("v1/objects/" + objID.toString() + "/derivates/" + derID.toString() + "/files").build())
+                    .type("application/xml; charset=UTF-8").build();
             }
         }
         return response;
     }
-    
+
     /**
     @DELETE
     @Path("/objects/id/{mcrObjID}/derivates/id/{mcrDerID}")
@@ -411,7 +406,7 @@ public class MCRRestAPIUploadHelper {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     */
     public static Response deleteDerivate(UriInfo info, HttpServletRequest request, String pathParamMcrObjID,
-            String pathParamMcrDerID) {
+        String pathParamMcrDerID) {
 
         Response response = Response.status(Status.FORBIDDEN).build();
         if (checkAccess(request)) {
@@ -421,8 +416,8 @@ public class MCRRestAPIUploadHelper {
             parameter.put("mcrDerivateID", pathParamMcrDerID);
 
             String clientID = request.getHeader("X-MyCoRe-RestAPI-ClientID");
-            String keyFileLocation = MCRConfiguration.instance().getString(
-                    "MCR.RestAPI.v1.Client." + clientID + ".PublicKeyFile");
+            String keyFileLocation = MCRConfiguration.instance()
+                .getString("MCR.RestAPI.v1.Client." + clientID + ".PublicKeyFile");
             if (keyFileLocation == null) {
                 //ToDo error
             }
@@ -431,7 +426,7 @@ public class MCRRestAPIUploadHelper {
                 //ToDo error handling
             }
             if (!MCREncryptionHelper.verifyPropertiesWithSignature(parameter, base64Signature,
-                    new File(keyFileLocation))) {
+                new File(keyFileLocation))) {
                 //validation failed -> error handling
 
             } else {
@@ -447,20 +442,20 @@ public class MCRRestAPIUploadHelper {
 
                 //MCRAccessManager.checkPermission(uses CACHE, which seems to be dirty from other calls and cannot be deleted)????
                 if (MCRAccessManager.getAccessImpl().checkPermission(derID.toString(), PERMISSION_DELETE)) {
-                    try{
+                    try {
                         MCRMetadataManager.deleteMCRDerivate(derID);
-                    }
-                    catch(MCRPersistenceException pe){
+                    } catch (MCRPersistenceException pe) {
                         //dir does not exist - do nothing
+                    } catch (MCRAccessException e) {
+                        e.printStackTrace();
                     }
                 }
 
                 session.commitTransaction();
                 session.setUserInformation(currentUser);
                 response = Response
-                        .created(
-                                info.getBaseUriBuilder()
-                                        .path("v1/objects/" + objID.toString() + "/derivates").build()).type("application/xml; charset=UTF-8").build();
+                    .created(info.getBaseUriBuilder().path("v1/objects/" + objID.toString() + "/derivates").build())
+                    .type("application/xml; charset=UTF-8").build();
             }
         }
         return response;
@@ -473,19 +468,20 @@ public class MCRRestAPIUploadHelper {
 
     private static void setDefaultPermission(MCRObjectID objID, String workflowProcessType, String userid) {
         MCRConfiguration config = MCRConfiguration.instance();
-        String[] defaultPermissionTypes = config.getString("MCR.WorkflowEngine.DefaultPermissionTypes",
-                "read,commitdb,writedb,deletedb,deletewf").split(",");
+        String[] defaultPermissionTypes = config
+            .getString("MCR.WorkflowEngine.DefaultPermissionTypes", "read,commitdb,writedb,deletedb,deletewf")
+            .split(",");
 
         for (int i = 0; i < defaultPermissionTypes.length; i++) {
             String propName = new StringBuffer("MCR.WorkflowEngine.defaultACL.").append(objID.getTypeId()).append(".")
-                    .append(defaultPermissionTypes[i]).append(".").append(workflowProcessType).toString();
+                .append(defaultPermissionTypes[i]).append(".").append(workflowProcessType).toString();
 
             String strRule = config.getString(propName,
-                    "<condition format=\"xml\"><boolean operator=\"false\" /></condition>");
+                "<condition format=\"xml\"><boolean operator=\"false\" /></condition>");
             strRule = strRule.replaceAll("\\$\\{user\\}", userid);
             try {
                 Element rule = (Element) MCRXMLParserFactory.getParser(false).parseXML(new MCRStringContent(strRule))
-                        .getRootElement().detach();
+                    .getRootElement().detach();
                 String permissionType = defaultPermissionTypes[i];
                 //  MCRAccessManager.getAccessImpl().createRule(rule,  "System", "");
                 if (MCRAccessManager.hasRule(objID.toString(), permissionType)) {
@@ -501,10 +497,10 @@ public class MCRRestAPIUploadHelper {
         //set read to true;
         if (MCRAccessManager.hasRule(objID.toString(), MCRAccessManager.PERMISSION_READ)) {
             MCRAccessManager.updateRule(objID.toString(), MCRAccessManager.PERMISSION_READ,
-                    MCRAccessManager.getTrueRule(), "");
+                MCRAccessManager.getTrueRule(), "");
         } else {
-            MCRAccessManager.addRule(objID.toString(), MCRAccessManager.PERMISSION_READ,
-                    MCRAccessManager.getTrueRule(), "");
+            MCRAccessManager.addRule(objID.toString(), MCRAccessManager.PERMISSION_READ, MCRAccessManager.getTrueRule(),
+                "");
         }
 
     }

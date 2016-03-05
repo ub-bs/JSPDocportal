@@ -7,6 +7,7 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
+import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.datamodel.classifications2.MCRCategoryDAO;
 import org.mycore.datamodel.classifications2.MCRCategoryDAOFactory;
@@ -26,13 +27,13 @@ public class MCRDisplayClassificationCategoryTag extends SimpleTagSupport
 		try{
 			String text = "";
 			Transaction tx  = MCRHIBConnection.instance().getSession().getTransaction();
-	   		if(tx==null || !tx.isActive()){
+	   		if(tx==null || tx.getStatus() != TransactionStatus.ACTIVE){
 				Transaction t1 = MCRHIBConnection.instance().getSession().beginTransaction();
-				text = categoryDAO.getCategory(new MCRCategoryID(classid, categid), 0).getLabel(lang).getText();
+				text = categoryDAO.getCategory(new MCRCategoryID(classid, categid), 0).getLabel(lang).get().getText();
 				t1.commit();
 			}
 	   		else{
-	   			text = categoryDAO.getCategory(new MCRCategoryID(classid, categid), 0).getLabel(lang).getText();
+	   			text = categoryDAO.getCategory(new MCRCategoryID(classid, categid), 0).getLabel(lang).get().getText();
 	   		}
 			getJspContext().getOut().write(text);
 		}catch(Exception e){

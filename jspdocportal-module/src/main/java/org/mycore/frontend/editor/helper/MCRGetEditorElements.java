@@ -37,7 +37,6 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.filter.ElementFilter;
 import org.mycore.common.config.MCRConfiguration;
-import org.mycore.common.xml.MCRURIResolver.MCRResolver;
 import org.mycore.datamodel.classifications2.MCRCategoryDAOFactory;
 import org.mycore.datamodel.classifications2.MCRCategoryID;
 import org.mycore.datamodel.classifications2.utils.MCRCategoryTransformer;
@@ -57,7 +56,7 @@ import org.mycore.user2.MCRRoleManager;
  * @author Robert Stephan
  *
  */
-public class MCRGetEditorElements implements MCRResolver {
+public class MCRGetEditorElements {
 	private static Logger logger = Logger.getLogger("MCRGetEditorElements"); 
 	private static MCRConfiguration CONFIG = MCRConfiguration.instance();
 	
@@ -195,15 +194,15 @@ public class MCRGetEditorElements implements MCRResolver {
 		if(classProp != null && categoryProp != null) {
 			String classid = MCRConfiguration.instance().getString(classProp, "DocPortal_class_1");
 			Element items = transformClassToItems(classid, emptyLeafs, withCounter.equalsIgnoreCase("true"));
-			List values = null;
+			List<String> values = null;
 			try{
 				values = Arrays.asList(CONFIG.getString(categoryProp).split(","));
 			}catch(Exception ex){
 				logger.warn("config property " + categoryProp + " must be a comma separated list [" + ex.getMessage() + "]" );
 				return items;
 			}
-			for (Iterator it = items.getDescendants(new ElementFilter("item")); it.hasNext();) {
-				Element	item = (Element) it.next();
+			for (Iterator<Element> it = items.getDescendants(new ElementFilter("item")); it.hasNext();) {
+				Element	item = it.next();
 				if(values.contains(item.getAttributeValue("value"))) {
 					retitems.addContent((Element)item.clone());
 				}

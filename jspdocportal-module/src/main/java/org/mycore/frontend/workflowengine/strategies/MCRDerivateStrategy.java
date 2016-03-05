@@ -12,11 +12,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.apache.commons.fileupload.FileItem;
 import org.apache.log4j.Logger;
 import org.jbpm.context.exe.ContextInstance;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.filter.ElementFilter;
+import org.mycore.access.MCRAccessException;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRDerivateFileFilter;
 import org.mycore.common.MCRException;
@@ -155,7 +157,7 @@ public abstract class MCRDerivateStrategy {
 	 * @throws MCRException
 	 * TODO a better javadoc
 	 */	
-	public abstract void saveFiles(List files, String dirname, ContextInstance ctxI, String newLabel, String newTitle) throws MCRException ;
+	public abstract void saveFiles(List<FileItem> files, String dirname, ContextInstance ctxI, String newLabel, String newTitle) throws MCRException ;
 	
 	public Element getDerivateData(String derivateDirectory, String docID, String derivateID) {
 		String fileName = new StringBuffer(derivateDirectory)
@@ -264,7 +266,12 @@ public abstract class MCRDerivateStrategy {
 		 */
 		public boolean deleteDeletedDerivates(String derivateid) {	
 			if(MCRMetadataManager.exists(MCRObjectID.getInstance(derivateid))){
-				MCRMetadataManager.deleteMCRDerivate(MCRObjectID.getInstance(derivateid));
+			    try{
+			        MCRMetadataManager.deleteMCRDerivate(MCRObjectID.getInstance(derivateid));
+			    }
+			    catch(MCRAccessException e){
+			        logger.error(e);
+			    }
 			}
 			return true;
 		}
@@ -343,12 +350,9 @@ public abstract class MCRDerivateStrategy {
 				result = MCRDerivateCommands.loadFromFile(filename, false);
 			}
 	        }
-	        catch(SAXParseException e){
+	        catch(SAXParseException | IOException | MCRAccessException e){
 	        	logger.error(e);
-	        } catch (IOException e) {
-				e.printStackTrace();
-			}
-			
+	        }			
 			if ( ruleMap != null ) 
 				MCRWorkflowUtils.setAccessRulesMap(derivateid, ruleMap);
 		

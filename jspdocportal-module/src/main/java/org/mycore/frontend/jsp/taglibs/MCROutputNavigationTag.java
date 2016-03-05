@@ -33,6 +33,7 @@ import javax.servlet.jsp.JspWriter;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
+import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.frontend.MCRFrontendUtil;
 import org.w3c.dom.Element;
@@ -126,7 +127,7 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
         Transaction t1 = null;
         try {
             Transaction tx = MCRHIBConnection.instance().getSession().getTransaction();
-            if (tx == null || !tx.isActive()) {
+            if (tx == null || tx.getStatus() != TransactionStatus.ACTIVE) {
                 t1 = MCRHIBConnection.instance().getSession().beginTransaction();
             }
             List<Element> printableElements = printableElements(currentNode);
@@ -179,7 +180,7 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
         } catch (Exception ex) {
             LOGGER.error(ex);
         } finally {
-            if (t1 != null && t1.isActive()) {
+            if (t1 != null && t1.getStatus() != TransactionStatus.ACTIVE) {
                 t1.commit();
             }
         }

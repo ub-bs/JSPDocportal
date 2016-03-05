@@ -8,6 +8,7 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
+import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.datamodel.ifs.MCRDirectory;
 import org.mycore.datamodel.ifs.MCRFilesystemNode;
@@ -32,7 +33,7 @@ public class MCRReceiveMainDocTag extends SimpleTagSupport
 		Transaction t1=null;
 		try {
     		Transaction tx  = MCRHIBConnection.instance().getSession().getTransaction();
-	   		if(tx==null || !tx.isActive()){
+	   		if(tx==null || tx.getStatus() != TransactionStatus.ACTIVE){
 				t1 = MCRHIBConnection.instance().getSession().beginTransaction();
 			}
 	   		
@@ -42,7 +43,7 @@ public class MCRReceiveMainDocTag extends SimpleTagSupport
 				PageContext pageContext = (PageContext) getJspContext();
 				pageContext.setAttribute(var, myfiles[0].getName());
 			}
-			if(tx==null || !tx.isActive()){
+			if(tx==null || tx.getStatus() != TransactionStatus.ACTIVE){
 				t1.commit();
 			}
     	} catch (Exception e) {

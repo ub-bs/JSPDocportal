@@ -23,7 +23,7 @@ public class MCRAbstractStripesAction implements ActionBean {
 
 	@Before(stages = LifecycleStage.BindingAndValidation)
 	public void rehydrate() {
-		MCRSessionMgr.switchCurrentSession(MCRServlet.getSession(context.getRequest()));
+		MCRSessionMgr.setCurrentSession(MCRServlet.getSession(context.getRequest()));
 		/*
 		 * old code - used Java Reflection to set the MCRSession into the thread
 		MCRSession mcrSessionFromRequest = MCRServlet.getSession(context.getRequest());

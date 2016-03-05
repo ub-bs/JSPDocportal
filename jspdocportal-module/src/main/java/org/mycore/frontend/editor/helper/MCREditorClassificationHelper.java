@@ -86,9 +86,9 @@ public class MCREditorClassificationHelper {
 	private static void transformClassificationToItems(Element oldElem,
 			Element newElem, boolean displayEmptyLeafs, boolean useLabelasID) {
 		if (oldElem.getName().equals("categories")) {
-			Iterator it1 = oldElem.getChildren().iterator();
+			Iterator<Element> it1 = oldElem.getChildren().iterator();
 			while (it1.hasNext()) {
-				transformClassificationToItems((Element) it1.next(), newElem,
+				transformClassificationToItems(it1.next(), newElem,
 						displayEmptyLeafs, useLabelasID);
 			}
 		}
@@ -107,9 +107,9 @@ public class MCREditorClassificationHelper {
 					el.setAttribute("value", oldElem.getChild("label").getAttributeValue("text"));
 				}
 				newElem.addContent(el);
-				Iterator it2 = oldElem.getChildren().iterator();
+				Iterator<Element> it2 = oldElem.getChildren().iterator();
 				while (it2.hasNext()) {
-					transformClassificationToItems((Element) it2.next(), el,
+					transformClassificationToItems(it2.next(), el,
 							displayEmptyLeafs, useLabelasID);
 				}
 			}

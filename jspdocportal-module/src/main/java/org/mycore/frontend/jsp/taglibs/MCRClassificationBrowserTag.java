@@ -309,7 +309,7 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 				out.write(indent + "         <span class=\"cb-id\">" + categ.getId().getID() + "</span>");
 			}
 
-			out.write(indent + "         <span class=\"cb-text\">" + categ.getCurrentLabel().getText() + "</span>");
+			out.write(indent + "         <span class=\"cb-text\">" + categ.getCurrentLabel().get().getText() + "</span>");
 
 			if (cb.count) {
 				out.write(indent + "         <span class=\"cb-count\">");
@@ -331,7 +331,7 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 			writeLinkedCategoryItemText(cb, categ, baseURL, out);
 
 			if (cb.showdescription) {
-				String descr = categ.getCurrentLabel().getDescription();
+				String descr = categ.getCurrentLabel().get().getDescription();
 				if (descr != null && descr.length() > 0) {
 					out.write(indent + "      <div class=\"cb-description\">" + descr + "</div>");
 				}
@@ -455,7 +455,7 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 				url.append("&amp;subselect.webpage="
 						+ URLEncoder.encode(request.getParameter("XSL.subselect.webpage.SESSION"), "UTF-8"));
 				url.append("&amp;_var_@categid=" + categ.getId().getID());
-				url.append("&amp;_var_@type=" + URLEncoder.encode(categ.getCurrentLabel().getText(), "UTF-8"));
+				url.append("&amp;_var_@type=" + URLEncoder.encode(categ.getCurrentLabel().get().getText(), "UTF-8"));
 
 			} else {
 				// "normal" classification browser - do a search
