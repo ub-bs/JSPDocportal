@@ -66,7 +66,7 @@ public class MCRJSPServletContextListener implements ServletContextListener {
 				+ sce.getServletContext().getServletContextName() + " started");
 		MCRNavigationUtil.loadNavigation(sce.getServletContext());
 		loadConstants(sce.getServletContext());
-		createNonExistingAdminPermissions();
+		//createNonExistingAdminPermissions();
 		registerDefaultMessageBundle(sce.getServletContext());
 		sce.getServletContext().setAttribute("WebApplicationBaseURL", MCRFrontendUtil.getBaseURL());
 	}
@@ -94,8 +94,11 @@ public class MCRJSPServletContextListener implements ServletContextListener {
 	 * @param objid
 	 * @param userid
 	 * @return boolean false if there was an Exception
+	 * 
+	 * TODO DELETE after test
 	 */
 
+	@Deprecated
 	private boolean createNonExistingAdminPermissions() {
 		try {
 			Transaction tx = MCRHIBConnection.instance().getSession()
