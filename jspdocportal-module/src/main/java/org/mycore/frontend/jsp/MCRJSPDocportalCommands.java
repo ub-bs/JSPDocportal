@@ -27,8 +27,18 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributeView;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.jdom2.Document;
@@ -36,7 +46,6 @@ import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.mycore.access.MCRAccessException;
 import org.mycore.access.MCRAccessManager;
-import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.MCRException;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.datamodel.common.MCRActiveLinkException;
@@ -242,37 +251,66 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
         	try{
         		MCRObject mcrObj = new MCRObject(objectFile.toURI());
         	    mcrObj.setImportMode(true); //true = servdates are taken from xml file;
+        	    //clone derivateIDs
+        	    List<MCRMetaLinkID> derivateIDs = new ArrayList<MCRMetaLinkID>(mcrObj.getStructure().getDerivates());
+        	    mcrObj.getStructure().getDerivates().clear();
         	    MCRMetadataManager.update(mcrObj);
-        	    MCRHIBConnection.instance().getSession().flush();
               	       
-        	    //load derivates first:
+        	    //load derivates in the order specified in MCRObject
         	    File objDir = new File(dir, id);
         	    if(objDir.exists()){
-        	    for(File f: objDir.listFiles()){
-        	     	if(f.isFile() && f.getName().endsWith(".xml")){
-        	     		MCRObjectID derID = MCRObjectID.getInstance(f.getName().substring(0, f.getName().length()-4));
+        	        for(MCRMetaLinkID derLinkID: derivateIDs){
+        	       		MCRObjectID derID = derLinkID.getXLinkHrefID(); 
         	     		LOGGER.info(" ... processing derivate " + derID.toString());
-        	     		LOGGER.info("Loading derivate "+f.getAbsolutePath()+" : File exists = "+f.exists());
         	     		if(MCRMetadataManager.exists(derID)){
         	    			MCRDerivateCommands.delete(derID.toString());
         	    		}
-        	    		MCRDerivateCommands.loadFromFile(f.getAbsolutePath());
+        	     		File f = new File(objDir, derID.toString()+".xml");
+                        LOGGER.info("Loading derivate "+f.getAbsolutePath()+" : file exists?: "+f.exists());
         	    		
-	         	    	
+                        MCRDerivate mcrDer = new MCRDerivate(f.toURI());
+                        mcrDer.setImportMode(true); //true = servdates are taken from xml file;
+                      
+                        // override creation dates with the information from the xml file
+                        Date dateCreated = mcrDer.getService().getDate("createdate");
+                        Path p = objDir.toPath().resolve(derID.toString());
+                        LOGGER.info(p);
+                        Files.walkFileTree(p, new SimpleFileVisitor<Path>() {
+                            @Override
+                            public FileVisitResult preVisitDirectory(final Path dir,
+                                    final BasicFileAttributes attrs) throws IOException {
+                                if(attrs.creationTime().toMillis()>dateCreated.getTime()){
+                                    BasicFileAttributeView basicView = Files.getFileAttributeView(dir, BasicFileAttributeView.class);
+                                    basicView.setTimes(null, null, FileTime.fromMillis(dateCreated.getTime()));
+                                }
+                                return FileVisitResult.CONTINUE;
+                            }
+
+                            @Override
+                            public FileVisitResult visitFile(final Path file,
+                                    final BasicFileAttributes attrs) throws IOException {
+                                LOGGER.info("Update create date of file: " + file.toString()+ ":" + attrs.creationTime());
+                                if(attrs.creationTime().toMillis()>dateCreated.getTime()){
+                                    BasicFileAttributeView basicView = Files.getFileAttributeView(file, BasicFileAttributeView.class);
+                                    basicView.setTimes(null, null, FileTime.fromMillis(dateCreated.getTime()));
+                                }
+                                BasicFileAttributeView basicView = Files.getFileAttributeView(file, BasicFileAttributeView.class);
+                                LOGGER.info("   -------------> " + basicView.readAttributes().creationTime());
+                                return FileVisitResult.CONTINUE;
+                            }
+                        });
+                        
+                        MCRDerivateCommands.loadFromFile(f.getAbsolutePath());
+        	    		
 	         	    	//set ACLs
-	         	    	MCRDerivate mcrDer = new MCRDerivate(f.toURI());
-	             	    mcrDer.setImportMode(true); //true = servdates are taken from xml file;
 	             	    while(mcrDer.getService().getRulesSize()>0){
 	             		   MCRMetaAccessRule rule = mcrDer.getService().getRule(0);
 	             		   String permission = mcrDer.getService().getRulePermission(0);
 	             		   MCRAccessManager.updateRule(derID, permission, rule.getCondition(), "");
 	             		   mcrDer.getService().removeRule(0);
 	             	   }
-	             	   MCRHIBConnection.instance().getSession().flush(); 
         	    	}
         	    }
-        	    }
-        	   // MCRObjectCommands.updateFromFile(objectFile.getAbsolutePath());
         	    
         	    //set AccessRules
         	    mcrObj = new MCRObject(objectFile.toURI());
@@ -285,14 +323,6 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
         	    	MCRAccessManager.updateRule(id, permission, rule.getCondition(), "");
         	    	mcrObj.getService().removeRule(0);
         	    }
-        	    	 
-//               add ACL's
-        	    Iterator<String> it = MCRAccessManager.getPermissionsForID(id.toString()).iterator();
-                while(it.hasNext()){
-                	 String s = it.next();
-                     Element rule = MCRAccessManager.getAccessImpl().getRule(id.toString(), s);
-                     mcrObj.getService().addRule(s, rule);
-                 }               
         	}
         	catch(MCRActiveLinkException | MCRAccessException | SAXParseException | IOException e) {
         		LOGGER.error(e);
