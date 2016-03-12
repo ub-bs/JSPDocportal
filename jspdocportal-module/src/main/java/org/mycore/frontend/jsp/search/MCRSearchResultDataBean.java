@@ -66,7 +66,7 @@ public class MCRSearchResultDataBean implements Serializable {
 	
 	private Document queryDoc;
 	
-	private SolrQuery solrQuery;
+	private SolrQuery solrQuery=null;
 	private QueryResponse solrQueryResponse;
 	
 	private List<MCRSearchResultEntry> entries = new ArrayList<MCRSearchResultEntry>();

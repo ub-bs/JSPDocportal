@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.util.ClientUtils;
 import org.jdom2.Document;
 import org.jdom2.Namespace;
 import org.jdom2.output.Format;
@@ -120,7 +121,7 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
             result = new MCRSearchResultDataBean();
             result.setAction("search");
             result.setQueryDoc(null);
-            result.setQuery("+" + request.getParameter("searchField") + ":" + request.getParameter("searchValue"));
+            result.setQuery("+" + request.getParameter("searchField") + ":" + ClientUtils.escapeQueryChars(request.getParameter("searchValue")));
             result.setMask("");
         }
         if (request.getParameter("sortField") != null && request.getParameter("sortValue") != null) {

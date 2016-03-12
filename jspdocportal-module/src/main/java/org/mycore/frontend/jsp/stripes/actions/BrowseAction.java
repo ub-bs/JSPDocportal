@@ -1,32 +1,12 @@
 package org.mycore.frontend.jsp.stripes.actions;
 
-import java.io.StringWriter;
-import java.net.URL;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.apache.solr.client.solrj.SolrQuery;
-import org.jdom2.Document;
+import org.apache.solr.client.solrj.util.ClientUtils;
 import org.jdom2.Namespace;
-import org.jdom2.output.Format;
-import org.jdom2.output.XMLOutputter;
-import org.mycore.common.MCRSessionMgr;
-import org.mycore.common.content.MCRContent;
-import org.mycore.common.content.MCRJDOMContent;
-import org.mycore.common.content.MCRURLContent;
-import org.mycore.frontend.MCRFrontendUtil;
+import org.mycore.common.config.MCRConfiguration;
 import org.mycore.frontend.jsp.search.MCRSearchResultDataBean;
-import org.mycore.frontend.xeditor.MCREditorSession;
-import org.mycore.frontend.xeditor.MCREditorSessionStore;
-import org.mycore.frontend.xeditor.MCREditorSessionStoreFactory;
-import org.mycore.frontend.xeditor.MCRStaticXEditorFileServlet;
-import org.mycore.frontend.xeditor.tracker.MCRChangeData;
-import org.mycore.services.fieldquery.MCRQuery;
-import org.mycore.solr.search.MCRQLSearchUtils;
 
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.Before;
@@ -49,21 +29,14 @@ import net.sourceforge.stripes.controller.LifecycleStage;
  */
 @UrlBinding("/browse/{mask}")
 public class BrowseAction extends MCRAbstractStripesAction implements ActionBean {
+    @SuppressWarnings("unused")
     private static Logger LOGGER = Logger.getLogger(BrowseAction.class);
 
     public static Namespace NS_XED = Namespace.getNamespace("xed", "http://www.mycore.de/xeditor");
 
-    private static Pattern REGEX_XML_EMPTY_ELEMENTS = Pattern.compile("<(a|i|span|div|textarea)\\s([^>]*)?(\\s)?/>");
-
     public static int DEFAULT_ROWS = 100;
 
-    ForwardResolution fwdResolutionForm = new ForwardResolution("/content/search/browse.jsp");
-
-    private String mask = null;
-
-    private boolean showMask;
-
-    private boolean showResults;
+     private String mask = null;
 
     private MCRSearchResultDataBean result;
 
@@ -78,6 +51,8 @@ public class BrowseAction extends MCRAbstractStripesAction implements ActionBean
 
     @DefaultHandler
     public Resolution defaultRes() {
+        ForwardResolution fwdResolutionForm = new ForwardResolution("/WEB-INF/browse/"+mask+".jsp");
+
         getContext().getResponse().setCharacterEncoding("UTF-8");
         getContext().getResponse().setContentType("text/xhtml;charset=utf-8");
         HttpServletRequest request = getContext().getRequest();
@@ -105,13 +80,9 @@ public class BrowseAction extends MCRAbstractStripesAction implements ActionBean
             return new RedirectResolution("/resolve/id/" + mcrid + "?_search=" + result.getId());
         }
 
-        showMask = true;
-        showResults = false;
-
         if (request.getParameter("q") != null) {
             result = new MCRSearchResultDataBean();
             result.setAction("search");
-            result.setQueryDoc(null);
             result.setQuery(request.getParameter("q"));
             result.setMask("");
         }
@@ -119,8 +90,7 @@ public class BrowseAction extends MCRAbstractStripesAction implements ActionBean
         if (request.getParameter("searchField") != null && request.getParameter("searchValue") != null) {
             result = new MCRSearchResultDataBean();
             result.setAction("search");
-            result.setQueryDoc(null);
-            result.setQuery("+" + request.getParameter("searchField") + ":" + request.getParameter("searchValue"));
+            result.setQuery("+" + request.getParameter("searchField") + ":" + ClientUtils.escapeQueryChars(request.getParameter("searchValue")));
             result.setMask("");
         }
         if (request.getParameter("sortField") != null && request.getParameter("sortValue") != null) {
@@ -131,84 +101,18 @@ public class BrowseAction extends MCRAbstractStripesAction implements ActionBean
         if (result == null) {
             result = new MCRSearchResultDataBean();
         }
+        
+        if(result.getSolrQuery()==null){
+            result.setQuery(MCRConfiguration.instance().getString("MCR.Browse."+mask+".Query","*:*"));
+        }
         result.setMask(mask);
 
         if (mask == null) {
-            showMask = false;
-            showResults = true;
-            result.setAction("search");
+            result.setAction("browse");
         } else {
-            result.setAction("search/" + mask);
+            result.setAction("browse/" + mask);
         }
-
-        Document queryDoc = (Document) request.getAttribute("MCRXEditorSubmission");
-        if (queryDoc == null && result != null) {
-            queryDoc = result.getQueryDoc();
-        }
-
-        if (queryDoc != null) {
-            request.setAttribute("MCRXEditorSubmission", queryDoc);
-            showMask = false;
-            showResults = true;
-        }
-
-        if (queryDoc == null) {
-            String sessionID = request.getParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM);
-            if (sessionID != null) {
-                if (sessionID.contains("-")) {
-                    sessionID = sessionID.split("-")[0];
-                }
-
-                MCREditorSession session = MCREditorSessionStoreFactory.getSessionStore().getSession(sessionID);
-                if (session != null) {
-                    queryDoc = session.getXMLCleaner().clean(session.getEditedXML());
-                    // if we come from a repeater button we should show mask and
-                    // hide result
-                    MCRChangeData changeData = session.getChangeTracker().findLastChange(queryDoc);
-                    if (changeData != null) {
-                        if (changeData.getText().contains("target org.mycore.frontend.xeditor.target.MCRInsertTarget")
-                            || changeData.getText()
-                                .contains("target org.mycore.frontend.xeditor.target.MCRRemoveTarget")
-                            || changeData.getText().contains("target remove")
-                            || changeData.getText().contains("org.mycore.frontend.xeditor.target.MCRSwapTarget")) {
-                            showMask = true;
-                            showResults = false;
-
-                        }
-                    }
-                }
-            }
-        }
-
-        if (queryDoc != null) {
-            XMLOutputter xml = new XMLOutputter(Format.getPrettyFormat());
-            LOGGER.debug(xml.outputString(queryDoc));
-            if (queryDoc.getRootElement().getAttribute("mask") != null) {
-                result.setMask(queryDoc.getRootElement().getAttributeValue("mask"));
-            }
-            if (queryDoc.getRootElement().getChild("conditions").getChildren().size() > 0) {
-                result.setQueryDoc(queryDoc);
-                MCRQuery query = MCRQLSearchUtils.buildFormQuery(queryDoc.getRootElement());
-
-                SolrQuery solrQuery = MCRQLSearchUtils.getSolrQuery(query, queryDoc, request);
-                result.setSolrQuery(solrQuery);
-            }
-        }
-
-        if (request.getParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM) != null) {
-            request.getSession().removeAttribute(MCREditorSessionStore.XEDITOR_SESSION_PARAM + "_" + result.getMask());
-            request.getSession().setAttribute(MCREditorSessionStore.XEDITOR_SESSION_PARAM + "_" + result.getMask(),
-                request.getParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM));
-        }
-
-        fwdResolutionForm.getParameters().remove(MCREditorSessionStore.XEDITOR_SESSION_PARAM);
-        if (request.getSession()
-            .getAttribute(MCREditorSessionStore.XEDITOR_SESSION_PARAM + "_" + result.getMask()) != null) {
-
-            fwdResolutionForm.addParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM, request.getSession()
-                .getAttribute(MCREditorSessionStore.XEDITOR_SESSION_PARAM + "_" + result.getMask()));
-        }
-
+        
         if (result.getRows() <= 0) {
             result.setRows(DEFAULT_ROWS);
         }
@@ -219,85 +123,12 @@ public class BrowseAction extends MCRAbstractStripesAction implements ActionBean
                 // do nothing, use default
             }
         }
-        if (result.getSolrQuery() != null && showResults) {
+        if (result.getSolrQuery() != null) {
         	MCRSearchResultDataBean.addSearchresultToSession(request, result);
         	result.doSearch();
         }
 
         return fwdResolutionForm;
-    }
-
-    public String getXeditorHtml() {
-        StringWriter out = new StringWriter();
-
-        boolean doCommitTransaction = false;
-        if (!MCRSessionMgr.getCurrentSession().isTransactionActive()) {
-            doCommitTransaction = true;
-            MCRSessionMgr.getCurrentSession().beginTransaction();
-        }
-        MCRContent editorContent = null;
-        try {
-            URL resource = getClass().getResource("/editor/search/" + result.getMask() + ".xed");
-            if(resource!=null){
-                editorContent = new MCRURLContent(resource);
-            }
-            if (editorContent != null) {
-
-                Document doc = editorContent.asXML();
-                if (doc.getRootElement().getName().equals("form")
-                    && doc.getRootElement().getNamespace().equals(NS_XED)) {
-                    editorContent = new MCRJDOMContent(doc);
-                    editorContent.setDocType("MyCoReWebPage");
-
-                    HttpServletRequest request = getContext().getRequest();
-
-                    String sessionID = request.getParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM);
-                    if (sessionID != null) {
-                        result.setXedSessionId(sessionID);
-                        sessionID = sessionID.split("-")[0];
-                    }
-
-                    MCRContent newContent = MCRStaticXEditorFileServlet.doExpandEditorElements(editorContent, request,
-                        (HttpServletResponse) getContext().getResponse(), sessionID,
-                        MCRFrontendUtil.getBaseURL() + "search");
-                    String content = null;
-                    if (newContent != null) {
-                        content = newContent.asString().replaceAll("<\\?xml.*?\\?>", "");
-                    } else {
-                        content = editorContent.asString().replaceAll("<\\?xml.*?\\?>", "");
-                    }
-
-                    // for proper display of glyhicons
-                    // replace "<i class='glyphicon glyphicon-plus' /> with "<i class='glyphicon glyphicon-plus'></i>"
-                    Matcher m = REGEX_XML_EMPTY_ELEMENTS.matcher(content);
-                    content = m.replaceAll("<$1 $2></$1>");
-                    LOGGER.debug("Searchmask-Editor-XML\n"+content);
-
-                    out.append(content);
-
-                } else {
-                    LOGGER.error("Search does only allow an <xed:form> element as root.");
-                    out.append("<span class=\"error\">Please provide an &lt;xed:form&gt; element here!</span>");
-
-                }
-            }
-        } catch (Exception e) {
-            LOGGER.error("SAXException " + e, e);
-        }
-
-        if (doCommitTransaction) {
-            MCRSessionMgr.getCurrentSession().commitTransaction();
-        }
-
-        return out.toString();
-    }
-
-    public boolean isShowMask() {
-        return showMask;
-    }
-
-    public boolean isShowResults() {
-        return showResults;
     }
 
     public MCRSearchResultDataBean getResult() {

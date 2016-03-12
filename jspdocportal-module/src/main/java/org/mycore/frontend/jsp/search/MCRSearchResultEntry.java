@@ -38,7 +38,6 @@ public class MCRSearchResultEntry {
 	private String mcrid;
 	private String label;
 	private String coverURL;
-
 	private LinkedHashMap<String, String> data = new LinkedHashMap<String, String>();
 
 	private static MCRConfiguration CONFIG = MCRConfiguration.instance();
@@ -53,7 +52,7 @@ public class MCRSearchResultEntry {
 		for (String df : datafields) {
 			Object o = solrDoc.getFirstValue(df);
 			if (o != null) {
-				addData(df, String.valueOf(o));
+				data.put(df, String.valueOf(o));
 			}
 		}
 		Object o = solrDoc.getFirstValue("cover_url");
@@ -62,16 +61,12 @@ public class MCRSearchResultEntry {
 		} else {
 			String coverField = CONFIG.getString("MCR.SearchResult." + objectType + ".DefaultCoverfield", "");
 			if(solrDoc.getFirstValue(coverField)==null){
-				setCoverURL("images/cover/default.jpg");
+				setCoverURL("images/cover/default.png");
 			}
 			else{
-				setCoverURL("images/cover/default_"	+ String.valueOf(solrDoc.getFirstValue(coverField)) + ".jpg");
+				setCoverURL("images/cover/default_"	+ String.valueOf(solrDoc.getFirstValue(coverField)) + ".png");
 			}
 		}
-	}
-
-	public void addData(String key, String value) {
-		data.put(key, value);
 	}
 
 	public String getMcrid() {
