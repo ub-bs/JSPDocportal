@@ -112,7 +112,6 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
         if (request.getParameter("q") != null) {
             result = new MCRSearchResultDataBean();
             result.setAction("search");
-            result.setQueryDoc(null);
             result.setQuery(request.getParameter("q"));
             result.setMask("");
         }
@@ -120,7 +119,6 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
         if (request.getParameter("searchField") != null && request.getParameter("searchValue") != null) {
             result = new MCRSearchResultDataBean();
             result.setAction("search");
-            result.setQueryDoc(null);
             result.setQuery("+" + request.getParameter("searchField") + ":" + ClientUtils.escapeQueryChars(request.getParameter("searchValue")));
             result.setMask("");
         }
@@ -144,7 +142,7 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
 
         Document queryDoc = (Document) request.getAttribute("MCRXEditorSubmission");
         if (queryDoc == null && result != null) {
-            queryDoc = result.getQueryDoc();
+            queryDoc = result.getMCRQueryXML();
         }
 
         if (queryDoc != null) {
@@ -188,7 +186,7 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
                 result.setMask(queryDoc.getRootElement().getAttributeValue("mask"));
             }
             if (queryDoc.getRootElement().getChild("conditions").getChildren().size() > 0) {
-                result.setQueryDoc(queryDoc);
+                result.setMCRQueryXML(queryDoc);
                 MCRQuery query = MCRQLSearchUtils.buildFormQuery(queryDoc.getRootElement());
 
                 SolrQuery solrQuery = MCRQLSearchUtils.getSolrQuery(query, queryDoc, request);

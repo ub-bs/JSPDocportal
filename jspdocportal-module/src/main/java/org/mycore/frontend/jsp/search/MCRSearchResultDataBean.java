@@ -51,236 +51,238 @@ import org.mycore.solr.MCRSolrClientFactory;
  *
  */
 public class MCRSearchResultDataBean implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private static Logger LOGGER = Logger.getLogger(MCRSearchResultDataBean.class);
-	private String id;
-	private int current=0;
-	private long numFound;
-	private int start=0;
-	private int rows=-1;
-	private String sort="";
-	private String action="";
-	private String mask=null;
-	private String xedSessionId;
-	
-	private Document queryDoc;
-	
-	private SolrQuery solrQuery=null;
-	private QueryResponse solrQueryResponse;
-	
-	private List<MCRSearchResultEntry> entries = new ArrayList<MCRSearchResultEntry>();
-	private String errorMsg = null;
+    private static Logger LOGGER = Logger.getLogger(MCRSearchResultDataBean.class);
 
-	
-	public MCRSearchResultDataBean(){
-		this.id = UUID.randomUUID().toString();
-	}
-	
-	public static void addSearchresultToSession(HttpServletRequest request, MCRSearchResultDataBean searchresult){
-		@SuppressWarnings("unchecked")
-		LRUMap<String, MCRSearchResultDataBean> map = (LRUMap<String, MCRSearchResultDataBean>)request.getSession().getAttribute("mcrSearchResultMap");
-		if(map==null){
-			map = new LRUMap<String, MCRSearchResultDataBean>(16);
-			request.getSession().setAttribute("mcrSearchResultMap", map);
-		}
-		map.put(searchresult.getId(), searchresult);	
-	}
-	
-	public static MCRSearchResultDataBean retrieveSearchresultFromSession(HttpServletRequest request, String searchID){
-		@SuppressWarnings("unchecked")
-		LRUMap<String, MCRSearchResultDataBean> map = (LRUMap<String, MCRSearchResultDataBean>)request.getSession().getAttribute("mcrSearchResultMap");
-		if(map==null){
-			return null;
-		}
-		return map.get(searchID);
-	}
-	
-	public MCRSearchResultEntry getHit(int hit){
-		if(hit<0 || hit>numFound) return null;
-		int pos = hit-start;
-		if(pos<0 || pos>=rows){
-			start = (hit / rows) * rows;
-			doSearch();
-			current = hit;
-			return getHit(hit);
-		}
-		
-		return entries.get(pos);
-	}
-	
-	public void doSearch(){
-		solrQueryResponse = null;
-		SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
-		if(solrQuery != null){
-			
-		
-		if(rows>=0){
-			solrQuery.setRows(rows);
-		}
+    private String id;
 
-		start=Math.max(0,  start);
-		solrQuery.setStart(start);
-		
-		if(!sort.isEmpty()){
-			String[] x = sort.split("\\s|,");
-			if(x.length>1){
-				solrQuery.setSort(SortClause.create(x[0],  x[1]));
-			}
-		}
-		
-		try {
-			
-			solrQueryResponse = solrClient.query(solrQuery);
-			SolrDocumentList solrResults = solrQueryResponse.getResults();
-			if(solrResults.getNumFound()<start){
-				start=0;
-				doSearch();
-				return;
-			}
-			
-			setCurrent(start);
-			setNumFound(solrResults.getNumFound());
-			getEntries().clear();
-			Iterator<SolrDocument> it = solrResults.iterator();
-			while (it.hasNext()) {
-				SolrDocument doc = it.next();
-				getEntries().add(new MCRSearchResultEntry(doc));
-			}
-		} catch (SolrServerException | IOException e) {
-			LOGGER.error(e);
-		}
-		}
-	}
-	
-	public int findEntryPosition(String mcrid){
-		for(int i=0;i<entries.size();i++){
-			if(entries.get(i).getMcrid().equals(mcrid)){
-				return i;
-			}
-		}
-		return -1;
-	}
-	
-	//setter and getter methods
-	
-	public long getNumFound() {
-		return numFound;
-	}
+    private int current = 0;
 
-	public void setNumFound(long numFound) {
-		this.numFound = numFound;
-	}
+    private int start = 0;
 
-	public String getErrorMsg() {
-		return errorMsg;
-	}
+    private int rows = 10;
 
-	public void setErrorMsg(String errorMsg) {
-		this.errorMsg = errorMsg;
-	}
+    private String sort = "";
 
-	
-	public int getStart() {
-		return start;
-	}
+    private String action = "";
 
-	public void setStart(int start) {
-		this.start = start;
-	}
+    private String mask = null;
 
-	public int getRows() {
-		return rows;
-	}
+    private String xedSessionId;
 
-	public void setRows(int rows) {
-		this.rows = rows;
-	}
-	
-	public int getNumPages(){
-		return Math.round((float)Math.ceil((float)numFound / rows)); 
-	}
+    private Document mcrQueryXML = null;
 
-	public List<MCRSearchResultEntry> getEntries() {
-		return entries;
-	}
+    private SolrQuery solrQuery = new SolrQuery();
 
-	public void setQuery(String query) {
-		solrQuery = new SolrQuery();
-		solrQuery.setQuery(query);
-	}
+    private QueryResponse solrQueryResponse;
 
-	public int getCurrent() {
-		return current;
-	}
+    private String errorMsg = null;
 
-	public void setCurrent(int current) {
-		this.current = current;
-	}
+    public MCRSearchResultDataBean() {
+        this.id = UUID.randomUUID().toString();
+    }
 
-	public String getSort() {
-		return sort;
-	}
+    public static void addSearchresultToSession(HttpServletRequest request, MCRSearchResultDataBean searchresult) {
+        @SuppressWarnings("unchecked")
+        LRUMap<String, MCRSearchResultDataBean> map = (LRUMap<String, MCRSearchResultDataBean>) request.getSession()
+            .getAttribute("mcrSearchResultMap");
+        if (map == null) {
+            map = new LRUMap<String, MCRSearchResultDataBean>(16);
+            request.getSession().setAttribute("mcrSearchResultMap", map);
+        }
+        map.put(searchresult.getId(), searchresult);
+    }
 
-	public void setSort(String sort) {
-		this.sort = sort;
-	}
+    public static MCRSearchResultDataBean retrieveSearchresultFromSession(HttpServletRequest request, String searchID) {
+        @SuppressWarnings("unchecked")
+        LRUMap<String, MCRSearchResultDataBean> map = (LRUMap<String, MCRSearchResultDataBean>) request.getSession()
+            .getAttribute("mcrSearchResultMap");
+        if (map == null) {
+            return null;
+        }
+        return map.get(searchID);
+    }
 
-	public String getId() {
-		return id;
-	}
+    public void doSearch() {
+        solrQueryResponse = null;
+        SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
 
-	public void setId(String id) {
-		this.id = id;
-	}
+        if (rows >= 0) {
+            solrQuery.setRows(rows);
+        }
 
-	public SolrQuery getSolrQuery() {
-		return solrQuery;
-	}
+        start = Math.max(0, start);
+        solrQuery.setStart(start);
 
-	public void setSolrQuery(SolrQuery solrQuery) {
-		this.solrQuery = solrQuery;
-	}
+        if (!sort.isEmpty()) {
+            String[] x = sort.split("\\s|,");
+            if (x.length > 1) {
+                solrQuery.setSort(SortClause.create(x[0], x[1]));
+            }
+        }
 
-	public String getAction() {
-		return action;
-	}
+        try {
+            solrQueryResponse = solrClient.query(solrQuery);
+            SolrDocumentList solrResults = solrQueryResponse.getResults();
+            if (solrResults.getNumFound() < start) {
+                start = 0;
+                doSearch();
+                return;
+            }
 
-	public void setAction(String action) {
-		this.action = action;
-	}
+            setCurrent(start);
+            getEntries().clear();
+            Iterator<SolrDocument> it = solrResults.iterator();
+            while (it.hasNext()) {
+                SolrDocument doc = it.next();
+                getEntries().add(new MCRSearchResultEntry(doc));
+            }
+        } catch (SolrServerException | IOException e) {
+            LOGGER.error(e);
+        }
+    }
 
-	public Document getQueryDoc() {
-		return queryDoc;
-	}
+    public MCRSearchResultEntry getHit(int hit) {
+        if (hit < 0 || hit > solrQueryResponse.getResults().getNumFound())
+            return null;
+        int pos = hit - start;
+        if (pos < 0 || pos >= rows) {
+            start = (hit / rows) * rows;
+            doSearch();
+            current = hit;
+            return getHit(hit);
+        }
+        return new MCRSearchResultEntry(solrQueryResponse.getResults().get(pos));
+    }
+    //	public int findEntryPosition(String mcrid){
+    //		for(int i=0;i<entries.size();i++){
+    //			if(entries.get(i).getMcrid().equals(mcrid)){
+    //				return i;
+    //			}
+    //		}
+    //		return -1;
+    //	}
 
-	public void setQueryDoc(Document queryDoc) {
-		this.queryDoc = queryDoc;
-	}
+    //setter and getter methods
 
-	public String getMask() {
-		return mask;
-	}
+    public long getNumFound() {
+        return solrQueryResponse.getResults().getNumFound();
+    }
 
-	public void setMask(String mask) {
-		this.mask = mask;
-	}
-	
-	public String getSortfields(){
-		return MCRConfiguration.instance().getString("MCR.Searchmask."+ (mask!=null ? mask : "default")+".sortfields", MCRConfiguration.instance().getString("MCR.Searchmask.default.sortfields", "")).trim();
-	}
+    public String getErrorMsg() {
+        return errorMsg;
+    }
 
-	public String getXedSessionId() {
-		return xedSessionId;
-	}
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
+    }
 
-	public void setXedSessionId(String xedSessionId) {
-		this.xedSessionId = xedSessionId;
-	}
+    public int getStart() {
+        return start;
+    }
 
-	public QueryResponse getSolrQueryResponse() {
-		return solrQueryResponse;
-	}
-	
-	
+    public void setStart(int start) {
+        this.start = start;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public void setRows(int rows) {
+        this.rows = rows;
+    }
+
+    public int getNumPages() {
+        return Math.round((float) Math.ceil((float) getNumFound() / rows));
+    }
+
+    public List<MCRSearchResultEntry> getEntries() {
+        ArrayList<MCRSearchResultEntry> result = new ArrayList<MCRSearchResultEntry>();
+        for (SolrDocument solrDoc : solrQueryResponse.getResults()) {
+            result.add(new MCRSearchResultEntry(solrDoc));
+        }
+        return result;
+    }
+
+    public void setQuery(String query) {
+        solrQuery.setQuery(query);
+    }
+
+    public int getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(int current) {
+        this.current = current;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public SolrQuery getSolrQuery() {
+        return solrQuery;
+    }
+
+    public void setSolrQuery(SolrQuery solrQuery) {
+        this.solrQuery = solrQuery;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public Document getMCRQueryXML() {
+        return mcrQueryXML;
+    }
+
+    public void setMCRQueryXML(Document mcrQueryXML) {
+        this.mcrQueryXML = mcrQueryXML;
+    }
+
+    public String getMask() {
+        return mask;
+    }
+
+    public void setMask(String mask) {
+        this.mask = mask;
+    }
+
+    public String getSortfields() {
+        return MCRConfiguration.instance()
+            .getString("MCR.Searchmask." + (mask != null ? mask : "default") + ".sortfields",
+                MCRConfiguration.instance().getString("MCR.Searchmask.default.sortfields", ""))
+            .trim();
+    }
+
+    public String getXedSessionId() {
+        return xedSessionId;
+    }
+
+    public void setXedSessionId(String xedSessionId) {
+        this.xedSessionId = xedSessionId;
+    }
+
+    public QueryResponse getSolrQueryResponse() {
+        return solrQueryResponse;
+    }
+
 }

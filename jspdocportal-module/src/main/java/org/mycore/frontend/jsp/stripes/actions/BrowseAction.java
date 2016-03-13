@@ -57,9 +57,11 @@ public class BrowseAction extends MCRAbstractStripesAction implements ActionBean
         getContext().getResponse().setContentType("text/xhtml;charset=utf-8");
         HttpServletRequest request = getContext().getRequest();
         if (request.getParameter("_search") != null) {
+            //check against null if sessin does not exist
             result = MCRSearchResultDataBean.retrieveSearchresultFromSession(request, request.getParameter("_search"));
         }
         Integer hit = null;
+        if(result!=null){
         if (request.getParameter("_hit") != null) {
             try {
                 hit = Integer.parseInt(request.getParameter("_hit"));
@@ -78,18 +80,18 @@ public class BrowseAction extends MCRAbstractStripesAction implements ActionBean
         if (hit != null && result != null && hit >= 0 && hit < result.getNumFound()) {
             String mcrid = result.getHit(hit).getMcrid();
             return new RedirectResolution("/resolve/id/" + mcrid + "?_search=" + result.getId());
-        }
+        }}
 
         if (request.getParameter("q") != null) {
             result = new MCRSearchResultDataBean();
-            result.setAction("search");
+            result.setAction("browse");
             result.setQuery(request.getParameter("q"));
             result.setMask("");
         }
 
         if (request.getParameter("searchField") != null && request.getParameter("searchValue") != null) {
             result = new MCRSearchResultDataBean();
-            result.setAction("search");
+            result.setAction("browse");
             result.setQuery("+" + request.getParameter("searchField") + ":" + ClientUtils.escapeQueryChars(request.getParameter("searchValue")));
             result.setMask("");
         }
@@ -100,10 +102,8 @@ public class BrowseAction extends MCRAbstractStripesAction implements ActionBean
 
         if (result == null) {
             result = new MCRSearchResultDataBean();
-        }
-        
-        if(result.getSolrQuery()==null){
             result.setQuery(MCRConfiguration.instance().getString("MCR.Browse."+mask+".Query","*:*"));
+            result.setRows(DEFAULT_ROWS);
         }
         result.setMask(mask);
 
