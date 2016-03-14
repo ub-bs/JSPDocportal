@@ -1,12 +1,15 @@
 package org.mycore.frontend.workflowengine.jbpm;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.mycore.frontend.editor.MCREditorSubmission;
-import org.mycore.frontend.servlets.MCRServlet;
-import org.mycore.frontend.servlets.MCRServletJob;
 
-public class MCRPassToTargetServlet extends MCRServlet{
+public class MCRPassToTargetServlet extends HttpServlet{
 	
 	/**
 	 * 
@@ -16,10 +19,10 @@ public class MCRPassToTargetServlet extends MCRServlet{
 	/**
 	 * This method overrides doGetPost of MCRServlet. <br />
 	 */
-	public void doGetPost(MCRServletJob job) throws Exception {
-		// the target request parameter comes from the editor-include.jsp target parameter
-		HttpServletRequest request = job.getRequest();
-		String servletName = request.getParameter("target");
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+        String servletName = request.getParameter("target");
 		if(servletName == null || servletName.equals("")){
 			servletName = (String)request.getAttribute("target");
 		}
@@ -27,7 +30,7 @@ public class MCRPassToTargetServlet extends MCRServlet{
 			servletName = ((MCREditorSubmission)request.getAttribute("MCREditorSubmission"))
 				.getParameters().getParameter("target");
 		}
-		request.getRequestDispatcher(servletName).forward(request,job.getResponse());
+		request.getRequestDispatcher(servletName).forward(request, response);
 	}
 
 }

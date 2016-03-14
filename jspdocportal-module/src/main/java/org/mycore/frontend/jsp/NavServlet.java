@@ -1,6 +1,10 @@
 package org.mycore.frontend.jsp;
 
+import java.io.IOException;
+
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,9 +16,8 @@ import org.jdom2.input.DOMBuilder;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
 import org.mycore.frontend.servlets.MCRServlet;
-import org.mycore.frontend.servlets.MCRServletJob;
 
-public class NavServlet extends MCRServlet {
+public class NavServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger LOGGER = Logger.getLogger(NavServlet.class);
 
@@ -22,9 +25,9 @@ public class NavServlet extends MCRServlet {
 
 	private static Namespace NS_NAV = Namespace.getNamespace("n", "http://www.mycore.org/jspdocportal/navigation");
 
-	protected void doGetPost(MCRServletJob job) throws Exception {
-		HttpServletRequest request = job.getRequest();
-		HttpServletResponse response = job.getResponse();
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 

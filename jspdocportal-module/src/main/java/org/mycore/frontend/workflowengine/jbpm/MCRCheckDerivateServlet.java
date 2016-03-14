@@ -24,8 +24,11 @@
 
 package org.mycore.frontend.workflowengine.jbpm;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -36,7 +39,6 @@ import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.editor.MCREditorSubmission;
 import org.mycore.frontend.editor.MCRRequestParameters;
 import org.mycore.frontend.servlets.MCRServlet;
-import org.mycore.frontend.servlets.MCRServletJob;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 
 /**
@@ -49,7 +51,7 @@ import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager
  * @version $Revision$ $Date$
  */
 
-public class MCRCheckDerivateServlet extends MCRServlet {
+public class MCRCheckDerivateServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private static Logger LOGGER = Logger.getLogger("MCRCheckDerivateServlet");
@@ -57,11 +59,11 @@ public class MCRCheckDerivateServlet extends MCRServlet {
 	/**
 	 * This method overrides doGetPost of MCRServlet. <br />
 	 */
-	public void doGetPost(MCRServletJob job) throws Exception {
-		HttpServletRequest request = job.getRequest();
-		HttpServletResponse response = job.getResponse();
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
 		// read the XML data
-		MCREditorSubmission sub = (MCREditorSubmission) (job.getRequest().getAttribute("MCREditorSubmission"));
+		MCREditorSubmission sub = (MCREditorSubmission) (request.getAttribute("MCREditorSubmission"));
 
 		@SuppressWarnings("rawtypes")
 		List files = sub.getFiles();

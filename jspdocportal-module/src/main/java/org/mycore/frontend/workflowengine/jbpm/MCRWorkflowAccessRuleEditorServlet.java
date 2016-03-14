@@ -24,13 +24,15 @@
 
 package org.mycore.frontend.workflowengine.jbpm;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.mycore.frontend.editor.MCRRequestParameters;
-import org.mycore.frontend.servlets.MCRServlet;
-import org.mycore.frontend.servlets.MCRServletJob;
-
 
 /**
  * This servlets put all metadata and derivates to the workflow directory and redirects 
@@ -41,29 +43,31 @@ import org.mycore.frontend.servlets.MCRServletJob;
  * @version $Revision$ $Date$
  */
 
-public class MCRWorkflowAccessRuleEditorServlet extends MCRServlet {
-	protected static Logger logger = Logger.getLogger(MCRWorkflowAccessRuleEditorServlet.class);
-	private static final long serialVersionUID = 1L;
-    
-	/**
-	 * This method overrides doGetPost of MCRServlet. <br />
-	 */
-	public void doGetPost(MCRServletJob job) throws Exception {
-		HttpServletRequest request = job.getRequest();
-		// read the parameter
-		MCRRequestParameters parms;
-		parms = new MCRRequestParameters(request);
-		String mcrid = parms.getParameter("id");
-		String rule  = parms.getParameter("rule");
-		String processid  = parms.getParameter("processid");		
-		String[] selectedGroups  = parms.getParameterValues("selectedGroups");
-		String path  = parms.getParameter("path");		
-		
-		if ( parms.getParameter("finish") != null) {
-			MCRWorkflowAccessRuleEditorUtils.saveAccessRule(mcrid, rule, processid, selectedGroups);
-			path = parms.getParameter("returnPath");
-		}
-		request.getRequestDispatcher("/nav?path=" + path).forward(request,job.getResponse());
-		
-	}
-}	
+public class MCRWorkflowAccessRuleEditorServlet extends HttpServlet {
+    protected static Logger logger = Logger.getLogger(MCRWorkflowAccessRuleEditorServlet.class);
+
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * This method overrides doGetPost of MCRServlet. <br />
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+        // read the parameter
+        MCRRequestParameters parms;
+        parms = new MCRRequestParameters(request);
+        String mcrid = parms.getParameter("id");
+        String rule = parms.getParameter("rule");
+        String processid = parms.getParameter("processid");
+        String[] selectedGroups = parms.getParameterValues("selectedGroups");
+        String path = parms.getParameter("path");
+
+        if (parms.getParameter("finish") != null) {
+            MCRWorkflowAccessRuleEditorUtils.saveAccessRule(mcrid, rule, processid, selectedGroups);
+            path = parms.getParameter("returnPath");
+        }
+        request.getRequestDispatcher("/nav?path=" + path).forward(request, response);
+
+    }
+}

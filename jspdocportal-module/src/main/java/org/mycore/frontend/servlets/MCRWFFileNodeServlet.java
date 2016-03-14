@@ -32,11 +32,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.mycore.common.config.MCRConfiguration;
+import org.mycore.frontend.MCRFrontendUtil;
 
 /**
  * This Servlet overides only the output methods of mcrfilenodservlet for jsp docportal use 
@@ -44,7 +46,7 @@ import org.mycore.common.config.MCRConfiguration;
  * 
  *  
  *  */
-public class MCRWFFileNodeServlet extends  MCRServlet{
+public class MCRWFFileNodeServlet extends  HttpServlet{
     private static final long serialVersionUID = 1L; 
 	private static Logger LOGGER = Logger.getLogger(MCRWFFileNodeServlet.class);
    
@@ -56,11 +58,10 @@ public class MCRWFFileNodeServlet extends  MCRServlet{
     public void init() throws ServletException {
         super.init();
     }
-    
-    public void doGetPost(MCRServletJob job) throws ServletException, Exception {
-        // the urn with information about the MCRObjectID
-    	HttpServletRequest request = job.getRequest();
-    	HttpServletResponse response = job.getResponse();
+
+   @Override
+   protected void doGet(HttpServletRequest request, HttpServletResponse response)
+       throws ServletException, IOException {
     	LOGGER.debug("servletPath=" + request.getServletPath());
         String uri = request.getPathInfo();
         String filename = null;
@@ -72,7 +73,7 @@ public class MCRWFFileNodeServlet extends  MCRServlet{
             String path[] = uri.split("/");
             derivateID = path[1];
             filename = path[2];
-            type = getProperty(job.getRequest(), "type");
+            type = MCRFrontendUtil.getProperty(request, "type").orElse(null);
         }
         
         if (filename == null || type == null) {

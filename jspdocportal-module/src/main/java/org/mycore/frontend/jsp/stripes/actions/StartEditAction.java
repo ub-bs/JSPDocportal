@@ -3,6 +3,17 @@ package org.mycore.frontend.jsp.stripes.actions;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
+import org.apache.log4j.Logger;
+import org.mycore.access.MCRAccessManager;
+import org.mycore.activiti.MCRActivitiMgr;
+import org.mycore.common.MCRSessionMgr;
+import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.user2.MCRUserManager;
+
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -11,19 +22,6 @@ import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.controller.LifecycleStage;
-
-import org.activiti.engine.RuntimeService;
-import org.activiti.engine.TaskService;
-import org.activiti.engine.runtime.ProcessInstance;
-import org.activiti.engine.task.Task;
-import org.apache.log4j.Logger;
-import org.mycore.access.MCRAccessManager;
-import org.mycore.activiti.MCRActivitiMgr;
-import org.mycore.common.MCRSession;
-import org.mycore.common.MCRSessionMgr;
-import org.mycore.datamodel.metadata.MCRObjectID;
-import org.mycore.frontend.servlets.MCRServlet;
-import org.mycore.user2.MCRUserManager;
 
 @UrlBinding("/startedit.action")
 public class StartEditAction extends MCRAbstractStripesAction implements ActionBean {
@@ -44,9 +42,6 @@ public class StartEditAction extends MCRAbstractStripesAction implements ActionB
 
 	@DefaultHandler
 	public Resolution defaultRes() {
-		MCRSession sessionFromRequest = MCRServlet.getSession(getContext().getRequest());
-		MCRSessionMgr.setCurrentSession(sessionFromRequest);
-		
 		if (!MCRAccessManager.checkPermission(mcrid, "writedb" )) {
 			String lang   = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
 			String usererrorpage = "/nav?path=~mycore-error?messageKey=WF.common.PrivilegesError&lang=" + lang;

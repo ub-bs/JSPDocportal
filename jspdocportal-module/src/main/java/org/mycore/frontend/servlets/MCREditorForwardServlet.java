@@ -23,7 +23,10 @@
 
 package org.mycore.frontend.servlets;
 
+import java.io.IOException;
+
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -35,7 +38,7 @@ import org.mycore.frontend.MCRFrontendUtil;
  * 
  * 
  */
-public class MCREditorForwardServlet extends MCRServlet {
+public class MCREditorForwardServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
@@ -53,12 +56,9 @@ public class MCREditorForwardServlet extends MCRServlet {
     /**
      * The method replace the default form MCRServlet 
      * 
-     * @param job
-     *            the MCRServletJob instance
      */
-    public void doGetPost(MCRServletJob job) throws ServletException, Exception {
-    	HttpServletRequest request = job.getRequest();
-    	HttpServletResponse response = job.getResponse();
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	String requestPath = request.getPathInfo();
         LOGGER.info("MCREditorForwardServlet: request path = " + requestPath);
 

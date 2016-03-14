@@ -1,4 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@page import="java.io.PrintWriter"%>
+<%@page import="java.io.StringWriter"%>
+<%@ page isErrorPage="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
@@ -20,15 +22,9 @@
 </c:choose>
 </c:set>
  
-<stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
+<stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
 	<stripes:layout-component name="contents">
 	
-<c:if test="${empty requestScope.lang && empty param.lang}">
-   <c:redirect url="nav">
-      <c:param name="path" value="~mycore-error" />
-      <c:param name="messageKey" value="${param.messageKey}" />
-   </c:redirect>
-</c:if>
 
 <h2>${pageTitle}</h2>
 

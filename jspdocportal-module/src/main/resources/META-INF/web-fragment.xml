@@ -96,6 +96,7 @@
 		<url-pattern>/search/*</url-pattern>
 		<url-pattern>/browse/*</url-pattern>
 		<url-pattern>/site/*</url-pattern>
+		<url-pattern>/metadata/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>	
 	<filter-mapping>
@@ -114,6 +115,18 @@
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
 	
+	
+	<!-- inject MCRSession from HttpSession into SessionManagerfine a named filter -->
+	<filter>
+   		<filter-name>MCRSessionInjectionFilter</filter-name>
+   		<filter-class>org.mycore.frontend.jsp.MCRSessionInjectionFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+   		<filter-name>MCRSessionInjectionFilter</filter-name>
+   		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
 	<servlet>
 		<servlet-name>StripesDispatcher</servlet-name>
 		<servlet-class>net.sourceforge.stripes.controller.DispatcherServlet</servlet-class>
@@ -125,6 +138,7 @@
 		<url-pattern>/search/*</url-pattern>
 		<url-pattern>/browse/*</url-pattern>
 		<url-pattern>/site/*</url-pattern>
+		<url-pattern>/metadata/*</url-pattern>
 	</servlet-mapping>
     
     <!-- servlets -->
@@ -159,12 +173,7 @@
         <servlet-class>org.mycore.frontend.workflowengine.jbpm.MCRWorkflowAccessRuleEditorServlet</servlet-class>
     </servlet>
     
-    <servlet>
-         <servlet-name>MCRJSPObjectServlet</servlet-name>
-         <servlet-class>org.mycore.frontend.servlets.MCRJSPObjectServlet</servlet-class>
-    </servlet>
-	
-    <servlet>
+   <servlet>
         <servlet-name>MCRRegisterUserWorkflowServlet</servlet-name>
         <servlet-class>org.mycore.frontend.workflowengine.jbpm.registeruser.MCRRegisterUserWorkflowServlet</servlet-class>
     </servlet> 
@@ -248,11 +257,6 @@
         <url-pattern>/servlets/MCRWorkflowAccessRules</url-pattern>
     </servlet-mapping>
 
-    <servlet-mapping>
-		<servlet-name>MCRJSPObjectServlet</servlet-name>
-		<url-pattern>/metadata/*</url-pattern>
-	</servlet-mapping>
-	
 	<servlet-mapping>
         <servlet-name>MCRRegisterUserWorkflowServlet</servlet-name>
         <url-pattern>/servlets/MCRRegisterUserWorkflowServlet</url-pattern>

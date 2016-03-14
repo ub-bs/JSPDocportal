@@ -24,19 +24,20 @@
 
 package org.mycore.frontend.workflowengine.jbpm;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.mycore.access.MCRAccessManager;
-import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.editor.MCRRequestParameters;
-import org.mycore.frontend.servlets.MCRServlet;
-import org.mycore.frontend.servlets.MCRServletJob;
 
 
 /**
@@ -48,7 +49,7 @@ import org.mycore.frontend.servlets.MCRServletJob;
  * @version $Revision$ $Date$
  */
 
-public class MCRWorkflowForEditingStartServlet extends MCRServlet {
+public class MCRWorkflowForEditingStartServlet extends HttpServlet {
 	protected static Logger logger = Logger.getLogger(MCRWorkflowForEditingStartServlet.class);
 	private static final long serialVersionUID = 1L;
     private String mcrid;
@@ -56,16 +57,15 @@ public class MCRWorkflowForEditingStartServlet extends MCRServlet {
 	/**
 	 * This method overrides doGetPost of MCRServlet. <br />
 	 */
-	public void doGetPost(MCRServletJob job) throws Exception {
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
 		boolean bOK = false;
-		HttpServletRequest request = job.getRequest();
-		HttpServletResponse response = job.getResponse();
+		
 		// read the parameter
 		MCRRequestParameters parms;
 		parms = new MCRRequestParameters(request);
 		mcrid = parms.getParameter("mcrid");
-		MCRSession sessionFromRequest = MCRServlet.getSession(request);
-		MCRSessionMgr.setCurrentSession(sessionFromRequest);
 		
 		if (!MCRAccessManager.checkPermission(mcrid, "writedb" )) {
 			String lang   = MCRSessionMgr.getCurrentSession().getCurrentLanguage();

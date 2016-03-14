@@ -26,11 +26,14 @@
 package org.mycore.frontend.workflowengine.jbpm;
 
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Enumeration;
 import java.util.Properties;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -41,8 +44,6 @@ import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.editor.MCRRequestParameters;
 import org.mycore.frontend.jsp.MCRJSPDocportalCommands;
-import org.mycore.frontend.servlets.MCRServlet;
-import org.mycore.frontend.servlets.MCRServletJob;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 
 /**
@@ -54,7 +55,7 @@ import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager
  * @version $Revision$ $Date$
  * 
  */
-public class MCRWorkflowActions extends MCRServlet {
+public class MCRWorkflowActions extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger LOGGER = Logger.getLogger(MCRWorkflowActions.class);
 	
@@ -62,10 +63,9 @@ public class MCRWorkflowActions extends MCRServlet {
      * This method overrides doGetPost of MCRServlet. <br />
      */
 	
-    public void doGetPost(MCRServletJob job) throws Exception {
-    	   	
-    	HttpServletRequest request = job.getRequest();
-    	HttpServletResponse response = job.getResponse();
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
             	
         MCRRequestParameters parms = new MCRRequestParameters(request);
         long pid = Long.parseLong(parms.getParameter("processid"));

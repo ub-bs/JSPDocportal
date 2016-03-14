@@ -23,9 +23,12 @@
 
 package org.mycore.frontend.workflowengine.jbpm;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -35,12 +38,12 @@ import org.jdom2.Document;
 import org.jdom2.output.Format;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRUtils;
+import org.mycore.common.content.MCRJDOMContent;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.datamodel.metadata.validator.MCREditorOutValidator;
 import org.mycore.frontend.editor.MCREditorSubmission;
 import org.mycore.frontend.editor.MCRRequestParameters;
 import org.mycore.frontend.servlets.MCRServlet;
-import org.mycore.frontend.servlets.MCRServletJob;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 
 /**
@@ -51,18 +54,17 @@ import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager
  * @author Heiko Helmbrecht
  * @version $Revision$ $Date$
  */
-public class MCRCheckMetadataServlet extends MCRServlet {
+public class MCRCheckMetadataServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger LOGGER = Logger.getLogger(MCRCheckMetadataServlet.class);
 		
     /**
      * This method overrides doGetPost of MCRServlet. <br />
      */
-    @SuppressWarnings("deprecation")
-    public void doGetPost(MCRServletJob job) throws Exception {
-    	HttpServletRequest request = job.getRequest();
-    	HttpServletResponse response = job.getResponse();
-    	// read the XML data
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+        // read the XML data
         MCREditorSubmission sub = (MCREditorSubmission) (request.getAttribute("MCREditorSubmission"));
         org.jdom2.Document indoc = sub.getXML();
  
@@ -70,7 +72,6 @@ public class MCRCheckMetadataServlet extends MCRServlet {
         MCRRequestParameters parms = sub.getParameters();
         
         if(parms.getParameter("processid").equals("0")){
-        	doGetPost_NoWorkflow(job);
         	return;
         }
         
@@ -131,14 +132,14 @@ public class MCRCheckMetadataServlet extends MCRServlet {
         }
 
         // create a metadata object and prepare it
-        org.jdom2.Document outdoc;
-        StringBuffer storePath = new StringBuffer(MCRWorkflowDirectoryManager.getWorkflowDirectory(ID.getTypeId()))
+         StringBuffer storePath = new StringBuffer(MCRWorkflowDirectoryManager.getWorkflowDirectory(ID.getTypeId()))
 			.append("/").append(ID.toString()).append(".xml");
-        
-        	WFM.storeMetadata(MCRUtils.getByteArray(indoc, Format.getPrettyFormat()), ID.toString(), storePath.toString());
-        	outdoc = prepareMetadata((org.jdom2.Document) indoc.clone(), ID, job, lang, step, 
-        			   nextPath, storePath.toString(), workflowType, String.valueOf(processID), publicationType);
-        	WFM.storeMetadata(MCRUtils.getByteArray(outdoc, Format.getPrettyFormat()), ID.toString(), storePath.toString());
+            MCRJDOMContent jdomCIndoc = new MCRJDOMContent(indoc);
+        	WFM.storeMetadata(jdomCIndoc.asByteArray(), ID.toString(), storePath.toString());
+        	MCRJDOMContent jdomCOutdoc = new MCRJDOMContent(prepareMetadata((org.jdom2.Document) indoc.clone(), ID, request, response, lang, step, 
+        			   nextPath, storePath.toString(), workflowType, String.valueOf(processID), publicationType));
+        	
+        	WFM.storeMetadata(jdomCOutdoc.asByteArray(), ID.toString(), storePath.toString());
         	WFM.setWorkflowVariablesFromMetadata(wfp.getContextInstance(), indoc.getRootElement().getChild("metadata"));
         	WFM.setMetadataValid(mcrid1, true, wfp.getContextInstance());
         	
@@ -172,12 +173,10 @@ public class MCRCheckMetadataServlet extends MCRServlet {
      *            the JDOM tree from the editor
      * @param ID
      *            the MCRObjectID of the MCRObject
-     * @param job
-     *            the MCRServletJob data
      * @param lang
      *            the current language
      */
-    protected org.jdom2.Document prepareMetadata(org.jdom2.Document jdom_in, MCRObjectID ID, MCRServletJob job, 
+    protected org.jdom2.Document prepareMetadata(org.jdom2.Document jdom_in, MCRObjectID ID, HttpServletRequest request, HttpServletResponse response, 
     		String lang, String step, String nextPath, String storePath, String workflowType, 
     		String processID , String publicationType) throws Exception {
     	 MCREditorOutValidator ev = null;
@@ -192,7 +191,7 @@ public class MCRCheckMetadataServlet extends MCRServlet {
          } catch (Exception e) {
              List<String> errorLog = ev != null ? ev.getErrorLog() : new ArrayList<String>();
              errorLog.add(e.getLocalizedMessage());
-             errorHandlerValid(job, errorLog, ID, lang, step, nextPath, storePath, workflowType, processID, publicationType);
+             errorHandlerValid(request, response, errorLog, ID, lang, step, nextPath, storePath, workflowType, processID, publicationType);
              return null;
          }
      }
@@ -200,7 +199,7 @@ public class MCRCheckMetadataServlet extends MCRServlet {
     /**
      * A method to handle valid errors.
      */
-    private final void errorHandlerValid(MCRServletJob job, @SuppressWarnings("rawtypes") List logtext, MCRObjectID ID, 
+    private final void errorHandlerValid(HttpServletRequest request, HttpServletResponse response, @SuppressWarnings("rawtypes") List logtext, MCRObjectID ID, 
     		String lang, String step, String nextPath, String storePath, String workflowType, 
     		String processID, String publicationType) throws Exception {
         if (logtext.size() == 0) {
@@ -214,7 +213,7 @@ public class MCRCheckMetadataServlet extends MCRServlet {
 
         if(logtext != null && logtext.size() > 0) {
 	        // redirect to editor
-	        HttpServletRequest request = job.getRequest();
+
 	        request.setAttribute("errorList", logtext);
 	        request.setAttribute("workflowType", workflowType);
 	        request.setAttribute("mcrid", ID.toString());
@@ -226,7 +225,7 @@ public class MCRCheckMetadataServlet extends MCRServlet {
 	        request.setAttribute("publicationType",publicationType);
 	        request.setAttribute("editorSource", storePath.toString().replaceAll("\\\\","/"));
 	
-	        getServletContext().getRequestDispatcher("/nav?path=~editor-validating-errors").forward(request, job.getResponse());
+	        getServletContext().getRequestDispatcher("/nav?path=~editor-validating-errors").forward(request, response);
         }
     }
     
@@ -239,9 +238,7 @@ public class MCRCheckMetadataServlet extends MCRServlet {
      * @author Robert Stephan
      */
     @SuppressWarnings("deprecation")
-    public void doGetPost_NoWorkflow(MCRServletJob job) throws Exception {
-    	HttpServletRequest request = job.getRequest();
-    	HttpServletResponse response = job.getResponse();
+    public void doGetPost_NoWorkflow(HttpServletRequest request, HttpServletResponse response) throws Exception {
     	// read the XML data
         MCREditorSubmission sub = (MCREditorSubmission) (request.getAttribute("MCREditorSubmission"));
         org.jdom2.Document indoc = sub.getXML();
@@ -307,7 +304,7 @@ public class MCRCheckMetadataServlet extends MCRServlet {
 			.append("/").append(ID.toString()).append(".xml");
         
         	WFM.storeMetadata(MCRUtils.getByteArray(indoc, Format.getPrettyFormat()), ID.toString(), storePath.toString());
-        	outdoc = prepareMetadata((org.jdom2.Document) indoc.clone(), ID, job, lang, step, 
+        	outdoc = prepareMetadata((org.jdom2.Document) indoc.clone(), ID, request, response, lang, step, 
         			   nextPath, storePath.toString(), workflowType, String.valueOf(processID), "person");
         	WFM.storeMetadata(MCRUtils.getByteArray(outdoc, Format.getPrettyFormat()), ID.toString(), storePath.toString());
         		
