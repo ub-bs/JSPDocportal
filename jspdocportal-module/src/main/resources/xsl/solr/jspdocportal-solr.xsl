@@ -65,7 +65,15 @@
   	  			<field name="ds.result.abstract300"><xsl:value-of select="normalize-space($var_abstract)" /></field>
   	  		</xsl:otherwise>
   	  	</xsl:choose>
-  	  
+  	  	<xsl:for-each select="mods:name[mods:role/mods:roleTerm/@valueURI='http://id.loc.gov/vocabulary/relators/aut']">
+  	  		<field name="ds.creator"><xsl:value-of select="mods:namePart[@type='termsOfAddress']" /><xsl:value-of select="' '"/><xsl:value-of select="mods:namePart[@type='given']" /><xsl:value-of select="' '"/><xsl:value-of select="mods:namePart[@type='family']" /></field>
+  	    </xsl:for-each>
+  	    <xsl:for-each select="mods:originInfo[@eventType='publication']">
+  			<field name="ds.pubyear"><xsl:value-of select="substring(mods:dateIssued,1,4)" /></field>
+  		</xsl:for-each>
+  		<xsl:for-each select="mods:titleInfo/*">
+  			<field name="ds.title"><xsl:value-of select="text()" /></field>
+  		</xsl:for-each>
   	  
     </xsl:for-each>
   </xsl:template>

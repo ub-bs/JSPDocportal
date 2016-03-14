@@ -78,7 +78,9 @@ public class MCRSearchResultDataBean implements Serializable {
     private QueryResponse solrQueryResponse;
 
     private String errorMsg = null;
-
+    
+    private List<String> filterQueries = new ArrayList<String>();
+    
     public MCRSearchResultDataBean() {
         this.id = UUID.randomUUID().toString();
     }
@@ -121,6 +123,20 @@ public class MCRSearchResultDataBean implements Serializable {
                 solrQuery.setSort(SortClause.create(x[0], x[1]));
             }
         }
+        
+       String[] fqs = solrQuery.getFilterQueries();
+       if(fqs!=null){
+           for(String fq:fqs){
+               solrQuery.removeFilterQuery(fq);
+           }
+       }
+      
+       for(String fq:filterQueries){
+           if(fq.contains("ds.pubyear")){
+               fq = fq.replace("'",  "");
+           }
+           solrQuery.addFilterQuery(fq);
+       }
 
         try {
             solrQueryResponse = solrClient.query(solrQuery);
@@ -283,6 +299,10 @@ public class MCRSearchResultDataBean implements Serializable {
 
     public QueryResponse getSolrQueryResponse() {
         return solrQueryResponse;
+    }
+
+    public List<String> getFilterQueries() {
+        return filterQueries;
     }
 
 }

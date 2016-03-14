@@ -11,6 +11,7 @@
 <fmt:message var="pageTitle" key="Webpage.browse.title.${actionBean.result.mask}" />
 <stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}" layout="1column">
 	<stripes:layout-component name="html_header">
+		<meta name="mcr:search.id" content="${actionBean.result.id}" />
 	</stripes:layout-component>
 	<stripes:layout-component name="contents">
 		<div class="roW">
@@ -40,39 +41,65 @@
 				<div class="ur-box ur-box-bordered ur-infobox hidden-sm hidden-xs">
          			 <h3>Filter</h3>
           			 <div class="panel panel-default">
-  						<div class="panel-heading">
-  							<a style="width:100%; margin-bottom:6px;color:black" class="btn btn-default" href="/rosdok/browse/epub?_remove-filter=0&amp;search=2d29fd92-f743-4d4e-a232-b487bcba16e8">
-  								<span style="color:red" class="glyphicon glyphicon-trash pull-right"></span>
-  								<span class="glyphicon glyphicon-plus pull-left"></span>
-  								<span style="padding-left:6px" class="pull-left">Autor:Müller</span>
-    						</a>
-    						<a style="width:100%; margin-bottom:6px;color:black" class="btn btn-default" href="/rosdok/browse/epub?_remove-filter=1&amp;search=2d29fd92-f743-4d4e-a232-b487bcba16e8">
-  								<span style="color:red" class="glyphicon glyphicon-trash pull-right"></span>
-  								<span class="glyphicon glyphicon-minus pull-left"></span>
-  								<span style="padding-left:6px" class="pull-left">Titel:XML</span>
-    						</a>
-    						<a style="width:100%; margin-bottom:6px;color:black" class="btn btn-default" href="/rosdok/browse/epub?_remove-filter=2&amp;search=2d29fd92-f743-4d4e-a232-b487bcba16e8">
-  								<span style="color:red" class="glyphicon glyphicon-trash pull-right"></span>
-  								<span class="glyphicon glyphicon-minus pull-left"></span>
-  								<span style="padding-left:6px" class="pull-left">Ersch.jahr: 2015</span>
-    						</a>
-  						</div>
+          			 	<c:if test="${not empty actionBean.result.filterQueries}">
+  							<div class="panel-heading">
+  								<c:forEach var="fq" items="${actionBean.result.filterQueries}">
+  									<c:url var="url" value="${WebApplicationBaseURL}browse/epub">
+  										<c:param name="_search" value="${actionBean.result.id}" />
+  										<c:param name="_remove-filter" value="${fq}" />
+									</c:url>
+  									<a style="width:100%; margin-bottom:6px;color:black" class="btn btn-default" href="${url}">
+  										<span style="color:red" class="glyphicon glyphicon-trash pull-right"></span>
+  										<c:if test="${fn:startsWith(fq, '-')}">
+  											<span class="glyphicon glyphicon-minus pull-left"></span>
+  										</c:if>
+  										<c:if test="${not fn:startsWith(fq, '-')}">
+  											<span class="glyphicon glyphicon-plus pull-left"></span>
+  										</c:if>
+  										<c:set var="c"><fmt:message key="Browse.Filter.epub.${fn:substringBefore(fn:substring(fq, 1, -1),':')}"/>:${fn:substringAfter(fn:substring(fq, 1, -1),':')}</c:set>
+  										<span style="padding-left:6px" class="pull-left">${c}</span>
+  									</a>
+  								</c:forEach>
+  							</div>
+  						</c:if>
   						<div class="panel-body row">
   							<div class="col-sm-9">
     							<div class="form-group">
     							  	<select id="filterField" name="filterField" class="form-control" style="width:100%">
-  										<option value="author">Autor</option>
-  										<option value="title">Titel</option>
-  										<option value="pub-year">Erscheinungsjahr</option>
+  										<option value="ds.creator"><fmt:message key="Browse.Filter.epub.ds.creator"/></option>
+  										<option value="ds.title"><fmt:message key="Browse.Filter.epub.ds.title"/></option>
+  										<option value="ds.pubyear"><fmt:message key="Browse.Filter.epub.ds.pubyear"/></option>
  									</select>
    								</div>
   								<div class="form-group">
    									<input class="form-control" id="filterValue" name="filterValue" style="width:100%" placeholder="Wert" type="text">
    								</div>
   							</div>
+  							<script type="text/javascript">
+  								function changeFilterIncludeURL() {
+  									window.location=$("meta[name='mcr:baseurl']").attr("content")
+  										 	       + "browse/epub?_search="
+  										           + $("meta[name='mcr:search.id']").attr("content")
+  											       + "&_add-filter="
+  											       + encodeURIComponent("+" + $("#filterField option:selected").val()+":'"+$("#filterValue").val()+"'");
+  								}
+  								function changeFilterExcludeURL() {
+  									window.location=$("meta[name='mcr:baseurl']").attr("content")
+  											       + "browse/epub?_search="
+  										           + $("meta[name='mcr:search.id']").attr("content")
+  											       + "&_add-filter="
+  											       + encodeURIComponent("-" + $("#filterField option:selected").val()+":'"+$("#filterValue").val()+"'");
+  								}
+  							</script>
   							<div class="col-sm-3">
-								<button class="btn btn-primary" style="margin-top:6px; margin-left:-9px"><span class="glyphicon glyphicon-plus"></span></button> 	
-								<button class="btn btn-primary" style="margin-top:3px; margin-left:-9px"><span class="glyphicon glyphicon-minus"></span></button>
+								<button id="filterInclude" class="btn btn-primary" style="margin-top:6px; margin-left:-9px"
+								        onclick="changeFilterIncludeURL();">
+									<span class="glyphicon glyphicon-plus"></span>
+								</button> 	
+								<button id="filterExclude" class="btn btn-primary" style="margin-top:3px; margin-left:-9px"
+								        onclick="changeFilterExcludeURL();">
+								   <span class="glyphicon glyphicon-minus"></span>
+								</button>
           					</div> 		
 						</div>
   					</div>

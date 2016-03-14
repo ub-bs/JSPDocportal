@@ -57,9 +57,21 @@ public class BrowseAction extends MCRAbstractStripesAction implements ActionBean
         getContext().getResponse().setContentType("text/xhtml;charset=utf-8");
         HttpServletRequest request = getContext().getRequest();
         if (request.getParameter("_search") != null) {
-            //check against null if sessin does not exist
+            //check against null if session does not exist
             result = MCRSearchResultDataBean.retrieveSearchresultFromSession(request, request.getParameter("_search"));
         }
+        if(request.getParameter("_add-filter")!=null){
+            for(String s: request.getParameterValues("_add-filter")){
+                result.getFilterQueries().add(s);
+            }
+        }
+        
+        if(request.getParameter("_remove-filter")!=null){
+            for(String s: request.getParameterValues("_remove-filter")){
+                result.getFilterQueries().remove(s);
+            }
+        }
+        
         Integer hit = null;
         if(result!=null){
         if (request.getParameter("_hit") != null) {
