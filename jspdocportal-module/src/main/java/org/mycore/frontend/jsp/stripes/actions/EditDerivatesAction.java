@@ -38,6 +38,7 @@ import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
 import org.w3c.dom.Document;
 
 @UrlBinding("/editDerivates.action")
@@ -163,14 +164,7 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
 		}
 
 		if(taskid!=null && mcrobjid!=null){
-			boolean doCommitTransaction = false;
-			if(!MCRSessionMgr.getCurrentSession().isTransactionActive()){
-				doCommitTransaction = true;
-				MCRSessionMgr.getCurrentSession().beginTransaction();
-			}
-			if(doCommitTransaction){
-				MCRSessionMgr.getCurrentSession().commitTransaction();
-			}
+	
 		}
 		else{
 			messages.add("URL Parameter taskid was not set!");
@@ -343,13 +337,7 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
 	private void createNewDerivate(){
 		TaskService ts = MCRActivitiMgr.getWorfklowProcessEngine().getTaskService();
 		MCRDerivate der =  null;
-		try{
-			boolean doCommitTransaction = false;
-			if(!MCRSessionMgr.getCurrentSession().isTransactionActive()){
-				doCommitTransaction = true;
-				MCRSessionMgr.getCurrentSession().beginTransaction();
-			}
-
+	       try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()){
 			MCRWorkflowMgr wfm = MCRActivitiMgr.getWorkflowMgr(ts.createTaskQuery().taskId(taskid).singleResult().getProcessInstanceId());
 			FileBean fb = ((StripesRequestWrapper)getContext().getRequest()).getFileParameterValue("newDerivate_file-task_"+taskid);
 			
@@ -363,10 +351,6 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
 				der.getDerivate().getInternals().setSourcePath(derDir.toString());
 				updateMainFile(der, derDir);
 				MCRActivitiUtils.saveMCRDerivateToWorkflowDirectory(der);
-			}
-
-			if(doCommitTransaction){
-				MCRSessionMgr.getCurrentSession().commitTransaction();
 			}
 		}
 		catch(Exception e){

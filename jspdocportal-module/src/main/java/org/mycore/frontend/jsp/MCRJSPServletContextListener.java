@@ -35,11 +35,9 @@ import javax.servlet.jsp.jstl.core.Config;
 import javax.servlet.jsp.jstl.fmt.LocalizationContext;
 
 import org.apache.log4j.Logger;
-import org.hibernate.Transaction;
 import org.mycore.access.MCRAccessManager;
-import org.mycore.backend.hibernate.MCRHIBConnection;
-import org.mycore.common.config.MCRConfiguration;
 import org.mycore.common.MCRException;
+import org.mycore.common.config.MCRConfiguration;
 import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.services.i18n.MCRTranslation;
@@ -100,9 +98,7 @@ public class MCRJSPServletContextListener implements ServletContextListener {
 
 	@Deprecated
 	private boolean createNonExistingAdminPermissions() {
-		try {
-			Transaction tx = MCRHIBConnection.instance().getSession()
-					.beginTransaction();
+        try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()){
 			Collection<String> savedPermissions = MCRAccessManager
 					.getAccessImpl().getPermissions();
 			String permissions = MCRConfiguration
@@ -118,7 +114,6 @@ public class MCRJSPServletContextListener implements ServletContextListener {
 							MCRAccessManager.getFalseRule(), "");
 				}
 			}
-			tx.commit();
 		} catch (MCRException e) {
 			LOGGER.error("could not create admin interface permissions", e);
 			return false;

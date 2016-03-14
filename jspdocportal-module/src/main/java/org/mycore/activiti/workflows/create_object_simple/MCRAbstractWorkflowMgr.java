@@ -18,7 +18,6 @@ import org.mycore.access.MCRAccessManager;
 import org.mycore.activiti.MCRActivitiMgr;
 import org.mycore.activiti.MCRActivitiUtils;
 import org.mycore.common.MCRPersistenceException;
-import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.datamodel.classifications2.MCRCategoryID;
 import org.mycore.datamodel.common.MCRActiveLinkException;
@@ -31,6 +30,7 @@ import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.datamodel.metadata.MCRObjectMetadata;
 import org.mycore.datamodel.niofs.MCRPath;
 import org.mycore.frontend.cli.MCRDerivateCommands;
+import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
 import org.xml.sax.SAXParseException;
 
 public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
@@ -68,22 +68,13 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 	public MCRObject loadMCRObject(DelegateExecution execution) {
 		MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(String.valueOf(execution
 				.getVariable(MCRActivitiMgr.WF_VAR_MCR_OBJECT_ID))));
-		try {
-			boolean doCommitTransaction = false;
-			if (!MCRSessionMgr.getCurrentSession().isTransactionActive()) {
-				doCommitTransaction = true;
-				MCRSessionMgr.getCurrentSession().beginTransaction();
-			}
+		try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()){
 			mcrObj.getService().setState(
 					new MCRCategoryID(MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.ID", "state"), "review"));
 			MCRMetadataManager.update(mcrObj);
 
 			MCRActivitiUtils.saveMCRObjectToWorkflowDirectory(mcrObj);
 			processDerivatesOnLoad(mcrObj);
-
-			if (doCommitTransaction) {
-				MCRSessionMgr.getCurrentSession().commitTransaction();
-			}
 		} catch (MCRActiveLinkException | MCRAccessException e) {
 			LOGGER.error(e);
 		}
@@ -98,18 +89,10 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 		MCRObjectID mcrObjID = MCRObjectID.getInstance(String.valueOf(execution.getVariable(MCRActivitiMgr.WF_VAR_MCR_OBJECT_ID)));
 		if(MCRMetadataManager.exists(mcrObjID)){
 			mcrObj = MCRMetadataManager.retrieveMCRObject(mcrObjID);
-			try {
-				boolean doCommitTransaction = false;
-				if (!MCRSessionMgr.getCurrentSession().isTransactionActive()) {
-					doCommitTransaction = true;
-					MCRSessionMgr.getCurrentSession().beginTransaction();
-				}
+		     try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()){
 				mcrObj.getService().setState(
 					new MCRCategoryID(MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.ID", "state"), "deleted"));
 				MCRMetadataManager.delete(mcrObj);
-				if (doCommitTransaction) {
-					MCRSessionMgr.getCurrentSession().commitTransaction();
-				}
 			} catch (MCRActiveLinkException | MCRAccessException e) {
 				LOGGER.error(e);
 			}
@@ -187,13 +170,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 		if (!id.equals("null")) {
 			MCRObjectID mcrObjID = MCRObjectID.getInstance(id);
 			File wfFile = new File(MCRActivitiUtils.getWorkflowDirectory(mcrObjID), mcrObjID.toString() + ".xml");
-			try {
-				boolean doCommitTransaction = false;
-				if (!MCRSessionMgr.getCurrentSession().isTransactionActive()) {
-					doCommitTransaction = true;
-					MCRSessionMgr.getCurrentSession().beginTransaction();
-				}
-
+		     try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()){
 				MCRObject mcrWFObj = new MCRObject(wfFile.toURI());
 				MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(mcrObjID);
 				processDerivatesOnCommit(mcrObj, mcrWFObj);
@@ -209,11 +186,6 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 						new MCRCategoryID(MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.ID", "state"), "published"));
 
 				MCRMetadataManager.update(mcrObj);
-
-				if (doCommitTransaction) {
-					MCRSessionMgr.getCurrentSession().commitTransaction();
-				}
-
 			} catch (IOException | SAXParseException | MCRActiveLinkException | MCRAccessException e) {
 				LOGGER.error(e);
 			}
@@ -257,13 +229,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 
 	private boolean resetMetadataAndCleanupWorkflowDir(MCRObjectID mcrObjID) {
 		if (MCRMetadataManager.exists(mcrObjID)) {
-			boolean doCommitTransaction = false;
-			if (!MCRSessionMgr.getCurrentSession().isTransactionActive()) {
-				doCommitTransaction = true;
-				MCRSessionMgr.getCurrentSession().beginTransaction();
-			}
-
-			try {
+		     try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()){
 				MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(mcrObjID);
 				for (MCRMetaLinkID metaID : new ArrayList<MCRMetaLinkID>(mcrObj.getStructure().getDerivates())) {
 					MCRObjectID derID = metaID.getXLinkHrefID();
@@ -300,12 +266,6 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 				}
 			} catch (MCRActiveLinkException | MCRAccessException e) {
 				LOGGER.error(e);
-			}
-
-			finally {
-				if (doCommitTransaction) {
-					MCRSessionMgr.getCurrentSession().commitTransaction();
-				}
 			}
 		}
 		// cleanup workflow dir

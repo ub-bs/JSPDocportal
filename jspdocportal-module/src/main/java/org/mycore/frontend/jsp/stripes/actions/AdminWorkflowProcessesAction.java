@@ -20,82 +20,87 @@ import org.mycore.activiti.workflows.create_object_simple.MCRWorkflowMgr;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
 
 @UrlBinding("/adminWorkflowProcesses.action")
 public class AdminWorkflowProcessesAction extends MCRAbstractStripesAction implements ActionBean {
-	private static Logger LOGGER = Logger.getLogger(AdminWorkflowProcessesAction.class);
-	ForwardResolution fwdResolution = new ForwardResolution("/content/workspace/adminWorkflowProcesses.jsp");
+    private static Logger LOGGER = Logger.getLogger(AdminWorkflowProcessesAction.class);
 
-	private List<String> messages = new ArrayList<String>();
-	private String objectType = "";
-	private String projectID = MCRConfiguration.instance().getString("MCR.SWF.Project.ID");
-	private List<ProcessInstance> runningProcesses = new ArrayList<ProcessInstance>();
+    ForwardResolution fwdResolution = new ForwardResolution("/content/workspace/adminWorkflowProcesses.jsp");
 
-	public AdminWorkflowProcessesAction() {
+    private List<String> messages = new ArrayList<String>();
 
-	}
+    private String objectType = "";
 
-	@Before(stages = LifecycleStage.BindingAndValidation)
-	public void rehydrate() {
-		super.rehydrate();
-		if (getContext().getRequest().getParameter("objectType") != null) {
-			String type = getContext().getRequest().getParameter("objectType");
-			if (MCRObjectID.isValidType(type)) {
-				objectType = type;
-			}
-		}
-		if (getContext().getRequest().getParameter("projectID") != null) {
-			projectID = getContext().getRequest().getParameter("projectID");
-		}
-	}
+    private String projectID = MCRConfiguration.instance().getString("MCR.SWF.Project.ID");
 
-	@DefaultHandler
-	public Resolution defaultRes() {
-		if (!MCRSessionMgr.getCurrentSession().isTransactionActive()) {
-			MCRSessionMgr.getCurrentSession().beginTransaction();
-		}
-		for (String s : getContext().getRequest().getParameterMap().keySet()) {
-			if (s.startsWith("doDeleteProcess_")) {
-				String id = s.substring(s.indexOf("_") + 1);
-				deleteProcessInstance(id);
-			}
-		}
+    private List<ProcessInstance> runningProcesses = new ArrayList<ProcessInstance>();
 
-		if (MCRAccessManager.checkPermission("administrate-" + objectType)) {
-			RuntimeService rs = MCRActivitiMgr.getWorfklowProcessEngine().getRuntimeService();
-			runningProcesses = rs.createProcessInstanceQuery().variableValueEquals(MCRActivitiMgr.WF_VAR_OBJECT_TYPE, objectType)
-					.variableValueEquals(MCRActivitiMgr.WF_VAR_PROJECT_ID, projectID).orderByProcessInstanceId().desc().list();
-		} else {
-			messages.add("You don't have the Permission to delete a process instance");
-		}
+    public AdminWorkflowProcessesAction() {
 
-		return fwdResolution;
+    }
 
-	}
+    @Before(stages = LifecycleStage.BindingAndValidation)
+    public void rehydrate() {
+        super.rehydrate();
+        if (getContext().getRequest().getParameter("objectType") != null) {
+            String type = getContext().getRequest().getParameter("objectType");
+            if (MCRObjectID.isValidType(type)) {
+                objectType = type;
+            }
+        }
+        if (getContext().getRequest().getParameter("projectID") != null) {
+            projectID = getContext().getRequest().getParameter("projectID");
+        }
+    }
 
-	private void deleteProcessInstance(String processInstanceId) {
-		LOGGER.debug("Delete Process " + processInstanceId);
-		MCRWorkflowMgr wfMgr = MCRActivitiMgr.getWorkflowMgr(processInstanceId);
-		wfMgr.deleteProcessInstance(processInstanceId);
-	}
+    @DefaultHandler
+    public Resolution defaultRes() {
+        try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()) {
+            for (String s : getContext().getRequest().getParameterMap().keySet()) {
+                if (s.startsWith("doDeleteProcess_")) {
+                    String id = s.substring(s.indexOf("_") + 1);
+                    deleteProcessInstance(id);
+                }
+            }
 
-	public String getObjectType() {
-		return objectType;
-	}
+            if (MCRAccessManager.checkPermission("administrate-" + objectType)) {
+                RuntimeService rs = MCRActivitiMgr.getWorfklowProcessEngine().getRuntimeService();
+                runningProcesses = rs.createProcessInstanceQuery()
+                    .variableValueEquals(MCRActivitiMgr.WF_VAR_OBJECT_TYPE, objectType)
+                    .variableValueEquals(MCRActivitiMgr.WF_VAR_PROJECT_ID, projectID).orderByProcessInstanceId().desc()
+                    .list();
+            } else {
+                messages.add("You don't have the Permission to delete a process instance");
+            }
+        }
 
-	public void setObjectType(String objectType) {
-		this.objectType = objectType;
-	}
+        return fwdResolution;
+    }
 
-	public String getProjectID() {
-		return projectID;
-	}
+    private void deleteProcessInstance(String processInstanceId) {
+        LOGGER.debug("Delete Process " + processInstanceId);
+        MCRWorkflowMgr wfMgr = MCRActivitiMgr.getWorkflowMgr(processInstanceId);
+        wfMgr.deleteProcessInstance(processInstanceId);
+    }
 
-	public void setProjectID(String projectID) {
-		this.projectID = projectID;
-	}
+    public String getObjectType() {
+        return objectType;
+    }
 
-	public List<ProcessInstance> getRunningProcesses() {
-		return runningProcesses;
-	}
+    public void setObjectType(String objectType) {
+        this.objectType = objectType;
+    }
+
+    public String getProjectID() {
+        return projectID;
+    }
+
+    public void setProjectID(String projectID) {
+        this.projectID = projectID;
+    }
+
+    public List<ProcessInstance> getRunningProcesses() {
+        return runningProcesses;
+    }
 }

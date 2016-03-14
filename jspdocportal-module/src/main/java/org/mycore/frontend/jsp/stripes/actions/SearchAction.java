@@ -20,6 +20,7 @@ import org.mycore.common.content.MCRContent;
 import org.mycore.common.content.MCRJDOMContent;
 import org.mycore.common.content.MCRURLContent;
 import org.mycore.frontend.MCRFrontendUtil;
+import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
 import org.mycore.frontend.jsp.search.MCRSearchResultDataBean;
 import org.mycore.frontend.xeditor.MCREditorSession;
 import org.mycore.frontend.xeditor.MCREditorSessionStore;
@@ -229,13 +230,8 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
     public String getXeditorHtml() {
         StringWriter out = new StringWriter();
 
-        boolean doCommitTransaction = false;
-        if (!MCRSessionMgr.getCurrentSession().isTransactionActive()) {
-            doCommitTransaction = true;
-            MCRSessionMgr.getCurrentSession().beginTransaction();
-        }
         MCRContent editorContent = null;
-        try {
+        try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()){
             URL resource = getClass().getResource("/editor/search/" + result.getMask() + ".xed");
             if(resource!=null){
                 editorContent = new MCRURLContent(resource);
@@ -283,11 +279,6 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
         } catch (Exception e) {
             LOGGER.error("SAXException " + e, e);
         }
-
-        if (doCommitTransaction) {
-            MCRSessionMgr.getCurrentSession().commitTransaction();
-        }
-
         return out.toString();
     }
 

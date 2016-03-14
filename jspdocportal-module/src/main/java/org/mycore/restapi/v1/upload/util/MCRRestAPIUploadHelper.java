@@ -76,6 +76,7 @@ import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.datamodel.niofs.MCRPath;
 import org.mycore.datamodel.niofs.utils.MCRRecursiveDeleter;
 import org.mycore.frontend.cli.MCRObjectCommands;
+import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManagerFactory;
@@ -103,10 +104,8 @@ public class MCRRestAPIUploadHelper {
         FormDataContentDisposition fileDetails) {
 
         if (checkAccess(request)) {
-            MCRSession session = MCRServlet.getSession(request);
-            session.beginTransaction();
             File fXML = null;
-            try {
+            try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()) {
                 SAXBuilder sb = new SAXBuilder();
                 Document docOut = sb.build(uploadedInputStream);
 
@@ -143,7 +142,6 @@ public class MCRRestAPIUploadHelper {
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-                session.commitTransaction();
                 if (fXML != null) {
                     fXML.delete();
                 }
@@ -163,14 +161,15 @@ public class MCRRestAPIUploadHelper {
 
         Response response = Response.status(Status.FORBIDDEN).build();
         if (checkAccess(request)) {
-            MCRSession session = MCRServlet.getSession(request);
-            session.beginTransaction();
-            File fXML = null;
 
-            MCRUserInformation currentUser = session.getUserInformation();
-            session.setUserInformation(MCRUserManager.getUser("api"));
-            try {
-                MCRObjectID mcrObjID = MCRObjectID.getInstance(pathParamMcrObjID);
+            File fXML = null;
+            MCRObjectID mcrObjID = MCRObjectID.getInstance(pathParamMcrObjID);
+            MCRWorkflowManager wfm = MCRWorkflowManagerFactory.getImpl(mcrObjID);
+            try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()) {
+                MCRSession session = MCRServlet.getSession(request);
+                MCRUserInformation currentUser = session.getUserInformation();
+                session.setUserInformation(MCRUserManager.getUser("api"));
+
                 MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(mcrObjID);
                 MCRObjectID derID = null;
                 for (MCRMetaLinkID derLink : mcrObj.getStructure().getDerivates()) {
@@ -181,7 +180,7 @@ public class MCRRestAPIUploadHelper {
                 }
 
                 if (derID == null) {
-                    MCRWorkflowManager wfm = MCRWorkflowManagerFactory.getImpl(mcrObjID);
+       
                     if (wfm != null) {
                         File saveDir = new File(
                             MCRWorkflowDirectoryManager.getWorkflowDirectory(wfm.getMainDocumentType()));
@@ -201,27 +200,27 @@ public class MCRRestAPIUploadHelper {
                             new MCRMetaLinkID("derobject", derID, null, formParamlabel));
 
                         fXML = new File(saveDir, derID.toString() + ".xml");
-
-                        session.commitTransaction();
-                        session.beginTransaction();
-                        setDefaultPermission(derID, wfm.getWorkflowProcessType(), "api");
                     }
+                }
+                
+                //the first transaction shall be committed
+                try (MCRHibernateTransactionWrapper mtw2 = new MCRHibernateTransactionWrapper()) {
+                    setDefaultPermission(derID, wfm.getWorkflowProcessType(), "api");
                 }
                 response = Response
                     .created(info.getBaseUriBuilder()
                         .path("v1/objects/" + mcrObjID.toString() + "/derivates/" + derID.toString()).build())
                     .type("application/xml; charset=UTF-8").build();
-
+                session.setUserInformation(currentUser);
             } catch (Exception e) {
                 Logger.getLogger(MCRRestAPIUploadHelper.class).error("Exeption while uploading derivate", e);
             }
 
-            session.commitTransaction();
-            if (fXML != null) {
-                fXML.delete();
+            finally {
+                if (fXML != null) {
+                    fXML.delete();
+                }
             }
-            session.setUserInformation(currentUser);
-
         }
         return response;
 
@@ -263,77 +262,75 @@ public class MCRRestAPIUploadHelper {
                 //validation failed -> error handling
 
             } else {
+                try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()) {
+                    //MCRSession session = MCRServlet.getSession(request);
+                    MCRSession session = MCRSessionMgr.getCurrentSession();
+                    MCRUserInformation currentUser = session.getUserInformation();
 
-                //MCRSession session = MCRServlet.getSession(request);
-                MCRSession session = MCRSessionMgr.getCurrentSession();
-                MCRUserInformation currentUser = session.getUserInformation();
+                    session.setUserInformation(MCRUserManager.getUser("api"));
+                    MCRObjectID objID = MCRObjectID.getInstance(pathParamMcrObjID);
+                    MCRObjectID derID = MCRObjectID.getInstance(pathParamMcrDerID);
 
-                session.beginTransaction();
-                session.setUserInformation(MCRUserManager.getUser("api"));
-                MCRObjectID objID = MCRObjectID.getInstance(pathParamMcrObjID);
-                MCRObjectID derID = MCRObjectID.getInstance(pathParamMcrDerID);
+                    //MCRAccessManager.checkPermission(uses CACHE, which seems to be dirty from other calls and cannot be deleted)????
+                    if (MCRAccessManager.getAccessImpl().checkPermission(derID.toString(), PERMISSION_WRITE)) {
 
-                //MCRAccessManager.checkPermission(uses CACHE, which seems to be dirty from other calls and cannot be deleted)????
-                if (MCRAccessManager.getAccessImpl().checkPermission(derID.toString(), PERMISSION_WRITE)) {
+                        MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(derID);
 
-                    MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(derID);
+                        File derDir = null;
+                        File saveFile = null;
+                        String path = null;
+                        if (der.getOwnerID().equals(objID)) {
 
-                    File derDir = null;
-                    File saveFile = null;
-                    String path = null;
-                    if (der.getOwnerID().equals(objID)) {
+                            MCRWorkflowManager wfm = MCRWorkflowManagerFactory.getImpl(objID);
+                            if (wfm != null) {
+                                File saveDir = new File(
+                                    MCRWorkflowDirectoryManager.getWorkflowDirectory(wfm.getMainDocumentType()));
+                                try {
 
-                        MCRWorkflowManager wfm = MCRWorkflowManagerFactory.getImpl(objID);
-                        if (wfm != null) {
-                            File saveDir = new File(
-                                MCRWorkflowDirectoryManager.getWorkflowDirectory(wfm.getMainDocumentType()));
-                            try {
+                                    derDir = new File(saveDir, derID.toString());
+                                    Files.walkFileTree(derDir.toPath(), MCRRecursiveDeleter.instance());
+                                    path = formParamPath.replace("\\", "/").replace("../", "");
+                                    saveFile = new File(derDir, path);
 
-                                derDir = new File(saveDir, derID.toString());
-                                Files.walkFileTree(derDir.toPath(), MCRRecursiveDeleter.instance());
-                                path = formParamPath.replace("\\", "/").replace("../", "");
-                                saveFile = new File(derDir, path);
+                                    saveFile.getParentFile().mkdirs();
+                                    Files.copy(uploadedInputStream, saveFile.toPath(),
+                                        StandardCopyOption.REPLACE_EXISTING);
 
-                                saveFile.getParentFile().mkdirs();
-                                Files.copy(uploadedInputStream, saveFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-
-                                MCRDirectory difs = MCRDirectory.getRootDirectory(derID.toString());
-                                if (difs == null) {
-                                    difs = new MCRDirectory(derID.toString());
-                                }
-
-                                //delete old file
-                                MCRFilesystemNode fsn = difs.getChildByPath(path);
-                                if (fsn != null) {
-                                    try {
-                                        fsn.delete();
-                                    } catch (MCRPersistenceException pe) {
-                                        Logger.getLogger(MCRRestAPIUploadHelper.class).error(pe);
+                                    MCRDirectory difs = MCRDirectory.getRootDirectory(derID.toString());
+                                    if (difs == null) {
+                                        difs = new MCRDirectory(derID.toString());
                                     }
-                                }
-                                MCRFileImportExport.importFiles(derDir, difs);
-                                der.getDerivate().getInternals().setIFSID(difs.getID());
-                                der.getDerivate().getInternals().setSourcePath(derDir.getPath());
 
-                                if (formParamMaindoc) {
-                                    der.getDerivate().getInternals().setMainDoc(path);
+                                    //delete old file
+                                    MCRFilesystemNode fsn = difs.getChildByPath(path);
+                                    if (fsn != null) {
+                                        try {
+                                            fsn.delete();
+                                        } catch (MCRPersistenceException pe) {
+                                            Logger.getLogger(MCRRestAPIUploadHelper.class).error(pe);
+                                        }
+                                    }
+                                    MCRFileImportExport.importFiles(derDir, difs);
+                                    der.getDerivate().getInternals().setIFSID(difs.getID());
+                                    der.getDerivate().getInternals().setSourcePath(derDir.getPath());
+
+                                    if (formParamMaindoc) {
+                                        der.getDerivate().getInternals().setMainDoc(path);
+                                    }
+
+                                    MCRMetadataManager.update(der);
+                                    Files.walkFileTree(derDir.toPath(), MCRRecursiveDeleter.instance());
+                                } catch (IOException | MCRAccessException e) {
+                                    e.printStackTrace();
                                 }
 
-                                MCRMetadataManager.update(der);
-                                Files.walkFileTree(derDir.toPath(), MCRRecursiveDeleter.instance());
-                            } catch (IOException | MCRAccessException e) {
-                                e.printStackTrace();
                             }
-
                         }
+                        session.setUserInformation(currentUser);
+                        response = Response.created(info.getBaseUriBuilder()
+                            .path("v1/objects/" + objID.toString() + "/derivates/" + derID.toString() + "/files")
+                            .build()).type("application/xml; charset=UTF-8").build();
                     }
-
-                    session.commitTransaction();
-                    session.setUserInformation(currentUser);
-                    response = Response.created(info.getBaseUriBuilder()
-                        .path("v1/objects/" + objID.toString() + "/derivates/" + derID.toString() + "/files").build())
-                        .type("application/xml; charset=UTF-8").build();
-
                 }
             }
         }
@@ -370,30 +367,27 @@ public class MCRRestAPIUploadHelper {
                 //validation failed -> error handling
 
             } else {
+                try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()) {
+                    //MCRSession session = MCRServlet.getSession(request);
+                    MCRSession session = MCRSessionMgr.getCurrentSession();
+                    MCRUserInformation currentUser = session.getUserInformation();
+                    session.setUserInformation(MCRUserManager.getUser("api"));
+                    MCRObjectID objID = MCRObjectID.getInstance(pathParamMcrObjID);
+                    MCRObjectID derID = MCRObjectID.getInstance(pathParamMcrDerID);
 
-                //MCRSession session = MCRServlet.getSession(request);
-                MCRSession session = MCRSessionMgr.getCurrentSession();
-                MCRUserInformation currentUser = session.getUserInformation();
+                    //MCRAccessManager.checkPermission(uses CACHE, which seems to be dirty from other calls and cannot be deleted)????
+                    if (MCRAccessManager.getAccessImpl().checkPermission(derID.toString(), PERMISSION_WRITE)) {
+                        MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(derID);
 
-                session.beginTransaction();
-                session.setUserInformation(MCRUserManager.getUser("api"));
-                MCRObjectID objID = MCRObjectID.getInstance(pathParamMcrObjID);
-                MCRObjectID derID = MCRObjectID.getInstance(pathParamMcrDerID);
+                        final MCRPath rootPath = MCRPath.getPath(der.getId().toString(), "/");
+                        MCRActivitiUtils.deleteDirectoryContent(rootPath);
+                    }
 
-                //MCRAccessManager.checkPermission(uses CACHE, which seems to be dirty from other calls and cannot be deleted)????
-                if (MCRAccessManager.getAccessImpl().checkPermission(derID.toString(), PERMISSION_WRITE)) {
-                    MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(derID);
-
-                    final MCRPath rootPath = MCRPath.getPath(der.getId().toString(), "/");
-                    MCRActivitiUtils.deleteDirectoryContent(rootPath);
-                }
-
-                session.commitTransaction();
-                session.setUserInformation(currentUser);
-                response = Response
-                    .created(info.getBaseUriBuilder()
+                    session.setUserInformation(currentUser);
+                    response = Response.created(info.getBaseUriBuilder()
                         .path("v1/objects/" + objID.toString() + "/derivates/" + derID.toString() + "/files").build())
-                    .type("application/xml; charset=UTF-8").build();
+                        .type("application/xml; charset=UTF-8").build();
+                }
             }
         }
         return response;
@@ -430,32 +424,29 @@ public class MCRRestAPIUploadHelper {
                 //validation failed -> error handling
 
             } else {
+                try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()) {
+                    //MCRSession session = MCRServlet.getSession(request);
+                    MCRSession session = MCRSessionMgr.getCurrentSession();
+                    MCRUserInformation currentUser = session.getUserInformation();
+                    session.setUserInformation(MCRUserManager.getUser("api"));
+                    MCRObjectID objID = MCRObjectID.getInstance(pathParamMcrObjID);
+                    MCRObjectID derID = MCRObjectID.getInstance(pathParamMcrDerID);
 
-                //MCRSession session = MCRServlet.getSession(request);
-                MCRSession session = MCRSessionMgr.getCurrentSession();
-                MCRUserInformation currentUser = session.getUserInformation();
-
-                session.beginTransaction();
-                session.setUserInformation(MCRUserManager.getUser("api"));
-                MCRObjectID objID = MCRObjectID.getInstance(pathParamMcrObjID);
-                MCRObjectID derID = MCRObjectID.getInstance(pathParamMcrDerID);
-
-                //MCRAccessManager.checkPermission(uses CACHE, which seems to be dirty from other calls and cannot be deleted)????
-                if (MCRAccessManager.getAccessImpl().checkPermission(derID.toString(), PERMISSION_DELETE)) {
-                    try {
-                        MCRMetadataManager.deleteMCRDerivate(derID);
-                    } catch (MCRPersistenceException pe) {
-                        //dir does not exist - do nothing
-                    } catch (MCRAccessException e) {
-                        e.printStackTrace();
+                    //MCRAccessManager.checkPermission(uses CACHE, which seems to be dirty from other calls and cannot be deleted)????
+                    if (MCRAccessManager.getAccessImpl().checkPermission(derID.toString(), PERMISSION_DELETE)) {
+                        try {
+                            MCRMetadataManager.deleteMCRDerivate(derID);
+                        } catch (MCRPersistenceException pe) {
+                            //dir does not exist - do nothing
+                        } catch (MCRAccessException e) {
+                            e.printStackTrace();
+                        }
                     }
+                    session.setUserInformation(currentUser);
+                    response = Response
+                        .created(info.getBaseUriBuilder().path("v1/objects/" + objID.toString() + "/derivates").build())
+                        .type("application/xml; charset=UTF-8").build();
                 }
-
-                session.commitTransaction();
-                session.setUserInformation(currentUser);
-                response = Response
-                    .created(info.getBaseUriBuilder().path("v1/objects/" + objID.toString() + "/derivates").build())
-                    .type("application/xml; charset=UTF-8").build();
             }
         }
         return response;

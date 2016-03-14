@@ -43,6 +43,7 @@ import org.mycore.common.MCRSystemUserInformation;
 import org.mycore.common.MCRUserInformation;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.frontend.MCRFrontendUtil;
+import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
 import org.mycore.frontend.jsp.stripes.actions.util.MCRLoginNextStep;
 import org.mycore.frontend.jsp.user.MCRExternalUserLogin;
 import org.mycore.frontend.servlets.MCRServlet;
@@ -90,17 +91,11 @@ public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBe
 			if (mcrUserInfo != null && !mcrUserInfo.getUserID().equals("gast") && !mcrUserInfo.getUserID().equals("gast")) {
 				loginStatus = "user.welcome";
 				loginOK = true;
-				boolean handleTA = !mcrSession.isTransactionActive();
-				if(handleTA){
-					mcrSession.beginTransaction();
-				}
-				updateData(mcrSession);
-				if(handleTA){
-					mcrSession.commitTransaction();
-				}
+		        try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()){
+		            updateData(mcrSession);
+		        }
 			}
 		}
-
 		return fwdResolution;
 	}
 
@@ -119,9 +114,7 @@ public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBe
 
 		HttpServletRequest request = (HttpServletRequest) getContext().getRequest();
 		MCRSession mcrSession = MCRServlet.getSession(request);
-		try {
-			mcrSession.beginTransaction();
-
+	    try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()){
 			String oldUserID = mcrSession.getUserInformation().getUserID();
 
 			if (userID != null) {
@@ -226,8 +219,6 @@ public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBe
 			
 			updateData(mcrSession);
 			return fwdResolution;
-		} finally {
-			mcrSession.commitTransaction();
 		}
 	}
 
@@ -256,7 +247,6 @@ public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBe
 				loginStatus = "user.unkwnown_error";
 				LOGGER.debug("user.unkwnown_error" + e.getMessage());
 			}
-			mcrSession.commitTransaction();
 		}
 		LOGGER.info(loginStatus);
 		return result;

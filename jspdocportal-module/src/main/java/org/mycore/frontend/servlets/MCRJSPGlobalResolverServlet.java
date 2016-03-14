@@ -408,7 +408,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
 												// range requests
 
 		// no transaction needed to copy long streams over slow connections
-		MCRServlet.getSession(req).commitTransaction();
+		
 		OutputStream out = new BufferedOutputStream(res.getOutputStream());
 		file.getContentTo(out);
 		out.close();
