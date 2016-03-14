@@ -12,9 +12,7 @@
             <name>mycore</name>
         </before>
        </ordering> 
-    
-   
-    
+
    	<listener>
 		<listener-class>
 			org.mycore.frontend.jsp.MCRJSPServletContextListener
@@ -54,7 +52,23 @@
     <filter-name>SetChacterEncodingFilter</filter-name>
     <url-pattern>*</url-pattern>
   </filter-mapping>
- 
+
+	<filter>
+   		<filter-name>MCRSessionInjectionFilter</filter-name>
+   		<filter-class>org.mycore.frontend.jsp.MCRSessionInjectionFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+   		<filter-name>MCRSessionInjectionFilter</filter-name>
+   		<url-pattern>*.action</url-pattern>
+   		<url-pattern>*.jsp</url-pattern>
+		<url-pattern>/search/*</url-pattern>
+		<url-pattern>/browse/*</url-pattern>
+		<url-pattern>/resolve/*</url-pattern>
+		<url-pattern>/site/*</url-pattern>
+		<url-pattern>/metadata/*</url-pattern>
+	</filter-mapping>
+	 
   <filter>
 		<display-name>Stripes Filter</display-name>
 		<filter-name>StripesFilter</filter-name>
@@ -92,11 +106,7 @@
 	</filter-mapping>	
 	<filter-mapping>
 		<filter-name>StripesFilter</filter-name>
-		<url-pattern>*.action</url-pattern>
-		<url-pattern>/search/*</url-pattern>
-		<url-pattern>/browse/*</url-pattern>
-		<url-pattern>/site/*</url-pattern>
-		<url-pattern>/metadata/*</url-pattern>
+		<servlet-name>StripesDispatcher</servlet-name>
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>	
 	<filter-mapping>
@@ -113,18 +123,6 @@
 		<filter-name>StripesFilter</filter-name>
 		<url-pattern>/servlets/XEditor</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
-	</filter-mapping>
-	
-	
-	<!-- inject MCRSession from HttpSession into SessionManagerfine a named filter -->
-	<filter>
-   		<filter-name>MCRSessionInjectionFilter</filter-name>
-   		<filter-class>org.mycore.frontend.jsp.MCRSessionInjectionFilter</filter-class>
-	</filter>
-
-	<filter-mapping>
-   		<filter-name>MCRSessionInjectionFilter</filter-name>
-   		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	
 	<servlet>
@@ -165,8 +163,6 @@
          <servlet-name>MCRJSPGlobalResolverServlet</servlet-name>
          <servlet-class>org.mycore.frontend.servlets.MCRJSPGlobalResolverServlet</servlet-class>
     </servlet>
-              
-
 
     <servlet>
         <servlet-name>MCRWorkflowAccessRuleEditorServlet</servlet-name>
@@ -392,21 +388,4 @@
   		<param-value>messages</param-value>
 	</context-param>
 
-  <jsp-config>
-  	<!-- <taglib>
-		<taglib-uri>/WEB-INF/lib/mycore-taglibs.jar</taglib-uri>
-		<taglib-location>
-			/WEB-INF/lib/mycore-taglibs.jar
-		</taglib-location>
-    </taglib>  -->
-    <jsp-property-group>
-      <url-pattern>*.jsp</url-pattern>
-    </jsp-property-group>
-    <jsp-property-group>
-      <description>Indicate that the files with 'jspx' extension are JSP documents</description>
-      <url-pattern>*.jspx</url-pattern>
-      <is-xml>true</is-xml>
-    </jsp-property-group>    
-  </jsp-config>  
-  
 </web-fragment>
