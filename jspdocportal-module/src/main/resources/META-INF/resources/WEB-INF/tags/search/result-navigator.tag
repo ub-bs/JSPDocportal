@@ -11,12 +11,6 @@
 	if(searchID!=null){
 		MCRSearchResultDataBean result = MCRSearchResultDataBean.retrieveSearchresultFromSession(request, searchID);
 		jspContext.setAttribute("result", result);
-		if(result!=null){
-			int pos = result.findEntryPosition(mcrid); 
-			if(pos >= 0){
-				result.setCurrent(result.getStart()+pos);
-			}
-		}
 	}
 %>
 
