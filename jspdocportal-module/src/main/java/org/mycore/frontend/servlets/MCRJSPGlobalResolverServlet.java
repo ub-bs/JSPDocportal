@@ -175,7 +175,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
 				}
 			} else {
 				// show metadata as docdetails view
-				this.getServletContext().getRequestDispatcher("/nav?path=~docdetail&id=" + mcrID).forward(request,
+				this.getServletContext().getRequestDispatcher("/content/docdetails.jsp?id=" + mcrID).forward(request,
 						response);
 			}
 			return;

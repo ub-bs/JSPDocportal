@@ -72,7 +72,7 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	private static Logger LOGGER = Logger.getLogger(MCRJSPObjectServlet.class);
+	private static Logger LOGGER = Logger.getLogger(MCRJSPIDResolverServlet.class);
 
 	/**
 	 * The initalization of the servlet.
@@ -152,7 +152,7 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 			 * if(url.length()>0){ LOGGER.debug("DFGViewer URL: "+url);
 			 * response.sendRedirect(url); } } //end [if(img!=null)] else{
 			 * this.getServletContext
-			 * ().getRequestDispatcher("/nav?path=~docdetail&id="
+			 * ().getRequestDispatcher("/content/docdetails.jsp?id="
 			 * +mcrID).forward(request, response); } } //end
 			 * [if(result.getNumHits()>0)]
 			 */
