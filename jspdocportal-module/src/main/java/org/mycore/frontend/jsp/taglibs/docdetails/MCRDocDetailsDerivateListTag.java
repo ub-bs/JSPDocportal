@@ -36,6 +36,7 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 import org.apache.taglibs.standard.tag.common.xml.XPathUtil;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRConstants;
+import org.mycore.common.MCRSessionMgr;
 import org.mycore.datamodel.ifs.MCRDirectory;
 import org.mycore.datamodel.ifs.MCRFilesystemNode;
 import org.mycore.datamodel.metadata.MCRDerivate;
@@ -141,6 +142,11 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 	    				sbUrl.append(derID);
 	    				sbUrl.append("/");
 	    		
+	    				boolean doCommitTransaction = false;
+	    		        if (!MCRSessionMgr.getCurrentSession().isTransactionActive()) {
+	    		            doCommitTransaction = true;
+	    		            MCRSessionMgr.getCurrentSession().beginTransaction();
+	    		        }
 	    				MCRDirectory root = MCRDirectory.getRootDirectory(derID);
 	    				if(root!=null){
 	    					MCRFilesystemNode[] myfiles = root.getChildren(MCRDirectory.SORT_BY_NAME);
@@ -177,6 +183,9 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 	    						out.write("</dd>");
 	    					}
 	    				}
+	    				if (doCommitTransaction) {
+	    		            MCRSessionMgr.getCurrentSession().commitTransaction();
+	    		        }
 	    			}
 	    			out.write("</dl>");
 	    		}
