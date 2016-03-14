@@ -25,7 +25,6 @@ package org.mycore.frontend.jsp.search;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -146,14 +145,7 @@ public class MCRSearchResultDataBean implements Serializable {
                 doSearch();
                 return;
             }
-
             setCurrent(start);
-            getEntries().clear();
-            Iterator<SolrDocument> it = solrResults.iterator();
-            while (it.hasNext()) {
-                SolrDocument doc = it.next();
-                getEntries().add(new MCRSearchResultEntry(doc));
-            }
         } catch (SolrServerException | IOException e) {
             LOGGER.error(e);
         }
@@ -166,10 +158,10 @@ public class MCRSearchResultDataBean implements Serializable {
         if (pos < 0 || pos >= rows) {
             start = (hit / rows) * rows;
             doSearch();
-            current = hit;
             return getHit(hit);
         }
-        return new MCRSearchResultEntry(solrQueryResponse.getResults().get(pos));
+        current = hit;
+        return new MCRSearchResultEntry(solrQueryResponse.getResults().get(pos), hit);
     }
     //	public int findEntryPosition(String mcrid){
     //		for(int i=0;i<entries.size();i++){
@@ -216,8 +208,10 @@ public class MCRSearchResultDataBean implements Serializable {
 
     public List<MCRSearchResultEntry> getEntries() {
         ArrayList<MCRSearchResultEntry> result = new ArrayList<MCRSearchResultEntry>();
-        for (SolrDocument solrDoc : solrQueryResponse.getResults()) {
-            result.add(new MCRSearchResultEntry(solrDoc));
+        SolrDocumentList solrDocs = solrQueryResponse.getResults();
+        for (int i=0;i<solrDocs.size(); i++) {
+            SolrDocument solrDoc = solrDocs.get(i);
+            result.add(new MCRSearchResultEntry(solrDoc, start + i));
         }
         return result;
     }

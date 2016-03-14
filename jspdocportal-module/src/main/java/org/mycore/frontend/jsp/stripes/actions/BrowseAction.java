@@ -34,7 +34,7 @@ public class BrowseAction extends MCRAbstractStripesAction implements ActionBean
 
     public static Namespace NS_XED = Namespace.getNamespace("xed", "http://www.mycore.de/xeditor");
 
-    public static int DEFAULT_ROWS = 100;
+    public static int DEFAULT_ROWS = 20;
 
      private String mask = null;
 

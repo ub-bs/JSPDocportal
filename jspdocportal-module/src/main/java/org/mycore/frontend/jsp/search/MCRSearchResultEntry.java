@@ -35,6 +35,7 @@ import org.mycore.common.config.MCRConfiguration;
  *
  */
 public class MCRSearchResultEntry {
+    private int pos;
 	private String mcrid;
 	private String label;
 	private String coverURL;
@@ -42,7 +43,8 @@ public class MCRSearchResultEntry {
 
 	private static MCRConfiguration CONFIG = MCRConfiguration.instance();
 
-	public MCRSearchResultEntry(SolrDocument solrDoc) {
+	public MCRSearchResultEntry(SolrDocument solrDoc, int pos) {
+	    this.pos = pos;
 		String objectType = String.valueOf(solrDoc.getFirstValue("objectType"));
 		String labelfield = CONFIG.getString("MCR.SearchResult." + objectType + ".Headerfield");
 		String[] datafields = CONFIG.getString("MCR.SearchResult." + objectType + ".Datafields").split(",");
@@ -57,14 +59,14 @@ public class MCRSearchResultEntry {
 		}
 		Object o = solrDoc.getFirstValue("cover_url");
 		if (o != null) {
-			setCoverURL(String.valueOf(o));
+			coverURL = (String.valueOf(o));
 		} else {
 			String coverField = CONFIG.getString("MCR.SearchResult." + objectType + ".DefaultCoverfield", "");
 			if(solrDoc.getFirstValue(coverField)==null){
-				setCoverURL("images/cover/default.png");
+				coverURL = "images/cover/default.png";
 			}
 			else{
-				setCoverURL("images/cover/default_"	+ String.valueOf(solrDoc.getFirstValue(coverField)) + ".png");
+				coverURL = "images/cover/default_"	+ String.valueOf(solrDoc.getFirstValue(coverField)) + ".png";
 			}
 		}
 	}
@@ -89,8 +91,7 @@ public class MCRSearchResultEntry {
 		return coverURL;
 	}
 
-	public void setCoverURL(String coverURL) {
-		this.coverURL = coverURL;
-	}
-
+	public int getPos() {
+        return pos;
+    }
 }

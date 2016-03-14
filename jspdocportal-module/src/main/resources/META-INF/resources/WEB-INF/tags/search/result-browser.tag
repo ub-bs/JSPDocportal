@@ -101,7 +101,7 @@
 			<c:forEach var="entry" items="${result.entries}">
 				<c:set var="mcrid" value="${entry.mcrid}" />
 				<c:set var="entry" value="${entry}" />
-				<c:set var="url"   value="${pageContext.request.contextPath}/resolve/id/${entry.mcrid}?_search=${result.id}" />
+				<c:set var="url"   value="${pageContext.request.contextPath}/${result.action}?_search=${result.id}&_hit=${entry.pos}" />
 				<li class="list-group-item">
 				
 					<jsp:doBody />
