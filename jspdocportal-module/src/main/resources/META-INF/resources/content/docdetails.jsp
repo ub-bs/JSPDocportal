@@ -1,118 +1,109 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="org.apache.log4j.Logger" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"   %>
-<%@ taglib prefix="mcr" uri="http://www.mycore.org/jspdocportal/base.tld" %>
-<%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld" %>
-
-<fmt:message var="pageTitle" key="Webpage.title" /> 
-<stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
-	<stripes:layout-component name="contents">
-
-<c:catch var="e">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="org.apache.log4j.Logger"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="mcr" uri="http://www.mycore.org/jspdocportal/base.tld"%>
+<%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
+<%@ taglib prefix="jspdp-ui" tagdir="/WEB-INF/tags/ui"%>
+<%@ taglib prefix="search" tagdir="/WEB-INF/tags/search"%>
 
 <c:set var="WebApplicationBaseURL" value="${applicationScope.WebApplicationBaseURL}" />
 <c:set var="mcrid">
-   <c:choose>
-      <c:when test="${not empty requestScope.id}">${requestScope.id}</c:when>
-      <c:otherwise>${param.id}</c:otherwise>
-   </c:choose>
+	<c:choose>
+		<c:when test="${!empty(requestScope.id)}">${requestScope.id}</c:when>
+		<c:otherwise>${param.id}</c:otherwise>
+	</c:choose>
 </c:set>
-<c:set var="from"  value="${param.fromWF}" /> 
+<c:set var="from" value="${param.fromWF}" />
 <c:set var="debug" value="${param.debug}" />
 <c:set var="style" value="${param.style}" />
-<c:set var="type"  value="${fn:split(mcrid,'_')[1]}" /> 
-<c:choose>
- <c:when test="${from}" >
-     <c:set var="layout" value="preview" />
- </c:when>
- <c:otherwise>
-     <c:set var="layout" value="normal" />
- </c:otherwise> 
-</c:choose>
 
+<c:set var="objectType" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
 
-<table class="${layout}" >
-<tr valign="top">
-<td>
-
-<c:choose>
- <c:when test="${fn:contains(mcrid,'thesis')}">
-     <c:import url="content/docdetails/docdetails_thesis.jsp" />
- </c:when>
- 
- <c:when test="${fn:contains(mcrid,'disshab')}">
-     <c:import url="content/docdetails/docdetails_disshab.jsp" />
- </c:when>
- 
- 
- <c:when test="${fn:contains(mcrid,'person')}">
-     <c:import url="content/docdetails/docdetails_person.jsp" />
- </c:when>
- 
-  <c:when test="${fn:contains(mcrid,'institution')}">
-     <c:import url="content/docdetails/docdetails_institution.jsp" />
- </c:when> 
- 
-  <c:when test="${fn:contains(mcrid,'document')}">
-     <c:import url="content/docdetails/docdetails_document.jsp" />
- </c:when>
-
- <c:when test="${fn:contains(mcrid,'_bundle_')}">
-     <c:import url="content/docdetails/docdetails_bundle.jsp" />
- </c:when>
- 
- <c:otherwise>
-     <c:import url="content/results-config/docdetails-document.jsp" />
- </c:otherwise>
- </c:choose>
-
- </td>
-
- <td>&#160;</td>
- <td align="center" valign="top" style="padding-top: 20px">
-     <c:if test="${empty param.print and !fn:contains(style,'user')}">
-		     <a href="${WebApplicationBaseURL}content/print_details.jsp?id=${param.id}&amp;fromWF=${param.fromWF}" target="_blank">
-	          	<img src="${WebApplicationBaseURL}images/workflow_print.gif" border="0" alt="<fmt:message key="WF.common.printdetails" />"  class="imagebutton" height="30"/>
-	         </a>
-     </c:if>
- 
-   <c:if test="${(not from) && !fn:contains(style,'user')}" > 
-     <mcr:hasAccess var="modifyAllowed" permission="writedb" mcrid="${mcrid}" />
-     <mcr:isLocked var="locked" mcrObjectID="${mcrid}" />
-      <c:if test="${modifyAllowed}">
-        <c:choose>
-         <c:when test="${not locked}"> 
-	         <!--  Editbutton -->
-	         <br />
-
-	         <form method="get" action="${WebApplicationBaseURL}startedit.action">                 
-	            <input name="mcrid" value="${mcrid}" type="hidden"/>
-				<input title="<fmt:message key="WF.common.object.EditObject" />" border="0" src="${WebApplicationBaseURL}images/workflow1.gif" type="image"  class="imagebutton" height="30" />
-	         </form> 
-         </c:when>
-         <c:otherwise>
-           <br />  <img title="<fmt:message key="WF.common.object.EditObjectIsLocked" />" border="0" src="${WebApplicationBaseURL}images/workflow_locked.gif" height="30" />
-         </c:otherwise>
-        </c:choose>  
-       </c:if>      
-   </c:if>
- </td>
- </tr>
-</table>
-<br />
-
-</c:catch>
-<c:if test="${e!=null}">
-An error occured, hava a look in the logFiles!
-<% 
-  Logger.getLogger("test.jsp").error("error", (Throwable) pageContext.getAttribute("e"));   
-%>
-</c:if>
+<mcr:retrieveObject mcrid="${mcrid}" fromWorkflow="${param.fromWF}" varDOM="doc" />
+<fmt:message var="pageTitle" key="OMD.headline">
+	<fmt:param>${mcrid}</fmt:param>
+</fmt:message>
+<stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}" layout="1column">
+	<stripes:layout-component name="html_header">
+		<title>${pageTitle}@ <fmt:message key="Webpage.title" /></title>
+		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_docdetails.css">
+		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_searchresult.css">
+	</stripes:layout-component>
+	<stripes:layout-component name="contents">
+		<div class="row">
+			<div class="col-md-9">
+				<div class="row">
+					<div class="col-sm-9">
+						<div class="ur-box ir-docdetails-header">
+							<mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/${objectType}2header_html.xsl" />
+							<span class="btn btn-default ir-button-download pull-right">  
+			  					<a href="${WebApplicationBaseURL}resolve/id/${mcrid}/file/fulltext" target="_blank">
+			  						<img style="vertical-align:middle;" src="${WebApplicationBaseURL}images/pdf_icon.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
+			  							<fmt:message key="Webpage.docdetails.pdfdownload" /></a>    
+							</span>
+						</div>
+					</div>
+					<div class="col-sm-3">
+						<div class="pull-right">
+							<search:derivate-image mcrid="${param.id}" width="100%" labelContains="cover" />
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12">
+						<hr />
+					</div>
+					<div class="col-sm-12">
+						<div class="ur-box ir-docdetails-data">
+							<mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/${objectType}2details_html.xsl" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="ur-box">
+					<search:result-navigator mcrid="${mcrid}" />
+					
+					<div class="docdetails-toolbar">
+						<c:if test="${empty(param.print) and !fn:contains(style,'user')}">
+							<div class="docdetails-toolbar-item">
+								<a href="${WebApplicationBaseURL}content/print_details.jsp?id=${param.id}&fromWF=${param.fromWF}" target="_blank"> <img
+									src="${WebApplicationBaseURL}images/workflow_print.gif" border="0" alt="<fmt:message key="WF.common.printdetails" />" class="imagebutton" height="30" />
+								</a>
+							</div>
+						</c:if>
+						<c:if test="${(not from) && !fn:contains(style,'user')}">
+							<search:show-edit-button mcrid="${mcrid}" />
+							<%-- 
+ 					<mcr:checkAccess var="modifyAllowed" permission="writedb" key="${mcrid}" />
+    				<mcr:isObjectNotLocked var="bhasAccess" objectid="${mcrid}" />
+    				<c:if test="${modifyAllowed}">
+      					<c:choose>
+    						<c:when test="${bhasAccess}"> 
+	         					
+	         					<div class="docdetails-toolbar-item">
+	         						<form method="get" action="${WebApplicationBaseURL}StartEdit" class="resort">                 
+	            						<input name="mcrid" value="${mcrid}" type="hidden"/>
+										<input title="<fmt:message key="WF.common.object.EditObject" />" src="${WebApplicationBaseURL}images/workflow1.gif" type="image"  class="imagebutton" height="30" />
+	         						</form>
+	         					</div>
+         					</c:when>
+         					<c:otherwise>
+         						<div class="docdetails-toolbar-item">
+         	  						<img title="<fmt:message key="WF.common.object.EditObjectIsLocked" />" border="0" src="${WebApplicationBaseURL}images/workflow_locked.gif" height="30" />
+         	  					</div>
+         					</c:otherwise>
+        				</c:choose>  
+        			</c:if>
+        			--%>
+						</c:if>
+						<div style="clear: both;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</stripes:layout-component>
 </stripes:layout-render>
-
-
-

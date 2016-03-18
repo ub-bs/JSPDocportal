@@ -129,6 +129,51 @@
 	</tag>
 	
 	<tag>
+		<description>A Tag, that loads an MCRObject from Repository or workflow directory </description>
+		<name>retrieveObject</name>
+		<tag-class>org.mycore.frontend.jsp.taglibs.MCRRetrieveObjectTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>mcrid</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>fromWorkflow</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>varDOM</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>varJDOM</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+  
+  <tag>
+    <description>A tag, that makes an XSLT transformation</description>
+    <name>transformXSL</name>
+    <tag-class>org.mycore.frontend.jsp.taglibs.MCRTransformXslTag</tag-class>
+    <body-content>scriptless</body-content>
+    <attribute>
+      <name>xslt</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>xml</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>org.w3c.dom.Node</type>
+    </attribute>
+  </tag>
+	
+	<tag>
 		<description>A Tag, that checks via MCRAccessManager if the user 
 		 	has the specified access permission for a given object
 		 </description>
@@ -151,7 +196,7 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>
-		<tag>
+	<tag>
 		<description>A Tag, that includes another web page trying to load it in the current language</description>
 		<name>includeWebcontent</name>
 		<tag-class>org.mycore.frontend.jsp.taglibs.MCRIncludeWebContentTag</tag-class>
@@ -167,6 +212,22 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>
+	
+	<tag>
+		<description>add a namespace to be used by the JSTL XML Tag Library (using Java Reflection)</description>
+		<name>setNamespace</name>
+		<tag-class>org.mycore.frontend.jsp.taglibs.MCRSetNamespaceTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>prefix</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>uri</name>
+			<required>true</required>
+		</attribute>
+	</tag>
+	
 	
 <!-- *************************************************************************
 	 *  OLD Tags, check if still needed !!!                                  *   

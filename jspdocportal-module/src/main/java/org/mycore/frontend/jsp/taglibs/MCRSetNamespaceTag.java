@@ -20,7 +20,7 @@
  * If not, write to the Free Software Foundation Inc.,
  * 59 Temple Place - Suite 330, Boston, MA  02111-1307 USA
  */
-package org.mycore.frontend.jsp.taglibs.docdetails;
+package org.mycore.frontend.jsp.taglibs;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -40,10 +40,9 @@ import org.apache.taglibs.standard.tag.common.xml.JSTLXPathNamespaceContext;
  * Uses the Java Reflection Framework to modify private fields
  * 
  * @author Robert Stephan
- * 
+ *
  */
-@Deprecated
-public class MCRDocDetailsSetNamespaceTag extends SimpleTagSupport {
+public class MCRSetNamespaceTag extends SimpleTagSupport {
 	private String prefix="";
 	private String uri="";
 
@@ -89,7 +88,7 @@ public class MCRDocDetailsSetNamespaceTag extends SimpleTagSupport {
 		}
 		catch( Exception e )
 		{
-			Logger.getLogger(MCRDocDetailsSetNamespaceTag.class).error("Something went wrong adding the namespace", e);
+			Logger.getLogger(MCRSetNamespaceTag.class).error("Something went wrong adding the namespace", e);
 		}
 	}
 

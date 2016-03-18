@@ -1,0 +1,93 @@
+table.ir-table-docdetails {
+	border: 3px solid blue;
+	font-size: 90%
+}
+
+table.ir-table-docdetails>tbody>tr>th {
+	width: 150px;
+	font-weight: normal;
+	background-color: #e6e6e6;
+	border: 4px solid white;
+}
+
+table.ir-table-docdetails>tbody>tr>td {
+	border: 4px solid white;
+}
+
+span.ir-badge-gnd {
+	color: #004A99;
+	border-top: none;
+	background-color: white;
+	vertical-align: super;
+	font-size: 66%;
+}
+
+textarea.ir-textarea-xml {
+	font-family: monospace;
+	font-size: 90%;
+}
+
+div.ir-docdetails-header {
+	
+}
+
+span.ir-button-download{
+	background-color:#666666;
+}
+
+span.ir-button-download a{
+	color:#FFFFFF;
+	text-decoration: none;
+}
+
+
+/* =================================================================== */
+/* Info Hover (button + messagebox on mouse over)                      */  
+/* ToDo Migration                                                      */
+/* =================================================================== */
+div.docdetails-infohover a {
+	font: bold 10px courier, sans-serif;
+	text-decoration: none;
+	display: boxed;
+	padding: 1px;
+}
+
+div.docdetails-infohover a:link,
+div.docdetails-infohover a:visited,
+div.docdetails-infohover a:focus,
+div.docdetails-infohover a:active{
+	font-weight: bold;
+	color: #ffffff;
+	background: #0A50A1;
+	border: 1px solid #0A50A1;
+	text-decoration: none !important;
+}
+
+div.docdetails-infohover a:hover {
+	text-decoration: none !important;
+	font-weight: bold;
+	border: 1px solid #0A50A1;
+	color: #0000ff !important;
+	background: #ffff88;
+}
+
+div.docdetails-infohover a span {
+	display: none;
+}
+
+div.docdetails-infohover a:hover span {
+	position: fixed;
+	bottom: 20px;
+	left: 40px;
+	z-index: 30;
+	text-align: justify;
+	display: block;
+	color: #0A50A1;
+	width: 300px;
+	background: #ffff88;
+	font: normal 10px Verdana, Arial, Helvetica, sans-serif;
+	border-width: 3px;
+	border-color: #0A50A1;
+	border-style: outset;
+	padding: 10px;
+}
