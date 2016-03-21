@@ -19,11 +19,8 @@
 						</xsl:call-template>
 					</xsl:for-each>
 				</p>
-				<h4>
-					<xsl:call-template name="mods-title" />
-				</h4>
-	
-        <p>
+				<xsl:call-template name="mods-title" />
+                <p>
 					<xsl:variable name="classlink" select="mcrmods:getClassCategLink(mods:classification[@displayLabel='document_type'])" />
 					<xsl:if test="string-length($classlink) &gt; 0">
 						<xsl:value-of select="concat(document($classlink)/mycoreclass/categories/category/label[@xml:lang='de']/@text, ', ')" />

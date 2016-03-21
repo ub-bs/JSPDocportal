@@ -5,17 +5,19 @@
      version="1.0" exclude-result-prefixes="mods xlink">
 <xsl:output method="xml" indent="yes" omit-xml-declaration="yes" encoding="UTF-8" />     
 <xsl:template name="mods-title">
-  <xsl:for-each select="./mods:titleInfo">
-
-    <xsl:if test="./mods:nonSort">
-      <xsl:value-of select="./mods:nonSort" />&#160;<xsl:value-of select="./mods:title" />  
-    </xsl:if>
-    <xsl:if test="not(./mods:nonSort)">
-      <xsl:value-of select="./mods:title" />  
-    </xsl:if>
-        <xsl:if test="./mods:subTitle">
-      :
-      <xsl:value-of select="./mods:subTitle" />
+  <xsl:for-each select="./mods:titleInfo[@usage='primary']">
+    <h4>
+      <xsl:if test="./mods:nonSort">
+        <xsl:value-of select="./mods:nonSort" />&#160;<xsl:value-of select="./mods:title" />  
+      </xsl:if>
+      <xsl:if test="not(./mods:nonSort)">
+        <xsl:value-of select="./mods:title" />  
+      </xsl:if>
+    </h4>
+    <xsl:if test="./mods:subTitle">
+      <h5>
+        <xsl:value-of select="./mods:subTitle" />
+      </h5>
     </xsl:if>
 
     <xsl:if test="./mods:partNumber or ./mods:partName">
@@ -95,6 +97,45 @@
         &#160;<xsl:value-of select="$name/mods:role/mods:roleTerm[@authority='gbv']" />
     </xsl:if>
 
+</xsl:template>
+
+<xsl:template name="advisor">
+      <xsl:param name="name"  />
+
+      <xsl:choose>
+        <xsl:when test="$name/mods:namePart[@type='family'] and ./mods:namePart[@type='given']">
+          <xsl:value-of select="$name/mods:namePart[@type='family']" />,&#160;
+          <xsl:value-of select="$name/mods:namePart[@type='given']" />
+          <xsl:if test="$name/mods:namePart[@type='termsOfAddress']" >
+            (<xsl:value-of select="$name/mods:namePart[@type='termsOfAddress']" />)
+          </xsl:if>
+    
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:for-each select="$name/mods:namePart[not(@type='date')]">
+        <xsl:value-of select="." />&#160;
+      </xsl:for-each>
+    </xsl:otherwise>
+    </xsl:choose>
+    <xsl:if test="$name/@valueURI">
+      <xsl:element name="a">
+        <xsl:attribute name="href">
+          <xsl:value-of select="$name/@valueURI" />
+        </xsl:attribute>
+        <xsl:element name="span">
+          <xsl:attribute name="class">badge ir-badge-gnd</xsl:attribute>
+          <xsl:attribute name="title">Datensatz in der Gemeinsamen Normdatei der Deutschen Nationalbibliothek
+            (GND) anzeigen</xsl:attribute>
+            GND
+        </xsl:element>
+      </xsl:element>
+    </xsl:if>
+    <xsl:if test="$name/mods:affiliation">
+      <xsl:element name="span">
+        <xsl:attribute name="class">ir-advisor-affiliation</xsl:attribute>
+        <xsl:value-of select="$name/mods:affiliation" />
+      </xsl:element>
+    </xsl:if>
 </xsl:template>
 
 <xsl:template name="mods-name">
