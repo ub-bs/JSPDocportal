@@ -30,7 +30,7 @@
 			<stripes:form
 				beanclass="org.mycore.frontend.jsp.stripes.actions.ShowWorkspaceAction"
 				id="workspaceForm" enctype="multipart/form-data" acceptcharset="UTF-8">
-				<stripes:hidden name="mcrobjid_base" />
+				<stripes:hidden name="mcr_base" />
 
 				<div class="panel panel-info">
   					<div class="panel-heading">

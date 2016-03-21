@@ -63,11 +63,11 @@
 			<stripes:form
 				beanclass="org.mycore.frontend.jsp.stripes.actions.EditDerivatesAction"
 				id="workspaceForm" enctype="multipart/form-data" acceptcharset="UTF-8">
-				<stripes:hidden name="mcrobjid_base" />
+				<stripes:hidden name="mcr_base" />
 				<%-- load first time from request parameter "returnPath --%>
 				<div class="panel panel-primary">
   					<div class="panel-heading" style="min-height:54px">
-  						<a class="btn btn-default pull-right" href="${baseURL}showWorkspace.action?mcrobjid_base=${actionBean.mcrobjid_base}"><span class="glyphicon glyphicon-off"></span> Zurück</a>
+  						<a class="btn btn-default pull-right" href="${baseURL}showWorkspace.action?mcr_base=${actionBean.mcr_base}"><span class="glyphicon glyphicon-off"></span> Zurück</a>
 					  	<span class="badge pull-left" style="margin-right:24px;margin-top:9px;">${currentVariables.mcrObjectID}</span>
 					  	<h3 class="pull-left" style="margin-top:6px">
 					  		${currentVariables.wfObjectDisplayTitle}
@@ -105,13 +105,13 @@
   											<c:set var="derLabel"><x:out select="$derDoc/mycorederivate/@label" /></c:set>
   											<select id="selectEditDerMetaLabel_${derID}" name="saveDerivateMeta_label-task_${actionBean.taskid}-derivate_${derID}" 
   											        class="form-control" disabled="disabled" style="width:33%;" data-original-value="${derLabel}">
-  											<c:set var="values"><fmt:message key="OMD.derivatelabel.${actionBean.mcrobjid_base}" /></c:set>
+  											<c:set var="values"><fmt:message key="OMD.derivatelabel.${actionBean.mcr_base}" /></c:set>
   											<c:forEach var="key" items="${fn:split(values,',')}">
   												<c:if test="${key eq derLabel}">
-  													<option value="${key}" selected="selected"><fmt:message key="OMD.derivatelabel.${actionBean.mcrobjid_base}.${key}" /></option>
+  													<option value="${key}" selected="selected"><fmt:message key="OMD.derivatelabel.${actionBean.mcr_base}.${key}" /></option>
   												</c:if>
   												<c:if test="${not(key eq derLabel)}">
-  													<option value="${key}"><fmt:message key="OMD.derivatelabel.${actionBean.mcrobjid_base}.${key}" /></option>
+  													<option value="${key}"><fmt:message key="OMD.derivatelabel.${actionBean.mcr_base}.${key}" /></option>
   												</c:if>
   											</c:forEach>
   											</select>
@@ -183,9 +183,9 @@
     									<label for="inputLabel" class="col-sm-1 control-label">Label</label>
    										<div class="col-sm-11">
       										<select class="form-control" name="newDerivate_label-task_${actionBean.taskid}">
-  												<c:set var="values"><fmt:message key="OMD.derivatelabel.${actionBean.mcrobjid_base}" /></c:set>
+  												<c:set var="values"><fmt:message key="OMD.derivatelabel.${actionBean.mcr_base}" /></c:set>
   												<c:forEach var="key" items="${fn:split(values,',')}">
-  													<option value="${key}"><fmt:message key="OMD.derivatelabel.${actionBean.mcrobjid_base}.${key}" /></option>
+  													<option value="${key}"><fmt:message key="OMD.derivatelabel.${actionBean.mcr_base}.${key}" /></option>
   												</c:forEach>
   											</select>
     									</div>
