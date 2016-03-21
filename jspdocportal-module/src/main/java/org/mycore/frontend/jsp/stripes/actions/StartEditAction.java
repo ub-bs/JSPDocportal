@@ -67,7 +67,7 @@ public class StartEditAction extends MCRAbstractStripesAction implements ActionB
 				for(Task t: ts.createTaskQuery().processInstanceId(pi.getId()).list()){
 					ts.setAssignee(t.getId(), MCRUserManager.getCurrentUser().getUserID());
 				}
-				return new RedirectResolution("/showWorkspace.action?mcrobjid_base="+mcrObjID.getBase());
+				return new RedirectResolution("/showWorkspace.action?mcr_base="+mcrObjID.getBase());
 			}
 		}
 		return null;

@@ -10,14 +10,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
-import net.sourceforge.stripes.action.ActionBean;
-import net.sourceforge.stripes.action.Before;
-import net.sourceforge.stripes.action.DefaultHandler;
-import net.sourceforge.stripes.action.ForwardResolution;
-import net.sourceforge.stripes.action.Resolution;
-import net.sourceforge.stripes.action.UrlBinding;
-import net.sourceforge.stripes.controller.LifecycleStage;
-
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -29,7 +21,7 @@ import org.jdom2.xpath.XPathFactory;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.activiti.MCRActivitiMgr;
 import org.mycore.activiti.MCRActivitiUtils;
-import org.mycore.common.MCRSessionMgr;
+import org.mycore.common.MCRConstants;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
@@ -44,6 +36,14 @@ import org.mycore.services.i18n.MCRTranslation;
 import org.mycore.user2.MCRUser;
 import org.mycore.user2.MCRUserManager;
 
+import net.sourceforge.stripes.action.ActionBean;
+import net.sourceforge.stripes.action.Before;
+import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.action.UrlBinding;
+import net.sourceforge.stripes.controller.LifecycleStage;
+
 @UrlBinding("/showWorkspace.action")
 public class ShowWorkspaceAction extends MCRAbstractStripesAction implements ActionBean {
     private static Logger LOGGER = Logger.getLogger(ShowWorkspaceAction.class);
@@ -52,7 +52,7 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 
     private List<String> messages = new ArrayList<String>();
 
-    private String mcrobjid_base = "";
+    private String mcr_base = "";
 
     private List<Task> myTasks = new ArrayList<Task>();
 
@@ -71,8 +71,8 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
     @Before(stages = LifecycleStage.BindingAndValidation)
     public void rehydrate() {
         super.rehydrate();
-        if (getContext().getRequest().getParameter("mcrobjid_base") != null) {
-            mcrobjid_base = getContext().getRequest().getParameter("mcrobjid_base");
+        if (getContext().getRequest().getParameter("mcr_base") != null) {
+            mcr_base = getContext().getRequest().getParameter("mcr_base");
         }
     }
 
@@ -142,7 +142,7 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
         try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()) {
             MCRUser user = MCRUserManager.getCurrentUser();
 
-            String objectType = mcrobjid_base.substring(mcrobjid_base.indexOf("_") + 1);
+            String objectType = mcr_base.substring(mcr_base.indexOf("_") + 1);
             TaskService ts = MCRActivitiMgr.getWorfklowProcessEngine().getTaskService();
             myTasks = ts.createTaskQuery().taskAssignee(user.getUserID())
                 .processVariableValueEquals(MCRActivitiMgr.WF_VAR_OBJECT_TYPE, objectType).orderByTaskCreateTime()
@@ -162,10 +162,10 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
     }
 
     public Resolution doCreateNewTask() {
-        if (mcrobjid_base != null) {
+        if (mcr_base != null) {
             try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()) {
-                String projectID = mcrobjid_base.substring(0, mcrobjid_base.indexOf("_"));
-                String objectType = mcrobjid_base.substring(mcrobjid_base.indexOf("_") + 1);
+                String projectID = mcr_base.substring(0, mcr_base.indexOf("_"));
+                String objectType = mcr_base.substring(mcr_base.indexOf("_") + 1);
                 if (MCRAccessManager.checkPermission("create-" + objectType)) {
                     Map<String, Object> variables = new HashMap<String, Object>();
                     variables.put(MCRActivitiMgr.WF_VAR_OBJECT_TYPE, objectType);
@@ -207,8 +207,8 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
         sourceURI = wfFile.toURI().toString();
         ForwardResolution res = new ForwardResolution("/content/editor/fullpageEditor.jsp");
         StringBuffer sbCancel = new StringBuffer(MCRFrontendUtil.getBaseURL() + "showWorkspace.action?");
-        if (!mcrobjid_base.isEmpty()) {
-            sbCancel.append("&mcrobjid_base=").append(mcrobjid_base);
+        if (!mcr_base.isEmpty()) {
+            sbCancel.append("&mcr_base=").append(mcr_base);
         }
         if (taskID != null) {
             sbCancel.append("#task_").append(taskID);
@@ -240,7 +240,7 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
                 xpTitle = MCRConfiguration.instance().getString(
                     "MCR.Activiti.MCRObject.Display.Title.XPath.default_" + mcrObjID.getTypeId(), "/mycoreobject/@ID");
             }
-            XPathExpression<String> xpath = XPathFactory.instance().compile(xpTitle, Filters.fstring());
+            XPathExpression<String> xpath = XPathFactory.instance().compile(xpTitle, Filters.fstring(), null, MCRConstants.MODS_NAMESPACE);
             txt = xpath.evaluateFirst(mcrObj.createXML());
         } catch (Exception e) {
             LOGGER.error(e);
@@ -261,7 +261,7 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
                     "MCR.Activiti.MCRObject.Display.Description.XPath.default_" + mcrObjID.getTypeId(),
                     "/mycoreobject/@label");
             }
-            XPathExpression<String> xpath = XPathFactory.instance().compile(xpDescr, Filters.fstring());
+            XPathExpression<String> xpath = XPathFactory.instance().compile(xpDescr, Filters.fstring(), null, MCRConstants.MODS_NAMESPACE);
             txt = xpath.evaluateFirst(mcrObj.createXML());
         } catch (Exception e) {
             LOGGER.error(e);
@@ -328,16 +328,16 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 
     }
 
-    public String getMcrobjid_base() {
-        return mcrobjid_base;
+    public String getMcr_base() {
+        return mcr_base;
     }
 
-    public void setMcrobjid_base(String mcrobjid_base) {
-        this.mcrobjid_base = mcrobjid_base;
+    public void setMcr_base(String mcr_base) {
+        this.mcr_base = mcr_base;
     }
 
     public String getObjectType() {
-        return mcrobjid_base.substring(mcrobjid_base.indexOf("_") + 1);
+        return mcr_base.substring(mcr_base.indexOf("_") + 1);
     }
 
     public List<Task> getMyTasks() {

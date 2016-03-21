@@ -17,6 +17,19 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.activiti.engine.TaskService;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
+import org.mycore.activiti.MCRActivitiMgr;
+import org.mycore.activiti.MCRActivitiUtils;
+import org.mycore.activiti.workflows.create_object_simple.MCRWorkflowMgr;
+import org.mycore.datamodel.metadata.MCRDerivate;
+import org.mycore.datamodel.metadata.MCRMetaLinkID;
+import org.mycore.datamodel.metadata.MCRObject;
+import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
+import org.w3c.dom.Document;
+
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -26,20 +39,6 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.controller.LifecycleStage;
 import net.sourceforge.stripes.controller.StripesRequestWrapper;
-
-import org.activiti.engine.TaskService;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
-import org.mycore.activiti.MCRActivitiMgr;
-import org.mycore.activiti.MCRActivitiUtils;
-import org.mycore.activiti.workflows.create_object_simple.MCRWorkflowMgr;
-import org.mycore.common.MCRSessionMgr;
-import org.mycore.datamodel.metadata.MCRDerivate;
-import org.mycore.datamodel.metadata.MCRMetaLinkID;
-import org.mycore.datamodel.metadata.MCRObject;
-import org.mycore.datamodel.metadata.MCRObjectID;
-import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
-import org.w3c.dom.Document;
 
 @UrlBinding("/editDerivates.action")
 public class EditDerivatesAction extends MCRAbstractStripesAction implements ActionBean {
@@ -358,7 +357,7 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
 		}
 	}
 		
-	public String getMcrobjid_base() {
+	public String getMcr_base() {
 		return MCRObjectID.getInstance(mcrobjid).getBase();
 	}
 	public String getMcrobjid(){
