@@ -316,15 +316,15 @@
 				</navitem>
 			</navitem>
 			<navitem id="xmetadiss" i18n="Nav.Admin.Xmetadiss" href="admin/main.jsp"
-				permission="administrate-xmetadiss">
+				permission="administrate-disshab">
 				<navitem id="workflow" i18n="WF.xmetadiss"
 					href="content/workflow/workflow.jsp?wftype=xmetadiss" permission="administrate-xmetadiss">
-					<refitem id="~workflow-xmetadiss" />
+					
 				</navitem>
-				<navitem id="process-xmetadiss" i18n="Nav.Admin.Processes"
+				<navitem id="process-disshab" i18n="Nav.Admin.Processes"
 					href="admin/processes_list.jsp?workflowProcessType=xmetadiss"
-					permission="administrate-xmetadiss">
-					<refitem id="~process-xmetadiss" />
+					permission="administrate-disshab">
+
 				</navitem>
 			</navitem>
 			<navitem id="thesis" i18n="Nav.Admin.Thesis" href="admin/main.jsp"
