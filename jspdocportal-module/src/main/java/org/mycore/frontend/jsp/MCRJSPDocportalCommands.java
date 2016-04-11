@@ -46,7 +46,9 @@ import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.mycore.access.MCRAccessException;
 import org.mycore.access.MCRAccessManager;
+import org.mycore.backend.jpa.MCREntityManagerProvider;
 import org.mycore.common.MCRException;
+import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.datamodel.common.MCRActiveLinkException;
 import org.mycore.datamodel.common.MCRXMLMetadataManager;
@@ -327,6 +329,9 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
         	catch(MCRActiveLinkException | MCRAccessException | SAXParseException | IOException e) {
         		LOGGER.error(e);
 			}
+        	MCREntityManagerProvider.getCurrentEntityManager().flush();;
+        	MCRSessionMgr.getCurrentSession().commitTransaction();
+        	MCRSessionMgr.getCurrentSession().beginTransaction();
         }       
     }
     
