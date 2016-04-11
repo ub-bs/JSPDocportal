@@ -162,7 +162,7 @@
           <td>
             <table class="ir-table-docdetails-values">
               <tr><td>
-                <xsl:value-of select="substring(/mycoreobject/service/servdats/servdate[@type='createdate'], 1,10)" /> / 
+                <xsl:value-of select="substring(/mycoreobject/service/servdates/servdate[@type='createdate'], 1, 10)" /> / 
                 <xsl:value-of select="substring(/mycoreobject/service/servdates/servdate[@type='modifydate'], 1, 10)" />  
               </td></tr>
             </table>
