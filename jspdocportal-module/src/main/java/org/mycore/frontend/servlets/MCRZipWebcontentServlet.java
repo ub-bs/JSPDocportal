@@ -38,11 +38,11 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.mycore.common.MCRException;
 import org.mycore.common.config.MCRConfiguration;
 
 
@@ -56,22 +56,20 @@ import org.mycore.common.config.MCRConfiguration;
  * @author Robert Stephan
  * 
  */
-public class MCRZipWebcontentServlet extends MCRServlet {
+public class MCRZipWebcontentServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
    
 
     /**
      * Handles the HTTP request
      */
-    public void doGetPost(MCRServletJob job) throws IOException, ServletException {
-    	HttpServletRequest req = job.getRequest();
-        HttpServletResponse res = job.getResponse();
-
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try{
         	byte[] buffer = new byte[18024];
         	SimpleDateFormat formatter = new SimpleDateFormat ("yyyyMMdd-HHmmss", Locale.US);
         	String zipfilename = "webcontent_"+formatter.format(new Date())+".zip";
-          	ZipOutputStream out  = buildZipOutputStream(res, zipfilename);
+          	ZipOutputStream out  = buildZipOutputStream(response, zipfilename);
           	String foldername = "content/"+MCRConfiguration.instance().getString("MCR.WebContent.Folder");
     	   	File webcontentDir = new File(getServletContext().getRealPath(foldername));
           	int rootPathLength = webcontentDir.getParent().length(); 
@@ -100,9 +98,9 @@ public class MCRZipWebcontentServlet extends MCRServlet {
            	
         } catch (Exception e) {
             String msg = "Das Zip-File konnte nicht ordnungsgemäss erstellt werden, " + "Bitte überprüfen Sie die eingegebenen Parameter";
-            res.reset();
+            response.reset();
             try{
-            	res.sendError(HttpServletResponse.SC_BAD_REQUEST, msg);
+            	response.sendError(HttpServletResponse.SC_BAD_REQUEST, msg);
             }
             catch(Exception e2){
             	Logger.getLogger(getClass()).error("Fehler", e2);

@@ -32,6 +32,7 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -65,7 +66,7 @@ import org.mycore.frontend.MCRFrontendUtil;
  * 
  * @see org.mycore.frontend.servlets.MCRServlet
  */
-public class MCRJSPIDResolverServlet extends MCRServlet {
+public class MCRJSPIDResolverServlet extends HttpServlet {
 	protected enum OpenBy {
 		page, nr, part, empty
 	};
@@ -89,11 +90,8 @@ public class MCRJSPIDResolverServlet extends MCRServlet {
 	 * @param job
 	 *            the MCRServletJob instance
 	 */
-	public void doGetPost(MCRServletJob job) throws ServletException, Exception {
-		// the urn with information about the MCRObjectID
-		HttpServletRequest request = job.getRequest();
-		HttpServletResponse response = job.getResponse();
-
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String pdf = request.getParameter("pdf");
 		String xml = request.getParameter("xml");
 		String xmlextended = request.getParameter("xmlextended");

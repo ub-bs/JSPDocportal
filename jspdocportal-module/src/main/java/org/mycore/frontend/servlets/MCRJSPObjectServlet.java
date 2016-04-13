@@ -23,9 +23,11 @@
 
 package org.mycore.frontend.servlets;
 
+import java.io.IOException;
 import java.io.OutputStream;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -41,9 +43,8 @@ import org.mycore.datamodel.metadata.MCRObjectID;
  * 
  * @author Heiko Helmbrecht
  * 
- * @see org.mycore.frontend.servlets.MCRServlet
  */
-public class MCRJSPObjectServlet extends MCRServlet {
+public class MCRJSPObjectServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
@@ -65,10 +66,9 @@ public class MCRJSPObjectServlet extends MCRServlet {
      * @param job
      *            the MCRServletJob instance
      */
-    public void doGetPost(MCRServletJob job) throws ServletException, Exception {
-        // the urn with information about the MCRObjectID
-    	HttpServletRequest request = job.getRequest();
-    	HttpServletResponse response = job.getResponse();
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
     	LOGGER.debug("contextPath=" + request.getContextPath());
     	LOGGER.debug("servletPath=" + request.getServletPath());
 
@@ -82,7 +82,7 @@ public class MCRJSPObjectServlet extends MCRServlet {
             LOGGER.debug(" id = " + uri.substring(1, j));
             id = uri.substring(1, j);
         } else {
-            id = getProperty(job.getRequest(), "id");
+            id = request.getParameter("id");
         }
         id = id.replace("cpr_staff_0000", "cpr_person_").replace("cpr_professor_0000", "cpr_person_");
         if (id == null) {
