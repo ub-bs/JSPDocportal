@@ -29,7 +29,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.mycore.access.MCRAccessManager;
-import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObjectID;
@@ -64,9 +63,7 @@ public class MCRWorkflowForEditingStartServlet extends MCRServlet {
 		MCRRequestParameters parms;
 		parms = new MCRRequestParameters(request);
 		mcrid = parms.getParameter("mcrid");
-		MCRSession sessionFromRequest = MCRServlet.getSession(request);
-		MCRSessionMgr.switchCurrentSession(sessionFromRequest);
-		
+				
 		if (!MCRAccessManager.checkPermission(mcrid, "writedb" )) {
 			String lang   = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
 			String usererrorpage = "nav?path=~mycore-error?messageKey=WF.common.PrivilegesError&lang=" + lang;

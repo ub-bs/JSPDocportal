@@ -9,7 +9,6 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
 import org.mycore.common.MCRSession;
-import org.mycore.common.MCRSessionMgr;
 import org.mycore.frontend.servlets.MCRServlet;
 
 
@@ -39,18 +38,11 @@ public class MCRSessionTag extends SimpleTagSupport
 	public void doTag() throws JspException, IOException {
 	    PageContext pageContext = (PageContext) getJspContext();
 		//"HttpJspBase" is the name of the servlet that handles JSPs
-		if (!method.equals("set") && !method.equals("get") && !method.equals("init")) {
+		if (!method.equals("set") && !method.equals("get")) {
 			Logger.getLogger(MCRSessionTag.class).error("unknown method: " + method);
 			return;
 		}
-		if(method.equals("init")){
-		    MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)pageContext.getRequest());
-		    if(mcrSession!=null && !mcrSession.getID().equals(MCRSessionMgr.getCurrentSessionID())){
-		        MCRSessionMgr.setCurrentSession(mcrSession);
-		    }
-		    return;
-		}
-		
+			
 		MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)pageContext.getRequest());
 		if (type != null && !type.equals("")) {
 			if (type.equals("userID")) {

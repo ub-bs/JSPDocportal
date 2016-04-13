@@ -12,7 +12,6 @@ import org.hibernate.Transaction;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.MCRSession;
-import org.mycore.common.MCRSessionMgr;
 import org.mycore.frontend.servlets.MCRServlet;
 
 public class MCRHasAccessTag extends SimpleTagSupport
@@ -44,8 +43,7 @@ public class MCRHasAccessTag extends SimpleTagSupport
 			}
 			PageContext pageContext = (PageContext) getJspContext();
 			MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)pageContext.getRequest());
-			MCRSessionMgr.switchCurrentSession(mcrSession);
-			
+		
 			String userID = mcrSession.getUserInformation().getUserID();
 			if ("guest gast".contains(userID)){
 				pageContext.setAttribute(var, new Boolean(false));	
