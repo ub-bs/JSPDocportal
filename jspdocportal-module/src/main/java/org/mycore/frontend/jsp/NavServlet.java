@@ -96,7 +96,7 @@ public class NavServlet extends HttpServlet {
 		request.setAttribute("youAreHere", domYouAreHere);
 
 		if (contentPage == null || contentPage.equals("")) {
-			contentPage = "content/index.jsp";
+			contentPage = "index.jsp";
 		}
 
 		try {

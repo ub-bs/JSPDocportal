@@ -87,16 +87,8 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
 		super.init();
 	}
 
-	/**
-	 * The method replace the default form MCRSearchServlet and redirect the
-	 * 
-	 * @param job
-	 *            the MCRServletJob instance
-	 */
-	public void doGetPost(MCRServletJob job) throws ServletException, Exception {
-		HttpServletRequest request = job.getRequest();
-		HttpServletResponse response = job.getResponse();
-
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String uri = request.getRequestURI();
 		String path[] = uri.substring(uri.indexOf("/resolve/") + 9).split("/", -1);
 		if (path.length < 2) {
