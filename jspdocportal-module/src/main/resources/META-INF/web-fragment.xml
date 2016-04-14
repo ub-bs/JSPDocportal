@@ -38,17 +38,9 @@
   </listener>
   	-->
  
- <filter>
-   		<filter-name>MCRSessionInjectionFilter</filter-name>
-   		<filter-class>org.mycore.frontend.jsp.MCRSessionInjectionFilter</filter-class>
-	</filter>
 
-	<filter-mapping>
-   		<filter-name>MCRSessionInjectionFilter</filter-name>
-   		<url-pattern>*</url-pattern>
-	</filter-mapping>
 	  	
-  	
+ <!-- must come first to set encoding to utf-8 --> 	
   <filter>
     <filter-name>SetChacterEncodingFilter</filter-name>
     <filter-class>org.apache.catalina.filters.SetCharacterEncodingFilter</filter-class>
@@ -66,6 +58,22 @@
     <filter-name>SetChacterEncodingFilter</filter-name>
     <url-pattern>*</url-pattern>
   </filter-mapping>
+  
+   <filter>
+   		<filter-name>MCRSessionInjectionFilter</filter-name>
+   		<filter-class>org.mycore.frontend.jsp.MCRSessionInjectionFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+   		<filter-name>MCRSessionInjectionFilter</filter-name>
+   		<url-pattern>*.action</url-pattern>
+   		<url-pattern>*.jsp</url-pattern>
+		<url-pattern>/search/*</url-pattern>
+		<url-pattern>/browse/*</url-pattern>
+		<url-pattern>/resolve/*</url-pattern>
+		<url-pattern>/site/*</url-pattern>
+		<url-pattern>/metadata/*</url-pattern>
+	</filter-mapping>
  
   <filter>
 		<display-name>Stripes Filter</display-name>
