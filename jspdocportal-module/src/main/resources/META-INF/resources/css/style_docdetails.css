@@ -209,6 +209,9 @@ div.docdetails-image{
 	padding-left:6px;
 	padding-right:6px;
 }
+div.docdetails-image-footer{
+	font-size:85%;
+}
 
 /* =================================================================== */
 /* Info Hover (button + messagebox on mouse over)                      */
