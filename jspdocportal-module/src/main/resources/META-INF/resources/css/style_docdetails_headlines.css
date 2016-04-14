@@ -145,6 +145,9 @@ div.docdetails-image img{
 	margin-left: auto;
 	margin-right: auto;
 }
+div.docdetails-image-footer{
+	font-size:85%;
+}
 
 /* =================================================================== */
 /* Info Hover (button + messagebox on mouse over)                      */
