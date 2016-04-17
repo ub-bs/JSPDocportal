@@ -49,6 +49,11 @@ public class SaveWebcontentAction extends MCRAbstractStripesAction implements Ac
 
 	@DefaultHandler
 	public Resolution defaultRes() {
+		boolean doCommitTransaction = false;
+		if (!MCRSessionMgr.getCurrentSession().isTransactionActive()) {
+			doCommitTransaction = true;
+			MCRSessionMgr.getCurrentSession().beginTransaction();
+		}
 		if( MCRAccessManager.checkPermission("administrate-webcontent")){
 			for (String s : getContext().getRequest().getParameterMap().keySet()) {
 				if (s.startsWith("doSave_")) {
@@ -70,6 +75,9 @@ public class SaveWebcontentAction extends MCRAbstractStripesAction implements Ac
 					break;
 				}
 			}
+		}
+		if (doCommitTransaction) {
+			MCRSessionMgr.getCurrentSession().commitTransaction();
 		}
 		if(referer==null){
 			referer = "";
