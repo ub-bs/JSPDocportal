@@ -411,9 +411,8 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
 
         // no transaction needed to copy long streams over slow connections
 
-        OutputStream out = new BufferedOutputStream(res.getOutputStream());
-        file.getContentTo(out);
-        out.close();
+        try(OutputStream out = new BufferedOutputStream(res.getOutputStream())){
+            file.getContentTo(out);
+        }
     }
-
 }
