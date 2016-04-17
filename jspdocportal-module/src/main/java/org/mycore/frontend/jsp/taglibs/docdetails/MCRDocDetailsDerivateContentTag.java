@@ -33,6 +33,7 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 import org.apache.taglibs.standard.tag.common.xml.XPathUtil;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRConstants;
+import org.mycore.common.MCRSessionMgr;
 import org.mycore.datamodel.ifs.MCRDirectory;
 import org.mycore.datamodel.ifs.MCRFile;
 import org.mycore.datamodel.ifs.MCRFilesystemNode;
@@ -48,92 +49,96 @@ import org.w3c.dom.Node;
  */
 public class MCRDocDetailsDerivateContentTag extends SimpleTagSupport {
 	private String xp;
-	private String width="500px";
-	private String encoding="UTF-8";
+	private String width = "500px";
+	private String encoding = "UTF-8";
 
-	
 	public void doTag() throws JspException, IOException {
 		MCRDocDetailsTag docdetails = (MCRDocDetailsTag) findAncestorWithClass(this, MCRDocDetailsTag.class);
-		if(docdetails==null){
+		if (docdetails == null) {
 			throw new JspException("This tag must be nested in tag called 'docdetails' of the same tag library");
 		}
-		MCRDocDetailsRowTag docdetailsRow= (MCRDocDetailsRowTag) findAncestorWithClass(this, MCRDocDetailsRowTag.class);
-		if(docdetailsRow==null){
+		MCRDocDetailsRowTag docdetailsRow = (MCRDocDetailsRowTag) findAncestorWithClass(this,
+				MCRDocDetailsRowTag.class);
+		if (docdetailsRow == null) {
 			throw new JspException("This tag must be nested in tag called 'row' of the same tag library");
 		}
 		try {
 			JspWriter out = getJspContext().getOut();
-			
-			XPathUtil xu = new XPathUtil((PageContext)getJspContext());
+
+			XPathUtil xu = new XPathUtil((PageContext) getJspContext());
 			@SuppressWarnings("rawtypes")
 			List nodes = xu.selectNodes(docdetailsRow.getContext(), xp);
-			if(nodes.size()>0){
-	   		  	Object o =  getJspContext().getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE);
-	   		  	if(o==null){
-	   		  		o = new String("");
-	   		  	}
-	   		  		
-	    		Node n = (Node)nodes.get(0);
-	    		Element eN = (Element)n;
-	    		String derID = eN.getAttributeNS(MCRConstants.XLINK_NAMESPACE.getURI(), "href");
-	    		String title = eN.getAttributeNS(MCRConstants.XLINK_NAMESPACE.getURI(), "label");
-	    		
-	    		out.write("<td class=\""+docdetails.getStylePrimaryName()+"-value\">");
-	    		
-	    		StringBuffer sbUrl = new StringBuffer(o.toString());
-	    		sbUrl.append("file/");
-	    		Document doc = null;
-	    		Node nd = docdetails.getContext();
-	    		if(nd instanceof Document){
-	    			doc = (Document)nd;
-	    		}
-	    		else{
-	    			doc = nd.getOwnerDocument();
-	    		}
-	    		sbUrl.append(doc.getDocumentElement().getAttribute("ID"));
-	    		sbUrl.append("/");
-	    		sbUrl.append(derID);
-	    		sbUrl.append("/");
-	    		
-	    		MCRDirectory root = MCRDirectory.getRootDirectory(derID);
-	    		if(root!=null){
-	   		    MCRFilesystemNode[] myfiles = root.getChildren();
-	   			boolean accessAllowed = MCRAccessManager.checkPermission(derID, "read");	   		    
-	   		    for ( int j=0; j< myfiles.length; j++) {
-	   		    	MCRFile theFile = (MCRFile) myfiles[j];
-	   		    	
-	   		    	if(accessAllowed){
-	   		    		String fURL = sbUrl.toString()+theFile.getName();
-	   		    		
-	   		    	
-	   		    
-	   		    	String contentType = theFile.getContentTypeID();
-	   		    	
-	   		    	if(contentType.contains("html") || contentType.contains("xml")) {
-	   		    		out.write("<font size=\"+1\" face=\"times\">");
-						String content = theFile.getContentAsString(encoding);
-						out.write(content);
-						out.write("</font>");
-	   		    	}
-	   		    	if(contentType.contains("jpeg")){
-	   					out.write("<a href=\""+fURL+"\" target=\"_blank\" title=\""+docdetails.getMessages().getString("OMD.showLargerImage")
-	   							+"\"  alt=\""+docdetails.getMessages().getString("OMD.showLargerImage")+"\">");
-	   					out.write("<img src=\""+fURL+"\" width=\""+width+"\" alt=\""+title+"\" /></a>");
-	   					
-	   		    	}   		    	
-	   		    	
-	   		    }
-	    	}
-	    	}
-	    	out.write("</td>");   
-	    	}		//error
-	   }catch(Exception e){
-		throw new JspException("Error executing docdetails:derivatecontent tag", e);
-	   }
+			if (nodes.size() > 0) {
+				Object o = getJspContext().getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE);
+				if (o == null) {
+					o = new String("");
+				}
+
+				Node n = (Node) nodes.get(0);
+				Element eN = (Element) n;
+				String derID = eN.getAttributeNS(MCRConstants.XLINK_NAMESPACE.getURI(), "href");
+				String title = eN.getAttributeNS(MCRConstants.XLINK_NAMESPACE.getURI(), "label");
+
+				out.write("<td class=\"" + docdetails.getStylePrimaryName() + "-value\">");
+
+				StringBuffer sbUrl = new StringBuffer(o.toString());
+				sbUrl.append("file/");
+				Document doc = null;
+				Node nd = docdetails.getContext();
+				if (nd instanceof Document) {
+					doc = (Document) nd;
+				} else {
+					doc = nd.getOwnerDocument();
+				}
+				sbUrl.append(doc.getDocumentElement().getAttribute("ID"));
+				sbUrl.append("/");
+				sbUrl.append(derID);
+				sbUrl.append("/");
+
+				boolean doCommitTransaction = false;
+				if (!MCRSessionMgr.getCurrentSession().isTransactionActive()) {
+					doCommitTransaction = true;
+					MCRSessionMgr.getCurrentSession().beginTransaction();
+				}
+
+				MCRDirectory root = MCRDirectory.getRootDirectory(derID);
+				if (root != null) {
+					MCRFilesystemNode[] myfiles = root.getChildren();
+					boolean accessAllowed = MCRAccessManager.checkPermission(derID, "read");
+					for (int j = 0; j < myfiles.length; j++) {
+						MCRFile theFile = (MCRFile) myfiles[j];
+						if (accessAllowed) {
+							String fURL = sbUrl.toString() + theFile.getName();
+							String contentType = theFile.getContentTypeID();
+							if (contentType.contains("html") || contentType.contains("xml")) {
+								out.write("<font size=\"+1\" face=\"times\">");
+								String content = theFile.getContentAsString(encoding);
+								out.write(content);
+								out.write("</font>");
+							}
+							if (contentType.contains("jpeg")) {
+								out.write("<a href=\"" + fURL + "\" target=\"_blank\" title=\""
+										+ docdetails.getMessages().getString("OMD.showLargerImage") + "\"  alt=\""
+										+ docdetails.getMessages().getString("OMD.showLargerImage") + "\">");
+								out.write("<img src=\"" + fURL + "\" width=\"" + width + "\" alt=\"" + title
+										+ "\" /></a>");
+							}
+						}
+					}
+				}
+				if (doCommitTransaction) {
+					MCRSessionMgr.getCurrentSession().commitTransaction();
+				}
+				out.write("</td>");
+			} // error
+		} catch (Exception e) {
+			throw new JspException("Error executing docdetails:derivatecontent tag", e);
+		}
 	}
 
 	/**
 	 * the XPath expression to the element
+	 * 
 	 * @param xpath
 	 */
 	public void setSelect(String xpath) {
@@ -141,7 +146,8 @@ public class MCRDocDetailsDerivateContentTag extends SimpleTagSupport {
 	}
 
 	/**
-	 * the width which should be used to display the content 
+	 * the width which should be used to display the content
+	 * 
 	 * @param width
 	 */
 	public void setWidth(String width) {
@@ -150,6 +156,7 @@ public class MCRDocDetailsDerivateContentTag extends SimpleTagSupport {
 
 	/**
 	 * the encoding of the given file
+	 * 
 	 * @param encoding
 	 */
 	public void setEncoding(String encoding) {
