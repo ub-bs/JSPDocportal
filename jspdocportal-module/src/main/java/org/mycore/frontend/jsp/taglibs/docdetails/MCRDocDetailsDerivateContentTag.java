@@ -36,6 +36,7 @@ import org.mycore.common.MCRConstants;
 import org.mycore.datamodel.ifs.MCRDirectory;
 import org.mycore.datamodel.ifs.MCRFile;
 import org.mycore.datamodel.ifs.MCRFilesystemNode;
+import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -61,7 +62,7 @@ public class MCRDocDetailsDerivateContentTag extends SimpleTagSupport {
 		if(docdetailsRow==null){
 			throw new JspException("This tag must be nested in tag called 'row' of the same tag library");
 		}
-		try {
+		try (MCRHibernateTransactionWrapper htw = new MCRHibernateTransactionWrapper()){
 			JspWriter out = getJspContext().getOut();
 			
 			XPathUtil xu = new XPathUtil((PageContext)getJspContext());
@@ -94,7 +95,7 @@ public class MCRDocDetailsDerivateContentTag extends SimpleTagSupport {
 	    		sbUrl.append("/");
 	    		sbUrl.append(derID);
 	    		sbUrl.append("/");
-	    		
+
 	    		MCRDirectory root = MCRDirectory.getRootDirectory(derID);
 	    		if(root!=null){
 	   		    MCRFilesystemNode[] myfiles = root.getChildren();
