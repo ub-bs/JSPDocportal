@@ -8,11 +8,9 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
-import org.hibernate.Transaction;
-import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.mycore.access.MCRAccessManager;
-import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.MCRSession;
+import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
 import org.mycore.frontend.servlets.MCRServlet;
 
 public class MCRHasAccessTag extends SimpleTagSupport
@@ -36,13 +34,8 @@ public class MCRHasAccessTag extends SimpleTagSupport
 	}
 	
 	public void doTag() throws JspException, IOException {
-		Transaction t1=null;
-		try {
-    		Transaction tx  = MCRHIBConnection.instance().getSession().getTransaction();
-	   		if(tx==null || tx.getStatus() != TransactionStatus.ACTIVE){
-				t1 = MCRHIBConnection.instance().getSession().beginTransaction();
-			}
-			PageContext pageContext = (PageContext) getJspContext();
+		try (MCRHibernateTransactionWrapper htw = new MCRHibernateTransactionWrapper()){
+    		PageContext pageContext = (PageContext) getJspContext();
 			MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)pageContext.getRequest());
 
 			String userID = mcrSession.getUserInformation().getUserID();
@@ -57,12 +50,7 @@ public class MCRHasAccessTag extends SimpleTagSupport
 			}
 		}catch(Exception e){
 			LOGGER.error("could not check access", e);
-		}
-		finally{
-    		if(t1!=null){
-    			t1.commit();
-    		}
-    	}
+		}		
 	}	
 
 }

@@ -8,13 +8,11 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
-import org.hibernate.Transaction;
-import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.jdom2.output.DOMOutputter;
-import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 
 public class MCRReceiveMcrObjAsJdomTag extends SimpleTagSupport
@@ -43,13 +41,8 @@ public class MCRReceiveMcrObjAsJdomTag extends SimpleTagSupport
 	}
 	
 	public void doTag() throws JspException, IOException {
-		Transaction t1=null;
-		try {
-    		Transaction tx  = MCRHIBConnection.instance().getSession().getTransaction();
-	   		if(tx==null || tx.getStatus() != TransactionStatus.ACTIVE){
-				t1 = MCRHIBConnection.instance().getSession().beginTransaction();
-			}
-			org.mycore.datamodel.metadata.MCRObject mcr_obj = new org.mycore.datamodel.metadata.MCRObject();
+		try (MCRHibernateTransactionWrapper htw = new MCRHibernateTransactionWrapper()) {
+    		org.mycore.datamodel.metadata.MCRObject mcr_obj = new org.mycore.datamodel.metadata.MCRObject();
 			if (fromWF) {
 				String[] mcridParts = mcrid.split("_");
 				String savedir = MCRWorkflowDirectoryManager.getWorkflowDirectory(mcridParts[1]);
@@ -70,18 +63,9 @@ public class MCRReceiveMcrObjAsJdomTag extends SimpleTagSupport
 		    	org.w3c.dom.Document domDoc = null;
 	    		domDoc =  new DOMOutputter().output( mcr_obj.createXML());
 	    		pageContext.setAttribute(varDom, domDoc);
-			}
-			if((tx==null || tx.getStatus() != TransactionStatus.ACTIVE) && t1.getStatus() == TransactionStatus.ACTIVE){
-				t1.commit();
-			}
+			}		
     	} catch (Exception e) {
     		logger.error("error in receiving mcr_obj for jdom and dom", e);
     	}
-    	finally{
-    		if(t1!=null && t1.getStatus() == TransactionStatus.ACTIVE){
-    			t1.commit();
-    		}
-    	}
-	}	
-
+    }	
 }

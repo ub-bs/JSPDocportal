@@ -32,10 +32,8 @@ import javax.servlet.jsp.JspWriter;
 
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
-import org.hibernate.Transaction;
-import org.hibernate.resource.transaction.spi.TransactionStatus;
-import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.frontend.MCRFrontendUtil;
+import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
 import org.w3c.dom.Element;
 
 /**
@@ -124,12 +122,7 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
      *            - the JSPOutputWriter
      */
     private void printLeftNav(String[] path, Element currentNode, String cssClass, JspWriter out) {
-        Transaction t1 = null;
-        try {
-            Transaction tx = MCRHIBConnection.instance().getSession().getTransaction();
-            if (tx == null || tx.getStatus() != TransactionStatus.ACTIVE) {
-                t1 = MCRHIBConnection.instance().getSession().beginTransaction();
-            }
+        try (MCRHibernateTransactionWrapper htw = new MCRHibernateTransactionWrapper()) {
             List<Element> printableElements = printableElements(currentNode);
             if (printableElements.isEmpty()) {
                 return;
@@ -179,10 +172,6 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
             out.append(indent).append(" </ul>");
         } catch (Exception ex) {
             LOGGER.error(ex);
-        } finally {
-            if (t1 != null && t1.getStatus() != TransactionStatus.ACTIVE) {
-                t1.commit();
-            }
         }
     }
 
