@@ -29,8 +29,14 @@
 <stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}" layout="1column">
 	<stripes:layout-component name="html_header">
 		<title>${pageTitle}@ <fmt:message key="Webpage.title" /></title>
+
+		<script src="${applicationScope.WebApplicationBaseURL}webjars/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
+		<script src="${applicationScope.WebApplicationBaseURL}webjars/bootstrap/3.3.6/js/bootstrap.min.js" type="text/javascript"></script>
+
+		
 		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_docdetails.css">
 		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_searchresult.css">
+		
 	</stripes:layout-component>
 	<stripes:layout-component name="contents">
 		<div class="row">
@@ -44,6 +50,11 @@
 			  						<img style="vertical-align:middle;" src="${WebApplicationBaseURL}images/pdf_icon.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
 			  							<fmt:message key="Webpage.docdetails.pdfdownload" /></a>    
 							</span>
+							<span class="btn btn-default ir-button-download">  
+			  					<a href="${WebApplicationBaseURL}mcrviewer/id/${mcrid}" target="_blank">
+			  						<img style="vertical-align:middle;height: 30px;width:30px" src="${WebApplicationBaseURL}images/mycore_logo_abstract_48x48.png" title = "<fmt:message key="Webpage.docdetails.mcrviewer" />" />
+			  							<fmt:message key="Webpage.docdetails.mcrviewer" /></a>    
+							</span>
 						</div>
 					</div>
 					<div class="col-sm-3">
@@ -53,6 +64,11 @@
 					</div>
 				</div>
 				<div class="row">
+					<div class="col-sm-9">
+						<hr />
+					</div>
+					<search:mcrviewer mcrid="${param.id}" doctype="pdf" id="divMCRViewer_1" />
+					<div id="divMCRViewer_1" class="col-sm-9" style="height:600px;"></div>
 					<div class="col-sm-12">
 						<hr />
 					</div>

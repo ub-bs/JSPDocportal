@@ -26,6 +26,16 @@
      		</xsl:if>
      	</xsl:for-each>
      </xsl:for-each>
+     
+     <xsl:for-each select="/mycoreobject/structure/derobjects/derobject[@xlink:title='fulltext'][1]">
+        <xsl:variable name="derId" select="@xlink:href" />
+        <xsl:variable name="derXML" select="document(concat('mcrobject:',$derId))" />
+        <xsl:for-each select="$derXML/mycorederivate/derivate/internals/internal">
+          <xsl:if test="string-length(@maindoc)>0">
+            <field name="mcrviewer.pdf">file/<xsl:value-of select="$derXML/mycorederivate/derivate/linkmetas/linkmeta/@xlink:href" />/<xsl:value-of select="$derXML/mycorederivate/@ID" />/<xsl:value-of select="@maindoc" /></field>
+          </xsl:if>
+        </xsl:for-each>
+     </xsl:for-each>
   </xsl:template>
 
   <xsl:template match="metadata">

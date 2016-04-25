@@ -137,6 +137,7 @@
 		<url-pattern>/browse/*</url-pattern>
 		<url-pattern>/site/*</url-pattern>
 		<url-pattern>/metadata/*</url-pattern>
+        <url-pattern>/mcrviewer/*</url-pattern>
 	</servlet-mapping>
     
     <!-- servlets -->
