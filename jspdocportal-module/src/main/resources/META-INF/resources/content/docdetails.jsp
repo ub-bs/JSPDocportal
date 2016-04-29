@@ -8,7 +8,10 @@
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
 <%@ taglib prefix="jspdp-ui" tagdir="/WEB-INF/tags/ui"%>
 <%@ taglib prefix="search" tagdir="/WEB-INF/tags/search"%>
+<%@ taglib prefix="mcrdd" 	uri="http://www.mycore.org/jspdocportal/docdetails.tld"%>
 
+<mcrdd:setnamespace prefix="xlink" uri="http://www.w3.org/1999/xlink" />
+<mcrdd:setnamespace prefix="mods" uri="http://www.loc.gov/mods/v3" />
 <c:set var="WebApplicationBaseURL" value="${applicationScope.WebApplicationBaseURL}" />
 <c:set var="mcrid">
 	<c:choose>
@@ -63,12 +66,29 @@
 						</div>
 					</div>
 				</div>
+				
+				<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='fulltext']">
 				<div class="row">
 					<div class="col-sm-9">
 						<hr />
 					</div>
-					<search:mcrviewer mcrid="${param.id}" doctype="pdf" id="divMCRViewer_1" />
+					<search:mcrviewer mcrid="${param.id}" recordidentifier="${param.id}" doctype="pdf" id="divMCRViewer_2" />
+					<div id="divMCRViewer_2" class="col-sm-9" style="height:600px;"></div>
+				</div>
+				</x:if>
+				
+				<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='DV_METS']">
+				<c:set var="recordidentifier"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier" /></c:set>
+				
+				<div class="row">
+					<div class="col-sm-9">
+						<hr />
+					</div>
+					<search:mcrviewer mcrid="${param.id}" recordidentifier="${recordidentifier}" doctype="mets" id="divMCRViewer_1" />
 					<div id="divMCRViewer_1" class="col-sm-9" style="height:600px;"></div>
+				</div>
+				</x:if>
+				<div class="row">
 					<div class="col-sm-12">
 						<hr />
 					</div>
@@ -84,39 +104,16 @@
 					<search:result-navigator mcrid="${mcrid}" />
 					
 					<div class="docdetails-toolbar">
-						<c:if test="${empty(param.print) and !fn:contains(style,'user')}">
-							<div class="docdetails-toolbar-item">
-								<a href="${WebApplicationBaseURL}content/print_details.jsp?id=${param.id}&fromWF=${param.fromWF}" target="_blank"> <img
-									src="${WebApplicationBaseURL}images/workflow_print.gif" border="0" alt="<fmt:message key="WF.common.printdetails" />" class="imagebutton" height="30" />
-								</a>
-							</div>
+						<c:if test="${empty(param.print)}">
+								<a href="${WebApplicationBaseURL}content/print_details.jsp?id=${param.id}&fromWF=${param.fromWF}" target="_blank"
+								 class="btn btn-default" title="<fmt:message key="WF.common.printdetails" />"> <span class="glyphicon glyphicon-print"></span></a>
+								 <a href="${WebApplicationBaseURL}api/v1/objects/${param.id}" class="btn btn-default" ><span class="glyphicon glyphicon-cog"></span></a>
+
+								<c:if test="${(not from)}">
+									<search:show-edit-button mcrid="${mcrid}" />
+								</c:if>
 						</c:if>
-						<c:if test="${(not from) && !fn:contains(style,'user')}">
-							<search:show-edit-button mcrid="${mcrid}" />
-							<%-- 
- 					<mcr:checkAccess var="modifyAllowed" permission="writedb" key="${mcrid}" />
-    				<mcr:isObjectNotLocked var="bhasAccess" objectid="${mcrid}" />
-    				<c:if test="${modifyAllowed}">
-      					<c:choose>
-    						<c:when test="${bhasAccess}"> 
-	         					
-	         					<div class="docdetails-toolbar-item">
-	         						<form method="get" action="${WebApplicationBaseURL}StartEdit" class="resort">                 
-	            						<input name="mcrid" value="${mcrid}" type="hidden"/>
-										<input title="<fmt:message key="WF.common.object.EditObject" />" src="${WebApplicationBaseURL}images/workflow1.gif" type="image"  class="imagebutton" height="30" />
-	         						</form>
-	         					</div>
-         					</c:when>
-         					<c:otherwise>
-         						<div class="docdetails-toolbar-item">
-         	  						<img title="<fmt:message key="WF.common.object.EditObjectIsLocked" />" border="0" src="${WebApplicationBaseURL}images/workflow_locked.gif" height="30" />
-         	  					</div>
-         					</c:otherwise>
-        				</c:choose>  
-        			</c:if>
-        			--%>
-						</c:if>
-						<div style="clear: both;"></div>
+						
 					</div>
 				</div>
 			</div>
