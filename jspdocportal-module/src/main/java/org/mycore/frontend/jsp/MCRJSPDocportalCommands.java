@@ -47,6 +47,7 @@ import org.jdom2.output.Format;
 import org.mycore.access.MCRAccessException;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRException;
+import org.mycore.common.MCRPersistenceException;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.datamodel.common.MCRActiveLinkException;
 import org.mycore.datamodel.common.MCRXMLMetadataManager;
@@ -289,7 +290,12 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
                     MCRObjectID derID = derLinkID.getXLinkHrefID();
                     LOGGER.info(" ... processing derivate " + derID.toString());
                     if (MCRMetadataManager.exists(derID)) {
+                        try{
                         MCRDerivateCommands.delete(derID.toString());
+                        }
+                        catch(MCRPersistenceException mpe){
+                            LOGGER.error("Could not delete derivate "+ derID.toString(), mpe);
+                        }
                     }
                     File f = new File(objDir, derID.toString() + ".xml");
                     LOGGER.info("Loading derivate " + f.getAbsolutePath() + " : file exists?: " + f.exists());
