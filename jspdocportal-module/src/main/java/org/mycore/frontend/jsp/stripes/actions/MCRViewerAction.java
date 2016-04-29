@@ -1,6 +1,8 @@
 package org.mycore.frontend.jsp.stripes.actions;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrClient;
@@ -70,6 +72,9 @@ public class MCRViewerAction extends MCRAbstractStripesAction implements ActionB
                     pdfProviderURL = String.valueOf(solrDoc.getFieldValue("mcrviewer.pdf"));
                     filePath = pdfProviderURL.substring(pdfProviderURL.lastIndexOf("/") + 1);
                 }
+                else{
+                    doctype="mets";
+                }
             }
 
         } catch (SolrServerException | IOException e) {
@@ -85,10 +90,6 @@ public class MCRViewerAction extends MCRAbstractStripesAction implements ActionB
 
     public String getIdentifier() {
         return identifier;
-    }
-
-    public String getObjectID() {
-        return field + "/" + identifier;
     }
 
     public String getFilePath() {
@@ -108,6 +109,14 @@ public class MCRViewerAction extends MCRAbstractStripesAction implements ActionB
     }
 
     public void setIdentifier(String identifier) {
+        if(identifier != null){
+            try{
+                identifier = URLDecoder.decode(URLDecoder.decode(identifier, "UTF-8"), "UTF-8");
+            }
+            catch(UnsupportedEncodingException uee){
+                //does not happen
+            }
+        }
         this.identifier = identifier;
     }
 
