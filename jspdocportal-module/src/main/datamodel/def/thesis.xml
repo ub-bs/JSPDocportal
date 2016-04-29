@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objecttype xmlns:mods="http://www.loc.gov/mods/v3" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	name="thesis" isChild="false" isParent="false" hasDerivates="true" xsi:noNamespaceSchemaLocation="datamodel.xsd">
-	<metadata>
-		<element name="modsContainer" type="xml" minOccurs="0" maxOccurs="unbounded" />
+	<xsd>
+      <xs:import namespace="http://www.loc.gov/mods/v3" schemaLocation="http://www.loc.gov/standards/mods/v3/mods-3-6.xsd" />
+    </xsd>
+    <metadata>
+		<element name="modsContainer" type="xml" minOccurs="0" maxOccurs="unbounded">
+          <xs:sequence>
+            <xs:element ref="mods:mods"/>
+          </xs:sequence>
+        </element>
 		<element name="urn" type="text" minOccurs="0" maxOccurs="unbounded" />
 		<element name="identifier" type="text" minOccurs="0" maxOccurs="unbounded" />
 		<element name="title" type="text" minOccurs="0" maxOccurs="unbounded" />
