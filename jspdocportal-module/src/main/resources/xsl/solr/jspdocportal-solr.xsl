@@ -42,6 +42,7 @@
     <xsl:apply-imports/>
   
   	<xsl:for-each select="def.modsContainer/modsContainer/mods:mods">
+        <field name="recordIdentifier"><xsl:value-of select="mods:recordInfo/mods:recordIdentifier" /></field>
   		<xsl:variable name="var_creator">
   			<xsl:for-each select="mods:name[mods:role/mods:roleTerm/@valueURI='http://id.loc.gov/vocabulary/relators/aut']">
   				<xsl:if test="position()> 1">, </xsl:if>
