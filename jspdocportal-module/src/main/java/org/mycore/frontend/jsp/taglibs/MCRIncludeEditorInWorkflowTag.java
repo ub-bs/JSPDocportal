@@ -188,7 +188,7 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 	        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
 		
 	        transformer.clearParameters();
-	        MCRParameterCollector paramColl = new MCRParameterCollector((HttpServletRequest)pageContext.getRequest());
+	        MCRParameterCollector paramColl = MCRParameterCollector.getInstanceFromUserSession();
 		    paramColl.setParametersTo(transformer);
 	        transformer.transform(xmlSource, new StreamResult(out));
 		}

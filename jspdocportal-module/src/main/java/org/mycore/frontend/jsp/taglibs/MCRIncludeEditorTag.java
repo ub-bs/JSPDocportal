@@ -7,7 +7,6 @@ import java.net.URL;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 import javax.xml.transform.OutputKeys;
@@ -82,7 +81,7 @@ public class MCRIncludeEditorTag extends SimpleTagSupport {
 			 * name="HttpSession" /> <xsl:param name="JSessionID" />
 			 */
 			transformer.clearParameters();
-			MCRParameterCollector paramColl = new MCRParameterCollector((HttpServletRequest) pageContext.getRequest());
+			MCRParameterCollector paramColl = MCRParameterCollector.getInstanceFromUserSession();
 			paramColl.setParametersTo(transformer);
 			if (cancelPage != null && cancelPage.length() > 0) {
 				paramColl.setParameter("cancelUrl", cancelPage);
