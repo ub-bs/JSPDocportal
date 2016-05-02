@@ -65,6 +65,7 @@
                     updateHistory: false,
                     viewerLocationPattern:"{baseURL}/mcrviewer/id/{derivate}/{file}"
                 }
+                
             });
         });
     </script>
@@ -110,6 +111,7 @@
                 pdfCreatorStyle: "pdf",
                 pdfCreatorURI: "http://wrackdm17.thulb.uni-jena.de/mets-printer/pdf",
                 metadataURL: "",
+                derivateURL : "${applicationScope.WebApplicationBaseURL}depot/${fn:replace(actionBean.identifier,'/','%252F')}/",
                 objId: "",
                 webApplicationBaseURL: "${applicationScope.WebApplicationBaseURL}",
                 imageOverview : {
@@ -128,6 +130,9 @@
                     overview: {
                         enabled: true
                     }
+                },
+                text: {
+                	enabled: false
                 }
             });
 	   });
