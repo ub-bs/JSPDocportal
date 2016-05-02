@@ -74,7 +74,8 @@ button[data-id='CloseViewerButton']{
                 i18nURL: "${applicationScope.WebApplicationBaseURL}modules/iview2/i18n/{lang}.json",
                 lang: "de",
                 webApplicationBaseURL: "${applicationScope.WebApplicationBaseURL}",
-
+                "derivateURL" : "${applicationScope.WebApplicationBaseURL}depot/${fn:replace(actionBean.identifier,'/','%252F')}/",
+                
                 "canvas.startup.fitWidth": true,
                 "canvas.overview.enabled": false,
                 permalink: {
