@@ -13,10 +13,9 @@
     <xsl:for-each select="/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods">
       <xsl:for-each select="./mods:relatedItem[@type='host']">
          <xsl:for-each select="./mods:recordInfo/mods:recordIdentifier">
-            <xsl:variable name="url"><xsl:value-of select="$WebApplicationBaseURL" />api/v1/objects/recordIdentifier:<xsl:value-of select="substring-before(., '/')"/>%252F<xsl:value-of select="substring-after(., '/')"/></xsl:variable>
               <span class="button">
                   <xsl:element name="a">
-                       <xsl:attribute name="href"><xsl:value-of select="$WebApplicationBaseURL" />resolve/id/<xsl:value-of select="document($url)/mycoreobject/@ID" /></xsl:attribute>
+                       <xsl:attribute name="href"><xsl:value-of select="$WebApplicationBaseURL" />resolve/recordIdentifier/<xsl:value-of select="substring-before(., '/')"/>%252F<xsl:value-of select="substring-after(., '/')"/></xsl:attribute>
                        <xsl:attribute name="title"><xsl:value-of select="./mods:titleInfo/mods:title" /></xsl:attribute>
                         zum übergeordneten Dokument
                   </xsl:element>

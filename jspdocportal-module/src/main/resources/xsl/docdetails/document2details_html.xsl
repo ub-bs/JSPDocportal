@@ -304,15 +304,16 @@
           </tr>
             <xsl:variable name="derID" select="/mycoreobject/structure/derobjects/derobject[@xlink:title='METS' or @xlink:title='DV_METS']/@xlink:href" />
             <xsl:if test="$derID">
-              <xsl:variable name="url"><xsl:value-of select="$WebApplicationBaseURL"/>api/v1/objects/<xsl:value-of select="/mycoreobject/@ID" />/derivates/<xsl:value-of select="$derID" />/files</xsl:variable>
-              <xsl:variable name="derLink" select="document($url)/files/file[1]" />
+              <xsl:variable name="url"><xsl:value-of select="$WebApplicationBaseURL"/>api/v1/objects/<xsl:value-of select="/mycoreobject/@ID" />/derivates/<xsl:value-of select="$derID" /></xsl:variable>
+              <xsl:variable name="maindoc"><xsl:value-of select="document($url)/mycorederivate/derivate/internals/internal/@maindoc" /></xsl:variable>
+              <xsl:variable name="derLink"><xsl:value-of select="$WebApplicationBaseURL"/>file/<xsl:value-of select="/mycoreobject/@ID" />/<xsl:value-of select="$derID" />/<xsl:value-of select="$maindoc" /></xsl:variable>
               <xsl:if test="$derLink">
                 <tr class="div-technical-data" style="display:none">
                   <td class="docdetails-label">DV-METS:</td>
                   <td class="docdetails-values">
                     <xsl:element name="a">
-                      <xsl:attribute name="href"><xsl:value-of select="$derLink/@href" /></xsl:attribute>
-                      <xsl:value-of select="$derLink/@name" />
+                      <xsl:attribute name="href"><xsl:value-of select="$derLink" /></xsl:attribute>
+                      <xsl:value-of select="$maindoc" />
                     </xsl:element>
                   </td>
                 </tr>
