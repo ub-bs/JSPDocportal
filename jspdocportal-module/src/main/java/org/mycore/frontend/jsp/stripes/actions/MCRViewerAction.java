@@ -41,6 +41,8 @@ public class MCRViewerAction extends MCRAbstractStripesAction implements ActionB
     private String pdfProviderURL = null;
 
     private String doctype = null;
+    
+    private String recordIdentifier = null;
 
 
 
@@ -67,6 +69,7 @@ public class MCRViewerAction extends MCRAbstractStripesAction implements ActionB
             SolrDocumentList solrResults = solrResponse.getResults();
             if (solrResults.size() > 0) {
                 SolrDocument solrDoc = solrResults.get(0);
+                recordIdentifier = String.valueOf(solrDoc.getFieldValue("recordIdentifier"));
                 if (solrDoc.getFieldNames().contains("ir.pdffulltext_url")) {
                     doctype = "pdf";
                     pdfProviderURL = String.valueOf(solrDoc.getFieldValue("ir.pdffulltext_url"));
@@ -130,6 +133,10 @@ public class MCRViewerAction extends MCRAbstractStripesAction implements ActionB
 
     public void setDoctype(String doctype) {
         this.doctype = doctype;
+    }
+
+    public String getRecordIdentifier() {
+        return recordIdentifier;
     }
 
 }

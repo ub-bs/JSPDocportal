@@ -27,7 +27,7 @@ button[data-id='CloseViewerButton']{
 		var config = {
                 "mobile": false,
                 pdfProviderURL: "${applicationScope.WebApplicationBaseURL}${actionBean.pdfProviderURL}",
-                derivate: "${actionBean.identifier}",
+                derivate: "${actionBean.recordIdentifier}",
                 filePath: "${actionBean.filePath}",
                 doctype: "pdf",
                 startImage: "1",
@@ -65,16 +65,16 @@ button[data-id='CloseViewerButton']{
                 mobile: false,
                 doctype: "mets",
                 
-                derivate: "${fn:replace(actionBean.identifier,'/','%252F')}",
+                derivate: "${fn:replace(actionBean.recordIdentifier,'/','%252F')}",
                 filePath: "${actionBean.filePath}",
-                metsURL: "${applicationScope.WebApplicationBaseURL}depot/${fn:replace(actionBean.identifier,'/','%252F')}/${fn:substringAfter(actionBean.identifier, '/')}.iview2.mets.xml",
+                metsURL: "${applicationScope.WebApplicationBaseURL}depot/${fn:replace(actionBean.recordIdentifier,'/','%252F')}/${fn:substringAfter(actionBean.recordIdentifier, '/')}.iview2.mets.xml",
                 imageXmlPath: "${applicationScope.WebApplicationBaseURL}tiles",
                 tileProviderPath: "${applicationScope.WebApplicationBaseURL}tiles",
                 
                 i18nURL: "${applicationScope.WebApplicationBaseURL}modules/iview2/i18n/{lang}.json",
                 lang: "de",
                 webApplicationBaseURL: "${applicationScope.WebApplicationBaseURL}",
-                derivateURL : "${applicationScope.WebApplicationBaseURL}depot/${fn:replace(actionBean.identifier,'/','%252F')}/",
+                derivateURL : "${applicationScope.WebApplicationBaseURL}depot/${fn:replace(actionBean.recordIdentifier,'/','%252F')}/",
                 
                 "canvas.startup.fitWidth": true,
                 "canvas.overview.enabled": false,
