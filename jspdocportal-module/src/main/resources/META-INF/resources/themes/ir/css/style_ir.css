@@ -3,6 +3,10 @@ table.ir-table-docdetails {
 	font-size: 90%
 }
 
+.table.ir-table-docdetails:empty {
+    margin-bottom: 0px;
+}
+
 table.ir-table-docdetails>tbody>tr>th {
 	width: 175px;
 	font-weight: normal;

@@ -13,7 +13,7 @@
 
   <xsl:template match="/">
     <xsl:for-each select="/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods">
-      <table class="table ir-table-docdetails" style="width:100%">
+      <table class="table ir-table-docdetails">
         <tr>
           <th>
             <xsl:value-of select="i18n:translate('OMD.institution')" />
@@ -72,7 +72,7 @@
         </tr>
       </table>
       
-      <table class="table ir-table-docdetails" style="width:100%">
+      <table class="table ir-table-docdetails">
         <xsl:for-each select="mods:titleInfo[@type='translated']">
           <tr>
           <th>
@@ -134,7 +134,7 @@
         </tr>
       </table>
       
-      <table class="table ir-table-docdetails" style="width:100%">
+      <table class="table ir-table-docdetails">
        <tr>
           <th>
             <xsl:value-of select="i18n:translate('OMD.urns')" />
@@ -156,7 +156,7 @@
           </tr>
       </table>
       </xsl:for-each>
-      <table class="table ir-table-docdetails" style="width:100%">
+      <table class="table ir-table-docdetails">
         <tr>
           <th><xsl:value-of select="i18n:translate('OMD.created_changed')" />:</th>
           <td>
