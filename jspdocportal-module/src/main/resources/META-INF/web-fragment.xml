@@ -75,7 +75,7 @@
 		<filter-class>net.sourceforge.stripes.controller.StripesFilter</filter-class>
 		<init-param>
 			<param-name>ActionResolver.Packages</param-name>
-			<param-value>org.mycore.frontend.jsp.stripes.actions,de.uni_rostock.ub.rosdok.stripes.actions,de.uni_rostock.ub.rosdok.dissonline.action</param-value>
+			<param-value>org.mycore.frontend.jsp.stripes.actions,de.uni_rostock.ub.rosdok.stripes.actions,de.uni_rostock.ub.rosdok.dissonline.action,de.uni.rostock.ub.tools.pdfdownload.action</param-value>
 		</init-param>
 		
 		<init-param>
@@ -138,6 +138,7 @@
 		<url-pattern>/site/*</url-pattern>
 		<url-pattern>/metadata/*</url-pattern>
         <url-pattern>/mcrviewer/*</url-pattern>
+        <url-pattern>/pdfdownload/recordIdentifier/*</url-pattern>
 	</servlet-mapping>
     
     <!-- servlets -->
