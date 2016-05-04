@@ -18,6 +18,7 @@
 				</h4>
 			</td></tr>
 			<tr><td>${data.data['ir.originInfo.result']}</td></tr>
+			<tr><td>${data.data['ir.shelfLocator.result']}</td></tr>
 			<tr><td style="font-style: italic; text-align:justify">${data.data['ir.abstract300.result']}</td></tr>
 			<tr><td>${data.data['purl']}</td></tr>
 		</table>

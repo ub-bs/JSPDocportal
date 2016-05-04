@@ -33,7 +33,7 @@
       </span>
       </p>
       <p>
-      <xsl:call-template name="mods-place-date" />
+      <xsl:call-template name="mods-originInfo" />
       </p>
       
        <xsl:if test="./mods:abstract">

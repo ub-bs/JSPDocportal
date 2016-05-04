@@ -23,6 +23,7 @@
 package org.mycore.frontend.jsp.taglibs;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
@@ -33,8 +34,10 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.log4j.Logger;
+import org.mycore.common.xsl.MCRParameterCollector;
 import org.mycore.common.xsl.MCRTemplatesSource;
 import org.mycore.common.xsl.MCRXSLTransformerFactory;
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 /**
@@ -48,44 +51,50 @@ import org.w3c.dom.Node;
  *
  */
 public class MCRTransformXslTag extends SimpleTagSupport {
-	private Node node;
-	private String stylesheet;
+    private Node node;
 
-		
-	public void doTag() throws JspException, IOException {
-		try
-		{
-		    MCRTemplatesSource source = new MCRTemplatesSource(stylesheet);
-		    Transformer t = MCRXSLTransformerFactory.getTransformer(source);
-		    
-		    Source input = new DOMSource(node);
-		    Result output = new StreamResult(getJspContext().getOut());
-		    
-		    t.transform(input, output);
-		}
-		catch( Exception e )
-		{
-			Logger.getLogger(MCRTransformXslTag.class).error("Something went wrong processing the XSLT: "+ stylesheet, e);
-		}
-	}
+    private String stylesheet;
 
+    public void doTag() throws JspException, IOException {
+        try {
+            if (node instanceof Document && false) {
+/*
+                MCRXSL2XMLTransformer transformer = MCRXSL2XMLTransformer.getInstance(stylesheet);
+                MCRParameterCollector parameterCollector = MCRParameterCollector.getInstanceFromUserSession();
+                //parameterCollector.setParameters(parameters);
+                transformer.transform(new MCRDOMContent((Document)node), getJspContext().getOut(), parameterCollector);
+*/
+            } else {
+                MCRTemplatesSource source = new MCRTemplatesSource(stylesheet);
+                Transformer t = MCRXSLTransformerFactory.getTransformer(source);
+                Map<String, Object> params = MCRParameterCollector.getInstanceFromUserSession().getParameterMap();
+                for (String k : params.keySet()) {
+                    t.setParameter(k, params.get(k));
+                }
+                Source input = new DOMSource(node);
+                Result output = new StreamResult(getJspContext().getOut());
+
+                t.transform(input, output);
+            }
+        } catch (Exception e) {
+            Logger.getLogger(MCRTransformXslTag.class).error("Something went wrong processing the XSLT: " + stylesheet,
+                e);
+        }
+    }
 
     public Node getXml() {
         return node;
     }
 
-
     public void setXml(Node node) {
         this.node = node;
     }
-
 
     public String getXslt() {
         return stylesheet;
     }
 
-
     public void setXslt(String stylesheet) {
         this.stylesheet = stylesheet;
-    }    	
+    }
 }

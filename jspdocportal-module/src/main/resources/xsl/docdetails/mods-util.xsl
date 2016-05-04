@@ -4,6 +4,7 @@
      xmlns:mods="http://www.loc.gov/mods/v3" xmlns:xlink="http://www.w3.org/1999/xlink" 
      version="1.0" exclude-result-prefixes="mods xlink">
 <xsl:output method="xml" indent="yes" omit-xml-declaration="yes" encoding="UTF-8" />     
+
 <xsl:template name="mods-title">
   <xsl:for-each select="./mods:titleInfo[@usage='primary']">
     <h4>
@@ -11,22 +12,23 @@
         <xsl:value-of select="./mods:nonSort" />&#160;<xsl:value-of select="./mods:title" />  
       </xsl:if>
       <xsl:if test="not(./mods:nonSort)">
-        <xsl:value-of select="./mods:title" />  
+        <xsl:value-of select="./mods:title" />
+        <xsl:if test="./mods:subTitle">&#160;:&#160;</xsl:if>  
       </xsl:if>
     </h4>
     <xsl:if test="./mods:subTitle">
-      <h5>
+      <h4>
         <xsl:value-of select="./mods:subTitle" />
-      </h5>
+      </h4>
     </xsl:if>
 
     <xsl:if test="./mods:partNumber or ./mods:partName">
       <br />
-      <strong>
+      <h5>
         <xsl:value-of select="./mods:partNumber" />
         <xsl:if test="./mods:partNumber and ./mods:partName">: </xsl:if>
         <xsl:value-of select="./mods:partName" />
-      </strong>
+      </h5>
   </xsl:if>
   </xsl:for-each>
 </xsl:template>
@@ -204,27 +206,27 @@
 
 
 
-<xsl:template name="mods-place-date">
- <xsl:for-each select="./mods:originInfo[@eventType='creation' or @eventType='publication'][last()]">
-        <xsl:value-of select="./mods:place/mods:placeTerm" />
-        <xsl:if test="./mods:publisher">
-        :&#160; <xsl:value-of select="./mods:publisher" />
-        </xsl:if>
-        ,&#160;
-        <xsl:value-of select="./mods:dateCaptured" />
-        <xsl:value-of select="./mods:dateCreated" />
-        <xsl:choose>
-        <xsl:when test="./mods:dateIssued[@point='start' or @point='end']">
-        <xsl:value-of select="./mods:dateIssued[@point='start']" />
-        -
-        <xsl:value-of select="./mods:dateIssued[@point='end']" />
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:value-of select="./mods:dateIssued" />
-        </xsl:otherwise>
-        </xsl:choose>
-        
-      </xsl:for-each>
+<xsl:template name="mods-originInfo">
+            <xsl:choose>
+              <xsl:when test="mods:originInfo[@eventType='publication']"> 
+                <xsl:for-each select="mods:originInfo[@eventType='publication'][1]">
+                  <xsl:if test="mods:edition"><xsl:value-of select="mods:edition" /><xsl:value-of select="' , '" /></xsl:if>    
+                  <xsl:if test="mods:place/mods:placeTerm"><xsl:value-of select="mods:place/mods:placeTerm" /><xsl:value-of select="' : '" /></xsl:if>
+                  <xsl:if test="mods:publisher"><xsl:value-of select="mods:publisher" /><xsl:value-of select="' , '" /></xsl:if>
+                  <xsl:value-of select="mods:dateIssued" />
+                    <xsl:value-of select="mods:dateCreated[@qualifier='approximate']" />
+                </xsl:for-each>  
+              </xsl:when>
+              <xsl:when test="mods:originInfo[@eventType='creation']"> 
+                <xsl:for-each select="mods:originInfo[@eventType='creation'][1]">
+                  <xsl:if test="mods:edition"><xsl:value-of select="mods:edition" /><xsl:value-of select="' , '" /></xsl:if>    
+                  <xsl:if test="mods:place/mods:placeTerm"><xsl:value-of select="mods:place/mods:placeTerm" /><xsl:value-of select="' : '" /></xsl:if>
+                  <xsl:if test="mods:publisher"><xsl:value-of select="mods:publisher" /><xsl:value-of select="' , '" /></xsl:if>
+                  <xsl:value-of select="mods:dateIssued" />
+                  <xsl:value-of select="mods:dateCreated[@qualifier='approximate']" />
+                </xsl:for-each>  
+              </xsl:when>
+            </xsl:choose>
 </xsl:template>
 
 <xsl:template name="language">

@@ -43,7 +43,7 @@
 	</stripes:layout-component>
 	<stripes:layout-component name="contents">
 		<div class="row">
-			<div class="col-md-9">
+			<div class="col-md-8">
 				<div class="row">
 					<div class="col-sm-9">
 						<div class="ur-box ir-docdetails-header">
@@ -69,11 +69,11 @@
 				
 				<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='fulltext']">
 				<div class="row">
-					<div class="col-sm-9">
+					<div class="col-sm-12">
 						<hr />
 					</div>
 					<search:mcrviewer mcrid="${param.id}" recordidentifier="${param.id}" doctype="pdf" id="divMCRViewer_2" />
-					<div id="divMCRViewer_2" class="col-sm-9" style="height:600px;"></div>
+					<div id="divMCRViewer_2" class="col-sm-12" style="height:600px;"></div>
 				</div>
 				</x:if>
 				
@@ -81,11 +81,11 @@
 				<c:set var="recordidentifier"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier" /></c:set>
 				
 				<div class="row">
-					<div class="col-sm-9">
+					<div class="col-sm-12">
 						<hr />
 					</div>
 					<search:mcrviewer mcrid="${param.id}" recordidentifier="${recordidentifier}" doctype="mets" id="divMCRViewer_1" />
-					<div id="divMCRViewer_1" class="col-sm-9" style="height:600px;"></div>
+					<div id="divMCRViewer_1" class="col-sm-12" style="height:600px;"></div>
 				</div>
 				</x:if>
 				<div class="row">
@@ -99,7 +99,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-3">
+			<div class="col-md-4">
 				<div class="ur-box">
 					<search:result-navigator mcrid="${mcrid}" />
 					
@@ -107,8 +107,12 @@
 						<c:if test="${empty(param.print)}">
 								<a href="${WebApplicationBaseURL}content/print_details.jsp?id=${param.id}&fromWF=${param.fromWF}" target="_blank"
 								 class="btn btn-default" title="<fmt:message key="WF.common.printdetails" />"> <span class="glyphicon glyphicon-print"></span></a>
-								 <a href="${WebApplicationBaseURL}api/v1/objects/${param.id}" class="btn btn-default" ><span class="glyphicon glyphicon-cog"></span></a>
-
+								 <a href="${WebApplicationBaseURL}api/v1/objects/${param.id}" class="btn btn-default" title="open MyCoRe object XML"><span class="glyphicon glyphicon-cog"></span></a>
+								 <a href="${WebApplicationBaseURL}receive/${param.id}?XSL.Style=solrdocument" class="btn btn-default" title="open SOLR input document"><span class="glyphicon glyphicon-lamp"></span></a>
+								 <x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='REPOS_METS']">
+								 	<c:set var="derid"><x:out select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='REPOS_METS']/@xlink:href" /></c:set>
+								 	<a href="${WebApplicationBaseURL}api/v1/objects/${param.id}/derivates/${derid}/open" class="btn btn-default" title="open REPOS_METS" ><span class="glyphicon glyphicon-folder-open"></span></a>
+								</x:if>
 								<c:if test="${(not from)}">
 									<search:show-edit-button mcrid="${mcrid}" />
 								</c:if>

@@ -67,9 +67,9 @@ public class MCRViewerAction extends MCRAbstractStripesAction implements ActionB
             SolrDocumentList solrResults = solrResponse.getResults();
             if (solrResults.size() > 0) {
                 SolrDocument solrDoc = solrResults.get(0);
-                if (solrDoc.getFieldNames().contains("mcrviewer.pdf")) {
+                if (solrDoc.getFieldNames().contains("ir.pdffulltext_url")) {
                     doctype = "pdf";
-                    pdfProviderURL = String.valueOf(solrDoc.getFieldValue("mcrviewer.pdf"));
+                    pdfProviderURL = String.valueOf(solrDoc.getFieldValue("ir.pdffulltext_url"));
                     filePath = pdfProviderURL.substring(pdfProviderURL.lastIndexOf("/") + 1);
                 }
                 else{

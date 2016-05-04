@@ -57,7 +57,10 @@ public class MCRSearchResultEntry {
 				data.put(df, String.valueOf(o));
 			}
 		}
-		Object o = solrDoc.getFirstValue("cover_url");
+		Object o = solrDoc.getFirstValue("ir.cover_url");
+		if(o==null){
+		    o = solrDoc.getFirstValue("cover_url");
+		}
 		if (o != null) {
 			coverURL = (String.valueOf(o));
 		} else {

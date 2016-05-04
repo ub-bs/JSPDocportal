@@ -131,7 +131,7 @@ public class MCRSearchResultDataBean implements Serializable {
        }
       
        for(String fq:filterQueries){
-           if(fq.contains("ds.pubyear")){
+           if(fq.contains("ir.pubyear_start") || fq.contains("ir.pubyear_end")){
                fq = fq.replace("'",  "");
            }
            solrQuery.addFilterQuery(fq);

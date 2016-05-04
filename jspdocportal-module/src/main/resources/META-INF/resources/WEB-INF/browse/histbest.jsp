@@ -26,9 +26,6 @@
 						<c:set var="doctype" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
 						<search:show-edit-button mcrid="${mcrid}" />
 						<c:choose>
-							<c:when test="${doctype eq 'disshab'}">
-								<search:result-entry-disshab data="${entry}" url="${url}" />
-							</c:when>
 							<c:when test="${doctype eq 'document'}">
 								<search:result-entry-document data="${entry}" url="${url}" />
 							</c:when>
@@ -47,7 +44,7 @@
           			 	<c:if test="${not empty actionBean.result.filterQueries}">
   							<div class="panel-heading">
   								<c:forEach var="fq" items="${actionBean.result.filterQueries}">
-  									<c:url var="url" value="${WebApplicationBaseURL}browse/epub">
+  									<c:url var="url" value="${WebApplicationBaseURL}browse/histbest">
   										<c:param name="_search" value="${actionBean.result.id}" />
   										<c:param name="_remove-filter" value="${fq}" />
 									</c:url>
@@ -59,7 +56,7 @@
   										<c:if test="${not fn:startsWith(fq, '-')}">
   											<span class="glyphicon glyphicon-plus pull-left"></span>
   										</c:if>
-  										<c:set var="c"><fmt:message key="Browse.Filter.epub.${fn:substringBefore(fn:substring(fq, 1, -1),':')}"/>:${fn:substringAfter(fn:substring(fq, 1, -1),':')}</c:set>
+  										<c:set var="c"><fmt:message key="Browse.Filter.histbest.${fn:substringBefore(fn:substring(fq, 1, -1),':')}"/>:${fn:substringAfter(fn:substring(fq, 1, -1),':')}</c:set>
   										<span style="padding-left:6px" class="pull-left">${c}</span>
   									</a>
   								</c:forEach>
@@ -69,10 +66,11 @@
   							<div class="col-sm-9">
     							<div class="form-group">
     							  	<select id="filterField" name="filterField" class="form-control" style="width:100%">
-  										<option value="ir.creator_all"><fmt:message key="Browse.Filter.epub.ir.creator_all"/></option>
-  										<option value="ir.title_all"><fmt:message key="Browse.Filter.epub.ir.title_all"/></option>
-  										<option value="ir.pubyear_start"><fmt:message key="Browse.Filter.epub.ir.pubyear_start"/></option>
-  										<option value="ir.pubyear_end"><fmt:message key="Browse.Filter.epub.ir.pubyear_end" /></option>
+  										<option value="ir.creator_all"><fmt:message key="Browse.Filter.histbest.ir.creator_all"/></option>
+  										<option value="ir.title_all"><fmt:message key="Browse.Filter.histbest.ir.title_all"/></option>
+  										<option value="ir.pubyear_start"><fmt:message key="Browse.Filter.histbest.ir.pubyear_start"/></option>
+  										<option value="ir.pubyear_end"><fmt:message key="Browse.Filter.histbest.ir.pubyear_end" /></option>
+ 									
  									</select>
    								</div>
   								<div class="form-group">
@@ -82,14 +80,14 @@
   							<script type="text/javascript">
   								function changeFilterIncludeURL() {
   									window.location=$("meta[name='mcr:baseurl']").attr("content")
-  										 	       + "browse/epub?_search="
+  										 	       + "browse/histbest?_search="
   										           + $("meta[name='mcr:search.id']").attr("content")
   											       + "&_add-filter="
   											       + encodeURIComponent("+" + $("#filterField option:selected").val()+":'"+$("#filterValue").val()+"'");
   								}
   								function changeFilterExcludeURL() {
   									window.location=$("meta[name='mcr:baseurl']").attr("content")
-  											       + "browse/epub?_search="
+  											       + "browse/histbest?_search="
   										           + $("meta[name='mcr:search.id']").attr("content")
   											       + "&_add-filter="
   											       + encodeURIComponent("-" + $("#filterField option:selected").val()+":'"+$("#filterValue").val()+"'");
