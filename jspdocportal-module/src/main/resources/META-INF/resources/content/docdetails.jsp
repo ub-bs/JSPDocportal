@@ -72,8 +72,12 @@
 					<div class="col-sm-12">
 						<hr />
 					</div>
-					<search:mcrviewer mcrid="${param.id}" recordidentifier="${param.id}" doctype="pdf" id="divMCRViewer_2" />
-					<div id="divMCRViewer_2" class="col-sm-12" style="height:600px;"></div>
+				</div>
+				<div class="row">	
+					<div class="col-sm-12">
+						<search:mcrviewer mcrid="${param.id}" recordidentifier="${param.id}" doctype="pdf" id="divMCRViewer_2" />
+						<div id="divMCRViewer_2" style="height:600px; margin:0px 16px; position:relative;"></div>
+					</div>
 				</div>
 				</x:if>
 				
@@ -84,8 +88,12 @@
 					<div class="col-sm-12">
 						<hr />
 					</div>
-					<search:mcrviewer mcrid="${param.id}" recordidentifier="${recordidentifier}" doctype="mets" id="divMCRViewer_1" />
-					<div id="divMCRViewer_1" class="col-sm-12" style="height:600px;"></div>
+				</div>
+				<div class="row">		
+					<div class="col-sm-12">
+						<search:mcrviewer mcrid="${param.id}" recordidentifier="${recordidentifier}" doctype="mets" id="divMCRViewer_1" />
+						<div id="divMCRViewer_1" style="height:600px; margin:0px 16px; position:relative;"></div>
+					</div>
 				</div>
 				</x:if>
 				<div class="row">
