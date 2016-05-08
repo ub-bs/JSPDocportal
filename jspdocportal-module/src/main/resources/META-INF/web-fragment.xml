@@ -369,16 +369,6 @@
     <url-pattern>/tiles/*</url-pattern>
   </servlet-mapping>
   
-  <servlet>
-    <servlet-name>MCRDepotAPIServlet</servlet-name>
-    <servlet-class>org.mycore.frontend.servlets.MCRDepotAPIServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>MCRDepotAPIServlet</servlet-name>
-    <url-pattern>/depot/*</url-pattern>
-  </servlet-mapping>
-  
-  
   <!-- **************************************************************** -->
   <!-- MyCoRe OAI                                                       -->
   <!-- **************************************************************** -->
