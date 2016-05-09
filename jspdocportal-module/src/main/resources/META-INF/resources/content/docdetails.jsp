@@ -49,27 +49,27 @@
 						<div class="ur-box ir-docdetails-header">
 							<mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/${objectType}2header_html.xsl" />
 							<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='fulltext']">
-								<span class="btn btn-default ir-button-download pull-right">  
-			  						<a href="${WebApplicationBaseURL}resolve/id/${mcrid}/file/fulltext" target="_blank">
+								<a class="btn btn-default ir-button-download pull-right"  
+			  					   href="${WebApplicationBaseURL}resolve/id/${mcrid}/file/fulltext" target="_blank">
 			  							<img style="vertical-align:middle;" src="${WebApplicationBaseURL}images/pdf_icon.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
-			  								<fmt:message key="Webpage.docdetails.pdfdownload" /></a>    
-								</span>
+			  								<fmt:message key="Webpage.docdetails.pdfdownload" />
+								</a>
 							</x:if>
 							<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='DV_METS']">
 								<c:set var="recordID"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier[@source='DE-28']" /></c:set>
 								<c:if test="${not empty recordID}">
-									<span class="btn btn-default ir-button-download pull-right">  
-			  							<a href="${WebApplicationBaseURL}pdfdownload/recordIdentifier/${fn:replace(recordID, '/','%252F')}" target="_blank">
+									<a class="btn btn-default ir-button-download pull-right"  
+			  						   href="${WebApplicationBaseURL}pdfdownload/recordIdentifier/${fn:replace(recordID, '/','%252F')}" target="_blank">
 			  								<img style="vertical-align:middle;" src="${WebApplicationBaseURL}images/pdf_icon.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
-			  								<fmt:message key="Webpage.docdetails.pdfdownload" /></a>    
-									</span>
+			  								<fmt:message key="Webpage.docdetails.pdfdownload" />
+			  						</a>
 								</c:if>
 							</x:if>
-							<span class="btn btn-default ir-button-download">  
-			  					<a href="${WebApplicationBaseURL}mcrviewer/id/${mcrid}" target="_blank">
+							<a class="btn btn-default ir-button-download"  
+			  					href="${WebApplicationBaseURL}mcrviewer/id/${mcrid}" target="_blank">
 			  						<img style="vertical-align:middle;height: 30px;width:30px" src="${WebApplicationBaseURL}images/mycore_logo_abstract_48x48.png" title = "<fmt:message key="Webpage.docdetails.mcrviewer" />" />
-			  							<fmt:message key="Webpage.docdetails.mcrviewer" /></a>    
-							</span>
+			  							<fmt:message key="Webpage.docdetails.mcrviewer" />
+			  				</a>							
 						</div>
 					</div>
 					<div class="col-sm-3">

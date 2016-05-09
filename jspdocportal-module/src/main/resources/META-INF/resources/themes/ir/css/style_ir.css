@@ -35,11 +35,8 @@ div.ir-docdetails-header {
 	
 }
 
-span.ir-button-download{
+a.ir-button-download{
 	background-color:#666666;
-}
-
-span.ir-button-download a{
 	color:#FFFFFF;
 	text-decoration: none;
 }
