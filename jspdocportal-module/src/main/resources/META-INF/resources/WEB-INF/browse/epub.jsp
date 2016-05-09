@@ -51,17 +51,25 @@
   										<c:param name="_search" value="${actionBean.result.id}" />
   										<c:param name="_remove-filter" value="${fq}" />
 									</c:url>
-  									<a style="width:100%; margin-bottom:6px;color:black" class="btn btn-default" href="${url}">
-  										<span style="color:red" class="glyphicon glyphicon-trash pull-right"></span>
-  										<c:if test="${fn:startsWith(fq, '-')}">
-  											<span class="glyphicon glyphicon-minus pull-left"></span>
-  										</c:if>
-  										<c:if test="${not fn:startsWith(fq, '-')}">
-  											<span class="glyphicon glyphicon-plus pull-left"></span>
-  										</c:if>
-  										<c:set var="c"><fmt:message key="Browse.Filter.epub.${fn:substringBefore(fn:substring(fq, 1, -1),':')}"/>:${fn:substringAfter(fn:substring(fq, 1, -1),':')}</c:set>
-  										<span style="padding-left:6px" class="pull-left">${c}</span>
-  									</a>
+  									<div class="input-group" style="margin-bottom:6px">
+  										<span class="input-group-btn">
+        									<button class="btn btn-default" type="button" disabled="disabled" style="background-color:white">
+        										<c:if test="${fn:startsWith(fq, '-')}">
+  													<span class="glyphicon glyphicon-minus"></span>
+  												</c:if>
+  												<c:if test="${not fn:startsWith(fq, '-')}">
+  													<span class="glyphicon glyphicon-plus"></span>
+  												</c:if>
+  											</button>
+      									</span>
+      									<c:set var="c"><fmt:message key="Browse.Filter.histbest.${fn:substringBefore(fn:substring(fq, 1, -1),':')}"/>:${fn:substringAfter(fn:substring(fq, 1, -1),':')}</c:set>
+      									<input type="text" class="form-control" readonly="readonly" style="background-color:white" value="${c}" />
+      									<span class="input-group-btn">
+      										<a class="btn btn-default" href="${url}" role="button">
+  												<span style="color:red" class="glyphicon glyphicon-trash"></span>
+  											</a>
+  										</span>
+								  	</div>
   								</c:forEach>
   							</div>
   						</c:if>
@@ -85,14 +93,14 @@
   										 	       + "browse/epub?_search="
   										           + $("meta[name='mcr:search.id']").attr("content")
   											       + "&_add-filter="
-  											       + encodeURIComponent("+" + $("#filterField option:selected").val()+":'"+$("#filterValue").val()+"'");
+  											       + encodeURIComponent("+" + $("#filterField option:selected").val()+":"+$("#filterValue").val());
   								}
   								function changeFilterExcludeURL() {
   									window.location=$("meta[name='mcr:baseurl']").attr("content")
   											       + "browse/epub?_search="
   										           + $("meta[name='mcr:search.id']").attr("content")
   											       + "&_add-filter="
-  											       + encodeURIComponent("-" + $("#filterField option:selected").val()+":'"+$("#filterValue").val()+"'");
+  											       + encodeURIComponent("-" + $("#filterField option:selected").val()+":"+$("#filterValue").val());
   								}
   							</script>
   							<div class="col-sm-3">

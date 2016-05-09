@@ -77,9 +77,9 @@ public class MCRSearchResultDataBean implements Serializable {
     private QueryResponse solrQueryResponse;
 
     private String errorMsg = null;
-    
+
     private List<String> filterQueries = new ArrayList<String>();
-    
+
     public MCRSearchResultDataBean() {
         this.id = UUID.randomUUID().toString();
     }
@@ -132,13 +132,19 @@ public class MCRSearchResultDataBean implements Serializable {
       
        for(String fq:filterQueries){
            if(fq.contains("ir.pubyear_end")){
-               fq = fq.replaceFirst("'", "[* TO ");
-               fq = fq.replaceFirst("'", "]");
+               //fq = fq.replaceFirst("'", "[* TO ");
+               //fq = fq.replaceFirst("'", "]");
+               fq = "[* TO " + fq +  "]";
            }
+           
+
            if(fq.contains("ir.pubyear_start")){
-               fq = fq.replaceFirst("'", "[");
-               fq = fq.replaceFirst("'", " TO *]");
+               //fq = fq.replaceFirst("'", "[");
+               //fq = fq.replaceFirst("'", " TO *]");
+               fq = "[" + fq + " TO *]";
            }
+           
+
            solrQuery.addFilterQuery(fq);
        }
 
@@ -214,7 +220,7 @@ public class MCRSearchResultDataBean implements Serializable {
     public List<MCRSearchResultEntry> getEntries() {
         ArrayList<MCRSearchResultEntry> result = new ArrayList<MCRSearchResultEntry>();
         SolrDocumentList solrDocs = solrQueryResponse.getResults();
-        for (int i=0;i<solrDocs.size(); i++) {
+        for (int i = 0; i < solrDocs.size(); i++) {
             SolrDocument solrDoc = solrDocs.get(i);
             result.add(new MCRSearchResultEntry(solrDoc, start + i));
         }
