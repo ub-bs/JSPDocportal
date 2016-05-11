@@ -25,7 +25,9 @@ package org.mycore.frontend.jsp.search;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +38,9 @@ import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.SortClause;
 import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.response.FacetField;
+import org.apache.solr.client.solrj.response.FacetField.Count;
+import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
@@ -80,6 +85,10 @@ public class MCRSearchResultDataBean implements Serializable {
 
     private List<String> filterQueries = new ArrayList<String>();
 
+    private List<String> facetFields = new ArrayList<String>();
+
+    private Map<String, Map<String, Long>> facetResult = new LinkedHashMap<String, Map<String, Long>>();
+
     public MCRSearchResultDataBean() {
         this.id = UUID.randomUUID().toString();
     }
@@ -122,33 +131,46 @@ public class MCRSearchResultDataBean implements Serializable {
                 solrQuery.setSort(SortClause.create(x[0], x[1]));
             }
         }
-        
-       String[] fqs = solrQuery.getFilterQueries();
-       if(fqs!=null){
-           for(String fq:fqs){
-               solrQuery.removeFilterQuery(fq);
-           }
-       }
-      
-       for(String fq:filterQueries){
-           if(fq.contains("ir.pubyear_end")){
-               fq = fq.replaceFirst(":", ":[* TO ");
-               //fq = fq.replaceFirst("'", "]");
-               fq = fq +  "]";
-           }
-           
 
-           if(fq.contains("ir.pubyear_start")){
-               fq = fq.replaceFirst(":", ":[");
-               //fq = fq.replaceFirst("'", " TO *]");
-               fq = fq + " TO *]";
-           }
-           
+        String[] fqs = solrQuery.getFilterQueries();
+        if (fqs != null) {
+            for (String fq : fqs) {
+                solrQuery.removeFilterQuery(fq);
+            }
+        }
 
-           solrQuery.addFilterQuery(fq);
-       }
+        for (String fq : filterQueries) {
+            if (fq.contains("ir.pubyear_end")) {
+                fq = fq.replaceFirst(":", ":[* TO ");
+                //fq = fq.replaceFirst("'", "]");
+                fq = fq + "]";
+            }
+
+            if (fq.contains("ir.pubyear_start")) {
+                fq = fq.replaceFirst(":", ":[");
+                //fq = fq.replaceFirst("'", " TO *]");
+                fq = fq + " TO *]";
+            }
+            String[] x = fq.split(":", 2);
+
+            solrQuery.addFilterQuery(x[0] + ":" + ClientUtils.escapeQueryChars(x[1]));
+        }
+        String[] ffs = solrQuery.getFacetFields();
+        if (ffs != null) {
+            for (String ff : ffs) {
+                solrQuery.removeFacetField(ff);
+            }
+        }
+
+        for (String ff : facetFields) {
+            solrQuery.addFacetField(ff);
+        }
+        if (facetFields.size() > 0) {
+            solrQuery.setFacetMinCount(1);
+        }
 
         try {
+            facetResult.clear();
             solrQueryResponse = solrClient.query(solrQuery);
             SolrDocumentList solrResults = solrQueryResponse.getResults();
             if (solrResults.getNumFound() < start) {
@@ -157,6 +179,17 @@ public class MCRSearchResultDataBean implements Serializable {
                 return;
             }
             setCurrent(start);
+
+            if (solrQuery.getFacetFields() != null) {
+                for (FacetField ff : solrQueryResponse.getFacetFields()) {
+                    LinkedHashMap<String, Long> fieldData = new LinkedHashMap<>();
+                    for (Count c : ff.getValues()) {
+                        fieldData.put(c.getName(), c.getCount());
+                    }
+                    facetResult.put(ff.getName(), fieldData);
+                }
+            }
+
         } catch (SolrServerException | IOException e) {
             LOGGER.error(e);
         }
@@ -225,6 +258,10 @@ public class MCRSearchResultDataBean implements Serializable {
             result.add(new MCRSearchResultEntry(solrDoc, start + i));
         }
         return result;
+    }
+    
+    public Map<String, Map<String, Long>> getFacetResult() {
+        return facetResult;
     }
 
     public void setQuery(String query) {
@@ -308,6 +345,10 @@ public class MCRSearchResultDataBean implements Serializable {
 
     public List<String> getFilterQueries() {
         return filterQueries;
+    }
+
+    public List<String> getFacetFields() {
+        return facetFields;
     }
 
 }

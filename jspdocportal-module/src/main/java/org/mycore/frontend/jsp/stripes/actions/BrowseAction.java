@@ -6,7 +6,11 @@ import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.jdom2.Namespace;
 import org.mycore.common.config.MCRConfiguration;
+import org.mycore.datamodel.classifications2.MCRCategory;
+import org.mycore.datamodel.classifications2.MCRCategoryDAOFactory;
+import org.mycore.datamodel.classifications2.MCRCategoryID;
 import org.mycore.frontend.jsp.search.MCRSearchResultDataBean;
+import org.mycore.services.i18n.MCRTranslation;
 
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.Before;
@@ -123,6 +127,12 @@ public class BrowseAction extends MCRAbstractStripesAction implements ActionBean
             result.setAction("browse");
         } else {
             result.setAction("browse/" + mask);
+            result.getFacetFields().clear();
+            for(String ff: MCRConfiguration.instance().getString("MCR.Browse."+mask+".FacetFields","").split(",")){
+                if(ff.trim().length()>0){
+                    result.getFacetFields().add(ff.trim());
+                }
+            }
         }
         
         if (result.getRows() <= 0) {
@@ -157,6 +167,22 @@ public class BrowseAction extends MCRAbstractStripesAction implements ActionBean
 
     public void setMask(String mask) {
         this.mask = mask;
+    }
+    
+    public String calcFacetOutputString(String facetKey, String facetValue){
+        String result = facetValue;
+        if(facetKey.contains("_msg.facet")){
+            result = MCRTranslation.translate("Browse.Facet."+facetKey.replace("_msg.facet", "")+"."+facetValue);
+        }
+        if(facetKey.contains("_class.facet")){
+            MCRCategory categ = MCRCategoryDAOFactory.getInstance().getCategory(MCRCategoryID.fromString(facetValue),0);
+            if(categ!=null){
+                result = categ.getCurrentLabel().get().getText();
+            }
+        }
+        
+        return result;
+        
     }
 
 }
