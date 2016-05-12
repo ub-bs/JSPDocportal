@@ -6,19 +6,18 @@
 <%@ taglib prefix="search" tagdir="/WEB-INF/tags/search"%>
 
 <%@ attribute name="url" required="true" type="java.lang.String"%>
-<%@ attribute name="data" required="true" type="org.mycore.frontend.jsp.search.MCRSearchResultEntry"%>
+<%@ attribute name="entry" required="true" type="org.mycore.frontend.jsp.search.MCRSearchResultEntry"%>
 
-<div class="rows">
-	<div class="col-sm-9">
+	<div class="col-sm-9 ur-text">
 		<h4>
-			<a href="${url}">${data.label}</a>
+			<a href="${url}">${entry.label}</a>
 		</h4>
 		<table
 			style="border-spacing: 4px; border-collapse: separate; font-size: 100%">
-			<c:forEach var="d" items="${data.data}">
+			<c:forEach var="d" items="${entry.data}">
 				<tr>
 					<th style="min-width: 120px; vertical-align: top"><fmt:message
-							key="Webpage.searchresult.${data.objectType}.label.${d.key}" />:&#160;</th>
+							key="Webpage.searchresult.${entry.objectType}.label.${d.key}" />:&#160;</th>
 					<c:choose>
 						<c:when test="${fn:endsWith(d.key, '_msg')}">
 							<td><fmt:message key="${d.value}" /></td>
@@ -37,10 +36,10 @@
 			</c:forEach>
 		</table>
 	</div>
-	<c:if test="${not empty data.coverURL}">
-		<div class="col-sm-3">
-			<img src="${pageContext.request.contextPath}/${data.coverURL}"
-				class="pull-right img-thumbnail" alt="Portrait" style="max-width:120px" />
-		</div>
-	</c:if>
-</div>
+	
+	<div class="col-sm-3">
+		<c:if test="${not empty entry.coverURL}">
+			<img src="${pageContext.request.contextPath}/${entry.coverURL}"
+				class="pull-right img-thumbnail" alt="Cover" style="max-width:120px" />
+		</c:if>
+	</div>

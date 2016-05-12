@@ -9,62 +9,52 @@
 <%@ taglib prefix="search" tagdir="/WEB-INF/tags/search"%>
 
 <fmt:message var="pageTitle" key="Webpage.browse.title.${actionBean.result.mask}" />
-<stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}" layout="1column">
+<stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}" layout="2columns">
 	<stripes:layout-component name="html_header">
 		<meta name="mcr:search.id" content="${actionBean.result.id}" />
 	</stripes:layout-component>
-	<stripes:layout-component name="contents">
+	<stripes:layout-component name="left_side">
+		<div class="ur-box ur-box-bordered ur-text" style="margin-top:36px">
+		<!-- 
 		<div class="row">
-			<div class="col-xs-12">
-				<div class="ur-box ur-text">
-					<h2>${pageTitle}</h2>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-8">
-				<div class="ur-box">
-					<search:result-sorter result="${actionBean.result}" 
-				                      fields="score,ir.pubyear_start,modified,ir.creator.result,ir.title.result" mask="histbest"/>
-					<search:result-browser result="${actionBean.result}">
-						<c:set var="doctype" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
-						<search:show-edit-button mcrid="${mcrid}" />
-						<c:choose>
-							<c:when test="${doctype eq 'document'}">
-								<search:result-entry-document data="${entry}" url="${url}" />
-							</c:when>
-							<c:otherwise>
-								<search:result-entry data="${entry}" url="${url}" />
-							</c:otherwise>
-						</c:choose>
-						<div style="clear:both"></div>
-					</search:result-browser>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="ur-box ur-box-bordered ur-infobox hidden-sm hidden-xs">
-         			 <h3>Filter und Facetten</h3>
-          			 <div class="panel panel-default">
-
-  							<div class="panel-heading">
-  								<form class="form-horizontal" onsubmit="return false;">
-    							<div class="form-group">
-    								<div class="col-sm-12">
-    							  		<select id="filterField" name="filterField" class="form-control input-sm">
-  											<option value="ir.creator_all"><fmt:message key="Browse.Filter.histbest.ir.creator_all"/></option>
-  											<option value="ir.title_all"><fmt:message key="Browse.Filter.histbest.ir.title_all"/></option>
-  											<option value="ir.pubyear_start"><fmt:message key="Browse.Filter.histbest.ir.pubyear_start"/></option>
-  											<option value="ir.pubyear_end"><fmt:message key="Browse.Filter.histbest.ir.pubyear_end" /></option>
- 										</select>
- 									</div>
-   								</div>
-  								<div class="form-group">	
-   									<div class="col-sm-10">
-										<input class="form-control input-sm" id="filterValue" name="filterValue" style="width:100%" placeholder="Wert" type="text">
-   									</div>
-  									<div class="col-sm-2">
-  										<script type="text/javascript">
-  										function changeFilterIncludeURL() {
+			<div class="col-md-2">
+				<div class="row">
+					<div class="ur-box ur-box-bordered" style="margin-bottom:32px">
+          				<div class="main_navigation">
+            				<mcr:outputNavigation id="left" expanded="false" mode="left" />
+          				</div>
+  			        	<div style="padding-top:16px;padding-bottom:16px; text-align: center;">
+            				<a href="http://www.mycore.org">
+              					<img alt="powered by MyCoRe 2.2"
+                 			    	 src="${WebApplicationBaseURL}images/mycore_logo_powered_129x34_knopf_hell.png"
+                					 style="border:0;text-align:center;">
+            				</a>
+          				</div>
+       				</div>
+       			</div>
+       		-->	
+       			
+			<h3>Filter und Facetten</h3>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<form class="form-horizontal" onsubmit="return false;">
+						<div class="form-group">
+    						<div class="col-sm-12">
+    							<select id="filterField" name="filterField" class="form-control input-sm">
+  									<option value="ir.creator_all"><fmt:message key="Browse.Filter.histbest.ir.creator_all"/></option>
+  									<option value="ir.title_all"><fmt:message key="Browse.Filter.histbest.ir.title_all"/></option>
+  									<option value="ir.pubyear_start"><fmt:message key="Browse.Filter.histbest.ir.pubyear_start"/></option>
+  									<option value="ir.pubyear_end"><fmt:message key="Browse.Filter.histbest.ir.pubyear_end" /></option>
+ 								</select>
+ 							</div>
+   						</div>
+  						<div class="form-group">	
+   							<div class="col-sm-9">
+								<input class="form-control input-sm" id="filterValue" name="filterValue" style="width:100%" placeholder="Wert" type="text">
+   							</div>
+  							<div class="col-sm-3">
+  								<script type="text/javascript">
+  									function changeFilterIncludeURL() {
   											window.location=$("meta[name='mcr:baseurl']").attr("content")
   										 			    + "browse/histbest?_search="
   										           		+ $("meta[name='mcr:search.id']").attr("content")
@@ -80,38 +70,60 @@
   										}
   										</script>
   										
-  										<button id="filterInclude" class="btn btn-sm btn-primary" style="margin-left:-6px;"
-								        		onclick="changeFilterIncludeURL();">
+  										<button id="filterInclude" class="btn btn-sm btn-primary" onclick="changeFilterIncludeURL();">
 											<span class="glyphicon glyphicon-plus"></span>
 										</button> 	
           							</div>
   								</div>
-  								</form>
-  							</div>
-  						</div>
+  					</form>
+  				</div>
+  			</div>
  	
-  						<div class="row" style="margin-bottom:24px;">
-  							<div class="col-sm-12">
-								<c:forEach var="fq" items="${actionBean.result.filterQueries}">
-									<c:if test="${not fn:contains(fq, '.facet:')}">
-  										<c:url var="url" value="${WebApplicationBaseURL}browse/histbest">
-  											<c:param name="_search" value="${actionBean.result.id}" />
-  											<c:param name="_remove-filter" value="${fq}" />
-										</c:url>
-										<c:set var="c"><fmt:message key="Browse.Filter.histbest.${fn:substringBefore(fn:substring(fq, 1, -1),':')}"/>: ${actionBean.calcFacetOutputString(fn:substringBefore(fn:substring(fq, 1, -1),':'), fn:substringAfter(fn:substring(fq, 1, -1),':'))}</c:set>
-										<a class="btn btn-sm btn-default ir-btn-facet" style="display:block;text-align:left;white-space:normal;margin-bottom:3px;color:black;width:100%" href="${url}">
-											<span class="glyphicon glyphicon-remove pull-right" style="margin-top:3px; color:darkred;"></span>
-											${c}										
-										</a>
-								  	</c:if>
-								</c:forEach>
-							</div>
-						</div>
-						
-						<search:result-facets result="${actionBean.result}" mask="histbest" /> 
-  					</div>
+  			<div class="row" style="margin-bottom:24px;">
+  				<div class="col-sm-12">
+					<c:forEach var="fq" items="${actionBean.result.filterQueries}">
+						<c:if test="${not fn:contains(fq, '.facet:')}">
+  							<c:url var="url" value="${WebApplicationBaseURL}browse/histbest">
+  								<c:param name="_search" value="${actionBean.result.id}" />
+  								<c:param name="_remove-filter" value="${fq}" />
+							</c:url>
+							<c:set var="c"><fmt:message key="Browse.Filter.histbest.${fn:substringBefore(fn:substring(fq, 1, -1),':')}"/>: ${actionBean.calcFacetOutputString(fn:substringBefore(fn:substring(fq, 1, -1),':'), fn:substringAfter(fn:substring(fq, 1, -1),':'))}</c:set>
+							<a class="btn btn-sm btn-default ir-btn-facet" style="display:block;text-align:left;white-space:normal;margin-bottom:3px;color:black;width:100%" href="${url}">
+								<span class="glyphicon glyphicon-remove pull-right" style="margin-top:3px; color:darkred;"></span>
+								${c}										
+							</a>
+						</c:if>
+					</c:forEach>
 				</div>
-        	</div>
-
+			</div>
+						
+			<search:result-facets result="${actionBean.result}" mask="histbest" />
+		</div> 
+  	</stripes:layout-component>
+  	
+    <stripes:layout-component name="contents">
+    	<div class="row ur-box ur-text">
+    		<div class="col-xs-12">
+				<h2>${pageTitle}</h2>
+			</div>
+		</div>
+		<div class="row ur-embedded">
+			<div class="col-xs-12">
+			<search:result-sorter result="${actionBean.result}" 
+			                      fields="score,ir.pubyear_start,modified,ir.creator.result,ir.title.result" mask="histbest"/>
+			<search:result-browser result="${actionBean.result}">
+				<c:set var="doctype" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
+				<search:show-edit-button mcrid="${mcrid}" />
+				<c:choose>
+					<c:when test="${doctype eq 'document'}">
+						<search:result-entry-document entry="${entry}" url="${url}" />
+					</c:when>
+					<c:otherwise>
+						<search:result-entry entry="${entry}" url="${url}" />
+					</c:otherwise>
+				</c:choose>
+			</search:result-browser>
+			</div>
+		</div>
 	</stripes:layout-component>
 </stripes:layout-render>

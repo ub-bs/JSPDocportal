@@ -105,7 +105,7 @@
 				<c:set var="mcrid" value="${entry.mcrid}" />
 				<c:set var="entry" value="${entry}" />
 				<c:set var="url"   value="${pageContext.request.contextPath}/${result.action}?_search=${result.id}&_hit=${entry.pos}" />
-				<li class="list-group-item">
+				<li class="list-group-item" style="display:inline-block;width:100%">
 				
 					<jsp:doBody />
 					

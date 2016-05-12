@@ -6,27 +6,25 @@
 <%@ taglib prefix="search" tagdir="/WEB-INF/tags/search"%>
 
 <%@ attribute name="url" required="true" type="java.lang.String"%>
-<%@ attribute name="data" required="true" type="org.mycore.frontend.jsp.search.MCRSearchResultEntry"%>
+<%@ attribute name="entry" required="true" type="org.mycore.frontend.jsp.search.MCRSearchResultEntry"%>
 
-<div class="rows">
-	<div class="col-sm-9">
+	<div class="col-sm-9 ur-text">
 		<table style="border-spacing: 4px; border-collapse: separate; font-size: 100%">
-			<tr><td>${data.data['ir.creator.result']}</td></tr>
+			<tr><td>${entry.data['ir.creator.result']}</td></tr>
 			<tr><td>
 				<h4>
-					<a href="${url}">${data.label}</a>
+					<a href="${url}">${entry.label}</a>
 				</h4>
 			</td></tr>
-			<tr><td>${data.data['ir.originInfo.result']}</td></tr>
-			<tr><td>${data.data['ir.shelfLocator.result']}</td></tr>
-			<tr><td style="font-style: italic; text-align:justify">${data.data['ir.abstract300.result']}</td></tr>
-			<tr><td>${data.data['purl']}</td></tr>
+			<tr><td>${entry.data['ir.originInfo.result']}</td></tr>
+			<tr><td>${entry.data['ir.shelfLocator.result']}</td></tr>
+			<tr><td style="font-style: italic; text-align:justify">${entry.data['ir.abstract300.result']}</td></tr>
+			<tr><td>${entry.data['purl']}</td></tr>
 		</table>
 	</div>
-	<c:if test="${not empty data.coverURL}">
-		<div class="col-sm-3">
-			<img src="${pageContext.request.contextPath}/${data.coverURL}"
-				class="pull-right img-thumbnail" alt="Cover" style="max-width:120px" />
-		</div>
-	</c:if>
-</div>
+	<div class="col-sm-3">
+		<c:if test="${not empty entry.coverURL}">
+			<img src="${pageContext.request.contextPath}/${entry.coverURL}"
+				 class="pull-right img-thumbnail" alt="Cover" style="max-width:120px" />
+		</c:if>
+	</div>

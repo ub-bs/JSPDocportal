@@ -27,13 +27,13 @@
 						<search:show-edit-button mcrid="${mcrid}" />
 						<c:choose>
 							<c:when test="${doctype eq 'disshab'}">
-								<search:result-entry-disshab data="${entry}" url="${url}" />
+								<search:result-entry-disshab entry="${entry}" url="${url}" />
 							</c:when>
 							<c:when test="${doctype eq 'document'}">
-								<search:result-entry-document data="${entry}" url="${url}" />
+								<search:result-entry-document entry="${entry}" url="${url}" />
 							</c:when>
 							<c:otherwise>
-								<search:result-entry data="${entry}" url="${url}" />
+								<search:result-entry entry="${entry}" url="${url}" />
 							</c:otherwise>
 						</c:choose>
 						<div style="clear:both"></div>
