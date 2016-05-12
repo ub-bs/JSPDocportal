@@ -13,8 +13,11 @@
  
 <c:set var="numHits" value="${result.numFound}" />
 
+<div class="row">
+<div class="col-sm-12">
 <c:if test="${not empty result.sortfields and numHits>0}">
 	<%--Resort Form --%>
+
 	<div class="panel panel-default">
 		<div class="panel-body">
 		<form style="margin-bottom:0px;" action="${pageContext.request.contextPath}/${result.action}" method="get" accept-charset="UTF-8">
@@ -115,4 +118,6 @@
 		</div>			
 	</c:if>
 </c:if>			
+</div>
+</div>
 </div>

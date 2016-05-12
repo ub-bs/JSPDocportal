@@ -24,6 +24,8 @@
 		<div class="row">
 			<div class="col-md-8">
 				<div class="ur-box">
+					<search:result-sorter result="${actionBean.result}" 
+				                      fields="score,ir.pubyear_start,modified,ir.creator.result,ir.title.result" mask="histbest"/>
 					<search:result-browser result="${actionBean.result}">
 						<c:set var="doctype" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
 						<search:show-edit-button mcrid="${mcrid}" />
