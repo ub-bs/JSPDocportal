@@ -14,14 +14,14 @@
 		<meta name="mcr:search.id" content="${actionBean.result.id}" />
 	</stripes:layout-component>
 	<stripes:layout-component name="contents">
-		<div class="roW">
-			<div class="col-xs-12 ur-text">
+		<div class="row">
+			<div class="col-xs-12">
 				<h2>${pageTitle}</h2>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-8">
-				<div class="ur-box">
+				<div class="ir-box">
 					<search:result-browser result="${actionBean.result}">
 						<c:set var="doctype" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
 						<search:show-edit-button mcrid="${mcrid}" />
@@ -41,7 +41,7 @@
 				</div>
 			</div>
 			<div class="col-md-4">
-				<div class="ur-box ur-box-bordered ur-infobox hidden-sm hidden-xs">
+				<div class="ir-box ir-box-bordered ir-infobox hidden-sm hidden-xs">
          			 <h3>Filter</h3>
           			 <div class="panel panel-default">
           			 	<c:if test="${not empty actionBean.result.filterQueries}">

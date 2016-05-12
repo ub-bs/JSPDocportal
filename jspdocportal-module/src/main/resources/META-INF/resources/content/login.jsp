@@ -13,7 +13,7 @@
 		<!-- available user status  
 	 			actionBean.loginStatus = { user.login, user.invalid_password, user.welcome, user.disabled, user.unknown, user.unkwnown_error
           -->
-		<div class="ur-box ur-text">
+		<div class="ir-box">
 	 		<h2><fmt:message key="Webpage.login.ChangeUserID" /></h2>
       		 <p><fmt:message key="Webpage.login.info" /></p>
         

@@ -8,7 +8,7 @@
 <%@ attribute name="url" required="true" type="java.lang.String"%>
 <%@ attribute name="entry" required="true" type="org.mycore.frontend.jsp.search.MCRSearchResultEntry"%>
 
-	<div class="col-sm-9 ur-text">
+	<div class="col-sm-9">
 		<h4>
 			<a href="${url}">${entry.label}</a>
 		</h4>

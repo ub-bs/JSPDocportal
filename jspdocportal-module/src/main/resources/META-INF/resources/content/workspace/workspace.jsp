@@ -19,7 +19,7 @@
 		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_workspace.css" />	
 	</stripes:layout-component>
 	<stripes:layout-component name="contents">
-		<div class="ur-box ur-text">
+		<div class="ir-box">
 	 		<h2>Mein Arbeitsplatz</h2>
 				<div class="stripesinfo">
 					<stripes:errors />

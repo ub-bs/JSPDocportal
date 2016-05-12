@@ -9,7 +9,7 @@
 <%@ attribute name="entry" required="true" type="org.mycore.frontend.jsp.search.MCRSearchResultEntry"%>
 
 
-	<div class="col-sm-9 ur-text">
+	<div class="col-sm-9">
 		<table style="border-spacing: 4px; border-collapse: separate; font-size: 100%">
 			<tr><td>${entry.data['ir.creator.result']}</td></tr>
 			<tr><td>

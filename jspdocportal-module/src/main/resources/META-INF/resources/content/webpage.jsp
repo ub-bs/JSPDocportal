@@ -12,13 +12,13 @@
 
 <stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}" layout="${layout}">
 	<stripes:layout-component name="contents">
-		<div class="ur-box ur-text">
+		<div class="ir-box">
 			<mcr:includeWebcontent id="${fn:replace(actionBean.path, '/', '.')}" file="${actionBean.path}.html" />
 		</div>
 	</stripes:layout-component>
 	<stripes:layout-component name="right_side">
 		<c:forEach var="id" items="${fn:split(actionBean.info,',')}" >
-			<div class="ur-box ur-box-bordered ur-infobox">
+			<div class="ir-box ir-box-bordered ir-infobox">
 				<mcr:includeWebcontent id="${id}" file="${fn:replace(id, '.', '/')}.html" />
 			</div>
 		</c:forEach>

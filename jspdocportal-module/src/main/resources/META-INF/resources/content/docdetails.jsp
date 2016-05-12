@@ -46,7 +46,7 @@
 			<div class="col-md-8">
 				<div class="row">
 					<div class="col-sm-9">
-						<div class="ur-box ir-docdetails-header">
+						<div class="ir-box ir-docdetails-header">
 							<mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/${objectType}2header_html.xsl" />
 							<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='fulltext']">
 								<a class="btn btn-default ir-button-download pull-right"  
@@ -113,14 +113,14 @@
 						<hr />
 					</div>
 					<div class="col-sm-12">
-						<div class="ur-box ir-docdetails-data">
+						<div class="ir-box ir-docdetails-data">
 							<mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/${objectType}2details_html.xsl" />
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="col-md-4">
-				<div class="ur-box">
+				<div class="ir-box">
 					<search:result-navigator mcrid="${mcrid}" />
 					
 					<div class="docdetails-toolbar">

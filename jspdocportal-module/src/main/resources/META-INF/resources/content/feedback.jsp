@@ -10,7 +10,7 @@
 <stripes:layout-render name="../WEB-INF/layout/default.jsp"
 	pageTitle="${pageTitle}" layout="2columns">
 	<stripes:layout-component name="contents">
-		<div class="ur-box ur-text">
+		<div class="ir-box">
 			<mcr:includeWebcontent id="feedback" file="feedback.html" />
 
 		<stripes:messages />
@@ -19,7 +19,7 @@
 			<stripes:form
 				beanclass="org.mycore.frontend.jsp.stripes.actions.SendFeedbackAction"
 				id="Formular" enctype="multipart/form-data" acceptcharset="UTF-8"
-				class="form-horizontal ur-box">
+				class="form-horizontal ir-box">
 
 				<stripes:hidden name="returnURL">${actionBean.returnURL}</stripes:hidden>
 				<stripes:hidden name="subject">${actionBean.subject}</stripes:hidden>

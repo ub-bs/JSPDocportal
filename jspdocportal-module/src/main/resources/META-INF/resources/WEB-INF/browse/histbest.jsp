@@ -14,12 +14,12 @@
 		<meta name="mcr:search.id" content="${actionBean.result.id}" />
 	</stripes:layout-component>
 	<stripes:layout-component name="left_side">
-		<div class="ur-box ur-box-bordered ur-text" style="margin-top:36px">
+		<div class="ir-box ir-box-bordered" style="margin-top:36px">
 		<!-- 
 		<div class="row">
 			<div class="col-md-2">
 				<div class="row">
-					<div class="ur-box ur-box-bordered" style="margin-bottom:32px">
+					<div class="ir-box ir-box-bordered" style="margin-bottom:32px">
           				<div class="main_navigation">
             				<mcr:outputNavigation id="left" expanded="false" mode="left" />
           				</div>
@@ -102,12 +102,12 @@
   	</stripes:layout-component>
   	
     <stripes:layout-component name="contents">
-    	<div class="row ur-box ur-text">
+    	<div class="row ir-box">
     		<div class="col-xs-12">
 				<h2>${pageTitle}</h2>
 			</div>
 		</div>
-		<div class="row ur-embedded">
+		<div class="row ir-box">
 			<div class="col-xs-12">
 			<search:result-sorter result="${actionBean.result}" 
 			                      fields="score,ir.pubyear_start,modified,ir.creator.result,ir.title.result" mask="histbest"/>

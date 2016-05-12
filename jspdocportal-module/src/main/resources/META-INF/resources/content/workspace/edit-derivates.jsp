@@ -53,10 +53,10 @@
 		</script>
 	</stripes:layout-component>
 	<stripes:layout-component name="contents">
-		<div class="ur-box ur-text">
+		<div class="ir-box">
 		 	<h2><fmt:message key="WF.EditDerivates" /></h2>
 		</div>
-		<div class="ur-box">	
+		<div class="ir-box">	
 			<c:set  var="baseURL" value="${applicationScope.WebApplicationBaseURL}" />
 			<%request.setAttribute("currentVariables", MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().getVariables(((EditDerivatesAction)request.getAttribute("actionBean")).getTaskid())); %>
 			

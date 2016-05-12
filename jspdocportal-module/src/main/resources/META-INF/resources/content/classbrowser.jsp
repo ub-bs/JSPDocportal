@@ -11,7 +11,7 @@
 		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_classification-browser.css" />
 	</stripes:layout-component>
     <stripes:layout-component name="contents">
-    	<div class="ur-box ur-text">
+    	<div class="ir-box">
 			<h2><fmt:message key="Webpage.classbrowser.${actionBean.modus}.title" /></h2>
 			<mcr:includeWebcontent id="classbrowser_${actionBean.modus}" file="classbrowser_${actionBean.modus}_intro.html" />
 

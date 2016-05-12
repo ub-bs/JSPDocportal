@@ -18,7 +18,7 @@
 	</stripes:layout-component>
 	
 	<stripes:layout-component name="contents">
-		<div class="ur-box ur-text">
+		<div class="ir-box">
 			<h2><fmt:message key="Webpage.editwebcontent.form.headline" /></h2>
 			<p><strong>Datei: ${actionBean.file}</strong></p>
 		<form id="editWebcontent_${actionBean.id}" method="post" action="saveWebcontent.action" accept-charset="UTF-8">

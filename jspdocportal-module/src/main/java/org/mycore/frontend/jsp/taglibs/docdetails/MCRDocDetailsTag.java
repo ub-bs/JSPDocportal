@@ -195,7 +195,7 @@ public class MCRDocDetailsTag extends SimpleTagSupport {
 			}
 		}
 		if(outputStyle.equals("table")){
-			out.write("<table class=\"" + getStylePrimaryName() + "-table ur-embedded ur-text\" cellpadding=\"0\" cellspacing=\"0\">\n");
+			out.write("<table class=\"" + getStylePrimaryName() + "-table ir-box \" cellpadding=\"0\" cellspacing=\"0\">\n");
 			out.write("<tbody>\n");
 
 			getJspBody().invoke(out);
@@ -204,7 +204,7 @@ public class MCRDocDetailsTag extends SimpleTagSupport {
 			out.write("</table>\n");
 		}
 		if(outputStyle.equals("headlines")){
-			out.write("<div class=\"" + getStylePrimaryName()+" ur-embedded ur-text\">\n");
+			out.write("<div class=\"" + getStylePrimaryName()+" ir-box \">\n");
 			getJspBody().invoke(out);
 			out.write("</div>\n");			
 		}
