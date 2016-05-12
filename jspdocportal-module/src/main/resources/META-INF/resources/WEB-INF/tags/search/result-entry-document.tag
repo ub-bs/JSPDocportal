@@ -8,7 +8,8 @@
 <%@ attribute name="url" required="true" type="java.lang.String"%>
 <%@ attribute name="entry" required="true" type="org.mycore.frontend.jsp.search.MCRSearchResultEntry"%>
 
-	<div class="col-sm-9">
+<tr>
+	<td>
 		<table style="border-spacing: 4px; border-collapse: separate; font-size: 100%">
 			<tr><td>${entry.data['ir.creator.result']}</td></tr>
 			<tr><td>
@@ -21,10 +22,11 @@
 			<tr><td style="font-style: italic; text-align:justify">${entry.data['ir.abstract300.result']}</td></tr>
 			<tr><td>${entry.data['purl']}</td></tr>
 		</table>
-	</div>
-	<div class="col-sm-3">
+	</td>
+	<td>
 		<c:if test="${not empty entry.coverURL}">
 			<img src="${pageContext.request.contextPath}/${entry.coverURL}"
 				 class="pull-right img-thumbnail" alt="Cover" style="max-width:120px" />
 		</c:if>
-	</div>
+	</td>
+</tr>

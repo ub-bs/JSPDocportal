@@ -8,7 +8,8 @@
 <%@ attribute name="url" required="true" type="java.lang.String"%>
 <%@ attribute name="entry" required="true" type="org.mycore.frontend.jsp.search.MCRSearchResultEntry"%>
 
-	<div class="col-sm-9">
+<tr>
+	<td>
 		<h4>
 			<a href="${url}">${entry.label}</a>
 		</h4>
@@ -35,11 +36,11 @@
 				</tr>
 			</c:forEach>
 		</table>
-	</div>
-	
-	<div class="col-sm-3">
+	</td>
+	<td>
 		<c:if test="${not empty entry.coverURL}">
 			<img src="${pageContext.request.contextPath}/${entry.coverURL}"
 				class="pull-right img-thumbnail" alt="Cover" style="max-width:120px" />
 		</c:if>
-	</div>
+	</td>
+</tr>

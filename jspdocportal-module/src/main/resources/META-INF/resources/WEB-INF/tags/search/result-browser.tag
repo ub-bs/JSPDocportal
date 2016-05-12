@@ -100,18 +100,16 @@
 	</div>
 	
 	<c:if test="${numHits > 0}">	
-		<ul class="list-group">
+		<table class="table">
 			<c:forEach var="entry" items="${result.entries}">
 				<c:set var="mcrid" value="${entry.mcrid}" />
 				<c:set var="entry" value="${entry}" />
 				<c:set var="url"   value="${pageContext.request.contextPath}/${result.action}?_search=${result.id}&_hit=${entry.pos}" />
-				<li class="list-group-item" style="display:inline-block;width:100%">
 				
 					<jsp:doBody />
-					
-				</li>				 
+	
 			</c:forEach>
-   		</ul>
+   		</table>
 
 		<div class="panel-footer">
 			<c:out value="${pageNavi}" escapeXml="false"/>
