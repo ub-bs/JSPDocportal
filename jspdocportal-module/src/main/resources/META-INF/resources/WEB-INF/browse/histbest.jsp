@@ -108,55 +108,7 @@
 							</div>
 						</div>
 						
-						<%-- Facetten Start --%>
-						<script type="text/javascript">
-  								function changeFacetIncludeURL(key, value) {
-  									window.location=$("meta[name='mcr:baseurl']").attr("content")
-  										 	       + "browse/histbest?_search="
-  										           + $("meta[name='mcr:search.id']").attr("content")
-  											       + "&_add-filter="
-  											       + encodeURIComponent("+" + key +":"+ value);
-  								}
-  								function changeFacetExcludeURL(key,value) {
-  									window.location=$("meta[name='mcr:baseurl']").attr("content")
-  											       + "browse/histbest?_search="
-  										           + $("meta[name='mcr:search.id']").attr("content")
-  											       + "&_add-filter="
-  											       + encodeURIComponent("-" + key +":"+ value);
-  								}
-  							</script>
-						<c:set var="facets" value="${actionBean.result.facetResult}" />
-						<c:forEach var="facetKey" items="${facets.keySet()}">
-							<c:if test="${facets.get(facetKey).size() gt 0}">
-							<div class="row">
-							<div class="col-sm-12">
-							<h4><fmt:message key="Browse.Filter.histbest.${facetKey}" /></h4>
-							<c:forEach var="countsKey" items="${facets.get(facetKey).keySet()}">
-								<c:set var="key">+${facetKey}:${countsKey}</c:set>
-								<c:if test="${actionBean.result.filterQueries.contains(key)}">
-								  	<c:url var="url" value="${WebApplicationBaseURL}browse/histbest">
-  										<c:param name="_search" value="${actionBean.result.id}" />
-  										<c:param name="_remove-filter" value="${key}" />
-									</c:url>
-									<a class="btn btn-sm btn-default ir-btn-facet" style="display:block;text-align:left;white-space:normal;margin:3px 0px;color:black;width:100%" href="${url}">
-										<span class="glyphicon glyphicon-remove pull-right" style="margin-top:3px; color:darkred;"></span>
-										${actionBean.calcFacetOutputString(facetKey, countsKey)}
-										<span class="badge" style="margin-left:12px">${facets.get(facetKey).get(countsKey)}</span>
-									</a>
-								</c:if>
-								<c:if test="${not actionBean.result.filterQueries.contains(key)}">
-									<button class="btn btn-sm btn-default ir-btn-facet" style="border:none; display:block;text-align:left;white-space:normal;width:100%" 
-									        onclick="changeFacetIncludeURL('${facetKey}','${countsKey}');">
-										${actionBean.calcFacetOutputString(facetKey, countsKey)}
-										<span class="badge" style="margin-left:12px">${facets.get(facetKey).get(countsKey)}</span></button>
-								</c:if>
-								</c:forEach>
-							</div>
-							</div>
-								</c:if>
-          					</c:forEach> 		
-											
-						<%-- Facetten Ende --%>
+						<search:result-facets result="${actionBean.result}" mask="histbest" /> 
   					</div>
 				</div>
         	</div>
