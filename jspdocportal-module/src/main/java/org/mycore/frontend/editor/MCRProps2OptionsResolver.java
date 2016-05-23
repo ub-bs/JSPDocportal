@@ -70,20 +70,28 @@ import org.mycore.services.i18n.MCRTranslation;
  *  @author Robert Stephan                 
  *
  */
-public class MCRProps2OptionsResolver  implements URIResolver {
+public class MCRProps2OptionsResolver implements URIResolver {
     @Override
     public Source resolve(String href, String base) throws TransformerException {
         //List<Element> result = new ArrayList<>();
-    	Element result = new Element("select"); // this element will be used as container and not rendered in output
-    	String key = href.substring(href.indexOf(":") + 1).trim();
-    	String items = MCRConfiguration.instance().getString(key);
-        for(String item:items.split(",")){
-        	item = item.trim();
-        	Element eOption = new Element("option");
-        	eOption.setAttribute("value", item);
-        	eOption.setText(MCRTranslation.translate(key+"."+item));
-        	result.addContent(eOption);
+        Element result = new Element("select"); // this element will be used as container and not rendered in output
+        String key = href.substring(href.indexOf(":") + 1).trim();
+        String items = MCRConfiguration.instance().getString(key);
+        if (items.equals(",")) {
+            //empty option box
+            Element eOption = new Element("option");
+            eOption.setAttribute("value", "");
+            eOption.setText(MCRTranslation.translate(key + "."));
+            result.addContent(eOption);
+        } else {
+            for (String item : items.split(",")) {
+                item = item.trim();
+                Element eOption = new Element("option");
+                eOption.setAttribute("value", item);
+                eOption.setText(MCRTranslation.translate(key + "." + item));
+                result.addContent(eOption);
+            }
         }
         return new JDOMSource(result);
-   }
+    }
 }
