@@ -8,8 +8,10 @@ import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.log4j.Logger;
+import org.hibernate.Transaction;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.activiti.MCRActivitiMgr;
+import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.user2.MCRUserManager;
@@ -26,8 +28,9 @@ import net.sourceforge.stripes.controller.LifecycleStage;
 @UrlBinding("/startedit.action")
 public class StartEditAction extends MCRAbstractStripesAction implements ActionBean {
 	private static Logger LOGGER = Logger.getLogger(StartEditAction.class);
-	
+
 	private String mcrid = null;
+
 	public StartEditAction() {
 
 	}
@@ -37,37 +40,50 @@ public class StartEditAction extends MCRAbstractStripesAction implements ActionB
 		super.rehydrate();
 		if (getContext().getRequest().getParameter("mcrid") != null) {
 			mcrid = getContext().getRequest().getParameter("mcrid");
-		}		
+		}
 	}
 
 	@DefaultHandler
 	public Resolution defaultRes() {
-		if (!MCRAccessManager.checkPermission(mcrid, "writedb" )) {
-			String lang   = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
-			String usererrorpage = "/nav?path=~mycore-error?messageKey=WF.common.PrivilegesError&lang=" + lang;
-			LOGGER.debug("Access denied for current user to start workflow for object " + mcrid);				
-			return new ForwardResolution(usererrorpage);
-			
-		}
-		
-		LOGGER.debug("Document MCRID = " + mcrid);
-		
-		if ( mcrid != null){
-			if(MCRAccessManager.checkPermission(mcrid, "writedb")){
-				MCRObjectID mcrObjID = MCRObjectID.getInstance(mcrid);
-				Map<String, Object> variables = new HashMap<String, Object>();
-				variables.put(MCRActivitiMgr.WF_VAR_OBJECT_TYPE, mcrObjID.getTypeId());
-				variables.put(MCRActivitiMgr.WF_VAR_PROJECT_ID, mcrObjID.getProjectId());
-				variables.put(MCRActivitiMgr.WF_VAR_MCR_OBJECT_ID, mcrObjID.toString());
-					
-				RuntimeService rs = MCRActivitiMgr.getWorfklowProcessEngine().getRuntimeService();
-				//ProcessInstance pi = rs.startProcessInstanceByKey("create_object_simple", variables);
-				ProcessInstance pi = rs.startProcessInstanceByMessage("start_load", variables);
-				TaskService ts = MCRActivitiMgr.getWorfklowProcessEngine().getTaskService();
-				for(Task t: ts.createTaskQuery().processInstanceId(pi.getId()).list()){
-					ts.setAssignee(t.getId(), MCRUserManager.getCurrentUser().getUserID());
+		Transaction t1 = null;
+		try {
+			Transaction tx = MCRHIBConnection.instance().getSession().getTransaction();
+			if (tx == null || !tx.isActive()) {
+				t1 = MCRHIBConnection.instance().getSession().beginTransaction();
+			}
+			if (!MCRAccessManager.checkPermission(mcrid, "writedb")) {
+				String lang = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
+				String usererrorpage = "/nav?path=~mycore-error?messageKey=WF.common.PrivilegesError&lang=" + lang;
+				LOGGER.debug("Access denied for current user to start workflow for object " + mcrid);
+				return new ForwardResolution(usererrorpage);
+
+			}
+
+			LOGGER.debug("Document MCRID = " + mcrid);
+
+			if (mcrid != null) {
+				if (MCRAccessManager.checkPermission(mcrid, "writedb")) {
+					MCRObjectID mcrObjID = MCRObjectID.getInstance(mcrid);
+					Map<String, Object> variables = new HashMap<String, Object>();
+					variables.put(MCRActivitiMgr.WF_VAR_OBJECT_TYPE, mcrObjID.getTypeId());
+					variables.put(MCRActivitiMgr.WF_VAR_PROJECT_ID, mcrObjID.getProjectId());
+					variables.put(MCRActivitiMgr.WF_VAR_MCR_OBJECT_ID, mcrObjID.toString());
+
+					RuntimeService rs = MCRActivitiMgr.getWorfklowProcessEngine().getRuntimeService();
+					// ProcessInstance pi =
+					// rs.startProcessInstanceByKey("create_object_simple",
+					// variables);
+					ProcessInstance pi = rs.startProcessInstanceByMessage("start_load", variables);
+					TaskService ts = MCRActivitiMgr.getWorfklowProcessEngine().getTaskService();
+					for (Task t : ts.createTaskQuery().processInstanceId(pi.getId()).list()) {
+						ts.setAssignee(t.getId(), MCRUserManager.getCurrentUser().getUserID());
+					}
+					return new RedirectResolution("/showWorkspace.action?mcrobjid_base=" + mcrObjID.getBase());
 				}
-				return new RedirectResolution("/showWorkspace.action?mcrobjid_base="+mcrObjID.getBase());
+			}
+		} finally {
+			if (t1 != null) {
+				t1.commit();
 			}
 		}
 		return null;
