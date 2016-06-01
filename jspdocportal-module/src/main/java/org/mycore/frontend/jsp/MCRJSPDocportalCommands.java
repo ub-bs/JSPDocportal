@@ -27,8 +27,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.jdom2.Document;
@@ -90,8 +92,6 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
     		LOGGER.error("could not delete process " + strProcessID, e);
     		throw new MCRException("Error in deleting a process from workflow engine");
     	}
-    	
-    	
     }
 
     /**
@@ -127,6 +127,73 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
         }   
     }
     
+    
+    /**
+     * Backups a single objects of given id and its derivates into the following structure:
+     *  - MCR_OBJECT_0001
+     *    - MCR_DERIVATE_0001
+     *      - file0001.pdf
+     *      - file0002.pdf
+     *    - MCR_DERIVATE_0002
+     *      - file0003.txt
+     *    - mcr_derivate_0001.xml
+     *    - mcr_derivate_0002.xml
+     *  - mcr_object_0001.xml
+     * @param id
+     *            the MCRObjectID id;
+     * @param dirname
+     *            the filename to store the object 
+     */
+    @MCRCommand(syntax = "backup object {0} to directory {1}", help = "The command backups one object with id {0} into the directory {1} including all derivates")
+    public static final void backupObject(String id, String dirname) {
+    	  try {
+    		// check dirname
+    	        File dir = new File(dirname);
+    	        if (!dir.isDirectory()) {
+    	            LOGGER.error(dirname + " is not a dirctory.");
+    	            return;
+    	        }
+    		  // if object do'snt exist - no exception is catched!
+              MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(id));                 
+         	 
+//            add ACL's
+              Iterator<String> it = MCRAccessManager.getPermissionsForID(id.toString()).iterator();
+              while(it.hasNext()){
+             	 String s = it.next();
+                  Element rule = MCRAccessManager.getAccessImpl().getRule(id.toString(), s);
+                  mcrObj.getService().addRule(s, rule);
+              }
+              // build JDOM
+              Document xml = mcrObj.createXML();
+              
+              File xmlOutput = new File(dir, id.toString() + ".xml");
+              FileOutputStream out = new FileOutputStream(xmlOutput);
+              
+              new org.jdom2.output.XMLOutputter(Format.getPrettyFormat()).output(xml, out);
+              out.flush();
+              out.close();
+              
+              MCRObjectStructure mcrStructure = mcrObj.getStructure();
+              if(mcrStructure == null) return;
+              for(MCRMetaLinkID derivate: mcrStructure.getDerivates()){
+             	 String derID = derivate.getXLinkHref();
+             	 File subdir = new File(dirname,mcrObj.getId().toString());
+             	 subdir.mkdir();
+             	 MCRDerivateCommands.export(derID, subdir.getPath(), null);                	 
+              }       	
+
+              LOGGER.info("Object " + id.toString() + " saved to " + xmlOutput.getCanonicalPath() + ".");
+              LOGGER.info("");
+          } catch (MCRException ex) {
+              return;
+          } catch(FileNotFoundException ex){
+         	 LOGGER.error("Could not write to file "+id, ex);
+          } catch (IOException ex){
+         	 LOGGER.error("Error writing file "+id, ex);
+          }	
+    }
+    
+    
     /**
      * Backups all objects of given type and their derivates into the following structure:
      *  - MCR_OBJECT_0001
@@ -149,59 +216,114 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
      *            the filename to store the object 
      */
     @MCRCommand(syntax = "backup all objects of type {0} to directory {1}", help = "The command backups all objects of type {0} into the directory {1} including all derivates")
-    public static final void backupAllObjects(String type, String dirname) {
-        // check dirname
+    public static final List<String> backupAllObjects(String type, String dirname) {
+    	 List<String> commands = new ArrayList<String>();
+    	
+    	// check dirname
         File dir = new File(dirname);
-
-        if (dir.isFile()) {
+        if (!dir.isDirectory()) {
             LOGGER.error(dirname + " is not a dirctory.");
-            return;
+            return commands;
         }
         
         for (String id : MCRXMLMetadataManager.instance().listIDsOfType(type)) {
-        	
-             try {
-                 // if object do'snt exist - no exception is catched!
-                 MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(id));                 
-            	 
-//               add ACL's
-                 Iterator<String> it = MCRAccessManager.getPermissionsForID(id.toString()).iterator();
-                 while(it.hasNext()){
-                	 String s = it.next();
-                     Element rule = MCRAccessManager.getAccessImpl().getRule(id.toString(), s);
-                     mcrObj.getService().addRule(s, rule);
-                 }
-                 // build JDOM
-                 Document xml = mcrObj.createXML();
-                 
-                 File xmlOutput = new File(dir, id.toString() + ".xml");
-                 FileOutputStream out = new FileOutputStream(xmlOutput);
-                 
-                 new org.jdom2.output.XMLOutputter(Format.getPrettyFormat()).output(xml, out);
-                 out.flush();
-                 out.close();
-                 
-                 MCRObjectStructure mcrStructure = mcrObj.getStructure();
-                 if(mcrStructure == null) return;
-                 for(MCRMetaLinkID derivate: mcrStructure.getDerivates()){
-                	 String derID = derivate.getXLinkHref();
-                	 File subdir = new File(dirname,mcrObj.getId().toString());
-                	 subdir.mkdir();
-                	 MCRDerivateCommands.export(derID, subdir.getPath(), null);                	 
-                 }       	
-
-                 LOGGER.info("Object " + id.toString() + " saved to " + xmlOutput.getCanonicalPath() + ".");
-                 LOGGER.info("");
-             } catch (MCRException ex) {
-                 return;
-             } catch(FileNotFoundException ex){
-            	 LOGGER.error("Could not write to file "+id, ex);
-             } catch (IOException ex){
-            	 LOGGER.error("Error writing file "+id, ex);
-             }	
+        	commands.add("backup object " + id +" to directory "+ dirname);
         }
+        return commands;
     }
     
+    /**
+     * Restore a single MCRObject from an XML file and a directory containing derivates with the following structure:
+     *  - MCR_OBJECT_0001
+     *    - MCR_DERIVATE_0001
+     *      - file0001.pdf
+     *      - file0002.pdf
+     *    - MCR_DERIVATE_0002
+     *      - file0003.txt
+     *    - mcr_derivate_0001.xml
+     *    - mcr_derivate_0002.xml
+     *  - mcr_object_0002.xml
+     *     
+     *  @param dirname
+     *            the directory name from where to restore the objects
+     * 
+     */    
+    @MCRCommand(syntax = "restore object from file {0}", help = "The command restores one object from file {0} including all derivates")
+    public static final void restoreObjectFromFile(String filename) {
+    	File objectFile = new File(filename);
+    	String id = objectFile.getName().substring(0, objectFile.getName().length()-4);
+    	LOGGER.info(" ... processing object " + id);
+    	try{
+    		MCRObject mcrObj = new MCRObject(objectFile.toURI());
+    	    mcrObj.setImportMode(true); //true = servdates are taken from xml file;
+    	    MCRMetadataManager.update(mcrObj);
+    	    MCRHIBConnection.instance().getSession().flush();
+          	       
+    	    //load derivates first:
+    	    File objDir = new File(objectFile.getParentFile(), id);
+    	    if(objDir.exists()){
+    	    for(File f: objDir.listFiles()){
+    	     	if(f.isFile() && f.getName().endsWith(".xml")){
+    	     		MCRObjectID derID = MCRObjectID.getInstance(f.getName().substring(0, f.getName().length()-4));
+    	     		LOGGER.info(" ... processing derivate " + derID.toString());
+    	     		LOGGER.info("Loading derivate "+f.getAbsolutePath()+" : File exists = "+f.exists());
+    	     		if(MCRMetadataManager.exists(derID)){
+    	     			try{
+    	     				MCRDerivateCommands.delete(derID.toString());
+    	     			}
+    	     			catch(Exception e){
+    	     				LOGGER.warn(e);
+    	     			}
+    	     			MCRHIBConnection.instance().getSession().flush();
+    	    		}
+    	    		MCRDerivateCommands.loadFromFile(f.getAbsolutePath());
+    	    		
+         	    	
+         	    	//set ACLs
+         	    	MCRDerivate mcrDer = new MCRDerivate(f.toURI());
+             	    mcrDer.setImportMode(true); //true = servdates are taken from xml file;
+             	    while(mcrDer.getService().getRulesSize()>0){
+             		   MCRMetaAccessRule rule = mcrDer.getService().getRule(0);
+             		   String permission = mcrDer.getService().getRulePermission(0);
+             		   MCRAccessManager.updateRule(derID, permission, rule.getCondition(), "");
+             		   mcrDer.getService().removeRule(0);
+             	   }
+             	   MCRHIBConnection.instance().getSession().flush(); 
+    	    	}
+    	    }
+    	    }
+    	   // MCRObjectCommands.updateFromFile(objectFile.getAbsolutePath());
+    	    
+    	    //set AccessRules
+    	    mcrObj = new MCRObject(objectFile.toURI());
+    	    mcrObj.setImportMode(true); //true = servdates are taken from xml file;
+    	    MCRMetadataManager.update(mcrObj);
+    	    while(mcrObj.getService().getRulesSize()>0){
+    	    	MCRMetaAccessRule rule = mcrObj.getService().getRule(0);
+    	    	String permission = mcrObj.getService().getRulePermission(0);
+    	    	
+    	    	MCRAccessManager.updateRule(id, permission, rule.getCondition(), "");
+    	    	mcrObj.getService().removeRule(0);
+    	    }
+    	    	 
+//           add ACL's
+    	    Iterator<String> it = MCRAccessManager.getPermissionsForID(id.toString()).iterator();
+            while(it.hasNext()){
+            	 String s = it.next();
+                 Element rule = MCRAccessManager.getAccessImpl().getRule(id.toString(), s);
+                 mcrObj.getService().addRule(s, rule);
+             }               
+    	}
+    	catch(MCRActiveLinkException ale){
+    		LOGGER.error("Linkage error", ale);
+    	}
+    	catch(SAXParseException spe){
+    		LOGGER.error("SAXParseException", spe);
+    	} catch (IOException e) {
+    		LOGGER.error("IOException" , e);
+		}
+
+    }
     
     /**
      * Restore all MCRObject's from a directory with the following structure:
@@ -225,84 +347,23 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
      * 
      */
     @MCRCommand(syntax = "restore all objects from directory {0}", help = "The command restores all objects from directory {0} including all derivates")
-    public static final void restoreAllObjects(String dirname) {
-        // check dirname
+    public static List<String> restoreAllObjects(String dirname) {
+    	 List<String> commands = new ArrayList<String>();
+    	
+    	// check dirname
         File dir = new File(dirname);
-        if (dir.isFile()) {
+        if (!dir.isDirectory()) {
             LOGGER.error(dirname + " is not a dirctory.");
-            return;
+            return commands;
         }
         File[] files = dir.listFiles();
         Arrays.sort(files);
         for(File objectFile:files){
         	//ignore directories
         	if(objectFile.isDirectory()){continue;}
-        	String id = objectFile.getName().substring(0, objectFile.getName().length()-4);
-        	LOGGER.info(" ... processing object " + id);
-        	try{
-        		MCRObject mcrObj = new MCRObject(objectFile.toURI());
-        	    mcrObj.setImportMode(true); //true = servdates are taken from xml file;
-        	    MCRMetadataManager.update(mcrObj);
-        	    MCRHIBConnection.instance().getSession().flush();
-              	       
-        	    //load derivates first:
-        	    File objDir = new File(dir, id);
-        	    if(objDir.exists()){
-        	    for(File f: objDir.listFiles()){
-        	     	if(f.isFile() && f.getName().endsWith(".xml")){
-        	     		MCRObjectID derID = MCRObjectID.getInstance(f.getName().substring(0, f.getName().length()-4));
-        	     		LOGGER.info(" ... processing derivate " + derID.toString());
-        	     		LOGGER.info("Loading derivate "+f.getAbsolutePath()+" : File exists = "+f.exists());
-        	     		if(MCRMetadataManager.exists(derID)){
-        	    			MCRDerivateCommands.delete(derID.toString());
-        	    		}
-        	    		MCRDerivateCommands.loadFromFile(f.getAbsolutePath());
-        	    		
-	         	    	
-	         	    	//set ACLs
-	         	    	MCRDerivate mcrDer = new MCRDerivate(f.toURI());
-	             	    mcrDer.setImportMode(true); //true = servdates are taken from xml file;
-	             	    while(mcrDer.getService().getRulesSize()>0){
-	             		   MCRMetaAccessRule rule = mcrDer.getService().getRule(0);
-	             		   String permission = mcrDer.getService().getRulePermission(0);
-	             		   MCRAccessManager.updateRule(derID, permission, rule.getCondition(), "");
-	             		   mcrDer.getService().removeRule(0);
-	             	   }
-	             	   MCRHIBConnection.instance().getSession().flush(); 
-        	    	}
-        	    }
-        	    }
-        	   // MCRObjectCommands.updateFromFile(objectFile.getAbsolutePath());
-        	    
-        	    //set AccessRules
-        	    mcrObj = new MCRObject(objectFile.toURI());
-        	    mcrObj.setImportMode(true); //true = servdates are taken from xml file;
-        	    MCRMetadataManager.update(mcrObj);
-        	    while(mcrObj.getService().getRulesSize()>0){
-        	    	MCRMetaAccessRule rule = mcrObj.getService().getRule(0);
-        	    	String permission = mcrObj.getService().getRulePermission(0);
-        	    	
-        	    	MCRAccessManager.updateRule(id, permission, rule.getCondition(), "");
-        	    	mcrObj.getService().removeRule(0);
-        	    }
-        	    	 
-//               add ACL's
-        	    Iterator<String> it = MCRAccessManager.getPermissionsForID(id.toString()).iterator();
-                while(it.hasNext()){
-                	 String s = it.next();
-                     Element rule = MCRAccessManager.getAccessImpl().getRule(id.toString(), s);
-                     mcrObj.getService().addRule(s, rule);
-                 }               
-        	}
-        	catch(MCRActiveLinkException ale){
-        		LOGGER.error("Linkage error", ale);
-        	}
-        	catch(SAXParseException spe){
-        		LOGGER.error("SAXParseException", spe);
-        	} catch (IOException e) {
-        		LOGGER.error("IOException" , e);
-			}
-        }       
+        	commands.add("restore object from file "+objectFile.getAbsolutePath());
+        }  
+        return commands;
     }
     
     /**
