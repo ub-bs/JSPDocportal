@@ -172,7 +172,7 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
         return commandList;
     }
 
-    @MCRCommand(syntax = "backup objects {0} to directory {1}", help = "The command backups a single object {0} into the directory {1} including all derivates")
+    @MCRCommand(syntax = "backup object {0} to directory {1}", help = "The command backups a single object {0} into the directory {1} including all derivates")
     public static final void backupObject(String id, String dirname) {
         File dir = new File(dirname);
         if (dir.isFile()) {
