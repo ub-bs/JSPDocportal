@@ -32,7 +32,6 @@
 		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_general.css" />
 		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_navigation.css" />
 		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_content.css" />
-		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_docdetails.css" />
 		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_editor.css" />
 		<link rel="shortcut icon" href="${WebApplicationBaseURL}images/mycore_favicon.ico" />
 		<stripes:layout-component name="html_header">

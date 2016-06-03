@@ -14,6 +14,16 @@
 		<meta name="mcr:search.id" content="${actionBean.result.id}" />
 	</stripes:layout-component>
 	<stripes:layout-component name="left_side">
+		<div class="ir-box ir-box-bordered">
+			<div class="main_navigation">
+				<mcr:outputNavigation id="left" cssClass="nav ur-sidenav" expanded="true" mode="left" />
+			</div>
+			<div class="main_navigation">
+				<mcr:outputNavigation id="publish" cssClass="nav ur-sidenav" expanded="false" mode="left" />
+			</div>
+		</div>
+		
+		
 		<div class="ir-box ir-box-bordered" style="margin-top:36px">
 		<!-- 
 		<div class="row">
@@ -113,7 +123,6 @@
 			                      fields="score,ir.pubyear_start,modified,ir.creator.result,ir.title.result" mask="histbest"/>
 			<search:result-browser result="${actionBean.result}">
 				<c:set var="doctype" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
-				<search:show-edit-button mcrid="${mcrid}" />
 				<c:choose>
 					<c:when test="${doctype eq 'document'}">
 						<search:result-entry-document entry="${entry}" url="${url}" />

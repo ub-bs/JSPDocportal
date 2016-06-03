@@ -32,11 +32,6 @@
 <stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}" layout="1column">
 	<stripes:layout-component name="html_header">
 		<title>${pageTitle}@ <fmt:message key="Webpage.title" /></title>
-
-		<script src="${applicationScope.WebApplicationBaseURL}webjars/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
-		<script src="${applicationScope.WebApplicationBaseURL}webjars/bootstrap/3.3.6/js/bootstrap.min.js" type="text/javascript"></script>
-
-		
 		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_docdetails.css">
 		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_searchresult.css">
 		

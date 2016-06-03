@@ -41,7 +41,7 @@ a.ir-button-download{
 	text-decoration: none;
 }
 
-a.ir-button-download:VISITED{
+a.ir-button-download:HOVER{
 	color:#FFFFFF;
 	text-decoration: none;
 }
