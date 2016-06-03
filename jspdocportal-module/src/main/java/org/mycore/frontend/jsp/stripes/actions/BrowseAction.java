@@ -40,7 +40,7 @@ public class BrowseAction extends MCRAbstractStripesAction implements ActionBean
 
     public static int DEFAULT_ROWS = 20;
 
-     private String mask = null;
+    private String mask = null;
 
     private MCRSearchResultDataBean result;
 
@@ -55,7 +55,7 @@ public class BrowseAction extends MCRAbstractStripesAction implements ActionBean
 
     @DefaultHandler
     public Resolution defaultRes() {
-        ForwardResolution fwdResolutionForm = new ForwardResolution("/WEB-INF/browse/"+mask+".jsp");
+        ForwardResolution fwdResolutionForm = new ForwardResolution("/WEB-INF/browse/" + mask + ".jsp");
 
         getContext().getResponse().setCharacterEncoding("UTF-8");
         getContext().getResponse().setContentType("text/xhtml;charset=utf-8");
@@ -64,39 +64,40 @@ public class BrowseAction extends MCRAbstractStripesAction implements ActionBean
             //check against null if session does not exist
             result = MCRSearchResultDataBean.retrieveSearchresultFromSession(request, request.getParameter("_search"));
         }
-        if(request.getParameter("_add-filter")!=null){
-            for(String s: request.getParameterValues("_add-filter")){
-                result.getFilterQueries().add(s);
+        if (result != null) {
+            if (request.getParameter("_add-filter") != null) {
+                for (String s : request.getParameterValues("_add-filter")) {
+                    result.getFilterQueries().add(s);
+                }
             }
-        }
-        
-        if(request.getParameter("_remove-filter")!=null){
-            for(String s: request.getParameterValues("_remove-filter")){
-                result.getFilterQueries().remove(s);
-            }
-        }
-        
-        Integer hit = null;
-        if(result!=null){
-        if (request.getParameter("_hit") != null) {
-            try {
-                hit = Integer.parseInt(request.getParameter("_hit"));
-            } catch (NumberFormatException nfe) {
-                hit = null;
-            }
-        }
-        if (request.getParameter("_start") != null) {
-            try {
-                result.setStart(Integer.parseInt(request.getParameter("_start")));
-            } catch (NumberFormatException nfe) {
-                result.setStart(0);
-            }
-        }
 
-        if (hit != null && result != null && hit >= 0 && hit < result.getNumFound()) {
-            String mcrid = result.getHit(hit).getMcrid();
-            return new RedirectResolution("/resolve/id/" + mcrid + "?_search=" + result.getId());
-        }}
+            if (request.getParameter("_remove-filter") != null) {
+                for (String s : request.getParameterValues("_remove-filter")) {
+                    result.getFilterQueries().remove(s);
+                }
+            }
+
+            Integer hit = null;
+            if (request.getParameter("_hit") != null) {
+                try {
+                    hit = Integer.parseInt(request.getParameter("_hit"));
+                } catch (NumberFormatException nfe) {
+                    hit = null;
+                }
+            }
+            if (request.getParameter("_start") != null) {
+                try {
+                    result.setStart(Integer.parseInt(request.getParameter("_start")));
+                } catch (NumberFormatException nfe) {
+                    result.setStart(0);
+                }
+            }
+
+            if (hit != null && result != null && hit >= 0 && hit < result.getNumFound()) {
+                String mcrid = result.getHit(hit).getMcrid();
+                return new RedirectResolution("/resolve/id/" + mcrid + "?_search=" + result.getId());
+            }
+        }
 
         if (request.getParameter("q") != null) {
             result = new MCRSearchResultDataBean();
@@ -108,7 +109,8 @@ public class BrowseAction extends MCRAbstractStripesAction implements ActionBean
         if (request.getParameter("searchField") != null && request.getParameter("searchValue") != null) {
             result = new MCRSearchResultDataBean();
             result.setAction("browse");
-            result.setQuery("+" + request.getParameter("searchField") + ":" + ClientUtils.escapeQueryChars(request.getParameter("searchValue")));
+            result.setQuery("+" + request.getParameter("searchField") + ":"
+                + ClientUtils.escapeQueryChars(request.getParameter("searchValue")));
             result.setMask("");
         }
         if (request.getParameter("sortField") != null && request.getParameter("sortValue") != null) {
@@ -122,7 +124,7 @@ public class BrowseAction extends MCRAbstractStripesAction implements ActionBean
 
         if (result == null) {
             result = new MCRSearchResultDataBean();
-            result.setQuery(MCRConfiguration.instance().getString("MCR.Browse."+mask+".Query","*:*"));
+            result.setQuery(MCRConfiguration.instance().getString("MCR.Browse." + mask + ".Query", "*:*"));
             result.setRows(DEFAULT_ROWS);
         }
         result.setMask(mask);
@@ -132,13 +134,14 @@ public class BrowseAction extends MCRAbstractStripesAction implements ActionBean
         } else {
             result.setAction("browse/" + mask);
             result.getFacetFields().clear();
-            for(String ff: MCRConfiguration.instance().getString("MCR.Browse."+mask+".FacetFields","").split(",")){
-                if(ff.trim().length()>0){
+            for (String ff : MCRConfiguration.instance().getString("MCR.Browse." + mask + ".FacetFields", "")
+                .split(",")) {
+                if (ff.trim().length() > 0) {
                     result.getFacetFields().add(ff.trim());
                 }
             }
         }
-        
+
         if (result.getRows() <= 0) {
             result.setRows(DEFAULT_ROWS);
         }
@@ -150,8 +153,8 @@ public class BrowseAction extends MCRAbstractStripesAction implements ActionBean
             }
         }
         if (result.getSolrQuery() != null) {
-        	MCRSearchResultDataBean.addSearchresultToSession(request, result);
-        	result.doSearch();
+            MCRSearchResultDataBean.addSearchresultToSession(request, result);
+            result.doSearch();
         }
 
         return fwdResolutionForm;
@@ -172,21 +175,22 @@ public class BrowseAction extends MCRAbstractStripesAction implements ActionBean
     public void setMask(String mask) {
         this.mask = mask;
     }
-    
-    public String calcFacetOutputString(String facetKey, String facetValue){
+
+    public String calcFacetOutputString(String facetKey, String facetValue) {
         String result = facetValue;
-        if(facetKey.contains("_msg.facet")){
-            result = MCRTranslation.translate("Browse.Facet."+facetKey.replace("_msg.facet", "")+"."+facetValue);
+        if (facetKey.contains("_msg.facet")) {
+            result = MCRTranslation.translate("Browse.Facet." + facetKey.replace("_msg.facet", "") + "." + facetValue);
         }
-        if(facetKey.contains("_class.facet")){
-            MCRCategory categ = MCRCategoryDAOFactory.getInstance().getCategory(MCRCategoryID.fromString(facetValue),0);
-            if(categ!=null){
+        if (facetKey.contains("_class.facet")) {
+            MCRCategory categ = MCRCategoryDAOFactory.getInstance().getCategory(MCRCategoryID.fromString(facetValue),
+                0);
+            if (categ != null) {
                 result = categ.getCurrentLabel().get().getText();
             }
         }
-        
+
         return result;
-        
+
     }
 
 }
