@@ -9,6 +9,7 @@
 <%@ attribute name="entry" required="true" type="org.mycore.frontend.jsp.search.MCRSearchResultEntry"%>
 
 <tr>
+	<td><search:show-edit-button mcrid="${entry.mcrid}" /></td>
 	<td>
 		<table style="border-spacing: 4px; border-collapse: separate; font-size: 100%">
 			<tr><td>${entry.data['ir.creator.result']}</td></tr>

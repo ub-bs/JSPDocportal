@@ -9,6 +9,7 @@
 <%@ attribute name="entry" required="true" type="org.mycore.frontend.jsp.search.MCRSearchResultEntry"%>
 
 <tr>
+	<td><search:show-edit-button mcrid="${entry.mcrid}" /></td>
 	<td>
 		<h4>
 			<a href="${url}">${entry.label}</a>
