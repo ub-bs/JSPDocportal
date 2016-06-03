@@ -41,6 +41,12 @@ a.ir-button-download{
 	text-decoration: none;
 }
 
+a.ir-button-download:VISITED{
+	color:#FFFFFF;
+	text-decoration: none;
+}
+
+
 
 /* =================================================================== */
 /* Info Hover (button + messagebox on mouse over)                      */  
@@ -91,4 +97,12 @@ div.docdetails-infohover a:hover span {
 	border-color: #0A50A1;
 	border-style: outset;
 	padding: 10px;
+}
+
+div.ir-row{
+	margin-bottom:6px;
+}
+div.ir-row-1{
+	padding-top:6px;
+	background-color:#F6F6F6;
 }
