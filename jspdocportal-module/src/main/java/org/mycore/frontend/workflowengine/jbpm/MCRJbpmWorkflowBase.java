@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
@@ -69,9 +68,10 @@ public class MCRJbpmWorkflowBase {
 			String processDefinitionID = Long.toString( processDefinition.getId()); 
 			
 			Session hibSession = jbpmContext.getSession();	
-			Query hibQuery = hibSession.getNamedQuery("MCRJbpmWorkflowBase.getCurrentProcessIDsForProcessType");
-			hibQuery.setBigInteger("processDefinitionId" , new BigInteger(processDefinitionID));
-			List processInstances = hibQuery.list();
+			//Query hibQuery = hibSession.getNamedQuery("MCRJbpmWorkflowBase.getCurrentProcessIDsForProcessType");
+			//hibQuery.setBigInteger("processDefinitionId" , new BigInteger(processDefinitionID));
+			//List processInstances = hibQuery.list();
+			List processInstances = new ArrayList<ProcessInstance>();
 			for (Iterator it = processInstances.iterator(); it.hasNext();) {
 				ProcessInstance processInstance = (ProcessInstance) it.next();
 				if (   !processInstance.hasEnded() ){
@@ -97,9 +97,10 @@ public class MCRJbpmWorkflowBase {
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try{
 			Session hibSession = jbpmContext.getSession();
-			Query hibQuery = hibSession.getNamedQuery("MCRJbpmWorkflowBase.getCurrentProcessIDsForInitiator");
-			hibQuery.setString(MCRWorkflowConstants.WFM_VAR_INITIATOR , initiator);
-			List processInstances = hibQuery.list();
+			//Query hibQuery = hibSession.getNamedQuery("MCRJbpmWorkflowBase.getCurrentProcessIDsForInitiator");
+			//hibQuery.setString(MCRWorkflowConstants.WFM_VAR_INITIATOR , initiator);
+			//List processInstances = hibQuery.list();
+			List processInstances = new ArrayList<ProcessInstance>();
 			for (Iterator it = processInstances.iterator(); it.hasNext();) {
 				ProcessInstance processInstance = (ProcessInstance) it.next();
 				ret.add(new Long(processInstance.getId()));
@@ -117,10 +118,11 @@ public class MCRJbpmWorkflowBase {
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try{
 			Session hibSession = jbpmContext.getSession();
-			Query hibQuery = hibSession.getNamedQuery("MCRJbpmWorkflowBase.getCurrentProcessIDsForProcessVariable");
-			hibQuery.setString("var" , varName);
-			hibQuery.setString("value", value);
-			List processInstances = hibQuery.list();
+			//Query hibQuery = hibSession.getNamedQuery("MCRJbpmWorkflowBase.getCurrentProcessIDsForProcessVariable");
+			//hibQuery.setString("var" , varName);
+			//hibQuery.setString("value", value);
+			//List processInstances = hibQuery.list();
+			List processInstances = new ArrayList<ProcessInstance>();
 			for (Iterator it = processInstances.iterator(); it.hasNext();) {
 				ProcessInstance processInstance = (ProcessInstance) it.next();
 				ret.add(new Long(processInstance.getId()));
@@ -201,9 +203,10 @@ public class MCRJbpmWorkflowBase {
 		JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
 		try{
 			Session hibSession = jbpmContext.getSession();
-			Query hibQuery = hibSession.getNamedQuery("MCRJbpmWorkflowBase.getCurrentProcessIDsForInitiator");
-			hibQuery.setString(MCRWorkflowConstants.WFM_VAR_INITIATOR , userid);
-			List processInstances = hibQuery.list();
+			//Query hibQuery = hibSession.getNamedQuery("MCRJbpmWorkflowBase.getCurrentProcessIDsForInitiator");
+			//hibQuery.setString(MCRWorkflowConstants.WFM_VAR_INITIATOR , userid);
+			//List processInstances = hibQuery.list();
+			List processInstances = new ArrayList<ProcessInstance>();
 			for (Iterator it = processInstances.iterator(); it.hasNext();) {
 				ProcessInstance processInstance = (ProcessInstance)it.next();
 				String curNodeName = "";
