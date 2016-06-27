@@ -250,9 +250,18 @@
                <field name="ir.language_class.facet">rfc4646:<xsl:value-of select="." /></field>
           </xsl:for-each>
           
-           <xsl:for-each select="mods:originInfo[@eventType='creation']/mods:place/mods:placeTerm">
+          <xsl:choose>
+            <xsl:when test="mods:originInfo[@eventType='creation']/mods:place[@supplied='yes']/mods:placeTerm"> 
+                <xsl:for-each select="mods:originInfo[@eventType='creation']/mods:place[@supplied='yes']/mods:placeTerm">
+                  <field name="ir.place.facet"><xsl:value-of select="translate(.,'[]','')" /></field>
+                </xsl:for-each>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:for-each select="mods:originInfo[@eventType='creation']/mods:place/mods:placeTerm">
                 <field name="ir.place.facet"><xsl:value-of select="translate(.,'[]','')" /></field>
-           </xsl:for-each>
+              </xsl:for-each>
+            </xsl:otherwise>
+          </xsl:choose>
            <xsl:for-each select="mods:classification[@displayLabel='doctype']">
                 <field name="ir.doctype_class.facet"><xsl:value-of select="translate(substring-after(@valueURI,'classifications/'),'#',':')" /></field>
            </xsl:for-each>
