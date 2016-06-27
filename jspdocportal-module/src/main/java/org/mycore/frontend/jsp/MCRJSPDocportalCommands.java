@@ -368,6 +368,7 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
      * 
      */
 
+    @SuppressWarnings("deprecation")
     @MCRCommand(syntax = "repair urn store", help = "The command parses through all metadata objects and updates the urns in the URN store if necessary")
     public static final void repairURNStore() throws MCRException {
         try {
