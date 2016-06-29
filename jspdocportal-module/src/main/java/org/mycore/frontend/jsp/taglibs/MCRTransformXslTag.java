@@ -37,7 +37,6 @@ import org.apache.log4j.Logger;
 import org.mycore.common.xsl.MCRParameterCollector;
 import org.mycore.common.xsl.MCRTemplatesSource;
 import org.mycore.common.xsl.MCRXSLTransformerFactory;
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 /**
@@ -57,14 +56,6 @@ public class MCRTransformXslTag extends SimpleTagSupport {
 
     public void doTag() throws JspException, IOException {
         try {
-            if (node instanceof Document && false) {
-/*
-                MCRXSL2XMLTransformer transformer = MCRXSL2XMLTransformer.getInstance(stylesheet);
-                MCRParameterCollector parameterCollector = MCRParameterCollector.getInstanceFromUserSession();
-                //parameterCollector.setParameters(parameters);
-                transformer.transform(new MCRDOMContent((Document)node), getJspContext().getOut(), parameterCollector);
-*/
-            } else {
                 MCRTemplatesSource source = new MCRTemplatesSource(stylesheet);
                 Transformer t = MCRXSLTransformerFactory.getTransformer(source);
                 Map<String, Object> params = MCRParameterCollector.getInstanceFromUserSession().getParameterMap();
@@ -75,7 +66,6 @@ public class MCRTransformXslTag extends SimpleTagSupport {
                 Result output = new StreamResult(getJspContext().getOut());
 
                 t.transform(input, output);
-            }
         } catch (Exception e) {
             Logger.getLogger(MCRTransformXslTag.class).error("Something went wrong processing the XSLT: " + stylesheet,
                 e);
