@@ -274,11 +274,11 @@
         </table>
         <table class="table ir-table-docdetails">
         
-       <xsl:if test="./mods:classification[@authorityURI='http://rosdok.uni-rostock.de/classifications/rosdok_class_doctypes']">
+       <xsl:if test="./mods:classification[@displayLabel='doctype']">
           <tr>
             <th>Dokumententyp:</th>
             <td><table class="ir-table-docdetails-values">
-              <xsl:for-each select="./mods:classification[@authorityURI='http://rosdok.uni-rostock.de/classifications/rosdok_class_doctypes']/@valueURI">
+              <xsl:for-each select="./mods:classification[@displayLabel='doctype']/@valueURI">
                <tr><td>
                <xsl:call-template name="classLabel">
                   <xsl:with-param name="valueURI"><xsl:value-of select="." /></xsl:with-param>
@@ -289,11 +289,11 @@
             </td>
           </tr>
         </xsl:if>
-        <xsl:if test="./mods:classification[@authorityURI='http://rosdok.uni-rostock.de/classifications/rosdok_class_collections']">
+        <xsl:if test="./mods:classification[@displayLabel='collection']">
           <tr>
             <th>Sammlung:</th>
             <td><table class="ir-table-docdetails-values">
-                  <xsl:for-each select="./mods:classification[@authorityURI='http://rosdok.uni-rostock.de/classifications/rosdok_class_collections']/@valueURI">
+                  <xsl:for-each select="./mods:classification[@displayLabel='collection']/@valueURI">
                   <tr><td>
                   <xsl:call-template name="classLabel">
                     <xsl:with-param name="valueURI"><xsl:value-of select="." /></xsl:with-param>
