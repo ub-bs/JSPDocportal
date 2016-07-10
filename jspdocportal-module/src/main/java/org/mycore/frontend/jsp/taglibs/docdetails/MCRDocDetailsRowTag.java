@@ -145,7 +145,7 @@ public class MCRDocDetailsRowTag extends SimpleTagSupport {
 			String[] ss = colWidths.split("\\s");
 			out.write("   	   	<colgroup>");
 			for (String s : ss) {
-				out.write(" <col width=\"" + s + "\"></col>");
+				out.write(" <col style=\"width:" + s + "\"></col>");
 			}
 			out.write("   	   	</colgroup>\n");
 		}
