@@ -1,56 +1,52 @@
 /* =================================================================== */
 /* $Revision: 1.18 $ $Date: 2005/02/10 11:55:03 $                      */
 /* =================================================================== */
-/* dunkelblau #0A50A1 rgb(10, 80, 161)                                 */
-/* tuerkis rgb(128, 197, 221);                                         */
-/* beige #9A5B11;  rgb(154,91, 17)                                     */
-/* helles beige rgb(174,111, 37);                                      */
-/* lichtes hellblau rgb(245, 255, 255);                                */
-/* hintergrund: beige: #FDEDDB                                         */
+
 /* =================================================================== */
 /* Docdetails                                                          */
 /* =================================================================== */
+
+div.docdetails-tabbar{
+	font-size: .8em;
+}
+
+div.docdetails-tabbar{
+	font-size: .8em;
+}
+div.docdetails-tabbar-info{
+	font-style: italic; 
+	color: grey; 
+	padding-right:1em; padding-top:.8em;
+	float:right !important;
+}
 	
-div.docdetails-table {
-	border-spacing: 0px;	
+div.docdetails{
+	font-size: 0.8em;
+	margin: 0em 2em;
 }
 
 div.docdetails-header {
-	
-	padding: 10px 5px 10px 5px;
-	vertical-align: bottom;
-	border-bottom: 5px solid white;
-	min-height:16px;
-}
 
-div.docdetails-header h2{
-	text-align: left;
+	vertical-align: bottom;
+	margin-bottom:.4em;
+	min-height:1em;
 }
 
 div.docdetails-block{
-	clear: both;
-	padding-top:6px;
+	margin-top:.8em;
 }
 
 div.docdetails-infolabel,
 div.docdetails-label {
-	display:inline;
-	float:left;
-	padding: 4px;
-	border-bottom: 4px solid white;
 	white-space:nowrap;
-	/*font-weight: bold;*/
-	font-size: 85%;
-	font-weight:bold;
 	color:#565656;
-	font-family: Verdana,Arial,sans-serif
+	font-family: Verdana,Arial,sans-serif;
+	margin-left:2em;
+	margin-bottom:0.2em;
 }
 
 div.docdetails-values {
-	clear:both;
-	border-bottom: 4px solid white;
-	padding-left: 12px;
-	font-size:100%;
+	margin-left:2em;
 }
 
 div.docdetails-preview {
@@ -66,29 +62,27 @@ table.docdetails-values-table {
 	border-spacing: 4px;
 }
 td.docdetails-value {
-     padding-left: 20px;
      vertical-align: top;
      line-height: 125%;
-     padding-bottom:4px;
+     margin-bottom:0.2em;
 }
 
 td.docdetails-value-bold {
-     padding-left: 20px;
      vertical-align: top;
      font-weight:bold;
      line-height: 125%;
-     padding-bottom:4px;    
+     margin-bottom:0.2em;   
 }
 
 
 div.docdetails-separator {
-	margin-top:12px;
+	margin-top:.8em;
 }
 div.docdetails-separator hr {
 	border: none;
 	background-color: #565656;
 	color: #565656;
-	height: 1px;	
+	height: .1em;	
 }
 
 dl.docdetails-derivate-list {
@@ -146,18 +140,19 @@ div.docdetails-image img{
 	margin-right: auto;
 }
 div.docdetails-image-footer{
-	font-size:85%;
+	font-size:0.8em;
 }
 
 /* =================================================================== */
 /* Info Hover (button + messagebox on mouse over)                      */
 /* =================================================================== */
+div.docdetails-infohover{
+	float:left;
+	margin-top:0.1em;
+}
 div.docdetails-infohover a {
-	float: left;
-    font-size: 0.8em;
-    text-decoration: none;
+	text-decoration: none;
     color: #565656!important;
-    padding:6px;
 }
 
 div.docdetails-infohover a:hover {
@@ -170,10 +165,10 @@ div.docdetails-infohover a span {
 }
 
 div.docdetails-infohover a:hover span {
-	position: fixed;
 	bottom: 40px;
 	left: 40px;
 	z-index: 30;
+	position:fixed;
 	text-align: justify;
 	display: block;
 	color: #565656;
@@ -187,12 +182,6 @@ div.docdetails-infohover a:hover span {
 	box-shadow: 5px 5px 7px rgba(33,33,33,.7);
 	transform:rotate3d(2.0,2.0,2.0, 3deg); 
 		
-}
-
-/* Star Hack - this entry is only interpreted by IE 
-   necessary, because it cannot handle position:fixed correctly */
-* html * div.docdetails-infohover a:hover span {
-	position: absolute !important;
 }
 
 

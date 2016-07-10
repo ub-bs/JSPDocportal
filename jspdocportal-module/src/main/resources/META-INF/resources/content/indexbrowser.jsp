@@ -12,7 +12,14 @@
 <stripes:layout-render name="../WEB-INF/layout/default.jsp"
 	pageTitle="${pageTitle}" layout="3columns">
 	<stripes:layout-component name="html_header">
-	
+	<style>
+		.indexbrowser-btn {
+			margin-top:0.40em;
+			padding-left:0.40em;
+			padding-right:0.40em;
+		}	
+	</style>
+
 	</stripes:layout-component>
 	<stripes:layout-component name="contents">
 		<div class="ir-box">
@@ -30,7 +37,7 @@
 								<c:set var="active"></c:set>
 								<c:if test="${fn:startsWith(actionBean.select, x)}"><c:set var="active">active</c:set></c:if>
 									<a href="${WebApplicationBaseURL}indexbrowser.action?modus=${actionBean.modus}&amp;select=${x}"
-									   class="btn btn-default btn-sm navbar-btn ${active}" style="padding:0.4em 0.5em" role="button">${x}</a>
+									   class="btn btn-default btn-sm navbar-btn indexbrowser-btn ${active}" role="button">${x}</a>
 							</c:forEach>
 						</div>
 						<c:if test="${not empty actionBean.secondSelector}">
@@ -39,7 +46,7 @@
 									<c:set var="active"></c:set>
 									<c:if test="${fn:startsWith(actionBean.select, x.key)}"><c:set var="active">active</c:set></c:if>
 										<a href="${WebApplicationBaseURL}indexbrowser.action?modus=${actionBean.modus}&amp;select=${x.key}"
-										   class="btn btn-default btn-sm ${active}" style="margin-top:5px;" role="button">${x.key} <span class="badge" style="font-size:80%;margin-left:8px">${x.value}</span></a>
+										   class="btn btn-default btn-sm indexbrowser-btn ${active}" role="button">${x.key} <span class="badge" style="font-size:80%;margin-left:8px">${x.value}</span></a>
 								</c:forEach>
 							</div>
 						</c:if>
