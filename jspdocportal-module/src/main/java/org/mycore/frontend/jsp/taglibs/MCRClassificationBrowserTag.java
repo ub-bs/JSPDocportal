@@ -305,22 +305,34 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
             out.write(
                 indent + "         <span class=\"cb-text\">" + categ.getCurrentLabel().get().getText() + "</span>");
 
-            if (cb.count) {
-                out.write(indent + "         <span class=\"cb-count\">");
-                if (cb.filter != null) {
-                    out.write("(" + countBySearch(cb, categ.getId().getID()) + ")");
-                } else {
-                    countLinkMap.putAll(CATEGLINKSERVICE.countLinks(categ, true));
-                    Number n = countLinkMap.get(categ.getId());
-                    if (n != null) {
-                        out.write("(" + n.toString() + ")");
-                    } else {
-                        out.write("(0)");
-                    }
-                }
-                out.write("         </span>");
-            }
-            out.write(indent + "      </div>");
+			if (cb.count) {
+				out.write(indent + "         <span class=\"cb-count\">");
+				long c = 0;
+				if (cb.filter != null) {
+					c = countBySearch(cb, categ.getId().getID());
+				} else {
+					countLinkMap.putAll(CATEGLINKSERVICE.countLinks(categ, true));
+					Number n = countLinkMap.get(categ.getId());
+					if (n != null) {
+						c=n.longValue();
+					} else {
+						out.write("(0)");
+					}
+				}
+				
+				switch ((int)c) {
+				case 0:
+					out.write(MCRTranslation.translate("Webpage.browse.noentries"));
+				break;
+				case 1:
+					out.write(MCRTranslation.translate("Webpage.browse.entry", 1));
+				break;
+				default:
+					out.write(MCRTranslation.translate("Webpage.browse.entries", c));
+				}
+				out.write("         </span>");
+			}
+			out.write(indent + "      </div>");
 
             writeLinkedCategoryItemText(cb, categ, baseURL, out);
 
