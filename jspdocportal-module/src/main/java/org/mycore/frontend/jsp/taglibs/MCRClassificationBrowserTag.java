@@ -313,16 +313,28 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 
 			if (cb.count) {
 				out.write(indent + "         <span class=\"cb-count\">");
+				long c = 0;
 				if (cb.filter != null) {
-					out.write("(" + countBySearch(cb, categ.getId().getID()) + ")");
+					c = countBySearch(cb, categ.getId().getID());
 				} else {
 					countLinkMap.putAll(CATEGLINKSERVICE.countLinks(categ, true));
 					Number n = countLinkMap.get(categ.getId());
 					if (n != null) {
-						out.write("(" + n.toString() + ")");
+						c=n.longValue();
 					} else {
 						out.write("(0)");
 					}
+				}
+				
+				switch ((int)c) {
+				case 0:
+					out.write(MCRTranslation.translate("Webpage.browse.noentries"));
+				break;
+				case 1:
+					out.write(MCRTranslation.translate("Webpage.browse.entry", 1));
+				break;
+				default:
+					out.write(MCRTranslation.translate("Webpage.browse.entries", c));
 				}
 				out.write("         </span>");
 			}
