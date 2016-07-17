@@ -370,6 +370,18 @@
   </servlet-mapping>
   
   <!-- **************************************************************** -->
+  <!-- Servlet to deliver static webcontent                           * -->
+  <!-- **************************************************************** -->
+  <servlet>
+    <servlet-name>MCRWebContentServlet</servlet-name>
+    <servlet-class>org.mycore.frontend.servlets.MCRWebContentServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MCRWebContentServlet</servlet-name>
+    <url-pattern>/webcontent/*</url-pattern>
+  </servlet-mapping>         
+     
+  <!-- **************************************************************** -->
   <!-- MyCoRe OAI                                                       -->
   <!-- **************************************************************** -->
   
