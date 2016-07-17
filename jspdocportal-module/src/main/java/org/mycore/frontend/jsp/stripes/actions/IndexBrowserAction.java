@@ -1,19 +1,24 @@
 package org.mycore.frontend.jsp.stripes.actions;
 
-import java.util.Arrays;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
+import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
+import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.FacetField.Count;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.frontend.jsp.search.MCRSearchResultDataBean;
+import org.mycore.solr.MCRSolrClientFactory;
 
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.Before;
@@ -28,8 +33,7 @@ public class IndexBrowserAction extends MCRAbstractStripesAction implements Acti
 	private static Logger LOGGER = Logger.getLogger(IndexBrowserAction.class);
 	ForwardResolution fwdResolution = new ForwardResolution("/content/indexbrowser.jsp");
 
-	private List<String> firstSelector = Arrays.asList(new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
-			"K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" });
+	private TreeSet<String> firstSelector = new TreeSet<String>();
 	private Map<String, Long> secondSelector = new TreeMap<String, Long>();
 	private String modus = "";
 	private String select;
@@ -54,20 +58,40 @@ public class IndexBrowserAction extends MCRAbstractStripesAction implements Acti
 	@DefaultHandler
 	public Resolution defaultRes() {
 		MCRConfiguration config = MCRConfiguration.instance();
+		String searchfield = config.getString("MCR.IndexBrowser." + modus + ".Searchfield");
+		String facetfield = config.getString("MCR.IndexBrowser." + modus + ".Facetfield");
+		String filterQuery = config.getString("MCR.IndexBrowser." + modus + ".FilterQuery", null);
+
+		// set first selector
+		SolrQuery q = new SolrQuery();
+		q.setQuery(searchfield + ":*");
+		q.addFacetField(facetfield);
+		q.add("facet.limit", "-1");
+		q.addSort(searchfield, ORDER.asc);
+		q.setRows(0);
+		q.setStart(0);
+		SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
+
+		firstSelector.clear();
+		try {
+			for (Count c : solrClient.query(q).getFacetFields().get(0).getValues()) {
+				if (c.getCount() > 0 && c.getName().length() > 0) {
+					firstSelector.add(c.getName().substring(0, 1));
+				}
+			}
+		} catch (IOException | SolrServerException e) {
+			LOGGER.error(e);
+		}
 
 		if (select != null) {
 			SolrQuery query = new SolrQuery();
-			String searchfield = config.getString("MCR.IndexBrowser." + modus + ".Searchfield");
-			String facetfield = config.getString("MCR.IndexBrowser." + modus + ".Facetfield");
-			String filterQuery = config.getString("MCR.IndexBrowser." + modus + ".FilterQuery", null);
 			query.setQuery(searchfield + ":" + select + "*");
 			query.addFacetField(facetfield);
 			query.addSort(searchfield, ORDER.asc);
-			if(filterQuery!=null &&filterQuery.length()>0){
+			if (filterQuery != null && filterQuery.length() > 0) {
 				query.addFilterQuery(filterQuery);
 			}
 
-			
 			mcrSearchResult = new MCRSearchResultDataBean();
 			mcrSearchResult.setSolrQuery(query);
 			mcrSearchResult.setRows(Integer.MAX_VALUE);
@@ -90,7 +114,7 @@ public class IndexBrowserAction extends MCRAbstractStripesAction implements Acti
 					}
 				}
 				if (solrResults.getNumFound() > 20 && select.length() <= 1) {
-					//do not display entries, show 2nd selector instead
+					// do not display entries, show 2nd selector instead
 					mcrSearchResult.getEntries().clear();
 				}
 			}
@@ -99,7 +123,7 @@ public class IndexBrowserAction extends MCRAbstractStripesAction implements Acti
 
 	}
 
-	public List<String> getFirstSelector() {
+	public SortedSet<String> getFirstSelector() {
 		return firstSelector;
 	}
 

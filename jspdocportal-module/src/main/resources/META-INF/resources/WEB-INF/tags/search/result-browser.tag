@@ -17,10 +17,10 @@
 	<%--Resort Form --%>
 	<div class="panel panel-default">
 		<div class="panel-body">
-		<form style="margin-bottom:0px;" action="${pageContext.request.contextPath}/${result.action}" method="get" accept-charset="UTF-8">
+		<form class="form-inline" action="${pageContext.request.contextPath}/${result.action}" method="get" accept-charset="UTF-8">
 			 <input type="hidden" name="_search" value="<%= java.net.URLEncoder.encode(result.getId() , "UTF-8") %>" />
-			 <fmt:message key="Webpage.Searchresult.resort-label" />
-			 <select name="sortField">
+			 <label><fmt:message key="Webpage.Searchresult.resort-label" /></label>&#160;&#160;&#160;&#160;&#160;
+			 <select name="sortField" class="form-control input-sm">
 			 	<option value=""></option>
 			 	<c:forEach var="field" items="${fn:split(fn:trim(result.sortfields), ',')}">
 			 		<c:if test="${not empty field}">
@@ -35,7 +35,7 @@
 			 		</c:if>
 				</c:forEach>
 			</select>&#160;&#160;&#160;
-			<select name="sortValue">
+			<select name="sortValue" class="form-control input-sm">
 				<option value=""></option>
 			 	<c:forEach var="order" items="${fn:split('asc desc', ' ')}">
 			 		<c:choose>

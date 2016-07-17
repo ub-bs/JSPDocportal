@@ -56,16 +56,18 @@
 			
 			<div class="row">
 				<div class="col-xs-12">
-					<stripes:form beanclass="org.mycore.frontend.jsp.stripes.actions.IndexBrowserAction"
-					   	          id="indexbrowserForm" enctype="multipart/form-data" acceptcharset="UTF-8">
-						<stripes:hidden name="modus">${actionBean.modus}</stripes:hidden>
-						<div>
-							<stripes:label for="txtSelect"><fmt:message key="Webpage.indexbrowser.form.label" />:</stripes:label>
-							<stripes:text id="txtSelect" name="select" />
-							<fmt:message var="output" key="Webpage.indexbrowser.form.button" />
-							<stripes:submit name="doSearch" value="${output}" class="submit" />
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<stripes:form beanclass="org.mycore.frontend.jsp.stripes.actions.IndexBrowserAction"
+					   	  		          id="indexbrowserForm" enctype="multipart/form-data" acceptcharset="UTF-8" class="form-inline">
+								<stripes:hidden name="modus">${actionBean.modus}</stripes:hidden>
+								<stripes:label for="txtSelect"><fmt:message key="Webpage.indexbrowser.form.label" />:</stripes:label>&#160;&#160;&#160;&#160;&#160;
+								<stripes:text class="form-control input-sm" id="txtSelect" name="select" />
+								<fmt:message var="output" key="Webpage.indexbrowser.form.button" />
+								<stripes:submit name="doSearch" value="${output}" class="btn btn-sm btn-primary" />
+							</stripes:form>
 						</div>
-					</stripes:form>
+					</div>
 				</div>
 			</div>
 				
