@@ -95,6 +95,11 @@
 	<div class="panel-heading">
 		<c:out value="${pageNavi}" escapeXml="false"/>
 	</div>
+	<c:if test="${numHits eq 0}">
+		<div class="panel-body">
+			<fmt:message key="Webpage.Searchresult.empty"/>
+		</div>
+	</c:if>
 	
 	<c:if test="${numHits > 0}">	
 		<ul class="list-group">
