@@ -111,10 +111,8 @@ public class MCRDocDetailsDerivateContentTag extends SimpleTagSupport {
 							String fURL = sbUrl.toString() + theFile.getName();
 							String contentType = theFile.getContentTypeID();
 							if (contentType.contains("html") || contentType.contains("xml")) {
-								out.write("<font size=\"+1\" face=\"times\">");
-								String content = theFile.getContentAsString(encoding);
+								String content = retrieveHTMLBody(theFile.getContentAsString(encoding));
 								out.write(content);
-								out.write("</font>");
 							}
 							if (contentType.contains("jpeg")) {
 								out.write("<a href=\"" + fURL + "\" target=\"_blank\" title=\""
@@ -161,5 +159,16 @@ public class MCRDocDetailsDerivateContentTag extends SimpleTagSupport {
 	 */
 	public void setEncoding(String encoding) {
 		this.encoding = encoding;
+	}
+	
+	private String retrieveHTMLBody(String content){
+		if(content.contains("<body>") && content.contains("</body>")){
+			int start = content.indexOf("<body>")+6;
+			int ende = content.lastIndexOf("</body>");
+			return content.substring(start, ende);
+		}
+		else{
+			return content;
+		}
 	}
 }
