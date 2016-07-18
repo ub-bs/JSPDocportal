@@ -64,14 +64,14 @@ table.docdetails-values-table {
 td.docdetails-value {
      vertical-align: top;
      line-height: 125%;
-     margin-bottom:0.2em;
+     padding-bottom:0.33em;
 }
 
 td.docdetails-value-bold {
      vertical-align: top;
      font-weight:bold;
      line-height: 125%;
-     margin-bottom:0.2em;   
+     padding-bottom:0.33em;   
 }
 
 
