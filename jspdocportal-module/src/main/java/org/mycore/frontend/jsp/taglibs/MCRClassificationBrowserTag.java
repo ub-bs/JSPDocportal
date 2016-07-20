@@ -41,6 +41,7 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
 import net.sf.ehcache.constructs.blocking.CacheEntryFactory;
 import net.sf.ehcache.constructs.blocking.SelfPopulatingCache;
 import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
@@ -310,9 +311,10 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 			}
 
 			out.write(indent + "         <span class=\"cb-text\">" + categ.getCurrentLabel().getText() + "</span>");
-
+			
+			String label = MCRTranslation.translate("Editor.Common.Choose");
+			
 			if (cb.count) {
-				out.write(indent + "         <span class=\"cb-count\">");
 				long c = 0;
 				if (cb.filter != null) {
 					c = countBySearch(cb, categ.getId().getID());
@@ -328,19 +330,19 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 				
 				switch ((int)c) {
 				case 0:
-					out.write(MCRTranslation.translate("Webpage.browse.noentries"));
+					label = MCRTranslation.translate("Webpage.browse.noentries");
 				break;
 				case 1:
-					out.write(MCRTranslation.translate("Webpage.browse.entry", 1));
+					label = MCRTranslation.translate("Webpage.browse.entry", 1);
 				break;
 				default:
-					out.write(MCRTranslation.translate("Webpage.browse.entries", c));
+					label = MCRTranslation.translate("Webpage.browse.entries", c);
 				}
-				out.write("         </span>");
-			}
+					}
 			out.write(indent + "      </div>");
-
-			writeLinkedCategoryItemText(cb, categ, baseURL, out);
+			out.write(indent + "      <div class=\"cb-count\">");
+			writeLinkedCategoryItemText(cb, categ, baseURL, label, out);
+			out.write(indent + "      </div>");
 
 			if (cb.showdescription) {
 				String descr = categ.getCurrentLabel().getDescription();
@@ -448,12 +450,10 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 	 *            - the JSPWriter
 	 * @throws IOException
 	 */
-	private void writeLinkedCategoryItemText(CBConfig cb, MCRCategory categ, String baseURL, JspWriter out)
+	private void writeLinkedCategoryItemText(CBConfig cb, MCRCategory categ, String baseURL, String label, JspWriter out)
 			throws IOException {
 		boolean showLinks = cb.linkall || hasLinks(cb, categ);
 		if (showLinks) {
-			out.write("<div class=\"btn btn-default btn-xs cb-btn\">");
-
 			PageContext context = (PageContext) getJspContext();
 
 			HttpServletRequest request = (HttpServletRequest) context.getRequest();
@@ -475,11 +475,12 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 				url.append("?q="
 						+ URLEncoder.encode(generateQuery(cb, categ.getId().getID()), Charset.defaultCharset().name()));
 			}
-			out.write("<a href=\"" + url.toString() + "\">");
-			out.write(MCRTranslation.translate("Editor.Common.Choose"));
+			out.write("<a class=\"btn btn-default btn-xs cb-btn\" href=\"" + url.toString() + "\">");
+			out.write(label + " <span class=\"glyphicon glyphicon-share-alt\"></span>");
 			out.write("</a>");
-
-			out.write("</div>");
+		}
+		else{
+			out.write(label);
 		}
 	}
 
@@ -543,7 +544,13 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 	 */
 	private long countBySearch(CBConfig cb, String categid) {
 		String qs = generateQuery(cb, categid);
-		return (Long) cbHitCountCache.get(qs).getObjectValue();
+		Element cacheElem = cbHitCountCache.get(qs);
+		if(cacheElem!=null && cacheElem.getObjectValue()!=null){
+			return (Long) cacheElem.getObjectValue();
+		}
+		else{
+			return 0;
+		}
 	}
 }
 
