@@ -89,7 +89,11 @@
 				<li><a href="${pageContext.request.contextPath}/${result.action}?_search=${result.id}&amp;_start=${start}"><fmt:message key="Webpage.Searchresult.lastPage" /></a></li>
 			</c:if>
 		</ul>
-		${result.numFound} <fmt:message key="Webpage.Searchresult.numHits" />
+		<c:if test="${fn:length(result.backURL) >0}">
+			<a class="btn btn-default btn-sm" style="margin: -7px 15px -7px 0px;"
+			   href="${result.backURL}" ><fmt:message key="Webpage.searchresults.back" /></a>
+		</c:if>
+		<strong>${result.numFound} <fmt:message key="Webpage.Searchresult.numHits" /></strong>
 
 		</c:set>
 	<div class="panel-heading">

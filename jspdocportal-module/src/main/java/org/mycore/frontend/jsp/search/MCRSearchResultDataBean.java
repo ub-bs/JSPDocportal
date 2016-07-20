@@ -63,6 +63,7 @@ public class MCRSearchResultDataBean implements Serializable {
 	private String action="";
 	private String mask=null;
 	private String xedSessionId;
+	private String backURL;
 	
 	private Document queryDoc;
 	
@@ -280,6 +281,14 @@ public class MCRSearchResultDataBean implements Serializable {
 
 	public QueryResponse getSolrQueryResponse() {
 		return solrQueryResponse;
+	}
+
+	public String getBackURL() {
+		return backURL;
+	}
+
+	public void setBackURL(String backURL) {
+		this.backURL = backURL;
 	}
 	
 	

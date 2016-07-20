@@ -31,8 +31,12 @@
 			</fmt:message>
 		</div>
 		<div class="panel-body">
+			<c:set var="backURL" value="${pageContext.request.contextPath}/${result.action}?_search=${result.id}" />
+			<c:if test="${fn:contains(result.backURL, 'indexbrowser')}">
+				<c:set var="backURL" value="${result.backURL}" />	
+			</c:if>
 			<a style="font-size:1.5em" class="btn btn-default btn-xs" 
-			    href="${pageContext.request.contextPath}/${result.action}?_search=${result.id}"
+			    href="${backURL}"
 				title="<fmt:message key="Webpage.Searchresult.back.hint" />">▲</a>
 
 			<div class="btn-group pull-right">
