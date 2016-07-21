@@ -10,6 +10,7 @@
 
 <div class="rows">
 	<div class="col-sm-9">
+		<search:show-edit-button mcrid="${data.mcrid}" cssClass="btn btn-primary pull-right" /> 
 		<h4>
 			<a href="${url}">${data.label}</a>
 		</h4>
@@ -38,9 +39,9 @@
 		</table>
 	</div>
 	<c:if test="${not empty data.coverURL}">
-		<div class="col-sm-3">
+		<div class="col-sm-3 hidden-xs">
 			<img src="${pageContext.request.contextPath}/${data.coverURL}"
-				class="pull-right img-thumbnail" alt="Portrait" style="max-width:120px" />
+				class="pull-right img-thumbnail" />
 		</div>
 	</c:if>
 </div>
