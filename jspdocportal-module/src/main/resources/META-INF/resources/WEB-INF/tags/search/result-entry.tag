@@ -7,6 +7,7 @@
 
 <%@ attribute name="url" required="true" type="java.lang.String"%>
 <%@ attribute name="data" required="true" type="org.mycore.frontend.jsp.search.MCRSearchResultEntry"%>
+<%@ attribute name="protectDownload" type="java.lang.Boolean"  %>
 
 <div class="rows">
 	<div class="col-sm-9">
@@ -40,8 +41,14 @@
 	</div>
 	<c:if test="${not empty data.coverURL}">
 		<div class="col-sm-3 hidden-xs">
-			<img src="${pageContext.request.contextPath}/${data.coverURL}"
-				class="pull-right img-thumbnail" />
+			<div class="img-thumbnail pull-right ir-resultentry-image">
+				<div style="position:relative">
+   					<c:if test="${protectDownload}">
+   						<img style="opacity:0.01;position:absolute;top:0px;left:0px;width:100%;height:100%;z-index:1" src="${pageContext.request.contextPath}/images/image_terms_of_use.png"/>
+	   				</c:if>
+   					<img style="position:relative;top:0px;left:0px;width:98%;padding:1%;display:block;" src="${pageContext.request.contextPath}/${data.coverURL}" border="0" />
+				</div>
+			</div>
 		</div>
 	</c:if>
 </div>

@@ -74,9 +74,9 @@
 			<c:forEach var="r" items="${actionBean.result.entries}">
 			<div class="row">
 				<div class="col-xs-12">
-					<div class="panel panel-default">
+					<div class="panel panel-default ir-resultentry-panel">
 						<div class="panel-body">
-							<search:result-entry data="${r}" url="${WebApplicationBaseURL}resolve/id/${r.mcrid}?_search=${actionBean.result.id}" />
+							<search:result-entry data="${r}" url="${WebApplicationBaseURL}resolve/id/${r.mcrid}?_search=${actionBean.result.id}" protectDownload="true" />
 						</div>
 					</div>
 				</div>

@@ -112,9 +112,9 @@
 				<c:set var="entry" value="${entry}" />
 				<c:set var="url"   value="${pageContext.request.contextPath}/resolve/id/${entry.mcrid}?_search=${result.id}" />
 				<li class="list-group-item">
-				
-					<jsp:doBody />
-					
+					<div class="ir-resultentry-panel">
+						<jsp:doBody />
+					</div>
 				</li>				 
 			</c:forEach>
    		</ul>
