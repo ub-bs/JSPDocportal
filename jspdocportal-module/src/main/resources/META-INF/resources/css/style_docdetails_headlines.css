@@ -33,7 +33,7 @@ div.docdetails-header {
 }
 
 div.docdetails-block{
-	margin-top:.8em;
+	margin-top:1em;
 }
 
 div.docdetails-infolabel,
@@ -60,18 +60,19 @@ div.docdetails-preview img {
 
 table.docdetails-values-table {
 	border-spacing: 4px;
+	margin-top:.4em;
 }
 td.docdetails-value {
      vertical-align: top;
      line-height: 125%;
-     padding-bottom:0.33em;
+     padding-bottom:0.4em;
 }
 
 td.docdetails-value-bold {
      vertical-align: top;
      font-weight:bold;
      line-height: 125%;
-     padding-bottom:0.33em;   
+     padding-bottom:0.4em;   
 }
 
 
@@ -82,7 +83,7 @@ div.docdetails-separator hr {
 	border: none;
 	background-color: #565656;
 	color: #565656;
-	height: .1em;	
+	height: 1px;	
 }
 
 dl.docdetails-derivate-list {
