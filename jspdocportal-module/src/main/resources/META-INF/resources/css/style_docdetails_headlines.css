@@ -9,10 +9,6 @@
 div.docdetails-tabbar{
 	font-size: .8em;
 }
-
-div.docdetails-tabbar{
-	font-size: .8em;
-}
 div.docdetails-tabbar-info{
 	font-style: italic; 
 	color: grey; 
@@ -115,22 +111,9 @@ dl.docdetails-derivate-list img {
 button.docdetails-info-btn{
 	border:none;
 }
-div.docdetails-infobox a{
+
+div.docdetails-infobox a, div.docdetails-infobox a:VISITED{
 	color:black;
-}
-
-/* =================================================================== */
-/* Toolbar on docdetails page                                          */
-/* =================================================================== */
-
-div.docdetails-toolbar{
-    padding-bottom:8px;
-    clear: both;        
-}
-div.docdetails-toolbar-item{
-    float:left;
-    padding-left:6px;
-	padding-right:6px;    
 }
 
 div.docdetails-image{
@@ -149,45 +132,3 @@ div.docdetails-image img{
 div.docdetails-image-footer{
 	font-size:0.8em;
 }
-
-/* =================================================================== */
-/* Searchresult Navigation on Docdetails page
-/* =================================================================== */
-div.searchdetail-navigation{
-   width: 140px;
-   padding:6px;
-   border-radius: 15px;
-   margin-bottom: 12px;
-   margin-top:12px;
-   border-radius:5px;
-   border: 1px solid #565656;
-   background-color:#E6E6E6; 
-}
-div.searchdetail-navigation div.headline{
-  text-align:center;
-  font-weight:bold;
-}
-
-div.searchdetail-navigation div.hitcount{
-  text-align:center;
-  padding-top:3px;
-  padding-bottom:3px;
-}
-
-div.searchdetail-navigation div.button{
-  text-align:center;
-  border: 1px solid #565656;
-  border-radius: 3px;
-  background-color:#969696;
-  padding-left:3px;
-  padding-right:3px;
-}
-div.searchdetail-navigation div.centerbutton{
-  margin-left:36px;
-  margin-right:36px;
-}
-
-div.searchdetail-navigation div.button a{
-  color:white;
-}
-
