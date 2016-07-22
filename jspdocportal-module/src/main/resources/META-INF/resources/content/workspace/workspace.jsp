@@ -87,8 +87,14 @@
 								  			<div class="panel-footer">
 								  				<button name="doGoto-task_${currentTask.id}-edit_object.do_save" value="" class="btn btn-default" type="submit"><span class="glyphicon glyphicon-ok"></span> Veröffentlichen</button>
 												<button name="doGoto-task_${currentTask.id}-edit_object.do_cancel" value="" class="btn btn-default" type="submit"><span class="glyphicon glyphicon-remove"></span> Bearbeitung abbrechen</button>
-							  					<button name="doGoto-task_${currentTask.id}-edit_object.do_drop" value="" class="btn btn-danger btn-sm pull-right" style="margin-top:0.2em" type="submit"><span class="glyphicon glyphicon-trash"></span> Objekt löschen</button>
-							  				</div> 
+							  					<button class="btn btn-danger btn-sm pull-right" style="margin-top:0.2em" type="button" data-toggle="collapse" data-target="#delete-dialog-task_${currentTask.id}"><span class="glyphicon glyphicon-trash"></span> Objekt löschen</button>
+							  				</div>
+							  				<div id="delete-dialog-task_${currentTask.id}" class="collapse">
+							  					<div class="panel-footer" style="background-color: rgb(242, 222, 222);border: 2px solid rgb(169, 68, 66); padding-left: 4em;">
+								  					<button name="doGoto-task_${currentTask.id}-edit_object.do_drop" value="" class="btn btn-danger btn-sm" type="submit"><span class="glyphicon glyphicon-trash"></span> LÖSCHEN</button>
+								  					<label style="vertical-align:bottom; margin-left:2em;">Wollen sie das Objekt wirklich löschen?</label>
+							  					</div>
+							  				</div>
 							   			</c:when>
 							   			<c:otherwise>
 											<p> Nothing ToDo for TASK: = ${task.name} </p>
