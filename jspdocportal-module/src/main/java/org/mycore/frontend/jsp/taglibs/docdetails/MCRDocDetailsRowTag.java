@@ -33,6 +33,7 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.taglibs.standard.tag.common.xml.XPathUtil;
+import org.mycore.services.i18n.MCRTranslation;
 import org.w3c.dom.Node;
 
 /**
@@ -169,7 +170,28 @@ public class MCRDocDetailsRowTag extends SimpleTagSupport {
 			} catch (MissingResourceException e) {
 				info = "???" + labelkey + ".info???<br /><i>Eine Beschreibung für das Feld wird gerade erstellt.</i>";
 			}
-			out.write("<div class=\"" + docdetails.getStylePrimaryName() + "-infohover\">" + "<a href=\"#\"><i class=\"glyphicon glyphicon-info-sign\"></i><span>" + info + "</span></a></div>");
+			String id = labelkey.replaceAll("[^A-Za-z0-9]", "_");
+			//out.write("<div class=\"" + docdetails.getStylePrimaryName() + "-infohover\">" + "<a href=\"#\"><i class=\"glyphicon glyphicon-info-sign\"></i><span>" + info + "</span></a></div>");
+		
+			out.write("<div class=\"" + docdetails.getStylePrimaryName() + "-info pull-left\">");
+			out.write("  <button type=\"button\" class=\"btn btn-default btn-xs docdetails-info-btn\" data-toggle=\"modal\" data-target=\"#dlg_"+ id +"\">");
+			out.write("     <span class=\"glyphicon glyphicon-info-sign\"></span>");
+			out.write("  </button>");
+
+			out.write("  <div class=\"modal fade\" id=\"dlg_"+ id +"\" tabindex=\"-1\" role=\"dialog\">");
+			out.write("    <div class=\"modal-dialog modal-sm docdetails-info-dialog\" role=\"document\">");
+			out.write("      <div class=\"modal-content\">");
+			out.write("        <div class=\"modal-header\">");
+			out.write("          <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>");
+			out.write("          <h4 class=\"modal-title\">"+MCRTranslation.translate("Webpage.docdetails.infodialog.title", MCRTranslation.translate(labelkey).replace("<br />", ""))+"</h4>");
+			out.write("        </div>");
+			out.write("        <div class=\"modal-body\">");
+			out.write("          "+info);
+			out.write("        </div>");
+			out.write("      </div>");
+			out.write("    </div>");
+			out.write("  </div>");
+			out.write("</div>");
 		}
 	}
 	

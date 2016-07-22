@@ -107,6 +107,10 @@ dl.docdetails-derivate-list img {
 	content: none !important;
 }
 
+button.docdetails-info-btn{
+	border:none;
+}
+
 /* =================================================================== */
 /* Resultdetails                                                       */
 /* =================================================================== */
@@ -211,60 +215,4 @@ div.docdetails-image{
 }
 div.docdetails-image-footer{
 	font-size:85%;
-}
-
-/* =================================================================== */
-/* Info Hover (button + messagebox on mouse over)                      */
-/* =================================================================== */
-div.docdetails-infohover a {
-	font: bold 10px courier, sans-serif;
-	text-decoration: none;
-	display: boxed;
-	padding: 1px;
-}
-
-div.docdetails-infohover a:link,
-div.docdetails-infohover a:visited,
-div.docdetails-infohover a:focus,
-div.docdetails-infohover a:active{
-	font-weight: bold;
-	color: #ffffff;
-	background: #0A50A1;
-	border: 1px solid #0A50A1;
-	text-decoration: none !important;
-}
-
-div.docdetails-infohover a:hover {
-	text-decoration: none !important;
-	font-weight: bold;
-	border: 1px solid #0A50A1;
-	color: #0000ff !important;
-	background: #ffff88;
-}
-
-div.docdetails-infohover a span {
-	display: none;
-}
-
-div.docdetails-infohover a:hover span {
-	position: fixed;
-	bottom: 20px;
-	left: 40px;
-	z-index: 30;
-	text-align: justify;
-	display: block;
-	color: #0A50A1;
-	width: 300px;
-	background: #ffff88;
-	font: normal 10px Verdana, Arial, Helvetica, sans-serif;
-	border-width: 3px;
-	border-color: #0A50A1;
-	border-style: outset;
-	padding: 10px;
-}
-
-/* Star Hack - this entry is only interpreted by IE 
-   necessary, because it cannot handle position:fixed correctly */
-* html * div.docdetails-infohover a:hover span {
-	position: absolute !important;
 }
