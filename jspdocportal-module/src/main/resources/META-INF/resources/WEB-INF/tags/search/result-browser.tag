@@ -54,7 +54,7 @@
 	</div>
 </c:if>
 
-<div class="panel panel-default ur-searchresult-panel">
+<div class="panel panel-default ir-searchresult-panel">
 	<c:if test="${numHits >= 0}">	
 		<c:set var="pageNavi">
 			<%-- // 36.168 Treffer                   Erste Seite | 11-20 | 21-30 | 31-40 | 41-50 | Letzte Seite --%>
