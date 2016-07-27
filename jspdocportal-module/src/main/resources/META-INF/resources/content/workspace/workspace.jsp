@@ -85,7 +85,7 @@
 							     				</button>
 							   			 	</div>
 								  			<div class="panel-footer">
-								  				<button name="doGoto-task_${currentTask.id}-edit_object.do_save" value="" class="btn btn-default" type="submit"><span class="glyphicon glyphicon-ok"></span> Veröffentlichen</button>
+								  				<button name="doGoto-task_${currentTask.id}-edit_object.do_save" value="" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-ok"></span> Veröffentlichen</button>
 												<button name="doGoto-task_${currentTask.id}-edit_object.do_cancel" value="" class="btn btn-default" type="submit"><span class="glyphicon glyphicon-remove"></span> Bearbeitung abbrechen</button>
 							  					<button class="btn btn-danger btn-sm pull-right" style="margin-top:0.2em" type="button" data-toggle="collapse" data-target="#delete-dialog-task_${currentTask.id}"><span class="glyphicon glyphicon-trash"></span> Objekt löschen</button>
 							  				</div>
