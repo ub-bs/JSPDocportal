@@ -76,9 +76,7 @@ div.docdetails-separator {
 	margin-top:.8em;
 }
 div.docdetails-separator hr {
-	border: none;
-	background-color: #565656;
-	color: #565656;
+	border-bottom: 1px solid #565656;
 	height: 1px;	
 }
 
