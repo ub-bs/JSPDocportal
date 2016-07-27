@@ -174,23 +174,32 @@ public class MCRDocDetailsRowTag extends SimpleTagSupport {
 			//out.write("<div class=\"" + docdetails.getStylePrimaryName() + "-infohover\">" + "<a href=\"#\"><i class=\"glyphicon glyphicon-info-sign\"></i><span>" + info + "</span></a></div>");
 		
 			out.write("<div class=\"" + docdetails.getStylePrimaryName() + "-info pull-left\">");
-			out.write("  <button type=\"button\" class=\"btn btn-default btn-xs docdetails-info-btn\" data-toggle=\"modal\" data-target=\"#dlg_"+ id +"\">");
+			out.write("  <a id=\"infoButton_"+ id +"\" type=\"button\" class=\"btn btn-default btn-xs docdetails-info-btn\" data-toggle=\"popover\" >");
 			out.write("     <span class=\"glyphicon glyphicon-info-sign\"></span>");
-			out.write("  </button>");
-
-			out.write("  <div class=\"modal fade\" id=\"dlg_"+ id +"\" tabindex=\"-1\" role=\"dialog\">");
-			out.write("    <div class=\"modal-dialog modal-sm docdetails-info-dialog\" role=\"document\">");
-			out.write("      <div class=\"modal-content\">");
-			out.write("        <div class=\"modal-header\">");
-			out.write("          <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>");
-			out.write("          <h4 class=\"modal-title\">"+MCRTranslation.translate("Webpage.docdetails.infodialog.title", MCRTranslation.translate(labelkey).replace("<br />", ""))+"</h4>");
-			out.write("        </div>");
-			out.write("        <div class=\"modal-body\">");
-			out.write("          "+info);
-			out.write("        </div>");
-			out.write("      </div>");
-			out.write("    </div>");
-			out.write("  </div>");
+			out.write("  </a>");
+			out.write("\n  <script>                                                                               ");
+			out.write("\n	   $('#infoButton_"+id+"').popover({                                                            ");
+			out.write("\n	            title: '"+MCRTranslation.translate("Webpage.docdetails.infodialog.title", MCRTranslation.translate(labelkey).replace("<br />", ""))+"', ");
+			out.write("\n	            content : '"+info+".',                                                              ");
+			// to use placement function to set id into newly created popup
+			out.write("\n	            placement :  function(context, src) {                                               ");
+			out.write("\n	                             $(context).addClass('po_"+id+"');                                  ");
+			out.write("\n	                             return 'auto left';                                                ");
+			out.write("\n	                          },                                                                    ");
+			out.write("\n	            html: true,                                                                         ");
+			out.write("\n	            trigger: 'manual' })                                                                ");
+			out.write("\n	        .on('mouseenter', function () {                                                         ");
+			out.write("\n	              $('#infoButton_"+id+"').popover('show');                                          ");
+			out.write("\n	              $('.po_"+id+"').on('mouseleave', function () {                                    ");
+			out.write("\n	                  $('#infoButton_"+id+"').popover('hide');                                      ");
+			out.write("\n	              });})                                                                             ");
+			out.write("\n	        .on('mouseleave', function () {                                                         ");
+			out.write("\n	              setTimeout(function () {                                                          ");
+			out.write("\n	                 if (!$('.po_"+id+":hover').length) { $('#infoButton_"+id+"').popover('hide'); }");
+			out.write("\n	              }, 500);                                                                          ");
+			out.write("\n	        });                                                                                    ");
+			out.write("\n  </script>                                                                                        ");
+			out.write("");
 			out.write("</div>");
 		}
 	}
