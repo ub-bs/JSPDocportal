@@ -71,6 +71,8 @@
 		<url-pattern>/search/*</url-pattern>
 		<url-pattern>/browse/*</url-pattern>
 		<url-pattern>/resolve/*</url-pattern>
+		<url-pattern>/classbrowser/*</url-pattern>
+		<url-pattern>/indexbrowser/*</url-pattern>
 		<url-pattern>/site/*</url-pattern>
 		<url-pattern>/metadata/*</url-pattern>
 	</filter-mapping>
@@ -115,6 +117,8 @@
 		<url-pattern>*.action</url-pattern>
 		<url-pattern>/search/*</url-pattern>
 		<url-pattern>/browse/*</url-pattern>
+		<url-pattern>/classbrowser/*</url-pattern>
+		<url-pattern>/indexbrowser/*</url-pattern>
 		<url-pattern>/site/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>	
@@ -144,6 +148,8 @@
 		<url-pattern>*.action</url-pattern>
 		<url-pattern>/search/*</url-pattern>
 		<url-pattern>/browse/*</url-pattern>
+		<url-pattern>/classbrowser/*</url-pattern>
+		<url-pattern>/indexbrowser/*</url-pattern>
 		<url-pattern>/site/*</url-pattern>
 	</servlet-mapping>
     

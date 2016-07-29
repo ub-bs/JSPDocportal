@@ -169,15 +169,15 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 
 		PageContext context = (PageContext) getJspContext();
 		HttpServletRequest request = (HttpServletRequest) context.getRequest();
-		String requestPath = request.getParameter("cbpath");
-		StringBuffer url = new StringBuffer("classbrowser.action?");
+		String requestPath = request.getParameter("select");
+		StringBuffer url = new StringBuffer("classbrowser/"+mode+"?");
 	
 
 		@SuppressWarnings("rawtypes")
 		Enumeration paramNames = request.getParameterNames();
 		while (paramNames.hasMoreElements()) {
 			String s = paramNames.nextElement().toString();
-			if (!s.equals("cbpath")) {
+			if (!s.equals("select") && !s.equals("modus")) {
 				url.append(s).append("=")
 						.append(URLEncoder.encode(request.getParameter(s), Charset.defaultCharset().name()))
 						.append("&amp;");
@@ -187,7 +187,7 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 		if (requestPath == null) {
 			requestPath = "";
 		}
-		url.append("cbpath=").append(clearPath(requestPath));
+		url.append("select=").append(clearPath(requestPath));
 
 		JspWriter out = getJspContext().getOut();
 		boolean doCommitTransaction = false;

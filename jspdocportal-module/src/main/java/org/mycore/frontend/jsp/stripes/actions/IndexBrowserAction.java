@@ -17,6 +17,7 @@ import org.apache.solr.client.solrj.response.FacetField.Count;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
 import org.mycore.common.config.MCRConfiguration;
+import org.mycore.common.config.MCRConfigurationException;
 import org.mycore.frontend.jsp.search.MCRSearchResultDataBean;
 import org.mycore.solr.MCRSolrClientFactory;
 
@@ -24,11 +25,12 @@ import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.controller.LifecycleStage;
 
-@UrlBinding("/indexbrowser.action")
+@UrlBinding("/indexbrowser/{modus}")
 public class IndexBrowserAction extends MCRAbstractStripesAction implements ActionBean {
 	private static Logger LOGGER = Logger.getLogger(IndexBrowserAction.class);
 	ForwardResolution fwdResolution = new ForwardResolution("/content/indexbrowser.jsp");
@@ -58,70 +60,75 @@ public class IndexBrowserAction extends MCRAbstractStripesAction implements Acti
 	@DefaultHandler
 	public Resolution defaultRes() {
 		MCRConfiguration config = MCRConfiguration.instance();
-		String searchfield = config.getString("MCR.IndexBrowser." + modus + ".Searchfield");
-		String facetfield = config.getString("MCR.IndexBrowser." + modus + ".Facetfield");
-		String filterQuery = config.getString("MCR.IndexBrowser." + modus + ".FilterQuery", null);
-
-		// set first selector
-		SolrQuery q = new SolrQuery();
-		q.setQuery(searchfield + ":*");
-		q.addFacetField(facetfield);
-		q.add("facet.limit", "-1");
-		q.addSort(searchfield, ORDER.asc);
-		q.setRows(0);
-		q.setStart(0);
-		SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
-
-		firstSelector.clear();
 		try {
-			for (Count c : solrClient.query(q).getFacetFields().get(0).getValues()) {
-				if (c.getCount() > 0 && c.getName().length() > 0) {
-					firstSelector.add(c.getName().substring(0, 1));
-				}
-			}
-		} catch (IOException | SolrServerException e) {
-			LOGGER.error(e);
-		}
+			String searchfield = config.getString("MCR.IndexBrowser." + modus + ".Searchfield");
+			String facetfield = config.getString("MCR.IndexBrowser." + modus + ".Facetfield");
+			String filterQuery = config.getString("MCR.IndexBrowser." + modus + ".FilterQuery", null);
 
-		if (select != null) {
-			SolrQuery query = new SolrQuery();
-			query.setQuery(searchfield + ":" + select + "*");
-			query.addFacetField(facetfield);
-			query.addSort(searchfield, ORDER.asc);
-			if (filterQuery != null && filterQuery.length() > 0) {
-				query.addFilterQuery(filterQuery);
-			}
+			// set first selector
+			SolrQuery q = new SolrQuery();
+			q.setQuery(searchfield + ":*");
+			q.addFacetField(facetfield);
+			q.add("facet.limit", "-1");
+			q.addSort(searchfield, ORDER.asc);
+			q.setRows(0);
+			q.setStart(0);
 
-			mcrSearchResult = new MCRSearchResultDataBean();
-			mcrSearchResult.setSolrQuery(query);
-			mcrSearchResult.setRows(Integer.MAX_VALUE);
-			mcrSearchResult.setStart(0);
-			mcrSearchResult.setAction("search");
-			mcrSearchResult.doSearch();
-			mcrSearchResult.setBackURL(getContext().getRequest().getContextPath()+"/indexbrowser.action?modus="+modus+"&select="+select);
-			MCRSearchResultDataBean.addSearchresultToSession(getContext().getRequest(), mcrSearchResult);
+			SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
 
-			QueryResponse response = mcrSearchResult.getSolrQueryResponse();
-			if (response != null) {
-				SolrDocumentList solrResults = response.getResults();
-
-				List<FacetField> facets = response.getFacetFields();
-				secondSelector.clear();
-				if (solrResults.getNumFound() > 20 || select.length() > 1) {
-					for (Count c : facets.get(0).getValues()) {
-						if (c.getCount() > 0) {
-							secondSelector.put(c.getName(), c.getCount());
-						}
+			firstSelector.clear();
+			try {
+				for (Count c : solrClient.query(q).getFacetFields().get(0).getValues()) {
+					if (c.getCount() > 0 && c.getName().length() > 0) {
+						firstSelector.add(c.getName().substring(0, 1));
 					}
 				}
-				if (solrResults.getNumFound() > 20 && select.length() <= 1) {
-					// do not display entries, show 2nd selector instead
-					mcrSearchResult.getEntries().clear();
+			} catch (IOException | SolrServerException e) {
+				LOGGER.error(e);
+			}
+
+			if (select != null) {
+				SolrQuery query = new SolrQuery();
+				query.setQuery(searchfield + ":" + select + "*");
+				query.addFacetField(facetfield);
+				query.addSort(searchfield, ORDER.asc);
+				if (filterQuery != null && filterQuery.length() > 0) {
+					query.addFilterQuery(filterQuery);
+				}
+
+				mcrSearchResult = new MCRSearchResultDataBean();
+				mcrSearchResult.setSolrQuery(query);
+				mcrSearchResult.setRows(Integer.MAX_VALUE);
+				mcrSearchResult.setStart(0);
+				mcrSearchResult.setAction("search");
+				mcrSearchResult.doSearch();
+				mcrSearchResult.setBackURL(getContext().getRequest().getContextPath() + "/indexbrowser.action?modus="
+						+ modus + "&select=" + select);
+				MCRSearchResultDataBean.addSearchresultToSession(getContext().getRequest(), mcrSearchResult);
+
+				QueryResponse response = mcrSearchResult.getSolrQueryResponse();
+				if (response != null) {
+					SolrDocumentList solrResults = response.getResults();
+
+					List<FacetField> facets = response.getFacetFields();
+					secondSelector.clear();
+					if (solrResults.getNumFound() > 20 || select.length() > 1) {
+						for (Count c : facets.get(0).getValues()) {
+							if (c.getCount() > 0) {
+								secondSelector.put(c.getName(), c.getCount());
+							}
+						}
+					}
+					if (solrResults.getNumFound() > 20 && select.length() <= 1) {
+						// do not display entries, show 2nd selector instead
+						mcrSearchResult.getEntries().clear();
+					}
 				}
 			}
+			return fwdResolution;
+		} catch (MCRConfigurationException e) {
+			return new RedirectResolution("/");
 		}
-		return fwdResolution;
-
 	}
 
 	public SortedSet<String> getFirstSelector() {

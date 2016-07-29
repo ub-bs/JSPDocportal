@@ -36,7 +36,7 @@
 							<c:forEach var="x" items="${actionBean.firstSelector}">
 								<c:set var="active"></c:set>
 								<c:if test="${fn:startsWith(actionBean.select, x)}"><c:set var="active">active</c:set></c:if>
-									<a href="${WebApplicationBaseURL}indexbrowser.action?modus=${actionBean.modus}&amp;select=${x}"
+									<a href="${WebApplicationBaseURL}indexbrowser/${actionBean.modus}?select=${x}"
 									   class="btn btn-default btn-sm navbar-btn indexbrowser-btn ${active}" role="button">${x}</a>
 							</c:forEach>
 						</div>
@@ -45,7 +45,7 @@
 								<c:forEach var="x" items="${actionBean.secondSelector}">
 									<c:set var="active"></c:set>
 									<c:if test="${fn:startsWith(actionBean.select, x.key)}"><c:set var="active">active</c:set></c:if>
-										<a href="${WebApplicationBaseURL}indexbrowser.action?modus=${actionBean.modus}&amp;select=${x.key}"
+										<a href="${WebApplicationBaseURL}indexbrowser/${actionBean.modus}?select=${x.key}"
 										   class="btn btn-default btn-sm indexbrowser-btn ${active}" role="button">${x.key} <span class="badge" style="font-size:80%;margin-left:8px">${x.value}</span></a>
 								</c:forEach>
 							</div>

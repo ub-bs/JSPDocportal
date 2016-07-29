@@ -1,14 +1,16 @@
 package org.mycore.frontend.jsp.stripes.actions;
 
+import org.mycore.common.config.MCRConfiguration;
+import org.mycore.common.config.MCRConfigurationException;
+
 import net.sourceforge.stripes.action.ActionBean;
-import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
-import net.sourceforge.stripes.controller.LifecycleStage;
 
-@UrlBinding("/classbrowser.action")
+@UrlBinding("/classbrowser/{modus}")
 public class ClassBrowserAction extends MCRAbstractStripesAction implements ActionBean {
 	
 	private String modus = "";
@@ -17,27 +19,23 @@ public class ClassBrowserAction extends MCRAbstractStripesAction implements Acti
 
 	}
 
-	@Before(stages = LifecycleStage.BindingAndValidation)
-	public void rehydrate() {
-		super.rehydrate();
-		if (getContext().getRequest().getParameter("modus") != null) {
-			modus = getContext().getRequest().getParameter("modus");
-		}
-		
-	}
-
 	@DefaultHandler
 	public Resolution defaultRes() {
-	
-
-		
+		MCRConfiguration config = MCRConfiguration.instance();
+		try{
+			config.getString("MCR.ClassBrowser." + modus + ".Classification");
+		}
+		catch(MCRConfigurationException e){
+			return new RedirectResolution("/");
+		}
 		return new ForwardResolution("/content/classbrowser.jsp");
-
 	}
 
 	public String getModus() {
 		return modus;
 	}
 
-
+	public void setModus(String modus) {
+		this.modus = modus;
+	}
 }
