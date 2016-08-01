@@ -1,33 +1,39 @@
 package org.mycore.frontend.jsp.stripes.actions;
 
-import java.util.Arrays;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
+import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
+import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.FacetField.Count;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
 import org.mycore.common.config.MCRConfiguration;
+import org.mycore.common.config.MCRConfigurationException;
 import org.mycore.frontend.jsp.search.MCRSearchResultDataBean;
+import org.mycore.solr.MCRSolrClientFactory;
 
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.controller.LifecycleStage;
 
-@UrlBinding("/indexbrowser.action")
+@UrlBinding("/indexbrowser/{modus}")
 public class IndexBrowserAction extends MCRAbstractStripesAction implements ActionBean {
 	ForwardResolution fwdResolution = new ForwardResolution("/content/indexbrowser.jsp");
 
-	private List<String> firstSelector = Arrays.asList(new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
-			"K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" });
+	private TreeSet<String> firstSelector = new TreeSet<String>();
 	private Map<String, Long> secondSelector = new TreeMap<String, Long>();
 	private String modus = "";
 	private String select;
@@ -52,48 +58,77 @@ public class IndexBrowserAction extends MCRAbstractStripesAction implements Acti
 	@DefaultHandler
 	public Resolution defaultRes() {
 		MCRConfiguration config = MCRConfiguration.instance();
-
-		if (select != null) {
-			SolrQuery query = new SolrQuery();
+		try {
 			String searchfield = config.getString("MCR.IndexBrowser." + modus + ".Searchfield");
 			String facetfield = config.getString("MCR.IndexBrowser." + modus + ".Facetfield");
-			query.setQuery(searchfield + ":" + select + "*");
-			query.addFacetField(facetfield);
-			query.addSort(searchfield, ORDER.asc);
 
-			
-			mcrSearchResult = new MCRSearchResultDataBean();
-			mcrSearchResult.setSolrQuery(query);
-			mcrSearchResult.setRows(Integer.MAX_VALUE);
-			mcrSearchResult.setStart(0);
-			mcrSearchResult.setAction("search");
-			mcrSearchResult.doSearch();
-			MCRSearchResultDataBean.addSearchresultToSession(getContext().getRequest(), mcrSearchResult);
+			// set first selector
+			SolrQuery q = new SolrQuery();
+			q.setQuery(searchfield + ":*");
+			q.addFacetField(facetfield);
+			q.add("facet.limit", "-1");
+			q.addSort(searchfield, ORDER.asc);
+			q.setRows(0);
+			q.setStart(0);
 
-			QueryResponse response = mcrSearchResult.getSolrQueryResponse();
-			if (response != null) {
-				SolrDocumentList solrResults = response.getResults();
+			SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
 
-				List<FacetField> facets = response.getFacetFields();
-				secondSelector.clear();
-				if (solrResults.getNumFound() > 20 || select.length() > 1) {
-					for (Count c : facets.get(0).getValues()) {
-						if (c.getCount() > 0) {
-							secondSelector.put(c.getName(), c.getCount());
-						}
+			firstSelector.clear();
+			try {
+				for (Count c : solrClient.query(q).getFacetFields().get(0).getValues()) {
+					if (c.getCount() > 0 && c.getName().length() > 0) {
+						firstSelector.add(c.getName().substring(0, 1));
 					}
 				}
-				if (solrResults.getNumFound() > 20 && select.length() <= 1) {
-					//do not display entries, show 2nd selector instead
-					mcrSearchResult.getEntries().clear();
+			} catch (IOException | SolrServerException e) {
+				LOGGER.error(e);
+			}
+
+			if (select != null) {
+				SolrQuery query = new SolrQuery();
+				query.setQuery(searchfield + ":" + select + "*");
+				query.addFacetField(facetfield);
+				query.addSort(searchfield, ORDER.asc);
+				if (filterQuery != null && filterQuery.length() > 0) {
+					query.addFilterQuery(filterQuery);
+				}
+
+				mcrSearchResult = new MCRSearchResultDataBean();
+				mcrSearchResult.setSolrQuery(query);
+				mcrSearchResult.setRows(Integer.MAX_VALUE);
+				mcrSearchResult.setStart(0);
+				mcrSearchResult.setAction("search");
+				mcrSearchResult.doSearch();
+				mcrSearchResult.setBackURL(getContext().getRequest().getContextPath() + "/indexbrowser.action?modus="
+						+ modus + "&select=" + select);
+				MCRSearchResultDataBean.addSearchresultToSession(getContext().getRequest(), mcrSearchResult);
+
+				QueryResponse response = mcrSearchResult.getSolrQueryResponse();
+				if (response != null) {
+					SolrDocumentList solrResults = response.getResults();
+
+					List<FacetField> facets = response.getFacetFields();
+					secondSelector.clear();
+					if (solrResults.getNumFound() > 20 || select.length() > 1) {
+						for (Count c : facets.get(0).getValues()) {
+							if (c.getCount() > 0) {
+								secondSelector.put(c.getName(), c.getCount());
+							}
+						}
+					}
+					if (solrResults.getNumFound() > 20 && select.length() <= 1) {
+						// do not display entries, show 2nd selector instead
+						mcrSearchResult.getEntries().clear();
+					}
 				}
 			}
+			return fwdResolution;
+		} catch (MCRConfigurationException e) {
+			return new RedirectResolution("/");
 		}
-		return fwdResolution;
-
 	}
 
-	public List<String> getFirstSelector() {
+	public SortedSet<String> getFirstSelector() {
 		return firstSelector;
 	}
 

@@ -36,7 +36,8 @@ div.classification-browser div.cb-item div.cb-label span.cb-count{
  
 }
 
-div.classification-browser div.cb-item div.cb-btn{
+div.classification-browser div.cb-item div.cb-btn,
+div.classification-browser div.cb-item a.cb-btn{
   margin-left:12px;
 }
 

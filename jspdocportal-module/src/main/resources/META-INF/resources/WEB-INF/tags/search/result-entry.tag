@@ -7,10 +7,12 @@
 
 <%@ attribute name="url" required="true" type="java.lang.String"%>
 <%@ attribute name="entry" required="true" type="org.mycore.frontend.jsp.search.MCRSearchResultEntry"%>
+<%@ attribute name="protectDownload" type="java.lang.Boolean"  %>
 
 <tr>
 	<td><search:show-edit-button mcrid="${entry.mcrid}" /></td>
 	<td>
+		<search:show-edit-button mcrid="${data.mcrid}" cssClass="btn btn-primary pull-right" /> 
 		<h4>
 			<a href="${url}">${entry.label}</a>
 		</h4>
@@ -37,11 +39,17 @@
 				</tr>
 			</c:forEach>
 		</table>
-	</td>
-	<td>
-		<c:if test="${not empty entry.coverURL}">
-			<img src="${pageContext.request.contextPath}/${entry.coverURL}"
-				class="pull-right img-thumbnail" alt="Cover" style="max-width:120px" />
-		</c:if>
-	</td>
-</tr>
+	</div>
+	<c:if test="${not empty data.coverURL}">
+		<div class="col-sm-3 hidden-xs">
+			<div class="img-thumbnail pull-right ir-resultentry-image">
+				<div style="position:relative">
+   					<c:if test="${protectDownload}">
+   						<img style="opacity:0.01;position:absolute;top:0px;left:0px;width:100%;height:100%;z-index:1" src="${pageContext.request.contextPath}/images/image_terms_of_use.png"/>
+	   				</c:if>
+   					<img style="position:relative;top:0px;left:0px;width:98%;padding:1%;display:block;" src="${pageContext.request.contextPath}/${data.coverURL}" border="0" />
+				</div>
+			</div>
+		</div>
+	</c:if>
+</div>

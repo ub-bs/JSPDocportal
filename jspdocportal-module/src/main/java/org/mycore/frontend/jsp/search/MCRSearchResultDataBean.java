@@ -78,7 +78,9 @@ public class MCRSearchResultDataBean implements Serializable {
     private Document mcrQueryXML = null;
 
     private SolrQuery solrQuery = new SolrQuery();
-
+    
+	private String backURL;
+	  
     private QueryResponse solrQueryResponse;
 
     private String errorMsg = null;
@@ -351,4 +353,12 @@ public class MCRSearchResultDataBean implements Serializable {
         return facetFields;
     }
 
+	public String getBackURL() {
+		return backURL;
+	}
+
+	public void setBackURL(String backURL) {
+		this.backURL = backURL;
+	}
+	
 }

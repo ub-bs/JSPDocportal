@@ -9,10 +9,6 @@
 div.docdetails-tabbar{
 	font-size: .8em;
 }
-
-div.docdetails-tabbar{
-	font-size: .8em;
-}
 div.docdetails-tabbar-info{
 	font-style: italic; 
 	color: grey; 
@@ -22,7 +18,7 @@ div.docdetails-tabbar-info{
 	
 div.docdetails{
 	font-size: 0.8em;
-	margin: 0em 2em;
+	margin: 0em 2em 4em 2em;
 }
 
 div.docdetails-header {
@@ -33,7 +29,7 @@ div.docdetails-header {
 }
 
 div.docdetails-block{
-	margin-top:.8em;
+	margin-top:1em;
 }
 
 div.docdetails-infolabel,
@@ -60,18 +56,19 @@ div.docdetails-preview img {
 
 table.docdetails-values-table {
 	border-spacing: 4px;
+	margin-top:.4em;
 }
 td.docdetails-value {
      vertical-align: top;
      line-height: 125%;
-     margin-bottom:0.2em;
+     padding-bottom:0.4em;
 }
 
 td.docdetails-value-bold {
      vertical-align: top;
      font-weight:bold;
      line-height: 125%;
-     margin-bottom:0.2em;   
+     padding-bottom:0.4em;   
 }
 
 
@@ -79,10 +76,8 @@ div.docdetails-separator {
 	margin-top:.8em;
 }
 div.docdetails-separator hr {
-	border: none;
-	background-color: #565656;
-	color: #565656;
-	height: .1em;	
+	border-bottom: 1px solid #565656;
+	height: 1px;	
 }
 
 dl.docdetails-derivate-list {
@@ -109,21 +104,14 @@ dl.docdetails-derivate-list img {
 	list-style-position: outside;
 	list-style-type: disc;
 	padding-left:24px;
-
 }
 
-/* =================================================================== */
-/* Toolbar on docdetails page                                          */
-/* =================================================================== */
-
-div.docdetails-toolbar{
-    padding-bottom:8px;
-    clear: both;        
+.docdetails-info-btn{
+	border:none;
 }
-div.docdetails-toolbar-item{
-    float:left;
-    padding-left:6px;
-	padding-right:6px;    
+
+div.docdetails-infobox a, div.docdetails-infobox a:VISITED{
+	color:black;
 }
 
 div.docdetails-image{
@@ -142,87 +130,3 @@ div.docdetails-image img{
 div.docdetails-image-footer{
 	font-size:0.8em;
 }
-
-/* =================================================================== */
-/* Info Hover (button + messagebox on mouse over)                      */
-/* =================================================================== */
-div.docdetails-infohover{
-	float:left;
-	margin-top:0.1em;
-}
-div.docdetails-infohover a {
-	text-decoration: none;
-    color: #565656!important;
-}
-
-div.docdetails-infohover a:hover {
-	text-decoration: none !important;
-	background: #ffffcc;
-}
-
-div.docdetails-infohover a span {
-	display: none;
-}
-
-div.docdetails-infohover a:hover span {
-	bottom: 40px;
-	left: 40px;
-	z-index: 30;
-	position:fixed;
-	text-align: justify;
-	display: block;
-	color: #565656;
-	width: 300px;
-	background: #ffffcc;
-	border:1px solid #565656;
-	font-family:"Comic Sans MS", sans-serif;
-
-	padding: 12px;
-	white-space: normal !important;
-	box-shadow: 5px 5px 7px rgba(33,33,33,.7);
-	transform:rotate3d(2.0,2.0,2.0, 3deg); 
-		
-}
-
-
-/* =================================================================== */
-/* Searchresult Navigation on Docdetails page
-/* =================================================================== */
-div.searchdetail-navigation{
-   width: 140px;
-   padding:6px;
-   border-radius: 15px;
-   margin-bottom: 12px;
-   margin-top:12px;
-   border-radius:5px;
-   border: 1px solid #565656;
-   background-color:#E6E6E6; 
-}
-div.searchdetail-navigation div.headline{
-  text-align:center;
-  font-weight:bold;
-}
-
-div.searchdetail-navigation div.hitcount{
-  text-align:center;
-  padding-top:3px;
-  padding-bottom:3px;
-}
-
-div.searchdetail-navigation div.button{
-  text-align:center;
-  border: 1px solid #565656;
-  border-radius: 3px;
-  background-color:#969696;
-  padding-left:3px;
-  padding-right:3px;
-}
-div.searchdetail-navigation div.centerbutton{
-  margin-left:36px;
-  margin-right:36px;
-}
-
-div.searchdetail-navigation div.button a{
-  color:white;
-}
-

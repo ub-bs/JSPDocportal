@@ -36,7 +36,7 @@
 							<c:forEach var="x" items="${actionBean.firstSelector}">
 								<c:set var="active"></c:set>
 								<c:if test="${fn:startsWith(actionBean.select, x)}"><c:set var="active">active</c:set></c:if>
-									<a href="${WebApplicationBaseURL}indexbrowser.action?modus=${actionBean.modus}&amp;select=${x}"
+									<a href="${WebApplicationBaseURL}indexbrowser/${actionBean.modus}?select=${x}"
 									   class="btn btn-default btn-sm navbar-btn indexbrowser-btn ${active}" role="button">${x}</a>
 							</c:forEach>
 						</div>
@@ -45,7 +45,7 @@
 								<c:forEach var="x" items="${actionBean.secondSelector}">
 									<c:set var="active"></c:set>
 									<c:if test="${fn:startsWith(actionBean.select, x.key)}"><c:set var="active">active</c:set></c:if>
-										<a href="${WebApplicationBaseURL}indexbrowser.action?modus=${actionBean.modus}&amp;select=${x.key}"
+										<a href="${WebApplicationBaseURL}indexbrowser/${actionBean.modus}?select=${x.key}"
 										   class="btn btn-default btn-sm indexbrowser-btn ${active}" role="button">${x.key} <span class="badge" style="font-size:80%;margin-left:8px">${x.value}</span></a>
 								</c:forEach>
 							</div>
@@ -56,25 +56,27 @@
 			
 			<div class="row">
 				<div class="col-xs-12">
-					<stripes:form beanclass="org.mycore.frontend.jsp.stripes.actions.IndexBrowserAction"
-					   	          id="indexbrowserForm" enctype="multipart/form-data" acceptcharset="UTF-8">
-						<stripes:hidden name="modus">${actionBean.modus}</stripes:hidden>
-						<div>
-							<stripes:label for="txtSelect"><fmt:message key="Webpage.indexbrowser.form.label" />:</stripes:label>
-							<stripes:text id="txtSelect" name="select" />
-							<fmt:message var="output" key="Webpage.indexbrowser.form.button" />
-							<stripes:submit name="doSearch" value="${output}" class="submit" />
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<stripes:form beanclass="org.mycore.frontend.jsp.stripes.actions.IndexBrowserAction"
+					   	  		          id="indexbrowserForm" enctype="multipart/form-data" acceptcharset="UTF-8" class="form-inline">
+								<stripes:hidden name="modus">${actionBean.modus}</stripes:hidden>
+								<stripes:label for="txtSelect"><fmt:message key="Webpage.indexbrowser.form.label" />:</stripes:label>&#160;&#160;&#160;&#160;&#160;
+								<stripes:text class="form-control input-sm" id="txtSelect" name="select" />
+								<fmt:message var="output" key="Webpage.indexbrowser.form.button" />
+								<stripes:submit name="doSearch" value="${output}" class="btn btn-sm btn-primary" />
+							</stripes:form>
 						</div>
-					</stripes:form>
+					</div>
 				</div>
 			</div>
 				
 			<c:forEach var="r" items="${actionBean.result.entries}">
 			<div class="row">
 				<div class="col-xs-12">
-					<div class="panel panel-default">
+					<div class="panel panel-default ir-resultentry-panel">
 						<div class="panel-body">
-							<search:result-entry data="${r}" url="${WebApplicationBaseURL}resolve/id/${r.mcrid}?_search=${actionBean.result.id}" />
+							<search:result-entry data="${r}" url="${WebApplicationBaseURL}resolve/id/${r.mcrid}?_search=${actionBean.result.id}" protectDownload="true" />
 						</div>
 					</div>
 				</div>

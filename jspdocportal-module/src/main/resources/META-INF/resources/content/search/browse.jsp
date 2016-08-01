@@ -8,13 +8,13 @@
 	
 <%@ taglib prefix="search" tagdir="/WEB-INF/tags/search"%>
 
-<fmt:message var="pageTitle" key="Webpage.search.title.${actionBean.result.mask}" />
-<stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}" layout="2columns">
+<fmt:message var="pageTitle" key="Webpage.browse.title.${actionBean.result.mask}" />
+<stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}" layout="1column">
 	<stripes:layout-component name="html_header">
 	</stripes:layout-component>
 	<stripes:layout-component name="contents">
 		<c:if test="${not empty actionBean.result.mask}">
-			<div class="row ir-box">
+			<div class="ur-box ur-text">
 				<c:set var="classCollapse" value="" />
 				<c:if test="${not actionBean.showMask and actionBean.result.numFound>0}">
 					<button id="buttonCollapseSearchmask" class="btn btn-default pull-right" type="button"
@@ -37,10 +37,10 @@
 			</div>
 		</c:if>
 		<c:if test="${actionBean.showResults}">
-			<div class="row ir-box">
+			<div class="ur-box">
 			  	<search:result-browser result="${actionBean.result}">
-			  		<c:set var="doctype" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" /> 
-						<search:result-entry data="${entry}" url="${url}" protectDownload="true"/>
+			  		<c:set var="doctype" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
+						<search:result-entry data="${entry}" url="${url}" />
 						<div style="clear:both"></div>
 			  	</search:result-browser>
 			</div>

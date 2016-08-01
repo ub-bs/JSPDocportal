@@ -20,10 +20,10 @@
 
 	<div class="panel panel-default">
 		<div class="panel-body">
-		<form style="margin-bottom:0px;" action="${pageContext.request.contextPath}/${result.action}" method="get" accept-charset="UTF-8">
+		<form class="form-inline" action="${pageContext.request.contextPath}/${result.action}" method="get" accept-charset="UTF-8">
 			 <input type="hidden" name="_search" value="<%= java.net.URLEncoder.encode(result.getId() , "UTF-8") %>" />
-			 <fmt:message key="Webpage.Searchresult.resort-label" />
-			 <select name="sortField">
+			 <label><fmt:message key="Webpage.Searchresult.resort-label" /></label>&#160;&#160;&#160;&#160;&#160;
+			 <select name="sortField" class="form-control input-sm">
 			 	<option value=""></option>
 			 	<c:forEach var="field" items="${fn:split(fn:trim(result.sortfields), ',')}">
 			 		<c:if test="${not empty field}">
@@ -38,7 +38,7 @@
 			 		</c:if>
 				</c:forEach>
 			</select>&#160;&#160;&#160;
-			<select name="sortValue">
+			<select name="sortValue" class="form-control input-sm">
 				<option value=""></option>
 			 	<c:forEach var="order" items="${fn:split('asc desc', ' ')}">
 			 		<c:choose>
@@ -57,7 +57,7 @@
 	</div>
 </c:if>
 
-<div class="panel panel-default ur-searchresult-panel">
+<div class="panel panel-default ir-searchresult-panel">
 	<c:if test="${numHits >= 0}">	
 		<c:set var="pageNavi">
 			<%-- // 36.168 Treffer                   Erste Seite | 11-20 | 21-30 | 31-40 | 41-50 | Letzte Seite --%>
@@ -92,12 +92,21 @@
 				<li><a href="${pageContext.request.contextPath}/${result.action}?_search=${result.id}&amp;_start=${start}"><fmt:message key="Webpage.Searchresult.lastPage" /></a></li>
 			</c:if>
 		</ul>
-		${result.numFound} <fmt:message key="Webpage.Searchresult.numHits" />
+		<c:if test="${fn:length(result.backURL) >0}">
+			<a class="btn btn-default btn-sm" style="margin: -7px 15px -7px 0px;"
+			   href="${result.backURL}" ><fmt:message key="Webpage.searchresults.back" /></a>
+		</c:if>
+		<strong>${result.numFound} <fmt:message key="Webpage.Searchresult.numHits" /></strong>
 
 		</c:set>
 	<div class="panel-heading">
 		<c:out value="${pageNavi}" escapeXml="false"/>
 	</div>
+	<c:if test="${numHits eq 0}">
+		<div class="panel-body">
+			<fmt:message key="Webpage.Searchresult.empty"/>
+		</div>
+	</c:if>
 	
 	<c:if test="${numHits > 0}">	
 		<table class="table">
@@ -105,9 +114,10 @@
 				<c:set var="mcrid" value="${entry.mcrid}" />
 				<c:set var="entry" value="${entry}" />
 				<c:set var="url"   value="${pageContext.request.contextPath}/${result.action}?_search=${result.id}&_hit=${entry.pos}" />
-				
-					<jsp:doBody />
-	
+					<div class="ir-resultentry-panel">
+						<jsp:doBody />
+					</div>
+				</li>
 			</c:forEach>
    		</table>
 

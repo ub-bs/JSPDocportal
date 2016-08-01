@@ -131,6 +131,10 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
         if (result == null) {
             result = new MCRSearchResultDataBean();
         }
+        String referrer = request.getHeader("referer");
+        if(referrer!=null && request.getParameter("_search") == null){
+        	result.setBackURL(referrer);
+        }
         result.setMask(mask);
 
         if (mask == null) {

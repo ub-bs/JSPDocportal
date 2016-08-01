@@ -96,41 +96,43 @@ public class MCRDocDetailsDerivateContentTag extends SimpleTagSupport {
 	    		sbUrl.append(derID);
 	    		sbUrl.append("/");
 
-	    		MCRDirectory root = MCRDirectory.getRootDirectory(derID);
-	    		if(root!=null){
-	   		    MCRFilesystemNode[] myfiles = root.getChildren();
-	   			boolean accessAllowed = MCRAccessManager.checkPermission(derID, "read");	   		    
-	   		    for ( int j=0; j< myfiles.length; j++) {
-	   		    	MCRFile theFile = (MCRFile) myfiles[j];
-	   		    	
-	   		    	if(accessAllowed){
-	   		    		String fURL = sbUrl.toString()+theFile.getName();
-	   		    		
-	   		    	
-	   		    
-	   		    	String contentType = theFile.getContentTypeID();
-	   		    	
-	   		    	if(contentType.contains("html") || contentType.contains("xml")) {
-	   		    		out.write("<font size=\"+1\" face=\"times\">");
-						String content = theFile.getContentAsString(encoding);
-						out.write(content);
-						out.write("</font>");
-	   		    	}
-	   		    	if(contentType.contains("jpeg")){
-	   					out.write("<a href=\""+fURL+"\" target=\"_blank\" title=\""+docdetails.getMessages().getString("OMD.showLargerImage")
-	   							+"\"  alt=\""+docdetails.getMessages().getString("OMD.showLargerImage")+"\">");
-	   					out.write("<img src=\""+fURL+"\" width=\""+width+"\" alt=\""+title+"\" /></a>");
-	   					
-	   		    	}   		    	
-	   		    	
-	   		    }
-	    	}
-	    	}
-	    	out.write("</td>");   
-	    	}		//error
-	   }catch(Exception e){
-		throw new JspException("Error executing docdetails:derivatecontent tag", e);
-	   }
+				boolean doCommitTransaction = false;
+				if (!MCRSessionMgr.getCurrentSession().isTransactionActive()) {
+					doCommitTransaction = true;
+					MCRSessionMgr.getCurrentSession().beginTransaction();
+				}
+
+				MCRDirectory root = MCRDirectory.getRootDirectory(derID);
+				if (root != null) {
+					MCRFilesystemNode[] myfiles = root.getChildren();
+					boolean accessAllowed = MCRAccessManager.checkPermission(derID, "read");
+					for (int j = 0; j < myfiles.length; j++) {
+						MCRFile theFile = (MCRFile) myfiles[j];
+						if (accessAllowed) {
+							String fURL = sbUrl.toString() + theFile.getName();
+							String contentType = theFile.getContentTypeID();
+							if (contentType.contains("html") || contentType.contains("xml")) {
+								String content = retrieveHTMLBody(theFile.getContentAsString(encoding));
+								out.write(content);
+							}
+							if (contentType.contains("jpeg")) {
+								out.write("<a href=\"" + fURL + "\" target=\"_blank\" title=\""
+										+ docdetails.getMessages().getString("OMD.showLargerImage") + "\"  alt=\""
+										+ docdetails.getMessages().getString("OMD.showLargerImage") + "\">");
+								out.write("<img src=\"" + fURL + "\" width=\"" + width + "\" alt=\"" + title
+										+ "\" /></a>");
+							}
+						}
+					}
+				}
+				if (doCommitTransaction) {
+					MCRSessionMgr.getCurrentSession().commitTransaction();
+				}
+				out.write("</td>");
+			} // error
+		} catch (Exception e) {
+			throw new JspException("Error executing docdetails:derivatecontent tag", e);
+		}
 	}
 
 	/**
@@ -155,5 +157,16 @@ public class MCRDocDetailsDerivateContentTag extends SimpleTagSupport {
 	 */
 	public void setEncoding(String encoding) {
 		this.encoding = encoding;
+	}
+	
+	private String retrieveHTMLBody(String content){
+		if(content.contains("<body>") && content.contains("</body>")){
+			int start = content.indexOf("<body>")+6;
+			int ende = content.lastIndexOf("</body>");
+			return content.substring(start, ende);
+		}
+		else{
+			return content;
+		}
 	}
 }
