@@ -106,3 +106,7 @@ div.ir-row-1{
 	padding-top:6px;
 	background-color:#F6F6F6;
 }
+div.ir-embedded{
+	margin: 3px;
+	padding: 3px 12px 12px 12px;
+}

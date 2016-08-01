@@ -9,41 +9,24 @@
 <%@ taglib prefix="search" tagdir="/WEB-INF/tags/search"%>
 
 <fmt:message var="pageTitle" key="Webpage.browse.title.${actionBean.result.mask}" />
-<stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}" layout="1column">
+<stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}" layout="2columns">
 	<stripes:layout-component name="html_header">
 		<meta name="mcr:search.id" content="${actionBean.result.id}" />
 	</stripes:layout-component>
-	<stripes:layout-component name="contents">
-		<div class="row">
-			<div class="col-xs-12">
-				<h2>${pageTitle}</h2>
+	<stripes:layout-component name="left_side">
+		<div class="ir-box ir-box-bordered">
+			<div class="main_navigation">
+				<mcr:outputNavigation id="left" cssClass="nav ir-sidenav" expanded="true" mode="left" />
+			</div>
+			<div class="main_navigation">
+				<mcr:outputNavigation id="publish" cssClass="nav ir-sidenav" expanded="false" mode="left" />
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-8">
-				<div class="ir-box">
-					<search:result-browser result="${actionBean.result}">
-						<c:set var="doctype" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
-						<search:show-edit-button mcrid="${mcrid}" />
-						<c:choose>
-							<c:when test="${doctype eq 'disshab'}">
-								<search:result-entry-disshab entry="${entry}" url="${url}" />
-							</c:when>
-							<c:when test="${doctype eq 'document'}">
-								<search:result-entry-document entry="${entry}" url="${url}" />
-							</c:when>
-							<c:otherwise>
-								<search:result-entry entry="${entry}" url="${url}" />
-							</c:otherwise>
-						</c:choose>
-						<div style="clear:both"></div>
-					</search:result-browser>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="ir-box ir-box-bordered ir-infobox hidden-sm hidden-xs">
-         			 <h3>Filter</h3>
-          			 <div class="panel panel-default">
+		
+		
+		<div class="ir-box ir-box-bordered" style="margin-top:36px">
+		<h3>Filter und Facetten</h3>
+			<div class="panel panel-default">
           			 	<c:if test="${not empty actionBean.result.filterQueries}">
   							<div class="panel-heading">
   								<c:forEach var="fq" items="${actionBean.result.filterQueries}">
@@ -115,8 +98,58 @@
           					</div> 		
 						</div>
   					</div>
+  					<div class="row" style="margin-bottom:24px;">
+  				<div class="col-sm-12">
+					<c:forEach var="fq" items="${actionBean.result.filterQueries}">
+						<c:if test="${not fn:contains(fq, '.facet:')}">
+  							<c:url var="url" value="${WebApplicationBaseURL}browse/histbest">
+  								<c:param name="_search" value="${actionBean.result.id}" />
+  								<c:param name="_remove-filter" value="${fq}" />
+							</c:url>
+							<c:set var="c"><fmt:message key="Browse.Filter.histbest.${fn:substringBefore(fn:substring(fq, 1, -1),':')}"/>: ${actionBean.calcFacetOutputString(fn:substringBefore(fn:substring(fq, 1, -1),':'), fn:substringAfter(fn:substring(fq, 1, -1),':'))}</c:set>
+							<a class="btn btn-sm btn-default ir-btn-facet" style="display:block;text-align:left;white-space:normal;margin-bottom:3px;color:black;width:100%" href="${url}">
+								<span class="glyphicon glyphicon-remove pull-right" style="margin-top:3px; color:darkred;"></span>
+								${c}										
+							</a>
+						</c:if>
+					</c:forEach>
 				</div>
-        	</div>
+			</div>
+						
+			<search:result-facets result="${actionBean.result}" mask="epub" />
+
 		</div>
+		</stripes:layout-component>
+				
+	
+	<stripes:layout-component name="contents">
+		<div class="row ir-box">
+    		<div class="col-xs-12">
+				<h2>${pageTitle}</h2>
+			</div>
+		</div>
+		<div class="row ir-box">
+			<div class="col-xs-12">
+					<search:result-sorter result="${actionBean.result}" 
+			                      fields="score,ir.pubyear_start,modified,ir.creator.result,ir.title.result" mask="epub"/>
+
+					<search:result-browser result="${actionBean.result}">
+						<c:set var="doctype" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
+						<search:show-edit-button mcrid="${mcrid}" />
+						<c:choose>
+							<c:when test="${(doctype eq 'disshab') or (doctype eq 'thesis')}">
+								<search:result-entry-disshab entry="${entry}" url="${url}" />
+							</c:when>
+							<c:when test="${(doctype eq 'document') or (doctype eq 'bunlde')}">
+								<search:result-entry-document entry="${entry}" url="${url}" />
+							</c:when>
+							<c:otherwise>
+								<search:result-entry entry="${entry}" url="${url}" />
+							</c:otherwise>
+						</c:choose>
+						<div style="clear:both"></div>
+					</search:result-browser>
+				</div>
+			</div>
 	</stripes:layout-component>
 </stripes:layout-render>

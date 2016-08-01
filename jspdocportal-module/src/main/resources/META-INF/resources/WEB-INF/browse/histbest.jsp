@@ -16,35 +16,16 @@
 	<stripes:layout-component name="left_side">
 		<div class="ir-box ir-box-bordered">
 			<div class="main_navigation">
-				<mcr:outputNavigation id="left" cssClass="nav ur-sidenav" expanded="true" mode="left" />
+				<mcr:outputNavigation id="left" cssClass="nav ir-sidenav" expanded="true" mode="left" />
 			</div>
 			<div class="main_navigation">
-				<mcr:outputNavigation id="publish" cssClass="nav ur-sidenav" expanded="false" mode="left" />
+				<mcr:outputNavigation id="publish" cssClass="nav ir-sidenav" expanded="false" mode="left" />
 			</div>
 		</div>
 		
 		
 		<div class="ir-box ir-box-bordered" style="margin-top:36px">
-		<!-- 
-		<div class="row">
-			<div class="col-md-2">
-				<div class="row">
-					<div class="ir-box ir-box-bordered" style="margin-bottom:32px">
-          				<div class="main_navigation">
-            				<mcr:outputNavigation id="left" expanded="false" mode="left" />
-          				</div>
-  			        	<div style="padding-top:16px;padding-bottom:16px; text-align: center;">
-            				<a href="http://www.mycore.org">
-              					<img alt="powered by MyCoRe 2.2"
-                 			    	 src="${WebApplicationBaseURL}images/mycore_logo_powered_129x34_knopf_hell.png"
-                					 style="border:0;text-align:center;">
-            				</a>
-          				</div>
-       				</div>
-       			</div>
-       		-->	
-       			
-			<h3>Filter und Facetten</h3>
+		<h3>Filter und Facetten</h3>
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<form class="form-horizontal" onsubmit="return false;">
@@ -124,7 +105,7 @@
 			<search:result-browser result="${actionBean.result}">
 				<c:set var="doctype" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
 				<c:choose>
-					<c:when test="${doctype eq 'document'}">
+					<c:when test="${(doctype eq 'document') or (doctype eq 'bundle')}">
 						<search:result-entry-document entry="${entry}" url="${url}" />
 					</c:when>
 					<c:otherwise>
