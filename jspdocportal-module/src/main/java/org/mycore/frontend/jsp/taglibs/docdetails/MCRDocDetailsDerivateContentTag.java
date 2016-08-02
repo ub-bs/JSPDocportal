@@ -96,12 +96,6 @@ public class MCRDocDetailsDerivateContentTag extends SimpleTagSupport {
 	    		sbUrl.append(derID);
 	    		sbUrl.append("/");
 
-				boolean doCommitTransaction = false;
-				if (!MCRSessionMgr.getCurrentSession().isTransactionActive()) {
-					doCommitTransaction = true;
-					MCRSessionMgr.getCurrentSession().beginTransaction();
-				}
-
 				MCRDirectory root = MCRDirectory.getRootDirectory(derID);
 				if (root != null) {
 					MCRFilesystemNode[] myfiles = root.getChildren();
@@ -124,9 +118,6 @@ public class MCRDocDetailsDerivateContentTag extends SimpleTagSupport {
 							}
 						}
 					}
-				}
-				if (doCommitTransaction) {
-					MCRSessionMgr.getCurrentSession().commitTransaction();
 				}
 				out.write("</td>");
 			} // error

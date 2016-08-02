@@ -7,6 +7,7 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
@@ -31,7 +32,8 @@ import net.sourceforge.stripes.controller.LifecycleStage;
 
 @UrlBinding("/indexbrowser/{modus}")
 public class IndexBrowserAction extends MCRAbstractStripesAction implements ActionBean {
-	ForwardResolution fwdResolution = new ForwardResolution("/content/indexbrowser.jsp");
+	private static Logger LOGGER = Logger.getLogger(IndexBrowserAction.class);
+    ForwardResolution fwdResolution = new ForwardResolution("/content/indexbrowser.jsp");
 
 	private TreeSet<String> firstSelector = new TreeSet<String>();
 	private Map<String, Long> secondSelector = new TreeMap<String, Long>();
@@ -61,6 +63,7 @@ public class IndexBrowserAction extends MCRAbstractStripesAction implements Acti
 		try {
 			String searchfield = config.getString("MCR.IndexBrowser." + modus + ".Searchfield");
 			String facetfield = config.getString("MCR.IndexBrowser." + modus + ".Facetfield");
+			String filterQuery = config.getString("MCR.IndexBrowser." + modus + ".FilterQuery", null);
 
 			// set first selector
 			SolrQuery q = new SolrQuery();

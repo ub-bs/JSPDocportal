@@ -1,5 +1,7 @@
 package org.mycore.frontend.jsp;
 
+import java.text.Normalizer;
+
 public class MCRJSPUtils {
     public static String normalizeUmlauts(String input){
         String result = input.replace("ä",  "ae").replace("ö", "oe").replace("ü", "ue").replace("ß", "ss");

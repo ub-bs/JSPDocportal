@@ -59,6 +59,7 @@ import org.mycore.solr.MCRSolrClientFactory;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
 import net.sf.ehcache.constructs.blocking.CacheEntryFactory;
 import net.sf.ehcache.constructs.blocking.SelfPopulatingCache;
 import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
@@ -164,6 +165,10 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
     public void doTag() throws JspException, IOException {
         CBConfig cb = new CBConfig(mode);
 
+        long start = System.currentTimeMillis();
+        
+        MCRCategoryID rootClassifID = new MCRCategoryID(cb.classification,cb.category);
+        
 		PageContext context = (PageContext) getJspContext();
 		HttpServletRequest request = (HttpServletRequest) context.getRequest();
 		String requestPath = request.getParameter("select");
@@ -185,22 +190,6 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 			requestPath = "";
 		}
 		url.append("select=").append(clearPath(requestPath));
-
-        @SuppressWarnings("rawtypes")
-        Enumeration paramNames = request.getParameterNames();
-        while (paramNames.hasMoreElements()) {
-            String s = paramNames.nextElement().toString();
-            if (!s.equals("cbpath")) {
-                url.append(s).append("=")
-                    .append(URLEncoder.encode(request.getParameter(s), Charset.defaultCharset().name()))
-                    .append("&amp;");
-            }
-        }
-
-        if (requestPath == null) {
-            requestPath = "";
-        }
-        url.append("cbpath=").append(clearPath(requestPath));
 
         JspWriter out = getJspContext().getOut();
         try (MCRHibernateTransactionWrapper htw = new MCRHibernateTransactionWrapper()) {
@@ -241,9 +230,9 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
             // cancel subselect
             if (isSubselect) {
                 out.write("<form action=\"" + webApplicationBaseURL + subselect_webpage + "XSL.editor.session.id="
-                    + subselect_session + "\" method=\"post\">\n");
+                        + subselect_session + "\" method=\"post\">\n");
                 out.write("   <input type=\"submit\" class=\"submit\" value=\""
-                    + MCRTranslation.translate("Editor.Common.button.CancelSelect") + "\" />\n");
+                        + MCRTranslation.translate("Editor.Common.button.CancelSelect") + "\" />\n");
                 out.write("</form><br/><br/>\n");
             }
 
@@ -260,7 +249,8 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
             long d = System.currentTimeMillis() - start;
             out.write("\n\n<!-- ClassificationBrowser ENDE (" + Long.toString(d) + "ms) -->");
             Logger.getLogger(this.getClass())
-                .debug("ClassificationBrowser displayed for: " + rootCateg.getId().getID() + "   (" + d + " ms)");
+                    .debug("ClassificationBrowser displayed for: " + rootCateg.getId().getID() + "   (" + d + " ms)");
+
         }
     }
 
