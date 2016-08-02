@@ -129,7 +129,7 @@
 								 	<a href="${WebApplicationBaseURL}api/v1/objects/${param.id}/derivates/${derid}/open" class="btn btn-default" title="open REPOS_METS" ><span class="glyphicon glyphicon-folder-open"></span></a>
 								</x:if>
 								<c:if test="${(not from)}">
-									<search:show-edit-button mcrid="${mcrid}" />
+									<search:show-edit-button mcrid="${mcrid}" cssClass="btn btn-sm btn-primary col-xs-3" />
 								</c:if>
 						</c:if>
 						

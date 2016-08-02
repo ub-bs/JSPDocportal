@@ -8,9 +8,9 @@
 <%@ attribute name="url" required="true" type="java.lang.String"%>
 <%@ attribute name="entry" required="true" type="org.mycore.frontend.jsp.search.MCRSearchResultEntry"%>
 
-<tr>
-	<td><search:show-edit-button mcrid="${entry.mcrid}" /></td>
-	<td>
+<div class="row">
+	<div class="col-sm-9">
+		<search:show-edit-button mcrid="${data.mcrid}" cssClass="btn btn-primary pull-right" /> 
 		<table style="border-spacing: 4px; border-collapse: separate; font-size: 100%">
 			<tr><td>${entry.data['ir.creator.result']}</td></tr>
 			<tr><td>
@@ -23,11 +23,17 @@
 			<tr><td style="font-style: italic; text-align:justify">${entry.data['ir.abstract300.result']}</td></tr>
 			<tr><td>${entry.data['purl']}</td></tr>
 		</table>
-	</td>
-	<td>
-		<c:if test="${not empty entry.coverURL}">
-			<img src="${pageContext.request.contextPath}/${entry.coverURL}"
-				 class="pull-right img-thumbnail" alt="Cover" style="max-width:120px" />
-		</c:if>
-	</td>
-</tr>
+	</div>
+	<c:if test="${not empty data.coverURL}">
+		<div class="col-sm-3 hidden-xs">
+			<div class="img-thumbnail pull-right ir-resultentry-image">
+				<div style="position:relative">
+   					<c:if test="${protectDownload}">
+   						<img style="opacity:0.01;position:absolute;top:0px;left:0px;width:100%;height:100%;z-index:1" src="${pageContext.request.contextPath}/images/image_terms_of_use.png"/>
+	   				</c:if>
+   					<img style="position:relative;top:0px;left:0px;width:98%;padding:1%;display:block;" src="${pageContext.request.contextPath}/${data.coverURL}" border="0" />
+				</div>
+			</div>
+		</div>
+	</c:if>
+</div>

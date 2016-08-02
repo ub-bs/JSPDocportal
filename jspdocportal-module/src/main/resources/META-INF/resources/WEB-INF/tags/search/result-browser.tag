@@ -13,11 +13,8 @@
  
 <c:set var="numHits" value="${result.numFound}" />
 
-<div class="row">
-<div class="col-sm-12">
 <c:if test="${not empty result.sortfields and numHits>0}">
 	<%--Resort Form --%>
-
 	<div class="panel panel-default">
 		<div class="panel-body">
 		<form class="form-inline" action="${pageContext.request.contextPath}/${result.action}" method="get" accept-charset="UTF-8">
@@ -109,23 +106,22 @@
 	</c:if>
 	
 	<c:if test="${numHits > 0}">	
-		<table class="table">
+		<ul class="list-group">
 			<c:forEach var="entry" items="${result.entries}">
 				<c:set var="mcrid" value="${entry.mcrid}" />
 				<c:set var="entry" value="${entry}" />
-				<c:set var="url"   value="${pageContext.request.contextPath}/${result.action}?_search=${result.id}&_hit=${entry.pos}" />
+				<c:set var="url"   value="${pageContext.request.contextPath}/resolve/id/${entry.mcrid}?_search=${result.id}" />
+				<li class="list-group-item">
 					<div class="ir-resultentry-panel">
 						<jsp:doBody />
 					</div>
-				</li>
+				</li>				 
 			</c:forEach>
-   		</table>
+   		</ul>
 
 		<div class="panel-footer">
 			<c:out value="${pageNavi}" escapeXml="false"/>
 		</div>			
 	</c:if>
 </c:if>			
-</div>
-</div>
 </div>

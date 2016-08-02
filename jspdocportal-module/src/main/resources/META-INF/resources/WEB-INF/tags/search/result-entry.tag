@@ -9,19 +9,18 @@
 <%@ attribute name="entry" required="true" type="org.mycore.frontend.jsp.search.MCRSearchResultEntry"%>
 <%@ attribute name="protectDownload" type="java.lang.Boolean"  %>
 
-<tr>
-	<td><search:show-edit-button mcrid="${entry.mcrid}" /></td>
-	<td>
+<div class="row">
+	<div class="col-sm-9">
 		<search:show-edit-button mcrid="${data.mcrid}" cssClass="btn btn-primary pull-right" /> 
 		<h4>
-			<a href="${url}">${entry.label}</a>
+			<a href="${url}">${data.label}</a>
 		</h4>
 		<table
 			style="border-spacing: 4px; border-collapse: separate; font-size: 100%">
-			<c:forEach var="d" items="${entry.data}">
+			<c:forEach var="d" items="${data.data}">
 				<tr>
 					<th style="min-width: 120px; vertical-align: top"><fmt:message
-							key="Webpage.searchresult.${entry.objectType}.label.${d.key}" />:&#160;</th>
+							key="Webpage.searchresult.${data.objectType}.label.${d.key}" />:&#160;</th>
 					<c:choose>
 						<c:when test="${fn:endsWith(d.key, '_msg')}">
 							<td><fmt:message key="${d.value}" /></td>
