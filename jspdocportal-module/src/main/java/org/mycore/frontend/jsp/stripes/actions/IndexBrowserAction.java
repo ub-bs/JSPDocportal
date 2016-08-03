@@ -102,8 +102,8 @@ public class IndexBrowserAction extends MCRAbstractStripesAction implements Acti
 				mcrSearchResult.setStart(0);
 				mcrSearchResult.setAction("search");
 				mcrSearchResult.doSearch();
-				mcrSearchResult.setBackURL(getContext().getRequest().getContextPath() + "/indexbrowser.action?modus="
-						+ modus + "&select=" + select);
+				mcrSearchResult.setBackURL(getContext().getRequest().getContextPath() 
+						+ "/indexbrowser/"+modus+"?select=" + select);
 				MCRSearchResultDataBean.addSearchresultToSession(getContext().getRequest(), mcrSearchResult);
 
 				QueryResponse response = mcrSearchResult.getSolrQueryResponse();
