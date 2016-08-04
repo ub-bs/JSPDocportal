@@ -335,7 +335,13 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
                         }
                     });
 
-                    MCRDerivateCommands.loadFromFile(f.getAbsolutePath());
+                    if(MCRMetadataManager.exists(derID)){
+                        MCRDerivateCommands.updateFromFile(f.getAbsolutePath());
+                    }
+                    else{
+                        MCRDerivateCommands.loadFromFile(f.getAbsolutePath());
+                    }
+                    
 
                     //set ACLs
                     while (mcrDer.getService().getRulesSize() > 0) {
@@ -348,9 +354,6 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
             }
 
             //set AccessRules
-            mcrObj = new MCRObject(objectFile.toURI());
-            mcrObj.setImportMode(true); //true = servdates are taken from xml file;
-            MCRMetadataManager.update(mcrObj);
             while (mcrObj.getService().getRulesSize() > 0) {
                 MCRMetaAccessRule rule = mcrObj.getService().getRule(0);
                 String permission = mcrObj.getService().getRulePermission(0);
@@ -368,7 +371,7 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
      * 
      */
 
-    @SuppressWarnings("deprecation")
+
     @MCRCommand(syntax = "repair urn store", help = "The command parses through all metadata objects and updates the urns in the URN store if necessary")
     public static final void repairURNStore() throws MCRException {
         try {
