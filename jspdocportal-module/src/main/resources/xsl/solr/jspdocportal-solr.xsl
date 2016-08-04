@@ -77,17 +77,20 @@
   	
   		<field name="ir.creator.result"><xsl:value-of select="normalize-space($var_creator)"></xsl:value-of></field>
   		<xsl:for-each select="mods:titleInfo[1]">
-          <field name="ir.title.result"><xsl:if test="mods:nonSort"><xsl:value-of select="mods:nonsort" /><xsl:value-of select="' '" /></xsl:if><xsl:value-of select="mods:title" /><xsl:if test="mods:subTtitle"><xsl:value-of select="' : '" /><xsl:value-of select="mods:subTitle" /></xsl:if><xsl:if test="mods:partNumber|mods:partName"><xsl:value-of select="' ['" /><xsl:value-of select="mods:partNumber" /><xsl:value-of select="' '" /><xsl:value-of select="mods:partName" /><xsl:value-of select="']'" /></xsl:if></field> 
+          <field name="ir.title.result"><xsl:if test="mods:nonSort"><xsl:value-of select="mods:nonsort" /><xsl:value-of select="' '" /></xsl:if><xsl:value-of select="mods:title" /><xsl:if test="mods:subTitle"><xsl:value-of select="' : '" /><xsl:value-of select="mods:subTitle" /></xsl:if></field>
+          <xsl:if test="mods:partNumber|mods:partName">
+            <field name="ir.partTitle.result"><xsl:if test="mods:partNumber"><xsl:value-of select="mods:partNumber" /><xsl:value-of select="' '" /></xsl:if><xsl:value-of select="mods:partName" /></field>
+          </xsl:if> 
        </xsl:for-each>
        <xsl:for-each select="mods:location[mods:shelfLocator]">
           <field name="ir.shelfLocator.result"><xsl:if test="mods:physicalLocation"><xsl:value-of select="mods:physicalLocation" />: </xsl:if><xsl:value-of select="mods:shelfLocator" /></field>
        </xsl:for-each>
 
        <xsl:variable name="classlink" select="mcrmods:getClassCategLink(mods:classification[@displayLabel='doctype'])" />
-  	   <xsl:variable name="var_published">
-			<xsl:if test="string-length($classlink) &gt; 0">
-       			<xsl:value-of select="concat(document($classlink)/mycoreclass/categories/category/label[@xml:lang='de']/@text, ', ')" />
-       		</xsl:if>
+  	   	<xsl:if test="string-length($classlink) &gt; 0">
+       		<field name="ir.doctype.result"><xsl:value-of select="document($classlink)/mycoreclass/categories/category/label[@xml:lang='de']/@text" /></field>
+       	</xsl:if>
+       <xsl:variable name="var_published">
             <xsl:choose>
               <xsl:when test="mods:originInfo[@eventType='publication']"> 
                 <xsl:for-each select="mods:originInfo[@eventType='publication'][1]">
