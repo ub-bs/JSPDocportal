@@ -21,7 +21,7 @@
 				<span style="font-style:italic;font-size:105%">${entry.data['ir.creator.result']}</span>
 			</td></tr>
 			<tr><td>${entry.data['ir.originInfo.result']}</td></tr>
-			<tr><td>${entry.data['ir.shelfLocator.result']}</td></tr>
+			
 			<tr><td style="font-size: 80%; text-align:justify">${entry.data['ir.abstract300.result']}</td></tr>
 			<tr><td>${entry.data['purl']}</td></tr>
 		</table>

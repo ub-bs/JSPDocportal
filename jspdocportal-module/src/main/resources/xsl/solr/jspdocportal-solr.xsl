@@ -82,10 +82,7 @@
             <field name="ir.partTitle.result"><xsl:if test="mods:partNumber"><xsl:value-of select="mods:partNumber" /><xsl:value-of select="' '" /></xsl:if><xsl:value-of select="mods:partName" /></field>
           </xsl:if> 
        </xsl:for-each>
-       <xsl:for-each select="mods:location[mods:shelfLocator]">
-          <field name="ir.shelfLocator.result"><xsl:if test="mods:physicalLocation"><xsl:value-of select="mods:physicalLocation" />: </xsl:if><xsl:value-of select="mods:shelfLocator" /></field>
-       </xsl:for-each>
-
+       
        <xsl:variable name="classlink" select="mcrmods:getClassCategLink(mods:classification[@displayLabel='doctype'])" />
   	   	<xsl:if test="string-length($classlink) &gt; 0">
        		<field name="ir.doctype.result"><xsl:value-of select="document($classlink)/mycoreclass/categories/category/label[@xml:lang='de']/@text" /></field>
