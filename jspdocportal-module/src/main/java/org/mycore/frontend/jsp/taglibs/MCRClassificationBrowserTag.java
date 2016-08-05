@@ -239,7 +239,7 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 			out.write("</form><br/><br/>\n");
 		}
 
-		out.write("\n<div class=\"classification-browser\">");
+		out.write("\n<div class=\"classification-browser classification-browser-"+mode+"\">");
 		boolean didIt = false;
 		for (MCRCategory categ : categories) {
 			didIt = outputCategory(cb, categ, MCRFrontendUtil.getBaseURL(), url.toString(), 0, didIt);
