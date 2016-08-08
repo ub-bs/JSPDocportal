@@ -116,9 +116,10 @@ public class SendFeedbackAction extends MCRAbstractStripesAction implements Acti
 			
 			if(StringUtils.isNoneBlank(message, fromName) && isEmailValid){
 				MCRConfiguration config = MCRConfiguration.instance();
-				
+				String subject = config.getString("MCRWorkflow.Email.Feedback.Subject","Feedbackformular zu {0}");
+				subject = subject.replace("{0}",  topicHeader);
 				StringBuilder sbMsg = new StringBuilder();
-				sbMsg.append(config.getString("MCRWorkflow.Email.Feedback.Subject","Feedbackformular"));
+				sbMsg.append(subject);
 				sbMsg.append("\n\n*Angaben zu:*");
 				sbMsg.append("\n"+topicHeader);
 				sbMsg.append("\n("+topicURL+")");
@@ -143,7 +144,7 @@ public class SendFeedbackAction extends MCRAbstractStripesAction implements Acti
 					email.getCcAddresses().add(new InternetAddress(fromEmail));
 				}
 				email.setMsg(sbMsg.toString());
-				email.setSubject(config.getString("MCRWorkflow.Email.Feedback.Subject","Feedbackformular"));
+				email.setSubject(subject);
 				
 				email.send();
 				
