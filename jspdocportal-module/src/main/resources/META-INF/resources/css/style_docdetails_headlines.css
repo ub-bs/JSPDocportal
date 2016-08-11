@@ -57,6 +57,7 @@ div.docdetails-preview img {
 table.docdetails-values-table {
 	border-spacing: 4px;
 	margin-top:.4em;
+	width:100%;
 }
 td.docdetails-value {
      vertical-align: top;

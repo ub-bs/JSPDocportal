@@ -1,3 +1,4 @@
+<%@tag pageEncoding="UTF-8"%> 
 <%@tag import="org.mycore.datamodel.metadata.MCRDerivate"%>
 <%@tag import="org.mycore.datamodel.metadata.MCRMetaLinkID"%>
 <%@tag import="org.mycore.datamodel.metadata.MCRObjectID"%>
@@ -41,7 +42,7 @@
 					title +=t;
 				}
 				if(sb.length()>0){
-	    			sb.append(";");
+	    			sb.append("ƒ");
 	    		}
 				sb.append(mainDoc+"="+url+"#"+title);
 				
@@ -52,7 +53,7 @@
 %>
 
 <c:if test="${not empty data}">
-	<c:forEach var="x" items="${fn:split(data, ';')}">
+	<c:forEach var="x" items="${fn:split(data, 'ƒ')}">
 		<div class="docdetails-image" style="width:${width}">
 			<div style="position:relative">
    				<c:if test="${protectDownload}">
