@@ -120,15 +120,22 @@ public class SendFeedbackAction extends MCRAbstractStripesAction implements Acti
 				subject = subject.replace("{0}",  topicHeader);
 				StringBuilder sbMsg = new StringBuilder();
 				sbMsg.append(subject);
-				sbMsg.append("\n\n*Angaben zu:*");
+				sbMsg.append("\n"+StringUtils.repeat("=", subject.length()));
+				sbMsg.append("\n");
+				sbMsg.append("\nAngaben zu:");
+				sbMsg.append("\n-----------");
 				sbMsg.append("\n"+topicHeader);
 				sbMsg.append("\n("+topicURL+")");
-				sbMsg.append("\n\n*Absender:*");
+				sbMsg.append("\n");
+				sbMsg.append("\nAbsender:");
+				sbMsg.append("\n---------");
 				sbMsg.append("\n"+fromName);
 				if(StringUtils.isNotBlank(fromEmail)){
 					sbMsg.append(" ("+fromEmail+")");
 				}
-				sbMsg.append("\n\n*Nachricht:*");
+				sbMsg.append("\n");
+				sbMsg.append("\nNachricht:");
+				sbMsg.append("\n----------");
 				sbMsg.append("\n"+message);
 				
 				String recipient = config.getString("MCRWorkflow.Email.Feedback.Recipient");
