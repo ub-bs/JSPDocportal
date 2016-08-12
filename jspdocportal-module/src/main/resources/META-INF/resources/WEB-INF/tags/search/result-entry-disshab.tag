@@ -10,7 +10,7 @@
 
 <div class="row">
 	<div class="col-sm-9">
-		<search:show-edit-button mcrid="${data.mcrid}" cssClass="btn btn-primary pull-right" /> 
+		<search:show-edit-button mcrid="${data.mcrid}" cssClass="btn btn-primary ir-edit-btn pull-right" /> 
 		<table style="border-spacing: 4px; border-collapse: separate; font-size: 100%">
 			<tr><td>${entry.data['ir.creator.result']}</td></tr>
 			<tr><td>
