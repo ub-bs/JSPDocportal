@@ -48,6 +48,7 @@
 							<div class="panel panel-default" id="task_${task.id}">
 								<div class="panel-heading clearfix">
 									<stripes:submit class="btn btn-default btn-sm pull-right" name="doReleaseTask-task_${task.id}">Aufgabe abgeben</stripes:submit>
+									<span class="btn btn-none btn-sm pull-right"><strong>gestartet: </strong><fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${task.createTime}" /></span>
 									<h5 class="panel-title" style="margin-top:0.33em;"><span class="badge" style="margin-right:3em">${task.executionId}</span> Aufgabe: ${task.name}</h5>
 								</div>
 								<c:if test="${not empty actionBean.objectType}">
@@ -115,6 +116,7 @@
 							<div class="panel panel-default" id="available_task_${task.id}">
 								<div class="panel-heading clearfix">
 									<stripes:submit class="btn btn-default btn-sm pull-right" name="doAcceptTask-task_${task.id}">Aufgabe übernehmen</stripes:submit>
+									<span class="btn btn-none btn-sm pull-right"><strong>gestartet: </strong><fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${task.createTime}" /></span>
 									<h5 class="panel-title" style="margin-top:0.33em;"><span class="badge" style="margin-right:3em">${task.executionId}</span> Aufgabe: ${task.name}</h5>
 								</div>
 						
