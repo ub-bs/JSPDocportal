@@ -10,11 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrQuery;
+import org.hibernate.Transaction;
 import org.jdom2.Document;
 import org.jdom2.Namespace;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
-import org.mycore.common.MCRSessionMgr;
+import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.content.MCRContent;
 import org.mycore.common.content.MCRJDOMContent;
 import org.mycore.common.content.MCRURLContent;
@@ -234,13 +235,14 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
     public String getXeditorHtml() {
         StringWriter out = new StringWriter();
 
-        boolean doCommitTransaction = false;
-        if (!MCRSessionMgr.getCurrentSession().isTransactionActive()) {
-            doCommitTransaction = true;
-            MCRSessionMgr.getCurrentSession().beginTransaction();
-        }
         MCRContent editorContent = null;
-        try {
+        Transaction t1=null;
+		try {
+    		Transaction tx  = MCRHIBConnection.instance().getSession().getTransaction();
+	   		if(tx==null || !tx.isActive()){
+				t1 = MCRHIBConnection.instance().getSession().beginTransaction();
+			}
+	   		
             URL resource = getClass().getResource("/editor/search/" + result.getMask() + ".xed");
             if(resource!=null){
                 editorContent = new MCRURLContent(resource);
@@ -289,9 +291,11 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
             LOGGER.error("SAXException " + e, e);
         }
 
-        if (doCommitTransaction) {
-            MCRSessionMgr.getCurrentSession().commitTransaction();
-        }
+		finally{
+    		if(t1!=null){
+    			t1.commit();
+    		}
+    	}
 
         return out.toString();
     }
