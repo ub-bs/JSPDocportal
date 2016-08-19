@@ -35,9 +35,12 @@ import javax.servlet.jsp.jstl.core.Config;
 import javax.servlet.jsp.jstl.fmt.LocalizationContext;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Transaction;
 import org.mycore.access.MCRAccessManager;
-import org.mycore.common.MCRException;
+import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.config.MCRConfiguration;
+import org.mycore.common.MCRConstants;
+import org.mycore.common.MCRException;
 import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.services.i18n.MCRTranslation;
@@ -55,24 +58,21 @@ import org.mycore.services.i18n.MCRTranslation;
  * 
  */
 public class MCRJSPServletContextListener implements ServletContextListener {
-	private static Logger LOGGER = Logger
-			.getLogger(MCRJSPServletContextListener.class);
+	private static Logger LOGGER = Logger.getLogger(MCRJSPServletContextListener.class);
 
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
-		LOGGER.debug("Application "
-				+ sce.getServletContext().getServletContextName() + " started");
+		LOGGER.debug("Application " + sce.getServletContext().getServletContextName() + " started");
 		MCRNavigationUtil.loadNavigation(sce.getServletContext());
 		loadConstants(sce.getServletContext());
-		//createNonExistingAdminPermissions();
+		createNonExistingAdminPermissions();
 		registerDefaultMessageBundle(sce.getServletContext());
 		sce.getServletContext().setAttribute("WebApplicationBaseURL", MCRFrontendUtil.getBaseURL());
 	}
 
 	@Override
 	public void contextDestroyed(ServletContextEvent sce) {
-		LOGGER.debug("Application "
-				+ sce.getServletContext().getServletContextName() + " stopped");
+		LOGGER.debug("Application " + sce.getServletContext().getServletContextName() + " stopped");
 
 	}
 
@@ -92,28 +92,21 @@ public class MCRJSPServletContextListener implements ServletContextListener {
 	 * @param objid
 	 * @param userid
 	 * @return boolean false if there was an Exception
-	 * 
-	 * TODO DELETE after test
 	 */
 
-	@Deprecated
 	private boolean createNonExistingAdminPermissions() {
-        try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()){
-			Collection<String> savedPermissions = MCRAccessManager
-					.getAccessImpl().getPermissions();
-			String permissions = MCRConfiguration
-					.instance()
-					.getString("MCR.AccessAdminInterfacePermissions",
-							"admininterface-access,admininterface-user,admininterface-accessrules");
-			for (Iterator<?> it = Arrays.asList(permissions.split(","))
-					.iterator(); it.hasNext();) {
+		try {
+			Transaction tx = MCRHIBConnection.instance().getSession().beginTransaction();
+			Collection<String> savedPermissions = MCRAccessManager.getAccessImpl().getPermissions();
+			String permissions = MCRConfiguration.instance().getString("MCR.AccessAdminInterfacePermissions",
+					"admininterface-access,admininterface-user,admininterface-accessrules");
+			for (Iterator<?> it = Arrays.asList(permissions.split(",")).iterator(); it.hasNext();) {
 				String permission = ((String) it.next()).trim().toLowerCase(Locale.GERMAN);
-				if (!permission.equals("")
-						&& !savedPermissions.contains(permission)) {
-					MCRAccessManager.getAccessImpl().addRule(permission,
-							MCRAccessManager.getFalseRule(), "");
+				if (!permission.equals("") && !savedPermissions.contains(permission)) {
+					MCRAccessManager.getAccessImpl().addRule(permission, MCRAccessManager.getFalseRule(), "");
 				}
 			}
+			tx.commit();
 		} catch (MCRException e) {
 			LOGGER.error("could not create admin interface permissions", e);
 			return false;
@@ -122,22 +115,10 @@ public class MCRJSPServletContextListener implements ServletContextListener {
 	}
 
 	private void registerDefaultMessageBundle(ServletContext sc) {
-		LocalizationContext locCtxt = (LocalizationContext) Config.get(sc,
-				Config.FMT_LOCALIZATION_CONTEXT);
-		if (locCtxt == null) {
-			Locale loc = (Locale) Config.get(sc, Config.FMT_LOCALE);
-			if (loc == null) {
-				loc = Locale.getDefault();
-				Config.set(sc, Config.FMT_LOCALE, loc);
-			}
-			locCtxt = new LocalizationContext(MCRTranslation.getResourceBundle(
-					"messages", loc));
-		} else {
-			locCtxt = new LocalizationContext(MCRTranslation.getResourceBundle(
-					"messages", locCtxt.getLocale()));
-		}
-
+		Locale loc = new Locale(
+				MCRConfiguration.instance().getString("MCR.Metadata.DefaultLang", MCRConstants.DEFAULT_LANG));
+		Config.set(sc, Config.FMT_LOCALE, loc);
+		LocalizationContext locCtxt = new LocalizationContext(MCRTranslation.getResourceBundle("messages", loc));
 		Config.set(sc, Config.FMT_LOCALIZATION_CONTEXT, locCtxt);
-
 	}
 }
