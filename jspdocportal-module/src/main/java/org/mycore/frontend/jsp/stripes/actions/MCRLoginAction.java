@@ -84,7 +84,7 @@ public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBe
 	public Resolution defaultRes() {
 		HttpServletRequest request = (HttpServletRequest) getContext().getRequest();
 		if ("true".equals(request.getParameter("logout"))) {
-			doLogout();
+			return doLogout();
 		} else {
 			MCRSession mcrSession = MCRServlet.getSession(request);
 			MCRUserInformation mcrUserInfo = mcrSession.getUserInformation();
@@ -105,7 +105,7 @@ public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBe
 		String uid = session.getUserInformation().getUserID();
 		LOGGER.debug("Log out user " + uid);
 		session.setUserInformation(MCRSystemUserInformation.getGuestInstance());
-		return new ForwardResolution("/content/index.jsp");
+		return fwdResolution;
 	}
 
 	public Resolution doLogin() {
