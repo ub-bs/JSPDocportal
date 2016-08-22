@@ -30,12 +30,6 @@ import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
 
-import net.sourceforge.stripes.action.ActionBean;
-import net.sourceforge.stripes.action.DefaultHandler;
-import net.sourceforge.stripes.action.ForwardResolution;
-import net.sourceforge.stripes.action.Resolution;
-import net.sourceforge.stripes.action.UrlBinding;
-
 import org.apache.log4j.Logger;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRSession;
@@ -51,6 +45,12 @@ import org.mycore.user2.MCRRole;
 import org.mycore.user2.MCRRoleManager;
 import org.mycore.user2.MCRUser;
 import org.mycore.user2.MCRUserManager;
+
+import net.sourceforge.stripes.action.ActionBean;
+import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.action.UrlBinding;
 
 /**
  * This class handles the Login into the system.
@@ -83,7 +83,7 @@ public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBe
 	public Resolution defaultRes() {
 		HttpServletRequest request = (HttpServletRequest) getContext().getRequest();
 		if ("true".equals(request.getParameter("logout"))) {
-			doLogout();
+			return doLogout();
 		} else {
 			MCRSession mcrSession = MCRServlet.getSession(request);
 			MCRUserInformation mcrUserInfo = mcrSession.getUserInformation();
@@ -110,7 +110,7 @@ public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBe
 		String uid = session.getUserInformation().getUserID();
 		LOGGER.debug("Log out user " + uid);
 		session.setUserInformation(MCRSystemUserInformation.getGuestInstance());
-		return new ForwardResolution("/content/index.jsp");
+		return fwdResolution;
 	}
 
 	public Resolution doLogin() {
