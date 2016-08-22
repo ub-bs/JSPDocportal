@@ -13,6 +13,8 @@ import org.mycore.access.MCRAccessManager;
 import org.mycore.activiti.MCRActivitiMgr;
 import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.MCRSessionMgr;
+import org.mycore.datamodel.metadata.MCRMetadataManager;
+import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.user2.MCRUserManager;
 
@@ -64,19 +66,22 @@ public class StartEditAction extends MCRAbstractStripesAction implements ActionB
 			if (mcrid != null) {
 				if (MCRAccessManager.checkPermission(mcrid, "writedb")) {
 					MCRObjectID mcrObjID = MCRObjectID.getInstance(mcrid);
-					Map<String, Object> variables = new HashMap<String, Object>();
-					variables.put(MCRActivitiMgr.WF_VAR_OBJECT_TYPE, mcrObjID.getTypeId());
-					variables.put(MCRActivitiMgr.WF_VAR_PROJECT_ID, mcrObjID.getProjectId());
-					variables.put(MCRActivitiMgr.WF_VAR_MCR_OBJECT_ID, mcrObjID.toString());
+					MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(mcrObjID);
+					if(mcrObj.getService().getState().getID().equals("published")){
+						Map<String, Object> variables = new HashMap<String, Object>();
+						variables.put(MCRActivitiMgr.WF_VAR_OBJECT_TYPE, mcrObjID.getTypeId());
+						variables.put(MCRActivitiMgr.WF_VAR_PROJECT_ID, mcrObjID.getProjectId());
+						variables.put(MCRActivitiMgr.WF_VAR_MCR_OBJECT_ID, mcrObjID.toString());
 
-					RuntimeService rs = MCRActivitiMgr.getWorfklowProcessEngine().getRuntimeService();
-					// ProcessInstance pi =
-					// rs.startProcessInstanceByKey("create_object_simple",
-					// variables);
-					ProcessInstance pi = rs.startProcessInstanceByMessage("start_load", variables);
-					TaskService ts = MCRActivitiMgr.getWorfklowProcessEngine().getTaskService();
-					for (Task t : ts.createTaskQuery().processInstanceId(pi.getId()).list()) {
-						ts.setAssignee(t.getId(), MCRUserManager.getCurrentUser().getUserID());
+						RuntimeService rs = MCRActivitiMgr.getWorfklowProcessEngine().getRuntimeService();
+						// ProcessInstance pi =
+						// rs.startProcessInstanceByKey("create_object_simple",
+						// variables);
+						ProcessInstance pi = rs.startProcessInstanceByMessage("start_load", variables);
+						TaskService ts = MCRActivitiMgr.getWorfklowProcessEngine().getTaskService();
+						for (Task t : ts.createTaskQuery().processInstanceId(pi.getId()).list()) {
+							ts.setAssignee(t.getId(), MCRUserManager.getCurrentUser().getUserID());
+						}
 					}
 					return new RedirectResolution("/showWorkspace.action?mcrobjid_base=" + mcrObjID.getBase());
 				}
