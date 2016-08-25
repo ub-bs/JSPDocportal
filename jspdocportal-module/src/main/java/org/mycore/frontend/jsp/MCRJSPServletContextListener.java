@@ -23,8 +23,12 @@
  */
 package org.mycore.frontend.jsp;
 
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Locale;
 
@@ -38,9 +42,9 @@ import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.backend.hibernate.MCRHIBConnection;
-import org.mycore.common.config.MCRConfiguration;
 import org.mycore.common.MCRConstants;
 import org.mycore.common.MCRException;
+import org.mycore.common.config.MCRConfiguration;
 import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.services.i18n.MCRTranslation;
@@ -73,7 +77,24 @@ public class MCRJSPServletContextListener implements ServletContextListener {
 	@Override
 	public void contextDestroyed(ServletContextEvent sce) {
 		LOGGER.debug("Application " + sce.getServletContext().getServletContextName() + " stopped");
-
+		
+		ClassLoader cl = Thread.currentThread().getContextClassLoader();
+        // Loop through all drivers
+        Enumeration<Driver> drivers = DriverManager.getDrivers();
+        while (drivers.hasMoreElements()) {
+            Driver driver = drivers.nextElement();
+            if (driver.getClass().getClassLoader() == cl) {
+                // This driver was registered by the webapp's ClassLoader, so deregister it:
+                try {
+                    LOGGER.info("Deregistering JDBC driver: "+ driver);
+                    DriverManager.deregisterDriver(driver);
+                } catch (SQLException ex) {
+                    LOGGER.error("Error deregistering JDBC driver " + driver, ex);
+                }
+            } else {
+                LOGGER.trace("Not deregistering JDBC driver "+driver+" as it does not belong to this webapp's ClassLoader");
+            }
+        }
 	}
 
 	/**
