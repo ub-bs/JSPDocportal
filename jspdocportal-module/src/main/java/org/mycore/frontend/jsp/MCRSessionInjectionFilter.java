@@ -32,7 +32,7 @@ public class MCRSessionInjectionFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         MCRSession session = MCRServlet.getSession((HttpServletRequest) request);
         MCRSessionMgr.setCurrentSession(session);
-        LOGGER.info(MessageFormat.format("{0} ip={1} mcr={2} user={3}", httpRequest.getServletPath(),
+        LOGGER.debug(MessageFormat.format("{0} ip={1} mcr={2} user={3}", httpRequest.getServletPath(),
             MCRFrontendUtil.getRemoteAddr(httpRequest), session.getID(), session.getUserInformation().getUserID()));
         MCRFrontendUtil.configureSession(session, httpRequest);
         
