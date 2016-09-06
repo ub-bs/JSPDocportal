@@ -31,7 +31,7 @@ button[data-id='CloseViewerButton']{
                 filePath: "${actionBean.filePath}",
                 doctype: "pdf",
                 startImage: "1",
-                i18nURL: "${applicationScope.WebApplicationBaseURL}modules/iview2/i18n/{lang}.json",
+                i18nURL: "${applicationScope.WebApplicationBaseURL}modules/mcrviewer/i18n/mcrviewer_{lang}.json",
                 lang: "de",
                 webApplicationBaseURL: "${applicationScope.WebApplicationBaseURL}",
                 pdfWorkerURL: "${iviewBaseURL}js/lib/pdf.worker.js",
@@ -71,7 +71,7 @@ button[data-id='CloseViewerButton']{
                 imageXmlPath: "${applicationScope.WebApplicationBaseURL}tiles",
                 tileProviderPath: "${applicationScope.WebApplicationBaseURL}tiles",
                 
-                i18nURL: "${applicationScope.WebApplicationBaseURL}modules/iview2/i18n/{lang}.json",
+                i18nURL: "${applicationScope.WebApplicationBaseURL}modules/mcrviewer/i18n/mcrviewer_{lang}.json",
                 lang: "de",
                 webApplicationBaseURL: "${applicationScope.WebApplicationBaseURL}",
                 derivateURL : "${applicationScope.WebApplicationBaseURL}depot/${fn:replace(actionBean.recordIdentifier,'/','%252F')}/",
