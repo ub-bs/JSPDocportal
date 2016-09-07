@@ -43,9 +43,9 @@ button[data-id='CloseViewerButton']{
                     viewerLocationPattern:"{baseURL}/mcrviewer/id/{derivate}/{file}"
                 },
 				onClose: function(){
-            		window.close();
+					window.history.back();
+					setTimeout(function(){ window.close(); }, 500);
         		}
-                
 		};
 		new mycore.viewer.MyCoReViewer(jQuery("body"), config);
 	};
@@ -95,7 +95,7 @@ button[data-id='CloseViewerButton']{
                 },
 
                 onClose: function(){
-            		window.close();
+                	window.history.back();
         		},
                 pdfCreatorStyle: "pdf",
                 pdfCreatorURI: "http://wrackdm17.thulb.uni-jena.de/mets-printer/pdf",
