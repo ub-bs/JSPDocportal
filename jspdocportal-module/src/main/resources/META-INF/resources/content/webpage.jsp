@@ -11,6 +11,24 @@
 <c:if test="${not empty actionBean.info}"><c:set var="layout">3columns</c:set></c:if>
 
 <stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}" layout="${layout}">
+	<stripes:layout-component name="left_side">
+		<div class="ir-box ir-box-bordered">
+		<div class="main_navigation">
+			<mcr:outputNavigation id="left" cssClass="nav ir-sidenav" expanded="true" mode="left" />
+		</div>
+		<div class="main_navigation">
+			<mcr:outputNavigation id="publish" cssClass="nav ir-sidenav" expanded="false" mode="left" />
+		</div>
+
+		<div style="padding-top: 32px; padding-bottom: 32px; text-align: center;">
+			<a href="http://www.mycore.org"> <img
+		       alt="powered by MyCoRe 2016_LTS"
+			   src="${WebApplicationBaseURL}images/mycore_logo_powered_129x34_knopf_hell.png"
+			   style="border: 0; text-align: center;" />
+			</a>
+		</div>
+		</div>
+	</stripes:layout-component>
 	<stripes:layout-component name="contents">
 		<div class="ir-box">
 			<mcr:includeWebcontent id="${fn:replace(actionBean.path, '/', '.')}" file="${actionBean.path}.html" />
