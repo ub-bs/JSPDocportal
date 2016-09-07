@@ -33,6 +33,7 @@ import org.codehaus.plexus.util.StringUtils;
 import org.mycore.access.MCRAccessManager;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
@@ -84,6 +85,9 @@ public abstract class MCRAbstractNavigationTag extends MCRAbstractTag{
 		super.init();
 		
 		currentPath = (String) mcrSession.get("navPath");
+		if (currentPath == null) {
+		   currentPath = (String)getJspContext().getAttribute("org.mycore.navigation.path", PageContext.REQUEST_SCOPE);
+		}
 		if (currentPath == null) {
 			currentPath = "";
 		}
@@ -236,5 +240,14 @@ public abstract class MCRAbstractNavigationTag extends MCRAbstractTag{
 			peList.add(el);
 		}
 		return peList;
+	}
+	
+	protected String retrieveNavPath(Element e){
+	    if(e.getParentNode().getNodeType() == Node.ELEMENT_NODE && !e.getParentNode().getNodeName().equals("navigations")){
+	        return retrieveNavPath((Element)e.getParentNode()) + "." + e.getAttribute("id") ; 
+	    }
+	    else{
+	        return e.getAttribute("id");
+	    }
 	}
 }

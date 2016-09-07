@@ -1,6 +1,7 @@
 package org.mycore.frontend.jsp.stripes.actions;
 
 import org.apache.commons.lang3.StringUtils;
+import org.mycore.common.config.MCRConfiguration;
 
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.Before;
@@ -54,6 +55,10 @@ public class WebpageAction extends MCRAbstractStripesAction implements ActionBea
 	    if(path!=null){
 	        path = path.replace("\\", "/");
 	        if(!path.contains("..") && StringUtils.countMatches(path, "/")<=3){
+	            String navPath = MCRConfiguration.instance().getString("MCR.Webpage.Navigation."+path.replace("/",  "."));
+	            if(navPath!=null){
+	                getContext().getRequest().setAttribute("org.mycore.navigation.path",  navPath);
+	            }
 	            return new ForwardResolution("/content/webpage.jsp");
 	        }
 	    }

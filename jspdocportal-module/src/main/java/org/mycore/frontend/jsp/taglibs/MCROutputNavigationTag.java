@@ -149,9 +149,9 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
 
                 String msg = retrieveI18N(el.getAttribute("i18n"));
                 if (cssLiClass.length() > 0) {
-                    out.append(indent).append(" <li class=\"" + cssLiClass + "\">");
+                    out.append(indent).append(" <li id=\"" + retrieveNavPath(el) + "\" class=\"" + cssLiClass + "\">");
                 } else {
-                    out.append(indent).append(" <li>");
+                    out.append(indent).append(" <li id=\"" + retrieveNavPath(el) + "\" >");
                 }
                 out.append(indent);
                 String href = el.getAttribute("href");
