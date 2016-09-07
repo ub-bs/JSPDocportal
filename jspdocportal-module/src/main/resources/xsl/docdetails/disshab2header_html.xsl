@@ -11,15 +11,24 @@
 
 	<xsl:template match="/">
 		<xsl:for-each select="/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods">
-
-				<p>
-					<xsl:for-each select="./mods:name[@type='personal'][position()=1 or mods:role/mods:roleTerm[@type='code']/@valueURI='http://id.loc.gov/vocabulary/relators/aut']">
-						<xsl:call-template name="display-name">
-							<xsl:with-param name="name" select="." />
-						</xsl:call-template>
-					</xsl:for-each>
-				</p>
-				<xsl:call-template name="mods-title" />
+          <xsl:if test="./mods:classification[@displayLabel='doctype']">
+            <span class="label label-default">
+              <xsl:for-each select="./mods:classification[@displayLabel='doctype']/@valueURI">
+                <xsl:call-template name="classLabel">
+                  <xsl:with-param name="valueURI"><xsl:value-of select="." /></xsl:with-param>
+                </xsl:call-template>
+              </xsl:for-each>
+            </span>
+          </xsl:if>
+			
+		  <xsl:call-template name="mods-title" />
+          <p>
+            <xsl:for-each select="./mods:name[@type='personal'][position()=1 or mods:role/mods:roleTerm[@type='code']/@valueURI='http://id.loc.gov/vocabulary/relators/aut']">
+              <xsl:call-template name="display-name">
+                <xsl:with-param name="name" select="." />
+              </xsl:call-template>
+            </xsl:for-each>
+          </p>
                 <p>
 					<xsl:variable name="classlink" select="mcrmods:getClassCategLink(mods:classification[@displayLabel='doctype'])" />
 					<xsl:if test="string-length($classlink) &gt; 0">

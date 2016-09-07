@@ -27,86 +27,61 @@
 		<div class="ir-box ir-box-bordered" style="margin-top:36px">
 		<h3>Filter und Facetten</h3>
 			<div class="panel panel-default">
-          			 	<c:if test="${not empty actionBean.result.filterQueries}">
-  							<div class="panel-heading">
-  								<c:forEach var="fq" items="${actionBean.result.filterQueries}">
-  									<c:url var="url" value="${WebApplicationBaseURL}browse/epub">
-  										<c:param name="_search" value="${actionBean.result.id}" />
-  										<c:param name="_remove-filter" value="${fq}" />
-									</c:url>
-  									<div class="input-group" style="margin-bottom:6px">
-  										<span class="input-group-btn">
-        									<button class="btn btn-default" type="button" disabled="disabled" style="background-color:white">
-        										<c:if test="${fn:startsWith(fq, '-')}">
-  													<span class="glyphicon glyphicon-minus"></span>
-  												</c:if>
-  												<c:if test="${not fn:startsWith(fq, '-')}">
-  													<span class="glyphicon glyphicon-plus"></span>
-  												</c:if>
-  											</button>
-      									</span>
-      									<c:set var="c"><fmt:message key="Browse.Filter.histbest.${fn:substringBefore(fn:substring(fq, 1, -1),':')}"/>:${fn:substringAfter(fn:substring(fq, 1, -1),':')}</c:set>
-      									<input type="text" class="form-control" readonly="readonly" style="background-color:white" value="${c}" />
-      									<span class="input-group-btn">
-      										<a class="btn btn-default" href="${url}" role="button">
-  												<span style="color:red" class="glyphicon glyphicon-trash"></span>
-  											</a>
-  										</span>
-								  	</div>
-  								</c:forEach>
-  							</div>
-  						</c:if>
-  						<div class="panel-body row">
-  							<div class="col-sm-9">
-    							<div class="form-group">
-    							  	<select id="filterField" name="filterField" class="form-control" style="width:100%">
+				<div class="panel-heading">
+					<form class="form-horizontal" onsubmit="return false;">
+						<div class="form-group">
+    						<div class="col-sm-12">
+    							<select id="filterField" name="filterField" class="form-control input-sm">
   										<option value="ir.creator_all"><fmt:message key="Browse.Filter.epub.ir.creator_all"/></option>
   										<option value="ir.title_all"><fmt:message key="Browse.Filter.epub.ir.title_all"/></option>
   										<option value="ir.pubyear_start"><fmt:message key="Browse.Filter.epub.ir.pubyear_start"/></option>
   										<option value="ir.pubyear_end"><fmt:message key="Browse.Filter.epub.ir.pubyear_end" /></option>
  									</select>
-   								</div>
-  								<div class="form-group">
-   									<input class="form-control" id="filterValue" name="filterValue" style="width:100%" placeholder="Wert" type="text">
-   								</div>
-  							</div>
-  							<script type="text/javascript">
-  								function changeFilterIncludeURL() {
-  									window.location=$("meta[name='mcr:baseurl']").attr("content")
-  										 	       + "browse/epub?_search="
-  										           + $("meta[name='mcr:search.id']").attr("content")
-  											       + "&_add-filter="
-  											       + encodeURIComponent("+" + $("#filterField option:selected").val()+":"+$("#filterValue").val());
-  								}
-  								function changeFilterExcludeURL() {
-  									window.location=$("meta[name='mcr:baseurl']").attr("content")
-  											       + "browse/epub?_search="
-  										           + $("meta[name='mcr:search.id']").attr("content")
-  											       + "&_add-filter="
-  											       + encodeURIComponent("-" + $("#filterField option:selected").val()+":"+$("#filterValue").val());
-  								}
-  							</script>
-  							<div class="col-sm-3">
-								<button id="filterInclude" class="btn btn-primary" style="margin-top:6px; margin-left:-9px"
-								        onclick="changeFilterIncludeURL();">
+   							</div>
+   						</div>	
+  						<div class="form-group">
+  							<div class="col-sm-9">
+   								<input class="form-control" id="filterValue" name="filterValue" style="width:100%" placeholder="Wert" type="text">
+   							</div>
+   							<div class="col-sm-3">
+  								<script type="text/javascript">
+  									function changeFilterIncludeURL() {
+  										window.location=$("meta[name='mcr:baseurl']").attr("content")
+  								 	    			+ "browse/epub?_search="
+  								           			+ $("meta[name='mcr:search.id']").attr("content")
+  									       			+ "&_add-filter="
+  									       			+ encodeURIComponent("+" + $("#filterField option:selected").val()+":"+$("#filterValue").val());
+  									}
+  									function changeFilterExcludeURL() {
+  										window.location=$("meta[name='mcr:baseurl']").attr("content")
+  									    			+ "browse/epub?_search="
+  								           			+ $("meta[name='mcr:search.id']").attr("content")
+  									       			+ "&_add-filter="
+  									       			+ encodeURIComponent("-" + $("#filterField option:selected").val()+":"+$("#filterValue").val());
+  										}
+  								</script>
+							
+								<button id="filterInclude" class="btn btn-primary" style="margin-top:6px; margin-left:-9px" onclick="changeFilterIncludeURL();">
 									<span class="glyphicon glyphicon-plus"></span>
-								</button> 	
-								<button id="filterExclude" class="btn btn-primary" style="margin-top:3px; margin-left:-9px"
-								        onclick="changeFilterExcludeURL();">
-								   <span class="glyphicon glyphicon-minus"></span>
 								</button>
-          					</div> 		
-						</div>
-  					</div>
-  					<div class="row" style="margin-bottom:24px;">
+								<%-- <button id="filterExclude" class="btn btn-primary" style="margin-top:3px; margin-left:-9px" onclick="changeFilterExcludeURL();">
+					   				<span class="glyphicon glyphicon-minus"></span>
+								</button>--%>
+          					</div> 	
+          				</div>	
+					</form>
+				</div>
+  			</div>
+  			
+  			<div class="row" style="margin-bottom:24px;">
   				<div class="col-sm-12">
 					<c:forEach var="fq" items="${actionBean.result.filterQueries}">
 						<c:if test="${not fn:contains(fq, '.facet:')}">
-  							<c:url var="url" value="${WebApplicationBaseURL}browse/histbest">
+  							<c:url var="url" value="${WebApplicationBaseURL}browse/epub">
   								<c:param name="_search" value="${actionBean.result.id}" />
   								<c:param name="_remove-filter" value="${fq}" />
 							</c:url>
-							<c:set var="c"><fmt:message key="Browse.Filter.histbest.${fn:substringBefore(fn:substring(fq, 1, -1),':')}"/>: ${actionBean.calcFacetOutputString(fn:substringBefore(fn:substring(fq, 1, -1),':'), fn:substringAfter(fn:substring(fq, 1, -1),':'))}</c:set>
+							<c:set var="c"><fmt:message key="Browse.Filter.epub.${fn:substringBefore(fn:substring(fq, 1, -1),':')}"/>: ${actionBean.calcFacetOutputString(fn:substringBefore(fn:substring(fq, 1, -1),':'), fn:substringAfter(fn:substring(fq, 1, -1),':'))}</c:set>
 							<a class="btn btn-sm btn-default ir-btn-facet" style="display:block;text-align:left;white-space:normal;margin-bottom:3px;color:black;width:100%" href="${url}">
 								<span class="glyphicon glyphicon-remove pull-right" style="margin-top:3px; color:darkred;"></span>
 								${c}										

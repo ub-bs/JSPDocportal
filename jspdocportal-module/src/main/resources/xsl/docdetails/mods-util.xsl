@@ -9,27 +9,21 @@
   <xsl:for-each select="./mods:titleInfo[@usage='primary']">
     <h4>
       <xsl:if test="./mods:nonSort">
-        <xsl:value-of select="./mods:nonSort" />&#160;<xsl:value-of select="./mods:title" />  
+        <xsl:value-of select="./mods:nonSort" />&#160;  
       </xsl:if>
-      <xsl:if test="not(./mods:nonSort)">
-        <xsl:value-of select="./mods:title" />
-        <xsl:if test="./mods:subTitle">&#160;:&#160;</xsl:if>  
+      <xsl:value-of select="./mods:title" />
+      <xsl:if test="./mods:subTitle">
+        &#160;:&#160;<xsl:value-of select="./mods:subTitle" />
       </xsl:if>
     </h4>
-    <xsl:if test="./mods:subTitle">
-      <h4>
-        <xsl:value-of select="./mods:subTitle" />
-      </h4>
-    </xsl:if>
-
     <xsl:if test="./mods:partNumber or ./mods:partName">
-      <br />
-      <h5>
-        <xsl:value-of select="./mods:partNumber" />
-        <xsl:if test="./mods:partNumber and ./mods:partName">: </xsl:if>
-        <xsl:value-of select="./mods:partName" />
-      </h5>
+     <h4>
+      <xsl:value-of select="./mods:partNumber" />
+      <xsl:if test="./mods:partNumber and ./mods:partName">: </xsl:if>
+      <xsl:value-of select="./mods:partName" />
+     </h4>
   </xsl:if>
+
   </xsl:for-each>
 </xsl:template>
 

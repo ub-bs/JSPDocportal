@@ -29,18 +29,24 @@
 <fmt:message var="pageTitle" key="OMD.headline">
 	<fmt:param>${mcrid}</fmt:param>
 </fmt:message>
-<stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}" layout="1column">
+<stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}" layout="3columns">
 	<stripes:layout-component name="html_header">
 		<title>${pageTitle}@ <fmt:message key="Webpage.title" /></title>
 		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_docdetails.css">
 		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_searchresult.css">
 		
 	</stripes:layout-component>
+	
+	<stripes:layout-component name="left_side">
+		<div class="ir-box ir-box-bordered">
+			<div class="main_navigation">
+				<mcr:outputNavigation id="left" cssClass="nav ir-sidenav" expanded="true" mode="left" />
+			</div>
+		</div>
+	</stripes:layout-component>
 	<stripes:layout-component name="contents">
 		<div class="row">
-			<div class="col-md-8">
-				<div class="row">
-					<div class="col-sm-9">
+					<div class="col-sm-12">
 						<div class="ir-box ir-docdetails-header">
 							<mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/${objectType}2header_html.xsl" />
 							<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='fulltext']">
@@ -66,76 +72,78 @@
 			  							<fmt:message key="Webpage.docdetails.mcrviewer" />
 			  				</a>							
 						</div>
-					</div>
-					<div class="col-sm-3">
-						<div class="pull-right">
-							<search:derivate-image mcrid="${param.id}" width="100%" labelContains="cover" />
-						</div>
-					</div>
-				</div>
+					</div>					
+		</div>
 				
-				<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='fulltext']">
-				<div class="row">
-					<div class="col-sm-12">
-						<hr />
-					</div>
-				</div>
-				<div class="row">	
-					<div class="col-sm-12">
-						<search:mcrviewer mcrid="${param.id}" recordidentifier="${param.id}" doctype="pdf" id="divMCRViewer_2" />
-						<div id="divMCRViewer_2" style="height:600px; margin:0px 16px; position:relative;"></div>
-					</div>
-				</div>
-				</x:if>
-				
-				<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='DV_METS']">
-				<c:set var="recordidentifier"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier" /></c:set>
-				
-				<div class="row">
-					<div class="col-sm-12">
-						<hr />
-					</div>
-				</div>
-				<div class="row">		
-					<div class="col-sm-12">
-						<search:mcrviewer mcrid="${param.id}" recordidentifier="${recordidentifier}" doctype="mets" id="divMCRViewer_1" />
-						<div id="divMCRViewer_1" style="height:600px; margin:0px 16px; position:relative;"></div>
-					</div>
-				</div>
-				</x:if>
-				<div class="row">
-					<div class="col-sm-12">
-						<hr />
-					</div>
-					<div class="col-sm-12">
-						<div class="ir-box ir-docdetails-data">
-							<mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/${objectType}2details_html.xsl" />
-						</div>
-					</div>
+		<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='fulltext']">
+			<div class="row">
+				<div class="col-sm-12">
+					<hr />
 				</div>
 			</div>
-			<div class="col-md-4">
-				<div class="ir-box">
-					<search:result-navigator mcrid="${mcrid}" />
-					
-					<div class="docdetails-toolbar">
-						<c:if test="${empty(param.print)}">
-								<a href="${WebApplicationBaseURL}content/print_details.jsp?id=${param.id}&fromWF=${param.fromWF}" target="_blank"
-								 class="btn btn-default" title="<fmt:message key="WF.common.printdetails" />"> <span class="glyphicon glyphicon-print"></span></a>
-								 <a href="${WebApplicationBaseURL}api/v1/objects/${param.id}" class="btn btn-default" title="open MyCoRe object XML"><span class="glyphicon glyphicon-cog"></span></a>
-								 <a href="${WebApplicationBaseURL}receive/${param.id}?XSL.Style=solrdocument" class="btn btn-default" title="open SOLR input document"><span class="glyphicon glyphicon-lamp"></span></a>
-								 <x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='REPOS_METS']">
-								 	<c:set var="derid"><x:out select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='REPOS_METS']/@xlink:href" /></c:set>
-								 	<a href="${WebApplicationBaseURL}api/v1/objects/${param.id}/derivates/${derid}/open" class="btn btn-default" title="open REPOS_METS" ><span class="glyphicon glyphicon-folder-open"></span></a>
-								</x:if>
-								<c:if test="${(not from)}">
-									<search:show-edit-button mcrid="${mcrid}" cssClass="btn btn-sm btn-primary col-xs-3" />
-								</c:if>
-						</c:if>
-						
-					</div>
+			<div class="row">	
+				<div class="col-sm-12">
+					<search:mcrviewer mcrid="${param.id}" recordidentifier="${param.id}" doctype="pdf" id="divMCRViewer_2" />
+					<div id="divMCRViewer_2" style="height:600px; margin:0px 16px; position:relative;"></div>
 				</div>
 			</div>
+		</x:if>
+				
+		<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='DV_METS']">
+			<c:set var="recordidentifier"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier" /></c:set>
+			<div class="row">
+				<div class="col-sm-12">
+					<hr />
+				</div>
+			</div>
+			<div class="row">		
+				<div class="col-sm-12">
+					<search:mcrviewer mcrid="${param.id}" recordidentifier="${recordidentifier}" doctype="mets" id="divMCRViewer_1" />
+					<div id="divMCRViewer_1" style="height:600px; margin:0px 16px; position:relative;"></div>
+				</div>
+			</div>
+		</x:if>
+		
+		<div class="row">
+			<div class="col-sm-12">
+				<hr />
+			</div>
+			<div class="col-sm-12">
+				<div class="ir-box ir-docdetails-data">
+					<mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/${objectType}2details_html.xsl" />
+				</div>
+			</div>
+		</div>
+	</stripes:layout-component>
+	<stripes:layout-component name="right_side">
+		<div class="ir-box ir-box-bordered ir-infobox" style="margin-bottom:32px; padding: 18px 6px 6px 6px;">
+			<search:result-navigator mcrid="${mcrid}" />
+			
+			<div class="container-fluid">
+				<div class="row" style="padding-bottom:6px">
+    	   			<button type="button" class="btn btn-default btn-sm pull-right hidden-xs" style="border:none;color:#DEDEDE;" 
+    	   		        data-toggle="collapse" data-target="#hiddenTools" title="<fmt:message key="Webpage.tools.menu4experts" />">
+   						<span class="glyphicon glyphicon-wrench"></span>
+       				</button>
+       				<search:show-edit-button mcrid="${mcrid}" cssClass="btn btn-sm btn-primary ir-edit-btn col-xs-3" />
+   				</div>
+   				<div id="hiddenTools" class="collapse">
+   					<div class="row" style="padding-bottom:6px">
+   						<a class="btn btn-warning btn-sm" target="_blank" title="<fmt:message key="Webpage.tools.showXML" />"
+		   		   		   href="${WebApplicationBaseURL}api/v1/objects/${mcrid}" rel="nofollow">XML</a>
+       					<a class="btn btn-warning btn-sm" style="margin-left:6px" target="_blank" title="<fmt:message key="Webpage.tools.showSOLR" />"
+			   		   		href="${WebApplicationBaseURL}receive/${mcrid}?XSL.Style=solrdocument" rel="nofollow">SOLR</a>
+			   		   		
+			   		   	<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='REPOS_METS']">
+						 	<c:set var="derid"><x:out select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='REPOS_METS']/@xlink:href" /></c:set>
+						 	<a class="btn btn-warning btn-sm" style="margin-left:6px" target="_blank" href="${WebApplicationBaseURL}api/v1/objects/${param.id}/derivates/${derid}/open" class="btn btn-default" title="<fmt:message key="Webpage.tools.showREPOS_METS" />">METS</a>
+						</x:if>
+    	  			</div>
+   				</div>
+   			</div>
+   		</div>
+		<div class="ir-box ir-box-bordered ir-infobox" style="margin-bottom:32px; padding: 18px 6px 6px 6px;">
+			<search:derivate-image mcrid="${param.id}" width="100%" labelContains="cover" />
 		</div>
 	</stripes:layout-component>
 </stripes:layout-render>

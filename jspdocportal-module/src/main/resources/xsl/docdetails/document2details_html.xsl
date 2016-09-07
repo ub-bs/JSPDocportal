@@ -274,21 +274,7 @@
         </table>
         <table class="table ir-table-docdetails">
         
-       <xsl:if test="./mods:classification[@displayLabel='doctype']">
-          <tr>
-            <th>Dokumententyp:</th>
-            <td><table class="ir-table-docdetails-values">
-              <xsl:for-each select="./mods:classification[@displayLabel='doctype']/@valueURI">
-               <tr><td>
-               <xsl:call-template name="classLabel">
-                  <xsl:with-param name="valueURI"><xsl:value-of select="." /></xsl:with-param>
-               </xsl:call-template>
-               </td></tr>
-               </xsl:for-each>
-               </table>
-            </td>
-          </tr>
-        </xsl:if>
+       
         <xsl:if test="./mods:classification[@displayLabel='collection']">
           <tr>
             <th>Sammlung:</th>

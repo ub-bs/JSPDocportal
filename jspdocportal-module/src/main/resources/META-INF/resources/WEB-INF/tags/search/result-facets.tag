@@ -30,7 +30,7 @@
 	<c:if test="${facets.get(facetKey).size() gt 0}">
 		<div class="row">
 			<div class="col-sm-12">
-				<h4><fmt:message key="Browse.Filter.${mask}.${facetKey}" /></h4>
+				<h5><fmt:message key="Browse.Filter.${mask}.${facetKey}" /></h5>
 				<c:forEach var="countsKey" items="${facets.get(facetKey).keySet()}">
 					<c:set var="key">+${facetKey}:${countsKey}</c:set>
 					<c:if test="${result.filterQueries.contains(key)}">

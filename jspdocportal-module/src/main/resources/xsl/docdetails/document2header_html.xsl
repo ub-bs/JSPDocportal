@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:mods="http://www.loc.gov/mods/v3"
-  version="1.0" exclude-result-prefixes="mods">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" version="1.0" 
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:mods="http://www.loc.gov/mods/v3" 
+  xmlns:xlink="http://www.w3.org/1999/xlink" 
+  xmlns:xalan="http://xml.apache.org/xalan"
+  xmlns:i18n="xalan://org.mycore.services.i18n.MCRTranslation" 
+  xmlns:mcrmods="xalan://org.mycore.mods.classification.MCRMODSClassificationSupport"
+  xmlns:mcrxsl="xalan://org.mycore.common.xml.MCRXMLFunctions" 
+  xmlns:mcr="http://www.mycore.org/" 
+  exclude-result-prefixes="mods xlink xalan i18n mcrmods mcrxsl mcr">
  
   <!-- to enable relative urls in import set xsltSystemId attribute in x:transform of JSP XML Tag Library !!! -->
   <xsl:import href="mods-util.xsl" />
@@ -11,27 +19,31 @@
 
   <xsl:template match="/">
     <xsl:for-each select="/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods">
-      <xsl:for-each select="./mods:relatedItem[@type='host']">
-         <xsl:for-each select="./mods:recordInfo/mods:recordIdentifier">
-              <span class="button">
-                  <xsl:element name="a">
-                       <xsl:attribute name="href"><xsl:value-of select="$WebApplicationBaseURL" />resolve/recordIdentifier/<xsl:value-of select="substring-before(., '/')"/>%252F<xsl:value-of select="substring-after(., '/')"/></xsl:attribute>
-                       <xsl:attribute name="title"><xsl:value-of select="./mods:titleInfo/mods:title" /></xsl:attribute>
-                        zum übergeordneten Dokument
-                  </xsl:element>
-               </span> 
-                <br />  <br />
-         </xsl:for-each> 
-        </xsl:for-each>
-       
+      <xsl:for-each select="./mods:relatedItem[@type='host']/mods:recordInfo">
+            <xsl:element name="a">
+              <xsl:attribute name="class">btn btn-default btn-sm pull-right ir-btn-goto-top</xsl:attribute>
+              <xsl:attribute name="href"><xsl:value-of select="$WebApplicationBaseURL" />resolve/recordIdentifier/<xsl:value-of select="substring-before(./mods:recordIdentifier, '/')"/>%252F<xsl:value-of select="substring-after(./mods:recordIdentifier, '/')"/></xsl:attribute>
+              <xsl:attribute name="title"><xsl:value-of select="../mods:titleInfo/mods:title" /></xsl:attribute>
+              <xsl:value-of select="i18n:translate('Webpage.docdetails.gotoParent')" />&#160;&#160;<span class="glyphicon glyphicon-share-alt"></span>
+            </xsl:element>
+      </xsl:for-each> 
+
+      <xsl:if test="./mods:classification[@displayLabel='doctype']">
+        <span class="label label-default">
+          <xsl:for-each select="./mods:classification[@displayLabel='doctype']/@valueURI">
+            <xsl:call-template name="classLabel">
+              <xsl:with-param name="valueURI"><xsl:value-of select="." /></xsl:with-param>
+            </xsl:call-template>
+          </xsl:for-each>
+        </span>
+      </xsl:if>
+      
+     <xsl:call-template name="mods-title" />
+     
       <p>
         <xsl:call-template name="mods-name" /><br />
       </p>
-      <p>    
-      <span style="font-size:115%;line-height:130%;color:#004A99;">
-        <xsl:call-template name="mods-title" />
-      </span>
-      </p>
+
       <p>
       <xsl:call-template name="mods-originInfo" />
       </p>
