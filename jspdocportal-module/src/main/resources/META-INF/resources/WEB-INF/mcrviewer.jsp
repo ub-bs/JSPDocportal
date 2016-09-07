@@ -95,7 +95,8 @@ button[data-id='CloseViewerButton']{
                 },
 
                 onClose: function(){
-                	window.history.back();
+					window.history.back();
+					setTimeout(function(){ window.close(); }, 500);
         		},
                 pdfCreatorStyle: "pdf",
                 pdfCreatorURI: "http://wrackdm17.thulb.uni-jena.de/mets-printer/pdf",
