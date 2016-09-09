@@ -65,7 +65,7 @@ public class MCRReceiveMcrObjAsJdomTag extends SimpleTagSupport
 	    		pageContext.setAttribute(varDom, domDoc);
 			}		
     	} catch (Exception e) {
-    		logger.error("error in receiving mcr_obj for jdom and dom", e);
+    		logger.error("error in receiving mcr_obj as jdom and dom for " + mcrid, e);
     	}
     }	
 }
