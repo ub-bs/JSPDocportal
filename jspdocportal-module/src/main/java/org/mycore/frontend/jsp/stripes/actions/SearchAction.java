@@ -15,7 +15,6 @@ import org.jdom2.Document;
 import org.jdom2.Namespace;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
-import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.content.MCRContent;
 import org.mycore.common.content.MCRJDOMContent;
 import org.mycore.common.content.MCRURLContent;
@@ -86,27 +85,28 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
         if (request.getParameter("_search") != null) {
             result = MCRSearchResultDataBean.retrieveSearchresultFromSession(request, request.getParameter("_search"));
         }
-        Integer hit = null;
-        if (request.getParameter("_hit") != null) {
-            try {
-                hit = Integer.parseInt(request.getParameter("_hit"));
-            } catch (NumberFormatException nfe) {
-                hit = null;
+        if(result!=null){
+            Integer hit = null;
+            if (request.getParameter("_hit") != null) {
+                try {
+                    hit = Integer.parseInt(request.getParameter("_hit"));
+                } catch (NumberFormatException nfe) {
+                    hit = null;
+                }
+            }
+            if (request.getParameter("_start") != null) {
+                try {
+                    result.setStart(Integer.parseInt(request.getParameter("_start")));
+                } catch (NumberFormatException nfe) {
+                    result.setStart(0);
+                }
+            }
+
+            if (hit != null && result != null && hit >= 0 && hit < result.getNumFound()) {
+                String mcrid = result.getHit(hit).getMcrid();
+                return new RedirectResolution("/resolve/id/" + mcrid + "?_search=" + result.getId());
             }
         }
-        if (request.getParameter("_start") != null) {
-            try {
-                result.setStart(Integer.parseInt(request.getParameter("_start")));
-            } catch (NumberFormatException nfe) {
-                result.setStart(0);
-            }
-        }
-
-        if (hit != null && result != null && hit >= 0 && hit < result.getNumFound()) {
-            String mcrid = result.getHit(hit).getMcrid();
-            return new RedirectResolution("/resolve/id/" + mcrid + "?_search=" + result.getId());
-        }
-
         showMask = true;
         showResults = false;
 
