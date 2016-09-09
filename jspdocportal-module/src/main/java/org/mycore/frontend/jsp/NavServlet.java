@@ -55,7 +55,7 @@ public class NavServlet extends HttpServlet {
 			if (refitem != null) {
 				navitem = refitem.getParentElement();
 			} else {
-				LOGGER.error("navigation.xml does not contain an entry for " + path);
+				LOGGER.debug("navigation.xml does not contain an entry for " + path);
 			}
 		} else {
 			String[] nodes = path.split("\\.");
