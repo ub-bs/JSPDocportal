@@ -180,7 +180,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
             return;
         }
         String action = path[2];
-        if (action.equals("image")) {
+        if (action.equals("image") || action.equals("dfgviewer")) {
             String url = "";
             if (path.length == 3 || path.length == 4) {
                 url = createURLForDFGViewer(request, mcrID, OpenBy.empty, "");
@@ -200,6 +200,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
             }
             return;
         }
+      
         if (action.equals("pdf")) {
             String url = "";
             if (path.length > 4) {
