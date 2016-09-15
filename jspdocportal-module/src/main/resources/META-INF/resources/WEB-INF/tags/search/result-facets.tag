@@ -7,7 +7,10 @@
 
 <%@ attribute name="result" required="true" type="org.mycore.frontend.jsp.search.MCRSearchResultDataBean"%>
 <%@ attribute name="mask" required="true" type="java.lang.String"%>
+<%@ attribute name="top" required="false" type="java.lang.Integer" %>
 
+
+<c:set var="top" value="${(empty top) ? 1000 : top}" />
 <script type="text/javascript">
 	function changeFacetIncludeURL(key, value) {
 		window.location=$("meta[name='mcr:baseurl']").attr("content")
@@ -31,8 +34,12 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<h5><fmt:message key="Browse.Filter.${mask}.${facetKey}" /></h5>
-				<c:forEach var="countsKey" items="${facets.get(facetKey).keySet()}">
+				<c:forEach var="countsKey" items="${facets.get(facetKey).keySet()}" varStatus="status">
 					<c:set var="key">+${facetKey}:${countsKey}</c:set>
+					<c:set var="facetID" value="${fn:replace(facetKey, '.', '_')}" />
+					<c:if test="${status.index == top}">
+						<div id="moreFacets_div_${facetID}" class="collapse">
+					</c:if>
 					<c:if test="${result.filterQueries.contains(key)}">
 					  	<c:url var="url" value="${WebApplicationBaseURL}browse/${mask}">
 							<c:param name="_search" value="${result.id}" />
@@ -58,6 +65,18 @@
 								<span class="badge">${facets.get(facetKey).get(countsKey)}</span>
 							</span>
 						</button>
+					</c:if>
+					<c:if test="${status.index >= top and status.last}">
+						</div>
+						<button id="moreFacets_btn_${facetID}" class="btn btn-default btn-xs pull-right" data-toggle="collapse" data-target="#moreFacets_div_${facetID}"  >mehr ...</button>
+						<script type="text/javascript">
+						$('#moreFacets_div_${facetID}').on('shown.bs.collapse', function () {
+							$('#moreFacets_btn_${facetID}').text('weniger ...');
+						});
+						$('#moreFacets_div_${facetID}').on('hidden.bs.collapse', function () {
+							$('#moreFacets_btn_${facetID}').text('mehr ...')
+						});
+						</script>
 					</c:if>
 				</c:forEach>
 			</div>

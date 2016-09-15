@@ -88,7 +88,7 @@
 				</div>
 			</div>
 						
-			<search:result-facets result="${actionBean.result}" mask="histbest" />
+			<search:result-facets result="${actionBean.result}" mask="histbest" top="5"/>
 		</div> 
   	</stripes:layout-component>
   	

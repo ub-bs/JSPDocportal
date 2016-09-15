@@ -91,7 +91,7 @@
 				</div>
 			</div>
 						
-			<search:result-facets result="${actionBean.result}" mask="epub" />
+			<search:result-facets result="${actionBean.result}" mask="epub" top="5" />
 
 		</div>
 		</stripes:layout-component>
