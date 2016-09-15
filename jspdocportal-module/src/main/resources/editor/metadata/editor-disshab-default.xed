@@ -16,10 +16,10 @@
     <xed:include uri="resource:editor/metadata/includes-generic.xed" ref="in.out" />
     <xed:bind xpath="/mycoreobject">
       <xed:include uri="resource:editor/metadata/includes-generic.xed" ref="mycore.common" />
-      <xed:bind xpath="metadata/def.modsContainer[@class='MCRMetaXML']/modsContainer/mods:mods">
       <xed:include uri="resource:editor/metadata/includes-generic.xed" ref="failed-validation-messages" />
       
-    <xed:bind xpath="metadata/def.modsContainer/modsContainer[1]/mods:mods">
+          <xed:bind xpath="metadata/def.modsContainer[@class='MCRMetaXML']/modsContainer/mods:mods">
+   <xed:cleanup-rule xpath="//mods:note" relevant-if=" ./*" /> 
   
   
   <!-- IDs [START]-->
@@ -59,7 +59,7 @@
          <xed:output i18n="OMD.ir.author" />
        </label>
        <div class="col-sm-10">
-         <xed:repeat xpath="mods:name[@type='personal'][@authority='gnd'][@authorityURI='http://d-nb.info/gnd/'][./mods:roleTerm[@type='code'][@authorityURI='http://id.loc.gov/vocabulary/relators'][@valueURI='http://id.loc.gov/vocabulary/relators/aut']]">
+         <xed:repeat xpath="mods:name[@type='personal'][@authority='gnd'][@authorityURI='http://d-nb.info/gnd/'][./mods:role/mods:roleTerm[@type='code'][@authorityURI='http://id.loc.gov/vocabulary/relators'][@valueURI='http://id.loc.gov/vocabulary/relators/aut']]">
             <div class="row ir-row ir-row-1">
               <div class="col-sm-10">
                 <div class="row ir-row"> 
@@ -164,7 +164,7 @@
                     <xed:output i18n="OMD.ir.title.sub" />
                   </label>
                   <div class="col-sm-10">
-                    <xed:bind xpath="mods:subTtitle">
+                    <xed:bind xpath="mods:subTitle">
                       <textarea id="title_sub" rows="3" class="form-control input-sm"   />
                     </xed:bind>
                   </div>
@@ -204,7 +204,7 @@
                     <xed:output i18n="OMD.ir.title.sub" />
                   </label>
                   <div class="col-sm-10">
-                    <xed:bind xpath="mods:subTtitle">
+                    <xed:bind xpath="mods:subTitle">
                       <textarea id="title_trans_sub" rows="3" class="form-control input-sm"   />
                     </xed:bind>
                   </div>
@@ -231,7 +231,7 @@
               
                 <div class="row ir-row"> 
                   <div class="col-sm-10 col-sm-offset-2">
-                    <xed:bind xpath="mods:langugage[@usage='primary']/mods:languageTerm[@authority='rfc4646']">
+                    <xed:bind xpath="mods:language[@usage='primary']/mods:languageTerm[@authority='rfc4646']">
                       <select id="language" class="form-control input-sm">
                         <xed:include uri="props2options:OMD.ir.language" />                        
                       </select>
@@ -250,7 +250,7 @@
          <xed:output i18n="OMD.ir.referee" />
        </label>
        <div class="col-sm-10">
-         <xed:repeat xpath="mods:name[@type='personal'][@authority='gnd'][@authorityURI='http://d-nb.info/gnd/'][./mods:roleTerm[@type='code'][@authorityURI='http://id.loc.gov/vocabulary/relators'][@valueURI='http://id.loc.gov/vocabulary/relators/dgs']]">
+         <xed:repeat xpath="mods:name[@type='personal'][@authority='gnd'][@authorityURI='http://d-nb.info/gnd/'][./mods:role/mods:roleTerm[@type='code'][@authorityURI='http://id.loc.gov/vocabulary/relators'][@valueURI='http://id.loc.gov/vocabulary/relators/dgs']]">
             <div class="row ir-row ir-row-1">
               <div class="col-sm-10">
                 <div class="row ir-row"> 
@@ -525,15 +525,15 @@
          <xed:output i18n="OMD.ir.doctype" />
        </label>
        <div class="col-sm-10">
-           <xed:load-resource name="class_doctypes" uri="classification:metadata:-1:children:doctypes" />
-           <xed:bind xpath="mods:classification[@displayLabel='document_type'][@authorityURI=$class_doctypes/label[@xml:lang='x-uri']/@text]"> 
+           <xed:load-resource name="class_doctype" uri="classification:metadata:-1:children:doctype" />
+           <xed:bind xpath="mods:classification[@displayLabel='doctype'][@authorityURI=$class_doctype/label[@xml:lang='x-uri']/@text]"> 
             <div class="row ir-row ir-row-1">
               <div class="col-sm-10">
                 <div class="row ir-row"> 
                   <div class="col-sm-10 col-sm-offset-2">
                     <xed:bind xpath="@valueURIxEditor">
                       <select id="doctype" class="form-control input-sm">
-                        <xed:include uri="xslStyle:items2options:classification:editor:-1:children:doctypes" />
+                        <xed:include uri="xslStyle:items2options:classification:editor:-1:children:doctype" />
                       </select>
                     </xed:bind>
                   </div>
@@ -607,7 +607,7 @@
          <xed:output i18n="OMD.ir.notes" />
        </label>
        <div class="col-sm-10">
-         <xed:repeat xpath="mods:note[@type='general']">          
+         <xed:repeat xpath="mods:note[@type='general']">         
             <div class="row ir-row ir-row-1">
               <div class="col-sm-10">
                  <div class="row ir-row"> 
@@ -643,7 +643,7 @@
     
     
     </xed:bind>
-    </xed:bind>
+
       <xed:include uri="resource:editor/metadata/includes-generic.xed" ref="cancel.submit" />
     </xed:bind>
 </xed:form>
