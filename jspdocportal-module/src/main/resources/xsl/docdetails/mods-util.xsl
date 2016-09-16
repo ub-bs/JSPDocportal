@@ -13,7 +13,7 @@
       </xsl:if>
       <xsl:value-of select="./mods:title" />
       <xsl:if test="./mods:subTitle">
-        &#160;:&#160;<xsl:value-of select="./mods:subTitle" />
+        &#160;: <xsl:value-of select="./mods:subTitle" />
       </xsl:if>
     </h4>
     <xsl:if test="./mods:partNumber or ./mods:partName">
