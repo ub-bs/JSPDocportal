@@ -42,7 +42,8 @@ a.ir-button-download{
 }
 
 a.ir-button-download:HOVER{
-	color:#FFFFFF;
+	color:#333333;
+	background-color:#DDDDDD;
 	text-decoration: none;
 }
 
