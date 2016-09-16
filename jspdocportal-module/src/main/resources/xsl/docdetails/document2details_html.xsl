@@ -292,52 +292,6 @@
         </xsl:if>
 
        </table>
-       <table class="table ir-table-docdetails">
-        
-        <xsl:if test="./mods:identifier[@type='purl']">
-          <tr>
-            <th>Persistente URL:</th>
-            <td><table class="ir-table-docdetails-values"><tr><td><xsl:value-of select="./mods:identifier[@type='purl']" />
-            </td></tr></table>
-            </td>
-        </tr>
-        </xsl:if>
-         <tr>
-            <th>erstellt am:</th>
-            <td><table class="ir-table-docdetails-values"><tr><td>
-              <xsl:value-of select="substring-before(./../../../../service/servdates/servdate[@type='createdate'],'T')" />
-            </td></tr></table>
-            </td>
-          </tr>
-          <tr>
-            <th>zuletzt geändert am:</th>
-            <td><table class="ir-table-docdetails-values"><tr><td>
-              <xsl:value-of select="substring-before(./../../../../service/servdates/servdate[@type='modifydate'],'T')" />
-            </td></tr></table>
-            </td>
-          </tr>
-            <xsl:variable name="derID" select="/mycoreobject/structure/derobjects/derobject[@xlink:title='METS' or @xlink:title='DV_METS']/@xlink:href" />
-            <xsl:if test="$derID">
-              <xsl:variable name="url"><xsl:value-of select="$WebApplicationBaseURL"/>api/v1/objects/<xsl:value-of select="/mycoreobject/@ID" />/derivates/<xsl:value-of select="$derID" /></xsl:variable>
-              <xsl:variable name="maindoc"><xsl:value-of select="document($url)/mycorederivate/derivate/internals/internal/@maindoc" /></xsl:variable>
-              <xsl:variable name="derLink"><xsl:value-of select="$WebApplicationBaseURL"/>file/<xsl:value-of select="/mycoreobject/@ID" />/<xsl:value-of select="$derID" />/<xsl:value-of select="$maindoc" /></xsl:variable>
-              <xsl:if test="$derLink">
-                <tr class="div-technical-data" style="display:none">
-                  <th>DV-METS:</th>
-                  <td>
-                  <table class="ir-table-docdetails-values"><tr><td>
-                    <xsl:element name="a">
-                      <xsl:attribute name="href"><xsl:value-of select="$derLink" /></xsl:attribute>
-                      <xsl:value-of select="$maindoc" />
-                    </xsl:element>
-                    </td>
-                    </tr>
-                    </table>
-                  </td>
-                </tr>
-               </xsl:if>
-            </xsl:if>
-      </table>
     </xsl:for-each>
 
   </xsl:template>

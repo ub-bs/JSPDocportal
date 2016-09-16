@@ -159,19 +159,6 @@
           </tr>
       </table>
       </xsl:for-each>
-      <table class="table ir-table-docdetails">
-        <tr>
-          <th><xsl:value-of select="i18n:translate('OMD.created_changed')" />:</th>
-          <td>
-            <table class="ir-table-docdetails-values">
-              <tr><td>
-                <xsl:value-of select="substring(/mycoreobject/service/servdates/servdate[@type='createdate'], 1, 10)" /> / 
-                <xsl:value-of select="substring(/mycoreobject/service/servdates/servdate[@type='modifydate'], 1, 10)" />  
-              </td></tr>
-            </table>
-          </td>
-        </tr>
-     </table>
-    
+  
   </xsl:template>
 </xsl:stylesheet>

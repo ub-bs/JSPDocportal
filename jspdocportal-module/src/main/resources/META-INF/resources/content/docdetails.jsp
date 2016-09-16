@@ -135,7 +135,13 @@
 	});
 
 </script>
-		
+	<div id="main_footer" class="row" style="margin-top:24px">
+		<div class="col-sm-12">
+			<div class="ir-box ir-docdetails-data">
+				<mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/all2footer_html.xsl" />
+			</div>
+		</div>
+	</div>
 		
 
 	</stripes:layout-component>
