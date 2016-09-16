@@ -77,7 +77,7 @@
   	
   		<field name="ir.creator.result"><xsl:value-of select="normalize-space($var_creator)"></xsl:value-of></field>
   		<xsl:for-each select="mods:titleInfo[1]">
-          <field name="ir.title.result"><xsl:if test="mods:nonSort"><xsl:value-of select="mods:nonsort" /><xsl:value-of select="' '" /></xsl:if><xsl:value-of select="mods:title" /><xsl:if test="mods:subTitle"><xsl:value-of select="' : '" /><xsl:value-of select="mods:subTitle" /></xsl:if></field>
+          <field name="ir.title.result"><xsl:if test="mods:nonSort"><xsl:value-of select="mods:nonSort" /><xsl:value-of select="' '" /></xsl:if><xsl:value-of select="mods:title" /><xsl:if test="mods:subTitle"><xsl:value-of select="' : '" /><xsl:value-of select="mods:subTitle" /></xsl:if></field>
           <xsl:if test="mods:partNumber|mods:partName">
             <field name="ir.partTitle.result"><xsl:if test="mods:partNumber"><xsl:value-of select="mods:partNumber" /><xsl:value-of select="' '" /></xsl:if><xsl:value-of select="mods:partName" /></field>
           </xsl:if> 
@@ -126,10 +126,13 @@
         
         <xsl:for-each select="mods:relatedItem[@type='host'][1]">
             <xsl:for-each select="mods:titleInfo">
-              <field name="ir.host.title.result"><xsl:if test="mods:nonSort"><xsl:value-of select="mods:nonsort" /><xsl:value-of select="' '" /></xsl:if><xsl:value-of select="mods:title" /><xsl:if test="mods:subTtitle"><xsl:value-of select="' : '" /><xsl:value-of select="mods:subTitle" /></xsl:if><xsl:if test="mods:partNumber|mods:partName"><xsl:value-of select="' ['" /><xsl:value-of select="mods:partNumber" /><xsl:value-of select="' '" /><xsl:value-of select="mods:partName" /><xsl:value-of select="']'" /></xsl:if></field> 
+              <field name="ir.host.title.result"><xsl:if test="mods:nonSort"><xsl:value-of select="mods:nonSort" /><xsl:value-of select="' '" /></xsl:if><xsl:value-of select="mods:title" /><xsl:if test="mods:subTtitle"><xsl:value-of select="' : '" /><xsl:value-of select="mods:subTitle" /></xsl:if><xsl:if test="mods:partNumber|mods:partName"><xsl:value-of select="' ['" /><xsl:value-of select="mods:partNumber" /><xsl:value-of select="' '" /><xsl:value-of select="mods:partName" /><xsl:value-of select="']'" /></xsl:if></field> 
             </xsl:for-each>
             <xsl:for-each select="mods:recordInfo/mods:recordIdentifier">
-              <field name="ir.host.recordIdentifier"><xsl:value-of select="mods:recordInfo/mods:recordIdentifier" /></field> 
+              <field name="ir.host.recordIdentifier"><xsl:value-of select="." /></field> 
+            </xsl:for-each>
+            <xsl:for-each select="mods:part/mods:text[@type='sortstring']">
+              <field name="ir.sortstring"><xsl:value-of select="." /></field> 
             </xsl:for-each>
         </xsl:for-each>
         

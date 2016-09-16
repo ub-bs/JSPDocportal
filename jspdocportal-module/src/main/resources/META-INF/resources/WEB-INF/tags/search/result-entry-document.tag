@@ -15,12 +15,14 @@
 		<table style="border-spacing: 4px; border-collapse: separate; font-size: 100%">
 			<tr><td>
 				<h4>
-					<a href="${url}">${entry.label}<c:if test="${entry.data['ir.partTitle.result']}"><br /><span style="font-weight:normal">${entry.data['ir.partTitle.result']}</span></c:if>
-					</a>
+					<a href="${url}">${entry.label}<c:if test="${not empty(entry.data['ir.partTitle.result'])}">:<br /><span style="font-weight:normal">${entry.data['ir.partTitle.result']}</span></c:if></a>
 				</h4>
 				<span style="font-style:italic;font-size:105%">${entry.data['ir.creator.result']}</span>
 			</td></tr>
 			<tr><td>${entry.data['ir.originInfo.result']}</td></tr>
+			<c:if test="${not empty(entry.data['ir.host.title.result'])}">
+			<tr><td><em>in:</em> ${entry.data['ir.host.title.result']}</td></tr>
+			</c:if>
 			
 			<tr><td style="font-size: 80%; text-align:justify">${entry.data['ir.abstract300.result']}</td></tr>
 			<tr><td>${entry.data['purl']}</td></tr>
