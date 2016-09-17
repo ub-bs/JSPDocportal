@@ -111,3 +111,9 @@ div.ir-embedded{
 	margin: 3px;
 	padding: 3px 12px 12px 12px;
 }
+
+span.ir-badge{
+	font-weight: normal;
+	font-size: 0.85em;
+	height: 1.5em;
+}

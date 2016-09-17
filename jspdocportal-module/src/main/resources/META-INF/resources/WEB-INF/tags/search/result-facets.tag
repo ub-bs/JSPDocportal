@@ -51,7 +51,7 @@
 								${actionBean.calcFacetOutputString(facetKey, countsKey)}
 							</span>
 							<span style="display:table-cell;vertical-align:middle;padding-left:12px">
-								<span class="badge">${facets.get(facetKey).get(countsKey)}</span>
+								<span class="badge ir-badge">${facets.get(facetKey).get(countsKey)}</span>
 							</span>
 						</a>
 					</c:if>
@@ -62,7 +62,7 @@
 								${actionBean.calcFacetOutputString(facetKey, countsKey)}
 							</span>
 							<span style="display:table-cell;vertical-align:middle;padding-left:12px;">
-								<span class="badge">${facets.get(facetKey).get(countsKey)}</span>
+								<span class="badge ir-badge">${facets.get(facetKey).get(countsKey)}</span>
 							</span>
 						</button>
 					</c:if>
