@@ -34,7 +34,25 @@
 		<title>${pageTitle}@ <fmt:message key="Webpage.title" /></title>
 		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_docdetails.css">
 		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_searchresult.css">
-		
+		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}modules/shariff/shariff.complete.css">
+		<style>
+			div.shariff span.share_text{
+				display:none;
+			}
+	
+			div.shariff li.shariff-button{
+				display:inline;
+				min-width:30px !important;
+				margin-left:0px;
+				flex-grow: 0;
+			}
+
+			div.shariff a{
+				display:inline-block;
+				height: 30px;
+				width: 30px;
+			}
+		</style>
 	</stripes:layout-component>
 	
 	<stripes:layout-component name="left_side">
@@ -43,6 +61,47 @@
 				<mcr:outputNavigation id="left" cssClass="nav ir-sidenav" expanded="true" mode="left" />
 			</div>
 		</div>
+		<div class="ir-box ir-box-bordered ir-infobox" style="margin-bottom:32px; padding: 18px 6px 6px 6px;">
+		
+			 <h5>Dateien</h5>
+			 
+			 <x:forEach var="x" select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title!='Cover']/@xlink:href">
+			 	<c:set var="id"><x:out select="$x" /></c:set>
+			 	<search:derivate-list derid="${id}" showSize="true" />
+			 </x:forEach>
+			 
+			 
+			 <div style="clear:both;"></div>	
+			</div>
+		
+			<div class="ir-box ir-box-bordered ir-infobox" style="margin-bottom:32px; padding: 18px 6px 6px 6px;">
+			  <div class="shariff" data-url="${WebApplicationBaseURL}resolve/id/${param.id}"
+			       data-services="[&quot;twitter&quot;, &quot;facebook&quot;, &quot;googleplus&quot;, &quot;linkedin&quot;, &quot;xing&quot;, &quot;whatsapp&quot;, &quot;mail&quot;, &quot;info&quot;]"
+			       data-mail-url="mailto:" data-mail-subject="Dokument auf RosDok" data-mail-body="${WebApplicationBaseURL}resolve/id/${param.id}"
+			       data-orientation="horizontal" data-theme="standard"></div> <%--data-theme=standard|grey|white --%>
+			
+			  <script src="${WebApplicationBaseURL}modules/shariff/shariff.min.js"></script>
+			  
+			  <br /><br />
+			  <div class="btn-group btn-group-sm ir-btn-group-resolving" role="group" aria-label="...">
+			  	<button type="button" class="btn btn-default">URL:<br/>&nbsp;</button>
+			  	<a class="btn btn-default"  href="${WebApplicationBaseURL}resolve/id/${param.id}">${WebApplicationBaseURL}resolve<br />/id/${param.id}</a>
+			  </div>
+			  <div class="btn-group btn-group-sm ir-btn-group-resolving" role="group" aria-label="...">
+			  	<button type="button" class="btn btn-default">PURL:<br/>&nbsp;</button>
+			  	<a class="btn btn-default"  href="http://purl.uni-rostock.de/rosdok/ppn1234567890">http://purl.uni-rostock.de<br />/rosdok/ppn1234567890</a>
+			  </div>
+			  <div class="btn-group btn-group-sm ir-btn-group-resolving" role="group" aria-label="...">
+			  	<button type="button" class="btn btn-default">URN:</button>
+			  	<a class="btn btn-default"  href="http://nbn-resolving.org/urn:nbn:de:gbv:28-diss2016-0001-3">urn:nbn:de:gbv:28-diss2016-0001-3</a>
+			  </div>
+			  <div class="btn-group btn-group-sm ir-btn-group-resolving" role="group" aria-label="...">
+			  	<button type="button" class="btn btn-default">DOI:</button>
+			  	<a class="btn btn-default"  href="http://dx.doi.org/10.123/ppn123467890">10.123/ppn123467890</a>
+			  </div>
+			  <br />
+			
+			</div>
 	</stripes:layout-component>
 	<stripes:layout-component name="contents">
 		<div class="row">
@@ -197,8 +256,9 @@
 			  <fmt:message key="Webpage.docdetails.viewer" />
 			 </a>
 			 </x:if>
-			 <div style="clear:both;"></div>	
-		</div>
+			</div>
+			
+		
 
 		<div class="ir-box ir-box-bordered ir-infobox" style="margin-bottom:32px; padding: 18px 6px 6px 6px;">
 			<search:derivate-image mcrid="${param.id}" width="100%" labelContains="cover" />

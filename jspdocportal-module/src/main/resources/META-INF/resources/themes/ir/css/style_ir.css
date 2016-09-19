@@ -100,6 +100,9 @@ div.docdetails-infohover a:hover span {
 	padding: 10px;
 }
 
+dl.ir-derivate-list{
+	font-size: 85%;
+}
 div.ir-row{
 	margin-bottom:6px;
 }
@@ -116,4 +119,28 @@ span.ir-badge{
 	font-weight: normal;
 	font-size: 0.85em;
 	height: 1.5em;
+}
+
+
+.ir-btn-group-resolving{
+	margin-bottom:12px;
+	width:100%;
+	
+}
+.ir-btn-group-resolving button{
+	background-color: rgb(102, 102, 102);
+	color: white;
+	width: 55px;
+	white-space: inherit;
+	text-align: right;
+	
+	
+}
+
+.ir-btn-group-resolving a{
+	position: absolute !important;
+	right: 6px;
+	left: 55px;
+	white-space: inherit;
+	text-align: left;
 }
