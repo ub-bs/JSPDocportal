@@ -9,69 +9,87 @@
 <%@ taglib prefix="search" tagdir="/WEB-INF/tags/search"%>
 
 <fmt:message var="pageTitle" key="Webpage.browse.title.${actionBean.result.mask}" />
-<stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}" layout="2columns">
+<stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}" layout="2columns_left">
 	<stripes:layout-component name="html_header">
 		<meta name="mcr:search.id" content="${actionBean.result.id}" />
 	</stripes:layout-component>
 	<stripes:layout-component name="left_side">
 		<div class="ir-box ir-box-bordered">
-			<div class="main_navigation">
-				<mcr:outputNavigation id="left" cssClass="nav ir-sidenav" expanded="true" mode="left" />
-			</div>
-			<div class="main_navigation">
-				<mcr:outputNavigation id="publish" cssClass="nav ir-sidenav" expanded="false" mode="left" />
-			</div>
-		</div>
-		
-		
-		<div class="ir-box ir-box-bordered" style="margin-top:36px">
 		<h3>Filter und Facetten</h3>
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<form class="form-horizontal" onsubmit="return false;">
-						<div class="form-group">
-    						<div class="col-sm-12">
-    							<select id="filterField" name="filterField" class="form-control input-sm">
-  										<option value="ir.creator_all"><fmt:message key="Browse.Filter.epub.ir.creator_all"/></option>
-  										<option value="ir.title_all"><fmt:message key="Browse.Filter.epub.ir.title_all"/></option>
-  										<option value="ir.pubyear_start"><fmt:message key="Browse.Filter.epub.ir.pubyear_start"/></option>
-  										<option value="ir.pubyear_end"><fmt:message key="Browse.Filter.epub.ir.pubyear_end" /></option>
- 									</select>
-   							</div>
-   						</div>	
-  						<div class="form-group">
-  							<div class="col-sm-9">
-   								<input class="form-control" id="filterValue" name="filterValue" style="width:100%" placeholder="Wert" type="text">
-   							</div>
-   							<div class="col-sm-3">
-  								<script type="text/javascript">
-  									function changeFilterIncludeURL() {
-  										window.location=$("meta[name='mcr:baseurl']").attr("content")
-  								 	    			+ "browse/epub?_search="
-  								           			+ $("meta[name='mcr:search.id']").attr("content")
-  									       			+ "&_add-filter="
-  									       			+ encodeURIComponent("+" + $("#filterField option:selected").val()+":"+$("#filterValue").val());
-  									}
-  									function changeFilterExcludeURL() {
-  										window.location=$("meta[name='mcr:baseurl']").attr("content")
-  									    			+ "browse/epub?_search="
-  								           			+ $("meta[name='mcr:search.id']").attr("content")
-  									       			+ "&_add-filter="
-  									       			+ encodeURIComponent("-" + $("#filterField option:selected").val()+":"+$("#filterValue").val());
-  										}
-  								</script>
+		<form class="form-horizontal" onsubmit="return false;">
+			<div class="form-group">
+ 						<div class="col-sm-12">
+ 								<div class="input-group input-group-sm">
+ 								<script type="text/javascript">
+										function changeFilterIncludeURL() {
+											window.location=$("meta[name='mcr:baseurl']").attr("content")
+									 				    + "browse/epub?_search="
+									        			+ $("meta[name='mcr:search.id']").attr("content")
+										    			+ "&_add-filter="
+										    			+ encodeURIComponent("+" + $("input[name='filterField']:checked").val()+":"+$("#filterValue").val());
+										}
+										function changeFilterExcludeURL() {
+											window.location=$("meta[name='mcr:baseurl']").attr("content")
+										    		   + "browse/epub?_search="
+									      	   	       + $("meta[name='mcr:search.id']").attr("content")
+										   	   		   + "&_add-filter="
+										   	   		   + encodeURIComponent("-" + $("input[name='filterField']:checked").val()+":"+$("#filterValue").val());
+										}
+									</script>
+ 								<%--
+ 								<span class="input-group-addon">
+ 									<select id="filterField" name="filterField" style="height:99%">
+										<option value="ir.creator_all"><fmt:message key="Browse.Filter.histbest.ir.creator_all"/></option>
+										<option value="ir.title_all"><fmt:message key="Browse.Filter.histbest.ir.title_all"/></option>
+										<option value="ir.pubyear_start"><fmt:message key="Browse.Filter.histbest.ir.pubyear_start"/></option>
+										<option value="ir.pubyear_end"><fmt:message key="Browse.Filter.histbest.ir.pubyear_end" /></option>
+								</select>
+							</span>
 							
-								<button id="filterInclude" class="btn btn-primary" style="margin-top:6px; margin-left:-9px" onclick="changeFilterIncludeURL();">
-									<span class="glyphicon glyphicon-plus"></span>
-								</button>
-								<%-- <button id="filterExclude" class="btn btn-primary" style="margin-top:3px; margin-left:-9px" onclick="changeFilterExcludeURL();">
-					   				<span class="glyphicon glyphicon-minus"></span>
-								</button>--%>
-          					</div> 	
-          				</div>	
-					</form>
+							--%>
+							<input class="form-control" id="filterValue" name="filterValue" style="width:100%" placeholder="Wert" type="text"
+							       onkeypress="if (event.keyCode == 13) { changeFilterIncludeURL();}">
+									<span class="input-group-btn">
+									<button id="filterInclude" class="btn btn-primary" onclick="changeFilterIncludeURL();">
+								<span class="glyphicon glyphicon-plus"></span>
+							</button>
+						</span> 
+						</div>	
+       						</div>
+       						<div class="col-sm-12">
+       						<table>
+  								<tr>
+ 									<td class="radio input-sm">
+ 										<label> 
+ 											<input name="filterField" value="ir.title_all" type="radio" checked="checked"/>
+ 											<fmt:message key="Browse.Filter.histbest.ir.title_all"/>
+ 										</label>
+ 									<td>
+ 									<td class="radio input-sm">
+ 										<label> 
+ 											<input name="filterField" value="ir.pubyear_start" type="radio" />
+ 											<fmt:message key="Browse.Filter.histbest.ir.pubyear_start"/>
+ 										</label>
+ 									<td>
+ 								</tr>
+ 								<tr>
+ 									<td class="radio input-sm">
+ 										<label> 
+ 											<input name="filterField" value="ir.creator_all" type="radio" />
+ 											<fmt:message key="Browse.Filter.histbest.ir.creator_all"/>
+ 										</label>
+ 									<td>
+ 									<td class="radio input-sm">
+ 										<label> 
+ 											<input name="filterField" value="ir.pubyear_end" type="radio" />
+ 											<fmt:message key="Browse.Filter.histbest.ir.pubyear_end"/>
+ 										</label>
+ 									<td>
+ 								</tr>		
+ 							</table>	
+					</div>
 				</div>
-  			</div>
+			</form>
   			
   			<div class="row" style="margin-bottom:24px;">
   				<div class="col-sm-12">
@@ -115,7 +133,7 @@
 							<c:when test="${(doctype eq 'disshab') or (doctype eq 'thesis')}">
 								<search:result-entry-disshab entry="${entry}" url="${url}" />
 							</c:when>
-							<c:when test="${(doctype eq 'document') or (doctype eq 'bunlde')}">
+							<c:when test="${(doctype eq 'document') or (doctype eq 'bundle')}">
 								<search:result-entry-document entry="${entry}" url="${url}" />
 							</c:when>
 							<c:otherwise>

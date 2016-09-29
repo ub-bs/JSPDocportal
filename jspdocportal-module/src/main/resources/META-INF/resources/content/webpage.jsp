@@ -7,7 +7,7 @@
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
 <fmt:message var="pageTitle" key="Webpage.title.${fn:replace(actionBean.path, '/', '.')}" />
-<c:set var="layout">2columns</c:set>
+<c:set var="layout">2columns_left</c:set>
 <c:if test="${not empty actionBean.info}"><c:set var="layout">3columns</c:set></c:if>
 
 <stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}" layout="${layout}">
@@ -15,9 +15,6 @@
 		<div class="ir-box ir-box-bordered">
 		<div class="main_navigation">
 			<mcr:outputNavigation id="left" cssClass="nav ir-sidenav" expanded="true" mode="left" />
-		</div>
-		<div class="main_navigation">
-			<mcr:outputNavigation id="publish" cssClass="nav ir-sidenav" expanded="false" mode="left" />
 		</div>
 
 		<div style="padding-top: 32px; padding-bottom: 32px; text-align: center;">

@@ -9,67 +9,89 @@
 <%@ taglib prefix="search" tagdir="/WEB-INF/tags/search"%>
 
 <fmt:message var="pageTitle" key="Webpage.browse.title.${actionBean.result.mask}" />
-<stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}" layout="2columns">
+<stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}" layout="2columns_left">
 	<stripes:layout-component name="html_header">
 		<meta name="mcr:search.id" content="${actionBean.result.id}" />
 	</stripes:layout-component>
 	<stripes:layout-component name="left_side">
-		<div class="ir-box ir-box-bordered">
-			<div class="main_navigation">
-				<mcr:outputNavigation id="left" cssClass="nav ir-sidenav" expanded="true" mode="left" />
-			</div>
-			<div class="main_navigation">
-				<mcr:outputNavigation id="publish" cssClass="nav ir-sidenav" expanded="false" mode="left" />
-			</div>
-		</div>
-		
-		
-		<div class="ir-box ir-box-bordered" style="margin-top:36px">
+	<div class="ir-box ir-box-bordered">
 		<h3>Filter und Facetten</h3>
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<form class="form-horizontal" onsubmit="return false;">
-						<div class="form-group">
-    						<div class="col-sm-12">
-    							<select id="filterField" name="filterField" class="form-control input-sm">
-  									<option value="ir.creator_all"><fmt:message key="Browse.Filter.histbest.ir.creator_all"/></option>
-  									<option value="ir.title_all"><fmt:message key="Browse.Filter.histbest.ir.title_all"/></option>
-  									<option value="ir.pubyear_start"><fmt:message key="Browse.Filter.histbest.ir.pubyear_start"/></option>
-  									<option value="ir.pubyear_end"><fmt:message key="Browse.Filter.histbest.ir.pubyear_end" /></option>
- 								</select>
- 							</div>
-   						</div>
-  						<div class="form-group">	
-   							<div class="col-sm-9">
-								<input class="form-control input-sm" id="filterValue" name="filterValue" style="width:100%" placeholder="Wert" type="text">
-   							</div>
-  							<div class="col-sm-3">
-  								<script type="text/javascript">
-  									function changeFilterIncludeURL() {
-  											window.location=$("meta[name='mcr:baseurl']").attr("content")
-  										 			    + "browse/histbest?_search="
-  										           		+ $("meta[name='mcr:search.id']").attr("content")
-  											       		+ "&_add-filter="
-  											       		+ encodeURIComponent("+" + $("#filterField option:selected").val()+":"+$("#filterValue").val());
-  										}
-  										function changeFilterExcludeURL() {
-  											window.location=$("meta[name='mcr:baseurl']").attr("content")
-  												       + "browse/histbest?_search="
-  										        	   + $("meta[name='mcr:search.id']").attr("content")
-  											       	   + "&_add-filter="
-  											       	   + encodeURIComponent("-" + $("#filterField option:selected").val()+":"+$("#filterValue").val());
-  										}
-  										</script>
-  										
-  										<button id="filterInclude" class="btn btn-sm btn-primary" onclick="changeFilterIncludeURL();">
-											<span class="glyphicon glyphicon-plus"></span>
-										</button> 	
-          							</div>
-  								</div>
-  					</form>
-  				</div>
-  			</div>
- 	
+		<form class="form-horizontal" onsubmit="return false;">
+			<div class="form-group">
+ 						<div class="col-sm-12">
+ 								<div class="input-group input-group-sm">
+ 								<script type="text/javascript">
+										function changeFilterIncludeURL() {
+											window.location=$("meta[name='mcr:baseurl']").attr("content")
+									 				    + "browse/histbest?_search="
+									        			+ $("meta[name='mcr:search.id']").attr("content")
+										    			+ "&_add-filter="
+										    			+ encodeURIComponent("+" + $("input[name='filterField']:checked").val()+":"+$("#filterValue").val());
+										}
+										function changeFilterExcludeURL() {
+											window.location=$("meta[name='mcr:baseurl']").attr("content")
+										    		   + "browse/histbest?_search="
+									      	   	       + $("meta[name='mcr:search.id']").attr("content")
+										   	   		   + "&_add-filter="
+										   	   		   + encodeURIComponent("-" + $("input[name='filterField']:checked").val()+":"+$("#filterValue").val());
+										}
+										<%-- for select box use: $("#filterField option:selected").val() --%>
+									</script>
+ 								<%--
+ 								<span class="input-group-addon">
+ 									<select id="filterField" name="filterField" style="height:99%">
+										<option value="ir.creator_all"><fmt:message key="Browse.Filter.histbest.ir.creator_all"/></option>
+										<option value="ir.title_all"><fmt:message key="Browse.Filter.histbest.ir.title_all"/></option>
+										<option value="ir.pubyear_start"><fmt:message key="Browse.Filter.histbest.ir.pubyear_start"/></option>
+										<option value="ir.pubyear_end"><fmt:message key="Browse.Filter.histbest.ir.pubyear_end" /></option>
+								</select>
+							</span>
+							
+							--%>
+							<input class="form-control" id="filterValue" name="filterValue" style="width:100%" placeholder="Wert" type="text"
+							       onkeypress="if (event.keyCode == 13) { changeFilterIncludeURL();}">
+									<span class="input-group-btn">
+									<button id="filterInclude" class="btn btn-primary" onclick="changeFilterIncludeURL();">
+								<span class="glyphicon glyphicon-plus"></span>
+							</button>
+						</span> 
+						</div>	
+       						</div>
+       						<div class="col-sm-12">
+       						<table>
+  								<tr>
+ 									<td class="radio input-sm">
+ 										<label> 
+ 											<input name="filterField" value="ir.title_all" type="radio" checked="checked"/>
+ 											<fmt:message key="Browse.Filter.histbest.ir.title_all"/>
+ 										</label>
+ 									<td>
+ 									<td class="radio input-sm">
+ 										<label> 
+ 											<input name="filterField" value="ir.pubyear_start" type="radio" />
+ 											<fmt:message key="Browse.Filter.histbest.ir.pubyear_start"/>
+ 										</label>
+ 									<td>
+ 								</tr>
+ 								<tr>
+ 									<td class="radio input-sm">
+ 										<label> 
+ 											<input name="filterField" value="ir.creator_all" type="radio" />
+ 											<fmt:message key="Browse.Filter.histbest.ir.creator_all"/>
+ 										</label>
+ 									<td>
+ 									<td class="radio input-sm">
+ 										<label> 
+ 											<input name="filterField" value="ir.pubyear_end" type="radio" />
+ 											<fmt:message key="Browse.Filter.histbest.ir.pubyear_end"/>
+ 										</label>
+ 									<td>
+ 								</tr>		
+ 							</table>	
+					</div>
+						</div>
+				</form>
+  	
   			<div class="row" style="margin-bottom:24px;">
   				<div class="col-sm-12">
 					<c:forEach var="fq" items="${actionBean.result.filterQueries}">
