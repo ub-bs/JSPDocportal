@@ -62,7 +62,7 @@ import org.w3c.dom.Element;
  * 
  */
 public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
-    private static final List<String> MODES = Arrays.asList(new String[] { "left", "top", "breadcrumbs", "toc" });
+    private static final List<String> MODES = Arrays.asList(new String[] { "left", "top", "breadcrumbs", "toc", "navbar" });
 
     private static final String INDENT = "\n       ";
 
@@ -89,6 +89,11 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
         if (mode.equals("top")) {
             printTopNav(nav, getJspContext().getOut());
         }
+        
+        if (mode.equals("navbar")) {
+            printNavbar(nav, getJspContext().getOut());
+        }
+        
         if (mode.equals("breadcrumbs")) {
             Element eNav = findNavItem(nav, path);
             printBreadcrumbs(eNav, getJspContext().getOut());
@@ -221,6 +226,19 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
             }
         }
 
+    }
+    
+    /**
+     * prints main navigation (horizontal navigation) (only with direct sub items of the
+     * given navigation item
+     * 
+     * @param currentNode
+     *            - the current navigation item
+     * @param out
+     *            - the JSPOutputWriter
+     */
+    private void printNavbar(Element currentNode, JspWriter out) {
+       printTopNav(currentNode, out);
     }
 
     /**
