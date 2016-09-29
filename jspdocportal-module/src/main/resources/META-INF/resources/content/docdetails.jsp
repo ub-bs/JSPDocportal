@@ -29,7 +29,7 @@
 <fmt:message var="pageTitle" key="OMD.headline">
 	<fmt:param>${mcrid}</fmt:param>
 </fmt:message>
-<stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}" layout="3columns">
+<stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}" layout="2columns_right_wide">
 	<stripes:layout-component name="html_header">
 		<title>${pageTitle}@ <fmt:message key="Webpage.title" /></title>
 		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_docdetails.css">
@@ -55,54 +55,6 @@
 		</style>
 	</stripes:layout-component>
 	
-	<stripes:layout-component name="left_side">
-		<div class="ir-box ir-box-bordered">
-			<div class="main_navigation">
-				<mcr:outputNavigation id="left" cssClass="nav ir-sidenav" expanded="true" mode="left" />
-			</div>
-		</div>
-		<div class="ir-box ir-box-bordered ir-infobox" style="margin-bottom:32px; padding: 18px 6px 6px 6px;">
-		
-			 <h5>Dateien</h5>
-			 
-			 <x:forEach var="x" select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title!='Cover']/@xlink:href">
-			 	<c:set var="id"><x:out select="$x" /></c:set>
-			 	<search:derivate-list derid="${id}" showSize="true" />
-			 </x:forEach>
-			 
-			 
-			 <div style="clear:both;"></div>	
-			</div>
-		
-			<div class="ir-box ir-box-bordered ir-infobox" style="margin-bottom:32px; padding: 18px 6px 6px 6px;">
-			  <div class="shariff" data-url="${WebApplicationBaseURL}resolve/id/${param.id}"
-			       data-services="[&quot;twitter&quot;, &quot;facebook&quot;, &quot;googleplus&quot;, &quot;linkedin&quot;, &quot;xing&quot;, &quot;whatsapp&quot;, &quot;mail&quot;, &quot;info&quot;]"
-			       data-mail-url="mailto:" data-mail-subject="Dokument auf RosDok" data-mail-body="${WebApplicationBaseURL}resolve/id/${param.id}"
-			       data-orientation="horizontal" data-theme="standard"></div> <%--data-theme=standard|grey|white --%>
-			
-			  <script src="${WebApplicationBaseURL}modules/shariff/shariff.min.js"></script>
-			  
-			  <br /><br />
-			  <div class="btn-group btn-group-sm ir-btn-group-resolving" role="group" aria-label="...">
-			  	<button type="button" class="btn btn-default">URL:<br/>&nbsp;</button>
-			  	<a class="btn btn-default"  href="${WebApplicationBaseURL}resolve/id/${param.id}">${WebApplicationBaseURL}resolve<br />/id/${param.id}</a>
-			  </div>
-			  <div class="btn-group btn-group-sm ir-btn-group-resolving" role="group" aria-label="...">
-			  	<button type="button" class="btn btn-default">PURL:<br/>&nbsp;</button>
-			  	<a class="btn btn-default"  href="http://purl.uni-rostock.de/rosdok/ppn1234567890">http://purl.uni-rostock.de<br />/rosdok/ppn1234567890</a>
-			  </div>
-			  <div class="btn-group btn-group-sm ir-btn-group-resolving" role="group" aria-label="...">
-			  	<button type="button" class="btn btn-default">URN:</button>
-			  	<a class="btn btn-default"  href="http://nbn-resolving.org/urn:nbn:de:gbv:28-diss2016-0001-3">urn:nbn:de:gbv:28-diss2016-0001-3</a>
-			  </div>
-			  <div class="btn-group btn-group-sm ir-btn-group-resolving" role="group" aria-label="...">
-			  	<button type="button" class="btn btn-default">DOI:</button>
-			  	<a class="btn btn-default"  href="http://dx.doi.org/10.123/ppn123467890">10.123/ppn123467890</a>
-			  </div>
-			  <br />
-			
-			</div>
-	</stripes:layout-component>
 	<stripes:layout-component name="contents">
 		<div class="row">
 			<div class="col-sm-12">
@@ -119,9 +71,12 @@
 						<x:if select="$doc/mycoreobject[not(contains(@ID, '_bundle_'))]/structure/derobjects/derobject[@xlink:title='fulltext' or @xlink:title='DV_METS']">
 							<li id="nav_fulltext" role="presentation"><a data-toggle="collapse" href="#div_fulltext">Volltext</a></li>
   						</x:if>
-  						<li id="nav_metadata" role="presentation"><a data-toggle="collapse" href="#div_metadata">Metadaten</a></li>
   						<x:if select="contains($doc/mycoreobject/@ID, '_bundle_')">
   							<li id="nav_structure" role="presentation"><a data-toggle="collapse" href="#div_structure">Strukturbaum</a></li>
+						</x:if>
+						<li id="nav_metadata" role="presentation"><a data-toggle="collapse" href="#div_metadata">Metadaten</a></li>
+						<x:if select="$doc/mycoreobject/structure/derobjects/derobject">
+							<li id="nav_files" role="presentation"><a data-toggle="collapse" href="#div_files">Dateien</a></li>
 						</x:if>
 					</ul>
 				</div>
@@ -141,15 +96,24 @@
 				</x:if>		
 			</div>
 		</x:if>
+		<x:if select="contains($doc/mycoreobject/@ID, '_bundle_')">
+			<div id="div_structure" class="collapse col-sm-12">
+				<p>TODO</p>
+			</div>
+		</x:if>
 		<div id="div_metadata" class="collapse col-sm-12">
 			<div class="ir-box ir-docdetails-data">
 				<mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/${objectType}2details_html.xsl" />
 			</div>
 		</div>
-		<x:if select="contains($doc/mycoreobject/@ID, '_bundle_')">
-			<div id="div_structure" class="collapse col-sm-12">
-				<h4>Struktur</h4>
-				<p>TODO</p>
+		<x:if select="$doc/mycoreobject/structure/derobjects/derobject">
+			<div id="div_files" class="collapse col-sm-12">
+				<div class="ir-box">
+			 		<x:forEach var="x" select="$doc/mycoreobject/structure/derobjects/derobject/@xlink:href">
+			 			<c:set var="id"><x:out select="$x" /></c:set>
+			 			<search:derivate-list derid="${id}" showSize="true" />
+			 		</x:forEach>
+			 	</div>
 			</div>
 		</x:if>
 		</div>
@@ -160,36 +124,64 @@
 		$('#main_display div:first-child').collapse('show');
 		
 		$('#div_fulltext').on('show.bs.collapse', function () {
-			$('#nav_structure').removeClass('active');
 			$('#nav_metadata').removeClass('active');
+			$('#nav_metadata a').attr('href', '#div_metadata');
+			$('#nav_structure').removeClass('active');
+			$('#nav_structure a').attr('href', '#div_structure');
+			$('#nav_files').removeClass('active');
+			$('#nav_files a').attr('href', '#div_files');
+			
 			$('#nav_fulltext').addClass('active');
 			$('#nav_fulltext a').attr('href', '#');
-			$('#nav_metadata a').attr('href', '#div_metadata');
-			$('#nav_structure a').attr('href', '#div_structure');
+			
 			$('#div_metadata').collapse('hide');
 			$('#div_structure').collapse('hide');
+			$('#div_files').collapse('hide');
 		});
 		$('#div_metadata').on('show.bs.collapse', function () {
-			$('#nav_structure').removeClass('active');
 			$('#nav_fulltext').removeClass('active');
-			$('#nav_metadata').addClass('active');
 			$('#nav_fulltext a').attr('href', '#div_fulltext');
-			$('#nav_metadata a').attr('href', '#');
+			$('#nav_structure').removeClass('active');
 			$('#nav_structure a').attr('href', '#div_structure');
+			$('#nav_files').removeClass('active');
+			$('#nav_files a').attr('href', '#div_files');
+			
+			$('#nav_metadata').addClass('active');
+			$('#nav_metadata a').attr('href', '#');
+			
 			$('#div_fulltext').collapse('hide');
 			$('#div_structure').collapse('hide');
+			$('#div_files').collapse('hide');
 		});
 		$('#div_structure').on('show.bs.collapse', function () {
 			$('#nav_fulltext').removeClass('active');
-			$('#nav_metadata').removeClass('active');
-			$('#nav_structure').addClass('active');
-			
 			$('#nav_fulltext a').attr('href', '#div_fulltext');
+			$('#nav_metadata').removeClass('active');
 			$('#nav_metadata a').attr('href', '#div_metadata');
+			$('#nav_files').removeClass('active');
+			$('#nav_files a').attr('href', '#div_files');
+
+			$('#nav_structure').addClass('active');
 			$('#nav_structure a').attr('href', '#');
 			
 			$('#div_fulltext').collapse('hide');
 			$('#div_metadata').collapse('hide');
+			$('#div_files').collapse('hide');
+		});
+		$('#div_files').on('show.bs.collapse', function () {
+			$('#nav_fulltext').removeClass('active');
+			$('#nav_fulltext a').attr('href', '#div_fulltext');
+			$('#nav_metadata').removeClass('active');
+			$('#nav_metadata a').attr('href', '#div_metadata');
+			$('#nav_structure').removeClass('active');
+			$('#nav_structure a').attr('href', '#div_structure');
+			
+			$('#nav_files').addClass('active');
+			$('#nav_files a').attr('href', '#');
+			
+			$('#div_fulltext').collapse('hide');
+			$('#div_metadata').collapse('hide');
+			$('#div_structure').collapse('hide');
 		});
 	});
 
@@ -206,10 +198,10 @@
 	</stripes:layout-component>
 	<stripes:layout-component name="right_side">
 		<div class="ir-box ir-box-bordered ir-infobox" style="margin-bottom:32px; padding: 18px 6px 6px 6px;">
-			<search:result-navigator mcrid="${mcrid}" />
+			<search:result-navigator mcrid="${mcrid}" mode="one_line"/>
 			
 			<div class="container-fluid">
-				<div class="row" style="padding-bottom:6px">
+				<div class="pull-right">
     	   			<button type="button" class="btn btn-default btn-sm pull-right hidden-xs" style="border:none;color:#DEDEDE;" 
     	   		        data-toggle="collapse" data-target="#hiddenTools" title="<fmt:message key="Webpage.tools.menu4experts" />">
    						<span class="glyphicon glyphicon-wrench"></span>
@@ -230,6 +222,33 @@
     	  			</div>
    				</div>
    			</div>
+   		</div>
+   		<div class="ir-box ir-box-bordered ir-infobox" style="margin-bottom:32px; padding: 18px 6px 6px 6px;">
+   		 <x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='purl']">
+			  	<div class="btn-group btn-group-sm ir-btn-group-resolving" role="group" aria-label="...">
+			  		<button type="button" class="btn btn-default">PURL:</button>
+			  		<a class="btn btn-default"  href="<x:out select="$x" />"><x:out select="$x" /></a>
+			  	</div>
+			  </x:forEach>
+			  <x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='urn']">
+			  	<div class="btn-group btn-group-sm ir-btn-group-resolving" role="group" aria-label="...">
+			  		<button type="button" class="btn btn-default">URN:</button>
+			  		<a class="btn btn-default"  href="http://nbn-resolving.org/<x:out select="$x" />"><x:out select="$x" /></a>
+			  	</div>
+			  </x:forEach>
+			  <x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='doi']">
+			  	<div class="btn-group btn-group-sm ir-btn-group-resolving" role="group" aria-label="...">
+			  		<button type="button" class="btn btn-default">DOI:</button>
+			  		<a class="btn btn-default"  href="http://dx.doi.org/<x:out select="$x" />"><x:out select="$x" /></a>
+			  	</div>
+			  </x:forEach>
+			  <br />
+			  <br />
+			  <div class="shariff" data-url="${WebApplicationBaseURL}resolve/id/${param.id}"
+			       data-services="[&quot;twitter&quot;, &quot;facebook&quot;, &quot;googleplus&quot;, &quot;linkedin&quot;, &quot;xing&quot;, &quot;whatsapp&quot;, &quot;mail&quot;, &quot;info&quot;]"
+			       data-mail-url="mailto:" data-mail-subject="Dokument auf RosDok" data-mail-body="${WebApplicationBaseURL}resolve/id/${param.id}"
+			       data-orientation="horizontal" data-theme="standard"></div> <%--data-theme=standard|grey|white --%>
+			   <script src="${WebApplicationBaseURL}modules/shariff/shariff.min.js"></script>   			  
    		</div>
    		<div class="ir-box ir-box-bordered ir-infobox" style="margin-bottom:32px; padding: 18px 6px 6px 6px;">
 			<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='fulltext']">
@@ -256,12 +275,14 @@
 			  <fmt:message key="Webpage.docdetails.viewer" />
 			 </a>
 			 </x:if>
+			 <div style="clear:both"></div>
 			</div>
 			
+			<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='cover']">
+				<div class="ir-box ir-box-bordered ir-infobox" style="margin-bottom:32px; padding: 18px 6px 6px 6px;">
+					<search:derivate-image mcrid="${param.id}" width="50%" labelContains="cover" />
+				</div>
+			</x:if>
 		
-
-		<div class="ir-box ir-box-bordered ir-infobox" style="margin-bottom:32px; padding: 18px 6px 6px 6px;">
-			<search:derivate-image mcrid="${param.id}" width="100%" labelContains="cover" />
-		</div>
 	</stripes:layout-component>
 </stripes:layout-render>
