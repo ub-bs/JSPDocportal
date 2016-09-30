@@ -122,7 +122,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
                 QueryResponse solrQueryResponse = solrClient.query(solrQuery);
                 SolrDocumentList solrResults = solrQueryResponse.getResults();
                 if (solrResults.getNumFound() > 0) {
-                    mcrID = String.valueOf(solrResults.get(0).getFirstValue("returnid"));
+                    mcrID = String.valueOf(solrResults.get(0).getFirstValue("returnId"));
                 }
 
             } catch (SolrServerException | IOException e) {
