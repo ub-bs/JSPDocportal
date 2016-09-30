@@ -32,7 +32,7 @@
 <c:if test="${not empty result}">
 	<!-- Searchresult PageNavigation -->
 	<c:set var="backURL" value="${pageContext.request.contextPath}/${result.action}?_search=${result.id}" />
-	<c:if test="${fn:contains(result.backURL, 'indexbrowser')}">
+	<c:if test="${fn:contains(result.backURL, 'indexbrowser') or empty result.action}">
 		<c:set var="backURL" value="${result.backURL}" />	
 	</c:if>
 	

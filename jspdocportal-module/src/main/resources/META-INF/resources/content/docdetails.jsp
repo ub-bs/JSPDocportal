@@ -72,7 +72,7 @@
 							<li id="nav_fulltext" role="presentation"><a data-toggle="collapse" href="#div_fulltext">Volltext</a></li>
   						</x:if>
   						<x:if select="contains($doc/mycoreobject/@ID, '_bundle_')">
-  							<li id="nav_structure" role="presentation"><a data-toggle="collapse" href="#div_structure">Strukturbaum</a></li>
+  							<li id="nav_structure" role="presentation"><a data-toggle="collapse" href="#div_structure">zugehörende Dokumente</a></li>
 						</x:if>
 						<li id="nav_metadata" role="presentation"><a data-toggle="collapse" href="#div_metadata">Metadaten</a></li>
 						<x:if select="$doc/mycoreobject/structure/derobjects/derobject">
@@ -98,7 +98,10 @@
 		</x:if>
 		<x:if select="contains($doc/mycoreobject/@ID, '_bundle_')">
 			<div id="div_structure" class="collapse col-sm-12">
-				<p>TODO</p>
+				<div class="ir-box" style="font-size: 85%">
+			    	<c:set var="recordIdentifier"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier"/></c:set>
+					<search:docdetails-structure recordIdentifier="${recordIdentifier}" />
+				</div>
 			</div>
 		</x:if>
 		<div id="div_metadata" class="collapse col-sm-12">
