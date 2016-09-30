@@ -114,6 +114,7 @@
 		<url-pattern>/classbrowser/*</url-pattern>
 		<url-pattern>/indexbrowser/*</url-pattern>
         <url-pattern>/mcrviewer/*</url-pattern>
+        <url-pattern>/pdfdownload/*</url-pattern>
 		<url-pattern>/site/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>	
