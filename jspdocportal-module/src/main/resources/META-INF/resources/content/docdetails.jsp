@@ -86,12 +86,12 @@
 		<x:if select="$doc/mycoreobject[not(contains(@ID, '_bundle_'))]/structure/derobjects/derobject[@xlink:title='fulltext' or @xlink:title='DV_METS']">
 			<div id="div_fulltext" class="collapse col-sm-12">
 				<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='fulltext']">
-					<search:mcrviewer mcrid="${param.id}" recordidentifier="${param.id}" doctype="pdf" id="divMCRViewer_2" />
+					<search:mcrviewer mcrid="${param.id}" recordIdentifier="${param.id}" doctype="pdf" id="divMCRViewer_2" />
 					<div id="divMCRViewer_2" style="height:600px; margin:0px 16px; position:relative;"></div>
 				</x:if>
 				<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='DV_METS']">
 					<c:set var="recordidentifier"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier" /></c:set>
-					<search:mcrviewer mcrid="${param.id}" recordidentifier="${recordidentifier}" doctype="mets" id="divMCRViewer_1" />
+					<search:mcrviewer mcrid="${param.id}" recordIdentifier="${recordidentifier}" doctype="mets" id="divMCRViewer_1" />
 					<div id="divMCRViewer_1" style="height:600px; margin:0px 16px; position:relative;"></div>
 				</x:if>		
 			</div>

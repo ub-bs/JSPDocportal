@@ -9,7 +9,7 @@
 
 <%@ attribute name="id" required="true" type="java.lang.String" %>
 <%@ attribute name="mcrid" required="true" type="java.lang.String" %>
-<%@ attribute name="recordidentifier" required="true" type="java.lang.String" %>
+<%@ attribute name="recordIdentifier" required="true" type="java.lang.String" %>
 <%@ attribute name="doctype" required="true" type="java.lang.String" %>
 
 
@@ -101,17 +101,17 @@
             new mycore.viewer.MyCoReViewer(jQuery("#${id}"),  {
             	"mobile": false,
                 doctype: "mets",
-                metsURL: "${applicationScope.WebApplicationBaseURL}depot/${fn:replace(recordidentifier, '/','%252F')}/${fn:substringAfter(recordidentifier, '/')}.iview2.mets.xml",
+                metsURL: "${applicationScope.WebApplicationBaseURL}depot/${fn:replace(recordIdentifier, '/','%252F')}/${fn:substringAfter(recordIdentifier, '/')}.iview2.mets.xml",
                 imageXmlPath: "${applicationScope.WebApplicationBaseURL}tiles",
                 tileProviderPath: "${applicationScope.WebApplicationBaseURL}tiles",
                 filePath: "/phys_0001.iview2",
-                derivate: "${fn:replace(recordidentifier,'/','%252F')}",
+                derivate: "${fn:replace(recordIdentifier,'/','%252F')}",
                 i18nURL: "${applicationScope.WebApplicationBaseURL}modules/mcrviewer/i18n/mcrviewer_{lang}.json",
                 lang: "de",
                 pdfCreatorStyle: "pdf",
                 pdfCreatorURI: "http://wrackdm17.thulb.uni-jena.de/mets-printer/pdf",
                 metadataURL: "",
-                derivateURL : "${applicationScope.WebApplicationBaseURL}depot/${fn:replace(recordidentifier,'/','%252F')}/",
+                derivateURL : "${applicationScope.WebApplicationBaseURL}depot/${fn:replace(recordIdentifier,'/','%252F')}/",
                 objId: "",
                 webApplicationBaseURL: "${applicationScope.WebApplicationBaseURL}",
                 imageOverview : {
