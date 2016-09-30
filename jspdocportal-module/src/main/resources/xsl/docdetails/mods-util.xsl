@@ -42,15 +42,15 @@
     </xsl:otherwise>
     </xsl:choose>
     <xsl:if test="$name/@valueURI">
-      <xsl:element name="a">
-        <xsl:attribute name="href">
-          <xsl:value-of select="$name/@valueURI" />
-        </xsl:attribute>
+      <xsl:element name="button">
+        <xsl:attribute name="type">button</xsl:attribute>
+        <xsl:attribute name="data-toggle">popover</xsl:attribute>
+        <xsl:attribute name="class">btn btn-xs btn-link</xsl:attribute>
+        <xsl:attribute name="data-mcr-action">popover4person</xsl:attribute>
+        <xsl:attribute name="data-mcr-value-gnd"><xsl:value-of select="$name/@valueURI" /></xsl:attribute>
+        <xsl:attribute name="title">Weitere Informationen ...</xsl:attribute>
         <xsl:element name="span">
-          <xsl:attribute name="class">badge ir-badge-gnd</xsl:attribute>
-          <xsl:attribute name="title">Datensatz in der Gemeinsamen Normdatei der Deutschen Nationalbibliothek
-            (GND) anzeigen</xsl:attribute>
-            GND
+          <xsl:attribute name="class">glyphicon glyphicon-info-sign</xsl:attribute>
         </xsl:element>
       </xsl:element>
     </xsl:if>

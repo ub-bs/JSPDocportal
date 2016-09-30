@@ -53,6 +53,26 @@
 				width: 30px;
 			}
 		</style>
+		<script>
+     	$( document ).ready(function() {
+ 			$('[data-mcr-action="popover4person"]').popover({
+ 		        html:true,
+ 				content: function(){return popoverContent4Person(this);}
+ 				
+ 		    }); 
+     	});
+     	
+     	function popoverContent4Person(html){
+     		var gnd = $(html).data('mcr-value-gnd');
+     		return $('<div>').append($('<div>')
+     				.append($('<strong>').attr('title', 'Gemeinsame Normdatei der Deutschen Nationalbibliothek').append('GND:'))
+     				.append(' ').append($('<span>').append(gnd))
+     				.append(' ').append($('<a>').attr('type', 'button').addClass('btn btn-xs btn-link').attr('href', gnd)
+     						.attr('title', 'Gemeinsame Normdatei der Deutschen Nationalbibliothek')
+     						.append($('<span>').addClass('glyphicon glyphicon-share')))
+     		);
+     	}
+ 		</script>
 	</stripes:layout-component>
 	
 	<stripes:layout-component name="contents">
