@@ -60,23 +60,11 @@ public class BrowseAction extends MCRAbstractStripesAction implements ActionBean
         getContext().getResponse().setCharacterEncoding("UTF-8");
         getContext().getResponse().setContentType("text/xhtml;charset=utf-8");
         HttpServletRequest request = getContext().getRequest();
-        if (request.getParameter("_search") != null) {
+        if (request.getParameter("_search") != null && request.getParameter("_search").length()>0) {
             //check against null if session does not exist
             result = MCRSearchResultDataBean.retrieveSearchresultFromSession(request, request.getParameter("_search"));
         }
         if (result != null) {
-            if (request.getParameter("_add-filter") != null) {
-                for (String s : request.getParameterValues("_add-filter")) {
-                    result.getFilterQueries().add(s);
-                }
-            }
-
-            if (request.getParameter("_remove-filter") != null) {
-                for (String s : request.getParameterValues("_remove-filter")) {
-                    result.getFilterQueries().remove(s);
-                }
-            }
-
             Integer hit = null;
             if (request.getParameter("_hit") != null) {
                 try {
@@ -85,14 +73,7 @@ public class BrowseAction extends MCRAbstractStripesAction implements ActionBean
                     hit = null;
                 }
             }
-            if (request.getParameter("_start") != null) {
-                try {
-                    result.setStart(Integer.parseInt(request.getParameter("_start")));
-                } catch (NumberFormatException nfe) {
-                    result.setStart(0);
-                }
-            }
-
+        
             if (hit != null && result != null && hit >= 0 && hit < result.getNumFound()) {
                 String mcrid = result.getHit(hit).getMcrid();
                 return new RedirectResolution("/resolve/id/" + mcrid + "?_search=" + result.getId());
@@ -138,6 +119,28 @@ public class BrowseAction extends MCRAbstractStripesAction implements ActionBean
                 .split(",")) {
                 if (ff.trim().length() > 0) {
                     result.getFacetFields().add(ff.trim());
+                }
+            }
+        }
+     
+        if(result!=null){
+            if (request.getParameter("_add-filter") != null) {
+                for (String s : request.getParameterValues("_add-filter")) {
+                    result.getFilterQueries().add(s);
+                }
+            }
+    
+            if (request.getParameter("_remove-filter") != null) {
+                for (String s : request.getParameterValues("_remove-filter")) {
+                    result.getFilterQueries().remove(s);
+                }
+            }
+            
+            if (request.getParameter("_start") != null) {
+                try {
+                    result.setStart(Integer.parseInt(request.getParameter("_start")));
+                } catch (NumberFormatException nfe) {
+                    result.setStart(0);
                 }
             }
         }

@@ -144,3 +144,8 @@ span.ir-badge{
 	white-space: inherit;
 	text-align: left;
 }
+
+div.ir-browse-classification ul{
+	list-style:inside none none;
+	margin-left:-24px;
+}

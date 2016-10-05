@@ -2,6 +2,10 @@ package org.mycore.frontend.jsp.stripes.actions;
 
 import org.apache.commons.lang3.StringUtils;
 import org.mycore.common.config.MCRConfiguration;
+import org.mycore.datamodel.classifications2.MCRCategory;
+import org.mycore.datamodel.classifications2.MCRCategoryDAOFactory;
+import org.mycore.datamodel.classifications2.MCRCategoryID;
+import org.mycore.services.i18n.MCRTranslation;
 
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.Before;
@@ -54,12 +58,13 @@ public class WebpageAction extends MCRAbstractStripesAction implements ActionBea
 	public Resolution defaultRes() {
 	    if(path!=null){
 	        path = path.replace("\\", "/");
+	        MCRConfiguration config = MCRConfiguration.instance();
 	        if(!path.contains("..") && StringUtils.countMatches(path, "/")<=3){
-	            String navPath = MCRConfiguration.instance().getString("MCR.Webpage.Navigation."+path.replace("/",  "."), null);
+	            String navPath = config.getString("MCR.Webpage.Navigation."+path.replace("/",  "."), null);
 	            if(navPath!=null){
 	                getContext().getRequest().setAttribute("org.mycore.navigation.path",  navPath);
 	            }
-	            return new ForwardResolution(MCRConfiguration.instance().getString("MCR.Webpage.Resolution.default", "/content/webpage.jsp"));
+	            return new ForwardResolution(config.getString("MCR.Webpage.Resolution."+path.replace("/",  "."), config.getString("MCR.Webpage.Resolution.default", "/WEB-INF/views/webpage.jsp")));
 	        }
 	    }
 	    return new ForwardResolution("/");
@@ -81,6 +86,23 @@ public class WebpageAction extends MCRAbstractStripesAction implements ActionBea
 
     public void setPath(String path) {
         this.path = path;
+    }
+    
+    public String calcFacetOutputString(String facetKey, String facetValue) {
+        String result = facetValue;
+        if (facetKey.contains("_msg.facet")) {
+            result = MCRTranslation.translate("Browse.Facet." + facetKey.replace("_msg.facet", "") + "." + facetValue);
+        }
+        if (facetKey.contains("_class.facet")) {
+            MCRCategory categ = MCRCategoryDAOFactory.getInstance().getCategory(MCRCategoryID.fromString(facetValue),
+                0);
+            if (categ != null) {
+                result = categ.getCurrentLabel().get().getText();
+            }
+        }
+
+        return result;
+
     }
 	
 }
