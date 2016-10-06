@@ -44,7 +44,7 @@
             <table class="ir-table-docdetails-values">
                 <xsl:for-each select="mods:name[mods:role/mods:roleTerm/@valueURI='http://id.loc.gov/vocabulary/relators/dgs']">
                 <tr><td>
-                    <xsl:call-template name="advisor">
+                    <xsl:call-template name="display-name">
 		    			<xsl:with-param name="name" select="." />
     				</xsl:call-template>
                 </td></tr>

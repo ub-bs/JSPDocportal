@@ -64,13 +64,21 @@
      	
      	function popoverContent4Person(html){
      		var gnd = $(html).data('mcr-value-gnd');
-     		return $('<div>').append($('<div>')
-     				.append($('<strong>').attr('title', 'Gemeinsame Normdatei der Deutschen Nationalbibliothek').append('GND:'))
-     				.append(' ').append($('<span>').append(gnd))
-     				.append(' ').append($('<a>').attr('type', 'button').addClass('btn btn-xs btn-link').attr('href', gnd)
-     						.attr('title', 'Gemeinsame Normdatei der Deutschen Nationalbibliothek')
-     						.append($('<span>').addClass('glyphicon glyphicon-share')))
-     		);
+     		var gnd_html = $('<div>')
+				.append($('<strong>').attr('title', 'Gemeinsame Normdatei der Deutschen Nationalbibliothek').append('GND:'))
+ 				.append(' ').append($('<span>').append(gnd))
+ 				.append(' ').append($('<a>').attr('type', 'button').addClass('btn btn-xs btn-link').attr('href', gnd)
+ 						.attr('title', 'Gemeinsame Normdatei der Deutschen Nationalbibliothek')
+ 						.append($('<span>').addClass('glyphicon glyphicon-share')));
+ 			
+ 				var affi_html = "";
+ 				if($(html).data('mcr-value-affiliation')){
+ 					affi_html = $('<div>')
+ 						.append($('<hr>'))
+ 						.append($('<strong>').append('Einrichtung:')).append('<br>').append($(html).data('mcr-value-affiliation'));
+ 				}
+     		return $('<div>').append(gnd_html).append(affi_html);
+     		
      	}
  		</script>
 	</stripes:layout-component>

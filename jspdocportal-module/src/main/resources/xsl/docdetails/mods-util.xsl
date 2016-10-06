@@ -27,112 +27,73 @@
   </xsl:for-each>
 </xsl:template>
 
-<xsl:template name="display-name">
+    <xsl:template name="display-name">
       <xsl:param name="name"  />
       <xsl:if test="$name/@type='personal'">
-      <xsl:choose>
-    <xsl:when test="$name/mods:namePart[@type='family'] and ./mods:namePart[@type='given']">
-    <xsl:value-of select="$name/mods:namePart[@type='family']" />,&#160;
-    <xsl:value-of select="$name/mods:namePart[@type='given']" />
-    </xsl:when>
-    <xsl:otherwise>
-      <xsl:for-each select="$name/mods:namePart[not(@type='date')]">
-        <xsl:value-of select="." />&#160;
-      </xsl:for-each>
-    </xsl:otherwise>
-    </xsl:choose>
-    <xsl:if test="$name/@valueURI">
-      <xsl:element name="button">
-        <xsl:attribute name="type">button</xsl:attribute>
-        <xsl:attribute name="data-toggle">popover</xsl:attribute>
-        <xsl:attribute name="class">btn btn-xs btn-link</xsl:attribute>
-        <xsl:attribute name="data-mcr-action">popover4person</xsl:attribute>
-        <xsl:attribute name="data-mcr-value-gnd"><xsl:value-of select="$name/@valueURI" /></xsl:attribute>
-        <xsl:attribute name="title">Weitere Informationen ...</xsl:attribute>
-        <xsl:element name="span">
-          <xsl:attribute name="class">glyphicon glyphicon-info-sign</xsl:attribute>
-        </xsl:element>
-      </xsl:element>
-    </xsl:if>
-    <xsl:if test="$name/mods:affiliation">
-      <xsl:element name="span">
-        <xsl:attribute name="style">position:relative; top:-0.50em;color:#004A99; font-size:90%;font-weight:bold</xsl:attribute>
-        <xsl:attribute name="title"><xsl:value-of select="$name/mods:affiliation" /></xsl:attribute>
-        &#9432;
-      </xsl:element>
-    </xsl:if>
-    
-    </xsl:if>
-    <xsl:if test="$name/@type='corporate'">
-      <xsl:for-each select="./mods:namePart">
+        <xsl:choose>
+          <xsl:when test="$name/mods:namePart[@type='family'] and ./mods:namePart[@type='given']">
+            <xsl:value-of select="$name/mods:namePart[@type='family']" />,&#160;
+            <xsl:value-of select="$name/mods:namePart[@type='given']" />
+            <xsl:if test="$name/mods:namePart[@type='termsOfAddress']" >
+              &#160;(<xsl:value-of select="$name/mods:namePart[@type='termsOfAddress']" />)
+            </xsl:if>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:for-each select="$name/mods:namePart[not(@type='date')]">
+              <xsl:value-of select="." />&#160;
+            </xsl:for-each>
+          </xsl:otherwise>
+        </xsl:choose>
+        <xsl:if test="$name/@valueURI or $name/mods:affiliation">
+          <xsl:element name="button">
+            <xsl:attribute name="type">button</xsl:attribute>
+            <xsl:attribute name="data-toggle">popover</xsl:attribute>
+            <xsl:attribute name="class">btn btn-xs btn-link</xsl:attribute>
+            <xsl:attribute name="data-mcr-action">popover4person</xsl:attribute>
+            <xsl:if test="$name/@valueURI">
+              <xsl:attribute name="data-mcr-value-gnd"><xsl:value-of select="$name/@valueURI" /></xsl:attribute>
+            </xsl:if>
+            <xsl:if test="$name/mods:affiliation">
+              <xsl:attribute name="data-mcr-value-affiliation"><xsl:value-of select="$name/mods:affiliation" /></xsl:attribute>
+            </xsl:if>
+            <xsl:attribute name="title">Weitere Informationen ...</xsl:attribute>
+            <xsl:element name="span">
+              <xsl:attribute name="class">glyphicon glyphicon-info-sign</xsl:attribute>
+            </xsl:element>
+          </xsl:element>
+        </xsl:if>
+      </xsl:if>
+      <xsl:if test="$name/@type='corporate'">
+        <xsl:for-each select="./mods:namePart">
           <xsl:value-of select="." />
           <xsl:if test="position()!=last()">
             <xsl:text>,&#160;</xsl:text>
           </xsl:if>
-        
         </xsl:for-each>
-       
-       <xsl:if test="$name/@valueURI">
-      <xsl:element name="a">
-        <xsl:attribute name="href">
-          <xsl:value-of select="$name/@valueURI" />
-        </xsl:attribute>
-        <xsl:element name="img">
-          <xsl:attribute name="style">vertical-align:middle;padding-left:6px</xsl:attribute>
-          <xsl:attribute name="src">
-            <xsl:value-of select="$WebApplicationBaseURL" />images/icon_gnd.png</xsl:attribute>
-          <xsl:attribute name="title">Datensatz in der Gemeinsamen Normdatei der Deutschen Nationalbibliothek
-            (GND) anzeigen</xsl:attribute>
-        </xsl:element>
-      </xsl:element>
-    </xsl:if>
+        <xsl:if test="$name/@valueURI or $name/mods:affiliation">
+          <xsl:element name="button">
+            <xsl:attribute name="type">button</xsl:attribute>
+            <xsl:attribute name="data-toggle">popover</xsl:attribute>
+            <xsl:attribute name="class">btn btn-xs btn-link</xsl:attribute>
+            <xsl:attribute name="data-mcr-action">popover4person</xsl:attribute>
+            <xsl:if test="$name/@valueURI">
+              <xsl:attribute name="data-mcr-value-gnd"><xsl:value-of select="$name/@valueURI" /></xsl:attribute>
+            </xsl:if>
+            <xsl:if test="$name/mods:affiliation">
+              <xsl:attribute name="data-mcr-value-affiliation"><xsl:value-of select="$name/mods:affiliation" /></xsl:attribute>
+            </xsl:if>
+            <xsl:attribute name="title">Weitere Informationen ...</xsl:attribute>
+            <xsl:element name="span">
+              <xsl:attribute name="class">glyphicon glyphicon-info-sign</xsl:attribute>
+            </xsl:element>
+          </xsl:element>
+        </xsl:if>
+      </xsl:if>
     
-    </xsl:if>
-    
-    <xsl:if test="$name/mods:role/mods:roleTerm[@authority='gbv']">
+      <xsl:if test="$name/mods:role/mods:roleTerm[@authority='gbv']">
         &#160;<xsl:value-of select="$name/mods:role/mods:roleTerm[@authority='gbv']" />
-    </xsl:if>
-
-</xsl:template>
-
-<xsl:template name="advisor">
-      <xsl:param name="name"  />
-
-      <xsl:choose>
-        <xsl:when test="$name/mods:namePart[@type='family'] and ./mods:namePart[@type='given']">
-          <xsl:value-of select="$name/mods:namePart[@type='family']" />,&#160;
-          <xsl:value-of select="$name/mods:namePart[@type='given']" />
-          <xsl:if test="$name/mods:namePart[@type='termsOfAddress']" >
-            (<xsl:value-of select="$name/mods:namePart[@type='termsOfAddress']" />)
-          </xsl:if>
-    
-    </xsl:when>
-    <xsl:otherwise>
-      <xsl:for-each select="$name/mods:namePart[not(@type='date')]">
-        <xsl:value-of select="." />&#160;
-      </xsl:for-each>
-    </xsl:otherwise>
-    </xsl:choose>
-    <xsl:if test="$name/@valueURI">
-      <xsl:element name="a">
-        <xsl:attribute name="href">
-          <xsl:value-of select="$name/@valueURI" />
-        </xsl:attribute>
-        <xsl:element name="span">
-          <xsl:attribute name="class">badge ir-badge-gnd</xsl:attribute>
-          <xsl:attribute name="title">Datensatz in der Gemeinsamen Normdatei der Deutschen Nationalbibliothek
-            (GND) anzeigen</xsl:attribute>
-            GND
-        </xsl:element>
-      </xsl:element>
-    </xsl:if>
-    <xsl:if test="$name/mods:affiliation">
-      <xsl:element name="span">
-        <xsl:attribute name="class">ir-advisor-affiliation</xsl:attribute>
-        <xsl:value-of select="$name/mods:affiliation" />
-      </xsl:element>
-    </xsl:if>
-</xsl:template>
+      </xsl:if>
+    </xsl:template>
 
 <xsl:template name="mods-name">
   <xsl:for-each select="./mods:name[@type='personal'][position()=1 or contains('aut edt cre', ./mods:role/mods:roleTerm[@type='code']/text())]">

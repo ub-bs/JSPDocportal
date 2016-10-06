@@ -30,10 +30,6 @@
             </xsl:for-each>
           </p>
                 <p>
-					<xsl:variable name="classlink" select="mcrmods:getClassCategLink(mods:classification[@displayLabel='doctype'])" />
-					<xsl:if test="string-length($classlink) &gt; 0">
-						<xsl:value-of select="concat(document($classlink)/mycoreclass/categories/category/label[@xml:lang='de']/@text, ', ')" />
-						</xsl:if>
 					<xsl:call-template name="mods-originInfo" />
 				</p>
 
