@@ -29,6 +29,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -142,20 +143,25 @@ public class MCRSearchResultDataBean implements Serializable {
         }
 
         for (String fq : filterQueries) {
-            if (fq.contains("ir.pubyear_end")) {
-                fq = fq.replaceFirst(":", ":[* TO ");
-                //fq = fq.replaceFirst("'", "]");
-                fq = fq + "]";
+            if (fq.contains("ir.pubyear_end")){
+                if(Pattern.matches("^\\S+:\\d{4}$", fq)) {
+                    fq = fq.replaceFirst(":", ":[* TO ");
+                    fq = fq + "]";
+                    solrQuery.addFilterQuery(fq);
+                }
             }
 
-            if (fq.contains("ir.pubyear_start")) {
-                fq = fq.replaceFirst(":", ":[");
-                //fq = fq.replaceFirst("'", " TO *]");
-                fq = fq + " TO *]";
+            else if (fq.contains("ir.pubyear_start")){
+                if(Pattern.matches("^\\S+:\\d{4}$", fq)) {
+                    fq = fq.replaceFirst(":", ":[");
+                    fq = fq + " TO *]";
+                    solrQuery.addFilterQuery(fq);
+                }
             }
-            String[] x = fq.split(":", 2);
-
-            solrQuery.addFilterQuery(x[0] + ":" + ClientUtils.escapeQueryChars(x[1]));
+            else{
+                String[] x = fq.split(":", 2);
+                solrQuery.addFilterQuery(x[0] + ":" + ClientUtils.escapeQueryChars(x[1]));
+            }
         }
         String[] ffs = solrQuery.getFacetFields();
         if (ffs != null) {
