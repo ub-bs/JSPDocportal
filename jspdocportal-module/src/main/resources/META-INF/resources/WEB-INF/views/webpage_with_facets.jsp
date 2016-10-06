@@ -25,7 +25,7 @@
 					window.location=$("meta[name='mcr:baseurl']").attr("content")
 							 	       + "browse/"+mask+"?_search="+searchId
 							           + "&_add-filter="
-							       + encodeURIComponent("+" + key +":"+ value);
+							       + encodeURIComponent("+" + key +":"+ value.replace('epoch:',''));
 					}
 										
 				</script>
