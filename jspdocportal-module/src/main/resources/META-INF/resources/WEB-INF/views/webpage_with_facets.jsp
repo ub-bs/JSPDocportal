@@ -21,12 +21,20 @@
 
 			<c:if test="${(actionBean.path eq 'epub') or (actionBean.path eq 'histbest') }">	
 				<script type="text/javascript">
-				function changeFacetIncludeURL(key, value, mask, searchId) {
+				function changeFacetIncludeURL(key, value, mask) {
 					window.location=$("meta[name='mcr:baseurl']").attr("content")
-							 	       + "browse/"+mask+"?_search="+searchId
+							 	       + "browse/"+mask+"?"
 							           + "&_add-filter="
 							       + encodeURIComponent("+" + key +":"+ value.replace('epoch:',''));
 					}
+				
+				function changeFilterIncludeURL(key, value, mask) {
+					window.location=$("meta[name='mcr:baseurl']").attr("content")
+			 				    + "browse/"+mask+"?"
+			        			+ $("meta[name='mcr:search.id']").attr("content")
+				    			+ "&_add-filter="
+				    			+ encodeURIComponent("+" + key+":"+value);
+				}
 										
 				</script>
 				<c:set var="mask" value="${actionBean.path}" />
@@ -48,7 +56,56 @@
 					pageContext.setAttribute("result", result);					
 				%>
 			</c:if>
-			<c:if test="${actionBean.path eq 'histbest' }">
+			<c:if test="${(actionBean.path eq 'histbest') or (actionBean.path eq 'epub') }">
+			<%-- key=$("input[name='filterField']:checked").val(); value=$('#filterValue').val()); --%>
+				<div class="row">
+					<div class="col-sm-7 col-xs-10">
+						<input class="form-control" id="filterValue" name="filterValue" style="width:100%" placeholder="Wert" onkeypress="if (event.keyCode == 13) { changeFilterIncludeURL($('input[name=\'filterField\']:checked').val(), $('#filterValue').val(), 'histbest');}" type="text">
+					</div>
+					<div class="col-sm-1 col-xs-2">
+						<button id="filterInclude" class="btn btn-primary" onclick="changeFilterIncludeURL($('input[name=\'filterField\']:checked').val(), $('#filterValue').val(), '${actionBean.path}');">
+							<span class="glyphicon glyphicon-search"></span>
+						</button>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-8 col-xs-12">	
+ 						<table><tbody>
+ 							<tr>
+ 								<td class="radio input-sm">
+ 									<label> 
+ 										<input name="filterField" value="ir.title_all" checked="checked" type="radio">
+ 										Titel
+ 									</label>
+ 								</td>
+ 								<td></td>
+ 								<td class="radio input-sm">
+ 									<label> 
+ 										<input name="filterField" value="ir.creator_all" type="radio">
+ 										Autor
+ 									</label>
+ 								</td>
+ 								<td></td>
+ 								<td class="radio input-sm">
+ 									<label> 
+ 										<input name="filterField" value="ir.pubyear_start" type="radio">
+ 										erschienen nach
+ 									</label>
+ 								</td> 								
+ 								<td></td>
+ 								<td class="radio input-sm">
+ 									<label> 
+ 										<input name="filterField" value="ir.pubyear_end" type="radio">
+ 										erschienen vor
+ 									</label>
+ 								</td>
+ 								<td></td>
+ 							</tr>		
+ 						</tbody></table>	
+					</div>
+				</div>
+			</c:if>
+			<c:if test="${actionBean.path eq 'histbest' }">						
 				<div class="row">
 					<div class="col-sm-4 col-xs-12 ir-browse-classification">
 						<%-- <search:browse-facet result="${result}" mask="${mask}" facetField="ir.doctype_class.facet" /> --%>
