@@ -344,7 +344,7 @@ public class MCRJSPIDResolverServlet extends HttpServlet {
                                         .getString("MCR.JSPDocportal.DFG-Viewer.BaseURL").trim());
                                     sbURL.append("?set[mets]=");
                                     sbURL.append(URLEncoder.encode(
-                                        MCRFrontendUtil.getBaseURL() + "file/" + mcrID + p.toString(), "UTF-8"));
+                                        MCRFrontendUtil.getBaseURL() + "file/" + mcrID + "/" + p.toString().replace(":/",  "/"), "UTF-8"));
                                     if (eMETSPhysDiv != null) {
                                         String order = eMETSPhysDiv.getAttributeValue("ORDER");
                                         if (order != null) {
