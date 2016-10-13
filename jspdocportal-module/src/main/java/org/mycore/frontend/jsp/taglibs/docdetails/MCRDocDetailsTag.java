@@ -42,8 +42,9 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
+import org.jdom2.output.DOMOutputter;
 import org.mycore.common.JSPUtils;
-import org.mycore.datamodel.common.MCRXMLMetadataManager;
+import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 import org.mycore.services.i18n.MCRTranslation;
@@ -162,11 +163,13 @@ public class MCRDocDetailsTag extends SimpleTagSupport {
 				File file = new File(filename);
 				if (file.isFile()) {
 					data = getBytesFromFile(file);
+					doc = builder.parse(new ByteArrayInputStream(data));
 				}
 			} else {
-				data = MCRXMLMetadataManager.instance().retrieveBLOB(MCRObjectID.getInstance(mcrID));
+				DOMOutputter domOut = new DOMOutputter();
+				doc = domOut.output(MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID)).createXML());
 			}
-			doc = builder.parse(new ByteArrayInputStream(data));
+			
 			System.out.println(doc.getDocumentElement().getAttribute("ID"));
 			if (var != null) {
 				getJspContext().setAttribute(var, doc, PageContext.REQUEST_SCOPE);
@@ -174,7 +177,9 @@ public class MCRDocDetailsTag extends SimpleTagSupport {
 
 		} catch (IOException e) {
 			throw new JspException(e);
-		} catch (SAXException e) {
+		} catch (JDOMException e) {
+			throw new JspException(e);
+		}catch (SAXException e) {
 			throw new JspException(e);
 		}
 		JspWriter out = getJspContext().getOut();
