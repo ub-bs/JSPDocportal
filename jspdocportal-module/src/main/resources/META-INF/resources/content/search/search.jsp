@@ -25,6 +25,9 @@
 				</c:if>
 			
 				<h2>${pageTitle}</h2>
+				<div>
+					<mcr:includeWebcontent id="search_intro" file="search/${actionBean.result.mask}.html" />
+				</div>
 
 				<div class="${classCollapse}" id="searchmask">
 					<c:out value="${actionBean.xeditorHtml}" escapeXml="false" />
