@@ -109,11 +109,12 @@
 				<div class="row">
 					<div class="col-sm-4 col-xs-12 ir-browse-classification">
 						<%-- <search:browse-facet result="${result}" mask="${mask}" facetField="ir.doctype_class.facet" /> --%>
-						<search:browse-classification categid="doctype:histbest" mask="${mask}" facetField="ir.doctype_class.facet" />
+						<%-- <search:browse-classification categid="doctype:histbest" mask="${mask}" facetField="ir.doctype_class.facet" /> --%>
+						<search:browse-classification categid="collection:Materialart" mask="${mask}" facetField="ir.collection_class.facet" />
 					</div>
 					<div class="col-sm-4 col-xs-12 ir-browse-classification">
 						<%-- <search:browse-facet result="${result}" mask="${mask}" facetField="ir.collection_class.facet" /> --%>
-						<search:browse-classification categid="collection" mask="${mask}" facetField="ir.collection_class.facet" />
+						<search:browse-classification categid="collection:Projekte" mask="${mask}" facetField="ir.collection_class.facet" />
 					</div>
 					<div class="col-sm-4 col-xs-12 ir-browse-classification">
 						<%-- <search:browse-facet result="${result}" mask="${mask}" facetField="ir.epoch_msg.facet" /> --%>

@@ -16,5 +16,5 @@
 <% MCRCategory rootCateg = MCRCategoryDAOFactory.getInstance().getCategory(MCRCategoryID.fromString(categid), -1); 
 	jspContext.setAttribute("rootCateg", rootCateg);
 %>
-<h5>${rootCateg.getRoot().currentLabel.get().text}</h5>
+<h5>${rootCateg.currentLabel.get().text}</h5>
 <search:browse-classification-inner category="${rootCateg}" facetField="${facetField}" mask="${mask}"/>
