@@ -196,6 +196,7 @@
             <th>PPN (Katalog-ID):</th>
             <td><table class="ir-table-docdetails-values"><tr><td>
               <xsl:value-of select="./mods:identifier[@type='PPN']" />
+              <!-- 
               &#160;
               <a>
                 <xsl:attribute name="href">http://katalog.ub.uni-rostock.de/DB=1/PPNSET?PPN=<xsl:value-of select="./mods:identifier[@type='PPN']" /></xsl:attribute>
@@ -206,6 +207,7 @@
                 <xsl:attribute name="href">http://gso.gbv.de/DB=2.1/PPNSET?PPN=<xsl:value-of select="./mods:identifier[@type='PPN']" /></xsl:attribute>
                 [GBV]
               </a>
+              -->
               </td></tr></table>
             </td>
           </tr>
@@ -224,11 +226,13 @@
             <th>VD17Nr:</th>
             <td><table class="ir-table-docdetails-values"><tr><td>
               <xsl:value-of select="./mods:identifier[@type='vd17']" />
+              <!-- 
               &#160;
               <a>
                 <xsl:attribute name="href">http://gso.gbv.de/DB=1.28/CMD?ACT=SRCHA&amp;IKT=8002&amp;TRM=%27<xsl:value-of select="./mods:identifier[@type='vd17']" />%27</xsl:attribute>
                 [VD17]
               </a>
+              -->
              </td></tr></table>
             </td>
           </tr>
@@ -238,11 +242,13 @@
             <th>Kalliope ID:</th>
             <td><table class="ir-table-docdetails-values"><tr><td>
               <xsl:value-of select="./mods:identifier[@type='kalliope']" />
+              <!-- 
               &#160;
               <a>
                 <xsl:attribute name="href">http://kalliope-verbund.info/<xsl:value-of select="./mods:identifier[@type='kalliope']" /></xsl:attribute>
                 [Kalliope Verbundkatalog]
               </a>
+              -->
              </td></tr></table>
             </td>
           </tr>
@@ -252,11 +258,13 @@
             <th>VD16Nr:</th>
             <td><table class="ir-table-docdetails-values"><tr><td>
               <xsl:value-of select="./mods:identifier[@type='vd16']" />
+              <!-- 
               &#160;
               <a>
                 <xsl:attribute name="href">http://gateway-bayern.de/VD16+<xsl:value-of select="concat(substring-before(./mods:identifier[@type='vd16'],' '),'+',substring-after(./mods:identifier[@type='vd16'],' '))" /></xsl:attribute>
                 [VD16]
               </a>
+              -->
              </td></tr></table>
             </td>
           </tr>

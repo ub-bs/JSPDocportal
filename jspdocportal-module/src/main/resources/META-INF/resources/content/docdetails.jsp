@@ -230,32 +230,8 @@
 	<stripes:layout-component name="right_side">
 		<div class="ir-box ir-box-bordered ir-infobox" style="margin-bottom:32px; padding: 18px 6px 6px 6px;">
 			<search:result-navigator mcrid="${mcrid}" mode="one_line"/>
-			
-			<div class="container-fluid">
-				<div class="pull-right">
-    	   			<button type="button" class="btn btn-default btn-sm pull-right hidden-xs" style="border:none;color:#DEDEDE;" 
-    	   		        data-toggle="collapse" data-target="#hiddenTools" title="<fmt:message key="Webpage.tools.menu4experts" />">
-   						<span class="glyphicon glyphicon-wrench"></span>
-       				</button>
-       				<search:show-edit-button mcrid="${mcrid}" cssClass="btn btn-sm btn-primary ir-edit-btn col-xs-3" />
-   				</div>
-   				<div id="hiddenTools" class="collapse">
-   					<div class="row" style="padding-bottom:6px">
-   						<a class="btn btn-warning btn-sm" target="_blank" title="<fmt:message key="Webpage.tools.showXML" />"
-		   		   		   href="${WebApplicationBaseURL}api/v1/objects/${mcrid}" rel="nofollow">XML</a>
-       					<a class="btn btn-warning btn-sm" style="margin-left:6px" target="_blank" title="<fmt:message key="Webpage.tools.showSOLR" />"
-			   		   		href="${WebApplicationBaseURL}receive/${mcrid}?XSL.Style=solrdocument" rel="nofollow">SOLR</a>
-			   		   		
-			   		   	<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='REPOS_METS']">
-						 	<c:set var="derid"><x:out select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='REPOS_METS']/@xlink:href" /></c:set>
-						 	<a class="btn btn-warning btn-sm" style="margin-left:6px" target="_blank" href="${WebApplicationBaseURL}api/v1/objects/${param.id}/derivates/${derid}/open" class="btn btn-default" title="<fmt:message key="Webpage.tools.showREPOS_METS" />">METS</a>
-						</x:if>
-    	  			</div>
-   				</div>
-   			</div>
-   		</div>
-   		<div class="ir-box ir-box-bordered ir-infobox" style="margin-bottom:32px; padding: 18px 6px 6px 6px;">
-   		 <x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='purl']">
+
+   		 	<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='purl']">
 			  	<div class="btn-group btn-group-sm ir-btn-group-resolving" role="group" aria-label="...">
 			  		<button type="button" class="btn btn-default">PURL:</button>
 			  		<a class="btn btn-default"  href="<x:out select="$x" />"><x:out select="$x" /></a>
@@ -279,7 +255,31 @@
 			       data-services="[&quot;twitter&quot;, &quot;facebook&quot;, &quot;googleplus&quot;, &quot;linkedin&quot;, &quot;xing&quot;, &quot;whatsapp&quot;, &quot;mail&quot;, &quot;info&quot;]"
 			       data-mail-url="mailto:" data-mail-subject="Dokument auf RosDok" data-mail-body="${WebApplicationBaseURL}resolve/id/${param.id}"
 			       data-orientation="horizontal" data-theme="standard"></div> <%--data-theme=standard|grey|white --%>
-			   <script src="${WebApplicationBaseURL}modules/shariff/shariff.min.js"></script>   			  
+			   <script src="${WebApplicationBaseURL}modules/shariff/shariff.min.js"></script>
+			   <div class="clearfix">
+				<div class="pull-right">
+    	   			<button type="button" class="btn btn-default btn-sm pull-right hidden-xs" style="border:none;color:#DEDEDE;" 
+    	   		        data-toggle="collapse" data-target="#hiddenTools" title="<fmt:message key="Webpage.tools.menu4experts" />">
+   						<span class="glyphicon glyphicon-wrench"></span>
+       				</button>
+       				<search:show-edit-button mcrid="${mcrid}" cssClass="btn btn-sm btn-primary ir-edit-btn col-xs-3" />
+   				</div>
+				
+			   
+			    <div id="hiddenTools" class="collapse">
+   					<div style="padding-bottom:6px">
+   						<a class="btn btn-warning btn-sm" target="_blank" title="<fmt:message key="Webpage.tools.showXML" />"
+		   		   		   href="${WebApplicationBaseURL}api/v1/objects/${mcrid}" rel="nofollow">XML</a>
+       					<a class="btn btn-warning btn-sm" style="margin-left:6px" target="_blank" title="<fmt:message key="Webpage.tools.showSOLR" />"
+			   		   		href="${WebApplicationBaseURL}receive/${mcrid}?XSL.Style=solrdocument" rel="nofollow">SOLR</a>
+			   		   		
+			   		   	<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='REPOS_METS']">
+						 	<c:set var="derid"><x:out select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='REPOS_METS']/@xlink:href" /></c:set>
+						 	<a class="btn btn-warning btn-sm" style="margin-left:6px" target="_blank" href="${WebApplicationBaseURL}api/v1/objects/${param.id}/derivates/${derid}/open" class="btn btn-default" title="<fmt:message key="Webpage.tools.showREPOS_METS" />">METS</a>
+						</x:if>
+    	  			</div>
+   				</div>
+   			</div>   			  
    		</div>
    		<div class="ir-box ir-box-bordered ir-infobox" style="margin-bottom:32px; padding: 18px 6px 6px 6px;">
 			<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='fulltext']">
@@ -308,12 +308,62 @@
 			 </x:if>
 			 <div style="clear:both"></div>
 			</div>
-			
-			<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='cover']">
-				<div class="ir-box ir-box-bordered ir-infobox" style="margin-bottom:32px; padding: 18px 6px 6px 6px;">
-					<search:derivate-image mcrid="${param.id}" width="50%" labelContains="cover" />
+			<div class="ir-box ir-box-bordered ir-infobox" style="margin-bottom:32px; padding: 18px 6px 6px 6px;">
+				<h3>Export</h3>
+				<div class="row">
+				<div class="col-sm-6">
+					<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='PPN']">
+						<c:set var="ppn"><x:out select="$x" /></c:set>
+						<a class="btn btn-sm btn-default btn-block" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=bibtex">BibTeX</a>
+						<a class="btn btn-sm btn-default btn-block" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=endnote">EndNote</a>
+						<a class="btn btn-sm btn-default btn-block" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=ris">RIS</a>
+						<a class="btn btn-sm btn-default btn-block" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=dc">DublinCore</a>
+						<a class="btn btn-sm btn-default btn-block" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=mods">MODS</a>
+  					</x:forEach>
 				</div>
-			</x:if>
-		
+				<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='cover']">
+					<div class="col-sm-1">
+					</div>
+					<div class="col-sm-5">
+						<search:derivate-image mcrid="${param.id}" width="100%" labelContains="cover" />
+					</div>
+				</x:if>
+				</div>
+			</div>
+			
+			<div class="ir-box ir-box-bordered ir-infobox" style="margin-bottom:32px; padding: 18px 6px 6px 6px;">
+				<h3>Portale</h3>
+				<div class="row">
+					<div class="col-sm-6">
+						<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='PPN']">
+							<c:set var="ppn"><x:out select="$x" /></c:set>
+							<a class="btn btn-sm btn-default btn-block" href="http://opac.lbs-rostock.gbv.de/DB=1/PPNSET?PPN=${ppn}">OPAC (UB Rostock)</a>
+							<a class="btn btn-sm btn-default btn-block" href="https://gso.gbv.de/DB=2.1/PPNSET?PPN=${ppn}">OPAC (GBV)</a>
+						</x:forEach>
+					</div>
+					<div class="col-sm-6">
+						<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='vd16']">
+							<c:set var="vdnr"><x:out select="$x" /></c:set>
+							<a class="btn btn-sm btn-default btn-block" href="http://gateway-bayern.de/VD16+${fn:replace(vdnr,' ','+')}">VD16</a>
+						</x:forEach>
+						<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='vd17']">
+							<c:set var="vdnr"><x:out select="$x" /></c:set>
+							<a class="btn btn-sm btn-default btn-block" href="https://gso.gbv.de/DB=1.28/CMD?ACT=SRCHA&IKT=8002&TRM=%27${vdnr}%27">VD17</a>
+						</x:forEach>
+						<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='vd18']">
+							<c:set var="vdnr"><x:out select="$x" /></c:set>
+							<a class="btn btn-sm btn-default btn-block" href="https://gso.gbv.de/DB=1.65/SET=8/TTL=1/CMD?ACT=SRCHA&IKT=8002&TRM=${fn:replace(vdnr,' ','+')}&ADI_MAT=B&MATCFILTER=Y">VD18</a>
+						</x:forEach>
+						<x:forEach var="x" select="$doc/mycoreobject[contains(@ID,'_disshab_')]/@ID">
+							<c:set var="id"><x:out select="$x" /></c:set>
+							<a class="btn btn-sm btn-default btn-block" href="https://www.base-search.net/Search/Results?type0[]=url&lookfor0[]=${id}">Base</a>
+						</x:forEach>
+						<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='kalliope']">
+							<c:set var="id"><x:out select="$x" /></c:set>
+							<a class="btn btn-sm btn-default btn-block" href="http://kalliope-verbund.info/${id}">Kalliope-Verbundkatalog</a>
+						</x:forEach>					
+					</div>
+				</div>
+		</div>
 	</stripes:layout-component>
 </stripes:layout-render>
