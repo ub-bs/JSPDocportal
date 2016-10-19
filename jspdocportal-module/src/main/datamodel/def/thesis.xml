@@ -10,5 +10,6 @@
         <xs:element ref="mods:mods"/>
       </xs:sequence>
     </element>
+    <element name="irControl" type="xml" notinherit="true" heritable="false" />
   </metadata>
 </objecttype>
