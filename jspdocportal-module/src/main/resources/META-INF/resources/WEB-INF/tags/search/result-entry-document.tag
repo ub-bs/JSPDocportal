@@ -11,9 +11,10 @@
 <div class="row">
 	<div class="col-sm-9">
 		<search:show-edit-button mcrid="${data.mcrid}" cssClass="btn btn-primary ir-edit-btn pull-right" /> 
-		<span class="label label-default">${entry.data['ir.doctype.result']}</span>
 		<table style="border-spacing: 4px; border-collapse: separate; font-size: 100%">
+			<tr><td>		<span class="label label-default">${entry.data['ir.doctype.result']}</span></td></tr>
 			<tr><td>
+				<span>${entry.data['ir.creator.result']}</span>
 				<h4>
 					<a href="${url}">
 						<c:if test="${empty(entry.data['ir.partTitle.result'])}">
@@ -24,7 +25,6 @@
 						</c:if>
 					</a>
 				</h4>
-				<span style="font-style:italic;font-size:105%">${entry.data['ir.creator.result']}</span>
 			</td></tr>
 			<tr><td>${entry.data['ir.originInfo.result']}</td></tr>
 			<c:if test="${not empty(entry.data['ir.host.title.result'])}">
