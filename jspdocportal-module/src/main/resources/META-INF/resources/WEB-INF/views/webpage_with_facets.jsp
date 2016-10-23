@@ -132,7 +132,7 @@
 						<search:browse-facet result="${result}" mask="${mask}" facetField="ir.sdnb_class.facet" />
 					</div>
 					<div class="col-sm-4 col-xs-12 ir-browse-classification">
-						
+						<search:browse-facet result="${result}" mask="${mask}" facetField="ir.institution_class.facet" />
 					</div>
 				</div>
 			</c:if>
@@ -142,7 +142,7 @@
 		$( document ).ready(function() {
 			$.ajax({
 				type : "GET",
-				url : "${WebApplicationBaseURL}api/v1/search?q=category%3A%22doctype%3Ahistbest%22&rows=1&wt=json&indent=true&facet=true&facet.field=ir.doctype_class.facet&facet.field=ir.collection_class.facet&facet.field=ir.epoch_msg.facet&json.wrf=?",
+				url : "${WebApplicationBaseURL}api/v1/search?q=category%3A%22doctype%3A${mask}%22&rows=1&wt=json&indent=true&facet=true&facet.field=ir.doctype_class.facet&facet.field=ir.institution_class.facet&facet.field=ir.collection_class.facet&facet.field=ir.epoch_msg.facet&json.wrf=?",
 				dataType : "jsonp",
 				success : function(data) {
 					var fc = data.facet_counts.facet_fields;
