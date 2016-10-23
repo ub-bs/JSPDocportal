@@ -28,18 +28,6 @@
             </xsl:element>
       </xsl:for-each> 
 
-      <xsl:if test="./mods:classification[@displayLabel='doctype']">
-        <p>
-        <span class="label label-default">
-          <xsl:for-each select="./mods:classification[@displayLabel='doctype']/@valueURI">
-            <xsl:call-template name="classLabel">
-              <xsl:with-param name="valueURI"><xsl:value-of select="." /></xsl:with-param>
-            </xsl:call-template>
-          </xsl:for-each>
-        </span>
-        </p>
-      </xsl:if>
-
       <p>
         <xsl:call-template name="mods-name" /><br />
       </p>
@@ -76,6 +64,18 @@
           </xsl:element>
          </p>
         </xsl:if>
+        <xsl:if test="./mods:classification[@displayLabel='doctype']">
+        <p>
+        <span class="label label-default">
+          <xsl:for-each select="./mods:classification[@displayLabel='doctype']/@valueURI">
+            <xsl:call-template name="classLabel">
+              <xsl:with-param name="valueURI"><xsl:value-of select="." /></xsl:with-param>
+            </xsl:call-template>
+          </xsl:for-each>
+        </span>
+        </p>
+      </xsl:if>
+        
     </xsl:for-each>
     
   </xsl:template>

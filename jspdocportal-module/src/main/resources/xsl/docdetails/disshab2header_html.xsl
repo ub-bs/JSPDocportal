@@ -11,19 +11,7 @@
 
 	<xsl:template match="/">
 		<xsl:for-each select="/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods">
-          <xsl:if test="./mods:classification[@displayLabel='doctype']">
-            <p>
-            <span class="label label-default">
-              <xsl:for-each select="./mods:classification[@displayLabel='doctype']/@valueURI">
-                <xsl:call-template name="classLabel">
-                  <xsl:with-param name="valueURI"><xsl:value-of select="." /></xsl:with-param>
-                </xsl:call-template>
-              </xsl:for-each>
-            </span>
-            </p>
-          </xsl:if>
-			
-		  <p>
+  		  <p>
             <xsl:for-each select="./mods:name[@type='personal'][position()=1 or mods:role/mods:roleTerm[@type='code']/@valueURI='http://id.loc.gov/vocabulary/relators/aut']">
               <xsl:call-template name="display-name">
                 <xsl:with-param name="name" select="." />
@@ -61,6 +49,17 @@
 						</xsl:element>
 					</p>
 				</xsl:if>
+				<xsl:if test="./mods:classification[@displayLabel='doctype']">
+            <p>
+            <span class="label label-default">
+              <xsl:for-each select="./mods:classification[@displayLabel='doctype']/@valueURI">
+                <xsl:call-template name="classLabel">
+                  <xsl:with-param name="valueURI"><xsl:value-of select="." /></xsl:with-param>
+                </xsl:call-template>
+              </xsl:for-each>
+            </span>
+            </p>
+          </xsl:if>
 		</xsl:for-each>
 
 	</xsl:template>

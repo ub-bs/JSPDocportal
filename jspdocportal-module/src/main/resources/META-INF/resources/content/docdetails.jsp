@@ -135,6 +135,7 @@
 		<div id="div_metadata" class="collapse col-sm-12">
 			<div class="ir-box ir-docdetails-data">
 				<mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/${objectType}2details_html.xsl" />
+				<mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/all2footer_html.xsl" />
 			</div>
 		</div>
 		<x:if select="$doc/mycoreobject/structure/derobjects/derobject">
@@ -217,14 +218,6 @@
 	});
 
 </script>
-	<div id="main_footer" class="row" style="margin-top:24px">
-		<div class="col-sm-12">
-			<div class="ir-box ir-docdetails-data">
-				<mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/all2footer_html.xsl" />
-			</div>
-		</div>
-	</div>
-		
 
 	</stripes:layout-component>
 	<stripes:layout-component name="right_side">
