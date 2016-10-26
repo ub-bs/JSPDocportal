@@ -31,9 +31,10 @@ import javax.servlet.jsp.PageContext;
 import org.apache.log4j.Logger;
 import org.codehaus.plexus.util.StringUtils;
 import org.mycore.access.MCRAccessManager;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
+import org.mycore.frontend.jsp.navigation.model.Navigation;
+import org.mycore.frontend.jsp.navigation.model.NavigationItem;
+import org.mycore.frontend.jsp.navigation.model.NavigationObject;
+import org.mycore.frontend.jsp.navigation.model.Navigations;
 
 /**
  * Even though this class extends the SimpleTagSupport class,
@@ -56,7 +57,7 @@ public abstract class MCRAbstractNavigationTag extends MCRAbstractTag{
 	/**
 	 * the current navigation node
 	 */
-	protected Element nav;
+	protected Navigation nav;
 	
 	/**
 	 * The path. It's elements are separated by dots.
@@ -114,21 +115,9 @@ public abstract class MCRAbstractNavigationTag extends MCRAbstractTag{
 	/**
 	 * retrieves the proper navigation element from navigation DOM object in application scope 
 	 */
-	protected Element retrieveNavigation() {
-		Document navDom = (org.w3c.dom.Document) getJspContext().getAttribute("navDom", PageContext.APPLICATION_SCOPE);
-		NodeList nl = navDom.getElementsByTagNameNS(NS_NAVIGATION, "navigations");
-		if (nl.getLength() == 0)
-			return null;
-
-		Element navigations = (Element) (nl.item(0));
-		nl = navigations.getElementsByTagNameNS(NS_NAVIGATION, "navigation");
-		for (int i = 0; i < nl.getLength(); i++) {
-			Element e = (Element) nl.item(i);
-			if (e.getAttribute("id").equals(id)) {
-				return e;
-			}
-		}
-		return null;
+	protected Navigation retrieveNavigation() {
+		Navigations navs = (Navigations) getJspContext().getAttribute("mcr_navigation", PageContext.APPLICATION_SCOPE);
+		return navs.getMap().get(id);
 	}
 	
 	
@@ -174,30 +163,21 @@ public abstract class MCRAbstractNavigationTag extends MCRAbstractTag{
 	 * @param path
 	 * @return
 	 */
-	protected Element findNavItem(Element currentNode, String[] path) {
-		if (path.length == 0) {
-			return currentNode;
+	protected NavigationItem findNavItem(NavigationObject currentNode, String[] path) {
+		if (path.length == 0 && currentNode instanceof NavigationItem) {
+			return (NavigationItem) currentNode;
+		}
+		if (path.length > 0) {
+			NavigationObject navO = currentNode.retrieveChild(path[0]);
+			return findNavItem(navO, Arrays.copyOfRange(path, 1, path.length));
 		}
 
-		NodeList nl = currentNode.getChildNodes();
-		for (int i = 0; i < nl.getLength(); i++) {
-			if (!(nl.item(i) instanceof Element)) {
-				continue;
-			}
-			Element el = (Element) nl.item(i);
-			if (!el.getNodeName().equals("navitem")) {
-				continue;
-			}
-			if (path.length > 0) {
-				String id = path[0];
-				if (el.getAttribute("id").equals(id)) {
-					return findNavItem(el, Arrays.copyOfRange(path, 1, path.length));
-				}
-			}
+		// if the path is wrong - return the give node
+		if (currentNode instanceof NavigationItem) {
+			return (NavigationItem) currentNode;
+		} else {
+			return null;
 		}
-		//if the path is wrong - return the give node
-		return currentNode;
-
 	}
 	
 
@@ -212,29 +192,24 @@ public abstract class MCRAbstractNavigationTag extends MCRAbstractTag{
 	 * @param e
 	 * @return An array list with all elements that should be visible for this user in the current session.
 	 */
-	protected List<Element> printableElements(Element e){
-		List<Element> peList = new ArrayList<>();
-		NodeList nl = e.getChildNodes();
-		for (int i = 0; i < nl.getLength(); i++) {
-			if (!(nl.item(i) instanceof Element)) {
+	protected List<NavigationItem> printableItems(NavigationObject navO){
+		List<NavigationItem> result = new ArrayList<>();
+
+		for (NavigationObject child: navO.getChildren()) {
+			if (!(child instanceof NavigationItem)) {
 				continue;
 			}
-			Element el = (Element) nl.item(i);
-			if (!el.getNodeName().equals("navitem")) {
+			NavigationItem ni  = (NavigationItem) child;
+			if (ni.isHidden()) {
 				continue;
 			}
-			boolean hidden = "true".equals(el.getAttribute("hidden"));
-			if (hidden) {
-				continue;
-			}
-			String permission = el.getAttribute("permission");
-			if (StringUtils.isNotEmpty(permission)) {
-				if (!MCRAccessManager.checkPermission(permission)) {
+			if (StringUtils.isNotEmpty(ni.getPermission())) {
+				if (!MCRAccessManager.checkPermission(ni.getPermission())) {
 					continue;
 				}
 			}
-			peList.add(el);
+			result.add(ni);
 		}
-		return peList;
+		return result;
 	}
 }

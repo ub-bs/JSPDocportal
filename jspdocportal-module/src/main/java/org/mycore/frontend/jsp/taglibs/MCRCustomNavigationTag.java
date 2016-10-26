@@ -11,7 +11,8 @@ import javax.servlet.jsp.JspException;
 
 import org.apache.log4j.Logger;
 import org.mycore.frontend.MCRFrontendUtil;
-import org.w3c.dom.Element;
+import org.mycore.frontend.jsp.navigation.model.NavigationItem;
+import org.mycore.frontend.jsp.navigation.model.NavigationObject;
 
 /**
  * <p>
@@ -69,7 +70,7 @@ public class MCRCustomNavigationTag extends MCRAbstractNavigationTag {
 			return;
 		}
 
-		if (nav.getChildNodes().getLength() == 0) {
+		if (nav.getChildren().size() == 0) {
 			return;
 		}
 		context.setAttribute(var, getNavigation(nav), PAGE_SCOPE);
@@ -86,16 +87,16 @@ public class MCRCustomNavigationTag extends MCRAbstractNavigationTag {
 	 * @param index
 	 * @return
 	 */
-	private List<NavigationVariables> getNavigation(Element e, int index) {
+	private List<NavigationVariables> getNavigation(NavigationObject e, int index) {
 		List<NavigationVariables> navigation = new LinkedList<>();
-		List<Element> peList = printableElements(e);
-		for (Element el : peList) {
+		List<NavigationItem> peList = printableItems(e);
+		for (NavigationItem el : peList) {
 			NavigationVariables n = new NavigationVariables();
-			String id = el.getAttribute("id");
+			String id = el.getId();
 			n.setId(id);
-			n.setLabel(retrieveI18N(el.getAttribute("i18n")));
+			n.setLabel(retrieveI18N(el.getI18n()));
 			//n.setHref(baseURL + "nav?path=" + el.getAttribute("_path"));
-			n.setHref(MCRFrontendUtil.getBaseURL() + el.getAttribute("href"));
+			n.setHref(MCRFrontendUtil.getBaseURL() + el.getHref());
 			if (index >= path.length) {
 				n.setActive(false);
 			} else {
@@ -118,7 +119,7 @@ public class MCRCustomNavigationTag extends MCRAbstractNavigationTag {
 
 	}
 
-	private List<NavigationVariables> getNavigation(Element e) {
+	private List<NavigationVariables> getNavigation(NavigationObject e) {
 		return getNavigation(e, 0);
 	}
 

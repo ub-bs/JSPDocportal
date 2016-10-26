@@ -46,6 +46,7 @@ import org.mycore.common.MCRConstants;
 import org.mycore.common.MCRException;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.frontend.MCRFrontendUtil;
+import org.mycore.frontend.jsp.navigation.model.Navigations;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.services.i18n.MCRTranslation;
 
@@ -68,6 +69,8 @@ public class MCRJSPServletContextListener implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent sce) {
 		LOGGER.debug("Application " + sce.getServletContext().getServletContextName() + " started");
 		MCRNavigationUtil.loadNavigation(sce.getServletContext());
+		Navigations.loadNavigation(sce.getServletContext());
+		
 		loadConstants(sce.getServletContext());
 		createNonExistingAdminPermissions();
 		registerDefaultMessageBundle(sce.getServletContext());
