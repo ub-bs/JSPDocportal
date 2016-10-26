@@ -100,7 +100,7 @@ public class MCRRestAPIUploadObjects {
    }
    
    @POST
-   @Path("/{mcrObjID}/derivates/{mcrDerID}/files")
+   @Path("/{mcrObjID}/derivates/{mcrDerID}/contents")
    @Produces({ MediaType.TEXT_XML + ";charset=UTF-8" })
    @Consumes(MediaType.MULTIPART_FORM_DATA)
    public Response uploadFile(@Context UriInfo info, @Context HttpServletRequest request,
@@ -109,13 +109,14 @@ public class MCRRestAPIUploadObjects {
            @FormDataParam("file") FormDataContentDisposition fileDetails, 
            @FormDataParam("path") String path,
            @DefaultValue("false") @FormDataParam("maindoc") boolean maindoc,
+           @DefaultValue("false") @FormDataParam("unzip") boolean unzip,
            @FormDataParam("md5") String md5,
            @FormDataParam("size") Long size){
-       return MCRRestAPIUploadHelper.uploadFile(info, request, mcrObjID, mcrDerID, uploadedInputStream, fileDetails, path, maindoc, md5, size);
+       return MCRRestAPIUploadHelper.uploadFile(info, request, mcrObjID, mcrDerID, uploadedInputStream, fileDetails, path, maindoc, unzip, md5, size);
    }
    
    @DELETE
-   @Path("/{mcrObjID}/derivates/{mcrDerID}/files")
+   @Path("/{mcrObjID}/derivates/{mcrDerID}/contents")
    public Response deleteFiles(@Context UriInfo info, @Context HttpServletRequest request,
            @PathParam("mcrObjID") String mcrObjID, @PathParam("mcrDerID") String mcrDerID){
        return MCRRestAPIUploadHelper.deleteAllFiles(info, request, mcrObjID, mcrDerID);
