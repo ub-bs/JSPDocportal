@@ -42,6 +42,7 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
+import net.sf.ehcache.config.CacheConfiguration;
 import net.sf.ehcache.constructs.blocking.CacheEntryFactory;
 import net.sf.ehcache.constructs.blocking.SelfPopulatingCache;
 import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
@@ -116,8 +117,10 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 		 * diskExpiryThreadIntervalSeconds, RegisteredEventListeners
 		 * registeredEventListeners)
 		 */
-		Cache cache = new Cache(CACHE_NAME, 1000, MemoryStoreEvictionPolicy.LRU, false, "", false, 0, 300, false, 120,
-				null);
+		//Cache cache = new Cache(CACHE_NAME, MemoryStoreEvictionPolicy.LRU, false, "", false, 0, 300, false, 120, 	null);
+		Cache cache = new Cache(new CacheConfiguration(CACHE_NAME, 5000).memoryStoreEvictionPolicy(MemoryStoreEvictionPolicy.LRU)
+				.timeToLiveSeconds(900).timeToIdleSeconds(300));
+		
 		CacheManager.getInstance().addCache(cache);
 		cbHitCountCache = new SelfPopulatingCache(cache, new CacheEntryFactory() {
 
