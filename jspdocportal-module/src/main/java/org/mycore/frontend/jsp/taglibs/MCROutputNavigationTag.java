@@ -30,11 +30,11 @@ import java.util.List;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 
-import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
-import org.w3c.dom.Element;
+import org.mycore.frontend.jsp.navigation.model.NavigationItem;
+import org.mycore.frontend.jsp.navigation.model.NavigationObject;
 
 /**
  * <p>
@@ -83,7 +83,7 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
             printLeftNav(path, nav, cssClass, getJspContext().getOut());
         }
         if (mode.equals("toc")) {
-            Element eNav = findNavItem(nav, path);
+            NavigationItem eNav = findNavItem(nav, path);
             printTOC(eNav, getJspContext().getOut());
         }
         if (mode.equals("top")) {
@@ -95,7 +95,7 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
         }
         
         if (mode.equals("breadcrumbs")) {
-            Element eNav = findNavItem(nav, path);
+            NavigationItem eNav = findNavItem(nav, path);
             printBreadcrumbs(eNav, getJspContext().getOut());
         }
     }
@@ -126,13 +126,13 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
      * @param out
      *            - the JSPOutputWriter
      */
-    private void printLeftNav(String[] path, Element currentNode, String cssClass, JspWriter out) {
+    private void printLeftNav(String[] path, NavigationObject currentNode, String cssClass, JspWriter out) {
         try (MCRHibernateTransactionWrapper htw = new MCRHibernateTransactionWrapper()) {
-            List<Element> printableElements = printableElements(currentNode);
+            List<NavigationItem> printableElements = printableItems(currentNode);
             if (printableElements.isEmpty()) {
                 return;
             }
-            int level = NumberUtils.toInt(currentNode.getAttribute("_level"), 0);
+            int level = currentNode.getLevel();
             StringBuffer indentBuffer = new StringBuffer(INDENT);
 
             for (int j = 0; j < level; j++) {
@@ -144,22 +144,22 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
             } else {
                 out.append(indent).append("  <ul>");
             }
-            for (Element el : printableElements) {
+            for (NavigationItem el : printableElements) {
                 String cssLiClass = "";
-                String id = el.getAttribute("id");
+                String id = el.getId();
                 boolean active = path.length > 0 && path[0].equals(id);
                 if (active) {
                     cssLiClass = "active";
                 }
 
-                String msg = retrieveI18N(el.getAttribute("i18n"));
+                String msg = retrieveI18N(el.getI18n());
                 if (cssLiClass.length() > 0) {
                     out.append(indent).append(" <li id=\"" + retrieveNavPath(el) + "\" class=\"" + cssLiClass + "\">");
                 } else {
                     out.append(indent).append(" <li id=\"" + retrieveNavPath(el) + "\" >");
                 }
                 out.append(indent);
-                String href = el.getAttribute("href");
+                String href = el.getHref();
                 if (!href.startsWith("http")) {
                     href = MCRFrontendUtil.getBaseURL() + href;
                 }
@@ -189,10 +189,10 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
      * @param out
      *            - the JSPOutputWriter
      */
-    private void printTopNav(Element currentNode, JspWriter out) {
+    private void printTopNav(NavigationObject currentNode, JspWriter out) {
         if (currentNode != null) {
 
-            List<Element> printableElements = printableElements(currentNode);
+            List<NavigationItem> printableElements = printableItems(currentNode);
 
             if (!printableElements.isEmpty()) {
                 try {
@@ -201,11 +201,11 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
                     } else {
                         out.append("  <ul>");
                     }
-                    for (Element el : printableElements) {
+                    for (NavigationItem el : printableElements) {
 
-                        String msg = retrieveI18N(el.getAttribute("i18n"));
+                        String msg = retrieveI18N(el.getI18n());
                         out.append(INDENT).append("    <li>");
-                        String href = el.getAttribute("href");
+                        String href = el.getHref();
                         if (!href.startsWith("http")) {
                             href = MCRFrontendUtil.getBaseURL() + href;
                         }
@@ -237,7 +237,7 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
      * @param out
      *            - the JSPOutputWriter
      */
-    private void printNavbar(Element currentNode, JspWriter out) {
+    private void printNavbar(NavigationObject currentNode, JspWriter out) {
        printTopNav(currentNode, out);
     }
 
@@ -252,12 +252,12 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
      * @param out
      *            - the JSPOutputWriter
      */
-    private void printTOC(Element currentNode, JspWriter out) {
+    private void printTOC(NavigationObject currentNode, JspWriter out) {
         if (currentNode == null) {
             LOGGER.error("No navigation item found for navigation: " + id + ", path: " + currentPath);
             return;
         }
-        List<Element> printableElements = printableElements(currentNode);
+        List<NavigationItem> printableElements = printableItems(currentNode);
         if (!printableElements.isEmpty()) {
             try {
                 if (cssClass != null) {
@@ -265,10 +265,10 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
                 } else {
                     out.append(INDENT).append("<ul>");
                 }
-                for (Element el : printableElements) {
-                    String msg = retrieveI18N(el.getAttribute("i18n"));
+                for (NavigationItem el : printableElements) {
+                    String msg = retrieveI18N(el.getI18n());
                     out.append(INDENT).append("<li>");
-                    String href = el.getAttribute("href");
+                    String href = el.getHref();
                     if (!href.startsWith("http")) {
                         href = MCRFrontendUtil.getBaseURL() + href;
                     }
@@ -296,26 +296,26 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
      *            - the JSPOutputWriter
      */
 
-    private void printBreadcrumbs(Element currentNode, JspWriter out) {
-        if (currentNode == null || !currentNode.getLocalName().equals("navitem")) {
+    private void printBreadcrumbs(NavigationItem currentNode, JspWriter out) {
+        if (currentNode == null) {
             return;
         }
 
         StringBuffer sbOut = new StringBuffer();
-        String msg = retrieveI18N(currentNode.getAttribute("i18n"));
+        String msg = retrieveI18N(currentNode.getI18n());
         sbOut.append(INDENT).append("   <li>");
-        String href = currentNode.getAttribute("href");
+        String href = currentNode.getHref();
         if (!href.startsWith("http")) {
             href = MCRFrontendUtil.getBaseURL() + href;
         }
         sbOut.append(INDENT).append("      <a target=\"_self\" href=\"" + href + "\">" + msg + "</a>");
         sbOut.append(INDENT).append("   </li>");
         sbOut.append(INDENT).append("</ul>");
-        while (currentNode.getParentNode().getLocalName().equals("navitem")) {
-            currentNode = (Element) currentNode.getParentNode();
-            msg = retrieveI18N(currentNode.getAttribute("i18n"));
+        while (currentNode.getParent() instanceof NavigationItem) {
+            currentNode = (NavigationItem) currentNode.getParent();
+            msg = retrieveI18N(currentNode.getI18n());
             sbOut.insert(0, INDENT + "   </li>");
-            String href2 = currentNode.getAttribute("href");
+            String href2 = currentNode.getHref();
             if (!href.startsWith("http")) {
                 href = MCRFrontendUtil.getBaseURL() + href;
             }
