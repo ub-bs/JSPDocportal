@@ -82,7 +82,7 @@
 <%
 	try(MCRHibernateTransactionWrapper htw = new MCRHibernateTransactionWrapper()){
 		MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(String.valueOf(jspContext.getAttribute("mcrid"))));
-		String derLabel = "DV_METS";
+		String derLabel = "MCRVIEWER_METS";
 		for(MCRMetaLinkID derLink: mcrObj.getStructure().getDerivates()){
 			if(derLink.getXLinkTitle().equals(derLabel)){
 		    	MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(derLink.getXLinkHrefID());
@@ -101,15 +101,13 @@
             new mycore.viewer.MyCoReViewer(jQuery("#${id}"),  {
             	"mobile": false,
                 doctype: "mets",
-                metsURL: "${applicationScope.WebApplicationBaseURL}depot/${fn:replace(recordIdentifier, '/','%252F')}/${fn:substringAfter(recordIdentifier, '/')}.iview2.mets.xml",
+                metsURL: "${applicationScope.WebApplicationBaseURL}file/${mcrid}/${derid}/${maindoc}",
                 imageXmlPath: "${applicationScope.WebApplicationBaseURL}tiles",
                 tileProviderPath: "${applicationScope.WebApplicationBaseURL}tiles",
-                filePath: "/phys_0001.iview2",
+                filePath: "iview2/phys_0001.iview2",
                 derivate: "${fn:replace(recordIdentifier,'/','%252F')}",
                 i18nURL: "${applicationScope.WebApplicationBaseURL}modules/mcrviewer/i18n/mcrviewer_{lang}.json",
                 lang: "de",
-                pdfCreatorStyle: "pdf",
-                pdfCreatorURI: "http://wrackdm17.thulb.uni-jena.de/mets-printer/pdf",
                 metadataURL: "",
                 derivateURL : "${applicationScope.WebApplicationBaseURL}depot/${fn:replace(recordIdentifier,'/','%252F')}/",
                 objId: "",
