@@ -25,15 +25,8 @@
 					<xsl:call-template name="mods-originInfo" />
 				</p>
 
-				<xsl:if test="./mods:abstract">
-					<p class="ir-docdetails-abstract">
-						<xsl:value-of select="./mods:abstract" />
-					</p>
-					<p>&#160;</p>
-				</xsl:if>
 				<xsl:if test="./mods:identifier[@type='doi']">
 					<p>
-						DOI:&#160;
 						<xsl:element name="a">
 							<xsl:attribute name="href">http://dx.doi.org/<xsl:value-of select="./mods:identifier[@type='doi']" /></xsl:attribute>
 							<xsl:value-of select="./mods:identifier[@type='doi']" />
@@ -42,14 +35,18 @@
 				</xsl:if>
 				<xsl:if test="./mods:identifier[@type='purl']">
 					<p>
-						PURL:&#160;
 						<xsl:element name="a">
 							<xsl:attribute name="href"><xsl:value-of select="./mods:identifier[@type='purl']" /></xsl:attribute>
 							<xsl:value-of select="./mods:identifier[@type='purl']" />
 						</xsl:element>
 					</p>
 				</xsl:if>
-				<xsl:if test="./mods:classification[@displayLabel='doctype']">
+                <xsl:if test="./mods:abstract">
+                  <p class="ir-docdetails-abstract">
+                    <xsl:value-of select="./mods:abstract" />
+                  </p>
+              </xsl:if>
+  			  <xsl:if test="./mods:classification[@displayLabel='doctype']">
             <p>
             <span class="label label-default">
               <xsl:for-each select="./mods:classification[@displayLabel='doctype']/@valueURI">

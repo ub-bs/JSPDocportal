@@ -19,8 +19,8 @@
 				</h4>
 			</td></tr>
 			<tr><td>${entry.data['ir.originInfo.result']}</td></tr>
-			<tr><td style="font-style: italic; text-align:justify">${entry.data['ir.abstract300.result']}</td></tr>
 			<tr><td>${entry.data['purl']}</td></tr>
+			<tr><td style="font-size: 80%; text-align:justify">${entry.data['ir.abstract300.result']}</td></tr>
 			<tr><td>
 				<search:show-edit-button mcrid="${data.mcrid}" cssClass="btn btn-primary ir-edit-btn pull-right" /> 
 				<span class="label label-default">${entry.data['ir.doctype.result']}</span>

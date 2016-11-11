@@ -20,16 +20,15 @@
 							${entry.label}
 						</c:if>
 						<c:if test="${not empty(entry.data['ir.partTitle.result'])}">
-							<span style="font-weight:normal">${entry.label}</span>&nbsp;&nbsp;${entry.data['ir.partTitle.result']}
+							<span style="font-weight:normal">${entry.label}</span><br />${entry.data['ir.partTitle.result']}
 						</c:if>
 					</a>
 				</h4>
 			</td></tr>
-			<tr><td>${entry.data['ir.originInfo.result']}</td></tr>
 			<c:if test="${not empty(entry.data['ir.host.title.result'])}">
-			<tr><td><em>in:</em> ${entry.data['ir.host.title.result']}</td></tr>
+				<tr><td><span class="display-label">in:</span> ${entry.data['ir.host.title.result']}</td></tr>
 			</c:if>
-			
+			<tr><td>${entry.data['ir.originInfo.result']}</td></tr>
 			<tr><td style="font-size: 80%; text-align:justify">${entry.data['ir.abstract300.result']}</td></tr>
 			<tr><td>${entry.data['purl']}</td></tr>
 			<tr><td>

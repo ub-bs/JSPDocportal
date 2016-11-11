@@ -40,14 +40,12 @@
       </p>
       
        <xsl:if test="./mods:abstract">
-        <p style="font-size:90%">
+        <p style="font-size:85%">
           <xsl:value-of select="./mods:abstract" />
-       </p>
-       <p></p>
+       </p>       
        </xsl:if>
        <xsl:if test="./mods:identifier[@type='doi']">
-        <p>DOI:&#160; 
-            <xsl:element name="a">
+        <p><xsl:element name="a">
             <xsl:attribute name="href">http://dx.doi.org/<xsl:value-of select="./mods:identifier[@type='doi']" /></xsl:attribute>
              <xsl:value-of select="./mods:identifier[@type='doi']" />
           </xsl:element>
@@ -64,6 +62,11 @@
           </xsl:element>
          </p>
         </xsl:if>
+        <xsl:if test="./mods:abstract">
+        <p class="ir-docdetails-abstract">
+          <xsl:value-of select="./mods:abstract" />
+       </p>       
+       </xsl:if>
         <xsl:if test="./mods:classification[@displayLabel='doctype']">
         <p>
         <span class="label label-default">
