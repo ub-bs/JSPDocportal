@@ -58,6 +58,7 @@
 			</c:if>
 			<c:if test="${(actionBean.path eq 'histbest') or (actionBean.path eq 'epub') }">
 			<%-- key=$("input[name='filterField']:checked").val(); value=$('#filterValue').val()); --%>
+				<div class="row"></div>
 				<div class="row">
 					<div class="col-sm-7 col-xs-10">
 						<input class="form-control" id="filterValue" name="filterValue" style="width:100%" placeholder="Wert" onkeypress="if (event.keyCode == 13) { changeFilterIncludeURL($('input[name=\'filterField\']:checked').val(), $('#filterValue').val(), 'histbest');}" type="text">

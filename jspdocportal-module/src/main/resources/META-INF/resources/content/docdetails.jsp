@@ -306,61 +306,53 @@
 			 <div style="clear:both"></div>
 			</div>
 			<div class="ir-box ir-box-bordered ir-infobox" style="margin-bottom:32px; padding: 18px 6px 6px 6px;">
-				<h3>Export</h3>
 				<div class="row">
-				<div class="col-sm-6">
-					<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='PPN']">
-						<c:set var="ppn"><x:out select="$x" /></c:set>
-						<a class="btn btn-sm btn-default btn-block" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=bibtex">BibTeX</a>
-						<a class="btn btn-sm btn-default btn-block" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=endnote">EndNote</a>
-						<a class="btn btn-sm btn-default btn-block" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=ris">RIS</a>
-						<a class="btn btn-sm btn-default btn-block" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=dc">DublinCore</a>
-						<a class="btn btn-sm btn-default btn-block" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=mods">MODS</a>
-  					</x:forEach>
-				</div>
-				<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='cover']">
-					<div class="col-sm-1">
-					</div>
-					<div class="col-sm-5">
-						<search:derivate-image mcrid="${param.id}" width="100%" labelContains="cover" />
-					</div>
-				</x:if>
+					<div class="col-sm-6">
+						<h3>Export</h3>
+								<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='PPN']">
+									<c:set var="ppn"><x:out select="$x" /></c:set>
+									<a style="padding:6px" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=bibtex">BibTeX</a>
+									<a style="padding:6px" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=endnote">EndNote</a>
+									<a style="padding:6px" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=ris">RIS</a>
+									<a style="padding:6px" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=dc">DublinCore</a>
+									<a style="padding:6px" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=mods">MODS</a>
+  								</x:forEach>
+  						<br /><br />
+  						<h3>Portale</h3>
+  								<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='PPN']">
+									<c:set var="ppn"><x:out select="$x" /></c:set>
+									<a style="padding:6px" href="http://opac.lbs-rostock.gbv.de/DB=1/PPNSET?PPN=${ppn}">OPAC (UB Rostock)</a>
+									<a style="padding:6px" href="https://gso.gbv.de/DB=2.1/PPNSET?PPN=${ppn}">OPAC (GBV)</a>
+								</x:forEach>							
+								<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='vd16']">
+									<c:set var="vdnr"><x:out select="$x" /></c:set>
+									<a style="padding:6px" href="http://gateway-bayern.de/VD16+${fn:replace(vdnr,' ','+')}">VD16</a>
+								</x:forEach>
+								<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='vd17']">
+									<c:set var="vdnr"><x:out select="$x" /></c:set>
+									<a style="padding:6px" href="https://gso.gbv.de/DB=1.28/CMD?ACT=SRCHA&IKT=8002&TRM=%27${vdnr}%27">VD17</a>
+								</x:forEach>
+								<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='vd18']">
+									<c:set var="vdnr"><x:out select="$x" /></c:set>
+									<a style="padding:6px" href="https://gso.gbv.de/DB=1.65/SET=8/TTL=1/CMD?ACT=SRCHA&IKT=8002&TRM=${fn:replace(vdnr,' ','+')}&ADI_MAT=B&MATCFILTER=Y">VD18</a>
+								</x:forEach>
+								<x:forEach var="x" select="$doc/mycoreobject[contains(@ID,'_disshab_')]/@ID">
+									<c:set var="id"><x:out select="$x" /></c:set>
+									<a style="padding:6px" href="https://www.base-search.net/Search/Results?type0[]=url&lookfor0[]=${id}">Base</a>
+								</x:forEach>
+								<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='kalliope']">
+									<c:set var="id"><x:out select="$x" /></c:set>
+									<a style="padding:6px" href="http://kalliope-verbund.info/${id}">Kalliope-Verbundkatalog</a>
+								</x:forEach>	
+   					</div>
+					<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='cover']">
+						<div class="col-sm-1">
+						</div>
+						<div class="col-sm-5">
+							<search:derivate-image mcrid="${param.id}" width="100%" labelContains="cover" />
+						</div>
+					</x:if>
 				</div>
 			</div>
-			
-			<div class="ir-box ir-box-bordered ir-infobox" style="margin-bottom:32px; padding: 18px 6px 6px 6px;">
-				<h3>Portale</h3>
-				<div class="row">
-					<div class="col-sm-6">
-						<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='PPN']">
-							<c:set var="ppn"><x:out select="$x" /></c:set>
-							<a class="btn btn-sm btn-default btn-block" href="http://opac.lbs-rostock.gbv.de/DB=1/PPNSET?PPN=${ppn}">OPAC (UB Rostock)</a>
-							<a class="btn btn-sm btn-default btn-block" href="https://gso.gbv.de/DB=2.1/PPNSET?PPN=${ppn}">OPAC (GBV)</a>
-						</x:forEach>
-					</div>
-					<div class="col-sm-6">
-						<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='vd16']">
-							<c:set var="vdnr"><x:out select="$x" /></c:set>
-							<a class="btn btn-sm btn-default btn-block" href="http://gateway-bayern.de/VD16+${fn:replace(vdnr,' ','+')}">VD16</a>
-						</x:forEach>
-						<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='vd17']">
-							<c:set var="vdnr"><x:out select="$x" /></c:set>
-							<a class="btn btn-sm btn-default btn-block" href="https://gso.gbv.de/DB=1.28/CMD?ACT=SRCHA&IKT=8002&TRM=%27${vdnr}%27">VD17</a>
-						</x:forEach>
-						<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='vd18']">
-							<c:set var="vdnr"><x:out select="$x" /></c:set>
-							<a class="btn btn-sm btn-default btn-block" href="https://gso.gbv.de/DB=1.65/SET=8/TTL=1/CMD?ACT=SRCHA&IKT=8002&TRM=${fn:replace(vdnr,' ','+')}&ADI_MAT=B&MATCFILTER=Y">VD18</a>
-						</x:forEach>
-						<x:forEach var="x" select="$doc/mycoreobject[contains(@ID,'_disshab_')]/@ID">
-							<c:set var="id"><x:out select="$x" /></c:set>
-							<a class="btn btn-sm btn-default btn-block" href="https://www.base-search.net/Search/Results?type0[]=url&lookfor0[]=${id}">Base</a>
-						</x:forEach>
-						<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='kalliope']">
-							<c:set var="id"><x:out select="$x" /></c:set>
-							<a class="btn btn-sm btn-default btn-block" href="http://kalliope-verbund.info/${id}">Kalliope-Verbundkatalog</a>
-						</x:forEach>					
-					</div>
-				</div>
-		</div>
 	</stripes:layout-component>
 </stripes:layout-render>
