@@ -55,9 +55,6 @@
         <field name="recordIdentifier"><xsl:value-of select="mods:recordInfo/mods:recordIdentifier" /></field>
   		
       <xsl:choose>
-            <xsl:when test="mods:identifier[@type='urn']">
-              <field name="purl">http://nbn-resolving.org/<xsl:value-of select="mods:identifier[@type='urn']" /></field>
-            </xsl:when>
             <xsl:when test="mods:identifier[@type='purl']">
               <field name="purl"><xsl:value-of select="mods:identifier[@type='purl']" /></field>  
             </xsl:when>
