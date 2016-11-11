@@ -48,8 +48,7 @@ public class MCRJSPTileFileProvider implements MCRTileFileProvider {
             Path depotDir = Paths.get(MCRConfiguration.instance().getString("MCR.depotdir"));
             String recordIdentifier = URLDecoder.decode(URLDecoder.decode(derivate, "UTF-8"), "UTF-8");
             Path outputDir = HashedDirectoryStructure.createOutputDirectory(depotDir,  recordIdentifier);
-            Path file = outputDir.resolve("iview2");
-            return MCRImage.getTiledFile(file, null, image);
+            return MCRImage.getTiledFile(outputDir, null, image);
         }
         catch(MCRConfigurationException cfe){
             LOGGER.error("Property \"MCR.depotdir\" not defined!", cfe);
