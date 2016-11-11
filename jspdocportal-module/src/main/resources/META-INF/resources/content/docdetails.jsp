@@ -32,8 +32,6 @@
 <stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}" layout="2columns_right_wide">
 	<stripes:layout-component name="html_header">
 		<title>${pageTitle}@ <fmt:message key="Webpage.title" /></title>
-		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_docdetails.css">
-		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_searchresult.css">
 		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}modules/shariff/shariff.complete.css">
 		<style>
 			div.shariff span.share_text{
