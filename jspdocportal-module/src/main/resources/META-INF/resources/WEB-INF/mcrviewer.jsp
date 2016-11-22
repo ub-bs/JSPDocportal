@@ -5,9 +5,9 @@
 <%@page import="org.mycore.datamodel.metadata.MCRMetaLinkID"%>
 <%@page import="org.mycore.datamodel.metadata.MCRObject"%>
 <%@page import="org.mycore.frontend.jsp.MCRHibernateTransactionWrapper"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="iviewBaseURL" value="${applicationScope.WebApplicationBaseURL}modules/iview2/" />
 <!DOCTYPE html>
 <html>
@@ -25,124 +25,136 @@
 
 
 <c:if test="${actionBean.doctype eq 'pdf'}">
-<script type="text/javascript" src="${iviewBaseURL}js/iview-client-pdf.js"></script>
-<script type="text/javascript" src="${iviewBaseURL}js/lib/pdf.js"></script>
-<script type="text/javascript" src="${iviewBaseURL}js/iview-client-metadata.js"></script>
-<style type="text/css">
-button[data-id='CloseViewerButton']{
+	<script type="text/javascript" src="${iviewBaseURL}js/iview-client-pdf.js"></script>
+	<script type="text/javascript" src="${iviewBaseURL}js/lib/pdf.js"></script>
+	<script type="text/javascript" src="${iviewBaseURL}js/iview-client-metadata.js"></script>
+	<style type="text/css">
+button[data-id='CloseViewerButton'] {
 	/*display:none;*/
+	
 }
 </style>
-<script>
-	window.onload = function() {
-		var config = {
-                "mobile": false,
-                pdfProviderURL: "${applicationScope.WebApplicationBaseURL}${actionBean.pdfProviderURL}",
-                derivate: "${actionBean.recordIdentifier}",
-                filePath: "${actionBean.filePath}",
-                doctype: "pdf",
-                startImage: "1",
-                i18nURL: "${applicationScope.WebApplicationBaseURL}modules/mcrviewer/i18n/mcrviewer_{lang}.json",
-                lang: "de",
-                webApplicationBaseURL: "${applicationScope.WebApplicationBaseURL}",
-                pdfWorkerURL: "${iviewBaseURL}js/lib/pdf.worker.js",
-                "canvas.startup.fitWidth": true,
-                "canvas.overview.enabled": false,
-                permalink: {
-                    enabled: true,
-                    updateHistory: true,
-                    viewerLocationPattern:"{baseURL}/mcrviewer/id/{derivate}/{file}"
-                },
-				onClose: function(){
+	<script>
+		window.onload = function() {
+			var config = {
+				"mobile" : false,
+				pdfProviderURL : "${applicationScope.WebApplicationBaseURL}${actionBean.pdfProviderURL}",
+				derivate : "${actionBean.recordIdentifier}",
+				filePath : "${actionBean.filePath}",
+				doctype : "pdf",
+				startImage : "1",
+				i18nURL : "${applicationScope.WebApplicationBaseURL}modules/mcrviewer/i18n/mcrviewer_{lang}.json",
+				lang : "de",
+				webApplicationBaseURL : "${applicationScope.WebApplicationBaseURL}",
+				pdfWorkerURL : "${iviewBaseURL}js/lib/pdf.worker.js",
+				"canvas.startup.fitWidth" : true,
+				"canvas.overview.enabled" : false,
+				permalink : {
+					enabled : true,
+					updateHistory : true,
+					viewerLocationPattern : "{baseURL}/mcrviewer/id/{derivate}/{file}"
+				},
+				onClose : function() {
 					window.history.back();
-					setTimeout(function(){ window.close(); }, 500);
-        		}
+					setTimeout(function() {
+						window.close();
+					}, 500);
+				}
+			};
+			new mycore.viewer.MyCoReViewer(jQuery("body"), config);
 		};
-		new mycore.viewer.MyCoReViewer(jQuery("body"), config);
-	};
-</script>
+	</script>
 </c:if>
 <c:if test="${actionBean.doctype eq 'mets'}">
-<c:set var="mcrid">${actionBean.mcrid}</c:set>
-<script type="text/javascript" src="${iviewBaseURL}js/iview-client-mets.js"></script>
-<script type="text/javascript" src="${iviewBaseURL}js/iview-client-metadata.js"></script>
-<style type="text/css">
-button[data-id='CloseViewerButton']{
+	<c:set var="mcrid">${actionBean.mcrid}</c:set>
+	<script type="text/javascript" src="${iviewBaseURL}js/iview-client-mets.js"></script>
+	<script type="text/javascript" src="${iviewBaseURL}js/iview-client-metadata.js"></script>
+	<script type="text/javascript" src="${iviewBaseURL}js/iview-client-toolbar-extender.js"></script>
+	<style type="text/css">
+button[data-id='CloseViewerButton'] {
 	/*display:none;*/
+	
 }
 </style>
-<%
-	try(MCRHibernateTransactionWrapper htw = new MCRHibernateTransactionWrapper()){
-		MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(String.valueOf(pageContext.getAttribute("mcrid"))));
-		String derLabel = "MCRVIEWER_METS";
-		for(MCRMetaLinkID derLink: mcrObj.getStructure().getDerivates()){
-			if(derLink.getXLinkTitle().equals(derLabel)){
-		    	MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(derLink.getXLinkHrefID());
-		    	pageContext.setAttribute("maindoc", der.getDerivate().getInternals().getMainDoc());
-		    	pageContext.setAttribute("derid", der.getId().toString());
-			}
-		}
-	}
-	catch(Exception e){
-	    //do nothing
-	}
-%>
+	<%
+	    try (MCRHibernateTransactionWrapper htw = new MCRHibernateTransactionWrapper()) {
+						MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(
+								MCRObjectID.getInstance(String.valueOf(pageContext.getAttribute("mcrid"))));
+						String derLabel = "MCRVIEWER_METS";
+						for (MCRMetaLinkID derLink : mcrObj.getStructure().getDerivates()) {
+							if (derLink.getXLinkTitle().equals(derLabel)) {
+								MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(derLink.getXLinkHrefID());
+								pageContext.setAttribute("maindoc", der.getDerivate().getInternals().getMainDoc());
+								pageContext.setAttribute("derid", der.getId().toString());
+							}
+						}
+					} catch (Exception e) {
+						//do nothing
+					}
+	%>
 
-<script>
-	window.onload = function() {
-		var config = {
-                mobile: false,
-                doctype: "mets",
-                
-                //derivate: "${fn:replace(actionBean.recordIdentifier,'/','%252F')}",
-                derivate: "${derid}",
-                filePath: "${actionBean.filePath}",
-                metsURL: "${applicationScope.WebApplicationBaseURL}file/${mcrid}/${derid}/${maindoc}",
-                imageXmlPath: "${applicationScope.WebApplicationBaseURL}tiles/${fn:replace(actionBean.recordIdentifier,'/','%252F')}/",
-                tileProviderPath: "${applicationScope.WebApplicationBaseURL}tiles/${fn:replace(actionBean.recordIdentifier,'/','%252F')}/",
-                
-                i18nURL: "${applicationScope.WebApplicationBaseURL}modules/mcrviewer/i18n/mcrviewer_{lang}.json",
-                lang: "de",
-                webApplicationBaseURL: "${applicationScope.WebApplicationBaseURL}",
-               // derivateURL : "${applicationScope.WebApplicationBaseURL}depot/${fn:replace(actionBean.recordIdentifier,'/','%25252F')}/",
-                derivateURL : "${applicationScope.WebApplicationBaseURL}file/${mcrid}/${derid}/",
-                "canvas.startup.fitWidth": true,
-                "canvas.overview.enabled": false,
-                permalink: {
-                    enabled: true,
-                    updateHistory: true,
-                    viewerLocationPattern:"{baseURL}/mcrviewer/recordIdentifier/${fn:replace(actionBean.recordIdentifier,'/','%252F')}/{file}"
-                },
-                imageOverview : {
-                    enabled: true
-                },
-                chapter: {
-                    enabled: true,
-                    showOnStart: true
-                },
-                text: {
-                	enabled: true
-                },
+	<script>
+		window.onload = function() {
+			var config = {
+				mobile : false,
+				doctype : "mets",
 
-                onClose: function(){
+				//derivate: "${fn:replace(actionBean.recordIdentifier,'/','%252F')}",
+				derivate : "${derid}",
+				filePath : "${actionBean.filePath}",
+				metsURL : "${applicationScope.WebApplicationBaseURL}file/${mcrid}/${derid}/${maindoc}",
+				imageXmlPath : "${applicationScope.WebApplicationBaseURL}tiles/${fn:replace(actionBean.recordIdentifier,'/','%252F')}/",
+				tileProviderPath : "${applicationScope.WebApplicationBaseURL}tiles/${fn:replace(actionBean.recordIdentifier,'/','%252F')}/",
+
+				i18nURL : "${applicationScope.WebApplicationBaseURL}modules/mcrviewer/i18n/mcrviewer_{lang}.json",
+				lang : "de",
+				webApplicationBaseURL : "${applicationScope.WebApplicationBaseURL}",
+				// derivateURL : "${applicationScope.WebApplicationBaseURL}depot/${fn:replace(actionBean.recordIdentifier,'/','%25252F')}/",
+				derivateURL : "${applicationScope.WebApplicationBaseURL}file/${mcrid}/${derid}/",
+				"canvas.startup.fitWidth" : true,
+				"canvas.overview.enabled" : false,
+				permalink : {
+					enabled : true,
+					updateHistory : true,
+					viewerLocationPattern : "{baseURL}/mcrviewer/recordIdentifier/${fn:replace(actionBean.recordIdentifier,'/','%252F')}/{file}"
+				},
+				imageOverview : {
+					enabled : true
+				},
+				chapter : {
+					enabled : true,
+					showOnStart : true
+				},
+				text : {
+					enabled : true
+				},
+
+				onClose : function() {
 					window.history.back();
-					setTimeout(function(){ window.close(); }, 500);
-        		},
-                pdfCreatorStyle: "pdf",
-                pdfCreatorURI: "http://wrackdm17.thulb.uni-jena.de/mets-printer/pdf",
-                objId: ""
-              
-              
+					setTimeout(function() {
+						window.close();
+					}, 500);
+				},
+				toolbar : [ {
+					id : "pdf_download",
+					label : "pdf_download",
+					type : "button",
+					href : "${applicationScope.WebApplicationBaseURL}/pdfdownload/recordIdentifier/${fn:replace(actionBean.recordIdentifier,'/','%252F')}",
+					icon: "file",
+					inGroup: "ActionControllGroup"
+				} ],
+				objId : ""
+
+			};
+			new mycore.viewer.MyCoReViewer(jQuery("body"), config);
 		};
-		new mycore.viewer.MyCoReViewer(jQuery("body"), config);
-	};
-</script>
+	</script>
 </c:if>
 </head>
 
 <body>
 
-<script type="text/javascript" src="${applicationScope.WebApplicationBaseURL}webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
+	<script type="text/javascript" src="${applicationScope.WebApplicationBaseURL}webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
 
 </body>
 </html>
