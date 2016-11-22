@@ -13,11 +13,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="stylesheet" type="text/css" href="${applicationScope.WebApplicationBaseURL}webjars/bootstrap/3.3.6/css/bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="${applicationScope.WebApplicationBaseURL}webjars/bootstrap/3.3.7/css/bootstrap.css" />
 <link rel="stylesheet" type="text/css" href="${applicationScope.WebApplicationBaseURL}modules/mcrviewer/mcrviewer.css" />
 <link rel="stylesheet" type="text/css" href="${iviewBaseURL}css/default.css" />
 
-<script type="text/javascript" src="${applicationScope.WebApplicationBaseURL}webjars/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="${applicationScope.WebApplicationBaseURL}webjars/jquery/2.1.4/jquery.min.js"></script>
 
 
 <script type="text/javascript" src="${iviewBaseURL}js/iview-client-base.js"></script>
@@ -94,11 +94,12 @@ button[data-id='CloseViewerButton']{
                 mobile: false,
                 doctype: "mets",
                 
-                derivate: "${fn:replace(actionBean.recordIdentifier,'/','%252F')}",
+                //derivate: "${fn:replace(actionBean.recordIdentifier,'/','%252F')}",
+                derivate: "${derid}",
                 filePath: "${actionBean.filePath}",
                 metsURL: "${applicationScope.WebApplicationBaseURL}file/${mcrid}/${derid}/${maindoc}",
-                imageXmlPath: "${applicationScope.WebApplicationBaseURL}tiles",
-                tileProviderPath: "${applicationScope.WebApplicationBaseURL}tiles",
+                imageXmlPath: "${applicationScope.WebApplicationBaseURL}tiles/${fn:replace(actionBean.recordIdentifier,'/','%252F')}/",
+                tileProviderPath: "${applicationScope.WebApplicationBaseURL}tiles/${fn:replace(actionBean.recordIdentifier,'/','%252F')}/",
                 
                 i18nURL: "${applicationScope.WebApplicationBaseURL}modules/mcrviewer/i18n/mcrviewer_{lang}.json",
                 lang: "de",
@@ -110,7 +111,7 @@ button[data-id='CloseViewerButton']{
                 permalink: {
                     enabled: true,
                     updateHistory: true,
-                    viewerLocationPattern:"{baseURL}/mcrviewer/recordIdentifier/{derivate}/{file}"
+                    viewerLocationPattern:"{baseURL}/mcrviewer/recordIdentifier/${fn:replace(actionBean.recordIdentifier,'/','%252F')}/{file}"
                 },
                 imageOverview : {
                     enabled: true
@@ -141,7 +142,7 @@ button[data-id='CloseViewerButton']{
 
 <body>
 
-<script type="text/javascript" src="${applicationScope.WebApplicationBaseURL}webjars/bootstrap/3.3.6/js/bootstrap.js"></script>
+<script type="text/javascript" src="${applicationScope.WebApplicationBaseURL}webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
 
 </body>
 </html>

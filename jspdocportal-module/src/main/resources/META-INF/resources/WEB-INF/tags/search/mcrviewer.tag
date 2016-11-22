@@ -1,3 +1,7 @@
+<%@tag import="org.jdom2.Element"%>
+<%@tag import="org.jdom2.filter.Filters"%>
+<%@tag import="org.jdom2.xpath.XPathFactory"%>
+<%@tag import="org.jdom2.xpath.XPathExpression"%>
 <%@tag import="org.mycore.frontend.jsp.MCRHibernateTransactionWrapper"%>
 <%@tag import="org.mycore.datamodel.metadata.MCRDerivate"%>
 <%@tag import="org.mycore.datamodel.metadata.MCRMetaLinkID"%>
@@ -90,6 +94,11 @@
 		    	jspContext.setAttribute("derid", der.getId().toString());
 			}
 		}
+		jspContext.setAttribute("startImage", "phys_0001");
+		XPathExpression<Element> xpCoverImage = XPathFactory.instance().compile("//irControl/map/entry[@key='start_image']", Filters.element());
+		for(Element e : xpCoverImage.evaluate(mcrObj.createXML())){
+		    jspContext.setAttribute("startImage", e.getTextTrim());
+		}
 	}
 	catch(Exception e){
 	    //do nothing
@@ -102,10 +111,11 @@
             	"mobile": false,
                 doctype: "mets",
                 metsURL: "${applicationScope.WebApplicationBaseURL}file/${mcrid}/${derid}/${maindoc}",
-                imageXmlPath: "${applicationScope.WebApplicationBaseURL}tiles",
-                tileProviderPath: "${applicationScope.WebApplicationBaseURL}tiles",
-                filePath: "iview2/phys_0001.iview2",
-                derivate: "${fn:replace(recordIdentifier,'/','%252F')}",
+                imageXmlPath: "${applicationScope.WebApplicationBaseURL}tiles/${fn:replace(recordIdentifier,'/','%252F')}/",
+                tileProviderPath: "${applicationScope.WebApplicationBaseURL}tiles/${fn:replace(recordIdentifier,'/','%252F')}/",
+                filePath: "iview2/${startImage}.iview2",
+               // derivate: "${fn:replace(recordIdentifier,'/','%252F')}",
+                derivate: "${derid}",
                 i18nURL: "${applicationScope.WebApplicationBaseURL}modules/mcrviewer/i18n/mcrviewer_{lang}.json",
                 lang: "de",
                 metadataURL: "",
@@ -122,7 +132,7 @@
                 permalink: {
                     enabled: true,
                     updateHistory: false,
-                    viewerLocationPattern:"{baseURL}/mcrviewer/recordIdentifier/{derivate}/{file}"
+                    viewerLocationPattern:"{baseURL}/mcrviewer/recordIdentifier/${fn:replace(recordIdentifier,'/','%252F')}/{file}"
                 },
                 canvas: {
                     overview: {
