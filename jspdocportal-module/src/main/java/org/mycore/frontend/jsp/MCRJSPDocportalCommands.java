@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributeView;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -39,6 +40,11 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.metamodel.EntityType;
 
 import org.apache.log4j.Logger;
 import org.jdom2.Document;
@@ -46,6 +52,7 @@ import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.mycore.access.MCRAccessException;
 import org.mycore.access.MCRAccessManager;
+import org.mycore.backend.jpa.MCREntityManagerProvider;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRPersistenceException;
 import org.mycore.common.config.MCRConfiguration;
@@ -60,6 +67,7 @@ import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.datamodel.metadata.MCRObjectStructure;
+import org.mycore.datamodel.niofs.utils.MCRRecursiveDeleter;
 import org.mycore.frontend.cli.MCRAbstractCommands;
 import org.mycore.frontend.cli.MCRDerivateCommands;
 import org.mycore.frontend.cli.annotation.MCRCommand;
@@ -290,11 +298,10 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
                     MCRObjectID derID = derLinkID.getXLinkHrefID();
                     LOGGER.info(" ... processing derivate " + derID.toString());
                     if (MCRMetadataManager.exists(derID)) {
-                        try{
-                        MCRDerivateCommands.delete(derID.toString());
-                        }
-                        catch(MCRPersistenceException mpe){
-                            LOGGER.error("Could not delete derivate "+ derID.toString(), mpe);
+                        try {
+                            MCRDerivateCommands.delete(derID.toString());
+                        } catch (MCRPersistenceException mpe) {
+                            LOGGER.error("Could not delete derivate " + derID.toString(), mpe);
                         }
                     }
                     File f = new File(objDir, derID.toString() + ".xml");
@@ -335,13 +342,11 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
                         }
                     });
 
-                    if(MCRMetadataManager.exists(derID)){
+                    if (MCRMetadataManager.exists(derID)) {
                         MCRDerivateCommands.updateFromFile(f.getAbsolutePath());
-                    }
-                    else{
+                    } else {
                         MCRDerivateCommands.loadFromFile(f.getAbsolutePath());
                     }
-                    
 
                     //set ACLs
                     while (mcrDer.getService().getRulesSize() > 0) {
@@ -370,7 +375,6 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
      * Updates the URN Store by parsing all Metadata Objects
      * 
      */
-
 
     @MCRCommand(syntax = "repair urn store", help = "The command parses through all metadata objects and updates the urns in the URN store if necessary")
     public static final void repairURNStore() throws MCRException {
@@ -417,4 +421,57 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
         dir.mkdirs();
     }
 
+    @MCRCommand(syntax = "drop mycore content", help = "The command deletes all data from mycore directories and database on a lower level.")
+    public static final void formatMyCoReContent() {
+        Map<String, String> ifsProperties = MCRConfiguration.instance().getPropertiesMap("MCR.IFS.ContentStore");
+        for (String key : ifsProperties.keySet()) {
+            if (key.endsWith(".BaseDir")) {
+                Path dir = Paths.get(String.valueOf(ifsProperties.get(key)));
+                if (Files.exists(dir)) {
+                    try {
+                        Files.walkFileTree(dir, MCRRecursiveDeleter.instance());
+                    } catch (IOException e) {
+                        LOGGER.error(e);
+                    }
+                }
+            }
+        }
+        Path dir = Paths.get(MCRConfiguration.instance().getString("MCR.Metadata.Store.BaseDir"));
+        if (Files.exists(dir)) {
+            try {
+                Files.walkFileTree(dir, MCRRecursiveDeleter.instance());
+            } catch (IOException e) {
+                LOGGER.error(e);
+            }
+        }
+        
+        EntityManager em = MCREntityManagerProvider.getEntityManagerFactory().createEntityManager();
+        try{
+            int count=0;
+            EntityTransaction t = em.getTransaction();
+            for(EntityType<?> et :  em.getMetamodel().getEntities()){
+                String entityName = et.getName();
+                try{
+                    t.begin();
+                    String selectQuery = "SELECT x FROM "+entityName+" x WHERE 1=1";  
+                    List<?> toRemove = em.createQuery(selectQuery).getResultList();  
+                    LOGGER.info("deleting "+toRemove.size()+" objects of "+entityName);
+                    count += toRemove.size();
+                    for (Object o: toRemove) {  
+                        em.remove(o);
+                    }
+                   // count += em.createQuery("DELETE FROM "+entityName+" WHERE 1=1").executeUpdate();
+                    t.commit();
+                }
+                catch(Exception e){
+                    LOGGER.error(e.getMessage());
+                    t.rollback();
+                }
+            }
+            LOGGER.info("Deleted "+count+" objects.");
+        }
+       finally{
+           em.close();
+       }
+    }
 }
