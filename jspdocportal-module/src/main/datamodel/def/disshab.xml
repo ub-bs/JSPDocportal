@@ -9,6 +9,11 @@
         <xs:element ref="mods:mods"/>
       </xs:sequence>
     </element>
-    <element name="irControl" type="xml" notinherit="true" heritable="false" />
+    <element name="irControl" type="xml" notinherit="true" heritable="false" minOccurs="0">
+      <xs:sequence>
+        <xs:any processContents="lax" />
+      </xs:sequence>
+    </element>
+
   </metadata>
 </objecttype>
