@@ -38,20 +38,15 @@
       <p>
       <xsl:call-template name="mods-originInfo" />
       </p>
-      
-       <xsl:if test="./mods:abstract">
-        <p style="font-size:85%">
-          <xsl:value-of select="./mods:abstract" />
-       </p>       
-       </xsl:if>
-       <xsl:if test="./mods:identifier[@type='doi']">
-        <p><xsl:element name="a">
+      <xsl:choose>
+       <xsl:when test="./mods:identifier[@type='doi']">
+        <p>DOI: <xsl:element name="a">
             <xsl:attribute name="href">http://dx.doi.org/<xsl:value-of select="./mods:identifier[@type='doi']" /></xsl:attribute>
              <xsl:value-of select="./mods:identifier[@type='doi']" />
           </xsl:element>
          </p>
-        </xsl:if>
-       <xsl:if test="./mods:identifier[@type='purl']">
+        </xsl:when>
+       <xsl:when test="./mods:identifier[@type='purl']">
         <p>
           <!-- <span style="display:inline-block;background-color: #E6E6E6; padding: 3px; color:#666666;">
            <abbr title="dauerhafte, zitierbare Adresse">Persistente URL</abbr>:
@@ -61,7 +56,8 @@
              <xsl:value-of select="./mods:identifier[@type='purl']" />
           </xsl:element>
          </p>
-        </xsl:if>
+        </xsl:when>
+        </xsl:choose>
         <xsl:if test="./mods:abstract">
         <p class="ir-docdetails-abstract">
           <xsl:value-of select="./mods:abstract" />

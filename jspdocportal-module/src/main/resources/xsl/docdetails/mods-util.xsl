@@ -251,44 +251,5 @@
           </xsl:otherwise>
      </xsl:choose>
   </xsl:template>
-
-  <xsl:template name="data-derivates">
-     <xsl:param name="label"/>
-     <xsl:param name="headline"/>
-    <xsl:for-each select="/mycoreobject/structure/derobjects/derobject[@xlink:title=$label]">
-       <xsl:element name="strong">
-          <xsl:value-of select="$headline"></xsl:value-of>
-          <br />
-       </xsl:element>
-       <xsl:variable name="url"><xsl:value-of select="$WebApplicationBaseURL"/>api/v1/objects/<xsl:value-of select="/mycoreobject/@ID" />/derivates/<xsl:value-of select="./@xlink:href" />/files</xsl:variable>
-       <xsl:variable name="derLink" select="document($url)/files/file[1]" />
-       <xsl:if test="$derLink">
-         <xsl:variable name="type" select="substring($derLink/@href, string-length($derLink/@href)-2)" />
-         <xsl:element name="img">
-           <xsl:choose>
-             <xsl:when test="contains('zip|pdf', $type)">
-               <xsl:attribute name="src"><xsl:value-of select="$WebApplicationBaseURL"/>images/derivate_<xsl:value-of select="$type"/>.gif</xsl:attribute>
-             </xsl:when>
-             <xsl:otherwise>
-               <xsl:attribute name="src"><xsl:value-of select="$WebApplicationBaseURL"/>images/derivate_unknown.gif</xsl:attribute>
-             </xsl:otherwise>
-           </xsl:choose>
-           <xsl:attribute name="style">float:left;</xsl:attribute>
-         </xsl:element>
-         <div  style="padding-left:30px">
-         <xsl:element name="a">
-           <xsl:attribute name="href"><xsl:value-of select="$derLink/@href" /></xsl:attribute>
-           <strong><xsl:value-of select="$derLink/@name" /></strong>
-         </xsl:element>
-         
-         <br />
-         <span style="font-size:80%">
-         <xsl:value-of select="round($derLink/@size div 1024 div 1024 * 1000) div 1000" /> MB<br />
-         MD5: <xsl:value-of select="$derLink/@md5" />
-         </span>
-         </div>
-       </xsl:if>
-     </xsl:for-each>
-  </xsl:template>
 </xsl:stylesheet>
 

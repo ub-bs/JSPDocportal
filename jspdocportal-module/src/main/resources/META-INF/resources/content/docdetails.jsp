@@ -138,7 +138,15 @@
 		</x:if>
 		<div id="div_metadata" class="collapse col-sm-12">
 			<div class="ir-box ir-docdetails-data">
-				<mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/${objectType}2details_html.xsl" />
+				<x:choose>
+					<x:when select="contains($doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='doctype']/@valueURI, '#data')">
+						<mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/data2details_html.xsl" />
+					</x:when>
+					<x:otherwise>
+						<mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/${objectType}2details_html.xsl" />
+					</x:otherwise>
+				</x:choose>
+				
 				<mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/all2footer_html.xsl" />
 			</div>
 		</div>
@@ -303,8 +311,39 @@
 			  <fmt:message key="Webpage.docdetails.viewer" />
 			 </a>
 			 </x:if>
+			 
+			 
+			 <x:forEach select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='data' or @xlink:title='documentation' ]">
+			 	<c:set var="url">${WebApplicationBaseURL}api/v1/objects/<x:out select="/mycoreobject/@ID" />/derivates/<x:out select="./@xlink:href" />/contents</c:set>
+       			<c:import var="derXML" url="${url}"/>
+				<x:parse xml="${derXML}" var="derDoc"/>
+       			<x:set var="derLink" select="$derDoc//children/child[1]" />
+       			<x:if select="$derLink">
+       			 <a class="btn btn-default ir-button-download" style="text-align:left" title="MD5: <x:out select="$derLink/md5" />" 
+			  		 href="<x:out select="$derLink/@href" />" target="_blank">
+		  		 	<x:choose>
+			  		 	<x:when select="contains($derLink/@href, '.zip')">
+			  				<img style="vertical-align:middle;height: 38px;margin-right:12px;float:left" src="${WebApplicationBaseURL}images/derivate_zip.gif" />	 
+			  		 	</x:when>
+			  		 	<x:when select="contains($derLink/@href, '.pdf')">
+			  				<img style="vertical-align:middle;height: 38px;margin-right:12px;float:left" src="${WebApplicationBaseURL}images/derivate_pdf.gif" />	 
+			  		 	</x:when>
+			  		 	<x:otherwise>
+			  		 		<img style="vertical-align:middle;height: 38px;margin-right:12px;float:left" src="${WebApplicationBaseURL}images/derivate_unknown.gif" />
+			  		 	</x:otherwise>
+		  		 	</x:choose>
+		  		 	<c:set var="mesKey">OMD.derivatedisplay.<x:out select="@xlink:title"/></c:set>
+		  		 	<strong><fmt:message key="${mesKey}" /></strong><br />
+		  		 	<span style="font-size: 85%">
+		  		 		<x:out select="$derLink/name" />&nbsp;&nbsp;&nbsp;(<x:out select="round($derLink/size div 1024 div 1024 * 10) div 10" /> MB)<br />
+		  		 	</span>
+				 </a>
+       			</x:if>
+			 </x:forEach>
 			 <div style="clear:both"></div>
 			</div>
+			
+			
 			<div class="ir-box ir-box-bordered ir-infobox" style="margin-bottom:32px; padding: 18px 6px 6px 6px;">
 				<div class="row">
 					<div class="col-sm-6">
@@ -344,13 +383,21 @@
 									<a class="ir-link-portal" href="http://kalliope-verbund.info/${id}">Kalliope-Verbundkatalog</a>
 								</x:forEach>	
    					</div>
-					<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='cover']">
-						<div class="col-sm-1">
-						</div>
-						<div class="col-sm-5">
-							<search:derivate-image mcrid="${param.id}" width="100%" labelContains="cover" />
-						</div>
-					</x:if>
+   					<x:choose>
+						<x:when select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='cover']">
+							<div class="col-sm-5 col-sm-offset-1">
+								<search:derivate-image mcrid="${param.id}" width="100%" labelContains="cover" />
+							</div>
+						</x:when>
+						<x:when select="contains($doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='doctype']/@valueURI, '#data')">
+							<div class="col-sm-5 col-sm-offset-1">
+								<img src="${WebApplicationBaseURL}images/filetypeicons/data.png" alt="resarch data">
+							</div>
+						</x:when>
+					<x:otherwise>
+											
+					</x:otherwise>
+					</x:choose>
 				</div>
 			</div>
 	</stripes:layout-component>

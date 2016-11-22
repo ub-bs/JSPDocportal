@@ -68,6 +68,9 @@ public class MCRSearchResultEntry {
 			if(solrDoc.getFirstValue(coverField)==null){
 				coverURL = "images/cover/default.png";
 			}
+			else if(solrDoc.getFieldValues("category.top").contains("doctype:data")){
+			    coverURL = "images/cover/default_data.png";
+			}
 			else{
 				coverURL = "images/cover/default_"	+ String.valueOf(solrDoc.getFirstValue(coverField)) + ".png";
 			}

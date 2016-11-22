@@ -65,7 +65,7 @@
 							</c:if>							
 							<c:if test="${(username eq 'gast' || username eq 'guest')}">
 								[<span class="action">
-									<a href="${WebApplicationBaseURL}nav?path=~login">
+									<a href="${WebApplicationBaseURL}login.action">
 											<fmt:message key="Nav.Login" />
 									</a>
 								</span>]

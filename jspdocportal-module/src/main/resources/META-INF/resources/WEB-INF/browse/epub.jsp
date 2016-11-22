@@ -128,7 +128,6 @@
 
 					<search:result-browser result="${actionBean.result}">
 						<c:set var="doctype" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
-						<search:show-edit-button mcrid="${mcrid}" cssClass="btn btn-sm btn-primary ir-edit-btn"/>
 						<c:choose>
 							<c:when test="${(doctype eq 'disshab') or (doctype eq 'thesis')}">
 								<search:result-entry-disshab entry="${entry}" url="${url}" />
@@ -140,7 +139,13 @@
 								<search:result-entry entry="${entry}" url="${url}" />
 							</c:otherwise>
 						</c:choose>
-						<div style="clear:both"></div>
+						<%--<div style="clear:both"></div> --%>
+						<div class="row">
+							<div class="col-xs-12">
+					    		<search:show-edit-button mcrid="${mcrid}" cssClass="btn btn-sm btn-primary ir-edit-btn"/>
+					    		<span class="label label-default">${entry.data['ir.doctype.result']}</span>
+					    	</div>
+					    </div>
 					</search:result-browser>
 				</div>
 			</div>
