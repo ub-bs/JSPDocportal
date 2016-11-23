@@ -323,13 +323,13 @@
 			  		 href="<x:out select="$derLink/@href" />" target="_blank">
 		  		 	<x:choose>
 			  		 	<x:when select="contains($derLink/@href, '.zip')">
-			  				<img style="vertical-align:middle;height: 38px;margin-right:12px;float:left" src="${WebApplicationBaseURL}images/derivate_zip.gif" />	 
+			  				<img style="vertical-align:middle;height: 38px;margin-right:12px;float:left" src="${WebApplicationBaseURL}images/download_zip.png" />	 
 			  		 	</x:when>
 			  		 	<x:when select="contains($derLink/@href, '.pdf')">
-			  				<img style="vertical-align:middle;height: 38px;margin-right:12px;float:left" src="${WebApplicationBaseURL}images/derivate_pdf.gif" />	 
+			  				<img style="vertical-align:middle;height: 38px;margin-right:12px;float:left" src="${WebApplicationBaseURL}images/download_pdf.png" />	 
 			  		 	</x:when>
 			  		 	<x:otherwise>
-			  		 		<img style="vertical-align:middle;height: 38px;margin-right:12px;float:left" src="${WebApplicationBaseURL}images/derivate_unknown.gif" />
+			  		 		<img style="vertical-align:middle;height: 38px;margin-right:12px;float:left" src="${WebApplicationBaseURL}images/download_other.png" />
 			  		 	</x:otherwise>
 		  		 	</x:choose>
 		  		 	<c:set var="mesKey">OMD.derivatedisplay.<x:out select="@xlink:title"/></c:set>
