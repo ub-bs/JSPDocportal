@@ -526,9 +526,11 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
                     String recordIdentifier = xpathRecordIdentifier.evaluateFirst(eParentMeta).getTextNormalize();
                     String title = xpathMainTitle.evaluateFirst(eParentMeta).getTextNormalize();
 
+                    eRelatedItem.removeChildren("titleInfo", MCRConstants.MODS_NAMESPACE);
                     eRelatedItem.addContent(new Element("titleInfo", MCRConstants.MODS_NAMESPACE)
                         .setAttribute("type", "simple", MCRConstants.XLINK_NAMESPACE)
                         .addContent(new Element("title", MCRConstants.MODS_NAMESPACE).setText(title)));
+                    eRelatedItem.removeChildren("recordInfo", MCRConstants.MODS_NAMESPACE);
                     eRelatedItem.addContent(new Element("recordInfo", MCRConstants.MODS_NAMESPACE)
                         .addContent(new Element("recordIdentifier", MCRConstants.MODS_NAMESPACE)
                             .setAttribute("source", "DE-28").setText(recordIdentifier)));
@@ -542,6 +544,8 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
                     }
                     DecimalFormat df = new DecimalFormat("0000", DecimalFormatSymbols.getInstance(Locale.GERMANY));
                     String sortString = "_" + df.format(pos) + "-" + mcrParentObj.getId().toString();
+                    eRelatedItem.getChild("part", MCRConstants.MODS_NAMESPACE).removeChildren("text",
+                        MCRConstants.MODS_NAMESPACE);
                     eRelatedItem.getChild("part", MCRConstants.MODS_NAMESPACE)
                         .addContent(new Element("text", MCRConstants.MODS_NAMESPACE).setAttribute("type", "sortstring")
                             .setText(sortString));
