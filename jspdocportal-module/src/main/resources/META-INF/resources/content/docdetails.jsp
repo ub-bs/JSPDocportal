@@ -100,7 +100,7 @@
 			<div class="col-sm-12">
 				<div class="ir-box">
 					<ul id="main_navbar" class="nav nav-tabs">
-						<x:if select="$doc/mycoreobject[not(contains(@ID, '_bundle_'))]/structure/derobjects/derobject[@xlink:title='fulltext' or @xlink:title='DV_METS']">
+						<x:if select="$doc/mycoreobject[not(contains(@ID, '_bundle_'))]/structure/derobjects/derobject[@xlink:title='fulltext' or @xlink:title='MCRVIEWER_METS']">
 							<li id="nav_fulltext" role="presentation"><a data-toggle="collapse" href="#div_fulltext">Volltext</a></li>
   						</x:if>
   						<x:if select="contains($doc/mycoreobject/@ID, '_bundle_')">
