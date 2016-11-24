@@ -94,6 +94,8 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
         	NavigationItem eNav = findNavItem(nav, path);
             printBreadcrumbs(eNav, getJspContext().getOut());
         }
+        
+        getJspContext().getOut().flush();
     }
 
     /**
@@ -222,7 +224,6 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
                         getJspBody().invoke(out);
                     }
                     out.append(INDENT).append("</ul>");
-                    out.flush();
                 }
 
                 catch (IOException | JspException e) {
@@ -271,7 +272,6 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
                     out.append(INDENT).append("</li>");
                 }
                 out.append(INDENT).append("</ul>");
-                out.flush();
             } catch (IOException e) {
                 LOGGER.error(e);
             }
