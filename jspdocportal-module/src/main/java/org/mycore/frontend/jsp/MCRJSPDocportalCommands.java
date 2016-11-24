@@ -35,11 +35,14 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributeView;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
@@ -49,10 +52,14 @@ import javax.persistence.metamodel.EntityType;
 import org.apache.log4j.Logger;
 import org.jdom2.Document;
 import org.jdom2.Element;
+import org.jdom2.filter.Filters;
 import org.jdom2.output.Format;
+import org.jdom2.xpath.XPathExpression;
+import org.jdom2.xpath.XPathFactory;
 import org.mycore.access.MCRAccessException;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.backend.jpa.MCREntityManagerProvider;
+import org.mycore.common.MCRConstants;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRPersistenceException;
 import org.mycore.common.config.MCRConfiguration;
@@ -63,6 +70,7 @@ import org.mycore.datamodel.metadata.MCRMetaAccessRule;
 import org.mycore.datamodel.metadata.MCRMetaElement;
 import org.mycore.datamodel.metadata.MCRMetaLangText;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
+import org.mycore.datamodel.metadata.MCRMetaXML;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
@@ -421,6 +429,17 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
         dir.mkdirs();
     }
 
+    /**
+     * This command empties your MyCoRe Repository.
+     * USE with CARE !!!!
+     * 
+     * all files in metadata and content are deleted
+     * all tables in database will be emptied.
+     * 
+     * After calling this command, you need to intialize your repository again
+     * with default users, permissions and classifications.
+     * 
+     */
     @MCRCommand(syntax = "drop mycore content", help = "The command deletes all data from mycore directories and database on a lower level.")
     public static final void formatMyCoReContent() {
         Map<String, String> ifsProperties = MCRConfiguration.instance().getPropertiesMap("MCR.IFS.ContentStore");
@@ -444,34 +463,111 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
                 LOGGER.error(e);
             }
         }
-        
+
         EntityManager em = MCREntityManagerProvider.getEntityManagerFactory().createEntityManager();
-        try{
-            int count=0;
+        try {
+            int count = 0;
             EntityTransaction t = em.getTransaction();
-            for(EntityType<?> et :  em.getMetamodel().getEntities()){
+            for (EntityType<?> et : em.getMetamodel().getEntities()) {
                 String entityName = et.getName();
-                try{
+                try {
                     t.begin();
-                    String selectQuery = "SELECT x FROM "+entityName+" x WHERE 1=1";  
-                    List<?> toRemove = em.createQuery(selectQuery).getResultList();  
-                    LOGGER.info("deleting "+toRemove.size()+" objects of "+entityName);
+                    String selectQuery = "SELECT x FROM " + entityName + " x WHERE 1=1";
+                    List<?> toRemove = em.createQuery(selectQuery).getResultList();
+                    LOGGER.info("deleting " + toRemove.size() + " objects of " + entityName);
                     count += toRemove.size();
-                    for (Object o: toRemove) {  
+                    for (Object o : toRemove) {
                         em.remove(o);
                     }
-                   // count += em.createQuery("DELETE FROM "+entityName+" WHERE 1=1").executeUpdate();
+                    // count += em.createQuery("DELETE FROM "+entityName+" WHERE 1=1").executeUpdate();
                     t.commit();
-                }
-                catch(Exception e){
+                } catch (Exception e) {
                     LOGGER.error(e.getMessage());
                     t.rollback();
                 }
             }
-            LOGGER.info("Deleted "+count+" objects.");
+            LOGGER.info("Deleted " + count + " objects.");
+        } finally {
+            em.close();
         }
-       finally{
-           em.close();
-       }
+    }
+
+    /**
+     * This command is needed for JSPDocportal Migration 2016 
+     * It will look for any parent-child-relationships between MyCoRE objects 
+     * and migrate them to mods:relatedItems.
+     * 
+     * At the end the parent entry is deleted.
+     * 
+     */
+    @MCRCommand(syntax = "migrate mycore parent to relateditem", help = "The command creates related items for parents and removes parent child relationships.")
+    public static final void migrateParent2RelatedItem() {
+        LOGGER.info("Please be patient, while collection required MyCoRe objects.");
+        List<String> check = new ArrayList<>();
+        check.addAll(MCRXMLMetadataManager.instance().listIDsOfType("bundle"));
+        check.addAll(MCRXMLMetadataManager.instance().listIDsOfType("document"));
+
+        XPathExpression<Element> xpathRecordIdentifier = XPathFactory.instance().compile(
+            ".//mods:mods/mods:recordInfo/mods:recordIdentifier", Filters.element(), null, MCRConstants.MODS_NAMESPACE);
+        XPathExpression<Element> xpathMainTitle = XPathFactory.instance()
+            .compile(".//mods:mods/mods:titleInfo/mods:title", Filters.element(), null, MCRConstants.MODS_NAMESPACE);
+
+        for (String mcrid : check) {
+            MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrid));
+            if (mcrObj.getParent() != null) {
+                MCRMetaXML mcrMODS = (MCRMetaXML) mcrObj.getMetadata().findFirst("def.modsContainer").get();
+                Element eMeta = (Element) mcrMODS.getContent().stream().filter(x -> x.getClass().equals(Element.class))
+                    .findFirst().get();
+                Element eRelatedItem = eMeta.getChild("relatedItem", MCRConstants.MODS_NAMESPACE);
+                if (eRelatedItem != null) {
+                    MCRObject mcrParentObj = MCRMetadataManager.retrieveMCRObject(mcrObj.getParent());
+
+                    Element eParentMeta = mcrParentObj.getMetadata().createXML();
+                    String recordIdentifier = xpathRecordIdentifier.evaluateFirst(eParentMeta).getTextNormalize();
+                    String title = xpathMainTitle.evaluateFirst(eParentMeta).getTextNormalize();
+
+                    eRelatedItem.addContent(new Element("titleInfo", MCRConstants.MODS_NAMESPACE)
+                        .setAttribute("type", "simple", MCRConstants.XLINK_NAMESPACE)
+                        .addContent(new Element("title", MCRConstants.MODS_NAMESPACE).setText(title)));
+                    eRelatedItem.addContent(new Element("recordInfo", MCRConstants.MODS_NAMESPACE)
+                        .addContent(new Element("recordIdentifier", MCRConstants.MODS_NAMESPACE)
+                            .setAttribute("source", "DE-28").setText(recordIdentifier)));
+
+                    int pos = 0;
+                    for (int i = 0; i < mcrParentObj.getStructure().getChildren().size(); i++) {
+                        if (mcrParentObj.getStructure().getChildren().get(i).getXLinkHrefID().equals(mcrObj.getId())) {
+                            pos = i;
+                            break;
+                        }
+                    }
+                    DecimalFormat df = new DecimalFormat("0000", DecimalFormatSymbols.getInstance(Locale.GERMANY));
+                    String sortString = "_" + df.format(pos) + "-" + mcrParentObj.getId().toString();
+                    eRelatedItem.getChild("part", MCRConstants.MODS_NAMESPACE)
+                        .addContent(new Element("text", MCRConstants.MODS_NAMESPACE).setAttribute("type", "sortstring")
+                            .setText(sortString));
+
+                    try {
+                        MCRMetadataManager.update(mcrObj);
+                    } catch (MCRPersistenceException | MCRActiveLinkException | MCRAccessException e) {
+                        LOGGER.error(e);
+                    }
+                } else {
+                    LOGGER.error(mcrid + ": Parent exists and mods related item not found !!!");
+                }
+            }
+        }
+
+        //delete parent nodes
+        for (String mcrid : check) {
+            MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrid));
+            if (mcrObj.getStructure().getParent() != null) {
+                mcrObj.getStructure().setParent((MCRMetaLinkID) null);
+                try {
+                    MCRMetadataManager.update(mcrObj);
+                } catch (MCRAccessException | MCRActiveLinkException e) {
+                    LOGGER.error(e);
+                }
+            }
+        }
     }
 }
