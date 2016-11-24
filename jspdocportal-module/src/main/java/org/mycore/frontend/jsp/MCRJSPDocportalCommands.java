@@ -178,6 +178,11 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
         // check dirname
         List<String> commandList = new ArrayList<String>();
         File dir = new File(dirname);
+        if(!dir.exists()){
+            if(dir.getParentFile().exists()){
+                dir.mkdir();
+            }
+        }
         if (dir.isDirectory()) {
             for (String id : MCRXMLMetadataManager.instance().listIDsOfType(type)) {
                 commandList.add("backup object " + id + " to directory " + dirname);
