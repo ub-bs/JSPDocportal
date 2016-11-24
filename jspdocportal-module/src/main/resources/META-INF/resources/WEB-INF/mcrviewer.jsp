@@ -135,13 +135,19 @@ button[data-id='CloseViewerButton'] {
 						window.close();
 					}, 500);
 				},
-				toolbar : [ {
+				toolbar : [ 
+				           {
+		                        id: "RosDokAddOns",
+		                        type: "group"
+		                    },
+
+				            {
 					id : "pdf_download",
 					label : "pdf_download",
 					type : "button",
 					href : "${applicationScope.WebApplicationBaseURL}/pdfdownload/recordIdentifier/${fn:replace(actionBean.recordIdentifier,'/','%252F')}",
 					icon: "file",
-					inGroup: "ActionControllGroup"
+					inGroup: "RosDokAddOns"
 				} ],
 				objId : ""
 
