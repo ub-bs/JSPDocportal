@@ -55,12 +55,12 @@
 			<div class="btn-group" style="width:101%;margin:6px">
 			
 				<a style="font-size:1.25em" class="btn btn-default btn-xs ${result.current == 0 ? 'disabled invisible' :''}" 
-			   	   href="${pageContext.request.contextPath}/${result.action}?_search=${result.id}&amp;_hit=${result.current-1}"
+			   	   href="${pageContext.request.contextPath}/search?_search=${result.id}&amp;_hit=${result.current-1}"
 			       title="<fmt:message key="Webpage.Searchresult.prevPage.hint" />"><span class="glyphicon glyphicon-chevron-left"></span></a>
 		
 			
 				<a style="font-size:1.25em" class="btn btn-default btn-xs ${result.current == numHits - 1 ? 'disabled invisible' : ''}" 
-				   href="${pageContext.request.contextPath}/${result.action}?_search=${result.id}&amp;_hit=${result.current+1}"
+				   href="${pageContext.request.contextPath}/search?_search=${result.id}&amp;_hit=${result.current+1}"
 				   title="<fmt:message key="Webpage.Searchresult.nextPage.hint" />"><span class="glyphicon glyphicon-chevron-right"></span></a>
 			</div>
 		</div>
@@ -83,7 +83,7 @@
 			<div class="btn-group" style="width:101%;">
 			
 				<a style="font-size:1.5em;width:33.333%;" class="btn btn-default btn-xs ${result.current == 0 ? 'disabled invisible' :''}" 
-			   	   href="${pageContext.request.contextPath}/${result.action}?_search=${result.id}&amp;_hit=${result.current-1}"
+			   	   href="${pageContext.request.contextPath}/search?_search=${result.id}&amp;_hit=${result.current-1}"
 			       title="<fmt:message key="Webpage.Searchresult.prevPage.hint" />"><span class="glyphicon glyphicon-chevron-left"></span></a>
 		
 			    <a style="font-size:1.5em;width:33.333%;" class="btn btn-default btn-xs" 
@@ -91,7 +91,7 @@
 			       title="<fmt:message key="Webpage.Searchresult.back.hint" />"><span class="glyphicon glyphicon-chevron-up"></span></a>
 			
 				<a style="font-size:1.5em;width:33.333%;" class="btn btn-default btn-xs ${result.current == numHits - 1 ? 'disabled invisible' : ''}" 
-				   href="${pageContext.request.contextPath}/${result.action}?_search=${result.id}&amp;_hit=${result.current+1}"
+				   href="${pageContext.request.contextPath}/search?_search=${result.id}&amp;_hit=${result.current+1}"
 				   title="<fmt:message key="Webpage.Searchresult.nextPage.hint" />"><span class="glyphicon glyphicon-chevron-right"></span></a>
 			</div>
 		</div>

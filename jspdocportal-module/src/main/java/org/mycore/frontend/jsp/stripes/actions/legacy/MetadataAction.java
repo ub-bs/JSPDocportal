@@ -9,12 +9,7 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 
 /**
- * Action Bean for Search Handling ... Query Parameters:
- * 
- * _hit=n and _search=UUID -> retrieves the information of the given searcher
- * and redirects to then n-th hit mask=abc.xed -> Opens a new Editor with the
- * given XED File
- * 
+ * Action Bean for deprecated /metadata URLs * 
  * @author Stephan
  *
  */
