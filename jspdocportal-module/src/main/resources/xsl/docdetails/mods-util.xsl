@@ -198,6 +198,7 @@
   <!--  reverse is necessary since sub-string-after-last is not supported  -->
   <xsl:template name="classLabel">
     <xsl:param name="valueURI"  />
+    <xsl:param name="lang">de</xsl:param>
      <xsl:variable name="x">
       <xsl:call-template name="reverse">
         <xsl:with-param name="input"><xsl:value-of select="$valueURI" /></xsl:with-param>
@@ -215,7 +216,7 @@
      <xsl:variable name="classid" select="substring-before($z,'#')" />
      <xsl:variable name="categid" select="substring-after($z,'#')" />
  
-     <xsl:variable name="url"><xsl:value-of select="$WebApplicationBaseURL" />api/v1/classifications/<xsl:value-of select="$classid" />?filter=root:<xsl:value-of select="$categid" />;nochildren;lang:de</xsl:variable>
+     <xsl:variable name="url"><xsl:value-of select="$WebApplicationBaseURL" />api/v1/classifications/<xsl:value-of select="$classid" />?filter=root:<xsl:value-of select="$categid" />;nochildren;lang:<xsl:value-of select="$lang" /></xsl:variable>
      <xsl:value-of select="document($url)/category/label[1]/@text" /> 
       
     <!-- http://localhost:8080/rosdok/api/v1/classifications/rosdok_class_000000000009?filter=root:00;lang:de;nochildren -->

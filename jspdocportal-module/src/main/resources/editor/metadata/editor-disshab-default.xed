@@ -18,9 +18,13 @@
       <xed:include uri="resource:editor/metadata/includes-generic.xed" ref="mycore.common" />
       <xed:include uri="resource:editor/metadata/includes-generic.xed" ref="failed-validation-messages" />
       
-          <xed:bind xpath="metadata/def.modsContainer[@class='MCRMetaXML']/modsContainer/mods:mods">
-   <xed:cleanup-rule xpath="//mods:note" relevant-if=" ./*" /> 
-  
+      <xed:bind xpath="metadata/def.modsContainer[@class='MCRMetaXML']/modsContainer/mods:mods">
+        <xed:cleanup-rule xpath="//mods:note" relevant-if=" ./*" /> 
+        <xed:cleanup-rule xpath="//mods:titleInfo" relevant-if=" ./*" />
+
+        <!-- will be reset from institution classfication by postprocessor -->
+        <xed:cleanup-rule xpath="//mods:name[mods:role/mods:roleTerm/@valueURI='http://id.loc.gov/vocabulary/relators/dgg']" relevant-if="false()" />
+   
   
   <!-- IDs [START]-->
      <div class="form-group">
@@ -321,7 +325,22 @@
          <xed:output i18n="OMD.ir.degreeGrantingInstitution" />
        </label>
        <div class="col-sm-10">
+           <xed:load-resource name="class_inst" uri="classification:metadata:-1:children:institution" />
             <div class="row ir-row ir-row-1">
+              <div class="col-sm-10">
+              <xed:bind xpath="mods:classification[@displayLabel='institution'][@authorityURI=$class_inst/label[@xml:lang='x-uri']/@text]"> 
+                <div class="row ir-row"> 
+                  <div class="col-sm-10 col-sm-offset-2">
+                    <xed:bind xpath="@valueURIxEditor" initially="{substring-after(@valueURI, '#')}">
+                      <select id="institution" class="form-control input-sm">
+                        <xed:include uri="xslStyle:items2options:classification:editor:-1:children:institution" />                        
+                      </select>
+                    </xed:bind>
+                  </div>
+                </div>
+               </xed:bind>
+              </div>
+
               <div class="col-sm-10">
                 <xed:bind xpath="mods:name[@type='corporate'][@authorityURI='http://d-nb.info/gnd/'][./mods:role/mods:roleTerm[@type='code'][@authorityURI='http://id.loc.gov/vocabulary/relators'][@valueURI='http://id.loc.gov/vocabulary/relators/dgg']]">
                   <div class="row ir-row"> 
@@ -330,7 +349,7 @@
                   </label>
                   <div class="col-sm-10">
                       <xed:bind xpath="mods:namePart">
-                        <input id="dgg_name" type="text" class="form-control input-sm"   />
+                        <input id="dgg_name" type="text" class="form-control input-sm" readonly="readonly"  />
                     </xed:bind>
                   </div>
                   </div>
@@ -340,7 +359,7 @@
                   </label>
                   <div class="col-sm-4">
                     <xed:bind xpath="@valueURI">
-                       <input id="dgg_gnd" type="text" class="form-control input-sm" />
+                       <input id="dgg_gnd" type="text" class="form-control input-sm" readonly="readonly"/>
                     </xed:bind>
                   </div>
                 </div>
@@ -549,32 +568,6 @@
        </div>
     </div>
     <!-- Doctype [ENDE]-->
-    
-    <!-- Institution [START]-->
-         <div class="form-group">
-       <label class="col-sm-2 control-label input-sm ir-label" for="institution">
-         <xed:output i18n="OMD.ir.institution" />
-       </label>
-       <div class="col-sm-10">
-        <xed:load-resource name="class_inst" uri="classification:metadata:-1:children:institution" />
-           <xed:bind xpath="mods:classification[@displayLabel='institution'][@authorityURI=$class_inst/label[@xml:lang='x-uri']/@text]"> 
-            <div class="row ir-row ir-row-1">
-              <div class="col-sm-10">
-                <div class="row ir-row"> 
-                  <div class="col-sm-10 col-sm-offset-2">
-                    <xed:bind xpath="@valueURIxEditor" initially="{substring-after(@valueURI, '#')}">
-                      <select id="institution" class="form-control input-sm">
-                        <xed:include uri="xslStyle:items2options:classification:editor:-1:children:institution" />                        
-                      </select>
-                    </xed:bind>
-                  </div>
-                </div>
-              </div>
-           </div>
-           </xed:bind>
-       </div>
-    </div> 
-    <!-- Sprache [ENDE]-->
     
     <!-- Zugriffsbedingungen [START]-->
          <div class="form-group">
