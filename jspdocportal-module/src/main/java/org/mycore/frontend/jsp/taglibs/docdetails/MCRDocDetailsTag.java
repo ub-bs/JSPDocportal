@@ -169,8 +169,6 @@ public class MCRDocDetailsTag extends SimpleTagSupport {
 				DOMOutputter domOut = new DOMOutputter();
 				doc = domOut.output(MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID)).createXML());
 			}
-			
-			System.out.println(doc.getDocumentElement().getAttribute("ID"));
 			if (var != null) {
 				getJspContext().setAttribute(var, doc, PageContext.REQUEST_SCOPE);
 			}
