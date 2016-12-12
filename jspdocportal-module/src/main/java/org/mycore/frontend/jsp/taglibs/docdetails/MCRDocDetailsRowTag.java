@@ -177,7 +177,8 @@ public class MCRDocDetailsRowTag extends SimpleTagSupport {
 			out.write("  <a id=\"infoButton_"+ id +"\" type=\"button\" class=\"btn btn-default btn-xs docdetails-info-btn\" data-toggle=\"popover\" >");
 			out.write("     <span class=\"glyphicon glyphicon-info-sign\"></span>");
 			out.write("  </a>");
-			out.write("\n  <script>                                                                               ");
+			out.write("\n  <script>                                                                                         ");
+			out.write("\n  $(document).ready(function(){                                                                    ");
 			out.write("\n	   $('#infoButton_"+id+"').popover({                                                            ");
 			out.write("\n	            title: '"+MCRTranslation.translate("Webpage.docdetails.infodialog.title", MCRTranslation.translate(labelkey).replace("<br />", ""))+"', ");
 			out.write("\n	            content : '"+info+".',                                                              ");
@@ -197,7 +198,8 @@ public class MCRDocDetailsRowTag extends SimpleTagSupport {
 			out.write("\n	              setTimeout(function () {                                                          ");
 			out.write("\n	                 if (!$('.po_"+id+":hover').length) { $('#infoButton_"+id+"').popover('hide'); }");
 			out.write("\n	              }, 500);                                                                          ");
-			out.write("\n	        });                                                                                    ");
+			out.write("\n	        });                                                                                     ");
+			out.write("\n	    });                                                                                         ");
 			out.write("\n  </script>                                                                                        ");
 			out.write("");
 			out.write("</div>");
