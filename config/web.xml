@@ -506,6 +506,11 @@
         <taglib-uri>/WEB-INF/lib/mycore-taglibs.jar</taglib-uri>
         <taglib-location>/WEB-INF/lib/mycore-taglibs.jar</taglib-location>
     </taglib>
+    <taglib>
+        <taglib-uri>http://www.mycore.de/jspdocportal/browsing</taglib-uri>
+        <taglib-location>/WEB-INF/classes/mycore-browsing.tld</taglib-location>
+    </taglib>
+    
     <jsp-property-group>
       <url-pattern>*.jsp</url-pattern>
     </jsp-property-group>
