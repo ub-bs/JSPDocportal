@@ -441,7 +441,7 @@
 	<target name="create.class" depends="init">
 		<taskdef name="mcr-execute" classname="org.mycore.buildtools.anttasks.MCRExecuteCommandTask" classpathref="application.classpath" />
 		<mcr-execute>
-            update all classifications from directory ${application.content}/classification
+            update all classifications from directory ${application.config}/classification
 		</mcr-execute>
 	</target>
 
@@ -605,7 +605,8 @@
 		<copy todir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/classes/xsl" flatten="true" overwrite="true">
 			<fileset dir="${application.stylesheets}" includes="**/*.xsl" />
 		</copy>
-	
+
+		<!--
 		<echo level="info">
 
             Building the upload applet used for file uploads...
@@ -623,7 +624,7 @@
 		<signjar jar="${build.webapps}/${MYAPPLICATION_NAME}/applet/unsigned.jar" signedjar="${build.webapps}/${MYAPPLICATION_NAME}/applet/upload.jar" alias="${SIGN.Alias}" keystore="${SIGN.KeyStore}/keys" storepass="${SIGN.Password}" keypass="${SIGN.Password}" />
 		<delete file="${build.webapps}/${MYAPPLICATION_NAME}/applet/unsigned.jar" />
 		<chmod dir="${build.webapps}/${MYAPPLICATION_NAME}/applet" perm="ugo+r" />
-
+		-->
 		<antcall target="copy.webapp.shared.jars" />
 		<antcall target="webapp.info.shared.jars" />
 		<antcall target="webapp.info.unix" />
