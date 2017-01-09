@@ -120,7 +120,7 @@
 			</fileset>
 		</copy>
 		<copy todir="${application.lib}" overwrite="true">
-			<fileset dir="${env.MYCORE_HOME}/lib" />
+			<fileset dir="${env.MYCORE_HOME}/lib" excludes="lukeall.jar"/>
 			<fileset dir="${env.MYCORE_HOME}/build/lib" includes="mycore.jar" />
 
 		</copy>
@@ -572,7 +572,7 @@
 			<fileset dir="${application.config}" includes="web.xml ibm*.xmi urlrewrite.xml server-config.wsdd" />
 		</copy>
 		<copy todir="${build.webapps}/${MYAPPLICATION_NAME}/WEB-INF/lib">
-			<fileset dir="${application.lib}" includes="*.jar" excludes="jsp-api*.jar servlet-api*,standalone-compiler*"/>
+			<fileset dir="${application.lib}" includes="*.jar" excludes="jsp-api*.jar servlet-api*,standalone-compiler*,lukeall.jar"/>
 			<!--<fileset dir="${MYCORE_HOME}/lib" includes="*.jar" excludes="servlet-api*,standalone-compiler*" />  -->
 			<fileset dir="${build.lib}" />
 		</copy>
