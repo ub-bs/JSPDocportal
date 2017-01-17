@@ -27,14 +27,19 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Transaction;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.Format;
 import org.mycore.access.MCRAccessManager;
+import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.MCRException;
+import org.mycore.common.MCRPersistenceException;
 import org.mycore.datamodel.common.MCRActiveLinkException;
 import org.mycore.datamodel.common.MCRXMLMetadataManager;
 import org.mycore.datamodel.metadata.MCRDerivate;
@@ -241,14 +246,21 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
             LOGGER.error(dirname + " is not a dirctory.");
             return;
         }
-        for(File objectFile:dir.listFiles()){
+        
+        File[] files = dir.listFiles();
+        Arrays.sort(files);
+        for(File objectFile:files){
         	//ignore directories
         	if(objectFile.isDirectory()){continue;}
         	String id = objectFile.getName().substring(0, objectFile.getName().length()-4);
+          	Transaction tx  = MCRHIBConnection.instance().getSession().beginTransaction();
+            
         	try{
         		MCRObject mcrObj = new MCRObject(objectFile.toURI());
         	    mcrObj.setImportMode(true); //true = servdates are taken from xml file;
         	    MCRMetadataManager.update(mcrObj);
+        	   
+        
               	       
         	    //load derivates first:
         	    File objDir = new File(dir, id);
@@ -281,7 +293,16 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
         	    //set AccessRules
         	    mcrObj = new MCRObject(objectFile.toURI());
         	    mcrObj.setImportMode(true); //true = servdates are taken from xml file;
-        	    MCRMetadataManager.update(mcrObj); 
+        	    try{
+        	    	MCRMetadataManager.update(mcrObj);
+        	    }
+        	    catch(MCRPersistenceException fse){
+        	    	//there seems to be a delay in writing the object
+        	    	//wait some time and try again before is going to fail
+        	    	LOGGER.warn("Update of "+ mcrObj.getId().toString() +"failed - wait and try again.");
+        		    TimeUnit.MILLISECONDS.sleep(500);
+        		    MCRMetadataManager.update(mcrObj);
+        	    }
         	    while(mcrObj.getService().getRulesSize()>0){
         	    	MCRMetaAccessRule rule = mcrObj.getService().getRule(0);
         	    	String permission = mcrObj.getService().getRulePermission(0);
@@ -303,6 +324,13 @@ public class MCRJbpmCommands extends MCRAbstractCommands {
         	}
         	catch(SAXParseException spe){
         		LOGGER.error("SAXParseException", spe);
+        	}
+        	catch(InterruptedException ie){
+        		LOGGER.error("InterruptedException", ie);
+        	}
+        	
+        	finally{
+        		tx.commit();
         	}
         }       
     }    

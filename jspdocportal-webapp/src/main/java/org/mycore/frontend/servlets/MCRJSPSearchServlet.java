@@ -24,6 +24,7 @@
 package org.mycore.frontend.servlets;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -201,5 +202,51 @@ public class MCRJSPSearchServlet extends MCRSearchServlet {
             // Send query XML to editor
             getLayoutService().sendXML(req, res, jdom);
     	}
+    }
+	
+    /**      
+     * Redirect browser to results page     
+     * overwritten, as long as MCRSearchServlet is not fixed.
+     * encode Query Parameter:
+     * sb.append("&query=").append(URLEncoder.encode(queryString, "UTF-8"));
+     *      
+     * @author A.Schaar   
+     * @author Frank Lï¿½tzenkirchen
+     *   
+     * @see its overwritten in jspdocportal     
+     */     
+    protected void sendRedirect(HttpServletRequest req, HttpServletResponse res, MCRCachedQueryData qd, Document query) throws IOException {
+        
+        // Redirect browser to first results page   
+        StringBuffer sb = new StringBuffer();   
+        sb.append("MCRSearchServlet?mode=results&id=").append(qd.getResults().getID());
+
+        String numPerPage = query.getRootElement().getAttributeValue("numPerPage", "0");
+        sb.append("&numPerPage=").append(numPerPage);
+        
+        String mask = query.getRootElement().getAttributeValue("mask", "-");
+        sb.append("&mask=").append(mask);
+
+        String queryString = qd.getQuery().getCondition().toString();
+        sb.append("&query=").append(URLEncoder.encode(queryString, "UTF-8"));
+
+        int maxResults = qd.getQuery().getMaxResults();
+        sb.append("&maxResults=").append(maxResults);
+
+        List<MCRSortBy> list = qd.getQuery().getSortBy();
+        if( list != null ) for( int i = 0; i < list.size(); i++ )
+        {
+          MCRSortBy sortBy = list.get(i);
+          sb.append( "&" ).append( sortBy.getField().getName() );
+          sb.append( ".sortField." ).append( i + 1 );
+          sb.append( "=" ).append( sortBy.getSortOrder() == MCRSortBy.ASCENDING ? "ascending" : "descending" );
+        }
+        
+        String style = req.getParameter("XSL.Style");   
+        if ((style != null) && (style.trim().length() != 0)){   
+            sb.append("&XSL.Style=").append(style);     
+        }
+        
+        res.sendRedirect(res.encodeRedirectURL(sb.toString()));     
     }
 }

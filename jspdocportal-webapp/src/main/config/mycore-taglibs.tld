@@ -6,7 +6,7 @@
     <tlibversion>1.0</tlibversion>
     <jspversion>2.0</jspversion>
     <shortname>mcr</shortname>
-    <uri>/WEB-INF/lib/mycore-taglibs.jar</uri>
+    <uri>http://www.mycore.org/jspdocportal/base.tld</uri>
     <info>MyCoRe Sample Tag library </info>
      <tag>
             <name>login</name>
