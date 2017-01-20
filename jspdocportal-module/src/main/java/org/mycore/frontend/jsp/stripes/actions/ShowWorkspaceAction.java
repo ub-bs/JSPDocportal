@@ -10,26 +10,19 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
-import net.sourceforge.stripes.action.ActionBean;
-import net.sourceforge.stripes.action.Before;
-import net.sourceforge.stripes.action.DefaultHandler;
-import net.sourceforge.stripes.action.ForwardResolution;
-import net.sourceforge.stripes.action.Resolution;
-import net.sourceforge.stripes.action.UrlBinding;
-import net.sourceforge.stripes.controller.LifecycleStage;
-
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.log4j.Logger;
+import org.hibernate.Transaction;
 import org.jdom2.filter.Filters;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.activiti.MCRActivitiMgr;
 import org.mycore.activiti.MCRActivitiUtils;
-import org.mycore.common.MCRSessionMgr;
+import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
@@ -42,6 +35,14 @@ import org.mycore.frontend.xeditor.MCREditorSessionStoreFactory;
 import org.mycore.services.i18n.MCRTranslation;
 import org.mycore.user2.MCRUser;
 import org.mycore.user2.MCRUserManager;
+
+import net.sourceforge.stripes.action.ActionBean;
+import net.sourceforge.stripes.action.Before;
+import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.action.UrlBinding;
+import net.sourceforge.stripes.controller.LifecycleStage;
 
 @UrlBinding("/showWorkspace.action")
 public class ShowWorkspaceAction extends MCRAbstractStripesAction implements ActionBean {
@@ -136,11 +137,12 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 	
 		}
 		
-		boolean doCommitTransaction = false;
-		if(!MCRSessionMgr.getCurrentSession().isTransactionActive()){
-			doCommitTransaction = true;
-			MCRSessionMgr.getCurrentSession().beginTransaction();
-		}
+		Transaction t1=null;
+		try {
+    		Transaction tx  = MCRHIBConnection.instance().getSession().getTransaction();
+	   		if(tx==null || !tx.isActive()){
+				t1 = MCRHIBConnection.instance().getSession().beginTransaction();
+			}
 		MCRUser user = MCRUserManager.getCurrentUser();
 		
 		String objectType = mcrobjid_base.substring(mcrobjid_base.indexOf("_")+1);
@@ -162,16 +164,24 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 				.processVariableValueEquals(MCRActivitiMgr.WF_VAR_OBJECT_TYPE,
 						objectType).orderByTaskCreateTime().desc().list();
 	
-		if(doCommitTransaction){
-			MCRSessionMgr.getCurrentSession().commitTransaction();
 		}
+		finally{
+    		if(t1!=null){
+    			t1.commit();
+    		}
+    	}
 		return fwdResolution;
 
 	}
 
 	public Resolution doCreateNewTask() {
+		Transaction t1=null;
+		try {
+    		Transaction tx  = MCRHIBConnection.instance().getSession().getTransaction();
+	   		if(tx==null || !tx.isActive()){
+				t1 = MCRHIBConnection.instance().getSession().beginTransaction();
+			}
 		if(mcrobjid_base!=null){
-		MCRSessionMgr.getCurrentSession().beginTransaction();
 		String projectID = mcrobjid_base.substring(0, mcrobjid_base.indexOf("_"));
 		String objectType = mcrobjid_base.substring(mcrobjid_base.indexOf("_")+1);
 		if(MCRAccessManager.checkPermission("create-"+objectType)){
@@ -191,8 +201,13 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 		else{
 			messages.add("You don't have the Permission to create a new workflow instance");
 		}
-		MCRSessionMgr.getCurrentSession().commitTransaction();
 		}
+		}
+		finally{
+    		if(t1!=null){
+    			t1.commit();
+    		}
+    	}
 	
 		return defaultRes();
 	}

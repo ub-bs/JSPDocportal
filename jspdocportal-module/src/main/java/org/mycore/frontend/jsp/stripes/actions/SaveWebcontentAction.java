@@ -15,6 +15,13 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
+import org.hibernate.Transaction;
+import org.mycore.access.MCRAccessManager;
+import org.mycore.backend.hibernate.MCRHIBConnection;
+import org.mycore.common.MCRSessionMgr;
+import org.mycore.common.config.MCRConfiguration;
+
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -23,11 +30,6 @@ import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.controller.LifecycleStage;
-
-import org.apache.log4j.Logger;
-import org.mycore.access.MCRAccessManager;
-import org.mycore.common.MCRSessionMgr;
-import org.mycore.common.config.MCRConfiguration;
 
 @UrlBinding("/saveWebcontent.action")
 public class SaveWebcontentAction extends MCRAbstractStripesAction implements ActionBean {
@@ -49,11 +51,12 @@ public class SaveWebcontentAction extends MCRAbstractStripesAction implements Ac
 
 	@DefaultHandler
 	public Resolution defaultRes() {
-		boolean doCommitTransaction = false;
-		if (!MCRSessionMgr.getCurrentSession().isTransactionActive()) {
-			doCommitTransaction = true;
-			MCRSessionMgr.getCurrentSession().beginTransaction();
-		}
+		Transaction t1=null;
+		try {
+    		Transaction tx  = MCRHIBConnection.instance().getSession().getTransaction();
+	   		if(tx==null || !tx.isActive()){
+				t1 = MCRHIBConnection.instance().getSession().beginTransaction();
+			}
 		if( MCRAccessManager.checkPermission("administrate-webcontent")){
 			for (String s : getContext().getRequest().getParameterMap().keySet()) {
 				if (s.startsWith("doSave_")) {
@@ -76,9 +79,12 @@ public class SaveWebcontentAction extends MCRAbstractStripesAction implements Ac
 				}
 			}
 		}
-		if (doCommitTransaction) {
-			MCRSessionMgr.getCurrentSession().commitTransaction();
+	}
+	finally{
+		if(t1!=null){
+			t1.commit();
 		}
+	}
 		if(referer==null){
 			referer = "";
 		}

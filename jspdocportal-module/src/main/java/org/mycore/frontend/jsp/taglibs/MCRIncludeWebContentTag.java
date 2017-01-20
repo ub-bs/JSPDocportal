@@ -16,7 +16,9 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
+import org.hibernate.Transaction;
 import org.mycore.access.MCRAccessManager;
+import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.services.i18n.MCRTranslation;
@@ -44,11 +46,12 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 		JspWriter out = pageContext.getOut();
 		out.flush();
 		
-		boolean doCommitTransaction = false;
-		if(!MCRSessionMgr.getCurrentSession().isTransactionActive()){
-			doCommitTransaction = true;
-			MCRSessionMgr.getCurrentSession().beginTransaction();
-		}
+		Transaction t1=null;
+		try {
+    		Transaction tx  = MCRHIBConnection.instance().getSession().getTransaction();
+	   		if(tx==null || !tx.isActive()){
+				t1 = MCRHIBConnection.instance().getSession().beginTransaction();
+			}
 		
 		if(MCRAccessManager.checkPermission("administrate-webcontent")){
 			if(getOpenEditorsFromSession().contains(id)){
@@ -63,9 +66,12 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 			showText(out);
 		}
 
-		if(doCommitTransaction){
-			MCRSessionMgr.getCurrentSession().commitTransaction();
+	}
+	finally{
+		if(t1!=null){
+			t1.commit();
 		}
+	}
 	}
 	/**
 	 * opens the CKEditor

@@ -31,6 +31,8 @@ import java.util.ResourceBundle;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Transaction;
+import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSystemUserInformation;
@@ -90,14 +92,19 @@ public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBe
 			if (mcrUserInfo != null && !mcrUserInfo.getUserID().equals("gast") && !mcrUserInfo.getUserID().equals("gast")) {
 				loginStatus = "user.welcome";
 				loginOK = true;
-				boolean handleTA = !mcrSession.isTransactionActive();
-				if(handleTA){
-					mcrSession.beginTransaction();
-				}
+				Transaction t1=null;
+				try {
+		    		Transaction tx  = MCRHIBConnection.instance().getSession().getTransaction();
+			   		if(tx==null || !tx.isActive()){
+						t1 = MCRHIBConnection.instance().getSession().beginTransaction();
+					}
 				updateData(mcrSession);
-				if(handleTA){
-					mcrSession.commitTransaction();
 				}
+				finally{
+		    		if(t1!=null){
+		    			t1.commit();
+		    		}
+		    	}
 			}
 		}
 
@@ -119,8 +126,12 @@ public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBe
 
 		HttpServletRequest request = (HttpServletRequest) getContext().getRequest();
 		MCRSession mcrSession = MCRServlet.getSession(request);
+		Transaction t1=null;
 		try {
-			mcrSession.beginTransaction();
+    		Transaction tx  = MCRHIBConnection.instance().getSession().getTransaction();
+	   		if(tx==null || !tx.isActive()){
+				t1 = MCRHIBConnection.instance().getSession().beginTransaction();
+			}
 
 			String oldUserID = mcrSession.getUserInformation().getUserID();
 
@@ -226,9 +237,12 @@ public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBe
 			
 			updateData(mcrSession);
 			return fwdResolution;
-		} finally {
-			mcrSession.commitTransaction();
 		}
+		finally{
+    		if(t1!=null){
+    			t1.commit();
+    		}
+    	}
 	}
 
 	private boolean loginInMyCore(String mcrUserID, String mcrPassword, MCRSession mcrSession) {

@@ -23,21 +23,24 @@ public class MCRDisplayClassificationCategoryTag extends SimpleTagSupport
 	
 	
 	public void doTag() throws JspException, IOException {
-		try{
-			String text = "";
-			Transaction tx  = MCRHIBConnection.instance().getSession().getTransaction();
-	   		if(tx==null || !tx.isActive()){
-				Transaction t1 = MCRHIBConnection.instance().getSession().beginTransaction();
-				text = categoryDAO.getCategory(new MCRCategoryID(classid, categid), 0).getLabel(lang).getText();
-				t1.commit();
+		String text = "";
+		Transaction t1=null;
+		try {
+	    	Transaction tx  = MCRHIBConnection.instance().getSession().getTransaction();
+			if(tx==null || !tx.isActive()){
+				t1 = MCRHIBConnection.instance().getSession().beginTransaction();
 			}
-	   		else{
-	   			text = categoryDAO.getCategory(new MCRCategoryID(classid, categid), 0).getLabel(lang).getText();
-	   		}
+			text = categoryDAO.getCategory(new MCRCategoryID(classid, categid), 0).getLabel(lang).getText();
+			
 			getJspContext().getOut().write(text);
 		}catch(Exception e){
 			LOGGER.error("could not check access", e);
 		}
+		finally{
+	    	if(t1!=null){
+	    		t1.commit();
+	    	}
+	    }
 	}
 	
 	public void setLang(String lang) {

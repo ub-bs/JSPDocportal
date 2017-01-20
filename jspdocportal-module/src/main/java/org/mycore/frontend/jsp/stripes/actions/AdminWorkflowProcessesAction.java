@@ -3,6 +3,17 @@ package org.mycore.frontend.jsp.stripes.actions;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.activiti.engine.RuntimeService;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.apache.log4j.Logger;
+import org.hibernate.Transaction;
+import org.mycore.access.MCRAccessManager;
+import org.mycore.activiti.MCRActivitiMgr;
+import org.mycore.activiti.workflows.create_object_simple.MCRWorkflowMgr;
+import org.mycore.backend.hibernate.MCRHIBConnection;
+import org.mycore.common.config.MCRConfiguration;
+import org.mycore.datamodel.metadata.MCRObjectID;
+
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -10,16 +21,6 @@ import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.controller.LifecycleStage;
-
-import org.activiti.engine.RuntimeService;
-import org.activiti.engine.runtime.ProcessInstance;
-import org.apache.log4j.Logger;
-import org.mycore.access.MCRAccessManager;
-import org.mycore.activiti.MCRActivitiMgr;
-import org.mycore.activiti.workflows.create_object_simple.MCRWorkflowMgr;
-import org.mycore.common.MCRSessionMgr;
-import org.mycore.common.config.MCRConfiguration;
-import org.mycore.datamodel.metadata.MCRObjectID;
 
 @UrlBinding("/adminWorkflowProcesses.action")
 public class AdminWorkflowProcessesAction extends MCRAbstractStripesAction implements ActionBean {
@@ -51,9 +52,12 @@ public class AdminWorkflowProcessesAction extends MCRAbstractStripesAction imple
 
 	@DefaultHandler
 	public Resolution defaultRes() {
-		if (!MCRSessionMgr.getCurrentSession().isTransactionActive()) {
-			MCRSessionMgr.getCurrentSession().beginTransaction();
-		}
+		Transaction t1=null;
+		try {
+    		Transaction tx  = MCRHIBConnection.instance().getSession().getTransaction();
+	   		if(tx==null || !tx.isActive()){
+				t1 = MCRHIBConnection.instance().getSession().beginTransaction();
+			}
 		for (String s : getContext().getRequest().getParameterMap().keySet()) {
 			if (s.startsWith("doDeleteProcess_")) {
 				String id = s.substring(s.indexOf("_") + 1);
@@ -68,6 +72,12 @@ public class AdminWorkflowProcessesAction extends MCRAbstractStripesAction imple
 		} else {
 			messages.add("You don't have the Permission to delete a process instance");
 		}
+		}
+		finally{
+    		if(t1!=null){
+    			t1.commit();
+    		}
+    	}
 
 		return fwdResolution;
 

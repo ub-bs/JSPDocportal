@@ -13,11 +13,12 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Transaction;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.Namespace;
-import org.mycore.common.MCRSessionMgr;
+import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.content.MCRContent;
 import org.mycore.common.content.MCRJDOMContent;
 import org.mycore.common.content.MCRStringContent;
@@ -70,11 +71,12 @@ public class MCRIncludeXEditorTag extends SimpleTagSupport {
     public void doTag() throws JspException, IOException {
         PageContext pageContext = (PageContext) getJspContext();
 
-        boolean doCommitTransaction = false;
-        if (!MCRSessionMgr.getCurrentSession().isTransactionActive()) {
-            doCommitTransaction = true;
-            MCRSessionMgr.getCurrentSession().beginTransaction();
-        }
+        Transaction t1=null;
+		try {
+    		Transaction tx  = MCRHIBConnection.instance().getSession().getTransaction();
+	   		if(tx==null || !tx.isActive()){
+				t1 = MCRHIBConnection.instance().getSession().beginTransaction();
+			}
         MCRContent editorContent = null;
         if (editorPath != null && !editorPath.equals("")) {
             if (!editorPath.startsWith("/")) {
@@ -89,7 +91,6 @@ public class MCRIncludeXEditorTag extends SimpleTagSupport {
             }
         }
         if (editorContent != null) {
-            try {
                 JspWriter out = pageContext.getOut();
                 Document doc = editorContent.asXML();
                 if (doc.getRootElement().getName().equals("form")
@@ -140,15 +141,18 @@ public class MCRIncludeXEditorTag extends SimpleTagSupport {
                     out.append("<span class=\"error\">Please provide an &lt;xed:form&gt; element here!</span>");
 
                 }
+        	}
             } catch (SAXException e) {
                 LOGGER.error("SAXException " + e, e);
             } catch (JDOMException e) {
                 LOGGER.error("JDOMException " + e, e);
-            }
+            
         }
-        if (doCommitTransaction) {
-            MCRSessionMgr.getCurrentSession().commitTransaction();
-        }
+		finally{
+    		if(t1!=null){
+    			t1.commit();
+    		}
+    	}
 
     }
 

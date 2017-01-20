@@ -34,9 +34,10 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.taglibs.standard.tag.common.xml.XPathUtil;
+import org.hibernate.Transaction;
 import org.mycore.access.MCRAccessManager;
+import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.MCRConstants;
-import org.mycore.common.MCRSessionMgr;
 import org.mycore.datamodel.ifs.MCRDirectory;
 import org.mycore.datamodel.ifs.MCRFilesystemNode;
 import org.mycore.datamodel.metadata.MCRDerivate;
@@ -66,13 +67,13 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 			throw new JspException("This tag must be nested in tag called 'row' of the same tag library");
 		}
 
-		boolean doCommitTransaction = false;
-		if (!MCRSessionMgr.getCurrentSession().isTransactionActive()) {
-			doCommitTransaction = true;
-			MCRSessionMgr.getCurrentSession().beginTransaction();
-		}
-
+		Transaction t1=null;
 		try {
+    		Transaction tx  = MCRHIBConnection.instance().getSession().getTransaction();
+	   		if(tx==null || !tx.isActive()){
+				t1 = MCRHIBConnection.instance().getSession().beginTransaction();
+			}
+	   		
 			JspWriter out = getJspContext().getOut();
 
 			XPathUtil xu = new XPathUtil((PageContext) getJspContext());
@@ -200,11 +201,12 @@ public class MCRDocDetailsDerivateListTag extends SimpleTagSupport {
 			// error
 		} catch (Exception e) {
 			throw new JspException("Error executing docdetails:derivatelist tag", e);
-		} finally {
-			if (doCommitTransaction) {
-				MCRSessionMgr.getCurrentSession().commitTransaction();
-			}
 		}
+		finally{
+    		if(t1!=null){
+    			t1.commit();
+    		}
+    	}
 	}
 
 	/**
