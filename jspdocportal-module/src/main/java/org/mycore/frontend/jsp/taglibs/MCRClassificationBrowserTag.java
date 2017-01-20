@@ -173,8 +173,8 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 		PageContext context = (PageContext) getJspContext();
 		HttpServletRequest request = (HttpServletRequest) context.getRequest();
 		String requestPath = request.getParameter("select");
-		StringBuffer url = new StringBuffer("classbrowser/"+mode+"?");
-	
+		StringBuffer url = new StringBuffer(MCRFrontendUtil.getBaseURL());
+		url.append("classbrowser/"+mode+"?");
 
 		@SuppressWarnings("rawtypes")
 		Enumeration paramNames = request.getParameterNames();
