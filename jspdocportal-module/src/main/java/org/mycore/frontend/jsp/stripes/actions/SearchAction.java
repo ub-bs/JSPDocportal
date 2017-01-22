@@ -206,6 +206,9 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
         }
 
         fwdResolutionForm.getParameters().remove(MCREditorSessionStore.XEDITOR_SESSION_PARAM);
+        if(queryDoc == null){
+            request.getSession().removeAttribute(MCREditorSessionStore.XEDITOR_SESSION_PARAM + "_" + result.getMask());
+        }
         if (request.getSession()
             .getAttribute(MCREditorSessionStore.XEDITOR_SESSION_PARAM + "_" + result.getMask()) != null) {
 
