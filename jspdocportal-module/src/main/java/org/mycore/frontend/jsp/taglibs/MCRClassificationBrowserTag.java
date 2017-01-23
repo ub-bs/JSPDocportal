@@ -474,6 +474,9 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 				url.append("search");
 				url.append("?q="
 						+ URLEncoder.encode(generateQuery(cb, categ.getId().getID()), Charset.defaultCharset().name()));
+				if(cb.sortResult!=null){
+					url.append("&sort=").append(cb.sortResult.trim());
+				}
 			}
 			out.write("<a class=\"btn btn-default btn-xs cb-btn\" href=\"" + url.toString() + "\">");
 			out.write(label + " <span class=\"glyphicon glyphicon-share-alt\"></span>");
@@ -640,6 +643,14 @@ class CBConfig {
      * textual syntax
      */
     public String filter;
+    
+    /*
+     * optional: Specify a sorting for the entries belonging to the classification in SOLR syntax
+     * @param sort tion a string, which must be a valid query in MCR
+     * textual syntax
+     */
+    public String sortResult;
+
 
     public CBConfig(String mode) {
         MCRConfiguration config = MCRConfiguration.instance();
@@ -666,5 +677,7 @@ class CBConfig {
         linkall = config.getBoolean(PROP_PREFIX + mode + ".ShowLinkall", false);
 
         filter = config.getString(PROP_PREFIX + mode + ".Filter", null);
+        
+        sortResult = config.getString(PROP_PREFIX + mode + ".SortResult", null);
     }
 }
