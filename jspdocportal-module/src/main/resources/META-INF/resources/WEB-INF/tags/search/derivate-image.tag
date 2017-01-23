@@ -57,7 +57,7 @@
 		<div class="docdetails-image" style="width:${width}">
 			<div style="position:relative">
    				<c:if test="${protectDownload}">
-   					<img style="opacity:0.01;position:absolute;top:0px;left:0px;width:100%;height:100%;z-index:1" src="${pageContext.request.contextPath}/images/image_terms_of_use.png"/>
+   					<img style="opacity:0.001;position:absolute;top:0px;left:0px;width:100%;height:100%;z-index:1" src="${pageContext.request.contextPath}/images/image_terms_of_use.png"/>
 	   			</c:if>
    				<img style="position:relative;top:0px;left:0px;width:98%;padding:1%;display:block;" src="${pageContext.request.contextPath}/${fn:substringAfter(fn:substringBefore(x, '#'),'=')}" border="0" width="${width}" alt="${fn:substringBefore(x, '=')}" />
 			</div>
