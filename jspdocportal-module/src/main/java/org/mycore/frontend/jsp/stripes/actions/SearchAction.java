@@ -130,6 +130,10 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
             result.setSort(request.getParameter("sortField") + " " + request.getParameter("sortValue"));
             result.setStart(0);
         }
+        if (request.getParameter("sort") != null) {
+            result.setSort(request.getParameter("sort"));
+            result.setStart(0);
+        }
 
         if (result == null) {
             result = new MCRSearchResultDataBean();
