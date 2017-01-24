@@ -7,10 +7,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Enumeration;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -173,10 +175,22 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 			File editorFile = new File(path);
 			
 			HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
-			request.getParameterMap().clear();
+			Map params = request.getParameterMap();
+			if(params.getClass().getName().equals("org.apache.catalina.util.ParameterMap")){
+				 try{
+					 Class[] argTypes = new Class[] { boolean.class };
+					 Method main = params.getClass().getDeclaredMethod("setLocked", argTypes);
+					 main.invoke(params, false);
+				 }
+				 catch(Exception e){
+					 logger.error( "Error when unlocking parameter map: " , e );
+				 }
+			}
+			params.clear();
 			for(Object key: parameters.keySet()){
 				request.getParameterMap().put(key, new String[]{parameters.getProperty((String)key)});
 			}
+			
 			
 			Document xml = MCRXMLHelper.parseURI(editorFile.toURI(), false);
 			MCREditorServlet.replaceEditorElements(request, editorFile.toURI().toString(), xml);	
