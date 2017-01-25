@@ -30,6 +30,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Hashtable;
+import java.util.Iterator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -40,6 +41,12 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.log4j.Logger;
+import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
 import org.jdom2.Document;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
@@ -57,8 +64,8 @@ import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.datamodel.metadata.MCRObjectStructure;
 import org.mycore.frontend.MCRFrontendUtil;
-import org.mycore.services.fieldquery.MCRQuery;
-import org.mycore.services.fieldquery.MCRQueryParser;
+import org.mycore.solr.MCRSolrClientFactory;
+import org.mycore.solr.MCRSolrUtils;
 
 /**
  * This servlet response the MCRObject certain by the call path
@@ -100,6 +107,30 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
 		String key = path[0];
 		String value = path[1];
 
+		//GND resolving URL for profkat
+		if("gnd".equals(key)){
+			//"gnd_uri": "http://d-nb.info/gnd/14075444X"
+	        try {
+	            SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
+	            SolrQuery solrQuery = new SolrQuery();
+	            solrQuery.setQuery("gnd_uri:"+MCRSolrUtils.escapeSearchValue("http://d-nb.info/gnd/" + value.trim()));
+	            solrQuery.setFields("id");
+	            QueryResponse solrResponse = solrClient.query(solrQuery);
+	            SolrDocumentList solrResults = solrResponse.getResults();
+
+	            Iterator<SolrDocument> it = solrResults.iterator();
+	            if (it.hasNext()) {
+	                SolrDocument doc = it.next();
+	                String id = String.valueOf(doc.getFirstValue("id"));
+	                response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+	                response.setHeader("Location", MCRFrontendUtil.getBaseURL()+"/resolve/id/" + id);
+	            }
+	        } catch (SolrServerException e) {
+	            LOGGER.error(e);
+	        }
+	        return;
+		}
+		
 		String mcrID = null;
 		if ("id".equals(key)) {
 			mcrID = recalculateMCRObjectID(value);
@@ -109,9 +140,10 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
 			} catch (UnsupportedEncodingException e) {
 				// will not happen
 			}
-			String queryString = "(" + key + " = " + value + ")";
-			MCRQuery query = new MCRQuery((new MCRQueryParser()).parse(queryString));
 			// TODO SOLR Migration
+			//String queryString = "(" + key + " = " + value + ")";
+			//MCRQuery query = new MCRQuery((new MCRQueryParser()).parse(queryString));
+		
 			/*
 			 * MCRResults result = MCRQueryManager.search(query);
 			 * 
