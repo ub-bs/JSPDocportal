@@ -128,7 +128,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
                     SolrDocument doc = it.next();
                     String id = String.valueOf(doc.getFirstValue("id"));
                     response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
-                    response.setHeader("Location", MCRFrontendUtil.getBaseURL()+"/resolve/id/" + id);
+                    response.setHeader("Location", MCRFrontendUtil.getBaseURL()+"resolve/id/" + id);
                 }
             } catch (SolrServerException e) {
                 LOGGER.error(e);
