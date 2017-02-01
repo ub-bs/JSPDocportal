@@ -190,6 +190,9 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
                 }
             }
         }
+        if(request.getParameter("_showmask")!=null){
+        	showMask = true;
+        }
 
         if (queryDoc != null) {
             XMLOutputter xml = new XMLOutputter(Format.getPrettyFormat());

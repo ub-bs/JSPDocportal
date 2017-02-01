@@ -91,7 +91,7 @@
 		</ul>
 		<c:if test="${fn:length(result.backURL) >0}">
 			<a class="btn btn-default btn-sm" style="margin: -7px 15px -7px 0px;"
-			   href="${result.backURL}" ><fmt:message key="Webpage.searchresults.back" /></a>
+			   href="${result.backURL}?_search=${result.id}&_showmask" ><fmt:message key="Webpage.searchresults.back" /></a>
 		</c:if>
 		<strong>${result.numFound} <fmt:message key="Webpage.Searchresult.numHits" /></strong>
 
