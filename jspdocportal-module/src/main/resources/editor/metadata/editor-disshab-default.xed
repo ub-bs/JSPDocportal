@@ -552,7 +552,9 @@
                   <div class="col-sm-10 col-sm-offset-2">
                     <xed:bind xpath="@valueURIxEditor" initially="{substring-after(@valueURI, '#')}">
                       <select id="doctype" class="form-control input-sm">
-                        <xed:include uri="xslStyle:items2options:classification:editor:-1:children:doctype" />
+                       <!--  <xed:include uri="xslStyle:items2options:classification:editor:-1:children:doctype" /> -->
+                          <option title="Dissertation" value="epub.dissertation">Dissertation</option>
+                          <option title="Habilitation" value="epub.habilitation">Habilitation</option>
                       </select>
                     </xed:bind>
                   </div>
