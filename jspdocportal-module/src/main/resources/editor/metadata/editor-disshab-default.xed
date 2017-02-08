@@ -554,7 +554,7 @@
                       <select id="doctype" class="form-control input-sm">
                        <!--  <xed:include uri="xslStyle:items2options:classification:editor:-1:children:doctype" /> -->
                           <option title="Dissertation" value="epub.dissertation">Dissertation</option>
-                          <option title="Habilitation" value="epub.habilitation">Habilitation</option>
+                          <option title="Habilitationsschrift" value="epub.habilitation">Habilitationsschrift</option>
                       </select>
                     </xed:bind>
                   </div>
@@ -584,8 +584,9 @@
                 <div class="row ir-row"> 
                   <div class="col-sm-10 col-sm-offset-2">
                     <xed:bind xpath="@valueURIxEditor" initially="{substring-after(@valueURI, '#')}">
-                      <select id="accessConditions" class="form-control input-sm">
-                        <xed:include uri="xslStyle:items2options:classification:editor:-1:children:accesscondition" />                        
+                      <select id="accessConditions" class="form-control input-sm" readonly="readonly">
+                        <!-- <xed:include uri="xslStyle:items2options:classification:editor:-1:children:accesscondition" /> -->
+                        <option selected="selected" title="frei zugänglich (Open Access)" value="openaccess">frei zugänglich (Open Access)</option>                        
                       </select>
                     </xed:bind>
                   </div>
