@@ -69,7 +69,7 @@
   					<div class="panel-heading" style="min-height:54px">
   						<a class="btn btn-default pull-right" href="${baseURL}showWorkspace.action?mcr_base=${actionBean.mcr_base}"><span class="glyphicon glyphicon-off"></span> Zurück</a>
 					  	<span class="badge pull-left" style="margin-right:24px;margin-top:9px;">${currentVariables.mcrObjectID}</span>
-					  	<h3 class="pull-left" style="margin-top:6px">
+					  	<h3 class="pull-left" style="margin-top:6px;color: white">
 					  		${currentVariables.wfObjectDisplayTitle}
 					  	</h3>
   					</div>
@@ -115,8 +115,10 @@
   												</c:if>
   											</c:forEach>
   											</select>
-  											<c:set var="derTitle"><x:out select="$derDoc/mycorederivate/service/servflags/servflag[@type='title']" /></c:set>
-									  		<input id="txtEditDerMetaTitle_${derID}" name="saveDerivateMeta_title-task_${actionBean.taskid}-derivate_${derID}" type="text" class="form-control" style="margin-top:12px" disabled="disabled" value="${derTitle}" data-original-value="${derTitle}" />
+  											<c:if test="${fn:contains(maindoc,'_person_')}">
+  												<c:set var="derTitle"><x:out select="$derDoc/mycorederivate/service/servflags/servflag[@type='title']" /></c:set>
+									  			<input id="txtEditDerMetaTitle_${derID}" name="saveDerivateMeta_title-task_${actionBean.taskid}-derivate_${derID}" type="text" class="form-control" style="margin-top:12px" disabled="disabled" value="${derTitle}" data-original-value="${derTitle}" />
+									  		</c:if>
 									  	</h4>					
   									</div>
     								<div class="panel-body">
@@ -190,12 +192,14 @@
   											</select>
     									</div>
   									</div>
+  									<c:if test="${fn:contains(maindoc,'_person_')}">
   									<div class="form-group">
     									<label for="inputTitle" class="col-sm-1 control-label">Titel</label>
     									<div class="col-sm-11">
       										<input type="text" name="newDerivate_title-task_${actionBean.taskid}" class="form-control" id="inputTitle" placeholder="Titel"></input>
     									</div>
   									</div>
+  									</c:if>
   									<div class="form-group">
     									<label for="inputFile" class="col-sm-1 control-label">Datei</label>
     									<div class="col-sm-11">
