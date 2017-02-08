@@ -233,8 +233,14 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 				MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(mcrObjID);
 				for (MCRMetaLinkID metaID : new ArrayList<MCRMetaLinkID>(mcrObj.getStructure().getDerivates())) {
 					MCRObjectID derID = metaID.getXLinkHrefID();
-					MCRDerivate derObj = MCRMetadataManager.retrieveMCRDerivate(derID);
-					if (derObj.getService().getState() != null) {
+					MCRDerivate derObj = null;
+					try{
+					    derObj = MCRMetadataManager.retrieveMCRDerivate(derID);
+				    }
+					catch(MCRPersistenceException mpe){
+					    LOGGER.error(mpe);
+					}
+					if (derObj != null && derObj.getService().getState() != null) {
 						String state = derObj.getService().getState().getID();
 						if (state.equals("new")) {
 							MCRMetadataManager.delete(derObj);
