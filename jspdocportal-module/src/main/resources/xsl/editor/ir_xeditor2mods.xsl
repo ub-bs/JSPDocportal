@@ -35,4 +35,12 @@
        </mods:name> 
     </xsl:if>
   </xsl:template>
+    
+    <!-- remove empty authorityURI /valueURI attributes -->
+  <xsl:template match="mods:name[@valueURI='http://d-nb.info/gnd/']">
+       <mods:name>
+        <xsl:attribute name="type"><xsl:value-of select="./@type"></xsl:value-of></xsl:attribute>
+         <xsl:apply-templates select="node()"/>
+       </mods:name>    
+  </xsl:template>
 </xsl:stylesheet>

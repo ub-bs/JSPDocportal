@@ -2,6 +2,7 @@
 <!-- method='post' to avoid charset problems !!! -->
 
 <xed:form xmlns:xed="http://www.mycore.de/xeditor" role="form" class="form-horizontal" accept-charset="UTF-8" method="post">
+  
     <div class="row">
     <div class="alert alert-info col-sm-12">
       <xed:output i18n="Editor.Common.headline" />
@@ -12,6 +13,12 @@
    <xed:cleanup-rule xpath="/mycoreobject/metadata//*" relevant-if="@* or * or (string-length(text()) &gt; 0)" />
    
    <xed:cleanup-rule xpath="/mycoreobject/metadata/*" relevant-if=" ./*" />
+   
+    <xed:cleanup-rule xpath="//mods:name[./mods:namePart/@type='family']" relevant-if="string-length(./mods:namePart[@type='family']/text()) &gt; 0" />
+    <xed:cleanup-rule xpath="//mods:identifier" relevant-if="string-length(text()) &gt; 0" />
+    <xed:cleanup-rule xpath="//mods:abstract" relevant-if="string-length(text()) &gt; 0" />
+    <xed:cleanup-rule xpath="//*[@encoding='iso8601']" relevant-if="string-length(text()) &gt; 0" />
+    <xed:cleanup-rule xpath="//mods:originInfo" relevant-if="* or (string-length(text()) &gt; 0)" />
    
     <xed:include uri="resource:editor/metadata/includes-generic.xed" ref="in.out" />
     <xed:bind xpath="/mycoreobject">
@@ -100,7 +107,7 @@
                   </label>
                   <div class="col-sm-4">
                     <xed:bind xpath="@valueURI" default="http://d-nb.info/gnd/">
-                      <input id="author_gnd" type="text" class="form-control input-sm"   />
+                      <input id="author_gnd" type="text" class="form-control input-sm mcr-gnd-field"   />
                     </xed:bind>
                   </div>
                 </div>
@@ -291,7 +298,7 @@
                   </label>
                   <div class="col-sm-4">
                     <xed:bind xpath="@valueURI" default="http://d-nb.info/gnd/">
-                      <input id="author_gnd" type="text" class="form-control input-sm"   />
+                      <input id="author_gnd" type="text" class="form-control input-sm mcr-gnd-field"   />
                     </xed:bind>
                   </div>
                 </div>
