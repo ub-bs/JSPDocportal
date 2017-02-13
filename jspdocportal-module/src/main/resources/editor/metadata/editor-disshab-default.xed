@@ -649,4 +649,17 @@
 
       <xed:include uri="resource:editor/metadata/includes-generic.xed" ref="cancel.submit" />
     </xed:bind>
+        
+    <script>
+      $(document).ready(function() {
+        $.getScript( 'javascript/xed-check-gnd.js', function() {
+          $('.mcr-gnd-field').on('click change', function(){
+              checkGND(this);
+          });
+          $('.mcr-gnd-field').each( function(){
+              checkGND(this);
+          });
+        });
+      });
+    </script>
 </xed:form>
