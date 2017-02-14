@@ -62,7 +62,7 @@
    				<img style="position:relative;top:0px;left:0px;width:98%;padding:1%;display:block;" src="${pageContext.request.contextPath}/${fn:substringAfter(fn:substringBefore(x, '#'),'=')}" border="0" width="${width}" alt="${fn:substringBefore(x, '=')}" />
 			</div>
 			<c:if test="${showFooter}">
-  				<div class="docdetails-image-footer" style="margin:1%">
+  				<div class="docdetails-image-footer" style="padding:1%">
     				${fn:substringAfter(x,'#')}
 				</div>
 			</c:if>
