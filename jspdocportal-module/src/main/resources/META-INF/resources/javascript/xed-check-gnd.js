@@ -14,6 +14,12 @@ function checkGND(self) {
 				if ($(data).size() > 1) {
 					$(self).attr('title', 'Name in GND (via lobid.org): '+data[1]);
 				}
+				else{
+					$(self).attr('title', 'Name in GND (via lobid.org): NOT FOUND');
+				}
+			},
+			error : function(){
+				$(self).attr('title', 'Name in GND (via lobid.org): ERROR');
 			}
 		});
 	}
