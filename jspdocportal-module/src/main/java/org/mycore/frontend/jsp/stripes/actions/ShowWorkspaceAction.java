@@ -29,6 +29,7 @@ import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
+import org.mycore.frontend.jsp.stripes.actions.util.MCRMODSGVKImporter;
 import org.mycore.frontend.xeditor.MCREditorSession;
 import org.mycore.frontend.xeditor.MCREditorSessionStore;
 import org.mycore.frontend.xeditor.MCREditorSessionStoreFactory;
@@ -137,6 +138,16 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
                     "/editDerivates.action?taskid=" + taskID + "&mcrobjid=" + mcrObjID);
                 return res;
             }
+            
+            //doImportMODS-task_[ID]-[mcrObjID]
+            if(s.startsWith("doImportMODS-task_")){
+                String id = s.substring(s.indexOf("-") + 1);
+                String taskID = id.substring(0, id.indexOf("-"));
+                taskID = taskID.substring(taskID.indexOf("_") + 1);
+                String mcrObjID = id.substring(id.indexOf("-") + 1);
+                
+                importMODSFromGVK(mcrObjID);
+            }
         }
 
         try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()) {
@@ -231,6 +242,7 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
             LOGGER.error("WFObject could not be read.");
         }
 
+        //Title
         MCRObject mcrObj = MCRActivitiUtils.loadMCRObjectFromWorkflowDirectory(mcrObjID);
         String txt = null;
         try {
@@ -253,6 +265,8 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
             MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(t.getId(),
                 MCRActivitiMgr.WF_VAR_DISPLAY_TITLE, MCRTranslation.translate("Wf.common.newObject"));
         }
+        
+        //Description
         try {
             String xpDescr = MCRConfiguration.instance()
                 .getString("MCR.Activiti.MCRObject.Display.Description.XPath." + mcrObjID.getBase(), null);
@@ -274,6 +288,30 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
             MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(t.getId(),
                 MCRActivitiMgr.WF_VAR_DISPLAY_DESCRIPTION, "");
         }
+        
+        //PersistentIdentifier
+        try {
+            String xpPI = MCRConfiguration.instance()
+                .getString("MCR.Activiti.MCRObject.Display.PersistentIdentifier.XPath." + mcrObjID.getBase(), null);
+            if (xpPI == null) {
+                xpPI = MCRConfiguration.instance().getString(
+                    "MCR.Activiti.MCRObject.Display.PersistentIdentifier.XPath.default_" + mcrObjID.getTypeId(),
+                    "/mycoreobject/@ID");
+            }
+            XPathExpression<String> xpath = XPathFactory.instance().compile(xpPI, Filters.fstring(), null, MCRConstants.MODS_NAMESPACE);
+            txt = xpath.evaluateFirst(mcrObj.createXML());
+        } catch (Exception e) {
+            LOGGER.error(e);
+            txt = e.getMessage();
+        }
+        if (txt != null) {
+            MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(t.getId(),
+                MCRActivitiMgr.WF_VAR_DISPLAY_PERSISTENT_IDENTIFIER, txt);
+        } else {
+            MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(t.getId(),
+                MCRActivitiMgr.WF_VAR_DISPLAY_PERSISTENT_IDENTIFIER, "");
+        }
+        
     }
 
     private void updateWFDerivateList(Task t) {
@@ -326,6 +364,12 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
         MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(t.getId(),
             MCRActivitiMgr.WF_VAR_DISPLAY_DERIVATELIST, result.toString());
 
+    }
+    
+    private void importMODSFromGVK(String mcrID){
+        MCRObjectID mcrObjID = MCRObjectID.getInstance(mcrID);
+        File wfFile = new File(MCRActivitiUtils.getWorkflowDirectory(mcrObjID), mcrID + ".xml");
+        MCRMODSGVKImporter.updateWorkflowFile(wfFile);
     }
 
     public String getMcr_base() {

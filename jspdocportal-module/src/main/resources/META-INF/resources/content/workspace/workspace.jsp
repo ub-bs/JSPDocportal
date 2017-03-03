@@ -77,7 +77,15 @@
 													</div>
 												</div>
 											</div>
-											<div class="panel-body" style="margin-top:1px solid lightgrey">
+											<div class="panel-body">
+												<c:if test="${not fn:contains(currentVariables.mcrObjectID,'_person_')}">
+													<a href="${WebApplicationBaseURL}pubform/pica3?urn=${currentVariables.wfObjectDisplayPersistentIdentifier}" 
+												   		class="btn btn-default" target="_blank"><span class="glyphicon glyphicon-book"></span> Pica3 generieren
+													</a>
+							     					<button class="btn btn-default" type="button" data-toggle="collapse" data-target="#import_mods-dialog-task_${currentTask.id}">
+							     						<span class="glyphicon glyphicon-download-alt"></span> MODS aus OPAC importieren
+							     					</button>
+							     				</c:if>
 							     				<button name="doEditObject-task_${currentTask.id}-${currentVariables.mcrObjectID}" value="" class="btn btn-default" type="submit">
 							     					<span class="glyphicon glyphicon-tag"></span> Metadaten bearbeiten
 							     				</button>
@@ -85,6 +93,12 @@
 							    	 				<span class="glyphicon glyphicon-file"></span> Derivate bearbeiten
 							     				</button>
 							   			 	</div>
+							   			 	<div id="import_mods-dialog-task_${currentTask.id}" class="collapse">
+							  					<div class="panel-body" style="background-color: rgb(242, 222, 222);border: 2px solid rgb(169, 68, 66); padding-left: 4em;">
+							  						<button name="doImportMODS-task_${currentTask.id}-${currentVariables.mcrObjectID}" value="" class="btn btn-danger btn-sm" type="submit"><span class="glyphicon glyphicon-download-alt"></span> IMPORTIEREN</button>
+								  					<label style="vertical-align:bottom; margin-left:2em;">Wollen sie die MODS-Metadaten aus dem Katalog importieren?</label>
+							  					</div>
+							  				</div>
 								  			<div class="panel-footer">
 								  				<button name="doGoto-task_${currentTask.id}-edit_object.do_save" value="" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-ok"></span> Veröffentlichen</button>
 												<button name="doGoto-task_${currentTask.id}-edit_object.do_cancel" value="" class="btn btn-default" type="submit"><span class="glyphicon glyphicon-remove"></span> Bearbeitung abbrechen</button>
