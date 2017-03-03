@@ -1,3 +1,4 @@
+<%@tag import="org.mycore.common.MCRPersistenceException"%>
 <%@tag import="org.mycore.services.i18n.MCRTranslation"%>
 <%@tag import="org.mycore.frontend.MCRFrontendUtil"%>
 <%@tag import="java.util.Locale"%>
@@ -18,7 +19,13 @@
 <%@ attribute name="showSize" required="false" type="java.lang.Boolean" %>
 
 <% 
-	MCRDerivate mcrDerivate = MCRMetadataManager.retrieveMCRDerivate(MCRObjectID.getInstance(derid));
+	MCRDerivate mcrDerivate = null;
+	try{
+		mcrDerivate = MCRMetadataManager.retrieveMCRDerivate(MCRObjectID.getInstance(derid));
+	}
+	catch(MCRPersistenceException e){
+	    //do nothing
+	}
 	if(mcrDerivate==null){
 		out.write("<b>No derivate found for id: "+derid+".</b>");
 	}
