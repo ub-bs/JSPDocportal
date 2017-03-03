@@ -521,7 +521,8 @@
        </label>
        <div class="col-sm-10">
          <xed:load-resource name="class_sdnb" uri="classification:metadata:-1:children:SDNB" />
-         <xed:repeat xpath="mods:classification[@displayLabel='sdnb'][@authorityURI=$class_sdnb/label[@xml:lang='x-uri']/@text]"> 
+         <xed:repeat xpath="mods:classification[@displayLabel='sdnb']">
+            <xed:bind xpath="@authorityURI" default="{$class_sdnb/label[@xml:lang='x-uri']/@text}" /> 
             <div class="row ir-row ir-row-1">
               <div class="col-sm-10">
                 <div class="row ir-row"> 
