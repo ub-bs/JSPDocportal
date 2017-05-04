@@ -25,7 +25,7 @@
    <list id="CPublicationType" width="300px" type="dropdown">    
       <item    value="" i18n="Editor.Common.choose" />      
       <include  uri="localclass:org.mycore.frontend.editor.helper.MCRGetEditorElements?mode=getClassificationInItems&amp;prop=MCR.ClassificationID.Type&amp;defaultValue=DocPortal_class_00000002" />
-      <condition id="CoOrigin" required="true" i18n="Editor.Common.choose.entry" />
+      <condition id="CoPublicationType" required="true" i18n="Editor.Common.choose.entry" />
     </list>
 
     <list id="CPublicationType01" type="dropdown" width="300px" disabled="false">
