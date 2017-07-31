@@ -80,7 +80,6 @@ public class MCRRestAPIUploadObjects {
    
    
    @POST
-   @Path("/")
    @Produces({ MediaType.TEXT_XML + ";charset=UTF-8" })
    @Consumes(MediaType.MULTIPART_FORM_DATA)
    public Response uploadObject(@Context UriInfo info, @Context HttpServletRequest request,
