@@ -11,6 +11,9 @@
 		Most of the files are copied from mycore-complete.	
 	</description>
   <url>http://www.mycore.de</url>
+    <properties>
+    	<mycore.version>2013.06.0.3-SNAPSHOT</mycore.version>
+  	</properties>
   <repositories>
     <repository>
       <id>JBoss JBPM</id>
@@ -53,7 +56,7 @@
                 <artifactItem>
                   <groupId>org.mycore</groupId>
                   <artifactId>mycore-complete</artifactId>
-                  <version>${project.version}</version>
+                  <version>${mycore.version}</version>
                   <type>jar</type>
                   <overWrite>true</overWrite>
                 </artifactItem>
@@ -68,9 +71,10 @@
       <plugin>
         <artifactId>maven-war-plugin</artifactId>
         <configuration>
-          <webXml>${project.basedir}\src\main\webapp\WEB-INF\web.xml</webXml>
-          <!-- <failOnMissingWebXml>false</failOnMissingWebXml> -->
+          <webXml>${project.basedir}/src/main/webapp/WEB-INF/web.xml</webXml>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
         </configuration>
+        <version>2.6</version>
       </plugin>
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
@@ -83,7 +87,7 @@
             </goals>
             <configuration>
               <target>
-                <unzip src="${project.build.directory}/lib/mycore-complete-${project.version}.jar" dest="${project.build.directory}/${project.build.finalName}">
+                <unzip src="${project.build.directory}/lib/mycore-complete-${mycore.version}.jar" dest="${project.build.directory}/${project.build.finalName}">
                   <patternset>
                     <include name="config/**" />
                     <exclude name="**/web.xml" />
