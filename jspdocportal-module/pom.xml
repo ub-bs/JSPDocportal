@@ -123,7 +123,7 @@
     <dependency>
       <groupId>org.mycore</groupId>
       <artifactId>mycore-oai</artifactId>
-      <version>${project.version}</version>
+      <version>${mycore.version}</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>
@@ -322,7 +322,6 @@
     <dependency>
     <groupId>javax.ws.rs</groupId>
       <artifactId>jsr311-api</artifactId>
-      <version>1.1.1</version>
     </dependency>
   </dependencies>
   <build>
@@ -374,7 +373,7 @@
                 <artifactItem>
                   <groupId>org.mycore</groupId>
                   <artifactId>mycore-complete</artifactId>
-                  <version>${project.version}</version>
+                  <version>${mycore.version}</version>
                   <includes>components\/oai\/web\/oai\/**</includes>
 									<!-- <includes>**\/*.xsd, **\/*.wsdl components\oai\web\/*.*</includes> -->
                 </artifactItem>
