@@ -30,6 +30,7 @@ import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.datamodel.niofs.utils.MCRRecursiveDeleter;
 
 /**
  * provides some static utility methods
@@ -156,6 +157,10 @@ public class MCRActivitiUtils {
 		return result;
 	}
 	
+    /**
+     * @deprecated use {@link MCRRecursiveDeleter} instead:
+     * Files.walkFileTree(copyRootPath, MCRRecursiveDeleter.instance());
+     */
 	public static void deleteDirectory(File dir){
 		if(dir==null || !dir.exists()){
 			return;
