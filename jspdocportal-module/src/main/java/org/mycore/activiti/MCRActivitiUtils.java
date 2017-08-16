@@ -115,7 +115,7 @@ public class MCRActivitiUtils {
 				wfDerFile.delete();
 			}
 			File wfDerDir = new File(new File(MCRActivitiUtils.getWorkflowDirectory(owner), owner.toString()), mcrderid.toString());
-			deleteDirectory(wfDerDir);
+			 Files.walkFileTree(wfDerDir.toPath(), MCRRecursiveDeleter.instance());
 		}
 		catch(Exception e){
 			LOGGER.error(e);
@@ -157,26 +157,7 @@ public class MCRActivitiUtils {
 		return result;
 	}
 	
-    /**
-     * @deprecated use {@link MCRRecursiveDeleter} instead:
-     * Files.walkFileTree(copyRootPath, MCRRecursiveDeleter.instance());
-     */
-	public static void deleteDirectory(File dir){
-		if(dir==null || !dir.exists()){
-			return;
-		}
-		for(File f: dir.listFiles()){
-			if(f.isDirectory()){
-				deleteDirectory(f);
-			}
-			else{
-				f.delete();
-			}
-		}
-		dir.delete();
-	}
-	
-	public static void deleteDirectoryContent(Path path) {
+   public static void deleteDirectoryContent(Path path) {
 		try {
 			final Path rootPath = path;
 				Files.walkFileTree(rootPath, new SimpleFileVisitor<Path>() {
