@@ -2,6 +2,7 @@ package org.mycore.activiti.workflows.create_object_simple;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -29,6 +30,7 @@ import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.datamodel.metadata.MCRObjectMetadata;
 import org.mycore.datamodel.niofs.MCRPath;
+import org.mycore.datamodel.niofs.utils.MCRRecursiveDeleter;
 import org.mycore.frontend.cli.MCRDerivateCommands;
 import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
 import org.xml.sax.SAXParseException;
@@ -276,7 +278,13 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 		}
 		// cleanup workflow dir
 		File wfDir = MCRActivitiUtils.getWorkflowDirectory(mcrObjID);
-		MCRActivitiUtils.deleteDirectory(new File(wfDir, mcrObjID.toString()));
+		try {
+			Files.walkFileTree(wfDir.toPath(), MCRRecursiveDeleter.instance());
+		}
+		catch(IOException e) {
+			LOGGER.error(e);
+		}
+		
 		File xmFile = new File(wfDir, mcrObjID.toString() + ".xml");
 		xmFile.delete();
 
@@ -301,7 +309,12 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 				}
 				File derBaseDir = new File(wfDir, mcrObj.getId().toString());
 				derBaseDir.mkdirs();
-				MCRActivitiUtils.deleteDirectory(new File(derBaseDir, derID.toString()));
+				try {
+					Files.walkFileTree(wfDir.toPath(), MCRRecursiveDeleter.instance());
+				}
+				catch(IOException e) {
+					LOGGER.error(e);
+				}
 				MCRDerivateCommands.show(derID.toString(), derBaseDir.getPath());
 			}
 		}
