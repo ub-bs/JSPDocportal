@@ -43,11 +43,6 @@
   </pluginRepositories>
   <repositories>
     <repository>
-      <id>JBoss JBPM</id>
-	  <!-- <url>http://repository.jboss.org/maven2</url> -->
-      <url>http://repository.jboss.org/nexus/content/groups/public-jboss</url>
-    </repository>
-    <repository>
       <id>MyCoRe HQ</id>
       <url>http://artifactory.mycore.de/mycore-releases</url>
       <snapshots>
