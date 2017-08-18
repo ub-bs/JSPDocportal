@@ -68,8 +68,6 @@ import org.mycore.datamodel.common.MCRActiveLinkException;
 import org.mycore.datamodel.common.MCRXMLMetadataManager;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRMetaAccessRule;
-import org.mycore.datamodel.metadata.MCRMetaElement;
-import org.mycore.datamodel.metadata.MCRMetaLangText;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRMetaXML;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
@@ -81,8 +79,6 @@ import org.mycore.frontend.cli.MCRAbstractCommands;
 import org.mycore.frontend.cli.MCRDerivateCommands;
 import org.mycore.frontend.cli.annotation.MCRCommand;
 import org.mycore.frontend.cli.annotation.MCRCommandGroup;
-import org.mycore.frontend.workflowengine.jbpm.MCRJbpmWorkflowBase;
-import org.mycore.urn.services.MCRURNManager;
 import org.xml.sax.SAXParseException;
 
 /**
@@ -109,51 +105,7 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
      * @throws MCRException
      */
 
-    @MCRCommand(syntax = "delete jbpm process {0}", help = "The command deletes a process instance of the jbpm workflow engine {0}")
-    public static final void deleteProcess(String strProcessID) throws MCRException {
-        try {
-            long processID = Long.valueOf(strProcessID).longValue();
-            MCRJbpmWorkflowBase.deleteProcessInstance(processID);
-        } catch (Exception e) {
-            LOGGER.error("could not delete process " + strProcessID, e);
-            throw new MCRException("Error in deleting a process from workflow engine");
-        }
-
-    }
-
-    /**
-     * The command deploys a process definition to the database from a given file
-     * 
-     * @param resource 
-     *               the filename of a class resource with the jbpm-processdefinition
-     */
-    @MCRCommand(syntax = "deploy jbpm processdefinition from file {0}", help = "The command deploys a process definition to the database from the file {0}")
-    public static final void deployProcessDefinition(String resource) throws MCRException {
-        try {
-            MCRJbpmWorkflowBase.deployProcess(resource);
-        } catch (Exception e) {
-            LOGGER.error("Error in deploying a workflow process definition", e);
-            throw new MCRException("Error in deploying a workflow process definition", e);
-        }
-
-    }
-
-    /**
-     * This method creates the database for the workflow engine jbpm
-     * and deletes the old one
-     * 
-     */
-    @MCRCommand(syntax = "create jbpm database schema", help = "The command DELETES the old workflow database schema and is loading a new empty schema from configuration")
-    public static final void createSchema() throws MCRException {
-        try {
-            MCRJbpmWorkflowBase.createSchema();
-        } catch (Exception e) {
-            LOGGER.error("Error in creating the schema for the workflow database", e);
-            throw new MCRException("Error in creating the schema for the workflow database", e);
-        }
-    }
-
-    /**
+     /**
      * Backups all objects of given type and their derivates into the following structure:
      *  - MCR_OBJECT_0001
      *    - MCR_DERIVATE_0001
