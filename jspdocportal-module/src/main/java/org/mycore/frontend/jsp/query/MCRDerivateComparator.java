@@ -2,7 +2,7 @@ package org.mycore.frontend.jsp.query;
 
 import java.util.Comparator;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.jdom2.Element;
 
 
@@ -21,7 +21,7 @@ public class MCRDerivateComparator implements Comparator<Element>
 		int thirdOrder = child1.getChildText("name").compareTo(child2.getChildText("name"));
 		return thirdOrder;
 	  }catch(Exception e) {
-		  Logger.getLogger(MCRDerivateComparator.class).debug("no sorting possible, error is catched, but must be checked", e);
+		  LogManager.getLogger(MCRDerivateComparator.class).debug("no sorting possible, error is catched, but must be checked", e);
 		  return 0;
 	  }
    }

@@ -49,7 +49,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.metamodel.EntityType;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.filter.Filters;
@@ -97,7 +98,7 @@ import org.xml.sax.SAXParseException;
 @MCRCommandGroup(name = "JSPDocportal Commands")
 public class MCRJSPDocportalCommands extends MCRAbstractCommands {
     /** The logger */
-    private static Logger LOGGER = Logger.getLogger(MCRJSPDocportalCommands.class.getName());
+    private static Logger LOGGER = LogManager.getLogger(MCRJSPDocportalCommands.class);
 
     /**
      * The command deletes a process instance of the workflow engine

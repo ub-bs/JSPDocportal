@@ -33,7 +33,8 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mycore.common.xsl.MCRParameterCollector;
 import org.mycore.common.xsl.MCRTemplatesSource;
 import org.mycore.common.xsl.MCRXSLTransformerFactory;
@@ -50,6 +51,8 @@ import org.w3c.dom.Node;
  *
  */
 public class MCRTransformXslTag extends SimpleTagSupport {
+	private static Logger LOGGER = LogManager.getLogger(MCRTransformXslTag.class);
+	
     private Node node;
 
     private String stylesheet;
@@ -67,7 +70,7 @@ public class MCRTransformXslTag extends SimpleTagSupport {
 
                 t.transform(input, output);
         } catch (Exception e) {
-            Logger.getLogger(MCRTransformXslTag.class).error("Something went wrong processing the XSLT: " + stylesheet,
+            LOGGER.error("Something went wrong processing the XSLT: " + stylesheet,
                 e);
         }
     }

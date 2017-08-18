@@ -30,7 +30,8 @@ import java.util.List;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
 import org.mycore.frontend.jsp.navigation.model.NavigationItem;
@@ -70,7 +71,7 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
 
     private String mode;
 
-    private static Logger LOGGER = Logger.getLogger(MCROutputNavigationTag.class);
+    private static Logger LOGGER = LogManager.getLogger(MCROutputNavigationTag.class);
 
     public void doTag() throws JspException, IOException {
         init();

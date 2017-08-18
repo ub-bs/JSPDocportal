@@ -1,4 +1,5 @@
-<%@page import="org.apache.log4j.Logger"%>
+<%@page import="org.apache.logging.log4j.Logger"%>
+<%@page import="org.apache.logging.log4j.LogManager"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -112,7 +113,8 @@
 <c:if test="${e!=null}">
 	An error occured, hava a look in the logFiles!
 	<% 
-	  Logger.getLogger("test.jsp").error("error", (Throwable) pageContext.getAttribute("e"));   
+	  Logger logger2 = LogManager.getLogger(this.getClass());
+	  logger2.error("error", (Throwable) pageContext.getAttribute("e"));   
 	%>
 </c:if>
 	</stripes:layout-component>

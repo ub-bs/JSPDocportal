@@ -8,7 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 import org.jdom2.filter.Filters;
@@ -19,7 +20,7 @@ import org.mycore.frontend.servlets.MCRServlet;
 
 public class NavServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static Logger LOGGER = Logger.getLogger(NavServlet.class);
+	private static Logger LOGGER = LogManager.getLogger(NavServlet.class);
 
 	private static org.jdom2.Document navJdom;
 
@@ -91,7 +92,7 @@ public class NavServlet extends HttpServlet {
 			domYouAreHere = new org.jdom2.output.DOMOutputter()
 					.output(new org.jdom2.Document((Element) navitem.clone()));
 		} catch (org.jdom2.JDOMException e) {
-			Logger.getLogger(NavServlet.class).error("Domoutput failed: ", e);
+			LOGGER.error("Domoutput failed: ", e);
 		}
 
 		request.setAttribute("youAreHere", domYouAreHere);

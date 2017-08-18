@@ -7,7 +7,8 @@ import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.activiti.MCRActivitiMgr;
 import org.mycore.common.MCRSessionMgr;
@@ -28,7 +29,7 @@ import net.sourceforge.stripes.controller.LifecycleStage;
 
 @UrlBinding("/startedit.action")
 public class StartEditAction extends MCRAbstractStripesAction implements ActionBean {
-    private static Logger LOGGER = Logger.getLogger(StartEditAction.class);
+    private static Logger LOGGER = LogManager.getLogger(StartEditAction.class);
 
     private String mcrid = null;
 

@@ -7,14 +7,16 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mycore.common.MCRSession;
-import org.mycore.common.MCRSessionMgr;
 import org.mycore.frontend.servlets.MCRServlet;
 
 
 public class MCRSessionTag extends SimpleTagSupport
 {
+	private static Logger LOGGER = LogManager.getLogger(MCRSessionTag.class);
+	
 	private String method;
 	private String var;
 	private String type;
@@ -40,7 +42,7 @@ public class MCRSessionTag extends SimpleTagSupport
 	    PageContext pageContext = (PageContext) getJspContext();
 		//"HttpJspBase" is the name of the servlet that handles JSPs
 		if (!method.equals("set") && !method.equals("get") && !method.equals("init")) {
-			Logger.getLogger(MCRSessionTag.class).error("unknown method: " + method);
+			LOGGER.error("unknown method: " + method);
 			return;
 		}
 		if(method.equals("init")){
@@ -77,9 +79,9 @@ public class MCRSessionTag extends SimpleTagSupport
 				if (method.equals("get"))
 					pageContext.setAttribute(var, mcrSession.getID());
 				else
-					Logger.getLogger(MCRSessionTag.class).error("set not possible for type ID!");
+					LOGGER.error("set not possible for type ID!");
 			} else {
-				Logger.getLogger(MCRSessionTag.class).error("unknown type: " + type);
+				LOGGER.error("unknown type: " + type);
 			}
 			return;
 		}else if(key != null && !key.equals("")){

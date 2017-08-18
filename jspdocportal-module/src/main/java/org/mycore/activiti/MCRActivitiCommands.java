@@ -26,7 +26,8 @@ package org.mycore.activiti;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mycore.common.MCRException;
 import org.mycore.frontend.cli.MCRAbstractCommands;
 import org.mycore.frontend.cli.annotation.MCRCommand;
@@ -44,7 +45,7 @@ import org.mycore.frontend.cli.annotation.MCRCommandGroup;
 @MCRCommandGroup(name = "JSPDocportal Acitiviti Commands")
 public class MCRActivitiCommands extends MCRAbstractCommands {
     /** The logger */
-    private static Logger LOGGER = Logger.getLogger(MCRActivitiCommands.class.getName());
+    private static Logger LOGGER = LogManager.getLogger(MCRActivitiCommands.class);
     
     /**
      * The command deploys a process definition to the database from a given file

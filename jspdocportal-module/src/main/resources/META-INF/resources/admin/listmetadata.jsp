@@ -5,7 +5,8 @@
 <%@page import="java.util.List"%>
 <%@page import="org.mycore.backend.hibernate.MCRHIBConnection"%>
 <%@page import="org.hibernate.Transaction"%>
-<%@page import="org.apache.log4j.Logger"%>
+<%@page import="org.apache.logging.log4j.LogManager"%>
+<%@page import="org.apache.logging.log4j.Logger"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -20,7 +21,7 @@
     if(type==null){
     	type="document";
     }
-	Logger logger = Logger.getLogger(this.getClass());
+	Logger logger = LogManager.getLogger("listmetadata.jsp");
     Transaction tx  = MCRHIBConnection.instance().getSession().beginTransaction();
 	try{
 		List<String> ids = MCRXMLMetadataManager.instance().listIDsOfType(type);

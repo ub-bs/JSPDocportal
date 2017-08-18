@@ -7,7 +7,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -19,6 +20,7 @@ import org.jdom2.xpath.XPathFactory;
 
 public class GVKMODSImport {
     private static String SRU_URL = "http://sru.gbv.de/opac-de-28?version=1.1&operation=searchRetrieve&maximumRecords=1";
+    private static final Logger LOGGER = LogManager.getLogger(GVKMODSImport.class);
 
     public static Element retrieveMODS(String ppn) {
         //<mods xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
@@ -48,13 +50,13 @@ public class GVKMODSImport {
         }       
         
         catch(IOException e){
-            Logger.getLogger(GVKMODSImport.class).error("Error retrieving MODS from GVK", e);
+            LOGGER.error("Error retrieving MODS from GVK", e);
         }
         catch(JDOMException e){
-            Logger.getLogger(GVKMODSImport.class).error("Error parsing XML from MODS", e);
+            LOGGER.error("Error parsing XML from MODS", e);
         }
         catch(NullPointerException e){
-            Logger.getLogger(GVKMODSImport.class).error("Error parsing XML from MODS", e);
+            LOGGER.error("Error parsing XML from MODS", e);
         }
         
        /*

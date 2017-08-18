@@ -4,7 +4,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib  prefix="mcr" uri="http://www.mycore.org/jspdocportal/base.tld" %>
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld" %>
-<%@ page import="org.apache.log4j.Logger" %>
+<%@page import="org.apache.logging.log4j.LogManager"%>
+<%@page import="org.apache.logging.log4j.Logger"%>
 
 
 <fmt:message var="pageTitle" key="WF.editor.ValidatorError.Headline" /> 
@@ -55,7 +56,8 @@
 <c:if test="${e!=null}">
 An error occured, hava a look in the logFiles!
 <% 
-  Logger.getLogger("test.jsp").error("error", (Throwable) pageContext.getAttribute("e"));   
+  Logger logger2 = LogManager.getLogger("editor-validating-errors.jsp");
+  logger2.error("error", (Throwable) pageContext.getAttribute("e"));   
 %>
 </c:if>
 	</stripes:layout-component>

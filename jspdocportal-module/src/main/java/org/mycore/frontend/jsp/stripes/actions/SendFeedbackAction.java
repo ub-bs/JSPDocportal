@@ -7,6 +7,15 @@ import java.util.regex.Pattern;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.SimpleEmail;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.mycore.activiti.MCRActivitiMgr;
+import org.mycore.common.config.MCRConfiguration;
+import org.mycore.services.i18n.MCRTranslation;
+
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -17,18 +26,10 @@ import net.sourceforge.stripes.action.SimpleMessage;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.controller.LifecycleStage;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.SimpleEmail;
-import org.apache.log4j.Logger;
-import org.mycore.activiti.MCRActivitiMgr;
-import org.mycore.common.config.MCRConfiguration;
-import org.mycore.services.i18n.MCRTranslation;
-
 
 @UrlBinding("/feedback.action")
 public class SendFeedbackAction extends MCRAbstractStripesAction implements ActionBean {
-	private static Logger LOGGER = Logger.getLogger(SendFeedbackAction.class);
+	private static Logger LOGGER = LogManager.getLogger(SendFeedbackAction.class);
 	
 	private static final Pattern EMAIL_PATTERN = Pattern.compile("^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@"
 			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$");

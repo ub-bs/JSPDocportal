@@ -2,7 +2,8 @@ package org.mycore.frontend.jsp.stripes.actions;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.jdom2.Namespace;
 import org.mycore.common.config.MCRConfiguration;
@@ -30,7 +31,7 @@ import net.sourceforge.stripes.controller.LifecycleStage;
 @UrlBinding("/browse/{mask}")
 public class BrowseAction extends MCRAbstractStripesAction implements ActionBean {
     @SuppressWarnings("unused")
-    private static Logger LOGGER = Logger.getLogger(BrowseAction.class);
+    private static Logger LOGGER = LogManager.getLogger(BrowseAction.class);
 
     public static Namespace NS_XED = Namespace.getNamespace("xed", "http://www.mycore.de/xeditor");
 

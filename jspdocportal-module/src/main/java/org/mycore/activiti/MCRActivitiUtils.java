@@ -17,7 +17,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
@@ -39,7 +40,7 @@ import org.mycore.datamodel.niofs.utils.MCRRecursiveDeleter;
  * 
  */
 public class MCRActivitiUtils {
-	private static Logger LOGGER = Logger.getLogger(MCRActivitiUtils.class);
+	private static Logger LOGGER = LogManager.getLogger(MCRActivitiUtils.class);
 	/**
 	 * saves a given MCR object into the workflow directory
 	 * @param MCRObject

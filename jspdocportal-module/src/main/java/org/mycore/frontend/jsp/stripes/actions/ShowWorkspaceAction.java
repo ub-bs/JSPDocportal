@@ -14,7 +14,8 @@ import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom2.filter.Filters;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
@@ -47,7 +48,7 @@ import net.sourceforge.stripes.controller.LifecycleStage;
 
 @UrlBinding("/showWorkspace.action")
 public class ShowWorkspaceAction extends MCRAbstractStripesAction implements ActionBean {
-    private static Logger LOGGER = Logger.getLogger(ShowWorkspaceAction.class);
+    private static Logger LOGGER = LogManager.getLogger(ShowWorkspaceAction.class);
 
     ForwardResolution fwdResolution = new ForwardResolution("/content/workspace/workspace.jsp");
 

@@ -7,7 +7,8 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom2.output.DOMOutputter;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
@@ -17,7 +18,7 @@ import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager
 
 public class MCRReceiveMcrObjAsJdomTag extends SimpleTagSupport
 {
-	private static Logger logger = Logger.getLogger(MCRReceiveMcrObjAsJdomTag.class);
+	private static Logger logger = LogManager.getLogger(MCRReceiveMcrObjAsJdomTag.class);
 	
 	private String mcrid;
 	private String var;

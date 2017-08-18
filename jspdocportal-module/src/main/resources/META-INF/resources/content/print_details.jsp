@@ -1,7 +1,6 @@
 <%@page import="org.mycore.backend.hibernate.MCRHIBConnection"%>
 <%@page import="org.mycore.common.MCRException"%>
 <%@page import="org.hibernate.Transaction"%>
-<%@page import="org.apache.log4j.Logger"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ page import="java.util.*" %>
 <%--
@@ -39,7 +38,6 @@
 </head>
 <body bgcolor="#FFFFFF">
 <%
-    Logger logger = Logger.getLogger(this.getClass());
     Transaction tx  = MCRHIBConnection.instance().getSession().beginTransaction();
 	try{
 %>

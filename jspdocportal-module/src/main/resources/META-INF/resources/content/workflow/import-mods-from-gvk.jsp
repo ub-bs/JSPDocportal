@@ -5,7 +5,6 @@
 <%@ taglib prefix="mcr" uri="http://www.mycore.org/jspdocportal/base.tld"%>
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
 
-<%@ page import="org.apache.log4j.Logger"%>
 <%@page import="org.hibernate.Transaction"%>
 <%@page import="org.mycore.backend.hibernate.MCRHIBConnection"%>
 <%@page import="java.util.List"%>

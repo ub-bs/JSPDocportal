@@ -12,7 +12,8 @@ import java.util.Set;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.delegate.DelegateExecution;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom2.Element;
 import org.mycore.access.MCRAccessException;
 import org.mycore.access.MCRAccessManager;
@@ -36,7 +37,7 @@ import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
 import org.xml.sax.SAXParseException;
 
 public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
-	private static Logger LOGGER = Logger.getLogger(MCRAbstractWorkflowMgr.class);
+	private static Logger LOGGER = LogManager.getLogger(MCRAbstractWorkflowMgr.class);
 
 	@Override
 	public MCRObject createMCRObject(DelegateExecution execution) {

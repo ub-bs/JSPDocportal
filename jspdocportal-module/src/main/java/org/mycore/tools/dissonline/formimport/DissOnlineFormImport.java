@@ -23,7 +23,8 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom2.Document;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
@@ -32,6 +33,7 @@ import org.xml.sax.InputSource;
 
 public class DissOnlineFormImport {
     private static String XSLT_FILE="/xsl/ubr_form2mcr4disshab.xsl";
+    private static final Logger LOGGER = LogManager.getLogger(DissOnlineFormImport.class);
     
     public static String[] retrieveMetadataVersions(String folderName) {
         ArrayList<String> result = new ArrayList<String>();
@@ -55,9 +57,9 @@ public class DissOnlineFormImport {
             }
             
         } catch (SocketException ex) {
-            Logger.getLogger(DissOnlineFormImport.class).error(ex);
+            LOGGER.error(ex);
         } catch (IOException ex) {
-            Logger.getLogger(DissOnlineFormImport.class).error(ex);
+            LOGGER.error(ex);
         }
         finally{
             try{
@@ -101,11 +103,11 @@ public class DissOnlineFormImport {
                 }
                 
             } catch (SocketException ex) {
-                Logger.getLogger(DissOnlineFormImport.class).error(ex);
+                LOGGER.error(ex);
             } catch (IOException ex) {
-                Logger.getLogger(DissOnlineFormImport.class).error(ex);
+                LOGGER.error(ex);
             } catch (JDOMException ex) {
-                Logger.getLogger(DissOnlineFormImport.class).error(ex);
+                LOGGER.error(ex);
             }
             finally{
                 try{
@@ -155,7 +157,7 @@ public class DissOnlineFormImport {
                              
             
         } catch (Exception e) {
-            Logger.getLogger(DissOnlineFormImport.class).error("Error processing formdata", e);
+            LOGGER.error("Error processing formdata", e);
         }
     
     }

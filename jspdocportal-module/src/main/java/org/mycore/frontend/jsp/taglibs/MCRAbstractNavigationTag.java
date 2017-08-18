@@ -28,15 +28,14 @@ import java.util.List;
 
 import javax.servlet.jsp.PageContext;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.codehaus.plexus.util.StringUtils;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.frontend.jsp.navigation.model.Navigation;
 import org.mycore.frontend.jsp.navigation.model.NavigationItem;
 import org.mycore.frontend.jsp.navigation.model.NavigationObject;
 import org.mycore.frontend.jsp.navigation.model.Navigations;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 /**
  * Even though this class extends the SimpleTagSupport class,
@@ -51,7 +50,7 @@ import org.w3c.dom.Node;
  *
  */
 public abstract class MCRAbstractNavigationTag extends MCRAbstractTag{
-	private static final Logger LOGGER = Logger.getLogger(MCRAbstractNavigationTag.class);
+	private static final Logger LOGGER = LogManager.getLogger(MCRAbstractNavigationTag.class);
 	protected static final String NS_NAVIGATION = "http://www.mycore.org/jspdocportal/navigation";
 	
 	protected String currentPath;

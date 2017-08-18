@@ -9,7 +9,8 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.output.DOMOutputter;
@@ -22,8 +23,9 @@ import org.mycore.user2.MCRRole;
 import org.mycore.user2.MCRRoleManager;
 
 
-public class MCRGetAccessRulesTag extends SimpleTagSupport
-{
+public class MCRGetAccessRulesTag extends SimpleTagSupport {
+	private static Logger LOGGER = LogManager.getLogger(MCRGetAccessRulesTag.class);
+	
 	private String var;
 	private String mcrid;
 	private String processid;
@@ -81,7 +83,7 @@ public class MCRGetAccessRulesTag extends SimpleTagSupport
 			try {
 				domDoc = new DOMOutputter().output(domOptions);
 			} catch (JDOMException e) {
-				Logger.getLogger(MCRGetAccessRulesTag.class).error("Domoutput failed: ", e);
+				LOGGER.error("Domoutput failed: ", e);
 			}
 			pageContext.setAttribute(var, domDoc);
 		}
@@ -111,7 +113,7 @@ public class MCRGetAccessRulesTag extends SimpleTagSupport
 			try {
 				domDoc = new DOMOutputter().output(domOptions);
 			} catch (JDOMException e) {
-				Logger.getLogger(MCRGetAccessRulesTag.class).error("Domoutput failed: ", e);
+				LOGGER.error("Domoutput failed: ", e);
 			}
 			pageContext.setAttribute(var, domDoc);			
 		}

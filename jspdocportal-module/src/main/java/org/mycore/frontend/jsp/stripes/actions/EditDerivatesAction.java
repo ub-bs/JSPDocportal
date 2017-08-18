@@ -19,7 +19,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.activiti.engine.TaskService;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mycore.activiti.MCRActivitiMgr;
 import org.mycore.activiti.MCRActivitiUtils;
 import org.mycore.activiti.workflows.create_object_simple.MCRWorkflowMgr;
@@ -44,7 +45,7 @@ import net.sourceforge.stripes.controller.StripesRequestWrapper;
 public class EditDerivatesAction extends MCRAbstractStripesAction implements ActionBean {
 	public static enum Direction{MOVE_UP, MOVE_DOWN};
 	
-	private static Logger LOGGER = Logger.getLogger(EditDerivatesAction.class);
+	private static Logger LOGGER = LogManager.getLogger(EditDerivatesAction.class);
 	ForwardResolution fwdResolution = new ForwardResolution(
 			"/content/workspace/edit-derivates.jsp");
 

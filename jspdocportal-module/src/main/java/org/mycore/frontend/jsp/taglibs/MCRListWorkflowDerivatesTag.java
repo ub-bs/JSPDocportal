@@ -31,7 +31,8 @@ import java.io.IOException;
 import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.JspException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom2.Element;
 import org.jdom2.output.DOMOutputter;
 import org.mycore.frontend.workflowengine.strategies.MCRDefaultDerivateStrategy;
@@ -44,7 +45,7 @@ import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager
  */
 
 public class MCRListWorkflowDerivatesTag extends MCRSimpleTagSupport {
-	private static Logger LOGGER = Logger.getLogger(MCRListWorkflowDerivatesTag.class.getName());
+	private static Logger LOGGER = LogManager.getLogger(MCRListWorkflowDerivatesTag.class);
 	private String varDom;
 	private String derivates;
 	private String docID;

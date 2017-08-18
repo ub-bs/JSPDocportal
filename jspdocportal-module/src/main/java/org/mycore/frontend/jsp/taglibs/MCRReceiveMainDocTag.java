@@ -6,13 +6,14 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mycore.datamodel.ifs.MCRDirectory;
 import org.mycore.datamodel.ifs.MCRFilesystemNode;
 import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
 
 public class MCRReceiveMainDocTag extends SimpleTagSupport {
-    private static Logger logger = Logger.getLogger(MCRReceiveMainDocTag.class);
+    private static Logger logger = LogManager.getLogger(MCRReceiveMainDocTag.class);
 
     private String derid;
 

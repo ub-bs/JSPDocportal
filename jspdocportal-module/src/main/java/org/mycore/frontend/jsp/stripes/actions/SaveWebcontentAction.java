@@ -15,6 +15,13 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.mycore.access.MCRAccessManager;
+import org.mycore.common.MCRSessionMgr;
+import org.mycore.common.config.MCRConfiguration;
+import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
+
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -24,15 +31,9 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.controller.LifecycleStage;
 
-import org.apache.log4j.Logger;
-import org.mycore.access.MCRAccessManager;
-import org.mycore.common.MCRSessionMgr;
-import org.mycore.common.config.MCRConfiguration;
-import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
-
 @UrlBinding("/saveWebcontent.action")
 public class SaveWebcontentAction extends MCRAbstractStripesAction implements ActionBean {
-    private static Logger LOGGER = Logger.getLogger(SaveWebcontentAction.class);
+    private static Logger LOGGER = LogManager.getLogger(SaveWebcontentAction.class);
 
     private String file = "";
 

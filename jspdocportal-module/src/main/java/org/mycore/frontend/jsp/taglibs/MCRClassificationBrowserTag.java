@@ -39,7 +39,8 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -82,7 +83,7 @@ import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
  * @since 2.0
  */
 public class MCRClassificationBrowserTag extends SimpleTagSupport {
-    private static final Logger LOGGER = Logger.getLogger(MCRClassificationBrowserTag.class);
+    private static final Logger LOGGER = LogManager.getLogger(MCRClassificationBrowserTag.class);
 
     private static MCRCategoryDAO CATEGDAO = MCRCategoryDAOFactory.getInstance();
 
@@ -251,9 +252,7 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
             out.write("\n</div>");
             long d = System.currentTimeMillis() - start;
             out.write("\n\n<!-- ClassificationBrowser ENDE (" + Long.toString(d) + "ms) -->");
-            Logger.getLogger(this.getClass())
-                    .debug("ClassificationBrowser displayed for: " + rootCateg.getId().getID() + "   (" + d + " ms)");
-
+            LOGGER.debug("ClassificationBrowser displayed for: " + rootCateg.getId().getID() + "   (" + d + " ms)");
         }
     }
 

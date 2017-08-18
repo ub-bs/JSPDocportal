@@ -5,7 +5,8 @@ import java.io.IOException;
 import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.JspException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRException;
 import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
@@ -23,7 +24,7 @@ public class MCRInitWorkflowProcessTag extends MCRSimpleTagSupport
 	
 	private String scope;
 
-	private static Logger logger = Logger.getLogger(MCRInitWorkflowProcessTag.class);
+	private static Logger LOGGER = LogManager.getLogger(MCRInitWorkflowProcessTag.class);
 
 	public void setUserid(String userid){
 		this.userid = userid;
@@ -57,7 +58,7 @@ public class MCRInitWorkflowProcessTag extends MCRSimpleTagSupport
     	try {
 			 WFM = MCRWorkflowManagerFactory.getImpl(workflowProcessType);
 		} catch (MCRException noWFM) {
-			logger.error("could not instantiate workflow manager", noWFM);
+			LOGGER.error("could not instantiate workflow manager", noWFM);
 			jspContext.setAttribute(status, "errorWfM", getScope(scope));
 			return;
 		}			
@@ -72,7 +73,7 @@ public class MCRInitWorkflowProcessTag extends MCRSimpleTagSupport
 			jspContext.setAttribute(processidVar, String.valueOf(pid), getScope(scope));
 			jspContext.setAttribute(status, WFM.getStatus(pid), getScope(scope));
 		}catch(Exception noWFM){
-			logger.error("could not initialize Workflow Process", noWFM);
+			LOGGER.error("could not initialize Workflow Process", noWFM);
 			jspContext.setAttribute(status, "errorWfM", getScope(scope));
 			return;			
 		}

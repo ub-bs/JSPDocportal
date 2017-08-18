@@ -3,6 +3,17 @@ package org.mycore.frontend.jsp.stripes.actions;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.activiti.engine.RuntimeService;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.mycore.access.MCRAccessManager;
+import org.mycore.activiti.MCRActivitiMgr;
+import org.mycore.activiti.workflows.create_object_simple.MCRWorkflowMgr;
+import org.mycore.common.config.MCRConfiguration;
+import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
+
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -11,20 +22,9 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.controller.LifecycleStage;
 
-import org.activiti.engine.RuntimeService;
-import org.activiti.engine.runtime.ProcessInstance;
-import org.apache.log4j.Logger;
-import org.mycore.access.MCRAccessManager;
-import org.mycore.activiti.MCRActivitiMgr;
-import org.mycore.activiti.workflows.create_object_simple.MCRWorkflowMgr;
-import org.mycore.common.MCRSessionMgr;
-import org.mycore.common.config.MCRConfiguration;
-import org.mycore.datamodel.metadata.MCRObjectID;
-import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
-
 @UrlBinding("/adminWorkflowProcesses.action")
 public class AdminWorkflowProcessesAction extends MCRAbstractStripesAction implements ActionBean {
-    private static Logger LOGGER = Logger.getLogger(AdminWorkflowProcessesAction.class);
+    private static Logger LOGGER = LogManager.getLogger(AdminWorkflowProcessesAction.class);
 
     ForwardResolution fwdResolution = new ForwardResolution("/content/workspace/adminWorkflowProcesses.jsp");
 

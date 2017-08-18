@@ -18,7 +18,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.output.Format;
@@ -37,7 +38,7 @@ import org.mycore.frontend.cli.MCRDerivateCommands;
  */
 public class JSPUtils {
 
-	protected static Logger logger=Logger.getLogger(JSPUtils.class);
+	protected static Logger logger=LogManager.getLogger(JSPUtils.class);
 	
 	// "dd.MM.YYYY" 
 	private static Pattern germanDatePattern = Pattern.compile("(\\d{1,2})\\.(\\d{1,2})\\.(\\d{4})");

@@ -27,7 +27,7 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
@@ -65,7 +65,7 @@ public class MCRNavigationUtil {
 		try {
 			domDoc = new org.jdom2.output.DOMOutputter().output(jdomDoc);
 		} catch (org.jdom2.JDOMException e) {
-			Logger.getLogger(NavServlet.class).error("Domoutput failed: ", e);
+			LogManager.getLogger(MCRNavigationUtil.class).error("Domoutput failed: ", e);
 		}  
 	
 		//load navigation dom into application scope

@@ -36,7 +36,8 @@ import java.util.Map;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
@@ -55,7 +56,7 @@ import org.mycore.frontend.jsp.taglibs.docdetails.helper.UBRBibliographie;
  */
 public class MCRDocDetailsPNDBeaconTag extends SimpleTagSupport {
 	private static String UBR_BIBLIOGRAPHY_KEY = "ubr_biblgr";
-	private static Logger LOGGER = Logger.getLogger(MCRDocDetailsPNDBeaconTag.class);
+	private static Logger LOGGER = LogManager.getLogger(MCRDocDetailsPNDBeaconTag.class);
 	private static Namespace NS_XHTML = Namespace.getNamespace("xhtml", "http://www.w3.org/1999/xhtml");
 	private static XPathExpression<Element> xpeH2 = XPathFactory.instance().compile("//xhtml:h2", Filters.element(), null, NS_XHTML);
 

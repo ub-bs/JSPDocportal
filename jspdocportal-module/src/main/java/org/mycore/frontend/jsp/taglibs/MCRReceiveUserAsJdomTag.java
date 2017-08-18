@@ -6,7 +6,8 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.mycore.common.MCRException;
@@ -15,7 +16,7 @@ import org.mycore.user2.MCRUserManager;
 import org.mycore.user2.utils.MCRUserTransformer;
 public class MCRReceiveUserAsJdomTag extends SimpleTagSupport
 {
-	private static Logger logger = Logger.getLogger(MCRReceiveUserAsJdomTag.class);
+	private static Logger LOGGER = LogManager.getLogger(MCRReceiveUserAsJdomTag.class);
 	
 	private String userID;
 	private String var ;
@@ -39,7 +40,7 @@ public class MCRReceiveUserAsJdomTag extends SimpleTagSupport
     		try {
     			u = MCRUserManager.getUser(userID);   		
 			} catch (MCRException noUser) {
-				logger.warn(sNoUser);
+				LOGGER.warn(sNoUser);
 				u.getAttributes().put("description", sNoUser);
 			}
 			
@@ -51,7 +52,7 @@ public class MCRReceiveUserAsJdomTag extends SimpleTagSupport
     		pageContext.setAttribute(var , new Document(eUser));
     		
     	} catch (Exception e) {
-    		logger.error("error in receiving user for jdom ", e);
+    		LOGGER.error("error in receiving user for jdom ", e);
     	}
 	}	
 

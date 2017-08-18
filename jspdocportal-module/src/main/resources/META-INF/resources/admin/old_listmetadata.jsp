@@ -8,7 +8,8 @@
 <%@page import="java.util.List"%>
 <%@page import="org.mycore.backend.hibernate.MCRHIBConnection"%>
 <%@page import="org.hibernate.Transaction"%>
-<%@page import="org.apache.log4j.Logger"%>
+<%@page import="org.apache.logging.log4j.LogManager"%>
+<%@page import="org.apache.logging.log4j.Logger"%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="ISO-8859-1"%>
@@ -24,7 +25,7 @@
     if(type==null){
     	type="document";
     }
-	Logger logger = Logger.getLogger(this.getClass());
+	Logger logger = LogManager.getLogger("old_listmetadata.jsp");
     Transaction tx  = MCRHIBConnection.instance().getSession().beginTransaction();
 	try{
 		 MCRQuery query = new MCRQuery((new MCRQueryParser()).parse("(objectType = "+type+")"));

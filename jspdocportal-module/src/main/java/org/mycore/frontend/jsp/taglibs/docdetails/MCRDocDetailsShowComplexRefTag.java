@@ -30,7 +30,8 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
@@ -42,7 +43,7 @@ import org.jdom2.input.SAXBuilder;
  *
  */
 public class MCRDocDetailsShowComplexRefTag extends SimpleTagSupport {
-	private static Logger LOGGER=Logger.getLogger(MCRDocDetailsLinkItemTag.class);
+	private static Logger LOGGER = LogManager.getLogger(MCRDocDetailsLinkItemTag.class);
 	private String content="";
 	
 

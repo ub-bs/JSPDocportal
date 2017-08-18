@@ -2,14 +2,15 @@ package org.mycore.datamodel.metadata;
 
 import java.util.Iterator;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom2.Attribute;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 import org.mycore.common.MCRException;
 
 public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
-	private static final Logger LOGGER = Logger.getLogger(MCRMetaHistoryEvent.class);
+	private static final Logger LOGGER = LogManager.getLogger(MCRMetaHistoryEvent.class);
 	public static final int MCRHISTORYEVENT_MAX_EVENT = 1024;
 	private String event;
 	private MCRMetaClassification classification;

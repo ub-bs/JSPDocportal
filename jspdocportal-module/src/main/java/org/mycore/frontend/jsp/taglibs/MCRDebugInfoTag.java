@@ -7,10 +7,14 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class MCRDebugInfoTag extends MCRSimpleTagSupport
 {
 	private static final int REQUEST_PARAM = -1;
 
+	protected static Logger LOGGER = LogManager.getLogger(MCRDebugInfoTag.class);
 
 	public void doTag() throws JspException, IOException {
 		try{
@@ -33,7 +37,7 @@ public class MCRDebugInfoTag extends MCRSimpleTagSupport
 			out.write("</table>");			
 			out.write("</div>");
 		}catch(Exception e){
-			logger.error("could not show debug information");
+			LOGGER.error("could not show debug information");
 		}
 	}	
 	/**

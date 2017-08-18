@@ -6,7 +6,8 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mycore.common.MCRPersistenceException;
 import org.mycore.datamodel.classifications2.MCRCategoryID;
 import org.mycore.datamodel.metadata.MCRBase;
@@ -17,7 +18,7 @@ public class MCRIsObjectLockedTag extends SimpleTagSupport {
 	private String var;
 	private String mcrid;
 
-	private static Logger LOGGER = Logger.getLogger(MCRIsObjectLockedTag.class);
+	private static Logger LOGGER = LogManager.getLogger(MCRIsObjectLockedTag.class);
 
 	public void setVar(String var) {
 		this.var = var;

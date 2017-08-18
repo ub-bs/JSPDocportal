@@ -9,7 +9,8 @@ import java.util.List;
 import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.JspException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.jsp.navigation.model.NavigationItem;
 import org.mycore.frontend.jsp.navigation.model.NavigationObject;
@@ -50,8 +51,7 @@ import org.mycore.frontend.jsp.navigation.model.NavigationObject;
  * 
  */
 public class MCRCustomNavigationTag extends MCRAbstractNavigationTag {
-	protected static Logger LOGGER = Logger
-			.getLogger(MCRCustomNavigationTag.class);
+	protected static Logger LOGGER = LogManager.getLogger(MCRCustomNavigationTag.class);
 
 	private String var;
 

@@ -34,15 +34,16 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections4.map.LRUMap;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.SortClause;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.FacetField.Count;
-import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.jdom2.Document;
@@ -58,7 +59,7 @@ import org.mycore.solr.MCRSolrClientFactory;
 public class MCRSearchResultDataBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private static Logger LOGGER = Logger.getLogger(MCRSearchResultDataBean.class);
+    private static Logger LOGGER = LogManager.getLogger(MCRSearchResultDataBean.class);
 
     private String id;
 

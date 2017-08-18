@@ -29,7 +29,8 @@ import java.lang.reflect.Method;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.taglibs.standard.tag.common.xml.JSTLXPathNamespaceContext;
 
 /**
@@ -44,6 +45,7 @@ import org.apache.taglibs.standard.tag.common.xml.JSTLXPathNamespaceContext;
  */
 @Deprecated
 public class MCRDocDetailsSetNamespaceTag extends SimpleTagSupport {
+	private static Logger LOGGER = LogManager.getLogger(MCRDocDetailsSetNamespaceTag.class);
 	private String prefix="";
 	private String uri="";
 
@@ -89,7 +91,7 @@ public class MCRDocDetailsSetNamespaceTag extends SimpleTagSupport {
 		}
 		catch( Exception e )
 		{
-			Logger.getLogger(MCRDocDetailsSetNamespaceTag.class).error("Something went wrong adding the namespace", e);
+			LOGGER.error("Something went wrong adding the namespace", e);
 		}
 	}
 

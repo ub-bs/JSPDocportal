@@ -7,7 +7,8 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
@@ -32,7 +33,7 @@ import net.sourceforge.stripes.controller.LifecycleStage;
 
 @UrlBinding("/indexbrowser/{modus}")
 public class IndexBrowserAction extends MCRAbstractStripesAction implements ActionBean {
-	private static Logger LOGGER = Logger.getLogger(IndexBrowserAction.class);
+	private static Logger LOGGER = LogManager.getLogger(IndexBrowserAction.class);
     ForwardResolution fwdResolution = new ForwardResolution("/content/indexbrowser.jsp");
 
 	private TreeSet<String> firstSelector = new TreeSet<String>();

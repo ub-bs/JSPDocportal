@@ -19,9 +19,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import net.sourceforge.stripes.controller.StripesRequestWrapper;
-
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom2.Document;
 import org.jdom2.JDOMException;
 import org.jdom2.transform.JDOMSource;
@@ -34,6 +33,8 @@ import org.mycore.frontend.editor.MCREditorServlet;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 import org.xml.sax.SAXException;
+
+import net.sourceforge.stripes.controller.StripesRequestWrapper;
 
 
 public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
@@ -56,7 +57,7 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 	private String editorPath;
 	private String cancelPage;
 
-	private static Logger logger = Logger.getLogger("MCRIncludeEditorTag.class");
+	private static Logger logger = LogManager.getLogger("MCRIncludeEditorTag.class");
 	
 	public void setIsNewEditorSource(String isNewEditorSource) {
 		this.isNewEditorSource = isNewEditorSource;

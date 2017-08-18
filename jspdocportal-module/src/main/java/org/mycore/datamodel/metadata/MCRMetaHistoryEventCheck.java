@@ -4,13 +4,14 @@ import static org.jdom2.Namespace.XML_NAMESPACE;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom2.Element;
 import org.mycore.datamodel.metadata.validator.MCREditorMetadataValidator;
 import org.mycore.datamodel.metadata.validator.MCREditorOutValidator;
 
 public class MCRMetaHistoryEventCheck implements MCREditorMetadataValidator {
-	  private static Logger LOGGER = Logger.getLogger(MCRMetaHistoryEventCheck.class);
+	  private static Logger LOGGER = LogManager.getLogger(MCRMetaHistoryEventCheck.class);
       public String checkDataSubTag(Element datasubtag) {
             List<Element> children = datasubtag.getChildren("text");
             for (int i = 0; i < children.size(); i++) {

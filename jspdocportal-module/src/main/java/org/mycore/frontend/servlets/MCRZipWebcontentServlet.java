@@ -42,7 +42,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mycore.common.config.MCRConfiguration;
 
 
@@ -58,7 +59,7 @@ import org.mycore.common.config.MCRConfiguration;
  */
 public class MCRZipWebcontentServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-   
+    private static Logger LOGGER = LogManager.getLogger(MCRZipWebcontentServlet.class);
 
     /**
      * Handles the HTTP request
@@ -105,7 +106,7 @@ public class MCRZipWebcontentServlet extends HttpServlet {
             	response.sendError(HttpServletResponse.SC_BAD_REQUEST, msg);
             }
             catch(Exception e2){
-            	Logger.getLogger(getClass()).error("Fehler", e2);
+            	LOGGER.error("Fehler", e2);
             }
         }
     }

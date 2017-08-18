@@ -27,7 +27,8 @@ import java.net.URLDecoder;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mycore.common.HashedDirectoryStructure;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.common.config.MCRConfigurationException;
@@ -41,7 +42,7 @@ import org.mycore.imagetiler.MCRImage;
  *
  */
 public class MCRJSPTileFileProvider implements MCRTileFileProvider {
-    private static final Logger LOGGER = Logger.getLogger(MCRJSPTileFileProvider.class);
+    private static final Logger LOGGER = LogManager.getLogger(MCRJSPTileFileProvider.class);
        
     public Path getTileFile(String derivate, String image){
         try{

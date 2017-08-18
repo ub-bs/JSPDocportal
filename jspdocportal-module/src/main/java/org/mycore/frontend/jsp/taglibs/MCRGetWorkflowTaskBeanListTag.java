@@ -41,7 +41,8 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom2.input.DOMBuilder;
 import org.mycore.common.JSPUtils;
 import org.mycore.common.MCRSession;
@@ -57,7 +58,7 @@ import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowManager;
  */
 
 public class MCRGetWorkflowTaskBeanListTag extends SimpleTagSupport {
-	private static Logger LOGGER = Logger.getLogger(MCRGetWorkflowTaskBeanListTag.class.getName());
+	private static Logger LOGGER = LogManager.getLogger(MCRGetWorkflowTaskBeanListTag.class);
 	private static final String sessionBeanListName = "MCRGETWORKFLOWTASKBEANLIST-BEANLIST";
 	
 	private String var;

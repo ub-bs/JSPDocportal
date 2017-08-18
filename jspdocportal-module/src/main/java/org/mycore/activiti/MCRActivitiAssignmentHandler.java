@@ -2,7 +2,8 @@ package org.mycore.activiti;
 
 import org.activiti.engine.delegate.DelegateTask;
 import org.activiti.engine.delegate.TaskListener;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mycore.common.config.MCRConfiguration;
 
 /**
@@ -24,7 +25,7 @@ import org.mycore.common.config.MCRConfiguration;
 public class MCRActivitiAssignmentHandler implements TaskListener {
     private static final long serialVersionUID = 1L;
 
-    private static Logger LOGGER = Logger.getLogger(MCRActivitiAssignmentHandler.class);
+    private static Logger LOGGER = LogManager.getLogger(MCRActivitiAssignmentHandler.class);
 
     public void notify(DelegateTask delegateTask) {
         String projectID = String.valueOf(delegateTask.getVariable(MCRActivitiMgr.WF_VAR_PROJECT_ID));

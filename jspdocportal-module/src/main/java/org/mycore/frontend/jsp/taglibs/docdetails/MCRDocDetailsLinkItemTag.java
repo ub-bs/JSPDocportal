@@ -29,7 +29,8 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.taglibs.standard.tag.common.xml.XPathUtil;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -41,7 +42,7 @@ import org.w3c.dom.Node;
  *
  */
 public class MCRDocDetailsLinkItemTag extends SimpleTagSupport {
-	private static Logger LOGGER=Logger.getLogger(MCRDocDetailsLinkItemTag.class);
+	private static Logger LOGGER = LogManager.getLogger(MCRDocDetailsLinkItemTag.class);
 	private String xp;
 	private String css=null;
 

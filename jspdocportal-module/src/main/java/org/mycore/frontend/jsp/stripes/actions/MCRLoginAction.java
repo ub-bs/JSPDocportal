@@ -30,13 +30,8 @@ import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
 
-import net.sourceforge.stripes.action.ActionBean;
-import net.sourceforge.stripes.action.DefaultHandler;
-import net.sourceforge.stripes.action.ForwardResolution;
-import net.sourceforge.stripes.action.Resolution;
-import net.sourceforge.stripes.action.UrlBinding;
-
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSystemUserInformation;
@@ -53,6 +48,12 @@ import org.mycore.user2.MCRRoleManager;
 import org.mycore.user2.MCRUser;
 import org.mycore.user2.MCRUserManager;
 
+import net.sourceforge.stripes.action.ActionBean;
+import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.action.UrlBinding;
+
 /**
  * This class handles the Login into the system.
  * 
@@ -68,7 +69,7 @@ import org.mycore.user2.MCRUserManager;
  */
 @UrlBinding("/login.action")
 public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBean {
-	private static Logger LOGGER = Logger.getLogger(MCRLoginAction.class);
+	private static Logger LOGGER = LogManager.getLogger(MCRLoginAction.class);
 	private static String classNameExtUserLogin = MCRConfiguration.instance().getString("MCR.Application.ExternalUserLogin.Class", "").trim();
 
 	ForwardResolution fwdResolution = new ForwardResolution("/content/login.jsp");

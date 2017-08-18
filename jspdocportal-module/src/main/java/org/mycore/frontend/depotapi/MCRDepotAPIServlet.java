@@ -37,7 +37,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 /**
  * This servlet delivers content from the depot directory
@@ -50,7 +52,7 @@ public class MCRDepotAPIServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    private static Logger LOGGER = Logger.getLogger(MCRDepotAPIServlet.class);
+    private static Logger LOGGER = LogManager.getLogger(MCRDepotAPIServlet.class);
 
     private MCRDepotAPIConfiguration depotAPIConf = new MCRDepotAPIDefaultConfiguration();
 

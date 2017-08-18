@@ -7,11 +7,13 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.TreeMap;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class UBRBibliographie {
 	private static final String BEACON_URL="http://web10.ub.uni-rostock.de/uploads/uni_bibliographie/daten/ubhro_bibliographie_pnd_beacon.txt";
 	private static UBRBibliographie instance;
+	private static Logger LOGGER = LogManager.getLogger(UBRBibliographie.class);
 	
 	private String biblioPNDBeaconEtag;
 	private TreeMap<String, Integer> biblioPNDMap;
@@ -71,7 +73,7 @@ public class UBRBibliographie {
 		
 		}
 		catch (Exception e) {
-			Logger.getLogger("unibliographie.jsp").error(e.getMessage(), e);
+			LOGGER.error(e.getMessage(), e);
 		}
 		Integer result =  biblioPNDMap.get(pnd);
 		if(result==null){

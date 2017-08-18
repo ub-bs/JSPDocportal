@@ -2,7 +2,6 @@
 <%@ page import="java.util.Map" %>
 <%@ page import="org.mycore.frontend.servlets.MCRServlet" %>
 <%@ page import="org.mycore.common.MCRSession" %>
-<%@ page import="org.apache.log4j.Logger" %>
 <%@ page import="org.mycore.common.MCRConfiguration" %>
 <%@ page import="org.mycore.common.JSPUtils" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>

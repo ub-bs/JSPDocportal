@@ -36,7 +36,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.frontend.MCRFrontendUtil;
 
@@ -48,7 +49,7 @@ import org.mycore.frontend.MCRFrontendUtil;
  *  */
 public class MCRWFFileNodeServlet extends  HttpServlet{
     private static final long serialVersionUID = 1L; 
-	private static Logger LOGGER = Logger.getLogger(MCRWFFileNodeServlet.class);
+	private static Logger LOGGER = LogManager.getLogger(MCRWFFileNodeServlet.class);
    
     /**
      * The initalization of the servlet.

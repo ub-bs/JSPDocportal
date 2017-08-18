@@ -32,7 +32,8 @@ import java.util.Properties;
 
 import javax.xml.transform.TransformerException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.filter.ElementFilter;
@@ -57,7 +58,7 @@ import org.mycore.user2.MCRRoleManager;
  *
  */
 public class MCRGetEditorElements {
-	private static Logger logger = Logger.getLogger("MCRGetEditorElements"); 
+	private static Logger logger = LogManager.getLogger("MCRGetEditorElements"); 
 	private static MCRConfiguration CONFIG = MCRConfiguration.instance();
 	
 	private Properties parseQueryString(String query){

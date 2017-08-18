@@ -39,7 +39,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -80,7 +81,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
 
     private static final long serialVersionUID = 1L;
 
-    private static Logger LOGGER = Logger.getLogger(MCRJSPGlobalResolverServlet.class);
+    private static Logger LOGGER = LogManager.getLogger(MCRJSPGlobalResolverServlet.class);
 
     /** static compiled transformer stylesheets */
     private static Hashtable<String, javax.xml.transform.Transformer> translist = new Hashtable<String, javax.xml.transform.Transformer>();

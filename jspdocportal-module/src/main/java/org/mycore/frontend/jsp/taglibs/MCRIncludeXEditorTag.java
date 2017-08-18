@@ -12,7 +12,8 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -35,7 +36,7 @@ import org.xml.sax.SAXException;
  *
  */
 public class MCRIncludeXEditorTag extends SimpleTagSupport {
-    private static Logger LOGGER = Logger.getLogger(MCRIncludeXEditorTag.class);
+    private static Logger LOGGER = LogManager.getLogger(MCRIncludeXEditorTag.class);
 
     public static Namespace NS_XED = Namespace.getNamespace("xed", "http://www.mycore.de/xeditor");
 

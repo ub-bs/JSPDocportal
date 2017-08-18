@@ -7,7 +7,8 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.output.DOMOutputter;
@@ -17,6 +18,8 @@ import org.mycore.user2.MCRUserManager;
 
 public class MCRGetFreeUserIDs extends SimpleTagSupport
 {
+	private static Logger LOGGER = LogManager.getLogger(MCRGetFreeUserIDs.class);
+	
 	private String var;
 	private String userid;
 	private int count = 0;
@@ -55,7 +58,7 @@ public class MCRGetFreeUserIDs extends SimpleTagSupport
 		try {
 			domDoc = new DOMOutputter().output(newIDs);
 		} catch (JDOMException e) {
-			Logger.getLogger(MCRGetFreeUserIDs.class).error("Domoutput failed: ", e);
+			LOGGER.error("Domoutput failed: ", e);
 		}
 		if(pageContext.getAttribute("debug") != null && pageContext.getAttribute("debug").equals("true")) {
 			JspWriter out = pageContext.getOut();

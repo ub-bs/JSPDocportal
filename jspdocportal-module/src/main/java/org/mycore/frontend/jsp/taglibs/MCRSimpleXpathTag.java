@@ -7,12 +7,13 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom2.xpath.XPathFactory;
 
 public class MCRSimpleXpathTag extends SimpleTagSupport
 {
-	private static Logger logger = Logger.getLogger(MCRSimpleXpathTag.class);
+	private static Logger LOGGER = LogManager.getLogger(MCRSimpleXpathTag.class);
 	private org.jdom2.Document jdom;
 	private String xpath;
 	
@@ -28,7 +29,7 @@ public class MCRSimpleXpathTag extends SimpleTagSupport
 	public void doTag() throws JspException, IOException {
 		String value = getSingleXPathValue(jdom,xpath);
 		if (value == null) {
-			Logger.getLogger(MCRSimpleXpathTag.class).debug("no xpath value found for xpath-expression ###" + xpath + "### in jdom-Document");
+			LOGGER.debug("no xpath value found for xpath-expression ###" + xpath + "### in jdom-Document");
 		}
 		PageContext pageContext = (PageContext) getJspContext();
         JspWriter out = pageContext.getOut();
@@ -51,7 +52,7 @@ public class MCRSimpleXpathTag extends SimpleTagSupport
     		if ( obj instanceof org.jdom2.Element)
     			return ((org.jdom2.Element) obj).getText();
 		} catch (Exception e) {
-		   logger.debug("wrong xpath expression: " + xpath);
+		   LOGGER.debug("wrong xpath expression: " + xpath);
 		}
     	return "";
     }

@@ -38,7 +38,8 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.jsp.jstl.core.Config;
 import javax.servlet.jsp.jstl.fmt.LocalizationContext;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Transaction;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.backend.hibernate.MCRHIBConnection;
@@ -63,7 +64,7 @@ import org.mycore.services.i18n.MCRTranslation;
  * 
  */
 public class MCRJSPServletContextListener implements ServletContextListener {
-	private static Logger LOGGER = Logger.getLogger(MCRJSPServletContextListener.class);
+	private static Logger LOGGER = LogManager.getLogger(MCRJSPServletContextListener.class);
 
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {

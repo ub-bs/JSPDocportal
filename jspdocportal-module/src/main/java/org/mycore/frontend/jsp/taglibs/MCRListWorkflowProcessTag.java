@@ -8,7 +8,8 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom2.Document;
 import org.jdom2.JDOMException;
 import org.jdom2.output.DOMOutputter;
@@ -20,6 +21,7 @@ import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowProcessManager;
 
 public class MCRListWorkflowProcessTag extends MCRSimpleTagSupport
 {
+	private static Logger LOGGER = LogManager.getLogger(MCRListWorkflowProcessTag.class);
     //input vars
 	private String workflowProcessType;
 	private String var;
@@ -40,7 +42,7 @@ public class MCRListWorkflowProcessTag extends MCRSimpleTagSupport
 		try {
 			WFM = MCRWorkflowManagerFactory.getImpl(workflowProcessType);
 		} catch (Exception noWFM) {
-			Logger.getLogger(MCRListWorkflowProcessTag.class).error("could not instantiate workflow manager", noWFM);
+			LOGGER.error("could not instantiate workflow manager", noWFM);
 			return;
 		}			
 		List lpids = WFM.getCurrentProcessIDsForProcessType(workflowProcessType) ;
@@ -71,7 +73,7 @@ public class MCRListWorkflowProcessTag extends MCRSimpleTagSupport
 		try {
 			domDoc = new DOMOutputter().output(result);
 		} catch (JDOMException e) {
-			Logger.getLogger(MCRListWorkflowProcessTag.class).error("Domoutput failed: ", e);
+			LOGGER.error("Domoutput failed: ", e);
 		}
 		
 		if(pageContext.getAttribute("debug") != null && pageContext.getAttribute("debug").equals("true")) {

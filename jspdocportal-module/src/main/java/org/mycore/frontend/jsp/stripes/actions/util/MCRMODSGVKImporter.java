@@ -16,7 +16,8 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -33,7 +34,7 @@ import org.mycore.common.MCRConstants;
 import org.mycore.common.config.MCRConfiguration;
 
 public class MCRMODSGVKImporter {
-    private static Logger LOGGER = Logger.getLogger(MCRMODSGVKImporter.class);
+    private static Logger LOGGER = LogManager.getLogger(MCRMODSGVKImporter.class);
 
     private static XPathExpression<Element> XP_URN = XPathFactory.instance().compile("//mods:identifier[@type='urn']",
         Filters.element(), null, MCRConstants.MODS_NAMESPACE);

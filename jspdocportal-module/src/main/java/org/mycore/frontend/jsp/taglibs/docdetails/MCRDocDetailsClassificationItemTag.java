@@ -29,7 +29,8 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.taglibs.standard.tag.common.xml.XPathUtil;
 import org.mycore.datamodel.classifications2.MCRCategoryDAO;
 import org.mycore.datamodel.classifications2.MCRCategoryDAOFactory;
@@ -45,7 +46,7 @@ import org.w3c.dom.Node;
  */
 public class MCRDocDetailsClassificationItemTag extends SimpleTagSupport {
 	private static MCRCategoryDAO categoryDAO = MCRCategoryDAOFactory.getInstance();
-	private static Logger LOGGER = Logger.getLogger(MCRDocDetailsClassificationItemTag.class.getName());
+	private static Logger LOGGER = LogManager.getLogger(MCRDocDetailsClassificationItemTag.class);
 
 	private String xp;	
 	private String css="";

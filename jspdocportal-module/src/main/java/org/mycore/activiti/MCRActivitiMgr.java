@@ -10,7 +10,8 @@ import org.activiti.engine.delegate.DelegateExecution;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mycore.activiti.workflows.create_object_simple.MCRWorkflowMgr;
 import org.mycore.common.MCRException;
 import org.mycore.common.config.MCRConfiguration;
@@ -18,7 +19,7 @@ import org.mycore.common.config.MCRConfigurationDir;
 import org.mycore.common.config.MCRConfigurationException;
 
 public class MCRActivitiMgr {
-	private static final Logger LOGGER = Logger.getLogger(MCRActivitiMgr.class);
+	private static final Logger LOGGER = LogManager.getLogger(MCRActivitiMgr.class);
 	public static final String WF_VAR_PROJECT_ID = "projectID";
 	public static final String WF_VAR_OBJECT_TYPE = "objectType";
 	public static final String WF_VAR_MCR_OBJECT_ID = "mcrObjectID";
