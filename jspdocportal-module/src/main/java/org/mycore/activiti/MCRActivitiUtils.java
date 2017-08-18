@@ -207,11 +207,7 @@ public class MCRActivitiUtils {
 		try{
 			return MCRUtils.getMD5Sum(new FileInputStream(f));
 		}
-		catch(NoSuchAlgorithmException e){
-			//will never happen
-			return null;
-		}
-		catch(IOException nfe){
+	catch(IOException nfe){
 			return null;
 		}
 	} 
