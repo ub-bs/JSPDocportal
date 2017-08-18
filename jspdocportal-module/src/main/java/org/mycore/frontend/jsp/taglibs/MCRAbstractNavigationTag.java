@@ -28,9 +28,9 @@ import java.util.List;
 
 import javax.servlet.jsp.PageContext;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.codehaus.plexus.util.StringUtils;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.frontend.jsp.navigation.model.Navigation;
 import org.mycore.frontend.jsp.navigation.model.NavigationItem;
