@@ -116,16 +116,13 @@ public class MCRActivitiMgr {
 			}
 		}
 		if (StringUtils.isNotBlank(config.getString("MCR.Workflow.Email.MailServerUseSSL"))) {
-			email.setSSL(config.getBoolean("MCR.Workflow.Email.MailServerUseSSL", false));
+			email.setSSLOnConnect(config.getBoolean("MCR.Workflow.Email.MailServerUseSSL", false));
 		}
 		if (StringUtils.isNotBlank(config.getString("MCR.Workflow.Email.MailServerUseTLS"))) {
-			email.setTLS(config.getBoolean("MCR.Workflow.Email.MailServerUseTLS", false));
+			email.setStartTLSEnabled(config.getBoolean("MCR.Workflow.Email.MailServerUseTLS", false));
 		}
 		if (StringUtils.isNoneBlank(config.getString("MCR.Workflow.Email.MailServerUsername"), config.getString("MCR.Workflow.Email.MailServerPassword"))) {
 			email.setAuthentication(config.getString("MCR.Workflow.Email.MailServerUsername"), config.getString("MCR.Workflow.Email.MailServerPassword"));
-		}
-		if (StringUtils.isNotBlank(config.getString("MCR.Workflow.Email.MailServerUseTLS"))) {
-			email.setTLS(config.getBoolean("MCR.Workflow.Email.MailServerUseTLS", false));
 		}
 
 		try {
