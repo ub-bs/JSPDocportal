@@ -9,15 +9,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.StringReader;
 
-import net.sourceforge.stripes.action.ActionBean;
-import net.sourceforge.stripes.action.ActionBeanContext;
-import net.sourceforge.stripes.action.Before;
-import net.sourceforge.stripes.action.DefaultHandler;
-import net.sourceforge.stripes.action.ForwardResolution;
-import net.sourceforge.stripes.action.Resolution;
-import net.sourceforge.stripes.action.UrlBinding;
-import net.sourceforge.stripes.controller.LifecycleStage;
-
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -27,8 +18,18 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.jdom2.xpath.XPathFactory;
-import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
+import org.mycore.activiti.MCRActivitiUtils;
+import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.tools.gvkmods.GVKMODSImport;
+
+import net.sourceforge.stripes.action.ActionBean;
+import net.sourceforge.stripes.action.ActionBeanContext;
+import net.sourceforge.stripes.action.Before;
+import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.action.UrlBinding;
+import net.sourceforge.stripes.controller.LifecycleStage;
 
 @UrlBinding("/importMODSFromGVK.action")
 public class ImportMODSFromGVKAction implements ActionBean {
@@ -83,10 +84,8 @@ public class ImportMODSFromGVKAction implements ActionBean {
 
 	public Resolution doSave() {
 		if (!mcrID.equals("")) {
-			String[] mcridParts = mcrID.split("_");
-			String savedir = MCRWorkflowDirectoryManager.getWorkflowDirectory(mcridParts[1]);
-			String filename = savedir + "/" + mcrID + ".xml";
-			File file = new File(filename);
+			File savedir = MCRActivitiUtils.getWorkflowDirectory(MCRObjectID.getInstance(mcrID));
+			File file = new File(savedir, mcrID + ".xml");
 			try {
 				SAXBuilder sb = new SAXBuilder();
 				Document docJdom = sb.build(new InputStreamReader(new FileInputStream(file), "UTF-8"));
@@ -155,10 +154,8 @@ public class ImportMODSFromGVKAction implements ActionBean {
 
 	private void findGVKPPN() {
 		if (!mcrID.equals("")) {
-			String[] mcridParts = mcrID.split("_");
-			String savedir = MCRWorkflowDirectoryManager.getWorkflowDirectory(mcridParts[1]);
-			String filename = savedir + "/" + mcrID + ".xml";
-			File file = new File(filename);
+			File savedir = MCRActivitiUtils.getWorkflowDirectory(MCRObjectID.getInstance(mcrID));
+			File file = new File(savedir, mcrID + ".xml");
 			try {
 				SAXBuilder sb = new SAXBuilder();
 				Document docJdom = sb.build(new InputStreamReader(new FileInputStream(file), "UTF-8"));

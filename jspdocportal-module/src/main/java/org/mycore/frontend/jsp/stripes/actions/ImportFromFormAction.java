@@ -4,6 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 
+import org.jdom2.Document;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
+import org.mycore.activiti.MCRActivitiUtils;
+import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.tools.dissonline.formimport.DissOnlineFormImport;
+
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.Before;
@@ -12,12 +19,6 @@ import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.controller.LifecycleStage;
-
-import org.jdom2.Document;
-import org.jdom2.output.Format;
-import org.jdom2.output.XMLOutputter;
-import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
-import org.mycore.tools.dissonline.formimport.DissOnlineFormImport;
 
 @UrlBinding("/importFromForm.action")
 public class ImportFromFormAction implements ActionBean {
@@ -104,11 +105,9 @@ public class ImportFromFormAction implements ActionBean {
 
     public Resolution doSave() {
         if (!mcrid.equals("")) {
-            String[] mcridParts = mcrid.split("_");
-            File dirSave = new File(MCRWorkflowDirectoryManager.getWorkflowDirectory(mcridParts[1]));
-            
-            File f = new File(dirSave, mcrid+".xml");
-            DissOnlineFormImport.loadFormDataIntoMCRObject(metadataContent, f);
+            File savedir = MCRActivitiUtils.getWorkflowDirectory(MCRObjectID.getInstance(mcrid));
+			File file = new File(savedir, mcrid + ".xml");
+            DissOnlineFormImport.loadFormDataIntoMCRObject(metadataContent, file);
         }        
         
         return new ForwardResolution(returnPath);
