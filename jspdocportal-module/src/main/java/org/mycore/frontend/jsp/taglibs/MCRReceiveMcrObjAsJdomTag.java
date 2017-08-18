@@ -10,11 +10,11 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jdom2.output.DOMOutputter;
+import org.mycore.activiti.MCRActivitiUtils;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
-import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 
 public class MCRReceiveMcrObjAsJdomTag extends SimpleTagSupport
 {
@@ -45,10 +45,8 @@ public class MCRReceiveMcrObjAsJdomTag extends SimpleTagSupport
 		try (MCRHibernateTransactionWrapper htw = new MCRHibernateTransactionWrapper()) {
     		org.mycore.datamodel.metadata.MCRObject mcr_obj = new org.mycore.datamodel.metadata.MCRObject();
 			if (fromWF) {
-				String[] mcridParts = mcrid.split("_");
-				String savedir = MCRWorkflowDirectoryManager.getWorkflowDirectory(mcridParts[1]);
-				String filename = savedir + "/" + mcrid + ".xml";			
-				File file = new File(filename);
+				File savedir = MCRActivitiUtils.getWorkflowDirectory(MCRObjectID.getInstance(mcrid));
+				File file = new File(savedir, mcrid+".xml");
 				if (file.isFile()) {
 					mcr_obj = new MCRObject(file.toURI());
 				}
