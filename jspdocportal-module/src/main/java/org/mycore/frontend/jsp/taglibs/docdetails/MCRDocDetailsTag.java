@@ -43,10 +43,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.DOMOutputter;
+import org.mycore.activiti.MCRActivitiUtils;
 import org.mycore.common.JSPUtils;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObjectID;
-import org.mycore.frontend.workflowengine.strategies.MCRWorkflowDirectoryManager;
 import org.mycore.services.i18n.MCRTranslation;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -158,10 +158,8 @@ public class MCRDocDetailsTag extends SimpleTagSupport {
 			MCRObjectID mcrObjID = MCRObjectID.getInstance(mcrID);
 			
 			if (fromWorkflow) {
-				String[] mcridParts = mcrID.split("_");
-				String savedir = MCRWorkflowDirectoryManager.getWorkflowDirectory(mcridParts[1]);
-				String filename = savedir + "/" + mcrID + ".xml";
-				File file = new File(filename);
+				File savedir = MCRActivitiUtils.getWorkflowDirectory(mcrObjID);
+				File file = new File(savedir, mcrID + ".xml");
 				if (file.isFile()) {
 					data = getBytesFromFile(file);
 					doc = builder.parse(new ByteArrayInputStream(data));
