@@ -392,7 +392,9 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
 
     @MCRCommand(syntax = "repair urn store", help = "The command parses through all metadata objects and updates the urns in the URN store if necessary")
     public static final void repairURNStore() throws MCRException {
-        try {
+//TODO URN -> PI
+    	/*
+    	try {
             for (String mcrid : MCRXMLMetadataManager.instance().listIDs()) {
                 // if object do'snt exist - no exception is catched!
                 MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrid));
@@ -414,6 +416,7 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
         } catch (Exception e) {
             throw new MCRException("Error while repairing URN Store", e);
         }
+        */
     }
 
     @MCRCommand(syntax = "create directory {0}", help = "The command creates a directory. If MyCoRe Properties are specified as part of the path, they will be replaced.")
