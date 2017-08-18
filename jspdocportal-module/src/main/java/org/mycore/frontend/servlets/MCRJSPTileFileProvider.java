@@ -33,7 +33,6 @@ import org.mycore.common.HashedDirectoryStructure;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.common.config.MCRConfigurationException;
 import org.mycore.frontend.servlets.tileserver.MCRTileFileProvider;
-import org.mycore.imagetiler.MCRImage;
 
 /**
  * Calculate the path for a specific tile of an image.
@@ -50,7 +49,11 @@ public class MCRJSPTileFileProvider implements MCRTileFileProvider {
             String recordIdentifier = URLDecoder.decode(URLDecoder.decode(derivate, "UTF-8"), "UTF-8");
             Path outputDir = HashedDirectoryStructure.createOutputDirectory(depotDir,  recordIdentifier);
             image = image.replaceFirst("(\\w+)(_derivate_)(\\d+)(/)", "");
-            return MCRImage.getTiledFile(outputDir, ".", image);
+            
+            //TODO fix later
+            //import org.mycore.imagetiler.MCRImage;
+            //return MCRImage.getTiledFile(outputDir, ".", image);
+            return null;
         }
         catch(MCRConfigurationException cfe){
             LOGGER.error("Property \"MCR.depotdir\" not defined!", cfe);
