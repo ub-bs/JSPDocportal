@@ -179,26 +179,21 @@
   </build>
   <repositories>
     <repository>
-      <id>JBoss JBPM</id>
-      <!-- <url>http://repository.jboss.org/maven2</url> -->
-      <url>http://repository.jboss.org/nexus/content/groups/public-jboss</url>
-    </repository>
-    <repository>
+      <id>MyCoRe HQ</id>
+      <url>http://artifactory.mycore.de/mycore-releases</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
-      <id>MyCoRe HQ</id>
-      <url>http://artifactory.mycore.de/mycore-releases</url>
     </repository>
     <repository>
-      <releases>
+      <id>MyCoRe HQ Snapshots</id>
+      <url>http://artifactory.mycore.de/mycore-snapshots</url>
+       <releases>
         <enabled>false</enabled>
       </releases>
       <snapshots>
         <enabled>true</enabled>
       </snapshots>
-      <id>MyCoRe HQ Snapshots</id>
-      <url>http://artifactory.mycore.de/mycore-snapshots</url>
     </repository>
   </repositories>
 
@@ -327,12 +322,13 @@
       <groupId>org.mycore</groupId>
       <artifactId>mycore-ifs</artifactId>
     </dependency>
-    <!-- 
+     
     <dependency>
       <groupId>org.mycore</groupId>
       <artifactId>mycore-mods</artifactId>
+      <scope>runtime</scope>
     </dependency>
-    -->
+    
     <dependency>
       <groupId>org.mycore</groupId>
       <artifactId>mycore-solr</artifactId>
@@ -354,6 +350,13 @@
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
       <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <!-- required by activiti -->
+      <groupId>commons-dbcp</groupId>
+      <artifactId>commons-dbcp</artifactId>
+      <version>1.4</version>
+      <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>commons-fileupload</groupId>
