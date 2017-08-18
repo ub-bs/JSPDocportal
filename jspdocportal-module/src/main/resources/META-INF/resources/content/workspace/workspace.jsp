@@ -63,7 +63,7 @@
 												</c:if>	
 												<div>
 													<a href="${WebApplicationBaseURL}resolve/id/${currentVariables.mcrObjectID}?fromWF=true" class="btn btn-default pull-right">
-							    	 					<span class="glyphicon glyphicon-blackboard"></span> Vorschau
+							    	 					<i class="fa fa-newspaper-o"></i> Vorschau
 							     					</a>	
 													<span class="badge pull-left" style="margin-right:24px;margin-top:3px">${currentVariables.mcrObjectID}</span>
 													<div class="pull-left">
@@ -80,33 +80,33 @@
 											<div class="panel-body">
 												<c:if test="${not fn:contains(currentVariables.mcrObjectID,'_person_')}">
 													<a href="${WebApplicationBaseURL}pubform/pica3?urn=${currentVariables.wfObjectDisplayPersistentIdentifier}" 
-												   		class="btn btn-default" target="_blank"><span class="glyphicon glyphicon-book"></span> Pica3 generieren
+												   		class="btn btn-default" target="_blank"><i class="fa fa-book"></i> Pica3 generieren
 													</a>
 							     					<button class="btn btn-default" type="button" data-toggle="collapse" data-target="#import_mods-dialog-task_${currentTask.id}">
-							     						<span class="glyphicon glyphicon-download-alt"></span> MODS aus OPAC importieren
+							     						<i class="fa fa-download"></i> MODS aus OPAC importieren
 							     					</button>
 							     				</c:if>
 							     				<button name="doEditObject-task_${currentTask.id}-${currentVariables.mcrObjectID}" value="" class="btn btn-default" type="submit">
-							     					<span class="glyphicon glyphicon-tag"></span> Metadaten bearbeiten
+							     					<i class="fa fa-tag"></i> Metadaten bearbeiten
 							     				</button>
 							     				<button name="doEditDerivates-task_${currentTask.id}-${currentVariables.mcrObjectID}" value="" class="btn btn-default" type="submit">
-							    	 				<span class="glyphicon glyphicon-file"></span> Derivate bearbeiten
+							    	 				<i class="fa fa-file"></i> Derivate bearbeiten
 							     				</button>
 							   			 	</div>
 							   			 	<div id="import_mods-dialog-task_${currentTask.id}" class="collapse">
 							  					<div class="panel-body" style="background-color: rgb(242, 222, 222);border: 2px solid rgb(169, 68, 66); padding-left: 4em;">
-							  						<button name="doImportMODS-task_${currentTask.id}-${currentVariables.mcrObjectID}" value="" class="btn btn-danger btn-sm" type="submit"><span class="glyphicon glyphicon-download-alt"></span> IMPORTIEREN</button>
+							  						<button name="doImportMODS-task_${currentTask.id}-${currentVariables.mcrObjectID}" value="" class="btn btn-danger btn-sm" type="submit"><i class="fa fa-download"></i> IMPORTIEREN</button>
 								  					<label style="vertical-align:bottom; margin-left:2em;">Wollen sie die MODS-Metadaten aus dem Katalog importieren?</label>
 							  					</div>
 							  				</div>
 								  			<div class="panel-footer">
-								  				<button name="doGoto-task_${currentTask.id}-edit_object.do_save" value="" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-ok"></span> Veröffentlichen</button>
-												<button name="doGoto-task_${currentTask.id}-edit_object.do_cancel" value="" class="btn btn-default" type="submit"><span class="glyphicon glyphicon-remove"></span> Bearbeitung abbrechen</button>
-							  					<button class="btn btn-danger btn-sm pull-right" style="margin-top:0.2em" type="button" data-toggle="collapse" data-target="#delete-dialog-task_${currentTask.id}"><span class="glyphicon glyphicon-trash"></span> Objekt löschen</button>
+								  				<button name="doGoto-task_${currentTask.id}-edit_object.do_save" value="" class="btn btn-primary" type="submit"><i class="fa fa-check"></i> Veröffentlichen</button>
+												<button name="doGoto-task_${currentTask.id}-edit_object.do_cancel" value="" class="btn btn-default" type="submit"><i class="fa fa-times"></i> Bearbeitung abbrechen</button>
+							  					<button class="btn btn-danger btn-sm pull-right" style="margin-top:0.2em" type="button" data-toggle="collapse" data-target="#delete-dialog-task_${currentTask.id}"><i class="fa fa-trash-o"></i> Objekt löschen</button>
 							  				</div>
 							  				<div id="delete-dialog-task_${currentTask.id}" class="collapse">
 							  					<div class="panel-footer" style="background-color: rgb(242, 222, 222);border: 2px solid rgb(169, 68, 66); padding-left: 4em;">
-								  					<button name="doGoto-task_${currentTask.id}-edit_object.do_drop" value="" class="btn btn-danger btn-sm" type="submit"><span class="glyphicon glyphicon-trash"></span> LÖSCHEN</button>
+								  					<button name="doGoto-task_${currentTask.id}-edit_object.do_drop" value="" class="btn btn-danger btn-sm" type="submit"><i class="fa fa-trash-o"></i> LÖSCHEN</button>
 								  					<label style="vertical-align:bottom; margin-left:2em;">Wollen sie das Objekt wirklich löschen?</label>
 							  					</div>
 							  				</div>

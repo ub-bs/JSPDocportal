@@ -46,7 +46,7 @@
 							<c:param name="_remove-filter" value="${key}" />
 						</c:url>
 						<a class="btn btn-sm btn-default ir-btn-facet" style="display:block;text-align:left;white-space:normal;margin:3px 0px;color:black;width:100%" href="${url}">
-							<span class="glyphicon glyphicon-remove pull-right" style="margin-top:3px; color:darkred;"></span>
+							<i class="fa fa-times pull-right" style="margin-top:3px; color:darkred;"></i>
 							<span style="display:table-cell;vertical-align:middle;">
 								${actionBean.calcFacetOutputString(facetKey, countsKey)}
 							</span>

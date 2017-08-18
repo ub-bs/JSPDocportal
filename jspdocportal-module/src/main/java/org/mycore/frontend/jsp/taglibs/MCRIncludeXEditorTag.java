@@ -127,7 +127,7 @@ public class MCRIncludeXEditorTag extends SimpleTagSupport {
                             content = editorContent.asString().replaceAll("<\\?xml.*?\\?>", "");
                         }
                         // for proper display of glyhicons
-                        // replace "<i class='glyphicon glyphicon-plus' /> with "<i class='glyphicon glyphicon-plus'></i>"
+                        // replace "<i class='fa fa-plus' /> with "<i class='fa fa-plus'></i>"
                         Matcher m = REGEX_XML_EMPTY_ELEMENTS.matcher(content);
                         content = m.replaceAll("<$1 $2></$1>");
 

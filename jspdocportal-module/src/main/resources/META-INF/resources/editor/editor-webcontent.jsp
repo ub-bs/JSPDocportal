@@ -43,12 +43,12 @@
 		    <div class="panel-body bg-warning">
 		        <input type="submit"  name="doSave_${actionBean.id}" class="btn btn-primary" 
 		               title="<fmt:message key="Webpage.editwebcontent.save"/>" value="Speichern" /> 
-		                 <%-- <span class="glyphicon glyphicon-floppy-disk"></span> <fmt:message key="Webpage.editwebcontent.save" /> --%>
+		                 <%-- <i class="fa fa-floppy-o"></i> <fmt:message key="Webpage.editwebcontent.save" /> --%>
 				
 
 		        <input type="submit"  name="doCancel_${actionBean.id}" class="btn btn-danger" 
 		        	title="<fmt:message key="Webpage.editwebcontent.cancel" />" value="Abbrechen" />
-		        		<%-- <span class="glyphicon glyphicon-remove"></span> <fmt:message key="Webpage.editwebcontent.cancel" /> --%>
+		        		<%-- <i class="fa fa-times"></i> <fmt:message key="Webpage.editwebcontent.cancel" /> --%>
 		    </div>
 		</form>
 		</div>

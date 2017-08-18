@@ -52,7 +52,7 @@
 							       onkeypress="if (event.keyCode == 13) { changeFilterIncludeURL();}">
 									<span class="input-group-btn">
 									<button id="filterInclude" class="btn btn-primary" onclick="changeFilterIncludeURL();">
-								<span class="glyphicon glyphicon-plus"></span>
+								<i class="fa fa-plus"></i>
 							</button>
 						</span> 
 						</div>	
@@ -102,7 +102,7 @@
 							</c:url>
 							<c:set var="c"><fmt:message key="Browse.Filter.histbest.${fn:substringBefore(fn:substring(fq, 1, -1),':')}"/>: ${actionBean.calcFacetOutputString(fn:substringBefore(fn:substring(fq, 1, -1),':'), fn:substringAfter(fn:substring(fq, 1, -1),':'))}</c:set>
 							<a class="btn btn-sm btn-default ir-btn-facet" style="display:block;text-align:left;white-space:normal;margin-bottom:3px;color:black;width:100%" href="${url}">
-								<span class="glyphicon glyphicon-remove pull-right" style="margin-top:3px; color:darkred;"></span>
+								<i class="fa fa-times pull-right" style="margin-top:3px; color:darkred;"></i>
 								${c}										
 							</a>
 						</c:if>

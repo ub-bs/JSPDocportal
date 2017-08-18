@@ -96,10 +96,10 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
         out.write("\n</script>");
         out.write("\n    <div class=\"panel-body bg-warning\">");
         out.write("\n        <input type=\"submit\"  name=\"doSave_"+id+"\" class=\"btn btn-primary\" title=\""
-        		+MCRTranslation.translate("Webpage.editwebcontent.save")+"\"><span class=\"glyphicon glyphicon-floppy-disk\"></span> "+MCRTranslation.translate("Webpage.editwebcontent.save")+"</input>");
+        		+MCRTranslation.translate("Webpage.editwebcontent.save")+"\"><i class=\"fa fa-floppy-o\"></i> "+MCRTranslation.translate("Webpage.editwebcontent.save")+"</input>");
         
         out.write("\n        <input type=\"submit\"  name=\"doCancel_"+id+"\" class=\"btn btn-danger\" title=\""
-        		+MCRTranslation.translate("Webpage.editwebcontent.cancel")+"\"><span class=\"glyphicon glyphicon-remove\"></span> "+MCRTranslation.translate("Webpage.editwebcontent.cancel")+"</input>");
+        		+MCRTranslation.translate("Webpage.editwebcontent.cancel")+"\"><i class=\"fa fa-times\"></i> "+MCRTranslation.translate("Webpage.editwebcontent.cancel")+"</input>");
         
         out.write("\n    </div>");
         out.write("\n</form>");

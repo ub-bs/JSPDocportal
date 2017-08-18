@@ -24,7 +24,7 @@
               <xsl:attribute name="class">btn btn-default btn-sm pull-right ir-btn-goto-top</xsl:attribute>
               <xsl:attribute name="href"><xsl:value-of select="$WebApplicationBaseURL" />resolve/recordIdentifier/<xsl:value-of select="substring-before(./mods:recordIdentifier, '/')"/>%252F<xsl:value-of select="substring-after(./mods:recordIdentifier, '/')"/></xsl:attribute>
               <xsl:attribute name="title"><xsl:value-of select="../mods:titleInfo/mods:title" /></xsl:attribute>
-              <xsl:value-of select="i18n:translate('Webpage.docdetails.gotoParent')" />&#160;&#160;<span class="glyphicon glyphicon-share-alt"></span>
+              <xsl:value-of select="i18n:translate('Webpage.docdetails.gotoParent')" />&#160;&#160;<i class="fa fa-share"></i>
             </xsl:element>
       </xsl:for-each> 
 

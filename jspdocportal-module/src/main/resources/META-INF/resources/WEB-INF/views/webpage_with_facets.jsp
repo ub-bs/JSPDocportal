@@ -65,7 +65,7 @@
 					</div>
 					<div class="col-sm-1 col-xs-2">
 						<button id="filterInclude" class="btn btn-primary" onclick="changeFilterIncludeURL($('input[name=\'filterField\']:checked').val(), $('#filterValue').val(), '${actionBean.path}');">
-							<span class="glyphicon glyphicon-search"></span>
+							<i class="fa fa-search"></i>
 						</button>
 					</div>
 				</div>

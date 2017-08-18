@@ -14,13 +14,13 @@
  			<!--  Editbutton -->
  			<a class="btn btn-primary btn-lg pull-right" style="padding:6px" 
 				href="${WebApplicationBaseURL}startedit.action?mcrid=${mcrid}" title="<fmt:message key="WF.common.object.EditObject" />">
-		   		<span class="glyphicon glyphicon-pencil"></span>
+		   		<i class="fa fa-pencil"></i>
 		   	</a> 
 		</c:when>
 		<c:otherwise>
 			<button class="btn btn-default btn-lg pull-right" style="padding:6px" disabled="disabled" 
            			title="<fmt:message key="WF.common.object.EditObjectIsLocked" />">
-		   			<span class="glyphicon glyphicon-ban-circle"></span>
+		   			<i class="fa fa-ban"></i>
            	</button>
 		</c:otherwise>
 	</c:choose>         

@@ -44,7 +44,7 @@
 		<div class="pull-left">
 				    <a style="font-size:1.25em;margin:6px;" class="btn btn-default btn-xs" 
 			       href="${backURL}"
-			       title="<fmt:message key="Webpage.Searchresult.back.hint" />"><span class="glyphicon glyphicon-chevron-up"></span></a>
+			       title="<fmt:message key="Webpage.Searchresult.back.hint" />"><i class="fa fa-chevron-up"></i></a>
 		</div>
 		<div class="pull-right">
 			<c:set var="backURL" value="${pageContext.request.contextPath}/${result.action}?_search=${result.id}" />
@@ -56,12 +56,12 @@
 			
 				<a style="font-size:1.25em" class="btn btn-default btn-xs ${result.current == 0 ? 'disabled invisible' :''}" 
 			   	   href="${pageContext.request.contextPath}/search?_search=${result.id}&amp;_hit=${result.current-1}"
-			       title="<fmt:message key="Webpage.Searchresult.prevPage.hint" />"><span class="glyphicon glyphicon-chevron-left"></span></a>
+			       title="<fmt:message key="Webpage.Searchresult.prevPage.hint" />"><i class="fa fa-chevron-left"></i></a>
 		
 			
 				<a style="font-size:1.25em" class="btn btn-default btn-xs ${result.current == numHits - 1 ? 'disabled invisible' : ''}" 
 				   href="${pageContext.request.contextPath}/search?_search=${result.id}&amp;_hit=${result.current+1}"
-				   title="<fmt:message key="Webpage.Searchresult.nextPage.hint" />"><span class="glyphicon glyphicon-chevron-right"></span></a>
+				   title="<fmt:message key="Webpage.Searchresult.nextPage.hint" />"><i class="fa fa-chevron-right"></i></a>
 			</div>
 		</div>
 
@@ -84,15 +84,15 @@
 			
 				<a style="font-size:1.5em;width:33.333%;" class="btn btn-default btn-xs ${result.current == 0 ? 'disabled invisible' :''}" 
 			   	   href="${pageContext.request.contextPath}/search?_search=${result.id}&amp;_hit=${result.current-1}"
-			       title="<fmt:message key="Webpage.Searchresult.prevPage.hint" />"><span class="glyphicon glyphicon-chevron-left"></span></a>
+			       title="<fmt:message key="Webpage.Searchresult.prevPage.hint" />"><i class="fa fa-chevron-left"></i></a>
 		
 			    <a style="font-size:1.5em;width:33.333%;" class="btn btn-default btn-xs" 
 			       href="${backURL}"
-			       title="<fmt:message key="Webpage.Searchresult.back.hint" />"><span class="glyphicon glyphicon-chevron-up"></span></a>
+			       title="<fmt:message key="Webpage.Searchresult.back.hint" />"><i class="fa fa-chevron-up"></i></a>
 			
 				<a style="font-size:1.5em;width:33.333%;" class="btn btn-default btn-xs ${result.current == numHits - 1 ? 'disabled invisible' : ''}" 
 				   href="${pageContext.request.contextPath}/search?_search=${result.id}&amp;_hit=${result.current+1}"
-				   title="<fmt:message key="Webpage.Searchresult.nextPage.hint" />"><span class="glyphicon glyphicon-chevron-right"></span></a>
+				   title="<fmt:message key="Webpage.Searchresult.nextPage.hint" />"><i class="fa fa-chevron-right"></i></a>
 			</div>
 		</div>
 		</c:otherwise>

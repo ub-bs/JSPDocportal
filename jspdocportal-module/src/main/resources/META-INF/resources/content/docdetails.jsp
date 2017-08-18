@@ -66,7 +66,7 @@
  				.append(' ').append($('<span>').append(gnd))
  				.append(' ').append($('<a>').attr('type', 'button').addClass('btn btn-xs btn-link').attr('href', gnd)
  						.attr('title', 'Gemeinsame Normdatei der Deutschen Nationalbibliothek')
- 						.append($('<span>').addClass('glyphicon glyphicon-share')));
+ 						.append($('<span>').addClass('fa fa-share-square-o')));
  			
  				var affi_html = "";
  				if($(html).data('mcr-value-affiliation')){
@@ -74,7 +74,7 @@
  						.append($('<hr>'))
  						.append($('<strong>').append('Einrichtung:')).append('<br>').append($(html).data('mcr-value-affiliation'));
  				}
-     		return $('<div>').append('<div style="color:darkred;margin-right:-15px;margin-top:-40px" class="btn btn-xs pull-right" onclick="hidePopover(this);"><span class="glyphicon glyphicon-remove"></span></div>')
+     		return $('<div>').append('<div style="color:darkred;margin-right:-15px;margin-top:-40px" class="btn btn-xs pull-right" onclick="hidePopover(this);"><i class="fa fa-times"></i></div>')
      		.append(gnd_html).append(affi_html);
      		
      	}
@@ -264,7 +264,7 @@
 				<div class="pull-right">
     	   			<button type="button" class="btn btn-default btn-sm pull-right hidden-xs" style="border:none;color:#DEDEDE;" 
     	   		        data-toggle="collapse" data-target="#hiddenTools" title="<fmt:message key="Webpage.tools.menu4experts" />">
-   						<span class="glyphicon glyphicon-wrench"></span>
+   						<span class="fa fa-"></span>
        				</button>
        				<search:show-edit-button mcrid="${mcrid}" cssClass="btn btn-sm btn-primary ir-edit-btn col-xs-3" />
    				</div>

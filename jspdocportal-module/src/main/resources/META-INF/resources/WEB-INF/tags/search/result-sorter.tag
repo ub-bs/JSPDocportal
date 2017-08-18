@@ -27,10 +27,10 @@
 			</c:forEach>
 		</select>
 		<button class="btn btn-default btn-sm ${fn:endsWith(result.sort,' asc') ? 'disabled active' : ''}" role="button" onclick="changeSortURL('asc')">
-			<span class="glyphicon glyphicon-sort-by-attributes"></span> A-Z
+			<i class="fa fa-sort-amount-asc"></i> A-Z
 		</button>
 		<button class="btn btn-default btn-sm ${fn:endsWith(result.sort,' desc') ? 'disabled active' : ''}" role="button" onclick="changeSortURL('desc')">
-			<span class="glyphicon glyphicon-sort-by-attributes-alt" onclick="changeSortURL('desc')"></span> Z-A
+			<i class="fa fa-sort-amount-desc" onclick="changeSortURL('desc')"></i> Z-A
 		</button>
 	</div>
 </div>

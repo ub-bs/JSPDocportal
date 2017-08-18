@@ -345,15 +345,15 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
                 for (String fileName : derivateFiles.get(derID.getXLinkHref())) {
                     result.append("\n        <li>");
                     if (fileName.contains(".")) {
-                        result.append("<span class=\"glyphicon glyphicon-file\"></span> ");
+                        result.append("<i class=\"fa fa-file\"></i> ");
                     } else {
-                        result.append("<span class=\"glyphicon glyphicon-folder-open\"></span> ");
+                        result.append("<i class=\"fa fa-folder-open\"></i> ");
                     }
                     result.append(fileName);
 
                     if (fileName.equals(der.getDerivate().getInternals().getMainDoc())) {
                         result.append(
-                            "<span style=\"margin-left:16px; color:grey;\" class=\"glyphicon glyphicon-star\" title=\""
+                            "<span style=\"margin-left:16px; color:grey;\" class=\"fa fa-star\" title=\""
                                 + MCRTranslation.translate("Editor.Common.derivate.maindoc") + "\"></span>");
                     }
                     result.append("</li>");

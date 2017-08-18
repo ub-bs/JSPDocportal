@@ -58,7 +58,7 @@
             </xsl:if>
             <xsl:attribute name="title">Weitere Informationen ...</xsl:attribute>
             <xsl:element name="span">
-              <xsl:attribute name="class">glyphicon glyphicon-info-sign</xsl:attribute>
+              <xsl:attribute name="class">fa fa-info-circle</xsl:attribute>
             </xsl:element>
           </xsl:element>
         </xsl:if>
@@ -84,7 +84,7 @@
             </xsl:if>
             <xsl:attribute name="title">Weitere Informationen ...</xsl:attribute>
             <xsl:element name="span">
-              <xsl:attribute name="class">glyphicon glyphicon-info-sign</xsl:attribute>
+              <xsl:attribute name="class">fa fa-info-circle</xsl:attribute>
             </xsl:element>
           </xsl:element>
         </xsl:if>

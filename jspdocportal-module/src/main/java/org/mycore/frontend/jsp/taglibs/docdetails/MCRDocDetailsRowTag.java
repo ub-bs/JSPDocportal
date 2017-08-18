@@ -171,11 +171,11 @@ public class MCRDocDetailsRowTag extends SimpleTagSupport {
 				info = "???" + labelkey + ".info???<br /><i>Eine Beschreibung für das Feld wird gerade erstellt.</i>";
 			}
 			String id = labelkey.replaceAll("[^A-Za-z0-9]", "_");
-			//out.write("<div class=\"" + docdetails.getStylePrimaryName() + "-infohover\">" + "<a href=\"#\"><i class=\"glyphicon glyphicon-info-sign\"></i><span>" + info + "</span></a></div>");
+			//out.write("<div class=\"" + docdetails.getStylePrimaryName() + "-infohover\">" + "<a href=\"#\"><i class=\"fa fa-info-circle\"></i><span>" + info + "</span></a></div>");
 		
 			out.write("<div class=\"" + docdetails.getStylePrimaryName() + "-info pull-left\">");
 			out.write("  <a id=\"infoButton_"+ id +"\" type=\"button\" class=\"btn btn-default btn-xs docdetails-info-btn\" data-toggle=\"popover\" >");
-			out.write("     <span class=\"glyphicon glyphicon-info-sign\"></span>");
+			out.write("     <i class=\"fa fa-info-circle\"></i>");
 			out.write("  </a>");
 			out.write("\n  <script>                                                                                         ");
             out.write("\n  $(document).ready(function(){                                                                    ");                                                                            
