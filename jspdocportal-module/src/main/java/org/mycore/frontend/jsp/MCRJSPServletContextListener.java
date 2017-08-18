@@ -48,7 +48,6 @@ import org.mycore.common.MCRException;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.jsp.navigation.model.Navigations;
-import org.mycore.frontend.workflowengine.jbpm.MCRWorkflowConstants;
 import org.mycore.services.i18n.MCRTranslation;
 
 /**
@@ -71,7 +70,6 @@ public class MCRJSPServletContextListener implements ServletContextListener {
 		LOGGER.debug("Application " + sce.getServletContext().getServletContextName() + " started");
 		MCRNavigationUtil.loadNavigation(sce.getServletContext());
 		Navigations.loadNavigation(sce.getServletContext());
-		loadConstants(sce.getServletContext());
 		createNonExistingAdminPermissions();
 		registerDefaultMessageBundle(sce.getServletContext());
 		sce.getServletContext().setAttribute("WebApplicationBaseURL", MCRFrontendUtil.getBaseURL());
@@ -98,16 +96,6 @@ public class MCRJSPServletContextListener implements ServletContextListener {
                 LOGGER.trace("Not deregistering JDBC driver "+driver+" as it does not belong to this webapp's ClassLoader");
             }
         }
-	}
-
-	/**
-	 * sets application scope attributes nav-attributes are set in the nav
-	 * servlet used in dissertationData
-	 * 
-	 * TODO REFACTORING
-	 */
-	public final void loadConstants(ServletContext context) {
-		context.setAttribute("constants", new MCRWorkflowConstants());
 	}
 
 	/**
