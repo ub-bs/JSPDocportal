@@ -33,7 +33,7 @@ import net.sourceforge.stripes.controller.LifecycleStage;
 
 @UrlBinding("/importMODSFromGVK.action")
 public class ImportMODSFromGVKAction implements ActionBean {
-	ForwardResolution fwdResolution = new ForwardResolution("/content/workflow/import-mods-from-gvk.jsp");
+	ForwardResolution fwdResolution = new ForwardResolution("/content/workspace/import/import-mods-from-gvk.jsp");
 	private ActionBeanContext context;
 
 	private String returnPath = "";
