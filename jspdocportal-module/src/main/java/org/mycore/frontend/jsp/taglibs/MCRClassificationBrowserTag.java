@@ -310,7 +310,7 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
             out.write(
                 indent + "         <span class=\"cb-text\">" + categ.getCurrentLabel().get().getText() + "</span>");
 			
-			String label = MCRTranslation.translate("Editor.Common.Choose");
+			String label = MCRTranslation.translate("Editor.Common.choose");
 			
 			if (cb.count) {
 				long c = 0;
