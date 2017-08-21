@@ -95,11 +95,6 @@
 			create directory ${MCR.LogDirectory}
 			create directory ${MCR.Save.FileSystem}
 			create directory ${MCR.WebContent.SaveFolder}
-			create directory ${MCR.WorkflowEngine.EditDirectory.document}
-			create directory ${MCR.WorkflowEngine.EditDirectory.disshab}
-			create directory ${MCR.WorkflowEngine.EditDirectory.thesis}
-			create directory ${MCR.WorkflowEngine.EditDirectory.user}
-			create directory ${MCR.WorkflowEngine.EditDirectory.bundle}
 			create directory ${MCR.WorkflowEngine.DeleteDirectory}
 			create directory ${MCR.EHCache.diskStore.path}
 		</mcr-execute>
