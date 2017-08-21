@@ -20,7 +20,7 @@
 	</stripes:layout-component>
 	<stripes:layout-component name="contents">
 		<div class="ir-box">
-	 		<h2>Mein Arbeitsplatz</h2>
+	 		<h2><fmt:message key="WF.workspace.headline" /></h2>
 				<div class="stripesinfo">
 					<stripes:errors />
 					<stripes:messages />
@@ -35,21 +35,21 @@
 				<div class="panel panel-info">
   					<div class="panel-heading">
   						<stripes:submit class="btn btn-default btn-sm pull-right"  name="doCreateNewTask" value="Neues Objekt erstellen" style="margin-top:-6px"/>
-    					<h3 class="panel-title">Neue Aufgabe</h3>
+    					<h3 class="panel-title"><fmt:message key="WF.workspace.info.headline.new_task" /></h3>
   					</div>
   				</div>
 			
 				<div class="panel panel-info">
   					<div class="panel-heading">
-    					<h3 class="panel-title">Übernommene Aufgaben</h3>
+    					<h3 class="panel-title"><fmt:message key="WF.workspace.info.headline.assumed_tasks" /></h3>
   					</div>
   					<div class="panel-body">
     					<c:forEach var="task" items="${actionBean.myTasks}" >
 							<div class="panel panel-default" id="task_${task.id}">
 								<div class="panel-heading clearfix">
-									<stripes:submit class="btn btn-default btn-sm pull-right" name="doReleaseTask-task_${task.id}">Aufgabe abgeben</stripes:submit>
-									<span class="btn btn-none btn-sm pull-right"><strong>gestartet: </strong><fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${task.createTime}" /></span>
-									<h5 class="panel-title" style="margin-top:0.33em;"><span class="badge" style="margin-right:3em">${task.executionId}</span> Aufgabe: ${task.name}</h5>
+									<stripes:submit class="btn btn-default btn-sm pull-right" name="doReleaseTask-task_${task.id}"><fmt:message key="WF.workspace.submit.task" /></stripes:submit>
+									<span class="btn btn-none btn-sm pull-right"><strong><fmt:message key="WF.workspace.start" /></strong><fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${task.createTime}" /></span>
+									<h5 class="panel-title" style="margin-top:0.33em;"><span class="badge" style="margin-right:3em">${task.executionId}</span> <fmt:message key="WF.workspace.task" /> ${task.name}</h5>
 								</div>
 								<c:if test="${not empty actionBean.objectType}">
 									<c:set var="currentTask" value="${task}" scope="request" />
@@ -63,7 +63,7 @@
 												</c:if>	
 												<div>
 													<a href="${WebApplicationBaseURL}resolve/id/${currentVariables.mcrObjectID}?fromWF=true" class="btn btn-default pull-right">
-							    	 					<i class="fa fa-newspaper-o"></i> Vorschau
+							    	 					<i class="fa fa-newspaper-o"></i> <fmt:message key="WF.workspace.preview" />
 							     					</a>	
 													<span class="badge pull-left" style="margin-right:24px;margin-top:3px">${currentVariables.mcrObjectID}</span>
 													<div class="pull-left">
@@ -80,34 +80,34 @@
 											<div class="panel-body">
 												<c:if test="${not fn:contains(currentVariables.mcrObjectID,'_person_')}">
 													<a href="${WebApplicationBaseURL}pubform/pica3?urn=${currentVariables.wfObjectDisplayPersistentIdentifier}" 
-												   		class="btn btn-default" target="_blank"><i class="fa fa-book"></i> Pica3 generieren
+												   		class="btn btn-default" target="_blank"><i class="fa fa-book"></i> <fmt:message key="WF.workspace.button.pica3" />
 													</a>
 							     					<button class="btn btn-default" type="button" data-toggle="collapse" data-target="#import_mods-dialog-task_${currentTask.id}">
-							     						<i class="fa fa-download"></i> MODS aus OPAC importieren
+							     						<i class="fa fa-download"></i> <fmt:message key="WF.workspace.button.download" />
 							     					</button>
 							     				</c:if>
 							     				<button name="doEditObject-task_${currentTask.id}-${currentVariables.mcrObjectID}" value="" class="btn btn-default" type="submit">
-							     					<i class="fa fa-tag"></i> Metadaten bearbeiten
+							     					<i class="fa fa-tag"></i> <fmt:message key="WF.workspace.button.edit_metadata" />
 							     				</button>
 							     				<button name="doEditDerivates-task_${currentTask.id}-${currentVariables.mcrObjectID}" value="" class="btn btn-default" type="submit">
-							    	 				<i class="fa fa-file"></i> Derivate bearbeiten
+							    	 				<i class="fa fa-file"></i> <fmt:message key="WF.workspace.button.edit_derivate" />
 							     				</button>
 							   			 	</div>
 							   			 	<div id="import_mods-dialog-task_${currentTask.id}" class="collapse">
 							  					<div class="panel-body" style="background-color: rgb(242, 222, 222);border: 2px solid rgb(169, 68, 66); padding-left: 4em;">
-							  						<button name="doImportMODS-task_${currentTask.id}-${currentVariables.mcrObjectID}" value="" class="btn btn-danger btn-sm" type="submit"><i class="fa fa-download"></i> IMPORTIEREN</button>
-								  					<label style="vertical-align:bottom; margin-left:2em;">Wollen sie die MODS-Metadaten aus dem Katalog importieren?</label>
+							  						<button name="doImportMODS-task_${currentTask.id}-${currentVariables.mcrObjectID}" value="" class="btn btn-danger btn-sm" type="submit"><i class="fa fa-download"></i> <fmt:message key="WF.workspace.button.import" /></button>
+								  					<label style="vertical-align:bottom; margin-left:2em;"><fmt:message key="WF.workspace.label.import" /></label>
 							  					</div>
 							  				</div>
 								  			<div class="panel-footer">
-								  				<button name="doGoto-task_${currentTask.id}-edit_object.do_save" value="" class="btn btn-primary" type="submit"><i class="fa fa-check"></i> Veröffentlichen</button>
-												<button name="doGoto-task_${currentTask.id}-edit_object.do_cancel" value="" class="btn btn-default" type="submit"><i class="fa fa-times"></i> Bearbeitung abbrechen</button>
-							  					<button class="btn btn-danger btn-sm pull-right" style="margin-top:0.2em" type="button" data-toggle="collapse" data-target="#delete-dialog-task_${currentTask.id}"><i class="fa fa-trash-o"></i> Objekt löschen</button>
+								  				<button name="doGoto-task_${currentTask.id}-edit_object.do_save" value="" class="btn btn-primary" type="submit"><i class="fa fa-check"></i> <fmt:message key="WF.workspace.button.publish" /></button>
+												<button name="doGoto-task_${currentTask.id}-edit_object.do_cancel" value="" class="btn btn-default" type="submit"><i class="fa fa-times"></i> <fmt:message key="WF.workspace.button.cancel" /></button>
+							  					<button class="btn btn-danger btn-sm pull-right" style="margin-top:0.2em" type="button" data-toggle="collapse" data-target="#delete-dialog-task_${currentTask.id}"><i class="fa fa-trash-o"></i> <fmt:message key="WF.workspace.button.delete_object" /></button>
 							  				</div>
 							  				<div id="delete-dialog-task_${currentTask.id}" class="collapse">
 							  					<div class="panel-footer" style="background-color: rgb(242, 222, 222);border: 2px solid rgb(169, 68, 66); padding-left: 4em;">
-								  					<button name="doGoto-task_${currentTask.id}-edit_object.do_drop" value="" class="btn btn-danger btn-sm" type="submit"><i class="fa fa-trash-o"></i> LÖSCHEN</button>
-								  					<label style="vertical-align:bottom; margin-left:2em;">Wollen sie das Objekt wirklich löschen?</label>
+								  					<button name="doGoto-task_${currentTask.id}-edit_object.do_drop" value="" class="btn btn-danger btn-sm" type="submit"><i class="fa fa-trash-o"></i> <fmt:message key="WF.workspace.button.delete" /></button>
+								  					<label style="vertical-align:bottom; margin-left:2em;"><fmt:message key="WF.workspace.label.delete" /></label>
 							  					</div>
 							  				</div>
 							   			</c:when>
@@ -123,15 +123,15 @@
 				
 				<div class="panel panel-info">
   					<div class="panel-heading">
-    					<h3 class="panel-title">Verfügbare Aufgaben</h3>
+    					<h3 class="panel-title"><fmt:message key="WF.workspace.info.headline.available_tasks" /></h3>
   					</div>
   					<div class="panel-body">
   						<c:forEach var="task" items="${actionBean.availableTasks}">
 							<div class="panel panel-default" id="available_task_${task.id}">
 								<div class="panel-heading clearfix">
-									<stripes:submit class="btn btn-default btn-sm pull-right" name="doAcceptTask-task_${task.id}">Aufgabe übernehmen</stripes:submit>
-									<span class="btn btn-none btn-sm pull-right"><strong>gestartet: </strong><fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${task.createTime}" /></span>
-									<h5 class="panel-title" style="margin-top:0.33em;"><span class="badge" style="margin-right:3em">${task.executionId}</span> Aufgabe: ${task.name}</h5>
+									<stripes:submit class="btn btn-default btn-sm pull-right" name="doAcceptTask-task_${task.id}"><fmt:message key="WF.workspace.submit.accept_task" /></stripes:submit>
+									<span class="btn btn-none btn-sm pull-right"><strong><fmt:message key="WF.workspace.start" /> </strong><fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${task.createTime}" /></span>
+									<h5 class="panel-title" style="margin-top:0.33em;"><span class="badge" style="margin-right:3em">${task.executionId}</span> <fmt:message key="WF.workspace.task" /> ${task.name}</h5>
 								</div>
 						
 								<c:set var="currentTask" value="${task}" scope="request" />

@@ -54,7 +54,7 @@
 	</stripes:layout-component>
 	<stripes:layout-component name="contents">
 		<div class="ir-box">
-		 	<h2><fmt:message key="WF.EditDerivates" /></h2>
+		 	<h2><fmt:message key="WF.derivates.headline" /></h2>
 		</div>
 		<div class="ir-box">	
 			<c:set  var="baseURL" value="${applicationScope.WebApplicationBaseURL}" />
@@ -67,7 +67,9 @@
 				<%-- load first time from request parameter "returnPath --%>
 				<div class="panel panel-primary">
   					<div class="panel-heading" style="min-height:54px">
-  						<a class="btn btn-default pull-right" href="${baseURL}showWorkspace.action?mcr_base=${actionBean.mcr_base}"><i class="fa fa-power-off"></i> Zurück</a>
+  						<a class="btn btn-default pull-right" href="${baseURL}showWorkspace.action?mcr_base=${actionBean.mcr_base}">
+  						  <i class="fa fa-power-off"></i> <fmt:message key="WF.derivates.back" />
+  						</a>
 					  	<span class="badge pull-left" style="margin-right:24px;margin-top:9px;">${currentVariables.mcrObjectID}</span>
 					  	<h3 class="pull-left" style="margin-top:6px;color: white">
 					  		${currentVariables.wfObjectDisplayTitle}
@@ -82,21 +84,29 @@
     						<li class="list-group-item container-fluid">
     							<div class="panel panel-info">
   									<div class="panel-heading" style="min-height:78px">
-  										<button id="btnDeleteDerivate_${derID}_${f}" title="Derivate löschen" name="doDeleteDerivate-task_${actionBean.taskid}-derivate_${derID}" 
-    									        onclick="return confirm('Wollen Sie das Derivate &quot;${derID}&quot; wirklich löschen?');" class="btn btn-danger pull-right"><i class="fa fa-trash-o"></i></button>
+  										<fmt:message key="WF.derivates.delete" var="titleDelete"/>
+  										<fmt:message key="WF.derivates.delete.message" var="messageDelete"/>
+  										<button id="btnDeleteDerivate_${derID}_${f}" title="${titleDelete}" name="doDeleteDerivate-task_${actionBean.taskid}-derivate_${derID}" 
+    									        onclick="return confirm('${messageDelete}');" class="btn btn-danger pull-right"><i class="fa fa-trash-o"></i></button>
   											
   										<div class="pull-right" style="margin-right:48px">
-  											<button id="btnEditDerMetaSave_${derID}" name="doSaveDerivateMeta-task_${actionBean.taskid}-derivate_${derID}" style="display:none;" class="btn btn-sm btn-primary"><i class="fa fa-floppy-o"></i> Speichern</button>
-  											<button id="btnEditDerMetaCancel_${derID}" type="button" style="display:none; border:1px solid darkgray;" class="btn btn-sm" onclick="disableDerMetaEditing('${derID}')"><span class="fa fa-times"></span> Abbrechen</button>
-  											<button id="btnEditDerMetaEdit_${derID}" type="button" class="btn btn-default" onclick="enableDerMetaEditing('${derID}')"><i class="fa fa-pencil"></i> Bearbeiten</button>
+  											<button id="btnEditDerMetaSave_${derID}" name="doSaveDerivateMeta-task_${actionBean.taskid}-derivate_${derID}" style="display:none;" class="btn btn-sm btn-primary"><i class="fa fa-floppy-o"></i> <fmt:message key="WF.derivates.button.save"/></button>
+  											<button id="btnEditDerMetaCancel_${derID}" type="button" style="display:none; border:1px solid darkgray;" class="btn btn-sm" onclick="disableDerMetaEditing('${derID}')"><i class="fa fa-times"></i> <fmt:message key="WF.derivates.button.cancel"/></button>
+  											<button id="btnEditDerMetaEdit_${derID}" type="button" class="btn btn-default" onclick="enableDerMetaEditing('${derID}')"><i class="fa fa-pencil"></i> <fmt:message key="WF.derivates.button.edit"/></button>
   										</div>
   										
   										<div class="pull-right" style="margin-right:48px">
   											<x:if select="$doc/mycoreobject/structure/derobjects/derobject[1]/@xlink:href != $x/@xlink:href">
-  												<button id="btnEditDerMoveUp_${derID}" name="doMoveUpDerivate-task_${actionBean.taskid}-derivate_${derID}" class="btn btn-default" title="Nach oben verschieben"><i class="fa fa-arrow-up"></i></button>
+  												<fmt:message key="WF.derivates.button.move_up" var="titleMoveUp"/>
+  												<button id="btnEditDerMoveUp_${derID}" name="doMoveUpDerivate-task_${actionBean.taskid}-derivate_${derID}" class="btn btn-default" title="${titleMoveUp} }">
+  												  <i class="fa fa-arrow-up"></i>
+  												</button>
   											</x:if>
   											<x:if select="$doc/mycoreobject/structure/derobjects/derobject[last()]/@xlink:href != $x/@xlink:href">
-  												<button id="btnEditDerMoveUp_${derID}" name="doMoveDownDerivate-task_${actionBean.taskid}-derivate_${derID}" class="btn btn-default" title="Nach unten verschieben"><i class="fa fa-arrow-down"></i></button>
+  												<fmt:message key="WF.derivates.button.move_down" var="titleMoveDown"/>
+  												<button id="btnEditDerMoveUp_${derID}" name="doMoveDownDerivate-task_${actionBean.taskid}-derivate_${derID}" class="btn btn-default" title="${titleMoveDown}">
+  												  <i class="fa fa-arrow-down"></i>
+  												</button>
   											</x:if>
   										</div>
   										<c:set var="derDoc" value="${actionBean.derivateXMLs[derID]}" />
@@ -151,10 +161,17 @@
     												<i style="margin-left:16px;color:grey;" class="fa fa-star" title="${info}"></i>
     											</c:if>
     											<input type="hidden" id="hiddenRenameFileNew_${derID}_${f}" name="renameFile_new-task_${actionBean.taskid}-derivate_${derID}-file_${f}" value="${f}" />
-    											<button id="btnDeleteFile_${derID}_${f}" title="Datei löschen" name="doDeleteFile-task_${actionBean.taskid}-derivate_${derID}-file_${f}" 
-    											        onclick="return confirm('Wollen Sie die Datei &quot;${f}&quot; wirklich löschen?');" class="btn btn-sm btn-danger pull-right" style="margin-left:48px"><i class="fa fa-trash-o"></i></button>
-  												<button id="btnRenameFile_${derID}_${f}" title="Datei umbenennen" name="doRenameFile-task_${actionBean.taskid}-derivate_${derID}-file_${f}" 
-    											        onclick="return renameFile('${derID}', '${f}');" class="btn btn-sm pull-right" style="border:1px solid darkgrey"><i class="fa fa-pencil"></i></button>
+    											<fmt:message key="WF.derivates.delete_file" var="fileDelete"/>
+    											<fmt:message key="WF.derivates.delete_file.message" var="messageDeleteFile"/>
+    											<button id="btnDeleteFile_${derID}_${f}" title="${fileDelete}" name="doDeleteFile-task_${actionBean.taskid}-derivate_${derID}-file_${f}" 
+    											        onclick="return confirm('${messageDeleteFile}');" class="btn btn-sm btn-danger pull-right" style="margin-left:48px">
+    											        <i class="fa fa-trash-o"></i>
+    											</button>
+    											<fmt:message key="WF.derivates.rename_file" var="fileRename"/>
+  												<button id="btnRenameFile_${derID}_${f}" title="${fileRename}" name="doRenameFile-task_${actionBean.taskid}-derivate_${derID}-file_${f}" 
+    											        onclick="return renameFile('${derID}', '${f}');" class="btn btn-sm pull-right" style="border:1px solid darkgrey">
+    											        <i class="fa fa-pencil"></i>
+    											</button>
   												</li>
     										</c:forEach>
     									</ul>
@@ -162,12 +179,14 @@
     								<div class="panel-footer">
     									<div class="form-horizontal" role="form">
     										<div class="row">
-    											<label for="inputAddFile_${derID}" class="col-sm-2 control-label">Datei hochladen</label>
+    											<label for="inputAddFile_${derID}" class="col-sm-2 control-label"><fmt:message key="WF.derivates.label.upload_file"/></label>
     											<div class="col-sm-7">
-      												<input type="file" name="addFile_file-task_${actionBean.taskid}-derivate_${derID}" class="form-control" style="height:auto" id="inputAddFile_${derID}" placeholder="Datei"></input>
+    												<fmt:message key="WF.derivates.file" var="file"/>
+      												<input type="file" name="addFile_file-task_${actionBean.taskid}-derivate_${derID}" class="form-control" style="height:auto" id="inputAddFile_${derID}" placeholder="${file}"></input>
     											</div>
     											<div class="col-sm-2">
-													<stripes:submit class="btn btn-default" name="doAddFile-task_${actionBean.taskid}-derivate_${derID}" value="Hochladen"/>
+    												<fmt:message key="WF.derivates.upload" var="upload"/>
+													<stripes:submit class="btn btn-default" name="doAddFile-task_${actionBean.taskid}-derivate_${derID}" value="${upload}"/>
 												</div>
   											</div>
 										</div>
@@ -178,11 +197,11 @@
     				</ul>
     				<div class="panel-footer container-fluid">
     					<div class="row">
-  							<div class="col-md-2" style="margin-top:0px"><h4>Neues Derivat</h4></div>
+  							<div class="col-md-2" style="margin-top:0px"><h4><fmt:message key="WF.derivates.new_derivate"/></h4></div>
   							<div class="col-md-8">
 								<div class="form-horizontal" role="form">
   									<div class="form-group">
-    									<label for="inputLabel" class="col-sm-1 control-label">Label</label>
+    									<label for="inputLabel" class="col-sm-1 control-label"><fmt:message key="WF.derivates.label"/></label>
    										<div class="col-sm-11">
       										<select class="form-control" name="newDerivate_label-task_${actionBean.taskid}">
   												<c:set var="values"><fmt:message key="OMD.derivatelabel.${actionBean.mcr_base}" /></c:set>
@@ -194,16 +213,18 @@
   									</div>
   									<c:if test="${fn:contains(maindoc,'_person_')}">
   									<div class="form-group">
-    									<label for="inputTitle" class="col-sm-1 control-label">Titel</label>
+    									<label for="inputTitle" class="col-sm-1 control-label"><fmt:message key="WF.derivates.title"/></label>
     									<div class="col-sm-11">
-      										<input type="text" name="newDerivate_title-task_${actionBean.taskid}" class="form-control" id="inputTitle" placeholder="Titel"></input>
+    										<fmt:message key="WF.derivates.title" var="title"/>
+      										<input type="text" name="newDerivate_title-task_${actionBean.taskid}" class="form-control" id="inputTitle" placeholder="${title}"></input>
     									</div>
   									</div>
   									</c:if>
   									<div class="form-group">
-    									<label for="inputFile" class="col-sm-1 control-label">Datei</label>
+    									<label for="inputFile" class="col-sm-1 control-label"><fmt:message key="WF.derivates.file"/></label>
     									<div class="col-sm-11">
-      										<input type="file" name="newDerivate_file-task_${actionBean.taskid}" class="form-control" style="height:auto" id="inputFile" placeholder="Datei"></input>
+    										<fmt:message key="WF.derivates.title" var="file"/>
+      										<input type="file" name="newDerivate_file-task_${actionBean.taskid}" class="form-control" style="height:auto" id="inputFile" placeholder="${file}"></input>
     									</div>
   									</div>
   								</div>
