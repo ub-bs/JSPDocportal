@@ -85,10 +85,8 @@
     							<div class="panel panel-info">
   									<div class="panel-heading" style="min-height:78px">
   										<fmt:message key="WF.derivates.delete" var="titleDelete"/>
-  										<fmt:message key="WF.derivates.delete.message" var="messageDelete"/>
-  										<button id="btnDeleteDerivate_${derID}_${f}" title="${titleDelete}" name="doDeleteDerivate-task_${actionBean.taskid}-derivate_${derID}" 
-    									        onclick="return confirm('${messageDelete}');" class="btn btn-danger pull-right"><i class="fa fa-trash-o"></i></button>
-  											
+  											<button title="${titleDelete}" data-toggle="collapse" data-target="#deleteDerivate_${derID}"
+    										        class="btn btn-danger pull-right" type="button"><i class="fa fa-trash-o"></i></button>
   										<div class="pull-right" style="margin-right:48px">
   											<button id="btnEditDerMetaSave_${derID}" name="doSaveDerivateMeta-task_${actionBean.taskid}-derivate_${derID}" style="display:none;" class="btn btn-sm btn-primary"><i class="fa fa-floppy-o"></i> <fmt:message key="WF.derivates.button.save"/></button>
   											<button id="btnEditDerMetaCancel_${derID}" type="button" style="display:none; border:1px solid darkgray;" class="btn btn-sm" onclick="disableDerMetaEditing('${derID}')"><i class="fa fa-times"></i> <fmt:message key="WF.derivates.button.cancel"/></button>
@@ -131,6 +129,14 @@
 									  		</c:if>
 									  	</h4>					
   									</div>
+  									<div id="deleteDerivate_${derID}" class="collapse">
+  										<div class="panel-body" style="background-color: rgb(242, 222, 222);border: 2px solid rgb(169, 68, 66); padding-left: 4em;">
+  											<fmt:message key="WF.derivates.delete" var="titleDelete"/>
+  											<button id="btnDeleteDerivate_${derID}_${f}" title="${titleDelete}" name="doDeleteDerivate-task_${actionBean.taskid}-derivate_${derID}" 
+    										        class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i><fmt:message key="WF.workspace.button.delete" /></button>
+    										        <label style="vertical-align:bottom; margin-left:2em;"><fmt:message key="WF.derivates.delete.message" /></label>
+  										</div>
+  									</div>
     								<div class="panel-body">
     									<ul style="list-style:none;margin-bottom:-9px;">
     										<c:forEach var="f" items="${actionBean.derivateFiles[derID]}">
@@ -163,8 +169,8 @@
     											<input type="hidden" id="hiddenRenameFileNew_${derID}_${f}" name="renameFile_new-task_${actionBean.taskid}-derivate_${derID}-file_${f}" value="${f}" />
     											<fmt:message key="WF.derivates.delete_file" var="fileDelete"/>
     											<fmt:message key="WF.derivates.delete_file.message" var="messageDeleteFile"/>
-    											<button id="btnDeleteFile_${derID}_${f}" title="${fileDelete}" name="doDeleteFile-task_${actionBean.taskid}-derivate_${derID}-file_${f}" 
-    											        onclick="return confirm('${messageDeleteFile}');" class="btn btn-sm btn-danger pull-right" style="margin-left:48px">
+    											<button class="btn btn-sm btn-danger pull-right" data-toggle="collapse" data-target="#deleteFile_${derID}_${fn:replace(f, '.', '_')}" 
+    													style="margin-left:48px" type="button">
     											        <i class="fa fa-trash-o"></i>
     											</button>
     											<fmt:message key="WF.derivates.rename_file" var="fileRename"/>
@@ -172,6 +178,18 @@
     											        onclick="return renameFile('${derID}', '${f}');" class="btn btn-sm pull-right" style="border:1px solid darkgrey">
     											        <i class="fa fa-pencil"></i>
     											</button>
+  												
+  												<div id="deleteFile_${derID}_${fn:replace(f, '.', '_')}" class="collapse">
+  													<div class="panel-body" style="background-color: rgb(242, 222, 222);border: 2px solid rgb(169, 68, 66); margin: 0.5em 0em;">
+  														<fmt:message key="WF.derivates.delete_file" var="fileDelete"/>
+    													<fmt:message key="WF.derivates.delete_file.message" var="messageDeleteFile"/>
+    													<button id="btnDeleteFile_${derID}_${f}" title="${fileDelete}" name="doDeleteFile-task_${actionBean.taskid}-derivate_${derID}-file_${f}" 
+    										       				class="btn btn-danger btn-sm" style="margin-left:48px">
+    										        			<i class="fa fa-trash-o"></i><fmt:message key="WF.workspace.button.delete" />
+    													</button>
+  														<label style="vertical-align:bottom; margin-left:2em;"><fmt:message key="WF.derivates.delete_file.message"><fmt:param>${f}</fmt:param></fmt:message></label>
+  													</div>
+  												</div>
   												</li>
     										</c:forEach>
     									</ul>
