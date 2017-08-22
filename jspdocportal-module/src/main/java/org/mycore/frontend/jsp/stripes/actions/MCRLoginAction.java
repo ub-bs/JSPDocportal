@@ -269,10 +269,10 @@ public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBe
 			userID = mcrUser.getUserID();
 			if ("female".equals(mcrUser.getAttributes().get("sex"))) {
 				// Frau
-				name.append(messages.getString("Editor.Person.gender.female"));
+				name.append(messages.getString("Webpage.login.user.salutation.female"));
 			} else {
 				// Herr
-				name.append(messages.getString("Editor.Person.gender.male"));
+				name.append(messages.getString("Webpage.login.user.salutation.male"));
 			}
 			name.append(" ");
 			name.append(mcrUser.getRealName());
