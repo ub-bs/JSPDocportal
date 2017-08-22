@@ -179,21 +179,21 @@
   </build>
   <repositories>
     <repository>
-      <id>MyCoRe HQ</id>
-      <url>http://artifactory.mycore.de/mycore-releases</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
+      <id>MyCoRe HQ</id>
+      <url>http://artifactory.mycore.de/mycore-releases</url>
     </repository>
     <repository>
-      <id>MyCoRe HQ Snapshots</id>
-      <url>http://artifactory.mycore.de/mycore-snapshots</url>
-       <releases>
+      <releases>
         <enabled>false</enabled>
       </releases>
       <snapshots>
         <enabled>true</enabled>
       </snapshots>
+      <id>MyCoRe HQ Snapshots</id>
+      <url>http://artifactory.mycore.de/mycore-snapshots</url>
     </repository>
   </repositories>
 
@@ -322,13 +322,7 @@
       <groupId>org.mycore</groupId>
       <artifactId>mycore-ifs</artifactId>
     </dependency>
-     
-    <dependency>
-      <groupId>org.mycore</groupId>
-      <artifactId>mycore-mods</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-    
+
     <dependency>
       <groupId>org.mycore</groupId>
       <artifactId>mycore-solr</artifactId>
@@ -388,6 +382,12 @@
     <dependency>
       <groupId>org.mycore</groupId>
       <artifactId>mycore-indexing</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mycore</groupId>
+      <artifactId>mycore-mods</artifactId>
       <scope>runtime</scope>
     </dependency>
     <dependency>
