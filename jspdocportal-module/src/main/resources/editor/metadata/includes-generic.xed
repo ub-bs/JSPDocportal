@@ -52,9 +52,9 @@
     <xed:if test="$xed-validation-failed">
       <div>
         <h3>
-          <xed:output i18n="ubo.validation.failed" />
+          <xed:output i18n="Editor.Common.validationMessage" />
         </h3>
-        <ul class="ubo-validation-messages">
+        <ul class="ir-validation-messages">
           <xed:display-validation-messages />
         </ul>
       </div>
