@@ -40,7 +40,7 @@ public class MCRHasAccessTag extends SimpleTagSupport
 			MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)pageContext.getRequest());
 
 			String userID = mcrSession.getUserInformation().getUserID();
-			if ("guest gast".contains(userID)){
+			if ("guest".equals(userID)){
 				pageContext.setAttribute(var, new Boolean(false));	
 			}
 			else if ( mcrid == null || "".equals(mcrid)){ // allgemeiner check des aktuellen Users

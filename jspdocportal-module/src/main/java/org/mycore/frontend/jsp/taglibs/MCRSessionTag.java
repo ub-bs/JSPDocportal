@@ -65,16 +65,6 @@ public class MCRSessionTag extends SimpleTagSupport
 					pageContext.setAttribute(var, mcrSession.getCurrentIP());
 				else
 					mcrSession.setCurrentIP((String)pageContext.getAttribute(var));
-			/*never used? - commented 20101203 
-			 } else if (type.equals("userName")) {
-			 
-				if (method.equals("get")) {
-					String userName = mcrSession.getCurrentUserName();
-					if (userName == null) userName = MCRConfiguration.instance().getString("MCR.Users.Guestuser.UserName","Gast");
-					pageContext.setAttribute(var, userName);
-				}else
-					mcrSession.setCurrentUserName((String)pageContext.getAttribute(var));
-			*/
 			} else if (type.equals("ID")) {
 				if (method.equals("get"))
 					pageContext.setAttribute(var, mcrSession.getID());

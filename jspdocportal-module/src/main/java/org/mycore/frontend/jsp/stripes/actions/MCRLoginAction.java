@@ -40,7 +40,6 @@ import org.mycore.common.config.MCRConfiguration;
 import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
 import org.mycore.frontend.jsp.stripes.actions.util.MCRLoginNextStep;
-import org.mycore.frontend.jsp.user.MCRExternalUserLogin;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.services.i18n.MCRTranslation;
 import org.mycore.user2.MCRRole;
@@ -64,13 +63,12 @@ import net.sourceforge.stripes.action.UrlBinding;
  * of logged-in user nextSteps - list of MCRLoginNextStep (fields: url, label
  * for next actions ...)
  * 
- * @author Robert
+ * @author Robert Stephan
  *
  */
 @UrlBinding("/login.action")
 public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBean {
 	private static Logger LOGGER = LogManager.getLogger(MCRLoginAction.class);
-	private static String classNameExtUserLogin = MCRConfiguration.instance().getString("MCR.Application.ExternalUserLogin.Class", "").trim();
 
 	ForwardResolution fwdResolution = new ForwardResolution("/content/login.jsp");
 
@@ -89,7 +87,7 @@ public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBe
 		} else {
 			MCRSession mcrSession = MCRServlet.getSession(request);
 			MCRUserInformation mcrUserInfo = mcrSession.getUserInformation();
-			if (mcrUserInfo != null && !mcrUserInfo.getUserID().equals("gast") && !mcrUserInfo.getUserID().equals("gast")) {
+			if (mcrUserInfo != null && !mcrUserInfo.getUserID().equals("guest")) {
 				loginStatus = "user.welcome";
 				loginOK = true;
 		        try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()){
@@ -110,7 +108,6 @@ public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBe
 	}
 
 	public Resolution doLogin() {
-		boolean extLoginOk = false;
 		boolean mcrLoginOK = false;
 
 		HttpServletRequest request = (HttpServletRequest) getContext().getRequest();
@@ -124,9 +121,8 @@ public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBe
 			if (password != null) {
 				password = (password.trim().length() == 0) ? password : password.trim();
 			}
-			MCRUser mcrUser = null;
 
-			if (userID == null && password == null && !"gast|guest".contains(oldUserID)) {
+			if (userID == null && password == null && !"guest".equals(oldUserID)) {
 				loginOK = true;
 				loginStatus = "user.incomplete";
 				userID = oldUserID;
@@ -149,70 +145,13 @@ public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBe
 				return fwdResolution;
 			}
 
-			MCRExternalUserLogin extLogin = null;
-			if (classNameExtUserLogin.length() > 0) {
-				try {
-					@SuppressWarnings("unchecked")
-					Class<MCRExternalUserLogin> c = (Class<MCRExternalUserLogin>) Class.forName(classNameExtUserLogin);
-					extLogin = (MCRExternalUserLogin) c.newInstance();
-				} catch (Exception e) {
-					// ExceptionClassNotFoundException, IllegalAccessException,
-					// InstantiationException
-					// do nothing
-					LOGGER.debug("Could not load MCRExternalUserLogin: " + classNameExtUserLogin, e);
-				}
-			}
 
-			if (extLogin != null) {
-				// check userID und PW against external user management system
-				extLoginOk = extLogin.loginUser(userID, password);
-			}
-
-			if (extLoginOk) {
-				String mcrUserID = extLogin.retrieveMyCoReUserID(userID, password);
-				String mcrPWD = extLogin.retrieveMyCoRePassword(userID, password);
-				if (MCRUserManager.exists(mcrUserID)) {
-					mcrUser = MCRUserManager.getUser(mcrUserID);
-					mcrLoginOK = loginInMyCore(mcrUserID, mcrPWD, mcrSession);
-				}
-			} else {
-				LOGGER.info("No External User Login - check for MyCoRe User");
-				mcrLoginOK = loginInMyCore(userID, password, mcrSession);
-			}
-
+			mcrLoginOK = loginInMyCore(userID, password, mcrSession);
 			// interprete the results
-			if (!extLoginOk && mcrLoginOK) {
+			if (mcrLoginOK) {
 				loginOK = true;
 				loginStatus = "user.welcome";
-			}
-			if (extLoginOk && mcrLoginOK) {
-				// the user exists in external system and MyCoRe -> everything
-				// is OK
-
-				mcrSession.setUserInformation(MCRSystemUserInformation.getSuperUserInstance()); // "root;"
-				extLogin.updateUserData(userID, "", mcrUser);
-				mcrSession.setUserInformation(mcrUser);
-
-				loginOK = true;
-				loginStatus = "user.welcome";
-			}
-
-			if (extLoginOk && !mcrLoginOK) {
-				// the user is regcognized as member of the institution
-				// -> login as member (special account with extended read
-				// rights)
-				String mcrUserID = MCRConfiguration.instance().getString("MCR.Application.ExternalUserLogin.DefaultUser.uid", "gast").trim();
-				String mcrPWD = MCRConfiguration.instance().getString("MCR.Application.ExternalUserLogin.DefaultUser.pwd", "gast").trim();
-				String oldStatus = loginStatus;
-				loginInMyCore(mcrUserID, mcrPWD, mcrSession);
-				if ((oldStatus != null) && oldStatus.equals("user.disabled")) {
-					loginStatus = "user.disabled_member";
-				} else {
-					loginStatus = "user.member";
-				}
-				loginOK = true;
-			}
-			if (!extLoginOk && !mcrLoginOK) {
+			}else {
 				// the user is not allowed
 				loginStatus = "user.unknown";
 				loginOK = false;
