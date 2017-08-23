@@ -58,7 +58,7 @@
 	<c:if test="${numHits >= 0}">	
 		<c:set var="pageNavi">
 			<%-- // 36.168 Treffer                   Erste Seite | 11-20 | 21-30 | 31-40 | 41-50 | Letzte Seite --%>
-			<ul class="pagination pull-right" style="margin-top:-7px;margin-bottom:0px ">
+			<ul class="pagination ir-pagination pull-right">
 			<c:if test="${result.numPages> 1}">
 				<c:set var="page"><%= Math.round(Math.floor((double) result.getStart() / result.getRows()) + 1) %></c:set>
 				<c:set var="start">0</c:set>
