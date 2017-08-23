@@ -60,16 +60,19 @@
 					</div>
 			</div>
 				
-			
 			<c:if test="${not empty actionBean.nextSteps}">
 				<div class="panel panel-default" style="margin-top:64px">
-  					<div class="panel-heading"><fmt:message key="Webpage.login.your_options" /></div>
-  					<div class="list-group">
-    					<c:forEach var="nextStep" items="${actionBean.nextSteps}">
-    						<c:set var="href"><c:out escapeXml="true" value="${nextStep.url}"/></c:set>
-							<a class="list-group-item" href="${href}">${nextStep.label}</a>
-						</c:forEach>
-					 </div>
+  					<div class="panel-heading"><strong><fmt:message key="Webpage.login.your_options" /></strong></div>
+  					<div class="panel-body">
+  						<ul>
+    						<c:forEach var="nextStep" items="${actionBean.nextSteps}">
+    							<c:set var="href"><c:out escapeXml="true" value="${nextStep.url}"/></c:set>
+									<li>
+										<a href="${href}">${nextStep.label}</a>
+									</li>
+							</c:forEach>
+						</ul>
+					</div>
 				</div>
 			</c:if>
     	
