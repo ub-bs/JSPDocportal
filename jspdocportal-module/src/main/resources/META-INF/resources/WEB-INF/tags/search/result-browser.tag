@@ -74,7 +74,7 @@
 				</c:if>
 
 				<c:set var="start">${result.start}</c:set>
-				<li><a style="font-weight:bold;color: black" href="${pageContext.request.contextPath}/${result.action}?_search=${result.id}&amp;_start=${start}">${start + 1}-<%=Math.min(Integer.parseInt(jspContext.getAttribute("start").toString()) + result.getRows(), result.getNumFound())%></a></li>
+				<li class="active"><a href="${pageContext.request.contextPath}/${result.action}?_search=${result.id}&amp;_start=${start}">${start + 1}-<%=Math.min(Integer.parseInt(jspContext.getAttribute("start").toString()) + result.getRows(), result.getNumFound())%></a></li>
 
 				<c:if test="${page + 1 <= result.numPages}">
 					<c:set var="start">${result.start + result.rows}</c:set>
@@ -90,10 +90,10 @@
 			</c:if>
 		</ul>
 		<c:if test="${fn:length(result.backURL) >0}">
-			<a class="btn btn-default btn-sm" style="margin: -7px 15px -7px 0px;"
+			<a class="btn btn-default btn-sm ir-pagination-btn-back"
 			   href="${result.backURL}" ><fmt:message key="Webpage.searchresults.back" /></a>
 		</c:if>
-		<strong>${result.numFound} <fmt:message key="Webpage.Searchresult.numHits" /></strong>
+		<span class="ir-numfound">${result.numFound} <fmt:message key="Webpage.Searchresult.numHits" /></span>
 
 		</c:set>
 	<div class="panel-heading">
