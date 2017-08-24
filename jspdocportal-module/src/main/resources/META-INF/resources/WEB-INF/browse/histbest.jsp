@@ -28,7 +28,7 @@
     <div class="row">
       <div class="col-xs-12 col-md-3">
         <div class="ir-box ir-box-bordered">
-          <h3>Filter und Facetten</h3>
+          <h3><fmt:message key="Browse.Filter.headline" /></h3>
           <form class="form-horizontal" onsubmit="return false;">
             <div class="form-group">
               <div class="col-sm-12">
