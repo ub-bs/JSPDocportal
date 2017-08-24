@@ -5,7 +5,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="mcr" uri="http://www.mycore.org/jspdocportal/base.tld"%>
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
-<%@ taglib prefix="jspdp-ui" tagdir="/WEB-INF/tags/ui"%>
 <%@ taglib prefix="search" tagdir="/WEB-INF/tags/search"%>
 <%@ taglib prefix="mcrdd" 	uri="http://www.mycore.org/jspdocportal/docdetails.tld"%>
 
@@ -86,7 +85,9 @@
  		</script>
 	</stripes:layout-component>
 	
-	<stripes:layout-component name="contents">
+	<stripes:layout-component name="main_part">
+      <div class="row">
+        <div class="col-sm-12 col-md-8">
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="ir-box ir-docdetails-header">
@@ -229,32 +230,31 @@
 	});
 
 </script>
-
-	</stripes:layout-component>
-	<stripes:layout-component name="right_side">
-		<div class="ir-box ir-box-bordered ir-infobox" style="margin-bottom:32px; padding: 18px 6px 6px 6px;">
+</div>
+  <div class="col-xs-12 col-md-4">
+		<div class="ir-box ir-box-bordered" style="margin-bottom:32px; padding: 18px 6px 6px 6px;">
 			<search:result-navigator mcrid="${mcrid}" mode="one_line"/>
-
+            <table class="table table-condensed table-bordered ir-table-resolving">
    		 	<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='purl']">
-			  	<div class="btn-group btn-group-sm ir-btn-group-resolving" role="group" aria-label="...">
-			  		<button type="button" class="btn btn-default">PURL:</button>
-			  		<a class="btn btn-default"  href="<x:out select="$x" />"><x:out select="$x" /></a>
-			  	</div>
+			  <tr>	
+                <th>PURL:</th>
+                <td><a href="<x:out select="$x" />"><x:out select="$x" /></a></td>
+              </tr>
 			  </x:forEach>
 			  <x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='urn']">
-			  	<div class="btn-group btn-group-sm ir-btn-group-resolving" role="group" aria-label="...">
-			  		<button type="button" class="btn btn-default">URN:</button>
-			  		<a class="btn btn-default"  href="http://nbn-resolving.org/<x:out select="$x" />"><x:out select="$x" /></a>
-			  	</div>
+			  	<tr>	
+                  <th>URN:</th>
+                  <td><a href="http://nbn-resolving.org/<x:out select="$x" />"><x:out select="$x" /></a></td>
+			  	</tr>
 			  </x:forEach>
 			  <x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='doi']">
-			  	<div class="btn-group btn-group-sm ir-btn-group-resolving" role="group" aria-label="...">
-			  		<button type="button" class="btn btn-default">DOI:</button>
-			  		<a class="btn btn-default"  href="http://dx.doi.org/<x:out select="$x" />"><x:out select="$x" /></a>
-			  	</div>
+			  	<tr>	
+                  <th>DOI:</th>
+                  <td><a href="https://doi.org/<x:out select="$x" />"><x:out select="$x" /></a></td>
+			  	</tr>
 			  </x:forEach>
-			  <br />
-			  <br />
+            </table>
+
 			  <div class="shariff" data-url="${WebApplicationBaseURL}resolve/id/${param.id}"
 			       data-services="[&quot;twitter&quot;, &quot;facebook&quot;, &quot;googleplus&quot;, &quot;linkedin&quot;, &quot;xing&quot;, &quot;whatsapp&quot;, &quot;mail&quot;, &quot;info&quot;]"
 			       data-mail-url="mailto:" data-mail-subject="Dokument auf RosDok" data-mail-body="${WebApplicationBaseURL}resolve/id/${param.id}"
@@ -262,9 +262,9 @@
 			   <script src="${WebApplicationBaseURL}modules/shariff/shariff.min.js"></script>
 			   <div class="clearfix">
 				<div class="pull-right">
-    	   			<button type="button" class="btn btn-default btn-sm pull-right hidden-xs" style="border:none;color:#DEDEDE;" 
+    	   			<button type="button" class="btn btn-default btn-sm pull-right hidden-xs" style="border:none;color:#DEDEDE; background-color:white;" 
     	   		        data-toggle="collapse" data-target="#hiddenTools" title="<fmt:message key="Webpage.tools.menu4experts" />">
-   						<span class="fa fa-"></span>
+   						<i class="fa fa-cog"></i>
        				</button>
        				<search:show-edit-button mcrid="${mcrid}" cssClass="btn btn-sm btn-primary ir-edit-btn col-xs-3" />
    				</div>
@@ -299,7 +299,7 @@
 					<a class="btn btn-default ir-button-download pull-right"  
 			  		   href="${WebApplicationBaseURL}pdfdownload/recordIdentifier/${fn:replace(recordID, '/','%252F')}" target="_blank">
 			  	    	<img style="vertical-align:middle;" src="${WebApplicationBaseURL}images/pdf_icon.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
-			  			<fmt:message key="Webpage.docdetails.pdfdownload" />
+			  			&nbsp;<fmt:message key="Webpage.docdetails.pdfdownload" />
 			  		</a>
 				</c:if>
 			</x:if>
@@ -399,5 +399,7 @@
 					</x:choose>
 				</div>
 			</div>
+        </div>
+      </div>
 	</stripes:layout-component>
 </stripes:layout-render>
