@@ -52,14 +52,14 @@
 				<c:set var="backURL" value="${result.backURL}" />	
 			</c:if>
 
-			<div class="btn-group" style="width:101%;margin:6px">
+			<div class="btn-group" style="width:101%; margin:6px">
 			
 				<a style="font-size:1.25em" class="btn btn-default btn-xs ${result.current == 0 ? 'disabled invisible' :''}" 
 			   	   href="${pageContext.request.contextPath}/search?_search=${result.id}&amp;_hit=${result.current-1}"
 			       title="<fmt:message key="Webpage.Searchresult.prevPage.hint" />"><i class="fa fa-chevron-left"></i></a>
 		
 			
-				<a style="font-size:1.25em" class="btn btn-default btn-xs ${result.current == numHits - 1 ? 'disabled invisible' : ''}" 
+				<a style="font-size:1.25em;margin-left:6px" class="btn btn-default btn-xs ${result.current == numHits - 1 ? 'disabled invisible' : ''}" 
 				   href="${pageContext.request.contextPath}/search?_search=${result.id}&amp;_hit=${result.current+1}"
 				   title="<fmt:message key="Webpage.Searchresult.nextPage.hint" />"><i class="fa fa-chevron-right"></i></a>
 			</div>
