@@ -149,3 +149,7 @@ div.ir-browse-classification ul{
 	list-style:inside none none;
 	margin-left:-24px;
 }
+
+.ir-resultentry-image{
+	border:none;
+}

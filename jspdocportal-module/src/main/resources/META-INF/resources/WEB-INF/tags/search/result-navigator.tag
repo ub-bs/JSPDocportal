@@ -36,7 +36,7 @@
 		<c:set var="backURL" value="${result.backURL}" />	
 	</c:if>
 	
-	<div id="searchdetail-navigation" class="navbar navbar-default">
+	<div id="searchdetail-navigation" class="navbar navbar-default ir-nav-search">
 		<c:set var="numHits" value="${result.numFound}" />
 		<c:choose>
 			<c:when test="${mode eq 'one_line'}">
