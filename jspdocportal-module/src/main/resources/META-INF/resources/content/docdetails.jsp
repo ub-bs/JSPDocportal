@@ -27,7 +27,7 @@
 <fmt:message var="pageTitle" key="OMD.headline">
 	<fmt:param>${mcrid}</fmt:param>
 </fmt:message>
-<stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}" layout="2columns_right_wide">
+<stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}">
 	<stripes:layout-component name="html_header">
 		<title>${pageTitle}@ <fmt:message key="Webpage.title" /></title>
 		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}modules/shariff/shariff.complete.css">
@@ -75,7 +75,6 @@
  				}
      		return $('<div>').append('<div style="color:darkred;margin-right:-15px;margin-top:-40px" class="btn btn-xs pull-right" onclick="hidePopover(this);"><i class="fa fa-times"></i></div>')
      		.append(gnd_html).append(affi_html);
-     		
      	}
      	
      	function hidePopover(caller){
@@ -87,14 +86,25 @@
 	
 	<stripes:layout-component name="main_part">
       <div class="row">
+        <div class="col-xs-12 ir-divider">
+          <hr/>
+        </div>
+      </div>
+      <div class="row">
         <div class="col-sm-12 col-md-8">
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="ir-box ir-docdetails-header">
-					<mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/${objectType}2header_html.xsl" />
+            		<mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/${objectType}2header_html.xsl" />
 				</div>
 			</div>			
 		</div>
+    
+       <div class="row">
+          <div class="col-xs-12 ir-divider">
+            <hr/>
+          </div>
+        </div>
 	
 		<div class="row">
 			<div class="col-sm-12">
