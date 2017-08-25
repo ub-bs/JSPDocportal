@@ -20,14 +20,14 @@
   <xsl:template match="/">
     <xsl:for-each select="/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods">
       <xsl:for-each select="./mods:relatedItem[@type='host']/mods:recordInfo">
-            <xsl:element name="a">
-              <xsl:attribute name="class">btn btn-default btn-sm pull-right ir-btn-goto-top</xsl:attribute>
+           <xsl:element name="a">
+              <xsl:attribute name="class">btn btn-default btn-sm pull-right ir-docdetails-btn-goto-parent</xsl:attribute>
               <xsl:attribute name="href"><xsl:value-of select="$WebApplicationBaseURL" />resolve/recordIdentifier/<xsl:value-of select="substring-before(./mods:recordIdentifier, '/')"/>%252F<xsl:value-of select="substring-after(./mods:recordIdentifier, '/')"/></xsl:attribute>
               <xsl:attribute name="title"><xsl:value-of select="../mods:titleInfo/mods:title" /></xsl:attribute>
-              <xsl:value-of select="i18n:translate('Webpage.docdetails.gotoParent')" />&#160;&#160;<i class="fa fa-share"></i>
-            </xsl:element>
+              <xsl:value-of select="i18n:translate('Webpage.docdetails.gotoParent')" />
+              <xsl:text disable-output-escaping="yes">&amp;#160;&amp;#160;&lt;i class=&quot;fa fa-arrow-up&quot;&gt;&lt;/i&gt;</xsl:text>
+           </xsl:element>
       </xsl:for-each> 
-
       <p>
         <xsl:call-template name="mods-name" /><br />
       </p>
@@ -48,9 +48,6 @@
         </xsl:when>
        <xsl:when test="./mods:identifier[@type='purl']">
         <p>
-          <!-- <span style="display:inline-block;background-color: #E6E6E6; padding: 3px; color:#666666;">
-           <abbr title="dauerhafte, zitierbare Adresse">Persistente URL</abbr>:
-            </span>&#160; -->
             <xsl:element name="a">
             <xsl:attribute name="href"><xsl:value-of select="./mods:identifier[@type='purl']" /></xsl:attribute>
              <xsl:value-of select="./mods:identifier[@type='purl']" />
@@ -74,7 +71,6 @@
         </span>
         </p>
       </xsl:if>
-        
     </xsl:for-each>
     
   </xsl:template>
