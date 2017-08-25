@@ -11,16 +11,20 @@
 <%@ taglib prefix="search" tagdir="/WEB-INF/tags/search"%>
 
 <fmt:message var="pageTitle" key="Webpage.title.${fn:replace(actionBean.path, '/', '.')}" />
-<c:set var="layout">1column</c:set>
-<c:if test="${not empty actionBean.info}"><c:set var="layout">2columns_right</c:set></c:if>
+<stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
+	<stripes:layout-component name="main_part">
+      <div class="row">
+        <div class="col-xs-12 ir-divider">
+          <hr/>
+        </div>
+      </div>
+      <div class="row">
+      <div class="col-xs-12">
+        <div class="ir-box">
+          <mcr:includeWebcontent id="${fn:replace(actionBean.path, '/', '.')}" file="${actionBean.path}.html" />
 
-<stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}" layout="${layout}">
-	<stripes:layout-component name="contents">
-		<div class="ir-box">
-			<mcr:includeWebcontent id="${fn:replace(actionBean.path, '/', '.')}" file="${actionBean.path}.html" />
-
-			<c:if test="${(actionBean.path eq 'epub') or (actionBean.path eq 'histbest') }">	
-				<script type="text/javascript">
+          <c:if test="${(actionBean.path eq 'epub') or (actionBean.path eq 'histbest') }">
+            <script type="text/javascript">
 				function changeFacetIncludeURL(key, value, mask) {
 					window.location=$("meta[name='mcr:baseurl']").attr("content")
 							 	       + "browse/"+mask+"?"
@@ -37,8 +41,8 @@
 				}
 										
 				</script>
-				<c:set var="mask" value="${actionBean.path}" />
-				<%
+            <c:set var="mask" value="${actionBean.path}" />
+            <%
 			        MCRSearchResultDataBean result = new MCRSearchResultDataBean();
 		    	    result = new MCRSearchResultDataBean();
 		        	result.setQuery(MCRConfiguration.instance().getString("MCR.Browse." + pageContext.getAttribute("mask") + ".Query", "*:*"));
@@ -55,91 +59,87 @@
 			        result.doSearch();
 					pageContext.setAttribute("result", result);					
 				%>
-			</c:if>
-			<c:if test="${(actionBean.path eq 'histbest') or (actionBean.path eq 'epub') }">
-			<%-- key=$("input[name='filterField']:checked").val(); value=$('#filterValue').val()); --%>
-				<div class="row"></div>
-				<div class="row">
-					<div class="col-sm-7 col-xs-10">
-						<input class="form-control" id="filterValue" name="filterValue" style="width:100%" placeholder="Wert" onkeypress="if (event.keyCode == 13) { changeFilterIncludeURL($('input[name=\'filterField\']:checked').val(), $('#filterValue').val(), 'histbest');}" type="text">
-					</div>
-					<div class="col-sm-1 col-xs-2">
-						<button id="filterInclude" class="btn btn-primary" onclick="changeFilterIncludeURL($('input[name=\'filterField\']:checked').val(), $('#filterValue').val(), '${actionBean.path}');">
-							<i class="fa fa-search"></i>
-						</button>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-8 col-xs-12">	
- 						<table><tbody>
- 							<tr>
- 								<td class="radio input-sm">
- 									<label> 
- 										<input name="filterField" value="ir.title_all" checked="checked" type="radio">
- 										Titel
- 									</label>
- 								</td>
- 								<td></td>
- 								<td class="radio input-sm">
- 									<label> 
- 										<input name="filterField" value="ir.creator_all" type="radio">
- 										Autor
- 									</label>
- 								</td>
- 								<td></td>
- 								<td class="radio input-sm">
- 									<label> 
- 										<input name="filterField" value="ir.pubyear_start" type="radio">
- 										erschienen nach
- 									</label>
- 								</td> 								
- 								<td></td>
- 								<td class="radio input-sm">
- 									<label> 
- 										<input name="filterField" value="ir.pubyear_end" type="radio">
- 										erschienen vor
- 									</label>
- 								</td>
- 								<td></td>
- 							</tr>		
- 						</tbody></table>	
-					</div>
-				</div>
-			</c:if>
-			<c:if test="${actionBean.path eq 'histbest' }">						
-				<div class="row">
-					<div class="col-sm-4 col-xs-12 ir-browse-classification">
-						<%-- <search:browse-facet result="${result}" mask="${mask}" facetField="ir.doctype_class.facet" /> --%>
-						<%-- <search:browse-classification categid="doctype:histbest" mask="${mask}" facetField="ir.doctype_class.facet" /> --%>
-						<search:browse-classification categid="collection:Materialart" mask="${mask}" facetField="ir.collection_class.facet" />
-					</div>
-					<div class="col-sm-4 col-xs-12 ir-browse-classification">
-						<%-- <search:browse-facet result="${result}" mask="${mask}" facetField="ir.collection_class.facet" /> --%>
-						<search:browse-classification categid="collection:Projekte" mask="${mask}" facetField="ir.collection_class.facet" />
-					</div>
-					<div class="col-sm-4 col-xs-12 ir-browse-classification">
-						<%-- <search:browse-facet result="${result}" mask="${mask}" facetField="ir.epoch_msg.facet" /> --%>
-						<search:browse-classification categid="epoch" mask="${mask}" facetField="ir.epoch_msg.facet" />
-					</div>
-				</div>
-			</c:if>
-			
-			<c:if test="${actionBean.path eq 'epub' }">
-				<div class="row">
-					<div class="col-sm-4 col-xs-12 ir-browse-classification">
-						<search:browse-facet result="${result}" mask="${mask}" facetField="ir.doctype_class.facet" />
-					</div>
-					<div class="col-sm-4 col-xs-12 ir-browse-classification">
-						<search:browse-facet result="${result}" mask="${mask}" facetField="ir.sdnb_class.facet" />
-					</div>
-					<div class="col-sm-4 col-xs-12 ir-browse-classification">
-						<search:browse-facet result="${result}" mask="${mask}" facetField="ir.institution_class.facet" />
-					</div>
-				</div>
-			</c:if>
-			
-		</div>
-		<script>
+          </c:if>
+          <c:if test="${(actionBean.path eq 'histbest') or (actionBean.path eq 'epub') }">
+            <%-- key=$("input[name='filterField']:checked").val(); value=$('#filterValue').val()); --%>
+            <div class="row"></div>
+            <div class="row">
+              <div class="col-sm-7 col-xs-10">
+                <input class="form-control" id="filterValue" name="filterValue" style="width: 100%" placeholder="Wert"
+                  onkeypress="if (event.keyCode == 13) { changeFilterIncludeURL($('input[name=\'filterField\']:checked').val(), $('#filterValue').val(), 'histbest');}"
+                  type="text">
+              </div>
+              <div class="col-sm-1 col-xs-2">
+                <button id="filterInclude" class="btn btn-primary"
+                  onclick="changeFilterIncludeURL($('input[name=\'filterField\']:checked').val(), $('#filterValue').val(), '${actionBean.path}');">
+                  <i class="fa fa-search"></i>
+                </button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-8 col-xs-12">
+                <table>
+                  <tbody>
+                    <tr>
+                      <td class="radio input-sm"><label> <input name="filterField" value="ir.title_all"
+                          checked="checked" type="radio"> Titel
+                      </label></td>
+                      <td></td>
+                      <td class="radio input-sm"><label> <input name="filterField" value="ir.creator_all"
+                          type="radio"> Autor
+                      </label></td>
+                      <td></td>
+                      <td class="radio input-sm"><label> <input name="filterField" value="ir.pubyear_start"
+                          type="radio"> erschienen nach
+                      </label></td>
+                      <td></td>
+                      <td class="radio input-sm"><label> <input name="filterField" value="ir.pubyear_end"
+                          type="radio"> erschienen vor
+                      </label></td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </c:if>
+          <c:if test="${actionBean.path eq 'histbest' }">
+            <div class="row">
+              <div class="col-sm-4 col-xs-12 ir-browse-classification">
+                <%-- <search:browse-facet result="${result}" mask="${mask}" facetField="ir.doctype_class.facet" /> --%>
+                <%-- <search:browse-classification categid="doctype:histbest" mask="${mask}" facetField="ir.doctype_class.facet" /> --%>
+                <search:browse-classification categid="collection:Materialart" mask="${mask}"
+                  facetField="ir.collection_class.facet" />
+              </div>
+              <div class="col-sm-4 col-xs-12 ir-browse-classification">
+                <%-- <search:browse-facet result="${result}" mask="${mask}" facetField="ir.collection_class.facet" /> --%>
+                <search:browse-classification categid="collection:Projekte" mask="${mask}"
+                  facetField="ir.collection_class.facet" />
+              </div>
+              <div class="col-sm-4 col-xs-12 ir-browse-classification">
+                <%-- <search:browse-facet result="${result}" mask="${mask}" facetField="ir.epoch_msg.facet" /> --%>
+                <search:browse-classification categid="epoch" mask="${mask}" facetField="ir.epoch_msg.facet" />
+              </div>
+            </div>
+          </c:if>
+
+          <c:if test="${actionBean.path eq 'epub' }">
+            <div class="row">
+              <div class="col-sm-4 col-xs-12 ir-browse-classification">
+                <search:browse-facet result="${result}" mask="${mask}" facetField="ir.doctype_class.facet" />
+              </div>
+              <div class="col-sm-4 col-xs-12 ir-browse-classification">
+                <search:browse-facet result="${result}" mask="${mask}" facetField="ir.sdnb_class.facet" />
+              </div>
+              <div class="col-sm-4 col-xs-12 ir-browse-classification">
+                <search:browse-facet result="${result}" mask="${mask}" facetField="ir.institution_class.facet" />
+              </div>
+            </div>
+          </c:if>
+        </div>
+      </div>
+    </div>
+    <script>
 		$( document ).ready(function() {
 			$.ajax({
 				type : "GET",
@@ -166,20 +166,6 @@
 				},
 			});
 		});
-		</script>
-	</stripes:layout-component>
-	<stripes:layout-component name="right_side">
-		<c:forEach var="id" items="${fn:split(actionBean.info,',')}" >
-			<div class="ir-box ir-box-bordered ir-infobox">
-				<mcr:includeWebcontent id="${id}" file="${fn:replace(id, '.', '/')}.html" />
-			</div>
-		</c:forEach>
-		<div style="padding-top: 32px; padding-bottom: 32px; text-align: center;">
-			<a href="http://www.mycore.org"> <img
-		       alt="powered by MyCoRe 2016_LTS"
-			   src="${WebApplicationBaseURL}images/mycore_logo_powered_129x34_knopf_hell.png"
-			   style="border: 0; text-align: center;" />
-			</a>
-		</div>
-	</stripes:layout-component>
+	</script>
+  </stripes:layout-component>	
 </stripes:layout-render>
