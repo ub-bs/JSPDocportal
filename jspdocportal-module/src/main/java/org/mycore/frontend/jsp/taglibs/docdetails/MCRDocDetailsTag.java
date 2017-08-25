@@ -43,8 +43,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.DOMOutputter;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 import org.mycore.activiti.MCRActivitiUtils;
-import org.mycore.common.JSPUtils;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.services.i18n.MCRTranslation;
@@ -183,10 +184,11 @@ public class MCRDocDetailsTag extends SimpleTagSupport {
 		if (pageContext.getRequest().getParameter("debug") != null && pageContext.getRequest().getParameter("debug").equals("true")) {
 			SAXBuilder sb = new SAXBuilder();
 			try {
+				XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
 				org.jdom2.Document jdom = sb.build(new ByteArrayInputStream(data));
 				StringBuffer debugSB = new StringBuffer("<textarea cols=\"120\" rows=\"30\">").append("MCRObject:\r\n")
 						//.append(JSPUtils.getPrettyString(jdom).replace("<", "&lt;").replace(">", "&gt;").replace("&", "&amp;"))
-						.append(JSPUtils.getPrettyString(jdom).replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", ""))
+						.append(outputter.outputString(jdom).replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", ""))
 						.append("</textarea>");
 				out.println(debugSB.toString());
 			} catch (JDOMException e) {

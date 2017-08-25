@@ -12,7 +12,8 @@ import org.apache.logging.log4j.Logger;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.output.DOMOutputter;
-import org.mycore.common.JSPUtils;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 import org.mycore.user2.MCRUserManager;
 
 
@@ -62,9 +63,10 @@ public class MCRGetFreeUserIDs extends SimpleTagSupport
 		}
 		if(pageContext.getAttribute("debug") != null && pageContext.getAttribute("debug").equals("true")) {
 			JspWriter out = pageContext.getOut();
+			XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
 			StringBuffer debugSB = new StringBuffer("<textarea cols=\"80\" rows=\"30\">")
 				.append("found this IDs:\r\n")
-				.append(JSPUtils.getPrettyString(newIDs))
+				.append(outputter.outputString(newIDs))
 				.append("--------------------\r\nfor the ID\r\n")
 				.append("</textarea>");
 			out.println(debugSB.toString());
