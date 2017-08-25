@@ -7,7 +7,7 @@
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
 	
 <%@ taglib prefix="search" tagdir="/WEB-INF/tags/search"%>
-
+<c:set var="org.mycore.navigation.path" scope="request">left.histbest</c:set>
 <fmt:message var="pageTitle" key="Webpage.browse.title.${actionBean.result.mask}" />
 <stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}">
   <stripes:layout-component name="html_header">

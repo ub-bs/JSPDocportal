@@ -127,7 +127,7 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
      * @param out
      *            - the JSPOutputWriter
      */
-    private void printLeftNav(String[] path, NavigationObject currentNode, String cssClass, JspWriter out) {
+    private void printLeftNav(String[] currentPath, NavigationObject currentNode, String cssClass, JspWriter out) {
         try (MCRHibernateTransactionWrapper htw = new MCRHibernateTransactionWrapper()) {
             List<NavigationItem> printableElements = printableItems(currentNode);
             if (printableElements.isEmpty()) {
@@ -146,19 +146,12 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
                 out.append(indent).append("  <ul>");
             }
             for (NavigationItem el : printableElements) {
-                String cssLiClass = "";
                 String id = el.getId();
-                boolean active = path.length > 0 && path[0].equals(id);
-                if (active) {
-                    cssLiClass = "active";
-                }
-
+                boolean active = currentPath.length > 0 && currentPath[0].equals(id);
+                
                 String msg = retrieveI18N(el.getI18n());
-                if (cssLiClass.length() > 0) {
-                    out.append(indent).append(" <li id=\"" + retrieveNavPath(el) + "\" class=\"" + cssLiClass + "\">");
-                } else {
-                    out.append(indent).append(" <li id=\"" + retrieveNavPath(el) + "\" >");
-                }
+                out.append(indent).append(" <li id=\"" + retrieveNavPath(el) + "\""+(active ? " class=\"active\"" : "")+">");
+                
                 out.append(indent);
                 String href = el.getHref();
                 if (!href.startsWith("http")) {
@@ -203,9 +196,9 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
                         out.append("  <ul>");
                     }
                     for (NavigationItem el : printableElements) {
-
+                    	boolean active = path.length > 0 && path[0].equals(el.getId());
                         String msg = retrieveI18N(el.getI18n());
-                        out.append(INDENT).append("    <li>");
+                        out.append(INDENT).append("    <li "+(active ? "class=\"active\"" : "")+ ">");
                         String href = el.getHref();
                         if (!href.startsWith("http")) {
                             href = MCRFrontendUtil.getBaseURL() + href;
