@@ -242,7 +242,7 @@
 </script>
 </div>
   <div class="col-xs-12 col-md-4">
-		<div class="ir-box ir-box-bordered" style="margin-bottom:32px; padding: 18px 6px 6px 6px;">
+		<div class="ir-box ir-box-bordered" style="margin-bottom:30px;">
 			<search:result-navigator mcrid="${mcrid}" mode="one_line"/>
             <table class="table table-condensed table-bordered ir-table-resolving">
    		 	<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='purl']">
@@ -295,9 +295,9 @@
    				</div>
    			</div>   			  
    		</div>
-   		<div class="ir-box ir-box-bordered ir-infobox" style="margin-bottom:32px; padding: 18px 6px 6px 6px;">
+   		<div class="ir-box ir-box-bordered" style="margin-bottom:30px;">
 			<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='fulltext']">
-				<a class="btn btn-default ir-button-download pull-right"  
+				<a class="btn btn-default ir-button-download"  
 			  	   href="${WebApplicationBaseURL}resolve/id/${mcrid}/file/fulltext" target="_blank">
 			  		<img style="vertical-align:middle;" src="${WebApplicationBaseURL}images/pdf_icon.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
 			  			<fmt:message key="Webpage.docdetails.pdfdownload" />
@@ -306,7 +306,7 @@
 			<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='DV_METS']">
 				<c:set var="recordID"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier[@source='DE-28']" /></c:set>
 				<c:if test="${not empty recordID}">
-					<a class="btn btn-default ir-button-download pull-right"  
+					<a class="btn btn-default ir-button-download"  
 			  		   href="${WebApplicationBaseURL}pdfdownload/recordIdentifier/${fn:replace(recordID, '/','%252F')}" target="_blank">
 			  	    	<img style="vertical-align:middle;" src="${WebApplicationBaseURL}images/pdf_icon.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
 			  			&nbsp;<fmt:message key="Webpage.docdetails.pdfdownload" />
@@ -353,7 +353,7 @@
 			</div>
 			
 			
-			<div class="ir-box ir-box-bordered ir-infobox" style="margin-bottom:32px; padding: 18px 6px 6px 6px;">
+			<div class="ir-box ir-box-bordered" style="margin-bottom:30px;">
 				<div class="row">
 					<div class="col-sm-6">
 						<h3>Export</h3>
@@ -365,7 +365,7 @@
 									<a class="ir-link-portal" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=dc">DublinCore</a>
 									<a class="ir-link-portal" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=mods">MODS</a>
   								</x:forEach>
-  						<br /><br />
+  						<br />
   						<h3>Portale</h3>
   								<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='PPN']">
 									<c:set var="ppn"><x:out select="$x" /></c:set>

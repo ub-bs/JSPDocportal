@@ -62,7 +62,7 @@
        </xsl:if>
         <xsl:if test="./mods:classification[@displayLabel='doctype']">
         <p>
-        <span class="label label-default">
+        <span class="label label-default ir-label-default">
           <xsl:for-each select="./mods:classification[@displayLabel='doctype']/@valueURI">
             <xsl:call-template name="classLabel">
               <xsl:with-param name="valueURI"><xsl:value-of select="." /></xsl:with-param>

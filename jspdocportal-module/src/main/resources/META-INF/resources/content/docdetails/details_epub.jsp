@@ -60,7 +60,7 @@
     
       <div style="width:240px;float:left;margin-top:0px">
       
-      <div class="base_box" style="margin-bottom:32px">
+      <div class="base_box" style="margin-bottom:30px">
           <div class="main_navigation">
             <mcr:outputNavigation id="left" expanded="false" mode="left" />
           </div>
