@@ -23,7 +23,7 @@
 			<div id="moreFacets_div_${facetID}" class="collapse">
 		</c:if>
 
-		<button class="btn btn-sm btn-default ir-btn-facet" style="border:none; display:block;text-align:left;white-space:normal;width:100%" 
+		<button class="btn btn-sm btn-default ir-facets-btn" style="border:none; display:block;text-align:left;white-space:normal;width:100%" 
 		        onclick="changeFacetIncludeURL('${facetField}','${countsKey}', '${mask}', '${result.id}');">
 			<span style="display:table-cell;vertical-align:middle;">
 				${actionBean.calcFacetOutputString(facetField, countsKey)}
@@ -35,7 +35,7 @@
 
 		<c:if test="${status.index >= top and status.last}">
 			</div>
-			<button id="moreFacets_btn_${facetID}" class="btn btn-default btn-xs pull-right" data-toggle="collapse" data-target="#moreFacets_div_${facetID}"  >mehr ...</button>
+			<button id="moreFacets_btn_${facetID}" class="btn btn-default btn-xs ir-facets-btn-more pull-right" data-toggle="collapse" data-target="#moreFacets_div_${facetID}"  >mehr ...</button>
 			<script type="text/javascript">
 				$('#moreFacets_div_${facetID}').on('shown.bs.collapse', function () {
 					$('#moreFacets_btn_${facetID}').text('weniger ...');

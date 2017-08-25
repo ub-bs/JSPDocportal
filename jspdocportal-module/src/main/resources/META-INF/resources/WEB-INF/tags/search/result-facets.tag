@@ -45,7 +45,7 @@
 							<c:param name="_search" value="${result.id}" />
 							<c:param name="_remove-filter" value="${key}" />
 						</c:url>
-						<a class="btn btn-sm btn-default ir-btn-facet" style="display:block;text-align:left;white-space:normal;margin:3px 0px;color:black;width:100%" href="${url}">
+						<a class="btn btn-sm btn-default ir-facets-btn" style="display:block;text-align:left;white-space:normal;margin:3px 0px;color:black;width:100%" href="${url}">
 							<i class="fa fa-times pull-right" style="margin-top:3px; color:darkred;"></i>
 							<span style="display:table-cell;vertical-align:middle;">
 								${actionBean.calcFacetOutputString(facetKey, countsKey)}
@@ -56,7 +56,7 @@
 						</a>
 					</c:if>
 					<c:if test="${not result.filterQueries.contains(key)}">
-						<button class="btn btn-sm btn-default ir-btn-facet" style="border:none; display:block;text-align:left;white-space:normal;width:100%" 
+						<button class="btn btn-sm btn-default ir-facets-btn" style="border:none; display:block;text-align:left;white-space:normal;width:100%" 
 						        onclick="changeFacetIncludeURL('${facetKey}','${countsKey}');">
 							<span style="display:table-cell;vertical-align:middle;">
 								${actionBean.calcFacetOutputString(facetKey, countsKey)}
@@ -68,7 +68,7 @@
 					</c:if>
 					<c:if test="${status.index >= top and status.last}">
 						</div>
-						<button id="moreFacets_btn_${facetID}" class="btn btn-default btn-xs pull-right" data-toggle="collapse" data-target="#moreFacets_div_${facetID}"  >mehr ...</button>
+						<button id="moreFacets_btn_${facetID}" class="btn btn-default btn-xs ir-facets-btn-more pull-right" data-toggle="collapse" data-target="#moreFacets_div_${facetID}"  >mehr ...</button>
 						<script type="text/javascript">
 						$('#moreFacets_div_${facetID}').on('shown.bs.collapse', function () {
 							$('#moreFacets_btn_${facetID}').text('weniger ...');

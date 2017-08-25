@@ -22,7 +22,7 @@
 				<search:browse-classification-inner category="${c}" facetField="${facetField}" mask="${mask}" />
 			</li> --%>
 			<li>
-				<button class="btn btn-sm btn-default ir-btn-facet" style="border:none; display:block;text-align:left;white-space:normal;width:100%" 
+				<button class="btn btn-sm btn-default ir-facets-btn" style="border:none; display:block;text-align:left;white-space:normal;width:100%" 
 					    onclick="changeFacetIncludeURL('${facetField}','${c.id.getRootID()}:${c.id.ID}', '${mask}', '${result.id}');">
 					<span style="display:table-cell;vertical-align:middle;">
 							${c.currentLabel.get().text}

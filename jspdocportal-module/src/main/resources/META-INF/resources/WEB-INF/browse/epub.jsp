@@ -67,7 +67,7 @@
                   <input class="form-control" id="filterValue" name="filterValue" style="width: 100%" placeholder="Wert"
                     type="text" onkeypress="if (event.keyCode == 13) { changeFilterIncludeURL();}"> <span
                     class="input-group-btn">
-                    <button id="filterInclude" class="btn btn-primary" onclick="changeFilterIncludeURL();">
+                    <button id="filterInclude" class="btn btn-primary ir-facets-btn-plus" onclick="changeFilterIncludeURL();">
                       <i class="fa fa-plus"></i>
                     </button>
                   </span>
@@ -110,7 +110,7 @@
                   </c:url>
                   <c:set var="c">
                     <fmt:message key="Browse.Filter.epub.${fn:substringBefore(fn:substring(fq, 1, -1),':')}" />: ${actionBean.calcFacetOutputString(fn:substringBefore(fn:substring(fq, 1, -1),':'), fn:substringAfter(fn:substring(fq, 1, -1),':'))}</c:set>
-                  <a class="btn btn-sm btn-default ir-btn-facet"
+                  <a class="btn btn-sm btn-default ir-facets-btn"
                     style="display: block; text-align: left; white-space: normal; margin-bottom: 3px; color: black; width: 100%"
                     href="${url}"> <i class="fa fa-times pull-right" style="margin-top: 3px; color: darkred;"></i>
                     ${c}
