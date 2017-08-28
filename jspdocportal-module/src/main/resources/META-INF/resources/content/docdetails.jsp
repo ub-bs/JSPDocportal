@@ -27,6 +27,12 @@
 <fmt:message var="pageTitle" key="OMD.headline">
 	<fmt:param>${mcrid}</fmt:param>
 </fmt:message>
+<x:if select="contains($doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='doctype']/@valueURI, '#epub')">
+<c:set var="org.mycore.navigation.path" scope="request">left.epub.recherche</c:set>
+</x:if>
+<x:if select="contains($doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='doctype']/@valueURI, '#histbest')">
+<c:set var="org.mycore.navigation.path" scope="request">left.histbest.recherche</c:set>
+</x:if>
 <stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}">
 	<stripes:layout-component name="html_header">
 		<title>${pageTitle}@ <fmt:message key="Webpage.title" /></title>

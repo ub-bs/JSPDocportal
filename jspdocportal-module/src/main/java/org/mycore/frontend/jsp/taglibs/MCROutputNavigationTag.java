@@ -296,26 +296,28 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
         }
 
         StringBuffer sbOut = new StringBuffer();
-        String msg = retrieveI18N(currentNode.getI18n());
-        sbOut.append(INDENT).append("   <li>");
-        String href = currentNode.getHref();
-        if (!href.startsWith("http")) {
-            href = MCRFrontendUtil.getBaseURL() + href;
-        }
-        sbOut.append(INDENT).append("      <a target=\"_self\" href=\"" + href + "\">" + msg + "</a>");
-        sbOut.append(INDENT).append("   </li>");
         sbOut.append(INDENT).append("</ul>");
-        while (currentNode.getParent() instanceof NavigationItem) {
-            currentNode = (NavigationItem) currentNode.getParent();
-            msg = retrieveI18N(currentNode.getI18n());
-            sbOut.insert(0, INDENT + "   </li>");
-            String href2 = currentNode.getHref();
+        NavigationObject c = currentNode;
+        while (c instanceof NavigationItem) {
+        	String href = ((NavigationItem)c).getHref();
+            String msg = retrieveI18N(((NavigationItem)c).getI18n());
             if (!href.startsWith("http")) {
                 href = MCRFrontendUtil.getBaseURL() + href;
             }
-            sbOut.insert(0, INDENT + "      <a target=\"_self\" href=\"" + href2 + "\">" + msg + "</a>");
-            sbOut.insert(0, INDENT + "   <li>");
+        	if(c == currentNode) {
+        		sbOut.insert(0, INDENT + "   </li>");
+        		sbOut.insert(0, INDENT + "      <span>" + msg + "</span>");
+                sbOut.insert(0, INDENT + "   <li>");
+        	} else {
+        		sbOut.insert(0, INDENT + "   </li>");
+        		sbOut.insert(0, INDENT + "      <a target=\"_self\" href=\"" + href + "\">" + msg + "</a>");
+                sbOut.insert(0, INDENT + "   <li>");
+        	}
+        	c =  c.getParent();
         }
+        sbOut.insert(0, INDENT + "   </li>");
+        sbOut.insert(0, INDENT + "      <a target=\"_self\" href=\"" + MCRFrontendUtil.getBaseURL() + "\">" + retrieveI18N("Nav.Start") + "</a>");
+        sbOut.insert(0, INDENT + "   <li>");
 
         if (cssClass != null) {
             sbOut.insert(0, INDENT + "<ul class=\"" + cssClass + "\">");
