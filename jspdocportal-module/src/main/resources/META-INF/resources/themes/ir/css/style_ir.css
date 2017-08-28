@@ -31,24 +31,6 @@ textarea.ir-textarea-xml {
 	font-size: 90%;
 }
 
-div.ir-docdetails-header {
-	
-}
-
-a.ir-button-download{
-	background-color:#666666;
-	color:#FFFFFF;
-	text-decoration: none;
-}
-
-a.ir-button-download:HOVER{
-	color:#333333;
-	background-color:#DDDDDD;
-	text-decoration: none;
-}
-
-
-
 /* =================================================================== */
 /* Info Hover (button + messagebox on mouse over)                      */  
 /* ToDo Migration                                                      */

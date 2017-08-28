@@ -111,7 +111,7 @@
                   </c:url>
                   <c:set var="c">
                     <fmt:message key="Browse.Filter.histbest.${fn:substringBefore(fn:substring(fq, 1, -1),':')}" />: ${actionBean.calcFacetOutputString(fn:substringBefore(fn:substring(fq, 1, -1),':'), fn:substringAfter(fn:substring(fq, 1, -1),':'))}</c:set>
-                  <a class="btn btn-sm btn-default ir-facets-btn"
+                  <a class="btn btn-sm btn-default ir-form-control"
                     style="display: block; text-align: left; white-space: normal; margin-bottom: 3px; color: black; width: 100%"
                     href="${url}"> <i class="fa fa-times pull-right" style="margin-top: 3px; color: darkred;"></i>
                     ${c}

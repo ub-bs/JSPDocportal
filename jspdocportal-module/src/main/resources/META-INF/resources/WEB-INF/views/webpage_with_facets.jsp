@@ -65,12 +65,12 @@
             <div class="row"></div>
             <div class="row">
               <div class="col-sm-7 col-xs-10">
-                <input class="form-control" id="filterValue" name="filterValue" style="width: 100%" placeholder="Wert"
+                <input class="form-control ir-form-control" id="filterValue" name="filterValue" style="width: 100%" placeholder="Wert"
                   onkeypress="if (event.keyCode == 13) { changeFilterIncludeURL($('input[name=\'filterField\']:checked').val(), $('#filterValue').val(), 'histbest');}"
                   type="text">
               </div>
               <div class="col-sm-1 col-xs-2">
-                <button id="filterInclude" class="btn btn-primary"
+                <button id="filterInclude" class="btn btn-primary ir-button"
                   onclick="changeFilterIncludeURL($('input[name=\'filterField\']:checked').val(), $('#filterValue').val(), '${actionBean.path}');">
                   <i class="fa fa-search"></i>
                 </button>

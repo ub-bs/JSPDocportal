@@ -68,7 +68,7 @@
 					</c:if>
 					<c:if test="${status.index >= top and status.last}">
 						</div>
-						<button id="moreFacets_btn_${facetID}" class="btn btn-default btn-xs ir-facets-btn-more pull-right" data-toggle="collapse" data-target="#moreFacets_div_${facetID}"  >mehr ...</button>
+						<button id="moreFacets_btn_${facetID}" class="btn btn-default btn-xs ir-form-control pull-right" data-toggle="collapse" data-target="#moreFacets_div_${facetID}"  >mehr ...</button>
 						<script type="text/javascript">
 						$('#moreFacets_div_${facetID}').on('shown.bs.collapse', function () {
 							$('#moreFacets_btn_${facetID}').text('weniger ...');

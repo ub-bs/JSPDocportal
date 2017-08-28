@@ -303,7 +303,7 @@
    		</div>
    		<div class="ir-box ir-box-bordered" style="margin-bottom:30px;">
 			<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='fulltext']">
-				<a class="btn btn-default ir-button-download"  
+				<a class="btn btn-default ir-button ir-button-download"  
 			  	   href="${WebApplicationBaseURL}resolve/id/${mcrid}/file/fulltext" target="_blank">
 			  		<img style="vertical-align:middle;" src="${WebApplicationBaseURL}images/pdf_icon.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
 			  			<fmt:message key="Webpage.docdetails.pdfdownload" />
@@ -312,7 +312,7 @@
 			<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='DV_METS']">
 				<c:set var="recordID"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier[@source='DE-28']" /></c:set>
 				<c:if test="${not empty recordID}">
-					<a class="btn btn-default ir-button-download"  
+					<a class="btn btn-default ir-button ir-button-download"  
 			  		   href="${WebApplicationBaseURL}pdfdownload/recordIdentifier/${fn:replace(recordID, '/','%252F')}" target="_blank">
 			  	    	<img style="vertical-align:middle;" src="${WebApplicationBaseURL}images/pdf_icon.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
 			  			&nbsp;<fmt:message key="Webpage.docdetails.pdfdownload" />
@@ -320,7 +320,7 @@
 				</c:if>
 			</x:if>
 			<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='DV_METS']">
-			<a class="btn btn-default ir-button-download"  
+			<a class="btn btn-default ir-button ir-button-download"  
 			   href="${WebApplicationBaseURL}resolve/id/${mcrid}/dfgviewer" target="_blank">
 			  	<img style="vertical-align:middle;height: 28px;margin-right:6px;" src="${WebApplicationBaseURL}images/dfg_icon.png" title = "<fmt:message key="Webpage.docdetails.dfgviewer" />" />
 			  <fmt:message key="Webpage.docdetails.viewer" />
@@ -334,7 +334,7 @@
 				<x:parse xml="${derXML}" var="derDoc"/>
        			<x:set var="derLink" select="$derDoc//children/child[1]" />
        			<x:if select="$derLink">
-       			 <a class="btn btn-default ir-button-download" style="text-align:left" title="MD5: <x:out select="$derLink/md5" />" 
+       			 <a class="btn btn-default ir-button ir-button-download" style="text-align:left" title="MD5: <x:out select="$derLink/md5" />" 
 			  		 href="<x:out select="$derLink/@href" />" target="_blank">
 		  		 	<x:choose>
 			  		 	<x:when select="contains($derLink/@href, '.zip')">
