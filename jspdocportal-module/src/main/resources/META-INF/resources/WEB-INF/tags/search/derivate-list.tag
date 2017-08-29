@@ -88,17 +88,19 @@
                         }
                         out.write("  </li>");
                     } else {
+                    	out.write("  <li>");
                         out.write(theFile.getName().replace(".mets.xml", " .mets.xml"));
                         if (showSize) {
                             out.write(" (" + theFile.getSizeFormatted().replace(" ","&#160;") + ")<br />");
                         }
                         out.write("&#160;---&#160;"
                             + MCRTranslation.translate("OMD.fileaccess.denied"));
+                        out.write("  </li>");
                     }
-                    out.write("      </ul>");
-                    out.write("    </td>");
-                    out.write("  </tr>");
                 }
+                out.write("      </ul>");
+                out.write("    </td>");
+                out.write("  </tr>");
 			}
         }
 	}
