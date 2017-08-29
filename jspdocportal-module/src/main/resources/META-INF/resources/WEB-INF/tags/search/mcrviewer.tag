@@ -57,7 +57,7 @@
                 filePath: "${maindoc}",
                 doctype: "${doctype}",
                 startImage: "1",
-                i18nURL: "${applicationScope.WebApplicationBaseURL}modules/mcrviewer/i18n/mcrviewer_{lang}.json",
+                i18nURL: "${applicationScope.WebApplicationBaseURL}rsc/locale/translate/{lang}/component.viewer.*",
                 lang: "de",
                 webApplicationBaseURL: "${applicationScope.WebApplicationBaseURL}",
                 pdfWorkerURL: "${iviewBaseURL}js/lib/pdf.worker.js",
@@ -116,14 +116,14 @@
                 filePath: "iview2/${startImage}.iview2",
                // derivate: "${fn:replace(recordIdentifier,'/','%252F')}",
                 derivate: "${derid}",
-                i18nURL: "${applicationScope.WebApplicationBaseURL}modules/mcrviewer/i18n/mcrviewer_{lang}.json",
+                i18nURL: "${applicationScope.WebApplicationBaseURL}rsc/locale/translate/{lang}/component.viewer.*",
                 lang: "de",
                 metadataURL: "",
                 derivateURL : "${applicationScope.WebApplicationBaseURL}depot/${fn:replace(recordIdentifier,'/','%252F')}/",
                 objId: "",
                 webApplicationBaseURL: "${applicationScope.WebApplicationBaseURL}",
                 imageOverview : {
-                    enabled: true
+                    enabled: false
                 },
                 chapter: {
                     enabled: false,

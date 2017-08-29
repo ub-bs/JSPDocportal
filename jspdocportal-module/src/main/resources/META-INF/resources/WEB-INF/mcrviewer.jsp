@@ -43,7 +43,7 @@ button[data-id='CloseViewerButton'] {
 				filePath : "${actionBean.filePath}",
 				doctype : "pdf",
 				startImage : "1",
-				i18nURL : "${applicationScope.WebApplicationBaseURL}modules/mcrviewer/i18n/mcrviewer_{lang}.json",
+				i18nURL : "${applicationScope.WebApplicationBaseURL}rsc/locale/translate/{lang}/component.viewer.*",
 				lang : "de",
 				webApplicationBaseURL : "${applicationScope.WebApplicationBaseURL}",
 				pdfWorkerURL : "${iviewBaseURL}js/lib/pdf.worker.js",
@@ -106,7 +106,7 @@ button[data-id='CloseViewerButton'] {
 				imageXmlPath : "${applicationScope.WebApplicationBaseURL}tiles/${fn:replace(actionBean.recordIdentifier,'/','%252F')}/",
 				tileProviderPath : "${applicationScope.WebApplicationBaseURL}tiles/${fn:replace(actionBean.recordIdentifier,'/','%252F')}/",
 
-				i18nURL : "${applicationScope.WebApplicationBaseURL}modules/mcrviewer/i18n/mcrviewer_{lang}.json",
+				i18nURL : "${applicationScope.WebApplicationBaseURL}rsc/locale/translate/{lang}/component.viewer.*",
 				lang : "de",
 				webApplicationBaseURL : "${applicationScope.WebApplicationBaseURL}",
 				// derivateURL : "${applicationScope.WebApplicationBaseURL}depot/${fn:replace(actionBean.recordIdentifier,'/','%25252F')}/",
@@ -143,7 +143,7 @@ button[data-id='CloseViewerButton'] {
 
 				            {
 					id : "pdf_download",
-					label : "pdf_download",
+					label : "buttons.pdf_download",
 					type : "button",
 					href : "${applicationScope.WebApplicationBaseURL}/pdfdownload/recordIdentifier/${fn:replace(actionBean.recordIdentifier,'/','%252F')}",
 					icon: "file",
