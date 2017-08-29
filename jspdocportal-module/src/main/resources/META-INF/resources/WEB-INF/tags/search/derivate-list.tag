@@ -2,6 +2,7 @@
 <%@tag import="org.mycore.services.i18n.MCRTranslation"%>
 <%@tag import="org.mycore.frontend.MCRFrontendUtil"%>
 <%@tag import="java.util.Locale"%>
+<%@tag import="org.mycore.datamodel.ifs.MCRFile"%>
 <%@tag import="org.mycore.datamodel.ifs.MCRFilesystemNode"%>
 <%@tag import="org.mycore.datamodel.ifs.MCRDirectory"%>
 <%@tag import="org.mycore.frontend.jsp.MCRHibernateTransactionWrapper"%>
@@ -52,7 +53,7 @@
                         String fURL = url + theFile.getName();
                         String fontAwesomeName = "fa fa-file-o";
                         if (theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".pdf")) {
-                        	fontAwesomeName = "fa fa-pdf-o";
+                        	fontAwesomeName = "fa fa-file-pdf-o";
                         }
                         if (theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".jpg")
                             || theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".jpeg")) {
@@ -83,8 +84,12 @@
                         out.write("    <a href=\"" + fURL + "\" target=\"_blank\">");
                         out.write(theFile.getName());
                         out.write("    </a>");
-                        if (showSize) {
-                            out.write(" &nbsp;&nbsp;<span>(" + theFile.getSizeFormatted().replace(" ","&#160;") + "</span>)");
+                        if (showSize) { 
+                          String md5 = "";
+                          if(theFile instanceof MCRFile) {
+                             md5 = "; MD5: " + ((MCRFile) theFile).getMD5(); 
+                          }
+                          out.write("<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>(" + theFile.getSizeFormatted().replace(" ","&#160;") + md5 + ")</small>");
                         }
                         out.write("  </li>");
                     } else {
