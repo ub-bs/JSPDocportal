@@ -61,12 +61,6 @@
         
     <mcrdd:separator showLine="true"/>  
      
-    <mcrdd:row select="/mycoreobject/structure/derobjects/derobject" labelkey="OMD.documents" showInfo="false" >
-  		<mcrdd:derivatelist select="." showsize="true" />
-  	</mcrdd:row>   
-	
-	<mcrdd:separator showLine="true"/>  
-     
     <mcrdd:row select="/mycoreobject/metadata/contributors/contributor" labelkey="OMD.referee" showInfo="false">
     	<mcrdd:outputitem select="." var="current">
     		<x:out select="$current//pc:foreName" /> 

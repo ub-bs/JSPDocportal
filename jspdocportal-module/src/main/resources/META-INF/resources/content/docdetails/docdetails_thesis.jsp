@@ -44,13 +44,7 @@
     </mcrdd:row>
     
      <mcrdd:separator showLine="true"/>  
-     
-    <mcrdd:row select="/mycoreobject/structure/derobjects/derobject" labelkey="OMD.documents" showInfo="false" >
-  		<mcrdd:derivatelist select="." showsize="true" />
-  	</mcrdd:row>   
-	
-	<mcrdd:separator showLine="true"/>  
-	
+     	
 	<mcrdd:row select="/mycoreobject/metadata/types/type" labelkey="OMD.class-types" showInfo="false" >
 	  	<mcrdd:classificationitem select="." />  
     </mcrdd:row>

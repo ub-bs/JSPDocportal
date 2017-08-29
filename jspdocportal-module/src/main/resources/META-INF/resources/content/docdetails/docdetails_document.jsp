@@ -97,12 +97,6 @@
     
   	<mcrdd:separator showLine="true"/>
     
-    <mcrdd:row select="/mycoreobject/structure/derobjects/derobject" labelkey="OMD.documents" showInfo="false" >
-  		<mcrdd:derivatelist select="." showsize="true" />
-  	</mcrdd:row>   
-	
-    <mcrdd:separator showLine="true"/>
-    
     <mcrdd:row select="/mycoreobject/metadata/notes/note" labelkey="OMD.notes" showInfo="false">
 		<mcrdd:item select="./text()" />              
     </mcrdd:row>

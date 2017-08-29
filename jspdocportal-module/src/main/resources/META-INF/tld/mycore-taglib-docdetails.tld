@@ -203,23 +203,6 @@
 		</attribute>
 	</tag>
 	
-	
-	<tag>
-		<description>displays a list of derivates</description>
-		<name>derivatelist</name>
-		<tag-class>org.mycore.frontend.jsp.taglibs.docdetails.MCRDocDetailsDerivateListTag</tag-class>
-		<body-content>empty</body-content>
-		<attribute>
-			<name>select</name>
-			<required>true</required>
-		</attribute>
-		<attribute>
-			<name>showsize</name>
-			<type>java.lang.Boolean</type>
-		</attribute> 
-	</tag>
-	
-	
 	<tag>
 		<description>includes the content of a derivate into the docdetails</description>
 		<name>derivatecontent</name>
