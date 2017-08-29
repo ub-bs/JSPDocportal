@@ -30,7 +30,6 @@
 		out.write("<b>No derivate found for id: "+derid+".</b>");
 	}
 	else{
-	    out.write("<dl class=\"ir-derivate-list\">");
 	    try (MCRHibernateTransactionWrapper hib = new MCRHibernateTransactionWrapper()) {
             MCRDirectory root = MCRDirectory.getRootDirectory(derid);
             if (root != null) {
@@ -40,37 +39,54 @@
 				String url = MCRFrontendUtil.getBaseURL()+"file/"+mcrDerivate.getOwnerID().toString()+"/"+mcrDerivate.getId().toString()+"/";
 				String label=mcrDerivate.getLabel();
 				String displayLabel = MCRTranslation.translate("OMD.derivatedisplay." + label);
-                out.write("\n<dt>"+displayLabel+"</dt>");
 				
                 boolean accessAllowed = MCRAccessManager.checkPermission(derid, "read");
+                out.write("    <tr>");
+                out.write("      <th>"+ displayLabel +"</th>");
+                out.write("      <td>");
+                out.write("        <ul class=\"ir-table-docdetails-filelist\">");
                 for (int j = 0; j < myfiles.length; j++) {
                     MCRFilesystemNode theFile = (MCRFilesystemNode) myfiles[j];
-                    
-                    
-                    out.write("<dd>");
-
+                    out.write("      <li>");
                     if (accessAllowed) {
                         String fURL = url + theFile.getName();
-                        out.write("<a class=\"btn btn-link btn-sm\" href=\"" + fURL + "\" target=\"_blank\">");
-                        String imgURL = MCRFrontendUtil.getBaseURL() + "images/derivate_unknown.gif";
+                        String fontAwesomeName = "fa fa-file-o";
                         if (theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".pdf")) {
-                            imgURL = MCRFrontendUtil.getBaseURL() + "images/derivate_pdf.gif";
+                        	fontAwesomeName = "fa fa-pdf-o";
                         }
                         if (theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".jpg")
                             || theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".jpeg")) {
-                            imgURL = MCRFrontendUtil.getBaseURL() + "images/derivate_portrait.gif";
+                        	fontAwesomeName = "fa fa-file-image-o";
                         }
                         if (theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".doc")
                             || theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".txt")) {
-                            imgURL = MCRFrontendUtil.getBaseURL() + "images/derivate_doc.gif";
+                        	fontAwesomeName = "fa fa-file-text-o";
                         }
-                        out.write("<img src=\"" + imgURL + "\" />&nbsp;");
+                        if (theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".xml")) {
+                        	fontAwesomeName = "fa fa-file-code-o";
+                        }
+                        if (theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".mp3")) {
+                        	fontAwesomeName = "fa fa-file-audio-o";
+                        }
+                        if (theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".zip")) {
+                        	fontAwesomeName = "fa fa-file-archive-o";
+                        }
+                        if (theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".mp4")
+                        	|| theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".mpeg")
+                        	|| theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".mpg")) {
+                        	fontAwesomeName = "fa fa-file-video-o";
+                        }
+                        if (theFile instanceof MCRDirectory) {
+                        	fontAwesomeName = "fa fa-files-o";
+                        }
+                        out.write("<i class=\"" + fontAwesomeName + "\"></i>&nbsp;&nbsp;");
+                        out.write("    <a href=\"" + fURL + "\" target=\"_blank\">");
                         out.write(theFile.getName());
-                       
+                        out.write("    </a>");
                         if (showSize) {
-                            out.write(" <span style=\"color:black\">(" + theFile.getSizeFormatted().replace(" ","&#160;") + "</span>)");
+                            out.write(" &nbsp;&nbsp;<span>(" + theFile.getSizeFormatted().replace(" ","&#160;") + "</span>)");
                         }
-                        out.write("</a>");
+                        out.write("  </li>");
                     } else {
                         out.write(theFile.getName().replace(".mets.xml", " .mets.xml"));
                         if (showSize) {
@@ -79,11 +95,12 @@
                         out.write("&#160;---&#160;"
                             + MCRTranslation.translate("OMD.fileaccess.denied"));
                     }
-                    out.write("</dd>");
+                    out.write("      </ul>");
+                    out.write("    </td>");
+                    out.write("  </tr>");
                 }
 			}
         }
-	    out.write("\n</dl>");
 	}
 %>
 

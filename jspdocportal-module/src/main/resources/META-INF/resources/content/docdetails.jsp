@@ -169,10 +169,15 @@
 		<x:if select="$doc/mycoreobject/structure/derobjects/derobject">
 			<div id="div_files" class="collapse col-sm-12">
 				<div class="ir-box">
-			 		<x:forEach var="x" select="$doc/mycoreobject/structure/derobjects/derobject/@xlink:href">
-			 			<c:set var="id"><x:out select="$x" /></c:set>
-			 			<search:derivate-list derid="${id}" showSize="true" />
-			 		</x:forEach>
+                  <table class="table ir-table-docdetails">
+                    <tbody>
+			 		  <x:forEach var="x" select="$doc/mycoreobject/structure/derobjects/derobject/@xlink:href">
+			 			 <c:set var="id"><x:out select="$x" /></c:set>
+                         <!-- ${id} -->
+			 			 <search:derivate-list derid="${id}" showSize="true" />
+			 		  </x:forEach>
+                    </tbody>
+                  </table>
 			 	</div>
 			</div>
 		</x:if>
