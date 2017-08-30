@@ -314,7 +314,7 @@
 			  			<fmt:message key="Webpage.docdetails.pdfdownload" />
 				</a>
 			</x:if>
-			<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='DV_METS']">
+			<x:if select="$doc/mycoreobject[not(contains(@ID,'_bundle_'))]/structure/derobjects/derobject[@xlink:title='DV_METS']">
 				<c:set var="recordID"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier[@source='DE-28']" /></c:set>
 				<c:if test="${not empty recordID}">
 					<a class="btn btn-default ir-button ir-button-download"  
