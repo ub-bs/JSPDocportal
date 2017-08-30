@@ -27,9 +27,15 @@
 <script type="text/javascript" src="${iviewBaseURL}js/iview-client-toolbar-extender.js"></script>
 
 <style type="text/css">
+      div.mcrviewer_html{
+        border: 1px solid lightgrey;
+        padding: 5px;
+      }
+
       .mycoreViewer .navbar .navbar-right {
         margin-right: 20px;
       }
+
       .mycoreViewer .navbar .navbar-left {
         margin-left: 20px;
       }
