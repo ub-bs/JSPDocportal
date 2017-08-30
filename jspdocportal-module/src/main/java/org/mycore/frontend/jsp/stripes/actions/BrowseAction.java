@@ -111,7 +111,9 @@ public class BrowseAction extends MCRAbstractStripesAction implements ActionBean
         if(result!=null){
             if (request.getParameter("_add-filter") != null) {
                 for (String s : request.getParameterValues("_add-filter")) {
-                    result.getFilterQueries().add(s);
+                    if(!result.getFilterQueries().contains(s)) {
+                    	result.getFilterQueries().add(s);
+                    }
                 }
             }
     
