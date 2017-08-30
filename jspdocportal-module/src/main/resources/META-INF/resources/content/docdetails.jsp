@@ -315,8 +315,8 @@
 			<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='fulltext']">
 				<a class="btn btn-default ir-button ir-button-download"  
 			  	   href="${WebApplicationBaseURL}resolve/id/${mcrid}/file/fulltext" target="_blank">
-			  		<img style="vertical-align:middle;" src="${WebApplicationBaseURL}images/download_pdf.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
-			  			<fmt:message key="Webpage.docdetails.pdfdownload" />
+			  		<img style="vertical-align:middle;height:30px;" src="${WebApplicationBaseURL}images/download_pdf.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
+			  		<fmt:message key="Webpage.docdetails.pdfdownload" />
 				</a>
 			</x:if>
 			<x:if select="$doc/mycoreobject[not(contains(@ID,'_bundle_'))]/structure/derobjects/derobject[@xlink:title='DV_METS']">
@@ -324,7 +324,7 @@
 				<c:if test="${not empty recordID}">
 					<a class="btn btn-default ir-button ir-button-download"  
 			  		   href="${WebApplicationBaseURL}pdfdownload/recordIdentifier/${fn:replace(recordID, '/','%252F')}" target="_blank">
-			  	    	<img style="vertical-align:middle;" src="${WebApplicationBaseURL}images/download_pdf.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
+			  	    	<img style="vertical-align:middle;height:30px;" src="${WebApplicationBaseURL}images/download_pdf.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
 			  			&nbsp;<fmt:message key="Webpage.docdetails.pdfdownload" />
 			  		</a>
 				</c:if>
@@ -332,7 +332,7 @@
 			<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='DV_METS']">
 			<a class="btn btn-default ir-button ir-button-download"  
 			   href="${WebApplicationBaseURL}resolve/id/${mcrid}/dfgviewer" target="_blank">
-			  	<img style="vertical-align:middle;height: 28px;margin-right:6px;" src="${WebApplicationBaseURL}images/dfg_icon.png" title = "<fmt:message key="Webpage.docdetails.dfgviewer" />" />
+			  	<img style="vertical-align:middle;height:30px;margin-right:6px;" src="${WebApplicationBaseURL}images/dfg_icon.png" title = "<fmt:message key="Webpage.docdetails.dfgviewer" />" />
 			  <fmt:message key="Webpage.docdetails.viewer" />
 			 </a>
 			 </x:if>
