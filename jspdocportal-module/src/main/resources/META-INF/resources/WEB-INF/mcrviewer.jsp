@@ -22,6 +22,7 @@
 
 <script type="text/javascript" src="${iviewBaseURL}js/iview-client-base.js"></script>
 <script type="text/javascript" src="${iviewBaseURL}js/iview-client-desktop.js"></script>
+<script type="text/javascript" src="${iviewBaseURL}js/iview-client-toolbar-extender.js"></script>
 
 
 <c:if test="${actionBean.doctype eq 'pdf'}">
@@ -29,11 +30,14 @@
 	<script type="text/javascript" src="${iviewBaseURL}js/lib/pdf.js"></script>
 	<script type="text/javascript" src="${iviewBaseURL}js/iview-client-metadata.js"></script>
 	<style type="text/css">
-button[data-id='CloseViewerButton'] {
-	/*display:none;*/
-	
-}
-</style>
+      button[data-id='ShareButton']{
+        border-radius:4px;
+      }
+      
+      button[data-id='PdfDownloadButton']{
+        display:none;
+      }
+    </style>
 	<script>
 		window.onload = function() {
 			var config = {
@@ -52,14 +56,29 @@ button[data-id='CloseViewerButton'] {
 				permalink : {
 					enabled : true,
 					updateHistory : true,
-					viewerLocationPattern : "{baseURL}/mcrviewer/id/{derivate}/{file}"
+					viewerLocationPattern : "{baseURL}/mcrviewer/recordIdentifier/${fn:replace(actionBean.recordIdentifier,'/','%252F')}/{file}"
 				},
 				onClose : function() {
 					window.history.back();
 					setTimeout(function() {
 						window.close();
 					}, 500);
-				}
+				},
+				
+				toolbar : [ 
+			           {
+	                        id: "addOns",
+	                        type: "group"
+	                    },
+
+			            {
+				id : "pdf_download",
+				label : "buttons.pdf_download",
+				type : "button",
+				href : "${applicationScope.WebApplicationBaseURL}${actionBean.pdfProviderURL}",
+				icon: "file",
+				inGroup: "addOns"
+			} ]
 			};
 			new mycore.viewer.MyCoReViewer(jQuery("body"), config);
 		};
@@ -69,7 +88,6 @@ button[data-id='CloseViewerButton'] {
 	<c:set var="mcrid">${actionBean.mcrid}</c:set>
 	<script type="text/javascript" src="${iviewBaseURL}js/iview-client-mets.js"></script>
 	<script type="text/javascript" src="${iviewBaseURL}js/iview-client-metadata.js"></script>
-	<script type="text/javascript" src="${iviewBaseURL}js/iview-client-toolbar-extender.js"></script>
 	<style type="text/css">
 button[data-id='CloseViewerButton'] {
 	/*display:none;*/
@@ -137,7 +155,7 @@ button[data-id='CloseViewerButton'] {
 				},
 				toolbar : [ 
 				           {
-		                        id: "RosDokAddOns",
+		                        id: "addOns",
 		                        type: "group"
 		                    },
 
@@ -147,7 +165,7 @@ button[data-id='CloseViewerButton'] {
 					type : "button",
 					href : "${applicationScope.WebApplicationBaseURL}/pdfdownload/recordIdentifier/${fn:replace(actionBean.recordIdentifier,'/','%252F')}",
 					icon: "file",
-					inGroup: "RosDokAddOns"
+					inGroup: "addOns"
 				} ],
 				objId : ""
 

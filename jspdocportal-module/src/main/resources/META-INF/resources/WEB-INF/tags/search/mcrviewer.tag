@@ -64,12 +64,13 @@
                 "canvas.startup.fitWidth": false,
                 "canvas.overview.enabled": false,
                 "chapter.showOnStart": false,
+                "chapter.enabled" : false,
+                "imageOverview.enabled" : false,
                 permalink: {
                     enabled: true,
                     updateHistory: false,
                     viewerLocationPattern:"{baseURL}/mcrviewer/id/{derivate}/{file}"
                 }
-                
             });
         });
     </script>
