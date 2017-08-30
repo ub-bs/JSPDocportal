@@ -363,7 +363,7 @@
 			 <div style="clear:both"></div>
 			</div>
 			
-			
+			<x:if select="contains($doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='doctype']/@valueURI, '#histbest')">
 			<div class="ir-box ir-box-bordered" style="margin-bottom:30px;">
 				<div class="row">
 					<div class="col-sm-6">
@@ -420,6 +420,7 @@
 					</x:choose>
 				</div>
 			</div>
+            </x:if>
         </div>
       </div>
 	</stripes:layout-component>
