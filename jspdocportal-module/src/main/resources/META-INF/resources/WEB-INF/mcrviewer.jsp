@@ -14,6 +14,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" type="text/css" href="${applicationScope.WebApplicationBaseURL}webjars/bootstrap/3.3.7/css/bootstrap.css" />
+<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}webjars/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="${applicationScope.WebApplicationBaseURL}modules/mcrviewer/mcrviewer.css" />
 <link rel="stylesheet" type="text/css" href="${iviewBaseURL}css/default.css" />
 
@@ -22,8 +23,17 @@
 
 <script type="text/javascript" src="${iviewBaseURL}js/iview-client-base.js"></script>
 <script type="text/javascript" src="${iviewBaseURL}js/iview-client-desktop.js"></script>
+<script type="text/javascript" src="${iviewBaseURL}js/iview-client-logo.js"></script>
 <script type="text/javascript" src="${iviewBaseURL}js/iview-client-toolbar-extender.js"></script>
 
+<style type="text/css">
+      .mycoreViewer .navbar .navbar-right {
+        margin-right: 20px;
+      }
+      .mycoreViewer .navbar .navbar-left {
+        margin-left: 20px;
+      }
+</style>
 
 <c:if test="${actionBean.doctype eq 'pdf'}">
 	<script type="text/javascript" src="${iviewBaseURL}js/iview-client-pdf.js"></script>
@@ -37,10 +47,12 @@
       button[data-id='PdfDownloadButton']{
         display:none;
       }
+      
     </style>
 	<script>
 		window.onload = function() {
 			var config = {
+				logoURL:"${applicationScope.WebApplicationBaseURL}images/mcrviewer/mcrviewer.png",
 				"mobile" : false,
 				pdfProviderURL : "${applicationScope.WebApplicationBaseURL}${actionBean.pdfProviderURL}",
 				derivate : "${actionBean.recordIdentifier}",
@@ -65,20 +77,18 @@
 					}, 500);
 				},
 				
-				toolbar : [ 
-			           {
-	                        id: "addOns",
-	                        type: "group"
-	                    },
-
-			            {
-				id : "pdf_download",
-				label : "buttons.pdf_download",
-				type : "button",
-				href : "${applicationScope.WebApplicationBaseURL}${actionBean.pdfProviderURL}",
-				icon: "file",
-				inGroup: "addOns"
-			} ]
+				toolbar : [ {
+								id: "addOns",
+								type: "group"
+							},
+							{
+								id : "pdf_download",
+								type : "button",
+								label : "buttons.pdf_download",
+								href : "${applicationScope.WebApplicationBaseURL}${actionBean.pdfProviderURL}",
+								icon: "fa-download",
+								inGroup: "addOns"
+							} ]
 			};
 			new mycore.viewer.MyCoReViewer(jQuery("body"), config);
 		};
@@ -88,12 +98,7 @@
 	<c:set var="mcrid">${actionBean.mcrid}</c:set>
 	<script type="text/javascript" src="${iviewBaseURL}js/iview-client-mets.js"></script>
 	<script type="text/javascript" src="${iviewBaseURL}js/iview-client-metadata.js"></script>
-	<style type="text/css">
-button[data-id='CloseViewerButton'] {
-	/*display:none;*/
 	
-}
-</style>
 	<%
 	    try (MCRHibernateTransactionWrapper htw = new MCRHibernateTransactionWrapper()) {
 						MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(
@@ -153,20 +158,22 @@ button[data-id='CloseViewerButton'] {
 						window.close();
 					}, 500);
 				},
-				toolbar : [ 
+				
+				logoURL:"${applicationScope.WebApplicationBaseURL}images/mcrviewer/mcrviewer.png",
+				
+				toolbar : [{
+				        	   id: "addOns",
+		                       type: "group"
+	                       },
 				           {
-		                        id: "addOns",
-		                        type: "group"
-		                    },
-
-				            {
-					id : "pdf_download",
-					label : "buttons.pdf_download",
-					type : "button",
-					href : "${applicationScope.WebApplicationBaseURL}/pdfdownload/recordIdentifier/${fn:replace(actionBean.recordIdentifier,'/','%252F')}",
-					icon: "file",
-					inGroup: "addOns"
-				} ],
+	                    	   id : "pdf_download",
+	                    	   type : "button",
+	                    	   label : "buttons.pdf_download",
+	                    	   href : "${applicationScope.WebApplicationBaseURL}/pdfdownload/recordIdentifier/${fn:replace(actionBean.recordIdentifier,'/','%252F')}",
+	                    	   icon: "fa-download",
+	                    	   inGroup: "addOns"
+	                   	  }],
+	                   	  
 				objId : ""
 
 			};
