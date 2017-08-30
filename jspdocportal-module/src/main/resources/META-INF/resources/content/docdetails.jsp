@@ -315,7 +315,7 @@
 			<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='fulltext']">
 				<a class="btn btn-default ir-button ir-button-download"  
 			  	   href="${WebApplicationBaseURL}resolve/id/${mcrid}/file/fulltext" target="_blank">
-			  		<img style="vertical-align:middle;" src="${WebApplicationBaseURL}images/pdf_icon.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
+			  		<img style="vertical-align:middle;" src="${WebApplicationBaseURL}images/download_pdf.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
 			  			<fmt:message key="Webpage.docdetails.pdfdownload" />
 				</a>
 			</x:if>
@@ -324,7 +324,7 @@
 				<c:if test="${not empty recordID}">
 					<a class="btn btn-default ir-button ir-button-download"  
 			  		   href="${WebApplicationBaseURL}pdfdownload/recordIdentifier/${fn:replace(recordID, '/','%252F')}" target="_blank">
-			  	    	<img style="vertical-align:middle;" src="${WebApplicationBaseURL}images/pdf_icon.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
+			  	    	<img style="vertical-align:middle;" src="${WebApplicationBaseURL}images/download_pdf.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
 			  			&nbsp;<fmt:message key="Webpage.docdetails.pdfdownload" />
 			  		</a>
 				</c:if>

@@ -65,7 +65,7 @@
      <div class="row">
       <div class="col-xs-8">
  
-         	<c:url var="imgIconUrl" value="/images/pdf_icon.png" />
+         	<c:url var="imgIconUrl" value="/images/download_pdf.png" />
 			<c:choose>
 				<c:when test="${actionBean.ready}">
 					<div class="ir-box" style="margin:-15px">
@@ -85,8 +85,7 @@
 					<c:set var="progress" value="${actionBean.progress}" />
 					<c:choose>
 						<c:when test="${progress < 0}">
-							<c:url var="imgIconUrl" value="/images/pdf_icon.png" />
-							<c:url var="url" value="/pdfdownload/recordIdentifier/${actionBean.recordIdentifier}/${actionBean.filename}" />
+					     	<c:url var="url" value="/pdfdownload/recordIdentifier/${actionBean.recordIdentifier}/${actionBean.filename}" />
 							<div class="ir-box" style="margin:-15px">
 								<a href="${url}"><img src="${imgIconUrl}" style="vertical-align:middle;" />&nbsp;&nbsp;<fmt:message key="PDF.download.generate" /></a>
 							</div>
