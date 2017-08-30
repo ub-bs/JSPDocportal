@@ -35,6 +35,7 @@
             </table>
           </td>
         </tr>
+        <xsl:if test="mods:name[mods:role/mods:roleTerm/@valueURI='http://id.loc.gov/vocabulary/relators/dgs']">
         <tr>
           <th>
             <xsl:value-of select="i18n:translate('OMD.referee')" />
@@ -53,6 +54,8 @@
             </table>
           </td>
         </tr>
+        </xsl:if>
+        <xsl:if test="mods:originInfo[@eventType='creation']/mods:dateCreated">
         <tr>
           <th><xsl:value-of select="i18n:translate('OMD.yearsubmitted')" disable-output-escaping="yes"/>:</th>
           <td>
@@ -63,6 +66,8 @@
             </table>
           </td>
         </tr>
+        </xsl:if>
+        <xsl:if test="mods:originInfo[@eventType='creation']/mods:dateOther[@type='defence']">
         <tr>
           <th><xsl:value-of select="i18n:translate('OMD.yearaccepted')" disable-output-escaping="yes"/>:</th>
           <td>
@@ -73,6 +78,7 @@
             </table>
           </td>
         </tr>
+        </xsl:if>
       </table>
       
       <table class="table ir-table-docdetails">

@@ -27,11 +27,15 @@
 <fmt:message var="pageTitle" key="OMD.headline">
 	<fmt:param>${mcrid}</fmt:param>
 </fmt:message>
+
 <x:if select="contains($doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='doctype']/@valueURI, '#epub')">
-<c:set var="org.mycore.navigation.path" scope="request">left.epub.recherche</c:set>
+  <c:set var="org.mycore.navigation.path" scope="request">left.epub.recherche</c:set>
+</x:if>
+<x:if select="contains($doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='doctype']/@valueURI, '#data')">
+  <c:set var="org.mycore.navigation.path" scope="request">left.epub.recherche</c:set>
 </x:if>
 <x:if select="contains($doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='doctype']/@valueURI, '#histbest')">
-<c:set var="org.mycore.navigation.path" scope="request">left.histbest.recherche</c:set>
+  <c:set var="org.mycore.navigation.path" scope="request">left.histbest.recherche</c:set>
 </x:if>
 <stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}">
 	<stripes:layout-component name="html_header">
@@ -259,7 +263,8 @@
    		 	<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='purl']">
 			  <tr>	
                 <th>PURL:</th>
-                <td><a href="<x:out select="$x" />"><x:out select="$x" /></a></td>
+                <c:set var="purl"><x:out select="$x" /></c:set>
+                <td><a href="${purl}"><c:out value="${fn:replace(purl, '.de/', '.de <br />/')}" escapeXml="false"/></a></td>
               </tr>
 			  </x:forEach>
 			  <x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='urn']">
