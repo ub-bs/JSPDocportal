@@ -45,8 +45,8 @@
 							<c:param name="_search" value="${result.id}" />
 							<c:param name="_remove-filter" value="${key}" />
 						</c:url>
-						<a class="btn btn-sm btn-default ir-facets-btn" style="display:block;text-align:left;white-space:normal;margin:3px 0px;color:black;width:100%" href="${url}">
-							<i class="fa fa-times pull-right" style="margin-top:3px; color:darkred;"></i>
+						<a class="btn btn-sm btn-default ir-facets-btn" style="display:block;position:relative;text-align:left;white-space:normal;margin:3px 0px;color:black;width:100%" href="${url}">
+							<i class="fa fa-times" style="position:absolute; top:5px; right:5px; color:darkred;"></i>
 							<span style="display:table-cell;vertical-align:middle;">
 								${actionBean.calcFacetOutputString(facetKey, countsKey)}
 							</span>
