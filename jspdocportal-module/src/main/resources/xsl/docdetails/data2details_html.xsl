@@ -28,7 +28,7 @@
                    </div>
                    <div style="position: relative; margin-left:100px; font-size:90%; text-align:justify">
                      Dieses Werk ist lizenziert unter einer 
-                     <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+                     <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
                      Creative Commons Namensnennung 4.0 International Lizenz</a>.
                    </div>
                  </td></tr>     
