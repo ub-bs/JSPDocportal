@@ -1,12 +1,11 @@
 <?xml version="1.0"?>
+<!-- current version: https://github.com/MyCoRe-Org/mycore/blob/master/ruleset.xml  -->
 <ruleset name="MyCoRe ruleset" xmlns="http://pmd.sourceforge.net/ruleset/2.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
   <description>
     This ruleset applies MyCoRe standard rules
   </description>
-   
   <rule ref="rulesets/java/basic.xml/AvoidBranchingStatementAsLastInLoop" />
-  <!--
   <rule ref="rulesets/java/basic.xml/AvoidDecimalLiteralsInBigDecimalConstructor" />
   <rule ref="rulesets/java/basic.xml/AvoidMultipleUnaryOperators" />
   <rule ref="rulesets/java/basic.xml/AvoidThreadGroup" />
@@ -100,5 +99,4 @@
   <rule ref="rulesets/xml/basic.xml" />
   <rule ref="rulesets/xsl/xpath.xml/UseConcatOnce" />
   <rule ref="rulesets/ecmascript/basic.xml" />
-  -->
 </ruleset>
