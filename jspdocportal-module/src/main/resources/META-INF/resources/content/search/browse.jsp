@@ -40,7 +40,7 @@
 			<div class="ur-box">
 			  	<search:result-browser result="${actionBean.result}">
 			  		<c:set var="doctype" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
-						<search:result-entry data="${entry}" url="${url}" />
+						<search:result-entry entry="${entry}" url="${url}" />
 						<div style="clear:both"></div>
 			  	</search:result-browser>
 			</div>
