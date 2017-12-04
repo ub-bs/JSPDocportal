@@ -27,6 +27,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -158,6 +159,9 @@ public class MCRSearchResultDataBean implements Serializable {
                     fq = fq + " TO *]";
                     solrQuery.addFilterQuery(fq);
                 }
+            }
+            else if(fq.toLowerCase(Locale.getDefault()).contains(" or ")) {
+            	solrQuery.addFilterQuery(fq);
             }
             else{
                 String[] x = fq.split(":", 2);
