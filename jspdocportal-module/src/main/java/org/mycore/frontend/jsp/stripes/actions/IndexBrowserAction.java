@@ -91,17 +91,19 @@ public class IndexBrowserAction extends MCRAbstractStripesAction implements Acti
 			if (select != null) {
 				SolrQuery query = new SolrQuery();
 				query.setQuery(searchfield + ":" + select + "*");
-				query.addFacetField(facetfield);
 				query.addSort(searchfield, ORDER.asc);
-				if (filterQuery != null && filterQuery.length() > 0) {
-					query.addFilterQuery(filterQuery);
-				}
+				
 
 				mcrSearchResult = new MCRSearchResultDataBean();
 				mcrSearchResult.setSolrQuery(query);
 				mcrSearchResult.setRows(Integer.MAX_VALUE);
 				mcrSearchResult.setStart(0);
 				mcrSearchResult.setAction("search");
+				mcrSearchResult.getFacetFields().add(facetfield);
+				if (filterQuery != null && filterQuery.length() > 0) {
+					mcrSearchResult.getFilterQueries().add(filterQuery);
+				}
+				
 				mcrSearchResult.doSearch();
 				mcrSearchResult.setBackURL(getContext().getRequest().getContextPath() 
 						+ "/indexbrowser/"+modus+"?select=" + select);

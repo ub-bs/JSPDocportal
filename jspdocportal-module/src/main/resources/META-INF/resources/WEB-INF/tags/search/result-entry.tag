@@ -11,16 +11,16 @@
 
 <div class="row">
 	<div class="col-sm-9">
-		<search:show-edit-button mcrid="${data.mcrid}" cssClass="btn btn-primary ir-edit-btn pull-right" /> 
+		<search:show-edit-button mcrid="${entry.mcrid}" cssClass="btn btn-primary ir-edit-btn pull-right" /> 
 		<h4>
-			<a href="${url}">${data.label}</a>
+			<a href="${url}">${entry.label}</a>
 		</h4>
 		<table
 			style="border-spacing: 4px; border-collapse: separate; font-size: 100%">
-			<c:forEach var="d" items="${data.data}">
+			<c:forEach var="d" items="${entry.data}">
 				<tr>
 					<th style="min-width: 120px; vertical-align: top"><fmt:message
-							key="Webpage.searchresult.${data.objectType}.label.${d.key}" />:&#160;</th>
+							key="Webpage.searchresult.${entry.objectType}.label.${d.key}" />:&#160;</th>
 					<c:choose>
 						<c:when test="${fn:endsWith(d.key, '_msg')}">
 							<td><fmt:message key="${d.value}" /></td>
@@ -39,14 +39,14 @@
 			</c:forEach>
 		</table>
 	</div>
-	<c:if test="${not empty data.coverURL}">
+	<c:if test="${not empty entry.coverURL}">
 		<div class="col-sm-3 hidden-xs">
 			<div class="img-thumbnail pull-right ir-resultentry-image">
 				<div style="position:relative">
    					<c:if test="${protectDownload}">
    						<img style="opacity:0.001;position:absolute;top:0px;left:0px;width:100%;height:100%;z-index:1" src="${pageContext.request.contextPath}/images/image_terms_of_use.png"/>
 	   				</c:if>
-   					<img style="position:relative;top:0px;left:0px;width:98%;padding:1%;display:block;" src="${pageContext.request.contextPath}/${data.coverURL}" border="0" />
+   					<img style="position:relative;top:0px;left:0px;width:98%;padding:1%;display:block;" src="${pageContext.request.contextPath}/${entry.coverURL}" border="0" />
 				</div>
 			</div>
 		</div>
