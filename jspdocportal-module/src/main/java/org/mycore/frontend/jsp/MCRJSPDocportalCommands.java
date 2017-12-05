@@ -402,7 +402,7 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
      * 
      */
     @MCRCommand(syntax = "drop mycore content", help = "The command deletes all data from mycore directories and database on a lower level.")
-    public static final void formatMyCoReContent() {
+    public static final void dropMyCoReContent() {
         Map<String, String> ifsProperties = MCRConfiguration.instance().getPropertiesMap("MCR.IFS.ContentStore");
         for (String key : ifsProperties.keySet()) {
             if (key.endsWith(".BaseDir")) {
