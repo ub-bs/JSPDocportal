@@ -103,7 +103,10 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
         }
 
         for (String s : getContext().getRequest().getParameterMap().keySet()) {
-            if (s.startsWith("doAcceptTask-task_")) {
+            if(s.equals("doPublishAllTasks")) {
+            	publishAllTasks();
+            }
+        	if (s.startsWith("doAcceptTask-task_")) {
                 String id = s.substring(s.indexOf("_") + 1);
                 acceptTask(id);
             }
@@ -365,6 +368,19 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
         MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(t.getId(),
             MCRActivitiMgr.WF_VAR_DISPLAY_DERIVATELIST, result.toString());
 
+    }
+    
+    private void publishAllTasks() {
+    	MCRUser user = MCRUserManager.getCurrentUser();
+    	String objectType = mcr_base.substring(mcr_base.indexOf("_") + 1);
+    	TaskService ts = MCRActivitiMgr.getWorfklowProcessEngine().getTaskService();
+    	 myTasks = ts.createTaskQuery().taskAssignee(user.getUserID())
+                 .processVariableValueEquals(MCRActivitiMgr.WF_VAR_OBJECT_TYPE, objectType).orderByTaskCreateTime()
+                 .desc().list();
+
+             for (Task t : myTasks) {
+            	 followTransaction(t.getId(), "edit_object.do_save");
+             }
     }
     
     private void importMODSFromGVK(String mcrID){

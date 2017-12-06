@@ -41,14 +41,21 @@
 			
 				<div class="panel panel-info">
   					<div class="panel-heading">
-    					<h3 class="panel-title"><fmt:message key="WF.workspace.info.headline.assumed_tasks" /></h3>
-  					</div>
+  					<button class="btn btn-default btn-sm pull-right" style="margin-top:-6px" type="button" data-toggle="collapse" data-target="#publish-dialog-task_${currentTask.id}"><fmt:message key="WF.workspace.button.publish_all_objects" /></button>
+					<h3 class="panel-title"><fmt:message key="WF.workspace.info.headline.assumed_tasks" /></h3>
+    			</div>
+  					<div id="publish-dialog-task_${currentTask.id}" class="collapse">
+						<div class="panel-body" style="background-color: rgb(252, 248, 227);border: 2px solid rgb(238, 162, 54); padding-left: 4em;">
+							<button name="doPublishAllTasks" value="" class="btn btn-warning btn-sm" type="submit"><i class="fa fa-check-square-o"></i> <fmt:message key="WF.workspace.button.publish_all" /></button>
+							<label style="vertical-align:bottom; margin-left:2em;"><fmt:message key="WF.workspace.label.publish_all" /></label>
+						</div>
+					</div>
   					<div class="panel-body">
     					<c:forEach var="task" items="${actionBean.myTasks}" >
 							<div class="panel panel-default" id="task_${task.id}">
 								<div class="panel-heading clearfix">
 									<stripes:submit class="btn btn-default btn-sm pull-right" name="doReleaseTask-task_${task.id}"><fmt:message key="WF.workspace.submit.task" /></stripes:submit>
-									<span class="btn btn-none btn-sm pull-right"><strong><fmt:message key="WF.workspace.start" /></strong><fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${task.createTime}" /></span>
+									<span class="btn btn-none btn-sm pull-right"><strong><fmt:message key="WF.workspace.start" /></strong> <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${task.createTime}" /></span>
 									<h5 class="panel-title" style="margin-top:0.33em;"><span class="badge" style="margin-right:3em">${task.executionId}</span> <fmt:message key="WF.workspace.task" /> ${task.name}</h5>
 								</div>
 								<c:if test="${not empty actionBean.objectType}">
