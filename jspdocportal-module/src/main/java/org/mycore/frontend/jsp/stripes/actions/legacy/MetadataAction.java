@@ -16,10 +16,10 @@ import net.sourceforge.stripes.action.UrlBinding;
 @UrlBinding("/metadata/{mcrid}")
 public class MetadataAction extends MCRAbstractStripesAction implements ActionBean {
     private String mcrid;
-    
+
     @DefaultHandler
     public Resolution defaultRes() {
-        RedirectResolution res = new RedirectResolution("/resolve/id/"+mcrid);
+        RedirectResolution res = new RedirectResolution("/resolve/id/" + mcrid);
         return res;
     }
 

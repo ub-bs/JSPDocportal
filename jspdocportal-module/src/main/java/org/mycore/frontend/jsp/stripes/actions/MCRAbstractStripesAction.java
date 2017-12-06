@@ -17,9 +17,9 @@ public class MCRAbstractStripesAction implements ActionBean {
     public void setContext(ActionBeanContext context) {
         this.context = context;
     }
-    
+
     @Before(stages = LifecycleStage.BindingAndValidation)
     public void rehydrate() {
-    
+
     }
 }

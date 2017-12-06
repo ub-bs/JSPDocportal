@@ -29,76 +29,76 @@ import org.mycore.common.xsl.MCRParameterCollector;
 import org.xml.sax.SAXException;
 
 public class MCRIncludeEditorTag extends SimpleTagSupport {
-	private static Logger logger = LogManager.getLogger(MCRIncludeEditorTag.class);
+    private static Logger logger = LogManager.getLogger(MCRIncludeEditorTag.class);
 
-	private String editorPath;
-	private String cancelPage;
+    private String editorPath;
+    private String cancelPage;
 
-	public void setEditorPath(String editorPath) {
-		this.editorPath = editorPath;
-	}
+    public void setEditorPath(String editorPath) {
+        this.editorPath = editorPath;
+    }
 
-	public void setCancelPage(String cancelPage) {
-		this.cancelPage = cancelPage;
-	}
+    public void setCancelPage(String cancelPage) {
+        this.cancelPage = cancelPage;
+    }
 
-	public void doTag() throws JspException, IOException {
-		PageContext pageContext = (PageContext) getJspContext();
+    public void doTag() throws JspException, IOException {
+        PageContext pageContext = (PageContext) getJspContext();
 
-		if (editorPath != null && !editorPath.equals("")) {
-			if (!editorPath.startsWith("/")) {
-				editorPath = "/" + editorPath;
-			}
-			pageContext.getSession().setAttribute("editorPath", editorPath);
-		}
-		StringWriter out = new StringWriter();
+        if (editorPath != null && !editorPath.equals("")) {
+            if (!editorPath.startsWith("/")) {
+                editorPath = "/" + editorPath;
+            }
+            pageContext.getSession().setAttribute("editorPath", editorPath);
+        }
+        StringWriter out = new StringWriter();
 
-		try {
-			HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
-			URL editorXML = getClass().getResource(editorPath);
-			MCRContent editorContent = new MCRURLContent(getClass().getResource(editorPath));
-			Document xml = editorContent.asXML();
-			// TODO use MCRStaticXEditorFileServlet.doExpandEditorElements
-			// MCREditorServlet.replaceEditorElements(request, editorXML.toURI().toString(),
-			// xml);
+        try {
+            HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
+            URL editorXML = getClass().getResource(editorPath);
+            MCRContent editorContent = new MCRURLContent(getClass().getResource(editorPath));
+            Document xml = editorContent.asXML();
+            // TODO use MCRStaticXEditorFileServlet.doExpandEditorElements
+            // MCREditorServlet.replaceEditorElements(request, editorXML.toURI().toString(),
+            // xml);
 
-			Source xmlSource = new JDOMSource(xml);
-			Source xsltSource = new StreamSource(getClass().getResourceAsStream("/xsl/editor_standalone.xsl"));
+            Source xmlSource = new JDOMSource(xml);
+            Source xsltSource = new StreamSource(getClass().getResourceAsStream("/xsl/editor_standalone.xsl"));
 
-			// das Factory-Pattern unterstützt verschiedene XSLT-Prozessoren
-			TransformerFactory transFact = TransformerFactory.newInstance();
-			transFact.setURIResolver(MCRURIResolver.instance());
-			Transformer transformer = transFact.newTransformer(xsltSource);
-			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+            // das Factory-Pattern unterstützt verschiedene XSLT-Prozessoren
+            TransformerFactory transFact = TransformerFactory.newInstance();
+            transFact.setURIResolver(MCRURIResolver.instance());
+            Transformer transformer = transFact.newTransformer(xsltSource);
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
 
-			/*
-			 * <!-- editor-common.xsl ============ Parameter aus MyCoRe LayoutServlet
-			 * ============ --> <xsl:param name="WebApplicationBaseURL" /> <xsl:param
-			 * name="ServletsBaseURL" /> <xsl:param name="DefaultLang" /> <xsl:param
-			 * name="CurrentLang" /> <xsl:param name="MCRSessionID" /> <xsl:param
-			 * name="HttpSession" /> <xsl:param name="JSessionID" />
-			 */
-			transformer.clearParameters();
-			MCRParameterCollector paramColl = MCRParameterCollector.getInstanceFromUserSession();
-			paramColl.setParametersTo(transformer);
-			if (cancelPage != null && cancelPage.length() > 0) {
-				paramColl.setParameter("cancelUrl", cancelPage);
-			}
-			paramColl.setParametersTo(transformer);
-			transformer.transform(xmlSource, new StreamResult(out));
+            /*
+             * <!-- editor-common.xsl ============ Parameter aus MyCoRe LayoutServlet
+             * ============ --> <xsl:param name="WebApplicationBaseURL" /> <xsl:param
+             * name="ServletsBaseURL" /> <xsl:param name="DefaultLang" /> <xsl:param
+             * name="CurrentLang" /> <xsl:param name="MCRSessionID" /> <xsl:param
+             * name="HttpSession" /> <xsl:param name="JSessionID" />
+             */
+            transformer.clearParameters();
+            MCRParameterCollector paramColl = MCRParameterCollector.getInstanceFromUserSession();
+            paramColl.setParametersTo(transformer);
+            if (cancelPage != null && cancelPage.length() > 0) {
+                paramColl.setParameter("cancelUrl", cancelPage);
+            }
+            paramColl.setParametersTo(transformer);
+            transformer.transform(xmlSource, new StreamResult(out));
 
-			pageContext.getOut().append(out.toString());
+            pageContext.getOut().append(out.toString());
 
-		} catch (TransformerConfigurationException e) {
-			logger.error("TransformerConfigurationException: " + e, e);
-		} catch (TransformerException e) {
-			logger.error("TransformerException " + e, e);
-		} catch (SAXException e) {
-			logger.error("SAXException " + e, e);
-		} catch (JDOMException e) {
-			logger.error("JDOMException " + e, e);
-		}
-	}
+        } catch (TransformerConfigurationException e) {
+            logger.error("TransformerConfigurationException: " + e, e);
+        } catch (TransformerException e) {
+            logger.error("TransformerException " + e, e);
+        } catch (SAXException e) {
+            logger.error("SAXException " + e, e);
+        } catch (JDOMException e) {
+            logger.error("JDOMException " + e, e);
+        }
+    }
 }

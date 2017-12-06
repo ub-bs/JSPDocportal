@@ -37,9 +37,6 @@ import javax.servlet.jsp.tagext.JspFragment;
 
 import org.mycore.frontend.MCRFrontendUtil;
 
-
-
-
 /**
  * <p>Tag that supports rendering the language selector. See below for two usage examples</p>
  * 
@@ -89,173 +86,173 @@ import org.mycore.frontend.MCRFrontendUtil;
  * @author Robert Stephan
  *
  */
-public class MCROutputLanguageSelectorTag extends MCRAbstractTag
-{
-	private String languages;
-	private String var;
-	
-		
-	public void doTag() throws JspException, IOException {
-	    
-		init();
-		
-		HttpServletRequest request = (HttpServletRequest)((PageContext)getJspContext()).getRequest();
-		StringBuffer url = request.getRequestURL();
-		url.append("?");
-		
-		JspWriter out = getJspContext().getOut();
-		JspContext context = getJspContext();
-		JspFragment body = getJspBody();
-		
-		Enumeration<String>pnames = (Enumeration<String>)request.getParameterNames();
+public class MCROutputLanguageSelectorTag extends MCRAbstractTag {
+    private String languages;
+    private String var;
 
-		while(pnames.hasMoreElements()){
-			String pName = pnames.nextElement();
-			if(pName.equals("lang")){
-				continue;			
-			}
-			
-			url.append(pName).append("=").append(request.getParameter(pName));
+    public void doTag() throws JspException, IOException {
 
-		}
-		
-		boolean first = true;
-		for(String  l : languages.split(",")){
-			LanguageVariables lv = new LanguageVariables();
-			lv.setCurrentLang(lang);
-			lv.setFirst(first);
-			lv.setLang(l);
-			lv.setHref(url.toString() + "&lang=" + l);
-			lv.setLabel(getLabel(l));
-			lv.setTitle(getTitle(l));
-			StringBuilder imageURL = new StringBuilder(MCRFrontendUtil.getBaseURL());
-			lv.setImageURL(imageURL.append("images/lang-").append(l).append(".png").toString());
-			l = l.trim();
-			if(first){
-				first = false;
-			}
-			
-			context.setAttribute(var, lv, PAGE_SCOPE);
-			body.invoke(out);
-		}		
-	}
-			
-	/**
-	 * set the available languages (use comma separated list)
-	 * @param should look like "de, en".
-	 */
-	public void setLanguages(String languages) {
-		this.languages = languages;
-	}
-	
-	public void setVar(String var){
-		this.var = var;
-	}
-	
-	protected String getLabel(String lang){
-		StringBuilder sb = new StringBuilder("Webpage.lang.");
-		sb.append(lang);
-		return retrieveI18N(sb.toString());
-	}
-	
-	protected String getTitle(String lang){
-		StringBuilder sb = new StringBuilder("Webpage.lang.");
-		sb.append(lang).append(".title");
-		
-		return  retrieveI18N(sb.toString());
-	}
-	
-	/**
-	 * 
-	 * A JavaBean to put into the scope when the {@link MCROutputLanguageSelectorTag} is called.
-	 * It contains (hopefully) all information you need to create your language selector.
-	 *
-	 */
-	public static class LanguageVariables{
-		private String lang;
-		private String href;
-		private boolean first;
-		private String currentLang;
-		private String imageURL;
-		private String label;
-		private String title;
-		
-		/**
-		 * The abbreviation of the language.
-		 * @return 'de', 'en' and so on...
-		 */
-		public String getLang() {
-			return lang;
-		}
-		public void setLang(String lang) {
-			this.lang = lang;
-		}
-		/**
-		 * The URL that points to the very same resource the user requested the last time.
-		 * Just in a different language
-		 * @return
-		 */
-		public String getHref() {
-			return href;
-		}
-		public void setHref(String href) {
-			this.href = href;
-		}
-		
-		/**
-		 * Allows to check, if this language item is the first.
-		 * @return
-		 */
-		public boolean isFirst() {
-			return first;
-		}
-		public void setFirst(boolean first) {
-			this.first = first;
-		}
-		
-		/**
-		 * The language the user is using right now. Also just as an abbreviation
-		 * @return 'de', 'en' and so on...
-		 */
-		public String getCurrentLang() {
-			return currentLang;
-		}
-		public void setCurrentLang(String currentLang) {
-			this.currentLang = currentLang;
-		}
-		
-		/**
-		 * A URL that points to an image with a flag, that represents this language
-		 * @return
-		 */
-		public String getImageURL() {
-			return imageURL;
-		}
-		public void setImageURL(String imageURL) {
-			this.imageURL = imageURL;
-		}
-		
-		public String getTitle() {
-			return this.title;
-		
-		}
-		
-		public void setTitle(String title){
-			this.title = title;
-		}
-		
-		public String getLabel(){
-			return this.label;
-		}
-		
-		public void setLabel(String label){
-			this.label = label;
-		}
-		
-	}
-	
-	
+        init();
+
+        HttpServletRequest request = (HttpServletRequest) ((PageContext) getJspContext()).getRequest();
+        StringBuffer url = request.getRequestURL();
+        url.append("?");
+
+        JspWriter out = getJspContext().getOut();
+        JspContext context = getJspContext();
+        JspFragment body = getJspBody();
+
+        Enumeration<String> pnames = (Enumeration<String>) request.getParameterNames();
+
+        while (pnames.hasMoreElements()) {
+            String pName = pnames.nextElement();
+            if (pName.equals("lang")) {
+                continue;
+            }
+
+            url.append(pName).append("=").append(request.getParameter(pName));
+
+        }
+
+        boolean first = true;
+        for (String l : languages.split(",")) {
+            LanguageVariables lv = new LanguageVariables();
+            lv.setCurrentLang(lang);
+            lv.setFirst(first);
+            lv.setLang(l);
+            lv.setHref(url.toString() + "&lang=" + l);
+            lv.setLabel(getLabel(l));
+            lv.setTitle(getTitle(l));
+            StringBuilder imageURL = new StringBuilder(MCRFrontendUtil.getBaseURL());
+            lv.setImageURL(imageURL.append("images/lang-").append(l).append(".png").toString());
+            l = l.trim();
+            if (first) {
+                first = false;
+            }
+
+            context.setAttribute(var, lv, PAGE_SCOPE);
+            body.invoke(out);
+        }
+    }
+
+    /**
+     * set the available languages (use comma separated list)
+     * @param should look like "de, en".
+     */
+    public void setLanguages(String languages) {
+        this.languages = languages;
+    }
+
+    public void setVar(String var) {
+        this.var = var;
+    }
+
+    protected String getLabel(String lang) {
+        StringBuilder sb = new StringBuilder("Webpage.lang.");
+        sb.append(lang);
+        return retrieveI18N(sb.toString());
+    }
+
+    protected String getTitle(String lang) {
+        StringBuilder sb = new StringBuilder("Webpage.lang.");
+        sb.append(lang).append(".title");
+
+        return retrieveI18N(sb.toString());
+    }
+
+    /**
+     * 
+     * A JavaBean to put into the scope when the {@link MCROutputLanguageSelectorTag} is called.
+     * It contains (hopefully) all information you need to create your language selector.
+     *
+     */
+    public static class LanguageVariables {
+        private String lang;
+        private String href;
+        private boolean first;
+        private String currentLang;
+        private String imageURL;
+        private String label;
+        private String title;
+
+        /**
+         * The abbreviation of the language.
+         * @return 'de', 'en' and so on...
+         */
+        public String getLang() {
+            return lang;
+        }
+
+        public void setLang(String lang) {
+            this.lang = lang;
+        }
+
+        /**
+         * The URL that points to the very same resource the user requested the last time.
+         * Just in a different language
+         * @return
+         */
+        public String getHref() {
+            return href;
+        }
+
+        public void setHref(String href) {
+            this.href = href;
+        }
+
+        /**
+         * Allows to check, if this language item is the first.
+         * @return
+         */
+        public boolean isFirst() {
+            return first;
+        }
+
+        public void setFirst(boolean first) {
+            this.first = first;
+        }
+
+        /**
+         * The language the user is using right now. Also just as an abbreviation
+         * @return 'de', 'en' and so on...
+         */
+        public String getCurrentLang() {
+            return currentLang;
+        }
+
+        public void setCurrentLang(String currentLang) {
+            this.currentLang = currentLang;
+        }
+
+        /**
+         * A URL that points to an image with a flag, that represents this language
+         * @return
+         */
+        public String getImageURL() {
+            return imageURL;
+        }
+
+        public void setImageURL(String imageURL) {
+            this.imageURL = imageURL;
+        }
+
+        public String getTitle() {
+            return this.title;
+
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getLabel() {
+            return this.label;
+        }
+
+        public void setLabel(String label) {
+            this.label = label;
+        }
+
+    }
+
 }
-
-
-

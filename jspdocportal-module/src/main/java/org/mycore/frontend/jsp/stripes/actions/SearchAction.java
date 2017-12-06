@@ -86,7 +86,7 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
         if (request.getParameter("_search") != null) {
             result = MCRSearchResultDataBean.retrieveSearchresultFromSession(request, request.getParameter("_search"));
         }
-        if(result!=null){
+        if (result != null) {
             Integer hit = null;
             if (request.getParameter("_hit") != null) {
                 try {
@@ -121,7 +121,8 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
         if (request.getParameter("searchField") != null && request.getParameter("searchValue") != null) {
             result = new MCRSearchResultDataBean();
             result.setAction("search");
-            result.setQuery("+" + request.getParameter("searchField") + ":" + ClientUtils.escapeQueryChars(request.getParameter("searchValue")));
+            result.setQuery("+" + request.getParameter("searchField") + ":"
+                    + ClientUtils.escapeQueryChars(request.getParameter("searchValue")));
             result.setMask("");
         }
         if (request.getParameter("sortField") != null && request.getParameter("sortValue") != null) {
@@ -137,8 +138,8 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
             result = new MCRSearchResultDataBean();
         }
         String referrer = request.getHeader("referer");
-        if(referrer!=null && request.getParameter("_search") == null){
-        	result.setBackURL(referrer);
+        if (referrer != null && request.getParameter("_search") == null) {
+            result.setBackURL(referrer);
         }
         result.setMask(mask);
 
@@ -176,10 +177,10 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
                     MCRChangeData changeData = session.getChangeTracker().findLastChange(queryDoc);
                     if (changeData != null) {
                         if (changeData.getText().contains("target org.mycore.frontend.xeditor.target.MCRInsertTarget")
-                            || changeData.getText()
-                                .contains("target org.mycore.frontend.xeditor.target.MCRRemoveTarget")
-                            || changeData.getText().contains("target remove")
-                            || changeData.getText().contains("org.mycore.frontend.xeditor.target.MCRSwapTarget")) {
+                                || changeData.getText()
+                                        .contains("target org.mycore.frontend.xeditor.target.MCRRemoveTarget")
+                                || changeData.getText().contains("target remove")
+                                || changeData.getText().contains("org.mycore.frontend.xeditor.target.MCRSwapTarget")) {
                             showMask = true;
                             showResults = false;
 
@@ -207,18 +208,18 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
         if (request.getParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM) != null) {
             request.getSession().removeAttribute(MCREditorSessionStore.XEDITOR_SESSION_PARAM + "_" + result.getMask());
             request.getSession().setAttribute(MCREditorSessionStore.XEDITOR_SESSION_PARAM + "_" + result.getMask(),
-                request.getParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM));
+                    request.getParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM));
         }
 
         fwdResolutionForm.getParameters().remove(MCREditorSessionStore.XEDITOR_SESSION_PARAM);
-        if(queryDoc == null){
+        if (queryDoc == null) {
             request.getSession().removeAttribute(MCREditorSessionStore.XEDITOR_SESSION_PARAM + "_" + result.getMask());
         }
         if (request.getSession()
-            .getAttribute(MCREditorSessionStore.XEDITOR_SESSION_PARAM + "_" + result.getMask()) != null) {
+                .getAttribute(MCREditorSessionStore.XEDITOR_SESSION_PARAM + "_" + result.getMask()) != null) {
 
             fwdResolutionForm.addParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM, request.getSession()
-                .getAttribute(MCREditorSessionStore.XEDITOR_SESSION_PARAM + "_" + result.getMask()));
+                    .getAttribute(MCREditorSessionStore.XEDITOR_SESSION_PARAM + "_" + result.getMask()));
         }
 
         if (result.getRows() <= 0) {
@@ -232,8 +233,8 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
             }
         }
         if (result.getSolrQuery() != null && showResults) {
-        	MCRSearchResultDataBean.addSearchresultToSession(request, result);
-        	result.doSearch();
+            MCRSearchResultDataBean.addSearchresultToSession(request, result);
+            result.doSearch();
         }
 
         return fwdResolutionForm;
@@ -243,16 +244,16 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
         StringWriter out = new StringWriter();
 
         MCRContent editorContent = null;
-        try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()){
+        try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()) {
             URL resource = getClass().getResource("/editor/search/" + result.getMask() + ".xed");
-            if(resource!=null){
+            if (resource != null) {
                 editorContent = new MCRURLContent(resource);
             }
             if (editorContent != null) {
 
                 Document doc = editorContent.asXML();
                 if (doc.getRootElement().getName().equals("form")
-                    && doc.getRootElement().getNamespace().equals(NS_XED)) {
+                        && doc.getRootElement().getNamespace().equals(NS_XED)) {
                     editorContent = new MCRJDOMContent(doc);
                     editorContent.setDocType("MyCoReWebPage");
 
@@ -265,8 +266,8 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
                     }
 
                     MCRContent newContent = MCRStaticXEditorFileServlet.doExpandEditorElements(editorContent, request,
-                        (HttpServletResponse) getContext().getResponse(), sessionID,
-                        MCRFrontendUtil.getBaseURL() + "search");
+                            (HttpServletResponse) getContext().getResponse(), sessionID,
+                            MCRFrontendUtil.getBaseURL() + "search");
                     String content = null;
                     if (newContent != null) {
                         content = newContent.asString().replaceAll("<\\?xml.*?\\?>", "");
@@ -278,7 +279,7 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
                     // replace "<i class='fa fa-plus' /> with "<i class='fa fa-plus'></i>"
                     Matcher m = REGEX_XML_EMPTY_ELEMENTS.matcher(content);
                     content = m.replaceAll("<$1 $2></$1>");
-                    LOGGER.debug("Searchmask-Editor-XML\n"+content);
+                    LOGGER.debug("Searchmask-Editor-XML\n" + content);
 
                     out.append(content);
 

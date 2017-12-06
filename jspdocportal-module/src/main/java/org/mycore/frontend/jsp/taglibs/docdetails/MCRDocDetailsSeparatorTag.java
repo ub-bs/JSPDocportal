@@ -28,7 +28,6 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-
 /**
  * Shows a seperator, which can be some space or a line
  * A 2nd seperator will be ignored, if there is no other content 
@@ -38,44 +37,42 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
  *
  */
 public class MCRDocDetailsSeparatorTag extends SimpleTagSupport {
-	private boolean showLine;
+    private boolean showLine;
 
-	/**
-	 * if set to true a line will be displayed
-	 * @param showLine
-	 */
-	public void setShowLine(boolean showLine) {
-		this.showLine = showLine;
-	}
+    /**
+     * if set to true a line will be displayed
+     * @param showLine
+     */
+    public void setShowLine(boolean showLine) {
+        this.showLine = showLine;
+    }
 
-	public void doTag() throws JspException, IOException{
-		MCRDocDetailsTag docdetails = (MCRDocDetailsTag) findAncestorWithClass(this, MCRDocDetailsTag.class);
-		if(docdetails==null){
-			throw new JspException("This tag must be nested in tag called 'docdetails' of the same tag library");
-		}
-		if(docdetails.getPreviousOutput()>0){
-			JspWriter out = getJspContext().getOut();
-			if(docdetails.getOutputStyle().equals("table")){
-				out.print("<tr><td colspan=\"3\" class=\""+docdetails.getStylePrimaryName()+"-separator\">");
-				if(showLine){
-					out.print("<hr />");
-				}
-				else{
-					out.print("&#160;");
-				}
-				out.println("</td></tr>");
-			}
-			if(docdetails.getOutputStyle().equals("headlines")){
-				out.print("<div class=\""+docdetails.getStylePrimaryName()+"-separator\">");
-				if(showLine){
-					out.print("<hr />");
-				}
-				else{
-					out.print("&#160;");
-				}
-				out.println("</div>");
-			}
-		}
-		docdetails.setPreviousOutput(0);		
-	}
+    public void doTag() throws JspException, IOException {
+        MCRDocDetailsTag docdetails = (MCRDocDetailsTag) findAncestorWithClass(this, MCRDocDetailsTag.class);
+        if (docdetails == null) {
+            throw new JspException("This tag must be nested in tag called 'docdetails' of the same tag library");
+        }
+        if (docdetails.getPreviousOutput() > 0) {
+            JspWriter out = getJspContext().getOut();
+            if (docdetails.getOutputStyle().equals("table")) {
+                out.print("<tr><td colspan=\"3\" class=\"" + docdetails.getStylePrimaryName() + "-separator\">");
+                if (showLine) {
+                    out.print("<hr />");
+                } else {
+                    out.print("&#160;");
+                }
+                out.println("</td></tr>");
+            }
+            if (docdetails.getOutputStyle().equals("headlines")) {
+                out.print("<div class=\"" + docdetails.getStylePrimaryName() + "-separator\">");
+                if (showLine) {
+                    out.print("<hr />");
+                } else {
+                    out.print("&#160;");
+                }
+                out.println("</div>");
+            }
+        }
+        docdetails.setPreviousOutput(0);
+    }
 }

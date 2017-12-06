@@ -57,7 +57,7 @@ public class BrowseAction extends MCRAbstractStripesAction implements ActionBean
         getContext().getResponse().setCharacterEncoding("UTF-8");
         getContext().getResponse().setContentType("text/xhtml;charset=utf-8");
         HttpServletRequest request = getContext().getRequest();
-        if (request.getParameter("_search") != null && request.getParameter("_search").length()>0) {
+        if (request.getParameter("_search") != null && request.getParameter("_search").length() > 0) {
             //check against null if session does not exist
             result = MCRSearchResultDataBean.retrieveSearchresultFromSession(request, request.getParameter("_search"));
         }
@@ -73,14 +73,14 @@ public class BrowseAction extends MCRAbstractStripesAction implements ActionBean
             result = new MCRSearchResultDataBean();
             result.setAction("browse");
             result.setQuery("+" + request.getParameter("searchField") + ":"
-                + ClientUtils.escapeQueryChars(request.getParameter("searchValue")));
+                    + ClientUtils.escapeQueryChars(request.getParameter("searchValue")));
             result.setMask("");
         }
         if (request.getParameter("sortField") != null && request.getParameter("sortValue") != null) {
             result.setSort(request.getParameter("sortField") + " " + request.getParameter("sortValue"));
             result.setStart(0);
         }
-     
+
         if (result == null) {
             result = new MCRSearchResultDataBean();
             result.setQuery(MCRConfiguration.instance().getString("MCR.Browse." + mask + ".Query", "*:*"));
@@ -90,8 +90,7 @@ public class BrowseAction extends MCRAbstractStripesAction implements ActionBean
         if (request.getParameter("_sort") != null) {
             result.setSort(request.getParameter("_sort"));
             result.setStart(0);
-        }
-        else{
+        } else {
             result.setSort("modified desc");
         }
 
@@ -101,28 +100,28 @@ public class BrowseAction extends MCRAbstractStripesAction implements ActionBean
             result.setAction("browse/" + mask);
             result.getFacetFields().clear();
             for (String ff : MCRConfiguration.instance().getString("MCR.Browse." + mask + ".FacetFields", "")
-                .split(",")) {
+                    .split(",")) {
                 if (ff.trim().length() > 0) {
                     result.getFacetFields().add(ff.trim());
                 }
             }
         }
-     
-        if(result!=null){
+
+        if (result != null) {
             if (request.getParameter("_add-filter") != null) {
                 for (String s : request.getParameterValues("_add-filter")) {
-                    if(!result.getFilterQueries().contains(s)) {
-                    	result.getFilterQueries().add(s);
+                    if (!result.getFilterQueries().contains(s)) {
+                        result.getFilterQueries().add(s);
                     }
                 }
             }
-    
+
             if (request.getParameter("_remove-filter") != null) {
                 for (String s : request.getParameterValues("_remove-filter")) {
                     result.getFilterQueries().remove(s);
                 }
             }
-            
+
             if (request.getParameter("_start") != null) {
                 try {
                     result.setStart(Integer.parseInt(request.getParameter("_start")));
@@ -173,7 +172,7 @@ public class BrowseAction extends MCRAbstractStripesAction implements ActionBean
         }
         if (facetKey.contains("_class.facet")) {
             MCRCategory categ = MCRCategoryDAOFactory.getInstance().getCategory(MCRCategoryID.fromString(facetValue),
-                0);
+                    0);
             if (categ != null) {
                 result = categ.getCurrentLabel().get().getText();
             }

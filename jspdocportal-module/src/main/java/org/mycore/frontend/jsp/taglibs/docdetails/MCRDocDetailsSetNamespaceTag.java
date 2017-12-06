@@ -45,88 +45,85 @@ import org.apache.taglibs.standard.tag.common.xml.JSTLXPathNamespaceContext;
  */
 @Deprecated
 public class MCRDocDetailsSetNamespaceTag extends SimpleTagSupport {
-	private static Logger LOGGER = LogManager.getLogger(MCRDocDetailsSetNamespaceTag.class);
-	private String prefix="";
-	private String uri="";
+    private static Logger LOGGER = LogManager.getLogger(MCRDocDetailsSetNamespaceTag.class);
+    private String prefix = "";
+    private String uri = "";
 
-	/**
-	 * the prefix
-	 * @param prefix
-	 */
-	public void setPrefix(String prefix) {
-		this.prefix = prefix;
-	}
+    /**
+     * the prefix
+     * @param prefix
+     */
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
 
-	
-	/**
-	 * the uri 
-	 * @param uri
-	 */
-	public void setUri(String uri){
-		this.uri = uri;
-	}
-	
-	/* Sun Glassfish implementaton  */
-	@SuppressWarnings("unchecked")
-	public void doTag() throws JspException, IOException {
-		try
-		{
-			Class c_XPathUtil = Class.forName("org.apache.taglibs.standard.tag.common.xml.XPathUtil");
-			// XPathUtil
-			// private static JSTLXPathNamespaceContext jstlXPathNamespaceContext = null;
-			Field field = c_XPathUtil.getDeclaredField("jstlXPathNamespaceContext");
-			field.setAccessible( true );
-			JSTLXPathNamespaceContext nsContext = (JSTLXPathNamespaceContext)field.get(null);
-			if(nsContext == null){
-				nsContext = new JSTLXPathNamespaceContext();
-				field.set(null,  nsContext);
-			}
-			
-			// JSTLXPathNamespaceContext
-			// protected void addNamespace(String prefix, String uri ) {
-			Class c_JSTLXPathNamespaceContext = Class.forName("org.apache.taglibs.standard.tag.common.xml.JSTLXPathNamespaceContext");
-			Method m_addNamespace=  c_JSTLXPathNamespaceContext.getDeclaredMethod("addNamespace", String.class, String.class);
-			m_addNamespace.setAccessible(true);
-			m_addNamespace.invoke(nsContext, prefix, uri);
-		}
-		catch( Exception e )
-		{
-			LOGGER.error("Something went wrong adding the namespace", e);
-		}
-	}
+    /**
+     * the uri 
+     * @param uri
+     */
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
 
-	
-	/* Apache Tomcat Taglib implementation  */
-	/*
-	@SuppressWarnings("unchecked")
-	public void doTag() throws JspException, IOException {
-		try
-		{
-			Class c_XPathUtil = Class.forName("org.apache.taglibs.standard.tag.common.xml.XPathUtil");
-			// XPathUtil
-			// private static JSTLXPathNamespaceContext jstlXPathNamespaceContext = null;
-			Field field = c_XPathUtil.getDeclaredField("jstlPrefixResolver");
-			field.setAccessible( true );
-			JSTLPrefixResolver prefixResolver = (JSTLPrefixResolver)field.get(null);
-			if(prefixResolver == null){
-				prefixResolver = new JSTLPrefixResolver();
-				field.set(null, prefixResolver);
-			}
-			
-			// JSTLXPathNamespaceContext
-			// protected void addNamespace(String prefix, String uri ) {
-			Class c_JSTLPrefixResolver = Class.forName("org.apache.taglibs.standard.tag.common.xml.JSTLPrefixResolver");
-			Method m_addNamespace=  c_JSTLPrefixResolver.getDeclaredMethod("addNamespace", String.class, String.class);
-			m_addNamespace.setAccessible(true);
-			m_addNamespace.invoke(prefixResolver, prefix, uri);
-		}
-		catch( Exception e )
-		{
-			Logger.getLogger(MCRDocDetailsSetNamespaceTag.class).error("Something went wrong adding the namespace", e);
-		}
-	}
-	*/
+    /* Sun Glassfish implementaton  */
+    @SuppressWarnings("unchecked")
+    public void doTag() throws JspException, IOException {
+        try {
+            @SuppressWarnings("rawtypes")
+            Class c_XPathUtil = Class.forName("org.apache.taglibs.standard.tag.common.xml.XPathUtil");
+            // XPathUtil
+            // private static JSTLXPathNamespaceContext jstlXPathNamespaceContext = null;
+            Field field = c_XPathUtil.getDeclaredField("jstlXPathNamespaceContext");
+            field.setAccessible(true);
+            JSTLXPathNamespaceContext nsContext = (JSTLXPathNamespaceContext) field.get(null);
+            if (nsContext == null) {
+                nsContext = new JSTLXPathNamespaceContext();
+                field.set(null, nsContext);
+            }
 
-	
-	
+            // JSTLXPathNamespaceContext
+            // protected void addNamespace(String prefix, String uri ) {
+            @SuppressWarnings("rawtypes")
+            Class c_JSTLXPathNamespaceContext = Class
+                    .forName("org.apache.taglibs.standard.tag.common.xml.JSTLXPathNamespaceContext");
+            Method m_addNamespace = c_JSTLXPathNamespaceContext.getDeclaredMethod("addNamespace", String.class,
+                    String.class);
+            m_addNamespace.setAccessible(true);
+            m_addNamespace.invoke(nsContext, prefix, uri);
+        } catch (Exception e) {
+            LOGGER.error("Something went wrong adding the namespace", e);
+        }
+    }
+
+    /* Apache Tomcat Taglib implementation  */
+    /*
+    @SuppressWarnings("unchecked")
+    public void doTag() throws JspException, IOException {
+    	try
+    	{
+    		Class c_XPathUtil = Class.forName("org.apache.taglibs.standard.tag.common.xml.XPathUtil");
+    		// XPathUtil
+    		// private static JSTLXPathNamespaceContext jstlXPathNamespaceContext = null;
+    		Field field = c_XPathUtil.getDeclaredField("jstlPrefixResolver");
+    		field.setAccessible( true );
+    		JSTLPrefixResolver prefixResolver = (JSTLPrefixResolver)field.get(null);
+    		if(prefixResolver == null){
+    			prefixResolver = new JSTLPrefixResolver();
+    			field.set(null, prefixResolver);
+    		}
+    		
+    		// JSTLXPathNamespaceContext
+    		// protected void addNamespace(String prefix, String uri ) {
+    		Class c_JSTLPrefixResolver = Class.forName("org.apache.taglibs.standard.tag.common.xml.JSTLPrefixResolver");
+    		Method m_addNamespace=  c_JSTLPrefixResolver.getDeclaredMethod("addNamespace", String.class, String.class);
+    		m_addNamespace.setAccessible(true);
+    		m_addNamespace.invoke(prefixResolver, prefix, uri);
+    	}
+    	catch( Exception e )
+    	{
+    		Logger.getLogger(MCRDocDetailsSetNamespaceTag.class).error("Something went wrong adding the namespace", e);
+    	}
+    }
+    */
+
 }

@@ -90,7 +90,7 @@ public class MCRIncludeXEditorTag extends SimpleTagSupport {
                     JspWriter out = pageContext.getOut();
                     Document doc = editorContent.asXML();
                     if (doc.getRootElement().getName().equals("form")
-                        && doc.getRootElement().getNamespace().equals(NS_XED)) {
+                            && doc.getRootElement().getNamespace().equals(NS_XED)) {
                         if (cancelURL != null && cancelURL.length() > 0) {
                             // setze xed:cancel
                             Element elCancel = new Element("cancel", NS_XED).setAttribute("url", cancelURL);
@@ -119,7 +119,7 @@ public class MCRIncludeXEditorTag extends SimpleTagSupport {
                         }
 
                         MCRContent newContent = MCRStaticXEditorFileServlet.doExpandEditorElements(editorContent,
-                            request, (HttpServletResponse) pageContext.getResponse(), sessionID, pageURL);
+                                request, (HttpServletResponse) pageContext.getResponse(), sessionID, pageURL);
                         String content = null;
                         if (newContent != null) {
                             content = newContent.asString().replaceAll("<\\?xml.*?\\?>", "");

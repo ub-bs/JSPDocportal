@@ -108,14 +108,14 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 
     private void showEditorButton(JspWriter out) throws IOException {
         String baseurl = getJspContext().getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE)
-            .toString();
+                .toString();
         out.write("\n<div class=\"pull-right\">");
         out.write("\n    <form id=\"editWebcontent_" + id + "\" method=\"post\" action=\"" + baseurl
-            + "saveWebcontent.action\">");
+                + "saveWebcontent.action\">");
         out.write("\n        <input type=\"hidden\" name=\"file_" + id + "\" value=\"" + file + "\" />");
         out.write("\n        <input type=\"submit\"  name=\"doOpen_" + id
-            + "\" value=\"&#9997;\" style=\"font-size:200%;padding:0px 6px;position:relative;z-index:100;\" class=\"btn btn-success\" title=\""
-            + MCRTranslation.translate("Webpage.editwebcontent") + "\" />");
+                + "\" value=\"&#9997;\" style=\"font-size:200%;padding:0px 6px;position:relative;z-index:100;\" class=\"btn btn-success\" title=\""
+                + MCRTranslation.translate("Webpage.editwebcontent") + "\" />");
         out.write("\n    </form>");
         out.write("\n</div>");
     }
@@ -147,7 +147,7 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
             out.println("<p class=\"bg-warning panel-body\">");
             String dataDir = new File(MCRConfiguration.instance().getString("MCR.datadir")).getPath();
             out.println(
-                MCRTranslation.translate("Webpage.editwebcontent.nofile", path.replace(dataDir, "%MCR.datadir% ")));
+                    MCRTranslation.translate("Webpage.editwebcontent.nofile", path.replace(dataDir, "%MCR.datadir% ")));
             out.println("</p>");
         }
     }

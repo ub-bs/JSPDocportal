@@ -45,74 +45,75 @@ import org.w3c.dom.Node;
  *
  */
 public class MCRDocDetailsClassificationItemTag extends SimpleTagSupport {
-	private static MCRCategoryDAO categoryDAO = MCRCategoryDAOFactory.getInstance();
-	private static Logger LOGGER = LogManager.getLogger(MCRDocDetailsClassificationItemTag.class);
+    private static MCRCategoryDAO categoryDAO = MCRCategoryDAOFactory.getInstance();
+    private static Logger LOGGER = LogManager.getLogger(MCRDocDetailsClassificationItemTag.class);
 
-	private String xp;	
-	private String css="";
+    private String xp;
+    private String css = "";
 
-	public void doTag() throws JspException, IOException {
-		MCRDocDetailsRowTag docdetailsRow = (MCRDocDetailsRowTag) findAncestorWithClass(this, MCRDocDetailsRowTag.class);
-		if(docdetailsRow==null){
-			throw new JspException("This tag must be nested in tag called 'row' of the same tag library");
-		}
-		MCRDocDetailsTag docdetails = (MCRDocDetailsTag) findAncestorWithClass(this, MCRDocDetailsTag.class);
-		Element result = null;
-		try {
-			XPathUtil xu = new XPathUtil((PageContext)getJspContext());
-			@SuppressWarnings("unchecked")
-			List nodes = xu.selectNodes(docdetailsRow.getContext(), xp);
-				
-	    	if(nodes.size()>0){
-	    		Node n = (Node) nodes.get(0);
-	    		if(n instanceof Element){
-	    			result = (Element)n;
-	    			if(result.hasAttribute("classid") && result.hasAttribute("categid")){
-	    				String lang = docdetails.getLang();
-	    				String classid = result.getAttribute("classid");
-	    				String categid = result.getAttribute("categid");
-	    				String text="";
-	    				try{
-	    					text = categoryDAO.getCategory(new MCRCategoryID(classid, categid), 0).getLabel(lang).get().getText();
-	    				}
-	    				catch(NullPointerException npe){
-	    					text = "No classification entry found for id: "+categid+" in classfication: "+classid+"!";
-	    				}
-	    				
-	    				if(css!=null && !"".equals(css)){
-	    					getJspContext().getOut().write("<td class=\""+css+"\">");
-		    	    	}
-		    	    	else{
-		    	    		getJspContext().getOut().write("<td class=\""+docdetails.getStylePrimaryName()+"-value\">");
-		    	    	}
-	    				getJspContext().getOut().write(text);
-	    				getJspContext().getOut().write("</td>");	
-	    				
-	    				
-	    				return;
-	    			}
-	    		}
-	    	}
-	    	//error
-	    	throw new JspException("The XPath expression must match a classification element");
-		}catch(Exception e){
-			LOGGER.error("Error processing docdetails:classificationitem tag", e);
-		}
-	}
+    public void doTag() throws JspException, IOException {
+        MCRDocDetailsRowTag docdetailsRow = (MCRDocDetailsRowTag) findAncestorWithClass(this,
+                MCRDocDetailsRowTag.class);
+        if (docdetailsRow == null) {
+            throw new JspException("This tag must be nested in tag called 'row' of the same tag library");
+        }
+        MCRDocDetailsTag docdetails = (MCRDocDetailsTag) findAncestorWithClass(this, MCRDocDetailsTag.class);
+        Element result = null;
+        try {
+            XPathUtil xu = new XPathUtil((PageContext) getJspContext());
+            @SuppressWarnings("rawtypes")
+            List nodes = xu.selectNodes(docdetailsRow.getContext(), xp);
 
-	/**
-	 * the XPath expression to retrieve the object
-	 * @param xpath
-	 */
-	public void setSelect(String xpath) {
-		this.xp = xpath;
-	}
-	
-	/**
-	 * the CSS class name, which shall be used
-	 * @param style
-	 */
-	public void setStyleName(String style){
-		this.css=style;
-	}
+            if (nodes.size() > 0) {
+                Node n = (Node) nodes.get(0);
+                if (n instanceof Element) {
+                    result = (Element) n;
+                    if (result.hasAttribute("classid") && result.hasAttribute("categid")) {
+                        String lang = docdetails.getLang();
+                        String classid = result.getAttribute("classid");
+                        String categid = result.getAttribute("categid");
+                        String text = "";
+                        try {
+                            text = categoryDAO.getCategory(new MCRCategoryID(classid, categid), 0).getLabel(lang).get()
+                                    .getText();
+                        } catch (NullPointerException npe) {
+                            text = "No classification entry found for id: " + categid + " in classfication: " + classid
+                                    + "!";
+                        }
+
+                        if (css != null && !"".equals(css)) {
+                            getJspContext().getOut().write("<td class=\"" + css + "\">");
+                        } else {
+                            getJspContext().getOut()
+                                    .write("<td class=\"" + docdetails.getStylePrimaryName() + "-value\">");
+                        }
+                        getJspContext().getOut().write(text);
+                        getJspContext().getOut().write("</td>");
+
+                        return;
+                    }
+                }
+            }
+            //error
+            throw new JspException("The XPath expression must match a classification element");
+        } catch (Exception e) {
+            LOGGER.error("Error processing docdetails:classificationitem tag", e);
+        }
+    }
+
+    /**
+     * the XPath expression to retrieve the object
+     * @param xpath
+     */
+    public void setSelect(String xpath) {
+        this.xp = xpath;
+    }
+
+    /**
+     * the CSS class name, which shall be used
+     * @param style
+     */
+    public void setStyleName(String style) {
+        this.css = style;
+    }
 }

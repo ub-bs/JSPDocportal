@@ -102,7 +102,7 @@ public class MCRRetrieveObjectTag extends SimpleTagSupport {
      * @param var -
      *            the name of the variable
      */
-    
+
     public void setVarJDOM(String var) {
         this.varJDOM = var;
     }
@@ -120,7 +120,7 @@ public class MCRRetrieveObjectTag extends SimpleTagSupport {
                 doc = MCRMetadataManager.retrieve(mcrObjID).createXML();
             }
             if (varDOM != null) {
-            	DOMOutputter output = new DOMOutputter();
+                DOMOutputter output = new DOMOutputter();
                 org.w3c.dom.Document dom = output.output(doc);
                 getJspContext().setAttribute(varDOM, dom, PageContext.REQUEST_SCOPE);
             }

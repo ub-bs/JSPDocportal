@@ -48,116 +48,114 @@ import org.w3c.dom.Node;
  *
  */
 public class MCRDocDetailsDerivateContentTag extends SimpleTagSupport {
-	private String xp;
-	private String width="500px";
-	private String encoding="UTF-8";
+    private String xp;
+    private String width = "500px";
+    private String encoding = "UTF-8";
 
-	
-	public void doTag() throws JspException, IOException {
-		MCRDocDetailsTag docdetails = (MCRDocDetailsTag) findAncestorWithClass(this, MCRDocDetailsTag.class);
-		if(docdetails==null){
-			throw new JspException("This tag must be nested in tag called 'docdetails' of the same tag library");
-		}
-		MCRDocDetailsRowTag docdetailsRow= (MCRDocDetailsRowTag) findAncestorWithClass(this, MCRDocDetailsRowTag.class);
-		if(docdetailsRow==null){
-			throw new JspException("This tag must be nested in tag called 'row' of the same tag library");
-		}
-		try (MCRHibernateTransactionWrapper htw = new MCRHibernateTransactionWrapper()){
-			JspWriter out = getJspContext().getOut();
-			
-			XPathUtil xu = new XPathUtil((PageContext)getJspContext());
-			@SuppressWarnings("rawtypes")
-			List nodes = xu.selectNodes(docdetailsRow.getContext(), xp);
-			if(nodes.size()>0){
-	   		  	Object o =  getJspContext().getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE);
-	   		  	if(o==null){
-	   		  		o = new String("");
-	   		  	}
-	   		  		
-	    		Node n = (Node)nodes.get(0);
-	    		Element eN = (Element)n;
-	    		String derID = eN.getAttributeNS(MCRConstants.XLINK_NAMESPACE.getURI(), "href");
-	    		String title = eN.getAttributeNS(MCRConstants.XLINK_NAMESPACE.getURI(), "label");
-	    		
-	    		out.write("<td class=\""+docdetails.getStylePrimaryName()+"-value\">");
-	    		
-	    		StringBuffer sbUrl = new StringBuffer(o.toString());
-	    		sbUrl.append("file/");
-	    		Document doc = null;
-	    		Node nd = docdetails.getContext();
-	    		if(nd instanceof Document){
-	    			doc = (Document)nd;
-	    		}
-	    		else{
-	    			doc = nd.getOwnerDocument();
-	    		}
-	    		sbUrl.append(doc.getDocumentElement().getAttribute("ID"));
-	    		sbUrl.append("/");
-	    		sbUrl.append(derID);
-	    		sbUrl.append("/");
+    public void doTag() throws JspException, IOException {
+        MCRDocDetailsTag docdetails = (MCRDocDetailsTag) findAncestorWithClass(this, MCRDocDetailsTag.class);
+        if (docdetails == null) {
+            throw new JspException("This tag must be nested in tag called 'docdetails' of the same tag library");
+        }
+        MCRDocDetailsRowTag docdetailsRow = (MCRDocDetailsRowTag) findAncestorWithClass(this,
+                MCRDocDetailsRowTag.class);
+        if (docdetailsRow == null) {
+            throw new JspException("This tag must be nested in tag called 'row' of the same tag library");
+        }
+        try (MCRHibernateTransactionWrapper htw = new MCRHibernateTransactionWrapper()) {
+            JspWriter out = getJspContext().getOut();
 
-				MCRDirectory root = MCRDirectory.getRootDirectory(derID);
-				if (root != null) {
-					MCRFilesystemNode[] myfiles = root.getChildren();
-					boolean accessAllowed = MCRAccessManager.checkPermission(derID, "read");
-					for (int j = 0; j < myfiles.length; j++) {
-						MCRFile theFile = (MCRFile) myfiles[j];
-						if (accessAllowed) {
-							String fURL = sbUrl.toString() + theFile.getName();
-							String contentType = theFile.getContentTypeID();
-							if (contentType.contains("html") || contentType.contains("xml")) {
-								String content = retrieveHTMLBody(theFile.getContentAsString(encoding));
-								out.write(content);
-							}
-							if (contentType.contains("jpeg")) {
-								out.write("<a href=\"" + fURL + "\" target=\"_blank\" title=\""
-										+ docdetails.getMessages().getString("OMD.showLargerImage") + "\"  alt=\""
-										+ docdetails.getMessages().getString("OMD.showLargerImage") + "\">");
-								out.write("<img src=\"" + fURL + "\" width=\"" + width + "\" alt=\"" + title
-										+ "\" /></a>");
-							}
-						}
-					}
-				}
-				out.write("</td>");
-			} // error
-		} catch (Exception e) {
-			throw new JspException("Error executing docdetails:derivatecontent tag", e);
-		}
-	}
+            XPathUtil xu = new XPathUtil((PageContext) getJspContext());
+            @SuppressWarnings("rawtypes")
+            List nodes = xu.selectNodes(docdetailsRow.getContext(), xp);
+            if (nodes.size() > 0) {
+                Object o = getJspContext().getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE);
+                if (o == null) {
+                    o = new String("");
+                }
 
-	/**
-	 * the XPath expression to the element
-	 * @param xpath
-	 */
-	public void setSelect(String xpath) {
-		this.xp = xpath;
-	}
+                Node n = (Node) nodes.get(0);
+                Element eN = (Element) n;
+                String derID = eN.getAttributeNS(MCRConstants.XLINK_NAMESPACE.getURI(), "href");
+                String title = eN.getAttributeNS(MCRConstants.XLINK_NAMESPACE.getURI(), "label");
 
-	/**
-	 * the width which should be used to display the content 
-	 * @param width
-	 */
-	public void setWidth(String width) {
-		this.width = width;
-	}
+                out.write("<td class=\"" + docdetails.getStylePrimaryName() + "-value\">");
 
-	/**
-	 * the encoding of the given file
-	 * @param encoding
-	 */
-	public void setEncoding(String encoding) {
-		this.encoding = encoding;
-	}
-	
-	private String retrieveHTMLBody(String content){
-		if(content.contains("<body>") && content.contains("</body>")){
-			int start = content.indexOf("<body>")+6;
-			int ende = content.lastIndexOf("</body>");
-			return content.substring(start, ende);
-		}
-		else{
-			return content;
-		}
-	}
+                StringBuffer sbUrl = new StringBuffer(o.toString());
+                sbUrl.append("file/");
+                Document doc = null;
+                Node nd = docdetails.getContext();
+                if (nd instanceof Document) {
+                    doc = (Document) nd;
+                } else {
+                    doc = nd.getOwnerDocument();
+                }
+                sbUrl.append(doc.getDocumentElement().getAttribute("ID"));
+                sbUrl.append("/");
+                sbUrl.append(derID);
+                sbUrl.append("/");
+
+                MCRDirectory root = MCRDirectory.getRootDirectory(derID);
+                if (root != null) {
+                    MCRFilesystemNode[] myfiles = root.getChildren();
+                    boolean accessAllowed = MCRAccessManager.checkPermission(derID, "read");
+                    for (int j = 0; j < myfiles.length; j++) {
+                        MCRFile theFile = (MCRFile) myfiles[j];
+                        if (accessAllowed) {
+                            String fURL = sbUrl.toString() + theFile.getName();
+                            String contentType = theFile.getContentTypeID();
+                            if (contentType.contains("html") || contentType.contains("xml")) {
+                                String content = retrieveHTMLBody(theFile.getContentAsString(encoding));
+                                out.write(content);
+                            }
+                            if (contentType.contains("jpeg")) {
+                                out.write("<a href=\"" + fURL + "\" target=\"_blank\" title=\""
+                                        + docdetails.getMessages().getString("OMD.showLargerImage") + "\"  alt=\""
+                                        + docdetails.getMessages().getString("OMD.showLargerImage") + "\">");
+                                out.write("<img src=\"" + fURL + "\" width=\"" + width + "\" alt=\"" + title
+                                        + "\" /></a>");
+                            }
+                        }
+                    }
+                }
+                out.write("</td>");
+            } // error
+        } catch (Exception e) {
+            throw new JspException("Error executing docdetails:derivatecontent tag", e);
+        }
+    }
+
+    /**
+     * the XPath expression to the element
+     * @param xpath
+     */
+    public void setSelect(String xpath) {
+        this.xp = xpath;
+    }
+
+    /**
+     * the width which should be used to display the content 
+     * @param width
+     */
+    public void setWidth(String width) {
+        this.width = width;
+    }
+
+    /**
+     * the encoding of the given file
+     * @param encoding
+     */
+    public void setEncoding(String encoding) {
+        this.encoding = encoding;
+    }
+
+    private String retrieveHTMLBody(String content) {
+        if (content.contains("<body>") && content.contains("</body>")) {
+            int start = content.indexOf("<body>") + 6;
+            int ende = content.lastIndexOf("</body>");
+            return content.substring(start, ende);
+        } else {
+            return content;
+        }
+    }
 }

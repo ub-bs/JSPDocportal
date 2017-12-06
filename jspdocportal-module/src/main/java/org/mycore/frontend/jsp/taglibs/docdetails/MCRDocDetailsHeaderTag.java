@@ -34,24 +34,23 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
  *
  */
 public class MCRDocDetailsHeaderTag extends SimpleTagSupport {
-	
-	@Override
-	public void doTag() throws JspException, IOException {
-		JspWriter out = getJspContext().getOut();
-		MCRDocDetailsTag docdetails = (MCRDocDetailsTag) findAncestorWithClass(this,	MCRDocDetailsTag.class);
-		if (docdetails == null) {
-			throw new JspException(
-					"This tag must be nested in tag called 'docdetails' of the same tag library");
-		}
-		if(docdetails.getOutputStyle().equals("table")){
-			out.write("<tr><th class=\""+docdetails.getStylePrimaryName()+"-header\" colspan=\"4\">\n");
-			getJspBody().invoke(out);
-			out.write("</th></tr>");
-		}
-		if(docdetails.getOutputStyle().equals("headlines")){
-			out.write("<div class=\""+docdetails.getStylePrimaryName()+"-header\">\n");
-			getJspBody().invoke(out);
-			out.write("</div>");
-		}
-	}
+
+    @Override
+    public void doTag() throws JspException, IOException {
+        JspWriter out = getJspContext().getOut();
+        MCRDocDetailsTag docdetails = (MCRDocDetailsTag) findAncestorWithClass(this, MCRDocDetailsTag.class);
+        if (docdetails == null) {
+            throw new JspException("This tag must be nested in tag called 'docdetails' of the same tag library");
+        }
+        if (docdetails.getOutputStyle().equals("table")) {
+            out.write("<tr><th class=\"" + docdetails.getStylePrimaryName() + "-header\" colspan=\"4\">\n");
+            getJspBody().invoke(out);
+            out.write("</th></tr>");
+        }
+        if (docdetails.getOutputStyle().equals("headlines")) {
+            out.write("<div class=\"" + docdetails.getStylePrimaryName() + "-header\">\n");
+            getJspBody().invoke(out);
+            out.write("</div>");
+        }
+    }
 }

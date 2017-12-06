@@ -12,30 +12,29 @@ import net.sourceforge.stripes.action.UrlBinding;
 
 @UrlBinding("/classbrowser/{modus}")
 public class ClassBrowserAction extends MCRAbstractStripesAction implements ActionBean {
-	
-	private String modus = "";
-	
-	public ClassBrowserAction() {
 
-	}
+    private String modus = "";
 
-	@DefaultHandler
-	public Resolution defaultRes() {
-		MCRConfiguration config = MCRConfiguration.instance();
-		try{
-			config.getString("MCR.ClassBrowser." + modus + ".Classification");
-		}
-		catch(MCRConfigurationException e){
-			return new RedirectResolution("/");
-		}
-		return new ForwardResolution("/content/classbrowser.jsp");
-	}
+    public ClassBrowserAction() {
 
-	public String getModus() {
-		return modus;
-	}
+    }
 
-	public void setModus(String modus) {
-		this.modus = modus;
-	}
+    @DefaultHandler
+    public Resolution defaultRes() {
+        MCRConfiguration config = MCRConfiguration.instance();
+        try {
+            config.getString("MCR.ClassBrowser." + modus + ".Classification");
+        } catch (MCRConfigurationException e) {
+            return new RedirectResolution("/");
+        }
+        return new ForwardResolution("/content/classbrowser.jsp");
+    }
+
+    public String getModus() {
+        return modus;
+    }
+
+    public void setModus(String modus) {
+        this.modus = modus;
+    }
 }

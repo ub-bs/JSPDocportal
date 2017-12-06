@@ -38,16 +38,16 @@ public class MCRMODSGVKImporter {
     private static Logger LOGGER = LogManager.getLogger(MCRMODSGVKImporter.class);
 
     private static XPathExpression<Element> XP_URN = XPathFactory.instance().compile("//mods:identifier[@type='urn']",
-        Filters.element(), null, MCRConstants.MODS_NAMESPACE);
+            Filters.element(), null, MCRConstants.MODS_NAMESPACE);
 
     private static XPathExpression<Element> XP_MODS_ROOT = XPathFactory.instance().compile("//*[./mods:mods]",
-        Filters.element(), null, MCRConstants.MODS_NAMESPACE);
+            Filters.element(), null, MCRConstants.MODS_NAMESPACE);
 
     public static void updateWorkflowFile(MCRObjectID mcrObjID) {
-       Path mcrFile = MCRActivitiUtils.getWorkflowObjectFile(mcrObjID);
-    	try {
-        	Document docJdom = MCRActivitiUtils.getWorkflowObjectXML(mcrObjID);
-        	Element eModsContainer = XP_MODS_ROOT.evaluateFirst(docJdom);
+        Path mcrFile = MCRActivitiUtils.getWorkflowObjectFile(mcrObjID);
+        try {
+            Document docJdom = MCRActivitiUtils.getWorkflowObjectXML(mcrObjID);
+            Element eModsContainer = XP_MODS_ROOT.evaluateFirst(docJdom);
             Element eURN = XP_URN.evaluateFirst(docJdom);
             if (eModsContainer != null && eURN != null) {
                 Element ePica = retrievePicaXMLByURN(eURN.getTextTrim());
@@ -57,8 +57,8 @@ public class MCRMODSGVKImporter {
                         eModsContainer.removeContent();
                         eModsContainer.addContent(eMODS.detach());
                         XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
-                        try(BufferedWriter bw = Files.newBufferedWriter(mcrFile)){
-                        	outputter.output(docJdom, bw);
+                        try (BufferedWriter bw = Files.newBufferedWriter(mcrFile)) {
+                            outputter.output(docJdom, bw);
                         }
                     }
                 }
@@ -74,8 +74,8 @@ public class MCRMODSGVKImporter {
         try {
             Source xmlFile = new JDOMSource(ePica);
             Transformer transformer = TransformerFactory.newInstance()
-                .newTransformer(new StreamSource(MCRMODSGVKImporter.class
-                    .getResourceAsStream(MCRConfiguration.instance().getString("MCR.Editor.Pica2MODS.xslt"))));
+                    .newTransformer(new StreamSource(MCRMODSGVKImporter.class
+                            .getResourceAsStream(MCRConfiguration.instance().getString("MCR.Editor.Pica2MODS.xslt"))));
             transformer.transform(xmlFile, modsResult);
         } catch (Exception e) {
             e.printStackTrace();
@@ -105,7 +105,7 @@ public class MCRMODSGVKImporter {
             */
             Namespace nsZS = Namespace.getNamespace("zs", "http://www.loc.gov/zing/srw/");
             e = ((List<Element>) docJdom.getRootElement().getChild("records", nsZS).getChild("record", nsZS)
-                .getChild("recordData", nsZS).getChildren()).get(0);
+                    .getChild("recordData", nsZS).getChildren()).get(0);
             e = (Element) e.detach();
         } catch (MalformedURLException mfex) {
             //ignore

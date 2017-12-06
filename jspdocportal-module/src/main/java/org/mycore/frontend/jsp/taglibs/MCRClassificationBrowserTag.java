@@ -121,8 +121,9 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
          * registeredEventListeners)
          */
         //Cache cache = new Cache(CACHE_NAME, MemoryStoreEvictionPolicy.LRU, false, "", false, 0, 300, false, 120,  null);
-        Cache cache = new Cache(new CacheConfiguration(CACHE_NAME, 5000).memoryStoreEvictionPolicy(MemoryStoreEvictionPolicy.LRU)
-          .timeToLiveSeconds(900).timeToIdleSeconds(300));
+        Cache cache = new Cache(
+                new CacheConfiguration(CACHE_NAME, 5000).memoryStoreEvictionPolicy(MemoryStoreEvictionPolicy.LRU)
+                        .timeToLiveSeconds(900).timeToIdleSeconds(300));
         CacheManager.getInstance().addCache(cache);
         cbHitCountCache = new SelfPopulatingCache(cache, new CacheEntryFactory() {
 
@@ -169,31 +170,30 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
         CBConfig cb = new CBConfig(mode);
 
         long start = System.currentTimeMillis();
-        
-        MCRCategoryID rootClassifID = new MCRCategoryID(cb.classification,cb.category);
-        
-		PageContext context = (PageContext) getJspContext();
-		HttpServletRequest request = (HttpServletRequest) context.getRequest();
-		String requestPath = request.getParameter("select");
-		StringBuffer url = new StringBuffer(MCRFrontendUtil.getBaseURL());
-		url.append("classbrowser/"+mode+"?");
-	
-		@SuppressWarnings("rawtypes")
-		Enumeration paramNames = request.getParameterNames();
-		while (paramNames.hasMoreElements()) {
-			String s = paramNames.nextElement().toString();
-			if (!s.equals("select") && !s.equals("modus")) {
-				url.append(s).append("=")
-						.append(URLEncoder.encode(request.getParameter(s), Charset.defaultCharset().name()))
-						.append("&amp;");
-			}
-		}
 
+        MCRCategoryID rootClassifID = new MCRCategoryID(cb.classification, cb.category);
 
-		if (requestPath == null) {
-			requestPath = "";
-		}
-		url.append("select=").append(clearPath(requestPath));
+        PageContext context = (PageContext) getJspContext();
+        HttpServletRequest request = (HttpServletRequest) context.getRequest();
+        String requestPath = request.getParameter("select");
+        StringBuffer url = new StringBuffer(MCRFrontendUtil.getBaseURL());
+        url.append("classbrowser/" + mode + "?");
+
+        @SuppressWarnings("rawtypes")
+        Enumeration paramNames = request.getParameterNames();
+        while (paramNames.hasMoreElements()) {
+            String s = paramNames.nextElement().toString();
+            if (!s.equals("select") && !s.equals("modus")) {
+                url.append(s).append("=")
+                        .append(URLEncoder.encode(request.getParameter(s), Charset.defaultCharset().name()))
+                        .append("&amp;");
+            }
+        }
+
+        if (requestPath == null) {
+            requestPath = "";
+        }
+        url.append("select=").append(clearPath(requestPath));
 
         JspWriter out = getJspContext().getOut();
         try (MCRHibernateTransactionWrapper htw = new MCRHibernateTransactionWrapper()) {
@@ -240,7 +240,7 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
                 out.write("</form><br/><br/>\n");
             }
 
-            out.write("\n<div class=\"classification-browser classification-browser-"+mode+"\">");
+            out.write("\n<div class=\"classification-browser classification-browser-" + mode + "\">");
             boolean didIt = false;
             for (MCRCategory categ : categories) {
                 didIt = outputCategory(cb, categ, MCRFrontendUtil.getBaseURL(), url.toString(), 0, didIt);
@@ -270,7 +270,7 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
      * @throws IOException
      */
     private boolean outputCategory(CBConfig cb, MCRCategory categ, String baseURL, String cbURL, int curLevel,
-        boolean didIt) throws IOException {
+            boolean didIt) throws IOException {
         JspWriter out = getJspContext().getOut();
         boolean result = didIt;
         boolean hasChildren = categ.hasChildren();
@@ -295,7 +295,7 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
                     title = MCRTranslation.translate("Webpage.browse.close");
                 }
                 out.write(indent + "         <a href=\"" + cbURL + "/" + categ.getId().getID() + "\" title=\"" + title
-                    + "\">");
+                        + "\">");
             }
             out.write(indent + "            <img class=\"borderless\" src=\"" + baseURL + iconURL + "\" />");
             if (!cb.expand && hasChildren && curLevel + 1 < cb.level) {
@@ -308,40 +308,40 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
             }
 
             out.write(
-                indent + "         <span class=\"cb-text\">" + categ.getCurrentLabel().get().getText() + "</span>");
-			
-			String label = MCRTranslation.translate("Editor.Common.choose");
-			
-			if (cb.count) {
-				long c = 0;
-				if (cb.filter != null) {
-					c = countBySearch(cb, categ.getId().getID());
-				} else {
-					countLinkMap.putAll(CATEGLINKSERVICE.countLinks(categ, true));
-					Number n = countLinkMap.get(categ.getId());
-					if (n != null) {
-						c=n.longValue();
-					} else {
-						out.write("(0)");
-					}
-				}
-				
-				switch ((int)c) {
-				case 0:
-					label = MCRTranslation.translate("Webpage.browse.noentries");
-				break;
-				case 1:
-					label = MCRTranslation.translate("Webpage.browse.entry", 1);
-				break;
-				default:
-					label = MCRTranslation.translate("Webpage.browse.entries", c);
-				}
-					}
-			out.write(indent + "      </div>");
+                    indent + "         <span class=\"cb-text\">" + categ.getCurrentLabel().get().getText() + "</span>");
 
-			out.write(indent + "      <div class=\"cb-count\">");
-			writeLinkedCategoryItemText(cb, categ, baseURL, label, out);
-			out.write(indent + "      </div>");
+            String label = MCRTranslation.translate("Editor.Common.choose");
+
+            if (cb.count) {
+                long c = 0;
+                if (cb.filter != null) {
+                    c = countBySearch(cb, categ.getId().getID());
+                } else {
+                    countLinkMap.putAll(CATEGLINKSERVICE.countLinks(categ, true));
+                    Number n = countLinkMap.get(categ.getId());
+                    if (n != null) {
+                        c = n.longValue();
+                    } else {
+                        out.write("(0)");
+                    }
+                }
+
+                switch ((int) c) {
+                case 0:
+                    label = MCRTranslation.translate("Webpage.browse.noentries");
+                    break;
+                case 1:
+                    label = MCRTranslation.translate("Webpage.browse.entry", 1);
+                    break;
+                default:
+                    label = MCRTranslation.translate("Webpage.browse.entries", c);
+                }
+            }
+            out.write(indent + "      </div>");
+
+            out.write(indent + "      <div class=\"cb-count\">");
+            writeLinkedCategoryItemText(cb, categ, baseURL, label, out);
+            out.write(indent + "      </div>");
 
             if (cb.showdescription) {
                 String descr = categ.getCurrentLabel().get().getDescription();
@@ -438,21 +438,21 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
         }
     }
 
-	/**
-	 * create the text for a category and if necessary a link around it
-	 * 
-	 * @param categ
-	 *            - the MCRCategory to be displayed
-	 * @param baseURL
-	 *            - the baseurl
-	 * @param out
-	 *            - the JSPWriter
-	 * @throws IOException
-	 */
-	private void writeLinkedCategoryItemText(CBConfig cb, MCRCategory categ, String baseURL, String label, JspWriter out)
-			throws IOException {
-		boolean showLinks = cb.linkall || hasLinks(cb, categ);
-		if (showLinks) {
+    /**
+     * create the text for a category and if necessary a link around it
+     * 
+     * @param categ
+     *            - the MCRCategory to be displayed
+     * @param baseURL
+     *            - the baseurl
+     * @param out
+     *            - the JSPWriter
+     * @throws IOException
+     */
+    private void writeLinkedCategoryItemText(CBConfig cb, MCRCategory categ, String baseURL, String label,
+            JspWriter out) throws IOException {
+        boolean showLinks = cb.linkall || hasLinks(cb, categ);
+        if (showLinks) {
             PageContext context = (PageContext) getJspContext();
 
             HttpServletRequest request = (HttpServletRequest) context.getRequest();
@@ -464,27 +464,26 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
                 url.append("&amp;subselect.session=" + request.getParameter("XSL.subselect.session.SESSION"));
                 url.append("&amp;subselect.varpath=" + request.getParameter("XSL.subselect.varpath.SESSION"));
                 url.append("&amp;subselect.webpage="
-                    + URLEncoder.encode(request.getParameter("XSL.subselect.webpage.SESSION"), "UTF-8"));
+                        + URLEncoder.encode(request.getParameter("XSL.subselect.webpage.SESSION"), "UTF-8"));
                 url.append("&amp;_var_@categid=" + categ.getId().getID());
                 url.append("&amp;_var_@type=" + URLEncoder.encode(categ.getCurrentLabel().get().getText(), "UTF-8"));
 
-			} else {
-				// "normal" classification browser - do a search
-				url.append("search");
-				url.append("?q="
-						+ URLEncoder.encode(generateQuery(cb, categ.getId().getID()), Charset.defaultCharset().name()));
-				if(cb.sortResult!=null){
-					url.append("&sort=").append(cb.sortResult.trim());
-				}
-			}
-			out.write("<a class=\"btn btn-default btn-xs cb-btn\" href=\"" + url.toString() + "\">");
-			out.write(label + " <i class=\"fa fa-share\"></i>");
-			out.write("</a>");
-		}
-		else{
-			out.write(label);
-		}
-	}
+            } else {
+                // "normal" classification browser - do a search
+                url.append("search");
+                url.append("?q="
+                        + URLEncoder.encode(generateQuery(cb, categ.getId().getID()), Charset.defaultCharset().name()));
+                if (cb.sortResult != null) {
+                    url.append("&sort=").append(cb.sortResult.trim());
+                }
+            }
+            out.write("<a class=\"btn btn-default btn-xs cb-btn\" href=\"" + url.toString() + "\">");
+            out.write(label + " <i class=\"fa fa-share\"></i>");
+            out.write("</a>");
+        } else {
+            out.write(label);
+        }
+    }
 
     /**
      * clears the path of opened / closed categories of the browser
@@ -535,25 +534,24 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
         return result.toString();
     }
 
-	/**
-	 * counts using MCRQueries instead of information about links To improve
-	 * performance a "pull through cache" is used. That means the cache knows
-	 * how to generate items it does not contain
-	 * 
-	 * @param categid
-	 *            - the category iD
-	 * @return the number of results of the query for the given ID
-	 */
-	private long countBySearch(CBConfig cb, String categid) {
-		String qs = generateQuery(cb, categid);
-		Element cacheElem = cbHitCountCache.get(qs);
-		if(cacheElem!=null && cacheElem.getObjectValue()!=null){
-			return (Long) cacheElem.getObjectValue();
-		}
-		else{
-			return 0;
-		}
-	}
+    /**
+     * counts using MCRQueries instead of information about links To improve
+     * performance a "pull through cache" is used. That means the cache knows
+     * how to generate items it does not contain
+     * 
+     * @param categid
+     *            - the category iD
+     * @return the number of results of the query for the given ID
+     */
+    private long countBySearch(CBConfig cb, String categid) {
+        String qs = generateQuery(cb, categid);
+        Element cacheElem = cbHitCountCache.get(qs);
+        if (cacheElem != null && cacheElem.getObjectValue() != null) {
+            return (Long) cacheElem.getObjectValue();
+        } else {
+            return 0;
+        }
+    }
 }
 
 class CBConfig {
@@ -642,14 +640,13 @@ class CBConfig {
      * textual syntax
      */
     public String filter;
-    
+
     /*
      * optional: Specify a sorting for the entries belonging to the classification in SOLR syntax
      * @param sort tion a string, which must be a valid query in MCR
      * textual syntax
      */
     public String sortResult;
-
 
     public CBConfig(String mode) {
         MCRConfiguration config = MCRConfiguration.instance();
@@ -676,7 +673,7 @@ class CBConfig {
         linkall = config.getBoolean(PROP_PREFIX + mode + ".ShowLinkall", false);
 
         filter = config.getString(PROP_PREFIX + mode + ".Filter", null);
-        
+
         sortResult = config.getString(PROP_PREFIX + mode + ".SortResult", null);
     }
 }

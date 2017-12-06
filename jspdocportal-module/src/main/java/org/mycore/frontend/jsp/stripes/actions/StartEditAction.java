@@ -62,7 +62,7 @@ public class StartEditAction extends MCRAbstractStripesAction implements ActionB
                 if (MCRAccessManager.checkPermission(mcrid, "writedb")) {
                     MCRObjectID mcrObjID = MCRObjectID.getInstance(mcrid);
                     MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(mcrObjID);
-                    if(mcrObj.getService().getState().getID().equals("published")){
+                    if (mcrObj.getService().getState().getID().equals("published")) {
                         Map<String, Object> variables = new HashMap<String, Object>();
                         variables.put(MCRActivitiMgr.WF_VAR_OBJECT_TYPE, mcrObjID.getTypeId());
                         variables.put(MCRActivitiMgr.WF_VAR_PROJECT_ID, mcrObjID.getProjectId());

@@ -28,11 +28,11 @@ public class ImportFromFormAction implements ActionBean {
     private String returnPath = "";
     private String mcrid = "";
     private String folderName = "";
-    private String[] listOfMetadataVersions = new String[]{};
+    private String[] listOfMetadataVersions = new String[] {};
     private String metadataContent = "";
     private String metadataVersion = "";
-    
-    private String processid="";
+
+    private String processid = "";
 
     public ActionBeanContext getContext() {
         return context;
@@ -49,7 +49,7 @@ public class ImportFromFormAction implements ActionBean {
     @Before(stages = LifecycleStage.BindingAndValidation)
     public void rehydrate() {
         if (getContext().getRequest().getParameter("mcrid") != null) {
-            mcrid = getContext().getRequest().getParameter("mcrid");         
+            mcrid = getContext().getRequest().getParameter("mcrid");
         }
         if (getContext().getRequest().getParameter("returnPath") != null) {
             returnPath = getContext().getRequest().getParameter("returnPath");
@@ -57,7 +57,7 @@ public class ImportFromFormAction implements ActionBean {
         if (getContext().getRequest().getParameter("processid") != null) {
             processid = getContext().getRequest().getParameter("processid");
         }
-        if (getContext().getRequest().getParameterValues("listOfMetadataVersions") !=null) {
+        if (getContext().getRequest().getParameterValues("listOfMetadataVersions") != null) {
             listOfMetadataVersions = getContext().getRequest().getParameterValues("listOfMetadataVersions");
         }
         if (getContext().getRequest().getParameter("folderName") != null) {
@@ -78,37 +78,36 @@ public class ImportFromFormAction implements ActionBean {
     }
 
     public Resolution doRetrieveMetadataVersions() {
-        if(folderName!=null){
+        if (folderName != null) {
             listOfMetadataVersions = DissOnlineFormImport.retrieveMetadataVersions(folderName);
-        }        
+        }
         return fwdResolution;
     }
-    
+
     public Resolution doRetrieveMetadataContent() {
-        metadataContent=null;
-        if(folderName!=null){
-            Document  data = DissOnlineFormImport.retrieveMetadataContent(folderName, metadataVersion);
-            if(data!=null){
-            StringWriter sw = new StringWriter();
-            XMLOutputter xmlout = new XMLOutputter(Format.getPrettyFormat());
-            try{
-                xmlout.output(data,  sw);
+        metadataContent = null;
+        if (folderName != null) {
+            Document data = DissOnlineFormImport.retrieveMetadataContent(folderName, metadataVersion);
+            if (data != null) {
+                StringWriter sw = new StringWriter();
+                XMLOutputter xmlout = new XMLOutputter(Format.getPrettyFormat());
+                try {
+                    xmlout.output(data, sw);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                metadataContent = sw.toString();
             }
-            catch(IOException e){
-                e.printStackTrace();
-            }
-            metadataContent = sw.toString();
-            }
-        }        
+        }
         return fwdResolution;
     }
 
     public Resolution doSave() {
         if (!mcrid.equals("")) {
-			Path file = MCRActivitiUtils.getWorkflowObjectFile(MCRObjectID.getInstance(mcrid));
+            Path file = MCRActivitiUtils.getWorkflowObjectFile(MCRObjectID.getInstance(mcrid));
             DissOnlineFormImport.loadFormDataIntoMCRObject(metadataContent, file);
-        }        
-        
+        }
+
         return new ForwardResolution(returnPath);
     }
 
@@ -140,7 +139,6 @@ public class ImportFromFormAction implements ActionBean {
         this.returnPath = returnPath;
     }
 
-  
     public String getFolderName() {
         return folderName;
     }

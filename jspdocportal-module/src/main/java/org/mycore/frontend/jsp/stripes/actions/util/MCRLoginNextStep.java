@@ -30,29 +30,29 @@ package org.mycore.frontend.jsp.stripes.actions.util;
  * @author Robert Stephan
  *
  */
-public class MCRLoginNextStep{
-	private String url;
-	private String label;
-	
-	public MCRLoginNextStep(String url, String label) {
-		super();
-		this.url = url;
-		this.label = label;
-	}
+public class MCRLoginNextStep {
+    private String url;
+    private String label;
 
-	/**
-	 * 
-	 * @return the url or empty string
- 	 */
-	public String getUrl() {
-		return url;
-	}
-	
-	/**
-	 * 
-	 * @return the label
-	 */
-	public String getLabel() {
-		return label;
-	}
+    public MCRLoginNextStep(String url, String label) {
+        super();
+        this.url = url;
+        this.label = label;
+    }
+
+    /**
+     * 
+     * @return the url or empty string
+     */
+    public String getUrl() {
+        return url;
+    }
+
+    /**
+     * 
+     * @return the label
+     */
+    public String getLabel() {
+        return label;
+    }
 }

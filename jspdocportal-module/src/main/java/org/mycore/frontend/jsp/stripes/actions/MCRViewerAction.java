@@ -42,14 +42,10 @@ public class MCRViewerAction extends MCRAbstractStripesAction implements ActionB
     private String pdfProviderURL = null;
 
     private String doctype = null;
-    
+
     private String recordIdentifier = null;
-    
+
     private String mcrid = null;
-
-
-
-
 
     public MCRViewerAction() {
 
@@ -80,9 +76,8 @@ public class MCRViewerAction extends MCRAbstractStripesAction implements ActionB
                     doctype = "pdf";
                     pdfProviderURL = String.valueOf(solrDoc.getFieldValue("ir.pdffulltext_url"));
                     filePath = pdfProviderURL.substring(pdfProviderURL.lastIndexOf("/") + 1);
-                }
-                else{
-                    doctype="mets";
+                } else {
+                    doctype = "mets";
                 }
             }
 
@@ -118,11 +113,10 @@ public class MCRViewerAction extends MCRAbstractStripesAction implements ActionB
     }
 
     public void setIdentifier(String identifier) {
-        if(identifier != null){
-            try{
+        if (identifier != null) {
+            try {
                 identifier = URLDecoder.decode(URLDecoder.decode(identifier, "UTF-8"), "UTF-8");
-            }
-            catch(UnsupportedEncodingException uee){
+            } catch (UnsupportedEncodingException uee) {
                 //does not happen
             }
         }
@@ -144,7 +138,7 @@ public class MCRViewerAction extends MCRAbstractStripesAction implements ActionB
     public String getRecordIdentifier() {
         return recordIdentifier;
     }
-    
+
     public String getMcrid() {
         return mcrid;
     }

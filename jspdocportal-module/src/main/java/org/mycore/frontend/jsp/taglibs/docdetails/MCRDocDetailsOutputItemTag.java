@@ -40,70 +40,70 @@ import org.w3c.dom.Node;
  *
  */
 public class MCRDocDetailsOutputItemTag extends SimpleTagSupport {
-	private String xp;
-	private String varxml;
+    private String xp;
+    private String varxml;
 
-	private Node xmlnode;
-	private String css=null;
-	
-	public Node getXmlnode() {
-		return xmlnode;
-	}
+    private Node xmlnode;
+    private String css = null;
 
-	
-	public void doTag() throws JspException, IOException {
-			
-		MCRDocDetailsRowTag docdetailsRow = (MCRDocDetailsRowTag) findAncestorWithClass(this, MCRDocDetailsRowTag.class);
-		if(docdetailsRow==null){
-			throw new JspException("This tag must be nested in tag called 'row' of the same tag library");
-		}
-		MCRDocDetailsTag docdetails= (MCRDocDetailsTag) findAncestorWithClass(this, MCRDocDetailsTag.class);
-		try {
-			JspWriter out = getJspContext().getOut();
-			XPathUtil xu = new XPathUtil((PageContext)getJspContext());
-			@SuppressWarnings("unchecked")
-			List nodes = xu.selectNodes(docdetailsRow.getContext(), xp);
-			if(nodes.size()>0){
-	    			Node n = (Node)nodes.get(0);
-	    			xmlnode=n;
-	    			getJspContext().setAttribute(varxml, n);
-	    			
-	    			if(css!=null && !"".equals(css)){
-	    	    		out.write("<td class=\""+css+"\">");
-	    	    	}
-	    	    	else{
-	    	    		out.write("<td class=\""+docdetails.getStylePrimaryName()+"-value\">");
-	    	    	}
-	    			getJspBody().invoke(out);
-	    			out.write("</td>");	    					
-	    		}
-	    		//error
-	    }catch(Exception e){
-			throw new JspException("Error executing docdetails:outputitem tag", e);
-		}
-	}
+    public Node getXmlnode() {
+        return xmlnode;
+    }
 
-	/**
-	 * the XPath expression to the element
-	 * @param xpath
-	 */
-	public void setSelect(String xpath) {
-		this.xp = xpath;
-	}
+    public void doTag() throws JspException, IOException {
 
-	/**
-	 * the variable in which the result node should be saved
-	 * @param var
-	 */
-	public void setVar(String varxml) {
-		this.varxml = varxml;
-	}
+        MCRDocDetailsRowTag docdetailsRow = (MCRDocDetailsRowTag) findAncestorWithClass(this,
+                MCRDocDetailsRowTag.class);
+        if (docdetailsRow == null) {
+            throw new JspException("This tag must be nested in tag called 'row' of the same tag library");
+        }
+        MCRDocDetailsTag docdetails = (MCRDocDetailsTag) findAncestorWithClass(this, MCRDocDetailsTag.class);
+        try {
+            JspWriter out = getJspContext().getOut();
+            XPathUtil xu = new XPathUtil((PageContext) getJspContext());
+           
+            @SuppressWarnings("rawtypes")
+            List nodes = xu.selectNodes(docdetailsRow.getContext(), xp);
+            if (nodes.size() > 0) {
+                Node n = (Node) nodes.get(0);
+                xmlnode = n;
+                getJspContext().setAttribute(varxml, n);
 
-	/**
-	 * the CSS class name, which shall be used
-	 * @param style
-	 */
-	public void setStyleName(String style){
-		this.css=style;
-	}
+                if (css != null && !"".equals(css)) {
+                    out.write("<td class=\"" + css + "\">");
+                } else {
+                    out.write("<td class=\"" + docdetails.getStylePrimaryName() + "-value\">");
+                }
+                getJspBody().invoke(out);
+                out.write("</td>");
+            }
+            //error
+        } catch (Exception e) {
+            throw new JspException("Error executing docdetails:outputitem tag", e);
+        }
+    }
+
+    /**
+     * the XPath expression to the element
+     * @param xpath
+     */
+    public void setSelect(String xpath) {
+        this.xp = xpath;
+    }
+
+    /**
+     * the variable in which the result node should be saved
+     * @param var
+     */
+    public void setVar(String varxml) {
+        this.varxml = varxml;
+    }
+
+    /**
+     * the CSS class name, which shall be used
+     * @param style
+     */
+    public void setStyleName(String style) {
+        this.css = style;
+    }
 }

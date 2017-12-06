@@ -42,61 +42,60 @@ import org.w3c.dom.Node;
  *
  */
 public class MCRDocDetailsLinkItemTag extends SimpleTagSupport {
-	private static Logger LOGGER = LogManager.getLogger(MCRDocDetailsLinkItemTag.class);
-	private String xp;
-	private String css=null;
+    private static Logger LOGGER = LogManager.getLogger(MCRDocDetailsLinkItemTag.class);
+    private String xp;
+    private String css = null;
 
-	public void setSelect(String xpath) {
-		this.xp = xpath;
-	}
+    public void setSelect(String xpath) {
+        this.xp = xpath;
+    }
 
-	public void setStyleName(String style){
-		this.css=style;
-	}
+    public void setStyleName(String style) {
+        this.css = style;
+    }
 
-	public void doTag() throws JspException, IOException {
-		MCRDocDetailsRowTag docdetailsRow = (MCRDocDetailsRowTag) findAncestorWithClass(this, MCRDocDetailsRowTag.class);
-		if(docdetailsRow==null){
-			throw new JspException("This tag must be nested in tag called 'row' of the same tag library");
-		}
-		MCRDocDetailsTag docdetails = (MCRDocDetailsTag) findAncestorWithClass(this, MCRDocDetailsTag.class);
-		StringBuffer result = new StringBuffer();
-		try {
-			XPathUtil xu = new XPathUtil((PageContext)getJspContext());
-			@SuppressWarnings("rawtypes")
+    public void doTag() throws JspException, IOException {
+        MCRDocDetailsRowTag docdetailsRow = (MCRDocDetailsRowTag) findAncestorWithClass(this,
+                MCRDocDetailsRowTag.class);
+        if (docdetailsRow == null) {
+            throw new JspException("This tag must be nested in tag called 'row' of the same tag library");
+        }
+        MCRDocDetailsTag docdetails = (MCRDocDetailsTag) findAncestorWithClass(this, MCRDocDetailsTag.class);
+        StringBuffer result = new StringBuffer();
+        try {
+            XPathUtil xu = new XPathUtil((PageContext) getJspContext());
+            @SuppressWarnings("rawtypes")
             List nodes = xu.selectNodes(docdetailsRow.getContext(), xp);
-			if(nodes.size()>0){
-	    		Node n = (Node)nodes.get(0);
-	    		if(n instanceof Element){
-	    			Element e = (Element) n;
-	    			if(e.hasAttribute("xlink:href") && e.hasAttribute("xlink:title")){
-	    				String href = e.getAttribute("xlink:href");
-		    			String title = e.getAttribute("xlink:title");
-		    			if(href.length()==0 || href.equals("#")){
-		    				result.append(title);
-		    			}
-		    			else{
-		    				String baseurl = getJspContext().getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE).toString();
-		    				result.append("<a href=\""+baseurl+"resolve/id/"+href+"\">"+title+"</a>");
-		    			}
-	    			}
-	    			else{
-	    				result.append(e.getTextContent());
-		    		}
-    			}		
-    		}
-	    	if(result.length()>0){
-	    		if(css!=null && !"".equals(css)){
-	    			getJspContext().getOut().print("<td class=\""+css+"\">");
-	    		}
-	    		else{
-	    			getJspContext().getOut().print("<td class=\""+docdetails.getStylePrimaryName()+"-value\">");
-	    		}
-	    		getJspContext().getOut().print(result.toString());		
-	    		getJspContext().getOut().print("</td>");
-	    	}
-	    } catch (Exception e) {
-		   LOGGER.debug("wrong xpath expression: " + xp);
-		}
-	}
+            if (nodes.size() > 0) {
+                Node n = (Node) nodes.get(0);
+                if (n instanceof Element) {
+                    Element e = (Element) n;
+                    if (e.hasAttribute("xlink:href") && e.hasAttribute("xlink:title")) {
+                        String href = e.getAttribute("xlink:href");
+                        String title = e.getAttribute("xlink:title");
+                        if (href.length() == 0 || href.equals("#")) {
+                            result.append(title);
+                        } else {
+                            String baseurl = getJspContext()
+                                    .getAttribute("WebApplicationBaseURL", PageContext.APPLICATION_SCOPE).toString();
+                            result.append("<a href=\"" + baseurl + "resolve/id/" + href + "\">" + title + "</a>");
+                        }
+                    } else {
+                        result.append(e.getTextContent());
+                    }
+                }
+            }
+            if (result.length() > 0) {
+                if (css != null && !"".equals(css)) {
+                    getJspContext().getOut().print("<td class=\"" + css + "\">");
+                } else {
+                    getJspContext().getOut().print("<td class=\"" + docdetails.getStylePrimaryName() + "-value\">");
+                }
+                getJspContext().getOut().print(result.toString());
+                getJspContext().getOut().print("</td>");
+            }
+        } catch (Exception e) {
+            LOGGER.debug("wrong xpath expression: " + xp);
+        }
+    }
 }

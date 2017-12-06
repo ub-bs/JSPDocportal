@@ -38,24 +38,25 @@ import org.w3c.dom.NodeList;
  * @author Robert Stephan
  * @version $Revision: 17081 $ $Date: 2010-03-20 18:37:27 +0100 (Sa, 20 Mrz 2010) $
  */
-public class MCRFormatPublishedInTag extends SimpleTagSupport
-{
-	private NodeList xml;
-	/**
-	 * @param xml the xml to set
-	 */
-	public void setXml(NodeList xml) {
-		this.xml = xml;
-	}	
-	public void doTag() throws JspException, IOException {
-		if(xml!=null){
-			
-		}
-		if(xml.item(0) instanceof org.w3c.dom.Element){
-			
-			DOMBuilder domBuilder = new DOMBuilder();
-			Element el = domBuilder.build((org.w3c.dom.Element) xml.item(0));
-			getJspContext().getOut().append(MCRPublishedInFormatter.format(el));
-		}
-	}
+public class MCRFormatPublishedInTag extends SimpleTagSupport {
+    private NodeList xml;
+
+    /**
+     * @param xml the xml to set
+     */
+    public void setXml(NodeList xml) {
+        this.xml = xml;
+    }
+
+    public void doTag() throws JspException, IOException {
+        if (xml != null) {
+
+        }
+        if (xml.item(0) instanceof org.w3c.dom.Element) {
+
+            DOMBuilder domBuilder = new DOMBuilder();
+            Element el = domBuilder.build((org.w3c.dom.Element) xml.item(0));
+            getJspContext().getOut().append(MCRPublishedInFormatter.format(el));
+        }
+    }
 }

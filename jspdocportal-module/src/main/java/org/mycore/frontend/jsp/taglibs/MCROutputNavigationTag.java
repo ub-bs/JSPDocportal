@@ -63,7 +63,8 @@ import org.mycore.frontend.jsp.navigation.model.NavigationObject;
  * 
  */
 public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
-    private static final List<String> MODES = Arrays.asList(new String[] { "left", "top", "breadcrumbs", "toc", "navbar" });
+    private static final List<String> MODES = Arrays
+            .asList(new String[] { "left", "top", "breadcrumbs", "toc", "navbar" });
 
     private static final String INDENT = "\n       ";
 
@@ -90,11 +91,11 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
         if (mode.equals("top")) {
             printTopNav(nav, getJspContext().getOut());
         }
-        
+
         if (mode.equals("navbar")) {
             printNavbar(nav, getJspContext().getOut());
         }
-        
+
         if (mode.equals("breadcrumbs")) {
             NavigationItem eNav = findNavItem(nav, path);
             printBreadcrumbs(eNav, getJspContext().getOut());
@@ -148,10 +149,11 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
             for (NavigationItem el : printableElements) {
                 String id = el.getId();
                 boolean active = currentPath.length > 0 && currentPath[0].equals(id);
-                
+
                 String msg = retrieveI18N(el.getI18n());
-                out.append(indent).append(" <li id=\"" + retrieveNavPath(el) + "\""+(active ? " class=\"active\"" : "")+">");
-                
+                out.append(indent)
+                        .append(" <li id=\"" + retrieveNavPath(el) + "\"" + (active ? " class=\"active\"" : "") + ">");
+
                 out.append(indent);
                 String href = el.getHref();
                 if (!href.startsWith("http")) {
@@ -196,9 +198,9 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
                         out.append("  <ul>");
                     }
                     for (NavigationItem el : printableElements) {
-                    	boolean active = path.length > 0 && path[0].equals(el.getId());
+                        boolean active = path.length > 0 && path[0].equals(el.getId());
                         String msg = retrieveI18N(el.getI18n());
-                        out.append(INDENT).append("    <li "+(active ? "class=\"active\"" : "")+ ">");
+                        out.append(INDENT).append("    <li " + (active ? "class=\"active\"" : "") + ">");
                         String href = el.getHref();
                         if (!href.startsWith("http")) {
                             href = MCRFrontendUtil.getBaseURL() + href;
@@ -221,7 +223,7 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
         }
 
     }
-    
+
     /**
      * prints main navigation (horizontal navigation) (only with direct sub items of the
      * given navigation item
@@ -232,7 +234,7 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
      *            - the JSPOutputWriter
      */
     private void printNavbar(NavigationObject currentNode, JspWriter out) {
-       printTopNav(currentNode, out);
+        printTopNav(currentNode, out);
     }
 
     /**
@@ -299,24 +301,25 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
         sbOut.append(INDENT).append("</ul>");
         NavigationObject c = currentNode;
         while (c instanceof NavigationItem) {
-        	String href = ((NavigationItem)c).getHref();
-            String msg = retrieveI18N(((NavigationItem)c).getI18n());
+            String href = ((NavigationItem) c).getHref();
+            String msg = retrieveI18N(((NavigationItem) c).getI18n());
             if (!href.startsWith("http")) {
                 href = MCRFrontendUtil.getBaseURL() + href;
             }
-        	if(c == currentNode) {
-        		sbOut.insert(0, INDENT + "   </li>");
-        		sbOut.insert(0, INDENT + "      <span>" + msg + "</span>");
+            if (c == currentNode) {
+                sbOut.insert(0, INDENT + "   </li>");
+                sbOut.insert(0, INDENT + "      <span>" + msg + "</span>");
                 sbOut.insert(0, INDENT + "   <li>");
-        	} else {
-        		sbOut.insert(0, INDENT + "   </li>");
-        		sbOut.insert(0, INDENT + "      <a target=\"_self\" href=\"" + href + "\">" + msg + "</a>");
+            } else {
+                sbOut.insert(0, INDENT + "   </li>");
+                sbOut.insert(0, INDENT + "      <a target=\"_self\" href=\"" + href + "\">" + msg + "</a>");
                 sbOut.insert(0, INDENT + "   <li>");
-        	}
-        	c =  c.getParent();
+            }
+            c = c.getParent();
         }
         sbOut.insert(0, INDENT + "   </li>");
-        sbOut.insert(0, INDENT + "      <a target=\"_self\" href=\"" + MCRFrontendUtil.getBaseURL() + "\">" + retrieveI18N("Nav.Start") + "</a>");
+        sbOut.insert(0, INDENT + "      <a target=\"_self\" href=\"" + MCRFrontendUtil.getBaseURL() + "\">"
+                + retrieveI18N("Nav.Start") + "</a>");
         sbOut.insert(0, INDENT + "   <li>");
 
         if (cssClass != null) {

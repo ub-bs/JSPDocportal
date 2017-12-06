@@ -43,75 +43,75 @@ import org.jdom2.input.SAXBuilder;
  *
  */
 public class MCRDocDetailsShowComplexRefTag extends SimpleTagSupport {
-	private static Logger LOGGER = LogManager.getLogger(MCRDocDetailsLinkItemTag.class);
-	private String content="";
-	
+    private static Logger LOGGER = LogManager.getLogger(MCRDocDetailsLinkItemTag.class);
+    private String content = "";
 
-	/**
-	 * the content to be rendered
-	 * @param pnd
-	 */
-	public void setContent(String content) {
-		this.content = content;
-	}
+    /**
+     * the content to be rendered
+     * @param pnd
+     */
+    public void setContent(String content) {
+        this.content = content;
+    }
 
-	
-	/**
-	 * <register>
-	 *  	<werk titel="Etwas von geleehrten Rostockschen Sachen">
-	 *  		<band titel="Band I" docid="rosdok_document_123456567" seiten="1 2 333 454" /> 
-	 *  		<band titel="Band III" docid="rosdok_document_123456567" seiten="12 22 333 454" />
-	 *      </werk>					   		
-	 *  </register>
-	 * 
-	 */
-	
-	private String createHTML(){
-		StringBuffer result = new StringBuffer();
-		SAXBuilder sb = new SAXBuilder();
-		try{
-		Document doc = sb.build(new StringReader(StringEscapeUtils.unescapeXml(content)));
-		List<Element> lstWerk = (List<Element>)doc.getRootElement().getChildren("werk");
-		for(int i=0;i<lstWerk.size();i++){
-			Element eWerk = lstWerk.get(i);
-			result.append(eWerk.getAttributeValue("titel"));
-			result.append(", ");
-			List<Element> lstBand = (List<Element>)eWerk.getChildren("band");
-			for(int j=0;j<lstBand.size();j++){
-				Element eBand = lstBand.get(j);
-				result.append(eBand.getAttributeValue("titel"));
-				result.append(", ");
-				String baseURL = "http://rosdok.uni-rostock.de/resolve/id/"+eBand.getAttributeValue("docid")+"/image/page/";
-				String[] pages =eBand.getAttributeValue("seiten").split("\\s");
-				for(int k=0;k<pages.length;k++){
-					String pageLabel = pages[k];
-					String pageNr = pages[k].split("-")[0];
-					result.append("<a href=\""+baseURL+pageNr+"\" target=\"_blank\">S. "+pageLabel+"</a>");
-					if(k<pages.length-1){
-						result.append(", ");
-					}
-				}
-				if(j<lstBand.size()-1){
-					result.append("; ");
-				}
-			}
-			result.append(".");
-			if(i<lstWerk.size()-1){
-				result.append("<br />");
-			}
-		}
-		}
-		catch(Exception e){
-			LOGGER.error("Error processing Register Data", e);
-		}
-		return result.toString();
-	}
+    /**
+     * <register>
+     *  	<werk titel="Etwas von geleehrten Rostockschen Sachen">
+     *  		<band titel="Band I" docid="rosdok_document_123456567" seiten="1 2 333 454" /> 
+     *  		<band titel="Band III" docid="rosdok_document_123456567" seiten="12 22 333 454" />
+     *      </werk>					   		
+     *  </register>
+     * 
+     */
 
-	public void doTag() throws JspException, IOException {
-		MCRDocDetailsRowTag docdetailsRow = (MCRDocDetailsRowTag) findAncestorWithClass(this, MCRDocDetailsRowTag.class);
-		if(docdetailsRow==null){
-			throw new JspException("This tag must be nested in tag called 'row' of the same tag library");
-		}
-		getJspContext().getOut().print(createHTML());
-	}
+    private String createHTML() {
+        StringBuffer result = new StringBuffer();
+        SAXBuilder sb = new SAXBuilder();
+        try {
+            Document doc = sb.build(new StringReader(StringEscapeUtils.unescapeXml(content)));
+            List<Element> lstWerk = (List<Element>) doc.getRootElement().getChildren("werk");
+            for (int i = 0; i < lstWerk.size(); i++) {
+                Element eWerk = lstWerk.get(i);
+                result.append(eWerk.getAttributeValue("titel"));
+                result.append(", ");
+                List<Element> lstBand = (List<Element>) eWerk.getChildren("band");
+                for (int j = 0; j < lstBand.size(); j++) {
+                    Element eBand = lstBand.get(j);
+                    result.append(eBand.getAttributeValue("titel"));
+                    result.append(", ");
+                    String baseURL = "http://rosdok.uni-rostock.de/resolve/id/" + eBand.getAttributeValue("docid")
+                            + "/image/page/";
+                    String[] pages = eBand.getAttributeValue("seiten").split("\\s");
+                    for (int k = 0; k < pages.length; k++) {
+                        String pageLabel = pages[k];
+                        String pageNr = pages[k].split("-")[0];
+                        result.append(
+                                "<a href=\"" + baseURL + pageNr + "\" target=\"_blank\">S. " + pageLabel + "</a>");
+                        if (k < pages.length - 1) {
+                            result.append(", ");
+                        }
+                    }
+                    if (j < lstBand.size() - 1) {
+                        result.append("; ");
+                    }
+                }
+                result.append(".");
+                if (i < lstWerk.size() - 1) {
+                    result.append("<br />");
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.error("Error processing Register Data", e);
+        }
+        return result.toString();
+    }
+
+    public void doTag() throws JspException, IOException {
+        MCRDocDetailsRowTag docdetailsRow = (MCRDocDetailsRowTag) findAncestorWithClass(this,
+                MCRDocDetailsRowTag.class);
+        if (docdetailsRow == null) {
+            throw new JspException("This tag must be nested in tag called 'row' of the same tag library");
+        }
+        getJspContext().getOut().print(createHTML());
+    }
 }

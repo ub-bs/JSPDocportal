@@ -36,49 +36,48 @@ import net.sourceforge.stripes.controller.LifecycleStage;
  */
 @UrlBinding("/site/{path}")
 public class WebpageAction extends MCRAbstractStripesAction implements ActionBean {
-	
+
     private String path;
-	
-	String info = null;
-	
 
-	public WebpageAction() {
+    String info = null;
 
-	}
+    public WebpageAction() {
 
-	@Before(stages = LifecycleStage.BindingAndValidation)
-	public void rehydrate() {
-		super.rehydrate();
-		if (getContext().getRequest().getParameter("info") != null) {
-			info = cleanParameter(getContext().getRequest().getParameter("info"));
-		}
-	}
+    }
 
-	@DefaultHandler
-	public Resolution defaultRes() {
-	    if(path!=null){
-	        path = path.replace("\\", "/");
-	        MCRConfiguration config = MCRConfiguration.instance();
-	        if(!path.contains("..") && StringUtils.countMatches(path, "/")<=3){
-	            String navPath = config.getString("MCR.Webpage.Navigation."+path.replace("/",  "."), null);
-	            if(navPath!=null){
-	                getContext().getRequest().setAttribute("org.mycore.navigation.path",  navPath);
-	            }
-	            return new ForwardResolution(config.getString("MCR.Webpage.Resolution."+path.replace("/",  "."), config.getString("MCR.Webpage.Resolution.default", "/WEB-INF/views/webpage.jsp")));
-	        }
-	    }
-	    return new ForwardResolution("/");
-	    
-	}
-	
-	private String cleanParameter(String s){
-		return s.replaceAll("[^a-zA-Z_0-9.,]", "");
-	}
+    @Before(stages = LifecycleStage.BindingAndValidation)
+    public void rehydrate() {
+        super.rehydrate();
+        if (getContext().getRequest().getParameter("info") != null) {
+            info = cleanParameter(getContext().getRequest().getParameter("info"));
+        }
+    }
 
+    @DefaultHandler
+    public Resolution defaultRes() {
+        if (path != null) {
+            path = path.replace("\\", "/");
+            MCRConfiguration config = MCRConfiguration.instance();
+            if (!path.contains("..") && StringUtils.countMatches(path, "/") <= 3) {
+                String navPath = config.getString("MCR.Webpage.Navigation." + path.replace("/", "."), null);
+                if (navPath != null) {
+                    getContext().getRequest().setAttribute("org.mycore.navigation.path", navPath);
+                }
+                return new ForwardResolution(config.getString("MCR.Webpage.Resolution." + path.replace("/", "."),
+                        config.getString("MCR.Webpage.Resolution.default", "/WEB-INF/views/webpage.jsp")));
+            }
+        }
+        return new ForwardResolution("/");
 
-	public String getInfo() {
-		return info;
-	}
+    }
+
+    private String cleanParameter(String s) {
+        return s.replaceAll("[^a-zA-Z_0-9.,]", "");
+    }
+
+    public String getInfo() {
+        return info;
+    }
 
     public String getPath() {
         return path;
@@ -87,7 +86,7 @@ public class WebpageAction extends MCRAbstractStripesAction implements ActionBea
     public void setPath(String path) {
         this.path = path;
     }
-    
+
     public String calcFacetOutputString(String facetKey, String facetValue) {
         String result = facetValue;
         if (facetKey.contains("_msg.facet")) {
@@ -95,7 +94,7 @@ public class WebpageAction extends MCRAbstractStripesAction implements ActionBea
         }
         if (facetKey.contains("_class.facet")) {
             MCRCategory categ = MCRCategoryDAOFactory.getInstance().getCategory(MCRCategoryID.fromString(facetValue),
-                0);
+                    0);
             if (categ != null) {
                 result = categ.getCurrentLabel().get().getText();
             }
@@ -104,5 +103,5 @@ public class WebpageAction extends MCRAbstractStripesAction implements ActionBea
         return result;
 
     }
-	
+
 }

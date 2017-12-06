@@ -67,9 +67,9 @@ public class AdminWorkflowProcessesAction extends MCRAbstractStripesAction imple
             if (MCRAccessManager.checkPermission("administrate-" + objectType)) {
                 RuntimeService rs = MCRActivitiMgr.getWorfklowProcessEngine().getRuntimeService();
                 runningProcesses = rs.createProcessInstanceQuery()
-                    .variableValueEquals(MCRActivitiMgr.WF_VAR_OBJECT_TYPE, objectType)
-                    .variableValueEquals(MCRActivitiMgr.WF_VAR_PROJECT_ID, projectID).orderByProcessInstanceId().desc()
-                    .list();
+                        .variableValueEquals(MCRActivitiMgr.WF_VAR_OBJECT_TYPE, objectType)
+                        .variableValueEquals(MCRActivitiMgr.WF_VAR_PROJECT_ID, projectID).orderByProcessInstanceId()
+                        .desc().list();
             } else {
                 messages.add("You don't have the Permission to delete a process instance");
             }

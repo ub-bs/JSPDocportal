@@ -34,7 +34,6 @@ import org.mycore.common.MCRSession;
 import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.services.i18n.MCRTranslation;
 
-
 /**
  * Even though this class extends the SimpleTagSupport class, it is not meant to use it as one.
  * 
@@ -44,44 +43,42 @@ import org.mycore.services.i18n.MCRTranslation;
  */
 public class MCRAbstractTag extends SimpleTagSupport {
 
-	protected MCRSession mcrSession;
+    protected MCRSession mcrSession;
 
-	/**
-	 * contains all i18nized messages
-	 */
-	protected ResourceBundle rbMessages;
-	
-	/**
-	 * the current language in this HTTP/MCR-session
-	 */
-	protected String lang;
-	
-	
-	protected void init(){
-		mcrSession = MCRServlet.getSession((HttpServletRequest)((PageContext) getJspContext()).getRequest());
-		lang = mcrSession.getCurrentLanguage();
-		if(StringUtils.isEmpty(lang)){
-			lang = "de";
-		}
-		rbMessages = MCRTranslation.getResourceBundle("messages", new Locale(lang));
-	}
-	
-	/**
-	 * Looks up for a matching key in the message_**.properties.
-	 * @param key A valid key
-	 * @return if the key is not found, it returns "???<key>???"
-	 */
-	protected String retrieveI18N(String key) {
-		if (key == null || key.equals("")) {
-			return "";
-		} else {
-			if (rbMessages.containsKey(key)) {
-				return rbMessages.getString(key);
-			} else {
-				return "???" + key + "???";
-			}
-		}
-	}
-	
-	
+    /**
+     * contains all i18nized messages
+     */
+    protected ResourceBundle rbMessages;
+
+    /**
+     * the current language in this HTTP/MCR-session
+     */
+    protected String lang;
+
+    protected void init() {
+        mcrSession = MCRServlet.getSession((HttpServletRequest) ((PageContext) getJspContext()).getRequest());
+        lang = mcrSession.getCurrentLanguage();
+        if (StringUtils.isEmpty(lang)) {
+            lang = "de";
+        }
+        rbMessages = MCRTranslation.getResourceBundle("messages", new Locale(lang));
+    }
+
+    /**
+     * Looks up for a matching key in the message_**.properties.
+     * @param key A valid key
+     * @return if the key is not found, it returns "???<key>???"
+     */
+    protected String retrieveI18N(String key) {
+        if (key == null || key.equals("")) {
+            return "";
+        } else {
+            if (rbMessages.containsKey(key)) {
+                return rbMessages.getString(key);
+            } else {
+                return "???" + key + "???";
+            }
+        }
+    }
+
 }

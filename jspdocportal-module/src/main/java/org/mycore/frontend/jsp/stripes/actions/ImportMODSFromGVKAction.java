@@ -30,135 +30,137 @@ import net.sourceforge.stripes.controller.LifecycleStage;
 
 @UrlBinding("/importMODSFromGVK.action")
 public class ImportMODSFromGVKAction implements ActionBean {
-	ForwardResolution fwdResolution = new ForwardResolution("/content/workspace/import/import-mods-from-gvk.jsp");
-	private ActionBeanContext context;
+    ForwardResolution fwdResolution = new ForwardResolution("/content/workspace/import/import-mods-from-gvk.jsp");
+    private ActionBeanContext context;
 
-	private String returnPath = "";
-	private String mcrID = "";
-	private String gvkPPN = "";
-	private String modsXML = "";
+    private String returnPath = "";
+    private String mcrID = "";
+    private String gvkPPN = "";
+    private String modsXML = "";
 
-	public ActionBeanContext getContext() {
-		return context;
-	}
+    public ActionBeanContext getContext() {
+        return context;
+    }
 
-	public void setContext(ActionBeanContext context) {
-		this.context = context;
-	}
+    public void setContext(ActionBeanContext context) {
+        this.context = context;
+    }
 
-	public ImportMODSFromGVKAction() {
+    public ImportMODSFromGVKAction() {
 
-	}
+    }
 
-	@Before(stages = LifecycleStage.BindingAndValidation)
-	public void rehydrate() {
-		if (getContext().getRequest().getParameter("mcrid") != null) {
-			mcrID = getContext().getRequest().getParameter("mcrid");
-			if (gvkPPN.equals("")) {
-				findGVKPPN();
-			}
-		}
-		if (getContext().getRequest().getParameter("returnPath") != null) {
-			returnPath = getContext().getRequest().getParameter("returnPath");
-		}
-	}
+    @Before(stages = LifecycleStage.BindingAndValidation)
+    public void rehydrate() {
+        if (getContext().getRequest().getParameter("mcrid") != null) {
+            mcrID = getContext().getRequest().getParameter("mcrid");
+            if (gvkPPN.equals("")) {
+                findGVKPPN();
+            }
+        }
+        if (getContext().getRequest().getParameter("returnPath") != null) {
+            returnPath = getContext().getRequest().getParameter("returnPath");
+        }
+    }
 
-	@DefaultHandler
-	public Resolution defaultRes() {
-		return fwdResolution;
-	}
+    @DefaultHandler
+    public Resolution defaultRes() {
+        return fwdResolution;
+    }
 
-	public Resolution doRetrieve() {
-		if (gvkPPN != null) {
-			Element eMODS = GVKMODSImport.retrieveMODS(gvkPPN);
-			if (eMODS != null) {
-				XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
-				modsXML = outputter.outputString(eMODS);
-			}
-		}
-		return fwdResolution;
-	}
+    public Resolution doRetrieve() {
+        if (gvkPPN != null) {
+            Element eMODS = GVKMODSImport.retrieveMODS(gvkPPN);
+            if (eMODS != null) {
+                XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
+                modsXML = outputter.outputString(eMODS);
+            }
+        }
+        return fwdResolution;
+    }
 
-	public Resolution doSave() {
-		if (!mcrID.equals("")) {
-			try {
-				Document docJdom = MCRActivitiUtils.getWorkflowObjectXML(MCRObjectID.getInstance(mcrID));
-				Element eMeta = docJdom.getRootElement().getChild("metadata");
-				if (eMeta != null) {
-					Element eDefMods = eMeta.getChild("def.modsContainer");
-					if (eDefMods == null) {
-						eDefMods = new Element("def.modsContainer");
-						eMeta.addContent(0, eDefMods);
-						eDefMods.setAttribute("class", "MCRMetaXML");
-					}
-					eDefMods.removeContent();
-					Element eMods = new Element("modsContainer");
-					eDefMods.addContent(eMods);
-					
-					SAXBuilder sb = new SAXBuilder();
-					Element eModsData = sb.build(new StringReader(modsXML)).getRootElement();
-					eMods.addContent(eModsData.detach());
-				}
-				
-				Path file = MCRActivitiUtils.getWorkflowObjectFile(MCRObjectID.getInstance(mcrID));
-				try(BufferedWriter bw = Files.newBufferedWriter(file)){
-					XMLOutputter xout = new XMLOutputter(Format.getPrettyFormat());
-					xout.output(docJdom, bw);
-				}
-			} catch (JDOMException jdome) {
-				// do nothing
-			} catch (IOException e) {
-				// do nothing
-			}
-		}
+    public Resolution doSave() {
+        if (!mcrID.equals("")) {
+            try {
+                Document docJdom = MCRActivitiUtils.getWorkflowObjectXML(MCRObjectID.getInstance(mcrID));
+                Element eMeta = docJdom.getRootElement().getChild("metadata");
+                if (eMeta != null) {
+                    Element eDefMods = eMeta.getChild("def.modsContainer");
+                    if (eDefMods == null) {
+                        eDefMods = new Element("def.modsContainer");
+                        eMeta.addContent(0, eDefMods);
+                        eDefMods.setAttribute("class", "MCRMetaXML");
+                    }
+                    eDefMods.removeContent();
+                    Element eMods = new Element("modsContainer");
+                    eDefMods.addContent(eMods);
 
-		return new ForwardResolution(returnPath);
-	}
+                    SAXBuilder sb = new SAXBuilder();
+                    Element eModsData = sb.build(new StringReader(modsXML)).getRootElement();
+                    eMods.addContent(eModsData.detach());
+                }
 
-	public Resolution doCancel() {
-		return new ForwardResolution(returnPath);
-	}
+                Path file = MCRActivitiUtils.getWorkflowObjectFile(MCRObjectID.getInstance(mcrID));
+                try (BufferedWriter bw = Files.newBufferedWriter(file)) {
+                    XMLOutputter xout = new XMLOutputter(Format.getPrettyFormat());
+                    xout.output(docJdom, bw);
+                }
+            } catch (JDOMException jdome) {
+                // do nothing
+            } catch (IOException e) {
+                // do nothing
+            }
+        }
 
-	public String getMcrID() {
-		return mcrID;
-	}
+        return new ForwardResolution(returnPath);
+    }
 
-	public void setMcrID(String mcrid) {
-		this.mcrID = mcrid;
-	}
+    public Resolution doCancel() {
+        return new ForwardResolution(returnPath);
+    }
 
-	public String getGvkPPN() {
-		return gvkPPN;
-	}
+    public String getMcrID() {
+        return mcrID;
+    }
 
-	public void setGvkPPN(String gvkppn) {
-		this.gvkPPN = gvkppn;
-	}
+    public void setMcrID(String mcrid) {
+        this.mcrID = mcrid;
+    }
 
-	public String getModsXML() {
-		return modsXML;
-	}
+    public String getGvkPPN() {
+        return gvkPPN;
+    }
 
-	public void setModsXML(String modsXML) {
-		this.modsXML = modsXML;
-	}
+    public void setGvkPPN(String gvkppn) {
+        this.gvkPPN = gvkppn;
+    }
 
-	public String getReturnPath() {
-		return returnPath;
-	}
+    public String getModsXML() {
+        return modsXML;
+    }
 
-	public void setReturnPath(String returnPath) {
-		this.returnPath = returnPath;
-	}
+    public void setModsXML(String modsXML) {
+        this.modsXML = modsXML;
+    }
 
-	private void findGVKPPN() {
-		if (!mcrID.equals("")) {
-			Document docJdom = MCRActivitiUtils.getWorkflowObjectXML(MCRObjectID.getInstance(mcrID));
-			// <identifier type="gvk-ppn">721494285</identifier>>
-			Element e = XPathFactory.instance().compile("/mods:identifier[@type='gvk-ppn']", Filters.element(), null, MCRConstants.MODS_NAMESPACE).evaluateFirst(docJdom);
-			if (e != null) {
-				setGvkPPN(e.getTextNormalize());
-			}
-		}
-	}
+    public String getReturnPath() {
+        return returnPath;
+    }
+
+    public void setReturnPath(String returnPath) {
+        this.returnPath = returnPath;
+    }
+
+    private void findGVKPPN() {
+        if (!mcrID.equals("")) {
+            Document docJdom = MCRActivitiUtils.getWorkflowObjectXML(MCRObjectID.getInstance(mcrID));
+            // <identifier type="gvk-ppn">721494285</identifier>>
+            Element e = XPathFactory.instance()
+                    .compile("/mods:identifier[@type='gvk-ppn']", Filters.element(), null, MCRConstants.MODS_NAMESPACE)
+                    .evaluateFirst(docJdom);
+            if (e != null) {
+                setGvkPPN(e.getTextNormalize());
+            }
+        }
+    }
 }

@@ -60,194 +60,195 @@ import org.w3c.dom.Document;
  *          2010) $
  */
 public class MCRDocDetailsTag extends SimpleTagSupport {
-	//allowed values are "table" or "headlines"
-	private String outputStyle="table";
-	private String mcrID;
-	private boolean fromWorkflow = false;
-	private String lang="de";
-	private String var;
-	private String stylePrimaryName = "docdetails";
-	
-	private Document doc;
-	private int previousOutput;
-	private ResourceBundle messages;
+    //allowed values are "table" or "headlines"
+    private String outputStyle = "table";
+    private String mcrID;
+    private boolean fromWorkflow = false;
+    private String lang = "de";
+    private String var;
+    private String stylePrimaryName = "docdetails";
 
-	/**
-	 * sets the MCR Object ID (mandatory)
-	 * 
-	 * @param mcrID
-	 *            the MCR object ID
-	 * 
-	 */
-	public void setMcrID(String mcrID) {
-		this.mcrID = mcrID;
-	}
+    private Document doc;
+    private int previousOutput;
+    private ResourceBundle messages;
 
-	/**
-	 * if set to true, the MCR object is retrieved from workflow directory and
-	 * not from database (mandatory)
-	 * 
-	 * @param mcrID
-	 *            the MCR object ID
-	 * 
-	 */
-	public void setFromWorkflow(boolean fromWorkflow) {
-		this.fromWorkflow = fromWorkflow;
-	}
+    /**
+     * sets the MCR Object ID (mandatory)
+     * 
+     * @param mcrID
+     *            the MCR object ID
+     * 
+     */
+    public void setMcrID(String mcrID) {
+        this.mcrID = mcrID;
+    }
 
-	/**
-	 * sets the ISO 639 2-letter Language Codes (Obsolete) (defaults to "de")
-	 * 
-	 * used when retrieving labels and messages from ressource bundle
-	 * 
-	 * @param lang -
-	 *            the language as 2-letter ISO 639 Code
-	 */
-	public void setLang(String lang) {
-		this.lang = lang;
-	}
+    /**
+     * if set to true, the MCR object is retrieved from workflow directory and
+     * not from database (mandatory)
+     * 
+     * @param mcrID
+     *            the MCR object ID
+     * 
+     */
+    public void setFromWorkflow(boolean fromWorkflow) {
+        this.fromWorkflow = fromWorkflow;
+    }
 
-	/**
-	 * sets the name of the variable in which to store the XML Document as
-	 * org.w3c.dom.Node for further use in processing the JSP 
-	 * (stored in request scope)
-	 * 
-	 * @param var -
-	 *            the name of the variable
-	 */
-	public void setVar(String var) {
-		this.var = var;
-	}
+    /**
+     * sets the ISO 639 2-letter Language Codes (Obsolete) (defaults to "de")
+     * 
+     * used when retrieving labels and messages from ressource bundle
+     * 
+     * @param lang -
+     *            the language as 2-letter ISO 639 Code
+     */
+    public void setLang(String lang) {
+        this.lang = lang;
+    }
 
-	/**
-	 * sets the prefix for CSS-styles names to be used
-	 * (defaults to "docdetails")
-	 * 
-	 * @param stylePrimaryName -
-	 *            the CSS style name prefix
-	 */
-	public void setStylePrimaryName(String stylePrimaryName) {
-		this.stylePrimaryName = stylePrimaryName;
-	}
+    /**
+     * sets the name of the variable in which to store the XML Document as
+     * org.w3c.dom.Node for further use in processing the JSP 
+     * (stored in request scope)
+     * 
+     * @param var -
+     *            the name of the variable
+     */
+    public void setVar(String var) {
+        this.var = var;
+    }
 
-	/**
-	 * executes the tag
-	 */
-	public void doTag() throws JspException, IOException {
-		byte[] data = new byte[0];
-		try {
-			messages = MCRTranslation.getResourceBundle("messages", new Locale(lang));
-			MCRObjectID mcrObjID = MCRObjectID.getInstance(mcrID);
-			org.jdom2.Document xml = null;
-			if (fromWorkflow) {
-				xml = MCRActivitiUtils.getWorkflowObjectXML(mcrObjID);
-			} else {
-			    xml = MCRMetadataManager.retrieve(mcrObjID).createXML();    
-			}
-			DOMOutputter domOut = new DOMOutputter();
-		    doc = domOut.output(xml);
-			if (var != null) {
-				getJspContext().setAttribute(var, doc, PageContext.REQUEST_SCOPE);
-			}
+    /**
+     * sets the prefix for CSS-styles names to be used
+     * (defaults to "docdetails")
+     * 
+     * @param stylePrimaryName -
+     *            the CSS style name prefix
+     */
+    public void setStylePrimaryName(String stylePrimaryName) {
+        this.stylePrimaryName = stylePrimaryName;
+    }
 
-		} catch (JDOMException e) {
-			throw new JspException(e);
-		}
-		JspWriter out = getJspContext().getOut();
-		PageContext pageContext = (PageContext) getJspContext();
+    /**
+     * executes the tag
+     */
+    public void doTag() throws JspException, IOException {
+        byte[] data = new byte[0];
+        try {
+            messages = MCRTranslation.getResourceBundle("messages", new Locale(lang));
+            MCRObjectID mcrObjID = MCRObjectID.getInstance(mcrID);
+            org.jdom2.Document xml = null;
+            if (fromWorkflow) {
+                xml = MCRActivitiUtils.getWorkflowObjectXML(mcrObjID);
+            } else {
+                xml = MCRMetadataManager.retrieve(mcrObjID).createXML();
+            }
+            DOMOutputter domOut = new DOMOutputter();
+            doc = domOut.output(xml);
+            if (var != null) {
+                getJspContext().setAttribute(var, doc, PageContext.REQUEST_SCOPE);
+            }
 
-		// DEBUG mode: output xml data as text
-		if (pageContext.getRequest().getParameter("debug") != null && pageContext.getRequest().getParameter("debug").equals("true")) {
-			SAXBuilder sb = new SAXBuilder();
-			try {
-				XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
-				org.jdom2.Document jdom = sb.build(new ByteArrayInputStream(data));
-				StringBuffer debugSB = new StringBuffer("<textarea cols=\"120\" rows=\"30\">").append("MCRObject:\r\n")
-						//.append(JSPUtils.getPrettyString(jdom).replace("<", "&lt;").replace(">", "&gt;").replace("&", "&amp;"))
-						.append(outputter.outputString(jdom).replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", ""))
-						.append("</textarea>");
-				out.println(debugSB.toString());
-			} catch (JDOMException e) {
-				// do nothing
-			}
-		}
-		if(outputStyle.equals("table")){
-			out.write("<table class=\"" + getStylePrimaryName() + "-table\" cellpadding=\"0\" cellspacing=\"0\">\n");
-			out.write("<tbody>\n");
+        } catch (JDOMException e) {
+            throw new JspException(e);
+        }
+        JspWriter out = getJspContext().getOut();
+        PageContext pageContext = (PageContext) getJspContext();
 
-			getJspBody().invoke(out);
+        // DEBUG mode: output xml data as text
+        if (pageContext.getRequest().getParameter("debug") != null
+                && pageContext.getRequest().getParameter("debug").equals("true")) {
+            SAXBuilder sb = new SAXBuilder();
+            try {
+                XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
+                org.jdom2.Document jdom = sb.build(new ByteArrayInputStream(data));
+                StringBuffer debugSB = new StringBuffer("<textarea cols=\"120\" rows=\"30\">").append("MCRObject:\r\n")
+                        //.append(JSPUtils.getPrettyString(jdom).replace("<", "&lt;").replace(">", "&gt;").replace("&", "&amp;"))
+                        .append(outputter.outputString(jdom).replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", ""))
+                        .append("</textarea>");
+                out.println(debugSB.toString());
+            } catch (JDOMException e) {
+                // do nothing
+            }
+        }
+        if (outputStyle.equals("table")) {
+            out.write("<table class=\"" + getStylePrimaryName() + "-table\" cellpadding=\"0\" cellspacing=\"0\">\n");
+            out.write("<tbody>\n");
 
-			out.write("</tbody>\n");
-			out.write("</table>\n");
-		}
-		if(outputStyle.equals("headlines")){
-			out.write("<div class=\"" + getStylePrimaryName()+"\">\n");
-			getJspBody().invoke(out);
-			out.write("</div>\n");			
-		}
-	}
+            getJspBody().invoke(out);
 
-	/**
-	 * returns the context node.
-	 * for this tag it is always the document node
-	 * @return the document as org.w3c.dom.Node
-	 * 
-	 * @throws JspTagException
-	 */
-	public org.w3c.dom.Node getContext() throws JspTagException {
-		// expose the current node as the context
-		return doc;
-	}
+            out.write("</tbody>\n");
+            out.write("</table>\n");
+        }
+        if (outputStyle.equals("headlines")) {
+            out.write("<div class=\"" + getStylePrimaryName() + "\">\n");
+            getJspBody().invoke(out);
+            out.write("</div>\n");
+        }
+    }
 
-	/**
-	 * returns the current language used in resource bundles
-	 * @return the language as 2-letter ISO 639 Code
-	 */
-	public String getLang() {
-		return lang;
-	}
-	
-	/**
-	 * @return the prefix for CSS-style names
-	 */
-	public String getStylePrimaryName() {
-		return stylePrimaryName;
-	}
+    /**
+     * returns the context node.
+     * for this tag it is always the document node
+     * @return the document as org.w3c.dom.Node
+     * 
+     * @throws JspTagException
+     */
+    public org.w3c.dom.Node getContext() throws JspTagException {
+        // expose the current node as the context
+        return doc;
+    }
 
-	/**
-	 * sets the number of previous outputs
-	 * needed to calculate whether a separator line shall be displayed 
-	 * (avoids 2 separator lines next to each other due to missing content between them)
-	 * 
-	 * @param previousOutput the number of actually displayed rows
-	 */
-	protected void setPreviousOutput(int previousOutput) {
-		this.previousOutput = previousOutput;
-	}
+    /**
+     * returns the current language used in resource bundles
+     * @return the language as 2-letter ISO 639 Code
+     */
+    public String getLang() {
+        return lang;
+    }
 
-	/**
-	 * returns the number of previous outputs
-	 * needed to calculate whether a separator line shall be displayed 
-	 * (avoids 2 separator lines next to each other due to missing content between them)
-	 * 
-	 * @return the number of actually displayed rows
-	 */
-	protected int getPreviousOutput() {
-		return previousOutput;
-	}
+    /**
+     * @return the prefix for CSS-style names
+     */
+    public String getStylePrimaryName() {
+        return stylePrimaryName;
+    }
 
-	/**
-	 * @return the resource bundle for messages, labels, etc.
-	 */
-	protected ResourceBundle getMessages() {
-		return messages;
-	}
+    /**
+     * sets the number of previous outputs
+     * needed to calculate whether a separator line shall be displayed 
+     * (avoids 2 separator lines next to each other due to missing content between them)
+     * 
+     * @param previousOutput the number of actually displayed rows
+     */
+    protected void setPreviousOutput(int previousOutput) {
+        this.previousOutput = previousOutput;
+    }
 
-	public String getOutputStyle() {
-		return outputStyle;
-	}
+    /**
+     * returns the number of previous outputs
+     * needed to calculate whether a separator line shall be displayed 
+     * (avoids 2 separator lines next to each other due to missing content between them)
+     * 
+     * @return the number of actually displayed rows
+     */
+    protected int getPreviousOutput() {
+        return previousOutput;
+    }
 
-	public void setOutputStyle(String outputStyle) {
-		this.outputStyle = outputStyle;
-	}
+    /**
+     * @return the resource bundle for messages, labels, etc.
+     */
+    protected ResourceBundle getMessages() {
+        return messages;
+    }
+
+    public String getOutputStyle() {
+        return outputStyle;
+    }
+
+    public void setOutputStyle(String outputStyle) {
+        this.outputStyle = outputStyle;
+    }
 }

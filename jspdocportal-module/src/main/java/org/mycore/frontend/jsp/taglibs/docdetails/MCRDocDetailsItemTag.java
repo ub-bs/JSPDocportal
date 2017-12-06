@@ -54,8 +54,8 @@ public class MCRDocDetailsItemTag extends SimpleTagSupport {
     private String css = "";
 
     private String var = "";
-    
-    private boolean escapeXml=true;
+
+    private boolean escapeXml = true;
 
     public void setSelect(String xpath) {
         this.xp = xpath;
@@ -76,17 +76,18 @@ public class MCRDocDetailsItemTag extends SimpleTagSupport {
     public void setVar(String name) {
         this.var = name;
     }
-	
+
     public void setEscapeXml(boolean escapeXml) {
-		this.escapeXml = escapeXml;
-	}
+        this.escapeXml = escapeXml;
+    }
 
     public void doTag() throws JspException, IOException {
-        MCRDocDetailsRowTag docdetailsRow = (MCRDocDetailsRowTag) findAncestorWithClass(this, MCRDocDetailsRowTag.class);
+        MCRDocDetailsRowTag docdetailsRow = (MCRDocDetailsRowTag) findAncestorWithClass(this,
+                MCRDocDetailsRowTag.class);
         MCRDocDetailsTag docdetails = (MCRDocDetailsTag) findAncestorWithClass(this, MCRDocDetailsTag.class);
         if (docdetailsRow == null && docdetails == null) {
             throw new JspException(
-                "This tag must be nested in tag called 'row' or 'docdetails' of the same tag library");
+                    "This tag must be nested in tag called 'row' or 'docdetails' of the same tag library");
         }
         Node context;
         if (docdetailsRow != null) {
@@ -148,8 +149,8 @@ public class MCRDocDetailsItemTag extends SimpleTagSupport {
             } else {
                 td = "<td class=\"" + docdetails.getStylePrimaryName() + "-value\">";
             }
-            if(escapeXml){
-            	result = StringEscapeUtils.escapeXml10(result); 
+            if (escapeXml) {
+                result = StringEscapeUtils.escapeXml10(result);
             }
             getJspContext().getOut().print(td + result + "</td>");
         }
@@ -178,4 +179,3 @@ public class MCRDocDetailsItemTag extends SimpleTagSupport {
 		</td>
 </tr>
 */
-

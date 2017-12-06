@@ -37,6 +37,7 @@ import org.mycore.common.MCRConstants;
 import org.mycore.common.MCRSession;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.frontend.servlets.MCRServlet;
+
 /**
  * Tag that retrieves the current languages from session
  * and stores it in a given variable.
@@ -47,52 +48,51 @@ import org.mycore.frontend.servlets.MCRServlet;
  * @author Robert Stephan
  *
  */
-public class MCRSetLanguageTag extends SimpleTagSupport
-{
-	private String var;
-	private String allowedLanguages="";
-	
-	/**
-	 * Sets the variable name, where the language should be saved to.
-	 * @param inputVar
-	 */
-	public void setVar(String inputVar) {
-		var = inputVar;
-	}
-	
-	/**
-	 * Provides a list of space separated language names (2 letter ISO 639-1 code) 
-	 * which are valid as current language.
-	 * @param allowedLanguages
-	 */
-	public void setAllowedLanguages(String allowedLanguages) {
-		this.allowedLanguages = allowedLanguages;
-	}	
-		
-	public void doTag() throws JspException, IOException {
-		PageContext pageContext = (PageContext) getJspContext();
-		MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest)pageContext.getRequest());
-		
-		String requestParamLang = pageContext.getRequest().getParameter("lang");
-		if(requestParamLang!=null){
-			String[] langArray = allowedLanguages.split("\\s");
-			List<String> languages = new ArrayList<String>();
-			for(int i=0;i<langArray.length;i++){
-				if(langArray[i].trim().length()>0){
-					languages.add(langArray[i].trim());
-				}
-			}
-			if(languages.contains(requestParamLang)){
-				mcrSession.setCurrentLanguage(requestParamLang);
-				Locale loc = new Locale(requestParamLang);
-				Config.set(pageContext.getSession(), Config.FMT_LOCALE, loc);
-			}
-			else{
-				mcrSession.setCurrentLanguage(MCRConfiguration.instance().getString("MCR.Metadata.DefaultLang", MCRConstants.DEFAULT_LANG));
-			}
-		}
-		if(var!=null){
-			pageContext.setAttribute(var, mcrSession.getCurrentLanguage());
-		}
-	}
+public class MCRSetLanguageTag extends SimpleTagSupport {
+    private String var;
+    private String allowedLanguages = "";
+
+    /**
+     * Sets the variable name, where the language should be saved to.
+     * @param inputVar
+     */
+    public void setVar(String inputVar) {
+        var = inputVar;
+    }
+
+    /**
+     * Provides a list of space separated language names (2 letter ISO 639-1 code) 
+     * which are valid as current language.
+     * @param allowedLanguages
+     */
+    public void setAllowedLanguages(String allowedLanguages) {
+        this.allowedLanguages = allowedLanguages;
+    }
+
+    public void doTag() throws JspException, IOException {
+        PageContext pageContext = (PageContext) getJspContext();
+        MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest) pageContext.getRequest());
+
+        String requestParamLang = pageContext.getRequest().getParameter("lang");
+        if (requestParamLang != null) {
+            String[] langArray = allowedLanguages.split("\\s");
+            List<String> languages = new ArrayList<String>();
+            for (int i = 0; i < langArray.length; i++) {
+                if (langArray[i].trim().length() > 0) {
+                    languages.add(langArray[i].trim());
+                }
+            }
+            if (languages.contains(requestParamLang)) {
+                mcrSession.setCurrentLanguage(requestParamLang);
+                Locale loc = new Locale(requestParamLang);
+                Config.set(pageContext.getSession(), Config.FMT_LOCALE, loc);
+            } else {
+                mcrSession.setCurrentLanguage(
+                        MCRConfiguration.instance().getString("MCR.Metadata.DefaultLang", MCRConstants.DEFAULT_LANG));
+            }
+        }
+        if (var != null) {
+            pageContext.setAttribute(var, mcrSession.getCurrentLanguage());
+        }
+    }
 }

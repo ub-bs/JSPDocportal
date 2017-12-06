@@ -43,180 +43,204 @@ import org.w3c.dom.Node;
  * 
  */
 public class MCRDocDetailsRowTag extends SimpleTagSupport {
-	private boolean showinfo = false;
-	private String xpath;
-	private String labelkey;
-	private String colWidths;
+    private boolean showinfo = false;
+    private String xpath;
+    private String labelkey;
+    private String colWidths;
 
-	private Node xml;
+    private Node xml;
 
-	/**
-	 * the XPath epxression that leads to this row
-	 * 
-	 * @param s
-	 *            an XPath expression
-	 */
-	public void setSelect(String s) {
-		xpath = s;
-	}
+    /**
+     * the XPath epxression that leads to this row
+     * 
+     * @param s
+     *            an XPath expression
+     */
+    public void setSelect(String s) {
+        xpath = s;
+    }
 
-	/**
-	 * the key, which will be looked up in the resourcebundle to retrieve the
-	 * label, that will be displayed on the left side
-	 * 
-	 * @param s
-	 */
-	public void setLabelkey(String s) {
-		labelkey = s;
-	}
+    /**
+     * the key, which will be looked up in the resourcebundle to retrieve the
+     * label, that will be displayed on the left side
+     * 
+     * @param s
+     */
+    public void setLabelkey(String s) {
+        labelkey = s;
+    }
 
-	/**
-	 * predefined column widths for item tables see colWidths attribute in HTML
-	 * Element &lt;tr&gt; for details
-	 * 
-	 * @param s
-	 */
-	public void setColWidths(String s) {
-		colWidths = s;
-	}
+    /**
+     * predefined column widths for item tables see colWidths attribute in HTML
+     * Element &lt;tr&gt; for details
+     * 
+     * @param s
+     */
+    public void setColWidths(String s) {
+        colWidths = s;
+    }
 
+    /**
+     * if set to true an infobox will be displayed in front of the label which
+     * can contain detailed information for the field
+     * 
+     * @param b
+     */
+    public void setShowInfo(boolean b) {
+        showinfo = b;
+    }
 
-	/**
-	 * if set to true an infobox will be displayed in front of the label which
-	 * can contain detailed information for the field
-	 * 
-	 * @param b
-	 */
-	public void setShowInfo(boolean b) {
-		showinfo = b;
-	}
+    protected Node getContext() {
+        return xml;
+    }
 
-	protected Node getContext() {
-		return xml;
-	}
+    private MCRDocDetailsTag docdetails;
 
-	private MCRDocDetailsTag docdetails;
+    public void doTag() throws JspException, IOException {
+        docdetails = (MCRDocDetailsTag) findAncestorWithClass(this, MCRDocDetailsTag.class);
+        if (docdetails == null) {
+            throw new JspException("This tag must be nested in tag called 'docdetails' of the same tag library");
+        }
+        String xp = xpath;
 
-	public void doTag() throws JspException, IOException {
-		docdetails = (MCRDocDetailsTag) findAncestorWithClass(this, MCRDocDetailsTag.class);
-		if (docdetails == null) {
-			throw new JspException("This tag must be nested in tag called 'docdetails' of the same tag library");
-		}
-		String xp = xpath;
+        PageContext ctx = (PageContext) getJspContext();
 
-		PageContext ctx = (PageContext) getJspContext();
+        JspWriter out = getJspContext().getOut();
+        XPathUtil xu = new XPathUtil((PageContext) getJspContext());
+        @SuppressWarnings("rawtypes")
+        List nodes = xu.selectNodes(docdetails.getContext(), xp);
+        if (nodes.size() > 0) {
+            docdetails.setPreviousOutput(docdetails.getPreviousOutput() + 1);
+            if (docdetails.getOutputStyle().equals("table")) {
+                out.write("<tr>");
+                out.write("   <td class=\"" + docdetails.getStylePrimaryName() + "-infolabel\">");
+                printInfoLabel(ctx, out);
+                out.write("</td>\n");
 
-		JspWriter out = getJspContext().getOut();
-		XPathUtil xu = new XPathUtil((PageContext) getJspContext());
-		@SuppressWarnings("rawtypes")
-		List nodes = xu.selectNodes(docdetails.getContext(), xp);
-		if (nodes.size() > 0) {
-			docdetails.setPreviousOutput(docdetails.getPreviousOutput() + 1);
-			if(docdetails.getOutputStyle().equals("table")){
-				out.write("<tr>");
-				out.write("   <td class=\"" + docdetails.getStylePrimaryName() + "-infolabel\">");
-				printInfoLabel(ctx, out);
-				out.write("</td>\n");
-			
-				String label = getLabel();
-				out.write("   <td class=\"" + docdetails.getStylePrimaryName() + "-label\">" + label + "</td>\n");
-				out.write("   <td class=\"" + docdetails.getStylePrimaryName() + "-values\">\n");
-				printValuesTable(nodes, out);
-				out.write("</td></tr>");
-			}
-			if(docdetails.getOutputStyle().equals("headlines")){
-				out.write(" <div class=\"" + docdetails.getStylePrimaryName() + "-block\">\n");
-				printInfoLabel(ctx, out);
-				String label = getLabel().replace("<br>", " ").replace("<br />", " ").replace("<br/>", " ");
-				out.write("      <div class=\"" + docdetails.getStylePrimaryName() + "-label\">" + label + "</div>\n");
-				out.write("      <div class=\"" + docdetails.getStylePrimaryName() + "-values\">\n");
-				printValuesTable(nodes, out);
-				out.write("   </div>");
-				out.write("</div>");
-				
-				
-			}
-		}
-	}
-	
-	@SuppressWarnings("rawtypes")
-	private void printValuesTable(List nodes, JspWriter out) throws JspException, IOException{
-		out.write("   		<table class=\"" + docdetails.getStylePrimaryName() + "-values-table\">\n");
-		if (colWidths != null && !colWidths.equals("")) {
-			String[] ss = colWidths.split("\\s");
-			out.write("   	   	<colgroup>");
-			for (String s : ss) {
-				out.write(" <col style=\"width:" + s + "\"></col>");
-			}
-			out.write("   	   	</colgroup>\n");
-		}
-		out.write("   	   	<tbody>\n");
-		for (int i = 0; i < nodes.size(); i++) {
-			xml = (Node) nodes.get(i);
-			out.write("<tr>");
-			getJspBody().invoke(out);
-			out.write("</tr>");
-		}
+                String label = getLabel();
+                out.write("   <td class=\"" + docdetails.getStylePrimaryName() + "-label\">" + label + "</td>\n");
+                out.write("   <td class=\"" + docdetails.getStylePrimaryName() + "-values\">\n");
+                printValuesTable(nodes, out);
+                out.write("</td></tr>");
+            }
+            if (docdetails.getOutputStyle().equals("headlines")) {
+                out.write(" <div class=\"" + docdetails.getStylePrimaryName() + "-block\">\n");
+                printInfoLabel(ctx, out);
+                String label = getLabel().replace("<br>", " ").replace("<br />", " ").replace("<br/>", " ");
+                out.write("      <div class=\"" + docdetails.getStylePrimaryName() + "-label\">" + label + "</div>\n");
+                out.write("      <div class=\"" + docdetails.getStylePrimaryName() + "-values\">\n");
+                printValuesTable(nodes, out);
+                out.write("   </div>");
+                out.write("</div>");
 
-		out.write("   	   	</tbody></table>\n");
-	}
-	
-	private void printInfoLabel(PageContext ctx, JspWriter out) throws JspException, IOException{
-	boolean print = "true".equals(ctx.getRequest().getParameter("print"));
-		if (showinfo && !print) {
-			String info = "";
-			try {
-				info = docdetails.getMessages().getString(labelkey + ".info");
-			} catch (MissingResourceException e) {
-				info = "???" + labelkey + ".info???<br /><i>Eine Beschreibung für das Feld wird gerade erstellt.</i>";
-			}
-			String id = labelkey.replaceAll("[^A-Za-z0-9]", "_");
-			//out.write("<div class=\"" + docdetails.getStylePrimaryName() + "-infohover\">" + "<a href=\"#\"><i class=\"fa fa-info-circle\"></i><span>" + info + "</span></a></div>");
-		
-			out.write("<div class=\"" + docdetails.getStylePrimaryName() + "-info pull-left\">");
-			out.write("  <a id=\"infoButton_"+ id +"\" type=\"button\" class=\"btn btn-default btn-xs docdetails-info-btn\" data-toggle=\"popover\" >");
-			out.write("     <i class=\"fa fa-info-circle\"></i>");
-			out.write("  </a>");
-			out.write("\n  <script>                                                                                         ");
-            out.write("\n  $(document).ready(function(){                                                                    ");                                                                            
-			out.write("\n	   $('#infoButton_"+id+"').popover({                                                            ");
-			out.write("\n	            title: '"+MCRTranslation.translate("Webpage.docdetails.infodialog.title", MCRTranslation.translate(labelkey).replace("<br />", ""))+"', ");
-			out.write("\n	            content : '"+info+".',                                                              ");
-			// to use placement function to set id into newly created popup
-			out.write("\n	            placement :  function(context, src) {                                               ");
-			out.write("\n	                             $(context).addClass('po_"+id+"');                                  ");
-			out.write("\n	                             return 'auto left';                                                ");
-			out.write("\n	                          },                                                                    ");
-			out.write("\n	            html: true,                                                                         ");
-			out.write("\n	            trigger: 'manual' })                                                                ");
-			out.write("\n	        .on('mouseenter', function () {                                                         ");
-			out.write("\n	              $('#infoButton_"+id+"').popover('show');                                          ");
-			out.write("\n	              $('.po_"+id+"').on('mouseleave', function () {                                    ");
-			out.write("\n	                  $('#infoButton_"+id+"').popover('hide');                                      ");
-			out.write("\n	              });})                                                                             ");
-			out.write("\n	        .on('mouseleave', function () {                                                         ");
-			out.write("\n	              setTimeout(function () {                                                          ");
-			out.write("\n	                 if (!$('.po_"+id+":hover').length) { $('#infoButton_"+id+"').popover('hide'); }");
-			out.write("\n	              }, 500);                                                                          ");
-			out.write("\n	        });                                                                                     ");
-            out.write("\n       });                                                                                         ");
-			out.write("\n  </script>                                                                                        ");
-			out.write("");
-			out.write("</div>");
-		}
-	}
-	
-	private String getLabel(){
-		String label = "";
-		if (labelkey.length() > 0) {
-			try {
-				label = docdetails.getMessages().getString(labelkey);
-			} catch (MissingResourceException e) {
-				label = "???" + labelkey + "???";
-			}
-		}
-		if(label.length()>0){label = label+":";}
-		return label;
-	}
-	
+            }
+        }
+    }
+
+    @SuppressWarnings("rawtypes")
+    private void printValuesTable(List nodes, JspWriter out) throws JspException, IOException {
+        out.write("   		<table class=\"" + docdetails.getStylePrimaryName() + "-values-table\">\n");
+        if (colWidths != null && !colWidths.equals("")) {
+            String[] ss = colWidths.split("\\s");
+            out.write("   	   	<colgroup>");
+            for (String s : ss) {
+                out.write(" <col style=\"width:" + s + "\"></col>");
+            }
+            out.write("   	   	</colgroup>\n");
+        }
+        out.write("   	   	<tbody>\n");
+        for (int i = 0; i < nodes.size(); i++) {
+            xml = (Node) nodes.get(i);
+            out.write("<tr>");
+            getJspBody().invoke(out);
+            out.write("</tr>");
+        }
+
+        out.write("   	   	</tbody></table>\n");
+    }
+
+    private void printInfoLabel(PageContext ctx, JspWriter out) throws JspException, IOException {
+        boolean print = "true".equals(ctx.getRequest().getParameter("print"));
+        if (showinfo && !print) {
+            String info = "";
+            try {
+                info = docdetails.getMessages().getString(labelkey + ".info");
+            } catch (MissingResourceException e) {
+                info = "???" + labelkey + ".info???<br /><i>Eine Beschreibung für das Feld wird gerade erstellt.</i>";
+            }
+            String id = labelkey.replaceAll("[^A-Za-z0-9]", "_");
+            //out.write("<div class=\"" + docdetails.getStylePrimaryName() + "-infohover\">" + "<a href=\"#\"><i class=\"fa fa-info-circle\"></i><span>" + info + "</span></a></div>");
+
+            out.write("<div class=\"" + docdetails.getStylePrimaryName() + "-info pull-left\">");
+            out.write("  <a id=\"infoButton_" + id
+                    + "\" type=\"button\" class=\"btn btn-default btn-xs docdetails-info-btn\" data-toggle=\"popover\" >");
+            out.write("     <i class=\"fa fa-info-circle\"></i>");
+            out.write("  </a>");
+            out.write(
+                    "\n  <script>                                                                                         ");
+            out.write(
+                    "\n  $(document).ready(function(){                                                                    ");
+            out.write("\n	   $('#infoButton_" + id
+                    + "').popover({                                                            ");
+            out.write("\n	            title: '" + MCRTranslation.translate("Webpage.docdetails.infodialog.title",
+                    MCRTranslation.translate(labelkey).replace("<br />", "")) + "', ");
+            out.write("\n	            content : '" + info
+                    + ".',                                                              ");
+            // to use placement function to set id into newly created popup
+            out.write(
+                    "\n	            placement :  function(context, src) {                                               ");
+            out.write("\n	                             $(context).addClass('po_" + id
+                    + "');                                  ");
+            out.write(
+                    "\n	                             return 'auto left';                                                ");
+            out.write(
+                    "\n	                          },                                                                    ");
+            out.write(
+                    "\n	            html: true,                                                                         ");
+            out.write(
+                    "\n	            trigger: 'manual' })                                                                ");
+            out.write(
+                    "\n	        .on('mouseenter', function () {                                                         ");
+            out.write("\n	              $('#infoButton_" + id
+                    + "').popover('show');                                          ");
+            out.write("\n	              $('.po_" + id
+                    + "').on('mouseleave', function () {                                    ");
+            out.write("\n	                  $('#infoButton_" + id
+                    + "').popover('hide');                                      ");
+            out.write(
+                    "\n	              });})                                                                             ");
+            out.write(
+                    "\n	        .on('mouseleave', function () {                                                         ");
+            out.write(
+                    "\n	              setTimeout(function () {                                                          ");
+            out.write("\n	                 if (!$('.po_" + id + ":hover').length) { $('#infoButton_" + id
+                    + "').popover('hide'); }");
+            out.write(
+                    "\n	              }, 500);                                                                          ");
+            out.write(
+                    "\n	        });                                                                                     ");
+            out.write(
+                    "\n       });                                                                                         ");
+            out.write(
+                    "\n  </script>                                                                                        ");
+            out.write("");
+            out.write("</div>");
+        }
+    }
+
+    private String getLabel() {
+        String label = "";
+        if (labelkey.length() > 0) {
+            try {
+                label = docdetails.getMessages().getString(labelkey);
+            } catch (MissingResourceException e) {
+                label = "???" + labelkey + "???";
+            }
+        }
+        if (label.length() > 0) {
+            label = label + ":";
+        }
+        return label;
+    }
+
 }

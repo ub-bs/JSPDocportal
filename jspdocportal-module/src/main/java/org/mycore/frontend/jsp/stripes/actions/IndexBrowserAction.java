@@ -33,133 +33,132 @@ import net.sourceforge.stripes.controller.LifecycleStage;
 
 @UrlBinding("/indexbrowser/{modus}")
 public class IndexBrowserAction extends MCRAbstractStripesAction implements ActionBean {
-	private static Logger LOGGER = LogManager.getLogger(IndexBrowserAction.class);
+    private static Logger LOGGER = LogManager.getLogger(IndexBrowserAction.class);
     ForwardResolution fwdResolution = new ForwardResolution("/content/indexbrowser.jsp");
 
-	private TreeSet<String> firstSelector = new TreeSet<String>();
-	private Map<String, Long> secondSelector = new TreeMap<String, Long>();
-	private String modus = "";
-	private String select;
-	private MCRSearchResultDataBean mcrSearchResult;
+    private TreeSet<String> firstSelector = new TreeSet<String>();
+    private Map<String, Long> secondSelector = new TreeMap<String, Long>();
+    private String modus = "";
+    private String select;
+    private MCRSearchResultDataBean mcrSearchResult;
 
-	public IndexBrowserAction() {
+    public IndexBrowserAction() {
 
-	}
+    }
 
-	@Before(stages = LifecycleStage.BindingAndValidation)
-	public void rehydrate() {
-		super.rehydrate();
-		if (getContext().getRequest().getParameter("modus") != null) {
-			modus = getContext().getRequest().getParameter("modus");
-		}
-		if (getContext().getRequest().getParameter("select") != null) {
-			select = getContext().getRequest().getParameter("select");
-		}
+    @Before(stages = LifecycleStage.BindingAndValidation)
+    public void rehydrate() {
+        super.rehydrate();
+        if (getContext().getRequest().getParameter("modus") != null) {
+            modus = getContext().getRequest().getParameter("modus");
+        }
+        if (getContext().getRequest().getParameter("select") != null) {
+            select = getContext().getRequest().getParameter("select");
+        }
 
-	}
+    }
 
-	@DefaultHandler
-	public Resolution defaultRes() {
-		MCRConfiguration config = MCRConfiguration.instance();
-		try {
-			String searchfield = config.getString("MCR.IndexBrowser." + modus + ".Searchfield");
-			String facetfield = config.getString("MCR.IndexBrowser." + modus + ".Facetfield");
-			String filterQuery = config.getString("MCR.IndexBrowser." + modus + ".FilterQuery", null);
+    @DefaultHandler
+    public Resolution defaultRes() {
+        MCRConfiguration config = MCRConfiguration.instance();
+        try {
+            String searchfield = config.getString("MCR.IndexBrowser." + modus + ".Searchfield");
+            String facetfield = config.getString("MCR.IndexBrowser." + modus + ".Facetfield");
+            String filterQuery = config.getString("MCR.IndexBrowser." + modus + ".FilterQuery", null);
 
-			// set first selector
-			SolrQuery q = new SolrQuery();
-			q.setQuery(searchfield + ":*");
-			q.addFacetField(facetfield);
-			q.add("facet.limit", "-1");
-			q.addSort(searchfield, ORDER.asc);
-			q.setRows(0);
-			q.setStart(0);
+            // set first selector
+            SolrQuery q = new SolrQuery();
+            q.setQuery(searchfield + ":*");
+            q.addFacetField(facetfield);
+            q.add("facet.limit", "-1");
+            q.addSort(searchfield, ORDER.asc);
+            q.setRows(0);
+            q.setStart(0);
 
-			SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
+            SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
 
-			firstSelector.clear();
-			try {
-				for (Count c : solrClient.query(q).getFacetFields().get(0).getValues()) {
-					if (c.getCount() > 0 && c.getName().length() > 0) {
-						firstSelector.add(c.getName().substring(0, 1));
-					}
-				}
-			} catch (IOException | SolrServerException e) {
-				LOGGER.error(e);
-			}
+            firstSelector.clear();
+            try {
+                for (Count c : solrClient.query(q).getFacetFields().get(0).getValues()) {
+                    if (c.getCount() > 0 && c.getName().length() > 0) {
+                        firstSelector.add(c.getName().substring(0, 1));
+                    }
+                }
+            } catch (IOException | SolrServerException e) {
+                LOGGER.error(e);
+            }
 
-			if (select != null) {
-				SolrQuery query = new SolrQuery();
-				query.setQuery(searchfield + ":" + select + "*");
-				query.addSort(searchfield, ORDER.asc);
-				
+            if (select != null) {
+                SolrQuery query = new SolrQuery();
+                query.setQuery(searchfield + ":" + select + "*");
+                query.addSort(searchfield, ORDER.asc);
 
-				mcrSearchResult = new MCRSearchResultDataBean();
-				mcrSearchResult.setSolrQuery(query);
-				mcrSearchResult.setRows(Integer.MAX_VALUE);
-				mcrSearchResult.setStart(0);
-				mcrSearchResult.setAction("search");
-				mcrSearchResult.getFacetFields().add(facetfield);
-				if (filterQuery != null && filterQuery.length() > 0) {
-					mcrSearchResult.getFilterQueries().add(filterQuery);
-				}
-				
-				mcrSearchResult.doSearch();
-				mcrSearchResult.setBackURL(getContext().getRequest().getContextPath() 
-						+ "/indexbrowser/"+modus+"?select=" + select);
-				MCRSearchResultDataBean.addSearchresultToSession(getContext().getRequest(), mcrSearchResult);
+                mcrSearchResult = new MCRSearchResultDataBean();
+                mcrSearchResult.setSolrQuery(query);
+                mcrSearchResult.setRows(Integer.MAX_VALUE);
+                mcrSearchResult.setStart(0);
+                mcrSearchResult.setAction("search");
+                mcrSearchResult.getFacetFields().add(facetfield);
+                if (filterQuery != null && filterQuery.length() > 0) {
+                    mcrSearchResult.getFilterQueries().add(filterQuery);
+                }
 
-				QueryResponse response = mcrSearchResult.getSolrQueryResponse();
-				if (response != null) {
-					SolrDocumentList solrResults = response.getResults();
+                mcrSearchResult.doSearch();
+                mcrSearchResult.setBackURL(
+                        getContext().getRequest().getContextPath() + "/indexbrowser/" + modus + "?select=" + select);
+                MCRSearchResultDataBean.addSearchresultToSession(getContext().getRequest(), mcrSearchResult);
 
-					List<FacetField> facets = response.getFacetFields();
-					secondSelector.clear();
-					if (solrResults.getNumFound() > 20 || select.length() > 1) {
-						for (Count c : facets.get(0).getValues()) {
-							if (c.getCount() > 0) {
-								secondSelector.put(c.getName(), c.getCount());
-							}
-						}
-					}
-					if (solrResults.getNumFound() > 20 && select.length() <= 1) {
-						// do not display entries, show 2nd selector instead
-						mcrSearchResult.getEntries().clear();
-					}
-				}
-			}
-			return fwdResolution;
-		} catch (MCRConfigurationException e) {
-			return new RedirectResolution("/");
-		}
-	}
+                QueryResponse response = mcrSearchResult.getSolrQueryResponse();
+                if (response != null) {
+                    SolrDocumentList solrResults = response.getResults();
 
-	public SortedSet<String> getFirstSelector() {
-		return firstSelector;
-	}
+                    List<FacetField> facets = response.getFacetFields();
+                    secondSelector.clear();
+                    if (solrResults.getNumFound() > 20 || select.length() > 1) {
+                        for (Count c : facets.get(0).getValues()) {
+                            if (c.getCount() > 0) {
+                                secondSelector.put(c.getName(), c.getCount());
+                            }
+                        }
+                    }
+                    if (solrResults.getNumFound() > 20 && select.length() <= 1) {
+                        // do not display entries, show 2nd selector instead
+                        mcrSearchResult.getEntries().clear();
+                    }
+                }
+            }
+            return fwdResolution;
+        } catch (MCRConfigurationException e) {
+            return new RedirectResolution("/");
+        }
+    }
 
-	public String getModus() {
-		return modus;
-	}
+    public SortedSet<String> getFirstSelector() {
+        return firstSelector;
+    }
 
-	public void setModus(String modus) {
-		this.modus = modus;
-	}
+    public String getModus() {
+        return modus;
+    }
 
-	public String getSelect() {
-		return select;
-	}
+    public void setModus(String modus) {
+        this.modus = modus;
+    }
 
-	public void setSelect(String select) {
-		this.select = select;
-	}
+    public String getSelect() {
+        return select;
+    }
 
-	public Map<String, Long> getSecondSelector() {
-		return secondSelector;
-	}
+    public void setSelect(String select) {
+        this.select = select;
+    }
 
-	public MCRSearchResultDataBean getResult() {
-		return mcrSearchResult;
-	}
+    public Map<String, Long> getSecondSelector() {
+        return secondSelector;
+    }
+
+    public MCRSearchResultDataBean getResult() {
+        return mcrSearchResult;
+    }
 
 }

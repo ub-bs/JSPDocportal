@@ -51,27 +51,26 @@ import org.w3c.dom.Node;
  *
  */
 public class MCRTransformXslTag extends SimpleTagSupport {
-	private static Logger LOGGER = LogManager.getLogger(MCRTransformXslTag.class);
-	
+    private static Logger LOGGER = LogManager.getLogger(MCRTransformXslTag.class);
+
     private Node node;
 
     private String stylesheet;
 
     public void doTag() throws JspException, IOException {
         try {
-                MCRTemplatesSource source = new MCRTemplatesSource(stylesheet);
-                Transformer t = MCRXSLTransformerFactory.getTransformer(source);
-                Map<String, Object> params = MCRParameterCollector.getInstanceFromUserSession().getParameterMap();
-                for (String k : params.keySet()) {
-                    t.setParameter(k, params.get(k));
-                }
-                Source input = new DOMSource(node);
-                Result output = new StreamResult(getJspContext().getOut());
+            MCRTemplatesSource source = new MCRTemplatesSource(stylesheet);
+            Transformer t = MCRXSLTransformerFactory.getTransformer(source);
+            Map<String, Object> params = MCRParameterCollector.getInstanceFromUserSession().getParameterMap();
+            for (String k : params.keySet()) {
+                t.setParameter(k, params.get(k));
+            }
+            Source input = new DOMSource(node);
+            Result output = new StreamResult(getJspContext().getOut());
 
-                t.transform(input, output);
+            t.transform(input, output);
         } catch (Exception e) {
-            LOGGER.error("Something went wrong processing the XSLT: " + stylesheet,
-                e);
+            LOGGER.error("Something went wrong processing the XSLT: " + stylesheet, e);
         }
     }
 
