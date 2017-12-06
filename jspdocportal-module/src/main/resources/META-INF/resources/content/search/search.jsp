@@ -14,7 +14,7 @@
 	</stripes:layout-component>
 	<stripes:layout-component name="contents">
 		<c:if test="${not empty actionBean.result.mask}">
-			<div class="row ir-box">
+			<div class="ir-box">
 				<c:set var="classCollapse" value="" />
 				<c:if test="${not actionBean.showMask and actionBean.result.numFound>0}">
 					<button id="buttonCollapseSearchmask" class="btn btn-default pull-right" type="button"
@@ -40,7 +40,7 @@
 			</div>
 		</c:if>
 		<c:if test="${actionBean.showResults}">
-			<div class="row ir-box">
+			<div class="ir-box">
 			  	<search:result-browser result="${actionBean.result}">
 			  		<c:set var="doctype" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" /> 
 						<search:result-entry entry="${entry}" url="${url}" protectDownload="true"/>
