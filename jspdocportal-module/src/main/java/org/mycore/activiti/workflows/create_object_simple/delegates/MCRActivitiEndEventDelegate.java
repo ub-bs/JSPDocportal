@@ -5,11 +5,11 @@ import org.activiti.engine.delegate.JavaDelegate;
 import org.mycore.activiti.MCRActivitiMgr;
 import org.mycore.activiti.workflows.create_object_simple.MCRWorkflowMgr;
 
-
 public class MCRActivitiEndEventDelegate implements JavaDelegate {
-	  public void execute(DelegateExecution execution) throws Exception {
-		  MCRWorkflowMgr wfm = MCRActivitiMgr.getWorkflowMgr(execution);
-		  wfm.cleanupWorkflow(execution);
-	  }
-	  
-	}
+    
+    public void execute(DelegateExecution execution) throws Exception {
+        MCRWorkflowMgr wfm = MCRActivitiMgr.getWorkflowMgr(execution);
+        wfm.cleanupWorkflow(execution);
+    }
+
+}

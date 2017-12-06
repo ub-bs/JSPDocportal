@@ -16,16 +16,16 @@ import org.activiti.engine.impl.persistence.entity.UserIdentityManager;
  */
 public class MCRActivitiUserManagerFactory implements SessionFactory {
 
-	public MCRActivitiUserManagerFactory() {
-	}
+    public MCRActivitiUserManagerFactory() {
+    }
 
-	@Override
-	public Class<?> getSessionType() {
-		return UserIdentityManager.class;
-	}
+    @Override
+    public Class<?> getSessionType() {
+        return UserIdentityManager.class;
+    }
 
-	@Override
-	public Session openSession() {
-		return new MCRActivitiUserManager();
-	}
+    @Override
+    public Session openSession() {
+        return new MCRActivitiUserManager();
+    }
 }

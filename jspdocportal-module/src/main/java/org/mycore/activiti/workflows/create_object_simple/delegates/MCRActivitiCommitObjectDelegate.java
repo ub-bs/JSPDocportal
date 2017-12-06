@@ -6,10 +6,10 @@ import org.mycore.activiti.MCRActivitiMgr;
 import org.mycore.activiti.workflows.create_object_simple.MCRWorkflowMgr;
 
 public class MCRActivitiCommitObjectDelegate implements JavaDelegate {
-	  
-	  public void execute(DelegateExecution execution) throws Exception {
-		  MCRWorkflowMgr wfm = MCRActivitiMgr.getWorkflowMgr(execution);
-		   wfm.commitMCRObject(execution);
-	  }
-	  
+
+    public void execute(DelegateExecution execution) throws Exception {
+        MCRWorkflowMgr wfm = MCRActivitiMgr.getWorkflowMgr(execution);
+        wfm.commitMCRObject(execution);
+    }
+
 }

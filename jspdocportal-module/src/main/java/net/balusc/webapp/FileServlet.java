@@ -82,13 +82,13 @@ public class FileServlet extends HttpServlet {
             File path = new File(this.basePath);
             if (!path.exists()) {
                 throw new ServletException("FileServlet init param 'basePath' value '" + this.basePath
-                    + "' does actually not exist in file system.");
+                        + "' does actually not exist in file system.");
             } else if (!path.isDirectory()) {
                 throw new ServletException("FileServlet init param 'basePath' value '" + this.basePath
-                    + "' is actually not a directory in file system.");
+                        + "' is actually not a directory in file system.");
             } else if (!path.canRead()) {
                 throw new ServletException("FileServlet init param 'basePath' value '" + this.basePath
-                    + "' is actually not readable in file system.");
+                        + "' is actually not readable in file system.");
             }
         }
     }
@@ -100,7 +100,7 @@ public class FileServlet extends HttpServlet {
      * @see HttpServlet#doHead(HttpServletRequest, HttpServletResponse).
      */
     protected void doHead(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
         // Process request without content.
         processRequest(request, response, false);
     }
@@ -111,7 +111,7 @@ public class FileServlet extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest, HttpServletResponse).
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
         // Process request with content.
         processRequest(request, response, true);
     }
@@ -130,7 +130,7 @@ public class FileServlet extends HttpServlet {
      *             If something fails at I/O level.
      */
     private void processRequest(HttpServletRequest request, HttpServletResponse response, boolean content)
-        throws IOException {
+            throws IOException {
         // Validate the requested file
         // ------------------------------------------------------------
 
@@ -429,8 +429,8 @@ public class FileServlet extends HttpServlet {
         String[] acceptValues = acceptHeader.split("\\s*(,|;)\\s*");
         Arrays.sort(acceptValues);
         return Arrays.binarySearch(acceptValues, toAccept) > -1
-            || Arrays.binarySearch(acceptValues, toAccept.replaceAll("/.*$", "/*")) > -1
-            || Arrays.binarySearch(acceptValues, "*/*") > -1;
+                || Arrays.binarySearch(acceptValues, toAccept.replaceAll("/.*$", "/*")) > -1
+                || Arrays.binarySearch(acceptValues, "*/*") > -1;
     }
 
     /**

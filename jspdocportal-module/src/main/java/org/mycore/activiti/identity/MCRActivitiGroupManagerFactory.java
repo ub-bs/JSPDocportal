@@ -17,17 +17,17 @@ import org.activiti.engine.impl.persistence.entity.GroupIdentityManager;
  */
 public class MCRActivitiGroupManagerFactory implements SessionFactory {
 
-	public MCRActivitiGroupManagerFactory() {
+    public MCRActivitiGroupManagerFactory() {
 
-	}
+    }
 
-	@Override
-	public Class<?> getSessionType() {
-		return GroupIdentityManager.class;
-	}
+    @Override
+    public Class<?> getSessionType() {
+        return GroupIdentityManager.class;
+    }
 
-	@Override
-	public Session openSession() {
-		return new MCRActivitiGroupManager();
-	}
+    @Override
+    public Session openSession() {
+        return new MCRActivitiGroupManager();
+    }
 }

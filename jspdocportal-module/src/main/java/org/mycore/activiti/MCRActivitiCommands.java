@@ -46,7 +46,7 @@ import org.mycore.frontend.cli.annotation.MCRCommandGroup;
 public class MCRActivitiCommands extends MCRAbstractCommands {
     /** The logger */
     private static Logger LOGGER = LogManager.getLogger(MCRActivitiCommands.class);
-    
+
     /**
      * The command deploys a process definition to the database from a given file
      * 
@@ -54,21 +54,18 @@ public class MCRActivitiCommands extends MCRAbstractCommands {
      *               the filename of a class resource with the jbpm-processdefinition
      */
     @MCRCommand(syntax = "deploy workflow processdefinition from resource {0}", help = "The command deploys a process definition to the database from a *.bpm20.xml file {0} available on classpath")
-    public static final void deployProcessDefinition(String resource) throws MCRException{
-    	try{
-    		ProcessEngine processEngine = MCRActivitiMgr.getWorkflowProcessEngineConfiguration()
-            .setDatabaseSchemaUpdate(ProcessEngineConfigurationImpl.DB_SCHEMA_UPDATE_TRUE)
-            .buildProcessEngine();
+    public static final void deployProcessDefinition(String resource) throws MCRException {
+        try {
+            ProcessEngine processEngine = MCRActivitiMgr.getWorkflowProcessEngineConfiguration()
+                    .setDatabaseSchemaUpdate(ProcessEngineConfigurationImpl.DB_SCHEMA_UPDATE_TRUE).buildProcessEngine();
 
-    		RepositoryService repositoryService = processEngine.getRepositoryService();
-    		repositoryService.createDeployment()
-    		  .addClasspathResource(resource)
-    		  .deploy();
-    		
-    		LOGGER.info(resource +" successfully deployed");
-    	}catch(Exception e){
-    		LOGGER.error("Error in deploying a workflow process definition", e);
+            RepositoryService repositoryService = processEngine.getRepositoryService();
+            repositoryService.createDeployment().addClasspathResource(resource).deploy();
+
+            LOGGER.info(resource + " successfully deployed");
+        } catch (Exception e) {
+            LOGGER.error("Error in deploying a workflow process definition", e);
             throw new MCRException("Error in deploying a workflow process definition", e);
-    	}
+        }
     }
 }

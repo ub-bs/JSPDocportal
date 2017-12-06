@@ -70,7 +70,7 @@ public class MCRActivitiGroupManager extends GroupEntityManager {
                 return groupList;
             } else if (StringUtils.isNotEmpty(groupQuery.getName())) {
                 throw new ActivitiException(
-                    "The MycoRe Activiti group manager doesn't support querying by group name - use group id instead");
+                        "The MycoRe Activiti group manager doesn't support querying by group name - use group id instead");
             } else if (StringUtils.isNotEmpty(groupQuery.getUserId())) {
                 return findGroupsByUser(groupQuery.getUserId());
             } else {

@@ -104,7 +104,7 @@ public class MCRActivitiUserManager extends UserEntityManager {
             } else if (StringUtils.isNotEmpty(userQuery.getLastName())) {
 
                 throw new ActivitiException(
-                    "The MycoRe Activiti user manager doesn't support querying by user name - use user id instead");
+                        "The MycoRe Activiti user manager doesn't support querying by user name - use user id instead");
             } else {
                 //list all Users
                 TreeSet<String> userIDs = new TreeSet<String>();

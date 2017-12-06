@@ -65,7 +65,7 @@ public class MCRActivitiAssignmentHandler implements TaskListener {
         }
         if (errorCount == 2) {
             LOGGER.error("Please define candidate users or groups for the following workflow: "
-                + delegateTask.getProcessDefinitionId().split(":")[0]);
+                    + delegateTask.getProcessDefinitionId().split(":")[0]);
             LOGGER.error("Set at least one of the following properties: " + propKeyGrp + " or " + propKeyUser + ".");
         }
     }

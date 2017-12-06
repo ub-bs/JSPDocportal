@@ -15,56 +15,45 @@ import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.datamodel.metadata.MCRObjectMetadata;
 import org.xml.sax.SAXParseException;
 
-public class MCRWorkflowMgrDisshab extends MCRAbstractWorkflowMgr implements MCRWorkflowMgr{
-	private static final String DEFAULT_METADATA_XML =""
-	+"<metadata>"
-    +"  <def.modsContainer class='MCRMetaXML'>"
-	+"    <modsContainer inherited='0'>"
-    +"      <mods:mods xmlns:mods='http://www.loc.gov/mods/v3' version='3.6'>"
-    +"        <mods:titleInfo xml:lang='de' usage='primary'>"
-    +"           <mods:title>Neue Dissertation / Habilitation</mods:title>"
-    +"        </mods:titleInfo>"
-    +"      </mods:mods>"
-    +"    </modsContainer>"
-    +"</def.modsContainer>"
-    + "</metadata>";
+public class MCRWorkflowMgrDisshab extends MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
+    private static final String DEFAULT_METADATA_XML = "" + "<metadata>" + "  <def.modsContainer class='MCRMetaXML'>"
+            + "    <modsContainer inherited='0'>"
+            + "      <mods:mods xmlns:mods='http://www.loc.gov/mods/v3' version='3.6'>"
+            + "        <mods:titleInfo xml:lang='de' usage='primary'>"
+            + "           <mods:title>Neue Dissertation / Habilitation</mods:title>" + "        </mods:titleInfo>"
+            + "      </mods:mods>" + "    </modsContainer>" + "</def.modsContainer>" + "</metadata>";
 
-	
-	@Override
-	public MCRObjectMetadata getDefaultMetadata() {
-		SAXBuilder sax = new SAXBuilder();
-		try{
-		  Document doc = sax.build(new StringReader(DEFAULT_METADATA_XML));
-		  MCRObjectMetadata mcrOMD = new MCRObjectMetadata();
-		  mcrOMD.setFromDOM(doc.getRootElement());
-		  return mcrOMD;
-		}
-		catch(Exception e){
-			throw new MCRException("Could not create default metadata", e);
-		}
-	}
+    @Override
+    public MCRObjectMetadata getDefaultMetadata() {
+        SAXBuilder sax = new SAXBuilder();
+        try {
+            Document doc = sax.build(new StringReader(DEFAULT_METADATA_XML));
+            MCRObjectMetadata mcrOMD = new MCRObjectMetadata();
+            mcrOMD.setFromDOM(doc.getRootElement());
+            return mcrOMD;
+        } catch (Exception e) {
+            throw new MCRException("Could not create default metadata", e);
+        }
+    }
 
-	
-	/**
-	 * 
-	 * @param mcrObjID
-	 * @return null if correct, error message otherwise
-	 */
-	@Override
-	public String validate(MCRObjectID mcrObjID){
-		Path wfFile = MCRActivitiUtils.getWorkflowObjectFile(mcrObjID);
-		try {
-			@SuppressWarnings("unused")
+    /**
+     * 
+     * @param mcrObjID
+     * @return null if correct, error message otherwise
+     */
+    @Override
+    public String validate(MCRObjectID mcrObjID) {
+        Path wfFile = MCRActivitiUtils.getWorkflowObjectFile(mcrObjID);
+        try {
+            @SuppressWarnings("unused")
             MCRObject mcrWFObj = new MCRObject(wfFile.toUri());
-		}
-		catch(SAXParseException e){
-			return "XML Error: "+e.getMessage();
-		}
-		catch(IOException e){
-			return "I/O-Error: "+e.getMessage();
-		}
-		return null;
-		
-	}
-	
+        } catch (SAXParseException e) {
+            return "XML Error: " + e.getMessage();
+        } catch (IOException e) {
+            return "I/O-Error: " + e.getMessage();
+        }
+        return null;
+
+    }
+
 }
