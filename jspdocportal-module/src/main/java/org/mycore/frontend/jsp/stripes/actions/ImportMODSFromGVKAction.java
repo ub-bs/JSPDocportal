@@ -1,24 +1,21 @@
 package org.mycore.frontend.jsp.stripes.actions;
 
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.StringReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
-import org.jdom2.Namespace;
 import org.jdom2.filter.Filters;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.jdom2.xpath.XPathFactory;
 import org.mycore.activiti.MCRActivitiUtils;
+import org.mycore.common.MCRConstants;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.tools.gvkmods.GVKMODSImport;
 
@@ -84,11 +81,8 @@ public class ImportMODSFromGVKAction implements ActionBean {
 
 	public Resolution doSave() {
 		if (!mcrID.equals("")) {
-			File savedir = MCRActivitiUtils.getWorkflowDirectory(MCRObjectID.getInstance(mcrID));
-			File file = new File(savedir, mcrID + ".xml");
 			try {
-				SAXBuilder sb = new SAXBuilder();
-				Document docJdom = sb.build(new InputStreamReader(new FileInputStream(file), "UTF-8"));
+				Document docJdom = MCRActivitiUtils.getWorkflowObjectXML(MCRObjectID.getInstance(mcrID));
 				Element eMeta = docJdom.getRootElement().getChild("metadata");
 				if (eMeta != null) {
 					Element eDefMods = eMeta.getChild("def.modsContainer");
@@ -100,12 +94,17 @@ public class ImportMODSFromGVKAction implements ActionBean {
 					eDefMods.removeContent();
 					Element eMods = new Element("modsContainer");
 					eDefMods.addContent(eMods);
+					
+					SAXBuilder sb = new SAXBuilder();
 					Element eModsData = sb.build(new StringReader(modsXML)).getRootElement();
 					eMods.addContent(eModsData.detach());
 				}
-				BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
-				XMLOutputter xout = new XMLOutputter(Format.getPrettyFormat());
-				xout.output(docJdom, bw);
+				
+				Path file = MCRActivitiUtils.getWorkflowObjectFile(MCRObjectID.getInstance(mcrID));
+				try(BufferedWriter bw = Files.newBufferedWriter(file)){
+					XMLOutputter xout = new XMLOutputter(Format.getPrettyFormat());
+					xout.output(docJdom, bw);
+				}
 			} catch (JDOMException jdome) {
 				// do nothing
 			} catch (IOException e) {
@@ -154,23 +153,11 @@ public class ImportMODSFromGVKAction implements ActionBean {
 
 	private void findGVKPPN() {
 		if (!mcrID.equals("")) {
-			File savedir = MCRActivitiUtils.getWorkflowDirectory(MCRObjectID.getInstance(mcrID));
-			File file = new File(savedir, mcrID + ".xml");
-			try {
-				SAXBuilder sb = new SAXBuilder();
-				Document docJdom = sb.build(new InputStreamReader(new FileInputStream(file), "UTF-8"));
-
-				// <identifier type="gvk-ppn">721494285</identifier>>
-				Namespace nsMODS = Namespace.getNamespace("mods", "http://www.loc.gov/mods/v3");
-
-				Element e = XPathFactory.instance().compile("/mods:identifier[@type='gvk-ppn']", Filters.element(), null, nsMODS).evaluateFirst(docJdom);
-				if (e != null) {
-					setGvkPPN(e.getTextNormalize());
-				}
-			} catch (JDOMException jdome) {
-				// do nothing
-			} catch (IOException e) {
-				// do nothing
+			Document docJdom = MCRActivitiUtils.getWorkflowObjectXML(MCRObjectID.getInstance(mcrID));
+			// <identifier type="gvk-ppn">721494285</identifier>>
+			Element e = XPathFactory.instance().compile("/mods:identifier[@type='gvk-ppn']", Filters.element(), null, MCRConstants.MODS_NAMESPACE).evaluateFirst(docJdom);
+			if (e != null) {
+				setGvkPPN(e.getTextNormalize());
 			}
 		}
 	}

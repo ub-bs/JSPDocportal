@@ -1,8 +1,8 @@
 package org.mycore.activiti.workflows.create_object_simple.disshab;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+import java.nio.file.Path;
 
 import org.jdom2.Document;
 import org.jdom2.input.SAXBuilder;
@@ -48,14 +48,14 @@ public class MCRWorkflowMgrDisshab extends MCRAbstractWorkflowMgr implements MCR
 	/**
 	 * 
 	 * @param mcrObjID
-	 * @return null if correct, errormessage otherwise
+	 * @return null if correct, error message otherwise
 	 */
 	@Override
 	public String validate(MCRObjectID mcrObjID){
-		File wfFile = new File(MCRActivitiUtils.getWorkflowDirectory(mcrObjID), mcrObjID.toString() + ".xml");
+		Path wfFile = MCRActivitiUtils.getWorkflowObjectFile(mcrObjID);
 		try {
 			@SuppressWarnings("unused")
-            MCRObject mcrWFObj = new MCRObject(wfFile.toURI());
+            MCRObject mcrWFObj = new MCRObject(wfFile.toUri());
 		}
 		catch(SAXParseException e){
 			return "XML Error: "+e.getMessage();

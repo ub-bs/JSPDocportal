@@ -1,8 +1,8 @@
 package org.mycore.frontend.jsp.stripes.actions;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -218,8 +218,8 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
     private Resolution editObject(String mcrID, String taskID) {
         MCRObjectID mcrObjID = MCRObjectID.getInstance(mcrID);
         editorPath = "/editor/metadata/editor-" + mcrObjID.getTypeId() + "-default.xed";
-        File wfFile = new File(MCRActivitiUtils.getWorkflowDirectory(mcrObjID), mcrID + ".xml");
-        sourceURI = wfFile.toURI().toString();
+        Path wfFile =MCRActivitiUtils.getWorkflowObjectFile(mcrObjID);
+        sourceURI = wfFile.toUri().toString();
         ForwardResolution res = new ForwardResolution("/content/editor/fullpageEditor.jsp");
         StringBuffer sbCancel = new StringBuffer(MCRFrontendUtil.getBaseURL() + "showWorkspace.action?");
         if (!mcr_base.isEmpty()) {
@@ -385,8 +385,7 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
     
     private void importMODSFromGVK(String mcrID){
         MCRObjectID mcrObjID = MCRObjectID.getInstance(mcrID);
-        File wfFile = new File(MCRActivitiUtils.getWorkflowDirectory(mcrObjID), mcrID + ".xml");
-        MCRMODSGVKImporter.updateWorkflowFile(wfFile);
+        MCRMODSGVKImporter.updateWorkflowFile(mcrObjID);
     }
 
     public String getMcr_base() {

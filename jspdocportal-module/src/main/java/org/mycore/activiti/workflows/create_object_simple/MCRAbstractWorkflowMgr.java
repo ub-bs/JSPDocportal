@@ -1,8 +1,6 @@
 package org.mycore.activiti.workflows.create_object_simple;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -31,7 +29,6 @@ import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.datamodel.metadata.MCRObjectMetadata;
 import org.mycore.datamodel.niofs.MCRPath;
-import org.mycore.datamodel.niofs.utils.MCRRecursiveDeleter;
 import org.mycore.frontend.cli.MCRDerivateCommands;
 import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
 import org.xml.sax.SAXParseException;
@@ -172,9 +169,8 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 		String id = String.valueOf(execution.getVariable(MCRActivitiMgr.WF_VAR_MCR_OBJECT_ID));
 		if (!id.equals("null")) {
 			MCRObjectID mcrObjID = MCRObjectID.getInstance(id);
-			File wfFile = new File(MCRActivitiUtils.getWorkflowDirectory(mcrObjID), mcrObjID.toString() + ".xml");
 		     try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()){
-				MCRObject mcrWFObj = new MCRObject(wfFile.toURI());
+				MCRObject mcrWFObj = MCRActivitiUtils.getWorkflowObject(mcrObjID);
 				MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(mcrObjID);
 				processDerivatesOnCommit(mcrObj, mcrWFObj);
 
@@ -189,7 +185,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 						new MCRCategoryID(MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.ID", "state"), "published"));
 
 				MCRMetadataManager.update(mcrObj);
-			} catch (IOException | SAXParseException | MCRActiveLinkException | MCRAccessException e) {
+			} catch (MCRActiveLinkException | MCRAccessException e) {
 				LOGGER.error(e);
 			}
 
@@ -277,29 +273,19 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 				LOGGER.error(e);
 			}
 		}
-		// cleanup workflow dir
-		File wfDir = MCRActivitiUtils.getWorkflowDirectory(mcrObjID);
-		try {
-			Files.walkFileTree(wfDir.toPath(), MCRRecursiveDeleter.instance());
-		}
-		catch(IOException e) {
-			LOGGER.error(e);
-		}
+		MCRActivitiUtils.cleanUpWorkflowDirForObject(mcrObjID);
 		
-		File xmFile = new File(wfDir, mcrObjID.toString() + ".xml");
-		xmFile.delete();
-
 		return false;
 	}
 
 	// stores changes on Derivates in Workflow into the MyCoRe Object
 	private void processDerivatesOnLoad(MCRObject mcrObj) {
 		// delete derivates if necessary
-		File wfDir = MCRActivitiUtils.getWorkflowDirectory(mcrObj.getId());
+		
 		for (MCRMetaLinkID metalinkID : mcrObj.getStructure().getDerivates()) {
-			MCRObjectID derID = metalinkID.getXLinkHrefID();
-			if (derID != null && MCRMetadataManager.exists(derID)) {
-				MCRDerivate mcrDer = MCRMetadataManager.retrieveMCRDerivate(derID);
+			MCRObjectID mcrDerID = metalinkID.getXLinkHrefID();
+			if (mcrDerID != null && MCRMetadataManager.exists(mcrDerID)) {
+				MCRDerivate mcrDer = MCRMetadataManager.retrieveMCRDerivate(mcrDerID);
 				mcrDer.getService().setState(
 						new MCRCategoryID(MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.ID", "state"), "review"));
 				try{
@@ -308,15 +294,8 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 				catch(IOException | MCRAccessException e){
 					LOGGER.error(e);
 				}
-				File derBaseDir = new File(wfDir, mcrObj.getId().toString());
-				derBaseDir.mkdirs();
-				try {
-					Files.walkFileTree(wfDir.toPath(), MCRRecursiveDeleter.instance());
-				}
-				catch(IOException e) {
-					LOGGER.error(e);
-				}
-				MCRDerivateCommands.show(derID.toString(), derBaseDir.getPath());
+				MCRActivitiUtils.cleanupWorkflowDirForDerivate(mcrObj.getId(), mcrDerID);
+				MCRDerivateCommands.show(mcrDerID.toString(), MCRActivitiUtils.getWorkflowObjectDir(mcrObj.getId()).toString());
 			}
 		}
 	}
@@ -349,7 +328,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 					new MCRCategoryID(MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.ID", "state"), "published"));
 			MCRActivitiUtils.saveMCRDerivateToWorkflowDirectory(der);
 
-			String filename = MCRActivitiUtils.getWorkflowDerivateFile(mcrObj.getId(), MCRObjectID.getInstance(derID)).getPath();
+			String filename = MCRActivitiUtils.getWorkflowDerivateFile(mcrObj.getId(), MCRObjectID.getInstance(derID)).toString();
 			Map<String, Element> ruleMap = null;
 			try {
 				MCRObjectID derIDObj = MCRObjectID.getInstance(derID);

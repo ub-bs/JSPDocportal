@@ -23,7 +23,6 @@
 
 package org.mycore.frontend.jsp.taglibs;
 
-import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.jsp.JspException;
@@ -34,10 +33,8 @@ import org.jdom2.JDOMException;
 import org.jdom2.output.DOMOutputter;
 import org.mycore.activiti.MCRActivitiUtils;
 import org.mycore.common.MCRException;
-import org.mycore.common.content.MCRFileContent;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObjectID;
-import org.xml.sax.SAXException;
 
 /**
  * part of the MCRDocdetails Tag Library
@@ -118,23 +115,19 @@ public class MCRRetrieveObjectTag extends SimpleTagSupport {
             MCRObjectID mcrObjID = MCRObjectID.getInstance(mcrid);
             org.jdom2.Document doc = null;
             if (fromWorkflow) {
-                File wfFile = new File(MCRActivitiUtils.getWorkflowDirectory(mcrObjID), mcrid + ".xml");
-                MCRFileContent mfc = new MCRFileContent(wfFile);
-                doc = mfc.asXML();
-
+                doc = MCRActivitiUtils.getWorkflowObjectXML(mcrObjID);
             } else {
                 doc = MCRMetadataManager.retrieve(mcrObjID).createXML();
             }
-
-            DOMOutputter output = new DOMOutputter();
-            org.w3c.dom.Document dom = output.output(doc);
             if (varDOM != null) {
+            	DOMOutputter output = new DOMOutputter();
+                org.w3c.dom.Document dom = output.output(doc);
                 getJspContext().setAttribute(varDOM, dom, PageContext.REQUEST_SCOPE);
             }
             if (varJDOM != null) {
-                getJspContext().setAttribute(varJDOM, dom, PageContext.REQUEST_SCOPE);
+                getJspContext().setAttribute(varJDOM, doc, PageContext.REQUEST_SCOPE);
             }
-        } catch (SAXException | JDOMException e) {
+        } catch (JDOMException e) {
             throw new MCRException(e);
         }
     }

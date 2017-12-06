@@ -1,10 +1,13 @@
 package org.mycore.tools.dissonline.formimport;
 
-import java.io.File;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.net.SocketException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
@@ -125,7 +128,7 @@ public class DissOnlineFormImport {
             return doc;
       }
     
-    public static void loadFormDataIntoMCRObject(String content, File mcrFile){
+    public static void loadFormDataIntoMCRObject(String content, Path mcrFile){
         try{
             StreamSource xsltSource = new StreamSource(DissOnlineFormImport.class.getResourceAsStream(XSLT_FILE)); 
             Transformer transformer = TransformerFactory.newInstance().newTransformer(xsltSource);
@@ -138,23 +141,26 @@ public class DissOnlineFormImport {
             transformer.setParameter("formData", doc.getChildNodes());
             transformer.setParameter("currentYear", String.valueOf(Calendar.getInstance(TimeZone.getTimeZone("CET"), Locale.GERMANY).get(Calendar.YEAR)));
             
-            File mcrOutFile = mcrFile;
+            Path mcrOutFile = mcrFile;
             //debugging: 
             //File mcrOutFile = new File(mcrFile.getPath().replace(".xml", ".out.xml"));
             
-            StreamSource xmlSource = new StreamSource(mcrFile);
-            DOMResult domResult = new DOMResult();
-            transformer.transform(xmlSource, domResult);
-            
+            DOMResult domResult = null;
+            try(BufferedReader br = Files.newBufferedReader(mcrFile)){
+            	StreamSource xmlSource = new StreamSource(br);
+            	domResult = new DOMResult();
+            	transformer.transform(xmlSource, domResult);
+            }
             //output pretty print
             DOMSource domSource = new DOMSource(domResult.getNode());
-            StreamResult streamResult = new StreamResult(mcrOutFile);
+            try(BufferedWriter bw = Files.newBufferedWriter(mcrOutFile)){
+            StreamResult streamResult = new StreamResult(bw);
             Transformer transformerOut = TransformerFactory.newInstance().newTransformer();
             transformerOut.setOutputProperty(OutputKeys.INDENT, "yes");
             transformerOut.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 
             transformerOut.transform(domSource,  streamResult);
-                             
+            }
             
         } catch (Exception e) {
             LOGGER.error("Error processing formdata", e);

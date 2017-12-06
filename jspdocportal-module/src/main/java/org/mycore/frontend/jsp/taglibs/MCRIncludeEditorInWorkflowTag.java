@@ -244,7 +244,7 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport
 			
 		}else if(!isNewEditorSource.equals("true") && mcrid != null && !mcrid.equals("") && type != null && !type.equals("")){
 			try{
-				url = new File(MCRActivitiUtils.getWorkflowDirectory(MCRObjectID.getInstance(mcrid)),mcrid+".xml").toURI().toURL().toString();
+				url = MCRActivitiUtils.getWorkflowObjectFile(MCRObjectID.getInstance(mcrid)).toUri().toURL().toString();
 			}
 			catch(MalformedURLException mue){
 				logger.error("Wrong URL", mue);

@@ -1,11 +1,11 @@
 package org.mycore.frontend.jsp.stripes.actions;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -13,14 +13,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.activiti.engine.TaskService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jdom2.output.DOMOutputter;
 import org.mycore.activiti.MCRActivitiMgr;
 import org.mycore.activiti.MCRActivitiUtils;
 import org.mycore.activiti.workflows.create_object_simple.MCRWorkflowMgr;
@@ -49,21 +47,10 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
 	ForwardResolution fwdResolution = new ForwardResolution(
 			"/content/workspace/edit-derivates.jsp");
 
-	private static DocumentBuilder DOC_BLDR;
 	private List<String> messages = new ArrayList<String>();
 	private String mcrobjid;
 	private String taskid;
 	
-	static{
-		try{
-			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-			dbf.setNamespaceAware(true);
-			DOC_BLDR = dbf.newDocumentBuilder();
-		}
-		catch(ParserConfigurationException e){
-			LOGGER.debug(e);
-		}
-	}
 	public EditDerivatesAction() {
 
 	}
@@ -191,8 +178,7 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
 			der.getService().addFlag("title", title);
 		}
 		
-		File derDir = new File(new File(MCRActivitiUtils.getWorkflowDirectory(MCRObjectID.getInstance(mcrobjid)), mcrobjid), der.getId().toString());
-		derDir.mkdirs();
+		Path derDir = MCRActivitiUtils.getWorkflowDerivateDir(MCRObjectID.getInstance(mcrobjid), der.getId());
 		updateMainFile(der, derDir);
 		
 		MCRActivitiUtils.saveMCRDerivateToWorkflowDirectory(der);
@@ -228,11 +214,10 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
 	//File: addFile_file-task_${actionBean.taskid}-derivate_${derID}
 	private void deleteFileFromDerivate(String taskid, String derid, String fileName){
 		MCRDerivate der = MCRActivitiUtils.loadMCRDerivateFromWorkflowDirectory(MCRObjectID.getInstance(mcrobjid), MCRObjectID.getInstance(derid));
-		File derDir = new File(new File(MCRActivitiUtils.getWorkflowDirectory(MCRObjectID.getInstance(mcrobjid)), mcrobjid), der.getId().toString());
-		derDir.mkdirs();
-		File f = new File(derDir, fileName);
+		Path derDir = MCRActivitiUtils.getWorkflowDerivateDir(MCRObjectID.getInstance(mcrobjid), der.getId());
+		Path f = derDir.resolve(fileName);
 		try{
-			Files.delete(f.toPath());
+			Files.delete(f);
 		}
 		catch(IOException e){
 			LOGGER.error(e);
@@ -245,17 +230,20 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
 	//File: renameFile_new-task_${actionBean.taskid}-derivate_${derID}-file_${f}
 		private void renameFileInDerivate(String taskid, String derid, String fileName, HttpServletRequest request){
 			MCRDerivate der = MCRActivitiUtils.loadMCRDerivateFromWorkflowDirectory(MCRObjectID.getInstance(mcrobjid), MCRObjectID.getInstance(derid));
-			File derDir = new File(new File(MCRActivitiUtils.getWorkflowDirectory(MCRObjectID.getInstance(mcrobjid)), mcrobjid), der.getId().toString());
-			derDir.mkdirs();
-			File f = new File(derDir, fileName);
+			Path derDir = MCRActivitiUtils.getWorkflowDerivateDir(MCRObjectID.getInstance(mcrobjid), der.getId());
+			Path f = derDir.resolve(fileName);
 			String newName = request.getParameter("renameFile_new-task_"+taskid+"-derivate_"+derid+"-file_"+fileName);
 			if(!StringUtils.isBlank(newName)){
 				newName = newName.replace("ä",  "ae").replace("ö", "oe").replace("ü", "ue").replace("ß", "ss");
 				newName = newName.replace("Ä", "AE").replace("Ö", "OE").replace("Ü", "OE");
 				newName = newName.replaceAll("[^a-zA-Z0-9_\\-\\.]","_");
 		
-				File fNew = new File(f.getParentFile(), newName);
-				f.renameTo(fNew);
+				Path fNew = f.getParent().resolve(newName);
+				try {
+					Files.move(f, fNew, StandardCopyOption.REPLACE_EXISTING);
+				} catch (IOException e) {
+					LOGGER.error(e);
+				}
 				
 				if(der.getDerivate().getInternals().getMainDoc().equals(fileName)){
 					der.getDerivate().getInternals().setMainDoc(newName);
@@ -270,7 +258,7 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
 		MCRObjectID derID = MCRObjectID.getInstance(derid);
 		mcrObj.getStructure().removeDerivate(derID);
 		MCRActivitiUtils.saveMCRObjectToWorkflowDirectory(mcrObj);
-		MCRActivitiUtils.deleteMCRDerivateFromWorkflowDirectory(mcrObj.getId(), derID);
+		MCRActivitiUtils.cleanupWorkflowDirForDerivate(mcrObj.getId(), derID);
 	}
 
 	//File: addFile_file-task_${actionBean.taskid}-derivate_${derID}
@@ -278,10 +266,9 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
 		FileBean fb = ((StripesRequestWrapper)getContext().getRequest()).getFileParameterValue("addFile_file-task_"+ taskid +"-derivate_"+derid);
 		if(fb!=null){
 			MCRDerivate der = MCRActivitiUtils.loadMCRDerivateFromWorkflowDirectory(MCRObjectID.getInstance(mcrobjid), MCRObjectID.getInstance(derid));
-			File derDir = new File(new File(MCRActivitiUtils.getWorkflowDirectory(MCRObjectID.getInstance(mcrobjid)), mcrobjid), der.getId().toString());
-			derDir.mkdirs();
+			Path derDir = MCRActivitiUtils.getWorkflowDerivateDir(MCRObjectID.getInstance(mcrobjid), der.getId());
 			try{
-				Files.copy(fb.getInputStream(), new File(derDir, fb.getFileName()).toPath(), StandardCopyOption.REPLACE_EXISTING);
+				Files.copy(fb.getInputStream(), derDir.resolve(fb.getFileName()), StandardCopyOption.REPLACE_EXISTING);
 			}
 			catch(IOException e){
 				LOGGER.error(e);
@@ -290,15 +277,15 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
 		}
 	}
 	
-	 private void updateMainFile(MCRDerivate der, File derDir) {
+	 private void updateMainFile(MCRDerivate der, Path derDir) {
 	        String mainFile = der.getDerivate().getInternals().getMainDoc();
-	        if ((mainFile == null) || mainFile.trim().isEmpty() || !(new File(derDir, mainFile).exists())) {
+	        if ((mainFile == null) || mainFile.trim().isEmpty() || !(Files.exists(derDir.resolve(mainFile)))) {
 	            mainFile = getPathOfMainFile(derDir);
 	            if(mainFile.equals("")){
 	            	der.getDerivate().getInternals().setMainDoc("");
 	            }
 	            else{
-	            	der.getDerivate().getInternals().setMainDoc(mainFile.substring(derDir.getPath().length()+1));
+	            	der.getDerivate().getInternals().setMainDoc(mainFile.substring(derDir.toString().length()+1));
 	            }
 	            MCRActivitiUtils.saveMCRDerivateToWorkflowDirectory(der);
 	        }
@@ -309,25 +296,34 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
 	  * @param the derivate directory
 	  * @return
 	  */
-	 protected static String getPathOfMainFile(File parent) {
-		 while (parent.isDirectory()) {
-			 File[] children = parent.listFiles();
-			 Arrays.sort(children, new Comparator<File>() {
+	 protected static String getPathOfMainFile(Path parent) {
+		 while (Files.isDirectory(parent)) {
+			 List<Path> children = new ArrayList<Path>();
+			 try(DirectoryStream<Path> stream = Files.newDirectoryStream(parent)) {
+				    for(Path p : stream) {
+				        children.add(p);
+				    }
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			 Collections.sort(children, new Comparator<Path>() {
 				 @Override
-				 public int compare(File f0, File f1) {
+				 public int compare(Path f0, Path f1) {
 					 // TODO Auto-generated method stub
-					 return f0.getPath().compareTo(f1.getPath());
+					 return f0.toString().compareTo(f1.toString());
 				 }
 			 });
-			 if (children.length==0){
+			 if (children.size()==0){
 				 return "";
 			 }
-			 if(children[0].isDirectory()) {
-				 parent = children[0];
+			 if(Files.isDirectory(children.get(0))) {
+				 parent = children.get(0);
 			 }
-			 for (File element : children) {
-				 if (element.isFile()) {
-					 return element.getPath();
+			 for (Path element : children) {
+				 if (Files.isRegularFile(element)) {
+					 return element.toString();
 				 }
 			 }
 		 }
@@ -344,9 +340,8 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
 			der = wfm.createMCRDerivate(MCRObjectID.getInstance(mcrobjid), getContext().getRequest().getParameter("newDerivate_label-task_"+taskid), getContext().getRequest().getParameter("newDerivate_title-task_"+taskid));
 
 			if(fb!=null){
-				File derDir = new File(new File(MCRActivitiUtils.getWorkflowDirectory(MCRObjectID.getInstance(mcrobjid)), mcrobjid), der.getId().toString());
-				derDir.mkdirs();
-				Files.copy(fb.getInputStream(), new File(derDir, fb.getFileName()).toPath(), StandardCopyOption.REPLACE_EXISTING);
+				Path derDir = MCRActivitiUtils.getWorkflowDerivateDir(MCRObjectID.getInstance(mcrobjid), der.getId());
+				Files.copy(fb.getInputStream(), derDir.resolve(fb.getFileName()), StandardCopyOption.REPLACE_EXISTING);
 			
 				der.getDerivate().getInternals().setSourcePath(derDir.toString());
 				updateMainFile(der, derDir);
@@ -369,9 +364,11 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
 	}
 	
 	public Document getMcrobjXML(){
+		org.jdom2.Document jdom = MCRActivitiUtils.getWorkflowObjectXML(MCRObjectID.getInstance(mcrobjid));
+		DOMOutputter domOut = new DOMOutputter();
 		Document doc = null;
 		try{
-			doc = DOC_BLDR.parse(new File(MCRActivitiUtils.getWorkflowDirectory(MCRObjectID.getInstance(mcrobjid)), mcrobjid+".xml"));
+			doc = domOut.output(jdom);
 		}
 		catch(Exception e){
 			LOGGER.error(e);
@@ -381,13 +378,15 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
 	
 	public Map<String, Document> getDerivateXMLs(){
 		HashMap<String, Document> result = new HashMap<String, Document>();
-		File baseDir = new File(MCRActivitiUtils.getWorkflowDirectory(MCRObjectID.getInstance(mcrobjid)), mcrobjid);
 		MCRObject obj = MCRActivitiUtils.loadMCRObjectFromWorkflowDirectory(MCRObjectID.getInstance(mcrobjid));
+		DOMOutputter domOut = new DOMOutputter();
 		try{
 			for(MCRMetaLinkID derID: obj.getStructure().getDerivates()){
 				String id = derID.getXLinkHref();
-				try{ 
-					Document doc = DOC_BLDR.parse(new File(baseDir, id+".xml"));
+				org.jdom2.Document jdom = MCRActivitiUtils.getWorkflowDerivateXML(MCRObjectID.getInstance(mcrobjid), MCRObjectID.getInstance(id));
+				Document doc = null;
+				try{
+					doc = domOut.output(jdom);
 					result.put(id, doc);
 				}
 				catch(Exception e){

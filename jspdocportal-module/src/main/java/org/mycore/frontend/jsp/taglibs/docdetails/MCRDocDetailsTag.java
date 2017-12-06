@@ -24,10 +24,7 @@
 package org.mycore.frontend.jsp.taglibs.docdetails;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -36,9 +33,6 @@ import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
@@ -50,7 +44,6 @@ import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.services.i18n.MCRTranslation;
 import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
 /**
  * part of the MCRDocdetails Tag Library
@@ -67,7 +60,6 @@ import org.xml.sax.SAXException;
  *          2010) $
  */
 public class MCRDocDetailsTag extends SimpleTagSupport {
-	private static DocumentBuilder builder;
 	//allowed values are "table" or "headlines"
 	private String outputStyle="table";
 	private String mcrID;
@@ -79,17 +71,6 @@ public class MCRDocDetailsTag extends SimpleTagSupport {
 	private Document doc;
 	private int previousOutput;
 	private ResourceBundle messages;
-
-
-	static {
-		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			factory.setNamespaceAware(true);
-			builder = factory.newDocumentBuilder();
-		} catch (ParserConfigurationException e) {
-			builder = null;
-		}
-	}
 
 	/**
 	 * sets the MCR Object ID (mandatory)
@@ -157,24 +138,19 @@ public class MCRDocDetailsTag extends SimpleTagSupport {
 		try {
 			messages = MCRTranslation.getResourceBundle("messages", new Locale(lang));
 			MCRObjectID mcrObjID = MCRObjectID.getInstance(mcrID);
-			
+			org.jdom2.Document xml = null;
 			if (fromWorkflow) {
-				File savedir = MCRActivitiUtils.getWorkflowDirectory(mcrObjID);
-				File file = new File(savedir, mcrID + ".xml");
-				if (file.isFile()) {
-					data = getBytesFromFile(file);
-					doc = builder.parse(new ByteArrayInputStream(data));
-				}
+				xml = MCRActivitiUtils.getWorkflowObjectXML(mcrObjID);
 			} else {
-			    org.jdom2.Document xml = MCRMetadataManager.retrieve(mcrObjID).createXML();
-			    DOMOutputter domOut = new DOMOutputter();
-			    doc = domOut.output(xml);
+			    xml = MCRMetadataManager.retrieve(mcrObjID).createXML();    
 			}
+			DOMOutputter domOut = new DOMOutputter();
+		    doc = domOut.output(xml);
 			if (var != null) {
 				getJspContext().setAttribute(var, doc, PageContext.REQUEST_SCOPE);
 			}
 
-		} catch (IOException | SAXException | JDOMException e) {
+		} catch (JDOMException e) {
 			throw new JspException(e);
 		}
 		JspWriter out = getJspContext().getOut();
@@ -265,37 +241,6 @@ public class MCRDocDetailsTag extends SimpleTagSupport {
 	 */
 	protected ResourceBundle getMessages() {
 		return messages;
-	}
-
-	/**
-	 * used to read a MCR object from workflow directory
-	 * 
-	 * implementation found in "The Java Developers Almanac 1.4"
-	 * http://www.exampledepot.com/egs/java.io/File2ByteArray.html
-	 * 
-	 * @param file
-	 *            the file
-	 * @return the file content as byte array
-	 * @throws IOException
-	 */
-	private static byte[] getBytesFromFile(File file) throws IOException {
-		try(InputStream is = new FileInputStream(file)){
-			long length = file.length();
-			if (length > Integer.MAX_VALUE) {
-				return new byte[0];
-			}
-			byte[] bytes = new byte[(int) length];
-			int offset = 0;
-			int numRead = 0;
-			while (offset < bytes.length && (numRead = is.read(bytes, offset, bytes.length - offset)) >= 0) {
-				offset += numRead;
-			}
-			if (offset < bytes.length) {
-				throw new IOException("Could not completely read file " + file.getName());
-			}
-			
-			return bytes;
-		}
 	}
 
 	public String getOutputStyle() {

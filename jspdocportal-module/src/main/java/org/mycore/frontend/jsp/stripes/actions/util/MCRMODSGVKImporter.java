@@ -1,14 +1,13 @@
 package org.mycore.frontend.jsp.stripes.actions.util;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 import javax.xml.transform.Source;
@@ -30,8 +29,10 @@ import org.jdom2.transform.JDOMResult;
 import org.jdom2.transform.JDOMSource;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
+import org.mycore.activiti.MCRActivitiUtils;
 import org.mycore.common.MCRConstants;
 import org.mycore.common.config.MCRConfiguration;
+import org.mycore.datamodel.metadata.MCRObjectID;
 
 public class MCRMODSGVKImporter {
     private static Logger LOGGER = LogManager.getLogger(MCRMODSGVKImporter.class);
@@ -42,10 +43,11 @@ public class MCRMODSGVKImporter {
     private static XPathExpression<Element> XP_MODS_ROOT = XPathFactory.instance().compile("//*[./mods:mods]",
         Filters.element(), null, MCRConstants.MODS_NAMESPACE);
 
-    public static void updateWorkflowFile(File mcrFile) {
-        try {
-            Document docJdom = new SAXBuilder().build(mcrFile);
-            Element eModsContainer = XP_MODS_ROOT.evaluateFirst(docJdom);
+    public static void updateWorkflowFile(MCRObjectID mcrObjID) {
+       Path mcrFile = MCRActivitiUtils.getWorkflowObjectFile(mcrObjID);
+    	try {
+        	Document docJdom = MCRActivitiUtils.getWorkflowObjectXML(mcrObjID);
+        	Element eModsContainer = XP_MODS_ROOT.evaluateFirst(docJdom);
             Element eURN = XP_URN.evaluateFirst(docJdom);
             if (eModsContainer != null && eURN != null) {
                 Element ePica = retrievePicaXMLByURN(eURN.getTextTrim());
@@ -55,11 +57,13 @@ public class MCRMODSGVKImporter {
                         eModsContainer.removeContent();
                         eModsContainer.addContent(eMODS.detach());
                         XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
-                        outputter.output(docJdom, new OutputStreamWriter(new FileOutputStream(mcrFile), StandardCharsets.UTF_8));
+                        try(BufferedWriter bw = Files.newBufferedWriter(mcrFile)){
+                        	outputter.output(docJdom, bw);
+                        }
                     }
                 }
             }
-        } catch (IOException | JDOMException e) {
+        } catch (IOException e) {
             LOGGER.error(e);
         }
 

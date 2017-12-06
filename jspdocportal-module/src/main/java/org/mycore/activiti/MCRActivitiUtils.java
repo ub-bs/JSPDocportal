@@ -1,15 +1,16 @@
 package org.mycore.activiti;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.file.DirectoryIteratorException;
+import java.nio.file.DirectoryStream;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
+import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -19,19 +20,20 @@ import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jdom2.Document;
 import org.jdom2.Element;
-import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRException;
-import org.mycore.common.MCRUtils;
 import org.mycore.common.config.MCRConfiguration;
+import org.mycore.common.content.MCRPathContent;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.datamodel.niofs.utils.MCRRecursiveDeleter;
+import org.xml.sax.SAXParseException;
 
 /**
  * provides some static utility methods
@@ -46,53 +48,47 @@ public class MCRActivitiUtils {
 	 * @param MCRObject
 	 */
 	public static void saveMCRObjectToWorkflowDirectory(MCRObject mcrObj) {
-		File dir = getWorkflowDirectory(mcrObj.getId());
-		File fOut = new File(dir, mcrObj.getId().toString() + ".xml");
-		try (FileOutputStream fos = new FileOutputStream(fOut)) {
+		Path wfObjFile = getWorkflowObjectFile(mcrObj.getId());
+		try (BufferedWriter bw = Files.newBufferedWriter(wfObjFile)) {
 			XMLOutputter xmlOut = new XMLOutputter(Format.getPrettyFormat());
-			xmlOut.output(mcrObj.createXML(), fos);
+			xmlOut.output(mcrObj.createXML(), bw);
 		} catch (Exception ex) {
 			throw new MCRException("Cant save MCR Object "
-					+ mcrObj.getId().toString() + " into workfow directory "
-					+ dir.getName());
+					+ mcrObj.getId().toString() + " as file "
+					+ wfObjFile.toString());
 		}
 	}
 	
-	public static MCRObject loadMCRObjectFromWorkflowDirectory(MCRObjectID mcrobjid){
+	public static MCRObject loadMCRObjectFromWorkflowDirectory(MCRObjectID mcrObjID){
+		MCRObject mcrObj= null;
 		try{
-			File wfFile = new File(MCRActivitiUtils.getWorkflowDirectory(mcrobjid), mcrobjid+".xml");
-			if(wfFile.exists()){
-				SAXBuilder sax = new SAXBuilder();
-				return new MCRObject(sax.build(wfFile));
-			}
+			mcrObj = MCRActivitiUtils.getWorkflowObject(mcrObjID);
 		}
 		catch(Exception e){
 			LOGGER.error(e);
 		}
-		return null;
+		return mcrObj;
 	}
 	
 	/**
 	 * saves a given MCR object into the workflow directory
 	 * @param MCRObject
 	 */
-	public static void saveMCRDerivateToWorkflowDirectory(MCRDerivate mcrder) {
-		File fOut = getWorkflowDerivateFile(mcrder.getOwnerID(), mcrder.getId());
-		try (FileOutputStream fos = new FileOutputStream(fOut)) {
+	public static void saveMCRDerivateToWorkflowDirectory(MCRDerivate mcrDer) {
+		try (BufferedWriter bw = Files.newBufferedWriter(getWorkflowDerivateFile(mcrDer.getOwnerID(), mcrDer.getId()), StandardOpenOption.CREATE)) {
 			XMLOutputter xmlOut = new XMLOutputter(Format.getPrettyFormat());
-			xmlOut.output(mcrder.createXML(), fos);
+			xmlOut.output(mcrDer.createXML(), bw);
 		} catch (Exception ex) {
 			throw new MCRException("Could not save MCR Derivate "
-					+ mcrder.getId().toString() + " into workfow directory.", ex);
+					+ mcrDer.getId().toString() + " into workfow directory.", ex);
 		}
 	}
 	
 	public static MCRDerivate loadMCRDerivateFromWorkflowDirectory(MCRObjectID owner, MCRObjectID mcrderid){
 		try{
-			File wfFile = getWorkflowDerivateFile(owner, mcrderid);
-			if(wfFile.exists()){
-				SAXBuilder sax = new SAXBuilder();
-				return new MCRDerivate(sax.build(wfFile));
+			Path wfFile = getWorkflowDerivateFile(owner, mcrderid);
+			if(Files.exists(wfFile)){
+				return new MCRDerivate(wfFile.toUri());
 			}
 		}
 		catch(Exception e){
@@ -101,50 +97,149 @@ public class MCRActivitiUtils {
 		return null;
 	}
 	
-	public static File getWorkflowDerivateFile(MCRObjectID owner, MCRObjectID mcrderid){
-		File wfFile = new File(new File(MCRActivitiUtils.getWorkflowDirectory(owner), owner.toString()), mcrderid.toString() +".xml");
-		if(!wfFile.getParentFile().exists()){
-			wfFile.getParentFile().mkdirs();
+	private static Path getWorkflowDirectory(MCRObjectID mcrObjID) {
+		String s = MCRConfiguration.instance().getString("MCR.Workflow.WorkflowDirectory");
+		Path p = Paths.get(s).resolve(mcrObjID.getTypeId());
+		if (!Files.exists(p)) {
+			try {
+				Files.createDirectories(p);
+			}
+			catch(IOException e) {
+				LOGGER.error(e);
+			}
 		}
+		return p;
+	}
+		
+	public static MCRObject getWorkflowObject(MCRObjectID mcrObjID){
+		MCRObject o = null;
+		try {
+			o = new MCRObject(getWorkflowObjectFile(mcrObjID).toUri());
+		} catch (SAXParseException | IOException e) {
+			LOGGER.error(e);
+		}
+		return o;
+	}
+	
+	public static Path getWorkflowObjectFile(MCRObjectID mcrObjID){
+		Path p = getWorkflowDirectory(mcrObjID).resolve(mcrObjID.toString() +".xml");
+		return p;
+	}
+	
+	public static Document getWorkflowObjectXML(MCRObjectID mcrObjID){
+		Document doc = null;
+		Path wfFile = MCRActivitiUtils.getWorkflowObjectFile(mcrObjID);
+		MCRPathContent mpc = new MCRPathContent(wfFile);
+     	try {
+			doc = mpc.asXML();
+		} catch (Exception e) {
+			LOGGER.error(e);
+		}     	
+     	return doc;
+	}
+	
+	public static Path getWorkflowObjectDir(MCRObjectID mcrObjID){
+		Path p = getWorkflowDirectory(mcrObjID).resolve(mcrObjID.toString());
+		if (!Files.exists(p)) {
+			try {
+				Files.createDirectories(p);
+			}
+			catch(IOException e) {
+				LOGGER.error(e);
+			}
+		}
+		return p;
+	}
+		
+	public static Path getWorkflowDerivateFile(MCRObjectID mcrObjID, MCRObjectID mcrDerID){
+		Path wfFile = getWorkflowObjectDir(mcrObjID).resolve(mcrDerID.toString() +".xml");
 		return wfFile;
 	}
 	
-	public static void deleteMCRDerivateFromWorkflowDirectory(MCRObjectID owner, MCRObjectID mcrderid){
-		try{
-			File wfDerFile = getWorkflowDerivateFile(owner, mcrderid);
-			if(wfDerFile.exists()){
-				wfDerFile.delete();
+	public static Document getWorkflowDerivateXML(MCRObjectID mcrObjID, MCRObjectID mcrDerID){
+		Document doc = null;
+		Path wfFile = MCRActivitiUtils.getWorkflowDerivateFile(mcrObjID, mcrDerID);
+		MCRPathContent mpc = new MCRPathContent(wfFile);
+     	try {
+			doc = mpc.asXML();
+		} catch (Exception e) {
+			LOGGER.error(e);
+		}     	
+     	return doc;
+	}
+	
+	public static Path getWorkflowDerivateDir(MCRObjectID mcrObjID, MCRObjectID mcrDerID){
+		Path p = getWorkflowObjectDir(mcrObjID).resolve(mcrDerID.toString());
+		if (!Files.exists(p)) {
+			try {
+				Files.createDirectories(p);
 			}
-			File wfDerDir = new File(new File(MCRActivitiUtils.getWorkflowDirectory(owner), owner.toString()), mcrderid.toString());
-			 Files.walkFileTree(wfDerDir.toPath(), MCRRecursiveDeleter.instance());
+			catch(IOException e) {
+				LOGGER.error(e);
+			}
+		}
+		return p;
+	}
+	
+	   public static void cleanUpWorkflowDirForObject(MCRObjectID mcrObjID) {
+		   Path wfObjDir = getWorkflowObjectDir(mcrObjID);
+		   if(Files.exists(wfObjDir)) {
+				try {
+					Files.walkFileTree(wfObjDir, MCRRecursiveDeleter.instance());
+				}
+				catch(IOException e) {
+					LOGGER.error(e);
+				}
+			}
+		   
+		   Path wfObjFile = getWorkflowObjectFile(mcrObjID);
+		   
+		   if(Files.exists(wfObjFile)) {
+			try {
+				Files.delete(wfObjFile);
+			} catch (IOException e) {
+				LOGGER.error(e);
+			}
+		   }
+	   }
+	
+	public static void cleanupWorkflowDirForDerivate(MCRObjectID mcrObjID, MCRObjectID mcrDerID){
+		try{
+			Path wfDerDir = getWorkflowDerivateDir(mcrObjID, mcrDerID);
+			if(Files.exists(wfDerDir)) {
+				Files.walkFileTree(wfDerDir, MCRRecursiveDeleter.instance());
+			}
+			Path wfDerFile = getWorkflowDerivateFile(mcrObjID, mcrDerID);
+			if(Files.exists(wfDerFile)) {
+				try {
+					Files.delete(wfDerFile);
+				} catch (IOException e) {
+					LOGGER.error(e);
+				}
+			   }
 		}
 		catch(Exception e){
 			LOGGER.error(e);
 		}
 	}
 
-	public static File getWorkflowDirectory(MCRObjectID mcrObjID) {
-		String s = MCRConfiguration.instance().getString("MCR.Workflow.WorkflowDirectory");
-		File f = new File(s);
-		f = new File(f, mcrObjID.getTypeId());
-		if (!f.exists()) {
-			f.mkdirs();
-		}
-		return f;
-	}
-	
 	public static Map<String, List<String>> getDerivateFiles(MCRObjectID mcrObjID){
 		HashMap<String, List<String>> result = new HashMap<String, List<String>>();
-		File baseDir = new File(MCRActivitiUtils.getWorkflowDirectory(mcrObjID), mcrObjID.toString());
+		Path baseDir = getWorkflowObjectDir(mcrObjID);
 		MCRObject obj = MCRActivitiUtils.loadMCRObjectFromWorkflowDirectory(mcrObjID);
 		try{
 			for(MCRMetaLinkID derID: obj.getStructure().getDerivates()){
 				String id = derID.getXLinkHref();
 				List<String> fileNames = new ArrayList<String>();
 				try{
-					File root = new File(baseDir, id);
-					for(File f: root.listFiles()){
-						fileNames.add(f.getName());
+					Path derDir = baseDir.resolve(id);
+					
+					try (DirectoryStream<Path> stream = Files.newDirectoryStream(derDir)) {
+					    for (Path file: stream) {
+					        fileNames.add(file.getFileName().toString());
+					    }
+					} catch (IOException | DirectoryIteratorException e) {
+					   LOGGER.error(e);
 					}
 				}
 				catch(Exception e){
@@ -203,12 +298,4 @@ public class MCRActivitiUtils {
 			}
 		}
 	}
-	public static String getMD5Sum(File f){
-		try{
-			return MCRUtils.getMD5Sum(new FileInputStream(f));
-		}
-	catch(IOException nfe){
-			return null;
-		}
-	} 
 }

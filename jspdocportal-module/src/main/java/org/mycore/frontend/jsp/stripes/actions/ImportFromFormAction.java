@@ -1,8 +1,8 @@
 package org.mycore.frontend.jsp.stripes.actions;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.nio.file.Path;
 
 import org.jdom2.Document;
 import org.jdom2.output.Format;
@@ -105,8 +105,7 @@ public class ImportFromFormAction implements ActionBean {
 
     public Resolution doSave() {
         if (!mcrid.equals("")) {
-            File savedir = MCRActivitiUtils.getWorkflowDirectory(MCRObjectID.getInstance(mcrid));
-			File file = new File(savedir, mcrid + ".xml");
+			Path file = MCRActivitiUtils.getWorkflowObjectFile(MCRObjectID.getInstance(mcrid));
             DissOnlineFormImport.loadFormDataIntoMCRObject(metadataContent, file);
         }        
         

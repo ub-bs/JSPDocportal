@@ -1,6 +1,5 @@
 package org.mycore.frontend.jsp.taglibs;
 
-import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.jsp.JspException;
@@ -12,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 import org.jdom2.output.DOMOutputter;
 import org.mycore.activiti.MCRActivitiUtils;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
-import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
 
@@ -45,11 +43,7 @@ public class MCRReceiveMcrObjAsJdomTag extends SimpleTagSupport
 		try (MCRHibernateTransactionWrapper htw = new MCRHibernateTransactionWrapper()) {
     		org.mycore.datamodel.metadata.MCRObject mcr_obj = new org.mycore.datamodel.metadata.MCRObject();
 			if (fromWF) {
-				File savedir = MCRActivitiUtils.getWorkflowDirectory(MCRObjectID.getInstance(mcrid));
-				File file = new File(savedir, mcrid+".xml");
-				if (file.isFile()) {
-					mcr_obj = new MCRObject(file.toURI());
-				}
+				mcr_obj = MCRActivitiUtils.getWorkflowObject(MCRObjectID.getInstance(mcrid));
 			} else {
 				mcr_obj = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrid));
 			}

@@ -1,7 +1,7 @@
 package org.mycore.activiti.workflows;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -31,7 +31,7 @@ public class MCRStoreMetadataServlet extends HttpServlet{
 		Document xml = (org.jdom2.Document) (req.getAttribute("MCRXEditorSubmission"));
 		String mcrID = xml.getRootElement().getAttributeValue("ID");
 		MCRObjectID mcrObjID = MCRObjectID.getInstance(mcrID);
-		File wfFile = new File(MCRActivitiUtils.getWorkflowDirectory(mcrObjID), mcrID+".xml");
+		Path wfFile = MCRActivitiUtils.getWorkflowObjectFile(mcrObjID);
 		MCRJDOMContent content = new MCRJDOMContent(xml);
 		content.sendTo(wfFile);
 		
