@@ -11,7 +11,7 @@
 
 <%--Parameter: objectType --%>
 
-<fmt:message var="pageTitle" key="WF.editobject" /> 
+<fmt:message var="pageTitle" key="WF.Headline" /> 
 <stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}" layout="1column">
 <stripes:layout-component name="html_header">
 	
