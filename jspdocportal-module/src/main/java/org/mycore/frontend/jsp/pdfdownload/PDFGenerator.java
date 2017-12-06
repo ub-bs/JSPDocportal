@@ -150,7 +150,7 @@ public class PDFGenerator implements Runnable {
                 copy.freeReader(reader);
                 reader.close();
                 ctx.setAttribute(PDFDownloadAction.SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier,
-                    (i + 1) * 100 / imageFiles.length);
+                        (i + 1) * 100 / imageFiles.length);
 
                 // this is just for debgging
                 try {
@@ -199,7 +199,7 @@ public class PDFGenerator implements Runnable {
 
                 document.add(img);
                 ctx.setAttribute(PDFDownloadAction.SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier,
-                    (i + 1) * 100 / imageFiles.length);
+                        (i + 1) * 100 / imageFiles.length);
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
@@ -233,16 +233,16 @@ public class PDFGenerator implements Runnable {
             for (MCRMetaLinkID derID : mcrObj.getStructure().getDerivates()) {
                 if ("DV_METS".equals(derID.getXLinkTitle())) {
                     MCRDerivate der = MCRMetadataManager
-                        .retrieveMCRDerivate(MCRObjectID.getInstance(derID.getXLinkHref()));
+                            .retrieveMCRDerivate(MCRObjectID.getInstance(derID.getXLinkHref()));
                     String mainDoc = der.getDerivate().getInternals().getMainDoc();
 
-                    URL metsURL = new URL(
-                        MCRFrontendUtil.getBaseURL() + "file/" + mcrid + "/" + der.getId().toString() + "/" + mainDoc);
+                    URL metsURL = new URL(MCRFrontendUtil.getBaseURL() + "file/" + mcrid + "/" + der.getId().toString()
+                            + "/" + mainDoc);
                     SAXBuilder sb = new SAXBuilder();
                     metsXML = sb.build(metsURL);
 
                     XPathExpression<Element> xpImages = XPathFactory.instance().compile(
-                        "//mets:fileGrp[@USE='DEFAULT']/mets:file/mets:FLocat", Filters.element(), null, NS_METS);
+                            "//mets:fileGrp[@USE='DEFAULT']/mets:file/mets:FLocat", Filters.element(), null, NS_METS);
 
                     for (Element ef : xpImages.evaluate(metsXML)) {
                         imgURLs.add(ef.getAttributeValue("href", NS_XLINK));
@@ -275,7 +275,7 @@ public class PDFGenerator implements Runnable {
 
                 document.add(img);
                 ctx.setAttribute(PDFDownloadAction.SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier,
-                    (i + 1) * 100 / imgURLs.size());
+                        (i + 1) * 100 / imgURLs.size());
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {

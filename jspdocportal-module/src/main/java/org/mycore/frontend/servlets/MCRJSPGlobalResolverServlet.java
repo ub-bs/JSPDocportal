@@ -101,25 +101,25 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
         String uri = request.getRequestURI();
         String path[] = uri.substring(uri.indexOf("/resolve/") + 9).split("/", -1);
         if (path.length < 2) {
             getServletContext()
-                .getRequestDispatcher("/nav?path=~mycore-error&messageKey=Resolver.error.unknownUrlSchema")
-                .forward(request, response);
+                    .getRequestDispatcher("/nav?path=~mycore-error&messageKey=Resolver.error.unknownUrlSchema")
+                    .forward(request, response);
             return;
         }
         String key = path[0];
         String value = path[1];
-        
-      //GND resolving URL for profkat
-        if("gnd".equals(key)){
+
+        //GND resolving URL for profkat
+        if ("gnd".equals(key)) {
             //"gnd_uri": "http://d-nb.info/gnd/14075444X"
             try {
                 SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
                 SolrQuery solrQuery = new SolrQuery();
-                solrQuery.setQuery("gnd_uri:"+MCRSolrUtils.escapeSearchValue("http://d-nb.info/gnd/" + value.trim()));
+                solrQuery.setQuery("gnd_uri:" + MCRSolrUtils.escapeSearchValue("http://d-nb.info/gnd/" + value.trim()));
                 solrQuery.setFields("id");
                 QueryResponse solrResponse = solrClient.query(solrQuery);
                 SolrDocumentList solrResults = solrResponse.getResults();
@@ -129,7 +129,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
                     SolrDocument doc = it.next();
                     String id = String.valueOf(doc.getFirstValue("id"));
                     response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
-                    response.setHeader("Location", MCRFrontendUtil.getBaseURL()+"resolve/id/" + id);
+                    response.setHeader("Location", MCRFrontendUtil.getBaseURL() + "resolve/id/" + id);
                 }
             } catch (SolrServerException e) {
                 LOGGER.error(e);
@@ -165,7 +165,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
                 XMLOutputter xout = new XMLOutputter(Format.getPrettyFormat());
                 xout.output(doc, response.getOutputStream());
             } else if ("solrdocument".equals(request.getParameter("open"))
-                || "solr".equals(request.getParameter("open"))) {
+                    || "solr".equals(request.getParameter("open"))) {
                 String style = request.getParameter("open");
                 //String xslfile = style + "-object.xsl";
                 String xslfile = "xsl/mycoreobject-" + style + ".xsl";
@@ -203,7 +203,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
             } else {
                 // show metadata as docdetails view
                 this.getServletContext().getRequestDispatcher("/content/docdetails.jsp?id=" + mcrID).forward(request,
-                    response);
+                        response);
             }
             return;
         }
@@ -228,7 +228,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
             }
             return;
         }
-      
+
         if (action.equals("pdf")) {
             String url = "";
             if (path.length > 4) {
@@ -253,8 +253,8 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
             // this.getServletContext().getRequestDispatcher("/content/pdfdownload.jsp?id="
             // +mcrID).forward(request, response);
             if (key.equals("recordIdentifier")) {
-                response.sendRedirect(
-                    response.encodeRedirectURL(request.getContextPath() + "/pdfdownload/recordIdentifier/" + value));
+                response.sendRedirect(response
+                        .encodeRedirectURL(request.getContextPath() + "/pdfdownload/recordIdentifier/" + value));
             }
             // TODO - SOLR Migration
             // allow mcrids and other identifiers which can be looked up in SOLR
@@ -288,7 +288,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
             MCRObjectStructure structure = o.getStructure();
             for (MCRMetaLinkID der : structure.getDerivates()) {
                 if (label.equals(der.getXLinkHref()) || label.equals(der.getXLinkLabel())
-                    || label.equals(der.getXLinkTitle())) {
+                        || label.equals(der.getXLinkTitle())) {
                     mcrDerID = der.getXLinkHrefID();
                     break;
                 }
@@ -322,7 +322,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
                 MCRObjectStructure structure = o.getStructure();
                 for (MCRMetaLinkID der : structure.getDerivates()) {
                     if (label.equals(der.getXLinkHref()) || label.equals(der.getXLinkLabel())
-                        || label.equals(der.getXLinkTitle())) {
+                            || label.equals(der.getXLinkTitle())) {
                         mcrDerID = der.getXLinkHrefID();
                         break;
                     }
@@ -349,7 +349,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
                 }
                 StringBuffer url = new StringBuffer();
                 url.append(MCRFrontendUtil.getBaseURL()).append("file/").append(mcrID).append("/")
-                    .append(mcrDerID.toString()).append(filepath);
+                        .append(mcrDerID.toString()).append(filepath);
                 response.sendRedirect(url.toString());
             }
         }
@@ -358,7 +358,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
     // CODE under development - try to solve the "Open Large PDF file" problem
     @SuppressWarnings("unused")
     private void showDerivateFile(MCRObjectID mcrID, MCRObjectID mcrDerID, String path, HttpServletRequest request,
-        HttpServletResponse response) throws IOException, ServletException {
+            HttpServletResponse response) throws IOException, ServletException {
         // OLD CODE
         // the urn with information about the MCRObjectID
         MCRFilesystemNode mainFile = null;
@@ -397,13 +397,13 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
 
         response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         getServletContext()
-            .getRequestDispatcher("/nav?path=~mycore-error&messageKey=MCRJSPGlobalResolver.error.notfound")
-            .forward(request, response);
+                .getRequestDispatcher("/nav?path=~mycore-error&messageKey=MCRJSPGlobalResolver.error.notfound")
+                .forward(request, response);
     }
 
     // openPDF
     private void openPDF(HttpServletRequest request, HttpServletResponse response, String mcrid, MCRFile mcrFile)
-        throws IOException {
+            throws IOException {
         String page = request.getParameter("page");
         String nr = request.getParameter("nr");
 
@@ -440,7 +440,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
 
         // no transaction needed to copy long streams over slow connections
 
-        try(OutputStream out = new BufferedOutputStream(res.getOutputStream())){
+        try (OutputStream out = new BufferedOutputStream(res.getOutputStream())) {
             file.getContentTo(out);
         }
     }

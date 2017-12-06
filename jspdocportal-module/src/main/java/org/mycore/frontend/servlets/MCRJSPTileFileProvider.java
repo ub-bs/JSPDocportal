@@ -43,21 +43,19 @@ import org.mycore.imagetiler.MCRImage;
  */
 public class MCRJSPTileFileProvider implements MCRTileFileProvider {
     private static final Logger LOGGER = LogManager.getLogger(MCRJSPTileFileProvider.class);
-       
-    public Path getTileFile(String derivate, String image){
-        try{
+
+    public Path getTileFile(String derivate, String image) {
+        try {
             Path depotDir = Paths.get(MCRConfiguration.instance().getString("MCR.depotdir"));
             String recordIdentifier = URLDecoder.decode(URLDecoder.decode(derivate, "UTF-8"), "UTF-8");
-            Path outputDir = HashedDirectoryStructure.createOutputDirectory(depotDir,  recordIdentifier);
+            Path outputDir = HashedDirectoryStructure.createOutputDirectory(depotDir, recordIdentifier);
             image = image.replaceFirst("(\\w+)(_derivate_)(\\d+)(/)", "");
-            
-            return MCRImage.getTiledFile(outputDir, ".", image);            
-        }
-        catch(MCRConfigurationException cfe){
+
+            return MCRImage.getTiledFile(outputDir, ".", image);
+        } catch (MCRConfigurationException cfe) {
             LOGGER.error("Property \"MCR.depotdir\" not defined!", cfe);
             return null;
-        }
-        catch(UnsupportedEncodingException uee){
+        } catch (UnsupportedEncodingException uee) {
             LOGGER.error(uee);
             return null;
         }

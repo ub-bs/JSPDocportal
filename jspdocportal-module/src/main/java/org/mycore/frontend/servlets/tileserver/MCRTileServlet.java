@@ -45,7 +45,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mycore.imagetiler.MCRTiledPictureProps;
 
-
 /**
  * Get a specific tile of an image.
  * @author Thomas Scheffler (yagee)
@@ -60,7 +59,7 @@ public class MCRTileServlet extends HttpServlet {
     private static final long serialVersionUID = 3805114872438336791L;
 
     private static final Logger LOGGER = LogManager.getLogger(MCRTileServlet.class);
-    
+
     private MCRTileFileProvider tfp = new MCRStandardTileFileProvider();
 
     /**
@@ -102,7 +101,7 @@ public class MCRTileServlet extends HttpServlet {
             try (ServletOutputStream out = resp.getOutputStream()) {
                 Files.copy(tilePath, out);
             }
-            
+
         }
         LOGGER.debug("Ending MCRTileServlet");
     }
@@ -152,10 +151,10 @@ public class MCRTileServlet extends HttpServlet {
             int cnt = 0;
             while (--pos > 0 && cnt < 3) {
                 switch (imagePath.charAt(pos)) {
-                    case '/':
-                        cnt++;
-                        break;
-                    default:
+                case '/':
+                    cnt++;
+                    break;
+                default:
                 }
             }
             tile = imagePath.substring(pos + 2);
@@ -194,11 +193,11 @@ public class MCRTileServlet extends HttpServlet {
         }
     }
 
-    
     public static FileSystem getFileSystem(Path iviewFile) throws IOException {
         URI uri = URI.create("jar:" + iviewFile.toUri().toString());
         try {
-            return FileSystems.newFileSystem(uri, Collections.<String, Object> emptyMap(), MCRTileServlet.class.getClassLoader());
+            return FileSystems.newFileSystem(uri, Collections.<String, Object>emptyMap(),
+                    MCRTileServlet.class.getClassLoader());
         } catch (FileSystemAlreadyExistsException exc) {
             // block until file system is closed
             try {
@@ -218,32 +217,28 @@ public class MCRTileServlet extends HttpServlet {
             return getFileSystem(iviewFile);
         }
     }
-    
+
     @Override
     public void init() throws ServletException {
         String clazz = getServletConfig().getInitParameter("tileFileProvider");
-        if(clazz!=null){
-            try{
+        if (clazz != null) {
+            try {
                 tfp = (MCRTileFileProvider) Class.forName(clazz).newInstance();
-            }
-            catch(IllegalAccessException | ClassNotFoundException | InstantiationException e){
+            } catch (IllegalAccessException | ClassNotFoundException | InstantiationException e) {
                 //ignore;
             }
         }
         super.init();
     }
-    
-    
-    class MCRStandardTileFileProvider implements MCRTileFileProvider{
+
+    class MCRStandardTileFileProvider implements MCRTileFileProvider {
 
         @Override
         public Path getTileFile(String derivate, String image) {
-          Path tileDir = Paths.get(System.getProperty("java.io.tmpdir")).resolve("tiles");
-          return tileDir.resolve(derivate).resolve(image);
+            Path tileDir = Paths.get(System.getProperty("java.io.tmpdir")).resolve("tiles");
+            return tileDir.resolve(derivate).resolve(image);
         }
-        
+
     }
 
-
-    
 }

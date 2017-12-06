@@ -46,7 +46,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mycore.common.config.MCRConfiguration;
 
-
 /**
  * This servlet delivers the Webcontent of the application as a zipfile
  * All webfile, that can be changed by the webcontent editor will be saved
@@ -66,63 +65,62 @@ public class MCRZipWebcontentServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
 
-        try{
-        	byte[] buffer = new byte[18024];
-        	SimpleDateFormat formatter = new SimpleDateFormat ("yyyyMMdd-HHmmss", Locale.US);
-        	String zipfilename = "webcontent_"+formatter.format(new Date())+".zip";
-          	ZipOutputStream out  = buildZipOutputStream(response, zipfilename);
-          	String foldername = "content/"+MCRConfiguration.instance().getString("MCR.WebContent.Folder");
-    	   	File webcontentDir = new File(getServletContext().getRealPath(foldername));
-          	int rootPathLength = webcontentDir.getParent().length(); 
-           
-          	ArrayList<File> files = new ArrayList<File>();
-           	collectAllFiles(webcontentDir, files);
-           	Iterator<?> it = files.iterator();
-           	while(it.hasNext()){
-           		File f = (File)it.next();
-           	    FileInputStream in = new FileInputStream(f);
+        try {
+            byte[] buffer = new byte[18024];
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd-HHmmss", Locale.US);
+            String zipfilename = "webcontent_" + formatter.format(new Date()) + ".zip";
+            ZipOutputStream out = buildZipOutputStream(response, zipfilename);
+            String foldername = "content/" + MCRConfiguration.instance().getString("MCR.WebContent.Folder");
+            File webcontentDir = new File(getServletContext().getRealPath(foldername));
+            int rootPathLength = webcontentDir.getParent().length();
+
+            ArrayList<File> files = new ArrayList<File>();
+            collectAllFiles(webcontentDir, files);
+            Iterator<?> it = files.iterator();
+            while (it.hasNext()) {
+                File f = (File) it.next();
+                FileInputStream in = new FileInputStream(f);
                 // Add ZIP entry to output stream.
                 out.putNextEntry(new ZipEntry(f.getPath().substring(rootPathLength, f.getPath().length())));
                 //write file into zip
                 int len;
-                while ((len = in.read(buffer)) > 0) 
-                {
-                	out.write(buffer, 0, len);
+                while ((len = in.read(buffer)) > 0) {
+                    out.write(buffer, 0, len);
                 }
                 // Close the current entry
                 out.closeEntry();
-                
-               // Close the current file input stream
+
+                // Close the current file input stream
                 in.close();
-           	}
-           	out.close();
-           	
-        } catch (Exception e) {
-            String msg = "Das Zip-File konnte nicht ordnungsgemäss erstellt werden, " + "Bitte überprüfen Sie die eingegebenen Parameter";
-            response.reset();
-            try{
-            	response.sendError(HttpServletResponse.SC_BAD_REQUEST, msg);
             }
-            catch(Exception e2){
-            	LOGGER.error("Fehler", e2);
+            out.close();
+
+        } catch (Exception e) {
+            String msg = "Das Zip-File konnte nicht ordnungsgemäss erstellt werden, "
+                    + "Bitte überprüfen Sie die eingegebenen Parameter";
+            response.reset();
+            try {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, msg);
+            } catch (Exception e2) {
+                LOGGER.error("Fehler", e2);
             }
         }
     }
 
-    private void collectAllFiles(File file , List<File> l){
-    	if(file.isDirectory()){
-    		File[] subFiles = file.listFiles();
-    		for(int i=0;i<subFiles.length;i++){
-    			collectAllFiles(subFiles[i], l);
-    		}
-    	}
-    	if(file.isFile()){
-    		l.add(file);
-    	}
+    private void collectAllFiles(File file, List<File> l) {
+        if (file.isDirectory()) {
+            File[] subFiles = file.listFiles();
+            for (int i = 0; i < subFiles.length; i++) {
+                collectAllFiles(subFiles[i], l);
+            }
+        }
+        if (file.isFile()) {
+            l.add(file);
+        }
     }
-    
+
     /**
      * buildZipOutputStream sets the contenttype and name of the zip-file
      * Returns the ZipOutputStream

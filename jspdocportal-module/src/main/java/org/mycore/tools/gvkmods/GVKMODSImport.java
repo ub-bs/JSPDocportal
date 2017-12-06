@@ -29,56 +29,54 @@ public class GVKMODSImport {
         Namespace nsMODS = Namespace.getNamespace("mods", "http://www.loc.gov/mods/v3");
         //Namespace nsXSI = Namespace.getNamespace("xsi", "http://www.w3.org/2000/10/XMLSchema-instance");
         Namespace nsZS = Namespace.getNamespace("zs", "http://www.loc.gov/zing/srw/");
-        
+
         Element eMODS = null;
-        try{
-            URL urlSRU = new URL(SRU_URL + "&recordSchema=mods&query=pica.ppn%3D"+ ppn);
+        try {
+            URL urlSRU = new URL(SRU_URL + "&recordSchema=mods&query=pica.ppn%3D" + ppn);
             BufferedReader br = new BufferedReader(new InputStreamReader(urlSRU.openStream(), "UTF-8"));
 
             SAXBuilder sb = new SAXBuilder();
             Document docJdom = sb.build(br, "UTF-8");
-            br.close();            
-            
-            
-            Element e = ((List<Element>)docJdom.getRootElement().getChild("records", nsZS).getChild("record", nsZS).getChild("recordData", nsZS).getChildren()).get(0);
-            eMODS = (Element)e.detach();
-            for(Object o: XPathFactory.instance().compile("//*[namespace-uri()='http://www.loc.gov/mods/v3']").evaluate(eMODS)){
-                if(o instanceof Element){
-                    ((Element)o).setNamespace(nsMODS);
+            br.close();
+
+            Element e = ((List<Element>) docJdom.getRootElement().getChild("records", nsZS).getChild("record", nsZS)
+                    .getChild("recordData", nsZS).getChildren()).get(0);
+            eMODS = (Element) e.detach();
+            for (Object o : XPathFactory.instance().compile("//*[namespace-uri()='http://www.loc.gov/mods/v3']")
+                    .evaluate(eMODS)) {
+                if (o instanceof Element) {
+                    ((Element) o).setNamespace(nsMODS);
                 }
-            }            
-        }       
-        
-        catch(IOException e){
+            }
+        }
+
+        catch (IOException e) {
             LOGGER.error("Error retrieving MODS from GVK", e);
-        }
-        catch(JDOMException e){
+        } catch (JDOMException e) {
+            LOGGER.error("Error parsing XML from MODS", e);
+        } catch (NullPointerException e) {
             LOGGER.error("Error parsing XML from MODS", e);
         }
-        catch(NullPointerException e){
-            LOGGER.error("Error parsing XML from MODS", e);
-        }
-        
-       /*
+
+        /*
             Element eMODS = new Element("mods", nsMODS);
             eMODS.setAttribute("version", "3.4");
             eMODS.setAttribute("schemalocation", "http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-4.xsd", nsXSI);
          */
-        if(eMODS != null){
+        if (eMODS != null) {
             //<identifier type="gvk-ppn">721494285</identifier>>
             Element eIdentifier = new Element("identifier", nsMODS);
             eIdentifier.setAttribute("type", "gvk-ppn");
             eIdentifier.setText(ppn);
             eMODS.addContent(eIdentifier);
-        
+
             Element ePica = retrievePicaXML(ppn);
-        
+
             Element eExtension = new Element("extention", nsMODS);
             eExtension.setAttribute("displayLabel", "PicaXML for Validation");
             eExtension.addContent(ePica);
             eMODS.addContent(eExtension);
-        }  
-        
+        }
 
         return eMODS;
     }
@@ -86,7 +84,7 @@ public class GVKMODSImport {
     public static Element retrievePicaXML(String ppn) {
         Element e = null;
         try {
-            URL urlSRU = new URL(SRU_URL + "&recordSchema=picaxml&query=pica.ppn%3D"+ ppn);
+            URL urlSRU = new URL(SRU_URL + "&recordSchema=picaxml&query=pica.ppn%3D" + ppn);
             BufferedReader br = new BufferedReader(new InputStreamReader(urlSRU.openStream(), "UTF-8"));
 
             Document docJdom = new SAXBuilder().build(br, "UTF-8");
@@ -103,8 +101,9 @@ public class GVKMODSImport {
                             <record xmlns="info:srw/schema/5/picaXML-v1.0">
             */
             Namespace nsZS = Namespace.getNamespace("zs", "http://www.loc.gov/zing/srw/");
-            e = ((List<Element>)docJdom.getRootElement().getChild("records", nsZS).getChild("record", nsZS).getChild("recordData", nsZS).getChildren()).get(0);
-            e = (Element)e.detach();
+            e = ((List<Element>) docJdom.getRootElement().getChild("records", nsZS).getChild("record", nsZS)
+                    .getChild("recordData", nsZS).getChildren()).get(0);
+            e = (Element) e.detach();
             System.out.println(e.getName());
         } catch (MalformedURLException mfex) {
             //ignore

@@ -35,136 +35,133 @@ import org.mycore.common.config.MCRConfiguration;
 import org.xml.sax.InputSource;
 
 public class DissOnlineFormImport {
-    private static String XSLT_FILE="/xsl/ubr_form2mcr4disshab.xsl";
+    private static String XSLT_FILE = "/xsl/ubr_form2mcr4disshab.xsl";
     private static final Logger LOGGER = LogManager.getLogger(DissOnlineFormImport.class);
-    
+
     public static String[] retrieveMetadataVersions(String folderName) {
         ArrayList<String> result = new ArrayList<String>();
         MCRConfiguration config = MCRConfiguration.instance();
-        
+
         FTPClient ftp = new FTPClient();
         int reply;
         try {
-            
+
             ftp.connect(config.getString("dissonline.upload.ftp.url"));
-            ftp.login(config.getString("dissonline.upload.ftp.user"), config.getString("dissonline.upload.ftp.password"));
+            ftp.login(config.getString("dissonline.upload.ftp.user"),
+                    config.getString("dissonline.upload.ftp.password"));
             reply = ftp.getReplyCode();
             if (FTPReply.isPositiveCompletion(reply)) {
                 ftp.changeWorkingDirectory(config.getString("dissonline.upload.ftp.basedir"));
                 ftp.changeWorkingDirectory(folderName);
-                for (FTPFile f: ftp.listDirectories()){
-                    if(f.getName().startsWith("Metadaten")){
-                    result.add(f.getName());
+                for (FTPFile f : ftp.listDirectories()) {
+                    if (f.getName().startsWith("Metadaten")) {
+                        result.add(f.getName());
                     }
                 }
             }
-            
+
         } catch (SocketException ex) {
             LOGGER.error(ex);
         } catch (IOException ex) {
             LOGGER.error(ex);
-        }
-        finally{
-            try{
+        } finally {
+            try {
                 ftp.disconnect();
-            }
-            catch(IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-   
-        return result.toArray(new String[]{});
+
+        return result.toArray(new String[] {});
     }
 
     //can return null
     public static Document retrieveMetadataContent(String folderName, String metadataVersion) {
         Document doc = null;
-            MCRConfiguration config = MCRConfiguration.instance();
-            
-            FTPClient ftp = new FTPClient();
-            InputStream is = null;
-            int reply;
+        MCRConfiguration config = MCRConfiguration.instance();
+
+        FTPClient ftp = new FTPClient();
+        InputStream is = null;
+        int reply;
+        try {
+
+            ftp.connect(config.getString("dissonline.upload.ftp.url"));
+            ftp.login(config.getString("dissonline.upload.ftp.user"),
+                    config.getString("dissonline.upload.ftp.password"));
+            reply = ftp.getReplyCode();
+            if (FTPReply.isPositiveCompletion(reply)) {
+                ftp.changeWorkingDirectory(config.getString("dissonline.upload.ftp.basedir"));
+                ftp.changeWorkingDirectory(folderName);
+                ftp.changeWorkingDirectory(metadataVersion);
+                String filename = null;
+                for (FTPFile file : ftp.listFiles()) {
+                    if (file.getName().endsWith(".xml")) {
+                        filename = file.getName();
+                    }
+                }
+                if (filename != null) {
+                    is = ftp.retrieveFileStream(filename);
+                    doc = new SAXBuilder().build(is, "UTF-8");
+                }
+            }
+
+        } catch (SocketException ex) {
+            LOGGER.error(ex);
+        } catch (IOException ex) {
+            LOGGER.error(ex);
+        } catch (JDOMException ex) {
+            LOGGER.error(ex);
+        } finally {
             try {
-                
-                ftp.connect(config.getString("dissonline.upload.ftp.url"));
-                ftp.login(config.getString("dissonline.upload.ftp.user"), config.getString("dissonline.upload.ftp.password"));
-                reply = ftp.getReplyCode();
-                if (FTPReply.isPositiveCompletion(reply)) {
-                    ftp.changeWorkingDirectory(config.getString("dissonline.upload.ftp.basedir"));
-                    ftp.changeWorkingDirectory(folderName);
-                    ftp.changeWorkingDirectory(metadataVersion);
-                    String filename=null;
-                    for(FTPFile file: ftp.listFiles()){
-                        if(file.getName().endsWith(".xml")){
-                            filename = file.getName();
-                        }
-                    }
-                    if(filename!=null){
-                        is = ftp.retrieveFileStream(filename);
-                        doc = new SAXBuilder().build(is, "UTF-8");
-                    }
+                if (is != null) {
+                    is.close();
                 }
-                
-            } catch (SocketException ex) {
-                LOGGER.error(ex);
-            } catch (IOException ex) {
-                LOGGER.error(ex);
-            } catch (JDOMException ex) {
-                LOGGER.error(ex);
+                ftp.disconnect();
+
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            finally{
-                try{
-                    if(is!=null){
-                        is.close();
-                    }
-                    ftp.disconnect();
-                    
-                }
-                catch(IOException e){
-                    e.printStackTrace();
-                }
-            }
-       
-            return doc;
-      }
-    
-    public static void loadFormDataIntoMCRObject(String content, Path mcrFile){
-        try{
-            StreamSource xsltSource = new StreamSource(DissOnlineFormImport.class.getResourceAsStream(XSLT_FILE)); 
+        }
+
+        return doc;
+    }
+
+    public static void loadFormDataIntoMCRObject(String content, Path mcrFile) {
+        try {
+            StreamSource xsltSource = new StreamSource(DissOnlineFormImport.class.getResourceAsStream(XSLT_FILE));
             Transformer transformer = TransformerFactory.newInstance().newTransformer(xsltSource);
-        
-            
+
             DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             org.w3c.dom.Document doc = dBuilder.parse(new InputSource(new StringReader(content)));
-            
 
             transformer.setParameter("formData", doc.getChildNodes());
-            transformer.setParameter("currentYear", String.valueOf(Calendar.getInstance(TimeZone.getTimeZone("CET"), Locale.GERMANY).get(Calendar.YEAR)));
-            
+            transformer.setParameter("currentYear", String
+                    .valueOf(Calendar.getInstance(TimeZone.getTimeZone("CET"), Locale.GERMANY).get(Calendar.YEAR)));
+
             Path mcrOutFile = mcrFile;
             //debugging: 
             //File mcrOutFile = new File(mcrFile.getPath().replace(".xml", ".out.xml"));
-            
+
             DOMResult domResult = null;
-            try(BufferedReader br = Files.newBufferedReader(mcrFile)){
-            	StreamSource xmlSource = new StreamSource(br);
-            	domResult = new DOMResult();
-            	transformer.transform(xmlSource, domResult);
+            try (BufferedReader br = Files.newBufferedReader(mcrFile)) {
+                StreamSource xmlSource = new StreamSource(br);
+                domResult = new DOMResult();
+                transformer.transform(xmlSource, domResult);
             }
             //output pretty print
             DOMSource domSource = new DOMSource(domResult.getNode());
-            try(BufferedWriter bw = Files.newBufferedWriter(mcrOutFile)){
-            StreamResult streamResult = new StreamResult(bw);
-            Transformer transformerOut = TransformerFactory.newInstance().newTransformer();
-            transformerOut.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformerOut.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+            try (BufferedWriter bw = Files.newBufferedWriter(mcrOutFile)) {
+                StreamResult streamResult = new StreamResult(bw);
+                Transformer transformerOut = TransformerFactory.newInstance().newTransformer();
+                transformerOut.setOutputProperty(OutputKeys.INDENT, "yes");
+                transformerOut.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 
-            transformerOut.transform(domSource,  streamResult);
+                transformerOut.transform(domSource, streamResult);
             }
-            
+
         } catch (Exception e) {
             LOGGER.error("Error processing formdata", e);
         }
-    
+
     }
 }

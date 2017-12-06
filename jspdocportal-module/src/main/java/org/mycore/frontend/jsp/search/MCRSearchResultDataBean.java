@@ -81,9 +81,9 @@ public class MCRSearchResultDataBean implements Serializable {
     private Document mcrQueryXML = null;
 
     private SolrQuery solrQuery = new SolrQuery();
-    
-	private String backURL;
-	  
+
+    private String backURL;
+
     private QueryResponse solrQueryResponse;
 
     private String errorMsg = null;
@@ -101,7 +101,7 @@ public class MCRSearchResultDataBean implements Serializable {
     public static void addSearchresultToSession(HttpServletRequest request, MCRSearchResultDataBean searchresult) {
         @SuppressWarnings("unchecked")
         LRUMap<String, MCRSearchResultDataBean> map = (LRUMap<String, MCRSearchResultDataBean>) request.getSession()
-            .getAttribute("mcrSearchResultMap");
+                .getAttribute("mcrSearchResultMap");
         if (map == null) {
             map = new LRUMap<String, MCRSearchResultDataBean>(16);
             request.getSession().setAttribute("mcrSearchResultMap", map);
@@ -112,7 +112,7 @@ public class MCRSearchResultDataBean implements Serializable {
     public static MCRSearchResultDataBean retrieveSearchresultFromSession(HttpServletRequest request, String searchID) {
         @SuppressWarnings("unchecked")
         LRUMap<String, MCRSearchResultDataBean> map = (LRUMap<String, MCRSearchResultDataBean>) request.getSession()
-            .getAttribute("mcrSearchResultMap");
+                .getAttribute("mcrSearchResultMap");
         if (map == null) {
             return null;
         }
@@ -145,25 +145,23 @@ public class MCRSearchResultDataBean implements Serializable {
         }
 
         for (String fq : filterQueries) {
-            if (fq.contains("ir.pubyear_end")){
-                if(Pattern.matches("^\\S+:\\d{4}$", fq)) {
+            if (fq.contains("ir.pubyear_end")) {
+                if (Pattern.matches("^\\S+:\\d{4}$", fq)) {
                     fq = fq.replaceFirst(":", ":[* TO ");
                     fq = fq + "]";
                     solrQuery.addFilterQuery(fq);
                 }
             }
 
-            else if (fq.contains("ir.pubyear_start")){
-                if(Pattern.matches("^\\S+:\\d{4}$", fq)) {
+            else if (fq.contains("ir.pubyear_start")) {
+                if (Pattern.matches("^\\S+:\\d{4}$", fq)) {
                     fq = fq.replaceFirst(":", ":[");
                     fq = fq + " TO *]";
                     solrQuery.addFilterQuery(fq);
                 }
-            }
-            else if(fq.toLowerCase(Locale.getDefault()).contains(" or ")) {
-            	solrQuery.addFilterQuery(fq);
-            }
-            else{
+            } else if (fq.toLowerCase(Locale.getDefault()).contains(" or ")) {
+                solrQuery.addFilterQuery(fq);
+            } else {
                 String[] x = fq.split(":", 2);
                 solrQuery.addFilterQuery(x[0] + ":" + ClientUtils.escapeQueryChars(x[1]));
             }
@@ -272,7 +270,7 @@ public class MCRSearchResultDataBean implements Serializable {
         }
         return result;
     }
-    
+
     public Map<String, Map<String, Long>> getFacetResult() {
         return facetResult;
     }
@@ -339,9 +337,9 @@ public class MCRSearchResultDataBean implements Serializable {
 
     public String getSortfields() {
         return MCRConfiguration.instance()
-            .getString("MCR.Searchmask." + (mask != null ? mask : "default") + ".sortfields",
-                MCRConfiguration.instance().getString("MCR.Searchmask.default.sortfields", ""))
-            .trim();
+                .getString("MCR.Searchmask." + (mask != null ? mask : "default") + ".sortfields",
+                        MCRConfiguration.instance().getString("MCR.Searchmask.default.sortfields", ""))
+                .trim();
     }
 
     public String getXedSessionId() {
@@ -364,12 +362,12 @@ public class MCRSearchResultDataBean implements Serializable {
         return facetFields;
     }
 
-	public String getBackURL() {
-		return backURL;
-	}
+    public String getBackURL() {
+        return backURL;
+    }
 
-	public void setBackURL(String backURL) {
-		this.backURL = backURL;
-	}
-	
+    public void setBackURL(String backURL) {
+        this.backURL = backURL;
+    }
+
 }

@@ -41,9 +41,9 @@ import org.mycore.frontend.MCRFrontendUtil;
  */
 public class MCREditorForwardServlet extends HttpServlet {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private static Logger LOGGER = LogManager.getLogger(MCREditorForwardServlet.class);
+    private static Logger LOGGER = LogManager.getLogger(MCREditorForwardServlet.class);
 
     /**
      * The initalization of the servlet.
@@ -59,30 +59,33 @@ public class MCREditorForwardServlet extends HttpServlet {
      * 
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	String requestPath = request.getPathInfo();
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String requestPath = request.getPathInfo();
         LOGGER.info("MCREditorForwardServlet: request path = " + requestPath);
 
         if (requestPath == null) {
             String msg = "Error: HTTP request path is null";
             LOGGER.error(msg);
-            response.sendRedirect(MCRFrontendUtil.getBaseURL() + "mycore-error.jsp?messageKey=SWF.EditorError&lang=" + 
-            		MCRServlet.getSession(request).getCurrentLanguage());
+            response.sendRedirect(MCRFrontendUtil.getBaseURL() + "mycore-error.jsp?messageKey=SWF.EditorError&lang="
+                    + MCRServlet.getSession(request).getCurrentLanguage());
             return;
         }
-        String editorFile = requestPath.substring(requestPath.lastIndexOf("/")+1);
-        if(editorFile.contains("?")){
-        	editorFile = editorFile.split("?")[0];
+        String editorFile = requestPath.substring(requestPath.lastIndexOf("/") + 1);
+        if (editorFile.contains("?")) {
+            editorFile = editorFile.split("?")[0];
         }
-        String editorPath = requestPath.substring(requestPath.indexOf("/")+1);//+ ".xml";
+        String editorPath = requestPath.substring(requestPath.indexOf("/") + 1);//+ ".xml";
         if (editorFile != null && !editorFile.equals("")) {
-        	this.getServletContext().getRequestDispatcher("/nav?path=~editor-include&id=" + editorFile+"&editorPath="+editorPath).forward(request, response);
-        	return;
+            this.getServletContext()
+                    .getRequestDispatcher("/nav?path=~editor-include&id=" + editorFile + "&editorPath=" + editorPath)
+                    .forward(request, response);
+            return;
         }
         String msg = "Error: HTTP request path has wrong format, no '/' given";
         LOGGER.error(msg);
-        response.sendRedirect(MCRFrontendUtil.getBaseURL() + "mycore-error.jsp?messageKey=SWF.EditorError&lang=" + 
-        		MCRServlet.getSession(request).getCurrentLanguage());
+        response.sendRedirect(MCRFrontendUtil.getBaseURL() + "mycore-error.jsp?messageKey=SWF.EditorError&lang="
+                + MCRServlet.getSession(request).getCurrentLanguage());
         return;
     }
 }

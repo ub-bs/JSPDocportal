@@ -36,14 +36,14 @@ import net.balusc.webapp.FileServlet;
  * 
  */
 public class MCRWebContentServlet extends FileServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
+    /**
      * The initalization of the servlet.
      * 
      * @see javax.servlet.GenericServlet#init()
      */
     public void init() throws ServletException {
-       setBasePath(MCRConfiguration.instance().getString("MCR.WebContent.SaveFolder"));
+        setBasePath(MCRConfiguration.instance().getString("MCR.WebContent.SaveFolder"));
     }
 }

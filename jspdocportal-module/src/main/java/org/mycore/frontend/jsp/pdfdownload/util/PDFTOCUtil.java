@@ -48,11 +48,11 @@ public class PDFTOCUtil {
 
     static {
         xpStructMapPhysical = XPathFactory.instance().compile("//mets:structMap[@TYPE='PHYSICAL']//mets:div",
-            Filters.element(), null, NS_METS);
+                Filters.element(), null, NS_METS);
         xpStructLink = XPathFactory.instance().compile("//mets:structLink/mets:smLink", Filters.element(), null,
-            NS_METS);
+                NS_METS);
         xpRootDivLogical = XPathFactory.instance().compile("//mets:structMap[@TYPE='LOGICAL']/mets:div",
-            Filters.element(), null, NS_METS);
+                Filters.element(), null, NS_METS);
     }
 
     public static ArrayList<HashMap<String, Object>> createTOC(Path dataDir, int offset) {
@@ -106,7 +106,7 @@ public class PDFTOCUtil {
     }
 
     private static void addTocEntry(ArrayList<HashMap<String, Object>> parent, Element logElem,
-        HashMap<String, Integer> logDiv2PageMap) {
+            HashMap<String, Integer> logDiv2PageMap) {
         HashMap<String, Object> data = new HashMap<String, Object>();
         parent.add(data);
 

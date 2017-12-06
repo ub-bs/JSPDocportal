@@ -36,68 +36,66 @@ import org.mycore.common.config.MCRConfiguration;
  */
 public class MCRSearchResultEntry {
     private int pos;
-	private String mcrid;
-	private String label;
-	private String coverURL;
-	private LinkedHashMap<String, String> data = new LinkedHashMap<String, String>();
+    private String mcrid;
+    private String label;
+    private String coverURL;
+    private LinkedHashMap<String, String> data = new LinkedHashMap<String, String>();
 
-	private static MCRConfiguration CONFIG = MCRConfiguration.instance();
+    private static MCRConfiguration CONFIG = MCRConfiguration.instance();
 
-	public MCRSearchResultEntry(SolrDocument solrDoc, int pos) {
-	    this.pos = pos;
-		String objectType = String.valueOf(solrDoc.getFirstValue("objectType"));
-		String labelfield = CONFIG.getString("MCR.SearchResult." + objectType + ".Headerfield");
-		String[] datafields = CONFIG.getString("MCR.SearchResult." + objectType + ".Datafields").split(",");
+    public MCRSearchResultEntry(SolrDocument solrDoc, int pos) {
+        this.pos = pos;
+        String objectType = String.valueOf(solrDoc.getFirstValue("objectType"));
+        String labelfield = CONFIG.getString("MCR.SearchResult." + objectType + ".Headerfield");
+        String[] datafields = CONFIG.getString("MCR.SearchResult." + objectType + ".Datafields").split(",");
 
-		this.mcrid = String.valueOf(solrDoc.getFirstValue("returnId"));
-		this.label = String.valueOf(solrDoc.getFirstValue(labelfield));
-		for (String df : datafields) {
-			Object o = solrDoc.getFirstValue(df);
-			if (o != null) {
-				data.put(df, String.valueOf(o));
-			}
-		}
-		Object o = solrDoc.getFirstValue("ir.cover_url");
-		if(o==null){
-		    o = solrDoc.getFirstValue("cover_url");
-		}
-		if (o != null) {
-			coverURL = (String.valueOf(o));
-		} else {
-			String coverField = CONFIG.getString("MCR.SearchResult." + objectType + ".DefaultCoverfield", "");
-			if(solrDoc.getFirstValue(coverField)==null){
-				coverURL = "images/cover/default.png";
-			}
-			else if(solrDoc.getFieldValues("category.top").contains("doctype:data")){
-			    coverURL = "images/cover/default_data.png";
-			}
-			else{
-				coverURL = "images/cover/default_"	+ String.valueOf(solrDoc.getFirstValue(coverField)) + ".png";
-			}
-		}
-	}
+        this.mcrid = String.valueOf(solrDoc.getFirstValue("returnId"));
+        this.label = String.valueOf(solrDoc.getFirstValue(labelfield));
+        for (String df : datafields) {
+            Object o = solrDoc.getFirstValue(df);
+            if (o != null) {
+                data.put(df, String.valueOf(o));
+            }
+        }
+        Object o = solrDoc.getFirstValue("ir.cover_url");
+        if (o == null) {
+            o = solrDoc.getFirstValue("cover_url");
+        }
+        if (o != null) {
+            coverURL = (String.valueOf(o));
+        } else {
+            String coverField = CONFIG.getString("MCR.SearchResult." + objectType + ".DefaultCoverfield", "");
+            if (solrDoc.getFirstValue(coverField) == null) {
+                coverURL = "images/cover/default.png";
+            } else if (solrDoc.getFieldValues("category.top").contains("doctype:data")) {
+                coverURL = "images/cover/default_data.png";
+            } else {
+                coverURL = "images/cover/default_" + String.valueOf(solrDoc.getFirstValue(coverField)) + ".png";
+            }
+        }
+    }
 
-	public String getMcrid() {
-		return mcrid;
-	}
-	
-	public String getObjectType(){
-		return mcrid.split("_")[1];
-	}
+    public String getMcrid() {
+        return mcrid;
+    }
 
-	public String getLabel() {
-		return label;
-	}
+    public String getObjectType() {
+        return mcrid.split("_")[1];
+    }
 
-	public LinkedHashMap<String, String> getData() {
-		return data;
-	}
+    public String getLabel() {
+        return label;
+    }
 
-	public String getCoverURL() {
-		return coverURL;
-	}
+    public LinkedHashMap<String, String> getData() {
+        return data;
+    }
 
-	public int getPos() {
+    public String getCoverURL() {
+        return coverURL;
+    }
+
+    public int getPos() {
         return pos;
     }
 }

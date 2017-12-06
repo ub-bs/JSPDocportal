@@ -63,10 +63,10 @@ import com.itextpdf.tool.xml.XMLWorkerHelper;
 
 public class PDFFrontpageUtil {
     public static void createFrontPage(PdfWriter writer, Document document, String recordIdentifier, String mcrid)
-        throws DocumentException {
+            throws DocumentException {
         byte[] buffer = new byte[4096];
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            InputStream is = PDFFrontpageUtil.class.getResourceAsStream("/rosdok_schriftzug.png")) {
+                InputStream is = PDFFrontpageUtil.class.getResourceAsStream("/rosdok_schriftzug.png")) {
 
             int read = 0;
             while ((read = is.read(buffer)) != -1) {
@@ -84,32 +84,32 @@ public class PDFFrontpageUtil {
 
         Font font = FontFactory.getFont(Font.FontFamily.HELVETICA.name(), 10, Font.NORMAL);
         document.add(new Paragraph(
-            "Dieses Werk wurde Ihnen durch die Universitätsbibliothek Rostock zum Download bereitgestellt.", font));
-        document
-            .add(new Paragraph("Für Fragen und Hinweise wenden Sie sich bitte an: digibib.ub@uni-rostock.de", font));
+                "Dieses Werk wurde Ihnen durch die Universitätsbibliothek Rostock zum Download bereitgestellt.", font));
+        document.add(
+                new Paragraph("Für Fragen und Hinweise wenden Sie sich bitte an: digibib.ub@uni-rostock.de", font));
         Rectangle rect = new Rectangle(document.left(), document.top() - 25 * 2.54f,
-            document.getPageSize().getWidth() - document.rightMargin(), 10);
+                document.getPageSize().getWidth() - document.rightMargin(), 10);
         rect.setBorder(Rectangle.BOTTOM);
         rect.setBorderColor(BaseColor.BLACK);
         rect.setBorderWidth(1f);
         document.add(rect);
         document.add(Chunk.NEWLINE);
         document.add(Chunk.NEWLINE);
-        
+
         MCRObjectID mcrObjID = MCRObjectID.getInstance(mcrid);
         MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(mcrObjID);
-        
+
         //Cover Image
         try {
             for (MCRMetaLinkID derID : mcrObj.getStructure().getDerivates()) {
                 if ("cover".equals(derID.getXLinkTitle())) {
                     MCRDerivate der = MCRMetadataManager
-                        .retrieveMCRDerivate(MCRObjectID.getInstance(derID.getXLinkHref()));
+                            .retrieveMCRDerivate(MCRObjectID.getInstance(derID.getXLinkHref()));
                     String mainDoc = der.getDerivate().getInternals().getMainDoc();
                     document.add(Chunk.NEWLINE);
                     document.add(Chunk.NEWLINE);
-                    Image img = Image.getInstance(new URL(
-                        MCRFrontendUtil.getBaseURL() + "file/" + mcrid + "/" + der.getId().toString() + "/" + mainDoc));
+                    Image img = Image.getInstance(new URL(MCRFrontendUtil.getBaseURL() + "file/" + mcrid + "/"
+                            + der.getId().toString() + "/" + mainDoc));
                     img.scaleToFit(document.getPageSize().getWidth() * .33f, document.getPageSize().getHeight() * .33f);
                     img.setAlignment(Image.MIDDLE);
 
@@ -119,10 +119,9 @@ public class PDFFrontpageUtil {
         } catch (Exception e) {
             //do nothing - ignore exception
         }
-        
+
         document.add(Chunk.NEWLINE);
         document.add(Chunk.NEWLINE);
-        
 
         //Metadata
         org.jdom2.Document jdomObj = mcrObj.createXML();
@@ -144,19 +143,19 @@ public class PDFFrontpageUtil {
             XMLWorkerHelper.getInstance().parseXHtml(writer, document, new StringReader(htmlContent));
 
         } catch (Exception e) {
-            LogManager.getLogger(MCRTransformXslTag.class).error("Something went wrong processing the XSLT: " + xslt, e);
+            LogManager.getLogger(MCRTransformXslTag.class).error("Something went wrong processing the XSLT: " + xslt,
+                    e);
         }
 
-       
     }
 
     private static String cleanUpHTML(String content) {
         String result = "<html>" + "\n  <head>" + "\n    <style>" + "\n      body{font-size:16px;}"
-            + "\n      h4{color: rgb(0, 74, 153);font-family: Verdana;font-size: 120%}"
-            + "\n      a {text-decoration: none !important; font-size:120%;font-weight:bold;color:black;}"
-            + "\n      a.ir-btn-goto-top{font-size:0.01% !important;}"
-            + "\n      span.label {color: #777;}" + "\n      p {margin-bottom:0.5em;}" + "\n    </style>"
-            + "\n  </head>" + "\n  <body>" + content + "\n</body></html>";
+                + "\n      h4{color: rgb(0, 74, 153);font-family: Verdana;font-size: 120%}"
+                + "\n      a {text-decoration: none !important; font-size:120%;font-weight:bold;color:black;}"
+                + "\n      a.ir-btn-goto-top{font-size:0.01% !important;}" + "\n      span.label {color: #777;}"
+                + "\n      p {margin-bottom:0.5em;}" + "\n    </style>" + "\n  </head>" + "\n  <body>" + content
+                + "\n</body></html>";
         return result;
     }
 }

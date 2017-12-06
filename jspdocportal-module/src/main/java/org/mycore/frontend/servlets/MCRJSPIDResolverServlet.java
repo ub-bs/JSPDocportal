@@ -91,7 +91,7 @@ public class MCRJSPIDResolverServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
         String pdf = request.getParameter("pdf");
         String xml = request.getParameter("xml");
         String xmlextended = request.getParameter("xmlextended");
@@ -114,7 +114,7 @@ public class MCRJSPIDResolverServlet extends HttpServlet {
         }
         if (queryString.length() == 0) {
             getServletContext().getRequestDispatcher("/nav?path=~mycore-error&messageKey=IdNotGiven").forward(request,
-                response);
+                    response);
         } else {
             // TODO SOLR Migration
             /*
@@ -298,42 +298,46 @@ public class MCRJSPIDResolverServlet extends HttpServlet {
                                 if (!nr.isEmpty()) {
                                     if (openBy == OpenBy.page) {
                                         eMETSPhysDiv = XPathFactory.instance()
-                                            .compile("/mets:mets/mets:structMap[@TYPE='PHYSICAL']"
-                                                + "/mets:div[@TYPE='physSequence']/mets:div[starts-with(@ORDERLABEL, '"
-                                                + nr + "')]", Filters.element(), null, nsMets)
-                                            .evaluateFirst(docMETS);
+                                                .compile("/mets:mets/mets:structMap[@TYPE='PHYSICAL']"
+                                                        + "/mets:div[@TYPE='physSequence']/mets:div[starts-with(@ORDERLABEL, '"
+                                                        + nr + "')]", Filters.element(), null, nsMets)
+                                                .evaluateFirst(docMETS);
                                     } else if (openBy == OpenBy.nr) {
                                         eMETSPhysDiv = XPathFactory.instance()
-                                            .compile(
-                                                "/mets:mets/mets:structMap[@TYPE='PHYSICAL']"
-                                                    + "/mets:div[@TYPE='physSequence']/mets:div[@ORDER='" + nr + "']",
-                                                Filters.element(), null, nsMets)
-                                            .evaluateFirst(docMETS);
+                                                .compile("/mets:mets/mets:structMap[@TYPE='PHYSICAL']"
+                                                        + "/mets:div[@TYPE='physSequence']/mets:div[@ORDER='" + nr
+                                                        + "']", Filters.element(), null, nsMets)
+                                                .evaluateFirst(docMETS);
                                     } else if (openBy == OpenBy.part) {
-                                        eMETSPhysDiv = XPathFactory
-                                            .instance().compile("/mets:mets/mets:structMap[@TYPE='PHYSICAL']"
-                                                + "//mets:div[@ID='" + nr + "']", Filters.element(), null, nsMets)
-                                            .evaluateFirst(docMETS);
+                                        eMETSPhysDiv = XPathFactory.instance()
+                                                .compile(
+                                                        "/mets:mets/mets:structMap[@TYPE='PHYSICAL']"
+                                                                + "//mets:div[@ID='" + nr + "']",
+                                                        Filters.element(), null, nsMets)
+                                                .evaluateFirst(docMETS);
                                         if (eMETSPhysDiv == null) {
                                             Element eMETSLogDiv = XPathFactory.instance()
-                                                .compile("/mets:mets/mets:structMap[@TYPE='LOGICAL']"
-                                                    + "//mets:div[@ID='" + nr + "']", Filters.element(), null, nsMets)
-                                                .evaluateFirst(docMETS);
-                                            if (eMETSLogDiv != null) {
-                                                Element eMETSSmLink = XPathFactory.instance()
                                                     .compile(
-                                                        "/mets:mets/mets:structLink" + "//mets:smLink[@xlink:from='"
-                                                            + eMETSLogDiv.getAttributeValue("ID") + "']",
-                                                        Filters.element(), null, nsMets, nsXlink)
+                                                            "/mets:mets/mets:structMap[@TYPE='LOGICAL']"
+                                                                    + "//mets:div[@ID='" + nr + "']",
+                                                            Filters.element(), null, nsMets)
                                                     .evaluateFirst(docMETS);
+                                            if (eMETSLogDiv != null) {
+                                                Element eMETSSmLink = XPathFactory.instance().compile(
+                                                        "/mets:mets/mets:structLink" + "//mets:smLink[@xlink:from='"
+                                                                + eMETSLogDiv.getAttributeValue("ID") + "']",
+                                                        Filters.element(), null, nsMets, nsXlink)
+                                                        .evaluateFirst(docMETS);
                                                 if (eMETSSmLink != null) {
                                                     eMETSPhysDiv = XPathFactory.instance()
-                                                        .compile(
-                                                            "/mets:mets/mets:structMap[@TYPE='PHYSICAL']"
-                                                                + "//mets:div[@ID='"
-                                                                + eMETSSmLink.getAttributeValue("to", nsXlink) + "']",
-                                                            Filters.element(), null, nsMets)
-                                                        .evaluateFirst(docMETS);
+                                                            .compile(
+                                                                    "/mets:mets/mets:structMap[@TYPE='PHYSICAL']"
+                                                                            + "//mets:div[@ID='"
+                                                                            + eMETSSmLink.getAttributeValue("to",
+                                                                                    nsXlink)
+                                                                            + "']",
+                                                                    Filters.element(), null, nsMets)
+                                                            .evaluateFirst(docMETS);
                                                 }
                                             }
                                         }
@@ -342,10 +346,10 @@ public class MCRJSPIDResolverServlet extends HttpServlet {
                                 if (thumb == null) {
                                     // display in DFG-Viewer
                                     sbURL = new StringBuffer(MCRConfiguration.instance()
-                                        .getString("MCR.JSPDocportal.DFG-Viewer.BaseURL").trim());
+                                            .getString("MCR.JSPDocportal.DFG-Viewer.BaseURL").trim());
                                     sbURL.append("?set[mets]=");
-                                    sbURL.append(URLEncoder.encode(
-                                        MCRFrontendUtil.getBaseURL() + "file/" + mcrID + "/" + p.toString().replace(":/",  "/"), "UTF-8"));
+                                    sbURL.append(URLEncoder.encode(MCRFrontendUtil.getBaseURL() + "file/" + mcrID + "/"
+                                            + p.toString().replace(":/", "/"), "UTF-8"));
                                     if (eMETSPhysDiv != null) {
                                         String order = eMETSPhysDiv.getAttributeValue("ORDER");
                                         if (order != null) {
@@ -370,9 +374,9 @@ public class MCRJSPIDResolverServlet extends HttpServlet {
                                         // />
                                         // </mets:file>
                                         Element eFLocat = XPathFactory.instance()
-                                            .compile("//mets:file[@ID='" + fileid + "']/mets:FLocat", Filters.element(),
-                                                null, nsMets)
-                                            .evaluateFirst(docMETS);
+                                                .compile("//mets:file[@ID='" + fileid + "']/mets:FLocat",
+                                                        Filters.element(), null, nsMets)
+                                                .evaluateFirst(docMETS);
                                         if (eFLocat != null) {
                                             sbURL = new StringBuffer(eFLocat.getAttributeValue("href", nsXlink));
                                         }

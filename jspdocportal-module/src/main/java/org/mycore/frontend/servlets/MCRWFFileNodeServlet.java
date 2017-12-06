@@ -47,10 +47,10 @@ import org.mycore.frontend.MCRFrontendUtil;
  * 
  *  
  *  */
-public class MCRWFFileNodeServlet extends  HttpServlet{
-    private static final long serialVersionUID = 1L; 
-	private static Logger LOGGER = LogManager.getLogger(MCRWFFileNodeServlet.class);
-   
+public class MCRWFFileNodeServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+    private static Logger LOGGER = LogManager.getLogger(MCRWFFileNodeServlet.class);
+
     /**
      * The initalization of the servlet.
      * 
@@ -60,15 +60,15 @@ public class MCRWFFileNodeServlet extends  HttpServlet{
         super.init();
     }
 
-   @Override
-   protected void doGet(HttpServletRequest request, HttpServletResponse response)
-       throws ServletException, IOException {
-    	LOGGER.debug("servletPath=" + request.getServletPath());
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        LOGGER.debug("servletPath=" + request.getServletPath());
         String uri = request.getPathInfo();
         String filename = null;
         String type = null;
         String derivateID = null;
-        
+
         if (uri != null) {
             LOGGER.debug(" Path = " + uri);
             String path[] = uri.split("/");
@@ -76,45 +76,46 @@ public class MCRWFFileNodeServlet extends  HttpServlet{
             filename = path[2];
             type = MCRFrontendUtil.getProperty(request, "type").orElse(null);
         }
-        
+
         if (filename == null || type == null) {
-        	getServletContext().getRequestDispatcher("/nav?path=~mycore-error&messageKey=IdNotGiven").forward(request,response);
+            getServletContext().getRequestDispatcher("/nav?path=~mycore-error&messageKey=IdNotGiven").forward(request,
+                    response);
         }
         String basedir = MCRConfiguration.instance().getString("MCR.WorkflowEngine.EditDirectory." + type);
-        File file = new File ( basedir + "/" + derivateID + "/" + filename );
-        if ( file.exists() && file.canRead()) {
-        	// 	 Set the headers.
-        	if ( filename.endsWith("pdf"))
-        		response.setContentType("application/pdf");
-        	else if ( filename.endsWith("jpg") )
-        		response.setContentType("image/jpeg");
-        	else if ( filename.endsWith("gif"))
-        		response.setContentType("image/gif");
-        	else if (filename.endsWith("png")  )
-        		response.setContentType("image/png");
-        	else 
-        		response.setContentType("application/x-download");
-        	response.setHeader("Content-Disposition", "attachment; filename=" + filename);
+        File file = new File(basedir + "/" + derivateID + "/" + filename);
+        if (file.exists() && file.canRead()) {
+            // 	 Set the headers.
+            if (filename.endsWith("pdf"))
+                response.setContentType("application/pdf");
+            else if (filename.endsWith("jpg"))
+                response.setContentType("image/jpeg");
+            else if (filename.endsWith("gif"))
+                response.setContentType("image/gif");
+            else if (filename.endsWith("png"))
+                response.setContentType("image/png");
+            else
+                response.setContentType("application/x-download");
+            response.setHeader("Content-Disposition", "attachment; filename=" + filename);
 
-        	//        	 Send the file.
-        	OutputStream out = response.getOutputStream(  );
-        	returnFile(file, out); 
-        }        
-        
+            //        	 Send the file.
+            OutputStream out = response.getOutputStream();
+            returnFile(file, out);
+        }
+
     }
-    
-    public static void returnFile(File file, OutputStream out)    throws FileNotFoundException, IOException {
-		InputStream in = null;
-		try {
-			in = new BufferedInputStream(new FileInputStream(file));
-			byte[  ] buf = new byte[4 * 1024];  // 4K buffer
-			int bytesRead;
-			while ((bytesRead = in.read(buf)) != -1) {
-				out.write(buf, 0, bytesRead);
-			}
-		}
-		finally {
-			if (in != null) in.close(  );
-		}
-	}
+
+    public static void returnFile(File file, OutputStream out) throws FileNotFoundException, IOException {
+        InputStream in = null;
+        try {
+            in = new BufferedInputStream(new FileInputStream(file));
+            byte[] buf = new byte[4 * 1024]; // 4K buffer
+            int bytesRead;
+            while ((bytesRead = in.read(buf)) != -1) {
+                out.write(buf, 0, bytesRead);
+            }
+        } finally {
+            if (in != null)
+                in.close();
+        }
+    }
 }

@@ -58,152 +58,154 @@ import net.sourceforge.stripes.action.UrlBinding;
 
 @UrlBinding("/pdfdownload/recordIdentifier")
 public class PDFDownloadAction implements ActionBean {
-	public static final String SESSION_ATTRIBUTE_PROGRESS_PREFIX = "pdfdownload_progress_";
+    public static final String SESSION_ATTRIBUTE_PROGRESS_PREFIX = "pdfdownload_progress_";
 
-	private List<String> errorMessages = new ArrayList<String>();
+    private List<String> errorMessages = new ArrayList<String>();
 
-	private Path depotDir;
+    private Path depotDir;
 
-	private String recordIdentifier;
+    private String recordIdentifier;
 
-	private String filename;
+    private String filename;
 
-	private String requestURL;
+    private String requestURL;
 
-	private String filesize = "O MB";
+    private String filesize = "O MB";
 
-	private boolean ready;
+    private boolean ready;
 
-	public PDFDownloadAction() {
-		depotDir = Paths.get(MCRConfiguration.instance().getString("MCR.depotdir"));
-	}
+    public PDFDownloadAction() {
+        depotDir = Paths.get(MCRConfiguration.instance().getString("MCR.depotdir"));
+    }
 
-	private static final Logger LOGGER = LogManager.getLogger(PDFDownloadAction.class);
+    private static final Logger LOGGER = LogManager.getLogger(PDFDownloadAction.class);
 
-	private ActionBeanContext context;
+    private ActionBeanContext context;
 
-	public ActionBeanContext getContext() {
-		return context;
-	}
+    public ActionBeanContext getContext() {
+        return context;
+    }
 
-	public void setContext(ActionBeanContext context) {
-		this.context = context;
-	}
+    public void setContext(ActionBeanContext context) {
+        this.context = context;
+    }
 
-	@DefaultHandler
-	public Resolution defaultResolution() {
-		requestURL = getContext().getRequest().getRequestURL().toString();
-		String path = getContext().getRequest().getPathInfo().replace("/pdfdownload/recordIdentifier", "").replace("..",
-				"");
-		while (path.startsWith("/")) {
-			path = path.substring(1);
-		}
-		if (path.length() == 0) {
-			return new ForwardResolution("/index.jsp");
-		}
-		path = path.replace("%25", "%").replace("%2F", "/");
-		if (path.endsWith(".pdf")) {
-			// download file if it exists or show progress html
-			recordIdentifier = path.substring(0, path.lastIndexOf("/"));
-		} else {
-			recordIdentifier = path;
-		}
+    @DefaultHandler
+    public Resolution defaultResolution() {
+        requestURL = getContext().getRequest().getRequestURL().toString();
+        String path = getContext().getRequest().getPathInfo().replace("/pdfdownload/recordIdentifier", "").replace("..",
+                "");
+        while (path.startsWith("/")) {
+            path = path.substring(1);
+        }
+        if (path.length() == 0) {
+            return new ForwardResolution("/index.jsp");
+        }
+        path = path.replace("%25", "%").replace("%2F", "/");
+        if (path.endsWith(".pdf")) {
+            // download file if it exists or show progress html
+            recordIdentifier = path.substring(0, path.lastIndexOf("/"));
+        } else {
+            recordIdentifier = path;
+        }
 
-		SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
-		SolrQuery query = new SolrQuery();
-		query.setQuery("recordIdentifier:" + recordIdentifier);
+        SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
+        SolrQuery query = new SolrQuery();
+        query.setQuery("recordIdentifier:" + recordIdentifier);
 
-		try {
-			QueryResponse response = solrClient.query(query);
-			SolrDocumentList solrResults = response.getResults();
+        try {
+            QueryResponse response = solrClient.query(query);
+            SolrDocumentList solrResults = response.getResults();
 
-			if (solrResults.getNumFound() > 0) {
-				filename = recordIdentifier.replace("/", "_") + ".pdf";
+            if (solrResults.getNumFound() > 0) {
+                filename = recordIdentifier.replace("/", "_") + ".pdf";
 
-				final Path resultPDF = calculateCacheDir().resolve(recordIdentifier).resolve(filename);
-				ready = Files.exists(resultPDF);
-				if (ready) {
-					filesize = String.format(Locale.GERMANY, "%1.1f%n MB", (double) Files.size(resultPDF) / 1024 / 1024);
-				}
+                final Path resultPDF = calculateCacheDir().resolve(recordIdentifier).resolve(filename);
+                ready = Files.exists(resultPDF);
+                if (ready) {
+                    filesize = String.format(Locale.GERMANY, "%1.1f%n MB",
+                            (double) Files.size(resultPDF) / 1024 / 1024);
+                }
 
-				if (path.endsWith(".pdf") && ready && getProgress() < 0) {
-					// download pdf
-					Path fCount = resultPDF.getParent().resolve(resultPDF.getFileName() + ".count");
-					Files.write(fCount, ".".getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+                if (path.endsWith(".pdf") && ready && getProgress() < 0) {
+                    // download pdf
+                    Path fCount = resultPDF.getParent().resolve(resultPDF.getFileName() + ".count");
+                    Files.write(fCount, ".".getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE,
+                            StandardOpenOption.APPEND);
 
-					return new StreamingResolution("application/pdf") {
-						@Override
-						protected void stream(HttpServletResponse response) throws Exception {
-							Files.copy(resultPDF, response.getOutputStream());
-						}
-					}.setFilename(filename);
-				}
-				
-				String mcrid = String.valueOf(solrResults.get(0).getFirstValue("returnId"));
+                    return new StreamingResolution("application/pdf") {
+                        @Override
+                        protected void stream(HttpServletResponse response) throws Exception {
+                            Files.copy(resultPDF, response.getOutputStream());
+                        }
+                    }.setFilename(filename);
+                }
 
-				if (!ready && getProgress() < 0) {
-					getContext().getServletContext().setAttribute(SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier,
-							0);
-					PDFGeneratorService.execute(new PDFGenerator(resultPDF,
-							HashedDirectoryStructure.createOutputDirectory(depotDir, recordIdentifier),
-							recordIdentifier, mcrid, getContext().getServletContext()));
-				}
+                String mcrid = String.valueOf(solrResults.get(0).getFirstValue("returnId"));
 
-				if (getProgress() > 100) {
-					getContext().getServletContext()
-							.removeAttribute(SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier);
-				}
+                if (!ready && getProgress() < 0) {
+                    getContext().getServletContext().setAttribute(SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier,
+                            0);
+                    PDFGeneratorService.execute(new PDFGenerator(resultPDF,
+                            HashedDirectoryStructure.createOutputDirectory(depotDir, recordIdentifier),
+                            recordIdentifier, mcrid, getContext().getServletContext()));
+                }
 
-			} else {
-				errorMessages.add("The RecordIdentifier \"<strong>" + recordIdentifier + "\"</strong> is unkown.");
-			}
-		} catch (SolrServerException | IOException e) {
-			LOGGER.error(e);
-		}
+                if (getProgress() > 100) {
+                    getContext().getServletContext()
+                            .removeAttribute(SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier);
+                }
 
-		return new ForwardResolution("/WEB-INF/views/pdfdownload.jsp");
-	}
+            } else {
+                errorMessages.add("The RecordIdentifier \"<strong>" + recordIdentifier + "\"</strong> is unkown.");
+            }
+        } catch (SolrServerException | IOException e) {
+            LOGGER.error(e);
+        }
 
-	public String getRecordIdentifier() {
-		return recordIdentifier.replace("/", "%252F");
-	}
+        return new ForwardResolution("/WEB-INF/views/pdfdownload.jsp");
+    }
 
-	public boolean isReady() {
-		return ready;
-	}
+    public String getRecordIdentifier() {
+        return recordIdentifier.replace("/", "%252F");
+    }
 
-	public String getFilename() {
-		return filename;
-	}
+    public boolean isReady() {
+        return ready;
+    }
 
-	public int getProgress() {
-		Integer num = (Integer) getContext().getServletContext()
-				.getAttribute(SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier);
-		if (num == null) {
-			return -1;
-		} else {
-			return num;
-		}
-	}
+    public String getFilename() {
+        return filename;
+    }
 
-	private Path calculateCacheDir() {
-		Path cacheDir = Paths.get(MCRConfiguration.instance().getString("MCR.PDFDownload.CacheDir"));
-		return cacheDir;
-	}
+    public int getProgress() {
+        Integer num = (Integer) getContext().getServletContext()
+                .getAttribute(SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier);
+        if (num == null) {
+            return -1;
+        } else {
+            return num;
+        }
+    }
 
-	public String getFilesize() {
-		return filesize;
-	}
+    private Path calculateCacheDir() {
+        Path cacheDir = Paths.get(MCRConfiguration.instance().getString("MCR.PDFDownload.CacheDir"));
+        return cacheDir;
+    }
 
-	public List<String> getErrorMessages() {
-		return errorMessages;
-	}
+    public String getFilesize() {
+        return filesize;
+    }
 
-	public void setErrorMessages(List<String> errorMessages) {
-		this.errorMessages = errorMessages;
-	}
+    public List<String> getErrorMessages() {
+        return errorMessages;
+    }
 
-	public String getRequestURL() {
-		return requestURL;
-	}
+    public void setErrorMessages(List<String> errorMessages) {
+        this.errorMessages = errorMessages;
+    }
+
+    public String getRequestURL() {
+        return requestURL;
+    }
 }
