@@ -2,6 +2,7 @@ package org.mycore.activiti.workflows;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -32,7 +33,7 @@ public class MCRStoreMetadataServlet extends HttpServlet {
         MCRObjectID mcrObjID = MCRObjectID.getInstance(mcrID);
         Path wfFile = MCRActivitiUtils.getWorkflowObjectFile(mcrObjID);
         MCRJDOMContent content = new MCRJDOMContent(xml);
-        content.sendTo(wfFile);
+        content.sendTo(wfFile,StandardCopyOption.REPLACE_EXISTING);
 
         resp.sendRedirect(MCRFrontendUtil.getBaseURL() + "showWorkspace.action?mcr_base=" + mcrObjID.getBase());
     }
