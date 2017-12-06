@@ -63,23 +63,23 @@ import org.mycore.services.i18n.MCRTranslation;
  * 
  */
 public class MCRJSPServletContextListener implements ServletContextListener {
-	private static Logger LOGGER = LogManager.getLogger(MCRJSPServletContextListener.class);
+    private static Logger LOGGER = LogManager.getLogger(MCRJSPServletContextListener.class);
 
-	@Override
-	public void contextInitialized(ServletContextEvent sce) {
-		LOGGER.debug("Application " + sce.getServletContext().getServletContextName() + " started");
-		MCRNavigationUtil.loadNavigation(sce.getServletContext());
-		Navigations.loadNavigation(sce.getServletContext());
-		createNonExistingAdminPermissions();
-		registerDefaultMessageBundle(sce.getServletContext());
-		sce.getServletContext().setAttribute("WebApplicationBaseURL", MCRFrontendUtil.getBaseURL());
-	}
+    @Override
+    public void contextInitialized(ServletContextEvent sce) {
+        LOGGER.debug("Application " + sce.getServletContext().getServletContextName() + " started");
+        MCRNavigationUtil.loadNavigation(sce.getServletContext());
+        Navigations.loadNavigation(sce.getServletContext());
+        createNonExistingAdminPermissions();
+        registerDefaultMessageBundle(sce.getServletContext());
+        sce.getServletContext().setAttribute("WebApplicationBaseURL", MCRFrontendUtil.getBaseURL());
+    }
 
-	@Override
-	public void contextDestroyed(ServletContextEvent sce) {
-		LOGGER.debug("Application " + sce.getServletContext().getServletContextName() + " stopped");
-		
-		ClassLoader cl = Thread.currentThread().getContextClassLoader();
+    @Override
+    public void contextDestroyed(ServletContextEvent sce) {
+        LOGGER.debug("Application " + sce.getServletContext().getServletContextName() + " stopped");
+
+        ClassLoader cl = Thread.currentThread().getContextClassLoader();
         // Loop through all drivers
         Enumeration<Driver> drivers = DriverManager.getDrivers();
         while (drivers.hasMoreElements()) {
@@ -87,50 +87,51 @@ public class MCRJSPServletContextListener implements ServletContextListener {
             if (driver.getClass().getClassLoader() == cl) {
                 // This driver was registered by the webapp's ClassLoader, so deregister it:
                 try {
-                    LOGGER.info("Deregistering JDBC driver: "+ driver);
+                    LOGGER.info("Deregistering JDBC driver: " + driver);
                     DriverManager.deregisterDriver(driver);
                 } catch (SQLException ex) {
                     LOGGER.error("Error deregistering JDBC driver " + driver, ex);
                 }
             } else {
-                LOGGER.trace("Not deregistering JDBC driver "+driver+" as it does not belong to this webapp's ClassLoader");
+                LOGGER.trace("Not deregistering JDBC driver " + driver
+                        + " as it does not belong to this webapp's ClassLoader");
             }
         }
-	}
+    }
 
-	/**
-	 * sets default-rules for the use of the admin functions
-	 * 
-	 * @param objid
-	 * @param userid
-	 * @return boolean false if there was an Exception
-	 */
+    /**
+     * sets default-rules for the use of the admin functions
+     * 
+     * @param objid
+     * @param userid
+     * @return boolean false if there was an Exception
+     */
 
-	private boolean createNonExistingAdminPermissions() {
-		try {
-			Transaction tx = MCRHIBConnection.instance().getSession().beginTransaction();
-			Collection<String> savedPermissions = MCRAccessManager.getAccessImpl().getPermissions();
-			String permissions = MCRConfiguration.instance().getString("MCR.AccessAdminInterfacePermissions",
-					"admininterface-access,admininterface-user,admininterface-accessrules");
-			for (Iterator<?> it = Arrays.asList(permissions.split(",")).iterator(); it.hasNext();) {
-				String permission = ((String) it.next()).trim().toLowerCase(Locale.GERMAN);
-				if (!permission.equals("") && !savedPermissions.contains(permission)) {
-					MCRAccessManager.getAccessImpl().addRule(permission, MCRAccessManager.getFalseRule(), "");
-				}
-			}
-			tx.commit();
-		} catch (MCRException e) {
-			LOGGER.error("could not create admin interface permissions", e);
-			return false;
-		}
-		return true;
-	}
+    private boolean createNonExistingAdminPermissions() {
+        try {
+            Transaction tx = MCRHIBConnection.instance().getSession().beginTransaction();
+            Collection<String> savedPermissions = MCRAccessManager.getAccessImpl().getPermissions();
+            String permissions = MCRConfiguration.instance().getString("MCR.AccessAdminInterfacePermissions",
+                    "admininterface-access,admininterface-user,admininterface-accessrules");
+            for (Iterator<?> it = Arrays.asList(permissions.split(",")).iterator(); it.hasNext();) {
+                String permission = ((String) it.next()).trim().toLowerCase(Locale.GERMAN);
+                if (!permission.equals("") && !savedPermissions.contains(permission)) {
+                    MCRAccessManager.getAccessImpl().addRule(permission, MCRAccessManager.getFalseRule(), "");
+                }
+            }
+            tx.commit();
+        } catch (MCRException e) {
+            LOGGER.error("could not create admin interface permissions", e);
+            return false;
+        }
+        return true;
+    }
 
-	private void registerDefaultMessageBundle(ServletContext sc) {
-		Locale loc = new Locale(
-				MCRConfiguration.instance().getString("MCR.Metadata.DefaultLang", MCRConstants.DEFAULT_LANG));
-		Config.set(sc, Config.FMT_LOCALE, loc);
-		LocalizationContext locCtxt = new LocalizationContext(MCRTranslation.getResourceBundle("messages", loc));
-		Config.set(sc, Config.FMT_LOCALIZATION_CONTEXT, locCtxt);
-	}
+    private void registerDefaultMessageBundle(ServletContext sc) {
+        Locale loc = new Locale(
+                MCRConfiguration.instance().getString("MCR.Metadata.DefaultLang", MCRConstants.DEFAULT_LANG));
+        Config.set(sc, Config.FMT_LOCALE, loc);
+        LocalizationContext locCtxt = new LocalizationContext(MCRTranslation.getResourceBundle("messages", loc));
+        Config.set(sc, Config.FMT_LOCALIZATION_CONTEXT, locCtxt);
+    }
 }

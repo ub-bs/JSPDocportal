@@ -45,85 +45,84 @@ import org.mycore.frontend.jsp.MCRNavigationUtil;
 @XmlRootElement(name = "navigations", namespace = "http://www.mycore.org/jspdocportal/navigation")
 @XmlAccessorType(XmlAccessType.NONE)
 public class Navigations {
-	@XmlElement(name = "navigation", namespace = "http://www.mycore.org/jspdocportal/navigation")
-	private List<Navigation> list = new ArrayList<>();
+    @XmlElement(name = "navigation", namespace = "http://www.mycore.org/jspdocportal/navigation")
+    private List<Navigation> list = new ArrayList<>();
 
-	public List<Navigation> getList() {
-		return list;
-	}
-
-	public Map<String, Navigation> getMap(){
-		HashMap<String, Navigation> hashMap = new HashMap<>();
-		for(Navigation n : list) {
-			hashMap.put(n.getId(), n);
-		}
-		return hashMap;
-	}
-
-	public static void marshall(Navigations n, OutputStream os){
-		JAXBContext context;
-		try {
-			context = JAXBContext.newInstance(Navigations.class);
-	        Marshaller m = context.createMarshaller();
-	        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-	        m.marshal(n, os);
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public static Navigations unmarshall(InputStream ir) {
-		try {
-    		JAXBContext context = JAXBContext.newInstance(Navigations.class);
-    		Unmarshaller um = context.createUnmarshaller();
-			return (Navigations) um.unmarshal(ir);
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		}
-        return null;
-	}
-	
-
-	public Navigation retrieveChild(String id) {
-		for(Navigation ni: list){
-			if(ni.getId().equals(id)){
-				return ni;
-			}
-		}
-		return null;
-	}
-	
-	  /**
-     * This method loads the navigation as DOM tree into the applicationScope / servletContext.
-     * It enhances the navigation with additional attributes:
-     * level: the current level of the navigation item in the navigation tree
-     * nodeID: a unique ID for the node (@see java.util.UUID for implementation details)
-     * path: the complete navigation path (hierarchy of navitem ids, separated by ".") 
-     * 
-     * @param session - the HTTPSession
-     */
-    public static void loadNavigation(ServletContext sce){
- 		Navigations nav = Navigations.unmarshall(MCRNavigationUtil.class.getResourceAsStream("/config/navigation.xml"));
-		for(Navigation n: nav.getList()){
-			annotate(n);
-		}
-		sce.setAttribute("mcr_navigation", nav);
+    public List<Navigation> getList() {
+        return list;
     }
-    
+
+    public Map<String, Navigation> getMap() {
+        HashMap<String, Navigation> hashMap = new HashMap<>();
+        for (Navigation n : list) {
+            hashMap.put(n.getId(), n);
+        }
+        return hashMap;
+    }
+
+    public static void marshall(Navigations n, OutputStream os) {
+        JAXBContext context;
+        try {
+            context = JAXBContext.newInstance(Navigations.class);
+            Marshaller m = context.createMarshaller();
+            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            m.marshal(n, os);
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Navigations unmarshall(InputStream ir) {
+        try {
+            JAXBContext context = JAXBContext.newInstance(Navigations.class);
+            Unmarshaller um = context.createUnmarshaller();
+            return (Navigations) um.unmarshal(ir);
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Navigation retrieveChild(String id) {
+        for (Navigation ni : list) {
+            if (ni.getId().equals(id)) {
+                return ni;
+            }
+        }
+        return null;
+    }
+
+    /**
+    * This method loads the navigation as DOM tree into the applicationScope / servletContext.
+    * It enhances the navigation with additional attributes:
+    * level: the current level of the navigation item in the navigation tree
+    * nodeID: a unique ID for the node (@see java.util.UUID for implementation details)
+    * path: the complete navigation path (hierarchy of navitem ids, separated by ".") 
+    * 
+    * @param session - the HTTPSession
+    */
+    public static void loadNavigation(ServletContext sce) {
+        Navigations nav = Navigations.unmarshall(MCRNavigationUtil.class.getResourceAsStream("/config/navigation.xml"));
+        for (Navigation n : nav.getList()) {
+            annotate(n);
+        }
+        sce.setAttribute("mcr_navigation", nav);
+    }
+
     /**
      * This method annotates a navigation element.
      * For details see above.
      * 
      * @param rootElement the root element of the navigation document
      */
-    
-    private static void annotate(Navigation nav){
-    	for(NavigationItem ni: nav.getChildren()){
-    		ni.setParent(nav);
-    		annotate(ni, 0, "");
-    	}		
+
+    private static void annotate(Navigation nav) {
+        for (NavigationItem ni : nav.getChildren()) {
+            ni.setParent(nav);
+            annotate(ni, 0, "");
+        }
     }
-    
+
     /**
      * This method annotes a navigation item.
      * For details see above.
@@ -132,18 +131,17 @@ public class Navigations {
      * @param path - the current path
      */
 
-    
-    private static void annotate(NavigationItem ni, int level, String path){
-	    ni.setLevel(level);
-    	if(!path.equals("")){
-    		path = path+".";
-    	}
-       	path = path+ni.getId();
-    	ni.setPath(path);
-    	//e.setAttribute("_nodeID", UUID.randomUUID().toString());
-    	for(NavigationItem nic: ni.getChildren()){
-    		nic.setParent(ni);
-    		annotate(nic, level+1, path);
-       	}
+    private static void annotate(NavigationItem ni, int level, String path) {
+        ni.setLevel(level);
+        if (!path.equals("")) {
+            path = path + ".";
+        }
+        path = path + ni.getId();
+        ni.setPath(path);
+        //e.setAttribute("_nodeID", UUID.randomUUID().toString());
+        for (NavigationItem nic : ni.getChildren()) {
+            nic.setParent(ni);
+            annotate(nic, level + 1, path);
+        }
     }
 }

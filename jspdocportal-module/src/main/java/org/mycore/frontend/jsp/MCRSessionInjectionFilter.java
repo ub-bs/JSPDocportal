@@ -22,25 +22,25 @@ import org.mycore.frontend.servlets.MCRServlet;
 public class MCRSessionInjectionFilter implements Filter {
 
     private static final Logger LOGGER = LogManager.getLogger(MCRSessionInjectionFilter.class);
-    
+
     @Override
     public void init(FilterConfig arg0) throws ServletException {
 
     }
-    
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-        throws IOException, ServletException {
+            throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         MCRSession session = MCRServlet.getSession((HttpServletRequest) request);
         MCRSessionMgr.setCurrentSession(session);
         LOGGER.debug(MessageFormat.format("{0} ip={1} mcr={2} user={3}", httpRequest.getServletPath(),
-            MCRFrontendUtil.getRemoteAddr(httpRequest), session.getID(), session.getUserInformation().getUserID()));
+                MCRFrontendUtil.getRemoteAddr(httpRequest), session.getID(), session.getUserInformation().getUserID()));
         MCRFrontendUtil.configureSession(session, httpRequest, httpResponse);
-        
-        chain.doFilter(request,  response);
-            
+
+        chain.doFilter(request, response);
+
         MCRSessionMgr.releaseCurrentSession();
     }
 

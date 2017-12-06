@@ -31,12 +31,12 @@ import java.nio.file.Path;
  * @version $Revision: $ $Date: $
  */
 public class MCRDepotAPIDefaultConfiguration implements MCRDepotAPIConfiguration {
-    
+
     /**
      * @see org.mycore.frontend.depotapi.MCRDepotAPIConfiguration#resolveFile(java.lang.String)
      */
     @Override
-    public Path resolveFile(String path){
+    public Path resolveFile(String path) {
         return null;
     }
 
@@ -47,7 +47,7 @@ public class MCRDepotAPIDefaultConfiguration implements MCRDepotAPIConfiguration
     public long getMaxBrowserCacheAgeInMillis() {
         return -1;
     }
-    
+
     /**
      * @see org.mycore.frontend.depotapi.MCRDepotAPIConfiguration#getMaxEtagAgeInMillis()
      */

@@ -26,21 +26,20 @@ import net.sourceforge.stripes.localization.DefaultLocalePicker;
  */
 public class MCRJSPStripesLocalePicker extends DefaultLocalePicker {
 
-	@Override
-	public Locale pickLocale(HttpServletRequest request) {
-		String lang = request.getParameter("lang");
-		if(lang != null){
-			Locale loc = new Locale(lang);
-			if(locales.contains(loc)){
-				request.getSession().setAttribute("stripes_locale", loc);
-			}
-			else{
-				request.getSession().setAttribute("stripes_locale", locales.get(0));
-			}
-		}
-		if(request.getSession().getAttribute("stripes_locale")==null){
-			request.getSession().setAttribute("stripes_locale", locales.get(0));
-		}
-		return (Locale)request.getSession().getAttribute("stripes_locale");
-	}
+    @Override
+    public Locale pickLocale(HttpServletRequest request) {
+        String lang = request.getParameter("lang");
+        if (lang != null) {
+            Locale loc = new Locale(lang);
+            if (locales.contains(loc)) {
+                request.getSession().setAttribute("stripes_locale", loc);
+            } else {
+                request.getSession().setAttribute("stripes_locale", locales.get(0));
+            }
+        }
+        if (request.getSession().getAttribute("stripes_locale") == null) {
+            request.getSession().setAttribute("stripes_locale", locales.get(0));
+        }
+        return (Locale) request.getSession().getAttribute("stripes_locale");
+    }
 }

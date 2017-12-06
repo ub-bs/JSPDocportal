@@ -58,223 +58,232 @@ import org.mycore.user2.MCRRoleManager;
  *
  */
 public class MCRGetEditorElements {
-	private static Logger logger = LogManager.getLogger("MCRGetEditorElements"); 
-	private static MCRConfiguration CONFIG = MCRConfiguration.instance();
-	
-	private Properties parseQueryString(String query){
-		Properties params = new Properties();
-		String[] splitParams = query.replaceAll("&amp;","&").split("&");
-		for (int i = 0; i < splitParams.length; i++) {
-			String[] splitParam = splitParams[i].split("=");
-			params.put(splitParam[0].trim(), splitParam[1].trim());
-		}
-		return params;
-	}
-	
-	public Element resolveElement(String URI) {
-		try{
-			String query = URI.substring(URI.indexOf("?") + 1);
-			Properties params = parseQueryString(query);
-			String mode = params.getProperty("mode");
-			if(mode.equals("getHiddenVar")){
-				return getHiddenVar(params);
-			}else if(mode.equals("getHiddenAttributesForClass")) {
-				return getHiddenAttributesForClass(params);
-			}else if(mode.equals("getClassificationInItems")) {
-				return getClassificationInItems(params);
-			}else if(mode.equals("getSpecialCategoriesInItems")) {
-				return getSpecialCategoriesInItems(params);
-			}else if(mode.equals("getGroupItems")) {
-				return getGroupItems(params);
-			}else if(mode.equals("getGroupItemAndLabelForUser")) {
-				return getGroupItemAndLabelForUser(params);
-			}else if(mode.equals("getClassificationLabelInItems")) {
-				return getClassificationLabelInItems(params);				
-			}
-			return null;
-		}catch(Exception ex){
-			logger.error("could not resolve URI " + URI);
-			return new Element("error");
-		}
-	}
+    private static Logger logger = LogManager.getLogger("MCRGetEditorElements");
+    private static MCRConfiguration CONFIG = MCRConfiguration.instance();
 
-	private Element getGroupItems(Properties params) throws TransformerException{
-		Element retitems = new Element("items");
-		List<MCRRole> groupIDs = MCRRoleManager.listSystemRoles();
-		
+    private Properties parseQueryString(String query) {
+        Properties params = new Properties();
+        String[] splitParams = query.replaceAll("&amp;", "&").split("&");
+        for (int i = 0; i < splitParams.length; i++) {
+            String[] splitParam = splitParams[i].split("=");
+            params.put(splitParam[0].trim(), splitParam[1].trim());
+        }
+        return params;
+    }
+
+    public Element resolveElement(String URI) {
+        try {
+            String query = URI.substring(URI.indexOf("?") + 1);
+            Properties params = parseQueryString(query);
+            String mode = params.getProperty("mode");
+            if (mode.equals("getHiddenVar")) {
+                return getHiddenVar(params);
+            } else if (mode.equals("getHiddenAttributesForClass")) {
+                return getHiddenAttributesForClass(params);
+            } else if (mode.equals("getClassificationInItems")) {
+                return getClassificationInItems(params);
+            } else if (mode.equals("getSpecialCategoriesInItems")) {
+                return getSpecialCategoriesInItems(params);
+            } else if (mode.equals("getGroupItems")) {
+                return getGroupItems(params);
+            } else if (mode.equals("getGroupItemAndLabelForUser")) {
+                return getGroupItemAndLabelForUser(params);
+            } else if (mode.equals("getClassificationLabelInItems")) {
+                return getClassificationLabelInItems(params);
+            }
+            return null;
+        } catch (Exception ex) {
+            logger.error("could not resolve URI " + URI);
+            return new Element("error");
+        }
+    }
+
+    private Element getGroupItems(Properties params) throws TransformerException {
+        Element retitems = new Element("items");
+        List<MCRRole> groupIDs = MCRRoleManager.listSystemRoles();
 
         for (int i = 0; i < groupIDs.size(); i++) {
-            org.jdom2.Element item = new org.jdom2.Element("item").setAttribute("value", (String) groupIDs.get(i).getName()).setAttribute("label", (String) groupIDs.get(i).getName());
+            org.jdom2.Element item = new org.jdom2.Element("item")
+                    .setAttribute("value", (String) groupIDs.get(i).getName())
+                    .setAttribute("label", (String) groupIDs.get(i).getName());
             retitems.addContent(item);
         }
-        return retitems;        
-	}
-	
-	private Element getGroupItemAndLabelForUser(Properties params) throws TransformerException {
-		Element retitems = new Element("items");
-		List<MCRRole> groups  = MCRRoleManager.listSystemRoles();
-		Iterator<MCRRole> itGroup = groups.iterator();
-		while (itGroup.hasNext()) {
-			MCRRole group = (MCRRole) itGroup.next();
-			String ID = group.getName();
-			if ( ID.startsWith("create")) {
-	            org.jdom2.Element item = new org.jdom2.Element("item").setAttribute("value", ID)
-	            	.setAttribute("label", group.getName());			
-	            retitems.addContent(item);
-			}
-        }
-        return retitems;        
-	}
-	
-	
-	
-	private Element getClassificationLabelInItems(Properties params) throws TransformerException{
-		String classid = params.getProperty("classid");
-        if(classid == null || classid.equals("")){
-            String prop = params.getProperty("prop");
-            String defaultValue = params.getProperty("defaultValue");
-            if(defaultValue == null || defaultValue.equals("")) defaultValue = "DocPortal_class_1";
-            if(prop != null && !prop.equals("")) {
-                classid = MCRConfiguration.instance().getString(prop, defaultValue);
-            }else{
-                classid = defaultValue ;
-            }
-        }
-        return transformClassLabelsToItems(classid);        
-	}
+        return retitems;
+    }
 
-	private Element getClassificationInItems(Properties params) throws TransformerException{
-		String classid = params.getProperty("classid");
-		String emptyLeafs = params.getProperty("emptyLeafs");		
-		if(emptyLeafs == null || emptyLeafs.equals("")){
-			emptyLeafs = "yes";
-		}
-		String withCounter = params.getProperty("withCounter");
-        if(withCounter == null || withCounter.equals("")){
-        	withCounter="true";
-        }
-		
-        if(classid == null || classid.equals("")){
-            String prop = params.getProperty("prop");
-            String defaultValue = params.getProperty("defaultValue");
-            if(defaultValue == null || defaultValue.equals("")) defaultValue = "DocPortal_class_1";
-            if(prop != null && !prop.equals("")) {
-                classid = MCRConfiguration.instance().getString(prop, defaultValue);
-            }else{
-                classid = defaultValue ;
+    private Element getGroupItemAndLabelForUser(Properties params) throws TransformerException {
+        Element retitems = new Element("items");
+        List<MCRRole> groups = MCRRoleManager.listSystemRoles();
+        Iterator<MCRRole> itGroup = groups.iterator();
+        while (itGroup.hasNext()) {
+            MCRRole group = (MCRRole) itGroup.next();
+            String ID = group.getName();
+            if (ID.startsWith("create")) {
+                org.jdom2.Element item = new org.jdom2.Element("item").setAttribute("value", ID).setAttribute("label",
+                        group.getName());
+                retitems.addContent(item);
             }
         }
-        return transformClassToItems(classid, emptyLeafs, withCounter.equalsIgnoreCase("true"));        
-	}
-	
-	private Element transformClassToItems(String classid, String emptyLeafs, boolean withCounter) throws TransformerException{
-        Document classJdom = MCRCategoryTransformer.getMetaDataDocument(MCRCategoryDAOFactory.getInstance().getCategory(MCRCategoryID.rootID(classid), -1),  withCounter);
-        
-        boolean displayEmptyLeafs = (emptyLeafs.equalsIgnoreCase("yes")||emptyLeafs.equalsIgnoreCase("true"));
-        return MCREditorClassificationHelper.transformClassificationtoItems(classJdom, displayEmptyLeafs).getRootElement();
-	}
-	
-	private Element transformClassLabelsToItems(String classid) throws TransformerException{
-        Document classJdom = MCRCategoryTransformer.getMetaDataDocument(MCRCategoryDAOFactory.getInstance().getCategory(MCRCategoryID.rootID(classid), -1),  false);
+        return retitems;
+    }
+
+    private Element getClassificationLabelInItems(Properties params) throws TransformerException {
+        String classid = params.getProperty("classid");
+        if (classid == null || classid.equals("")) {
+            String prop = params.getProperty("prop");
+            String defaultValue = params.getProperty("defaultValue");
+            if (defaultValue == null || defaultValue.equals(""))
+                defaultValue = "DocPortal_class_1";
+            if (prop != null && !prop.equals("")) {
+                classid = MCRConfiguration.instance().getString(prop, defaultValue);
+            } else {
+                classid = defaultValue;
+            }
+        }
+        return transformClassLabelsToItems(classid);
+    }
+
+    private Element getClassificationInItems(Properties params) throws TransformerException {
+        String classid = params.getProperty("classid");
+        String emptyLeafs = params.getProperty("emptyLeafs");
+        if (emptyLeafs == null || emptyLeafs.equals("")) {
+            emptyLeafs = "yes";
+        }
+        String withCounter = params.getProperty("withCounter");
+        if (withCounter == null || withCounter.equals("")) {
+            withCounter = "true";
+        }
+
+        if (classid == null || classid.equals("")) {
+            String prop = params.getProperty("prop");
+            String defaultValue = params.getProperty("defaultValue");
+            if (defaultValue == null || defaultValue.equals(""))
+                defaultValue = "DocPortal_class_1";
+            if (prop != null && !prop.equals("")) {
+                classid = MCRConfiguration.instance().getString(prop, defaultValue);
+            } else {
+                classid = defaultValue;
+            }
+        }
+        return transformClassToItems(classid, emptyLeafs, withCounter.equalsIgnoreCase("true"));
+    }
+
+    private Element transformClassToItems(String classid, String emptyLeafs, boolean withCounter)
+            throws TransformerException {
+        Document classJdom = MCRCategoryTransformer.getMetaDataDocument(
+                MCRCategoryDAOFactory.getInstance().getCategory(MCRCategoryID.rootID(classid), -1), withCounter);
+
+        boolean displayEmptyLeafs = (emptyLeafs.equalsIgnoreCase("yes") || emptyLeafs.equalsIgnoreCase("true"));
+        return MCREditorClassificationHelper.transformClassificationtoItems(classJdom, displayEmptyLeafs)
+                .getRootElement();
+    }
+
+    private Element transformClassLabelsToItems(String classid) throws TransformerException {
+        Document classJdom = MCRCategoryTransformer.getMetaDataDocument(
+                MCRCategoryDAOFactory.getInstance().getCategory(MCRCategoryID.rootID(classid), -1), false);
         return MCREditorClassificationHelper.transformClassificationLabeltoItems(classJdom, true).getRootElement();
-	}
+    }
 
-	private Element getSpecialCategoriesInItems(Properties params) throws TransformerException{
-		Element retitems = new Element("items");
-		String classProp = params.getProperty("classProp");
-		String emptyLeafs = params.getProperty("emptyLeafs");		
-		if(emptyLeafs == null || emptyLeafs.equals("")){
-			emptyLeafs = "yes";
-		} else 
-			emptyLeafs = "no";		
-		String withCounter = params.getProperty("withCounter");
-        if(withCounter == null || withCounter.equals("")){
-        	withCounter="true";
+    private Element getSpecialCategoriesInItems(Properties params) throws TransformerException {
+        Element retitems = new Element("items");
+        String classProp = params.getProperty("classProp");
+        String emptyLeafs = params.getProperty("emptyLeafs");
+        if (emptyLeafs == null || emptyLeafs.equals("")) {
+            emptyLeafs = "yes";
+        } else
+            emptyLeafs = "no";
+        String withCounter = params.getProperty("withCounter");
+        if (withCounter == null || withCounter.equals("")) {
+            withCounter = "true";
         }
-		String categoryProp = params.getProperty("categoryProp");
-		if(classProp != null && categoryProp != null) {
-			String classid = MCRConfiguration.instance().getString(classProp, "DocPortal_class_1");
-			Element items = transformClassToItems(classid, emptyLeafs, withCounter.equalsIgnoreCase("true"));
-			List<String> values = null;
-			try{
-				values = Arrays.asList(CONFIG.getString(categoryProp).split(","));
-			}catch(Exception ex){
-				logger.warn("config property " + categoryProp + " must be a comma separated list [" + ex.getMessage() + "]" );
-				return items;
-			}
-			for (Iterator<Element> it = items.getDescendants(new ElementFilter("item")); it.hasNext();) {
-				Element	item = it.next();
-				if(values.contains(item.getAttributeValue("value"))) {
-					retitems.addContent((Element)item.clone());
-				}
-			}			
-		}
-		return retitems;
-	}	
-	
-	private Element getHiddenAttributesForClass(Properties params){
-		String var = params.getProperty("var").replaceAll("\\.","/");
-		String classname = params.getProperty("classname");
-	//	String parasearch = params.getProperty("parasearch");
-	//	String textsearch = params.getProperty("textsearch");
-		String notinherit = params.getProperty("notinherit");
-		String heritable = params.getProperty("heritable");
-		
-		// Default-Values
-	//	if(parasearch == null || parasearch.equals("")) parasearch = "true";
-	//	if(textsearch == null || textsearch.equals("")) textsearch = "true";
-		if(notinherit == null || notinherit.equals("")) notinherit = "true";
-		if(heritable == null || heritable.equals("")) heritable = "false";
-		
-		Element hiddens = new Element("hiddens");
-		Element hidden1 = new Element("hidden");
-		hidden1.setAttribute("default", classname);
-		hidden1.setAttribute("var", var + "/@class");
-//		Element hidden2 = new Element("hidden");
-//		hidden2.setAttribute("default", parasearch);
-//		hidden2.setAttribute("var", var + "/@parasearch");
-//		Element hidden3 = new Element("hidden");
-//		hidden3.setAttribute("default", textsearch);
-//		hidden3.setAttribute("var", var + "/@textsearch");
-		Element hidden4 = new Element("hidden");
-		hidden4.setAttribute("default", notinherit);
-		hidden4.setAttribute("var", var + "/@notinherit");
-		Element hidden5 = new Element("hidden");
-		hidden5.setAttribute("default", heritable);
-		hidden5.setAttribute("var", var + "/@heritable");
-		hiddens.addContent(hidden1);
-//		hiddens.addContent(hidden2);
-//		hiddens.addContent(hidden3);
-		hiddens.addContent(hidden4);
-		hiddens.addContent(hidden5);
-		return hiddens;
-	}
-	
-	private Element getHiddenVar(Properties params) throws IOException{
+        String categoryProp = params.getProperty("categoryProp");
+        if (classProp != null && categoryProp != null) {
+            String classid = MCRConfiguration.instance().getString(classProp, "DocPortal_class_1");
+            Element items = transformClassToItems(classid, emptyLeafs, withCounter.equalsIgnoreCase("true"));
+            List<String> values = null;
+            try {
+                values = Arrays.asList(CONFIG.getString(categoryProp).split(","));
+            } catch (Exception ex) {
+                logger.warn("config property " + categoryProp + " must be a comma separated list [" + ex.getMessage()
+                        + "]");
+                return items;
+            }
+            for (Iterator<Element> it = items.getDescendants(new ElementFilter("item")); it.hasNext();) {
+                Element item = it.next();
+                if (values.contains(item.getAttributeValue("value"))) {
+                    retitems.addContent((Element) item.clone());
+                }
+            }
+        }
+        return retitems;
+    }
+
+    private Element getHiddenAttributesForClass(Properties params) {
+        String var = params.getProperty("var").replaceAll("\\.", "/");
+        String classname = params.getProperty("classname");
+        //	String parasearch = params.getProperty("parasearch");
+        //	String textsearch = params.getProperty("textsearch");
+        String notinherit = params.getProperty("notinherit");
+        String heritable = params.getProperty("heritable");
+
+        // Default-Values
+        //	if(parasearch == null || parasearch.equals("")) parasearch = "true";
+        //	if(textsearch == null || textsearch.equals("")) textsearch = "true";
+        if (notinherit == null || notinherit.equals(""))
+            notinherit = "true";
+        if (heritable == null || heritable.equals(""))
+            heritable = "false";
+
+        Element hiddens = new Element("hiddens");
+        Element hidden1 = new Element("hidden");
+        hidden1.setAttribute("default", classname);
+        hidden1.setAttribute("var", var + "/@class");
+        //		Element hidden2 = new Element("hidden");
+        //		hidden2.setAttribute("default", parasearch);
+        //		hidden2.setAttribute("var", var + "/@parasearch");
+        //		Element hidden3 = new Element("hidden");
+        //		hidden3.setAttribute("default", textsearch);
+        //		hidden3.setAttribute("var", var + "/@textsearch");
+        Element hidden4 = new Element("hidden");
+        hidden4.setAttribute("default", notinherit);
+        hidden4.setAttribute("var", var + "/@notinherit");
+        Element hidden5 = new Element("hidden");
+        hidden5.setAttribute("default", heritable);
+        hidden5.setAttribute("var", var + "/@heritable");
+        hiddens.addContent(hidden1);
+        //		hiddens.addContent(hidden2);
+        //		hiddens.addContent(hidden3);
+        hiddens.addContent(hidden4);
+        hiddens.addContent(hidden5);
+        return hiddens;
+    }
+
+    private Element getHiddenVar(Properties params) throws IOException {
         String lang = params.getProperty("lang");
         String bundle = params.getProperty("bundle");
         String prop = params.getProperty("prop");
-        String defaultValue = params.getProperty("defaultValue"); 
+        String defaultValue = params.getProperty("defaultValue");
         String var = params.getProperty("var");
-        
+
         String propValue = "";
-        if(bundle != null && !bundle.equals("")) {
-        	if(lang == null || lang.equals("")) {
-        		lang = "de";
-        	}
-        	propValue = MCRTranslation.translate(prop, new Locale(lang));
-        }else{
-        	if(defaultValue == null) defaultValue = "";
-        	propValue = CONFIG.getString(prop, defaultValue);
+        if (bundle != null && !bundle.equals("")) {
+            if (lang == null || lang.equals("")) {
+                lang = "de";
+            }
+            propValue = MCRTranslation.translate(prop, new Locale(lang));
+        } else {
+            if (defaultValue == null)
+                defaultValue = "";
+            propValue = CONFIG.getString(prop, defaultValue);
         }
-        
+
         Element hiddens = new Element("hiddens");
         Element hidden = new Element("hidden");
-        hidden.setAttribute("var", var.replaceAll("\\.","/"));
+        hidden.setAttribute("var", var.replaceAll("\\.", "/"));
         hidden.setAttribute("default", propValue);
-        
+
         hiddens.addContent(hidden);
         return hiddens;
-	}
+    }
 
 }

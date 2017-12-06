@@ -53,81 +53,86 @@ import java.util.regex.Pattern;
  *
  */
 public class HashedDirectoryStructure {
-	public static final Pattern UUID_PATTERN = Pattern.compile("[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}");
+    public static final Pattern UUID_PATTERN = Pattern
+            .compile("[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}");
 
-	public static final Pattern ID_START_SPLITT_PATTERN = Pattern.compile("^([a-zA-Z]*[0-9]{2})");
+    public static final Pattern ID_START_SPLITT_PATTERN = Pattern.compile("^([a-zA-Z]*[0-9]{2})");
 
-	/**
-	 * 
-	 * @param baseDir
-	 *            - the root directory
-	 * @param recordIdentifier
-	 *            the record identifier
-	 * @return
-	 */
-	public static Path createOutputDirectory(Path baseDir, String recordIdentifier) {
-		Path currentDir = baseDir;
-		for (String s : recordIdentifier.split("\\/")) {
-			currentDir = currentDir.resolve(s);
-		}
+    /**
+     * 
+     * @param baseDir
+     *            - the root directory
+     * @param recordIdentifier
+     *            the record identifier
+     * @return
+     */
+    public static Path createOutputDirectory(Path baseDir, String recordIdentifier) {
+        Path currentDir = baseDir;
+        for (String s : recordIdentifier.split("\\/")) {
+            currentDir = currentDir.resolve(s);
+        }
 
-		Path result = null;
-		Matcher m = ID_START_SPLITT_PATTERN.matcher(currentDir.getFileName().toString());
-		if (!UUID_PATTERN.matcher(currentDir.getFileName().toString()).matches() && m.find()) {
-			String start = m.group();
-			Path parentDir = currentDir;
-			Path grandParentDir = parentDir.getParent();
-			String parentDirName = parentDir.getFileName().toString();
-			Path upperParentDir = grandParentDir;
-			if (parentDirName.length() >= start.length()) {
-				upperParentDir = grandParentDir.resolve(parentDirName.substring(0, start.length()));
-			}
-			if (parentDirName.length() > start.length() + 3) {
-				upperParentDir = upperParentDir.resolve(parentDirName.substring(0, start.length() + 3));
-			}
-			result = upperParentDir.resolve(parentDir.getFileName());
-		} else {
-			Path parentDir = currentDir;
-			Path grandParentDir = parentDir.getParent();
-			String parentDirName = parentDir.getFileName().toString();
-			Path upperParentDir = grandParentDir.resolve(parentDirName);
-			if (parentDirName.length() >= 2) {
-				upperParentDir = grandParentDir.resolve(parentDirName.substring(0, 2));
-			}
-			if (parentDirName.length() > 5) {
-				upperParentDir = upperParentDir.resolve(parentDirName.substring(0, 5));
-			}
+        Path result = null;
+        Matcher m = ID_START_SPLITT_PATTERN.matcher(currentDir.getFileName().toString());
+        if (!UUID_PATTERN.matcher(currentDir.getFileName().toString()).matches() && m.find()) {
+            String start = m.group();
+            Path parentDir = currentDir;
+            Path grandParentDir = parentDir.getParent();
+            String parentDirName = parentDir.getFileName().toString();
+            Path upperParentDir = grandParentDir;
+            if (parentDirName.length() >= start.length()) {
+                upperParentDir = grandParentDir.resolve(parentDirName.substring(0, start.length()));
+            }
+            if (parentDirName.length() > start.length() + 3) {
+                upperParentDir = upperParentDir.resolve(parentDirName.substring(0, start.length() + 3));
+            }
+            result = upperParentDir.resolve(parentDir.getFileName());
+        } else {
+            Path parentDir = currentDir;
+            Path grandParentDir = parentDir.getParent();
+            String parentDirName = parentDir.getFileName().toString();
+            Path upperParentDir = grandParentDir.resolve(parentDirName);
+            if (parentDirName.length() >= 2) {
+                upperParentDir = grandParentDir.resolve(parentDirName.substring(0, 2));
+            }
+            if (parentDirName.length() > 5) {
+                upperParentDir = upperParentDir.resolve(parentDirName.substring(0, 5));
+            }
 
-			result = upperParentDir.resolve(currentDir.getFileName());
-		}
-		return result;
-	}
+            result = upperParentDir.resolve(currentDir.getFileName());
+        }
+        return result;
+    }
 
-	/**
-	 * Some examples and test of the algorithm ...
-	 * 
-	 * @param args
-	 *            - none
-	 */
-	public static void main(String[] args) {
-		// testing ...
-		String r = "rosdok/id12345678";
-		Path p = createOutputDirectory(Paths.get("/depot"), r);
-		System.out.println(r + " : " + p.toString() + " -> " + p.equals(Paths.get("/depot/rosdok/id12/id12345/id12345678")));
-		r = "rosdok/ppn12345678X";
-		p = createOutputDirectory(Paths.get("/depot"), r);
-		System.out.println(r + " : " + p.toString() + " -> " + p.equals(Paths.get("/depot/rosdok/ppn12/ppn12345/ppn12345678X")));
-		r = "darl/rlbtext02";
-		p = createOutputDirectory(Paths.get("/depot"), r);
-		System.out.println(r + " : " + p.toString() + " -> " + p.equals(Paths.get("/depot/darl/rlbtext02")));
-		r = "darl/3dfab9ef-e90b-4fa6-8f02-4b34f0206c25";
-		p = createOutputDirectory(Paths.get("/depot"), r);
-		System.out.println(r + " : " + p.toString() + " -> " + p.equals(Paths.get("/depot/darl/3d/3dfab/3dfab9ef-e90b-4fa6-8f02-4b34f0206c25")));
-		r = "12345678";
-		p = createOutputDirectory(Paths.get("/depot"), r);
-		System.out.println(r + " : " + p.toString() + " -> " + p.equals(Paths.get("/depot/12/12345/12345678")));
-		r = "prefix12345678";
-		p = createOutputDirectory(Paths.get("/depot"), r);
-		System.out.println(r + " : " + p.toString() + " -> " + p.equals(Paths.get("/depot/prefix12/prefix12345/prefix12345678")));
-	}
+    /**
+     * Some examples and test of the algorithm ...
+     * 
+     * @param args
+     *            - none
+     */
+    public static void main(String[] args) {
+        // testing ...
+        String r = "rosdok/id12345678";
+        Path p = createOutputDirectory(Paths.get("/depot"), r);
+        System.out.println(
+                r + " : " + p.toString() + " -> " + p.equals(Paths.get("/depot/rosdok/id12/id12345/id12345678")));
+        r = "rosdok/ppn12345678X";
+        p = createOutputDirectory(Paths.get("/depot"), r);
+        System.out.println(
+                r + " : " + p.toString() + " -> " + p.equals(Paths.get("/depot/rosdok/ppn12/ppn12345/ppn12345678X")));
+        r = "darl/rlbtext02";
+        p = createOutputDirectory(Paths.get("/depot"), r);
+        System.out.println(r + " : " + p.toString() + " -> " + p.equals(Paths.get("/depot/darl/rlbtext02")));
+        r = "darl/3dfab9ef-e90b-4fa6-8f02-4b34f0206c25";
+        p = createOutputDirectory(Paths.get("/depot"), r);
+        System.out.println(r + " : " + p.toString() + " -> "
+                + p.equals(Paths.get("/depot/darl/3d/3dfab/3dfab9ef-e90b-4fa6-8f02-4b34f0206c25")));
+        r = "12345678";
+        p = createOutputDirectory(Paths.get("/depot"), r);
+        System.out.println(r + " : " + p.toString() + " -> " + p.equals(Paths.get("/depot/12/12345/12345678")));
+        r = "prefix12345678";
+        p = createOutputDirectory(Paths.get("/depot"), r);
+        System.out.println(
+                r + " : " + p.toString() + " -> " + p.equals(Paths.get("/depot/prefix12/prefix12345/prefix12345678")));
+    }
 }

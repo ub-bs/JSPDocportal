@@ -35,39 +35,43 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "navigation", namespace = "http://www.mycore.org/jspdocportal/navigation")
 @XmlAccessorType(XmlAccessType.NONE)
 public class Navigation implements NavigationObject {
-	@XmlAttribute(name = "id")
-	private String id;
-	
-	@XmlElement(name = "navitem", namespace = "http://www.mycore.org/jspdocportal/navigation")
-	private List<NavigationItem> navItemList = new ArrayList<>();
-	
-	@Override
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
-	
-	@Override
-	public NavigationItem retrieveChild(String id) {
-		for(NavigationItem ni: navItemList){
-			if(ni.getId().equals(id)){
-				return ni;
-			}
-		}
-		return null;
-	}
-	@Override
-	public List<NavigationItem> getChildren() {
-		return navItemList;
-	}
-	@Override
-	public int getLevel() {
-		return 0;
-	}
-	@Override
-	public NavigationObject getParent() {
-		return null;
-	}
+    @XmlAttribute(name = "id")
+    private String id;
+
+    @XmlElement(name = "navitem", namespace = "http://www.mycore.org/jspdocportal/navigation")
+    private List<NavigationItem> navItemList = new ArrayList<>();
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
+    public NavigationItem retrieveChild(String id) {
+        for (NavigationItem ni : navItemList) {
+            if (ni.getId().equals(id)) {
+                return ni;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<NavigationItem> getChildren() {
+        return navItemList;
+    }
+
+    @Override
+    public int getLevel() {
+        return 0;
+    }
+
+    @Override
+    public NavigationObject getParent() {
+        return null;
+    }
 }

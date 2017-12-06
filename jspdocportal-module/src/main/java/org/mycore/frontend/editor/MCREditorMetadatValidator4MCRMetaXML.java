@@ -44,27 +44,29 @@ public class MCREditorMetadatValidator4MCRMetaXML implements MCREditorMetadataVa
     public String checkDataSubTag(Element datasubtag) {
         if (datasubtag.getName().equals("modsContainer")) {
             //remove empty mods subelements !!!
-//            <mods:relatedItem type="host" displayLabel="in">
-//            <mods:part>
-//              <mods:detail type="part">
-//                <mods:number>Band 12</mods:number>
-//              </mods:detail>
-//              <mods:date type="w3cdtf" />
-//              <mods:extend unit="pages" />
-//            </mods:part>
-//           </mods:relatedItem> 
+            //            <mods:relatedItem type="host" displayLabel="in">
+            //            <mods:part>
+            //              <mods:detail type="part">
+            //                <mods:number>Band 12</mods:number>
+            //              </mods:detail>
+            //              <mods:date type="w3cdtf" />
+            //              <mods:extend unit="pages" />
+            //            </mods:part>
+            //           </mods:relatedItem> 
 
-            XPathExpression<Element> xpath =  XPathFactory.instance().compile("./mods:mods/mods:relatedItem/mods:part/mods:detail "
-                    + "| ./mods:mods/mods:relatedItem/mods:part/mods:date "
-                    + "| ./mods:mods/mods:relatedItem/mods:part/mods:extend", Filters.element(), null, MCRConstants.MODS_NAMESPACE);
-            
-            ArrayList<Element> data =  new ArrayList<Element>(xpath.evaluate(datasubtag));
-            for(Element e: data){
-                if(e.getContentSize()==0){
+            XPathExpression<Element> xpath = XPathFactory.instance().compile(
+                    "./mods:mods/mods:relatedItem/mods:part/mods:detail "
+                            + "| ./mods:mods/mods:relatedItem/mods:part/mods:date "
+                            + "| ./mods:mods/mods:relatedItem/mods:part/mods:extend",
+                    Filters.element(), null, MCRConstants.MODS_NAMESPACE);
+
+            ArrayList<Element> data = new ArrayList<Element>(xpath.evaluate(datasubtag));
+            for (Element e : data) {
+                if (e.getContentSize() == 0) {
                     e.getParentElement().removeContent(e);
-                }                
+                }
             }
-            
+
         } else {
             List<Element> l = new ArrayList<Element>();
             l.addAll(datasubtag.getChildren());

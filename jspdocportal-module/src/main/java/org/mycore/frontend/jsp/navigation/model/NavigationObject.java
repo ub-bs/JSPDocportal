@@ -26,10 +26,13 @@ package org.mycore.frontend.jsp.navigation.model;
 import java.util.List;
 
 public interface NavigationObject {
-	public NavigationItem retrieveChild(String id);
-	public List<NavigationItem> getChildren();
-	public NavigationObject getParent();
-	
-	public int getLevel();
-	public String getId();
+    public NavigationItem retrieveChild(String id);
+
+    public List<NavigationItem> getChildren();
+
+    public NavigationObject getParent();
+
+    public int getLevel();
+
+    public String getId();
 }

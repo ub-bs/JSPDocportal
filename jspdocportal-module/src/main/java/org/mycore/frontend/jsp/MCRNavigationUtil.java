@@ -42,7 +42,7 @@ import org.mycore.common.xml.MCRURIResolver;
  */
 public class MCRNavigationUtil {
     private static Namespace NS_NAVIGATION = Namespace.getNamespace("http://www.mycore.org/jspdocportal/navigation");
-    
+
     /**
      * This method loads the navigation as DOM tree into the applicationScope / servletContext.
      * It enhances the navigation with additional attributes:
@@ -52,39 +52,38 @@ public class MCRNavigationUtil {
      * 
      * @param session - the HTTPSession
      */
-    protected static void loadNavigation(ServletContext sce){
-    	Element eNav = MCRURIResolver.instance().resolve("resource:config/navigation.xml");
-    	annoteNavigation(eNav);
-    	
-    	Document jdomDoc = eNav.getDocument();
-    	if(jdomDoc==null){
-    		jdomDoc = new Document(eNav);    		
-    	}
-    	
-    	org.w3c.dom.Document domDoc = null;
-		try {
-			domDoc = new org.jdom2.output.DOMOutputter().output(jdomDoc);
-		} catch (org.jdom2.JDOMException e) {
-			LogManager.getLogger(MCRNavigationUtil.class).error("Domoutput failed: ", e);
-		}  
-	
-		//load navigation dom into application scope
-		sce.setAttribute("navDom", domDoc);
+    protected static void loadNavigation(ServletContext sce) {
+        Element eNav = MCRURIResolver.instance().resolve("resource:config/navigation.xml");
+        annoteNavigation(eNav);
+
+        Document jdomDoc = eNav.getDocument();
+        if (jdomDoc == null) {
+            jdomDoc = new Document(eNav);
+        }
+
+        org.w3c.dom.Document domDoc = null;
+        try {
+            domDoc = new org.jdom2.output.DOMOutputter().output(jdomDoc);
+        } catch (org.jdom2.JDOMException e) {
+            LogManager.getLogger(MCRNavigationUtil.class).error("Domoutput failed: ", e);
+        }
+
+        //load navigation dom into application scope
+        sce.setAttribute("navDom", domDoc);
     }
-    
+
     /**
      * This method annotates a navigation element.
      * For details see above.
      * 
      * @param rootElement the root element of the navigation document
      */
-    @SuppressWarnings("unchecked")
-	private static void annoteNavigation(Element rootElement){
-    	for(Element eChild: (List<Element>)rootElement.getChildren("navigation", NS_NAVIGATION)){
-    		annoteNavigationItem(eChild, 0, "");
-    	}		
+    private static void annoteNavigation(Element rootElement) {
+        for (Element eChild : (List<Element>) rootElement.getChildren("navigation", NS_NAVIGATION)) {
+            annoteNavigationItem(eChild, 0, "");
+        }
     }
-    
+
     /**
      * This method annotes a navigation item.
      * For details see above.
@@ -92,17 +91,16 @@ public class MCRNavigationUtil {
      * @param level - the current level
      * @param path - the current path
      */
-    @SuppressWarnings("unchecked")
-	private static void annoteNavigationItem(Element e, int level, String path){
-	    e.setAttribute("_level", Integer.toString(level));
-    	if(!path.equals("")){
-    		path = path+".";
-    	}
-       	path = path+e.getAttributeValue("id");
-    	e.setAttribute("_path", path);
-    	//e.setAttribute("_nodeID", UUID.randomUUID().toString());
-    	for(Element eChild: (List<Element>)e.getChildren("navitem", NS_NAVIGATION)){
-    		annoteNavigationItem(eChild, level+1, path);
-       	}
+    private static void annoteNavigationItem(Element e, int level, String path) {
+        e.setAttribute("_level", Integer.toString(level));
+        if (!path.equals("")) {
+            path = path + ".";
+        }
+        path = path + e.getAttributeValue("id");
+        e.setAttribute("_path", path);
+        //e.setAttribute("_nodeID", UUID.randomUUID().toString());
+        for (Element eChild : (List<Element>) e.getChildren("navitem", NS_NAVIGATION)) {
+            annoteNavigationItem(eChild, level + 1, path);
+        }
     }
 }

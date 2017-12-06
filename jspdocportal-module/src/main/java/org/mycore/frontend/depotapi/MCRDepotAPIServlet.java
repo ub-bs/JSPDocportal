@@ -40,7 +40,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
 /**
  * This servlet delivers content from the depot directory
  * which contains additional files, that are not stored in MyCoRe derivates.
@@ -104,7 +103,7 @@ public class MCRDepotAPIServlet extends HttpServlet {
 
                     MessageDigest md = MessageDigest.getInstance("MD5");
                     String md5 = String.format(Locale.ENGLISH, "%032x",
-                        new BigInteger(1, md.digest(path.getBytes(StandardCharsets.UTF_8))));
+                            new BigInteger(1, md.digest(path.getBytes(StandardCharsets.UTF_8))));
 
                     long lastModified = Files.getLastModifiedTime(file).toMillis();
                     long current = System.currentTimeMillis();
@@ -121,9 +120,9 @@ public class MCRDepotAPIServlet extends HttpServlet {
 
                 if (depotAPIConf.getMaxBrowserCacheAgeInMillis() > 0) {
                     response.setDateHeader("Expires",
-                        System.currentTimeMillis() + depotAPIConf.getMaxBrowserCacheAgeInMillis());
+                            System.currentTimeMillis() + depotAPIConf.getMaxBrowserCacheAgeInMillis());
                     response.setHeader("Cache-Control",
-                        "max-age=" + depotAPIConf.getMaxBrowserCacheAgeInMillis() / 1000);
+                            "max-age=" + depotAPIConf.getMaxBrowserCacheAgeInMillis() / 1000);
                 }
                 try (OutputStream out = new BufferedOutputStream(response.getOutputStream())) {
                     response.setContentType(getServletContext().getMimeType(file.getFileName().toString()));

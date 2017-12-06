@@ -10,33 +10,31 @@ import org.jdom2.Namespace;
 import org.mycore.common.MCRException;
 
 public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
-	private static final Logger LOGGER = LogManager.getLogger(MCRMetaHistoryEvent.class);
-	public static final int MCRHISTORYEVENT_MAX_EVENT = 1024;
-	private String event;
-	private MCRMetaClassification classification;
-	
-	public MCRMetaHistoryEvent() {
-		// TODO Auto-generated constructor stub
-		super();
-		event = "";
-		classification = new MCRMetaClassification();
-		classification.setSubTag("classification");
-		
-	}
+    private static final Logger LOGGER = LogManager.getLogger(MCRMetaHistoryEvent.class);
+    public static final int MCRHISTORYEVENT_MAX_EVENT = 1024;
+    private String event;
+    private MCRMetaClassification classification;
 
-	public MCRMetaHistoryEvent(String set_subtag,
-			String set_type, int set_inherted)
-			throws MCRException {
-		super(set_subtag, set_type, set_inherted);
-		event = "";
-		classification = new MCRMetaClassification();
-		classification.setSubTag("classification");
-		
-	}
-	
-	 /**
-     * The method set the text value.
-     */
+    public MCRMetaHistoryEvent() {
+        // TODO Auto-generated constructor stub
+        super();
+        event = "";
+        classification = new MCRMetaClassification();
+        classification.setSubTag("classification");
+
+    }
+
+    public MCRMetaHistoryEvent(String set_subtag, String set_type, int set_inherted) throws MCRException {
+        super(set_subtag, set_type, set_inherted);
+        event = "";
+        classification = new MCRMetaClassification();
+        classification.setSubTag("classification");
+
+    }
+
+    /**
+    * The method set the text value.
+    */
     public final void setEvent(String set) {
         if (set == null) {
             event = "";
@@ -48,19 +46,19 @@ public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
             event = set.substring(0, MCRHISTORYEVENT_MAX_EVENT);
         }
     }
-    
-    public final void setClassification(MCRMetaClassification set){
-    	classification = set;
+
+    public final void setClassification(MCRMetaClassification set) {
+        classification = set;
     }
-    
-    
-    public final String getEvent(){
-    	return event;
+
+    public final String getEvent() {
+        return event;
     }
+
     public final MCRMetaClassification getClassification() {
         return classification;
     }
-    
+
     /**
      * This method reads the XML input stream part from a DOM part for the
      * metadata of the document.
@@ -68,40 +66,38 @@ public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
      * @param element
      *            a relevant JDOM element for the metadata
      */
-	public void setFromDOM(org.jdom2.Element element) {
-        if(element.getChild("von")==null){
-        	element.addContent(new Element("von"));
+    public void setFromDOM(org.jdom2.Element element) {
+        if (element.getChild("von") == null) {
+            element.addContent(new Element("von"));
         }
-        if(element.getChild("bis")==null){
-        	element.addContent(new Element("bis"));
+        if (element.getChild("bis") == null) {
+            element.addContent(new Element("bis"));
         }
         Iterator<org.jdom2.Element> textchild = element.getChildren("text").iterator();
         while (textchild.hasNext()) {
             Element elmt = textchild.next();
             Attribute attr = elmt.getAttribute("lang");
-            if (attr!=null){
-            	attr.setNamespace(Namespace.XML_NAMESPACE);
+            if (attr != null) {
+                attr.setNamespace(Namespace.XML_NAMESPACE);
             }
         }
-     
-        
-    	super.setFromDOM(element);
-        setEvent(element.getChildTextTrim("event")); 
+
+        super.setFromDOM(element);
+        setEvent(element.getChildTextTrim("event"));
         setCalendar(element.getChildTextTrim("calendar"));
         Element eClassi = element.getChild("classification");
-        if(eClassi!=null){
-        	if(classification==null){
-        		classification = new MCRMetaClassification();
-        		classification.setSubTag("classification");
-        	}
-        	classification.setFromDOM(eClassi);
+        if (eClassi != null) {
+            if (classification == null) {
+                classification = new MCRMetaClassification();
+                classification.setSubTag("classification");
+            }
+            classification.setFromDOM(eClassi);
+        } else {
+            classification = null;
         }
-        else{
-        	classification=null;
-        }
-        
-        
+
     }
+
     /**
      * This method creates a XML stream for all data in this class, defined by
      * the MyCoRe XML MCRMetaHistoryDate definition for the given subtag.
@@ -111,9 +107,9 @@ public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
      * @return a JDOM Element with the XML MCRMetaHistoryDate part
      */
     public org.jdom2.Element createXML() throws MCRException {
-    	if (!isValid()) {
+        if (!isValid()) {
             debug();
-            throw new MCRException("The content of MCRMetaHistoryEvent '"+getSubTag()+"' is not valid.");
+            throw new MCRException("The content of MCRMetaHistoryEvent '" + getSubTag() + "' is not valid.");
         }
 
         org.jdom2.Element elm = super.createXML();
@@ -121,18 +117,18 @@ public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
             elm.addContent(new org.jdom2.Element("event").addContent(event));
         }
 
-//        if(classification!=null && !classification.isValid()){
-//        	debug();
-//        	throw new MCRException("The content of MCRMetaHistoryEvent's classification is not valid.");
-//        
-//        }
+        //        if(classification!=null && !classification.isValid()){
+        //        	debug();
+        //        	throw new MCRException("The content of MCRMetaHistoryEvent's classification is not valid.");
+        //        
+        //        }
         if (classification != null && classification.isValid()) {
-                elm.addContent(classification.createXML());
+            elm.addContent(classification.createXML());
         }
 
         return elm;
     }
-    
+
     /**
      * This method checks the validation of the content of this class. The
      * method returns <em>false</em> if
@@ -148,13 +144,13 @@ public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
      * @return a boolean value
      */
     public boolean isValid() {
-    	boolean b = super.isValid() && event!=null;
-    	if(classification!=null){
-    		b &=classification.isValid();
-    	}
-    	return b;
+        boolean b = super.isValid() && event != null;
+        if (classification != null) {
+            b &= classification.isValid();
+        }
+        return b;
     }
-    
+
     /**
      * This method make a clone of this class.
      */
@@ -164,17 +160,17 @@ public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
         out.setVonDate(getVon());
         out.setBisDate(getBis());
         out.setCalendar(getCalendar());
-        if(event!=null){
-        	out.setEvent(event);
+        if (event != null) {
+            out.setEvent(event);
         }
-        if(classification!=null){
-        	out.setClassification((MCRMetaClassification)classification.clone());
+        if (classification != null) {
+            out.setClassification((MCRMetaClassification) classification.clone());
+        } else {
+            out.setClassification(null);
         }
-        else{
-        	out.setClassification(null);
-    	}
         return out;
     }
+
     /**
      * This method put debug data to the logger (for the debug mode).
      */
@@ -188,9 +184,10 @@ public class MCRMetaHistoryEvent extends MCRMetaHistoryDate {
         LOGGER.debug("Bis (String)       = " + getBisToString());
         LOGGER.debug("Bis (JulianDay)    = " + getIbis());
         LOGGER.debug("Event              = " + event);
-        if(classification!=null){
-        	classification.debug();
-        }LOGGER.debug("Stop");
+        if (classification != null) {
+            classification.debug();
+        }
+        LOGGER.debug("Stop");
         LOGGER.debug("");
     }
 }
