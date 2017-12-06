@@ -14,7 +14,7 @@
 
 <%--Parameter: objectType --%>
 
-<fmt:message var="pageTitle" key="WF.EditDerivates" /> 
+<fmt:message var="pageTitle" key="WF.derivates.headline" /> 
 <mcrdd:setnamespace prefix="xlink" uri="http://www.w3.org/1999/xlink" />
 <stripes:layout-render name="../../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}" layout="2columns">
 	<stripes:layout-component name="html_header">
