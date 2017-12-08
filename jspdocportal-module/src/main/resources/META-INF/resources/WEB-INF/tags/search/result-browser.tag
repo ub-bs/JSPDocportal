@@ -58,7 +58,7 @@
 	<c:if test="${numHits >= 0}">	
 		<c:set var="pageNavi">
 			<%-- // 36.168 Treffer                   Erste Seite | 11-20 | 21-30 | 31-40 | 41-50 | Letzte Seite --%>
-			<ul class="pagination ir-pagination pull-right">
+			<ul class="pagination pagination-sm ir-pagination pull-right">
 			<c:if test="${result.numPages> 1}">
 				<c:set var="page"><%= Math.round(Math.floor((double) result.getStart() / result.getRows()) + 1) %></c:set>
 				<c:set var="start">0</c:set>
@@ -93,7 +93,7 @@
 			<a class="btn btn-default btn-sm ir-pagination-btn-back"
 			   href="${result.backURL}" ><fmt:message key="Webpage.searchresults.back" /></a>
 		</c:if>
-		<span class="ir-numfound">${result.numFound} <fmt:message key="Webpage.Searchresult.numHits" /></span>
+		<span class="btn btn-sm ir-pagination-btn-numfound">${result.numFound} <fmt:message key="Webpage.Searchresult.numHits" /></span>
 
 		</c:set>
 	<div class="panel-heading">

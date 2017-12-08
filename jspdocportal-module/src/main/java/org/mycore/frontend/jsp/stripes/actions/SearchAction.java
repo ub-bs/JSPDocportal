@@ -137,10 +137,7 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
         if (result == null) {
             result = new MCRSearchResultDataBean();
         }
-        String referrer = request.getHeader("referer");
-        if (referrer != null && request.getParameter("_search") == null) {
-            result.setBackURL(referrer);
-        }
+        
         result.setMask(mask);
 
         if (mask == null) {
@@ -150,7 +147,12 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
         } else {
             result.setAction("search/" + mask);
         }
-
+        
+        String referrer = request.getHeader("referer");
+        if (referrer != null && !referrer.contains("/XEditor") && request.getParameter("_search") == null) {
+            result.setBackURL(referrer);
+        }
+    
         Document queryDoc = (Document) request.getAttribute("MCRXEditorSubmission");
         if (queryDoc == null && result != null) {
             queryDoc = result.getMCRQueryXML();

@@ -144,3 +144,7 @@ div.ir-browse-classification ul{
 .ir-workflow-message{
 	padding: 8px 15px;
 }
+
+.ir-pagination{
+	margin-top:0px;
+}

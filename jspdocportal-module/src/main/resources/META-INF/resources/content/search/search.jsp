@@ -11,6 +11,7 @@
 <fmt:message var="pageTitle" key="Webpage.search.title.${actionBean.result.mask}" />
 <stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}" layout="2columns">
 	<stripes:layout-component name="html_header">
+		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}themes/ir/css/style_ir.css" />	
 	</stripes:layout-component>
 	<stripes:layout-component name="contents">
 		<c:if test="${not empty actionBean.result.mask}">
