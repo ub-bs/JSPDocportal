@@ -16,7 +16,7 @@
 <fmt:message var="pageTitle" key="WF.workspace" /> 
 <stripes:layout-render name="../../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}" layout="2columns">
 	<stripes:layout-component name="html_header">
-		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_workspace.css" />	
+		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}themes/ir/css/style_ir.css" />	
 	</stripes:layout-component>
 	<stripes:layout-component name="contents">
 		<div class="ir-box">
@@ -31,6 +31,11 @@
 				beanclass="org.mycore.frontend.jsp.stripes.actions.ShowWorkspaceAction"
 				id="workspaceForm" enctype="multipart/form-data" acceptcharset="UTF-8">
 				<stripes:hidden name="mcr_base" />
+				<c:forEach var="msg" items="${actionBean.messages}">
+					<div class="alert alert-warning ir-workflow-message">
+						<c:out value="${msg}" escapeXml="false" />
+ 					</div>
+				</c:forEach>
 
 				<div class="panel panel-info">
   					<div class="panel-heading">

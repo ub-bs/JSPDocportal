@@ -140,3 +140,7 @@ div.ir-browse-classification ul{
 .ir-resultentry-image{
 	border:none;
 }
+
+.ir-workflow-message{
+	padding: 8px 15px;
+}

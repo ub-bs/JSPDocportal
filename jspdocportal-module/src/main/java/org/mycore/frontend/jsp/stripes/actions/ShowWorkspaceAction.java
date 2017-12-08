@@ -189,13 +189,12 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
                     RuntimeService rs = MCRActivitiMgr.getWorfklowProcessEngine().getRuntimeService();
                     //ProcessInstance pi = rs.startProcessInstanceByKey("create_object_simple", variables);
                     ProcessInstance pi = rs.startProcessInstanceByMessage("start_create", variables);
-                    messages.add("New Activiti Process Instance " + pi.getId() + " created.");
                     TaskService ts = MCRActivitiMgr.getWorfklowProcessEngine().getTaskService();
                     for (Task t : ts.createTaskQuery().processInstanceId(pi.getId()).list()) {
                         ts.setAssignee(t.getId(), MCRUserManager.getCurrentUser().getUserID());
                     }
                 } else {
-                    messages.add("You don't have the Permission to create a new workflow instance");
+                    messages.add(MCRTranslation.translate("WF.messages.create.forbidden"));
                 }
             }
         }
@@ -236,6 +235,15 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
     private void followTransaction(String taskId, String transactionID) {
         TaskService ts = MCRActivitiMgr.getWorfklowProcessEngine().getTaskService();
         ts.setVariable(taskId, "goto", transactionID);
+        
+        if(transactionID.equals("edit_object.do_save")) {
+           Task t = ts.createTaskQuery().taskId(taskId).singleResult();
+           updateWFObjectMetadata(t);
+           String mcrid = String.valueOf(ts.getVariable(t.getId(), MCRActivitiMgr.WF_VAR_MCR_OBJECT_ID));
+           String title = String.valueOf(ts.getVariable(t.getId(),  MCRActivitiMgr.WF_VAR_DISPLAY_TITLE));
+           String url = MCRFrontendUtil.getBaseURL()+"resolve/id/"+mcrid;
+           messages.add(MCRTranslation.translate("WF.messages.publish.completed",  title, url, url));
+        }
         ts.complete(taskId);
     }
 
