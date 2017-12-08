@@ -318,6 +318,10 @@
       <groupId>org.mycore</groupId>
       <artifactId>mycore-ifs</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.mycore</groupId>
+      <artifactId>mycore-pi</artifactId>
+    </dependency>
 
     <dependency>
       <groupId>org.mycore</groupId>
@@ -389,11 +393,6 @@
     <dependency>
       <groupId>org.mycore</groupId>
       <artifactId>mycore-oai</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.mycore</groupId>
-      <artifactId>mycore-pi</artifactId>
       <scope>runtime</scope>
     </dependency>
     <dependency>
