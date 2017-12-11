@@ -20,6 +20,7 @@ import org.apache.logging.log4j.Logger;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.config.MCRConfiguration;
+import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
 
 import net.sourceforge.stripes.action.ActionBean;
@@ -73,13 +74,14 @@ public class SaveWebcontentAction extends MCRAbstractStripesAction implements Ac
                     if (s.startsWith("doCancel_")) {
                         id = s.substring(s.indexOf("_") + 1);
                         getOpenEditorsFromSession().remove(id);
+                        referer = getContext().getRequest().getHeader("Referer");
                         break;
                     }
                 }
             }
         }
         if (referer == null) {
-            referer = "";
+            referer = MCRFrontendUtil.getBaseURL();
         }
         //return new RedirectResolution(getContext().getRequest().getHeader("Referer"), false);
         return new RedirectResolution(referer, false);
