@@ -17,13 +17,6 @@
 		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_docdetails.css">
 	</stripes:layout-component>
 	<stripes:layout-component name="main_part">
-    
-    <div class="row">
-      <div class="col-xs-12 ir-divider">
-        <hr/>
-      </div>
-    </div>
-  
     <div class="row" style="margin-bottom:30px;">
       <div class="col-xs-12">
         <h2><fmt:message key="PDF.download.headline.download" /></h2>   

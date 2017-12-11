@@ -15,11 +15,6 @@
   </stripes:layout-component>
   <stripes:layout-component name="main_part">
     <div class="row">
-      <div class="col-xs-12 ir-divider">
-        <hr/>
-      </div>
-    </div>
-    <div class="row">
       <div class="col-xs-12">
         <h2>${pageTitle}</h2>
       </div>

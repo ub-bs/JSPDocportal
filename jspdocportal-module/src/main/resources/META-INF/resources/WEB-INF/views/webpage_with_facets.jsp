@@ -13,12 +13,7 @@
 <fmt:message var="pageTitle" key="Webpage.title.${fn:replace(actionBean.path, '/', '.')}" />
 <stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
 	<stripes:layout-component name="main_part">
-      <div class="row">
-        <div class="col-xs-12 ir-divider">
-          <hr/>
-        </div>
-      </div>
-      <div class="row">
+    <div class="row">
       <div class="col-xs-12">
         <div class="ir-box">
           <mcr:includeWebcontent id="${fn:replace(actionBean.path, '/', '.')}" file="${actionBean.path}.html" />

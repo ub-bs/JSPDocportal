@@ -10,11 +10,6 @@
 
 <stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}" layout="${layout}">
   <stripes:layout-component name="main_part">
-    <div class="row">
-      <div class="col-xs-12 ir-divider">
-        <hr />
-      </div>
-    </div>
     <c:if test="${not empty actionBean.info}">
       <div class="row">
         <div class="col-xs-12 col-md-8">

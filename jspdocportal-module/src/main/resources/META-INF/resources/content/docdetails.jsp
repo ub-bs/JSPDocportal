@@ -96,11 +96,6 @@
 	
 	<stripes:layout-component name="main_part">
       <div class="row">
-        <div class="col-xs-12 ir-divider">
-          <hr/>
-        </div>
-      </div>
-      <div class="row">
         <div class="col-sm-12 col-md-8">
 		<div class="row">
 			<div class="col-sm-12">
