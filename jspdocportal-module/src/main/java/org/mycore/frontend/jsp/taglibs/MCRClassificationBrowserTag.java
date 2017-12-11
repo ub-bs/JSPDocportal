@@ -358,7 +358,8 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 
             if ((cb.expand || opened) && hasChildren) {
                 if (curLevel + 1 < cb.level) {
-                    for (MCRCategory c : categ.getChildren()) {
+                   
+                    for (MCRCategory c : MCRCategoryDAOFactory.getInstance().getChildren(categ.getId())) {
                         outputCategory(cb, c, baseURL, cbURL, curLevel + 1, didIt);
                     }
                 }
