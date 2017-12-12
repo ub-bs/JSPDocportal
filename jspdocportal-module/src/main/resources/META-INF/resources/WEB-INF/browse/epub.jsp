@@ -107,7 +107,7 @@
                     <fmt:message key="Browse.Filter.epub.${fn:substringBefore(fn:substring(fq, 1, -1),':')}" />: ${actionBean.calcFacetOutputString(fn:substringBefore(fn:substring(fq, 1, -1),':'), fn:substringAfter(fn:substring(fq, 1, -1),':'))}</c:set>
                   <a class="btn btn-sm btn-default ir-form-control"
                     style="display: block; postion:relative; text-align: left; white-space: normal; margin-bottom: 3px; color: black; width: 100%"
-                    href="${url}"> <i class="fa fa-times" style="position:absolute; top: 5px; right:5px; color: darkred;"></i>
+                    href="${url}"> <i class="fa fa-times" style="position:absolute; top: 5px; right:20px; color: darkred;"></i>
                     ${c}
                   </a>
                 </c:if>
