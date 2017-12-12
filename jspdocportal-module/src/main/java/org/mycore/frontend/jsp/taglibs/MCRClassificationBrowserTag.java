@@ -89,9 +89,8 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
                     @Override
                   public Integer load(String key) throws Exception {
                         SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
-                        SolrQuery query = new SolrQuery();
-                        query.setQuery(String.valueOf(key));
-
+                        SolrQuery query = new SolrQuery(key);
+                        query.setRows(0);
                         try {
                             QueryResponse response = solrClient.query(query);
                             SolrDocumentList solrResults = response.getResults();
