@@ -28,10 +28,10 @@ import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
@@ -47,24 +47,18 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
 import org.mycore.common.config.MCRConfiguration;
-import org.mycore.datamodel.classifications2.MCRCategLinkService;
 import org.mycore.datamodel.classifications2.MCRCategLinkServiceFactory;
 import org.mycore.datamodel.classifications2.MCRCategory;
-import org.mycore.datamodel.classifications2.MCRCategoryDAO;
 import org.mycore.datamodel.classifications2.MCRCategoryDAOFactory;
 import org.mycore.datamodel.classifications2.MCRCategoryID;
 import org.mycore.frontend.MCRFrontendUtil;
-import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
 import org.mycore.services.i18n.MCRTranslation;
 import org.mycore.solr.MCRSolrClientFactory;
 
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Element;
-import net.sf.ehcache.config.CacheConfiguration;
-import net.sf.ehcache.constructs.blocking.CacheEntryFactory;
-import net.sf.ehcache.constructs.blocking.SelfPopulatingCache;
-import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+
 
 /**
  * A JSP tag, that includes a classification browser. The displayed content is
@@ -85,74 +79,65 @@ import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
 public class MCRClassificationBrowserTag extends SimpleTagSupport {
     private static final Logger LOGGER = LogManager.getLogger(MCRClassificationBrowserTag.class);
 
-    private static MCRCategoryDAO CATEGDAO = MCRCategoryDAOFactory.getInstance();
-
-    private static MCRCategLinkService CATEGLINKSERVICE = MCRCategLinkServiceFactory.getInstance();
-
-    private Map<MCRCategoryID, Number> countLinkMap = new HashMap<MCRCategoryID, Number>();
-
-    private Map<MCRCategoryID, Boolean> hasLinkMap = new HashMap<MCRCategoryID, Boolean>();
-
     private String mode;
+    
+    private static LoadingCache<String, Integer> cacheHitCount = CacheBuilder.newBuilder()
+            .maximumSize(5000)
+            .expireAfterWrite(15, TimeUnit.MINUTES)
+            .build(
+                new CacheLoader<String, Integer>() {
+                    @Override
+                  public Integer load(String key) throws Exception {
+                        SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
+                        SolrQuery query = new SolrQuery();
+                        query.setQuery(String.valueOf(key));
 
-    public static final String CACHE_NAME = "ClassBrowserTagHitCountCache";
+                        try {
+                            QueryResponse response = solrClient.query(query);
+                            SolrDocumentList solrResults = response.getResults();
+                            return (int) solrResults.getNumFound();
+                        } catch (SolrServerException e) {
+                            LOGGER.error(e);
+                        }
 
-    /**
-     * a special cache, that can create objects, that are not cached, by itself
-     * - key is a MCR Query as String - value the number of hits of the query I
-     * used a LRU Cache with a timeToLive of 5 min. That means all objects are
-     * obsolete after this time. This is a workaround, because the cache won't
-     * know if the data in the background changes.
-     */
-    private static SelfPopulatingCache cbHitCountCache;
+                        return null;
+                  }
+                });
 
-    static {
-        /*
-         * Create an ehcache object, if we start using ehcache more often a
-         * config file would be a better choice.
-         * 
-         * @see http://ehcache.sourceforge.net/EhcacheUserGuide.html#id.s9
-         * Constructor: public Cache(java.lang.String name, int
-         * maxElementsInMemory, MemoryStoreEvictionPolicy
-         * memoryStoreEvictionPolicy, boolean overflowToDisk, java.lang.String
-         * diskStorePath, boolean eternal, long timeToLiveSeconds, long
-         * timeToIdleSeconds, boolean diskPersistent, long
-         * diskExpiryThreadIntervalSeconds, RegisteredEventListeners
-         * registeredEventListeners)
-         */
-        //Cache cache = new Cache(CACHE_NAME, MemoryStoreEvictionPolicy.LRU, false, "", false, 0, 300, false, 120,  null);
-        Cache cache = new Cache(
-                new CacheConfiguration(CACHE_NAME, 5000).memoryStoreEvictionPolicy(MemoryStoreEvictionPolicy.LRU)
-                        .timeToLiveSeconds(900).timeToIdleSeconds(300));
-        CacheManager.getInstance().addCache(cache);
-        cbHitCountCache = new SelfPopulatingCache(cache, new CacheEntryFactory() {
-
-            /*
-             * (non-Javadoc)
-             * 
-             * @see
-             * net.sf.ehcache.constructs.blocking.CacheEntryFactory#createEntry(
-             * java.lang.Object) retrieves the numberOfHits for the given query
-             * string(key) it will be stored in cache automatically
-             */
-            public Object createEntry(Object key) throws Exception {
-                SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
-                SolrQuery query = new SolrQuery();
-                query.setQuery(String.valueOf(key));
-
-                try {
-                    QueryResponse response = solrClient.query(query);
-                    SolrDocumentList solrResults = response.getResults();
-                    return solrResults.getNumFound();
-                } catch (SolrServerException e) {
-                    LOGGER.error(e);
-                }
-
-                return null;
-            }
-        });
-    }
-
+ 
+    private static LoadingCache<MCRCategoryID, MCRCategory> cacheClassifications = CacheBuilder.newBuilder()
+            .maximumSize(10)
+            .expireAfterWrite(15, TimeUnit.MINUTES)
+            .build(
+                new CacheLoader<MCRCategoryID, MCRCategory>() {
+                    @Override
+                  public MCRCategory load(MCRCategoryID key) throws Exception {
+                        return MCRCategoryDAOFactory.getInstance().getCategory(key, -1);
+                  }
+                });
+    
+    private static LoadingCache<MCRCategoryID, Map<MCRCategoryID, Boolean>> cacheHasLinks = CacheBuilder.newBuilder()
+            .maximumSize(10)
+            .expireAfterWrite(3, TimeUnit.MINUTES)
+            .build(
+                new CacheLoader<MCRCategoryID, Map<MCRCategoryID, Boolean>>() {
+                    @Override
+                  public Map<MCRCategoryID, Boolean> load(MCRCategoryID key) throws Exception {
+                        return MCRCategLinkServiceFactory.getInstance().hasLinks(cacheClassifications.get(key));
+                  }
+                });
+    
+    private static LoadingCache<MCRCategoryID, Map<MCRCategoryID, Number>> cacheLinkCount = CacheBuilder.newBuilder()
+            .maximumSize(10)
+            .expireAfterWrite(3, TimeUnit.MINUTES)
+            .build(
+                new CacheLoader<MCRCategoryID, Map<MCRCategoryID, Number>>() {
+                    @Override
+                  public Map<MCRCategoryID, Number> load(MCRCategoryID key) throws Exception {
+                        return MCRCategLinkServiceFactory.getInstance().countLinks(cacheClassifications.get(key), true);
+                  }
+                });
+    
     /**
      * The mode - the property prefix
      */
@@ -170,8 +155,16 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
         CBConfig cb = new CBConfig(mode);
 
         long start = System.currentTimeMillis();
-
+        
         MCRCategoryID rootClassifID = new MCRCategoryID(cb.classification, cb.category);
+        MCRCategory rootCateg = null;
+        try {
+            rootCateg = cacheClassifications.get(rootClassifID);
+        } catch (ExecutionException e) {
+            // should not happen
+            LOGGER.error(e);
+            return;
+        }
 
         PageContext context = (PageContext) getJspContext();
         HttpServletRequest request = (HttpServletRequest) context.getRequest();
@@ -196,25 +189,14 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
         url.append("select=").append(clearPath(requestPath));
 
         JspWriter out = getJspContext().getOut();
-        try (MCRHibernateTransactionWrapper htw = new MCRHibernateTransactionWrapper()) {
             out.write("\n\n<!-- ClassificationBrowser START -->");
             out.write(rootClassifID.getID() + "\n\n");
-            if (!CATEGDAO.exist(rootClassifID)) {
+            if (rootCateg == null) {
                 LOGGER.error("Classification does not exist" + rootClassifID.getID());
                 out.write(rootClassifID.getID() + "does not exist!");
                 return;
             }
 
-            MCRCategory rootCateg = CATEGDAO.getCategory(rootClassifID, 0);
-            List<MCRCategory> categories = CATEGDAO.getChildren(rootClassifID);
-
-            if (cb.count) {
-                if (cb.filter == null) {
-                    countLinkMap.putAll(CATEGLINKSERVICE.countLinks(rootCateg, true));
-                }
-            } else {
-                hasLinkMap.putAll(CATEGLINKSERVICE.hasLinks(rootCateg));
-            }
             String webApplicationBaseURL = MCRFrontendUtil.getBaseURL();
             String subselect_webpage = context.getRequest().getParameter("XSL.subselect.webpage.SESSION");
             if (subselect_webpage == null) {
@@ -242,7 +224,7 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 
             out.write("\n<div class=\"classification-browser classification-browser-" + mode + "\">");
             boolean didIt = false;
-            for (MCRCategory categ : categories) {
+            for (MCRCategory categ : rootCateg.getChildren()) {
                 didIt = outputCategory(cb, categ, MCRFrontendUtil.getBaseURL(), url.toString(), 0, didIt);
             }
             if (!didIt) {
@@ -253,7 +235,7 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
             long d = System.currentTimeMillis() - start;
             out.write("\n\n<!-- ClassificationBrowser ENDE (" + Long.toString(d) + "ms) -->");
             LOGGER.debug("ClassificationBrowser displayed for: " + rootCateg.getId().getID() + "   (" + d + " ms)");
-        }
+
     }
 
     /**
@@ -273,7 +255,15 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
             boolean didIt) throws IOException {
         JspWriter out = getJspContext().getOut();
         boolean result = didIt;
-        boolean hasChildren = categ.hasChildren();
+       /* boolean hasChildren = false;
+        for(MCRCategory c: categ.getChildren()) {
+            if(hasLinks(cb,  c)){
+                hasChildren = true;
+                break;
+            }
+        }
+        */
+        boolean hasChildren = countChildrenBySearch(cb,  categ.getId().getID()) > 0;
         boolean hasLinks = hasLinks(cb, categ);
         boolean opened = path.contains(categ.getId().getID());
         if (!(cb.hideemptyleaves && !hasLinks)) {
@@ -310,32 +300,32 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
             out.write(
                     indent + "         <span class=\"cb-text\">" + categ.getCurrentLabel().get().getText() + "</span>");
 
-            String label = MCRTranslation.translate("Editor.Common.choose");
+            String label = MCRTranslation.translate("Webpage.browse.show");
 
             if (cb.count) {
-                long c = 0;
+                int c = 0;
                 if (cb.filter != null) {
                     c = countBySearch(cb, categ.getId().getID());
                 } else {
-                    countLinkMap.putAll(CATEGLINKSERVICE.countLinks(categ, true));
-                    Number n = countLinkMap.get(categ.getId());
-                    if (n != null) {
-                        c = n.longValue();
-                    } else {
-                        out.write("(0)");
-                    }
+                   Number n;
+                   try {
+                       n = cacheLinkCount.get(categ.getRoot().getId()).get(categ.getId());
+                       if (n != null) {
+                           c = n.intValue();
+                       }
+                   } catch (ExecutionException e) {
+                   }    
                 }
-
-                switch ((int) c) {
-                case 0:
-                    label = MCRTranslation.translate("Webpage.browse.noentries");
-                    break;
-                case 1:
-                    label = MCRTranslation.translate("Webpage.browse.entry", 1);
-                    break;
-                default:
-                    label = MCRTranslation.translate("Webpage.browse.entries", c);
-                }
+                switch (c) {
+                   case 0:
+                          label = MCRTranslation.translate("Webpage.browse.noentries");
+                          break;
+                   case 1:
+                       label = MCRTranslation.translate("Webpage.browse.entry", 1);
+                       break;
+                   default:
+                       label = MCRTranslation.translate("Webpage.browse.entries", c);
+               }
             }
             out.write(indent + "      </div>");
 
@@ -358,8 +348,8 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 
             if ((cb.expand || opened) && hasChildren) {
                 if (curLevel + 1 < cb.level) {
-                   
-                    for (MCRCategory c : MCRCategoryDAOFactory.getInstance().getChildren(categ.getId())) {
+
+                    for (MCRCategory c : categ.getChildren()) {
                         outputCategory(cb, c, baseURL, cbURL, curLevel + 1, didIt);
                     }
                 }
@@ -423,18 +413,18 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
         }
 
         if (cb.count) {
-            Number n = countLinkMap.get(category.getId());
-            if (n == null) {
+            try {
+                return cacheLinkCount.get(category.getRoot().getId()).get(category.getId()).longValue()>0;
+            } catch (Exception e) {
+              //CacheException + NullPointerException
                 return false;
-            } else {
-                return n.longValue() > 0;
             }
         } else {
-            Boolean b = hasLinkMap.get(category.getId());
-            if (b == null) {
+            try {
+                return cacheHasLinks.get(category.getRoot().getId()).get(category.getId());
+            } catch (Exception e) {
+                // CacheException and NullpointerException
                 return false;
-            } else {
-                return b.booleanValue();
             }
         }
     }
@@ -531,7 +521,7 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
         if (cb.filter != null) {
             result.append("+" + cb.filter.replace("=", ":"));
         }
-        result.append(" +category.top:\"" + cb.classification + "\\:" + categid + "\"");
+        result.append(" +category.top:" + cb.classification + "\\:" + categid);
         return result.toString();
     }
 
@@ -544,14 +534,31 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
      *            - the category iD
      * @return the number of results of the query for the given ID
      */
-    private long countBySearch(CBConfig cb, String categid) {
-        String qs = generateQuery(cb, categid);
-        Element cacheElem = cbHitCountCache.get(qs);
-        if (cacheElem != null && cacheElem.getObjectValue() != null) {
-            return (Long) cacheElem.getObjectValue();
-        } else {
-            return 0;
+    private int countBySearch(CBConfig cb, String categid) {
+        try {
+            return cacheHitCount.get(generateQuery(cb, categid));
+        } catch (ExecutionException e) {
+        
         }
+        return 0;
+    }
+    
+    /**
+     * count children of the given category id using SOLR
+     * this only works if categoryIDs are set hierarchically:
+     * child category ids MUST include the parent category id at the beginning
+     * 
+     * @param cb: the classification browser configuration
+     * @param categid - the category id
+     * @return the number of children
+     */
+    private int countChildrenBySearch(CBConfig cb, String categid) {
+        try {
+            return cacheHitCount.get(generateQuery(cb, categid)+"?*");
+        } catch (ExecutionException e) {
+        
+        }
+        return 0;
     }
 }
 
