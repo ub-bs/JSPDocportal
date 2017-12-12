@@ -43,10 +43,10 @@
 				        MCRTranslation.translate("OMD.derivatedisplay." + label));
 				
                 boolean accessAllowed = MCRAccessManager.checkPermission(derid, "read");
-                out.write("    <tr>");
+                out.write("    <tr class=\"ir-derivate-list-row\">");
                 out.write("      <th>"+ displayLabel +"</th>");
                 out.write("      <td>");
-                out.write("        <ul class=\"ir-table-docdetails-filelist\">");
+                out.write("        <ul class=\"ir-derivate-list-files\">");
                 for (int j = 0; j < myfiles.length; j++) {
                     MCRFilesystemNode theFile = (MCRFilesystemNode) myfiles[j];
                     out.write("      <li>");

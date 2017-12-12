@@ -18,9 +18,12 @@ table.ir-table-docdetails>tbody>tr>td {
 	border: 4px solid white;
 }
 
-.ir-table-docdetails-filelist {
+.ir-derivate-list-files {
   list-style: none;
   margin-left: -40px;
+}
+.ir-derivate-list-row th{
+	vertical-align: top;
 }
 
 span.ir-badge-gnd {
