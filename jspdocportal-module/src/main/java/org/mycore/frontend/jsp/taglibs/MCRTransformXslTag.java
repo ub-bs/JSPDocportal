@@ -23,6 +23,7 @@
 package org.mycore.frontend.jsp.taglibs;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.Map;
 
 import javax.servlet.jsp.JspException;
@@ -66,9 +67,10 @@ public class MCRTransformXslTag extends SimpleTagSupport {
                 t.setParameter(k, params.get(k));
             }
             Source input = new DOMSource(node);
-            Result output = new StreamResult(getJspContext().getOut());
-
+            StringWriter sw = new StringWriter();
+            Result output = new StreamResult(sw);
             t.transform(input, output);
+            getJspContext().getOut().append(sw.toString());
         } catch (Exception e) {
             LOGGER.error("Something went wrong processing the XSLT: " + stylesheet, e);
         }
