@@ -113,13 +113,13 @@
   											<c:set var="derLabel"><x:out select="$derDoc/mycorederivate/@label" /></c:set>
   											<select id="selectEditDerMetaLabel_${derID}" name="saveDerivateMeta_label-task_${actionBean.taskid}-derivate_${derID}" 
   											        class="form-control" disabled="disabled" style="width:33%;" data-original-value="${derLabel}">
-  											<c:set var="values"><fmt:message key="OMD.derivatelabel.${actionBean.mcr_base}" /></c:set>
+  											<c:set var="values"><fmt:message key="OMD.derivatedisplay.${actionBean.mcr_base}" /></c:set>
   											<c:forEach var="key" items="${fn:split(values,',')}">
   												<c:if test="${key eq derLabel}">
-  													<option value="${key}" selected="selected"><fmt:message key="OMD.derivatelabel.${actionBean.mcr_base}.${key}" /></option>
+  													<option value="${key}" selected="selected"><fmt:message key="OMD.derivatedisplay.${actionBean.mcr_base}.${key}" /></option>
   												</c:if>
   												<c:if test="${not(key eq derLabel)}">
-  													<option value="${key}"><fmt:message key="OMD.derivatelabel.${actionBean.mcr_base}.${key}" /></option>
+  													<option value="${key}"><fmt:message key="OMD.derivatedisplay.${actionBean.mcr_base}.${key}" /></option>
   												</c:if>
   											</c:forEach>
   											</select>
@@ -222,9 +222,9 @@
     									<label for="inputLabel" class="col-sm-1 control-label"><fmt:message key="WF.derivates.label"/></label>
    										<div class="col-sm-11">
       										<select class="form-control" name="newDerivate_label-task_${actionBean.taskid}">
-  												<c:set var="values"><fmt:message key="OMD.derivatelabel.${actionBean.mcr_base}" /></c:set>
+  												<c:set var="values"><fmt:message key="OMD.derivatedisplay.${actionBean.mcr_base}" /></c:set>
   												<c:forEach var="key" items="${fn:split(values,',')}">
-  													<option value="${key}"><fmt:message key="OMD.derivatelabel.${actionBean.mcr_base}.${key}" /></option>
+  													<option value="${key}"><fmt:message key="OMD.derivatedisplay.${actionBean.mcr_base}.${key}" /></option>
   												</c:forEach>
   											</select>
     									</div>
