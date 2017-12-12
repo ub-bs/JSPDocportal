@@ -40,7 +40,7 @@ public class MCRReceiveMcrObjAsJdomTag extends SimpleTagSupport {
 
     public void doTag() throws JspException, IOException {
         try (MCRHibernateTransactionWrapper htw = new MCRHibernateTransactionWrapper()) {
-            org.mycore.datamodel.metadata.MCRObject mcr_obj = new org.mycore.datamodel.metadata.MCRObject();
+            org.mycore.datamodel.metadata.MCRObject mcr_obj = null;
             if (fromWF) {
                 mcr_obj = MCRActivitiUtils.getWorkflowObject(MCRObjectID.getInstance(mcrid));
             } else {
