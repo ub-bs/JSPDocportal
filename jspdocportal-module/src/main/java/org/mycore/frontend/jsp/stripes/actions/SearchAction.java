@@ -136,6 +136,7 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
 
         if (result == null) {
             result = new MCRSearchResultDataBean();
+            result.setRows(DEFAULT_ROWS);
         }
         
         result.setMask(mask);
