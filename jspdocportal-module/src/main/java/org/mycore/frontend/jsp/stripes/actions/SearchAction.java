@@ -113,6 +113,7 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
 
         if (request.getParameter("q") != null) {
             result = new MCRSearchResultDataBean();
+            result.setRows(DEFAULT_ROWS);
             result.setAction("search");
             result.setQuery(request.getParameter("q"));
             result.setMask("");
@@ -120,6 +121,7 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
 
         if (request.getParameter("searchField") != null && request.getParameter("searchValue") != null) {
             result = new MCRSearchResultDataBean();
+            result.setRows(DEFAULT_ROWS);
             result.setAction("search");
             result.setQuery("+" + request.getParameter("searchField") + ":"
                     + ClientUtils.escapeQueryChars(request.getParameter("searchValue")));
