@@ -28,6 +28,7 @@ import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 import java.util.concurrent.ExecutionException;
@@ -102,38 +103,37 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
                         return null;
                   }
                 });
-
  
-    private static LoadingCache<MCRCategoryID, MCRCategory> cacheClassifications = CacheBuilder.newBuilder()
-            .maximumSize(10)
-            .expireAfterWrite(15, TimeUnit.MINUTES)
+    private static LoadingCache<MCRCategoryID, List<MCRCategory>> cacheCategChildren = CacheBuilder.newBuilder()
+            .maximumSize(500)
+            .expireAfterWrite(30, TimeUnit.MINUTES)
             .build(
-                new CacheLoader<MCRCategoryID, MCRCategory>() {
+                new CacheLoader<MCRCategoryID, List<MCRCategory>>() {
                     @Override
-                  public MCRCategory load(MCRCategoryID key) throws Exception {
-                        return MCRCategoryDAOFactory.getInstance().getCategory(key, -1);
+                  public List<MCRCategory> load(MCRCategoryID key){
+                        return MCRCategoryDAOFactory.getInstance().getChildren(key);
                   }
                 });
     
     private static LoadingCache<MCRCategoryID, Map<MCRCategoryID, Boolean>> cacheHasLinks = CacheBuilder.newBuilder()
             .maximumSize(10)
-            .expireAfterWrite(3, TimeUnit.MINUTES)
+            .expireAfterWrite(15, TimeUnit.MINUTES)
             .build(
                 new CacheLoader<MCRCategoryID, Map<MCRCategoryID, Boolean>>() {
                     @Override
                   public Map<MCRCategoryID, Boolean> load(MCRCategoryID key) throws Exception {
-                        return MCRCategLinkServiceFactory.getInstance().hasLinks(cacheClassifications.get(key));
+                        return MCRCategLinkServiceFactory.getInstance().hasLinks(MCRCategoryDAOFactory.getInstance().getCategory(key,0));
                   }
                 });
     
     private static LoadingCache<MCRCategoryID, Map<MCRCategoryID, Number>> cacheLinkCount = CacheBuilder.newBuilder()
             .maximumSize(10)
-            .expireAfterWrite(3, TimeUnit.MINUTES)
+            .expireAfterWrite(15, TimeUnit.MINUTES)
             .build(
                 new CacheLoader<MCRCategoryID, Map<MCRCategoryID, Number>>() {
                     @Override
                   public Map<MCRCategoryID, Number> load(MCRCategoryID key) throws Exception {
-                        return MCRCategLinkServiceFactory.getInstance().countLinks(cacheClassifications.get(key), true);
+                        return MCRCategLinkServiceFactory.getInstance().countLinks(MCRCategoryDAOFactory.getInstance().getCategory(key,0), false);
                   }
                 });
     
@@ -151,20 +151,19 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
      * @see javax.servlet.jsp.tagext.SimpleTagSupport#doTag()
      */
     public void doTag() throws JspException, IOException {
+        PageContext pageContext = (PageContext) getJspContext();
+        if("clear".equals(pageContext.getRequest().getParameter("_cache"))){
+            cacheCategChildren.invalidateAll();
+            cacheHitCount.invalidateAll();
+            cacheHasLinks.invalidateAll();
+            cacheLinkCount.invalidateAll();
+        }
+        
         CBConfig cb = new CBConfig(mode);
-
         long start = System.currentTimeMillis();
         
         MCRCategoryID rootClassifID = new MCRCategoryID(cb.classification, cb.category);
-        MCRCategory rootCateg = null;
-        try {
-            rootCateg = cacheClassifications.get(rootClassifID);
-        } catch (ExecutionException e) {
-            // should not happen
-            LOGGER.error(e);
-            return;
-        }
-
+     
         PageContext context = (PageContext) getJspContext();
         HttpServletRequest request = (HttpServletRequest) context.getRequest();
         String requestPath = request.getParameter("select");
@@ -188,11 +187,10 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
         url.append("select=").append(clearPath(requestPath));
 
         JspWriter out = getJspContext().getOut();
-            out.write("\n\n<!-- ClassificationBrowser START -->");
-            out.write(rootClassifID.getID() + "\n\n");
-            if (rootCateg == null) {
-                LOGGER.error("Classification does not exist" + rootClassifID.getID());
-                out.write(rootClassifID.getID() + "does not exist!");
+            out.write("\n\n<!-- ClassificationBrowser ("+rootClassifID.getRootID()+") START  -->");
+            if (!MCRCategoryDAOFactory.getInstance().exist(rootClassifID)) {
+                LOGGER.error("Classification does not exist" + rootClassifID.getRootID());
+                out.write(rootClassifID.getRootID() + "does not exist!");
                 return;
             }
 
@@ -223,8 +221,12 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
 
             out.write("\n<div class=\"classification-browser classification-browser-" + mode + "\">");
             boolean didIt = false;
-            for (MCRCategory categ : rootCateg.getChildren()) {
-                didIt = outputCategory(cb, categ, MCRFrontendUtil.getBaseURL(), url.toString(), 0, didIt);
+            try {
+                for (MCRCategory categ : cacheCategChildren.get(rootClassifID)) {
+                    didIt = outputCategory(cb, categ, MCRFrontendUtil.getBaseURL(), url.toString(), 0, didIt);
+                }
+            } catch (ExecutionException e) {
+                LOGGER.error(e);
             }
             if (!didIt) {
                 out.write("\n<b>" + MCRTranslation.translate("Webpage.browse.empty") + "</b>");
@@ -232,8 +234,8 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
             out.write("\n   <div style=\"clear:both\"></div>");
             out.write("\n</div>");
             long d = System.currentTimeMillis() - start;
-            out.write("\n\n<!-- ClassificationBrowser ENDE (" + Long.toString(d) + "ms) -->");
-            LOGGER.debug("ClassificationBrowser displayed for: " + rootCateg.getId().getID() + "   (" + d + " ms)");
+            out.write("\n\n<!-- ClassificationBrowser ("+rootClassifID.getRootID()+") ENDE  [" + Long.toString(d) + "ms] -->");
+            LOGGER.debug("ClassificationBrowser displayed for: " + rootClassifID.getRootID() + "   (" + d + " ms)");
 
     }
 
@@ -253,18 +255,12 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
     private boolean outputCategory(CBConfig cb, MCRCategory categ, String baseURL, String cbURL, int curLevel,
             boolean didIt) throws IOException {
         JspWriter out = getJspContext().getOut();
+       
         boolean result = didIt;
-       /* boolean hasChildren = false;
-        for(MCRCategory c: categ.getChildren()) {
-            if(hasLinks(cb,  c)){
-                hasChildren = true;
-                break;
-            }
-        }
-        */
         boolean hasChildren = countChildrenBySearch(cb,  categ.getId().getID()) > 0;
         boolean hasLinks = hasLinks(cb, categ);
         boolean opened = path.contains(categ.getId().getID());
+        
         if (!(cb.hideemptyleaves && !hasLinks)) {
             result = true;
             StringBuffer sbIndent = new StringBuffer("\n   ");
@@ -348,8 +344,12 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
             if ((cb.expand || opened) && hasChildren) {
                 if (curLevel + 1 < cb.level) {
 
-                    for (MCRCategory c : categ.getChildren()) {
-                        outputCategory(cb, c, baseURL, cbURL, curLevel + 1, didIt);
+                    try {
+                        for (MCRCategory c : cacheCategChildren.get(categ.getId())) {
+                            outputCategory(cb, c, baseURL, cbURL, curLevel + 1, didIt);
+                        }
+                    } catch (ExecutionException e) {
+                        LOGGER.error(e);
                     }
                 }
             }
