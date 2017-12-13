@@ -241,7 +241,7 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
            updateWFObjectMetadata(t);
            String mcrid = String.valueOf(ts.getVariable(t.getId(), MCRActivitiMgr.WF_VAR_MCR_OBJECT_ID));
            String title = String.valueOf(ts.getVariable(t.getId(),  MCRActivitiMgr.WF_VAR_DISPLAY_TITLE));
-           String url = MCRFrontendUtil.getBaseURL()+"resolve/id/"+mcrid;
+           String url = MCRFrontendUtil.getBaseURL()+"resolve/id/"+mcrid+"?_cache=clear";
            messages.add(MCRTranslation.translate("WF.messages.publish.completed",  title, url, url));
         }
         ts.complete(taskId);
