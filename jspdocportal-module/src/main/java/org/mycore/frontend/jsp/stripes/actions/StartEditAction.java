@@ -11,7 +11,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.activiti.MCRActivitiMgr;
-import org.mycore.common.MCRSessionMgr;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
@@ -21,7 +20,6 @@ import org.mycore.user2.MCRUserManager;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
-import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
@@ -48,12 +46,8 @@ public class StartEditAction extends MCRAbstractStripesAction implements ActionB
     @DefaultHandler
     public Resolution defaultRes() {
         try (MCRHibernateTransactionWrapper htw = new MCRHibernateTransactionWrapper()) {
-            if (!MCRAccessManager.checkPermission(mcrid, "writedb")) {
-                String lang = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
-                String usererrorpage = "/nav?path=~mycore-error?messageKey=WF.common.PrivilegesError&lang=" + lang;
-                LOGGER.debug("Access denied for current user to start workflow for object " + mcrid);
-                return new ForwardResolution(usererrorpage);
-
+            if (getContext().getRequest().getSession(false)==null  || !MCRAccessManager.checkPermission(mcrid, "writedb")) {
+                return new RedirectResolution("/login.action");
             }
 
             LOGGER.debug("Document MCRID = " + mcrid);

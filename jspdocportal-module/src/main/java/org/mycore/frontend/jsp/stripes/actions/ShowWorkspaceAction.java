@@ -42,6 +42,7 @@ import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.controller.LifecycleStage;
@@ -80,6 +81,16 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 
     @DefaultHandler
     public Resolution defaultRes() {
+        if (mcr_base == null) {
+            return new RedirectResolution("/");
+        }
+        try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()) {
+            String objectType = mcr_base.substring(mcr_base.indexOf("_") + 1);
+            if (getContext().getRequest().getSession(false)==null || !MCRAccessManager.checkPermission("administrate-" + objectType)) {
+                return new RedirectResolution("/login.action");
+            }
+        }
+
         if (getContext().getRequest().getParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM) != null) {
             String xEditorStepID = getContext().getRequest().getParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM);
             String sessionID = xEditorStepID.split("-")[0];
@@ -181,7 +192,7 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
             try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()) {
                 String projectID = mcr_base.substring(0, mcr_base.indexOf("_"));
                 String objectType = mcr_base.substring(mcr_base.indexOf("_") + 1);
-                if (MCRAccessManager.checkPermission("create-" + objectType)) {
+                if (getContext().getRequest().getSession(false)!=null && MCRAccessManager.checkPermission("create-" + objectType)) {
                     Map<String, Object> variables = new HashMap<String, Object>();
                     variables.put(MCRActivitiMgr.WF_VAR_OBJECT_TYPE, objectType);
                     variables.put(MCRActivitiMgr.WF_VAR_PROJECT_ID, projectID);
@@ -349,7 +360,7 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
                         derID.getXLinkHrefID());
                 result.append("<div style=\"margin-left:300px\">");
                 result.append("    <strong>["
-                        + MCRTranslation.translate("OMD.derivatelabel." + mcrObjID.getBase() + "." + der.getLabel())
+                        + MCRTranslation.translate("OMD.derivatedisplay." + mcrObjID.getBase() + "." + der.getLabel())
                         + "]</strong>");
                 for (String s : der.getService().getFlags("title")) {
                     result.append("<br />" + s);
