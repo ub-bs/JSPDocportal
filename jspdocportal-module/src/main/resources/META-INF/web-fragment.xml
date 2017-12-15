@@ -407,6 +407,7 @@
          <url-pattern>/oai</url-pattern>
       </servlet-mapping>
   -->
+  <!-- defined in mycore-base - you cannot override this value -->
   <session-config>
     <session-timeout>30</session-timeout>
   </session-config>
