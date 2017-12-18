@@ -84,13 +84,9 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
         if (mcr_base == null) {
             return new RedirectResolution("/");
         }
-        try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()) {
-            String objectType = mcr_base.substring(mcr_base.indexOf("_") + 1);
-            if (getContext().getRequest().getSession(false)==null || !MCRAccessManager.checkPermission("administrate-" + objectType)) {
-                return new RedirectResolution("/login.action");
-            }
-        }
-
+       
+        
+        //open XEditor
         if (getContext().getRequest().getParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM) != null) {
             String xEditorStepID = getContext().getRequest().getParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM);
             String sessionID = xEditorStepID.split("-")[0];
@@ -111,6 +107,13 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 
             String mcrID = session.getEditedXML().getRootElement().getAttributeValue("ID");
             return editObject(mcrID, null);
+        }
+        
+        try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()) {
+            String objectType = mcr_base.substring(mcr_base.indexOf("_") + 1);
+            if (getContext().getRequest().getSession(false)==null || !MCRAccessManager.checkPermission("administrate-" + objectType)) {
+                return new RedirectResolution("/login.action");
+            }
         }
 
         for (String s : getContext().getRequest().getParameterMap().keySet()) {
