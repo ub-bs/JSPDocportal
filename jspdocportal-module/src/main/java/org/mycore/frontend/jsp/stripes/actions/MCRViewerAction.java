@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.solr.client.solrj.SolrClient;
@@ -78,6 +79,9 @@ public class MCRViewerAction extends MCRAbstractStripesAction implements ActionB
                     filePath = pdfProviderURL.substring(pdfProviderURL.lastIndexOf("/") + 1);
                 } else {
                     doctype = "mets";
+                    if(StringUtils.isEmpty(filePath)) {
+                    	 filePath= "iview2/phys_0001.iview2";
+                    }
                 }
             }
 

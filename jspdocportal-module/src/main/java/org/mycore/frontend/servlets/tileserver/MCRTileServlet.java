@@ -113,7 +113,13 @@ public class MCRTileServlet extends HttpServlet {
     protected long getLastModified(final HttpServletRequest req) {
         final TileInfo tileInfo = getTileInfo(getPathInfo(req));
         try {
-            return Files.getLastModifiedTime(getTileFile(tileInfo)).toMillis();
+        	Path p = getTileFile(tileInfo);
+        	 if(Files.exists(p)) {
+        		 return Files.getLastModifiedTime(p).toMillis();
+        	 }
+        	 else {
+        		 return -1;
+        	 }
         } catch (IOException e) {
             LOGGER.warn("Could not get lastmodified time.", e);
             return -1;
