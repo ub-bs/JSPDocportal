@@ -268,7 +268,17 @@
             <x:when select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='cover']">
               <div class="row">
               <div class="col-sm-6 col-sm-offset-3">
-                <search:derivate-image mcrid="${param.id}" width="100%" labelContains="cover" />
+                <x:choose>
+	                <x:when select="$doc/mycoreobject[not(contains(@ID, '_bundle_'))]/structure/derobjects/derobject[@xlink:title='MCRVIEWER_METS']"> 
+						<c:set var="recordID"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier[@source='DE-28']" /></c:set>
+		                <a href="${WebApplicationBaseURL}mcrviewer/recordIdentifier/${fn:replace(recordID,'/','%252F')}">
+        		          <search:derivate-image mcrid="${param.id}" width="100%" labelContains="cover" />
+                		</a>
+                	</x:when>
+                	<x:otherwise>
+        		          <search:derivate-image mcrid="${param.id}" width="100%" labelContains="cover" />
+                	</x:otherwise>
+                 </x:choose>
                 </div>
               </div>
             </x:when>
