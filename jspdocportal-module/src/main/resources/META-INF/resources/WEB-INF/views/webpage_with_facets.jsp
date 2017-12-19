@@ -30,7 +30,6 @@
 				function changeFilterIncludeURL(key, value, mask) {
 					window.location=$("meta[name='mcr:baseurl']").attr("content")
 			 				    + "browse/"+mask+"?"
-			        			+ $("meta[name='mcr:search.id']").attr("content")
 				    			+ "&_add-filter="
 				    			+ encodeURIComponent("+" + key+":"+value);
 				}
@@ -121,24 +120,28 @@
           <c:if test="${actionBean.path eq 'epub' }">
             <div class="row">
               <div class="col-sm-4 col-xs-12 ir-browse-classification">
-                <search:browse-facet result="${result}" mask="${mask}" facetField="ir.doctype_class.facet" />
+                <%--<search:browse-facet result="${result}" mask="${mask}" facetField="ir.doctype_class.facet" /> --%>
+                 <search:browse-classification categid="doctype" mask="${mask}" facetField="ir.doctype_class.facet" />
               </div>
               <div class="col-sm-4 col-xs-12 ir-browse-classification">
-                <search:browse-facet result="${result}" mask="${mask}" facetField="ir.sdnb_class.facet" />
+                <%--<search:browse-facet result="${result}" mask="${mask}" facetField="ir.sdnb_class.facet" /> --%>
+                <search:browse-classification categid="SDNB" mask="${mask}" facetField="ir.sdnb_class.facet" />
               </div>
               <div class="col-sm-4 col-xs-12 ir-browse-classification">
-                <search:browse-facet result="${result}" mask="${mask}" facetField="ir.institution_class.facet" />
+                <%--<search:browse-facet result="${result}" mask="${mask}" facetField="ir.institution_class.facet" /> --%>
+                <search:browse-classification categid="institution" mask="${mask}" facetField="ir.institution_class.facet" />
               </div>
             </div>
           </c:if>
         </div>
       </div>
     </div>
+    <%--TODO use SOLR-Parameter "&facet.mincount=1" --%>
     <script>
 		$( document ).ready(function() {
 			$.ajax({
 				type : "GET",
-				url : "${WebApplicationBaseURL}api/v1/search?q=category%3A%22doctype%3A${mask}%22&rows=1&wt=json&indent=true&facet=true&facet.field=ir.doctype_class.facet&facet.field=ir.institution_class.facet&facet.field=ir.collection_class.facet&facet.field=ir.epoch_msg.facet&json.wrf=?",
+				url : "${WebApplicationBaseURL}api/v1/search?q=category%3A%22doctype%3A${mask}%22&rows=1&wt=json&indent=true&facet=true&facet.field=ir.doctype_class.facet&facet.field=ir.institution_class.facet&facet.field=ir.collection_class.facet&facet.field=ir.epoch_msg.facet&facet.field=ir.sdnb_class.facet&json.wrf=?",
 				dataType : "jsonp",
 				success : function(data) {
 					var fc = data.facet_counts.facet_fields;
@@ -147,7 +150,7 @@
 						 //TODO remove tempory fix replace("epoch:", ...)
 						 var idx = $.inArray($(el).attr('data-mcr-facet-value').replace("epoch:", ""), fvalues);
 					    if(idx == -1){
-					    	if($.inArray($(el).attr('data-mcr-facet-value'), ["doctype:histbest.print", "doctype:histbest.manuscript"])!=-1){
+					    	if("${mask}"=="histbest" && $.inArray($(el).attr('data-mcr-facet-value'), ["doctype:histbest.print", "doctype:histbest.manuscript"])!=-1){
 					    		$(el).parent().parent().attr('disabled', 'disabled');
 					    	}
 					    	else{
@@ -155,7 +158,13 @@
 					    	}
 					    }
 					    else{
-							$(el).text(fvalues[idx + 1]);
+					    	var c = fvalues[idx + 1];
+					    	if(c>0){
+								$(el).text(c);
+					    	}
+					    	else{
+					    		$(el).parent().parent().addClass('hidden');
+					    	}
 					 	}
 					});
 				},
