@@ -126,8 +126,8 @@
                   </xsl:when>
                   <xsl:when test="./mods:identifier[@type='doi']">
                        <br />DOI:<xsl:element name="a">
-                            <xsl:attribute name="href">https://dx.doi.org/<xsl:value-of select="./mods:identifier[@type='doi']" /></xsl:attribute> 
-                            <xsl:value-of select="./mods:identifier[@type='doi']" />
+                            <xsl:attribute name="href">https://doi.org/<xsl:value-of select="./mods:identifier[@type='doi']" /></xsl:attribute> 
+                            https://doi.org/<xsl:value-of select="./mods:identifier[@type='doi']" />
                            </xsl:element> 
                   </xsl:when>
                   <xsl:when test="./mods:identifier[@type='url' or @type='purl']">

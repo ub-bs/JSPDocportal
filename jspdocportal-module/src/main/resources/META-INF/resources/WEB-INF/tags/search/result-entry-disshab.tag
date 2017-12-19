@@ -30,7 +30,9 @@
    					<c:if test="${protectDownload}">
    						<img style="opacity:0.001;position:absolute;top:0px;left:0px;width:100%;height:100%;z-index:1" src="${pageContext.request.contextPath}/images/image_terms_of_use.png"/>
 	   				</c:if>
-   					<img style="position:relative;top:0px;left:0px;width:98%;padding:1%;display:block;" src="${pageContext.request.contextPath}/${entry.coverURL}" border="0" />
+                    <a href="${url}">
+   					  <img style="position:relative;top:0px;left:0px;width:98%;padding:1%;display:block;" src="${pageContext.request.contextPath}/${entry.coverURL}" border="0" />
+                    </a>
 				</div>
 			</div>
 		</div>

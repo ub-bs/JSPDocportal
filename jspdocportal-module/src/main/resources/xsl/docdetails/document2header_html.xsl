@@ -40,9 +40,9 @@
       </p>
       <xsl:choose>
        <xsl:when test="./mods:identifier[@type='doi']">
-        <p>DOI: <xsl:element name="a">
-            <xsl:attribute name="href">http://dx.doi.org/<xsl:value-of select="./mods:identifier[@type='doi']" /></xsl:attribute>
-             <xsl:value-of select="./mods:identifier[@type='doi']" />
+        <p><xsl:element name="a">
+            <xsl:attribute name="href">https://doi.org/<xsl:value-of select="./mods:identifier[@type='doi']" /></xsl:attribute>
+             https://doi.org/<xsl:value-of select="./mods:identifier[@type='doi']" />
           </xsl:element>
          </p>
         </xsl:when>

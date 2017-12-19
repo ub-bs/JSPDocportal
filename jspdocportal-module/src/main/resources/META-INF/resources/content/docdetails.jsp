@@ -259,122 +259,111 @@
 </script>
 </div>
   <div class="col-xs-12 col-md-4">
-		<div class="ir-box ir-box-bordered" style="margin-bottom:30px;">
-			<search:result-navigator mcrid="${mcrid}" mode="one_line"/>
-            <table class="table table-condensed table-bordered ir-table-resolving">
-   		 	<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='purl']">
-			  <tr>	
-                <th>PURL:</th>
-                <c:set var="purl"><x:out select="$x" /></c:set>
-                <td><a href="${purl}"><c:out value="${fn:replace(purl, '.de/', '.de <br />/')}" escapeXml="false"/></a></td>
-              </tr>
-			  </x:forEach>
+	   <search:result-navigator mcrid="${mcrid}" mode="one_line"/>
+     
+       <x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='cover'] or contains($doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='doctype']/@valueURI, '#data')">
+     
+  	   <div class="ir-box ir-box-bordered" style="margin-bottom:30px;">
+	     <x:choose>
+            <x:when select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='cover']">
+              <div class="row">
+              <div class="col-sm-6 col-sm-offset-3">
+                <search:derivate-image mcrid="${param.id}" width="100%" labelContains="cover" />
+                </div>
+              </div>
+            </x:when>
+            <x:when select="contains($doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='doctype']/@valueURI, '#data')">
+            <div class="row">
+              <div class="col-sm-6 col-sm-offset-3">
+                <img src="${WebApplicationBaseURL}images/filetypeicons/data.png" alt="resarch data">
+              </div>
+              </div>
+            </x:when>
+          </x:choose>
+        </div>
+       </x:if>
+       <div class="ir-box ir-box-bordered-emph" style="margin-bottom:30px">
+          <div class="row">
+            <div class="col-xs-12">
+            <h3>Dauerhaft zitieren</h3>
+         	<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='purl']">
+			    <c:set var="purl"><x:out select="$x" /></c:set>
+                <%--<a href="${purl}"><c:out value="${fn:replace(purl, '.de/', '.de <br />/')}" escapeXml="false"/></a><br />  --%>
+                <a class="ir-link-portal" href="${purl}"><c:out value="${purl}" escapeXml="false"/></a><br />
+              </x:forEach>
 			  <x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='urn']">
-			  	<tr>	
-                  <th>URN:</th>
-                  <td><a href="http://nbn-resolving.org/<x:out select="$x" />"><x:out select="$x" /></a></td>
-			  	</tr>
+			     <a class="ir-link-portal" href="http://nbn-resolving.org/<x:out select="$x" />"><x:out select="$x" /></a><br />
 			  </x:forEach>
 			  <x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='doi']">
-			  	<tr>	
-                  <th>DOI:</th>
-                  <td><a href="https://doi.org/<x:out select="$x" />"><x:out select="$x" /></a></td>
-			  	</tr>
-			  </x:forEach>
-            </table>
-
-			  <div class="shariff" data-url="${WebApplicationBaseURL}resolve/id/${param.id}"
-			       data-services="[&quot;twitter&quot;, &quot;facebook&quot;, &quot;googleplus&quot;, &quot;linkedin&quot;, &quot;xing&quot;, &quot;whatsapp&quot;, &quot;mail&quot;, &quot;info&quot;]"
-			       data-mail-url="mailto:" data-mail-subject="Dokument auf RosDok" data-mail-body="${WebApplicationBaseURL}resolve/id/${param.id}"
-			       data-orientation="horizontal" data-theme="standard"></div> <%--data-theme=standard|grey|white --%>
-			   <script src="${WebApplicationBaseURL}modules/shariff/shariff.min.js"></script>
-			   <div class="clearfix">
-				<div class="pull-right">
-    	   			<button type="button" class="btn btn-default btn-sm pull-right hidden-xs" style="border:none;color:#DEDEDE; background-color:white;" 
-    	   		        data-toggle="collapse" data-target="#hiddenTools" title="<fmt:message key="Webpage.tools.menu4experts" />">
-   						<i class="fa fa-cog"></i>
-       				</button>
-       				<search:show-edit-button mcrid="${mcrid}" cssClass="btn btn-sm btn-primary ir-edit-btn col-xs-3" />
-   				</div>
-				
-			   
-			    <div id="hiddenTools" class="collapse">
-   					<div style="padding-bottom:6px">
-   						<a class="btn btn-warning btn-sm" target="_blank" title="<fmt:message key="Webpage.tools.showXML" />"
-		   		   		   href="${WebApplicationBaseURL}api/v1/objects/${mcrid}" rel="nofollow">XML</a>
-       					<a class="btn btn-warning btn-sm" style="margin-left:6px" target="_blank" title="<fmt:message key="Webpage.tools.showSOLR" />"
-			   		   		href="${WebApplicationBaseURL}receive/${mcrid}?XSL.Style=solrdocument" rel="nofollow">SOLR</a>
-			   		   		
-			   		   	<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='REPOS_METS']">
-						 	<c:set var="derid"><x:out select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='REPOS_METS']/@xlink:href" /></c:set>
-						 	<a class="btn btn-warning btn-sm" style="margin-left:6px" target="_blank" href="${WebApplicationBaseURL}api/v1/objects/${param.id}/derivates/${derid}/open" class="btn btn-default" title="<fmt:message key="Webpage.tools.showREPOS_METS" />">METS</a>
-						</x:if>
-    	  			</div>
-   				</div>
-   			</div>   			  
-   		</div>
-   		<div class="ir-box ir-box-bordered" style="margin-bottom:30px;">
-			<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='fulltext']">
-				<a class="btn btn-default ir-button ir-button-download"  
-			  	   href="${WebApplicationBaseURL}resolve/id/${mcrid}/file/fulltext" target="_blank">
-			  		<img style="vertical-align:middle;height:30px;" src="${WebApplicationBaseURL}images/download_pdf.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
-			  		<fmt:message key="Webpage.docdetails.pdfdownload" />
-				</a>
-			</x:if>
-			<x:if select="$doc/mycoreobject[not(contains(@ID,'_bundle_'))]/structure/derobjects/derobject[@xlink:title='DV_METS']">
-				<c:set var="recordID"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier[@source='DE-28']" /></c:set>
-				<c:if test="${not empty recordID}">
-					<a class="btn btn-default ir-button ir-button-download"  
-			  		   href="${WebApplicationBaseURL}pdfdownload/recordIdentifier/${fn:replace(recordID, '/','%252F')}" target="_blank">
-			  	    	<img style="vertical-align:middle;height:30px;" src="${WebApplicationBaseURL}images/download_pdf.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
-			  			&nbsp;<fmt:message key="Webpage.docdetails.pdfdownload" />
-			  		</a>
-				</c:if>
-			</x:if>
-			<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='DV_METS']">
-			<a class="btn btn-default ir-button ir-button-download"  
-			   href="${WebApplicationBaseURL}resolve/id/${mcrid}/dfgviewer" target="_blank">
-			  	<img style="vertical-align:middle;height:30px;margin-right:6px;" src="${WebApplicationBaseURL}images/dfg_icon.png" title = "<fmt:message key="Webpage.docdetails.dfgviewer" />" />
-			  <fmt:message key="Webpage.docdetails.viewer" />
-			 </a>
-			 </x:if>
-			 
-			 
-			 <x:forEach select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='data' or @xlink:title='documentation' ]">
-			 	<c:set var="url">${WebApplicationBaseURL}api/v1/objects/<x:out select="/mycoreobject/@ID" />/derivates/<x:out select="./@xlink:href" />/contents</c:set>
-       			<c:import var="derXML" url="${url}"/>
-				<x:parse xml="${derXML}" var="derDoc"/>
-       			<x:set var="derLink" select="$derDoc//children/child[1]" />
-       			<x:if select="$derLink">
-       			 <a class="btn btn-default ir-button ir-button-download" style="text-align:left" title="MD5: <x:out select="$derLink/md5" />" 
-			  		 href="<x:out select="$derLink/@href" />" target="_blank">
-		  		 	<x:choose>
-			  		 	<x:when select="contains($derLink/@href, '.zip')">
-			  				<img style="vertical-align:middle;height: 38px;margin-right:12px;float:left" src="${WebApplicationBaseURL}images/download_zip.png" />	 
-			  		 	</x:when>
-			  		 	<x:when select="contains($derLink/@href, '.pdf')">
-			  				<img style="vertical-align:middle;height: 38px;margin-right:12px;float:left" src="${WebApplicationBaseURL}images/download_pdf.png" />	 
-			  		 	</x:when>
-			  		 	<x:otherwise>
-			  		 		<img style="vertical-align:middle;height: 38px;margin-right:12px;float:left" src="${WebApplicationBaseURL}images/download_other.png" />
-			  		 	</x:otherwise>
-		  		 	</x:choose>
-		  		 	<c:set var="mesKey">OMD.derivatedisplay.<x:out select="@xlink:title"/></c:set>
-		  		 	<strong><fmt:message key="${mesKey}" /></strong><br />
-		  		 	<span style="font-size: 85%">
-		  		 		<x:out select="$derLink/name" />&nbsp;&nbsp;&nbsp;(<x:out select="round($derLink/size div 1024 div 1024 * 10) div 10" /> MB)<br />
-		  		 	</span>
-				 </a>
-       			</x:if>
-			 </x:forEach>
-			 <div style="clear:both"></div>
-			</div>
-			
+			  	<a class="ir-link-portal" href="https://doi.org/<x:out select="$x" />">https://doi.org/<x:out select="$x" /></a>
+              </x:forEach>
+              </div>
+              </div>
+              </div>
+       
+       <%--Download Area --%>
+     <div style="margin-bottom:30px;">
+        <x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='fulltext']">
+        <a class="btn btn-default ir-button ir-button-download"  
+             href="${WebApplicationBaseURL}resolve/id/${mcrid}/file/fulltext" target="_blank">
+            <img style="vertical-align:middle;height:30px;" src="${WebApplicationBaseURL}images/download_pdf.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
+            <fmt:message key="Webpage.docdetails.pdfdownload" />
+        </a>
+      </x:if>
+      <x:if select="$doc/mycoreobject[not(contains(@ID,'_bundle_'))]/structure/derobjects/derobject[@xlink:title='DV_METS']">
+        <c:set var="recordID"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier[@source='DE-28']" /></c:set>
+        <c:if test="${not empty recordID}">
+          <a class="btn btn-default ir-button ir-button-download"  
+               href="${WebApplicationBaseURL}pdfdownload/recordIdentifier/${fn:replace(recordID, '/','%252F')}" target="_blank">
+                <img style="vertical-align:middle;height:30px;" src="${WebApplicationBaseURL}images/download_pdf.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
+              &nbsp;<fmt:message key="Webpage.docdetails.pdfdownload" />
+            </a>
+        </c:if>
+      </x:if>
+      <x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='DV_METS']">
+      <a class="btn btn-default ir-button ir-button-download"  
+         href="${WebApplicationBaseURL}resolve/id/${mcrid}/dfgviewer" target="_blank">
+          <img style="vertical-align:middle;height:30px;margin-right:6px;" src="${WebApplicationBaseURL}images/dfg_icon.png" title = "<fmt:message key="Webpage.docdetails.dfgviewer" />" />
+        <fmt:message key="Webpage.docdetails.viewer" />
+       </a>
+       </x:if>
+       
+       
+       <x:forEach select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='data' or @xlink:title='documentation' ]">
+        <c:set var="url">${WebApplicationBaseURL}api/v1/objects/<x:out select="/mycoreobject/@ID" />/derivates/<x:out select="./@xlink:href" />/contents</c:set>
+            <c:import var="derXML" url="${url}"/>
+            <x:parse xml="${derXML}" var="derDoc"/>
+            <x:set var="derLink" select="$derDoc//children/child[1]" />
+            <x:if select="$derLink">
+             <a class="btn btn-default ir-button ir-button-download" style="text-align:left" title="MD5: <x:out select="$derLink/md5" />" 
+             href="<x:out select="$derLink/@href" />" target="_blank">
+            <x:choose>
+              <x:when select="contains($derLink/@href, '.zip')">
+                <img style="vertical-align:middle;height: 38px;margin-right:12px;float:left" src="${WebApplicationBaseURL}images/download_zip.png" />  
+              </x:when>
+              <x:when select="contains($derLink/@href, '.pdf')">
+                <img style="vertical-align:middle;height: 38px;margin-right:12px;float:left" src="${WebApplicationBaseURL}images/download_pdf.png" />  
+              </x:when>
+              <x:otherwise>
+                <img style="vertical-align:middle;height: 38px;margin-right:12px;float:left" src="${WebApplicationBaseURL}images/download_other.png" />
+              </x:otherwise>
+            </x:choose>
+            <c:set var="mesKey">OMD.derivatedisplay.<x:out select="@xlink:title"/></c:set>
+            <strong><fmt:message key="${mesKey}" /></strong><br />
+            <span style="font-size: 85%">
+              <x:out select="$derLink/name" />&nbsp;&nbsp;&nbsp;(<x:out select="round($derLink/size div 1024 div 1024 * 10) div 10" /> MB)<br />
+            </span>
+         </a>
+            </x:if>
+       </x:forEach>
+       </div>
+       
+       <div class="ir-box ir-box-bordered" style="margin-bottom:0px;padding-bottom:5px">
+          <div class="row">
+            <div class="col-xs-12">
+   	
 			<x:if select="contains($doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='doctype']/@valueURI, '#histbest')">
-			<div class="ir-box ir-box-bordered" style="margin-bottom:30px;">
-				<div class="row">
-					<div class="col-sm-6">
-						<h3>Export</h3>
+        				<h3>Export</h3>
 								<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='PPN']">
 									<c:set var="ppn"><x:out select="$x" /></c:set>
 									<a class="ir-link-portal" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=bibtex">BibTeX</a>
@@ -383,7 +372,7 @@
 									<a class="ir-link-portal" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=dc">DublinCore</a>
 									<a class="ir-link-portal" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=mods">MODS</a>
   								</x:forEach>
-  						<br />
+  		
   						<h3>Portale</h3>
   								<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='PPN']">
 									<c:set var="ppn"><x:out select="$x" /></c:set>
@@ -409,25 +398,47 @@
 									<c:set var="id"><x:out select="$x" /></c:set>
 									<a class="ir-link-portal" href="http://kalliope-verbund.info/${id}">Kalliope-Verbundkatalog</a>
 								</x:forEach>	
-   					</div>
-   					<x:choose>
-						<x:when select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='cover']">
-							<div class="col-sm-5 col-sm-offset-1">
-								<search:derivate-image mcrid="${param.id}" width="100%" labelContains="cover" />
-							</div>
-						</x:when>
-						<x:when select="contains($doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='doctype']/@valueURI, '#data')">
-							<div class="col-sm-5 col-sm-offset-1">
-								<img src="${WebApplicationBaseURL}images/filetypeicons/data.png" alt="resarch data">
-							</div>
-						</x:when>
-					<x:otherwise>
-											
-					</x:otherwise>
-					</x:choose>
-				</div>
-			</div>
+   					
+   					           </x:if>
+				
+                    <h3>Teilen</h3>
+        <div class="shariff" data-url="${WebApplicationBaseURL}resolve/id/${param.id}"
+             data-services="[&quot;twitter&quot;, &quot;facebook&quot;, &quot;googleplus&quot;, &quot;linkedin&quot;, &quot;xing&quot;, &quot;whatsapp&quot;, &quot;mail&quot;, &quot;info&quot;]"
+             data-mail-url="mailto:" data-mail-subject="Dokument auf RosDok" data-mail-body="${WebApplicationBaseURL}resolve/id/${param.id}"
+             data-orientation="horizontal" data-theme="standard">
+             </div> <%--data-theme=standard|grey|white --%>
+       <script src="${WebApplicationBaseURL}modules/shariff/shariff.min.js"></script>
+                </div>
+                </div>
+       </div>
+
+ 
+        
+        
+        <div class="ir-box" style="margin-bottom:30px;margin-right:-15px">
+         <div class="clearfix">
+        <div class="pull-right">
+              <button type="button" class="btn btn-default btn-sm pull-right hidden-xs" style="border:none;color:#DEDEDE; background-color:white;" 
+                    data-toggle="collapse" data-target="#hiddenTools" title="<fmt:message key="Webpage.tools.menu4experts" />">
+              <i class="fa fa-cog"></i>
+              </button>
+              <search:show-edit-button mcrid="${mcrid}" cssClass="btn btn-sm btn-primary ir-edit-btn col-xs-3" />
+          </div>
+          <div id="hiddenTools" class="collapse">
+            <div style="padding-bottom:6px">
+              <a class="btn btn-warning btn-sm" target="_blank" title="<fmt:message key="Webpage.tools.showXML" />"
+                   href="${WebApplicationBaseURL}api/v1/objects/${mcrid}" rel="nofollow">XML</a>
+                <a class="btn btn-warning btn-sm" style="margin-left:6px" target="_blank" title="<fmt:message key="Webpage.tools.showSOLR" />"
+                  href="${WebApplicationBaseURL}receive/${mcrid}?XSL.Style=solrdocument" rel="nofollow">SOLR</a>
+                  
+                <x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='REPOS_METS']">
+              <c:set var="derid"><x:out select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='REPOS_METS']/@xlink:href" /></c:set>
+              <a class="btn btn-warning btn-sm" style="margin-left:6px" target="_blank" href="${WebApplicationBaseURL}api/v1/objects/${param.id}/derivates/${derid}/open" class="btn btn-default" title="<fmt:message key="Webpage.tools.showREPOS_METS" />">METS</a>
             </x:if>
+              </div>
+          </div>
+        </div>          
+        </div>
         </div>
       </div>
 	</stripes:layout-component>

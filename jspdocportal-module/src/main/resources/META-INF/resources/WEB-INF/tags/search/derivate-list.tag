@@ -39,8 +39,10 @@
 				String mainDoc = mcrDerivate.getDerivate().getInternals().getMainDoc();
 				String url = MCRFrontendUtil.getBaseURL()+"file/"+mcrDerivate.getOwnerID().toString()+"/"+mcrDerivate.getId().toString()+"/";
 				String label=mcrDerivate.getLabel();
-				String displayLabel = MCRTranslation.translate("OMD.derivatedisplay." + mcrDerivate.getOwnerID().getBase()+"."+label, 
-				        MCRTranslation.translate("OMD.derivatedisplay." + label));
+				String displayLabel = MCRTranslation.translate("OMD.derivatedisplay." + mcrDerivate.getOwnerID().getBase()+"."+label);
+                if(!MCRTranslation.exists("OMD.derivatedisplay." + mcrDerivate.getOwnerID().getBase()+"."+label)){
+				  displayLabel = MCRTranslation.translate("OMD.derivatedisplay." + label);
+                }
 				
                 boolean accessAllowed = MCRAccessManager.checkPermission(derid, "read");
                 out.write("    <tr class=\"ir-derivate-list-row\">");

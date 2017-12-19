@@ -130,6 +130,12 @@
               <search:result-entry entry="${entry}" url="${url}" />
             </c:otherwise>
           </c:choose>
+          <div class="row">
+            <div class="col-xs-12">
+              <search:show-edit-button mcrid="${mcrid}" cssClass="btn btn-sm btn-primary ir-edit-btn" />
+              <span class="label label-default ir-label-default">${entry.data['ir.doctype.result']}</span>
+            </div>
+          </div>
         </search:result-browser>
       </div>
     </div>

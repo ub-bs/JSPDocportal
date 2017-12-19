@@ -7,7 +7,7 @@
 
 <xsl:template name="mods-title">
   <xsl:for-each select="./mods:titleInfo[@usage='primary']">
-    <h4>
+    <h2>
       <xsl:if test="./mods:nonSort">
         <xsl:value-of select="./mods:nonSort" />&#160;  
       </xsl:if>
@@ -15,13 +15,13 @@
       <xsl:if test="./mods:subTitle">
         &#160;: <xsl:value-of select="./mods:subTitle" />
       </xsl:if>
-    </h4>
+    </h2>
     <xsl:if test="./mods:partNumber or ./mods:partName">
-     <h4>
+     <h2>
       <xsl:value-of select="./mods:partNumber" />
       <xsl:if test="./mods:partNumber and ./mods:partName">: </xsl:if>
       <xsl:value-of select="./mods:partName" />
-     </h4>
+     </h2>
   </xsl:if>
 
   </xsl:for-each>
@@ -48,7 +48,7 @@
           <xsl:element name="button">
             <xsl:attribute name="type">button</xsl:attribute>
             <xsl:attribute name="data-toggle">popover</xsl:attribute>
-            <xsl:attribute name="class">btn btn-xs btn-link</xsl:attribute>
+            <xsl:attribute name="class">btn btn-xs btn-link ir-docdetails-btn-info</xsl:attribute>
             <xsl:attribute name="data-mcr-action">popover4person</xsl:attribute>
             <xsl:if test="$name/@valueURI">
               <xsl:attribute name="data-mcr-value-gnd"><xsl:value-of select="$name/@valueURI" /></xsl:attribute>
@@ -74,7 +74,7 @@
           <xsl:element name="button">
             <xsl:attribute name="type">button</xsl:attribute>
             <xsl:attribute name="data-toggle">popover</xsl:attribute>
-            <xsl:attribute name="class">btn btn-xs btn-link</xsl:attribute>
+            <xsl:attribute name="class">btn btn-xs btn-link ir-docdetails-btn-info</xsl:attribute>
             <xsl:attribute name="data-mcr-action">popover4person</xsl:attribute>
             <xsl:if test="$name/@valueURI">
               <xsl:attribute name="data-mcr-value-gnd"><xsl:value-of select="$name/@valueURI" /></xsl:attribute>
