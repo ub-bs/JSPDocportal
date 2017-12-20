@@ -121,7 +121,7 @@
   	  	</xsl:choose>
         </xsl:if>
         
-        <xsl:for-each select="mods:relatedItem[@type='host'][1]">
+        <xsl:for-each select="mods:relatedItem[@type='host' or @type='series'][1]">
             <xsl:for-each select="mods:titleInfo">
               <field name="ir.host.title.result"><xsl:if test="mods:nonSort"><xsl:value-of select="mods:nonSort" /><xsl:value-of select="' '" /></xsl:if><xsl:value-of select="mods:title" /><xsl:if test="mods:subTtitle"><xsl:value-of select="' : '" /><xsl:value-of select="mods:subTitle" /></xsl:if><xsl:if test="mods:partNumber|mods:partName"><xsl:value-of select="' ['" /><xsl:value-of select="mods:partNumber" /><xsl:value-of select="' '" /><xsl:value-of select="mods:partName" /><xsl:value-of select="']'" /></xsl:if></field> 
             </xsl:for-each>

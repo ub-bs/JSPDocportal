@@ -19,10 +19,18 @@
 
   <xsl:template match="/">
     <xsl:for-each select="/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods">
-      <xsl:for-each select="./mods:relatedItem[@type='host']/mods:recordInfo">
+      <xsl:for-each select="./mods:relatedItem[@type='host' or @type='series']/mods:recordInfo">
            <xsl:element name="a">
               <xsl:attribute name="class">btn btn-default btn-sm pull-right ir-docdetails-btn-goto-parent</xsl:attribute>
-              <xsl:attribute name="href"><xsl:value-of select="$WebApplicationBaseURL" />resolve/recordIdentifier/<xsl:value-of select="substring-before(./mods:recordIdentifier, '/')"/>%252F<xsl:value-of select="substring-after(./mods:recordIdentifier, '/')"/></xsl:attribute>
+              <!-- temporary FIX:  -->
+              	<!-- <xsl:attribute name="href"><xsl:value-of select="$WebApplicationBaseURL" />resolve/recordIdentifier/<xsl:value-of select="substring-before(./mods:recordIdentifier, '/')"/>%252F<xsl:value-of select="substring-after(./mods:recordIdentifier, '/')"/></xsl:attribute> -->
+              <xsl:if test="contains(./mods:recordIdentifier, '/')">
+              	<xsl:attribute name="href"><xsl:value-of select="$WebApplicationBaseURL" />resolve/recordIdentifier/<xsl:value-of select="substring-before(./mods:recordIdentifier, '/')"/>%252F<xsl:value-of select="substring-after(./mods:recordIdentifier, '/')"/></xsl:attribute>
+              </xsl:if>
+              <!-- temporary FIX:  -->
+              <xsl:if test="contains(./mods:recordIdentifier, '_')">
+              	<xsl:attribute name="href"><xsl:value-of select="$WebApplicationBaseURL" />resolve/id/<xsl:value-of select="./mods:recordIdentifier" /></xsl:attribute>
+              </xsl:if>
               <xsl:attribute name="title"><xsl:value-of select="../mods:titleInfo/mods:title" /></xsl:attribute>
               <xsl:value-of select="i18n:translate('Webpage.docdetails.gotoParent')" />
               <xsl:text disable-output-escaping="yes">&amp;#160;&amp;#160;&lt;i class=&quot;fa fa-arrow-up&quot;&gt;&lt;/i&gt;</xsl:text>

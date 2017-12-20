@@ -32,9 +32,11 @@
 
 <div class="panel panel-default ir-searchresult-panel">
 	<c:if test="${numHits eq 0}">
-		<div class="panel-body">
+	  <%-- hide message:	
+      <div class="panel-body">
 			<fmt:message key="Webpage.Searchresult.empty"/>
-		</div>
+	  </div>
+      --%>
 	</c:if>
 	
 	<c:if test="${numHits > 0}">	
