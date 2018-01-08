@@ -75,7 +75,7 @@
      				gnd_html = $('<div>')
      					.append($('<strong>').attr('title', 'Gemeinsame Normdatei der Deutschen Nationalbibliothek').append('GND:'))
  						.append(' ').append($('<span>').append(gnd))
- 						.append(' ').append($('<a>').attr('type', 'button').addClass('btn btn-xs btn-link').attr('href', gnd)
+ 						.append(' ').append($('<a>').attr('type', 'button').addClass('btn btn-xs btn-link').attr('href', 'http://d-nb.info/gnd/'+gnd)
  							.attr('title', 'Gemeinsame Normdatei der Deutschen Nationalbibliothek')
  							.append($('<span>').addClass('fa fa-share-square-o')));
      			}

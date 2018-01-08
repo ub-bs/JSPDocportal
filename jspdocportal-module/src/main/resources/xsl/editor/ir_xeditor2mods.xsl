@@ -27,7 +27,8 @@
            <xsl:with-param name="lang">x-de-full</xsl:with-param>
          </xsl:call-template>
        </xsl:variable>
-       <mods:name type="corporate" authorityURI="http://d-nb.info/gnd/" valueURI="{$gndURI}" xlink:type="simple">
+       <mods:name type="corporate" xlink:type="simple">
+       	<mods:nameIdentifier type="gnd"><xsl:value-of select="substring($gndURI, 21)" /></mods:nameIdentifier>
         <mods:namePart><xsl:value-of select="$fullname" /></mods:namePart>
         <mods:role>
           <mods:roleTerm type="code" authorityURI="http://id.loc.gov/vocabulary/relators" valueURI="http://id.loc.gov/vocabulary/relators/dgg"/>
@@ -35,12 +36,5 @@
        </mods:name> 
     </xsl:if>
   </xsl:template>
-    
-    <!-- remove empty authorityURI /valueURI attributes -->
-  <xsl:template match="mods:name[@valueURI='http://d-nb.info/gnd/']">
-       <mods:name>
-        <xsl:attribute name="type"><xsl:value-of select="./@type"></xsl:value-of></xsl:attribute>
-         <xsl:apply-templates select="node()"/>
-       </mods:name>    
   </xsl:template>
 </xsl:stylesheet>

@@ -596,10 +596,13 @@
     <xsl:param name="marcrelatorCode" />
     <mods:name type="personal">
       <xsl:if test="./p:subfield[@code='0']">
+      <mods:nameIdentifier type="gnd"><xsl:value-of select="./p:subfield[@code='0']" /></mods:nameIdentifier>
+        <!-- 
         <xsl:attribute name="authority">gnd</xsl:attribute>
         <xsl:attribute name="authorityURI">http://d-nb.info/gnd/</xsl:attribute>
         <xsl:attribute name="valueURI">http://d-nb.info/<xsl:value-of select="./p:subfield[@code='0']" /></xsl:attribute>
-      </xsl:if>
+        -->
+        </xsl:if>
       <xsl:if test="./p:subfield[@code='a']">
         <mods:namePart type="family">
           <xsl:value-of select="./p:subfield[@code='a']" />
@@ -687,9 +690,12 @@
     <xsl:param name="marcrelatorCode" />
     <mods:name type="corporate">
       <xsl:if test="./p:subfield[@code='0']">
+      	<mods:nameIdentifier><xsl:value-of select="./p:subfield[@code='0']" /></mods:nameIdentifier>
+        <!-- 
         <xsl:attribute name="authority">gnd</xsl:attribute>
         <xsl:attribute name="authorityURI">http://d-nb.info/gnd/</xsl:attribute>
         <xsl:attribute name="valueURI">http://d-nb.info/<xsl:value-of select="./p:subfield[@code='0']" /></xsl:attribute>
+        -->
       </xsl:if>
       <xsl:if test="./p:subfield[@code='a']">
       <xsl:variable name="mainTitle" select="./p:subfield[@code='a']" />
