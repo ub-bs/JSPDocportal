@@ -463,7 +463,7 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
      */
     @MCRCommand(syntax = "migrate mycore parent to relateditem", help = "The command creates related items for parents and removes parent child relationships.")
     public static final void migrateParent2RelatedItem() {
-        LOGGER.info("Please be patient, while collection required MyCoRe objects.");
+        LOGGER.info("Please be patient, while collecting required MyCoRe objects.");
         List<String> check = new ArrayList<>();
         check.addAll(MCRXMLMetadataManager.instance().listIDsOfType("bundle"));
         check.addAll(MCRXMLMetadataManager.instance().listIDsOfType("document"));
