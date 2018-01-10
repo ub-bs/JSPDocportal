@@ -36,5 +36,4 @@
        </mods:name> 
     </xsl:if>
   </xsl:template>
-  </xsl:template>
 </xsl:stylesheet>
