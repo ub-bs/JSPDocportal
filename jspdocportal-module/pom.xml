@@ -317,16 +317,9 @@
       <groupId>org.mycore</groupId>
       <artifactId>mycore-ifs</artifactId>
     </dependency>
-    <!-- 
-    <dependency>
-      <groupId>org.mycore</groupId>
-      <artifactId>mycore-pi</artifactId>
-    </dependency>
-    -->
     <dependency>
       <groupId>org.mycore</groupId>
       <artifactId>mycore-solr</artifactId>
-
     </dependency>
     <dependency>
       <groupId>org.mycore</groupId>
@@ -384,7 +377,7 @@
       <artifactId>mycore-indexing</artifactId>
       <scope>runtime</scope>
     </dependency>
-
+    
     <dependency>
       <groupId>org.mycore</groupId>
       <artifactId>mycore-mods</artifactId>
