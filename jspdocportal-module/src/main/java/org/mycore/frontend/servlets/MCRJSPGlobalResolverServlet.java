@@ -52,6 +52,7 @@ import org.jdom2.Document;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.mycore.access.MCRAccessManager;
+import org.mycore.common.MCRException;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.common.xml.MCRURIResolver;
 import org.mycore.datamodel.ifs.MCRDirectory;
@@ -65,6 +66,7 @@ import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.datamodel.metadata.MCRObjectStructure;
 import org.mycore.frontend.MCRFrontendUtil;
+import org.mycore.services.i18n.MCRTranslation;
 import org.mycore.solr.MCRSolrClientFactory;
 import org.mycore.solr.MCRSolrUtils;
 
@@ -105,9 +107,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
         String uri = request.getRequestURI();
         String path[] = uri.substring(uri.indexOf("/resolve/") + 9).split("/", -1);
         if (path.length < 2) {
-            getServletContext()
-                    .getRequestDispatcher("/nav?path=~mycore-error&messageKey=Resolver.error.unknownUrlSchema")
-                    .forward(request, response);
+            response.sendError(404, MCRTranslation.translate("Resolver.error.unknownUrlSchema"));
             return;
         }
         String key = path[0];
@@ -202,11 +202,21 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
                 }
             } else {
                 // show metadata as docdetails view
-                this.getServletContext().getRequestDispatcher("/content/docdetails.jsp?id=" + mcrID).forward(request,
-                        response);
+                try {
+                    MCRObjectID mcrObjID = MCRObjectID.getInstance(mcrID);
+                    if(!MCRMetadataManager.exists(mcrObjID)) {
+                        throw new MCRException("No object with id '"+mcrID+"' found.");
+                    }
+                    getServletContext().getRequestDispatcher("/content/docdetails.jsp?id=" + mcrID).forward(request,
+                            response);
+                } catch (MCRException ex) {
+                    request.getSession().setAttribute("mcr_exception", ex);
+                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "No object with id '"+mcrID+"' found.");
+                }
             }
             return;
         }
+
         String action = path[2];
         if (action.equals("image") || action.equals("dfgviewer")) {
             String url = "";

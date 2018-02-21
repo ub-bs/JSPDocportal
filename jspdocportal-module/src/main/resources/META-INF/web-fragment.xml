@@ -100,15 +100,15 @@
             <param-name>FileUpload.MaximumPostSize</param-name>
             <param-value>101m</param-value>
         </init-param>
+        <init-param>
+    		<param-name>ExceptionHandler.Class</param-name>
+    		<param-value>org.mycore.frontend.jsp.stripes.error.MCRJSPExceptionHandler</param-value>
+		</init-param> 
  	</filter>
 	<filter-mapping>
 		<filter-name>StripesFilter</filter-name>
-		<url-pattern>*.jsp</url-pattern>
-		<dispatcher>REQUEST</dispatcher>
-	</filter-mapping>	
-	<filter-mapping>
-		<filter-name>StripesFilter</filter-name>
 		<url-pattern>*.action</url-pattern>
+		<url-pattern>*.jsp</url-pattern>
 		<url-pattern>/search/*</url-pattern>
 		<url-pattern>/browse/*</url-pattern>
 		<url-pattern>/classbrowser/*</url-pattern>
@@ -116,21 +116,15 @@
         <url-pattern>/mcrviewer/*</url-pattern>
         <url-pattern>/pdfdownload/*</url-pattern>
 		<url-pattern>/site/*</url-pattern>
+		<url-pattern>/servlets/ErrorServlet</url-pattern>
+		<url-pattern>/servlets/XEditor</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
+	    <dispatcher>FORWARD</dispatcher>
+    	<dispatcher>ERROR</dispatcher>
 	</filter-mapping>	
 	<filter-mapping>
 		<filter-name>StripesFilter</filter-name>
 		<servlet-name>NavServlet</servlet-name>
-		<dispatcher>REQUEST</dispatcher>
-	</filter-mapping>
-	<filter-mapping>
-		<filter-name>StripesFilter</filter-name>
-		<url-pattern>*.jsp</url-pattern>
-		<dispatcher>REQUEST</dispatcher>
-	</filter-mapping>
-	<filter-mapping>
-		<filter-name>StripesFilter</filter-name>
-		<url-pattern>/servlets/XEditor</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
 	

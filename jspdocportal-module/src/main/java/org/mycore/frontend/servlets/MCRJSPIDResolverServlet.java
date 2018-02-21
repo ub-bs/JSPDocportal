@@ -45,7 +45,6 @@ import org.jdom2.filter.Filters;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.jdom2.xpath.XPathFactory;
-import org.mycore.common.MCRException;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.common.content.MCRPathContent;
 import org.mycore.datamodel.metadata.MCRDerivate;
@@ -159,16 +158,12 @@ public class MCRJSPIDResolverServlet extends HttpServlet {
     }
 
     protected String recalculateMCRObjectID(String oldID) {
+       if(oldID==null) {
+           return null;
+       }
         String result = oldID.replace("cpr_staff_0000", "cpr_person_").replace("cpr_professor_0000", "cpr_person_");
         result = result.replace("_series_", "_bundle_");
-        try {
-            MCRObjectID mcrID = MCRObjectID.getInstance(result);
-            return mcrID.toString();
-        } catch (MCRException ex) {
-            LOGGER.error(ex.getMessage(), ex);
-        }
-
-        return null;
+        return result;
     }
 
     protected String createURLForPDF(HttpServletRequest request, String mcrID, String page, String nr) {
