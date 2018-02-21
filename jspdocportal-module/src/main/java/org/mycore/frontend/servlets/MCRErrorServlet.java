@@ -63,7 +63,7 @@ public class MCRErrorServlet extends HttpServlet{
         }
 
         if (exception != null) {
-            req.getSession().setAttribute("mcr_exception", exception);
+            req.setAttribute("mcr_exception", exception);
         }
         if (statusCode == null) {
             statusCode = 500;

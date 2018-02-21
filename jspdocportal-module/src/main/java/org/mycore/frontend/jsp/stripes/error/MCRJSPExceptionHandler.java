@@ -48,7 +48,7 @@ public class MCRJSPExceptionHandler extends DefaultExceptionHandler implements E
             throws ServletException, IOException {
     // ActionBean bean = (ActionBean) request.getAttribute(StripesConstants.REQ_ATTR_ACTION_BEAN);
         
-        request.getSession().setAttribute("mcr_exception", thr);
+        request.setAttribute("mcr_exception", thr);
         request.getRequestDispatcher("/error.action").forward(request, response);
     }
 }

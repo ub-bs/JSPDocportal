@@ -31,13 +31,13 @@ public class ErrorAction extends MCRAbstractStripesAction implements ActionBean 
         }
         
         //try to use default:    Throwable exception = (Throwable) req.getAttribute("javax.servlet.error.exception");
-        Throwable thr = (Throwable) getContext().getRequest().getSession().getAttribute("mcr_exception");
+        Throwable thr = (Throwable) getContext().getRequest().getAttribute("mcr_exception");
         if (thr != null) {
             if(errorInfo.getMessage()==null) {
                 errorInfo.setMessage("Exeption:");
             }
             errorInfo.setException(thr);
-            getContext().getRequest().getSession().removeAttribute("mcr_exception");
+            getContext().getRequest().removeAttribute("mcr_exception");
         }
         int status = 500;
         if(getContext().getRequest().getParameter("status")!=null) {

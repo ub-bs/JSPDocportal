@@ -210,7 +210,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
                     getServletContext().getRequestDispatcher("/content/docdetails.jsp?id=" + mcrID).forward(request,
                             response);
                 } catch (MCRException ex) {
-                    request.getSession().setAttribute("mcr_exception", ex);
+                    request.setAttribute("mcr_exception", ex);
                     response.sendError(HttpServletResponse.SC_NOT_FOUND, "No object with id '"+mcrID+"' found.");
                 }
             }
