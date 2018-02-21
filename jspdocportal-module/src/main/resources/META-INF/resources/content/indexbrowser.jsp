@@ -23,12 +23,9 @@
 	</stripes:layout-component>
 	<stripes:layout-component name="contents">
 		<div class="ir-box">
-			   <h2>
-				   <fmt:message key="Webpage.indexbrowser.${actionBean.modus}.title" />
-			   </h2>
-			   <p>
-				   <fmt:message key="Webpage.indexbrowser.${actionBean.modus}.intro" />
-			   </p>
+			   <div>
+				   <mcr:includeWebcontent id="indexbrowser_intro" file="indexbrowser/${actionBean.modus}_intro.html" />
+			   </div>
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="navbar navbar-default" style="padding:10px">

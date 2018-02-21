@@ -25,9 +25,8 @@
 					<c:set var="classCollapse">collapse</c:set> 
 				</c:if>
 			
-				<h2>${pageTitle}</h2>
 				<div>
-					<mcr:includeWebcontent id="search_intro" file="search/${actionBean.result.mask}.html" />
+					<mcr:includeWebcontent id="search_intro" file="search/${actionBean.result.mask}_intro.html" />
 				</div>
 
 				<div class="${classCollapse}" id="searchmask">

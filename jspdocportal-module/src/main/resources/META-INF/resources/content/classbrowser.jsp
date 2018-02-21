@@ -12,9 +12,9 @@
 	</stripes:layout-component>
     <stripes:layout-component name="contents">
     	<div class="ir-box">
-			<h2><fmt:message key="Webpage.classbrowser.${actionBean.modus}.title" /></h2>
-			<mcr:includeWebcontent id="classbrowser_${actionBean.modus}" file="classbrowser_${actionBean.modus}_intro.html" />
-
+    		<div>
+				<mcr:includeWebcontent id="classbrowser_${actionBean.modus}" file="classbrowser/${actionBean.modus}_intro.html" />
+			</div>
 			<mcr:classificationBrowser modus="${actionBean.modus}"/>
 			<div style="min-height:100px">&#160;</div>
 		</div>
