@@ -49,5 +49,25 @@
 			  	</search:result-browser>
 			</div>
 		</c:if>
+		
+		<script>
+		$.urlParam = function(name){
+		    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+		    if (results==null){
+		       return null;
+		    }
+		    else{
+		       return results[1] || 0;
+		    }
+		}
+		<%-- $(function(){   = document.ready() --%>
+		$(function(){
+			var field = $.urlParam('searchField');
+			var value = $.urlParam('searchValue');
+			if(field!=null && value!=null){
+				$('input#'+field.replace('.', '\\.')).val(decodeURIComponent(value));
+			}
+		});
+		</script>
 	</stripes:layout-component>
 </stripes:layout-render>

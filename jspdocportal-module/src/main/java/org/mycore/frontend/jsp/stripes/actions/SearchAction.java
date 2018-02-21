@@ -117,6 +117,8 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
             result.setAction("search");
             result.setQuery(request.getParameter("q"));
             result.setMask("");
+            showMask=false;
+            showResults = true;
         }
 
         if (request.getParameter("searchField") != null && request.getParameter("searchValue") != null) {
@@ -126,6 +128,8 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
             result.setQuery("+" + request.getParameter("searchField") + ":"
                     + ClientUtils.escapeQueryChars(request.getParameter("searchValue")));
             result.setMask("");
+            showMask=false;
+            showResults = true;
         }
         if (request.getParameter("sortField") != null && request.getParameter("sortValue") != null) {
             result.setSort(request.getParameter("sortField") + " " + request.getParameter("sortValue"));
