@@ -434,7 +434,7 @@
                     data-toggle="collapse" data-target="#hiddenTools" title="<fmt:message key="Webpage.tools.menu4experts" />">
               <i class="fa fa-cog"></i>
               </button>
-              <search:show-edit-button mcrid="${mcrid}" cssClass="btn btn-sm btn-primary ir-edit-btn col-xs-3" />
+              <search:show-edit-button mcrid="${mcrid}" cssClass="btn btn-sm btn-primary ir-edit-btn pull-right" />
           </div>
           <div id="hiddenTools" class="collapse">
             <div style="padding-bottom:6px">

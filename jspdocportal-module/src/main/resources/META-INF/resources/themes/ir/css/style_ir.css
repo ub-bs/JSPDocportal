@@ -26,6 +26,10 @@ table.ir-table-docdetails>tbody>tr>td {
 	vertical-align: top;
 }
 
+a.ir-edit-btn:visited i{
+	color: white;
+}
+
 span.ir-badge-gnd {
 	color: #004A99;
 	border-top: none;
