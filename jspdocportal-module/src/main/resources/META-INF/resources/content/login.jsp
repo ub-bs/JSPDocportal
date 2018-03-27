@@ -32,22 +32,23 @@
 				<div class="alert alert-info" role="alert"><fmt:message key="Webpage.login.status.${actionBean.loginStatus}" >
 								<fmt:param value="${actionBean.userName}" /></fmt:message></div>
 			</c:if>
-			<div class="form-horizontal">
+            <div class="row">
+				<div class="col-xs-12 col-sm-offset-3 col-sm-6 form-horizontal">
 					<div class="form-group">
-						<label for="inputUserID" class="col-sm-2 control-label"><fmt:message key="Webpage.login.UserLogin" />:</label>
-						<div class="col-sm-10">
+						<label for="inputUserID" class="col-sm-4 control-label"><fmt:message key="Webpage.login.UserLogin" />:</label>
+						<div class="col-sm-8">
 							<input type="text" id="inputUserID" name="userID" placeholder="User ID"  class="form-control" />
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="inputPassword" class="col-sm-2 control-label"><fmt:message key="Webpage.login.Password" />:</label>
-						<div class="col-sm-10">
+						<label for="inputPassword" class="col-sm-4 control-label"><fmt:message key="Webpage.login.Password" />:</label>
+						<div class="col-sm-8">
 							<input type="password" id="inputPassword" name="password" placeholder="Passwort" class="form-control" />
 						</div>
 					</div>
 
 					<div class="form-group">
-						<div class="col-sm-offset-2 col-sm-10 container">
+						<div class="col-sm-offset-4 col-sm-8">
 							<div class="col-sm-6 text-center">
 								<input name="doLogin" class="btn btn-primary" value="<fmt:message key="Webpage.login.Login" />" type="submit" /> 
 							</div>
@@ -58,7 +59,8 @@
 							</c:if>
 						</div>
 					</div>
-			</div>
+				</div>
+        	</div>
 				
 			<c:if test="${not empty actionBean.nextSteps}">
 				<div class="panel panel-default" style="margin-top:64px">
