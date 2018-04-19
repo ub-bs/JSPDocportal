@@ -64,7 +64,7 @@ import org.mycore.frontend.jsp.navigation.model.NavigationObject;
  */
 public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
     private static final List<String> MODES = Arrays
-            .asList(new String[] { "left", "top", "breadcrumbs", "toc", "navbar" });
+            .asList(new String[] { "left", "side", "top", "breadcrumbs", "toc", "navbar" });
 
     private static final String INDENT = "\n       ";
 
@@ -75,30 +75,38 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
     private static Logger LOGGER = LogManager.getLogger(MCROutputNavigationTag.class);
 
     public void doTag() throws JspException, IOException {
-        init();
+        init(id);
         if (!MODES.contains(mode)) {
             LOGGER.warn("The attribute mode has to be one of these values: " + MODES);
             return;
         }
+        JspWriter out = getJspContext().getOut();
 
         if (mode.equals("left")) {
-            printLeftNav(path, nav, cssClass, getJspContext().getOut());
+            printLeftNav(path, nav, cssClass, out);
         }
+        
+        if (mode.equals("side")) {
+        	out.append("\n<nav class=\"ir-nav-side\">");
+            printSideNav(path, nav, cssClass, out);
+            out.append("\n</nav>");
+        }
+        
         if (mode.equals("toc")) {
             NavigationItem eNav = findNavItem(nav, path);
-            printTOC(eNav, getJspContext().getOut());
+            printTOC(eNav,out);
         }
         if (mode.equals("top")) {
-            printTopNav(nav, getJspContext().getOut());
+            printTopNav(path, nav,out);
         }
 
         if (mode.equals("navbar")) {
-            printNavbar(nav, getJspContext().getOut());
+            printNavbar(nav, out);
         }
 
         if (mode.equals("breadcrumbs")) {
             NavigationItem eNav = findNavItem(nav, path);
-            printBreadcrumbs(eNav, getJspContext().getOut());
+            printBreadcrumbs(eNav, out);
         }
     }
 
@@ -175,6 +183,69 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
             LOGGER.error(ex);
         }
     }
+    
+    /**
+     * prints the navigation items as left side main navigation can be called
+     * recursively
+     * 
+     * @param path
+     *            - the navigation path (separated by ".")
+     * @param currentNode
+     *            - the current navigation item
+     * @param out
+     *            - the JSPOutputWriter
+     *
+     *
+     */
+  
+    private void printSideNav(String[] currentPath, NavigationObject currentNode, String cssClass, JspWriter out) {
+        try (MCRHibernateTransactionWrapper htw = new MCRHibernateTransactionWrapper()) {
+            List<NavigationItem> printableElements = printableItems(currentNode);
+            if (printableElements.isEmpty()) {
+                return;
+            }
+            int level = currentNode.getLevel();
+            StringBuffer indentBuffer = new StringBuffer(INDENT);
+
+            for (int j = 0; j < level; j++) {
+                indentBuffer.append("    ");
+            }
+            String indent = indentBuffer.toString();
+            if (cssClass != null) {
+                out.append(indent).append("  <ul class=\"" + cssClass + "\">");
+            } else {
+                out.append(indent).append("  <ul class=\"nav\">");
+            }
+            for (NavigationItem el : printableElements) {
+                String id = el.getId();
+                boolean active = currentPath.length == 1 && currentPath[0].equals(id);
+                boolean doExpand = currentPath.length > 0 && currentPath[0].equals(id) && printableItems(el).size()>0 || expanded;
+
+                String msg = retrieveI18N(el.getI18n());
+                out.append(indent)
+                        .append(" <li id=\"" + retrieveNavPath(el) + "\" class=\"nav-item" + (active ? " active" : "") + (doExpand ? " expanded" : "") + "\">");
+
+                out.append(indent);
+                String href = el.getHref();
+                if (!href.startsWith("http")) {
+                    href = MCRFrontendUtil.getBaseURL() + href;
+                }
+                out.append(" <a target=\"_self\" class=\"nav-link\" href=\"" + href + "\">" + msg + "</a>");
+                if (doExpand) {
+                    String[] subpath = path;
+                    if (path.length > 0) {
+                        subpath = Arrays.copyOfRange(path, 1, path.length);
+                    }
+                    printSideNav(subpath, el, null, out);
+                }
+                out.append(indent).append(" </li>");
+            }
+
+            out.append(indent).append(" </ul>");
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+        }
+    }
 
     /**
      * prints top nav (horizontal navigation) (only with direct sub items of the
@@ -185,7 +256,7 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
      * @param out
      *            - the JSPOutputWriter
      */
-    private void printTopNav(NavigationObject currentNode, JspWriter out) {
+    private void printTopNav(String[] currentPath, NavigationObject currentNode, JspWriter out) {
         if (currentNode != null) {
 
             List<NavigationItem> printableElements = printableItems(currentNode);
@@ -198,7 +269,7 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
                         out.append("  <ul>");
                     }
                     for (NavigationItem el : printableElements) {
-                        boolean active = path.length > 0 && path[0].equals(el.getId());
+                        boolean active = currentPath.length > 0 && currentPath[0].equals(el.getId());
                         String msg = retrieveI18N(el.getI18n());
                         out.append(INDENT).append("    <li " + (active ? "class=\"active\"" : "") + ">");
                         String href = el.getHref();
@@ -234,7 +305,7 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
      *            - the JSPOutputWriter
      */
     private void printNavbar(NavigationObject currentNode, JspWriter out) {
-        printTopNav(currentNode, out);
+        printTopNav(path, currentNode, out);
     }
 
     /**

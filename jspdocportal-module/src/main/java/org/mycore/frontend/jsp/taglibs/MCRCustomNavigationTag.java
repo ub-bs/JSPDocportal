@@ -23,11 +23,11 @@ import org.mycore.frontend.jsp.navigation.model.NavigationObject;
  * </p> The name of the variable is passed by the attribute "var" </p>
  * <p>
  * Also it requires the attribute "id". The id is used to retrieve the
- * navigation from the navitation.xml.
+ * navigation from the navigation.xml.
  * </p>
  * <p>
  * The attribute "expanded" just points out, if the whole navigation tree should
- * be passed to the been or just the first level.
+ * be passed to the bean or just the first level.
  * </p>
  * 
  * Example usage:
@@ -57,7 +57,7 @@ public class MCRCustomNavigationTag extends MCRAbstractNavigationTag {
 
     public void doTag() throws JspException, IOException {
         JspContext context = getJspContext();
-        init();
+        init(id);
 
         if (nav == null) {
             if (path == null || path.length == 0) {

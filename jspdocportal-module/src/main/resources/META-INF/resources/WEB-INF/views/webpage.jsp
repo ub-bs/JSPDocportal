@@ -30,14 +30,25 @@
         </div>
       </div>
     </c:if>
-
     <c:if test="${empty actionBean.info}">
       <div class="row">
-        <div class="col-xs-12">
-          <div class="ir-box">
-            <mcr:includeWebcontent id="${fn:replace(actionBean.path, '/', '.')}" file="${actionBean.path}.html" />
+        <c:if test="${empty requestScope['org.mycore.navigation.side.path']}">
+          <div class="col-xs-12">
+              <div class="ir-box">
+                <mcr:includeWebcontent id="${fn:replace(actionBean.path, '/', '.')}" file="${actionBean.path}.html" />
+              </div>
           </div>
-        </div>
+       </c:if>
+        <c:if test="${not empty requestScope['org.mycore.navigation.side.path']}">
+          <div class="col-xs-12 col-sm-3">
+              <mcr:outputNavigation mode="side" id="publish"></mcr:outputNavigation>          
+          </div>
+          <div class="col-xs-12 col-sm-9">
+              <div class="ir-box">
+                <mcr:includeWebcontent id="${fn:replace(actionBean.path, '/', '.')}" file="${actionBean.path}.html" />
+              </div>
+          </div>
+       </c:if>
       </div>
     </c:if>
   </stripes:layout-component>
