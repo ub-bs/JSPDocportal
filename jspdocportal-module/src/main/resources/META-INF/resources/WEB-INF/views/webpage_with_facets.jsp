@@ -59,15 +59,21 @@
             <div class="row"></div>
             <div class="row">
               <div class="col-sm-7 col-xs-10">
-                <input class="form-control ir-form-control" id="filterValue" name="filterValue" style="width: 100%" placeholder="Wert"
-                  onkeypress="if (event.keyCode == 13) { changeFilterIncludeURL($('input[name=\'filterField\']:checked').val(), $('#filterValue').val(), 'histbest');}"
-                  type="text">
-              </div>
-              <div class="col-sm-1 col-xs-2">
-                <button id="filterInclude" class="btn btn-primary ir-button"
-                  onclick="changeFilterIncludeURL($('input[name=\'filterField\']:checked').val(), $('#filterValue').val(), '${actionBean.path}');">
-                  <i class="fa fa-search"></i>
-                </button>
+              <jsp:element name="div">
+                <jsp:attribute name="class">input-group</jsp:attribute>
+                <jsp:attribute name="data-ir-mode" trim="true"><c:out value="${actionBean.path}" /></jsp:attribute>
+                <jsp:body>
+                  <input class="form-control ir-form-control" id="filterValue" name="filterValue" style="width: 100%" placeholder="Suche "
+                         onkeypress="if (event.keyCode == 13) { changeFilterIncludeURL($('input[name=\'filterField\']:checked').val(), $('#filterValue').val(), $('#filterValue').parent().data('ir-mode'));}"
+                         type="text">
+                   <span class="input-group-btn">
+                      <button id="filterInclude" class="btn btn-primary ir-button form-control"
+                              onclick="changeFilterIncludeURL($('input[name=\'filterField\']:checked').val(), $('#filterValue').val(), $('#filterValue').parent().data('ir-mode'));">
+                        <i class="fa fa-search"></i>
+                      </button>   
+                   </span>
+                  </jsp:body>
+              </jsp:element>
               </div>
             </div>
             <div class="row">
@@ -171,5 +177,22 @@
 			});
 		});
 	</script>
+  
+    <c:if test="${(actionBean.path eq 'histbest') or (actionBean.path eq 'epub') }">
+    <script>
+    	$(function() {
+            $.ajax({
+            	 type: "GET",
+            	 url: "../api/v1/search?q=category:%22doctype:" + $('#filterValue').parent().data('ir-mode') + "%22&rows=0&wt=json&json.wrf=?",
+            	 dataType: "jsonp",
+            	 success: function (data) {
+            		var x = data.response.numFound;
+            		$('#filterValue').attr('placeholder', 'Suche in ' + x.toLocaleString() + ' Dokumenten');
+            	 },
+            });
+    	});
+     </script>
+     </c:if>
+  
   </stripes:layout-component>	
 </stripes:layout-render>
