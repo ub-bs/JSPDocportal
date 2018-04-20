@@ -75,7 +75,7 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
     private static Logger LOGGER = LogManager.getLogger(MCROutputNavigationTag.class);
 
     public void doTag() throws JspException, IOException {
-        init(id);
+        init(mode);
         if (!MODES.contains(mode)) {
             LOGGER.warn("The attribute mode has to be one of these values: " + MODES);
             return;
