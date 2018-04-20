@@ -62,7 +62,7 @@
                   <input class="form-control" id="filterValue" name="filterValue" style="width: 100%" placeholder="Wert"
                     type="text" onkeypress="if (event.keyCode == 13) { changeFilterIncludeURL();}"> <span
                     class="input-group-btn">
-                    <button id="filterInclude" class="btn btn-primary ir-facets-btn-plus" onclick="changeFilterIncludeURL();">
+                    <button id="filterInclude" class="btn btn-primary form-control" onclick="changeFilterIncludeURL();">
                       <i class="fa fa-plus"></i>
                     </button>
                   </span>
