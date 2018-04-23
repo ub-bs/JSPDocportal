@@ -148,7 +148,7 @@
         </div>
  
       <div class="col-xs-12 col-md-3">
-         <h5>Aktuelle Dokumente</h5>       
+         <h5><fmt:message key="Browse.latestdocs" /></h5>       
         <div class="panel panel-default ir-searchresult-panel">
 		<ul id="latest_documents" class="list-group" data-ir-mode="${actionBean.path}">
           <%-- the following html code will be created from java script
