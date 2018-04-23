@@ -242,7 +242,7 @@
             });
             
             //aktuelle Dokumente
-            
+<%--            
             //http://localhost:8080/rosdok/api/v1/search?q=category.top:%22doctype:histbest%22
             //	docs":[ { "id":"rosdok_document_0000009190",
             //            "created":"2018-04-19T21:53:08.915Z",
@@ -251,7 +251,7 @@
             //            "ir.title.result":"Die Cultur der Georginen in Deutschland mit besonderer Rücksicht auf Erfurt : (Nebst einer lithographirten Tafel)",
             //            "ir.doctype.result":"Monographie",
             //            "ir.originInfo.result":"Weißensee : Großmann , 1841"}, {}, ...]
-            
+--%>            
             $.ajax({
            	 type: "GET",
            	 url: "../api/v1/search?q=category:%22doctype:" + $('#filterValue').parent().data('ir-mode') + "%22%20-objectType:bundle&sort=created+DESC&rows=5&fl=id,created,ir.cover_url,ir.creator.result,ir.title.result,ir.doctype.result,ir.originInfo.result&wt=json&json.wrf=?",
