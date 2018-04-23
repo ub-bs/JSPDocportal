@@ -13,10 +13,15 @@
 <fmt:message var="pageTitle" key="Webpage.title.${fn:replace(actionBean.path, '/', '.')}" />
 <stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
 	<stripes:layout-component name="main_part">
+    
     <div class="row">
-      <div class="col-xs-12">
+      <div class="col-xs-12 col-md-9">
         <div class="ir-box">
-          <mcr:includeWebcontent id="${fn:replace(actionBean.path, '/', '.')}" file="${actionBean.path}.html" />
+          <div class="row">
+            <div class="col-xs-10">
+                <mcr:includeWebcontent id="${fn:replace(actionBean.path, '/', '.')}" file="${actionBean.path}.html" />
+            </div>
+          </div>
 
           <c:if test="${(actionBean.path eq 'epub') or (actionBean.path eq 'histbest') }">
             <script type="text/javascript">
@@ -56,13 +61,9 @@
           </c:if>
           <c:if test="${(actionBean.path eq 'histbest') or (actionBean.path eq 'epub') }">
             <%-- key=$("input[name='filterField']:checked").val(); value=$('#filterValue').val()); --%>
-            <div class="row"></div>
             <div class="row">
-              <div class="col-sm-7 col-xs-10">
-              <jsp:element name="div">
-                <jsp:attribute name="class">input-group</jsp:attribute>
-                <jsp:attribute name="data-ir-mode" trim="true"><c:out value="${actionBean.path}" /></jsp:attribute>
-                <jsp:body>
+              <div class="col-xs-10">
+                <div class="input-group" data-ir-mode="${actionBean.path}">
                   <input class="form-control ir-form-control" id="filterValue" name="filterValue" style="width: 100%" placeholder="Suche "
                          onkeypress="if (event.keyCode == 13) { changeFilterIncludeURL($('input[name=\'filterField\']:checked').val(), $('#filterValue').val(), $('#filterValue').parent().data('ir-mode'));}"
                          type="text">
@@ -72,43 +73,48 @@
                         <i class="fa fa-search"></i>
                       </button>   
                    </span>
-                  </jsp:body>
-              </jsp:element>
+                  </div>
               </div>
             </div>
             <div class="row">
-              <div class="col-sm-8 col-xs-12">
+              <div class="col-xs-12">
                 <table>
                   <tbody>
                     <tr>
-                      <td class="radio input-sm"><label> <input name="filterField" value="ir.title_all"
-                          checked="checked" type="radio"> Titel
+                      <td class="radio input-sm"><label> <input name="filterField" value="allMeta"
+                          checked="checked" type="radio"> <fmt:message key="Browse.Filter.epub.allMeta" />
                       </label></td>
                       <td></td>
-                      <td class="radio input-sm"><label> <input name="filterField" value="ir.creator_all"
-                          type="radio"> Autor
+                      <td class="radio input-sm"><label> <input name="filterField" value="content"
+                          type="radio"> <fmt:message key="Browse.Filter.epub.content" />
                       </label></td>
-                      <td></td>
-                      <td class="radio input-sm"><label> <input name="filterField" value="ir.pubyear_start"
-                          type="radio"> erschienen nach
-                      </label></td>
-                      <td></td>
-                      <td class="radio input-sm"><label> <input name="filterField" value="ir.pubyear_end"
-                          type="radio"> erschienen vor
-                      </label></td>
-                      <td></td>
+                      <td></td>                     
                     </tr>
                   </tbody>
                 </table>
               </div>
             </div>
           </c:if>
+          </div>
+          </div>
+          <div class="col-md-3 hidden-sm" style="padding-top:50px">
+            <c:if test="${actionBean.path eq 'histbest' }">
+              <img src="../themes/rosdok/images/histbest_buecherstapel.jpg" style="width:100%">
+            </c:if>
+            <c:if test="${actionBean.path eq 'epub' }">
+              <img src="../themes/rosdok/images/epub_flyer.jpg" style="width:100%">
+            </c:if>
+          </div>
+       </div>
+      <div class="row">
+        <div class="col-xs-12 col-md-9">
+          
           <c:if test="${actionBean.path eq 'histbest' }">
             <div class="row">
-              <div class="col-sm-4 col-xs-12 ir-browse-classification">
+              <div class="col-sm-4 col-xs-12 ir-browse-classification" lang="x-de-short">
                 <%-- <search:browse-facet result="${result}" mask="${mask}" facetField="ir.doctype_class.facet" /> --%>
                 <%-- <search:browse-classification categid="doctype:histbest" mask="${mask}" facetField="ir.doctype_class.facet" /> --%>
-                <search:browse-classification categid="collection:Materialart" mask="${mask}"
+                <search:browse-classification categid="collection:Materialart" mask="${mask}" lang="x-de-short"
                   facetField="ir.collection_class.facet" />
               </div>
               <div class="col-sm-4 col-xs-12 ir-browse-classification">
@@ -140,6 +146,50 @@
             </div>
           </c:if>
         </div>
+ 
+      <div class="col-xs-12 col-md-3">
+         <h5>Aktuelle Dokumente</h5>       
+        <div class="panel panel-default ir-searchresult-panel">
+		<ul id="latest_documents" class="list-group" data-ir-mode="${actionBean.path}">
+          <%-- the following html code will be created from java script
+            <li class="list-group-item">
+              <div class="ir-resultentry-panel" style="position:relative;">
+              <div class="row">
+                  <div class="col-sm-12">
+                       <span>Mustermann, Max</span>
+                       <h5><a href="/rosdok/resolve/id/rosdok_document_0000009183?_search=f37d13db-c6e5-4ed5-a346-a0e870fbd214&amp;_hit=0">Plausus Votivus In Natales Felicissimos Cum Serenissimus Princeps Ac Dominus, Dn. Carolus, D. G. Hassiae Landgravius ... Dominus Et Patronus Eius Clementissimus In Carolo, Filio Quinto Genito ... : Urgente Communis Laetitiae Sensu Et Obsequii Debito Publica Gratulatione Datus</a></h5>
+                 </div>
+                </div>
+                <div class="row">
+	               <div class="col-sm-7">
+		              <table style="border-spacing: 5px; border-collapse: separate; font-size: 80%;">
+			             <tbody>
+                            <tr><td>Marpurgi Cattorum : Kürsnerus , 1680</td></tr>
+                            <tr><td> <span class="label label-default ir-label-default" style="font-size:100%">Monographie</span></td></tr>
+                            <tr><td> &nbsp;</td></tr>
+				        </tbody>
+                      </table>
+	               </div>
+		          <div class="col-sm-5" style="padding-left:0px">
+			         <div class="img-thumbnail pull-right ir-resultentry-image">
+				        <div>
+   					      <a href="/rosdok/resolve/id/rosdok_document_0000009183?_search=f37d13db-c6e5-4ed5-a346-a0e870fbd214&amp;_hit=0">
+   					        <img style="position:relative;top:0px;left:0px;width:98%;padding:1%;display:block; max-height:180px; object-fit:contain;" src="/rosdok/file/rosdok_document_0000009183/rosdok_derivate_0000032996/ppn832537330.cover.jpg" border="0">
+                          </a>
+				        </div>
+			         </div>
+		          </div>
+                </div>
+                <div class="label label-default ir-label-default" style="position:absolute;bottom:5px; left:0px;background-color: white;color:gray;">03.04.2018</div>
+              </div>
+		    </li>
+           --%>				 
+          </ul>
+
+		  <div class="panel-footer" style="padding-bottom: 9px; text-align:right">
+			<a href="/rosdok/browse/histbest" class="btn btn-sm btn-primary ir-button">mehr ...</a>
+		  </div>			
+	    </div>
       </div>
     </div>
     <%--TODO use SOLR-Parameter "&facet.mincount=1" --%>
@@ -188,8 +238,77 @@
             	 success: function (data) {
             		var x = data.response.numFound;
             		$('#filterValue').attr('placeholder', 'Suche in ' + x.toLocaleString() + ' Dokumenten');
-            	 },
+            	 }
             });
+            
+            //aktuelle Dokumente
+            
+            //http://localhost:8080/rosdok/api/v1/search?q=category.top:%22doctype:histbest%22
+            //	docs":[ { "id":"rosdok_document_0000009190",
+            //            "created":"2018-04-19T21:53:08.915Z",
+            //            "ir.cover_url":"file/rosdok_document_0000009190/rosdok_derivate_0000033719/ppn642329060.cover.jpg",
+            //            "ir.creator.result":"Neumann, Ferdinand",
+            //            "ir.title.result":"Die Cultur der Georginen in Deutschland mit besonderer Rücksicht auf Erfurt : (Nebst einer lithographirten Tafel)",
+            //            "ir.doctype.result":"Monographie",
+            //            "ir.originInfo.result":"Weißensee : Großmann , 1841"}, {}, ...]
+            
+            $.ajax({
+           	 type: "GET",
+           	 url: "../api/v1/search?q=category:%22doctype:" + $('#filterValue').parent().data('ir-mode') + "%22%20-objectType:bundle&sort=created+DESC&rows=5&fl=id,created,ir.cover_url,ir.creator.result,ir.title.result,ir.doctype.result,ir.originInfo.result&wt=json&json.wrf=?",
+           	 dataType: "jsonp",
+           	 success: function (data) {
+           		data.response.docs.forEach(function( entry ) {
+           			var li = $("<li></li>").addClass("list-group-item");
+           			var divHead = $("<div></div>").addClass("col-sm-12");
+           			if(entry.hasOwnProperty("ir.creator.result")){
+           				divHead.append($("<span></span>").css("font-size", "85%").text(entry["ir.creator.result"]));
+           			}
+           			if(entry.hasOwnProperty("ir.title.result")){
+           				var title = entry["ir.title.result"];
+           				if(title.length>120){
+           					title = title.substring(0,100) + "…";          
+           				}
+           				divHead.append($("<h5></h5>").append($("<a></a>").attr("href", "../resolve/id/"+entry["id"]).text(title)));
+           			}
+           			var divPanel = $("<div></div>").addClass("ir-resultentry-panel").css("position", "relative"); 
+           			li.append(divPanel);
+           			divPanel.append($("<div></div>").addClass("row").append(divHead));
+           			
+           			var tbody = $("<tbody></tbody>");
+           			if(entry.hasOwnProperty("ir.originInfo.result")){
+           				tbody.append($("<tr></tr>").append($("<td></td>").text(entry["ir.originInfo.result"])));
+           			}
+           			if(entry.hasOwnProperty("ir.doctype.result")){
+           				tbody.append($("<tr></tr>").append($("<td></td>").append($("<span></span>").addClass("label label-default ir-label-default").css("font-size", "100%").text(entry["ir.doctype.result"]))));
+           			}
+           			tbody.append($("<tr></tr>").append($("<td></td>").html("&nbsp;")));
+           			
+           			var row1 = $("<div></div>").addClass("row");
+           			row1.append($("<div></div>").addClass("col-sm-7")
+           					.append($("<table></table>").css("border-spacing", "5px").css("border-collapse","separate").css("font-size", "85%").append(tbody)))
+           			divPanel.append(row1);
+           			
+           			if(entry.hasOwnProperty("ir.cover_url")){
+           				row1.append($("<div></div>").addClass("col-sm-5").css("padding-left","0").append(
+           					$("<div></div>").addClass("img-thumbnail pull-right ir-resultentry-image").append(
+           						$("<a></a>").attr("href", "../resolve/id/"+entry["id"]).append(
+           							$("<img />").css("width","98%").css("max-height","180px").css("object-fit","contain").attr("src", "../"+entry["ir.cover_url"])
+           						)		
+           					)
+           					
+           				));
+           				
+           			}
+           			var datum = entry["created"]
+           			divPanel.append($("<div></div>").addClass("label label-default ir-label-default").css("position", "absolute").css("bottom","1px").css("left","0").css("background-color","white").css("color","gray").text(
+           				datum.substring(8,10)+"."+datum.substring(5,7)+"."+datum.substring(0,4)		
+           			));
+           			
+           			$("#latest_documents").append(li);
+           		});
+           	 }
+           });
+            		
     	});
      </script>
      </c:if>
