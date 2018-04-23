@@ -145,20 +145,25 @@ public class MCRSearchResultDataBean implements Serializable {
         }
 
         for (String fq : filterQueries) {
-            if (fq.contains("ir.pubyear_end")) {
+            if(fq.substring(1).startsWith("content:")) {
+            	String[] x = fq.split(":", 2);
+                solrQuery.addFilterQuery("{!join from=returnId to=id}" + x[0] + ":" + ClientUtils.escapeQueryChars(x[1]));
+            }
+
+            else if (fq.substring(1).startsWith("ir.pubyear_end:")) {
                 if (Pattern.matches("^\\S+:\\d{4}$", fq)) {
                     fq = fq.replaceFirst(":", ":[* TO ");
                     fq = fq + "]";
                     solrQuery.addFilterQuery(fq);
                 }
             }
-
-            else if (fq.contains("ir.pubyear_start")) {
+            else if (fq.substring(1).startsWith("ir.pubyear_start:")) {
                 if (Pattern.matches("^\\S+:\\d{4}$", fq)) {
                     fq = fq.replaceFirst(":", ":[");
                     fq = fq + " TO *]";
                     solrQuery.addFilterQuery(fq);
                 }
+                
             } else if (fq.toLowerCase(Locale.getDefault()).contains(" or ")) {
                 solrQuery.addFilterQuery(fq);
             } else {
