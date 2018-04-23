@@ -12,9 +12,17 @@
 <%@ attribute name="categid" required="true" type="java.lang.String" %>
 <%@ attribute name="mask" required="true" type="java.lang.String" %>
 <%@ attribute name="facetField" required="false" type="java.lang.String" %>
+<%@ attribute name="lang" required="false" type="java.lang.String" %>
 
 <% MCRCategory rootCateg = MCRCategoryDAOFactory.getInstance().getCategory(MCRCategoryID.fromString(categid), -1); 
 	jspContext.setAttribute("rootCateg", rootCateg);
 %>
-<h5>${rootCateg.currentLabel.get().text}</h5>
-<search:browse-classification-inner category="${rootCateg}" facetField="${facetField}" mask="${mask}"/>
+<h5>
+  <c:if test="${not empty lang}">
+     ${rootCateg.getLabel(lang).get().text}
+  </c:if>
+  <c:if test="${empty lang}">
+     ${rootCateg.currentLabel.get().text}
+  </c:if>
+</h5>
+<search:browse-classification-inner category="${rootCateg}" facetField="${facetField}" mask="${mask}" lang="${lang}"/>

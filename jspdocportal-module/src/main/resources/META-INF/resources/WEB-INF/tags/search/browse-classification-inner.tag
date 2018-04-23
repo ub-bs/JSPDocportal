@@ -10,6 +10,7 @@
 <%@ attribute name="category" required="true" type="org.mycore.datamodel.classifications2.MCRCategory" %>
 <%@ attribute name="facetField" required="false" type="java.lang.String" %>
 <%@ attribute name="mask" required="false" type="java.lang.String" %>
+<%@ attribute name="lang" required="false" type="java.lang.String" %>
 
 <c:if test="${category.hasChildren()}">
 	<ul>
@@ -25,7 +26,12 @@
 				<button class="btn btn-sm btn-default ir-facets-btn" style="border:none; display:block;text-align:left;white-space:normal;width:100%" 
 					    onclick="changeFacetIncludeURL('${facetField}','${c.id.getRootID()}:${c.id.ID}', '${mask}', '${result.id}');">
 					<span style="display:table-cell;vertical-align:middle;">
-							${c.currentLabel.get().text}
+                      <c:if test="${not empty lang}">
+							${c.getLabel(lang).get().text}
+                      </c:if>
+                      <c:if test="${empty lang}">
+                          ${c.currentLabel.get().text}
+                      </c:if>
 					</span>
 					<span style="display:table-cell;vertical-align:middle;padding-left:12px;">
 							<span class="badge ir-badge mcr-facet-count" data-mcr-facet-field="${facetField}" data-mcr-facet-value="${c.id.getRootID()}:${c.id.ID}"></span>
