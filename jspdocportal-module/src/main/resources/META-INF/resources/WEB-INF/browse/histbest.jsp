@@ -72,8 +72,18 @@
               <div class="col-sm-12">
                 <table>
                   <tr>
+                    <td class="radio input-sm"><label> <input name="filterField" value="allMeta"
+                        type="radio" checked="checked" /> <fmt:message key="Browse.Filter.histbest.allMeta" />
+                    </label>
+                    <td>
+                    <td class="radio input-sm"><label> <input name="filterField" value="content"
+                        type="radio" /> <fmt:message key="Browse.Filter.histbest.content" />
+                    </label>
+                    <td>
+                  </tr>
+                  <tr>
                     <td class="radio input-sm"><label> <input name="filterField" value="ir.title_all"
-                        type="radio" checked="checked" /> <fmt:message key="Browse.Filter.histbest.ir.title_all" />
+                        type="radio" /> <fmt:message key="Browse.Filter.histbest.ir.title_all" />
                     </label>
                     <td>
                     <td class="radio input-sm"><label> <input name="filterField" value="ir.pubyear_start"
@@ -107,8 +117,8 @@
                   <c:set var="c">
                     <fmt:message key="Browse.Filter.histbest.${fn:substringBefore(fn:substring(fq, 1, -1),':')}" />: ${actionBean.calcFacetOutputString(fn:substringBefore(fn:substring(fq, 1, -1),':'), fn:substringAfter(fn:substring(fq, 1, -1),':'))}</c:set>
                   <a class="btn btn-sm btn-default ir-form-control"
-                    style="display: block; position:relative; text-align: left; white-space: normal; margin-bottom: 3px; color: black; width: 100%"
-                    href="${url}"> <i class="fa fa-times" style="position:absolute; top: 5px; right:20px; color: darkred;"></i>
+                    style="display: block; text-align: left; white-space: normal; margin-bottom: 3px; color: black; width: 100%"
+                    href="${url}"> <i class="fa fa-times" style="float:right; position:relative; right:-6px; color: darkred;"></i>
                     ${c}
                   </a>
                 </c:if>
