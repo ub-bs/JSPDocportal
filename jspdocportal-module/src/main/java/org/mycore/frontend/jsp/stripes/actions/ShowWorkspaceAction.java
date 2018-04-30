@@ -364,7 +364,7 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
                         derID.getXLinkHrefID());
                 result.append("<div style=\"margin-left:300px\">");
                 result.append("    <strong>["
-                        + MCRTranslation.translate("OMD.derivatedisplay." + mcrObjID.getBase() + "." + der.getLabel())
+                        + MCRTranslation.translate("OMD.derivatedisplay." + der.getLabel())
                         + "]</strong>");
                 for (String s : der.getService().getFlags("title")) {
                     result.append("<br />" + s);

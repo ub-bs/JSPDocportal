@@ -20,7 +20,7 @@
 	</stripes:layout-component>
 	<stripes:layout-component name="contents">
 		<div class="ir-box">
-	 		<h2><fmt:message key="WF.workspace.headline" /></h2>
+	 		<h2><fmt:message key="WF.workspace.headline.${actionBean.mode}" /></h2>
 				<div class="stripesinfo">
 					<stripes:errors />
 					<stripes:messages />
@@ -40,7 +40,7 @@
 				<div class="panel panel-info">
   					<div class="panel-heading">
                         <c:forEach var="mcrBase" items="${actionBean.newObjectBases}">
-  						  <stripes:submit class="btn btn-default btn-sm pull-right"  name="doCreateNewTask-${mcrBase}" value="Neues [${mcrBase}] erstellen" style="margin-top:-6px; margin-left:12px"/>
+  						  <button class="btn btn-default btn-sm pull-right"  name="doCreateNewTask-${mcrBase}" value="doit" style="margin-top:-6px; margin-left:12px">Neues <strong>${mcrBase}</strong> erstellen</button>
     			        </c:forEach>		
                         <h3 class="panel-title"><fmt:message key="WF.workspace.info.headline.new_task" /></h3>
   					</div>
@@ -61,7 +61,7 @@
     					<c:forEach var="task" items="${actionBean.myTasks}" >
 							<div class="panel panel-default" id="task_${task.id}">
 								<div class="panel-heading clearfix">
-									<stripes:submit class="btn btn-default btn-sm pull-right" name="doReleaseTask-task_${task.id}"><fmt:message key="WF.workspace.submit.task" /></stripes:submit>
+									<button class="btn btn-default btn-sm pull-right" name="doReleaseTask-task_${task.id}"><fmt:message key="WF.workspace.submit.task" /></button>
 									<span class="btn btn-none btn-sm pull-right"><strong><fmt:message key="WF.workspace.start" /></strong> <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${task.createTime}" /></span>
 									<h5 class="panel-title" style="margin-top:0.33em;"><span class="badge" style="margin-right:3em">${task.executionId}</span> <fmt:message key="WF.workspace.task" /> ${task.name}</h5>
 								</div>
@@ -143,7 +143,7 @@
   						<c:forEach var="task" items="${actionBean.availableTasks}">
 							<div class="panel panel-default" id="available_task_${task.id}">
 								<div class="panel-heading clearfix">
-									<stripes:submit class="btn btn-default btn-sm pull-right" name="doAcceptTask-task_${task.id}"><fmt:message key="WF.workspace.submit.accept_task" /></stripes:submit>
+									<button class="btn btn-default btn-sm pull-right" name="doAcceptTask-task_${task.id}"><fmt:message key="WF.workspace.submit.accept_task" /></button>
 									<span class="btn btn-none btn-sm pull-right"><strong><fmt:message key="WF.workspace.start" /> </strong><fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${task.createTime}" /></span>
 									<h5 class="panel-title" style="margin-top:0.33em;"><span class="badge" style="margin-right:3em">${task.executionId}</span> <fmt:message key="WF.workspace.task" /> ${task.name}</h5>
 								</div>

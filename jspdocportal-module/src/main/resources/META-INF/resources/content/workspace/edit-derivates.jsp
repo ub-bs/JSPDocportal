@@ -63,11 +63,10 @@
 			<stripes:form
 				beanclass="org.mycore.frontend.jsp.stripes.actions.EditDerivatesAction"
 				id="workspaceForm" enctype="multipart/form-data" acceptcharset="UTF-8">
-				<stripes:hidden name="mcr_base" />
 				<%-- load first time from request parameter "returnPath --%>
 				<div class="panel panel-primary">
   					<div class="panel-heading" style="min-height:54px">
-  						<a class="btn btn-default pull-right" href="${baseURL}showWorkspace.action?mcr_base=${actionBean.mcr_base}">
+  						<a class="btn btn-default pull-right" href="${baseURL}showWorkspace.action?mode=${actionBean.mode}">
   						  <i class="fa fa-power-off"></i> <fmt:message key="WF.derivates.back" />
   						</a>
 					  	<span class="badge pull-left" style="margin-right:24px;margin-top:9px;">${currentVariables.mcrObjectID}</span>
@@ -75,13 +74,12 @@
 					  		${currentVariables.wfObjectDisplayTitle}
 					  	</h3>
   					</div>
-    				<ul class="list-group">
+    				<div class="panel-body">
     					<c:set var="doc" value="${actionBean.mcrobjXML}" />
     					<x:forEach var="x" select="$doc/mycoreobject/structure/derobjects/derobject">
     						<c:set var="derID"><x:out select="$x/@xlink:href" /></c:set>
     						<c:set var="derDoc" value="${actionBean.derivateXMLs[derID]}" />
     						<c:set var="maindoc"><x:out select="$derDoc/mycorederivate/derivate/internals/internal/@maindoc" /></c:set>
-    						<li class="list-group-item container-fluid">
     							<div class="panel panel-info">
   									<div class="panel-heading" style="min-height:78px">
   										<fmt:message key="WF.derivates.delete" var="titleDelete"/>
@@ -113,13 +111,13 @@
   											<c:set var="derLabel"><x:out select="$derDoc/mycorederivate/@label" /></c:set>
   											<select id="selectEditDerMetaLabel_${derID}" name="saveDerivateMeta_label-task_${actionBean.taskid}-derivate_${derID}" 
   											        class="form-control" disabled="disabled" style="width:33%;" data-original-value="${derLabel}">
-  											<c:set var="values"><fmt:message key="OMD.derivatedisplay.${actionBean.mcr_base}" /></c:set>
+  											<c:set var="values"><fmt:message key="MCR.Workflow.DerivateLabels.${actionBean.mode}" /></c:set>
   											<c:forEach var="key" items="${fn:split(values,',')}">
   												<c:if test="${key eq derLabel}">
-  													<option value="${key}" selected="selected"><fmt:message key="OMD.derivatedisplay.${actionBean.mcr_base}.${key}" /></option>
+  													<option value="${key}" selected="selected"><fmt:message key="OMD.derivatedisplay.${key}" /></option>
   												</c:if>
   												<c:if test="${not(key eq derLabel)}">
-  													<option value="${key}"><fmt:message key="OMD.derivatedisplay.${actionBean.mcr_base}.${key}" /></option>
+  													<option value="${key}"><fmt:message key="OMD.derivatedisplay.${key}" /></option>
   												</c:if>
   											</c:forEach>
   											</select>
@@ -210,9 +208,8 @@
 										</div>
   									</div>
   								</div>
-    						</li>
     					</x:forEach>
-    				</ul>
+    				</div>
     				<div class="panel-footer container-fluid">
     					<div class="row">
   							<div class="col-md-2" style="margin-top:0px"><h4><fmt:message key="WF.derivates.new_derivate"/></h4></div>
@@ -222,9 +219,9 @@
     									<label for="inputLabel" class="col-sm-1 control-label"><fmt:message key="WF.derivates.label"/></label>
    										<div class="col-sm-11">
       										<select class="form-control" name="newDerivate_label-task_${actionBean.taskid}">
-  												<c:set var="values"><fmt:message key="OMD.derivatedisplay.${actionBean.mcr_base}" /></c:set>
+  												<c:set var="values"><fmt:message key="MCR.Workflow.DerivateLabels.${actionBean.mode}" /></c:set>
   												<c:forEach var="key" items="${fn:split(values,',')}">
-  													<option value="${key}"><fmt:message key="OMD.derivatedisplay.${actionBean.mcr_base}.${key}" /></option>
+  													<option value="${key}"><fmt:message key="OMD.derivatedisplay.${key}" /></option>
   												</c:forEach>
   											</select>
     									</div>

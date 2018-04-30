@@ -51,6 +51,7 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
     private List<String> messages = new ArrayList<String>();
     private String mcrobjid;
     private String taskid;
+    private String mode = "";
 
     public EditDerivatesAction() {
 
@@ -152,7 +153,7 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
         }
 
         if (taskid != null && mcrobjid != null) {
-
+        	mode = ts.getVariable(taskid, MCRActivitiMgr.WF_VAR_MODE, String.class);
         } else {
             messages.add("URL Parameter taskid was not set!");
         }
@@ -358,8 +359,8 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
         }
     }
 
-    public String getMcr_base() {
-        return MCRObjectID.getInstance(mcrobjid).getBase();
+    public String getMode() {
+        return mode;
     }
 
     public String getMcrobjid() {
