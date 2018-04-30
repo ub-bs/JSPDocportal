@@ -23,6 +23,10 @@
 package org.mycore.frontend.jsp.stripes.error;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -49,6 +53,18 @@ public class MCRJSPExceptionHandler extends DefaultExceptionHandler implements E
     // ActionBean bean = (ActionBean) request.getAttribute(StripesConstants.REQ_ATTR_ACTION_BEAN);
         
         request.setAttribute("mcr_exception", thr);
-        request.getRequestDispatcher("/error.action").forward(request, response);
+        if(!request.getServletPath().endsWith("error.jsp")) {
+        	request.getRequestDispatcher("/error.action").forward(request, response);
+        }
+        else if(thr!=null) {
+        	OutputStream out = response.getOutputStream();
+        	try(PrintWriter pw = new PrintWriter(new OutputStreamWriter(out, StandardCharsets.UTF_8))) {
+        		pw.append("\n"+thr.getMessage()+"\n");
+        		thr.printStackTrace(pw);
+        	}
+        	catch(Exception e) {
+        		//do nothing
+        	}
+        }
     }
 }
