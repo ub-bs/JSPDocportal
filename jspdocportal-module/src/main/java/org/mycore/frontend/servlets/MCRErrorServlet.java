@@ -68,6 +68,7 @@ public class MCRErrorServlet extends HttpServlet{
         if (statusCode == null) {
             statusCode = 500;
         }
+        resp.setStatus(statusCode);
         req.getRequestDispatcher("/error.action?i18n=Resolver.error.default&status=" + statusCode).forward(req, resp);
 
     }
