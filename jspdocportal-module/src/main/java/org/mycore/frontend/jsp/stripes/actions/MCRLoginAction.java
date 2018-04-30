@@ -219,10 +219,11 @@ public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBe
 
             for (String groupID : mcrUser.getSystemRoleIDs()) {
                 MCRRole mcrgroup = MCRRoleManager.getRole(groupID);
-                String link = MCRConfiguration.instance().getString("MCR.Application.Login.StartLink." + groupID, "")
-                        .trim();
-                nextSteps.add(new MCRLoginNextStep(MCRFrontendUtil.getBaseURL() + link,
+                String link = MCRConfiguration.instance().getString("MCR.Application.Login.StartLink." + groupID, "").trim();
+                if(link.length()>0) {
+                	nextSteps.add(new MCRLoginNextStep(MCRFrontendUtil.getBaseURL() + link,
                         mcrgroup.getLabel().getText() + " (" + mcrgroup.getName() + ")"));
+                }
             }
         }
     }
