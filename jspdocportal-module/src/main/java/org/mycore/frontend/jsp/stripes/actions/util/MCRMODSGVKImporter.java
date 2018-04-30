@@ -33,7 +33,10 @@ import org.mycore.datamodel.metadata.MCRObjectID;
 public class MCRMODSGVKImporter {
     private static Logger LOGGER = LogManager.getLogger(MCRMODSGVKImporter.class);
 
-    private static XPathExpression<Element> XP_URN = XPathFactory.instance().compile("//mods:identifier[@type='urn']",
+    private static XPathExpression<Element> XP_URN = XPathFactory.instance().compile("//mods:mods/mods:identifier[@type='urn']",
+            Filters.element(), null, MCRConstants.MODS_NAMESPACE);
+    
+    private static XPathExpression<Element> XP_PPN = XPathFactory.instance().compile("//mods:mods/mods:identifier[@type='PPN']",
             Filters.element(), null, MCRConstants.MODS_NAMESPACE);
     
     private static XPathExpression<Element> XP_RECORD_ID = XPathFactory.instance().compile("//mods:mods/mods:recordInfo/mods:recordIdentifier",
@@ -59,9 +62,10 @@ public class MCRMODSGVKImporter {
                         try (BufferedWriter bw = Files.newBufferedWriter(mcrFile)) {
                             outputter.output(docJdom, bw);
                         }
+                        return;
                     }
                 }
-                return;
+
             }
             
             Element eRecordInfo = XP_RECORD_ID.evaluateFirst(docJdom);
@@ -76,10 +80,44 @@ public class MCRMODSGVKImporter {
                         try (BufferedWriter bw = Files.newBufferedWriter(mcrFile)) {
                             outputter.output(docJdom, bw);
                         }
+                        return;
                     }
                     
                 }
-                return;
+            }
+            
+            Element ePPN = XP_PPN.evaluateFirst(docJdom);
+            if (eModsContainer != null && ePPN != null) {
+                Element ePica = retrievePicaXMLByPPN(ePPN.getTextTrim());
+                if (ePica != null) {
+                    Element eMODS = transformPica2MODS(ePica);
+                    if (eMODS != null) {
+                        eModsContainer.removeContent();
+                        eModsContainer.addContent(eMODS.detach());
+                        XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
+                        try (BufferedWriter bw = Files.newBufferedWriter(mcrFile)) {
+                            outputter.output(docJdom, bw);
+                        }
+                        return;
+                    }
+                    
+                }
+            }
+            
+            if(eModsContainer!=null) {
+            	Element ePica = retrievePicaXMLByMyCoReID(mcrObjID.toString());
+                if (ePica != null) {
+                    Element eMODS = transformPica2MODS(ePica);
+                    if (eMODS != null) {
+                        eModsContainer.removeContent();
+                        eModsContainer.addContent(eMODS.detach());
+                        XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
+                        try (BufferedWriter bw = Files.newBufferedWriter(mcrFile)) {
+                            outputter.output(docJdom, bw);
+                        }
+                        return;
+                    }
+                }           	
             }
             
         } catch (IOException e) {
@@ -125,12 +163,8 @@ public class MCRMODSGVKImporter {
             e = ((List<Element>) docJdom.getRootElement().getChild("records", nsZS).getChild("record", nsZS)
                     .getChild("recordData", nsZS).getChildren()).get(0);
             e = (Element) e.detach();
-        } catch (MalformedURLException mfex) {
-            //ignore
-        } catch (JDOMException ex) {
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch ( JDOMException | IOException | NullPointerException ex) {
+        	//do nothing
         }
         return e;
     }
@@ -145,27 +179,55 @@ public class MCRMODSGVKImporter {
             Document docJdom = new SAXBuilder().build(br, "UTF-8");
             br.close();
 
-            /*<zs:searchRetrieveResponse xmlns:zs="http://www.loc.gov/zing/srw/">
-                <zs:version>1.1</zs:version>
-                <zs:numberOfRecords>1</zs:numberOfRecords>
-                <zs:records>
-                    <zs:record>
-                        <zs:recordSchema>picaxml</zs:recordSchema>
-                        <zs:recordPacking>xml</zs:recordPacking>
-                        <zs:recordData>
-                            <record xmlns="info:srw/schema/5/picaXML-v1.0">
-            */
             Namespace nsZS = Namespace.getNamespace("zs", "http://www.loc.gov/zing/srw/");
             e = ((List<Element>) docJdom.getRootElement().getChild("records", nsZS).getChild("record", nsZS)
                     .getChild("recordData", nsZS).getChildren()).get(0);
             e = (Element) e.detach();
-        } catch (MalformedURLException mfex) {
-            //ignore
-        } catch (JDOMException ex) {
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch ( JDOMException | IOException | NullPointerException ex) {
+        	//do nothing
+        }
+        
+        return e;
+    }
+    
+    private static Element retrievePicaXMLByMyCoReID(String mcrID) {
+        Element e = null;
+        try {
+            String sruBaseURL = MCRConfiguration.instance().getString("MCR.Editor.Pica2MODS.sru-url");
+            URL urlSRU = new URL(sruBaseURL + "&recordSchema=picaxml&query=pica.url%3Drosdok*resolveid" + mcrID.replace("_", ""));
+            BufferedReader br = new BufferedReader(new InputStreamReader(urlSRU.openStream(), "UTF-8"));
+
+            Document docJdom = new SAXBuilder().build(br, "UTF-8");
+            br.close();
+
+            Namespace nsZS = Namespace.getNamespace("zs", "http://www.loc.gov/zing/srw/");
+            e = ((List<Element>) docJdom.getRootElement().getChild("records", nsZS).getChild("record", nsZS)
+                    .getChild("recordData", nsZS).getChildren()).get(0);
+            e = (Element) e.detach();
+        } catch ( JDOMException | IOException | NullPointerException ex) {
+        	//do nothing
         }
         return e;
     }
+    
+    private static Element retrievePicaXMLByPPN(String ppn) {
+        Element e = null;
+        try {
+            String sruBaseURL = MCRConfiguration.instance().getString("MCR.Editor.Pica2MODS.sru-url");
+            URL urlSRU = new URL(sruBaseURL + "&recordSchema=picaxml&query=pica.ppn%3D" + ppn);
+            BufferedReader br = new BufferedReader(new InputStreamReader(urlSRU.openStream(), "UTF-8"));
+
+            Document docJdom = new SAXBuilder().build(br, "UTF-8");
+            br.close();
+
+            Namespace nsZS = Namespace.getNamespace("zs", "http://www.loc.gov/zing/srw/");
+            e = ((List<Element>) docJdom.getRootElement().getChild("records", nsZS).getChild("record", nsZS)
+                    .getChild("recordData", nsZS).getChildren()).get(0);
+            e = (Element) e.detach();
+        } catch ( JDOMException | IOException | NullPointerException ex) {
+        	//do nothing
+        }
+        return e;
+    }
+
 }
