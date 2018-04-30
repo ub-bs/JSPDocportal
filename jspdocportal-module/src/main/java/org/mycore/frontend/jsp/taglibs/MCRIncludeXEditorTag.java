@@ -137,10 +137,8 @@ public class MCRIncludeXEditorTag extends SimpleTagSupport {
                         out.append("<span class=\"error\">Please provide an &lt;xed:form&gt; element here!</span>");
 
                     }
-                } catch (SAXException e) {
-                    LOGGER.error("SAXException " + e, e);
-                } catch (JDOMException e) {
-                    LOGGER.error("JDOMException " + e, e);
+                } catch (Exception e) {
+                    LOGGER.error("Exception: " + e.getMessage(), e);
                 }
             }
         }
