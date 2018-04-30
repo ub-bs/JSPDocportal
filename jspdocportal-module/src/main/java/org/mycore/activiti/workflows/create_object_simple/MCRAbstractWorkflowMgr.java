@@ -46,7 +46,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
         mcrObj.setId(MCRObjectID.getNextFreeId(base));
         mcrObj.setLabel(mcrObj.getId().toString());
         mcrObj.setVersion("2.0");
-        MCRObjectMetadata defaultMetadata = getDefaultMetadata();
+        MCRObjectMetadata defaultMetadata = getDefaultMetadata(base);
         if (defaultMetadata != null) {
             mcrObj.getMetadata().appendMetadata(defaultMetadata);
         }
@@ -167,7 +167,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
      * 
      * @return
      */
-    public abstract MCRObjectMetadata getDefaultMetadata();
+    public abstract MCRObjectMetadata getDefaultMetadata(String mcrBase);
 
     @Override
     public boolean commitMCRObject(DelegateExecution execution) {

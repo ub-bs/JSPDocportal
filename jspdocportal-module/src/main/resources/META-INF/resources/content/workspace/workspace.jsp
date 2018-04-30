@@ -30,7 +30,7 @@
 			<stripes:form
 				beanclass="org.mycore.frontend.jsp.stripes.actions.ShowWorkspaceAction"
 				id="workspaceForm" enctype="multipart/form-data" acceptcharset="UTF-8">
-				<stripes:hidden name="mcr_base" />
+				<stripes:hidden name="mode" />
 				<c:forEach var="msg" items="${actionBean.messages}">
 					<div class="alert alert-warning ir-workflow-message">
 						<c:out value="${msg}" escapeXml="false" />
@@ -39,8 +39,10 @@
 
 				<div class="panel panel-info">
   					<div class="panel-heading">
-  						<stripes:submit class="btn btn-default btn-sm pull-right"  name="doCreateNewTask" value="Neues Objekt erstellen" style="margin-top:-6px"/>
-    					<h3 class="panel-title"><fmt:message key="WF.workspace.info.headline.new_task" /></h3>
+                        <c:forEach var="mcrBase" items="${actionBean.newObjectBases}">
+  						  <stripes:submit class="btn btn-default btn-sm pull-right"  name="doCreateNewTask-${mcrBase}" value="Neues [${mcrBase}] erstellen" style="margin-top:-6px; margin-left:12px"/>
+    			        </c:forEach>		
+                        <h3 class="panel-title"><fmt:message key="WF.workspace.info.headline.new_task" /></h3>
   					</div>
   				</div>
 			
@@ -63,7 +65,7 @@
 									<span class="btn btn-none btn-sm pull-right"><strong><fmt:message key="WF.workspace.start" /></strong> <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${task.createTime}" /></span>
 									<h5 class="panel-title" style="margin-top:0.33em;"><span class="badge" style="margin-right:3em">${task.executionId}</span> <fmt:message key="WF.workspace.task" /> ${task.name}</h5>
 								</div>
-								<c:if test="${not empty actionBean.objectType}">
+								<c:if test="${not empty actionBean.mode}">
 									<c:set var="currentTask" value="${task}" scope="request" />
 									<c:choose>
 										<c:when test="${currentTask.name eq 'Objekt bearbeiten'}">

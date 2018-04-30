@@ -1,5 +1,8 @@
 package org.mycore.activiti;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.activiti.engine.delegate.DelegateTask;
 import org.activiti.engine.delegate.TaskListener;
 import org.apache.logging.log4j.LogManager;
@@ -12,12 +15,12 @@ import org.mycore.common.config.MCRConfiguration;
  * 
  * they are defined as follows:
  * groups:	
- * 		"MCR.Activiti.TaskAssignment.CandidateGroups."+taskID+"."+mcrObjectIDBase
- * 		e.g.: MCR.Activiti.TaskAssignment.CandidateGroups.edit_object.cpr_person=editProfessorum
+ * 		"MCR.Activiti.TaskAssignment.CandidateGroups."+taskID+"."+wfMode
+ * 		e.g.: MCR.Activiti.TaskAssignment.CandidateGroups.edit_object.professorum=editProfessorum
  * 
  * users:
- * 		"MCR.Activiti.TaskAssignment.CandidateUsers."+taskID+"."+mcrObjectIDBase
- * 		e.g.: MCR.Activiti.TaskAssignment.CandidateUsers.edit_object.cpr_person=administrator
+ * 		"MCR.Activiti.TaskAssignment.CandidateUsers."+taskID+"."+wfMode
+ * 		e.g.: MCR.Activiti.TaskAssignment.CandidateUsers.edit_object.professorum=administrator
  * 
  * @author Robert Stephan
  *
@@ -28,42 +31,22 @@ public class MCRActivitiAssignmentHandler implements TaskListener {
     private static Logger LOGGER = LogManager.getLogger(MCRActivitiAssignmentHandler.class);
 
     public void notify(DelegateTask delegateTask) {
-        String projectID = String.valueOf(delegateTask.getVariable(MCRActivitiMgr.WF_VAR_PROJECT_ID));
-        String objectType = String.valueOf(delegateTask.getVariable(MCRActivitiMgr.WF_VAR_OBJECT_TYPE));
-
-        int errorCount = 0;
+        String mode = String.valueOf(delegateTask.getVariable(MCRActivitiMgr.WF_VAR_MODE));
+        
         String wfID = delegateTask.getProcessDefinitionId().split(":")[0];
 
-        String groups = null;
-        String propKeyGrp = "MCR.Activiti.TaskAssignment.CandidateGroups." + wfID + "." + projectID + "_" + objectType;
-        groups = MCRConfiguration.instance().getString(propKeyGrp, null);
-        if (groups == null) {
-            propKeyGrp = "MCR.Activiti.TaskAssignment.CandidateGroups." + wfID + ".default_" + objectType;
-            groups = MCRConfiguration.instance().getString(propKeyGrp, null);
+        String propKeyGrp = "MCR.Activiti.TaskAssignment.CandidateGroups." + wfID + "." + mode;
+        List<String> groups = MCRConfiguration.instance().getStrings(propKeyGrp, Collections.emptyList());
+        for (String g : groups) {
+        	delegateTask.addCandidateGroup(g.trim());            
         }
-        if (groups != null) {
-            for (String g : groups.split(",")) {
-                delegateTask.addCandidateGroup(g.trim());
-            }
-        } else {
-            errorCount++;
+    	String propKeyUser = "MCR.Activiti.TaskAssignment.CandidateUsers." + wfID + "." + mode;
+        List<String> users = MCRConfiguration.instance().getStrings(propKeyUser, Collections.emptyList());
+        for (String u : users) {
+        	delegateTask.addCandidateUser(u.trim());
         }
-
-        String users = null;
-        String propKeyUser = "MCR.Activiti.TaskAssignment.CandidateUsers." + wfID + "." + projectID + "_" + objectType;
-        users = MCRConfiguration.instance().getString(propKeyUser, null);
-        if (users == null) {
-            propKeyUser = "MCR.Activiti.TaskAssignment.CandidateUsers." + wfID + ".default_" + objectType;
-            users = MCRConfiguration.instance().getString(propKeyUser, null);
-        }
-        if (users != null) {
-            for (String u : users.split(",")) {
-                delegateTask.addCandidateUser(u.trim());
-            }
-        } else {
-            errorCount++;
-        }
-        if (errorCount == 2) {
+        
+        if (groups.size()==0 && users.size()==0) {
             LOGGER.error("Please define candidate users or groups for the following workflow: "
                     + delegateTask.getProcessDefinitionId().split(":")[0]);
             LOGGER.error("Set at least one of the following properties: " + propKeyGrp + " or " + propKeyUser + ".");

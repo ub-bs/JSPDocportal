@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +56,7 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 
     private List<String> messages = new ArrayList<String>();
 
-    private String mcr_base = "";
+    private String mode = "";
 
     private List<Task> myTasks = new ArrayList<Task>();
 
@@ -74,14 +75,14 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
     @Before(stages = LifecycleStage.BindingAndValidation)
     public void rehydrate() {
         super.rehydrate();
-        if (getContext().getRequest().getParameter("mcr_base") != null) {
-            mcr_base = getContext().getRequest().getParameter("mcr_base");
+        if (getContext().getRequest().getParameter("mode") != null) {
+            mode = getContext().getRequest().getParameter("mode");
         }
     }
 
     @DefaultHandler
     public Resolution defaultRes() {
-        if (mcr_base == null) {
+        if (mode == null) {
             return new RedirectResolution("/");
         }
        
@@ -110,8 +111,7 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
         }
         
         try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()) {
-            String objectType = mcr_base.substring(mcr_base.indexOf("_") + 1);
-            if (getContext().getRequest().getSession(false)==null || !MCRAccessManager.checkPermission("administrate-" + objectType)) {
+            if (getContext().getRequest().getSession(false)==null || !MCRUserManager.getCurrentUser().isUserInRole("adminwf-" + mode)) {
                 return new RedirectResolution("/login.action");
             }
         }
@@ -119,6 +119,10 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
         for (String s : getContext().getRequest().getParameterMap().keySet()) {
             if (s.equals("doPublishAllTasks")) {
                 publishAllTasks();
+            }
+            if(s.startsWith("doCreateNewTask-")) {
+            	String mcrBase = s.substring(s.indexOf("-") + 1);
+            	createNewTask(mcrBase);
             }
             if (s.startsWith("doAcceptTask-task_")) {
                 String id = s.substring(s.indexOf("_") + 1);
@@ -164,41 +168,41 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
                 taskID = taskID.substring(taskID.indexOf("_") + 1);
                 String mcrObjID = id.substring(id.indexOf("-") + 1);
 
-                importMODSFromGVK(mcrObjID);
+                importMODSFromGVK(mcrObjID, taskID);
             }
         }
 
         try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()) {
             MCRUser user = MCRUserManager.getCurrentUser();
 
-            String objectType = mcr_base.substring(mcr_base.indexOf("_") + 1);
             TaskService ts = MCRActivitiMgr.getWorfklowProcessEngine().getTaskService();
             myTasks = ts.createTaskQuery().taskAssignee(user.getUserID())
-                    .processVariableValueEquals(MCRActivitiMgr.WF_VAR_OBJECT_TYPE, objectType).orderByTaskCreateTime()
+                    .processVariableValueEquals(MCRActivitiMgr.WF_VAR_MODE, mode).orderByTaskCreateTime()
                     .desc().list();
 
             for (Task t : myTasks) {
-                updateWFObjectMetadata(t);
+                updateWFObjectMetadata(t.getId());
                 updateWFDerivateList(t);
             }
 
             availableTasks = ts.createTaskQuery().taskCandidateUser(user.getUserID())
-                    .processVariableValueEquals(MCRActivitiMgr.WF_VAR_OBJECT_TYPE, objectType).orderByTaskCreateTime()
+                    .processVariableValueEquals(MCRActivitiMgr.WF_VAR_MODE, mode).orderByTaskCreateTime()
                     .desc().list();
 
         }
         return fwdResolution;
     }
 
-    public Resolution doCreateNewTask() {
-        if (mcr_base != null) {
+    public void createNewTask(String mcrBase) {
+        if (mcrBase != null) {
             try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()) {
-                String projectID = mcr_base.substring(0, mcr_base.indexOf("_"));
-                String objectType = mcr_base.substring(mcr_base.indexOf("_") + 1);
+                String projectID = mcrBase.substring(0, mcrBase.indexOf("_"));
+                String objectType = mcrBase.substring(mcrBase.indexOf("_") + 1);
                 if (getContext().getRequest().getSession(false)!=null && MCRAccessManager.checkPermission("create-" + objectType)) {
                     Map<String, Object> variables = new HashMap<String, Object>();
                     variables.put(MCRActivitiMgr.WF_VAR_OBJECT_TYPE, objectType);
                     variables.put(MCRActivitiMgr.WF_VAR_PROJECT_ID, projectID);
+                    variables.put(MCRActivitiMgr.WF_VAR_MODE, mode);
 
                     RuntimeService rs = MCRActivitiMgr.getWorfklowProcessEngine().getRuntimeService();
                     //ProcessInstance pi = rs.startProcessInstanceByKey("create_object_simple", variables);
@@ -212,8 +216,6 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
                 }
             }
         }
-
-        return defaultRes();
     }
 
     private void acceptTask(String taskId) {
@@ -235,8 +237,8 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
         sourceURI = wfFile.toUri().toString();
         ForwardResolution res = new ForwardResolution("/content/editor/fullpageEditor.jsp");
         StringBuffer sbCancel = new StringBuffer(MCRFrontendUtil.getBaseURL() + "showWorkspace.action?");
-        if (!mcr_base.isEmpty()) {
-            sbCancel.append("&mcr_base=").append(mcr_base);
+        if (!mode.isEmpty()) {
+            sbCancel.append("&mode=").append(mode);
         }
         if (taskID != null) {
             sbCancel.append("#task_").append(taskID);
@@ -251,19 +253,19 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
         ts.setVariable(taskId, "goto", transactionID);
         
         if(transactionID.equals("edit_object.do_save")) {
-           Task t = ts.createTaskQuery().taskId(taskId).singleResult();
-           updateWFObjectMetadata(t);
-           String mcrid = String.valueOf(ts.getVariable(t.getId(), MCRActivitiMgr.WF_VAR_MCR_OBJECT_ID));
-           String title = String.valueOf(ts.getVariable(t.getId(),  MCRActivitiMgr.WF_VAR_DISPLAY_TITLE));
+           //Task t = ts.createTaskQuery().taskId(taskId).singleResult();
+           updateWFObjectMetadata(taskId);
+           String mcrid = String.valueOf(ts.getVariable(taskId, MCRActivitiMgr.WF_VAR_MCR_OBJECT_ID));
+           String title = String.valueOf(ts.getVariable(taskId,  MCRActivitiMgr.WF_VAR_DISPLAY_TITLE));
            String url = MCRFrontendUtil.getBaseURL()+"resolve/id/"+mcrid+"?_cache=clear";
            messages.add(MCRTranslation.translate("WF.messages.publish.completed",  title, url, url));
         }
         ts.complete(taskId);
     }
 
-    private void updateWFObjectMetadata(Task t) {
+    private void updateWFObjectMetadata(String taskId) {
         MCRObjectID mcrObjID = MCRObjectID.getInstance(String.valueOf(MCRActivitiMgr.getWorfklowProcessEngine()
-                .getTaskService().getVariable(t.getId(), MCRActivitiMgr.WF_VAR_MCR_OBJECT_ID)));
+                .getTaskService().getVariable(taskId, MCRActivitiMgr.WF_VAR_MCR_OBJECT_ID)));
         if (mcrObjID == null) {
             LOGGER.error("WFObject could not be read.");
         }
@@ -287,10 +289,10 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
             txt = e.getMessage();
         }
         if (txt != null) {
-            MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(t.getId(),
+            MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(taskId,
                     MCRActivitiMgr.WF_VAR_DISPLAY_TITLE, txt);
         } else {
-            MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(t.getId(),
+            MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(taskId,
                     MCRActivitiMgr.WF_VAR_DISPLAY_TITLE, MCRTranslation.translate("Wf.common.newObject"));
         }
 
@@ -311,22 +313,21 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
             txt = e.getMessage();
         }
         if (txt != null) {
-            MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(t.getId(),
+            MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(taskId,
                     MCRActivitiMgr.WF_VAR_DISPLAY_DESCRIPTION, txt);
         } else {
-            MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(t.getId(),
+            MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(taskId,
                     MCRActivitiMgr.WF_VAR_DISPLAY_DESCRIPTION, "");
         }
 
         //PersistentIdentifier
         try {
             String xpPI = MCRConfiguration.instance()
-                    .getString("MCR.Activiti.MCRObject.Display.PersistentIdentifier.XPath." + mcrObjID.getBase(), null);
-            if (xpPI == null) {
-                xpPI = MCRConfiguration.instance().getString(
-                        "MCR.Activiti.MCRObject.Display.PersistentIdentifier.XPath.default_" + mcrObjID.getTypeId(),
-                        "/mycoreobject/@ID");
-            }
+                    .getString("MCR.Activiti.MCRObject.Display.PersistentIdentifier.XPath." + mcrObjID.getBase(), 
+                    		MCRConfiguration.instance().getString(
+                    				"MCR.Activiti.MCRObject.Display.PersistentIdentifier.XPath.default_" + mcrObjID.getTypeId(),
+                    				"/mycoreobject/@ID"));
+           
             XPathExpression<String> xpath = XPathFactory.instance().compile(xpPI, Filters.fstring(), null,
                     MCRConstants.MODS_NAMESPACE);
             txt = xpath.evaluateFirst(mcrObj.createXML());
@@ -335,10 +336,10 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
             txt = e.getMessage();
         }
         if (txt != null) {
-            MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(t.getId(),
+            MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(taskId,
                     MCRActivitiMgr.WF_VAR_DISPLAY_PERSISTENT_IDENTIFIER, txt);
         } else {
-            MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(t.getId(),
+            MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(taskId,
                     MCRActivitiMgr.WF_VAR_DISPLAY_PERSISTENT_IDENTIFIER, "");
         }
 
@@ -397,10 +398,9 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 
     private void publishAllTasks() {
         MCRUser user = MCRUserManager.getCurrentUser();
-        String objectType = mcr_base.substring(mcr_base.indexOf("_") + 1);
         TaskService ts = MCRActivitiMgr.getWorfklowProcessEngine().getTaskService();
         myTasks = ts.createTaskQuery().taskAssignee(user.getUserID())
-                .processVariableValueEquals(MCRActivitiMgr.WF_VAR_OBJECT_TYPE, objectType).orderByTaskCreateTime()
+                .processVariableValueEquals(MCRActivitiMgr.WF_VAR_MODE, mode).orderByTaskCreateTime()
                 .desc().list();
 
         for (Task t : myTasks) {
@@ -408,21 +408,22 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
         }
     }
 
-    private void importMODSFromGVK(String mcrID) {
+    private void importMODSFromGVK(String mcrID, String taskId) {
         MCRObjectID mcrObjID = MCRObjectID.getInstance(mcrID);
         MCRMODSGVKImporter.updateWorkflowFile(mcrObjID);
+        updateWFObjectMetadata(taskId);
     }
 
-    public String getMcr_base() {
-        return mcr_base;
+    public String getMode() {
+        return mode;
     }
 
-    public void setMcr_base(String mcr_base) {
-        this.mcr_base = mcr_base;
+    public void setMode(String mode) {
+        this.mode = mode;;
     }
-
-    public String getObjectType() {
-        return mcr_base.substring(mcr_base.indexOf("_") + 1);
+    
+    public List<String> getNewObjectBases() {
+    	return MCRConfiguration.instance().getStrings("MCR.Workflow.NewObjectBases."+mode, Collections.emptyList());
     }
 
     public List<Task> getMyTasks() {
