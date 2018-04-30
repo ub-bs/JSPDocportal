@@ -200,6 +200,11 @@
 				url : "${WebApplicationBaseURL}api/v1/search?q=category%3A%22doctype%3A${mask}%22&rows=1&wt=json&indent=true&facet=true&facet.field=ir.doctype_class.facet&facet.field=ir.institution_class.facet&facet.field=ir.collection_class.facet&facet.field=ir.epoch_msg.facet&facet.field=ir.sdnb_class.facet&json.wrf=?",
 				dataType : "jsonp",
 				success : function(data) {
+					<%-- num found --%>
+            		var x = data.response.numFound;
+            		$('#filterValue').attr('placeholder', 'Suche in ' + x.toLocaleString() + ' Dokumenten');
+                
+            		<%-- facets --%>
 					var fc = data.facet_counts.facet_fields;
 					$('.mcr-facet-count').each(function(index, el){
 						 var fvalues = fc[$(el).attr('data-mcr-facet-field')];
@@ -223,26 +228,11 @@
 					    	}
 					 	}
 					});
-				},
-			});
-		});
-	</script>
-  
-    <c:if test="${(actionBean.path eq 'histbest') or (actionBean.path eq 'epub') }">
-    <script>
-    	$(function() {
-            $.ajax({
-            	 type: "GET",
-            	 url: "../api/v1/search?q=category:%22doctype:" + $('#filterValue').parent().data('ir-mode') + "%22&rows=0&wt=json&json.wrf=?",
-            	 dataType: "jsonp",
-            	 success: function (data) {
-            		var x = data.response.numFound;
-            		$('#filterValue').attr('placeholder', 'Suche in ' + x.toLocaleString() + ' Dokumenten');
-            	 }
+				 } <%--outer success --%>
             });
-            
-            //aktuelle Dokumente
-<%--            
+			
+					
+			<%--        //aktuelle Dokumente
             //http://localhost:8080/rosdok/api/v1/search?q=category.top:%22doctype:histbest%22
             //	docs":[ { "id":"rosdok_document_0000009190",
             //            "created":"2018-04-19T21:53:08.915Z",
@@ -251,67 +241,69 @@
             //            "ir.title.result":"Die Cultur der Georginen in Deutschland mit besonderer Rücksicht auf Erfurt : (Nebst einer lithographirten Tafel)",
             //            "ir.doctype.result":"Monographie",
             //            "ir.originInfo.result":"Weißensee : Großmann , 1841"}, {}, ...]
---%>            
-            $.ajax({
-           	 type: "GET",
-           	 url: "../api/v1/search?q=category:%22doctype:" + $('#filterValue').parent().data('ir-mode') + "%22%20-objectType:bundle&sort=created+DESC&rows=5&fl=id,created,ir.cover_url,ir.creator.result,ir.title.result,ir.doctype.result,ir.originInfo.result&wt=json&json.wrf=?",
-           	 dataType: "jsonp",
-           	 success: function (data) {
-           		data.response.docs.forEach(function( entry ) {
-           			var li = $("<li></li>").addClass("list-group-item");
-           			var divHead = $("<div></div>").addClass("col-sm-12");
-           			if(entry.hasOwnProperty("ir.creator.result")){
-           				divHead.append($("<span></span>").css("font-size", "85%").text(entry["ir.creator.result"]));
-           			}
-           			if(entry.hasOwnProperty("ir.title.result")){
-           				var title = entry["ir.title.result"];
-           				if(title.length>120){
-           					title = title.substring(0,100) + "…";          
-           				}
-           				divHead.append($("<h5></h5>").append($("<a></a>").attr("href", "../resolve/id/"+entry["id"]).text(title)));
-           			}
-           			var divPanel = $("<div></div>").addClass("ir-resultentry-panel").css("position", "relative"); 
-           			li.append(divPanel);
-           			divPanel.append($("<div></div>").addClass("row").append(divHead));
-           			
-           			var tbody = $("<tbody></tbody>");
-           			if(entry.hasOwnProperty("ir.originInfo.result")){
-           				tbody.append($("<tr></tr>").append($("<td></td>").text(entry["ir.originInfo.result"])));
-           			}
-           			if(entry.hasOwnProperty("ir.doctype.result")){
-           				tbody.append($("<tr></tr>").append($("<td></td>").append($("<span></span>").addClass("label label-default ir-label-default").css("font-size", "100%").text(entry["ir.doctype.result"]))));
-           			}
-           			tbody.append($("<tr></tr>").append($("<td></td>").html("&nbsp;")));
-           			
-           			var row1 = $("<div></div>").addClass("row");
-           			row1.append($("<div></div>").addClass("col-sm-7")
-           					.append($("<table></table>").css("border-spacing", "5px").css("border-collapse","separate").css("font-size", "85%").append(tbody)))
-           			divPanel.append(row1);
-           			
-           			if(entry.hasOwnProperty("ir.cover_url")){
-           				row1.append($("<div></div>").addClass("col-sm-5").css("padding-left","0").append(
-           					$("<div></div>").addClass("img-thumbnail pull-right ir-resultentry-image").append(
-           						$("<a></a>").attr("href", "../resolve/id/"+entry["id"]).append(
-           							$("<img />").css("width","98%").css("max-height","180px").css("object-fit","contain").attr("src", "../"+entry["ir.cover_url"])
-           						)		
-           					)
-           					
-           				));
-           				
-           			}
-           			var datum = entry["created"]
-           			divPanel.append($("<div></div>").addClass("label label-default ir-label-default").css("position", "absolute").css("bottom","1px").css("left","0").css("background-color","white").css("color","gray").text(
-           				datum.substring(8,10)+"."+datum.substring(5,7)+"."+datum.substring(0,4)		
-           			));
-           			
-           			$("#latest_documents").append(li);
-           		});
-           	 }
-           });
-            		
-    	});
+           	--%>
+			
+			  $.ajax({
+	            	 type: "GET",
+	            	 url: "../api/v1/search?q=category:%22doctype:" + $('#filterValue').parent().data('ir-mode') + "%22%20-objectType:bundle&sort=created+DESC&rows=5&fl=id,created,ir.cover_url,ir.creator.result,ir.title.result,ir.doctype.result,ir.originInfo.result&wt=json&json.wrf=?",
+	            	 dataType: "jsonp",
+	            	 success: function (data) {
+	            		data.response.docs.forEach(function( entry ) {
+	            			var li = $("<li></li>").addClass("list-group-item");
+	            			var divHead = $("<div></div>").addClass("col-sm-12");
+	            			if(entry.hasOwnProperty("ir.creator.result")){
+	            				divHead.append($("<span></span>").css("font-size", "85%").text(entry["ir.creator.result"]));
+	            			}
+	            			if(entry.hasOwnProperty("ir.title.result")){
+	            				var title = entry["ir.title.result"];
+	            				if(title.length>120){
+	            					title = title.substring(0,100) + "…";          
+	            				}
+	            				divHead.append($("<h5></h5>").append($("<a></a>").attr("href", "../resolve/id/"+entry["id"]).text(title)));
+	            			}
+	            			var divPanel = $("<div></div>").addClass("ir-resultentry-panel").css("position", "relative"); 
+	            			li.append(divPanel);
+	            			divPanel.append($("<div></div>").addClass("row").append(divHead));
+	            			
+	            			var tbody = $("<tbody></tbody>");
+	            			if(entry.hasOwnProperty("ir.originInfo.result")){
+	            				tbody.append($("<tr></tr>").append($("<td></td>").text(entry["ir.originInfo.result"])));
+	            			}
+	            			if(entry.hasOwnProperty("ir.doctype.result")){
+	            				tbody.append($("<tr></tr>").append($("<td></td>").append($("<span></span>").addClass("label label-default ir-label-default").css("font-size", "100%").text(entry["ir.doctype.result"]))));
+	            			}
+	            			tbody.append($("<tr></tr>").append($("<td></td>").html("&nbsp;")));
+	            			
+	            			var row1 = $("<div></div>").addClass("row");
+	            			row1.append($("<div></div>").addClass("col-sm-7")
+	            					.append($("<table></table>").css("border-spacing", "5px").css("border-collapse","separate").css("font-size", "85%").append(tbody)));
+	            			divPanel.append(row1);
+	            			
+	            			if(entry.hasOwnProperty("ir.cover_url")){
+	            				row1.append($("<div></div>").addClass("col-sm-5").css("padding-left","0").append(
+	            					$("<div></div>").addClass("img-thumbnail pull-right ir-resultentry-image").append(
+	            						$("<a></a>").attr("href", "../resolve/id/"+entry["id"]).append(
+	            							$("<img />").css("width","98%").css("max-height","180px").css("object-fit","contain").attr("src", "../"+entry["ir.cover_url"])
+	            						)		
+	            					)
+	            				));
+	            				
+	            			}
+	            			var datum = entry["created"];
+	            			divPanel.append($("<div></div>").addClass("label label-default ir-label-default").css("position", "absolute").css("bottom","1px").css("left","0").css("background-color","white").css("color","gray").text(
+	            				datum.substring(8,10)+"."+datum.substring(5,7)+"."+datum.substring(0,4)		
+	            			));
+	            			
+	            			$("#latest_documents").append(li);
+	            		});
+	            	 }
+	            }); <%-- end ajax latest_document --%>
+			
+			
+			
+		});
      </script>
-     </c:if>
+
   
   </stripes:layout-component>	
 </stripes:layout-render>
