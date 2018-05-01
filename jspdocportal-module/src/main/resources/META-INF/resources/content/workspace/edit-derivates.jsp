@@ -111,8 +111,8 @@
   											<c:set var="derLabel"><x:out select="$derDoc/mycorederivate/@label" /></c:set>
   											<select id="selectEditDerMetaLabel_${derID}" name="saveDerivateMeta_label-task_${actionBean.taskid}-derivate_${derID}" 
   											        class="form-control" disabled="disabled" style="width:33%;" data-original-value="${derLabel}">
-  											<c:set var="values"><fmt:message key="MCR.Workflow.DerivateLabels.${actionBean.mode}" /></c:set>
-  											<c:forEach var="key" items="${fn:split(values,',')}">
+  											
+  											<c:forEach var="key" items="${actionBean.derivateLabels}">
   												<c:if test="${key eq derLabel}">
   													<option value="${key}" selected="selected"><fmt:message key="OMD.derivatedisplay.${key}" /></option>
   												</c:if>

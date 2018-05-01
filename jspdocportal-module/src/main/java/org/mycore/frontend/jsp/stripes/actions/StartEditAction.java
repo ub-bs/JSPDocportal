@@ -1,7 +1,6 @@
 package org.mycore.frontend.jsp.stripes.actions;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.activiti.engine.RuntimeService;
@@ -90,7 +89,7 @@ public class StartEditAction extends MCRAbstractStripesAction implements ActionB
     
     private static String retrieveModeFromMetadata(MCRObject mcrObj) {
     	Document doc = mcrObj.createXML();
-    	Map<String, String>modeChecks = MCRConfiguration.instance().getPropertiesMap("MCRWorkflow.RetrieveMode.");
+    	Map<String, String>modeChecks = MCRConfiguration.instance().getPropertiesMap("MCR.Workflow.RetrieveMode.");
     	
     	XPathFactory xpathFactory = XPathFactory.instance();
     	for(Map.Entry<String, String> entry: modeChecks.entrySet()) {
@@ -99,6 +98,6 @@ public class StartEditAction extends MCRAbstractStripesAction implements ActionB
     			return entry.getKey().substring(entry.getKey().lastIndexOf(".")+1);
     		}
     	}
-    	throw new MCRException("Pleae provide a property \"MCRWorkflow.RetrieveMode.{mode}\" with an XPath, that maps the current MyCoRe object");
+    	throw new MCRException("Pleae provide a property \"MCR.Workflow.RetrieveMode.{mode}\" with an XPath, that maps the current MyCoRe object");
     }
 }

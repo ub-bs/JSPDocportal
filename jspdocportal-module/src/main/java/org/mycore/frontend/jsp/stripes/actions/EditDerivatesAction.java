@@ -22,6 +22,7 @@ import org.jdom2.output.DOMOutputter;
 import org.mycore.activiti.MCRActivitiMgr;
 import org.mycore.activiti.MCRActivitiUtils;
 import org.mycore.activiti.workflows.create_object_simple.MCRWorkflowMgr;
+import org.mycore.common.config.MCRConfiguration;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRObject;
@@ -381,6 +382,10 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
             LOGGER.error(e);
         }
         return doc;
+    }
+    
+    public List<String> getDerivateLabels(){
+        return MCRConfiguration.instance().getStrings("MCR.Workflow.DerivateLabels."+mode, Collections.emptyList());
     }
 
     public Map<String, Document> getDerivateXMLs() {
