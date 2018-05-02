@@ -75,7 +75,7 @@
 							  					<c:if test="${not empty currentVariables.validationMessage}">
 													<div class="alert alert-danger" role="alert">${currentVariables.validationMessage}</div>
 												</c:if>	
-												<div>
+												<div style="margin-left: 15em; margin-right: 8em;">
 													<a href="${WebApplicationBaseURL}resolve/id/${currentVariables.mcrObjectID}?fromWF=true" class="btn btn-default pull-right">
 							    	 					<i class="fa fa-newspaper-o"></i> <fmt:message key="WF.workspace.preview" />
 							     					</a>	
