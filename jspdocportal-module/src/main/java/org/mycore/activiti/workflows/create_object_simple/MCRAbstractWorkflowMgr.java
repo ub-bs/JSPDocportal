@@ -17,6 +17,7 @@ import org.mycore.access.MCRAccessException;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.activiti.MCRActivitiMgr;
 import org.mycore.activiti.MCRActivitiUtils;
+import org.mycore.common.MCRException;
 import org.mycore.common.MCRPersistenceException;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.datamodel.classifications2.MCRCategoryID;
@@ -45,7 +46,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
         mcrObj.setSchema("datamodel-" + execution.getVariable(MCRActivitiMgr.WF_VAR_OBJECT_TYPE).toString() + ".xsd");
         mcrObj.setId(MCRObjectID.getNextFreeId(base));
         mcrObj.setLabel(mcrObj.getId().toString());
-        mcrObj.setVersion("2.0");
+        mcrObj.setVersion(MCRConfiguration.instance().getString("MCR.SWF.MCR.Version", "2.0"));
         MCRObjectMetadata defaultMetadata = getDefaultMetadata(base);
         if (defaultMetadata != null) {
             mcrObj.getMetadata().appendMetadata(defaultMetadata);
@@ -173,6 +174,9 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
     public boolean commitMCRObject(DelegateExecution execution) {
         String id = String.valueOf(execution.getVariable(MCRActivitiMgr.WF_VAR_MCR_OBJECT_ID));
         if (!id.equals("null")) {
+        	if(execution.hasVariable(MCRActivitiMgr.WF_VAR_VALIDATION_MESSAGE)){
+        		execution.removeVariable(MCRActivitiMgr.WF_VAR_VALIDATION_MESSAGE);
+        	}
             MCRObjectID mcrObjID = MCRObjectID.getInstance(id);
             try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()) {
                 MCRObject mcrWFObj = MCRActivitiUtils.getWorkflowObject(mcrObjID);
@@ -191,8 +195,20 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
                         "published"));
 
                 MCRMetadataManager.update(mcrObj);
-            } catch (MCRActiveLinkException | MCRAccessException e) {
+            } catch (MCRActiveLinkException | MCRAccessException | MCRException e) {
                 LOGGER.error(e);
+                StringBuffer msg = new StringBuffer(e.getMessage());
+                if(e.getCause()!=null) {
+                	Throwable t1 = e.getCause();
+                	msg.append("\ncaused by: ").append(t1.getMessage());
+                	if(t1.getCause()!=null) {
+                		Throwable t2 = t1.getCause();
+                		msg.append("\ncaused by: ").append(t2.getMessage());
+                	}
+                }
+                //TODO: Display error / exception in workflow
+                execution.setVariable(MCRActivitiMgr.WF_VAR_VALIDATION_MESSAGE, msg.toString());
+                return false;
             }
 
             return true;
