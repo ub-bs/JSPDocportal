@@ -31,7 +31,7 @@
        	<mods:nameIdentifier type="gnd"><xsl:value-of select="substring($gndURI, 21)" /></mods:nameIdentifier>
         <mods:namePart><xsl:value-of select="$fullname" /></mods:namePart>
         <mods:role>
-          <mods:roleTerm type="code" authorityURI="http://id.loc.gov/vocabulary/relators" valueURI="http://id.loc.gov/vocabulary/relators/dgg"/>
+          <mods:roleTerm type="code" authority="marcrelator">dgg</mods:roleTerm>
           </mods:role>
        </mods:name> 
     </xsl:if>

@@ -61,7 +61,7 @@
         </xsl:choose>
         
         <xsl:variable name="var_creator">
-  			<xsl:for-each select="mods:name[mods:role/mods:roleTerm/@valueURI='http://id.loc.gov/vocabulary/relators/aut' or mods:role/mods:roleTerm='aut']">
+  			<xsl:for-each select="mods:name[mods:role/mods:roleTerm/@valueURI='http://id.loc.gov/vocabulary/relators/aut' or mods:role/mods:roleTerm[@authority='marcrelator']='aut']">
   				<xsl:if test="position()> 1">; </xsl:if>
                 <xsl:if test="mods:namePart[@type='family']">
                   <xsl:value-of select="mods:namePart[@type='family']" />
@@ -136,7 +136,7 @@
             </xsl:for-each>
         </xsl:for-each>
         
-  	  	<xsl:for-each select="mods:name[mods:role/mods:roleTerm/@valueURI='http://id.loc.gov/vocabulary/relators/aut']">
+  	  	<xsl:for-each select="mods:name[mods:role/mods:roleTerm/@valueURI='http://id.loc.gov/vocabulary/relators/aut' or mods:role/mods:roleTerm[@authority='marcrelator']='aut']">
   	  		<field name="ir.creator_all"><xsl:value-of select="mods:namePart[@type='termsOfAddress']" /><xsl:value-of select="' '"/><xsl:value-of select="mods:namePart[@type='given']" /><xsl:value-of select="' '"/><xsl:value-of select="mods:namePart[@type='family']" /></field>
   	    </xsl:for-each>
   		<xsl:for-each select="//mods:titleInfo/*">

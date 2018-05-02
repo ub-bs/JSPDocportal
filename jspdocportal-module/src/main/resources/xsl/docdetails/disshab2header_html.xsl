@@ -12,7 +12,7 @@
 	<xsl:template match="/">
 		<xsl:for-each select="/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods">
   		  <p>
-            <xsl:for-each select="./mods:name[@type='personal'][position()=1 or mods:role/mods:roleTerm[@type='code']/@valueURI='http://id.loc.gov/vocabulary/relators/aut']">
+            <xsl:for-each select="./mods:name[@type='personal'][position()=1 or mods:role/mods:roleTerm[@type='code']/@valueURI='http://id.loc.gov/vocabulary/relators/aut' or  mods:role/mods:roleTerm='aut']">
               <xsl:call-template name="display-name">
                 <xsl:with-param name="name" select="." />
               </xsl:call-template>

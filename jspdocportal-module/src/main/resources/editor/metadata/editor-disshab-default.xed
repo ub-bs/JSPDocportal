@@ -32,7 +32,7 @@
         <xed:cleanup-rule xpath="//mods:titleInfo" relevant-if=" ./*" />
 
         <!-- will be reset from institution classfication by postprocessor -->
-        <xed:cleanup-rule xpath="//mods:name[mods:role/mods:roleTerm/@valueURI='http://id.loc.gov/vocabulary/relators/dgg']" relevant-if="false()" />
+        <xed:cleanup-rule xpath="//mods:name[mods:role/mods:roleTerm[@authority='marcrelator']='dgg']" relevant-if="false()" />
    
   
   <!-- IDs [START]-->
@@ -72,7 +72,7 @@
          <xed:output i18n="OMD.ir.author" />
        </label>
        <div class="col-sm-10">
-         <xed:repeat xpath="mods:name[@type='personal'][./mods:role/mods:roleTerm[@type='code'][@authorityURI='http://id.loc.gov/vocabulary/relators'][@valueURI='http://id.loc.gov/vocabulary/relators/aut']]">
+         <xed:repeat xpath="mods:name[@type='personal'][./mods:role/mods:roleTerm[@type='code'][@authority='marcrelator']='aut']">
             <div class="row ir-row ir-row-1">
               <div class="col-sm-10">
                 <div class="row ir-row"> 
@@ -263,7 +263,7 @@
          <xed:output i18n="OMD.ir.referee" />
        </label>
        <div class="col-sm-10">
-         <xed:repeat xpath="mods:name[@type='personal'][./mods:role/mods:roleTerm[@type='code'][@authorityURI='http://id.loc.gov/vocabulary/relators'][@valueURI='http://id.loc.gov/vocabulary/relators/dgs']]">
+         <xed:repeat xpath="mods:name[@type='personal'][./mods:role/mods:roleTerm[@type='code'][@authority='marcrelator']='dgs']]">
             <div class="row ir-row ir-row-1">
               <div class="col-sm-10">
                 <div class="row ir-row"> 
@@ -351,7 +351,7 @@
               </div>
 
               <div class="col-sm-10">
-                <xed:bind xpath="mods:name[@type='corporate'][./mods:role/mods:roleTerm[@type='code'][@authorityURI='http://id.loc.gov/vocabulary/relators'][@valueURI='http://id.loc.gov/vocabulary/relators/dgg']]">
+                <xed:bind xpath="mods:name[@type='corporate'][./mods:role/mods:roleTerm[@type='code'][@authority='marcrelator']='dgg']">
                   <div class="row ir-row"> 
                    <label class="col-sm-2 control-label input-sm ir-label-hint" for="dgg_name">
                     <xed:output i18n="OMD.ir.degreeGrantingInstitution.name" />

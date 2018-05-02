@@ -32,7 +32,7 @@
         <xed:cleanup-rule xpath="//mods:titleInfo" relevant-if=" ./*" />
 
         <!-- will be reset from institution classfication by postprocessor -->
-        <xed:cleanup-rule xpath="//mods:name[mods:role/mods:roleTerm/@valueURI='http://id.loc.gov/vocabulary/relators/dgg']" relevant-if="false()" />
+        <xed:cleanup-rule xpath="//mods:name[mods:role/mods:roleTerm[@authority='marcrelator']='dgg']" relevant-if="false()" />
    
   
   <!-- IDs [START]-->
