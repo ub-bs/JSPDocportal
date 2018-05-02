@@ -80,7 +80,7 @@
 							    	 					<i class="fa fa-newspaper-o"></i> <fmt:message key="WF.workspace.preview" />
 							     					</a>	
 													<span class="badge pull-left" style="margin-right:24px;margin-top:3px">${currentVariables.mcrObjectID}</span>
-													<div class="pull-left">
+													<div>
 														<h3 style="margin-top:0px">${currentVariables.wfObjectDisplayTitle}</h3>
 														<c:out value="${currentVariables.wfObjectDisplayDescription}" escapeXml="false" />
 													</div>
