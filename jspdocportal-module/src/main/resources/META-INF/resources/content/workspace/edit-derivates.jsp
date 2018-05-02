@@ -219,8 +219,7 @@
     									<label for="inputLabel" class="col-sm-1 control-label"><fmt:message key="WF.derivates.label"/></label>
    										<div class="col-sm-11">
       										<select class="form-control" name="newDerivate_label-task_${actionBean.taskid}">
-  												<c:set var="values"><fmt:message key="MCR.Workflow.DerivateLabels.${actionBean.mode}" /></c:set>
-  												<c:forEach var="key" items="${fn:split(values,',')}">
+  												<c:forEach var="key" items="${actionBean.derivateLabels}">
   													<option value="${key}"><fmt:message key="OMD.derivatedisplay.${key}" /></option>
   												</c:forEach>
   											</select>
