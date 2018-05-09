@@ -40,8 +40,11 @@
           </div>
        </c:if>
         <c:if test="${not empty requestScope['org.mycore.navigation.side.path']}">
-          <div class="col-xs-12 col-sm-3">
-              <mcr:outputNavigation mode="side" id="publish"></mcr:outputNavigation>          
+          <div class="col-xs-12 col-sm-3" style="position: sticky;top: 20px;">
+              <mcr:outputNavigation mode="side" id="${fn:substringBefore(requestScope['org.mycore.navigation.side.path'], '.')}"></mcr:outputNavigation>
+              <c:if test="${not empty actionBean.infoBox}">
+                <mcr:includeWebcontent id="${fn:replace(actionBean.infoBox, '/', '.')}" file="${actionBean.infoBox}.html" />
+              </c:if>
           </div>
           <div class="col-xs-12 col-sm-9">
               <div class="ir-box">

@@ -83,6 +83,14 @@ public class WebpageAction extends MCRAbstractStripesAction implements ActionBea
     public String getInfo() {
         return info;
     }
+    
+    public String getInfoBox() {
+        String infoBox =  MCRConfiguration.instance().getString("MCR.Webpage.Infobox." + path.replace("/", "."), null);
+        if(infoBox!=null) {
+            infoBox = infoBox.replace(".", "/");
+        }
+        return infoBox;
+    }
 
     public String getPath() {
         return path;
