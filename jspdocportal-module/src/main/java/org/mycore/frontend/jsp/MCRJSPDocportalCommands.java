@@ -39,7 +39,6 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -52,7 +51,6 @@ import javax.persistence.metamodel.EntityType;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.solr.client.solrj.SolrClient;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.filter.Filters;
@@ -81,9 +79,6 @@ import org.mycore.frontend.cli.MCRAbstractCommands;
 import org.mycore.frontend.cli.MCRDerivateCommands;
 import org.mycore.frontend.cli.annotation.MCRCommand;
 import org.mycore.frontend.cli.annotation.MCRCommandGroup;
-import org.mycore.solr.MCRSolrClientFactory;
-import org.mycore.solr.index.MCRSolrIndexer;
-import org.mycore.solr.search.MCRSolrSearchUtils;
 import org.xml.sax.SAXParseException;
 
 /**
@@ -541,55 +536,4 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
             }
         }
     }
-    
-    /**
-     * This command tries to identify MyCoRe Objects missing in SOLR and reindexes them
-     * using the repair metadata search command
-     * The same functionality is provided by MyCoRe's synchronize command, 
-     * which is more performant since it only repairs the metadata index.
-     * but has a bug when executed on SOLR 4.
-     * @version MyCoRe 2017.06 LTS (should be removed in later versions)
-     * 
-     * @return
-     * @throws Exception
-     */
-    @MCRCommand(
-            syntax = "synchronized repair metadata search", help = "synchronizes the metadata store and solr index (for SOLR 4)", order = 150)
-        public static List<String> synchronizeAndRepairSolrIndex() throws Exception {
-    		List<String> result = new ArrayList<>();
-    		Collection<String> objectTypes = MCRXMLMetadataManager.instance().getObjectTypes();
-    		objectTypes.remove("derivate");
-    		SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
-    		for (String objectType : objectTypes) {
-    			
-              LOGGER.info("synchronize SOLR index for object type: " + objectType);
-              // get ids from store
-              List<String> storeList = MCRXMLMetadataManager.instance().listIDsOfType(objectType);
-              LOGGER.info("there are " + storeList.size() + " mycore objects");
-              List<String> solrList = MCRSolrSearchUtils.listIDs(solrClient, "objectType:" + objectType);
-              LOGGER.info("there are " + solrList.size() + " solr objects");
-
-              // documents to remove
-              List<String> toRemove = new ArrayList<>(1000);
-              for (String id : solrList) {
-                  if (!storeList.contains(id)) {
-                      toRemove.add(id);
-                  }
-              }
-              if (!toRemove.isEmpty()) {
-                  LOGGER.info("remove " + toRemove.size() + " zombie objects from solr");
-                  MCRSolrIndexer.deleteById(toRemove.toArray(new String[toRemove.size()]));
-              }
-              
-              // documents to add
-              storeList.removeAll(solrList);
-              if (!storeList.isEmpty()) {
-                  LOGGER.info("index " + storeList.size() + " mycore objects");
-                  for (String stid : storeList) {
-                      result.add("repair metadata search of ID " + stid);
-                  }
-              }
-          }
-          return result;
-        }
 }
