@@ -252,5 +252,25 @@
           </xsl:otherwise>
      </xsl:choose>
   </xsl:template>
+  
+  <xsl:template name="accessLabel">
+     <xsl:choose>
+        <xsl:when test="./mods:classification[@displayLabel='accesscondition'][contains(@valueURI, 'restrictedaccess')]">
+        	<span class="label label-default ir-label-restrictedaccess">
+				Restricted <img style="height:1.5em;padding:0 .25em"><xsl:attribute name="src"><xsl:value-of select="$WebApplicationBaseURL"></xsl:value-of>/images/logo_Closed_Access.svg</xsl:attribute></img>  Access        		
+        	</span>
+        </xsl:when>
+		<xsl:when test="./mods:classification[@displayLabel='accesscondition'][contains(@valueURI, 'closedaccess')]">
+        	<span class="label label-default ir-label-closedaccess">
+        		Closed <img style="height:1.5em;padding:0 .25em"><xsl:attribute name="src"><xsl:value-of select="$WebApplicationBaseURL"></xsl:value-of>/images/logo_Closed_Access.svg</xsl:attribute></img>  Access
+        	</span>
+        </xsl:when>	
+        <xsl:otherwise>
+        	<span class="label label-default ir-label-openaccess">
+        		Open <img style="height:1.5em;padding:0 .25em"><xsl:attribute name="src"><xsl:value-of select="$WebApplicationBaseURL"></xsl:value-of>/images/logo_Open_Access.svg</xsl:attribute></img> Access
+        	</span>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:template>
 </xsl:stylesheet>
 

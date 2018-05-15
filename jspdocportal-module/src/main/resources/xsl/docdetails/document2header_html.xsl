@@ -68,8 +68,9 @@
           <xsl:value-of select="./mods:abstract" />
        </p>       
        </xsl:if>
+       <p>
         <xsl:if test="./mods:classification[@displayLabel='doctype']">
-        <p>
+
         <span class="label label-default ir-label-default">
           <xsl:for-each select="./mods:classification[@displayLabel='doctype']/@valueURI">
             <xsl:call-template name="classLabel">
@@ -77,8 +78,10 @@
             </xsl:call-template>
           </xsl:for-each>
         </span>
-        </p>
+       
       </xsl:if>
+      <xsl:call-template name="accessLabel" />
+      </p>
     </xsl:for-each>
     
   </xsl:template>

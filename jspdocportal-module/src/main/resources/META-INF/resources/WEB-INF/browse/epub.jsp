@@ -148,6 +148,18 @@
             <div class="col-xs-12">
               <search:show-edit-button mcrid="${mcrid}" cssClass="btn btn-sm btn-primary ir-edit-btn" />
               <span class="label label-default ir-label-default">${entry.data['ir.doctype.result']}</span>
+              <c:choose>
+                <c:when test="${fn:contains(entry.data['ir.accesscondition_class.facet'], 'restrictedaccess')}">
+                  <span class="label label-default ir-label-restrictedaccess">
+                    Restricted <img style="height:1.5em;padding:0 .25em" src="${WebApplicationBaseURL}images/logo_Closed_Access.svg"/>  Access            
+                  </span>
+                </c:when>
+               <c:otherwise>
+                <span class="label label-default ir-label-openaccess">
+                    Open <img style="height:1.5em;padding:0 .25em" src="${WebApplicationBaseURL}images/logo_Open_Access.svg"/>  Access            
+                  </span>
+               </c:otherwise>
+             </c:choose>
             </div>
           </div>
         </search:result-browser>

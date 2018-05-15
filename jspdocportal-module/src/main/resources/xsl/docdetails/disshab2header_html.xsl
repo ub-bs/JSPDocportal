@@ -55,6 +55,7 @@
                 </xsl:call-template>
               </xsl:for-each>
             </span>
+            <xsl:call-template name="accessLabel" />
             </p>
           </xsl:if>
 		</xsl:for-each>
