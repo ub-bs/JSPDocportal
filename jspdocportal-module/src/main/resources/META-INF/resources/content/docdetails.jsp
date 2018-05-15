@@ -140,19 +140,39 @@
 		<x:if select="$doc/mycoreobject[not(contains(@ID, '_bundle_'))]/structure/derobjects/derobject[@xlink:title='fulltext' or @xlink:title='MCRVIEWER_METS']">
 			<div id="div_fulltext" class="collapse col-sm-12">
 				<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='fulltext']">
-					<search:mcrviewer mcrid="${param.id}" recordIdentifier="${param.id}" doctype="pdf" id="divMCRViewer_2" />
+                    <c:set var="derid"><x:out select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='fulltext']/@xlink:href" /></c:set>
+					 <mcr:hasAccess var="hasAccess" permission="read" mcrid="${derid}" />
+                    <c:if test="${not hasAccess}">
+                        <c:set var="valueURI"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='accesscondition']/@valueURI" /></c:set>
+                        <div class="ir-box ir-box-bordered-emph" style="margin-bottom:30px">
+                          <mcr:displayClassificationCategory valueURI="${valueURI}" lang="x-display-de"/>
+                        </div>
+                    </c:if>
+                    <c:if test="${hasAccess}">
+                        <search:mcrviewer mcrid="${param.id}" recordIdentifier="${param.id}" doctype="pdf" id="divMCRViewer_2" />
+                    </c:if> 
 					<div id="divMCRViewer_2" style="height:600px; margin:0px 16px; position:relative;"></div>
 				</x:if>
 				<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='MCRVIEWER_METS']">
 					<c:set var="recordidentifier"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier" /></c:set>
-					<search:mcrviewer mcrid="${param.id}" recordIdentifier="${recordidentifier}" doctype="mets" id="divMCRViewer_1" />
+                    <c:set var="derid"><x:out select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='MCRVIEWER_METS']/@xlink:href" /></c:set>
+                    <mcr:hasAccess var="hasAccess" permission="read" mcrid="${derid}" />
+                    <c:if test="${not hasAccess}">
+                        <c:set var="valueURI"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='accesscondition']/@valueURI" /></c:set>
+                        <div class="ir-box ir-box-bordered-emph" style="margin-bottom:30px">
+                          <mcr:displayClassificationCategory valueURI="${valueURI}" lang="x-display-de"/>
+                        </div>
+                    </c:if>
+                    <c:if test="${hasAccess}">
+					   <search:mcrviewer mcrid="${param.id}" recordIdentifier="${recordidentifier}" doctype="mets" id="divMCRViewer_1" />
+                    </c:if>
 					<div id="divMCRViewer_1" style="height:600px; margin:0px 16px; position:relative;"></div>
 				</x:if>		
 			</div>
 		</x:if>
 		<x:if select="contains($doc/mycoreobject/@ID, '_bundle_')">
 			<div id="div_structure" class="collapse col-sm-12">
-				<div class="ir-box" style="font-size: 85%">
+				<div class="ir-box" style="font-size: 85%;min-height:600px">
 			    	<c:set var="recordIdentifier"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier"/></c:set>
 					<search:docdetails-structure recordIdentifier="${recordIdentifier}" />
                     <%-- TEMPORARY FIX: until migration is completed --%>
@@ -161,7 +181,7 @@
 			</div>
 		</x:if>
 		<div id="div_metadata" class="collapse col-sm-12">
-			<div class="ir-box ir-docdetails-data">
+			<div class="ir-box ir-docdetails-data" style="min-height:600px">
 				<x:choose>
 					<x:when select="contains($doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='doctype']/@valueURI, '#data')">
 						<mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/data2details_html.xsl" />
@@ -176,7 +196,7 @@
 		</div>
 		<x:if select="$doc/mycoreobject/structure/derobjects/derobject">
 			<div id="div_files" class="collapse col-sm-12">
-				<div class="ir-box">
+				<div class="ir-box" style="min-height:600px">
                   <table class="table ir-table-docdetails">
                     <tbody>
 			 		  <x:forEach var="x" select="$doc/mycoreobject/structure/derobjects/derobject/@xlink:href">
