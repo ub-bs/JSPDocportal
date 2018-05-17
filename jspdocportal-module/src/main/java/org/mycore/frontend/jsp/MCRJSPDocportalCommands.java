@@ -482,6 +482,7 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
                         .findFirst().get();
                 Element eRelatedItem = eMeta.getChild("relatedItem", MCRConstants.MODS_NAMESPACE);
                 if (eRelatedItem != null) {
+                    LOGGER.info("Creating mods:relatedItem for MCRObject " + mcrid);
                     MCRObject mcrParentObj = MCRMetadataManager.retrieveMCRObject(mcrObj.getParent());
 
                     Element eParentMeta = mcrParentObj.getMetadata().createXML();
