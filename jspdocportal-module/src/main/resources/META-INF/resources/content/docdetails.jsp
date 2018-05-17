@@ -448,7 +448,7 @@
         
         
         <div class="ir-box" style="margin-bottom:30px;margin-right:-15px">
-         <div class="clearfix">
+        <div class="clearfix">
         <div class="pull-right">
               <button type="button" class="btn btn-default btn-sm pull-right hidden-xs" style="border:none;color:#DEDEDE; background-color:white;" 
                     data-toggle="collapse" data-target="#hiddenTools" title="<fmt:message key="Webpage.tools.menu4experts" />">
@@ -458,16 +458,21 @@
           </div>
           <div id="hiddenTools" class="collapse">
             <div style="padding-bottom:6px">
-              <a class="btn btn-warning btn-sm" target="_blank" title="<fmt:message key="Webpage.tools.showXML" />"
+              <a class="btn btn-warning btn-sm ir-button-warning" target="_blank" title="<fmt:message key="Webpage.tools.showXML" />"
                    href="${WebApplicationBaseURL}api/v1/objects/${mcrid}" rel="nofollow">XML</a>
-                <a class="btn btn-warning btn-sm" style="margin-left:6px" target="_blank" title="<fmt:message key="Webpage.tools.showSOLR" />"
+              <a class="btn btn-warning btn-sm ir-button-warning" style="margin-left:6px" target="_blank" title="<fmt:message key="Webpage.tools.showSOLR" />"
                   href="${WebApplicationBaseURL}receive/${mcrid}?XSL.Style=solrdocument" rel="nofollow">SOLR</a>
                   
-                <x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='REPOS_METS']">
-              <c:set var="derid"><x:out select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='REPOS_METS']/@xlink:href" /></c:set>
-              <a class="btn btn-warning btn-sm" style="margin-left:6px" target="_blank" href="${WebApplicationBaseURL}api/v1/objects/${param.id}/derivates/${derid}/open" class="btn btn-default" title="<fmt:message key="Webpage.tools.showREPOS_METS" />">METS</a>
-            </x:if>
-              </div>
+              <x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='REPOS_METS']">
+                <c:set var="derid"><x:out select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='REPOS_METS']/@xlink:href" /></c:set>
+                <a class="btn btn-warning btn-sm ir-button-warning" style="margin-left:6px" target="_blank" 
+                   href="${WebApplicationBaseURL}api/v1/objects/${param.id}/derivates/${derid}/open" class="btn btn-default" title="<fmt:message key="Webpage.tools.showREPOS_METS" />">METS</a>
+              </x:if>
+              <x:if select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[contains(@valueURI, '#epub')]">
+                <a class="btn btn-warning btn-sm ir-button-warning" style="margin-left:6px" target="_blank" 
+                   href="${WebApplicationBaseURL}receive/${mcrid}?XSL.Transformer=rosdok_datacite" rel="nofollow">Datacite</a>
+              </x:if>
+            </div>
           </div>
         </div>          
         </div>

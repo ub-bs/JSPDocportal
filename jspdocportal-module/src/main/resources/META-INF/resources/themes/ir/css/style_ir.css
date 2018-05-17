@@ -30,6 +30,10 @@ a.ir-edit-btn:visited i{
 	color: white;
 }
 
+a.ir-facets-btn{
+	text-decoration:none !important;
+}
+
 span.ir-badge-gnd {
 	color: #004A99;
 	border-top: none;
