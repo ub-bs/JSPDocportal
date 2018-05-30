@@ -270,7 +270,7 @@
 	            				tbody.append($("<tr></tr>").append($("<td></td>").text(entry["ir.originInfo.result"])));
 	            			}
 	            			if(entry.hasOwnProperty("ir.doctype.result")){
-	            				tbody.append($("<tr></tr>").append($("<td></td>").append($("<span></span>").addClass("label label-default ir-label-default").css("font-size", "100%").text(entry["ir.doctype.result"]))));
+	            				tbody.append($("<tr></tr>").append($("<td></td>").append($("<strong></strong>").css("color", "#777777").text(entry["ir.doctype.result"]))));
 	            			}
 	            			tbody.append($("<tr></tr>").append($("<td></td>").html("&nbsp;")));
 	            			
