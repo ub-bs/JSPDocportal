@@ -147,12 +147,12 @@
               <c:choose>
                 <c:when test="${fn:contains(entry.data['ir.accesscondition_class.facet'], 'restrictedaccess')}">
                   <span class="label label-default ir-label-restrictedaccess">
-                    Restricted <img style="height:1.5em;padding:0 .25em" src="${WebApplicationBaseURL}images/logo_Closed_Access.svg"/>  Access            
+                    Restricted <img style="height:1.5em;padding:0 .25em" src="${WebApplicationBaseURL}images/logo_Closed_Access.png"/>  Access            
                   </span>
                 </c:when>
                <c:otherwise>
                 <span class="label label-default ir-label-openaccess">
-                    Open <img style="height:1.5em;padding:0 .25em" src="${WebApplicationBaseURL}images/logo_Open_Access.svg"/>  Access            
+                    Open <img style="height:1.5em;padding:0 .25em" src="${WebApplicationBaseURL}images/logo_Open_Access.png"/>  Access            
                   </span>
                </c:otherwise>
              </c:choose>
