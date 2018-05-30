@@ -103,6 +103,10 @@
 	
 	<stripes:layout-component name="main_part">
       <div class="row">
+        <div class="col-md-4 col-xs-12 clearfix" style="float:right; margin-top:15px">
+            <search:result-navigator mcrid="${mcrid}" mode="one_line"/>
+        </div>
+        <div class="clearfix visible-xs-block" style="margin-bottom:-45px">&nbsp;</div>
         <div class="col-sm-12 col-md-8">
 		<div class="row">
 			<div class="col-sm-12">
@@ -136,7 +140,7 @@
 				</div>
 			</div>
 		</div>
-		<div id="main_display" class="row">
+		<div id="main_display" class="row" style="margin-bottom:30px">
 		<x:if select="$doc/mycoreobject[not(contains(@ID, '_bundle_'))]/structure/derobjects/derobject[@xlink:title='fulltext' or @xlink:title='MCRVIEWER_METS']">
 			<div id="div_fulltext" class="collapse col-sm-12">
 				<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='fulltext']">
@@ -281,35 +285,27 @@
 </script>
 </div>
   <div class="col-xs-12 col-md-4">
-	   <search:result-navigator mcrid="${mcrid}" mode="one_line"/>
-     
        <x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='cover'] or contains($doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='doctype']/@valueURI, '#data')">
      
-  	   <div class="ir-box ir-box-bordered" style="margin-bottom:30px;">
+  	   <div class="ir-box ir-box-bordered text-center" style="margin-bottom:30px;">
 	     <x:choose>
             <x:when select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='cover']">
-              <div class="row">
-              <div class="col-sm-6 col-sm-offset-3">
+              <div style="display:inline-block">
                 <x:choose>
 	                <x:when select="$doc/mycoreobject[not(contains(@ID, '_bundle_'))]/structure/derobjects/derobject[@xlink:title='MCRVIEWER_METS']"> 
 						<c:set var="recordID"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier[@source='DE-28']" /></c:set>
 		                <a href="${WebApplicationBaseURL}mcrviewer/recordIdentifier/${fn:replace(recordID,'/','%252F')}">
-        		          <search:derivate-image mcrid="${param.id}" width="100%" labelContains="cover" />
+        		          <search:derivate-image mcrid="${param.id}" width="200px" labelContains="cover" />
                 		</a>
                 	</x:when>
                 	<x:otherwise>
-        		          <search:derivate-image mcrid="${param.id}" width="100%" labelContains="cover" />
+        		          <search:derivate-image mcrid="${param.id}" width="200px" labelContains="cover" />
                 	</x:otherwise>
                  </x:choose>
-                </div>
               </div>
             </x:when>
             <x:when select="contains($doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='doctype']/@valueURI, '#data')">
-            <div class="row">
-              <div class="col-sm-6 col-sm-offset-3">
                 <img src="${WebApplicationBaseURL}images/filetypeicons/data.png" alt="resarch data">
-              </div>
-              </div>
             </x:when>
           </x:choose>
         </div>
@@ -320,14 +316,17 @@
             <h3>Dauerhaft zitieren</h3>
          	<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='purl']">
 			    <c:set var="purl"><x:out select="$x" /></c:set>
-                <%--<a href="${purl}"><c:out value="${fn:replace(purl, '.de/', '.de <br />/')}" escapeXml="false"/></a><br />  --%>
-                <a class="ir-link-portal" href="${purl}"><c:out value="${purl}" escapeXml="false"/></a><br />
+                <%--<a href="${purl}"><c:out value="${fn:replace(purl, '.de/', '.de <br />/')}" escapeXml="false"/></a><br />  
+                <a class="ir-link-portal" href="${purl}"><c:out value="${purl}" escapeXml="false"/></a><br />--%>
+                <c:set var="link">${fn:replace(purl, '.de/', '.de/<br class="visible-md-inline"/>')}</c:set>
+                <p><a class="ir-link-portal" href="${purl}"><c:out value="${link}" escapeXml="false"/></a></p>
+                
               </x:forEach>
 			  <x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='urn']">
-			     <a class="ir-link-portal" href="http://nbn-resolving.org/<x:out select="$x" />"><x:out select="$x" /></a><br />
+			     <p><a class="ir-link-portal" href="http://nbn-resolving.org/<x:out select="$x" />"><x:out select="$x" /></a></p>
 			  </x:forEach>
 			  <x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='doi']">
-			  	<a class="ir-link-portal" href="https://doi.org/<x:out select="$x" />">https://doi.org/<x:out select="$x" /></a>
+			  	<p><a class="ir-link-portal" href="https://doi.org/<x:out select="$x" />">https://doi.org/<br class="visible-md-inline"/><x:out select="$x" /></a></p>
               </x:forEach>
               </div>
               </div>

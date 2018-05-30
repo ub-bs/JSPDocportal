@@ -97,7 +97,7 @@
           </c:if>
           </div>
           </div>
-          <div class="col-md-3 hidden-sm" style="padding-top:50px">
+          <div class="col-md-3 hidden-sm hidden-xs" style="padding-top:50px">
             <c:if test="${actionBean.path eq 'histbest' }">
               <img src="../themes/rosdok/images/histbest_buecherstapel.jpg" style="width:100%">
             </c:if>
@@ -275,12 +275,12 @@
 	            			tbody.append($("<tr></tr>").append($("<td></td>").html("&nbsp;")));
 	            			
 	            			var row1 = $("<div></div>").addClass("row");
-	            			row1.append($("<div></div>").addClass("col-sm-7")
+	            			row1.append($("<div></div>").addClass("col-md-7")
 	            					.append($("<table></table>").css("border-spacing", "5px").css("border-collapse","separate").css("font-size", "85%").append(tbody)));
 	            			divPanel.append(row1);
 	            			
 	            			if(entry.hasOwnProperty("ir.cover_url")){
-	            				row1.append($("<div></div>").addClass("col-sm-5").css("padding-left","0").append(
+	            				row1.append($("<div></div>").addClass("col-md-5 hidden-sm hidden-xs").css("padding-left","0").append(
 	            					$("<div></div>").addClass("img-thumbnail pull-right ir-resultentry-image").append(
 	            						$("<a></a>").attr("href", "../resolve/id/"+entry["id"]).append(
 	            							$("<img />").css("width","98%").css("max-height","180px").css("object-fit","contain").attr("src", "../"+entry["ir.cover_url"])

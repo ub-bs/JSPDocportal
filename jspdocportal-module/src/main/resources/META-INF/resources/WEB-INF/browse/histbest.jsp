@@ -27,7 +27,7 @@
     </div>
     <div class="row">
       <div class="col-xs-12 col-md-3">
-        <div class="ir-box ir-box-bordered">
+        <div class="ir-box ir-box-bordered" style="margin-bottom:15px">
           <h3><fmt:message key="Browse.Filter.headline" /></h3>
           <form class="form-horizontal" onsubmit="return false;">
             <div class="form-group">
