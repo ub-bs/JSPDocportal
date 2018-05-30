@@ -41,7 +41,10 @@
       </p>
       
      <xsl:call-template name="mods-title" />
-     
+     <xsl:if test="./mods:relatedItem[@displayLabel='appears_in']/mods:titleInfo">
+     	<xsl:value-of select="i18n:translate('Webpage.docdetails.appearsIn')" /><xsl:text> </xsl:text>
+     	<xsl:value-of select="./mods:relatedItem[@displayLabel='appears_in']/mods:titleInfo/*" />
+     </xsl:if>
 
       <p>
       <xsl:call-template name="mods-originInfo" />

@@ -121,18 +121,21 @@
   	  	</xsl:choose>
         </xsl:if>
         
-        <xsl:for-each select="mods:relatedItem[@displayLabel='appears_in'][1]">
+        <xsl:for-each select="mods:relatedItem[not(@displayLabel='appears_in')]">
+        	<xsl:for-each select="mods:recordInfo/mods:recordIdentifier">
+              <field name="ir.host.recordIdentifier"><xsl:value-of select="." /></field> 
+            </xsl:for-each>
+            <xsl:for-each select="mods:part/mods:text[@type='sortstring']">
+              <field name="ir.sortstring"><xsl:value-of select="." /></field> 
+            </xsl:for-each>
+        </xsl:for-each>
+            
+        <xsl:for-each select="mods:relatedItem[@displayLabel='appears_in']">
             <xsl:for-each select="mods:titleInfo">
               <field name="ir.host.title.result"><xsl:if test="mods:nonSort"><xsl:value-of select="mods:nonSort" /><xsl:value-of select="' '" /></xsl:if><xsl:value-of select="mods:title" /><xsl:if test="mods:subTitle"><xsl:value-of select="' : '" /><xsl:value-of select="mods:subTitle" /></xsl:if></field> 
             </xsl:for-each>
             <xsl:for-each select="mods:part">
               <field name="ir.host.part.result"><xsl:if test="mods:partNumber|mods:partName"><xsl:value-of select="' ['" /><xsl:value-of select="mods:partNumber" /><xsl:value-of select="' '" /><xsl:value-of select="mods:partName" /><xsl:value-of select="']'" /></xsl:if><xsl:if test="mods:extent[@unit='page']"><xsl:if test="mods:extent[@unit='page']/mods:total"><xsl:value-of select="', '" /><xsl:value-of select="mods:extent[@unit='page']/mods:total"/><xsl:value-of select="' Seiten'" /></xsl:if><xsl:if test="mods:extent[@unit='page']/mods:start"><xsl:value-of select="', S. '" /><xsl:value-of select="mods:extent[@unit='page']/mods:start"/></xsl:if><xsl:if test="mods:extent[@unit='page']/mods:end"><xsl:value-of select="' - '" /><xsl:value-of select="mods:extent[@unit='page']/mods:end"/></xsl:if></xsl:if></field> 
-            </xsl:for-each>
-            <xsl:for-each select="mods:recordInfo/mods:recordIdentifier">
-              <field name="ir.host.recordIdentifier"><xsl:value-of select="." /></field> 
-            </xsl:for-each>
-            <xsl:for-each select="mods:part/mods:text[@type='sortstring']">
-              <field name="ir.sortstring"><xsl:value-of select="." /></field> 
             </xsl:for-each>
         </xsl:for-each>
         
