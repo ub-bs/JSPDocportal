@@ -21,8 +21,27 @@
     </div>
     <div class="row">
       <div class="col-xs-12 col-md-3">
-        <div class="ir-box ir-box-bordered" style="margin-top:42px; margin-bottom:45px">
+        <div class="ir-box ir-box-bordered" style="margin-top:42px; margin-bottom:45px;position:relative">
           <h3><fmt:message key="Browse.Filter.headline" /></h3>
+          <script type="text/javascript">
+          $(function(){
+          	$('#facetInfo').on('hidden.bs.collapse', function () {
+          		$("#btnToogleFilterTextOn").addClass('hidden');
+          		$("#btnToogleFilterTextOff").removeClass('hidden');
+        	});
+        	$('#facetInfo').on('shown.bs.collapse', function () {
+        		$("#btnToogleFilterTextOn").removeClass('hidden');
+           		$("#btnToogleFilterTextOff").addClass('hidden');
+        	});
+          });
+          </script>
+           <div style="position:absolute;top:0px;right:0px" class="visible-xs-block visible-sm-block">
+                <button id="btnToogleFilter" class="btn btn-lg btn-link" data-toggle="collapse" data-target="#facetInfo">
+                      <i id="btnToogleFilterTextOn" class="fa fa-toggle-on" style="color:#004a99;"></i>
+                      <i id="btnToogleFilterTextOff" class="fa fa-toggle-off hidden" style="color: #FFA100;"></i>
+                </button>
+            </div>
+          <div id="facetInfo" class="collapse in">
           <form class="form-horizontal" onsubmit="return false;">
             <div class="form-group">
               <div class="col-sm-12">
@@ -121,6 +140,7 @@
           </div>
 
           <search:result-facets result="${actionBean.result}" mask="histbest" top="5" />
+        </div>
         </div>
       </div>
       <div class="col-xs-12 col-md-9">
