@@ -20,14 +20,8 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-xs-12">
-        <search:result-sorter result="${actionBean.result}"
-          fields="score,ir.pubyear_start,modified,ir.creator.result,ir.title.result" mask="histbest" />
-      </div>
-    </div>
-    <div class="row">
       <div class="col-xs-12 col-md-3">
-        <div class="ir-box ir-box-bordered" style="margin-bottom:15px">
+        <div class="ir-box ir-box-bordered" style="margin-top:42px; margin-bottom:45px">
           <h3><fmt:message key="Browse.Filter.headline" /></h3>
           <form class="form-horizontal" onsubmit="return false;">
             <div class="form-group">
@@ -116,7 +110,7 @@
                   </c:url>
                   <c:set var="c">
                     <fmt:message key="Browse.Filter.histbest.${fn:substringBefore(fn:substring(fq, 1, -1),':')}" />: ${actionBean.calcFacetOutputString(fn:substringBefore(fn:substring(fq, 1, -1),':'), fn:substringAfter(fn:substring(fq, 1, -1),':'))}</c:set>
-                  <a class="btn btn-sm btn-default ir-form-control"
+                  <a class="btn btn-sm btn-default ir-facets-btn"
                     style="display: block; text-align: left; white-space: normal; margin-bottom: 3px; color: black; width: 100%"
                     href="${url}"> <i class="fa fa-times" style="float:right; position:relative; right:-6px; color: darkred;"></i>
                     ${c}
@@ -130,6 +124,8 @@
         </div>
       </div>
       <div class="col-xs-12 col-md-9">
+        <search:result-sorter result="${actionBean.result}"
+                              fields="score,ir.pubyear_start,modified,ir.creator.result,ir.title.result" mask="histbest" />
         <search:result-browser result="${actionBean.result}">
           <c:set var="doctype" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
           <c:choose>
