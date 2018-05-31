@@ -33,20 +33,20 @@
     <c:if test="${empty actionBean.info}">
       <div class="row">
         <c:if test="${empty requestScope['org.mycore.navigation.side.path']}">
-          <div class="col-xs-12">
+          <div class="col-xs-12 ir-content-main">
               <div class="ir-box">
                 <mcr:includeWebcontent id="${fn:replace(actionBean.path, '/', '.')}" file="${actionBean.path}.html" />
               </div>
           </div>
        </c:if>
         <c:if test="${not empty requestScope['org.mycore.navigation.side.path']}">
-          <div class="col-xs-12 col-sm-3" style="position: sticky;top: 20px;">
+          <div class="col-xs-12 col-md-3 ir-content-side">
               <mcr:outputNavigation mode="side" id="${fn:substringBefore(requestScope['org.mycore.navigation.side.path'], '.')}"></mcr:outputNavigation>
               <c:if test="${not empty actionBean.infoBox}">
                 <mcr:includeWebcontent id="${fn:replace(actionBean.infoBox, '/', '.')}" file="${actionBean.infoBox}.html" />
               </c:if>
           </div>
-          <div class="col-xs-12 col-sm-9">
+          <div class="col-xs-12 col-md-9 ir-content-main">
               <div class="ir-box">
                 <mcr:includeWebcontent id="${fn:replace(actionBean.path, '/', '.')}" file="${actionBean.path}.html" />
               </div>
