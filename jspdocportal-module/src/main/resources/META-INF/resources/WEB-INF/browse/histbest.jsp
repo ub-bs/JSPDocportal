@@ -45,6 +45,16 @@
           <form class="form-horizontal" onsubmit="return false;">
             <div class="form-group">
               <div class="col-sm-12">
+              <%--
+                 <select id="filterField" name="filterField" class="form-control input-sm" style="width:12em;border-radius:0px;background-color:#777777;color:white;margin-bottom:-1px">
+                    <option value="allMeta"><fmt:message key="Browse.Filter.histbest.allMeta" /></option>
+                    <option value="content"><fmt:message key="Browse.Filter.histbest.content" /></option>
+                    <option value="ir.title_all"><fmt:message key="Browse.Filter.histbest.ir.title_all" /></option>
+                    <option value="ir.creator_all"><fmt:message key="Browse.Filter.histbest.ir.creator_all" /></option>
+                    <option value="ir.pubyear_start"><fmt:message key="Browse.Filter.histbest.ir.pubyear_start" /></option>
+                    <option value="ir.pubyear_end"><fmt:message key="Browse.Filter.histbest.ir.pubyear_end" /></option>
+                  </select>
+                --%>
                 <div class="input-group input-group-sm">
                   <script type="text/javascript">
 					function changeFilterIncludeURL() {
@@ -63,16 +73,7 @@
 					}
 										<%-- for select box use: $("#filterField option:selected").val() --%>
 				</script>
-                  <%--
- 				<span class="input-group-addon">
- 					<select id="filterField" name="filterField" style="height:99%">
-						<option value="ir.creator_all"><fmt:message key="Browse.Filter.histbest.ir.creator_all"/></option>
-						<option value="ir.title_all"><fmt:message key="Browse.Filter.histbest.ir.title_all"/></option>
-						<option value="ir.pubyear_start"><fmt:message key="Browse.Filter.histbest.ir.pubyear_start"/></option>
-						<option value="ir.pubyear_end"><fmt:message key="Browse.Filter.histbest.ir.pubyear_end" /></option>
-				    </select>
-			   </span>
-			--%>
+
                   <input class="form-control" id="filterValue" name="filterValue" style="width: 100%" placeholder="Wert"
                     type="text" onkeypress="if (event.keyCode == 13) { changeFilterIncludeURL();}"> <span
                     class="input-group-btn">
@@ -82,6 +83,7 @@
                   </span>
                 </div>
               </div>
+
               <div class="col-sm-12">
                 <table>
                   <tr>
