@@ -28,7 +28,7 @@
          </xsl:call-template>
        </xsl:variable>
        <mods:name type="corporate" xlink:type="simple">
-       	<mods:nameIdentifier type="gnd"><xsl:value-of select="substring($gndURI, 21)" /></mods:nameIdentifier>
+       	<mods:nameIdentifier type="gnd"><xsl:value-of select="substring($gndURI, 22)" /></mods:nameIdentifier>
         <mods:namePart><xsl:value-of select="$fullname" /></mods:namePart>
         <mods:role>
           <mods:roleTerm type="code" authority="marcrelator">dgg</mods:roleTerm>
