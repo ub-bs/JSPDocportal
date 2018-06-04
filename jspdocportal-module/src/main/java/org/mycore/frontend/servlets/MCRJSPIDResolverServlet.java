@@ -169,8 +169,18 @@ public class MCRJSPIDResolverServlet extends HttpServlet {
     protected String createURLForPDF(HttpServletRequest request, String mcrID, String page, String nr) {
         MCRObject o = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID));
         MCRObjectStructure structure = o.getStructure();
-        MCRMetaLinkID derMetaLink = structure.getDerivates().get(0);
+        MCRMetaLinkID derMetaLink = null;
+        for(MCRMetaLinkID link: o.getStructure().getDerivates()) {
+            if("fulltext".equals(link.getXLinkHref())){
+                derMetaLink = link;
+                break;
+            }
+        }
+        if(derMetaLink==null) {
+            derMetaLink = structure.getDerivates().get(0);
+        }
         MCRObjectID derID = derMetaLink.getXLinkHrefID();
+        //TODO prefer use of @maindoc attribute
         Path root = MCRPath.getPath(derID.toString(), "/");
         try (DirectoryStream<Path> ds = Files.newDirectoryStream(root)) {
             for (Path p : ds) {
