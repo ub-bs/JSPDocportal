@@ -64,7 +64,7 @@ import org.mycore.frontend.jsp.navigation.model.NavigationObject;
  */
 public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
     private static final List<String> MODES = Arrays
-            .asList(new String[] { "left", "side", "top", "breadcrumbs", "toc", "navbar" });
+            .asList(new String[] { "left", "side", "top", "breadcrumbs", "toc", "navbar", "mobile" });
 
     private static final String INDENT = "\n       ";
 

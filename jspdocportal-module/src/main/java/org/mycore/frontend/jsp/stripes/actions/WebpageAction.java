@@ -68,6 +68,12 @@ public class WebpageAction extends MCRAbstractStripesAction implements ActionBea
                     getContext().getRequest().setAttribute("org.mycore.navigation.side.path", navPath);
                 }
                 
+                navPath = config.getString("MCR.Webpage.Navigation.left." + path.replace("/", "."), null);
+                if (navPath != null) {
+                    getContext().getRequest().setAttribute("org.mycore.navigation.path", navPath);
+                }
+                
+                
                 return new ForwardResolution(config.getString("MCR.Webpage.Resolution." + path.replace("/", "."),
                         config.getString("MCR.Webpage.Resolution.default", "/WEB-INF/views/webpage.jsp")));
             }

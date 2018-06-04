@@ -90,6 +90,10 @@ public abstract class MCRAbstractNavigationTag extends MCRAbstractTag {
 					PageContext.REQUEST_SCOPE);
 		}
 		if (currentPath == null) {
+            currentPath = (String) getJspContext().getAttribute("org.mycore.navigation.path",
+                    PageContext.REQUEST_SCOPE);
+        }
+		if (currentPath == null) {
 			currentPath = "";
 		}
 
