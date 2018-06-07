@@ -1,0 +1,12 @@
+/******************************************/
+/* CSS for MyCoRe Viewer                  */
+/******************************************/
+
+div.mcrviewer_html{
+    padding-bottom: 6px;
+    border-bottom: 1px solid black;
+}
+
+div.mcrviewer_html .title{
+	font-weight:bold;
+}
