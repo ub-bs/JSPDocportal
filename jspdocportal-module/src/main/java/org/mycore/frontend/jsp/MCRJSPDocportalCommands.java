@@ -515,7 +515,7 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
 
                     try {
                         MCRMetadataManager.update(mcrObj);
-                    } catch (MCRPersistenceException | MCRActiveLinkException | MCRAccessException e) {
+                    } catch (MCRPersistenceException | MCRAccessException e) {
                         LOGGER.error(e);
                     }
                 } else {
@@ -531,7 +531,7 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
                 mcrObj.getStructure().setParent((MCRMetaLinkID) null);
                 try {
                     MCRMetadataManager.update(mcrObj);
-                } catch (MCRAccessException | MCRActiveLinkException e) {
+                } catch (MCRAccessException  e) {
                     LOGGER.error(e);
                 }
             }

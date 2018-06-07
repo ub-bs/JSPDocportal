@@ -77,7 +77,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 
             MCRActivitiUtils.saveMCRObjectToWorkflowDirectory(mcrObj);
             processDerivatesOnLoad(mcrObj);
-        } catch (MCRActiveLinkException | MCRAccessException e) {
+        } catch (MCRAccessException e) {
             LOGGER.error(e);
         }
 
@@ -134,7 +134,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
                 der.setId(newDerID);
                 try {
                     MCRMetadataManager.create(der);
-                } catch (IOException | MCRAccessException e) {
+                } catch (MCRAccessException e) {
                     LOGGER.error(e);
                 }
                 MCRActivitiUtils.saveMCRDerivateToWorkflowDirectory(der);
@@ -195,7 +195,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
                         "published"));
 
                 MCRMetadataManager.update(mcrObj);
-            } catch (MCRActiveLinkException | MCRAccessException | MCRException e) {
+            } catch (MCRAccessException | MCRException e) {
                 LOGGER.error(e);
                 StringBuffer msg = new StringBuffer(e.getMessage());
                 if(e.getCause()!=null) {
@@ -273,7 +273,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
                                             "published"));
                             try {
                                 MCRMetadataManager.update(derObj);
-                            } catch (IOException e) {
+                            } catch (MCRAccessException e) {
                                 LOGGER.error(e);
                             }
                         }
@@ -314,7 +314,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
                         "review"));
                 try {
                     MCRMetadataManager.update(mcrDer);
-                } catch (IOException | MCRAccessException e) {
+                } catch (MCRAccessException e) {
                     LOGGER.error(e);
                 }
                 MCRActivitiUtils.cleanupWorkflowDirForDerivate(mcrObj.getId(), mcrDerID);
