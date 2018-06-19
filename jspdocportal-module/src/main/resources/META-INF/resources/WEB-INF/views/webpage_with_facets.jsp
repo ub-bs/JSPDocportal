@@ -256,7 +256,7 @@
 	            				if(title.length>120){
 	            					title = title.substring(0,100) + "…";          
 	            				}
-	            				divHead.append($("<h5></h5>").append($("<a></a>").attr("href", "../resolve/id/"+entry["id"]).text(title)));
+	            				divHead.append($("<a></a>").attr("href", "../resolve/id/"+entry["id"]).append($("<h4></h4>").text(title)));
 	            			}
 	            			var divPanel = $("<div></div>").addClass("ir-resultentry-panel").css("position", "relative"); 
 	            			li.append(divPanel);
