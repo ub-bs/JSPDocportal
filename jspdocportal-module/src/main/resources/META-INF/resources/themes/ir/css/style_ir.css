@@ -131,8 +131,6 @@ span.ir-badge{
 	width: 55px;
 	white-space: inherit;
 	text-align: right;
-	
-	
 }
 
 .ir-btn-group-resolving a{
@@ -143,9 +141,14 @@ span.ir-badge{
 	text-align: left;
 }
 
+
 div.ir-browse-classification ul{
 	list-style:inside none none;
-	margin-left:-24px;
+	margin-left:-50px;
+}
+
+div.ir-browse-classification ul ul{
+	margin-left:-40px;
 }
 
 .ir-resultentry-image{
@@ -158,4 +161,8 @@ div.ir-browse-classification ul{
 
 .ir-pagination{
 	margin-top:0px;
+}
+
+.ir-content-main li{
+	padding-bottom:6px;
 }
