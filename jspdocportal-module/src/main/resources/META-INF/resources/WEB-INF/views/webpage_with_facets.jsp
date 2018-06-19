@@ -15,15 +15,23 @@
 	<stripes:layout-component name="main_part">
     
     <div class="row">
-      <div class="col-xs-12 col-md-9">
-        <div class="ir-box">
-          <div class="row">
-            <div class="col-xs-10">
-                <mcr:includeWebcontent id="${fn:replace(actionBean.path, '/', '.')}" file="${actionBean.path}.html" />
-            </div>
-          </div>
-
-          <c:if test="${(actionBean.path eq 'epub') or (actionBean.path eq 'histbest') }">
+      <div class="col-xs-12 col-md-8">
+          <mcr:includeWebcontent id="${fn:replace(actionBean.path, '/', '.')}" file="${actionBean.path}.html" />
+      </div>
+      <div class="hidden-xs col-md-1">
+        &nbsp;
+      </div>
+        <div class="col-md-3 hidden-sm hidden-xs" style="padding-top:3em">
+          <c:if test="${actionBean.path eq 'histbest' }">
+            <img src="../themes/rosdok/images/histbest_buecherstapel.jpg" style="width:100%">
+          </c:if>
+          <c:if test="${actionBean.path eq 'epub' }">
+            <img src="../themes/rosdok/images/epub_flyer.jpg" style="width:100%">
+          </c:if>
+        </div>
+      </div>
+     
+      <c:if test="${(actionBean.path eq 'epub') or (actionBean.path eq 'histbest') }">
             <script type="text/javascript">
 				function changeFacetIncludeURL(key, value, mask) {
 					window.location=$("meta[name='mcr:baseurl']").attr("content")
@@ -58,11 +66,10 @@
 			        result.doSearch();
 					pageContext.setAttribute("result", result);					
 				%>
-          </c:if>
-          <c:if test="${(actionBean.path eq 'histbest') or (actionBean.path eq 'epub') }">
+
             <%-- key=$("input[name='filterField']:checked").val(); value=$('#filterValue').val()); --%>
-            <div class="row">
-              <div class="col-xs-10">
+            <div class="row" style="margin-top:30px;margin-bottom:30px">
+              <div class="col-xs-12 col-md-8">
                 <div class="input-group" data-ir-mode="${actionBean.path}">
                   <input class="form-control ir-form-control" id="filterValue" name="filterValue" style="width: 100%" placeholder="Suche "
                          onkeypress="if (event.keyCode == 13) { changeFilterIncludeURL($('input[name=\'filterField\']:checked').val(), $('#filterValue').val(), $('#filterValue').parent().data('ir-mode'));}"
@@ -74,10 +81,7 @@
                       </button>   
                    </span>
                   </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-xs-12">
+                 <div>
                 <table>
                   <tbody>
                     <tr>
@@ -92,20 +96,13 @@
                     </tr>
                   </tbody>
                 </table>
+                </div>
               </div>
             </div>
           </c:if>
-          </div>
-          </div>
-          <div class="col-md-3 hidden-sm hidden-xs" style="padding-top:50px">
-            <c:if test="${actionBean.path eq 'histbest' }">
-              <img src="../themes/rosdok/images/histbest_buecherstapel.jpg" style="width:100%">
-            </c:if>
-            <c:if test="${actionBean.path eq 'epub' }">
-              <img src="../themes/rosdok/images/epub_flyer.jpg" style="width:100%">
-            </c:if>
-          </div>
-       </div>
+
+       
+       
       <div class="row">
         <div class="col-xs-12 col-md-9">
           
