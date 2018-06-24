@@ -61,7 +61,7 @@ public class MCRViewerAction extends MCRAbstractStripesAction implements ActionB
     public Resolution defaultRes() {
         ForwardResolution fwdResolutionForm = new ForwardResolution("/WEB-INF/mcrviewer.jsp");
 
-        SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
+        SolrClient solrClient = MCRSolrClientFactory.getMainSolrClient();
 
         SolrQuery solrQuery = new SolrQuery(field + ":" + ClientUtils.escapeQueryChars(identifier));
         solrQuery.setRows(1);

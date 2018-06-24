@@ -109,7 +109,7 @@ public class PDFDownloadAction implements ActionBean {
             recordIdentifier = path;
         }
 
-        SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
+        SolrClient solrClient = MCRSolrClientFactory.getMainSolrClient();
         SolrQuery query = new SolrQuery();
         query.setQuery("recordIdentifier:" + recordIdentifier);
 

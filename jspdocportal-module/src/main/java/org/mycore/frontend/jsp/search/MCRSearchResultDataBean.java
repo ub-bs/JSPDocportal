@@ -121,7 +121,7 @@ public class MCRSearchResultDataBean implements Serializable {
 
     public void doSearch() {
         solrQueryResponse = null;
-        SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
+        SolrClient solrClient = MCRSolrClientFactory.getMainSolrClient();
 
         if (rows >= 0) {
             solrQuery.setRows(rows);

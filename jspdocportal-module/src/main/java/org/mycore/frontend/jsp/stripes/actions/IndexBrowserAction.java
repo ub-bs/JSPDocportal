@@ -75,7 +75,7 @@ public class IndexBrowserAction extends MCRAbstractStripesAction implements Acti
             q.setRows(0);
             q.setStart(0);
 
-            SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
+            SolrClient solrClient = MCRSolrClientFactory.getMainSolrClient();
 
             firstSelector.clear();
             try {
