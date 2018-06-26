@@ -35,7 +35,7 @@
             </table>
           </td>
         </tr>
-        <xsl:if test="mods:name[mods:role/mods:roleTerm/@valueURI='http://id.loc.gov/vocabulary/relators/dgs']">
+        <xsl:if test="mods:name[mods:role/mods:roleTerm[@type='code']='dgs']">
         <tr>
           <th>
             <xsl:value-of select="i18n:translate('OMD.referee')" />
@@ -43,7 +43,7 @@
           </th>
           <td>
             <table class="ir-table-docdetails-values">
-                <xsl:for-each select="mods:name[mods:role/mods:roleTerm/@valueURI='http://id.loc.gov/vocabulary/relators/dgs']">
+                <xsl:for-each select="mods:name[mods:role/mods:roleTerm[@type='code']='dgs']">
                 <tr><td>
                     <xsl:call-template name="display-name">
 		    			<xsl:with-param name="name" select="." />
@@ -82,6 +82,18 @@
       </table>
       
       <table class="table ir-table-docdetails">
+        <xsl:if test="./mods:language/mods:languageTerm">
+          <tr>
+            <th><xsl:value-of select="i18n:translate('OMD.languages')" /> :</th>
+            <td><table class="ir-table-docdetails-values"><tr><td>
+             <xsl:call-template name="language">
+                <xsl:with-param name="term"><xsl:value-of select="./mods:language/mods:languageTerm" /></xsl:with-param>
+                <xsl:with-param name="lang">de</xsl:with-param>
+              </xsl:call-template>
+              </td></tr></table>
+            </td>
+          </tr>
+        </xsl:if>
         <xsl:for-each select="mods:titleInfo[@type='translated']">
           <tr>
           <th>
@@ -131,13 +143,16 @@
         </xsl:for-each>
         
         <tr>
-          <th><xsl:value-of select="i18n:translate('OMD.ddc-class')" />:</th>
+          <th><xsl:value-of select="i18n:translate('OMD.ddc-class')" /> :</th>
           <td>
             <table class="ir-table-docdetails-values">
-              <tr><td>
-                <xsl:variable name="classlink" select="mcrmods:getClassCategLink(mods:classification[@displayLabel='sdnb'])" />
-			 	<xsl:value-of select="document($classlink)/mycoreclass/categories/category/label[@xml:lang='de']/@text" />
-			  </td></tr>
+                  <xsl:for-each select="mods:classification[@displayLabel='sdnb' or @displayLabel='SDNB']/@valueURI">
+                  <tr><td>
+                  <xsl:call-template name="classLabel">
+                    <xsl:with-param name="valueURI"><xsl:value-of select="." /></xsl:with-param>
+                  </xsl:call-template>
+                  </td></tr>
+                  </xsl:for-each>
             </table>
           </td>
         </tr>
