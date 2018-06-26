@@ -28,14 +28,14 @@
       <xed:include uri="resource:editor/metadata/includes-generic.xed" ref="failed-validation-messages" />
       
       <xed:bind xpath="metadata/def.modsContainer[@class='MCRMetaXML']/modsContainer/mods:mods">
-        <xed:cleanup-rule xpath="//mods:note" relevant-if=" ./*" /> 
+        <xed:cleanup-rule xpath="//mods:note" relevant-if="* or (string-length(text()) &gt; 0)" />
         <xed:cleanup-rule xpath="//mods:titleInfo" relevant-if=" ./*" />
 
         <!-- will be reset from institution classfication by postprocessor -->
         <xed:cleanup-rule xpath="//mods:name[mods:role/mods:roleTerm[@authority='marcrelator']='dgg']" relevant-if="false()" />
    
   
-  <!-- IDs [START]-->
+  	 <!-- IDs [START]-->
      <div class="form-group">
        <label class="col-sm-2 control-label input-sm ir-label" for="persontype">
          <xed:output i18n="OMD.ir.identifiers" />
@@ -233,6 +233,28 @@
       </div>
     <!-- Titel [ENDE]-->
     
+    <!-- Verfasserangabe [START]-->
+     <div class="form-group">
+       <label class="col-sm-2 control-label input-sm ir-label" for="language">
+         <xed:output i18n="OMD.ir.creator_info" />
+       </label>
+       <div class="col-sm-10">
+            <div class="row ir-row ir-row-1">
+              <div class="col-sm-10">
+            
+                <div class="row ir-row"> 
+                  <div class="col-sm-10 col-sm-offset-2">
+                    <xed:bind xpath="mods:note[@type='creator_info']">
+                      <input id="creator_info" type="text" class="form-control input-sm"   />
+                    </xed:bind>
+                  </div>
+                </div>
+              </div>
+           </div>
+       </div>
+    </div> 
+	<!-- Verfasserangabe [ENDE]-->
+
     <!-- Sprache [START]-->
      <div class="form-group">
        <label class="col-sm-2 control-label input-sm ir-label" for="language">
@@ -244,7 +266,7 @@
               
                 <div class="row ir-row"> 
                   <div class="col-sm-10 col-sm-offset-2">
-                    <xed:bind xpath="mods:language[@usage='primary']/mods:languageTerm[@authority='rfc4646']">
+                    <xed:bind xpath="mods:language/mods:languageTerm[@authority='iso639-2b']">
                       <select id="language" class="form-control input-sm">
                         <xed:include uri="props2options:OMD.ir.language" />                        
                       </select>
@@ -351,7 +373,7 @@
               </div>
 
               <div class="col-sm-10">
-                <xed:bind xpath="mods:name[@type='corporate'][./mods:role/mods:roleTerm[@type='code'][@authority='marcrelator']='dgg']">
+                <xed:repeat xpath="mods:name[@type='corporate'][./mods:role/mods:roleTerm[@type='code'][@authority='marcrelator']='dgg']">
                   <div class="row ir-row"> 
                    <label class="col-sm-2 control-label input-sm ir-label-hint" for="dgg_name">
                     <xed:output i18n="OMD.ir.degreeGrantingInstitution.name" />
@@ -372,7 +394,7 @@
                     </xed:bind>
                   </div>
                 </div>
-                </xed:bind>
+                </xed:repeat>
               </div>
            </div>
        </div>
