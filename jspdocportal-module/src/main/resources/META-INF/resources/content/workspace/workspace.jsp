@@ -93,7 +93,7 @@
 											</div>
 											<div class="panel-body">
 												<c:if test="${not fn:contains(currentVariables.mcrObjectID,'_person_')}">
-													<a id="workspace_button_pica3_import" href="${fn:replace(WebApplicationBaseURL, '/rosdok', '')}pubform/pica3?urn=${currentVariables.wfObjectDisplayPersistentIdentifier}&recordIdentifier=${currentVariables.wfObjectDisplayRecordIdentifier}" 
+													<a id="workspace_button_pica3_import" href="${fn:replace(WebApplicationBaseURL, '.de/rosdok', '.de')}pubform/pica3?urn=${currentVariables.wfObjectDisplayPersistentIdentifier}&recordIdentifier=${currentVariables.wfObjectDisplayRecordIdentifier}"
 												   	   class="btn btn-default" target="_blank"><i class="fa fa-book"></i> <fmt:message key="WF.workspace.button.pica3" />
 													</a>
 							     					<button id="workspace_button_mods_from_opac" class="btn btn-default" type="button" data-toggle="collapse" data-target="#import_mods-dialog-task_${currentTask.id}">
