@@ -342,6 +342,25 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
             MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(taskId,
                     MCRActivitiMgr.WF_VAR_DISPLAY_PERSISTENT_IDENTIFIER, "");
         }
+        
+        
+        //RecordIdentifier
+        try {
+            String xpPI = "concat(//mods:mods//mods:recordInfo/mods:recordIdentifier,'')";
+            XPathExpression<String> xpath = XPathFactory.instance().compile(xpPI, Filters.fstring(), null,
+                    MCRConstants.MODS_NAMESPACE);
+            txt = xpath.evaluateFirst(mcrObj.createXML());
+        } catch (Exception e) {
+            LOGGER.error(e);
+            txt = e.getMessage();
+        }
+        if (txt != null) {
+            MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(taskId,
+                    MCRActivitiMgr.WF_VAR_DISPLAY_RECORD_IDENTIFIER, txt);
+        } else {
+            MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(taskId,
+                    MCRActivitiMgr.WF_VAR_DISPLAY_RECORD_IDENTIFIER, "");
+        }
 
     }
 
