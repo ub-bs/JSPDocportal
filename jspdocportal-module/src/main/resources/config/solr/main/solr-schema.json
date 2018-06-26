@@ -1,0 +1,53 @@
+[
+	{
+		"add-field-type": {
+			"name": "text_de",
+			"class": "solr.TextField",
+			"positionIncrementGap": "100",
+			"analyzer": {
+				"tokenizer": {
+					"class": "solr.StandardTokenizerFactory"
+				},
+				"filters": [
+					{
+						"class": "solr.LowerCaseFilterFactory"
+					},
+					{
+						"class": "solr.StopFilterFactory",
+						"format": "snowball",
+						"words": "lang/stopwords_de.txt",
+						"ignoreCase": "true"
+					},
+					{
+						"class": "solr.GermanNormalizationFilterFactory"
+					},
+					{
+						"class": "solr.GermanLightStemFilterFactory"
+					}
+				]
+			}
+		}
+	},
+	{
+		"add-field-type": {
+			"name": "mcr_identifier",
+			"class": "solr.TextField",
+			"analyzer": {
+				"charFilters": [
+					{
+						"class": "solr.MappingCharFilterFactory",
+						"mapping": "mycore_default_mapping.txt"
+					}
+				],
+				"tokenizer": {
+					"class": "solr.KeywordTokenizerFactory"
+				},
+				"filters": [
+					{
+						"class": "solr.LowerCaseFilterFactory"
+					}
+				]
+			}
+		}
+	}
+]
