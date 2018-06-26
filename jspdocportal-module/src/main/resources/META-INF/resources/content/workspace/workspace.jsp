@@ -93,17 +93,17 @@
 											</div>
 											<div class="panel-body">
 												<c:if test="${not fn:contains(currentVariables.mcrObjectID,'_person_')}">
-													<a href="${WebApplicationBaseURL}pubform/pica3?urn=${currentVariables.wfObjectDisplayPersistentIdentifier}" 
-												   		class="btn btn-default" target="_blank"><i class="fa fa-book"></i> <fmt:message key="WF.workspace.button.pica3" />
+													<a id="workspace_button_pica3_import" href="${fn:replace(WebApplicationBaseURL, '/rosdok', '')}pubform/pica3?urn=${currentVariables.wfObjectDisplayPersistentIdentifier}&recordIdentifier=${currentVariables.wfObjectDisplayRecordIdentifier}" 
+												   	   class="btn btn-default" target="_blank"><i class="fa fa-book"></i> <fmt:message key="WF.workspace.button.pica3" />
 													</a>
-							     					<button class="btn btn-default" type="button" data-toggle="collapse" data-target="#import_mods-dialog-task_${currentTask.id}">
-							     						<i class="fa fa-download"></i> <fmt:message key="WF.workspace.button.download" />
+							     					<button id="workspace_button_mods_from_opac" class="btn btn-default" type="button" data-toggle="collapse" data-target="#import_mods-dialog-task_${currentTask.id}">
+							     						<i class="fa fa-download"></i> <fmt:message key="WF.workspace.button.mods_from_opac" />
 							     					</button>
 							     				</c:if>
-							     				<button name="doEditObject-task_${currentTask.id}-${currentVariables.mcrObjectID}" value="" class="btn btn-default" type="submit">
+							     				<button id="workspace_button_edit_metadata" name="doEditObject-task_${currentTask.id}-${currentVariables.mcrObjectID}" value="" class="btn btn-default" type="submit">
 							     					<i class="fa fa-tag"></i> <fmt:message key="WF.workspace.button.edit_metadata" />
 							     				</button>
-							     				<button name="doEditDerivates-task_${currentTask.id}-${currentVariables.mcrObjectID}" value="" class="btn btn-default" type="submit">
+							     				<button id="workspace_button_edit_derivate" name="doEditDerivates-task_${currentTask.id}-${currentVariables.mcrObjectID}" value="" class="btn btn-default" type="submit">
 							    	 				<i class="fa fa-file"></i> <fmt:message key="WF.workspace.button.edit_derivate" />
 							     				</button>
 							   			 	</div>
