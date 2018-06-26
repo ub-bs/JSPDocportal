@@ -71,7 +71,8 @@
   						</a>
 					  	<span class="badge pull-left" style="margin-right:24px;margin-top:9px;">${currentVariables.mcrObjectID}</span>
 					  	<h3 class="pull-left" style="margin-top:6px;color: white">
-					  		${currentVariables.wfObjectDisplayTitle}
+                            <c:set var="shortTitle" value="${fn:substring(currentVariables.wfObjectDisplayTitle, 0, 50)}..." />
+					  		${fn:length(currentVariables.wfObjectDisplayTitle)<50 ? currentVariables.wfObjectDisplayTitle : shortTitle}
 					  	</h3>
   					</div>
     				<div class="panel-body">

@@ -14,7 +14,18 @@
      <xsl:copy>
        <xsl:apply-templates select="node()|@*"/>
      </xsl:copy>
-      <xsl:if test="contains(/mycoreobject/@ID, '_disshab_') or contains(/mycoreobject/@ID, '_thesis_')">
+     <xsl:if test="contains(/mycoreobject/@ID, '_disshab_') or contains(/mycoreobject/@ID, '_thesis_')">
+      	<xsl:if test="contains(@valueURI, 'unirostock.')">
+       		<mods:name type="corporate" xlink:type="simple">
+       	 		<mods:nameIdentifier type="gnd">38329-6</mods:nameIdentifier>
+	         	<mods:namePart>Universität Rostock</mods:namePart>
+    		     <mods:role>
+          			<mods:roleTerm type="code" authority="marcrelator">dgg</mods:roleTerm>
+          			<mods:roleTerm authority="GBV" type="text">Grad-verleihende Institution</mods:roleTerm>
+         		</mods:role>
+       		</mods:name>
+       	</xsl:if>
+
        <xsl:variable name="gndURI">
          <xsl:call-template name="classLabel">
            <xsl:with-param name="valueURI"><xsl:value-of select="concat(./@authorityURI,'#',./@valueURIxEditor)" /></xsl:with-param>
@@ -32,6 +43,8 @@
         <mods:namePart><xsl:value-of select="$fullname" /></mods:namePart>
         <mods:role>
           <mods:roleTerm type="code" authority="marcrelator">dgg</mods:roleTerm>
+          <mods:roleTerm authority="GBV" type="text">Grad-verleihende Institution</mods:roleTerm>
+          
           </mods:role>
        </mods:name> 
     </xsl:if>
