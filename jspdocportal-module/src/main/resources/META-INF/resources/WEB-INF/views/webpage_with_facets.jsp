@@ -82,17 +82,19 @@
                    </span>
                   </div>
                  <div>
-                <table>
+                 <table>
                   <tbody>
                     <tr>
+                      <fmt:message key="Browse.Filter.${actionBean.path}.allMeta" var="lblAllMeta"/>
                       <td class="radio input-sm"><label> <input name="filterField" value="allMeta"
-                          checked="checked" type="radio"> <fmt:message key="Browse.Filter.${actionBean.path}.allMeta" />
+                          checked="checked" type="radio">  <c:out escapeXml="false" value="${fn:replace(lblAllMeta,'<br />', ' ')}" />
                       </label></td>
                       <td></td>
+                      <fmt:message key="Browse.Filter.${actionBean.path}.content" var="lblContent"/>
                       <td class="radio input-sm"><label> <input name="filterField" value="content"
-                          type="radio"> <fmt:message key="Browse.Filter.${actionBean.path}.content" />
+                          type="radio"> <c:out escapeXml="false" value="${fn:replace(lblContent,'<br />', ' ')}" />
                       </label></td>
-                      <td></td>                     
+                      <td></td>
                     </tr>
                   </tbody>
                 </table>
