@@ -86,11 +86,11 @@
                   <tbody>
                     <tr>
                       <td class="radio input-sm"><label> <input name="filterField" value="allMeta"
-                          checked="checked" type="radio"> <fmt:message key="Browse.Filter.epub.allMeta" />
+                          checked="checked" type="radio"> <fmt:message key="Browse.Filter.${actionBean.path}.allMeta" />
                       </label></td>
                       <td></td>
                       <td class="radio input-sm"><label> <input name="filterField" value="content"
-                          type="radio"> <fmt:message key="Browse.Filter.epub.content" />
+                          type="radio"> <fmt:message key="Browse.Filter.${actionBean.path}.content" />
                       </label></td>
                       <td></td>                     
                     </tr>
