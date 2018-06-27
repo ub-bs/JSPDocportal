@@ -398,7 +398,7 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
                     } else {
                         result.append("<i class=\"fa fa-folder-open\"></i> ");
                     }
-                    result.append(fileName);
+                    result.append("<a href=\""+MCRFrontendUtil.getBaseURL()+"wffile/"+mcrObjID.toString()+"/"+der.getId().toString()+"/"+fileName + "\">" + fileName + "</a>");
 
                     if (fileName.equals(der.getDerivate().getInternals().getMainDoc())) {
                         result.append("<span style=\"margin-left:16px; color:grey;\" class=\"fa fa-star\" title=\""

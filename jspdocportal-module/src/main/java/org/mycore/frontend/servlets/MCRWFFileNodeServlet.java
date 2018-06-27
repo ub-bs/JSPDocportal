@@ -23,13 +23,9 @@
 
 package org.mycore.frontend.servlets;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -38,11 +34,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.mycore.common.config.MCRConfiguration;
-import org.mycore.frontend.MCRFrontendUtil;
+import org.mycore.activiti.MCRActivitiUtils;
+import org.mycore.datamodel.metadata.MCRObjectID;
+
 
 /**
  * This Servlet overides only the output methods of mcrfilenodservlet for jsp docportal use 
+ * 
+ * ToDo - check permission
  * @author Anja Schaar
  * 
  *  
@@ -66,24 +65,27 @@ public class MCRWFFileNodeServlet extends HttpServlet {
         LOGGER.debug("servletPath=" + request.getServletPath());
         String uri = request.getPathInfo();
         String filename = null;
-        String type = null;
+
         String derivateID = null;
+        String mcrObjID = null;
 
         if (uri != null) {
             LOGGER.debug(" Path = " + uri);
-            String path[] = uri.split("/");
-            derivateID = path[1];
-            filename = path[2];
-            type = MCRFrontendUtil.getProperty(request, "type").orElse(null);
+            String path[] = uri.split("/", 4);
+            if(path.length!=3) {
+                mcrObjID = path[1];
+                derivateID = path[2];
+                filename = path[3];
+            }
         }
 
-        if (filename == null || type == null) {
+        if (filename == null || derivateID == null || mcrObjID==null) {
             getServletContext().getRequestDispatcher("/nav?path=~mycore-error&messageKey=IdNotGiven").forward(request,
                     response);
         }
-        String basedir = MCRConfiguration.instance().getString("MCR.WorkflowEngine.EditDirectory." + type);
-        File file = new File(basedir + "/" + derivateID + "/" + filename);
-        if (file.exists() && file.canRead()) {
+        Path derDir = MCRActivitiUtils.getWorkflowDerivateDir(MCRObjectID.getInstance(mcrObjID), MCRObjectID.getInstance(derivateID));
+        Path file = derDir.resolve(filename);
+        if (Files.exists(file) && Files.isReadable(file)) {
             // 	 Set the headers.
             if (filename.endsWith("pdf"))
                 response.setContentType("application/pdf");
@@ -97,25 +99,9 @@ public class MCRWFFileNodeServlet extends HttpServlet {
                 response.setContentType("application/x-download");
             response.setHeader("Content-Disposition", "attachment; filename=" + filename);
 
-            //        	 Send the file.
-            OutputStream out = response.getOutputStream();
-            returnFile(file, out);
+            // Send the file.
+            Files.copy(file,  response.getOutputStream());
         }
 
-    }
-
-    public static void returnFile(File file, OutputStream out) throws FileNotFoundException, IOException {
-        InputStream in = null;
-        try {
-            in = new BufferedInputStream(new FileInputStream(file));
-            byte[] buf = new byte[4 * 1024]; // 4K buffer
-            int bytesRead;
-            while ((bytesRead = in.read(buf)) != -1) {
-                out.write(buf, 0, bytesRead);
-            }
-        } finally {
-            if (in != null)
-                in.close();
-        }
     }
 }
