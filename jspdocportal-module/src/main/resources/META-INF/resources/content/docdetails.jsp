@@ -127,7 +127,7 @@
 				<div class="ir-box">
 					<ul id="main_navbar" class="nav nav-tabs">
 						<x:if select="$doc/mycoreobject[not(contains(@ID, '_bundle_'))]/structure/derobjects/derobject[@xlink:title='fulltext' or @xlink:title='MCRVIEWER_METS']">
-							<li id="nav_fulltext" role="presentation"><a data-toggle="collapse" href="#div_fulltext">Volltext</a></li>
+							<li id="nav_fulltext" role="presentation"><a data-toggle="collapse" href="#div_fulltext">Viewer</a></li>
   						</x:if>
   						<x:if select="contains($doc/mycoreobject/@ID, '_bundle_')">
   							<li id="nav_structure" role="presentation"><a data-toggle="collapse" href="#div_structure">zugehörende Dokumente</a></li>
