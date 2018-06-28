@@ -22,7 +22,7 @@
                     <xsl:element name="img">
                             <xsl:attribute name="src"><xsl:value-of select="$WebApplicationBaseURL"/>images/creativecommons/l/by/4.0/88x31.png</xsl:attribute>
                             <xsl:attribute name="style">border-style: none</xsl:attribute>
-                            <xsl:attribute name="alt">Creative Commons Lizenzvertrag</xsl:attribute>
+                            <xsl:attribute name="alt">Creative Commons Lizenzvertrag (CC-BY)</xsl:attribute>
                     </xsl:element>
                    </a>
                    </div>
@@ -30,6 +30,24 @@
                      Dieses Werk ist lizenziert unter einer 
                      <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
                      Creative Commons Namensnennung 4.0 International Lizenz</a>.
+                   </div>
+                 </td></tr>     
+                 </xsl:if>
+                 <xsl:if test="./ubr-legal:license/@uri='http://creativecommons.org/licenses/by-sa/4.0/'">
+                 <tr><td>
+                   <div style="float:left">
+                   <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+                    <xsl:element name="img">
+                            <xsl:attribute name="src"><xsl:value-of select="$WebApplicationBaseURL"/>images/creativecommons/l/by-sa/4.0/88x31.png</xsl:attribute>
+                            <xsl:attribute name="style">border-style: none</xsl:attribute>
+                            <xsl:attribute name="alt">Creative Commons Lizenzvertrag (CC-BY-SA)</xsl:attribute>
+                    </xsl:element>
+                   </a>
+                   </div>
+                   <div style="position: relative; margin-left:100px; font-size:90%; text-align:justify">
+                     Dieses Werk ist lizenziert unter einer 
+                     <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+                     Creative Commons Namensnennung - Weitergabe unter gleichen Bedingungen 4.0 International Lizenz</a>.
                    </div>
                  </td></tr>     
                  </xsl:if>
