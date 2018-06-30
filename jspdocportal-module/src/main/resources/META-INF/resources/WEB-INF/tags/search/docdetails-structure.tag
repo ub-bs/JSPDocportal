@@ -31,14 +31,6 @@
 <c:set var="numHits" value="${result.numFound}" />
 
 <div class="panel panel-default ir-searchresult-panel">
-	<c:if test="${numHits eq 0}">
-	  <%-- hide message:	
-      <div class="panel-body">
-			<fmt:message key="Webpage.Searchresult.empty"/>
-	  </div>
-      --%>
-	</c:if>
-	
 	<c:if test="${numHits > 0}">	
 		<ul class="list-group">
 			<c:forEach var="entry" items="${result.entries}">
