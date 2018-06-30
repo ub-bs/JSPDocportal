@@ -125,7 +125,7 @@
         	<xsl:for-each select="mods:recordInfo/mods:recordIdentifier">
               <field name="ir.host.recordIdentifier"><xsl:value-of select="." /></field> 
             </xsl:for-each>
-            <xsl:for-each select="mods:part/mods:text[@type='sortstring']">
+            <xsl:for-each select="mods:part/mods:text[@type='sortstring'][1]">
               <field name="ir.sortstring"><xsl:value-of select="." /></field> 
             </xsl:for-each>
         </xsl:for-each>
