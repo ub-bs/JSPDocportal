@@ -179,8 +179,6 @@
 				<div class="ir-box" style="font-size: 85%;min-height:600px">
 			    	<c:set var="recordIdentifier"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier"/></c:set>
 					<search:docdetails-structure recordIdentifier="${recordIdentifier}" />
-                    <%-- TEMPORARY FIX: until migration is completed --%>
-                    <search:docdetails-structure recordIdentifier="${mcrid}" />
 				</div>
 			</div>
 		</x:if>
