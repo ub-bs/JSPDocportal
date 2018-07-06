@@ -54,11 +54,15 @@
   	<xsl:for-each select="def.modsContainer/modsContainer/mods:mods">
         <field name="recordIdentifier"><xsl:value-of select="mods:recordInfo/mods:recordIdentifier" /></field>
   		
-      <xsl:choose>
-            <xsl:when test="mods:identifier[@type='purl']">
+      <xsl:if test="mods:identifier[@type='purl']">
               <field name="purl"><xsl:value-of select="mods:identifier[@type='purl']" /></field>  
-            </xsl:when>
-        </xsl:choose>
+      </xsl:if>
+      <xsl:if test="mods:identifier[@type='PPN']">
+              <field name="ppn"><xsl:value-of select="mods:identifier[@type='PPN']" /></field>  
+      </xsl:if>
+      <xsl:if test="mods:identifier[@type='urn']">
+              <field name="urn"><xsl:value-of select="mods:identifier[@type='urn']" /></field>  
+      </xsl:if>
         
         <xsl:variable name="var_creator">
   			<xsl:for-each select="mods:name[mods:role/mods:roleTerm/@valueURI='http://id.loc.gov/vocabulary/relators/aut' or mods:role/mods:roleTerm[@authority='marcrelator']='aut']">
@@ -121,8 +125,8 @@
   	  	</xsl:choose>
         </xsl:if>
         
-        <xsl:for-each select="mods:relatedItem[not(@displayLabel='appears_in')]">
-        	<xsl:for-each select="mods:recordInfo/mods:recordIdentifier">
+		<xsl:for-each select="mods:relatedItem[not(@displayLabel='appears_in')][1]">
+        	<xsl:for-each select="mods:recordInfo[1]/mods:recordIdentifier[1]">
               <field name="ir.host.recordIdentifier"><xsl:value-of select="." /></field> 
             </xsl:for-each>
             <xsl:for-each select="mods:part/mods:text[@type='sortstring'][1]">
@@ -160,30 +164,30 @@
           <xsl:choose>
             <xsl:when test="mods:originInfo[@eventType='publication']">
               <xsl:for-each select="mods:originInfo[@eventType='publication'][mods:dateIssued[not(@point) and not(@qualifier)]]">
-                <xsl:value-of select="substring(mods:dateIssued,1,4)" />
+                <xsl:value-of select="translate(substring(mods:dateIssued,1,4),'xX', '00')" />
               </xsl:for-each>
               <xsl:for-each select="mods:originInfo[@eventType='publication'][mods:dateCreated[not(@point) and not(@qualifier)]]">
-                <xsl:value-of select="substring(mods:dateCreated,1,4)" />
+                <xsl:value-of select="translate(substring(mods:dateCreated,1,4),'xX', '00')" />
               </xsl:for-each>
               <xsl:for-each select="mods:originInfo[@eventType='publication'][mods:dateCreated[@point]]">
-                <xsl:value-of select="substring(mods:dateCreated[@point='start'],1,4)" />
+                <xsl:value-of select="translate(substring(mods:dateCreated[@point='start'],1,4),'xX', '00')" />
               </xsl:for-each>
               <xsl:for-each select="mods:originInfo[@eventType='publication'][mods:dateIssued[@point]]">
-                <xsl:value-of select="substring(mods:dateIssued[@point='start'],1,4)" />
+                <xsl:value-of select="translate(substring(mods:dateIssued[@point='start'],1,4),'xX', '00')" />
               </xsl:for-each>
             </xsl:when>
             <xsl:otherwise>
               <xsl:for-each select="mods:originInfo[@eventType='creation'][mods:dateIssued[not(@point) and not(@qualifier)]]">
-                <xsl:value-of select="substring(mods:dateIssued,1,4)" />
+                <xsl:value-of select="translate(substring(mods:dateIssued,1,4),'xX', '00')" />
               </xsl:for-each>
               <xsl:for-each select="mods:originInfo[@eventType='creation'][mods:dateCreated[not(@point) and not(@qualifier)]]">
-                <xsl:value-of select="substring(mods:dateCreated,1,4)" />
+                <xsl:value-of select="translate(substring(mods:dateCreated,1,4),'xX', '00')" />
               </xsl:for-each>
               <xsl:for-each select="mods:originInfo[@eventType='creation'][mods:dateCreated[@point]]">
-                <xsl:value-of select="substring(mods:dateCreated[@point='start'],1,4)" />
+                <xsl:value-of select="translate(substring(mods:dateCreated[@point='start'],1,4),'xX', '00')" />
               </xsl:for-each>
               <xsl:for-each select="mods:originInfo[@eventType='creation'][mods:dateIssued[@point]]">
-                <xsl:value-of select="substring(mods:dateIssued[@point='start'],1,4)" />
+                <xsl:value-of select="translate(substring(mods:dateIssued[@point='start'],1,4),'xX', '00')" />
               </xsl:for-each>
             </xsl:otherwise>
           </xsl:choose>          
@@ -193,30 +197,30 @@
           <xsl:choose>
             <xsl:when test="mods:originInfo[@eventType='publication']">
               <xsl:for-each select="mods:originInfo[@eventType='publication'][mods:dateIssued[not(@point) and not(@qualifier)]]">
-                <xsl:value-of select="substring(mods:dateIssued,1,4)" />
+                <xsl:value-of select="translate(substring(mods:dateIssued,1,4),'xX', '99')" />
               </xsl:for-each>
               <xsl:for-each select="mods:originInfo[@eventType='publication'][mods:dateCreated[not(@point) and not(@qualifier)]]">
-                <xsl:value-of select="substring(mods:dateCreated,1,4)" />
+                <xsl:value-of select="translate(substring(mods:dateCreated,1,4),'xX', '99')" />
               </xsl:for-each>
               <xsl:for-each select="mods:originInfo[@eventType='publication'][mods:dateCreated[@point]]">
-                <xsl:value-of select="substring(mods:dateCreated[@point='end'],1,4)" />
+                <xsl:value-of select="translate(substring(mods:dateCreated[@point='end'],1,4),'xX', '99')" />
               </xsl:for-each>
               <xsl:for-each select="mods:originInfo[@eventType='publication'][mods:dateIssued[@point]]">
-                <xsl:value-of select="substring(mods:dateIssued[@point='end'],1,4)" />
+                <xsl:value-of select="translate(substring(mods:dateIssued[@point='end'],1,4),'xX', '99')" />
               </xsl:for-each>
             </xsl:when>
             <xsl:otherwise>
               <xsl:for-each select="mods:originInfo[@eventType='creation'][mods:dateIssued[not(@point) and not(@qualifier)]]">
-                <xsl:value-of select="substring(mods:dateIssued,1,4)" />
+                <xsl:value-of select="translate(substring(mods:dateIssued,1,4),'xX', '99')" />
               </xsl:for-each>
               <xsl:for-each select="mods:originInfo[@eventType='creation'][mods:dateCreated[not(@point) and not(@qualifier)]]">
-                <xsl:value-of select="substring(mods:dateCreated,1,4)" />
+                <xsl:value-of select="translate(substring(mods:dateCreated,1,4),'xX', '99')" />
               </xsl:for-each>
               <xsl:for-each select="mods:originInfo[@eventType='creation'][mods:dateCreated[@point]]">
-                <xsl:value-of select="substring(mods:dateCreated[@point='end'],1,4)" />
+                <xsl:value-of select="translate(substring(mods:dateCreated[@point='end'],1,4),'xX', '99')" />
               </xsl:for-each>
               <xsl:for-each select="mods:originInfo[@eventType='creation'][mods:dateIssued[@point]]">
-                <xsl:value-of select="substring(mods:dateIssued[@point='end'],1,4)" />
+                <xsl:value-of select="translate(substring(mods:dateIssued[@point='end'],1,4),'xX', '99')" />
               </xsl:for-each>
             </xsl:otherwise>
           </xsl:choose>  
