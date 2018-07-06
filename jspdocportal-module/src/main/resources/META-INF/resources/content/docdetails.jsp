@@ -126,7 +126,7 @@
 			<div class="col-sm-12">
 				<div class="ir-box">
 					<ul id="main_navbar" class="nav nav-tabs">
-						<x:if select="$doc/mycoreobject[not(contains(@ID, '_bundle_'))]/structure/derobjects/derobject[@xlink:title='fulltext' or @xlink:title='MCRVIEWER_METS']">
+                        <x:if select="$doc/mycoreobject[not(contains(@ID, '_bundle_'))]/structure/derobjects/derobject[@xlink:title='fulltext' or @xlink:title='MCRVIEWER_METS']">
 							<li id="nav_fulltext" role="presentation"><a data-toggle="collapse" href="#div_fulltext">Viewer</a></li>
   						</x:if>
   						<x:if select="contains($doc/mycoreobject/@ID, '_bundle_')">
@@ -178,7 +178,7 @@
 			<div id="div_structure" class="collapse col-sm-12">
 				<div class="ir-box" style="font-size: 85%;min-height:600px">
 			    	<c:set var="recordIdentifier"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier"/></c:set>
-					<search:docdetails-structure recordIdentifier="${recordIdentifier}" />
+					<search:docdetails-structure hostRecordIdentifier="${recordIdentifier}" hostMcrID="${param.id}" />
 				</div>
 			</div>
 		</x:if>
@@ -292,11 +292,17 @@
                 <x:choose>
 	                <x:when select="$doc/mycoreobject[not(contains(@ID, '_bundle_'))]/structure/derobjects/derobject[@xlink:title='MCRVIEWER_METS']"> 
 						<c:set var="recordID"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier[@source='DE-28']" /></c:set>
-		                <a href="${WebApplicationBaseURL}mcrviewer/recordIdentifier/${fn:replace(recordID,'/','%252F')}">
+		                <a href="${WebApplicationBaseURL}mcrviewer/recordIdentifier/${fn:replace(recordID,'/','%252F')}" title="Im MyCoRe Viewer anzeigen">
         		          <search:derivate-image mcrid="${param.id}" width="200px" labelContains="cover" />
                 		</a>
                 	</x:when>
-                	<x:otherwise>
+                	<x:when select="$doc/mycoreobject[not(contains(@ID, '_bundle_'))]/structure/derobjects/derobject[@xlink:title='DV_METS' or @xlink:title='METS']"> 
+                		<c:set var="mcrid"><x:out select="$doc/mycoreobject/@ID" /></c:set>
+	                		<a href="${WebApplicationBaseURL}resolve/id/${mcrid}/dfgviewer" target="_blank" title="Im DFG Viewer anzeigen">
+	                			<search:derivate-image mcrid="${param.id}" width="200px" labelContains="cover" />
+	                		</a>
+                	</x:when>
+                   	<x:otherwise>
         		          <search:derivate-image mcrid="${param.id}" width="200px" labelContains="cover" />
                 	</x:otherwise>
                  </x:choose>
@@ -339,7 +345,7 @@
             <fmt:message key="Webpage.docdetails.pdfdownload" />
         </a>
       </x:if>
-      <x:if select="$doc/mycoreobject[not(contains(@ID,'_bundle_'))]/structure/derobjects/derobject[@xlink:title='DV_METS']">
+      <x:if select="$doc/mycoreobject[not(contains(@ID,'_bundle_'))]/structure/derobjects/derobject[@xlink:title='DV_METS' or @xlink:title='METS']">
         <c:set var="recordID"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier[@source='DE-28']" /></c:set>
         <c:if test="${not empty recordID}">
           <a class="btn btn-default ir-button ir-button-download"  
@@ -349,13 +355,13 @@
             </a>
         </c:if>
       </x:if>
-      <x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='DV_METS']">
+      <x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='DV_METS' or @xlink:title='METS']">
       <a class="btn btn-default ir-button ir-button-download"  
          href="${WebApplicationBaseURL}resolve/id/${mcrid}/dfgviewer" target="_blank">
           <img style="vertical-align:middle;height:30px;margin-right:6px;" src="${WebApplicationBaseURL}images/dfg_icon.png" title = "<fmt:message key="Webpage.docdetails.dfgviewer" />" />
         <fmt:message key="Webpage.docdetails.viewer" />
        </a>
-       </x:if>
+      </x:if>
        
        
        <x:forEach select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='data' or @xlink:title='documentation' ]">
@@ -458,8 +464,9 @@
               <a class="btn btn-warning btn-sm ir-button-warning" target="_blank" title="<fmt:message key="Webpage.tools.showXML" />"
                    href="${WebApplicationBaseURL}api/v1/objects/${mcrid}" rel="nofollow">XML</a>
               <a class="btn btn-warning btn-sm ir-button-warning" style="margin-left:6px" target="_blank" title="<fmt:message key="Webpage.tools.showSOLR" />"
-                  href="${WebApplicationBaseURL}receive/${mcrid}?XSL.Style=solrdocument" rel="nofollow">SOLR</a>
-                  
+                  href="${WebApplicationBaseURL}receive/${mcrid}?XSL.Style=solrdocument" rel="nofollow">SOLR in</a>
+              <a class="btn btn-warning btn-sm ir-button-warning" style="margin-left:6px" target="_blank" title="<fmt:message key="Webpage.tools.showSOLR" />"
+                  href="${WebApplicationBaseURL}api/v1/search?q=id:${mcrid}" rel="nofollow">SOLR doc</a>
               <x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='REPOS_METS']">
                 <c:set var="derid"><x:out select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='REPOS_METS']/@xlink:href" /></c:set>
                 <a class="btn btn-warning btn-sm ir-button-warning" style="margin-left:6px" target="_blank" 

@@ -7,7 +7,8 @@
 
 <%@ taglib prefix="search" tagdir="/WEB-INF/tags/search"%>
 
-<%@ attribute name="recordIdentifier" required="true" type="java.lang.String" %>
+<%@ attribute name="hostRecordIdentifier" required="true" type="java.lang.String" %>
+<%@ attribute name="hostMcrID" required="true" type="java.lang.String" %>
 
 <%--make variables available in body: 
 <%@ variable name-given="mcrid" %>
@@ -16,10 +17,12 @@
  --%>
 <% 
 	MCRSearchResultDataBean result = new MCRSearchResultDataBean();
-	result.setQuery("ir.host.recordIdentifier:"+recordIdentifier);
+	result.setQuery("ir.host.recordIdentifier:"+hostRecordIdentifier+" OR ir.host.recordIdentifier:"+hostMcrID);
 	result.setSort("ir.sortstring asc");
+    result.setRows(999);
 	StringBuffer sb = new StringBuffer(MCRFrontendUtil.getBaseURL());
-	sb.append("resolve/recordIdentifier/"+recordIdentifier.replace("/", "%252F")+"?");
+    //sb.append("resolve/recordIdentifier/"+recordIdentifier.replace("/", "%252F")+"?");
+    sb.append("resolve/id/" + hostMcrID + "?");
 	if(request.getParameter("_search")!=null){sb.append("&_search="+request.getParameter("_search"));}
 	if(request.getParameter("_hit")!=null){sb.append("&_hit="+request.getParameter("_hit"));}
 	result.setBackURL(sb.toString());
