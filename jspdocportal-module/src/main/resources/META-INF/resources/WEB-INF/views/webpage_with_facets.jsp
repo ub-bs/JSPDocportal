@@ -186,7 +186,7 @@
           </ul>
 
 		  <div class="panel-footer" style="padding-bottom: 9px; text-align:right">
-			<a href="/rosdok/browse/histbest" class="btn btn-sm btn-primary ir-button">mehr ...</a>
+			<a href="/browse/${actionBean.path}" class="btn btn-sm btn-primary ir-button">mehr ...</a>
 		  </div>			
 	    </div>
       </div>
