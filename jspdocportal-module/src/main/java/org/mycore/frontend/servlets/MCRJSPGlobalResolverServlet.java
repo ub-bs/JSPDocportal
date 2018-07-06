@@ -25,19 +25,13 @@ package org.mycore.frontend.servlets;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLDecoder;
-import java.util.Hashtable;
 import java.util.Iterator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -54,17 +48,13 @@ import org.jdom2.output.XMLOutputter;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRException;
 import org.mycore.common.config.MCRConfiguration;
-import org.mycore.common.xml.MCRURIResolver;
 import org.mycore.datamodel.ifs.MCRDirectory;
 import org.mycore.datamodel.ifs.MCRFile;
 import org.mycore.datamodel.ifs.MCRFileNodeServlet;
 import org.mycore.datamodel.ifs.MCRFilesystemNode;
 import org.mycore.datamodel.metadata.MCRDerivate;
-import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
-import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
-import org.mycore.datamodel.metadata.MCRObjectStructure;
 import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.services.i18n.MCRTranslation;
 import org.mycore.solr.MCRSolrClientFactory;
@@ -85,10 +75,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
 
     private static Logger LOGGER = LogManager.getLogger(MCRJSPGlobalResolverServlet.class);
 
-    /** static compiled transformer stylesheets */
-    private static Hashtable<String, javax.xml.transform.Transformer> translist = new Hashtable<String, javax.xml.transform.Transformer>();
-
-    /**
+   /**
      * The initalization of the servlet.
      * 
      * @see javax.servlet.GenericServlet#init()
@@ -103,7 +90,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+        throws ServletException, IOException {
         String uri = request.getRequestURI();
         String path[] = uri.substring(uri.indexOf("/resolve/") + 9).split("/", -1);
         if (path.length < 2) {
@@ -164,54 +151,18 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
                 response.setContentType("text/xml");
                 XMLOutputter xout = new XMLOutputter(Format.getPrettyFormat());
                 xout.output(doc, response.getOutputStream());
-            } else if ("solrdocument".equals(request.getParameter("open"))
-                    || "solr".equals(request.getParameter("open"))) {
-                String style = request.getParameter("open");
-                //String xslfile = style + "-object.xsl";
-                String xslfile = "xsl/mycoreobject-" + style + ".xsl";
-
-                Document doc = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID)).createXML();
-                response.setContentType("text/xml");
-
-                Transformer trans = translist.get(xslfile);
-                if (trans == null) {
-
-                    LOGGER.debug("Will load transformer stylesheet " + xslfile + "for export.");
-
-                    InputStream in = getClass().getResourceAsStream("/" + xslfile);
-
-                    try {
-                        if (in != null) {
-                            StreamSource source = new StreamSource(in);
-                            TransformerFactory transfakt = TransformerFactory.newInstance();
-                            transfakt.setURIResolver(MCRURIResolver.instance());
-                            trans = transfakt.newTransformer(source);
-                            translist.put(xslfile, trans);
-                        }
-                        if (trans != null) {
-                            StreamResult sr = new StreamResult(response.getOutputStream());
-                            trans.transform(new org.jdom2.transform.JDOMSource(doc), sr);
-                        }
-
-                    } catch (Exception e) {
-                        LOGGER.warn("Error while load transformer ressource " + xslfile + ".");
-                        if (LOGGER.isDebugEnabled()) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
             } else {
                 // show metadata as docdetails view
                 try {
                     MCRObjectID mcrObjID = MCRObjectID.getInstance(mcrID);
-                    if(!MCRMetadataManager.exists(mcrObjID)) {
-                        throw new MCRException("No object with id '"+mcrID+"' found.");
+                    if (!MCRMetadataManager.exists(mcrObjID)) {
+                        throw new MCRException("No object with id '" + mcrID + "' found.");
                     }
                     getServletContext().getRequestDispatcher("/content/docdetails.jsp?id=" + mcrID).forward(request,
-                            response);
+                        response);
                 } catch (MCRException ex) {
                     request.setAttribute("mcr_exception", ex);
-                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "No object with id '"+mcrID+"' found.");
+                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "No object with id '" + mcrID + "' found.");
                 }
             }
             return;
@@ -240,21 +191,14 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
         }
 
         if (action.equals("pdf")) {
-            String url = "";
+            StringBuffer sbUrl = createURLForMainDocInDerivateWithLabel(request, mcrID, "fulltext");
             if (path.length > 4) {
-                if (path[3].equals("page")) {
-                    url = createURLForPDF(request, mcrID, path[4], null);
+                if (path[3].equals("page") || path[3].equals("nr")) {
+                    sbUrl.append("#page=").append(path[3]);
                 }
-                if (path[3].equals("nr")) {
-                    url = createURLForPDF(request, mcrID, null, path[4]);
-                }
-            } else {
-                url = createURLForPDF(request, mcrID, null, null);
             }
-            if (url.length() > 0) {
-                LOGGER.debug("PDF URL: " + url);
-                response.sendRedirect(url);
-            }
+            LOGGER.debug("PDF URL: " + sbUrl.toString());
+            response.sendRedirect(sbUrl.toString());
             return;
         }
 
@@ -264,56 +208,24 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
             // +mcrID).forward(request, response);
             if (key.equals("recordIdentifier")) {
                 response.sendRedirect(response
-                        .encodeRedirectURL(request.getContextPath() + "/pdfdownload/recordIdentifier/" + value));
-            }
-            // TODO - SOLR Migration
-            // allow mcrids and other identifiers which can be looked up in SOLR
-            // index
-            else {
+                    .encodeRedirectURL(request.getContextPath() + "/pdfdownload/recordIdentifier/" + value));
+            } else {
                 response.sendRedirect(response.encodeRedirectURL(request.getContextPath()));
             }
+            return;
         }
 
         if (action.equals("cover")) {
-            String url = createURLForCover(request, mcrID);
-            if (url.length() > 0) {
-                LOGGER.debug("Cover URL: " + url);
-                response.sendRedirect(url);
-            }
+            StringBuffer url = createURLForMainDocInDerivateWithLabel(request, mcrID, "Cover");
+            LOGGER.debug("Cover URL: " + url.toString());
+            response.sendRedirect(url.toString());
+            return;
         }
 
         if (action.equals("fulltext")) {
             if (mcrID.startsWith("mvdok")) {
                 String url = MCRFrontendUtil.getBaseURL() + "mjbrenderer?id=" + mcrID;
                 response.sendRedirect(url);
-            }
-        }
-
-        if (action.equals("dv_mets")) {
-            // shall not be used, use "/file/DV_METS" with redirect to MCR file
-            // instead
-            String label = "DV_METS";
-            MCRObjectID mcrDerID = null;
-            MCRObject o = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID));
-            MCRObjectStructure structure = o.getStructure();
-            for (MCRMetaLinkID der : structure.getDerivates()) {
-                if (label.equals(der.getXLinkHref()) || label.equals(der.getXLinkLabel())
-                        || label.equals(der.getXLinkTitle())) {
-                    mcrDerID = der.getXLinkHrefID();
-                    break;
-                }
-            }
-            if (mcrDerID != null) {
-                StringBuffer filepath = new StringBuffer();
-                // display main document
-                MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(mcrDerID);
-                String mainDoc = der.getDerivate().getInternals().getMainDoc();
-                if (mainDoc != null && mainDoc.length() > 0) {
-                    filepath.append("/").append(mainDoc);
-                }
-                MCRDirectory root = MCRDirectory.getRootDirectory(mcrDerID.toString());
-                MCRFilesystemNode mainFile = root.getChildByPath(mainDoc);
-                sendFile(request, response, (MCRFile) mainFile);
             }
         }
 
@@ -325,50 +237,31 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
             } catch (NumberFormatException nfe) {
                 // do nothing -> id = -1;
             }
-
-            MCRObjectID mcrDerID = null;
-            if (id == -1) {
-                MCRObject o = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID));
-                MCRObjectStructure structure = o.getStructure();
-                for (MCRMetaLinkID der : structure.getDerivates()) {
-                    if (label.equals(der.getXLinkHref()) || label.equals(der.getXLinkLabel())
-                            || label.equals(der.getXLinkTitle())) {
-                        mcrDerID = der.getXLinkHrefID();
-                        break;
-                    }
-                }
-            } else {
+            if (id > 0) {
                 MCRObjectID mcrMetaID = MCRObjectID.getInstance(mcrID);
-                mcrDerID = MCRObjectID.getInstance(mcrMetaID.getProjectId() + "_derivate_" + label);
+                label = MCRObjectID.getInstance(mcrMetaID.getProjectId() + "_derivate_" + label).toString();
             }
-
-            if (mcrDerID != null) {
-                StringBuffer filepath = new StringBuffer();
-                if (path.length == 4) {
-                    // display main document
-                    MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(mcrDerID);
-                    String mainDoc = der.getDerivate().getInternals().getMainDoc();
-                    if (mainDoc != null && mainDoc.length() > 0) {
-                        filepath.append("/").append(mainDoc);
-                    }
-                } else {
-                    // display file on remaining path
-                    for (int i = 4; i < path.length; i++) {
-                        filepath.append("/").append(path[i]);
-                    }
+            StringBuffer sbURL = null;
+            if (path.length == 4) {
+                sbURL = createURLForMainDocInDerivateWithLabel(request, mcrID, label);
+            } else {
+                sbURL = createRootURLForDerivateWithLabel(request, mcrID, label);
+                // display file on remaining path
+                for (int i = 4; i < path.length; i++) {
+                    sbURL.append("/").append(path[i]);
                 }
-                StringBuffer url = new StringBuffer();
-                url.append(MCRFrontendUtil.getBaseURL()).append("file/").append(mcrID).append("/")
-                        .append(mcrDerID.toString()).append(filepath);
-                response.sendRedirect(url.toString());
             }
+            response.sendRedirect(sbURL.toString());
+            return;
         }
     }
 
     // CODE under development - try to solve the "Open Large PDF file" problem
+    // MyCoRe FileNodeServlet could do the job
+    @Deprecated
     @SuppressWarnings("unused")
     private void showDerivateFile(MCRObjectID mcrID, MCRObjectID mcrDerID, String path, HttpServletRequest request,
-            HttpServletResponse response) throws IOException, ServletException {
+        HttpServletResponse response) throws IOException, ServletException {
         // OLD CODE
         // the urn with information about the MCRObjectID
         MCRFilesystemNode mainFile = null;
@@ -391,6 +284,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
             }
         }
         if (mainFile != null) {
+            String accessErrorPage = MCRConfiguration.instance().getString("MCR.Access.Page.Error", "");
             if (!MCRAccessManager.checkPermissionForReadingDerivate(mainFile.getOwnerID())) {
                 LOGGER.info("MCRFileNodeServlet: AccessForbidden to " + mainFile.getName());
                 response.sendRedirect(response.encodeRedirectURL(MCRFrontendUtil.getBaseURL() + accessErrorPage));
@@ -407,13 +301,13 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
 
         response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         getServletContext()
-                .getRequestDispatcher("/nav?path=~mycore-error&messageKey=MCRJSPGlobalResolver.error.notfound")
-                .forward(request, response);
+            .getRequestDispatcher("/nav?path=~mycore-error&messageKey=MCRJSPGlobalResolver.error.notfound")
+            .forward(request, response);
     }
 
     // openPDF
     private void openPDF(HttpServletRequest request, HttpServletResponse response, String mcrid, MCRFile mcrFile)
-            throws IOException {
+        throws IOException {
         String page = request.getParameter("page");
         String nr = request.getParameter("nr");
 
@@ -431,9 +325,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
 
     }
 
-    private static String accessErrorPage = MCRConfiguration.instance().getString("MCR.Access.Page.Error", "");
-
-    /**
+       /**
      * Sends the contents of an MCRFile to the client.
      * 
      * @see MCRFileNodeServlet for implementation details

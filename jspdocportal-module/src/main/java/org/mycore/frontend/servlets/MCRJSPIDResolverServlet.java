@@ -31,19 +31,20 @@ import java.nio.file.Path;
 import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocumentList;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 import org.jdom2.filter.Filters;
-import org.jdom2.output.Format;
-import org.jdom2.output.XMLOutputter;
 import org.jdom2.xpath.XPathFactory;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.common.content.MCRPathContent;
@@ -54,8 +55,8 @@ import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.datamodel.metadata.MCRObjectStructure;
 import org.mycore.datamodel.niofs.MCRPath;
-import org.mycore.datamodel.niofs.MCRPathXML;
 import org.mycore.frontend.MCRFrontendUtil;
+import org.mycore.solr.MCRSolrClientFactory;
 
 /**
  * This servlet response the MCRObject certain by the call path
@@ -90,184 +91,152 @@ public class MCRJSPIDResolverServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+        throws ServletException, IOException {
         String pdf = request.getParameter("pdf");
-        String xml = request.getParameter("xml");
-        String xmlextended = request.getParameter("xmlextended");
         String img = request.getParameter("img");
-        String html = request.getParameter("html");
-
+        String mcrID = null;
         String queryString = "";
+
         String[] keys = new String[] { "id", "ppn", "urn" };
         for (String key : keys) {
             if (request.getParameterMap().containsKey(key)) {
                 String value = request.getParameter(key);
                 if (key.equals("id")) {
                     value = recalculateMCRObjectID(value);
+                    mcrID = value;
                 }
                 if (value != null) {
-                    queryString = "(" + key + " = " + value + ")";
+                    queryString = key + ":\"" + value + "\"";
                 }
                 break;
             }
         }
+
         if (queryString.length() == 0) {
             getServletContext().getRequestDispatcher("/nav?path=~mycore-error&messageKey=IdNotGiven").forward(request,
-                    response);
+                response);
         } else {
-            // TODO SOLR Migration
-            /*
-             * MCRQuery query = new MCRQuery((new
-             * MCRQueryParser()).parse(queryString)); MCRResults result =
-             * MCRQueryManager.search(query);
-             * 
-             * if(result.getNumHits()>0){ String mcrID =
-             * result.getHit(0).getID(); if(pdf!=null){ String page=
-             * request.getParameter("page"); String nr =
-             * request.getParameter("nr"); String url = createURLForPDF(request,
-             * mcrID, page, nr); if(url.length()>0){ response.sendRedirect(url);
-             * return; } } else if(html!=null){ String url =
-             * createURLForHTML(request, mcrID);
-             * //this.getServletContext().getRequestDispatcher
-             * ("/nav?path=~showHTML&url=" +url).forward(request, response);
-             * response.sendRedirect(url); } else if(xml!=null){ Document doc =
-             * MCRMetadataManager
-             * .retrieveMCRObject(MCRObjectID.getInstance(mcrID)).createXML();
-             * response.setContentType("text/xml"); XMLOutputter xout = new
-             * XMLOutputter(Format.getPrettyFormat()); xout.output(doc,
-             * response.getOutputStream()); return; } else
-             * if(xmlextended!=null){ response.setContentType("text/xml");
-             * outputExtendedXML(mcrID, response.getOutputStream()); return; }
-             * else if(img!=null){ String url=""; String page=
-             * request.getParameter("page"); if(page!=null){ url =
-             * createURLForDFGViewer(request, mcrID, OpenBy.page, page); }
-             * String nr = request.getParameter("nr"); if(nr!=null){ url =
-             * createURLForDFGViewer(request, mcrID, OpenBy.nr, nr); }
-             *   String part = request.getParameter("part");
-                    if(part!=null){
-                        url = createURLForDFGViewer(request, mcrID, OpenBy.part, part);
-                    }
-             * if(url.length()>0){ LOGGER.debug("DFGViewer URL: "+url);
-             * response.sendRedirect(url); } } //end [if(img!=null)] else{
-             * this.getServletContext
-             * ().getRequestDispatcher("/content/docdetails.jsp?id="
-             * +mcrID).forward(request, response); } } //end
-             * [if(result.getNumHits()>0)]
-             */
+            SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
+            SolrQuery query = new SolrQuery();
+            query.setQuery(queryString);
+
+            try {
+                QueryResponse solrResponse = solrClient.query(query);
+                SolrDocumentList solrResults = solrResponse.getResults();
+
+                if (solrResults.getNumFound() > 0) {
+                    mcrID = solrResults.get(0).getFirstValue("id").toString();
+                    if (pdf != null) {
+                        StringBuffer sbURL = null;
+                        String page = request.getParameter("page");
+                        String nr = request.getParameter("nr");
+                        if (solrResults.get(0).containsKey("ir.pdffulltext_url")) {
+                            sbURL = new StringBuffer(MCRFrontendUtil.getBaseURL());
+                            sbURL.append(solrResults.get(0).getFirstValue("ir.pdffulltext_url").toString());
+                        } else {
+                            sbURL = createURLForMainDocInDerivateWithLabel(request, mcrID, "fulltext");
+                        }
+                        if (page != null) {
+                            sbURL.append("#page=").append(page);
+                        } else if (nr != null) {
+                            sbURL.append("#page=").append(nr);
+                        }
+                        response.sendRedirect(sbURL.toString());
+                        return;
+
+                    } else if (img != null) {
+                        String url = "";
+                        String page = request.getParameter("page");
+                        if (page != null) {
+                            url = createURLForDFGViewer(request, mcrID, OpenBy.page, page);
+                        }
+                        String nr = request.getParameter("nr");
+                        if (nr != null) {
+                            url = createURLForDFGViewer(request, mcrID, OpenBy.nr, nr);
+                        }
+                        String part = request.getParameter("part");
+                        if (part != null) {
+                            url = createURLForDFGViewer(request, mcrID, OpenBy.part, part);
+                        }
+
+                        if (url.isEmpty()) {
+                            url = createURLForDFGViewer(request, mcrID, OpenBy.empty, "");
+                        }
+                        if (url.length() > 0) {
+                            LOGGER.debug("DFGViewer URL: " + url);
+                            response.sendRedirect(url);
+                            return;
+                        }
+                    } //end [if(img!=null)] else{
+                    response.sendRedirect(MCRFrontendUtil.getBaseURL() + "resolve/id/" + mcrID);
+
+                }
+            } catch (Exception e) {
+                LOGGER.error(e);
+                if (mcrID != null) {
+                    response.sendRedirect(MCRFrontendUtil.getBaseURL() + "resolve/id/" + mcrID);
+                }
+            }
         }
     }
 
     protected String recalculateMCRObjectID(String oldID) {
-       if(oldID==null) {
-           return null;
-       }
-        String result = oldID.replace("cpr_staff_0000", "cpr_person_").replace("cpr_professor_0000", "cpr_person_");
-        result = result.replace("_series_", "_bundle_");
-        return result;
-    }
-
-    protected String createURLForPDF(HttpServletRequest request, String mcrID, String page, String nr) {
-        MCRObject o = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID));
-        MCRObjectStructure structure = o.getStructure();
-        MCRMetaLinkID derMetaLink = null;
-        for(MCRMetaLinkID link: o.getStructure().getDerivates()) {
-            if("fulltext".equals(link.getXLinkHref())){
-                derMetaLink = link;
-                break;
-            }
+        if (oldID == null) {
+            return null;
         }
-        if(derMetaLink==null) {
-            derMetaLink = structure.getDerivates().get(0);
-        }
-        MCRObjectID derID = derMetaLink.getXLinkHrefID();
-        //TODO prefer use of @maindoc attribute
-        Path root = MCRPath.getPath(derID.toString(), "/");
-        try (DirectoryStream<Path> ds = Files.newDirectoryStream(root)) {
-            for (Path p : ds) {
-                /*
-                 * the following code does not change the URL in the browser,
-                 * but I cannot set additional parameter to open the pdf
-                 */
-                /*
-                 * response.setContentType( "application/pdf" );
-                 * response.setHeader("Content-Disposition",
-                 * "attachment; filename=" + myfiles[0].getName()); if
-                 * (myfiles[0] instanceof MCRFile) {
-                 * ((MCRFile)myfiles[0]).getContentTo
-                 * (response.getOutputStream()); }
-                 */
-
-                if (Files.isRegularFile(p) && p.getFileName().toString().endsWith(".pdf")) {
-                    StringBuffer sbPath = new StringBuffer(MCRFrontendUtil.getBaseURL());
-                    sbPath.append("file/").append(mcrID).append("/").append(p.toString());
-                    if (page != null) {
-                        sbPath.append("#page=").append(page);
-                    } else if (nr != null) {
-                        sbPath.append("#page=").append(nr);
-                    }
-                    return sbPath.toString();
-                }
-                // only one file should be checked
-                break;
-            }
-        } catch (IOException e) {
-            LOGGER.error(e);
-
-        }
-        return "";
+        String newID = oldID.replace("cpr_staff_0000", "cpr_person_").replace("cpr_professor_0000", "cpr_person_");
+        newID = newID.replace("_series_", "_bundle_");
+        MCRObjectID mcrObjID = MCRObjectID.getInstance(newID);
+        return mcrObjID.toString();
     }
 
     // createURL for HTML Page
     protected String createURLForHTML(HttpServletRequest request, String mcrID) {
         String anchor = request.getParameter("anchor");
-
-        MCRObject o = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID));
-        MCRObjectStructure structure = o.getStructure();
-        MCRMetaLinkID derMetaLink = null;
-        for (MCRMetaLinkID der : structure.getDerivates()) {
-            if (der.getXLinkTitle().equals("HTML")) {
-                derMetaLink = der;
-            }
+        StringBuffer fileURL = createURLForMainDocInDerivateWithLabel(request, mcrID, "HTML");
+        if (anchor != null) {
+            fileURL.append("#").append(anchor);
         }
-        if (derMetaLink == null) {
-            return "";
-        }
-        MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(derMetaLink.getXLinkHrefID());
-        String mainDoc = der.getDerivate().getInternals().getMainDoc();
-        if (mainDoc != null && mainDoc.length() > 0) {
-            StringBuffer sbPath = new StringBuffer(MCRFrontendUtil.getBaseURL());
-            sbPath.append("file/").append(mcrID).append("/").append(der.getId().toString()).append("/").append(mainDoc);
-            if (anchor != null) {
-                sbPath.append("#").append(anchor);
-            }
-            return sbPath.toString();
-
-        }
-        return "";
+        return fileURL.toString();
     }
 
-    //createURL for Cover Image
-    protected String createURLForCover(HttpServletRequest request, String mcrID) {
+    protected StringBuffer createURLForMainDocInDerivateWithLabel(HttpServletRequest request, String mcrID,
+        String label) {
         MCRObject o = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID));
         MCRObjectStructure structure = o.getStructure();
         MCRMetaLinkID derMetaLink = null;
         for (MCRMetaLinkID der : structure.getDerivates()) {
-            if (der.getXLinkTitle().equals("Cover")) {
+            if (label.equals(der.getXLinkHref()) || label.equals(der.getXLinkLabel())
+                || label.equals(der.getXLinkTitle())) {
                 derMetaLink = der;
             }
         }
         if (derMetaLink == null) {
-            return "";
+            return new StringBuffer();
         }
         MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(derMetaLink.getXLinkHrefID());
         String mainDoc = der.getDerivate().getInternals().getMainDoc();
         if (mainDoc != null && mainDoc.length() > 0) {
             StringBuffer sbPath = new StringBuffer(MCRFrontendUtil.getBaseURL());
             sbPath.append("file/").append(mcrID).append("/").append(der.getId().toString()).append("/").append(mainDoc);
-            return sbPath.toString();
+            return sbPath;
 
         }
-        return "";
+        return new StringBuffer(MCRFrontendUtil.getBaseURL() + "resolve/id/" + mcrID);
+    }
+
+    protected StringBuffer createRootURLForDerivateWithLabel(HttpServletRequest request, String mcrID, String label) {
+        MCRObject o = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID));
+        MCRObjectStructure structure = o.getStructure();
+        for (MCRMetaLinkID der : structure.getDerivates()) {
+            if (label.equals(der.getXLinkHref()) || label.equals(der.getXLinkLabel())
+                || label.equals(der.getXLinkTitle())) {
+
+                StringBuffer sbPath = new StringBuffer(MCRFrontendUtil.getBaseURL());
+                return sbPath.append("file/").append(mcrID).append("/").append(der.getXLinkHref().toString());
+            }
+        }
+        return new StringBuffer(MCRFrontendUtil.getBaseURL() + "resolve/id/" + mcrID);
     }
 
     // Create URL for DFG ImageViewer and Forward to it
@@ -282,12 +251,6 @@ public class MCRJSPIDResolverServlet extends HttpServlet {
             for (MCRMetaLinkID derMetaLink : o.getStructure().getDerivates()) {
                 if ("METS".equals(derMetaLink.getXLinkTitle()) || "DV_METS".equals(derMetaLink.getXLinkTitle())) {
                     MCRObjectID derID = derMetaLink.getXLinkHrefID();
-                    /*
-                     * MCRDirectoryStream root =
-                     * MCRDirectory.getRootDirectory(derID.toString());
-                     * MCRFilesystemNode[] myfiles = root.getChildren(); for
-                     * (MCRFilesystemNode f: myfiles){
-                     */
                     Path root = MCRPath.getPath(derID.toString(), "/");
                     try (DirectoryStream<Path> ds = Files.newDirectoryStream(root)) {
                         for (Path p : ds) {
@@ -303,46 +266,46 @@ public class MCRJSPIDResolverServlet extends HttpServlet {
                                 if (!nr.isEmpty()) {
                                     if (openBy == OpenBy.page) {
                                         eMETSPhysDiv = XPathFactory.instance()
-                                                .compile("/mets:mets/mets:structMap[@TYPE='PHYSICAL']"
-                                                        + "/mets:div[@TYPE='physSequence']/mets:div[starts-with(@ORDERLABEL, '"
-                                                        + nr + "')]", Filters.element(), null, nsMets)
-                                                .evaluateFirst(docMETS);
+                                            .compile("/mets:mets/mets:structMap[@TYPE='PHYSICAL']"
+                                                + "/mets:div[@TYPE='physSequence']/mets:div[starts-with(@ORDERLABEL, '"
+                                                + nr + "')]", Filters.element(), null, nsMets)
+                                            .evaluateFirst(docMETS);
                                     } else if (openBy == OpenBy.nr) {
                                         eMETSPhysDiv = XPathFactory.instance()
-                                                .compile("/mets:mets/mets:structMap[@TYPE='PHYSICAL']"
-                                                        + "/mets:div[@TYPE='physSequence']/mets:div[@ORDER='" + nr
-                                                        + "']", Filters.element(), null, nsMets)
-                                                .evaluateFirst(docMETS);
+                                            .compile("/mets:mets/mets:structMap[@TYPE='PHYSICAL']"
+                                                + "/mets:div[@TYPE='physSequence']/mets:div[@ORDER='" + nr
+                                                + "']", Filters.element(), null, nsMets)
+                                            .evaluateFirst(docMETS);
                                     } else if (openBy == OpenBy.part) {
                                         eMETSPhysDiv = XPathFactory.instance()
-                                                .compile(
-                                                        "/mets:mets/mets:structMap[@TYPE='PHYSICAL']"
-                                                                + "//mets:div[@ID='" + nr + "']",
-                                                        Filters.element(), null, nsMets)
-                                                .evaluateFirst(docMETS);
+                                            .compile(
+                                                "/mets:mets/mets:structMap[@TYPE='PHYSICAL']"
+                                                    + "//mets:div[@ID='" + nr + "']",
+                                                Filters.element(), null, nsMets)
+                                            .evaluateFirst(docMETS);
                                         if (eMETSPhysDiv == null) {
                                             Element eMETSLogDiv = XPathFactory.instance()
-                                                    .compile(
-                                                            "/mets:mets/mets:structMap[@TYPE='LOGICAL']"
-                                                                    + "//mets:div[@ID='" + nr + "']",
-                                                            Filters.element(), null, nsMets)
-                                                    .evaluateFirst(docMETS);
+                                                .compile(
+                                                    "/mets:mets/mets:structMap[@TYPE='LOGICAL']"
+                                                        + "//mets:div[@ID='" + nr + "']",
+                                                    Filters.element(), null, nsMets)
+                                                .evaluateFirst(docMETS);
                                             if (eMETSLogDiv != null) {
                                                 Element eMETSSmLink = XPathFactory.instance().compile(
-                                                        "/mets:mets/mets:structLink" + "//mets:smLink[@xlink:from='"
-                                                                + eMETSLogDiv.getAttributeValue("ID") + "']",
-                                                        Filters.element(), null, nsMets, nsXlink)
-                                                        .evaluateFirst(docMETS);
+                                                    "/mets:mets/mets:structLink" + "//mets:smLink[@xlink:from='"
+                                                        + eMETSLogDiv.getAttributeValue("ID") + "']",
+                                                    Filters.element(), null, nsMets, nsXlink)
+                                                    .evaluateFirst(docMETS);
                                                 if (eMETSSmLink != null) {
                                                     eMETSPhysDiv = XPathFactory.instance()
-                                                            .compile(
-                                                                    "/mets:mets/mets:structMap[@TYPE='PHYSICAL']"
-                                                                            + "//mets:div[@ID='"
-                                                                            + eMETSSmLink.getAttributeValue("to",
-                                                                                    nsXlink)
-                                                                            + "']",
-                                                                    Filters.element(), null, nsMets)
-                                                            .evaluateFirst(docMETS);
+                                                        .compile(
+                                                            "/mets:mets/mets:structMap[@TYPE='PHYSICAL']"
+                                                                + "//mets:div[@ID='"
+                                                                + eMETSSmLink.getAttributeValue("to",
+                                                                    nsXlink)
+                                                                + "']",
+                                                            Filters.element(), null, nsMets)
+                                                        .evaluateFirst(docMETS);
                                                 }
                                             }
                                         }
@@ -351,10 +314,10 @@ public class MCRJSPIDResolverServlet extends HttpServlet {
                                 if (thumb == null) {
                                     // display in DFG-Viewer
                                     sbURL = new StringBuffer(MCRConfiguration.instance()
-                                            .getString("MCR.JSPDocportal.DFG-Viewer.BaseURL").trim());
+                                        .getString("MCR.JSPDocportal.DFG-Viewer.BaseURL").trim());
                                     sbURL.append("?set[mets]=");
                                     sbURL.append(URLEncoder.encode(MCRFrontendUtil.getBaseURL() + "file/" + mcrID + "/"
-                                            + p.toString().replace(":/", "/"), "UTF-8"));
+                                        + p.toString().replace(":/", "/"), "UTF-8"));
                                     if (eMETSPhysDiv != null) {
                                         String order = eMETSPhysDiv.getAttributeValue("ORDER");
                                         if (order != null) {
@@ -379,9 +342,9 @@ public class MCRJSPIDResolverServlet extends HttpServlet {
                                         // />
                                         // </mets:file>
                                         Element eFLocat = XPathFactory.instance()
-                                                .compile("//mets:file[@ID='" + fileid + "']/mets:FLocat",
-                                                        Filters.element(), null, nsMets)
-                                                .evaluateFirst(docMETS);
+                                            .compile("//mets:file[@ID='" + fileid + "']/mets:FLocat",
+                                                Filters.element(), null, nsMets)
+                                            .evaluateFirst(docMETS);
                                         if (eFLocat != null) {
                                             sbURL = new StringBuffer(eFLocat.getAttributeValue("href", nsXlink));
                                         }
@@ -391,11 +354,7 @@ public class MCRJSPIDResolverServlet extends HttpServlet {
                             }
                         }
                         break;
-                        // end if
-                        // only one execution since there should be only one
-                        // file
-                        // end for
-                    } // end [if("METS" ...)]
+                    }
                 }
             }
         }
@@ -410,41 +369,5 @@ public class MCRJSPIDResolverServlet extends HttpServlet {
         }
         LOGGER.debug("created DFG-ViewerURL: " + request.getContextPath() + " -> " + url);
         return url;
-    }
-
-    /**
-     * <mycoreobject > <structure> <derobjects class="MCRMetaLinkID">
-     * 
-     * @param mcrID
-     * @param out
-     */
-    protected void outputExtendedXML(String mcrID, ServletOutputStream out) throws Exception {
-        Namespace nsXlink = Namespace.getNamespace("xlink", "http://www.w3.org/1999/xlink");
-        Document doc = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID)).createXML();
-        Element eStructure = doc.getRootElement().getChild("structure");
-        if (eStructure == null)
-            return;
-        Element eDerObjects = eStructure.getChild("derobjects");
-        if (eDerObjects != null) {
-            for (Element eDer : (List<Element>) eDerObjects.getChildren("derobject")) {
-                String derID = eDer.getAttributeValue("href", nsXlink);
-                Document docDer = MCRMetadataManager.retrieveMCRDerivate(MCRObjectID.getInstance(derID)).createXML();
-                eDer.addContent(docDer.getRootElement().detach());
-
-                // <mycorederivate
-                // xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                // xmlns:xlink="http://www.w3.org/1999/xlink"
-                // xsi:noNamespaceSchemaLocation="datamodel-derivate.xsd"
-                // ID="cpr_derivate_00003760" label="display_image"
-                // version="1.3">
-                // <derivate display="true">
-
-                eDer = eDer.getChild("mycorederivate").getChild("derivate");
-                Document fileDoc = MCRPathXML.getDirectoryXML(MCRPath.getPath(derID, "/"));
-                eDer.addContent(fileDoc.getRootElement().detach());
-            }
-        }
-        XMLOutputter xout = new XMLOutputter(Format.getPrettyFormat());
-        xout.output(doc, out);
     }
 }
