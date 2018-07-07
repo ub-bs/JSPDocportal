@@ -358,8 +358,7 @@
       <x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='DV_METS' or @xlink:title='METS']">
       <a class="btn btn-default ir-button ir-button-download"  
          href="${WebApplicationBaseURL}resolve/id/${mcrid}/dfgviewer" target="_blank">
-          <img style="vertical-align:middle;height:30px;margin-right:6px;" src="${WebApplicationBaseURL}images/dfg_icon.png" title = "<fmt:message key="Webpage.docdetails.dfgviewer" />" />
-        <fmt:message key="Webpage.docdetails.viewer" />
+          <img style="height: 24px; margin: 3px 0px;" src="${WebApplicationBaseURL}images/dfgviewerLogo.svg" title = "<fmt:message key="Webpage.docdetails.dfgviewer" />" />
        </a>
       </x:if>
        
