@@ -27,6 +27,7 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLDecoder;
+import java.util.Arrays;
 import java.util.Iterator;
 
 import javax.servlet.ServletException;
@@ -75,7 +76,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
 
     private static Logger LOGGER = LogManager.getLogger(MCRJSPGlobalResolverServlet.class);
 
-   /**
+    /**
      * The initalization of the servlet.
      * 
      * @see javax.servlet.GenericServlet#init()
@@ -100,6 +101,12 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
         String key = path[0];
         String value = path[1];
 
+        //cleanup value from anchors, parameters, session ids 
+        for (String s : Arrays.asList("#", "?", ";")) {
+            if (value.contains(s)) {
+                value = value.substring(0, value.indexOf(s));
+            }
+        }
         //GND resolving URL for profkat
         if ("gnd".equals(key)) {
             //"gnd_uri": "http://d-nb.info/gnd/14075444X"
@@ -325,13 +332,13 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
 
     }
 
-       /**
-     * Sends the contents of an MCRFile to the client.
-     * 
-     * @see MCRFileNodeServlet for implementation details
-     * 
-     * 
-     */
+    /**
+    * Sends the contents of an MCRFile to the client.
+    * 
+    * @see MCRFileNodeServlet for implementation details
+    * 
+    * 
+    */
     private void sendFile(HttpServletRequest req, HttpServletResponse res, MCRFile file) throws IOException {
         LOGGER.info("Sending file " + file.getName());
 
