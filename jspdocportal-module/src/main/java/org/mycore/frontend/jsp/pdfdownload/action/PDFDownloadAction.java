@@ -169,7 +169,7 @@ public class PDFDownloadAction implements ActionBean {
     }
 
     public String getRecordIdentifier() {
-        return recordIdentifier.replace("/", "%252F");
+        return recordIdentifier.replace("/", "_");
     }
 
     public boolean isReady() {
