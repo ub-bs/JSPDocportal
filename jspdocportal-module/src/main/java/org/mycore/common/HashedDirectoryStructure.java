@@ -55,8 +55,8 @@ import java.util.regex.Pattern;
 public class HashedDirectoryStructure {
     public static final Pattern UUID_PATTERN = Pattern
             .compile("[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}");
-
-    public static final Pattern ID_START_SPLITT_PATTERN = Pattern.compile("^([a-zA-Z]*[0-9]{2})");
+    //ppn30 - ppn299 - better to start splitting from back
+    public static final Pattern ID_START_SPLITT_PATTERN = Pattern.compile("^([a-zA-Z]*[1-2]?[0-9]{2})");
 
     /**
      * 
@@ -67,6 +67,9 @@ public class HashedDirectoryStructure {
      * @return
      */
     public static Path createOutputDirectory(Path baseDir, String recordIdentifier) {
+        if(!recordIdentifier.contains("/")) {
+            recordIdentifier = recordIdentifier.replaceFirst("_", "/");
+        }
         Path currentDir = baseDir;
         for (String s : recordIdentifier.split("\\/")) {
             currentDir = currentDir.resolve(s);
@@ -112,11 +115,11 @@ public class HashedDirectoryStructure {
      */
     public static void main(String[] args) {
         // testing ...
-        String r = "rosdok/id12345678";
+        String r = "rosdok/id123456789";
         Path p = createOutputDirectory(Paths.get("/depot"), r);
         System.out.println(
                 r + " : " + p.toString() + " -> " + p.equals(Paths.get("/depot/rosdok/id12/id12345/id12345678")));
-        r = "rosdok/ppn12345678X";
+        r = "rosdok/ppn1023391341";
         p = createOutputDirectory(Paths.get("/depot"), r);
         System.out.println(
                 r + " : " + p.toString() + " -> " + p.equals(Paths.get("/depot/rosdok/ppn12/ppn12345/ppn12345678X")));

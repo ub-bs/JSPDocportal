@@ -62,8 +62,11 @@ public class MCRViewerAction extends MCRAbstractStripesAction implements ActionB
         ForwardResolution fwdResolutionForm = new ForwardResolution("/WEB-INF/mcrviewer.jsp");
 
         SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
-
-        SolrQuery solrQuery = new SolrQuery(field + ":" + ClientUtils.escapeQueryChars(identifier));
+        String value = identifier;
+        if("recordIdentifier".equals(field) && !value.contains("/")) {
+            value = value.replaceFirst("_", "/");
+        }
+        SolrQuery solrQuery = new SolrQuery(field + ":" + ClientUtils.escapeQueryChars(value));
         solrQuery.setRows(1);
 
         try {

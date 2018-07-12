@@ -74,7 +74,7 @@
 				permalink : {
 					enabled : true,
 					updateHistory : true,
-					viewerLocationPattern : "{baseURL}/mcrviewer/recordIdentifier/${fn:replace(actionBean.recordIdentifier,'/','%252F')}/{file}"
+					viewerLocationPattern : "{baseURL}/mcrviewer/recordIdentifier/${fn:replace(actionBean.recordIdentifier,'/','_')}/{file}"
 				},
 				onClose : function() {
 					window.history.back();
@@ -132,8 +132,8 @@
 				derivate : "${derid}",
 				filePath : "${actionBean.filePath}",
 				metsURL : "${applicationScope.WebApplicationBaseURL}file/${mcrid}/${derid}/${maindoc}",
-				imageXmlPath : "${applicationScope.WebApplicationBaseURL}tiles/${fn:replace(actionBean.recordIdentifier,'/','%252F')}/",
-				tileProviderPath : "${applicationScope.WebApplicationBaseURL}tiles/${fn:replace(actionBean.recordIdentifier,'/','%252F')}/",
+				imageXmlPath : "${applicationScope.WebApplicationBaseURL}tiles/${fn:replace(actionBean.recordIdentifier,'/','_')}/",
+				tileProviderPath : "${applicationScope.WebApplicationBaseURL}tiles/${fn:replace(actionBean.recordIdentifier,'/','_')}/",
 
 				i18nURL : "${applicationScope.WebApplicationBaseURL}rsc/locale/translate/{lang}/component.viewer.*",
 				lang : "de",
@@ -145,7 +145,7 @@
 				permalink : {
 					enabled : true,
 					updateHistory : true,
-					viewerLocationPattern : "{baseURL}/mcrviewer/recordIdentifier/${fn:replace(actionBean.recordIdentifier,'/','%252F')}/{file}"
+					viewerLocationPattern : "{baseURL}/mcrviewer/recordIdentifier/${fn:replace(actionBean.recordIdentifier,'/','_')}/{file}"
 				},
 				imageOverview : {
 					enabled : true
@@ -175,7 +175,7 @@
 	                    	   id : "pdf_download",
 	                    	   type : "button",
 	                    	   label : "buttons.pdf_download",
-	                    	   href : "${applicationScope.WebApplicationBaseURL}/pdfdownload/recordIdentifier/${fn:replace(actionBean.recordIdentifier,'/','%252F')}",
+	                    	   href : "${applicationScope.WebApplicationBaseURL}/pdfdownload/recordIdentifier/${fn:replace(actionBean.recordIdentifier,'/','_')}",
 	                    	   icon: "fa-download",
 	                    	   inGroup: "addOns"
 	                   	  }],

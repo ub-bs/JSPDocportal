@@ -23,9 +23,9 @@
            <xsl:element name="a">
               <xsl:attribute name="class">btn btn-default btn-sm pull-right ir-docdetails-btn-goto-parent</xsl:attribute>
               <!-- temporary FIX:  -->
-              	<!-- <xsl:attribute name="href"><xsl:value-of select="$WebApplicationBaseURL" />resolve/recordIdentifier/<xsl:value-of select="substring-before(./mods:recordIdentifier, '/')"/>%252F<xsl:value-of select="substring-after(./mods:recordIdentifier, '/')"/></xsl:attribute> -->
+              	<!-- <xsl:attribute name="href"><xsl:value-of select="$WebApplicationBaseURL" />resolve/recordIdentifier/<xsl:value-of select="substring-before(./mods:recordIdentifier, '/')"/>_<xsl:value-of select="substring-after(./mods:recordIdentifier, '/')"/></xsl:attribute> -->
               <xsl:if test="contains(./mods:recordIdentifier, '/')">
-              	<xsl:attribute name="href"><xsl:value-of select="$WebApplicationBaseURL" />resolve/recordIdentifier/<xsl:value-of select="substring-before(./mods:recordIdentifier, '/')"/>%252F<xsl:value-of select="substring-after(./mods:recordIdentifier, '/')"/></xsl:attribute>
+              	<xsl:attribute name="href"><xsl:value-of select="$WebApplicationBaseURL" />resolve/recordIdentifier/<xsl:value-of select="substring-before(./mods:recordIdentifier, '/')"/>_<xsl:value-of select="substring-after(./mods:recordIdentifier, '/')"/></xsl:attribute>
               </xsl:if>
               <!-- temporary FIX:  -->
               <xsl:if test="contains(./mods:recordIdentifier, '_')">

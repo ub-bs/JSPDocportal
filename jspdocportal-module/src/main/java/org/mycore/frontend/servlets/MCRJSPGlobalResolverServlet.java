@@ -104,8 +104,12 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
         //cleanup value from anchors, parameters, session ids 
         for (String s : Arrays.asList("#", "?", ";")) {
             if (value.contains(s)) {
-                value = value.substring(0, value.indexOf(s));
+                value = value.substring(0, value.indexOf(s)).trim();
             }
+        }
+        if(value.isEmpty()) {
+            response.sendError(404, MCRTranslation.translate("Resolver.error.unknownUrlSchema"));
+            return;  
         }
         //GND resolving URL for profkat
         if ("gnd".equals(key)) {
@@ -137,6 +141,9 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
         } else {
             try {
                 value = URLDecoder.decode(URLDecoder.decode(value, "UTF-8"), "UTF-8");
+                if("recordIdentifier".equals(key) && !value.contains("/")) {
+                    value = value.replaceFirst("_", "/");
+                }
 
                 SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
                 SolrQuery solrQuery = new SolrQuery(key + ":" + ClientUtils.escapeQueryChars(value));
