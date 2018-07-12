@@ -108,7 +108,9 @@ public class PDFDownloadAction implements ActionBean {
         } else {
             recordIdentifier = path;
         }
-
+        if(!recordIdentifier.contains("/")) {
+            recordIdentifier = recordIdentifier.replaceFirst("_", "/");
+        }
         SolrClient solrClient = MCRSolrClientFactory.getMainSolrClient();
         SolrQuery query = new SolrQuery();
         query.setQuery("recordIdentifier:" + recordIdentifier);

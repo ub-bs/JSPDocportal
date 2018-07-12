@@ -107,6 +107,10 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
                 value = value.substring(0, value.indexOf(s));
             }
         }
+        if(value.isEmpty()) {
+            response.sendError(404, MCRTranslation.translate("Resolver.error.unknownUrlSchema"));
+            return;  
+        }
         //GND resolving URL for profkat
         if ("gnd".equals(key)) {
             //"gnd_uri": "http://d-nb.info/gnd/14075444X"
@@ -137,6 +141,9 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
         } else {
             try {
                 value = URLDecoder.decode(URLDecoder.decode(value, "UTF-8"), "UTF-8");
+                if("recordIdentifier".equals(key) && !value.contains("/")) {
+                    value = value.replaceFirst("_", "/");
+                }
 
                 SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
                 SolrQuery solrQuery = new SolrQuery(key + ":" + ClientUtils.escapeQueryChars(value));
