@@ -33,7 +33,7 @@
    
 	 
 	 <c:if test="${empty actionBean.errorMessages}">
-		<c:import url="${WebApplicationBaseURL}api/v1/objects/recordIdentifier:${actionBean.recordIdentifier}" var="docXML" charEncoding="UTF-8"/>
+		<c:import url="${WebApplicationBaseURL}api/v1/objects/recordIdentifier:${fn:replace(actionBean.recordIdentifier, 'rosdok_', 'rosdok%252F')}" var="docXML" charEncoding="UTF-8"/>
 		<x:parse var="doc" xml="${docXML}" />
 		<mcrdd:setnamespace prefix="mods" uri="http://www.loc.gov/mods/v3" />
 		<x:choose>
