@@ -71,6 +71,18 @@
           <xsl:value-of select="./mods:abstract" />
        </p>       
        </xsl:if>
+              <xsl:if test="./mods:relatedItem[@type='otherVersion']">
+          <p>
+            <xsl:value-of select="i18n:translate('Webpage.docdetails.header.otherVersions')" />: 
+            <xsl:for-each select="./mods:relatedItem[@type='otherVersion']">
+              <xsl:element name="a">
+                <xsl:attribute name="href"><xsl:value-of select="./mods:identifier[@type='purl']" /></xsl:attribute>
+                  <xsl:value-of select="./mods:note" />
+              </xsl:element>
+              <span> </span>
+            </xsl:for-each>
+          </p>
+       </xsl:if>
        <p>
         <xsl:if test="./mods:classification[@displayLabel='doctype']">
 

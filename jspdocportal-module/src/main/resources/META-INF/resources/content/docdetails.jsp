@@ -471,7 +471,7 @@
                 <a class="btn btn-warning btn-sm ir-button-warning" style="margin-left:6px" target="_blank" 
                    href="${WebApplicationBaseURL}api/v1/objects/${param.id}/derivates/${derid}/open" class="btn btn-default" title="<fmt:message key="Webpage.tools.showREPOS_METS" />">METS</a>
               </x:if>
-              <x:if select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[contains(@valueURI, '#epub')]">
+              <x:if select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[contains(@valueURI, '#epub') or contains(@valueURI, '#data')]">
                 <a class="btn btn-warning btn-sm ir-button-warning" style="margin-left:6px" target="_blank" 
                    href="${WebApplicationBaseURL}receive/${mcrid}?XSL.Transformer=rosdok_datacite" rel="nofollow">Datacite</a>
               </x:if>
