@@ -2,6 +2,7 @@ package org.mycore.activiti;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.DirectoryIteratorException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.FileVisitResult;
@@ -9,7 +10,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
-import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,7 +50,7 @@ public class MCRActivitiUtils {
      */
     public static void saveMCRObjectToWorkflowDirectory(MCRObject mcrObj) {
         Path wfObjFile = getWorkflowObjectFile(mcrObj.getId());
-        try (BufferedWriter bw = Files.newBufferedWriter(wfObjFile)) {
+        try (BufferedWriter bw = Files.newBufferedWriter(wfObjFile, StandardCharsets.UTF_8)) {
             XMLOutputter xmlOut = new XMLOutputter(Format.getPrettyFormat());
             xmlOut.output(mcrObj.createXML(), bw);
         } catch (Exception ex) {
@@ -74,8 +74,7 @@ public class MCRActivitiUtils {
      * @param MCRObject
      */
     public static void saveMCRDerivateToWorkflowDirectory(MCRDerivate mcrDer) {
-        try (BufferedWriter bw = Files.newBufferedWriter(getWorkflowDerivateFile(mcrDer.getOwnerID(), mcrDer.getId()),
-                StandardOpenOption.CREATE)) {
+        try (BufferedWriter bw = Files.newBufferedWriter(getWorkflowDerivateFile(mcrDer.getOwnerID(), mcrDer.getId()), StandardCharsets.UTF_8)) {
             XMLOutputter xmlOut = new XMLOutputter(Format.getPrettyFormat());
             xmlOut.output(mcrDer.createXML(), bw);
         } catch (Exception ex) {
