@@ -33,7 +33,7 @@
   <xsl:template match="mycoreobject" mode="metadata">
     <epicur xsi:schemaLocation="urn:nbn:de:1111-2004033116 http://www.persistent-identifier.de/xepicur/version1.0/xepicur.xsd" xmlns="urn:nbn:de:1111-2004033116"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-
+	  <xsl:if test="./metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='urn']">
       <xsl:variable name="urn">
             <xsl:choose>
               <xsl:when test="./metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='urn']">
@@ -69,11 +69,15 @@
             <xsl:value-of select="'text/html'" />
           </format>
         </resource>
-        <xsl:apply-templates select="$ifs/der" xmlns="" mode="epicurResource" />
+       <!-- enable, if it becomes necessary to send the fulltext to dnb
+            <xsl:apply-templates select="$ifs/der" xmlns="" mode="epicurResource" /> -->
       </record>
+      </xsl:if>
     </epicur>
+
   </xsl:template>
 
+<!-- 
   <xsl:template mode="epicurResource" match="der">
     <xsl:variable name="filenumber" select="count(mcr_directory/children//child[@type='file'])" />
     <xsl:choose>
@@ -91,17 +95,7 @@
           </format>
         </resource>
       </xsl:when>
-      <xsl:otherwise>
-        <resource xmlns="urn:nbn:de:1111-2004033116">
-          <identifier scheme="url" target="transfer">
-            <xsl:value-of select="concat($ServletsBaseURL,'MCRZipServlet/',@id)" />
-          </identifier>
-          <format scheme="imt">
-            <xsl:value-of select="'application/zip'" />
-          </format>
-        </resource>
-      </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
-
+-->
 </xsl:stylesheet>
