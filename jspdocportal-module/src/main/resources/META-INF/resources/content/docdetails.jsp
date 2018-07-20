@@ -460,21 +460,23 @@
           </div>
           <div id="hiddenTools" class="collapse">
             <div style="padding-bottom:6px">
-              <a class="btn btn-warning btn-sm ir-button-warning" target="_blank" title="<fmt:message key="Webpage.tools.showXML" />"
+              <a class="btn btn-warning btn-sm ir-button-warning" style="margin:3px" target="_blank" title="<fmt:message key="Webpage.tools.showXML" />"
                    href="${WebApplicationBaseURL}api/v1/objects/${mcrid}" rel="nofollow">XML</a>
-              <a class="btn btn-warning btn-sm ir-button-warning" style="margin-left:6px" target="_blank" title="<fmt:message key="Webpage.tools.showSOLR" />"
+              <a class="btn btn-warning btn-sm ir-button-warning" style="margin:3px" target="_blank" title="<fmt:message key="Webpage.tools.showSOLR" />"
                   href="${WebApplicationBaseURL}receive/${mcrid}?XSL.Style=solrdocument" rel="nofollow">SOLR in</a>
-              <a class="btn btn-warning btn-sm ir-button-warning" style="margin-left:6px" target="_blank" title="<fmt:message key="Webpage.tools.showSOLR" />"
+              <a class="btn btn-warning btn-sm ir-button-warning" style="margin:3px" target="_blank" title="<fmt:message key="Webpage.tools.showSOLR" />"
                   href="${WebApplicationBaseURL}api/v1/search?q=id:${mcrid}" rel="nofollow">SOLR doc</a>
               <x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='REPOS_METS']">
                 <c:set var="derid"><x:out select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='REPOS_METS']/@xlink:href" /></c:set>
-                <a class="btn btn-warning btn-sm ir-button-warning" style="margin-left:6px" target="_blank" 
+                <a class="btn btn-warning btn-sm ir-button-warning" style="margin:3px" target="_blank" 
                    href="${WebApplicationBaseURL}api/v1/objects/${param.id}/derivates/${derid}/open" class="btn btn-default" title="<fmt:message key="Webpage.tools.showREPOS_METS" />">METS</a>
               </x:if>
               <x:if select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[contains(@valueURI, '#epub') or contains(@valueURI, '#data')]">
-                <a class="btn btn-warning btn-sm ir-button-warning" style="margin-left:6px" target="_blank" 
+                <a class="btn btn-warning btn-sm ir-button-warning" style="margin:3px" target="_blank" 
                    href="${WebApplicationBaseURL}receive/${mcrid}?XSL.Transformer=rosdok_datacite" rel="nofollow">Datacite</a>
               </x:if>
+              <a class="btn btn-warning btn-sm ir-button-warning" style="margin:3px" target="_blank" 
+                   href="${WebApplicationBaseURL}oai-dnb?verb=GetRecord&metadataPrefix=oai_dc&identifier=oai:oai-dnb.rosdok.uni-rostock.de:${mcrid}" rel="nofollow">OAI4DNB</a>
             </div>
           </div>
         </div>          
