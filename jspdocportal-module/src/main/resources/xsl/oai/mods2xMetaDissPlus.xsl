@@ -85,7 +85,7 @@
     <xsl:variable name="mods" select="metadata/def.modsContainer/modsContainer/mods:mods" />
 
     <xsl:apply-templates select="$mods" mode="title" />
-    <xsl:apply-templates select="$mods" mode="alternative" />
+    <!-- <xsl:apply-templates select="$mods" mode="alternative" /> -->
     <xsl:apply-templates select="$mods" mode="creator" />
     <xsl:apply-templates select="$mods" mode="subject" />
     <xsl:apply-templates select="$mods" mode="abstract" />
@@ -154,22 +154,30 @@
   <xsl:template mode="title" match="mods:mods">
     <dc:title xsi:type="ddb:titleISO639-2">
       <xsl:attribute name="lang">
-            <xsl:value-of select="$language" />
+        <xsl:value-of select="$language" />
       </xsl:attribute>
-      <xsl:value-of select="mods:titleInfo[@usage='primary']/mods:title"></xsl:value-of>
-      <xsl:apply-templates mode="mods.title" select="." />
-    </dc:title>
-  </xsl:template>
+      
+      <xsl:for-each select="./mods:titleInfo[@usage='primary']">
+        <xsl:if test="./mods:nonSort">
+          <xsl:value-of select="./mods:nonSort" />
+          <xsl:text> </xsl:text>  
+      	</xsl:if>
+      	<xsl:value-of select="./mods:title" />
+      	<xsl:if test="./mods:subTitle">
+          <xsl:text> : </xsl:text>
+          <xsl:value-of select="./mods:subTitle" />
+      	</xsl:if>
 
-  <xsl:template mode="alternative" match="mods:mods">
-    <xsl:for-each select="mods:titleInfo[@usage='primary']/mods:subTitle">
-      <dcterms:alternative xsi:type="ddb:talternativeISO639-2">
-        <xsl:attribute name="lang">
-        	<xsl:value-of select="$language" />
-        </xsl:attribute>
-        <xsl:value-of select="." />
-      </dcterms:alternative>
-    </xsl:for-each>
+    	<xsl:if test="./mods:partNumber or ./mods:partName">
+    	  <xsl:text> </xsl:text>
+      	  <xsl:value-of select="./mods:partNumber" />
+      	  <xsl:if test="./mods:partNumber and ./mods:partName">
+      		 <xsl:text>: </xsl:text>
+      	  </xsl:if>
+      	  <xsl:value-of select="./mods:partName" />
+		</xsl:if>
+ 	  </xsl:for-each>
+    </dc:title>
   </xsl:template>
 
   <xsl:template mode="creator" match="mods:mods">
@@ -450,20 +458,21 @@
   </xsl:template>
 
   <xsl:template mode="identifier" match="mods:mods">
-      <xsl:if test="mods:identifier[@type='doi']">
-        <dc:identifier xsi:type="doi:doi">
-          <xsl:value-of select="mods:identifier[@type='doi'][1]" />
-        </dc:identifier>
-      </xsl:if>
+      <!-- only one dc:identifier -->
       <xsl:if test="mods:identifier[@type='urn' and starts-with(text(), 'urn:nbn')]">
         <dc:identifier xsi:type="urn:nbn">
           <xsl:value-of select="mods:identifier[@type='urn' and starts-with(text(), 'urn:nbn')][1]" />
         </dc:identifier>
       </xsl:if>
+      <xsl:if test="mods:identifier[@type='doi']">
+        <ddb:identifier xsi:type="DOI">
+          <xsl:value-of select="mods:identifier[@type='doi'][1]" />
+        </ddb:identifier>
+      </xsl:if>
       <xsl:if test="mods:identifier[@type='hdl' or @type='handle']">
-        <dc:identifier xsi:type="hdl:hdl">
+        <ddb:identifier xsi:type="handle">
           <xsl:value-of select="mods:identifier[@type='hdl' or @type='handle'][1]" />
-        </dc:identifier>
+        </ddb:identifier>
       </xsl:if>
       <xsl:if test="mods:identifier[@type='purl']">
         <ddb:identifier xsi:type="URL">
@@ -595,6 +604,10 @@
               		</xsl:if>
               		<cc:name>
                   		<xsl:value-of select="mods:namePart[1]" />
+                  		<xsl:for-each select="mods:namePart[position()>1]">
+                  		    <xsl:text>. </xsl:text>
+                  			<xsl:value-of select="text()" />
+                  		</xsl:for-each>
                 	</cc:name>
                 </xsl:for-each>
               </xsl:when>
@@ -607,6 +620,10 @@
               		</xsl:if>
               		<cc:name>
                   		<xsl:value-of select="mods:namePart[1]" />
+                  		<xsl:for-each select="mods:namePart[position()>1]">
+                  		    <xsl:text>. </xsl:text>
+                  			<xsl:value-of select="text()" />
+                  		</xsl:for-each>
                 	</cc:name>
                 </xsl:for-each>
               </xsl:when>
