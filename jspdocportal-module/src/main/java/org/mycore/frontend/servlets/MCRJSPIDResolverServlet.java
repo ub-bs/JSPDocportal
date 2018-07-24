@@ -116,7 +116,7 @@ public class MCRJSPIDResolverServlet extends HttpServlet {
             getServletContext().getRequestDispatcher("/nav?path=~mycore-error&messageKey=IdNotGiven").forward(request,
                 response);
         } else {
-            SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
+            SolrClient solrClient = MCRSolrClientFactory.getMainSolrClient();
             SolrQuery query = new SolrQuery();
             query.setQuery(queryString);
 

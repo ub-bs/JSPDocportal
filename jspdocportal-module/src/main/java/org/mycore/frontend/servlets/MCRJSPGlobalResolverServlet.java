@@ -115,7 +115,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
         if ("gnd".equals(key)) {
             //"gnd_uri": "http://d-nb.info/gnd/14075444X"
             try {
-                SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
+                SolrClient solrClient = MCRSolrClientFactory.getMainSolrClient();
                 SolrQuery solrQuery = new SolrQuery();
                 solrQuery.setQuery("gnd_uri:" + MCRSolrUtils.escapeSearchValue("http://d-nb.info/gnd/" + value.trim()));
                 solrQuery.setFields("id");
@@ -145,7 +145,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
                     value = value.replaceFirst("_", "/");
                 }
 
-                SolrClient solrClient = MCRSolrClientFactory.getSolrClient();
+                SolrClient solrClient = MCRSolrClientFactory.getMainSolrClient();
                 SolrQuery solrQuery = new SolrQuery(key + ":" + ClientUtils.escapeQueryChars(value));
                 solrQuery.setRows(1);
                 QueryResponse solrQueryResponse = solrClient.query(solrQuery);
