@@ -21,7 +21,7 @@
  * 59 Temple Place - Suite 330, Boston, MA  02111-1307 USA
  */
 
-package org.mycore.frontend.servlets;
+package org.mycore.frontend.jsp;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -33,7 +33,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jdom2.DocType;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
+import org.mycore.common.MCRException;
 import org.mycore.common.MCRSessionMgr;
+import org.mycore.common.config.MCRConfiguration;
 
 /**
  * override MyCoRe Error Servlet to provide custom error handling for JSPDocportal
@@ -41,7 +47,7 @@ import org.mycore.common.MCRSessionMgr;
  * @author Robert Stephan
  *
  */
-public class MCRErrorServlet extends HttpServlet{
+public class MCRErrorServlet extends org.mycore.frontend.servlets.MCRErrorServlet{
     private static final long serialVersionUID = 1L;
     private static Logger LOGGER = LogManager.getLogger(MCRErrorServlet.class);
 
