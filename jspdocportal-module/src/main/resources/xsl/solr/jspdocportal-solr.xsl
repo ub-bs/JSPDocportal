@@ -15,7 +15,7 @@
 	<xsl:template match="structure">   
       <!-- online type of derivate -->
       <xsl:for-each select="/mycoreobject/structure/derobjects/derobject">
-         <field name="derivatelabel"><xsl:value-of select="@xlink:label|@xlink:title" /></field>
+         <field name="derivateLabel"><xsl:value-of select="@xlink:label|@xlink:title" /></field>
       </xsl:for-each>
       <xsl:for-each select="/mycoreobject/structure/derobjects/derobject[@xlink:title='cover'][1]">
          <xsl:variable name="derId" select="@xlink:href" />

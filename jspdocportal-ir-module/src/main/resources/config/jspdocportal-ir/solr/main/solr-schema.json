@@ -1,0 +1,218 @@
+[
+	{
+		"add-field": {
+			"name": "ir.abstract300.result",
+			"type": "string",
+			"multiValued": false,
+			"stored": true
+		}
+	},
+	{
+		"add-field": {
+			"name": "ir.accesscondition_class.facet",
+			"type": "string",
+			"multiValued": true,
+			"stored": true
+		}
+	},
+	{
+		"add-field": {
+			"name": "ir.collection_class.facet",
+			"type": "string",
+			"multiValued": true,
+			"stored": true
+		}
+	},
+	{
+		"add-field": {
+			"name": "ir.cover_url",
+			"type": "string",
+			"multiValued": false,
+			"stored": true
+		}
+	},
+	{
+		"add-field": {
+			"name": "ir.creator.result",
+			"type": "string",
+			"multiValued": false,
+			"stored": true
+		}
+	},
+	{
+		"add-field": {
+			"name": "ir.creator_all",
+			"type": "text_general",
+			"multiValued": true,
+			"stored": false
+		}
+	},
+	{
+		"add-field": {
+			"name": "ir.doctype.result",
+			"type": "string",
+			"multiValued": false,
+			"stored": true
+		}
+	},
+	{
+		"add-field": {
+			"name": "ir.doctype_class.facet",
+			"type": "string",
+			"multiValued": true,
+			"stored": true
+		}
+	},
+	{
+		"add-field": {
+			"name": "ir.epoch_msg.facet",
+			"type": "string",
+			"multiValued": true,
+			"stored": true
+		}
+	},
+	{
+		"add-field": {
+			"name": "ir.host.originInfo.result",
+			"type": "string",
+			"multiValued": false,
+			"stored": true
+		}
+	},
+	{
+		"add-field": {
+			"name": "ir.host.part.result",
+			"type": "string",
+			"multiValued": false,
+			"stored": true
+		}
+	},
+	{
+		"add-field": {
+			"name": "ir.host.recordIdentifier",
+			"type": "string",
+			"multiValued": false,
+			"stored": true
+		}
+	},
+	{
+		"add-field": {
+			"name": "ir.host.title.result",
+			"type": "string",
+			"multiValued": false,
+			"stored": true
+		}
+	},
+	{
+		"add-field": {
+			"name": "ir.institution_class.facet",
+			"type": "string",
+			"multiValued": true,
+			"stored": true
+		}
+	},
+	{
+		"add-field": {
+			"name": "ir.language_class.facet",
+			"type": "string",
+			"multiValued": true,
+			"stored": true
+		}
+	},
+	{
+		"add-field": {
+			"name": "ir.location_all",
+			"type": "text_general",
+			"multiValued": true,
+			"stored": false
+		}
+	},
+	{
+		"add-field": {
+			"name": "ir.originInfo.result",
+			"type": "string",
+			"multiValued": false,
+			"stored": true
+		}
+	},
+	{
+		"add-field": {
+			"name": "ir.partTitle.result",
+			"type": "string",
+			"multiValued": false,
+			"stored": true
+		}
+	},
+	{
+		"add-field": {
+			"name": "ir.pdffulltext_url",
+			"type": "string",
+			"multiValued": false,
+			"stored": true
+		}
+	},
+	{
+		"add-field": {
+			"name": "ir.place.facet",
+			"type": "string",
+			"multiValued": true,
+			"stored": true
+		}
+	},
+	{
+		"add-field": {
+			"name": "ir.pubyear_end",
+			"type": "tint",
+			"multiValued": false,
+			"stored": true
+		}
+	},
+	{
+		"add-field": {
+			"name": "ir.pubyear_start",
+			"type": "tint",
+			"multiValued": false,
+			"stored": true
+		}
+	},
+	{
+		"add-field": {
+			"name": "ir.reposmets_url",
+			"type": "string",
+			"multiValued": false,
+			"stored": true
+		}
+	},
+	{
+		"add-field": {
+			"name": "ir.sdnb_class.facet",
+			"type": "string",
+			"multiValued": true,
+			"stored": true
+		}
+	},
+	{
+		"add-field": {
+			"name": "ir.sortstring",
+			"type": "string",
+			"multiValued": false,
+			"stored": true
+		}
+	},
+	{
+		"add-field": {
+			"name": "ir.title.result",
+			"type": "string",
+			"multiValued": false,
+			"stored": true
+		}
+	},
+	{
+		"add-field": {
+			"name": "ir.title_all",
+			"type": "text_general",
+			"multiValued": true,
+			"stored": false
+		}
+	}
+]        
