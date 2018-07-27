@@ -17,12 +17,16 @@
 <% MCRCategory rootCateg = MCRCategoryDAOFactory.getInstance().getCategory(MCRCategoryID.fromString(categid), -1); 
 	jspContext.setAttribute("rootCateg", rootCateg);
 %>
-<h5>
-  <c:if test="${not empty lang}">
-     ${rootCateg.getLabel(lang).get().text}
-  </c:if>
-  <c:if test="${empty lang}">
-     ${rootCateg.currentLabel.get().text}
-  </c:if>
-</h5>
-<search:browse-classification-inner category="${rootCateg}" facetField="${facetField}" mask="${mask}" lang="${lang}"/>
+   <div class="card ir-browse-classification-card h-100">
+     <div class="card-header"><h4>
+      <c:if test="${not empty lang}">
+        ${rootCateg.getLabel(lang).get().text}
+      </c:if>
+      <c:if test="${empty lang}">
+        ${rootCateg.currentLabel.get().text}
+      </c:if>
+      </h4>
+     </div>
+      
+    <search:browse-classification-inner category="${rootCateg}" facetField="${facetField}" mask="${mask}" lang="${lang}"/>
+   </div>

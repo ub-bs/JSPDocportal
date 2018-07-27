@@ -14,6 +14,13 @@
 <stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
 	<stripes:layout-component name="main_part">
     
+     <div class="container">
+    
+    
+    
+    
+    
+    
     <div class="row">
       <div class="col-xs-12 col-md-8">
           <mcr:includeWebcontent id="${fn:replace(actionBean.path, '/', '.')}" file="${actionBean.path}.html" />
@@ -21,8 +28,8 @@
       <div class="hidden-xs col-md-1">
         &nbsp;
       </div>
-        <div class="col-md-3 hidden-sm hidden-xs" style="padding-top:3em">
-        	<%--epub or histbest --%>
+       		<div class="col-md-3 hidden-sm hidden-xs" style="padding-top:3em">
+        	     	<%--epub or histbest --%>
         	<fmt:message var="img" key="Webpage.browse.${actionBean.path}.image"/>
 			<img src="${img}" style="width:100%">
         </div>
@@ -99,109 +106,108 @@
               </div>
             </div>
           </c:if>
+		</div>
+		
 
-       
-       
-      <div class="row">
-        <div class="col-xs-12 col-md-9">
-          
-          <c:if test="${actionBean.path eq 'histbest' }">
-            <div class="row">
-              <div class="col-sm-4 col-xs-12 ir-browse-classification" lang="x-de-short">
+<%--Facetten --%>
+      <div class="bg-light">
+        <div class="container">	
+          <div class="row">
+            <c:if test="${actionBean.path eq 'histbest' }">
+                <div class="col-md-3 col-12">
                 <%-- <search:browse-facet result="${result}" mask="${mask}" facetField="ir.doctype_class.facet" /> --%>
                 <%-- <search:browse-classification categid="doctype:histbest" mask="${mask}" facetField="ir.doctype_class.facet" /> --%>
                 <search:browse-classification categid="collection:Materialart" mask="${mask}" lang="x-de-short"
                   facetField="ir.collection_class.facet" />
               </div>
-              <div class="col-sm-4 col-xs-12 ir-browse-classification">
+              <div class="col-md-3 col-12">
                 <%-- <search:browse-facet result="${result}" mask="${mask}" facetField="ir.collection_class.facet" /> --%>
                 <search:browse-classification categid="collection:Projekte" mask="${mask}"
                   facetField="ir.collection_class.facet" />
               </div>
-              <div class="col-sm-4 col-xs-12 ir-browse-classification">
+              <div class="col-md-3 col-12">
                 <%-- <search:browse-facet result="${result}" mask="${mask}" facetField="ir.epoch_msg.facet" /> --%>
                 <search:browse-classification categid="epoch" mask="${mask}" facetField="ir.epoch_msg.facet" />
               </div>
-            </div>
           </c:if>
 
           <c:if test="${actionBean.path eq 'epub' }">
-            <div class="row">
               <c:if test="${fn:contains(WebApplicationBaseURL, 'rosdok')}">
-                <div class="col-sm-4 col-xs-12 ir-browse-classification">
+                <div class="col-md-3 col-12">
                   <%--<search:browse-facet result="${result}" mask="${mask}" facetField="ir.doctype_class.facet" /> --%>
                   <search:browse-classification categid="doctype" mask="${mask}" facetField="ir.doctype_class.facet" />
                 </div>
-              	<div class="col-sm-4 col-xs-12 ir-browse-classification">
+              	<div class="col-md-3 col-12">
                   <%--<search:browse-facet result="${result}" mask="${mask}" facetField="ir.sdnb_class.facet" /> --%>
                   <search:browse-classification categid="SDNB" mask="${mask}" facetField="ir.sdnb_class.facet" />
               	</div>
-                <div class="col-sm-4 col-xs-12 ir-browse-classification">
+                <div class="col-md-3 col-12">
                   <%--<search:browse-facet result="${result}" mask="${mask}" facetField="ir.institution_class.facet" /> --%>
                   <search:browse-classification categid="institution" mask="${mask}" facetField="ir.institution_class.facet" />
                 </div>
               </c:if>
               <c:if test="${fn:contains(WebApplicationBaseURL, 'dbhsnb') or fn:contains(WebApplicationBaseURL, 'hs-nb')}">
-                <div class="col-sm-4 col-xs-12 ir-browse-classification">
+                <div class="col-md-3 col-12">
                   <%--<search:browse-facet result="${result}" mask="${mask}" facetField="ir.doctype_class.facet" /> --%>
                   <search:browse-classification categid="doctype" mask="${mask}" facetField="ir.doctype_class.facet" />
                 </div>
-              	<div class="col-sm-4 col-xs-12 ir-browse-classification">
+              	<div class="col-md-3 col-12">
                   <%--<search:browse-facet result="${result}" mask="${mask}" facetField="ir.sdnb_class.facet" /> --%>
                   <search:browse-classification categid="ghb" mask="${mask}" facetField="ir.ghb_class.facet" />
               	</div>
-                <div class="col-sm-4 col-xs-12 ir-browse-classification">
+                <div class="col-md-3 col-12">
                   <%--<search:browse-facet result="${result}" mask="${mask}" facetField="ir.institution_class.facet" /> --%>
                   <search:browse-classification categid="institution:HS.NB.S" mask="${mask}" facetField="ir.institution_class.facet" />
                 </div>
               </c:if>
-            </div>
           </c:if>
-        </div>
  
-      <div class="col-xs-12 col-md-3">
-         <h5><fmt:message key="Browse.latestdocs" /></h5>       
-        <div class="panel panel-default ir-searchresult-panel">
-		<ul id="latest_documents" class="list-group" data-ir-mode="${actionBean.path}">
-          <%-- the following html code will be created from java script
-            <li class="list-group-item">
-              <div class="ir-resultentry-panel" style="position:relative;">
-              <div class="row">
-                  <div class="col-sm-12">
-                       <span>Mustermann, Max</span>
-                       <h5><a href="/rosdok/resolve/id/rosdok_document_0000009183?_search=f37d13db-c6e5-4ed5-a346-a0e870fbd214&amp;_hit=0">Plausus Votivus In Natales Felicissimos Cum Serenissimus Princeps Ac Dominus, Dn. Carolus, D. G. Hassiae Landgravius ... Dominus Et Patronus Eius Clementissimus In Carolo, Filio Quinto Genito ... : Urgente Communis Laetitiae Sensu Et Obsequii Debito Publica Gratulatione Datus</a></h5>
-                 </div>
+      <div class="col-md-3 col-12 bg-dark">
+         <div class="ir-latestdocs">
+           <h4 style="padding-top:"><fmt:message key="Browse.latestdocs" /></h4>       
+           <div id="latest_documents" data-ir-mode="${actionBean.path}">
+            <div class="card ir-latestdocs-card">
+            <div class="card-body">
+              <p class="card-text">Meinhardt, Jennifer</p>
+              <h4 class="card-title">
+                <a class="card-link" href="#">Das Konnektom des Cortex cerebri der Ratte</a>
+              </h4>
+              <p class="card-text">Rostock: Universität, 2017</p>
+              <p class="card-text">Dissertation</p>
+              <p class="card-text text-footer">26.07.2018</p>
+            </div>
+		  
+            <%-- the following html code will be created from java script
+              <div class="card ir-latestdocs-card">
+                <div class="card-body">
+                  <p class="card-text">Meinhardt, Jennifer</p>
+                  <h4 class="card-title">
+                    <a class="card-link" href="#">Das Konnektom des Cortex cerebri der Ratte</a>
+                  </h4>
+                  <p class="card-text">Rostock: Universität, 2017</p>
+                  <p class="card-text">Dissertation</p>
+                  <p class="card-text text-footer">26.07.2018</p>
                 </div>
-                <div class="row">
-	               <div class="col-sm-7">
-		              <table style="border-spacing: 5px; border-collapse: separate; font-size: 80%;">
-			             <tbody>
-                            <tr><td>Marpurgi Cattorum : Kürsnerus , 1680</td></tr>
-                            <tr><td> <span class="label label-default ir-label-default" style="font-size:100%">Monographie</span></td></tr>
-                            <tr><td> &nbsp;</td></tr>
-				        </tbody>
-                      </table>
-	               </div>
-		          <div class="col-sm-5" style="padding-left:0px">
-			         <div class="img-thumbnail pull-right ir-resultentry-image">
-				        <div>
-   					      <a href="/rosdok/resolve/id/rosdok_document_0000009183?_search=f37d13db-c6e5-4ed5-a346-a0e870fbd214&amp;_hit=0">
-   					        <img style="position:relative;top:0px;left:0px;width:98%;padding:1%;display:block; max-height:180px; object-fit:contain;" src="/rosdok/file/rosdok_document_0000009183/rosdok_derivate_0000032996/ppn832537330.cover.jpg" border="0">
-                          </a>
-				        </div>
-			         </div>
-		          </div>
-                </div>
-                <div class="label label-default ir-label-default" style="position:absolute;bottom:5px; left:0px;background-color: white;color:gray;">03.04.2018</div>
-              </div>
-		    </li>
+               </div>
            --%>				 
-          </ul>
+            </div>
 
-		  <div class="panel-footer" style="padding-bottom: 9px; text-align:right">
-			<a href="/browse/${actionBean.path}" class="btn btn-sm btn-primary ir-button">mehr ...</a>
-		  </div>			
+		    <div class="ir-latestdocs-buttons">
+			 <a href="/browse/${actionBean.path}" class="btn btn-sm btn-primary ir-button">mehr ...</a>
+		    </div>
+          </div>			
 	    </div>
+      </div>
+    </div>
+    </div>
+    </div>
+    
+    <div class="bg-light" style="height: 75px;">
+      <div class="container h-100">
+        <div class="row h-100">
+          <div class="col-9 bg-light"></div>
+          <div class="col-3 bg-dark"></div>
+        </div>
       </div>
     </div>
     <%--TODO use SOLR-Parameter "&facet.mincount=1" --%>

@@ -13,7 +13,7 @@
 <%@ attribute name="lang" required="false" type="java.lang.String" %>
 
 <c:if test="${category.hasChildren()}">
-	<ul>
+	<ul class="list-group list-group-flush">
 		<c:forEach var="c" items="${category.children}">
 			<%--
 			<li>${c.currentLabel.get().text}
@@ -22,8 +22,7 @@
 				</c:if>
 				<search:browse-classification-inner category="${c}" facetField="${facetField}" mask="${mask}" />
 			</li> --%>
-			<li>
-				<button class="btn btn-sm btn-default ir-facets-btn" style="border:none; display:block;text-align:left;white-space:normal;width:100%" 
+			<li class="list-group-item" style="display:block" 
 					    onclick="changeFacetIncludeURL('${facetField}','${c.id.getRootID()}:${c.id.ID}', '${mask}', '${result.id}');">
 					<span style="display:table-cell;vertical-align:middle;">
                       <c:if test="${not empty lang}">
@@ -34,11 +33,12 @@
                       </c:if>
 					</span>
 					<span style="display:table-cell;vertical-align:middle;padding-left:12px;">
-							<span class="badge ir-badge mcr-facet-count" data-mcr-facet-field="${facetField}" data-mcr-facet-value="${c.id.getRootID()}:${c.id.ID}"></span>
+							<span class="badge" data-mcr-facet-field="${facetField}" data-mcr-facet-value="${c.id.getRootID()}:${c.id.ID}"></span>
 					</span>
-				</button>
+                    
+                    <search:browse-classification-inner category="${c}" facetField="${facetField}" mask="${mask}" />
 			</li>
-			<search:browse-classification-inner category="${c}" facetField="${facetField}" mask="${mask}" />
+
 		</c:forEach>
 	</ul>
 </c:if>
