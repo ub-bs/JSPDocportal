@@ -15,21 +15,15 @@
 	<stripes:layout-component name="main_part">
     
      <div class="container">
-    
-    
-    
-    
-    
-    
-    <div class="row">
-      <div class="col-xs-12 col-md-8">
+     <div class="row">
+      <div class="col-12 col-md-8 my-3">
           <mcr:includeWebcontent id="${fn:replace(actionBean.path, '/', '.')}" file="${actionBean.path}.html" />
       </div>
-      <div class="hidden-xs col-md-1">
+      <div class="col-md-1 d-none d-md-block">
         &nbsp;
       </div>
-       		<div class="col-md-3 hidden-sm hidden-xs" style="padding-top:3em">
-        	     	<%--epub or histbest --%>
+       		<div class="col-md-3 d-none d-md-block" style="padding-top:3em">
+        	 <%--epub or histbest --%>
         	<fmt:message var="img" key="Webpage.browse.${actionBean.path}.image"/>
 			<img src="${img}" style="width:100%">
         </div>
@@ -72,36 +66,29 @@
 				%>
 
             <%-- key=$("input[name='filterField']:checked").val(); value=$('#filterValue').val()); --%>
-            <div class="row" style="margin-top:30px;margin-bottom:30px">
-              <div class="col-xs-12 col-md-8">
-                <div class="input-group" data-ir-mode="${actionBean.path}">
-                  <input class="form-control ir-form-control" id="filterValue" name="filterValue" style="width: 100%" placeholder="Suche "
-                         onkeypress="if (event.keyCode == 13) { changeFilterIncludeURL($('input[name=\'filterField\']:checked').val(), $('#filterValue').val(), $('#filterValue').parent().data('ir-mode'));}"
-                         type="text">
-                   <span class="input-group-btn">
-                      <button id="filterInclude" class="btn btn-primary ir-button form-control"
+            <div class="row my-5">
+              <div class="col-12 col-md-8">
+                <div class="input-group mb-3" data-ir-mode="${actionBean.path}">
+                  <input type="text" class="form-control ir-form-control" id="filterValue" name="filterValue" placeholder="Suche "
+                         onkeypress="if (event.keyCode == 13) { changeFilterIncludeURL($('input[name=\'filterField\']:checked').val(), $('#filterValue').val(), $('#filterValue').parent().data('ir-mode'));}" />
+                   <div class="input-group-append">
+                      <button id="filterInclude" class="btn btn-primary ir-button" type="button"
                               onclick="changeFilterIncludeURL($('input[name=\'filterField\']:checked').val(), $('#filterValue').val(), $('#filterValue').parent().data('ir-mode'));">
                         <i class="fa fa-search"></i>
                       </button>   
-                   </span>
-                  </div>
-                 <div>
-                <table>
-                  <tbody>
-                    <tr>
-                      <fmt:message key="Browse.Filter.${actionBean.path}.allMeta" var="lblAllMeta"/>
-                      <td class="radio input-sm"><label> <input name="filterField" value="allMeta"
-                          checked="checked" type="radio">  <c:out escapeXml="false" value="${fn:replace(lblAllMeta,'<br />', ' ')}" />
-                      </label></td>
-                      <td></td>
-                      <fmt:message key="Browse.Filter.${actionBean.path}.content" var="lblContent"/>
-                      <td class="radio input-sm"><label> <input name="filterField" value="content"
-                          type="radio"> <c:out escapeXml="false" value="${fn:replace(lblContent,'<br />', ' ')}" />
-                      </label></td>
-                      <td></td>
-                    </tr>
-                  </tbody>
-                </table>
+                   </div>
+                </div>
+                
+                <fmt:message key="Browse.Filter.${actionBean.path}.allMeta" var="lblAllMeta"/>
+                <fmt:message key="Browse.Filter.${actionBean.path}.content" var="lblContent"/>
+                
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" checked="checked" id="filterField1" name="filterField" value="allMeta" class="custom-control-input">
+                  <label class="custom-control-label" for="filterField1"><c:out escapeXml="false" value="${fn:replace(lblAllMeta,'<br />', ' ')}" /></label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" id="filterField2" name="filterField" value="content" class="custom-control-input">
+                  <label class="custom-control-label" for="filterField2"><c:out escapeXml="false" value="${fn:replace(lblContent,'<br />', ' ')}" /></label>
                 </div>
               </div>
             </div>
@@ -131,11 +118,11 @@
               </div>
           </c:if>
 
-          <c:if test="${actionBean.path eq 'epub' }">
+            <c:if test="${actionBean.path eq 'epub' }">
               <c:if test="${fn:contains(WebApplicationBaseURL, 'rosdok')}">
                 <div class="col-md-3 col-12">
                   <%--<search:browse-facet result="${result}" mask="${mask}" facetField="ir.doctype_class.facet" /> --%>
-                  <search:browse-classification categid="doctype" mask="${mask}" facetField="ir.doctype_class.facet" />
+                  <search:browse-classification categid="doctype:epub" mask="${mask}" facetField="ir.doctype_class.facet" />
                 </div>
               	<div class="col-md-3 col-12">
                   <%--<search:browse-facet result="${result}" mask="${mask}" facetField="ir.sdnb_class.facet" /> --%>
@@ -149,7 +136,7 @@
               <c:if test="${fn:contains(WebApplicationBaseURL, 'dbhsnb') or fn:contains(WebApplicationBaseURL, 'hs-nb')}">
                 <div class="col-md-3 col-12">
                   <%--<search:browse-facet result="${result}" mask="${mask}" facetField="ir.doctype_class.facet" /> --%>
-                  <search:browse-classification categid="doctype" mask="${mask}" facetField="ir.doctype_class.facet" />
+                  <search:browse-classification categid="doctype:epub" mask="${mask}" facetField="ir.doctype_class.facet" />
                 </div>
               	<div class="col-md-3 col-12">
                   <%--<search:browse-facet result="${result}" mask="${mask}" facetField="ir.sdnb_class.facet" /> --%>
@@ -215,7 +202,7 @@
 		$( document ).ready(function() {
 			$.ajax({
 				type : "GET",
-				url : "${WebApplicationBaseURL}api/v1/search?q=category%3A%22doctype%3A${mask}%22&rows=1&wt=json&indent=true&facet=true&facet.field=ir.doctype_class.facet&facet.field=ir.institution_class.facet&facet.field=ir.collection_class.facet&facet.field=ir.epoch_msg.facet&facet.field=ir.sdnb_class.facet&json.wrf=?",
+				url : "${WebApplicationBaseURL}api/v1/search?q=category%3A%22doctype%3A${mask}%22&rows=1&wt=json&indent=true&facet=true&facet.field=ir.doctype_class.facet&facet.field=ir.institution_class.facet&facet.field=ir.collection_class.facet&facet.field=ir.epoch_msg.facet&facet.field=ir.sdnb_class.facet&facet.field=ir.ghb_class.facet&json.wrf=?",
 				dataType : "jsonp",
 				success : function(data) {
 					<%-- num found --%>
@@ -233,16 +220,16 @@
 					    		$(el).parent().parent().attr('disabled', 'disabled');
 					    	}
 					    	else{
-					    		$(el).parent().parent().addClass('hidden');
+					    		$(el).parent().parent().addClass('d-none');
 					    	}
 					    }
 					    else{
 					    	var c = fvalues[idx + 1];
 					    	if(c>0){
-								$(el).text(c);
+								$(el).text(c) ;
 					    	}
 					    	else{
-					    		$(el).parent().parent().addClass('hidden');
+					    		$(el).parent().parent().addClass('d-none');
 					    	}
 					 	}
 					});
@@ -298,7 +285,7 @@
 	            			divPanel.append(row1);
 	            			
 	            			if(entry.hasOwnProperty("ir.cover_url")){
-	            				row1.append($("<div></div>").addClass("col-md-5 hidden-sm hidden-xs").css("padding-left","0").append(
+	            				row1.append($("<div></div>").addClass("col-md-5 d-none d-md-block pl-0").append(
 	            					$("<div></div>").addClass("img-thumbnail pull-right ir-resultentry-image").append(
 	            						$("<a></a>").attr("href", "../resolve/id/"+entry["id"]).append(
 	            							$("<img />").css("width","98%").css("max-height","180px").css("object-fit","contain").attr("src", "../"+entry["ir.cover_url"])
@@ -316,12 +303,9 @@
 	            		});
 	            	 }
 	            }); <%-- end ajax latest_document --%>
-			
-			
-			
+
 		});
      </script>
 
-  
   </stripes:layout-component>	
 </stripes:layout-render>
