@@ -22,12 +22,9 @@
         &nbsp;
       </div>
         <div class="col-md-3 hidden-sm hidden-xs" style="padding-top:3em">
-          <c:if test="${actionBean.path eq 'histbest' }">
-            <img src="../themes/rosdok/images/histbest_buecherstapel.jpg" style="width:100%">
-          </c:if>
-          <c:if test="${actionBean.path eq 'epub' }">
-            <img src="../themes/rosdok/images/epub_flyer.jpg" style="width:100%">
-          </c:if>
+        	<%--epub or histbest --%>
+        	<fmt:message var="img" key="Webpage.browse.${actionBean.path}.image"/>
+			<img src="${img}" style="width:100%">
         </div>
       </div>
      
@@ -130,18 +127,34 @@
 
           <c:if test="${actionBean.path eq 'epub' }">
             <div class="row">
-              <div class="col-sm-4 col-xs-12 ir-browse-classification">
-                <%--<search:browse-facet result="${result}" mask="${mask}" facetField="ir.doctype_class.facet" /> --%>
-                 <search:browse-classification categid="doctype" mask="${mask}" facetField="ir.doctype_class.facet" />
-              </div>
-              <div class="col-sm-4 col-xs-12 ir-browse-classification">
-                <%--<search:browse-facet result="${result}" mask="${mask}" facetField="ir.sdnb_class.facet" /> --%>
-                <search:browse-classification categid="SDNB" mask="${mask}" facetField="ir.sdnb_class.facet" />
-              </div>
-              <div class="col-sm-4 col-xs-12 ir-browse-classification">
-                <%--<search:browse-facet result="${result}" mask="${mask}" facetField="ir.institution_class.facet" /> --%>
-                <search:browse-classification categid="institution" mask="${mask}" facetField="ir.institution_class.facet" />
-              </div>
+              <c:if test="${fn:contains(WebApplicationBaseURL, 'rosdok')}">
+                <div class="col-sm-4 col-xs-12 ir-browse-classification">
+                  <%--<search:browse-facet result="${result}" mask="${mask}" facetField="ir.doctype_class.facet" /> --%>
+                  <search:browse-classification categid="doctype" mask="${mask}" facetField="ir.doctype_class.facet" />
+                </div>
+              	<div class="col-sm-4 col-xs-12 ir-browse-classification">
+                  <%--<search:browse-facet result="${result}" mask="${mask}" facetField="ir.sdnb_class.facet" /> --%>
+                  <search:browse-classification categid="SDNB" mask="${mask}" facetField="ir.sdnb_class.facet" />
+              	</div>
+                <div class="col-sm-4 col-xs-12 ir-browse-classification">
+                  <%--<search:browse-facet result="${result}" mask="${mask}" facetField="ir.institution_class.facet" /> --%>
+                  <search:browse-classification categid="institution" mask="${mask}" facetField="ir.institution_class.facet" />
+                </div>
+              </c:if>
+              <c:if test="${fn:contains(WebApplicationBaseURL, 'dbhsnb') or fn:contains(WebApplicationBaseURL, 'hs-nb')}">
+                <div class="col-sm-4 col-xs-12 ir-browse-classification">
+                  <%--<search:browse-facet result="${result}" mask="${mask}" facetField="ir.doctype_class.facet" /> --%>
+                  <search:browse-classification categid="doctype" mask="${mask}" facetField="ir.doctype_class.facet" />
+                </div>
+              	<div class="col-sm-4 col-xs-12 ir-browse-classification">
+                  <%--<search:browse-facet result="${result}" mask="${mask}" facetField="ir.sdnb_class.facet" /> --%>
+                  <search:browse-classification categid="ghb" mask="${mask}" facetField="ir.ghb_class.facet" />
+              	</div>
+                <div class="col-sm-4 col-xs-12 ir-browse-classification">
+                  <%--<search:browse-facet result="${result}" mask="${mask}" facetField="ir.institution_class.facet" /> --%>
+                  <search:browse-classification categid="institution:HS.NB.S" mask="${mask}" facetField="ir.institution_class.facet" />
+                </div>
+              </c:if>
             </div>
           </c:if>
         </div>

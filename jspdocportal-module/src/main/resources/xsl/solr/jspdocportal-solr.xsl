@@ -284,6 +284,9 @@
            <xsl:for-each select="mods:classification[@displayLabel='sdnb']">
                 <field name="ir.sdnb_class.facet"><xsl:value-of select="translate(substring-after(@valueURI,'classifications/'),'#',':')" /></field>
            </xsl:for-each>
+           <xsl:for-each select="mods:classification[@displayLabel='ghb']">
+                <field name="ir.ghb_class.facet"><xsl:value-of select="translate(substring-after(@valueURI,'classifications/'),'#',':')" /></field>
+           </xsl:for-each>
            <xsl:for-each select="mods:classification[@displayLabel='institution']">
                 <field name="ir.institution_class.facet"><xsl:value-of select="translate(substring-after(@valueURI,'classifications/'),'#',':')" /></field>
            </xsl:for-each>
