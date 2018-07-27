@@ -113,6 +113,14 @@
 	},
 	{
 		"add-field": {
+			"name": "ir.ghb_class.facet",
+			"type": "string",
+			"multiValued": true,
+			"stored": true
+		}
+	},
+	{
+		"add-field": {
 			"name": "ir.language_class.facet",
 			"type": "string",
 			"multiValued": true,
