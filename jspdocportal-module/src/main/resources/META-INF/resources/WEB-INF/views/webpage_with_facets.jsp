@@ -153,36 +153,31 @@
          <div class="ir-latestdocs">
            <h4 style="padding-top:"><fmt:message key="Browse.latestdocs" /></h4>       
            <div id="latest_documents" data-ir-mode="${actionBean.path}">
+            <%--
             <div class="card ir-latestdocs-card">
-            <div class="card-body">
-              <p class="card-text">Meinhardt, Jennifer</p>
-              <h4 class="card-title">
-                <a class="card-link" href="#">Das Konnektom des Cortex cerebri der Ratte</a>
-              </h4>
-              <p class="card-text">Rostock: Universität, 2017</p>
-              <p class="card-text">Dissertation</p>
-              <p class="card-text text-footer">26.07.2018</p>
-            </div>
-		  
-            <%-- the following html code will be created from java script
-              <div class="card ir-latestdocs-card">
-                <div class="card-body">
-                  <p class="card-text">Meinhardt, Jennifer</p>
-                  <h4 class="card-title">
-                    <a class="card-link" href="#">Das Konnektom des Cortex cerebri der Ratte</a>
-                  </h4>
-                  <p class="card-text">Rostock: Universität, 2017</p>
-                  <p class="card-text">Dissertation</p>
-                  <p class="card-text text-footer">26.07.2018</p>
-                </div>
-               </div>
-           --%>				 
-            </div>
-
-		    <div class="ir-latestdocs-buttons">
-			 <a href="/browse/${actionBean.path}" class="btn btn-sm btn-primary ir-button">mehr ...</a>
-		    </div>
-          </div>			
+              <div class="card-body">
+                <p class="card-text">Meinhardt, Jennifer</p>
+                <h4 class="card-title">
+                  <a class="card-link" href="#">Das Konnektom des Cortex cerebri der Ratte</a>
+                </h4>
+                <table>
+                  <tr>
+                    <td style="vertical-align: top; width: 67%;">
+                      <p class="card-text">Neubrandenburg : Hochschule , 2016</p>
+                      <p class="card-text text-secondary font-weight-bold">Bachelorarbeit</p>
+                      <p class="card-text text-secondary">14.12.2016</p>
+                    </td>
+                    <td style="vertical-align: bottom; width: 33%; padding-left: 15px;">
+                      <a href="../resolve/id/dbhsnb_thesis_0000001540">
+                        <img class="ir-latestdocs-cover" style="max-width: 100%; max-height: 180px; object-fit: contain;" src="http://rosdok.uni-rostock.de/file/rosdok_document_0000012807/rosdok_derivate_0000044495/ppn102519165X.cover.jpg">
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+		    </div> --%>
+          </div>
+          <a href="/browse/${actionBean.path}" class="ir-latestdocs-more-button btn btn-sm btn-primary float-right mt-3">mehr ...</a>			
 	    </div>
       </div>
     </div>
@@ -237,7 +232,7 @@
             });
 			
 					
-			<%--        //aktuelle Dokumente
+	   <%-- //aktuelle Dokumente
             //http://localhost:8080/rosdok/api/v1/search?q=category.top:%22doctype:histbest%22
             //	docs":[ { "id":"rosdok_document_0000009190",
             //            "created":"2018-04-19T21:53:08.915Z",
@@ -246,7 +241,7 @@
             //            "ir.title.result":"Die Cultur der Georginen in Deutschland mit besonderer Rücksicht auf Erfurt : (Nebst einer lithographirten Tafel)",
             //            "ir.doctype.result":"Monographie",
             //            "ir.originInfo.result":"Weißensee : Großmann , 1841"}, {}, ...]
-           	--%>
+       --%>
 			
 			  $.ajax({
 	            	 type: "GET",
@@ -254,56 +249,46 @@
 	            	 dataType: "jsonp",
 	            	 success: function (data) {
 	            		data.response.docs.forEach(function( entry ) {
-	            			var li = $("<li></li>").addClass("list-group-item");
-	            			var divHead = $("<div></div>").addClass("col-sm-12");
+	            			var card= $("<div></div>").addClass("card ir-latestdocs-card").appendTo("#latest_documents");
+	            			var cardBody = $("<div></div>").addClass("card-body");
+	            			card.append(cardBody);
+	            			
 	            			if(entry.hasOwnProperty("ir.creator.result")){
-	            				divHead.append($("<span></span>").css("font-size", "85%").text(entry["ir.creator.result"]));
+	            				cardBody.append($("<p></p>").addClass("card-text").text(entry["ir.creator.result"]));
 	            			}
 	            			if(entry.hasOwnProperty("ir.title.result")){
 	            				var title = entry["ir.title.result"];
 	            				if(title.length>120){
 	            					title = title.substring(0,100) + "…";          
 	            				}
-	            				divHead.append($("<a></a>").attr("href", "../resolve/id/"+entry["id"]).append($("<h4></h4>").text(title)));
+	            				cardBody.append($("<h4></h4>").addClass("card-title").append($("<a></a>").addClass("card-link").attr("href", "../resolve/id/"+entry["id"]).text(title)));
 	            			}
-	            			var divPanel = $("<div></div>").addClass("ir-resultentry-panel").css("position", "relative"); 
-	            			li.append(divPanel);
-	            			divPanel.append($("<div></div>").addClass("row").append(divHead));
 	            			
-	            			var tbody = $("<tbody></tbody>");
-	            			if(entry.hasOwnProperty("ir.originInfo.result")){
-	            				tbody.append($("<tr></tr>").append($("<td></td>").text(entry["ir.originInfo.result"])));
-	            			}
-	            			if(entry.hasOwnProperty("ir.doctype.result")){
-	            				tbody.append($("<tr></tr>").append($("<td></td>").append($("<strong></strong>").css("color", "#777777").text(entry["ir.doctype.result"]))));
-	            			}
-	            			tbody.append($("<tr></tr>").append($("<td></td>").html("&nbsp;")));
-	            			
-	            			var row1 = $("<div></div>").addClass("row");
-	            			row1.append($("<div></div>").addClass("col-md-7")
-	            					.append($("<table></table>").css("border-spacing", "5px").css("border-collapse","separate").css("font-size", "85%").append(tbody)));
-	            			divPanel.append(row1);
+	            			var cardBodyTR = $("<tr></tr>").appendTo($("<table></table>").appendTo(cardBody));
+	            			var cardBodyTDData = $("<td></td>").css("vertical-align","top").appendTo(cardBodyTR);
 	            			
 	            			if(entry.hasOwnProperty("ir.cover_url")){
-	            				row1.append($("<div></div>").addClass("col-md-5 d-none d-md-block pl-0").append(
-	            					$("<div></div>").addClass("img-thumbnail pull-right ir-resultentry-image").append(
-	            						$("<a></a>").attr("href", "../resolve/id/"+entry["id"]).append(
-	            							$("<img />").css("width","98%").css("max-height","180px").css("object-fit","contain").attr("src", "../"+entry["ir.cover_url"])
-	            						)		
-	            					)
-	            				));
-	            				
+	            			  cardBodyTDData.css("width", "67%")
+	            			  var coverImg = $("<a></a>").attr("href", "../resolve/id/"+entry["id"]).append(
+        							$("<img />").addClass("ir-latestdocs-cover").css("max-width", "100%").css("max-height","180px").css("object-fit","contain")
+        							.attr("src", "../"+entry["ir.cover_url"]));
+    						  cardBodyTR.append($("<td></td>").css("vertical-align","bottom").css("width", "33%").css("padding-left","15px").append(coverImg));
 	            			}
+	            			
+	            			if(entry.hasOwnProperty("ir.originInfo.result")){
+	            				cardBodyTDData.append($("<p></p>").addClass("card-text").text(entry["ir.originInfo.result"]));
+	            			}
+	            			if(entry.hasOwnProperty("ir.doctype.result")){
+	            				cardBodyTDData.append($("<p></p>").addClass("card-text text-secondary font-weight-bold").text(entry["ir.doctype.result"]));
+	            			}
+	            			
 	            			var datum = entry["created"];
-	            			divPanel.append($("<div></div>").addClass("label label-default ir-label-default").css("position", "absolute").css("bottom","1px").css("left","0").css("background-color","white").css("color","gray").text(
+	            			cardBodyTDData.append($("<p></p>").addClass("card-text text-secondary").text(
 	            				datum.substring(8,10)+"."+datum.substring(5,7)+"."+datum.substring(0,4)		
 	            			));
-	            			
-	            			$("#latest_documents").append(li);
 	            		});
 	            	 }
 	            }); <%-- end ajax latest_document --%>
-
 		});
      </script>
 
