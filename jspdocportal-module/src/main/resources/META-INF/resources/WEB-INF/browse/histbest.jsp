@@ -14,6 +14,7 @@
     <meta name="mcr:search.id" content="${actionBean.result.id}" />
   </stripes:layout-component>
   <stripes:layout-component name="main_part">
+    <div class="container">
     <div class="row">
       <div class="col-xs-12">
         <h2>${pageTitle}</h2>
@@ -148,6 +149,7 @@
       <div class="col-xs-12 col-md-9">
         <search:result-sorter result="${actionBean.result}"
                               fields="score,ir.pubyear_start,modified,ir.creator.result,ir.title.result" mask="histbest" />
+        
         <search:result-browser result="${actionBean.result}">
           <c:set var="doctype" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
           <c:choose>
@@ -159,24 +161,35 @@
             </c:otherwise>
           </c:choose>
           <div class="row">
-            <div class="col-xs-12">
+            <div class="col-xs-12 col-md-12 mt-3">
+            <p class="card-text">
               <search:show-edit-button mcrid="${mcrid}" cssClass="btn btn-sm btn-primary ir-edit-btn" />
-              <span class="label label-default ir-label-default">${entry.data['ir.doctype.result']}</span>
+              <span class="badge badge-secondary">${entry.data['ir.doctype.result']}</span>
               <c:choose>
                 <c:when test="${fn:contains(entry.data['ir.accesscondition_class.facet'], 'restrictedaccess')}">
-                  <span class="label label-default ir-label-restrictedaccess">
+                  <span class="badge ir-restrictedaccess-badge">
                     Restricted <img style="height:1.5em;padding:0 .25em" src="${WebApplicationBaseURL}images/logo_Closed_Access.png"/>  Access            
                   </span>
                 </c:when>
                <c:otherwise>
-                <span class="label label-default ir-label-openaccess">
+                <span class="badge ir-openaccess-badge">
                     Open <img style="height:1.5em;padding:0 .25em" src="${WebApplicationBaseURL}images/logo_Open_Access.png"/>  Access            
                   </span>
                </c:otherwise>
              </c:choose>
+             </p>
             </div>
           </div>
         </search:result-browser>
+      </div>
+    </div>
+    </div>
+        <div class="bg-white" style="height: 75px;">
+      <div class="container h-100">
+        <div class="row h-100">
+          <div class="col-3 bg-dark"></div>
+          <div class="col-9 bg-white"></div>
+        </div>
       </div>
     </div>
   </stripes:layout-component>

@@ -29,10 +29,10 @@
 		  </select>
     
 		  <button class="btn btn-default ir-form-control btn-sm ${fn:endsWith(result.sort,' asc') ? 'disabled active' : ''}" role="button" onclick="changeSortURL('asc')">
-			<i class="fa fa-sort-amount-asc"></i> A-Z
+			<i class="fas fa-sort-amount-asc"></i> A-Z
 		  </button>
 		  <button class="btn btn-default ir-form-control btn-sm ${fn:endsWith(result.sort,' desc') ? 'disabled active' : ''}" role="button" onclick="changeSortURL('desc')">
-			<i class="fa fa-sort-amount-desc" onclick="changeSortURL('desc')"></i> Z-A
+			<i class="fas fa-sort-amount-desc" onclick="changeSortURL('desc')"></i> Z-A
 		  </button>
         </span>
 	</div>

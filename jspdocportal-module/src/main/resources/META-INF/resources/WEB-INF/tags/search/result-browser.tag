@@ -13,90 +13,52 @@
  
 <c:set var="numHits" value="${result.numFound}" />
 
-<c:if test="${not empty result.sortfields and numHits>0}">
-	<%--Resort Form --%>
-	<div class="panel panel-default">
-		<div class="panel-body">
-		<form class="form-inline" action="${pageContext.request.contextPath}/${result.action}" method="get" accept-charset="UTF-8">
-			 <input type="hidden" name="_search" value="<%= java.net.URLEncoder.encode(result.getId() , "UTF-8") %>" />
-			 <label><fmt:message key="Webpage.Searchresult.resort-label" /></label>&#160;&#160;&#160;&#160;&#160;
-			 <select name="sortField" class="form-control input-sm">
-			 	<option value=""></option>
-			 	<c:forEach var="field" items="${fn:split(fn:trim(result.sortfields), ',')}">
-			 		<c:if test="${not empty field}">
-			 			<c:choose>
-			 				<c:when test="${fn:startsWith(result.sort, field)}">
-			 					<option value="${field}" selected="selected"><fmt:message key="Webpage.searchresults.sortfield.${field}" /></option>
-			 				</c:when>
-			 				<c:otherwise>
-			 					<option value="${field}"><fmt:message key="Webpage.searchresults.sortfield.${field}" /></option>
-			 				</c:otherwise>
-			 			</c:choose>
-			 		</c:if>
-				</c:forEach>
-			</select>&#160;&#160;&#160;
-			<select name="sortValue" class="form-control input-sm">
-				<option value=""></option>
-			 	<c:forEach var="order" items="${fn:split('asc desc', ' ')}">
-			 		<c:choose>
-			 			<c:when test="${fn:endsWith(result.sort, order)}">
-			 				<option value="${order}" selected="selected"><fmt:message key="Webpage.Searchresult.order.${order}" /></option>
-			 			</c:when>
-			 			<c:otherwise>
-			 				<option value="${order}"><fmt:message key="Webpage.Searchresult.order.${order}" /></option>
-			 			</c:otherwise>
-			 		</c:choose>
-				</c:forEach>
-			</select>&#160;&#160;&#160;
-			<input class="btn btn-primary btn-sm" value="<fmt:message key='Webpage.Searchresult.resort' />" type="submit" />
-		</form>
-		</div>
-	</div>
-</c:if>
-
-<div class="panel panel-default ir-searchresult-panel">
+<div class="card ir-result-card w-100">
 	<c:if test="${numHits >= 0}">	
 		<c:set var="pageNavi">
 			<%-- // 36.168 Treffer                   Erste Seite | 11-20 | 21-30 | 31-40 | 41-50 | Letzte Seite --%>
-			<ul class="pagination pagination-sm ir-pagination pull-right">
+		  <nav class="float-right">
+            <ul class="pagination ir-result-pagination">
 			<c:if test="${result.numPages> 1}">
 				<c:set var="page"><%= Math.round(Math.floor((double) result.getStart() / result.getRows()) + 1) %></c:set>
 				<c:set var="start">0</c:set>
-				<li><a href="${pageContext.request.contextPath}/${result.action}?_search=${result.id}&amp;_start=${start}"><fmt:message key="Webpage.Searchresult.firstPage" /></a></li>
+				<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/${result.action}?_search=${result.id}&amp;_start=${start}"><fmt:message key="Webpage.Searchresult.firstPage" /></a></li>
 			
 				<c:if test="${page - 2 > 0}">
 					<c:set var="start">${result.start - result.rows - result.rows}</c:set>
-					<li><a href="${pageContext.request.contextPath}/${result.action}?_search=${result.id}&amp;_start=${start}">${start + 1}-${start + result.rows}</a></li>
+					<li class="page-item"><a class="page-link"  href="${pageContext.request.contextPath}/${result.action}?_search=${result.id}&amp;_start=${start}">${start + 1}-${start + result.rows}</a></li>
 				</c:if>
 				<c:if test="${page - 1 > 0}">
 					<c:set var="start">${result.start - result.rows}</c:set>
-					<li><a href="${pageContext.request.contextPath}/${result.action}?_search=${result.id}&amp;_start=${start}">${start + 1}-${start + result.rows}</a></li>
+					<li class="page-item"><a class="page-link"  href="${pageContext.request.contextPath}/${result.action}?_search=${result.id}&amp;_start=${start}">${start + 1}-${start + result.rows}</a></li>
 				</c:if>
 
 				<c:set var="start">${result.start}</c:set>
-				<li class="active"><a href="${pageContext.request.contextPath}/${result.action}?_search=${result.id}&amp;_start=${start}">${start + 1}-<%=Math.min(Integer.parseInt(jspContext.getAttribute("start").toString()) + result.getRows(), result.getNumFound())%></a></li>
+				<li class="page-item"><a  class="page-link active" href="${pageContext.request.contextPath}/${result.action}?_search=${result.id}&amp;_start=${start}">${start + 1}-<%=Math.min(Integer.parseInt(jspContext.getAttribute("start").toString()) + result.getRows(), result.getNumFound())%></a></li>
 
 				<c:if test="${page + 1 <= result.numPages}">
 					<c:set var="start">${result.start + result.rows}</c:set>
-					<li><a href="${pageContext.request.contextPath}/${result.action}?_search=${result.id}&amp;_start=${start}">${start + 1}-<%=Math.min(Integer.parseInt(jspContext.getAttribute("start").toString()) + result.getRows(), result.getNumFound())%></a></li>
+					<li class="page-item"><a  class="page-link" href="${pageContext.request.contextPath}/${result.action}?_search=${result.id}&amp;_start=${start}">${start + 1}-<%=Math.min(Integer.parseInt(jspContext.getAttribute("start").toString()) + result.getRows(), result.getNumFound())%></a></li>
 				</c:if>
 				<c:if test="${page + 2 <= result.numPages}">
 					<c:set var="start">${result.start + result.rows + result.rows}</c:set>
-					<li><a href="${pageContext.request.contextPath}/${result.action}?_search=${result.id}&amp;_start=${start}">${start + 1}-<%=Math.min(Integer.parseInt(jspContext.getAttribute("start").toString()) + result.getRows(), result.getNumFound())%></a></li>
+					<li class="page-item"><a  class="page-link" href="${pageContext.request.contextPath}/${result.action}?_search=${result.id}&amp;_start=${start}">${start + 1}-<%=Math.min(Integer.parseInt(jspContext.getAttribute("start").toString()) + result.getRows(), result.getNumFound())%></a></li>
 				</c:if>
 			
 				<c:set var="start"><%= Math.round((result.getNumPages() - 1) * result.getRows()) %></c:set>
-				<li><a href="${pageContext.request.contextPath}/${result.action}?_search=${result.id}&amp;_start=${start}"><fmt:message key="Webpage.Searchresult.lastPage" /></a></li>
-			</c:if>
-		</ul>
+				<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/${result.action}?_search=${result.id}&amp;_start=${start}"><fmt:message key="Webpage.Searchresult.lastPage" /></a></li>
+		  </c:if>
+		  </ul>
+        </nav>
 		<c:if test="${fn:length(result.backURL) >0}">
-			<a class="btn btn-default btn-sm ir-pagination-btn-back"
+			<a class="btn btn-default btn-sm ir-result-pagination-btn-back"
 			   href="${result.backURL}" ><fmt:message key="Webpage.searchresults.back" /></a>
 		</c:if>
-		<span class="btn btn-sm ir-pagination-btn-numfound">${result.numFound} <fmt:message key="Webpage.Searchresult.numHits" /></span>
+		<span class="ir-result-pagination-numfound">${result.numFound} <fmt:message key="Webpage.Searchresult.numHits" /></span>
 
-		</c:set>
-	<div class="panel-heading">
+	</c:set>
+  
+	<div class="card-header bg-light w-100">
 		<c:out value="${pageNavi}" escapeXml="false"/>
 	</div>
 	<c:if test="${numHits eq 0}">
@@ -111,15 +73,16 @@
 				<c:set var="mcrid" value="${entry.mcrid}" />
 				<c:set var="entry" value="${entry}" />
 				<c:set var="url"   value="${pageContext.request.contextPath}/resolve/id/${entry.mcrid}?_search=${result.id}&_hit=${entry.pos}" /> 
-				<li class="list-group-item">
-					<div class="ir-resultentry-panel">
+				
+                <div class="card-body">
+					<div class="container">
 						<jsp:doBody />
 					</div>
-				</li>				 
+				</div>				 
 			</c:forEach>
    		</ul>
 
-		<div class="panel-footer">
+		<div class="card-footer bg-light w-100">
 			<c:out value="${pageNavi}" escapeXml="false"/>
 		</div>			
 	</c:if>

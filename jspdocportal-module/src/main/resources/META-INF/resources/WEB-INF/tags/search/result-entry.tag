@@ -12,10 +12,10 @@
 <div class="row">
 	<div class="col-sm-9">
 		<search:show-edit-button mcrid="${entry.mcrid}" cssClass="btn btn-primary ir-edit-btn pull-right" /> 
-		<h4>
+		<h4 class="card-title">
 			<a href="${url}">${entry.label}</a>
 		</h4>
-		<table
+		<table class="card-text"
 			style="border-spacing: 4px; border-collapse: separate; font-size: 100%">
 			<c:forEach var="d" items="${entry.data}">
 				<tr>
@@ -40,8 +40,8 @@
 		</table>
 	</div>
 	<c:if test="${not empty entry.coverURL}">
-		<div class="col-sm-3 hidden-xs">
-			<div class="img-thumbnail pull-right ir-resultentry-image">
+		<div class="col-md-3 d-none d-md-block">
+			<div class="img-thumbnail pull-right ir-result-image">
 				<div style="position:relative">
    					<c:if test="${protectDownload}">
    						<img style="opacity:0.001;position:absolute;top:0px;left:0px;width:100%;height:100%;z-index:1" src="${pageContext.request.contextPath}/images/image_terms_of_use.png"/>
