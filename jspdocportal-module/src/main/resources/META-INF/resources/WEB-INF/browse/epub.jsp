@@ -163,7 +163,7 @@
           </c:choose>
           <%--<div style="clear:both"></div> --%>
           <div class="row">
-            <div class="col-xs-12 col-md-12">
+            <div class="col-xs-12 col-md-12 mt-3">
             <p class="card-text">
               <search:show-edit-button mcrid="${mcrid}" cssClass="btn btn-sm btn-primary ir-edit-btn" />
               <span class="badge badge-secondary">${entry.data['ir.doctype.result']}</span>
