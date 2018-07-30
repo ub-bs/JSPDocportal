@@ -1,3 +1,8 @@
+<%@tag import="org.mycore.common.MCRUtils"%>
+<%@tag import="org.mycore.datamodel.niofs.MCRFileAttributes"%>
+<%@tag import="java.nio.file.Files" %>
+<%@tag import="org.mycore.datamodel.niofs.MCRPath" %>
+<%@tag import="java.nio.file.Path" %>
 <%@tag import="org.mycore.common.MCRPersistenceException"%>
 <%@tag import="org.mycore.services.i18n.MCRTranslation"%>
 <%@tag import="org.mycore.frontend.MCRFrontendUtil"%>
@@ -32,10 +37,8 @@
 	}
 	else{
 	    try (MCRHibernateTransactionWrapper hib = new MCRHibernateTransactionWrapper()) {
-            MCRDirectory root = MCRDirectory.getRootDirectory(derid);
+            Path root = MCRPath.getPath(derid.toString(), "/");
             if (root != null) {
-                MCRFilesystemNode[] myfiles = root.getChildren(MCRDirectory.SORT_BY_NAME);
-    
 				String mainDoc = mcrDerivate.getDerivate().getInternals().getMainDoc();
 				String url = MCRFrontendUtil.getBaseURL()+"file/"+mcrDerivate.getOwnerID().toString()+"/"+mcrDerivate.getId().toString()+"/";
 				String label=mcrDerivate.getLabel();
@@ -49,57 +52,61 @@
                 out.write("      <th>"+ displayLabel +"</th>");
                 out.write("      <td>");
                 out.write("        <ul class=\"ir-derivate-list-files\">");
-                for (int j = 0; j < myfiles.length; j++) {
-                    MCRFilesystemNode theFile = (MCRFilesystemNode) myfiles[j];
-                    out.write("      <li>");
-                    if (accessAllowed) {
-                        String fURL = url + theFile.getName();
-                        String fontAwesomeName = "fa fa-file-o";
-                        if (theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".pdf")) {
+
+                try (DirectoryStream<Path> ds = Files.newDirectoryStream(root)) {
+                    for (Path theFile: ds) {
+                      out.write("      <li>");
+                      if (accessAllowed) {
+                          String fileName =  theFile.getFileName().toString();
+                          String fURL = url + fileName;
+                          String fontAwesomeName = "fa fa-file-o";
+                        if (fileName.toLowerCase(Locale.GERMAN).endsWith(".pdf")) {
                         	fontAwesomeName = "fa fa-file-pdf-o";
                         }
-                        if (theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".jpg")
+                        if (fileName.toLowerCase(Locale.GERMAN).endsWith(".jpg")
                             || theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".jpeg")) {
                         	fontAwesomeName = "fa fa-file-image-o";
                         }
-                        if (theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".doc")
+                        if (fileName.toLowerCase(Locale.GERMAN).endsWith(".doc")
                             || theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".txt")) {
                         	fontAwesomeName = "fa fa-file-text-o";
                         }
-                        if (theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".xml")) {
+                        if (fileName.toLowerCase(Locale.GERMAN).endsWith(".xml")) {
                         	fontAwesomeName = "fa fa-file-code-o";
                         }
-                        if (theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".mp3")) {
+                        if (fileName.toLowerCase(Locale.GERMAN).endsWith(".mp3")) {
                         	fontAwesomeName = "fa fa-file-audio-o";
                         }
-                        if (theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".zip")) {
+                        if (fileName.toLowerCase(Locale.GERMAN).endsWith(".zip")) {
                         	fontAwesomeName = "fa fa-file-archive-o";
                         }
-                        if (theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".mp4")
+                        if (fileName.toLowerCase(Locale.GERMAN).endsWith(".mp4")
                         	|| theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".mpeg")
                         	|| theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".mpg")) {
                         	fontAwesomeName = "fa fa-file-video-o";
                         }
-                        if (theFile instanceof MCRDirectory) {
+                        if (Files.isDirectory(theFile)) {
                         	fontAwesomeName = "fa fa-files-o";
                         }
                         out.write("<i class=\"" + fontAwesomeName + "\"></i>&nbsp;&nbsp;");
                         out.write("    <a href=\"" + fURL + "\" target=\"_blank\">");
-                        out.write(theFile.getName());
+                        out.write(fileName);
                         out.write("    </a>");
                         if (showSize) { 
                           String md5 = "";
-                          if(theFile instanceof MCRFile) {
-                             md5 = "; MD5: " + ((MCRFile) theFile).getMD5(); 
+                          if(Files.isRegularFile(theFile)) {
+                              @SuppressWarnings("rawtypes")
+                              MCRFileAttributes attrs = Files.readAttributes(child, MCRFileAttributes.class);
+                               md5 = "; MD5: " + attrs.md5sum(); 
+                              out.write("<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>(" +  MCRUtils.getSizeFormatted(attrs.size()).replace(" ","&#160;") + md5 + ")</small>");
                           }
-                          out.write("<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>(" + theFile.getSizeFormatted().replace(" ","&#160;") + md5 + ")</small>");
                         }
                         out.write("  </li>");
                     } else {
                     	out.write("  <li>");
                         out.write(theFile.getName().replace(".mets.xml", " .mets.xml"));
                         if (showSize) {
-                            out.write(" (" + theFile.getSizeFormatted().replace(" ","&#160;") + ")<br />");
+                            out.write(" (" + MCRUtils.getSizeFormatted(Files.size(theFile)).replace(" ","&#160;") + ")<br />");
                         }
                         out.write("&#160;---&#160;"
                             + MCRTranslation.translate("OMD.fileaccess.denied"));
