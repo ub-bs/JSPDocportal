@@ -1,23 +1,24 @@
-<%@tag import="org.mycore.common.MCRUtils"%>
-<%@tag import="org.mycore.datamodel.niofs.MCRFileAttributes"%>
+<%@tag pageEncoding="UTF-8"%> 
+
 <%@tag import="java.nio.file.Files" %>
-<%@tag import="org.mycore.datamodel.niofs.MCRPath" %>
+<%@tag import="java.nio.file.DirectoryStream" %>
 <%@tag import="java.nio.file.Path" %>
+<%@tag import="java.util.Locale"%>
+<%@tag import="org.mycore.access.MCRAccessManager"%>
+<%@tag import="org.mycore.common.MCRUtils"%>
 <%@tag import="org.mycore.common.MCRPersistenceException"%>
 <%@tag import="org.mycore.services.i18n.MCRTranslation"%>
 <%@tag import="org.mycore.frontend.MCRFrontendUtil"%>
-<%@tag import="java.util.Locale"%>
-<%@tag import="org.mycore.datamodel.ifs.MCRFile"%>
-<%@tag import="org.mycore.datamodel.ifs.MCRFilesystemNode"%>
-<%@tag import="org.mycore.datamodel.ifs.MCRDirectory"%>
-<%@tag import="org.mycore.frontend.jsp.MCRHibernateTransactionWrapper"%>
-<%@tag import="org.mycore.access.MCRAccessManager"%>
-<%@tag pageEncoding="UTF-8"%> 
+<%@tag import="org.mycore.datamodel.niofs.MCRPath" %>
+<%@tag import="org.mycore.datamodel.niofs.MCRFileAttributes"%>
 <%@tag import="org.mycore.datamodel.metadata.MCRDerivate"%>
 <%@tag import="org.mycore.datamodel.metadata.MCRMetaLinkID"%>
 <%@tag import="org.mycore.datamodel.metadata.MCRObjectID"%>
 <%@tag import="org.mycore.datamodel.metadata.MCRMetadataManager"%>
 <%@tag import="org.mycore.datamodel.metadata.MCRObject"%>
+
+<%@tag import="org.mycore.frontend.jsp.MCRHibernateTransactionWrapper"%>
+
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions" %>
 
@@ -55,20 +56,20 @@
 
                 try (DirectoryStream<Path> ds = Files.newDirectoryStream(root)) {
                     for (Path theFile: ds) {
+                      String fileName =  theFile.getFileName().toString();
                       out.write("      <li>");
                       if (accessAllowed) {
-                          String fileName =  theFile.getFileName().toString();
                           String fURL = url + fileName;
                           String fontAwesomeName = "fa fa-file-o";
                         if (fileName.toLowerCase(Locale.GERMAN).endsWith(".pdf")) {
                         	fontAwesomeName = "fa fa-file-pdf-o";
                         }
                         if (fileName.toLowerCase(Locale.GERMAN).endsWith(".jpg")
-                            || theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".jpeg")) {
+                            || fileName.toLowerCase(Locale.GERMAN).endsWith(".jpeg")) {
                         	fontAwesomeName = "fa fa-file-image-o";
                         }
                         if (fileName.toLowerCase(Locale.GERMAN).endsWith(".doc")
-                            || theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".txt")) {
+                            || fileName.toLowerCase(Locale.GERMAN).endsWith(".txt")) {
                         	fontAwesomeName = "fa fa-file-text-o";
                         }
                         if (fileName.toLowerCase(Locale.GERMAN).endsWith(".xml")) {
@@ -81,8 +82,8 @@
                         	fontAwesomeName = "fa fa-file-archive-o";
                         }
                         if (fileName.toLowerCase(Locale.GERMAN).endsWith(".mp4")
-                        	|| theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".mpeg")
-                        	|| theFile.getName().toLowerCase(Locale.GERMAN).endsWith(".mpg")) {
+                        	|| fileName.toLowerCase(Locale.GERMAN).endsWith(".mpeg")
+                        	|| fileName.toLowerCase(Locale.GERMAN).endsWith(".mpg")) {
                         	fontAwesomeName = "fa fa-file-video-o";
                         }
                         if (Files.isDirectory(theFile)) {
@@ -96,7 +97,7 @@
                           String md5 = "";
                           if(Files.isRegularFile(theFile)) {
                               @SuppressWarnings("rawtypes")
-                              MCRFileAttributes attrs = Files.readAttributes(child, MCRFileAttributes.class);
+                              MCRFileAttributes attrs = Files.readAttributes(theFile, MCRFileAttributes.class);
                                md5 = "; MD5: " + attrs.md5sum(); 
                               out.write("<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>(" +  MCRUtils.getSizeFormatted(attrs.size()).replace(" ","&#160;") + md5 + ")</small>");
                           }
@@ -104,7 +105,7 @@
                         out.write("  </li>");
                     } else {
                     	out.write("  <li>");
-                        out.write(theFile.getName().replace(".mets.xml", " .mets.xml"));
+                        out.write(fileName.replace(".mets.xml", " .mets.xml"));
                         if (showSize) {
                             out.write(" (" + MCRUtils.getSizeFormatted(Files.size(theFile)).replace(" ","&#160;") + ")<br />");
                         }
@@ -119,5 +120,6 @@
 			}
         }
 	}
+}
 %>
 
