@@ -15,15 +15,15 @@
 	<stripes:layout-component name="html_header">
 
 	</stripes:layout-component>
-	<stripes:layout-component name="contents">
-		<div class="ir-box">
+	<stripes:layout-component name="main_part">
+		<div class="container" style="margin-bottom:75px" >
 			<div class="row">
-				<div class="col-xs-12">
+				<div class="col-12">
 					<h2><c:out value="${pageTitle}" /></h2>
 					<c:if test="${not empty actionBean.errorInfo.message or not empty actionBean.errorInfo.exception}">
 						<fmt:message var="showDetails" key="Webpage.error.button.details" />
-						<button type="button" class="btn btn-default btn-sm pull-right hidden-sm hidden-xs" style="border:none;color:#DEDEDE;" data-toggle="collapse" data-target="#errorInfoPanel" title="${showDetails}">
-	    					<span class="glyphicon glyphicon-wrench"></span>
+						<button type="button" class="btn btn-default btn-sm float-right d-none d-sm-block" style="border:none;color:#DEDEDE;" data-toggle="collapse" data-target="#errorInfoPanel" title="${showDetails}">
+	    					<span class="fas fa-wrench"></span>
 	        			</button>
 	        		</c:if>
 					<c:if test="${not empty actionBean.errorInfo.headline}">
@@ -33,13 +33,13 @@
 			</div>
 			<div class="row">
 				<c:if test="${not empty actionBean.errorInfo.message or not empty actionBean.errorInfo.exception}">
-					<div id="errorInfoPanel" class="collapse col-xs-12 col-md-11 col-md-offset-1">
-						<div class="panel panel-danger">
+					<div id="errorInfoPanel" class="collapse col-12 col-md-11 offset-md-1">
+						<div class="card mt-3 border border-danger ">
 							<c:if test="${not empty actionBean.errorInfo.message}">
-								<div class="panel-heading"><c:out value="${actionBean.errorInfo.message}" /></div>
+								<div class="card-header bg-danger text-white"><c:out value="${actionBean.errorInfo.message}" /></div>
 							</c:if>
 							<c:if test="${not empty actionBean.errorInfo.exception}">
-								<div class="panel-body">
+								<div class="card-body">
 									<pre><code><strong><c:out value="${actionBean.errorInfo.exception.localizedMessage}" /></strong></code></pre>
 									<pre><samp style="white-space:normal;">
 										<c:forEach var="ste" items="${actionBean.errorInfo.exception.stackTrace}">
