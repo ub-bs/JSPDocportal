@@ -16,37 +16,39 @@
   <stripes:layout-component name="main_part">
     <div class="container">
     <div class="row">
-      <div class="col-xs-12">
+      <div class="col">
         <h2>${pageTitle}</h2>
       </div>
     </div>
 
     <div class="row">
-      <div class="col-xs-12 col-md-3">
-        <div class="ir-box ir-box-bordered" style="margin-top:42px; margin-bottom:45px;position:relative">
+      <div class="col-xs-12 col-md-3 ">
+        <div class="ir-facets h-100">
           <h3><fmt:message key="Browse.Filter.headline" /></h3>
           <script type="text/javascript">
           $(function(){
           	$('#facetInfo').on('hidden.bs.collapse', function () {
-          		$("#btnToogleFilterTextOn").addClass('hidden');
-          		$("#btnToogleFilterTextOff").removeClass('hidden');
+          		$("#btnToogleFilterTextOn").addClass('d-none');
+          		$("#btnToogleFilterTextOff").removeClass('d-none');
         	});
         	$('#facetInfo').on('shown.bs.collapse', function () {
-        		$("#btnToogleFilterTextOn").removeClass('hidden');
-           		$("#btnToogleFilterTextOff").addClass('hidden');
+        		$("#btnToogleFilterTextOn").removeClass('d-none');
+           		$("#btnToogleFilterTextOff").addClass('d-none');
         	});
           });
           </script>
-           <div style="position:absolute;top:0px;right:0px" class="visible-xs-block visible-sm-block">
+           <div style="position:absolute;top:0px;right:15px" class="d-block d-md-none">
                 <button id="btnToogleFilter" class="btn btn-lg btn-link" data-toggle="collapse" data-target="#facetInfo">
                       <i id="btnToogleFilterTextOn" class="fa fa-toggle-on" style="color:#004a99;"></i>
-                      <i id="btnToogleFilterTextOff" class="fa fa-toggle-off hidden" style="color: #FFA100;"></i>
+                      <i id="btnToogleFilterTextOff" class="fa fa-toggle-off d-none" style="color: #FFA100;"></i>
                 </button>
             </div>
-          <div id="facetInfo" class="collapse in">
+          <div id="facetInfo" class="collapse show">
           <form class="form-horizontal" onsubmit="return false;">
+          
             <div class="form-group">
-              <div class="col-sm-12">
+              <div class="form-row">   
+              <div class="col">
                 <div class="input-group input-group-sm">
                   <script type="text/javascript">
 						function changeFilterIncludeURL() {
@@ -74,67 +76,80 @@
 					</select>
 				  </span>
                   --%>
-                  <input class="form-control" id="filterValue" name="filterValue" style="width: 100%" placeholder="Wert"
-                    type="text" onkeypress="if (event.keyCode == 13) { changeFilterIncludeURL();}"> <span
-                    class="input-group-btn">
-                    <button id="filterInclude" class="btn btn-primary ir-facets-btn-plus" onclick="changeFilterIncludeURL();">
-                      <i class="fa fa-plus"></i>
+                  <input class="form-control border-secondary" id="filterValue" name="filterValue" placeholder="Wert"
+                    type="text" onkeypress="if (event.keyCode == 13) { changeFilterIncludeURL();}">
+                     <div class="input-group-prepend">
+                      <button id="filterInclude" class="btn btn-primary" onclick="changeFilterIncludeURL();">
+                        <i class="fas fa-plus"></i>
                     </button>
-                  </span>
+                    </div>
                 </div>
               </div>
-              <div class="col-sm-12">
-                <table>
+              </div>
+             <div class="form-row">   
+              <div class="col">
+                <table class="w-100">
                   <tr>
-                    <td class="radio input-sm"><label> <input name="filterField" value="allMeta"
-                        type="radio" checked="checked" /> <fmt:message key="Browse.Filter.epub.allMeta" />
-                    </label>
                     <td>
-                    <td class="radio input-sm"><label> <input name="filterField" value="content"
-                        type="radio" /> <fmt:message key="Browse.Filter.epub.content" />
-                    </label>
+                      <div class="form-check form-control-sm">
+                        <input type="radio" id="filterField2" name="filterField" value="content" class="form-check-input">
+                        <label class="form-check-label" for="filterField2"><fmt:message key="Browse.Filter.epub.content" /></label>
+                      </div>
+                    <td>
+                    <td>
+                      <div class="form-check form-control-sm">
+                        <input type="radio" id="filterField1" name="filterField" value="allMeta" class="form-check-input" checked="checked">
+                        <label class="form-check-label" for="filterField1"><fmt:message key="Browse.Filter.epub.allMeta" /></label>
+                      </div>
                     <td>
                   </tr>
                   <tr>
-                    <td class="radio input-sm"><label> <input name="filterField" value="ir.title_all"
-                        type="radio" /> <fmt:message key="Browse.Filter.epub.ir.title_all" />
-                    </label>
                     <td>
-                    <td class="radio input-sm"><label> <input name="filterField" value="ir.pubyear_start"
-                        type="radio" /> <fmt:message key="Browse.Filter.epub.ir.pubyear_start" />
-                    </label>
+                      <div class="form-check form-control-sm">
+                        <input type="radio" id="filterField3" name="filterField"  value="ir.title_all" class="form-check-input">
+                        <label class="form-check-label" for="filterField3"><fmt:message key="Browse.Filter.epub.ir.title_all" /></label>
+                      </div>
+                    <td>
+                    <td>
+                      <div class="form-check form-control-sm">
+                        <input type="radio" id="filterField4" name="filterField" value="ir.pubyear_start" class="form-check-input">
+                        <label class="form-check-label" for="filterField4"><fmt:message key="Browse.Filter.epub.ir.pubyear_start" /></label>
+                      </div>
                     <td>
                   </tr>
-                  <tr>
-                    <td class="radio input-sm"><label> <input name="filterField" value="ir.creator_all"
-                        type="radio" /> <fmt:message key="Browse.Filter.epub.ir.creator_all" />
-                    </label>
+                   <tr>
                     <td>
-                    <td class="radio input-sm"><label> <input name="filterField" value="ir.pubyear_end"
-                        type="radio" /> <fmt:message key="Browse.Filter.epub.ir.pubyear_end" />
-                    </label>
+                      <div class="form-check form-control-sm">
+                        <input type="radio" id="filterField5" name="filterField"  value="ir.creator_all" class="form-check-input">
+                        <label class="form-check-label" for="filterField5"><fmt:message key="Browse.Filter.epub.ir.creator_all" /></label>
+                      </div>
+                    <td>
+                    <td>
+                      <div class="form-check form-control-sm">
+                        <input type="radio" id="filterField6" name="filterField"  value="ir.pubyear_end" class="form-check-input">
+                        <label class="form-check-label" for="filterField6"><fmt:message key="Browse.Filter.epub.ir.pubyear_end" /></label>
+                      </div>
                     <td>
                   </tr>
                 </table>
               </div>
             </div>
+            </div>
           </form>
 
           <div class="row" style="margin-bottom: 10px;">
-            <div class="col-sm-12">
+            <div class="col">
               <c:forEach var="fq" items="${actionBean.result.filterQueries}">
                 <c:if test="${not fn:contains(fq, '.facet:')}">
                   <c:url var="url" value="${WebApplicationBaseURL}browse/epub">
                     <c:param name="_search" value="${actionBean.result.id}" />
                     <c:param name="_remove-filter" value="${fq}" />
                   </c:url>
-                  <c:set var="c">
-                    <fmt:message key="Browse.Filter.epub.${fn:substringBefore(fn:substring(fq, 1, -1),':')}" />: ${actionBean.calcFacetOutputString(fn:substringBefore(fn:substring(fq, 1, -1),':'), fn:substringAfter(fn:substring(fq, 1, -1),':'))}</c:set>
-                  <a class="btn btn-sm btn-default ir-facets-btn"
-                    style="display: block; text-align: left; white-space: normal; margin-bottom: 3px; color: black; width: 100%"
-                    href="${url}"> <i class="fa fa-times" style="float:right; position:relative; right:-6px; color: darkred;"></i>
-                    ${c}
-                  </a>
+                  <c:set var="c"><fmt:message key="Browse.Filter.epub.${fn:substringBefore(fn:substring(fq, 1, -1),':')}" />: ${actionBean.calcFacetOutputString(fn:substringBefore(fn:substring(fq, 1, -1),':'), fn:substringAfter(fn:substring(fq, 1, -1),':'))}</c:set>
+                   <button class="btn btn-sm w-100 ir-facets-btn active" onclick="window.location.href='${url}'">
+                      <i class="fas fa-times" style="position: absolute; top: 5px; right: 20px; color: darkred;"></i>
+                      <span>${c}</span>
+                  </button>
                 </c:if>
               </c:forEach>
             </div>
@@ -189,7 +204,9 @@
     <div class="bg-white" style="height: 75px;">
       <div class="container h-100">
         <div class="row h-100">
-          <div class="col-3 bg-dark"></div>
+          <div class="col-3">
+              <div class="h-100 bg-dark"></div>
+          </div>
           <div class="col-9 bg-white"></div>
         </div>
       </div>

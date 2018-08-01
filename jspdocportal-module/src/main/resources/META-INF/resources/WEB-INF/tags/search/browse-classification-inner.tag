@@ -33,7 +33,7 @@
                       </c:if>
 					</span>
 					<span style="display:table-cell;vertical-align:middle;padding-left:15px;">
-							<span class="badge mcr-facet-count" data-mcr-facet-field="${facetField}" data-mcr-facet-value="${c.id.getRootID()}:${c.id.ID}"></span>
+							<span class="badge ir-facets-badge mcr-facet-count" data-mcr-facet-field="${facetField}" data-mcr-facet-value="${c.id.getRootID()}:${c.id.ID}"></span>
 					</span>
                     
                     <search:browse-classification-inner category="${c}" facetField="${facetField}" mask="${mask}" />

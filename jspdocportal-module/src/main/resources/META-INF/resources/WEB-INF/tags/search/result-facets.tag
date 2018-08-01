@@ -31,55 +31,59 @@
 <c:set var="facets" value="${result.facetResult}" />
 <c:forEach var="facetKey" items="${facets.keySet()}">
 	<c:if test="${facets.get(facetKey).size() gt 0}">
-		<div class="row">
-			<div class="col-sm-12">
-				<h5><fmt:message key="Browse.Filter.${mask}.${facetKey}" /></h5>
-				<c:forEach var="countsKey" items="${facets.get(facetKey).keySet()}" varStatus="status">
+        <c:set var="facetID" value="${fn:replace(facetKey, '.', '_')}" />
+        <c:set var="toggleClass">toggle-${facetID}-top</c:set>
+		<div class="card ir-facets-card">
+				<div class="card-header"><h4><fmt:message key="Browse.Filter.${mask}.${facetKey}" /></h4></div>
+                <div class="card-body">
+                <div class="btn-group-vertical w-100">
+                <c:forEach var="countsKey" items="${facets.get(facetKey).keySet()}" varStatus="status">
 					<c:set var="key">+${facetKey}:${countsKey}</c:set>
-					<c:set var="facetID" value="${fn:replace(facetKey, '.', '_')}" />
-					<c:if test="${status.index == top}">
-						<div id="moreFacets_div_${facetID}" class="collapse">
+					
+					<c:if test="${status.index >= top}">
+						<c:set var="toggleClass">collapse toggle-${facetID}-collapse</c:set>
 					</c:if>
 					<c:if test="${result.filterQueries.contains(key)}">
 					  	<c:url var="url" value="${WebApplicationBaseURL}browse/${mask}">
 							<c:param name="_search" value="${result.id}" />
 							<c:param name="_remove-filter" value="${key}" />
 						</c:url>
-						<a class="btn btn-sm btn-default ir-facets-btn" style="display:block;position:relative;text-align:left;white-space:normal;margin:3px 0px;color:black;width:100%" href="${url}">
+						<button class="btn btn-sm ir-facets-btn active" onclick="window.location.href='${url}'">
 							<i class="fa fa-times" style="position:absolute; top:5px; right:5px; color:darkred;"></i>
 							<span style="display:table-cell;vertical-align:middle;">
 								${actionBean.calcFacetOutputString(facetKey, countsKey)}
 							</span>
 							<span style="display:table-cell;vertical-align:middle;padding-left:12px">
-								<span class="badge ir-badge">${facets.get(facetKey).get(countsKey)}</span>
+								<span class="badge ir-facets-badge">${facets.get(facetKey).get(countsKey)}</span>
 							</span>
-						</a>
+						</button>
 					</c:if>
 					<c:if test="${not result.filterQueries.contains(key)}">
-						<button class="btn btn-sm btn-default ir-facets-btn" style="border:none; display:block;text-align:left;white-space:normal;width:100%" 
+						<button class="btn btn-sm ir-facets-btn ${toggleClass}" 
 						        onclick="changeFacetIncludeURL('${facetKey}','${countsKey}');">
 							<span style="display:table-cell;vertical-align:middle;">
 								${actionBean.calcFacetOutputString(facetKey, countsKey)}
 							</span>
 							<span style="display:table-cell;vertical-align:middle;padding-left:12px;">
-								<span class="badge ir-badge">${facets.get(facetKey).get(countsKey)}</span>
+								<span class="badge ir-facets-badge">${facets.get(facetKey).get(countsKey)}</span>
 							</span>
 						</button>
 					</c:if>
 					<c:if test="${status.index >= top and status.last}">
-						</div>
-						<button id="moreFacets_btn_${facetID}" class="btn btn-default btn-xs ir-form-control pull-right" data-toggle="collapse" data-target="#moreFacets_div_${facetID}"  >mehr ...</button>
+						<button id="moreFacets_btn_${facetID}" class="btn btn-primary btn-sm" style="width:unset;align-self:end" 
+                                data-toggle="collapse" data-target=".toggle-${facetID}-collapse"  >mehr ...</button>
 						<script type="text/javascript">
-						$('#moreFacets_div_${facetID}').on('shown.bs.collapse', function () {
+						$('.toggle-${facetID}-collapse:first').on('shown.bs.collapse', function () {
 							$('#moreFacets_btn_${facetID}').text('weniger ...');
 						});
-						$('#moreFacets_div_${facetID}').on('hidden.bs.collapse', function () {
+						$('.toggle-${facetID}-collapse:first').on('hidden.bs.collapse', function () {
 							$('#moreFacets_btn_${facetID}').text('mehr ...')
 						});
 						</script>
 					</c:if>
 				</c:forEach>
+                  </div>
+                </div>
 			</div>
-		</div>
 	</c:if>
 </c:forEach>
