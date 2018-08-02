@@ -476,7 +476,9 @@
                    href="${WebApplicationBaseURL}receive/${mcrid}?XSL.Transformer=rosdok_datacite" rel="nofollow">Datacite</a>
               </x:if>
               <a class="btn btn-warning btn-sm ir-button-warning" style="margin:3px" target="_blank" 
-                   href="${WebApplicationBaseURL}oai-dnb?verb=GetRecord&metadataPrefix=oai_dc&identifier=oai:oai-dnb.rosdok.uni-rostock.de:${mcrid}" rel="nofollow">OAI4DNB</a>
+                   href="${WebApplicationBaseURL}oai/dnb-urn?verb=GetRecord&metadataPrefix=epicur&identifier=oai:oai-dnb-urn.rosdok.uni-rostock.de:${mcrid}" rel="nofollow">OAI:DNB_URN</a>
+              <a class="btn btn-warning btn-sm ir-button-warning" style="margin:3px" target="_blank" 
+                   href="${WebApplicationBaseURL}oai/dnb-epflicht?verb=GetRecord&metadataPrefix=xMetaDissPlus&identifier=oai:oai-dnb-epflicht.rosdok.uni-rostock.de:${mcrid}" rel="nofollow">OAI:DNB_EPFLICHT</a>
             </div>
           </div>
         </div>          
