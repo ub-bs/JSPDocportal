@@ -15,7 +15,7 @@
 	<stripes:layout-component name="html_header">
 
 	</stripes:layout-component>
-	<stripes:layout-component name="contents">
+	<stripes:layout-component name="main_part">
 		<div class="ir-box">
 			<div class="row">
 				<div class="col-xs-12">
