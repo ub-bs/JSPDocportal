@@ -168,7 +168,7 @@
       </xsl:if>
       <xsl:for-each select="mods:role[mods:roleTerm[@type='code']!='cre' and mods:roleTerm[@type='code']!='aut' and mods:roleTerm[@type='text']]">
         <xsl:text> [</xsl:text>
-        <xsl:value-of select="mods:role[mods:roleTerm[@type='text']]"/>
+        <xsl:value-of select="mods:roleTerm[@type='text']"/>
         <xsl:text>] </xsl:text>
       </xsl:for-each>
     </xsl:variable>
