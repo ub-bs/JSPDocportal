@@ -24,6 +24,7 @@
 <c:set var="objectType" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
 
 <mcr:retrieveObject mcrid="${mcrid}" fromWorkflow="${param.fromWF}" varDOM="doc" />
+
 <fmt:message var="pageTitle" key="OMD.headline">
 	<fmt:param>${mcrid}</fmt:param>
 </fmt:message>
@@ -38,9 +39,9 @@
   <c:set var="org.mycore.navigation.path" scope="request">left.histbest.histbest_recherche</c:set>
 </x:if>
 <stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}">
-	<stripes:layout-component name="html_header">
+  <stripes:layout-component name="html_header">
 		<title>${pageTitle}@ <fmt:message key="Webpage.title" /></title>
-		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}modules/shariff/shariff.complete.css">
+	    <link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}modules/shariff_3.0.1/shariff.complete.css">
 		<script>
      	$( document ).ready(function() {
  			$('[data-mcr-action="popover4person"]').popover({
@@ -81,199 +82,185 @@
      		$("button[aria-describedby='"+id+"']").click();
      	}
  		</script>
-	</stripes:layout-component>
+  </stripes:layout-component>
 	
-	<stripes:layout-component name="main_part">
-  <div class="container">
+  <stripes:layout-component name="main_part">
+    <div class="container">
       <div class="row">
         <div class="col-md-4 offset-md-8 col-xs-12">
-            <search:result-navigator mcrid="${mcrid}" mode="one_line"/>
+          <search:result-navigator mcrid="${mcrid}" mode="one_line"/>
         </div>
-        <div class="col-xs-12 col-md-8">
+      </div>
+      <div class="row">  
+        <div class="col-xs-12 col-md-8"><%--main area --%>
 		  <div class="row">
-			 <div class="col">
-				<div class="ir-box ir-docdetails-header">
-            		<mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/${objectType}2header_html.xsl" />
-				</div>
-			</div>			
+            <div class="col">
+			  <div class="ir-box ir-docdetails-header">
+            	  <mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/${objectType}2header_html.xsl" />
+			  </div>
+		    </div>			
 		  </div>
       
-    
-       <div class="row">
-          <div class="col ir-divider">
-            <hr/>
+          <div class="row">
+            <div class="col ir-divider">
+              <hr/>
+            </div>
           </div>
-        </div>
 	
-		<div class="row">
-			<div class="col">
-				<div class="mb-3">
-					<ul id="nav_bar_root" class="nav nav-tabs ir-docdetails-tabs">
-                        <x:if select="$doc/mycoreobject[not(contains(@ID, '_bundle_'))]/structure/derobjects/derobject[@xlink:title='fulltext' or @xlink:title='MCRVIEWER_METS']">
-							<li class="nav-item" role="presentation">
-                              <a id="nav_tab_fulltext" class="nav-link" data-toggle="collapse" href="#nav_content_fulltext">Viewer</a>
-                            </li>
-  						</x:if>
-  						<x:if select="contains($doc/mycoreobject/@ID, '_bundle_')">
-  							<li class="nav-item" role="presentation">
-                              <a  id="nav_tab_structure" class="nav-link" data-toggle="collapse" href="#nav_content_structure">zugehörende Dokumente</a>
-                            </li>
-						</x:if>
-						<li class="nav-item" role="presentation">
-                            <a id="nav_tab_metadata" class="nav-link" data-toggle="collapse" href="#nav_content_metadata">Metadaten</a>
-                        </li>
-						<x:if select="$doc/mycoreobject/structure/derobjects/derobject">
-							<li class="nav-item" role="presentation">
-                              <a id="nav_tab_files" class="nav-link" data-toggle="collapse" href="#nav_content_files">Dateien</a>
-                           </li>
-						</x:if>
-					</ul>
-				</div>
+		  <div class="row">
+		    <div class="col">
+			  <div class="mb-3">
+                 <ul id="nav_bar_root" class="nav nav-tabs ir-docdetails-tabs">
+                   <x:if select="$doc/mycoreobject[not(contains(@ID, '_bundle_'))]/structure/derobjects/derobject[@xlink:title='fulltext' or @xlink:title='MCRVIEWER_METS']">
+					<li class="nav-item" role="presentation">
+                      <a id="nav_tab_fulltext" class="nav-link" data-toggle="collapse" href="#nav_content_fulltext">Viewer</a>
+                    </li>
+  				    </x:if>
+  				   <x:if select="contains($doc/mycoreobject/@ID, '_bundle_')">
+  				   <li class="nav-item" role="presentation">
+                      <a  id="nav_tab_structure" class="nav-link" data-toggle="collapse" href="#nav_content_structure">zugehörende Dokumente</a>
+                   </li>
+				   </x:if>
+				   <li class="nav-item" role="presentation">
+                      <a id="nav_tab_metadata" class="nav-link" data-toggle="collapse" href="#nav_content_metadata">Metadaten</a>
+                   </li>
+				   <x:if select="$doc/mycoreobject/structure/derobjects/derobject">
+					  <li class="nav-item" role="presentation">
+                        <a id="nav_tab_files" class="nav-link" data-toggle="collapse" href="#nav_content_files">Dateien</a>
+                      </li>
+				   </x:if>
+				  </ul>
+			  </div>
 			
-            <div id="nav_content_root">
-		<x:if select="$doc/mycoreobject[not(contains(@ID, '_bundle_'))]/structure/derobjects/derobject[@xlink:title='fulltext' or @xlink:title='MCRVIEWER_METS']">
-			<div id="nav_content_fulltext" class="collapse" data-parent="#nav_content_root">
-				<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='fulltext']">
-                    <c:set var="derid"><x:out select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='fulltext']/@xlink:href" /></c:set>
-					 <mcr:hasAccess var="hasAccess" permission="read" mcrid="${derid}" />
-                    <c:if test="${not hasAccess}">
-                        <c:set var="valueURI"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='accesscondition']/@valueURI" /></c:set>
-                        <div class="ir-box ir-box-bordered-emph" style="margin-bottom:30px">
-                          <mcr:displayClassificationCategory valueURI="${valueURI}" lang="x-display-de"/>
-                        </div>
-                    </c:if>
-                    <c:if test="${hasAccess}">
-                        <search:mcrviewer mcrid="${param.id}" recordIdentifier="${param.id}" doctype="pdf" id="divMCRViewer_2" />
-                    </c:if> 
-					<div id="divMCRViewer_2" style="height:600px; margin:0px 16px; position:relative;"></div>
-				</x:if>
-				<x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='MCRVIEWER_METS']">
-					<c:set var="recordidentifier"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier" /></c:set>
-                    <c:set var="derid"><x:out select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='MCRVIEWER_METS']/@xlink:href" /></c:set>
-                    <mcr:hasAccess var="hasAccess" permission="read" mcrid="${derid}" />
-                    <c:if test="${not hasAccess}">
-                        <c:set var="valueURI"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='accesscondition']/@valueURI" /></c:set>
-                        <div class="ir-box ir-box-bordered-emph" style="margin-bottom:30px">
-                          <mcr:displayClassificationCategory valueURI="${valueURI}" lang="x-display-de"/>
-                        </div>
-                    </c:if>
-                    <c:if test="${hasAccess}">
-					   <search:mcrviewer mcrid="${param.id}" recordIdentifier="${recordidentifier}" doctype="mets" id="divMCRViewer_1" />
-                    </c:if>
-					<div id="divMCRViewer_1" style="height:600px; margin:0px 16px; position:relative;"></div>
-				</x:if>		
-			</div>
-		</x:if>
-		<x:if select="contains($doc/mycoreobject/@ID, '_bundle_')">
-			<div id="nav_content_structure" class="collapse" data-parent="#nav_content_root">
-				<div style="font-size: 85%;min-height:600px">
-			    	<c:set var="recordIdentifier"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier"/></c:set>
-					<search:docdetails-structure hostRecordIdentifier="${recordIdentifier}" hostMcrID="${param.id}" />
-				</div>
-			</div>
-		</x:if>
-		<div id="nav_content_metadata" class="collapse" data-parent="#nav_content_root">
-			<div class="ir-docdetails-data" style="min-height:600px">
-				<x:choose>
-					<x:when select="contains($doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='doctype']/@valueURI, '#data')">
-						<mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/data2details_html.xsl" />
-					</x:when>
-					<x:otherwise>
-						<mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/${objectType}2details_html.xsl" />
-					</x:otherwise>
-				</x:choose>
-				
-				<mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/all2footer_html.xsl" />
-			</div>
-		</div>
-		<x:if select="$doc/mycoreobject/structure/derobjects/derobject">
-			<div id="nav_content_files" class="collapse" data-parent="#nav_content_root">
-				<div style="min-height:600px">
-                  <table class="ir-table-docdetails">
-                    <tbody>
-			 		  <x:forEach var="x" select="$doc/mycoreobject/structure/derobjects/derobject/@xlink:href">
-			 			 <c:set var="id"><x:out select="$x" /></c:set>
-                         <!-- ${id} -->
-			 			 <search:derivate-list derid="${id}" showSize="true" />
-			 		  </x:forEach>
-                    </tbody>
-                  </table>
-			 	</div>
-			</div>
-		</x:if>
-		</div>
-<script type="text/javascript">
-	$(document).ready(function(){
-		$('#nav_content_fulltext').on('shown.bs.collapse', function() {
-			$('#nav_tab_fulltext').addClass('active');
-		//	$('#nav_tab_fulltext').attr('href', '#');
-		});
+              <div id="nav_content_root" style="padding-bottom:75px">
+		          <x:if select="$doc/mycoreobject[not(contains(@ID, '_bundle_'))]/structure/derobjects/derobject[@xlink:title='fulltext' or @xlink:title='MCRVIEWER_METS']">
+			        <div id="nav_content_fulltext" class="collapse" data-parent="#nav_content_root">
+				       <x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='fulltext']">
+                         <c:set var="derid"><x:out select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='fulltext']/@xlink:href" /></c:set>
+					      <mcr:hasAccess var="hasAccess" permission="read" mcrid="${derid}" />
+                          <c:if test="${not hasAccess}">
+                           <c:set var="valueURI"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='accesscondition']/@valueURI" /></c:set>
+                           <div class="ir-box ir-box-bordered-emph" style="margin-bottom:30px">
+                              <mcr:displayClassificationCategory valueURI="${valueURI}" lang="x-display-de"/>
+                            </div>
+                          </c:if>
+                          <c:if test="${hasAccess}">
+                            <search:mcrviewer mcrid="${param.id}" recordIdentifier="${param.id}" doctype="pdf" id="divMCRViewer_2" />
+                            <%--<div id="divMCRViewer_2" style="height:600px; margin:0px 16px; position:relative;"></div> --%>
+                          </c:if> 
+				       </x:if>
+				       <x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='MCRVIEWER_METS']">
+					     <c:set var="recordidentifier"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier" /></c:set>
+                         <c:set var="derid"><x:out select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='MCRVIEWER_METS']/@xlink:href" /></c:set>
+                         <mcr:hasAccess var="hasAccess" permission="read" mcrid="${derid}" />
+                         <c:if test="${not hasAccess}">
+                           <c:set var="valueURI"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='accesscondition']/@valueURI" /></c:set>
+                           <div class="ir-box ir-box-bordered-emph" style="margin-bottom:30px">
+                             <mcr:displayClassificationCategory valueURI="${valueURI}" lang="x-display-de"/>
+                           </div>
+                         </c:if>
+                         <c:if test="${hasAccess}">
+					       <search:mcrviewer mcrid="${param.id}" recordIdentifier="${recordidentifier}" doctype="mets" id="divMCRViewer_1" />
+                           <%--<div id="divMCRViewer_1" style="height:600px; margin:0px 16px; position:relative;"></div> --%>
+                         </c:if>
+				       </x:if>		
+			        </div>
+		          </x:if>
+		          <x:if select="contains($doc/mycoreobject/@ID, '_bundle_')">
+			        <div id="nav_content_structure" class="collapse" data-parent="#nav_content_root">
+				      <div style="font-size: 85%;min-height:600px">
+			    	    <c:set var="recordIdentifier"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier"/></c:set>
+					    <search:docdetails-structure hostRecordIdentifier="${recordIdentifier}" hostMcrID="${param.id}" />
+				      </div>
+			        </div>
+		          </x:if>
+		          <div id="nav_content_metadata" class="collapse" data-parent="#nav_content_root">
+			        <div class="ir-docdetails-data" style="min-height:600px">
+				       <x:choose>
+					     <x:when select="contains($doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='doctype']/@valueURI, '#data')">
+						   <mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/data2details_html.xsl" />
+					     </x:when>
+					     <x:otherwise>
+						   <mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/${objectType}2details_html.xsl" />
+					     </x:otherwise>
+			          </x:choose>
+				      <mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/all2footer_html.xsl" />
+			        </div>
+		          </div>
+		          <x:if select="$doc/mycoreobject/structure/derobjects/derobject">
+			        <div id="nav_content_files" class="collapse" data-parent="#nav_content_root">
+				      <div style="min-height:600px">
+                        <table class="ir-table-docdetails">
+                          <tbody>
+			 		         <x:forEach var="x" select="$doc/mycoreobject/structure/derobjects/derobject/@xlink:href">
+			 			       <c:set var="id"><x:out select="$x" /></c:set>
+                               <search:derivate-list derid="${id}" showSize="true" />
+			 		         </x:forEach>
+                          </tbody>
+                        </table>
+			 	      </div>
+			        </div>
+		          </x:if>
+		     </div><%--END: nav_content_root --%>
+             <script type="text/javascript">
+	           $(document).ready(function(){
+		          $('#nav_content_fulltext').on('shown.bs.collapse', function() {
+			        $('#nav_tab_fulltext').addClass('active');
+                  });
 		
-		$('#nav_content_fulltext').on('hidden.bs.collapse', function() {
-			$('#nav_tab_fulltext').removeClass("active");
-		//	$('#nav_tab_fulltext').attr('href', '#nav_content_fulltext');
-		});
+		         $('#nav_content_fulltext').on('hidden.bs.collapse', function() {
+			        $('#nav_tab_fulltext').removeClass("active");
+		         });
 		
-		$('#nav_content_fulltext').on('shown.bs.collapse', function() {
-			$('#nav_tab_fulltext').addClass('active');
-		//	$('#nav_tab_fulltext').attr('href', '#');
-		});
+		         $('#nav_content_fulltext').on('shown.bs.collapse', function() {
+			       $('#nav_tab_fulltext').addClass('active');
+		         });
 		
-		$('#nav_content_structure').on('hidden.bs.collapse', function() {
-			$('#nav_tab_strcuture').removeClass("active");
-		//	$('#nav_tab_structure').attr('href', '#nav_content_structure');
-		});
+		         $('#nav_content_structure').on('hidden.bs.collapse', function() {
+			       $('#nav_tab_strcuture').removeClass("active");
+		         });
+		       
+		         $('#nav_content_metadata').on('shown.bs.collapse', function() {
+		           $('#nav_tab_metadata').addClass('active');
+		         });
+		       
+		         $('#nav_content_metadata').on('hidden.bs.collapse', function() {
+		    	   $('#nav_tab_metadata').removeClass("active");
+                 });
 		
+		         $('#nav_content_files').on('shown.bs.collapse', function() {
+			       $('#nav_tab_files').addClass('active');
+		         });
 		
-		$('#nav_content_metadata').on('shown.bs.collapse', function() {
-			$('#nav_tab_metadata').addClass('active');
-		//	$('#nav_tab_metadata').attr('href', '#');
-		});
+		         $('#nav_content_files').on('hidden.bs.collapse', function() {
+			       $('#nav_tab_files').removeClass("active");
+		         });
 		
-		$('#nav_content_metadata').on('hidden.bs.collapse', function() {
-			$('#nav_tab_metadata').removeClass("active");
-		//	$('#nav_tab_metadata').attr('href', '#nav_content_metadata');
-		});
-		
-		$('#nav_content_files').on('shown.bs.collapse', function() {
-			$('#nav_tab_files').addClass('active');
-		//	$('#nav_tab_files').attr('href', '#');
-		});
-		
-		$('#nav_content_files').on('hidden.bs.collapse', function() {
-			$('#nav_tab_files').removeClass("active");
-		//	$('#nav_tab_files').attr('href', '#nav_content_files');
-		});
-		
-		$('#nav_content_root div:first-child').addClass('show');
-		$('#nav_bar_root li:first-child a').addClass('active');
-		
-	});
-
-</script>
-</div>
-</div>
-</div>
-  <div class="col-xs-12 col-md-4">
-  <div class="ir-facets h-100">
-       <x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='cover'] or contains($doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='doctype']/@valueURI, '#data')">
-     
-  	   
-	     <x:choose>
-            <x:when select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='cover']">
-              <div class="ir-box ir-box-docdetails-image">
-                <x:choose>
-	                <x:when select="$doc/mycoreobject[not(contains(@ID, '_bundle_'))]/structure/derobjects/derobject[@xlink:title='MCRVIEWER_METS']"> 
-						<c:set var="recordID"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier[@source='DE-28']" /></c:set>
+		         $('#nav_content_root div:first-child').addClass('show');
+		         $('#nav_bar_root li:first-child a').addClass('active');
+		       });
+             </script>
+          </div>
+       </div>
+    </div><%-- main area --%>
+    <div class="col-xs-12 col-md-4"> <%-- right area --%>
+       <div class="ir-facets h-100">
+         <x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='cover'] or contains($doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='doctype']/@valueURI, '#data')">
+	       <x:choose>
+             <x:when select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='cover']">
+               <div class="ir-box ir-box-docdetails-image">
+                 <x:choose>
+	                 <x:when select="$doc/mycoreobject[not(contains(@ID, '_bundle_'))]/structure/derobjects/derobject[@xlink:title='MCRVIEWER_METS']"> 
+				 		<c:set var="recordID"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier[@source='DE-28']" /></c:set>
                           <a href="${WebApplicationBaseURL}mcrviewer/recordIdentifier/${fn:replace(recordID,'/','_')}" title="Im MyCoRe Viewer anzeigen">
         		            <search:derivate-image mcrid="${param.id}" width="200px" labelContains="cover" />
                 		  </a>
-                	</x:when>
-                	<x:when select="$doc/mycoreobject[not(contains(@ID, '_bundle_'))]/structure/derobjects/derobject[@xlink:title='DV_METS' or @xlink:title='METS']"> 
-                      <c:set var="mcrid"><x:out select="$doc/mycoreobject/@ID" /></c:set>
-	                		<a href="${WebApplicationBaseURL}resolve/id/${mcrid}/dfgviewer" target="_blank" title="Im DFG Viewer anzeigen">
-	                			<search:derivate-image mcrid="${param.id}" width="200px" labelContains="cover" />
-	                		</a>
+                 	 </x:when>
+                 	 <x:when select="$doc/mycoreobject[not(contains(@ID, '_bundle_'))]/structure/derobjects/derobject[@xlink:title='DV_METS' or @xlink:title='METS']"> 
+                       <c:set var="mcrid"><x:out select="$doc/mycoreobject/@ID" /></c:set>
+	                	 <a href="${WebApplicationBaseURL}resolve/id/${mcrid}/dfgviewer" target="_blank" title="Im DFG Viewer anzeigen">
+	                	   <search:derivate-image mcrid="${param.id}" width="200px" labelContains="cover" />
+	                	 </a>
                 	</x:when>
                    	<x:otherwise>
         		          <search:derivate-image mcrid="${param.id}" width="200px" labelContains="cover" />
@@ -282,13 +269,13 @@
               </div>
             </x:when>
             <x:when select="contains($doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='doctype']/@valueURI, '#data')">
-                <img src="${WebApplicationBaseURL}images/filetypeicons/data.png" alt="resarch data">
+                <div class="ir-box ir-box-docdetails-image">
+                  <img src="${WebApplicationBaseURL}images/filetypeicons/data.png" alt="resarch data">
+                </div>
             </x:when>
-          </x:choose>
-        </div>
+         </x:choose>
        </x:if>
-        <div class="ir-box ir-box-emph">
-        
+       <div class="ir-box ir-box-emph">
             <h3>Dauerhaft zitieren</h3>
          	<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='purl']">
 			    <c:set var="purl"><x:out select="$x" /></c:set>
@@ -296,75 +283,72 @@
                 <a class="ir-link-portal" href="${purl}"><c:out value="${purl}" escapeXml="false"/></a><br />--%>
                 <c:set var="link">${fn:replace(purl, '.de/', '.de/<br class="visible-md-inline"/>')}</c:set>
                 <p><a class="ir-link-portal" href="${purl}"><c:out value="${link}" escapeXml="false"/></a></p>
-                
-              </x:forEach>
-			  <x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='urn']">
-			     <p><a class="ir-link-portal" href="http://nbn-resolving.org/<x:out select="$x" />"><x:out select="$x" /></a></p>
-			  </x:forEach>
-			  <x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='doi']">
+            </x:forEach>
+			<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='urn']">
+			   <p><a class="ir-link-portal" href="http://nbn-resolving.org/<x:out select="$x" />"><x:out select="$x" /></a></p>
+			</x:forEach>
+			<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='doi']">
 			  	<p><a class="ir-link-portal" href="https://doi.org/<x:out select="$x" />">https://doi.org/<br class="visible-md-inline"/><x:out select="$x" /></a></p>
-              </x:forEach>
-        </div>
-       
-       <%--Download Area --%>
-     <div style="margin-bottom:30px;">
-        <x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='fulltext']">
-        <a class="btn btn-primary ir-button-download"  
-             href="${WebApplicationBaseURL}resolve/id/${mcrid}/file/fulltext" target="_blank">
-            <img style="vertical-align:middle;height:30px;" src="${WebApplicationBaseURL}images/download_pdf.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
-            <fmt:message key="Webpage.docdetails.pdfdownload" />
-        </a>
-      </x:if>
-      <x:if select="$doc/mycoreobject[not(contains(@ID,'_bundle_'))]/structure/derobjects/derobject[@xlink:title='DV_METS' or @xlink:title='METS']">
-        <c:set var="recordID"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier[@source='DE-28']" /></c:set>
-        <c:if test="${not empty recordID}">
-          <a class="btn btn-primary ir-button-download"  
-               href="${WebApplicationBaseURL}pdfdownload/recordIdentifier/${fn:replace(recordID, '/','_')}" target="_blank">
-                <img style="vertical-align:middle;height:30px;" src="${WebApplicationBaseURL}images/download_pdf.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
-              &nbsp;<fmt:message key="Webpage.docdetails.pdfdownload" />
-            </a>
-        </c:if>
-      </x:if>
-      <x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='DV_METS' or @xlink:title='METS']">
-      <a class="btn btn-primary ir-button-download"  
-         href="${WebApplicationBaseURL}resolve/id/${mcrid}/dfgviewer" target="_blank">
-          <img style="height: 24px; margin: 3px 0px;" src="${WebApplicationBaseURL}images/dfgviewerLogo.svg" title = "<fmt:message key="Webpage.docdetails.dfgviewer" />" />
-       </a>
-      </x:if>
-       
-       
-       <x:forEach select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='data' or @xlink:title='documentation' ]">
-        <c:set var="url">${WebApplicationBaseURL}api/v1/objects/<x:out select="/mycoreobject/@ID" />/derivates/<x:out select="./@xlink:href" />/contents</c:set>
-            <c:import var="derXML" url="${url}"/>
-            <x:parse xml="${derXML}" var="derDoc"/>
-            <x:set var="derLink" select="$derDoc//children/child[1]" />
-            <x:if select="$derLink">
-             <a class="btn btn-primary ir-button-download" style="text-align:left" title="MD5: <x:out select="$derLink/md5" />" 
-             href="<x:out select="$derLink/@href" />" target="_blank">
-            <x:choose>
-              <x:when select="contains($derLink/@href, '.zip')">
-                <img style="vertical-align:middle;height: 38px;margin-right:12px;float:left" src="${WebApplicationBaseURL}images/download_zip.png" />  
-              </x:when>
-              <x:when select="contains($derLink/@href, '.pdf')">
-                <img style="vertical-align:middle;height: 38px;margin-right:12px;float:left" src="${WebApplicationBaseURL}images/download_pdf.png" />  
-              </x:when>
-              <x:otherwise>
-                <img style="vertical-align:middle;height: 38px;margin-right:12px;float:left" src="${WebApplicationBaseURL}images/download_other.png" />
-              </x:otherwise>
-            </x:choose>
-            <c:set var="mesKey">OMD.derivatedisplay.<x:out select="@xlink:title"/></c:set>
-            <strong><fmt:message key="${mesKey}" /></strong><br />
-            <span style="font-size: 85%">
-              <x:out select="$derLink/name" />&nbsp;&nbsp;&nbsp;(<x:out select="round($derLink/size div 1024 div 1024 * 10) div 10" /> MB)<br />
-            </span>
-         </a>
-            </x:if>
-       </x:forEach>
+            </x:forEach>
        </div>
        
-          <div class="ir-box mt-3">
-   	
-			<x:if select="contains($doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='doctype']/@valueURI, '#histbest')">
+       <%--Download Area --%>
+       <div style="margin-bottom:30px;">
+         <x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='fulltext']">
+            <a class="btn btn-primary ir-button-download"  
+               href="${WebApplicationBaseURL}resolve/id/${mcrid}/file/fulltext" target="_blank">
+              <img style="vertical-align:middle;height:30px;" src="${WebApplicationBaseURL}images/download_pdf.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
+              <fmt:message key="Webpage.docdetails.pdfdownload" />
+            </a>
+         </x:if>
+         <x:if select="$doc/mycoreobject[not(contains(@ID,'_bundle_'))]/structure/derobjects/derobject[@xlink:title='DV_METS' or @xlink:title='METS']">
+           <c:set var="recordID"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier[@source='DE-28']" /></c:set>
+           <c:if test="${not empty recordID}">
+             <a class="btn btn-primary ir-button-download"  
+                 href="${WebApplicationBaseURL}pdfdownload/recordIdentifier/${fn:replace(recordID, '/','_')}" target="_blank">
+                <img style="vertical-align:middle;height:30px;" src="${WebApplicationBaseURL}images/download_pdf.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
+                 &nbsp;<fmt:message key="Webpage.docdetails.pdfdownload" />
+             </a>
+           </c:if>
+         </x:if>
+         <x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='DV_METS' or @xlink:title='METS']">
+           <a class="btn btn-primary ir-button-download"  
+              href="${WebApplicationBaseURL}resolve/id/${mcrid}/dfgviewer" target="_blank">
+              <img style="height: 24px; margin: 3px 0px;" src="${WebApplicationBaseURL}images/dfgviewerLogo.svg" title = "<fmt:message key="Webpage.docdetails.dfgviewer" />" />
+           </a>
+         </x:if>
+       
+         <x:forEach select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='data' or @xlink:title='documentation' ]">
+           <c:set var="url">${WebApplicationBaseURL}api/v1/objects/<x:out select="/mycoreobject/@ID" />/derivates/<x:out select="./@xlink:href" />/contents</c:set>
+             <c:import var="derXML" url="${url}"/>
+             <x:parse xml="${derXML}" var="derDoc"/>
+             <x:set var="derLink" select="$derDoc//children/child[1]" />
+             <x:if select="$derLink">
+               <a class="btn btn-primary ir-button-download" style="text-align:left" title="MD5: <x:out select="$derLink/md5" />" 
+                  href="<x:out select="$derLink/@href" />" target="_blank">
+                  <x:choose>
+                    <x:when select="contains($derLink/@href, '.zip')">
+                      <img style="vertical-align:middle;height: 38px;margin-right:12px;float:left" src="${WebApplicationBaseURL}images/download_zip.png" />  
+                    </x:when>
+                    <x:when select="contains($derLink/@href, '.pdf')">
+                     <img style="vertical-align:middle;height: 38px;margin-right:12px;float:left" src="${WebApplicationBaseURL}images/download_pdf.png" />  
+                    </x:when>
+                    <x:otherwise>
+                      <img style="vertical-align:middle;height: 38px;margin-right:12px;float:left" src="${WebApplicationBaseURL}images/download_other.png" />
+                    </x:otherwise>
+                  </x:choose>
+                  <c:set var="mesKey">OMD.derivatedisplay.<x:out select="@xlink:title"/></c:set>
+                    <strong><fmt:message key="${mesKey}" /></strong><br />
+                    <span style="font-size: 85%">
+                      <x:out select="$derLink/name" />&nbsp;&nbsp;&nbsp;(<x:out select="round($derLink/size div 1024 div 1024 * 10) div 10" /> MB)<br />
+                    </span>
+               </a>
+            </x:if>
+          </x:forEach>
+       </div><%--Download area --%>
+       
+       <div class="ir-box mt-3">
+   	     <x:if select="contains($doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='doctype']/@valueURI, '#histbest')">
         				<h3>Export</h3>
 								<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='PPN']">
 									<c:set var="ppn"><x:out select="$x" /></c:set>
@@ -401,27 +385,23 @@
 									<a class="ir-link-portal" href="http://kalliope-verbund.info/${id}">Kalliope-Verbundkatalog</a>
 								</x:forEach>	
    					
-   					           </x:if>
-				
-                    <h3>Teilen</h3>
-        <div class="shariff" data-url="${WebApplicationBaseURL}resolve/id/${param.id}"
+         </x:if>
+		 <h3>Teilen</h3>
+         <div class="shariff" data-url="${WebApplicationBaseURL}resolve/id/${param.id}"
              data-services="[&quot;twitter&quot;, &quot;facebook&quot;, &quot;googleplus&quot;, &quot;linkedin&quot;, &quot;xing&quot;, &quot;whatsapp&quot;, &quot;mail&quot;, &quot;info&quot;]"
              data-mail-url="mailto:" data-mail-subject="Dokument auf RosDok" data-mail-body="${WebApplicationBaseURL}resolve/id/${param.id}"
              data-orientation="horizontal" data-theme="standard">
-             </div> <%--data-theme=standard|grey|white --%>
-       <script src="${WebApplicationBaseURL}modules/shariff/shariff.min.js"></script>
+         </div> <%--data-theme=standard|grey|white --%>
+         <script src="${WebApplicationBaseURL}modules/shariff_3.0.1/shariff.min.js"></script>
        </div>
 
- 
-        
-        
-        <div class="my-3">
-        <div class="float-right">
-              <button type="button" class="btn btn-sm ir-button-tools hidden-xs bg-dark text-light" style="border:none;color:#DEDEDE; background-color:white;" 
+       <div class="my-3"><%--Tools --%>
+          <div class="float-right">
+            <button type="button" class="btn btn-sm ir-button-tools hidden-xs bg-dark text-light" style="border:none;color:#DEDEDE; background-color:white;" 
                     data-toggle="collapse" data-target="#hiddenTools" title="<fmt:message key="Webpage.tools.menu4experts" />">
               <i class="fa fa-cog"></i>
-              </button>
-              <search:show-edit-button mcrid="${mcrid}" cssClass="btn btn-sm btn-primary ir-edit-btn pull-right" />
+            </button>
+            <search:show-edit-button mcrid="${mcrid}" cssClass="btn btn-sm btn-primary ir-edit-btn pull-right" />
           </div>
           <div id="hiddenTools" class="collapse">
             <div style="padding-bottom:6px">
@@ -446,9 +426,10 @@
                    href="${WebApplicationBaseURL}oai/dnb-epflicht?verb=GetRecord&metadataPrefix=xMetaDissPlus&identifier=oai:oai-dnb-epflicht.rosdok.uni-rostock.de:${mcrid}" rel="nofollow">OAI:DNB_EPFLICHT</a>
             </div>
           </div>
-        </div>          
-        </div>
-        </div>
-      </div>
-	</stripes:layout-component>
+       </div><%--Tools --%>      
+     </div>
+   </div><%-- right area --%>
+      </div><%--row --%>
+    </div>
+  </stripes:layout-component>
 </stripes:layout-render>
