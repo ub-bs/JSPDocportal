@@ -20,14 +20,16 @@ public class ErrorAction extends MCRAbstractStripesAction implements ActionBean 
     @DefaultHandler
     public Resolution defaultRes() {
         errorInfo = new MCRJSPErrorInfo();
-        String i18nKey = getContext().getRequest().getParameter("i18n");
-        if(i18nKey!=null) {
-            errorInfo.setHeadline(MCRTranslation.translate(i18nKey));
-        }
-        
+        int status = 500;
+        try {
         String msg = (String) getContext().getRequest().getAttribute("javax.servlet.error.message");
         if(msg!=null) {
             errorInfo.setMessage(msg);
+        }
+        
+        String i18nKey = getContext().getRequest().getParameter("i18n");
+        if(i18nKey!=null) {
+            errorInfo.setHeadline(MCRTranslation.translate(i18nKey));
         }
         
         //try to use default:    Throwable exception = (Throwable) req.getAttribute("javax.servlet.error.exception");
@@ -39,7 +41,7 @@ public class ErrorAction extends MCRAbstractStripesAction implements ActionBean 
             errorInfo.setException(thr);
             getContext().getRequest().removeAttribute("mcr_exception");
         }
-        int status = 500;
+        
         if(getContext().getRequest().getParameter("status")!=null) {
             try {
                 status = Integer.parseInt(getContext().getRequest().getParameter("status"));
@@ -52,7 +54,12 @@ public class ErrorAction extends MCRAbstractStripesAction implements ActionBean 
         if(status==404 || status == 500 || status == 410) {
             errorInfo.setHeadline(MCRTranslation.translate("Resolver.error.code."+status));
         }
-
+        }
+        catch(Exception e) {
+            errorInfo.setMessage("Error processing an error: "+ e.getMessage() + "\nThe original error message was: "+ errorInfo.getMessage());
+            errorInfo.setException(e);
+            errorInfo.setStatus(500);
+        }
         ForwardResolution fw = new ForwardResolution("/content/error.jsp");
         fw.setStatus(status);
         return fw;
