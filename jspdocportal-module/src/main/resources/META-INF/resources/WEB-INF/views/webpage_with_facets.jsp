@@ -177,7 +177,7 @@
               </div>
 		    </div> --%>
           </div>
-          <a href="/browse/${actionBean.path}" class="ir-latestdocs-more-button btn btn-sm btn-primary float-right mt-3">mehr ...</a>			
+          <a href="${WebApplicationBaseURL}browse/${actionBean.path}" class="ir-latestdocs-more-button btn btn-sm btn-primary float-right mt-3">mehr ...</a>			
 	    </div>
       </div>
     </div>
