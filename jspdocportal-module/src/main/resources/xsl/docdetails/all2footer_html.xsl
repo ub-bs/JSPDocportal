@@ -9,7 +9,7 @@
   <xsl:param name="WebApplicationBaseURL" />
   <xsl:output method="html" indent="yes" standalone="no" />
   <xsl:template match="/">
-  <table class="table ir-table-docdetails">
+  <table class="ir-table-docdetails">
     <xsl:for-each select="/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='purl']">
           <tr>
             <th>Persistente URL:</th>

@@ -56,7 +56,7 @@
         </xsl:if>
         -->
         
-        <table class="table ir-table-docdetails">
+        <table class="ir-table-docdetails">
         <xsl:if test="./mods:note[@type='creator_info']">
           <tr>
             <th>Titelzusatz:</th>
@@ -189,7 +189,7 @@
         </xsl:if>
         
         </table>
-        <table class="table ir-table-docdetails">
+        <table class="ir-table-docdetails">
         
         <xsl:if test="./mods:identifier[@type='PPN']">
           <tr>
@@ -280,7 +280,7 @@
         </xsl:if>
         
         </table>
-        <table class="table ir-table-docdetails">
+        <table class="ir-table-docdetails">
         
        
         <xsl:if test="./mods:classification[@displayLabel='collection']">

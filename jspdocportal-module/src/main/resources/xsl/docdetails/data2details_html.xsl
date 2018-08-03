@@ -10,7 +10,7 @@
   <xsl:template match="/">
     <xsl:for-each select="/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods">
       <xsl:if test="./mods:accessCondition/ubr-legal:legalInformation/ubr-legal:licenseInformation/ubr-legal:originalWork">
-        <table class="table ir-table-docdetails">
+        <table class="ir-table-docdetails">
           <tr>
             <th>Lizenz:</th>
             <td><table class="ir-table-docdetails-values">
@@ -58,7 +58,7 @@
          </table>
       </xsl:if> 
 
-      <table class="table ir-table-docdetails">
+      <table class="ir-table-docdetails">
       <xsl:for-each select="./mods:originInfo[@eventType='creation']">
           <tr>
             <th>Jahr der Erstellung:</th>
@@ -166,7 +166,7 @@
         </xsl:if>
         </table>
       
-      <table class="table ir-table-docdetails">      
+      <table class="ir-table-docdetails">      
       <xsl:if test="./mods:classification[@displayLabel='doctype']">
           <tr>
             <th>Dokumenttyp:</th>

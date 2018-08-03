@@ -16,7 +16,7 @@
 
   <xsl:template match="/">
     <xsl:for-each select="/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods">
-      <table class="table ir-table-docdetails">
+      <table class="ir-table-docdetails">
         <tr>
           <th>
             <xsl:value-of select="i18n:translate('OMD.institution')" />
@@ -81,7 +81,7 @@
         </xsl:if>
       </table>
       
-      <table class="table ir-table-docdetails">
+      <table class="ir-table-docdetails">
         <xsl:if test="./mods:language/mods:languageTerm">
           <tr>
             <th><xsl:value-of select="i18n:translate('OMD.languages')" /> :</th>
@@ -158,12 +158,9 @@
         </tr>
       </table>
       
-      <table class="table ir-table-docdetails">
+      <table class="ir-table-docdetails">
        <tr>
-          <th>
-            <xsl:value-of select="i18n:translate('OMD.urns')" />
-            :
-          </th>
+          <th><xsl:value-of select="i18n:translate('OMD.urns')" /> :</th>
           <td>
             <table class="ir-table-docdetails-values">
               <tr>

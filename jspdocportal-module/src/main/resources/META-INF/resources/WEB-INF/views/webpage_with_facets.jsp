@@ -72,7 +72,7 @@
                   <input type="text" class="form-control ir-form-control" id="filterValue" name="filterValue" placeholder="Suche "
                          onkeypress="if (event.keyCode == 13) { changeFilterIncludeURL($('input[name=\'filterField\']:checked').val(), $('#filterValue').val(), $('#filterValue').parent().data('ir-mode'));}" />
                    <div class="input-group-append">
-                      <button id="filterInclude" class="btn btn-primary ir-button" type="button"
+                      <button id="filterInclude" class="btn btn-primary" type="button"
                               onclick="changeFilterIncludeURL($('input[name=\'filterField\']:checked').val(), $('#filterValue').val(), $('#filterValue').parent().data('ir-mode'));">
                         <i class="fa fa-search"></i>
                       </button>   

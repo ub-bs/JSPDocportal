@@ -63,7 +63,7 @@
 				<c:when test="${actionBean.ready}">
 					<div class="ir-box" style="margin:-15px">
                        <c:url var="url" value="/pdfdownload/recordIdentifier/${actionBean.recordIdentifier}/${actionBean.filename}" />
-					   <a href="${url}" class="btn btn-default ir-button ir-button-download" style="font-size:150%;padding:15px;">
+					   <a href="${url}" class="btn btn-default ir-button-download" style="font-size:150%;padding:15px;">
                           <img src="${imgIconUrl}" style="height:60px;"/>&nbsp;&nbsp;${actionBean.filename} &nbsp;&nbsp;&nbsp; <small>(${actionBean.filesize})</small>
                        </a>
 					</div>

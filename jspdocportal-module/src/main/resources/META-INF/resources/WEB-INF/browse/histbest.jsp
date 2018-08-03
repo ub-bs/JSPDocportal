@@ -167,12 +167,12 @@
               <span class="badge badge-secondary">${entry.data['ir.doctype.result']}</span>
               <c:choose>
                 <c:when test="${fn:contains(entry.data['ir.accesscondition_class.facet'], 'restrictedaccess')}">
-                  <span class="badge ir-restrictedaccess-badge">
+                  <span class="badge ir-badge-restrictedaccess">
                     Restricted <img style="height:1.5em;padding:0 .25em" src="${WebApplicationBaseURL}images/logo_Closed_Access.png"/>  Access            
                   </span>
                 </c:when>
                <c:otherwise>
-                <span class="badge ir-openaccess-badge">
+                <span class="badge ir-badge-openaccess">
                     Open <img style="height:1.5em;padding:0 .25em" src="${WebApplicationBaseURL}images/logo_Open_Access.png"/>  Access            
                   </span>
                </c:otherwise>

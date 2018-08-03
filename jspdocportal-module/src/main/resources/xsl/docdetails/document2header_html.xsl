@@ -74,7 +74,7 @@
        <p>
         <xsl:if test="./mods:classification[@displayLabel='doctype']">
 
-        <span class="label label-default ir-label-default">
+        <span class="badge badge-secondary">
           <xsl:for-each select="./mods:classification[@displayLabel='doctype']/@valueURI">
             <xsl:call-template name="classLabel">
               <xsl:with-param name="valueURI"><xsl:value-of select="." /></xsl:with-param>
