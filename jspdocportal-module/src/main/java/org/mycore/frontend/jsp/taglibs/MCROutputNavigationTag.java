@@ -214,7 +214,7 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
             if (cssClass != null) {
                 out.append(indent).append("  <ul class=\"" + cssClass + "\">");
             } else {
-                out.append(indent).append("  <ul class=\"nav\">");
+                out.append(indent).append("  <ul class=\"nav flex-column\">");
             }
             for (NavigationItem el : printableElements) {
                 String id = el.getId();
@@ -223,14 +223,14 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
 
                 String msg = retrieveI18N(el.getI18n());
                 out.append(indent)
-                        .append(" <li id=\"" + retrieveNavPath(el) + "\" class=\"nav-item" + (active ? " active" : "") + (doExpand ? " expanded" : "") + "\">");
+                        .append(" <li id=\"" + retrieveNavPath(el) + "\" class=\"nav-item" + (doExpand ? " ir-nav-item-expanded" : "") + "\">");
 
                 out.append(indent);
                 String href = el.getHref();
                 if (!href.startsWith("http")) {
                     href = MCRFrontendUtil.getBaseURL() + href;
                 }
-                out.append(" <a target=\"_self\" class=\"nav-link\" href=\"" + href + "\">" + msg + "</a>");
+                out.append(" <a target=\"_self\" class=\"nav-link" + (active ? " active" : "")+ "\" href=\"" + href + "\">" + msg + "</a>");
                 if (doExpand) {
                     String[] subpath = path;
                     if (path.length > 0) {
