@@ -55,7 +55,7 @@
 		    </div>
 	      </div>
 
-          <div class="row mt-5">
+          <div class="row mt-3">
 		    <div class="offset-sm-4 col-sm-4 text-center">
   			  <input name="doLogin" class="btn btn-primary" value="<fmt:message key="Webpage.login.Login" />" type="submit" /> 
 		    </div>
