@@ -206,6 +206,9 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
 
         if (action.equals("pdf")) {
             StringBuffer sbUrl = createURLForMainDocInDerivateWithLabel(request, mcrID, "fulltext");
+            if(sbUrl.length()==0) {
+                response.sendError(404);
+            }
             if (path.length > 4) {
                 if (path[3].equals("page") || path[3].equals("nr")) {
                     sbUrl.append("#page=").append(path[3]);
