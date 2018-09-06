@@ -29,6 +29,7 @@ import org.mycore.frontend.xeditor.MCRStaticXEditorFileServlet;
 import org.mycore.frontend.xeditor.tracker.MCRChangeData;
 import org.mycore.services.fieldquery.MCRQuery;
 import org.mycore.solr.search.MCRQLSearchUtils;
+import org.mycore.solr.search.MCRSolrSearchUtils;
 
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.Before;
@@ -209,7 +210,7 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
                 result.setMCRQueryXML(queryDoc);
                 MCRQuery query = MCRQLSearchUtils.buildFormQuery(queryDoc.getRootElement());
 
-                SolrQuery solrQuery = MCRQLSearchUtils.getSolrQuery(query, queryDoc, request);
+                SolrQuery solrQuery = MCRSolrSearchUtils.getSolrQuery(query, queryDoc, request);
                 result.setSolrQuery(solrQuery);
             }
         }
