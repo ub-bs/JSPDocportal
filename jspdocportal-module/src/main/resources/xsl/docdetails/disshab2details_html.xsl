@@ -141,7 +141,7 @@
           </td>
         </tr>
         </xsl:for-each>
-        
+        <xsl:if test="mods:classification[@displayLabel='sdnb' or @displayLabel='SDNB']/@valueURI">
         <tr>
           <th><xsl:value-of select="i18n:translate('OMD.ddc-class')" /> :</th>
           <td>
@@ -156,6 +156,7 @@
             </table>
           </td>
         </tr>
+        </xsl:if>
       </table>
       
       <table class="ir-table-docdetails">
