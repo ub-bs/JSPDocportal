@@ -376,38 +376,40 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
         if (mcrObj != null && mcrObj.getStructure().getDerivates().size() > 0) {
             Map<String, List<String>> derivateFiles = MCRActivitiUtils.getDerivateFiles(mcrObjID);
             for (MCRMetaLinkID derID : mcrObj.getStructure().getDerivates()) {
+                result.append("<div class=\"row\">");
+                result.append("\n  <div class=\"offset-1 col-3\">");
                 result.append(
-                        "<span class=\"badge pull-left\" style=\"margin-left:128px; margin-right:24px; margin-top:3px;\">"
+                        "<span class=\"badge badge-pill badge-secondary\">"
                                 + derID.getXLinkHref() + "</span>");
+                result.append("\n  </div>");
                 MCRDerivate der = MCRActivitiUtils.loadMCRDerivateFromWorkflowDirectory(mcrObjID,
                         derID.getXLinkHrefID());
-                result.append("<div style=\"margin-left:300px\">");
-                result.append("    <strong>["
+                result.append("\n  <div class=\"col-8\">");
+                result.append("\n    <strong>["
                         + MCRTranslation.translate("OMD.derivatedisplay." + der.getLabel())
                         + "]</strong>");
                 for (String s : der.getService().getFlags("title")) {
                     result.append("<br />" + s);
                 }
-                result.append("</div>");
-                result.append("<div style=\"clear:both; padding-top:12px; margin-left:192px;\">");
                 result.append("\n    <ul style=\"list-style-type: none;\">");
                 for (String fileName : derivateFiles.get(derID.getXLinkHref())) {
                     result.append("\n        <li>");
                     if (fileName.contains(".")) {
-                        result.append("<i class=\"fa fa-file\"></i> ");
+                        result.append("<i class=\"fa fa-file mr-3\"></i>");
                     } else {
-                        result.append("<i class=\"fa fa-folder-open\"></i> ");
+                        result.append("<i class=\"fa fa-folder-open mr-3\"></i>");
                     }
                     result.append("<a href=\""+MCRFrontendUtil.getBaseURL()+"wffile/"+mcrObjID.toString()+"/"+der.getId().toString()+"/"+fileName + "\">" + fileName + "</a>");
 
                     if (fileName.equals(der.getDerivate().getInternals().getMainDoc())) {
-                        result.append("<span style=\"margin-left:16px; color:grey;\" class=\"fa fa-star\" title=\""
+                        result.append("<span class=\"ml-3 text-secondary\" class=\"fa fa-star\" title=\""
                                 + MCRTranslation.translate("Editor.Common.derivate.maindoc") + "\"></span>");
                     }
-                    result.append("</li>");
+                    result.append("\n    </li>");
                 }
                 result.append("\n    </ul>");
-                result.append("</div>");
+                result.append("\n  </div>"); //col
+                result.append("\n</div>"); //row
             }
         }
         MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(t.getId(),

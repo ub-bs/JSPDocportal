@@ -13,10 +13,16 @@
 
 <fmt:message var="pageTitle" key="WF.Headline" /> 
 <stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}" layout="1column">
-<stripes:layout-component name="html_header">
+  <stripes:layout-component name="html_header">
 	
-</stripes:layout-component>
-	<stripes:layout-component name="contents">
-		<mcr:includeXEditor editorPath="${actionBean.editorPath}" cancelURL="${actionBean.cancelURL}" sourceURI="${actionBean.sourceURI}" />
-	</stripes:layout-component>
+  </stripes:layout-component>
+  <stripes:layout-component name="main_part">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+		  <mcr:includeXEditor editorPath="${actionBean.editorPath}" cancelURL="${actionBean.cancelURL}" sourceURI="${actionBean.sourceURI}" />
+        </div>
+      </div>
+    </div>
+  </stripes:layout-component>
 </stripes:layout-render>

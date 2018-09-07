@@ -238,9 +238,7 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
         String newName = request
                 .getParameter("renameFile_new-task_" + taskid + "-derivate_" + derid + "-file_" + fileName);
         if (!StringUtils.isBlank(newName)) {
-            newName = newName.replace("ä", "ae").replace("ö", "oe").replace("ü", "ue").replace("ß", "ss");
-            newName = newName.replace("Ä", "AE").replace("Ö", "OE").replace("Ü", "OE");
-            newName = newName.replaceAll("[^a-zA-Z0-9_\\-\\.]", "_");
+            newName = cleanupFileName(newName);
 
             Path fNew = f.getParent().resolve(newName);
             try {
@@ -254,6 +252,15 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
                 MCRActivitiUtils.saveMCRDerivateToWorkflowDirectory(der);
             }
         }
+    }
+    
+    private String cleanupFileName(String input) {
+        String newName = input;
+        newName = newName.replace("ä", "ae").replace("ö", "oe").replace("ü", "ue").replace("ß", "ss");
+        newName = newName.replace("Ä", "AE").replace("Ö", "OE").replace("Ü", "OE");
+        newName = newName.replace("\\", "/");
+        newName = newName.replaceAll("[^a-zA-Z0-9_\\-\\.\\/]", "_");
+        return newName;
     }
 
     //File: addFile_file-task_${actionBean.taskid}-derivate_${derID}
@@ -274,7 +281,7 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
                     MCRObjectID.getInstance(derid));
             Path derDir = MCRActivitiUtils.getWorkflowDerivateDir(MCRObjectID.getInstance(mcrobjid), der.getId());
             try {
-                Files.copy(fb.getInputStream(), derDir.resolve(fb.getFileName()), StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(fb.getInputStream(), derDir.resolve(cleanupFileName(fb.getFileName())), StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
                 LOGGER.error(e);
             }
@@ -349,7 +356,7 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
 
             if (fb != null) {
                 Path derDir = MCRActivitiUtils.getWorkflowDerivateDir(MCRObjectID.getInstance(mcrobjid), der.getId());
-                Files.copy(fb.getInputStream(), derDir.resolve(fb.getFileName()), StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(fb.getInputStream(), derDir.resolve(cleanupFileName(fb.getFileName())), StandardCopyOption.REPLACE_EXISTING);
 
                 der.getDerivate().getInternals().setSourcePath(derDir.toString());
                 updateMainFile(der, derDir);
