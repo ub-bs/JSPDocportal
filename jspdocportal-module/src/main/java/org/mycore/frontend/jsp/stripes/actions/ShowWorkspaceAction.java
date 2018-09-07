@@ -232,7 +232,11 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 
     private Resolution editObject(String mcrID, String taskID) {
         MCRObjectID mcrObjID = MCRObjectID.getInstance(mcrID);
-        editorPath = "/editor/metadata/editor-" + mcrObjID.getTypeId() + "-default.xed";
+        String objectType = mcrObjID.getTypeId();
+        if(objectType.equals("thesis")) {
+            objectType = "disshab";
+        }
+        editorPath = "/editor/metadata/editor-" + objectType + "-default.xed";
         Path wfFile = MCRActivitiUtils.getWorkflowObjectFile(mcrObjID);
         sourceURI = wfFile.toUri().toString();
         ForwardResolution res = new ForwardResolution("/content/editor/fullpageEditor.jsp");
