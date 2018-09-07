@@ -4,10 +4,12 @@
 <xed:form xmlns:xed="http://www.mycore.de/xeditor" role="form" class="form-horizontal" accept-charset="UTF-8" method="post">
   
     <div class="row">
-    <div class="alert alert-info col-sm-12">
-      <xed:output i18n="Editor.Common.headline" />
-   </div>
-   </div>
+    	<div class="col mt-3">
+    		<div class="alert alert-info">
+      			<xed:output i18n="Editor.Common.headline" />
+   			</div>
+   		</div>
+   	</div>
    <xed:post-processor xsl="editor/ir_xeditor2mods.xsl" />
    <xed:cleanup-rule xpath="//*" relevant-if="true()" />
    <xed:cleanup-rule xpath="/mycoreobject/metadata//*" relevant-if="@* or * or (string-length(text()) &gt; 0)" />
@@ -36,7 +38,7 @@
    
   
   	 <!-- IDs [START]-->
-     <div class="form-group">
+     <div class="row ir-row-0">
        <label class="col-sm-2 control-label input-sm ir-label" for="persontype">
          <xed:output i18n="OMD.ir.identifiers" />
        </label>
@@ -67,7 +69,7 @@
     </div> 
     <!-- IDs [ENDE]-->
     <!-- Verfasser [START] -->
-     <div class="form-group">
+     <div class="row ir-row-0">
        <label class="col-sm-2 control-label input-sm ir-label" for="persontype">
          <xed:output i18n="OMD.ir.author" />
        </label>
@@ -138,7 +140,7 @@
     <!-- Verfasser [ENDE]-->
     
     <!-- Titel [START] -->
-     <div class="form-group">
+     <div class="row ir-row-0">
        <label class="col-sm-2 control-label input-sm ir-label" for="title_main">
          <xed:output i18n="OMD.ir.title" />
        </label>
@@ -234,7 +236,7 @@
     <!-- Titel [ENDE]-->
     
     <!-- Verfasserangabe [START]-->
-     <div class="form-group">
+     <div class="row ir-row-0">
        <label class="col-sm-2 control-label input-sm ir-label" for="language">
          <xed:output i18n="OMD.ir.creator_info" />
        </label>
@@ -256,7 +258,7 @@
 	<!-- Verfasserangabe [ENDE]-->
 
     <!-- Sprache [START]-->
-     <div class="form-group">
+     <div class="row ir-row-0">
        <label class="col-sm-2 control-label input-sm ir-label" for="language">
          <xed:output i18n="OMD.ir.language" />
        </label>
@@ -280,7 +282,7 @@
     <!-- Sprache [ENDE]-->
 
     <!-- Gutachter [START] -->
-     <div class="form-group">
+     <div class="row ir-row-0">
        <label class="col-sm-2 control-label input-sm ir-label" for="referee_name_given">
          <xed:output i18n="OMD.ir.referee" />
        </label>
@@ -351,7 +353,7 @@
     <!-- Gutachter [ENDE]-->
 
   <!-- Grad verleihende Institution [START]-->
-     <div class="form-group">
+     <div class="row ir-row-0">
        <label class="col-sm-2 control-label input-sm ir-label" for="language">
          <xed:output i18n="OMD.ir.degreeGrantingInstitution" />
        </label>
@@ -402,7 +404,7 @@
     <!-- Grad Verleihende Institution [ENDE]-->
     
       <!-- Datum / Publikation [START]-->
-     <div class="form-group">
+     <div class="row ir-row-0">
        <label class="col-sm-2 control-label input-sm ir-label" for="language">
          <xed:output i18n="OMD.ir.date" />
        </label>
@@ -458,7 +460,7 @@
     <!-- Datum / Publikation [ENDE]-->
     
      <!-- Abstract [START]-->
-     <div class="form-group">
+     <div class="row ir-row-0">
        <label class="col-sm-2 control-label input-sm ir-label" for="language">
          <xed:output i18n="OMD.ir.abstract" />
        </label>
@@ -498,7 +500,7 @@
     <!-- Abstract [ENDE]-->
     
      <!-- Schlagworte [START]-->
-     <div class="form-group">
+     <div class="row ir-row-0">
        <label class="col-sm-2 control-label input-sm ir-label" for="keyword">
          <xed:output i18n="OMD.ir.keywords" />
        </label>
@@ -539,7 +541,7 @@
     <!-- Schlagworte [ENDE]-->
     
     <!-- SDNB [Start]-->
-     <div class="form-group">
+     <div class="row ir-row-0">
        <label class="col-sm-2 control-label input-sm ir-label" for="sdnb">
          <xed:output i18n="OMD.ir.sdnb" />
        </label>
@@ -571,7 +573,7 @@
     <!--SDNB [ENDE]-->
     
     <!-- Doctype [START]-->
-     <div class="form-group">
+     <div class="row ir-row-0">
        <label class="col-sm-2 control-label input-sm ir-label" for="doctype">
          <xed:output i18n="OMD.ir.doctype" />
        </label>
@@ -604,7 +606,7 @@
     <!-- Doctype [ENDE]-->
     
     <!-- Zugriffsbedingungen [START]-->
-         <div class="form-group">
+         <div class="row ir-row-0">
        <label class="col-sm-2 control-label input-sm ir-label" for="accessConditions">
          <xed:output i18n="OMD.ir.accessConditions" />
        </label>
@@ -630,7 +632,7 @@
     </div> 
     <!-- AccessConditions [ENDE]-->
      <!-- Notes [START]-->
-     <div class="form-group">
+     <div class="row ir-row-0">
        <label class="col-sm-2 control-label input-sm ir-label" for="language">
          <xed:output i18n="OMD.ir.notes" />
        </label>
