@@ -181,7 +181,7 @@
 	                    	   id : "pdf_download",
 	                    	   type : "button",
 	                    	   label : "buttons.pdf_download",
-	                    	   href : "${applicationScope.WebApplicationBaseURL}/pdfdownload/recordIdentifier/${fn:replace(actionBean.recordIdentifier,'/','_')}",
+	                    	   href : "${applicationScope.WebApplicationBaseURL}pdfdownload/recordIdentifier/${fn:replace(actionBean.recordIdentifier,'/','_')}",
 	                    	   icon: "fa-download",
 	                    	   inGroup: "addOns"
 				           },
@@ -192,7 +192,7 @@
 		                    
 		                       action : function(obj, evt){
 		                    	   			var s = $("div[data-id='ImageChangeControllGroup'] > select > option:selected");
-		                    	   			window.location.href="${applicationScope.WebApplicationBaseURL}/depot/${fn:replace(actionBean.recordIdentifier,'/','_')}/images/"+s.data('id')+".jpg";
+		                    	   			window.location.href="${applicationScope.WebApplicationBaseURL}depot/${fn:replace(actionBean.recordIdentifier,'/','_')}/images/"+s.data('id')+".jpg";
 		                       },
 		                       icon: "fa-download",
 		                       inGroup: "addOns"
