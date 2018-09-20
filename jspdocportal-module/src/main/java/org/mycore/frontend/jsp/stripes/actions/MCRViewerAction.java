@@ -91,7 +91,16 @@ public class MCRViewerAction extends MCRAbstractStripesAction implements ActionB
         } catch (SolrServerException | IOException e) {
             LOGGER.error(e);
         }
-
+        
+        //add viewer request paramter to link a specific view port
+        //http://localhost:8080/rosdok/mcrviewer/recordIdentifier/rosdok_ppn888171862/iview2/phys_0005.iview2
+        //?x=1065.7192494788046&y=1139.3954134815867&scale=2.3209677419354837&rotation=0&layout=singlePageLayout
+        for(String p: StringUtils.split("x y scale rotation layout")) {
+            if(getContext().getRequest().getParameterMap().containsKey(p)) {
+                fwdResolutionForm.addParameter(p, getContext().getRequest().getParameter(p));
+            }
+        }
+        
         return fwdResolutionForm;
     }
 

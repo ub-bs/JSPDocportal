@@ -172,10 +172,22 @@
 		                       type: "group"
 	                       },
 				           {
-	                    	   id : "pdf_download",
+	                    	   id : "btn_pdf_download",
 	                    	   type : "button",
 	                    	   label : "buttons.pdf_download",
 	                    	   href : "${applicationScope.WebApplicationBaseURL}/pdfdownload/recordIdentifier/${fn:replace(actionBean.recordIdentifier,'/','_')}",
+	                    	   icon: "fa-download",
+	                    	   inGroup: "addOns"
+	                   	  },
+	                   	 {
+	                    	   id : "btn_page_download",
+	                    	   type : "button",
+	                    	   label : "buttons.page_download",
+	                    	   //href : "${applicationScope.WebApplicationBaseURL}depot/${fn:replace(actionBean.recordIdentifier,'/','_')}/images${fn:replace(actionBean.filePath, 'iview2','')}jpg",
+	                    	   action : function(obj, evt){
+	                    		   			var s = $("div[data-id='ImageChangeControllGroup'] > select > option:selected");
+	                    		   			window.location.href="${applicationScope.WebApplicationBaseURL}/depot/${fn:replace(actionBean.recordIdentifier,'/','_')}/images/"+s.data('id')+".jpg";
+	                    	   },
 	                    	   icon: "fa-download",
 	                    	   inGroup: "addOns"
 	                   	  }],
