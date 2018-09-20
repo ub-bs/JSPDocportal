@@ -208,6 +208,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
             StringBuffer sbUrl = createURLForMainDocInDerivateWithLabel(request, mcrID, "fulltext");
             if(sbUrl.length()==0) {
                 response.sendError(404);
+                return;
             }
             if (path.length > 4) {
                 if (path[3].equals("page") || path[3].equals("nr")) {
