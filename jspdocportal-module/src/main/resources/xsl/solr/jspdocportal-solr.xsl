@@ -160,6 +160,10 @@
             <field name="ir.creator_all"><xsl:value-of select="text()" /></field>
           </xsl:for-each>
           
+          <xsl:for-each select="mods:identifier[@type]">
+            <field name="ir.identifier">[<xsl:value-of select="@type" />]<xsl:value-of select="." /></field> 
+          </xsl:for-each>
+          
           <xsl:variable name="pubyear_start">
           <xsl:choose>
             <xsl:when test="mods:originInfo[@eventType='publication']">
