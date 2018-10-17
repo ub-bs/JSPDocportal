@@ -178,7 +178,7 @@
 		                       type: "group"
 	                       },
 				           {
-	                    	   id : "pdf_download",
+	                    	   id : "btn_pdf_download",
 	                    	   type : "button",
 	                    	   label : "buttons.pdf_download",
 	                    	   href : "${applicationScope.WebApplicationBaseURL}pdfdownload/recordIdentifier/${fn:replace(actionBean.recordIdentifier,'/','_')}",
@@ -191,6 +191,8 @@
 		                       label : "buttons.page_download",
 		                    
 		                       action : function(obj, evt){
+		                    	   <%-- Alternativ müsste man die Komponenten Liste des Viewer nach der MyCoReImageScrollComponent suchen. 
+                                        Diese hat das Property _currentImage --%>
 		                    	   			var s = $("div[data-id='ImageChangeControllGroup'] > select > option:selected");
 		                    	   			window.location.href="${applicationScope.WebApplicationBaseURL}depot/${fn:replace(actionBean.recordIdentifier,'/','_')}/images/"+s.data('id')+".jpg";
 		                       },
