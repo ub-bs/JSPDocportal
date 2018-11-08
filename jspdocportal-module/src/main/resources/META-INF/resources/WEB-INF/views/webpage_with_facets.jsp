@@ -139,12 +139,11 @@
                   <search:browse-classification categid="doctype:epub" mask="${mask}" facetField="ir.doctype_class.facet" />
                 </div>
               	<div class="col-md-3 col-12">
-                  <%--<search:browse-facet result="${result}" mask="${mask}" facetField="ir.sdnb_class.facet" /> --%>
-                  <search:browse-classification categid="ghb" mask="${mask}" facetField="ir.ghb_class.facet" />
+                  <search:browse-classification categid="SDNB" mask="${mask}"  facetField="ir.sdnb_class.facet" />
               	</div>
                 <div class="col-md-3 col-12">
                   <%--<search:browse-facet result="${result}" mask="${mask}" facetField="ir.institution_class.facet" /> --%>
-                  <search:browse-classification categid="institution:HS.NB.S" mask="${mask}" facetField="ir.institution_class.facet" />
+                  <search:browse-classification categid="institution:HSNB" mask="${mask}" facetField="ir.institution_class.facet" />
                 </div>
               </c:if>
           </c:if>
