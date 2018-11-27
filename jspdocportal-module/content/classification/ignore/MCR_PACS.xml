@@ -2,6 +2,7 @@
 <mycoreclass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="MCRClassification.xsd" ID="DocPortal_class_00000010">
 	<label xml:lang="en" text="PACS" description="Physics and Astronomy Classification Scheme" />
 	<categories>
+  
 		<category ID="00.">
 			<label xml:lang="de" text="00. General" />
 			<category ID="01.">
