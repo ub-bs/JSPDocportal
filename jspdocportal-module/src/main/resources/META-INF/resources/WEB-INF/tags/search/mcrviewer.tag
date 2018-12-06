@@ -17,7 +17,7 @@
 <%@ attribute name="doctype" required="true" type="java.lang.String" %>
 
 
-<iframe src="${applicationScope.WebApplicationBaseURL}content/mcrviewer_embedded.jsp?id=${id}&mcrid=${mcrid}&recordIdentifier=${recordIdentifier}&doctype=${doctype}"
+<iframe src="${applicationScope.WebApplicationBaseURL}content/mcrviewer_embedded.jsp?id=${id}&mcrid=${mcrid}&recordIdentifier=${recordIdentifier}&doctype=${doctype}&start=${param._mcrviewer_start}"
 style="width:100%; height:620px;border:none">
 </iframe>
 
@@ -102,10 +102,15 @@ style="width:100%; height:620px;border:none">
 			}
 		}
 		jspContext.setAttribute("startImage", "phys_0001");
-		XPathExpression<Element> xpCoverImage = XPathFactory.instance().compile("//irControl/map/entry[@key='start_image']", Filters.element());
-		for(Element e : xpCoverImage.evaluate(mcrObj.createXML())){
+        if(request.getParameter("_mcrviewer_start")!=null){
+            jspContext.setAttribute("startImage", request.getParameter("_mcrviewer_start"));
+        }
+        else{
+		  XPathExpression<Element> xpCoverImage = XPathFactory.instance().compile("//irControl/map/entry[@key='start_image']", Filters.element());
+		  for(Element e : xpCoverImage.evaluate(mcrObj.createXML())){
 		    jspContext.setAttribute("startImage", e.getTextTrim());
-		}
+		  }
+        }
 	}
 	catch(Exception e){
 	    //do nothing

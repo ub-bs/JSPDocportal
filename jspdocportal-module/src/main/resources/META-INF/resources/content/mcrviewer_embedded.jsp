@@ -107,6 +107,9 @@
       }
     }
     pageContext.setAttribute("startImage", "phys_0001");
+    if(request.getParameter("start")!=null && !request.getParameter("start").isEmpty()){
+        pageContext.setAttribute("startImage", request.getParameter("start"));
+    }
     XPathExpression<Element> xpCoverImage = XPathFactory.instance().compile("//irControl/map/entry[@key='start_image']", Filters.element());
     for(Element e : xpCoverImage.evaluate(mcrObj.createXML())){
         pageContext.setAttribute("startImage", e.getTextTrim());

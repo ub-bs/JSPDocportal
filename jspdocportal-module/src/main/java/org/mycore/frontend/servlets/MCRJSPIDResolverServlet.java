@@ -370,4 +370,96 @@ public class MCRJSPIDResolverServlet extends HttpServlet {
         LOGGER.debug("created DFG-ViewerURL: " + request.getContextPath() + " -> " + url);
         return url;
     }
+    
+    //TODO cleanup: first part (resolving from mets IDs) is the same as in method createURLForDFGViewer()
+    protected String createURLForMyCoReViewer(HttpServletRequest request, String mcrID, OpenBy openBy, String nr) {
+
+        StringBuffer sbURL = new StringBuffer(MCRFrontendUtil.getBaseURL() + "resolve/id/" + mcrID);
+        try {
+            MCRObject o = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID));
+            for (MCRMetaLinkID derMetaLink : o.getStructure().getDerivates()) {
+                if ("MCRVIEWER_METS".equals(derMetaLink.getXLinkTitle())) {
+                    MCRObjectID derID = derMetaLink.getXLinkHrefID();
+                    Path root = MCRPath.getPath(derID.toString(), "/");
+                    try (DirectoryStream<Path> ds = Files.newDirectoryStream(root)) {
+                        for (Path p : ds) {
+                            if (Files.isRegularFile(p) && p.getFileName().toString().endsWith(".mets.xml")) {
+                                Namespace nsMets = Namespace.getNamespace("mets", "http://www.loc.gov/METS/");
+                                Namespace nsXlink = Namespace.getNamespace("xlink", "http://www.w3.org/1999/xlink");
+                                Document docMETS = new MCRPathContent(p).asXML();
+
+                                Element eMETSPhysDiv = null;
+                                while (nr.startsWith("0")) {
+                                    nr = nr.substring(1);
+                                }
+                                if (!nr.isEmpty()) {
+                                    if (openBy == OpenBy.page) {
+                                        eMETSPhysDiv = XPathFactory.instance()
+                                            .compile("/mets:mets/mets:structMap[@TYPE='PHYSICAL']"
+                                                + "/mets:div[@TYPE='physSequence']/mets:div[starts-with(@ORDERLABEL, '"
+                                                + nr + "')]", Filters.element(), null, nsMets)
+                                            .evaluateFirst(docMETS);
+                                    } else if (openBy == OpenBy.nr) {
+                                        eMETSPhysDiv = XPathFactory.instance()
+                                            .compile("/mets:mets/mets:structMap[@TYPE='PHYSICAL']"
+                                                + "/mets:div[@TYPE='physSequence']/mets:div[@ORDER='" + nr
+                                                + "']", Filters.element(), null, nsMets)
+                                            .evaluateFirst(docMETS);
+                                    } else if (openBy == OpenBy.part) {
+                                        eMETSPhysDiv = XPathFactory.instance()
+                                            .compile(
+                                                "/mets:mets/mets:structMap[@TYPE='PHYSICAL']"
+                                                    + "//mets:div[@ID='" + nr + "']",
+                                                Filters.element(), null, nsMets)
+                                            .evaluateFirst(docMETS);
+                                        if (eMETSPhysDiv == null) {
+                                            Element eMETSLogDiv = XPathFactory.instance()
+                                                .compile(
+                                                    "/mets:mets/mets:structMap[@TYPE='LOGICAL']"
+                                                        + "//mets:div[@ID='" + nr + "']",
+                                                    Filters.element(), null, nsMets)
+                                                .evaluateFirst(docMETS);
+                                            if (eMETSLogDiv != null) {
+                                                Element eMETSSmLink = XPathFactory.instance().compile(
+                                                    "/mets:mets/mets:structLink" + "//mets:smLink[@xlink:from='"
+                                                        + eMETSLogDiv.getAttributeValue("ID") + "']",
+                                                    Filters.element(), null, nsMets, nsXlink)
+                                                    .evaluateFirst(docMETS);
+                                                if (eMETSSmLink != null) {
+                                                    eMETSPhysDiv = XPathFactory.instance()
+                                                        .compile(
+                                                            "/mets:mets/mets:structMap[@TYPE='PHYSICAL']"
+                                                                + "//mets:div[@ID='"
+                                                                + eMETSSmLink.getAttributeValue("to",
+                                                                    nsXlink)
+                                                                + "']",
+                                                            Filters.element(), null, nsMets)
+                                                        .evaluateFirst(docMETS);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                if (eMETSPhysDiv != null) {
+                                    sbURL.append("?_mcrviewer_start="+eMETSPhysDiv.getAttributeValue("ID"));
+                                }
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+
+        catch (Exception e) {
+            LOGGER.error("Error creating URL for DFG Viewer", e);
+            return "";
+        }
+        String url = sbURL.toString();
+        if (!url.contains(".dv.mets.xml")) {
+            url = url.replace("dfg-viewer.de/v3", "dfg-viewer.de/show");
+        }
+        LOGGER.debug("created DFG-ViewerURL: " + request.getContextPath() + " -> " + url);
+        return url;
+    }
 }
