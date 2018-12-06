@@ -164,6 +164,13 @@
             <field name="ir.identifier">[<xsl:value-of select="@type" />]<xsl:value-of select="." /></field> 
           </xsl:for-each>
           
+          <xsl:if test="mods:identifier[@type='openaire']">
+            <field name="ir.oai.setspec.openaire">openaire</field>
+          </xsl:if>
+          <xsl:if test="mods:classification[@displayLabel='accesscondition'][contains(@valueURI,'accesscondition#openaccess')]">
+             <field name="ir.oai.setspec.open_access">open_access</field>
+          </xsl:if>
+
           <xsl:variable name="pubyear_start">
           <xsl:choose>
             <xsl:when test="mods:originInfo[@eventType='publication']">
