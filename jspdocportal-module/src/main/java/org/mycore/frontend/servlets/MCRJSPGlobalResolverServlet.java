@@ -183,7 +183,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
         }
 
         String action = path[2];
-        if (action.equals("image") || action.equals("dfgviewer")) {
+        if (action.equals("dfgviewer")) {
             String url = "";
             if (path.length == 3 || path.length == 4) {
                 url = createURLForDFGViewer(request, mcrID, OpenBy.empty, "");
@@ -199,6 +199,27 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
             }
             if (url.length() > 0) {
                 LOGGER.debug("DFGViewer URL: " + url);
+                response.sendRedirect(url);
+            }
+            return;
+        }
+        
+        if (action.equals("image")) {
+            String url = "";
+            if (path.length == 3 || path.length == 4) {
+                url = createURLForMyCoReViewer(request, mcrID, OpenBy.empty, "");
+            }
+            if (path.length > 4 && path[3].equals("page")) {
+                url = createURLForMyCoReViewer(request, mcrID, OpenBy.page, path[4]);
+            }
+            if (path.length > 4 && path[3].equals("nr")) {
+                url = createURLForMyCoReViewer(request, mcrID, OpenBy.nr, path[4]);
+            }
+            if (path.length > 4 && path[3].equals("part")) {
+                url = createURLForMyCoReViewer(request, mcrID, OpenBy.part, path[4]);
+            }
+            if (url.length() > 0) {
+                LOGGER.debug("MyCoReViewer URL: " + url);
                 response.sendRedirect(url);
             }
             return;

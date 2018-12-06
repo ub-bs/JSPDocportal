@@ -96,10 +96,15 @@
 			}
 		}
 		jspContext.setAttribute("startImage", "phys_0001");
-		XPathExpression<Element> xpCoverImage = XPathFactory.instance().compile("//irControl/map/entry[@key='start_image']", Filters.element());
-		for(Element e : xpCoverImage.evaluate(mcrObj.createXML())){
+        if(request.getParameter("_mcrviewer_start")!=null){
+            jspContext.setAttribute("startImage", request.getParameter("_mcrviewer_start"));
+        }
+        else{
+		  XPathExpression<Element> xpCoverImage = XPathFactory.instance().compile("//irControl/map/entry[@key='start_image']", Filters.element());
+		  for(Element e : xpCoverImage.evaluate(mcrObj.createXML())){
 		    jspContext.setAttribute("startImage", e.getTextTrim());
-		}
+		  }
+        }
 	}
 	catch(Exception e){
 	    //do nothing
