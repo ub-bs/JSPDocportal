@@ -65,6 +65,22 @@
 	},
 	{
 		"add-field": {
+			"name": "ir.oai.setspec.openaire",
+			"type": "string",
+			"multiValued": true,
+			"stored": true
+		}
+	},
+	{
+		"add-field": {
+			"name": "ir.oai.setspec.open_access",
+			"type": "string",
+			"multiValued": true,
+			"stored": true
+		}
+	},
+	{
+		"add-field": {
 			"name": "ir.doctype_class.facet",
 			"type": "string",
 			"multiValued": true,
