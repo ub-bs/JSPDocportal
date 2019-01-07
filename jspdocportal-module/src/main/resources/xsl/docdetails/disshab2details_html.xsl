@@ -24,14 +24,13 @@
           </th>
           <td>
             <table class="ir-table-docdetails-values">
-              <tr>
-                <td>
-                  <xsl:variable name="classlink"
-                    select="mcrmods:getClassCategLink(mods:classification[@displayLabel='institution'])" />
-                  <xsl:value-of
-                    select="document($classlink)/mycoreclass/categories/category/label[@xml:lang='de']/@text" />
-                </td>
-              </tr>
+                 <xsl:for-each select="mods:classification[@displayLabel='institution']/@valueURI">
+                  <tr><td>
+                  <xsl:call-template name="classLabel">
+                    <xsl:with-param name="valueURI"><xsl:value-of select="." /></xsl:with-param>
+                  </xsl:call-template>
+                  </td></tr>
+                  </xsl:for-each>
             </table>
           </td>
         </tr>
@@ -147,6 +146,22 @@
           <td>
             <table class="ir-table-docdetails-values">
                   <xsl:for-each select="mods:classification[@displayLabel='sdnb' or @displayLabel='SDNB']/@valueURI">
+                  <tr><td>
+                  <xsl:call-template name="classLabel">
+                    <xsl:with-param name="valueURI"><xsl:value-of select="." /></xsl:with-param>
+                  </xsl:call-template>
+                  </td></tr>
+                  </xsl:for-each>
+            </table>
+          </td>
+        </tr>
+        </xsl:if>
+         <xsl:if test="mods:classification[@displayLabel='ghb']/@valueURI">
+        <tr>
+          <th><xsl:value-of select="i18n:translate('OMD.ghb-class')" /> :</th>
+          <td>
+            <table class="ir-table-docdetails-values">
+                  <xsl:for-each select="mods:classification[@displayLabel='ghb']/@valueURI">
                   <tr><td>
                   <xsl:call-template name="classLabel">
                     <xsl:with-param name="valueURI"><xsl:value-of select="." /></xsl:with-param>
