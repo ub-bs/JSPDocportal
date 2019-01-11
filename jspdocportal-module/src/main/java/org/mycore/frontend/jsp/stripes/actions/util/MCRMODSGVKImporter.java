@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -65,7 +64,6 @@ public class MCRMODSGVKImporter {
                         return;
                     }
                 }
-
             }
             
             Element eRecordInfo = XP_RECORD_ID.evaluateFirst(docJdom);
@@ -129,7 +127,7 @@ public class MCRMODSGVKImporter {
     private static Element transformPica2MODS(Element ePica) {
         MCRContent modsResult;
         try {
-            MCRXSLTransformer transformer = new MCRXSLTransformer(MCRConfiguration.instance().getString("MCR.Editor.Pica2MODS.xslt"));
+            MCRXSLTransformer transformer = new MCRXSLTransformer(MCRConfiguration.instance().getString("MCR.Workflow.Pica2MODS.XSLT"));
            // Transformer transformer = TransformerFactory.newInstance().newTransformer();
             modsResult = transformer.transform(new MCRJDOMContent(ePica));
             return modsResult.asXML().getRootElement();
@@ -142,7 +140,7 @@ public class MCRMODSGVKImporter {
     private static Element retrievePicaXMLByURN(String urn) {
         Element e = null;
         try {
-            String sruBaseURL = MCRConfiguration.instance().getString("MCR.Editor.Pica2MODS.sru-url");
+            String sruBaseURL = MCRConfiguration.instance().getString("MCR.Workflow.Pica2MODS.SRU.URL");
             URL urlSRU = new URL(sruBaseURL + "&recordSchema=picaxml&query=pica.urn%3D" + urn);
             BufferedReader br = new BufferedReader(new InputStreamReader(urlSRU.openStream(), "UTF-8"));
 
@@ -172,7 +170,7 @@ public class MCRMODSGVKImporter {
     private static Element retrievePicaXMLByPURL(String recordIdentifer) {
         Element e = null;
         try {
-            String sruBaseURL = MCRConfiguration.instance().getString("MCR.Editor.Pica2MODS.sru-url");
+            String sruBaseURL = MCRConfiguration.instance().getString("MCR.Workflow.Pica2MODS.SRU.URL");
             URL urlSRU = new URL(sruBaseURL + "&recordSchema=picaxml&query=pica.url%3Dpurl*" + recordIdentifer.replace("/", ""));
             BufferedReader br = new BufferedReader(new InputStreamReader(urlSRU.openStream(), "UTF-8"));
 
@@ -193,19 +191,22 @@ public class MCRMODSGVKImporter {
     private static Element retrievePicaXMLByMyCoReID(String mcrID) {
         Element e = null;
         try {
-            String sruBaseURL = MCRConfiguration.instance().getString("MCR.Editor.Pica2MODS.sru-url");
-            URL urlSRU = new URL(sruBaseURL + "&recordSchema=picaxml&query=pica.url%3Drosdok*resolveid" + mcrID.replace("_", ""));
-            BufferedReader br = new BufferedReader(new InputStreamReader(urlSRU.openStream(), "UTF-8"));
+            String sruBaseURL = MCRConfiguration.instance().getString("MCR.Workflow.Pica2MODS.SRU.URL");
+            String urlQueryPrefix = MCRConfiguration.instance()
+                    .getString("MCR.Workflow.Pica2MODS.SRU.ResolvingURL.QueryValue.Prefix");
 
-            Document docJdom = new SAXBuilder().build(br, "UTF-8");
-            br.close();
-
-            Namespace nsZS = Namespace.getNamespace("zs", "http://www.loc.gov/zing/srw/");
-            e = ((List<Element>) docJdom.getRootElement().getChild("records", nsZS).getChild("record", nsZS)
+            URL urlSRU = new URL(
+                    sruBaseURL + "&recordSchema=picaxml&query=pica.url%3D" + urlQueryPrefix + mcrID.replace("_", ""));
+            try(BufferedReader br = new BufferedReader(new InputStreamReader(urlSRU.openStream(), "UTF-8"))){
+                Document docJdom = new SAXBuilder().build(br, "UTF-8");
+                
+                Namespace nsZS = Namespace.getNamespace("zs", "http://www.loc.gov/zing/srw/");
+                e = ((List<Element>) docJdom.getRootElement().getChild("records", nsZS).getChild("record", nsZS)
                     .getChild("recordData", nsZS).getChildren()).get(0);
-            e = (Element) e.detach();
-        } catch ( JDOMException | IOException | NullPointerException ex) {
-        	//do nothing
+                e = (Element) e.detach();
+            }
+        } catch (JDOMException | IOException | NullPointerException ex) {
+            // do nothing
         }
         return e;
     }
@@ -213,7 +214,7 @@ public class MCRMODSGVKImporter {
     private static Element retrievePicaXMLByPPN(String ppn) {
         Element e = null;
         try {
-            String sruBaseURL = MCRConfiguration.instance().getString("MCR.Editor.Pica2MODS.sru-url");
+            String sruBaseURL = MCRConfiguration.instance().getString("MCR.Workflow.Pica2MODS.SRU.URL");
             URL urlSRU = new URL(sruBaseURL + "&recordSchema=picaxml&query=pica.ppn%3D" + ppn);
             BufferedReader br = new BufferedReader(new InputStreamReader(urlSRU.openStream(), "UTF-8"));
 

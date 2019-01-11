@@ -113,7 +113,7 @@
                                               <div class="col">
 												<c:if test="${not fn:contains(currentVariables.mcrObjectID,'_person_')}">
                                                    <%pageContext.setAttribute("pica3URL", MCRConfiguration.instance().getString("MCR.Workflow.Pica3Import.URL", "")); %>
-                        							<a id="workspace_button_pica3_import" href="${pica3URL}?urn=${currentVariables.wfObjectDisplayPersistentIdentifier}&recordIdentifier=${currentVariables.wfObjectDisplayRecordIdentifier}" 
+                        							<a id="workspace_button_pica3_import" href="${pica3URL}?urn=${currentVariables.wfObjectDisplayPersistentIdentifier}&recordIdentifier=${currentVariables.wfObjectDisplayRecordIdentifier}&mcrid=${currentVariables.mcrObjectID}" 
 												   	   class="btn btn-sm ir-btn-metadata" target="_blank"><i class="fas fa-book"></i> <fmt:message key="WF.workspace.button.pica3" />
 													</a>
 							     					<button id="workspace_button_mods_from_opac" class="btn btn-sm ir-btn-metadata" type="button" data-toggle="collapse" data-target="#import_mods-dialog-task_${currentTask.id}">
