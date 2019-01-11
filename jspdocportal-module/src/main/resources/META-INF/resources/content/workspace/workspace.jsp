@@ -1,4 +1,5 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html;charset=UTF-8"%>
+<%@page import="org.mycore.common.config.MCRConfiguration"%>
 <%@page import="org.activiti.engine.task.Task"%>
 <%@page import="org.mycore.activiti.MCRActivitiMgr"%>
 <%@page import="org.mycore.frontend.servlets.MCRServlet"%>
@@ -111,7 +112,8 @@
 											<div class="row">
                                               <div class="col">
 												<c:if test="${not fn:contains(currentVariables.mcrObjectID,'_person_')}">
-													<a id="workspace_button_pica3_import" href="${fn:replace(WebApplicationBaseURL, '.de/rosdok', '.de')}pubform/pica3?urn=${currentVariables.wfObjectDisplayPersistentIdentifier}&recordIdentifier=${currentVariables.wfObjectDisplayRecordIdentifier}" 
+                                                   <%pageContext.setAttribute("pica3URL", MCRConfiguration.instance().getString("MCR.Workflow.Pica3Import.URL", "")); %>
+                        							<a id="workspace_button_pica3_import" href="${pica3URL}?urn=${currentVariables.wfObjectDisplayPersistentIdentifier}&recordIdentifier=${currentVariables.wfObjectDisplayRecordIdentifier}" 
 												   	   class="btn btn-sm ir-btn-metadata" target="_blank"><i class="fas fa-book"></i> <fmt:message key="WF.workspace.button.pica3" />
 													</a>
 							     					<button id="workspace_button_mods_from_opac" class="btn btn-sm ir-btn-metadata" type="button" data-toggle="collapse" data-target="#import_mods-dialog-task_${currentTask.id}">
