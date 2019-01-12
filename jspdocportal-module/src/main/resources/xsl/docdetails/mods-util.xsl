@@ -101,19 +101,19 @@
       <xsl:with-param name="name" select="." />
     </xsl:call-template>
 
-    <xsl:if test="position()!=last() or ./../mods:name[@type='corporate']">
+    <xsl:if test="position()!=last() or ./../mods:name[@type='corporate'][not(contains('dgg', ./mods:role/mods:roleTerm[@type='code']/text()))]">
       <xsl:text>&#160;;&#160;&#160;</xsl:text>
     </xsl:if>
    </xsl:for-each>
    
-   <xsl:for-each select="./mods:name[@type='corporate']">
-       <xsl:call-template name="display-name">
-        <xsl:with-param name="name" select="." />
-        </xsl:call-template>
+   <xsl:for-each select="./mods:name[@type='corporate'][not(contains('dgg', ./mods:role/mods:roleTerm[@type='code']/text()))]">
+     <xsl:call-template name="display-name">
+       <xsl:with-param name="name" select="." />
+     </xsl:call-template>
        
-       <xsl:if test="position()!=last()">
-      <xsl:text>&#160;;&#160;&#160;</xsl:text>
-    </xsl:if>
+     <xsl:if test="position()!=last()">
+       <xsl:text>&#160;;&#160;&#160;</xsl:text>
+     </xsl:if>
     </xsl:for-each>
    
 </xsl:template>
