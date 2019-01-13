@@ -25,6 +25,7 @@ public class MCRJSPDocportalIRModuleStarter  implements MCRStartupHandler.AutoEx
     public void startUp(ServletContext servletContext) {
         if (servletContext != null && MCRImageTiler.isRunning()) {
             LOGGER.info("JSPDocportal is going to shutdown Image Viewer Tiling Thread.");
+            MCRImageTiler.getInstance().prepareClose();
             MCRImageTiler.getInstance().close();
         }
     }
