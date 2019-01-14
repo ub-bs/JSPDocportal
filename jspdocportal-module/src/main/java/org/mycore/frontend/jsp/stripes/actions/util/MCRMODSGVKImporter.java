@@ -193,10 +193,10 @@ public class MCRMODSGVKImporter {
         try {
             String sruBaseURL = MCRConfiguration.instance().getString("MCR.Workflow.Pica2MODS.SRU.URL");
             String urlQueryPrefix = MCRConfiguration.instance()
-                    .getString("MCR.Workflow.Pica2MODS.SRU.ResolvingURL.QueryValue.Prefix");
+                    .getString("MCR.Workflow.Pica2MODS.SRU.ResolvingURL.Query.Prefix");
 
             URL urlSRU = new URL(
-                    sruBaseURL + "&recordSchema=picaxml&query=pica.url%3D" + urlQueryPrefix + mcrID.replace("_", ""));
+                    sruBaseURL + "&recordSchema=picaxml&query=" + urlQueryPrefix + mcrID.replace("_", ""));
             try(BufferedReader br = new BufferedReader(new InputStreamReader(urlSRU.openStream(), "UTF-8"))){
                 Document docJdom = new SAXBuilder().build(br, "UTF-8");
                 
