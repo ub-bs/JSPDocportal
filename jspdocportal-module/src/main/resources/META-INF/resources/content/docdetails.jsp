@@ -73,7 +73,7 @@
  					affi_html = $('<div>')
  						.append($('<strong>').append('Einrichtung:')).append('<br>').append($(html).data('mcr-value-affiliation'));
  				}
-     		return $('<div>').append('<div style="color:darkred;margin-right:-15px;margin-top:-40px" class="btn btn-xs pull-right" onclick="hidePopover(this);"><i class="fa fa-times"></i></div>')
+     		return $('<div>').append('<div style="color:darkred;margin-right:-15px;margin-top:-45px" class="btn btn-xs float-right" onclick="hidePopover(this);"><i class="fa fa-times"></i></div>')
      		.append(gnd_html).append(sep_html).append(affi_html);
      	}
      	
