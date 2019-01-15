@@ -16,7 +16,7 @@
    		<script src="${pageContext.request.contextPath}/webjars/ckeditor/4.4.7-1/standard/adapters/jquery.js"></script>
 	</stripes:layout-component>
 	
-	<stripes:layout-component name="contents">
+	<stripes:layout-component name="main_part">
 		<div class="ir-box">
 			<h2><fmt:message key="Webpage.editwebcontent.form.headline" /></h2>
 			<p><strong>Datei: ${actionBean.file}</strong></p>
