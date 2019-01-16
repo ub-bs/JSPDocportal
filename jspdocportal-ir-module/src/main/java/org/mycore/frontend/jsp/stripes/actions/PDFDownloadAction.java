@@ -21,7 +21,7 @@
  * 59 Temple Place - Suite 330, Boston, MA  02111-1307 USA
  * 
  */
-package org.mycore.frontend.jsp.pdfdownload.action;
+package org.mycore.frontend.jsp.stripes.actions;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -56,7 +56,7 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.StreamingResolution;
 import net.sourceforge.stripes.action.UrlBinding;
 
-@UrlBinding("/pdfdownload/recordIdentifier")
+@UrlBinding("/actions/pdfdownload/recordIdentifier")
 public class PDFDownloadAction implements ActionBean {
     public static final String SESSION_ATTRIBUTE_PROGRESS_PREFIX = "pdfdownload_progress_";
 
@@ -93,7 +93,7 @@ public class PDFDownloadAction implements ActionBean {
     @DefaultHandler
     public Resolution defaultResolution() {
         requestURL = getContext().getRequest().getRequestURL().toString();
-        String path = getContext().getRequest().getPathInfo().replace("/pdfdownload/recordIdentifier", "").replace("..",
+        String path = getContext().getRequest().getPathInfo().replace("/actions/pdfdownload/recordIdentifier", "").replace("..",
                 "");
         while (path.startsWith("/")) {
             path = path.substring(1);
