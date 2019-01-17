@@ -3,7 +3,7 @@
   xmlns:mcrxml="xalan://org.mycore.common.xml.MCRXMLFunctions"
   xmlns:mcrmods="xalan://org.mycore.mods.classification.MCRMODSClassificationSupport"
   xmlns:xlink="http://www.w3.org/1999/xlink" exclude-result-prefixes="mods xlink">
-  <xsl:import href="xslImport:solr-document:solr/jspdocportal-solr.xsl" />
+  <xsl:import href="xslImport:solr-document:solr/jspdocportal-ir-solr.xsl" />
 
   <xsl:template match="mycoreobject">
     <xsl:apply-imports />
