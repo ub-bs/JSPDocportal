@@ -362,19 +362,6 @@
     <url-pattern>/servlets/MCRSearchmaskDataServlet</url-pattern>
   </servlet-mapping>
   
-  <servlet>
-    <servlet-name>MCRJSPTileServlet</servlet-name>
-    <servlet-class>org.mycore.frontend.servlets.tileserver.MCRTileServlet</servlet-class>
-    <init-param>
-      <param-name>tileFileProvider</param-name>
-      <param-value>org.mycore.frontend.servlets.MCRJSPTileFileProvider</param-value>
-    </init-param>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>MCRJSPTileServlet</servlet-name>
-    <url-pattern>/tiles/*</url-pattern>
-  </servlet-mapping>
-  
   <!-- **************************************************************** -->
   <!-- Servlet to deliver static webcontent                           * -->
   <!-- **************************************************************** -->
