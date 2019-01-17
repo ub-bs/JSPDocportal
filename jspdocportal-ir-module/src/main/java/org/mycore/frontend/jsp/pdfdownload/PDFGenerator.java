@@ -51,7 +51,6 @@ import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.MCRFrontendUtil;
-import org.mycore.frontend.jsp.pdfdownload.action.PDFDownloadAction;
 import org.mycore.frontend.jsp.pdfdownload.util.PDFFrontpageUtil;
 import org.mycore.frontend.jsp.pdfdownload.util.PDFTOCUtil;
 
@@ -73,6 +72,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 public class PDFGenerator implements Runnable {
     public static int DEFAULT_DPI = 300;
     public static int BORDER = 55; // 2cm (72dpi)
+    public static final String SESSION_ATTRIBUTE_PROGRESS_PREFIX = "pdfdownload_progress_";
 
     private static Namespace NS_METS = Namespace.getNamespace("mets", "http://www.loc.gov/METS/");
     private static Namespace NS_XLINK = Namespace.getNamespace("xlink", "http://www.w3.org/1999/xlink");
@@ -92,7 +92,7 @@ public class PDFGenerator implements Runnable {
     }
 
     public void run() {
-        ctx.setAttribute(PDFDownloadAction.SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier, 0);
+        ctx.setAttribute(SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier, 0);
         Path baseDir = dataDir;
         Path ocrDir = baseDir.resolve("ocrpdf");
         if (Files.exists(ocrDir)) {
@@ -149,7 +149,7 @@ public class PDFGenerator implements Runnable {
                 }
                 copy.freeReader(reader);
                 reader.close();
-                ctx.setAttribute(PDFDownloadAction.SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier,
+                ctx.setAttribute(SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier,
                         (i + 1) * 100 / imageFiles.length);
 
                 // this is just for debgging
@@ -163,7 +163,7 @@ public class PDFGenerator implements Runnable {
             document.close();
 
             Files.move(tmpFile, pdfOutFile, StandardCopyOption.REPLACE_EXISTING);
-            ctx.setAttribute(PDFDownloadAction.SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier, 101);
+            ctx.setAttribute(SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier, 101);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (DocumentException e) {
@@ -198,7 +198,7 @@ public class PDFGenerator implements Runnable {
                 document.newPage();
 
                 document.add(img);
-                ctx.setAttribute(PDFDownloadAction.SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier,
+                ctx.setAttribute(SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier,
                         (i + 1) * 100 / imageFiles.length);
                 try {
                     Thread.sleep(100);
@@ -211,14 +211,14 @@ public class PDFGenerator implements Runnable {
             writer.close();
 
             Files.move(tmpFile, pdfOutFile, StandardCopyOption.REPLACE_EXISTING);
-            ctx.setAttribute(PDFDownloadAction.SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier, 101);
+            ctx.setAttribute(SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier, 101);
         } catch (IOException e) {
             e.printStackTrace();
-            ctx.removeAttribute(PDFDownloadAction.SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier);
+            ctx.removeAttribute(SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier);
 
         } catch (DocumentException e) {
             e.printStackTrace();
-            ctx.removeAttribute(PDFDownloadAction.SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier);
+            ctx.removeAttribute(SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier);
         }
     }
 
@@ -226,7 +226,7 @@ public class PDFGenerator implements Runnable {
         List<String> imgURLs = new ArrayList<String>();
 
         org.jdom2.Document metsXML = null;
-        ctx.setAttribute(PDFDownloadAction.SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier, 1);
+        ctx.setAttribute(SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier, 1);
 
         try {
             MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrid));
@@ -274,7 +274,7 @@ public class PDFGenerator implements Runnable {
                 document.newPage();
 
                 document.add(img);
-                ctx.setAttribute(PDFDownloadAction.SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier,
+                ctx.setAttribute(SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier,
                         (i + 1) * 100 / imgURLs.size());
                 try {
                     Thread.sleep(100);
@@ -290,10 +290,10 @@ public class PDFGenerator implements Runnable {
             writer.close();
 
             Files.move(tmpFile, pdfOutFile, StandardCopyOption.REPLACE_EXISTING);
-            ctx.setAttribute(PDFDownloadAction.SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier, 101);
+            ctx.setAttribute(SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier, 101);
         } catch (IOException | JDOMException | DocumentException e) {
             e.printStackTrace();
-            ctx.removeAttribute(PDFDownloadAction.SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier);
+            ctx.removeAttribute(SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier);
         }
     }
 }

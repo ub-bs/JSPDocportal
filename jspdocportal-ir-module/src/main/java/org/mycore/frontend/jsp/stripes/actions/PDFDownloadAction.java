@@ -58,8 +58,6 @@ import net.sourceforge.stripes.action.UrlBinding;
 
 @UrlBinding("/actions/pdfdownload/recordIdentifier")
 public class PDFDownloadAction implements ActionBean {
-    public static final String SESSION_ATTRIBUTE_PROGRESS_PREFIX = "pdfdownload_progress_";
-
     private List<String> errorMessages = new ArrayList<String>();
 
     private Path depotDir;
@@ -146,7 +144,7 @@ public class PDFDownloadAction implements ActionBean {
                 String mcrid = String.valueOf(solrResults.get(0).getFirstValue("returnId"));
 
                 if (!ready && getProgress() < 0) {
-                    getContext().getServletContext().setAttribute(SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier,
+                    getContext().getServletContext().setAttribute(PDFGenerator.SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier,
                             0);
                     PDFGeneratorService.execute(new PDFGenerator(resultPDF,
                             HashedDirectoryStructure.createOutputDirectory(depotDir, recordIdentifier),
@@ -155,7 +153,7 @@ public class PDFDownloadAction implements ActionBean {
 
                 if (getProgress() > 100) {
                     getContext().getServletContext()
-                            .removeAttribute(SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier);
+                            .removeAttribute(PDFGenerator.SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier);
                 }
 
             } else {
@@ -182,7 +180,7 @@ public class PDFDownloadAction implements ActionBean {
 
     public int getProgress() {
         Integer num = (Integer) getContext().getServletContext()
-                .getAttribute(SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier);
+                .getAttribute(PDFGenerator.SESSION_ATTRIBUTE_PROGRESS_PREFIX + recordIdentifier);
         if (num == null) {
             return -1;
         } else {
