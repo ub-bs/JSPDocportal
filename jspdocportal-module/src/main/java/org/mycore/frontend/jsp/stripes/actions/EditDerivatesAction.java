@@ -189,7 +189,7 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
         MCRObject mcrObj = MCRActivitiUtils.loadMCRObjectFromWorkflowDirectory(MCRObjectID.getInstance(mcrobjid));
         for (MCRMetaLinkID link : mcrObj.getStructure().getDerivates()) {
             if (link.getXLinkHrefID().equals(der.getId())) {
-                link.setXLinkLabel(label);
+                link.setXLinkTitle(label);
                 break;
             }
         }
