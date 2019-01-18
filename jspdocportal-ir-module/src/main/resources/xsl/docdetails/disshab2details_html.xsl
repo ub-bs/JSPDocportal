@@ -213,11 +213,7 @@
       </table>
       
       <table class="ir-table-docdetails">
-        <tr>
-          <th><xsl:value-of select="i18n:translate('OMD.ir.identifiers')" /> :</th>
-          <td>
-            <table class="ir-table-docdetails-values">
-              <xsl:for-each select="./mods:identifier[@type='doi']">
+            <xsl:for-each select="./mods:identifier[@type='doi']">
                <tr><th>DOI:</th>
                    <td>
                      <xsl:value-of select="./text()"/>
@@ -234,7 +230,7 @@
                    <td>
                      <xsl:value-of select="./text()"/>
                        <xsl:element name="a">
-                         <xsl:attribute name="href">https://nbn-resolving.org/<xsl:value-of select="./text()" /></xsl:attribute>
+                         <xsl:attribute name="href">https://nbn-resolving.org/process-urn-form?verb=FULL&identifier=<xsl:value-of select="./text()" /></xsl:attribute>
                          <xsl:attribute name="title">URN, registriert bei der Deutschen Nationalbibliothek</xsl:attribute>
                          <xsl:attribute name="class">pl-3 btn btn-sm btn-link ir-docdetails-btn-info</xsl:attribute>
                          <i class="fas fa-external-link-alt">&#160;</i>
@@ -265,9 +261,6 @@
                        </xsl:element>
                   </td></tr>
               </xsl:for-each>
-            </table>
-          </td>
-        </tr>
       </table>
     </xsl:for-each>
   

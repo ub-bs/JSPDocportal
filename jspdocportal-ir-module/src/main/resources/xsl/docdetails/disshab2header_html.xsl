@@ -40,11 +40,11 @@
 					       </p>
                          </xsl:when>
 				         <xsl:otherwise>
-                            <xsl:if test="./mods:url[@access='object in context']">
+                            <xsl:if test="./mods:location/mods:url[@access='object in context']">
                                 <p>
                                 <xsl:element name="a">
-                                  <xsl:attribute name="href"><xsl:value-of select="./mods:url[@access='object in context']" /></xsl:attribute>
-                                  <xsl:value-of select="./mods:url[@access='object in context']" />
+                                  <xsl:attribute name="href"><xsl:value-of select="./mods:location/mods:url[@access='object in context']" /></xsl:attribute>
+                                  <xsl:value-of select="./mods:location/mods:url[@access='object in context']" />
                                 </xsl:element>
                               </p>
                             </xsl:if>
@@ -53,7 +53,7 @@
                 </xsl:otherwise>
                 </xsl:choose>
                 <xsl:if test="./mods:abstract">
-                  <p class="ir-docdetails-abstract">
+                  <p class="small ir-docdetails-abstract">
                     <xsl:value-of select="./mods:abstract" />
                   </p>
               </xsl:if>
