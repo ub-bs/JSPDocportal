@@ -64,9 +64,9 @@
 							<label class="ml-3"><fmt:message key="WF.workspace.label.publish_all" /></label>
 						</div>
 					</div>
-  					<div class="card-body">
+  					<div class="card-body p-0">
     					<c:forEach var="task" items="${actionBean.myTasks}" >
-							<div class="card border border-primary" id="task_${task.id}">
+							<div class="card border border-primary m-3" id="task_${task.id}">
                                <div class="card-header">
                                   <div class="row">
                                     <div class="col-6">
@@ -161,9 +161,9 @@
   				  <div class="card-header bg-dark">
     				<h3><fmt:message key="WF.workspace.info.headline.available_tasks" /></h3>
   				   </div>
-  				   <div class="card-body">
+  				   <div class="card-body p-0">
   						<c:forEach var="task" items="${actionBean.availableTasks}">
-							<div class="card border border-secondary" id="available_task_${task.id}">
+							<div class="card border border-secondary m-3" id="available_task_${task.id}">
 								<div class="card-header">
 									<button class="btn ir-btn-metadata btn-sm float-right" name="doAcceptTask-task_${task.id}"><fmt:message key="WF.workspace.submit.accept_task" /></button>
 									<span class="btn btn-none btn-sm float-right"><strong><fmt:message key="WF.workspace.start" /> </strong><fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${task.createTime}" /></span>
