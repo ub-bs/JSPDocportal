@@ -295,54 +295,65 @@
        
        <%--Download Area --%>
        <div style="margin-bottom:30px;">
-         <x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='fulltext']">
+         <x:forEach select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='fulltext']">
             <a class="btn btn-primary ir-button-download"  
                href="${WebApplicationBaseURL}resolve/id/${mcrid}/file/fulltext" target="_blank">
-              <img style="vertical-align:middle;height:30px;" src="${WebApplicationBaseURL}images/download_pdf.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
-              <fmt:message key="Webpage.docdetails.pdfdownload" />
+                <c:set var="mesKey">OMD.derivatedisplay.<x:out select="@xlink:title"/></c:set>
+                    <img align="left" src="${WebApplicationBaseURL}images/download_pdf.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
+                    <strong><fmt:message key="${mesKey}" /></strong>
+                    <c:set var="url">${WebApplicationBaseURL}api/v1/objects/<x:out select="$doc/mycoreobject/@ID" />/derivates/<x:out select="./@xlink:href" />/contents</c:set>
+                    <c:import var="derXML" url="${url}"/>
+                    <x:parse xml="${derXML}" var="derDoc"/>
+                    <x:set var="derLink" select="$derDoc//children/child[1]" />
+                      <x:if select="$derLink">
+                        <br />
+                        <small>
+                          <x:out select="$derLink/name" />&nbsp;&nbsp;&nbsp;(<x:out select="round($derLink/size div 1024 div 1024 * 10) div 10" /> MB)<br />
+                        </small>
+                    </x:if>
             </a>
-         </x:if>
+         </x:forEach>
          <x:if select="$doc/mycoreobject[not(contains(@ID,'_bundle_'))]/structure/derobjects/derobject[@xlink:title='DV_METS' or @xlink:title='METS']">
            <c:set var="recordID"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier[@source='DE-28']" /></c:set>
            <c:if test="${not empty recordID}">
              <a class="btn btn-primary ir-button-download"  
                  href="${WebApplicationBaseURL}pdfdownload/recordIdentifier/${fn:replace(recordID, '/','_')}" target="_blank">
-                <img style="vertical-align:middle;height:30px;" src="${WebApplicationBaseURL}images/download_pdf.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
-                 &nbsp;<fmt:message key="Webpage.docdetails.pdfdownload" />
+                <img align="left"" src="${WebApplicationBaseURL}images/download_pdf.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
+                 <strong><fmt:message key="Webpage.docdetails.pdfdownload" /></strong>
              </a>
            </c:if>
          </x:if>
          <x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='DV_METS' or @xlink:title='METS']">
            <a class="btn btn-primary ir-button-download"  
               href="${WebApplicationBaseURL}resolve/id/${mcrid}/dfgviewer" target="_blank">
-              <img style="height: 24px; margin: 3px 0px;" src="${WebApplicationBaseURL}images/dfgviewerLogo.svg" title = "<fmt:message key="Webpage.docdetails.dfgviewer" />" />
+              <img style="height: 24px; margin: 3px 0px;float:left" src="${WebApplicationBaseURL}images/dfgviewerLogo.svg" title = "<fmt:message key="Webpage.docdetails.dfgviewer" />" />
            </a>
          </x:if>
        
-         <x:forEach select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='data' or @xlink:title='documentation' ]">
-           <c:set var="url">${WebApplicationBaseURL}api/v1/objects/<x:out select="/mycoreobject/@ID" />/derivates/<x:out select="./@xlink:href" />/contents</c:set>
+         <x:forEach select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='data' or @xlink:title='documentation' or @xlink:title='supplement' ]">
+             <c:set var="url">${WebApplicationBaseURL}api/v1/objects/<x:out select="/mycoreobject/@ID" />/derivates/<x:out select="./@xlink:href" />/contents</c:set>
              <c:import var="derXML" url="${url}"/>
              <x:parse xml="${derXML}" var="derDoc"/>
              <x:set var="derLink" select="$derDoc//children/child[1]" />
              <x:if select="$derLink">
-               <a class="btn btn-primary ir-button-download" style="text-align:left" title="MD5: <x:out select="$derLink/md5" />" 
+               <a class="btn btn-secondary ir-button-download mt-3" style="text-align:left" title="MD5: <x:out select="$derLink/md5" />" 
                   href="<x:out select="$derLink/@href" />" target="_blank">
                   <x:choose>
                     <x:when select="contains($derLink/@href, '.zip')">
-                      <img style="vertical-align:middle;height: 38px;margin-right:12px;float:left" src="${WebApplicationBaseURL}images/download_zip.png" />  
+                      <img align="left" src="${WebApplicationBaseURL}images/download_zip.png" />  
                     </x:when>
                     <x:when select="contains($derLink/@href, '.pdf')">
-                     <img style="vertical-align:middle;height: 38px;margin-right:12px;float:left" src="${WebApplicationBaseURL}images/download_pdf.png" />  
+                     <img align="left" src="${WebApplicationBaseURL}images/download_pdf.png" />  
                     </x:when>
                     <x:otherwise>
-                      <img style="vertical-align:middle;height: 38px;margin-right:12px;float:left" src="${WebApplicationBaseURL}images/download_other.png" />
+                      <img align="left" src="${WebApplicationBaseURL}images/download_other.png" />
                     </x:otherwise>
                   </x:choose>
                   <c:set var="mesKey">OMD.derivatedisplay.<x:out select="@xlink:title"/></c:set>
                     <strong><fmt:message key="${mesKey}" /></strong><br />
-                    <span style="font-size: 85%">
+                    <small>
                       <x:out select="$derLink/name" />&nbsp;&nbsp;&nbsp;(<x:out select="round($derLink/size div 1024 div 1024 * 10) div 10" /> MB)<br />
-                    </span>
+                    </small>
                </a>
             </x:if>
           </x:forEach>
@@ -356,20 +367,20 @@
 								<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='PPN']">
 									<c:set var="ppn"><x:out select="$x" /></c:set>
                                      <x:choose>
-                                      <x:when select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier[@source='DE-28']">
-									   <a class="ir-link-portal" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=bibtex">BibTeX</a>
-									   <a class="ir-link-portal" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=endnote">EndNote</a>
-									   <a class="ir-link-portal" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=ris">RIS</a>
-									   <a class="ir-link-portal" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=dc">DublinCore</a>
-									   <a class="ir-link-portal" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=mods">MODS</a>
+                                      <x:when select="starts-with($doc/mycoreobject/@ID, 'rosdok')">
+									   <a class="ir-link-portal" target="_blank" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=bibtex">BibTeX</a>
+									   <a class="ir-link-portal" target="_blank" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=endnote">EndNote</a>
+									   <a class="ir-link-portal" target="_blank" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=ris">RIS</a>
+									   <a class="ir-link-portal" target="_blank" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=dc">DublinCore</a>
+									   <a class="ir-link-portal" target="_blank" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=mods">MODS</a>
                                       </x:when>
-                                      <x:otherwise>
-                                        <a class="ir-link-portal" href="http://unapi.gbv.de/?id=opac-de-519:ppn:${ppn}&format=bibtex">BibTeX</a>
-                                        <a class="ir-link-portal" href="http://unapi.gbv.de/?id=opac-de-519:ppn:${ppn}&format=endnote">EndNote</a>
-                                        <a class="ir-link-portal" href="http://unapi.gbv.de/?id=opac-de-519:ppn:${ppn}&format=ris">RIS</a>
-                                        <a class="ir-link-portal" href="http://unapi.gbv.de/?id=opac-de-519:ppn:${ppn}&format=dc">DublinCore</a>
-                                        <a class="ir-link-portal" href="http://unapi.gbv.de/?id=opac-de-519:ppn:${ppn}&format=mods">MODS</a>
-                                      </x:otherwise>
+                                      <x:when select="starts-with($doc/mycoreobject/@ID, 'dbhsnb')">
+                                        <a class="ir-link-portal" target="_blank" href="http://unapi.gbv.de/?id=opac-de-519:ppn:${ppn}&format=bibtex">BibTeX</a>
+                                        <a class="ir-link-portal" target="_blank" href="http://unapi.gbv.de/?id=opac-de-519:ppn:${ppn}&format=endnote">EndNote</a>
+                                        <a class="ir-link-portal" target="_blank" href="http://unapi.gbv.de/?id=opac-de-519:ppn:${ppn}&format=ris">RIS</a>
+                                        <a class="ir-link-portal" target="_blank" href="http://unapi.gbv.de/?id=opac-de-519:ppn:${ppn}&format=dc">DublinCore</a>
+                                        <a class="ir-link-portal" target="_blank" href="http://unapi.gbv.de/?id=opac-de-519:ppn:${ppn}&format=mods">MODS</a>
+                                      </x:when>
                                     </x:choose>
   								</x:forEach>
   		                </p>
@@ -379,40 +390,44 @@
 									<c:set var="ppn"><x:out select="$x" /></c:set>
                                     <x:choose>
                                       <x:when select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier[@source='DE-28']">
-									     <a class="ir-link-portal" href="http://opac.lbs-rostock.gbv.de/DB=1/PPNSET?PPN=${ppn}">OPAC (UB Rostock)</a>
+									     <a class="ir-link-portal" target="_blank" href="http://opac.lbs-rostock.gbv.de/DB=1/PPNSET?PPN=${ppn}">OPAC (UB Rostock)</a>
                                       </x:when>
                                       <x:otherwise>
-                                         <a class="ir-link-portal" href="http://opac.lbs-rostock.gbv.de/DB=2/PPNSET?PPN=${ppn}">OPAC (HSB Neubrandenburg)</a>
+                                         <a class="ir-link-portal" target="_blank" href="http://opac.lbs-rostock.gbv.de/DB=2/PPNSET?PPN=${ppn}">OPAC (HSB Neubrandenburg)</a>
                                       </x:otherwise>
                                     </x:choose>
 									<a class="ir-link-portal" href="https://gso.gbv.de/DB=2.1/PPNSET?PPN=${ppn}">OPAC (GBV)</a>
 								</x:forEach>							
 								<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='vd16']">
 									<c:set var="vdnr"><x:out select="$x" /></c:set>
-									<a class="ir-link-portal" href="http://gateway-bayern.de/VD16+${fn:replace(vdnr,' ','+')}">VD16</a>
+									<a class="ir-link-portal" target="_blank" href="http://gateway-bayern.de/VD16+${fn:replace(vdnr,' ','+')}">VD16</a>
 								</x:forEach>
 								<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='vd17']">
 									<c:set var="vdnr"><x:out select="$x" /></c:set>
-									<a class="ir-link-portal" href="https://gso.gbv.de/DB=1.28/CMD?ACT=SRCHA&IKT=8002&TRM=%27${vdnr}%27">VD17</a>
+									<a class="ir-link-portal" target="_blank" href="https://gso.gbv.de/DB=1.28/CMD?ACT=SRCHA&IKT=8002&TRM=%27${vdnr}%27">VD17</a>
 								</x:forEach>
 								<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='vd18']">
 									<c:set var="vdnr"><x:out select="$x" /></c:set>
-									<a class="ir-link-portal" href="https://gso.gbv.de/DB=1.65/SET=8/TTL=1/CMD?ACT=SRCHA&IKT=8002&TRM=${fn:replace(vdnr,' ','+')}&ADI_MAT=B&MATCFILTER=Y">VD18</a>
+									<a class="ir-link-portal" target="_blank" href="https://gso.gbv.de/DB=1.65/SET=8/TTL=1/CMD?ACT=SRCHA&IKT=8002&TRM=${fn:replace(vdnr,' ','+')}&ADI_MAT=B&MATCFILTER=Y">VD18</a>
 								</x:forEach>
 								<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='kalliope']">
 									<c:set var="id"><x:out select="$x" /></c:set>
-									<a class="ir-link-portal" href="http://kalliope-verbund.info/${id}">Kalliope-Verbundkatalog</a>
+									<a class="ir-link-portal" target="_blank" href="http://kalliope-verbund.info/${id}">Kalliope-Verbundkatalog</a>
 								</x:forEach>
                                 <x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='doi']">
                                   <c:set var="doi"><x:out select="$x" /></c:set>
-                                  <a class="ir-link-portal" href="https://search.datacite.org/works/1{doi}">DataCite Search</a>
+                                  <a class="ir-link-portal" target="_blank" href="https://search.datacite.org/works/1{doi}">DataCite Search</a>
                                 </x:forEach>	
    					</p>
          </x:if>
 		 <h4>Teilen</h4>
+         <c:set var="shariff_subject">Dokument auf RosDok</c:set>
+         <x:if select="starts-with($doc/mycoreobject/@ID, 'dbhsnb')">
+            <c:set var="shariff_subject">Dokument in der Digitalen Bibliothek der Hochschule Neubrandenburg</c:set>
+         </x:if>
          <div class="shariff" data-url="${WebApplicationBaseURL}resolve/id/${param.id}"
              data-services="[&quot;twitter&quot;, &quot;facebook&quot;, &quot;googleplus&quot;, &quot;linkedin&quot;, &quot;xing&quot;, &quot;whatsapp&quot;, &quot;mail&quot;, &quot;info&quot;]"
-             data-mail-url="mailto:" data-mail-subject="Dokument auf RosDok" data-mail-body="${WebApplicationBaseURL}resolve/id/${param.id}"
+             data-mail-url="mailto:" data-mail-subject="${shariff_subject}" data-mail-body="${WebApplicationBaseURL}resolve/id/${param.id}"
              data-orientation="horizontal" data-theme="standard">
          </div> <%--data-theme=standard|grey|white --%>
          <script src="${WebApplicationBaseURL}modules/shariff_3.0.1/shariff.min.js"></script>
