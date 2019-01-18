@@ -86,13 +86,13 @@
 	
   <stripes:layout-component name="main_part">
     <div class="container">
-      <div class="row">
-        <div class="col-md-4 offset-md-8 col-xs-12">
+      <div class="row d-block d-lg-none" style="padding: 0px 15px">
+        <div class="col-12" style="padding-top:45px">
           <search:result-navigator mcrid="${mcrid}" mode="one_line"/>
         </div>
       </div>
       <div class="row">  
-        <div class="col-xs-12 col-md-8"><%--main area --%>
+        <div class="col-12 col-md-8"><%--main area --%>
 		  <div class="row">
             <div class="col">
 			  <div class="ir-box ir-docdetails-header">
@@ -245,6 +245,9 @@
     </div><%-- main area --%>
     <div class="col-xs-12 col-md-4"> <%-- right area --%>
        <div class="ir-facets h-100">
+         <div class="d-none d-lg-block">
+           <search:result-navigator mcrid="${mcrid}" mode="one_line"/>
+        </div>
          <x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='cover'] or contains($doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='doctype']/@valueURI, '#data')">
 	       <x:choose>
              <x:when select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='cover']">
