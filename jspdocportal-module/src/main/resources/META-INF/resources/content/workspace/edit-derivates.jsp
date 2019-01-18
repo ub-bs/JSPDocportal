@@ -84,13 +84,13 @@
 					  
                       </div>
   					</div>
-    				<div class="card-body">
+    				<div class="card-body p-0">
     					<c:set var="doc" value="${actionBean.mcrobjXML}" />
     					<x:forEach var="x" select="$doc/mycoreobject/structure/derobjects/derobject">
     						<c:set var="derID"><x:out select="$x/@xlink:href" /></c:set>
     						<c:set var="derDoc" value="${actionBean.derivateXMLs[derID]}" />
     						<c:set var="maindoc"><x:out select="$derDoc/mycorederivate/derivate/internals/internal/@maindoc" /></c:set>
-    						<div class="card border border-primary my-3">
+    						<div class="card border border-primary m-3">
   							   <div class="card-header bg-light">
                                   <div class="row">
                                       <div class="col-2">
