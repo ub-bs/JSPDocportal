@@ -224,7 +224,7 @@
                        <xsl:element name="a">
                          <xsl:attribute name="href">https://doi.org/<xsl:value-of select="./text()" /></xsl:attribute>
                          <xsl:attribute name="title">DOI (registriert bei DataCite)</xsl:attribute>
-                         <xsl:attribute name="class">pl-3</xsl:attribute>
+                         <xsl:attribute name="class">pl-3 btn btn-sm btn-link ir-docdetails-btn-info</xsl:attribute>
                          <i class="fas fa-external-link-alt">&#160;</i>
                        </xsl:element>
                </td></tr>
@@ -236,7 +236,7 @@
                        <xsl:element name="a">
                          <xsl:attribute name="href">https://nbn-resolving.org/<xsl:value-of select="./text()" /></xsl:attribute>
                          <xsl:attribute name="title">URN, registriert bei der Deutschen Nationalbibliothek</xsl:attribute>
-                         <xsl:attribute name="class">pl-3</xsl:attribute>
+                         <xsl:attribute name="class">pl-3 btn btn-sm btn-link ir-docdetails-btn-info</xsl:attribute>
                          <i class="fas fa-external-link-alt">&#160;</i>
                        </xsl:element>
                   </td></tr>
@@ -248,7 +248,7 @@
                        <xsl:element name="a">
                          <xsl:attribute name="href"><xsl:value-of select="./text()" /></xsl:attribute>
                          <xsl:attribute name="title">Persistente URL</xsl:attribute>
-                         <xsl:attribute name="class">pl-3</xsl:attribute>
+                         <xsl:attribute name="class">pl-3 btn btn-sm btn-link ir-docdetails-btn-info</xsl:attribute>
                          <i class="fas fa-external-link-alt">&#160;</i>
                        </xsl:element>
                   </td></tr>
@@ -260,7 +260,7 @@
                        <xsl:element name="a">
                          <xsl:attribute name="href">http://opac.lbs-rostock.gbv.de/DB=2/PPNSET?PPN=<xsl:value-of select="./text()" /></xsl:attribute>
                          <xsl:attribute name="title">Bibliothekskatalog (HSB Neubrandenburg)</xsl:attribute>
-                         <xsl:attribute name="class">pl-3</xsl:attribute>
+                         <xsl:attribute name="class">pl-3 btn btn-sm btn-link ir-docdetails-btn-info</xsl:attribute>
                          <i class="fas fa-external-link-alt">&#160;</i>
                        </xsl:element>
                   </td></tr>
