@@ -18,7 +18,7 @@
 
 
 <iframe src="${applicationScope.WebApplicationBaseURL}content/mcrviewer_embedded.jsp?id=${id}&mcrid=${mcrid}&recordIdentifier=${recordIdentifier}&doctype=${doctype}&start=${param._mcrviewer_start}"
-style="width:100%; height:620px;border:none">
+style="width:100%; height:80vh;border:none">
 </iframe>
 
 <%--

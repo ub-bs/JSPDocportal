@@ -276,20 +276,21 @@
          </x:choose>
        </x:if>
        <div class="ir-box ir-box-emph">
-            <h3>Dauerhaft zitieren</h3>
-         	<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='purl']">
+            <h4 class="text-primary">Dauerhaft zitieren</h4>
+            <x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='doi']">
+              <p><a class="ir-link-portal" href="https://doi.org/<x:out select="$x" />">https://doi.org/<br class="visible-md-inline"/><x:out select="$x" /></a></p>
+            </x:forEach>
+            <x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='urn']">
+              <p><a class="ir-link-portal" href="http://nbn-resolving.org/<x:out select="$x" />"><x:out select="$x" /></a></p>
+            </x:forEach>
+            <x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='purl']">
 			    <c:set var="purl"><x:out select="$x" /></c:set>
                 <%--<a href="${purl}"><c:out value="${fn:replace(purl, '.de/', '.de <br />/')}" escapeXml="false"/></a><br />  
                 <a class="ir-link-portal" href="${purl}"><c:out value="${purl}" escapeXml="false"/></a><br />--%>
                 <c:set var="link">${fn:replace(purl, '.de/', '.de/<br class="visible-md-inline"/>')}</c:set>
                 <p><a class="ir-link-portal" href="${purl}"><c:out value="${link}" escapeXml="false"/></a></p>
             </x:forEach>
-			<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='urn']">
-			   <p><a class="ir-link-portal" href="http://nbn-resolving.org/<x:out select="$x" />"><x:out select="$x" /></a></p>
-			</x:forEach>
-			<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='doi']">
-			  	<p><a class="ir-link-portal" href="https://doi.org/<x:out select="$x" />">https://doi.org/<br class="visible-md-inline"/><x:out select="$x" /></a></p>
-            </x:forEach>
+
        </div>
        
        <%--Download Area --%>
@@ -345,24 +346,45 @@
                </a>
             </x:if>
           </x:forEach>
+          
        </div><%--Download area --%>
        
        <div class="ir-box mt-3">
-   	     <x:if select="contains($doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='doctype']/@valueURI, '#histbest')">
-        				<h3>Export</h3>
+   	     <x:if select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='PPN']">
+        				<h4>Export</h4>
+                    <p>
 								<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='PPN']">
 									<c:set var="ppn"><x:out select="$x" /></c:set>
-									<a class="ir-link-portal" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=bibtex">BibTeX</a>
-									<a class="ir-link-portal" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=endnote">EndNote</a>
-									<a class="ir-link-portal" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=ris">RIS</a>
-									<a class="ir-link-portal" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=dc">DublinCore</a>
-									<a class="ir-link-portal" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=mods">MODS</a>
+                                     <x:choose>
+                                      <x:when select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier[@source='DE-28']">
+									   <a class="ir-link-portal" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=bibtex">BibTeX</a>
+									   <a class="ir-link-portal" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=endnote">EndNote</a>
+									   <a class="ir-link-portal" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=ris">RIS</a>
+									   <a class="ir-link-portal" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=dc">DublinCore</a>
+									   <a class="ir-link-portal" href="http://unapi.gbv.de/?id=opac-de-28:ppn:${ppn}&format=mods">MODS</a>
+                                      </x:when>
+                                      <x:otherwise>
+                                        <a class="ir-link-portal" href="http://unapi.gbv.de/?id=opac-de-519:ppn:${ppn}&format=bibtex">BibTeX</a>
+                                        <a class="ir-link-portal" href="http://unapi.gbv.de/?id=opac-de-519:ppn:${ppn}&format=endnote">EndNote</a>
+                                        <a class="ir-link-portal" href="http://unapi.gbv.de/?id=opac-de-519:ppn:${ppn}&format=ris">RIS</a>
+                                        <a class="ir-link-portal" href="http://unapi.gbv.de/?id=opac-de-519:ppn:${ppn}&format=dc">DublinCore</a>
+                                        <a class="ir-link-portal" href="http://unapi.gbv.de/?id=opac-de-519:ppn:${ppn}&format=mods">MODS</a>
+                                      </x:otherwise>
+                                    </x:choose>
   								</x:forEach>
-  		
-  						<h3>Portale</h3>
+  		                </p>
+  						<h4>Portale</h4>
+                        <p>
   								<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='PPN']">
 									<c:set var="ppn"><x:out select="$x" /></c:set>
-									<a class="ir-link-portal" href="http://opac.lbs-rostock.gbv.de/DB=1/PPNSET?PPN=${ppn}">OPAC (UB Rostock)</a>
+                                    <x:choose>
+                                      <x:when select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier[@source='DE-28']">
+									     <a class="ir-link-portal" href="http://opac.lbs-rostock.gbv.de/DB=1/PPNSET?PPN=${ppn}">OPAC (UB Rostock)</a>
+                                      </x:when>
+                                      <x:otherwise>
+                                         <a class="ir-link-portal" href="http://opac.lbs-rostock.gbv.de/DB=2/PPNSET?PPN=${ppn}">OPAC (HSB Neubrandenburg)</a>
+                                      </x:otherwise>
+                                    </x:choose>
 									<a class="ir-link-portal" href="https://gso.gbv.de/DB=2.1/PPNSET?PPN=${ppn}">OPAC (GBV)</a>
 								</x:forEach>							
 								<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='vd16']">
@@ -377,22 +399,32 @@
 									<c:set var="vdnr"><x:out select="$x" /></c:set>
 									<a class="ir-link-portal" href="https://gso.gbv.de/DB=1.65/SET=8/TTL=1/CMD?ACT=SRCHA&IKT=8002&TRM=${fn:replace(vdnr,' ','+')}&ADI_MAT=B&MATCFILTER=Y">VD18</a>
 								</x:forEach>
-								<x:forEach var="x" select="$doc/mycoreobject[contains(@ID,'_disshab_')]/@ID">
-									<c:set var="id"><x:out select="$x" /></c:set>
-								</x:forEach>
 								<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='kalliope']">
 									<c:set var="id"><x:out select="$x" /></c:set>
 									<a class="ir-link-portal" href="http://kalliope-verbund.info/${id}">Kalliope-Verbundkatalog</a>
-								</x:forEach>	
-   					
+								</x:forEach>
+                                <x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='doi']">
+                                  <c:set var="doi"><x:out select="$x" /></c:set>
+                                  <a class="ir-link-portal" href="https://search.datacite.org/works/1{doi}">DataCite Search</a>
+                                </x:forEach>	
+   					</p>
          </x:if>
-		 <h3>Teilen</h3>
+		 <h4>Teilen</h4>
          <div class="shariff" data-url="${WebApplicationBaseURL}resolve/id/${param.id}"
              data-services="[&quot;twitter&quot;, &quot;facebook&quot;, &quot;googleplus&quot;, &quot;linkedin&quot;, &quot;xing&quot;, &quot;whatsapp&quot;, &quot;mail&quot;, &quot;info&quot;]"
              data-mail-url="mailto:" data-mail-subject="Dokument auf RosDok" data-mail-body="${WebApplicationBaseURL}resolve/id/${param.id}"
              data-orientation="horizontal" data-theme="standard">
          </div> <%--data-theme=standard|grey|white --%>
          <script src="${WebApplicationBaseURL}modules/shariff_3.0.1/shariff.min.js"></script>
+         <p></p>
+       </div>
+       
+       <div class="ir-box">
+            <h4>Rechte</h4>
+            <p>
+                <span class="badge badge-secondary float-left mr-2 h-100"><a href="https://rightsstatements.org/page/InC/1.0/?language=de"><img src="${WebApplicationBaseURL}images/rightsstatements.org/buttons/InC.white.svg" title="in copyright" style="width:100px"></a></span>
+                <strong><br><a href="https://rightsstatements.org/page/InC/1.0/?language=de">Urheberrechtsschutz</a></strong></p><p class="text-justify form-text text-muted small">Dieses Objekt ist durch das Urheberrecht und/oder verwandte Schutzrechte geschützt. Sie sind berechtigt, das Objekt in jeder Form zu nutzen, die das Urheberrechtsgesetz und/oder einschlägige verwandte Schutzrechte gestatten. Für weitere Nutzungsarten benötigen Sie die Zustimmung der/des Rechteinhaber/s.
+            </p>
        </div>
 
        <div class="my-3"><%--Tools --%>
@@ -420,12 +452,14 @@
                 <a class="btn btn-warning btn-sm ir-button-warning" style="margin:3px" target="_blank" 
                    href="${WebApplicationBaseURL}receive/${mcrid}?XSL.Transformer=rosdok_datacite" rel="nofollow">Datacite</a>
               </x:if>
-               <a class="btn btn-warning btn-sm ir-button-warning" style="margin:3px" target="_blank" 
+              <x:if select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier[@source='DE-28']">
+                <a class="btn btn-warning btn-sm ir-button-warning" style="margin:3px" target="_blank" 
                    href="${WebApplicationBaseURL}oai?verb=GetRecord&metadataPrefix=oai_dc&identifier=oai:oai.rosdok.uni-rostock.de:${mcrid}" rel="nofollow">OAI</a>
-              <a class="btn btn-warning btn-sm ir-button-warning" style="margin:3px" target="_blank" 
+                <a class="btn btn-warning btn-sm ir-button-warning" style="margin:3px" target="_blank" 
                    href="${WebApplicationBaseURL}oai/dnb-urn?verb=GetRecord&metadataPrefix=epicur&identifier=oai:oai-dnb-urn.rosdok.uni-rostock.de:${mcrid}" rel="nofollow">OAI:DNB_URN</a>
-              <a class="btn btn-warning btn-sm ir-button-warning" style="margin:3px" target="_blank" 
+                <a class="btn btn-warning btn-sm ir-button-warning" style="margin:3px" target="_blank" 
                    href="${WebApplicationBaseURL}oai/dnb-epflicht?verb=GetRecord&metadataPrefix=xMetaDissPlus&identifier=oai:oai-dnb-epflicht.rosdok.uni-rostock.de:${mcrid}" rel="nofollow">OAI:DNB_EPFLICHT</a>
+              </x:if>
             </div>
           </div>
        </div><%--Tools --%>      

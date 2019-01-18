@@ -58,7 +58,7 @@
       //do nothing
   }
 %>
-  <div id="${id}" style="height:600px; margin:0px 16px; position:relative;"></div>
+  <div id="${id}" style="height:99vh; margin:0px 16px; position:relative;"></div>
     <script>
     window.addEventListener("load", function(){
             new mycore.viewer.MyCoReViewer(jQuery("#${id}"), {
