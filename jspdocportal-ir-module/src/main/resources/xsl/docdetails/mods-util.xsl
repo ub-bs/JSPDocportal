@@ -7,7 +7,7 @@
 
 <xsl:template name="mods-title">
   <xsl:for-each select="./mods:titleInfo[@usage='primary']">
-    <h2>
+    <h3>
       <xsl:if test="./mods:nonSort">
         <xsl:value-of select="./mods:nonSort" />&#160;  
       </xsl:if>
@@ -15,13 +15,13 @@
       <xsl:if test="./mods:subTitle">
         &#160;: <xsl:value-of select="./mods:subTitle" />
       </xsl:if>
-    </h2>
+    </h3>
     <xsl:if test="./mods:partNumber or ./mods:partName">
-     <h2>
+     <h3>
       <xsl:value-of select="./mods:partNumber" />
       <xsl:if test="./mods:partNumber and ./mods:partName">: </xsl:if>
       <xsl:value-of select="./mods:partName" />
-     </h2>
+     </h3>
   </xsl:if>
 
   </xsl:for-each>

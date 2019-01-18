@@ -9,15 +9,8 @@
   <xsl:param name="WebApplicationBaseURL" />
   <xsl:output method="html" indent="yes" standalone="no" />
   <xsl:template match="/">
-  <table class="ir-table-docdetails">
-    <xsl:for-each select="/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='purl']">
-          <tr>
-            <th>Persistente URL:</th>
-            <td><table class="ir-table-docdetails-values"><tr><td><xsl:value-of select="." />
-            </td></tr></table>
-            </td>
-        </tr>
-    </xsl:for-each>
+  <table class="ir-table-docdetails" style="margin-top:45px">
+          <tr><td colspan="2"><hr /></td></tr>
          <tr>
             <th>erstellt am:</th>
             <td><table class="ir-table-docdetails-values"><tr><td>
@@ -34,12 +27,12 @@
           </tr>
           
       
-          <xsl:for-each select="/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:accessCondition/ubr-legal:legalInformation/ubr-legal:licenseInformation/ubr-legal:metadata">
+          <xsl:if test="/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:accessCondition/ubr-legal:legalInformation/ubr-legal:licenseInformation/ubr-legal:metadata or
+                          /mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='licenseinfo'][contains(@valueURI, '#metadata.cc0')]">
           <tr>
             <th>Metadaten-Lizenz:</th>
               <td>
               <table class="ir-table-docdetails-values"><tr><td>
-                  <xsl:if test="./ubr-legal:license/@uri='http://creativecommons.org/publicdomain/zero/1.0/'">
                       <div style="float:left">
                         <a rel="license" href="http://creativecommons.org/publicdomain/zero/1.0/">
                           <xsl:element name="img">
@@ -49,19 +42,18 @@
                            </xsl:element>
                           </a>
                       </div>
-                      <div style="position: relative; margin-left:100px; font-size:90%; text-align:justify">
-                          Die UB Rostock stellt die 
+                      <div class="small" style="position: relative; margin-left:100px;">
+                          Die Hochschulbibliothek Neubrandenburg stellt die 
                           <xsl:element name="a">
                             <xsl:attribute name="href"><xsl:value-of select="$WebApplicationBaseURL"/>api/v1/objects/<xsl:value-of select="/mycoreobject/@ID" /></xsl:attribute>
                           Metadaten
                           </xsl:element> 
                           zu diesem Dokument unter <a href="http://creativecommons.org/publicdomain/zero/1.0/">Public Domain</a> und verzichtet damit weltweit auf alle urheberrechtlichen und verwandten Schutzrechte. 
                       </div>
-              </xsl:if>
               </td></tr></table>
            </td>
          </tr>
-         </xsl:for-each>
+         </xsl:if>
           
   </table>            
   </xsl:template>

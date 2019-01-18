@@ -16,6 +16,7 @@
 
   <xsl:template match="/">
     <xsl:for-each select="/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods">
+      
       <table class="ir-table-docdetails">
         <tr>
           <th>
@@ -45,8 +46,12 @@
                 <xsl:for-each select="mods:name[mods:role/mods:roleTerm[@type='code']='dgs']">
                 <tr><td>
                     <xsl:call-template name="display-name">
-		    			<xsl:with-param name="name" select="." />
-    				</xsl:call-template>
+              <xsl:with-param name="name" select="." />
+            </xsl:call-template>
+                    <xsl:if test="./mods:affiliation">
+                      <br /><span class="small"><xsl:value-of select="./mods:affiliation"/></span>
+                    </xsl:if>
+            
                 </td></tr>
                 
                 </xsl:for-each>
@@ -84,13 +89,16 @@
         <xsl:if test="./mods:language/mods:languageTerm">
           <tr>
             <th><xsl:value-of select="i18n:translate('OMD.languages')" /> :</th>
-            <td><table class="ir-table-docdetails-values"><tr><td>
-             <xsl:call-template name="language">
-                <xsl:with-param name="term"><xsl:value-of select="./mods:language/mods:languageTerm" /></xsl:with-param>
-                <xsl:with-param name="lang">de</xsl:with-param>
-              </xsl:call-template>
-              </td></tr></table>
-            </td>
+            <td><table class="ir-table-docdetails-values">
+                <xsl:for-each select="./mods:language">
+                  <tr><td>
+                    <xsl:call-template name="language">
+                      <xsl:with-param name="term"><xsl:value-of select="./mods:languageTerm" /></xsl:with-param>
+                      <xsl:with-param name="lang">de</xsl:with-param>
+                    </xsl:call-template>
+                  </td></tr>
+                </xsl:for-each>
+              </table></td>
           </tr>
         </xsl:if>
         <xsl:for-each select="mods:titleInfo[@type='translated']">
@@ -156,7 +164,8 @@
           </td>
         </tr>
         </xsl:if>
-         <xsl:if test="mods:classification[@displayLabel='ghb']/@valueURI">
+        
+        <xsl:if test="mods:classification[@displayLabel='ghb']/@valueURI">
         <tr>
           <th><xsl:value-of select="i18n:translate('OMD.ghb-class')" /> :</th>
           <td>
@@ -172,27 +181,95 @@
           </td>
         </tr>
         </xsl:if>
+        <xsl:if test="mods:subject">
+        <tr>
+          <th><xsl:value-of select="i18n:translate('OMD.keywords')" /> :</th>
+          <td>
+            <table class="ir-table-docdetails-values">
+                  <xsl:for-each select="mods:subject">
+                    <tr><td>
+                      <xsl:value-of select="./mods:topic" />
+                    </td></tr>
+                  </xsl:for-each>
+            </table>
+          </td>
+        </tr>
+      </xsl:if>
+       <xsl:if test="mods:note[@type!='creator_info']">
+        <tr>
+          <th><xsl:value-of select="i18n:translate('OMD.ir.nodes')" /> :</th>
+          <td>
+            <table class="ir-table-docdetails-values">
+                <xsl:for-each select="mods:note[@type!='creator_info']">
+                  <tr>
+                    <th><xsl:value-of select="./@type" /></th>
+                    <td><xsl:value-of select="./text()" /></td>
+                  </tr>
+                </xsl:for-each>
+            </table>
+          </td>
+        </tr>
+      </xsl:if>
       </table>
       
       <table class="ir-table-docdetails">
-       <tr>
-          <th><xsl:value-of select="i18n:translate('OMD.urns')" /> :</th>
+        <tr>
+          <th><xsl:value-of select="i18n:translate('OMD.ir.identifiers')" /> :</th>
           <td>
             <table class="ir-table-docdetails-values">
-              <tr>
-                <td>
-                  <xsl:variable name="urn" select="mods:identifier[@type='urn']" />
-                  <xsl:element name="a">
-                    <xsl:attribute name="href">http://nbn-resolving.de<xsl:value-of select="$urn" /></xsl:attribute>
-                    <xsl:value-of select="$urn" />
-                  </xsl:element>                       
-                </td>
-              </tr>
+              <xsl:for-each select="./mods:identifier[@type='doi']">
+               <tr><th>DOI:</th>
+                   <td>
+                     <xsl:value-of select="./text()"/>
+                       <xsl:element name="a">
+                         <xsl:attribute name="href">https://doi.org/<xsl:value-of select="./text()" /></xsl:attribute>
+                         <xsl:attribute name="title">DOI (registriert bei DataCite)</xsl:attribute>
+                         <xsl:attribute name="class">pl-3</xsl:attribute>
+                         <i class="fas fa-external-link-alt">&#160;</i>
+                       </xsl:element>
+               </td></tr>
+              </xsl:for-each>
+              <xsl:for-each select="./mods:identifier[@type='urn']">
+               <tr><th>URN:</th>
+                   <td>
+                     <xsl:value-of select="./text()"/>
+                       <xsl:element name="a">
+                         <xsl:attribute name="href">https://nbn-resolving.org/<xsl:value-of select="./text()" /></xsl:attribute>
+                         <xsl:attribute name="title">URN, registriert bei der Deutschen Nationalbibliothek</xsl:attribute>
+                         <xsl:attribute name="class">pl-3</xsl:attribute>
+                         <i class="fas fa-external-link-alt">&#160;</i>
+                       </xsl:element>
+                  </td></tr>
+              </xsl:for-each>
+              <xsl:for-each select="./mods:identifier[@type='purl']">
+               <tr><th>PURL:</th>
+                   <td>
+                     <xsl:value-of select="./text()"/>
+                       <xsl:element name="a">
+                         <xsl:attribute name="href"><xsl:value-of select="./text()" /></xsl:attribute>
+                         <xsl:attribute name="title">Persistente URL</xsl:attribute>
+                         <xsl:attribute name="class">pl-3</xsl:attribute>
+                         <i class="fas fa-external-link-alt">&#160;</i>
+                       </xsl:element>
+                  </td></tr>
+              </xsl:for-each>        
+              <xsl:for-each select="./mods:identifier[@type='PPN']">
+               <tr><th>PPN:</th>
+                   <td>
+                     <xsl:value-of select="./text()"/>
+                       <xsl:element name="a">
+                         <xsl:attribute name="href">http://opac.lbs-rostock.gbv.de/DB=2/PPNSET?PPN=<xsl:value-of select="./text()" /></xsl:attribute>
+                         <xsl:attribute name="title">Bibliothekskatalog (HSB Neubrandenburg)</xsl:attribute>
+                         <xsl:attribute name="class">pl-3</xsl:attribute>
+                         <i class="fas fa-external-link-alt">&#160;</i>
+                       </xsl:element>
+                  </td></tr>
+              </xsl:for-each>
             </table>
           </td>
-          </tr>
+        </tr>
       </table>
-      </xsl:for-each>
+    </xsl:for-each>
   
   </xsl:template>
 </xsl:stylesheet>

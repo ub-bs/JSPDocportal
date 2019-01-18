@@ -20,23 +20,38 @@
                 <p>
 					<xsl:call-template name="mods-originInfo" />
 				</p>
-
-				<xsl:if test="./mods:identifier[@type='doi']">
+                <xsl:choose>
+                  <xsl:when test="./mods:identifier[@type='doi']">
 					<p>
 						<xsl:element name="a">
 							<xsl:attribute name="href">https://doi.org/<xsl:value-of select="./mods:identifier[@type='doi']" /></xsl:attribute>
 							https://doi.org/<xsl:value-of select="./mods:identifier[@type='doi']" />
 						</xsl:element>
 					</p>
-				</xsl:if>
-				<xsl:if test="./mods:identifier[@type='purl']">
-					<p>
-						<xsl:element name="a">
-							<xsl:attribute name="href"><xsl:value-of select="./mods:identifier[@type='purl']" /></xsl:attribute>
-							<xsl:value-of select="./mods:identifier[@type='purl']" />
-						</xsl:element>
-					</p>
-				</xsl:if>
+				  </xsl:when>
+                  <xsl:otherwise>
+				    <xsl:choose>
+                        <xsl:when test="./mods:identifier[@type='purl']">
+					       <p>
+						    <xsl:element name="a">
+							     <xsl:attribute name="href"><xsl:value-of select="./mods:identifier[@type='purl']" /></xsl:attribute>
+							     <xsl:value-of select="./mods:identifier[@type='purl']" />
+						    </xsl:element>
+					       </p>
+                         </xsl:when>
+				         <xsl:otherwise>
+                            <xsl:if test="./mods:url[@access='object in context']">
+                                <p>
+                                <xsl:element name="a">
+                                  <xsl:attribute name="href"><xsl:value-of select="./mods:url[@access='object in context']" /></xsl:attribute>
+                                  <xsl:value-of select="./mods:url[@access='object in context']" />
+                                </xsl:element>
+                              </p>
+                            </xsl:if>
+                         </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:otherwise>
+                </xsl:choose>
                 <xsl:if test="./mods:abstract">
                   <p class="ir-docdetails-abstract">
                     <xsl:value-of select="./mods:abstract" />
