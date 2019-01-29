@@ -260,6 +260,14 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
             response.sendRedirect(url.toString());
             return;
         }
+        
+        // used in METS-Files in mets:mptr to resolve METS files of parent or child
+        if (action.equals("dv_mets")) {
+            StringBuffer url = createURLForMainDocInDerivateWithLabel(request, mcrID, "DV_METS");
+            LOGGER.debug("METS for DFG-Viewer: " + url.toString());
+            response.sendRedirect(url.toString());
+            return;
+        }
 
         if (action.equals("fulltext")) {
             if (mcrID.startsWith("mvdok")) {
