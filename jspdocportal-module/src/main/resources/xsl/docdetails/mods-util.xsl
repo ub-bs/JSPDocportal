@@ -187,11 +187,10 @@
 <xsl:template name="language">
     <xsl:param name="term"  />
     <xsl:param name="lang"  />
-    
-    <xsl:variable name="url"><xsl:value-of select="$WebApplicationBaseURL" />api/v1/classifications/rfc4646</xsl:variable>
-    <xsl:value-of select="document($url)/mycoreclass/categories/category[./label[@xml:lang='x-bibl']/@text=$term]/label[@xml:lang=$lang]/@text" /> 
-
-  </xsl:template>
+    <!-- <xsl:variable name="url"><xsl:value-of select="$WebApplicationBaseURL" />api/v1/classifications/rfc4646</xsl:variable> -->
+    <xsl:variable name="url">classification:metadata:-1:children:rfc4646</xsl:variable>
+    <xsl:value-of select="document($url)/mycoreclass/categories/category[./label[@xml:lang='x-bibl']/@text=$term]/label[@xml:lang=$lang]/@text" />
+</xsl:template>
   
 
   <!-- retrieves the label of a MyCoRe classification category  for a given MODS valueURI -->
@@ -216,10 +215,12 @@
      <xsl:variable name="classid" select="substring-before($z,'#')" />
      <xsl:variable name="categid" select="substring-after($z,'#')" />
  
-     <xsl:variable name="url"><xsl:value-of select="$WebApplicationBaseURL" />api/v1/classifications/<xsl:value-of select="$classid" />?filter=root:<xsl:value-of select="$categid" />;nochildren;lang:<xsl:value-of select="$lang" /></xsl:variable>
-     <xsl:value-of select="document($url)/category/label[1]/@text" /> 
-      
-    <!-- http://localhost:8080/rosdok/api/v1/classifications/rosdok_class_000000000009?filter=root:00;lang:de;nochildren -->
+     <!-- <xsl:variable name="url"><xsl:value-of select="$WebApplicationBaseURL" />api/v1/classifications/<xsl:value-of select="$classid" />?filter=root:<xsl:value-of select="$categid" />;nochildren;lang:<xsl:value-of select="$lang" /></xsl:variable>
+     http://localhost:8080/rosdok/api/v1/classifications/rosdok_class_000000000009?filter=root:00;lang:de;nochildren -->
+
+     <!-- Alternative: URI-Resolver -->
+      <xsl:variable name="url">classification:metadata:0:children:<xsl:value-of select="$classid" />:<xsl:value-of select="$categid" /></xsl:variable>
+      <xsl:value-of select="document($url)/mycoreclass/categories/category[1]/label[@xml:lang='de']/@text" /> 
 </xsl:template>
 
 
