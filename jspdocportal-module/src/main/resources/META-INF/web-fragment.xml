@@ -69,6 +69,7 @@
 		<url-pattern>/indexbrowser/*</url-pattern>
 		<url-pattern>/site/*</url-pattern>
 		<url-pattern>/metadata/*</url-pattern>
+        <url-pattern>/file/*</url-pattern>
 	</filter-mapping>
 	 
   <filter>

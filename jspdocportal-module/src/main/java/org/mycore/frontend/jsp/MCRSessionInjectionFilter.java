@@ -1,7 +1,6 @@
 package org.mycore.frontend.jsp;
 
 import java.io.IOException;
-import java.text.MessageFormat;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -10,19 +9,13 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
-import org.mycore.frontend.MCRFrontendUtil;
-import org.mycore.frontend.servlets.MCRServlet;
+import org.mycore.common.MCRUserInformation;
+import org.mycore.frontend.jsp.stripes.actions.MCRLoginAction;
 
 public class MCRSessionInjectionFilter implements Filter {
-
-    private static final Logger LOGGER = LogManager.getLogger(MCRSessionInjectionFilter.class);
-
+    
     @Override
     public void init(FilterConfig arg0) throws ServletException {
 
@@ -32,16 +25,10 @@ public class MCRSessionInjectionFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
-        MCRSession session = MCRServlet.getSession((HttpServletRequest) request);
-        MCRSessionMgr.setCurrentSession(session);
-        LOGGER.debug(MessageFormat.format("{0} ip={1} mcr={2} user={3}", httpRequest.getServletPath(),
-                MCRFrontendUtil.getRemoteAddr(httpRequest), session.getID(), session.getUserInformation().getUserID()));
-        MCRFrontendUtil.configureSession(session, httpRequest, httpResponse);
-
+        if(httpRequest.getSession().getAttribute(MCRLoginAction.SESSION_ATTR_MCR_USER_INFORMATION)!=null) {
+            MCRSessionMgr.getCurrentSession().setUserInformation((MCRUserInformation)httpRequest.getSession().getAttribute(MCRLoginAction.SESSION_ATTR_MCR_USER_INFORMATION));
+        }
         chain.doFilter(request, response);
-
-        MCRSessionMgr.releaseCurrentSession();
     }
 
     @Override
