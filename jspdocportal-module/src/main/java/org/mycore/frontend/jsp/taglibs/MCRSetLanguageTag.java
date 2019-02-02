@@ -35,6 +35,7 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.mycore.common.MCRConstants;
 import org.mycore.common.MCRSession;
+import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.frontend.servlets.MCRServlet;
 
@@ -71,8 +72,8 @@ public class MCRSetLanguageTag extends SimpleTagSupport {
 
     public void doTag() throws JspException, IOException {
         PageContext pageContext = (PageContext) getJspContext();
-        MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest) pageContext.getRequest());
-
+        // MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest) pageContext.getRequest());
+        MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
         String requestParamLang = pageContext.getRequest().getParameter("lang");
         if (requestParamLang != null) {
             String[] langArray = allowedLanguages.split("\\s");

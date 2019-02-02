@@ -10,6 +10,7 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mycore.common.MCRSession;
+import org.mycore.common.MCRSessionMgr;
 import org.mycore.frontend.servlets.MCRServlet;
 
 public class MCRSessionTag extends SimpleTagSupport {
@@ -51,7 +52,7 @@ public class MCRSessionTag extends SimpleTagSupport {
             return;
         }
 
-        MCRSession mcrSession = MCRServlet.getSession((HttpServletRequest) pageContext.getRequest());
+        MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
         if (type != null && !type.equals("")) {
             if (type.equals("userID")) {
                 if (method.equals("get"))
