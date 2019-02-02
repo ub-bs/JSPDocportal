@@ -32,6 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.mycore.common.MCRSessionMgr;
 import org.mycore.frontend.MCRFrontendUtil;
 
 /**
@@ -68,7 +69,7 @@ public class MCREditorForwardServlet extends HttpServlet {
             String msg = "Error: HTTP request path is null";
             LOGGER.error(msg);
             response.sendRedirect(MCRFrontendUtil.getBaseURL() + "mycore-error.jsp?messageKey=SWF.EditorError&lang="
-                    + MCRServlet.getSession(request).getCurrentLanguage());
+                    + MCRSessionMgr.getCurrentSession().getCurrentLanguage());
             return;
         }
         String editorFile = requestPath.substring(requestPath.lastIndexOf("/") + 1);
@@ -85,7 +86,7 @@ public class MCREditorForwardServlet extends HttpServlet {
         String msg = "Error: HTTP request path has wrong format, no '/' given";
         LOGGER.error(msg);
         response.sendRedirect(MCRFrontendUtil.getBaseURL() + "mycore-error.jsp?messageKey=SWF.EditorError&lang="
-                + MCRServlet.getSession(request).getCurrentLanguage());
+                + MCRSessionMgr.getCurrentSession().getCurrentLanguage());
         return;
     }
 }

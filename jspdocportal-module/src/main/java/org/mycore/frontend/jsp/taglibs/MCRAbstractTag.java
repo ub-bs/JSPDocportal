@@ -25,13 +25,11 @@ package org.mycore.frontend.jsp.taglibs;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.commons.lang3.StringUtils;
 import org.mycore.common.MCRSession;
-import org.mycore.frontend.servlets.MCRServlet;
+import org.mycore.common.MCRSessionMgr;
 import org.mycore.services.i18n.MCRTranslation;
 
 /**
@@ -56,7 +54,7 @@ public class MCRAbstractTag extends SimpleTagSupport {
     protected String lang;
 
     protected void init() {
-        mcrSession = MCRServlet.getSession((HttpServletRequest) ((PageContext) getJspContext()).getRequest());
+        mcrSession = MCRSessionMgr.getCurrentSession();
         lang = mcrSession.getCurrentLanguage();
         if (StringUtils.isEmpty(lang)) {
             lang = "de";

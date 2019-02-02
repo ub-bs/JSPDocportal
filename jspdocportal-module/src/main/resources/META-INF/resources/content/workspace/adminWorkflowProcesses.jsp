@@ -17,7 +17,6 @@
 </stripes:layout-component>
 	<stripes:layout-component name="contents">
 		<c:set  var="baseURL" value="${applicationScope.WebApplicationBaseURL}"/>
-		<%out.println("ThreadLocal: "+MCRSessionMgr.getCurrentSession()+"<br />HTTP Request: "+MCRServlet.getSession(request)); %>
 			<stripes:form
 				beanclass="org.mycore.frontend.jsp.stripes.actions.AdminWorkflowProcessesAction"
 				id="workspaceForm" enctype="multipart/form-data" acceptcharset="UTF-8">

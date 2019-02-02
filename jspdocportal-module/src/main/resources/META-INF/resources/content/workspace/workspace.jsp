@@ -33,7 +33,6 @@
     	<div class="row mt-3">
           <div class="col">
           <c:set  var="baseURL" value="${applicationScope.WebApplicationBaseURL}"/>
-		<%-- <%out.println("ThreadLocal: "+MCRSessionMgr.getCurrentSession()+"<br />HTTP Request: "+MCRServlet.getSession(request)); %> --%>
 			<stripes:form
 				beanclass="org.mycore.frontend.jsp.stripes.actions.ShowWorkspaceAction"
 				id="workspaceForm" enctype="multipart/form-data" acceptcharset="UTF-8">
