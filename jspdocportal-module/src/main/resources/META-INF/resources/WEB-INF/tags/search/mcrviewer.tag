@@ -120,12 +120,11 @@
                 imageXmlPath: "${applicationScope.WebApplicationBaseURL}tiles/${fn:replace(recordIdentifier,'/','_')}/",
                 tileProviderPath: "${applicationScope.WebApplicationBaseURL}tiles/${fn:replace(recordIdentifier,'/','_')}/",
                 filePath: "iview2/${startImage}.iview2",
-               // derivate: "${fn:replace(recordIdentifier,'/','%252F')}",
                 derivate: "${derid}",
                 i18nURL: "${applicationScope.WebApplicationBaseURL}rsc/locale/translate/{lang}/component.viewer.*",
                 lang: "de",
                 metadataURL: "",
-                derivateURL : "${applicationScope.WebApplicationBaseURL}depot/${fn:replace(recordIdentifier,'/','%252F')}/",
+                derivateURL : "${applicationScope.WebApplicationBaseURL}depot/${fn:replace(recordIdentifier,'/','_')}/",
                 objId: "",
                 webApplicationBaseURL: "${applicationScope.WebApplicationBaseURL}",
                 imageOverview : {
@@ -138,7 +137,7 @@
                 permalink: {
                     enabled: true,
                     updateHistory: false,
-                    viewerLocationPattern:"{baseURL}/mcrviewer/recordIdentifier/${fn:replace(recordIdentifier,'/','%252F')}/{file}"
+                    viewerLocationPattern:"{baseURL}/mcrviewer/recordIdentifier/${fn:replace(recordIdentifier,'/','_')}/{file}"
                 },
                 canvas: {
                     overview: {
