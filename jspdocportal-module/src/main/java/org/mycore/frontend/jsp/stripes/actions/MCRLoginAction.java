@@ -34,13 +34,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRSession;
+import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.MCRSystemUserInformation;
 import org.mycore.common.MCRUserInformation;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
 import org.mycore.frontend.jsp.stripes.actions.util.MCRLoginNextStep;
-import org.mycore.frontend.servlets.MCRServlet;
 import org.mycore.services.i18n.MCRTranslation;
 import org.mycore.user2.MCRRole;
 import org.mycore.user2.MCRRoleManager;
@@ -68,6 +68,8 @@ import net.sourceforge.stripes.action.UrlBinding;
  */
 @UrlBinding("/login.action")
 public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBean {
+    public static String SESSION_ATTR_MCR_USER_INFORMATION = "mcr.jspdocportal.userinformation";
+    
     private static Logger LOGGER = LogManager.getLogger(MCRLoginAction.class);
 
     ForwardResolution fwdResolution = new ForwardResolution("/content/login.jsp");
@@ -85,7 +87,7 @@ public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBe
         if ("true".equals(request.getParameter("logout"))) {
             return doLogout();
         } else {
-            MCRSession mcrSession = MCRServlet.getSession(request);
+            MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
             MCRUserInformation mcrUserInfo = mcrSession.getUserInformation();
             if (mcrUserInfo != null && !mcrUserInfo.getUserID().equals("guest")) {
                 loginStatus = "user.welcome";
@@ -100,10 +102,11 @@ public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBe
 
     public Resolution doLogout() {
         HttpServletRequest request = (HttpServletRequest) getContext().getRequest();
-        MCRSession session = MCRServlet.getSession(request);
+        MCRSession session = MCRSessionMgr.getCurrentSession();
         String uid = session.getUserInformation().getUserID();
         LOGGER.debug("Log out user " + uid);
         session.setUserInformation(MCRSystemUserInformation.getGuestInstance());
+        request.getSession().setAttribute(SESSION_ATTR_MCR_USER_INFORMATION, session.getUserInformation());
         return fwdResolution;
     }
 
@@ -111,7 +114,7 @@ public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBe
         boolean mcrLoginOK = false;
 
         HttpServletRequest request = (HttpServletRequest) getContext().getRequest();
-        MCRSession mcrSession = MCRServlet.getSession(request);
+        MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
         try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()) {
             String oldUserID = mcrSession.getUserInformation().getUserID();
 
@@ -145,7 +148,7 @@ public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBe
                 return fwdResolution;
             }
 
-            mcrLoginOK = loginInMyCore(userID, password, mcrSession);
+            mcrLoginOK = loginInMyCore(userID, password, mcrSession, request);
             // interprete the results
             if (mcrLoginOK) {
                 loginOK = true;
@@ -161,13 +164,14 @@ public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBe
         }
     }
 
-    private boolean loginInMyCore(String mcrUserID, String mcrPassword, MCRSession mcrSession) {
+    private boolean loginInMyCore(String mcrUserID, String mcrPassword, MCRSession mcrSession, HttpServletRequest request) {
         boolean result = false;
         try {
             MCRUser mcrUser = MCRUserManager.login(mcrUserID, mcrPassword);
             if (mcrUser != null) {
                 result = true;
                 mcrSession.setUserInformation(mcrUser);
+                request.getSession().setAttribute(SESSION_ATTR_MCR_USER_INFORMATION, mcrSession.getUserInformation());
                 loginStatus = "user.welcome";
                 LOGGER.debug("user " + userID + " logged in ");
             } else {

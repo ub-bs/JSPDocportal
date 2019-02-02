@@ -52,14 +52,14 @@
     <filter-name>SetChacterEncodingFilter</filter-name>
     <url-pattern>*</url-pattern>
   </filter-mapping>
-
+  
 	<filter>
-   		<filter-name>MCRSessionInjectionFilter</filter-name>
-   		<filter-class>org.mycore.frontend.jsp.MCRSessionInjectionFilter</filter-class>
+   		<filter-name>MCRSessionUserInjectionFilter</filter-name>
+   		<filter-class>org.mycore.frontend.jsp.MCRSessionUserInjectionFilter</filter-class>
 	</filter>
 
 	<filter-mapping>
-   		<filter-name>MCRSessionInjectionFilter</filter-name>
+   		<filter-name>MCRSessionUserInjectionFilter</filter-name>
    		<url-pattern>*.action</url-pattern>
    		<url-pattern>*.jsp</url-pattern>
 		<url-pattern>/search/*</url-pattern>
@@ -69,8 +69,9 @@
 		<url-pattern>/indexbrowser/*</url-pattern>
 		<url-pattern>/site/*</url-pattern>
 		<url-pattern>/metadata/*</url-pattern>
+        <url-pattern>/file/*</url-pattern>
 	</filter-mapping>
-	 
+  
   <filter>
 		<display-name>Stripes Filter</display-name>
 		<filter-name>StripesFilter</filter-name>
