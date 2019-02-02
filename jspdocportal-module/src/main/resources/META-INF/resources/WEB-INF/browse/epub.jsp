@@ -146,8 +146,9 @@
                     <c:param name="_remove-filter" value="${fq}" />
                   </c:url>
                   <c:set var="c"><fmt:message key="Browse.Filter.epub.${fn:substringBefore(fn:substring(fq, 1, -1),':')}" />: ${actionBean.calcFacetOutputString(fn:substringBefore(fn:substring(fq, 1, -1),':'), fn:substringAfter(fn:substring(fq, 1, -1),':'))}</c:set>
-                   <button class="btn btn-sm w-100 ir-facets-btn active" onclick="window.location.href='${url}'">
-                      <i class="fas fa-times" style="position: absolute; top: 5px; right: 20px; color: darkred;"></i>
+                   <button class="btn btn-sm ir-filter-btn active" 
+                       onclick="window.location.href='${url}'">
+                      <i class="fas fa-times" style="position: absolute; top: 5px; right: 5px; color: darkred;"></i>
                       <span>${c}</span>
                   </button>
                 </c:if>
