@@ -68,7 +68,7 @@ import net.sourceforge.stripes.action.UrlBinding;
  */
 @UrlBinding("/login.action")
 public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBean {
-    public static String SESSION_ATTR_MCR_USER_INFORMATION = "mcr.jspdocportal.userinformation";
+    public static String SESSION_ATTR_MCR_USER = "mcr.jspdocportal.current_user";
     
     private static Logger LOGGER = LogManager.getLogger(MCRLoginAction.class);
 
@@ -106,7 +106,7 @@ public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBe
         String uid = session.getUserInformation().getUserID();
         LOGGER.debug("Log out user " + uid);
         session.setUserInformation(MCRSystemUserInformation.getGuestInstance());
-        request.getSession().setAttribute(SESSION_ATTR_MCR_USER_INFORMATION, session.getUserInformation());
+        request.getSession().removeAttribute(SESSION_ATTR_MCR_USER);
         return fwdResolution;
     }
 
@@ -171,7 +171,7 @@ public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBe
             if (mcrUser != null) {
                 result = true;
                 mcrSession.setUserInformation(mcrUser);
-                request.getSession().setAttribute(SESSION_ATTR_MCR_USER_INFORMATION, mcrSession.getUserInformation());
+                request.getSession().setAttribute(SESSION_ATTR_MCR_USER, mcrUser);
                 loginStatus = "user.welcome";
                 LOGGER.debug("user " + userID + " logged in ");
             } else {
