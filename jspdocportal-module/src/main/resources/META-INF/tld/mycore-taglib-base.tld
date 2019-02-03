@@ -658,24 +658,6 @@
 			to objects to a given variable name -->
 	</tag>
 
-	
-	<tag>
-		<name>setLanguage</name>
-		<tag-class>org.mycore.frontend.jsp.taglibs.MCRSetLanguageTag</tag-class>
-		<body-content>empty</body-content>
-		<attribute>
-			<name>var</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>allowedLanguages</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<!-- A Tag, that reads the current language from MCRSession and
-		     and sets a new language if the request contains a parameter lang -->
-	</tag>
 	<tag>
 		<name>ifSorted</name>
 		<tag-class>org.mycore.frontend.jsp.taglibs.MCRIfSortedTag</tag-class>

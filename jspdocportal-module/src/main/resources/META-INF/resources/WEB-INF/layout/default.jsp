@@ -21,7 +21,7 @@
 	<c:set var="WebApplicationBaseURL" value="${applicationScope.WebApplicationBaseURL}" />
 	<c:set var="path" value="${requestScope.path}" />
 	<%-- set the current language --%>
-	<mcr:setLanguage var="lang" allowedLanguages="de" />
+	<mcr:session var="lang" information="langauage" />
 	<fmt:setLocale value="${lang}" scope="request" />
 
 	<html>

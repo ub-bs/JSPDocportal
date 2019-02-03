@@ -53,6 +53,19 @@
     <url-pattern>*</url-pattern>
   </filter-mapping>
   
+  <filter>
+      <filter-name>MCRSessionSingleCallFilter</filter-name>
+      <filter-class>org.mycore.frontend.jsp.MCRSessionSingleCallFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+      <filter-name>MCRSessionSingleCallFilter</filter-name>
+         <url-pattern>/resolve/*</url-pattern>
+        <url-pattern>/file/*</url-pattern>
+        <url-pattern>/api/*</url-pattern>
+        <url-pattern>/content/mcrviewer_embedded.jsp</url-pattern>
+  </filter-mapping>
+  
 	<filter>
    		<filter-name>MCRSessionUserInjectionFilter</filter-name>
    		<filter-class>org.mycore.frontend.jsp.MCRSessionUserInjectionFilter</filter-class>
