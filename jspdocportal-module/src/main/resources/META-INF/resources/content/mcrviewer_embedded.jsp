@@ -28,9 +28,9 @@
   <title>Embedded MyCoRe Viewer</title>
   <script src="${applicationScope.WebApplicationBaseURL}webjars/jquery/3.3.1-1/jquery.min.js"></script>
   <link href="${applicationScope.WebApplicationBaseURL}modules/bootstrap_3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <link href="${iviewBaseURL}css/default.css" type="text/css" rel="stylesheet" />
 </head>
 <body>
-    <link href="${iviewBaseURL}css/default.css" type="text/css" rel="stylesheet">
     <script src="${iviewBaseURL}js/iview-client-base.js"></script>
     <script src="${iviewBaseURL}js/iview-client-frame.js"></script>
 <c:if test="${doctype eq 'pdf' }">

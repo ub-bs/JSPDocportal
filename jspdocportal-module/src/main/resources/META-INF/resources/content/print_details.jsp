@@ -19,7 +19,7 @@
 <c:set var="from"  value="${param.from}" />
 
 
-<mcr:session method="get" type="language" var="lang" />
+<mcr:session info="language" var="lang" />
 <fmt:setLocale value="${lang}" scope="session" />
 
 <html>

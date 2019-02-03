@@ -227,6 +227,23 @@
 			<required>true</required>
 		</attribute>
 	</tag>
+  
+    <tag>
+      <name>session</name>
+      <tag-class>org.mycore.frontend.jsp.taglibs.MCRSessionTag</tag-class>
+      <body-content>empty</body-content>
+      <attribute>
+        <name>var</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+        <name>info</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+      </attribute>
+    <!-- A Tag, that gets Information of the current mcrSession -->
+    </tag>
 	
 	
 <!-- *************************************************************************
@@ -658,32 +675,6 @@
 		</attribute>
 		<!-- A Tag, that reads the current language from MCRSession and
 		     and sets a new language if the request contains a parameter lang -->
-	</tag>
-	<tag>
-		<name>session</name>
-		<tag-class>org.mycore.frontend.jsp.taglibs.MCRSessionTag</tag-class>
-		<body-content>empty</body-content>
-		<attribute>
-			<name>method</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>var</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>type</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>key</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<!-- A Tag, that gets Information of the current mcrSession -->
 	</tag>
 	<tag>
 		<name>ifSorted</name>

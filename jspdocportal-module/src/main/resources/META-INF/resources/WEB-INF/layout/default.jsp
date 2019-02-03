@@ -51,7 +51,7 @@
 					<ol>
 						<li class="separator">|</li> 
 						<li class="userinfo">
-							<mcr:session method="get" var="username" type="userID" />
+							<mcr:session var="username" info="userID" />
 							<c:if test="${not username eq 'guest'}">
 								<span class="label"><fmt:message key="Webpage.user" />:&#160;</span>
 								<span class="username">							 

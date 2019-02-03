@@ -14,73 +14,38 @@ import org.mycore.common.MCRSessionMgr;
 public class MCRSessionTag extends SimpleTagSupport {
     private static Logger LOGGER = LogManager.getLogger(MCRSessionTag.class);
 
-    private String method;
+    private String info;
     private String var;
-    private String type;
-    private String key;
 
-    public void setMethod(String inputMethod) {
-        method = inputMethod;
-        return;
+    public void setInfo(String info) {
+        this.info = info;
     }
 
     public void setVar(String inputVar) {
         var = inputVar;
-        return;
-    }
-
-    public void setType(String inputType) {
-        type = inputType;
-        return;
-    }
-
-    public void setKey(String inputKey) {
-        key = inputKey;
-        return;
     }
 
     public void doTag() throws JspException, IOException {
         PageContext pageContext = (PageContext) getJspContext();
-        //"HttpJspBase" is the name of the servlet that handles JSPs
-        if (!method.equals("set") && !method.equals("get") && !method.equals("init")) {
-            LOGGER.error("unknown method: " + method);
-            return;
-        }
-        if (method.equals("init")) {
-            return;
-        }
 
         MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
-        if (type != null && !type.equals("")) {
-            if (type.equals("userID")) {
-                if (method.equals("get"))
-                    pageContext.setAttribute(var, mcrSession.getUserInformation().getUserID());
+        if (info != null && !info.equals("")) {
+            if (info.equals("userID")) {
 
-            } else if (type.equals("language")) {
-                if (method.equals("get"))
-                    pageContext.setAttribute(var, mcrSession.getCurrentLanguage());
-                else
-                    mcrSession.setCurrentLanguage((String) pageContext.getAttribute(var));
-            } else if (type.equals("IP")) {
-                if (method.equals("get"))
-                    pageContext.setAttribute(var, mcrSession.getCurrentIP());
-                else
-                    mcrSession.setCurrentIP((String) pageContext.getAttribute(var));
-            } else if (type.equals("ID")) {
-                if (method.equals("get"))
-                    pageContext.setAttribute(var, mcrSession.getID());
-                else
-                    LOGGER.error("set not possible for type ID!");
+                pageContext.setAttribute(var, mcrSession.getUserInformation().getUserID());
+
+            } else if (info.equals("language")) {
+
+                pageContext.setAttribute(var, mcrSession.getCurrentLanguage());
+            } else if (info.equals("IP")) {
+
+                pageContext.setAttribute(var, mcrSession.getCurrentIP());
+            } else if (info.equals("ID")) {
+
+                pageContext.setAttribute(var, mcrSession.getID());
             } else {
-                LOGGER.error("unknown type: " + type);
+                LOGGER.error("unknown information: " + info);
             }
-            return;
-        } else if (key != null && !key.equals("")) {
-            if (method.equals("get"))
-                pageContext.setAttribute(var, mcrSession.get(key));
-            else
-                mcrSession.put(key, pageContext.getAttribute(var));
-            return;
         }
         return;
     }
