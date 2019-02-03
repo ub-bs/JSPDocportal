@@ -161,7 +161,7 @@
      });
     </script>
 </c:if>
-  <script src="${applicationScope.WebApplicationBaseURL}themes/bootstrap_3.3.7/js/bootstrap.min.js"></script>
+  <script src="${applicationScope.WebApplicationBaseURL}modules/bootstrap_3.3.7/js/bootstrap.min.js"></script>
 
 </body>
 </html>

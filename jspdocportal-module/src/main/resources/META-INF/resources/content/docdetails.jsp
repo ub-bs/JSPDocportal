@@ -41,7 +41,7 @@
 <stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}">
   <stripes:layout-component name="html_header">
 		<title>${pageTitle}@ <fmt:message key="Webpage.title" /></title>
-	    <link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}modules/shariff_3.0.1/shariff.complete.css">
+	    <link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}modules/shariff_3.0.1/shariff.min.css">
 		<script>
      	$( document ).ready(function() {
  			$('[data-mcr-action="popover4person"]').popover({
