@@ -116,13 +116,6 @@
       							<c:import url="${WebApplicationBaseURL}content/docdetails/docdetails_document.jsp?id=${mcrid}" />
   							</c:otherwise>
   						</c:choose>
-
-           <div class="div-technical-data" style="display:none;">
-            <hr />
-            <textarea rows="30" cols="95"><c:import charEncoding="UTF-8" url="${WebApplicationBaseURL}api/v1/objects/${mcrid}" />
-            </textarea>
-          </div>
-
             <c:if test="${result.numFound>0}">
               <jspdp-ui:details-pagination numFound="${result.numFound}" current="${result.current}" mcrid="${mcrid}"/>
             </c:if>
