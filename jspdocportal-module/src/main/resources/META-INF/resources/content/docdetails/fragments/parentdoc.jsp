@@ -7,7 +7,7 @@
 
 <c:set var="mcrid" value="${param.mcrid}" />
 
-<mcr:receiveMcrObjAsJdom mcrid="${mcrid}" var="jdom" varDom="dom" fromWF="false"/>
+<mcr:retrieveObject mcrid="${mcrid}" varJDOM="jdom" varDOM="dom" cache="true"/>
 <c:if test="${not empty jdom}" >
 	<c:set var="type"><mcr:simpleXpath jdom="${jdom}" xpath="/mycoreobject/metadata/types/type/@categid" /></c:set>
 	<c:set var="format"><mcr:simpleXpath jdom="${jdom}" xpath="/mycoreobject/metadata/formats/format/@categid"/></c:set>

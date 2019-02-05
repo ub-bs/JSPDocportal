@@ -5,7 +5,7 @@
 <%@ taglib uri="http://www.mycore.org/jspdocportal/base.tld" prefix="mcr" %>
 <%--Parameter: mcrid --%>
 <c:set var="mcrid" value="${param.mcrid}" />
-<mcr:receiveMcrObjAsJdom mcrid="${mcrid}" var="jdom" varDom="dom" fromWF="false"/>
+<mcr:retrieveObject mcrid="${mcrid}" varJDOM="jdom" varDOM="dom" cache="true" />
 
 <c:if test="${not empty jdom}" >
     <c:set var="title"><mcr:simpleXpath jdom="${jdom}" xpath="/mycoreobject/metadata/titles/title[@type='short']" /></c:set>

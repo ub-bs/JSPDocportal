@@ -9,7 +9,7 @@
 <%-- Parameter: id - the MCR Object ID--%>
 <%-- Parameter: url - the MCR Object ID--%>
 
-<mcr:receiveMcrObjAsJdom mcrid="${param.id}" varDom="xml"/>
+<mcr:retrieveObject mcrid="${param.id}" varDOM="xml"/>
 <c:set var="type" value="${fn:substringBefore(fn:substringAfter(param.id, '_'),'_')}" />
 <table class="table searchresult-table">
 	<tr>

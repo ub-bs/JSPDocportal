@@ -143,6 +143,16 @@
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
+        <attribute>
+          <name>query</name>
+          <required>false</required>
+          <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+          <name>cache</name>
+          <required>false</required>
+          <rtexprvalue>true</rtexprvalue>
+        </attribute>
 		<attribute>
 			<name>varDOM</name>
 			<required>false</required>
@@ -730,52 +740,6 @@
 		<!-- A Tag, that displays the text of a category in a MCR classification -->
 	</tag>
 
-
-	<tag>
-		<name>receiveMcrObjAsJdom</name>
-		<tag-class>org.mycore.frontend.jsp.taglibs.MCRReceiveMcrObjAsJdomTag</tag-class>
-		<body-content>empty</body-content>
-		<attribute>
-			<name>varDom</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>var</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>mcrid</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>fromWF</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<!-- A Tag, that sets a pageContext variable with an MyCoRe-Object as jdom 
-			Document -->
-	</tag>
-
-	<tag>
-		<name>receiveUserAsJdom</name>
-		<tag-class>org.mycore.frontend.jsp.taglibs.MCRReceiveUserAsJdomTag</tag-class>
-		<body-content>empty</body-content>
-		<attribute>
-			<name>var</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>userID</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<!-- A Tag, that sets a pageContext variable with an MyCoRe-Object as jdom 
-			Document -->
-	</tag>
 	<tag>
 		<name>simpleXpath</name>
 		<tag-class>org.mycore.frontend.jsp.taglibs.MCRSimpleXpathTag</tag-class>

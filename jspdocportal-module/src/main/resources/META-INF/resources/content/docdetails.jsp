@@ -23,7 +23,7 @@
 
 <c:set var="objectType" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" />
 
-<mcr:retrieveObject mcrid="${mcrid}" fromWorkflow="${param.fromWF}" varDOM="doc" />
+<mcr:retrieveObject mcrid="${mcrid}" fromWorkflow="${param.fromWF}" varDOM="doc" cache="true" />
 
 <fmt:message var="pageTitle" key="OMD.headline">
 	<fmt:param>${mcrid}</fmt:param>

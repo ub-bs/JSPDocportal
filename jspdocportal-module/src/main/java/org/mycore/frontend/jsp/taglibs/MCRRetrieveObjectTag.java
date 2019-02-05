@@ -24,17 +24,33 @@
 package org.mycore.frontend.jsp.taglibs;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.jdom2.JDOMException;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocumentList;
+import org.jdom2.Document;
 import org.jdom2.output.DOMOutputter;
 import org.mycore.activiti.MCRActivitiUtils;
 import org.mycore.common.MCRException;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
+import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
+import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
+import org.mycore.solr.MCRSolrClientFactory;
+
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 
 /**
  * part of the MCRDocdetails Tag Library
@@ -51,6 +67,21 @@ import org.mycore.datamodel.metadata.MCRObjectID;
  *          2010) $
  */
 public class MCRRetrieveObjectTag extends SimpleTagSupport {
+    private static Logger LOGGER = LogManager.getLogger(MCRRetrieveObjectTag.class);
+    
+    private static DOMOutputter DOM_OUTPUTTER = new DOMOutputter();
+    
+    private static LoadingCache<String, Document> MCROBJECTXML_CACHE = CacheBuilder.newBuilder().maximumSize(300)
+            .expireAfterWrite(3, TimeUnit.MINUTES).expireAfterAccess(15, TimeUnit.SECONDS).build(new CacheLoader<String, Document>() {
+                @Override
+                public Document load(String mcrid) throws Exception {
+                    try (MCRHibernateTransactionWrapper htw = new MCRHibernateTransactionWrapper()) {
+                        MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrid));
+                        return mcrObj.createXML();
+                    }
+                }
+            });
+    
     private String mcrid;
 
     private boolean fromWorkflow = false;
@@ -58,6 +89,10 @@ public class MCRRetrieveObjectTag extends SimpleTagSupport {
     private String varDOM;
 
     private String varJDOM;
+    
+    private String query;
+    
+    private String cache="";
 
     /**
      * sets the MCR Object ID (mandatory)
@@ -68,6 +103,14 @@ public class MCRRetrieveObjectTag extends SimpleTagSupport {
      */
     public void setMcrid(String mcrid) {
         this.mcrid = mcrid;
+    }
+    
+    public void setQuery(String query) {
+        this.query = query;
+    }
+    
+    public void setCache(String cache) {
+        this.cache = cache;
     }
 
     /**
@@ -112,22 +155,47 @@ public class MCRRetrieveObjectTag extends SimpleTagSupport {
      */
     public void doTag() throws JspException, IOException {
         try {
+            PageContext pageContext = (PageContext) getJspContext();
+            if(StringUtils.isNotBlank(query)) {
+                try {
+                    SolrClient solrClient = MCRSolrClientFactory.getMainSolrClient();
+                    SolrQuery solrQuery = new SolrQuery();
+                    solrQuery.setQuery("query");
+                    solrQuery.setFields("id");
+                    QueryResponse solrResponse = solrClient.query(solrQuery);
+                    SolrDocumentList solrResults = solrResponse.getResults();
+
+                    if(solrResults.size()>0) {
+                        mcrid = String.valueOf(solrResults.get(0).getFirstValue("id"));
+                    }
+                } catch (SolrServerException e) {
+                    LOGGER.error(e);
+                }
+            }
+            if(cache.contains("clear") || "clear".equals(pageContext.getRequest().getParameter("_cache"))) {
+                MCROBJECTXML_CACHE.invalidate(mcrid);
+            }
+            
             MCRObjectID mcrObjID = MCRObjectID.getInstance(mcrid);
             org.jdom2.Document doc = null;
             if (fromWorkflow) {
                 doc = MCRActivitiUtils.getWorkflowObjectXML(mcrObjID);
             } else {
-                doc = MCRMetadataManager.retrieve(mcrObjID).createXML();
+                if(cache.contains("true") || cache.contains("on")) {
+                    doc = MCROBJECTXML_CACHE.get(mcrid);
+                }
+                else {
+                    doc = MCRMetadataManager.retrieveMCRObject(mcrObjID).createXML();
+                }
             }
             if (varDOM != null) {
-                DOMOutputter output = new DOMOutputter();
-                org.w3c.dom.Document dom = output.output(doc);
+                org.w3c.dom.Document dom = DOM_OUTPUTTER.output(doc);
                 getJspContext().setAttribute(varDOM, dom, PageContext.REQUEST_SCOPE);
             }
             if (varJDOM != null) {
                 getJspContext().setAttribute(varJDOM, doc, PageContext.REQUEST_SCOPE);
             }
-        } catch (JDOMException e) {
+        } catch (Exception e) {
             throw new MCRException(e);
         }
     }

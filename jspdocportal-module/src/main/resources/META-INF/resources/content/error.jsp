@@ -10,12 +10,15 @@
 <%@ taglib prefix="search" tagdir="/WEB-INF/tags/search"%>
 
 <fmt:message var="pageTitle" key="Webpage.error.title" />
+<%-- 
 <stripes:layout-render name="../WEB-INF/layout/default.jsp"
 	pageTitle="${pageTitle}" layout="2columns">
 	<stripes:layout-component name="html_header">
 
 	</stripes:layout-component>
+  
 	<stripes:layout-component name="main_part">
+--%>  
 		<div class="container" style="margin-bottom:75px" >
 			<div class="row">
 				<div class="col-12">
@@ -54,5 +57,7 @@
 				</c:if>
 			</div>
 		</div>
+    <%-- 
 	</stripes:layout-component>
 </stripes:layout-render>
+--%>
