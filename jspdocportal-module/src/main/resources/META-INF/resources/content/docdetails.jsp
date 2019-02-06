@@ -304,9 +304,8 @@
                 <c:set var="mesKey">OMD.derivatedisplay.<x:out select="@xlink:title"/></c:set>
                     <img align="left" src="${WebApplicationBaseURL}images/download_pdf.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
                     <strong><fmt:message key="${mesKey}" /></strong>
-                    <c:set var="url">${WebApplicationBaseURL}api/v1/objects/<x:out select="$doc/mycoreobject/@ID" />/derivates/<x:out select="./@xlink:href" />/contents</c:set>
-                    <c:import var="derXML" url="${url}"/>
-                    <x:parse xml="${derXML}" var="derDoc"/>
+                    <c:set var="derid"><x:out select="./@xlink:href" /></c:set>
+                    <mcr:retrieveDerivateContentsXML derid="${derid}" varDOM="derDoc" />
                     <x:set var="derLink" select="$derDoc//children/child[1]" />
                       <x:if select="$derLink">
                         <br />
@@ -321,7 +320,7 @@
            <c:if test="${not empty recordID}">
              <a class="btn btn-primary ir-button-download"  
                  href="${WebApplicationBaseURL}pdfdownload/recordIdentifier/${fn:replace(recordID, '/','_')}" target="_blank">
-                <img align="left"" src="${WebApplicationBaseURL}images/download_pdf.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
+                <img align="left" src="${WebApplicationBaseURL}images/download_pdf.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
                  <strong><fmt:message key="Webpage.docdetails.pdfdownload" /></strong>
              </a>
            </c:if>
@@ -334,9 +333,8 @@
          </x:if>
        
          <x:forEach select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='data' or @xlink:title='documentation' or @xlink:title='supplement' ]">
-             <c:set var="url">${WebApplicationBaseURL}api/v1/objects/<x:out select="/mycoreobject/@ID" />/derivates/<x:out select="./@xlink:href" />/contents</c:set>
-             <c:import var="derXML" url="${url}"/>
-             <x:parse xml="${derXML}" var="derDoc"/>
+             <c:set var="derid"><x:out select="./@xlink:href" /></c:set>
+             <mcr:retrieveDerivateContentsXML derid="${derid}" varDOM="derDoc" />
              <x:set var="derLink" select="$derDoc//children/child[1]" />
              <x:if select="$derLink">
                <a class="btn btn-secondary ir-button-download mt-3" style="text-align:left" title="MD5: <x:out select="$derLink/md5" />" 

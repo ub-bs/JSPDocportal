@@ -166,6 +166,33 @@
 	</tag>
   
   <tag>
+    <description>A Tag, that loads the content (directory listing) of a derivate as XML</description>
+    <name>retrieveDerivateContentsXML</name>
+    <tag-class>org.mycore.frontend.jsp.taglibs.MCRRetrieveDerivateContentsXMLTag</tag-class>
+    <body-content>empty</body-content>
+    <attribute>
+      <name>derid</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>depth</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>varDOM</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>varJDOM</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+  
+  <tag>
     <description>A tag, that makes an XSLT transformation</description>
     <name>transformXSL</name>
     <tag-class>org.mycore.frontend.jsp.taglibs.MCRTransformXslTag</tag-class>
