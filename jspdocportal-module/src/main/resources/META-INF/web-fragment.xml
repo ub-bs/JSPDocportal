@@ -52,27 +52,13 @@
     <filter-name>SetChacterEncodingFilter</filter-name>
     <url-pattern>*</url-pattern>
   </filter-mapping>
-  
+
   <filter>
-      <filter-name>MCRSessionSingleCallFilter</filter-name>
-      <filter-class>org.mycore.frontend.jsp.MCRSessionSingleCallFilter</filter-class>
+    <filter-name>MCRSessionInitializationFilter</filter-name>
+    <filter-class>org.mycore.frontend.filter.MCRSessionInitializationFilter</filter-class>
   </filter>
-
   <filter-mapping>
-      <filter-name>MCRSessionSingleCallFilter</filter-name>
-         <url-pattern>/resolve/*</url-pattern>
-        <url-pattern>/file/*</url-pattern>
-        <url-pattern>/api/*</url-pattern>
-        <url-pattern>/content/mcrviewer_embedded.jsp</url-pattern>
-  </filter-mapping>
-  
-	<filter>
-   		<filter-name>MCRSessionUserInjectionFilter</filter-name>
-   		<filter-class>org.mycore.frontend.jsp.MCRSessionUserInjectionFilter</filter-class>
-	</filter>
-
-	<filter-mapping>
-   		<filter-name>MCRSessionUserInjectionFilter</filter-name>
+   		<filter-name>MCRSessionInitializationFilter</filter-name>
    		<url-pattern>*.action</url-pattern>
    		<url-pattern>*.jsp</url-pattern>
 		<url-pattern>/search/*</url-pattern>
@@ -83,8 +69,8 @@
 		<url-pattern>/site/*</url-pattern>
 		<url-pattern>/metadata/*</url-pattern>
         <url-pattern>/file/*</url-pattern>
-	</filter-mapping>
-  
+   </filter-mapping>
+
   <filter>
 		<display-name>Stripes Filter</display-name>
 		<filter-name>StripesFilter</filter-name>
