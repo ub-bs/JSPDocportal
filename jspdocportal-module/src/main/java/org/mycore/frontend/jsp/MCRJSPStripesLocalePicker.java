@@ -3,6 +3,9 @@ package org.mycore.frontend.jsp;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.jstl.core.Config;
+
+import org.mycore.common.MCRSessionMgr;
 
 import net.sourceforge.stripes.localization.DefaultLocalePicker;
 
@@ -36,6 +39,8 @@ public class MCRJSPStripesLocalePicker extends DefaultLocalePicker {
             } else {
                 request.getSession().setAttribute("stripes_locale", locales.get(0));
             }
+            MCRSessionMgr.getCurrentSession().setCurrentLanguage(lang);
+            Config.set(request.getSession(), Config.FMT_LOCALE, loc);
         }
         if (request.getSession().getAttribute("stripes_locale") == null) {
             request.getSession().setAttribute("stripes_locale", locales.get(0));
