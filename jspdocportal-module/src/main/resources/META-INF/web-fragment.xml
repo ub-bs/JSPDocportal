@@ -55,7 +55,7 @@
 
   <filter>
     <filter-name>MCRSessionInitializationFilter</filter-name>
-    <filter-class>org.mycore.frontend.filter.MCRSessionInitializationFilter</filter-class>
+    <filter-class>org.mycore.frontend.jsp.MCRSessionInitializationFilter</filter-class>
   </filter>
   <filter-mapping>
    		<filter-name>MCRSessionInitializationFilter</filter-name>
@@ -68,7 +68,7 @@
 		<url-pattern>/indexbrowser/*</url-pattern>
 		<url-pattern>/site/*</url-pattern>
 		<url-pattern>/metadata/*</url-pattern>
-        <url-pattern>/file/*</url-pattern>
+        <!-- <url-pattern>/file/*</url-pattern> exclude MCRFileNodeServlet = MCRServlet -->
    </filter-mapping>
 
   <filter>
