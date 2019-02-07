@@ -26,6 +26,7 @@ import org.jdom2.JDOMException;
 import org.jdom2.transform.JDOMSource;
 import org.mycore.activiti.MCRActivitiUtils;
 import org.mycore.common.MCRSession;
+import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.content.MCRFileContent;
 import org.mycore.common.xml.MCRURIResolver;
 import org.mycore.common.xsl.MCRParameterCollector;
@@ -212,8 +213,7 @@ public class MCRIncludeEditorInWorkflowTag extends SimpleTagSupport {
             cancelPage = MCRFrontendUtil.getBaseURL() + "nav?path=~workflow-" + workflowType;
         }
 
-        MCRSession mcrSession = MCRServlet
-                .getSession((HttpServletRequest) ((PageContext) getJspContext()).getRequest());
+        MCRSession mcrSession = MCRSessionMgr.getCurrentSession();
         params.put("lang", mcrSession.getCurrentLanguage());
         params.put("XSL.editor.source.new", isNewEditorSource);
         params.put("mcrid", mcrid);
