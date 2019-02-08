@@ -29,4 +29,4 @@
      </div>
       
     <search:browse-classification-inner category="${rootCateg}" facetField="${facetField}" mask="${mask}" lang="${lang}"/>
-   </div>
+  </div>
