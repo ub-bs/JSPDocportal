@@ -26,6 +26,7 @@ public class MCRActivitiMgr {
 	public static final String WF_VAR_VALIDATION_RESULT = "validationResult";
 	public static final String WF_VAR_VALIDATION_MESSAGE = "validationMessage";
 	public static final String WF_VAR_DISPLAY_TITLE = "wfObjectDisplayTitle";
+	public static final String WF_VAR_DISPLAY_LICENCE_HTML = "wfObjectLicenceHTML";
 	public static final String WF_VAR_DISPLAY_DESCRIPTION = "wfObjectDisplayDescription";
 	public static final String WF_VAR_DISPLAY_PERSISTENT_IDENTIFIER = "wfObjectDisplayPersistentIdentifier";
 	public static final String WF_VAR_DISPLAY_RECORD_IDENTIFIER = "wfObjectDisplayRecordIdentifier";

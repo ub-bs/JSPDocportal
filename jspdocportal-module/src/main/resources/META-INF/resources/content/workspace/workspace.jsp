@@ -85,6 +85,11 @@
 														<h3 style="margin-top:0px">${currentVariables.wfObjectDisplayTitle}</h3>
 														<c:out value="${currentVariables.wfObjectDisplayDescription}" escapeXml="false" />
 													</div>
+                                                    <c:if test="${not empty currentVariables.wfObjectLicenceHTML}">
+                                                      <div style="clear:both;padding-bottom:15px">
+                                                        <c:out value="${currentVariables.wfObjectLicenceHTML}" escapeXml="false" />
+                                                      </div>
+                                                    </c:if>
 													<div style="clear:both">
 														<c:if test="${not empty currentVariables.wfObjectDisplayDerivateList}">
 															<c:out value="${currentVariables.wfObjectDisplayDerivateList}" escapeXml="false" />
