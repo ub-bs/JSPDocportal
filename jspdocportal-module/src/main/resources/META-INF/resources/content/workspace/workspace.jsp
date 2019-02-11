@@ -100,6 +100,13 @@
                                                       </a>
 							                         </div>
                                                 </div>
+                                                <c:if test="${not empty currentVariables.wfObjectLicenceHTML}">
+                                                	<div class="row">
+                                                    	<div class="col">
+	                                                        <c:out value="${currentVariables.wfObjectLicenceHTML}" escapeXml="false" />
+                                                        </div>
+                                                  	</div>
+                                                </c:if>
                                                 <div class="row">
                                                     <div class="col">
 														<c:if test="${not empty currentVariables.wfObjectDisplayDerivateList}">

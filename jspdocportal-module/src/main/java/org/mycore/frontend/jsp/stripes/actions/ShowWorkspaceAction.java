@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,6 +18,7 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jdom2.Attribute;
 import org.jdom2.filter.Filters;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
@@ -25,6 +27,10 @@ import org.mycore.activiti.MCRActivitiMgr;
 import org.mycore.activiti.MCRActivitiUtils;
 import org.mycore.common.MCRConstants;
 import org.mycore.common.config.MCRConfiguration;
+import org.mycore.datamodel.classifications2.MCRCategory;
+import org.mycore.datamodel.classifications2.MCRCategoryDAOFactory;
+import org.mycore.datamodel.classifications2.MCRCategoryID;
+import org.mycore.datamodel.classifications2.MCRLabel;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRObject;
@@ -365,6 +371,46 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
             MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(taskId,
                     MCRActivitiMgr.WF_VAR_DISPLAY_RECORD_IDENTIFIER, "");
         }
+        
+        //LicenceInfo
+        MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(taskId,
+            MCRActivitiMgr.WF_VAR_DISPLAY_LICENCE_HTML, "");
+        String xpLic = "//mods:mods/mods:classification[contains(@valueURI, 'licenseinfo#work')]/@valueURI";
+        XPathExpression<Attribute> xpathLic = XPathFactory.instance().compile(xpLic, Filters.attribute(), null,
+            MCRConstants.MODS_NAMESPACE);
+        try {
+            Attribute attrLic = xpathLic.evaluateFirst(mcrObj.createXML());
+            if (attrLic != null) {
+                String licID = attrLic.getValue().substring(attrLic.getValue().indexOf("#") + 1);
+                MCRCategory cat = MCRCategoryDAOFactory.getInstance()
+                    .getCategory(MCRCategoryID.fromString("licenseinfo:" + licID), 0);
+                if (cat != null) {
+                    Optional<MCRLabel> optLabelIcon = cat.getLabel("x-icon");
+                    Optional<MCRLabel> optLabelText = cat.getLabel("de");
+                    StringBuffer sb = new StringBuffer();
+                    sb.append("<table><tr><td colspan='3'>");
+                    if (optLabelText.isPresent()) {
+                        sb.append("<strong>").append(optLabelText.get().getText()).append("</strong>");
+                    }
+                    sb.append("</td></tr><tr><td>");
+                    if (optLabelIcon.isPresent()) {
+                        sb.append("<img src='" + MCRFrontendUtil.getBaseURL() + "images" + optLabelIcon.get().getText() + "' />");
+                    }
+                    sb.append("</td <td>&nbsp;&nbsp;&nbsp;</td> <td style='text-align:justify'>");
+                    if (optLabelText.isPresent()) {
+                        sb.append(optLabelText.get().getDescription());
+                    }
+                    sb.append("</td></tr></table>");
+                    MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(taskId,
+                        MCRActivitiMgr.WF_VAR_DISPLAY_LICENCE_HTML, sb.toString());
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.error(e);
+            MCRActivitiMgr.getWorfklowProcessEngine().getTaskService().setVariable(taskId,
+                MCRActivitiMgr.WF_VAR_DISPLAY_LICENCE_HTML, e.getMessage());
+        }
+
 
     }
 
