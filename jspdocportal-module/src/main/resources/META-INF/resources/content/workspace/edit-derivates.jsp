@@ -175,11 +175,11 @@
     													<img src="${WebApplicationBaseURL}images/fileicons/fileicon_bg.png" style="height:48px" />
     												</c:otherwise>
     											  </c:choose>
-    											  ${f}
-    											<c:if test="${maindoc eq f}">
+    											  <a href="${WebApplicationBaseURL}wffile/${currentVariables.mcrObjectID}/${derID}/${f}">${f}</a>
+    											  <c:if test="${maindoc eq f}">
     												<c:set var="info"><fmt:message key="Editor.Common.derivate.maindoc" /></c:set>
     												<i class="fas fa-star text-secondary ml-3" title="${info}"></i>
-    											</c:if>
+    											  </c:if>
                                                 </div>
                                                 <div class="col-4">
     											<input type="hidden" id="hiddenRenameFileNew_${derID}_${f}" name="renameFile_new-task_${actionBean.taskid}-derivate_${derID}-file_${f}" value="${f}" />
