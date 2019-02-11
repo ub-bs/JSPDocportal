@@ -14,7 +14,7 @@
 
 <stripes:layout-render name="../../WEB-INF/layout/default.jsp" pageTitle="${pageTitle}" layout="1column">
 
-<stripes:layout-component name="html_header">
+<stripes:layout-component name="html_head">
      <jspdp-ui:init-dojo/>
      <link type="text/css" rel="stylesheet" href="css/style_searchresult.css" />
      <link type="text/css" rel="stylesheet" href="css/style_docdetails.css">

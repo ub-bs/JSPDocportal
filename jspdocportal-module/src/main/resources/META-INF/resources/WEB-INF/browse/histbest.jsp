@@ -10,7 +10,7 @@
 <c:set var="org.mycore.navigation.path" scope="request">left.histbest.histbest_recherche</c:set>
 <fmt:message var="pageTitle" key="Webpage.browse.title.${actionBean.result.mask}" />
 <stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}">
-  <stripes:layout-component name="html_header">
+  <stripes:layout-component name="html_head">
     <meta name="mcr:search.id" content="${actionBean.result.id}" />
   </stripes:layout-component>
   <stripes:layout-component name="main_part">

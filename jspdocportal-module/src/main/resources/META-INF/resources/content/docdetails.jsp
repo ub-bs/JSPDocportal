@@ -39,7 +39,7 @@
   <c:set var="org.mycore.navigation.path" scope="request">left.histbest.histbest_recherche</c:set>
 </x:if>
 <stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}">
-  <stripes:layout-component name="html_header">
+  <stripes:layout-component name="html_head">
 		<title>${pageTitle}@ <fmt:message key="Webpage.title" /></title>
 	    <link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}modules/shariff_3.0.1/shariff.min.css">
 		<script>
@@ -88,14 +88,12 @@
     <div class="container">
       <div class="row d-block d-lg-none" style="padding: 0px 15px">
         <div class="col-12" style="padding-top:45px">
-           <c:if test="${empty param._search and (fn:contains(WebApplicationBaseURL, 'dbhsnb') or fn:contains(WebApplicationBaseURL, 'hs-nb'))}">
-				<div class="ir-nav-search ir-box text-right" style="padding:0px 0px 30px 0px">
-					<a class="btn btn-primary" href="${WebApplicationBaseURL}/browse/epub" class="btn btn-primary btn-sm">
-						<i class="fas fa-search"></i>
-						<fmt:message key="Webpage.docdetails.newsearch" />
-					</a>
-				</div>
-         	</c:if>
+		  <div class="ir-nav-search-back ir-nav-search ir-box text-right" style="padding:0px 0px 30px 0px">
+             <a class="btn btn-primary" href="${WebApplicationBaseURL}/browse/epub" class="btn btn-primary btn-sm">
+			    <i class="fas fa-search"></i>
+				<fmt:message key="Webpage.docdetails.newsearch" />
+			</a>
+ 		  </div>
           <search:result-navigator mcrid="${mcrid}" mode="one_line"/>
         </div>
       </div>

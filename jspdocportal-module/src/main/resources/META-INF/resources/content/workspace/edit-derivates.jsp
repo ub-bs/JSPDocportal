@@ -17,7 +17,7 @@
 <fmt:message var="pageTitle" key="WF.derivates.headline" /> 
 <mcrdd:setnamespace prefix="xlink" uri="http://www.w3.org/1999/xlink" />
 <stripes:layout-render name="../../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}" layout="2columns">
-	<stripes:layout-component name="html_header">
+	<stripes:layout-component name="html_head">
 		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_workspace.css" />
 		<script type="text/javascript">
 			function enableDerMetaEditing(derID){

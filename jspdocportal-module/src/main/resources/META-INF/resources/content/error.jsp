@@ -13,7 +13,7 @@
 <%-- 
 <stripes:layout-render name="../WEB-INF/layout/default.jsp"
 	pageTitle="${pageTitle}" layout="2columns">
-	<stripes:layout-component name="html_header">
+	<stripes:layout-component name="html_head">
 
 	</stripes:layout-component>
   

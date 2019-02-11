@@ -9,7 +9,7 @@
 
 <fmt:message var="pageTitle" key="Webpage.editwebcontent.form.headline" />
 <stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}" layout="1column">
-	<stripes:layout-component name="html_header">
+	<stripes:layout-component name="html_head">
 		<%-- Jquery from Layout: <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> --%>
    		<%-- Bootstrap from Layout: <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> --%>
    		<script src="${pageContext.request.contextPath}/webjars/ckeditor/4.4.7-1/standard/ckeditor.js"></script>

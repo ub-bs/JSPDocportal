@@ -11,7 +11,7 @@
 	key="Webpage.indexbrowser.${actionBean.modus}.title" />
 <stripes:layout-render name="../WEB-INF/layout/default.jsp"
 	pageTitle="${pageTitle}" layout="3columns">
-	<stripes:layout-component name="html_header">
+	<stripes:layout-component name="html_head">
 	<style>
 		.indexbrowser-btn {
 			margin-top:0.40em;

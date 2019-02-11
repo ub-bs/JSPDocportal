@@ -7,7 +7,7 @@
 
 <fmt:message var="pageTitle" key="Nav.ClassificationsSearch" />
 <stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle="${pageTitle}" layout="2columns">
-	<stripes:layout-component name="html_header">
+	<stripes:layout-component name="html_head">
 		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_classification-browser.css" />
 	</stripes:layout-component>
     <stripes:layout-component name="contents">

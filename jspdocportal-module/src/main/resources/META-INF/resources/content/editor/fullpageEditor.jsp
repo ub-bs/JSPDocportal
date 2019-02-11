@@ -13,7 +13,7 @@
 
 <fmt:message var="pageTitle" key="WF.Headline" /> 
 <stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}" layout="1column">
-  <stripes:layout-component name="html_header">
+  <stripes:layout-component name="html_head">
 	
   </stripes:layout-component>
   <stripes:layout-component name="main_part">

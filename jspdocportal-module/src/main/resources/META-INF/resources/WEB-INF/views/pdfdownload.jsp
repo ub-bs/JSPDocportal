@@ -12,7 +12,7 @@
 
 <c:set var="pageTitle"><fmt:message key="PDF.download.pageTitle" /></c:set> 
 <stripes:layout-render name="../../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
-	<stripes:layout-component name="html_header">
+	<stripes:layout-component name="html_head">
 		<title>${pageTitle} @ <fmt:message key="Webpage.title" /></title>
 		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_docdetails.css">
 	</stripes:layout-component>
