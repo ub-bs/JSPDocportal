@@ -396,7 +396,7 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
                     if (optLabelIcon.isPresent()) {
                         sb.append("<img src='" + MCRFrontendUtil.getBaseURL() + "images" + optLabelIcon.get().getText() + "' />");
                     }
-                    sb.append("</td <td>&nbsp;&nbsp;&nbsp;</td> <td style='text-align:justify'>");
+                    sb.append("</td><td>&nbsp;&nbsp;&nbsp;</td> <td style='text-align:justify'>");
                     if (optLabelText.isPresent()) {
                         sb.append(optLabelText.get().getDescription());
                     }
