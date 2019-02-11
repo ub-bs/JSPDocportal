@@ -459,8 +459,8 @@
 
        <div class="my-3"><%--Tools --%>
           <div class="float-right">
-            <button type="button" class="btn btn-sm ir-button-tools hidden-xs bg-dark text-light" style="border:none;color:#DEDEDE; background-color:white;" 
-                    data-toggle="collapse" data-target="#hiddenTools" title="<fmt:message key="Webpage.tools.menu4experts" />">
+            <button type="button" class="btn btn-sm ir-button-tools hidden-xs" data-toggle="collapse" data-target="#hiddenTools"
+                    title="<fmt:message key="Webpage.tools.menu4experts" />">
               <i class="fa fa-cog"></i>
             </button>
             <search:show-edit-button mcrid="${mcrid}" cssClass="btn btn-sm btn-primary ir-edit-btn pull-right" />
