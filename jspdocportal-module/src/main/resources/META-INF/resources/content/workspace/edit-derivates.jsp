@@ -160,7 +160,7 @@
     													<img src="${WebApplicationBaseURL}images/fileicons/fileicon_bg.png" style="height:48px" />
     												</c:otherwise>
     											</c:choose>
-    											${f}
+    											<a href="${WebApplicationBaseURL}wffile/${currentVariables.mcrObjectID}/${derID}/${f}">${f}</a>
     											<c:if test="${maindoc eq f}">
     												<c:set var="info"><fmt:message key="Editor.Common.derivate.maindoc" /></c:set>
     												<i style="margin-left:16px;color:grey;" class="fa fa-star" title="${info}"></i>
