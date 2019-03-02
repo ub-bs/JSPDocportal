@@ -281,7 +281,33 @@
       </attribute>
     <!-- A Tag, that gets Information of the current mcrSession -->
     </tag>
-	
+    
+    <tag>
+      <name>webjarLocator</name>
+      <tag-class> org.mycore.frontend.jsp.taglibs.MCRWebjarLocatorTag</tag-class>
+      <body-content>empty</body-content>
+      <attribute>
+        <name>var</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+        <name>project</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+        <name>file</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+        <name>htmlElement</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+      </attribute>
+    <!-- A Tag, that gets Information of the current mcrSession -->
+    </tag>
 	
 <!-- *************************************************************************
 	 *  OLD Tags, check if still needed !!!                                  *   

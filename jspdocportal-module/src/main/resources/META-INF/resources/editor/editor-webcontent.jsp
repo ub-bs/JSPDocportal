@@ -12,8 +12,9 @@
 	<stripes:layout-component name="html_head">
 		<%-- Jquery from Layout: <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> --%>
    		<%-- Bootstrap from Layout: <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> --%>
-   		<script src="${pageContext.request.contextPath}/webjars/ckeditor/4.4.7-1/standard/ckeditor.js"></script>
-   		<script src="${pageContext.request.contextPath}/webjars/ckeditor/4.4.7-1/standard/adapters/jquery.js"></script>
+   		
+   		<mcr:webjarLocator htmlElement="script" project="ckeditor" file="standard/ckeditor.js" />
+   		<mcr:webjarLocator htmlElement="script" project="ckeditor" file="standard/adapters/jquery.js" />
 	</stripes:layout-component>
 	
 	<stripes:layout-component name="main_part">

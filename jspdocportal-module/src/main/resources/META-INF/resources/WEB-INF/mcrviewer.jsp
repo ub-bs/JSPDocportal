@@ -13,19 +13,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="stylesheet" type="text/css" href="${applicationScope.WebApplicationBaseURL}modules/bootstrap_3.3.7/css/bootstrap.css" />
-<%--
-<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}webjars/font-awesome/4.7.0/css/font-awesome.min.css">
- --%>
-<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}webjars/font-awesome/5.0.13-2/web-fonts-with-css/css/fontawesome-all.min.css" />
+<link rel="stylesheet" type="text/css" href="${applicationScope.WebApplicationBaseURL}modules/mcrviewer_bootstrap_3.3.7/css/bootstrap.css" />
+<mcr:webjarLocator htmlElement="stylesheet" project="font-awesome" file="web-fonts-with-css/css/fontawesome-all.min.css" />
 
 <link rel="stylesheet" type="text/css" href="${applicationScope.WebApplicationBaseURL}modules/mcrviewer/mcrviewer.css" />
 <link rel="stylesheet" type="text/css" href="${iviewBaseURL}css/default.css" />
-<script type="text/javascript" src="${WebApplicationBaseURL}webjars/jquery/3.3.1-1/jquery.min.js"></script>
-<%-- 
-<script type="text/javascript" src="${applicationScope.WebApplicationBaseURL}webjars/jquery/2.1.4/jquery.min.js"></script>
---%>
-<script type="text/javascript" src="${WebApplicationBaseURL}webjars/jquery/3.3.1-1/jquery.min.js"></script>
+<mcr:webjarLocator htmlElement="script" project="jquery" file="jquery.min.js" />
 
 <script type="text/javascript" src="${iviewBaseURL}js/iview-client-base.js"></script>
 <script type="text/javascript" src="${iviewBaseURL}js/iview-client-desktop.js"></script>
@@ -211,7 +204,7 @@
 
 <body>
 
-	<script type="text/javascript" src="${applicationScope.WebApplicationBaseURL}modules/bootstrap_3.3.7/js/bootstrap.js"></script>
+	<script type="text/javascript" src="${applicationScope.WebApplicationBaseURL}modules/mcrviewer_bootstrap_3.3.7/js/bootstrap.js"></script>
 
 </body>
 </html>

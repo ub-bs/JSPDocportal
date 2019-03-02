@@ -26,8 +26,9 @@
 <html>
 <head>
   <title>Embedded MyCoRe Viewer</title>
-  <script src="${applicationScope.WebApplicationBaseURL}webjars/jquery/3.3.1-1/jquery.min.js"></script>
-  <link href="${applicationScope.WebApplicationBaseURL}modules/bootstrap_3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  
+  <mcr:webjarLocator htmlElement="script" project="jquery" file="jquery.min.js" />
+  <link href="${applicationScope.WebApplicationBaseURL}modules/mcrviewer_bootstrap_3.3.7/css/bootstrap.min.css" rel="stylesheet">
   <link href="${iviewBaseURL}css/default.css" type="text/css" rel="stylesheet" />
 </head>
 <body>
@@ -161,7 +162,7 @@
      });
     </script>
 </c:if>
-  <script src="${applicationScope.WebApplicationBaseURL}modules/bootstrap_3.3.7/js/bootstrap.min.js"></script>
+  <script src="${applicationScope.WebApplicationBaseURL}modules/mcrviewer_bootstrap_3.3.7/js/bootstrap.min.js"></script>
 
 </body>
 </html>
