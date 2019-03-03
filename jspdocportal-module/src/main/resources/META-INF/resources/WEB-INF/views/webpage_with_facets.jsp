@@ -18,15 +18,21 @@
      
      <c:if test="${fn:contains(WebApplicationBaseURL, 'rosdok')}">
      <div class="row">
-      <div class="col-12 col-md-8 my-3">
+     	<div class="col-12">
+     		<h2><fmt:message key="Webpage.browse.${actionBean.path}.title" /></h2>
+     	</div>
+     </div>
+     <div class="row">
+       <div class="col-12 col-md-8 my-3 pr-5">
           <mcr:includeWebcontent id="${fn:replace(actionBean.path, '/', '.')}" file="${actionBean.path}.html" />
       </div>
-      <div class="col-md-1 d-none d-md-block"> &nbsp; </div>
-       		<div class="col-md-3 d-none d-md-block" style="padding:3rem 0px 0px 0px">
-        	 <%--epub or histbest --%>
-        	<fmt:message var="img" key="Webpage.browse.${actionBean.path}.image"/>
-			<img src="${img}" style="width:100%">
-        </div>
+      <div class="col-md-4 d-none d-md-block"">
+         <%--epub or histbest --%>
+        <fmt:message var="img" key="Webpage.browse.${actionBean.path}.image">
+        	<fmt:param>${WebApplicationBaseURL}</fmt:param>
+        </fmt:message>
+		<img src="${img}" style="width:100%">
+      </div>
       </div>
       <div class="row my-5">
       	<div class="col-12 col-md-8">
