@@ -171,6 +171,18 @@
 					   <search:mcrviewer mcrid="${param.id}" recordIdentifier="${recordidentifier}" doctype="mets" id="divMCRViewer_1" />
                     </c:if>
 					<div id="divMCRViewer_1" style="height:600px; margin:0px 16px; position:relative;"></div>
+                    <script type="text/javascript">
+ 	                    $.urlParam = function(name){
+    						var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+   							 return results[1] || 0;
+						}
+                      	window.addEventListener("load", function(){
+							if($.urlParam('_mcrviewer_start')){
+	                    		//[0] get Javascript object from Jquery object
+	                    		$("#main_navbar")[0].scrollIntoView();
+                    		}
+                  		});
+                    </script>
 				</x:if>		
 			</div>
 		</x:if>
