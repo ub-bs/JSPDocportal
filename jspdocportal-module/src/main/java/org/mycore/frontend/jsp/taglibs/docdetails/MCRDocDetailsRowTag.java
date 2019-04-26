@@ -171,9 +171,9 @@ public class MCRDocDetailsRowTag extends SimpleTagSupport {
             String id = labelkey.replaceAll("[^A-Za-z0-9]", "_");
             //out.write("<div class=\"" + docdetails.getStylePrimaryName() + "-infohover\">" + "<a href=\"#\"><i class=\"fa fa-info-circle\"></i><span>" + info + "</span></a></div>");
 
-            out.write("<div class=\"" + docdetails.getStylePrimaryName() + "-info float-left\">");
+            //out.write("<div class=\"" + docdetails.getStylePrimaryName() + "-info float-left\">");
             out.write("  <a id=\"infoButton_" + id
-                    + "\" type=\"button\" class=\"btn btn-default btn-xs docdetails-info-btn\" data-toggle=\"popover\" >");
+                    + "\" class=\"float-left docdetails-info-btn\" data-toggle=\"popover\" >");
             out.write("     <i class=\"fa fa-info-circle\"></i>");
             out.write("  </a>");
             out.write(
@@ -220,7 +220,7 @@ public class MCRDocDetailsRowTag extends SimpleTagSupport {
             out.write(
                     "\n  </script>                                                                                        ");
             out.write("");
-            out.write("</div>");
+           // out.write("</div>");
         }
     }
 
