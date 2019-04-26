@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -8,7 +9,7 @@
 
 <fmt:message var="pageTitle" key="Nav.Start" /> 
 <stripes:layout-render name="WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
-	<stripes:layout-component name="contents">
+	<stripes:layout-component name="main_part">
 	
 <h2><fmt:message key="Webpage.intro.Webpage.intro" /></h2>
 <mcr:includeWebcontent id="index_intro" file="index_introtext.html" />

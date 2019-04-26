@@ -111,7 +111,7 @@
 				</div>
 				
 				<div id="contents" class="base_content text">
-					<stripes:layout-component name="contents">
+					<stripes:layout-component name="main_part">
 						<%--<div>This is the main page ...</div>--%>
 					</stripes:layout-component>			
 				</div>

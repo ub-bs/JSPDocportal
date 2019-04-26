@@ -21,7 +21,7 @@
 	</style>
 
 	</stripes:layout-component>
-	<stripes:layout-component name="contents">
+	<stripes:layout-component name="main_part">
 		<div class="ir-box">
 			   <div>
 				   <mcr:includeWebcontent id="indexbrowser_intro" file="indexbrowser/${actionBean.modus}_intro.html" />
@@ -53,8 +53,8 @@
 			
 			<div class="row">
 				<div class="col-xs-12">
-					<div class="panel panel-default">
-						<div class="panel-body">
+					<div class="card">
+						<div class="card-body">
 							<stripes:form beanclass="org.mycore.frontend.jsp.stripes.actions.IndexBrowserAction"
 					   	  		          id="indexbrowserForm" enctype="multipart/form-data" acceptcharset="UTF-8" class="form-inline">
 								<stripes:hidden name="modus">${actionBean.modus}</stripes:hidden>
@@ -71,8 +71,8 @@
 			<c:forEach var="r" items="${actionBean.result.entries}">
 			<div class="row">
 				<div class="col-xs-12">
-					<div class="panel panel-default ir-resultentry-panel">
-						<div class="panel-body">
+					<div class="card ir-resultentry-panel">
+						<div class="card-body">
 							<search:result-entry entry="${r}" url="${WebApplicationBaseURL}resolve/id/${r.mcrid}?_search=${actionBean.result.id}" protectDownload="true" />
 						</div>
 					</div>

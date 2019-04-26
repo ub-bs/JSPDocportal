@@ -7,7 +7,7 @@
 
 <fmt:message var="pageTitle" key="WF.editor.ValidatorError.Headline" /> 
 <stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "Editor" layout="1column">
-	<stripes:layout-component name="contents">
+	<stripes:layout-component name="main_part">
 <c:choose>
    <c:when test="${not empty param.processid}">
       <c:set  var="processid" value="${param.processid}"/>

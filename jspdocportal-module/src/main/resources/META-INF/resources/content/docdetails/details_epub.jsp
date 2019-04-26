@@ -44,7 +44,7 @@
       </script>
 </stripes:layout-component>
 
-<stripes:layout-component name="contents">
+<stripes:layout-component name="main_part">
 
 <stripes:form beanclass="de.uni_rostock.ub.rosdok.stripes.actions.BrowseEPubSearchActionBean"
       id="form_detailsEPub" enctype="multipart/form-data" acceptcharset="UTF-8">

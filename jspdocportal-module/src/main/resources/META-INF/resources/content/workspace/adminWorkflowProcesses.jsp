@@ -15,7 +15,7 @@
 <stripes:layout-component name="html_head">
 	<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_workspace.css" />
 </stripes:layout-component>
-	<stripes:layout-component name="contents">
+	<stripes:layout-component name="main_part">
 		<c:set  var="baseURL" value="${applicationScope.WebApplicationBaseURL}"/>
 			<stripes:form
 				beanclass="org.mycore.frontend.jsp.stripes.actions.AdminWorkflowProcessesAction"

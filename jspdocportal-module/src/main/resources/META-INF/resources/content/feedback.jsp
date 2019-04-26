@@ -9,7 +9,7 @@
 <fmt:message var="pageTitle" key="Webpage.feedback" />
 <stripes:layout-render name="../WEB-INF/layout/default.jsp"
 	pageTitle="${pageTitle}" layout="2columns">
-	<stripes:layout-component name="contents">
+	<stripes:layout-component name="main_part">
 		<div class="ir-box">
 			<mcr:includeWebcontent id="feedback" file="feedback.html" />
 

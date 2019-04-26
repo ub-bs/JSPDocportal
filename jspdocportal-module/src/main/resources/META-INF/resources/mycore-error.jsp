@@ -23,7 +23,7 @@
 </c:set>
  
 <stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
-	<stripes:layout-component name="contents">
+	<stripes:layout-component name="main_part">
 	
 
 <h2>${pageTitle}</h2>

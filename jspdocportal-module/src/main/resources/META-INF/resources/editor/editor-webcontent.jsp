@@ -42,7 +42,8 @@
 
 		    $(document).ready( function() {$('textarea#taedit_${jsid}').ckeditor(config); });
 		</script>
-		    <div class="panel-body bg-warning">
+		  <div class="card">  
+		    <div class="card-body bg-warning">
 		        <input type="submit"  name="doSave_${actionBean.id}" class="btn btn-primary" 
 		               title="<fmt:message key="Webpage.editwebcontent.save"/>" value="Speichern" /> 
 		                 <%-- <i class="fa fa-floppy-o"></i> <fmt:message key="Webpage.editwebcontent.save" /> --%>
@@ -52,6 +53,7 @@
 		        	title="<fmt:message key="Webpage.editwebcontent.cancel" />" value="Abbrechen" />
 		        		<%-- <i class="fa fa-times"></i> <fmt:message key="Webpage.editwebcontent.cancel" /> --%>
 		    </div>
+		  </div>
 		</form>
 		</div>
 	</stripes:layout-component>

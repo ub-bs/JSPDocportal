@@ -10,7 +10,7 @@
 	<stripes:layout-component name="html_head">
 		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_classification-browser.css" />
 	</stripes:layout-component>
-    <stripes:layout-component name="contents">
+    <stripes:layout-component name="main_part">
     	<div class="ir-box">
     		<div>
 				<mcr:includeWebcontent id="classbrowser_${actionBean.modus}" file="classbrowser/${actionBean.modus}_intro.html" />

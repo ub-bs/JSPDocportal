@@ -13,7 +13,7 @@
 	<stripes:layout-component name="html_head">
 		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}themes/ir/css/style_ir.css" />	
 	</stripes:layout-component>
-	<stripes:layout-component name="contents">
+	<stripes:layout-component name="main_part">
 		<c:if test="${not empty actionBean.result.mask}">
 			<div class="ir-box">
 				<c:set var="classCollapse" value="" />

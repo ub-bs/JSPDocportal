@@ -12,7 +12,7 @@
 <stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}" layout="1column">
 	<stripes:layout-component name="html_head">
 	</stripes:layout-component>
-	<stripes:layout-component name="contents">
+	<stripes:layout-component name="main_part">
 		<c:if test="${not empty actionBean.result.mask}">
 			<div class="ur-box ur-text">
 				<c:set var="classCollapse" value="" />

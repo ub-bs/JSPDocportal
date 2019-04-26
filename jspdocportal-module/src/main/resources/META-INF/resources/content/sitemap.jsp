@@ -8,7 +8,7 @@
 
 <fmt:message var="pageTitle" key="Nav.Sitemap" /> 
 <stripes:layout-render name="../WEB-INF/layout/default.jsp" pageTitle = "${pageTitle}">
-	<stripes:layout-component name="contents">
+	<stripes:layout-component name="main_part">
 
 		<h2><fmt:message key="Nav.Sitemap" /></h2>
 		<table class="sitemap">
