@@ -171,7 +171,7 @@ public class MCRDocDetailsRowTag extends SimpleTagSupport {
             String id = labelkey.replaceAll("[^A-Za-z0-9]", "_");
             //out.write("<div class=\"" + docdetails.getStylePrimaryName() + "-infohover\">" + "<a href=\"#\"><i class=\"fa fa-info-circle\"></i><span>" + info + "</span></a></div>");
 
-            out.write("<div class=\"" + docdetails.getStylePrimaryName() + "-info pull-left\">");
+            out.write("<div class=\"" + docdetails.getStylePrimaryName() + "-info float-left\">");
             out.write("  <a id=\"infoButton_" + id
                     + "\" type=\"button\" class=\"btn btn-default btn-xs docdetails-info-btn\" data-toggle=\"popover\" >");
             out.write("     <i class=\"fa fa-info-circle\"></i>");
@@ -187,14 +187,10 @@ public class MCRDocDetailsRowTag extends SimpleTagSupport {
             out.write("\n	            content : '" + info
                     + ".',                                                              ");
             // to use placement function to set id into newly created popup
-            out.write(
-                    "\n	            placement :  function(context, src) {                                               ");
-            out.write("\n	                             $(context).addClass('po_" + id
-                    + "');                                  ");
-            out.write(
-                    "\n	                             return 'auto left';                                                ");
-            out.write(
-                    "\n	                          },                                                                    ");
+            out.write("\n	            placement :  function(context, src) {                                               ");
+            out.write("\n	                             $(context).addClass('po_" + id  + "');                         ");
+            out.write("\n	                             return 'left';                                                ");
+            out.write("\n	                          },                                                                    ");
             out.write(
                     "\n	            html: true,                                                                         ");
             out.write(
