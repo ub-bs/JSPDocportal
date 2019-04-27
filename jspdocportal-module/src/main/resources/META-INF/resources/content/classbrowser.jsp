@@ -11,12 +11,18 @@
 		<link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}css/style_classification-browser.css" />
 	</stripes:layout-component>
     <stripes:layout-component name="main_part">
-    	<div class="ir-box">
+	<div class="row">
+		<div class="col-3">
+			<mcr:outputNavigation mode="side" id="search" expanded="true"></mcr:outputNavigation>
+			
+		</div>
+		<div class="col">
     		<div>
 				<mcr:includeWebcontent id="classbrowser_${actionBean.modus}" file="classbrowser/${actionBean.modus}_intro.html" />
 			</div>
 			<mcr:classificationBrowser modus="${actionBean.modus}"/>
 			<div style="min-height:100px">&#160;</div>
 		</div>
+	</div>
 	</stripes:layout-component>
 </stripes:layout-render>

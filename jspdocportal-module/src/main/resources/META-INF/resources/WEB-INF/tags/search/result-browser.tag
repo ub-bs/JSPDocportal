@@ -50,12 +50,13 @@
 		  </c:if>
 		  </ul>
         </nav>
+        <div class="ir-result-pagination">
 		<c:if test="${fn:length(result.backURL) >0}">
-			<a class="btn btn-default btn-sm ir-result-pagination-btn-back"
+			<a class="btn btn-primary page-item mr-3"
 			   href="${result.backURL}" ><fmt:message key="Webpage.searchresults.back" /></a>
 		</c:if>
 		<span class="ir-result-pagination-numfound">${result.numFound} <fmt:message key="Webpage.Searchresult.numHits" /></span>
-
+		</div>
 	</c:set>
   
 	<div class="card-header bg-light w-100">

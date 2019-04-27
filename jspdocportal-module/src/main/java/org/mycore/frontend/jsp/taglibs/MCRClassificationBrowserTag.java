@@ -467,7 +467,7 @@ public class MCRClassificationBrowserTag extends SimpleTagSupport {
                     url.append("&sort=").append(cb.sortResult.trim());
                 }
             }
-            out.write("<a class=\"btn btn-default btn-xs cb-btn\" href=\"" + url.toString() + "\">");
+            out.write("<a class=\"btn btn-sm btn-outline-secondary cb-btn\" href=\"" + url.toString() + "\">");
             out.write(label + " <i class=\"fa fa-share\"></i>");
             out.write("</a>");
         } else {
