@@ -72,21 +72,20 @@
 				</div>
 			</div>
 		</div>
-				
-		<c:forEach var="r" items="${actionBean.result.entries}">
-			<div class="row">
-				<div class="col-12">
-					<div class="card ir-resultentry-panel">
+		<div class="row">
+			<div class="col-12">
+				<div class="card ir-result-card">				
+					<c:forEach var="r" items="${actionBean.result.entries}">
 						<div class="card-body">
 							<search:result-entry entry="${r}" url="${WebApplicationBaseURL}resolve/id/${r.mcrid}?_search=${actionBean.result.id}" protectDownload="true" />
 						</div>
-					</div>
+					</c:forEach>
 				</div>
 			</div>
-		</c:forEach>
 		</div>
-        <div class="col-3">
-         </div>
-      </div>
-	</stripes:layout-component>
+	</div>
+    <div class="col-3">
+    </div>
+    </div>
+  </stripes:layout-component>
 </stripes:layout-render>
