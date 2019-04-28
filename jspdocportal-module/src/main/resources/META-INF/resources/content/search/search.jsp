@@ -23,7 +23,7 @@
 	
 				<c:set var="classCollapse" value="" />
 				<c:if test="${not actionBean.showMask and actionBean.result.numFound>0}">
-					<button id="buttonCollapseSearchmask" class="btn btn-default pull-right" type="button"
+					<button id="buttonCollapseSearchmask" class="btn btn-secondary float-right" type="button"
 						    data-toggle="collapse" data-target="#searchmask" aria-expanded="false" aria-controls="searchmask">
 						<fmt:message key="Webpage.Searchresult.redefine" />
 					</button>
@@ -34,7 +34,7 @@
 					<mcr:includeWebcontent id="search_intro" file="search/${actionBean.result.mask}_intro.html" />
 				</div>
 
-				<div class="${classCollapse}" id="searchmask">
+				<div class="card ${classCollapse}" id="searchmask">
 					<c:out value="${actionBean.xeditorHtml}" escapeXml="false" />
 				</div>
 				<script type="text/javascript">

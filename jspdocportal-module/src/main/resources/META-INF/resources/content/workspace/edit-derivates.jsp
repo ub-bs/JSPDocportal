@@ -190,7 +190,7 @@
                                                 </button>
                                                 <fmt:message key="WF.derivates.delete_file" var="fileDelete"/>
     											<fmt:message key="WF.derivates.delete_file.message" var="messageDeleteFile"/>
-    											<button class="btn btn-sm btn-primary" data-toggle="collapse" data-target="#deleteFile_${derID}_${fn:replace(f, '.', '_')}" 
+    											<button class="btn btn-sm btn-danger" data-toggle="collapse" data-target="#deleteFile_${derID}_${fn:replace(f, '.', '_')}" 
     													type="button">
     											        <i class="fas fa-trash"></i>
     											</button>
@@ -204,7 +204,7 @@
   														<fmt:message key="WF.derivates.delete_file" var="fileDelete"/>
     													<fmt:message key="WF.derivates.delete_file.message" var="messageDeleteFile"/>
     													<button id="btnDeleteFile_${derID}_${f}" title="${fileDelete}" name="doDeleteFile-task_${actionBean.taskid}-derivate_${derID}-file_${f}" 
-    										       				class="btn btn-primary btn-sm ml-3">
+    										       				class="btn btn-danger btn-sm ml-3">
     										        			<i class="fas fa-trash"></i><fmt:message key="WF.workspace.button.delete" />
     													</button>
   														<label class=ml-3><fmt:message key="WF.derivates.delete_file.message"><fmt:param>${f}</fmt:param></fmt:message></label>

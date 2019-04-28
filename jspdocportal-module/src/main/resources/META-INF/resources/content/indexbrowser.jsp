@@ -34,7 +34,7 @@
 						<c:set var="active"></c:set>
 						<c:if test="${fn:startsWith(actionBean.select, x)}"><c:set var="active">active</c:set></c:if>
 							<a href="${WebApplicationBaseURL}indexbrowser/${actionBean.modus}?select=${x}"
-							   class="btn btn-outline-secondary btn-sm navbar-btn indexbrowser-btn ${active}" role="button">${x}</a>
+							   class="btn btn-outline-secondary navbar-btn indexbrowser-btn ${active}" role="button">${x}</a>
 					</c:forEach>
 				</div>
 			</div>

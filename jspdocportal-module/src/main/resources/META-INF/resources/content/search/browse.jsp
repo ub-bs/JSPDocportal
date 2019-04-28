@@ -17,7 +17,7 @@
 			<div class="ur-box ur-text">
 				<c:set var="classCollapse" value="" />
 				<c:if test="${not actionBean.showMask and actionBean.result.numFound>0}">
-					<button id="buttonCollapseSearchmask" class="btn btn-default pull-right" type="button"
+					<button id="buttonCollapseSearchmask" class="btn btn-secondary float-right" type="button"
 						    data-toggle="collapse" data-target="#searchmask" aria-expanded="false" aria-controls="searchmask">
 						<fmt:message key="Webpage.Searchresult.redefine" />
 					</button>

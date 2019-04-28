@@ -144,11 +144,11 @@
 								  			<div class="card-footer">
 								  				<button name="doGoto-task_${currentTask.id}-edit_object.do_save" value="" class="btn btn-sm btn-primary" type="submit"><i class="fa fa-check"></i> <fmt:message key="WF.workspace.button.publish" /></button>
 												<button name="doGoto-task_${currentTask.id}-edit_object.do_cancel" value="" class="btn btn-sm btn-secondary" type="submit"><i class="fa fa-times"></i> <fmt:message key="WF.workspace.button.cancel" /></button>
-							  					<button class="btn btn-primary btn-sm float-right" type="button" data-toggle="collapse" data-target="#delete-dialog-task_${currentTask.id}"><i class="fas fa-trash"></i> <fmt:message key="WF.workspace.button.delete_object" /></button>
+							  					<button class="btn btn-danger btn-sm float-right" type="button" data-toggle="collapse" data-target="#delete-dialog-task_${currentTask.id}"><i class="fas fa-trash"></i> <fmt:message key="WF.workspace.button.delete_object" /></button>
 							  				</div>
 							  				<div id="delete-dialog-task_${currentTask.id}" class="collapse">
 							  					<div class="card-footer border border-primary">
-								  					<button name="doGoto-task_${currentTask.id}-edit_object.do_drop" value="" class="btn btn-primary btn-sm" type="submit"><i class="fas fa-trash"></i> <fmt:message key="WF.workspace.button.delete" /></button>
+								  					<button name="doGoto-task_${currentTask.id}-edit_object.do_drop" value="" class="btn btn-danger btn-sm" type="submit"><i class="fas fa-trash"></i> <fmt:message key="WF.workspace.button.delete" /></button>
 								  					<label class="ml-3"><fmt:message key="WF.workspace.label.delete" /></label>
 							  					</div>
 							  				</div>
