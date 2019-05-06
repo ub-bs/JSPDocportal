@@ -220,7 +220,7 @@
 
      <!-- Alternative: URI-Resolver -->
       <xsl:variable name="url">classification:metadata:0:children:<xsl:value-of select="$classid" />:<xsl:value-of select="$categid" /></xsl:variable>
-      <xsl:value-of select="document($url)/mycoreclass/categories/category[1]/label[@xml:lang='de']/@text" /> 
+      <xsl:value-of select="document($url)/mycoreclass/categories/category[1]/label[@xml:lang=$lang]/@text" /> 
 </xsl:template>
 
 
