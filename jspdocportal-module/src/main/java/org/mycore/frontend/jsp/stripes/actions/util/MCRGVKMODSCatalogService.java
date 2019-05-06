@@ -9,41 +9,36 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jdom2.Document;
 import org.jdom2.Element;
+import org.jdom2.Namespace;
 import org.jdom2.filter.Filters;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
-import org.mycore.activiti.MCRActivitiUtils;
-import org.mycore.common.MCRConstants;
-import org.mycore.common.config.MCRConfiguration;
-import org.mycore.datamodel.metadata.MCRObjectID;
 
-public class MCRMODSGVKImporter {
-    private static Logger LOGGER = LogManager.getLogger(MCRMODSGVKImporter.class);
-
-    private static MCRMODSCatalogService modsCatService = MCRConfiguration.instance()
-        .getInstanceOf("MCR.Workflow.MODSCatalogueService.class");
+public abstract class MCRGVKMODSCatalogService implements MCRMODSCatalogService {
+    
+    private static Logger LOGGER = LogManager.getLogger(MCRGVKMODSCatalogService.class);
+    public static final Namespace MODS_NAMESPACE = Namespace.getNamespace("mods", "http://www.loc.gov/mods/v3");
 
     private static XPathExpression<Element> XP_URN = XPathFactory.instance().compile(
         "//mods:mods/mods:identifier[@type='urn']",
-        Filters.element(), null, MCRConstants.MODS_NAMESPACE);
+        Filters.element(), null, MODS_NAMESPACE);
 
     private static XPathExpression<Element> XP_PPN = XPathFactory.instance().compile(
         "//mods:mods/mods:identifier[@type='PPN']",
-        Filters.element(), null, MCRConstants.MODS_NAMESPACE);
+        Filters.element(), null, MODS_NAMESPACE);
 
     private static XPathExpression<Element> XP_RECORD_ID = XPathFactory.instance().compile(
         "//mods:mods/mods:recordInfo/mods:recordIdentifier",
-        Filters.element(), null, MCRConstants.MODS_NAMESPACE);
+        Filters.element(), null, MODS_NAMESPACE);
 
     private static XPathExpression<Element> XP_MODS_ROOT = XPathFactory.instance().compile("//*[./mods:mods]",
-        Filters.element(), null, MCRConstants.MODS_NAMESPACE);
+        Filters.element(), null, MODS_NAMESPACE);
 
-    public static void updateWorkflowFile(MCRObjectID mcrObjID) {
-        Path mcrFile = MCRActivitiUtils.getWorkflowObjectFile(mcrObjID);
+    public void updateWorkflowFile(Path mcrFile, Document docJdom) {
         try {
-            Document docJdom = MCRActivitiUtils.getWorkflowObjectXML(mcrObjID);
+            
             Element eModsContainer = XP_MODS_ROOT.evaluateFirst(docJdom);
 
             Element eURN = XP_URN.evaluateFirst(docJdom);
@@ -74,7 +69,7 @@ public class MCRMODSGVKImporter {
             }
 
             if (eModsContainer != null) {
-                Element eMODS = retrieveMODSByMyCoReID(mcrObjID.toString());
+                Element eMODS = retrieveMODSByMyCoReID(docJdom.getRootElement().getAttributeValue("ID"));
                 if (eMODS != null) {
                     updateWorkflowMetadataFile(mcrFile, docJdom, eModsContainer, eMODS);
                     return;
@@ -85,7 +80,7 @@ public class MCRMODSGVKImporter {
         }
     }
 
-    public static void updateWorkflowMetadataFile(Path mcrFile, Document docJdom, Element eModsContainer, Element eMODS)
+    private void updateWorkflowMetadataFile(Path mcrFile, Document docJdom, Element eModsContainer, Element eMODS)
         throws IOException {
         eModsContainer.removeContent();
         eModsContainer.addContent(eMODS.detach());
@@ -95,23 +90,27 @@ public class MCRMODSGVKImporter {
         }
     }
 
-    private static Element retrieveMODSByURN(String urn) {
+    private Element retrieveMODSByURN(String urn) {
         String query = "pica.urn=" + urn;
-        return modsCatService.retrieveMODSFromCatalogue(query);
+        return retrieveMODSFromCatalogue(query);
     }
 
-    private static Element retrieveMODSByPURL(String recordIdentifer) {
+    private Element retrieveMODSByPURL(String recordIdentifer) {
         String query = "pica.url=purl*" + recordIdentifer.replace("/", "");
-        return modsCatService.retrieveMODSFromCatalogue(query);
+        return retrieveMODSFromCatalogue(query);
     }
 
-    private static Element retrieveMODSByMyCoReID(String mcrID) {
+    private Element retrieveMODSByMyCoReID(String mcrID) {
         String query = "pica.url=rosdok*resolveid" + mcrID.replace("_", "");
-        return modsCatService.retrieveMODSFromCatalogue(query);
+        return retrieveMODSFromCatalogue(query);
     }
 
-    private static Element retrieveMODSByPPN(String ppn) {
+    private Element retrieveMODSByPPN(String ppn) {
         String query = "pica.ppn=" + ppn;
-        return modsCatService.retrieveMODSFromCatalogue(query);
+        return retrieveMODSFromCatalogue(query);
     }
+    
+    
+    
+    public abstract Element retrieveMODSFromCatalogue(String sruQuery);
 }

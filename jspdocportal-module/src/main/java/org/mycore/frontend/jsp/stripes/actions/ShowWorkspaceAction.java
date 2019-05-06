@@ -19,6 +19,7 @@ import org.activiti.engine.task.Task;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jdom2.Attribute;
+import org.jdom2.Document;
 import org.jdom2.filter.Filters;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
@@ -37,7 +38,7 @@ import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
 import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
-import org.mycore.frontend.jsp.stripes.actions.util.MCRMODSGVKImporter;
+import org.mycore.frontend.jsp.stripes.actions.util.MCRMODSCatalogService;
 import org.mycore.frontend.xeditor.MCREditorSession;
 import org.mycore.frontend.xeditor.MCREditorSessionStore;
 import org.mycore.frontend.xeditor.MCREditorSessionStoreFactory;
@@ -59,6 +60,9 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
     private static Logger LOGGER = LogManager.getLogger(ShowWorkspaceAction.class);
 
     ForwardResolution fwdResolution = new ForwardResolution("/content/workspace/workspace.jsp");
+    
+    private MCRMODSCatalogService modsCatService = MCRConfiguration.instance()
+        .getInstanceOf("MCR.Workflow.MODSCatalogService.class");
 
     private List<String> messages = new ArrayList<String>();
 
@@ -472,7 +476,9 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
 
     private void importMODSFromGVK(String mcrID, String taskId) {
         MCRObjectID mcrObjID = MCRObjectID.getInstance(mcrID);
-        MCRMODSGVKImporter.updateWorkflowFile(mcrObjID);
+        Path mcrFile = MCRActivitiUtils.getWorkflowObjectFile(mcrObjID);
+        Document docJdom = MCRActivitiUtils.getWorkflowObjectXML(mcrObjID);
+        modsCatService.updateWorkflowFile(mcrFile, docJdom);
         updateWFObjectMetadata(taskId);
     }
 
