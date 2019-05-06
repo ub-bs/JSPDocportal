@@ -219,10 +219,7 @@
 
      <!-- Alternative: URI-Resolver -->
       <xsl:variable name="url">classification:metadata:0:children:<xsl:value-of select="$classid" />:<xsl:value-of select="$categid" /></xsl:variable>
-      <xsl:value-of select="document($url)/mycoreclass/categories/category[1]/label[@xml:lang='de']/@text" /> 
-
-      
-    <!-- http://localhost:8080/rosdok/api/v1/classifications/rosdok_class_000000000009?filter=root:00;lang:de;nochildren -->
+      <xsl:value-of select="document($url)/mycoreclass/categories/category[1]/label[@xml:lang=$lang]/@text" />   
 </xsl:template>
 
 
