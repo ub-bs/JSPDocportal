@@ -28,37 +28,33 @@
 			<mcr:includeWebcontent id="indexbrowser_intro" file="indexbrowser/${actionBean.modus}_intro.html" />
 		</div>
 		<div class="row">
-			<div class="col-12">
-				<div class="navbar navbar-default" style="padding:10px">
-					<c:forEach var="x" items="${actionBean.firstSelector}">
-						<c:set var="active"></c:set>
-						<c:if test="${fn:startsWith(actionBean.select, x)}"><c:set var="active">active</c:set></c:if>
-							<a href="${WebApplicationBaseURL}indexbrowser/${actionBean.modus}?select=${x}"
-							   class="btn btn-outline-secondary navbar-btn indexbrowser-btn ${active}" role="button">${x}</a>
-					</c:forEach>
-				</div>
+		  <div class="col-12">
+		    <div class="indexbrowser-navbar">
+			  <div class="navbar navbar-default indexbrowser-navbar-primary">
+				<c:forEach var="x" items="${actionBean.firstSelector}">
+				  <c:set var="active"></c:set>
+				  <c:if test="${fn:startsWith(actionBean.select, x)}"><c:set var="active">active</c:set></c:if>
+			      <a href="${WebApplicationBaseURL}indexbrowser/${actionBean.modus}?select=${x}"
+					 class="btn btn-outline-secondary navbar-btn indexbrowser-btn ${active}" role="button">${x}</a>
+			    </c:forEach>
+			  </div>
+			  <c:if test="${not empty actionBean.secondSelector}">
+				<div class="navbar navbar-default indexbrowser-navbar-secondary">
+				  <c:forEach var="x" items="${actionBean.secondSelector}">
+				    <c:set var="active"></c:set>
+					  <c:if test="${fn:startsWith(actionBean.select, x.key)}"><c:set var="active">active</c:set></c:if>
+						<a href="${WebApplicationBaseURL}indexbrowser/${actionBean.modus}?select=${x.key}"
+						   class="btn btn-outline-secondary btn-sm indexbrowser-btn ${active}" role="button">${x.key} 
+						   <span class="badge badge-pill badge-secondary" style="font-size:80%;margin-left:8px">${x.value}</span></a>
+				  </c:forEach>
+			    </div>
+			  </c:if>
 			</div>
+	      </div>
 		</div>
-				
-		<c:if test="${not empty actionBean.secondSelector}">
-			<div class="row">
-				<div class="col-12">
-					<div class="" style="padding:10px">
-						<c:forEach var="x" items="${actionBean.secondSelector}">
-							<c:set var="active"></c:set>
-							<c:if test="${fn:startsWith(actionBean.select, x.key)}"><c:set var="active">active</c:set></c:if>
-							<a href="${WebApplicationBaseURL}indexbrowser/${actionBean.modus}?select=${x.key}"
-							   class="btn btn-outline-secondary btn-sm indexbrowser-btn ${active}" role="button">${x.key} 
-							   <span class="badge badge-pill badge-secondary" style="font-size:80%;margin-left:8px">${x.value}</span></a>
-						</c:forEach>
-					</div>
-				</div>
-			</div>
-		</c:if>
-
 		<div class="row">
 			<div class="col-12">
-				<div class="card">
+				<div class="card indexbrowser-searchbar">
 					<div class="card-body">
 						<stripes:form beanclass="org.mycore.frontend.jsp.stripes.actions.IndexBrowserAction"
 			   	  			          id="indexbrowserForm" enctype="multipart/form-data" acceptcharset="UTF-8" class="form-inline">

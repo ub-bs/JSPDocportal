@@ -19,7 +19,7 @@
 			style="border-spacing: 4px; border-collapse: separate; font-size: 100%">
 			<c:forEach var="d" items="${entry.data}">
 				<tr>
-					<th style="min-width: 120px; vertical-align: top"><fmt:message
+					<th><fmt:message
 							key="Webpage.searchresult.${entry.objectType}.label.${d.key}" />:&#160;</th>
 					<c:choose>
 						<c:when test="${fn:endsWith(d.key, '_msg')}">
