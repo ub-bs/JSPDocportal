@@ -427,7 +427,7 @@
 								</x:forEach>							
 								<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='vd16']">
 									<c:set var="vdnr"><x:out select="$x" /></c:set>
-									<a class="ir-link-portal" href="http://gateway-bayern.de/VD16+${fn:replace(vdnr,' ','+')}">VD16</a>
+									<a class="ir-link-portal" href="http://gateway-bayern.de/${fn:replace(vdnr,' ','+')}">VD16</a>
 								</x:forEach>
 								<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='vd17']">
 									<c:set var="vdnr"><x:out select="$x" /></c:set>
