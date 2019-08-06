@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+MCR-Application-Module: JSPDocportal IR Module
+MCR-Artifact-Id: jspdocportal-ir-module
+Priority: 12

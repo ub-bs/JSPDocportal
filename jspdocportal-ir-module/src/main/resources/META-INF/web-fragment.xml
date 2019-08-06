@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-fragment metadata-complete="false" version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-fragment_3_0.xsd">  
+  <!-- @metadata-complete -> do not process annotations -->
+
+  <display-name>JSP IR DOCPORTAL</display-name>
+  <description>A MyCoRe Base module</description>
+  <name>jspdocportal_ir_module</name>
+
+  <ordering>
+    <before>
+      <name>mycore</name>
+      <name>jspdocportal_module</name>
+    </before>
+  </ordering>
+  
+  <servlet>
+    <servlet-name>MCRJSPTileServlet</servlet-name>
+    <servlet-class>org.mycore.frontend.servlets.tileserver.MCRTileServlet</servlet-class>
+    <init-param>
+      <param-name>tileFileProvider</param-name>
+      <param-value>org.mycore.frontend.servlets.tileserver.MCRJSPTileFileProvider</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MCRJSPTileServlet</servlet-name>
+    <url-pattern>/tiles/*</url-pattern>
+  </servlet-mapping>
+
+</web-fragment>
