@@ -1,3 +1,4 @@
+<%@page import="org.hibernate.resource.transaction.spi.TransactionStatus"%>
 <%@page import="org.mycore.backend.hibernate.MCRHIBConnection"%>
 <%@page import="org.mycore.common.MCRException"%>
 <%@page import="org.hibernate.Transaction"%>
@@ -82,11 +83,10 @@
  </div>
 <% }	
 	catch(MCRException e){
-		logger.error(e);
 		pageContext.getOut().append(e.getMessage());
 	}
 	finally{
-		if (!tx.wasCommitted()){
+		if (!(tx.getStatus() == TransactionStatus.COMMITTED)){
 			tx.commit();
 		}
 	}
