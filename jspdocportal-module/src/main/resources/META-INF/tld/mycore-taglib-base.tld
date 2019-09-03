@@ -694,34 +694,6 @@
 		<!-- A Tag, that returns a list of proposals for free UserIDs -->
 	</tag>
 	<tag>
-		<name>setAccessRuleEditorData</name>
-		<tag-class>org.mycore.frontend.jsp.taglibs.MCRSetAccessRuleEditorDataTag</tag-class>
-		<body-content>empty</body-content>
-		<attribute>
-			<name>var</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>start</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>step</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>docType</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<!-- A Tag, that sets a DOM Object with all needed data for assigning accessrules 
-			to objects to a given variable name -->
-	</tag>
-
-	<tag>
 		<name>ifSorted</name>
 		<tag-class>org.mycore.frontend.jsp.taglibs.MCRIfSortedTag</tag-class>
 		<body-content>scriptless</body-content>

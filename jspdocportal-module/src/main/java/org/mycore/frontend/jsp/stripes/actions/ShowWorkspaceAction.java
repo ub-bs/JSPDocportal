@@ -41,7 +41,7 @@ import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
 import org.mycore.frontend.jsp.stripes.actions.util.MCRMODSCatalogService;
 import org.mycore.frontend.xeditor.MCREditorSession;
 import org.mycore.frontend.xeditor.MCREditorSessionStore;
-import org.mycore.frontend.xeditor.MCREditorSessionStoreFactory;
+import org.mycore.frontend.xeditor.MCREditorSessionStoreUtils;
 import org.mycore.services.i18n.MCRTranslation;
 import org.mycore.user2.MCRUser;
 import org.mycore.user2.MCRUserManager;
@@ -101,7 +101,7 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
         if (getContext().getRequest().getParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM) != null) {
             String xEditorStepID = getContext().getRequest().getParameter(MCREditorSessionStore.XEDITOR_SESSION_PARAM);
             String sessionID = xEditorStepID.split("-")[0];
-            MCREditorSession session = MCREditorSessionStoreFactory.getSessionStore().getSession(sessionID);
+            MCREditorSession session = MCREditorSessionStoreUtils.getSessionStore().getSession(sessionID);
 
             if (session == null) {
                 LOGGER.error("Editor session invalid !!!");

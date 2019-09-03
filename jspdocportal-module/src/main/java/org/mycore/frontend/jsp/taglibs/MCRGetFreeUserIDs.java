@@ -83,7 +83,7 @@ public class MCRGetFreeUserIDs extends SimpleTagSupport {
         for (int i = 0; i < len; i++) {
             double pos = Math.random();
             long ri = Math.round(pos * 1000000) % randomChar.length();
-            Integer intObj = new Integer(Long.toString(ri));
+            Integer intObj = Integer.valueOf(Long.toString(ri));
             int index = intObj.intValue();
             testID += randomChar.substring(index, index + 1);
         }

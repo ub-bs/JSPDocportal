@@ -24,6 +24,7 @@
 package org.mycore.frontend.servlets.tileserver;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystemAlreadyExistsException;
@@ -229,8 +230,8 @@ public class MCRTileServlet extends HttpServlet {
         String clazz = getServletConfig().getInitParameter("tileFileProvider");
         if (clazz != null) {
             try {
-                tfp = (MCRTileFileProvider) Class.forName(clazz).newInstance();
-            } catch (IllegalAccessException | ClassNotFoundException | InstantiationException e) {
+                tfp = (MCRTileFileProvider) Class.forName(clazz).getDeclaredConstructor(new Class[] {}).newInstance();
+            } catch (IllegalAccessException | ClassNotFoundException | InstantiationException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
                 //ignore;
             }
         }

@@ -24,7 +24,7 @@ import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
 import org.mycore.frontend.jsp.search.MCRSearchResultDataBean;
 import org.mycore.frontend.xeditor.MCREditorSession;
 import org.mycore.frontend.xeditor.MCREditorSessionStore;
-import org.mycore.frontend.xeditor.MCREditorSessionStoreFactory;
+import org.mycore.frontend.xeditor.MCREditorSessionStoreUtils;
 import org.mycore.frontend.xeditor.MCRStaticXEditorFileServlet;
 import org.mycore.frontend.xeditor.tracker.MCRChangeData;
 import org.mycore.services.fieldquery.MCRQuery;
@@ -179,7 +179,7 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
                     sessionID = sessionID.split("-")[0];
                 }
 
-                MCREditorSession session = MCREditorSessionStoreFactory.getSessionStore().getSession(sessionID);
+                MCREditorSession session = MCREditorSessionStoreUtils.getSessionStore().getSession(sessionID);
                 if (session != null) {
                     queryDoc = session.getXMLCleaner().clean(session.getEditedXML());
                     // if we come from a repeater button we should show mask and

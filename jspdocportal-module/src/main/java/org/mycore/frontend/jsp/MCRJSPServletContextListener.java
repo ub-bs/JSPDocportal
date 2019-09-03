@@ -45,6 +45,7 @@ import org.mycore.access.MCRAccessManager;
 import org.mycore.backend.hibernate.MCRHIBConnection;
 import org.mycore.common.MCRConstants;
 import org.mycore.common.MCRException;
+import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.jsp.navigation.model.Navigations;
@@ -67,6 +68,8 @@ public class MCRJSPServletContextListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+    	MCRSessionMgr.unlock();
+        
         LOGGER.debug("Application " + sce.getServletContext().getServletContextName() + " started");
         MCRNavigationUtil.loadNavigation(sce.getServletContext());
         Navigations.loadNavigation(sce.getServletContext());

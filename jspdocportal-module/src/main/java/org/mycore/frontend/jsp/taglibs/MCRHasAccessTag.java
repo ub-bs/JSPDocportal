@@ -36,9 +36,9 @@ public class MCRHasAccessTag extends SimpleTagSupport {
             PageContext pageContext = (PageContext) getJspContext();
             
             if (mcrid == null || "".equals(mcrid)) { // allgemeiner check des aktuellen Users
-                pageContext.setAttribute(var, new Boolean(MCRAccessManager.checkPermission(permission)));
+                pageContext.setAttribute(var, Boolean.valueOf(MCRAccessManager.checkPermission(permission)));
             } else {
-                pageContext.setAttribute(var, new Boolean(MCRAccessManager.checkPermission(mcrid, permission)));
+                pageContext.setAttribute(var, Boolean.valueOf(MCRAccessManager.checkPermission(mcrid, permission)));
             }
         } catch (Exception e) {
             LOGGER.error("could not check access", e);

@@ -24,6 +24,7 @@ import org.mycore.activiti.MCRActivitiUtils;
 import org.mycore.activiti.workflows.create_object_simple.MCRWorkflowMgr;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.datamodel.metadata.MCRDerivate;
+import org.mycore.datamodel.metadata.MCRMetaEnrichedLinkID;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
@@ -198,7 +199,7 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
 
     private void moveDerivate(String taskid, String derid, Direction dir) {
         MCRObject mcrObj = MCRActivitiUtils.loadMCRObjectFromWorkflowDirectory(MCRObjectID.getInstance(mcrobjid));
-        List<MCRMetaLinkID> derList = mcrObj.getStructure().getDerivates();
+        List<MCRMetaEnrichedLinkID> derList = mcrObj.getStructure().getDerivates();
         for (int pos = 0; pos < derList.size(); pos++) {
             if (derList.get(pos).getXLinkHref().equals(derid)) {
                 if (dir == Direction.MOVE_UP && pos > 0) {

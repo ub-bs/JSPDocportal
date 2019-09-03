@@ -23,6 +23,7 @@ import org.mycore.common.config.MCRConfiguration;
 import org.mycore.datamodel.classifications2.MCRCategoryID;
 import org.mycore.datamodel.common.MCRActiveLinkException;
 import org.mycore.datamodel.metadata.MCRDerivate;
+import org.mycore.datamodel.metadata.MCRMetaEnrichedLinkIDFactory;
 import org.mycore.datamodel.metadata.MCRMetaIFS;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
@@ -140,7 +141,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
                 MCRActivitiUtils.saveMCRDerivateToWorkflowDirectory(der);
             }
             MCRObject mcrObj = MCRActivitiUtils.loadMCRObjectFromWorkflowDirectory(owner);
-            mcrObj.getStructure().addDerivate(new MCRMetaLinkID("derobject", der.getId(), null, der.getLabel()));
+            mcrObj.getStructure().addDerivate(MCRMetaEnrichedLinkIDFactory.getInstance().getDerivateLink(der));
             MCRActivitiUtils.saveMCRObjectToWorkflowDirectory(mcrObj);
 
         } else {

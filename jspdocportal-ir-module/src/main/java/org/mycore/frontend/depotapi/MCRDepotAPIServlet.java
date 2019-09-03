@@ -25,6 +25,7 @@ package org.mycore.frontend.depotapi;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -68,10 +69,10 @@ public class MCRDepotAPIServlet extends HttpServlet {
             if (clazz != null) {
                 Class<?> c = Class.forName(clazz);
                 if (MCRDepotAPIConfiguration.class.isAssignableFrom(c)) {
-                    depotAPIConf = (MCRDepotAPIConfiguration) c.newInstance();
+                    depotAPIConf = (MCRDepotAPIConfiguration) c.getDeclaredConstructor(new Class[] {}).newInstance();
                 }
             }
-        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
             //do nothing
         }
     }
