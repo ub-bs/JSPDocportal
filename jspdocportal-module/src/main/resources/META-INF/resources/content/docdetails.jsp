@@ -431,12 +431,16 @@
 								</x:forEach>
 								<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='vd17']">
 									<c:set var="vdnr"><x:out select="$x" /></c:set>
-									<a class="ir-link-portal" target="_blank" href="https://gso.gbv.de/DB=1.28/CMD?ACT=SRCHA&IKT=8002&TRM=%27${vdnr}%27">VD17</a>
+									<a class="ir-link-portal" target="_blank" href="https://kxp.k10plus.de/DB=1.28/CMD?ACT=SRCHA&IKT=8079&TRM=%27${vdnr}%27">VD17</a>
 								</x:forEach>
 								<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='vd18']">
 									<c:set var="vdnr"><x:out select="$x" /></c:set>
-									<a class="ir-link-portal" target="_blank" href="https://gso.gbv.de/DB=1.65/SET=8/TTL=1/CMD?ACT=SRCHA&IKT=8002&TRM=${fn:replace(vdnr,' ','+')}&ADI_MAT=B&MATCFILTER=Y">VD18</a>
+									<a class="ir-link-portal" target="_blank" href="https://gso.gbv.de/DB=1.65/CMD?ACT=SRCHA&IKT=8002&TRM=${fn:replace(vdnr,' ','+')}&ADI_MAT=B&MATCFILTER=Y">VD18</a>
 								</x:forEach>
+                                <x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='zdb']">
+                                  <c:set var="zdbnr"><x:out select="$x" /></c:set>
+                                  <a class="ir-link-portal" target="_blank" href="https://zdb-katalog.de/list.xhtml?key=cql&t=${zdbnr}">ZDB</a>
+                                </x:forEach>
 								<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='kalliope']">
 									<c:set var="id"><x:out select="$x" /></c:set>
 									<a class="ir-link-portal" target="_blank" href="http://kalliope-verbund.info/${id}">Kalliope-Verbundkatalog</a>
