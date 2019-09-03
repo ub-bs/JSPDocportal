@@ -16,12 +16,12 @@
 <%@ attribute name="recordIdentifier" required="true" type="java.lang.String" %>
 <%@ attribute name="doctype" required="true" type="java.lang.String" %>
 
-
+<%--
 <iframe src="${applicationScope.WebApplicationBaseURL}content/mcrviewer_embedded.jsp?id=${id}&mcrid=${mcrid}&recordIdentifier=${recordIdentifier}&doctype=${doctype}&start=${param._mcrviewer_start}"
 style="width:100%; height:80vh;border:none">
 </iframe>
 
-<%--
+--%>
 
 <c:set var="iviewBaseURL" value="${applicationScope.WebApplicationBaseURL}modules/iview2/" />
 
@@ -157,4 +157,4 @@ style="width:100%; height:80vh;border:none">
 	   });
     </script>
 </c:if>
-	--%>
+

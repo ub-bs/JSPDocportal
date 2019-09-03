@@ -152,7 +152,7 @@
                           </c:if>
                           <c:if test="${hasAccess}">
                             <search:mcrviewer mcrid="${param.id}" recordIdentifier="${param.id}" doctype="pdf" id="divMCRViewer_2" />
-                            <%--<div id="divMCRViewer_2" style="height:600px; margin:0px 16px; position:relative;"></div> --%>
+                            <div id="divMCRViewer_2" style="height:600px; margin:0px 16px; position:relative;"></div>
                           </c:if> 
 				       </x:if>
 				       <x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='MCRVIEWER_METS']">
@@ -167,7 +167,7 @@
                          </c:if>
                          <c:if test="${hasAccess}">
 					       <search:mcrviewer mcrid="${param.id}" recordIdentifier="${recordidentifier}" doctype="mets" id="divMCRViewer_1" />
-                           <%--<div id="divMCRViewer_1" style="height:600px; margin:0px 16px; position:relative;"></div> --%>
+                           <div id="divMCRViewer_1" style="height:600px; margin:0px 16px; position:relative;"></div>
                          </c:if>
                          <script type="text/javascript">
  	                       $.urlParam = function(name){

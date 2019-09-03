@@ -28,6 +28,8 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mycore.frontend.MCRFrontendUtil;
 import org.webjars.WebJarAssetLocator;
 
@@ -39,7 +41,7 @@ import org.webjars.WebJarAssetLocator;
  *
  */
 public class MCRWebjarLocatorTag extends SimpleTagSupport {
-    //private static Logger LOGGER = LogManager.getLogger(MCRWebjarLocatorTag.class);
+    private static Logger LOGGER = LogManager.getLogger(MCRWebjarLocatorTag.class);
 
     private String project;
 
@@ -101,7 +103,7 @@ public class MCRWebjarLocatorTag extends SimpleTagSupport {
             }
         } catch (IllegalArgumentException e) {
             pageContext.setAttribute(var, "#NOT_FOUND#" + e.getMessage().replaceAll(" ", "_"));
-
+            LOGGER.error(e);
         }
     }
 

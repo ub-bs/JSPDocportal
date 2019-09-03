@@ -1,6 +1,7 @@
 package org.mycore.frontend.jsp.stripes.actions;
 
 import org.mycore.frontend.jsp.stripes.error.MCRJSPErrorInfo;
+import org.mycore.common.MCRSessionMgr;
 import org.mycore.services.i18n.MCRTranslation;
 
 import net.sourceforge.stripes.action.ActionBean;
@@ -29,6 +30,7 @@ public class ErrorAction extends MCRAbstractStripesAction implements ActionBean 
         
         String i18nKey = getContext().getRequest().getParameter("i18n");
         if(i18nKey!=null) {
+            MCRSessionMgr.unlock();
             errorInfo.setHeadline(MCRTranslation.translate(i18nKey));
         }
         
@@ -52,6 +54,7 @@ public class ErrorAction extends MCRAbstractStripesAction implements ActionBean 
             }
         }
         if(status==404 || status == 500 || status == 410) {
+            MCRSessionMgr.unlock();
             errorInfo.setHeadline(MCRTranslation.translate("Resolver.error.code."+status));
         }
         }

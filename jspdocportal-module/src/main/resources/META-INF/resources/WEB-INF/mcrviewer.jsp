@@ -8,13 +8,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="mcr" uri="http://www.mycore.org/jspdocportal/base.tld"%>
 <c:set var="iviewBaseURL" value="${applicationScope.WebApplicationBaseURL}modules/iview2/" />
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="stylesheet" type="text/css" href="${applicationScope.WebApplicationBaseURL}modules/mcrviewer_bootstrap_3.3.7/css/bootstrap.css" />
-<mcr:webjarLocator htmlElement="stylesheet" project="font-awesome" file="web-fonts-with-css/css/fontawesome-all.min.css" />
+<mcr:webjarLocator htmlElement="stylesheet" project="bootstrap" file="css/bootstrap.css" />
+<mcr:webjarLocator htmlElement="stylesheet" project="font-awesome" file="css/all.min.css" />
 
 <link rel="stylesheet" type="text/css" href="${applicationScope.WebApplicationBaseURL}modules/mcrviewer/mcrviewer.css" />
 <link rel="stylesheet" type="text/css" href="${iviewBaseURL}css/default.css" />
@@ -95,7 +96,7 @@
 								inGroup: "addOns"
 							} ]
 			};
-			new mycore.viewer.MyCoReViewer(jQuery("body"), config);
+			new mycore.viewer.MyCoReViewer(jQuery("#divMCRViewer"), config);
 		};
 	</script>
 </c:if>
@@ -196,15 +197,14 @@
 				objId : ""
 
 			};
-			new mycore.viewer.MyCoReViewer(jQuery("body"), config);
+			new mycore.viewer.MyCoReViewer(jQuery("#divMCRViewer"), config);
 		};
 	</script>
 </c:if>
 </head>
 
 <body>
-
-	<script type="text/javascript" src="${applicationScope.WebApplicationBaseURL}modules/mcrviewer_bootstrap_3.3.7/js/bootstrap.js"></script>
-
+	<div id="divMCRViewer"></div>
+	<mcr:webjarLocator htmlElement="script" project="bootstrap" file="js/bootstrap.js" />
 </body>
 </html>
