@@ -274,9 +274,9 @@
          	</c:if>
             <search:result-navigator mcrid="${mcrid}" mode="one_line"/>
         </div>
-         <x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='cover'] or contains($doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='doctype']/@valueURI, '#data')">
+         <x:if select="$doc/mycoreobject/structure/derobjects/derobject/classification[@classid='derivate_types'][@categid='cover'] or contains($doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='doctype']/@valueURI, '#data')">
 	       <x:choose>
-             <x:when select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='cover']">
+             <x:when select="$doc/mycoreobject/structure/derobjects/derobject/classification[@classid='derivate_types'][@categid='cover']">
                <div class="ir-box ir-box-docdetails-image">
                  <x:choose>
 	                 <x:when select="$doc/mycoreobject[not(contains(@ID, '_bundle_'))]/structure/derobjects/derobject[@xlink:title='MCRVIEWER_METS']"> 
