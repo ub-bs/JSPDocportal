@@ -101,7 +101,7 @@ public abstract class MCRGVKMODSCatalogService implements MCRMODSCatalogService 
     }
 
     private Element retrieveMODSByMyCoReID(String mcrID) {
-        String query = "pica.url=rosdok*resolveid" + mcrID.replace("_", "");
+        String query = "pica.url="+getResolvingURLPrefix() + mcrID.replace("_", "");
         return retrieveMODSFromCatalogue(query);
     }
 
@@ -111,6 +111,10 @@ public abstract class MCRGVKMODSCatalogService implements MCRMODSCatalogService 
     }
     
     
-    
+    //RosDok: rosdok*resolveid
+    //DBHSNB: digibib.hsnb.deresolveid
+    public abstract String getResolvingURLPrefix();
+        
+        
     public abstract Element retrieveMODSFromCatalogue(String sruQuery);
 }
