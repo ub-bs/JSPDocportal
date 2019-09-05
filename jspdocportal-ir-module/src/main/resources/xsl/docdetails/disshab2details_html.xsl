@@ -195,12 +195,12 @@
           </td>
         </tr>
       </xsl:if>
-       <xsl:if test="mods:note[@type!='creator_info']">
+       <xsl:if test="mods:note[@type!='creator_info'][@type!='statement of responsibility']">
         <tr>
-          <th><xsl:value-of select="i18n:translate('OMD.ir.nodes')" /> :</th>
+          <th><xsl:value-of select="i18n:translate('OMD.ir.notes')" /> :</th>
           <td>
             <table class="ir-table-docdetails-values">
-                <xsl:for-each select="mods:note[@type!='creator_info']">
+                <xsl:for-each select="mods:note[@type!='creator_info'][@type!='statement of responsibility']">
                   <tr>
                     <th><xsl:value-of select="./@type" /></th>
                     <td><xsl:value-of select="./text()" /></td>
