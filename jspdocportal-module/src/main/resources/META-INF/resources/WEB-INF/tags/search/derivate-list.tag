@@ -17,6 +17,13 @@
 <%@tag import="org.mycore.datamodel.metadata.MCRMetadataManager"%>
 <%@tag import="org.mycore.datamodel.metadata.MCRObject"%>
 
+<%@tag import="org.mycore.datamodel.classifications2.MCRCategoryDAOFactory"%>
+<%@tag import="org.mycore.datamodel.classifications2.MCRLabel"%>
+<%@tag import="org.mycore.datamodel.classifications2.MCRCategoryID"%>
+<%@tag import="org.mycore.datamodel.classifications2.MCRCategory"%>
+<%@tag import="org.mycore.datamodel.metadata.MCRMetaClassification"%>
+
+
 <%@tag import="org.mycore.frontend.jsp.MCRHibernateTransactionWrapper"%>
 
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
@@ -43,10 +50,14 @@
 				String mainDoc = mcrDerivate.getDerivate().getInternals().getMainDoc();
 				String url = MCRFrontendUtil.getBaseURL()+"file/"+mcrDerivate.getOwnerID().toString()+"/"+mcrDerivate.getId().toString()+"/";
 				String label=mcrDerivate.getLabel();
-				String displayLabel = MCRTranslation.translate("OMD.derivatedisplay." + mcrDerivate.getOwnerID().getBase()+"."+label);
-                if(!MCRTranslation.exists("OMD.derivatedisplay." + mcrDerivate.getOwnerID().getBase()+"."+label)){
-				  displayLabel = MCRTranslation.translate("OMD.derivatedisplay." + label);
-                }
+				String displayLabel=mcrDerivate.getLabel();
+				for(MCRMetaClassification c: mcrDerivate.getDerivate().getClassifications()){
+					if("derivate_types".equals(c.getClassId())){
+						MCRCategory categ = MCRCategoryDAOFactory.getInstance().getCategory(new MCRCategoryID(c.getClassId(), c.getCategId()),0);
+						displayLabel = categ.getCurrentLabel().orElse(new MCRLabel("de", "Dateibereich", null)).getText();
+					
+					}
+				}
 				
                 boolean accessAllowed = MCRAccessManager.checkPermission(derid, "read");
                 out.write("    <tr class=\"ir-derivate-list-row\">");
@@ -62,24 +73,24 @@
                           String fURL = url + fileName;
                           String fontAwesomeName = "fa fa-file-o";
                         if (fileName.toLowerCase(Locale.GERMAN).endsWith(".pdf")) {
-                        	fontAwesomeName = "fa fa-file-pdf-o";
+                        	fontAwesomeName = "far fa-file-pdf";
                         }
                         if (fileName.toLowerCase(Locale.GERMAN).endsWith(".jpg")
                             || fileName.toLowerCase(Locale.GERMAN).endsWith(".jpeg")) {
-                        	fontAwesomeName = "fa fa-file-image-o";
+                        	fontAwesomeName = "far fa-file-image";
                         }
                         if (fileName.toLowerCase(Locale.GERMAN).endsWith(".doc")
                             || fileName.toLowerCase(Locale.GERMAN).endsWith(".txt")) {
-                        	fontAwesomeName = "fa fa-file-text-o";
+                        	fontAwesomeName = "far fa-file-alt";
                         }
                         if (fileName.toLowerCase(Locale.GERMAN).endsWith(".xml")) {
-                        	fontAwesomeName = "fa fa-file-code-o";
+                        	fontAwesomeName = "far fa-file-code";
                         }
                         if (fileName.toLowerCase(Locale.GERMAN).endsWith(".mp3")) {
-                        	fontAwesomeName = "fa fa-file-audio-o";
+                        	fontAwesomeName = "far fa-file-audio";
                         }
                         if (fileName.toLowerCase(Locale.GERMAN).endsWith(".zip")) {
-                        	fontAwesomeName = "fa fa-file-archive-o";
+                        	fontAwesomeName = "far fa-file-archive";
                         }
                         if (fileName.toLowerCase(Locale.GERMAN).endsWith(".mp4")
                         	|| fileName.toLowerCase(Locale.GERMAN).endsWith(".mpeg")
