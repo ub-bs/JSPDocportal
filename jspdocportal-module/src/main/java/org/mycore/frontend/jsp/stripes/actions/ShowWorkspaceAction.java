@@ -33,6 +33,8 @@ import org.mycore.datamodel.classifications2.MCRCategoryDAOFactory;
 import org.mycore.datamodel.classifications2.MCRCategoryID;
 import org.mycore.datamodel.classifications2.MCRLabel;
 import org.mycore.datamodel.metadata.MCRDerivate;
+import org.mycore.datamodel.metadata.MCRMetaClassification;
+import org.mycore.datamodel.metadata.MCRMetaLangText;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
@@ -439,11 +441,18 @@ public class ShowWorkspaceAction extends MCRAbstractStripesAction implements Act
                 MCRDerivate der = MCRActivitiUtils.loadMCRDerivateFromWorkflowDirectory(mcrObjID,
                         derID.getXLinkHrefID());
                 result.append("\n  <div class=\"col-8\">");
-                result.append("\n    <strong>["
-                        + MCRTranslation.translate("OMD.derivatedisplay." + der.getLabel())
-                        + "]</strong>");
-                for (String s : der.getService().getFlags("title")) {
-                    result.append("<br />" + s);
+                if(!der.getDerivate().getClassifications().isEmpty()) {
+                    result.append("\n    <strong>");
+                    for(MCRMetaClassification c: der.getDerivate().getClassifications()) {
+                        Optional<MCRLabel> oLabel = MCRCategoryDAOFactory.getInstance().getCategory(new MCRCategoryID(c.getClassId(), c.getCategId()),0).getCurrentLabel();
+                        if(oLabel.isPresent()) {
+                            result.append("[").append(oLabel.get().getText()).append("] ");
+                        }
+                    }
+                    result.append("</strong>");
+                }
+                for (MCRMetaLangText txt : der.getDerivate().getTitles()) {
+                    result.append("<br />" + txt.getText());
                 }
                 result.append("\n    <ul style=\"list-style-type: none;\">");
                 for (String fileName : derivateFiles.get(derID.getXLinkHref())) {

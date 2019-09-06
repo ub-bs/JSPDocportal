@@ -6,11 +6,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,9 +25,14 @@ import org.jdom2.output.DOMOutputter;
 import org.mycore.activiti.MCRActivitiMgr;
 import org.mycore.activiti.MCRActivitiUtils;
 import org.mycore.activiti.workflows.create_object_simple.MCRWorkflowMgr;
-import org.mycore.common.config.MCRConfiguration;
+import org.mycore.datamodel.classifications2.MCRCategory;
+import org.mycore.datamodel.classifications2.MCRCategoryDAOFactory;
+import org.mycore.datamodel.classifications2.MCRCategoryID;
+import org.mycore.datamodel.classifications2.MCRLabel;
 import org.mycore.datamodel.metadata.MCRDerivate;
+import org.mycore.datamodel.metadata.MCRMetaClassification;
 import org.mycore.datamodel.metadata.MCRMetaEnrichedLinkID;
+import org.mycore.datamodel.metadata.MCRMetaLangText;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRObject;
 import org.mycore.datamodel.metadata.MCRObjectID;
@@ -175,26 +183,24 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
                 MCRObjectID.getInstance(derid));
 
         if (!StringUtils.isBlank(label)) {
-            der.setLabel(label);
+            der.getDerivate().getClassifications().removeIf(x -> "derivate_types".equals(x.getClassId()));
+            if (MCRCategoryDAOFactory.getInstance().exist(new MCRCategoryID("derivate_types", label))) {
+                der.getDerivate().getClassifications()
+                        .add(new MCRMetaClassification("classification", 0, null, "derivate_types", label));
+            } else {
+                LOGGER.warn("Classification 'derivate_types' does not contain a category with ID: " + label);
+            }
+
         }
         if (!StringUtils.isBlank(title)) {
-            der.getService().removeFlags("title");
-            der.getService().addFlag("title", title);
+            der.getDerivate().getTitles().clear();
+            der.getDerivate().getTitles().add(new MCRMetaLangText("title", "de", null, 0, "plain", title));
         }
-
+        
         Path derDir = MCRActivitiUtils.getWorkflowDerivateDir(MCRObjectID.getInstance(mcrobjid), der.getId());
         updateMainFile(der, derDir);
 
         MCRActivitiUtils.saveMCRDerivateToWorkflowDirectory(der);
-
-        MCRObject mcrObj = MCRActivitiUtils.loadMCRObjectFromWorkflowDirectory(MCRObjectID.getInstance(mcrobjid));
-        for (MCRMetaLinkID link : mcrObj.getStructure().getDerivates()) {
-            if (link.getXLinkHrefID().equals(der.getId())) {
-                link.setXLinkTitle(label);
-                break;
-            }
-        }
-        MCRActivitiUtils.saveMCRObjectToWorkflowDirectory(mcrObj);
     }
 
     private void moveDerivate(String taskid, String derid, Direction dir) {
@@ -212,6 +218,18 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
             }
         }
         MCRActivitiUtils.saveMCRObjectToWorkflowDirectory(mcrObj);
+        updateDerivateOrder(mcrObj);
+    }
+
+    private void updateDerivateOrder(MCRObject mcrObj) {
+        List<MCRMetaEnrichedLinkID> derList = mcrObj.getStructure().getDerivates();
+        for (int pos = 0; pos < derList.size(); pos++) {
+            MCRMetaEnrichedLinkID derLink = mcrObj.getStructure().getDerivates().get(pos);
+            MCRDerivate der = MCRActivitiUtils.loadMCRDerivateFromWorkflowDirectory(MCRObjectID.getInstance(mcrobjid),
+                    derLink.getXLinkHrefID());
+            der.setOrder(pos +1);
+            MCRActivitiUtils.saveMCRDerivateToWorkflowDirectory(der);
+        }
     }
 
     //File: addFile_file-task_${actionBean.taskid}-derivate_${derID}
@@ -269,6 +287,7 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
         MCRObject mcrObj = MCRActivitiUtils.loadMCRObjectFromWorkflowDirectory(MCRObjectID.getInstance(mcrobjid));
         MCRObjectID derID = MCRObjectID.getInstance(derid);
         mcrObj.getStructure().removeDerivate(derID);
+        updateDerivateOrder(mcrObj);
         MCRActivitiUtils.saveMCRObjectToWorkflowDirectory(mcrObj);
         MCRActivitiUtils.cleanupWorkflowDirForDerivate(mcrObj.getId(), derID);
     }
@@ -392,8 +411,23 @@ public class EditDerivatesAction extends MCRAbstractStripesAction implements Act
         return doc;
     }
     
-    public List<String> getDerivateLabels(){
-        return MCRConfiguration.instance().getStrings("MCR.Workflow.DerivateLabels."+mode, Collections.emptyList());
+    public Map<String, String> getDerivateLabels(){
+        LinkedHashMap<String, String> result = new LinkedHashMap<>();
+        for (MCRCategory c: MCRCategoryDAOFactory.getInstance().getChildren(MCRCategoryID.rootID("derivate_types"))){
+            if(c.getCurrentLabel().isPresent()) {
+                Optional<MCRLabel> lblMode = c.getLabel("x-usedfor");
+                if(lblMode.isPresent()) {
+                    List<String> modes= Arrays.asList(lblMode.get().getText().split("\\s+"));
+                    if(modes.contains(getMode())) {
+                        result.put(c.getId().getID(), c.getCurrentLabel().get().getText());
+                    }
+                }
+                else {
+                    result.put(c.getId().getID(), c.getCurrentLabel().get().getText());
+                }
+            }
+        }
+        return result;
     }
 
     public Map<String, Document> getDerivateXMLs() {

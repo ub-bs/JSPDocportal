@@ -20,11 +20,14 @@ import org.mycore.activiti.MCRActivitiUtils;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRPersistenceException;
 import org.mycore.common.config.MCRConfiguration;
+import org.mycore.datamodel.classifications2.MCRCategoryDAOFactory;
 import org.mycore.datamodel.classifications2.MCRCategoryID;
 import org.mycore.datamodel.common.MCRActiveLinkException;
 import org.mycore.datamodel.metadata.MCRDerivate;
+import org.mycore.datamodel.metadata.MCRMetaClassification;
 import org.mycore.datamodel.metadata.MCRMetaEnrichedLinkIDFactory;
 import org.mycore.datamodel.metadata.MCRMetaIFS;
+import org.mycore.datamodel.metadata.MCRMetaLangText;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
@@ -109,6 +112,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
     @Override
     public MCRDerivate createMCRDerivate(MCRObjectID owner, String label, String title) {
         MCRDerivate der = new MCRDerivate();
+        der.setLabel(null);
         der.setId(MCRObjectID.getInstance(owner.getProjectId() + "_derivate_0"));
         der.setSchema("datamodel-derivate.xsd");
         der.getDerivate().setLinkMeta(new MCRMetaLinkID("linkmeta", owner, null, null));
@@ -116,22 +120,24 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
         der.getDerivate().setInternals(new MCRMetaIFS("internal", null));
         der.getService().setState(new MCRCategoryID(
                 MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.ID", "state"), "new"));
+       
         if (!StringUtils.isBlank(title)) {
-            der.getService().addFlag("title", title);
+            der.getDerivate().getTitles().add(new MCRMetaLangText("title", "de", null, 0, "plain", title));
         }
         if (!StringUtils.isBlank(label)) {
-            der.setLabel(label);
-        } else {
-            der.setLabel(der.getId().toString());
+            if (MCRCategoryDAOFactory.getInstance().exist(new MCRCategoryID("derivate_types", label))) {
+                der.getDerivate().getClassifications()
+                        .add(new MCRMetaClassification("classification", 0, null, "derivate_types", label));
+            } else {
+                LOGGER.warn("Classification 'derivate_types' does not contain a category with ID: " + label);
+            }
         }
 
         if (MCRAccessManager.checkPermission("create-" + owner.getBase())
                 || MCRAccessManager.checkPermission("create-" + owner.getTypeId())) {
+            MCRObject mcrObj = MCRActivitiUtils.loadMCRObjectFromWorkflowDirectory(owner);
             if (der.getId().getNumberAsInteger() == 0) {
-
                 MCRObjectID newDerID = MCRObjectID.getNextFreeId(der.getId().getBase());
-                if (der.getLabel().equals(der.getId()))
-                    der.setLabel(newDerID.toString());
                 der.setId(newDerID);
                 try {
                     MCRMetadataManager.create(der);
@@ -140,7 +146,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
                 }
                 MCRActivitiUtils.saveMCRDerivateToWorkflowDirectory(der);
             }
-            MCRObject mcrObj = MCRActivitiUtils.loadMCRObjectFromWorkflowDirectory(owner);
+            der.setOrder(mcrObj.getStructure().getDerivates().size()+1);
             mcrObj.getStructure().addDerivate(MCRMetaEnrichedLinkIDFactory.getInstance().getDerivateLink(der));
             MCRActivitiUtils.saveMCRObjectToWorkflowDirectory(mcrObj);
 

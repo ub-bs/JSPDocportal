@@ -86,6 +86,7 @@
   					</div>
     				<div class="card-body p-0">
     					<c:set var="doc" value="${actionBean.mcrobjXML}" />
+    					<c:set var="objID"><x:out select="$doc/mycoreobject/@ID" /></c:set>
     					<x:forEach var="x" select="$doc/mycoreobject/structure/derobjects/derobject">
     						<c:set var="derID"><x:out select="$x/@xlink:href" /></c:set>
     						<c:set var="derDoc" value="${actionBean.derivateXMLs[derID]}" />
@@ -98,20 +99,20 @@
                                       </div>
                                       <div class="col-5">
                                         <h4>
-                                          <c:set var="derLabel"><x:out select="$derDoc/mycorederivate/@label" /></c:set>
+                                          <c:set var="derLabel"><x:out select="$derDoc/mycorederivate/derivate/classifications/classification[@classid='derivate_types']/@categid" /></c:set>
                                           <select id="selectEditDerMetaLabel_${derID}" name="saveDerivateMeta_label-task_${actionBean.taskid}-derivate_${derID}" 
                                                   class="form-control" disabled="disabled"  data-original-value="${derLabel}">
-                                            <c:forEach var="key" items="${actionBean.derivateLabels}">
-                                              <c:if test="${key eq derLabel}">
-                                                <option value="${key}" selected="selected"><fmt:message key="OMD.derivatedisplay.${key}" /></option>
+                                            <c:forEach var="entry" items="${actionBean.derivateLabels}">
+                                              <c:if test="${entry.key eq derLabel}">
+                                                <option value="${entry.key}" selected="selected">${entry.value}</option>
                                               </c:if>
-                                              <c:if test="${not(key eq derLabel)}">
-                                                  <option value="${key}"><fmt:message key="OMD.derivatedisplay.${key}" /></option>
+                                              <c:if test="${not(entry.key eq derLabel)}">
+                                                  <option value="${entry.key}">${entry.value}</option>
                                               </c:if>
                                             </c:forEach>
                                         </select>
-                                        <c:if test="${fn:contains(maindoc,'_person_')}">
-                                            <c:set var="derTitle"><x:out select="$derDoc/mycorederivate/service/servflags/servflag[@type='title']" /></c:set>
+                                        <c:if test="${fn:contains(objID,'_person_')}">
+                                            <c:set var="derTitle"><x:out select="$derDoc/mycorederivate/derivate/titles/title/text()" /></c:set>
                                             <input id="txtEditDerMetaTitle_${derID}" name="saveDerivateMeta_title-task_${actionBean.taskid}-derivate_${derID}" type="text" class="form-control" disabled="disabled" value="${derTitle}" data-original-value="${derTitle}" />
                                         </c:if>
                                         </h4> 
@@ -242,16 +243,21 @@
     									<label for="inputLabel" class="col-sm-2 col-form-label text-right"><fmt:message key="WF.derivates.label"/></label>
    										<div class="col-8">
       										<select class="form-control" name="newDerivate_label-task_${actionBean.taskid}">
-  												<c:forEach var="key" items="${actionBean.derivateLabels}">
-  													<option value="${key}"><fmt:message key="OMD.derivatedisplay.${key}" /></option>
-  												</c:forEach>
+  												<c:forEach var="entry" items="${actionBean.derivateLabels}">
+                                              	  <c:if test="${entry.key eq derLabel}">
+                                                    <option value="${entry.key}" selected="selected">${entry.value}</option>
+                                                  </c:if>
+                                                  <c:if test="${not(entry.key eq derLabel)}">
+                                                    <option value="${entry.key}">${entry.value}</option>
+                                                </c:if>
+                                            </c:forEach>
   											</select>
     									</div>
                                         <div class="col-2">
                                           <stripes:submit class="btn ir-btn-metadata" name="doCreateNewDerivate-task_${actionBean.taskid}" value="Erstellen"/>
                                        </div>
   									</div>
-  									<c:if test="${fn:contains(maindoc,'_person_')}">
+  									<c:if test="${fn:contains(objID,'_person_')}">
   									   <div class="form-group row">
     									 <label for="inputTitle" class="col-2 col-form-label text-right"><fmt:message key="WF.derivates.title"/></label>
     									 <div class="col-8">
