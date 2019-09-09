@@ -1,10 +1,11 @@
+<%@tag import="org.jdom2.Content"%>
 <%@tag import="org.jdom2.Element"%>
 <%@tag import="org.jdom2.filter.Filters"%>
 <%@tag import="org.jdom2.xpath.XPathFactory"%>
 <%@tag import="org.jdom2.xpath.XPathExpression"%>
 <%@tag import="org.mycore.frontend.jsp.MCRHibernateTransactionWrapper"%>
 <%@tag import="org.mycore.datamodel.metadata.MCRDerivate"%>
-<%@tag import="org.mycore.datamodel.metadata.MCRMetaLinkID"%>
+<%@tag import="org.mycore.datamodel.metadata.MCRMetaEnrichedLinkID"%>
 <%@tag import="org.mycore.datamodel.metadata.MCRObjectID"%>
 <%@tag import="org.mycore.datamodel.metadata.MCRMetadataManager"%>
 <%@tag import="org.mycore.datamodel.metadata.MCRObject"%>
@@ -15,13 +16,6 @@
 <%@ attribute name="mcrid" required="true" type="java.lang.String" %>
 <%@ attribute name="recordIdentifier" required="true" type="java.lang.String" %>
 <%@ attribute name="doctype" required="true" type="java.lang.String" %>
-
-<%--
-<iframe src="${applicationScope.WebApplicationBaseURL}content/mcrviewer_embedded.jsp?id=${id}&mcrid=${mcrid}&recordIdentifier=${recordIdentifier}&doctype=${doctype}&start=${param._mcrviewer_start}"
-style="width:100%; height:80vh;border:none">
-</iframe>
-
---%>
 
 <c:set var="iviewBaseURL" value="${applicationScope.WebApplicationBaseURL}modules/iview2/" />
 
@@ -41,11 +35,20 @@ style="width:100%; height:80vh;border:none">
 	try(MCRHibernateTransactionWrapper htw = new MCRHibernateTransactionWrapper()){
 		MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(String.valueOf(jspContext.getAttribute("mcrid"))));
 		String derLabel = "fulltext";
-		for(MCRMetaLinkID derLink: mcrObj.getStructure().getDerivates()){
-			if(derLink.getXLinkTitle().equals(derLabel)){
-		    	MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(derLink.getXLinkHrefID());
-		    	jspContext.setAttribute("maindoc", der.getDerivate().getInternals().getMainDoc());
-		    	jspContext.setAttribute("derid", der.getId().toString());
+		for(MCRMetaEnrichedLinkID derLink: mcrObj.getStructure().getDerivates()){
+		    String maindoc=null;
+		    boolean isFulltext = false;
+		    for(Content c : derLink.getContentList()){
+		        if(c instanceof Element && ((Element)c).getName().equals("maindoc")){
+		            maindoc = ((Element)c).getText();
+		        }
+		    	if(c instanceof Element && ((Element)c).getName().equals("classification")){
+	            	isFulltext = isFulltext || ("derivate_types".equals(((Element)c).getAttributeValue("classid")) && "fulltext".equals(((Element)c).getAttributeValue("categid")));
+	        	}
+		    }
+			if(isFulltext && maindoc!=null){
+		    	jspContext.setAttribute("maindoc", maindoc);
+		    	jspContext.setAttribute("derid", derLink.getXLinkHref());
 			}
 		}
 	}
@@ -94,13 +97,24 @@ style="width:100%; height:80vh;border:none">
 	try(MCRHibernateTransactionWrapper htw = new MCRHibernateTransactionWrapper()){
 		MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(String.valueOf(jspContext.getAttribute("mcrid"))));
 		String derLabel = "MCRVIEWER_METS";
-		for(MCRMetaLinkID derLink: mcrObj.getStructure().getDerivates()){
-			if(derLink.getXLinkTitle().equals(derLabel)){
-		    	MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(derLink.getXLinkHrefID());
-		    	jspContext.setAttribute("maindoc", der.getDerivate().getInternals().getMainDoc());
-		    	jspContext.setAttribute("derid", der.getId().toString());
-			}
+		for(MCRMetaEnrichedLinkID derLink: mcrObj.getStructure().getDerivates()){
+		
+		
+		String maindoc=null;
+	    boolean isMets = false;
+	    for(Content c : derLink.getContentList()){
+	        if(c instanceof Element && ((Element)c).getName().equals("maindoc")){
+	            maindoc = ((Element)c).getText();
+	        }
+	    	if(c instanceof Element && ((Element)c).getName().equals("classification")){
+	    	    isMets = isMets || ("derivate_types".equals(((Element)c).getAttributeValue("classid")) && "MCRVIEWER_METS".equals(((Element)c).getAttributeValue("categid")));
+        	}
+	    }
+		if(isMets && maindoc!=null){
+	    	jspContext.setAttribute("maindoc", maindoc);
+	    	jspContext.setAttribute("derid", derLink.getXLinkHref());
 		}
+		
 		jspContext.setAttribute("startImage", "phys_0001");
         if(request.getParameter("_mcrviewer_start")!=null){
             jspContext.setAttribute("startImage", request.getParameter("_mcrviewer_start"));
@@ -111,6 +125,7 @@ style="width:100%; height:80vh;border:none">
 		    jspContext.setAttribute("startImage", e.getTextTrim());
 		  }
         }
+		}
 	}
 	catch(Exception e){
 	    //do nothing

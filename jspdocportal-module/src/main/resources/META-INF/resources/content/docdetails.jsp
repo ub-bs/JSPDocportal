@@ -117,7 +117,7 @@
 		    <div class="col">
 			  <div class="mb-3">
                  <ul id="nav_bar_root" class="nav nav-tabs ir-docdetails-tabs">
-                   <x:if select="$doc/mycoreobject[not(contains(@ID, '_bundle_'))]/structure/derobjects/derobject[@xlink:title='fulltext' or @xlink:title='MCRVIEWER_METS']">
+                   <x:if select="$doc/mycoreobject[not(contains(@ID, '_bundle_'))]/structure/derobjects/derobject[classification[@classid='derivate_types'][@categid='fulltext' or @categid='MCRVIEWER_METS']]">
 					<li class="nav-item" role="presentation">
                       <a id="nav_tab_fulltext" class="nav-link" data-toggle="collapse" href="#nav_content_fulltext">Viewer</a>
                     </li>
@@ -139,10 +139,10 @@
 			  </div>
 			
               <div id="nav_content_root" style="padding-bottom:75px">
-		          <x:if select="$doc/mycoreobject[not(contains(@ID, '_bundle_'))]/structure/derobjects/derobject[@xlink:title='fulltext' or @xlink:title='MCRVIEWER_METS']">
+		          <x:if select="$doc/mycoreobject[not(contains(@ID, '_bundle_'))]/structure/derobjects/derobject[classification[@classid='derivate_types'][@categid='fulltext' or @categid='MCRVIEWER_METS']]">
 			        <div id="nav_content_fulltext" class="collapse" data-parent="#nav_content_root">
-				       <x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='fulltext']">
-                         <c:set var="derid"><x:out select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='fulltext']/@xlink:href" /></c:set>
+				       <x:if select="$doc/mycoreobject/structure/derobjects/derobject[classification[@classid='derivate_types'][@categid='fulltext']]">
+                         <c:set var="derid"><x:out select="$doc/mycoreobject/structure/derobjects/derobject[classification[@classid='derivate_types'][@categid='fulltext']]/@xlink:href" /></c:set>
 					      <mcr:hasAccess var="hasAccess" permission="read" mcrid="${derid}" />
                           <c:if test="${not hasAccess}">
                            <c:set var="valueURI"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='accesscondition']/@valueURI" /></c:set>
@@ -152,12 +152,12 @@
                           </c:if>
                           <c:if test="${hasAccess}">
                             <search:mcrviewer mcrid="${param.id}" recordIdentifier="${param.id}" doctype="pdf" id="divMCRViewer_2" />
-                            <div id="divMCRViewer_2" style="height:600px; margin:0px 16px; position:relative;"></div>
+                            <div id="divMCRViewer_2" style="height:80vh; margin:0px 16px; position:relative;"></div>
                           </c:if> 
 				       </x:if>
-				       <x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='MCRVIEWER_METS']">
+				       <x:if select="$doc/mycoreobject/structure/derobjects/derobject[classification[@classid='derivate_types'][@categid='MCRVIEWER_METS']]">
 					     <c:set var="recordidentifier"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier" /></c:set>
-                         <c:set var="derid"><x:out select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='MCRVIEWER_METS']/@xlink:href" /></c:set>
+                         <c:set var="derid"><x:out select="$doc/mycoreobject/structure/derobjects/derobject[classification[@classid='derivate_types'][@categid='MCRVIEWER_METS']]/@xlink:href" /></c:set>
                          <mcr:hasAccess var="hasAccess" permission="read" mcrid="${derid}" />
                          <c:if test="${not hasAccess}">
                            <c:set var="valueURI"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='accesscondition']/@valueURI" /></c:set>
@@ -167,7 +167,7 @@
                          </c:if>
                          <c:if test="${hasAccess}">
 					       <search:mcrviewer mcrid="${param.id}" recordIdentifier="${recordidentifier}" doctype="mets" id="divMCRViewer_1" />
-                           <div id="divMCRViewer_1" style="height:600px; margin:0px 16px; position:relative;"></div>
+                           <div id="divMCRViewer_1" style="height:80vh; margin:0px 16px; position:relative;"></div>
                          </c:if>
                          <script type="text/javascript">
  	                       $.urlParam = function(name){
@@ -274,18 +274,18 @@
          	</c:if>
             <search:result-navigator mcrid="${mcrid}" mode="one_line"/>
         </div>
-         <x:if select="$doc/mycoreobject/structure/derobjects/derobject/classification[@classid='derivate_types'][@categid='cover'] or contains($doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='doctype']/@valueURI, '#data')">
+         <x:if select="$doc/mycoreobject/structure/derobjects/derobject[classification[@classid='derivate_types'][@categid='cover']] or contains($doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='doctype']/@valueURI, '#data')">
 	       <x:choose>
-             <x:when select="$doc/mycoreobject/structure/derobjects/derobject/classification[@classid='derivate_types'][@categid='cover']">
+             <x:when select="$doc/mycoreobject/structure/derobjects/derobject[classification[@classid='derivate_types'][@categid='cover']]">
                <div class="ir-box ir-box-docdetails-image">
                  <x:choose>
-	                 <x:when select="$doc/mycoreobject[not(contains(@ID, '_bundle_'))]/structure/derobjects/derobject[@xlink:title='MCRVIEWER_METS']"> 
+	                 <x:when select="$doc/mycoreobject[not(contains(@ID, '_bundle_'))]/structure/derobjects/derobject[classification[@classid='derivate_types'][@categid='MCRVIEWER_METS']]"> 
 				 		<c:set var="recordID"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier[@source='DE-28']" /></c:set>
                           <a href="${WebApplicationBaseURL}mcrviewer/recordIdentifier/${fn:replace(recordID,'/','_')}" title="Im MyCoRe Viewer anzeigen">
         		            <search:derivate-image mcrid="${param.id}" width="200px" labelContains="cover" />
                 		  </a>
                  	 </x:when>
-                 	 <x:when select="$doc/mycoreobject[not(contains(@ID, '_bundle_'))]/structure/derobjects/derobject[@xlink:title='DV_METS' or @xlink:title='METS']"> 
+                 	 <x:when select="$doc/mycoreobject[not(contains(@ID, '_bundle_'))]/structure/derobjects/derobject[classification[@classid='derivate_types'][@categid='DV_METS' or @categid='METS']]"> 
                        <c:set var="mcrid"><x:out select="$doc/mycoreobject/@ID" /></c:set>
 	                	 <a href="${WebApplicationBaseURL}resolve/id/${mcrid}/dfgviewer" target="_blank" title="Im DFG Viewer anzeigen">
 	                	   <search:derivate-image mcrid="${param.id}" width="200px" labelContains="cover" />
@@ -324,16 +324,17 @@
        
        <%--Download Area --%>
        <div style="margin-bottom:30px;">
-         <x:forEach select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='fulltext']">
+         <x:forEach select="$doc/mycoreobject/structure/derobjects/derobject[classification[@classid='derivate_types'][@categid='fulltext']]">
             <a class="btn btn-primary ir-button-download"  
                href="${WebApplicationBaseURL}resolve/id/${mcrid}/file/fulltext" target="_blank">
-                <c:set var="mesKey">OMD.derivatedisplay.<x:out select="@xlink:title"/></c:set>
+               
+                	<c:set var="mesKey"><x:out select="classification[@classid='derivate_types']/@categid"/></c:set>
                     <img align="left" src="${WebApplicationBaseURL}images/download_pdf.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
-                    <strong><fmt:message key="${mesKey}" /></strong>
+                    <strong><mcr:displayClassificationCategory lang="de" classid="derivate_types" categid="${mesKey}"/></strong>
                     <c:set var="derid"><x:out select="./@xlink:href" /></c:set>
                     <mcr:retrieveDerivateContentsXML derid="${derid}" varDOM="derDoc" />
                     <x:set var="derLink" select="$derDoc//children/child[1]" />
-                      <x:if select="$derLink">
+                    <x:if select="$derLink">
                         <br />
                         <small>
                           <x:out select="$derLink/name" />&nbsp;&nbsp;&nbsp;(<x:out select="round($derLink/size div 1024 div 1024 * 10) div 10" /> MB)<br />
@@ -341,7 +342,7 @@
                     </x:if>
             </a>
          </x:forEach>
-         <x:if select="$doc/mycoreobject[not(contains(@ID,'_bundle_'))]/structure/derobjects/derobject[@xlink:title='DV_METS' or @xlink:title='METS']">
+         <x:if select="$doc/mycoreobject[not(contains(@ID,'_bundle_'))]/structure/derobjects/derobject[classification[@classid='derivate_types'][@categid='DV_METS' or @categid='METS']]">
            <c:set var="recordID"><x:out select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:recordInfo/mods:recordIdentifier[@source='DE-28']" /></c:set>
            <c:if test="${not empty recordID}">
              <a class="btn btn-primary ir-button-download"  
@@ -351,14 +352,14 @@
              </a>
            </c:if>
          </x:if>
-         <x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='DV_METS' or @xlink:title='METS']">
+         <x:if select="$doc/mycoreobject/structure/derobjects/derobject[classification[@classid='derivate_types'][@categid='DV_METS' or @categid='METS']]">
            <a class="btn btn-primary ir-button-download"  
               href="${WebApplicationBaseURL}resolve/id/${mcrid}/dfgviewer" target="_blank">
               <img style="height: 24px; margin: 3px 0px;float:left" src="${WebApplicationBaseURL}images/dfgviewerLogo.svg" title = "<fmt:message key="Webpage.docdetails.dfgviewer" />" />
            </a>
          </x:if>
        
-         <x:forEach select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='data' or @xlink:title='documentation' or @xlink:title='supplement' ]">
+         <x:forEach select="$doc/mycoreobject/structure/derobjects/derobject[classification[@classid='derivate_types'][@categid='data' or @categid='documentation' or @categid='supplement']]">
              <c:set var="derid"><x:out select="./@xlink:href" /></c:set>
              <mcr:retrieveDerivateContentsXML derid="${derid}" varDOM="derDoc" />
              <x:set var="derLink" select="$derDoc//children/child[1]" />
@@ -376,8 +377,8 @@
                       <img align="left" src="${WebApplicationBaseURL}images/download_other.png" />
                     </x:otherwise>
                   </x:choose>
-                  <c:set var="mesKey">OMD.derivatedisplay.<x:out select="@xlink:title"/></c:set>
-                    <strong><fmt:message key="${mesKey}" /></strong><br />
+                  <c:set var="mesKey"><x:out select="classification[@classid='derivate_types']/@categid"/></c:set>
+                    <strong><mcr:displayClassificationCategory lang="de" classid="derivate_types" categid="${mesKey}"/></strong><br />
                     <small>
                       <x:out select="$derLink/name" />&nbsp;&nbsp;&nbsp;(<x:out select="round($derLink/size div 1024 div 1024 * 10) div 10" /> MB)<br />
                     </small>
@@ -469,7 +470,7 @@
             <h4>Rechte</h4>
             <p>
                 <span class="badge badge-secondary float-left mr-2 h-100"><a href="https://rightsstatements.org/page/InC/1.0/?language=de"><img src="${WebApplicationBaseURL}images/rightsstatements.org/buttons/InC.white.svg" title="in copyright" style="width:100px"></a></span>
-                <br><a href="https://rightsstatements.org/page/InC/1.0/?language=de">Urheberrechtsschutz</a></strong></p><p class="text-justify form-text text-muted small">Dieses Objekt ist durch das Urheberrecht und/oder verwandte Schutzrechte geschützt. Sie sind berechtigt, das Objekt in jeder Form zu nutzen, die das Urheberrechtsgesetz und/oder einschlägige verwandte Schutzrechte gestatten. Für weitere Nutzungsarten benötigen Sie die Zustimmung der/des Rechteinhaber/s.
+                <br><strong><a href="https://rightsstatements.org/page/InC/1.0/?language=de">Urheberrechtsschutz</a></strong></p><p class="text-justify form-text text-muted small">Dieses Objekt ist durch das Urheberrecht und/oder verwandte Schutzrechte geschützt. Sie sind berechtigt, das Objekt in jeder Form zu nutzen, die das Urheberrechtsgesetz und/oder einschlägige verwandte Schutzrechte gestatten. Für weitere Nutzungsarten benötigen Sie die Zustimmung der/des Rechteinhaber/s.
             </p>
        </div>
 
@@ -489,8 +490,8 @@
                   href="${WebApplicationBaseURL}receive/${mcrid}?XSL.Style=solrdocument" rel="nofollow">SOLR in</a>
               <a class="btn btn-warning btn-sm ir-button-warning" style="margin:3px" target="_blank" title="<fmt:message key="Webpage.tools.showSOLR" />"
                   href="${WebApplicationBaseURL}api/v1/search?q=id:${mcrid}" rel="nofollow">SOLR doc</a>
-              <x:if select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='REPOS_METS']">
-                <c:set var="derid"><x:out select="$doc/mycoreobject/structure/derobjects/derobject[@xlink:title='REPOS_METS']/@xlink:href" /></c:set>
+              <x:if select="$doc/mycoreobject/structure/derobjects/derobject[classification[@classid='derivate_types'][@categid='REPOS_METS']]">
+                <c:set var="derid"><x:out select="$doc/mycoreobject/structure/derobjects/derobject[classification[@classid='derivate_types'][@categid='REPOS_METS']]/@xlink:href" /></c:set>
                 <a class="btn btn-warning btn-sm ir-button-warning" style="margin:3px" target="_blank" 
                    href="${WebApplicationBaseURL}api/v1/objects/${param.id}/derivates/${derid}/open" class="btn btn-default" title="<fmt:message key="Webpage.tools.showREPOS_METS" />">METS</a>
               </x:if>

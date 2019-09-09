@@ -15,36 +15,24 @@
 	<xsl:template match="structure">   
       <!-- online type of derivate -->
       <xsl:for-each select="/mycoreobject/structure/derobjects/derobject">
-         <field name="derivateLabel"><xsl:value-of select="@xlink:label|@xlink:title" /></field>
+         <field name="derivateLabel"><xsl:value-of select="classification[@classid='derivate_types']/@categid" /></field>
       </xsl:for-each>
-      <xsl:for-each select="/mycoreobject/structure/derobjects/derobject[@xlink:title='cover'][1]">
-         <xsl:variable name="derId" select="@xlink:href" />
-         <xsl:variable name="derXML" select="document(concat('mcrobject:',$derId))" />
-     	 <xsl:for-each select="$derXML/mycorederivate/derivate/internals/internal">
-     		<xsl:if test="string-length(@maindoc)>0">
-     			<field name="ir.cover_url">file/<xsl:value-of select="$derXML/mycorederivate/derivate/linkmetas/linkmeta/@xlink:href" />/<xsl:value-of select="$derXML/mycorederivate/@ID" />/<xsl:value-of select="@maindoc" /></field>
-     		</xsl:if>
-     	 </xsl:for-each>
+      <xsl:for-each select="/mycoreobject/structure/derobjects/derobject[classification[@classid='derivate_types'][@categid='cover']][1]">
+   		 <xsl:if test="string-length(maindoc)>0">
+     			<field name="ir.cover_url">file/<xsl:value-of select="/mycoreobject/@ID" />/<xsl:value-of select="@xlink:href" />/<xsl:value-of select="maindoc" /></field>
+     	 </xsl:if>
       </xsl:for-each>
      
-      <xsl:for-each select="/mycoreobject/structure/derobjects/derobject[@xlink:title='fulltext'][1]">
-        <xsl:variable name="derId" select="@xlink:href" />
-        <xsl:variable name="derXML" select="document(concat('mcrobject:',$derId))" />
-        <xsl:for-each select="$derXML/mycorederivate/derivate/internals/internal">
-          <xsl:if test="string-length(@maindoc)>0">
-            <field name="ir.pdffulltext_url">file/<xsl:value-of select="$derXML/mycorederivate/derivate/linkmetas/linkmeta/@xlink:href" />/<xsl:value-of select="$derXML/mycorederivate/@ID" />/<xsl:value-of select="@maindoc" /></field>
+      <xsl:for-each select="/mycoreobject/structure/derobjects/derobject[classification[@classid='derivate_types'][@categid='fulltext']][1]">
+          <xsl:if test="string-length(maindoc)>0">
+            <field name="ir.pdffulltext_url">file/<xsl:value-of select="/mycoreobject/@ID" />/<xsl:value-of select="@xlink:href" />/<xsl:value-of select="maindoc" /></field>
           </xsl:if>
-        </xsl:for-each>
       </xsl:for-each>
       
-      <xsl:for-each select="/mycoreobject/structure/derobjects/derobject[@xlink:title='REPOS_METS'][1]">
-        <xsl:variable name="derId" select="@xlink:href" />
-        <xsl:variable name="derXML" select="document(concat('mcrobject:',$derId))" />
-        <xsl:for-each select="$derXML/mycorederivate/derivate/internals/internal">
-           <xsl:if test="string-length(@maindoc)>0">
-             <field name="ir.reposmets_url">file/<xsl:value-of select="$derXML/mycorederivate/derivate/linkmetas/linkmeta/@xlink:href" />/<xsl:value-of select="$derXML/mycorederivate/@ID" />/<xsl:value-of select="@maindoc" /></field>
+      <xsl:for-each select="/mycoreobject/structure/derobjects/derobject[classification[@classid='derivate_types'][@categid='REPOS_METS']][1]">
+           <xsl:if test="string-length(maindoc)>0">
+             <field name="ir.reposmets_url">file/<xsl:value-of select="$mycoreobject/@ID" />/<xsl:value-of select="@xlink:href" />/<xsl:value-of select="maindoc" /></field>
            </xsl:if>
-        </xsl:for-each>
       </xsl:for-each>
   </xsl:template>
 
