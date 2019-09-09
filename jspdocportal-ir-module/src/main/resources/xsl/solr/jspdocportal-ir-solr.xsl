@@ -31,7 +31,7 @@
       
       <xsl:for-each select="/mycoreobject/structure/derobjects/derobject[classification[@classid='derivate_types'][@categid='REPOS_METS']][1]">
            <xsl:if test="string-length(maindoc)>0">
-             <field name="ir.reposmets_url">file/<xsl:value-of select="$mycoreobject/@ID" />/<xsl:value-of select="@xlink:href" />/<xsl:value-of select="maindoc" /></field>
+             <field name="ir.reposmets_url">file/<xsl:value-of select="/mycoreobject/@ID" />/<xsl:value-of select="@xlink:href" />/<xsl:value-of select="maindoc" /></field>
            </xsl:if>
       </xsl:for-each>
   </xsl:template>
