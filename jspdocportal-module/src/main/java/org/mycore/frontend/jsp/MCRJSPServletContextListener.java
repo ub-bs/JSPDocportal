@@ -68,14 +68,15 @@ public class MCRJSPServletContextListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-    	MCRSessionMgr.unlock();
-        
+        MCRSessionMgr.unlock();
+        MCRSessionMgr.getCurrentSession();
         LOGGER.debug("Application " + sce.getServletContext().getServletContextName() + " started");
         MCRNavigationUtil.loadNavigation(sce.getServletContext());
         Navigations.loadNavigation(sce.getServletContext());
         createNonExistingAdminPermissions();
         registerDefaultMessageBundle(sce.getServletContext());
         sce.getServletContext().setAttribute("WebApplicationBaseURL", MCRFrontendUtil.getBaseURL());
+        MCRSessionMgr.releaseCurrentSession();
     }
 
     @Override
