@@ -41,6 +41,7 @@ import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
+import org.jdom2.Content;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
@@ -48,7 +49,7 @@ import org.jdom2.filter.Filters;
 import org.jdom2.xpath.XPathFactory;
 import org.mycore.common.config.MCRConfiguration;
 import org.mycore.common.content.MCRPathContent;
-import org.mycore.datamodel.metadata.MCRDerivate;
+import org.mycore.datamodel.metadata.MCRMetaEnrichedLinkID;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObject;
@@ -204,38 +205,43 @@ public class MCRJSPIDResolverServlet extends HttpServlet {
         String label) {
         MCRObject o = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID));
         MCRObjectStructure structure = o.getStructure();
-        MCRMetaLinkID derMetaLink = null;
-        for (MCRMetaLinkID der : structure.getDerivates()) {
-            if (label.equals(der.getXLinkHref()) || label.equals(der.getXLinkLabel())
-                || label.equals(der.getXLinkTitle())) {
-                derMetaLink = der;
+        for (MCRMetaEnrichedLinkID der : structure.getDerivates()) {
+            for(Content c: der.getContentList()) {
+                if(c instanceof Element && ((Element) c).getName().equals("classification") && "derivate_types".equals(((Element) c).getAttributeValue("classid"))
+                        && label.equals(((Element) c).getAttributeValue("categid"))){
+                    for(Content c1: der.getContentList()) {
+                        if(c1 instanceof Element && ((Element) c1).getName().equals("maindoc")){
+                          String maindoc = ((Element)c1).getTextNormalize();
+                          StringBuffer sbPath = new StringBuffer(MCRFrontendUtil.getBaseURL());
+                          sbPath.append("file/").append(mcrID).append("/").append(der.getXLinkHref()).append("/").append(maindoc);
+                          return sbPath;
+                        }
+                    }
+                }
             }
         }
-        if (derMetaLink == null) {
-            return new StringBuffer();
-        }
-        MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(derMetaLink.getXLinkHrefID());
-        String mainDoc = der.getDerivate().getInternals().getMainDoc();
-        if (mainDoc != null && mainDoc.length() > 0) {
-            StringBuffer sbPath = new StringBuffer(MCRFrontendUtil.getBaseURL());
-            sbPath.append("file/").append(mcrID).append("/").append(der.getId().toString()).append("/").append(mainDoc);
-            return sbPath;
 
-        }
         return new StringBuffer(MCRFrontendUtil.getBaseURL() + "resolve/id/" + mcrID);
     }
 
     protected StringBuffer createRootURLForDerivateWithLabel(HttpServletRequest request, String mcrID, String label) {
         MCRObject o = MCRMetadataManager.retrieveMCRObject(MCRObjectID.getInstance(mcrID));
         MCRObjectStructure structure = o.getStructure();
-        for (MCRMetaLinkID der : structure.getDerivates()) {
-            if (label.equals(der.getXLinkHref()) || label.equals(der.getXLinkLabel())
-                || label.equals(der.getXLinkTitle())) {
-
-                StringBuffer sbPath = new StringBuffer(MCRFrontendUtil.getBaseURL());
-                return sbPath.append("file/").append(mcrID).append("/").append(der.getXLinkHref().toString());
+        
+        for (MCRMetaEnrichedLinkID der : structure.getDerivates()) {
+            for(Content c: der.getContentList()) {
+                if(c instanceof Element && ((Element) c).getName().equals("classification") && "derivate_types".equals(((Element) c).getAttributeValue("classid"))
+                        && label.equals(((Element) c).getAttributeValue("categid"))){
+                    for(Content c1: der.getContentList()) {
+                        if(c1 instanceof Element && ((Element) c1).getName().equals("maindoc")){
+                          StringBuffer sbPath = new StringBuffer(MCRFrontendUtil.getBaseURL());
+                          return sbPath.append("file/").append(mcrID).append("/").append(der.getXLinkHref().toString());
+                        }
+                    }
+                }
             }
         }
+
         return new StringBuffer(MCRFrontendUtil.getBaseURL() + "resolve/id/" + mcrID);
     }
 
