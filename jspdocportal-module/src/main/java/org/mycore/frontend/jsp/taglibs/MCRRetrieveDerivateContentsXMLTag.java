@@ -167,7 +167,7 @@ public class MCRRetrieveDerivateContentsXMLTag extends SimpleTagSupport {
                 }
 
                 //add href Attributes
-                String baseURL = MCRFrontendUtil.getBaseURL()+"api/v1"
+                String baseURL = MCRFrontendUtil.getBaseURL()
                     + MCRConfiguration.instance().getString("MCR.RestAPI.v1.Files.URL.path");
                 baseURL = baseURL.replace("${mcrid}", derObj.getOwnerID().toString()).replace("${derid}",
                     derObj.getId().toString());
