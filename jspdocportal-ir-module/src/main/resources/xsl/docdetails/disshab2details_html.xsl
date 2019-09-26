@@ -164,23 +164,7 @@
           </td>
         </tr>
         </xsl:if>
-        
-        <xsl:if test="mods:classification[@displayLabel='ghb']/@valueURI">
-        <tr>
-          <th><xsl:value-of select="i18n:translate('OMD.ghb-class')" /> :</th>
-          <td>
-            <table class="ir-table-docdetails-values">
-                  <xsl:for-each select="mods:classification[@displayLabel='ghb']/@valueURI">
-                  <tr><td>
-                  <xsl:call-template name="classLabel">
-                    <xsl:with-param name="valueURI"><xsl:value-of select="." /></xsl:with-param>
-                  </xsl:call-template>
-                  </td></tr>
-                  </xsl:for-each>
-            </table>
-          </td>
-        </tr>
-        </xsl:if>
+
         <xsl:if test="mods:subject">
         <tr>
           <th><xsl:value-of select="i18n:translate('OMD.keywords')" /> :</th>
@@ -188,7 +172,9 @@
             <table class="ir-table-docdetails-values">
                   <xsl:for-each select="mods:subject">
                     <tr><td>
-                      <xsl:value-of select="./mods:topic" />
+                      <xsl:for-each select="./mods:topic" /> <!-- use string-join in XSLT 2.0 -->
+                      <xsl:value-of select="." /> 
+                      </xsl:for-each>
                     </td></tr>
                   </xsl:for-each>
             </table>
