@@ -469,9 +469,17 @@
        <div class="ir-box">
             <h4>Rechte</h4>
             <p>
+            	<strong>
+            		<a href="https://rightsstatements.org/page/InC/1.0/?language=de">
+            			<img src="${WebApplicationBaseURL}images/rightsstatements.org/buttons/InC.white.svg" title="in copyright" style="width:100px;background-color:grey;border:5px solid grey;" class="mr-3">
+            			Urheberrechtsschutz
+            	     </a>
+            	</strong>
+                <%-- old:
                 <span class="badge badge-secondary float-left mr-2 h-100"><a href="https://rightsstatements.org/page/InC/1.0/?language=de"><img src="${WebApplicationBaseURL}images/rightsstatements.org/buttons/InC.white.svg" title="in copyright" style="width:100px"></a></span>
-                <br><strong><a href="https://rightsstatements.org/page/InC/1.0/?language=de">Urheberrechtsschutz</a></strong></p><p class="text-justify form-text text-muted small">Dieses Objekt ist durch das Urheberrecht und/oder verwandte Schutzrechte geschützt. Sie sind berechtigt, das Objekt in jeder Form zu nutzen, die das Urheberrechtsgesetz und/oder einschlägige verwandte Schutzrechte gestatten. Für weitere Nutzungsarten benötigen Sie die Zustimmung der/des Rechteinhaber/s.
-            </p>
+                <br><strong><a href="https://rightsstatements.org/page/InC/1.0/?language=de">Urheberrechtsschutz</a></strong></p>
+                <p class="text-justify form-text text-muted small">Dieses Objekt ist durch das Urheberrecht und/oder verwandte Schutzrechte geschützt. Sie sind berechtigt, das Objekt in jeder Form zu nutzen, die das Urheberrechtsgesetz und/oder einschlägige verwandte Schutzrechte gestatten. Für weitere Nutzungsarten benötigen Sie die Zustimmung der/des Rechteinhaber/s.</p>
+                --%>
        </div>
 
        <div class="my-3"><%--Tools --%>
