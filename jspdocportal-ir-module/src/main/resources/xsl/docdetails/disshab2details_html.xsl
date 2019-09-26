@@ -150,7 +150,7 @@
         </xsl:for-each>
         <xsl:if test="mods:classification[@displayLabel='sdnb' or @displayLabel='SDNB']/@valueURI">
         <tr>
-          <th><xsl:value-of select="i18n:translate('OMD.ddc-class')" /> :</th>
+          <th><xsl:value-of select="i18n:translate('OMD.ir.sdnb')" /> :</th>
           <td>
             <table class="ir-table-docdetails-values">
                   <xsl:for-each select="mods:classification[@displayLabel='sdnb' or @displayLabel='SDNB']/@valueURI">
@@ -172,8 +172,9 @@
             <table class="ir-table-docdetails-values">
                   <xsl:for-each select="mods:subject">
                     <tr><td>
-                      <xsl:for-each select="./mods:topic" /> <!-- use string-join in XSLT 2.0 -->
+                      <xsl:for-each select="./mods:topic"> <!-- use string-join in XSLT 2.0 -->
                       <xsl:value-of select="." /> 
+                      <xsl:if test="position() != last()"> / </xsl:if>
                       </xsl:for-each>
                     </td></tr>
                   </xsl:for-each>

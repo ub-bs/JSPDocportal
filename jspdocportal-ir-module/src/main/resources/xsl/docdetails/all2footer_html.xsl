@@ -1,10 +1,12 @@
 <?xml version="1.0"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" version="1.0"
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
   xmlns:mods="http://www.loc.gov/mods/v3" 
   xmlns:xlink="http://www.w3.org/1999/xlink"
   xmlns:ubr-legal="http://purl.uni-rostock.de/ub/standards/ubr-legal-information-v1.0"
-  version="1.0" exclude-result-prefixes="mods xlink">
-    <xsl:import href="mods-util.xsl" />
+  exclude-result-prefixes="mods xlink ubr-legal">
+  
+  <xsl:import href="mods-util.xsl" />
   
   <xsl:param name="WebApplicationBaseURL" />
   <xsl:output method="html" indent="yes" standalone="no" />
