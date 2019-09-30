@@ -1,10 +1,11 @@
 <%@page import="net.sourceforge.stripes.action.ActionBean"%>
-<%@page import="org.mycore.datamodel.metadata.MCRDerivate"%>
+<%@page import="org.jdom2.Element"%>
+<%@page import="org.mycore.datamodel.metadata.MCRMetaEnrichedLinkID"%>
+<%@page import="org.mycore.datamodel.metadata.MCRObject"%>
 <%@page import="org.mycore.datamodel.metadata.MCRObjectID"%>
 <%@page import="org.mycore.datamodel.metadata.MCRMetadataManager"%>
-<%@page import="org.mycore.datamodel.metadata.MCRMetaLinkID"%>
-<%@page import="org.mycore.datamodel.metadata.MCRObject"%>
 <%@page import="org.mycore.frontend.jsp.MCRHibernateTransactionWrapper"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -14,12 +15,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<mcr:webjarLocator htmlElement="stylesheet" project="bootstrap" file="css/bootstrap.css" />
+<mcr:webjarLocator htmlElement="stylesheet" project="bootstrap" file="css/bootstrap.min.css" />
 <mcr:webjarLocator htmlElement="stylesheet" project="font-awesome" file="css/all.min.css" />
 
 <link rel="stylesheet" type="text/css" href="${applicationScope.WebApplicationBaseURL}modules/mcrviewer/mcrviewer.css" />
 <link rel="stylesheet" type="text/css" href="${iviewBaseURL}css/default.css" />
 <mcr:webjarLocator htmlElement="script" project="jquery" file="jquery.min.js" />
+<mcr:webjarLocator htmlElement="script" project="bootstrap" file="js/bootstrap.min.js" />
 
 <script type="text/javascript" src="${iviewBaseURL}js/iview-client-base.js"></script>
 <script type="text/javascript" src="${iviewBaseURL}js/iview-client-desktop.js"></script>
@@ -47,7 +49,7 @@
 	<script type="text/javascript" src="${iviewBaseURL}js/iview-client-metadata.js"></script>
 	<style type="text/css">
       button[data-id='ShareButton']{
-        border-radius:4px;
+        border-radius:4px !important;
       }
       
       button[data-id='PdfDownloadButton']{
@@ -96,7 +98,7 @@
 								inGroup: "addOns"
 							} ]
 			};
-			new mycore.viewer.MyCoReViewer(jQuery("#divMCRViewer"), config);
+			new mycore.viewer.MyCoReViewer(jQuery("body"), config);
 		};
 	</script>
 </c:if>
@@ -107,19 +109,19 @@
 	
 	<%
 	    try (MCRHibernateTransactionWrapper htw = new MCRHibernateTransactionWrapper()) {
-						MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(
-								MCRObjectID.getInstance(String.valueOf(pageContext.getAttribute("mcrid"))));
-						String derLabel = "MCRVIEWER_METS";
-						for (MCRMetaLinkID derLink : mcrObj.getStructure().getDerivates()) {
-							if (derLink.getXLinkTitle().equals(derLabel)) {
-								MCRDerivate der = MCRMetadataManager.retrieveMCRDerivate(derLink.getXLinkHrefID());
-								pageContext.setAttribute("maindoc", der.getDerivate().getInternals().getMainDoc());
-								pageContext.setAttribute("derid", der.getId().toString());
-							}
-						}
-					} catch (Exception e) {
-						//do nothing
-					}
+			MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(
+			MCRObjectID.getInstance(String.valueOf(pageContext.getAttribute("mcrid"))));
+			String derLabel = "MCRVIEWER_METS";
+			for (MCRMetaEnrichedLinkID derLink : mcrObj.getStructure().getDerivates()) {
+				Element e = derLink.createXML();
+				if (derLabel.equals(e.getChild("classification").getAttributeValue("categid"))) {
+					pageContext.setAttribute("maindoc", e.getChildTextTrim("maindoc"));
+					pageContext.setAttribute("derid", derLink.getXLinkHref());
+				}
+			}
+		} catch (Exception e) {
+			//do nothing
+		}
 	%>
 
 	<script>
@@ -197,14 +199,13 @@
 				objId : ""
 
 			};
-			new mycore.viewer.MyCoReViewer(jQuery("#divMCRViewer"), config);
+			new mycore.viewer.MyCoReViewer(jQuery("body"), config);
 		};
 	</script>
 </c:if>
 </head>
 
 <body>
-	<div id="divMCRViewer"></div>
-	<mcr:webjarLocator htmlElement="script" project="bootstrap" file="js/bootstrap.js" />
+
 </body>
 </html>
