@@ -55,7 +55,7 @@
      		var gnd = $(html).data('mcr-value-gnd');
      			var gnd_html = "";
      			if($(html).data('mcr-value-gnd')){
-     				gnd_html = $('<div>')
+     				gnd_html = $('<div style="min-width:200px">')
      					.append($('<strong>').attr('title', 'Gemeinsame Normdatei der Deutschen Nationalbibliothek').append('GND:'))
  						.append(' ').append($('<span>').append(gnd))
  						.append(' ').append($('<a>').attr('type', 'button').addClass('btn btn-xs btn-link').attr('href', 'http://d-nb.info/gnd/'+gnd)
@@ -73,10 +73,9 @@
  					affi_html = $('<div>')
  						.append($('<strong>').append('Einrichtung:')).append('<br>').append($(html).data('mcr-value-affiliation'));
  				}
-     		return $('<div>').append('<div style="color:darkred;margin-right:-15px;margin-top:-45px" class="btn btn-xs float-right" onclick="hidePopover(this);"><i class="fa fa-times"></i></div>')
+     		return $('<div>').append('<span style="color:darkred;margin-right:-5px;margin-top:-45px" class="close" onclick="hidePopover(this);"><i class="fa fa-times small"></i></span>')
      		.append(gnd_html).append(sep_html).append(affi_html);
      	}
-     	
      	function hidePopover(caller){
      		var id = $(caller).parent().parent().parent().attr("id");
      		$("button[aria-describedby='"+id+"']").click();
