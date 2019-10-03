@@ -253,11 +253,6 @@
       <artifactId>mycore-restapi</artifactId>
       <scope>runtime</scope>
     </dependency>
-    <dependency>
-      <groupId>org.mycore</groupId>
-      <artifactId>mycore-sass</artifactId>
-      <scope>runtime</scope>
-    </dependency>
 
     <dependency>
       <groupId>org.webjars</groupId>
