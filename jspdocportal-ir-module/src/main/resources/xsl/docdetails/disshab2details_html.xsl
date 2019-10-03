@@ -237,7 +237,7 @@
                   </td></tr>
               </xsl:for-each>        
               <xsl:for-each select="./mods:identifier[@type='PPN']">
-               <tr><th>PPN:</th>
+               <tr><th>PPN (Katalog-ID):</th>
                    <td>
                      <xsl:value-of select="./text()"/>
                        <xsl:element name="a">
