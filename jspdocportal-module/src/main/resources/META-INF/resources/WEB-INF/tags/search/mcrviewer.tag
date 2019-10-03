@@ -29,6 +29,10 @@
 		.mycoreViewer .navbar{
 			position: absolute; left: 0px; right: 0px; top: 0px;
 		}
+		
+		.mycoreViewer div[data-id='SidebarControllGroup']{
+			display:none;
+		}
 	</style>
 	
 	<%
@@ -38,6 +42,7 @@
 		for(MCRMetaEnrichedLinkID derLink: mcrObj.getStructure().getDerivates()){
 		    String maindoc=null;
 		    boolean isFulltext = false;
+		    //use derLink.createXML to create the XML-Element -> continue with e.getchild("maindoc")
 		    for(Content c : derLink.getContentList()){
 		        if(c instanceof Element && ((Element)c).getName().equals("maindoc")){
 		            maindoc = ((Element)c).getText();
