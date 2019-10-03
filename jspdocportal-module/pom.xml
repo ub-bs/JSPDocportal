@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.mycore</groupId>
-    <artifactId>mycore</artifactId>
-    <version>2019.06.2-SNAPSHOT</version>
+    <artifactId>mycore-parent</artifactId>
+    <version>41</version>
   </parent>
-
   <artifactId>jspdocportal-module</artifactId>
+  <version>2019.06-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>JSPDocportal WebApp</name>
   <url>http://maven.apache.org</url>
@@ -18,6 +18,9 @@
     <maven.compiler.target>11</maven.compiler.target>
     <mycore.version>2019.06.2-SNAPSHOT</mycore.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    
+    <!-- disable maven-pmd-plugin -->
+    <pmd.failOnViolation>false</pmd.failOnViolation> 
   </properties>
   <build>
     <resources>
@@ -62,53 +65,20 @@
       </plugin>
     </plugins>
   </build>
-  <repositories>
-    <repository>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <id>central</id>
-      <name>Central Repository</name>
-      <url>https://repo.maven.apache.org/maven2</url>
-    </repository>
-    <repository>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </repository>
-  </repositories>
+ 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.mycore</groupId>
+        <artifactId>mycore</artifactId>
+        <version>${mycore.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   
-  <pluginRepositories>
-    <pluginRepository>
-      <releases>
-        <updatePolicy>never</updatePolicy>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <id>central</id>
-      <name>Central Repository</name>
-      <url>https://repo.maven.apache.org/maven2</url>
-    </pluginRepository>
-    <pluginRepository>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </pluginRepository>
-  </pluginRepositories>
-
   <dependencies>
-
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
