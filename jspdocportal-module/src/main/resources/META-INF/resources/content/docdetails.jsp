@@ -329,15 +329,14 @@
                
                 	<c:set var="mesKey"><x:out select="classification[@classid='derivate_types']/@categid"/></c:set>
                     <img align="left" src="${WebApplicationBaseURL}images/download_pdf.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
-                    <strong><mcr:displayClassificationCategory lang="de" classid="derivate_types" categid="${mesKey}"/></strong>
                     <c:set var="derid"><x:out select="./@xlink:href" /></c:set>
                     <mcr:retrieveDerivateContentsXML derid="${derid}" varDOM="derDoc" />
                     <x:set var="derLink" select="$derDoc//children/child[1]" />
                     <x:if select="$derLink">
+                    	<span class="float-right"><small>(<x:out select="round($derLink/size div 1024 div 1024 * 10) div 10" /> MB)</small></span>
+                        <strong><mcr:displayClassificationCategory lang="de" classid="derivate_types" categid="${mesKey}"/></strong>
                         <br />
-                        <small>
-                          <x:out select="$derLink/name" />&nbsp;&nbsp;&nbsp;(<x:out select="round($derLink/size div 1024 div 1024 * 10) div 10" /> MB)<br />
-                        </small>
+                        <small><x:out select="$derLink/name" /></small>
                     </x:if>
             </a>
          </x:forEach>
@@ -377,10 +376,9 @@
                     </x:otherwise>
                   </x:choose>
                   <c:set var="mesKey"><x:out select="classification[@classid='derivate_types']/@categid"/></c:set>
+                   <span class="float-right"><small>(<x:out select="round($derLink/size div 1024 div 1024 * 10) div 10" /> MB)</small></span>
                     <strong><mcr:displayClassificationCategory lang="de" classid="derivate_types" categid="${mesKey}"/></strong><br />
-                    <small>
-                      <x:out select="$derLink/name" />&nbsp;&nbsp;&nbsp;(<x:out select="round($derLink/size div 1024 div 1024 * 10) div 10" /> MB)<br />
-                    </small>
+                    <small><x:out select="$derLink/name" /><br /></small>
                </a>
             </x:if>
           </x:forEach>
