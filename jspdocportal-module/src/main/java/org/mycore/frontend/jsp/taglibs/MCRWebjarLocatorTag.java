@@ -97,11 +97,12 @@ public class MCRWebjarLocatorTag extends SimpleTagSupport {
                 if(htmlElement.equals("script")) {
                     pageContext.getOut().print("<script src=\"" + MCRFrontendUtil.getBaseURL() + url + "\"></script>");
                 }
-                if(htmlElement.equals("stylesheet") || htmlElement.equals("stylesheet"))  {
+                if(htmlElement.equals("stylesheet") || htmlElement.equals("css"))  {
                     pageContext.getOut().print("<link href=\"" + MCRFrontendUtil.getBaseURL() + url + "\" rel=\"stylesheet\">");
                 }
             }
         } catch (IllegalArgumentException e) {
+            pageContext.getOut().print("<!--ERROR in WebjarLocator: project: " + project + " file: "+file +"\n          message: "+e.getMessage()+"-->");
             pageContext.setAttribute(var, "#NOT_FOUND#" + e.getMessage().replaceAll(" ", "_"));
             LOGGER.error(e);
         }
