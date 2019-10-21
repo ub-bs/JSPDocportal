@@ -1,4 +1,0 @@
-Manifest-Version: 1.0
-MCR-Application-Module: JSPDocportal Web Module
-MCR-Artifact-Id: jspdocportal-module
-Priority: 11

@@ -43,7 +43,11 @@
               <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
               <addExtensions />
             </manifest>
-            <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+             <manifestEntries>
+              <MCR-Artifact-Id>${project.artifactId}</MCR-Artifact-Id>
+              <MCR-Application-Module>${project.name}</MCR-Application-Module>
+              <Priority>${manifest.priority}</Priority>
+            </manifestEntries>
           </archive>
         </configuration>
       </plugin>
