@@ -169,11 +169,9 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
             Document xml = mcrObj.createXML();
 
             File xmlOutput = new File(dir, id.toString() + ".xml");
-            FileOutputStream out = new FileOutputStream(xmlOutput);
-
-            new org.jdom2.output.XMLOutputter(Format.getPrettyFormat()).output(xml, out);
-            out.flush();
-            out.close();
+            try(FileOutputStream out = new FileOutputStream(xmlOutput)){
+                  new org.jdom2.output.XMLOutputter(Format.getPrettyFormat()).output(xml, out);
+            }
 
             MCRObjectStructure mcrStructure = mcrObj.getStructure();
             if (mcrStructure == null)
