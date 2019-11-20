@@ -95,6 +95,7 @@
       <plugin>
         <groupId>org.mycore.plugins</groupId>
         <artifactId>datamodel-plugin</artifactId>
+        <version>0.7</version>
         <executions>
           <execution>
             <goals>
