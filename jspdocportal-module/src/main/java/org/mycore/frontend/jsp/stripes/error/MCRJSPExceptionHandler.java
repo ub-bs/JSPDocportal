@@ -53,8 +53,13 @@ public class MCRJSPExceptionHandler extends DefaultExceptionHandler implements E
     // ActionBean bean = (ActionBean) request.getAttribute(StripesConstants.REQ_ATTR_ACTION_BEAN);
         
         request.setAttribute("mcr_exception", thr);
-        if(!request.getServletPath().endsWith("error.jsp")) {
-        	request.getRequestDispatcher("/error.action").forward(request, response);
+        if(!request.getServletPath().endsWith("error.jsp") && !request.getServletPath().endsWith("error.action")) {
+            try {
+                request.getRequestDispatcher("/error.action").forward(request, response);
+            }
+            catch(Throwable t) {
+                //ignore
+            }
         }
         else if(thr!=null) {
         	OutputStream out = response.getOutputStream();
