@@ -75,7 +75,13 @@ public class MCRErrorServlet extends org.mycore.frontend.servlets.MCRErrorServle
             statusCode = 500;
         }
         resp.setStatus(statusCode);
-        req.getRequestDispatcher("/error.action?i18n=Resolver.error.default&status=" + statusCode).forward(req, resp);
+        try {
+            req.getRequestDispatcher("/error.action?i18n=Resolver.error.default&status=" + statusCode).forward(req, resp);
+        }
+        catch(Throwable thr) {
+            LOGGER.error("Error processing ErrorServlet",  thr);
+        }
+       
 
     }
 }
