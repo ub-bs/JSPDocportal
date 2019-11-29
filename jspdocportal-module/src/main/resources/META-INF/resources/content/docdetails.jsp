@@ -111,7 +111,14 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="ir-box ir-docdetails-header">
-            		<mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/${objectType}2header_html.xsl" />
+                     <x:choose>
+                      <x:when select="$doc/mycoreobject/service/servstates/servstate/@categid='deleted'">
+                         <mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/deleted_header_html.xsl" />
+                      </x:when>
+                      <x:otherwise>
+                        <mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/${objectType}2header_html.xsl" />
+                      </x:otherwise>
+                     </x:choose>
 				</div>
 			</div>			
 		</div>
@@ -197,6 +204,9 @@
 		<div id="div_metadata" class="collapse col-sm-12">
 			<div class="ir-box ir-docdetails-data" style="min-height:600px">
 				<x:choose>
+                    <x:when select="$doc/mycoreobject/service/servstates/servstate/@categid='deleted'">
+                      <mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/deleted_details_html.xsl" />
+                    </x:when>
 					<x:when select="contains($doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='doctype']/@valueURI, '#data')">
 						<mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/data2details_html.xsl" />
 					</x:when>
@@ -326,9 +336,12 @@
           </x:choose>
         </div>
        </x:if>
+       <x:if select="not($doc/mycoreobject/service/servstates/servstate/@categid='deleted')">
        <div class="ir-box ir-box-bordered-emph" style="margin-bottom:30px">
           <div class="row">
+         
             <div class="col-xs-12">
+            
             <h3>Dauerhaft zitieren</h3>
          	<x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='purl']">
 			    <c:set var="purl"><x:out select="$x" /></c:set>
@@ -345,8 +358,10 @@
 			  	<p><a class="ir-link-portal" href="https://doi.org/<x:out select="$x" />">https://doi.org/<br class="visible-md-inline"/><x:out select="$x" /></a></p>
               </x:forEach>
               </div>
+              
               </div>
               </div>
+        </x:if> 
        
        <%--Download Area --%>
      <div style="margin-bottom:30px;">
@@ -404,6 +419,8 @@
        </x:forEach>
        </div>
        
+       
+       <x:if select="not($doc/mycoreobject/service/servstates/servstate/@categid='deleted')">
        <div class="ir-box ir-box-bordered" style="margin-bottom:0px;padding-bottom:5px">
           <div class="row">
             <div class="col-xs-12">
@@ -451,18 +468,22 @@
    					
    					           </x:if>
 				
-                    <h3>Teilen</h3>
-        <div class="shariff" data-url="${WebApplicationBaseURL}resolve/id/${param.id}"
-             data-services="[&quot;twitter&quot;, &quot;facebook&quot;, &quot;googleplus&quot;, &quot;linkedin&quot;, &quot;xing&quot;, &quot;whatsapp&quot;, &quot;mail&quot;, &quot;info&quot;]"
-             data-mail-url="mailto:" data-mail-subject="Dokument auf RosDok" data-mail-body="${WebApplicationBaseURL}resolve/id/${param.id}"
-             data-orientation="horizontal" data-theme="standard">
-             </div> <%--data-theme=standard|grey|white --%>
-       <script src="${WebApplicationBaseURL}modules/shariff/shariff.min.js"></script>
+        
+
+                                <h3>Teilen</h3>
+                                <div class="shariff" data-url="${WebApplicationBaseURL}resolve/id/${param.id}"
+                                     data-services="[&quot;twitter&quot;, &quot;facebook&quot;, &quot;googleplus&quot;, &quot;linkedin&quot;, &quot;xing&quot;, &quot;whatsapp&quot;, &quot;mail&quot;, &quot;info&quot;]"
+                                     data-mail-url="mailto:" data-mail-subject="Dokument auf RosDok" data-mail-body="${WebApplicationBaseURL}resolve/id/${param.id}"
+                                     data-orientation="horizontal" data-theme="standard">
+                                </div> <%--data-theme=standard|grey|white --%>
+                                <script src="${WebApplicationBaseURL}modules/shariff/shariff.min.js"></script>
+                          
                 </div>
+
                 </div>
        </div>
-
- 
+      
+     </x:if>
         
         
         <div class="ir-box" style="margin-bottom:30px;margin-right:-15px">
