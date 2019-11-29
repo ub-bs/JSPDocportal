@@ -119,6 +119,7 @@
 		<url-pattern>/site/*</url-pattern>
 		<url-pattern>/servlets/ErrorServlet</url-pattern>
 		<url-pattern>/servlets/XEditor</url-pattern>
+        <url-pattern>/servlets/solr/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 	    <dispatcher>FORWARD</dispatcher>
     	<dispatcher>ERROR</dispatcher>
