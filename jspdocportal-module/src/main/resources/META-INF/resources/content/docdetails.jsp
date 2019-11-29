@@ -101,7 +101,14 @@
 		  <div class="row">
             <div class="col">
 			  <div class="ir-box ir-docdetails-header">
-            	  <mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/${objectType}2header_html.xsl" />
+                <x:choose>
+                  <x:when select="$doc/mycoreobject/service/servstates/servstate/@categid='deleted'">
+                    <mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/deleted_header_html.xsl" />
+                  </x:when>
+                  <x:otherwise>
+                    <mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/${objectType}2header_html.xsl" />
+                  </x:otherwise>
+                </x:choose>
 			  </div>
 		    </div>			
 		  </div>
@@ -194,6 +201,9 @@
 		          <div id="nav_content_metadata" class="collapse" data-parent="#nav_content_root">
 			        <div class="ir-docdetails-data" style="min-height:600px">
 				       <x:choose>
+				         <x:when select="$doc/mycoreobject/service/servstates/servstate/@categid='deleted'">
+				           <mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/deleted_details_html.xsl" />
+				         </x:when>
 					     <x:when select="contains($doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:classification[@displayLabel='doctype']/@valueURI, '#data')">
 						   <mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/data2details_html.xsl" />
 					     </x:when>
@@ -303,6 +313,7 @@
             </x:when>
          </x:choose>
        </x:if>
+       <x:if select="not($doc/mycoreobject/service/servstates/servstate/@categid='deleted')">
        <div class="ir-box ir-box-emph">
             <h4 class="text-primary">Dauerhaft zitieren</h4>
             <x:forEach var="x" select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='doi']">
@@ -320,7 +331,7 @@
             </x:forEach>
 
        </div>
-       
+       </x:if>
        <%--Download Area --%>
        <div style="margin-bottom:30px;">
          <x:forEach select="$doc/mycoreobject/structure/derobjects/derobject[classification[@classid='derivate_types'][@categid='fulltext']]">
@@ -384,7 +395,7 @@
           </x:forEach>
           
        </div><%--Download area --%>
-       
+       <x:if select="not($doc/mycoreobject/service/servstates/servstate/@categid='deleted')">
        <div class="ir-box mt-3">
    	     <x:if select="$doc/mycoreobject/metadata/def.modsContainer/modsContainer/mods:mods/mods:identifier[@type='PPN']">
         		    <h4>Export</h4>
@@ -462,7 +473,7 @@
          <script src="${WebApplicationBaseURL}modules/shariff_3.0.1/shariff.min.js"></script>
          <p></p>
        </div>
-       
+       </x:if>
        <div class="ir-box">
             <h4>Rechte</h4>
             <p>

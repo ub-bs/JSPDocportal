@@ -37,6 +37,9 @@ public class MCRIsObjectLockedTag extends SimpleTagSupport {
             if (state != null && state.getID().equals("published")) {
                 result = Boolean.FALSE;
             }
+            if (state != null && state.getID().equals("deleted")) {
+                result = Boolean.FALSE;
+            }
         } catch (MCRPersistenceException e) {
             LOGGER.debug(e.getMessage());
         }
