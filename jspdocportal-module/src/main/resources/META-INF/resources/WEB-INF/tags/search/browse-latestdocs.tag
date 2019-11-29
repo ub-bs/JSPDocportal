@@ -28,8 +28,8 @@
 	       --%>
 				
 		    $.ajax({
-		       	 type: "GET",
-		       	 url: $("meta[name='mcr:baseurl']").attr("content") + "api/v1/search?q=category:%22doctype:" + $('#filterValue').parent().data('ir-mode') + "%22%20-objectType:bundle&sort=created+DESC&rows=5&fl=id,created,ir.cover_url,ir.creator.result,ir.title.result,ir.doctype.result,ir.originInfo.result&wt=json&json.wrf=?",
+		       	 type: "GET",                                         //api/v1/search
+		       	 url: $("meta[name='mcr:baseurl']").attr("content") + "servlets/solr/select?q=category:%22doctype:" + $('#filterValue').parent().data('ir-mode') + "%22%20-objectType:bundle&sort=created+DESC&rows=5&fl=id,created,ir.cover_url,ir.creator.result,ir.title.result,ir.doctype.result,ir.originInfo.result&wt=json&json.wrf=?",
 		       	 dataType: "jsonp",
 		       	 success: function (data) {
 		       		data.response.docs.forEach(function( entry ) {

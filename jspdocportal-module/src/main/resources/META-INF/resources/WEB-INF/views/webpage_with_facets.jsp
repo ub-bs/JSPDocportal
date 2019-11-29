@@ -228,7 +228,11 @@
 			$.ajax({
 				type : "GET",
 				url : $("meta[name='mcr:baseurl']").attr("content")
-				       +"api/v1/search?q=category%3A%22doctype%3A${mask}%22&rows=1&wt=json&indent=true&facet=true&facet.field=ir.doctype_class.facet&facet.field=ir.institution_class.facet&facet.field=ir.collection_class.facet&facet.field=ir.epoch_msg.facet&facet.field=ir.sdnb_class.facet&facet.field=ir.ghb_class.facet&json.wrf=?",
+				       +"servlets/solr/select?q=category%3A%22doctype%3A${mask}%22%20-objectType:bundle"
+				    		   +"&rows=1&wt=json&indent=true"
+				    		   +"&facet=true&facet.field=ir.doctype_class.facet&facet.field=ir.institution_class.facet&facet.field=ir.collection_class.facet&facet.field=ir.epoch_msg.facet&facet.field=ir.sdnb_class.facet&facet.field=ir.ghb_class.facet"
+				    		   +"&sort=created+DESC&rows=5&fl=id,created,ir.cover_url,ir.creator.result,ir.title.result,ir.doctype.result,ir.originInfo.result"
+				    		   +"&wt=json&json.wrf=?",
 				dataType : "jsonp",
 				success : function(data) {
 					<%-- num found --%>
@@ -259,8 +263,7 @@
 					    	}
 					 	}
 					});
-				 } <%--outer success --%>
-            });
+				
 			
 					
 	   <%-- //aktuelle Dokumente
@@ -274,11 +277,6 @@
             //            "ir.originInfo.result":"Weißensee : Großmann , 1841"}, {}, ...]
        --%>
 			
-			  $.ajax({
-	            	 type: "GET",
-	            	 url: $("meta[name='mcr:baseurl']").attr("content") + "api/v1/search?q=category:%22doctype:" + $('#filterValue').parent().data('ir-mode') + "%22%20-objectType:bundle&sort=created+DESC&rows=5&fl=id,created,ir.cover_url,ir.creator.result,ir.title.result,ir.doctype.result,ir.originInfo.result&wt=json&json.wrf=?",
-	            	 dataType: "jsonp",
-	            	 success: function (data) {
 	            		data.response.docs.forEach(function( entry ) {
 	            			var card= $("<div></div>").addClass("card ir-latestdocs-card").appendTo("#latest_documents");
 	            			var cardBody = $("<div></div>").addClass("card-body");
@@ -320,6 +318,7 @@
 	            		});
 	            	 }
 	            }); <%-- end ajax latest_document --%>
+		
 		});
      </script>
 

@@ -29,7 +29,8 @@
 			$.ajax({
 				type : "GET",
 				url : $("meta[name='mcr:baseurl']").attr("content")
-				       +"api/v1/search?q=category%3A%22doctype%3A${doctype}%22&rows=1&wt=json&indent=true&facet=true${facetURLParam}&json.wrf=?",
+				        //api/v1/search
+				       +"servlets/solr/select?q=category%3A%22doctype%3A${doctype}%22&rows=1&wt=json&indent=true&facet=true${facetURLParam}&json.wrf=?",
 				dataType : "jsonp",
 				success : function(data) {
 					<%-- num found --%>
