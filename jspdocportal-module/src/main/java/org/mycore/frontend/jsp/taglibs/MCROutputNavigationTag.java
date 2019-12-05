@@ -271,12 +271,12 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
                     for (NavigationItem el : printableElements) {
                         boolean active = currentPath.length > 0 && currentPath[0].equals(el.getId());
                         String msg = retrieveI18N(el.getI18n());
-                        out.append(INDENT).append("    <li class=\"nav-item" + (active ? " active" : "") + "\">");
+                        out.append(INDENT).append("    <li class=\"nav-item\">");
                         String href = el.getHref();
                         if (!href.startsWith("http")) {
                             href = MCRFrontendUtil.getBaseURL() + href;
                         }
-                        out.append(INDENT).append("    <a target=\"_self\" class=\"nav-link\" href=\"" + href + "\">" + msg + "</a>");
+                        out.append(INDENT).append("    <a target=\"_self\" class=\"nav-link" + (active ? " active" : "") +"\" href=\"" + href + "\">" + msg + "</a>");
                         out.append(INDENT).append("   </li>");
                     }
 
