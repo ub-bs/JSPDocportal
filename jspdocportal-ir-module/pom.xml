@@ -3,25 +3,16 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.mycore</groupId>
-    <artifactId>mycore-parent</artifactId>
-    <version>41</version>
+    <artifactId>mycore-application-starter</artifactId>
+    <version>2019.06.3-SNAPSHOT</version>
   </parent>
   <artifactId>jspdocportal-ir-module</artifactId>
   <version>2019.06-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>JSPDocportal Institutional Repository Module</name>
-  <url>http://maven.apache.org</url>
-  
 
   <properties>
     <manifest.priority>12</manifest.priority>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
-    <mycore.version>2019.06.2-SNAPSHOT</mycore.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    
-    <!-- disable maven-pmd-plugin -->
-    <pmd.failOnViolation>false</pmd.failOnViolation> 
   </properties>
 
   <build>
@@ -76,50 +67,12 @@
         </executions>
       </plugin>
       <plugin>
-        <!-- disable from mycore-parent  -->
-        <artifactId>maven-enforcer-plugin</artifactId>
-        <dependencies>
-          <dependency>
-            <groupId>org.commonjava.maven.enforcer</groupId>
-            <artifactId>enforce-managed-deps-rule</artifactId>
-            <version>1.0</version>
-          </dependency>
-        </dependencies>
-        <executions>
-          <execution>
-            <id>enforce</id>
-            <phase>none</phase>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <groupId>org.mycore.plugins</groupId>
         <artifactId>datamodel-plugin</artifactId>
-        <version>0.7</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>schema</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>
   
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.mycore</groupId>
-        <artifactId>mycore</artifactId>
-        <version>${mycore.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
- 
-
   <dependencies>
     <dependency>
     	<groupId>org.mycore</groupId>
