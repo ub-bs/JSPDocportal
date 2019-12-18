@@ -41,6 +41,13 @@
           <groupId>org.mycore.plugins</groupId>
           <artifactId>datamodel-plugin</artifactId>
           <version>0.7</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>schema</goal>
+              </goals>
+          </execution>
+        </executions>
         </plugin>
 		<!-- If it is necessary to create jars, that are not maven-application modules,
 		     we could define 2 executions: https://stackoverflow.com/questions/16540808/can-i-configure-multiple-plugin-executions-in-pluginmanagement-and-choose-from -->
