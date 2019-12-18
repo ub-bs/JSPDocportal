@@ -1,3 +1,6 @@
+<%@page import="org.mycore.common.MCRSessionMgr"%>
+<%@page import="org.apache.logging.log4j.LogManager"%>
+<%@page import="org.apache.logging.log4j.core.Logger"%>
 <%@page import="net.sourceforge.stripes.action.ActionBean"%>
 <%@page import="org.jdom2.Element"%>
 <%@page import="org.mycore.datamodel.metadata.MCRMetaEnrichedLinkID"%>
@@ -108,19 +111,23 @@
 	<script type="text/javascript" src="${iviewBaseURL}js/iview-client-metadata.js"></script>
 	
 	<%
-	    try (MCRHibernateTransactionWrapper htw = new MCRHibernateTransactionWrapper()) {
+	   
+
+		MCRSessionMgr.unlock();
+	 	try 
+		(MCRHibernateTransactionWrapper htw = new MCRHibernateTransactionWrapper()) {
 			MCRObject mcrObj = MCRMetadataManager.retrieveMCRObject(
 			MCRObjectID.getInstance(String.valueOf(pageContext.getAttribute("mcrid"))));
 			String derLabel = "MCRVIEWER_METS";
 			for (MCRMetaEnrichedLinkID derLink : mcrObj.getStructure().getDerivates()) {
 				Element e = derLink.createXML();
-				if (derLabel.equals(e.getChild("classification").getAttributeValue("categid"))) {
+				if (e.getChild("classification")!=null && derLabel.equals(e.getChild("classification").getAttributeValue("categid"))) {
 					pageContext.setAttribute("maindoc", e.getChildTextTrim("maindoc"));
 					pageContext.setAttribute("derid", derLink.getXLinkHref());
 				}
 			}
 		} catch (Exception e) {
-			//do nothing
+		    LogManager.getLogger("mcrviewer.jsp").error("Problem in mcrviewer.jsp", e);
 		}
 	%>
 
