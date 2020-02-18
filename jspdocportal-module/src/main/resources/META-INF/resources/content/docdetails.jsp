@@ -394,6 +394,31 @@
             </x:if>
           </x:forEach>
           
+          <x:forEach select="$doc/mycoreobject/service/servflags/servflag[@type='external-content']">
+            <c:set var="theXML"><x:out select="./text()" escapeXml="false" /></c:set>
+            <x:parse var="theFileDoc" xml="${theXML}" />
+            <x:set var="theFile" select="$theFileDoc/file" />
+            <a class="btn btn-default ir-button ir-button-download" style="text-align:left" title="MD5: <x:out select="$theFile/@MD5" />" 
+               href="<x:out select="$theFile/@URL" />" target="_blank">
+              <x:choose>
+                <x:when select="contains($theFile/@URL, '.zip')">
+                  <img style="vertical-align:middle;height: 38px;margin-right:12px;float:left" src="${WebApplicationBaseURL}images/download_zip.png" />  
+                </x:when>
+                <x:when select="contains($theFile/@URL, '.pdf')">
+                  <img style="vertical-align:middle;height: 38px;margin-right:12px;float:left" src="${WebApplicationBaseURL}images/download_pdf.png" />  
+                </x:when>
+                <x:otherwise>
+                  <img style="vertical-align:middle;height: 38px;margin-right:12px;float:left" src="${WebApplicationBaseURL}images/download_other.png" />
+                </x:otherwise>
+              </x:choose>
+              <c:set var="mesKey">OMD.derivatedisplay.<x:out select="$theFile/@USE"/></c:set>
+              <strong><fmt:message key="${mesKey}" /></strong><br />
+              <span style="font-size: 85%">
+                <x:out select="$theFile/@OWNERID" />&nbsp;&nbsp;&nbsp;(<x:out select="round($theFile/@SIZE div 1024 div 1024 * 10) div 10" /> MB)<br />
+              </span>
+            </a>
+          </x:forEach>
+          
        </div><%--Download area --%>
        <x:if select="not($doc/mycoreobject/service/servstates/servstate/@categid='deleted')">
        <div class="ir-box mt-3">
