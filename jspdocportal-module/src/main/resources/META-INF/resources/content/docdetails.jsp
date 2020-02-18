@@ -393,7 +393,7 @@
                </a>
             </x:if>
           </x:forEach>
-          
+          <%-- called by: rosdok_document_0000015736 --%>
           <x:forEach select="$doc/mycoreobject/service/servflags/servflag[@type='external-content']">
             <c:set var="theXML"><x:out select="./text()" escapeXml="false" /></c:set>
             <x:parse var="theFileDoc" xml="${theXML}" />
