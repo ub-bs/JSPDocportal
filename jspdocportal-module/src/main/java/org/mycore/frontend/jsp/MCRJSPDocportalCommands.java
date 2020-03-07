@@ -141,7 +141,7 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
                 commandList.add("backup object " + id + " to directory " + dirname);
             }
         } else {
-            LOGGER.error(dirname + " is not a dirctory.");
+            LOGGER.error(dirname + " is not a directory.");
         }
         return commandList;
     }
@@ -150,7 +150,7 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
     public static final void backupObject(String id, String dirname) {
         File dir = new File(dirname);
         if (dir.isFile()) {
-            LOGGER.error(dirname + " is not a dirctory.");
+            LOGGER.error(dirname + " is not a directory.");
             return;
         }
         // check dirname
@@ -231,7 +231,7 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
 
             }
         } else {
-            LOGGER.error(dirname + " is not a dirctory.");
+            LOGGER.error(dirname + " is not a directory.");
         }
         return commandList;
     }
