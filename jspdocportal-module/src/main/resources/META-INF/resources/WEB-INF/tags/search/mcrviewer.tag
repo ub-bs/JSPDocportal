@@ -150,7 +150,7 @@
                 i18nURL: "${applicationScope.WebApplicationBaseURL}rsc/locale/translate/{lang}/component.viewer.*",
                 lang: "de",
                 metadataURL: "",
-                derivateURL : "${applicationScope.WebApplicationBaseURL}depot/${fn:replace(recordIdentifier,'/','%_')}/",
+                derivateURL : "${applicationScope.WebApplicationBaseURL}depot/${fn:replace(recordIdentifier,'/','_')}/",
                 objId: "",
                 webApplicationBaseURL: "${applicationScope.WebApplicationBaseURL}",
                 imageOverview : {
