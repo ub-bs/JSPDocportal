@@ -2,10 +2,19 @@ package org.mycore.frontend.jsp.stripes.actions;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.SimpleEmail;
+import org.apache.log4j.Logger;
+import org.mycore.activiti.MCRActivitiMgr;
+import org.mycore.common.config.MCRConfiguration;
+import org.mycore.services.i18n.MCRTranslation;
 
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.Before;
@@ -16,14 +25,6 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.SimpleMessage;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.controller.LifecycleStage;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.SimpleEmail;
-import org.apache.log4j.Logger;
-import org.mycore.activiti.MCRActivitiMgr;
-import org.mycore.common.config.MCRConfiguration;
-import org.mycore.services.i18n.MCRTranslation;
 
 
 @UrlBinding("/feedback.action")
@@ -43,6 +44,8 @@ public class SendFeedbackAction extends MCRAbstractStripesAction implements Acti
 	private String recipient;
 	private String subject;
 	private String returnURL;
+    private String csrfToken;
+
 	
 	public SendFeedbackAction() {
 		recipient = MCRConfiguration.instance().getString("MCRWorkflow.Email.Feedback.Recipient", "");
@@ -52,6 +55,9 @@ public class SendFeedbackAction extends MCRAbstractStripesAction implements Acti
 	@Before(stages = LifecycleStage.BindingAndValidation)
 	public void rehydrate() {
 		super.rehydrate();
+        if (getContext().getRequest().getParameter("csrfToken") != null) {
+        	csrfToken = getContext().getRequest().getParameter("csrfToken");
+        }
 		if (getContext().getRequest().getParameter("message") != null) {
 			message = getContext().getRequest().getParameter("message");
 		}
@@ -83,11 +89,17 @@ public class SendFeedbackAction extends MCRAbstractStripesAction implements Acti
 		if(StringUtils.isBlank(returnURL)){
 			returnURL = getContext().getRequest().getHeader("Referer");
 		}
+        csrfToken = UUID.randomUUID().toString();
+        getContext().getRequest().getSession().setAttribute("feedbackFormCSRFToken", csrfToken);
 		return fwdResolution;
 	}
 	
 	@SuppressWarnings("unchecked")
 	public Resolution doSend() {
+    	String sessionCSRFToken = String.valueOf(getContext().getRequest().getSession().getAttribute("feedbackFormCSRFToken"));
+    	if(!sessionCSRFToken.equals(csrfToken)) {
+    		return fwdResolution;
+    	}
 		SimpleEmail email = MCRActivitiMgr.createNewEmailFromConfig();
 		try{
 			if(StringUtils.isNotBlank(message)){
@@ -237,5 +249,9 @@ public class SendFeedbackAction extends MCRAbstractStripesAction implements Acti
 
 	public void setReturnURL(String returnURL) {
 		this.returnURL = returnURL;
+	}
+	
+    public String getCsrfToken() {
+		return csrfToken;
 	}
 }
