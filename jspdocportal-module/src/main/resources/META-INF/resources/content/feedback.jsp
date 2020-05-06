@@ -21,6 +21,7 @@
 				id="Formular" enctype="multipart/form-data" acceptcharset="UTF-8"
 				class="form-horizontal ir-box">
 
+				<stripes:hidden name="csrfToken">${actionBean.csrfToken}</stripes:hidden>
 				<stripes:hidden name="returnURL">${actionBean.returnURL}</stripes:hidden>
 				<stripes:hidden name="subject">${actionBean.subject}</stripes:hidden>
 				<stripes:hidden name="recipient">${actionBean.recipient}</stripes:hidden>

@@ -2,6 +2,7 @@ package org.mycore.frontend.jsp.stripes.actions;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 import javax.mail.internet.AddressException;
@@ -43,6 +44,7 @@ public class SendFeedbackAction extends MCRAbstractStripesAction implements Acti
     private String recipient;
     private String subject;
     private String returnURL;
+    private String csrfToken;
 
     public SendFeedbackAction() {
         recipient = MCRConfiguration.instance().getString("MCRWorkflow.Email.Feedback.Recipient", "");
@@ -52,6 +54,9 @@ public class SendFeedbackAction extends MCRAbstractStripesAction implements Acti
     @Before(stages = LifecycleStage.BindingAndValidation)
     public void rehydrate() {
         super.rehydrate();
+        if (getContext().getRequest().getParameter("csrfToken") != null) {
+        	csrfToken = getContext().getRequest().getParameter("csrfToken");
+        }
         if (getContext().getRequest().getParameter("message") != null) {
             message = getContext().getRequest().getParameter("message");
         }
@@ -83,10 +88,16 @@ public class SendFeedbackAction extends MCRAbstractStripesAction implements Acti
         if (StringUtils.isBlank(returnURL)) {
             returnURL = getContext().getRequest().getHeader("Referer");
         }
+        csrfToken = UUID.randomUUID().toString();
+        getContext().getRequest().getSession().setAttribute("feedbackFormCSRFToken", csrfToken);
         return fwdResolution;
     }
 
     public Resolution doSend() {
+    	String sessionCSRFToken = String.valueOf(getContext().getRequest().getSession().getAttribute("feedbackFormCSRFToken"));
+    	if(!sessionCSRFToken.equals(csrfToken)) {
+    		return fwdResolution;
+    	}
         SimpleEmail email = MCRActivitiMgr.createNewEmailFromConfig();
         try {
             if (StringUtils.isNotBlank(message)) {
@@ -236,4 +247,8 @@ public class SendFeedbackAction extends MCRAbstractStripesAction implements Acti
     public void setReturnURL(String returnURL) {
         this.returnURL = returnURL;
     }
+    
+    public String getCsrfToken() {
+		return csrfToken;
+	}
 }
