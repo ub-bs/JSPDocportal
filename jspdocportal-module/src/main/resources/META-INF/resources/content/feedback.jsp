@@ -18,9 +18,9 @@
 
 			<stripes:form
 				beanclass="org.mycore.frontend.jsp.stripes.actions.SendFeedbackAction"
-				id="Formular" enctype="multipart/form-data" acceptcharset="UTF-8"
+				id="feedback-form" enctype="multipart/form-data" acceptcharset="UTF-8"
 				class="form-horizontal ur-box">
-				<stripes:hidden name="csrfToken">${actionBean.csrfToken}</stripes:hidden>
+				<input name="csrfToken" type="hidden" id="csrf-token" value="" />
 				<stripes:hidden name="returnURL">${actionBean.returnURL}</stripes:hidden>
 				<stripes:hidden name="subject">${actionBean.subject}</stripes:hidden>
 				<stripes:hidden name="recipient">${actionBean.recipient}</stripes:hidden>
@@ -73,11 +73,18 @@
 					<label class="col-sm-2 control-label"></label>
 					<div class="col-sm-10">
 						<fmt:message key="Webpage.feedback.button.send" var="lblSend" />
-						<input name="doSend" class="btn btn-primary" value="${lblSend}"
-							type="submit" />
+						<input name="doSend" type="submit" id="submit-button" style="display:none" disabled="disabled" value="${lblSend}"  />
+					    <button class="btn btn-primary" onclick="submitForm('${actionBean.csrfToken}')">${lblSend}</button>
 					</div>
 				</div>
 			</stripes:form>
+			<script type="text/javascript">
+				function submitForm(csrf){
+					document.getElementById('csrf-token').value = csrf;
+					document.getElementById('submit-button').disabled=false;
+					document.getElementById('submit-button').click();
+				}
+			</script>
 		</div>
 	</stripes:layout-component>
 </stripes:layout-render>
