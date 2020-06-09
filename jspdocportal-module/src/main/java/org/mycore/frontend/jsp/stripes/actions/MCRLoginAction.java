@@ -37,7 +37,7 @@ import org.mycore.common.MCRSession;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.MCRSystemUserInformation;
 import org.mycore.common.MCRUserInformation;
-import org.mycore.common.config.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration2;
 import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
 import org.mycore.frontend.jsp.stripes.actions.util.MCRLoginNextStep;
@@ -210,7 +210,7 @@ public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBe
                     new Locale(mcrSession.getCurrentLanguage()));
             MCRUser mcrUser = MCRUserManager.getCurrentUser();
             userID = mcrUser.getUserID();
-            if ("female".equals(mcrUser.getAttributes().get("sex"))) {
+            if ("female".equals(mcrUser.getUserAttribute("sex"))) {
                 // Frau
                 name.append(messages.getString("Webpage.login.user.salutation.female"));
             } else {
@@ -223,7 +223,7 @@ public class MCRLoginAction extends MCRAbstractStripesAction implements ActionBe
 
             for (String groupID : mcrUser.getSystemRoleIDs()) {
                 MCRRole mcrgroup = MCRRoleManager.getRole(groupID);
-                String link = MCRConfiguration.instance().getString("MCR.Application.Login.StartLink." + groupID, "").trim();
+                String link = MCRConfiguration2.getString("MCR.Application.Login.StartLink." + groupID).orElse("").trim();
                 if(link.length()>0) {
                 	nextSteps.add(new MCRLoginNextStep(MCRFrontendUtil.getBaseURL() + link,
                         mcrgroup.getLabel().getText() + " (" + mcrgroup.getName() + ")"));

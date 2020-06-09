@@ -4,10 +4,10 @@
   <parent>
     <groupId>org.mycore</groupId>
     <artifactId>mycore-application-starter</artifactId>
-    <version>2019.06.3-SNAPSHOT</version>
+    <version>2020.06.0-SNAPSHOT</version>
   </parent>
   <artifactId>jspdocportal-module</artifactId>
-  <version>2019.06-SNAPSHOT</version>
+  <version>2020.06-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>JSPDocportal WebApp</name>
   <url>http://maven.apache.org</url>
@@ -61,8 +61,9 @@
       <version>3.3</version>
     </dependency>
     <dependency>
-      <groupId>com.sun.mail</groupId>
-      <artifactId>javax.mail</artifactId>
+      <groupId>jakarta.mail</groupId>
+      <artifactId>jakarta.mail-api</artifactId>
+      <version>1.6.5</version>
     </dependency>
 
     <!--  see for details: http://stackoverflow.com/questions/6094329/tomcat-7-and-jstl -->
@@ -155,8 +156,8 @@
       <artifactId>image-tiler</artifactId>
     </dependency>
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
