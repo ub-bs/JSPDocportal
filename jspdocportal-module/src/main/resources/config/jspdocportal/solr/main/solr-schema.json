@@ -1,0 +1,55 @@
+[
+	{
+		"add-field-type": {
+			"name": "mcr_identifier",
+			"class": "solr.TextField",
+			"analyzer": {
+				"charFilters": [
+					{
+						"class": "solr.MappingCharFilterFactory",
+						"mapping": "mycore_default_mapping.txt"
+					}
+				],
+				"tokenizer": {
+					"class": "solr.KeywordTokenizerFactory"
+				},
+				"filters": [
+					{
+						"class": "solr.LowerCaseFilterFactory"
+					}
+				]
+			}
+		}
+	},
+	{
+		"add-field": {
+			"name": "ppn",
+			"type": "string",
+			"multiValued": false,
+			"stored": true
+		}
+	},
+	{
+		"add-field": {
+			"name": "purl",
+			"type": "string",
+			"multiValued": false,
+			"stored": true
+		}
+	},
+	{
+		"add-field": {
+			"name": "recordIdentifier",
+			"type": "string",
+			"multiValued": false,
+			"stored": true
+		}
+	},
+	{
+		"add-field": {
+			"name": "derivateLabel",
+			"type": "string",
+			"multiValued": true
+		}
+	}
+]

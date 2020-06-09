@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mycoreclass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="MCRClassification.xsd" ID="eprintsAccessRights">
+	<!--
+		AccessRights Vocabulary Encoding Scheme
+		from EPrints
+		www.ukoln.ac.uk/repositories/digirep/index/Eprints_AccessRights_Vocabulary_Encoding_Scheme
+	-->
+	<label xml:lang="de" text="Rechte Vokabular"
+		   description="Kennzeichnung des Rechte Statusses" />
+	<label xml:lang="en" text="AccessRights Vocabulary Encoding Scheme"
+		   description="tagging the state of access right" />
+	<categories>
+		<category ID="OpenAccess">
+			<label xml:lang="de" text="frei zugänglich (Open Access)" />
+			<label xml:lang="en" text="Open Access" />
+            <label xml:lang="x-rdf" text="http://purl.org/eprint/accessRights/OpenAccess"
+             description="Freely available on the public Internet. Freely available means '... permitting any users to read, download, copy, distribute, print, search, or link to the full texts of these articles, crawl them for indexing, pass them as data to software, ...'. (BOAI)" />
+		</category>
+		<category ID="RestrictedAccess">
+			<label xml:lang="de" text="eingeschränkter Zugang (Restricted Access)" />
+			<label xml:lang="en" text="Restricted Access" />
+           <label  xml:lang="x-rdf" text="http://purl.org/eprint/accessRights/RestrictedAccess"
+                   description="Available on the public Internet but access is subject to restrictions or controls. Restrictions may include publishers' embargo periods, rights enforcement, subscription or registration and may incur financial costs." />
+		</category>
+		<category ID="ClosedAccess">
+			<label xml:lang="de" text="kein Zugang (Closed Access)" />
+            <label xml:lang="en" text="Closed Access" />				   
+			<label xml:lang="x-rdf" text="http://purl.org/eprint/accessRights/ClosedAccess"
+				   description="Not available on the public Internet. Access is typically limited to a small number of people and/or corporate bodies and acceptable use is very limited." />          
+		</category>
+	</categories>
+</mycoreclass>
+

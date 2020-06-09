@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xed:form xmlns:xed="http://www.mycore.de/xeditor" role="form" class="form-horizontal" accept-charset="utf-8" method="post">
+  <xed:bind xpath="query">
+  	<xed:bind xpath="@mask" default="{$mask}" />
+    <xed:include uri="webapp:editor/search/{@mask}" ref="searchmask.root" />
+  </xed:bind>
+</xed:form>
+

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mycoreclass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="MCRClassification.xsd" 
+   ID="DocPortal_class_00000020">
+  <label xml:lang="de" text="Basisklassifikation" description="Hauptklassen der Basisklassifikation Übersicht" />
+  <categories>
+
+    <category ID="BK01">
+      <label xml:lang="de" text="01 - Allgemeines" />
+    </category>
+    <category ID="BK02">
+      <label xml:lang="de" text="02 - Wissenschaft und Kultur allgemein" />
+    </category>
+    <category ID="BK05">
+      <label xml:lang="de" text="05 - Kommunikationswissenschaft" />
+    </category>
+    <category ID="BK06">
+      <label xml:lang="de" text="06 - Information und Dokumentation " />
+    </category>
+    <category ID="BK08">
+      <label xml:lang="de" text="08 - Philosophie" />
+    </category>
+    <category ID="BK10">
+      <label xml:lang="de" text="10 - Geisteswissenschaften allgemein" />
+    </category>
+    <category ID="BK11">
+      <label xml:lang="de" text="11 - Theologie, Religionswissenschaft" />
+    </category>
+    <category ID="BK15">
+      <label xml:lang="de" text="15 - Geschichte" />
+    </category>
+    <category ID="BK17">
+      <label xml:lang="de" text="17 - Sprachwissenschaft und Literaturwissenschaft" />
+    </category>
+    <category ID="BK18">
+      <label xml:lang="de" text="18 - Einzelne Sprachen und Literaturen" />
+    </category>
+    <category ID="BK20">
+      <label xml:lang="de" text="20 - Kunstwissenschaften " />
+    </category>
+    <category ID="BK21">
+      <label xml:lang="de" text="21 - Einzelne Kunstformen " />
+    </category>
+    <category ID="BK24">
+      <label xml:lang="de" text="24 - Theater, Filmkunst | Film, Musik " />
+    </category>
+    <category ID="BK30">
+      <label xml:lang="de" text="30 - Naturwissenschaften allgemein " />
+    </category>
+    <category ID="BK31">
+      <label xml:lang="de" text="31 - Mathematik " />
+    </category>
+    <category ID="BK33">
+      <label xml:lang="de" text="33 - Physik " />
+    </category>
+    <category ID="BK35">
+      <label xml:lang="de" text="35 - Chemie" />
+    </category>
+    <category ID="BK38">
+      <label xml:lang="de" text="38 - Geowissenschaften" />
+    </category>
+    <category ID="BK39">
+      <label xml:lang="de" text="39 - Astronomie " />
+    </category>
+    <category ID="BK42">
+      <label xml:lang="de" text="42 - Biologie " />
+    </category>
+    <category ID="BK43">
+      <label xml:lang="de" text="43 - Umweltforschung, Umweltschutz" />
+    </category>
+    <category ID="BK44">
+      <label xml:lang="de" text="44 - Medizin" />
+    </category>
+    <category ID="BK46">
+      <label xml:lang="de" text="46 - Tiermedizin" />
+    </category>
+    <category ID="BK48">
+      <label xml:lang="de" text="48 - Landwirtschaft| Land- und Forstwirtschaft " />
+    </category>
+    <category ID="BK49">
+      <label xml:lang="de" text="49 - Hauswirtschaft " />
+    </category>
+    <category ID="BK50">
+      <label xml:lang="de" text="50 - Technik allgemein " />
+    </category>
+    <category ID="BK51">
+      <label xml:lang="de" text="51 - Werkstoffkunde" />
+    </category>
+    <category ID="BK52">
+      <label xml:lang="de" text="52 - Maschinenbau, Energietechnik, Fertigungstechnik" />
+    </category>
+    <category ID="BK53">
+      <label xml:lang="de" text="53 - Elektrotechnik " />
+    </category>
+    <category ID="BK54">
+      <label xml:lang="de" text="54 - Informatik" />
+    </category>
+    <category ID="BK55">
+      <label xml:lang="de" text="55 - Verkehrstechnik, Verkehrswesen" />
+    </category>
+    <category ID="BK56">
+      <label xml:lang="de" text="56 - Bauwesen" />
+    </category>
+    <category ID="BK57">
+      <label xml:lang="de" text="57 - Bergbau" />
+    </category>
+    <category ID="BK58">
+      <label xml:lang="de" text="58 - Chemieingenieurwesen | Chemische Technik, Umwelttechnik, verschiedene Technologien " />
+    </category>
+    <category ID="BK70">
+      <label xml:lang="de" text="70 - Sozialwissenschaften allgemein" />
+    </category>
+    <category ID="BK71">
+      <label xml:lang="de" text="71 - Soziologie" />
+    </category>
+    <category ID="BK73">
+      <label xml:lang="de" text="73 - Ethnologie, Volkskunde " />
+    </category>
+    <category ID="BK74">
+      <label xml:lang="de" text="74 - Geographie, Raumordnung, Städtebau" />
+    </category>
+    <category ID="BK76">
+      <label xml:lang="de" text="76 - Sport, Freizeit, Erholung" />
+    </category>
+    <category ID="BK77">
+      <label xml:lang="de" text="77 - Psychologie" />
+    </category>
+    <category ID="BK79">
+      <label xml:lang="de" text="79 - Sozialpädagogik, Sozialarbeit " />
+    </category>
+    <category ID="BK80">
+      <label xml:lang="de" text="80 - Pädagogik " />
+    </category>
+    <category ID="BK81">
+      <label xml:lang="de" text="81 - Bildungswesen" />
+    </category>
+    <category ID="BK83">
+      <label xml:lang="de" text="83 - Volkswirtschaft" />
+    </category>
+    <category ID="BK85">
+      <label xml:lang="de" text="85 - Betriebswirtschaft" />
+    </category>
+    <category ID="BK86">
+      <label xml:lang="de" text="86 - Recht" />
+    </category>
+    <category ID="BK88">
+      <label xml:lang="de" text="88 - Verwaltungslehre " />
+    </category>
+    <category ID="BK89">
+      <label xml:lang="de" text="89 - Politologie" />
+    </category>
+    <category ID="BK99">
+      <label xml:lang="de" text="99 - Sonstiges" />
+    </category>    
+  </categories>
+</mycoreclass>
