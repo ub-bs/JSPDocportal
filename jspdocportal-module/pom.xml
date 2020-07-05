@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.mycore</groupId>
     <artifactId>mycore-application-starter</artifactId>
-    <version>2019.06.3-SNAPSHOT</version>
+    <version>2019.06.5-SNAPSHOT</version>
   </parent>
   <artifactId>jspdocportal-module</artifactId>
   <version>2019.06-SNAPSHOT</version>
@@ -13,7 +13,11 @@
   <url>http://maven.apache.org</url>
 
   <properties>
-   <manifest.priority>11</manifest.priority>
+    <manifest.priority>11</manifest.priority>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
     
     <!-- disable maven-pmd-plugin -->
     <pmd.failOnViolation>false</pmd.failOnViolation> 
