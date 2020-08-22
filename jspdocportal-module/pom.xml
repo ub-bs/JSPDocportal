@@ -63,7 +63,6 @@
     <dependency>
       <groupId>jakarta.mail</groupId>
       <artifactId>jakarta.mail-api</artifactId>
-      <version>1.6.5</version>
     </dependency>
 
     <!--  see for details: http://stackoverflow.com/questions/6094329/tomcat-7-and-jstl -->
