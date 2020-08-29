@@ -49,6 +49,7 @@ import org.jdom2.output.XMLOutputter;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRException;
 import org.mycore.common.config.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration2;
 import org.mycore.datamodel.ifs.MCRDirectory;
 import org.mycore.datamodel.ifs.MCRFile;
 import org.mycore.datamodel.ifs.MCRFileNodeServlet;
@@ -172,7 +173,8 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
                     if (!MCRMetadataManager.exists(mcrObjID)) {
                         throw new MCRException("No object with id '" + mcrID + "' found.");
                     }
-                    getServletContext().getRequestDispatcher("/content/docdetails.jsp?id=" + mcrID).forward(request,
+                    String view = MCRConfiguration2.getString("MCR.JSPDocportal.Doctails.View").orElse("/content/docdetails.jsp");
+                    getServletContext().getRequestDispatcher(view + "?id=" + mcrID).forward(request,
                         response);
                 } catch (MCRException ex) {
                     request.setAttribute("mcr_exception", ex);
