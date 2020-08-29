@@ -77,7 +77,7 @@
 					  	</h3>
                       </div>
                       <div class="col-2">
-  						<a class="btn ir-btn-metadata float-right" href="${baseURL}showWorkspace.action?mode=${actionBean.mode}">
+  						<a class="btn btn-secondary float-right" href="${baseURL}showWorkspace.action?mode=${actionBean.mode}">
   						  <i class="fas fa-power-off"></i> <fmt:message key="WF.derivates.back" />
   						</a>
 					  	</div>
@@ -119,17 +119,17 @@
                                     </div>
                                     <div class="col-4">
   										 <button id="btnEditDerMetaSave_${derID}" name="doSaveDerivateMeta-task_${actionBean.taskid}-derivate_${derID}" style="display:none;" class="btn btn-primary"><i class="fas fa-save"></i> <fmt:message key="WF.derivates.button.save"/></button>
-  										 <button id="btnEditDerMetaCancel_${derID}" type="button" style="display:none;" class="btn ir-btn-metadata" onclick="disableDerMetaEditing('${derID}')"><i class="fas fa-times"></i> <fmt:message key="WF.derivates.button.cancel"/></button>
-  										 <button id="btnEditDerMetaEdit_${derID}" type="button" class="btn ir-btn-metadata" onclick="enableDerMetaEditing('${derID}')"><i class="fas fa-pencil-alt"></i> <fmt:message key="WF.derivates.button.edit"/></button>
+  										 <button id="btnEditDerMetaCancel_${derID}" type="button" style="display:none;" class="btn btn-secondary" onclick="disableDerMetaEditing('${derID}')"><i class="fas fa-times"></i> <fmt:message key="WF.derivates.button.cancel"/></button>
+  										 <button id="btnEditDerMetaEdit_${derID}" type="button" class="btn btn-secondary" onclick="enableDerMetaEditing('${derID}')"><i class="fas fa-pencil-alt"></i> <fmt:message key="WF.derivates.button.edit"/></button>
                                          <x:if select="$doc/mycoreobject/structure/derobjects/derobject[1]/@xlink:href != $x/@xlink:href">
                                            <fmt:message key="WF.derivates.button.move_up" var="titleMoveUp"/>
-                                           <button id="btnEditDerMoveUp_${derID}" name="doMoveUpDerivate-task_${actionBean.taskid}-derivate_${derID}" class="btn ir-btn-metadata float-right ml-2" title="${titleMoveUp} }">
+                                           <button id="btnEditDerMoveUp_${derID}" name="doMoveUpDerivate-task_${actionBean.taskid}-derivate_${derID}" class="btn btn-secondary float-right ml-2" title="${titleMoveUp} }">
                                               <i class="fa fa-arrow-up"></i>
                                             </button>
                                          </x:if>
                                          <x:if select="$doc/mycoreobject/structure/derobjects/derobject[last()]/@xlink:href != $x/@xlink:href">
                                             <fmt:message key="WF.derivates.button.move_down" var="titleMoveDown"/>
-                                            <button id="btnEditDerMoveUp_${derID}" name="doMoveDownDerivate-task_${actionBean.taskid}-derivate_${derID}" class="btn ir-btn-metadata float-right" title="${titleMoveDown}">
+                                            <button id="btnEditDerMoveUp_${derID}" name="doMoveDownDerivate-task_${actionBean.taskid}-derivate_${derID}" class="btn btn-secondary float-right" title="${titleMoveDown}">
                                                 <i class="fa fa-arrow-down"></i>
                                              </button>
                                          </x:if>
@@ -186,7 +186,7 @@
     											<input type="hidden" id="hiddenRenameFileNew_${derID}_${f}" name="renameFile_new-task_${actionBean.taskid}-derivate_${derID}-file_${f}" value="${f}" />
     											<fmt:message key="WF.derivates.rename_file" var="fileRename"/>
                                                 <button id="btnRenameFile_${derID}_${f}" title="${fileRename}" name="doRenameFile-task_${actionBean.taskid}-derivate_${derID}-file_${f}" 
-                                                         onclick="return renameFile('${derID}', '${f}');" class="btn btn-sm ir-btn-metadata" style="border:1px solid darkgrey">
+                                                         onclick="return renameFile('${derID}', '${f}');" class="btn btn-sm btn-secondary" style="border:1px solid darkgrey">
                                                          <i class="fas fa-pencil-alt"></i>
                                                 </button>
                                                 <fmt:message key="WF.derivates.delete_file" var="fileDelete"/>
@@ -227,7 +227,7 @@
     											</div>
     											<div class="col-2">
     												<fmt:message key="WF.derivates.upload" var="upload"/>
-													<stripes:submit class="btn ir-btn-metadata" name="doAddFile-task_${actionBean.taskid}-derivate_${derID}" value="${upload}"/>
+													<stripes:submit class="btn btn-primary" name="doAddFile-task_${actionBean.taskid}-derivate_${derID}" value="${upload}"/>
 												</div>
   											</div>
 										</div>
@@ -254,7 +254,7 @@
   											</select>
     									</div>
                                         <div class="col-2">
-                                          <stripes:submit class="btn ir-btn-metadata" name="doCreateNewDerivate-task_${actionBean.taskid}" value="Erstellen"/>
+                                          <stripes:submit class="btn btn-primary" name="doCreateNewDerivate-task_${actionBean.taskid}" value="Erstellen"/>
                                        </div>
   									</div>
   									<c:if test="${fn:contains(objID,'_person_')}">

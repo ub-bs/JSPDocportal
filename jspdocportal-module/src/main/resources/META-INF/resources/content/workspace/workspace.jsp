@@ -46,7 +46,7 @@
 				<div class="card border border-dark my-3 w-100">
   					<div class="card-header bg-dark">
                         <c:forEach var="mcrBase" items="${actionBean.newObjectBases}">
-  						  <button class="btn btn-sm float-right ir-btn-metadata mt-1 ml-3"  name="doCreateNewTask-${mcrBase}" value="doit">Neues <strong>${mcrBase}</strong> erstellen</button>
+  						  <button class="btn btn-sm float-right btn-secondary mt-1 ml-3"  name="doCreateNewTask-${mcrBase}" value="doit">Neues <strong>${mcrBase}</strong> erstellen</button>
     			        </c:forEach>		
                         <h3><fmt:message key="WF.workspace.info.headline.new_task" /></h3>
   					</div>
@@ -54,7 +54,7 @@
 			
 				<div class="card border border-dark my-3 w-100">
   					<div class="card-header bg-dark">
-  					   <button class="btn btn-sm float-right ir-btn-metadata mt-1" type="button" data-toggle="collapse" data-target="#publish-dialog-task_${currentTask.id}"><fmt:message key="WF.workspace.button.publish_all_objects" /></button>
+  					   <button class="btn btn-sm float-right btn-secondary mt-1" type="button" data-toggle="collapse" data-target="#publish-dialog-task_${currentTask.id}"><fmt:message key="WF.workspace.button.publish_all_objects" /></button>
 					   <h3><fmt:message key="WF.workspace.info.headline.assumed_tasks" /></h3>
     			     </div>
   					<div id="publish-dialog-task_${currentTask.id}" class="collapse">
@@ -72,7 +72,7 @@
 								      <h5><span class="badge badge-pill badge-secondary mr-3">${task.executionId}</span> <fmt:message key="WF.workspace.task" /> ${task.name}</h5>
                                     </div>
                                     <div class="col-6">
-									   <button class="btn btn-sm ir-btn-metadata float-right" name="doReleaseTask-task_${task.id}"><fmt:message key="WF.workspace.submit.task" /></button>
+									   <button class="btn btn-sm btn-secondary float-right" name="doReleaseTask-task_${task.id}"><fmt:message key="WF.workspace.submit.task" /></button>
 									   <span class="btn btn-none btn-sm float-right"><strong><fmt:message key="WF.workspace.start" /></strong> <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${task.createTime}" /></span>
                                     </div>
                                    </div>
@@ -95,7 +95,7 @@
 														<c:out value="${currentVariables.wfObjectDisplayDescription}" escapeXml="false" />
 													</div>
                                                     <div class="col-3 text-right">
-                                                      <a href="${WebApplicationBaseURL}resolve/id/${currentVariables.mcrObjectID}?fromWF=true" class="btn btn-sm ir-btn-metadata">
+                                                      <a href="${WebApplicationBaseURL}resolve/id/${currentVariables.mcrObjectID}?fromWF=true" class="btn btn-sm btn-outline-secondary">
                                                           <i class="far fa-newspaper"></i> <fmt:message key="WF.workspace.preview" />
                                                       </a>
 							                         </div>
@@ -120,16 +120,16 @@
 												<c:if test="${not fn:contains(currentVariables.mcrObjectID,'_person_')}">
                                                    <%pageContext.setAttribute("pica3URL", MCRConfiguration.instance().getString("MCR.Workflow.Pica3Import.URL", "")); %>
                         							<a id="workspace_button_pica3_import" href="${pica3URL}?urn=${currentVariables.wfObjectDisplayPersistentIdentifier}&recordIdentifier=${currentVariables.wfObjectDisplayRecordIdentifier}&mcrid=${currentVariables.mcrObjectID}" 
-												   	   class="btn btn-sm ir-btn-metadata" target="_blank"><i class="fas fa-book"></i> <fmt:message key="WF.workspace.button.pica3" />
+												   	   class="btn btn-sm btn-outline-secondary target="_blank"><i class="fas fa-book"></i> <fmt:message key="WF.workspace.button.pica3" />
 													</a>
-							     					<button id="workspace_button_mods_from_opac" class="btn btn-sm ir-btn-metadata" type="button" data-toggle="collapse" data-target="#import_mods-dialog-task_${currentTask.id}">
+							     					<button id="workspace_button_mods_from_opac" class="btn btn-sm btn-outline-secondary" type="button" data-toggle="collapse" data-target="#import_mods-dialog-task_${currentTask.id}">
 							     						<i class="fas fa-download"></i> <fmt:message key="WF.workspace.button.mods_from_opac" />
 							     					</button>
 							     				</c:if>
-							     				<button id="workspace_button_edit_metadata" name="doEditObject-task_${currentTask.id}-${currentVariables.mcrObjectID}" value="" class="btn btn-sm ir-btn-metadata" type="submit">
+							     				<button id="workspace_button_edit_metadata" name="doEditObject-task_${currentTask.id}-${currentVariables.mcrObjectID}" value="" class="btn btn-sm btn-outline-secondary" type="submit">
 							     					<i class="fas fa-tag"></i> <fmt:message key="WF.workspace.button.edit_metadata" />
 							     				</button>
-							     				<button id="workspace_button_edit_derivate" name="doEditDerivates-task_${currentTask.id}-${currentVariables.mcrObjectID}" value="" class="btn btn-sm ir-btn-metadata" type="submit">
+							     				<button id="workspace_button_edit_derivate" name="doEditDerivates-task_${currentTask.id}-${currentVariables.mcrObjectID}" value="" class="btn btn-sm btn-outline-secondary" type="submit">
 							    	 				<i class="fas fa-file"></i> <fmt:message key="WF.workspace.button.edit_derivate" />
 							     				</button>
                                                 </div>
@@ -171,7 +171,7 @@
   						<c:forEach var="task" items="${actionBean.availableTasks}">
 							<div class="card border border-secondary m-3" id="available_task_${task.id}">
 								<div class="card-header">
-									<button class="btn ir-btn-metadata btn-sm float-right" name="doAcceptTask-task_${task.id}"><fmt:message key="WF.workspace.submit.accept_task" /></button>
+									<button class="btn btn-secondary btn-sm float-right" name="doAcceptTask-task_${task.id}"><fmt:message key="WF.workspace.submit.accept_task" /></button>
 									<span class="btn btn-none btn-sm float-right"><strong><fmt:message key="WF.workspace.start" /> </strong><fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${task.createTime}" /></span>
 									<h5 class="card-title">
                                         <span class="badge badge-pill badge-secondary">${task.executionId}</span> <fmt:message key="WF.workspace.task" /> ${task.name}</h5>
