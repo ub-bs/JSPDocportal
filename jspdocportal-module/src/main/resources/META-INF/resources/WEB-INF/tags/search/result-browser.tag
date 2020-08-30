@@ -55,7 +55,7 @@
 			<a class="btn btn-primary page-item mr-3"
 			   href="${result.backURL}" ><fmt:message key="Webpage.searchresults.back" /></a>
 		</c:if>
-		<span class="ir-result-pagination-numfound">${result.numFound} <fmt:message key="Webpage.Searchresult.numHits" /></span>
+		<span class="ir-result-pagination-numfound btn">${result.numFound} <fmt:message key="Webpage.Searchresult.numHits" /></span>
 		</div>
 	</c:set>
   
