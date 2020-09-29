@@ -119,7 +119,6 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
     @Override
     public MCRDerivate createMCRDerivate(MCRObjectID owner, String label, String title) {
         MCRDerivate der = new MCRDerivate();
-        der.setLabel(null);
         der.setId(MCRObjectID.getInstance(owner.getProjectId() + "_derivate_0"));
         der.setSchema("datamodel-derivate.xsd");
         der.getDerivate().setLinkMeta(new MCRMetaLinkID("linkmeta", owner, null, null));
