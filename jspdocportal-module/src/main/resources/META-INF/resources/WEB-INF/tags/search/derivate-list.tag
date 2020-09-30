@@ -49,7 +49,7 @@
             if (root != null) {
 				String mainDoc = mcrDerivate.getDerivate().getInternals().getMainDoc();
 				String url = MCRFrontendUtil.getBaseURL()+"file/"+mcrDerivate.getOwnerID().toString()+"/"+mcrDerivate.getId().toString()+"/";
-				String displayLabel=mcrDerivate.getLabel();
+				String displayLabel="";
 				for(MCRMetaClassification c: mcrDerivate.getDerivate().getClassifications()){
 					if("derivate_types".equals(c.getClassId())){
 						MCRCategory categ = MCRCategoryDAOFactory.getInstance().getCategory(new MCRCategoryID(c.getClassId(), c.getCategId()),0);
