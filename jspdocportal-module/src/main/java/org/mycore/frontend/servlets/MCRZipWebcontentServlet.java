@@ -44,7 +44,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.mycore.common.config.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration2;
 
 /**
  * This servlet delivers the Webcontent of the application as a zipfile
@@ -72,7 +72,7 @@ public class MCRZipWebcontentServlet extends HttpServlet {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd-HHmmss", Locale.US);
             String zipfilename = "webcontent_" + formatter.format(new Date()) + ".zip";
             ZipOutputStream out = buildZipOutputStream(response, zipfilename);
-            String foldername = "content/" + MCRConfiguration.instance().getString("MCR.WebContent.Folder");
+            String foldername = "content/" + MCRConfiguration2.getString("MCR.WebContent.Folder").orElseThrow();
             File webcontentDir = new File(getServletContext().getRealPath(foldername));
             int rootPathLength = webcontentDir.getParent().length();
 

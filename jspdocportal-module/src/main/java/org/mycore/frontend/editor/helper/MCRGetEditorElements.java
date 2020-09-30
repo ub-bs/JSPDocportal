@@ -37,7 +37,7 @@ import org.apache.logging.log4j.Logger;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.filter.ElementFilter;
-import org.mycore.common.config.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration2;
 import org.mycore.datamodel.classifications2.MCRCategoryDAOFactory;
 import org.mycore.datamodel.classifications2.MCRCategoryID;
 import org.mycore.datamodel.classifications2.utils.MCRCategoryTransformer;
@@ -59,7 +59,6 @@ import org.mycore.user2.MCRRoleManager;
  */
 public class MCRGetEditorElements {
     private static Logger logger = LogManager.getLogger("MCRGetEditorElements");
-    private static MCRConfiguration CONFIG = MCRConfiguration.instance();
 
     private Properties parseQueryString(String query) {
         Properties params = new Properties();
@@ -135,7 +134,7 @@ public class MCRGetEditorElements {
             if (defaultValue == null || defaultValue.equals(""))
                 defaultValue = "DocPortal_class_1";
             if (prop != null && !prop.equals("")) {
-                classid = MCRConfiguration.instance().getString(prop, defaultValue);
+                classid = MCRConfiguration2.getString(prop).orElse(defaultValue);
             } else {
                 classid = defaultValue;
             }
@@ -160,7 +159,7 @@ public class MCRGetEditorElements {
             if (defaultValue == null || defaultValue.equals(""))
                 defaultValue = "DocPortal_class_1";
             if (prop != null && !prop.equals("")) {
-                classid = MCRConfiguration.instance().getString(prop, defaultValue);
+                classid = MCRConfiguration2.getString(prop).orElse(defaultValue);
             } else {
                 classid = defaultValue;
             }
@@ -198,11 +197,11 @@ public class MCRGetEditorElements {
         }
         String categoryProp = params.getProperty("categoryProp");
         if (classProp != null && categoryProp != null) {
-            String classid = MCRConfiguration.instance().getString(classProp, "DocPortal_class_1");
+            String classid = MCRConfiguration2.getString(classProp).orElse("DocPortal_class_1");
             Element items = transformClassToItems(classid, emptyLeafs, withCounter.equalsIgnoreCase("true"));
             List<String> values = null;
             try {
-                values = Arrays.asList(CONFIG.getString(categoryProp).split(","));
+                values = Arrays.asList(MCRConfiguration2.getString(categoryProp).orElse("").split(","));
             } catch (Exception ex) {
                 logger.warn("config property " + categoryProp + " must be a comma separated list [" + ex.getMessage()
                         + "]");
@@ -274,7 +273,7 @@ public class MCRGetEditorElements {
         } else {
             if (defaultValue == null)
                 defaultValue = "";
-            propValue = CONFIG.getString(prop, defaultValue);
+            propValue = MCRConfiguration2.getString(prop).orElse(defaultValue);
         }
 
         Element hiddens = new Element("hiddens");

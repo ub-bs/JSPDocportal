@@ -15,6 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mycore.activiti.MCRActivitiMgr;
 import org.mycore.common.config.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration2;
 import org.mycore.services.i18n.MCRTranslation;
 
 import net.sourceforge.stripes.action.ActionBean;
@@ -47,8 +48,8 @@ public class SendFeedbackAction extends MCRAbstractStripesAction implements Acti
     private String csrfToken;
 
     public SendFeedbackAction() {
-        recipient = MCRConfiguration.instance().getString("MCRWorkflow.Email.Feedback.Recipient", "");
-        subject = MCRConfiguration.instance().getString("MCRWorkflow.Email.Feedback.Subject", "");
+        recipient = MCRConfiguration2.getString("MCRWorkflow.Email.Feedback.Recipient").orElse("");
+        subject = MCRConfiguration2.getString("MCRWorkflow.Email.Feedback.Subject").orElse("");
     }
 
     @Before(stages = LifecycleStage.BindingAndValidation)
@@ -126,8 +127,7 @@ public class SendFeedbackAction extends MCRAbstractStripesAction implements Acti
             }
 
             if (StringUtils.isNoneBlank(message, fromName) && isEmailValid) {
-                MCRConfiguration config = MCRConfiguration.instance();
-                String subject = config.getString("MCRWorkflow.Email.Feedback.Subject", "Feedbackformular zu {0}");
+                String subject = MCRConfiguration2.getString("MCRWorkflow.Email.Feedback.Subject").orElse("Feedbackformular zu {0}");
                 subject = subject.replace("{0}", topicHeader);
 
                 StringBuilder sbMsg = new StringBuilder();
@@ -150,9 +150,9 @@ public class SendFeedbackAction extends MCRAbstractStripesAction implements Acti
                 sbMsg.append("\n----------");
                 sbMsg.append("\n" + message);
 
-                String recipient = config.getString("MCRWorkflow.Email.Feedback.Recipient");
+                String recipient = MCRConfiguration2.getString("MCRWorkflow.Email.Feedback.Recipient").orElse("");
                 email.getToAddresses().add(new InternetAddress(recipient));
-                String[] cc = config.getString("MCR.Workflow.Email.CC", "").split(",");
+                String[] cc = MCRConfiguration2.getString("MCR.Workflow.Email.CC").orElse("").split(",");
                 for (String s : cc) {
                     s = s.trim();
                     if (StringUtils.isNotBlank(s)) {

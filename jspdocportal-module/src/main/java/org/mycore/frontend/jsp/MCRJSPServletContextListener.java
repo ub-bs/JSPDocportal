@@ -47,6 +47,7 @@ import org.mycore.common.MCRConstants;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.config.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration2;
 import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.jsp.navigation.model.Navigations;
 import org.mycore.services.i18n.MCRTranslation;
@@ -115,8 +116,8 @@ public class MCRJSPServletContextListener implements ServletContextListener {
         try {
             Transaction tx = MCRHIBConnection.instance().getSession().beginTransaction();
             Collection<String> savedPermissions = MCRAccessManager.getAccessImpl().getPermissions();
-            String permissions = MCRConfiguration.instance().getString("MCR.AccessAdminInterfacePermissions",
-                    "admininterface-access,admininterface-user,admininterface-accessrules");
+            String permissions = MCRConfiguration2.getString("MCR.AccessAdminInterfacePermissions")
+                    .orElse("admininterface-access,admininterface-user,admininterface-accessrules");
             for (Iterator<?> it = Arrays.asList(permissions.split(",")).iterator(); it.hasNext();) {
                 String permission = ((String) it.next()).trim().toLowerCase(Locale.GERMAN);
                 if (!permission.equals("") && !savedPermissions.contains(permission)) {
@@ -133,7 +134,7 @@ public class MCRJSPServletContextListener implements ServletContextListener {
 
     private void registerDefaultMessageBundle(ServletContext sc) {
         Locale loc = new Locale(
-                MCRConfiguration.instance().getString("MCR.Metadata.DefaultLang", MCRConstants.DEFAULT_LANG));
+                MCRConfiguration2.getString("MCR.Metadata.DefaultLang").orElse(MCRConstants.DEFAULT_LANG));
         Config.set(sc, Config.FMT_LOCALE, loc);
         LocalizationContext locCtxt = new LocalizationContext(MCRTranslation.getResourceBundle("messages", loc));
         Config.set(sc, Config.FMT_LOCALIZATION_CONTEXT, locCtxt);

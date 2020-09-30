@@ -2,19 +2,19 @@ package org.mycore.activiti;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.Optional;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngineConfiguration;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.delegate.DelegateExecution;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mycore.activiti.workflows.create_object_simple.MCRWorkflowMgr;
 import org.mycore.common.MCRException;
-import org.mycore.common.config.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration2;
 import org.mycore.common.config.MCRConfigurationDir;
 
 public class MCRActivitiMgr {
@@ -78,8 +78,8 @@ public class MCRActivitiMgr {
 		String prop = "";
 		try {
 			prop = "MCR.Activiti.WorkflowMgr.Class.create_object_simple." + mode;
-			mgr = (MCRWorkflowMgr) MCRConfiguration.instance().getInstanceOf(prop);
-		} catch (ClassCastException cce) {
+			mgr = (MCRWorkflowMgr) MCRConfiguration2.getInstanceOf(prop).orElseThrow();
+		} catch (Exception cce) {
 			throw new MCRException("Class Cast Exception - the specified MCRWorkflowMgr in property " + prop
 					+ " could not be casted to MCRWorkflowMgr", cce);
 		}
@@ -90,45 +90,45 @@ public class MCRActivitiMgr {
 	public static SimpleEmail createNewEmailFromConfig() {
 		SimpleEmail email = new SimpleEmail();
 		email.setCharset("UTF-8");
-		MCRConfiguration config = MCRConfiguration.instance();
 
-		String host = config.getString("MCR.Workflow.Email.MailServerHost");
-		if (host == null) {
+		Optional<String> host = MCRConfiguration2.getString("MCR.Workflow.Email.MailServerHost");
+		if (host.isEmpty()) {
 			LOGGER.error("Email is not configured!");
 			return null;
 		}
-		email.setHostName(host);
-		if (StringUtils.isNotBlank(config.getString("MCR.Workflow.Email.MailServerPort"))) {
+		email.setHostName(host.get());
+		Optional<Integer> port = MCRConfiguration2.getInt("MCR.Workflow.Email.MailServerPort");
+		if (port.isPresent()) {
 			try {
-				email.setSmtpPort(config.getInt("MCR.Workflow.Email.MailServerPort"));
+				email.setSmtpPort(port.get());
 			} catch (NumberFormatException nfe) {
 				LOGGER.debug(nfe);
 			}
 		}
-		if (StringUtils.isNotBlank(config.getString("MCR.Workflow.Email.MailServerUseSSL"))) {
-			email.setSSLOnConnect(config.getBoolean("MCR.Workflow.Email.MailServerUseSSL", false));
-		}
-		if (StringUtils.isNotBlank(config.getString("MCR.Workflow.Email.MailServerUseTLS"))) {
-			email.setStartTLSEnabled(config.getBoolean("MCR.Workflow.Email.MailServerUseTLS", false));
-		}
-		if (StringUtils.isNoneBlank(config.getString("MCR.Workflow.Email.MailServerUsername"),
-				config.getString("MCR.Workflow.Email.MailServerPassword"))) {
-			email.setAuthentication(config.getString("MCR.Workflow.Email.MailServerUsername"),
-					config.getString("MCR.Workflow.Email.MailServerPassword"));
+		email.setSSLOnConnect(MCRConfiguration2.getBoolean("MCR.Workflow.Email.MailServerUseSSL").orElse(false));
+		email.setStartTLSEnabled(MCRConfiguration2.getBoolean("MCR.Workflow.Email.MailServerUseTLS").orElse(false));
+		
+		Optional<String> user = MCRConfiguration2.getString("MCR.Workflow.Email.MailServerUsername");
+		Optional<String> pw = MCRConfiguration2.getString("MailServerPassword");
+		if(user.isPresent() && pw.isPresent()) {
+		    email.setAuthentication(user.get(), pw.get());
 		}
 
 		try {
-			if (StringUtils.isNotBlank(config.getString("MCR.Workflow.Email.From"))) {
-				email.setFrom(config.getString("MCR.Workflow.Email.From"));
+		    Optional<String> emailFrom = MCRConfiguration2.getString("MCR.Workflow.Email.From");
+		    if(emailFrom.isPresent()) {
+		        Optional<String> emailSender = MCRConfiguration2.getString("MCR.Workflow.Email.Sender");
+		        
+		        if(emailSender.isPresent()) {
+		            email.setFrom(emailFrom.get(), emailSender.get());
+		        }
+		        else {
+		            email.setFrom(emailFrom.get());
+		        }
 			}
-
-			if (StringUtils.isNoneBlank(config.getString("MCR.Workflow.Email.From"),
-					config.getString("MCR.Workflow.Email.Sender"))) {
-				email.setFrom(config.getString("MCR.Workflow.Email.From"),
-						config.getString("MCR.Workflow.Email.Sender"));
-			}
-			if (StringUtils.isNotBlank(config.getString("MCR.Workflow.Email.CC"))) {
-				for (String s : config.getString("MCR.Workflow.Email.CC").split(",")) {
+		    Optional<String> emailCCs = MCRConfiguration2.getString("MCR.Workflow.Email.CC");
+			if (emailCCs.isPresent()) {
+				for (String s : emailCCs.get().split(",")) {
 					email.addCc(s.trim());
 				}
 			}

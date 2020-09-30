@@ -29,7 +29,7 @@ import javax.xml.transform.URIResolver;
 
 import org.jdom2.Element;
 import org.jdom2.transform.JDOMSource;
-import org.mycore.common.config.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration2;
 import org.mycore.services.i18n.MCRTranslation;
 
 /**
@@ -76,7 +76,7 @@ public class MCRProps2OptionsResolver implements URIResolver {
         //List<Element> result = new ArrayList<>();
         Element result = new Element("select"); // this element will be used as container and not rendered in output
         String key = href.substring(href.indexOf(":") + 1).trim();
-        String items = MCRConfiguration.instance().getString(key);
+        String items = MCRConfiguration2.getString(key).orElse(",");
         if (items.equals(",")) {
             //empty option box
             Element eOption = new Element("option");

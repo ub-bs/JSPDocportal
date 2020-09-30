@@ -1,6 +1,6 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html;charset=UTF-8"%>
 <%@ page import="org.mycore.frontend.jsp.search.MCRSearchResultDataBean" %>
-<%@ page import="org.mycore.common.config.MCRConfiguration" %>
+<%@ page import="org.mycore.common.config.MCRConfiguration2" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
@@ -26,7 +26,7 @@
        <div class="col-12 col-md-8 my-3 pr-5">
           <mcr:includeWebcontent id="${fn:replace(actionBean.path, '/', '.')}" file="${actionBean.path}.html" />
       </div>
-      <div class="col-md-4 d-none d-md-block"">
+      <div class="col-md-4 d-none d-md-block">
          <%--epub or histbest --%>
         <fmt:message var="img" key="Webpage.browse.${actionBean.path}.image">
         	<fmt:param>${WebApplicationBaseURL}</fmt:param>
@@ -80,11 +80,11 @@
             <%
 			        MCRSearchResultDataBean result = new MCRSearchResultDataBean();
 		    	    result = new MCRSearchResultDataBean();
-		        	result.setQuery(MCRConfiguration.instance().getString("MCR.Browse." + pageContext.getAttribute("mask") + ".Query", "*:*"));
+		        	result.setQuery(MCRConfiguration2.getString("MCR.Browse." + pageContext.getAttribute("mask") + ".Query").orElse("*:*"));
 		        	result.setMask((String)pageContext.getAttribute("mask"));
 		        	result.setAction("browse/" + pageContext.getAttribute("mask"));
 		        	result.getFacetFields().clear();
-		        	for (String ff : MCRConfiguration.instance().getString("MCR.Browse." + pageContext.getAttribute("mask") + ".FacetFields", "").split(",")) {
+		        	for (String ff : MCRConfiguration2.getString("MCR.Browse." + pageContext.getAttribute("mask") + ".FacetFields").orElse("").split(",")) {
 		            	if (ff.trim().length() > 0) {
 			                result.getFacetFields().add(ff.trim());
 			            }

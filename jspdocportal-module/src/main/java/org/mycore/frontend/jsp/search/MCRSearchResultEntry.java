@@ -27,6 +27,7 @@ import java.util.LinkedHashMap;
 
 import org.apache.solr.common.SolrDocument;
 import org.mycore.common.config.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration2;
 
 /**
  * This Java bean class represents a indexbrowser result data object.
@@ -41,13 +42,11 @@ public class MCRSearchResultEntry {
     private String coverURL;
     private LinkedHashMap<String, String> data = new LinkedHashMap<String, String>();
 
-    private static MCRConfiguration CONFIG = MCRConfiguration.instance();
-
     public MCRSearchResultEntry(SolrDocument solrDoc, int pos) {
         this.pos = pos;
         String objectType = String.valueOf(solrDoc.getFirstValue("objectType"));
-        String labelfield = CONFIG.getString("MCR.SearchResult." + objectType + ".Headerfield");
-        String[] datafields = CONFIG.getString("MCR.SearchResult." + objectType + ".Datafields").split(",");
+        String labelfield = MCRConfiguration2.getString("MCR.SearchResult." + objectType + ".Headerfield").orElse("");
+        String[] datafields = MCRConfiguration2.getString("MCR.SearchResult." + objectType + ".Datafields").orElse("").split(",");
 
         this.mcrid = String.valueOf(solrDoc.getFirstValue("returnId"));
         this.label = String.valueOf(solrDoc.getFirstValue(labelfield));
@@ -64,7 +63,7 @@ public class MCRSearchResultEntry {
         if (o != null) {
             coverURL = (String.valueOf(o));
         } else {
-            String coverField = CONFIG.getString("MCR.SearchResult." + objectType + ".DefaultCoverfield", "");
+            String coverField = MCRConfiguration2.getString("MCR.SearchResult." + objectType + ".DefaultCoverfield").orElse("");
             if (solrDoc.getFirstValue(coverField) == null) {
                 coverURL = "images/cover/default.png";
             } else if (solrDoc.getFieldValues("category.top").contains("doctype:data")) {

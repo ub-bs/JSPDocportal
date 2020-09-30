@@ -1,13 +1,14 @@
 package org.mycore.frontend.jsp.taglibs;
 
 import java.io.IOException;
-import javax.servlet.jsp.tagext.*;
-import javax.servlet.jsp.*;
 
-import org.mycore.common.config.MCRConfiguration;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.PageContext;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
+
+import org.mycore.common.config.MCRConfiguration2;
 
 public class MCRGetConfigPropertyTag extends SimpleTagSupport {
-    private static MCRConfiguration config = MCRConfiguration.instance();
     private String var;
     private String defaultValue;
     private String prop;
@@ -26,7 +27,7 @@ public class MCRGetConfigPropertyTag extends SimpleTagSupport {
 
     public void doTag() throws JspException, IOException {
         PageContext pageContext = (PageContext) getJspContext();
-        pageContext.setAttribute(var, config.getString(prop, defaultValue));
+        pageContext.setAttribute(var, MCRConfiguration2.getString(prop).orElse(defaultValue));
         return;
     }
 

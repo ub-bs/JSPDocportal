@@ -1,7 +1,6 @@
 package org.mycore.frontend.jsp.stripes.actions;
 
-import org.mycore.common.config.MCRConfiguration;
-import org.mycore.common.config.MCRConfigurationException;
+import org.mycore.common.config.MCRConfiguration2;
 
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -21,13 +20,11 @@ public class ClassBrowserAction extends MCRAbstractStripesAction implements Acti
 
     @DefaultHandler
     public Resolution defaultRes() {
-        MCRConfiguration config = MCRConfiguration.instance();
-        try {
-            config.getString("MCR.ClassBrowser." + modus + ".Classification");
-        } catch (MCRConfigurationException e) {
+        if (MCRConfiguration2.getString("MCR.ClassBrowser." + modus + ".Classification").isEmpty()) {
             return new RedirectResolution("/");
+        } else {
+            return new ForwardResolution("/content/classbrowser.jsp");
         }
-        return new ForwardResolution("/content/classbrowser.jsp");
     }
 
     public String getModus() {

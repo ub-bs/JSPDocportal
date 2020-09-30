@@ -20,6 +20,7 @@ import org.apache.logging.log4j.Logger;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.config.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration2;
 import org.mycore.frontend.MCRFrontendUtil;
 import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
 
@@ -92,7 +93,7 @@ public class SaveWebcontentAction extends MCRAbstractStripesAction implements Ac
         file = getContext().getRequest().getParameter("file_" + id);
         content = getContext().getRequest().getParameter("content_" + id);
         referer = getContext().getRequest().getParameter("referer_" + id);
-        File saveDir = new File(MCRConfiguration.instance().getString("MCR.WebContent.SaveFolder"));
+        File saveDir = new File(MCRConfiguration2.getString("MCR.WebContent.SaveFolder").orElseThrow());
         saveDir = new File(saveDir, MCRSessionMgr.getCurrentSession().getCurrentLanguage());
         File saveFile = new File(saveDir, file);
         saveFile.getParentFile().mkdirs();
@@ -118,7 +119,7 @@ public class SaveWebcontentAction extends MCRAbstractStripesAction implements Ac
     private String loadContent() {
         StringWriter out = new StringWriter();
         String lang = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
-        File dirSaveWebcontent = new File(MCRConfiguration.instance().getString("MCR.WebContent.SaveFolder"));
+        File dirSaveWebcontent = new File(MCRConfiguration2.getString("MCR.WebContent.SaveFolder").orElseThrow());
         dirSaveWebcontent = new File(dirSaveWebcontent, lang);
         File fText = new File(dirSaveWebcontent, file);
 

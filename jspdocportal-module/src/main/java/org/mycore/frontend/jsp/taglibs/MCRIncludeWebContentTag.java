@@ -19,6 +19,7 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRSessionMgr;
 import org.mycore.common.config.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration2;
 import org.mycore.frontend.jsp.MCRHibernateTransactionWrapper;
 import org.mycore.services.i18n.MCRTranslation;
 
@@ -122,7 +123,7 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 
     private void showText(JspWriter out) throws IOException {
         String lang = MCRSessionMgr.getCurrentSession().getCurrentLanguage();
-        File dirSaveWebcontent = new File(MCRConfiguration.instance().getString("MCR.WebContent.SaveFolder"));
+        File dirSaveWebcontent = new File(MCRConfiguration2.getString("MCR.WebContent.SaveFolder").orElseThrow());
         dirSaveWebcontent = new File(dirSaveWebcontent, lang);
         File fText = new File(dirSaveWebcontent, file);
         String path = fText.getPath();
@@ -145,7 +146,7 @@ public class MCRIncludeWebContentTag extends SimpleTagSupport {
 
         } else {
             out.println("<p class=\"bg-warning panel-body\">");
-            String dataDir = new File(MCRConfiguration.instance().getString("MCR.datadir")).getPath();
+            String dataDir = new File(MCRConfiguration2.getString("MCR.datadir").orElseThrow()).getPath();
             out.println(
                     MCRTranslation.translate("Webpage.editwebcontent.nofile", path.replace(dataDir, "%MCR.datadir% ")));
             out.println("</p>");

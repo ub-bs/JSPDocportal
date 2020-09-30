@@ -17,7 +17,7 @@ import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.FacetField.Count;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
-import org.mycore.common.config.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration2;
 import org.mycore.common.config.MCRConfigurationException;
 import org.mycore.frontend.jsp.search.MCRSearchResultDataBean;
 import org.mycore.solr.MCRSolrClientFactory;
@@ -60,11 +60,10 @@ public class IndexBrowserAction extends MCRAbstractStripesAction implements Acti
 
     @DefaultHandler
     public Resolution defaultRes() {
-        MCRConfiguration config = MCRConfiguration.instance();
         try {
-            String searchfield = config.getString("MCR.IndexBrowser." + modus + ".Searchfield");
-            String facetfield = config.getString("MCR.IndexBrowser." + modus + ".Facetfield");
-            String filterQuery = config.getString("MCR.IndexBrowser." + modus + ".FilterQuery", null);
+            String searchfield = MCRConfiguration2.getString("MCR.IndexBrowser." + modus + ".Searchfield").orElse(null);
+            String facetfield = MCRConfiguration2.getString("MCR.IndexBrowser." + modus + ".Facetfield").orElse(null);
+            String filterQuery = MCRConfiguration2.getString("MCR.IndexBrowser." + modus + ".FilterQuery").orElse(null);
 
             // set first selector
             SolrQuery q = new SolrQuery();

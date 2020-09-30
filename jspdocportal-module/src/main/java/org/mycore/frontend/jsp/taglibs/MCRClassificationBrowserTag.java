@@ -47,7 +47,7 @@ import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
-import org.mycore.common.config.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration2;
 import org.mycore.datamodel.classifications2.MCRCategLinkServiceFactory;
 import org.mycore.datamodel.classifications2.MCRCategory;
 import org.mycore.datamodel.classifications2.MCRCategoryDAOFactory;
@@ -656,31 +656,26 @@ class CBConfig {
     public String sortResult;
 
     public CBConfig(String mode) {
-        MCRConfiguration config = MCRConfiguration.instance();
+        classification = MCRConfiguration2.getString(PROP_PREFIX + mode + ".Classification").orElseThrow();
 
-        classification = config.getString(PROP_PREFIX + mode + ".Classification");
+        category = MCRConfiguration2.getString(PROP_PREFIX + mode + ".Category").orElse("");
 
-        category = config.getString(PROP_PREFIX + mode + ".Category", "");
+        count = MCRConfiguration2.getBoolean(PROP_PREFIX + mode + ".Count").orElse(false);
 
-        count = config.getBoolean(PROP_PREFIX + mode + ".Count", false);
+        hideemptyleaves = MCRConfiguration2.getBoolean(PROP_PREFIX + mode + ".HideEmptyLeaves").orElse(true);
 
-        hideemptyleaves = config.getBoolean(PROP_PREFIX + mode + ".HideEmptyLeaves", true);
+        level = MCRConfiguration2.getInt(PROP_PREFIX + mode + ".Level").orElse(100000);
 
-        level = config.getInt(PROP_PREFIX + mode + ".Level", -1);
-        if (level == -1) {
-            level = 1000000;
-        }
+        expand = MCRConfiguration2.getBoolean(PROP_PREFIX + mode + ".Expand").orElse(false);
 
-        expand = config.getBoolean(PROP_PREFIX + mode + ".Expand", false);
+        showdescription = MCRConfiguration2.getBoolean(PROP_PREFIX + mode + ".ShowDescription").orElse(false);
+        showuri = MCRConfiguration2.getBoolean(PROP_PREFIX + mode + ".ShowUri").orElse(false);
+        showid = MCRConfiguration2.getBoolean(PROP_PREFIX + mode + ".ShowId").orElse(false);
 
-        showdescription = config.getBoolean(PROP_PREFIX + mode + ".ShowDescription", false);
-        showuri = config.getBoolean(PROP_PREFIX + mode + ".ShowUri", false);
-        showid = config.getBoolean(PROP_PREFIX + mode + ".ShowId", false);
+        linkall = MCRConfiguration2.getBoolean(PROP_PREFIX + mode + ".ShowLinkall").orElse(false);
 
-        linkall = config.getBoolean(PROP_PREFIX + mode + ".ShowLinkall", false);
+        filter = MCRConfiguration2.getString(PROP_PREFIX + mode + ".Filter").orElse(null);
 
-        filter = config.getString(PROP_PREFIX + mode + ".Filter", null);
-
-        sortResult = config.getString(PROP_PREFIX + mode + ".SortResult", null);
+        sortResult = MCRConfiguration2.getString(PROP_PREFIX + mode + ".SortResult").orElse(null);
     }
 }

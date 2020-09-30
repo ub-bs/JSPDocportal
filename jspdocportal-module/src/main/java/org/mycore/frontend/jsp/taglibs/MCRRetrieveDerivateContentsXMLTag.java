@@ -39,7 +39,7 @@ import org.jdom2.output.DOMOutputter;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
 import org.mycore.common.MCRException;
-import org.mycore.common.config.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration2;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRMetadataManager;
 import org.mycore.datamodel.metadata.MCRObjectID;
@@ -168,7 +168,7 @@ public class MCRRetrieveDerivateContentsXMLTag extends SimpleTagSupport {
 
                 //add href Attributes
                 String baseURL = MCRFrontendUtil.getBaseURL()
-                    + MCRConfiguration.instance().getString("MCR.RestAPI.v1.Files.URL.path");
+                    + MCRConfiguration2.getString("MCR.RestAPI.v1.Files.URL.path").orElseThrow();
                 baseURL = baseURL.replace("${mcrid}", derObj.getOwnerID().toString()).replace("${derid}",
                     derObj.getId().toString());
                 XPathExpression<Element> xp = XPathFactory.instance().compile(".//child[@type='file']", Filters.element());

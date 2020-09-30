@@ -2,12 +2,13 @@ package org.mycore.activiti;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.activiti.engine.delegate.DelegateTask;
 import org.activiti.engine.delegate.TaskListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.mycore.common.config.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration2;
 
 /**
  * MCRActivitiAssignmentHandler assigns the proper users and groups to the given task
@@ -36,14 +37,16 @@ public class MCRActivitiAssignmentHandler implements TaskListener {
         String wfID = delegateTask.getProcessDefinitionId().split(":")[0];
 
         String propKeyGrp = "MCR.Activiti.TaskAssignment.CandidateGroups." + wfID + "." + mode;
-        List<String> groups = MCRConfiguration.instance().getStrings(propKeyGrp, Collections.emptyList());
+        List<String> groups = MCRConfiguration2.getString(propKeyGrp).map(MCRConfiguration2::splitValue)
+                .map(s -> s.collect(Collectors.toList())).orElse(Collections.emptyList());
         for (String g : groups) {
-        	delegateTask.addCandidateGroup(g.trim());            
+            delegateTask.addCandidateGroup(g.trim());
         }
-    	String propKeyUser = "MCR.Activiti.TaskAssignment.CandidateUsers." + wfID + "." + mode;
-        List<String> users = MCRConfiguration.instance().getStrings(propKeyUser, Collections.emptyList());
+        String propKeyUser = "MCR.Activiti.TaskAssignment.CandidateUsers." + wfID + "." + mode;
+        List<String> users = MCRConfiguration2.getString(propKeyUser).map(MCRConfiguration2::splitValue)
+                .map(s -> s.collect(Collectors.toList())).orElse(Collections.emptyList());
         for (String u : users) {
-        	delegateTask.addCandidateUser(u.trim());
+            delegateTask.addCandidateUser(u.trim());
         }
         
         if (groups.size()==0 && users.size()==0) {

@@ -6,7 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.jdom2.Namespace;
-import org.mycore.common.config.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration2;
 import org.mycore.datamodel.classifications2.MCRCategory;
 import org.mycore.datamodel.classifications2.MCRCategoryDAOFactory;
 import org.mycore.datamodel.classifications2.MCRCategoryID;
@@ -83,7 +83,7 @@ public class BrowseAction extends MCRAbstractStripesAction implements ActionBean
 
         if (result == null) {
             result = new MCRSearchResultDataBean();
-            result.setQuery(MCRConfiguration.instance().getString("MCR.Browse." + mask + ".Query", "*:*"));
+            result.setQuery(MCRConfiguration2.getString("MCR.Browse." + mask + ".Query").orElse("*:*"));
             result.setRows(DEFAULT_ROWS);
         }
         result.setMask(mask);
@@ -99,7 +99,7 @@ public class BrowseAction extends MCRAbstractStripesAction implements ActionBean
         } else {
             result.setAction("browse/" + mask);
             result.getFacetFields().clear();
-            for (String ff : MCRConfiguration.instance().getString("MCR.Browse." + mask + ".FacetFields", "")
+            for (String ff : MCRConfiguration2.getString("MCR.Browse." + mask + ".FacetFields").orElse("")
                     .split(",")) {
                 if (ff.trim().length() > 0) {
                     result.getFacetFields().add(ff.trim());

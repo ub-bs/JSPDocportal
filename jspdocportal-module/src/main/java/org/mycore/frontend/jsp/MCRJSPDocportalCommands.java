@@ -64,6 +64,7 @@ import org.mycore.common.MCRConstants;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRPersistenceException;
 import org.mycore.common.config.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration2;
 import org.mycore.datamodel.common.MCRActiveLinkException;
 import org.mycore.datamodel.common.MCRXMLMetadataManager;
 import org.mycore.datamodel.metadata.MCRDerivate;
@@ -378,7 +379,7 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
             if (end > start && end < dirname.length()) {
                 String prop = dirname.substring(start + 2, end);
                 if (prop.length() > 0) {
-                    String value = MCRConfiguration.instance().getString(prop, "");
+                    String value = MCRConfiguration2.getString(prop).orElse("");
                     dirname = dirname.substring(0, start) + value + dirname.substring(end + 1);
                 }
             }
@@ -414,7 +415,7 @@ public class MCRJSPDocportalCommands extends MCRAbstractCommands {
                 }
             }
         }
-        Path dir = Paths.get(MCRConfiguration.instance().getString("MCR.Metadata.Store.BaseDir"));
+        Path dir = Paths.get(MCRConfiguration2.getString("MCR.Metadata.Store.BaseDir").orElseThrow());
         if (Files.exists(dir)) {
             try {
                 Files.walkFileTree(dir, MCRRecursiveDeleter.instance());

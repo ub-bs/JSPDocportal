@@ -48,7 +48,6 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRException;
-import org.mycore.common.config.MCRConfiguration;
 import org.mycore.common.config.MCRConfiguration2;
 import org.mycore.datamodel.ifs.MCRDirectory;
 import org.mycore.datamodel.ifs.MCRFile;
@@ -333,7 +332,7 @@ public class MCRJSPGlobalResolverServlet extends MCRJSPIDResolverServlet {
             }
         }
         if (mainFile != null) {
-            String accessErrorPage = MCRConfiguration.instance().getString("MCR.Access.Page.Error", "");
+            String accessErrorPage = MCRConfiguration2.getString("MCR.Access.Page.Error").orElse("");
             if (!MCRAccessManager.checkPermissionForReadingDerivate(mainFile.getOwnerID())) {
                 LOGGER.info("MCRFileNodeServlet: AccessForbidden to " + mainFile.getName());
                 response.sendRedirect(response.encodeRedirectURL(MCRFrontendUtil.getBaseURL() + accessErrorPage));

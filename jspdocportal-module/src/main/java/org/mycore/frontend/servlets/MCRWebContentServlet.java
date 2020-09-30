@@ -25,7 +25,7 @@ package org.mycore.frontend.servlets;
 
 import javax.servlet.ServletException;
 
-import org.mycore.common.config.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration2;
 
 import net.balusc.webapp.FileServlet;
 
@@ -44,6 +44,6 @@ public class MCRWebContentServlet extends FileServlet {
      * @see javax.servlet.GenericServlet#init()
      */
     public void init() throws ServletException {
-        setBasePath(MCRConfiguration.instance().getString("MCR.WebContent.SaveFolder"));
+        setBasePath(MCRConfiguration2.getString("MCR.WebContent.SaveFolder").orElseThrow());
     }
 }

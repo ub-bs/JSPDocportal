@@ -26,7 +26,7 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.mycore.access.MCRAccessManager;
 import org.mycore.common.MCRException;
-import org.mycore.common.config.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration2;
 import org.mycore.common.content.MCRPathContent;
 import org.mycore.datamodel.metadata.MCRDerivate;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
@@ -97,7 +97,7 @@ public class MCRActivitiUtils {
     }
 
     private static Path getWorkflowDirectory(MCRObjectID mcrObjID) {
-        String s = MCRConfiguration.instance().getString("MCR.Workflow.WorkflowDirectory");
+        String s = MCRConfiguration2.getString("MCR.Workflow.WorkflowDirectory").orElseThrow();
         Path p = Paths.get(s).resolve(mcrObjID.getTypeId());
         if (!Files.exists(p)) {
             try {

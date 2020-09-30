@@ -48,7 +48,7 @@ import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.jdom2.Document;
-import org.mycore.common.config.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration2;
 import org.mycore.solr.MCRSolrClientFactory;
 
 /**
@@ -341,9 +341,9 @@ public class MCRSearchResultDataBean implements Serializable {
     }
 
     public String getSortfields() {
-        return MCRConfiguration.instance()
-                .getString("MCR.Searchmask." + (mask != null ? mask : "default") + ".sortfields",
-                        MCRConfiguration.instance().getString("MCR.Searchmask.default.sortfields", ""))
+        return MCRConfiguration2
+                .getString("MCR.Searchmask." + (mask != null ? mask : "default") + ".sortfields")
+                .orElse(MCRConfiguration2.getString("MCR.Searchmask.default.sortfields").orElse(""))
                 .trim();
     }
 

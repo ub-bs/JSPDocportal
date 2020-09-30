@@ -47,7 +47,7 @@ import org.jdom2.Element;
 import org.jdom2.Namespace;
 import org.jdom2.filter.Filters;
 import org.jdom2.xpath.XPathFactory;
-import org.mycore.common.config.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration2;
 import org.mycore.common.content.MCRPathContent;
 import org.mycore.datamodel.metadata.MCRMetaEnrichedLinkID;
 import org.mycore.datamodel.metadata.MCRMetaLinkID;
@@ -319,8 +319,7 @@ public class MCRJSPIDResolverServlet extends HttpServlet {
                                 }
                                 if (thumb == null) {
                                     // display in DFG-Viewer
-                                    sbURL = new StringBuffer(MCRConfiguration.instance()
-                                        .getString("MCR.JSPDocportal.DFG-Viewer.BaseURL").trim());
+                                    sbURL = new StringBuffer(MCRConfiguration2.getString("MCR.JSPDocportal.DFG-Viewer.BaseURL").orElseThrow().trim());
                                     sbURL.append("?set[mets]=");
                                     sbURL.append(URLEncoder.encode(MCRFrontendUtil.getBaseURL() + "file/" + mcrID + "/"
                                         + p.toString().replace(":/", "/"), "UTF-8"));

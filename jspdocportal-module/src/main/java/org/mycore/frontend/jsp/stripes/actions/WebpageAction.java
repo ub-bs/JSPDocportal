@@ -1,7 +1,7 @@
 package org.mycore.frontend.jsp.stripes.actions;
 
 import org.apache.commons.lang3.StringUtils;
-import org.mycore.common.config.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration2;
 import org.mycore.datamodel.classifications2.MCRCategory;
 import org.mycore.datamodel.classifications2.MCRCategoryDAOFactory;
 import org.mycore.datamodel.classifications2.MCRCategoryID;
@@ -57,25 +57,23 @@ public class WebpageAction extends MCRAbstractStripesAction implements ActionBea
     public Resolution defaultRes() {
         if (path != null) {
             path = path.replace("\\", "/");
-            MCRConfiguration config = MCRConfiguration.instance();
+            
             if (!path.contains("..") && StringUtils.countMatches(path, "/") <= 3) {
-                String navPath = config.getString("MCR.Webpage.Navigation.navbar." + path.replace("/", "."), null);
+                String navPath = MCRConfiguration2.getString("MCR.Webpage.Navigation.navbar." + path.replace("/", ".")).orElse(null);
                 if (navPath != null) {
                     getContext().getRequest().setAttribute("org.mycore.navigation.navbar.path", navPath);
                 }
-                navPath = config.getString("MCR.Webpage.Navigation.side." + path.replace("/", "."), null);
+                navPath = MCRConfiguration2.getString("MCR.Webpage.Navigation.side." + path.replace("/", ".")).orElse(null);
                 if (navPath != null) {
                     getContext().getRequest().setAttribute("org.mycore.navigation.side.path", navPath);
                 }
                 
-                navPath = config.getString("MCR.Webpage.Navigation.left." + path.replace("/", "."), null);
+                navPath = MCRConfiguration2.getString("MCR.Webpage.Navigation.left." + path.replace("/", ".")).orElse(null);
                 if (navPath != null) {
                     getContext().getRequest().setAttribute("org.mycore.navigation.path", navPath);
                 }
-                
-                
-                return new ForwardResolution(config.getString("MCR.Webpage.Resolution." + path.replace("/", "."),
-                        config.getString("MCR.Webpage.Resolution.default", "/WEB-INF/views/webpage.jsp")));
+                return new ForwardResolution(MCRConfiguration2.getString("MCR.Webpage.Resolution." + path.replace("/", ".")).orElse(
+                        MCRConfiguration2.getString("MCR.Webpage.Resolution.default").orElse("/WEB-INF/views/webpage.jsp")));
             }
         }
         return new ForwardResolution("/");
@@ -91,7 +89,7 @@ public class WebpageAction extends MCRAbstractStripesAction implements ActionBea
     }
     
     public String getInfoBox() {
-        String infoBox =  MCRConfiguration.instance().getString("MCR.Webpage.Infobox." + path.replace("/", "."), null);
+        String infoBox =  MCRConfiguration2.getString("MCR.Webpage.Infobox." + path.replace("/", ".")).orElse(null);
         if(infoBox!=null) {
             infoBox = infoBox.replace(".", "/");
         }

@@ -22,7 +22,7 @@ import org.mycore.activiti.MCRActivitiMgr;
 import org.mycore.activiti.MCRActivitiUtils;
 import org.mycore.common.MCRException;
 import org.mycore.common.MCRPersistenceException;
-import org.mycore.common.config.MCRConfiguration;
+import org.mycore.common.config.MCRConfiguration2;
 import org.mycore.datamodel.classifications2.MCRCategoryDAOFactory;
 import org.mycore.datamodel.classifications2.MCRCategoryID;
 import org.mycore.datamodel.common.MCRActiveLinkException;
@@ -55,13 +55,13 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
         mcrObj.setSchema("datamodel-" + execution.getVariable(MCRActivitiMgr.WF_VAR_OBJECT_TYPE).toString() + ".xsd");
         mcrObj.setId(MCRObjectID.getNextFreeId(base));
         mcrObj.setLabel(mcrObj.getId().toString());
-        mcrObj.setVersion(MCRConfiguration.instance().getString("MCR.SWF.MCR.Version", "2.0"));
+        mcrObj.setVersion(MCRConfiguration2.getString("MCR.SWF.MCR.Version").orElse("2.0"));
         MCRObjectMetadata defaultMetadata = getDefaultMetadata(base);
         if (defaultMetadata != null) {
             mcrObj.getMetadata().appendMetadata(defaultMetadata);
         }
         mcrObj.getService().setState(new MCRCategoryID(
-                MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.ID", "state"), "new"));
+                MCRConfiguration2.getString("MCR.Metadata.Service.State.Classification.ID").orElse("state"), "new"));
         mcrObj.getStructure();
         try {
             MCRMetadataManager.create(mcrObj);
@@ -81,7 +81,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
         try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()) {
             if(mcrObj.getService().getState()==null || "new|published".contains(mcrObj.getService().getState().getID())) {
                 mcrObj.getService().setState(new MCRCategoryID(
-                    MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.ID", "state"),
+                    MCRConfiguration2.getString("MCR.Metadata.Service.State.Classification.ID").orElse("state"),
                     "review"));
             }
             MCRMetadataManager.update(mcrObj);
@@ -105,7 +105,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
             mcrObj = MCRMetadataManager.retrieveMCRObject(mcrObjID);
             try (MCRHibernateTransactionWrapper mtw = new MCRHibernateTransactionWrapper()) {
                 mcrObj.getService().setState(new MCRCategoryID(
-                        MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.ID", "state"),
+                        MCRConfiguration2.getString("MCR.Metadata.Service.State.Classification.ID").orElse("state"),
                         "deleted"));
                 MCRMetadataManager.delete(mcrObj);
             } catch (MCRActiveLinkException | MCRAccessException e) {
@@ -125,7 +125,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
 
         der.getDerivate().setInternals(new MCRMetaIFS("internal", null));
         der.getService().setState(new MCRCategoryID(
-                MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.ID", "state"), "new"));
+                MCRConfiguration2.getString("MCR.Metadata.Service.State.Classification.ID").orElse("state"), "new"));
        
         if (!StringUtils.isBlank(title)) {
             der.getDerivate().getTitles().add(new MCRMetaLangText("title", "de", null, 0, "plain", title));
@@ -205,7 +205,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
                 mcrObjMeta.appendMetadata(mcrWFObj.getMetadata());
                 if("new|review".contains(mcrObj.getService().getState().getID())) {
                 mcrObj.getService().setState(new MCRCategoryID(
-                        MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.ID", "state"),
+                        MCRConfiguration2.getString("MCR.Metadata.Service.State.Classification.ID").orElse("state"),
                         "published"));
                 }
                 
@@ -224,7 +224,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
                 }
                 if("deleted".equals(mcrWFObj.getService().getState().getID())) {
                     mcrObj.getService().setState(new MCRCategoryID(
-                        MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.ID", "state"),
+                        MCRConfiguration2.getString("MCR.Metadata.Service.State.Classification.ID").orElse("state"),
                         "deleted"));
                 }
                 
@@ -302,8 +302,8 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
                         if (state.equals("review")) {
                             derObj.getService()
                                     .setState(new MCRCategoryID(
-                                            MCRConfiguration.instance()
-                                                    .getString("MCR.Metadata.Service.State.Classification.ID", "state"),
+                                            MCRConfiguration2
+                                                    .getString("MCR.Metadata.Service.State.Classification.ID").orElse("state"),
                                             "published"));
                             try {
                                 MCRMetadataManager.update(derObj);
@@ -321,8 +321,8 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
                         MCRMetadataManager.delete(mcrObj);
                     }
                     if (state.equals("review")) {
-                        mcrObj.getService().setState(new MCRCategoryID(MCRConfiguration.instance()
-                                .getString("MCR.Metadata.Service.State.Classification.ID", "state"), "published"));
+                        mcrObj.getService().setState(new MCRCategoryID(MCRConfiguration2
+                                .getString("MCR.Metadata.Service.State.Classification.ID").orElse("state"), "published"));
                         MCRMetadataManager.update(mcrObj);
                     }
                 }
@@ -345,7 +345,7 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
                 MCRDerivate mcrDer = MCRMetadataManager.retrieveMCRDerivate(mcrDerID);
                 if(mcrDer.getService().getState()==null || "new|published".contains(mcrDer.getService().getState().getID())) {
                 mcrDer.getService().setState(new MCRCategoryID(
-                        MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.ID", "state"),
+                        MCRConfiguration2.getString("MCR.Metadata.Service.State.Classification.ID").orElse("state"),
                         "review"));
                 }
                 try {
@@ -386,12 +386,12 @@ public abstract class MCRAbstractWorkflowMgr implements MCRWorkflowMgr {
                     MCRObjectID.getInstance(derID));
             if("deleted".equals(mcrObj.getService().getState().getID())) {
                 der.getService().setState(new MCRCategoryID(
-                    MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.ID", "state"),
+                    MCRConfiguration2.getString("MCR.Metadata.Service.State.Classification.ID").orElse("state"),
                     "deleted"));
             }
             else if(der.getService().getState()==null || "new|review".contains(der.getService().getState().getID())){
                 der.getService().setState(new MCRCategoryID(
-                    MCRConfiguration.instance().getString("MCR.Metadata.Service.State.Classification.ID", "state"),
+                    MCRConfiguration2.getString("MCR.Metadata.Service.State.Classification.ID").orElse("state"),
                     "published"));
             }
             MCRActivitiUtils.saveMCRDerivateToWorkflowDirectory(der);
