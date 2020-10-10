@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.mycore</groupId>
     <artifactId>mycore-application-starter</artifactId>
-    <version>2020.06.0-SNAPSHOT</version>
+    <version>2020.06.1-SNAPSHOT</version>
   </parent>
   <artifactId>jspdocportal-module</artifactId>
   <version>2020.06-SNAPSHOT</version>
@@ -218,4 +218,24 @@
     	<version>0.37</version>
 	</dependency>
   </dependencies>
+  <repositories>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>central</id>
+      <name>Central Repository</name>
+      <url>https://repo.maven.apache.org/maven2</url>
+    </repository>
+    <repository>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </repository>
+  </repositories>
 </project>
