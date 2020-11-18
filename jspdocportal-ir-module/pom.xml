@@ -74,7 +74,7 @@
   
   <dependencies>
     <dependency>
-    	<groupId>org.mycore</groupId>
+    	<groupId>org.mycore.jspdocportal</groupId>
     	<artifactId>jspdocportal-module</artifactId>
     	<version>${project.version}</version>
     </dependency>

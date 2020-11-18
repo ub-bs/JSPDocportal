@@ -8,7 +8,7 @@
   </parent>
   <artifactId>jspdocportal-module</artifactId>
   <packaging>jar</packaging>
-  <name>JSPDocportal WebApp</name>
+  <name>JSPDocportal Base Module</name>
   <url>http://maven.apache.org</url>
 
   <properties>
