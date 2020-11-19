@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.mycore.jspdocportal</groupId>
@@ -12,10 +13,10 @@
   <url>http://maven.apache.org</url>
 
   <properties>
-   <manifest.priority>11</manifest.priority>
+    <manifest.priority>11</manifest.priority>
     
     <!-- disable maven-pmd-plugin -->
-    <pmd.failOnViolation>false</pmd.failOnViolation> 
+    <pmd.failOnViolation>false</pmd.failOnViolation>
   </properties>
   <build>
     <resources>
@@ -26,7 +27,25 @@
         <directory>target/dependency/components/oai/web</directory>
       </resource>
     </resources>
-   
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              <addExtensions />
+            </manifest>
+            <manifestEntries>
+              <MCR-Artifact-Id>${project.artifactId}</MCR-Artifact-Id>
+              <MCR-Application-Module>${project.name}</MCR-Application-Module>
+              <Priority>${manifest.priority}</Priority>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
   <dependencies>
     <dependency>
@@ -210,11 +229,12 @@
       <version>4.4.7-1</version>
       <scope>runtime</scope>
     </dependency>
-    
+
     <dependency>
-    	<groupId>org.webjars</groupId>
-    	<artifactId>webjars-locator-core</artifactId>
-    	<version>0.37</version>
-	</dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>webjars-locator-core</artifactId>
+      <version>0.37</version>
+    </dependency>
   </dependencies>
+
 </project>
