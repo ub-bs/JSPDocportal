@@ -38,9 +38,13 @@
 					<c:out value="${actionBean.xeditorHtml}" escapeXml="false" />
 				</div>
 				<script type="text/javascript">
-              		$('#searchmask').on('show.bs.collapse', function () {
-            			$('#buttonCollapseSearchmask').hide();
-        			})
+              		$('#searchmask').on('show.bs.collapse', function (event) {
+              			$('#buttonCollapseSearchmask').hide();
+            			$('#buttonCollapseSearchmask2').hide();
+        			});
+              		$('#searchmask').on('shown.bs.collapse', function (event) {
+              			event.target.scrollIntoView();
+              		});
             	 </script>
 		</c:if>
 		<c:if test="${actionBean.showResults}">
@@ -49,6 +53,13 @@
 						<search:result-entry entry="${entry}" url="${url}" protectDownload="true"/>
 						<div style="clear:both"></div>
 			  	</search:result-browser>
+			  	<%--2nd redefine search button requested by CPB --%>
+			  	<c:if test="${not actionBean.showMask and actionBean.result.numFound>0}">
+					<button id="buttonCollapseSearchmask2" class="btn btn-secondary float-right mt-3" type="button"
+						    data-toggle="collapse" data-target="#searchmask" aria-expanded="false" aria-controls="searchmask">
+						<fmt:message key="Webpage.Searchresult.redefine" />
+					</button>
+				</c:if>
 		</c:if>
 		
 		<script>
