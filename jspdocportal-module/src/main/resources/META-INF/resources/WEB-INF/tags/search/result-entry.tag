@@ -15,10 +15,10 @@
 		<h4 class="card-title">
 			<a href="${url}">${entry.label}</a>
 		</h4>
-		<table class="card-text"
+		<table class="ir-result-table card-text"
 			style="border-spacing: 4px; border-collapse: separate; font-size: 100%">
 			<c:forEach var="d" items="${entry.data}">
-				<tr>
+				<tr class="ir-result-entry-${fn:replace(d.key,'.','_')}">
 					<th><fmt:message
 							key="Webpage.searchresult.${entry.objectType}.label.${d.key}" />:&#160;</th>
 					<c:choose>
