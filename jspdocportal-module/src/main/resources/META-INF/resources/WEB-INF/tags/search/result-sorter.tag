@@ -8,13 +8,15 @@
 <%@ attribute name="fields" required="true" type="java.lang.String"%>
 <%@ attribute name="result" required="true" type="org.mycore.frontend.jsp.search.MCRSearchResultDataBean"%>
 <%@ attribute name="mask" required="true" type="java.lang.String"%>
+<!-- values are 'browse' or 'search' -->
+<%@ attribute name="mode" required="true" type="java.lang.String"%>
 
 <div class="row">
 	<div class="col-sm-12 text-right" style="margin-bottom:12px">
 		<script type="text/javascript">
 			function changeSortURL(value) {
 				window.location = $("meta[name='mcr:baseurl']").attr("content")
-						+ "browse/${mask}?_search="
+						+ "${mode}/${mask}?_search="
 						+ $("meta[name='mcr:search.id']").attr("content")
 						+ "&_sort="
 						+ encodeURIComponent($("#sortField option:selected").val() + " " + value);

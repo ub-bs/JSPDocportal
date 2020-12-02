@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -122,7 +123,7 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
             showResults = true;
         }
 
-        if (request.getParameter("searchField") != null && request.getParameter("searchValue") != null) {
+        if (StringUtils.isNoneEmpty(request.getParameter("searchField"), request.getParameter("searchValue"))) {
             result = new MCRSearchResultDataBean();
             result.setRows(DEFAULT_ROWS);
             result.setAction("search");
@@ -136,8 +137,8 @@ public class SearchAction extends MCRAbstractStripesAction implements ActionBean
             result.setSort(request.getParameter("sortField") + " " + request.getParameter("sortValue"));
             result.setStart(0);
         }
-        if (request.getParameter("sort") != null) {
-            result.setSort(request.getParameter("sort"));
+        if (request.getParameter("_sort") != null) {
+            result.setSort(request.getParameter("_sort"));
             result.setStart(0);
         }
 

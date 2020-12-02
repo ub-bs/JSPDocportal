@@ -11,6 +11,7 @@
 <fmt:message var="pageTitle" key="Webpage.search.title.${actionBean.result.mask}" />
 <stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}" layout="2columns">
 	<stripes:layout-component name="html_head">
+	    <meta name="mcr:search.id" content="${actionBean.result.id}" />
 	</stripes:layout-component>
 	<stripes:layout-component name="main_part">
 	<div class="row">
@@ -48,6 +49,10 @@
             	 </script>
 		</c:if>
 		<c:if test="${actionBean.showResults}">
+				<c:if test="${not empty actionBean.result.sortfields}">
+        			<search:result-sorter result="${actionBean.result}"
+                    	 fields="${actionBean.result.sortfields}" mode="search" mask="${actionBean.result.mask}" />
+				</c:if>
 			  	<search:result-browser result="${actionBean.result}">
 			  		<c:set var="doctype" value="${fn:substringBefore(fn:substringAfter(mcrid, '_'),'_')}" /> 
 						<search:result-entry entry="${entry}" url="${url}" protectDownload="true"/>
