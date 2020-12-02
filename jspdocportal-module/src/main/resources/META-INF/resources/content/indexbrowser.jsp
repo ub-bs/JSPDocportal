@@ -22,7 +22,7 @@
 
 	</stripes:layout-component>
 	<stripes:layout-component name="main_part">
-	    <div class="row">
+	    <div class="row indexbrowser-row">
         <div class="col">
 		<div>
 			<mcr:includeWebcontent id="indexbrowser_intro" file="indexbrowser/${actionBean.modus}_intro.html" />
