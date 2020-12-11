@@ -64,7 +64,7 @@ import org.mycore.frontend.jsp.navigation.model.NavigationObject;
  */
 public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
     private static final List<String> MODES = Arrays
-            .asList(new String[] { "left", "side", "top", "breadcrumbs", "toc", "navbar", "mobile" });
+            .asList(new String[] { "left", "side", "top", "breadcrumbs", "toc", "navbar", "mobile", "top-dropdown" });
 
     private static final String INDENT = "\n       ";
 
@@ -96,8 +96,13 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
             NavigationItem eNav = findNavItem(nav, path);
             printTOC(eNav,out);
         }
+
         if (mode.equals("top")) {
             printTopNav(path, nav,out);
+        }
+
+        if (mode.equals("top-dropdown")) {
+            printTopDropdownNav(path, nav, out);
         }
 
         if (mode.equals("navbar")) {
@@ -293,6 +298,70 @@ public class MCROutputNavigationTag extends MCRAbstractNavigationTag {
             }
         }
 
+    }
+
+    /**
+     * prints top nav (horizontal navigation) (only with direct sub items of the
+     * given navigation item
+     * 
+     * @param currentNode
+     *            - the current navigation item
+     * @param out
+     *            - the JSPOutputWriter
+     */
+    private void printTopDropdownNav(String[] currentPath, NavigationObject currentNode, JspWriter out) {
+        if (currentNode != null) {
+            List<NavigationItem> printableElements = printableItems(currentNode);
+            if (!printableElements.isEmpty()) {
+                try {
+                    if (cssClass != null) {
+                        out.append("<ul class=\"" + cssClass + "\">");
+                    } else {
+                        out.append("<ul>");
+                    }
+                    int dropdownCounter = 0;
+                    for (NavigationItem el : printableElements) {
+                        boolean active = currentPath.length > 0 && currentPath[0].equals(el.getId());
+                        String msg = retrieveI18N(el.getI18n());
+                        List<NavigationItem> printableElementsTmp = printableItems(el);
+                        if (printableElementsTmp.size() > 0) {
+                            String dropdownId = Integer.toString(dropdownCounter);
+                            out.append(INDENT).append("<li class=\"dropdown nav-item\">");
+                            out.append(INDENT).append("<a class=\"nav-link dropdown-toggle\" id=\"navbarDropdown" + dropdownId + "\" role=\"button\" data-toggle=\"dropdown\" href=\"#\" aria-haspopup=\"true\" aria-expanded=\"false\">" + msg + "</a>");
+                            out.append(INDENT).append("<div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdown" + dropdownId + "\">");
+                            for (NavigationItem elTmp : printableElementsTmp) {
+                                String msgTmp = retrieveI18N(elTmp.getI18n());
+                                String href = elTmp.getHref();
+                                if (!href.startsWith("http")) {
+                                    href = MCRFrontendUtil.getBaseURL() + href;
+                                }
+                                out.append(INDENT).append("<a target=\"_self\" class=\"dropdown-item\" href=\"" + href + "\">" + msgTmp + "</a>");
+                            }
+                            out.append(INDENT).append("</div>");
+                            out.append(INDENT).append("</li>");
+                            dropdownCounter++;
+                        } else {
+                            String href = el.getHref();
+                            if (!href.startsWith("http")) {
+                                href = MCRFrontendUtil.getBaseURL() + href;
+                            }
+                            out.append(INDENT).append("<li class=\"nav-item\">");
+                            out.append(INDENT).append("<a target=\"_self\" class=\"nav-link" + (active ? " active" : "") + "\" href=\"" + href + "\">" + msg + "</a>");
+                            out.append(INDENT).append("</li>");
+                        }
+                    }
+                    out.append(INDENT).append("   </ul>");
+                    if (getJspBody() != null) {
+                        getJspBody().invoke(out);
+                    }
+                    out.append(INDENT).append("</ul>");
+                    out.flush();
+                }
+                catch (IOException | JspException e) {
+                    LOGGER.error(e);
+                }
+            }
+        }
     }
 
     /**
