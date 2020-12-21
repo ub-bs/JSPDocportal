@@ -74,7 +74,7 @@
 					<div class="col-sm-10">
 						<fmt:message key="Webpage.feedback.button.send" var="lblSend" />
 						<input name="doSend" type="submit" id="submit-button" style="display:none" disabled="disabled" value="${lblSend}"  />
-					    <button class="btn btn-primary" onclick="submitForm('${actionBean.csrfToken}')">${lblSend}</button>
+					    <button type="button" class="btn btn-primary" onclick="submitForm('${actionBean.csrfToken}')">${lblSend}</button>
 					</div>
 				</div>
 			</stripes:form>
