@@ -15,11 +15,11 @@
 	</stripes:layout-component>
 	<stripes:layout-component name="main_part">
 	<div class="row">
-		<div class="col-3">
+		<div id="search_nav" class="col-3">
 			<mcr:outputNavigation mode="side" id="search" expanded="true"></mcr:outputNavigation>
 			
 		</div>
-		<div class="col">
+		<div id="search_content" class="col">
 		<c:if test="${not empty actionBean.result.mask}">
 	
 				<c:set var="classCollapse" value="" />
