@@ -149,7 +149,10 @@
                 </div>
                 <div class="col-md-3 col-12 bg-dark">
          <div class="ir-latestdocs">
-           <h4 style="padding-top:"><fmt:message key="Browse.latestdocs" /></h4>       
+           <a href="/browse/${actionBean.path}"> 
+         	<h4 style="padding-top:"><fmt:message key="Browse.latestdocs" /></h4>
+           </a>  
+                  
            <div id="latest_documents" data-ir-mode="${actionBean.path}">
             <%--
             <div class="card ir-latestdocs-card">
