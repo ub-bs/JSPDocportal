@@ -67,7 +67,8 @@
         </xsl:when>
         </xsl:choose>
         <xsl:if test="./mods:abstract">
-        <p class="ir-docdetails-abstract">
+        <h5 style="margin-bottom: .25em">Abstract:</h5>
+        <p class="small ir-docdetails-abstract">
           <xsl:value-of select="./mods:abstract" />
        </p>       
        </xsl:if>

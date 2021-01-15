@@ -53,6 +53,7 @@
                 </xsl:otherwise>
                 </xsl:choose>
                 <xsl:if test="./mods:abstract">
+                  <h5 style="margin-bottom: .25em">Abstract:</h5>
                   <p class="small ir-docdetails-abstract">
                     <xsl:value-of select="./mods:abstract" />
                   </p>

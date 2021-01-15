@@ -40,7 +40,7 @@
 </x:if>
 <stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}">
   <stripes:layout-component name="html_head">
-		<title>${pageTitle}@ <fmt:message key="Webpage.title" /></title>
+		<mcr:transformXSL xml="${doc}" xslt="xsl/docdetails/metatags_html.xsl" />
 	    <link type="text/css" rel="stylesheet" href="${WebApplicationBaseURL}modules/shariff_3.0.1/shariff.min.css">
 		<script>
      	$( document ).ready(function() {
