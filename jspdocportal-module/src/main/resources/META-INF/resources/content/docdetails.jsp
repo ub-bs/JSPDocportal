@@ -335,12 +335,11 @@
        <%--Download Area --%>
        <div style="margin-bottom:30px;">
          <x:forEach select="$doc/mycoreobject/structure/derobjects/derobject[classification[@classid='derivate_types'][@categid='fulltext']]">
-            <a class="btn btn-primary ir-button-download"  
-               href="${WebApplicationBaseURL}resolve/id/${mcrid}/file/fulltext" target="_blank">
-               
+            <c:set var="derid"><x:out select="./@xlink:href" /></c:set>
+            <c:set var="fulltext_url">${WebApplicationBaseURL}file/${mcrid}/${derid}/<x:out select="./maindoc/text()" /></c:set>
+            <a class="btn btn-primary ir-button-download" href="${fulltext_url}" target="_blank">
                 	<c:set var="mesKey"><x:out select="classification[@classid='derivate_types']/@categid"/></c:set>
                     <img align="left" src="${WebApplicationBaseURL}images/download_pdf.png" title = "<fmt:message key="Webpage.docdetails.pdfdownload" />" />
-                    <c:set var="derid"><x:out select="./@xlink:href" /></c:set>
                     <mcr:retrieveDerivateContentsXML derid="${derid}" varDOM="derDoc" />
                     <x:set var="derLink" select="$derDoc//children/child[1]" />
                     <x:if select="$derLink">
