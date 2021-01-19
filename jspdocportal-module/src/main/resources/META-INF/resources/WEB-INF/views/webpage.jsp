@@ -6,6 +6,11 @@
 <%@ taglib prefix="mcr" uri="http://www.mycore.org/jspdocportal/base.tld"%>
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
 
+<%@ page import = "org.mycore.common.config.MCRConfiguration2" %>
+<% 
+    pageContext.setAttribute("navSide", MCRConfiguration2.getString("MCR.JSPDocportal.Navigation.Side").orElse("left"));
+%>
+
 <fmt:message var="pageTitle" key="Webpage.title.${fn:replace(actionBean.path, '/', '.')}" />
 
 <stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="${pageTitle}" layout="${layout}">
@@ -41,17 +46,27 @@
           </div>
        </c:if>
         <c:if test="${not empty requestScope['org.mycore.navigation.side.path']}">
-          <div id="left-side-nav" class="col col-md-3 ir-content-side">
+         <c:if test="${pageScope.navSide == 'left'}">
+           <div id="left-side-nav" class="col col-md-3 ir-content-side">
               <mcr:outputNavigation mode="side" id="${fn:substringBefore(requestScope['org.mycore.navigation.side.path'], '.')}"></mcr:outputNavigation>
               <c:if test="${not empty actionBean.infoBox}">
                 <mcr:includeWebcontent id="${fn:replace(actionBean.infoBox, '/', '.')}" file="${actionBean.infoBox}.html" />
               </c:if>
-          </div>
+            </div>
+          </c:if>
           <div id="main" class="col col-md-9 ir-content-main">
               <div class="ir-box">
                 <mcr:includeWebcontent id="${fn:replace(actionBean.path, '/', '.')}" file="${actionBean.path}.html" />
               </div>
           </div>
+          <c:if test="${pageScope.navSide == 'right'}">
+            <div class="col col-md-3 ir-content-side" id="left-side-nav">
+              <mcr:outputNavigation mode="side" id="${fn:substringBefore(requestScope['org.mycore.navigation.side.path'], '.')}"></mcr:outputNavigation>
+              <c:if test="${not empty actionBean.infoBox}">
+                <mcr:includeWebcontent id="${fn:replace(actionBean.infoBox, '/', '.')}" file="${actionBean.infoBox}.html" />
+              </c:if>
+            </div>
+          </c:if>
        </c:if>
       </div>
     </c:if>
